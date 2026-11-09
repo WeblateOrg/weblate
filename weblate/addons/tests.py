@@ -10975,6 +10975,7 @@ class CDNJSAddonTest(ViewTestCase):
         )
         response = httpx2.Response(
             200,
+            request=httpx2.Request("GET", "https://cdn.example.com/messages.html"),
             stream=httpx2.ByteStream(
                 b"<html><body><div class='l10n'>Remote string</div></body></html>"
             ),

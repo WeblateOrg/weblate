@@ -676,6 +676,39 @@ configuration, and VCS-specific proxy configuration are not supported.
 
    `Proxy environment variables <https://everything.curl.dev/usingcurl/proxies/env.html>`_
 
+.. _outbound-http-limits:
+
+HTTP response limits
+++++++++++++++++++++
+
+Weblate's shared HTTP client limits response bodies before buffering them.
+The limits count decoded bytes, including decompression, and apply even when
+the server omits or misstates ``Content-Length``. An oversized response fails
+as an HTTP download error; it is not truncated or returned as partial data.
+
+The following limits apply to each response:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Caller
+     - Maximum decoded body
+   * - Translation services using the shared HTTP client
+     - 1 MiB
+   * - Screenshot URL uploads and remote CDN add-on HTML
+     - :setting:`ALLOWED_ASSET_SIZE`
+   * - Tesseract OCR language data
+     - 64 MiB
+   * - VCS hosting and GitHub App APIs
+     - 16 MiB
+   * - Avatars, PyPI, support, activation, Zammad, and site statistics
+     - 2 MiB
+
+These limits complement the existing per-operation socket timeouts. A socket
+read timeout is not a total download deadline: a server that continues sending
+small chunks can keep a download open. The body-size limits do not impose a
+strict total download deadline.
+
 .. _configuration:
 
 Adjusting configuration

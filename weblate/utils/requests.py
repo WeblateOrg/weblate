@@ -7,7 +7,7 @@
 from __future__ import annotations
 
 import json
-from contextlib import contextmanager
+from contextlib import contextmanager, suppress
 from dataclasses import dataclass
 from hashlib import sha256
 from time import monotonic
@@ -52,6 +52,69 @@ ORIGINAL_URL_REQUEST_EXTENSION = "weblate_original_url"
 JSON_RESPONSE_ERRORS = (json.JSONDecodeError, UnicodeDecodeError)
 ADDRESS_FALLBACK_DELAY = 0.25
 MAX_REDIRECTS = 5
+DEFAULT_RESPONSE_SIZE = 2 * 1024 * 1024
+MACHINERY_RESPONSE_SIZE = 1024 * 1024
+VCS_RESPONSE_SIZE = 16 * 1024 * 1024
+TESSERACT_RESPONSE_SIZE = 64 * 1024 * 1024
+
+
+class ResponseTooLarge(httpx2.DecodingError):
+    """An HTTP response exceeded its caller's decoded-byte budget."""
+
+
+def check_response_size(response: httpx2.Response, size: int, maximum: int) -> None:
+    if size > maximum:
+        msg = f"HTTP response exceeds the {maximum}-byte decoded size limit."
+        raise ResponseTooLarge(msg, request=response.request)
+
+
+def iter_response_bytes(response: httpx2.Response, maximum: int) -> Iterator[bytes]:
+    """Stop decoding before retaining more than the caller's response budget."""
+    size = 0
+    for chunk in response.iter_bytes():
+        size += len(chunk)
+        check_response_size(response, size, maximum)
+        yield chunk
+
+
+def read_response_content(response: httpx2.Response, maximum: int) -> bytes:
+    return b"".join(iter_response_bytes(response, maximum))
+
+
+async def async_read_response_content(response: httpx2.Response, maximum: int) -> bytes:
+    content = bytearray()
+    async for chunk in response.aiter_bytes():
+        check_response_size(response, len(content) + len(chunk), maximum)
+        content.extend(chunk)
+    return bytes(content)
+
+
+def buffered_response(response: httpx2.Response, content: bytes) -> httpx2.Response:
+    """Build a buffered response using public HTTPX APIs without decoding twice."""
+    try:
+        _ = response.content
+    except httpx2.ResponseNotRead:
+        pass
+    else:
+        return response
+    headers = response.headers.copy()
+    headers.pop("Content-Encoding", None)
+    buffered = httpx2.Response(
+        response.status_code,
+        content=content,
+        headers=headers,
+        request=response.request,
+        extensions=response.extensions,
+        history=response.history,
+        default_encoding=response.default_encoding,
+    )
+    # Keep wire headers available to callers after installing the decoded body.
+    buffered.headers = response.headers.copy()
+    buffered.next_request = response.next_request
+    # Manually constructed responses need not have elapsed timing.
+    with suppress(RuntimeError):
+        buffered.elapsed = response.elapsed
+    return buffered
 
 
 def set_test_transport(transport: httpx2.MockTransport | None) -> None:
@@ -711,6 +774,7 @@ def _request(
     method: str,
     url: str,
     *,
+    max_response_size: int = DEFAULT_RESPONSE_SIZE,
     validators: RedirectValidators | None = None,
     follow_redirects: bool = True,
     **kwargs,
@@ -730,17 +794,18 @@ def _request(
             )
         )
         try:
-            response.read()
+            content = read_response_content(response, max_response_size)
         except BaseException:
             response.close()
             raise
-        return response
+        return buffered_response(response, content)
 
 
 async def _async_request(
     method: str,
     url: str,
     *,
+    max_response_size: int = DEFAULT_RESPONSE_SIZE,
     validators: RedirectValidators | None = None,
     follow_redirects: bool = True,
     **kwargs,
@@ -760,11 +825,11 @@ async def _async_request(
             )
         )
         try:
-            await response.aread()
+            content = await async_read_response_content(response, max_response_size)
         except BaseException:
             await response.aclose()
             raise
-        return response
+        return buffered_response(response, content)
 
 
 def fetch_url(

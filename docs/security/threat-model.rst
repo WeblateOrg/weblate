@@ -885,6 +885,17 @@ Security properties Weblate provides
      - An authenticated user can select another public, private, or internal
        billing plan when creating a trial.
      - Security-critical when this bypasses paid service limits.
+   * - HTTP responses read through the shared buffered HTTP client, screenshot
+       URL uploads, and remote CDN HTML downloads enforce caller-specific
+       decoded-body limits before buffering the complete response. *(documented)*
+       (source: :ref:`outbound-http-limits`)
+     - A configured integration or asset URL returns an HTTP response.
+     - A response exceeding the documented decoded-byte ceiling is buffered
+       without rejection, including compressed or chunked content.
+     - Security-critical for single-request memory exhaustion. Socket timeouts
+       still apply per operation; a strict total download deadline is not yet
+       enforced, so a slow stream can remain open within the body-size limit.
+       *(maintainer)*
    * - Rate-limited API and web actions enforce configured rate limits.
        *(documented)* (source: :doc:`/api`, :doc:`/admin/config`)
      - Rate limiting is enabled and backed by a working datastore.
