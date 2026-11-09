@@ -23,6 +23,8 @@ if TYPE_CHECKING:
 class ImportUser:
     """Grant CLI permissions during validation, without supplying a history actor."""
 
+    # Local operators have unrestricted validation access, including 2FA scopes.
+    is_superuser = True
     needs_component_restrictions_filter = False
     needs_project_filter = False
     component_permissions: tuple[int, ...] = ()
