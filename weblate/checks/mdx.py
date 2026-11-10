@@ -19,7 +19,6 @@ if TYPE_CHECKING:
     from weblate.trans.models import Unit
 
 _JSX_TAG_NAME_RE = re.compile(r"[$_A-Za-z][\w.$:-]*")
-_ATTR_NAME_RE = re.compile(r"([A-Za-z_:][\w:.-]*)\s*=\s*$")
 
 # Various lexical contexts tracked while scanning a JSX expression.
 _CODE = 0
@@ -161,11 +160,9 @@ def _skip_markdown_code(text: str, start: int, code_span_ends: dict[int, int]) -
     return end
 
 
-def _scan_jsx_tag(
-    text: str, start: int, limit: int | None = None
-) -> tuple[bool, str, bool, int | None] | None:
+def _scan_jsx_tag(text: str, start: int) -> tuple[bool, str, bool, int | None] | None:
     """Scan a JSX tag starting at ``start``."""
-    length = len(text) if limit is None else min(limit, len(text))
+    length = len(text)
     if text[start] != "<" or start + 1 >= len(text):
         return None
 
@@ -203,79 +200,6 @@ def _scan_jsx_tag(
         i += 1
 
     return (closing, tag, False, None)
-
-
-def _iter_jsx_tags(text: str) -> Iterator[tuple[bool, str, bool]]:
-    """Yield closed JSX tags while ignoring expressions and code spans."""
-    code_span_ends = _get_markdown_code_span_ends(text)
-    autolink_ends = _get_markdown_autolink_ends(text)
-    i = 0
-    length = len(text)
-    while i < length:
-        char = text[i]
-        if char == "\\":
-            i += 2
-            continue
-        if char == "`":
-            i = _skip_markdown_code(text, i, code_span_ends)
-            continue
-        if char == "{":
-            close = _scan_expression(text, i)
-            if close is None:
-                break
-            i = close + 1
-            continue
-        if char == "<":
-            if end := autolink_ends.get(i):
-                i = end
-                continue
-            tag = _scan_jsx_tag(text, i)
-            if tag is not None:
-                closing, tag_name, self_closing, end = tag
-                if end is None:
-                    break
-                yield closing, tag_name, self_closing
-                i = end + 1
-                continue
-        i += 1
-
-
-def _find_unclosed_jsx_tag(text: str, start: int) -> tuple[int, str] | None:
-    """Find an opening JSX tag containing ``start``."""
-    prefix = text[:start]
-    code_span_ends = _get_markdown_code_span_ends(prefix)
-    autolink_ends = _get_markdown_autolink_ends(prefix)
-    i = 0
-    while i < start:
-        char = text[i]
-        if char == "\\":
-            i += 2
-            continue
-        if char == "`":
-            i = _skip_markdown_code(text, i, code_span_ends)
-            continue
-        if char == "{":
-            close = _scan_expression(text, i)
-            if close is None or close >= start:
-                return None
-            i = close + 1
-            continue
-        if char == "<":
-            if end := autolink_ends.get(i):
-                i = end
-                continue
-            tag = _scan_jsx_tag(text, i, start)
-            if tag is not None:
-                closing, tag_name, _self_closing, end = tag
-                if end is None:
-                    if closing:
-                        return None
-                    return (i, tag_name)
-                i = end + 1
-                continue
-        i += 1
-
-    return None
 
 
 def _is_attribute_name_char(char: str) -> bool:
@@ -403,35 +327,6 @@ class SafeMDXCheck(TargetCheck):
                 i = close + 1
                 continue
             i += 1
-
-    def get_jsx_expression_context(
-        self, text: str, start: int
-    ) -> tuple[str, str, tuple[str, ...]]:
-        """Return whether an expression appears in JSX text or an attribute."""
-        stack = self.get_jsx_element_stack(text[:start])
-        tag_context = _find_unclosed_jsx_tag(text, start)
-        if tag_context is not None:
-            tag_start, tag = tag_context
-            before_expression = text[tag_start + 1 : start]
-            tag_stack = (*stack, tag)
-            attr_match = _ATTR_NAME_RE.search(before_expression)
-            if attr_match:
-                return ("attribute", attr_match.group(1), tag_stack)
-            return ("tag", "", tag_stack)
-        return ("text", "", stack)
-
-    def get_jsx_element_stack(self, text: str) -> tuple[str, ...]:
-        """Return a best-effort stack of JSX elements open at the end of text."""
-        stack: list[str] = []
-        for closing, tag, self_closing in _iter_jsx_tags(text):
-            if closing:
-                for index in range(len(stack) - 1, -1, -1):
-                    if stack[index] == tag:
-                        del stack[index:]
-                        break
-            elif not self_closing:
-                stack.append(tag)
-        return tuple(stack)
 
     def get_jsx_expression_matches(self, text: str) -> Iterator[str]:
         for _start, expression in self._iter_jsx_expressions(text):
