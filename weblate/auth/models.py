@@ -413,6 +413,8 @@ class Group(models.Model):
         ),
     )
 
+    team_audit_before: dict[str, Any] | None = None
+
     objects = GroupQuerySet.as_manager()
 
     class Meta:
@@ -594,6 +596,7 @@ class TeamMembership(models.Model):
     def get_limit_language_ids(self) -> set[int]:
         return {language.id for language in self.limit_languages.all()}
 
+    @transaction.atomic
     def set_limit_languages(
         self,
         limit_languages: Iterable[Language],
@@ -602,6 +605,7 @@ class TeamMembership(models.Model):
         actor: User | None = None,
         audit: bool = True,
     ) -> MembershipLimitLanguageChange | None:
+        TeamMembership.objects.select_for_update().filter(pk=self.pk).exists()
         limit_languages = list(limit_languages)
         limit_language_ids = {language.id for language in limit_languages}
         previous_limit_languages_by_id = dict(
@@ -624,6 +628,22 @@ class TeamMembership(models.Model):
                 previous_limit_languages=change.previous_limit_languages,
                 limit_languages=change.limit_languages,
             )
+        else:
+            from weblate.accounts.models import TeamAuditLog  # ruff: ignore[import-outside-top-level]
+            from weblate.auth.audit import audit_actor, record_team_event  # ruff: ignore[import-outside-top-level]
+
+            initiating_user = audit_actor(request, actor)
+            if initiating_user is not None:
+                record_team_event(
+                    self.group,
+                    initiating_user,
+                    TeamAuditLog.Event.MEMBER_CHANGED,
+                    {
+                        "username": self.user.username,
+                        "previous_limit_languages": change.previous_limit_languages,
+                        "limit_languages": change.limit_languages,
+                    },
+                )
         return change
 
 
@@ -1844,6 +1864,7 @@ class User(AbstractBaseUser):
             self.profile.get_commit_name(), address or self.profile.get_commit_email()
         )
 
+    @transaction.atomic
     def add_team(
         self,
         request: AuthenticatedHttpRequest | None,
@@ -1860,10 +1881,20 @@ class User(AbstractBaseUser):
         if created:
             self._audit_team_change(request, team, activity="team-add", actor=user)
 
+    @transaction.atomic
     def remove_team(
         self, request: AuthenticatedHttpRequest | None, team: Group
     ) -> None:
-        self.groups.remove(team)
+        from weblate.auth.audit import audit_actor, audit_team_changes  # ruff: ignore[import-outside-top-level]
+
+        actor = audit_actor(request)
+        if not self.team_memberships.filter(group=team).exists():
+            return
+        if actor is None:
+            self.groups.remove(team)
+        else:
+            with audit_team_changes(team, actor, request):
+                self.groups.remove(team)
         self._audit_team_change(request, team, activity="team-remove")
 
     def store_audit_state(
@@ -2030,6 +2061,22 @@ class User(AbstractBaseUser):
             **params,
         )
 
+        from weblate.accounts.models import TeamAuditLog  # ruff: ignore[import-outside-top-level]
+        from weblate.auth.audit import audit_actor, record_team_event  # ruff: ignore[import-outside-top-level]
+
+        initiating_user = audit_actor(request, actor)
+        if initiating_user is not None:
+            record_team_event(
+                team,
+                initiating_user,
+                {
+                    "team-add": TeamAuditLog.Event.MEMBER_ADDED,
+                    "team-change": TeamAuditLog.Event.MEMBER_CHANGED,
+                    "team-remove": TeamAuditLog.Event.MEMBER_REMOVED,
+                }[activity],
+                {"username": self.username, **params},
+            )
+
     @staticmethod
     def _get_team_audit_activity(
         team: Group,
@@ -2180,7 +2227,7 @@ def auto_assign_group(user: User) -> None:
             )
             invited.add(auto.group_id)
         else:
-            user.add_team(None, auto.group)
+            user.add_team(None, auto.group, user=InternalBot.TEAM_ASSIGNMENT.get_user())
         assigned.add(auto.group_id)
 
 
@@ -2192,14 +2239,38 @@ def change_componentlist(sender, instance, action, **kwargs) -> None:
     groups = Group.objects.filter(
         componentlists=instance, project_selection=SELECTION_COMPONENT_LIST
     )
+    from weblate.auth.audit import audit_team_changes  # ruff: ignore[import-outside-top-level]
+    from weblate.utils.change_origin import get_acting_user  # ruff: ignore[import-outside-top-level]
+
     for group in groups:
-        group.projects.set(
-            Project.objects.filter(component__componentlist=instance), clear=True
-        )
+        actor = get_acting_user()
+        if actor is None:
+            group.projects.set(
+                Project.objects.filter(component__componentlist=instance), clear=True
+            )
+        else:
+            with audit_team_changes(group, actor):
+                group.projects.set(
+                    Project.objects.filter(component__componentlist=instance),
+                    clear=True,
+                )
 
 
 @receiver(post_delete, sender=TeamMembership)
 def remove_deleted_membership_admin(sender, instance, **kwargs) -> None:
+    from weblate.auth.audit import audit_admin_removal  # ruff: ignore[import-outside-top-level]
+
+    if Group.admins.through.objects.filter(
+        group_id=instance.group_id, user_id=instance.user_id
+    ).exists():
+        team = Group.objects.filter(pk=instance.group_id).first()
+        if team is not None:
+            origin = kwargs.get("origin")
+            account_deleted = (
+                isinstance(origin, User) or getattr(origin, "model", None) is User
+            )
+            audit_admin_removal(team, instance.user_id, account_deleted=account_deleted)
+
     Group.admins.through.objects.filter(
         group_id=instance.group_id, user_id=instance.user_id
     ).delete()
@@ -2522,13 +2593,22 @@ class Invitation(models.Model):
     def accept(self, request: AuthenticatedHttpRequest | None, user: User) -> None:
         # ruff: ignore[import-outside-top-level]
         from weblate.accounts.models import AuditLog
+        from weblate.auth.audit import audit_team_changes, lock_team_for_audit  # ruff: ignore[import-outside-top-level]
 
         # ruff: ignore[import-outside-top-level]
         from weblate.auth.utils import validate_admin_team_assignment
 
+        # Team deletion locks the project and team before cascading to invitations.
+        # Read the current team without locking the invitation, then follow that order.
+        team = Group.objects.filter(invitation__pk=self.pk).first()
+        if team is None:
+            msg = "Invitation removed before accept!"
+            raise InvitationRemovedError(msg)
+        lock_team_for_audit(team)
+
         # Only the locked row can authorize the grants, self might be stale.
         current = Invitation.objects.select_for_update().filter(pk=self.pk).first()
-        if current is None:
+        if current is None or current.group_id != team.pk:
             msg = "Invitation removed before accept!"
             raise InvitationRemovedError(msg)
 
@@ -2565,19 +2645,21 @@ class Invitation(models.Model):
             team_admin=current.team_admin,
         )
 
-        had_membership = user.team_memberships.filter(group=current.group).exists()
-        user.add_team(request, current.group, user=current.author)
-        # Accepting an invitation applies the invitation state even when the
-        # user is already a member; an empty invitation limit clears old limits.
-        TeamMembership.objects.get(user=user, group=current.group).set_limit_languages(
-            limit_languages,
-            request,
-            actor=current.author,
-            audit=had_membership,
-        )
-
-        if current.team_admin:
-            current.group.admins.add(user)
+        # Match membership removal's project/team-before-membership lock order.
+        with audit_team_changes(current.group, current.author, request):
+            had_membership = user.team_memberships.filter(group=current.group).exists()
+            user.add_team(request, current.group, user=current.author)
+            # Apply invitation limits even to existing members; empty clears old limits.
+            TeamMembership.objects.get(
+                user=user, group=current.group
+            ).set_limit_languages(
+                limit_languages,
+                request,
+                actor=current.author,
+                audit=had_membership,
+            )
+            if current.team_admin:
+                current.group.admins.add(user)
 
         if current.group.defining_project:
             user.profile.watched.add(current.group.defining_project)
@@ -2631,3 +2713,23 @@ class AuthenticatedHttpRequest(HttpRequest):
 
     # Overrides django.http.request URL generating
     _current_scheme_host: str
+
+
+@receiver(post_delete, sender=User)
+@receiver(post_delete, sender=Group)
+@receiver(post_delete, sender=Project)
+@receiver(post_delete, sender="workspaces.Workspace")
+def clear_deleted_team_audit_reference(
+    sender: type[models.Model], instance: models.Model, using: str, **kwargs: object
+) -> None:
+    """Also clear references created by membership-deletion signal handlers."""
+    from weblate.accounts.models import TeamAuditLog  # ruff: ignore[import-outside-top-level]
+
+    field = {
+        User: "actor_id",
+        Group: "team_id",
+        Project: "project_id",
+    }.get(sender, "workspace_id")
+    TeamAuditLog.objects.using(using).filter(**{field: instance.pk}).update(
+        **{field: None}
+    )

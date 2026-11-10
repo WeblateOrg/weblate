@@ -174,12 +174,17 @@ def cleanup_auditlog() -> None:
     # ruff: ignore[import-outside-top-level]
     from weblate.accounts.models import (
         AuditLog,
+        TeamAuditLog,
     )
 
     timestamp = now()
 
     # Cleanup old entries
     AuditLog.objects.filter(
+        timestamp__lt=timestamp - timedelta(days=settings.AUDITLOG_EXPIRY)
+    ).delete()
+
+    TeamAuditLog.objects.filter(
         timestamp__lt=timestamp - timedelta(days=settings.AUDITLOG_EXPIRY)
     ).delete()
 

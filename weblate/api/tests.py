@@ -49,8 +49,10 @@ from weblate_language_data.languages import LANGUAGES
 
 from weblate.accounts.models import (
     MAX_LISTING_COLUMNS,
+    AuditLog,
     Profile,
     Subscription,
+    TeamAuditLog,
     VerifiedEmail,
 )
 from weblate.accounts.notifications import (
@@ -3022,6 +3024,70 @@ class UserAPITest(APIBaseTest):
 
 
 class GroupAPITest(APIBaseTest):
+    def test_team_mutations_have_private_actor_attributed_audits(self) -> None:
+        self.grant_perm_to_user("project.permissions", project=self.project)
+        target = User.objects.create_user(
+            username="audited-target", password="testpassword"
+        )
+        role = Role.objects.get(name="Administration")
+        before = Change.objects.count()
+        response = self.do_request(
+            "api:group-list",
+            method="post",
+            code=201,
+            request={
+                "name": "Audited API team",
+                "defining_project": reverse(
+                    "api:project-detail", kwargs=self.project_kwargs
+                ),
+            },
+        )
+        team = Group.objects.get(pk=response.data["id"])
+        self.do_request(
+            "api:group-roles",
+            kwargs={"id": team.pk},
+            method="post",
+            code=200,
+            request={"role_id": role.pk},
+        )
+        self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": team.pk},
+            method="post",
+            code=200,
+            request={"user_id": target.pk},
+        )
+        self.do_request(
+            "api:group-revoke-admin",
+            kwargs={"id": team.pk, "user_pk": target.pk},
+            method="delete",
+            code=200,
+        )
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": team.pk},
+            method="patch",
+            code=200,
+            request={"enforced_2fa": True},
+        )
+        self.do_request(
+            "api:group-detail", kwargs={"id": team.pk}, method="delete", code=204
+        )
+        entries = TeamAuditLog.objects.filter(team_name="Audited API team")
+        self.assertTrue(entries.filter(event="created").exists())
+        self.assertTrue(entries.filter(event="deleted", team__isnull=True).exists())
+        self.assertFalse(
+            entries.exclude(actor=self.user, project=self.project).exists()
+        )
+        self.assertEqual(
+            AuditLog.objects.filter(user=target, activity="team-admin-added").count(), 1
+        )
+        self.assertEqual(
+            AuditLog.objects.filter(user=target, activity="team-admin-removed").count(),
+            1,
+        )
+        self.assertEqual(Change.objects.count(), before)
+
     def test_group_list_prefetches_component_links(self) -> None:
         for index in range(3):
             team = Group.objects.create(

@@ -157,6 +157,7 @@ from weblate.api.serializers import (
     WorkflowSettingSerializer,
     get_reverse_kwargs,
 )
+from weblate.auth.audit import audit_team_changes, log_team_changes
 from weblate.auth.models import Group, Role, TeamMembership, User
 from weblate.auth.permissions import (
     REPOSITORY_PERMISSIONS,
@@ -1800,7 +1801,17 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
             project=serializer.validated_data.get("defining_project"),
             workspace=serializer.validated_data.get("defining_workspace"),
         )
-        super().perform_create(serializer)
+        with transaction.atomic():
+            super().perform_create(serializer)
+            log_team_changes(serializer.instance, None, self.request.user, self.request)
+
+    def perform_update(self, serializer: GroupSerializer) -> None:
+        with audit_team_changes(serializer.instance, self.request.user, self.request):
+            super().perform_update(serializer)
+
+    def perform_destroy(self, instance: Group) -> None:
+        with audit_team_changes(instance, self.request.user, self.request):
+            super().perform_destroy(instance)
 
     def destroy(self, request: Request, *args, **kwargs):
         """Delete the group."""
@@ -1809,7 +1820,7 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
 
     @extend_schema(description="Associate roles with a group.", methods=["post"])
     @action(detail=True, methods=["post"])
-    def roles(self, request: Request, **kwargs):
+    def roles(self, request: AuthenticatedRequest, **kwargs) -> Response:
         obj = self.get_object()
         self.perm_check(request, obj)
 
@@ -1830,7 +1841,8 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
                 {"role_id": gettext("This role cannot be assigned to this team.")}
             )
 
-        obj.roles.add(role)
+        with audit_team_changes(obj, request.user, request):
+            obj.roles.add(role)
         serializer = self.serializer_class(obj, context={"request": request})
 
         return Response(serializer.data, status=HTTP_200_OK)
@@ -1842,7 +1854,7 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
     )
     @action(detail=True, methods=["delete"], url_path="roles/(?P<role_id>[0-9]+)")
     # pylint: disable-next=redefined-builtin
-    def delete_roles(self, request: Request, id, role_id):  # ruff: ignore[builtin-argument-shadowing]
+    def delete_roles(self, request: AuthenticatedRequest, id, role_id) -> Response:  # ruff: ignore[builtin-argument-shadowing]
         obj = self.get_object()
         self.perm_check(request, obj)
 
@@ -1852,7 +1864,8 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
             msg = "Role"
             raise not_found_http404(msg) from error
 
-        obj.roles.remove(role)
+        with audit_team_changes(obj, request.user, request):
+            obj.roles.remove(role)
         return Response(status=HTTP_204_NO_CONTENT)
 
     @extend_schema(description="Associate languages with a group.", methods=["post"])
@@ -1860,7 +1873,7 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
         detail=True,
         methods=["post"],
     )
-    def languages(self, request: Request, **kwargs):
+    def languages(self, request: AuthenticatedRequest, **kwargs) -> Response:
         obj = self.get_object()
         self.perm_check(request, obj)
         self.workspace_assignment_check(
@@ -1883,7 +1896,8 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
         except Language.DoesNotExist as error:
             raise not_found_validation_error(field_name, "Language") from error
 
-        obj.languages.add(language)
+        with audit_team_changes(obj, request.user, request):
+            obj.languages.add(language)
         serializer = self.serializer_class(obj, context={"request": request})
 
         return Response(serializer.data, status=HTTP_200_OK)
@@ -1896,8 +1910,13 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
     @action(
         detail=True, methods=["delete"], url_path="languages/(?P<language_code>[^/.]+)"
     )
-    # pylint: disable-next=redefined-builtin
-    def delete_languages(self, request: Request, id, language_code):  # ruff: ignore[builtin-argument-shadowing]
+    def delete_languages(
+        self,
+        request: AuthenticatedRequest,
+        # pylint: disable-next=redefined-builtin
+        id: str,  # ruff: ignore[builtin-argument-shadowing]
+        language_code: str,
+    ) -> Response:
         obj = self.get_object()
         self.perm_check(request, obj)
         self.workspace_assignment_check(
@@ -1911,7 +1930,8 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
         except Language.DoesNotExist as error:
             msg = "Language"
             raise not_found_http404(msg) from error
-        obj.languages.remove(language)
+        with audit_team_changes(obj, request.user, request):
+            obj.languages.remove(language)
         return Response(status=HTTP_204_NO_CONTENT)
 
     @extend_schema(description="Associate projects with a group.", methods=["post"])
@@ -1919,7 +1939,7 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
         detail=True,
         methods=["post"],
     )
-    def projects(self, request: Request, **kwargs):
+    def projects(self, request: AuthenticatedRequest, **kwargs) -> Response:
         obj = self.get_object()
         self.perm_check(request, obj)
         self.scoped_assignment_check(
@@ -1939,15 +1959,21 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
             raise invalid_integer_error(field_name) from error
         except Project.DoesNotExist as error:
             raise not_found_validation_error(field_name, "Project") from error
-        obj.projects.add(project)
+        with audit_team_changes(obj, request.user, request):
+            obj.projects.add(project)
         serializer = self.serializer_class(obj, context={"request": request})
 
         return Response(serializer.data, status=HTTP_200_OK)
 
     @extend_schema(description="Delete a project from a group.", methods=["delete"])
     @action(detail=True, methods=["delete"], url_path="projects/(?P<project_id>[0-9]+)")
-    # pylint: disable-next=redefined-builtin
-    def delete_projects(self, request: Request, id, project_id):  # ruff: ignore[builtin-argument-shadowing]
+    def delete_projects(
+        self,
+        request: AuthenticatedRequest,
+        # pylint: disable-next=redefined-builtin
+        id: str,  # ruff: ignore[builtin-argument-shadowing]
+        project_id: str,
+    ) -> Response:
         obj = self.get_object()
         self.perm_check(request, obj)
         self.scoped_assignment_check(
@@ -1959,14 +1985,15 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
         except Project.DoesNotExist as error:
             msg = "Project"
             raise not_found_http404(msg) from error
-        obj.projects.remove(project)
+        with audit_team_changes(obj, request.user, request):
+            obj.projects.remove(project)
         return Response(status=HTTP_204_NO_CONTENT)
 
     @extend_schema(
         description="Associate componentlists with a group.", methods=["post"]
     )
     @action(detail=True, methods=["post"])
-    def componentlists(self, request: Request, **kwargs):
+    def componentlists(self, request: AuthenticatedRequest, **kwargs) -> Response:
         obj = self.get_object()
         self.perm_check(request, obj)
         self.scoped_assignment_check(
@@ -1988,7 +2015,8 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
             raise invalid_integer_error(field_name) from error
         except ComponentList.DoesNotExist as error:
             raise not_found_validation_error(field_name, "Component list") from error
-        obj.componentlists.add(component_list)
+        with audit_team_changes(obj, request.user, request):
+            obj.componentlists.add(component_list)
         serializer = self.serializer_class(obj, context={"request": request})
 
         return Response(serializer.data, status=HTTP_200_OK)
@@ -2003,7 +2031,7 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
     )
     def delete_componentlists(
         self,
-        request: Request,
+        request: AuthenticatedRequest,
         # pylint: disable-next=redefined-builtin
         id,  # ruff: ignore[builtin-argument-shadowing]
         component_list_id,
@@ -2020,7 +2048,8 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
         except ComponentList.DoesNotExist as error:
             msg = "Component list"
             raise not_found_http404(msg) from error
-        obj.componentlists.remove(component_list)
+        with audit_team_changes(obj, request.user, request):
+            obj.componentlists.remove(component_list)
         return Response(status=HTTP_204_NO_CONTENT)
 
     @extend_schema(description="Associate components with a group.", methods=["post"])
@@ -2028,7 +2057,7 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
         detail=True,
         methods=["post"],
     )
-    def components(self, request: Request, **kwargs):
+    def components(self, request: AuthenticatedRequest, **kwargs) -> Response:
         obj = self.get_object()
         self.perm_check(request, obj)
         self.workspace_assignment_check(
@@ -2055,7 +2084,8 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
             raise invalid_integer_error(field_name) from error
         except Component.DoesNotExist as error:
             raise not_found_validation_error(field_name, "Component") from error
-        obj.components.add(component)
+        with audit_team_changes(obj, request.user, request):
+            obj.components.add(component)
         serializer = self.serializer_class(obj, context={"request": request})
 
         return Response(serializer.data, status=HTTP_200_OK)
@@ -2064,8 +2094,13 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
     @action(
         detail=True, methods=["delete"], url_path="components/(?P<component_id>[0-9]+)"
     )
-    # pylint: disable-next=redefined-builtin
-    def delete_components(self, request: Request, id, component_id):  # ruff: ignore[builtin-argument-shadowing]
+    def delete_components(
+        self,
+        request: AuthenticatedRequest,
+        # pylint: disable-next=redefined-builtin
+        id: str,  # ruff: ignore[builtin-argument-shadowing]
+        component_id: str,
+    ) -> Response:
         obj = self.get_object()
         self.perm_check(request, obj)
         self.workspace_assignment_check(
@@ -2079,13 +2114,14 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
         except Component.DoesNotExist as error:
             msg = "Component"
             raise not_found_http404(msg) from error
-        obj.components.remove(component)
+        with audit_team_changes(obj, request.user, request):
+            obj.components.remove(component)
         return Response(status=HTTP_204_NO_CONTENT)
 
     @extend_schema(description="Make user a group admin.", methods=["post"])
     @action(detail=True, methods=["post"], url_path="admins")
     # pylint: disable-next=redefined-builtin
-    def grant_admin(self, request: Request, id):  # ruff: ignore[builtin-argument-shadowing]
+    def grant_admin(self, request: AuthenticatedRequest, id) -> Response:  # ruff: ignore[builtin-argument-shadowing]
         group = self.get_object()
         if not request.user.has_perm("meta:team.users", group):
             self.perm_check(request, group)
@@ -2104,7 +2140,8 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
             validate_admin_team_assignment(user, group, team_admin=True)
         except DjangoValidationError as error:
             raise ValidationError({"user_id": error.messages}) from error
-        group.admins.add(user)
+        with audit_team_changes(group, request.user, request):
+            group.admins.add(user)
         user.add_team(cast("AuthenticatedHttpRequest", request), group)
         return Response(
             {"detail": "Administration rights granted."}, status=HTTP_200_OK
@@ -2113,7 +2150,7 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
     @extend_schema(description="Delete a user from group admins.", methods=["delete"])
     @action(detail=True, methods=["delete"], url_path="admins/(?P<user_pk>[0-9]+)")
     # pylint: disable-next=redefined-builtin
-    def revoke_admin(self, request: Request, id, user_pk):  # ruff: ignore[builtin-argument-shadowing]
+    def revoke_admin(self, request: AuthenticatedRequest, id, user_pk) -> Response:  # ruff: ignore[builtin-argument-shadowing]
         group = self.get_object()
         if not request.user.has_perm("meta:team.users", group):
             self.perm_check(request, group)
@@ -2123,7 +2160,8 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
             msg = "User not found"
             raise ValidationError(msg) from error
 
-        group.admins.remove(user)
+        with audit_team_changes(group, request.user, request):
+            group.admins.remove(user)
         serializer = GroupSerializer(group, context={"request": request})
         return Response(serializer.data, status=HTTP_200_OK)
 

@@ -49,6 +49,7 @@ Weblate 2026.11.2
 * Enforced team language selection when creating translations and required project authority for language workflow settings.
 * Restricted project-wide component locking to components the actor may manage.
 * Concealed invitation e-mail addresses and deleted restricted component names in public history.
+* Recorded administrative team changes in a :ref:`restricted audit log <team-audit>` and concealed sensitive membership history from public viewers.
 * Prevented account e-mail discovery through self-service API updates and public history or project filters.
 * Required contributor attribution permission before linking commit authors to Weblate accounts. Clarified repository permissions for :ref:`confidential collaboration <privacy-confidential-setup>`.
 * Enforced add-on compatibility checks for project installations through the API.

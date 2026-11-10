@@ -893,6 +893,10 @@ Security properties Weblate provides
        authenticated web-action rate-limit lockouts, and project or component
        setting changes in audit logs or history. Account-removal audit entries
        retain the former e-mail address until :setting:`AUDITLOG_EXPIRY`.
+       Detailed :ref:`team audit records <team-audit>` require the corresponding
+       project or workspace administrative authority; site-wide and deleted-scope
+       records require site administration. Sensitive membership history is not
+       public. Team audit records follow the same expiry setting.
        *(documented)* (source: :doc:`/security/privacy-compliance`,
        :ref:`rate-limit`, :ref:`billing`, :doc:`/changes`)
      - Logging is configured, storage is available, and

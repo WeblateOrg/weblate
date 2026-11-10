@@ -15,6 +15,7 @@ from django.core import mail
 from django.core.exceptions import ValidationError
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
+from lxml.html import fromstring
 from social_django.models import UserSocialAuth
 
 from weblate.accounts.models import VerifiedEmail
@@ -209,17 +210,23 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
 
         response = self.client.get(self.access_url)
 
-        self.assertContains(response, "acl-page-00")
-        self.assertContains(response, "acl-page-09")
-        self.assertNotContains(response, "acl-page-10")
+        current_users = (
+            fromstring(response.content).get_element_by_id("users").text_content()
+        )
+        self.assertIn("acl-page-00", current_users)
+        self.assertIn("acl-page-09", current_users)
+        self.assertNotIn("acl-page-10", current_users)
         self.assertNotContains(response, f"edit_user_{users[10].id}")
         self.assertContains(response, "?page=2&amp;limit=10#users")
 
         response = self.client.get(f"{self.access_url}?page=2")
 
-        self.assertContains(response, "acl-page-10")
-        self.assertContains(response, self.user.username)
-        self.assertNotContains(response, "acl-page-00")
+        current_users = (
+            fromstring(response.content).get_element_by_id("users").text_content()
+        )
+        self.assertIn("acl-page-10", current_users)
+        self.assertIn(self.user.username, current_users)
+        self.assertNotIn("acl-page-00", current_users)
 
     def add_user(self) -> None:
         self.add_acl()
@@ -778,7 +785,8 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
 
         # Ensure user is now not listed
         response = self.client.get(self.access_url)
-        self.assertNotContains(response, self.second_user.username)
+        users = fromstring(response.content).get_element_by_id("users")
+        self.assertNotIn(self.second_user.username, users.text_content())
         self.assertNotContains(response, self.second_user.email)
 
     def test_add_acl(self) -> None:

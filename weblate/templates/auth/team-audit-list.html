@@ -1,0 +1,34 @@
+{% load humanize i18n %}
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <caption class="visually-hidden">{% translate "Administrative team changes" %}</caption>
+    <thead>
+      <tr>
+        <th scope="col">{% translate "When" %}</th>
+        <th scope="col">{% translate "Actor" %}</th>
+        <th scope="col">{% translate "Team" %}</th>
+        <th scope="col">{% translate "Scope" %}</th>
+        <th scope="col">{% translate "Change" %}</th>
+        <th scope="col">{% translate "Details" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for entry in entries %}
+        <tr>
+          <td>{{ entry.timestamp|naturaltime }}</td>
+          <td>{% if entry.actor %}{{ entry.actor.username }}{% else %}{% translate "Deleted user" %}{% endif %}</td>
+          <td>{{ entry.team_name }}</td>
+          <td>{{ entry.get_scope_display }}{% if entry.scope_label %}: {{ entry.scope_label }}{% endif %}</td>
+          <td>{{ entry.get_event_display }}</td>
+          <td><pre>{{ entry.details|pprint|truncatechars:2000 }}</pre><a href="{% url 'team-audit-detail' pk=entry.pk %}">{% translate "View details" %}<span class="visually-hidden"> — {{ entry.team_name }}</span></a></td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="6">{% translate "No team audit entries found." %}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% include "paginator.html" with page_obj=entries anchor=anchor paginator_form=paginator_form %}
