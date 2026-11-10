@@ -5512,6 +5512,40 @@ class ProjectAPITest(APIBaseTest):
             repository_components=selection.repositories,
         )
 
+    def test_new_repository_operations_require_current_authority(self) -> None:
+        self.authenticate()
+        self.user.groups.clear()
+        role = Role.objects.create(name="Queued repository reset")
+        role.permissions.add(Permission.objects.get(codename="vcs.reset"))
+        group = Group.objects.create(
+            name="Queued repository reset", language_selection=SELECTION_ALL
+        )
+        group.projects.add(self.project)
+        group.roles.add(role)
+        self.user.groups.add(group)
+        url = reverse("api:project-repository", kwargs=self.project_kwargs)
+        data = {"operation": "reset", "background": True}
+        with patch(
+            "weblate.api.views.queue_repository_operation",
+            return_value=QueuedRepositoryOperation("task-id"),
+        ) as queue:
+            response = self.client.post(url, data)
+            self.assertEqual(response.status_code, 202)
+            queue.assert_called_once()
+            queue.reset_mock()
+
+            self.user.groups.remove(group)
+            response = self.client.post(url, data)
+            self.assertEqual(response.status_code, 403)
+            queue.assert_not_called()
+
+            self.user.groups.add(group)
+            self.user.is_active = False
+            self.user.save(update_fields=["is_active"])
+            response = self.client.post(url, data)
+            self.assertEqual(response.status_code, 401)
+            queue.assert_not_called()
+
     def test_eager_repo_operation_returns_result(self) -> None:
         with patch(
             "weblate.api.views.queue_repository_operation",

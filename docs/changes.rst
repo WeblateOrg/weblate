@@ -9,6 +9,8 @@ Weblate 2026.11.2
 
 .. rubric:: Improvements
 
+* Aligned queued :doc:`repository maintenance <admin/continuous>` with background-work authorization: later permission changes or account deactivation do not cancel accepted operations.
+
 * Bounded :ref:`Weblate Client project configuration discovery <wlc-config>` by repository and POSIX permission boundaries, and added explicit project-file selection and configuration-free invocation.
 * Extended the :ref:`development container <devcontainer>` with documentation and frontend tooling, prepared OCR models, explicit verification checks, and isolated historical migration tests.
 * Updated the :doc:`security reporting policy <security/issues>` to handle low and medium severity issues publicly on GitHub and reserve private handling and security advisories for high and critical severity vulnerabilities.

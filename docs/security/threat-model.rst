@@ -213,8 +213,10 @@ repository state, background tasks, outbound requests, and rendered UI.
    * - Weblate request process to repository Celery worker
      - Permission-checked browser and API repository actions become queued work
        carrying the initiating user and affected repository scope. The worker
-       reacquires the datastore reservation and rechecks the user's current VCS
-       permission on the current repository owner before mutation.
+       reacquires the datastore reservation and executes the repository scope
+       authorized when the request was queued. Later account deactivation or
+       permission changes do not cancel accepted work, including task retries.
+       A changed repository link does not redirect the operation to a new owner.
        The broker, datastore, and workers are trusted parts of the same Weblate
        instance. *(maintainer)*
    * - Webhook sender to Weblate
@@ -754,9 +756,9 @@ Security properties Weblate provides
        VCS actions omit repositories where this permission check fails; they do
        not partially operate on an individual shared checkout. Explicit VCS
        actions queued from the browser or API retain the initiating user,
-       serialize access to the affected repositories, and recheck that user's
-       permission on the current repository owner in the worker
-       before mutation. Weblate's normal background commit and push of
+       serialize access to the affected repositories, and execute the scope
+       authorized at submission without rechecking the user's account or
+       permissions in the worker. Weblate's normal background commit and push of
        authorized translation changes does not require the editor to have
        these VCS permissions. The ``reports.view`` permission authorizes all
        report data in the selected scope, including private projects and
