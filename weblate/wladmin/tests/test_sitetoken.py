@@ -8,6 +8,7 @@ import re
 import time
 from datetime import timedelta
 from typing import Any
+from unittest.mock import patch
 from urllib.parse import parse_qs, urlparse
 
 from django.test import override_settings
@@ -23,12 +24,14 @@ from weblate.accounts.utils import (
 from weblate.auth.models import Group, Permission, Role, User, setup_project_groups
 from weblate.auth.tasks import disable_expired
 from weblate.lang.models import Language
+from weblate.trans.actions import ActionEvents
 from weblate.trans.defines import USERNAME_LENGTH
-from weblate.trans.models import Project
+from weblate.trans.models import Change, Project, Translation
 from weblate.trans.tasks import project_removal
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.utils.change_origin import acting_user_context
 from weblate.utils.files import remove_tree
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.wladmin.forms import (
     SiteTokenCreateForm,
     SiteTokenGroupForm,
@@ -383,6 +386,69 @@ class SiteWideTokenTest(FixtureTestCase):
         self.make_site_admin()
         response = self.client.get(reverse("manage-api-tokens"))
         self.assertNotContains(response, token_user.full_name)
+
+    def test_expired_site_token_revoked_when_commit_fails(self) -> None:
+        token = self.create_token(
+            full_name="Commit Fail Token", teams=[self.managers_group]
+        )
+        token_user = self.get_token_user(token)
+        translation = self.component.translation_set.get(language_code="cs")
+        translation.change_set.content().delete()
+        Change.objects.create(
+            user=token_user,
+            author=token_user,
+            action=ActionEvents.CHANGE,
+            project=self.project,
+            component=self.component,
+            translation=translation,
+        )
+        expired_at = timezone.now() - timedelta(hours=1)
+        token_user.date_expires = expired_at
+        token_user.save(update_fields=["date_expires"])
+
+        ordinary = User.objects.create_user(
+            "expired-person", "expired-person@example.com", "x"
+        )
+        ordinary.date_expires = expired_at
+        ordinary.save(update_fields=["date_expires"])
+
+        lock_error = WeblateLockTimeoutError("locked", lock=self.component.lock)
+        with patch.object(Translation, "commit_pending", side_effect=lock_error):
+            disable_expired()
+
+        token_user.refresh_from_db()
+        self.assertTrue(token_user.username.startswith("sitebot-"))
+        self.assertTrue(token_user.is_active)
+        self.assertEqual(token_user.date_expires, expired_at)
+        self.assertTrue(token_user.groups.exists())
+        self.assertFalse(Token.objects.filter(key=token).exists())
+        self.assertFalse(
+            token_user.auditlog_set.filter(activity="token-removed").exists()
+        )
+        self.assertFalse(
+            token_user.auditlog_set.filter(activity="disabled-expiry").exists()
+        )
+        response = self.token_api_client().get(
+            reverse("api:metrics"),
+            headers={"authorization": f"Token {token}"},
+        )
+        self.assertEqual(response.status_code, 401)
+
+        ordinary.refresh_from_db()
+        self.assertFalse(ordinary.is_active)
+        self.assertTrue(
+            ordinary.auditlog_set.filter(activity="disabled-expiry").exists()
+        )
+
+        disable_expired()
+        token_user.refresh_from_db()
+        self.assertTrue(token_user.username.startswith("deleted-"))
+        self.assertFalse(token_user.groups.exists())
+        self.assertFalse(
+            token_user.auditlog_set.filter(activity="disabled-expiry").exists()
+        )
+        audit = token_user.auditlog_set.get(activity="token-removed")
+        self.assertEqual(audit.params.get("method"), "site")
 
     def test_scope_across_projects(self) -> None:
         token = self.create_token(teams=[self.monitoring_group])
@@ -797,3 +863,52 @@ class SiteWideTokenTest(FixtureTestCase):
         self.assertFalse(
             token_user.auditlog_set.filter(activity="token-removed").exists()
         )
+
+    def test_project_member_removal_keeps_site_token(self) -> None:
+        """Detaching a site token from a project does not revoke it."""
+        admin_group = self.project.defined_groups.get(name="Administration")
+        token = self.create_token()
+        token_user = self.get_token_user(token)
+        token_user.add_team(None, admin_group)
+
+        detached = self.create_token(full_name="Detached Token")
+        detached_user = self.get_token_user(detached)
+        detached_user.add_team(None, admin_group)
+        detached_user.remove_team(None, self.monitoring_group)
+
+        self.user.groups.clear()
+        self.project.add_user(self.user, "Administration")
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("project.permissions", self.project))
+        self.assertFalse(self.user.has_perm("user.edit"))
+
+        for token_key, member in ((token, token_user), (detached, detached_user)):
+            username = member.username
+            response = self.client.post(
+                reverse("delete-user", kwargs=self.kw_project),
+                {"user": username},
+                follow=True,
+            )
+            self.assertContains(response, "Token has been removed from this project.")
+            member.refresh_from_db()
+            self.assertEqual(member.username, username)
+            self.assertTrue(member.is_active)
+            self.assertTrue(Token.objects.filter(key=token_key).exists())
+            self.assertFalse(
+                member.groups.filter(defining_project=self.project).exists()
+            )
+            self.assertFalse(
+                member.auditlog_set.filter(activity="token-removed").exists()
+            )
+            change = self.project.change_set.get(
+                action=ActionEvents.REMOVE_USER, details__username=username
+            )
+            self.assertEqual(change.user, self.user)
+            api_response = self.token_api_client().get(
+                reverse("api:metrics"),
+                headers={"authorization": f"Token {token_key}"},
+            )
+            self.assertEqual(api_response.status_code, 200)
+
+        self.assertTrue(token_user.groups.filter(pk=self.monitoring_group.pk).exists())
+        self.assertFalse(detached_user.groups.exists())
