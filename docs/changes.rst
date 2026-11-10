@@ -19,6 +19,8 @@ Weblate 2026.11.2
 * Validated new and renamed :ref:`translation keys <edit-source>` against the file format, dialect, and encoding before queuing changes.
 * Enforced public-only billing plans on :ref:`project moves <workspace-project-creation>` and warned when :ref:`backup restores <projectbackup>` make restricted components public.
 * Used stable subjects for :ref:`Keycloak authentication <keycloak_auth>` in Docker, protecting new and migrated associations from e-mail reassignment.
+* Bounded :ref:`suggestion uploads <upload>` and unmatched-string diagnostics, and added a shared browser/API upload rate limit.
+* Require login for :ref:`translation uploads <upload>`, process browser uploads in the background, and support the temporary ``background`` API option ahead of mandatory background processing in 2027.1.
 * Limited :ref:`CSV files <csv>` to 100,000 data rows while parsing, including automatically detected CSV input.
 * Bounded :ref:`XLSX archive expansion and conversion <xlsx>` before loading shared strings or writing oversized CSV rows.
 

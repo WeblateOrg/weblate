@@ -1295,6 +1295,8 @@ def check_upload(
     The actual check for the method is implemented in
     weblate.trans.util.check_upload_method_permissions.
     """
+    if not user.is_authenticated:
+        return Denied(gettext("You need to log in to upload translations."))
     if isinstance(obj, Translation):
         # Source upload
         if obj.is_source and not user.has_perm("source.edit", obj):

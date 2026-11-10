@@ -3325,6 +3325,14 @@ class TranslationCreateSerializer(ReadOnlySerializer):
 
 
 class UploadRequestSerializer(ReadOnlySerializer):
+    background = serializers.BooleanField(
+        required=False,
+        default=False,
+        help_text=(
+            "Process the upload in the background. Temporary option: in 2027.1 "
+            "this field will be removed and only background processing will be supported."
+        ),
+    )
     ignore_language = serializers.BooleanField(required=False, default=False)
     file = serializers.FileField(validators=[validate_translation_upload_size])
     author_email = serializers.EmailField(required=False)

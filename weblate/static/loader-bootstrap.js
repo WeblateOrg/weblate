@@ -2105,11 +2105,15 @@ onReady(() => {
           const data = await response.json();
           if (bar !== null) {
             bar.style.width = `${data.progress}%`;
+            bar.setAttribute("aria-valuenow", data.progress);
           }
           if (data.completed) {
             const result = data.result ?? {};
+            const completion = result.completion_message;
             progressCompleted();
-            if (result.message) {
+            if (completion?.text && messageText !== null) {
+              messageText.textContent = completion.text;
+            } else if (result.message) {
               if (messageText !== null) {
                 messageText.textContent = result.message;
               }
@@ -2117,6 +2121,21 @@ onReady(() => {
               if (messageText !== null) {
                 messageText.textContent = result;
               }
+            }
+            const completionLevel = {
+              error: "danger",
+              warning: "warning",
+              success: "success",
+              info: "info",
+            }[completion?.level];
+            if (completionLevel) {
+              message.classList.remove(
+                "alert-success",
+                "alert-warning",
+                "alert-danger",
+                "alert-info",
+              );
+              message.classList.add(`alert-${completionLevel}`);
             }
             if (result.url) {
               window.location = result.url;

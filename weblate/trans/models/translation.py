@@ -9,6 +9,7 @@ import os
 import tempfile
 from contextlib import contextmanager, suppress
 from copy import deepcopy
+from dataclasses import dataclass, field
 from datetime import UTC
 from itertools import batched, chain
 from pathlib import Path
@@ -132,6 +133,23 @@ if TYPE_CHECKING:
     from .project import Project
 
 UploadResult = tuple[int, int, int, int]
+MAX_SUGGESTION_UPLOAD_UNITS = 20_000
+
+
+@dataclass
+class UploadNotFoundLog:
+    """Count unmatched strings without retaining the entire uploaded content."""
+
+    count: int = 0
+    strings: list[str] = field(default_factory=list)
+
+    def __len__(self) -> int:
+        return self.count
+
+    def append(self, source: str) -> None:
+        self.count += 1
+        if len(self.strings) < 8:
+            self.strings.append(source)
 
 
 def read_translation_upload(fileobj: BinaryIO) -> bytes:
@@ -2088,22 +2106,21 @@ class Translation(
         return self.component.suggestion_autoaccept
 
     def log_upload_not_found(
-        self, not_found_log: list[str], unit: TranslationUnit
+        self, not_found_log: UploadNotFoundLog, unit: TranslationUnit
     ) -> None:
         not_found_log.append(unit.source)
 
     def show_upload_not_found(
         self,
         request: AuthenticatedHttpRequest,
-        not_found_log: list[str],
-        string_limit: int = 8,
+        not_found_log: UploadNotFoundLog,
     ) -> None:
         count = len(not_found_log)
 
         strings = format_html_join_comma(
-            gettext("“{}”"), ((string,) for string in not_found_log[:string_limit])
+            gettext("“{}”"), ((string,) for string in not_found_log.strings)
         )
-        if count > string_limit:
+        if count > len(not_found_log.strings):
             strings = format_html_join_comma("{}", [(strings,), (gettext("…"),)])
 
         messages.warning(
@@ -2161,6 +2178,8 @@ class Translation(
         conflicts: Literal["", "replace-approved", "replace-translated"],
         method: Literal["fuzzy", "approve", "translate"],
         fuzzy: Literal["", "process", "approve"],
+        *,
+        progress: Callable[[int, int], None] | None = None,
     ):
         """
         Merge translation unit wise.
@@ -2171,9 +2190,10 @@ class Translation(
         accepted = 0
         add_fuzzy = method == "fuzzy"
         add_approve = method == "approve"
-        not_found_log: list[str] = []
+        not_found_log = UploadNotFoundLog()
 
         self.validate_upload_plural_store(store2)
+        total = len(store2.content_units)
 
         # Are there any translations to propagate?
         # This is just an optimalization to avoid doing that for every unit.
@@ -2195,7 +2215,9 @@ class Translation(
             self.unit_set.prefetch_all_checks().prefetch_source().select_for_update()
         )
 
-        for set_fuzzy, unit2 in store2.iterate_merge(fuzzy):
+        for index, (set_fuzzy, unit2) in enumerate(store2.iterate_merge(fuzzy)):
+            if progress is not None and index % 100 == 0:
+                progress(index, total)
             try:
                 unit = unit_set.get_unit(unit2)
             except Unit.DoesNotExist:
@@ -2243,21 +2265,32 @@ class Translation(
         if not_found_log:
             self.show_upload_not_found(request, not_found_log)
 
-        return (len(not_found_log), skipped, accepted, len(store2.content_units))
+        return (len(not_found_log), skipped, accepted, total)
 
     def merge_suggestions(
-        self, request: AuthenticatedHttpRequest, author: User, store, fuzzy
+        self,
+        request: AuthenticatedHttpRequest,
+        author: User,
+        store,
+        fuzzy,
+        *,
+        progress: Callable[[int, int], None] | None = None,
     ):
         """Merge content of translate-toolkit store as a suggestions."""
         skipped = 0
         accepted = 0
-        not_found_log: list[str] = []
+        not_found_log = UploadNotFoundLog()
+
+        self.validate_upload_unit_limit(store, "suggest")
 
         self.validate_upload_plural_store(store)
+        total = len(store.content_units)
 
         unit_set = self.unit_set.all()
 
-        for _unused, unit in store.iterate_merge(fuzzy):
+        for index, (_unused, unit) in enumerate(store.iterate_merge(fuzzy)):
+            if progress is not None and index % 100 == 0:
+                progress(index, total)
             # Grab database unit
             try:
                 dbunit = unit_set.get_unit(unit)
@@ -2290,7 +2323,7 @@ class Translation(
         if not_found_log:
             self.show_upload_not_found(request, not_found_log)
 
-        return (len(not_found_log), skipped, accepted, len(store.content_units))
+        return (len(not_found_log), skipped, accepted, total)
 
     def drop_store_cache(self) -> None:
         if "store" in self.__dict__:
@@ -2618,6 +2651,23 @@ class Translation(
         component_post_update.send(sender=self.__class__, component=component)
         return (0, skipped, accepted, len(store.content_units))
 
+    def validate_upload_unit_limit(self, store: TranslationFormat, method: str) -> None:
+        if method != "suggest":
+            return
+        # Monolingual content_units includes template entries absent from the
+        # uploaded file. Count actual uploaded content, including unknown keys.
+        unit_class = store.get_unit_class(store.file_format_params)
+        count = 0
+        for raw_unit in store.all_store_units:
+            if not unit_class(store, raw_unit).has_content():
+                continue
+            count += 1
+            if count > MAX_SUGGESTION_UPLOAD_UNITS:
+                raise FileParseError(
+                    gettext("Suggestion uploads are limited to %d strings.")
+                    % MAX_SUGGESTION_UPLOAD_UNITS
+                )
+
     def load_uploaded_file(
         self,
         request: AuthenticatedHttpRequest,
@@ -2678,6 +2728,8 @@ class Translation(
             template_store = component.template_store
         store = load_uploaded_store(template_store)
 
+        self.validate_upload_unit_limit(store, method)
+
         if not ignore_language:
             self.validate_upload_language(store)
 
@@ -2732,6 +2784,7 @@ class Translation(
         *,
         ignore_language: bool = False,
         author: User | None = None,
+        progress: Callable[[int, int], None] | None = None,
     ) -> UploadResult:
         """Top level handler for file uploads."""
         from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
@@ -2762,14 +2815,16 @@ class Translation(
             if method in {"translate", "fuzzy", "approve"}:
                 # Merge on units level
                 result = self.merge_translations(
-                    request, author, store, conflicts, method, fuzzy
+                    request, author, store, conflicts, method, fuzzy, progress=progress
                 )
             elif method == "add":
                 with component.lock:
                     result = self.handle_add_upload(request, author, store, fuzzy=fuzzy)
             else:
                 # Add as suggestions
-                result = self.merge_suggestions(request, author, store, fuzzy)
+                result = self.merge_suggestions(
+                    request, author, store, fuzzy, progress=progress
+                )
 
         self.change_set.create(
             action=ActionEvents.FILE_UPLOAD,
