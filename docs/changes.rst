@@ -43,6 +43,7 @@ Weblate 2026.11.2
 * Enforced source-language permissions for bulk source metadata and source check dismissals, and terminology permissions across glossary flag edits and uploads.
 * Limited interactive machine-translation request frequency and concurrent requests per service installation.
 * Limited decoded :ref:`HTTP response bodies <outbound-http-limits>` before buffering, with caller-specific limits for translation services, assets, OCR data, and VCS APIs.
+* Applied existing :ref:`HTTP timeouts <outbound-http-limits>` across redirects and complete response downloads for synchronous and asynchronous callers.
 * Enforced team language selection when creating translations and required project authority for language workflow settings.
 * Restricted project-wide component locking to components the actor may manage.
 * Concealed invitation e-mail addresses and deleted restricted component names in public history.

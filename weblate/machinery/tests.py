@@ -2058,7 +2058,7 @@ class MicrosoftCognitiveTranslationTest(BaseMachineTranslationTest):
             self.assertFalse(form.is_valid())
 
         mocked_getaddrinfo.assert_called_once_with(
-            "api.cognitive.microsofttranslator.com", None, type=1
+            "api.cognitive.microsofttranslator.com", None, 0, 1, 0, 0
         )
         self.assertEqual(len(http_mock.calls), 0)
         self.assertIn("internal or non-public address", str(form.non_field_errors()))

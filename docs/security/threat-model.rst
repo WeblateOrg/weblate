@@ -926,10 +926,14 @@ Security properties Weblate provides
      - A configured integration or asset URL returns an HTTP response.
      - A response exceeding the documented decoded-byte ceiling is buffered
        without rejection, including compressed or chunked content.
-     - Security-critical for single-request memory exhaustion. Socket timeouts
-       still apply per operation; a strict total download deadline is not yet
-       enforced, so a slow stream can remain open within the body-size limit.
-       *(maintainer)*
+     - Security-critical for single-request memory exhaustion. The shared client
+       also applies each caller's timeout across the HTTP exchange, including
+       redirects and response streaming, using asynchronous cancellation for
+       both synchronous and asynchronous callers. System DNS completion and
+       event-loop cleanup can delay return, so this is not an unconditional
+       whole-call wall-clock guarantee. Explicitly disabled timeouts, provider
+       SDKs, and separate operator-run maintenance downloads are outside this
+       total-time guarantee. *(maintainer)*
    * - Rate-limited API and web actions enforce configured rate limits.
        *(documented)* (source: :doc:`/api`, :doc:`/admin/config`)
      - Rate limiting is enabled and backed by a working datastore.

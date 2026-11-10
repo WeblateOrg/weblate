@@ -39,6 +39,7 @@ from urllib.parse import urlparse, urlunparse
 from zipfile import ZipFile
 
 import httpx2
+from asgiref.sync import async_to_sync
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
@@ -65,7 +66,7 @@ from weblate.utils.requests import (
     JSON_RESPONSE_ERRORS,
     VCS_RESPONSE_SIZE,
     RedirectValidators,
-    create_http_client,
+    async_open_url,
     fetch_validated_url,
 )
 from weblate.utils.tracing import start_span
@@ -355,16 +356,23 @@ def _perform_git_probe(
     environment: dict[str, str] | None,
 ) -> tuple[int, str | None, str]:
     """Perform one Git smart-HTTP probe using the shared HTTP client."""
-    with (
-        create_http_client(validators=GitProbeRedirectValidators(target)) as client,
-        client.stream(
-            "GET",
-            _build_git_probe_url(repository_url),
-            headers=_get_git_probe_headers(repository_url, environment),
-            timeout=20,
-            follow_redirects=False,
-        ) as response,
-    ):
+    return async_to_sync(_async_perform_git_probe)(repository_url, target, environment)
+
+
+async def _async_perform_git_probe(
+    repository_url: str,
+    target: ResolvedRepositoryURL,
+    environment: dict[str, str] | None,
+) -> tuple[int, str | None, str]:
+    async with async_open_url(
+        "GET",
+        _build_git_probe_url(repository_url),
+        validators=GitProbeRedirectValidators(target),
+        headers=_get_git_probe_headers(repository_url, environment),
+        timeout=20,
+        follow_redirects=False,
+        raise_for_status=False,
+    ) as response:
         return (
             response.status_code,
             response.headers.get("Location"),
