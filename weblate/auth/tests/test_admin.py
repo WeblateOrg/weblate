@@ -12,8 +12,10 @@ from django.contrib.admin.sites import AdminSite
 from django.core.exceptions import PermissionDenied
 from django.test import RequestFactory, TestCase
 
+from weblate.accounts.models import TeamAuditLog
 from weblate.auth.admin import WeblateGroupAdmin, WeblateUserAdmin
-from weblate.auth.models import Group, User
+from weblate.auth.models import Group, TeamMembership, User
+from weblate.lang.models import Language
 from weblate.workspaces.models import Workspace
 
 
@@ -176,6 +178,37 @@ class WeblateUserAdminTest(TestCase):
             audit = self.target.auditlog_set.get(activity=activity)
             self.assertEqual(audit.params["username"], self.actor.username)
             self.assertIsNone(audit.address)
+
+    def test_new_user_inline_memberships_are_audited(self) -> None:
+        request = self.factory.post("/")
+        request.user = self.actor
+        team = Group.objects.create(name="Explicit inline membership")
+        for limited in (False, True):
+            with self.subTest(limited=limited):
+                target = User(username=f"created-{limited}", is_superuser=True)
+                form = SimpleNamespace(instance=target, save_m2m=lambda: None)
+                self.user_admin.save_model(request, target, form, change=False)
+                membership = TeamMembership.objects.create(user=target, group=team)
+                if limited:
+                    membership.limit_languages.add(Language.objects.get(code="cs"))
+                self.user_admin.save_related(request, form, [], change=False)
+                entry = TeamAuditLog.objects.get(
+                    team=team,
+                    event=TeamAuditLog.Event.MEMBER_ADDED,
+                    details__username=target.username,
+                )
+                self.assertEqual(entry.actor, self.actor)
+                if limited:
+                    limits = TeamAuditLog.objects.get(
+                        team=team,
+                        event=TeamAuditLog.Event.MEMBER_CHANGED,
+                        details__username=target.username,
+                    )
+                    self.assertEqual(limits.details["limit_languages"], ["cs"])
+                target.auditlog_set.get(
+                    activity="sitewide-team-add", params__team=team.name
+                )
+                target.auditlog_set.get(activity="superuser-granted")
 
     def test_save_related_keeps_audit_state_per_form(self) -> None:
         second_actor = User.objects.create_user("admin-2", "admin-2@example.com", "x")

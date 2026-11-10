@@ -56,6 +56,7 @@ from selenium.webdriver.support.expected_conditions import (
 )
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
+from weblate.auth.audit import record_team_event
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import AutoGroup, Group, Role, User
 from weblate.automation.addon import AutomationAddon
@@ -6499,6 +6500,49 @@ class SeleniumTests(
             r".*@example\.org$",
         )
         self.screenshot("team-automatic-assignments.png")
+
+    @reuse_demo_fixture
+    def test_team_audit_pagination(self) -> None:
+        project = self.create_component()
+        actor = self.do_login(superuser=True)
+        team = Group.objects.create(name="Audit pagination", defining_project=project)
+        for index in range(11):
+            member = User.objects.create_user(
+                username=f"audit-page-{index}", email=f"audit-page-{index}@example.org"
+            )
+            team.user_set.add(member)
+            record_team_event(team, actor, "changed", {"name": f"entry {index}"})
+
+        for url in (
+            team.get_absolute_url(),
+            reverse("manage-access", kwargs={"project": project.slug}),
+        ):
+            for panel in ("users", "team-audit"):
+                with self.subTest(url=url, panel=panel):
+                    with self.wait_for_page_load():
+                        self.driver.get(f"{self.live_server_url}{url}?limit=10#{panel}")
+                    position = self.driver.find_element(
+                        By.CSS_SELECTOR, f"#{panel} .position-input"
+                    )
+                    position.send_keys(Keys.ENTER)
+                    field = self.driver.find_element(
+                        By.CSS_SELECTOR, f"#{panel} input[name=page]"
+                    )
+                    field.send_keys(Keys.ESCAPE)
+                    self.assertEqual(self.driver.switch_to.active_element, position)
+                    position.send_keys(Keys.ENTER)
+                    field.clear()
+                    field.send_keys("2")
+                    with self.wait_for_page_load():
+                        field.send_keys(Keys.ENTER)
+                    self.assertIn("page=2", self.driver.current_url)
+                    self.assertTrue(self.driver.current_url.endswith(f"#{panel}"))
+                    self.assertEqual(
+                        self.driver.find_element(
+                            By.CSS_SELECTOR, f"#{panel} input[name=page]"
+                        ).get_attribute("value"),
+                        "2",
+                    )
 
     @reuse_demo_fixture
     def test_component_branches_load_on_demand(self) -> None:

@@ -423,6 +423,12 @@ ACCOUNT_ACTIVITY = {
         "User access to the {team} team was changed by {username}."
     ),
     # Translators: Audit log entry
+    "team-admin-added": gettext_lazy(
+        "Team administrator access to {team} was granted by {username}."
+    ),
+    "team-admin-removed": gettext_lazy(
+        "Team administrator access to {team} was removed by {username}."
+    ),
     "team-remove": gettext_lazy("User was removed from the {team} team by {username}."),
     # Translators: Audit log entry
     "token-created": gettext_lazy("Project token for {project} was created."),
@@ -474,6 +480,8 @@ AUDIT_ACTOR_ACTIVITY = {
     "superuser-revoked",
     "team-add",
     "team-change",
+    "team-admin-added",
+    "team-admin-removed",
     "team-remove",
     "token-created",
     "token-removed",
@@ -650,6 +658,58 @@ class AuditLogQuerySet(models.QuerySet["AuditLog", "AuditLog"]):
         return self.order_by("-timestamp")
 
 
+class TeamAuditLogQuerySet(models.QuerySet["TeamAuditLog", "TeamAuditLog"]):
+    def for_user(self, user: User) -> TeamAuditLogQuerySet:
+        """Restrict team details independently of public project history."""
+        if user.is_superuser:
+            return self
+        return self.filter(
+            Q(project__in=user.accessible_managed_projects)
+            | Q(workspace__in=user.workspaces_with_perm("workspace.edit_members"))
+        )
+
+
+class TeamAuditLog(models.Model):
+    """Private, immutable snapshots of administrative team changes."""
+
+    class Scope(models.TextChoices):
+        SITE = "site", gettext_lazy("Site-wide")
+        PROJECT = "project", gettext_lazy("Project")
+        WORKSPACE = "workspace", gettext_lazy("Workspace")
+
+    class Event(models.TextChoices):
+        CREATED = "created", gettext_lazy("Team created")
+        CHANGED = "changed", gettext_lazy("Team changed")
+        DELETED = "deleted", gettext_lazy("Team deleted")
+        MEMBER_ADDED = "member-added", gettext_lazy("Team member added")
+        MEMBER_REMOVED = "member-removed", gettext_lazy("Team member removed")
+        MEMBER_CHANGED = "member-changed", gettext_lazy("Team member access changed")
+
+    team = models.ForeignKey("weblate_auth.Group", null=True, on_delete=models.SET_NULL)
+    team_name = models.CharField(max_length=150)
+    scope = models.CharField(max_length=10, choices=Scope)
+    scope_label = models.CharField(max_length=200)
+    project = models.ForeignKey("trans.Project", null=True, on_delete=models.SET_NULL)
+    workspace = models.ForeignKey(
+        "workspaces.Workspace", null=True, on_delete=models.SET_NULL
+    )
+    actor = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    event = models.CharField(max_length=20, choices=Event)
+    details = models.JSONField(default=dict)
+    timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    objects = TeamAuditLogQuerySet.as_manager()
+
+    class Meta:
+        required_db_vendor = "postgresql"
+        ordering = ("-timestamp", "-pk")
+        verbose_name = "Team audit log entry"
+        verbose_name_plural = "Team audit log entries"
+
+    def __str__(self) -> str:
+        return f"{self.event}: {self.team_name}"
+
+
 class AuditLog(models.Model):
     """User audit log storage."""
 
@@ -740,6 +800,8 @@ class AuditLog(models.Model):
             "accepted",
             "team-add",
             "team-change",
+            "team-admin-added",
+            "team-admin-removed",
             "team-remove",
             "sitewide-team-add",
             "sitewide-team-change",

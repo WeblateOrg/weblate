@@ -350,6 +350,21 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
 
         return changes
 
+    def filter_team_history(self, user: User) -> Self:
+        """Keep historical access-management details out of public activity."""
+        if user.is_superuser:
+            return self
+        return self.filter(
+            ~Q(
+                action__in=(
+                    ActionEvents.ADD_USER,
+                    ActionEvents.REMOVE_USER,
+                    ActionEvents.USER_ACCESS_CHANGE,
+                )
+            )
+            | Q(project__in=user.accessible_managed_projects)
+        )
+
     def filter_components(self, user: User) -> Self:
         if not user.is_superuser:
             # The former visibility of older removed components cannot be recovered.
@@ -361,6 +376,7 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
             )
         else:
             result = self
+        result = result.filter_team_history(user)
         if not user.needs_component_restrictions_filter:
             return result
         return result.filter(
@@ -518,6 +534,7 @@ class ChangeManager(models.Manager["Change"]):
         return (
             cast("ChangeQuerySet", result)
             .filter_visible_alerts(user)
+            .filter_team_history(user)
             .prefetch_for_render()
             .order()
         )
