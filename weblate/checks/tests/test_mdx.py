@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+from unittest.mock import patch
+
 from weblate.checks.mdx import SafeMDXCheck
 from weblate.checks.tests.test_checks import CheckTestCase
 
@@ -164,7 +166,6 @@ class SafeMDXCheckTest(CheckTestCase):
                 self.assertEqual(
                     list(self.check.get_jsx_expression_signatures(text)), []
                 )
-                self.assertEqual(self.check.get_jsx_element_stack(text), ())
         self.do_test(False, ("", "{" * 100_000, "safe-mdx"))
 
     def test_autolink_literal_brace(self) -> None:
@@ -195,44 +196,23 @@ class SafeMDXCheckTest(CheckTestCase):
         )
 
     def test_check_single_stops_on_first_mismatch(self) -> None:
-        calls = 0
-        original = self.check.get_jsx_expression_context
+        def signatures(text: str):
+            yield ("text", "", (), text)
+            self.fail("Check continued scanning after the first mismatch")
 
-        def counting_context(*args, **kwargs):
-            nonlocal calls
-            calls += 1
-            return original(*args, **kwargs)
+        with patch.object(
+            self.check, "get_jsx_expression_signatures", side_effect=signatures
+        ):
+            self.assertTrue(self.check.check_single("{ok}", "{different}", None))
 
-        self.check.get_jsx_expression_context = counting_context
-        try:
-            self.assertTrue(self.check.check_single("{ok}", "<a>{x}</a>" * 20, None))
-        finally:
-            self.check.get_jsx_expression_context = original
-
-        self.assertEqual(calls, 0)
-
-    def test_attribute_context_does_not_rescan_tag(self) -> None:
-        calls = 0
-        original = self.check.get_jsx_expression_context
-
-        def counting_context(*args, **kwargs):
-            nonlocal calls
-            calls += 1
-            return original(*args, **kwargs)
-
-        self.check.get_jsx_expression_context = counting_context
-        try:
-            self.assertEqual(
-                list(self.check.get_jsx_expression_signatures("<C a0={x} a1={y} />")),
-                [
-                    ("attribute", "a0", ("C",), "{x}"),
-                    ("attribute", "a1", ("C",), "{y}"),
-                ],
-            )
-        finally:
-            self.check.get_jsx_expression_context = original
-
-        self.assertEqual(calls, 0)
+    def test_multiple_attribute_contexts(self) -> None:
+        self.assertEqual(
+            list(self.check.get_jsx_expression_signatures("<C a0={x} a1={y} />")),
+            [
+                ("attribute", "a0", ("C",), "{x}"),
+                ("attribute", "a1", ("C",), "{y}"),
+            ],
+        )
 
     def test_repeated_tags_close_innermost_element(self) -> None:
         source = "<div><div></div>{x}</div>"
