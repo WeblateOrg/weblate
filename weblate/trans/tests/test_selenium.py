@@ -1089,45 +1089,32 @@ class SeleniumTests(
             element.click()
             return True
 
-        try:
-            WebDriverWait(
-                self.driver,
-                timeout=10,
-                ignored_exceptions=(
-                    ElementClickInterceptedException,
-                    ElementNotInteractableException,
-                ),
-            ).until(click_when_ready)
-        except TimeoutException as error:
-            try:
-                state = self.driver.execute_script(
-                    """
-                    const target = arguments[0];
-                    const style = getComputedStyle(target);
-                    return {
-                        activeTabs: Array.from(
-                            document.querySelectorAll('.tab-pane.active'),
-                            pane => pane.id
-                        ),
-                        target: {
-                            id: target.id,
-                            pane: target.closest('.tab-pane')?.id,
-                            rect: target.getBoundingClientRect().toJSON(),
-                            display: style.display,
-                            visibility: style.visibility,
-                            disabled: target.matches(':disabled')
-                        },
-                        scroll: {x: window.scrollX, y: window.scrollY},
-                        viewport: {width: innerWidth, height: innerHeight}
-                    };
-                    """,
-                    element,
-                )
-            except WebDriverException as diagnostic_error:
-                error.add_note(f"Could not inspect click target: {diagnostic_error}")
-            else:
-                error.add_note(f"Click state: {state}")
-            raise
+        WebDriverWait(
+            self.driver,
+            timeout=10,
+            ignored_exceptions=(
+                ElementClickInterceptedException,
+                ElementNotInteractableException,
+            ),
+        ).until(click_when_ready)
+
+    def select_tab(self, htmlid: str) -> None:
+        """Select a tab and wait for its pane, retrying clicks without an effect."""
+
+        def tab_selected(driver: WebDriver) -> bool:
+            tab = driver.find_element(By.ID, htmlid)
+            if tab.get_attribute("aria-selected") != "true":
+                self.click(tab)
+            return (
+                tab.get_attribute("aria-selected") == "true"
+                and driver.find_element(
+                    By.CSS_SELECTOR, tab.get_attribute("data-bs-target")
+                ).is_displayed()
+            )
+
+        WebDriverWait(self.driver, timeout=10).until(
+            tab_selected, message=f"Tab {htmlid} did not activate"
+        )
 
     def select_component_license(self, license_id: str) -> None:
         inherit_license = self.driver.find_element(By.ID, "id_inherit_license")
@@ -6299,7 +6286,7 @@ class SeleniumTests(
         user.profile.refresh_from_db()
         self.assertEqual(user.profile.website, "https://example.org/profile")
 
-        self.click(htmlid="profile-tab-preferences")
+        self.select_tab("profile-tab-preferences")
         self.click(htmlid="id_wide_tables")
         with self.wait_for_page_load():
             self.click(
@@ -6313,7 +6300,7 @@ class SeleniumTests(
         user.refresh_from_db()
         self.assertEqual(user.full_name, "")
 
-        self.click(htmlid="profile-tab-account")
+        self.select_tab("profile-tab-account")
         self.click(
             self.driver.find_element(By.CSS_SELECTOR, '#account button[type="submit"]')
         )
