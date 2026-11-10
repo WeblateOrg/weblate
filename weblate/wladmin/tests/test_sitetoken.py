@@ -7,6 +7,7 @@ from __future__ import annotations
 import re
 import time
 from datetime import timedelta
+from typing import Any
 from urllib.parse import parse_qs, urlparse
 
 from django.test import override_settings
@@ -663,7 +664,7 @@ class SiteWideTokenTest(FixtureTestCase):
         token = self.create_token()
         token_user = self.get_token_user(token)
 
-        payloads = (
+        payloads: tuple[tuple[str, str, dict[str, Any]], ...] = (
             ("GET", reverse("manage-api-tokens"), {}),
             (
                 "GET",
