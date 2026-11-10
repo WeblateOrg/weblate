@@ -77,7 +77,7 @@ if TYPE_CHECKING:
 
     from django import forms
     from django.core.paginator import Page
-    from django.db.models import QuerySet
+    from django.db.models import Model, QuerySet
     from django.template.context import Context
     from django.utils.safestring import SafeString
     from django_stubs_ext import StrOrPromise
@@ -805,7 +805,11 @@ def can_dismiss_alert(alert: Alert, user: User) -> bool:
 
 
 @register.filter
-def format_commit_author(commit, *, viewer: User | AnonymousUser | None = None) -> str:
+def format_commit_author(
+    commit, resource: Model, *, viewer: User | AnonymousUser | None = None
+) -> str:
+    if not can_view_contributor(viewer, resource):
+        return commit["author_name"]
     users = User.objects.filter(
         social_auth__verifiedemail__email=commit["author_email"]
     )
