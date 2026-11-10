@@ -70,6 +70,7 @@ Weblate 2026.11.2
 * Limited repository add-on installation to repository-owning components and showed inherited add-ons on linked components.
 
 * Preserved concurrent approvals when saving through the API, accepting suggestions, merging translations, or reverting changes.
+* Preserved current translation text and approvals when dismissing automatically translated status.
 * Rechecked :ref:`billing <billing>` status when creating components through the API or web wizard.
 * Prevented removal of translations from locked components, including project and category language removal.
 * Fixed the Matplotlib font rendering check to run without accessing the :ref:`cache <production-cache>`.
