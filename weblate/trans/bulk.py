@@ -139,6 +139,8 @@ class BulkReplacement:
 class BulkUnitEdit:
     unit: Unit
     target: list[str] | None = None
+    # Target before autofixes, validated and stored like an editor submission
+    submitted_target: list[str] | None = None
     state: int | None = None
     source_flags: str | None = None
     translation_flags: str | None = None
@@ -288,6 +290,7 @@ def plan_bulk_unit(
             edit.too_long = True
             target = old_target
             state = unit.state
+        submitted_target = target
         if target != old_target:
             if not unit.translation.is_template:
                 target, _fixups = fix_target(target, unit)
@@ -299,7 +302,9 @@ def plan_bulk_unit(
             elif state == STATE_EMPTY:
                 state = STATE_TRANSLATED
         if target != old_target or state != unit.state:
-            edit.target = target if target != old_target else None
+            if target != old_target:
+                edit.target = target
+                edit.submitted_target = submitted_target
             edit.state = state
 
     if trusted or (
@@ -524,8 +529,8 @@ def bulk_perform(
                             try:
                                 saved = unit.translate(
                                     user,
-                                    edit.target
-                                    if edit.target is not None
+                                    edit.submitted_target
+                                    if edit.submitted_target is not None
                                     else unit.get_target_plurals(),
                                     StringState(edit.state),
                                     author=user,

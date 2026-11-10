@@ -2178,17 +2178,35 @@ class Translation(
         yield unit.flags.format()
         yield from iter_nested_strings(getattr(unit, "tbx_terms", None))
 
-    def validate_upload_unit_text_length(self, unit: TranslationUnit) -> None:
+    def get_upload_unit_too_long_texts(self, unit: TranslationUnit) -> set[str]:
         try:
-            too_long = any(
-                len(text) > MAX_NEW_TEXT_LENGTH
+            return {
+                text
                 for text in self.get_upload_unit_texts(unit)
-            )
+                if len(text) > MAX_NEW_TEXT_LENGTH
+            }
         except ValueError as error:
             # Lazily parsed metadata, such as flags, can be invalid
             raise FileParseError(str(error)) from error
-        if too_long:
+
+    def validate_upload_unit_text_length(self, unit: TranslationUnit) -> None:
+        if self.get_upload_unit_too_long_texts(unit):
             raise self.get_upload_text_length_error(unit)
+
+    @staticmethod
+    def get_stored_unit_texts(unit: Unit) -> set[str]:
+        """Return text stored for a unit, which an upload can keep unchanged."""
+        return {
+            *split_plural(unit.source),
+            *split_plural(unit.target),
+            unit.context,
+            unit.note,
+            unit.location,
+            unit.explanation,
+            unit.source_unit.explanation if unit.source_unit else "",
+            unit.previous_source,
+            unit.flags,
+        }
 
     def validate_upload_text_length(self, store: TranslationFormat) -> None:
         """
@@ -2196,10 +2214,29 @@ class Translation(
 
         This covers all text stored and served for a unit, as otherwise the
         limit could be avoided by placing the text in a different field.
+        Text which the matching unit already stores is accepted, it can come
+        from the repository, which is intentionally not limited.
         Merging uploads validate each stored text when storing it instead.
         """
+        too_long: list[tuple[TranslationUnit, set[str], int | None]] = []
         for unit in store.content_units:
-            self.validate_upload_unit_text_length(unit)
+            if texts := self.get_upload_unit_too_long_texts(unit):
+                try:
+                    id_hash = unit.id_hash
+                except ValueError:
+                    id_hash = None
+                too_long.append((unit, texts, id_hash))
+        if not too_long:
+            return
+        stored = {
+            stored_unit.id_hash: self.get_stored_unit_texts(stored_unit)
+            for stored_unit in self.unit_set.filter(
+                id_hash__in={id_hash for *_, id_hash in too_long if id_hash is not None}
+            ).select_related("source_unit")
+        }
+        for unit, texts, id_hash in too_long:
+            if id_hash is None or not texts <= stored.get(id_hash, set()):
+                raise self.get_upload_text_length_error(unit)
 
     def validate_upload_plural_store(self, store: TranslationFormat) -> None:
         try:

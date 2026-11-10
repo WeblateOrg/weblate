@@ -785,6 +785,30 @@ class UploadStringLengthMetadataTest(ImportBaseTest):
         result = self.upload(content, "translate")
         self.assertEqual(result[2], 1)
 
+    def test_replace_keeps_stored_text(self) -> None:
+        """Text stored from the repository can be uploaded back unchanged."""
+        oversized = "B" * (MAX_NEW_TEXT_LENGTH + 1)
+        translation = self.get_translation()
+        filename = Path(cast("str", translation.get_filename()))
+        filename.write_text(f'{filename.read_text()}\nmsgid "{oversized}"\nmsgstr ""\n')
+        self.component.create_translations_immediate(force=True)
+        self.assertTrue(translation.unit_set.filter(source=oversized).exists())
+        content = filename.read_text().replace(
+            'msgid "Thank you for using Weblate."\nmsgstr ""',
+            'msgid "Thank you for using Weblate."\nmsgstr "Děkujeme."',
+        )
+
+        result = self.upload(content, "replace")
+
+        self.assertEqual(result[2], translation.unit_set.count())
+        self.assertEqual(
+            self.get_unit("Thank you for using Weblate.").target, "Děkujeme."
+        )
+
+        # Changed text is still validated
+        with self.assertRaisesMessage(FileParseError, "string that is too long"):
+            self.upload(content.replace(oversized, f"{oversized}C"), "replace")
+
     def test_source_upload(self) -> None:
         translation = self.component.source_translation
         content = f'msgid "{"B" * (MAX_NEW_TEXT_LENGTH + 1)}"\nmsgstr ""\n'

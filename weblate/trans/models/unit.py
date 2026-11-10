@@ -2381,6 +2381,7 @@ class Unit(models.Model, LoggerMixin):
     def can_propagate_text(
         unit: Unit,
         target_plurals: list[str],
+        submitted_target: list[str] | None,
         user: User | None,
         request: AuthenticatedHttpRequest | None,
         warnings: list[str],
@@ -2389,9 +2390,14 @@ class Unit(models.Model, LoggerMixin):
         Check that propagated text fits the limit of the target string.
 
         Components can have different limits, for example by the max-length flag.
+        The submitted text before autofixes is accepted as well, matching the
+        validation of a direct edit, where autofixes can extend the text.
         """
-        if not is_translation_text_change_too_long(
-            unit, target_plurals, unit.get_target_plurals()
+        current = unit.get_target_plurals()
+        if not is_translation_text_change_too_long(unit, target_plurals, current):
+            return True
+        if submitted_target is not None and not is_translation_text_change_too_long(
+            unit, submitted_target, current
         ):
             return True
         component = unit.translation.component
@@ -2436,8 +2442,13 @@ class Unit(models.Model, LoggerMixin):
         request=None,
         *,
         exclude_ids: Collection[int] = (),
+        submitted_target: list[str] | None = None,
     ) -> bool:
-        """Propagate current translation to all others."""
+        """
+        Propagate current translation to all others.
+
+        The submitted_target is the translation before autofixes, if available.
+        """
         warnings: list[str] = []
 
         with start_span(op="unit.propagate", name=f"{self.pk}"):
@@ -2478,7 +2489,7 @@ class Unit(models.Model, LoggerMixin):
                 if unit.target == self.target and unit.state == state:
                     continue
                 if not self.can_propagate_text(
-                    unit, target_plurals, user, request, warnings
+                    unit, target_plurals, submitted_target, user, request, warnings
                 ):
                     continue
 
@@ -2549,6 +2560,7 @@ class Unit(models.Model, LoggerMixin):
         request=None,
         change_details: dict[str, Any] | None = None,
         propagation_exclude_ids: Collection[int] = (),
+        submitted_target: list[str] | None = None,
     ) -> bool:
         """
         Store unit to backend.
@@ -2572,6 +2584,7 @@ class Unit(models.Model, LoggerMixin):
                 author=author,
                 request=request,
                 exclude_ids=propagation_exclude_ids,
+                submitted_target=submitted_target,
             )
 
         # Return if there was no change
@@ -3318,6 +3331,9 @@ class Unit(models.Model, LoggerMixin):
                 self, new_target_list, split_plural(self.old_unit["target"])
             )
 
+        # Kept for propagation, which validates the same text as above
+        submitted_target = list(new_target_list)
+
         # Apply autofixes
         if not self.translation.is_template:
             new_target_list, self.fixups = fix_target(new_target_list, self)
@@ -3363,6 +3379,7 @@ class Unit(models.Model, LoggerMixin):
             author=author,
             request=request,
             change_details=change_details,
+            submitted_target=submitted_target,
         )
 
         # Enforced checks can revert the state to needs editing (fuzzy)

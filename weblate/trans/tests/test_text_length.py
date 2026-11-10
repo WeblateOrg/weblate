@@ -207,6 +207,27 @@ class TranslateTextLengthTest(ViewTestCase):
         self.assertEqual(short.target, "zz\n")
         self.assertEqual(long.target, f"{replacement}\n")
 
+    def test_bulk_replace_allows_autofix_expansion(self) -> None:
+        """Bulk edit accepts what the editor accepts, autofixes can extend it."""
+        unit = self.get_unit(SOURCE)
+        # Stored without the trailing newline of the source, as from a repository
+        Unit.objects.filter(pk=unit.pk).update(target="z", state=STATE_TRANSLATED)
+        replacement = "B" * get_translation_text_max_length(unit)
+        too_long: set[int] = set()
+        preview: list[BulkUnitEdit] = []
+
+        count = self.bulk_replace([unit], replacement, too_long, preview=preview)
+        self.assertEqual(count, 1)
+        self.assertEqual(preview[0].target, [f"{replacement}\n"])
+
+        updated = self.bulk_replace([unit], replacement, too_long)
+
+        self.assertEqual(updated, 1)
+        self.assertEqual(too_long, set())
+        unit.refresh_from_db()
+        # The trailing newline is added by an autofix from the source string
+        self.assertEqual(unit.target, f"{replacement}\n")
+
     def test_bulk_replace_preview_reports_oversized_result(self) -> None:
         short, long, replacement = self.prepare_bulk_replace()
         too_long: set[int] = set()
@@ -263,6 +284,24 @@ class TranslateTextLengthTest(ViewTestCase):
         self.assertEqual(other.target, "")
         unit.refresh_from_db()
         self.assertEqual(unit.target, target)
+
+    def test_propagation_allows_autofix_expansion(self) -> None:
+        """Peers with the same limit accept text extended by autofixes."""
+        linked = self.create_link_existing()
+        unit = self.get_unit(SOURCE)
+        other = Unit.objects.get(
+            translation__component=linked,
+            translation__language_code="cs",
+            source=SOURCE,
+        )
+        limit = get_translation_text_max_length(unit)
+        self.assertEqual(get_translation_text_max_length(other), limit)
+
+        unit.translate(self.user, "B" * limit, STATE_TRANSLATED)
+
+        other.refresh_from_db()
+        # The trailing newline is added by an autofix from the source string
+        self.assertEqual(other.target, "B" * limit + "\n")
 
     def test_propagation_reports_stricter_component(self) -> None:
         linked = self.create_link_existing()
