@@ -101,8 +101,10 @@ from weblate.trans.file_format_params import (
     XMLFinalNewline,
     get_encoding_param,
 )
+from weblate.trans.models.translation import read_stored_content
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.utils import TempDirMixin, get_test_file
+from weblate.trans.util import get_string
 from weblate.utils.files import REPO_TEMP_DIRNAME
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -1468,6 +1470,15 @@ class BaseFormatTest(FormatTestCase, ABC):
 
     def test_edit(self) -> None:
         self._test_save(self.EDIT_TARGET)
+
+    def test_edit_stored_content(self) -> None:
+        storage = self.parse_file(self.FILE)
+        unit = storage.all_units[self.EDIT_OFFSET]
+        original = read_stored_content(unit)
+        unit.set_target(self.EDIT_TARGET)
+        unit.set_state(STATE_TRANSLATED)
+        self.assertEqual(unit.target, get_string(self.EDIT_TARGET))
+        self.assertNotEqual(read_stored_content(unit), original)
 
     def assert_same(self, newdata: bytes, testdata: bytes) -> None:
         """
@@ -3322,6 +3333,44 @@ class DTDFormatTest(BaseFormatTest):
     MONOLINGUAL = True
     SUPPORTS_NOTES = False
 
+    def test_invalid_target_preserves_file(self) -> None:
+        filename = Path(self.tempdir) / "test.dtd"
+        original = Path(self.FILE).read_bytes()
+        for target in ("&#;", "&#xZZ;", "&#0;", "&#xD800;", "&1;", "&;"):
+            with self.subTest(target=target):
+                filename.write_bytes(original)
+                storage = self.parse_file(str(filename))
+                storage.find_unit("hello", "")[0].set_target(target)
+                with (
+                    self.assertWarnsRegex(UserWarning, "DTD parse error"),
+                    self.assertRaisesRegex(ValueError, "does not validate"),
+                ):
+                    storage.save()
+                self.assertEqual(filename.read_bytes(), original)
+
+    def test_invalid_repository_dtd_preserves_file(self) -> None:
+        filename = Path(self.tempdir) / "test.dtd"
+        original = b'<!ENTITY hello "Hello &#; world">\n<!ENTITY thanks "">\n'
+        filename.write_bytes(original)
+        storage = self.parse_file(str(filename))
+        storage.find_unit("thanks", "")[0].set_target("Thanks")
+        with (
+            self.assertWarnsRegex(UserWarning, "DTD parse error"),
+            self.assertRaisesRegex(ValueError, "does not validate"),
+        ):
+            storage.save()
+        self.assertEqual(filename.read_bytes(), original)
+
+    def test_valid_entity_references_roundtrip(self) -> None:
+        filename = Path(self.tempdir) / "test.dtd"
+        shutil.copy(self.FILE, filename)
+        storage = self.parse_file(str(filename))
+        target = 'Hello &brandShortName; & 50% "world"'
+        storage.find_unit("hello", "")[0].set_target(target)
+        storage.save()
+        reloaded = self.parse_file(str(filename))
+        self.assertEqual(reloaded.find_unit("hello", "")[0].target, target)
+
 
 class CSVFormatTest(BaseFormatTest):
     format_class = CSVFormat
@@ -4503,3 +4552,66 @@ class NextcloudJSONFormatTestCase(JSONFormatTest):
             json.loads(testfile.read_bytes())["translations"]["Source string"],
             self.NEW_UNIT_TARGET,
         )
+
+
+class KeyValuePersistenceTest(SimpleTestCase):
+    def test_target_readback_and_roundtrip(self) -> None:
+        for test_class in (
+            PhpFormatTest,
+            LaravelPhpFormatTest,
+            XWikiPropertiesFormatTest,
+            XWikiPagePropertiesFormatTest,
+            XWikiFullPageFormatTest,
+        ):
+            for target in ("Quote ' and é {0} \\path\nNext line", ""):
+                with (
+                    self.subTest(
+                        format=test_class.format_class.format_id, target=target
+                    ),
+                    tempfile.TemporaryDirectory() as directory,
+                ):
+                    test = test_class("test_edit")
+                    filename = Path(directory, Path(test.FILE).name)
+                    filename.write_bytes(Path(test.FILE).read_bytes())
+                    storage = test.parse_file(str(filename), test.FILE)
+                    unit = storage.all_units[test.EDIT_OFFSET]
+                    original = read_stored_content(unit)
+                    unit.set_target(unit.target)
+                    self.assertEqual(read_stored_content(unit), original)
+                    unit.set_target(target)
+                    self.assertEqual(unit.target, target)
+                    self.assertNotEqual(read_stored_content(unit), original)
+                    storage.save()
+                    reloaded = test.parse_file(str(filename), test.FILE)
+                    reloaded_unit = reloaded.all_units[test.EDIT_OFFSET]
+                    if not target and test.format_class is XWikiFullPageFormat:
+                        # Full pages fall back to the source content.
+                        self.assertEqual(reloaded_unit.target, original[0])
+                    elif not target and issubclass(
+                        test.format_class, XWikiPropertiesFormat
+                    ):
+                        # XWiki represents untranslated values with commented
+                        # source placeholders, which must remain marked missing.
+                        self.assertTrue(reloaded_unit.unit.missing)
+                        self.assertFalse(reloaded_unit.unit.target)
+                    else:
+                        self.assertEqual(reloaded_unit.target, target)
+
+    def test_laravel_plural_roundtrip(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            filename = Path(directory, "cs.php")
+            filename.write_bytes(Path(TEST_LARAVEL).read_bytes())
+            template = LaravelPhpFormat(TEST_LARAVEL, is_template=True)
+            storage = LaravelPhpFormat(filename, template_store=template)
+            unit, add = storage.find_unit("apples", "")
+            self.assertFalse(add)
+            original = read_stored_content(unit)
+            target = ["One translated apple", "Many translated apples"]
+            unit.set_target(target)
+            self.assertEqual(unit.target, get_string(target))
+            self.assertNotEqual(read_stored_content(unit), original)
+            storage.save()
+            reloaded = LaravelPhpFormat(filename, template_store=template)
+            self.assertEqual(
+                reloaded.find_unit("apples", "")[0].target, get_string(target)
+            )

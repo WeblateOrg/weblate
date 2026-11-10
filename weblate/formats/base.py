@@ -461,6 +461,8 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     strict_format_plurals: bool = False
     plural_preference: tuple[int, ...] | None = None
     needs_existing_units: ClassVar[bool] = False
+    # False when targets are reconstructed from the database rather than disk.
+    can_compare_stored_content: bool = True
     store: S
 
     @classmethod
@@ -1139,6 +1141,8 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
         self,
         context: str,
         pending_contexts: Iterable[str] | None = None,
+        *,
+        unit: U | None = None,
     ) -> None:
         self.validate_context(context)
 

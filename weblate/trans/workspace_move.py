@@ -16,6 +16,7 @@ if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import User
+    from weblate.billing.models import Billing
     from weblate.trans.models import Project
     from weblate.workspaces.models import Workspace
 
@@ -46,7 +47,34 @@ def can_offer_project_move(user: User, project: Project) -> bool:
     return get_project_move_target_workspaces(user, project).exists()
 
 
-def get_project_move_billing_error(workspace: Workspace | None) -> StrOrPromise | None:
+def get_project_move_plan_error(
+    project: Project,
+    billing: Billing | None,
+    *,
+    access_control: int | None = None,
+) -> str | None:
+    """Check the final project contents against a public-only destination plan."""
+    if billing is None or billing.plan.change_access_control:
+        return None
+    if access_control is None:
+        access_control = project.access_control
+    if (
+        access_control != project.ACCESS_PUBLIC
+        or project.component_set.filter(restricted=True).exists()
+    ):
+        return gettext(
+            "The target workspace's billing plan only allows public projects without restricted components."
+        )
+    return None
+
+
+def get_project_move_billing_error(
+    user: User,
+    project: Project,
+    workspace: Workspace | None,
+    *,
+    access_control: int | None = None,
+) -> StrOrPromise | None:
     """Return billing validation error for a move target."""
     if workspace is None or "weblate.billing" not in settings.INSTALLED_APPS:
         return None
@@ -64,6 +92,10 @@ def get_project_move_billing_error(workspace: Workspace | None) -> StrOrPromise 
     for candidate in billings:
         limit = candidate.plan.display_limit_projects
         if limit == 0 or candidate.count_projects < limit:
+            if not user.is_superuser:
+                return get_project_move_plan_error(
+                    project, candidate, access_control=access_control
+                )
             return None
     return gettext("No valid billing found or limit exceeded.")
 
@@ -116,4 +148,4 @@ def get_project_workspace_move_error(
         user, project, workspace, reject_unchanged=reject_unchanged
     ):
         return error
-    return get_project_move_billing_error(workspace)
+    return get_project_move_billing_error(user, project, workspace)

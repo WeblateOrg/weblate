@@ -28,7 +28,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.db import DatabaseError, connection, transaction
-from django.test import SimpleTestCase, override_settings
+from django.test import Client, SimpleTestCase, override_settings
 from django.test.utils import CaptureQueriesContext, modify_settings
 from django.urls import reverse
 from django.utils import timezone
@@ -736,6 +736,107 @@ class BackupsTest(ReusableViewTestCase):
             Project.objects.filter(slug="rejected-billed-restore").exists()
         )
         self.assertEqual(Project.objects.filter(workspace=billing.workspace).count(), 1)
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_restore_public_plan_normalizes_restricted_components(self) -> None:
+        Project.objects.filter(pk=self.project.pk).update(
+            access_control=Project.ACCESS_PRIVATE,
+            use_shared_tm=False,
+            contribute_shared_tm=False,
+        )
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        self.project.refresh_from_db()
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        self.assertIn(self.component.slug, restore.get_restricted_components())
+        cases = (
+            ("public-user", False, False, True),
+            ("public-admin", False, True, True),
+            ("private-plan", True, False, True),
+            ("unbilled-workspace", None, False, True),
+            ("standalone", None, False, False),
+        )
+        for slug, allows_private, superuser, in_workspace in cases:
+            with self.subTest(slug=slug):
+                billing = (
+                    create_test_billing(self.user)
+                    if allows_private is not None
+                    else None
+                )
+                if billing is not None:
+                    assert allows_private is not None
+                    billing.plan.change_access_control = allows_private
+                    billing.plan.name = slug
+                    billing.plan.slug = slug
+                    billing.plan.save(
+                        update_fields=["change_access_control", "name", "slug"]
+                    )
+                workspace = (
+                    billing.workspace
+                    if billing is not None
+                    else Workspace.objects.create(name=slug)
+                    if in_workspace
+                    else None
+                )
+                self.user.is_superuser = superuser
+                project = restore.restore(
+                    project_name=slug,
+                    project_slug=slug,
+                    user=self.user,
+                    billing=billing,
+                    workspace=workspace,
+                )
+                component = project.component_set.get(slug=self.component.slug)
+                made_public = allows_private is False
+                self.assertEqual(component.restricted, not made_public)
+                self.assertEqual(
+                    project.access_control,
+                    Project.ACCESS_PUBLIC if made_public else Project.ACCESS_PRIVATE,
+                )
+                public_warnings = [
+                    warning
+                    for warning in restore.get_restore_warnings()
+                    if "restored as public" in warning
+                ]
+                if made_public:
+                    self.assertEqual(len(public_warnings), 1)
+                    self.assertIn(self.component.slug, public_warnings[0])
+                    self.assertEqual(
+                        Client().get(component.get_absolute_url()).status_code, 200
+                    )
+                else:
+                    self.assertEqual(public_warnings, [])
+                # Reusing the restore must not mutate input flags or retain old warnings.
+                self.assertIn(self.component.slug, restore.get_restricted_components())
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_import_preview_warns_before_exposing_restricted_components(self) -> None:
+        Project.objects.filter(pk=self.project.pk).update(
+            use_shared_tm=False, contribute_shared_tm=False
+        )
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        self.project.refresh_from_db()
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        billing = create_test_billing(self.user)
+        billing.plan.change_access_control = False
+        billing.plan.save(update_fields=["change_access_control"])
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        with open(backup.filename, "rb") as handle:
+            response = self.client.post(
+                reverse("create-project-import"),
+                {"zipfile": handle, "workspace": billing.workspace_id},
+                follow=True,
+            )
+        self.assertContains(response, "Public access on import")
+        self.assertContains(response, "publicly accessible after import")
+        self.assertContains(response, f"<li>{self.component.slug}</li>", html=True)
+        self.assertEqual(Project.objects.filter(workspace=billing.workspace).count(), 0)
+        # The notice remains accurate if a different workspace is selected below it.
+        self.assertContains(response, "If the selected workspace")
 
     def test_download_uses_configured_static_storage(self) -> None:
         storage = MagicMock()

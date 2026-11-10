@@ -21,7 +21,7 @@ from weblate.logger import LOGGER
 from weblate.utils.celery import store_task_metadata
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLock
-from weblate.utils.requests import fetch_url
+from weblate.utils.requests import TESSERACT_RESPONSE_SIZE, fetch_url
 from weblate.utils.tracing import start_span
 
 if TYPE_CHECKING:
@@ -172,6 +172,7 @@ def download_tesseract_data(url: str, full_name: str) -> None:
                         url,
                         follow_redirects=True,
                         timeout=TESSERACT_DOWNLOAD_TIMEOUT,
+                        max_response_size=TESSERACT_RESPONSE_SIZE,
                     )
             except httpx2.HTTPError as error:
                 if (

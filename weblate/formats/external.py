@@ -11,14 +11,19 @@ from io import BytesIO, StringIO
 from typing import TYPE_CHECKING
 from zipfile import BadZipFile
 
-from django.utils.translation import gettext_lazy
+from django.conf import settings
+from django.utils.translation import gettext, gettext_lazy
+from translate.storage.base import ParseError
 from translate.storage.csvl10n import csv
 
 from weblate.formats.helpers import CONTROLCHARS_TRANS, NamedBytesIO
-from weblate.formats.ttkit import CSVFormat
+from weblate.formats.limits import MAX_TRANSLATION_UNITS, TranslationLimitError
+from weblate.formats.ttkit import CSVFormat, WeblateCSVFile
+from weblate.formats.xlsx_limits import prepare_xlsx_csv_row, validate_xlsx_archive
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+    from typing import BinaryIO
 
     from weblate.lang.models import Language
     from weblate.trans.file_format_params import FileFormatParams
@@ -95,7 +100,7 @@ class XlsxFormat(CSVFormat):
         return output.getvalue()
 
     # pylint: disable-next=arguments-differ
-    def parse_store(self, storefile):
+    def parse_store(self, storefile: str | BinaryIO) -> WeblateCSVFile:
         # ruff: ignore[import-outside-top-level]
         from openpyxl import load_workbook
 
@@ -103,9 +108,11 @@ class XlsxFormat(CSVFormat):
         # catch at least the BadZipFile exception if an unsupported
         # file has been given
         try:
+            max_size = settings.TRANSLATION_UPLOAD_MAX_SIZE
+            validate_xlsx_archive(storefile, max_size)
             workbook = load_workbook(filename=storefile, read_only=True)
-        except BadZipFile:
-            return None, None
+        except BadZipFile as error:
+            raise ParseError(gettext("Could not open the workbook archive.")) from error
 
         try:
             output = StringIO()
@@ -121,12 +128,26 @@ class XlsxFormat(CSVFormat):
 
             # Ignore formatting-only columns when determining the field count.
             fields = [value for value in next(worksheet.values) if value]
-            for values in worksheet.iter_rows(max_col=len(fields), values_only=True):
+            converted_size = 0
+            for row, values in enumerate(
+                worksheet.iter_rows(max_col=len(fields), values_only=True)
+            ):
+                if row > MAX_TRANSLATION_UNITS:
+                    raise TranslationLimitError(
+                        gettext(
+                            "Workbook exceeds the maximum allowed count of %d worksheet rows after the header."
+                        )
+                        % MAX_TRANSLATION_UNITS
+                    )
                 values = values[: len(fields)]
                 # Skip formatting-only rows.
                 if not any(values):
                     continue
-                writer.writerow(values)
+                csv_row, row_size = prepare_xlsx_csv_row(
+                    values, max_size - converted_size
+                )
+                writer.writerow(csv_row)
+                converted_size += row_size
         finally:
             workbook.close()
 

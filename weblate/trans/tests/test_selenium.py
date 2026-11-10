@@ -121,7 +121,7 @@ from weblate.wladmin.models import BackupService, ConfigurationError, SupportSta
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from collections.abc import Generator
+    from collections.abc import Callable, Generator
 
     from selenium.webdriver.remote.webdriver import WebDriver
     from selenium.webdriver.remote.webelement import WebElement
@@ -4365,7 +4365,7 @@ class SeleniumTests(
         self.assertNotIn("Error in parameter component", body)
         self.assertNotIn("Could not process form!", body)
 
-    def test_profile_team_search(self) -> None:
+    def open_profile_team_search(self) -> tuple[list[Group], WebElement, WebElement]:
         user = self.do_login(superuser=True)
         groups = [
             Group.objects.create(name=f"Remote team {index:02}") for index in range(30)
@@ -4381,30 +4381,125 @@ class SeleniumTests(
             self.driver.find_element(By.CSS_SELECTOR, "#div_id_add_group .ts-control")
         )
         control = self.driver.find_element(By.ID, "id_add_group-ts-control")
-        self.driver.execute_script("""
+        self.driver.execute_script(
+            "document.getElementById('id_add_group').tomselect.focus();"
+        )
+        self.wait_for_team_search(
+            lambda driver: driver.execute_script(
+                "const ts = document.getElementById('id_add_group').tomselect;"
+                "return ts.wrapper.classList.contains('preloaded')"
+                " && ts.loading === 0 && Object.keys(ts.options).length > 1;"
+            )
+        )
+        return groups, select, control
+
+    def wait_for_team_search(self, condition: Callable[[WebDriver], object]) -> None:
+        try:
+            WebDriverWait(self.driver, 10).until(condition)
+        except TimeoutException as error:
+            state = self.driver.execute_script("""
+                const ts = document.getElementById("id_add_group").tomselect;
+                return {
+                    input: ts.control_input.value,
+                    lastValue: ts.lastValue,
+                    loading: ts.loading,
+                    loadedSearches: ts.loadedSearches,
+                    focused: ts.isFocused,
+                    preload: ts.settings.preload,
+                    intercepted: window.teamLookupFailed ?? null,
+                    attempts: window.teamLookupAttempts ?? null,
+                    toasts: document.getElementById("popup-toasts").innerText,
+                };
+            """)
+            error.add_note(f"Team search state: {state}")
+            raise
+
+    def test_profile_team_search_retry(self) -> None:
+        groups, _select, control = self.open_profile_team_search()
+        # Submit one complete query and keep its error visible independently of
+        # typing speed and the delay before Selenium reads the toast.
+        self.driver.execute_script(
+            """
             const originalFetch = window.fetch;
-            let failLookup = true;
+            const originalAddAlert = window.addAlert;
+            const select = document.getElementById("id_add_group");
+            const searchUrl = new URL(select.dataset.searchUrl, location.origin);
+            window.teamLookupFailed = false;
+            window.teamLookupAttempts = 0;
+            window.addAlert = (message, kind, delay) => originalAddAlert(
+                message,
+                kind,
+                message === gettext("Could not load teams. Please try again.") ? 0 : delay,
+            );
             window.fetch = (url, ...options) => {
-                if (failLookup && new URL(url, location.origin).searchParams.get("q") === "Remote team") {
-                    failLookup = false;
-                    return Promise.reject(new Error("Test lookup failure"));
+                const requestUrl = new URL(url, location.origin);
+                if (
+                    requestUrl.pathname === searchUrl.pathname &&
+                    requestUrl.searchParams.get("q") === "Remote team"
+                ) {
+                    window.teamLookupAttempts += 1;
+                    if (!window.teamLookupFailed) {
+                        window.teamLookupFailed = true;
+                        return Promise.reject(new Error("Test lookup failure"));
+                    }
                 }
                 return originalFetch(url, ...options);
             };
-        """)
-        control.send_keys("Remote team")
-        WebDriverWait(self.driver, 10).until(
-            lambda _driver: (
+            arguments[0].value = "Remote team";
+            arguments[0].dispatchEvent(new Event("input", {bubbles: true}));
+        """,
+            control,
+        )
+        self.assertEqual(control.get_attribute("value"), "Remote team")
+        self.wait_for_team_search(
+            lambda driver: driver.execute_script(
+                "const ts = document.getElementById('id_add_group').tomselect;"
+                "return window.teamLookupFailed && ts.loading === 0;"
+            )
+        )
+        self.wait_for_team_search(
+            lambda driver: (
                 "Could not load teams"
-                in self.driver.find_element(By.ID, "popup-toasts").text
+                in driver.find_element(By.ID, "popup-toasts").text
             )
         )
         # Retrying the same search after a failure must remain possible.
-        control.clear()
+        self.driver.execute_script(
+            """
+            arguments[0].value = "";
+            arguments[0].dispatchEvent(new Event("input", {bubbles: true}));
+        """,
+            control,
+        )
+        self.wait_for_team_search(
+            lambda driver: driver.execute_script(
+                "const ts = document.getElementById('id_add_group').tomselect;"
+                "return ts.lastValue === '' && ts.loading === 0;"
+            )
+        )
+        self.driver.execute_script(
+            """
+            arguments[0].value = "Remote team";
+            arguments[0].dispatchEvent(new Event("input", {bubbles: true}));
+        """,
+            control,
+        )
+        self.assertEqual(control.get_attribute("value"), "Remote team")
+        self.wait_for_team_search(
+            lambda driver: driver.execute_script(
+                "const ts = document.getElementById('id_add_group').tomselect;"
+                "return window.teamLookupAttempts === 2 && ts.loading === 0"
+                " && !!ts.options[arguments[0]];",
+                str(groups[24].pk),
+            )
+        )
+
+    def test_profile_team_search(self) -> None:
+        groups, select, control = self.open_profile_team_search()
         control.send_keys("Remote team")
         self.assertEqual(control.get_attribute("value"), "Remote team")
-        WebDriverWait(self.driver, 10).until(
-            lambda _driver: self.driver.execute_script(
+        self.wait_for_team_search(
+            lambda driver: driver.execute_script(
                 "const ts = document.getElementById('id_add_group').tomselect;"
                 "return ts.loading === 0 && !!ts.options[arguments[0]];",
                 str(groups[24].pk),
@@ -4413,8 +4508,8 @@ class SeleniumTests(
         # Keyboard navigation must be able to reach results beyond the first page.
         for _index in range(27):
             control.send_keys(Keys.ARROW_DOWN)
-        WebDriverWait(self.driver, 10).until(
-            lambda _driver: self.driver.execute_script(
+        self.wait_for_team_search(
+            lambda driver: driver.execute_script(
                 "return !!document.getElementById('id_add_group').tomselect.options[arguments[0]];",
                 str(groups[-1].pk),
             )
@@ -4423,8 +4518,8 @@ class SeleniumTests(
         control.clear()
         control.send_keys("Remote team 29")
         self.assertEqual(control.get_attribute("value"), "Remote team 29")
-        WebDriverWait(self.driver, 10).until(
-            lambda _driver: self.driver.find_element(
+        self.wait_for_team_search(
+            lambda driver: driver.find_element(
                 By.CSS_SELECTOR,
                 f'#id_add_group-ts-dropdown [data-value="{groups[-1].pk}"]',
             ).is_displayed()

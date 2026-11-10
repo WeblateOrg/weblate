@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+import re
+from functools import lru_cache
 from typing import TYPE_CHECKING
 
 import regex
@@ -12,6 +14,24 @@ if TYPE_CHECKING:
     from collections.abc import Iterator
 
 REGEX_TIMEOUT = 0.3
+type RegexMatch = re.Match[str] | regex.Match
+
+
+@lru_cache(maxsize=128)
+def _compile_builtin_regex(pattern: re.Pattern[str]) -> regex.Pattern:
+    """Translate standard-library flags to the bounded matching engine."""
+    flags = regex.VERSION0
+    for name in ("ASCII", "IGNORECASE", "MULTILINE", "DOTALL", "VERBOSE"):
+        if pattern.flags & getattr(re, name):
+            flags |= getattr(regex, name)
+    return regex.compile(pattern.pattern, flags)
+
+
+def builtin_regex_finditer(
+    pattern: re.Pattern[str], value: str
+) -> Iterator[regex.Match]:
+    """Bound a complete iteration of a built-in pattern, including failed scans."""
+    yield from _compile_builtin_regex(pattern).finditer(value, timeout=REGEX_TIMEOUT)
 
 
 def compile_regex(pattern: str) -> regex.Pattern:

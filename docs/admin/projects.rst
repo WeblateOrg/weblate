@@ -1584,6 +1584,25 @@ Currently it is used in:
     * :ref:`addon-weblate.generate.generate`
     * :ref:`addon-script`
 
+Template source is limited to 64 KiB of UTF-8 text. A render may execute at most
+10,000 loop iterations in total, including nested loops, and produce at most
+1 MiB of UTF-8 output. Expanding filters and intermediate values are also
+bounded. These limits apply both when validating settings and when rendering
+saved templates. Exceeding a limit fails the render without returning partial
+output or replacing a generated file.
+
+Templates with tags, filters, or structured lookups run in a separate helper
+process with a five-second wall-time limit, a five-second CPU limit, and a
+512 MiB address-space limit. The address-space limit is unavailable on macOS;
+CPU, wall-time, and application-level size limits still apply there. Plain
+text and simple scalar substitutions use the same source and output size
+limits without starting a helper process.
+
+The helper receives plain data rather than application objects. Its context
+is limited to 8 MiB of serialized data and 32 levels of nesting. It does not
+inherit application credentials or settings; only time-zone and number-format
+settings needed for rendering are passed explicitly.
+
 The following variables are available in the component templates:
 
 ``{{ language_code }}``

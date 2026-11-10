@@ -578,8 +578,10 @@ class TargetCheck(BaseCheck):
         """We don't check source strings here."""
         return False
 
-    def check_single(self, source: str, target: str, unit: Unit) -> bool:
-        """Check for single phrase, not dealing with plurals."""
+    def check_single(
+        self, source: str, target: str, unit: Unit
+    ) -> bool | MissingExtraDict:
+        """Check one phrase, optionally returning failure diagnostics."""
         raise NotImplementedError
 
     def format_value(self, value: str) -> StrOrPromise:

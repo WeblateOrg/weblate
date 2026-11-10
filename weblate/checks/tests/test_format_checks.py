@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from time import monotonic, process_time
 from typing import TYPE_CHECKING
+from unittest.mock import patch
 
 from django.test import SimpleTestCase
 
@@ -43,9 +44,83 @@ from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.trans.util import join_plural
 
 if TYPE_CHECKING:
+    from collections.abc import Iterator
+
     from weblate.checks.format import (
         BaseFormatCheck,
     )
+    from weblate.utils.regex import RegexMatch
+
+
+class FormatMatchingTimeoutTest(SimpleTestCase):
+    def test_check_reports_timeout(self) -> None:
+        check = RubyFormatCheck()
+        unit = make_unit(source="%s", target="%s", flags="ruby-format")
+        with patch("weblate.utils.regex.REGEX_TIMEOUT", 0):
+            result = check.check_format("%s", "%s", False, unit)
+            self.assertIsInstance(result, dict)
+            assert isinstance(result, dict)
+            self.assertEqual(result["missing"], [])
+            self.assertEqual(result["extra"], [])
+            self.assertIn("time limit", result["errors"][0])
+            self.assertTrue(check.check_target_unit(["%s"], ["%s"], unit))
+            self.assertIn(
+                "time limit", str(check.get_description(make_check(unit, check)))
+            )
+
+    def test_plural_selection_reports_timeout(self) -> None:
+        check = RubyFormatCheck()
+        unit = make_unit(source=["%s", "%d"], target=["%s", "%d"], flags="ruby-format")
+        with patch.object(check, "extract_matches", side_effect=TimeoutError):
+            failures = list(check.check_generator(["%s", "%d"], ["%s", "%d"], unit))
+        self.assertEqual(len(failures), 1)
+        self.assertTrue(failures[0])
+        self.assertIn("time limit", str(failures[0]))
+
+    def test_highlight_discards_partial_matches(self) -> None:
+        check = RubyFormatCheck()
+        unit = make_unit(flags="ruby-format")
+
+        def partial_matches() -> Iterator[RegexMatch]:
+            yield from check.regexp.finditer("%s")
+            raise TimeoutError
+
+        with patch(
+            "weblate.checks.format.builtin_regex_finditer",
+            return_value=partial_matches(),
+        ):
+            self.assertEqual(list(check.check_highlight("%s", unit)), [])
+
+    def test_timeout_does_not_hide_other_errors(self) -> None:
+        check = RubyFormatCheck()
+        with (
+            patch.object(check, "iter_matches", side_effect=ValueError("broken check")),
+            self.assertRaisesMessage(ValueError, "broken check"),
+        ):
+            check.check_format("%s", "%s", False, make_unit())
+
+    def test_nested_ruby_field_is_preserved(self) -> None:
+        self.assertEqual(
+            RubyFormatCheck().extract_matches("%{outer%{inner}"), ["{outer%{inner}"]
+        )
+
+    def test_unterminated_ruby_fields_are_bounded(self) -> None:
+        check = RubyFormatCheck()
+        for opener in ("%<", "%{"):
+            with self.subTest(opener=opener):
+                started = process_time()
+                check.check_format(opener * 20_000, "translation", False, make_unit())
+                self.assertLess(process_time() - started, 2)
+        self.assertFalse(check.check_format("%s", "%s", False, make_unit()))
+
+    def test_source_format_timeout_is_bounded(self) -> None:
+        unit = make_unit(source="%s", flags="c-format")
+        with patch("weblate.utils.regex.REGEX_TIMEOUT", 0):
+            check = MultipleUnnamedFormatsCheck()
+            self.assertTrue(check.check_source_unit(["%s"], unit))
+            self.assertIn(
+                "time limit", str(check.get_description(make_check(unit, check)))
+            )
 
 
 class PythonFormatCheckTest(CheckTestCase):

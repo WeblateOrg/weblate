@@ -36,7 +36,7 @@ from weblate.trans.hooks.repository import (
     repo_path,
 )
 from weblate.utils.errors import report_error
-from weblate.utils.requests import async_fetch_url
+from weblate.utils.requests import VCS_RESPONSE_SIZE, async_fetch_url
 from weblate.vcs.base import RepositoryInternalError, RepositoryRedirectError
 from weblate.vcs.git import GithubRepository
 from weblate.vcs.models import Installation, InstallationProvider
@@ -346,6 +346,7 @@ async def exchange_github_app_manifest_code(
         headers={"Accept": "application/vnd.github.v3+json"},
         timeout=30,
         raise_for_status=False,
+        max_response_size=VCS_RESPONSE_SIZE,
     )
     response.raise_for_status()
     return response.json()
@@ -435,6 +436,7 @@ async def get_installation_token(
         },
         timeout=30,
         raise_for_status=False,
+        max_response_size=VCS_RESPONSE_SIZE,
     )
     response.raise_for_status()
     data = response.json()
@@ -469,6 +471,7 @@ async def get_app_installation(
         },
         timeout=30,
         raise_for_status=False,
+        max_response_size=VCS_RESPONSE_SIZE,
     )
     response.raise_for_status()
     return response.json()
@@ -499,6 +502,7 @@ async def delete_app_installation(
         },
         timeout=30,
         raise_for_status=False,
+        max_response_size=VCS_RESPONSE_SIZE,
     )
     unreachable = response.status_code in GITHUB_UNINSTALL_UNREACHABLE_STATUSES
     if not unreachable:
@@ -535,7 +539,12 @@ async def get_app_repositories(
     }
     while url:
         response = await async_fetch_url(
-            "get", url, headers=headers, timeout=30, raise_for_status=False
+            "get",
+            url,
+            headers=headers,
+            timeout=30,
+            raise_for_status=False,
+            max_response_size=VCS_RESPONSE_SIZE,
         )
         response.raise_for_status()
         data = response.json()
@@ -590,6 +599,7 @@ async def get_app_repository(
         },
         timeout=30,
         raise_for_status=False,
+        max_response_size=VCS_RESPONSE_SIZE,
     )
     if response.status_code == 404:
         return None
@@ -693,6 +703,7 @@ async def exchange_github_user_code(config: GitHubAppCredentials, code: str) -> 
         headers={"Accept": "application/json"},
         timeout=30,
         raise_for_status=False,
+        max_response_size=VCS_RESPONSE_SIZE,
     )
     response.raise_for_status()
     payload = response.json()
@@ -714,6 +725,7 @@ async def get_authenticated_github_user(
         headers=_get_github_user_headers(user_token),
         timeout=30,
         raise_for_status=False,
+        max_response_size=VCS_RESPONSE_SIZE,
     )
     response.raise_for_status()
     return response.json()
@@ -736,7 +748,12 @@ async def _get_user_accessible_installation(
     headers = _get_github_user_headers(user_token)
     while url:
         response = await async_fetch_url(
-            "get", url, headers=headers, timeout=30, raise_for_status=False
+            "get",
+            url,
+            headers=headers,
+            timeout=30,
+            raise_for_status=False,
+            max_response_size=VCS_RESPONSE_SIZE,
         )
         response.raise_for_status()
         for installation in response.json().get("installations", []):
@@ -761,7 +778,12 @@ async def user_can_administer_org_installation(
     headers = _get_github_user_headers(user_token)
     while url:
         response = await async_fetch_url(
-            "get", url, headers=headers, timeout=30, raise_for_status=False
+            "get",
+            url,
+            headers=headers,
+            timeout=30,
+            raise_for_status=False,
+            max_response_size=VCS_RESPONSE_SIZE,
         )
         try:
             response.raise_for_status()

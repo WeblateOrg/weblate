@@ -10,22 +10,31 @@ Weblate 2026.11.2
 
 .. rubric:: Improvements
 
+* Updated the :doc:`security reporting policy <security/issues>` to handle low and medium severity issues publicly on GitHub and reserve private handling and security advisories for high and critical severity vulnerabilities.
 * Avoided unnecessary file edits when changing :ref:`custom source languages <workflow-source-language>` and credited required writes to the initiating user.
 * Invalidate pending :ref:`e-mail additions <user-profile>` when the account password changes.
 * Clarified e-mail addition, confirmation steps, and registration breadcrumbs in :ref:`account settings <user-profile>`.
 
 .. rubric:: Security fixes
 
+* Validated new and renamed :ref:`translation keys <edit-source>` against the file format, dialect, and encoding before queuing changes.
+* Enforced public-only billing plans on :ref:`project moves <workspace-project-creation>` and warned when :ref:`backup restores <projectbackup>` make restricted components public.
+
+* Limited :ref:`CSV files <csv>` to 100,000 data rows while parsing, including automatically detected CSV input.
+* Bounded :ref:`XLSX archive expansion and conversion <xlsx>` before loading shared strings or writing oversized CSV rows.
+
 * Prevented merge and revert actions from copying read-only state, and kept votes on read-only strings from accepting suggestions automatically. Clarified :ref:`suggestion autoaccept behavior <component-suggestion_autoaccept>` for approved translations.
 * Prevented concurrent language creation from breaking Apple XLIFF and Stringsdict plural handling and repaired existing duplicate plural definitions.
 * Added :setting:`TRANSLATION_MAX_SIZE` to limit translation file size before parsing and limited each file to 100,000 content strings before synchronization or import.
 
 * Disabled :ref:`Mercurial subrepositories <vcs-mercurial>`, removed nested repository metadata from managed Mercurial checkouts and project backups, and enforced backend URL restrictions when validating backups.
-
+* Kept malformed :ref:`DTD files <dtd>` intact during saves and reported source-edit validation failures cleanly.
+* Bounded built-in :doc:`format checks and highlighting <user/checks>` with matching timeouts and made whitespace fixups linear on long input.
 * Bounded :ref:`font check <fonts>` measurement, replacement expansion, and preview rendering.
 * Cleared invalid GitHub App push settings and prevented installation credentials from being used for another host.
 * Enforced source-language permissions for bulk source metadata and source check dismissals, and terminology permissions across glossary flag edits and uploads.
 * Limited interactive machine-translation request frequency and concurrent requests per service installation.
+* Limited decoded :ref:`HTTP response bodies <outbound-http-limits>` before buffering, with caller-specific limits for translation services, assets, OCR data, and VCS APIs.
 * Enforced team language selection when creating translations and required project authority for language workflow settings.
 * Restricted project-wide component locking to components the actor may manage.
 * Concealed invitation e-mail addresses and deleted restricted component names in public history.
@@ -36,13 +45,18 @@ Weblate 2026.11.2
 * Limited user activity searches to visible :ref:`translation history <translation-history>`.
 * Limited repository URLs in webhook deliveries to prevent excessive matching work.
 * Removed control characters from base-file edits before writing translation files.
+* Applied :setting:`VCS_RESTRICT_PRIVATE` to hosting API requests, including redirects and pagination URLs.
+* Revoked :ref:`project-scoped tokens <project-api>` during project deletion regardless of display name, prevented automatic workspace ownership grants to bots, and repaired existing token scope violations.
 * Restricted propagated check dismissals to components where the user may dismiss the check.
 * Enforced :setting:`REQUIRE_LOGIN` for Git repository exports, including anonymous clones.
 * Limited text shown in :ref:`translation history <translation-history>` lists and added a full change view for long entries.
 * Rejected unsafe fork remote names from merge-request repository credentials before running Git commands.
 * Preserved previous IP login failures after a successful sign-in to prevent rate-limit bypasses.
+* Bounded :ref:`text template <markup>` source, loops, intermediate values, output, and helper resource usage during validation and execution.
 
 .. rubric:: Bug fixes
+
+* Restored pending translation writes for :ref:`text files <txt>` and other database-backed formats, PHP, and XWiki, and made output of translations needing editing consistent with cleanup rebuilds.
 
 * Generate valid resource names for incompatible keys when :doc:`exporting Android translations <user/files>`.
 
