@@ -35,7 +35,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-11-05 22:27-0600\n"
-"PO-Revision-Date: 2026-11-10 15:37+0000\n"
+"PO-Revision-Date: 2026-11-10 21:04+0000\n"
 "Last-Translator: Lee Vincent <leevincent@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hant/>\n"
@@ -390,14 +390,14 @@ msgid "Authentication app"
 msgstr "身分驗證應用程式"
 
 msgid "Project, category, component, or translation path"
-msgstr "專案、分類、組件或翻譯路徑"
+msgstr "專案、類別、組件或翻譯路徑"
 
 msgid ""
 "Enter slash-separated slugs, for example project/category/component/cs. "
 "Project and category paths summarize inherited settings and component "
 "exceptions."
 msgstr ""
-"輸入以斜線分隔的代稱，例如 project/category/component/cs。專案與分類路徑會摘"
+"輸入以斜線分隔的代稱，例如 project/category/component/cs。專案與類別路徑會摘"
 "要顯示繼承的設定及組件例外。"
 
 msgid "Enter a valid object path."
@@ -1271,7 +1271,7 @@ msgid "Dark"
 msgstr "暗色"
 
 msgid "Please confirm your identity using a second factor before proceeding."
-msgstr "請在繼續之前使用第二種驗證來確認您的身分。"
+msgstr "請先使用第二項驗證因素確認身分，再繼續操作。"
 
 msgid "Please confirm your identity before proceeding."
 msgstr "請先確認身分再繼續。"
@@ -1310,7 +1310,7 @@ msgid "Your profile has been updated."
 msgstr "您的個人檔案已更新。"
 
 msgid "User profile"
-msgstr "使用者設定檔"
+msgstr "使用者個人檔案"
 
 msgid "Your account has been removed."
 msgstr "您的帳號已被移除。"
@@ -1523,7 +1523,7 @@ msgid ""
 msgstr "驗證失敗的嘗試次數過多。請重設密碼，以重新取得帳號的存取權。"
 
 msgid "Second factor sign in"
-msgstr "雙重要素登入"
+msgstr "以第二項驗證因素登入"
 
 msgid "Evaluation service"
 msgstr "評估服務"
@@ -1731,7 +1731,7 @@ msgid "This add-on executes a script."
 msgstr "此附加元件會執行指令稿。"
 
 msgid "Fedora Messaging"
-msgstr "Fedora 訊息"
+msgstr "Fedora Messaging"
 
 msgid "Sends notifications to a Fedora Messaging compatible AMQP exchange."
 msgstr "傳送通知到相容 Fedora Messaging 的 AMQP exchange。"
@@ -1744,15 +1744,15 @@ msgstr "訊息 ID：%(message_id)s"
 msgid ""
 "Fedora Messaging publish timed out; the broker connection or delivery "
 "confirmation did not complete: %(error)s"
-msgstr "Fedora Messaging 發佈逾時；未完成 broker 連線或傳遞確認：%(error)s"
+msgstr "Fedora Messaging 發佈逾時；與訊息代理伺服器的連線或傳遞確認未完成：%(error)s"
 
 #, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
-msgstr "Fedora Messaging broker 退回了訊息：%(error)s"
+msgstr "Fedora Messaging 訊息代理伺服器退回了訊息：%(error)s"
 
 #, python-format
 msgid "Fedora Messaging broker rejected the message: %(error)s"
-msgstr "Fedora Messaging broker 拒絕了訊息：%(error)s"
+msgstr "Fedora Messaging 訊息代理伺服器拒絕了訊息：%(error)s"
 
 #, python-format
 msgid "Fedora Messaging publish failed: %(error)s"
@@ -1776,7 +1776,7 @@ msgstr "用戶端 SSL 憑證必須是有效且採 PEM 編碼的 X.509 憑證。"
 #, python-format
 msgid ""
 "Could not verify TLS connection to the Fedora Messaging broker: %(error)s"
-msgstr "無法驗證與 Fedora Messaging broker 的 TLS 連線：%(error)s"
+msgstr "無法驗證與 Fedora Messaging 訊息代理伺服器的 TLS 連線：%(error)s"
 
 msgid "Flag new source strings as \"Needs checking\""
 msgstr "標記新來源字串為「需要檢查」"
@@ -2149,7 +2149,7 @@ msgid "Please review and confirm the missing language changes."
 msgstr "請檢查並確認缺漏語言的變動。"
 
 msgid "Regular expression to match translation files against"
-msgstr "用來比對出翻譯檔案的正規表達式"
+msgstr "用來比對翻譯檔案的正規表達式"
 
 msgid ""
 "The regular expression must define a named group for component. Also define "
@@ -2157,9 +2157,8 @@ msgid ""
 "mask is set, omit language and match the monolingual base or new base file "
 "instead."
 msgstr ""
-"正規表示式必須為 component 定義具名群組。比對翻譯檔案時，也要為 language 定義"
-"具名群組。設定檔案遮罩時，請省略 language，改為比對單語基礎檔案或新的基礎檔"
-"案。"
+"正規表達式必須為 component 定義具名群組。比對翻譯檔案時，也要為 language 定義"
+"具名群組。設定檔案遮罩時，請省略 language，改為比對單語基底檔案或新基底檔案。"
 
 msgid "File format"
 msgstr "檔案格式"
@@ -2208,9 +2207,9 @@ msgid ""
 "mask. Include a language wildcard and {{ component }}, for example locale/*/"
 "{{ component }}.po or docs/{{ component }}_*.md."
 msgstr ""
-"留白即可直接比對翻譯檔案。設定後，探索功能會比對單語言基礎檔案或新的基礎檔"
-"案，並使用此範本作為檔案遮罩。請加入語言萬用字元和 {{ component }}，例如 "
-"locale/*/{{ component }}.po 或 docs/{{ component }}_*.md。"
+"留白即可直接比對翻譯檔案。設定後，探索功能會比對單語基底檔案或新基底檔案，並"
+"使用此範本作為檔案遮罩。請加入語言萬用字元和 {{ component }}，例如 locale/*/{"
+"{ component }}.po 或 docs/{{ component }}_*.md。"
 
 msgid "Language filter"
 msgstr "語言篩選"
@@ -2450,10 +2449,10 @@ msgid "The Standard Webhooks secret is a base64 encoded string."
 msgstr "標準 Webhook 秘密是個 base64 編碼的字串。"
 
 msgid "AMQP broker URL"
-msgstr "AMQP broker URL"
+msgstr "AMQP 訊息代理伺服器網址"
 
 msgid "The AMQP broker URL to connect to."
-msgstr "要連線的 AMQP broker URL。"
+msgstr "要連線的 AMQP 訊息代理伺服器網址。"
 
 msgid "Topic prefix"
 msgstr "主題前綴"
@@ -2584,8 +2583,8 @@ msgid ""
 "Updates all PO files (as configured by \"File mask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
-"使用 msgmerge 更新所有（在「檔案遮罩」設定的）PO 檔案以跟（在「新翻譯的範本」"
-"設定的）POT 檔案同步。"
+"使用 msgmerge 更新「檔案遮罩」指定的所有 PO 檔案，使其與「新翻譯的範本」指定"
+"的 POT 檔案同步。"
 
 msgid "Update POT file (xgettext)"
 msgstr "更新 POT 檔案 (xgettext)"
@@ -2799,8 +2798,8 @@ msgid ""
 "Each user has a personal access token which they can get from their "
 "respective user profile. These tokens have the `wlu_` prefix."
 msgstr ""
-"每個使用者都有一個個人存取權杖，他們可以從各自的使用者個人資料中取得。這些權"
-"杖具有 `wlu_` 前綴。"
+"每位使用者都有個人存取權杖，可在自己的個人檔案中取得。這些權杖以 `wlu_` 開頭"
+"。"
 
 msgid ""
 "It is possible to create project tokens whose access to the API is limited "
@@ -3507,7 +3506,7 @@ msgstr "訪客"
 
 msgctxt "Access-control team name"
 msgid "Viewers"
-msgstr "查看者"
+msgstr "檢視者"
 
 msgctxt "Access-control team name"
 msgid "Users"
@@ -3743,10 +3742,10 @@ msgid ""
 msgstr "使用者將獲得所有其加入團隊所賦予的取用權。"
 
 msgid "Regular expression for e-mail address"
-msgstr "比對電子郵件的正規表達式"
+msgstr "用於比對電子郵件地址的正規表達式"
 
 msgid "Users with e-mail addresses found to match will be added to this team."
-msgstr "找到相符的電子郵件會被加入此團隊中。"
+msgstr "電子郵件地址符合規則的使用者會加入此團隊。"
 
 msgid "Team to assign"
 msgstr "要分派的團隊"
@@ -4020,7 +4019,7 @@ msgid "%(path)s: not requires exactly one condition."
 msgstr "%(path)s：not 條件只能搭配一個條件。"
 
 msgid "Automation context is too large."
-msgstr "自動化脈絡太大。"
+msgstr "自動化情境資料過大。"
 
 msgid "CEL validation or evaluation failed or exceeded its resource limit."
 msgstr "CEL 驗證或評估失敗，或超出資源限制。"
@@ -7428,10 +7427,10 @@ msgid "Statistics"
 msgstr "統計資料"
 
 msgid "Second factor sign-in"
-msgstr "雙重要素登入"
+msgstr "以第二項驗證因素登入"
 
 msgid "Please complete your sign-in using second factor credential."
-msgstr "請使用雙重要素憑證完成登入。"
+msgstr "請使用第二項驗證因素完成登入。"
 
 msgid "Other ways to verify your identity"
 msgstr "其他身分驗證方式"
@@ -7942,8 +7941,8 @@ msgid ""
 "and by filling them out, you're giving us consent to share this data "
 "wherever your user profile appears."
 msgstr ""
-"此頁面上的所有欄位皆為選填，且可隨時刪除。一旦填入這些資訊，即表示您同意我們"
-"在您的個人檔案出現時分享這些資料。"
+"此頁面的所有欄位皆為選填，填入的資料可隨時刪除。填寫後，即表示您同意我們在所"
+"有顯示您個人檔案的地方分享這些資料。"
 
 msgid "Your avatar"
 msgstr "您的頭像"
@@ -8292,10 +8291,10 @@ msgstr ""
 
 msgid ""
 "You can enable the use of a private commit e-mail and name in your profile."
-msgstr "您可以在個人資料中啟用用於提交記錄的私密電子郵件和名稱。"
+msgstr "您可在個人檔案中啟用提交用的私密電子郵件地址與私密名稱。"
 
 msgid "You can enable the use of a private commit e-mail in your profile."
-msgstr "您可以在個人資料中啟用用於提交記錄的私密電子郵件。"
+msgstr "您可在個人檔案中啟用提交用的私密電子郵件地址。"
 
 msgid ""
 "Additionally, your name can be used in version control system commits to "
@@ -8305,7 +8304,7 @@ msgstr ""
 "訊可能會被無限期地儲存在該系統中。"
 
 msgid "You can enable the use of a private commit name in your profile."
-msgstr "您可以在個人資料中啟用用於提交記錄的私密名稱。"
+msgstr "您可在個人檔案中啟用提交用的私密名稱。"
 
 msgid ""
 "You provide your contribution under the license defined by each project you "
@@ -8335,8 +8334,8 @@ msgid ""
 "Authenticator apps generate time-based one-time passwords that are used as a "
 "second factor to verify your identity when prompted during sign-in."
 msgstr ""
-"身分驗證器應用程式會產生基於時間的一次性密碼，該密碼可在登入時用作驗證您身分"
-"的第二要素。"
+"驗證器應用程式會依時間產生一次性密碼，登入時可依提示使用，作為驗證身分的第二"
+"項驗證因素。"
 
 msgid "Scan the QR code"
 msgstr "掃描 QR 碼"
@@ -9102,7 +9101,7 @@ msgid "Settings"
 msgstr "設定"
 
 msgid "Automatic assignments"
-msgstr "自動分派指定"
+msgstr "自動指派"
 
 msgid "Access control"
 msgstr "存取控制"
@@ -9125,7 +9124,7 @@ msgid ""
 msgstr "網站上的每位新使用者都會檢查此項目，不論使用的專案為何。"
 
 msgid "Add automatic assignment"
-msgstr "加入自動分派指定"
+msgstr "新增自動指派規則"
 
 msgid "Last sign in"
 msgstr "上次登入"
@@ -9162,10 +9161,10 @@ msgid "All components"
 msgstr "所有組件"
 
 msgid "Automatic assignment of users is configured for this team"
-msgstr "已為這個團隊設定自動分配使用者的功能"
+msgstr "此團隊已設定使用者自動指派規則"
 
 msgid "Automatic assignment"
-msgstr "自動分配"
+msgstr "自動指派"
 
 msgid "Requires two-factor authentication"
 msgstr "需要雙重要素身分驗證"
@@ -9678,7 +9677,7 @@ msgid "Total"
 msgstr "總計"
 
 msgid "Dismissed"
-msgstr "已略過"
+msgstr "已忽略"
 
 msgid "Translated"
 msgstr "已翻譯"
@@ -9731,7 +9730,7 @@ msgid "Share in projects"
 msgstr "分享專案"
 
 msgid "dismissed"
-msgstr "已略過"
+msgstr "已忽略"
 
 #. Translators: Component alert footer, first contain localized human readable time span, for example 5 days ago
 #, python-format
@@ -12690,7 +12689,7 @@ msgid "Project reviewers"
 msgstr "專案檢閱者"
 
 msgid "Automatic component list assignment"
-msgstr "自動組件清單指派"
+msgstr "自動將組件加入清單"
 
 msgid "Translation license"
 msgstr "翻譯授權條款"
@@ -13996,7 +13995,7 @@ msgstr "在 Weblate 新增翻譯或將翻譯提交至儲存庫後，此警示便
 msgid ""
 "Starting new translations directly in Weblate is possible, and creates files "
 "based on the file mask."
-msgstr "可以直接在 Weblate 開始新翻譯，並建立以檔案遮罩為基礎的檔案。"
+msgstr "可直接在 Weblate 建立新翻譯，系統會依檔案遮罩建立檔案。"
 
 #, python-format
 msgid ""
@@ -15412,8 +15411,8 @@ msgid ""
 "A language translation became fully translated after an individual edit. "
 "Automatic translation, uploads, and bulk edits do not emit this event."
 msgstr ""
-"個別編輯後，某個語言的翻譯已全部完成。自動翻譯、上傳及大量編輯不會觸發此事"
-"件。"
+"個別編輯後，某個語言的翻譯已全部完成。自動翻譯、上傳及批次編輯不會觸發此事件"
+"。"
 
 msgid "Translation completed"
 msgstr "完成了翻譯"
@@ -15824,7 +15823,7 @@ msgid ""
 "individual edit. Automatic translation, uploads, and bulk edits do not emit "
 "this event."
 msgstr ""
-"個別編輯後，組件中所有語言的翻譯皆已全部完成。自動翻譯、上傳及大量編輯不會觸"
+"個別編輯後，組件中所有語言的翻譯皆已全部完成。自動翻譯、上傳及批次編輯不會觸"
 "發此事件。"
 
 msgid "Component translation completed"
@@ -16148,7 +16147,7 @@ msgid "Could not parse translation files."
 msgstr "無法解析翻譯檔案。"
 
 msgid "No file mask matches."
-msgstr "找不到符合的檔案遮罩。"
+msgstr "找不到符合檔案遮罩的翻譯檔案。"
 
 msgid "Inexistent files."
 msgstr "無此檔案。"
@@ -18397,7 +18396,7 @@ msgstr "鍵值篩選器"
 msgid ""
 "Regular expression used to filter keys. This is only available for "
 "monolingual formats."
-msgstr "用於篩選鍵值的正規表達式。這僅適用於單語言格式。"
+msgstr "用於篩選索引鍵的正規表達式。僅適用於單語言格式。"
 
 msgid "This setting is inherited from the project if left empty."
 msgstr "如果此設定留空，則從專案繼承。"
@@ -18743,13 +18742,13 @@ msgid "Project regular expression"
 msgstr "專案正規表達式"
 
 msgid "Regular expression which is used to match project slug."
-msgstr "用來比對專案 slug 的正規表達式。"
+msgstr "用來比對專案代稱的正規表達式。"
 
 msgid "Component regular expression"
 msgstr "組件正規表達式"
 
 msgid "Regular expression which is used to match component slug."
-msgstr "用來比對組件 slug 的正規表達式。"
+msgstr "用來比對組件代稱的正規表達式。"
 
 msgid "Component list to assign"
 msgstr "要指派的組件清單"
@@ -19231,7 +19230,7 @@ msgstr "處理 %(count)d 個字串後，批次編輯失敗。先前批次的變�
 #, python-format
 msgid "Bulk edit completed, %d string was updated."
 msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] "大量編輯完成，%d 個字串已更新。"
+msgstr[0] "批次編輯完成，已更新 %d 個字串。"
 
 msgid "Automatic translation skipped because the target no longer exists."
 msgstr "由於目標已不存在，已略過自動翻譯。"
@@ -19424,7 +19423,7 @@ msgid "Update source strings upload is not supported with this format."
 msgstr "不支援以此格式上傳更新原始字串。"
 
 msgid "File mask does not contain * as a language placeholder!"
-msgstr "檔案遮罩不包含作語言代碼預留位置用的 * 號！"
+msgstr "檔案遮罩未包含用來代表語言的 *！"
 
 msgid ""
 "A value of 1 is not allowed for automatic acceptance as it would permit "
@@ -20386,13 +20385,13 @@ msgid "Compilation failed: {0}"
 msgstr "彙編失敗：{0}"
 
 msgid "The regular expression can not match an empty string."
-msgstr "正規表達式無法比對空字串。"
+msgstr "正規表達式不得比對到空字串。"
 
 #, python-brace-format
 msgid ""
 "Regular expression is missing named group \"{0}\", the simplest way to "
 "define it is {1}."
-msgstr "正規表達式缺少命名群組「{0}」，最簡單的方法是將之定義為 {1}。"
+msgstr "正規表達式缺少具名群組「{0}」，最簡單的定義方式為 {1}。"
 
 msgid "Uploaded ZIP file is too big."
 msgstr "上傳的 ZIP 檔案過大。"
