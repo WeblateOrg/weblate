@@ -749,7 +749,7 @@ def generate_counts(
         kwargs["project__workspace"] = workspace
     changes = changes.filter(timestamp__range=(start_date, end_date), **kwargs)
     if category is not None:
-        changes = changes.for_category(category)
+        changes = changes.filter(component_id__in=category.all_component_ids)
     if counting_mode == CountsReportsForm.COUNTING_MODE_UNIQUE:
         changes = changes.order_by("-timestamp", "-pk")
     changes = changes.prefetch_related(
