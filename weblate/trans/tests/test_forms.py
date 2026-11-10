@@ -19,6 +19,7 @@ from weblate.trans.validators import (
     MAX_TRANSLATION_ALTERNATIVES,
     MAX_TRANSLATION_TOTAL_LENGTH,
     validate_multivalue_size,
+    validate_translation_text_change,
     validate_translation_text_length,
 )
 
@@ -67,6 +68,19 @@ class TranslationSizeValidationTest(SimpleTestCase):
 
         with self.assertRaisesMessage(ValidationError, "Translation text too long!"):
             validate_multivalue_size(True, ["x" * (MAX_TRANSLATION_TOTAL_LENGTH + 1)])
+
+    def test_repeating_stored_alternative_keeps_aggregate_limit(self) -> None:
+        old_target = ["x" * 2000, *(["y"] * (MAX_TRANSLATION_ALTERNATIVES - 1))]
+        new_target = ["x" * 2000] * MAX_TRANSLATION_ALTERNATIVES
+
+        with self.assertRaisesMessage(ValidationError, "Translation text too long!"):
+            validate_translation_text_change(self.unit, new_target, old_target)
+
+    def test_reordering_stored_alternatives_is_accepted(self) -> None:
+        old_target = ["x" * (MAX_TRANSLATION_TOTAL_LENGTH + 1), "y"]
+
+        validate_translation_text_change(self.unit, old_target[::-1], old_target)
+        validate_translation_text_change(self.unit, old_target[:1], old_target)
 
     def test_new_plural_limits_are_not_applied(self) -> None:
         validate_multivalue_size(False, ["text"] * (MAX_TRANSLATION_ALTERNATIVES + 1))

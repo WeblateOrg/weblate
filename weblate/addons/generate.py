@@ -263,6 +263,9 @@ class LocaleGenerateAddonBase(BaseAddon):
                         target_state,
                         change_action=ActionEvents.AUTO,
                         propagate=False,
+                        # Copied stored source text is not limited, as it comes
+                        # from the repository, only generated text is
+                        validate_length=new_strings != source_strings,
                     )
                 except TranslationTextTooLongError:
                     if too_long_unit_ids is not None:

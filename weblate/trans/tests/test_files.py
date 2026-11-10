@@ -696,8 +696,14 @@ class UploadStringLengthTest(ImportBaseTest):
                 self.assert_rejected(payload, method)
 
     def test_new_text_at_limit(self) -> None:
-        result = self.upload({"new": "B" * MAX_NEW_TEXT_LENGTH}, "add")
+        result = self.upload({"B" * MAX_NEW_TEXT_LENGTH: "value"}, "add")
         self.assertEqual(result[2], 1)
+
+    def test_new_translation_uses_string_limit(self) -> None:
+        """Added translations are limited like edits of the added string."""
+        with self.assertRaisesMessage(FileParseError, "string that is too long"):
+            self.upload({"new": "B" * MAX_NEW_TEXT_LENGTH}, "add")
+        self.assertFalse(self.get_translation().unit_set.filter(context="new").exists())
 
     def test_error_message_is_truncated(self) -> None:
         with self.assertRaises(FileParseError) as context:
@@ -790,10 +796,13 @@ class UploadStringLengthMetadataTest(ImportBaseTest):
         oversized = "B" * (MAX_NEW_TEXT_LENGTH + 1)
         translation = self.get_translation()
         filename = Path(cast("str", translation.get_filename()))
-        filename.write_text(f'{filename.read_text()}\nmsgid "{oversized}"\nmsgstr ""\n')
+        filename.write_text(
+            f'{filename.read_text(encoding="utf-8")}\nmsgid "{oversized}"\nmsgstr ""\n',
+            encoding="utf-8",
+        )
         self.component.create_translations_immediate(force=True)
         self.assertTrue(translation.unit_set.filter(source=oversized).exists())
-        content = filename.read_text().replace(
+        content = filename.read_text(encoding="utf-8").replace(
             'msgid "Thank you for using Weblate."\nmsgstr ""',
             'msgid "Thank you for using Weblate."\nmsgstr "Děkujeme."',
         )
@@ -819,6 +828,42 @@ class UploadStringLengthMetadataTest(ImportBaseTest):
                 NamedBytesIO("upload.pot", content.encode()),
                 ignore_language=True,
             )
+
+
+class UploadStringLengthMonolingualTest(ImportBaseTest):
+    """Text from a monolingual translation file is validated as well."""
+
+    def create_component(self) -> Component:
+        return self.create_po_mono()
+
+    def test_replace_rejects_translation_file_metadata(self) -> None:
+        oversized = "B" * (MAX_NEW_TEXT_LENGTH + 1)
+        translation = self.get_translation()
+        original = Path(cast("str", translation.get_filename())).read_text(
+            encoding="utf-8"
+        )
+        for name, prefix in (
+            ("note", f"#. {oversized}\n"),
+            ("previous", f'#, fuzzy\n#| msgid "{oversized}"\n'),
+        ):
+            with self.subTest(name):
+                # The previous source is used only for translated strings
+                content = original.replace(
+                    'msgid "thanks"\nmsgstr ""',
+                    f'{prefix}msgid "thanks"\nmsgstr "Díky"',
+                )
+                self.assertNotEqual(content, original)
+                with self.assertRaisesMessage(
+                    FileParseError, "string that is too long"
+                ):
+                    translation.handle_upload(
+                        self.get_request(),
+                        NamedBytesIO("upload.po", content.encode()),
+                        "replace-translated",
+                        method="replace",
+                        ignore_language=True,
+                    )
+                self.assertEqual(translation.unit_set.get(context="thanks").target, "")
 
 
 class LanguageUploadValidationTest(ImportBaseTest):

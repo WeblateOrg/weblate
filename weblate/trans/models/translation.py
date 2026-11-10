@@ -97,6 +97,7 @@ from weblate.trans.validators import (
     validate_check_flags,
     validate_multivalue_size,
     validate_new_text_length,
+    validate_translation_text_length,
 )
 from weblate.utils import messages
 from weblate.utils.change_origin import (
@@ -2161,15 +2162,15 @@ class Translation(
         """
         Yield text the upload stores for a unit, each value separately.
 
-        Units matched to the component template only take the translation from
-        the uploaded file, the rest comes from the repository, which is
-        intentionally not limited.
+        Units matched to the component template take the source and context
+        from the repository, which is intentionally not limited. Other text,
+        such as notes or the previous source, can still come from the
+        uploaded file.
         """
         yield from split_plural(unit.target)
-        if unit.template is not None and not unit.parent.is_template:
-            return
-        yield from split_plural(unit.source)
-        yield unit.context
+        if unit.template is None or unit.parent.is_template:
+            yield from split_plural(unit.source)
+            yield unit.context
         yield unit.notes
         yield unit.locations
         yield unit.explanation
@@ -3147,24 +3148,30 @@ class Translation(
         if validate_length:
             self.validate_new_unit_text_length(context, source, target, explanation)
         with self.component.lock:
-            return self._add_unit_locked(
-                request,
-                context,
-                source,
-                target,
-                original_unit=original_unit,
-                extra_flags=extra_flags,
-                explanation=explanation,
-                auto_context=auto_context,
-                is_batch_update=is_batch_update,
-                skip_existing=skip_existing,
-                state=state,
-                author=author,
-            )
+            try:
+                return self._add_unit_locked(
+                    request,
+                    context,
+                    source,
+                    target,
+                    original_unit=original_unit,
+                    extra_flags=extra_flags,
+                    explanation=explanation,
+                    auto_context=auto_context,
+                    is_batch_update=is_batch_update,
+                    skip_existing=skip_existing,
+                    state=state,
+                    author=author,
+                    validate_length=validate_length,
+                )
+            except TranslationTextTooLongError:
+                # The rolled back source unit can be cached already
+                self.component.unload_sources()
+                raise
 
     @transaction.atomic
     @source_operation_method
-    def _add_unit_locked(  # ruff: ignore[complex-structure, too-many-locals, too-many-statements, too-many-branches]
+    def _add_unit_locked(  # ruff: ignore[complex-structure, too-many-locals, too-many-statements, too-many-branches, too-many-arguments]
         self,
         request: AuthenticatedHttpRequest | None,
         context: str,
@@ -3179,6 +3186,7 @@ class Translation(
         skip_existing: bool = False,
         state: StringState | None = None,
         author: User | None = None,
+        validate_length: bool = True,
     ) -> Unit | None:
         if isinstance(source, list):
             source = join_plural(source)
@@ -3386,6 +3394,13 @@ class Translation(
                     if not skip_existing:
                         raise
                     unit = translation.unit_set.get(id_hash=id_hash)
+                else:
+                    if validate_length and not is_source and current_target:
+                        # The limit depends on the flags and source of the saved
+                        # unit, matching the editor validation
+                        validate_translation_text_length(
+                            unit, split_plural(current_target)
+                        )
             # The source language is always first in the translations array
             if source_unit is None:
                 source_unit = unit

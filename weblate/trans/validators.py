@@ -90,6 +90,11 @@ def validate_translation_text_length(
         raise TranslationTextTooLongError
 
 
+def normalize_stored_newlines(text: str) -> str:
+    """Normalize newlines, the editor submits stored CRLF newlines as LF."""
+    return text.replace("\r\n", "\n")
+
+
 def validate_translation_text_change(
     unit: Unit, new_target: list[str], old_target: list[str]
 ) -> None:
@@ -98,14 +103,23 @@ def validate_translation_text_change(
 
     Text which is already stored is not validated again. It can come from the
     repository, which is intentionally not limited, and re-saving it, for
-    example to change the state, must keep working.
+    example to change the state, must keep working. Reusing stored text must
+    not grow the aggregate size, as an alternative can be repeated.
     """
     if new_target == old_target:
         return
-    added = [text for text in new_target if text not in old_target]
-    if not added and len(new_target) <= len(old_target):
-        return
-    validate_multivalue_size(unit.translation.component.is_multivalue, new_target)
+    is_multivalue = unit.translation.component.is_multivalue
+    # Checked first, the following checks scale with the number of alternatives
+    if len(new_target) > len(old_target):
+        validate_multivalue_size(is_multivalue, new_target)
+    stored = {normalize_stored_newlines(text) for text in old_target}
+    added = [
+        text for text in new_target if normalize_stored_newlines(text) not in stored
+    ]
+    if added or sum(len(normalize_stored_newlines(text)) for text in new_target) > sum(
+        len(normalize_stored_newlines(text)) for text in old_target
+    ):
+        validate_multivalue_size(is_multivalue, new_target)
     max_length = get_translation_text_max_length(unit)
     if any(len(text) > max_length for text in added):
         raise TranslationTextTooLongError

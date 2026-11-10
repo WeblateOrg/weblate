@@ -14,7 +14,8 @@ from unittest.mock import patch
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 
-from weblate.addons.generate import PseudolocaleAddon
+from weblate.addons.generate import PrefillAddon, PseudolocaleAddon
+from weblate.automation.operations import get_operation, validate_result
 from weblate.trans.bulk import BulkUnitEdit, bulk_perform
 from weblate.trans.models import Change, Suggestion, Unit
 from weblate.trans.source_edit import edit_source
@@ -157,6 +158,60 @@ class TranslateTextLengthTest(ViewTestCase):
                     author=self.user,
                 )
         self.assertEqual(translation.unit_set.count(), count)
+
+    def test_add_unit_applies_string_limit(self) -> None:
+        """New translations are limited like edits, including the new flags."""
+        translation = self.get_translation()
+        count = translation.unit_set.count()
+        flags = "max-length:5"
+        limit = 10 * (5 + 100)
+        self.assertLess(limit, MAX_NEW_TEXT_LENGTH)
+
+        with self.assertRaises(TranslationTextTooLongError):
+            translation.add_unit(
+                None, "", "new", "B" * (limit + 1), extra_flags=flags, author=self.user
+            )
+        self.assertEqual(translation.unit_set.count(), count)
+        self.assertFalse(
+            self.component.source_translation.unit_set.filter(source="new").exists()
+        )
+
+        unit = translation.add_unit(
+            None, "", "new", "B" * limit, extra_flags=flags, author=self.user
+        )
+        self.assertIsNotNone(unit)
+
+    def test_keeps_stored_text_with_crlf(self) -> None:
+        """The editor submits stored CRLF newlines as LF."""
+        unit = self.get_unit(SOURCE)
+        oversized = "B" * get_translation_text_max_length(unit) + "\r\nB\r\n"
+        Unit.objects.filter(pk=unit.pk).update(target=oversized, state=STATE_TRANSLATED)
+        unit = Unit.objects.get(pk=unit.pk)
+
+        unit.translate(
+            self.user, oversized.replace("\r\n", "\n"), STATE_NEEDS_REWRITING
+        )
+
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, STATE_NEEDS_REWRITING)
+
+    def test_prefill_copies_stored_source(self) -> None:
+        """Copying stored source text is not limited, generated text is."""
+        self.component.check_flags = "max-length:5"
+        self.component.save()
+        unit = self.get_unit(SOURCE)
+        long_source = "B" * (get_translation_text_max_length(unit) + 1)
+        Unit.objects.filter(pk=unit.source_unit_id).update(target=long_source)
+        addon = PrefillAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
+
+        result = addon.daily_component(self.component)
+
+        self.assertIsNone(result)
+        unit.refresh_from_db()
+        # Autofixes add the trailing newline of the source string
+        self.assertEqual(unit.target, f"{long_source}\n")
 
     def prepare_bulk_replace(self) -> tuple[Unit, Unit, str]:
         short = self.get_unit(SOURCE)
@@ -419,3 +474,9 @@ class TranslateTextLengthTest(ViewTestCase):
         self.assertGreater(skipped, 0)
         self.assertEqual(result, {"skipped_too_long": skipped})
         self.assertFalse(translation.unit_set.filter(target__startswith="@@@").exists())
+
+    def test_bulk_edit_automation_result_reports_skipped(self) -> None:
+        validate_result(
+            get_operation("weblate.bulk_edit"),
+            {"component": self.component.pk, "updated": 1, "skipped_too_long": 2},
+        )
