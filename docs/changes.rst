@@ -47,6 +47,7 @@ Weblate 2026.11.2
 * Restricted project-wide component locking to components the actor may manage.
 * Concealed invitation e-mail addresses and deleted restricted component names in public history.
 * Prevented account e-mail discovery through self-service API updates and public history or project filters.
+* Required contributor attribution permission before linking commit authors to Weblate accounts. Clarified repository permissions for :ref:`confidential collaboration <privacy-confidential-setup>`.
 * Enforced add-on compatibility checks for project installations through the API.
 * Escaped rendered plain-text templates when displaying repository browser links in HTML.
 * Prevented bypassing confirmation and password-reset form checks through direct e-mail authentication completion requests.
