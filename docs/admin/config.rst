@@ -1523,10 +1523,10 @@ The ``index`` page is always visible. Supported document identifiers are
 ``terms``, ``cookies``, ``privacy``, and ``contracts``.
 
 Hidden pages are removed from the legal menu and return a 404 response when
-requested directly. When legal document confirmation is enabled, hiding
-``terms`` without :setting:`LEGAL_URL` makes confirmation embed the terms
-template. Hiding ``privacy`` without :setting:`PRIVACY_URL` makes confirmation
-cover only the terms.
+requested directly. When legal document confirmation is enabled, leaving
+:setting:`LEGAL_URL` unset makes confirmation embed the terms template, even
+if ``terms`` is hidden. Hiding ``privacy`` without :setting:`PRIVACY_URL` makes
+confirmation cover only the terms.
 
 Links exposed through the ``terms_url`` and ``privacy_url`` template variables
 use :setting:`LEGAL_URL` and :setting:`PRIVACY_URL` first when configured.
