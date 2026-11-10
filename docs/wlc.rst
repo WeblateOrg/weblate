@@ -226,7 +226,7 @@ Weblate instance to use. These must be entered before any command.
 
     Specify the API user key to use. Overrides any value found in the configuration file, see :ref:`wlc-config`.
     You can find your key in your profile on Weblate.
-    When the API URL is loaded from automatically discovered project
+    When the API URL is loaded from project
     configuration, :option:`--key` must be used together with :option:`--url`.
     API keys are rejected over non-local ``http://`` URLs by default.
 
@@ -242,13 +242,26 @@ Weblate instance to use. These must be entered before any command.
 
     Disable TLS certificate verification for the current run. Certificates are
     verified by default for every HTTPS URL, including loopback URLs. When the
-    API URL comes from automatically discovered project configuration, this
-    option requires :option:`--url`.
+    API URL comes from project configuration, this option requires
+    :option:`--url`.
 
 .. option:: --config PATH
 
     Load configuration only from ``PATH`` instead of the discovered global and
     project configuration files, see :ref:`wlc-config`.
+
+.. option:: --project-config PATH
+
+    Load personal configuration followed by this project file, without automatic
+    project discovery or location checks. Project credential and transport
+    restrictions still apply. This preserves shared configuration outside a
+    repository while retaining personal URL-scoped API keys.
+
+.. option:: --no-config
+
+    Do not load any configuration files. Built-in defaults, environment
+    variables, and command-line options still apply. This option,
+    :option:`--config`, and :option:`--project-config` are mutually exclusive.
 
 .. option:: --config-section SECTION
 
@@ -468,9 +481,12 @@ Configuration files
 +++++++++++++++++++
 
 When :option:`--config` is provided, :program:`wlc` loads only that file.
+With :option:`--no-config`, it loads no configuration files. With
+:option:`--project-config`, it loads personal configuration followed by the
+named project file and does not discover another project configuration.
 
-Without :option:`--config`, :program:`wlc` first loads the discovered global
-configuration file from the standard platform-specific locations:
+Personal configuration is discovered from the standard platform-specific
+locations:
 
 :file:`C:\\Users\\NAME\\AppData\\Roaming\\weblate.ini`
     Global configuration file on Windows in the roamed profile.
@@ -492,8 +508,9 @@ config files by environment variables ``XDG_CONFIG_HOME`` or
 On Windows ``APPDATA`` and ``LOCALAPPDATA`` directories are the preferred
 locations for the configuration file.
 
-After loading the global configuration, :program:`wlc` loads the nearest
-project configuration file from the current directory or its parents:
+Unless :option:`--project-config` selects a file explicitly, loading personal
+configuration is followed by discovery of the nearest project configuration
+file from the current directory or its parents:
 
 :file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`
     Project configuration file placed in the repository.
@@ -503,8 +520,38 @@ matching settings. It can select the API URL, default object, request settings,
 and a matching URL-scoped API key, allowing a cloned repository to
 automatically select its Weblate server and translation.
 
-Only the closest project configuration file is loaded. Configuration files in
-farther parent directories are ignored.
+Only the closest eligible project configuration file is loaded. Discovery
+includes the nearest repository root and stops there. Repository roots are
+identified by a :file:`.git` directory or worktree file, or a :file:`.hg` or
+:file:`.svn` directory. Without a repository marker, discovery continues until
+a filesystem or permission boundary.
+
+On POSIX systems, discovery stops at directories owned by someone other than
+the current effective user or root, or writable by everyone. World-writable
+sticky directories such as :file:`/tmp` are also boundaries. Discovered
+configuration files must meet the same ownership and write-permission checks. Group-writable locations
+remain supported and require trusting the writable group. A safe nearer
+configuration below a boundary is still used.
+
+On Windows, repository boundaries apply, but POSIX ownership and write-mode
+checks are not performed. Access remains governed by Windows ACLs. Additional
+ACL grants and concurrent filesystem replacement are outside the POSIX checks.
+
+Symlinked configuration is supported when the resolved file and its containing
+directories meet these checks and stay within the discovery boundaries.
+An unsafe candidate produces an error instead of silently using another server.
+Filesystem inspection failures are also reported as configuration errors.
+
+To intentionally use a shared file above a repository or outside these
+boundaries while keeping personal API keys, select it explicitly:
+
+.. code-block:: sh
+
+    wlc --project-config /shared/weblate.ini list-projects
+
+This bypasses discovery location checks but retains project credential and
+transport restrictions. Use :option:`--config` instead when the selected file
+should replace personal configuration and supply trusted transport settings.
 
 Following settings can be configured in the ``[weblate]`` section (you can
 customize this by :option:`--config-section`):
@@ -588,8 +635,8 @@ for matching origins.
 .. versionchanged:: 2.2.0
 
    TLS certificates are verified for all hosts by default. Insecure HTTP and
-   TLS configuration is scoped to origins. Automatically discovered project
-   configuration can neither add entries to these sections nor enable the
+   TLS configuration is scoped to origins. Project configuration can neither
+   add entries to these sections nor enable the
    removed global settings. User configuration and explicitly selected
    :option:`--config` files are trusted.
 
@@ -612,7 +659,7 @@ Environment variables
 .. versionchanged:: 2.2.0
 
    Insecure HTTP and TLS environment overrides require :envvar:`WLC_URL` when
-   the API URL would otherwise come from automatically discovered project
+   the API URL would otherwise come from project
    configuration.
 
 The API URL and key can also be configured using environment variables. This is
@@ -625,8 +672,7 @@ and :envvar:`WLC_KEY` is injected as a secret:
 
 .. envvar:: WLC_KEY
 
-   API key. When the API URL would otherwise come from automatically discovered
-   project configuration, :envvar:`WLC_KEY` is accepted only together with
+   API key. When the API URL would otherwise come from project configuration, :envvar:`WLC_KEY` is accepted only together with
    :envvar:`WLC_URL`. API keys are rejected over non-local ``http://`` URLs by
    default.
 
@@ -635,35 +681,32 @@ and :envvar:`WLC_KEY` is injected as a secret:
    Set to ``1``, ``true``, ``yes``, or ``on`` to allow API keys over non-local
    ``http://`` URLs. Prefer HTTPS or loopback HTTP instead. Other values, such
    as ``0`` or ``false``, are treated as unset. When the API URL would otherwise
-   come from automatically discovered project configuration, this variable is
-   accepted only together with :envvar:`WLC_URL`.
+   come from project configuration, this variable is accepted only together
+   with :envvar:`WLC_URL`.
 
 .. envvar:: WLC_ALLOW_INSECURE_SSL
 
    Set to ``1``, ``true``, ``yes``, or ``on`` to disable TLS certificate
    verification. Other values, such as ``0`` or ``false``, are treated as
-   unset. When the API URL would otherwise come from automatically discovered
-   project configuration, this variable is accepted only together with
+   unset. When the API URL would otherwise come from project configuration, this variable is accepted only together with
    :envvar:`WLC_URL`.
 
 The same protection applies to command-line arguments: :option:`--key`,
 :option:`--allow-insecure-http`, and :option:`--allow-insecure-ssl` are accepted
-with automatically discovered project configuration only when :option:`--url`
-is provided.
+with project configuration only when :option:`--url` is provided.
 
 The API URL and key configuration precedence (highest to lowest) is:
 
 1. Command-line arguments (:option:`--url`, :option:`--key`).
 2. Environment variables (:envvar:`WLC_URL`, :envvar:`WLC_KEY`).
-3. Configuration loaded from :option:`--config`, or from the discovered global
-   configuration plus the nearest project configuration when
-   :option:`--config` is not used.
+3. Configuration loaded from :option:`--config`, or personal configuration
+   followed by the explicitly selected or nearest eligible project configuration.
+   With :option:`--no-config`, no configuration files contribute settings.
 
 The insecure transport opt-ins are enable-only rather than normal precedence
 settings. They are enabled by a command-line or environment override, or by a
 matching origin in the trusted ``[insecure_http]`` or ``[insecure_ssl]``
-section. Automatically discovered project configuration cannot add trusted
-origins.
+section. Project configuration cannot add trusted origins.
 
 .. _wlc-security:
 
@@ -675,7 +718,9 @@ trusted to select the API endpoint, default object, request settings, and a
 matching URL-scoped API key. Running :program:`wlc` inside a repository
 authorizes its nearest project configuration to select the server that receives
 commands and uploads and supplies displayed or downloaded content. Use an
-explicit trusted :option:`--config` file when this is not desired.
+explicit trusted :option:`--config` file or :option:`--no-config` when this is
+not desired. Discovery boundaries limit where configuration is found; they do
+not make the contents of a repository trustworthy.
 
 The command-line client accepts API keys from :option:`--key`,
 :envvar:`WLC_KEY`, or the ``[keys]`` section. It does not load HTTP

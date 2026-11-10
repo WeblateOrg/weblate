@@ -317,6 +317,9 @@ Enforced two-factor authentication
 
 Enforce :ref:`2fa` for all contributors. Users won’t be allowed
 to perform any operations within the project without having it configured.
+This also excludes the project from component creation, move, and sharing
+targets, including GitHub App imports. Site administrators and bot accounts
+retain their existing exemptions.
 
 .. _project-translation_review:
 
@@ -623,6 +626,10 @@ VCS repository used to pull changes.
     This can either be a real VCS URL or ``weblate://project/component``
     indicating that the repository should be shared with another component.
     See :ref:`internal-urls` for more details.
+
+Creating a repository link requires access to the referenced component and
+permission to edit it. Missing components and components you cannot access
+produce the same validation error.
 
 .. _component-push:
 

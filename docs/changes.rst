@@ -9,6 +9,8 @@ Weblate 2026.11.2
 
 .. rubric:: Improvements
 
+* Bounded :ref:`Weblate Client project configuration discovery <wlc-config>` by repository and POSIX permission boundaries, and added explicit project-file selection and configuration-free invocation.
+* Extended the :ref:`development container <devcontainer>` with documentation and frontend tooling, prepared OCR models, explicit verification checks, and isolated historical migration tests.
 * Updated the :doc:`security reporting policy <security/issues>` to handle low and medium severity issues publicly on GitHub and reserve private handling and security advisories for high and critical severity vulnerabilities.
 * Avoided unnecessary file edits when changing :ref:`custom source languages <workflow-source-language>` and credited required writes to the initiating user.
 * Invalidate pending :ref:`e-mail additions <user-profile>` when the account password changes.
@@ -17,7 +19,7 @@ Weblate 2026.11.2
 .. rubric:: Security fixes
 
 * Excluded components shared from other projects from category :ref:`contributor stats <stats>` reports.
-
+* Bounded :doc:`translation-memory imports <admin/memory>` by file size and entry count, batched database writes, and shared the translation-upload rate limit.
 * Validated new and renamed :ref:`translation keys <edit-source>` against the file format, dialect, and encoding before queuing changes.
 * Enforced public-only billing plans on :ref:`project moves <workspace-project-creation>` and warned when :ref:`backup restores <projectbackup>` make restricted components public.
 * Used stable subjects for :ref:`Keycloak authentication <keycloak_auth>` in Docker, protecting new and migrated associations from e-mail reassignment.
@@ -33,6 +35,8 @@ Weblate 2026.11.2
 * Disabled :ref:`Mercurial subrepositories <vcs-mercurial>`, removed nested repository metadata from managed Mercurial checkouts and project backups, and enforced backend URL restrictions when validating backups.
 * Kept malformed :ref:`DTD files <dtd>` intact during saves and reported source-edit validation failures cleanly.
 * Bounded built-in :doc:`format checks and highlighting <user/checks>` with matching timeouts and made whitespace fixups linear on long input.
+* Applied project blocks and :ref:`enforced two-factor authentication <project-enforced_2fa>` to component creation and move targets, including GitHub App imports.
+* Made missing and inaccessible :ref:`repository links <internal-urls>` return the same validation error without exposing hidden repository settings.
 * Bounded :ref:`font check <fonts>` measurement, replacement expansion, and preview rendering.
 * Cleared invalid GitHub App push settings and prevented installation credentials from being used for another host.
 * Enforced source-language permissions for bulk source metadata and source check dismissals, and terminology permissions across glossary flag edits and uploads.
