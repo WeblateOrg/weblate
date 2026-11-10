@@ -174,6 +174,7 @@ from weblate.utils.celery import (
 )
 from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.data import data_dir
+from weblate.utils.files import PathMatchBudget
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.pii import mask_email
 from weblate.utils.state import (
@@ -10226,6 +10227,27 @@ class ProjectAPITest(APIBaseTest):
 
 
 class ComponentAPITest(APIBaseTest):
+    def test_patch_filemask_scan_limit(self) -> None:
+        original_name = self.component.name
+        original_mask = self.component.filemask
+        self.grant_perm_to_user("component.edit", component=self.component)
+        with patch(
+            "weblate.trans.models.component.PathMatchBudget",
+            side_effect=lambda: PathMatchBudget(max_work=0),
+        ):
+            response = self.do_request(
+                "api:component-detail",
+                self.component_kwargs,
+                method="patch",
+                code=400,
+                format="json",
+                request={"name": "Limited scan"},
+            )
+        self.assertEqual(response.data["errors"][0]["attr"], "filemask")
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.name, original_name)
+        self.assertEqual(self.component.filemask, original_mask)
+
     def test_xml_serialization_params(self) -> None:
         component = self._create_component(
             "xliff", "xliff/*/complex.xlf", project=self.project, name="XML"
