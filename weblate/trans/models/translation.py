@@ -2207,6 +2207,11 @@ class Translation(
             unit.source_unit.explanation if unit.source_unit else "",
             unit.previous_source,
             unit.flags,
+            # Imported TBX metadata, such as term notes, is stored separately
+            *iter_nested_strings(unit.details.get("tbx_terms")),
+            *iter_nested_strings(
+                unit.source_unit.details.get("tbx_terms") if unit.source_unit else None
+            ),
         }
 
     def validate_upload_text_length(self, store: TranslationFormat) -> None:

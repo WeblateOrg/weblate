@@ -14,8 +14,9 @@ from functools import partial
 from io import BytesIO, StringIO
 from itertools import count
 from pathlib import Path
+from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
-from unittest.mock import ANY, patch
+from unittest.mock import ANY, Mock, patch
 from zipfile import ZipFile
 
 from django.conf import settings
@@ -32,6 +33,7 @@ from weblate.api.serializers import UploadRequestSerializer
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import Group, Permission, Role, TeamMembership
 from weblate.auth.results import Denied
+from weblate.checks.flags import Flags
 from weblate.formats.helpers import NamedBytesIO, format_csv_id_hash
 from weblate.formats.ttkit import CSVFormat, PoFormat, XliffFormat
 from weblate.lang.models import Language, Plural
@@ -52,6 +54,7 @@ from weblate.trans.models import (
     Project,
     Suggestion,
     Translation,
+    Unit,
     WorkflowSetting,
 )
 from weblate.trans.tests.test_views import ViewTestCase
@@ -82,6 +85,7 @@ if TYPE_CHECKING:
     from rest_framework.fields import ChoiceField
 
     from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.formats.base import TranslationFormat
 
     UploadMethod = Literal[
         "fuzzy", "approve", "translate", "suggest", "add", "replace", "source"
@@ -817,6 +821,39 @@ class UploadStringLengthMetadataTest(ImportBaseTest):
         # Changed text is still validated
         with self.assertRaisesMessage(FileParseError, "string that is too long"):
             self.upload(content.replace(oversized, f"{oversized}C"), "replace")
+
+    def test_replace_keeps_stored_tbx_metadata(self) -> None:
+        """Term metadata stored from the repository can be uploaded back."""
+        oversized = "B" * (MAX_NEW_TEXT_LENGTH + 1)
+        translation = self.get_translation()
+        unit = self.get_unit("Thank you for using Weblate.")
+        terms = {"source": [], "target": [{"term": unit.target, "note": oversized}]}
+        Unit.objects.filter(pk=unit.pk).update(details={"tbx_terms": terms})
+        upload = Mock(
+            target=unit.target,
+            template=None,
+            source=unit.source,
+            context=unit.context,
+            notes="",
+            locations="",
+            explanation="",
+            source_explanation="",
+            previous_source="",
+            flags=Flags(),
+            tbx_terms=terms,
+            id_hash=unit.id_hash,
+        )
+
+        translation.validate_upload_text_length(
+            cast("TranslationFormat", SimpleNamespace(content_units=[upload]))
+        )
+
+        # Changed metadata is still validated
+        upload.tbx_terms = {"source": [], "target": [{"note": f"{oversized}C"}]}
+        with self.assertRaisesMessage(FileParseError, "string that is too long"):
+            translation.validate_upload_text_length(
+                cast("TranslationFormat", SimpleNamespace(content_units=[upload]))
+            )
 
     def test_source_upload(self) -> None:
         translation = self.component.source_translation
