@@ -37,6 +37,14 @@ class DefaultsTest(SimpleTestCase):
         self.assertEqual(VCSConf.VCS_BACKENDS, vcs_defaults.DEFAULT_VCS_BACKENDS)
         self.assertEqual(TransConf.AUTOFIX_LIST, trans_defaults.DEFAULT_AUTOFIX_LIST)
 
+    def test_upload_rate_defaults(self) -> None:
+        for suffix in ("ATTEMPTS", "WINDOW", "LOCKOUT"):
+            with self.subTest(suffix=suffix):
+                self.assertEqual(
+                    getattr(UtilsConf, f"RATELIMIT_UPLOAD_{suffix}"),
+                    getattr(utils_defaults, f"DEFAULT_RATELIMIT_UPLOAD_{suffix}"),
+                )
+
     def test_scalar_defaults(self) -> None:
         self.assertEqual(
             WeblateAccountsConf.REGISTRATION_OPEN,

@@ -2449,10 +2449,11 @@ to 60.
 RATELIMIT_UPLOAD_ATTEMPTS
 -------------------------
 
-Maximum translation upload attempts per user during
+Maximum translation and translation-memory upload attempts per user during
 :setting:`RATELIMIT_UPLOAD_WINDOW`. Defaults to 10. Browser and API uploads share
-this budget, including synchronous and background API uploads. Superusers are
-exempt. Uploads rejected before the upload permission check do not count.
+this budget with browser translation-memory uploads, including synchronous and
+background API translation uploads. Superusers are exempt. Uploads rejected
+before the upload permission check do not count.
 
 .. setting:: RATELIMIT_UPLOAD_WINDOW
 
@@ -3054,9 +3055,10 @@ TRANSLATION_MAX_SIZE
 .. versionadded:: 2026.11.2
 
 Maximum size, in bytes, of a translation file before parsing. Applies to all
-formats and to repository files as well as uploads, including source templates
-and intermediate files. For directory-based formats, the limit applies to each
-metadata file. When unset or ``None``, uses :setting:`TRANSLATION_UPLOAD_MAX_SIZE`
+formats and to repository files as well as uploads and translation-memory
+imports, including source templates and intermediate files. For directory-based
+formats, the limit applies to each metadata file. When unset or ``None``, uses
+:setting:`TRANSLATION_UPLOAD_MAX_SIZE`
 (50 MB by default). An explicit value overrides this fallback.
 
 Uploads must also satisfy :setting:`TRANSLATION_UPLOAD_MAX_SIZE`, even when

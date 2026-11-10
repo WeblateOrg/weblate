@@ -8,6 +8,7 @@ import json
 import math
 import os
 import re
+from itertools import batched
 from typing import TYPE_CHECKING, BinaryIO, NotRequired, Self, TypedDict, cast
 
 from django.conf import settings
@@ -23,6 +24,12 @@ from translate.misc.xml_helpers import getXMLlang, getXMLspace
 from translate.storage.tmx import tmxfile
 from weblate_schemas import load_schema
 
+from weblate.formats.limits import (
+    TranslationLimitError,
+    check_translation_file_size,
+    check_translation_size,
+    check_translation_unit_count,
+)
 from weblate.lang.models import Language
 from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.memory.utils import (
@@ -56,6 +63,22 @@ MIN_SIMILARITY_THRESHOLD = 0.3
 MAX_MACHINERY_SIMILARITY_BACKOFF = 0.2
 MEMORY_LOOKUP_LIMIT = 50
 MEMORY_LOOKUP_PREFIX_LENGTH = 2048
+MEMORY_IMPORT_BATCH_SIZE = 1000
+
+# Exact identity, including fields not covered by the MD5 lookup index.
+type MemoryImportKey = tuple[str, str, int, int, str, str, int]
+
+
+def get_import_key(memory: Memory) -> MemoryImportKey:
+    return (
+        memory.source,
+        memory.target,
+        memory.source_language_id,
+        memory.target_language_id,
+        memory.origin,
+        memory.context,
+        memory.status,
+    )
 
 
 class MemoryDict(TypedDict):
@@ -87,20 +110,48 @@ def get_node_data(unit, node):
     )
 
 
+def check_memory_file_size(fileobj: BinaryIO) -> None:
+    try:
+        check_translation_file_size(fileobj)
+    except TranslationLimitError as error:
+        raise MemoryImportError(str(error)) from error
+
+
+def check_memory_unit_count(count: int) -> None:
+    try:
+        check_translation_unit_count(count)
+    except TranslationLimitError as error:
+        raise MemoryImportError(str(error)) from error
+
+
 def load_memory_json_data(content: bytes) -> list[MemoryDict]:
     """Load and validate a memory export payload."""
     # Lazily import as this is expensive
     # ruff: ignore[import-outside-top-level]
     from jsonschema import validate
 
+    try:
+        check_translation_size(len(content))
+    except TranslationLimitError as error:
+        raise MemoryImportError(str(error)) from error
     data = json.loads(force_str(content))
+    if isinstance(data, list):
+        check_memory_unit_count(len(data))
     validate(data, load_schema("weblate-memory.schema.json"))
     return cast("list[MemoryDict]", data)
 
 
 def load_memory_tmx_store(fileobj: BinaryIO):
     """Parse a TMX file into a translate-toolkit store."""
-    return tmxfile.parsefile(fileobj)
+    check_memory_file_size(fileobj)
+    storage = tmxfile.parsefile(fileobj)
+    check_memory_unit_count(len(storage.units))
+    # Count variants before skipping empty entries or collapsing duplicate languages.
+    candidates = 0
+    for unit in storage.units:
+        candidates += max(0, len(unit.getlanguageNodes()) - 1)
+        check_memory_unit_count(candidates)
+    return storage
 
 
 class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
@@ -701,6 +752,7 @@ class MemoryManager(models.Manager["Memory"]):
         # ruff: ignore[import-outside-top-level]
         from jsonschema.exceptions import ValidationError
 
+        check_memory_file_size(fileobj)
         try:
             data = load_memory_json_data(fileobj.read())
         except json.JSONDecodeError as error:
@@ -713,31 +765,30 @@ class MemoryManager(models.Manager["Memory"]):
             raise MemoryImportError(
                 gettext("Could not parse JSON file: %s") % error
             ) from error
-        found = 0
+        entries: list[Memory] = []
         lang_cache: dict[str, Language] = {}
         for entry in data:
             try:
-                self.update_entry(
-                    source_language=Language.objects.get_by_code(
-                        entry["source_language"], lang_cache
-                    ),
-                    target_language=Language.objects.get_by_code(
-                        entry["target_language"], lang_cache
-                    ),
-                    source=entry["source"],
-                    target=entry["target"],
-                    origin=origin,
-                    context=entry.get("context", ""),
-                    user=user,
-                    project=project,
-                    from_file=from_file,
-                    status=status,
-                    shared=False,
+                entries.append(
+                    Memory(
+                        source_language=Language.objects.get_by_code(
+                            entry["source_language"], lang_cache
+                        ),
+                        target_language=Language.objects.get_by_code(
+                            entry["target_language"], lang_cache
+                        ),
+                        source=entry["source"],
+                        target=entry["target"],
+                        origin=origin,
+                        context=entry.get("context", ""),
+                        status=status,
+                    )
                 )
-                found += 1
             except Language.DoesNotExist:
                 continue
-        return found
+        return self.import_entries(
+            entries, user=user, project=project, from_file=from_file
+        )
 
     def import_tmx(
         self,
@@ -777,7 +828,7 @@ class MemoryManager(models.Manager["Memory"]):
                 gettext("Could not find language %s!") % srclang
             ) from error
 
-        found = 0
+        entries: list[Memory] = []
         for unit in storage.units:
             # Parse translations (translate-toolkit does not care about
             # languages here, it just picks first and second XML elements)
@@ -803,23 +854,22 @@ class MemoryManager(models.Manager["Memory"]):
                 continue
 
             for lang, text in translations.items():
-                self.update_entry(
-                    source_language=source_language,
-                    target_language=Language.objects.get_by_code(
-                        lang, lang_cache, langmap
-                    ),
-                    source=source,
-                    target=text,
-                    origin=origin,
-                    context=unit.getcontext(),
-                    user=user,
-                    project=project,
-                    from_file=from_file,
-                    status=status,
-                    shared=False,
+                entries.append(
+                    Memory(
+                        source_language=source_language,
+                        target_language=Language.objects.get_by_code(
+                            lang, lang_cache, langmap
+                        ),
+                        source=source,
+                        target=text,
+                        origin=origin,
+                        context=unit.getcontext(),
+                        status=status,
+                    )
                 )
-                found += 1
-        return found
+        return self.import_entries(
+            entries, user=user, project=project, from_file=from_file
+        )
 
     def import_other_format(
         self,
@@ -845,9 +895,15 @@ class MemoryManager(models.Manager["Memory"]):
         # ruff: ignore[import-outside-top-level]
         from weblate.formats.auto import try_load
 
+        check_memory_file_size(fileobj)
         lang_cache: dict[str, Language] = {}
         try:
             storage = try_load(origin, fileobj.read(), None, None)
+            check_memory_unit_count(len(storage.content_units))
+        except TranslationLimitError as error:
+            raise MemoryImportError(str(error)) from error
+        except MemoryImportError:
+            raise
         except Exception as error:
             report_error("Could not parse memory")
             raise MemoryImportError(gettext("Unsupported file!")) from error
@@ -876,23 +932,101 @@ class MemoryManager(models.Manager["Memory"]):
         source_language = get_language(storage.source_language or source_language)
         target_language = get_language(storage.language_code or target_language)
 
-        count = 0
+        entries: list[Memory] = []
         for _unused, unit in storage.iterate_merge("", only_translated=True):
-            self.update_entry(
-                source_language=source_language,
-                target_language=target_language,
-                source=unit.source,
-                target=unit.target,
-                origin=origin,
-                context=unit.context,
-                user=user,
-                project=project,
-                from_file=from_file,
-                status=status,
-                shared=False,
+            entries.append(
+                Memory(
+                    source_language=source_language,
+                    target_language=target_language,
+                    source=unit.source,
+                    target=unit.target,
+                    origin=origin,
+                    context=unit.context,
+                    status=status,
+                )
             )
-            count += 1
-        return count
+        return self.import_entries(
+            entries, user=user, project=project, from_file=from_file
+        )
+
+    def import_entries(
+        self,
+        entries: list[Memory],
+        *,
+        user: User | None,
+        project: Project | None,
+        from_file: bool,
+    ) -> int:
+        """Write a validated import with database work bounded by batch size."""
+        check_memory_unit_count(len(entries))
+        write_queryset = self.get_queryset().using_write_db()
+        write_db = write_queryset.db
+        scope_manager = MemoryScope.objects.db_manager(write_db)
+        scope = scope_manager.get_for_update_entry(
+            user=user, project=project, from_file=from_file, shared=False
+        )
+        valid_entries = (
+            entry
+            for entry in entries
+            if is_valid_memory_entry(source=entry.source, target=entry.target)
+        )
+        for batch in batched(valid_entries, MEMORY_IMPORT_BATCH_SIZE):
+            with transaction.atomic(using=write_db):
+                if scope is None:
+                    write_queryset.bulk_create(
+                        batch, batch_size=MEMORY_IMPORT_BATCH_SIZE
+                    )
+                    continue
+                expected = {get_import_key(entry): entry for entry in batch}
+                lookup = Q()
+                for entry in expected.values():
+                    lookup |= Q(
+                        source__md5=MD5(Value(entry.source)),
+                        target__md5=MD5(Value(entry.target)),
+                        origin__md5=MD5(Value(entry.origin)),
+                        source_language_id=entry.source_language_id,
+                        target_language_id=entry.target_language_id,
+                        context=entry.context,
+                        status=entry.status,
+                    )
+                matches = (
+                    write_queryset.filter(lookup)
+                    .filter_scope(Q())
+                    .annotate(
+                        has_import_scope=write_queryset.get_scope_exists(
+                            scope_manager.get_scope_query(scope)
+                        )
+                    )
+                    .order_by("-has_import_scope", "pk")
+                )
+                reused_ids = []
+                scoped_memories: list[Memory] = []
+                for matching in matches.iterator():
+                    key = get_import_key(matching)
+                    # MD5 narrows the lookup; only exact text matches can be reused.
+                    if key not in expected:
+                        continue
+                    del expected[key]
+                    if not matching.has_import_scope:
+                        reused_ids.append(matching.pk)
+                        scoped_memories.append(matching)
+                if reused_ids:
+                    write_queryset.filter(pk__in=reused_ids).update(
+                        legacy_project=None,
+                        legacy_user=None,
+                        legacy_shared=False,
+                        legacy_from_file=False,
+                    )
+                to_create = list(expected.values())
+                write_queryset.bulk_create(
+                    to_create, batch_size=MEMORY_IMPORT_BATCH_SIZE
+                )
+                scoped_memories.extend(to_create)
+                for memory in scoped_memories:
+                    memory.pending_scopes = [scope]
+                scope_manager.bulk_create_for_memories(scoped_memories)
+        # Preserve the processed count, including duplicates and empty entries.
+        return len(entries)
 
     def update_entry(
         self,

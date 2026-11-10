@@ -18,6 +18,7 @@ Weblate 2026.11.2
 
 .. rubric:: Security fixes
 
+* Bounded :doc:`translation-memory imports <admin/memory>` by file size and entry count, batched database writes, and shared the translation-upload rate limit.
 * Validated new and renamed :ref:`translation keys <edit-source>` against the file format, dialect, and encoding before queuing changes.
 * Enforced public-only billing plans on :ref:`project moves <workspace-project-creation>` and warned when :ref:`backup restores <projectbackup>` make restricted components public.
 * Used stable subjects for :ref:`Keycloak authentication <keycloak_auth>` in Docker, protecting new and migrated associations from e-mail reassignment.
