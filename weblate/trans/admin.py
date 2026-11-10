@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.admin.utils import unquote
 from django.utils.translation import gettext_lazy
 
 from weblate.accounts.utils import (
@@ -74,29 +75,30 @@ class RepoAdminMixin:
         self.message_user(request, f"Updated checks for {len(units):d} units.")
 
 
-class SensitiveVerificationRequiredError(Exception):
-    pass
-
-
 class SensitiveFieldsAdmin(WeblateModelAdmin):
     """Require recent credential verification for changing listed fields."""
 
     sensitive_fields: frozenset[str] = frozenset()
 
-    def save_model(self, request, obj, form, change) -> None:
-        if (
-            change
-            and self.sensitive_fields & set(form.changed_data)
-            and not has_recent_sensitive_verification(request)
-        ):
-            raise SensitiveVerificationRequiredError
-        super().save_model(request, obj, form, change)
+    def changes_sensitive_fields(self, request, object_id: str) -> bool:
+        obj = self.get_object(request, unquote(object_id))
+        if obj is None or not self.has_change_permission(request, obj):
+            return False
+        form_class = self.get_form(request, obj, change=True)
+        # changed_data compares raw input only, without running model
+        # validation, which can touch the repository.
+        form = form_class(request.POST, request.FILES, instance=obj)
+        return bool(self.sensitive_fields & set(form.changed_data))
 
     def changeform_view(self, request, object_id=None, form_url="", extra_context=None):
-        try:
-            return super().changeform_view(request, object_id, form_url, extra_context)
-        except SensitiveVerificationRequiredError:
+        if (
+            request.method == "POST"
+            and object_id is not None
+            and self.changes_sensitive_fields(request, object_id)
+            and not has_recent_sensitive_verification(request)
+        ):
             return sensitive_verification_redirect(request, request.path)
+        return super().changeform_view(request, object_id, form_url, extra_context)
 
 
 @admin.register(Project)

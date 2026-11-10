@@ -296,6 +296,42 @@ class ComponentRestrictedVerificationTest(ReusableViewTestCase):
         self.assertEqual(response.status_code, 302)
         self.assert_restricted(False)
 
+    def test_api_verification_precedes_repository_validation(self) -> None:
+        """Model validation can switch the branch of the live checkout."""
+        with patch.object(Component, "clean") as clean:
+            response = self.api_patch({"restricted": False, "branch": "translations"})
+        self.assertEqual(response.status_code, 403, response.content)
+        clean.assert_not_called()
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.branch, "main")
+        self.assert_restricted(True)
+
+    def test_settings_verification_precedes_repository_validation(self) -> None:
+        response = self.client.get(self.settings_url)
+        data = get_form_data(response.context["form"].initial)
+        data.pop("restricted")
+        data["branch"] = "translations"
+
+        with patch.object(Component, "clean") as clean:
+            response = self.client.post(self.settings_url, data)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.url.startswith(reverse("first-factor-verify")))
+        clean.assert_not_called()
+        self.assert_restricted(True)
+
+    def test_admin_verification_precedes_repository_validation(self) -> None:
+        url = reverse("admin:trans_component_change", args=(self.component.pk,))
+        data = self.get_admin_form(url)
+        data.pop("restricted")
+        data["branch"] = "translations"
+
+        with patch.object(Component, "clean") as clean:
+            response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.url.startswith(reverse("first-factor-verify")))
+        clean.assert_not_called()
+        self.assert_restricted(True)
+
     def test_admin_project_requires_verification(self) -> None:
         url = reverse("admin:trans_project_change", args=(self.project.pk,))
         data = self.get_admin_form(url)
