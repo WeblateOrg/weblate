@@ -177,16 +177,22 @@ def ignore_check_source(request: AuthenticatedHttpRequest, check_id):
 @login_required
 @transaction.atomic
 def dismiss_automatically_translated(request: AuthenticatedHttpRequest, unit_id):
-    unit = get_object_or_404(Unit.objects.filter_access(request.user), pk=int(unit_id))
-    if not request.user.has_perm("unit.edit", unit):
-        raise PermissionDenied
+    from weblate.trans.models.source import source_operation  # ruff: ignore[import-outside-top-level]
 
-    unit.translate(
-        request.user,
-        unit.target,
-        unit.state,
-        request=request,
-    )
+    unit = get_object_or_404(Unit.objects.filter_access(request.user), pk=int(unit_id))
+    with source_operation(unit.translation.component):
+        unit = get_object_or_404(
+            Unit.objects.filter_access(request.user).select_for_update(), pk=unit.pk
+        )
+        if not request.user.has_perm("unit.edit", unit):
+            raise PermissionDenied
+
+        unit.translate(
+            request.user,
+            unit.target,
+            unit.state,
+            request=request,
+        )
     return JsonResponse({})
 
 
