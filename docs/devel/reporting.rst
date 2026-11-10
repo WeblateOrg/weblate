@@ -20,6 +20,9 @@ available on the same page according to :setting:`REPORT_EXPIRY`.
    the user can not otherwise access those descendants. Grant this permission
    only to users trusted with all report data in that scope.
 
+   Category reports include components owned by the category and its
+   subcategories. Components shared from other projects are excluded.
+
    Complete workspace reports require two-factor authentication for regular
    users when any project in the workspace enforces it. Superusers and bot
    accounts are exempt.
