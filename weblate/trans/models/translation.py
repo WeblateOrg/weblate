@@ -1680,7 +1680,7 @@ class Translation(
         """
         if not self.filename:
             return
-        if not self.unit_set.exclude(line_number=None).exists():
+        if not self.component.file_format_cls.supports_line_number:
             return
         # The template cache still describes the file from before this save.
         if self.is_template:
@@ -1702,7 +1702,7 @@ class Translation(
             )
             return
 
-        if not line_numbers or all(number is None for number in line_numbers.values()):
+        if not line_numbers:
             return
 
         changed: list[Unit] = []

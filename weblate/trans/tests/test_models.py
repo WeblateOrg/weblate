@@ -1206,6 +1206,23 @@ class TranslationTest(RepoTestCase):
     def test_commit_refreshes_monolingual_line_numbers(self) -> None:
         self._assert_commit_refreshes_shifted_line_numbers(self.create_po_mono())
 
+    def test_commit_populates_line_numbers_after_first_write(self) -> None:
+        component = self.create_po_mono()
+        translation = component.translation_set.get(language_code="cs")
+        translation.unit_set.update(line_number=None)
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        unit.translate(create_test_user(), "Ahoj, světě!\n", STATE_TRANSLATED)
+        component.commit_pending("test", None)
+        unit.refresh_from_db()
+        self.assertIsNotNone(unit.line_number)
+        translation.drop_store_cache()
+        store_unit = next(
+            item
+            for item in translation.store.content_units
+            if item.source == unit.source
+        )
+        self.assertEqual(unit.line_number, store_unit.line_number)
+
     def test_nearby_prefers_line_order(self) -> None:
         component = self.create_component()
         translation = component.translation_set.get(language_code="cs")

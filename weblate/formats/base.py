@@ -451,6 +451,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     supports_descriptions: bool = False
     supports_context: bool = False
     supports_location: bool = False
+    supports_line_number: bool = False
     supports_flags: bool = False
     supports_read_only: bool = False
     supports_remove_obsolete_units: bool = False

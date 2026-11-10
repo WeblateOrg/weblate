@@ -2029,6 +2029,7 @@ class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](
     supports_descriptions = True
     supports_context = True
     supports_location = True
+    supports_line_number = True
     supports_flags = True
     supports_remove_obsolete_units = True
     additional_states = (STATE_FUZZY,)
@@ -2481,6 +2482,7 @@ class PropertiesBaseFormat[S: propfile, U: propunit, T: PropertiesUnit](
 ):
     unit_class = PropertiesUnit  # type: ignore[assignment]
     parse_version = 1
+    supports_line_number = True
 
     def is_valid(self):
         result = super().is_valid()
@@ -2931,6 +2933,7 @@ class CSVFormat(TTKitFormat[WeblateCSVFile, WeblateCSVUnit, CSVUnit]):
     supports_descriptions: bool = True
     supports_context: bool = True
     supports_location: bool = True
+    supports_line_number = True
     additional_states = (STATE_FUZZY,)
 
     def __init__(

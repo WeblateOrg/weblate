@@ -736,6 +736,7 @@ class FormatFeatureDocumentationTest(SimpleTestCase):
         "supports_explanation",
         "supports_context",
         "supports_location",
+        "supports_line_number",
         "supports_flags",
         "additional_states",
         "supports_read_only",
@@ -1708,6 +1709,15 @@ class LineNumberTest(SimpleTestCase):
     def test_line_number_unsupported_format(self) -> None:
         storage: TranslationFormat = JSONFormat(TEST_JSON)
         self.assertIsNone(storage.content_units[0].line_number)
+
+
+class LineNumberSupportTest(SimpleTestCase):
+    def test_format_support_flag(self) -> None:
+        for format_class in (PoFormat, PoMonoFormat, PropertiesFormat, CSVFormat):
+            with self.subTest(format_class=format_class):
+                self.assertTrue(format_class.supports_line_number)
+        self.assertFalse(JSONFormat.supports_line_number)
+        self.assertFalse(XlsxFormat.supports_line_number)
 
 
 class ContributorCommentsTest(SimpleTestCase):
