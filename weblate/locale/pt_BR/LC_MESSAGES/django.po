@@ -36,7 +36,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-11-05 22:27-0600\n"
-"PO-Revision-Date: 2026-11-08 07:51+0000\n"
+"PO-Revision-Date: 2026-11-10 15:37+0000\n"
 "Last-Translator: Kaya Abe <kaya.abe@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
@@ -491,7 +491,7 @@ msgstr "Redefinição de senha confirmada, senha desativada."
 #. Translators: Audit log entry
 #, python-brace-format
 msgid "Configured sign in using {method} ({name})."
-msgstr "Login configurado usando {method} ({name})."
+msgstr "Acesso configurado usando {method} ({name})."
 
 #. Translators: Audit log entry
 #, python-brace-format
@@ -518,11 +518,11 @@ msgstr "Alguém tentou se cadastrar usando seu endereço de e-mail."
 #. Translators: Audit log entry
 #, python-brace-format
 msgid "Could not sign in using {method} ({name})."
-msgstr "Não foi possível fazer login usando {method} ({name})."
+msgstr "Não foi possível obter acesso usando {method} ({name})."
 
 #. Translators: Audit log entry
 msgid "Account locked due to many failed sign in attempts."
-msgstr "Conta bloqueada devido a muitas tentativas de login malsucedidas."
+msgstr "Conta bloqueada devido a muitas tentativas de acesso mal sucedidas."
 
 #. Translators: Audit log entry
 msgid "Account locked by the site administrator."
@@ -659,7 +659,7 @@ msgstr "A autenticação de dois fatores foi removida: {device}"
 #. Translators: Audit log entry
 #, python-brace-format
 msgid "Two-factor authentication sign in using {device}"
-msgstr "Login com autenticação de dois fatores usando {device}"
+msgstr "Acesso com autenticação de dois fatores usando {device}"
 
 #, python-brace-format
 msgid "Two-factor authentication failed using {device_type}"
@@ -667,7 +667,7 @@ msgstr "Autenticação de dois fatores falhou usando {device_type}"
 
 #. Translators: Audit log entry
 msgid "Configured password to sign in."
-msgstr "Senha configurada para fazer login."
+msgstr "Senha configurada para obter acesso."
 
 #. Translators: Audit log entry
 msgid "Signed in using password."
@@ -679,7 +679,7 @@ msgstr "Autenticado usando uma senha de um novo dispositivo."
 
 #. Translators: Audit log entry
 msgid "Could not sign in using password."
-msgstr "Não foi possível fazer login usando a senha."
+msgstr "Não foi possível obter acesso usando a senha."
 
 #. Translators: Audit log entry
 #, python-brace-format
@@ -1274,7 +1274,7 @@ msgid ""
 "This sign-in request has expired or changed. Start signing in again from the "
 "application."
 msgstr ""
-"Esta solicitação de login expirou ou foi alterada. Tente fazer login "
+"Esta solicitação de acesso expirou ou foi alterada. Tente obter acesso "
 "novamente no aplicativo."
 
 msgid "This password consists of only whitespace."
@@ -1482,7 +1482,7 @@ msgid "External profile link"
 msgstr "Link de perfil externo"
 
 msgid "Sign in"
-msgstr "Fazer login"
+msgstr "Obter acesso"
 
 msgid "Signed out"
 msgstr "Sair"
@@ -1626,8 +1626,8 @@ msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
 msgstr ""
-"O link de alteração da notificação não é mais válido. Faça login para "
-"configurar as notificações."
+"O link de alteração da notificação não é mais válido. Por favor, obtenha "
+"acesso para configurar as notificações."
 
 msgid "The security key was removed."
 msgstr "Chave de segurança removida."
@@ -4124,7 +4124,7 @@ msgstr ""
 "licença do colaborador."
 
 msgid "Sign in to save translations."
-msgstr "Faça login para salvar traduções."
+msgstr "Obtenha acesso para salvar traduções."
 
 msgid ""
 "You do not have permission to approve translations in this restricted "
@@ -7953,7 +7953,7 @@ msgid "Second factor sign-in"
 msgstr "Autenticação de dois fatores"
 
 msgid "Please complete your sign-in using second factor credential."
-msgstr "Por favor, complete seu login usando a credencial do segundo fator."
+msgstr "Por favor, complete seu acesso usando a credencial do segundo fator."
 
 msgid "Other ways to verify your identity"
 msgstr "Outras formas de verificar sua identidade"
@@ -8001,24 +8001,19 @@ msgstr "Confirmar"
 msgid "Contact server administrators"
 msgstr "Contatar os administradores do servidor"
 
-#, fuzzy, python-format
-#| msgid "You can only contact administrators of %(site_title)s server here."
+#, python-format
 msgid "Use this form to reach the administrators of %(site_title)s."
 msgstr ""
-"Você só pode entrar em contato com os administradores do servidor "
-"%(site_title)s aqui."
+"Use este formulário para entrar em contato com os administradores do %"
+"(site_title)s."
 
-#, fuzzy
-#| msgid "You can only contact administrators of the whole server here."
 msgid "Use this form to reach the administrators of this server."
 msgstr ""
-"Você só pode entrar em contato com os administradores de todo o servidor "
-"aqui."
+"Utilize este formulário para entrar em contato com os administradores deste "
+"servidor."
 
-#, fuzzy
-#| msgid "Backups"
 msgid "Back"
-msgstr "Backups"
+msgstr "Voltar"
 
 msgid "Send"
 msgstr "Enviar"
@@ -8029,74 +8024,49 @@ msgstr "Como nós podemos ajudar?"
 msgid "Select one of the options below to get help."
 msgstr "Selecione uma das opções abaixo para obter ajuda."
 
-#, fuzzy
-#| msgid "Import translation project"
 msgid "Question about a translation project"
-msgstr "Importar projeto de tradução"
+msgstr "Pergunta sobre um projeto de tradução"
 
-#, fuzzy
-#| msgid ""
-#| "For questions about a specific translation project, don’t use this form. "
-#| "Refer to the project’s Info tab and contact its maintainers."
 msgid ""
 "Find a specific translation project, refer to the project's Overview tab and "
 "contact its maintainers directly."
 msgstr ""
-"Para dúvidas sobre um projeto de tradução específico, não utilize este "
-"formulário. Consulte a guia Informações do projeto e entre em contato com "
-"seus mantenedores."
+"Encontre um projeto de tradução específico, consulte a guia de Visão Geral "
+"do projeto e entre em contato diretamente com os responsáveis pela sua "
+"manutenção."
 
-#, fuzzy
-#| msgid "Browse all projects"
 msgid "Browse projects"
-msgstr "Visualizar todos os projetos"
+msgstr "Explorar projetos"
 
-#, fuzzy
-#| msgid "Weblate project"
 msgid "Weblate product feedback"
-msgstr "Projeto Weblate"
+msgstr "Feedback do produto Weblate"
 
-#, fuzzy
-#| msgid ""
-#| "Weblate development ideas and questions can be sent to the %"
-#| "(link_start)sWeblate issue tracker%(link_end)s."
 msgid ""
 "Share Weblate development ideas, feature requests, or report bugs in the "
 "upstream issue tracker."
 msgstr ""
-"Ideias e perguntas sobre desenvolvimento do Weblate podem ser enviadas para "
-"o %(link_start)srastreador de problemas do Weblate%(link_end)s."
+"Compartilhe ideias de desenvolvimento do Weblate, solicitações de "
+"funcionalidades, ou relate problemas no sistema de rastreamento de "
+"incidências."
 
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "Open issue"
-#| msgid_plural "Open issues"
 msgid "Open issue tracker"
-msgstr "Publicação em aberto"
+msgstr "Abrir rastreamento de incidências"
 
-#, fuzzy
-#| msgid "Support Weblate"
 msgid "Support for another Weblate server"
-msgstr "Suporte ao Weblate"
+msgstr "Suporte para outro servidor Weblate"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "If you seek support for any other Weblate deployment than %(site_title)s, "
-#| "please check support offerings at %(weblate_link)s or use this form on "
-#| "the correct server."
+#, python-format
 msgid ""
 "If you seek support for any other Weblate deployment than %(site_title)s, "
 "check the available support offerings, or use the contact form on the "
 "correct server."
 msgstr ""
-"Se você busca suporte para qualquer outra implantação do Weblate diferente "
-"de %(site_title)s, verifique as ofertas de suporte em %(weblate_link)s ou "
-"use este formulário no servidor correto."
+"Se você precisar de suporte para qualquer outra implementação do Weblate que "
+"não seja %(site_title)s, verifique as opções de suporte disponíveis ou use o "
+"formulário de contato no servidor correspondente."
 
-#, fuzzy
-#| msgid "View source string"
 msgid "View support offerings"
-msgstr "Ver texto fonte"
+msgstr "Ver opções de suporte"
 
 msgid "Documentation"
 msgstr "Documentação"
@@ -8111,15 +8081,12 @@ msgstr ""
 msgid "Read the docs"
 msgstr "Leia a documentação"
 
-#, fuzzy, python-format
-#| msgid "Contact site administrators"
+#, python-format
 msgid "Question for %(site_title)s administrators"
-msgstr "Entre em contato com os administradores do site"
+msgstr "Pergunta para os administradores de %(site_title)s"
 
-#, fuzzy
-#| msgid "Contact server administrators"
 msgid "Question for the server administrators"
-msgstr "Contatar os administradores do servidor"
+msgstr "Pergunta para os administradores do servidor"
 
 msgid ""
 "Reach out to the administrators of this server about account, registration, "
@@ -8129,18 +8096,14 @@ msgstr ""
 "relacionadas à conta, ao registro ou a todo o servidor que não se enquadrem "
 "nos tópicos acima."
 
-#, fuzzy
-#| msgid "Use contact form"
 msgid "Open contact form"
-msgstr "Use o formulário de contato"
+msgstr "Abrir formulário de contato"
 
 msgid "Registration"
 msgstr "Cadastro"
 
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Check your e-mail"
-msgstr "Seu e-mail"
+msgstr "Verifique seu e-mail"
 
 msgid "Password reset almost complete"
 msgstr "A redefinição de senha está quase concluída"
@@ -8168,6 +8131,9 @@ msgid ""
 "with an account, you may receive account recovery guidance instead of a "
 "verification link."
 msgstr ""
+"Verifique seu e-mail para obter instruções. Se este endereço já estiver "
+"associado a uma conta, você poderá receber orientações para recuperação da "
+"conta em vez de um link de verificação."
 
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
@@ -8180,15 +8146,15 @@ msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr ""
 "Verifique sua pasta de spam se não conseguir vê-lo em sua caixa de entrada."
 
-#, fuzzy, python-format
-#| msgid "The confirmation link will expire after %(count)s hour."
-#| msgid_plural "The confirmation link will expire after %(count)s hours."
+#, python-format
 msgid ""
 "If you receive a verification link, it will expire after %(count)s hour."
 msgid_plural ""
 "If you receive a verification link, it will expire after %(count)s hours."
-msgstr[0] "O link de confirmação vai expirar após %(count)s hora."
-msgstr[1] "O link de confirmação vai expirar após %(count)s horas."
+msgstr[0] ""
+"Se você receber um link de verificação, ele expirará após %(count)s hora."
+msgstr[1] ""
+"Se você receber um link de verificação, ele expirará após %(count)s horas."
 
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
@@ -8199,12 +8165,12 @@ msgstr[1] "O link de confirmação vai expirar após %(count)s horas."
 msgid "Request a new confirmation link if it expires."
 msgstr "Solicite um novo link de confirmação se ele expirar."
 
-#, fuzzy
-#| msgid "Request a new confirmation link if it expires."
 msgid ""
 "Request a new verification e-mail from your account settings if the link "
 "expires."
-msgstr "Solicite um novo link de confirmação se ele expirar."
+msgstr ""
+"Se o link expirar, solicite um novo e-mail de verificação nas configurações "
+"da sua conta."
 
 msgid "Register again if the confirmation link expires."
 msgstr "Cadastre-se novamente se o link de confirmação expirar."
@@ -8214,6 +8180,9 @@ msgid ""
 "and follow the confirmation steps. You may be asked for your current "
 "password."
 msgstr ""
+"Se você receber um link de verificação, abra-o enquanto estiver autenticado "
+"a esta conta e siga as etapas de confirmação. Você poderá ser solicitado a "
+"inserir sua senha atual."
 
 msgid "Back to account settings"
 msgstr "Voltar para configurações da conta"
@@ -8225,10 +8194,10 @@ msgstr ""
 "O e-mail não é uma tecnologia instantânea. Aguarde o e-mail de confirmação "
 "pelo menos 30 minutos antes de nos escrever sobre problemas."
 
-#, fuzzy
-#| msgid "If there is a problem with your registration, please contact us."
 msgid "If there is a problem verifying your e-mail address, please contact us."
-msgstr "Se houver um problema com o seu cadastro, por favor contate-nos."
+msgstr ""
+"Caso haja algum problema ao verificar seu endereço de e-mail, por favor, "
+"entre em contato conosco."
 
 msgid "If there is a problem with your registration, please contact us."
 msgstr "Se houver um problema com o seu cadastro, por favor contate-nos."
@@ -8240,45 +8209,52 @@ msgid ""
 "Verification instructions will be sent to the new e-mail address. You do not "
 "need access to your old mailbox."
 msgstr ""
+"As instruções de verificação serão enviadas para o novo endereço de e-mail. "
+"Você não precisa acessar sua caixa de entrada antiga."
 
 msgid ""
 "Adding an address does not change your account e-mail address. After "
 "verification, you can select the new address in Account settings."
 msgstr ""
+"Adicionar um endereço não altera o endereço de e-mail da sua conta. Após a "
+"verificação, você poderá selecionar o novo endereço nas Configurações da "
+"conta."
 
-#, fuzzy
-#| msgid "Send test e-mail"
 msgid "Send verification e-mail"
-msgstr "Enviar e-mail de teste"
+msgstr "Enviar e-mail de verificação"
 
-#, fuzzy
-#| msgid "Confirm adding user identity"
 msgid "Confirm your identity"
-msgstr "Confirmar a adição de identidade do usuário"
+msgstr "Confirme sua identidade"
 
 msgid "Confirm your existing sign-in method before continuing."
-msgstr ""
+msgstr "Confirme seu método de acesso atual antes de continuar."
 
 msgid ""
 "Confirm your existing sign-in method before registering your first second "
 "factor."
 msgstr ""
+"Confirme seu método de acesso atual antes de registrar seu primeiro segundo "
+"fator de autenticação."
 
 msgid "Sign in again using a connected provider:"
-msgstr ""
+msgstr "Inicie a sessão novamente utilizando um provedor conectado:"
 
 msgid ""
 "Your previous e-mail verification has expired. Reset your password to "
 "continue."
 msgstr ""
+"Sua verificação de e-mail anterior expirou. Redefina sua senha para "
+"continuar."
 
 msgid "Sign out and reset password by e-mail"
-msgstr ""
+msgstr "Saia da sua conta e redefina sua senha por e-mail"
 
 msgid ""
 "No sign-in method is available to confirm your identity. Contact an "
 "administrator to recover access."
 msgstr ""
+"Não há nenhum método de acesso disponível para confirmar sua identidade. "
+"Entre em contato com um administrador para recuperar o acesso."
 
 msgid "Trial subscriptions"
 msgstr "Assinaturas de avaliação"
@@ -8289,12 +8265,11 @@ msgstr "Configure seu projeto livre"
 msgid "Your trial"
 msgstr "Seu teste"
 
-#, fuzzy, python-format
-#| msgid "You will have 14 days to set up your project."
+#, python-format
 msgid "You will have %(days)s day to set up your project."
 msgid_plural "You will have %(days)s days to set up your project."
-msgstr[0] "Você terá 14 dias para configurar seu projeto."
-msgstr[1] "Você terá 14 dias para configurar seu projeto."
+msgstr[0] "Você terá %(days)s dia para configurar seu projeto."
+msgstr[1] "Você terá %(days)s dias para configurar seu projeto."
 
 msgid "Please request project approval once you finish the setup."
 msgstr "Solicite aprovação de projeto assim que você terminar a configuração."
@@ -8321,10 +8296,10 @@ msgstr ""
 
 #, python-format
 msgid "Sign in to %(formatted_site_title)s"
-msgstr "Login em %(formatted_site_title)s"
+msgstr "Inicie acesso em %(formatted_site_title)s"
 
 msgid "Sign in with:"
-msgstr "Fazer login com:"
+msgstr "Obter acesso com:"
 
 msgid "Forgot your password?"
 msgstr "Esqueceu sua senha?"
@@ -8332,51 +8307,49 @@ msgstr "Esqueceu sua senha?"
 msgid "Register new account"
 msgstr "Cadastrar nova conta"
 
-#, fuzzy
-#| msgid "Notification settings"
 msgid "Notification diagnostics"
-msgstr "Configurações de notificação"
+msgstr "Diagnóstico de notificações"
 
 msgid "Diagnostics"
-msgstr ""
+msgstr "Diagnósticos"
 
 msgid ""
 "Check subscription eligibility for hypothetical events. This does not send "
 "notifications. The user’s own actions do not trigger notifications; event "
 "details, digest content, and delivery rate limits can also affect delivery."
 msgstr ""
+"Verificar a elegibilidade da assinatura para eventos hipotéticos. Isso não "
+"envia notificações. As ações do próprio usuário não acionam notificações; "
+"detalhes do evento, conteúdo do resumo e limites de taxa de entrega também "
+"podem afetar a entrega."
 
-#, fuzzy
-#| msgid "View notification"
 msgid "Check notifications"
-msgstr "Visualizar notificação"
+msgstr "Verificar notificações"
 
-#, fuzzy, python-format
-#| msgid "Mute notifications for %(object)s"
+#, python-format
 msgid "Notification eligibility for %(target)s"
-msgstr "Silenciar notificações de %(object)s"
+msgstr "Critérios de elegibilidade para notificação de %(target)s"
 
 msgid ""
 "Inherited project settings are shown once, alongside differences across "
 "accessible components. Choose a component or translation path for detailed "
 "eligibility checks."
 msgstr ""
+"As configurações herdadas do projeto são exibidas uma única vez, juntamente "
+"com as diferenças entre os componentes acessíveis. Selecione um componente "
+"ou caminho de tradução para verificações detalhadas de elegibilidade."
 
 msgid "Notification"
 msgstr "Notificação"
 
-#, fuzzy
-#| msgid "Edit project settings"
 msgid "Inherited project settings"
-msgstr "Editar configurações do projeto"
+msgstr "Configurações de projeto herdadas"
 
 msgid "Settings and eligibility"
-msgstr ""
+msgstr "Configurações e elegibilidade"
 
-#, fuzzy
-#| msgid "Component alerts"
 msgid "Component exceptions"
-msgstr "Alertas de componente"
+msgstr "Exceções de componentes"
 
 msgid "One-time"
 msgstr "Uma vez"
@@ -8385,93 +8358,80 @@ msgid ""
 "No inherited subscription. Matching settings are listed under component "
 "exceptions."
 msgstr ""
+"Nenhuma assinatura herdada. As configurações correspondentes estão listadas "
+"em exceções de componentes."
 
-#, fuzzy
-#| msgid "Trial subscriptions"
 msgid "Overridden subscriptions"
-msgstr "Assinaturas de avaliação"
+msgstr "Assinaturas substituídas"
 
 #, python-format
 msgid "Different settings in %(count)s component."
 msgid_plural "Different settings in %(count)s components."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Configurações diferentes no componente %(count)s."
+msgstr[1] "Configurações diferentes nos componentes %(count)s."
 
 msgid ""
 "These components have no matching subscription, so this notification will "
 "not be sent."
 msgstr ""
+"Esses componentes não possuem uma assinatura correspondente, portanto esta "
+"notificação não será enviada."
 
 msgid ""
 "Shared components use subscriptions from their original project, not this "
 "project’s subscriptions."
 msgstr ""
+"Os componentes compartilhados usam assinaturas do projeto original, não as "
+"assinaturas deste projeto."
 
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Inspect example components:"
-msgstr "Visualizar todos os componentes"
+msgstr "Inspecionar os componentes de exemplo:"
 
-#, fuzzy
-#| msgid "Other components"
 msgid "Inspect components:"
-msgstr "Outros componentes"
+msgstr "Inspecionar componentes:"
 
 msgid "None"
 msgstr "Nenhum"
 
-#, fuzzy
-#| msgid "You do not have permissions to add new translation file."
 msgid "No accessible components or translations in this target."
-msgstr "Você não tem permissões para adicionar um novo arquivo de tradução."
+msgstr "Não há componentes ou traduções acessíveis neste destino."
 
-#, fuzzy
-#| msgid "No matching strings found."
 msgid "No matching subscriptions in this scope."
-msgstr "Nenhum texto correspondente foi encontrado."
+msgstr "Não há assinaturas correspondentes neste escopo."
 
-#, fuzzy, python-format
-#| msgid "Browse %(count)s project"
-#| msgid_plural "Browse all %(count)s projects"
+#, python-format
 msgid "%(count)s watched project."
 msgid_plural "%(count)s watched projects."
-msgstr[0] "Visualizar %(count)s projeto"
-msgstr[1] "Visualizar %(count)s projetos"
+msgstr[0] "%(count)s projeto monitorado."
+msgstr[1] "%(count)s projetos monitorados."
 
-#, fuzzy
-#| msgid "Watched projects"
 msgid "No watched projects."
-msgstr "Projetos monitorados"
+msgstr "Nenhum projeto monitorado."
 
-#, fuzzy
-#| msgid "Notification on new language request"
 msgid "Notification languages"
-msgstr "Notificar sobre nova solicitação de idioma"
+msgstr "Idiomas de notificação"
 
-#, fuzzy, python-format
-#| msgid "Failed to find matching language!"
+#, python-format
 msgid "%(count)s notification language."
 msgid_plural "%(count)s notification languages."
-msgstr[0] "Falha ao encontrar o idioma correspondente!"
-msgstr[1] "Falha ao encontrar o idioma correspondente!"
+msgstr[0] "%(count)s idioma de notificação."
+msgstr[1] "%(count)s idiomas de notificação."
 
 msgid ""
 "No notification languages selected. Language-filtered notifications will not "
 "be sent."
 msgstr ""
+"Nenhum idioma de notificação selecionado. Notificações filtradas por idioma "
+"não serão enviadas."
 
-#, fuzzy
-#| msgid "Trial subscriptions"
 msgid "Subscriptions"
-msgstr "Assinaturas de avaliação"
+msgstr "Assinaturas"
 
 msgid "Frequency"
 msgstr "Frequência"
 
-#, fuzzy
-#| msgid "Trial subscriptions"
 msgid "No subscriptions."
-msgstr "Assinaturas de avaliação"
+msgstr "Nenhuma assinatura."
 
 msgid "Please enable the password authentication to secure your account."
 msgstr "Habilite a autenticação por senha para tornar sua conta segura."
@@ -8498,15 +8458,11 @@ msgstr "Alterar minha senha"
 msgid "Set my password"
 msgstr "Definir minha senha"
 
-#, fuzzy
-#| msgid "Back to account settings"
 msgid "Back to security settings"
-msgstr "Voltar para configurações da conta"
+msgstr "Voltar às configurações de segurança"
 
-#, fuzzy
-#| msgid "Edit project settings"
 msgid "Profile settings"
-msgstr "Editar configurações do projeto"
+msgstr "Configurações de perfil"
 
 msgid "Account"
 msgstr "Conta"
@@ -8517,10 +8473,8 @@ msgstr "Perfil público"
 msgid "Preferences"
 msgstr "Preferências"
 
-#, fuzzy
-#| msgid "search"
 msgid "Saved searches"
-msgstr "procurar"
+msgstr "Pesquisas salvas"
 
 msgid "Notifications"
 msgstr "Notificações"
@@ -8528,10 +8482,8 @@ msgstr "Notificações"
 msgid "Security"
 msgstr "Segurança"
 
-#, fuzzy
-#| msgid "Source strings"
 msgid "Developer settings"
-msgstr "Textos fonte"
+msgstr "Configurações do desenvolvedor"
 
 msgid "Licenses"
 msgstr "Licenças"
@@ -8546,10 +8498,8 @@ msgstr ""
 msgid "Save"
 msgstr "Salvar"
 
-#, fuzzy
-#| msgid "File names"
 msgid "Account management"
-msgstr "Nomes de arquivo"
+msgstr "Gerenciamento de contas"
 
 msgid "Download user data"
 msgstr "Baixar dados de usuário"
@@ -8557,15 +8507,16 @@ msgstr "Baixar dados de usuário"
 msgid "You can download all your private data."
 msgstr "Você pode baixar todos os seus dados privados."
 
-#, fuzzy
-#| msgid "Edit project settings"
 msgid "Import settings"
-msgstr "Editar configurações do projeto"
+msgstr "Importar configurações"
 
 msgid ""
 "Import settings from a user data file downloaded from another Weblate "
 "server. Your contribution history and account identifiers are not imported."
 msgstr ""
+"Importe as configurações de um arquivo de dados do usuário baixado de outro "
+"servidor Weblate. Seu histórico de contribuições e identificadores de conta "
+"não serão importados."
 
 msgid "Removal"
 msgstr "Remoção"
@@ -8601,21 +8552,20 @@ msgstr ""
 
 msgid "Your saved searches are offered in the search filters everywhere."
 msgstr ""
+"Suas pesquisas salvas são exibidas nos filtros de busca em todos os lugares."
 
-#, fuzzy
-#| msgid "Add a user"
 msgid "Add saved search"
-msgstr "Adicionar um usuário"
+msgstr "Adicionar pesquisa salva"
 
 msgid ""
 "Check which subscriptions apply to a project, component, or translation and "
 "what can prevent notification delivery."
 msgstr ""
+"Verifique quais assinaturas se aplicam a um projeto, componente ou tradução "
+"e o que pode impedir o envio de notificações."
 
-#, fuzzy
-#| msgid "Notification settings"
 msgid "Open notification diagnostics"
-msgstr "Configurações de notificação"
+msgstr "Abrir diagnósticos de notificações"
 
 msgid ""
 "Add all projects you want to translate to see them as watched projects on "
@@ -8630,20 +8580,14 @@ msgstr "Configurações de notificação"
 msgid "Remove this notification setting"
 msgstr "Remover esta configuração de notificação"
 
-#, fuzzy
-#| msgid "Password login"
 msgid "Password-based sign-in"
-msgstr "Senha de entrada"
+msgstr "Início de sessão por senha"
 
-#, fuzzy
-#| msgid "Configure"
 msgid "Configured"
-msgstr "Configurar"
+msgstr "Configurado"
 
-#, fuzzy
-#| msgid "Configure"
 msgid "Not configured"
-msgstr "Configurar"
+msgstr "Não configurado"
 
 msgid "Two-factor authentication"
 msgstr "Autenticação de dois fatores"
@@ -8653,7 +8597,7 @@ msgid ""
 "requiring more than just a password to sign in."
 msgstr ""
 "Autenticação de dois fatores adiciona outra camada de segurança à sua conta, "
-"exigindo mais do que apenas uma senha para fazer login."
+"exigindo mais do que apenas uma senha para obter acesso."
 
 msgid "Security keys (WebAuthn)"
 msgstr "Chaves de segurança (WebAuthn)"
@@ -8661,18 +8605,14 @@ msgstr "Chaves de segurança (WebAuthn)"
 msgid "No WebAuthn keys registered yet."
 msgstr "Nenhuma chave WebAuthn registrada ainda."
 
-#, fuzzy, python-format
-#| msgid "The security key %s was registered."
+#, python-format
 msgid "%(count)s security key registered."
 msgid_plural "%(count)s security keys registered."
-msgstr[0] "A chave de segurança %s foi registrada."
-msgstr[1] "A chave de segurança %s foi registrada."
+msgstr[0] "%(count)s chave de segurança registrada."
+msgstr[1] "%(count)s chaves de segurança registradas."
 
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "API secret key"
 msgid "Add security key"
-msgstr "Chave secreta da API"
+msgstr "Adicionar chave de segurança"
 
 msgid "Remove"
 msgstr "Remover"
@@ -8683,12 +8623,11 @@ msgstr "Aplicativos de autenticação (TOTP)"
 msgid "No authenticator apps registered yet."
 msgstr "Nenhum aplicativo autenticador registrado ainda."
 
-#, fuzzy, python-format
-#| msgid "No authenticator apps registered yet."
+#, python-format
 msgid "%(count)s authenticator app registered."
 msgid_plural "%(count)s authenticator apps registered."
-msgstr[0] "Nenhum aplicativo autenticador registrado ainda."
-msgstr[1] "Nenhum aplicativo autenticador registrado ainda."
+msgstr[0] "%(count)s aplicativo autenticador registrado."
+msgstr[1] "%(count)s aplicativos autenticadores registrados."
 
 msgid "Register new authenticator app"
 msgstr "Registrar novo aplicativo autenticador"
@@ -8712,18 +8651,16 @@ msgid "View recovery codes"
 msgstr "Mostrar códigos de recuperação"
 
 msgid "Linked sign-in accounts"
-msgstr ""
+msgstr "Contas de acesso vinculadas"
 
 msgid "Disconnect"
 msgstr "Desconectar"
 
-#, fuzzy
-#| msgid "Do not have an account yet?"
 msgid "No linked sign-in accounts."
-msgstr "Não tem uma conta ainda?"
+msgstr "Nenhuma conta de acesso vinculada."
 
 msgid "Add sign-in method"
-msgstr ""
+msgstr "Adicionar método de acesso"
 
 msgid "API access"
 msgstr "Acesso a API"
@@ -8745,7 +8682,7 @@ msgid "API key copied to clipboard."
 msgstr "Chave de API copiada para a área de transferência."
 
 msgid "Verify your identity to view your API key"
-msgstr ""
+msgstr "Verifique sua identidade para visualizar sua chave de API"
 
 msgid "API root URL:"
 msgstr "URL raiz da API:"
@@ -8961,7 +8898,7 @@ msgstr "Tradução <strong>contínua</strong> baseada na web"
 
 #. Translators: This is followed by list of legal documents such as Privacy Policy or General Terms and Conditions
 msgid "By registering and signing in to this service you accept our:"
-msgstr "Ao se cadastrar e fazer login neste serviço, você aceita:"
+msgstr "Ao se cadastrar e iniciar acesso neste serviço, você aceita:"
 
 msgid ""
 "Quick overview of the General Terms and Conditions and the Privacy Policy, "
@@ -9015,7 +8952,7 @@ msgstr ""
 "projeto para o qual você contribuiu."
 
 msgid "Weblate single sign on"
-msgstr "Login unificado do Weblate"
+msgstr "Acesso unificado do Weblate"
 
 msgctxt "Badge for site title for Hosted Weblate"
 msgid "Cloud"
@@ -9039,7 +8976,7 @@ msgid ""
 msgstr ""
 "Aplicativos autenticadores geram senhas de uso único baseadas em tempo que "
 "são usadas como um segundo fator para verificar sua identidade quando "
-"solicitado durante o login."
+"solicitado durante o acesso."
 
 msgid "Scan the QR code"
 msgstr "Ler o código QR"
@@ -9274,17 +9211,12 @@ msgstr "Continuar"
 msgid "Register new security key"
 msgstr "Registrar nova chave de segurança"
 
-#, fuzzy
-#| msgid ""
-#| "Authenticator apps generate time-based one-time passwords that are used "
-#| "as a second factor to verify your identity when prompted during sign-in."
 msgid ""
 "Security keys can be used as a second factor to verify your identity when "
 "prompted during sign-in."
 msgstr ""
-"Aplicativos autenticadores geram senhas de uso único baseadas em tempo que "
-"são usadas como um segundo fator para verificar sua identidade quando "
-"solicitado durante o login."
+"As chaves de segurança podem ser usadas como um segundo fator para verificar "
+"sua identidade quando solicitado durante o acesso."
 
 msgid "Name your security key"
 msgstr "Dê um nome à sua chave de segurança"
@@ -9298,10 +9230,8 @@ msgid ""
 "different browser."
 msgstr ""
 
-#, fuzzy
-#| msgid "Sign in using the security key"
 msgid "Sign in using a passkey or security key"
-msgstr "Faça login usando a chave de segurança"
+msgstr "Obtenha acesso usando uma senha ou chave de segurança"
 
 msgid ""
 "Passkey or security key verification could not be completed. The request may "
@@ -9913,7 +9843,7 @@ msgid "Add automatic assignment"
 msgstr "Adicionar atribuição automática"
 
 msgid "Last sign in"
-msgstr "Último login"
+msgstr "Último acesso"
 
 msgid "Team administrator"
 msgstr "Administrador de equipe"
@@ -10630,7 +10560,7 @@ msgid "Dismiss"
 msgstr "Descartar"
 
 msgid "Please sign in to see the alerts."
-msgstr "Faça login para ver os alertas."
+msgstr "Por favor, acesse sua conta para ver os alertas."
 
 msgid "Browse all component changes"
 msgstr "Visualizar todas as alterações desse componente"
@@ -12156,15 +12086,11 @@ msgstr "Senha redefinida em %(site_title)s"
 
 msgid "Sign in to see the full audit log, including the IP address."
 msgstr ""
-"Faça login para ver o registro de auditoria completo, incluindo o endereço "
-"IP."
+"Acesse sua conta para ver o registro de auditoria completo, incluindo o "
+"endereço IP."
 
-#, fuzzy
-#| msgid "Sign in to see the full audit log, including the IP address."
 msgid "Sign in to see the full audit log."
-msgstr ""
-"Faça login para ver o registro de auditoria completo, incluindo o endereço "
-"IP."
+msgstr "Acesse sua conta para ver o registro de auditoria completo."
 
 msgid ""
 "If you didn't initiate this, please report it to the server administrators "
@@ -12955,10 +12881,8 @@ msgstr ""
 msgid "Date joined:"
 msgstr "Data de adesão"
 
-#, fuzzy
-#| msgid "Last sign in"
 msgid "Last sign-in:"
-msgstr "Último login"
+msgstr "Último acesso:"
 
 #, python-format
 msgid "Row %(row)s: %(identifier)s (%(method)s)"
@@ -14465,7 +14389,7 @@ msgid "Nothing to list here."
 msgstr "Nada a ser listado aqui."
 
 msgid "Please sign in to start new translation"
-msgstr "Faça login para iniciar uma nova tradução"
+msgstr "Acesse sua conta para iniciar uma nova tradução"
 
 msgid ""
 "This formula identifies which plural form will be used based on given count "
@@ -16897,7 +16821,7 @@ msgstr "Convite para %(project_name)s"
 
 #, python-format
 msgid "Connected GitHub account: %(login)s"
-msgstr ""
+msgstr "Conta do GitHub conectada: %(login)s"
 
 #, python-format
 msgid ""
@@ -17026,7 +16950,7 @@ msgstr "Remover minha conta"
 
 #, python-format
 msgid "This removes the connected account <code>%(login)s</code> from Weblate."
-msgstr ""
+msgstr "Isso remove a conta conectada <code>%(login)s</code> do Weblate."
 
 msgid ""
 "If no other Weblate workspace uses this connection, the Weblate GitHub App "
@@ -17060,7 +16984,7 @@ msgid "Invitation to Weblate"
 msgstr "Convite para Weblate"
 
 msgid "Please sign-in to view this invitation."
-msgstr "Faça login para visualizar este convite."
+msgstr "Acesse sua conta para visualizar este convite."
 
 msgid "This invitation belongs to a different user."
 msgstr "Este convite pertence a um usuário diferente."
@@ -22395,7 +22319,7 @@ msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
 msgstr ""
-"Você ativou sua conta, agora deve definir a senha para poder fazer login na "
+"Você ativou sua conta, agora deve definir a senha para poder acessar na "
 "próxima vez."
 
 msgid "Please set your full name and e-mail in your profile."
@@ -24075,15 +23999,11 @@ msgstr "Texto destino"
 msgid "Organization or User"
 msgstr "Organizar ou remover"
 
-#, fuzzy
-#| msgid "Target string"
 msgid "Target login"
-msgstr "Texto destino"
+msgstr "Destino de início de sessão"
 
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "Hosting organization or user login"
-msgstr "Hospedando traduções"
+msgstr "Acesso da organização ou do usuário que hospeda o serviço"
 
 #, fuzzy
 #| msgid "VCS repositories"
