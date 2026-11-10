@@ -745,6 +745,17 @@ For example ``po/*.po`` or ``locale/*/LC_MESSAGES/django.po``.
 In case your filename contains special characters such as ``[``, ``]``, these need
 to be escaped as ``[[]`` or ``[]]``.
 
+File-mask scans are limited to 100,000 traversal work units and five seconds,
+including processing the matches. Each visited traversal state and examined
+directory entry counts toward the work limit, even when it does not match.
+Exceeding either limit fails the scan without using partial results. Narrow the
+mask to the relevant directories if a scan exceeds these limits.
+
+Directory symlinks within the repository are supported. Scans skip links outside
+the repository, links to managed VCS metadata, and directory cycles. The time
+limit is checked between filesystem operations; it cannot interrupt an operation
+blocked on storage.
+
 .. seealso::
 
    * :ref:`bimono`
