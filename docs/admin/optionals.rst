@@ -183,8 +183,9 @@ or :setting:`PRIVACY_URL` to use externally hosted documents. Configured URLs
 take priority in the footer, sign-in pages, legal pages, and confirmation page.
 The default terms and privacy templates link to the configured URL instead of
 showing their placeholder text. Without a configured URL, Weblate links to a
-visible internal legal page. When no terms link is available, the confirmation
-page embeds :file:`legal/documents/tos.html`.
+visible internal legal page. Without :setting:`LEGAL_URL`, the confirmation
+page embeds :file:`legal/documents/tos.html`. The privacy policy remains linked
+when an external URL or a visible internal page is available.
 
 On changing the terms of service or privacy policy, adjust
 :setting:`LEGAL_TOS_DATE` when users should be forced to agree with the updated
