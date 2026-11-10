@@ -9,6 +9,7 @@ Weblate 2026.11.2
 
 .. rubric:: Improvements
 
+* Bounded :ref:`Weblate Client project configuration discovery <wlc-config>` by repository and POSIX permission boundaries, and added explicit project-file selection and configuration-free invocation.
 * Updated the :doc:`security reporting policy <security/issues>` to handle low and medium severity issues publicly on GitHub and reserve private handling and security advisories for high and critical severity vulnerabilities.
 * Avoided unnecessary file edits when changing :ref:`custom source languages <workflow-source-language>` and credited required writes to the initiating user.
 * Invalidate pending :ref:`e-mail additions <user-profile>` when the account password changes.
