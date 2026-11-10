@@ -657,6 +657,11 @@ The following subdirectories usually exist:
     Default location for Django media files, specified by :setting:`django:MEDIA_ROOT`. Contains uploaded screenshots, see :ref:`screenshots`.
 :file:`vcs`
     Version-control repositories for translations.
+:file:`translation-uploads`
+    Private temporary files for background translation uploads. Share this
+    directory between web and Celery worker processes, with read/write access
+    only for Weblate. Jobs expire after six hours; hourly cleanup removes
+    abandoned files older than 24 hours while leaving active uploads intact.
 :file:`backups`
     Daily backup data. Please check :ref:`backup-dumps` for details.
 :file:`fonts`:
@@ -2439,6 +2444,31 @@ RATELIMIT_BULK_EDIT_LOCKOUT
 Lockout after exceeding the browser bulk-edit rate limit, in seconds. Defaults
 to 60.
 
+.. setting:: RATELIMIT_UPLOAD_ATTEMPTS
+
+RATELIMIT_UPLOAD_ATTEMPTS
+-------------------------
+
+Maximum translation upload attempts per user during
+:setting:`RATELIMIT_UPLOAD_WINDOW`. Defaults to 10. Browser and API uploads share
+this budget, including synchronous and background API uploads. Superusers are
+exempt. Uploads rejected before the upload permission check do not count.
+
+.. setting:: RATELIMIT_UPLOAD_WINDOW
+
+RATELIMIT_UPLOAD_WINDOW
+-----------------------
+
+Window for translation upload rate limiting, in seconds. Defaults to 60.
+
+.. setting:: RATELIMIT_UPLOAD_LOCKOUT
+
+RATELIMIT_UPLOAD_LOCKOUT
+------------------------
+
+Lockout after exceeding the translation upload rate limit, in seconds.
+Defaults to 60.
+
 .. setting:: RATELIMIT_MACHINERY_ATTEMPTS
 
 RATELIMIT_MACHINERY_ATTEMPTS
@@ -3050,6 +3080,9 @@ Configures the maximum size, in bytes, for uploaded translation files. Defaults
 to 50 MB.
 
 Uploads must also satisfy :setting:`TRANSLATION_MAX_SIZE`.
+
+Suggestion uploads are additionally limited to 20,000 content strings. See
+:ref:`upload` for upload processing and rate limits.
 
 In Docker, configure this using the ``WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE``
 environment variable.

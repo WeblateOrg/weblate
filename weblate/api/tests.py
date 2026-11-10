@@ -20,10 +20,11 @@ from pathlib import Path
 from threading import Barrier
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, PropertyMock, patch
 from uuid import uuid4
 
 import yaml
+from celery.backends.cache import CacheBackend
 from django.conf import settings
 from django.contrib import messages as django_messages
 from django.contrib.messages import get_messages
@@ -166,6 +167,7 @@ from weblate.trans.validators import (
 )
 from weblate.utils.celery import (
     TASK_METADATA_TTL,
+    app,
     get_task_metadata_key,
     handle_task_failure,
     handle_task_failure_result,
@@ -16396,6 +16398,78 @@ class MemoryAPITest(APIBaseTest):
 
 
 class TranslationAPITest(APIBaseTest):
+    @override_settings(CELERY_TASK_STORE_EAGER_RESULT=True)
+    def test_upload_background(self) -> None:
+        self.authenticate()
+        with patch.object(
+            type(app),
+            "backend",
+            new_callable=PropertyMock,
+            return_value=CacheBackend(app=app, backend="memory"),
+        ):
+            for method in ("post", "put"):
+                with self.subTest(method=method), open(TEST_PO, "rb") as handle:
+                    response = getattr(self.client, method)(
+                        reverse("api:translation-file", kwargs=self.translation_kwargs),
+                        {"file": handle, "background": True, "method": "suggest"},
+                    )
+                self.assertEqual(response.status_code, 202)
+                self.assertIn("/api/tasks/", response.data["task_url"])
+                task_response = self.client.get(response.data["task_url"])
+                self.assertEqual(task_response.status_code, 200)
+                self.assertTrue(task_response.data["completed"])
+                self.assertIn("accepted", task_response.data["result"])
+
+    def test_upload_background_false(self) -> None:
+        self.authenticate()
+        with open(TEST_PO, "rb") as handle:
+            response = self.client.post(
+                reverse("api:translation-file", kwargs=self.translation_kwargs)
+                + "?background=true",
+                {"file": handle, "background": False},
+            )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("accepted", response.data)
+
+    def test_upload_raw_background(self) -> None:
+        self.authenticate()
+        response = self.client.put(
+            reverse("api:translation-file", kwargs=self.translation_kwargs)
+            + "?background=true",
+            Path(TEST_PO).read_bytes(),
+            content_type="application/octet-stream",
+            headers={"content-disposition": 'attachment; filename="test.po"'},
+        )
+        self.assertEqual(response.status_code, 202)
+
+    def test_upload_rate_limit(self) -> None:
+        self.authenticate()
+        with (
+            patch("weblate.api.views.check_rate_limit", return_value=False),
+            patch("weblate.api.views.queue_translation_upload") as queue,
+            open(TEST_PO, "rb") as handle,
+        ):
+            response = self.client.post(
+                reverse("api:translation-file", kwargs=self.translation_kwargs),
+                {"file": handle, "background": True},
+            )
+        self.assertEqual(response.status_code, 429)
+        queue.assert_not_called()
+
+    def test_upload_task_is_private(self) -> None:
+        from weblate.utils.celery import store_task_metadata  # ruff: ignore[import-outside-top-level]
+
+        self.authenticate()
+        task_id = "d0db0567-bd78-481e-ac61-df5ddc24f783"
+        store_task_metadata(
+            task_id,
+            user_id=self.user.pk + 1000,
+            task_kind="translation-upload",
+            cancellable=False,
+        )
+        response = self.client.get(reverse("api:task-detail", kwargs={"pk": task_id}))
+        self.assertEqual(response.status_code, 404)
+
     def test_list_translations(self) -> None:
         response = self.client.get(reverse("api:translation-list"))
         self.assertEqual(response.data["count"], 8)
