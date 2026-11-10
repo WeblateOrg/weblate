@@ -3457,15 +3457,17 @@ class Translation(
 
         component = self.component
         file_format_cls = component.file_format_cls
-        if not (self.filename and file_format_cls.has_hierarchical_contexts):
+        if not self.filename:
             file_format_cls.validate_context(context)
             return
 
-        pending_contexts = list(
-            self.unit_set.filter(pending_changes__add_unit=True).values_list(
-                "context", flat=True
+        pending_contexts = None
+        if file_format_cls.has_hierarchical_contexts:
+            pending_contexts = list(
+                self.unit_set.filter(pending_changes__add_unit=True).values_list(
+                    "context", flat=True
+                )
             )
-        )
         try:
             self.store.validate_new_context(
                 context,

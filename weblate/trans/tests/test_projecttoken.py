@@ -551,6 +551,8 @@ class ProjectTokenTest(FixtureTestCase):
         """Project removal should not delete tokens still used by another project."""
         token_key = self.create_token()
         token_user = self.get_token_user(token_key)
+        token_user.full_name = "Deleted User"
+        token_user.save(update_fields=["full_name"])
         second_project = self.create_additional_project(name="Other", slug="other")
         second_project.access_control = Project.ACCESS_PRIVATE
         self.enterContext(acting_user_context(self.user))
@@ -570,6 +572,21 @@ class ProjectTokenTest(FixtureTestCase):
         self.assertFalse(
             token_user.auditlog_set.filter(activity="token-removed").exists()
         )
+
+    def test_project_removal_cleans_up_renamed_token(self) -> None:
+        token_key = self.create_token()
+        token_user = self.get_token_user(token_key)
+        token_user.full_name = "Deleted User"
+        token_user.save(update_fields=["full_name"])
+
+        project_removal.run(self.project.pk, self.user.pk, backup=False)
+
+        token_user.refresh_from_db()
+        self.assertFalse(token_user.is_active)
+        self.assertFalse(Token.objects.filter(key=token_key).exists())
+        self.assertFalse(token_user.groups.exists())
+        audit = token_user.auditlog_set.get(activity="token-removed")
+        self.assertEqual(audit.params["username"], self.user.username)
 
     def test_use_token_write(self) -> None:
         """Use the token for API write."""

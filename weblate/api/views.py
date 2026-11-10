@@ -231,6 +231,7 @@ from weblate.trans.views.files import (
     prepare_download_scope,
 )
 from weblate.trans.views.reports import get_report_scope_values, render_report_data
+from weblate.trans.workspace_move import get_project_move_plan_error
 from weblate.utils.celery import (
     get_task_metadata,
     get_task_progress,
@@ -2982,12 +2983,20 @@ class ProjectViewSet(
                 from weblate.billing.models import Billing
 
                 try:
-                    Billing.objects.lock_project_creation(
+                    billing = Billing.objects.lock_project_creation(
                         workspace.pk,
                         source_workspace_id=serializer.instance.workspace_id,
                     )
                 except DjangoValidationError as error:
                     raise ValidationError({"workspace": error.messages}) from error
+                if not self.request.user.is_superuser and (
+                    plan_error := get_project_move_plan_error(
+                        serializer.instance,
+                        billing,
+                        access_control=serializer.validated_data.get("access_control"),
+                    )
+                ):
+                    raise ValidationError({"workspace": plan_error})
             super().perform_update(serializer)
 
     def update(self, request: Request, *args, **kwargs):

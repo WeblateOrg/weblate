@@ -1134,6 +1134,8 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
         self,
         context: str,
         pending_contexts: Iterable[str] | None = None,
+        *,
+        unit: U | None = None,
     ) -> None:
         self.validate_context(context)
 

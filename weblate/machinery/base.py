@@ -41,6 +41,7 @@ from weblate.utils.hash import calculate_dict_hash, calculate_hash, hash_to_chec
 from weblate.utils.outbound import is_allowlisted_hostname
 from weblate.utils.requests import (
     JSON_RESPONSE_ERRORS,
+    MACHINERY_RESPONSE_SIZE,
     async_fetch_url,
     async_fetch_validated_url,
     fetch_url,
@@ -369,6 +370,7 @@ class BatchMachineTranslation(DocVersionsMixin):
             **kwargs,
             "headers": headers,
             "timeout": self.request_timeout,
+            "max_response_size": MACHINERY_RESPONSE_SIZE,
             "auth": self.get_auth(),
             "raise_for_status": False,
         }

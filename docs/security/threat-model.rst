@@ -473,6 +473,19 @@ Build-time and configuration variants
      - Existing add-on management authority governs mutations. Operation scopes,
        validation, and automation-origin suppression constrain declarative runs;
        custom Python add-ons retain their separate trust model. *(maintainer)*
+   * - Configurable text templates
+     - Component and add-on managers configure commit messages, generated files,
+       paths, and repository browser links. *(documented)* (source: :ref:`markup`)
+     - Templates use a fixed set of Django tags and filters with plain-data
+       context. Complex renders execute in a helper with source, context, loop,
+       intermediate-value, output, CPU, and wall-time limits. Supported platforms
+       also enforce an address-space limit. On macOS, the helper can exhaust
+       memory within its time limits because the address-space cap is unavailable.
+       Simple scalar substitutions use bounded in-process rendering. This bounds
+       template work, not arbitrary Python extensions. *(maintainer)*
+     - Existing component and add-on management permissions govern configuration.
+       Failed renders return no partial output; generated files are installed
+       only after rendering succeeds. See :ref:`markup` for limits. *(maintainer)*
    * - Bulk regular expression replacement
      - Users with bulk-edit permissions and add-on managers supply replacement
        patterns and templates. *(maintainer)* (source: :ref:`bulk-edit`)
@@ -903,12 +916,36 @@ Security properties Weblate provides
      - Security-critical when it blocks investigation of privileged changes or
        discloses retained personal data; privacy-impacting when data exceeds the
        configured retention; correctness-only for minor event gaps.
+   * - New project moves enforce the destination billing plan's public-only
+       rule on both project access and component restrictions, except for
+       superusers. Existing incompatible data is retained for administrator
+       review. Backup restores apply the plan's access policy without a
+       superuser exception: restricted components become public on a public-only
+       plan, with preview and completion warnings. *(documented)*
+       (source: :ref:`workspace-project-creation`, :ref:`projectbackup`)
+     - Billing is enabled and the destination has a public-only plan.
+     - An ordinary user moves private content into the plan, or a restore
+       silently publishes restricted backup content without the documented notice.
+     - Commercial restriction bypass for incompatible moves; privacy-impacting
+       when an import omits the disclosure warning. The importer chooses the
+       destination's access policy. *(maintainer)*
    * - Self-service trial creation grants only the designated commercial trial
        plan or the Libre setup plan. *(maintainer)*
      - The deployment offers self-service hosting trials.
      - An authenticated user can select another public, private, or internal
        billing plan when creating a trial.
      - Security-critical when this bypasses paid service limits.
+   * - HTTP responses read through the shared buffered HTTP client, screenshot
+       URL uploads, and remote CDN HTML downloads enforce caller-specific
+       decoded-body limits before buffering the complete response. *(documented)*
+       (source: :ref:`outbound-http-limits`)
+     - A configured integration or asset URL returns an HTTP response.
+     - A response exceeding the documented decoded-byte ceiling is buffered
+       without rejection, including compressed or chunked content.
+     - Security-critical for single-request memory exhaustion. Socket timeouts
+       still apply per operation; a strict total download deadline is not yet
+       enforced, so a slow stream can remain open within the body-size limit.
+       *(maintainer)*
    * - Rate-limited API and web actions enforce configured rate limits.
        *(documented)* (source: :doc:`/api`, :doc:`/admin/config`)
      - Rate limiting is enabled and backed by a working datastore.

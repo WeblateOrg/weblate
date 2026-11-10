@@ -1386,6 +1386,75 @@ class SettingsTest(ReusableViewTestCase):
             'Project moved from "Current workspace" to "Target workspace".',
         )
 
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_project_move_public_plan(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        source = Workspace.objects.create(name="Source move workspace")
+        source.add_owner(self.user)
+        billing = create_test_billing(self.user)
+        billing.plan.change_access_control = False
+        billing.plan.save(update_fields=["change_access_control"])
+        self.user.clear_permissions_cache()
+        url = reverse("move", kwargs={"path": self.project.get_url_path()})
+        for access, restricted in (
+            (Project.ACCESS_PRIVATE, False),
+            (Project.ACCESS_PROTECTED, False),
+            (Project.ACCESS_PUBLIC, True),
+            (Project.ACCESS_PUBLIC, False),
+        ):
+            with self.subTest(access=access, restricted=restricted):
+                Project.objects.filter(pk=self.project.pk).update(
+                    workspace=source, access_control=access
+                )
+                self.project.component_set.update(
+                    restricted=restricted, license="MIT", inherit_license=False
+                )
+                response = self.client.post(
+                    url, {"workspace": str(billing.workspace_id)}, follow=True
+                )
+                self.project.refresh_from_db()
+                if access == Project.ACCESS_PUBLIC and not restricted:
+                    self.assertContains(response, "Project moved.")
+                    self.assertEqual(self.project.workspace_id, billing.workspace_id)
+                else:
+                    self.assertContains(response, "only allows public projects")
+                    self.assertEqual(self.project.workspace_id, source.pk)
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_project_move_public_plan_recheck(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        source = Workspace.objects.create(name="Source plan recheck workspace")
+        source.add_owner(self.user)
+        Project.objects.filter(pk=self.project.pk).update(
+            workspace=source, access_control=Project.ACCESS_PRIVATE
+        )
+        self.project.component_set.update(license="MIT", inherit_license=False)
+        billing = create_test_billing(self.user)
+        billing.plan.change_access_control = True
+        billing.plan.save(update_fields=["change_access_control"])
+        self.user.clear_permissions_cache()
+        original = ProjectMoveForm.is_valid
+
+        def restrict_plan(form: ProjectMoveForm) -> bool:
+            valid = original(form)
+            if valid:
+                billing.plan.change_access_control = False
+                billing.plan.save(update_fields=["change_access_control"])
+            return valid
+
+        with patch.object(ProjectMoveForm, "is_valid", restrict_plan):
+            response = self.client.post(
+                reverse("move", kwargs={"path": self.project.get_url_path()}),
+                {"workspace": str(billing.workspace_id)},
+                follow=True,
+            )
+        self.assertContains(response, "only allows public projects")
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, source.pk)
+        self.assertFalse(
+            self.project.change_set.filter(action=ActionEvents.MOVE_PROJECT).exists()
+        )
+
     def test_project_move_reports_machinery_conflicts(self) -> None:
         self.project.add_user(self.user, "Administration")
         target = Workspace.objects.create(name="Target workspace")

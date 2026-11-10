@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 from time import monotonic
+from typing import TYPE_CHECKING
 from unittest.mock import patch
 
 from django.contrib.admindocs.utils import docutils_is_available
@@ -37,6 +38,13 @@ from weblate.checks.markup import (
 )
 from weblate.checks.tests.test_checks import CheckTestCase
 from weblate.trans.tests.factories import make_check, make_unit
+from weblate.utils.html import MarkdownSyntax
+from weblate.utils.regex import regex_finditer
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
+
+    import regex
 
 
 class BBCodeCheckTest(CheckTestCase):
@@ -655,6 +663,86 @@ class MarkdownSyntaxCheckTest(CheckTestCase):
                 (71, 72, ">"),
             ],
         )
+
+    def test_timeout_reports_check_failure(self) -> None:
+        for source, target, timed_out in (
+            ("**source**", "plain", "**source**"),
+            ("plain", "**target**", "**target**"),
+        ):
+            unit = make_unit(source=source, target=target, flags="md-text")
+
+            def matches(
+                pattern: regex.Pattern,
+                text: str,
+                *,
+                concurrent: bool = False,
+                timed_out: str = timed_out,
+            ) -> Iterator[regex.Match]:
+                if text == timed_out:
+                    raise TimeoutError
+                yield from regex_finditer(pattern, text, concurrent=concurrent)
+
+            with (
+                self.subTest(timed_out=timed_out),
+                patch("weblate.utils.html.regex_finditer", side_effect=matches),
+            ):
+                result = self.check.check_single(source, target, unit)
+                self.assertIsInstance(result, dict)
+                assert isinstance(result, dict)
+                self.assertIn("time limit", result["errors"][0])
+                self.assertTrue(self.check.check_target_unit([source], [target], unit))
+                self.assertIn(
+                    "time limit",
+                    str(self.check.get_description(make_check(unit, self.check))),
+                )
+
+    def test_plural_timeout_description(self) -> None:
+        sources = ["**source**", "sources"]
+        targets = ["**target**", "targets"]
+        unit = make_unit(source=sources, target=targets, flags="md-text")
+        with patch("weblate.utils.html.regex_finditer", side_effect=TimeoutError):
+            self.assertTrue(self.check.check_target_unit(sources, targets, unit))
+            self.assertIn(
+                "time limit",
+                str(self.check.get_description(make_check(unit, self.check))),
+            )
+
+    def test_timeout_discards_highlighting(self) -> None:
+        unit = make_unit(flags="md-text")
+        with patch("weblate.utils.regex.REGEX_TIMEOUT", 0):
+            self.assertEqual(
+                list(
+                    self.check.check_highlight(
+                        "**bold** `code` <https://example.com>", unit
+                    )
+                ),
+                [],
+            )
+
+    def test_timeout_discards_partial_highlighting(self) -> None:
+        def partial_syntax() -> Iterator[MarkdownSyntax]:
+            yield MarkdownSyntax(0, 8, "**")
+            raise TimeoutError
+
+        with patch(
+            "weblate.checks.markup.iter_markdown_syntax", return_value=partial_syntax()
+        ):
+            self.assertEqual(
+                list(
+                    self.check.check_highlight("**bold**", make_unit(flags="md-text"))
+                ),
+                [],
+            )
+
+    def test_unrelated_errors_are_not_hidden(self) -> None:
+        unit = make_unit(flags="md-text")
+        with patch(
+            "weblate.utils.html.regex_finditer", side_effect=ValueError("broken scan")
+        ):
+            with self.assertRaisesMessage(ValueError, "broken scan"):
+                self.check.check_single("**source**", "plain", unit)
+            with self.assertRaisesMessage(ValueError, "broken scan"):
+                list(self.check.check_highlight("**source**", unit))
 
     def test_code_span_delimiter(self) -> None:
         self.do_test(True, ("`code`", "``code``", "md-text"))

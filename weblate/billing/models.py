@@ -1164,6 +1164,13 @@ class Billing(models.Model):
         with suppress(TypeError):
             message %= component_count
         yield LibreCheck(component_count > 0, message)
+        if not self.plan.change_access_control and any(
+            component.restricted for component in components
+        ):
+            yield LibreCheck(
+                False,
+                gettext("Restricted components are not allowed by this billing plan."),
+            )
         for component in components:
             license_name = component.get_license_display()
             license_error = None
@@ -1564,7 +1571,8 @@ def record_project_bill(
     # Use the original sender: component and translation removal also resolve to
     # their project above, but must not grant workspace ownership.
     if sender is Project:
-        users = User.objects.having_perm("project.edit", instance)
+        # Project tokens must never acquire workspace authority through deletion.
+        users = User.objects.having_perm("project.edit", instance).filter(is_bot=False)
         for billing in instance.billings:
             # Do the owners sync only for the last project
             if billing.get_projects_queryset().exclude(pk=instance.pk).exists():

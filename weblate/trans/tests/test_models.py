@@ -838,6 +838,71 @@ class FormatPersistenceCommitTest(RepoTestCase):
         )
 
 
+class DTDCommitFailureTest(RepoTestCase):
+    def check_invalid_commit(self, *, source: bool) -> None:
+        component = self.create_dtd()
+        translation = (
+            component.source_translation
+            if source
+            else component.translation_set.get(language_code="cs")
+        )
+        filename = get_optional_path(translation.get_filename())
+        original = filename.read_bytes()
+        revision = component.repository.last_revision
+        user = create_test_user()
+        valid = translation.unit_set.get(context="hello")
+        invalid = translation.unit_set.get(context="orangutan")
+        valid.translate(user, "Valid pending translation", STATE_TRANSLATED)
+        valid.refresh_from_db()
+        expected_valid = valid.target
+        invalid.translate(user, "Invalid &#; translation", STATE_TRANSLATED)
+        pending = set(
+            PendingUnitChange.objects.filter(unit__translation=translation).values_list(
+                "pk", flat=True
+            )
+        )
+
+        with (
+            self.assertWarnsRegex(UserWarning, "DTD parse error"),
+            self.assertRaisesRegex(FailedCommitError, "does not validate"),
+        ):
+            translation.commit_pending("test", user)
+
+        self.assertEqual(filename.read_bytes(), original)
+        self.assertEqual(component.repository.last_revision, revision)
+        self.assertEqual(
+            set(
+                PendingUnitChange.objects.filter(
+                    unit__translation=translation
+                ).values_list("pk", flat=True)
+            ),
+            pending,
+        )
+
+        invalid.refresh_from_db()
+        invalid.translate(user, "Corrected translation", STATE_TRANSLATED)
+        invalid.refresh_from_db()
+        expected_corrected = invalid.target
+        translation.commit_pending("test", user)
+        translation.drop_store_cache()
+        self.assertFalse(valid.pending_changes.exists())
+        self.assertFalse(invalid.pending_changes.exists())
+        self.assertEqual(
+            translation.store.find_unit("hello", "")[0].target,
+            expected_valid,
+        )
+        self.assertEqual(
+            translation.store.find_unit("orangutan", "")[0].target,
+            expected_corrected,
+        )
+
+    def test_invalid_translation_keeps_file_and_pending_changes(self) -> None:
+        self.check_invalid_commit(source=False)
+
+    def test_invalid_source_keeps_file_and_pending_changes(self) -> None:
+        self.check_invalid_commit(source=True)
+
+
 class ProjectTest(RepoTestCase):
     """Project object testing."""
 

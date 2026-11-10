@@ -1568,7 +1568,6 @@ def cleanup_project_tokens(project: Project, user: User | None) -> None:
             email__endswith="@bots.noreply.weblate.org",
         )
         .exclude(username__contains=":")
-        .exclude(full_name="Deleted User")
         .annotate(has_other_project_groups=Exists(other_project_groups))
         .filter(has_other_project_groups=False)
         .distinct()
