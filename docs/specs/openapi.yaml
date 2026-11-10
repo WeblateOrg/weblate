@@ -29364,6 +29364,13 @@ paths:
       operationId: api_translations_file_create
       summary: Upload new file with translations.
       parameters:
+      - in: query
+        name: background
+        schema:
+          type: boolean
+        description: Process a raw file upload in the background. The multipart background
+          field takes precedence. This temporary option will be removed in 2027.1,
+          when all uploads will run in the background.
       - in: path
         name: component__project__slug
         schema:
@@ -29527,10 +29534,23 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Remaining'
             X-RateLimit-Reset:
               $ref: '#/components/headers/X-RateLimit-Reset'
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadTask'
+          description: The request was accepted for asynchronous processing.
     put:
       operationId: api_translations_file_update
       summary: Upload new file with translations.
       parameters:
+      - in: query
+        name: background
+        schema:
+          type: boolean
+        description: Process a raw file upload in the background. The multipart background
+          field takes precedence. This temporary option will be removed in 2027.1,
+          when all uploads will run in the background.
       - in: path
         name: component__project__slug
         schema:
@@ -29694,6 +29714,12 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Remaining'
             X-RateLimit-Reset:
               $ref: '#/components/headers/X-RateLimit-Reset'
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadTask'
+          description: The request was accepted for asynchronous processing.
   /api/translations/{component__project__slug}/{component__slug}/{language__code}/repository/:
     get:
       operationId: api_translations_repository_retrieve
@@ -43620,6 +43646,12 @@ components:
     UploadRequest:
       type: object
       properties:
+        background:
+          type: boolean
+          default: false
+          description: 'Process the upload in the background. Temporary option: in
+            2027.1 this field will be removed and only background processing will
+            be supported.'
         ignore_language:
           type: boolean
           default: false
@@ -43670,6 +43702,17 @@ components:
       - result
       - skipped
       - total
+    UploadTask:
+      type: object
+      properties:
+        detail:
+          type: string
+        task_url:
+          type: string
+          format: uri
+      required:
+      - detail
+      - task_url
     UserGroupRequest:
       type: object
       properties:

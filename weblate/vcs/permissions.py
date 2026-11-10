@@ -19,7 +19,7 @@ if TYPE_CHECKING:
 def managed_workspaces(user: User) -> WorkspaceQuerySet:
     """Return workspaces the user can manage."""
     return (
-        Workspace.objects.filter(projects__in=user.managed_projects)
+        Workspace.objects.filter(projects__in=user.accessible_managed_projects)
         | user.workspaces_with_perm("workspace.edit")
     ).distinct()
 

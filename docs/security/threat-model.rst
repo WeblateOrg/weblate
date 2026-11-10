@@ -608,6 +608,14 @@ Input assumptions
 
 Size and rate assumptions:
 
+* Translation uploads require an authenticated actor, regardless of permissions
+  assigned to the Guests team, and retain byte and content-string limits in
+  synchronous and background processing. Suggestion uploads have a tighter
+  string-count limit, and browser and API uploads share a per-user rate budget.
+  Background upload files are private temporary data shared between web and
+  worker processes; workers recheck the initiating user's access before applying
+  them.
+  *(documented)* (source: :ref:`upload`, :setting:`RATELIMIT_UPLOAD_ATTEMPTS`)
 * Weblate relies on application and reverse-proxy upload limits for large HTTP
   requests. *(documented)* (source: :setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`)
 * Project backup imports are bounded by member count, aggregate uncompressed

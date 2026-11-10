@@ -47,7 +47,7 @@ from drf_standardized_errors.openapi_serializers import ErrorResponse403Serializ
 from rest_framework import parsers, serializers, viewsets
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import action
-from rest_framework.exceptions import APIException, ValidationError
+from rest_framework.exceptions import APIException, Throttled, ValidationError
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -224,6 +224,7 @@ from weblate.trans.tasks import (
     generate_report,
     project_removal,
 )
+from weblate.trans.uploads import queue_translation_upload
 from weblate.trans.util import get_upload_error_message
 from weblate.trans.views.files import (
     download_multi,
@@ -242,6 +243,7 @@ from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.messages import store_task_completion_message
+from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.search import SearchQueryError, parse_query
 from weblate.utils.similarity import Comparer
 from weblate.utils.state import (
@@ -4215,7 +4217,28 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
     @extend_schema(
         description="Upload new file with translations.",
         methods=["post", "put"],
-        responses=UploadResultSerializer,
+        parameters=[
+            OpenApiParameter(
+                "background",
+                bool,
+                OpenApiParameter.QUERY,
+                description=(
+                    "Process a raw file upload in the background. The multipart "
+                    "background field takes precedence. This temporary option "
+                    "will be removed in 2027.1, when all uploads will run in the background."
+                ),
+            ),
+        ],
+        responses={
+            HTTP_200_OK: UploadResultSerializer,
+            HTTP_202_ACCEPTED: inline_serializer(
+                "UploadTask",
+                {
+                    "detail": serializers.CharField(),
+                    "task_url": serializers.URLField(),
+                },
+            ),
+        },
     )
     @action(
         detail=True,
@@ -4243,7 +4266,16 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
                 ),
             )
 
-        serializer = UploadRequestSerializer(data=request.data)
+        if not check_rate_limit("upload", cast("AuthenticatedHttpRequest", request)):
+            raise Throttled(detail="Too many uploads, please try again later.")
+
+        if not isinstance(request.data, Mapping):
+            msg = "Expected form data."
+            raise ValidationError(msg)
+        upload_data = dict(request.data.items())
+        if "background" not in upload_data:
+            upload_data["background"] = request.query_params.get("background", False)
+        serializer = UploadRequestSerializer(data=upload_data)
         serializer.is_valid(raise_exception=True)
         serializer.check_perms(user, obj)
 
@@ -4261,6 +4293,29 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
             author_email = data.get("author_email")
 
         try:
+            if data["background"]:
+                task = queue_translation_upload(
+                    obj,
+                    user,
+                    data["file"],
+                    {
+                        "conflicts": data["conflicts"],
+                        "author_name": author_name,
+                        "author_email": author_email,
+                        "method": data["method"],
+                        "fuzzy": data["fuzzy"],
+                        "ignore_language": data["ignore_language"],
+                    },
+                )
+                return Response(
+                    {
+                        "detail": "Translation upload has been queued.",
+                        "task_url": reverse(
+                            "api:task-detail", kwargs={"pk": task.id}, request=request
+                        ),
+                    },
+                    status=HTTP_202_ACCEPTED,
+                )
             not_found, skipped, accepted, total = obj.handle_upload(
                 request,
                 data["file"],

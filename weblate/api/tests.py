@@ -20,10 +20,11 @@ from pathlib import Path
 from threading import Barrier
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, PropertyMock, patch
 from uuid import uuid4
 
 import yaml
+from celery.backends.cache import CacheBackend
 from django.conf import settings
 from django.contrib import messages as django_messages
 from django.contrib.messages import get_messages
@@ -166,6 +167,7 @@ from weblate.trans.validators import (
 )
 from weblate.utils.celery import (
     TASK_METADATA_TTL,
+    app,
     get_task_metadata_key,
     handle_task_failure,
     handle_task_failure_result,
@@ -6938,20 +6940,21 @@ class ProjectAPITest(APIBaseTest):
     def test_create_component_ignores_missing_autoshare_target(self) -> None:
         repo = self.component.repo
         link_repo = self.component.get_repo_link_url()
-        original_get_linked = Component.objects.get_linked
+        original_get_linked = ComponentQuerySet.get_linked
 
-        def get_linked(candidate):
+        def get_linked(queryset: ComponentQuerySet, candidate: str) -> Component | None:
             if candidate == link_repo:
                 msg = "Component disappeared."
                 raise Component.DoesNotExist(msg)
-            return original_get_linked(candidate)
+            return original_get_linked(queryset, candidate)
 
         self.grant_perm_to_user("project.edit", project=self.project)
         self.user.clear_permissions_cache()
 
         with patch.object(
-            Component.objects,
+            ComponentQuerySet,
             "get_linked",
+            autospec=True,
             side_effect=get_linked,
         ):
             self.do_request(
@@ -7255,31 +7258,81 @@ class ProjectAPITest(APIBaseTest):
         )
         self.user.clear_permissions_cache()
 
+        restricted = self.create_po(
+            project=self.create_project(name="Public target", slug="public-target"),
+            name="Restricted target",
+            restricted=True,
+        )
+        two_factor = self.create_po(
+            project=self.create_project(
+                name="Two factor target", slug="two-factor-target", enforced_2fa=True
+            ),
+            name="Two factor component",
+        )
+        for fields in (
+            {},
+            {"name": self.component.name, "slug": self.component.slug},
+            {
+                "name": "Inaccessible repository link",
+                "slug": "inaccessible-repository-link",
+                "filemask": "po/*.po",
+                "file_format": "po",
+                "new_lang": "none",
+            },
+        ):
+            responses = []
+            for repo in (
+                private_component.get_repo_link_url(),
+                restricted.get_repo_link_url(),
+                two_factor.get_repo_link_url(),
+                "weblate://acl/missing",
+                "weblate://missing-project/missing",
+            ):
+                with self.subTest(repo=repo, fields=fields):
+                    response = self.do_request(
+                        "api:project-components",
+                        self.project_kwargs,
+                        method="post",
+                        code=400,
+                        format="json",
+                        request={**fields, "repo": repo},
+                    )
+                    responses.append(response.data)
+                    self.assertEqual(response.data["errors"][0]["attr"], "repo")
+                    self.assertEqual(
+                        response.data["errors"][0]["detail"],
+                        "This component does not exist or you cannot access it.",
+                    )
+            self.assertTrue(all(response == responses[0] for response in responses))
+        self.assertFalse(
+            self.project.component_set.filter(
+                slug="inaccessible-repository-link"
+            ).exists()
+        )
+
+    def test_create_component_rejects_visible_repository_without_edit_permission(
+        self,
+    ) -> None:
+        visible = self.create_po(
+            project=self.create_project(name="Visible target", slug="visible-target"),
+            name="Visible component",
+        )
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.can_access_component(visible))
+        self.assertFalse(self.user.has_perm("component.edit", visible))
         response = self.do_request(
             "api:project-components",
             self.project_kwargs,
             method="post",
             code=400,
             format="json",
-            request={
-                "name": "Inaccessible repository link",
-                "slug": "inaccessible-repository-link",
-                "repo": private_component.get_repo_link_url(),
-                "filemask": "po/*.po",
-                "file_format": "po",
-                "new_lang": "none",
-            },
+            request={"repo": visible.get_repo_link_url()},
         )
-
         self.assertEqual(response.data["errors"][0]["attr"], "repo")
         self.assertEqual(
             response.data["errors"][0]["detail"],
             "You do not have permission to access this component.",
-        )
-        self.assertFalse(
-            self.project.component_set.filter(
-                slug="inaccessible-repository-link"
-            ).exists()
         )
 
     def test_create_component_no_push(self) -> None:
@@ -11221,19 +11274,27 @@ class ComponentAPITest(APIBaseTest):
         )
         self.user.clear_permissions_cache()
 
-        self.do_request(
-            "api:component-detail",
-            self.component_kwargs,
-            method="patch",
-            code=400,
-            format="json",
-            request={
-                "repo": private_component.get_repo_link_url(),
-                "branch": "",
-                "push": "",
-                "push_branch": "",
-            },
-        )
+        responses = []
+        for repo in (
+            private_component.get_repo_link_url(),
+            "weblate://acl/missing",
+            "weblate://missing-project/missing",
+        ):
+            with self.subTest(repo=repo):
+                response = self.do_request(
+                    "api:component-detail",
+                    self.component_kwargs,
+                    method="patch",
+                    code=400,
+                    format="json",
+                    request={"repo": repo, "branch": "", "push": "", "push_branch": ""},
+                )
+                responses.append(response.data)
+                self.assertEqual(
+                    response.data["errors"][0]["detail"],
+                    "This component does not exist or you cannot access it.",
+                )
+        self.assertTrue(all(response == responses[0] for response in responses))
         self.component.refresh_from_db()
         self.assertEqual(self.component.repo, original_repo)
         self.assertIsNone(self.component.linked_component_id)
@@ -16396,6 +16457,78 @@ class MemoryAPITest(APIBaseTest):
 
 
 class TranslationAPITest(APIBaseTest):
+    @override_settings(CELERY_TASK_STORE_EAGER_RESULT=True)
+    def test_upload_background(self) -> None:
+        self.authenticate()
+        with patch.object(
+            type(app),
+            "backend",
+            new_callable=PropertyMock,
+            return_value=CacheBackend(app=app, backend="memory"),
+        ):
+            for method in ("post", "put"):
+                with self.subTest(method=method), open(TEST_PO, "rb") as handle:
+                    response = getattr(self.client, method)(
+                        reverse("api:translation-file", kwargs=self.translation_kwargs),
+                        {"file": handle, "background": True, "method": "suggest"},
+                    )
+                self.assertEqual(response.status_code, 202)
+                self.assertIn("/api/tasks/", response.data["task_url"])
+                task_response = self.client.get(response.data["task_url"])
+                self.assertEqual(task_response.status_code, 200)
+                self.assertTrue(task_response.data["completed"])
+                self.assertIn("accepted", task_response.data["result"])
+
+    def test_upload_background_false(self) -> None:
+        self.authenticate()
+        with open(TEST_PO, "rb") as handle:
+            response = self.client.post(
+                reverse("api:translation-file", kwargs=self.translation_kwargs)
+                + "?background=true",
+                {"file": handle, "background": False},
+            )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("accepted", response.data)
+
+    def test_upload_raw_background(self) -> None:
+        self.authenticate()
+        response = self.client.put(
+            reverse("api:translation-file", kwargs=self.translation_kwargs)
+            + "?background=true",
+            Path(TEST_PO).read_bytes(),
+            content_type="application/octet-stream",
+            headers={"content-disposition": 'attachment; filename="test.po"'},
+        )
+        self.assertEqual(response.status_code, 202)
+
+    def test_upload_rate_limit(self) -> None:
+        self.authenticate()
+        with (
+            patch("weblate.api.views.check_rate_limit", return_value=False),
+            patch("weblate.api.views.queue_translation_upload") as queue,
+            open(TEST_PO, "rb") as handle,
+        ):
+            response = self.client.post(
+                reverse("api:translation-file", kwargs=self.translation_kwargs),
+                {"file": handle, "background": True},
+            )
+        self.assertEqual(response.status_code, 429)
+        queue.assert_not_called()
+
+    def test_upload_task_is_private(self) -> None:
+        from weblate.utils.celery import store_task_metadata  # ruff: ignore[import-outside-top-level]
+
+        self.authenticate()
+        task_id = "d0db0567-bd78-481e-ac61-df5ddc24f783"
+        store_task_metadata(
+            task_id,
+            user_id=self.user.pk + 1000,
+            task_kind="translation-upload",
+            cancellable=False,
+        )
+        response = self.client.get(reverse("api:task-detail", kwargs={"pk": task_id}))
+        self.assertEqual(response.status_code, 404)
+
     def test_list_translations(self) -> None:
         response = self.client.get(reverse("api:translation-list"))
         self.assertEqual(response.data["count"], 8)
