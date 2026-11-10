@@ -985,10 +985,13 @@ Resource thresholds in this model are the documented configuration defaults
 where they exist, especially backup import limits and rate limits. Translation
 files have a pre-parse byte limit configured by :setting:`TRANSLATION_MAX_SIZE`
 and a 100,000-content-string acceptance limit before synchronization or import.
-These do not replace parser-specific expansion limits. For total repository
-size, project count, component count, and aggregate translation volume, Weblate
-does not claim a fixed universal resource ceiling independent of deployment
-capacity. *(maintainer)*
+Translation-memory imports enforce the same pre-parse byte and entry-count
+limits, including TMX source-target expansion, before writing entries in bounded
+batches. Browser memory imports share the per-user translation-upload rate
+budget. See :doc:`/admin/memory`. These do not replace parser-specific expansion
+limits. For total repository size, project count, component count, and aggregate
+translation volume, Weblate does not claim a fixed universal resource ceiling
+independent of deployment capacity. *(maintainer)*
 
 Component discovery bounds repository traversal, file-mask matching, and
 detected-preset comparison work even when repository content controls the masks; see
