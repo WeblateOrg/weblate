@@ -57,6 +57,8 @@ Weblate 2026.11.2
 
 .. rubric:: Bug fixes
 
+* Fixed browser Content Security Policy blocking identity confirmation using an external :doc:`authentication provider <admin/auth>`.
+
 * Restored pending translation writes for :ref:`text files <txt>` and other database-backed formats, PHP, and XWiki, and made output of translations needing editing consistent with cleanup rebuilds.
 
 * Generate valid resource names for incompatible keys when :doc:`exporting Android translations <user/files>`.
