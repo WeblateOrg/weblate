@@ -12,19 +12,19 @@ sphinx:
 formats: []
 
 build:
-  os: ubuntu-24.04
+  os: ubuntu-26.04
   tools:
     python: '3.14'
   apt_packages:
     # Graphviz is needed for sphinx.ext.graphviz
   - graphviz
-  jobs:
-    post_create_environment:
-    - asdf plugin add uv
-    - asdf install uv latest
-    - asdf global uv latest
-    install:
-    - VIRTUAL_ENV=$READTHEDOCS_VIRTUALENV_PATH uv sync --only-group docs --frozen --active --inexact
+
+python:
+  install:
+  - method: uv
+    command: sync
+    groups:
+    - docs
 
 # Avoid cloning submodules
 submodules:
