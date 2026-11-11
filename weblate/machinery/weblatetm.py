@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import re
+from itertools import batched
 from typing import TYPE_CHECKING
 
 from django.conf import settings
@@ -113,8 +114,15 @@ class WeblateTranslation(InternalMachineTranslation):
             .exclude_blocked()
         )
         if custom_sources:
-            return units.with_effective_source(select=False).filter(
-                check_source_language=getattr(source_language, "pk", source_language)
+            # Use native language columns without the plural-rule joins added
+            # by with_effective_source().
+            return units.filter(
+                Q(
+                    translation_parent__isnull=True,
+                    translation__component__source_language=source_language,
+                )
+                | Q(translation_parent__translation__language=source_language),
+                details__translation_parent__missing__isnull=True,
             )
         return units.alias(check_source=F("source")).filter(
             translation_parent__isnull=True
@@ -123,6 +131,48 @@ class WeblateTranslation(InternalMachineTranslation):
     def get_matching_units(self, base, text: str, threshold: int):
         if threshold < 100:
             adjust_similarity_threshold(0.98)
+        # Keep both searches on real, indexed columns. A CASE/COALESCE over
+        # parent.target and source prevents using their trigram indexes.
+        ordinary = self.get_matching_queryset(
+            base.filter(translation_parent__isnull=True).alias(
+                check_source=F("source")
+            ),
+            text,
+            threshold,
+        )
+        custom = self.get_matching_queryset(
+            base.filter(translation_parent__isnull=False).alias(
+                check_source=F("translation_parent__target")
+            ),
+            text,
+            threshold,
+        )
+        ordering = ordinary.query.order_by
+        fields = (
+            "pk",
+            *(field.removeprefix("-") for field in ordering if field != "pk"),
+        )
+        # Sort only IDs and ranks, rather than complete units (including text
+        # and JSON). The branches are disjoint, so UNION ALL needs no deduplication.
+        candidates = (
+            ordinary.order_by()
+            .values_list(*fields)
+            .union(custom.order_by().values_list(*fields), all=True)
+            .order_by(*ordering)
+        )
+        for batch in batched(
+            candidates.iterator(chunk_size=self.candidate_limit), self.candidate_limit
+        ):
+            ids = [row[0] for row in batch]
+            units = self.prepare_queryset(
+                Unit.objects.using(base.db).filter(pk__in=ids)
+            ).in_bulk()
+            for pk in ids:
+                if pk in units:
+                    yield units[pk]
+
+    def get_matching_queryset(self, base, text: str, threshold: int):
+        if threshold < 100:
             if use_trgm_fallback(text):
                 queryset = self.get_short_query_matches(base, text)
             else:
@@ -155,7 +205,7 @@ class WeblateTranslation(InternalMachineTranslation):
                 )
             ).order_by("pk")
 
-        return self.prepare_queryset(queryset).iterator(chunk_size=self.candidate_limit)
+        return queryset.exclude(target="")
 
     def prepare_queryset(self, queryset):
         return queryset.exclude(target="").prefetch().prefetch_translation_parent()
