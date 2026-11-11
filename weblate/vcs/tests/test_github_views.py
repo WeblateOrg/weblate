@@ -16,6 +16,7 @@ from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import connection
+from django.template import Context, Template
 from django.test import TestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
@@ -1626,6 +1627,38 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
         install_query = parse_qs(urlparse(install_url).query)
         self.assertEqual(install_query["workspace"], [str(self.workspace.pk)])
         self.assertEqual(install_query["next"], [url])
+
+    def test_migration_category_paths(self) -> None:
+        parent = None
+        categories = []
+        for index in range(3):
+            parent = Category.objects.create(
+                name=f"Migration category {index}",
+                slug=f"migration-{index}",
+                project=self.project,
+                category=parent,
+            )
+            categories.append(parent)
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="git",
+            repo="git@github.com:test-org/repo1.git",
+            category=parent,
+        )
+        response = self.client.get(
+            reverse("github-app-migration", kwargs={"workspace_id": self.workspace.pk})
+        )
+        for category in categories:
+            self.assertContains(response, f'href="{category.get_absolute_url()}"')
+        component = next(
+            entry["component"]
+            for entry in response.context["entries"]
+            if entry["component"].pk == self.component.pk
+        )
+        template = Template(
+            "{% load translations %}{% path_object_links component flags=False %}"
+        )
+        with self.assertNumQueries(0):
+            template.render(Context({"component": component}))
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
     def test_migration_updates_selected_component(self) -> None:

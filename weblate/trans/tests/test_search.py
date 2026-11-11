@@ -15,6 +15,7 @@ from django.core.exceptions import ValidationError
 from django.db import connection
 from django.http import QueryDict
 from django.template import Context
+from django.template.loader import render_to_string
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils.html import escape
@@ -28,6 +29,7 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.bulk import bulk_perform
 from weblate.trans.forms import AutoForm, BulkEditForm
 from weblate.trans.models import (
+    Category,
     Change,
     Comment,
     Component,
@@ -415,6 +417,86 @@ class SearchViewTest(ReusableViewTestCase):
         """Searching in all projects."""
         response = self.client.get(reverse("search"), {"q": "hello", "lang": "cs"})
         self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
+
+    def test_search_category_paths(self) -> None:
+        categories = []
+        parent = None
+        for index in range(3):
+            parent = Category.objects.create(
+                name=f"Search category {index}",
+                slug=f"search-category-{index}",
+                project=self.project,
+                category=parent,
+            )
+            categories.append(parent)
+        Component.objects.filter(pk=self.component.pk).update(category=parent)
+        self.component.refresh_from_db()
+        other = self.create_po(
+            project=self.project, category=categories[0], name=self.component.name
+        )
+        self.update_fulltext_index()
+        for scope in (None, self.project.get_url_path()):
+            url = (
+                reverse("search", kwargs={"path": scope})
+                if scope
+                else reverse("search")
+            )
+            with self.subTest(scope=scope):
+                response = self.client.get(url, {"q": "hello", "lang": "cs"})
+                self.assertEqual(response.status_code, 200)
+                document = html.fromstring(response.content)
+                for component, ancestors in (
+                    (self.component, categories),
+                    (other, categories[:1]),
+                ):
+                    cells = document.xpath(
+                        '//td[contains(@class, "object-link")][a/@href=$url]',
+                        url=Component.objects.get(pk=component.pk).get_absolute_url(),
+                    )
+                    self.assertTrue(cells)
+                    for cell in cells:
+                        links = cell.xpath("./a")
+                        expected: list[Project | Category | Component] = [
+                            self.project,
+                            *ancestors,
+                            component,
+                        ]
+                        self.assertEqual(
+                            [link.text_content() for link in links[:-1]],
+                            [obj.name for obj in expected],
+                        )
+                        self.assertEqual(
+                            [link.get("href") for link in links[:-1]],
+                            [obj.get_absolute_url() for obj in expected],
+                        )
+
+    def test_search_prefetched_category_paths_do_not_query(self) -> None:
+        parent = None
+        for index in range(3):
+            parent = Category.objects.create(
+                name=f"Category {index}",
+                slug=f"category-{index}",
+                project=self.project,
+                category=parent,
+            )
+        Component.objects.filter(pk=self.component.pk).update(category=parent)
+        workspace = Workspace.objects.create(name="Path workspace")
+        Project.objects.filter(pk=self.project.pk).update(workspace=workspace)
+        units = list(
+            Unit.objects.filter(translation=self.translation).prefetch().prefetch_bulk()
+        )
+        with self.assertNumQueries(0):
+            content = render_to_string(
+                "snippets/embed-units.html",
+                {
+                    "units": units,
+                    "show_translation": True,
+                    "force_source": True,
+                    "search_query": "",
+                },
+            )
+        self.assertIn("Category 0", content)
+        self.assertIn("Category 2", content)
 
     def test_project_search(self) -> None:
         """Searching within project."""
