@@ -87,7 +87,8 @@ def show_language(request: AuthenticatedHttpRequest, lang):
                 component__translation__language=obj
             ).distinct(),
             stats=True,
-        )
+        ),
+        user=request.user,
     )
     project_languages = [ProjectLanguage(project, obj) for project in projects]
 

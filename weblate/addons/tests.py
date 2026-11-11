@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import ast
+import asyncio
 import base64
 import contextlib
 import gzip
@@ -209,6 +210,7 @@ from .webhooks import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import AsyncGenerator
     from unittest.mock import Mock
 
     from weblate.trans.discovery import DetectedDiscoveryPreset
@@ -11007,14 +11009,12 @@ class CDNJSAddonTest(ViewTestCase):
         response = httpx2.Response(
             200,
             request=httpx2.Request("GET", "https://cdn.example.com/messages.html"),
-            stream=httpx2.ByteStream(
-                b"<html><body><div class='l10n'>Remote string</div></body></html>"
-            ),
+            content=b"<html><body><div class='l10n'>Remote string</div></body></html>",
         )
 
         with patch(
-            "weblate.addons.tasks.open_restricted_asset_url",
-            return_value=contextlib.nullcontext(response),
+            "weblate.addons.tasks.fetch_restricted_asset_url",
+            return_value=response,
         ):
             errors = parse_cdn_html(addon.instance, self.component)
 
@@ -11040,7 +11040,7 @@ class CDNJSAddonTest(ViewTestCase):
         )
 
         with patch(
-            "weblate.addons.tasks.open_restricted_asset_url",
+            "weblate.addons.tasks.fetch_restricted_asset_url",
             side_effect=httpx2.ConnectError("CDN unavailable"),
         ):
             errors = parse_cdn_html(addon.instance, self.component)
@@ -11967,7 +11967,7 @@ class WebhookDeliveryTest(SimpleTestCase):
                 error = error_class("Webhook delivery failed", request=request)
                 with (
                     patch(
-                        "weblate.addons.webhooks.open_validated_url",
+                        "weblate.addons.webhooks.async_open_validated_url",
                         side_effect=error,
                     ),
                     self.assertRaisesMessage(
@@ -12040,8 +12040,15 @@ class WebhookDeliveryTest(SimpleTestCase):
                     addon=addon_class.name, size=len(body), headers=headers
                 ):
                     http_mock.reset()
-                    stream = MagicMock(spec=httpx2.SyncByteStream)
-                    stream.__iter__.side_effect = lambda body=body: iter((body,))
+                    stream = MagicMock(spec=httpx2.AsyncByteStream)
+
+                    async def body_chunks(
+                        body: bytes = body,
+                    ) -> AsyncGenerator[bytes, None]:
+                        await asyncio.sleep(0)
+                        yield body
+
+                    stream.__aiter__.side_effect = body_chunks
                     response = httpx2.Response(400, headers=headers, stream=stream)
                     http_mock.register_callback(
                         "POST",
@@ -12053,14 +12060,14 @@ class WebhookDeliveryTest(SimpleTestCase):
                         with self.assertRaisesMessage(MessageNotDeliveredError, error):
                             addon.send_message(MagicMock(spec=Change), {}, {})
                         if "headers" in error or "encoded" in error:
-                            stream.__iter__.assert_not_called()
+                            stream.__aiter__.assert_not_called()
                     else:
                         result = addon.send_message(MagicMock(spec=Change), {}, {})
                         expected = httpx2.Response(400, headers=headers, content=body)
                         self.assertEqual(result["content"], expected.text)
                         self.assertEqual(result["status_code"], 400)
                         self.assertEqual(result["headers"], dict(response.headers))
-                    stream.close.assert_called_once()
+                    stream.aclose.assert_awaited_once()
 
     @http_mock.activate
     def test_encoded_response_is_rejected_before_decoding(self) -> None:
@@ -12080,8 +12087,8 @@ class WebhookDeliveryTest(SimpleTestCase):
             ):
                 with self.subTest(addon=addon_class.name, encoding=encoding):
                     http_mock.reset()
-                    stream = MagicMock(spec=httpx2.SyncByteStream)
-                    stream.__iter__.side_effect = AssertionError("Body was consumed")
+                    stream = MagicMock(spec=httpx2.AsyncByteStream)
+                    stream.__aiter__.side_effect = AssertionError("Body was consumed")
                     response = httpx2.Response(
                         200,
                         headers={"Content-Encoding": encoding},
@@ -12096,7 +12103,7 @@ class WebhookDeliveryTest(SimpleTestCase):
                     with (
                         patch.object(
                             response,
-                            "iter_bytes",
+                            "aiter_bytes",
                             side_effect=AssertionError("Decoder was invoked"),
                         ) as decoder,
                         self.assertRaisesMessage(
@@ -12108,8 +12115,8 @@ class WebhookDeliveryTest(SimpleTestCase):
                             MagicMock(spec=Change), headers, {}
                         )
                     decoder.assert_not_called()
-                    stream.__iter__.assert_not_called()
-                    stream.close.assert_called_once()
+                    stream.__aiter__.assert_not_called()
+                    stream.aclose.assert_awaited_once()
                     self.assertEqual(
                         http_mock.calls[0].request.headers["Accept-Encoding"],
                         "identity",
@@ -12120,14 +12127,15 @@ class WebhookDeliveryTest(SimpleTestCase):
     def test_oversized_response_stops_reading(self) -> None:
         storage = MagicMock()
         storage.configuration = {"webhook_url": "https://example.com/webhooks"}
-        stream = MagicMock(spec=httpx2.SyncByteStream)
+        stream = MagicMock(spec=httpx2.AsyncByteStream)
 
-        def chunks():
+        async def chunks() -> AsyncGenerator[bytes, None]:
             for _ in range(MAX_WEBHOOK_RESPONSE_BODY // 1024 + 1):
+                await asyncio.sleep(0)
                 yield b"x" * 1024
             self.fail("Webhook consumed the stream after exceeding the limit")
 
-        stream.__iter__.side_effect = chunks
+        stream.__aiter__.side_effect = chunks
         response = httpx2.Response(200, stream=stream)
         http_mock.register_callback(
             "POST",
@@ -12136,7 +12144,7 @@ class WebhookDeliveryTest(SimpleTestCase):
         )
         with self.assertRaisesMessage(MessageNotDeliveredError, "body exceeds 1 MiB"):
             WebhookAddon(storage).send_message(MagicMock(spec=Change), {}, {})
-        stream.close.assert_called_once()
+        stream.aclose.assert_awaited_once()
 
 
 if TYPE_CHECKING:

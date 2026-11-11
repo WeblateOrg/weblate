@@ -248,6 +248,19 @@ processed during the request, stored as active, and added to the selected scope:
 * Administration uploads are available as uploaded shared entries for the whole
   Weblate instance.
 
+Imports enforce :setting:`TRANSLATION_MAX_SIZE` before parsing and accept at most
+100,000 entries per file. JSON entries are counted before schema validation.
+For TMX, both translation units and source-target pairs count toward the limit,
+including repeated or empty entries and multiple target languages. Limit failures
+are rejected before any entries are written. Accepted imports write database
+changes in batches of 1,000 entries.
+
+Browser uploads must also satisfy :setting:`TRANSLATION_UPLOAD_MAX_SIZE` and
+share the per-user :setting:`RATELIMIT_UPLOAD_ATTEMPTS` budget with translation
+uploads. Superusers are exempt from rate limiting. The :wladmin:`import_memory`
+command enforces the same parsing and entry-count limits without HTTP rate
+limiting. Split larger memories into smaller files before importing them.
+
 .. hint::
     Translation memories in various formats can be imported into Weblate. The TMX
     format is provided for interoperability with other tools. All supported

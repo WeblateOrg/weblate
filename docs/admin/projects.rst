@@ -317,6 +317,9 @@ Enforced two-factor authentication
 
 Enforce :ref:`2fa` for all contributors. Users won’t be allowed
 to perform any operations within the project without having it configured.
+This also excludes the project from component creation, move, and sharing
+targets, including GitHub App imports. Site administrators and bot accounts
+retain their existing exemptions.
 
 .. _project-translation_review:
 
@@ -624,6 +627,10 @@ VCS repository used to pull changes.
     indicating that the repository should be shared with another component.
     See :ref:`internal-urls` for more details.
 
+Creating a repository link requires access to the referenced component and
+permission to edit it. Missing components and components you cannot access
+produce the same validation error.
+
 .. _component-push:
 
 Repository push URL
@@ -737,6 +744,17 @@ For example ``po/*.po`` or ``locale/*/LC_MESSAGES/django.po``.
 
 In case your filename contains special characters such as ``[``, ``]``, these need
 to be escaped as ``[[]`` or ``[]]``.
+
+File-mask scans are limited to 100,000 traversal work units and five seconds,
+including processing the matches. Each visited traversal state and examined
+directory entry counts toward the work limit, even when it does not match.
+Exceeding either limit fails the scan without using partial results. Narrow the
+mask to the relevant directories if a scan exceeds these limits.
+
+Directory symlinks within the repository are supported. Scans skip links outside
+the repository, links to managed VCS metadata, and directory cycles. The time
+limit is checked between filesystem operations; it cannot interrupt an operation
+blocked on storage.
 
 .. seealso::
 

@@ -1,0 +1,18 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# Remaining diagnostics excluded from enforcement; shared by CI and devcontainers.
+accounts/(admin|auth|avatar|forms|middleware|models|notifications|pipeline|strategy|utils|views|tests/(test_avatars|test_notifications|test_registration|test_twofactor|test_views))
+addons/(base|gettext|resx|tests)
+api/(docs|serializers|tests|views)
+auth/(forms|models|permissions|views|management/commands/list_permissions|tests/test_models)
+billing/(admin|models|tests|views|migrations/0007_migrate_owners)
+checks/(chars|consistency|format|glossary|markup|placeholders|render|source|utils|views|management/commands/list_same_checks|tests/(test_glossary_checks|test_mdx|test_models))
+fonts/(views|tests/test_utils)
+lang/(admin|models|tests|views)
+machinery/(forms|llm|microsoft|tests|management/commands/list_machinery)
+trans/(admin|autofixes/__init__|debug|feeds|management/commands/(add_suggestions|import_project|list_file_format_params|list_versions)|models/(agreement|comment|component|pending|translation|unit))
+trans/tests/(test_(alert|autotranslate|backups|basic_views|categories|changes|commands|component|create|debug|discovery|edit|file_format_merge|file_format_params|git_views|guidance|labels|models|newlang|projecttoken|remote|selenium|sitemaps|sort|suggestions|tasks|util|views)|utils)
+trans/views/(about|acl|agreement|basic|changes|create|dashboard|edit|js|settings|source)
+vcs/(git|github|gpg|tests/test_vcs)

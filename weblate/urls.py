@@ -1112,6 +1112,12 @@ real_patterns = [
         weblate.wladmin.views.WorkspaceCreateView.as_view(),
         name="manage-workspace-add",
     ),
+    path("teams/audit/", weblate.auth.views.team_audit, name="team-audit"),
+    path(
+        "teams/audit/<int:pk>/",
+        weblate.auth.views.team_audit_detail,
+        name="team-audit-detail",
+    ),
     path(
         "teams/<int:pk>/",
         weblate.auth.views.TeamUpdateView.as_view(),

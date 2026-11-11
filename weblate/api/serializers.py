@@ -64,6 +64,10 @@ from weblate.trans.component_copy import (
     get_inherited_component_fields,
     should_copy_component_field,
 )
+from weblate.trans.component_creation import (
+    get_accessible_repository_link,
+    validate_repository_link,
+)
 from weblate.trans.defines import (
     BRANCH_LENGTH,
     LANGUAGE_NAME_LENGTH,
@@ -98,6 +102,7 @@ from weblate.trans.models import (
     Unit,
     WorkflowSetting,
 )
+from weblate.trans.models.alert import conflict_component_ids
 from weblate.trans.models.translation import NewUnitParams
 from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.trans.validators import (
@@ -2631,6 +2636,20 @@ class ComponentSerializer(RemovableSerializer[Component]):
         # backed by TemporaryUploadedFile on Python 3.13.
         data = copy(data)
 
+        # Validate links before required fields or uniqueness checks can expose
+        # different responses for missing and inaccessible components.
+        repo = data.get("repo")
+        if isinstance(repo, str) and "docfile" not in data and "zipfile" not in data:
+            repo = repo.strip()
+            try:
+                validate_repository_link(
+                    self.context["request"].user,
+                    repo,
+                    require_edit=self.instance is None or repo != self.instance.repo,
+                )
+            except DjangoValidationError as error:
+                raise serializers.ValidationError({"repo": error.messages}) from error
+
         source_component = None
         if "from_component" in data and "docfile" not in data and "zipfile" not in data:
             source_component = resolve_component_reference_with_error(
@@ -2679,14 +2698,8 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
         return result
 
-    @staticmethod
-    def get_linked_component_or_none(repo: str | None) -> Component | None:
-        if repo is None:
-            return None
-        try:
-            return Component.objects.get_linked(repo)
-        except Component.DoesNotExist:
-            return None
+    def get_linked_component_or_none(self, repo: str | None) -> Component | None:
+        return get_accessible_repository_link(self.context["request"].user, repo)
 
     def get_linked_repository_component(self, instance: Component) -> Component | None:
         return self.get_linked_component_or_none(instance.repo)
@@ -2696,6 +2709,26 @@ class ComponentSerializer(RemovableSerializer[Component]):
     ) -> None:
         linked_component = self.get_linked_repository_component(instance)
         if linked_component is None:
+            # Unrelated child edits do not need access to the repository owner.
+            # Never compare submitted settings against an inaccessible owner.
+            needs_link_validation = (
+                self.instance is None
+                or instance.repo != self.instance.repo
+                or "repo" in self.initial_data
+                or any(
+                    field in self.initial_data
+                    for field in self.linked_repository_setting_fields
+                )
+            )
+            if needs_link_validation:
+                try:
+                    validate_repository_link(
+                        self.context["request"].user, instance.repo
+                    )
+                except DjangoValidationError as error:
+                    raise serializers.ValidationError(
+                        {"repo": error.messages}
+                    ) from error
             return
 
         changed_linked_settings = {
@@ -3324,6 +3357,14 @@ class TranslationCreateSerializer(ReadOnlySerializer):
 
 
 class UploadRequestSerializer(ReadOnlySerializer):
+    background = serializers.BooleanField(
+        required=False,
+        default=False,
+        help_text=(
+            "Process the upload in the background. Temporary option: in 2027.1 "
+            "this field will be removed and only background processing will be supported."
+        ),
+    )
     ignore_language = serializers.BooleanField(required=False, default=False)
     file = serializers.FileField(validators=[validate_translation_upload_size])
     author_email = serializers.EmailField(required=False)
@@ -3416,13 +3457,9 @@ class ComponentLinkRequestSerializer(ReadOnlySerializer):
 
         project_slug = attrs["project_slug"]
         try:
-            project = (
-                request.user.managed_projects.filter(
-                    pk__in=request.user.allowed_projects
-                )
-                .exclude(pk=component.project_id)
-                .get(slug=project_slug)
-            )
+            project = request.user.accessible_managed_projects.exclude(
+                pk=component.project_id
+            ).get(slug=project_slug)
         except Project.DoesNotExist as error:
             msg = f"No project slug {project_slug!r} found!"
             raise serializers.ValidationError({"project_slug": msg}) from error
@@ -4398,9 +4435,9 @@ class CategorySerializer(RemovableSerializer[Category]):
         ):
             return
         user = request.user
-        self.fields["project"].queryset = user.managed_projects
+        self.fields["project"].queryset = user.accessible_managed_projects
         self.fields["category"].queryset = Category.objects.filter(
-            project__in=user.managed_projects
+            project__in=user.accessible_managed_projects
         )
 
     def validate(self, attrs):
@@ -4515,7 +4552,10 @@ class ScreenshotFileSerializer(serializers.ModelSerializer[Screenshot]):
 
 
 def filter_alert_details(
-    name: str, details: dict[str, Any], user: User | None
+    name: str,
+    details: dict[str, Any],
+    user: User | None,
+    visible_ids: set[int] | None = None,
 ) -> dict[str, Any]:
     """Keep cross-component alert references within the requester's view scope."""
     if name != "ConflictingRepositorySetup":
@@ -4529,15 +4569,16 @@ def filter_alert_details(
         for component_id in stored_ids
         if isinstance(component_id, int) and not isinstance(component_id, bool)
     ]
-    visible_ids = (
-        set(
-            Component.objects.filter_access(user)
-            .filter(pk__in=component_ids)
-            .values_list("pk", flat=True)
+    if visible_ids is None:
+        visible_ids = (
+            set(
+                Component.objects.filter_access(user)
+                .filter(pk__in=component_ids)
+                .values_list("pk", flat=True)
+            )
+            if user is not None
+            else set()
         )
-        if user is not None
-        else set()
-    )
     return {
         **details,
         "component_ids": [
@@ -4568,7 +4609,10 @@ class AlertSerializer(serializers.ModelSerializer[Alert]):
         details = data.get("details")
         if isinstance(details, dict):
             data["details"] = filter_alert_details(
-                instance.name, details, getattr(request, "user", None)
+                instance.name,
+                details,
+                getattr(request, "user", None),
+                self.context.get("visible_conflict_ids"),
             )
         return data
 
@@ -4677,6 +4721,44 @@ class ChangeSerializer(RemovableSerializer[Change]):
             request=self.context.get("request"),
         )
 
+    def get_visible_conflict_ids(self, change: Change) -> set[int]:
+        """Resolve the entire page's conflict references with one access query."""
+        cache_key = "visible_conflict_ids"
+        if cache_key in self.context:
+            return self.context[cache_key]
+        instances = (
+            self.parent.instance
+            if isinstance(self.parent, serializers.ListSerializer)
+            else (change,)
+        )
+        component_ids: set[int] = set()
+        for item in instances:
+            if (
+                item.alert_id is not None
+                and item.alert.name == "ConflictingRepositorySetup"
+            ):
+                component_ids.update(conflict_component_ids(item.alert.details))
+            snapshot = item.details.get("alert_snapshot")
+            if item.details.get("alert") == "ConflictingRepositorySetup" and isinstance(
+                snapshot, dict
+            ):
+                component_ids.update(
+                    conflict_component_ids(snapshot.get("details", {}))
+                )
+        request = self.context.get("request")
+        if request is None or not component_ids:
+            result: set[int] = set()
+        elif request.user.is_superuser:
+            result = component_ids
+        else:
+            result = set(
+                Component.objects.filter_access(request.user)
+                .filter(pk__in=component_ids)
+                .values_list("pk", flat=True)
+            )
+        self.context[cache_key] = result
+        return result
+
     def can_view_alert_details(self) -> bool:
         request = self.context.get("request")
         return request is not None and bool(request.user.is_authenticated)
@@ -4687,6 +4769,11 @@ class ChangeSerializer(RemovableSerializer[Change]):
 
     @extend_schema_field(AlertSerializer(allow_null=True))
     def get_alert(self, change: Change) -> dict[str, Any] | None:
+        if (
+            change.alert_id is not None
+            and change.alert.name == "ConflictingRepositorySetup"
+        ) or change.details.get("alert") == "ConflictingRepositorySetup":
+            self.get_visible_conflict_ids(change)
         serializer = AlertSerializer(context=self.context)
         if change.alert_id is not None:
             data = dict(AlertSerializer(change.alert, context=self.context).data)
@@ -4721,10 +4808,15 @@ class ChangeSerializer(RemovableSerializer[Change]):
         if not self.can_view_alert_details():
             data["details"] = {}
             data["dismissal_reason"] = ""
-        elif isinstance(data.get("details"), dict):
+        elif data.get("name") == "ConflictingRepositorySetup" and isinstance(
+            data.get("details"), dict
+        ):
             request = self.context.get("request")
             data["details"] = filter_alert_details(
-                data["name"], data["details"], getattr(request, "user", None)
+                data["name"],
+                data["details"],
+                getattr(request, "user", None),
+                self.get_visible_conflict_ids(change),
             )
         return data
 
@@ -4761,6 +4853,7 @@ class ChangeSerializer(RemovableSerializer[Change]):
         if isinstance(details, dict) and instance.action in {
             ActionEvents.ALERT,
             ActionEvents.ALERT_DISMISSED,
+            ActionEvents.ALERT_REOPENED,
         }:
             alert_name = (
                 instance.alert.name
@@ -4777,7 +4870,10 @@ class ChangeSerializer(RemovableSerializer[Change]):
                 ):
                     request = self.context.get("request")
                     snapshot["details"] = filter_alert_details(
-                        alert_name, snapshot["details"], getattr(request, "user", None)
+                        alert_name,
+                        snapshot["details"],
+                        getattr(request, "user", None),
+                        self.get_visible_conflict_ids(instance),
                     )
         if self.can_view_alert_details():
             return data

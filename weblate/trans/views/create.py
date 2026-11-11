@@ -11,7 +11,7 @@ from zipfile import BadZipfile
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import redirect
@@ -386,6 +386,8 @@ class CreateComponent(BaseCreateView):
 
     @transaction.atomic
     def form_valid(self, form: ComponentProjectForm) -> HttpResponse:
+        if not self.request.user.has_perm("project.edit", form.cleaned_data["project"]):
+            raise PermissionDenied
         if self.stage == "create":
             project = form.cleaned_data["project"]
             if (
@@ -469,7 +471,7 @@ class CreateComponent(BaseCreateView):
                 # Keep an eligible managed project in the submitted form when its
                 # billing changed during the wizard, so form_valid can show why.
                 project_field.queryset = (
-                    self.request.user.managed_projects.filter(
+                    self.request.user.accessible_managed_projects.filter(
                         pk=self.selected_project, workspace__billing__isnull=False
                     )
                     | self.projects
@@ -873,6 +875,8 @@ class CreateComponentSelection(CreateComponent):
     def form_valid(self, form):
         if self.origin == "scratch":
             project = form.cleaned_data["project"]
+            if not self.request.user.has_perm("project.edit", project):
+                raise PermissionDenied
             component = project.scratch_create_component(
                 **form.cleaned_data, acting_user=self.request.user
             )
@@ -904,6 +908,8 @@ class CreateComponentSelection(CreateComponent):
                 kwargs[inherit_field] = getattr(component, inherit_field)
             return self.redirect_create(**kwargs)
         if self.origin == "branch":
+            if not self.request.user.has_perm("project.edit", form.instance.project):
+                raise PermissionDenied
             form.instance.save()
             form.instance.post_create(self.request.user, origin="branch")
             return redirect(

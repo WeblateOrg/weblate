@@ -8,7 +8,7 @@ import os
 import tempfile
 from io import BytesIO
 from pathlib import Path
-from typing import Never, cast
+from typing import TYPE_CHECKING, Never, cast
 from unittest.mock import patch
 
 from django.conf import settings
@@ -18,6 +18,9 @@ from django.test import SimpleTestCase
 
 from weblate.utils.files import (
     REPO_TEMP_DIRNAME,
+    PathMatchBudget,
+    PathMatchLimitError,
+    bounded_glob,
     get_archive_vcs_metadata_members,
     get_repo_temp_dir,
     is_excluded,
@@ -29,6 +32,114 @@ from weblate.utils.files import (
     should_skip,
 )
 from weblate.utils.unittest import tempdir_setting
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
+
+
+class BoundedGlobTest(SimpleTestCase):
+    def setUp(self) -> None:
+        # enterContext closes the temporary directory during test cleanup.
+        # pylint: disable-next=consider-using-with
+        self.root = Path(self.enterContext(tempfile.TemporaryDirectory()))
+        (self.root / "locale").mkdir()
+        for name in ("cs.po", "de.po", ".hidden.po", "[en].po"):
+            (self.root / "locale" / name).touch()
+
+    def matches(self, pattern: str) -> set[str]:
+        return {
+            str(Path(path).relative_to(self.root))
+            for path in bounded_glob(str(self.root), pattern, budget=PathMatchBudget())
+        }
+
+    def test_masks(self) -> None:
+        cases = {
+            "locale/*.po": {"locale/cs.po", "locale/de.po", "locale/[en].po"},
+            "*/c?.po": {"locale/cs.po"},
+            "locale/[cd]*.po": {"locale/cs.po", "locale/de.po"},
+            "locale/[[]en[]].po": {"locale/[en].po"},
+            "locale/.*.po": {"locale/.hidden.po"},
+            "locale/cs.po": {"locale/cs.po"},
+            "locale/**.po": {"locale/cs.po", "locale/de.po", "locale/[en].po"},
+            "**/cs.po": {"locale/cs.po"},
+            "missing/*.po": set(),
+        }
+        for pattern, expected in cases.items():
+            with self.subTest(pattern=pattern):
+                self.assertEqual(self.matches(pattern), expected)
+
+    def test_safe_aliases_and_cycles(self) -> None:
+        (self.root / "alias").symlink_to("locale", target_is_directory=True)
+        (self.root / "other").symlink_to("locale", target_is_directory=True)
+        (self.root / "locale" / "cycle").symlink_to("..", target_is_directory=True)
+        self.assertEqual(
+            self.matches("*/cs.po"),
+            {"locale/cs.po", "alias/cs.po", "other/cs.po"},
+        )
+        self.assertEqual(self.matches("locale/cycle/*/cs.po"), set())
+
+    def test_unsafe_and_dangling_links(self) -> None:
+        with tempfile.TemporaryDirectory() as outside:
+            (Path(outside) / "cs.po").touch()
+            (self.root / "outside").symlink_to(outside, target_is_directory=True)
+            (self.root / "dangling").symlink_to("missing")
+            (self.root / ".git").mkdir()
+            (self.root / ".git" / "cs.po").touch()
+            (self.root / "metadata").symlink_to(".git", target_is_directory=True)
+            for pattern in ("outside/*.po", "dangling", "metadata/*.po", ".git/*.po"):
+                with self.subTest(pattern=pattern):
+                    self.assertEqual(self.matches(pattern), set())
+
+    def test_work_limit_counts_nonmatches(self) -> None:
+        budget = PathMatchBudget(max_work=3)
+        with self.assertRaisesMessage(PathMatchLimitError, "work limit"):
+            bounded_glob(str(self.root), "locale/*.missing", budget=budget)
+        self.assertEqual(budget.work, 4)
+
+    def test_limit_does_not_return_partial_matches(self) -> None:
+        with self.assertRaises(PathMatchLimitError):
+            bounded_glob(
+                str(self.root), "locale/*.po", budget=PathMatchBudget(max_work=4)
+            )
+
+    def test_deadline_and_iterator_cleanup(self) -> None:
+        budget = PathMatchBudget(deadline=10)
+        iterator = os.scandir(self.root / "locale")
+        self.addCleanup(iterator.close)
+
+        def open_directory(directory: Path) -> Iterator[os.DirEntry[str]]:
+            self.assertEqual(directory, self.root / "locale")
+            clock.return_value = 11
+            return iterator
+
+        with (
+            patch("weblate.utils.files.monotonic", return_value=0) as clock,
+            patch("weblate.utils.files.os.scandir", side_effect=open_directory),
+            self.assertRaisesMessage(PathMatchLimitError, "deadline"),
+        ):
+            bounded_glob(str(self.root), "locale/*.po", budget=budget)
+        # A closed scandir iterator yields no further entries.
+        self.assertEqual(list(iterator), [])
+
+    def test_narrow_literal_prefix(self) -> None:
+        with patch("weblate.utils.files.os.scandir", wraps=os.scandir) as scandir:
+            self.assertEqual(self.matches("locale/cs.po"), {"locale/cs.po"})
+        scandir.assert_not_called()
+
+    def test_symlinked_repository_root(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "checkout"
+            root.symlink_to(self.root, target_is_directory=True)
+            self.assertEqual(
+                bounded_glob(str(root), "locale/cs.po", budget=PathMatchBudget()),
+                [str(root / "locale/cs.po")],
+            )
+
+    def test_missing_repository_root(self) -> None:
+        self.assertEqual(
+            bounded_glob(str(self.root / "missing"), "*.po", budget=PathMatchBudget()),
+            [],
+        )
 
 
 class FilesTestCase(SimpleTestCase):

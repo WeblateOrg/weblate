@@ -64,7 +64,11 @@ from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
 from weblate.trans.backups import ProjectBackup, format_backup_error
 from weblate.trans.bulk import BulkReplacement
-from weblate.trans.component_creation import get_component_branches
+from weblate.trans.component_creation import (
+    get_accessible_repository_link,
+    get_component_branches,
+    validate_repository_link,
+)
 from weblate.trans.defines import (
     BRANCH_LENGTH,
     COMPONENT_NAME_LENGTH,
@@ -2233,21 +2237,10 @@ class CleanRepoMixin:
     cleaned_data: dict[str, Any]
     request: AuthenticatedHttpRequest
 
-    def clean_repo(self):
+    def clean_repo(self) -> str | None:
         repo = self.cleaned_data.get("repo")
-        if not repo or not is_repo_link(repo) or "/" not in repo[10:]:
-            return repo
-        try:
-            obj = Component.objects.get_linked(repo)
-        except Component.DoesNotExist:
-            obj = None
-        if obj is None or not (
-            self.request.user.can_access_component(obj)
-            and self.request.user.has_perm("component.edit", obj)
-        ):
-            raise ValidationError(
-                gettext("This component does not exist or you cannot access it.")
-            )
+        if repo:
+            validate_repository_link(self.request.user, repo)
         return repo
 
 
@@ -2860,16 +2853,8 @@ class ComponentSettingsForm(
 
     def get_linked_repository_component(self) -> Component | None:
         repo = self.data.get("repo") if self.is_bound else self.instance.repo
-        if not repo:
-            return None
-        try:
-            component = Component.objects.get_linked(repo)
-        except (Component.DoesNotExist, ValueError):
-            return None
-        if component is None or not (
-            self.request.user.can_access_component(component)
-            and self.request.user.has_perm("vcs.view", component)
-        ):
+        component = get_accessible_repository_link(self.request.user, repo)
+        if component is None or not self.request.user.has_perm("vcs.view", component):
             return None
         return component
 
@@ -3273,7 +3258,20 @@ class ComponentBranchForm(ComponentSelectForm):
             raise ValidationError(error.messages) from error
 
 
-class ComponentProjectForm(ComponentNameForm):
+class ManagedProjectFormMixin:
+    request: AuthenticatedHttpRequest
+    cleaned_data: dict[str, Any]
+
+    def clean_project(self) -> Project:
+        project = self.cleaned_data["project"]
+        if not self.request.user.has_perm("project.edit", project):
+            raise ValidationError(
+                gettext("You do not have permission to edit this project.")
+            )
+        return project
+
+
+class ComponentProjectForm(ManagedProjectFormMixin, ComponentNameForm):
     project = forms.ModelChoiceField(
         queryset=Project.objects.none(), label=gettext_lazy("Project")
     )
@@ -3583,7 +3581,9 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
             )
 
 
-class ComponentRenameForm(SettingsBaseForm, ComponentDocsMixin):
+class ComponentRenameForm(
+    ManagedProjectFormMixin, SettingsBaseForm, ComponentDocsMixin
+):
     """Component rename form."""
 
     class Meta:
@@ -3598,7 +3598,7 @@ class ComponentRenameForm(SettingsBaseForm, ComponentDocsMixin):
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
-        self.fields["project"].queryset = request.user.managed_projects
+        self.fields["project"].queryset = request.user.accessible_managed_projects
         self.fields["category"].queryset = self.instance.project.category_set.all()
 
     def add_error(self, field: str | None, error) -> None:
@@ -3614,7 +3614,7 @@ class ComponentRenameForm(SettingsBaseForm, ComponentDocsMixin):
         super().add_error(field, error)
 
 
-class ComponentLinkAddForm(forms.Form):
+class ComponentLinkAddForm(ManagedProjectFormMixin, forms.Form):
     """Form for sharing a component into a project with an optional category."""
 
     project = forms.ModelChoiceField(
@@ -3630,13 +3630,23 @@ class ComponentLinkAddForm(forms.Form):
         label=gettext_lazy("Category"),
     )
 
-    def __init__(self, *args, request=None, component=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *args,
+        request: AuthenticatedHttpRequest | None = None,
+        component: Component | None = None,
+        **kwargs,
+    ) -> None:
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.disable_csrf = True
+        if request is not None:
+            self.request = request
         if request and component:
-            managed = request.user.managed_projects.exclude(pk=component.project_id)
+            managed = request.user.accessible_managed_projects.exclude(
+                pk=component.project_id
+            )
             self.fields["project"].queryset = managed
             self.fields["category"].queryset = Category.objects.filter(
                 project__in=managed
@@ -3686,7 +3696,7 @@ class ComponentLinkCategoryForm(forms.Form):
             ).order()
 
 
-class CategoryRenameForm(SettingsBaseForm):
+class CategoryRenameForm(ManagedProjectFormMixin, SettingsBaseForm):
     """Category rename form."""
 
     class Meta:
@@ -3701,7 +3711,7 @@ class CategoryRenameForm(SettingsBaseForm):
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
-        self.fields["project"].queryset = request.user.managed_projects
+        self.fields["project"].queryset = request.user.accessible_managed_projects
         self.fields["category"].queryset = self.instance.project.category_set.exclude(
             pk=self.instance.pk
         )

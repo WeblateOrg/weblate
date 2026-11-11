@@ -4,6 +4,8 @@
 
 """Test for management commands."""
 
+from __future__ import annotations
+
 import json
 import sys
 from io import StringIO
@@ -805,6 +807,21 @@ class ImportCommandTest(RepoTestCase):
         self.assertEqual(self.component.project.component_set.count(), 3)
         self.assertEqual(Translation.objects.count(), 10)
         self.assertIn("Imported Test/Gettext PO with 4 translations", output.getvalue())
+
+    def test_import_enforced_2fa_project(self) -> None:
+        project = self.component.project
+        project.enforced_2fa = True
+        project.save(update_fields=["enforced_2fa"])
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            call_command(
+                "import_json",
+                TEST_COMPONENTS,
+                main_component=self.component.slug,
+                project=project.slug,
+                user=get_test_actor(self).username,
+            )
+        imported = Component.objects.get(project=project, slug="po")
+        self.assertEqual(imported.linked_component, self.component)
 
     def test_import_requires_actor(self) -> None:
         for options in ({}, {"user": "missing-import-user"}, {"user": "anonymous"}):

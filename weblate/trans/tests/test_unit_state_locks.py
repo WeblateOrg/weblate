@@ -10,11 +10,12 @@ from concurrent.futures import ThreadPoolExecutor
 from queue import Queue
 from time import monotonic, sleep
 from typing import TYPE_CHECKING, cast
-from unittest.mock import patch
+from unittest.mock import DEFAULT, patch
 
 from django.contrib.messages.middleware import MessageMiddleware
 from django.db import close_old_connections, connection, transaction
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from django.test import TransactionTestCase
 from django.urls import reverse
 from rest_framework.test import APIClient
@@ -23,6 +24,7 @@ from weblate.api.views import SuggestionViewSet, UnitViewSet
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, Role, User
 from weblate.lang.models import Language
+from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Project, Suggestion, Unit
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import RepoTestMixin, clear_users_cache
@@ -73,6 +75,77 @@ class UnitStateLockTest(FixtureTestCase):
             )
         self.assertEqual(response.status_code, 403, response.data)
         self.assert_approval_preserved(stale)
+
+    def test_dismiss_rechecks_locked_state(self) -> None:
+        stale = self.load_before_approval()
+        with patch(
+            "weblate.trans.views.js.get_object_or_404",
+            side_effect=[stale, DEFAULT],
+            wraps=get_object_or_404,
+        ):
+            response = self.client.post(
+                reverse(
+                    "js-dismiss-automatically-translated", kwargs={"unit_id": stale.pk}
+                )
+            )
+        self.assertEqual(response.status_code, 403)
+        self.assert_approval_preserved(stale)
+
+    def test_dismiss_preserves_current_target(self) -> None:
+        unit = self.get_unit()
+        Unit.objects.filter(pk=unit.pk).update(
+            target="Current translation\n",
+            state=STATE_TRANSLATED,
+            original_state=STATE_TRANSLATED,
+            automatically_translated=True,
+        )
+        with patch(
+            "weblate.trans.views.js.get_object_or_404",
+            side_effect=[unit, DEFAULT],
+            wraps=get_object_or_404,
+        ):
+            response = self.client.post(
+                reverse(
+                    "js-dismiss-automatically-translated", kwargs={"unit_id": unit.pk}
+                )
+            )
+        self.assertEqual(response.status_code, 200)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Current translation\n")
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+        self.assertFalse(unit.automatically_translated)
+        change = unit.change_set.get(action=ActionEvents.CHANGE)
+        self.assertEqual(change.user, self.user)
+
+    def test_reviewer_dismiss_preserves_approval(self) -> None:
+        stale = self.load_before_approval()
+        group = Group.objects.create(
+            name="Dismiss reviewers", language_selection=SELECTION_ALL
+        )
+        group.projects.add(self.project)
+        group.roles.add(Role.objects.get(name="Review strings"))
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        Unit.objects.filter(pk=stale.pk).update(
+            target="Approved\n", automatically_translated=True
+        )
+        with patch(
+            "weblate.trans.views.js.get_object_or_404",
+            side_effect=[stale, DEFAULT],
+            wraps=get_object_or_404,
+        ):
+            response = self.client.post(
+                reverse(
+                    "js-dismiss-automatically-translated", kwargs={"unit_id": stale.pk}
+                )
+            )
+        self.assertEqual(response.status_code, 200)
+        stale.refresh_from_db()
+        self.assertEqual(stale.target, "Approved\n")
+        self.assertEqual(stale.state, STATE_APPROVED)
+        self.assertFalse(stale.automatically_translated)
+        change = stale.change_set.get(action=ActionEvents.APPROVE)
+        self.assertEqual(change.user, self.user)
 
     def test_api_suggestion_rechecks_locked_state(self) -> None:
         stale = self.load_before_approval()

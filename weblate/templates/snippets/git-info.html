@@ -59,7 +59,7 @@
                   title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
           <br />
           {% comment %}Translators: For example: "nijel authored five days ago"{% endcomment %}
-          {% user_commit_author commit as author %}
+          {% user_commit_author commit object as author %}
           {% blocktranslate with author=author date=commit.authordate|naturaltime %}{{ author }} authored {{ date }}{% endblocktranslate %}
         </td>
       </tr>
@@ -79,7 +79,7 @@
                   title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
           <br />
           {% comment %}Translators: For example: "nijel authored five days ago"{% endcomment %}
-          {% user_commit_author commit as author %}
+          {% user_commit_author commit object as author %}
           {% blocktranslate with author=author date=commit.authordate|naturaltime %}{{ author }} authored {{ date }}{% endblocktranslate %}
         </td>
       </tr>

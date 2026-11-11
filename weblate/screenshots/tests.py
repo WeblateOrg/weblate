@@ -2329,7 +2329,9 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
 
         self.assertContains(response, "internal or non-public address")
         self.assertEqual(Screenshot.objects.count(), 0)
-        mocked_getaddrinfo.assert_called_once_with("private.example.com", None, type=1)
+        mocked_getaddrinfo.assert_called_once_with(
+            "private.example.com", None, 0, 1, 0, 0
+        )
         self.assertEqual(len(http_mock.calls), 0)
 
     @http_mock.activate
@@ -2403,7 +2405,9 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
 
         self.assertContains(response, "internal or non-public address")
         self.assertEqual(Screenshot.objects.count(), 0)
-        mocked_getaddrinfo.assert_called_once_with("public.example.com", None, type=1)
+        mocked_getaddrinfo.assert_called_once_with(
+            "public.example.com", None, 0, 1, 0, 0
+        )
         mocked_get_peer.assert_called_once()
         self.assertEqual(len(http_mock.calls), 1)
 
@@ -2467,7 +2471,9 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
         screenshot.refresh_from_db()
         self.assertEqual(screenshot.name, old_name)
         self.assertEqual(screenshot.image.name, old_image_name)
-        mocked_getaddrinfo.assert_called_once_with("private.example.com", None, type=1)
+        mocked_getaddrinfo.assert_called_once_with(
+            "private.example.com", None, 0, 1, 0, 0
+        )
         self.assertEqual(len(http_mock.calls), 0)
 
 

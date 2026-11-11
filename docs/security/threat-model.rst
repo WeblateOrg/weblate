@@ -213,8 +213,10 @@ repository state, background tasks, outbound requests, and rendered UI.
    * - Weblate request process to repository Celery worker
      - Permission-checked browser and API repository actions become queued work
        carrying the initiating user and affected repository scope. The worker
-       reacquires the datastore reservation and rechecks the user's current VCS
-       permission on the current repository owner before mutation.
+       reacquires the datastore reservation and executes the repository scope
+       authorized when the request was queued. Later account deactivation or
+       permission changes do not cancel accepted work, including task retries.
+       A changed repository link does not redirect the operation to a new owner.
        The broker, datastore, and workers are trusted parts of the same Weblate
        instance. *(maintainer)*
    * - Webhook sender to Weblate
@@ -608,6 +610,14 @@ Input assumptions
 
 Size and rate assumptions:
 
+* Translation uploads require an authenticated actor, regardless of permissions
+  assigned to the Guests team, and retain byte and content-string limits in
+  synchronous and background processing. Suggestion uploads have a tighter
+  string-count limit, and browser and API uploads share a per-user rate budget.
+  Background upload files are private temporary data shared between web and
+  worker processes; workers recheck the initiating user's access before applying
+  them.
+  *(documented)* (source: :ref:`upload`, :setting:`RATELIMIT_UPLOAD_ATTEMPTS`)
 * Weblate relies on application and reverse-proxy upload limits for large HTTP
   requests. *(documented)* (source: :setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`)
 * Project backup imports are bounded by member count, aggregate uncompressed
@@ -746,9 +756,9 @@ Security properties Weblate provides
        VCS actions omit repositories where this permission check fails; they do
        not partially operate on an individual shared checkout. Explicit VCS
        actions queued from the browser or API retain the initiating user,
-       serialize access to the affected repositories, and recheck that user's
-       permission on the current repository owner in the worker
-       before mutation. Weblate's normal background commit and push of
+       serialize access to the affected repositories, and execute the scope
+       authorized at submission without rechecking the user's account or
+       permissions in the worker. Weblate's normal background commit and push of
        authorized translation changes does not require the editor to have
        these VCS permissions. The ``reports.view`` permission authorizes all
        report data in the selected scope, including private projects and
@@ -883,6 +893,10 @@ Security properties Weblate provides
        authenticated web-action rate-limit lockouts, and project or component
        setting changes in audit logs or history. Account-removal audit entries
        retain the former e-mail address until :setting:`AUDITLOG_EXPIRY`.
+       Detailed :ref:`team audit records <team-audit>` require the corresponding
+       project or workspace administrative authority; site-wide and deleted-scope
+       records require site administration. Sensitive membership history is not
+       public. Team audit records follow the same expiry setting.
        *(documented)* (source: :doc:`/security/privacy-compliance`,
        :ref:`rate-limit`, :ref:`billing`, :doc:`/changes`)
      - Logging is configured, storage is available, and
@@ -918,10 +932,14 @@ Security properties Weblate provides
      - A configured integration or asset URL returns an HTTP response.
      - A response exceeding the documented decoded-byte ceiling is buffered
        without rejection, including compressed or chunked content.
-     - Security-critical for single-request memory exhaustion. Socket timeouts
-       still apply per operation; a strict total download deadline is not yet
-       enforced, so a slow stream can remain open within the body-size limit.
-       *(maintainer)*
+     - Security-critical for single-request memory exhaustion. The shared client
+       also applies each caller's timeout across the HTTP exchange, including
+       redirects and response streaming, using asynchronous cancellation for
+       both synchronous and asynchronous callers. System DNS completion and
+       event-loop cleanup can delay return, so this is not an unconditional
+       whole-call wall-clock guarantee. Explicitly disabled timeouts, provider
+       SDKs, and separate operator-run maintenance downloads are outside this
+       total-time guarantee. *(maintainer)*
    * - Rate-limited API and web actions enforce configured rate limits.
        *(documented)* (source: :doc:`/api`, :doc:`/admin/config`)
      - Rate limiting is enabled and backed by a working datastore.
@@ -977,10 +995,13 @@ Resource thresholds in this model are the documented configuration defaults
 where they exist, especially backup import limits and rate limits. Translation
 files have a pre-parse byte limit configured by :setting:`TRANSLATION_MAX_SIZE`
 and a 100,000-content-string acceptance limit before synchronization or import.
-These do not replace parser-specific expansion limits. For total repository
-size, project count, component count, and aggregate translation volume, Weblate
-does not claim a fixed universal resource ceiling independent of deployment
-capacity. *(maintainer)*
+Translation-memory imports enforce the same pre-parse byte and entry-count
+limits, including TMX source-target expansion, before writing entries in bounded
+batches. Browser memory imports share the per-user translation-upload rate
+budget. See :doc:`/admin/memory`. These do not replace parser-specific expansion
+limits. For total repository size, project count, component count, and aggregate
+translation volume, Weblate does not claim a fixed universal resource ceiling
+independent of deployment capacity. *(maintainer)*
 
 Component discovery bounds repository traversal, file-mask matching, and
 detected-preset comparison work even when repository content controls the masks; see
