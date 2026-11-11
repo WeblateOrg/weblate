@@ -19,10 +19,11 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, Group, User
     from weblate.lang.models import Language
     from weblate.trans.models import Project
+    from weblate.trans.models.backup import BackupAuthorClaim
 
 
 @transaction.atomic
-def create_team_invitation(
+def create_team_invitation(  # ruff: ignore[too-many-arguments]
     *,
     author: User,
     group: Group,
@@ -36,6 +37,8 @@ def create_team_invitation(
     limit_languages: Iterable[Language | int] | None = None,
     automatic: bool = False,
     team_admin: bool = False,
+    backup_author_claim: BackupAuthorClaim | None = None,
+    defer_email: bool = False,
 ) -> Invitation:
     """Create an invitation and record its actor independently of the request."""
     invitation = Invitation.objects.create(
@@ -48,7 +51,11 @@ def create_team_invitation(
         email=email,
         is_superuser=is_superuser,
         team_admin=team_admin,
+        backup_authorship=backup_author_claim is not None,
     )
+    if backup_author_claim is not None:
+        backup_author_claim.invitation = invitation
+        backup_author_claim.save(update_fields=["invitation"])
     if limit_languages is not None:
         invitation.limit_languages.set(limit_languages)
 
@@ -76,8 +83,8 @@ def create_team_invitation(
             **audit_details,
         )
 
-    if automatic:
-        if invitation.user and invitation.user.email:
+    if automatic or defer_email:
+        if invitation.email or (invitation.user and invitation.user.email):
             transaction.on_commit(invitation.send_email)
     else:
         invitation.send_email()

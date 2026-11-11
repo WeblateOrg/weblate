@@ -26,6 +26,7 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models import Translation, Unit
+from weblate.trans.models.backup import BackupAuthorshipMixin
 from weblate.trans.signals import component_post_update, vcs_post_update
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
@@ -56,7 +57,7 @@ class ScreenshotQuerySet(models.QuerySet["Screenshot", "Screenshot"]):
         return result
 
 
-class Screenshot(models.Model, UserDisplayMixin):
+class Screenshot(BackupAuthorshipMixin, UserDisplayMixin):
     name = models.CharField(
         verbose_name=gettext_lazy("Screenshot name"), max_length=200
     )

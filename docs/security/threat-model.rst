@@ -254,6 +254,13 @@ repository state, background tasks, outbound requests, and rendered UI.
        generated project backups are written to and read from local backup
        storage. *(documented)* (source: :doc:`/admin/backup`, :doc:`/api`,
        :ref:`projectbackup`)
+       Usernames in an ordinary user's backup are identity claims: other local
+       accounts receive membership invitations and remain anonymous authors
+       until informed acceptance. Superuser imports are trusted to map accounts
+       directly. Consent can update covered database authorship, including
+       history created before acceptance and changes propagated to other projects;
+       it does not rewrite actors, existing repository commits, or exported
+       copies. *(maintainer)*
 
 Reachability preconditions:
 
