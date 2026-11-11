@@ -183,8 +183,9 @@ def _visible_peer_query(project: Project, *, custom_sources: bool) -> UnitQueryS
 
     public = (Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED)
     return (
+        # Add boundary joins before effective-source joins so selective scope
+        # filters remain available within PostgreSQL's default join limit.
         Unit.objects.exclude_blocked(custom_sources=custom_sources)
-        .with_effective_source(custom_sources=custom_sources, select=False)
         .filter(
             propagation_filter(
                 project,
@@ -193,7 +194,6 @@ def _visible_peer_query(project: Project, *, custom_sources: bool) -> UnitQueryS
             ),
             translation__component__allow_translation_propagation=True,
             translation__plural_id=OuterRef("translation__plural_id"),
-            check_source_language=OuterRef("check_source_language"),
         )
         .filter(
             Q(
@@ -215,6 +215,8 @@ def _visible_peer_query(project: Project, *, custom_sources: bool) -> UnitQueryS
             Q(translation__component__restricted=False)
             | Q(translation__component_id=OuterRef("translation__component_id"))
         )
+        .with_effective_source(custom_sources=custom_sources, select=False)
+        .filter(check_source_language=OuterRef("check_source_language"))
     )
 
 
@@ -227,6 +229,8 @@ def inconsistent_peer_exists(
         .filter(
             translation__language_id=OuterRef("translation__language_id"),
             context=OuterRef("context"),
+            # Retain exact equality; the hash enables the existing B-tree index.
+            context__lower__md5=MD5(Lower(OuterRef("context"))),
         )
         .filter(Q(check_source=OuterRef("check_source")))
     )
@@ -303,13 +307,13 @@ def workspace_check_units(component: Component, check_id: str) -> UnitQuerySet:
 
     units = (
         Unit.objects.exclude_blocked()
-        .with_effective_source()
         .filter(
             propagation_filter(
                 component.project, "translation__component__", component.name
             ),
             translation__component__allow_translation_propagation=True,
         )
+        .with_effective_source()
         .annotate(
             has_peer=propagated_peer_condition(
                 component.project, check_id, custom_sources=True
@@ -373,9 +377,9 @@ def stale_project_check_units(project: Project, check_id: str) -> UnitQuerySet:
     from weblate.trans.models import Unit  # ruff: ignore[import-outside-top-level]
 
     custom_sources = propagation_uses_custom_sources(project)
-    units = Unit.objects.with_effective_source(
-        custom_sources=custom_sources, select=False
-    ).filter(translation__component__project=project)
+    units = Unit.objects.filter(
+        translation__component__project=project
+    ).with_effective_source(custom_sources=custom_sources, select=False)
     condition = propagated_peer_condition(
         project, check_id, custom_sources=custom_sources
     )

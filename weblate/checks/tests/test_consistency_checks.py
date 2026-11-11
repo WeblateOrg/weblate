@@ -25,6 +25,7 @@ from weblate.checks.consistency import (
     ReusedCheck,
     SamePluralsCheck,
     TranslatedCheck,
+    propagated_peer_condition,
 )
 from weblate.checks.models import CHECKS, Check
 from weblate.checks.tasks import (
@@ -37,6 +38,7 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Component, Project, Translation, Unit, WorkflowSetting
 from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.models.project import CommitPolicyChoices
+from weblate.trans.models.source import previous_source_peers
 from weblate.trans.tests.factories import make_unit
 from weblate.trans.tests.test_views import (
     FixtureTestCase,
@@ -1310,6 +1312,79 @@ class WorkspacePropagationTest(ConsistencyUnitsMixin, ReusableComponentTestCase)
     def set_scope(self, scope: str) -> None:
         type(self.workspace).objects.filter(pk=self.workspace.pk).update(
             propagation_scope=scope
+        )
+
+    def test_consistency_peer_context_matching(self) -> None:
+        self.set_scope("component_name")
+        first = self.add_unit(self.translation_1, "", "Shared source", "First")
+        second = self.add_unit(
+            self.translation_2, "", "Shared source", "Second", increment=False
+        )
+        project = Unit.objects.get(pk=first.pk).translation.component.project
+        for context, peer_context, state, peer_state, expected in (
+            ("", "", STATE_TRANSLATED, STATE_TRANSLATED, True),
+            ("Context", "context", STATE_TRANSLATED, STATE_TRANSLATED, False),
+            ("Context", "Context", STATE_EMPTY, STATE_TRANSLATED, True),
+            ("", "", STATE_EMPTY, STATE_EMPTY, False),
+        ):
+            with self.subTest(
+                context=context,
+                peer_context=peer_context,
+                state=state,
+                peer_state=peer_state,
+            ):
+                Unit.objects.filter(pk=first.pk).update(context=context, state=state)
+                Unit.objects.filter(pk=second.pk).update(
+                    context=peer_context, state=peer_state
+                )
+                units = (
+                    Unit.objects.filter(pk=first.pk)
+                    .with_effective_source()
+                    .annotate(
+                        has_peer=propagated_peer_condition(
+                            project, "inconsistent", custom_sources=True
+                        )
+                    )
+                )
+                self.assertEqual(units.get().has_peer, expected)
+                # Both translated-state branches must offer the context B-tree
+                # lookup, rather than relying on the empty-context GIN lookup.
+                sql, _params = units.query.sql_with_params()
+                self.assertEqual(sql.upper().count("MD5(LOWER("), 4)
+
+    def test_previous_source_peers_keep_target_branch_independent(self) -> None:
+        self.set_scope("component_name")
+        changed = self.add_unit(self.translation_1, "Context", "New source", "Shared")
+        source_peer = self.add_unit(
+            self.translation_2, "Context", "Old source", "Different"
+        )
+        target_peer = self.add_unit(
+            self.translation_2, "Other context", "Other source", "Shared"
+        )
+        case_peer = self.add_unit(
+            self.translation_2, "context", "Old source", "Different"
+        )
+        for unit in (source_peer, target_peer, case_peer):
+            Check.objects.create(unit=unit, name="inconsistent")
+        changed = Unit.objects.get(pk=changed.pk)
+        self.assertSetEqual(
+            set(
+                previous_source_peers(
+                    changed, "Old source", changed.effective_source_language.pk
+                ).values_list("pk", flat=True)
+            ),
+            {source_peer.pk, target_peer.pk},
+        )
+        # Without a usable target, only the exact previous source/context match
+        # remains eligible for cleanup.
+        changed.target = ""
+        self.assertSetEqual(
+            set(
+                previous_source_peers(
+                    changed, "Old source", changed.effective_source_language.pk
+                ).values_list("pk", flat=True)
+            ),
+            {source_peer.pk},
         )
 
     def test_scope_and_name_matching(self) -> None:
