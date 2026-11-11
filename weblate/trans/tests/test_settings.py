@@ -64,7 +64,7 @@ from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from django.http import HttpResponse
+    from django.test.client import _MonkeyPatchedWSGIResponse as ClientResponse
 
 
 class ComponentRestrictedVerificationTest(ReusableViewTestCase):
@@ -99,7 +99,7 @@ class ComponentRestrictedVerificationTest(ReusableViewTestCase):
         )
         self.assertEqual(response.status_code, 302)
 
-    def api_patch(self, payload: dict, **kwargs) -> HttpResponse:
+    def api_patch(self, payload: dict, **kwargs) -> ClientResponse:
         return self.client.patch(
             self.api_url,
             json.dumps(payload),
@@ -230,7 +230,7 @@ class ComponentRestrictedVerificationTest(ReusableViewTestCase):
         response = self.client.post(self.settings_url, data)
         self.assertEqual(response.status_code, 302)
         self.assertTrue(
-            response.url.startswith(
+            response.headers["Location"].startswith(
                 reverse("2fa-login", kwargs={"backend": "totp"}),
             )
         )
@@ -247,7 +247,9 @@ class ComponentRestrictedVerificationTest(ReusableViewTestCase):
 
         response = self.client.post(self.settings_url, data)
         self.assertEqual(response.status_code, 302)
-        self.assertTrue(response.url.startswith(reverse("first-factor-verify")))
+        self.assertTrue(
+            response.headers["Location"].startswith(reverse("first-factor-verify"))
+        )
         self.assert_restricted(False)
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
@@ -280,7 +282,9 @@ class ComponentRestrictedVerificationTest(ReusableViewTestCase):
 
         response = self.client.post(url, params)
         self.assertEqual(response.status_code, 302)
-        self.assertTrue(response.url.startswith(reverse("first-factor-verify")))
+        self.assertTrue(
+            response.headers["Location"].startswith(reverse("first-factor-verify"))
+        )
         self.assertFalse(self.project.component_set.filter(slug="copy").exists())
 
         self.verify_credentials(url)
@@ -301,7 +305,9 @@ class ComponentRestrictedVerificationTest(ReusableViewTestCase):
 
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 302)
-        self.assertTrue(response.url.startswith(reverse("first-factor-verify")))
+        self.assertTrue(
+            response.headers["Location"].startswith(reverse("first-factor-verify"))
+        )
         self.assert_restricted(True)
 
         self.verify_credentials(url)
@@ -443,7 +449,11 @@ class ComponentRestrictedVerificationTest(ReusableViewTestCase):
             with self.subTest(repo=repo), patch.object(Component, "clean") as clean:
                 response = self.client.post(url, {**data, "repo": repo})
                 self.assertEqual(response.status_code, 302)
-                self.assertTrue(response.url.startswith(reverse("first-factor-verify")))
+                self.assertTrue(
+                    response.headers["Location"].startswith(
+                        reverse("first-factor-verify")
+                    )
+                )
                 clean.assert_not_called()
                 destination.refresh_from_db()
                 self.assertEqual(destination.repo, original_repo)
@@ -482,7 +492,9 @@ class ComponentRestrictedVerificationTest(ReusableViewTestCase):
         with patch.object(Component, "clean") as clean:
             response = self.client.post(self.settings_url, data)
         self.assertEqual(response.status_code, 302)
-        self.assertTrue(response.url.startswith(reverse("first-factor-verify")))
+        self.assertTrue(
+            response.headers["Location"].startswith(reverse("first-factor-verify"))
+        )
         clean.assert_not_called()
         self.assert_restricted(True)
 
@@ -495,7 +507,9 @@ class ComponentRestrictedVerificationTest(ReusableViewTestCase):
         with patch.object(Component, "clean") as clean:
             response = self.client.post(url, data)
         self.assertEqual(response.status_code, 302)
-        self.assertTrue(response.url.startswith(reverse("first-factor-verify")))
+        self.assertTrue(
+            response.headers["Location"].startswith(reverse("first-factor-verify"))
+        )
         clean.assert_not_called()
         self.assert_restricted(True)
 
@@ -506,7 +520,9 @@ class ComponentRestrictedVerificationTest(ReusableViewTestCase):
 
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 302)
-        self.assertTrue(response.url.startswith(reverse("first-factor-verify")))
+        self.assertTrue(
+            response.headers["Location"].startswith(reverse("first-factor-verify"))
+        )
         self.project.refresh_from_db()
         self.assertEqual(self.project.access_control, Project.ACCESS_PUBLIC)
 
@@ -542,7 +558,9 @@ class ComponentRestrictedVerificationTest(ReusableViewTestCase):
 
         response = self.client.post(self.settings_url, data)
         self.assertEqual(response.status_code, 302)
-        self.assertTrue(response.url.startswith(reverse("first-factor-verify")))
+        self.assertTrue(
+            response.headers["Location"].startswith(reverse("first-factor-verify"))
+        )
         self.assert_restricted(True)
 
         self.verify_credentials(self.settings_url)
