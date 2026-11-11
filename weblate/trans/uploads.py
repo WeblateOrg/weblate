@@ -71,7 +71,9 @@ def upload_directory(upload_id: str) -> Path:
 def upload_lock(upload_id: str) -> Generator[None, None, None]:
     # File locks have no lease expiry and are released if a worker dies. All
     # workers already need the shared staging filesystem to read the payload.
-    with (upload_directory(upload_id) / "file").open("rb") as handle:
+    # NFS requires a writable descriptor for exclusive locks. Open the existing
+    # payload without truncating it or recreating a cleaned-up upload.
+    with (upload_directory(upload_id) / "file").open("r+b") as handle:
         fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
         try:
             yield
