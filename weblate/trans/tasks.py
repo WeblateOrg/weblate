@@ -78,8 +78,8 @@ from weblate.trans.repository_context import (
     repository_component_progress,
     suppress_repository_auto_push,
 )
-from weblate.trans.validators import TranslationTextTooLongError
 from weblate.trans.uploads import cleanup_translation_uploads
+from weblate.trans.validators import TranslationTextTooLongError
 from weblate.utils.celery import app, store_task_metadata
 from weblate.utils.change_origin import (
     acting_user_context,
