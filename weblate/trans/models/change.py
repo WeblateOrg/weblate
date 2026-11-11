@@ -37,6 +37,7 @@ from weblate.trans.actions import (
 )
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.alert import visible_conflict_components
+from weblate.trans.models.backup import BackupAuthorshipMixin, apply_backup_authorship
 from weblate.trans.models.project import Project
 from weblate.trans.signals import change_bulk_create
 from weblate.trans.util import split_plural
@@ -609,7 +610,7 @@ class ChangeManager(models.Manager["Change"]):
         }
 
 
-class Change(models.Model, UserDisplayMixin):
+class Change(BackupAuthorshipMixin, UserDisplayMixin):
     ACTIONS_DICT: ClassVar[dict[int, StrOrPromise]] = dict(ActionEvents.choices)
     ACTION_STRINGS: ClassVar[dict[str, int]] = {
         name.lower().replace(" ", "-"): value for value, name in ActionEvents.choices
@@ -817,6 +818,8 @@ class Change(models.Model, UserDisplayMixin):
         }
 
     def __init__(self, *args, **kwargs) -> None:
+        if not args and not kwargs.get("pk") and not kwargs.get("id"):
+            apply_backup_authorship(kwargs)
         for attr in ("user", "author"):
             user = kwargs.get(attr)
             if user is not None and hasattr(user, "get_token_user"):

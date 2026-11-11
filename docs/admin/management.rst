@@ -732,6 +732,11 @@ import_projectbackup
 
 Imports :ref:`projectbackup`.
 
+The supplied account is the importing actor. Matching other users directly
+requires a superuser account; ordinary accounts use the invitation and
+authorship-consent flow described in :ref:`projectbackup`. Unmapped usernames
+and pending invitations are reported as warnings.
+
 .. hint::
 
    Usually it is more comfortable to import project when :ref:`adding-projects`.
