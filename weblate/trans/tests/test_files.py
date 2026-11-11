@@ -747,12 +747,12 @@ class UploadStringLengthMetadataTest(ImportBaseTest):
             ),
         ):
             with self.subTest(name):
-                count = self.get_translation().unit_set.count()
+                initial_count = self.get_translation().unit_set.count()
                 with self.assertRaisesMessage(
                     FileParseError, "string that is too long"
                 ):
                     self.upload(entry, method)
-                self.assertEqual(self.get_translation().unit_set.count(), count)
+                self.assertEqual(self.get_translation().unit_set.count(), initial_count)
 
     def test_every_upload_method(self) -> None:
         """New upload methods must not skip the length validation."""

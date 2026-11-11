@@ -11069,15 +11069,15 @@ class CDNJSAddonTest(ViewTestCase):
         oversized = "B" * (MAX_NEW_TEXT_LENGTH + 1)
         response = httpx2.Response(
             200,
-            stream=httpx2.ByteStream(
+            content=(
                 f"<html><body><div class='l10n'>Remote string</div>"
                 f"<div class='l10n'>{oversized}</div></body></html>".encode()
             ),
         )
 
         with patch(
-            "weblate.addons.tasks.open_restricted_asset_url",
-            return_value=contextlib.nullcontext(response),
+            "weblate.addons.tasks.fetch_restricted_asset_url",
+            return_value=response,
         ):
             errors = parse_cdn_html(addon.instance, self.component)
 

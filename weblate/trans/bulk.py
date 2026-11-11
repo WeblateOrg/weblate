@@ -276,6 +276,26 @@ def plan_bulk_units(
             replacement.prepared.clear()
 
 
+def get_bulk_target(
+    unit: Unit, target_state: int, replacement: BulkReplacement
+) -> tuple[list[str], int]:
+    """Prepare submitted text, normalizing empty alternatives as Unit.translate()."""
+    old_target = unit.get_target_plurals()
+    target = old_target
+    state = unit.state
+    if target_state == STATE_EMPTY:
+        if not unit.is_source:
+            target = [""] * len(old_target)
+            state = STATE_EMPTY
+    else:
+        target = [replacement.replace(value) for value in old_target]
+        if target_state != -1 and (unit.state in EDITABLE_STATES or any(target)):
+            state = target_state
+    if target != old_target and unit.translation.component.is_multivalue:
+        target = [value for value in target if value] or [""]
+    return target, state
+
+
 def plan_bulk_unit(
     unit: Unit,
     user: User | None,
@@ -298,16 +318,7 @@ def plan_bulk_unit(
         unit, user, target_state, enforce_permissions=enforce_permissions
     ):
         old_target = unit.get_target_plurals()
-        target = old_target
-        state = unit.state
-        if target_state == STATE_EMPTY:
-            if not unit.is_source:
-                target = [""] * len(old_target)
-                state = STATE_EMPTY
-        else:
-            target = [replacement.replace(value) for value in old_target]
-            if target_state != -1 and (unit.state in EDITABLE_STATES or any(target)):
-                state = target_state
+        target, state = get_bulk_target(unit, target_state, replacement)
         if target != old_target and is_translation_text_change_too_long(
             unit, target, old_target
         ):

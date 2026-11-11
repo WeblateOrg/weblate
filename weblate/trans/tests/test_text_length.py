@@ -17,18 +17,20 @@ from django.urls import reverse
 from weblate.addons.generate import PrefillAddon, PseudolocaleAddon
 from weblate.automation.operations import get_operation, validate_result
 from weblate.trans.bulk import BulkUnitEdit, bulk_perform
-from weblate.trans.models import Change, Suggestion, Unit
+from weblate.trans.models import Change, Component, Suggestion, Unit
 from weblate.trans.source_edit import edit_source
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_actor
+from weblate.trans.util import join_plural
 from weblate.trans.validators import (
     MAX_NEW_TEXT_LENGTH,
+    MAX_TRANSLATION_ALTERNATIVES,
     TranslationTextTooLongError,
     get_translation_text_max_length,
     validate_translation_text_length,
 )
 from weblate.utils.ratelimit import reset_rate_limit
-from weblate.utils.state import STATE_NEEDS_REWRITING, STATE_TRANSLATED
+from weblate.utils.state import STATE_EMPTY, STATE_NEEDS_REWRITING, STATE_TRANSLATED
 
 SOURCE = "Hello, world!\n"
 OTHER_SOURCE = "Try Weblate at <https://demo.weblate.org/>!\n"
@@ -201,6 +203,7 @@ class TranslateTextLengthTest(ViewTestCase):
         self.component.save()
         unit = self.get_unit(SOURCE)
         long_source = "B" * (get_translation_text_max_length(unit) + 1)
+        assert unit.source_unit_id is not None
         Unit.objects.filter(pk=unit.source_unit_id).update(target=long_source)
         addon = PrefillAddon.create(
             acting_user=get_test_actor(self), component=self.component, run=False
@@ -261,6 +264,42 @@ class TranslateTextLengthTest(ViewTestCase):
         # Autofixes add the trailing newline of the source strings
         self.assertEqual(short.target, "zz\n")
         self.assertEqual(long.target, f"{replacement}\n")
+
+    def test_bulk_clear_oversized_alternatives(self) -> None:
+        unit = self.get_unit(SOURCE)
+        stored = join_plural(["stored"] * (MAX_TRANSLATION_ALTERNATIVES + 1))
+        Unit.objects.filter(pk=unit.pk).update(target=stored, state=STATE_TRANSLATED)
+        for preview_only in (True, False):
+            with self.subTest(preview=preview_only):
+                too_long: set[int] = set()
+                preview: list[BulkUnitEdit] = []
+                with patch.object(Component, "is_multivalue", True):
+                    updated = bulk_perform(
+                        self.user,
+                        Unit.objects.filter(pk=unit.pk),
+                        query="",
+                        target_state=STATE_EMPTY,
+                        add_flags="",
+                        remove_flags="",
+                        add_labels=self.project.label_set.none(),
+                        remove_labels=self.project.label_set.none(),
+                        project=self.project,
+                        enforce_permissions=False,
+                        components=[self.component],
+                        too_long_unit_ids=too_long,
+                        preview=preview if preview_only else None,
+                    )
+
+                self.assertEqual(updated, 1)
+                self.assertEqual(too_long, set())
+                unit.refresh_from_db()
+                if preview_only:
+                    self.assertEqual(preview[0].target, [""])
+                    self.assertEqual(preview[0].state, STATE_EMPTY)
+                    self.assertEqual(unit.target, stored)
+                else:
+                    self.assertEqual(unit.get_target_plurals(), [""])
+                    self.assertEqual(unit.state, STATE_EMPTY)
 
     def test_bulk_replace_allows_autofix_expansion(self) -> None:
         """Bulk edit accepts what the editor accepts, autofixes can extend it."""
