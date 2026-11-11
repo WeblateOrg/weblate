@@ -1838,6 +1838,11 @@ Sentry can be also used to monitor performance of Weblate by collecting traces
 and profiles for defined percentage of operations. This can be configured using
 :setting:`SENTRY_TRACES_SAMPLE_RATE` and :setting:`SENTRY_PROFILES_SAMPLE_RATE`.
 
+Weblate shortens oversized exception chains before sending them to Sentry,
+preserving the original cause and final exception. The report records how many
+intermediate exceptions were omitted. Other oversized event data can still
+exceed Sentry's payload limits.
+
 .. seealso::
 
    * `Sentry Performance Monitoring <https://docs.sentry.io/product/sentry-basics/performance-monitoring/>`_
