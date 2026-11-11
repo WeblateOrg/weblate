@@ -23,6 +23,7 @@ from weblate.trans.exceptions import (
     SuggestionTooLongError,
 )
 from weblate.trans.mixins import UserDisplayMixin
+from weblate.trans.models.backup import BackupAuthorshipMixin, backup_author_context
 from weblate.trans.util import join_plural, split_plural
 from weblate.trans.validators import get_translation_text_max_length
 from weblate.utils import messages
@@ -152,7 +153,7 @@ class SuggestionQuerySet(models.QuerySet["Suggestion", "Suggestion"]):
         )
 
 
-class Suggestion(models.Model, UserDisplayMixin):
+class Suggestion(BackupAuthorshipMixin, UserDisplayMixin):
     unit = models.ForeignKey("trans.Unit", on_delete=models.deletion.CASCADE)
     target = models.TextField()
     user = models.ForeignKey(
@@ -217,13 +218,19 @@ class Suggestion(models.Model, UserDisplayMixin):
                     author = self.user
                 else:
                     author = request.user
-                self.unit.translate(
-                    request.user,
-                    split_plural(self.target),
-                    state,
-                    author=author,
-                    change_action=ActionEvents.ACCEPT,
-                )
+                with backup_author_context(
+                    self.backup_author_claim_id
+                    if self.user is None or self.user.is_anonymous
+                    else None,
+                    self.unit.translation.component.project_id,
+                ) as claimed_author:
+                    self.unit.translate(
+                        request.user,
+                        split_plural(self.target),
+                        state,
+                        author=claimed_author or author,
+                        change_action=ActionEvents.ACCEPT,
+                    )
 
             # Delete the suggestion
             self.delete()
