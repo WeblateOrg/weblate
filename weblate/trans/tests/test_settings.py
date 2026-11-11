@@ -319,6 +319,52 @@ class ComponentRestrictedVerificationTest(ReusableViewTestCase):
         self.assertEqual(self.component.branch, "main")
         self.assert_restricted(True)
 
+    def test_settings_relink_requires_verification(self) -> None:
+        destination = self.create_po(
+            name="Destination", project=self.project, restricted=False
+        )
+        url = reverse("settings", kwargs={"path": destination.get_url_path()})
+        response = self.client.get(url)
+        data = get_form_data(response.context["form"].initial)
+        original_repo = destination.repo
+        data.update(
+            repo=self.component.get_repo_link_url(), branch="", push="", push_branch=""
+        )
+
+        for repo in (data["repo"], f"  {data['repo']}  "):
+            with self.subTest(repo=repo), patch.object(Component, "clean") as clean:
+                response = self.client.post(url, {**data, "repo": repo})
+                self.assertEqual(response.status_code, 302)
+                self.assertTrue(response.url.startswith(reverse("first-factor-verify")))
+                clean.assert_not_called()
+                destination.refresh_from_db()
+                self.assertEqual(destination.repo, original_repo)
+                self.assertFalse(destination.restricted)
+
+        self.verify_credentials(url)
+        response = self.client.post(url, data)
+        self.assertRedirects(response, url)
+        destination.refresh_from_db()
+        self.assertEqual(destination.linked_component, self.component)
+        self.assertFalse(destination.restricted)
+
+    def test_settings_restricted_relink_skips_verification(self) -> None:
+        destination = self.create_po(
+            name="Destination", project=self.project, restricted=True
+        )
+        url = reverse("settings", kwargs={"path": destination.get_url_path()})
+        response = self.client.get(url)
+        data = get_form_data(response.context["form"].initial)
+        data.update(
+            repo=self.component.get_repo_link_url(), branch="", push="", push_branch=""
+        )
+
+        response = self.client.post(url, data)
+        self.assertRedirects(response, url)
+        destination.refresh_from_db()
+        self.assertEqual(destination.linked_component, self.component)
+        self.assertTrue(destination.restricted)
+
     def test_settings_verification_precedes_repository_validation(self) -> None:
         response = self.client.get(self.settings_url)
         data = get_form_data(response.context["form"].initial)

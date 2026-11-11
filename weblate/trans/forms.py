@@ -2851,6 +2851,21 @@ class ComponentSettingsForm(
         self.patch_unlinking_linked_repository_settings()
         self.patch_linked_repository_settings()
 
+    def changes_sensitive_access(self) -> bool:
+        """Check submitted access changes before model validation touches the repo."""
+        if "restricted" in self.changed_data:
+            return True
+        if self.instance.restricted or "repo" not in self.changed_data:
+            return False
+        # Normalize only this field; full form validation can mutate the checkout.
+        repo_field = self["repo"]
+        try:
+            repo = repo_field.field.clean(repo_field.value())
+        except ValidationError:
+            return False
+        source = get_accessible_repository_link(self.request.user, repo)
+        return source is not None and source.restricted
+
     def get_linked_repository_component(self) -> Component | None:
         repo = self.data.get("repo") if self.is_bound else self.instance.repo
         component = get_accessible_repository_link(self.request.user, repo)
