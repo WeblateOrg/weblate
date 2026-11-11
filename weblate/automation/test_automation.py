@@ -14,6 +14,7 @@ from threading import Barrier
 from typing import TYPE_CHECKING, Any, TypedDict, Unpack
 from unittest.mock import Mock, call, patch
 
+from crispy_forms.utils import render_crispy_form
 from django.core.exceptions import ValidationError
 from django.db.models import QuerySet
 from django.template.loader import render_to_string
@@ -2295,6 +2296,28 @@ class AutomationTest(ReusableComponentTestCase):
                     in chrome.fields["scope"].widget.attrs,
                     "result" in OPERATIONS[node.name].supported_scopes,
                 )
+
+    def test_editor_bulk_edit_groups_flag_fields(self) -> None:
+        node = next(
+            node
+            for node in action_nodes(self.component)
+            if node.name == BulkEditOperation.name
+        )
+        if node.form is None:
+            self.fail("Bulk editing has no editor form")
+        rendered = render_crispy_form(node.form)
+        source = rendered.index("Source flags")
+        translation = rendered.index("Translation flags")
+        labels = rendered.index("<legend>Labels</legend>")
+        self.assertLess(source, rendered.index('name="add_flags"'))
+        self.assertLess(rendered.index('name="remove_flags"'), translation)
+        self.assertLess(translation, rendered.index('name="add_translation_flags"'))
+        self.assertLess(rendered.index('name="remove_translation_flags"'), labels)
+        self.assertLess(labels, rendered.index('name="add_labels"'))
+        self.assertIn(
+            'aria-describedby="id_automation_settings_weblate_bulk_edit_add_flags_scope"',
+            rendered,
+        )
 
     def test_editor_offers_every_automatic_translation_mode(self) -> None:
         # Workflows run as the add-on service identity, so the editor offers

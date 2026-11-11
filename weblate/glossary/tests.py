@@ -48,6 +48,7 @@ from weblate.trans.models import PendingUnitChange, Unit, WorkflowSetting
 from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.util import join_plural
+from weblate.trans.validators import MAX_NEW_TEXT_LENGTH
 from weblate.utils.change_origin import acting_user_context
 from weblate.utils.hash import calculate_hash
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -1265,6 +1266,26 @@ class GlossaryTest(ReusableViewTestCase):
         sync_terminology(unit.translation.component.id, unit.translation.component)
         self.assertEqual(Unit.objects.count(), start + 4)
         self.assertEqual(unit.unit_set.count(), 4)
+
+    def test_terminology_sync_oversized_term(self) -> None:
+        """Terms already stored in the glossary are not limited when synced."""
+        oversized = "B" * (MAX_NEW_TEXT_LENGTH + 1)
+        # Stored directly as the repository content is not limited
+        self.add_term(oversized, "Ahoj")
+        # Updated directly as saving terminology flag triggers the sync
+        Unit.objects.filter(
+            translation=self.glossary_component.source_translation, source=oversized
+        ).update(extra_flags="terminology")
+
+        # The terms are only stored in the database, not in the files
+        with patch(
+            "weblate.trans.models.translation.Translation._add_unit_locked"
+        ) as add_unit:
+            sync_terminology(self.glossary_component.id, self.glossary_component)
+
+        self.assertTrue(add_unit.called)
+        for call in add_unit.call_args_list:
+            self.assertEqual(call.args[2], [oversized])
 
     def test_string_management_alert_local(self) -> None:
         component = self.glossary_component

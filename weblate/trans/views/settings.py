@@ -233,6 +233,13 @@ def change_component(request: AuthenticatedHttpRequest, obj):
     if request.method == "POST":
         with obj.locked_for_update() as locked_obj:
             form = ComponentSettingsForm(request, request.POST, instance=locked_obj)
+            # Check before validation: Component.clean() can switch the branch
+            # of the live checkout and commit pending changes.
+            if (
+                form.changes_sensitive_access()
+                and not has_recent_sensitive_verification(request)
+            ):
+                return sensitive_verification_redirect(request, request.path)
             if form.is_valid():
                 form.save()
                 messages.success(request, gettext("Settings saved"))

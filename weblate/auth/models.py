@@ -2470,6 +2470,8 @@ class Invitation(models.Model):
     """
 
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    # Internal provenance, never accepted from invitation forms or API inputs.
+    backup_authorship = models.BooleanField(default=False, editable=False)
     timestamp = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(
         User, on_delete=models.deletion.CASCADE, related_name="created_invitation_set"
@@ -2664,6 +2666,11 @@ class Invitation(models.Model):
         if current.group.defining_project:
             user.profile.watched.add(current.group.defining_project)
 
+        if current.backup_authorship:
+            from weblate.trans.models.backup import BackupAuthorClaim  # ruff: ignore[import-outside-top-level]
+
+            for claim in BackupAuthorClaim.objects.filter(invitation=current):
+                claim.accept(current, user)
         current.delete()
 
 

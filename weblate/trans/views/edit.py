@@ -72,7 +72,10 @@ from weblate.trans.models import (
 from weblate.trans.models.unit import fill_in_source_translation
 from weblate.trans.tasks import auto_translate
 from weblate.trans.util import redirect_next, render
-from weblate.trans.validators import SUGGESTION_REJECTION_REASON_LENGTH
+from weblate.trans.validators import (
+    SUGGESTION_REJECTION_REASON_LENGTH,
+    TranslationTextTooLongError,
+)
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
 from weblate.utils.celery import sanitize_task_result, store_task_metadata
@@ -251,11 +254,11 @@ def get_other_units(user: User, unit: Unit):
 
         units = (
             Unit.objects.filter_access(user)
-            .with_effective_source(custom_sources=custom_sources, select=False)
             .filter(
                 translation__component__project=component.project,
                 translation__language=translation.language,
             )
+            .with_effective_source(custom_sources=custom_sources, select=False)
             .filter(matches)
             .alias(
                 matches_current=Case(
@@ -1115,7 +1118,11 @@ def handle_merge(
             )
         ):
             state = STATE_TRANSLATED
-        unit.translate(request.user, merged.get_target_plurals(), state)
+        try:
+            unit.translate(request.user, merged.get_target_plurals(), state)
+        except TranslationTextTooLongError as error:
+            messages.error(request, error.messages[0])
+            return None
         # Redirect to next entry
         return HttpResponseRedirect(next_unit_url)
 
@@ -1216,10 +1223,14 @@ def perform_suggestion_action(
 
     # Perform operation
     if mode in {"accept", "accept_edit", "accept_approve"}:
-        suggestion.accept(
-            request,
-            state=STATE_APPROVED if mode == "accept_approve" else STATE_TRANSLATED,
-        )
+        try:
+            suggestion.accept(
+                request,
+                state=STATE_APPROVED if mode == "accept_approve" else STATE_TRANSLATED,
+            )
+        except TranslationTextTooLongError as error:
+            messages.error(request, error.messages[0])
+            return None
     elif mode in {"delete", "spam"}:
         rejection_reason = request.POST.get("rejection", "")
         if len(rejection_reason) > SUGGESTION_REJECTION_REASON_LENGTH:

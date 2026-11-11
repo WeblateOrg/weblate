@@ -189,7 +189,7 @@ def dismiss_automatically_translated(request: AuthenticatedHttpRequest, unit_id)
 
         unit.translate(
             request.user,
-            unit.target,
+            unit.get_target_plurals(),
             unit.state,
             request=request,
         )

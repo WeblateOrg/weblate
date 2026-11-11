@@ -119,6 +119,25 @@ features might not be translated properly.
    * :ref:`formats`
    * :doc:`/user/files`
 
+.. _upload-string-length:
+
+String length limits
+++++++++++++++++++++
+
+Translations merged into existing strings use the same limit as the
+translation editor, which depends on the ``max-length`` flag and the source
+string length. When adding new strings or replacing the file, each source
+string, translation, and string metadata value stored from the file is limited
+to 101,000 characters. Text which Weblate already stores, for example from the
+template file in the repository, is not limited.
+
+An upload containing a string that is too long is rejected as a whole, and
+nothing from the file is imported. When adding suggestions, strings that are
+too long are skipped instead and counted as skipped in the upload result.
+
+The size of the whole file is limited separately by
+:setting:`TRANSLATION_UPLOAD_MAX_SIZE`.
+
 .. _upload-ignore_language:
 
 Language checking

@@ -36,6 +36,8 @@ Weblate 2026.11.2
 
 .. rubric:: Improvements
 
+* Improved peer lookup performance for :ref:`translation propagation <component-allow_translation_propagation>` and related consistency checks.
+
 * Aligned queued :doc:`repository maintenance <admin/continuous>` with background-work authorization: later permission changes or account deactivation do not cancel accepted operations.
 
 * Bounded :ref:`Weblate Client project configuration discovery <wlc-config>` by repository and POSIX permission boundaries, and added explicit project-file selection and configuration-free invocation.
@@ -47,6 +49,8 @@ Weblate 2026.11.2
 
 .. rubric:: Security fixes
 
+* Required invitation acceptance for other users' restored :ref:`project backup <projectbackup>` memberships and authorship when importing without superuser privileges.
+* Concealed linked repository details in HTML when the source component is inaccessible or its repository location is not viewable. See :doc:`admin/access`.
 * Excluded components shared from other projects from category :ref:`contributor stats <stats>` reports.
 * Bounded :doc:`translation-memory imports <admin/memory>` by file size and entry count, batched database writes, and shared the translation-upload rate limit.
 * Validated new and renamed :ref:`translation keys <edit-source>` against the file format, dialect, and encoding before queuing changes.
@@ -92,6 +96,9 @@ Weblate 2026.11.2
 * Limited text shown in :ref:`translation history <translation-history>` lists and added a full change view for long entries.
 * Rejected unsafe fork remote names from merge-request repository credentials before running Git commands.
 * Preserved previous IP login failures after a successful sign-in to prevent rate-limit bypasses.
+* Require recent credential verification for browser changes to :ref:`restricted component access <component-restricted>`.
+* Require recent credential verification for form-encoded project API updates and access settings in the Django admin.
+* Enforced text length limits for translation and source string edits and newly added strings, including :ref:`file uploads <upload-string-length>` and the API.
 * Bounded :ref:`text template <markup>` source, loops, intermediate values, output, and helper resource usage during validation and execution.
 
 .. rubric:: Bug fixes

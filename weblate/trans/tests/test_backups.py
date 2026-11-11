@@ -13,10 +13,11 @@ import tempfile
 import warnings
 from contextlib import contextmanager, suppress
 from copy import copy, deepcopy
+from datetime import timedelta
 from io import BytesIO, StringIO
 from pathlib import Path
 from shutil import copyfile
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 from unittest.mock import MagicMock, patch
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
 
@@ -40,6 +41,9 @@ from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import (
     AutoGroup,
     Group,
+    Invitation,
+    InvitationExpiredError,
+    InvitationRemovedError,
     Permission,
     Role,
     TeamMembership,
@@ -72,6 +76,8 @@ from weblate.trans.forms import (
     ProjectSettingsForm,
 )
 from weblate.trans.models import (
+    BackupAuthorClaim,
+    BackupAuthorVote,
     Category,
     Change,
     Comment,
@@ -85,6 +91,7 @@ from weblate.trans.models import (
     Vote,
     WorkflowSetting,
 )
+from weblate.trans.models.backup import backup_author_context
 from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.tasks import (
     cleanup_project_backup_download,
@@ -94,6 +101,7 @@ from weblate.trans.tasks import (
 from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import (
     TEST_VCS_ALLOW_SCHEMES,
+    RepoTestMixin,
     create_test_billing,
     get_test_actor,
     get_test_file,
@@ -111,6 +119,8 @@ from weblate.workspaces.models import WORKSPACE_PROJECT_CREATORS_GROUP, Workspac
 if TYPE_CHECKING:
     from collections.abc import Generator
     from unittest.mock import Mock
+
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 
 TEST_SCREENSHOT = get_test_file("screenshot.png")
@@ -295,9 +305,408 @@ class BackupsTest(ReusableViewTestCase):
         )
         self.enterContext(override_settings(MEDIA_ROOT=media_root))
 
+    def trusted_backup(self) -> ProjectBackup:
+        backup = ProjectBackup()
+        backup.project = self.project
+        backup.restore_actor, _created = User.objects.get_or_create(
+            username="backup-trusted-admin",
+            defaults={"is_superuser": True, "email": "backup-admin@example.org"},
+        )
+        return backup
+
+    def test_restore_foreign_authorship_requires_acceptance(self) -> None:
+        victim = self.anotheruser
+        translation = self.component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        Comment.objects.create(unit=unit, user=victim, comment="Claimed comment")
+        suggestion = Suggestion.objects.create(
+            unit=unit, user=victim, target="Claimed suggestion"
+        )
+        Vote.objects.create(suggestion=suggestion, user=victim, value=1)
+        PendingUnitChange.objects.create(
+            unit=unit, author=victim, target="Claimed pending", state=STATE_TRANSLATED
+        )
+        team = Group.objects.create(name="Claimed team", defining_project=self.project)
+        team.projects.add(self.project)
+        team.user_set.add(victim)
+        team.admins.add(victim)
+        shot = Screenshot.objects.create(
+            name="Claimed screenshot", translation=translation, user=victim
+        )
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            shot.image.save("claimed.png", File(handle))
+        source = ProjectBackup()
+        source.backup_project(self.project)
+        backup = ProjectBackup(source.filename)
+        backup.validate()
+        project = backup.restore("Consent restore", "consent-restore", self.user)
+        claim = BackupAuthorClaim.objects.get(project=project, user=victim)
+        invitation = Invitation.objects.get(backup_author_claim=claim)
+        self.assertIsNotNone(invitation)
+        restored_team = project.defined_groups.get(name="Claimed team")
+        self.assertFalse(restored_team.user_set.filter(pk=victim.pk).exists())
+        self.assertFalse(restored_team.admins.filter(pk=victim.pk).exists())
+        self.assertTrue(invitation.team_admin)
+        self.assertTrue(invitation.backup_authorship)
+        anonymous = get_anonymous()
+        comment = Comment.objects.get(backup_author_claim=claim)
+        self.assertEqual(comment.user, anonymous)
+        self.assertEqual(
+            Suggestion.objects.get(backup_author_claim=claim).user, anonymous
+        )
+        self.assertEqual(
+            Screenshot.objects.get(backup_author_claim=claim).user, anonymous
+        )
+        pending = PendingUnitChange.objects.get(backup_author_claim=claim)
+        self.assertEqual(pending.author, anonymous)
+        self.assertEqual(pending.get_actor(), self.user)
+        self.assertNotIn(victim.email, "\n".join(backup.get_restore_warnings()))
+        self.assertIn(victim.username, "\n".join(backup.get_restore_warnings()))
+        self.client.force_login(victim)
+        response = self.client.get(invitation.get_absolute_url())
+        self.assertContains(response, "claim that imported authorship")
+        component = project.component_set.get(slug=self.component.slug)
+        component.commit_pending("test", self.user)
+        committed = component.repository.show("HEAD")
+        self.assertNotIn(victim.email, committed)
+        history = Change.objects.get(
+            backup_author_claim=claim, action=ActionEvents.COMMIT
+        )
+        self.assertEqual(history.author, anonymous)
+        self.assertEqual(history.user, self.user)
+        invitation.accept(None, victim)
+        claim.refresh_from_db()
+        comment.refresh_from_db()
+        history.refresh_from_db()
+        self.assertIsNotNone(claim.accepted_at)
+        self.assertEqual(comment.user, victim)
+        self.assertEqual(history.author, victim)
+        self.assertEqual(history.user, self.user)
+        self.assertTrue(restored_team.admins.filter(pk=victim.pk).exists())
+        self.assertTrue(
+            Vote.objects.filter(
+                suggestion__backup_author_claim=claim, user=victim
+            ).exists()
+        )
+        self.assertEqual(component.repository.show("HEAD"), committed)
+        with self.assertRaises(InvitationRemovedError):
+            invitation.accept(None, victim)
+
+    def test_consumed_claimed_suggestion_keeps_private_provenance(self) -> None:
+        backup = ProjectBackup()
+        backup.project = self.project
+        backup.restore_actor = self.user
+        values = backup.restore_with_user({"user": self.anotheruser.username})
+        unit = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        suggestion = Suggestion.objects.create(
+            unit=unit, target="Claimed suggestion", **values
+        )
+        claim = backup.author_claims[self.anotheruser.username]
+        backup.finish_author_invitations()
+        self.project.add_user(self.user, "Administration")
+        request = cast("AuthenticatedHttpRequest", self.factory.post("/"))
+        request.user = self.user
+        suggestion.accept(request)
+        pending = PendingUnitChange.objects.get(unit=unit, backup_author_claim=claim)
+        self.assertEqual(pending.author, get_anonymous())
+        self.assertEqual(pending.get_actor(), self.user)
+        history = Change.objects.get(
+            unit=unit, backup_author_claim=claim, action=ActionEvents.ACCEPT
+        )
+        invitation = Invitation.objects.get(backup_author_claim=claim)
+        invitation.accept(None, self.anotheruser)
+        history.refresh_from_db()
+        pending.refresh_from_db()
+        self.assertEqual(history.user, self.user)
+        self.assertEqual(history.author, self.anotheruser)
+        self.assertEqual(pending.author, self.anotheruser)
+        self.assertFalse(invitation.group.roles.exists())
+        unit.translation.component.commit_pending("test", self.user)
+        self.assertIn(
+            self.anotheruser.get_author_name(),
+            unit.translation.component.repository.show("HEAD"),
+        )
+
+    def check_propagated_backup_authorship(self, commit_before_accept: bool) -> None:
+        workspace = Workspace.objects.create(
+            name="Backup propagation", propagation_scope="workspace"
+        )
+        Project.objects.filter(pk=self.project.pk).update(workspace=workspace)
+        self.project.workspace = workspace
+        destination = RepoTestMixin.create_project(
+            self, name="Destination", slug="destination", workspace=workspace
+        )
+        component = self.create_po(project=destination)
+        for project in (self.project, destination):
+            project.add_user(self.user, "Administration")
+        backup = ProjectBackup()
+        backup.project = self.project
+        backup.restore_actor = self.user
+        values = backup.restore_with_user({"user": self.anotheruser.username})
+        unit = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        suggestion = Suggestion.objects.create(
+            unit=unit, target="Propagated backup suggestion", **values
+        )
+        claim = backup.author_claims[self.anotheruser.username]
+        backup.finish_author_invitations()
+        peer = component.translation_set.get(language_code="cs").unit_set.get(
+            id_hash=unit.id_hash
+        )
+        # Unrelated anonymous history in the destination must remain anonymous.
+        unrelated = Change.objects.create(
+            project=destination,
+            user=self.user,
+            author=get_anonymous(),
+            action=ActionEvents.CHANGE,
+        )
+        request = cast("AuthenticatedHttpRequest", self.factory.post("/"))
+        request.user = self.user
+        suggestion.accept(request)
+        peer.refresh_from_db()
+        self.assertEqual(peer.target, "Propagated backup suggestion\n")
+        pending = PendingUnitChange.objects.get(unit=peer, backup_author_claim=claim)
+        self.assertEqual(pending.author, get_anonymous())
+        self.assertEqual(pending.get_actor(), self.user)
+        if commit_before_accept:
+            component.commit_pending("test", self.user)
+            self.assertIn(
+                get_anonymous().get_author_name(), component.repository.show("HEAD")
+            )
+            history = Change.objects.get(
+                component=component,
+                backup_author_claim=claim,
+                action=ActionEvents.COMMIT,
+            )
+            self.assertEqual(history.author, get_anonymous())
+            old_commit = component.repository.last_revision
+        Invitation.objects.get(backup_author_claim=claim).accept(None, self.anotheruser)
+        if commit_before_accept:
+            self.assertEqual(component.repository.last_revision, old_commit)
+        else:
+            pending.refresh_from_db()
+            self.assertEqual(pending.author, self.anotheruser)
+            component.commit_pending("test", self.user)
+            self.assertIn(
+                self.anotheruser.get_author_name(), component.repository.show("HEAD")
+            )
+        history = Change.objects.get(
+            component=component, backup_author_claim=claim, action=ActionEvents.COMMIT
+        )
+        self.assertEqual(history.author, self.anotheruser)
+        self.assertEqual(history.user, self.user)
+        unrelated.refresh_from_db()
+        self.assertEqual(unrelated.author, get_anonymous())
+
+    def test_propagated_backup_authorship_committed_before_consent(self) -> None:
+        self.check_propagated_backup_authorship(commit_before_accept=True)
+
+    def test_propagated_backup_authorship_committed_after_consent(self) -> None:
+        self.check_propagated_backup_authorship(commit_before_accept=False)
+
+    def test_backup_author_context_preserves_scope_and_manual_authorship(self) -> None:
+        destination = RepoTestMixin.create_project(
+            self, name="Untracked", slug="untracked"
+        )
+        claim = BackupAuthorClaim.objects.create(
+            project=self.project, user=self.anotheruser, accepted_at=timezone.now()
+        )
+        with backup_author_context(claim.pk, destination.pk) as author:
+            self.assertIsNone(author)
+            change = Change.objects.create(
+                project=destination,
+                user=self.user,
+                author=get_anonymous(),
+                action=ActionEvents.CHANGE,
+            )
+        self.assertIsNone(change.backup_author_claim_id)
+        with backup_author_context(
+            claim.pk, self.project.pk, author_id=self.user.pk
+        ) as author:
+            self.assertIsNone(author)
+            change = Change.objects.create(
+                project=self.project,
+                user=self.user,
+                author=self.user,
+                action=ActionEvents.CHANGE,
+            )
+        self.assertIsNone(change.backup_author_claim_id)
+        self.assertEqual(change.author, self.user)
+
+    def test_claimed_votes_survive_anonymous_collisions(self) -> None:
+        backup = ProjectBackup()
+        backup.project = self.project
+        backup.restore_actor = self.user
+        other = User.objects.create_user("other-voter", "other-voter@example.org")
+        suggestion = Suggestion.objects.create(
+            unit=self.component.source_translation.unit_set.get(
+                source="Hello, world!\n"
+            ),
+            target="vote target",
+            user=self.user,
+        )
+        backup.restore_votes(
+            suggestion,
+            [
+                {"user": self.anotheruser.username, "value": 1},
+                {"user": other.username, "value": -1},
+            ],
+        )
+        backup.finish_author_invitations()
+        self.assertEqual(suggestion.vote_set.count(), 1)
+        first = backup.author_claims[self.anotheruser.username]
+        Invitation.objects.get(backup_author_claim=first).accept(None, self.anotheruser)
+        self.assertTrue(suggestion.vote_set.filter(user=get_anonymous()).exists())
+        second = backup.author_claims[other.username]
+        Invitation.objects.get(backup_author_claim=second).accept(None, other)
+        self.assertCountEqual(
+            suggestion.vote_set.values_list("user_id", "value"),
+            [(self.anotheruser.pk, 1), (other.pk, -1)],
+        )
+        self.assertFalse(
+            BackupAuthorVote.objects.filter(claim__project=self.project).exists()
+        )
+
+    def test_deleted_claimed_votes_are_not_recreated_on_acceptance(self) -> None:
+        backup = ProjectBackup()
+        backup.project = self.project
+        backup.restore_actor = self.user
+        unit = self.component.source_translation.unit_set.get(source="Hello, world!\n")
+        suggestion = Suggestion.objects.create(
+            unit=unit, target="Deleted vote", user=self.user
+        )
+        backup.restore_votes(
+            suggestion, [{"user": self.anotheruser.username, "value": 1}]
+        )
+        backup.finish_author_invitations()
+        suggestion.vote_set.all().delete()
+        claim = backup.author_claims[self.anotheruser.username]
+        Invitation.objects.get(backup_author_claim=claim).accept(None, self.anotheruser)
+        self.assertFalse(suggestion.vote_set.exists())
+
+    def test_restore_claim_revocation_expiry_unknown_and_trusted_users(self) -> None:
+        backup = ProjectBackup()
+        backup.project = self.project
+        backup.restore_actor = self.user
+        self.assertEqual(backup.restore_user(self.user.username), self.user)
+        self.assertEqual(backup.restore_user("missing-claim-user"), get_anonymous())
+        self.assertIn("missing-claim-user", "\n".join(backup.get_restore_warnings()))
+        self.assertEqual(
+            backup.restore_user(self.anotheruser.username), get_anonymous()
+        )
+        claim = backup.author_claims[self.anotheruser.username]
+        backup.finish_author_invitations()
+        invitation = Invitation.objects.get(backup_author_claim=claim)
+        Invitation.objects.filter(pk=invitation.pk).update(
+            timestamp=timezone.now() - timedelta(days=3650)
+        )
+        with self.assertRaises(InvitationExpiredError):
+            invitation.accept(None, self.anotheruser)
+        invitation.revoke()
+        with self.assertRaises(InvitationRemovedError):
+            invitation.accept(None, self.anotheruser)
+        claim.refresh_from_db()
+        self.assertIsNone(claim.accepted_at)
+        trusted = self.trusted_backup()
+        self.assertEqual(
+            trusted.restore_user(self.anotheruser.username), self.anotheruser
+        )
+        self.assertFalse(trusted.author_claims)
+        self.project.delete()
+        self.assertFalse(BackupAuthorClaim.objects.filter(pk=claim.pk).exists())
+
+    def test_backup_claims_ignore_untrusted_bindings_and_ineligible_accounts(
+        self,
+    ) -> None:
+        role = Role.objects.create(name="Backup user editor")
+        role.permissions.add(Permission.objects.get(codename="user.edit"))
+        managers = Group.objects.create(name="Backup user editors")
+        managers.roles.add(role)
+        self.user.groups.add(managers)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("user.edit"))
+        self.assertFalse(self.user.is_superuser)
+        backup = ProjectBackup()
+        backup.project = self.project
+        backup.restore_actor = self.user
+        self.assertEqual(
+            backup.restore_user(self.anotheruser.username), get_anonymous()
+        )
+        claim = backup.author_claims[self.anotheruser.username]
+        values = backup.restore_with_user(
+            {
+                "user": self.user.username,
+                "backup_author_claim_id": claim.pk,
+                "backup_author_claim": claim,
+            }
+        )
+        self.assertEqual(values, {"user": self.user})
+        inactive = User.objects.create_user(
+            "inactive-import-author", "inactive@example.org", is_active=False
+        )
+        self.assertEqual(backup.restore_user(inactive.username), get_anonymous())
+        self.assertNotIn(inactive.username, backup.author_claims)
+        self.assertIn(inactive.username, "\n".join(backup.get_restore_warnings()))
+
+    def test_claim_acceptance_preserves_unrelated_and_reassigned_authors(self) -> None:
+        backup = ProjectBackup()
+        backup.project = self.project
+        backup.restore_actor = self.user
+        unit = self.component.source_translation.unit_set.get(source="Hello, world!\n")
+        claimed = Comment.objects.create(
+            unit=unit,
+            comment="Claimed",
+            **backup.restore_with_user({"user": self.anotheruser.username}),
+        )
+        anonymous = Comment.objects.create(
+            unit=unit, comment="Unrelated", user=get_anonymous()
+        )
+        claimed.user = self.user
+        claimed.save(update_fields=["user"])
+        backup.finish_author_invitations()
+        claim = backup.author_claims[self.anotheruser.username]
+        Invitation.objects.get(backup_author_claim=claim).accept(None, self.anotheruser)
+        claimed.refresh_from_db()
+        anonymous.refresh_from_db()
+        self.assertEqual(claimed.user, self.user)
+        self.assertEqual(anonymous.user, get_anonymous())
+
+    def test_backup_authorship_case_variants_share_one_consent(self) -> None:
+        backup = ProjectBackup()
+        backup.project = self.project
+        backup.restore_actor = self.user
+        for username in (self.anotheruser.username, self.anotheruser.username.upper()):
+            self.assertEqual(backup.restore_user(username), get_anonymous())
+        self.assertEqual(
+            BackupAuthorClaim.objects.filter(project=self.project).count(), 1
+        )
+        team = Group.objects.create(
+            name="Case variant authors", defining_project=self.project
+        )
+        backup.restore_team_members(
+            team,
+            [self.anotheruser.username, self.anotheruser.username.upper()],
+            admins=[self.anotheruser.username.upper()],
+        )
+        backup.finish_author_invitations()
+        claim = BackupAuthorClaim.objects.get(project=self.project)
+        self.assertIsNotNone(claim.invitation_id)
+        self.assertTrue(Invitation.objects.get(backup_author_claim=claim).team_admin)
+        self.assertEqual(
+            Invitation.objects.filter(
+                group__defining_project=self.project, user=self.anotheruser
+            ).count(),
+            1,
+        )
+
     def metadata_backup(self, units: list[Unit]) -> ProjectBackup:
         backup = ProjectBackup()
         backup.IMPORT_BATCH_SIZE = 2
+        backup.restore_actor = self.user
+        backup.project = self.project
         anonymous = get_anonymous()
         backup.user_cache = {
             self.user.username: self.user,
@@ -691,6 +1100,8 @@ class BackupsTest(ReusableViewTestCase):
             "state": unit.state,
         }
         backup = ProjectBackup()
+        backup.project = self.project
+        backup.restore_actor = self.user
         with patch(
             "weblate.trans.models.unit.UnitQuerySet.with_last_content_author",
             side_effect=AssertionError("Modern backup must use stored authors"),
@@ -1525,7 +1936,7 @@ class BackupsTest(ReusableViewTestCase):
         unit = translation.unit_set.get(source="Hello, world!\n")
         pending = unit.pending_changes.get()
         self.assertEqual(pending.get_actor(), self.anotheruser)
-        self.assertEqual(pending.author, self.user)
+        self.assertEqual(pending.author, get_anonymous())
 
         with (
             acting_user_context(None),
@@ -1540,7 +1951,7 @@ class BackupsTest(ReusableViewTestCase):
         report.assert_not_called()
         failure = unit.change_set.get(action=ActionEvents.SAVE_FAILED)
         self.assertEqual(failure.user, self.anotheruser)
-        self.assertEqual(failure.author, self.user)
+        self.assertEqual(failure.author, get_anonymous())
 
     def test_restore_creates_history_entries(self) -> None:
         backup = ProjectBackup()
@@ -2556,7 +2967,7 @@ class BackupsTest(ReusableViewTestCase):
         user = type(self.user).objects.create_user(
             "backup-limit-legacy", "backup-limit-legacy@example.com", "x"
         )
-        backup = ProjectBackup()
+        backup = self.trusted_backup()
 
         backup.restore_team_members(team, [{"username": user.username}])
 
@@ -2570,7 +2981,7 @@ class BackupsTest(ReusableViewTestCase):
         )
         czech = Language.objects.get(code="cs")
         german = Language.objects.get(code="de")
-        backup = ProjectBackup()
+        backup = self.trusted_backup()
         backup.languages_cache = {czech.code: czech, german.code: german}
 
         with self.assertWarnsRegex(UserWarning, "Conflicting language limits"):
@@ -2588,7 +2999,7 @@ class BackupsTest(ReusableViewTestCase):
             list(membership.limit_languages.values_list("code", flat=True)), ["de"]
         )
 
-    def test_restore_team_members_bulk_restores_limit_languages(self) -> None:
+    def test_restore_team_members_restores_limit_languages(self) -> None:
         team = Group.objects.create(name="Restore bulk limit team")
         first_user = type(self.user).objects.create_user(
             "backup-limit-bulk-a", "backup-limit-bulk-a@example.com", "x"
@@ -2598,27 +3009,22 @@ class BackupsTest(ReusableViewTestCase):
         )
         czech = Language.objects.get(code="cs")
         german = Language.objects.get(code="de")
-        backup = ProjectBackup()
+        backup = self.trusted_backup()
         backup.languages_cache = {czech.code: czech, german.code: german}
 
-        with patch.object(
-            TeamMembership,
-            "set_limit_languages",
-            side_effect=AssertionError("restore should use bulk m2m writes"),
-        ):
-            backup.restore_team_members(
-                team,
-                [
-                    {
-                        "username": first_user.username,
-                        "limit_languages": [german.code, czech.code, czech.code],
-                    },
-                    {
-                        "username": second_user.username,
-                        "limit_languages": [german.code],
-                    },
-                ],
-            )
+        backup.restore_team_members(
+            team,
+            [
+                {
+                    "username": first_user.username,
+                    "limit_languages": [german.code, czech.code, czech.code],
+                },
+                {
+                    "username": second_user.username,
+                    "limit_languages": [german.code],
+                },
+            ],
+        )
 
         memberships = TeamMembership.objects.filter(group=team).prefetch_related(
             "limit_languages"
@@ -2644,7 +3050,7 @@ class BackupsTest(ReusableViewTestCase):
         )
         czech = Language.objects.get(code="cs")
         german = Language.objects.get(code="de")
-        backup = ProjectBackup()
+        backup = self.trusted_backup()
         backup.languages_cache = {czech.code: czech, german.code: german}
 
         with warnings.catch_warnings(record=True) as caught_warnings:
@@ -2670,7 +3076,7 @@ class BackupsTest(ReusableViewTestCase):
         user = type(self.user).objects.create_user(
             "backup-limit-missing", "backup-limit-missing@example.com", "x"
         )
-        backup = ProjectBackup()
+        backup = self.trusted_backup()
         backup.languages_cache = {}
 
         backup.restore_team_members(
@@ -2690,12 +3096,14 @@ class BackupsTest(ReusableViewTestCase):
             "backup-limit-rollback", "backup-limit-rollback@example.com", "x"
         )
         czech = Language.objects.get(code="cs")
-        backup = ProjectBackup()
+        backup = self.trusted_backup()
         backup.languages_cache = {czech.code: czech}
 
         with (
             patch.object(
-                backup, "get_items_from_cache", side_effect=RuntimeError("failed")
+                TeamMembership,
+                "set_limit_languages",
+                side_effect=RuntimeError("failed"),
             ),
             self.assertRaisesRegex(RuntimeError, "failed"),
         ):
@@ -2994,7 +3402,7 @@ class BackupsTest(ReusableViewTestCase):
         )
 
     def test_restore_team_only_languages(self) -> None:
-        backup = ProjectBackup()
+        backup = self.trusted_backup()
         backup.project = self.project
         team = {
             "name": "Languages only",
@@ -3027,7 +3435,7 @@ class BackupsTest(ReusableViewTestCase):
         group = Group.objects.create(
             name="Stale members", defining_project=self.project
         )
-        backup = ProjectBackup()
+        backup = self.trusted_backup()
         for username in ("missing-backup-member", settings.ANONYMOUS_USER_NAME):
             with self.subTest(username=username):
                 backup.restore_team_members(
@@ -3135,7 +3543,7 @@ class BackupsTest(ReusableViewTestCase):
         restored = Project.objects.create(
             name="Inactive review", slug="inactive-review", web="https://example.com/"
         )
-        restore = ProjectBackup()
+        restore = self.trusted_backup()
         restore.project = restored
         team = {
             "name": "Review",
@@ -3234,7 +3642,7 @@ class BackupsTest(ReusableViewTestCase):
             "enforced_2fa": True,
             "members": [self.user.username],
         }
-        restore = ProjectBackup()
+        restore = self.trusted_backup()
         restore.project = self.project
         restore.restore_teams([custom, team])
         builtin.refresh_from_db()
@@ -3272,7 +3680,7 @@ class BackupsTest(ReusableViewTestCase):
         teams = dict(self.project.defined_groups.values_list("name", "pk"))
         builtin = self.project.defined_groups.get(name="Review")
         builtin.roles.set([Role.objects.get(name="Translate")])
-        backup = ProjectBackup()
+        backup = self.trusted_backup()
         data = backup.backup_teams(self.project)
         for team in data:
             team.pop("internal")
@@ -3290,7 +3698,7 @@ class BackupsTest(ReusableViewTestCase):
         self.project.translation_review = True
         self.project.save()
         builtin = self.project.defined_groups.get(name="Review", internal=True)
-        restore = ProjectBackup()
+        restore = self.trusted_backup()
         restore.project = self.project
         team = next(
             team

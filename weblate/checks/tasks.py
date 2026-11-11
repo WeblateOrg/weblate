@@ -296,13 +296,13 @@ def _get_propagated_check_units(
         return Unit.objects.none()
     units = (
         Unit.objects.exclude_blocked(custom_sources=custom_sources)
-        .with_effective_source(custom_sources=custom_sources, select=False)
         .filter(
             propagation_filter(project, "translation__component__", component.name),
-            check_source_language=group["source_language_id"],
             translation__component__allow_translation_propagation=True,
             translation__plural_id=group["plural_id"],
         )
+        .with_effective_source(custom_sources=custom_sources, select=False)
+        .filter(check_source_language=group["source_language_id"])
     )
     if custom_sources and "source_rules" in group:
         number, formula, plural_type = group["source_rules"]

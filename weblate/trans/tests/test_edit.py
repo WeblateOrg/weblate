@@ -760,7 +760,8 @@ class EditTest(ReusableViewTestCase):
     second_target = "Ahoj svete!\n"
     already_translated = 0
     needs_bilingual_context = False
-    new_source_string = "Source string" * 100000
+    # Long, but within the limit for newly added strings
+    new_source_string = "Source string" * 7000
 
     def setUp(self) -> None:
         super().setUp()
