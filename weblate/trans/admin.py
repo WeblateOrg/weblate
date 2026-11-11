@@ -8,9 +8,15 @@ from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.admin.utils import unquote
 from django.utils.translation import gettext_lazy
 
+from weblate.accounts.utils import (
+    has_recent_sensitive_verification,
+    sensitive_verification_redirect,
+)
 from weblate.auth.models import User
+from weblate.trans.component_creation import changes_component_sensitive_access
 from weblate.trans.models import (
     Announcement,
     AutoComponentList,
@@ -70,8 +76,47 @@ class RepoAdminMixin:
         self.message_user(request, f"Updated checks for {len(units):d} units.")
 
 
+class SensitiveFieldsAdmin(WeblateModelAdmin):
+    """Require recent credential verification for changing listed fields."""
+
+    sensitive_fields: frozenset[str] = frozenset()
+
+    def changes_sensitive_fields(self, request, object_id: str | None) -> bool:
+        obj = self.get_object(request, unquote(object_id)) if object_id else None
+        source = None
+        # Django treats Save as new as an addition, but copying can expose the
+        # original component even when its repository owner is unrestricted.
+        if "_saveasnew" in request.POST:
+            source = obj
+            object_id = None
+            obj = None
+        if object_id is not None:
+            if obj is None or not self.has_change_permission(request, obj):
+                return False
+        elif not self.has_add_permission(request):
+            return False
+        form_class = self.get_form(request, obj, change=obj is not None)
+        # changed_data compares raw input only, without running model
+        # validation, which can touch the repository.
+        form = form_class(request.POST, request.FILES, instance=obj)
+        return self.form_changes_sensitive_fields(request, form, source)
+
+    def form_changes_sensitive_fields(self, request, form, source=None) -> bool:
+        return bool(form.instance.pk and self.sensitive_fields & set(form.changed_data))
+
+    def changeform_view(self, request, object_id=None, form_url="", extra_context=None):
+        if (
+            request.method == "POST"
+            and self.changes_sensitive_fields(request, object_id)
+            and not has_recent_sensitive_verification(request)
+        ):
+            return sensitive_verification_redirect(request, request.path)
+        return super().changeform_view(request, object_id, form_url, extra_context)
+
+
 @admin.register(Project)
-class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
+class ProjectAdmin(SensitiveFieldsAdmin, RepoAdminMixin):
+    sensitive_fields = frozenset({"access_control", "public_sharing", "enforced_2fa"})
     list_display = (
         "name",
         "slug",
@@ -122,7 +167,7 @@ class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
 
 
 @admin.register(Component)
-class ComponentAdmin(WeblateModelAdmin, RepoAdminMixin):
+class ComponentAdmin(SensitiveFieldsAdmin, RepoAdminMixin):
     list_display = ("name", "slug", "project", "repo", "branch", "vcs", "file_format")
     # ruff: ignore[mutable-class-default]
     prepopulated_fields = {
@@ -131,6 +176,11 @@ class ComponentAdmin(WeblateModelAdmin, RepoAdminMixin):
     search_fields = ("name", "slug", "repo", "branch", "project__name", "project__slug")
     list_filter = ("vcs", "file_format")
     autocomplete_fields = ("project",)
+
+    def form_changes_sensitive_fields(self, request, form, source=None) -> bool:
+        return changes_component_sensitive_access(
+            form, request.user, source_component=source
+        )
 
     def get_queryset(self, request):
         # Component labels include their category ancestry and project.

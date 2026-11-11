@@ -814,9 +814,9 @@ Security properties Weblate provides
        second-factor submissions lock password sign-in according to
        :setting:`AUTH_LOCK_ATTEMPTS`. Access to personal API tokens and
        changes to authentication credentials, access permissions, project
-       visibility, account status, and bulk user-contribution cleanup require
-       recent credential verification for browser sessions. Accounts with 2FA
-       use a second factor; other accounts confirm their password or an existing
+       and component visibility, account status, and bulk user-contribution
+       cleanup require recent credential verification for browser sessions.
+       Accounts with 2FA use a second factor; other accounts confirm their password or an existing
        sign-in provider. API tokens remain separate credentials. *(documented)* (source:
        :doc:`/admin/auth`, :setting:`ENABLE_HTTPS`)
      - Production HTTPS and secure-cookie settings are enabled.

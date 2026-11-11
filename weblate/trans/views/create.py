@@ -22,6 +22,10 @@ from django.utils.http import urlencode
 from django.utils.translation import gettext
 from django.views.generic.edit import CreateView
 
+from weblate.accounts.utils import (
+    has_recent_sensitive_verification,
+    sensitive_verification_redirect,
+)
 from weblate.trans.backups import ProjectBackup
 from weblate.trans.component_creation import (
     get_creation_components,
@@ -384,11 +388,27 @@ class CreateComponent(BaseCreateView):
                 % detected_license,
             )
 
+    @staticmethod
+    def exposes_restricted_source(form) -> bool:
+        if form.instance.restricted:
+            return False
+        sources = (
+            form.cleaned_data.get("source_component"),
+            form.instance.linked_component,
+        )
+        return any(source is not None and source.restricted for source in sources)
+
     @transaction.atomic
     def form_valid(self, form: ComponentProjectForm) -> HttpResponse:
         if not self.request.user.has_perm("project.edit", form.cleaned_data["project"]):
             raise PermissionDenied
         if self.stage == "create":
+            if self.exposes_restricted_source(
+                form
+            ) and not has_recent_sensitive_verification(self.request):
+                return sensitive_verification_redirect(
+                    self.request, self.request.get_full_path()
+                )
             project = form.cleaned_data["project"]
             if (
                 self.has_billing
