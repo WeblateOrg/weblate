@@ -31,8 +31,8 @@ repository where the build and release automation lives.
      - `GitHub releases`_
      - :file:`.github/workflows/setup.yml`, :file:`scripts/create-release`,
        :file:`scripts/prepare-release`, and :doc:`/contributing/release`
-     - Release assets include Python distribution archives, release notes, and
-       the release SBOM.
+     - Release assets include Python distribution archives and the release
+       SBOM. Release notes are published in the GitHub release body.
    * - Python package
      - :file:`pyproject.toml`, :file:`setup.py`, and :file:`MANIFEST.in`
      - :pypi:`weblate`
@@ -121,9 +121,9 @@ Verifying release artifacts
 
 The Weblate release workflow publishes verification material for the Weblate
 Python source distribution and wheel in `GitHub release assets`_. Release
-assets include the package archives, Sigstore signature bundles, release notes,
-and the release SBOM. The same package archives are uploaded to PyPI using
-trusted publishing. The PyPI publishing action generates and uploads a
+assets include the package archives, Sigstore signature bundles, and the
+release SBOM. Release notes are published in the GitHub release body. The same
+package archives are uploaded to PyPI using trusted publishing. The PyPI publishing action generates and uploads a
 separate PyPI publish attestation for each archive. These attestations are
 available in the provenance details for each release file on :pypi:`weblate`.
 Existing releases uploaded without attestations do not gain provenance
@@ -134,6 +134,32 @@ Verify the files downloaded from GitHub release assets when you need the
 published signatures, GitHub attestations, and SBOM. PyPI package files can be
 compared to the matching GitHub release assets by filename and digest.
 
+.. _immutable-releases:
+
+Immutable GitHub releases
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New GitHub releases of Weblate and the Weblate Client are published as
+immutable releases. After publication, assets cannot be added, replaced, or
+deleted, and the release tag cannot be moved or deleted. Release titles and
+notes remain editable. Asset corrections require a new version. Earlier
+releases can remain mutable; check the :guilabel:`Immutable` label on the
+release page.
+
+GitHub automatically generates a release attestation binding the release tag,
+commit, and asset digests. This is separate from the workflow's build and SBOM
+attestations and the PyPI publish attestations. Use a current GitHub CLI to
+verify the release attestation and a downloaded file against it:
+
+.. code-block:: sh
+
+   gh release verify weblate-2026.11.1 --repo WeblateOrg/weblate
+   gh release verify-asset weblate-2026.11.1 \
+      weblate-2026.11.1-py3-none-any.whl --repo WeblateOrg/weblate
+
+See `GitHub immutable releases`_ for the platform guarantees and
+:doc:`/contributing/release` for maintainer publishing and recovery steps.
+
 Release signatures
 ~~~~~~~~~~~~~~~~~~
 
@@ -142,18 +168,18 @@ signatures. The signature bundles are attached to the GitHub release next to
 the signed :file:`.tar.gz` and :file:`.whl` files.
 
 The verification can be performed using the :pypi:`sigstore package
-<sigstore>`. The following example verifies the wheel from the 5.4 release;
-adjust the version and filenames for the release you are checking:
+<sigstore>`. The following example verifies the wheel from the 2026.11.1
+release; adjust the version and filenames for the release you are checking:
 
 .. code-block:: sh
 
    sigstore verify github \
-      --cert-identity https://github.com/WeblateOrg/weblate/.github/workflows/setup.yml@refs/tags/weblate-5.4 \
-      --bundle Weblate-5.4-py3-none-any.whl.sigstore \
-      Weblate-5.4-py3-none-any.whl
+      --cert-identity https://github.com/WeblateOrg/weblate/.github/workflows/setup.yml@refs/tags/weblate-2026.11.1 \
+      --bundle weblate-2026.11.1-py3-none-any.whl.sigstore.json \
+      weblate-2026.11.1-py3-none-any.whl
 
-Release attestations
-~~~~~~~~~~~~~~~~~~~~
+Build provenance and SBOM attestations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The release workflow creates two kinds of `GitHub artifact attestations`_ for
 the package archives:
@@ -165,13 +191,13 @@ the package archives:
   :program:`actions/attest` with the CycloneDX release SBOM.
 
 The attestations can be verified using :program:`gh`. The following example
-checks the build provenance attestation for the 5.4 wheel:
+checks the build provenance attestation for the 2026.11.1 wheel:
 
 .. code-block:: sh
 
-   gh attestation verify Weblate-5.4-py3-none-any.whl \
+   gh attestation verify weblate-2026.11.1-py3-none-any.whl \
       --repo WeblateOrg/weblate \
-      --source-ref refs/tags/weblate-5.4 \
+      --source-ref refs/tags/weblate-2026.11.1 \
       --signer-workflow WeblateOrg/weblate/.github/workflows/setup.yml
 
 Use the CycloneDX predicate type to verify the SBOM attestation attached to the
@@ -179,9 +205,9 @@ same package artifact:
 
 .. code-block:: sh
 
-   gh attestation verify Weblate-5.4-py3-none-any.whl \
+   gh attestation verify weblate-2026.11.1-py3-none-any.whl \
       --repo WeblateOrg/weblate \
-      --source-ref refs/tags/weblate-5.4 \
+      --source-ref refs/tags/weblate-2026.11.1 \
       --signer-workflow WeblateOrg/weblate/.github/workflows/setup.yml \
       --predicate-type https://cyclonedx.org/bom
 
@@ -207,6 +233,7 @@ by their owning repositories.
 
 .. _GitHub release assets: https://github.com/WeblateOrg/weblate/releases/latest
 .. _GitHub releases: https://github.com/WeblateOrg/weblate/releases
+.. _GitHub immutable releases: https://docs.github.com/en/code-security/concepts/supply-chain-security/immutable-releases
 .. _GitHub artifact attestations: https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations
 .. _Docker Hub: https://hub.docker.com/r/weblate/weblate
 .. _GitHub Packages Docker registry: https://github.com/WeblateOrg/docker/pkgs/container/weblate
