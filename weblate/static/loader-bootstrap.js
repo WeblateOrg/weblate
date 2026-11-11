@@ -1760,7 +1760,6 @@ onReady(() => {
               callback(data.results);
             } catch (_error) {
               if (!controller.signal.aborted) {
-                this.setNextUrl(query, url);
                 addAlert(
                   gettext("Could not load teams. Please try again."),
                   "danger",
@@ -1768,6 +1767,7 @@ onReady(() => {
               }
               callback([]);
               delete this.loadedSearches[query];
+              this.clearPagination();
             }
           },
           render: {
