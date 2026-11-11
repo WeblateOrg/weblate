@@ -25,6 +25,7 @@ from django.db.models.fields.json import KT
 from django.db.models.functions import Now
 from django.utils import timezone
 
+from weblate.trans.models.backup import BackupAuthorshipMixin, apply_backup_authorship
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_APPROVED,
@@ -407,7 +408,7 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
         return counts
 
 
-class PendingUnitChange(models.Model):
+class PendingUnitChange(BackupAuthorshipMixin):
     """Stores actual change data that needs to be committed to a repository."""
 
     unit = models.ForeignKey(
@@ -486,6 +487,7 @@ class PendingUnitChange(models.Model):
         if timestamp is not None:
             kwargs["timestamp"] = timestamp
 
+        apply_backup_authorship(kwargs)
         pending = cls(**kwargs)
         if user_id is not None:
             pending.metadata["actor_id"] = user_id

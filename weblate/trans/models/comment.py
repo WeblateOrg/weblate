@@ -15,6 +15,7 @@ from weblate_language_data.utils import gettext_noop
 
 from weblate.trans.actions import ActionEvents
 from weblate.trans.mixins import UserDisplayMixin
+from weblate.trans.models.backup import BackupAuthorshipMixin
 from weblate.trans.models.pending import PendingUnitChange
 from weblate.utils.antispam import report_spam
 from weblate.utils.request import get_ip_address, get_user_agent_raw
@@ -148,7 +149,7 @@ class CommentQuerySet(models.QuerySet["Comment", "Comment"]):
         return result
 
 
-class Comment(models.Model, UserDisplayMixin):
+class Comment(BackupAuthorshipMixin, UserDisplayMixin):
     unit = models.ForeignKey("trans.Unit", on_delete=models.deletion.CASCADE)
     comment = models.TextField()
     user = models.ForeignKey(

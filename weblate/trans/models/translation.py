@@ -65,6 +65,10 @@ from weblate.trans.file_format_params import (
     GettextSetLanguageTeamHeader,
 )
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, LoggerMixin, URLMixin
+from weblate.trans.models.backup import (
+    apply_backup_authorship,
+    backup_author_context,
+)
 from weblate.trans.models.change import Change
 from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.models.source import (
@@ -1375,39 +1379,45 @@ class Translation(
             ]
             if not changes:
                 continue
-            author_name = author.get_author_name()
-            timestamp = max(change.timestamp for change in changes)
+            with backup_author_context(
+                changes[0].backup_author_claim_id,
+                self.component.project_id,
+                author_id=author.pk,
+            ) as claimed_author:
+                author = claimed_author or author
+                author_name = author.get_author_name()
+                timestamp = max(change.timestamp for change in changes)
 
-            # Flush the grouped pending changes for this author
-            changes_status, written = self.update_units(
-                changes, store, author_name, recovery_changes=pending_changes
-            )
-            all_changes_status.update(changes_status)
-            failed_identity_units.update(
-                change.unit_id
-                for change in changes
-                if "identity" in change.metadata
-                and not changes_status.get(change.pk, False)
-            )
-
-            # Track successful units
-            for change in changes:
-                if changes_status.get(change.pk):
-                    units_to_clear_disk_state.add(change.unit_id)
-
-            # Commit even when nothing was written now: the file might hold
-            # changes from a failed earlier attempt, and add-ons can update
-            # their files based on the database state.
-            if any(changes_status.values()):
-                was_committed |= self.git_commit(
-                    user,
-                    author_name,
-                    timestamp,
-                    skip_push=True,
-                    signals=False,
-                    update_contributor=written,
-                    log_author=author,
+                # Flush the grouped pending changes for this author
+                changes_status, written = self.update_units(
+                    changes, store, author_name, recovery_changes=pending_changes
                 )
+                all_changes_status.update(changes_status)
+                failed_identity_units.update(
+                    change.unit_id
+                    for change in changes
+                    if "identity" in change.metadata
+                    and not changes_status.get(change.pk, False)
+                )
+
+                # Track successful units
+                for change in changes:
+                    if changes_status.get(change.pk):
+                        units_to_clear_disk_state.add(change.unit_id)
+
+                # Commit even when nothing was written now: the file might hold
+                # changes from a failed earlier attempt, and add-ons can update
+                # their files based on the database state.
+                if any(changes_status.values()):
+                    was_committed |= self.git_commit(
+                        user,
+                        author_name,
+                        timestamp,
+                        skip_push=True,
+                        signals=False,
+                        update_contributor=written,
+                        log_author=author,
+                    )
 
         # Short-circuit when no changes were processed
         if not any(all_changes_status.values()):
@@ -1510,18 +1520,20 @@ class Translation(
             - Commit 3: Author1 [B3, B5, D6]
 
         """
+        # Separate anonymous claims so a later acceptance can attribute each
+        # database history entry without rewriting somebody else's authorship.
         author_map = {
-            change.author.id: change.author
+            (change.author.id, change.backup_author_claim_id): change.author
             for change in pending_changes
             if change.author
         }
 
-        active_groups: dict[int, ActiveChangeGroup] = {}
+        active_groups: dict[tuple[int, int | None], ActiveChangeGroup] = {}
         finalized_groups = []
 
         for change in pending_changes:
             unit_id = change.unit.id
-            author_id = change.author.id
+            author_id = (change.author.id, change.backup_author_claim_id)
 
             conflicting_authors = []
             for other_author_id, group_data in active_groups.items():
@@ -1745,9 +1757,11 @@ class Translation(
                     )
                 if user is None:
                     user = InternalBot.COMMIT.get_user()
-                self.change_set.create(
-                    action=ActionEvents.COMMIT, user=user, author=user
-                )
+                attribution = {"user": user, "author": log_author or user}
+                apply_backup_authorship(attribution)
+                if "backup_author_claim_id" not in attribution:
+                    attribution["author"] = user
+                self.change_set.create(action=ActionEvents.COMMIT, **attribution)
 
             # Store updated hash
             if store_hash:
