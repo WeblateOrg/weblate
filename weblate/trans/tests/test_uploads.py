@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+import fcntl
 import json
 import os
 import time
@@ -51,6 +52,23 @@ class UploadNotFoundLogTest(SimpleTestCase):
             log.append(str(index))
         self.assertEqual(len(log), 30)
         self.assertEqual(log.strings, [str(index) for index in range(8)])
+
+
+class UploadLockTest(SimpleTestCase):
+    def test_exclusive_byte_range_lock_preserves_payload(self) -> None:
+        with TemporaryDirectory() as temporary:
+            directory = Path(temporary)
+            payload = directory / "file"
+            payload.write_bytes(b"translation upload")
+            # Linux implements flock over NFS using byte-range locks, which
+            # require a writable descriptor for an exclusive lock.
+            with (
+                patch("weblate.trans.uploads.upload_directory", return_value=directory),
+                patch("weblate.trans.uploads.fcntl.flock", wraps=fcntl.lockf),
+                upload_lock("upload-id"),
+            ):
+                self.assertEqual(payload.read_bytes(), b"translation upload")
+            self.assertEqual(payload.read_bytes(), b"translation upload")
 
 
 class BackgroundUploadTest(ImportBaseTest):
