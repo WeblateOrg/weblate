@@ -121,6 +121,7 @@ def bulk_edit(
         selection = UnitSelection()
     affected_ids: set[int] = set()
     affected_sources: set[int] = set()
+    too_long: set[int] = set()
     updated = bulk_perform(
         user,
         selection.queryset(component),
@@ -142,6 +143,7 @@ def bulk_edit(
         affected_unit_ids=affected_ids,
         affected_source_unit_ids=affected_sources,
         expected_unit_snapshots=selection.unit_snapshots,
+        too_long_unit_ids=too_long,
     )
     if affected is not None:
         affected.unit_ids = affected_ids
@@ -153,4 +155,7 @@ def bulk_edit(
                 for unit_id in affected_ids
                 if unit_id in selection.unit_snapshots
             }
-    return {"component": component.pk, "updated": updated}
+    result: dict[str, Any] = {"component": component.pk, "updated": updated}
+    if too_long:
+        result["skipped_too_long"] = len(too_long)
+    return result

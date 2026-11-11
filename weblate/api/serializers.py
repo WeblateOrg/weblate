@@ -111,6 +111,7 @@ from weblate.trans.models.translation import NewUnitParams
 from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.trans.validators import (
     SUGGESTION_REJECTION_REASON_LENGTH,
+    validate_changed_text_length,
     validate_translation_text_length,
 )
 from weblate.trans.workspace_move import (
@@ -4267,7 +4268,12 @@ class UnitWriteSerializer(serializers.ModelSerializer[Unit]):
 
     def validate_target(self, value: list[str]) -> list[str]:
         if self.instance is not None:
-            validate_translation_text_length(self.instance, value)
+            validate_translation_text_length(self.instance, value, allow_stored=True)
+        return value
+
+    def validate_explanation(self, value: str) -> str:
+        if self.instance is not None:
+            validate_changed_text_length([value], [self.instance.explanation])
         return value
 
 

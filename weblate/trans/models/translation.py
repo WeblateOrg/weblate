@@ -34,6 +34,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.html import format_html
+from django.utils.text import Truncator
 from django.utils.translation import gettext, ngettext
 from translate.storage.fluent import FluentContentError
 
@@ -95,7 +96,15 @@ from weblate.trans.util import (
     sanitize_backend_error_message,
     split_plural,
 )
-from weblate.trans.validators import validate_check_flags, validate_multivalue_size
+from weblate.trans.validators import (
+    MAX_NEW_TEXT_LENGTH,
+    TranslationTextTooLongError,
+    iter_nested_strings,
+    validate_check_flags,
+    validate_multivalue_size,
+    validate_new_text_length,
+    validate_translation_text_length,
+)
 from weblate.utils import messages
 from weblate.utils.change_origin import (
     acting_user_context,
@@ -122,7 +131,7 @@ from weblate.utils.version import GIT_VERSION
 SINGLE_FILE_IMPORT_ALERTS = {"DuplicateString", "ParseError"}
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Iterable
+    from collections.abc import Callable, Iterable, Iterator
     from datetime import datetime
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
@@ -463,6 +472,8 @@ class Translation(
         self._stats_delta_requires_full_rebuild = False
         self.update_changes: list[Change] = []
         self.pending_unit_changes: list[PendingUnitChange] = []
+        # Strings which could not be propagated everywhere during a batch update
+        self.batch_propagation_failures: int = 0
         # Project backup integration
         self.original_id = -1
 
@@ -2174,6 +2185,100 @@ class Translation(
             raise FileParseError(str(error)) from error
         self.validate_upload_plural_forms(unit)
 
+    @staticmethod
+    def get_upload_text_length_error(unit: TranslationUnit) -> FileParseError:
+        return FileParseError(
+            gettext("The uploaded file contains a string that is too long: %s")
+            % Truncator(unit.context or unit.source).chars(50)
+        )
+
+    @staticmethod
+    def get_upload_unit_texts(unit: TranslationUnit) -> Iterator[str]:
+        """
+        Yield text the upload stores for a unit, each value separately.
+
+        Units matched to the component template take the source and context
+        from the repository, which is intentionally not limited. Other text,
+        such as notes or the previous source, can still come from the
+        uploaded file.
+        """
+        yield from split_plural(unit.target)
+        if unit.template is None or unit.parent.is_template:
+            yield from split_plural(unit.source)
+            yield unit.context
+        yield unit.notes
+        yield unit.locations
+        yield unit.explanation
+        yield unit.source_explanation
+        yield unit.previous_source
+        yield unit.flags.format()
+        yield from iter_nested_strings(getattr(unit, "tbx_terms", None))
+
+    def get_upload_unit_too_long_texts(self, unit: TranslationUnit) -> set[str]:
+        try:
+            return {
+                text
+                for text in self.get_upload_unit_texts(unit)
+                if len(text) > MAX_NEW_TEXT_LENGTH
+            }
+        except ValueError as error:
+            # Lazily parsed metadata, such as flags, can be invalid
+            raise FileParseError(str(error)) from error
+
+    def validate_upload_unit_text_length(self, unit: TranslationUnit) -> None:
+        if self.get_upload_unit_too_long_texts(unit):
+            raise self.get_upload_text_length_error(unit)
+
+    @staticmethod
+    def get_stored_unit_texts(unit: Unit) -> set[str]:
+        """Return text stored for a unit, which an upload can keep unchanged."""
+        return {
+            *split_plural(unit.source),
+            *split_plural(unit.target),
+            unit.context,
+            unit.note,
+            unit.location,
+            unit.explanation,
+            unit.source_unit.explanation if unit.source_unit else "",
+            unit.previous_source,
+            unit.flags,
+            # Imported TBX metadata, such as term notes, is stored separately
+            *iter_nested_strings(unit.details.get("tbx_terms")),
+            *iter_nested_strings(
+                unit.source_unit.details.get("tbx_terms") if unit.source_unit else None
+            ),
+        }
+
+    def validate_upload_text_length(self, store: TranslationFormat) -> None:
+        """
+        Reject a replacing upload with text that would be stored unvalidated.
+
+        This covers all text stored and served for a unit, as otherwise the
+        limit could be avoided by placing the text in a different field.
+        Text which the matching unit already stores is accepted, it can come
+        from the repository, which is intentionally not limited.
+        Merging uploads validate each stored text when storing it instead.
+        """
+        too_long: list[tuple[TranslationUnit, set[str], int | None]] = []
+        for unit in store.content_units:
+            if texts := self.get_upload_unit_too_long_texts(unit):
+                try:
+                    id_hash = unit.id_hash
+                except ValueError:
+                    id_hash = None
+                too_long.append((unit, texts, id_hash))
+        if not too_long:
+            return
+        stored = {
+            stored_unit.id_hash: self.get_stored_unit_texts(stored_unit)
+            for stored_unit in self.unit_set.filter(
+                id_hash__in={id_hash for *_, id_hash in too_long if id_hash is not None}
+            ).select_related("source_unit")
+        }
+        for unit, texts, id_hash in too_long:
+            if id_hash is None or not texts <= stored.get(id_hash, set()):
+                raise self.get_upload_text_length_error(unit)
+
     def validate_upload_plural_store(self, store: TranslationFormat) -> None:
         try:
             units = store.content_units
@@ -2259,22 +2364,38 @@ class Translation(
             # Ensure deferred changes accumulate on this Translation instance
             unit.translation = self
             unit.is_batch_update = True
-            unit.translate(
-                request.user,
-                split_plural(unit2.target),
-                state,
-                change_action=ActionEvents.UPLOAD,
-                propagate=propagate,
-                author=author,
-                request=request,
-                select_for_update=False,
-            )
+            try:
+                unit.translate(
+                    request.user,
+                    split_plural(unit2.target),
+                    state,
+                    change_action=ActionEvents.UPLOAD,
+                    propagate=propagate,
+                    author=author,
+                    request=request,
+                    select_for_update=False,
+                )
+            except TranslationTextTooLongError as error:
+                # The transaction in handle_upload discards already merged units.
+                raise self.get_upload_text_length_error(unit2) from error
 
         if accepted > 0:
             self.store_update_changes()
             self.component.run_batched_checks()
             self.invalidate_cache()
             request.user.profile.increase_count("translated", accepted)
+
+        if self.batch_propagation_failures:
+            messages.warning(
+                request,
+                ngettext(
+                    "%d string could not be propagated to all components.",
+                    "%d strings could not be propagated to all components.",
+                    self.batch_propagation_failures,
+                )
+                % self.batch_propagation_failures,
+            )
+            self.batch_propagation_failures = 0
 
         if not_found_log:
             self.show_upload_not_found(request, not_found_log)
@@ -2463,6 +2584,7 @@ class Translation(
             ) from error
         if not ignore_language:
             self.validate_upload_language(store, source=True)
+        self.validate_upload_text_length(store)
         with component.repository.lock, source_operation(component):
             # Commit pending changes
             try:
@@ -2557,6 +2679,8 @@ class Translation(
             if not ignore_language:
                 self.validate_upload_language(store2)
 
+            self.validate_upload_text_length(store2)
+
             try:
                 if self.is_source:
                     self.component.commit_pending("replace file", author)
@@ -2641,17 +2765,24 @@ class Translation(
             ):
                 skipped += 1
                 continue
-            self.add_unit(
-                request,
-                unit.context,
-                split_plural(unit.source),
-                split_plural(unit.target) if not self.is_source else [],
-                is_batch_update=True,
-                state=STATE_READONLY if unit.is_readonly() else None,
-                original_unit=cast("TBXUnit", unit)
-                if component.file_format == "tbx" and getattr(unit, "tbx_terms", None)
-                else None,
-            )
+            # Only added units are validated, skipped ones are not stored
+            self.validate_upload_unit_text_length(unit)
+            try:
+                self.add_unit(
+                    request,
+                    unit.context,
+                    split_plural(unit.source),
+                    split_plural(unit.target) if not self.is_source else [],
+                    is_batch_update=True,
+                    state=STATE_READONLY if unit.is_readonly() else None,
+                    original_unit=cast("TBXUnit", unit)
+                    if component.file_format == "tbx"
+                    and getattr(unit, "tbx_terms", None)
+                    else None,
+                )
+            except TranslationTextTooLongError as error:
+                # The transaction in handle_upload discards already added units.
+                raise self.get_upload_text_length_error(unit) from error
             existing.add(idkey)
             if not has_template and component.is_multivalue:
                 existing.add((unit.context, split_plural(unit.source)[0]))
@@ -3055,6 +3186,7 @@ class Translation(
         skip_existing: bool = False,
         state: StringState | None = None,
         author: User | None = None,
+        validate_length: bool = True,
     ) -> Unit | None: ...
     @overload
     def add_unit(
@@ -3072,8 +3204,9 @@ class Translation(
         skip_existing: bool = False,
         state: StringState | None = None,
         author: User,
+        validate_length: bool = True,
     ) -> Unit | None: ...
-    def add_unit(
+    def add_unit(  # ruff: ignore[too-many-arguments]
         self,
         request: AuthenticatedHttpRequest | None,
         context: str,
@@ -3088,26 +3221,35 @@ class Translation(
         skip_existing: bool = False,
         state: StringState | None = None,
         author: User | None = None,
+        validate_length: bool = True,
     ) -> Unit | None:
+        if validate_length:
+            self.validate_new_unit_text_length(context, source, target, explanation)
         with self.component.lock:
-            return self._add_unit_locked(
-                request,
-                context,
-                source,
-                target,
-                original_unit=original_unit,
-                extra_flags=extra_flags,
-                explanation=explanation,
-                auto_context=auto_context,
-                is_batch_update=is_batch_update,
-                skip_existing=skip_existing,
-                state=state,
-                author=author,
-            )
+            try:
+                return self._add_unit_locked(
+                    request,
+                    context,
+                    source,
+                    target,
+                    original_unit=original_unit,
+                    extra_flags=extra_flags,
+                    explanation=explanation,
+                    auto_context=auto_context,
+                    is_batch_update=is_batch_update,
+                    skip_existing=skip_existing,
+                    state=state,
+                    author=author,
+                    validate_length=validate_length,
+                )
+            except TranslationTextTooLongError:
+                # The rolled back source unit can be cached already
+                self.component.unload_sources()
+                raise
 
     @transaction.atomic
     @source_operation_method
-    def _add_unit_locked(  # ruff: ignore[complex-structure, too-many-locals, too-many-statements, too-many-branches]
+    def _add_unit_locked(  # ruff: ignore[complex-structure, too-many-locals, too-many-statements, too-many-branches, too-many-arguments]
         self,
         request: AuthenticatedHttpRequest | None,
         context: str,
@@ -3122,6 +3264,7 @@ class Translation(
         skip_existing: bool = False,
         state: StringState | None = None,
         author: User | None = None,
+        validate_length: bool = True,
     ) -> Unit | None:
         if isinstance(source, list):
             source = join_plural(source)
@@ -3341,6 +3484,13 @@ class Translation(
                     if not skip_existing:
                         raise
                     unit = translation.unit_set.get(id_hash=id_hash)
+                else:
+                    if validate_length and not is_source and current_target:
+                        # The limit depends on the flags and source of the saved
+                        # unit, matching the editor validation
+                        validate_translation_text_length(
+                            unit, split_plural(current_target)
+                        )
             # The source language is always first in the translations array
             if source_unit is None:
                 source_unit = unit
@@ -3511,6 +3661,8 @@ class Translation(
                 is_batch_update=True,
                 skip_existing=True,
                 author=author,
+                # The terminology is already stored in the glossary
+                validate_length=False,
             )
         if added:
             self.store_update_changes()
@@ -3626,6 +3778,20 @@ class Translation(
             )
         ):
             raise ValidationError(gettext("This string seems to already exist."))
+
+    @staticmethod
+    def validate_new_unit_text_length(
+        context: str,
+        source: str | list[str],
+        target: str | list[str] | None,
+        explanation: str,
+    ) -> None:
+        validate_new_text_length(
+            context,
+            *([source] if isinstance(source, str) else source),
+            *([target] if isinstance(target, str) else target or []),
+            explanation,
+        )
 
     def validate_new_unit_data(
         self,

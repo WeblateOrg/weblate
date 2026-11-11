@@ -13,7 +13,7 @@ from django.urls import reverse
 
 from weblate.auth.models import Group, Role
 from weblate.formats.base import UnitNotFoundError
-from weblate.formats.source_edit import find_identity
+from weblate.formats.source_edit import edit_identity, find_identity
 from weblate.lang.models import Language
 from weblate.trans.forms import SourceEditForm
 from weblate.trans.models import Component, Unit, WorkflowSetting
@@ -22,6 +22,7 @@ from weblate.trans.source_edit import edit_source
 from weblate.trans.tests.test_views import ReusableViewTestCase, ViewTestCase
 from weblate.trans.tests.utils import create_another_user
 from weblate.trans.util import split_plural
+from weblate.trans.validators import MAX_NEW_TEXT_LENGTH
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_APPROVED,
@@ -174,6 +175,38 @@ class SourceEditTest(ReusableViewTestCase):
             },
         )
         self.assertEqual(response.status_code, 302, response.content)
+
+    def test_dialog_keeps_oversized_source_with_crlf(self) -> None:
+        oversized = "B" * MAX_NEW_TEXT_LENGTH + "\r\nB\r\n"
+        translation = (
+            self.component.source_translation
+            if self.component.has_template()
+            else self.get_translation()
+        )
+        unit = self.get_unit("Hello, world!\n", translation=translation)
+        store = translation.store
+        backend = find_identity(store, {"source": unit.source, "context": unit.context})
+        edit_identity(store, backend, {"source": oversized, "context": unit.context})
+        store.save()
+        translation.drop_store_cache()
+        translation.check_sync(force=True)
+        source = translation.unit_set.get(source=oversized).source_unit
+
+        response = self.client.post(
+            reverse("edit-source-unit", kwargs={"unit_id": source.pk}),
+            {
+                "content_hash": source.content_hash,
+                "source_0": oversized,
+                "context": "updated-context",
+                "explanation": "Updated explanation",
+            },
+        )
+
+        self.assertEqual(response.status_code, 302, response.content)
+        source.refresh_from_db()
+        self.assertEqual(source.source, oversized.replace("\r\n", "\n"))
+        self.assertEqual(source.context, "updated-context")
+        self.assertEqual(source.explanation, "Updated explanation")
 
     def test_disabled(self) -> None:
         self.component.manage_units = False

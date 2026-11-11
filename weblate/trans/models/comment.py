@@ -111,7 +111,7 @@ class CommentManager(models.Manager):
                 elif unit_scope.translated and not unit_scope.readonly:
                     unit_scope.translate(
                         user,
-                        unit_scope.target,
+                        unit_scope.get_target_plurals(),
                         STATE_NEEDS_CHECKING
                         if unit_scope.is_source
                         else STATE_NEEDS_REWRITING,

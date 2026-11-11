@@ -79,6 +79,7 @@ from weblate.trans.repository_context import (
     suppress_repository_auto_push,
 )
 from weblate.trans.uploads import cleanup_translation_uploads
+from weblate.trans.validators import TranslationTextTooLongError
 from weblate.utils.celery import app, store_task_metadata
 from weblate.utils.change_origin import (
     acting_user_context,
@@ -812,7 +813,10 @@ def bulk_edit_task(
     """Apply a browser bulk edit with fresh scope and permission checks."""
     from django.http import Http404, QueryDict  # ruff: ignore[import-outside-top-level]
 
-    from weblate.trans.bulk import bulk_perform  # ruff: ignore[import-outside-top-level]
+    from weblate.trans.bulk import (  # ruff: ignore[import-outside-top-level]
+        bulk_perform,
+        get_bulk_too_long_message,
+    )
     from weblate.trans.forms import BulkEditForm  # ruff: ignore[import-outside-top-level]
     from weblate.trans.views.search import (  # ruff: ignore[import-outside-top-level]
         get_bulk_edit_options,
@@ -827,6 +831,7 @@ def bulk_edit_task(
         payload.setlist(key, values)
     processed = 0
     updated_so_far = 0
+    too_long: set[int] = set()
 
     def report_progress(done: int, total: int, updated: int) -> None:
         nonlocal processed, updated_so_far
@@ -856,6 +861,7 @@ def bulk_edit_task(
                 user,
                 unit_set,
                 progress=report_progress,
+                too_long_unit_ids=too_long,
                 **get_bulk_edit_options(form, context),
             )
         except (ValidationError, PermissionDenied, Http404) as error:
@@ -894,10 +900,14 @@ def bulk_edit_task(
             )
             % updated
         )
+        level = "success"
+        if too_long:
+            message = f"{message} {get_bulk_too_long_message(len(too_long))}"
+            level = "warning"
         return {
             "message": message,
             "updated": updated,
-            "completion_message": {"text": message, "level": "success"},
+            "completion_message": {"text": message, "level": level},
         }
 
 
@@ -938,11 +948,15 @@ def bulk_accept_user_suggestions(
         ):
             failed += 1
         else:
-            suggestion.accept(
-                request,
-                state=STATE_APPROVED if approve else STATE_TRANSLATED,
-            )
-            accepted += 1
+            try:
+                suggestion.accept(
+                    request,
+                    state=STATE_APPROVED if approve else STATE_TRANSLATED,
+                )
+            except TranslationTextTooLongError:
+                failed += 1
+            else:
+                accepted += 1
 
         report_bulk_accept_user_suggestions_progress(processed, total)
 

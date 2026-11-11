@@ -9,6 +9,8 @@ Weblate 2026.11.2
 
 .. rubric:: Improvements
 
+* Improved peer lookup performance for :ref:`translation propagation <component-allow_translation_propagation>` and related consistency checks.
+
 * Aligned queued :doc:`repository maintenance <admin/continuous>` with background-work authorization: later permission changes or account deactivation do not cancel accepted operations.
 
 * Bounded :ref:`Weblate Client project configuration discovery <wlc-config>` by repository and POSIX permission boundaries, and added explicit project-file selection and configuration-free invocation.
@@ -69,6 +71,7 @@ Weblate 2026.11.2
 * Preserved previous IP login failures after a successful sign-in to prevent rate-limit bypasses.
 * Require recent credential verification for browser changes to :ref:`restricted component access <component-restricted>`.
 * Require recent credential verification for form-encoded project API updates and access settings in the Django admin.
+* Enforced text length limits for translation and source string edits and newly added strings, including :ref:`file uploads <upload-string-length>` and the API.
 * Bounded :ref:`text template <markup>` source, loops, intermediate values, output, and helper resource usage during validation and execution.
 
 .. rubric:: Bug fixes

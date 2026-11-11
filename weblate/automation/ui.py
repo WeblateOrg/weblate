@@ -23,10 +23,12 @@ from weblate.automation.operations import OPERATIONS
 from weblate.automation.schema import SCHEMA
 
 if TYPE_CHECKING:
+    from crispy_forms.layout import LayoutObject
     from django import forms
     from django_stubs_ext import StrOrPromise
 
     from weblate.trans.models import Component, Project
+    from weblate.utils.forms import FormFieldGroup
 
 TRIGGER_TITLES: dict[str, StrOrPromise] = {
     "change": gettext_lazy("Change event"),
@@ -194,6 +196,23 @@ def workflow_type(schema: dict[str, Any]) -> str:
     return "string"
 
 
+def node_form_layout(form: forms.Form, names: list[str]) -> list[LayoutObject]:
+    groups: dict[str, FormFieldGroup] = {}
+    get_field_groups = getattr(form, "get_field_groups", None)
+    if get_field_groups is not None:
+        for group in cast("list[FormFieldGroup]", get_field_groups()):
+            if all(name in names for name in group.fields):
+                groups.update(dict.fromkeys(group.fields, group))
+    layout: list[LayoutObject] = []
+    for name in names:
+        field_group = groups.get(name)
+        if field_group is None:
+            layout.append(Field(name))
+        elif name == field_group.fields[0]:
+            layout.append(field_group.as_fieldset(form))
+    return layout
+
+
 def prepare_node_form(
     form: forms.Form,
     properties: dict[str, Any],
@@ -223,7 +242,7 @@ def prepare_node_form(
     helper = FormHelper(form)
     helper.form_tag = False
     helper.disable_csrf = True
-    helper.layout = Layout(*[Field(name) for name in names])
+    helper.layout = Layout(*node_form_layout(form, names))
     cast("Any", form).helper = helper
     return form
 

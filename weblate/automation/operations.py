@@ -544,7 +544,11 @@ class BulkEditOperation(AutomationOperation):
         [],
     )
     result_schema = object_schema(
-        {"component": {"type": "integer"}, "updated": {"type": "integer"}},
+        {
+            "component": {"type": "integer"},
+            "updated": {"type": "integer"},
+            "skipped_too_long": {"type": "integer", "minimum": 1},
+        },
         ["component", "updated"],
     )
 
