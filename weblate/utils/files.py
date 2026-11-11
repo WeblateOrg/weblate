@@ -158,22 +158,28 @@ def get_upload_message(not_found: int, skipped: int, accepted: int, total: int) 
     ).format(total, skipped, not_found, accepted)
 
 
-def remove_readonly(func: Callable, path: str, error: BaseException) -> None:
-    """Clear the readonly bit and reattempt the removal."""
-    if isinstance(error, FileNotFoundError):
-        return
-    if os.path.isdir(path):
-        os.chmod(path, stat.S_IREAD | stat.S_IWRITE | stat.S_IEXEC)
-    else:
-        os.chmod(path, stat.S_IREAD | stat.S_IWRITE)
-    if func in {os.open, os.lstat, os.rmdir}:
-        # Could not remove a directory
-        remove_tree(path)
-    else:
-        func(path)
-
-
 def remove_tree(path: str | Path, ignore_errors: bool = False) -> None:
+    retried: set[str] = set()
+
+    def remove_readonly(func: Callable, path: str, error: BaseException) -> None:
+        """Clear the readonly bit and retry each path at most once."""
+        if isinstance(error, FileNotFoundError):
+            return
+        key = os.fspath(path)
+        if not isinstance(error, PermissionError) or key in retried:
+            raise error
+        retried.add(key)
+        if os.path.isdir(path):
+            os.chmod(path, stat.S_IREAD | stat.S_IWRITE | stat.S_IEXEC)
+        else:
+            os.chmod(path, stat.S_IREAD | stat.S_IWRITE)
+        if func in {os.open, os.lstat}:
+            # Restart traversal after restoring directory access. Share the
+            # retry budget so persistent permission errors cannot recurse.
+            shutil.rmtree(path, onexc=remove_readonly)
+        else:
+            func(path)
+
     shutil.rmtree(path, ignore_errors=ignore_errors, onexc=remove_readonly)
 
 
