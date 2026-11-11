@@ -327,6 +327,9 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
                 queryset=Workspace.objects.defer_huge(),
             ),
             "translation__component__source_language",
+            "translation__component__category__project__workspace",
+            "translation__component__category__category__project__workspace",
+            "translation__component__category__category__category__project__workspace",
         )
 
     def prefetch_translation_parent(self):

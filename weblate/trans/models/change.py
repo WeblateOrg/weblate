@@ -203,12 +203,20 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
 
         Might be used with Change.fill_in_prefetched.
         """
-        return self.prefetch().select_related(
-            "alert",
-            "screenshot",
-            "announcement",
-            "suggestion",
-            "comment",
+        return (
+            self.prefetch()
+            .prefetch_related(
+                "category__project__workspace",
+                "category__category__project__workspace",
+                "category__category__category__project__workspace",
+            )
+            .select_related(
+                "alert",
+                "screenshot",
+                "announcement",
+                "suggestion",
+                "comment",
+            )
         )
 
     def prefetch(self) -> Self:

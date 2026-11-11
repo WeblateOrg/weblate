@@ -489,6 +489,9 @@ class AlertTest(ReusableViewTestCase):
                 categorized.get_absolute_url(),
                 "/projects/test/root/parent/category/categorized/",
             )
+        self.assertContains(response, "Test/Root/Parent/Category/Categorized")
+        with self.assertNumQueries(0):
+            self.assertEqual(str(categorized), "Test/Root/Parent/Category/Categorized")
         self.assertIn("commit_message", categorized.get_deferred_fields())
         self.assertIn("instructions", categorized.project.get_deferred_fields())
 
