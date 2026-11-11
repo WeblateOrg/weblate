@@ -621,9 +621,18 @@ class PluralTextarea(forms.Textarea):
     def value_from_datadict(self, data, files, name):
         """Return processed plurals as a list."""
         ret = []
+        max_alternatives = MAX_TRANSLATION_ALTERNATIVES
+        if unit := getattr(self, "unit", None):
+            stored = (
+                unit.get_source_plurals()
+                if self.edit_source
+                else unit.get_target_plurals()
+            )
+            max_alternatives = max(max_alternatives, len(stored))
         # Read one extra value so that validation rejects oversized submissions
-        # instead of silently discarding their remaining alternatives.
-        for idx in range(MAX_TRANSLATION_ALTERNATIVES + 1):
+        # instead of silently discarding their remaining alternatives. Include
+        # every stored alternative, even when repository text exceeds the limit.
+        for idx in range(max_alternatives + 1):
             fieldname = f"{name}_{idx:d}"
             if fieldname not in data:
                 break

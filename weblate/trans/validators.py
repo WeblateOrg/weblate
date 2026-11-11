@@ -160,7 +160,10 @@ def validate_changed_text_length(new: list[str], old: list[str]) -> None:
     Text which is already stored is accepted, it can come from the repository,
     which is intentionally not limited.
     """
-    validate_new_text_length(*(text for text in new if text not in old))
+    stored = {normalize_stored_newlines(text) for text in old}
+    validate_new_text_length(
+        *(text for text in new if normalize_stored_newlines(text) not in stored)
+    )
 
 
 def validate_filemask(val: str) -> None:

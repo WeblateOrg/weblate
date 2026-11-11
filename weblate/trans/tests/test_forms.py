@@ -48,6 +48,34 @@ class TranslationSizeValidationTest(SimpleTestCase):
         with self.assertRaisesMessage(ValidationError, "Translation text too long!"):
             validate_translation_text_length(self.unit, target)
 
+    def test_reads_stored_alternatives_and_rejects_growth(self) -> None:
+        stored = [f"text {index}" for index in range(150)]
+        self.unit.get_target_plurals.return_value = stored
+        self.unit.get_source_plurals.return_value = stored
+        for edit_source in (False, True):
+            with self.subTest(edit_source=edit_source):
+                field = PluralField()
+                field.widget.unit = self.unit
+                field.widget.edit_source = edit_source
+                data = {f"target_{index}": value for index, value in enumerate(stored)}
+                target = field.clean(
+                    field.widget.value_from_datadict(data, {}, "target")
+                )
+                self.assertEqual(target, stored)
+                validate_translation_text_change(self.unit, target, stored)
+
+                # Read a sentinel beyond the stored count instead of accepting
+                # a truncated prefix when more alternatives are submitted.
+                data.update({f"target_{index}": "text 0" for index in range(150, 160)})
+                target = field.clean(
+                    field.widget.value_from_datadict(data, {}, "target")
+                )
+                self.assertEqual(len(target), 151)
+                with self.assertRaisesMessage(
+                    ValidationError, "Translation text too long!"
+                ):
+                    validate_translation_text_change(self.unit, target, stored)
+
     def test_add_alternative_reserves_capacity(self) -> None:
         target = ["text"] * MAX_TRANSLATION_ALTERNATIVES
 

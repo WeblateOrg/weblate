@@ -30,7 +30,12 @@ from weblate.trans.validators import (
     validate_translation_text_length,
 )
 from weblate.utils.ratelimit import reset_rate_limit
-from weblate.utils.state import STATE_EMPTY, STATE_NEEDS_REWRITING, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_EMPTY,
+    STATE_FUZZY,
+    STATE_NEEDS_REWRITING,
+    STATE_TRANSLATED,
+)
 
 SOURCE = "Hello, world!\n"
 OTHER_SOURCE = "Try Weblate at <https://demo.weblate.org/>!\n"
@@ -93,6 +98,31 @@ class TranslateTextLengthTest(ViewTestCase):
         )
         with self.assertRaises(TranslationTextTooLongError):
             validate_translation_text_length(unit, unit.get_target_plurals())
+
+    def test_editor_keeps_all_stored_alternatives(self) -> None:
+        unit = self.get_unit(LINKED_SOURCE)
+        alternatives = [f"Stored alternative {index}." for index in range(150)]
+        Unit.objects.filter(pk=unit.pk).update(
+            target=join_plural(alternatives), state=STATE_TRANSLATED
+        )
+        with patch.object(Component, "is_multivalue", True):
+            response = self.edit_unit(
+                LINKED_SOURCE,
+                alternatives[0],
+                follow=False,
+                translation=unit.translation,
+                review=str(STATE_FUZZY),
+                fuzzy="on",
+                **{
+                    f"target_{index}": value
+                    for index, value in enumerate(alternatives)
+                    if index
+                },
+            )
+            self.assertEqual(response.status_code, 302)
+            unit.refresh_from_db()
+            self.assertEqual(unit.get_target_plurals(), alternatives)
+            self.assertEqual(unit.state, STATE_FUZZY)
 
     def enable_source_edit(self) -> None:
         self.user.is_superuser = True

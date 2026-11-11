@@ -2569,6 +2569,7 @@ class Unit(models.Model, LoggerMixin):
         request=None,
         change_details: dict[str, Any] | None = None,
         propagation_exclude_ids: Collection[int] = (),
+        *,
         submitted_target: list[str] | None = None,
     ) -> bool:
         """
