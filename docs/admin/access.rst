@@ -208,6 +208,38 @@ multiple projects, the restriction applies to the whole team.
 
 This is useful in case you want to build self-governed teams.
 
+.. _team-audit:
+
+Team audit log
+++++++++++++++
+
+Open :guilabel:`Team audit log` from a team's page or from project or workspace
+access control. Site administrators can also open it from
+:guilabel:`Manage teams`.
+
+The log records team creation, deletion, roles, language and component selection,
+enforced two-factor authentication, automatic assignment rules, memberships,
+and team administrator changes with the initiating account. Administrator grants
+and removals also appear in the affected account's activity log.
+
+Project entries require ``project.edit`` on that project. Workspace entries
+require ``workspace.edit_members`` on that workspace. Site administrators can
+read all entries, including site-wide team changes. Team administration alone
+does not grant access to the detailed audit log.
+
+Stale assignments that have moved outside a scoped team retain their identifiers
+without exposing names from another project.
+
+Entries retain team names and changes after a team is deleted. After a project
+or workspace is removed, its retained records are available only to site
+administrators. Retention follows :setting:`AUDITLOG_EXPIRY`.
+
+Public translation history omits sensitive team membership changes, including
+existing records. The detailed audit log starts when this feature is installed;
+earlier team-definition changes cannot be reconstructed. Audit entries are
+internal security records, separate from portable user settings and backup
+contents.
+
 .. _site-wide-team-management:
 
 Site-wide team management
@@ -238,6 +270,10 @@ Adding existing users will send them invitation to confirm. With
 :setting:`REGISTRATION_OPEN` the administrator can also invite new users using
 e-mail. Invited users have to complete the registration process to get access
 to the project.
+
+An invitation can also include team administration. The invitation states this
+explicitly, and the user becomes a team administrator only after accepting it.
+Team administrators can add or remove team members.
 
 It is not required to have any site-wide privileges in order to do so, access management
 permission on the project’s scope (e.g. a membership in the `Administration`
@@ -442,6 +478,11 @@ You can define project-scoped access tokens in :guilabel:`API access` tab. The
 API tokens can have expiry date set, and their permissions can be customized by
 team memberships same as with users.
 
+Deleting a project revokes its tokens unless they still belong to a team defined
+by another project. Token display names do not affect revocation. Billing access
+preservation when deleting the last project never promotes bot accounts to
+workspace owners.
+
 .. seealso::
 
    * :ref:`api-tokens`
@@ -635,7 +676,9 @@ the following rules:
 - The restrictions imposed by a team’s :guilabel:`Languages` are applied separately,
   when it’s verified if a user has access to perform certain actions. Namely,
   it’s applied only to actions directly related to the translation process itself like
-  reviewing, saving translations, adding suggestions, etc.
+  reviewing, saving translations, adding suggestions, and creating new
+  translations. Requesting a language from maintainers does not create a
+  translation and remains available outside the team's language selection.
 
   Individual team memberships can further limit these permissions to selected
   languages. Leaving the per-member language limit empty applies no additional

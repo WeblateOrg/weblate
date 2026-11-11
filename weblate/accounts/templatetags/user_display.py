@@ -71,11 +71,11 @@ def user_markdown(context: Context, text: str) -> str:
 
 
 @register.simple_tag(takes_context=True)
-def user_commit_author(context: Context, commit: dict) -> str:
+def user_commit_author(context: Context, commit: dict, resource: Model) -> str:
     # ruff: ignore[import-outside-top-level]
     from weblate.trans.templatetags.translations import format_commit_author
 
-    return format_commit_author(commit, viewer=get_display_viewer(context))
+    return format_commit_author(commit, resource, viewer=get_display_viewer(context))
 
 
 @register.simple_tag(takes_context=True)

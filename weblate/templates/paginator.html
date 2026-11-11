@@ -60,7 +60,7 @@
                  class="form-control"
                  value="{{ page_obj.number }}"
                  aria-label="{% translate "Jump to" %}"
-                 id="position-input-editable-input">
+                 id="position-input-editable-input{% if paginator_form %}-{{ paginator_form }}{% endif %}">
           <span class="input-group-text">
             {% comment %}Translators: This is partial position indicator shown when editing position{% endcomment %}
             {% blocktranslate with total=page_obj.paginator.num_pages %}/ {{ total }}{% endblocktranslate %}

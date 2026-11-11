@@ -17,10 +17,19 @@ from django.utils.translation import gettext, gettext_lazy
 
 from weblate.accounts.forms import FullNameField, UniqueEmailMixin, UniqueUsernameField
 from weblate.accounts.utils import remove_user
+from weblate.auth.audit import (
+    audit_membership_limits,
+    audit_team_changes,
+    lock_team_for_audit,
+    log_team_changes,
+    membership_limits,
+    team_state,
+)
 from weblate.auth.models import AutoGroup, Group, Role, TeamMembership, User
 from weblate.wladmin.models import WeblateModelAdmin
 
 if TYPE_CHECKING:
+    from django.db.models import QuerySet
     from django.http import HttpRequest
 
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -293,11 +302,14 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
             self.delete_model(request, obj)
 
     def save_model(self, request: HttpRequest, obj, form, change) -> None:
+        form.team_membership_limits_before = membership_limits(obj)
         if change and obj.is_internal:
             raise PermissionDenied
         if change:
             original = User.objects.get(pk=obj.pk)
             form.instance.store_audit_state(original=original)
+        else:
+            form.instance.store_audit_state(group_ids=set(), is_superuser=False)
 
         super().save_model(request, obj, form, change)
 
@@ -306,6 +318,9 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
         if not is_authenticated_request(request):
             raise PermissionDenied
         form.instance.log_audit_state(request)
+        before = getattr(form, "team_membership_limits_before", None)
+        if before is not None:
+            audit_membership_limits(form.instance, before, request.user, request)
 
 
 class GroupChangeForm(forms.ModelForm):
@@ -380,8 +395,6 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
     )
     list_display = ("name", "defining_project", "defining_workspace")
 
-    new_obj: Group
-
     def action_checkbox(self, obj):
         if obj.internal:
             return ""
@@ -401,17 +414,35 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
         """
         Fix saving of automatic language/project selection, part 1.
 
-        Stores saved object as an attribute to be used by save_related.
+        Preserve the persisted definition before Django saves the form fields.
         """
+        lock_team_for_audit(obj)
+        if not is_authenticated_request(request):
+            raise PermissionDenied
+        obj.team_audit_before = team_state(obj)
         super().save_model(request, obj, form, change)
-        self.new_obj = obj
 
     def save_related(self, request: HttpRequest, form, formsets, change) -> None:
         """
         Fix saving of automatic language/project selection, part 2.
 
-        Uses stored attribute to save the model again. Saving triggers the automation
-        and adjusts project selection according to the chosen value.
+        Save the form's own instance after selection normalization, then record
+        the complete change including related fields and automatic rules.
         """
+        if not is_authenticated_request(request):
+            raise PermissionDenied
         super().save_related(request, form, formsets, change)
-        self.new_obj.save()
+        form.instance.save()
+        log_team_changes(
+            form.instance, form.instance.team_audit_before, request.user, request
+        )
+
+    def delete_model(self, request: HttpRequest, obj: Group) -> None:
+        if not is_authenticated_request(request):
+            raise PermissionDenied
+        with audit_team_changes(obj, request.user, request):
+            super().delete_model(request, obj)
+
+    def delete_queryset(self, request: HttpRequest, queryset: QuerySet[Group]) -> None:
+        for team in queryset:
+            self.delete_model(request, team)

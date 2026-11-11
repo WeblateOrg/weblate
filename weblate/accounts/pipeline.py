@@ -710,9 +710,24 @@ def notify_connect(
     weblate_action,
     new_association=False,
     is_new=False,
+    *,
+    registering_user: int | None = None,
     **kwargs,
 ) -> None:
     """Notify about adding new link."""
+    if (
+        new_association
+        and backend.name == "email"
+        and weblate_action == "activation"
+        and registering_user == user.pk
+    ):
+        messages.success(
+            strategy.request,
+            gettext(
+                "Your e-mail address has been added. You can now select it as your "
+                "account e-mail address in Account settings."
+            ),
+        )
     # Adjust possibly pending email confirmation audit logs
     AuditLog.objects.filter(
         user=None,

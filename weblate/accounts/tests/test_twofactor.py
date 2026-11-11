@@ -685,7 +685,6 @@ class TwoFactorTestCase(FixtureTestCase):
         session.save()
         with (
             mock.patch("weblate.accounts.views.get_auth_keys", return_value={"github"}),
-            mock.patch("weblate.accounts.views.load_strategy", return_value=object()),
             mock.patch("weblate.accounts.views.load_backend", return_value=object()),
             mock.patch(
                 "weblate.accounts.views.do_auth",

@@ -56,6 +56,8 @@ from selenium.webdriver.support.expected_conditions import (
 )
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
+from weblate.auth.audit import record_team_event
+from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import AutoGroup, Group, Role, User
 from weblate.automation.addon import AutomationAddon
 from weblate.fonts.tests.utils import FONT, FONT_SOURCE
@@ -120,7 +122,7 @@ from weblate.wladmin.models import BackupService, ConfigurationError, SupportSta
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from collections.abc import Generator
+    from collections.abc import Callable, Generator
 
     from selenium.webdriver.remote.webdriver import WebDriver
     from selenium.webdriver.remote.webelement import WebElement
@@ -1088,45 +1090,32 @@ class SeleniumTests(
             element.click()
             return True
 
-        try:
-            WebDriverWait(
-                self.driver,
-                timeout=10,
-                ignored_exceptions=(
-                    ElementClickInterceptedException,
-                    ElementNotInteractableException,
-                ),
-            ).until(click_when_ready)
-        except TimeoutException as error:
-            try:
-                state = self.driver.execute_script(
-                    """
-                    const target = arguments[0];
-                    const style = getComputedStyle(target);
-                    return {
-                        activeTabs: Array.from(
-                            document.querySelectorAll('.tab-pane.active'),
-                            pane => pane.id
-                        ),
-                        target: {
-                            id: target.id,
-                            pane: target.closest('.tab-pane')?.id,
-                            rect: target.getBoundingClientRect().toJSON(),
-                            display: style.display,
-                            visibility: style.visibility,
-                            disabled: target.matches(':disabled')
-                        },
-                        scroll: {x: window.scrollX, y: window.scrollY},
-                        viewport: {width: innerWidth, height: innerHeight}
-                    };
-                    """,
-                    element,
-                )
-            except WebDriverException as diagnostic_error:
-                error.add_note(f"Could not inspect click target: {diagnostic_error}")
-            else:
-                error.add_note(f"Click state: {state}")
-            raise
+        WebDriverWait(
+            self.driver,
+            timeout=10,
+            ignored_exceptions=(
+                ElementClickInterceptedException,
+                ElementNotInteractableException,
+            ),
+        ).until(click_when_ready)
+
+    def select_tab(self, htmlid: str) -> None:
+        """Select a tab and wait for its pane, retrying clicks without an effect."""
+
+        def tab_selected(driver: WebDriver) -> bool:
+            tab = driver.find_element(By.ID, htmlid)
+            if tab.get_attribute("aria-selected") != "true":
+                self.click(tab)
+            return (
+                tab.get_attribute("aria-selected") == "true"
+                and driver.find_element(
+                    By.CSS_SELECTOR, tab.get_attribute("data-bs-target")
+                ).is_displayed()
+            )
+
+        WebDriverWait(self.driver, timeout=10).until(
+            tab_selected, message=f"Tab {htmlid} did not activate"
+        )
 
     def select_component_license(self, license_id: str) -> None:
         inherit_license = self.driver.find_element(By.ID, "id_inherit_license")
@@ -4364,7 +4353,7 @@ class SeleniumTests(
         self.assertNotIn("Error in parameter component", body)
         self.assertNotIn("Could not process form!", body)
 
-    def test_profile_team_search(self) -> None:
+    def open_profile_team_search(self) -> tuple[list[Group], WebElement, WebElement]:
         user = self.do_login(superuser=True)
         groups = [
             Group.objects.create(name=f"Remote team {index:02}") for index in range(30)
@@ -4380,30 +4369,125 @@ class SeleniumTests(
             self.driver.find_element(By.CSS_SELECTOR, "#div_id_add_group .ts-control")
         )
         control = self.driver.find_element(By.ID, "id_add_group-ts-control")
-        self.driver.execute_script("""
+        self.driver.execute_script(
+            "document.getElementById('id_add_group').tomselect.focus();"
+        )
+        self.wait_for_team_search(
+            lambda driver: driver.execute_script(
+                "const ts = document.getElementById('id_add_group').tomselect;"
+                "return ts.wrapper.classList.contains('preloaded')"
+                " && ts.loading === 0 && Object.keys(ts.options).length > 1;"
+            )
+        )
+        return groups, select, control
+
+    def wait_for_team_search(self, condition: Callable[[WebDriver], object]) -> None:
+        try:
+            WebDriverWait(self.driver, 10).until(condition)
+        except TimeoutException as error:
+            state = self.driver.execute_script("""
+                const ts = document.getElementById("id_add_group").tomselect;
+                return {
+                    input: ts.control_input.value,
+                    lastValue: ts.lastValue,
+                    loading: ts.loading,
+                    loadedSearches: ts.loadedSearches,
+                    focused: ts.isFocused,
+                    preload: ts.settings.preload,
+                    intercepted: window.teamLookupFailed ?? null,
+                    attempts: window.teamLookupAttempts ?? null,
+                    toasts: document.getElementById("popup-toasts").innerText,
+                };
+            """)
+            error.add_note(f"Team search state: {state}")
+            raise
+
+    def test_profile_team_search_retry(self) -> None:
+        groups, _select, control = self.open_profile_team_search()
+        # Submit one complete query and keep its error visible independently of
+        # typing speed and the delay before Selenium reads the toast.
+        self.driver.execute_script(
+            """
             const originalFetch = window.fetch;
-            let failLookup = true;
+            const originalAddAlert = window.addAlert;
+            const select = document.getElementById("id_add_group");
+            const searchUrl = new URL(select.dataset.searchUrl, location.origin);
+            window.teamLookupFailed = false;
+            window.teamLookupAttempts = 0;
+            window.addAlert = (message, kind, delay) => originalAddAlert(
+                message,
+                kind,
+                message === gettext("Could not load teams. Please try again.") ? 0 : delay,
+            );
             window.fetch = (url, ...options) => {
-                if (failLookup && new URL(url, location.origin).searchParams.get("q") === "Remote team") {
-                    failLookup = false;
-                    return Promise.reject(new Error("Test lookup failure"));
+                const requestUrl = new URL(url, location.origin);
+                if (
+                    requestUrl.pathname === searchUrl.pathname &&
+                    requestUrl.searchParams.get("q") === "Remote team"
+                ) {
+                    window.teamLookupAttempts += 1;
+                    if (!window.teamLookupFailed) {
+                        window.teamLookupFailed = true;
+                        return Promise.reject(new Error("Test lookup failure"));
+                    }
                 }
                 return originalFetch(url, ...options);
             };
-        """)
-        control.send_keys("Remote team")
-        WebDriverWait(self.driver, 10).until(
-            lambda _driver: (
+            arguments[0].value = "Remote team";
+            arguments[0].dispatchEvent(new Event("input", {bubbles: true}));
+        """,
+            control,
+        )
+        self.assertEqual(control.get_attribute("value"), "Remote team")
+        self.wait_for_team_search(
+            lambda driver: driver.execute_script(
+                "const ts = document.getElementById('id_add_group').tomselect;"
+                "return window.teamLookupFailed && ts.loading === 0;"
+            )
+        )
+        self.wait_for_team_search(
+            lambda driver: (
                 "Could not load teams"
-                in self.driver.find_element(By.ID, "popup-toasts").text
+                in driver.find_element(By.ID, "popup-toasts").text
             )
         )
         # Retrying the same search after a failure must remain possible.
-        control.clear()
+        self.driver.execute_script(
+            """
+            arguments[0].value = "";
+            arguments[0].dispatchEvent(new Event("input", {bubbles: true}));
+        """,
+            control,
+        )
+        self.wait_for_team_search(
+            lambda driver: driver.execute_script(
+                "const ts = document.getElementById('id_add_group').tomselect;"
+                "return ts.lastValue === '' && ts.loading === 0;"
+            )
+        )
+        self.driver.execute_script(
+            """
+            arguments[0].value = "Remote team";
+            arguments[0].dispatchEvent(new Event("input", {bubbles: true}));
+        """,
+            control,
+        )
+        self.assertEqual(control.get_attribute("value"), "Remote team")
+        self.wait_for_team_search(
+            lambda driver: driver.execute_script(
+                "const ts = document.getElementById('id_add_group').tomselect;"
+                "return window.teamLookupAttempts === 2 && ts.loading === 0"
+                " && !!ts.options[arguments[0]];",
+                str(groups[24].pk),
+            )
+        )
+
+    def test_profile_team_search(self) -> None:
+        groups, select, control = self.open_profile_team_search()
         control.send_keys("Remote team")
         self.assertEqual(control.get_attribute("value"), "Remote team")
-        WebDriverWait(self.driver, 10).until(
-            lambda _driver: self.driver.execute_script(
+        self.wait_for_team_search(
+            lambda driver: driver.execute_script(
                 "const ts = document.getElementById('id_add_group').tomselect;"
                 "return ts.loading === 0 && !!ts.options[arguments[0]];",
                 str(groups[24].pk),
@@ -4412,8 +4496,8 @@ class SeleniumTests(
         # Keyboard navigation must be able to reach results beyond the first page.
         for _index in range(27):
             control.send_keys(Keys.ARROW_DOWN)
-        WebDriverWait(self.driver, 10).until(
-            lambda _driver: self.driver.execute_script(
+        self.wait_for_team_search(
+            lambda driver: driver.execute_script(
                 "return !!document.getElementById('id_add_group').tomselect.options[arguments[0]];",
                 str(groups[-1].pk),
             )
@@ -4422,8 +4506,8 @@ class SeleniumTests(
         control.clear()
         control.send_keys("Remote team 29")
         self.assertEqual(control.get_attribute("value"), "Remote team 29")
-        WebDriverWait(self.driver, 10).until(
-            lambda _driver: self.driver.find_element(
+        self.wait_for_team_search(
+            lambda driver: driver.find_element(
                 By.CSS_SELECTOR,
                 f'#id_add_group-ts-dropdown [data-value="{groups[-1].pk}"]',
             ).is_displayed()
@@ -6108,6 +6192,68 @@ class SeleniumTests(
         unit.refresh_from_db()
         self.assertEqual(unit.get_target_plurals(), corrected)
 
+    @override_settings(REGISTRATION_CAPTCHA=False)
+    def test_add_email_with_keyboard(self) -> None:
+        """Add an address using keyboard controls through both confirmations."""
+        user = self.do_login()
+        self.confirm_sensitive_password()
+        original_email = user.email
+        mail.outbox.clear()
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('profile')}#account")
+        link = self.driver.find_element(By.CSS_SELECTOR, "#account .link-auth")
+        with self.wait_for_page_load():
+            link.send_keys(Keys.ENTER)
+        email = self.driver.find_element(By.ID, "id_email")
+        email.send_keys("keyboard@example.net", Keys.TAB)
+        submit = self.driver.find_element(By.CSS_SELECTOR, 'form input[type="submit"]')
+        self.assertEqual(self.driver.switch_to.active_element, submit)
+        with self.wait_for_page_load():
+            submit.send_keys(Keys.ENTER)
+        self.assertEqual(
+            self.driver.find_element(By.CSS_SELECTOR, '[aria-current="page"]').text,
+            "Check your e-mail",
+        )
+        WebDriverWait(self.driver, 10).until(lambda _driver: bool(mail.outbox))
+        url = self.assert_registration_mailbox(
+            "[Weblate] Verify your e-mail address on Weblate"
+        )
+        with self.wait_for_page_load():
+            self.driver.get(url)
+        self.assertEqual(
+            self.driver.find_element(By.CSS_SELECTOR, '[aria-current="page"]').text,
+            "Verify e-mail address",
+        )
+        with self.wait_for_page_load():
+            self.driver.find_element(
+                By.CSS_SELECTOR, 'form button[type="submit"]'
+            ).send_keys(Keys.ENTER)
+        self.assertEqual(
+            self.driver.find_element(By.CSS_SELECTOR, '[aria-current="page"]').text,
+            "Confirm adding e-mail address",
+        )
+        self.driver.find_element(By.ID, "id_password").send_keys("testpassword")
+        submit = self.driver.find_element(By.CSS_SELECTOR, 'form button[type="submit"]')
+        for _attempt in range(10):
+            if self.driver.switch_to.active_element == submit:
+                break
+            self.driver.switch_to.active_element.send_keys(Keys.TAB)
+        self.assertEqual(self.driver.switch_to.active_element, submit)
+        with self.wait_for_page_load():
+            submit.send_keys(Keys.ENTER)
+        self.assertTrue(self.driver.current_url.endswith("/accounts/profile/#account"))
+        self.assertIn(
+            "Your e-mail address has been added.",
+            self.driver.find_element(By.TAG_NAME, "body").text,
+        )
+        user.refresh_from_db()
+        self.assertEqual(user.email, original_email)
+        self.assertTrue(
+            user.social_auth.filter(
+                provider="email", verifiedemail__email="keyboard@example.net"
+            ).exists()
+        )
+
     def test_profile_validates_only_active_tab(self) -> None:
         """Save other tabs when a legacy account lacks its required full name."""
         user = self.do_login()
@@ -6141,7 +6287,7 @@ class SeleniumTests(
         user.profile.refresh_from_db()
         self.assertEqual(user.profile.website, "https://example.org/profile")
 
-        self.click(htmlid="profile-tab-preferences")
+        self.select_tab("profile-tab-preferences")
         self.click(htmlid="id_wide_tables")
         with self.wait_for_page_load():
             self.click(
@@ -6155,7 +6301,7 @@ class SeleniumTests(
         user.refresh_from_db()
         self.assertEqual(user.full_name, "")
 
-        self.click(htmlid="profile-tab-account")
+        self.select_tab("profile-tab-account")
         self.click(
             self.driver.find_element(By.CSS_SELECTOR, '#account button[type="submit"]')
         )
@@ -6354,6 +6500,49 @@ class SeleniumTests(
             r".*@example\.org$",
         )
         self.screenshot("team-automatic-assignments.png")
+
+    @reuse_demo_fixture
+    def test_team_audit_pagination(self) -> None:
+        project = self.create_component()
+        actor = self.do_login(superuser=True)
+        team = Group.objects.create(name="Audit pagination", defining_project=project)
+        for index in range(11):
+            member = User.objects.create_user(
+                username=f"audit-page-{index}", email=f"audit-page-{index}@example.org"
+            )
+            team.user_set.add(member)
+            record_team_event(team, actor, "changed", {"name": f"entry {index}"})
+
+        for url in (
+            team.get_absolute_url(),
+            reverse("manage-access", kwargs={"project": project.slug}),
+        ):
+            for panel in ("users", "team-audit"):
+                with self.subTest(url=url, panel=panel):
+                    with self.wait_for_page_load():
+                        self.driver.get(f"{self.live_server_url}{url}?limit=10#{panel}")
+                    position = self.driver.find_element(
+                        By.CSS_SELECTOR, f"#{panel} .position-input"
+                    )
+                    position.send_keys(Keys.ENTER)
+                    field = self.driver.find_element(
+                        By.CSS_SELECTOR, f"#{panel} input[name=page]"
+                    )
+                    field.send_keys(Keys.ESCAPE)
+                    self.assertEqual(self.driver.switch_to.active_element, position)
+                    position.send_keys(Keys.ENTER)
+                    field.clear()
+                    field.send_keys("2")
+                    with self.wait_for_page_load():
+                        field.send_keys(Keys.ENTER)
+                    self.assertIn("page=2", self.driver.current_url)
+                    self.assertTrue(self.driver.current_url.endswith(f"#{panel}"))
+                    self.assertEqual(
+                        self.driver.find_element(
+                            By.CSS_SELECTOR, f"#{panel} input[name=page]"
+                        ).get_attribute("value"),
+                        "2",
+                    )
 
     @reuse_demo_fixture
     def test_component_branches_load_on_demand(self) -> None:
@@ -6990,6 +7179,12 @@ class SeleniumTests(
     def test_glossary(self) -> None:
         user = self.do_login()
         project = self.create_component()
+        team = Group.objects.create(
+            name="Glossary", defining_project=project, language_selection=SELECTION_ALL
+        )
+        team.projects.add(project)
+        team.roles.add(Role.objects.get(name="Manage glossary"))
+        user.add_team(None, team, user=get_test_actor(self))
         language = Language.objects.get(code="cs")
         glossary = self.create_glossary(user, project, language)
 
@@ -7015,6 +7210,11 @@ class SeleniumTests(
         )
         self.assert_text_contains("details[open]", "Avoid this informal diminutive.")
         self.click(htmlid="unit_tools_dropdown")
+        self.assertTrue(
+            self.driver.find_element(
+                By.LINK_TEXT, "Mark as terminology for all languages"
+            ).is_displayed()
+        )
         self.screenshot("glossary-tools.png")
 
     def test_date_range_picker(self) -> None:

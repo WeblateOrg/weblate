@@ -59,7 +59,7 @@ from weblate.trans.file_format_params import (
 from weblate.trans.util import get_string
 from weblate.utils.concurrency import MARKDOWN_LOCK
 from weblate.utils.errors import report_error
-from weblate.utils.state import STATE_APPROVED
+from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED, StringState
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator
@@ -89,6 +89,11 @@ class MarkdownTranslatorLike(Protocol):
 # TODO: the type ignore is wrong, we probably need some shared base class
 class ConvertPoUnit[U: pounit, F: "ConvertFormat"](BasePoUnit[U, F]):  # type: ignore[type-var]
     id_hash_with_source: bool = True
+
+    def set_state(self, state: StringState) -> None:
+        # These formats cannot store workflow states. Keep the intermediate PO
+        # non-fuzzy so converters write targets just as cleanup rebuilds do.
+        super().set_state(STATE_TRANSLATED)
 
     def is_translated(self) -> bool:
         """Check whether unit is translated."""
@@ -349,13 +354,19 @@ class ConvertFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
         # Handle duplicate strings (use context to differentiate them)
         store.removeduplicates(duplicate_style)
 
-        # Merge existing translations
+        # Rebuild the last written state. Pending targets must only be applied
+        # by update_units(), after commit-policy and author-group filtering.
         if unitindex and not self.is_template:
+            # Targets are reconstructed from database snapshots rather than
+            # read from disk, so they cannot reliably detect file changes.
+            self.can_compare_stored_content = False
             for unit in store.units:
                 possible_translations = unitindex[unit.source]
                 # Single match
                 if len(possible_translations) == 1:
-                    unit.target = possible_translations[0].target
+                    unit.target = possible_translations[0].get_comparison_state()[
+                        "target"
+                    ]
                     continue
                 # None match
                 if not possible_translations:
@@ -363,7 +374,7 @@ class ConvertFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
                 # Multiple matches
                 for translation in possible_translations:
                     if translation.context == unit.getcontext():
-                        unit.target = translation.target
+                        unit.target = translation.get_comparison_state()["target"]
                         break
 
         return store  # type: ignore[return-value]

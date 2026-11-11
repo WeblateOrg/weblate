@@ -174,12 +174,11 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
 
     @classmethod
     def api_available(cls, component: Component | None) -> bool:
-        if not cls.api_name:
-            return True
         return (
             component is not None
+            and bool(cls.api_name)
             and not cls.repo_scope
-            and not component.addon_set.filter(name=cls.name).exists()
+            and cls.can_process(component=component)
         )
 
     compat: ClassVar[CompatDict] = {}
@@ -414,8 +413,8 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     def post_configure_run(self) -> None:
         # Trigger post events to ensure direct processing
         if component := self.instance.component:
-            if self.repo_scope and component.linked_component:
-                component = component.linked_component
+            if self.repo_scope and component.linked_component_id is not None:
+                return
             self.post_configure_run_component(component)
         elif category := self.instance.category:
             self.post_configure_run_category(category)
@@ -594,6 +593,8 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     ) -> bool:
         """Check whether add-on is compatible with given component."""
         if component is not None:
+            if cls.repo_scope and component.linked_component_id is not None:
+                return False
             return all(
                 getattr(component, key) in cast("set", values)
                 for key, values in cls.compat.items()
@@ -608,6 +609,8 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         category: Category | None = None,
         project: Project | None = None,
     ) -> bool:
+        if cls.repo_scope and component is not None and component.linked_component_id:
+            component = component.linked_component
         return cls.can_install(component=component, category=category, project=project)
 
     def pre_push(

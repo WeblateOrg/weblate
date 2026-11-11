@@ -5,26 +5,92 @@ Weblate 2026.11.2
 
 .. rubric:: New features
 
+* Added :setting:`DEFAULT_WORKSPACE_TM` to configure default workspace translation memory usage and contribution for projects.
+
 .. rubric:: Improvements
 
+* Aligned queued :doc:`repository maintenance <admin/continuous>` with background-work authorization: later permission changes or account deactivation do not cancel accepted operations.
+
+* Bounded :ref:`Weblate Client project configuration discovery <wlc-config>` by repository and POSIX permission boundaries, and added explicit project-file selection and configuration-free invocation.
+* Extended the :ref:`development container <devcontainer>` with documentation and frontend tooling, prepared OCR models, explicit verification checks, and isolated historical migration tests.
+* Updated the :doc:`security reporting policy <security/issues>` to handle low and medium severity issues publicly on GitHub and reserve private handling and security advisories for high and critical severity vulnerabilities.
+* Avoided unnecessary file edits when changing :ref:`custom source languages <workflow-source-language>` and credited required writes to the initiating user.
 * Invalidate pending :ref:`e-mail additions <user-profile>` when the account password changes.
+* Clarified e-mail addition, confirmation steps, and registration breadcrumbs in :ref:`account settings <user-profile>`.
 
 .. rubric:: Security fixes
 
+* Excluded components shared from other projects from category :ref:`contributor stats <stats>` reports.
+* Bounded :doc:`translation-memory imports <admin/memory>` by file size and entry count, batched database writes, and shared the translation-upload rate limit.
+* Validated new and renamed :ref:`translation keys <edit-source>` against the file format, dialect, and encoding before queuing changes.
+* Enforced public-only billing plans on :ref:`project moves <workspace-project-creation>` and warned when :ref:`backup restores <projectbackup>` make restricted components public.
+* Used stable subjects for :ref:`Keycloak authentication <keycloak_auth>` in Docker, protecting new and migrated associations from e-mail reassignment.
+* Bounded :ref:`suggestion uploads <upload>` and unmatched-string diagnostics, and added a shared browser/API upload rate limit.
+* Require login for :ref:`translation uploads <upload>`, process browser uploads in the background, and support the temporary ``background`` API option ahead of mandatory background processing in 2027.1.
+* Limited :ref:`CSV files <csv>` to 100,000 data rows while parsing, including automatically detected CSV input.
+* Bounded :ref:`XLSX archive expansion and conversion <xlsx>` before loading shared strings or writing oversized CSV rows.
+
+* Prevented merge and revert actions from copying read-only state, and kept votes on read-only strings from accepting suggestions automatically. Clarified :ref:`suggestion autoaccept behavior <component-suggestion_autoaccept>` for approved translations.
+* Prevented concurrent language creation from breaking Apple XLIFF and Stringsdict plural handling and repaired existing duplicate plural definitions.
+* Added :setting:`TRANSLATION_MAX_SIZE` to limit translation file size before parsing and limited each file to 100,000 content strings before synchronization or import.
+* Hid repository conflict warnings, history signals, and counts when no conflicting component is visible to the viewer. See :ref:`diagnostics-overviews`.
+* Disabled :ref:`Mercurial subrepositories <vcs-mercurial>`, removed nested repository metadata from managed Mercurial checkouts and project backups, and enforced backend URL restrictions when validating backups.
+* Kept malformed :ref:`DTD files <dtd>` intact during saves and reported source-edit validation failures cleanly.
+* Bounded built-in :doc:`format checks and highlighting <user/checks>` with matching timeouts and made whitespace fixups linear on long input.
+* Bounded :ref:`component file-mask scans <component-filemask>` and prevented cyclic directory-symlink traversal.
+* Applied project blocks and :ref:`enforced two-factor authentication <project-enforced_2fa>` to component creation and move targets, including GitHub App imports.
+* Made missing and inaccessible :ref:`repository links <internal-urls>` return the same validation error without exposing hidden repository settings.
+* Bounded :ref:`font check <fonts>` measurement, replacement expansion, and preview rendering.
+* Cleared invalid GitHub App push settings and prevented installation credentials from being used for another host.
+* Enforced source-language permissions for bulk source metadata and source check dismissals, and terminology permissions across glossary flag edits and uploads.
+* Limited interactive machine-translation request frequency and concurrent requests per service installation.
+* Limited decoded :ref:`HTTP response bodies <outbound-http-limits>` before buffering, with caller-specific limits for translation services, assets, OCR data, and VCS APIs.
+* Applied existing :ref:`HTTP timeouts <outbound-http-limits>` across redirects and complete response downloads for synchronous and asynchronous callers.
+* Enforced team language selection when creating translations and required project authority for language workflow settings.
+* Restricted project-wide component locking to components the actor may manage.
+* Concealed invitation e-mail addresses and deleted restricted component names in public history.
+* Recorded administrative team changes in a :ref:`restricted audit log <team-audit>` and concealed sensitive membership history from public viewers.
+* Prevented account e-mail discovery through self-service API updates and public history or project filters.
+* Required contributor attribution permission before linking commit authors to Weblate accounts. Clarified repository permissions for :ref:`confidential collaboration <privacy-confidential-setup>`.
+* Enforced add-on compatibility checks for project installations through the API.
 * Escaped rendered plain-text templates when displaying repository browser links in HTML.
 * Prevented bypassing confirmation and password-reset form checks through direct e-mail authentication completion requests.
+* Limited user activity searches to visible :ref:`translation history <translation-history>`.
 * Limited repository URLs in webhook deliveries to prevent excessive matching work.
 * Removed control characters from base-file edits before writing translation files.
+* Applied :setting:`VCS_RESTRICT_PRIVATE` to hosting API requests, including redirects and pagination URLs.
+* Revoked :ref:`project-scoped tokens <project-api>` during project deletion regardless of display name, prevented automatic workspace ownership grants to bots, and repaired existing token scope violations.
 * Restricted propagated check dismissals to components where the user may dismiss the check.
 * Enforced :setting:`REQUIRE_LOGIN` for Git repository exports, including anonymous clones.
+* Limited text shown in :ref:`translation history <translation-history>` lists and added a full change view for long entries.
 * Rejected unsafe fork remote names from merge-request repository credentials before running Git commands.
 * Preserved previous IP login failures after a successful sign-in to prevent rate-limit bypasses.
 * Require recent credential verification for browser changes to :ref:`restricted component access <component-restricted>`.
 * Require recent credential verification for form-encoded project API updates and access settings in the Django admin.
+* Bounded :ref:`text template <markup>` source, loops, intermediate values, output, and helper resource usage during validation and execution.
 
 .. rubric:: Bug fixes
 
+* Fixed browser Content Security Policy blocking identity confirmation using an external :doc:`authentication provider <admin/auth>`.
+* Restored inline terms on :ref:`legal` confirmation when no external terms URL is configured.
+
+* Restored pending translation writes for :ref:`text files <txt>` and other database-backed formats, PHP, and XWiki, and made output of translations needing editing consistent with cleanup rebuilds.
+
+* Generate valid resource names for incompatible keys when :doc:`exporting Android translations <user/files>`.
+
+* Limited repository add-on installation to repository-owning components and showed inherited add-ons on linked components.
+
+* Preserved concurrent approvals when saving through the API, accepting suggestions, merging translations, or reverting changes.
+* Preserved current translation text and approvals when dismissing automatically translated status.
+* Rechecked :ref:`billing <billing>` status when creating components through the API or web wizard.
+* Prevented removal of translations from locked components, including project and category language removal.
+* Fixed the Matplotlib font rendering check to run without accessing the :ref:`cache <production-cache>`.
+* Required contributor agreement acceptance before creating a translation file.
+
 .. rubric:: Compatibility
+
+* Changed the Docker :envvar:`WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY` default from ``email`` to ``sub``. When the identifier is unset, existing associations migrate on login, including those without saved subjects; historical identifier reassignment remains a risk until migration. See the :ref:`Keycloak upgrade guidance <keycloak_auth>` for backfill requirements and how to require subject evidence. Explicit identifier overrides remain supported.
+* Clarified the :ref:`RESP3 datastore requirement <production-cache>` introduced in Weblate 2026.11.1, including errors from incompatible Redis servers or proxies.
 
 .. rubric:: Upgrading
 
@@ -81,8 +147,11 @@ Weblate 2026.11.1
 .. rubric:: Compatibility
 
 * Removed ``/activity/month.json``; use :http:get:`/api/activity/` instead.
+* The updated redis-py dependency requires a :ref:`datastore supporting RESP3 <production-cache>`: Valkey or Redis 6.0 or later, including compatible proxies.
 
 .. rubric:: Upgrading
+
+* Upgrade incompatible Redis servers or proxies before upgrading Weblate. An ``unknown command HELLO`` error, including one reported as ``weblate.C024: Could not use Matplotlib``, indicates this compatibility issue; see :ref:`production-cache`.
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 

@@ -584,6 +584,15 @@ class CategoriesTest(ViewTestCase):
                 action=ActionEvents.REMOVE_COMPONENT
             ).count(),
         )
+        self.assertEqual(
+            [
+                details["restricted"]
+                for details in self.project.change_set.filter(
+                    action=ActionEvents.REMOVE_COMPONENT
+                ).values_list("details", flat=True)
+            ],
+            [False, False],
+        )
 
     def test_category_removal_skips_deleted_categories_before_global(self) -> None:
         category = Category.objects.create(

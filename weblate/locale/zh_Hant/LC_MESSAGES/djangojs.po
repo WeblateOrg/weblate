@@ -17,10 +17,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
-"Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
-"javascript/\n"
-"POT-Creation-Date: 2026-10-29 23:03-0500\n"
-"PO-Revision-Date: 2026-10-23 21:11+0000\n"
+"Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/javascript/"
+"\n"
+"POT-Creation-Date: 2026-11-05 22:35-0600\n"
+"PO-Revision-Date: 2026-11-10 21:04+0000\n"
 "Last-Translator: Lee Vincent <leevincent@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/javascript/zh_Hant/>\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.11.2.dev0\n"
 
 msgid "Unsaved changes!"
 msgstr "變更尚未儲存！"
@@ -117,29 +117,48 @@ msgstr "隱藏建議"
 msgid "Show suggestions"
 msgstr "顯示建議"
 
+msgid "Processed %(processed)s of %(total)s entries."
+msgstr "已處理 %(processed)s 筆，共 %(total)s 筆。"
+
 #, javascript-format
 msgid "Results of action %s"
-msgstr ""
+msgstr "動作 %s 的結果"
+
+msgid "Not takes exactly one condition."
+msgstr "「不符合」必須剛好包含 1 個條件。"
+
+msgid "Automations can nest eight levels deep."
+msgstr "自動化工作流程的巢狀結構最多可有 8 層。"
+
+msgid "Automations can hold one hundred nodes."
+msgstr "自動化工作流程最多可包含 100 個節點。"
 
 msgid "This workflow is not valid YAML, so the editor cannot show it."
-msgstr ""
+msgstr "這個工作流程的 YAML 格式不正確，編輯器無法顯示。"
 
 msgid ""
-"This workflow uses parts the editor does not handle yet, such as nested "
-"conditions or branches. Edit it as YAML."
+"This workflow has something the editor cannot show, such as an unknown "
+"action or a setting that is no longer available. Edit it as YAML."
 msgstr ""
+"這個工作流程含有編輯器無法顯示的內容，例如未知的動作或已不再提供的設定。請改"
+"用 YAML 編輯。"
 
 #, javascript-format
 msgid "Added %s."
-msgstr ""
+msgstr "已新增「%s」。"
 
 #, javascript-format
 msgid "Removed %s."
-msgstr ""
+msgstr "已移除「%s」。"
 
 #, javascript-format
 msgid "Moved %s."
-msgstr ""
+msgstr "已移動「%s」。"
+
+msgid ""
+"An action running on the whole component needs a query. Enter one or pick "
+"another scope."
+msgstr "作用範圍為整個組件的動作必須設定查詢。請輸入查詢，或改選其他範圍。"
 
 msgid "Security token missing. Please reload the page."
 msgstr "安全權杖遺失。請重新載入頁面。"
@@ -425,21 +444,17 @@ msgstr "排序此欄"
 msgid "Error while loading page:"
 msgstr "載入頁面時發生錯誤："
 
-#, fuzzy
-#| msgid "Could not load repository branches. Please try again."
 msgid "Could not load text recognition progress. Please try again."
-msgstr "無法載入儲存庫分支。請再試一次。"
+msgstr "無法載入文字辨識進度。請再試一次。"
 
-#, fuzzy
-#| msgid "Could not load screenshots. Please try again."
 msgid "Could not load strings from the image. Please try again."
-msgstr "無法載入截圖，請再試一次。"
+msgstr "無法載入圖片中的字串。請再試一次。"
 
 msgid "Finding strings in image…"
-msgstr ""
+msgstr "正在尋找圖片中的字串…"
 
 msgid "Finding strings is taking longer than expected. Please try again later."
-msgstr ""
+msgstr "尋找字串的時間比預期更久。請稍後再試。"
 
 msgid "Please press Ctrl+C to copy."
 msgstr "複製請按下 Ctrl+C。"
@@ -447,8 +462,14 @@ msgstr "複製請按下 Ctrl+C。"
 msgid "Search…"
 msgstr "搜尋…"
 
+msgid "Could not load teams. Please try again."
+msgstr "無法載入團隊。請再試一次。"
+
 msgid "Loading…"
 msgstr "載入中…"
+
+msgid "No more results."
+msgstr "沒有更多結果。"
 
 msgid "Error while loading form:"
 msgstr "載入表單時發生錯誤："

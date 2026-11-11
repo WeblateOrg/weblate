@@ -67,6 +67,9 @@ any action runs in ``conditions``, and the ordered operations in ``actions``.
 Omitting ``conditions`` is equivalent to an empty list. Empty ``triggers`` allows
 manual execution only; empty ``actions`` performs no operations.
 
+Workflows are based on the `Common Expression Language
+<https://cel.dev/>`_ (CEL).
+
 Literal settings and expressions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -158,7 +161,7 @@ Timestamps are strings, not CEL timestamp objects.
      - Triggering change ID, when change is available.
    * - ``change.action``
      - integer
-     - Numeric ActionEvents value, not the lowercase event name.
+     - Change event ID (not identifier) from :ref:`change-actions`.
    * - ``change.timestamp``
      - string
      - Change timestamp in ISO 8601 format with a timezone offset.
@@ -189,7 +192,7 @@ Timestamps are strings, not CEL timestamp objects.
 
 Availability depends on the trigger:
 
-* ``change`` supplies ``change``. It supplies ``unit`` and ``language`` only when
+* A ``change`` trigger supplies ``change`` fields. It supplies ``unit`` and ``language`` only when
   the change references them, and ``actor`` from the change's user or, if absent,
   its author. Any of those optional objects can be null.
 * ``manual`` supplies ``actor`` when initiated by a user through the UI or API.

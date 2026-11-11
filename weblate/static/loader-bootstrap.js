@@ -2105,11 +2105,15 @@ onReady(() => {
           const data = await response.json();
           if (bar !== null) {
             bar.style.width = `${data.progress}%`;
+            bar.setAttribute("aria-valuenow", data.progress);
           }
           if (data.completed) {
             const result = data.result ?? {};
+            const completion = result.completion_message;
             progressCompleted();
-            if (result.message) {
+            if (completion?.text && messageText !== null) {
+              messageText.textContent = completion.text;
+            } else if (result.message) {
               if (messageText !== null) {
                 messageText.textContent = result.message;
               }
@@ -2117,6 +2121,21 @@ onReady(() => {
               if (messageText !== null) {
                 messageText.textContent = result;
               }
+            }
+            const completionLevel = {
+              error: "danger",
+              warning: "warning",
+              success: "success",
+              info: "info",
+            }[completion?.level];
+            if (completionLevel) {
+              message.classList.remove(
+                "alert-success",
+                "alert-warning",
+                "alert-danger",
+                "alert-info",
+              );
+              message.classList.add(`alert-${completionLevel}`);
             }
             if (result.url) {
               window.location = result.url;
@@ -2315,69 +2334,55 @@ onReady(() => {
     }
   });
 
-  /* Click to edit position inline. Disable when clicked outside or pressed ESC */
-  const positionInputs = document.querySelectorAll(".position-input");
-  const positionInputEditables = document.querySelectorAll(
-    ".position-input-editable",
-  );
-  const positionInputEditableInput = document.getElementById(
-    "position-input-editable-input",
-  );
-  positionInputEditableInput?.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      if (!event.repeat) {
-        event.target.form.requestSubmit();
+  /* Each position editor belongs to its own paginator or translation control. */
+  document.querySelectorAll(".position-input").forEach((positionInput) => {
+    const editable = positionInput.nextElementSibling;
+    const input = editable?.querySelector(
+      "input[name=page], input[name=offset]",
+    );
+    if (!input) {
+      return;
+    }
+    const close = () => {
+      show(positionInput);
+      input.setAttribute("type", "hidden");
+      hide(editable);
+      document.removeEventListener("click", clickedOutside);
+      document.removeEventListener("keyup", pressedEscape);
+    };
+    const clickedOutside = (event) => {
+      if (
+        !positionInput.contains(event.target) &&
+        !editable.contains(event.target)
+      ) {
+        close();
       }
-    }
-  });
-  const clickedOutsideEditableInput = (event) => {
-    // Check if clicked outside of the input and the editable input
-    if (
-      ![...positionInputs].includes(event.target) &&
-      event.target.id !== "position-input-editable-input"
-    ) {
-      positionInputs.forEach(show);
-      positionInputEditableInput?.setAttribute("type", "hidden");
-      positionInputEditables.forEach(hide);
-      document.removeEventListener("click", clickedOutsideEditableInput);
-      document.removeEventListener("keyup", pressedEscape);
-    }
-  };
-  const pressedEscape = (event) => {
-    if (event.key === "Escape" && event.target !== positionInputs[0]) {
-      positionInputs.forEach(show);
-      positionInputEditableInput?.setAttribute("type", "hidden");
-      positionInputEditables.forEach(hide);
-      document.removeEventListener("click", clickedOutsideEditableInput);
-      document.removeEventListener("keyup", pressedEscape);
-    }
-  };
-  positionInputs.forEach((positionInput) => {
-    positionInput.addEventListener("click", function (event) {
-      event.preventDefault();
-      const form = this.closest("form");
-      positionInputs.forEach(hide);
-      form?.querySelectorAll("input[name=offset]").forEach((input) => {
-        input.disabled = false;
-      });
-      positionInputEditables.forEach((element) => {
-        element.style.display = "inline-block";
-      });
-      positionInputEditableInput?.setAttribute("type", "number");
-      if (positionInputs.length > 1) {
-        const input = event.target.parentElement?.querySelector(
-          "#position-input-editable-input",
-        );
-        if (input !== null && input !== undefined) {
-          input.focus();
-          input.select();
+    };
+    const pressedEscape = (event) => {
+      if (event.key === "Escape") {
+        close();
+        positionInput.focus();
+      }
+    };
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        if (!event.repeat) {
+          input.form.requestSubmit();
         }
-      } else if (positionInputEditableInput !== null) {
-        positionInputEditableInput.focus();
-        positionInputEditableInput.select();
       }
-      document.addEventListener("click", clickedOutsideEditableInput);
+    });
+    positionInput.addEventListener("click", (event) => {
+      event.preventDefault();
+      hide(positionInput);
+      input.form?.querySelectorAll("input[name=offset]").forEach((offset) => {
+        offset.disabled = false;
+      });
+      editable.style.display = "inline-block";
+      input.setAttribute("type", "number");
+      input.focus();
+      input.select();
+      document.addEventListener("click", clickedOutside);
       document.addEventListener("keyup", pressedEscape);
     });
   });

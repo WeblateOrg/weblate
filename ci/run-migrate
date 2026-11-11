@@ -102,6 +102,14 @@ if [ "$bot_membership_cleanup" -eq 0 ]; then
     check
 fi
 
+# Exercise the repair after the previous token cleanup migrations already ran.
+semver_compare "$1" ">=" "2026.10" && semver_compare "$1" "<" "2026.11.2"
+project_token_repair=$?
+if [ "$project_token_repair" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-project-token-repair.py"
+    check
+fi
+
 # Seed built-in role identity and custom roles before editable role synchronization.
 semver_compare "$1" "<" "2026.11"
 editable_roles_migrate=$?
@@ -195,6 +203,22 @@ if [ "$xliff_params_migrate" -eq 0 ]; then
     check
 fi
 
+# Seed duplicate zero plurals before their cleanup and uniqueness migrations.
+semver_compare "$1" "<" "2026.11.2"
+zero_plurals_migrate=$?
+if [ "$zero_plurals_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-zero-plurals.py"
+    check
+fi
+
+# Seed invalid GitHub App push settings before the cleanup migration.
+semver_compare "2026.7" "<=" "$1" && semver_compare "$1" "<" "2026.11.2"
+github_app_push_migrate=$?
+if [ "$github_app_push_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-github-app-push.py"
+    check
+fi
+
 # Seed an ordinary workflow before the source-workflow gate function is installed.
 semver_compare "$1" "<" "2026.10"
 source_workflow_gate_migrate=$?
@@ -284,6 +308,12 @@ if [ "$bot_membership_cleanup" -eq 0 ]; then
     check
 fi
 
+# Check project-token authority and orphaned credentials were repaired.
+if [ "$project_token_repair" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-project-token-repair.py"
+    check
+fi
+
 # Check cleanup settings were migrated to site-wide add-ons
 if [ "$cleanup_settings_migrate" -eq 0 ]; then
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-cleanup-settings.py"
@@ -347,6 +377,16 @@ fi
 
 if [ "$source_workflow_gate_migrate" -eq 0 ]; then
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-source-workflow-gate.py"
+    check
+fi
+
+if [ "$github_app_push_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-github-app-push.py"
+    check
+fi
+
+if [ "$zero_plurals_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-zero-plurals.py"
     check
 fi
 

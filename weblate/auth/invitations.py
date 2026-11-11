@@ -35,6 +35,7 @@ def create_team_invitation(
     is_superuser: bool = False,
     limit_languages: Iterable[Language | int] | None = None,
     automatic: bool = False,
+    team_admin: bool = False,
 ) -> Invitation:
     """Create an invitation and record its actor independently of the request."""
     invitation = Invitation.objects.create(
@@ -46,6 +47,7 @@ def create_team_invitation(
         group=group,
         email=email,
         is_superuser=is_superuser,
+        team_admin=team_admin,
     )
     if limit_languages is not None:
         invitation.limit_languages.set(limit_languages)

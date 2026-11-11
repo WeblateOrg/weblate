@@ -235,6 +235,8 @@ Whether to use translation memory shared by projects in the same workspace,
 see :ref:`memory-scopes` for more details. The workspace has to allow workspace
 translation memory as well.
 
+The default value can be changed by :setting:`DEFAULT_WORKSPACE_TM`.
+
 .. _project-contribute-workspace-tm:
 
 Contribute to workspace translation memory
@@ -243,6 +245,8 @@ Contribute to workspace translation memory
 Whether to contribute translations to the translation memory shared by
 projects in the same workspace. The workspace has to allow contribution as
 well.
+
+The default value can be changed by :setting:`DEFAULT_WORKSPACE_TM`.
 
 .. note::
 
@@ -313,6 +317,9 @@ Enforced two-factor authentication
 
 Enforce :ref:`2fa` for all contributors. Users won’t be allowed
 to perform any operations within the project without having it configured.
+This also excludes the project from component creation, move, and sharing
+targets, including GitHub App imports. Site administrators and bot accounts
+retain their existing exemptions.
 
 .. _project-translation_review:
 
@@ -620,6 +627,10 @@ VCS repository used to pull changes.
     indicating that the repository should be shared with another component.
     See :ref:`internal-urls` for more details.
 
+Creating a repository link requires access to the referenced component and
+permission to edit it. Missing components and components you cannot access
+produce the same validation error.
+
 .. _component-push:
 
 Repository push URL
@@ -733,6 +744,17 @@ For example ``po/*.po`` or ``locale/*/LC_MESSAGES/django.po``.
 
 In case your filename contains special characters such as ``[``, ``]``, these need
 to be escaped as ``[[]`` or ``[]]``.
+
+File-mask scans are limited to 100,000 traversal work units and five seconds,
+including processing the matches. Each visited traversal state and examined
+directory entry counts toward the work limit, even when it does not match.
+Exceeding either limit fails the scan without using partial results. Narrow the
+mask to the relevant directories if a scan exceeds these limits.
+
+Directory symlinks within the repository are supported. Scans skip links outside
+the repository, links to managed VCS metadata, and directory cycles. The time
+limit is checked between filesystem operations; it cannot interrupt an operation
+blocked on storage.
 
 .. seealso::
 
@@ -964,6 +986,14 @@ Automatically accept suggestions
 ++++++++++++++++++++++++++++++++
 
 Automatically accept voted suggestions, see :ref:`voting`.
+
+When the vote threshold is reached, the suggestion can replace an approved
+translation even if the voters cannot review translations. A replacement
+returns to the waiting-for-review state when reviews are enabled.
+Use this setting only when voting should authorize this change.
+
+Read-only strings remain unchanged. Votes are recorded and the suggestion stays
+pending for a later permitted acceptance.
 
 .. seealso::
 
@@ -1574,6 +1604,25 @@ Currently it is used in:
     * :ref:`addon-weblate.discovery.discovery`
     * :ref:`addon-weblate.generate.generate`
     * :ref:`addon-script`
+
+Template source is limited to 64 KiB of UTF-8 text. A render may execute at most
+10,000 loop iterations in total, including nested loops, and produce at most
+1 MiB of UTF-8 output. Expanding filters and intermediate values are also
+bounded. These limits apply both when validating settings and when rendering
+saved templates. Exceeding a limit fails the render without returning partial
+output or replacing a generated file.
+
+Templates with tags, filters, or structured lookups run in a separate helper
+process with a five-second wall-time limit, a five-second CPU limit, and a
+512 MiB address-space limit. The address-space limit is unavailable on macOS;
+CPU, wall-time, and application-level size limits still apply there. Plain
+text and simple scalar substitutions use the same source and output size
+limits without starting a helper process.
+
+The helper receives plain data rather than application objects. Its context
+is limited to 8 MiB of serialized data and 32 levels of nesting. It does not
+inherit application credentials or settings; only time-zone and number-format
+settings needed for rendering are passed explicitly.
 
 The following variables are available in the component templates:
 

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% load humanize i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item"><a href="{% url 'team-audit' %}">{% translate "Team audit log" %}</a></li>
+  <li class="breadcrumb-item active" aria-current="page">{{ entry.team_name }}</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  <h1>{{ entry.get_event_display }}</h1>
+  <dl>
+    <dt>{% translate "Team" %}</dt><dd>{{ entry.team_name }}</dd>
+    <dt>{% translate "Actor" %}</dt><dd>{% if entry.actor %}{{ entry.actor.username }}{% else %}{% translate "Deleted user" %}{% endif %}</dd>
+    <dt>{% translate "Scope" %}</dt><dd>{{ entry.get_scope_display }}{% if entry.scope_label %}: {{ entry.scope_label }}{% endif %}</dd>
+    <dt>{% translate "When" %}</dt><dd>{{ entry.timestamp|naturaltime }}</dd>
+  </dl>
+  <pre>{{ entry.details|pprint }}</pre>
+{% endblock content %}

@@ -117,6 +117,10 @@ ALLOWED_ASSET_SIZE
 
 Configures size limit in bytes for fetching or uploading assets into Weblate. Defaults to 10 MB.
 
+For screenshot URL uploads and remote CDN add-on HTML, the limit counts
+response bytes after decompression, before the complete body is buffered.
+See :ref:`outbound-http-limits` for other HTTP response limits.
+
 .. seealso::
 
    * :ref:`screenshots`
@@ -653,6 +657,11 @@ The following subdirectories usually exist:
     Default location for Django media files, specified by :setting:`django:MEDIA_ROOT`. Contains uploaded screenshots, see :ref:`screenshots`.
 :file:`vcs`
     Version-control repositories for translations.
+:file:`translation-uploads`
+    Private temporary files for background translation uploads. Share this
+    directory between web and Celery worker processes, with read/write access
+    only for Weblate. Jobs expire after six hours; hourly cleanup removes
+    abandoned files older than 24 hours while leaving active uploads intact.
 :file:`backups`
     Daily backup data. Please check :ref:`backup-dumps` for details.
 :file:`fonts`:
@@ -908,6 +917,16 @@ DEFAULT_SHARED_TM
 -----------------
 
 Configures the default value of :ref:`project-use_shared_tm` and :ref:`project-contribute_shared_tm`.
+
+
+.. setting:: DEFAULT_WORKSPACE_TM
+
+DEFAULT_WORKSPACE_TM
+--------------------
+
+.. versionadded:: 2026.11.2
+
+Configures the default value of :ref:`project-use-workspace-tm` and :ref:`project-contribute-workspace-tm`.
 
 
 .. setting:: DEFAULT_TRANSLATION_REVIEW
@@ -1504,10 +1523,10 @@ The ``index`` page is always visible. Supported document identifiers are
 ``terms``, ``cookies``, ``privacy``, and ``contracts``.
 
 Hidden pages are removed from the legal menu and return a 404 response when
-requested directly. When legal document confirmation is enabled, hiding
-``terms`` without :setting:`LEGAL_URL` makes confirmation embed the terms
-template. Hiding ``privacy`` without :setting:`PRIVACY_URL` makes confirmation
-cover only the terms.
+requested directly. When legal document confirmation is enabled, leaving
+:setting:`LEGAL_URL` unset makes confirmation embed the terms template, even
+if ``terms`` is hidden. Hiding ``privacy`` without :setting:`PRIVACY_URL` makes
+confirmation cover only the terms.
 
 Links exposed through the ``terms_url`` and ``privacy_url`` template variables
 use :setting:`LEGAL_URL` and :setting:`PRIVACY_URL` first when configured.
@@ -2425,6 +2444,64 @@ RATELIMIT_BULK_EDIT_LOCKOUT
 Lockout after exceeding the browser bulk-edit rate limit, in seconds. Defaults
 to 60.
 
+.. setting:: RATELIMIT_UPLOAD_ATTEMPTS
+
+RATELIMIT_UPLOAD_ATTEMPTS
+-------------------------
+
+Maximum translation and translation-memory upload attempts per user during
+:setting:`RATELIMIT_UPLOAD_WINDOW`. Defaults to 10. Browser and API uploads share
+this budget with browser translation-memory uploads, including synchronous and
+background API translation uploads. Superusers are exempt. Uploads rejected
+before the upload permission check do not count.
+
+.. setting:: RATELIMIT_UPLOAD_WINDOW
+
+RATELIMIT_UPLOAD_WINDOW
+-----------------------
+
+Window for translation upload rate limiting, in seconds. Defaults to 60.
+
+.. setting:: RATELIMIT_UPLOAD_LOCKOUT
+
+RATELIMIT_UPLOAD_LOCKOUT
+------------------------
+
+Lockout after exceeding the translation upload rate limit, in seconds.
+Defaults to 60.
+
+.. setting:: RATELIMIT_MACHINERY_ATTEMPTS
+
+RATELIMIT_MACHINERY_ATTEMPTS
+----------------------------
+
+Maximum interactive machine-translation requests per user during
+:setting:`RATELIMIT_MACHINERY_WINDOW`. Defaults to 30. The usual superuser
+rate-limit exemption applies.
+
+Interactive requests also allow at most two concurrent calls per user per
+configured service installation. Other installations remain available. Excess
+requests return HTTP 429. Slots are released on completion or failure.
+Disconnected requests retain their slots until the provider work finishes,
+including synchronous calls already running in executor threads. Abandoned
+distributed locks expire after one hour.
+
+.. setting:: RATELIMIT_MACHINERY_WINDOW
+
+RATELIMIT_MACHINERY_WINDOW
+--------------------------
+
+Window for interactive machine-translation rate limiting, in seconds. Defaults
+to 60.
+
+.. setting:: RATELIMIT_MACHINERY_LOCKOUT
+
+RATELIMIT_MACHINERY_LOCKOUT
+---------------------------
+
+Lockout after exceeding the interactive machine-translation rate limit, in
+seconds. Defaults to 60.
+
 .. setting:: RATELIMIT_OCR_ATTEMPTS
 
 RATELIMIT_OCR_ATTEMPTS
@@ -2970,6 +3047,30 @@ donation links elsewhere in the interface.
 
    Improve your Weblate experience by purchasing a support subscription and boosting Weblate progress instead of turning this off.
 
+.. setting:: TRANSLATION_MAX_SIZE
+
+TRANSLATION_MAX_SIZE
+--------------------
+
+.. versionadded:: 2026.11.2
+
+Maximum size, in bytes, of a translation file before parsing. Applies to all
+formats and to repository files as well as uploads and translation-memory
+imports, including source templates and intermediate files. For directory-based
+formats, the limit applies to each metadata file. When unset or ``None``, uses
+:setting:`TRANSLATION_UPLOAD_MAX_SIZE`
+(50 MB by default). An explicit value overrides this fallback.
+
+Uploads must also satisfy :setting:`TRANSLATION_UPLOAD_MAX_SIZE`, even when
+``TRANSLATION_MAX_SIZE`` is higher. This byte limit does not bound decompression
+or other expansion performed by a parser.
+
+Translation files are also limited to 100,000 logical content strings per file
+before database synchronization or import. Existing tighter limits for
+compressed formats remain in effect.
+
+In Docker, configure this using :envvar:`WEBLATE_TRANSLATION_MAX_SIZE`.
+
 .. setting:: TRANSLATION_UPLOAD_MAX_SIZE
 
 TRANSLATION_UPLOAD_MAX_SIZE
@@ -2979,6 +3080,11 @@ TRANSLATION_UPLOAD_MAX_SIZE
 
 Configures the maximum size, in bytes, for uploaded translation files. Defaults
 to 50 MB.
+
+Uploads must also satisfy :setting:`TRANSLATION_MAX_SIZE`.
+
+Suggestion uploads are additionally limited to 20,000 content strings. See
+:ref:`upload` for upload processing and rate limits.
 
 In Docker, configure this using the ``WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE``
 environment variable.
@@ -3135,6 +3241,10 @@ validated, and stored as the canonical component repository URL. Cross-host
 redirects have to be configured manually. Mercurial, Subversion, custom VCS
 backends, and additional URL schemes are rejected unless the target host is
 trusted by :setting:`VCS_ALLOW_HOSTS` or :setting:`VCS_PRIVATE_ALLOWLIST`.
+
+Hosting API requests, including redirects and pagination URLs, apply the same
+private-target restrictions and trusted-host exemptions. Direct API connections
+are bound to validated addresses and their connected peers are checked.
 
 Network-level egress filtering which blocks internal, loopback, link-local,
 reserved, and cloud metadata address ranges is recommended as defense in depth,

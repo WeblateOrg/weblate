@@ -3,9 +3,32 @@
 {% load i18n translations %}
 
 {% block breadcrumbs %}
-  <li class="breadcrumb-item">
-    <a href="{% url 'register' %}">{% translate "Registration" %}</a>
-  </li>
+  {% with action=partial.kwargs.weblate_action invitation=partial.kwargs.invitation_pk %}
+    <li class="breadcrumb-item">
+      {% if action == "reset" %}
+        <a href="{% url 'password_reset' %}">{% translate "Password reset" %}</a>
+      {% elif action == "remove" %}
+        <a href="{% url 'remove' %}">{% translate "Remove account" %}</a>
+      {% elif partial.backend == "email" and partial.kwargs.registering_user %}
+        <a href="{% url 'profile' %}#account">{% translate "Your profile" %}</a>
+      {% else %}
+        <a href="{% url 'register' %}">{% translate "Registration" %}</a>
+      {% endif %}
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">
+      {% if action == "reset" %}
+        {% translate "Confirm password reset" %}
+      {% elif action == "remove" %}
+        {% translate "Confirm account removal" %}
+      {% elif partial.backend == "email" and partial.kwargs.registering_user %}
+        {% translate "Verify e-mail address" %}
+      {% elif invitation %}
+        {% translate "Confirm invitation" %}
+      {% else %}
+        {% translate "Confirm registration" %}
+      {% endif %}
+    </li>
+  {% endwith %}
 {% endblock breadcrumbs %}
 
 {% block content %}
@@ -19,6 +42,8 @@
               {% translate "Confirm password reset" %}
             {% elif action == "remove" %}
               {% translate "Confirm account removal" %}
+            {% elif partial.backend == "email" and partial.kwargs.registering_user %}
+              {% translate "Verify e-mail address" %}
             {% elif invitation %}
               {% translate "Confirm invitation" %}
             {% else %}
@@ -32,6 +57,8 @@
               {% blocktranslate %}You are about to continue resetting the password for your Weblate account.{% endblocktranslate %}
             {% elif action == "remove" %}
               {% blocktranslate %}You are about to continue removing your Weblate account.{% endblocktranslate %}
+            {% elif partial.backend == "email" and partial.kwargs.registering_user %}
+              {% translate "You are about to continue adding this e-mail address to your existing Weblate account." %}
             {% elif invitation %}
               {% blocktranslate %}You are about to accept an invitation and create a Weblate account.{% endblocktranslate %}
             {% else %}
@@ -56,6 +83,8 @@
               {% translate "Continue password reset" %}
             {% elif action == "remove" %}
               {% translate "Continue account removal" %}
+            {% elif partial.backend == "email" and partial.kwargs.registering_user %}
+              {% translate "Continue e-mail verification" %}
             {% elif invitation %}
               {% translate "Accept invitation" %}
             {% else %}

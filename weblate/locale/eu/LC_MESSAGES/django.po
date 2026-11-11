@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-29 23:00-0500\n"
+"POT-Creation-Date: 2026-11-05 22:27-0600\n"
 "PO-Revision-Date: 2026-10-16 04:35+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -474,6 +474,16 @@ msgstr "Kokalekuak"
 msgid "Saved search"
 msgstr "Bilatu"
 
+msgid ""
+"A lookalike e-mail identity was removed, the password was disabled, and API "
+"tokens were revoked."
+msgstr ""
+
+msgid ""
+"Password disabled as reported leaked credential matched the password; API "
+"tokens revoked."
+msgstr ""
+
 #. Translators: Audit log entry
 msgid "Password changed."
 msgstr "Pasahitza aldatu da."
@@ -723,6 +733,23 @@ msgstr "{username}-(e)k {project}-(e)ra gonbidatu zaitu."
 #| msgid "Password changed."
 msgid "Password configured."
 msgstr "Pasahitza aldatu da."
+
+#, fuzzy
+#| msgid ""
+#| "If it was you, please use a password reset to regain access to your "
+#| "account."
+msgid ""
+"Reset your password to restore password access and review your account "
+"activity."
+msgstr ""
+"Zu bazara, erabili pasahitza berrezarrita zure konturako sarbidea "
+"berreskuratzeko."
+
+msgid ""
+"Reset your password to restore password access. Choose a unique password and "
+"review your account activity. The report didn't disclose the source of the "
+"leak."
+msgstr ""
 
 msgid "To restore access to your account, please reset your password."
 msgstr ""
@@ -1121,6 +1148,11 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "Watched translations"
+msgid "Contributor"
+msgstr "Lagundu Weblate"
+
+#, fuzzy
 #| msgid "Source code repository"
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
@@ -1459,6 +1491,11 @@ msgid ""
 "inviter; it can't be used by your account."
 msgstr ""
 
+msgid ""
+"Your e-mail address has been added. You can now select it as your account e-"
+"mail address in Account settings."
+msgstr ""
+
 #, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
@@ -1491,6 +1528,9 @@ msgid "Dark"
 msgstr "Iluna"
 
 msgid "Please confirm your identity using a second factor before proceeding."
+msgstr ""
+
+msgid "Please confirm your identity before proceeding."
 msgstr ""
 
 #, python-format
@@ -1616,7 +1656,7 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Use account e-mail address"
-msgid "Verify new e-mail address"
+msgid "Add and verify e-mail address"
 msgstr "Kontuaren helbide-elektronikoa erabili"
 
 msgid "Cannot reset password, e-mail authentication is turned off."
@@ -1626,6 +1666,9 @@ msgstr ""
 
 msgid "Change password"
 msgstr "Aldatu pasahitza"
+
+msgid "Set password"
+msgstr ""
 
 msgid "Password reset has been already completed."
 msgstr "Pasahitzaren berrezarpena jada burutu da."
@@ -2082,12 +2125,6 @@ msgid ""
 msgstr ""
 
 #, python-format
-msgid ""
-"Fedora Messaging publisher service was unavailable; the connection will be "
-"recreated on the next attempt: %(error)s"
-msgstr ""
-
-#, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
 msgstr ""
 
@@ -2104,7 +2141,7 @@ msgstr ""
 msgid "configured"
 msgstr "Oraingo pasahitza"
 
-msgid "Could not reset Fedora Messaging publisher service."
+msgid "The SSL certificates have to be provided for SSL connection."
 msgstr ""
 
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
@@ -2114,10 +2151,6 @@ msgid "Client SSL key must be an unencrypted PEM encoded private key."
 msgstr ""
 
 msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
-msgstr ""
-
-#, python-format
-msgid "Fedora Messaging broker URL is invalid: %(error)s"
 msgstr ""
 
 #, python-format
@@ -3000,9 +3033,6 @@ msgstr "Karaktere bereziak"
 msgid "Topic prefix must not exceed %(limit)d characters."
 msgstr ""
 
-msgid "The SSL certificates have to be provided for SSL connection."
-msgstr ""
-
 msgid "The SSL certificates are not used without a SSL connection."
 msgstr ""
 
@@ -3686,6 +3716,26 @@ msgstr "erabiltzailea"
 msgid "Language"
 msgstr ""
 
+msgid ""
+"Contributor identities are exposed by View contributor identities, Download "
+"changes, Manage reports, and access-management permissions. Permissions from "
+"all assigned roles are additive."
+msgstr ""
+
+msgid "Built-in"
+msgstr ""
+
+#, fuzzy
+#| msgid "Search"
+msgid "Customized"
+msgstr "Bilatu"
+
+msgid "Reset built-in roles to defaults"
+msgstr ""
+
+msgid "Built-in role permissions reset."
+msgstr ""
+
 msgid "Personal info"
 msgstr "Informazio pertsonala"
 
@@ -3703,6 +3753,12 @@ msgstr ""
 
 msgid "This is not used when a component is selected."
 msgstr ""
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "New contributor"
+msgid "View contributor identities"
+msgstr "Ekartzaile berria"
 
 #. Translators: Permission name
 msgid "Download changes"
@@ -3971,6 +4027,24 @@ msgid "Manage workspace access"
 msgstr "Kudeatu proiektuak"
 
 #. Translators: Permission name
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Browse users"
+msgstr "Itzulitako hizkuntzak"
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "Source strings"
+msgid "Search resource contributors"
+msgstr "Jatorrizko kateak"
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "User profile"
+msgid "View user profiles"
+msgstr "Erabiltzaile-profila"
+
+#. Translators: Permission name
 msgid "Use management interface"
 msgstr ""
 
@@ -4071,6 +4145,18 @@ msgstr "Itzulitako hizkuntzak"
 #| msgid "Source strings"
 msgid "Manage site-wide add-ons"
 msgstr "Jatorrizko kateak"
+
+#, fuzzy
+#| msgid "Watched translations"
+msgctxt "Access-control role"
+msgid "Discover users"
+msgstr "Lagundu Weblate"
+
+#, fuzzy
+#| msgid "User profile"
+msgctxt "Access-control role"
+msgid "View user profiles"
+msgstr "Erabiltzaile-profila"
 
 #, fuzzy
 #| msgid "Authentication"
@@ -4314,6 +4400,10 @@ msgid "Name"
 msgstr "Izena"
 
 msgid "Choose permissions granted to this role."
+msgstr ""
+
+msgid ""
+"Remove the component from project teams before moving it to another project."
 msgstr ""
 
 msgid "Roles"
@@ -4662,6 +4752,9 @@ msgid ""
 "access; otherwise, you would lock yourself out."
 msgstr ""
 
+msgid "Blocked users cannot be granted project administration rights."
+msgstr ""
+
 #, python-format
 msgid ""
 "Team %(name)s was renamed to %(new_name)s because its name was already in "
@@ -4686,6 +4779,14 @@ msgstr ""
 #| msgid "Activation e-mail will be sent here."
 msgid "User invitation was removed."
 msgstr "Aktibazio e-maila hona bidaliko da."
+
+#, fuzzy
+#| msgid "Activation e-mail will be sent here."
+msgid "This invitation was already accepted or removed."
+msgstr "Aktibazio e-maila hona bidaliko da."
+
+msgid "Remove the project block before accepting this invitation."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Authentication"
@@ -4939,6 +5040,66 @@ msgstr ""
 #| msgid "Nov"
 msgid "Not"
 msgstr "Aza"
+
+msgid "Sequence"
+msgstr ""
+
+msgid "Choose"
+msgstr ""
+
+msgid "Trigger"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translatable strings"
+msgid "Add trigger"
+msgstr "Kate itzulgarriak"
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Condition"
+msgstr "Oraingo pasahitza"
+
+#, fuzzy
+#| msgid "Edit"
+msgid "Add condition"
+msgstr "Editatu"
+
+msgid "Action"
+msgstr "Ekintza"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Add action"
+msgstr "Ekintza"
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Conditions"
+msgstr "Oraingo pasahitza"
+
+msgid "Actions"
+msgstr ""
+
+msgid "Branches"
+msgstr ""
+
+#, fuzzy
+#| msgid "Additional message"
+msgid "Add branch"
+msgstr "Mezu gehigarria"
+
+#, fuzzy
+#| msgctxt "Plural form description"
+#| msgid "Other"
+msgid "Otherwise"
+msgstr "Bestea"
+
+msgid "Add action to run otherwise"
+msgstr ""
+
+msgid "Branch"
+msgstr ""
 
 msgid "Additional message"
 msgstr "Mezu gehigarria"
@@ -5719,6 +5880,10 @@ msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr ""
 
 #, python-brace-format
+msgid "The HTML {tag} tag is nested too deeply."
+msgstr ""
+
+#, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
 "end with {semicolon}. If you do not want a character reference, use "
@@ -5919,6 +6084,12 @@ msgstr "Ikuskatutako itzulpenak"
 #| msgid "Comment on own translation"
 msgid "Fluent syntax error in the translation."
 msgstr "Iruzkina itzulpen propioan"
+
+msgid "The Fluent value could not be checked because it is too complex."
+msgstr ""
+
+msgid "the value is too complex or nested too deeply"
+msgstr ""
 
 #, fuzzy
 #| msgid "Authentication ({method}:{name}) has been removed."
@@ -7011,6 +7182,16 @@ msgid ""
 "either this limit or the maximum age is reached."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation key"
+msgid "Install Translation files CDN"
+msgstr "Itzulpen gakoa"
+
+msgid ""
+"Publishes original translation files publicly, including files from private "
+"components."
+msgstr ""
+
 msgid "Kotlin SDK CDN"
 msgstr ""
 
@@ -7018,6 +7199,11 @@ msgid ""
 "Publishes Android string and plural resources for registered Kotlin SDK "
 "builds."
 msgstr ""
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Translation files CDN cannot be installed on this component."
+msgstr "Ikuskatutako itzulpenak"
 
 msgid "Weblate languages"
 msgstr ""
@@ -8810,9 +8996,20 @@ msgid "Your profile"
 msgstr ""
 
 #, fuzzy
+#| msgid "Enter a valid e-mail address."
+msgid "Confirm adding e-mail address"
+msgstr "Sartu baliozko e-mail helbide bat."
+
+#, fuzzy
 #| msgid "Could not remove user identity"
 msgid "Confirm adding user identity"
 msgstr "Ezin izan da erabiltzailearen identitatea kendu"
+
+#, python-format
+msgid ""
+"Confirm adding %(uid)s to your existing Weblate account by entering your "
+"current password."
+msgstr ""
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #, python-format
@@ -8820,6 +9017,11 @@ msgid ""
 "After confirming this, you will be able to authenticate to Weblate using "
 "%(backend_verbose)s (%(uid)s)."
 msgstr ""
+
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Add e-mail address"
+msgstr "Kontuaren helbide-elektronikoa erabili"
 
 msgid "Confirm"
 msgstr ""
@@ -8925,16 +9127,16 @@ msgstr ""
 msgid "Registration"
 msgstr ""
 
+#, fuzzy
+#| msgid "Your e-mail"
+msgid "Check your e-mail"
+msgstr "Zure e-maila"
+
 msgid "Password reset almost complete"
 msgstr "Pasahitza berrezartzea bukatzear"
 
 msgid "Account removal almost complete"
 msgstr "Kontua kentzea bukatzear"
-
-#, fuzzy
-#| msgid "Authentication"
-msgid "E-mail verification almost complete"
-msgstr "Autentifikazioa"
 
 msgid "Registration almost complete"
 msgstr ""
@@ -8948,8 +9150,9 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Click the confirmation link sent to your e-mail inbox to verify the address "
-"for your account."
+"Check your e-mail for instructions. If this address is already associated "
+"with an account, you may receive account recovery guidance instead of a "
+"verification link."
 msgstr ""
 
 msgid ""
@@ -8959,6 +9162,14 @@ msgstr ""
 
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr ""
+
+#, python-format
+msgid ""
+"If you receive a verification link, it will expire after %(count)s hour."
+msgid_plural ""
+"If you receive a verification link, it will expire after %(count)s hours."
+msgstr[0] ""
+msgstr[1] ""
 
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
@@ -8978,6 +9189,17 @@ msgid "Register again if the confirmation link expires."
 msgstr ""
 
 msgid ""
+"If you receive a verification link, open it while signed in to this account "
+"and follow the confirmation steps. You may be asked for your current "
+"password."
+msgstr ""
+
+#, fuzzy
+#| msgid "Edit component settings"
+msgid "Back to account settings"
+msgstr "Editatu osagaien ezarpenak"
+
+msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
@@ -8991,15 +9213,49 @@ msgstr ""
 msgid "Please fix errors in the form."
 msgstr ""
 
+msgid ""
+"Verification instructions will be sent to the new e-mail address. You do not "
+"need access to your old mailbox."
+msgstr ""
+
+msgid ""
+"Adding an address does not change your account e-mail address. After "
+"verification, you can select the new address in Account settings."
+msgstr ""
+
 #, fuzzy
 #| msgid "Username or email"
 msgid "Send verification e-mail"
 msgstr "Erabiltzaile-izena edo e-maila"
 
 #, fuzzy
-#| msgid "Edit component settings"
-msgid "Back to account settings"
-msgstr "Editatu osagaien ezarpenak"
+#| msgid "Could not remove user identity"
+msgid "Confirm your identity"
+msgstr "Ezin izan da erabiltzailearen identitatea kendu"
+
+msgid "Confirm your existing sign-in method before continuing."
+msgstr ""
+
+msgid ""
+"Confirm your existing sign-in method before registering your first second "
+"factor."
+msgstr ""
+
+msgid "Sign in again using a connected provider:"
+msgstr ""
+
+msgid ""
+"Your previous e-mail verification has expired. Reset your password to "
+"continue."
+msgstr ""
+
+msgid "Sign out and reset password by e-mail"
+msgstr ""
+
+msgid ""
+"No sign-in method is available to confirm your identity. Contact an "
+"administrator to recover access."
+msgstr ""
 
 msgid "Trial subscriptions"
 msgstr ""
@@ -9219,6 +9475,9 @@ msgstr ""
 msgid "Change my password"
 msgstr ""
 
+msgid "Set my password"
+msgstr ""
+
 #, fuzzy
 #| msgid "Edit component settings"
 msgid "Back to security settings"
@@ -9268,11 +9527,6 @@ msgstr ""
 #| msgid "Choose commit e-mail from verified addresses."
 msgid "The e-mail address can be chosen from verified addresses only."
 msgstr "Aukeratu balidapenaren posta elektronikoa egiaztatutako helbideetatik."
-
-#, fuzzy
-#| msgid "Use account e-mail address"
-msgid "Add and verify e-mail address"
-msgstr "Kontuaren helbide-elektronikoa erabili"
 
 msgid "Save"
 msgstr "Gorde"
@@ -9374,9 +9628,6 @@ msgstr "Oraingo pasahitza"
 #| msgid "Current password"
 msgid "Not configured"
 msgstr "Oraingo pasahitza"
-
-msgid "Set password"
-msgstr ""
 
 #, fuzzy
 #| msgid "Authentication"
@@ -9667,9 +9918,6 @@ msgstr ""
 msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll e-mail "
 "instructions for setting a new one."
-msgstr ""
-
-msgid "Set my password"
 msgstr ""
 
 msgid "Reset my password"
@@ -10261,49 +10509,15 @@ msgid ""
 "manually."
 msgstr ""
 
-msgid "Trigger"
-msgstr ""
-
-#, fuzzy
-#| msgid "Translatable strings"
-msgid "Add trigger"
-msgstr "Kate itzulgarriak"
-
-#, fuzzy
-#| msgid "Current password"
-msgid "Conditions"
-msgstr "Oraingo pasahitza"
-
 #, fuzzy
 #| msgid "Tweet this translation"
 msgid "All conditions have to pass before any action runs."
 msgstr "Txiokatu itzulpen hau"
 
 #, fuzzy
-#| msgid "Current password"
-msgid "Condition"
-msgstr "Oraingo pasahitza"
-
-#, fuzzy
-#| msgid "Edit"
-msgid "Add condition"
-msgstr "Editatu"
-
-msgid "Actions"
-msgstr ""
-
-#, fuzzy
 #| msgid "Source code repository"
 msgid "Operations performed in this order once the conditions pass."
 msgstr "Iturburu kodearen biltegia"
-
-msgid "Action"
-msgstr "Ekintza"
-
-#, fuzzy
-#| msgid "Action"
-msgid "Add action"
-msgstr "Ekintza"
 
 #, fuzzy
 #| msgid "All components"
@@ -10458,6 +10672,17 @@ msgstr "Proiektuak"
 msgid ""
 "See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
 "library setup."
+msgstr ""
+
+msgid ""
+"Install Translation files CDN to let the SDK download original XML "
+"translation files. These files are published publicly, including files from "
+"private components."
+msgstr ""
+
+msgid ""
+"After installation, return to this page to copy the updated Gradle "
+"configuration."
 msgstr ""
 
 msgid "Configure the Kotlin SDK Gradle plugin with these values:"
@@ -10631,6 +10856,19 @@ msgstr "Proiektua / Osagaia"
 msgid "Request payload"
 msgstr "Itzulitako hizkuntzak"
 
+msgid ""
+"Reset these built-in roles to the current default permissions? This discards "
+"their customizations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Permissions"
+msgid "Reset permissions"
+msgstr "Baimenak"
+
+msgid "Cancel"
+msgstr ""
+
 msgid "Settings"
 msgstr "Ezarpenak"
 
@@ -10641,6 +10879,11 @@ msgstr "Ikuskatutako itzulpenak"
 
 msgid "Access control"
 msgstr "Sarbidea"
+
+msgid ""
+"Automatically invite newly created users to this team based on their e-mail "
+"address. Users join only after accepting the invitation."
+msgstr ""
 
 msgid ""
 "Automatically add newly created users to this team based on their e-mail "
@@ -10696,6 +10939,11 @@ msgstr ""
 
 msgid "Add"
 msgstr "Gehitu"
+
+#, fuzzy
+#| msgid "Project / Component"
+msgid "Moved component"
+msgstr "Proiektua / Osagaia"
 
 msgid "All components"
 msgstr "Osagai guztiak"
@@ -11087,6 +11335,27 @@ msgstr ""
 msgid ""
 "Verification failed. Enable JavaScript, workers, and cookies, then retry. "
 "You can also sign in."
+msgstr ""
+
+msgid "The challenge expired. Retry to start a new challenge."
+msgstr ""
+
+msgid "This challenge was already used. Retry to start a new challenge."
+msgstr ""
+
+msgid "Browser verification was unsuccessful. Please retry."
+msgstr ""
+
+msgid "Browser verification could not be confirmed. Enable cookies and retry."
+msgstr ""
+
+#, fuzzy
+#| msgid "Activation e-mail will be sent here."
+msgid ""
+"The verification service is temporarily unavailable. Please retry later."
+msgstr "Aktibazio e-maila hona bidaliko da."
+
+msgid "Verification cookies could not be confirmed. Enable cookies and retry."
 msgstr ""
 
 msgid "JavaScript is required for anonymous access. You can sign in instead."
@@ -12676,6 +12945,37 @@ msgstr ""
 msgid "Digest: %(notification_name)s"
 msgstr ""
 
+#, python-format
+msgid ""
+"Somebody requested to add this e-mail address to another account at "
+"%(site_title)s. This address is already associated with an account and "
+"cannot be added to another."
+msgstr ""
+
+msgid ""
+"If you intended to access the existing account, sign out and use password "
+"recovery. The button below opens the password reset form; it does not reset "
+"your password."
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Open password recovery"
+msgstr "Oraingo pasahitza"
+
+msgid "Contact support for help moving this address between accounts."
+msgstr ""
+
+msgid ""
+"If you did not request this, you can ignore this e-mail. Your account has "
+"not been changed."
+msgstr ""
+
+#. Translators: e-mail subject
+#, python-format
+msgid "E-mail address already associated with an account on %(site_title)s"
+msgstr ""
+
 #, fuzzy
 #| msgid "Authentication"
 msgid "View invitation"
@@ -12686,6 +12986,10 @@ msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
 msgstr[0] ""
 msgstr[1] ""
+
+#, python-format
+msgid "Automatic team assignment: invitation to join %(team_name)s"
+msgstr ""
 
 #. Translators: e-mail subject
 #, python-format
@@ -12938,6 +13242,11 @@ msgstr ""
 msgid "Confirm invitation"
 msgstr "Oraingo pasahitza"
 
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Verify e-mail address"
+msgstr "Kontuaren helbide-elektronikoa erabili"
+
 msgid ""
 "Note: This notification has been truncated as there were over 100 entries."
 msgstr ""
@@ -13005,6 +13314,17 @@ msgstr ""
 #| msgid "Translation memory"
 msgid "Translation activity summary"
 msgstr "Itzulpen memoria"
+
+#, fuzzy, python-format
+#| msgid "Your languages"
+msgid "Verify this e-mail address for your account at %(site_title)s."
+msgstr "Zure hizkuntzak"
+
+#. Translators: e-mail subject
+#, fuzzy, python-format
+#| msgid "Use account e-mail address"
+msgid "Verify your e-mail address on %(site_title)s"
+msgstr "Kontuaren helbide-elektronikoa erabili"
 
 #, fuzzy
 #| msgid "Component lists"
@@ -13237,6 +13557,63 @@ msgstr "Osagaien aurkikuntza"
 msgid "Performance report"
 msgstr ""
 
+#, fuzzy
+#| msgid "Tweet this translation"
+msgid "Bot protection"
+msgstr "Txiokatu itzulpen hau"
+
+msgid ""
+"Issued challenges, requests requiring proof of work, and verification "
+"outcomes in hourly buckets. Counts are best-effort and can be lost during "
+"cache outages or eviction."
+msgstr ""
+
+#, fuzzy
+#| msgid "%(count)s translation"
+#| msgid_plural "%(count)s translations"
+msgid "Counters are unavailable."
+msgstr "itzulpen %(count)s"
+
+msgid "Outcome"
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Current hour"
+msgstr "Oraingo pasahitza"
+
+msgid "Previous 24 completed hours"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Issued challenges"
+msgstr "Itzulitako hizkuntzak"
+
+msgid "Requests requiring proof of work"
+msgstr ""
+
+msgid "Expired challenge"
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid image!"
+msgid "Invalid solution"
+msgstr "Irudi baliogabea!"
+
+#, fuzzy
+#| msgid "Download changes"
+msgid "Replayed challenge"
+msgstr "Aldaketak jaitzi"
+
+#, fuzzy
+#| msgid "Merge failure"
+msgid "CSRF failure"
+msgstr "Bateratze-hutsegitea"
+
+msgid "Service unavailable"
+msgstr ""
+
 msgid "Last occurrence"
 msgstr "Azken agerraldia"
 
@@ -13429,6 +13806,332 @@ msgstr "({method}:{name}) autentifikazioa kendu da."
 msgid "This repository is linked to:"
 msgstr ""
 
+#, fuzzy
+#| msgid "Current password"
+msgid "Confirm security action"
+msgstr "Oraingo pasahitza"
+
+#, python-format
+msgid "Selected %(count)s findings affecting %(accounts)s accounts."
+msgstr ""
+
+msgid ""
+"Disable the matching passwords, invalidate signed-in sessions, and revoke "
+"all API tokens. Users with an e-mail address will be notified. Single sign-"
+"on and two-factor settings are preserved. Accounts whose passwords have "
+"changed will be skipped."
+msgstr ""
+
+msgid ""
+"Remove the selected lookalike verified e-mail addresses and associated sign-"
+"in identities, disable account passwords, invalidate sessions, and revoke "
+"API tokens. Account owners will be notified at their primary e-mail address."
+msgstr ""
+
+msgid ""
+"Dismiss the selected findings without changing credentials or notifying "
+"users. A new report confirming the same exposure can reopen them."
+msgstr ""
+
+#, fuzzy
+#| msgid "New password"
+msgid "Reset passwords"
+msgstr "Pasahitz berria"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Remove identities and reset accounts"
+msgstr "Kendu kontua"
+
+#, fuzzy
+#| msgid "Unwatch project %(project)s"
+msgid "Dismiss findings"
+msgstr "Utzi %(project)s proiektua zaintzeari"
+
+#, python-format
+msgid "Security finding for %(username)s"
+msgstr ""
+
+msgid "CSV row"
+msgstr ""
+
+#, fuzzy
+#| msgid "User agent"
+msgid "Identifier"
+msgstr "Erabiltzaile-agentea"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Matching method"
+msgstr "Jatorrizko kateak"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "No matching row details."
+msgstr "Jatorrizko kateak"
+
+#, python-format
+msgid "Page %(number)s of %(total)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "Source code repository"
+msgid "Detected in reports"
+msgstr "Iturburu kodearen biltegia"
+
+#, fuzzy
+#| msgid "Authentication"
+msgid "Administrator"
+msgstr "Autentifikazioa"
+
+#, fuzzy
+#| msgid "Authentication"
+msgid "Deleted administrator"
+msgstr "Autentifikazioa"
+
+msgid "No validation reports for this finding."
+msgstr ""
+
+#, python-format
+msgid "Reports page %(number)s of %(total)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "Download"
+msgid "Previous reports"
+msgstr "Deskargatu"
+
+#, fuzzy
+#| msgid "Download"
+msgid "Next reports"
+msgstr "Deskargatu"
+
+#, fuzzy
+#| msgid "Edit component settings"
+msgid "Account security findings"
+msgstr "Editatu osagaien ezarpenak"
+
+#, fuzzy
+#| msgid "Translations"
+msgid "Validation reports"
+msgstr "Itzulpenak"
+
+#, fuzzy
+#| msgid "Full name"
+msgid "Filename"
+msgstr "Izen osoa"
+
+#, fuzzy
+#| msgid "Project name"
+msgid "Not recorded"
+msgstr "Proiektuaren izena"
+
+#, fuzzy
+#| msgid "Submit"
+msgid "Submitted by"
+msgstr "Bidali"
+
+msgid "Processing summary"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password reset almost complete"
+msgid "Password validation completed."
+msgstr "Pasahitza berrezartzea bukatzear"
+
+msgid "Legacy e-mail identity check completed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Authentication"
+msgid "Security action completed."
+msgstr "Autentifikazioa"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Processing failed."
+msgstr "Jatorrizko kateak"
+
+msgid "Processing is not complete. Findings may still be added."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "View progress"
+msgstr "Itzulitako hizkuntzak"
+
+#, python-format
+msgid "Processed %(processed)s of %(total)s entries."
+msgstr ""
+
+#, fuzzy
+#| msgid "Gettext PO file (unwrapped)"
+msgid "Finding type"
+msgstr "Gettext PO fitxategia (bildu gabe)"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Filter"
+msgstr "Jatorrizko kateak"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Actions apply only to checked findings on this page."
+msgstr "Jatorrizko kateak"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Select all on this page"
+msgstr "Jatorrizko kateak"
+
+#, fuzzy
+#| msgid "Projects"
+msgid "Clear selection"
+msgstr "Proiektuak"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Finding"
+msgstr "Jatorrizko kateak"
+
+#, python-format
+msgid "Select finding for %(username)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "Account activity"
+msgid "Inactive"
+msgstr "Kontuaren jarduera"
+
+#, fuzzy
+#| msgctxt "Short name of month"
+#| msgid "Nov"
+msgid "Bot"
+msgstr "Aza"
+
+msgid "No e-mail address: notification unavailable"
+msgstr ""
+
+#, fuzzy
+#| msgid "Date joined"
+msgid "Date joined:"
+msgstr "Elkartze-data"
+
+#, fuzzy
+#| msgid "Comments"
+msgid "Last sign-in:"
+msgstr "Iruzkinak"
+
+#, python-format
+msgid "Row %(row)s: %(identifier)s (%(method)s)"
+msgstr ""
+
+#, python-format
+msgid "View details (%(count)s match)"
+msgid_plural "View details (%(count)s matches)"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "First detected:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Start date"
+msgid "Last detected:"
+msgstr "Hasiera-data"
+
+msgid "No security findings match these filters."
+msgstr ""
+
+msgid "Remove lookalike e-mail identities and reset selected accounts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Reset passwords for selected accounts"
+msgstr "Kendu kontua"
+
+msgid "Dismiss selected findings"
+msgstr ""
+
+msgid ""
+"Dismissing findings marks them as reviewed without changing passwords or "
+"notifying users."
+msgstr ""
+
+#, fuzzy
+#| msgid "Edit component settings"
+msgid "Account security operation"
+msgstr "Editatu osagaien ezarpenak"
+
+msgid "Processing progress"
+msgstr ""
+
+#, fuzzy
+#| msgid "Repositories limit"
+msgid "Refresh progress"
+msgstr "Biltegien muga"
+
+msgid ""
+"Review previous credential validation reports, including reports with no "
+"matching passwords."
+msgstr ""
+
+#, fuzzy
+#| msgid "Download"
+msgid "Upload report"
+msgstr "Deskargatu"
+
+msgid "Processed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Matching rows"
+msgstr "Jatorrizko kateak"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Affected accounts"
+msgstr "Kendu kontua"
+
+#, python-format
+msgid "%(processed)s of %(total)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "Activation e-mail will be sent here."
+msgid "No validation reports yet."
+msgstr "Aktibazio e-maila hona bidaliko da."
+
+msgid ""
+"Upload a CSV containing usernames or e-mail addresses and passwords. "
+"Passwords are checked in the background and never displayed in the report."
+msgstr ""
+
+msgid ""
+"Reports must use UTF-8 and contain at most 50,000 rows and 10 MiB. Leave the "
+"delimiter and column numbers blank for automatic detection."
+msgstr ""
+
+msgid ""
+"The uploaded file is available for one hour. Adjust the CSV settings below "
+"to try again."
+msgstr ""
+
+msgid "CSV format (detected automatically)"
+msgstr ""
+
+#, fuzzy
+#| msgid "New password"
+msgid "Validate passwords"
+msgstr "Pasahitz berria"
+
+#, fuzzy
+#| msgid "New password"
+msgid "Validate leaked passwords"
+msgstr "Pasahitz berria"
+
 msgid "Activate support package"
 msgstr ""
 
@@ -13578,6 +14281,20 @@ msgstr "Autentifikazioa"
 msgid "Check user access"
 msgstr ""
 
+#, fuzzy
+#| msgid "Account activity"
+msgid "Account security"
+msgstr "Kontuaren jarduera"
+
+#, python-format
+msgid "Security report (%(security_findings_open)s open findings)"
+msgstr ""
+
+msgid ""
+"Validate a CSV report of leaked credentials against current account "
+"passwords."
+msgstr ""
+
 msgid "Add workspace"
 msgstr ""
 
@@ -13611,9 +14328,6 @@ msgstr ""
 #| msgid "Translated languages"
 msgid "Displayed languages"
 msgstr "Itzulitako hizkuntzak"
-
-msgid "Choose"
-msgstr ""
 
 #, fuzzy
 #| msgid "Translation key"
@@ -14275,11 +14989,6 @@ msgstr[0] "Osagai guztiak"
 msgstr[1] "Osagai guztiak"
 
 #, fuzzy
-#| msgid "Source strings"
-msgid "Filter"
-msgstr "Jatorrizko kateak"
-
-#, fuzzy
 #| msgid "Per file"
 msgid "Clear filters"
 msgstr "Fitxategiaren arabera"
@@ -14677,6 +15386,19 @@ msgstr "Itzulpenak"
 
 #, python-format
 msgid ""
+"An automatic team assignment rule invited you to collaborate on "
+"%(project_name)s and join the %(team_name)s team. You will join only if you "
+"accept this invitation."
+msgstr ""
+
+#, python-format
+msgid ""
+"An automatic team assignment rule invited you to join the %(team_name)s team "
+"in %(workspace_name)s. You will join only if you accept this invitation."
+msgstr ""
+
+#, python-format
+msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
 "on %(project_name)s and join the %(team_name)s team."
 msgstr ""
@@ -14722,6 +15444,11 @@ msgstr ""
 #| msgid "Locations"
 msgid "View notification"
 msgstr "Kokalekuak"
+
+#, fuzzy
+#| msgid "Download changes"
+msgid "View full change"
+msgstr "Aldaketak jaitzi"
 
 msgid "No matching activity found."
 msgstr ""
@@ -15409,6 +16136,13 @@ msgstr ""
 msgid "You are about to continue removing your Weblate account."
 msgstr ""
 
+#, fuzzy
+#| msgid "You can not complete registration while signed in."
+msgid ""
+"You are about to continue adding this e-mail address to your existing "
+"Weblate account."
+msgstr "Ezin duzu izena eman saioa hasita duzun bitartean."
+
 msgid "You are about to accept an invitation and create a Weblate account."
 msgstr ""
 
@@ -15429,6 +16163,11 @@ msgstr "Oraingo pasahitza"
 #| msgid "Username or email"
 msgid "Continue account removal"
 msgstr "Erabiltzaile-izena edo e-maila"
+
+#, fuzzy
+#| msgid "Instant notification"
+msgid "Continue e-mail verification"
+msgstr "Berehalako jakinarazpena"
 
 #, fuzzy
 #| msgid "Authentication"
@@ -15525,11 +16264,6 @@ msgstr "Iturburu kodearen biltegia"
 #| msgid "Watched translations"
 msgid "Weblate CDN add-on could not parse the HTML files."
 msgstr "Ikuskatutako itzulpenak"
-
-#, fuzzy
-#| msgid "Full name"
-msgid "Filename"
-msgstr "Izen osoa"
 
 msgid ""
 "The local repository checkout or its Git directory is missing. Repeated "
@@ -16074,6 +16808,11 @@ msgstr ""
 msgid "Go"
 msgstr ""
 
+#, fuzzy
+#| msgid "Changed license"
+msgid "Change details"
+msgstr "Lizentzia aldaketa"
+
 msgid "Download latest changes as CSV"
 msgstr ""
 
@@ -16185,9 +16924,6 @@ msgstr ""
 #| msgid "Project / Component"
 msgid "Add or configure account"
 msgstr "Proiektua / Osagaia"
-
-msgid "Branch"
-msgstr ""
 
 #, fuzzy
 #| msgid "Changed by user"
@@ -16500,9 +17236,6 @@ msgstr ""
 #| msgid "Source strings"
 msgid "Edit source"
 msgstr "Jatorrizko kateak"
-
-msgid "Cancel"
-msgstr ""
 
 msgid "Learn more about pushing changes from Weblate."
 msgstr ""
@@ -16948,6 +17681,11 @@ msgstr ""
 #| msgid "Download"
 msgid "Quick downloads"
 msgstr "Deskargatu"
+
+msgid ""
+"Original files can contain contributor identities and require additional "
+"permission. Use a generated export below for offline translation."
+msgstr ""
 
 msgid "File in original format as translated in the repository"
 msgstr ""
@@ -17833,11 +18571,6 @@ msgid "A component was moved within a project."
 msgstr "Osagai guztiak"
 
 #, fuzzy
-#| msgid "Project / Component"
-msgid "Moved component"
-msgstr "Proiektua / Osagaia"
-
-#, fuzzy
 #| msgid "Watched translations"
 msgid "A user made their first contribution to a translation."
 msgstr "Ikuskatutako itzulpenak"
@@ -18685,6 +19418,17 @@ msgid ""
 "form strings."
 msgstr ""
 
+#, fuzzy
+#| msgid "Watched translations"
+msgid ""
+"Automatic translation lost its database connection. Please try again later."
+msgstr "Ikuskatutako itzulpenak"
+
+msgid ""
+"Automatic translation is already running for this translation. Please try "
+"again later."
+msgstr ""
+
 #, fuzzy, python-format
 #| msgid "Watched translations"
 msgid "Automatic translation failed: %s"
@@ -18898,6 +19642,10 @@ msgstr "Irudi baliogabea!"
 msgid "Choose either replacement or clearing translations."
 msgstr "Txiokatu itzulpen hau"
 
+#, python-format
+msgid "Bulk edits are limited to %(limit)d strings. Narrow the search query."
+msgstr ""
+
 #, fuzzy
 #| msgid "All components"
 msgid "The component was automatically locked because of an alert."
@@ -18965,6 +19713,9 @@ msgstr ""
 #| msgid "Personal info"
 msgid "New revision: {}"
 msgstr "Informazio pertsonala"
+
+msgid "Content is too long to show in the change list."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "%(count)s translation"
@@ -19100,6 +19851,12 @@ msgstr "Ikuskatutako itzulpenak"
 #| msgid "Translation key"
 msgid "{filename} ({parameter}) does not exist."
 msgstr "Itzulpen gakoa"
+
+#. Translators: condensed rendering of a change action in history
+#, fuzzy, python-format
+#| msgid "Download translation as TMX"
+msgid "%(action)s at %(time)s on %(translation)s"
+msgstr "Deskargatu itzulpena TMX gisa"
 
 #. Translators: %s is site title here
 #, fuzzy, python-format
@@ -19282,6 +20039,49 @@ msgid "MAC (\\r)"
 msgstr ""
 
 msgid "Include closing tag for blank XML tags"
+msgstr ""
+
+msgid "UTF-8 byte order mark"
+msgstr ""
+
+msgid "Preserve input"
+msgstr ""
+
+msgid "Always include"
+msgstr ""
+
+msgid "Always omit"
+msgstr ""
+
+msgid ""
+"Controls the UTF-8 byte order mark. Other encodings are unchanged. New files "
+"without a template omit the mark when preserving input."
+msgstr ""
+
+msgid "XML declaration encoding case"
+msgstr ""
+
+#, fuzzy
+#| msgid "Somali"
+msgid "Format default"
+msgstr "somaliera"
+
+msgid "Uppercase"
+msgstr ""
+
+msgid "Lowercase"
+msgstr ""
+
+msgid ""
+"Controls encoding names in the XML declaration, for example \"UTF-8\" or "
+"\"utf-8\"."
+msgstr ""
+
+msgid "XML final newline"
+msgstr ""
+
+msgid ""
+"Controls the newline at the end of the file, using the format's line endings."
 msgstr ""
 
 msgid "Whitespace handling"
@@ -19947,6 +20747,9 @@ msgid "Maximum changes per day"
 msgstr ""
 
 msgid "Maximum source words per day"
+msgstr ""
+
+msgid "This component does not exist or you cannot access it."
 msgstr ""
 
 #, fuzzy
@@ -20809,12 +21612,6 @@ msgstr "Osagaien zerrenda"
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
 
-#. Translators: condensed rendering of a change action in history
-#, fuzzy, python-format
-#| msgid "Download translation as TMX"
-msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "Deskargatu itzulpena TMX gisa"
-
 msgctxt "Change origin badge"
 msgid "API"
 msgstr ""
@@ -21507,6 +22304,11 @@ msgid ""
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
 
+#, fuzzy
+#| msgid "Watched translations"
+msgid "The file mask is too complex and took too long to evaluate."
+msgstr "Ikuskatutako itzulpenak"
+
 msgid ""
 "A component can not be restricted while its project uses shared translation "
 "memory."
@@ -22192,6 +22994,30 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "Bulk edit parameters are no longer valid."
+msgstr ""
+
+#, python-format
+msgid "Bulk edit failed after processing %(count)d strings: %(error)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password has been changed."
+msgid "The target or permissions changed."
+msgstr "Pasahitza aldatu da."
+
+#, python-format
+msgid ""
+"Bulk edit failed after processing %(count)d strings. Earlier batches may "
+"have been applied."
+msgstr ""
+
+#, python-format
+msgid "Bulk edit completed, %d string was updated."
+msgid_plural "Bulk edit completed, %d strings were updated."
+msgstr[0] ""
+msgstr[1] ""
+
 #, fuzzy
 #| msgid "Watched translations"
 msgid "Automatic translation skipped because the target no longer exists."
@@ -22498,6 +23324,9 @@ msgstr "Osagai guztiak"
 msgid "You can not block yourself on this project."
 msgstr "Osagai guztiak"
 
+msgid "Remove project administration rights before blocking this user."
+msgstr ""
+
 #, fuzzy
 #| msgid "All components"
 msgid "User has been blocked on this project."
@@ -22556,6 +23385,11 @@ msgid_plural ""
 "check the components' configuration."
 msgstr[0] "Zure hizkuntzak"
 msgstr[1] "Zure hizkuntzak"
+
+#, fuzzy
+#| msgid "Tweet this translation"
+msgid "You do not have permission to add this language."
+msgstr "Txiokatu itzulpen hau"
 
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
@@ -22859,12 +23693,22 @@ msgstr ""
 msgid "All components are now locked for translation updates!"
 msgstr ""
 
+#, fuzzy
+#| msgid "Tweet this translation"
+msgid "Allowed components are now locked for translation updates!"
+msgstr "Txiokatu itzulpen hau"
+
 msgid "Component is now open for translation updates."
 msgstr ""
 
 #, fuzzy
 #| msgid "Tweet this translation"
 msgid "All components are now open for translation updates."
+msgstr "Txiokatu itzulpen hau"
+
+#, fuzzy
+#| msgid "Tweet this translation"
+msgid "Allowed components are now open for translation updates."
 msgstr "Txiokatu itzulpen hau"
 
 msgid "Generating report…"
@@ -22949,6 +23793,11 @@ msgstr ""
 msgid "Invalid search query!"
 msgstr ""
 
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "Too many bulk edits, please try again later."
+msgstr "Mezu gehiegi bidali dira, mesedez, saia zaitez berriro geroago."
+
 msgid "The preview has expired or is invalid. Preview the changes again."
 msgstr ""
 
@@ -22957,6 +23806,11 @@ msgstr ""
 msgid "Could not process form!"
 msgstr "Iturburu kodearen biltegia"
 
+#, fuzzy
+#| msgid "Source strings"
+msgid "Bulk edit in progress."
+msgstr "Jatorrizko kateak"
+
 #, fuzzy, python-format
 #| msgid "Authentication"
 msgid "Bulk edit failed: %s"
@@ -22964,12 +23818,6 @@ msgstr "Autentifikazioa"
 
 msgid "Bulk edit completed, no strings were updated."
 msgstr ""
-
-#, python-format
-msgid "Bulk edit completed, %d string was updated."
-msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] ""
-msgstr[1] ""
 
 msgid "Settings saved"
 msgstr ""
@@ -23292,6 +24140,15 @@ msgstr "Ikuskatutako itzulpenak"
 #| msgid "Watched translations"
 msgid "Automatic translation reported a warning."
 msgstr "Ikuskatutako itzulpenak"
+
+#, fuzzy
+#| msgid ""
+#| "Automatically translates strings using machine translation or other "
+#| "components."
+msgid "Automatic translation is waiting for another operation to finish."
+msgstr ""
+"Kateak automatikoki itzultzen ditu itzulpengintza automatikoa edo beste "
+"osagaietaz baliatuta."
 
 #, fuzzy
 #| msgid "Watched translations"
@@ -23777,6 +24634,9 @@ msgid "Fediverse URL should link to a Fediverse user profile."
 msgstr ""
 
 msgid "URL domain is not allowed."
+msgstr ""
+
+msgid "AMQP broker URLs must not contain query strings or fragments."
 msgstr ""
 
 #, fuzzy
@@ -24803,6 +25663,70 @@ msgid ""
 "there is room for a full menu."
 msgstr ""
 
+#, fuzzy
+#| msgid "Download"
+msgid "CSV report"
+msgstr "Deskargatu"
+
+#, fuzzy
+#| msgid "Languages limit"
+msgid "Delimiter"
+msgstr "Hizkuntzen muga"
+
+msgid ""
+"Leave blank to detect automatically. Use a comma, semicolon, pipe, or \\t "
+"for a tab."
+msgstr ""
+
+msgid "First row contains column names"
+msgstr ""
+
+#, fuzzy
+#| msgid "Username or e-mail"
+msgid "Username or e-mail column"
+msgstr "Erabiltzaile-izena edo e-maila"
+
+#, fuzzy
+#| msgid "Password"
+msgid "Password column"
+msgstr "Pasahitza"
+
+msgid ""
+"Specify both column numbers, or leave both blank for automatic detection."
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Configuring"
+msgstr "Oraingo pasahitza"
+
+msgid "Running"
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project / Component"
+msgid "Resolved"
+msgstr "Proiektua / Osagaia"
+
+#, fuzzy
+#| msgid "Authentication"
+msgid "Dismissed by administrator"
+msgstr "Autentifikazioa"
+
+msgid "Lookalike e-mail identity removed"
+msgstr ""
+
+msgid "E-mail identity already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Password already changed"
+msgstr "Pasahitza aldatu da."
+
 #. Translators: The Weblate server has no paid support by the Weblate team
 msgid "Community support"
 msgstr "Komunitatearen laguntza"
@@ -24870,11 +25794,184 @@ msgstr ""
 msgid "Repository initialization"
 msgstr "Txiokatu itzulpen hau"
 
+#, fuzzy
+#| msgid "New password"
+msgid "Leaked password"
+msgstr "Pasahitz berria"
+
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Lookalike verified e-mail address"
+msgstr "Kontuaren helbide-elektronikoa erabili"
+
+msgid "The uploaded report has expired. Upload it again."
+msgstr ""
+
+msgid ""
+"Could not detect the credential columns. Configure their column numbers."
+msgstr ""
+
+msgid "Choose different identifier and password columns."
+msgstr ""
+
+msgid "The report exceeds the 10 MiB limit."
+msgstr ""
+
+msgid "Upload a UTF-8 encoded CSV file."
+msgstr ""
+
+msgid ""
+"Could not detect the delimiter. Configure the CSV columns and delimiter."
+msgstr ""
+
+msgid "Choose a single delimiter character."
+msgstr ""
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "The file contains malformed CSV quoting."
+msgstr "Ikuskatutako itzulpenak"
+
+#, fuzzy
+#| msgid "Translation key"
+msgid "The report is empty."
+msgstr "Itzulpen gakoa"
+
+msgid "The report exceeds the 50,000 row limit."
+msgstr ""
+
+msgid "The report contains no credential rows."
+msgstr ""
+
+#, fuzzy
+#| msgid "Tweet this translation"
+msgid ""
+"The initiating administrator no longer has permission to perform this "
+"operation."
+msgstr "Txiokatu itzulpen hau"
+
+msgid ""
+"The security operation failed. Review any findings already recorded and "
+"start a new operation."
+msgstr ""
+
+msgid "Security report"
+msgstr ""
+
+#, python-format
+msgid "Report from %(date)s"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "All components"
+msgid "%(filename)s — %(report)s"
+msgstr "Osagai guztiak"
+
+msgid ""
+"Your identity verification has expired. Confirm your identity, then select "
+"and upload the CSV report again."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "Could not store the encrypted upload. Try again."
+msgstr "Mezu gehiegi bidali dira, mesedez, saia zaitez berriro geroago."
+
+msgid "Choose a CSV report of at most 10 MiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "Could not read the uploaded report. Upload it again."
+msgstr "Mezu gehiegi bidali dira, mesedez, saia zaitez berriro geroago."
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords checked"
+msgstr "Pasahitza aldatu da."
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Duplicate rows"
+msgstr "Ikuskatutako itzulpenak"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Unknown accounts"
+msgstr "Kendu kontua"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Ambiguous accounts"
+msgstr "Kendu kontua"
+
+msgid "Malformed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "New password"
+msgid "Unusable passwords"
+msgstr "Pasahitz berria"
+
+msgid "Passwords that did not match"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password reset"
+msgid "Passwords reset"
+msgstr "Pasahitza berrezarri"
+
+msgid "Lookalike e-mail identities removed"
+msgstr ""
+
+msgid "E-mail identities already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords already changed"
+msgstr "Pasahitza aldatu da."
+
+#, fuzzy
+#| msgid "Unwatch project %(project)s"
+msgid "Dismissed findings"
+msgstr "Utzi %(project)s proiektua zaintzeari"
+
+#, fuzzy
+#| msgid "Authentication"
+msgid "Skipped findings"
+msgstr "Autentifikazioa"
+
+#, fuzzy
+#| msgid "Strings limit"
+msgid "Unsupported actions"
+msgstr "Kateen muga"
+
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Primary e-mail address"
+msgstr "Kontuaren helbide-elektronikoa erabili"
+
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Verified e-mail address"
+msgstr "Kontuaren helbide-elektronikoa erabili"
+
+#, fuzzy, python-format
+#| msgid "Managed projects"
+msgid "Finding for %(username)s"
+msgstr "Kudeatu proiektuak"
+
 msgid "Weblate administration"
 msgstr ""
 
 msgid "Object listing turned off"
 msgstr ""
+
+#, fuzzy
+#| msgid "The registration link has been invalidated."
+msgid "The security operation expired. Start a new operation."
+msgstr "Erregistrorako esteka baliogabetua izan da."
 
 #, fuzzy
 #| msgid "Watched translations"
@@ -25080,6 +26177,11 @@ msgid "The workspace has been removed."
 msgstr "Itzulpen gakoa"
 
 #, fuzzy
+#~| msgid "Authentication"
+#~ msgid "E-mail verification almost complete"
+#~ msgstr "Autentifikazioa"
+
+#, fuzzy
 #~| msgid "Component wide notifications"
 #~ msgid "Stop using this installation without removing its configuration."
 #~ msgstr "Osagaien mailako jakinarazpenak"
@@ -25237,16 +26339,6 @@ msgstr "Itzulpen gakoa"
 #~ msgstr "Baimenak"
 
 #, fuzzy
-#~| msgid "Download"
-#~ msgid "Download reports"
-#~ msgstr "Deskargatu"
-
-#, fuzzy
-#~| msgid "Translated languages"
-#~ msgid "Suggested change"
-#~ msgstr "Itzulitako hizkuntzak"
-
-#, fuzzy
 #~| msgid "Watched translations"
 #~ msgid ""
 #~ "The regular expression must define named groups for component and "
@@ -25306,11 +26398,6 @@ msgstr "Itzulpen gakoa"
 #~| msgid "Authentication ({method}:{name}) has been removed."
 #~ msgid "Pending translations in accessible repositories were committed."
 #~ msgstr "({method}:{name}) autentifikazioa kendu da."
-
-#, fuzzy
-#~| msgid "Authentication"
-#~ msgid "Activation completed."
-#~ msgstr "Autentifikazioa"
 
 #, fuzzy, python-format
 #~| msgid "Watched translations"
@@ -25651,9 +26738,6 @@ msgstr "Itzulpen gakoa"
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "Txiokatu itzulpen hau"
-
-#~ msgid "New contributor"
-#~ msgstr "Ekartzaile berria"
 
 #~ msgid "New announcement"
 #~ msgstr "Iragarpen berria"
@@ -26037,9 +27121,6 @@ msgstr "Itzulpen gakoa"
 #~| msgid "Watched translations"
 #~ msgid "Shows machine translation tab"
 #~ msgstr "Ikuskatutako itzulpenak"
-
-#~ msgid "Merge failure"
-#~ msgstr "Bateratze-hutsegitea"
 
 #, fuzzy
 #~| msgid "Watched translations"

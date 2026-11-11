@@ -257,7 +257,13 @@ management section at the bottom lets you export your user data (see
 :ref:`schema-userdata`), import settings, or remove your account.
 
 When you add an e-mail address, verification instructions are sent to the new
-address. If the new address already belongs to another account, that mailbox
+address; access to your old mailbox is not required. Open the verification link
+while signed in to the account where you requested it, then follow the
+confirmation steps. You may be asked for your current password.
+Adding an address does not change your account e-mail address. After verification,
+you can select the new address in the :guilabel:`Account` tab.
+
+If the new address already belongs to another account, that mailbox
 receives guidance on recovering access instead of a verification link. Sign out
 before recovering the other account.
 Contact support, when available, for help moving an address between accounts.

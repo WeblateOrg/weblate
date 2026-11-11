@@ -93,7 +93,9 @@
                       hidden>{% translate "Retry" %}</button>
             </form>
           </div>
-          <div class="search-results">{% include "screenshots/screenshot_sources_search.html" with result_kind="ocr" %}</div>
+          <div class="search-results">
+            {% include "screenshots/screenshot_sources_search.html" with result_kind="ocr" %}
+          </div>
           <div class="card-footer">
             <button class="btn btn-primary screenshots-add-selected"
                     id="screenshots-ocr-add-selected"
@@ -109,7 +111,9 @@
              aria-labelledby="screenshot-search-tab"
              tabindex="0"
              data-screenshot-results="search">
-          <div class="search-results">{% include "screenshots/screenshot_sources_search.html" with result_kind="search" %}</div>
+          <div class="search-results">
+            {% include "screenshots/screenshot_sources_search.html" with result_kind="search" %}
+          </div>
           <div class="card-footer">
             <div class="d-flex flex-column flex-xl-row gap-2 align-items-stretch">
               <form class="double-submission flex-grow-1"

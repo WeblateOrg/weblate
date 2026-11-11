@@ -64,7 +64,11 @@ from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
 from weblate.trans.backups import ProjectBackup, format_backup_error
 from weblate.trans.bulk import BulkReplacement
-from weblate.trans.component_creation import get_component_branches
+from weblate.trans.component_creation import (
+    get_accessible_repository_link,
+    get_component_branches,
+    validate_repository_link,
+)
 from weblate.trans.defines import (
     BRANCH_LENGTH,
     COMPONENT_NAME_LENGTH,
@@ -1771,8 +1775,8 @@ class UnitFlagsForm(FieldDocsMixin, forms.Form):
     def get_field_doc(self, field: forms.Field) -> tuple[str, str]:
         return ("admin/translating", "additional-flags")
 
-    def clean(self):
-        cleaned = super().clean()
+    def clean(self) -> dict[str, Any]:
+        cleaned = super().clean() or {}
         for name, target in self.targets.items():
             if (
                 self.fields[name].disabled
@@ -1781,6 +1785,12 @@ class UnitFlagsForm(FieldDocsMixin, forms.Form):
             ):
                 raise ValidationError(
                     gettext("You do not have permission to edit these flags.")
+                )
+            if name in cleaned and not target.can_set_extra_flags(
+                self.user, cleaned[name]
+            ):
+                self.add_error(
+                    name, gettext("You do not have permission to create terminology.")
                 )
         return cleaned
 
@@ -1818,6 +1828,14 @@ class ContextForm(FieldDocsMixin, forms.ModelForm):
 
     def get_field_doc(self, field: forms.Field) -> tuple[str, str] | None:
         return self.doc_links[field.name]
+
+    def clean_extra_flags(self) -> str:
+        flags = self.cleaned_data["extra_flags"]
+        if not self.instance.can_set_extra_flags(self.user, flags):
+            raise ValidationError(
+                gettext("You do not have permission to create terminology.")
+            )
+        return flags
 
     def __init__(
         self, data=None, instance=None, user=None, *, include_flags=True, **kwargs
@@ -2219,21 +2237,10 @@ class CleanRepoMixin:
     cleaned_data: dict[str, Any]
     request: AuthenticatedHttpRequest
 
-    def clean_repo(self):
+    def clean_repo(self) -> str | None:
         repo = self.cleaned_data.get("repo")
-        if not repo or not is_repo_link(repo) or "/" not in repo[10:]:
-            return repo
-        try:
-            obj = Component.objects.get_linked(repo)
-        except Component.DoesNotExist:
-            obj = None
-        if obj is None or not (
-            self.request.user.can_access_component(obj)
-            and self.request.user.has_perm("component.edit", obj)
-        ):
-            raise ValidationError(
-                gettext("This component does not exist or you cannot access it.")
-            )
+        if repo:
+            validate_repository_link(self.request.user, repo)
         return repo
 
 
@@ -2846,16 +2853,8 @@ class ComponentSettingsForm(
 
     def get_linked_repository_component(self) -> Component | None:
         repo = self.data.get("repo") if self.is_bound else self.instance.repo
-        if not repo:
-            return None
-        try:
-            component = Component.objects.get_linked(repo)
-        except (Component.DoesNotExist, ValueError):
-            return None
-        if component is None or not (
-            self.request.user.can_access_component(component)
-            and self.request.user.has_perm("vcs.view", component)
-        ):
+        component = get_accessible_repository_link(self.request.user, repo)
+        if component is None or not self.request.user.has_perm("vcs.view", component):
             return None
         return component
 
@@ -3259,7 +3258,20 @@ class ComponentBranchForm(ComponentSelectForm):
             raise ValidationError(error.messages) from error
 
 
-class ComponentProjectForm(ComponentNameForm):
+class ManagedProjectFormMixin:
+    request: AuthenticatedHttpRequest
+    cleaned_data: dict[str, Any]
+
+    def clean_project(self) -> Project:
+        project = self.cleaned_data["project"]
+        if not self.request.user.has_perm("project.edit", project):
+            raise ValidationError(
+                gettext("You do not have permission to edit this project.")
+            )
+        return project
+
+
+class ComponentProjectForm(ManagedProjectFormMixin, ComponentNameForm):
     project = forms.ModelChoiceField(
         queryset=Project.objects.none(), label=gettext_lazy("Project")
     )
@@ -3569,7 +3581,9 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
             )
 
 
-class ComponentRenameForm(SettingsBaseForm, ComponentDocsMixin):
+class ComponentRenameForm(
+    ManagedProjectFormMixin, SettingsBaseForm, ComponentDocsMixin
+):
     """Component rename form."""
 
     class Meta:
@@ -3584,7 +3598,7 @@ class ComponentRenameForm(SettingsBaseForm, ComponentDocsMixin):
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
-        self.fields["project"].queryset = request.user.managed_projects
+        self.fields["project"].queryset = request.user.accessible_managed_projects
         self.fields["category"].queryset = self.instance.project.category_set.all()
 
     def add_error(self, field: str | None, error) -> None:
@@ -3600,7 +3614,7 @@ class ComponentRenameForm(SettingsBaseForm, ComponentDocsMixin):
         super().add_error(field, error)
 
 
-class ComponentLinkAddForm(forms.Form):
+class ComponentLinkAddForm(ManagedProjectFormMixin, forms.Form):
     """Form for sharing a component into a project with an optional category."""
 
     project = forms.ModelChoiceField(
@@ -3616,13 +3630,23 @@ class ComponentLinkAddForm(forms.Form):
         label=gettext_lazy("Category"),
     )
 
-    def __init__(self, *args, request=None, component=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *args,
+        request: AuthenticatedHttpRequest | None = None,
+        component: Component | None = None,
+        **kwargs,
+    ) -> None:
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.disable_csrf = True
+        if request is not None:
+            self.request = request
         if request and component:
-            managed = request.user.managed_projects.exclude(pk=component.project_id)
+            managed = request.user.accessible_managed_projects.exclude(
+                pk=component.project_id
+            )
             self.fields["project"].queryset = managed
             self.fields["category"].queryset = Category.objects.filter(
                 project__in=managed
@@ -3672,7 +3696,7 @@ class ComponentLinkCategoryForm(forms.Form):
             ).order()
 
 
-class CategoryRenameForm(SettingsBaseForm):
+class CategoryRenameForm(ManagedProjectFormMixin, SettingsBaseForm):
     """Category rename form."""
 
     class Meta:
@@ -3687,7 +3711,7 @@ class CategoryRenameForm(SettingsBaseForm):
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
-        self.fields["project"].queryset = request.user.managed_projects
+        self.fields["project"].queryset = request.user.accessible_managed_projects
         self.fields["category"].queryset = self.instance.project.category_set.exclude(
             pk=self.instance.pk
         )
@@ -4218,7 +4242,11 @@ class ProjectImportCreateForm(ProjectCreateForm):
         fields = ("name", "slug", "workspace")
 
     def __init__(
-        self, request: AuthenticatedHttpRequest, projectbackup, *args, **kwargs
+        self,
+        request: AuthenticatedHttpRequest,
+        projectbackup: ProjectBackup,
+        *args,
+        **kwargs,
     ) -> None:
         kwargs["initial"] = {
             "name": projectbackup.data["project"]["name"],
@@ -4229,7 +4257,14 @@ class ProjectImportCreateForm(ProjectCreateForm):
         self.helper.layout = Layout(
             ContextDiv(
                 template="trans/project_import_info.html",
-                context={"projectbackup": projectbackup},
+                context={
+                    "projectbackup": projectbackup,
+                    "restricted_components": (
+                        projectbackup.get_restricted_components()
+                        if "weblate.billing" in settings.INSTALLED_APPS
+                        else []
+                    ),
+                },
             ),
             Field("name"),
             Field("slug"),
@@ -4479,10 +4514,7 @@ class GlossaryAddMixin(NewUnitBaseForm):
     )
 
     def can_edit_terminology(self) -> bool:
-        return bool(
-            self.user.has_perm("glossary.terminology", self.translation)
-            or self.translation.is_source
-        )
+        return bool(self.user.has_perm("glossary.terminology", self.translation))
 
     def patch_fields(self) -> None:
         super().patch_fields()
@@ -4510,7 +4542,7 @@ class GlossaryAddMixin(NewUnitBaseForm):
 class NewBilingualGlossarySourceUnitForm(GlossaryAddMixin, NewBilingualSourceUnitForm):
     def patch_fields(self) -> None:
         super().patch_fields()
-        self.fields["terminology"].initial = True
+        self.fields["terminology"].initial = self.can_edit_terminology()
 
 
 class NewBilingualGlossaryUnitForm(GlossaryAddMixin, NewBilingualUnitForm):
@@ -5013,12 +5045,14 @@ class ChangesForm(forms.Form):
     user = UserField(
         label=gettext_lazy("Author username"),
         required=False,
+        allow_email=False,
         help_text=None,
         widget=forms.TextInput(attrs={"data-contributor-autocomplete": "1"}),
     )
     exclude_user = UserField(
         label=gettext_lazy("Exclude author (username)"),
         required=False,
+        allow_email=False,
         help_text=None,
         widget=forms.TextInput(attrs={"data-contributor-autocomplete": "1"}),
     )
@@ -5315,8 +5349,8 @@ class ProjectUserGroupForm(ProjectMemberManageForm):
 
 
 class ProjectFilterForm(forms.Form):
-    owned = UserField(required=False)
-    watched = UserField(required=False)
+    owned = UserField(required=False, allow_email=False)
+    watched = UserField(required=False, allow_email=False)
 
 
 class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):

@@ -28,7 +28,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.db import DatabaseError, connection, transaction
-from django.test import SimpleTestCase, override_settings
+from django.test import Client, SimpleTestCase, override_settings
 from django.test.utils import CaptureQueriesContext, modify_settings
 from django.urls import reverse
 from django.utils import timezone
@@ -47,6 +47,7 @@ from weblate.auth.models import (
     get_anonymous,
 )
 from weblate.checks.models import Check
+from weblate.formats.base import UnitNotFoundError
 from weblate.lang.models import Language
 from weblate.memory.models import Memory, MemoryScope
 from weblate.memory.utils import CATEGORY_FILE, CATEGORY_PRIVATE_OFFSET
@@ -79,6 +80,7 @@ from weblate.trans.models import (
     Project,
     SavedSearch,
     Suggestion,
+    Translation,
     Unit,
     Vote,
     WorkflowSetting,
@@ -494,7 +496,7 @@ class BackupsTest(ReusableViewTestCase):
             transaction.atomic(),
             patch.object(Comment.objects, "bulk_create", side_effect=fail_later_chunk),
         ):
-            backup.restore_source_unit_batch(units, {}, None, {})
+            backup.restore_source_unit_batch(units, {}, None, {}, actor=self.user)
         self.assertEqual(calls, 2)
         self.assertEqual(
             (
@@ -550,7 +552,7 @@ class BackupsTest(ReusableViewTestCase):
             patch.object(backup, "restore_unit_metadata", side_effect=check_links),
             CaptureQueriesContext(connection) as queries,
         ):
-            backup.restore_source_unit_batch(units, {}, None, lookup)
+            backup.restore_source_unit_batch(units, {}, None, lookup, actor=self.user)
         updates = [
             query["sql"] for query in queries if query["sql"].startswith("UPDATE ")
         ]
@@ -574,6 +576,7 @@ class BackupsTest(ReusableViewTestCase):
             pending = PendingUnitChange.objects.get(unit=unit)
             self.assertEqual(pending.source_unit_explanation, unit.explanation)
             self.assertEqual(pending.author_id, get_anonymous().pk)
+            self.assertEqual(pending.get_actor(), self.user)
 
     def test_restore_source_units_flushes_partial_batch(self) -> None:
         source = self.component.source_translation
@@ -590,6 +593,7 @@ class BackupsTest(ReusableViewTestCase):
                 "comments": [],
                 "checks": [],
                 "suggestions": [],
+                "pending": True,
             }
             for index in range(5)
         ]
@@ -600,6 +604,7 @@ class BackupsTest(ReusableViewTestCase):
         ) as restore_batch:
             lookup = backup.restore_source_units(
                 {"units": items},
+                actor=self.user,
                 translation_lookup={source.pk: source},
                 source_translation_id=source.pk,
                 pending_unit_change_map=None,
@@ -610,11 +615,14 @@ class BackupsTest(ReusableViewTestCase):
         self.assertEqual(set(lookup), {item["id_hash"] for item in items})
         for unit in Unit.objects.filter(pk__in=lookup.values()):
             self.assertEqual(unit.source_unit_id, unit.pk)
+            self.assertEqual(unit.pending_changes.get().get_actor(), self.user)
 
     def test_restore_empty_source_batch(self) -> None:
         lookup = {123: 456}
         with self.assertNumQueries(0):
-            ProjectBackup().restore_source_unit_batch([], {}, None, lookup)
+            ProjectBackup().restore_source_unit_batch(
+                [], {}, None, lookup, actor=self.user
+            )
         self.assertEqual(lookup, {123: 456})
 
     def test_restore_legacy_pending_batches_authors(self) -> None:
@@ -634,7 +642,9 @@ class BackupsTest(ReusableViewTestCase):
         backup = ProjectBackup()
         for size in (1, len(units)):
             with self.subTest(size=size), self.assertNumQueries(2):
-                backup.restore_pending_unit_changes({}, units=units[:size])
+                backup.restore_pending_unit_changes(
+                    {}, units=units[:size], actor=self.user
+                )
         for index, unit in enumerate(units):
             pending = unit.pending_changes.order_by("-timestamp", "-pk").first()
             assert pending is not None
@@ -642,6 +652,7 @@ class BackupsTest(ReusableViewTestCase):
                 pending.author_id, author.pk if index == 0 else anonymous_id
             )
             self.assertEqual(pending.target, unit.target)
+            self.assertEqual(pending.get_actor(), self.user)
             self.assertEqual(unit.import_data, {"pending": True})
 
     def test_restore_legacy_pending_skips_nonpending_units(self) -> None:
@@ -650,7 +661,9 @@ class BackupsTest(ReusableViewTestCase):
         )
         unit.import_data = {"pending": False}
         with self.assertNumQueries(0):
-            ProjectBackup().restore_pending_unit_changes({}, units=[unit])
+            ProjectBackup().restore_pending_unit_changes(
+                {}, units=[unit], actor=self.user
+            )
 
     def test_restore_explicit_pending_author_is_authoritative(self) -> None:
         unit = (
@@ -683,13 +696,14 @@ class BackupsTest(ReusableViewTestCase):
             side_effect=AssertionError("Modern backup must use stored authors"),
         ):
             backup.restore_pending_unit_changes(
-                {"pending_unit_changes": [item]}, units=[unit]
+                {"pending_unit_changes": [item]}, units=[unit], actor=self.anotheruser
             )
             backup.restore_pending_unit_changes(
-                {"pending_unit_changes": []}, units=[unit]
+                {"pending_unit_changes": []}, units=[unit], actor=self.anotheruser
             )
         pending = unit.pending_changes.get(target="Restored pending target")
         self.assertEqual(pending.author_id, self.user.pk)
+        self.assertEqual(pending.get_actor(), self.anotheruser)
 
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     def test_restore_rechecks_full_billing_workspace(self) -> None:
@@ -722,6 +736,107 @@ class BackupsTest(ReusableViewTestCase):
             Project.objects.filter(slug="rejected-billed-restore").exists()
         )
         self.assertEqual(Project.objects.filter(workspace=billing.workspace).count(), 1)
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_restore_public_plan_normalizes_restricted_components(self) -> None:
+        Project.objects.filter(pk=self.project.pk).update(
+            access_control=Project.ACCESS_PRIVATE,
+            use_shared_tm=False,
+            contribute_shared_tm=False,
+        )
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        self.project.refresh_from_db()
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        self.assertIn(self.component.slug, restore.get_restricted_components())
+        cases = (
+            ("public-user", False, False, True),
+            ("public-admin", False, True, True),
+            ("private-plan", True, False, True),
+            ("unbilled-workspace", None, False, True),
+            ("standalone", None, False, False),
+        )
+        for slug, allows_private, superuser, in_workspace in cases:
+            with self.subTest(slug=slug):
+                billing = (
+                    create_test_billing(self.user)
+                    if allows_private is not None
+                    else None
+                )
+                if billing is not None:
+                    assert allows_private is not None
+                    billing.plan.change_access_control = allows_private
+                    billing.plan.name = slug
+                    billing.plan.slug = slug
+                    billing.plan.save(
+                        update_fields=["change_access_control", "name", "slug"]
+                    )
+                workspace = (
+                    billing.workspace
+                    if billing is not None
+                    else Workspace.objects.create(name=slug)
+                    if in_workspace
+                    else None
+                )
+                self.user.is_superuser = superuser
+                project = restore.restore(
+                    project_name=slug,
+                    project_slug=slug,
+                    user=self.user,
+                    billing=billing,
+                    workspace=workspace,
+                )
+                component = project.component_set.get(slug=self.component.slug)
+                made_public = allows_private is False
+                self.assertEqual(component.restricted, not made_public)
+                self.assertEqual(
+                    project.access_control,
+                    Project.ACCESS_PUBLIC if made_public else Project.ACCESS_PRIVATE,
+                )
+                public_warnings = [
+                    warning
+                    for warning in restore.get_restore_warnings()
+                    if "restored as public" in warning
+                ]
+                if made_public:
+                    self.assertEqual(len(public_warnings), 1)
+                    self.assertIn(self.component.slug, public_warnings[0])
+                    self.assertEqual(
+                        Client().get(component.get_absolute_url()).status_code, 200
+                    )
+                else:
+                    self.assertEqual(public_warnings, [])
+                # Reusing the restore must not mutate input flags or retain old warnings.
+                self.assertIn(self.component.slug, restore.get_restricted_components())
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_import_preview_warns_before_exposing_restricted_components(self) -> None:
+        Project.objects.filter(pk=self.project.pk).update(
+            use_shared_tm=False, contribute_shared_tm=False
+        )
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        self.project.refresh_from_db()
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        billing = create_test_billing(self.user)
+        billing.plan.change_access_control = False
+        billing.plan.save(update_fields=["change_access_control"])
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        with open(backup.filename, "rb") as handle:
+            response = self.client.post(
+                reverse("create-project-import"),
+                {"zipfile": handle, "workspace": billing.workspace_id},
+                follow=True,
+            )
+        self.assertContains(response, "Public access on import")
+        self.assertContains(response, "publicly accessible after import")
+        self.assertContains(response, f"<li>{self.component.slug}</li>", html=True)
+        self.assertEqual(Project.objects.filter(workspace=billing.workspace).count(), 0)
+        # The notice remains accurate if a different workspace is selected below it.
+        self.assertContains(response, "If the selected workspace")
 
     def test_download_uses_configured_static_storage(self) -> None:
         storage = MagicMock()
@@ -1392,6 +1507,41 @@ class BackupsTest(ReusableViewTestCase):
             ).exists()
         )
 
+    def test_restored_pending_failure_preserves_actor_and_author(self) -> None:
+        translation = self.component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        unit.translate(self.user, "Restored pending target", STATE_TRANSLATED)
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        restore = ProjectBackup(backup.filename)
+        restore.IMPORT_BATCH_SIZE = 2
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored", project_slug="restored", user=self.anotheruser
+        )
+        component = restored.component_set.get(slug=self.component.slug)
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        pending = unit.pending_changes.get()
+        self.assertEqual(pending.get_actor(), self.anotheruser)
+        self.assertEqual(pending.author, self.user)
+
+        with (
+            acting_user_context(None),
+            patch.object(
+                Translation,
+                "find_or_restore_pending_store_unit",
+                side_effect=UnitNotFoundError,
+            ),
+            patch("weblate.trans.models.change.report_message") as report,
+        ):
+            component.commit_pending("test", None)
+        report.assert_not_called()
+        failure = unit.change_set.get(action=ActionEvents.SAVE_FAILED)
+        self.assertEqual(failure.user, self.anotheruser)
+        self.assertEqual(failure.author, self.user)
+
     def test_restore_creates_history_entries(self) -> None:
         backup = ProjectBackup()
         backup.backup_project(self.project)
@@ -1659,6 +1809,40 @@ class BackupsTest(ReusableViewTestCase):
             )
 
         refresh_lock.assert_called_once_with()
+
+    def test_backup_omits_nested_vcs_metadata(self) -> None:
+        root = Path(self.component.full_path)
+        working = root / "nested" / "translation.po"
+        working.parent.mkdir()
+        working.write_bytes(b"working translation")
+        for metadata in (".git", ".hg"):
+            nested = working.parent / metadata / "store"
+            nested.mkdir(parents=True)
+            (nested / "private-history").write_bytes(b"private history")
+        pointer = root / "pointer"
+        pointer.mkdir()
+        (pointer / ".git").write_bytes(b"gitdir: elsewhere")
+
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        prefix = f"vcs/{self.component.slug}/"
+        with ZipFile(backup.filename) as archive:
+            names = archive.namelist()
+            self.assertIn(f"{prefix}.git/HEAD", names)
+            self.assertEqual(
+                archive.read(f"{prefix}nested/translation.po"), b"working translation"
+            )
+            self.assertFalse(
+                any(name.startswith(f"{prefix}nested/.git/") for name in names)
+            )
+            self.assertFalse(
+                any(name.startswith(f"{prefix}nested/.hg/") for name in names)
+            )
+            self.assertNotIn(f"{prefix}pointer/.git", names)
+        self.assertTrue(
+            (root / "nested" / ".hg" / "store" / "private-history").exists()
+        )
 
     def test_backup_dir_refreshes_repository_lock_for_empty_file(self) -> None:
         backup = ProjectBackup()
@@ -3392,6 +3576,48 @@ class BackupsTest(ReusableViewTestCase):
                     ]
                 },
             )
+
+    @override_settings(VCS_RESTRICT_PRIVATE=True, VCS_ALLOW_HOSTS=[])
+    def test_restore_rejects_backend_disallowed_urls(self) -> None:
+        for field in ("repo", "push"):
+            with self.subTest(field=field):
+                filename = self.write_tampered_component_backup(
+                    component_updates={
+                        "vcs": "mercurial",
+                        field: "https://public.example/repo",
+                    },
+                )
+                with (
+                    remove_file_after(filename),
+                    patch(
+                        "weblate.utils.outbound.socket.getaddrinfo",
+                        side_effect=resolve_private_example,
+                    ),
+                    self.assertRaises(ValidationError) as error,
+                ):
+                    ProjectBackup(filename).validate()
+                self.assertIn(field, error.exception.message_dict)
+                self.assertIn(
+                    "This VCS backend cannot safely connect", str(error.exception)
+                )
+
+    def test_restore_allows_backend_trusted_hostname(self) -> None:
+        filename = self.write_tampered_component_backup(
+            component_updates={"vcs": "mercurial"},
+            repo="https://public.example/repo",
+            push="https://public.example/push",
+        )
+        with (
+            remove_file_after(filename),
+            override_settings(
+                VCS_RESTRICT_PRIVATE=True, VCS_ALLOW_HOSTS=["public.example"]
+            ),
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                side_effect=resolve_private_example,
+            ),
+        ):
+            ProjectBackup(filename).validate()
 
     def test_restore_rejects_invalid_revision_before_project_creation(self) -> None:
         for field in ("local_revision", "remote_revision"):

@@ -7,7 +7,12 @@ import os
 import shutil
 import stat
 from bisect import bisect_left
+from contextlib import suppress
+from dataclasses import dataclass, field
+from fnmatch import fnmatchcase
+from glob import has_magic
 from pathlib import Path, PurePosixPath, PureWindowsPath
+from time import monotonic
 from typing import TYPE_CHECKING
 
 from django.conf import settings
@@ -51,6 +56,84 @@ ARCHIVE_VCS_METADATA_NAMES = frozenset(
     )
 )
 REPO_TEMP_DIRNAME = "weblate-tmp"
+
+
+class PathMatchLimitError(Exception):
+    """Repository path matching exceeded its work or time budget."""
+
+
+@dataclass
+class PathMatchBudget:
+    """Shared budget for enumeration and subsequent match processing."""
+
+    max_work: int = 100_000
+    deadline: float = field(default_factory=lambda: monotonic() + 5)
+    work: int = 0
+
+    def check(self, work: int = 0) -> None:
+        self.work += work
+        if self.work > self.max_work:
+            msg = "File mask traversal work limit exceeded"
+            raise PathMatchLimitError(msg)
+        if monotonic() >= self.deadline:
+            msg = "File mask scan deadline exceeded"
+            raise PathMatchLimitError(msg)
+
+
+def bounded_glob(root: str, pattern: str, *, budget: PathMatchBudget) -> list[str]:
+    """Match a repository-relative mask without unbounded glob enumeration."""
+    budget.check()
+    root_path = Path(root)
+    try:
+        base = root_path.resolve(strict=True)
+        root_stat = base.stat()
+    except (OSError, RuntimeError):
+        budget.check()
+        return []
+    parts = pattern.split("/")
+    # Directory identities are branch-local: independent aliases remain valid.
+    directories = [(root_path, 0, frozenset({(root_stat.st_dev, root_stat.st_ino)}))]
+    matches: list[str] = []
+
+    def visit(path: Path, index: int, ancestors: frozenset[tuple[int, int]]) -> None:
+        budget.check(1)
+        try:
+            resolved = path.resolve(strict=True)
+            info = path.stat()
+        except (OSError, RuntimeError):
+            # Ignore inaccessible, disappearing, dangling, and looping links.
+            return
+        finally:
+            budget.check()
+        if not resolved.is_relative_to(base):
+            return
+        if is_managed_vcs_metadata_path(str(path.relative_to(root_path))) or (
+            is_managed_vcs_metadata_path(str(resolved.relative_to(base)))
+        ):
+            return
+        if index == len(parts) - 1:
+            matches.append(str(path))
+            return
+        identity = (info.st_dev, info.st_ino)
+        if stat.S_ISDIR(info.st_mode) and identity not in ancestors:
+            directories.append((path, index + 1, ancestors | {identity}))
+
+    while directories:
+        directory, index, ancestors = directories.pop()
+        budget.check(1)
+        segment = parts[index]
+        if not has_magic(segment):
+            visit(directory / segment, index, ancestors)
+            continue
+        with suppress(OSError), os.scandir(directory) as entries:
+            for entry in entries:
+                budget.check(1)
+                if entry.name.startswith(".") and not segment.startswith("."):
+                    continue
+                if fnmatchcase(entry.name, segment):
+                    visit(directory / entry.name, index, ancestors)
+    budget.check()
+    return matches
 
 
 class FileUploadMethod(TextChoices):

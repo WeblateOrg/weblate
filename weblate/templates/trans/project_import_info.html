@@ -7,3 +7,13 @@
   </p>
   <p class="help-block">{{ projectbackup.timestamp|naturaltime }}</p>
 </div>
+
+{% if restricted_components %}
+  <div class="alert alert-warning" role="alert">
+    <p><strong>{% translate "Public access on import" %}</strong></p>
+    <p>{% translate "If the selected workspace's billing plan requires public content, the project and the following restricted components will be publicly accessible after import:" %}</p>
+    <ul>
+      {% for component in restricted_components %}<li>{{ component }}</li>{% endfor %}
+    </ul>
+  </div>
+{% endif %}

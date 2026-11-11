@@ -29,7 +29,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.models.variant import Variant
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.tests.utils import get_test_actor
+from weblate.trans.tests.utils import create_another_user, get_test_actor
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.search import (
     MAX_SEARCH_QUERY_LENGTH,
@@ -1057,47 +1057,50 @@ class UserQueryParserTest(SearchTestCase):
         )
 
     def test_translates(self) -> None:
-        self.assert_query(
+        user = User.objects.create(is_superuser=True)
+        self.assert_query_sql(
             "translates:cs",
-            Q(change__language__code__iexact="cs"),
+            sql_contains=("EXISTS", '"user_id" = ("weblate_auth_user"."id")'),
+            params_contains=("cs",),
+            user=user,
         )
-        self.assert_query(
+        sql, _params = self.assert_query_sql(
             "translates:cs change_time:>'90 days ago'",
-            Q(change__language__code__iexact="cs")
-            & Q(
-                change__timestamp__gte=datetime.now(tz=UTC).replace(
-                    hour=0, minute=0, second=0, microsecond=0
-                )
-                - timedelta(days=90)
-            ),
+            sql_contains=("EXISTS", '"timestamp" >='),
+            params_contains=("cs",),
+            user=user,
         )
+        self.assertEqual(sql.count("EXISTS"), 1)
 
     def test_contributes(self) -> None:
         user = User.objects.create(is_superuser=True)
-        self.assert_query(
+        self.assert_query_sql(
             "contributes:test",
-            Q(change__project__slug__iexact="test")
-            & Q(change__project__in=user.allowed_projects),
+            sql_contains=("EXISTS", '"user_id" = ("weblate_auth_user"."id")'),
+            params_contains=("test",),
             user=user,
         )
-        self.assert_query(
+        self.assert_query_sql(
             "contributes:test/test",
-            Q(change__component_id__in=[])
-            & Q(change__project__in=user.allowed_projects),
+            sql_contains=("EXISTS", '"component_id"'),
+            params_contains=("test",),
             user=user,
         )
-        self.assert_query(
+        sql, _params = self.assert_query_sql(
             "contributes:test change_time:>'90 days ago'",
-            Q(change__project__slug__iexact="test")
-            & Q(change__project__in=user.allowed_projects)
-            & Q(
-                change__timestamp__gte=datetime.now(tz=UTC).replace(
-                    hour=0, minute=0, second=0, microsecond=0
-                )
-                - timedelta(days=90)
-            ),
+            sql_contains=("EXISTS", '"timestamp" >='),
+            params_contains=("test",),
             user=user,
         )
+        self.assertEqual(sql.count("EXISTS"), 1)
+        sql, _params = self.assert_query_sql(
+            "NOT contributes:test",
+            sql_contains=("NOT (EXISTS",),
+            params_contains=("test",),
+            exists=True,
+            user=user,
+        )
+        self.assertEqual(sql.count("EXISTS"), 1)
 
 
 class SuperuserQueryParserTest(UserQueryParserTest):
@@ -1405,6 +1408,48 @@ class SearchTest(ViewTestCase, SearchTestCase):
         )
         self.assertTrue(self.search_matches_unit(query, unit))
         self.assertTrue(self.search_matches_unit(grouped_query, unit))
+
+    def test_user_search_follows_change_visibility(self) -> None:
+        unit = self.get_unit()
+        contributor = self.anotheruser
+        outsider = create_another_user("-outsider")
+        Change.objects.create(user=contributor, unit=unit, action=ActionEvents.NEW)
+        queries = (
+            "translates:cs",
+            "change_action:translation-added",
+            "change_time:>'1 day ago'",
+            f"contributes:{self.project.slug}",
+            f"contributes:{self.component.full_slug}",
+        )
+
+        def matches(query: str, user: User) -> bool:
+            return (
+                User.objects.filter(pk=contributor.pk)
+                .search(query, parser="user", user=user)
+                .exists()
+            )
+
+        def assert_visibility(user: User, visible: bool) -> None:
+            user.clear_permissions_cache()
+            for query in queries:
+                with self.subTest(query=query, user=user.username, visible=visible):
+                    self.assertEqual(matches(query, user), visible)
+                    self.assertEqual(matches(f"NOT {query}", user), not visible)
+
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save()
+        self.project.add_user(contributor, "Administration")
+        assert_visibility(contributor, True)
+        assert_visibility(outsider, False)
+
+        self.project.access_control = Project.ACCESS_PUBLIC
+        self.project.save()
+        self.component.restricted = True
+        self.component.save()
+        contributor.is_superuser = True
+        contributor.save(update_fields=["is_superuser"])
+        assert_visibility(contributor, True)
+        assert_visibility(outsider, False)
 
     def test_glossary_empty(self) -> None:
         self.assert_query("has:glossary", Q(source__isnull=True), project=self.project)

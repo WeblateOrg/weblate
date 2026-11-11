@@ -14,6 +14,7 @@ from typing import TYPE_CHECKING
 import pytest
 from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory
+from lxml import etree
 
 from weblate.formats.base import EmptyFormat
 from weblate.formats.exporters import (
@@ -66,6 +67,7 @@ class ExporterTestMixin(ExporterTestBase):
     _class: type[BaseExporter] = PoExporter
     _has_context = True
     _has_comments = True
+    _default_context = ""
 
     def get_exporter(self, lang=None, **kwargs):
         if lang is None:
@@ -112,6 +114,7 @@ class ExporterTestMixin(ExporterTestBase):
         translation = Translation(language=lang, component=component, plural=plural)
         # Fake file format to avoid need for actual files
         translation.store = EmptyFormat(NamedBytesIO("", b""))
+        kwargs.setdefault("context", self._default_context)
         unit = Unit(translation=translation, id_hash=-1, pk=-1, **kwargs)
         if source_info:
             for key, value in source_info.items():
@@ -515,6 +518,92 @@ class XlsxExporterTest(ExporterTestMixin, BaseTestCase):
 class AndroidResourceExporterTest(ExporterTestMixin, BaseTestCase):
     _class = AndroidResourceExporter
     _has_comments = False
+    _default_context = "test_string"
+
+    def export_contexts(self, contexts: list[str], *, individual: bool = False):
+        exporter = self.get_exporter()
+        component = Component(
+            project=Project(slug="test"),
+            file_format="json",
+            source_language=Language.objects.get(code="en"),
+        )
+        translation = Translation(
+            component=component,
+            language=exporter.language,
+            plural=exporter.plural,
+        )
+        translation.store = EmptyFormat(NamedBytesIO("", b""))
+        units = []
+        for index, context in enumerate(contexts):
+            unit = Unit(
+                translation=translation,
+                source="source",
+                target=f"target {index}",
+                context=context,
+                id_hash=-1,
+                state=STATE_TRANSLATED,
+            )
+            unit.source_unit = unit
+            unit.__dict__["unresolved_comments"] = []
+            unit.__dict__["suggestions"] = []
+            units.append(unit)
+        if individual:
+            for unit in units:
+                exporter.add_unit(unit)
+        else:
+            exporter.add_units(units)
+        self.assertEqual([unit.context for unit in units], contexts)
+        return etree.fromstring(exporter.serialize())
+
+    def test_invalid_keys(self) -> None:
+        contexts = ["", "with spaces", "1leading_digit", "control\x01character"]
+        result = self.export_contexts(contexts)
+        self.assertEqual(len(result), len(contexts))
+        self.assertEqual(len({item.get("name") for item in result}), len(contexts))
+        for index, item in enumerate(result):
+            self.assertRegex(item.get("name"), r"^weblate_[a-f0-9]+(?:_[0-9]+)?$")
+            self.assertEqual(item.text, f"target {index}")
+        self.assertEqual(
+            etree.tostring(result), etree.tostring(self.export_contexts(contexts))
+        )
+
+    def test_valid_keys(self) -> None:
+        contexts = ["hello", "_private", "some.dotted-name"]
+        result = self.export_contexts(contexts)
+        self.assertEqual([item.get("name") for item in result], contexts)
+
+    def test_generated_key_collision(self) -> None:
+        generated = f"weblate_{Unit(id_hash=-1).checksum}"
+        for contexts in (["", generated], [generated, ""]):
+            with self.subTest(contexts=contexts):
+                result = self.export_contexts(contexts)
+                expected = [context or f"{generated}_2" for context in contexts]
+                self.assertEqual([item.get("name") for item in result], expected)
+                self.assertEqual(
+                    [item.text for item in result], ["target 0", "target 1"]
+                )
+
+    def test_individual_generated_key_collision(self) -> None:
+        generated = f"weblate_{Unit(id_hash=-1).checksum}"
+        result = self.export_contexts([generated, "", "invalid key"], individual=True)
+        self.assertEqual(
+            [item.get("name") for item in result],
+            [generated, f"{generated}_2", f"{generated}_3"],
+        )
+
+    def test_invalid_plural_key(self) -> None:
+        result = etree.fromstring(
+            self.check_unit(
+                nplurals=2,
+                context="",
+                source="one\x1e\x1eother",
+                target="first\x1e\x1esecond",
+                state=STATE_TRANSLATED,
+            )
+        )
+        self.assertEqual(result[0].tag, "plurals")
+        self.assertRegex(result[0].get("name", ""), r"^weblate_[a-f0-9]+$")
+        self.assertEqual([item.text for item in result[0]], ["first", "second"])
 
     def check_plurals(self, result) -> None:
         self.assertIn(b"<plural", result)

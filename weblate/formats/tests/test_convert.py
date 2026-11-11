@@ -15,10 +15,12 @@ from django.test import SimpleTestCase
 
 from weblate.formats.convert import (
     AsciiDocFormat,
+    DokuWikiFormat,
     HTMLFormat,
     IDMLFormat,
     MarkdownFormat,
     MDXFormat,
+    MediaWikiFormat,
     OpenDocumentFormat,
     PlainTextFormat,
     WindowsRCFormat,
@@ -28,11 +30,12 @@ from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.tests.test_formats import BaseFormatTest
 from weblate.trans.tests.factories import make_unit
 from weblate.trans.tests.utils import get_test_file
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
     from translate.storage.pypo import pofile
 
+    from weblate.formats.base import TranslationFormat
     from weblate.trans.file_format_params import FileFormatParams
     from weblate.trans.models import Unit
 
@@ -747,3 +750,119 @@ class WXLFormatTest(ConvertFormatTest):
   <String Id="WixUINext" Overridable="yes" Value="Nazdar"/>
 </WixLocalization>
 """
+
+
+class DatabaseBackedFormatTest(SimpleTestCase):
+    def test_pending_database_target_is_written(self) -> None:
+        for test_class, format_class in (
+            (HTMLFormatTest, HTMLFormat),
+            (MarkdownFormatTest, MarkdownFormat),
+            (MDXFormatTest, MDXFormat),
+            (AsciiDocFormatTest, AsciiDocFormat),
+            (PlainTextFormatTest, PlainTextFormat),
+            (PlainTextFormatTest, DokuWikiFormat),
+            (PlainTextFormatTest, MediaWikiFormat),
+            (WXLFormatTest, WXLFormat),
+        ):
+            with (
+                self.subTest(format=format_class.format_id),
+                TemporaryDirectory() as directory,
+            ):
+                source = Path(directory, "en")
+                target = Path(directory, "cs")
+                source.write_text(test_class.CONVERT_TEMPLATE, encoding="utf-8")
+                target.write_text(test_class.CONVERT_TRANSLATION, encoding="utf-8")
+                template: TranslationFormat = format_class(source, is_template=True)
+                excluded = make_unit(source="Bye", target="Excluded translation")
+                excluded.details["disk_state"] = {
+                    **excluded.get_comparison_state(),
+                    "target": "",
+                }
+                storage: TranslationFormat = format_class(
+                    target,
+                    template_store=template,
+                    existing_units=[
+                        make_unit(source="Hello", target="Updated translation"),
+                        excluded,
+                    ],
+                )
+                unit = storage.content_units[0]
+                self.assertEqual(unit.target, "Updated translation")
+                self.assertEqual(storage.content_units[1].target, "")
+                self.assertFalse(storage.can_compare_stored_content)
+                unit.set_target("Updated translation")
+                unit.set_state(STATE_TRANSLATED)
+                storage.save()
+                self.assertNotIn(b"Excluded translation", target.read_bytes())
+                reloaded: TranslationFormat = format_class(
+                    target, template_store=template
+                )
+                self.assertTrue(reloaded.can_compare_stored_content)
+                self.assertEqual(
+                    reloaded.content_units[0].target, "Updated translation"
+                )
+
+    def test_duplicate_sources_use_context_disk_snapshots(self) -> None:
+        with TemporaryDirectory() as directory:
+            source = Path(directory, "en.txt")
+            target = Path(directory, "cs.txt")
+            source.write_text("Hello\n\nHello", encoding="utf-8")
+            target.write_text("First old target\n\nSecond old target", encoding="utf-8")
+            template: TranslationFormat = PlainTextFormat(source, is_template=True)
+            existing: list[Unit] = []
+            for index, unit in enumerate(template.content_units):
+                existing_unit = make_unit(
+                    source=unit.source,
+                    context=unit.context,
+                    target=f"Pending {index}",
+                )
+                existing_unit.details["disk_state"] = {
+                    **existing_unit.get_comparison_state(),
+                    "target": f"Stored {index}",
+                }
+                existing.append(existing_unit)
+            storage: TranslationFormat = PlainTextFormat(
+                target, template_store=template, existing_units=existing
+            )
+            self.assertEqual(
+                [unit.target for unit in storage.content_units],
+                ["Stored 0", "Stored 1"],
+            )
+
+    def test_fuzzy_commit_and_cleanup_output_match(self) -> None:
+        for format_class in (
+            PlainTextFormat,
+            DokuWikiFormat,
+            MediaWikiFormat,
+            WXLFormat,
+        ):
+            test_class = (
+                WXLFormatTest if format_class is WXLFormat else PlainTextFormatTest
+            )
+            with (
+                self.subTest(format=format_class.format_id),
+                TemporaryDirectory() as directory,
+            ):
+                source = Path(directory, "en")
+                target = Path(directory, "cs")
+                source.write_text(test_class.CONVERT_TEMPLATE, encoding="utf-8")
+                target.write_text(test_class.CONVERT_TRANSLATION, encoding="utf-8")
+                template: TranslationFormat = format_class(source, is_template=True)
+                existing = [
+                    make_unit(
+                        source="Hello", target="Updated translation", state=STATE_FUZZY
+                    )
+                ]
+                storage: TranslationFormat = format_class(
+                    target, template_store=template, existing_units=existing
+                )
+                unit = storage.content_units[0]
+                unit.set_state(STATE_FUZZY)
+                storage.save()
+                committed = target.read_bytes()
+                self.assertIn(b"Updated translation", committed)
+                storage = format_class(
+                    target, template_store=template, existing_units=existing
+                )
+                storage.cleanup_unused()
+                self.assertEqual(target.read_bytes(), committed)

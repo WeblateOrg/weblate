@@ -182,6 +182,13 @@ flags (see :ref:`custom-checks`). You will probably need the following ones:
 ``font-size:22``
    Defines font size in pixels.
 
+Font checks accept widths up to 2,048 pixels, font sizes up to 256 pixels,
+and at most 64 explicit or wrapped lines and 16,000 characters after
+replacements. Configurations or text exceeding these budgets fail the check
+with a rendering-limit message instead of being measured at a different
+threshold. New previews are clipped to 2,048 × 2,048 pixels. Existing cached
+previews can still be served.
+
 
 .. _own-checks:
 

@@ -40,6 +40,23 @@ if TYPE_CHECKING:
 
 
 class BasicViewTest(FixtureTestCase):
+    def test_project_email_filter_requires_account_lookup_permission(self) -> None:
+        owner = User.objects.create_user("hidden-owner", "owner@example.org", "x")
+        url = reverse("projects")
+
+        for key in ("owned", "watched"):
+            with self.subTest(key=key):
+                response = self.client.get(url, {key: owner.email})
+                self.assertContains(response, "Could not find any such user.")
+                response = self.client.get(url, {key: owner.username})
+                self.assertNotContains(response, "Could not find any such user.")
+
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.client.force_login(self.user)
+        response = self.client.get(url, {"owned": owner.email})
+        self.assertNotContains(response, "Could not find any such user.")
+
     def test_about(self) -> None:
         response = self.client.get(reverse("about"))
         self.assertContains(response, "translate-toolkit")

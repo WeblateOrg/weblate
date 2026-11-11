@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import ast
+import asyncio
 import base64
 import contextlib
 import gzip
@@ -41,6 +42,7 @@ from django.core.management.commands.makemessages import (
 )
 from django.core.management.utils import find_command
 from django.db import connection
+from django.template import TemplateSyntaxError
 from django.test import SimpleTestCase, TestCase, TransactionTestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
@@ -65,6 +67,7 @@ from weblate.addons.forms import (
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
+from weblate.trans.component_copy import copy_component_addons
 from weblate.trans.discovery import DetectedDiscoveryPresets
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.file_format_params import get_default_params_for_file_format
@@ -90,6 +93,7 @@ from weblate.trans.tests.test_views import (
 from weblate.trans.tests.utils import (
     TEST_DATA,
     RepoTestMixin,
+    create_another_user,
     create_test_addon,
     get_optional_path,
     get_test_actor,
@@ -206,6 +210,7 @@ from .webhooks import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import AsyncGenerator
     from unittest.mock import Mock
 
     from weblate.trans.discovery import DetectedDiscoveryPreset
@@ -5594,6 +5599,23 @@ msgstr ""
         self.assertIn("stats/cs.json", commit)
         self.assertIn('"translated": 25', commit)
 
+    def test_generate_render_failure_preserves_destination(self) -> None:
+        addon = GenerateFileAddon.create(
+            acting_user=get_test_actor(self),
+            component=self.component,
+            run=False,
+            configuration={
+                "scope": "component",
+                "filename": "locales.json",
+                "template": '{{ project_name|center:"1048577" }}',
+            },
+        )
+        output = Path(self.component.full_path) / "locales.json"
+        output.write_text("original", encoding="utf-8")
+        with self.assertRaisesMessage(TemplateSyntaxError, "padding"):
+            addon.generate_component(self.component)
+        self.assertEqual(output.read_text(encoding="utf-8"), "original")
+
     def test_generate_translation_scope_skips_component_events(self) -> None:
         addon = GenerateFileAddon.create(
             acting_user=get_test_actor(self),
@@ -6874,6 +6896,124 @@ class AddonScopeViewTests(TestAddonMixin, ViewTestCase):
 
         self.assertContains(response, "Repository")
 
+    def test_repository_addon_requires_repository_owner(self) -> None:
+        linked = self.create_link_existing(name="Linked", slug="linked")
+        self.assertFalse(DiscoveryAddon.can_install(component=linked))
+        self.assertTrue(GitSquashAddon.can_process(component=linked))
+        with self.assertRaises(ValidationError):
+            DiscoveryAddon.create(
+                acting_user=get_test_actor(self), component=linked, run=False
+            )
+
+        response = self.client.get(
+            reverse("addons", kwargs={"path": linked.get_url_path()})
+        )
+        self.assertContains(response, "Component discovery")
+        self.assertContains(response, "Open repository add-ons")
+        self.assertContains(
+            response,
+            reverse("addons", kwargs={"path": self.component.get_url_path()}),
+        )
+        self.assertNotContains(response, 'data-addon="weblate.discovery.discovery"')
+
+        response = self.client.post(
+            reverse("addons", kwargs={"path": linked.get_url_path()}),
+            {"name": DiscoveryAddon.name},
+            follow=True,
+        )
+        self.assertContains(response, "Add-on cannot be installed")
+        self.assertFalse(Addon.objects.filter(name=DiscoveryAddon.name).exists())
+
+        api = APIClient()
+        api.force_authenticate(self.user)
+        response = api.post(
+            reverse(
+                "api:component-addons",
+                kwargs={"project__slug": linked.project.slug, "slug": linked.slug},
+            ),
+            {"name": DiscoveryAddon.name, "configuration": {}},
+            format="json",
+        )
+        self.assertEqual(response.status_code, 400, response.data)
+        self.assertIn("not compatible", str(response.data))
+        self.assertFalse(Addon.objects.filter(name=DiscoveryAddon.name).exists())
+
+        installed = DiscoveryAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        ).instance
+        response = self.client.get(
+            reverse("addons", kwargs={"path": linked.get_url_path()})
+        )
+        self.assertContains(response, "Inherited from")
+        self.assertContains(response, str(self.component))
+        self.assertContains(response, installed.get_absolute_url())
+
+    def test_copy_component_addons_without_api(self) -> None:
+        target = self.create_link_existing(name="Linked", slug="linked")
+        NoOpAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
+
+        copy_component_addons(
+            target,
+            self.component,
+            same_project_only=True,
+            acting_user=get_test_actor(self),
+        )
+
+        self.assertTrue(
+            Addon.objects.filter(component=target, name=NoOpAddon.name).exists()
+        )
+
+    def test_component_editor_can_install_discovery_without_project_edit(self) -> None:
+        editor = create_another_user("-repository-editor")
+        team = Group.objects.create(name="Repository editor")
+        team.components.add(self.component)
+        team.roles.add(Role.objects.get(name="Administration"))
+        editor.groups.add(team)
+        editor.clear_permissions_cache()
+        self.assertTrue(editor.has_perm("component.edit", self.component))
+        self.assertFalse(editor.has_perm("project.edit", self.project))
+        self.client.force_login(editor)
+
+        response = self.client.get(reverse("addons", kwargs=self.kw_component))
+
+        self.assertContains(response, 'data-addon="weblate.discovery.discovery"')
+
+    def test_inherited_repository_addon_hides_inaccessible_owner(self) -> None:
+        downstream = self.create_project(name="Downstream", slug="downstream")
+        linked = self.create_link_existing(
+            name="Linked", slug="linked", project=downstream
+        )
+        addon = DiscoveryAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        ).instance
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        limited_user = create_another_user("-downstream")
+        downstream.add_user(limited_user, "Administration")
+        self.client.force_login(limited_user)
+
+        response = self.client.get(
+            reverse("addons", kwargs={"path": linked.get_url_path()})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Component discovery")
+        self.assertContains(response, "Inherited from")
+        self.assertContains(response, "a component you cannot access")
+        self.assertNotContains(response, str(self.component))
+        self.assertNotContains(response, addon.get_absolute_url())
+        self.assertContains(response, "Open repository add-ons", count=0)
+        self.assertContains(response, "Unavailable")
+
+        response = self.client.post(
+            reverse("addons", kwargs={"path": linked.get_url_path()}),
+            {"name": DiscoveryAddon.name},
+            follow=True,
+        )
+        self.assertContains(response, "Add-on cannot be installed")
+        self.assertEqual(Addon.objects.filter(name=DiscoveryAddon.name).count(), 1)
+
     def test_repository_scope_addon_components_view(self) -> None:
         linked_component = self.create_link_existing(name="Linked", slug="linked")
         addon = GitSquashAddon.create(
@@ -7040,14 +7180,41 @@ class ResetAddonTest(ComponentTestCase):
         self.assertFalse(ResetAddon.can_install(component=other))
 
     def test_daily(self) -> None:
-        ResetAddon.create(
+        addon = ResetAddon.create(
             acting_user=get_test_actor(self), component=self.component, run=False
         )
 
-        with patch.object(Component, "do_reset", autospec=True) as mocked_reset:
+        actors = []
+        with (
+            acting_user_context(self.user),
+            patch.object(
+                Component,
+                "do_reset",
+                autospec=True,
+                side_effect=lambda _component: actors.append(get_acting_user()),
+            ) as mocked_reset,
+        ):
             daily_addons(modulo=False)
+            self.assertEqual(get_acting_user(), self.user)
 
         mocked_reset.assert_called_once_with(self.component)
+        self.assertEqual(actors, [addon.user])
+
+    def test_daily_reset_history(self) -> None:
+        addon = ResetAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
+
+        with acting_user_context(None):
+            daily_addons(modulo=False)
+            self.assertIsNone(get_acting_user())
+
+        change = self.component.change_set.get(action=ActionEvents.RESET)
+        self.assertEqual(change.user, addon.user)
+        activity = AddonActivityLog.objects.get(
+            addon=addon.instance, event=AddonEvent.EVENT_DAILY
+        )
+        self.assertEqual(activity.status, AddonActivityLog.Status.SUCCESS)
 
 
 class CommandTest(ComponentTestCase):
@@ -10305,6 +10472,19 @@ class AddonConfigurationUnitTest(SimpleTestCase):
             },
         )
 
+    def test_generate_file_form_rejects_excessive_template(self) -> None:
+        addon = GenerateFileAddon(Addon(component=None, project=None))
+        form = GenerateForm(
+            None,
+            addon,
+            data={
+                "filename": "stats-{{ language_code }}.txt",
+                "template": '{{ language_code|center:"1048577" }}',
+            },
+        )
+        self.assertFalse(form.is_valid())
+        self.assertIn("padding", str(form.errors["template"]))
+
     def test_generate_file_runtime_configuration_is_normalized(self) -> None:
         addon = GenerateFileAddon(
             Addon(
@@ -10828,14 +11008,13 @@ class CDNJSAddonTest(ViewTestCase):
         )
         response = httpx2.Response(
             200,
-            stream=httpx2.ByteStream(
-                b"<html><body><div class='l10n'>Remote string</div></body></html>"
-            ),
+            request=httpx2.Request("GET", "https://cdn.example.com/messages.html"),
+            content=b"<html><body><div class='l10n'>Remote string</div></body></html>",
         )
 
         with patch(
-            "weblate.addons.tasks.open_restricted_asset_url",
-            return_value=contextlib.nullcontext(response),
+            "weblate.addons.tasks.fetch_restricted_asset_url",
+            return_value=response,
         ):
             errors = parse_cdn_html(addon.instance, self.component)
 
@@ -10861,7 +11040,7 @@ class CDNJSAddonTest(ViewTestCase):
         )
 
         with patch(
-            "weblate.addons.tasks.open_restricted_asset_url",
+            "weblate.addons.tasks.fetch_restricted_asset_url",
             side_effect=httpx2.ConnectError("CDN unavailable"),
         ):
             errors = parse_cdn_html(addon.instance, self.component)
@@ -11788,7 +11967,7 @@ class WebhookDeliveryTest(SimpleTestCase):
                 error = error_class("Webhook delivery failed", request=request)
                 with (
                     patch(
-                        "weblate.addons.webhooks.open_validated_url",
+                        "weblate.addons.webhooks.async_open_validated_url",
                         side_effect=error,
                     ),
                     self.assertRaisesMessage(
@@ -11861,8 +12040,15 @@ class WebhookDeliveryTest(SimpleTestCase):
                     addon=addon_class.name, size=len(body), headers=headers
                 ):
                     http_mock.reset()
-                    stream = MagicMock(spec=httpx2.SyncByteStream)
-                    stream.__iter__.side_effect = lambda body=body: iter((body,))
+                    stream = MagicMock(spec=httpx2.AsyncByteStream)
+
+                    async def body_chunks(
+                        body: bytes = body,
+                    ) -> AsyncGenerator[bytes, None]:
+                        await asyncio.sleep(0)
+                        yield body
+
+                    stream.__aiter__.side_effect = body_chunks
                     response = httpx2.Response(400, headers=headers, stream=stream)
                     http_mock.register_callback(
                         "POST",
@@ -11874,14 +12060,14 @@ class WebhookDeliveryTest(SimpleTestCase):
                         with self.assertRaisesMessage(MessageNotDeliveredError, error):
                             addon.send_message(MagicMock(spec=Change), {}, {})
                         if "headers" in error or "encoded" in error:
-                            stream.__iter__.assert_not_called()
+                            stream.__aiter__.assert_not_called()
                     else:
                         result = addon.send_message(MagicMock(spec=Change), {}, {})
                         expected = httpx2.Response(400, headers=headers, content=body)
                         self.assertEqual(result["content"], expected.text)
                         self.assertEqual(result["status_code"], 400)
                         self.assertEqual(result["headers"], dict(response.headers))
-                    stream.close.assert_called_once()
+                    stream.aclose.assert_awaited_once()
 
     @http_mock.activate
     def test_encoded_response_is_rejected_before_decoding(self) -> None:
@@ -11901,8 +12087,8 @@ class WebhookDeliveryTest(SimpleTestCase):
             ):
                 with self.subTest(addon=addon_class.name, encoding=encoding):
                     http_mock.reset()
-                    stream = MagicMock(spec=httpx2.SyncByteStream)
-                    stream.__iter__.side_effect = AssertionError("Body was consumed")
+                    stream = MagicMock(spec=httpx2.AsyncByteStream)
+                    stream.__aiter__.side_effect = AssertionError("Body was consumed")
                     response = httpx2.Response(
                         200,
                         headers={"Content-Encoding": encoding},
@@ -11917,7 +12103,7 @@ class WebhookDeliveryTest(SimpleTestCase):
                     with (
                         patch.object(
                             response,
-                            "iter_bytes",
+                            "aiter_bytes",
                             side_effect=AssertionError("Decoder was invoked"),
                         ) as decoder,
                         self.assertRaisesMessage(
@@ -11929,8 +12115,8 @@ class WebhookDeliveryTest(SimpleTestCase):
                             MagicMock(spec=Change), headers, {}
                         )
                     decoder.assert_not_called()
-                    stream.__iter__.assert_not_called()
-                    stream.close.assert_called_once()
+                    stream.__aiter__.assert_not_called()
+                    stream.aclose.assert_awaited_once()
                     self.assertEqual(
                         http_mock.calls[0].request.headers["Accept-Encoding"],
                         "identity",
@@ -11941,14 +12127,15 @@ class WebhookDeliveryTest(SimpleTestCase):
     def test_oversized_response_stops_reading(self) -> None:
         storage = MagicMock()
         storage.configuration = {"webhook_url": "https://example.com/webhooks"}
-        stream = MagicMock(spec=httpx2.SyncByteStream)
+        stream = MagicMock(spec=httpx2.AsyncByteStream)
 
-        def chunks():
+        async def chunks() -> AsyncGenerator[bytes, None]:
             for _ in range(MAX_WEBHOOK_RESPONSE_BODY // 1024 + 1):
+                await asyncio.sleep(0)
                 yield b"x" * 1024
             self.fail("Webhook consumed the stream after exceeding the limit")
 
-        stream.__iter__.side_effect = chunks
+        stream.__aiter__.side_effect = chunks
         response = httpx2.Response(200, stream=stream)
         http_mock.register_callback(
             "POST",
@@ -11957,7 +12144,7 @@ class WebhookDeliveryTest(SimpleTestCase):
         )
         with self.assertRaisesMessage(MessageNotDeliveredError, "body exceeds 1 MiB"):
             WebhookAddon(storage).send_message(MagicMock(spec=Change), {}, {})
-        stream.close.assert_called_once()
+        stream.aclose.assert_awaited_once()
 
 
 if TYPE_CHECKING:

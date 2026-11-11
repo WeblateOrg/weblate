@@ -29,9 +29,11 @@ from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 from django.utils import timezone
 
+from weblate.addons.cleanup import RemoveBlankAddon
 from weblate.addons.events import AddonEvent
 from weblate.addons.models import Addon, AddonCache
 from weblate.api.serializers import UnitSerializer
+from weblate.auth.bots import InternalBot
 from weblate.auth.models import User, get_anonymous
 from weblate.checks.ai import evaluation_fingerprint
 from weblate.checks.base import TargetCheck
@@ -208,10 +210,11 @@ class SourceLanguageTest(FixtureComponentTestCase):
         )
         self.assertEqual(pending.author_id, self.user.pk)
 
-    def test_workflow_reuses_selected_content_authors(self) -> None:
+    def test_workflow_credits_initiator_instead_of_content_authors(self) -> None:
         author = User.objects.create(username="content-author")
         self.set_target(self.parent, "German source")
         self.set_target(self.child, "Existing translation")
+        self.set_target(self.grandchild, "Translation without history")
         Change.objects.create(
             unit=self.child, user=self.user, author=author, action=ActionEvents.CHANGE
         )
@@ -223,13 +226,10 @@ class SourceLanguageTest(FixtureComponentTestCase):
         ):
             self.configure()
             self.configure(self.grandchild, self.parent)
-        for unit, expected in (
-            (self.child, author),
-            (self.grandchild, get_anonymous()),
-        ):
+        for unit in (self.child, self.grandchild):
             pending = unit.pending_changes.order_by("-timestamp", "-pk").first()
             assert pending is not None
-            self.assertEqual(pending.author_id, expected.pk)
+            self.assertEqual(pending.author_id, self.user.pk)
             self.assertEqual(pending.get_actor(), self.user)
 
     def test_reconciliation_with_explicit_author_does_not_select_authors(self) -> None:
@@ -256,7 +256,7 @@ class SourceLanguageTest(FixtureComponentTestCase):
             if query["sql"].startswith("SELECT")
             and 'FROM "trans_change"' in query["sql"]
         ]
-        self.assertEqual(len(author_queries), 1, author_queries)
+        self.assertEqual(len(author_queries), 0, author_queries)
         self.assertGreater(self.child.translation.unit_set.count(), 1)
 
     def test_workflow_pending_changes_are_batched(self) -> None:
@@ -286,13 +286,18 @@ class SourceLanguageTest(FixtureComponentTestCase):
                     id_hash=unit.id_hash,
                     position=unit.position,
                     source=unit.source,
-                    target="Parent" if translation == self.parent.translation else "",
+                    target="Parent"
+                    if translation == self.parent.translation
+                    else "Child",
                     state=STATE_TRANSLATED,
                     original_state=STATE_TRANSLATED,
                 )
                 for unit in sources
                 for translation in (self.parent.translation, self.child.translation)
             ]
+        )
+        self.child.translation.unit_set.update(
+            target="Child", state=STATE_TRANSLATED, original_state=STATE_TRANSLATED
         )
         expected = self.child.translation.unit_set.count()
         before = dict(self.child.translation.unit_set.values_list("pk", "details"))
@@ -453,6 +458,9 @@ class SourceLanguageTest(FixtureComponentTestCase):
 
     def test_workflow_saves_disk_state_with_the_unit(self) -> None:
         self.set_target(self.parent, "German source")
+        self.child.translation.unit_set.update(
+            target="Child", state=STATE_TRANSLATED, original_state=STATE_TRANSLATED
+        )
         before = {
             unit.pk: (unit.target, unit.state)
             for unit in self.child.translation.unit_set.all()
@@ -580,7 +588,8 @@ class SourceLanguageTest(FixtureComponentTestCase):
     def test_workflow_pending_batch_preserves_existing_disk_state_and_identity(
         self,
     ) -> None:
-        self.set_target(self.parent, "", STATE_EMPTY)
+        self.set_target(self.parent, "German source")
+        self.set_target(self.child, "Pending translation")
         self.child.details["disk_state"] = {
             "target": "Original disk target",
             "state": STATE_TRANSLATED,
@@ -597,8 +606,8 @@ class SourceLanguageTest(FixtureComponentTestCase):
         pending = self.child.pending_changes.latest("pk")
         self.assertEqual(self.child.details["disk_state"], expected)
         self.assertEqual(pending.target, self.child.target)
-        self.assertEqual(self.child.state, STATE_READONLY)
-        self.assertEqual(pending.state, self.child.original_state)
+        self.assertEqual(self.child.state, STATE_NEEDS_REWRITING)
+        self.assertEqual(pending.state, STATE_NEEDS_REWRITING)
         self.assertEqual(pending.explanation, self.child.explanation)
         self.assertTrue(pending.automatically_translated)
         self.assertEqual(pending.get_actor(), self.user)
@@ -4083,7 +4092,190 @@ class SourceUnitWriterTest(FixtureComponentTestCase):
         self.assertEqual(self.child.details, previous)
 
 
+class SourceLanguageReconciliationTest(FixtureComponentTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.child = self.get_unit("Hello, world!\n", "cs")
+        self.parent = self.get_unit("Hello, world!\n", "de")
+        self.grandchild = self.get_unit("Hello, world!\n", "it")
+
+    def configure(
+        self, child: Unit | None = None, parent: Unit | None = None
+    ) -> WorkflowSetting:
+        return WorkflowSetting.objects.create(
+            project=self.project,
+            language=(child or self.child).translation.language,
+            source_language=(parent or self.parent).translation.language,
+        )
+
+    def set_target(
+        self, unit: Unit, target: str, state: int = STATE_TRANSLATED
+    ) -> None:
+        unit.refresh_from_db()
+        unit.target = target
+        unit.state = unit.original_state = state
+        unit.save()
+
+    def test_workflow_source_only_changes_do_not_queue_writes(self) -> None:
+        self.set_target(self.child, "", STATE_EMPTY)
+        self.set_target(self.parent, "German source")
+        self.set_target(self.grandchild, "Italian source")
+        workflow = self.configure()
+        workflow.source_language = self.grandchild.translation.language
+        workflow.save()
+        workflow.delete()
+        self.child.refresh_from_db()
+        self.assertEqual(self.child.state, STATE_EMPTY)
+        self.assertEqual(self.child.effective_source, self.child.source)
+        self.assertFalse(self.child.pending_changes.exists())
+        self.assertNotIn("disk_state", self.child.details)
+        self.assertEqual(
+            self.child.change_set.filter(action=ActionEvents.SOURCE_CHANGE).count(), 3
+        )
+
+    def test_dependency_blocking_does_not_queue_editor_state(self) -> None:
+        self.set_target(self.child, "", STATE_EMPTY)
+        self.set_target(self.parent, "", STATE_EMPTY)
+        self.configure()
+        self.child.refresh_from_db()
+        self.assertEqual(self.child.state, STATE_READONLY)
+        self.assertEqual(self.child.file_state, STATE_EMPTY)
+        self.assertFalse(self.child.pending_changes.exists())
+        self.set_target(self.parent, "German source")
+        self.child.refresh_from_db()
+        self.assertEqual(self.child.state, STATE_EMPTY)
+        self.assertFalse(self.child.pending_changes.exists())
+        self.assertNotIn("disk_state", self.child.details)
+
+    def test_reconciliation_retains_initiator_after_scope_exits(self) -> None:
+        actor = User.objects.create(username="workflow-actor")
+        self.set_target(self.child, "Child translation")
+        self.set_target(self.parent, "German source")
+        with (
+            source_project_gate([self.project.pk], exclusive=True),
+            source_operation(self.component),
+            acting_user_context(actor),
+        ):
+            self.configure()
+        pending = self.child.pending_changes.get()
+        self.assertEqual(pending.author, actor)
+        self.assertEqual(pending.get_actor(), actor)
+        change = self.child.change_set.get(action=ActionEvents.SOURCE_CHANGE)
+        self.assertEqual(change.user, actor)
+        self.assertEqual(change.author, actor)
+
+    def test_automated_reconciliation_uses_update_bot(self) -> None:
+        self.set_target(self.child, "Child translation")
+        self.set_target(self.parent, "German source")
+        with acting_user_context(None):
+            self.configure()
+        pending = self.child.pending_changes.get()
+        self.assertEqual(pending.author, InternalBot.UPDATE.get_user())
+        self.assertEqual(pending.get_actor(), pending.author)
+
+    def test_reconciliation_keeps_explicit_author_separate_from_actor(self) -> None:
+        author = User.objects.create(username="source-author")
+        actor = User.objects.create(username="source-actor")
+        self.set_target(self.parent, "Original source")
+        self.configure()
+        self.set_target(self.child, "Child translation")
+        self.child.pending_changes.all().delete()
+        with source_operation(self.component):
+            self.set_target(self.parent, "Updated source")
+            request_reconciliation(
+                self.component,
+                DependencyWork(roots={self.parent.pk}, author=author, actor=actor),
+            )
+        pending = self.child.pending_changes.get()
+        self.assertEqual(pending.author, author)
+        self.assertEqual(pending.get_actor(), actor)
+        change = self.child.change_set.filter(action=ActionEvents.SOURCE_CHANGE).latest(
+            "pk"
+        )
+        self.assertEqual(change.user, actor)
+        self.assertEqual(change.author, author)
+
+    def test_workflow_removal_credits_initiator(self) -> None:
+        self.set_target(self.parent, "German source")
+        self.set_target(self.child, "Child translation")
+        workflow = self.configure()
+        self.child.pending_changes.all().delete()
+        actor = User.objects.create(username="workflow-removal-actor")
+        with acting_user_context(actor):
+            workflow.delete()
+        pending = self.child.pending_changes.get()
+        self.assertEqual(pending.state, STATE_TRANSLATED)
+        self.assertEqual(pending.author, actor)
+        self.assertEqual(pending.get_actor(), actor)
+
+
 class SourceLanguageFileTest(ReusableViewTestCase):
+    def test_workflow_commit_credits_initiator(self) -> None:
+        child = self.translation.unit_set.get(source="Hello, world!\n")
+        parent = self.component.translation_set.get(language_code="de").unit_set.get(
+            id_hash=child.id_hash
+        )
+        author = User.objects.create(
+            username="original-translator",
+            full_name="Original translator",
+            email="original@example.com",
+        )
+        actor = User.objects.create(
+            username="workflow-actor",
+            full_name="Workflow actor",
+            email="actor@example.com",
+        )
+        parent.translate(self.user, "German source", STATE_TRANSLATED, propagate=False)
+        child.translate(author, "Child translation", STATE_TRANSLATED, propagate=False)
+        self.component.commit_pending("before workflow", self.user)
+        with acting_user_context(actor):
+            WorkflowSetting.objects.create(
+                project=self.project,
+                language=child.translation.language,
+                source_language=parent.translation.language,
+            )
+        pending = child.pending_changes.get()
+        self.assertEqual(pending.author, actor)
+        self.assertEqual(pending.get_actor(), actor)
+        self.translation.commit_pending("workflow", self.user)
+        repository = self.component.repository
+        self.assertEqual(
+            repository.get_revision_info(repository.last_revision)["author"],
+            actor.get_author_name(),
+        )
+        self.translation.drop_store_cache()
+        stored, added = self.translation.store.find_unit(child.context, child.source)
+        self.assertFalse(added)
+        child.refresh_from_db()
+        self.assertEqual(stored.target, child.target)
+        self.assertTrue(stored.is_fuzzy())
+
+    def test_workflow_preserves_existing_pending_authorship(self) -> None:
+        child = self.translation.unit_set.get(source="Hello, world!\n")
+        parent = self.component.translation_set.get(language_code="de").unit_set.get(
+            id_hash=child.id_hash
+        )
+        author = User.objects.create(username="pending-translator")
+        parent.translate(self.user, "German source", STATE_TRANSLATED, propagate=False)
+        child.translate(author, "Pending child", STATE_TRANSLATED, propagate=False)
+        pending = child.pending_changes.get()
+        original_metadata = pending.metadata.copy()
+        child.refresh_from_db()
+        original_disk_state = child.details["disk_state"].copy()
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=child.translation.language,
+            source_language=parent.translation.language,
+        )
+        pending.refresh_from_db()
+        child.refresh_from_db()
+        self.assertEqual(pending.author, author)
+        self.assertEqual(pending.metadata, original_metadata)
+        self.assertEqual(child.details["disk_state"], original_disk_state)
+        workflow_pending = child.pending_changes.exclude(pk=pending.pk).get()
+        self.assertEqual(workflow_pending.author, self.user)
+        self.assertEqual(workflow_pending.get_actor(), self.user)
+
     def test_imported_canonical_previous_is_not_custom_source_history(self) -> None:
         child = self.get_unit("Hello, world!\n", translation=self.translation)
         parent = self.component.translation_set.get(language_code="de").unit_set.get(
@@ -4836,6 +5028,14 @@ class SourceLanguageFileTest(ReusableViewTestCase):
         self.client.force_login(self.user)
         language = self.translation.language
         parent = self.component.translation_set.get(language_code="de")
+        child = self.translation.unit_set.get(source="Hello, world!\n")
+        parent.unit_set.get(id_hash=child.id_hash).translate(
+            self.user, "German source", STATE_TRANSLATED, propagate=False
+        )
+        child.translate(
+            self.user, "Child translation", STATE_TRANSLATED, propagate=False
+        )
+        self.component.commit_pending("before workflow", self.user)
         url = reverse(
             "settings",
             kwargs={"path": self.project.project_languages[language].get_url_path()},
@@ -4856,6 +5056,9 @@ class SourceLanguageFileTest(ReusableViewTestCase):
             ).source_language_id,
             parent.language_id,
         )
+        pending = child.pending_changes.get()
+        self.assertEqual(pending.author, self.user)
+        self.assertEqual(pending.get_actor(), self.user)
 
     def test_round_trip(self) -> None:
         child = self.translation.unit_set.order_by("pk")[0]
@@ -4885,6 +5088,57 @@ class SourceLanguageFileTest(ReusableViewTestCase):
 
 
 class SourceLanguageMonoFileTest(SourceLanguageFileTest):
+    def test_sparse_workflow_preserves_file(self) -> None:
+        self.check_sparse_workflow_preserves_file(remove_blank=False)
+
+    def test_sparse_workflow_with_blank_addon_preserves_file(self) -> None:
+        self.check_sparse_workflow_preserves_file(remove_blank=True)
+
+    def check_sparse_workflow_preserves_file(self, *, remove_blank: bool) -> None:
+        for unit in self.translation.unit_set.all():
+            unit.translate(self.user, "", STATE_EMPTY, propagate=False)
+        self.component.commit_pending("empty translation", self.user)
+        if remove_blank:
+            RemoveBlankAddon.create(acting_user=self.user, component=self.component)
+        else:
+            self.translation.store.cleanup_blank()
+            self.translation.git_commit(self.user, self.user.get_author_name())
+        self.translation.drop_store_cache()
+        self.translation.check_sync(force=True)
+        filename_string = self.translation.get_filename()
+        assert filename_string is not None
+        filename = Path(filename_string)
+        original = filename.read_bytes()
+        revision = self.component.repository.last_revision
+        workflow = WorkflowSetting(
+            project=self.project,
+            language=self.translation.language,
+            source_language=self.component.translation_set.get(
+                language_code="de"
+            ).language,
+        )
+        for operation in ("enable", "switch", "remove"):
+            with self.subTest(operation=operation):
+                if operation == "switch":
+                    workflow.source_language = self.component.source_language
+                if operation == "remove":
+                    workflow.delete()
+                else:
+                    workflow.save()
+                self.assertFalse(
+                    PendingUnitChange.objects.filter(
+                        unit__translation=self.translation
+                    ).exists()
+                )
+                self.translation.commit_pending("workflow", self.user)
+                self.assertEqual(filename.read_bytes(), original)
+                self.assertEqual(self.component.repository.last_revision, revision)
+                self.assertFalse(
+                    self.translation.unit_set.filter(
+                        details__has_key="disk_state"
+                    ).exists()
+                )
+
     def test_canonical_edit_preserves_dependency_blocking(self) -> None:
         source = self.component.source_translation.unit_set.order_by("pk")[0]
         # Unit PK order processes this parent before its child in the batch.

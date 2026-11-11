@@ -53,54 +53,11 @@ jobs:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
 
-        version: 0.13.6
+        version: 0.13.7
     - name: Install deps
       run: uv sync --no-binary-package lxml --no-binary-package xmlsec --all-extras --group types
-    - name: Run mypy
-      run: |
-        set +e
-        uv run --no-sync mypy --show-column-numbers weblate scripts/*.py ./*.py | ./scripts/filter-mypy.sh | tee mypy.log
-        # Temporary hack until we have mypy fully passing
-        mypy_err="$?"
-        if [ "$mypy_err" -ne 0 ] && [ "$mypy_err" -ne 1 ] ; then
-          exit "$mypy_err"
-        fi
-        if [ ! -s mypy.log ] ; then
-          echo "mypy log not found!"
-          exit 1
-        fi
-        # Use summary as step summary
-        tail -n1 mypy.log >> "$GITHUB_STEP_SUMMARY"
-        # Remove summary and .venv hints from the log
-        cp mypy.log mypy.log.tmp
-        head -n-1 mypy.log.tmp | grep -v '^\.venv/' > mypy.log
-        rm mypy.log.tmp
-    - name: Enforced mypy
-      # TODO: Remove all exclusions so mypy is enforced across the entire codebase.
-      # Exclude only files with remaining diagnostics after scripts/filter-mypy.sh.
-      env:
-        EXCLUDED_MODULES: |
-          accounts/(admin|auth|avatar|forms|middleware|models|notifications|pipeline|strategy|utils|views|tests/(test_avatars|test_notifications|test_registration|test_twofactor|test_views))
-          addons/(base|gettext|resx|tests)
-          api/(docs|serializers|tests|views)
-          auth/(forms|models|permissions|views|management/commands/list_permissions|tests/test_models)
-          billing/(admin|models|tests|views|migrations/0007_migrate_owners)
-          checks/(chars|consistency|format|glossary|markup|placeholders|render|source|utils|views|management/commands/list_same_checks|tests/(test_glossary_checks|test_mdx|test_models))
-          fonts/(views|tests/test_utils)
-          lang/(admin|models|tests|views)
-          machinery/(forms|llm|microsoft|tests|management/commands/list_machinery)
-          trans/(admin|autofixes/__init__|debug|feeds|management/commands/(add_suggestions|import_project|list_file_format_params|list_versions)|models/(agreement|comment|component|pending|translation|unit))
-          trans/tests/(test_(alert|autotranslate|backups|basic_views|categories|changes|commands|component|create|debug|discovery|edit|file_format_merge|file_format_params|git_views|guidance|labels|models|newlang|projecttoken|remote|selenium|sitemaps|sort|suggestions|tasks|util|views)|utils)
-          trans/views/(about|acl|agreement|basic|changes|create|dashboard|edit|js|settings|source)
-          vcs/(git|github|gpg|tests/test_vcs)
-      run: |
-        echo "::add-matcher::.github/matchers/mypy.json"
-        excluded_modules="$(printf '%s' "$EXCLUDED_MODULES" | paste -sd '|' -)"
-        if grep --silent --invert-match --extended-regexp "^weblate/($excluded_modules)\.py:" mypy.log ; then
-          grep --invert-match --extended-regexp "^weblate/($excluded_modules)\.py:" mypy.log
-          exit 1
-        fi
-        echo "::remove-matcher owner=mypy::"
+    - name: Run and enforce mypy
+      run: uv run --no-sync python .devcontainer/mypy_check.py --output mypy.log
     - name: Report mypy
       run: |
         echo "::add-matcher::.github/matchers/mypy.json"

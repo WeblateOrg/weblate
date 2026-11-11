@@ -287,11 +287,26 @@ class BillingQuerySet(models.QuerySet["Billing", "Billing"]):
             raise ValidationError(gettext("No valid billing found or limit exceeded."))
         return billing
 
+    def lock_component_creation(self, workspace_id: UUID) -> Billing | None:
+        """Check the current billing state while holding its row lock."""
+        billing = (
+            self.select_for_update(of=("self",))
+            .filter(workspace_id=workspace_id)
+            .first()
+        )
+        if billing is not None and not self.filter(pk=billing.pk).get_valid().exists():
+            raise ValidationError(gettext("No valid billing found or limit exceeded."))
+        return billing
+
     def active(self):
         return self.filter(state__in=Billing.ACTIVE_STATES)
 
 
 class Billing(models.Model):
+    class PaymentMode(models.TextChoices):
+        LOCAL = "local", "Local"
+        EXTERNAL = "external", "External"
+
     STATE_ACTIVE = 0
     STATE_TRIAL = 1
     STATE_TERMINATED = 3
@@ -344,6 +359,14 @@ class Billing(models.Model):
     paid = models.BooleanField(
         default=True, verbose_name=gettext_lazy("Paid"), editable=False
     )
+    # Internal integration settings, intentionally excluded from forms and REST APIs.
+    payment_mode = models.CharField(
+        max_length=8,
+        choices=PaymentMode.choices,
+        default=PaymentMode.LOCAL,
+        editable=False,
+    )
+    external_paid_until = models.DateTimeField(null=True, blank=True, editable=False)
     # Translators: Whether the package is inside actual (hard) limits
     in_limits = models.BooleanField(
         default=True, verbose_name=gettext_lazy("In limits"), editable=False
@@ -443,6 +466,9 @@ class Billing(models.Model):
         context = transaction.atomic(using=using) if create_workspace else nullcontext()
 
         with context:
+            if not self.pk and self.payment_mode == self.PaymentMode.EXTERNAL:
+                self.paid = self.check_payment_status()
+
             if create_workspace:
                 self.ensure_workspace(using=using)
                 if update_fields is not None:
@@ -783,19 +809,32 @@ class Billing(models.Model):
         """
         Check current payment status.
 
-        Compared to paid attribute, this does not include grace period.
+        Include the grace period unless ``now`` is True.
         """
+        if (
+            self.plan.is_free and self.state == Billing.STATE_ACTIVE
+        ) or self.state == Billing.STATE_TRIAL:
+            return True
         end = timezone.now()
         if not now:
             end -= timedelta(days=settings.BILLING_GRACE_PERIOD)
-        return (
-            (self.plan.is_free and self.state == Billing.STATE_ACTIVE)
-            or self.invoice_set.filter(end__gte=end).exists()
-            or self.state == Billing.STATE_TRIAL
-        )
+        if self.payment_mode == self.PaymentMode.EXTERNAL:
+            return (
+                self.external_paid_until is not None and self.external_paid_until >= end
+            )
+        return self.invoice_set.filter(end__gte=end).exists()
 
     @transaction.atomic
     def check_limits(self, save=True) -> bool:
+        if save:
+            # Background checks may hold an instance loaded before an entitlement
+            # update. Lock and reload before calculating persisted status. Keep
+            # pending model changes when called by save() with save=False.
+            self.refresh_from_db(
+                from_queryset=Billing.objects.select_related("plan").select_for_update(
+                    of=("self",)
+                )
+            )
         self.flush_cache()
         in_limits = self.check_in_limits()
         paid = self.check_payment_status()
@@ -816,6 +855,15 @@ class Billing(models.Model):
             self.expiry = None
             modified = True
 
+        if (
+            self.payment_mode == self.PaymentMode.EXTERNAL
+            and self.state == self.STATE_ACTIVE
+            and paid
+            and self.removal is not None
+        ):
+            self.removal = None
+            modified = True
+
         if self.in_limits != in_limits or self.paid != paid:
             self.in_limits = in_limits
             self.paid = paid
@@ -823,8 +871,10 @@ class Billing(models.Model):
 
         if save:
             if modified:
-                Billing.objects.select_for_update().get(pk=self.pk)
-                self.save(skip_limits=True)
+                self.save(
+                    skip_limits=True,
+                    update_fields=["expiry", "removal", "paid", "in_limits"],
+                )
             self.update_alerts()
 
         return modified
@@ -968,6 +1018,7 @@ class Billing(models.Model):
             now = timezone.now()
         if (
             settings.BILLING_INACTIVE_RECURRING_DAYS <= 0
+            or self.payment_mode == self.PaymentMode.EXTERNAL
             or "recurring" not in self.payment
             or self.plan.yearly_price == 0
             or self.state != Billing.STATE_ACTIVE
@@ -1113,6 +1164,13 @@ class Billing(models.Model):
         with suppress(TypeError):
             message %= component_count
         yield LibreCheck(component_count > 0, message)
+        if not self.plan.change_access_control and any(
+            component.restricted for component in components
+        ):
+            yield LibreCheck(
+                False,
+                gettext("Restricted components are not allowed by this billing plan."),
+            )
         for component in components:
             license_name = component.get_license_display()
             license_error = None
@@ -1513,7 +1571,8 @@ def record_project_bill(
     # Use the original sender: component and translation removal also resolve to
     # their project above, but must not grant workspace ownership.
     if sender is Project:
-        users = User.objects.having_perm("project.edit", instance)
+        # Project tokens must never acquire workspace authority through deletion.
+        users = User.objects.having_perm("project.edit", instance).filter(is_bot=False)
         for billing in instance.billings:
             # Do the owners sync only for the last project
             if billing.get_projects_queryset().exclude(pk=instance.pk).exists():
@@ -1563,7 +1622,8 @@ def delete_project_bill(
 @receiver(post_save, sender=Invoice)
 @disable_for_loaddata
 def update_invoice_bill(sender, instance, **kwargs) -> None:
-    instance.billing.check_limits()
+    # The invoice can hold a cached billing from before a payment mode change.
+    Billing.objects.get(pk=instance.billing_id).check_limits()
 
 
 class WeblateConf(AppConf):

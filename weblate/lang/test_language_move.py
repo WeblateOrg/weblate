@@ -253,6 +253,31 @@ class LanguageMoveTest(LanguageMoveFixtures):
         super().setUp()
         self.target = Language.objects.auto_create("it_XX")
 
+    def test_reuse_target_zero_plural(self) -> None:
+        source_plural = Plural.objects.create(
+            language=self.source,
+            source=Plural.SOURCE_CLDR_ZERO,
+            number=3,
+            formula="n == 0 ? 0 : (n == 1 ? 1 : 2)",
+        )
+        target_plural = Plural.objects.create(
+            language=self.target,
+            source=Plural.SOURCE_CLDR_ZERO,
+            number=3,
+            formula="n==0 ? 0 : (n==1 ? 1 : 2)",
+        )
+        translation = self.translation_fixture()
+        Translation.objects.filter(pk=translation.pk).update(plural=source_plural)
+
+        Language.objects.move_language(self.source, self.target)
+
+        translation.refresh_from_db()
+        self.assertEqual(translation.language, self.target)
+        self.assertEqual(translation.plural, target_plural)
+        self.assertEqual(
+            self.target.plural_set.filter(source=Plural.SOURCE_CLDR_ZERO).count(), 1
+        )
+
     def test_relation_coverage(self) -> None:
         relations = {
             (model._meta.label_lower, field.name)  # ruff: ignore[private-member-access]

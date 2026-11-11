@@ -31,9 +31,11 @@ from django.utils.translation import activate
 from translate.storage.base import ParseError
 from translate.storage.fluent import FluentContentError
 
+from weblate.addons.models import Addon
 from weblate.auth.models import Group, User, get_anonymous
 from weblate.checks.models import Check
 from weblate.formats.base import UnitNotFoundError
+from weblate.formats.convert import HTMLFormat
 from weblate.glossary.models import (
     clear_glossary_automaton_cache,
     get_glossary_automaton,
@@ -100,7 +102,7 @@ from weblate.utils.version import GIT_VERSION
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from weblate.formats.base import TranslationFormat
+    from weblate.formats.base import TranslationFormat, TranslationUnit
     from weblate.utils.stats import UnitSnapshot
 
 
@@ -498,6 +500,407 @@ class StateChangeCommitTest(RepoTestCase):
                 backend = translation.store.find_unit(unit.context, unit.source)[0]
                 self.assertEqual(backend.is_automatically_translated(), expected)
                 self.assertFalse(unit.pending_changes.exists())
+
+
+class FormatPersistenceCommitTest(RepoTestCase):
+    def prepare_html_units(self, *, cleanup: bool = False) -> tuple[Unit, Unit]:
+        addons: dict[str, dict[str, object]] = (
+            {"weblate.cleanup.generic": {}} if cleanup else {}
+        )
+        with patch.object(HTMLFormat, "autoaddon", addons):
+            component = self.create_html()
+        self.assertEqual(
+            Addon.objects.filter(
+                component=component, name="weblate.cleanup.generic"
+            ).exists(),
+            cleanup,
+        )
+        translation = component.translation_set.get(language_code="cs")
+        return (
+            translation.unit_set.get(source="Hello, world!"),
+            translation.unit_set.get(source="Orangutan has five bananas."),
+        )
+
+    def check_excluded_target_is_not_written(
+        self, policy: int, *, cleanup: bool = False
+    ) -> None:
+        allowed, excluded = self.prepare_html_units(cleanup=cleanup)
+        translation = allowed.translation
+        project = translation.component.project
+        project.translation_review = True
+        project.commit_policy = policy
+        project.save()
+        user = create_test_user()
+        allowed.translate(user, "Allowed translation", STATE_APPROVED)
+        excluded_state = (
+            STATE_TRANSLATED
+            if policy == CommitPolicyChoices.APPROVED_ONLY
+            else STATE_FUZZY
+        )
+        excluded.translate(user, "Excluded translation", excluded_state)
+        translation.drop_store_cache()
+        translation.commit_pending("test", None)
+        filename = get_optional_path(translation.get_filename())
+        self.assertIn(b"Allowed translation", filename.read_bytes())
+        self.assertNotIn(b"Excluded translation", filename.read_bytes())
+        self.assertFalse(allowed.pending_changes.exists())
+        self.assertTrue(excluded.pending_changes.exists())
+        excluded.refresh_from_db()
+        self.assertEqual(excluded.target, "Excluded translation")
+        self.assertEqual(excluded.state, excluded_state)
+        # Rebuilding must keep excluding the pending target after the first
+        # unit's disk snapshot has been cleared by its successful commit.
+        translation.drop_store_cache()
+        translation.store.cleanup_unused()
+        self.assertNotIn(b"Excluded translation", filename.read_bytes())
+        excluded.translate(user, excluded.target, STATE_APPROVED)
+        translation.commit_pending("test", None)
+        self.assertIn(b"Allowed translation", filename.read_bytes())
+        self.assertIn(b"Excluded translation", filename.read_bytes())
+        self.assertFalse(excluded.pending_changes.exists())
+
+    def test_text_policy_does_not_publish_other_fuzzy_unit(self) -> None:
+        self.check_excluded_target_is_not_written(
+            CommitPolicyChoices.WITHOUT_NEEDS_EDITING
+        )
+
+    def test_text_policy_with_cleanup_does_not_publish_other_fuzzy_unit(self) -> None:
+        self.check_excluded_target_is_not_written(
+            CommitPolicyChoices.WITHOUT_NEEDS_EDITING, cleanup=True
+        )
+
+    def test_text_policy_does_not_publish_other_unapproved_unit(self) -> None:
+        self.check_excluded_target_is_not_written(CommitPolicyChoices.APPROVED_ONLY)
+
+    def test_text_policy_with_cleanup_does_not_publish_other_unapproved_unit(
+        self,
+    ) -> None:
+        self.check_excluded_target_is_not_written(
+            CommitPolicyChoices.APPROVED_ONLY, cleanup=True
+        )
+
+    def check_author_groups_do_not_publish_later_targets(
+        self, *, cleanup: bool
+    ) -> None:
+        first_unit, second_unit = self.prepare_html_units(cleanup=cleanup)
+        translation = first_unit.translation
+        repository = translation.component.repository
+        revisions = set(repository.get_outgoing_revisions())
+        first = create_test_user()
+        last = create_another_user()
+        first_unit.translate(first, "First translation", STATE_TRANSLATED)
+        second_unit.translate(last, "Later author translation", STATE_TRANSLATED)
+        first_unit.translate(last, "Last translation", STATE_TRANSLATED)
+        translation.drop_store_cache()
+        translation.commit_pending("test", None)
+        committed = set(repository.get_outgoing_revisions()) - revisions
+        self.assertEqual(len(committed), 2)
+        snapshots = {
+            repository.get_revision_info(revision)["author"]: repository.show(
+                f"{revision}:{translation.filename}"
+            )
+            for revision in committed
+        }
+        self.assertIn("First translation", snapshots[first.get_author_name()])
+        self.assertNotIn("Last translation", snapshots[first.get_author_name()])
+        self.assertNotIn("Later author translation", snapshots[first.get_author_name()])
+        self.assertIn("Last translation", snapshots[last.get_author_name()])
+        self.assertIn("Later author translation", snapshots[last.get_author_name()])
+        self.assertFalse(first_unit.pending_changes.exists())
+        self.assertFalse(second_unit.pending_changes.exists())
+
+    def test_text_author_groups_do_not_publish_later_targets(self) -> None:
+        self.check_author_groups_do_not_publish_later_targets(cleanup=False)
+
+    def test_text_author_groups_with_cleanup_do_not_publish_later_targets(self) -> None:
+        self.check_author_groups_do_not_publish_later_targets(cleanup=True)
+
+    def test_text_failed_unit_is_not_published_with_successful_unit(self) -> None:
+        allowed, failed = self.prepare_html_units(cleanup=True)
+        translation = allowed.translation
+        user = create_test_user()
+        allowed.translate(user, "Allowed translation", STATE_TRANSLATED)
+        failed.translate(user, "Failed translation", STATE_TRANSLATED)
+        update = translation.update_pending_store_unit
+
+        def fail_one_unit(
+            pounit: TranslationUnit, unit: Unit, pending_change: PendingUnitChange
+        ) -> None:
+            if unit.pk == failed.pk:
+                msg = "Cannot update unit"
+                raise ValueError(msg)
+            update(pounit, unit, pending_change)
+
+        translation.drop_store_cache()
+        with patch.object(
+            Translation, "update_pending_store_unit", side_effect=fail_one_unit
+        ) as update_unit:
+            translation.commit_pending("test", None)
+        self.assertEqual(update_unit.call_count, 2)
+        filename = get_optional_path(translation.get_filename())
+        self.assertIn(b"Allowed translation", filename.read_bytes())
+        self.assertNotIn(b"Failed translation", filename.read_bytes())
+        self.assertFalse(allowed.pending_changes.exists())
+        self.assertTrue(failed.pending_changes.exists())
+
+    def prepare_unit(self, file_format: str = "txt") -> Unit:
+        self.enterContext(patch.object(Component, "install_autoaddon"))
+        if file_format == "php":
+            component = self.create_php_mono()
+            context = '$loc["hello"]'
+        elif file_format == "xwiki-java-properties":
+            component = self._create_component(
+                file_format,
+                "java/swing_messages_*.properties",
+                "java/swing_messages.properties",
+            )
+            context = "Weblate.HELLO"
+        else:
+            component = self._create_component(
+                "txt",
+                "metadata/*/short_description.txt",
+                "metadata/en-US/short_description.txt",
+                edit_template=False,
+                manage_units=False,
+            )
+            context = None
+        self.assertFalse(Addon.objects.filter(component=component).exists())
+        translation = component.translation_set.get(language_code="cs")
+        if context is None:
+            return translation.unit_set.get()
+        return translation.unit_set.get(context=context)
+
+    def check_edit_is_committed(self, file_format: str) -> None:
+        unit = self.prepare_unit(file_format)
+        translation = unit.translation
+        component = translation.component
+        filename = get_optional_path(translation.get_filename())
+        revisions = set(component.repository.get_outgoing_revisions())
+        user = create_test_user()
+        unit.translate(user, "Updated translation", STATE_TRANSLATED)
+        # Load after the database edit, as a worker processing pending changes does.
+        translation.drop_store_cache()
+        component.commit_pending("test", None)
+        self.assertIn("Updated translation", filename.read_text(encoding="utf-8"))
+        committed = set(component.repository.get_outgoing_revisions()) - revisions
+        self.assertEqual(len(committed), 1)
+        revision = committed.pop()
+        self.assertIn(
+            translation.filename,
+            component.repository.list_changed_files(f"{revision}^!"),
+        )
+        self.assertEqual(
+            component.repository.get_revision_info(revision)["author"],
+            user.get_author_name(),
+        )
+        self.assertFalse(unit.pending_changes.exists())
+
+    def test_text_edit_is_committed(self) -> None:
+        self.check_edit_is_committed("txt")
+
+    def test_php_edit_is_committed(self) -> None:
+        self.check_edit_is_committed("php")
+
+    def test_xwiki_edit_is_committed(self) -> None:
+        self.check_edit_is_committed("xwiki-java-properties")
+
+    def test_text_edits_by_multiple_authors(self) -> None:
+        unit = self.prepare_unit()
+        component = unit.translation.component
+        revisions = set(component.repository.get_outgoing_revisions())
+        first = create_test_user()
+        last = create_another_user()
+        unit.translate(first, "First translation", STATE_TRANSLATED)
+        unit.translate(last, "Last translation", STATE_TRANSLATED)
+        component.commit_pending("test", None)
+        committed = set(component.repository.get_outgoing_revisions()) - revisions
+        self.assertEqual(len(committed), 2)
+        self.assertEqual(
+            {
+                component.repository.get_revision_info(revision)["author"]
+                for revision in committed
+            },
+            {first.get_author_name(), last.get_author_name()},
+        )
+        self.assertIn(
+            "Last translation",
+            get_optional_path(unit.translation.get_filename()).read_text(
+                encoding="utf-8"
+            ),
+        )
+        self.assertFalse(unit.pending_changes.exists())
+
+    def test_text_save_failure_keeps_pending_change(self) -> None:
+        unit = self.prepare_unit()
+        user = create_test_user()
+        unit.translate(user, "Updated translation", STATE_TRANSLATED)
+        translation = unit.translation
+        original = get_optional_path(translation.get_filename()).read_bytes()
+        with (
+            patch(
+                "weblate.formats.convert.ConvertFormat.save",
+                side_effect=OSError("Cannot write"),
+            ),
+            self.assertRaises(FailedCommitError),
+        ):
+            translation.commit_pending("test", None)
+        self.assertTrue(unit.pending_changes.exists())
+        self.assertEqual(
+            get_optional_path(translation.get_filename()).read_bytes(), original
+        )
+        translation.commit_pending("test", None)
+        self.assertFalse(unit.pending_changes.exists())
+        self.assertIn(
+            b"Updated translation",
+            get_optional_path(translation.get_filename()).read_bytes(),
+        )
+
+    def test_text_failed_batch_does_not_write(self) -> None:
+        unit = self.prepare_unit()
+        user = create_test_user()
+        unit.translate(user, "Updated translation", STATE_TRANSLATED)
+        translation = unit.translation
+        changes = list(unit.pending_changes.all())
+        with (
+            patch.object(
+                translation,
+                "update_pending_store_unit",
+                side_effect=ValueError("Invalid translation"),
+            ),
+            patch.object(translation.store, "save") as save,
+        ):
+            status, written = translation.update_units(
+                changes, translation.store, user.get_author_name()
+            )
+        self.assertEqual(status, {changes[0].pk: False})
+        self.assertFalse(written)
+        save.assert_not_called()
+        self.assertTrue(unit.pending_changes.exists())
+
+    def test_text_empty_batch_does_not_write(self) -> None:
+        translation = self.prepare_unit().translation
+        with patch.object(translation.store, "save") as save:
+            self.assertEqual(
+                translation.update_units([], translation.store, ""), ({}, False)
+            )
+        save.assert_not_called()
+
+    def test_text_fuzzy_commit_and_cleanup_match(self) -> None:
+        unit = self.prepare_unit()
+        user = create_test_user()
+        unit.translate(user, "Updated translation", STATE_FUZZY)
+        translation = unit.translation
+        translation.commit_pending("test", None)
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, STATE_FUZZY)
+        filename = get_optional_path(translation.get_filename())
+        committed = filename.read_bytes()
+        self.assertIn(b"Updated translation", committed)
+        translation.drop_store_cache()
+        translation.store.cleanup_unused()
+        self.assertEqual(filename.read_bytes(), committed)
+
+    def test_text_commit_policy_keeps_fuzzy_change_pending(self) -> None:
+        unit = self.prepare_unit()
+        translation = unit.translation
+        project = translation.component.project
+        project.commit_policy = CommitPolicyChoices.WITHOUT_NEEDS_EDITING
+        project.save()
+        filename = get_optional_path(translation.get_filename())
+        original = filename.read_bytes()
+        user = create_test_user()
+        unit.translate(user, "Updated translation", STATE_FUZZY)
+        translation.commit_pending("test", None)
+        self.assertTrue(unit.pending_changes.exists())
+        self.assertEqual(filename.read_bytes(), original)
+        unit.translate(user, unit.target, STATE_TRANSLATED)
+        translation.commit_pending("test", None)
+        self.assertFalse(unit.pending_changes.exists())
+        self.assertIn(b"Updated translation", filename.read_bytes())
+
+    def test_text_retry_commits_already_written_edit(self) -> None:
+        unit = self.prepare_unit()
+        translation = unit.translation
+        component = translation.component
+        revisions = set(component.repository.get_outgoing_revisions())
+        unit.translate(create_test_user(), "Updated translation", STATE_TRANSLATED)
+        translation.drop_store_cache()
+        backend, add = translation.store.find_unit(unit.context, unit.source)
+        self.assertFalse(add)
+        backend.set_target("Updated translation")
+        translation.store.save()
+        self.assertTrue(component.repository.needs_commit([translation.filename]))
+        component.commit_pending("test", None)
+        self.assertFalse(unit.pending_changes.exists())
+        self.assertFalse(component.repository.needs_commit([translation.filename]))
+        self.assertEqual(
+            len(set(component.repository.get_outgoing_revisions()) - revisions), 1
+        )
+
+
+class DTDCommitFailureTest(RepoTestCase):
+    def check_invalid_commit(self, *, source: bool) -> None:
+        component = self.create_dtd()
+        translation = (
+            component.source_translation
+            if source
+            else component.translation_set.get(language_code="cs")
+        )
+        filename = get_optional_path(translation.get_filename())
+        original = filename.read_bytes()
+        revision = component.repository.last_revision
+        user = create_test_user()
+        valid = translation.unit_set.get(context="hello")
+        invalid = translation.unit_set.get(context="orangutan")
+        valid.translate(user, "Valid pending translation", STATE_TRANSLATED)
+        valid.refresh_from_db()
+        expected_valid = valid.target
+        invalid.translate(user, "Invalid &#; translation", STATE_TRANSLATED)
+        pending = set(
+            PendingUnitChange.objects.filter(unit__translation=translation).values_list(
+                "pk", flat=True
+            )
+        )
+
+        with (
+            self.assertWarnsRegex(UserWarning, "DTD parse error"),
+            self.assertRaisesRegex(FailedCommitError, "does not validate"),
+        ):
+            translation.commit_pending("test", user)
+
+        self.assertEqual(filename.read_bytes(), original)
+        self.assertEqual(component.repository.last_revision, revision)
+        self.assertEqual(
+            set(
+                PendingUnitChange.objects.filter(
+                    unit__translation=translation
+                ).values_list("pk", flat=True)
+            ),
+            pending,
+        )
+
+        invalid.refresh_from_db()
+        invalid.translate(user, "Corrected translation", STATE_TRANSLATED)
+        invalid.refresh_from_db()
+        expected_corrected = invalid.target
+        translation.commit_pending("test", user)
+        translation.drop_store_cache()
+        self.assertFalse(valid.pending_changes.exists())
+        self.assertFalse(invalid.pending_changes.exists())
+        self.assertEqual(
+            translation.store.find_unit("hello", "")[0].target,
+            expected_valid,
+        )
+        self.assertEqual(
+            translation.store.find_unit("orangutan", "")[0].target,
+            expected_corrected,
+        )
+
+    def test_invalid_translation_keeps_file_and_pending_changes(self) -> None:
+        self.check_invalid_commit(source=False)
+
+    def test_invalid_source_keeps_file_and_pending_changes(self) -> None:
+        self.check_invalid_commit(source=True)
 
 
 class ProjectTest(RepoTestCase):

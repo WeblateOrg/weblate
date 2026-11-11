@@ -112,11 +112,17 @@ def is_resource_bounded(query: Q) -> bool:
     """
     if query.negated or not query.children:
         return False
+    from weblate.utils.search import ContributionScopeExists  # ruff: ignore[import-outside-top-level]
+
     bounded = [
         is_resource_bounded(child)
         if isinstance(child, Q)
-        else isinstance(child, tuple)
-        and child[0] in {"change__project__slug__iexact", "change__component_id__in"}
+        else isinstance(child, ContributionScopeExists)
+        or (
+            isinstance(child, tuple)
+            and child[0]
+            in {"change__project__slug__iexact", "change__component_id__in"}
+        )
         for child in query.children
     ]
     return all(bounded) if query.connector == "OR" else any(bounded)
@@ -241,6 +247,7 @@ def public_change_details(
     if can_view_contributor(viewer, change):
         return change.details
     from weblate.trans.actions import ActionEvents  # ruff: ignore[import-outside-top-level]
+    from weblate.utils.pii import mask_email  # ruff: ignore[import-outside-top-level]
 
     comment_actions = {
         ActionEvents.COMMENT,
@@ -266,6 +273,10 @@ def public_change_details(
             )
         )
     }
+    if change.action == ActionEvents.INVITE_USER and isinstance(
+        change.details.get("email"), str
+    ):
+        result["email"] = mask_email(change.details["email"])
     for key in ("source_snapshot", "previous_source_snapshot"):
         snapshot = change.details.get(key)
         if not isinstance(snapshot, dict):

@@ -768,6 +768,7 @@ class Repository:
     """Basic repository object."""
 
     _cmd: ClassVar[str] = "false"
+    _cmd_options: ClassVar[tuple[str, ...]] = ()
     _cmd_last_revision: ClassVar[list[str]]
     _cmd_last_remote_revision: ClassVar[list[str]]
     _cmd_status: ClassVar[list[str]] = ["status"]
@@ -1015,7 +1016,7 @@ class Repository:
         """Execute the command using popen."""
         if args is None:
             raise RepositoryError(0, "Not supported functionality")
-        cmd = args if fullcmd else [cls._cmd, *args]
+        cmd = args if fullcmd else [cls._cmd, *cls._cmd_options, *args]
         text_cmd = " ".join(cmd)
         # These are mutually exclusive, gevent actually checks
         # for their presence, not a value.

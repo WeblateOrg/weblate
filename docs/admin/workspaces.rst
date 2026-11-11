@@ -97,6 +97,17 @@ workspace. The target workspace also requires the
 :guilabel:`Add projects to workspace` permission. Moving a project out of a
 workspace also requires the site-wide :guilabel:`Add new projects` permission.
 
+If the target workspace's billing plan permits only public content, the
+project must use :guilabel:`Public` access and have no restricted components.
+An API request may make a project public and move it in the same update, but
+restricted components must be made public separately. Superusers retain their
+exemption from this access restriction; billing validity and project-slot
+limits still apply.
+
+Existing incompatible projects are not changed automatically. The Libre
+hosting checklist reports non-public projects and restricted components for
+administrator review.
+
 .. _workspace-settings:
 
 Workspace settings

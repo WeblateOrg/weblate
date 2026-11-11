@@ -21,10 +21,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-29 23:00-0500\n"
-"PO-Revision-Date: 2026-10-30 05:04+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"POT-Creation-Date: 2026-11-05 22:27-0600\n"
+"PO-Revision-Date: 2026-11-06 07:28+0000\n"
+"Last-Translator: Arif Budiman <arifpedia@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
 "Language: id\n"
@@ -32,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.11.2.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -434,6 +433,20 @@ msgstr "Pengaturan notifikasi"
 msgid "Saved search"
 msgstr "Pencarian yang disimpan"
 
+msgid ""
+"A lookalike e-mail identity was removed, the password was disabled, and API "
+"tokens were revoked."
+msgstr ""
+"Identitas email yang tampak serupa telah dihapus, kata sandi dinonaktifkan, "
+"dan token API dicabut."
+
+msgid ""
+"Password disabled as reported leaked credential matched the password; API "
+"tokens revoked."
+msgstr ""
+"Kata sandi dinonaktifkan karena kredensial yang dilaporkan bocor cocok "
+"dengan kata sandi tersebut; token API dicabut."
+
 #. Translators: Audit log entry
 msgid "Password changed."
 msgstr "Kata sandi diubah."
@@ -665,6 +678,22 @@ msgstr "Diundang ke {project} oleh {username}."
 #. Translators: Audit log entry
 msgid "Password configured."
 msgstr "Kata sandi dikonfigurasikan."
+
+msgid ""
+"Reset your password to restore password access and review your account "
+"activity."
+msgstr ""
+"Atur ulang kata sandi Anda untuk memulihkan akses menggunakan kata sandi dan "
+"tinjau aktivitas akun Anda."
+
+msgid ""
+"Reset your password to restore password access. Choose a unique password and "
+"review your account activity. The report didn't disclose the source of the "
+"leak."
+msgstr ""
+"Atur ulang kata sandi Anda untuk memulihkan akses menggunakan kata sandi. "
+"Pilih kata sandi yang unik dan tinjau aktivitas akun Anda. Laporan tersebut "
+"tidak mengungkapkan sumber kebocoran."
 
 msgid "To restore access to your account, please reset your password."
 msgstr ""
@@ -1026,6 +1055,9 @@ msgstr ""
 "Cakupan ini terlalu luas untuk diperiksa. Pilih kategori yang lebih kecil, "
 "komponen, atau terjemahan."
 
+msgid "Contributor"
+msgstr "Kontributor"
+
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "Operasi dilakukan di repositori"
@@ -1230,6 +1262,8 @@ msgid ""
 "This sign-in request has expired or changed. Start signing in again from the "
 "application."
 msgstr ""
+"Permintaan masuk ini telah kedaluwarsa atau berubah. Mulai kembali proses "
+"masuk dari aplikasi."
 
 msgid "This password consists of only whitespace."
 msgstr "Kata sandi ini hanya terdiri dari spasi."
@@ -1289,6 +1323,13 @@ msgstr ""
 "Undangan ini hanya dapat diterima oleh alamat surel yang dipilih oleh pihak "
 "yang mengundang; undangan ini tidak dapat digunakan oleh akun Anda."
 
+msgid ""
+"Your e-mail address has been added. You can now select it as your account e-"
+"mail address in Account settings."
+msgstr ""
+"Alamat email Anda telah ditambahkan. Kini Anda dapat memilihnya sebagai "
+"alamat email akun di Pengaturan akun."
+
 #, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
@@ -1322,6 +1363,9 @@ msgid "Please confirm your identity using a second factor before proceeding."
 msgstr ""
 "Silakan konfirmasikan identitas Anda menggunakan faktor kedua sebelum "
 "melanjutkan."
+
+msgid "Please confirm your identity before proceeding."
+msgstr "Harap konfirmasikan identitas Anda sebelum melanjutkan."
 
 #, python-format
 msgid "Security key (%s)"
@@ -1431,14 +1475,17 @@ msgstr "Masuk"
 msgid "Signed out"
 msgstr "Keluar"
 
-msgid "Verify new e-mail address"
-msgstr "Verifikasikan alamat surel baru"
+msgid "Add and verify e-mail address"
+msgstr "Tambah dan verifikasi alamat email"
 
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "Tidak dapat mengatur ulang kata sandi, autentikasi surel dimatikan."
 
 msgid "Change password"
 msgstr "Ubah kata sandi"
+
+msgid "Set password"
+msgstr "Atur kata sandi"
 
 msgid "Password reset has been already completed."
 msgstr "Atur ulang kata sandi sudah selesai."
@@ -1648,10 +1695,8 @@ msgstr ""
 "Repositori sudah ketinggalan zaman, Anda mungkin tidak mendapatkan hasil "
 "yang diharapkan sampai Anda memperbaruinya."
 
-#, fuzzy
-#| msgid "The translation files CDN add-on cannot publish weblate.js."
 msgid "The CDN add-on cannot publish a translation as manifest.json."
-msgstr "Add‑on CDN berkas terjemahan tidak dapat menerbitkan weblate.js."
+msgstr "Add-on CDN tidak dapat memublikasikan terjemahan sebagai manifest.json."
 
 msgid "JavaScript localization CDN"
 msgstr "CDN lokalisasi JavaScript"
@@ -1840,14 +1885,6 @@ msgstr ""
 "konfirmasi pengiriman tidak selesai: %(error)s"
 
 #, python-format
-msgid ""
-"Fedora Messaging publisher service was unavailable; the connection will be "
-"recreated on the next attempt: %(error)s"
-msgstr ""
-"Layanan penerbit Fedora Messaging tidak tersedia; koneksi akan dibuat ulang "
-"pada percobaan berikutnya: %(error)s"
-
-#, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
 msgstr "Broker Fedora Messaging mengembalikan pesan: %(error)s"
 
@@ -1862,8 +1899,8 @@ msgstr "Publikasi Fedora Messaging gagal: %(error)s"
 msgid "configured"
 msgstr "dikonfigurasikan"
 
-msgid "Could not reset Fedora Messaging publisher service."
-msgstr "Tidak dapat mengatur ulang layanan penerbit Fedora Messaging."
+msgid "The SSL certificates have to be provided for SSL connection."
+msgstr "Sertifikat SSL harus disediakan untuk sambungan SSL."
 
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
 msgstr "Sertifikat CA harus berupa sertifikat X.509 berkode PEM yang valid."
@@ -1875,10 +1912,6 @@ msgstr ""
 msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
 msgstr ""
 "Sertifikat SSL klien harus berupa sertifikat X.509 berkode PEM yang valid."
-
-#, python-format
-msgid "Fedora Messaging broker URL is invalid: %(error)s"
-msgstr "URL broker Fedora Messaging tidak valid: %(error)s"
 
 #, python-format
 msgid ""
@@ -1926,10 +1959,8 @@ msgstr ""
 msgid "Bulk edit"
 msgstr "Sunting massal"
 
-#, fuzzy
-#| msgid "Bulk edit flags, labels, or states of strings."
 msgid "Bulk edit text, flags, labels, or states of strings."
-msgstr "Sunting penanda, label, status, atau string massal."
+msgstr "Edit teks, flag, label, atau status string secara massal."
 
 msgid "Flag updated translations from repository as \"Needs rewriting\""
 msgstr ""
@@ -2078,23 +2109,17 @@ msgstr ""
 "kunci tambahan, menonaktifkan semua kata kunci bawaan sehingga hanya kata "
 "kunci yang ditentukan di atas yang dikenali."
 
-#, fuzzy
-#| msgid "Component exceptions"
 msgid "Comment extraction"
-msgstr "Pengecualian komponen"
+msgstr "Ekstraksi komentar"
 
-#, fuzzy
-#| msgid "words"
 msgid "Keywords"
-msgstr "kata"
+msgstr "Kata kunci"
 
 msgid "Checks and ITS data"
-msgstr ""
+msgstr "Pemeriksaan dan data ITS"
 
-#, fuzzy
-#| msgid "Update preview"
 msgid "Update behavior"
-msgstr "Pratinjau pembaruan"
+msgstr "Perilaku pembaruan"
 
 msgid "This field is required."
 msgstr "Kolom ini diperlukan."
@@ -2147,10 +2172,8 @@ msgstr ""
 "terselesaikan ke akar repositori. Jika ditampilkan di samping manifes, "
 "POTFILES.skip mengecualikan berkas terdaftar dari ekstraksi."
 
-#, fuzzy
-#| msgid "Font file"
 msgid "Input files"
-msgstr "Berkas huruf"
+msgstr "Berkas masukan"
 
 msgid "Invalid symbolic link in a repository."
 msgstr "Tautan simbolik tidak valid dalam repositori."
@@ -2387,21 +2410,14 @@ msgstr "Hapus komponen untuk berkas yang tidak ada"
 msgid "I confirm the above matches look correct"
 msgstr "Saya mengkonfirmasikan bahwa kecocokan di atas terlihat benar"
 
-#, fuzzy
-#| msgid "File encoding"
 msgid "File matching"
-msgstr "Pengenkodean berkas"
+msgstr "Pencocokan berkas"
 
-#, fuzzy
-#| msgctxt "eTranslation configuration"
-#| msgid "Component language domains"
 msgid "Component naming and file templates"
-msgstr "Domain bahasa komponen"
+msgstr "Penamaan komponen dan templat berkas"
 
-#, fuzzy
-#| msgid "Component locked"
 msgid "Component lifecycle"
-msgstr "Komponen dikunci"
+msgstr "Siklus hidup komponen"
 
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
@@ -2585,25 +2601,17 @@ msgstr ""
 msgid "Include read-only strings"
 msgstr "Termasuk string hanya baca"
 
-#, fuzzy
-#| msgid "Source language"
 msgid "Source and target"
-msgstr "Bahasa sumber"
+msgstr "Sumber dan target"
 
-#, fuzzy
-#| msgid "Prepended static text"
 msgid "Prepended text"
-msgstr "Teks statis diisi awal"
+msgstr "Teks yang ditambahkan di awal"
 
-#, fuzzy
-#| msgid "Appended static text"
 msgid "Appended text"
-msgstr "Ditambahkan teks statis"
+msgstr "Teks yang ditambahkan di akhir"
 
-#, fuzzy
-#| msgid "Text direction"
 msgid "Text expansion"
-msgstr "Arahan teks"
+msgstr "Perluasan teks"
 
 msgid "The source and target have to be different languages."
 msgstr "Sumber dan target harus bahasa yang berbeda."
@@ -2696,21 +2704,17 @@ msgstr "Jeda percobaan ulang"
 msgid "How many seconds to wait between connection attempts."
 msgstr "Jumlah detik untuk menunggu di antara percobaan koneksi."
 
-#, fuzzy
-#| msgid "Code-hosting connections"
 msgid "Broker connection"
-msgstr "Koneksi hosting kode"
+msgstr "Koneksi broker"
 
 msgid "Timeouts and retries"
-msgstr ""
+msgstr "Batas waktu dan percobaan ulang"
 
 msgid "TLS credentials"
-msgstr ""
+msgstr "Kredensial TLS"
 
-#, fuzzy
-#| msgid "Project selection"
 msgid "Event selection"
-msgstr "Pemilihan proyek"
+msgstr "Pemilihan peristiwa"
 
 msgid "Topic prefix can contain only ASCII characters."
 msgstr "Awalan topik hanya boleh berisi karakter ASCII."
@@ -2718,9 +2722,6 @@ msgstr "Awalan topik hanya boleh berisi karakter ASCII."
 #, python-format
 msgid "Topic prefix must not exceed %(limit)d characters."
 msgstr "Awalan topik tidak boleh melebihi %(limit)d karakter."
-
-msgid "The SSL certificates have to be provided for SSL connection."
-msgstr "Sertifikat SSL harus disediakan untuk sambungan SSL."
 
 msgid "The SSL certificates are not used without a SSL connection."
 msgstr "Sertifikat SSL tidak akan digunakan tanpa sambungan SSL."
@@ -3316,6 +3317,27 @@ msgstr "Pengguna"
 msgid "Language"
 msgstr "Bahasa"
 
+msgid ""
+"Contributor identities are exposed by View contributor identities, Download "
+"changes, Manage reports, and access-management permissions. Permissions from "
+"all assigned roles are additive."
+msgstr ""
+"Identitas kontributor dapat diakses melalui izin Lihat identitas "
+"kontributor, Unduh perubahan, Kelola laporan, dan pengelolaan akses. Izin "
+"dari semua peran yang ditetapkan berlaku secara kumulatif."
+
+msgid "Built-in"
+msgstr "Bawaan"
+
+msgid "Customized"
+msgstr "Disesuaikan"
+
+msgid "Reset built-in roles to defaults"
+msgstr "Atur ulang peran bawaan ke pengaturan default"
+
+msgid "Built-in role permissions reset."
+msgstr "Izin peran bawaan telah diatur ulang."
+
 msgid "Personal info"
 msgstr "Informasi pribadi"
 
@@ -3333,6 +3355,10 @@ msgstr "Ini tidak digunakan ketika daftar komponen dipilih."
 
 msgid "This is not used when a component is selected."
 msgstr "Ini tidak digunakan ketika komponen dipilih."
+
+#. Translators: Permission name
+msgid "View contributor identities"
+msgstr "Lihat identitas kontributor"
 
 #. Translators: Permission name
 msgid "Download changes"
@@ -3543,6 +3569,18 @@ msgid "Manage workspace access"
 msgstr "Kelola akses ruang kerja"
 
 #. Translators: Permission name
+msgid "Browse users"
+msgstr "Jelajahi pengguna"
+
+#. Translators: Permission name
+msgid "Search resource contributors"
+msgstr "Cari kontributor sumber daya"
+
+#. Translators: Permission name
+msgid "View user profiles"
+msgstr "Lihat profil pengguna"
+
+#. Translators: Permission name
 msgid "Use management interface"
 msgstr "Gunakan antarmuka pengelolaan"
 
@@ -3613,6 +3651,14 @@ msgstr "Kelola tagihan"
 #. Translators: Permission name
 msgid "Manage site-wide add-ons"
 msgstr "Kelola pengaya di seluruh situs"
+
+msgctxt "Access-control role"
+msgid "Discover users"
+msgstr "Temukan pengguna"
+
+msgctxt "Access-control role"
+msgid "View user profiles"
+msgstr "Lihat profil pengguna"
 
 msgctxt "Access-control role"
 msgid "Administration"
@@ -3817,6 +3863,10 @@ msgstr "Nama"
 
 msgid "Choose permissions granted to this role."
 msgstr "Pilih izin yang diberikan kepada peran ini."
+
+msgid ""
+"Remove the component from project teams before moving it to another project."
+msgstr "Hapus komponen dari tim proyek sebelum memindahkannya ke proyek lain."
 
 msgid "Roles"
 msgstr "Peran"
@@ -4129,6 +4179,9 @@ msgstr ""
 "Anda memerlukan akses eksplisit ke komponen ini sebelum mengaktifkan akses "
 "terbatas; jika tidak, Anda akan mengunci akses Anda sendiri."
 
+msgid "Blocked users cannot be granted project administration rights."
+msgstr "Pengguna yang diblokir tidak dapat diberi hak administrasi proyek."
+
 #, python-format
 msgid ""
 "Team %(name)s was renamed to %(new_name)s because its name was already in "
@@ -4151,6 +4204,12 @@ msgstr "Tidak dapat menghapus tim bawaan!"
 
 msgid "User invitation was removed."
 msgstr "Undangan pengguna dihapus."
+
+msgid "This invitation was already accepted or removed."
+msgstr "Undangan ini telah diterima atau dihapus."
+
+msgid "Remove the project block before accepting this invitation."
+msgstr "Cabut pemblokiran proyek sebelum menerima undangan ini."
 
 #, python-format
 msgid "Accepted invitation to the %s team."
@@ -4255,83 +4314,56 @@ msgstr "Diperlukan untuk alur kerja yang hanya menggunakan pemicu perubahan."
 msgid "Preview without changes"
 msgstr "Pratinjau tanpa perubahan"
 
-#, fuzzy
-#| msgid "All change events"
 msgid "Change events"
-msgstr "Semua kejadian perubahan"
+msgstr "Peristiwa perubahan"
 
-#, fuzzy
-#| msgid "The category does not belong to the selected project."
 msgid "The workflow runs for each of the selected events."
-msgstr "Kategori tidak termasuk dalam proyek yang dipilih."
+msgstr "Alur kerja dijalankan untuk setiap peristiwa yang dipilih."
 
-#, fuzzy
-#| msgid "Regular expression"
 msgid "CEL expression"
-msgstr "Ekspresi reguler"
+msgstr "Ekspresi CEL"
 
-#, fuzzy
-#| msgid "The translation has come to an end."
 msgid "The expression has to evaluate to a boolean."
-msgstr "Terjemahan telah sampai di akhir."
+msgstr "Ekspresi harus menghasilkan nilai boolean."
 
-#, fuzzy
-#| msgid "Category name"
 msgid "Category path"
-msgstr "Nama kategori"
+msgstr "Jalur kategori"
 
-#, fuzzy
-#| msgid "Parent category has to be in the same project!"
 msgid "Slash-separated category path inside the project."
-msgstr "Induk kategori harus dalam proyek yang sama!"
+msgstr "Jalur kategori di dalam proyek yang dipisahkan dengan garis miring."
 
 msgid "Language code"
 msgstr "Kode bahasa"
 
-#, fuzzy
-#| msgid "All change events"
 msgid "Change event"
-msgstr "Semua kejadian perubahan"
+msgstr "Peristiwa perubahan"
 
 msgid "String state"
 msgstr "Status string"
 
-#, fuzzy
-#| msgid "Action"
 msgid "Action ID"
-msgstr "Tindakan"
+msgstr "ID tindakan"
 
 msgid "Optional identifier so that later actions can use its results."
-msgstr ""
+msgstr "Pengenal opsional agar tindakan berikutnya dapat menggunakan hasilnya."
 
-#, fuzzy
-#| msgid "Move component"
 msgid "Whole component"
-msgstr "Pindahkan komponen"
+msgstr "Seluruh komponen"
 
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Strings were changed"
 msgid "String affected by the change"
-msgstr "String diubah"
+msgstr "String yang terpengaruh oleh perubahan"
 
-#, fuzzy
-#| msgid "String state"
 msgid "String scope"
-msgstr "Status string"
+msgstr "Cakupan string"
 
-#, fuzzy
-#| msgid "Default component list"
 msgid "Default (whole component)"
-msgstr "Daftar komponen bawaan"
+msgstr "Default (seluruh komponen)"
 
-#, fuzzy
-#| msgid "Delete string"
 msgid "Select strings"
-msgstr "Hapus string"
+msgstr "Pilih string"
 
 msgid "Use the effective AI quality add-on"
-msgstr ""
+msgstr "Gunakan add-on kualitas AI yang berlaku"
 
 msgid "Bulk editing"
 msgstr "Penyuntingan massal"
@@ -4339,49 +4371,80 @@ msgstr "Penyuntingan massal"
 msgid "Component update"
 msgstr "Pembaruan komponen"
 
-#, fuzzy
-#| msgid "Repositories updated"
 msgid "Repository update"
-msgstr "Repositori diperbarui"
+msgstr "Pembaruan repositori"
 
-#, fuzzy
-#| msgid "Repository name"
 msgid "Repository commit"
-msgstr "Nama repositori"
+msgstr "Commit repositori"
 
-#, fuzzy
-#| msgid "Repository push URL"
 msgid "Repository push"
-msgstr "URL dorong repositori"
+msgstr "Push repositori"
 
 msgid "Manual run"
-msgstr ""
+msgstr "Eksekusi manual"
 
-#, fuzzy
-#| msgid "Regular expression"
 msgid "Expression"
-msgstr "Ekspresi reguler"
+msgstr "Ekspresi"
 
-#, fuzzy
-#| msgid "Component created"
 msgid "Component category"
-msgstr "Komponen dibuat"
+msgstr "Kategori komponen"
 
-#, fuzzy
-#| msgid "Manage strings"
 msgid "Matching strings"
-msgstr "Kelola string"
+msgstr "String yang cocok"
 
 msgid "All of"
-msgstr ""
+msgstr "Semua kondisi berikut"
 
 msgid "Any of"
-msgstr ""
+msgstr "Salah satu kondisi berikut"
 
-#, fuzzy
-#| msgid "Note"
 msgid "Not"
-msgstr "Catatan"
+msgstr "Bukan"
+
+msgid "Sequence"
+msgstr "Urutan"
+
+msgid "Choose"
+msgstr "Pilih"
+
+msgid "Trigger"
+msgstr "Pemicu"
+
+msgid "Add trigger"
+msgstr "Tambahkan pemicu"
+
+msgid "Condition"
+msgstr "Kondisi"
+
+msgid "Add condition"
+msgstr "Tambahkan kondisi"
+
+msgid "Action"
+msgstr "Tindakan"
+
+msgid "Add action"
+msgstr "Tambahkan tindakan"
+
+msgid "Conditions"
+msgstr "Kondisi"
+
+msgid "Actions"
+msgstr "Tindakan"
+
+msgid "Branches"
+msgstr "Cabang"
+
+msgid "Add branch"
+msgstr "Tambahkan cabang"
+
+msgid "Otherwise"
+msgstr "Jika tidak"
+
+msgid "Add action to run otherwise"
+msgstr "Tambahkan tindakan untuk dijalankan jika tidak terpenuhi"
+
+msgid "Branch"
+msgstr "Branch"
 
 msgid "Additional message"
 msgstr "Pesan tambahan"
@@ -4784,16 +4847,12 @@ msgstr "Beberapa bentuk jamak diterjemahkan dengan cara yang sama."
 msgid "Inconsistent"
 msgstr "Tidak konsisten"
 
-#, fuzzy
-#| msgid ""
-#| "This string has more than one translation in this project or is "
-#| "untranslated in some components."
 msgid ""
 "This string has more than one translation in its propagation group or is "
 "untranslated in some components."
 msgstr ""
-"String ini memiliki lebih dari satu terjemahan dalam proyek ini atau "
-"beberapa komponennya belum diterjemahkan."
+"String ini memiliki lebih dari satu terjemahan dalam grup propagasinya atau "
+"belum diterjemahkan di beberapa komponen."
 
 msgid "Reused translation"
 msgstr "Terjemahan yang digunakan ulang"
@@ -5040,6 +5099,10 @@ msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr "Tag HTML {tag} tidak memiliki tag akhir yang cocok: {end}."
 
 #, python-brace-format
+msgid "The HTML {tag} tag is nested too deeply."
+msgstr "Tag HTML {tag} bersarang terlalu dalam."
+
+#, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
 "end with {semicolon}. If you do not want a character reference, use "
@@ -5265,6 +5328,12 @@ msgstr "Sintaksis sumber Fluent"
 
 msgid "Fluent syntax error in the translation."
 msgstr "Galat sintaksis Fluent dalam terjemahan."
+
+msgid "The Fluent value could not be checked because it is too complex."
+msgstr "Nilai Fluent tidak dapat diperiksa karena terlalu kompleks."
+
+msgid "the value is too complex or nested too deeply"
+msgstr "nilainya terlalu kompleks atau bersarang terlalu dalam"
 
 msgid "The following format strings are in the wrong order:"
 msgstr "String format berikut dalam urutan yang salah:"
@@ -6168,6 +6237,16 @@ msgstr ""
 "Membatasi build yang disimpan untuk semua nama paket. Build dihentikan saat "
 "batas ini atau usia maksimum tercapai."
 
+msgid "Install Translation files CDN"
+msgstr "Instal CDN berkas terjemahan"
+
+msgid ""
+"Publishes original translation files publicly, including files from private "
+"components."
+msgstr ""
+"Memublikasikan berkas terjemahan asli secara publik, termasuk berkas dari "
+"komponen privat."
+
 msgid "Kotlin SDK CDN"
 msgstr "CDN Kotlin SDK"
 
@@ -6177,6 +6256,9 @@ msgid ""
 msgstr ""
 "Menerbitkan sumber daya string dan plural Android untuk build Kotlin SDK "
 "yang terdaftar."
+
+msgid "Translation files CDN cannot be installed on this component."
+msgstr "CDN berkas terjemahan tidak dapat diinstal pada komponen ini."
 
 msgid "Weblate languages"
 msgstr "Bahasa Weblate"
@@ -7231,10 +7313,8 @@ msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "Bahasa kedua yang didefinisikan di proyek atau komponen"
 
-#, fuzzy
-#| msgid "Update with rebase"
 msgid "Rate limit reset."
-msgstr "Perbarui dengan basis ulang"
+msgstr "Batas laju telah diatur ulang."
 
 msgid "File"
 msgstr "Berkas"
@@ -7551,21 +7631,17 @@ msgstr "Tidak ada string sumber cocok yang baru ditemukan."
 
 msgid "Only some matching strings are shown. Search for more strings manually."
 msgstr ""
+"Hanya sebagian string yang cocok yang ditampilkan. Cari string lainnya "
+"secara manual."
 
-#, fuzzy
-#| msgid "Too many search queries, please try again later."
 msgid "Too many image text searches. Please try again later."
-msgstr "Terlalu banyak kueri pencarian, silakan coba lagi nanti."
+msgstr "Terlalu banyak pencarian teks dalam gambar. Silakan coba lagi nanti."
 
-#, fuzzy
-#| msgid "OCR data could not be downloaded. Please try again later."
 msgid "Text recognition data could not be downloaded. Please try again later."
-msgstr "Data OCR tidak dapat diunduh. Silakan coba lagi nanti."
+msgstr "Data pengenalan teks tidak dapat diunduh. Silakan coba lagi nanti."
 
-#, fuzzy
-#| msgid "Could not load repository branches. Please try again."
 msgid "Could not find strings in the image. Please try again."
-msgstr "Tidak dapat memuat cabang repositori. Silakan coba lagi."
+msgstr "Tidak dapat menemukan string dalam gambar. Silakan coba lagi."
 
 msgid "Select a valid screenshot."
 msgstr "Pilih tangkapan layar yang valid."
@@ -7781,8 +7857,19 @@ msgstr ""
 msgid "Your profile"
 msgstr "Profil Anda"
 
+msgid "Confirm adding e-mail address"
+msgstr "Konfirmasikan penambahan alamat email"
+
 msgid "Confirm adding user identity"
 msgstr "Konfirmasikan penambahan identitas pengguna"
+
+#, python-format
+msgid ""
+"Confirm adding %(uid)s to your existing Weblate account by entering your "
+"current password."
+msgstr ""
+"Konfirmasikan penambahan %(uid)s ke akun Weblate Anda yang sudah ada dengan "
+"memasukkan kata sandi saat ini."
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #, python-format
@@ -7792,6 +7879,9 @@ msgid ""
 msgstr ""
 "Setelah mengkonfirmasikan ini, Anda akan bisa melakukan mengautentikasikan "
 "ke Weblate menggunakan %(backend_verbose)s (%(uid)s)."
+
+msgid "Add e-mail address"
+msgstr "Tambahkan alamat email"
 
 msgid "Confirm"
 msgstr "Konfimasikan"
@@ -7893,14 +7983,14 @@ msgstr "Buka formulir kontak"
 msgid "Registration"
 msgstr "Pendaftaran"
 
+msgid "Check your e-mail"
+msgstr "Periksa email Anda"
+
 msgid "Password reset almost complete"
 msgstr "Pengaturan ulang kata sandi hampir selesai"
 
 msgid "Account removal almost complete"
 msgstr "Penghapusan akun hampir selesai"
-
-msgid "E-mail verification almost complete"
-msgstr "Verifikasi email hampir selesai"
 
 msgid "Registration almost complete"
 msgstr "Pendaftaran hampir selesai"
@@ -7918,11 +8008,13 @@ msgstr ""
 "dikirimkan ke kotak surel Anda."
 
 msgid ""
-"Click the confirmation link sent to your e-mail inbox to verify the address "
-"for your account."
+"Check your e-mail for instructions. If this address is already associated "
+"with an account, you may receive account recovery guidance instead of a "
+"verification link."
 msgstr ""
-"Klik tautan konfirmasi yang dikirimkan ke kotak masuk email Anda untuk "
-"memverifikasi alamat akun Anda."
+"Periksa email Anda untuk mendapatkan petunjuk. Jika alamat ini sudah "
+"dikaitkan dengan suatu akun, Anda mungkin menerima panduan pemulihan akun, "
+"bukan tautan verifikasi."
 
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
@@ -7933,6 +8025,15 @@ msgstr ""
 
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr "Silakan lihat map spam jika Anda tidak melihatnya dalam kotak Anda."
+
+#, python-format
+msgid ""
+"If you receive a verification link, it will expire after %(count)s hour."
+msgid_plural ""
+"If you receive a verification link, it will expire after %(count)s hours."
+msgstr[0] ""
+"Jika Anda menerima tautan verifikasi, tautan tersebut akan kedaluwarsa "
+"setelah %(count)s jam."
 
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
@@ -7953,6 +8054,18 @@ msgid "Register again if the confirmation link expires."
 msgstr "Daftarkan lagi apabila tautan konfirmasi sudah kedaluwarsa."
 
 msgid ""
+"If you receive a verification link, open it while signed in to this account "
+"and follow the confirmation steps. You may be asked for your current "
+"password."
+msgstr ""
+"Jika Anda menerima tautan verifikasi, buka tautan tersebut saat masuk ke "
+"akun ini dan ikuti langkah-langkah konfirmasi. Anda mungkin diminta "
+"memasukkan kata sandi saat ini."
+
+msgid "Back to account settings"
+msgstr "Kembali ke pengaturan akun"
+
+msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
@@ -7969,11 +8082,55 @@ msgstr "Jika ada masalah dengan pendaftaran Anda, silakan hubungi kami."
 msgid "Please fix errors in the form."
 msgstr "Silakan perbaiki galat dalam formulir."
 
+msgid ""
+"Verification instructions will be sent to the new e-mail address. You do not "
+"need access to your old mailbox."
+msgstr ""
+"Petunjuk verifikasi akan dikirim ke alamat email baru. Anda tidak memerlukan "
+"akses ke kotak masuk email lama."
+
+msgid ""
+"Adding an address does not change your account e-mail address. After "
+"verification, you can select the new address in Account settings."
+msgstr ""
+"Menambahkan alamat tidak mengubah alamat email akun Anda. Setelah "
+"verifikasi, Anda dapat memilih alamat baru di Pengaturan akun."
+
 msgid "Send verification e-mail"
 msgstr "Kirim email verifikasi"
 
-msgid "Back to account settings"
-msgstr "Kembali ke pengaturan akun"
+msgid "Confirm your identity"
+msgstr "Konfirmasikan identitas Anda"
+
+msgid "Confirm your existing sign-in method before continuing."
+msgstr "Konfirmasikan metode masuk Anda yang sudah ada sebelum melanjutkan."
+
+msgid ""
+"Confirm your existing sign-in method before registering your first second "
+"factor."
+msgstr ""
+"Konfirmasikan metode masuk Anda yang sudah ada sebelum mendaftarkan faktor "
+"autentikasi kedua untuk pertama kalinya."
+
+msgid "Sign in again using a connected provider:"
+msgstr "Masuk kembali menggunakan penyedia yang terhubung:"
+
+msgid ""
+"Your previous e-mail verification has expired. Reset your password to "
+"continue."
+msgstr ""
+"Verifikasi email Anda sebelumnya telah kedaluwarsa. Atur ulang kata sandi "
+"untuk melanjutkan."
+
+msgid "Sign out and reset password by e-mail"
+msgstr "Keluar dan atur ulang kata sandi melalui email"
+
+msgid ""
+"No sign-in method is available to confirm your identity. Contact an "
+"administrator to recover access."
+msgstr ""
+"Tidak ada metode masuk yang tersedia untuk mengonfirmasi identitas Anda. "
+"Hubungi administrator untuk memulihkan akses."
 
 msgid "Trial subscriptions"
 msgstr "Langganan uji coba"
@@ -8172,6 +8329,9 @@ msgstr ""
 msgid "Change my password"
 msgstr "Ubah kata sandi saya"
 
+msgid "Set my password"
+msgstr "Atur kata sandi saya"
+
 msgid "Back to security settings"
 msgstr "Kembali ke pengaturan keamanan"
 
@@ -8208,9 +8368,6 @@ msgstr "Aktivitas"
 msgid "The e-mail address can be chosen from verified addresses only."
 msgstr ""
 "Alamat surel ini hanya dapat dipilih dari alamat yang sudah diverifikasikan."
-
-msgid "Add and verify e-mail address"
-msgstr "Tambah dan verifikasi alamat email"
 
 msgid "Save"
 msgstr "Simpan"
@@ -8305,9 +8462,6 @@ msgstr "Dikonfigurasi"
 msgid "Not configured"
 msgstr "Belum dikonfigurasi"
 
-msgid "Set password"
-msgstr "Atur kata sandi"
-
 msgid "Two-factor authentication"
 msgstr "Autentikasi dua faktor"
 
@@ -8398,7 +8552,7 @@ msgid "API key copied to clipboard."
 msgstr "Kunci API disalin ke papan klip."
 
 msgid "Verify your identity to view your API key"
-msgstr ""
+msgstr "Verifikasikan identitas Anda untuk melihat kunci API Anda"
 
 msgid "API root URL:"
 msgstr "URL root API:"
@@ -8598,9 +8752,6 @@ msgid ""
 msgstr ""
 "Lupa kata sandi Anda? Masukkan alamat surel Anda di bawah, kami akan "
 "mengirimkan surel berisi petunjuk untuk mengatur kata sandi yang baru."
-
-msgid "Set my password"
-msgstr "Atur kata sandi saya"
 
 msgid "Reset my password"
 msgstr "Atur ulang kata sandi saya"
@@ -9122,25 +9273,21 @@ msgstr "Sebelumnya"
 msgid "Next"
 msgstr "Selanjutnya"
 
-#, fuzzy
-#| msgid "Workflow customization"
 msgid "Workflow editing mode"
-msgstr "Penyesuaian alur kerja"
+msgstr "Mode pengeditan alur kerja"
 
-#, fuzzy
-#| msgid "Edit"
 msgid "Editor"
-msgstr "Sunting"
+msgstr "Editor"
 
-#, fuzzy
-#| msgid "YAML file"
 msgid "YAML"
-msgstr "Berkas YAML"
+msgstr "YAML"
 
 msgid ""
 "Both modes edit the same workflow, and switching between them keeps unsaved "
 "changes."
 msgstr ""
+"Kedua mode mengedit alur kerja yang sama, dan perubahan yang belum disimpan "
+"tetap dipertahankan saat beralih mode."
 
 msgid "Triggers"
 msgstr "Pemicu"
@@ -9149,61 +9296,21 @@ msgid ""
 "Events starting the workflow. Without any trigger it can only be run "
 "manually."
 msgstr ""
+"Peristiwa yang memulai alur kerja. Tanpa pemicu, alur kerja hanya dapat "
+"dijalankan secara manual."
 
-msgid "Trigger"
-msgstr "Pemicu"
-
-#, fuzzy
-#| msgid "Alert triggered"
-msgid "Add trigger"
-msgstr "Peringatan dipicu"
-
-#, fuzzy
-#| msgid "Configuration"
-msgid "Conditions"
-msgstr "Konfigurasi"
-
-#, fuzzy
-#| msgid "All components are now open for translation updates."
 msgid "All conditions have to pass before any action runs."
-msgstr "Semua komponen sekarang dibuka untuk pembaruan terjemahan."
+msgstr "Semua kondisi harus terpenuhi sebelum tindakan apa pun dijalankan."
 
-#, fuzzy
-#| msgid "Configuration"
-msgid "Condition"
-msgstr "Konfigurasi"
-
-#, fuzzy
-#| msgid "Bad configuration"
-msgid "Add condition"
-msgstr "Konfigurasi buruk"
-
-msgid "Actions"
-msgstr "Tindakan"
-
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Operation was performed in the repository"
 msgid "Operations performed in this order once the conditions pass."
-msgstr "Operasi dilakukan di repositori"
+msgstr ""
+"Operasi yang dilakukan sesuai urutan ini setelah semua kondisi terpenuhi."
 
-msgid "Action"
-msgstr "Tindakan"
-
-#, fuzzy
-#| msgid "Action"
-msgid "Add action"
-msgstr "Tindakan"
-
-#, fuzzy
-#| msgid "Move"
 msgid "Move up"
-msgstr "Pindah"
+msgstr "Pindahkan ke atas"
 
-#, fuzzy
-#| msgid "Move"
 msgid "Move down"
-msgstr "Pindah"
+msgstr "Pindahkan ke bawah"
 
 msgid "Published translation files are available from the CDN base URL:"
 msgstr "Berkas terjemahan yang diterbitkan tersedia dari URL dasar CDN:"
@@ -9273,25 +9380,27 @@ msgid ""
 "Configure the AMQP broker connection below, including any TLS certificates "
 "required by your broker, and select the events to publish."
 msgstr ""
+"Konfigurasikan koneksi broker AMQP di bawah ini, termasuk sertifikat TLS "
+"yang diperlukan oleh broker Anda, lalu pilih peristiwa yang akan "
+"dipublikasikan."
 
 msgid "Configure your consumer to subscribe to Weblate message topics:"
-msgstr ""
+msgstr "Konfigurasikan consumer Anda untuk berlangganan topik pesan Weblate:"
 
 msgid ""
 "Topics include only the path segments available for the event. If you "
 "configure a topic prefix, it is prepended with a dot separator."
 msgstr ""
+"Topik hanya mencakup segmen jalur yang tersedia untuk peristiwa tersebut. "
+"Jika Anda mengonfigurasi awalan topik, awalan tersebut ditambahkan di awal "
+"dengan pemisah titik."
 
-#, fuzzy
-#| msgid ""
-#| "Browse the Weblate documentation for guides on translating, "
-#| "administration, and configuration."
 msgid ""
 "See the add-on documentation for topic examples, the message schema, and "
 "consumer configuration."
 msgstr ""
-"Telusuri dokumentasi Weblate untuk panduan menerjemahkan, administrasi, dan "
-"konfigurasi."
+"Lihat dokumentasi add-on untuk contoh topik, skema pesan, dan konfigurasi "
+"consumer."
 
 msgid ""
 "You can use Django templates markup in both filename and content, for "
@@ -9346,6 +9455,22 @@ msgid ""
 msgstr ""
 "Lihat <a href=\"%(url)s\">repositori Kotlin SDK</a> untuk penyiapan plugin "
 "dan pustaka Gradle."
+
+msgid ""
+"Install Translation files CDN to let the SDK download original XML "
+"translation files. These files are published publicly, including files from "
+"private components."
+msgstr ""
+"Instal CDN berkas terjemahan agar SDK dapat mengunduh berkas terjemahan XML "
+"asli. Berkas ini dipublikasikan secara publik, termasuk berkas dari komponen "
+"privat."
+
+msgid ""
+"After installation, return to this page to copy the updated Gradle "
+"configuration."
+msgstr ""
+"Setelah instalasi, kembali ke halaman ini untuk menyalin konfigurasi Gradle "
+"yang telah diperbarui."
 
 msgid "Configure the Kotlin SDK Gradle plugin with these values:"
 msgstr "Konfigurasikan plugin Gradle Kotlin SDK dengan nilai berikut:"
@@ -9468,15 +9593,17 @@ msgid ""
 "Create an <a href=\"%(url)s\">incoming webhook in Slack</a> for the channel "
 "that should receive notifications."
 msgstr ""
+"Buat <a href=\"%(url)s\">webhook masuk di Slack</a> untuk saluran yang akan "
+"menerima notifikasi."
 
 msgid ""
 "Enter the webhook URL below and select the events to send to the channel."
 msgstr ""
+"Masukkan URL webhook di bawah ini dan pilih peristiwa yang akan dikirim ke "
+"saluran."
 
-#, fuzzy
-#| msgid "Please see a documentation for more info."
 msgid "See the add-on documentation for more information."
-msgstr "Silakan lihat dokumentasi untuk info lebih lanjut."
+msgstr "Lihat dokumentasi add-on untuk informasi selengkapnya."
 
 msgid ""
 "Weblate commits from components within this repository will be squashed."
@@ -9495,17 +9622,23 @@ msgid ""
 "Configure your service to receive JSON POST requests, enter its URL below, "
 "and select the events to send."
 msgstr ""
+"Konfigurasikan layanan Anda untuk menerima permintaan POST JSON, masukkan "
+"URL-nya di bawah ini, lalu pilih peristiwa yang akan dikirim."
 
 msgid ""
 "To verify request signatures, configure the same Standard Webhooks secret in "
 "Weblate and your receiver. Requests are signed only when a secret is "
 "configured."
 msgstr ""
+"Untuk memverifikasi tanda tangan permintaan, konfigurasikan secret Standard "
+"Webhooks yang sama di Weblate dan penerima Anda. Permintaan hanya "
+"ditandatangani jika secret telah dikonfigurasi."
 
 msgid ""
 "See the add-on documentation for the message payload and signature "
 "verification."
 msgstr ""
+"Lihat dokumentasi add-on untuk payload pesan dan verifikasi tanda tangan."
 
 msgid "HTTP Response"
 msgstr "Respons HTTP"
@@ -9522,6 +9655,19 @@ msgstr "Konten respons"
 msgid "Request payload"
 msgstr "Muatan permintaan"
 
+msgid ""
+"Reset these built-in roles to the current default permissions? This discards "
+"their customizations."
+msgstr ""
+"Atur ulang peran bawaan ini ke izin default saat ini? Penyesuaian pada peran "
+"tersebut akan dihapus."
+
+msgid "Reset permissions"
+msgstr "Atur ulang izin"
+
+msgid "Cancel"
+msgstr "Batal"
+
 msgid "Settings"
 msgstr "Pengaturan"
 
@@ -9530,6 +9676,13 @@ msgstr "Penugasan otomatis"
 
 msgid "Access control"
 msgstr "Kontrol akses"
+
+msgid ""
+"Automatically invite newly created users to this team based on their e-mail "
+"address. Users join only after accepting the invitation."
+msgstr ""
+"Undang pengguna yang baru dibuat secara otomatis ke tim ini berdasarkan "
+"alamat email mereka. Pengguna hanya bergabung setelah menerima undangan."
 
 msgid ""
 "Automatically add newly created users to this team based on their e-mail "
@@ -9575,6 +9728,9 @@ msgstr "Ini akan menghapus akses <b>%(user)s</b> ke proyek ini."
 
 msgid "Add"
 msgstr "Tambahkan"
+
+msgid "Moved component"
+msgstr "Komponen yang dipindahkan"
 
 msgid "All components"
 msgstr "Semua komponen"
@@ -9890,71 +10046,92 @@ msgstr "Anda tidak memiliki izin untuk mengubah kontrol akses proyek."
 msgid "Check your billing status"
 msgstr "Periksa status penagihan Anda"
 
-#, fuzzy
-#| msgid "Repository browser"
 msgid "Checking your browser"
-msgstr "Peramban repositori"
+msgstr "Memeriksa browser Anda"
 
 msgid ""
 "Your browser will calculate a short proof of work to protect this site "
 "against automated scraping."
 msgstr ""
+"Browser Anda akan melakukan perhitungan proof of work singkat untuk "
+"melindungi situs ini dari scraping otomatis."
 
-#, fuzzy
-#| msgid "Loading…"
 msgid "Working…"
-msgstr "Memuat…"
+msgstr "Memproses…"
 
 msgid ""
 "Verification failed. Enable JavaScript, workers, and cookies, then retry. "
 "You can also sign in."
 msgstr ""
+"Verifikasi gagal. Aktifkan JavaScript, worker, dan cookie, lalu coba lagi. "
+"Anda juga dapat masuk."
+
+msgid "The challenge expired. Retry to start a new challenge."
+msgstr "Tantangan telah kedaluwarsa. Coba lagi untuk memulai tantangan baru."
+
+msgid "This challenge was already used. Retry to start a new challenge."
+msgstr "Tantangan ini sudah digunakan. Coba lagi untuk memulai tantangan baru."
+
+msgid "Browser verification was unsuccessful. Please retry."
+msgstr "Verifikasi browser tidak berhasil. Silakan coba lagi."
+
+msgid "Browser verification could not be confirmed. Enable cookies and retry."
+msgstr ""
+"Verifikasi browser tidak dapat dikonfirmasi. Aktifkan cookie dan coba lagi."
+
+msgid ""
+"The verification service is temporarily unavailable. Please retry later."
+msgstr ""
+"Layanan verifikasi untuk sementara tidak tersedia. Silakan coba lagi nanti."
+
+msgid "Verification cookies could not be confirmed. Enable cookies and retry."
+msgstr ""
+"Cookie verifikasi tidak dapat dikonfirmasi. Aktifkan cookie dan coba lagi."
 
 msgid "JavaScript is required for anonymous access. You can sign in instead."
 msgstr ""
+"JavaScript diperlukan untuk akses anonim. Sebagai alternatif, Anda dapat "
+"masuk."
 
 msgid "Retry"
 msgstr "Coba lagi"
 
 msgid "Did you know?"
-msgstr ""
+msgstr "Tahukah Anda?"
 
-#, fuzzy
-#| msgid "Please review and confirm the missing language changes."
 msgid "Review and confirm the bulk edit changes."
-msgstr "Harap tinjau dan konfirmasi perubahan bahasa yang hilang."
+msgstr "Tinjau dan konfirmasikan perubahan pengeditan massal."
 
-#, fuzzy, python-format
-#| msgid "%(count)s string needing action"
-#| msgid_plural "%(count)s strings needing action"
+#, python-format
 msgid "%(counter)s string would change."
 msgid_plural "%(counter)s strings would change."
-msgstr[0] "%(count)s String butuh tindakan"
+msgstr[0] "%(counter)s string akan diubah."
 
 msgid ""
 "Showing the first 250 changes. Only selected displayed strings will be "
 "processed unless you choose to apply all matching strings."
 msgstr ""
+"Menampilkan 250 perubahan pertama. Hanya string yang ditampilkan dan dipilih "
+"yang akan diproses, kecuali Anda memilih untuk menerapkan perubahan pada "
+"semua string yang cocok."
 
 msgid "Update preview"
 msgstr "Pratinjau pembaruan"
 
 #, python-format
 msgid "Apply all matching strings (%(total)s)"
-msgstr ""
+msgstr "Terapkan pada semua string yang cocok (%(total)s)"
 
 msgid ""
 "Applies to all current matches, including those not displayed. The query and "
 "permissions are checked again when applying changes."
 msgstr ""
+"Berlaku untuk semua hasil yang cocok saat ini, termasuk yang tidak "
+"ditampilkan. Kueri dan izin akan diperiksa kembali saat perubahan diterapkan."
 
 msgid "Select"
 msgstr "Pilih"
 
-#, fuzzy
-#| msgctxt "Label on engage page"
-#| msgid "String"
-#| msgid_plural "Strings"
 msgid "String"
 msgstr "String"
 
@@ -9965,31 +10142,25 @@ msgid "State"
 msgstr "Status"
 
 msgid "Before"
-msgstr ""
+msgstr "Sebelum"
 
 msgid "After"
-msgstr ""
+msgstr "Sesudah"
 
 msgid "Empty"
 msgstr "Kosong"
 
-#, fuzzy
-#| msgid "Source flags — all languages"
 msgid "Source flags (all languages)"
-msgstr "Flag sumber — semua bahasa"
+msgstr "Flag sumber (semua bahasa)"
 
 msgid "Translation flags"
 msgstr "Penanda terjemahan"
 
-#, fuzzy
-#| msgid "All languages"
 msgid "Add label (all languages)"
-msgstr "Semua bahasa"
+msgstr "Tambahkan label (semua bahasa)"
 
-#, fuzzy
-#| msgid "Browse all languages"
 msgid "Remove label (all languages)"
-msgstr "Telusuri semua bahasa"
+msgstr "Hapus label (semua bahasa)"
 
 msgid "Apply"
 msgstr "Terapkan"
@@ -10932,10 +11103,8 @@ msgstr "Layanan ini terinstal di ruang kerja."
 msgid "workspace"
 msgstr "ruang kerja"
 
-#, fuzzy
-#| msgid "Language limit"
 msgid "Rate limited"
-msgstr "Batasan bahasa"
+msgstr "Terkena batas laju"
 
 msgid "This service is disabled."
 msgstr "Layanan ini dinonaktifkan."
@@ -10955,53 +11124,47 @@ msgstr ""
 "penyedia pihak ketiga. Tinjau ketentuan dan kebijakan privasi penyedia "
 "sebelum mengaktifkannya."
 
-#, fuzzy
-#| msgid "Hosted service"
 msgid "Inherited service"
-msgstr "Layanan yang dihos"
+msgstr "Layanan yang diwarisi"
 
-#, fuzzy
-#| msgid "This service is already installed here."
 msgid "This service is managed at its installation scope."
-msgstr "Layanan ini sudah terinstal di sini."
+msgstr "Layanan ini dikelola pada cakupan instalasinya."
 
-#, fuzzy
-#| msgid "Use this translation"
 msgid "Manage this installation"
-msgstr "Gunakan terjemahan ini"
+msgstr "Kelola instalasi ini"
 
 msgid "Installation slug (optional)"
 msgstr "Slug instalasi (opsional)"
 
-#, fuzzy
-#| msgid "This add-on has no settings."
 msgid "This service has no settings."
-msgstr "Pengaya ini tidak memiliki pengaturan."
+msgstr "Layanan ini tidak memiliki pengaturan."
 
-#, fuzzy
-#| msgid "Use automatic suggestions"
 msgid "Use in automations"
-msgstr "Gunakan saran otomatis"
+msgstr "Gunakan dalam otomatisasi"
 
 msgid ""
 "Select this installation in the engines setting of an automatic translation "
 "action using its numeric ID:"
 msgstr ""
+"Pilih instalasi ini dalam pengaturan mesin pada tindakan terjemahan otomatis "
+"menggunakan ID numeriknya:"
 
-#, fuzzy
-#| msgid "You can edit this string at:"
 msgid "You can also select it using its slug:"
-msgstr "Anda dapat menyunting string ini di:"
+msgstr "Anda juga dapat memilihnya menggunakan slug:"
 
 msgid ""
 "The numeric ID always selects this installation. The slug selects the "
 "installation currently using that name in the project."
 msgstr ""
+"ID numerik selalu memilih instalasi ini. Slug memilih instalasi yang saat "
+"ini menggunakan nama tersebut dalam proyek."
 
 msgid ""
 "Set an installation slug above to give this service a readable name in your "
 "automations."
 msgstr ""
+"Tetapkan slug instalasi di atas untuk memberi layanan ini nama yang mudah "
+"dibaca dalam otomatisasi Anda."
 
 msgid "Rate limit"
 msgstr "Batas akses"
@@ -11011,61 +11174,65 @@ msgid ""
 "Resetting the rate limit allows Weblate to try again; it does not reset the "
 "provider’s quota."
 msgstr ""
+"Permintaan ke layanan ini dihentikan sementara setelah terjadi kesalahan "
+"pada penyedia. Mengatur ulang batas laju memungkinkan Weblate mencoba lagi; "
+"tindakan ini tidak mengatur ulang kuota penyedia."
 
-#, fuzzy
-#| msgid "Repositories limit"
 msgid "Reset rate limit"
-msgstr "Batasan repositori"
+msgstr "Atur ulang batas laju"
 
-#, fuzzy
-#| msgid "This scope already has 20 service installations."
 msgid "The rate limit can be reset at the service’s installation scope."
-msgstr "Cakupan ini sudah memiliki 20 instalasi layanan."
+msgstr "Batas laju dapat diatur ulang pada cakupan instalasi layanan."
 
-#, fuzzy
-#| msgid "Version control"
 msgid "Service control"
-msgstr "Kontrol versi"
+msgstr "Kontrol layanan"
 
-#, fuzzy
-#| msgid "GitHub installation ID"
 msgid "Disable installation"
-msgstr "ID pemasangan GitHub"
+msgstr "Nonaktifkan instalasi"
 
 msgid ""
 "Stop using this installation here and in scopes inheriting it. Its settings "
 "are kept so you can enable it again later."
 msgstr ""
+"Hentikan penggunaan instalasi ini di sini dan pada cakupan yang mewarisinya. "
+"Pengaturannya tetap disimpan agar Anda dapat mengaktifkannya kembali nanti."
 
 msgid ""
 "Stop using this inherited installation in this workspace and its projects. "
 "Other installations of this service remain available."
 msgstr ""
+"Hentikan penggunaan instalasi yang diwarisi ini di ruang kerja ini dan "
+"proyek-proyeknya. Instalasi lain dari layanan ini tetap tersedia."
 
 msgid ""
 "Stop using this inherited installation in this project. Other installations "
 "of this service and its use in other projects are unaffected."
 msgstr ""
+"Hentikan penggunaan instalasi yang diwarisi ini di proyek ini. Instalasi "
+"lain dari layanan ini dan penggunaannya di proyek lain tidak terpengaruh."
 
 msgid "Disable"
 msgstr "Nonaktifkan"
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Enable machine translation"
 msgid "Enable installation"
-msgstr "Aktifkan terjemahan mesin"
+msgstr "Aktifkan instalasi"
 
 msgid ""
 "Resume using this installation with its saved settings here and in scopes "
 "inheriting it. Existing exclusions still apply."
 msgstr ""
+"Lanjutkan penggunaan instalasi ini dengan pengaturan yang tersimpan di sini "
+"dan pada cakupan yang mewarisinya. Pengecualian yang ada tetap berlaku."
 
 msgid ""
 "Remove the local exclusion for this installation. It can provide suggestions "
 "here when it is enabled at its installation scope and is not excluded "
 "upstream. Other excluded installations remain excluded."
 msgstr ""
+"Hapus pengecualian lokal untuk instalasi ini. Instalasi ini dapat memberikan "
+"saran di sini jika diaktifkan pada cakupan instalasinya dan tidak "
+"dikecualikan oleh cakupan di atasnya. Instalasi lain yang dikecualikan tetap "
+"dikecualikan."
 
 msgid "Enable"
 msgstr "Aktifkan"
@@ -11074,23 +11241,30 @@ msgid ""
 "This installation is disabled at its installation scope or excluded by an "
 "upstream scope."
 msgstr ""
+"Instalasi ini dinonaktifkan pada cakupan instalasinya atau dikecualikan oleh "
+"cakupan di atasnya."
 
-#, fuzzy
-#| msgid "Exclude all inherited installations of this service"
 msgid "Exclude inherited service"
-msgstr "Kecualikan semua instalasi terwariskan dari layanan ini"
+msgstr "Kecualikan layanan yang diwarisi"
 
 msgid ""
 "Stop using all site-wide installations of this service in this workspace and "
 "its projects, including installations added later. Installations configured "
 "directly in this workspace or its projects remain available."
 msgstr ""
+"Hentikan penggunaan semua instalasi layanan ini yang berlaku di seluruh "
+"situs di ruang kerja ini dan proyek-proyeknya, termasuk instalasi yang "
+"ditambahkan nanti. Instalasi yang dikonfigurasi langsung di ruang kerja ini "
+"atau proyek-proyeknya tetap tersedia."
 
 msgid ""
 "Stop using all inherited installations of this service in this project, "
 "including installations added later. Installations configured directly in "
 "this project and use in other projects are unaffected."
 msgstr ""
+"Hentikan penggunaan semua instalasi layanan ini yang diwarisi di proyek ini, "
+"termasuk instalasi yang ditambahkan nanti. Instalasi yang dikonfigurasi "
+"langsung di proyek ini dan penggunaan di proyek lain tidak terpengaruh."
 
 msgid "Exclude"
 msgstr "Kecualikan"
@@ -11100,6 +11274,9 @@ msgid ""
 "inheriting it, and deletes its saved settings. You will need to install and "
 "configure it again to use it later."
 msgstr ""
+"Menghapus instalasi ini akan menghentikan penggunaannya di sini dan pada "
+"cakupan yang mewarisinya, serta menghapus pengaturan yang tersimpan. Anda "
+"perlu menginstal dan mengonfigurasinya kembali untuk menggunakannya nanti."
 
 msgid "Configured translation services"
 msgstr "Layanan penerjemahan yang dikonfigurasi"
@@ -11122,15 +11299,11 @@ msgid ""
 "Some services will ask for additional configuration during installation."
 msgstr "Beberapa layanan akan meminta konfigurasi tambahan selama pemasangan."
 
-#, fuzzy
-#| msgid "Translation services"
 msgid "Translation service errors"
-msgstr "Layanan penerjemahan"
+msgstr "Kesalahan layanan terjemahan"
 
-#, fuzzy
-#| msgid "No eTranslation domains available"
 msgid "No translation service errors available."
-msgstr "Tidak ada domain eTranslation yang tersedia"
+msgstr "Tidak ada kesalahan layanan terjemahan yang tersedia."
 
 #, python-format
 msgid "The following activity has occurred on your account at %(site_title)s:"
@@ -11361,6 +11534,44 @@ msgstr "Komponen %(component)s dibuka"
 msgid "Digest: %(notification_name)s"
 msgstr "Intisari: %(notification_name)s"
 
+#, python-format
+msgid ""
+"Somebody requested to add this e-mail address to another account at "
+"%(site_title)s. This address is already associated with an account and "
+"cannot be added to another."
+msgstr ""
+"Seseorang meminta untuk menambahkan alamat email ini ke akun lain di %"
+"(site_title)s. Alamat ini sudah dikaitkan dengan suatu akun dan tidak dapat "
+"ditambahkan ke akun lain."
+
+msgid ""
+"If you intended to access the existing account, sign out and use password "
+"recovery. The button below opens the password reset form; it does not reset "
+"your password."
+msgstr ""
+"Jika Anda bermaksud mengakses akun yang sudah ada, keluar dan gunakan "
+"pemulihan kata sandi. Tombol di bawah ini membuka formulir pengaturan ulang "
+"kata sandi; tombol tersebut tidak mengatur ulang kata sandi Anda."
+
+msgid "Open password recovery"
+msgstr "Buka pemulihan kata sandi"
+
+msgid "Contact support for help moving this address between accounts."
+msgstr ""
+"Hubungi dukungan untuk mendapatkan bantuan memindahkan alamat ini antar akun."
+
+msgid ""
+"If you did not request this, you can ignore this e-mail. Your account has "
+"not been changed."
+msgstr ""
+"Jika Anda tidak meminta hal ini, Anda dapat mengabaikan email ini. Akun Anda "
+"tidak diubah."
+
+#. Translators: e-mail subject
+#, python-format
+msgid "E-mail address already associated with an account on %(site_title)s"
+msgstr "Alamat email sudah dikaitkan dengan suatu akun di %(site_title)s"
+
 msgid "View invitation"
 msgstr "Lihat undangan"
 
@@ -11368,6 +11579,10 @@ msgstr "Lihat undangan"
 msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
 msgstr[0] "Undangan akan kedaluwarsa setelah %(count)s jam."
+
+#, python-format
+msgid "Automatic team assignment: invitation to join %(team_name)s"
+msgstr "Penetapan tim otomatis: undangan untuk bergabung dengan %(team_name)s"
 
 #. Translators: e-mail subject
 #, python-format
@@ -11610,6 +11825,9 @@ msgstr "Konfirmasikan penghapusan akun"
 msgid "Confirm invitation"
 msgstr "Konfirmasikan undangan"
 
+msgid "Verify e-mail address"
+msgstr "Verifikasikan alamat email"
+
 msgid ""
 "Note: This notification has been truncated as there were over 100 entries."
 msgstr ""
@@ -11667,6 +11885,15 @@ msgstr "Belum selesai"
 #. Translators: e-mail subject
 msgid "Translation activity summary"
 msgstr "Ringkasan aktivitas terjemahan"
+
+#, python-format
+msgid "Verify this e-mail address for your account at %(site_title)s."
+msgstr "Verifikasikan alamat email ini untuk akun Anda di %(site_title)s."
+
+#. Translators: e-mail subject
+#, python-format
+msgid "Verify your e-mail address on %(site_title)s"
+msgstr "Verifikasikan alamat email Anda di %(site_title)s"
 
 msgid "Component diagnostics"
 msgstr "Diagnostik komponen"
@@ -11867,6 +12094,52 @@ msgstr "Telusuri penemuan"
 msgid "Performance report"
 msgstr "Laporan kinerja"
 
+msgid "Bot protection"
+msgstr "Perlindungan bot"
+
+msgid ""
+"Issued challenges, requests requiring proof of work, and verification "
+"outcomes in hourly buckets. Counts are best-effort and can be lost during "
+"cache outages or eviction."
+msgstr ""
+"Tantangan yang diterbitkan, permintaan yang memerlukan proof of work, dan "
+"hasil verifikasi dikelompokkan per jam. Penghitungan dilakukan semaksimal "
+"mungkin, tetapi data dapat hilang saat terjadi gangguan cache atau "
+"penghapusan entri dari cache."
+
+msgid "Counters are unavailable."
+msgstr "Data penghitung tidak tersedia."
+
+msgid "Outcome"
+msgstr "Hasil"
+
+msgid "Current hour"
+msgstr "Jam saat ini"
+
+msgid "Previous 24 completed hours"
+msgstr "24 jam penuh sebelumnya"
+
+msgid "Issued challenges"
+msgstr "Tantangan yang diterbitkan"
+
+msgid "Requests requiring proof of work"
+msgstr "Permintaan yang memerlukan proof of work"
+
+msgid "Expired challenge"
+msgstr "Tantangan kedaluwarsa"
+
+msgid "Invalid solution"
+msgstr "Solusi tidak valid"
+
+msgid "Replayed challenge"
+msgstr "Tantangan yang digunakan ulang"
+
+msgid "CSRF failure"
+msgstr "Kegagalan CSRF"
+
+msgid "Service unavailable"
+msgstr "Layanan tidak tersedia"
+
 msgid "Last occurrence"
 msgstr "Kejadian terakhir"
 
@@ -12019,6 +12292,272 @@ msgstr "Tampilkan komponen tanpa VCS jarak jauh"
 msgid "This repository is linked to:"
 msgstr "Repositori ini ditautkan ke:"
 
+msgid "Confirm security action"
+msgstr "Konfirmasikan tindakan keamanan"
+
+#, python-format
+msgid "Selected %(count)s findings affecting %(accounts)s accounts."
+msgstr "%(count)s temuan yang memengaruhi %(accounts)s akun telah dipilih."
+
+msgid ""
+"Disable the matching passwords, invalidate signed-in sessions, and revoke "
+"all API tokens. Users with an e-mail address will be notified. Single sign-"
+"on and two-factor settings are preserved. Accounts whose passwords have "
+"changed will be skipped."
+msgstr ""
+"Nonaktifkan kata sandi yang cocok, batalkan sesi yang sedang masuk, dan "
+"cabut semua token API. Pengguna yang memiliki alamat email akan diberi tahu. "
+"Pengaturan single sign-on dan autentikasi dua faktor tetap dipertahankan. "
+"Akun yang kata sandinya telah berubah akan dilewati."
+
+msgid ""
+"Remove the selected lookalike verified e-mail addresses and associated sign-"
+"in identities, disable account passwords, invalidate sessions, and revoke "
+"API tokens. Account owners will be notified at their primary e-mail address."
+msgstr ""
+"Hapus alamat email terverifikasi yang tampak serupa yang dipilih beserta "
+"identitas masuk terkait, nonaktifkan kata sandi akun, batalkan sesi, dan "
+"cabut token API. Pemilik akun akan diberi tahu melalui alamat email utama "
+"mereka."
+
+msgid ""
+"Dismiss the selected findings without changing credentials or notifying "
+"users. A new report confirming the same exposure can reopen them."
+msgstr ""
+"Abaikan temuan yang dipilih tanpa mengubah kredensial atau memberi tahu "
+"pengguna. Laporan baru yang mengonfirmasi paparan yang sama dapat membuka "
+"kembali temuan tersebut."
+
+msgid "Reset passwords"
+msgstr "Atur ulang kata sandi"
+
+msgid "Remove identities and reset accounts"
+msgstr "Hapus identitas dan atur ulang akun"
+
+msgid "Dismiss findings"
+msgstr "Abaikan temuan"
+
+#, python-format
+msgid "Security finding for %(username)s"
+msgstr "Temuan keamanan untuk %(username)s"
+
+msgid "CSV row"
+msgstr "Baris CSV"
+
+msgid "Identifier"
+msgstr "Pengenal"
+
+msgid "Matching method"
+msgstr "Metode pencocokan"
+
+msgid "No matching row details."
+msgstr "Tidak ada detail baris yang cocok."
+
+#, python-format
+msgid "Page %(number)s of %(total)s"
+msgstr "Halaman %(number)s dari %(total)s"
+
+msgid "Detected in reports"
+msgstr "Terdeteksi dalam laporan"
+
+msgid "Administrator"
+msgstr "Administrator"
+
+msgid "Deleted administrator"
+msgstr "Administrator yang telah dihapus"
+
+msgid "No validation reports for this finding."
+msgstr "Tidak ada laporan validasi untuk temuan ini."
+
+#, python-format
+msgid "Reports page %(number)s of %(total)s"
+msgstr "Halaman laporan %(number)s dari %(total)s"
+
+msgid "Previous reports"
+msgstr "Laporan sebelumnya"
+
+msgid "Next reports"
+msgstr "Laporan berikutnya"
+
+msgid "Account security findings"
+msgstr "Temuan keamanan akun"
+
+msgid "Validation reports"
+msgstr "Laporan validasi"
+
+msgid "Filename"
+msgstr "Nama berkas"
+
+msgid "Not recorded"
+msgstr "Tidak tercatat"
+
+msgid "Submitted by"
+msgstr "Dikirim oleh"
+
+msgid "Processing summary"
+msgstr "Ringkasan pemrosesan"
+
+msgid "Password validation completed."
+msgstr "Validasi kata sandi selesai."
+
+msgid "Legacy e-mail identity check completed."
+msgstr "Pemeriksaan identitas email lama selesai."
+
+msgid "Security action completed."
+msgstr "Tindakan keamanan selesai."
+
+msgid "Processing failed."
+msgstr "Pemrosesan gagal."
+
+msgid "Processing is not complete. Findings may still be added."
+msgstr "Pemrosesan belum selesai. Temuan masih dapat ditambahkan."
+
+msgid "View progress"
+msgstr "Lihat progres"
+
+#, python-format
+msgid "Processed %(processed)s of %(total)s entries."
+msgstr "%(processed)s dari %(total)s entri telah diproses."
+
+msgid "Finding type"
+msgstr "Jenis temuan"
+
+msgid "Filter"
+msgstr "Filter"
+
+msgid "Actions apply only to checked findings on this page."
+msgstr "Tindakan hanya berlaku untuk temuan yang dicentang di halaman ini."
+
+msgid "Select all on this page"
+msgstr "Pilih semua di halaman ini"
+
+msgid "Clear selection"
+msgstr "Hapus pilihan"
+
+msgid "Finding"
+msgstr "Temuan"
+
+#, python-format
+msgid "Select finding for %(username)s"
+msgstr "Pilih temuan untuk %(username)s"
+
+msgid "Inactive"
+msgstr "Tidak aktif"
+
+msgid "Bot"
+msgstr "Bot"
+
+msgid "No e-mail address: notification unavailable"
+msgstr "Tidak ada alamat email: notifikasi tidak tersedia"
+
+msgid "Date joined:"
+msgstr "Tanggal bergabung:"
+
+msgid "Last sign-in:"
+msgstr "Terakhir masuk:"
+
+#, python-format
+msgid "Row %(row)s: %(identifier)s (%(method)s)"
+msgstr "Baris %(row)s: %(identifier)s (%(method)s)"
+
+#, python-format
+msgid "View details (%(count)s match)"
+msgid_plural "View details (%(count)s matches)"
+msgstr[0] "Lihat detail (%(count)s kecocokan)"
+
+msgid "First detected:"
+msgstr "Pertama terdeteksi:"
+
+msgid "Last detected:"
+msgstr "Terakhir terdeteksi:"
+
+msgid "No security findings match these filters."
+msgstr "Tidak ada temuan keamanan yang cocok dengan filter ini."
+
+msgid "Remove lookalike e-mail identities and reset selected accounts"
+msgstr ""
+"Hapus identitas email yang tampak serupa dan atur ulang akun yang dipilih"
+
+msgid "Reset passwords for selected accounts"
+msgstr "Atur ulang kata sandi untuk akun yang dipilih"
+
+msgid "Dismiss selected findings"
+msgstr "Abaikan temuan yang dipilih"
+
+msgid ""
+"Dismissing findings marks them as reviewed without changing passwords or "
+"notifying users."
+msgstr ""
+"Mengabaikan temuan akan menandainya sebagai telah ditinjau tanpa mengubah "
+"kata sandi atau memberi tahu pengguna."
+
+msgid "Account security operation"
+msgstr "Operasi keamanan akun"
+
+msgid "Processing progress"
+msgstr "Progres pemrosesan"
+
+msgid "Refresh progress"
+msgstr "Perbarui progres"
+
+msgid ""
+"Review previous credential validation reports, including reports with no "
+"matching passwords."
+msgstr ""
+"Tinjau laporan validasi kredensial sebelumnya, termasuk laporan tanpa kata "
+"sandi yang cocok."
+
+msgid "Upload report"
+msgstr "Unggah laporan"
+
+msgid "Processed rows"
+msgstr "Baris yang diproses"
+
+msgid "Matching rows"
+msgstr "Baris yang cocok"
+
+msgid "Affected accounts"
+msgstr "Akun yang terdampak"
+
+#, python-format
+msgid "%(processed)s of %(total)s"
+msgstr "%(processed)s dari %(total)s"
+
+msgid "No validation reports yet."
+msgstr "Belum ada laporan validasi."
+
+msgid ""
+"Upload a CSV containing usernames or e-mail addresses and passwords. "
+"Passwords are checked in the background and never displayed in the report."
+msgstr ""
+"Unggah CSV yang berisi nama pengguna atau alamat email beserta kata sandi. "
+"Kata sandi diperiksa di latar belakang dan tidak pernah ditampilkan dalam "
+"laporan."
+
+msgid ""
+"Reports must use UTF-8 and contain at most 50,000 rows and 10 MiB. Leave the "
+"delimiter and column numbers blank for automatic detection."
+msgstr ""
+"Laporan harus menggunakan UTF-8 serta berisi maksimal 50.000 baris dan "
+"berukuran maksimal 10 MiB. Biarkan pemisah dan nomor kolom kosong agar "
+"dideteksi secara otomatis."
+
+msgid ""
+"The uploaded file is available for one hour. Adjust the CSV settings below "
+"to try again."
+msgstr ""
+"Berkas yang diunggah tersedia selama satu jam. Sesuaikan pengaturan CSV di "
+"bawah ini untuk mencoba lagi."
+
+msgid "CSV format (detected automatically)"
+msgstr "Format CSV (dideteksi secara otomatis)"
+
+msgid "Validate passwords"
+msgstr "Validasi kata sandi"
+
+msgid "Validate leaked passwords"
+msgstr "Validasi kata sandi yang bocor"
+
 msgid "Activate support package"
 msgstr "Aktifkan paket dukungan"
 
@@ -12159,6 +12698,20 @@ msgstr "Hapus undangan"
 msgid "Check user access"
 msgstr "Periksa akses pengguna"
 
+msgid "Account security"
+msgstr "Keamanan akun"
+
+#, python-format
+msgid "Security report (%(security_findings_open)s open findings)"
+msgstr "Laporan keamanan (%(security_findings_open)s temuan terbuka)"
+
+msgid ""
+"Validate a CSV report of leaked credentials against current account "
+"passwords."
+msgstr ""
+"Validasi laporan CSV berisi kredensial yang bocor dengan mencocokkannya "
+"terhadap kata sandi akun saat ini."
+
 msgid "Add workspace"
 msgstr "Tambahkan workspace"
 
@@ -12182,9 +12735,6 @@ msgstr "Matriks"
 
 msgid "Displayed languages"
 msgstr "Bahasa yang ditampilkan"
-
-msgid "Choose"
-msgstr "Pilih"
 
 msgid "Translation memory status"
 msgstr "Status memori terjemahan"
@@ -12506,15 +13056,11 @@ msgstr ""
 msgid "Assign source strings"
 msgstr "Tugaskan string sumber"
 
-#, fuzzy
-#| msgid "Assigned source strings"
 msgid "Find source strings"
-msgstr "String sumber yang ditugaskan"
+msgstr "Temukan string sumber"
 
-#, fuzzy
-#| msgid "Image widgets"
 msgid "Image text"
-msgstr "Gambar widget"
+msgstr "Teks dalam gambar"
 
 msgid "Suggests source strings by recognizing text in this screenshot."
 msgstr "Menyarankan string sumber dengan mengenali teks dalam screenshot ini."
@@ -12724,7 +13270,7 @@ msgid "Select string for bulk edit"
 msgstr "Pilih string untuk edit massal"
 
 msgid "Choose which strings to edit and the changes to apply."
-msgstr ""
+msgstr "Pilih string yang akan diedit dan perubahan yang akan diterapkan."
 
 msgid "The operation is applied to the strings selected in the list above."
 msgstr "Operasi diterapkan pada string yang dipilih dalam daftar di atas."
@@ -12780,9 +13326,6 @@ msgid "The translation was automatically locked due to the following alert:"
 msgid_plural ""
 "The translation was automatically locked due to the following alerts:"
 msgstr[0] "Terjemahan dikunci secara otomatis karena peringatan berikut:"
-
-msgid "Filter"
-msgstr "Filter"
 
 msgid "Clear filters"
 msgstr "Hapus filter"
@@ -13094,6 +13637,25 @@ msgstr "Terjemahan"
 
 #, python-format
 msgid ""
+"An automatic team assignment rule invited you to collaborate on "
+"%(project_name)s and join the %(team_name)s team. You will join only if you "
+"accept this invitation."
+msgstr ""
+"Aturan penetapan tim otomatis mengundang Anda untuk berkolaborasi dalam %"
+"(project_name)s dan bergabung dengan tim %(team_name)s. Anda hanya akan "
+"bergabung jika menerima undangan ini."
+
+#, python-format
+msgid ""
+"An automatic team assignment rule invited you to join the %(team_name)s team "
+"in %(workspace_name)s. You will join only if you accept this invitation."
+msgstr ""
+"Aturan penetapan tim otomatis mengundang Anda untuk bergabung dengan tim %"
+"(team_name)s di %(workspace_name)s. Anda hanya akan bergabung jika menerima "
+"undangan ini."
+
+#, python-format
+msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
 "on %(project_name)s and join the %(team_name)s team."
 msgstr ""
@@ -13139,6 +13701,9 @@ msgstr "Bokir pengguna"
 
 msgid "View notification"
 msgstr "Lihat notifikasi"
+
+msgid "View full change"
+msgstr "Lihat perubahan lengkap"
 
 msgid "No matching activity found."
 msgstr "Tidak ditemukan aktivitas yang cocok."
@@ -13747,6 +14312,13 @@ msgstr ""
 msgid "You are about to continue removing your Weblate account."
 msgstr "Anda akan melanjutkan penghapusan akun Weblate Anda."
 
+msgid ""
+"You are about to continue adding this e-mail address to your existing "
+"Weblate account."
+msgstr ""
+"Anda akan melanjutkan penambahan alamat email ini ke akun Weblate Anda yang "
+"sudah ada."
+
 msgid "You are about to accept an invitation and create a Weblate account."
 msgstr "Anda akan menerima undangan dan membuat akun Weblate."
 
@@ -13761,6 +14333,9 @@ msgstr "Lanjutkan pengaturan ulang kata sandi"
 
 msgid "Continue account removal"
 msgstr "Lanjutkan penghapusan akun"
+
+msgid "Continue e-mail verification"
+msgstr "Lanjutkan verifikasi email"
 
 msgid "Accept invitation"
 msgstr "Terima undangan"
@@ -13863,9 +14438,6 @@ msgstr "Weblate tidak dapat memvalidasi URL situs web proyek:"
 
 msgid "Weblate CDN add-on could not parse the HTML files."
 msgstr "Pengaya CDN Weblate tidak dapat mengurai berkas HTML."
-
-msgid "Filename"
-msgstr "Nama berkas"
 
 msgid ""
 "The local repository checkout or its Git directory is missing. Repeated "
@@ -14371,28 +14943,19 @@ msgid ""
 msgstr ""
 "Weblate tidak dapat mengurai berkas terjemahan saat memperbarui terjemahan."
 
-#, fuzzy
-#| msgid ""
-#| "Weblate pushed the changes and created the pull request, but could not "
-#| "merge it automatically."
 msgid ""
 "Weblate pushed the changes and created the pull request, but could not apply "
 "the configured labels or assignees."
 msgstr ""
-"Weblate mendorong perubahan dan membuat pull request, tetapi tidak dapat "
-"menggabungkannya secara otomatis."
+"Weblate telah melakukan push perubahan dan membuat pull request, tetapi "
+"tidak dapat menerapkan label atau penerima tugas yang dikonfigurasi."
 
-#, fuzzy
-#| msgid ""
-#| "Check that the repository allows auto-merge and the selected merge "
-#| "method, or turn off automatic merging in the version control parameters."
 msgid ""
 "Check that the labels and assignees exist and that Weblate can write pull "
 "requests, or remove the customization from the version control parameters."
 msgstr ""
-"Periksa apakah repositori mengizinkan penggabungan otomatis dan metode "
-"penggabungan yang dipilih, atau matikan penggabungan otomatis dalam "
-"parameter kontrol versi."
+"Pastikan label dan penerima tugas tersedia serta Weblate memiliki izin untuk "
+"menulis pull request, atau hapus penyesuaian dari parameter kontrol versi."
 
 msgid "Weblate could not push changes to the upstream repository."
 msgstr "Weblate tidak bisa mendorong perubahan ke repositori hulu."
@@ -14532,6 +15095,9 @@ msgstr "Loncat ke tanggal"
 msgid "Go"
 msgstr "Buka"
 
+msgid "Change details"
+msgstr "Detail perubahan"
+
 msgid "Download latest changes as CSV"
 msgstr "Unduh perubahan terbaru sebagai CSV"
 
@@ -14645,9 +15211,6 @@ msgstr ""
 
 msgid "Add or configure account"
 msgstr "Tambahkan atau konfigurasi akun"
-
-msgid "Branch"
-msgstr "Branch"
 
 msgid "Visibility"
 msgstr "Visibilitas"
@@ -14984,9 +15547,6 @@ msgstr ""
 
 msgid "Edit source"
 msgstr "Edit sumber"
-
-msgid "Cancel"
-msgstr "Batal"
 
 msgid "Learn more about pushing changes from Weblate."
 msgstr "Pelajari lebih lanjut tentang mendorong perubahan dari Weblate."
@@ -15350,6 +15910,13 @@ msgstr ""
 
 msgid "Quick downloads"
 msgstr "Unduhan cepat"
+
+msgid ""
+"Original files can contain contributor identities and require additional "
+"permission. Use a generated export below for offline translation."
+msgstr ""
+"Berkas asli dapat berisi identitas kontributor dan memerlukan izin tambahan. "
+"Gunakan hasil ekspor yang dihasilkan di bawah ini untuk penerjemahan luring."
 
 msgid "File in original format as translated in the repository"
 msgstr "Berkas dalam format asli sebagai diterjemahkan di repositori"
@@ -16136,9 +16703,6 @@ msgstr "Komponen diubah namanya"
 msgid "A component was moved within a project."
 msgstr "Komponen dipindahkan dalam proyek."
 
-msgid "Moved component"
-msgstr "Komponen yang dipindahkan"
-
 msgid "A user made their first contribution to a translation."
 msgstr "Pengguna memberikan kontribusi pertamanya pada terjemahan."
 
@@ -16687,10 +17251,8 @@ msgid "Could not merge the pull request automatically."
 msgstr "Tidak dapat menggabungkan pull request secara otomatis."
 
 #. Translators: Name of an alert
-#, fuzzy
-#| msgid "Could not merge the pull request automatically."
 msgid "Could not customize the pull request."
-msgstr "Tidak dapat menggabungkan pull request secara otomatis."
+msgstr "Tidak dapat menyesuaikan pull request."
 
 #. Translators: Name of an alert
 msgid "Repository outdated."
@@ -16718,18 +17280,16 @@ msgstr "Apostrof dalam Java MessageFormat"
 msgid "Trailing and leading whitespace"
 msgstr "Spasi di belakang dan di depan"
 
-#, fuzzy
-#| msgid "Automatic translation completed, no strings were updated."
 msgid "Automatic translation completed with errors, no strings were updated."
-msgstr "Terjemahan otomatis selesai, tidak ada string yang diperbarui."
+msgstr ""
+"Terjemahan otomatis selesai dengan kesalahan, tidak ada string yang "
+"diperbarui."
 
-#, fuzzy, python-format
-#| msgid "Automatic translation completed, %d string was updated."
-#| msgid_plural "Automatic translation completed, %d strings were updated."
+#, python-format
 msgid "Automatic translation completed with errors, %d string was updated."
 msgid_plural ""
 "Automatic translation completed with errors, %d strings were updated."
-msgstr[0] "Terjemahan otomatis selesai, %d string telah diperbarui."
+msgstr[0] "Terjemahan otomatis selesai dengan kesalahan, %d string diperbarui."
 
 msgid "Automatic translation completed, no strings were updated."
 msgstr "Terjemahan otomatis selesai, tidak ada string yang diperbarui."
@@ -16757,6 +17317,19 @@ msgstr ""
 "Bentuk jamak di beberapa komponen sumber tidak sesuai dengan terjemahan "
 "sasaran. Penerjemahan otomatis melewati string yang memiliki bentuk jamak "
 "dan hanya memproses string dengan satu bentuk."
+
+msgid ""
+"Automatic translation lost its database connection. Please try again later."
+msgstr ""
+"Terjemahan otomatis kehilangan koneksi ke basis data. Silakan coba lagi "
+"nanti."
+
+msgid ""
+"Automatic translation is already running for this translation. Please try "
+"again later."
+msgstr ""
+"Terjemahan otomatis sedang berjalan untuk terjemahan ini. Silakan coba lagi "
+"nanti."
 
 #, python-format
 msgid "Automatic translation failed: %s"
@@ -16804,7 +17377,7 @@ msgid "Screenshot image is missing."
 msgstr "Gambar tangkapan layar hilang."
 
 msgid "Revision must be a complete hexadecimal object ID."
-msgstr ""
+msgstr "Revisi harus berupa ID objek heksadesimal lengkap."
 
 msgid "Duplicate check name."
 msgstr "Nama pemeriksaan duplikat."
@@ -16818,10 +17391,8 @@ msgstr "Nama berkas komponen tidak sesuai dengan kategori dan slug-nya."
 msgid "Duplicate component slug."
 msgstr "Slug komponen duplikat."
 
-#, fuzzy
-#| msgid "Translation reviews are not enabled."
 msgid "Translation revision has an invalid format."
-msgstr "Peninjauan terjemahan tidak diaktifkan."
+msgstr "Format revisi terjemahan tidak valid."
 
 msgid "Duplicate translation identifier."
 msgstr "Pengenal terjemahan duplikat."
@@ -16886,17 +17457,16 @@ msgid ""
 "Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
 "it is unknown."
 msgstr ""
+"Parameter %(parameter)s dalam %(family)s pada %(component)s dilewati karena "
+"tidak dikenal."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "Component %(component)s was skipped because its linked repository is "
-#| "unavailable."
+#, python-format
 msgid ""
 "Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
 "it is not applicable."
 msgstr ""
-"Komponen %(component)s dilewati karena repositori yang terhubung tidak "
-"tersedia."
+"Parameter %(parameter)s dalam %(family)s pada %(component)s dilewati karena "
+"tidak berlaku."
 
 msgid "Version control parameters"
 msgstr "Parameter kontrol versi"
@@ -16907,23 +17477,23 @@ msgstr "Parameter format berkas"
 msgid "The project repository directory already exists."
 msgstr "Direktori repositori proyek sudah ada."
 
-#, fuzzy
-#| msgid "Invalid search query!"
 msgid "Invalid search type."
-msgstr "Kueri pencarian tidak valid!"
+msgstr "Jenis pencarian tidak valid."
 
 msgid "Enter a search string to replace."
-msgstr ""
+msgstr "Masukkan string pencarian yang akan diganti."
 
-#, fuzzy
-#| msgid "Invalid request."
 msgid "Invalid target state."
-msgstr "Permintaan tidak valid."
+msgstr "Status target tidak valid."
 
-#, fuzzy
-#| msgid "How to handle requests for creating new translations."
 msgid "Choose either replacement or clearing translations."
-msgstr "Cara menangani permintaan untuk membuat terjemahan baru."
+msgstr "Pilih antara mengganti atau mengosongkan terjemahan."
+
+#, python-format
+msgid "Bulk edits are limited to %(limit)d strings. Narrow the search query."
+msgstr ""
+"Pengeditan massal dibatasi hingga %(limit)d string. Persempit kueri "
+"pencarian."
 
 msgid "The component was automatically locked because of an alert."
 msgstr "Komponen dikunci secara otomatis karena suatu peringatan."
@@ -16980,6 +17550,9 @@ msgstr "Revisi asli: {}"
 
 msgid "New revision: {}"
 msgstr "Revisi baru: {}"
+
+msgid "Content is too long to show in the change list."
+msgstr "Konten terlalu panjang untuk ditampilkan dalam daftar perubahan."
 
 #, python-format
 msgctxt "Number of edits on a change in Damerau–Levenshtein distance"
@@ -17099,6 +17672,11 @@ msgstr "Mask berkas cocok dengan komponen utama."
 #, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
 msgstr "{filename} ({parameter}) tidak ada."
+
+#. Translators: condensed rendering of a change action in history
+#, python-format
+msgid "%(action)s at %(time)s on %(translation)s"
+msgstr "%(action)s pada %(time)s di %(translation)s"
 
 #. Translators: %s is site title here
 #, python-format
@@ -17263,6 +17841,53 @@ msgstr "MAC (\\r)"
 
 msgid "Include closing tag for blank XML tags"
 msgstr "Sertakan tag penutup untuk tag XML yang kosong"
+
+msgid "UTF-8 byte order mark"
+msgstr "Byte order mark UTF-8"
+
+msgid "Preserve input"
+msgstr "Pertahankan masukan"
+
+msgid "Always include"
+msgstr "Selalu sertakan"
+
+msgid "Always omit"
+msgstr "Selalu hilangkan"
+
+msgid ""
+"Controls the UTF-8 byte order mark. Other encodings are unchanged. New files "
+"without a template omit the mark when preserving input."
+msgstr ""
+"Mengatur byte order mark UTF-8. Pengodean lain tidak diubah. Berkas baru "
+"tanpa templat tidak menyertakan penanda ini saat mempertahankan masukan."
+
+msgid "XML declaration encoding case"
+msgstr "Kapitalisasi nama pengodean dalam deklarasi XML"
+
+msgid "Format default"
+msgstr "Default format"
+
+msgid "Uppercase"
+msgstr "Huruf besar"
+
+msgid "Lowercase"
+msgstr "Huruf kecil"
+
+msgid ""
+"Controls encoding names in the XML declaration, for example \"UTF-8\" or "
+"\"utf-8\"."
+msgstr ""
+"Mengatur nama pengodean dalam deklarasi XML, misalnya \"UTF-8\" atau \"utf-"
+"8\"."
+
+msgid "XML final newline"
+msgstr "Baris baru di akhir XML"
+
+msgid ""
+"Controls the newline at the end of the file, using the format's line endings."
+msgstr ""
+"Mengatur baris baru di akhir berkas dengan menggunakan karakter akhir baris "
+"sesuai format."
 
 msgid "Whitespace handling"
 msgstr "Penanganan spasi putih"
@@ -17845,6 +18470,9 @@ msgstr "Perubahan maksimum per hari"
 msgid "Maximum source words per day"
 msgstr "Kata sumber maksimum per hari"
 
+msgid "This component does not exist or you cannot access it."
+msgstr "Komponen ini tidak ada atau Anda tidak dapat mengaksesnya."
+
 msgid "Inherit from workspace"
 msgstr "Warisi dari ruang kerja"
 
@@ -18072,6 +18700,8 @@ msgid ""
 "Case-sensitive text or regular expression to replace in matching strings. "
 "Leave empty to disable replacement."
 msgstr ""
+"Teks yang peka huruf besar-kecil atau ekspresi reguler yang akan diganti "
+"dalam string yang cocok. Biarkan kosong untuk menonaktifkan penggantian."
 
 msgid "Replacement string"
 msgstr "String pengganti"
@@ -18080,6 +18710,8 @@ msgid ""
 "Leave empty to remove matching text. In regular expression mode, use \\1 for "
 "the first captured group. Named group references are also supported."
 msgstr ""
+"Biarkan kosong untuk menghapus teks yang cocok. Dalam mode ekspresi reguler, "
+"gunakan 1 untuk grup tangkapan pertama. Referensi grup bernama juga didukung."
 
 msgid "State to set"
 msgstr "Status untuk diatur"
@@ -18087,85 +18719,78 @@ msgstr "Status untuk diatur"
 msgid "Do not change"
 msgstr "Jangan ubah"
 
-#, fuzzy
-#| msgid "Edit flags"
 msgid "Add flags"
-msgstr "Edit flag"
+msgstr "Tambahkan flag"
 
-#, fuzzy
-#| msgid "Remove app"
 msgid "Remove flags"
-msgstr "Hapus aplikasi"
+msgstr "Hapus flag"
 
-#, fuzzy
-#| msgid "Removes locally set flags. Inherited flags remain in effect."
 msgid ""
 "Only flags set directly on these translations are removed. Inherited flags "
 "remain in effect."
 msgstr ""
-"Menghapus flag yang ditetapkan secara lokal. Flag yang diwariskan tetap "
-"berlaku."
+"Hanya flag yang ditetapkan langsung pada terjemahan ini yang dihapus. Flag "
+"yang diwarisi tetap berlaku."
 
-#, fuzzy
-#| msgid "Add label"
 msgid "Add labels"
 msgstr "Tambahkan label"
 
-#, fuzzy
-#| msgid "Remove duplicates"
 msgid "Remove labels"
-msgstr "Hapus duplikat"
+msgstr "Hapus label"
 
-#, fuzzy
-#| msgid "Review changes"
 msgid "Preview changes"
-msgstr "Tinjau perubahan"
+msgstr "Pratinjau perubahan"
 
 msgid "Choose flags to add…"
-msgstr ""
+msgstr "Pilih flag yang akan ditambahkan…"
 
-#, fuzzy
-#| msgid "Component to remove"
 msgid "Choose flags to remove…"
-msgstr "Komponen untuk dihapus"
+msgstr "Pilih flag yang akan dihapus…"
 
-#, fuzzy
-#| msgid "Source language"
 msgid "Source flags"
-msgstr "Bahasa sumber"
+msgstr "Flag sumber"
 
 msgid ""
 "Flags are set on the source strings corresponding to your selection and "
 "apply to their translations in every language."
 msgstr ""
+"Flag ditetapkan pada string sumber yang sesuai dengan pilihan Anda dan "
+"berlaku untuk terjemahannya dalam setiap bahasa."
 
 msgid ""
 "Flags are set on the source strings corresponding to your filter results and "
 "apply to their translations in every language."
 msgstr ""
+"Flag ditetapkan pada string sumber yang sesuai dengan hasil filter Anda dan "
+"berlaku untuk terjemahannya dalam setiap bahasa."
 
-#, fuzzy
-#| msgid "Applies only to matching translations, excluding source strings."
 msgid ""
 "Flags apply only to translations in your selection. Source strings are "
 "excluded."
 msgstr ""
-"Hanya berlaku untuk terjemahan yang cocok, tidak termasuk string sumber."
+"Flag hanya berlaku untuk terjemahan dalam pilihan Anda. String sumber tidak "
+"disertakan."
 
 msgid ""
 "Flags apply only to translations matching your filter. Source strings are "
 "excluded."
 msgstr ""
+"Flag hanya berlaku untuk terjemahan yang cocok dengan filter Anda. String "
+"sumber tidak disertakan."
 
 msgid ""
 "Labels apply to the source strings corresponding to your selection and are "
 "shared across all languages."
 msgstr ""
+"Label berlaku untuk string sumber yang sesuai dengan pilihan Anda dan "
+"digunakan bersama di semua bahasa."
 
 msgid ""
 "Labels apply to the source strings corresponding to your filter results and "
 "are shared across all languages."
 msgstr ""
+"Label berlaku untuk string sumber yang sesuai dengan hasil filter Anda dan "
+"digunakan bersama di semua bahasa."
 
 msgid "Select strings to edit or enter a search query."
 msgstr "Pilih string untuk diedit atau masukkan kueri pencarian."
@@ -18630,11 +19255,6 @@ msgstr "Komponen dibuat melalui unggahan dokumen"
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s pada %(time)s di %(translation)s oleh %(user)s"
-
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "%(action)s pada %(time)s di %(translation)s"
 
 msgctxt "Change origin badge"
 msgid "API"
@@ -19379,6 +19999,11 @@ msgstr ""
 "repositori. Konfigurasi URL pendorongan dengan kredensial, atau gunakan URL "
 "repositori SSH."
 
+msgid "The file mask is too complex and took too long to evaluate."
+msgstr ""
+"Pola pencocokan berkas terlalu kompleks dan membutuhkan waktu terlalu lama "
+"untuk dievaluasi."
+
 msgid ""
 "A component can not be restricted while its project uses shared translation "
 "memory."
@@ -19983,6 +20608,29 @@ msgstr[0] ""
 "%(accepted)d dari %(total)d saran dari %(user)s diterima. %(failed)d gagal "
 "karena izin atau pemeriksaan."
 
+msgid "Bulk edit parameters are no longer valid."
+msgstr "Parameter pengeditan massal tidak lagi valid."
+
+#, python-format
+msgid "Bulk edit failed after processing %(count)d strings: %(error)s"
+msgstr "Pengeditan massal gagal setelah memproses %(count)d string: %(error)s"
+
+msgid "The target or permissions changed."
+msgstr "Target atau izin telah berubah."
+
+#, python-format
+msgid ""
+"Bulk edit failed after processing %(count)d strings. Earlier batches may "
+"have been applied."
+msgstr ""
+"Pengeditan massal gagal setelah memproses %(count)d string. Batch sebelumnya "
+"mungkin telah diterapkan."
+
+#, python-format
+msgid "Bulk edit completed, %d string was updated."
+msgid_plural "Bulk edit completed, %d strings were updated."
+msgstr[0] "Penyuntingan massal selesai, %d string diperbarui."
+
 msgid "Automatic translation skipped because the target no longer exists."
 msgstr "Terjemahan otomatis dilewati karena target tidak lagi ada."
 
@@ -20251,6 +20899,9 @@ msgstr "Anda tidak dapat menghapus diri sendiri!"
 msgid "You can not block yourself on this project."
 msgstr "Anda tidak dapat memblokir diri sendiri pada proyek ini."
 
+msgid "Remove project administration rights before blocking this user."
+msgstr "Cabut hak administrasi proyek sebelum memblokir pengguna ini."
+
 msgid "User has been blocked on this project."
 msgstr "Pengguna telah diblokir pada proyek ini."
 
@@ -20298,6 +20949,9 @@ msgid_plural ""
 msgstr[0] ""
 "Bahasa %(language)s tidak dapat ditambahkan ke %(count)d komponen. Silakan "
 "periksa konfigurasi komponen."
+
+msgid "You do not have permission to add this language."
+msgstr "Anda tidak memiliki izin untuk menambahkan bahasa ini."
 
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
@@ -20553,11 +21207,17 @@ msgstr "Komponen sekarang dikunci untuk pembaruan terjemahan!"
 msgid "All components are now locked for translation updates!"
 msgstr "Semua komponen sekarang dikunci untuk pembaruan terjemahan!"
 
+msgid "Allowed components are now locked for translation updates!"
+msgstr "Komponen yang diizinkan kini dikunci untuk pembaruan terjemahan!"
+
 msgid "Component is now open for translation updates."
 msgstr "Komponen sekarang dibuka untuk pembaruan terjemahan."
 
 msgid "All components are now open for translation updates."
 msgstr "Semua komponen sekarang dibuka untuk pembaruan terjemahan."
+
+msgid "Allowed components are now open for translation updates."
+msgstr "Komponen yang diizinkan kini terbuka untuk pembaruan terjemahan."
 
 msgid "Generating report…"
 msgstr "Membuat laporan…"
@@ -20617,27 +21277,25 @@ msgstr "Terlalu banyak kueri pencarian, silakan coba lagi nanti."
 msgid "Invalid search query!"
 msgstr "Kueri pencarian tidak valid!"
 
-#, fuzzy
-#| msgid ""
-#| "The original review state is invalid. Reload the editor and try again."
+msgid "Too many bulk edits, please try again later."
+msgstr "Terlalu banyak pengeditan massal, silakan coba lagi nanti."
+
 msgid "The preview has expired or is invalid. Preview the changes again."
-msgstr "Status peninjauan awal tidak valid. Muat ulang editor dan coba lagi."
+msgstr ""
+"Pratinjau telah kedaluwarsa atau tidak valid. Pratinjau kembali perubahan."
 
 msgid "Could not process form!"
 msgstr "Tidak dapat memproses formulir!"
 
-#, fuzzy, python-format
-#| msgid "Authentication failed: %s"
+msgid "Bulk edit in progress."
+msgstr "Pengeditan massal sedang berlangsung."
+
+#, python-format
 msgid "Bulk edit failed: %s"
-msgstr "Autentikasi gagal: %s"
+msgstr "Pengeditan massal gagal: %s"
 
 msgid "Bulk edit completed, no strings were updated."
 msgstr "Penyuntingan massal selesai, tidak ada string yang diperbarui."
-
-#, python-format
-msgid "Bulk edit completed, %d string was updated."
-msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] "Penyuntingan massal selesai, %d string diperbarui."
 
 msgid "Settings saved"
 msgstr "Pengaturan disimpan"
@@ -20784,140 +21442,160 @@ msgstr "Borg selesai dengan peringatan tanpa output apa pun."
 msgid "Invalid host name given!"
 msgstr "Nama hos yang diberikan tidak valid!"
 
-#, fuzzy
-#| msgid "JSX expressions in the translation do not match the source."
 msgid "Press ? in the translation editor to discover keyboard shortcuts."
-msgstr "Ekspresi JSX dalam terjemahan tidak cocok dengan sumber."
+msgstr "Tekan ? di editor terjemahan untuk melihat pintasan keyboard."
 
 msgid ""
 "Add secondary languages in your preferences to see translations you already "
 "understand alongside the source."
 msgstr ""
+"Tambahkan bahasa sekunder di preferensi Anda untuk melihat terjemahan yang "
+"sudah Anda pahami di samping teks sumber."
 
 msgid ""
 "Customize your special characters in your profile to keep frequently used "
 "characters within reach."
 msgstr ""
+"Sesuaikan karakter khusus di profil Anda agar karakter yang sering digunakan "
+"mudah diakses."
 
 msgid ""
 "Use the visual keyboard above the translation field to insert special "
 "characters."
 msgstr ""
+"Gunakan keyboard visual di atas kolom terjemahan untuk menyisipkan karakter "
+"khusus."
 
-#, fuzzy
-#| msgid "Saved searches are offered in the search filters."
 msgid ""
 "Save searches you use often so you can return to them from the search "
 "filters."
-msgstr "Pencarian yang disimpan ditawarkan dalam filter pencarian."
+msgstr ""
+"Simpan pencarian yang sering Anda gunakan agar dapat diakses kembali melalui "
+"filter pencarian."
 
 msgid ""
 "Combine search conditions with AND, OR, and NOT to find exactly the strings "
 "you need."
 msgstr ""
+"Gabungkan kondisi pencarian dengan AND, OR, dan NOT untuk menemukan string "
+"yang Anda butuhkan secara tepat."
 
 msgid ""
 "Search with regular expressions when a simple word search is not enough."
 msgstr ""
+"Gunakan ekspresi reguler dalam pencarian jika pencarian kata sederhana tidak "
+"memadai."
 
-#, fuzzy
-#| msgid "Use flags to indicate special strings in your translation."
 msgid "Use labels to organize strings and find related translation work."
 msgstr ""
-"Gunakan penanda untuk mengindikasikan string spesial dalam terjemahan Anda."
+"Gunakan label untuk mengatur string dan menemukan pekerjaan penerjemahan "
+"yang terkait."
 
 msgid ""
 "Check a string’s screenshots to see where the text appears in the "
 "application."
 msgstr ""
+"Periksa tangkapan layar suatu string untuk melihat lokasi teks tersebut "
+"dalam aplikasi."
 
 msgid ""
 "Link an existing screenshot to a string to give translators more context."
 msgstr ""
+"Tautkan tangkapan layar yang sudah ada ke suatu string untuk memberikan "
+"lebih banyak konteks kepada penerjemah."
 
 msgid ""
 "Check nearby strings for context before translating a short or ambiguous "
 "message."
 msgstr ""
+"Periksa string di sekitarnya untuk memahami konteks sebelum menerjemahkan "
+"pesan yang singkat atau ambigu."
 
 msgid "Explore a string’s history to see how its translation has changed."
-msgstr ""
+msgstr "Telusuri riwayat suatu string untuk melihat perubahan terjemahannya."
 
 msgid ""
 "Leave a comment on a source string to ask for context that can help every "
 "language."
 msgstr ""
+"Tinggalkan komentar pada string sumber untuk meminta konteks yang dapat "
+"membantu penerjemahan ke semua bahasa."
 
 msgid ""
 "Suggest a translation when you want others to review your wording before it "
 "is accepted."
 msgstr ""
+"Ajukan saran terjemahan jika Anda ingin orang lain meninjau pilihan kata "
+"Anda sebelum diterima."
 
-#, fuzzy
-#| msgid "An obsolete translation suggestion was removed during cleanup."
 msgid "You can edit a translation suggestion before accepting it."
-msgstr "Saran terjemahan usang dihapus selama pembersihan."
+msgstr "Anda dapat mengedit saran terjemahan sebelum menerimanya."
 
 msgid ""
 "Add terms to a project glossary to help translators use consistent wording."
 msgstr ""
+"Tambahkan istilah ke glosarium proyek untuk membantu penerjemah menggunakan "
+"pilihan kata yang konsisten."
 
 msgid ""
 "Glossaries can mark terms as forbidden to help translators avoid unwanted "
 "wording."
 msgstr ""
+"Glosarium dapat menandai istilah sebagai terlarang untuk membantu penerjemah "
+"menghindari pilihan kata yang tidak diinginkan."
 
 msgid "Glossaries can mark names and other terms as untranslatable."
 msgstr ""
+"Glosarium dapat menandai nama dan istilah lain sebagai tidak boleh "
+"diterjemahkan."
 
 msgid ""
 "Watch projects you care about and choose which translation events notify you."
 msgstr ""
+"Pantau proyek yang Anda minati dan pilih peristiwa penerjemahan yang akan "
+"memicu notifikasi untuk Anda."
 
 msgid ""
 "Choose notification digests to receive translation updates together instead "
 "of one email at a time."
 msgstr ""
+"Pilih ringkasan notifikasi untuk menerima pembaruan terjemahan secara "
+"gabungan, bukan melalui email satu per satu."
 
-#, fuzzy
-#| msgid "CEL validation or evaluation failed or exceeded its resource limit."
 msgid "Regular expression processing failed or exceeded its resource limit."
-msgstr "Validasi atau evaluasi CEL gagal atau melampaui batas sumber dayanya."
+msgstr "Pemrosesan ekspresi reguler gagal atau melampaui batas sumber dayanya."
 
-#, fuzzy
-#| msgid "The API request rate limit was exceeded."
 msgid "Cumulative regex time limit exceeded."
-msgstr "Batas laju permintaan API telah terlampaui."
+msgstr "Batas waktu kumulatif regex terlampaui."
 
 msgid "Regex request exceeds its size limit."
-msgstr ""
+msgstr "Permintaan regex melampaui batas ukurannya."
 
-#, fuzzy
-#| msgid "Regular expression to match translation files against"
 msgid "Regular expression evaluation timed out."
-msgstr "Ekspresi reguler untuk mencocokkan berkas terjemahan dengan"
+msgstr "Evaluasi ekspresi reguler melampaui batas waktu."
 
 msgid "Regex response exceeds its size limit."
-msgstr ""
+msgstr "Respons regex melampaui batas ukurannya."
 
 msgid "Regex output exceeds its size limit."
-msgstr ""
+msgstr "Keluaran regex melampaui batas ukurannya."
 
-#, fuzzy
-#| msgid "Topic prefix must not exceed %(limit)d characters."
 msgid "Pattern and replacement must not exceed 4096 characters."
-msgstr "Awalan topik tidak boleh melebihi %(limit)d karakter."
+msgstr ""
+"Pola dan teks pengganti masing-masing tidak boleh melebihi 4096 karakter."
 
 msgid "Regex input exceeds 1 MiB per plural."
-msgstr ""
+msgstr "Masukan regex melebihi 1 MiB per bentuk jamak."
 
-#, fuzzy, python-format
-#| msgid "Invalid regular expression: {}"
+#, python-format
 msgid "Invalid regular expression or replacement: %s"
-msgstr "Ekspresi reguler tidak valid: {}"
+msgstr "Ekspresi reguler atau teks pengganti tidak valid: %s"
 
 msgid "Automatic translation reported a warning."
 msgstr "Penerjemahan otomatis melaporkan peringatan."
+
+msgid "Automatic translation is waiting for another operation to finish."
+msgstr "Terjemahan otomatis sedang menunggu operasi lain selesai."
 
 msgid "Automatic translation failed. See the task log for details."
 msgstr ""
@@ -20927,10 +21605,8 @@ msgid "Task could not be completed. See the task log for details."
 msgstr ""
 "Tugas tidak dapat diselesaikan. Lihat log tugas untuk mengetahui detailnya."
 
-#, fuzzy
-#| msgid "Automatic translation reported a warning."
 msgid "Automatic translation reported an error."
-msgstr "Penerjemahan otomatis melaporkan peringatan."
+msgstr "Terjemahan otomatis melaporkan kesalahan."
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -21080,10 +21756,8 @@ msgstr "Tidak dapat menyelesaikan domain URL: {}"
 msgid "Could not resolve the URL domain."
 msgstr "Tidak dapat menemukan domain URL."
 
-#, fuzzy
-#| msgid "Invalid parameters!"
 msgid "Invalid stored parameter value."
-msgstr "Parameter tidak valid!"
+msgstr "Nilai parameter yang tersimpan tidak valid."
 
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "Parameter harus berupa kamus pasangan kunci-nilai."
@@ -21109,10 +21783,8 @@ msgstr ""
 "Tidak dapat mengunduh aset dari URL yang diberikan (kode status HTTP: "
 "%(code)s)."
 
-#, fuzzy
-#| msgid "Search query is too complex."
 msgid "Regular expression is too complex."
-msgstr "Kueri pencarian terlalu kompleks."
+msgstr "Ekspresi reguler terlalu kompleks."
 
 msgid "Search query is too complex."
 msgstr "Kueri pencarian terlalu kompleks."
@@ -21142,10 +21814,8 @@ msgstr "Ekspresi reguler tidak valid: {}"
 msgid "Unsupported lookup for {field}: {value}"
 msgstr "Pencarian tidak didukung untuk {field}: {value}"
 
-#, fuzzy
-#| msgid "Enter component ID or project/component slug."
 msgid "A concrete project or component is required."
-msgstr "Masukkan ID komponen atau slug proyek/komponen."
+msgstr "Proyek atau komponen tertentu diperlukan."
 
 msgid "Could not parse IP address: {}"
 msgstr "Tidak dapat mengurai alamat IP: {}"
@@ -21159,10 +21829,8 @@ msgstr "Range tidak didukung untuk bidang {}"
 msgid "Mixed operators!"
 msgstr "Operator campuran!"
 
-#, fuzzy
-#| msgid "Search query is too complex."
 msgid "Search query is too long."
-msgstr "Kueri pencarian terlalu kompleks."
+msgstr "Kueri pencarian terlalu panjang."
 
 msgid "Invalid character in the query string"
 msgstr "Karakter tidak valid dalam string kueri"
@@ -21354,6 +22022,9 @@ msgstr "URL Fediverse harus mengarah ke profil pengguna Fediverse."
 msgid "URL domain is not allowed."
 msgstr "Domain URL tidak diizinkan."
 
+msgid "AMQP broker URLs must not contain query strings or fragments."
+msgstr "URL broker AMQP tidak boleh berisi string kueri atau fragmen."
+
 msgid "Repository URL contains unsafe characters."
 msgstr "URL repositori berisi karakter yang tidak aman."
 
@@ -21536,49 +22207,41 @@ msgstr "Pendaftaran pull request gagal: %(error)s"
 msgid "Pull request listing failed: %(error)s Please retry later."
 msgstr "Pendaftaran pull request gagal: %(error)s Silakan coba lagi nanti."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request: %(status)s"
+#, python-format
 msgid ""
 "%(service)s API request failed while customizing a pull request: %(status)s"
-msgstr "Permintaan API %(service)s gagal saat membuat pull request: %(status)s"
+msgstr ""
+"Permintaan API %(service)s gagal saat menyesuaikan pull request: %(status)s"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request: %(status)s "
-#| "Please retry later."
+#, python-format
 msgid ""
 "%(service)s API request failed while customizing a pull request: %(status)s "
 "Please retry later."
 msgstr ""
-"Permintaan API %(service)s gagal saat membuat pull request: %(status)s "
+"Permintaan API %(service)s gagal saat menyesuaikan pull request: %(status)s "
 "Silakan coba lagi nanti."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request "
-#| "(%(status)s): %(error)s"
+#, python-format
 msgid ""
 "%(service)s API request failed while customizing a pull request "
 "(%(status)s): %(error)s"
 msgstr ""
-"Permintaan API %(service)s gagal saat membuat pull request (%(status)s): "
-"%(error)s"
+"Permintaan API %(service)s gagal saat menyesuaikan pull request (%(status)s)"
+": %(error)s"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request "
-#| "(%(status)s): %(error)s Please retry later."
+#, python-format
 msgid ""
 "%(service)s API request failed while customizing a pull request "
 "(%(status)s): %(error)s Please retry later."
 msgstr ""
-"Permintaan API %(service)s gagal saat membuat pull request (%(status)s): "
-"%(error)s Silakan coba lagi nanti."
+"Permintaan API %(service)s gagal saat menyesuaikan pull request (%(status)s)"
+": %(error)s Silakan coba lagi nanti."
 
 #, python-format
 msgid "GitHub did not assign the requested users: %(assignees)s"
 msgstr ""
+"GitHub tidak menetapkan pengguna yang diminta sebagai penerima tugas: %"
+"(assignees)s"
 
 #, python-format
 msgid "Could not fork repository at %(hostname)s"
@@ -21968,33 +22631,34 @@ msgstr ""
 "Weblate mendorong langsung ke cabang yang diterjemahkan, yang memerlukan "
 "akses tulis kepadanya."
 
-#, fuzzy
-#| msgid "Pull request"
 msgid "Pull request assignee"
-msgstr "Pull request"
+msgstr "Penerima tugas pull request"
 
 msgid "GitHub username to assign to pull requests created by Weblate."
 msgstr ""
+"Nama pengguna GitHub yang akan ditetapkan sebagai penerima tugas pada pull "
+"request yang dibuat oleh Weblate."
 
-#, fuzzy
-#| msgid "Merge pull requests automatically"
 msgid "Assign pull requests to acting user"
-msgstr "Gabungkan pull request secara otomatis"
+msgstr ""
+"Tetapkan pengguna yang melakukan tindakan sebagai penerima tugas pull request"
 
 msgid ""
 "Also assign the GitHub account linked to the Weblate user who starts the "
 "push, when available."
 msgstr ""
+"Tetapkan juga akun GitHub yang ditautkan ke pengguna Weblate yang memulai "
+"push sebagai penerima tugas, jika tersedia."
 
-#, fuzzy
-#| msgid "Pull request"
 msgid "Pull request labels"
-msgstr "Pull request"
+msgstr "Label pull request"
 
 msgid ""
 "Comma-separated names of labels to add to pull requests created by Weblate. "
 "Existing labels are kept."
 msgstr ""
+"Nama label yang dipisahkan dengan koma untuk ditambahkan ke pull request "
+"yang dibuat oleh Weblate. Label yang sudah ada tetap dipertahankan."
 
 msgid "Merge pull requests automatically"
 msgstr "Gabungkan pull request secara otomatis"
@@ -22352,6 +23016,58 @@ msgstr ""
 "Menu tarik turun navigasi tetap di sudut kanan atas, bahkan jika ada ruang "
 "untuk menu lengkap."
 
+msgid "CSV report"
+msgstr "Laporan CSV"
+
+msgid "Delimiter"
+msgstr "Pemisah"
+
+msgid ""
+"Leave blank to detect automatically. Use a comma, semicolon, pipe, or \\t "
+"for a tab."
+msgstr ""
+"Biarkan kosong agar dideteksi secara otomatis. Gunakan koma, titik koma, "
+"garis vertikal, atau \t untuk tab."
+
+msgid "First row contains column names"
+msgstr "Baris pertama berisi nama kolom"
+
+msgid "Username or e-mail column"
+msgstr "Kolom nama pengguna atau email"
+
+msgid "Password column"
+msgstr "Kolom kata sandi"
+
+msgid ""
+"Specify both column numbers, or leave both blank for automatic detection."
+msgstr ""
+"Tentukan kedua nomor kolom, atau biarkan keduanya kosong agar dideteksi "
+"secara otomatis."
+
+msgid "Configuring"
+msgstr "Sedang dikonfigurasi"
+
+msgid "Running"
+msgstr "Sedang berjalan"
+
+msgid "Open"
+msgstr "Terbuka"
+
+msgid "Resolved"
+msgstr "Terselesaikan"
+
+msgid "Dismissed by administrator"
+msgstr "Diabaikan oleh administrator"
+
+msgid "Lookalike e-mail identity removed"
+msgstr "Identitas email yang tampak serupa telah dihapus"
+
+msgid "E-mail identity already changed"
+msgstr "Identitas email sudah berubah"
+
+msgid "Password already changed"
+msgstr "Kata sandi sudah berubah"
+
 #. Translators: The Weblate server has no paid support by the Weblate team
 msgid "Community support"
 msgstr "Dukungan komunitas"
@@ -22413,11 +23129,148 @@ msgstr "Penyimpanan cadangan dibersihkan"
 msgid "Repository initialization"
 msgstr "Inisialisasi repositori"
 
+msgid "Leaked password"
+msgstr "Kata sandi yang bocor"
+
+msgid "Lookalike verified e-mail address"
+msgstr "Alamat email terverifikasi yang tampak serupa"
+
+msgid "The uploaded report has expired. Upload it again."
+msgstr "Laporan yang diunggah telah kedaluwarsa. Unggah kembali."
+
+msgid ""
+"Could not detect the credential columns. Configure their column numbers."
+msgstr "Tidak dapat mendeteksi kolom kredensial. Konfigurasikan nomor kolomnya."
+
+msgid "Choose different identifier and password columns."
+msgstr "Pilih kolom yang berbeda untuk pengenal dan kata sandi."
+
+msgid "The report exceeds the 10 MiB limit."
+msgstr "Laporan melebihi batas 10 MiB."
+
+msgid "Upload a UTF-8 encoded CSV file."
+msgstr "Unggah berkas CSV dengan pengodean UTF-8."
+
+msgid ""
+"Could not detect the delimiter. Configure the CSV columns and delimiter."
+msgstr "Tidak dapat mendeteksi pemisah. Konfigurasikan kolom dan pemisah CSV."
+
+msgid "Choose a single delimiter character."
+msgstr "Pilih satu karakter pemisah."
+
+msgid "The file contains malformed CSV quoting."
+msgstr "Berkas berisi penggunaan tanda kutip CSV yang tidak valid."
+
+msgid "The report is empty."
+msgstr "Laporan kosong."
+
+msgid "The report exceeds the 50,000 row limit."
+msgstr "Laporan melebihi batas 50.000 baris."
+
+msgid "The report contains no credential rows."
+msgstr "Laporan tidak berisi baris kredensial."
+
+msgid ""
+"The initiating administrator no longer has permission to perform this "
+"operation."
+msgstr ""
+"Administrator yang memulai operasi ini tidak lagi memiliki izin untuk "
+"melakukannya."
+
+msgid ""
+"The security operation failed. Review any findings already recorded and "
+"start a new operation."
+msgstr ""
+"Operasi keamanan gagal. Tinjau temuan yang sudah tercatat dan mulai operasi "
+"baru."
+
+msgid "Security report"
+msgstr "Laporan keamanan"
+
+#, python-format
+msgid "Report from %(date)s"
+msgstr "Laporan dari %(date)s"
+
+#, python-format
+msgid "%(filename)s — %(report)s"
+msgstr "%(filename)s — %(report)s"
+
+msgid ""
+"Your identity verification has expired. Confirm your identity, then select "
+"and upload the CSV report again."
+msgstr ""
+"Verifikasi identitas Anda telah kedaluwarsa. Konfirmasikan identitas Anda, "
+"lalu pilih dan unggah kembali laporan CSV."
+
+msgid "Could not store the encrypted upload. Try again."
+msgstr "Tidak dapat menyimpan unggahan terenkripsi. Coba lagi."
+
+msgid "Choose a CSV report of at most 10 MiB."
+msgstr "Pilih laporan CSV berukuran maksimal 10 MiB."
+
+msgid "Could not read the uploaded report. Upload it again."
+msgstr "Tidak dapat membaca laporan yang diunggah. Unggah kembali."
+
+msgid "Passwords checked"
+msgstr "Kata sandi yang diperiksa"
+
+msgid "Duplicate rows"
+msgstr "Baris duplikat"
+
+msgid "Unknown accounts"
+msgstr "Akun tidak dikenal"
+
+msgid "Ambiguous accounts"
+msgstr "Akun ambigu"
+
+msgid "Malformed rows"
+msgstr "Baris dengan format tidak valid"
+
+msgid "Unusable passwords"
+msgstr "Kata sandi yang tidak dapat digunakan"
+
+msgid "Passwords that did not match"
+msgstr "Kata sandi yang tidak cocok"
+
+msgid "Passwords reset"
+msgstr "Kata sandi yang diatur ulang"
+
+msgid "Lookalike e-mail identities removed"
+msgstr "Identitas email yang tampak serupa yang dihapus"
+
+msgid "E-mail identities already changed"
+msgstr "Identitas email yang sudah berubah"
+
+msgid "Passwords already changed"
+msgstr "Kata sandi yang sudah berubah"
+
+msgid "Dismissed findings"
+msgstr "Temuan yang diabaikan"
+
+msgid "Skipped findings"
+msgstr "Temuan yang dilewati"
+
+msgid "Unsupported actions"
+msgstr "Tindakan yang tidak didukung"
+
+msgid "Primary e-mail address"
+msgstr "Alamat email utama"
+
+msgid "Verified e-mail address"
+msgstr "Alamat email terverifikasi"
+
+#, python-format
+msgid "Finding for %(username)s"
+msgstr "Temuan untuk %(username)s"
+
 msgid "Weblate administration"
 msgstr "Administrasi Weblate"
 
 msgid "Object listing turned off"
 msgstr "Daftar objek dimatikan"
+
+msgid "The security operation expired. Start a new operation."
+msgstr "Operasi keamanan telah kedaluwarsa. Mulai operasi baru."
 
 msgid "Return to Weblate"
 msgstr "Kembali ke Weblate"
@@ -22551,23 +23404,14 @@ msgstr "Penetapan default komponen yang diwarisi"
 msgid "Workspace name"
 msgstr "Nama ruang kerja"
 
-#, fuzzy
-#| msgid "Allow translation propagation"
 msgid "Translation propagation scope"
-msgstr "Izinkan propagasi terjemahan"
+msgstr "Cakupan propagasi terjemahan"
 
-#, fuzzy
-#| msgid "Cannot change components on a workspace team."
 msgid "Matching component name within workspace"
-msgstr "Tidak dapat mengubah komponen pada tim ruang kerja."
+msgstr "Nama komponen yang cocok dalam ruang kerja"
 
-#, fuzzy
-#| msgid ""
-#| "Whether to overwrite existing translations if the string is already "
-#| "translated."
 msgid "Where translations of matching strings are propagated."
-msgstr ""
-"Apakah akan menimpa terjemahan yang ada jika string sudah diterjemahkan."
+msgstr "Tempat terjemahan dari string yang cocok dipropagasikan."
 
 msgid "Managed name"
 msgstr "Nama yang dikelola"
@@ -22599,6 +23443,31 @@ msgstr "Ruang kerja tidak dapat dihapus karena masih digunakan."
 
 msgid "The workspace has been removed."
 msgstr "Ruang kerja telah dihapus."
+
+#, python-format
+#~ msgid ""
+#~ "Fedora Messaging publisher service was unavailable; the connection will "
+#~ "be recreated on the next attempt: %(error)s"
+#~ msgstr ""
+#~ "Layanan penerbit Fedora Messaging tidak tersedia; koneksi akan dibuat "
+#~ "ulang pada percobaan berikutnya: %(error)s"
+
+#~ msgid "Could not reset Fedora Messaging publisher service."
+#~ msgstr "Tidak dapat mengatur ulang layanan penerbit Fedora Messaging."
+
+#, python-format
+#~ msgid "Fedora Messaging broker URL is invalid: %(error)s"
+#~ msgstr "URL broker Fedora Messaging tidak valid: %(error)s"
+
+#~ msgid "E-mail verification almost complete"
+#~ msgstr "Verifikasi email hampir selesai"
+
+#~ msgid ""
+#~ "Click the confirmation link sent to your e-mail inbox to verify the "
+#~ "address for your account."
+#~ msgstr ""
+#~ "Klik tautan konfirmasi yang dikirimkan ke kotak masuk email Anda untuk "
+#~ "memverifikasi alamat akun Anda."
 
 #~ msgid "Search and replace"
 #~ msgstr "Cari dan ganti"
@@ -22980,9 +23849,6 @@ msgstr "Ruang kerja telah dihapus."
 #~ "Gabunglah bersama kami dalam membentuk masa depan lokalisasi dan "
 #~ "kontribusilah hari ini!"
 
-#~ msgid "Download reports"
-#~ msgstr "Unduh laporan"
-
 #~ msgid "DeepL API v1 is no longer supported."
 #~ msgstr "DeepL API v1 tidak lagi didukung."
 
@@ -23130,9 +23996,6 @@ msgstr "Ruang kerja telah dihapus."
 #~ "Jangan khawatir apabila mengacaukan string. Ini adalah proses dua langkah "
 #~ "yang menunjukkan pratinjau string yang disunting sebelum perubahan yang "
 #~ "sebenarnya dikonfirmasi."
-
-#~ msgid "Activation completed."
-#~ msgstr "Aktivasi selesai."
 
 #, python-format
 #~ msgid "Could not activate your installation: %s"
@@ -24059,9 +24922,6 @@ msgstr "Ruang kerja telah dihapus."
 #~ msgid "Starting date"
 #~ msgstr "Tanggal mulai"
 
-#~ msgid "Ending date"
-#~ msgstr "Tanggal akhir"
-
 #~ msgid "Last 30 days"
 #~ msgstr "30 hari terakhir"
 
@@ -24216,9 +25076,6 @@ msgstr "Ruang kerja telah dihapus."
 #~ msgid "Committed changes"
 #~ msgstr "Perubahan telah di-commit"
 
-#~ msgid "Pushed changes"
-#~ msgstr "Perubahan telah di-push"
-
 #~ msgid "Failed merge on repository"
 #~ msgstr "Penggabungan gagal di repositori"
 
@@ -24338,9 +25195,6 @@ msgstr "Ruang kerja telah dihapus."
 
 #~ msgid "New language"
 #~ msgstr "Bahasa baru"
-
-#~ msgid "Check details"
-#~ msgstr "Periksa rincian"
 
 #~ msgid ""
 #~ "Customizable quality checks will help you improve the quality of "
@@ -25620,11 +26474,6 @@ msgstr "Ruang kerja telah dihapus."
 #~ msgid "Toggle edit needed flag"
 #~ msgstr "Toggle flag perlu ditinjau"
 
-#, fuzzy
-#~| msgid "Merge file header"
-#~ msgid "Merge failure"
-#~ msgstr "Gabungkan tajuk berkas"
-
 #~ msgid "Standard user"
 #~ msgstr "Standar pengguna"
 
@@ -25804,11 +26653,6 @@ msgstr "Ruang kerja telah dihapus."
 #~ msgid "User has all permissions without having been given them."
 #~ msgstr "Pengguna memiliki semua izin tanpa diberikan izin lagi."
 
-#, fuzzy
-#~| msgid "Active"
-#~ msgid "active"
-#~ msgstr "Aktif"
-
 #~ msgid ""
 #~ "Choose languages you speak in the preferences, to see an overview of all "
 #~ "projects that feature those languages here."
@@ -25877,9 +26721,6 @@ msgstr "Ruang kerja telah dihapus."
 
 #~ msgid "Host:"
 #~ msgstr "Host:"
-
-#~ msgid "Process"
-#~ msgstr "Proses"
 
 #~ msgid "Automatically add language file"
 #~ msgstr "Menambahkan berkas bahasa secara otomatis"
@@ -28234,9 +29075,6 @@ msgstr "Ruang kerja telah dihapus."
 #~ msgid "Messages"
 #~ msgstr "Pesan"
 
-#~ msgid "Others"
-#~ msgstr "Lainnya"
-
 #~ msgid "Subprojects"
 #~ msgstr "Subproyek"
 
@@ -28265,9 +29103,6 @@ msgstr "Ruang kerja telah dihapus."
 
 #~ msgid "Words extracted from glossary"
 #~ msgstr "Kata-kata diambil dari glosarium"
-
-#~ msgid "Comments (%(count)s)"
-#~ msgstr "Komentar (%(count)s)"
 
 #~ msgid "Source string details and feedback"
 #~ msgstr "Rincian-rincian string sumber dan umpan-balik"
@@ -28327,12 +29162,6 @@ msgstr "Ruang kerja telah dihapus."
 #~ "Your profile has been migrated, you might want to adjust preferences."
 #~ msgstr ""
 #~ "Profil Anda telah dipindah, Anda mungkin ingin menyesuaikan preferensinya."
-
-#~ msgid "Old password"
-#~ msgstr "Sandilewat lama"
-
-#~ msgid "The two password fields didn't match."
-#~ msgstr "Dua ruas sandilewat tidak cocok."
 
 #~ msgid "Your account could not be activated"
 #~ msgstr "Akun anda tidak dapat diaktifkan"

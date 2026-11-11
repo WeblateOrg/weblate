@@ -19,10 +19,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-29 23:00-0500\n"
-"PO-Revision-Date: 2026-10-31 17:58+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"POT-Creation-Date: 2026-11-05 22:27-0600\n"
+"PO-Revision-Date: 2026-11-09 08:51+0000\n"
+"Last-Translator: jernejp21 <jernejp21@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/weblate/"
 "application/sl/>\n"
 "Language: sl\n"
@@ -31,7 +30,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
 "n%100==4 ? 2 : 3;\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.11.2.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -421,6 +420,16 @@ msgstr ""
 msgid "Saved search"
 msgstr ""
 
+msgid ""
+"A lookalike e-mail identity was removed, the password was disabled, and API "
+"tokens were revoked."
+msgstr ""
+
+msgid ""
+"Password disabled as reported leaked credential matched the password; API "
+"tokens revoked."
+msgstr ""
+
 #. Translators: Audit log entry
 msgid "Password changed."
 msgstr "Geslo smo spremenili."
@@ -652,6 +661,17 @@ msgstr "Na {project} te je povabil/a {username}."
 #. Translators: Audit log entry
 msgid "Password configured."
 msgstr "Geslo je konfigurirano."
+
+msgid ""
+"Reset your password to restore password access and review your account "
+"activity."
+msgstr ""
+
+msgid ""
+"Reset your password to restore password access. Choose a unique password and "
+"review your account activity. The report didn't disclose the source of the "
+"leak."
+msgstr ""
 
 msgid "To restore access to your account, please reset your password."
 msgstr "Da obnovite dostop do svojega računa, ponastavite svoje geslo."
@@ -997,6 +1017,9 @@ msgid ""
 "a translation."
 msgstr ""
 
+msgid "Contributor"
+msgstr ""
+
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "Operacija je bila izvedena v skladišču"
@@ -1250,6 +1273,11 @@ msgid ""
 "inviter; it can't be used by your account."
 msgstr ""
 
+msgid ""
+"Your e-mail address has been added. You can now select it as your account e-"
+"mail address in Account settings."
+msgstr ""
+
 #, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
@@ -1280,6 +1308,9 @@ msgid "Dark"
 msgstr "Temna"
 
 msgid "Please confirm your identity using a second factor before proceeding."
+msgstr ""
+
+msgid "Please confirm your identity before proceeding."
 msgstr ""
 
 #, python-format
@@ -1386,7 +1417,7 @@ msgstr "Vpis"
 msgid "Signed out"
 msgstr "Odjavljen/-a"
 
-msgid "Verify new e-mail address"
+msgid "Add and verify e-mail address"
 msgstr ""
 
 msgid "Cannot reset password, e-mail authentication is turned off."
@@ -1394,6 +1425,9 @@ msgstr "Ne morete ponastaviti gesla; overitev z e-pošto je izključena."
 
 msgid "Change password"
 msgstr "Spremeni geslo"
+
+msgid "Set password"
+msgstr "Nastavite geslo"
 
 msgid "Password reset has been already completed."
 msgstr "Ponastavitev gesla je bila že opravljena."
@@ -1766,12 +1800,6 @@ msgid ""
 msgstr ""
 
 #, python-format
-msgid ""
-"Fedora Messaging publisher service was unavailable; the connection will be "
-"recreated on the next attempt: %(error)s"
-msgstr ""
-
-#, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
 msgstr ""
 
@@ -1786,8 +1814,8 @@ msgstr ""
 msgid "configured"
 msgstr ""
 
-msgid "Could not reset Fedora Messaging publisher service."
-msgstr ""
+msgid "The SSL certificates have to be provided for SSL connection."
+msgstr "Za povezavo SSL je treba zagotoviti SSL certifikate."
 
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
 msgstr ""
@@ -1796,10 +1824,6 @@ msgid "Client SSL key must be an unencrypted PEM encoded private key."
 msgstr ""
 
 msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
-msgstr ""
-
-#, python-format
-msgid "Fedora Messaging broker URL is invalid: %(error)s"
 msgstr ""
 
 #, python-format
@@ -2519,9 +2543,6 @@ msgstr ""
 msgid "Topic prefix must not exceed %(limit)d characters."
 msgstr ""
 
-msgid "The SSL certificates have to be provided for SSL connection."
-msgstr "Za povezavo SSL je treba zagotoviti SSL certifikate."
-
 msgid "The SSL certificates are not used without a SSL connection."
 msgstr "SSL potrdila se ne uporabljajo brez SSL povezave."
 
@@ -3095,6 +3116,24 @@ msgstr "Uporabnik"
 msgid "Language"
 msgstr "Jezik"
 
+msgid ""
+"Contributor identities are exposed by View contributor identities, Download "
+"changes, Manage reports, and access-management permissions. Permissions from "
+"all assigned roles are additive."
+msgstr ""
+
+msgid "Built-in"
+msgstr ""
+
+msgid "Customized"
+msgstr ""
+
+msgid "Reset built-in roles to defaults"
+msgstr ""
+
+msgid "Built-in role permissions reset."
+msgstr ""
+
 msgid "Personal info"
 msgstr "Osebni podatki"
 
@@ -3112,6 +3151,10 @@ msgstr "To se ne uporablja, ko je izbran seznam komponent."
 
 msgid "This is not used when a component is selected."
 msgstr "To se ne uporablja, ko je komponenta izbrana."
+
+#. Translators: Permission name
+msgid "View contributor identities"
+msgstr ""
 
 #. Translators: Permission name
 msgid "Download changes"
@@ -3322,6 +3365,18 @@ msgid "Manage workspace access"
 msgstr ""
 
 #. Translators: Permission name
+msgid "Browse users"
+msgstr ""
+
+#. Translators: Permission name
+msgid "Search resource contributors"
+msgstr ""
+
+#. Translators: Permission name
+msgid "View user profiles"
+msgstr ""
+
+#. Translators: Permission name
 msgid "Use management interface"
 msgstr ""
 
@@ -3391,6 +3446,14 @@ msgstr ""
 
 #. Translators: Permission name
 msgid "Manage site-wide add-ons"
+msgstr ""
+
+msgctxt "Access-control role"
+msgid "Discover users"
+msgstr ""
+
+msgctxt "Access-control role"
+msgid "View user profiles"
 msgstr ""
 
 msgctxt "Access-control role"
@@ -3600,6 +3663,10 @@ msgstr "Ime"
 
 msgid "Choose permissions granted to this role."
 msgstr "Izberite dovoljenja, dodeljena tej vlogi."
+
+msgid ""
+"Remove the component from project teams before moving it to another project."
+msgstr ""
 
 msgid "Roles"
 msgstr "Vloge"
@@ -3880,6 +3947,9 @@ msgid ""
 "access; otherwise, you would lock yourself out."
 msgstr ""
 
+msgid "Blocked users cannot be granted project administration rights."
+msgstr ""
+
 #, python-format
 msgid ""
 "Team %(name)s was renamed to %(new_name)s because its name was already in "
@@ -3899,6 +3969,12 @@ msgid "Cannot remove built-in team!"
 msgstr ""
 
 msgid "User invitation was removed."
+msgstr ""
+
+msgid "This invitation was already accepted or removed."
+msgstr ""
+
+msgid "Remove the project block before accepting this invitation."
 msgstr ""
 
 #, python-format
@@ -4086,6 +4162,51 @@ msgid "Any of"
 msgstr ""
 
 msgid "Not"
+msgstr ""
+
+msgid "Sequence"
+msgstr ""
+
+msgid "Choose"
+msgstr "Izberi"
+
+msgid "Trigger"
+msgstr ""
+
+msgid "Add trigger"
+msgstr ""
+
+msgid "Condition"
+msgstr ""
+
+msgid "Add condition"
+msgstr ""
+
+msgid "Action"
+msgstr "Dejanje"
+
+msgid "Add action"
+msgstr ""
+
+msgid "Conditions"
+msgstr ""
+
+msgid "Actions"
+msgstr "Dejanja"
+
+msgid "Branches"
+msgstr ""
+
+msgid "Add branch"
+msgstr ""
+
+msgid "Otherwise"
+msgstr ""
+
+msgid "Add action to run otherwise"
+msgstr ""
+
+msgid "Branch"
 msgstr ""
 
 msgid "Additional message"
@@ -4722,6 +4843,10 @@ msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr ""
 
 #, python-brace-format
+msgid "The HTML {tag} tag is nested too deeply."
+msgstr ""
+
+#, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
 "end with {semicolon}. If you do not want a character reference, use "
@@ -4903,6 +5028,12 @@ msgid "Fluent translation syntax"
 msgstr ""
 
 msgid "Fluent syntax error in the translation."
+msgstr ""
+
+msgid "The Fluent value could not be checked because it is too complex."
+msgstr ""
+
+msgid "the value is too complex or nested too deeply"
 msgstr ""
 
 msgid "The following format strings are in the wrong order:"
@@ -5773,12 +5904,23 @@ msgid ""
 "either this limit or the maximum age is reached."
 msgstr ""
 
+msgid "Install Translation files CDN"
+msgstr ""
+
+msgid ""
+"Publishes original translation files publicly, including files from private "
+"components."
+msgstr ""
+
 msgid "Kotlin SDK CDN"
 msgstr ""
 
 msgid ""
 "Publishes Android string and plural resources for registered Kotlin SDK "
 "builds."
+msgstr ""
+
+msgid "Translation files CDN cannot be installed on this component."
 msgstr ""
 
 msgid "Weblate languages"
@@ -7264,8 +7406,8 @@ msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
 msgstr ""
-"Vse potrditve, opravljene z Weblatejem, so podpisane s ključem GPG %"
-"(gpg_key_id)s, pripadajoč javen ključ pa je naveden spodaj."
+"Vse potrditve, opravljene z Weblatejem, so podpisane s ključem GPG "
+"%(gpg_key_id)s, pripadajoč javen ključ pa je naveden spodaj."
 
 msgid "Commit signing is not configured."
 msgstr "Podpisovanje potrditev ni nastavljeno."
@@ -7290,7 +7432,16 @@ msgstr ""
 msgid "Your profile"
 msgstr "Vaš profil"
 
+msgid "Confirm adding e-mail address"
+msgstr ""
+
 msgid "Confirm adding user identity"
+msgstr ""
+
+#, python-format
+msgid ""
+"Confirm adding %(uid)s to your existing Weblate account by entering your "
+"current password."
 msgstr ""
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
@@ -7299,8 +7450,11 @@ msgid ""
 "After confirming this, you will be able to authenticate to Weblate using "
 "%(backend_verbose)s (%(uid)s)."
 msgstr ""
-"Po potrditvi se boste v Weblate lahko prijavili s storitvijo %"
-"(backend_verbose)s (%(uid)s)."
+"Po potrditvi se boste v Weblate lahko prijavili s storitvijo "
+"%(backend_verbose)s (%(uid)s)."
+
+msgid "Add e-mail address"
+msgstr ""
 
 msgid "Confirm"
 msgstr "Potrdi"
@@ -7391,14 +7545,14 @@ msgstr ""
 msgid "Registration"
 msgstr "Registracija"
 
+msgid "Check your e-mail"
+msgstr ""
+
 msgid "Password reset almost complete"
 msgstr "Ponastavitev gesla je skoraj končana"
 
 msgid "Account removal almost complete"
 msgstr "Odstranitev računa je skoraj končana"
-
-msgid "E-mail verification almost complete"
-msgstr ""
 
 msgid "Registration almost complete"
 msgstr "Registracija je skoraj končana"
@@ -7412,8 +7566,9 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Click the confirmation link sent to your e-mail inbox to verify the address "
-"for your account."
+"Check your e-mail for instructions. If this address is already associated "
+"with an account, you may receive account recovery guidance instead of a "
+"verification link."
 msgstr ""
 
 msgid ""
@@ -7423,6 +7578,16 @@ msgstr ""
 
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr ""
+
+#, python-format
+msgid ""
+"If you receive a verification link, it will expire after %(count)s hour."
+msgid_plural ""
+"If you receive a verification link, it will expire after %(count)s hours."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
@@ -7444,6 +7609,15 @@ msgid "Register again if the confirmation link expires."
 msgstr ""
 
 msgid ""
+"If you receive a verification link, open it while signed in to this account "
+"and follow the confirmation steps. You may be asked for your current "
+"password."
+msgstr ""
+
+msgid "Back to account settings"
+msgstr ""
+
+msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
@@ -7457,10 +7631,44 @@ msgstr "Če imate z registracijo težave, vas prosimo, da navežete stik z nami.
 msgid "Please fix errors in the form."
 msgstr "Prosimo, odpravite napake na obrazcu."
 
+msgid ""
+"Verification instructions will be sent to the new e-mail address. You do not "
+"need access to your old mailbox."
+msgstr ""
+
+msgid ""
+"Adding an address does not change your account e-mail address. After "
+"verification, you can select the new address in Account settings."
+msgstr ""
+
 msgid "Send verification e-mail"
 msgstr ""
 
-msgid "Back to account settings"
+msgid "Confirm your identity"
+msgstr ""
+
+msgid "Confirm your existing sign-in method before continuing."
+msgstr ""
+
+msgid ""
+"Confirm your existing sign-in method before registering your first second "
+"factor."
+msgstr ""
+
+msgid "Sign in again using a connected provider:"
+msgstr ""
+
+msgid ""
+"Your previous e-mail verification has expired. Reset your password to "
+"continue."
+msgstr ""
+
+msgid "Sign out and reset password by e-mail"
+msgstr ""
+
+msgid ""
+"No sign-in method is available to confirm your identity. Contact an "
+"administrator to recover access."
 msgstr ""
 
 msgid "Trial subscriptions"
@@ -7654,6 +7862,9 @@ msgstr ""
 msgid "Change my password"
 msgstr "Spremeni moje geslo"
 
+msgid "Set my password"
+msgstr "Nastavi moje geslo"
+
 msgid "Back to security settings"
 msgstr ""
 
@@ -7688,9 +7899,6 @@ msgid "Activity"
 msgstr "Dejavnost"
 
 msgid "The e-mail address can be chosen from verified addresses only."
-msgstr ""
-
-msgid "Add and verify e-mail address"
 msgstr ""
 
 msgid "Save"
@@ -7773,9 +7981,6 @@ msgstr ""
 
 msgid "Not configured"
 msgstr ""
-
-msgid "Set password"
-msgstr "Nastavite geslo"
 
 msgid "Two-factor authentication"
 msgstr ""
@@ -8043,9 +8248,6 @@ msgid ""
 msgstr ""
 "Ste pozabili svoje geslo? Vnesite svoj e-poštni naslov spodaj in poslali vam "
 "bomo navodila za določitev novega."
-
-msgid "Set my password"
-msgstr "Nastavi moje geslo"
 
 msgid "Reset my password"
 msgstr "Ponastavi moje geslo"
@@ -8563,34 +8765,10 @@ msgid ""
 "manually."
 msgstr ""
 
-msgid "Trigger"
-msgstr ""
-
-msgid "Add trigger"
-msgstr ""
-
-msgid "Conditions"
-msgstr ""
-
 msgid "All conditions have to pass before any action runs."
 msgstr ""
 
-msgid "Condition"
-msgstr ""
-
-msgid "Add condition"
-msgstr ""
-
-msgid "Actions"
-msgstr "Dejanja"
-
 msgid "Operations performed in this order once the conditions pass."
-msgstr ""
-
-msgid "Action"
-msgstr "Dejanje"
-
-msgid "Add action"
 msgstr ""
 
 msgid "Move up"
@@ -8720,6 +8898,17 @@ msgstr "URL okrajšava projekta"
 msgid ""
 "See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
 "library setup."
+msgstr ""
+
+msgid ""
+"Install Translation files CDN to let the SDK download original XML "
+"translation files. These files are published publicly, including files from "
+"private components."
+msgstr ""
+
+msgid ""
+"After installation, return to this page to copy the updated Gradle "
+"configuration."
 msgstr ""
 
 msgid "Configure the Kotlin SDK Gradle plugin with these values:"
@@ -8887,6 +9076,17 @@ msgstr "Vsebina odziva"
 msgid "Request payload"
 msgstr ""
 
+msgid ""
+"Reset these built-in roles to the current default permissions? This discards "
+"their customizations."
+msgstr ""
+
+msgid "Reset permissions"
+msgstr ""
+
+msgid "Cancel"
+msgstr "Prekliči"
+
 msgid "Settings"
 msgstr "Nastavitve"
 
@@ -8895,6 +9095,11 @@ msgstr ""
 
 msgid "Access control"
 msgstr "Nadzor dostopa"
+
+msgid ""
+"Automatically invite newly created users to this team based on their e-mail "
+"address. Users join only after accepting the invitation."
+msgstr ""
 
 msgid ""
 "Automatically add newly created users to this team based on their e-mail "
@@ -8937,6 +9142,9 @@ msgstr ""
 
 msgid "Add"
 msgstr "Dodaj"
+
+msgid "Moved component"
+msgstr "Premaknjena komponenta"
 
 msgid "All components"
 msgstr "Vse komponente"
@@ -9262,6 +9470,25 @@ msgstr ""
 msgid ""
 "Verification failed. Enable JavaScript, workers, and cookies, then retry. "
 "You can also sign in."
+msgstr ""
+
+msgid "The challenge expired. Retry to start a new challenge."
+msgstr ""
+
+msgid "This challenge was already used. Retry to start a new challenge."
+msgstr ""
+
+msgid "Browser verification was unsuccessful. Please retry."
+msgstr ""
+
+msgid "Browser verification could not be confirmed. Enable cookies and retry."
+msgstr ""
+
+msgid ""
+"The verification service is temporarily unavailable. Please retry later."
+msgstr ""
+
+msgid "Verification cookies could not be confirmed. Enable cookies and retry."
 msgstr ""
 
 msgid "JavaScript is required for anonymous access. You can sign in instead."
@@ -10642,6 +10869,35 @@ msgstr ""
 msgid "Digest: %(notification_name)s"
 msgstr "Izvleček: %(notification_name)s"
 
+#, python-format
+msgid ""
+"Somebody requested to add this e-mail address to another account at "
+"%(site_title)s. This address is already associated with an account and "
+"cannot be added to another."
+msgstr ""
+
+msgid ""
+"If you intended to access the existing account, sign out and use password "
+"recovery. The button below opens the password reset form; it does not reset "
+"your password."
+msgstr ""
+
+msgid "Open password recovery"
+msgstr ""
+
+msgid "Contact support for help moving this address between accounts."
+msgstr ""
+
+msgid ""
+"If you did not request this, you can ignore this e-mail. Your account has "
+"not been changed."
+msgstr ""
+
+#. Translators: e-mail subject
+#, python-format
+msgid "E-mail address already associated with an account on %(site_title)s"
+msgstr ""
+
 msgid "View invitation"
 msgstr "Pokaži povabilo"
 
@@ -10652,6 +10908,10 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
+
+#, python-format
+msgid "Automatic team assignment: invitation to join %(team_name)s"
+msgstr ""
 
 #. Translators: e-mail subject
 #, python-format
@@ -10882,6 +11142,9 @@ msgstr ""
 msgid "Confirm invitation"
 msgstr ""
 
+msgid "Verify e-mail address"
+msgstr ""
+
 msgid ""
 "Note: This notification has been truncated as there were over 100 entries."
 msgstr ""
@@ -10943,6 +11206,15 @@ msgstr "Nedokončano"
 
 #. Translators: e-mail subject
 msgid "Translation activity summary"
+msgstr ""
+
+#, python-format
+msgid "Verify this e-mail address for your account at %(site_title)s."
+msgstr ""
+
+#. Translators: e-mail subject
+#, python-format
+msgid "Verify your e-mail address on %(site_title)s"
 msgstr ""
 
 msgid "Component diagnostics"
@@ -11128,6 +11400,48 @@ msgstr ""
 msgid "Performance report"
 msgstr "Poročilo o uspešnosti"
 
+msgid "Bot protection"
+msgstr ""
+
+msgid ""
+"Issued challenges, requests requiring proof of work, and verification "
+"outcomes in hourly buckets. Counts are best-effort and can be lost during "
+"cache outages or eviction."
+msgstr ""
+
+msgid "Counters are unavailable."
+msgstr ""
+
+msgid "Outcome"
+msgstr ""
+
+msgid "Current hour"
+msgstr ""
+
+msgid "Previous 24 completed hours"
+msgstr ""
+
+msgid "Issued challenges"
+msgstr ""
+
+msgid "Requests requiring proof of work"
+msgstr ""
+
+msgid "Expired challenge"
+msgstr ""
+
+msgid "Invalid solution"
+msgstr ""
+
+msgid "Replayed challenge"
+msgstr ""
+
+msgid "CSRF failure"
+msgstr ""
+
+msgid "Service unavailable"
+msgstr ""
+
 msgid "Last occurrence"
 msgstr "Zadnja pojavitev"
 
@@ -11277,6 +11591,251 @@ msgstr ""
 msgid "This repository is linked to:"
 msgstr "To skladišče je povezano s/z:"
 
+msgid "Confirm security action"
+msgstr ""
+
+#, python-format
+msgid "Selected %(count)s findings affecting %(accounts)s accounts."
+msgstr ""
+
+msgid ""
+"Disable the matching passwords, invalidate signed-in sessions, and revoke "
+"all API tokens. Users with an e-mail address will be notified. Single sign-"
+"on and two-factor settings are preserved. Accounts whose passwords have "
+"changed will be skipped."
+msgstr ""
+
+msgid ""
+"Remove the selected lookalike verified e-mail addresses and associated sign-"
+"in identities, disable account passwords, invalidate sessions, and revoke "
+"API tokens. Account owners will be notified at their primary e-mail address."
+msgstr ""
+
+msgid ""
+"Dismiss the selected findings without changing credentials or notifying "
+"users. A new report confirming the same exposure can reopen them."
+msgstr ""
+
+msgid "Reset passwords"
+msgstr ""
+
+msgid "Remove identities and reset accounts"
+msgstr ""
+
+msgid "Dismiss findings"
+msgstr ""
+
+#, python-format
+msgid "Security finding for %(username)s"
+msgstr ""
+
+msgid "CSV row"
+msgstr ""
+
+msgid "Identifier"
+msgstr ""
+
+msgid "Matching method"
+msgstr ""
+
+msgid "No matching row details."
+msgstr ""
+
+#, python-format
+msgid "Page %(number)s of %(total)s"
+msgstr ""
+
+msgid "Detected in reports"
+msgstr ""
+
+msgid "Administrator"
+msgstr ""
+
+msgid "Deleted administrator"
+msgstr ""
+
+msgid "No validation reports for this finding."
+msgstr ""
+
+#, python-format
+msgid "Reports page %(number)s of %(total)s"
+msgstr ""
+
+msgid "Previous reports"
+msgstr ""
+
+msgid "Next reports"
+msgstr ""
+
+msgid "Account security findings"
+msgstr ""
+
+msgid "Validation reports"
+msgstr ""
+
+msgid "Filename"
+msgstr "Ime datoteke"
+
+msgid "Not recorded"
+msgstr ""
+
+msgid "Submitted by"
+msgstr ""
+
+msgid "Processing summary"
+msgstr ""
+
+msgid "Password validation completed."
+msgstr ""
+
+msgid "Legacy e-mail identity check completed."
+msgstr ""
+
+msgid "Security action completed."
+msgstr ""
+
+msgid "Processing failed."
+msgstr ""
+
+msgid "Processing is not complete. Findings may still be added."
+msgstr ""
+
+msgid "View progress"
+msgstr ""
+
+#, python-format
+msgid "Processed %(processed)s of %(total)s entries."
+msgstr ""
+
+msgid "Finding type"
+msgstr ""
+
+msgid "Filter"
+msgstr ""
+
+msgid "Actions apply only to checked findings on this page."
+msgstr ""
+
+msgid "Select all on this page"
+msgstr ""
+
+msgid "Clear selection"
+msgstr ""
+
+msgid "Finding"
+msgstr ""
+
+#, python-format
+msgid "Select finding for %(username)s"
+msgstr ""
+
+msgid "Inactive"
+msgstr ""
+
+msgid "Bot"
+msgstr ""
+
+msgid "No e-mail address: notification unavailable"
+msgstr ""
+
+msgid "Date joined:"
+msgstr ""
+
+msgid "Last sign-in:"
+msgstr ""
+
+#, python-format
+msgid "Row %(row)s: %(identifier)s (%(method)s)"
+msgstr ""
+
+#, python-format
+msgid "View details (%(count)s match)"
+msgid_plural "View details (%(count)s matches)"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+msgid "First detected:"
+msgstr ""
+
+msgid "Last detected:"
+msgstr ""
+
+msgid "No security findings match these filters."
+msgstr ""
+
+msgid "Remove lookalike e-mail identities and reset selected accounts"
+msgstr ""
+
+msgid "Reset passwords for selected accounts"
+msgstr ""
+
+msgid "Dismiss selected findings"
+msgstr ""
+
+msgid ""
+"Dismissing findings marks them as reviewed without changing passwords or "
+"notifying users."
+msgstr ""
+
+msgid "Account security operation"
+msgstr ""
+
+msgid "Processing progress"
+msgstr ""
+
+msgid "Refresh progress"
+msgstr ""
+
+msgid ""
+"Review previous credential validation reports, including reports with no "
+"matching passwords."
+msgstr ""
+
+msgid "Upload report"
+msgstr ""
+
+msgid "Processed rows"
+msgstr ""
+
+msgid "Matching rows"
+msgstr ""
+
+msgid "Affected accounts"
+msgstr ""
+
+#, python-format
+msgid "%(processed)s of %(total)s"
+msgstr ""
+
+msgid "No validation reports yet."
+msgstr ""
+
+msgid ""
+"Upload a CSV containing usernames or e-mail addresses and passwords. "
+"Passwords are checked in the background and never displayed in the report."
+msgstr ""
+
+msgid ""
+"Reports must use UTF-8 and contain at most 50,000 rows and 10 MiB. Leave the "
+"delimiter and column numbers blank for automatic detection."
+msgstr ""
+
+msgid ""
+"The uploaded file is available for one hour. Adjust the CSV settings below "
+"to try again."
+msgstr ""
+
+msgid "CSV format (detected automatically)"
+msgstr ""
+
+msgid "Validate passwords"
+msgstr ""
+
+msgid "Validate leaked passwords"
+msgstr ""
+
 msgid "Activate support package"
 msgstr ""
 
@@ -11409,6 +11968,18 @@ msgstr ""
 msgid "Check user access"
 msgstr ""
 
+msgid "Account security"
+msgstr ""
+
+#, python-format
+msgid "Security report (%(security_findings_open)s open findings)"
+msgstr ""
+
+msgid ""
+"Validate a CSV report of leaked credentials against current account "
+"passwords."
+msgstr ""
+
 msgid "Add workspace"
 msgstr ""
 
@@ -11432,9 +12003,6 @@ msgstr ""
 
 msgid "Displayed languages"
 msgstr "Prikazani jeziki"
-
-msgid "Choose"
-msgstr "Izberi"
 
 msgid "Translation memory status"
 msgstr "Stanje pomnilnika prevodov"
@@ -11988,9 +12556,6 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-msgid "Filter"
-msgstr ""
-
 msgid "Clear filters"
 msgstr ""
 
@@ -12301,6 +12866,19 @@ msgstr "Prevodi"
 
 #, python-format
 msgid ""
+"An automatic team assignment rule invited you to collaborate on "
+"%(project_name)s and join the %(team_name)s team. You will join only if you "
+"accept this invitation."
+msgstr ""
+
+#, python-format
+msgid ""
+"An automatic team assignment rule invited you to join the %(team_name)s team "
+"in %(workspace_name)s. You will join only if you accept this invitation."
+msgstr ""
+
+#, python-format
+msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
 "on %(project_name)s and join the %(team_name)s team."
 msgstr ""
@@ -12339,6 +12917,9 @@ msgid "Block user"
 msgstr "Blokiraj uporabnika"
 
 msgid "View notification"
+msgstr ""
+
+msgid "View full change"
 msgstr ""
 
 msgid "No matching activity found."
@@ -12903,6 +13484,11 @@ msgstr ""
 msgid "You are about to continue removing your Weblate account."
 msgstr ""
 
+msgid ""
+"You are about to continue adding this e-mail address to your existing "
+"Weblate account."
+msgstr ""
+
 msgid "You are about to accept an invitation and create a Weblate account."
 msgstr ""
 
@@ -12916,6 +13502,9 @@ msgid "Continue password reset"
 msgstr ""
 
 msgid "Continue account removal"
+msgstr ""
+
+msgid "Continue e-mail verification"
 msgstr ""
 
 msgid "Accept invitation"
@@ -12998,9 +13587,6 @@ msgstr ""
 
 msgid "Weblate CDN add-on could not parse the HTML files."
 msgstr ""
-
-msgid "Filename"
-msgstr "Ime datoteke"
 
 msgid ""
 "The local repository checkout or its Git directory is missing. Repeated "
@@ -13523,6 +14109,9 @@ msgstr ""
 msgid "Go"
 msgstr ""
 
+msgid "Change details"
+msgstr ""
+
 msgid "Download latest changes as CSV"
 msgstr "Prenesi zadnje spremembe kot CSV"
 
@@ -13619,9 +14208,6 @@ msgid ""
 msgstr ""
 
 msgid "Add or configure account"
-msgstr ""
-
-msgid "Branch"
 msgstr ""
 
 msgid "Visibility"
@@ -13913,9 +14499,6 @@ msgstr ""
 
 msgid "Edit source"
 msgstr ""
-
-msgid "Cancel"
-msgstr "Prekliči"
 
 msgid "Learn more about pushing changes from Weblate."
 msgstr ""
@@ -14286,6 +14869,11 @@ msgstr ""
 "prevodih."
 
 msgid "Quick downloads"
+msgstr ""
+
+msgid ""
+"Original files can contain contributor identities and require additional "
+"permission. Use a generated export below for offline translation."
 msgstr ""
 
 msgid "File in original format as translated in the repository"
@@ -14987,9 +15575,6 @@ msgstr ""
 msgid "A component was moved within a project."
 msgstr ""
 
-msgid "Moved component"
-msgstr "Premaknjena komponenta"
-
 msgid "A user made their first contribution to a translation."
 msgstr ""
 
@@ -15593,6 +16178,15 @@ msgid ""
 "form strings."
 msgstr ""
 
+msgid ""
+"Automatic translation lost its database connection. Please try again later."
+msgstr ""
+
+msgid ""
+"Automatic translation is already running for this translation. Please try "
+"again later."
+msgstr ""
+
 #, python-format
 msgid "Automatic translation failed: %s"
 msgstr ""
@@ -15740,6 +16334,10 @@ msgstr ""
 msgid "Choose either replacement or clearing translations."
 msgstr ""
 
+#, python-format
+msgid "Bulk edits are limited to %(limit)d strings. Narrow the search query."
+msgstr ""
+
 msgid "The component was automatically locked because of an alert."
 msgstr ""
 
@@ -15795,6 +16393,9 @@ msgstr ""
 msgid "New revision: {}"
 msgstr ""
 
+msgid "Content is too long to show in the change list."
+msgstr ""
+
 #, python-format
 msgctxt "Number of edits on a change in Damerau–Levenshtein distance"
 msgid "%(count)d character edited"
@@ -15846,7 +16447,8 @@ msgid "Needs review"
 msgstr ""
 
 msgid "Hosted Weblate, the place to localize your software project."
-msgstr "Gostovan Weblate, prostor za lokalizacijo vašega programskega projekta."
+msgstr ""
+"Gostovan Weblate, prostor za lokalizacijo vašega programskega projekta."
 
 msgid "This site runs Weblate for localizing a software project."
 msgstr ""
@@ -15903,6 +16505,11 @@ msgstr ""
 
 #, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
+msgstr ""
+
+#. Translators: condensed rendering of a change action in history
+#, python-format
+msgid "%(action)s at %(time)s on %(translation)s"
 msgstr ""
 
 #. Translators: %s is site title here
@@ -16061,6 +16668,47 @@ msgid "MAC (\\r)"
 msgstr "MAC (\\r)"
 
 msgid "Include closing tag for blank XML tags"
+msgstr ""
+
+msgid "UTF-8 byte order mark"
+msgstr ""
+
+msgid "Preserve input"
+msgstr ""
+
+msgid "Always include"
+msgstr ""
+
+msgid "Always omit"
+msgstr ""
+
+msgid ""
+"Controls the UTF-8 byte order mark. Other encodings are unchanged. New files "
+"without a template omit the mark when preserving input."
+msgstr ""
+
+msgid "XML declaration encoding case"
+msgstr ""
+
+msgid "Format default"
+msgstr ""
+
+msgid "Uppercase"
+msgstr ""
+
+msgid "Lowercase"
+msgstr ""
+
+msgid ""
+"Controls encoding names in the XML declaration, for example \"UTF-8\" or "
+"\"utf-8\"."
+msgstr ""
+
+msgid "XML final newline"
+msgstr ""
+
+msgid ""
+"Controls the newline at the end of the file, using the format's line endings."
 msgstr ""
 
 msgid "Whitespace handling"
@@ -16601,6 +17249,9 @@ msgid "Maximum changes per day"
 msgstr ""
 
 msgid "Maximum source words per day"
+msgstr ""
+
+msgid "This component does not exist or you cannot access it."
 msgstr ""
 
 msgid "Inherit from workspace"
@@ -17288,11 +17939,6 @@ msgstr ""
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(user)s je ob %(time)s %(action)s na %(translation)s"
 
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s"
-msgstr ""
-
 msgctxt "Change origin badge"
 msgid "API"
 msgstr ""
@@ -17934,6 +18580,9 @@ msgid ""
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
 
+msgid "The file mask is too complex and took too long to evaluate."
+msgstr ""
+
 msgid ""
 "A component can not be restricted while its project uses shared translation "
 "memory."
@@ -18486,6 +19135,30 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
+msgid "Bulk edit parameters are no longer valid."
+msgstr ""
+
+#, python-format
+msgid "Bulk edit failed after processing %(count)d strings: %(error)s"
+msgstr ""
+
+msgid "The target or permissions changed."
+msgstr ""
+
+#, python-format
+msgid ""
+"Bulk edit failed after processing %(count)d strings. Earlier batches may "
+"have been applied."
+msgstr ""
+
+#, python-format
+msgid "Bulk edit completed, %d string was updated."
+msgid_plural "Bulk edit completed, %d strings were updated."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
 msgid "Automatic translation skipped because the target no longer exists."
 msgstr ""
 
@@ -18740,6 +19413,9 @@ msgstr ""
 msgid "You can not block yourself on this project."
 msgstr ""
 
+msgid "Remove project administration rights before blocking this user."
+msgstr ""
+
 msgid "User has been blocked on this project."
 msgstr ""
 
@@ -18793,6 +19469,9 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
+
+msgid "You do not have permission to add this language."
+msgstr ""
 
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
@@ -19041,10 +19720,16 @@ msgstr "Komponenta je sedaj zaklenjena za posodobitve prevodov!"
 msgid "All components are now locked for translation updates!"
 msgstr "Vse komponente so sedaj zaklenjene za posodobitve prevodov!"
 
+msgid "Allowed components are now locked for translation updates!"
+msgstr ""
+
 msgid "Component is now open for translation updates."
 msgstr "Komponenta je sedaj odprta za posodobitve prevodov."
 
 msgid "All components are now open for translation updates."
+msgstr ""
+
+msgid "Allowed components are now open for translation updates."
 msgstr ""
 
 msgid "Generating report…"
@@ -19105,10 +19790,16 @@ msgstr "Preveč iskalnih poizvedb, poskusite znova pozneje."
 msgid "Invalid search query!"
 msgstr "Neveljavna iskalna poizvedba!"
 
+msgid "Too many bulk edits, please try again later."
+msgstr ""
+
 msgid "The preview has expired or is invalid. Preview the changes again."
 msgstr ""
 
 msgid "Could not process form!"
+msgstr ""
+
+msgid "Bulk edit in progress."
 msgstr ""
 
 #, python-format
@@ -19117,14 +19808,6 @@ msgstr ""
 
 msgid "Bulk edit completed, no strings were updated."
 msgstr ""
-
-#, python-format
-msgid "Bulk edit completed, %d string was updated."
-msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
 
 msgid "Settings saved"
 msgstr "Nastavitve smo shranili"
@@ -19385,6 +20068,9 @@ msgid "Invalid regular expression or replacement: %s"
 msgstr ""
 
 msgid "Automatic translation reported a warning."
+msgstr ""
+
+msgid "Automatic translation is waiting for another operation to finish."
 msgstr ""
 
 msgid "Automatic translation failed. See the task log for details."
@@ -19800,6 +20486,9 @@ msgid "Fediverse URL should link to a Fediverse user profile."
 msgstr ""
 
 msgid "URL domain is not allowed."
+msgstr ""
+
+msgid "AMQP broker URLs must not contain query strings or fragments."
 msgstr ""
 
 msgid "Repository URL contains unsafe characters."
@@ -20667,6 +21356,54 @@ msgid ""
 "there is room for a full menu."
 msgstr ""
 
+msgid "CSV report"
+msgstr ""
+
+msgid "Delimiter"
+msgstr ""
+
+msgid ""
+"Leave blank to detect automatically. Use a comma, semicolon, pipe, or \\t "
+"for a tab."
+msgstr ""
+
+msgid "First row contains column names"
+msgstr ""
+
+msgid "Username or e-mail column"
+msgstr ""
+
+msgid "Password column"
+msgstr ""
+
+msgid ""
+"Specify both column numbers, or leave both blank for automatic detection."
+msgstr ""
+
+msgid "Configuring"
+msgstr ""
+
+msgid "Running"
+msgstr ""
+
+msgid "Open"
+msgstr "Odprto"
+
+msgid "Resolved"
+msgstr ""
+
+msgid "Dismissed by administrator"
+msgstr ""
+
+msgid "Lookalike e-mail identity removed"
+msgstr ""
+
+msgid "E-mail identity already changed"
+msgstr ""
+
+msgid "Password already changed"
+msgstr ""
+
 #. Translators: The Weblate server has no paid support by the Weblate team
 msgid "Community support"
 msgstr "Podpora skupnosti"
@@ -20726,11 +21463,142 @@ msgstr ""
 msgid "Repository initialization"
 msgstr ""
 
+msgid "Leaked password"
+msgstr ""
+
+msgid "Lookalike verified e-mail address"
+msgstr ""
+
+msgid "The uploaded report has expired. Upload it again."
+msgstr ""
+
+msgid ""
+"Could not detect the credential columns. Configure their column numbers."
+msgstr ""
+
+msgid "Choose different identifier and password columns."
+msgstr ""
+
+msgid "The report exceeds the 10 MiB limit."
+msgstr ""
+
+msgid "Upload a UTF-8 encoded CSV file."
+msgstr ""
+
+msgid ""
+"Could not detect the delimiter. Configure the CSV columns and delimiter."
+msgstr ""
+
+msgid "Choose a single delimiter character."
+msgstr ""
+
+msgid "The file contains malformed CSV quoting."
+msgstr ""
+
+msgid "The report is empty."
+msgstr ""
+
+msgid "The report exceeds the 50,000 row limit."
+msgstr ""
+
+msgid "The report contains no credential rows."
+msgstr ""
+
+msgid ""
+"The initiating administrator no longer has permission to perform this "
+"operation."
+msgstr ""
+
+msgid ""
+"The security operation failed. Review any findings already recorded and "
+"start a new operation."
+msgstr ""
+
+msgid "Security report"
+msgstr ""
+
+#, python-format
+msgid "Report from %(date)s"
+msgstr ""
+
+#, python-format
+msgid "%(filename)s — %(report)s"
+msgstr ""
+
+msgid ""
+"Your identity verification has expired. Confirm your identity, then select "
+"and upload the CSV report again."
+msgstr ""
+
+msgid "Could not store the encrypted upload. Try again."
+msgstr ""
+
+msgid "Choose a CSV report of at most 10 MiB."
+msgstr ""
+
+msgid "Could not read the uploaded report. Upload it again."
+msgstr ""
+
+msgid "Passwords checked"
+msgstr ""
+
+msgid "Duplicate rows"
+msgstr ""
+
+msgid "Unknown accounts"
+msgstr ""
+
+msgid "Ambiguous accounts"
+msgstr ""
+
+msgid "Malformed rows"
+msgstr ""
+
+msgid "Unusable passwords"
+msgstr ""
+
+msgid "Passwords that did not match"
+msgstr ""
+
+msgid "Passwords reset"
+msgstr ""
+
+msgid "Lookalike e-mail identities removed"
+msgstr ""
+
+msgid "E-mail identities already changed"
+msgstr ""
+
+msgid "Passwords already changed"
+msgstr ""
+
+msgid "Dismissed findings"
+msgstr ""
+
+msgid "Skipped findings"
+msgstr ""
+
+msgid "Unsupported actions"
+msgstr ""
+
+msgid "Primary e-mail address"
+msgstr ""
+
+msgid "Verified e-mail address"
+msgstr ""
+
+#, python-format
+msgid "Finding for %(username)s"
+msgstr ""
+
 msgid "Weblate administration"
 msgstr "Skrbništvo Weblate"
 
 msgid "Object listing turned off"
 msgstr "Seznam predmetov je izklopljen"
+
+msgid "The security operation expired. Start a new operation."
+msgstr ""
 
 msgid "Return to Weblate"
 msgstr ""
@@ -21103,17 +21971,9 @@ msgstr ""
 #~ msgstr "Vidno vsem."
 
 #, fuzzy
-#~| msgid "Other components"
-#~ msgid "Skipped components:"
-#~ msgstr "Druge komponente"
-
-#, fuzzy
 #~| msgid "Permission Denied"
 #~ msgid "Permission required on:"
 #~ msgstr "Dovoljenje zavrnjeno"
-
-#~ msgid "Download reports"
-#~ msgstr "Prenos poročil"
 
 #, fuzzy
 #~| msgid "Suggested change:"
@@ -21198,11 +22058,6 @@ msgstr ""
 #~| msgid "All pending translations were committed."
 #~ msgid "Pending translations in accessible repositories were committed."
 #~ msgstr "Vsi prevodi v teku so objavljeni."
-
-#, fuzzy
-#~| msgid "Translation completed"
-#~ msgid "Activation completed."
-#~ msgstr "Dokončanje prevoda"
 
 #, fuzzy, python-format
 #~| msgid "Failed to add new translation file!"
@@ -21460,11 +22315,6 @@ msgstr ""
 #~ msgstr "Podrobnosti preverjanja"
 
 #, fuzzy
-#~| msgid "Add team"
-#~ msgid "Add admin"
-#~ msgstr "Dodaj ekipo"
-
-#, fuzzy
 #~| msgid "No screenshot currently associated!"
 #~ msgid "No users currently assigned!"
 #~ msgstr "Trenutno ni povezan noben zaslonski posnetek!"
@@ -21476,11 +22326,6 @@ msgstr ""
 #~| msgid "Other components"
 #~ msgid "Return to the component"
 #~ msgstr "Druge komponente"
-
-#, fuzzy
-#~| msgid "View"
-#~ msgid "View all alerts"
-#~ msgstr "Pogled"
 
 #, fuzzy
 #~| msgid "Version control settings"
@@ -21987,9 +22832,6 @@ msgstr ""
 #~ msgid "Starting date"
 #~ msgstr "Začetni datum"
 
-#~ msgid "Ending date"
-#~ msgstr "Datum konca"
-
 #, fuzzy
 #~| msgid "Activity in last 30 days"
 #~ msgid "Last 30 days"
@@ -22068,9 +22910,6 @@ msgstr ""
 #~ msgid "Please provide valid component slug!"
 #~ msgstr "Napaka pri razčlenjevanju pri %(subproject)s"
 
-#~ msgid "Please confirm your logout."
-#~ msgstr "Prosimo, potrdite svojo odjavo."
-
 #~ msgid "I confirm logout"
 #~ msgstr "Potrjujem odjavo"
 
@@ -22135,9 +22974,6 @@ msgstr ""
 #~ msgid "Committed changes"
 #~ msgstr "Objavljene spremembe"
 
-#~ msgid "Pushed changes"
-#~ msgstr "Potisnjene spremembe"
-
 #~ msgid "Failed merge on repository"
 #~ msgstr "Spodletelo združevanje v shrambi"
 
@@ -22179,9 +23015,6 @@ msgstr ""
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "Nov niz za prevajanje"
-
-#~ msgid "New contributor"
-#~ msgstr "Nov sodelavec"
 
 #~ msgid "New announcement"
 #~ msgstr "Nova objava"
@@ -22265,9 +23098,6 @@ msgstr ""
 #~ msgid "New language"
 #~ msgstr "Nov jezik"
 
-#~ msgid "Check details"
-#~ msgstr "Podrobnosti preverjanja"
-
 #, fuzzy
 #~| msgid ""
 #~| "Customizable quality checks will help you in improving quality of "
@@ -22319,9 +23149,6 @@ msgstr ""
 
 #~ msgid "You can add another e-mail address below."
 #~ msgstr "Dodaten e-poštni naslov lahko dodate spodaj."
-
-#~ msgid "Confirm new association"
-#~ msgstr "Potrdi novo povezavo"
 
 #~ msgid ""
 #~ "By registering you agree to use your name and e-mail in the commits and "
@@ -22422,11 +23249,6 @@ msgstr ""
 #~| msgid "Username or e-mail"
 #~ msgid "Username or registered e-mail"
 #~ msgstr "Uporabniško ime ali e-pošta"
-
-#, fuzzy
-#~| msgid "Not available"
-#~ msgid "SSH key not available."
-#~ msgstr "Ni na voljo"
 
 #~ msgctxt "Plural type"
 #~ msgid "One/other (classic plural)"
@@ -22678,11 +23500,6 @@ msgstr ""
 #, fuzzy
 #~| msgid "Remove"
 #~ msgid "Blocked user"
-#~ msgstr "Odstrani"
-
-#, fuzzy
-#~| msgid "Remove"
-#~ msgid "Blocked users"
 #~ msgstr "Odstrani"
 
 #~ msgid "Plural form"
@@ -23503,11 +24320,6 @@ msgstr ""
 #~ msgid "Toggle edit needed flag"
 #~ msgstr "Alt+F - Preklopi oznako \"potrebuje pregled\""
 
-#, fuzzy
-#~| msgid "Merge file header"
-#~ msgid "Merge failure"
-#~ msgstr "Združi glavo datoteke"
-
 #~ msgid "Standard user"
 #~ msgstr "Navadni uporabnik"
 
@@ -23678,11 +24490,6 @@ msgstr ""
 #~ msgstr "prevedeno"
 
 #, fuzzy
-#~| msgid "Active"
-#~ msgid "active"
-#~ msgstr "Aktivno"
-
-#, fuzzy
 #~| msgid ""
 #~| "Choose your languages in preferences and you will get an overview here "
 #~| "of available translations for those languages."
@@ -23753,9 +24560,6 @@ msgstr ""
 
 #~ msgid "Host:"
 #~ msgstr "Gostitelj:"
-
-#~ msgid "Process"
-#~ msgstr "Obdelaj"
 
 #~ msgid "Automatically add language file"
 #~ msgstr "Samodejno dodaj jezikovno datoteko"
@@ -24424,9 +25228,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Na voljo za izvoz več projektnih podatkov. Za več informacij preverite "
 #~ "naslednje povezave."
-
-#~ msgid "Select languages to display"
-#~ msgstr "Izberite jezike za prikaz"
 
 #~ msgid ""
 #~ "Weblate provides various widgets to promote your translation projects. "
@@ -25933,9 +26734,6 @@ msgstr ""
 #~ msgid "Messages"
 #~ msgstr "Sporočila"
 
-#~ msgid "Others"
-#~ msgstr "Ostalo"
-
 #~ msgid "Subprojects"
 #~ msgstr "Podprojekti"
 
@@ -25963,9 +26761,6 @@ msgstr ""
 
 #~ msgid "Words extracted from glossary"
 #~ msgstr "Besede, izvlečene iz slovarja"
-
-#~ msgid "Comments (%(count)s)"
-#~ msgstr "Pripombe (%(count)s)"
 
 #~ msgid "Source string details and feedback"
 #~ msgstr "Podrobnosti in povratne informacije izvirnega niza"
@@ -26027,12 +26822,6 @@ msgstr ""
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."
 #~ msgstr "Vaš profil smo preselili; morda boste želeli urediti nastavitve."
-
-#~ msgid "Old password"
-#~ msgstr "Staro geslo"
-
-#~ msgid "The two password fields didn't match."
-#~ msgstr "Polji z geslom se ne ujemata."
 
 #~ msgid "Your account could not be activated"
 #~ msgstr "Vašega računa nismo mogli aktivirani"

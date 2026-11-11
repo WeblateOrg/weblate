@@ -24,23 +24,35 @@ evaluated against the `wlc threat model
 its intended trust boundaries, supported security properties, and explicit
 non-goals.
 
-Most normal bugs in Weblate are reported to our public `GitHub issues tracker
-<https://github.com/WeblateOrg/weblate/issues>`_, but due to the sensitive
-nature of security issues, we ask them not to be publicly reported in this
-fashion.
+Report low and medium severity security issues in our public `GitHub issues
+tracker <https://github.com/WeblateOrg/weblate/issues>`_. These reports are
+discussed and fixed publicly through the normal development process.
 
-Instead, if you believe you’ve found something in Weblate that has security
-implications, please submit a description of the issue to security@weblate.org,
+Report high and critical severity vulnerabilities privately to
+security@weblate.org, through
 `GitHub <https://github.com/WeblateOrg/weblate/security/advisories/new>`_,
-or using `HackerOne <https://hackerone.com/weblate>`_.
+or using `HackerOne <https://hackerone.com/weblate>`_. Do not open public
+issues for these vulnerabilities. Please describe the issue, affected
+versions, and steps to reproduce it, if known.
+
+If you are unsure of the severity, you may start through a private channel.
+If the security team assesses a privately reported issue as low or medium
+severity, we will ask you to continue in a public GitHub issue. Redirecting a
+report does not itself confirm that the issue is a vulnerability.
+
+Public discussion allows the community to help review and fix low and medium
+severity issues. Private coordination focuses on vulnerabilities with serious
+impact, reducing the risk to users while a fix is prepared. This approach is
+similar to the `curl vulnerability disclosure policy
+<https://curl.se/dev/vuln-disclosure.html>`_.
 
 Self-hosted operators should use this process when they believe an incident in
 their own deployment is caused by a Weblate product vulnerability. Local
 containment, recovery, customer notification, provider escalation, and other
 deployment-specific incident response remain the operator's responsibility.
 
-A member of the security team will respond to you within 48 hours, and
-depending on what action is taken, you may get more follow-up emails.
+A member of the security team will respond to private reports within 48 hours,
+and depending on what action is taken, you may get more follow-up emails.
 Suspected active exploitation and severe security incidents receive immediate
 internal attention under :doc:`incident-reporting`. Acknowledging a report or
 completing an investigation does not postpone reporting deadlines.
@@ -62,7 +74,7 @@ completing an investigation does not postpone reporting deadlines.
     you find a vulnerability affecting one of those components in general,
     please report it directly to the respective project.
     If it also affects a shipped Weblate artifact or a Weblate deployment,
-    report that impact to Weblate through the private channels above.
+    report that impact to Weblate using the severity-based process above.
 
     Some of these are:
 
@@ -74,6 +86,27 @@ completing an investigation does not postpone reporting deadlines.
 
    * :doc:`/contributing/issues`
 
+.. _security-research:
+
+Security research and testing
+-----------------------------
+
+When researching security issues in Weblate:
+
+* Use the `Sandbox translation project
+  <https://hosted.weblate.org/projects/sandbox/>`_ for testing on Hosted Weblate.
+* Only interact with accounts you own or have explicit permission from the
+  account holder to use.
+* Avoid privacy violations, data destruction, and service interruption or
+  degradation.
+* Do not perform denial-of-service attacks, spam, social engineering (including
+  phishing), or physical attacks.
+* Obtain explicit permission from the operator before testing other deployments.
+
+You may report availability vulnerabilities demonstrated safely in an
+environment you control. The prohibition on disruptive testing does not exclude
+these reports.
+
 Weblate-operated service incidents
 ----------------------------------
 
@@ -82,8 +115,9 @@ deployments operated by Weblate s.r.o. are handled using
 :doc:`/security/incident-response-plan`.
 
 When such an incident also involves a Weblate product vulnerability, the
-vulnerability report and public advisory follow the product vulnerability
-reporting process and :ref:`vulnerability-disclosure-policy` on this page.
+vulnerability report and any public advisory follow the severity-based product
+vulnerability reporting process and :ref:`vulnerability-disclosure-policy` on
+this page.
 
 Self-hosted deployment incidents
 --------------------------------
@@ -103,10 +137,16 @@ above.
 Vulnerability disclosure policy
 -------------------------------
 
-Weblate publishes a security advisory alongside a release containing a
-vulnerability fix at https://github.com/WeblateOrg/weblate/security/advisories.
+Weblate publishes security advisories only for high and critical severity
+vulnerabilities. These vulnerabilities are handled privately until coordinated
+disclosure, with an advisory published alongside a release containing the fix
+at https://github.com/WeblateOrg/weblate/security/advisories.
 Advisories identify affected versions, impact, severity, and steps users can
 take to remediate the vulnerability.
+
+Weblate does not publish security advisories for low or medium severity issues.
+Their fixes follow the normal public development process and are documented in
+the release notes.
 
 Technical details may be delayed when publishing them would create greater
 security risks than benefits while users apply the fix. The incident handler
@@ -162,8 +202,11 @@ Weblate informs impacted users of active exploitation or severe security
 incidents without undue delay, including available mitigations and corrective
 actions. Where appropriate, warnings address all users. Known affected contacts,
 including Hosted and Dedicated Weblate customers, receive e-mail notifications.
-Public GitHub security advisories provide warnings and updates for self-hosted
-users whose contact details are not known.
+For high and critical severity vulnerabilities, public GitHub security
+advisories provide warnings and updates for self-hosted users whose contact
+details are not known. Low and medium severity issues are tracked in public
+GitHub issues and release notes. The severity-based reporting and advisory
+policy does not delay required authority reports or protective advice to users.
 
 Initial warnings can provide protective advice before a fix or detailed
 vulnerability disclosure is ready. Authority reporting, user warnings, and

@@ -13,17 +13,25 @@ from typing import TYPE_CHECKING, Any, cast
 from translate.storage import factory
 from translate.storage.base import TranslationStore
 from translate.storage.base import TranslationUnit as TranslateToolkitUnit
+from translate.storage.csvl10n import csvfile
 
 from weblate.formats.extraction_limits import (
     MAX_EXTRACTED_BYTES,
     MAX_EXTRACTED_UNITS,
 )
 from weblate.formats.helpers import NamedBytesIO
+from weblate.formats.limits import TranslationLimitError, check_translation_size
 from weblate.formats.models import FILE_FORMATS
-from weblate.formats.ttkit import BaseTTKitFormat, CSVMetadataError, TTKitUnit
+from weblate.formats.ttkit import (
+    BaseTTKitFormat,
+    CSVMetadataError,
+    TTKitUnit,
+    WeblateCSVFile,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator, Iterable
+    from typing import BinaryIO
 
     from weblate.formats.base import TranslationFormat
     from weblate.trans.file_format_params import FileFormatParams
@@ -130,6 +138,7 @@ def try_load(
     file_format_params: FileFormatParams | None = None,
 ) -> TranslationFormat:
     """Try to load file by guessing type."""
+    check_translation_size(len(content))
     failure = None
 
     def get_existing_units() -> Iterable[Unit] | None:
@@ -159,7 +168,7 @@ def try_load(
                     **kwargs,
                 )
                 result.check_valid()
-            except CSVMetadataError:
+            except (CSVMetadataError, TranslationLimitError):
                 raise
             except Exception as error:
                 if failure is None:
@@ -186,10 +195,12 @@ class AutodetectFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUni
     This is last fallback when uploaded file was not correctly parsed before.
     """
 
-    def parse_store(self, storefile) -> S:
+    def parse_store(self, storefile: str | BinaryIO) -> S:
         """Directly loads using translate-toolkit."""
         filename = str(getattr(storefile, "name", storefile)).lower()
         compressed = filename.endswith((".gz", ".bz2"))
+        if not compressed and issubclass(factory.getclass(storefile), csvfile):
+            return cast("S", WeblateCSVFile.parsefile(storefile))
         return factory.getobject(
             storefile,
             max_decompressed_bytes=MAX_EXTRACTED_BYTES if compressed else None,
