@@ -20,6 +20,7 @@ Weblate 2026.11.2
 
 .. rubric:: Security fixes
 
+* Concealed linked repository details in HTML when the source component is inaccessible or its repository location is not viewable. See :doc:`admin/access`.
 * Excluded components shared from other projects from category :ref:`contributor stats <stats>` reports.
 * Bounded :doc:`translation-memory imports <admin/memory>` by file size and entry count, batched database writes, and shared the translation-upload rate limit.
 * Validated new and renamed :ref:`translation keys <edit-source>` against the file format, dialect, and encoding before queuing changes.

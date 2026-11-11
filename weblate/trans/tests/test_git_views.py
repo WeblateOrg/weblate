@@ -6,16 +6,25 @@
 
 from __future__ import annotations
 
+from contextlib import ExitStack
 from typing import Never
 from unittest.mock import Mock, patch
 
 from django.contrib.messages import get_messages
 from django.core.cache import cache
+from django.template.loader import render_to_string
 from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.auth.data import SELECTION_ALL
-from weblate.auth.models import Group, Permission, Role, TeamMembership
+from weblate.auth.models import (
+    Group,
+    Permission,
+    Role,
+    TeamMembership,
+    User,
+    get_anonymous,
+)
 from weblate.lang.models import Language
 from weblate.trans.models import Component, PendingUnitChange, Project, Translation
 from weblate.trans.repository import (
@@ -278,6 +287,114 @@ class GitNoChangeProjectTest(ViewTestCase):
 
 
 class RepositoryPermissionScopeTest(ViewTestCase):
+    def assert_repository_info_hidden(self, component: Component, user: User) -> None:
+        self.assertFalse(user.has_perm("meta:vcs.view", component))
+        with ExitStack() as stack:
+            for getter in (
+                "get_repo_url",
+                "get_repo_branch",
+                "get_last_remote_commit",
+                "get_last_commit",
+                "get_export_url",
+            ):
+                stack.enter_context(
+                    patch.object(
+                        Component,
+                        getter,
+                        side_effect=AssertionError(
+                            f"Unauthorized repository getter: {getter}"
+                        ),
+                    )
+                )
+            rendered = render_to_string(
+                "snippets/git-info.html", {"object": component, "user": user}
+            )
+        self.assertEqual(rendered.strip(), "")
+
+    def test_anonymous_linked_repository_info_requires_source_access(self) -> None:
+        public_project = self.create_project(name="Public", slug="public")
+        linked = self.create_link_existing(project=public_project)
+        self.client.logout()
+
+        for restricted, access_control in (
+            (True, Project.ACCESS_PUBLIC),
+            (False, Project.ACCESS_PRIVATE),
+        ):
+            with self.subTest(restricted=restricted, access_control=access_control):
+                self.component.restricted = restricted
+                self.component.save(update_fields=["restricted"])
+                self.project.access_control = access_control
+                self.project.save(update_fields=["access_control"])
+                linked.refresh_from_db()
+                anonymous = get_anonymous()
+                self.assertTrue(anonymous.has_perm("vcs.view", linked))
+                self.assertFalse(anonymous.can_access_component(self.component))
+                self.assert_repository_info_hidden(linked, anonymous)
+
+                response = self.client.get(self.component.get_absolute_url())
+                self.assertEqual(response.status_code, 404)
+                response = self.client.get(linked.get_absolute_url())
+                self.assertContains(response, linked.name)
+                self.assertNotContains(response, "Source code repository")
+                self.assertNotContains(response, "Last remote commit")
+
+    def test_linked_repository_info_requires_both_view_permissions(self) -> None:
+        linked = self.create_link_existing()
+        self.user.groups.clear()
+        self.user.clear_permissions_cache()
+        self.grant_permission("vcs.view", component=linked)
+        self.assertTrue(self.user.can_access_component(self.component))
+        self.assertFalse(self.user.has_perm("vcs.view", self.component))
+        self.assert_repository_info_hidden(linked, self.user)
+
+        self.user.groups.clear()
+        self.user.clear_permissions_cache()
+        self.grant_permission("vcs.view", component=self.component)
+        self.assertFalse(self.user.has_perm("vcs.view", linked))
+        self.assert_repository_info_hidden(linked, self.user)
+
+        self.grant_permission("vcs.view", component=linked)
+        self.assertTrue(self.user.has_perm("meta:vcs.view", linked))
+        response = self.client.get(linked.get_absolute_url())
+        self.assertContains(response, "Source code repository")
+        self.assertContains(response, "Repository branch")
+
+    def test_repository_info_preserves_unlinked_and_superuser_access(self) -> None:
+        self.assertTrue(self.user.has_perm("meta:vcs.view", self.component))
+        response = self.client.get(self.component.get_absolute_url())
+        self.assertContains(response, "Source code repository")
+
+        self.user.groups.clear()
+        self.user.clear_permissions_cache()
+        self.assert_repository_info_hidden(self.component, self.user)
+
+        linked = self.create_link_existing()
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.assertTrue(self.user.has_perm("meta:vcs.view", linked))
+        response = self.client.get(linked.get_absolute_url())
+        self.assertContains(response, "Source code repository")
+
+    def test_status_hides_linked_repository_info_without_source_view(self) -> None:
+        other_project = self.create_project(name="Other", slug="other")
+        linked = self.create_link_existing(project=other_project)
+        self.user.groups.clear()
+        self.grant_permission("vcs.view", component=linked)
+        self.grant_permission("vcs.update", component=self.component)
+        status_url = reverse("git_status", kwargs={"path": linked.get_url_path()})
+
+        response = self.client.get(status_url)
+        self.assertContains(response, "Repository status")
+        self.assertNotContains(response, "Source code repository")
+        self.assertNotContains(response, "Last remote commit")
+
+        self.grant_permission("vcs.view", component=self.component)
+        response = self.client.get(status_url)
+        self.assertContains(response, "Source code repository")
+        self.assertContains(response, "Repository branch")
+
     def test_status_repository_configuration_link_permissions(self) -> None:
         self.user.groups.clear()
         self.grant_permission("vcs.view", project=self.project)

@@ -1394,6 +1394,17 @@ def check_possibly_global(
     return check_permission(user, permission, obj)
 
 
+@register_perm("meta:vcs.view")
+def check_repository_view(user: User, permission: str, obj: Component) -> bool:
+    """Require access to the source of linked repository information."""
+    if not check_permission(user, "vcs.view", obj):
+        return False
+    source = obj.linked_component
+    return source is None or (
+        user.can_access_component(source) and check_permission(user, "vcs.view", source)
+    )
+
+
 @register_perm("meta:vcs.status")
 def check_repository_status(
     user: User, permission: str, obj: Translation | Component | Project
