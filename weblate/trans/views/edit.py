@@ -251,11 +251,11 @@ def get_other_units(user: User, unit: Unit):
 
         units = (
             Unit.objects.filter_access(user)
-            .with_effective_source(custom_sources=custom_sources, select=False)
             .filter(
                 translation__component__project=component.project,
                 translation__language=translation.language,
             )
+            .with_effective_source(custom_sources=custom_sources, select=False)
             .filter(matches)
             .alias(
                 matches_current=Case(

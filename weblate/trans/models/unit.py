@@ -555,9 +555,16 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
         translation = unit.translation
         component = translation.component
         custom_sources = propagation_uses_custom_sources(component.project)
-        result = self.exclude_blocked(
-            custom_sources=custom_sources
-        ).with_effective_source(custom_sources=custom_sources, select=False)
+        result = (
+            self.exclude_blocked(custom_sources=custom_sources)
+            .filter(
+                propagation_filter(
+                    component.project, "translation__component__", component.name
+                ),
+                translation__language_id=translation.language_id,
+            )
+            .with_effective_source(custom_sources=custom_sources, select=False)
+        )
         if custom_sources:
             result = result.filter(
                 Q(
@@ -583,12 +590,6 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
         result = result.filter(
             context__lower__md5=MD5(Lower(Value(unit.context))),
             context=unit.context,
-            translation__language_id=translation.language_id,
-        )
-        result = result.filter(
-            propagation_filter(
-                component.project, "translation__component__", component.name
-            )
         )
         if custom_sources:
             plural = unit.effective_source_plural
@@ -631,22 +632,21 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
         custom_sources = propagation_uses_custom_sources(component.project)
         result = (
             self.exclude_blocked(custom_sources=custom_sources)
-            .with_effective_source(custom_sources=custom_sources, select=False)
             .filter(
+                propagation_filter(
+                    component.project, "translation__component__", component.name
+                ),
                 state__gte=STATE_TRANSLATED,
                 target__lower__md5=MD5(Lower(Value(target))),
                 target=target,
-                check_source_language=unit.effective_source_language.pk,
                 translation__component__allow_translation_propagation=True,
                 translation__plural_id=translation.plural_id,
                 translation__plural__number__gt=1,
             )
+            .filter_restricted_peers(unit)
+            .with_effective_source(custom_sources=custom_sources, select=False)
+            .filter(check_source_language=unit.effective_source_language.pk)
             .exclude(check_source=unit.effective_source)
-        )
-        result = result.filter(
-            propagation_filter(
-                component.project, "translation__component__", component.name
-            )
         )
         if custom_sources:
             plural = unit.effective_source_plural
@@ -655,7 +655,6 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
                 check_source_formula=plural.formula,
                 check_source_type=plural.type,
             )
-        result = result.filter_restricted_peers(unit)
         if not unit.translation.language.is_case_sensitive():
             result = result.exclude(
                 check_source__lower__md5=MD5(Lower(Value(unit.effective_source)))

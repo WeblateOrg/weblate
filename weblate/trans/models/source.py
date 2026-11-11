@@ -627,7 +627,11 @@ def previous_source_peers(
     from weblate.trans.models.unit import Unit  # ruff: ignore[import-outside-top-level]
     from weblate.trans.propagation import propagation_filter  # ruff: ignore[import-outside-top-level]
 
-    matches = Q(check_source=previous_source, context=unit.context)
+    matches = Q(
+        check_source=previous_source,
+        context=unit.context,
+        context__lower__md5=MD5(Lower(Value(unit.context))),
+    )
     if unit.target:
         matches |= Q(
             target=unit.target, target__lower__md5=MD5(Lower(Value(unit.target)))
@@ -635,19 +639,18 @@ def previous_source_peers(
     using = unit._state.db or "default"  # ruff: ignore[private-member-access]
     return (
         Unit.objects.using(using)
-        .with_effective_source()
         .filter(
-            matches,
             propagation_filter(
                 unit.translation.component.project,
                 "translation__component__",
                 unit.translation.component.name,
             ),
             check__name__in=("inconsistent", "reused"),
-            check_source_language=previous_language_id,
             translation__component__allow_translation_propagation=True,
             translation__plural_id=unit.translation.plural_id,
         )
+        .with_effective_source()
+        .filter(matches, check_source_language=previous_language_id)
         .distinct()
     )
 
