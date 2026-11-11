@@ -69,6 +69,7 @@ Weblate 2026.11.2
 * Limited text shown in :ref:`translation history <translation-history>` lists and added a full change view for long entries.
 * Rejected unsafe fork remote names from merge-request repository credentials before running Git commands.
 * Preserved previous IP login failures after a successful sign-in to prevent rate-limit bypasses.
+* Enforced text length limits for translation and source string edits and newly added strings, including :ref:`file uploads <upload-string-length>` and the API.
 * Bounded :ref:`text template <markup>` source, loops, intermediate values, output, and helper resource usage during validation and execution.
 
 .. rubric:: Bug fixes

@@ -1873,7 +1873,10 @@ class BulkEditTest(ReusableViewTestCase):
         self.assertEqual(extra.state, STATE_FUZZY)
 
     def test_regex_output_failure_does_not_write(self) -> None:
-        self.unit.translate(self.user, "a" * 8000, STATE_TRANSLATED)
+        # Stored directly as the editor limit does not apply to repository content
+        Unit.objects.filter(pk=self.unit.pk).update(
+            target="a" * 8000 + "\n", state=STATE_TRANSLATED
+        )
         before = (Change.objects.count(), PendingUnitChange.objects.count())
         url = reverse("bulk-edit", kwargs=self.kw_translation)
         for preview in ("1", ""):

@@ -227,6 +227,7 @@ from weblate.trans.tasks import (
 )
 from weblate.trans.uploads import queue_translation_upload
 from weblate.trans.util import get_upload_error_message
+from weblate.trans.validators import TranslationTextTooLongError
 from weblate.trans.views.files import (
     download_multi,
     get_download_components,
@@ -4822,7 +4823,11 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
     def perform_update(self, serializer) -> None:
         from weblate.trans.models.source import source_operation  # ruff: ignore[import-outside-top-level]
 
-        with source_operation(serializer.instance.translation.component):
+        # Rejected translation must not leave other updated attributes stored
+        with (
+            transaction.atomic(),
+            source_operation(serializer.instance.translation.component),
+        ):
             serializer.instance = get_object_or_404(
                 Unit.objects.select_for_update(), pk=serializer.instance.pk
             )
@@ -4918,6 +4923,10 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         if do_translate:
             try:
                 unit.translate(user, new_target, new_state)
+            except TranslationTextTooLongError as error:
+                # The limit can change after validating the serializer, for
+                # example by the submitted extra_flags.
+                raise ValidationError({"target": error.messages}) from error
             except Unit.DoesNotExist as error:
                 # The unit can be removed by a concurrent component update between
                 # the initial lookup and the locking re-fetch in Unit.translate()
@@ -5256,10 +5265,13 @@ class SuggestionViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
                     request, getattr(review_permission, "reason", None)
                 )
 
-        suggestion.accept(
-            request,
-            state=STATE_APPROVED if approve else STATE_TRANSLATED,
-        )
+        try:
+            suggestion.accept(
+                request,
+                state=STATE_APPROVED if approve else STATE_TRANSLATED,
+            )
+        except TranslationTextTooLongError as error:
+            raise ValidationError({"target": error.messages}) from error
         return Response(data={"result": "accepted"}, status=HTTP_200_OK)
 
     @extend_schema(

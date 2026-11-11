@@ -104,6 +104,7 @@ from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import check_upload_method_permissions, is_repo_link
 from weblate.trans.validators import (
     MAX_TRANSLATION_ALTERNATIVES,
+    validate_changed_text_length,
     validate_check_flags,
     validate_translation_text_length,
 )
@@ -620,9 +621,18 @@ class PluralTextarea(forms.Textarea):
     def value_from_datadict(self, data, files, name):
         """Return processed plurals as a list."""
         ret = []
+        max_alternatives = MAX_TRANSLATION_ALTERNATIVES
+        if unit := getattr(self, "unit", None):
+            stored = (
+                unit.get_source_plurals()
+                if self.edit_source
+                else unit.get_target_plurals()
+            )
+            max_alternatives = max(max_alternatives, len(stored))
         # Read one extra value so that validation rejects oversized submissions
-        # instead of silently discarding their remaining alternatives.
-        for idx in range(MAX_TRANSLATION_ALTERNATIVES + 1):
+        # instead of silently discarding their remaining alternatives. Include
+        # every stored alternative, even when repository text exceeds the limit.
+        for idx in range(max_alternatives + 1):
             fieldname = f"{name}_{idx:d}"
             if fieldname not in data:
                 break
@@ -894,6 +904,7 @@ class TranslationForm(UnitForm):
             unit,
             self.cleaned_data["target"],
             add_alternative="add_alternative" in self.data,
+            allow_stored=True,
         )
         if self.user.has_perm(
             "unit.review", unit.translation
@@ -1860,6 +1871,11 @@ class ContextForm(FieldDocsMixin, forms.ModelForm):
         else:
             del self.fields["extra_flags"]
         self.user = user
+
+    def clean_explanation(self) -> str:
+        explanation = self.cleaned_data["explanation"]
+        validate_changed_text_length([explanation], [self.instance.explanation])
+        return explanation
 
     def save(self, commit=True):
         self.instance.update_explanation(
