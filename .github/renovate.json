@@ -59,11 +59,11 @@
       "enabled": false
     },
     {
-      "description": "Extract Unicode release versions from the public directory listing",
+      "description": "Use the published Unicode release archive to exclude draft directory placeholders",
       "matchDatasources": [
-        "custom.unicode-public"
+        "custom.unicode-releases"
       ],
-      "extractVersion": "^(?<version>\\d+\\.\\d+\\.\\d+)/?$"
+      "extractVersion": "^https://www\\.unicode\\.org/versions/Unicode(?<version>\\d+\\.\\d+\\.\\d+)/?$"
     },
     {
       "description": "Group bundled ITS rule updates",
@@ -123,7 +123,7 @@
       ],
       "depNameTemplate": "Unicode UCD",
       "packageNameTemplate": "unicode",
-      "datasourceTemplate": "custom.unicode-public",
+      "datasourceTemplate": "custom.unicode-releases",
       "versioningTemplate": "semver"
     },
     {
@@ -182,8 +182,8 @@
     }
   ],
   "customDatasources": {
-    "unicode-public": {
-      "defaultRegistryUrlTemplate": "https://www.unicode.org/Public/",
+    "unicode-releases": {
+      "defaultRegistryUrlTemplate": "https://www.unicode.org/versions/enumeratedversions.html",
       "format": "html"
     },
     "github-release-asset-digest": {
