@@ -309,6 +309,114 @@ class ComponentRestrictedVerificationTest(ReusableViewTestCase):
         self.assertEqual(response.status_code, 302)
         self.assert_restricted(False)
 
+    def test_admin_relink_requires_verification(self) -> None:
+        destination = self.create_po(
+            name="Destination", project=self.project, restricted=False
+        )
+        url = reverse("admin:trans_component_change", args=(destination.pk,))
+        data = self.get_admin_form(url)
+        original_repo = destination.repo
+        data.update(
+            repo=self.component.get_repo_link_url(), branch="", push="", push_branch=""
+        )
+
+        for repo in (data["repo"], f"  {data['repo']}  "):
+            with self.subTest(repo=repo), patch.object(Component, "clean") as clean:
+                response = self.client.post(url, {**data, "repo": repo})
+                self.assertEqual(response.status_code, 302)
+                self.assertTrue(
+                    response.headers["Location"].startswith(
+                        reverse("first-factor-verify")
+                    )
+                )
+                clean.assert_not_called()
+                destination.refresh_from_db()
+                self.assertEqual(destination.repo, original_repo)
+                self.assertFalse(destination.restricted)
+
+        self.verify_credentials(url)
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(
+            response.headers["Location"].startswith(reverse("first-factor-verify"))
+        )
+        destination.refresh_from_db()
+        self.assertEqual(destination.linked_component, self.component)
+        self.assertFalse(destination.restricted)
+
+    def test_admin_restricted_relink_skips_verification(self) -> None:
+        destination = self.create_po(
+            name="Destination", project=self.project, restricted=True
+        )
+        url = reverse("admin:trans_component_change", args=(destination.pk,))
+        data = self.get_admin_form(url)
+        data.update(
+            repo=self.component.get_repo_link_url(), branch="", push="", push_branch=""
+        )
+
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(
+            response.headers["Location"].startswith(reverse("first-factor-verify"))
+        )
+        destination.refresh_from_db()
+        self.assertEqual(destination.linked_component, self.component)
+        self.assertTrue(destination.restricted)
+
+    def test_admin_link_creation_requires_verification(self) -> None:
+        self.assert_admin_link_creation_requires_verification(save_as_new=False)
+
+    def test_admin_restricted_link_creation_skips_verification(self) -> None:
+        self.assert_admin_link_creation_requires_verification(
+            save_as_new=False, restricted=True
+        )
+
+    def test_admin_save_as_new_requires_verification(self) -> None:
+        self.assert_admin_link_creation_requires_verification(save_as_new=True)
+
+    def assert_admin_link_creation_requires_verification(
+        self, *, save_as_new: bool, restricted: bool = False
+    ) -> None:
+        change_url = reverse("admin:trans_component_change", args=(self.component.pk,))
+        data = self.get_admin_form(change_url)
+        data.pop("restricted")
+        if restricted:
+            data["restricted"] = True
+        data.update(
+            name="Copy",
+            slug="copy",
+            repo=self.component.get_repo_link_url(),
+            branch="",
+            push="",
+            push_branch="",
+        )
+        if save_as_new:
+            url = change_url
+            data.pop("_save")
+            data["_saveasnew"] = 1
+        else:
+            url = reverse("admin:trans_component_add")
+
+        if not restricted:
+            with patch.object(Component, "clean") as clean:
+                response = self.client.post(url, data)
+            self.assertEqual(response.status_code, 302)
+            self.assertTrue(
+                response.headers["Location"].startswith(reverse("first-factor-verify"))
+            )
+            clean.assert_not_called()
+            self.assertFalse(self.project.component_set.filter(slug="copy").exists())
+
+            self.verify_credentials(url)
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(
+            response.headers["Location"].startswith(reverse("first-factor-verify"))
+        )
+        copy = self.project.component_set.get(slug="copy")
+        self.assertEqual(copy.linked_component, self.component)
+        self.assertEqual(copy.restricted, restricted)
+
     def test_api_verification_precedes_repository_validation(self) -> None:
         """Model validation can switch the branch of the live checkout."""
         with patch.object(Component, "clean") as clean:
