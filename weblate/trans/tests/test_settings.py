@@ -11,11 +11,13 @@ from typing import cast
 from unittest.mock import patch
 
 from django.apps import apps
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from filelock import FileLock
 
+from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, Permission, Role
 from weblate.checks.models import Check
 from weblate.machinery.models import MachineryInstallation
@@ -1182,6 +1184,34 @@ class SettingsTest(ReusableViewTestCase):
         response = self.client.post(url)
         self.assertEqual(response.status_code, 404)
 
+    def test_project_language_component_admin_denied(self) -> None:
+        group = Group.objects.create(
+            name="Component admins", language_selection=SELECTION_ALL
+        )
+        group.roles.add(Role.objects.get(name="Administration"))
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        project_language = self.project.project_languages[self.translation.language]
+        self.assertTrue(self.user.has_perm("component.edit", self.component))
+        self.assertFalse(self.user.has_perm("project.edit", self.project))
+        self.assertFalse(self.user.has_perm("project.edit", project_language))
+
+        url = reverse("settings", kwargs={"path": project_language.get_url_path()})
+        self.assertEqual(self.client.get(url).status_code, 404)
+        self.assertEqual(
+            self.client.post(
+                url,
+                {"workflow-enable": 1, "workflow-restrict_direct_editing": 1},
+            ).status_code,
+            404,
+        )
+        self.assertFalse(
+            WorkflowSetting.objects.filter(
+                project=self.project, language=self.translation.language
+            ).exists()
+        )
+
     def test_project_language(self) -> None:
         projlang = self.project.project_languages[self.translation.language]
         self.assertIsNone(projlang.workflow_settings)
@@ -1354,6 +1384,75 @@ class SettingsTest(ReusableViewTestCase):
         self.assertEqual(
             change.get_details_display(trusted=True),
             'Project moved from "Current workspace" to "Target workspace".',
+        )
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_project_move_public_plan(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        source = Workspace.objects.create(name="Source move workspace")
+        source.add_owner(self.user)
+        billing = create_test_billing(self.user)
+        billing.plan.change_access_control = False
+        billing.plan.save(update_fields=["change_access_control"])
+        self.user.clear_permissions_cache()
+        url = reverse("move", kwargs={"path": self.project.get_url_path()})
+        for access, restricted in (
+            (Project.ACCESS_PRIVATE, False),
+            (Project.ACCESS_PROTECTED, False),
+            (Project.ACCESS_PUBLIC, True),
+            (Project.ACCESS_PUBLIC, False),
+        ):
+            with self.subTest(access=access, restricted=restricted):
+                Project.objects.filter(pk=self.project.pk).update(
+                    workspace=source, access_control=access
+                )
+                self.project.component_set.update(
+                    restricted=restricted, license="MIT", inherit_license=False
+                )
+                response = self.client.post(
+                    url, {"workspace": str(billing.workspace_id)}, follow=True
+                )
+                self.project.refresh_from_db()
+                if access == Project.ACCESS_PUBLIC and not restricted:
+                    self.assertContains(response, "Project moved.")
+                    self.assertEqual(self.project.workspace_id, billing.workspace_id)
+                else:
+                    self.assertContains(response, "only allows public projects")
+                    self.assertEqual(self.project.workspace_id, source.pk)
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_project_move_public_plan_recheck(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        source = Workspace.objects.create(name="Source plan recheck workspace")
+        source.add_owner(self.user)
+        Project.objects.filter(pk=self.project.pk).update(
+            workspace=source, access_control=Project.ACCESS_PRIVATE
+        )
+        self.project.component_set.update(license="MIT", inherit_license=False)
+        billing = create_test_billing(self.user)
+        billing.plan.change_access_control = True
+        billing.plan.save(update_fields=["change_access_control"])
+        self.user.clear_permissions_cache()
+        original = ProjectMoveForm.is_valid
+
+        def restrict_plan(form: ProjectMoveForm) -> bool:
+            valid = original(form)
+            if valid:
+                billing.plan.change_access_control = False
+                billing.plan.save(update_fields=["change_access_control"])
+            return valid
+
+        with patch.object(ProjectMoveForm, "is_valid", restrict_plan):
+            response = self.client.post(
+                reverse("move", kwargs={"path": self.project.get_url_path()}),
+                {"workspace": str(billing.workspace_id)},
+                follow=True,
+            )
+        self.assertContains(response, "only allows public projects")
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, source.pk)
+        self.assertFalse(
+            self.project.change_set.filter(action=ActionEvents.MOVE_PROJECT).exists()
         )
 
     def test_project_move_reports_machinery_conflicts(self) -> None:
@@ -2171,3 +2270,27 @@ class SettingsTest(ReusableViewTestCase):
         self.assertFalse(linked_component.push_on_commit)
         self.assertEqual(linked_component.commit_pending_age, 17)
         self.assertTrue(linked_component.auto_lock_error)
+
+
+class WorkspaceTMDefaultsTest(ReusableViewTestCase):
+    """Workspace translation memory defaults taken from the settings."""
+
+    def test_project_field_defaults_follow_setting(self) -> None:
+        # ruff: ignore[private-member-access]
+        use_default = Project._meta.get_field("use_workspace_tm").default
+        # ruff: ignore[private-member-access]
+        contribute_default = Project._meta.get_field("contribute_workspace_tm").default
+        self.assertEqual(use_default, settings.DEFAULT_WORKSPACE_TM)
+        self.assertEqual(contribute_default, settings.DEFAULT_WORKSPACE_TM)
+
+    @override_settings(OFFER_HOSTING=True, DEFAULT_WORKSPACE_TM=True)
+    def test_hosted_contribution_follows_enabled_default(self) -> None:
+        data: dict[str, bool] = {}
+        Project.apply_hosted_tm_contribution(data)
+        self.assertTrue(data["contribute_workspace_tm"])
+
+    @override_settings(OFFER_HOSTING=True, DEFAULT_WORKSPACE_TM=True)
+    def test_hosted_explicit_setting_overrides_default(self) -> None:
+        data: dict[str, bool] = {"use_workspace_tm": False}
+        Project.apply_hosted_tm_contribution(data)
+        self.assertFalse(data["contribute_workspace_tm"])

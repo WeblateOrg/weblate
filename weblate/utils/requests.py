@@ -6,8 +6,9 @@
 
 from __future__ import annotations
 
+import asyncio
 import json
-from contextlib import contextmanager
+from contextlib import asynccontextmanager, suppress
 from dataclasses import dataclass
 from hashlib import sha256
 from time import monotonic
@@ -15,6 +16,8 @@ from typing import TYPE_CHECKING, cast
 from urllib.parse import urlparse
 
 import httpx2
+from asgiref.sync import async_to_sync
+from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext
@@ -32,11 +35,11 @@ from weblate.utils.validators import validate_asset_url
 
 if TYPE_CHECKING:
     from collections.abc import (
+        AsyncGenerator,
         Callable,
-        Generator,
         Iterator,
     )
-    from typing import Never
+    from typing import Any, Never
 
     from httpx2._types import AuthTypes
 
@@ -52,6 +55,56 @@ ORIGINAL_URL_REQUEST_EXTENSION = "weblate_original_url"
 JSON_RESPONSE_ERRORS = (json.JSONDecodeError, UnicodeDecodeError)
 ADDRESS_FALLBACK_DELAY = 0.25
 MAX_REDIRECTS = 5
+DEFAULT_RESPONSE_SIZE = 2 * 1024 * 1024
+MACHINERY_RESPONSE_SIZE = 1024 * 1024
+VCS_RESPONSE_SIZE = 16 * 1024 * 1024
+TESSERACT_RESPONSE_SIZE = 64 * 1024 * 1024
+
+
+class ResponseTooLarge(httpx2.DecodingError):
+    """An HTTP response exceeded its caller's decoded-byte budget."""
+
+
+def check_response_size(response: httpx2.Response, size: int, maximum: int) -> None:
+    if size > maximum:
+        msg = f"HTTP response exceeds the {maximum}-byte decoded size limit."
+        raise ResponseTooLarge(msg, request=response.request)
+
+
+async def async_read_response_content(response: httpx2.Response, maximum: int) -> bytes:
+    content = bytearray()
+    async for chunk in response.aiter_bytes():
+        check_response_size(response, len(content) + len(chunk), maximum)
+        content.extend(chunk)
+    return bytes(content)
+
+
+def buffered_response(response: httpx2.Response, content: bytes) -> httpx2.Response:
+    """Build a buffered response using public HTTPX APIs without decoding twice."""
+    try:
+        _ = response.content
+    except httpx2.ResponseNotRead:
+        pass
+    else:
+        return response
+    headers = response.headers.copy()
+    headers.pop("Content-Encoding", None)
+    buffered = httpx2.Response(
+        response.status_code,
+        content=content,
+        headers=headers,
+        request=response.request,
+        extensions=response.extensions,
+        history=response.history,
+        default_encoding=response.default_encoding,
+    )
+    # Keep wire headers available to callers after installing the decoded body.
+    buffered.headers = response.headers.copy()
+    buffered.next_request = response.next_request
+    # Manually constructed responses need not have elapsed timing.
+    with suppress(RuntimeError):
+        buffered.elapsed = response.elapsed
+    return buffered
 
 
 def set_test_transport(transport: httpx2.MockTransport | None) -> None:
@@ -435,26 +488,6 @@ class _ConnectionFallback[
         raise RuntimeError(msg)
 
 
-def _send_request_with_fallback(
-    routes: tuple[tuple[httpx2.BaseTransport, httpx2.Request], ...],
-) -> httpx2.Response:
-    if len(routes) == 1:
-        transport, request = routes[0]
-        return transport.handle_request(request)
-
-    fallback = _ConnectionFallback(routes)
-    for transport, request, probe in fallback.attempts():
-        try:
-            return transport.handle_request(request)
-        except (httpx2.ConnectError, httpx2.ConnectTimeout) as error:
-            fallback.record_failure(
-                (transport, request),
-                error,
-                probe=probe,
-            )
-    return fallback.raise_last_error()
-
-
 async def _send_async_request_with_fallback(
     routes: tuple[tuple[httpx2.AsyncBaseTransport, httpx2.Request], ...],
 ) -> httpx2.Response:
@@ -485,55 +518,6 @@ def _validate_transport_response(
     response.request = request
     if validators is not None:
         validators.validate_response(response, used_proxy=used_proxy)
-
-
-class OutboundHTTPTransport(httpx2.BaseTransport):
-    """Validate and route every synchronous HTTPX2 request hop."""
-
-    def __init__(
-        self,
-        transport: httpx2.BaseTransport | None = None,
-        *,
-        validators: RedirectValidators | None = None,
-    ) -> None:
-        self.validators = validators
-        self.pool = OutboundTransportPool(
-            transport,
-            lambda proxy: httpx2.HTTPTransport(proxy=proxy, trust_env=True),
-        )
-
-    def handle_request(self, request: httpx2.Request) -> httpx2.Response:
-        outbound = _prepare_outbound_request(request)
-        connection_addresses = (
-            self.validators.validate_request_url(
-                outbound.url, used_proxy=outbound.used_proxy
-            )
-            if self.validators is not None
-            else ()
-        )
-        routes = _route_outbound_request(
-            self.pool,
-            request,
-            connection_addresses,
-            proxy=outbound.proxy,
-        )
-        response = _send_request_with_fallback(routes)
-        try:
-            _validate_transport_response(
-                response,
-                request=request,
-                validators=self.validators,
-                used_proxy=outbound.used_proxy,
-            )
-        except BaseException:
-            response.close()
-            raise
-        return response
-
-    def close(self) -> None:
-        for transport in self.pool.active():
-            transport.close()
-        self.pool.clear()
 
 
 class AsyncOutboundHTTPTransport(httpx2.AsyncBaseTransport):
@@ -579,22 +563,6 @@ class AsyncOutboundHTTPTransport(httpx2.AsyncBaseTransport):
         for transport in self.pool.active():
             await transport.aclose()
         self.pool.clear()
-
-
-def create_http_client(
-    *,
-    transport: httpx2.BaseTransport | None = None,
-    validators: RedirectValidators | None = None,
-    max_redirects: int = MAX_REDIRECTS,
-) -> httpx2.Client:
-    """Create a synchronous HTTPX2 client using Weblate's outbound transport."""
-    return httpx2.Client(
-        headers=_prepare_headers(None),
-        transport=OutboundHTTPTransport(transport, validators=validators),
-        trust_env=False,
-        follow_redirects=False,
-        max_redirects=max_redirects,
-    )
 
 
 def create_async_http_client(
@@ -651,34 +619,6 @@ def _next_streaming_redirect(
     return next_request
 
 
-def _send_with_redirects(
-    client: httpx2.Client,
-    request: httpx2.Request,
-    *,
-    auth: AuthTypes | None,
-) -> httpx2.Response:
-    history: list[httpx2.Response] = []
-    while True:
-        response = client.send(
-            request,
-            stream=True,
-            auth=auth,
-            follow_redirects=False,
-        )
-        try:
-            next_request = _next_streaming_redirect(
-                response, history, client.max_redirects
-            )
-        except BaseException:
-            response.close()
-            raise
-        if next_request is None:
-            return response
-        response.close()
-        request = next_request
-        auth = None
-
-
 async def _async_send_with_redirects(
     client: httpx2.AsyncClient,
     request: httpx2.Request,
@@ -707,64 +647,75 @@ async def _async_send_with_redirects(
         auth = None
 
 
-def _request(
+@asynccontextmanager
+async def _request_deadline(request: httpx2.Request) -> AsyncGenerator[None, None]:
+    """Distinguish expiry of this deadline from consumer errors or cancellation."""
+    deadline = asyncio.timeout(request.extensions.get("timeout", {}).get("read"))
+    try:
+        async with deadline:
+            yield
+    except TimeoutError as error:
+        if not deadline.expired():
+            raise
+        msg = "HTTP request exceeded its total timeout."
+        raise httpx2.TimeoutException(msg, request=request) from error
+
+
+@asynccontextmanager
+async def async_open_url(
     method: str,
     url: str,
     *,
     validators: RedirectValidators | None = None,
     follow_redirects: bool = True,
-    **kwargs,
-) -> httpx2.Response:
-    with create_http_client(validators=validators) as client:
+    raise_for_status: bool = True,
+    **kwargs: Any,  # ruff: ignore[any-type]
+) -> AsyncGenerator[httpx2.Response, None]:
+    """Own the response stream and one deadline across every request hop."""
+    async with create_async_http_client(validators=validators) as client:
         request, request_auth = _build_client_request(
             client, method, url, kwargs=kwargs
         )
-        response = (
-            _send_with_redirects(client, request, auth=request_auth)
-            if follow_redirects
-            else client.send(
-                request,
-                stream=True,
-                auth=request_auth,
-                follow_redirects=False,
+        # HTTPX records the effective timeout, including its default or None.
+        # Structured Timeouts use read as the total budget. System DNS and
+        # executor shutdown can delay return even after cancellation.
+        async with _request_deadline(request):
+            response = (
+                await _async_send_with_redirects(client, request, auth=request_auth)
+                if follow_redirects
+                else await client.send(
+                    request, stream=True, auth=request_auth, follow_redirects=False
+                )
             )
-        )
-        try:
-            response.read()
-        except BaseException:
-            response.close()
-            raise
-        return response
+            try:
+                if raise_for_status:
+                    response.raise_for_status()
+                yield response
+            finally:
+                await response.aclose()
+
+
+def _request(
+    method: str,
+    url: str,
+    **kwargs: Any,  # ruff: ignore[any-type]
+) -> httpx2.Response:
+    """Finish asynchronous I/O before returning to a synchronous caller."""
+    return async_to_sync(_async_request)(method, url, **kwargs)
 
 
 async def _async_request(
     method: str,
     url: str,
     *,
-    validators: RedirectValidators | None = None,
-    follow_redirects: bool = True,
-    **kwargs,
+    max_response_size: int = DEFAULT_RESPONSE_SIZE,
+    **kwargs: Any,  # ruff: ignore[any-type]
 ) -> httpx2.Response:
-    async with create_async_http_client(validators=validators) as client:
-        request, request_auth = _build_client_request(
-            client, method, url, kwargs=kwargs
-        )
-        response = (
-            await _async_send_with_redirects(client, request, auth=request_auth)
-            if follow_redirects
-            else await client.send(
-                request,
-                stream=True,
-                auth=request_auth,
-                follow_redirects=False,
-            )
-        )
-        try:
-            await response.aread()
-        except BaseException:
-            await response.aclose()
-            raise
-        return response
+    async with async_open_url(
+        method, url, raise_for_status=False, **kwargs
+    ) as response:
+        content = await async_read_response_content(response, max_response_size)
+        return buffered_response(response, content)
 
 
 def fetch_url(
@@ -847,47 +798,17 @@ async def async_fetch_validated_url(
     return response
 
 
-@contextmanager
-def _open_url(
+@asynccontextmanager
+async def async_open_validated_url(
     method: str,
     url: str,
     *,
-    validators: RedirectValidators | None = None,
-    follow_redirects: bool = True,
-    **kwargs,
-) -> Generator[httpx2.Response, None, None]:
-    with create_http_client(validators=validators) as client:
-        request, request_auth = _build_client_request(
-            client, method, url, kwargs=kwargs
-        )
-        response = (
-            _send_with_redirects(client, request, auth=request_auth)
-            if follow_redirects
-            else client.send(
-                request,
-                stream=True,
-                auth=request_auth,
-                follow_redirects=False,
-            )
-        )
-        try:
-            yield response
-        finally:
-            response.close()
-
-
-@contextmanager
-def open_validated_url(
-    method: str,
-    url: str,
-    *,
-    raise_for_status: bool = True,
     allow_private_targets: bool = False,
     private_allowlist: list[str] | tuple[str, ...] = (),
-    **kwargs,
-) -> Generator[httpx2.Response, None, None]:
-    """Open a validated response without buffering its body."""
-    with _open_url(
+    **kwargs: Any,  # ruff: ignore[any-type]
+) -> AsyncGenerator[httpx2.Response, None]:
+    """Validate each redirect and keep body consumption inside the deadline."""
+    async with async_open_url(
         method,
         url,
         validators=RuntimeRedirectValidators(
@@ -896,28 +817,27 @@ def open_validated_url(
         ),
         **kwargs,
     ) as response:
-        if raise_for_status:
-            response.raise_for_status()
         yield response
 
 
-@contextmanager
-def open_restricted_asset_url(
+async def _async_fetch_restricted_asset_url(
     method: str,
     url: str,
     *,
-    raise_for_status: bool = True,
-    allow_private_targets: bool = False,
-    private_allowlist: list[str] | tuple[str, ...] = (),
-    **kwargs,
-) -> Generator[httpx2.Response, None, None]:
-    with _open_url(
+    max_response_size: int,
+    raise_for_status: bool,
+    allow_private_targets: bool,
+    private_allowlist: list[str] | tuple[str, ...],
+    **kwargs: Any,  # ruff: ignore[any-type]
+) -> httpx2.Response:
+    async with async_open_url(
         method,
         url,
         validators=RestrictedAssetRedirectValidators(
             allow_private_targets=allow_private_targets,
             private_allowlist=private_allowlist,
         ),
+        raise_for_status=False,
         **kwargs,
     ) as response:
         if raise_for_status and not response.is_success:
@@ -928,7 +848,41 @@ def open_restricted_asset_url(
                 code="download_failed",
                 params={"code": response.status_code},
             )
-        yield response
+        content = await async_read_response_content(response, max_response_size)
+        return buffered_response(response, content)
+
+
+def fetch_restricted_asset_url(
+    method: str,
+    url: str,
+    *,
+    max_response_size: int | None = None,
+    raise_for_status: bool = True,
+    allow_private_targets: bool = False,
+    private_allowlist: list[str] | tuple[str, ...] = (),
+    **kwargs: Any,  # ruff: ignore[any-type]
+) -> httpx2.Response:
+    """Return a bounded asset after validating and closing its network stream."""
+    return async_to_sync(_async_fetch_restricted_asset_url)(
+        method,
+        url,
+        max_response_size=settings.ALLOWED_ASSET_SIZE
+        if max_response_size is None
+        else max_response_size,
+        raise_for_status=raise_for_status,
+        allow_private_targets=allow_private_targets,
+        private_allowlist=private_allowlist,
+        **kwargs,
+    )
+
+
+async def _async_probe_validated_url(
+    url: str, *, request_timeout: float, validators: RedirectValidators
+) -> None:
+    async with async_open_url(
+        "get", url, timeout=request_timeout, validators=validators
+    ):
+        pass
 
 
 def _probe_validated_url(
@@ -937,13 +891,9 @@ def _probe_validated_url(
     timeout: float = 5,
     validators: RedirectValidators,
 ) -> None:
-    with _open_url(
-        "get",
-        url,
-        timeout=timeout,
-        validators=validators,
-    ) as response:
-        response.raise_for_status()
+    async_to_sync(_async_probe_validated_url)(
+        url, request_timeout=timeout, validators=validators
+    )
 
 
 def _uri_error_cache_key(

@@ -36,7 +36,7 @@ jobs:
     - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
       with:
         enable-cache: false
-        version: 0.13.6
+        version: 0.13.7
     - run: ./rundev.sh test weblate/checks/tests/test_chars_checks.py
     - run: ./rundev.sh start
     - run: ./rundev.sh wait
@@ -99,6 +99,46 @@ jobs:
     - name: Remove the smoke container and its anonymous volumes
       if: always()
       run: docker rm --force --volumes weblate-oss-scanner-smoke
+
+  verification:
+    name: Agent verification
+    runs-on: ubuntu-26.04
+    timeout-minutes: 90
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - run: ./scripts/devcontainer --backend compose up
+    - name: Test verification helpers
+      run: ./scripts/devcontainer --backend compose exec -- uv run --no-sync python -m unittest discover -s .devcontainer -p 'test_*.py'
+    - name: Run all verification groups
+      run: ./scripts/devcontainer --backend compose verify
+    - name: Verify frontend output isolation
+      if: always()
+      run: git diff --exit-code -- weblate/static/js/vendor weblate/static/styles/vendor client/yarn.lock
+    - name: Verify prepared OCR without networking
+      run: python3 .devcontainer/ocr_smoke.py
+    - run: ./scripts/devcontainer --backend compose logs
+      if: always()
+    - run: ./scripts/devcontainer --backend compose destroy --yes
+      if: always()
+
+  migration-verification:
+    name: Agent migration verification (${{ matrix.version }})
+    runs-on: ubuntu-26.04
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ['5.10', '5.14']
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - name: Verify populated historical upgrade
+      env:
+        SOURCE_VERSION: ${{ matrix.version }}
+      run: ./scripts/devcontainer migration-test "$SOURCE_VERSION"
 
   browser:
     name: Browser tests (${{ matrix.runner }})

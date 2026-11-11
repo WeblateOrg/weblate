@@ -120,10 +120,30 @@
                 </td>
               </tr>
             {% endfor %}
+            {% for addon in repository_available %}
+              <tr {% if not repository_owner_url %}class="text-body-secondary"{% endif %}>
+                <td>
+                  {% include "addons/addon_head.html" with addon=addon %}
+                  {% if repository_owner_url %}
+                    <span class="help-block">{% translate "Install on the component owning the repository." %}</span>
+                  {% else %}
+                    <span class="help-block">{% translate "The component owning this repository is not available to you." %}</span>
+                  {% endif %}
+                </td>
+                <td class="bottom-button">
+                  {% if repository_owner_url %}
+                    <a class="btn btn-primary"
+                       href="{{ repository_owner_url }}">{% translate "Open repository add-ons" %}</a>
+                  {% else %}
+                    <button type="button" class="btn btn-primary" disabled>{% translate "Unavailable" %}</button>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
           </tbody>
         </table>
         <div class="card-footer">
-          {% if not available %}
+          {% if not available and not repository_available %}
             {% translate "Could not find any additional add-ons compatible with this translation component." %}
           {% else %}
             {% translate "Some add-ons will ask for additional configuration during installation." %}

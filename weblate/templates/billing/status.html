@@ -110,7 +110,9 @@
     </tr>
     {% if billing.all_projects %}
       <tr>
-        <td colspan="3">{% include "snippets/list-objects.html" with objects=billing.all_projects hide_details=1 %}</td>
+        <td colspan="3">
+          {% include "snippets/list-objects.html" with objects=billing.all_projects hide_details=1 %}
+        </td>
       </tr>
     {% else %}
       <tr>

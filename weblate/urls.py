@@ -62,6 +62,7 @@ from weblate.trans.views.changes import (
     ChangesCSVView,
     ChangesRSSView,
     ChangesView,
+    change_detail,
     show_change,
 )
 from weblate.trans.views.hooks import IntegrationHookView, ServiceHookView
@@ -863,6 +864,7 @@ real_patterns = [
         "changes/rss/<object_path:path>/", ChangesRSSView.as_view(), name="changes-rss"
     ),
     path("changes/render/<int:pk>/", show_change, name="show_change"),
+    path("changes/<int:pk>/", change_detail, name="change-detail"),
     # Notification hooks
     path(
         "machinery/etranslation/callback/<uuid:token>/",
@@ -1109,6 +1111,12 @@ real_patterns = [
         "manage/workspaces/add/",
         weblate.wladmin.views.WorkspaceCreateView.as_view(),
         name="manage-workspace-add",
+    ),
+    path("teams/audit/", weblate.auth.views.team_audit, name="team-audit"),
+    path(
+        "teams/audit/<int:pk>/",
+        weblate.auth.views.team_audit_detail,
+        name="team-audit-detail",
     ),
     path(
         "teams/<int:pk>/",

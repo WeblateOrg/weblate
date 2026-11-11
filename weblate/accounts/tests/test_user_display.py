@@ -19,6 +19,8 @@ from django.template.loader import render_to_string
 from django.test import RequestFactory, override_settings
 from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
+from django.utils import timezone
+from django.utils.html import escape
 from lxml.html import fromstring
 
 from weblate.accounts.avatar import (
@@ -32,14 +34,19 @@ from weblate.accounts.tests.visibility import VisibilityPermissions
 from weblate.accounts.visibility import (
     can_browse_users,
     can_search_scoped_users,
+    can_view_contributor,
     can_view_profile,
 )
 from weblate.auth.models import Group, Permission, Role, User, get_anonymous
 from weblate.trans.actions import ActionEvents
 from weblate.trans.feeds import BaseFeed, ChangesFeed
 from weblate.trans.models import Announcement, Change
-from weblate.trans.templatetags.translations import format_last_changes_content
+from weblate.trans.templatetags.translations import (
+    format_commit_author,
+    format_last_changes_content,
+)
 from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.utils import clear_users_cache
 from weblate.utils.markdown import get_mention_users, render_markdown
 
 if TYPE_CHECKING:
@@ -444,17 +451,102 @@ class UserDisplayTest(FixtureTestCase):
             provider="email", uid=self.target.email, id_key="email"
         )
         VerifiedEmail.objects.create(social=social, email=self.target.email)
-        template = Template("{% load user_display %}{% user_commit_author commit %}")
+        template = Template(
+            "{% load user_display %}{% user_commit_author commit component %}"
+        )
         commit = {
             "author_email": self.target.email,
-            "author_name": self.target.full_name,
+            "author_name": "<Commit & Author>",
         }
         for viewer, accessible in ((self.user, False), (self.target, True)):
             with self.subTest(viewer=viewer):
                 rendered = template.render(
-                    Context({"request": self.request_for(viewer), "commit": commit})
+                    Context(
+                        {
+                            "request": self.request_for(viewer),
+                            "commit": commit,
+                            "component": self.component,
+                        }
+                    )
                 )
                 self.assert_profile_display(rendered, accessible=accessible)
+
+        commit["author_email"] = "unknown@example.org"
+        rendered = template.render(
+            Context(
+                {
+                    "request": self.request_for(self.user),
+                    "commit": commit,
+                    "component": self.component,
+                }
+            )
+        )
+        self.assertEqual(rendered, "&lt;Commit &amp; Author&gt;")
+
+    def test_git_author_without_attribution_permission(self) -> None:
+        social = self.target.social_auth.create(
+            provider="email", uid=self.target.email, id_key="email"
+        )
+        VerifiedEmail.objects.create(social=social, email=self.target.email)
+        permission = Permission.objects.get(codename="contribution.view_author")
+        for role in Role.objects.filter(permissions=permission):
+            role.permissions.remove(permission)
+        clear_users_cache()
+        commit = {
+            "author_email": self.target.email,
+            "author_name": "<Commit & Author>",
+            "authordate": timezone.now(),
+            "summary": "Example commit",
+            "revision": "a" * 40,
+            "shortrevision": "a" * 7,
+        }
+        template = Template(
+            "{% load user_display %}{% user_commit_author commit component %}"
+        )
+        for viewer in (get_anonymous(), self.user):
+            with self.subTest(viewer=viewer):
+                viewer.clear_permissions_cache()
+                self.assertTrue(viewer.has_perm("vcs.view", self.component))
+                self.assertFalse(can_view_contributor(viewer, self.component))
+                with self.assertNumQueries(0):
+                    self.assertEqual(
+                        format_commit_author(commit, self.component, viewer=viewer),
+                        commit["author_name"],
+                    )
+                request = self.request_for(viewer)
+                rendered = template.render(
+                    Context(
+                        {
+                            "request": request,
+                            "commit": commit,
+                            "component": self.component,
+                        }
+                    )
+                )
+                self.assertEqual(rendered, "&lt;Commit &amp; Author&gt;")
+                with (
+                    patch.object(
+                        type(self.component),
+                        "get_last_remote_commit",
+                        autospec=True,
+                        return_value=commit,
+                    ),
+                    patch.object(
+                        type(self.component),
+                        "get_last_commit",
+                        autospec=True,
+                        return_value=commit,
+                    ),
+                ):
+                    panel = render_to_string(
+                        "snippets/git-info.html",
+                        {"object": self.component},
+                        request=request,
+                    )
+                self.assertEqual(panel.count("&lt;Commit &amp; Author&gt;"), 2, panel)
+                self.assertNotIn(self.target.username, panel)
+                self.assertNotIn(escape(self.target.full_name), panel)
+                self.assertNotIn("<img", panel)
 
     @VisibilityPermissions(directory="disabled", profile="admins")
     def test_independent_custom_visibility_permissions(self) -> None:

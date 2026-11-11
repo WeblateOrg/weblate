@@ -22,6 +22,10 @@ administrators can configure them for a project:
    them how you want. Third-party services can receive source strings,
    translations, and related context from Weblate.
 
+Responses fetched through Weblate's shared HTTP client are limited to 1 MiB
+of decoded data, including service validation and language discovery. Larger
+responses fail as download errors. See :ref:`outbound-http-limits`.
+
 The services translate from the source language as configured at
 :ref:`component`, see :ref:`component-source_language`.
 

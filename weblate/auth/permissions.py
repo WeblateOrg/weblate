@@ -34,7 +34,7 @@ from weblate.trans.models import (
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.workspaces.models import Workspace
 
-from .results import Allowed, Denied
+from .results import Allowed, ContributorAgreementDenied, Denied
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
@@ -325,12 +325,15 @@ def check_permission(
             )
         )
     if isinstance(obj, (ProjectLanguage, CategoryLanguage)):
-        return _check_language_scope_permission(
-            user,
-            permission,
-            obj,
-            allow_limited_without_language=allow_limited_without_language,
-        )
+        if permission == "project.edit":
+            obj = obj.project
+        else:
+            return _check_language_scope_permission(
+                user,
+                permission,
+                obj,
+                allow_limited_without_language=allow_limited_without_language,
+            )
     if isinstance(obj, Category):
         obj = obj.project
     if isinstance(obj, Workspace):
@@ -974,8 +977,26 @@ def check_unit_add(
 
 @register_perm("translation.add")
 def check_translation_add(
-    user: User, permission: str, obj: Component | Project
+    user: User, permission: str, obj: Component | Project | Translation
 ) -> bool | PermissionResult:
+    if isinstance(obj, Translation):
+        component = obj.component
+        component_permission = check_translation_add(user, permission, component)
+        if not component_permission:
+            return component_permission
+        if not check_permission(user, permission, obj):
+            return False
+        if (
+            not user.is_bot
+            and component.effective_agreement
+            and not ContributorAgreement.objects.has_agreed(user, component)
+        ):
+            return ContributorAgreementDenied(
+                gettext(
+                    "Contributing to this translation requires agreeing to its contributor license agreement."
+                )
+            )
+        return True
     if (
         isinstance(obj, Component)
         and obj.effective_new_lang == "none"
@@ -1274,6 +1295,8 @@ def check_upload(
     The actual check for the method is implemented in
     weblate.trans.util.check_upload_method_permissions.
     """
+    if not user.is_authenticated:
+        return Denied(gettext("You need to log in to upload translations."))
     if isinstance(obj, Translation):
         # Source upload
         if obj.is_source and not user.has_perm("source.edit", obj):
@@ -1333,13 +1356,23 @@ def check_machinery(
 
 @register_perm("translation.delete")
 def check_translation_delete(
-    user: User, permission: str, obj: Translation | CategoryLanguage | ProjectLanguage
+    user: User,
+    permission: str,
+    obj: Translation | CategoryLanguage | ProjectLanguage | Component,
 ) -> bool | PermissionResult:
     if (
         isinstance(obj, (Translation, CategoryLanguage, ProjectLanguage))
         and obj.is_source
     ):
         return False
+    if isinstance(obj, Translation):
+        locked = obj.component.locked
+    elif isinstance(obj, (CategoryLanguage, ProjectLanguage)):
+        locked = obj.action_translation_set.filter(component__locked=True).exists()
+    else:
+        locked = obj.locked
+    if locked:
+        return Denied(gettext("This component is currently locked."))
     return check_permission(user, permission, obj)
 
 

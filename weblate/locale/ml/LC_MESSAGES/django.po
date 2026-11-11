@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-29 23:00-0500\n"
+"POT-Creation-Date: 2026-11-05 22:27-0600\n"
 "PO-Revision-Date: 2026-10-16 04:38+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -421,6 +421,16 @@ msgstr "അറിയിപ്പുകൾ"
 msgid "Saved search"
 msgstr "തിരയുക"
 
+msgid ""
+"A lookalike e-mail identity was removed, the password was disabled, and API "
+"tokens were revoked."
+msgstr ""
+
+msgid ""
+"Password disabled as reported leaked credential matched the password; API "
+"tokens revoked."
+msgstr ""
+
 #. Translators: Audit log entry
 msgid "Password changed."
 msgstr "രഹസ്യവാക്ക് മാറ്റി."
@@ -655,6 +665,17 @@ msgstr ""
 #| msgid "Password changed."
 msgid "Password configured."
 msgstr "രഹസ്യവാക്ക് മാറ്റി."
+
+msgid ""
+"Reset your password to restore password access and review your account "
+"activity."
+msgstr ""
+
+msgid ""
+"Reset your password to restore password access. Choose a unique password and "
+"review your account activity. The report didn't disclose the source of the "
+"leak."
+msgstr ""
 
 msgid "To restore access to your account, please reset your password."
 msgstr ""
@@ -995,6 +1016,11 @@ msgid ""
 "a translation."
 msgstr ""
 
+#, fuzzy
+#| msgid "Contribute to Weblate"
+msgid "Contributor"
+msgstr "Weblate-ലേക്ക് സംഭാവന ചെയ്യുക"
+
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr ""
@@ -1295,6 +1321,11 @@ msgid ""
 "inviter; it can't be used by your account."
 msgstr ""
 
+msgid ""
+"Your e-mail address has been added. You can now select it as your account e-"
+"mail address in Account settings."
+msgstr ""
+
 #, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
@@ -1323,6 +1354,9 @@ msgid "Dark"
 msgstr ""
 
 msgid "Please confirm your identity using a second factor before proceeding."
+msgstr ""
+
+msgid "Please confirm your identity before proceeding."
 msgstr ""
 
 #, python-format
@@ -1439,13 +1473,16 @@ msgstr "സൈൻ ഔട്ട്"
 
 #, fuzzy
 #| msgid "Username or e-mail"
-msgid "Verify new e-mail address"
+msgid "Add and verify e-mail address"
 msgstr "ഉപയോക്തനാമം അഥവാ ഇ-മെയിൽ വിലാസം"
 
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr ""
 
 msgid "Change password"
+msgstr ""
+
+msgid "Set password"
 msgstr ""
 
 msgid "Password reset has been already completed."
@@ -1828,12 +1865,6 @@ msgid ""
 msgstr ""
 
 #, python-format
-msgid ""
-"Fedora Messaging publisher service was unavailable; the connection will be "
-"recreated on the next attempt: %(error)s"
-msgstr ""
-
-#, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
 msgstr ""
 
@@ -1850,7 +1881,7 @@ msgstr ""
 msgid "configured"
 msgstr "ക്രമീകരിക്കുക"
 
-msgid "Could not reset Fedora Messaging publisher service."
+msgid "The SSL certificates have to be provided for SSL connection."
 msgstr ""
 
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
@@ -1860,10 +1891,6 @@ msgid "Client SSL key must be an unencrypted PEM encoded private key."
 msgstr ""
 
 msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
-msgstr ""
-
-#, python-format
-msgid "Fedora Messaging broker URL is invalid: %(error)s"
 msgstr ""
 
 #, python-format
@@ -2645,9 +2672,6 @@ msgstr ""
 msgid "Topic prefix must not exceed %(limit)d characters."
 msgstr ""
 
-msgid "The SSL certificates have to be provided for SSL connection."
-msgstr ""
-
 msgid "The SSL certificates are not used without a SSL connection."
 msgstr ""
 
@@ -3245,6 +3269,26 @@ msgstr "ഉപയോക്താക്കൾ"
 msgid "Language"
 msgstr "ഭാഷ"
 
+msgid ""
+"Contributor identities are exposed by View contributor identities, Download "
+"changes, Manage reports, and access-management permissions. Permissions from "
+"all assigned roles are additive."
+msgstr ""
+
+msgid "Built-in"
+msgstr ""
+
+#, fuzzy
+#| msgid "Username or e-mail"
+msgid "Customized"
+msgstr "ഉപയോക്തനാമം അഥവാ ഇ-മെയിൽ വിലാസം"
+
+msgid "Reset built-in roles to defaults"
+msgstr ""
+
+msgid "Built-in role permissions reset."
+msgstr ""
+
 msgid "Personal info"
 msgstr ""
 
@@ -3262,6 +3306,12 @@ msgstr ""
 
 msgid "This is not used when a component is selected."
 msgstr ""
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "Contribute to Weblate"
+msgid "View contributor identities"
+msgstr "Weblate-ലേക്ക് സംഭാവന ചെയ്യുക"
 
 #. Translators: Permission name
 msgid "Download changes"
@@ -3484,6 +3534,22 @@ msgid "Manage workspace access"
 msgstr ""
 
 #. Translators: Permission name
+#, fuzzy
+#| msgid "Weblate status"
+msgid "Browse users"
+msgstr "Weblate-ന്റെ നില"
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "Description"
+msgid "Search resource contributors"
+msgstr "വിവരണം"
+
+#. Translators: Permission name
+msgid "View user profiles"
+msgstr ""
+
+#. Translators: Permission name
 msgid "Use management interface"
 msgstr ""
 
@@ -3564,6 +3630,16 @@ msgstr ""
 #| msgid "Language name"
 msgid "Manage site-wide add-ons"
 msgstr "ഭാഷയുടെ പേര്"
+
+#, fuzzy
+#| msgid "Contribute to Weblate"
+msgctxt "Access-control role"
+msgid "Discover users"
+msgstr "Weblate-ലേക്ക് സംഭാവന ചെയ്യുക"
+
+msgctxt "Access-control role"
+msgid "View user profiles"
+msgstr ""
 
 msgctxt "Access-control role"
 msgid "Administration"
@@ -3781,6 +3857,10 @@ msgid "Name"
 msgstr ""
 
 msgid "Choose permissions granted to this role."
+msgstr ""
+
+msgid ""
+"Remove the component from project teams before moving it to another project."
 msgstr ""
 
 msgid "Roles"
@@ -4086,6 +4166,9 @@ msgid ""
 "access; otherwise, you would lock yourself out."
 msgstr ""
 
+msgid "Blocked users cannot be granted project administration rights."
+msgstr ""
+
 #, python-format
 msgid ""
 "Team %(name)s was renamed to %(new_name)s because its name was already in "
@@ -4108,6 +4191,14 @@ msgstr ""
 #| msgid "Translations made"
 msgid "User invitation was removed."
 msgstr "വിവർത്തനങ്ങൾ നടത്തി"
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "This invitation was already accepted or removed."
+msgstr "വിവർത്തനങ്ങൾ നടത്തി"
+
+msgid "Remove the project block before accepting this invitation."
+msgstr ""
 
 #, python-format
 msgid "Accepted invitation to the %s team."
@@ -4345,6 +4436,63 @@ msgid "Any of"
 msgstr ""
 
 msgid "Not"
+msgstr ""
+
+msgid "Sequence"
+msgstr ""
+
+msgid "Choose"
+msgstr ""
+
+msgid "Trigger"
+msgstr ""
+
+msgid "Add trigger"
+msgstr ""
+
+#, fuzzy
+#| msgid "Configure"
+msgid "Condition"
+msgstr "ക്രമീകരിക്കുക"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Add condition"
+msgstr "പ്രവർത്തനം"
+
+msgid "Action"
+msgstr "പ്രവർത്തനം"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Add action"
+msgstr "പ്രവർത്തനം"
+
+#, fuzzy
+#| msgid "Configure"
+msgid "Conditions"
+msgstr "ക്രമീകരിക്കുക"
+
+msgid "Actions"
+msgstr ""
+
+msgid "Branches"
+msgstr ""
+
+#, fuzzy
+#| msgid "Action"
+msgid "Add branch"
+msgstr "പ്രവർത്തനം"
+
+#, fuzzy
+#| msgid "Other"
+msgid "Otherwise"
+msgstr "മറ്റുള്ളവ"
+
+msgid "Add action to run otherwise"
+msgstr ""
+
+msgid "Branch"
 msgstr ""
 
 msgid "Additional message"
@@ -5024,6 +5172,10 @@ msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr ""
 
 #, python-brace-format
+msgid "The HTML {tag} tag is nested too deeply."
+msgstr ""
+
+#, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
 "end with {semicolon}. If you do not want a character reference, use "
@@ -5220,6 +5372,12 @@ msgstr "വിവർത്തന നില"
 #| msgid "Translation status"
 msgid "Fluent syntax error in the translation."
 msgstr "വിവർത്തന നില"
+
+msgid "The Fluent value could not be checked because it is too complex."
+msgstr ""
+
+msgid "the value is too complex or nested too deeply"
+msgstr ""
 
 #, fuzzy
 #| msgid "Translations made"
@@ -6151,6 +6309,16 @@ msgid ""
 "either this limit or the maximum age is reached."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translations made"
+msgid "Install Translation files CDN"
+msgstr "വിവർത്തനങ്ങൾ നടത്തി"
+
+msgid ""
+"Publishes original translation files publicly, including files from private "
+"components."
+msgstr ""
+
 msgid "Kotlin SDK CDN"
 msgstr ""
 
@@ -6158,6 +6326,11 @@ msgid ""
 "Publishes Android string and plural resources for registered Kotlin SDK "
 "builds."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation files CDN cannot be installed on this component."
+msgstr "വിവർത്തന നില"
 
 msgid "Weblate languages"
 msgstr ""
@@ -7803,7 +7976,18 @@ msgstr ""
 msgid "Your profile"
 msgstr ""
 
+#, fuzzy
+#| msgid "Enter a valid e-mail address."
+msgid "Confirm adding e-mail address"
+msgstr "സാധുവായ ഒരു ഇമെയിൽ വിലാസം നൽകുക."
+
 msgid "Confirm adding user identity"
+msgstr ""
+
+#, python-format
+msgid ""
+"Confirm adding %(uid)s to your existing Weblate account by entering your "
+"current password."
 msgstr ""
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
@@ -7812,6 +7996,11 @@ msgid ""
 "After confirming this, you will be able to authenticate to Weblate using "
 "%(backend_verbose)s (%(uid)s)."
 msgstr ""
+
+#, fuzzy
+#| msgid "Username or e-mail"
+msgid "Add e-mail address"
+msgstr "ഉപയോക്തനാമം അഥവാ ഇ-മെയിൽ വിലാസം"
 
 #, fuzzy
 #| msgid "Configure"
@@ -7912,16 +8101,16 @@ msgstr ""
 msgid "Registration"
 msgstr "രജിസ്ട്രേഷൻ"
 
+#, fuzzy
+#| msgid "Your e-mail"
+msgid "Check your e-mail"
+msgstr "താങ്കളുടെ ഇ-മെയിൽ വിലാസം"
+
 msgid "Password reset almost complete"
 msgstr ""
 
 msgid "Account removal almost complete"
 msgstr ""
-
-#, fuzzy
-#| msgid "Translation status"
-msgid "E-mail verification almost complete"
-msgstr "വിവർത്തന നില"
 
 msgid "Registration almost complete"
 msgstr ""
@@ -7935,8 +8124,9 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Click the confirmation link sent to your e-mail inbox to verify the address "
-"for your account."
+"Check your e-mail for instructions. If this address is already associated "
+"with an account, you may receive account recovery guidance instead of a "
+"verification link."
 msgstr ""
 
 msgid ""
@@ -7946,6 +8136,14 @@ msgstr ""
 
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr ""
+
+#, python-format
+msgid ""
+"If you receive a verification link, it will expire after %(count)s hour."
+msgid_plural ""
+"If you receive a verification link, it will expire after %(count)s hours."
+msgstr[0] ""
+msgstr[1] ""
 
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
@@ -7965,6 +8163,15 @@ msgid "Register again if the confirmation link expires."
 msgstr ""
 
 msgid ""
+"If you receive a verification link, open it while signed in to this account "
+"and follow the confirmation steps. You may be asked for your current "
+"password."
+msgstr ""
+
+msgid "Back to account settings"
+msgstr ""
+
+msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
@@ -7978,12 +8185,46 @@ msgstr ""
 msgid "Please fix errors in the form."
 msgstr ""
 
+msgid ""
+"Verification instructions will be sent to the new e-mail address. You do not "
+"need access to your old mailbox."
+msgstr ""
+
+msgid ""
+"Adding an address does not change your account e-mail address. After "
+"verification, you can select the new address in Account settings."
+msgstr ""
+
 #, fuzzy
 #| msgid "Notifications"
 msgid "Send verification e-mail"
 msgstr "അറിയിപ്പുകൾ"
 
-msgid "Back to account settings"
+msgid "Confirm your identity"
+msgstr ""
+
+msgid "Confirm your existing sign-in method before continuing."
+msgstr ""
+
+msgid ""
+"Confirm your existing sign-in method before registering your first second "
+"factor."
+msgstr ""
+
+msgid "Sign in again using a connected provider:"
+msgstr ""
+
+msgid ""
+"Your previous e-mail verification has expired. Reset your password to "
+"continue."
+msgstr ""
+
+msgid "Sign out and reset password by e-mail"
+msgstr ""
+
+msgid ""
+"No sign-in method is available to confirm your identity. Contact an "
+"administrator to recover access."
 msgstr ""
 
 msgid "Trial subscriptions"
@@ -8194,6 +8435,9 @@ msgstr ""
 msgid "Change my password"
 msgstr ""
 
+msgid "Set my password"
+msgstr ""
+
 #, fuzzy
 #| msgid "Translation status"
 msgid "Back to security settings"
@@ -8239,11 +8483,6 @@ msgstr "പ്രവർത്തനം"
 
 msgid "The e-mail address can be chosen from verified addresses only."
 msgstr ""
-
-#, fuzzy
-#| msgid "Username or e-mail"
-msgid "Add and verify e-mail address"
-msgstr "ഉപയോക്തനാമം അഥവാ ഇ-മെയിൽ വിലാസം"
 
 msgid "Save"
 msgstr "സംരക്ഷിക്കൂ"
@@ -8337,9 +8576,6 @@ msgstr "ക്രമീകരിക്കുക"
 #| msgid "Configure"
 msgid "Not configured"
 msgstr "ക്രമീകരിക്കുക"
-
-msgid "Set password"
-msgstr ""
 
 msgid "Two-factor authentication"
 msgstr ""
@@ -8613,9 +8849,6 @@ msgstr ""
 msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll e-mail "
 "instructions for setting a new one."
-msgstr ""
-
-msgid "Set my password"
 msgstr ""
 
 msgid "Reset my password"
@@ -9156,43 +9389,11 @@ msgid ""
 "manually."
 msgstr ""
 
-msgid "Trigger"
-msgstr ""
-
-msgid "Add trigger"
-msgstr ""
-
-#, fuzzy
-#| msgid "Configure"
-msgid "Conditions"
-msgstr "ക്രമീകരിക്കുക"
-
 msgid "All conditions have to pass before any action runs."
-msgstr ""
-
-#, fuzzy
-#| msgid "Configure"
-msgid "Condition"
-msgstr "ക്രമീകരിക്കുക"
-
-#, fuzzy
-#| msgid "Action"
-msgid "Add condition"
-msgstr "പ്രവർത്തനം"
-
-msgid "Actions"
 msgstr ""
 
 msgid "Operations performed in this order once the conditions pass."
 msgstr ""
-
-msgid "Action"
-msgstr "പ്രവർത്തനം"
-
-#, fuzzy
-#| msgid "Action"
-msgid "Add action"
-msgstr "പ്രവർത്തനം"
 
 #, fuzzy
 #| msgid "Weblate status"
@@ -9323,6 +9524,17 @@ msgstr ""
 msgid ""
 "See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
 "library setup."
+msgstr ""
+
+msgid ""
+"Install Translation files CDN to let the SDK download original XML "
+"translation files. These files are published publicly, including files from "
+"private components."
+msgstr ""
+
+msgid ""
+"After installation, return to this page to copy the updated Gradle "
+"configuration."
 msgstr ""
 
 msgid "Configure the Kotlin SDK Gradle plugin with these values:"
@@ -9486,6 +9698,19 @@ msgstr ""
 msgid "Request payload"
 msgstr ""
 
+msgid ""
+"Reset these built-in roles to the current default permissions? This discards "
+"their customizations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Registration"
+msgid "Reset permissions"
+msgstr "രജിസ്ട്രേഷൻ"
+
+msgid "Cancel"
+msgstr ""
+
 msgid "Settings"
 msgstr ""
 
@@ -9495,6 +9720,11 @@ msgid "Automatic assignments"
 msgstr "വിവർത്തന നില"
 
 msgid "Access control"
+msgstr ""
+
+msgid ""
+"Automatically invite newly created users to this team based on their e-mail "
+"address. Users join only after accepting the invitation."
 msgstr ""
 
 msgid ""
@@ -9542,6 +9772,9 @@ msgid "This will remove <b>%(user)s</b> access to this project."
 msgstr ""
 
 msgid "Add"
+msgstr ""
+
+msgid "Moved component"
 msgstr ""
 
 msgid "All components"
@@ -9896,6 +10129,27 @@ msgstr ""
 msgid ""
 "Verification failed. Enable JavaScript, workers, and cookies, then retry. "
 "You can also sign in."
+msgstr ""
+
+msgid "The challenge expired. Retry to start a new challenge."
+msgstr ""
+
+msgid "This challenge was already used. Retry to start a new challenge."
+msgstr ""
+
+msgid "Browser verification was unsuccessful. Please retry."
+msgstr ""
+
+msgid "Browser verification could not be confirmed. Enable cookies and retry."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translations made"
+msgid ""
+"The verification service is temporarily unavailable. Please retry later."
+msgstr "വിവർത്തനങ്ങൾ നടത്തി"
+
+msgid "Verification cookies could not be confirmed. Enable cookies and retry."
 msgstr ""
 
 msgid "JavaScript is required for anonymous access. You can sign in instead."
@@ -11359,6 +11613,37 @@ msgstr ""
 msgid "Digest: %(notification_name)s"
 msgstr ""
 
+#, python-format
+msgid ""
+"Somebody requested to add this e-mail address to another account at "
+"%(site_title)s. This address is already associated with an account and "
+"cannot be added to another."
+msgstr ""
+
+msgid ""
+"If you intended to access the existing account, sign out and use password "
+"recovery. The button below opens the password reset form; it does not reset "
+"your password."
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Open password recovery"
+msgstr "നിലവിലെ രഹസ്യവാക്ക്"
+
+msgid "Contact support for help moving this address between accounts."
+msgstr ""
+
+msgid ""
+"If you did not request this, you can ignore this e-mail. Your account has "
+"not been changed."
+msgstr ""
+
+#. Translators: e-mail subject
+#, python-format
+msgid "E-mail address already associated with an account on %(site_title)s"
+msgstr ""
+
 #, fuzzy
 #| msgid "Registration"
 msgid "View invitation"
@@ -11369,6 +11654,10 @@ msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
 msgstr[0] ""
 msgstr[1] ""
+
+#, python-format
+msgid "Automatic team assignment: invitation to join %(team_name)s"
+msgstr ""
 
 #. Translators: e-mail subject
 #, python-format
@@ -11596,6 +11885,11 @@ msgstr ""
 msgid "Confirm invitation"
 msgstr ""
 
+#, fuzzy
+#| msgid "Username or e-mail"
+msgid "Verify e-mail address"
+msgstr "ഉപയോക്തനാമം അഥവാ ഇ-മെയിൽ വിലാസം"
+
 msgid ""
 "Note: This notification has been truncated as there were over 100 entries."
 msgstr ""
@@ -11659,6 +11953,16 @@ msgstr ""
 #| msgid "Special characters"
 msgid "Translation activity summary"
 msgstr "പ്രത്യേക പ്രതീകങ്ങൾ"
+
+#, python-format
+msgid "Verify this e-mail address for your account at %(site_title)s."
+msgstr ""
+
+#. Translators: e-mail subject
+#, fuzzy, python-format
+#| msgid "Username or e-mail"
+msgid "Verify your e-mail address on %(site_title)s"
+msgstr "ഉപയോക്തനാമം അഥവാ ഇ-മെയിൽ വിലാസം"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -11857,6 +12161,54 @@ msgstr ""
 msgid "Performance report"
 msgstr ""
 
+#, fuzzy
+#| msgid "Registration"
+msgid "Bot protection"
+msgstr "രജിസ്ട്രേഷൻ"
+
+msgid ""
+"Issued challenges, requests requiring proof of work, and verification "
+"outcomes in hourly buckets. Counts are best-effort and can be lost during "
+"cache outages or eviction."
+msgstr ""
+
+msgid "Counters are unavailable."
+msgstr ""
+
+msgid "Outcome"
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Current hour"
+msgstr "നിലവിലെ രഹസ്യവാക്ക്"
+
+msgid "Previous 24 completed hours"
+msgstr ""
+
+msgid "Issued challenges"
+msgstr ""
+
+msgid "Requests requiring proof of work"
+msgstr ""
+
+msgid "Expired challenge"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete"
+msgid "Invalid solution"
+msgstr "ഡിലീറ്റ്"
+
+msgid "Replayed challenge"
+msgstr ""
+
+msgid "CSRF failure"
+msgstr ""
+
+msgid "Service unavailable"
+msgstr ""
+
 msgid "Last occurrence"
 msgstr ""
 
@@ -12026,6 +12378,309 @@ msgstr ""
 msgid "This repository is linked to:"
 msgstr ""
 
+#, fuzzy
+#| msgid "Configure"
+msgid "Confirm security action"
+msgstr "ക്രമീകരിക്കുക"
+
+#, python-format
+msgid "Selected %(count)s findings affecting %(accounts)s accounts."
+msgstr ""
+
+msgid ""
+"Disable the matching passwords, invalidate signed-in sessions, and revoke "
+"all API tokens. Users with an e-mail address will be notified. Single sign-"
+"on and two-factor settings are preserved. Accounts whose passwords have "
+"changed will be skipped."
+msgstr ""
+
+msgid ""
+"Remove the selected lookalike verified e-mail addresses and associated sign-"
+"in identities, disable account passwords, invalidate sessions, and revoke "
+"API tokens. Account owners will be notified at their primary e-mail address."
+msgstr ""
+
+msgid ""
+"Dismiss the selected findings without changing credentials or notifying "
+"users. A new report confirming the same exposure can reopen them."
+msgstr ""
+
+#, fuzzy
+#| msgid "New password"
+msgid "Reset passwords"
+msgstr "പുതിയ രഹസ്യവാക്ക്"
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Remove identities and reset accounts"
+msgstr "നിലവിലെ രഹസ്യവാക്ക്"
+
+#, fuzzy
+#| msgid "Dismiss"
+msgid "Dismiss findings"
+msgstr "ഒഴിവാക്കൂ"
+
+#, python-format
+msgid "Security finding for %(username)s"
+msgstr ""
+
+msgid "CSV row"
+msgstr ""
+
+#, fuzzy
+#| msgid "Identity"
+msgid "Identifier"
+msgstr "തിരിച്ചറിയൽ"
+
+#, fuzzy
+#| msgid "Delete"
+msgid "Matching method"
+msgstr "ഡിലീറ്റ്"
+
+#, fuzzy
+#| msgid "Description"
+msgid "No matching row details."
+msgstr "വിവരണം"
+
+#, python-format
+msgid "Page %(number)s of %(total)s"
+msgstr ""
+
+msgid "Detected in reports"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Administrator"
+msgstr "വിവർത്തന നില"
+
+#, fuzzy
+#| msgid "Registration"
+msgid "Deleted administrator"
+msgstr "രജിസ്ട്രേഷൻ"
+
+msgid "No validation reports for this finding."
+msgstr ""
+
+#, python-format
+msgid "Reports page %(number)s of %(total)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "Reports"
+msgid "Previous reports"
+msgstr "റിപ്പോർട്ടുകൾ"
+
+#, fuzzy
+#| msgid "Reports"
+msgid "Next reports"
+msgstr "റിപ്പോർട്ടുകൾ"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Account security findings"
+msgstr "വിവർത്തന നില"
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "Validation reports"
+msgstr "വിവർത്തനങ്ങൾ നടത്തി"
+
+msgid "Filename"
+msgstr ""
+
+#, fuzzy
+#| msgid "Register"
+msgid "Not recorded"
+msgstr "രജിസ്റ്റർ ചെയ്യുക"
+
+msgid "Submitted by"
+msgstr ""
+
+msgid "Processing summary"
+msgstr ""
+
+#, fuzzy
+#| msgid "Reports"
+msgid "Password validation completed."
+msgstr "റിപ്പോർട്ടുകൾ"
+
+msgid "Legacy e-mail identity check completed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Reports"
+msgid "Security action completed."
+msgstr "റിപ്പോർട്ടുകൾ"
+
+#, fuzzy
+#| msgid "Statistics"
+msgid "Processing failed."
+msgstr "സ്ഥിതിവിവരക്കണക്കുകൾ"
+
+msgid "Processing is not complete. Findings may still be added."
+msgstr ""
+
+msgid "View progress"
+msgstr ""
+
+#, python-format
+msgid "Processed %(processed)s of %(total)s entries."
+msgstr ""
+
+msgid "Finding type"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete"
+msgid "Filter"
+msgstr "ഡിലീറ്റ്"
+
+#, fuzzy
+#| msgid "Delete"
+msgid "Actions apply only to checked findings on this page."
+msgstr "ഡിലീറ്റ്"
+
+#, fuzzy
+#| msgid "Delete"
+msgid "Select all on this page"
+msgstr "ഡിലീറ്റ്"
+
+#, fuzzy
+#| msgid "Text direction"
+msgid "Clear selection"
+msgstr "വാചക ദിശ"
+
+msgid "Finding"
+msgstr ""
+
+#, python-format
+msgid "Select finding for %(username)s"
+msgstr ""
+
+msgid "Inactive"
+msgstr ""
+
+msgid "Bot"
+msgstr ""
+
+msgid "No e-mail address: notification unavailable"
+msgstr ""
+
+msgid "Date joined:"
+msgstr ""
+
+msgid "Last sign-in:"
+msgstr ""
+
+#, python-format
+msgid "Row %(row)s: %(identifier)s (%(method)s)"
+msgstr ""
+
+#, python-format
+msgid "View details (%(count)s match)"
+msgid_plural "View details (%(count)s matches)"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "First detected:"
+msgstr ""
+
+msgid "Last detected:"
+msgstr ""
+
+msgid "No security findings match these filters."
+msgstr ""
+
+msgid "Remove lookalike e-mail identities and reset selected accounts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Reset passwords for selected accounts"
+msgstr "നിലവിലെ രഹസ്യവാക്ക്"
+
+msgid "Dismiss selected findings"
+msgstr ""
+
+msgid ""
+"Dismissing findings marks them as reviewed without changing passwords or "
+"notifying users."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Account security operation"
+msgstr "വിവർത്തന നില"
+
+msgid "Processing progress"
+msgstr ""
+
+#, fuzzy
+#| msgid "Reports"
+msgid "Refresh progress"
+msgstr "റിപ്പോർട്ടുകൾ"
+
+msgid ""
+"Review previous credential validation reports, including reports with no "
+"matching passwords."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Upload report"
+msgstr "വിവർത്തന നില"
+
+msgid "Processed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete"
+msgid "Matching rows"
+msgstr "ഡിലീറ്റ്"
+
+#, fuzzy
+#| msgid "Configure"
+msgid "Affected accounts"
+msgstr "ക്രമീകരിക്കുക"
+
+#, python-format
+msgid "%(processed)s of %(total)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "No validation reports yet."
+msgstr "വിവർത്തനങ്ങൾ നടത്തി"
+
+msgid ""
+"Upload a CSV containing usernames or e-mail addresses and passwords. "
+"Passwords are checked in the background and never displayed in the report."
+msgstr ""
+
+msgid ""
+"Reports must use UTF-8 and contain at most 50,000 rows and 10 MiB. Leave the "
+"delimiter and column numbers blank for automatic detection."
+msgstr ""
+
+msgid ""
+"The uploaded file is available for one hour. Adjust the CSV settings below "
+"to try again."
+msgstr ""
+
+msgid "CSV format (detected automatically)"
+msgstr ""
+
+#, fuzzy
+#| msgid "New password"
+msgid "Validate passwords"
+msgstr "പുതിയ രഹസ്യവാക്ക്"
+
+#, fuzzy
+#| msgid "New password"
+msgid "Validate leaked passwords"
+msgstr "പുതിയ രഹസ്യവാക്ക്"
+
 msgid "Activate support package"
 msgstr ""
 
@@ -12157,6 +12812,20 @@ msgstr "രജിസ്ട്രേഷൻ"
 msgid "Check user access"
 msgstr ""
 
+#, fuzzy
+#| msgid "Account activity"
+msgid "Account security"
+msgstr "അക്കൗണ്ട് പ്രവർത്തനം"
+
+#, python-format
+msgid "Security report (%(security_findings_open)s open findings)"
+msgstr ""
+
+msgid ""
+"Validate a CSV report of leaked credentials against current account "
+"passwords."
+msgstr ""
+
 msgid "Add workspace"
 msgstr ""
 
@@ -12187,9 +12856,6 @@ msgid "Matrix"
 msgstr ""
 
 msgid "Displayed languages"
-msgstr ""
-
-msgid "Choose"
 msgstr ""
 
 msgid "Translation memory status"
@@ -12793,11 +13459,6 @@ msgstr[0] ""
 msgstr[1] ""
 
 #, fuzzy
-#| msgid "Delete"
-msgid "Filter"
-msgstr "ഡിലീറ്റ്"
-
-#, fuzzy
 #| msgid "Search"
 msgid "Clear filters"
 msgstr "തിരയുക"
@@ -13147,6 +13808,19 @@ msgstr "വിവർത്തനങ്ങൾ നടത്തി"
 
 #, python-format
 msgid ""
+"An automatic team assignment rule invited you to collaborate on "
+"%(project_name)s and join the %(team_name)s team. You will join only if you "
+"accept this invitation."
+msgstr ""
+
+#, python-format
+msgid ""
+"An automatic team assignment rule invited you to join the %(team_name)s team "
+"in %(workspace_name)s. You will join only if you accept this invitation."
+msgstr ""
+
+#, python-format
+msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
 "on %(project_name)s and join the %(team_name)s team."
 msgstr ""
@@ -13188,6 +13862,11 @@ msgstr ""
 
 msgid "View notification"
 msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "View full change"
+msgstr "രഹസ്യവാക്ക് മാറ്റി."
 
 msgid "No matching activity found."
 msgstr ""
@@ -13793,6 +14472,11 @@ msgstr ""
 msgid "You are about to continue removing your Weblate account."
 msgstr ""
 
+msgid ""
+"You are about to continue adding this e-mail address to your existing "
+"Weblate account."
+msgstr ""
+
 msgid "You are about to accept an invitation and create a Weblate account."
 msgstr ""
 
@@ -13811,6 +14495,11 @@ msgstr "നിലവിലെ രഹസ്യവാക്ക്"
 #| msgid "Contact"
 msgid "Continue account removal"
 msgstr "ബന്ധപ്പെടുക"
+
+#, fuzzy
+#| msgid "Notifications"
+msgid "Continue e-mail verification"
+msgstr "അറിയിപ്പുകൾ"
 
 msgid "Accept invitation"
 msgstr ""
@@ -13894,9 +14583,6 @@ msgid "Weblate could not validate the project website URL:"
 msgstr ""
 
 msgid "Weblate CDN add-on could not parse the HTML files."
-msgstr ""
-
-msgid "Filename"
 msgstr ""
 
 msgid ""
@@ -14417,6 +15103,11 @@ msgstr ""
 msgid "Go"
 msgstr ""
 
+#, fuzzy
+#| msgid "Password changed."
+msgid "Change details"
+msgstr "രഹസ്യവാക്ക് മാറ്റി."
+
 msgid "Download latest changes as CSV"
 msgstr ""
 
@@ -14516,9 +15207,6 @@ msgstr ""
 #| msgid "Configure"
 msgid "Add or configure account"
 msgstr "ക്രമീകരിക്കുക"
-
-msgid "Branch"
-msgstr ""
 
 msgid "Visibility"
 msgstr ""
@@ -14800,9 +15488,6 @@ msgid ""
 msgstr ""
 
 msgid "Edit source"
-msgstr ""
-
-msgid "Cancel"
 msgstr ""
 
 msgid "Learn more about pushing changes from Weblate."
@@ -15193,6 +15878,11 @@ msgid ""
 msgstr ""
 
 msgid "Quick downloads"
+msgstr ""
+
+msgid ""
+"Original files can contain contributor identities and require additional "
+"permission. Use a generated export below for offline translation."
 msgstr ""
 
 msgid "File in original format as translated in the repository"
@@ -16009,9 +16699,6 @@ msgstr ""
 msgid "A component was moved within a project."
 msgstr ""
 
-msgid "Moved component"
-msgstr ""
-
 #, fuzzy
 #| msgid "Translation status"
 msgid "A user made their first contribution to a translation."
@@ -16781,6 +17468,17 @@ msgid ""
 "form strings."
 msgstr ""
 
+#, fuzzy
+#| msgid "That was not correct, please try again."
+msgid ""
+"Automatic translation lost its database connection. Please try again later."
+msgstr "അത് ശെരിയായില്ല, ദയവായി വീണ്ടും ശ്രമിക്കുക."
+
+msgid ""
+"Automatic translation is already running for this translation. Please try "
+"again later."
+msgstr ""
+
 #, fuzzy, python-format
 #| msgid "Translation status"
 msgid "Automatic translation failed: %s"
@@ -16956,6 +17654,10 @@ msgstr "ഭാഷയുടെ പേര്"
 msgid "Choose either replacement or clearing translations."
 msgstr "വിവർത്തന നില"
 
+#, python-format
+msgid "Bulk edits are limited to %(limit)d strings. Narrow the search query."
+msgstr ""
+
 msgid "The component was automatically locked because of an alert."
 msgstr ""
 
@@ -17013,6 +17715,9 @@ msgid "Original revision: {}"
 msgstr ""
 
 msgid "New revision: {}"
+msgstr ""
+
+msgid "Content is too long to show in the change list."
 msgstr ""
 
 #, python-format
@@ -17145,6 +17850,12 @@ msgstr ""
 #, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
 msgstr ""
+
+#. Translators: condensed rendering of a change action in history
+#, fuzzy, python-format
+#| msgid "Translation status"
+msgid "%(action)s at %(time)s on %(translation)s"
+msgstr "വിവർത്തന നില"
 
 #. Translators: %s is site title here
 #, python-format
@@ -17307,6 +18018,47 @@ msgid "MAC (\\r)"
 msgstr ""
 
 msgid "Include closing tag for blank XML tags"
+msgstr ""
+
+msgid "UTF-8 byte order mark"
+msgstr ""
+
+msgid "Preserve input"
+msgstr ""
+
+msgid "Always include"
+msgstr ""
+
+msgid "Always omit"
+msgstr ""
+
+msgid ""
+"Controls the UTF-8 byte order mark. Other encodings are unchanged. New files "
+"without a template omit the mark when preserving input."
+msgstr ""
+
+msgid "XML declaration encoding case"
+msgstr ""
+
+msgid "Format default"
+msgstr ""
+
+msgid "Uppercase"
+msgstr ""
+
+msgid "Lowercase"
+msgstr ""
+
+msgid ""
+"Controls encoding names in the XML declaration, for example \"UTF-8\" or "
+"\"utf-8\"."
+msgstr ""
+
+msgid "XML final newline"
+msgstr ""
+
+msgid ""
+"Controls the newline at the end of the file, using the format's line endings."
 msgstr ""
 
 msgid "Whitespace handling"
@@ -17911,6 +18663,9 @@ msgid "Maximum changes per day"
 msgstr ""
 
 msgid "Maximum source words per day"
+msgstr ""
+
+msgid "This component does not exist or you cannot access it."
 msgstr ""
 
 #, fuzzy
@@ -18662,12 +19417,6 @@ msgstr ""
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
 
-#. Translators: condensed rendering of a change action in history
-#, fuzzy, python-format
-#| msgid "Translation status"
-msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "വിവർത്തന നില"
-
 msgctxt "Change origin badge"
 msgid "API"
 msgstr ""
@@ -19305,6 +20054,9 @@ msgid ""
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
 
+msgid "The file mask is too complex and took too long to evaluate."
+msgstr ""
+
 msgid ""
 "A component can not be restricted while its project uses shared translation "
 "memory."
@@ -19905,6 +20657,30 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "Bulk edit parameters are no longer valid."
+msgstr ""
+
+#, python-format
+msgid "Bulk edit failed after processing %(count)d strings: %(error)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "Statistics"
+msgid "The target or permissions changed."
+msgstr "സ്ഥിതിവിവരക്കണക്കുകൾ"
+
+#, python-format
+msgid ""
+"Bulk edit failed after processing %(count)d strings. Earlier batches may "
+"have been applied."
+msgstr ""
+
+#, python-format
+msgid "Bulk edit completed, %d string was updated."
+msgid_plural "Bulk edit completed, %d strings were updated."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Automatic translation skipped because the target no longer exists."
 msgstr ""
 
@@ -20166,6 +20942,9 @@ msgstr ""
 msgid "You can not block yourself on this project."
 msgstr ""
 
+msgid "Remove project administration rights before blocking this user."
+msgstr ""
+
 msgid "User has been blocked on this project."
 msgstr ""
 
@@ -20213,6 +20992,11 @@ msgid_plural ""
 "check the components' configuration."
 msgstr[0] ""
 msgstr[1] ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "You do not have permission to add this language."
+msgstr "വിവർത്തന നില"
 
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
@@ -20475,11 +21259,21 @@ msgstr ""
 msgid "All components are now locked for translation updates!"
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation status"
+msgid "Allowed components are now locked for translation updates!"
+msgstr "വിവർത്തന നില"
+
 msgid "Component is now open for translation updates."
 msgstr ""
 
 msgid "All components are now open for translation updates."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Allowed components are now open for translation updates."
+msgstr "വിവർത്തന നില"
 
 msgid "Generating report…"
 msgstr ""
@@ -20547,11 +21341,21 @@ msgstr ""
 msgid "Invalid search query!"
 msgstr ""
 
+#, fuzzy
+#| msgid "That was not correct, please try again."
+msgid "Too many bulk edits, please try again later."
+msgstr "അത് ശെരിയായില്ല, ദയവായി വീണ്ടും ശ്രമിക്കുക."
+
 msgid "The preview has expired or is invalid. Preview the changes again."
 msgstr ""
 
 msgid "Could not process form!"
 msgstr ""
+
+#, fuzzy
+#| msgid "Delete"
+msgid "Bulk edit in progress."
+msgstr "ഡിലീറ്റ്"
 
 #, fuzzy, python-format
 #| msgid "Delete"
@@ -20560,12 +21364,6 @@ msgstr "ഡിലീറ്റ്"
 
 msgid "Bulk edit completed, no strings were updated."
 msgstr ""
-
-#, python-format
-msgid "Bulk edit completed, %d string was updated."
-msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] ""
-msgstr[1] ""
 
 msgid "Settings saved"
 msgstr ""
@@ -20850,6 +21648,11 @@ msgstr ""
 #, fuzzy
 #| msgid "Translation status"
 msgid "Automatic translation reported a warning."
+msgstr "വിവർത്തന നില"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Automatic translation is waiting for another operation to finish."
 msgstr "വിവർത്തന നില"
 
 #, fuzzy
@@ -21292,6 +22095,9 @@ msgid "Fediverse URL should link to a Fediverse user profile."
 msgstr ""
 
 msgid "URL domain is not allowed."
+msgstr ""
+
+msgid "AMQP broker URLs must not contain query strings or fragments."
 msgstr ""
 
 #, fuzzy
@@ -22228,6 +23034,68 @@ msgid ""
 "there is room for a full menu."
 msgstr ""
 
+#, fuzzy
+#| msgid "Reports"
+msgid "CSV report"
+msgstr "റിപ്പോർട്ടുകൾ"
+
+#, fuzzy
+#| msgid "Language name"
+msgid "Delimiter"
+msgstr "ഭാഷയുടെ പേര്"
+
+msgid ""
+"Leave blank to detect automatically. Use a comma, semicolon, pipe, or \\t "
+"for a tab."
+msgstr ""
+
+msgid "First row contains column names"
+msgstr ""
+
+#, fuzzy
+#| msgid "Username or e-mail"
+msgid "Username or e-mail column"
+msgstr "ഉപയോക്തനാമം അഥവാ ഇ-മെയിൽ വിലാസം"
+
+#, fuzzy
+#| msgid "Password"
+msgid "Password column"
+msgstr "രഹസ്യവാക്ക്"
+
+msgid ""
+"Specify both column numbers, or leave both blank for automatic detection."
+msgstr ""
+
+#, fuzzy
+#| msgid "Configure"
+msgid "Configuring"
+msgstr "ക്രമീകരിക്കുക"
+
+msgid "Running"
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+msgid "Resolved"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Dismissed by administrator"
+msgstr "വിവർത്തന നില"
+
+msgid "Lookalike e-mail identity removed"
+msgstr ""
+
+msgid "E-mail identity already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Password already changed"
+msgstr "രഹസ്യവാക്ക് മാറ്റി."
+
 #. Translators: The Weblate server has no paid support by the Weblate team
 msgid "Community support"
 msgstr ""
@@ -22293,11 +23161,178 @@ msgstr ""
 msgid "Repository initialization"
 msgstr ""
 
+#, fuzzy
+#| msgid "New password"
+msgid "Leaked password"
+msgstr "പുതിയ രഹസ്യവാക്ക്"
+
+#, fuzzy
+#| msgid "Username or e-mail"
+msgid "Lookalike verified e-mail address"
+msgstr "ഉപയോക്തനാമം അഥവാ ഇ-മെയിൽ വിലാസം"
+
+msgid "The uploaded report has expired. Upload it again."
+msgstr ""
+
+msgid ""
+"Could not detect the credential columns. Configure their column numbers."
+msgstr ""
+
+msgid "Choose different identifier and password columns."
+msgstr ""
+
+msgid "The report exceeds the 10 MiB limit."
+msgstr ""
+
+msgid "Upload a UTF-8 encoded CSV file."
+msgstr ""
+
+msgid ""
+"Could not detect the delimiter. Configure the CSV columns and delimiter."
+msgstr ""
+
+msgid "Choose a single delimiter character."
+msgstr ""
+
+msgid "The file contains malformed CSV quoting."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "The report is empty."
+msgstr "വിവർത്തനങ്ങൾ നടത്തി"
+
+msgid "The report exceeds the 50,000 row limit."
+msgstr ""
+
+msgid "The report contains no credential rows."
+msgstr ""
+
+msgid ""
+"The initiating administrator no longer has permission to perform this "
+"operation."
+msgstr ""
+
+msgid ""
+"The security operation failed. Review any findings already recorded and "
+"start a new operation."
+msgstr ""
+
+#, fuzzy
+#| msgid "Security"
+msgid "Security report"
+msgstr "സുരക്ഷ"
+
+#, python-format
+msgid "Report from %(date)s"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Language %s removed."
+msgid "%(filename)s — %(report)s"
+msgstr "%s ഭാഷ നീക്കം ച്ചെയ്തു."
+
+msgid ""
+"Your identity verification has expired. Confirm your identity, then select "
+"and upload the CSV report again."
+msgstr ""
+
+#, fuzzy
+#| msgid "That was not correct, please try again."
+msgid "Could not store the encrypted upload. Try again."
+msgstr "അത് ശെരിയായില്ല, ദയവായി വീണ്ടും ശ്രമിക്കുക."
+
+msgid "Choose a CSV report of at most 10 MiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "That was not correct, please try again."
+msgid "Could not read the uploaded report. Upload it again."
+msgstr "അത് ശെരിയായില്ല, ദയവായി വീണ്ടും ശ്രമിക്കുക."
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords checked"
+msgstr "രഹസ്യവാക്ക് മാറ്റി."
+
+#, fuzzy
+#| msgid "Your name"
+msgid "Duplicate rows"
+msgstr "താങ്കളുടെ പേര്"
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Unknown accounts"
+msgstr "നിലവിലെ രഹസ്യവാക്ക്"
+
+msgid "Ambiguous accounts"
+msgstr ""
+
+msgid "Malformed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "New password"
+msgid "Unusable passwords"
+msgstr "പുതിയ രഹസ്യവാക്ക്"
+
+msgid "Passwords that did not match"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password"
+msgid "Passwords reset"
+msgstr "രഹസ്യവാക്ക്"
+
+msgid "Lookalike e-mail identities removed"
+msgstr ""
+
+msgid "E-mail identities already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords already changed"
+msgstr "രഹസ്യവാക്ക് മാറ്റി."
+
+msgid "Dismissed findings"
+msgstr ""
+
+#, fuzzy
+#| msgid "Configure"
+msgid "Skipped findings"
+msgstr "ക്രമീകരിക്കുക"
+
+#, fuzzy
+#| msgid "Hosted service"
+msgid "Unsupported actions"
+msgstr "ഹോസ്റ്റുചെയ്‌ത സേവനം"
+
+#, fuzzy
+#| msgid "Username or e-mail"
+msgid "Primary e-mail address"
+msgstr "ഉപയോക്തനാമം അഥവാ ഇ-മെയിൽ വിലാസം"
+
+#, fuzzy
+#| msgid "Username or e-mail"
+msgid "Verified e-mail address"
+msgstr "ഉപയോക്തനാമം അഥവാ ഇ-മെയിൽ വിലാസം"
+
+#, fuzzy, python-format
+#| msgid "Language name"
+msgid "Finding for %(username)s"
+msgstr "ഭാഷയുടെ പേര്"
+
 msgid "Weblate administration"
 msgstr ""
 
 msgid "Object listing turned off"
 msgstr ""
+
+#, fuzzy
+#| msgid "You have entered an invalid password."
+msgid "The security operation expired. Start a new operation."
+msgstr "നിങ്ങൾ ഒരു അസാധുവായ പാസ്‌വേഡ് നൽകി."
 
 msgid "Return to Weblate"
 msgstr ""
@@ -22482,6 +23517,11 @@ msgstr ""
 #| msgid "Translations made"
 msgid "The workspace has been removed."
 msgstr "വിവർത്തനങ്ങൾ നടത്തി"
+
+#, fuzzy
+#~| msgid "Translation status"
+#~ msgid "E-mail verification almost complete"
+#~ msgstr "വിവർത്തന നില"
 
 #, fuzzy
 #~| msgid "Registration"

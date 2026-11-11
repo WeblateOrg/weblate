@@ -27,6 +27,7 @@ from django.utils.translation import gettext, ngettext
 from django.views.decorators.cache import never_cache
 from django.views.generic import RedirectView
 
+from weblate.auth.results import ContributorAgreementDenied
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
@@ -64,6 +65,7 @@ from weblate.trans.models import (
     Project,
     Translation,
 )
+from weblate.trans.models.alert import filter_visible_alerts
 from weblate.trans.models.component import (
     ComponentLink,
     prefetch_tasks,
@@ -150,7 +152,8 @@ def list_projects(request: AuthenticatedHttpRequest):
                     projects,
                     stats=True,
                     sort_by=request.GET.get("sort_by"),
-                )
+                ),
+                user=request.user,
             ),
             "title": gettext("Projects"),
             "query_params": query_params,
@@ -494,7 +497,11 @@ def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpRespons
 
     user = request.user
 
-    all_changes = obj.change_set.filter_components(request.user).prefetch()
+    all_changes = (
+        obj.change_set.filter_components(request.user)
+        .filter_visible_alerts(request.user)
+        .prefetch()
+    )
     last_changes = all_changes.recent(skip_preload="project")
     last_announcements = all_changes.filter_announcements().recent(
         skip_preload="project"
@@ -696,9 +703,14 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component) -> HttpRes
         if "alerts" not in request.GET
         else obj.all_alerts.values()
     )
-    problem_alerts = obj.all_problem_alerts
+    alerts = filter_visible_alerts(alerts, request.user)
+    problem_alerts = filter_visible_alerts(obj.all_problem_alerts, request.user)
 
-    last_changes = obj.change_set.prefetch().recent(skip_preload="component")
+    last_changes = (
+        obj.change_set.filter_visible_alerts(user)
+        .prefetch()
+        .recent(skip_preload="component")
+    )
 
     translations = prefetch_stats(list(obj.translation_set.prefetch_meta()))
     if obj.project.translation_parent_language_ids:
@@ -829,7 +841,11 @@ def show_translation(
 ) -> HttpResponse:
     component = obj.component
     project = component.project
-    last_changes = obj.change_set.prefetch().recent(skip_preload="translation")
+    last_changes = (
+        obj.change_set.filter_visible_alerts(request.user)
+        .prefetch()
+        .recent(skip_preload="translation")
+    )
     user = request.user
 
     # Get form
@@ -1140,8 +1156,46 @@ def add_languages_to_component(
             action = component.get_new_language_action(
                 user, language, existing_language_ids=existing_language_ids
             )
-            if component.can_add_new_language(
-                user, language=language, existing_language_ids=existing_language_ids
+            creation_permission = (
+                user.has_perm(
+                    "translation.add",
+                    Translation(component=component, language=language),
+                )
+                if action == "add"
+                else True
+            )
+            if action == "add" and not creation_permission and show_messages:
+                reason = getattr(creation_permission, "reason", "")
+                if isinstance(creation_permission, ContributorAgreementDenied):
+                    agreement_url = reverse(
+                        "contributor-agreement",
+                        kwargs={"path": component.get_url_path()},
+                    )
+                    new_language_url = reverse(
+                        "new-language", kwargs={"path": component.get_url_path()}
+                    )
+                    messages.error(
+                        request,
+                        format_html(
+                            '{} <a href="{}?next={}">{}</a>',
+                            reason,
+                            agreement_url,
+                            new_language_url,
+                            gettext("View contributor license agreement"),
+                        ),
+                    )
+                else:
+                    messages.error(
+                        request,
+                        reason
+                        or gettext("You do not have permission to add this language."),
+                    )
+            if (
+                action == "add"
+                and creation_permission
+                and component.can_add_new_language(
+                    user, language=language, existing_language_ids=existing_language_ids
+                )
             ):
                 translation = component.add_new_language(
                     language,

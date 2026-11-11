@@ -68,6 +68,11 @@ Before proceeding with an installation, make sure you have the following prerequ
 - Run ``cd client``.
 - Run ``yarn install --check-files``.
 
+The :ref:`development container <devcontainer>` supplies Node.js and Yarn.
+Use ``./scripts/devcontainer verify --check frontend`` to install dependencies
+with the frozen lockfile and build assets into a temporary directory without
+replacing the tracked vendor files.
+
 Installation
 ++++++++++++
 

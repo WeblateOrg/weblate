@@ -50,6 +50,11 @@ Several file formats are available via the :guilabel:`Files` ↓
 * Android String Resource (only available for monolingual translations) (``aresource``)
 * iOS strings (only available for monolingual translations) (``strings``)
 
+Android String Resource exports preserve valid resource names. Empty keys and
+keys that are not valid Android resource names are replaced with identifiers
+based on the string checksum, with numeric suffixes added to avoid collisions.
+This changes only the exported identifiers, not the keys stored in Weblate.
+
 .. hint::
 
    The content available in the converted files differs based on file format
@@ -83,6 +88,20 @@ Uploading translations
 
 When you have made your changes, use :guilabel:`Upload translation`
 in the :guilabel:`Files` menu.
+
+You must be logged in to upload translations, even if upload permissions have
+been assigned to the Guests team.
+
+Uploads are processed in the background, with progress and results shown in the
+notification. You can have one browser upload queued or running at a time.
+Suggestion uploads are limited to 20,000 content strings present in the uploaded
+file, including strings which are skipped or do not match. Source-template
+strings absent from the upload do not count toward this limit. Split larger
+suggestion files before uploading.
+Other upload methods retain the general 100,000-string limit.
+
+Browser and API uploads share the per-user :setting:`RATELIMIT_UPLOAD_ATTEMPTS`
+limit. The API supports multiple outstanding uploads; see :doc:`/api`.
 
 .. image:: /screenshots/file-upload.webp
 

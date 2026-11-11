@@ -68,6 +68,7 @@ from weblate.trans.tasks import (
     remove_project_backup_download,
 )
 from weblate.trans.util import redirect_param, render
+from weblate.trans.workspace_move import get_project_move_plan_error
 from weblate.utils import messages
 from weblate.utils.celery import get_task_metadata
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -80,6 +81,8 @@ from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from collections.abc import Generator
+
+    from django.http import HttpResponseRedirect
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
 
@@ -405,6 +408,10 @@ def perform_rename(
             locked_obj.refresh_from_db()
             return redirect_param(locked_obj, "#organize")
 
+        target = form.cleaned_data.get("project")
+        if target is not None and not request.user.has_perm("project.edit", target):
+            raise PermissionDenied
+
         # Invalidate old stats
         old_stats = list(locked_obj.stats.get_update_objects())
 
@@ -434,7 +441,7 @@ def rename(request: AuthenticatedHttpRequest, path):
 @login_required
 @require_POST
 @transaction.atomic
-def move(request: AuthenticatedHttpRequest, path):
+def move(request: AuthenticatedHttpRequest, path: list[str]) -> HttpResponseRedirect:
     obj = parse_path(request, path, (Project,))
     if not request.user.has_perm("project.edit", obj):
         raise PermissionDenied
@@ -468,11 +475,17 @@ def move(request: AuthenticatedHttpRequest, path):
         from weblate.billing.models import Billing
 
         try:
-            Billing.objects.lock_project_creation(
+            billing = Billing.objects.lock_project_creation(
                 workspace.pk, source_workspace_id=obj.workspace_id
             )
         except ValidationError as error:
             form.add_error("workspace", error)
+            show_form_errors(request, form)
+            return redirect_param(obj, "#organize")
+        if not request.user.is_superuser and (
+            plan_error := get_project_move_plan_error(obj, billing)
+        ):
+            form.add_error("workspace", plan_error)
             show_form_errors(request, form)
             return redirect_param(obj, "#organize")
 
@@ -510,6 +523,8 @@ def component_link_add(request: AuthenticatedHttpRequest, path):
     if form.is_valid():
         project = form.cleaned_data["project"]
         category = form.cleaned_data["category"]
+        if not request.user.has_perm("project.edit", project):
+            raise PermissionDenied
         _link, created = ComponentLink.objects.get_or_create(
             component=obj, project=project, defaults={"category": category}
         )

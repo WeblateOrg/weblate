@@ -34,6 +34,7 @@ from weblate.trans.models.component import ComponentLink
 from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import TESTPASSWORD
 from weblate.trans.views.reports import (
+    collect_report_data,
     generate_cost_estimate,
     generate_counts,
     generate_credits,
@@ -251,7 +252,7 @@ class ReportsTest(BaseReportsTest):
             slug="linked-report-project",
         )
         category = self.create_category(project=project)
-        ComponentLink.objects.create(
+        link = ComponentLink.objects.create(
             component=self.component,
             project=project,
             category=category,
@@ -273,6 +274,49 @@ class ReportsTest(BaseReportsTest):
         self.assertEqual(credit_data, [])
         self.assertEqual(costs["total"]["count"], 0)
         self.assertEqual(len(language_choices), 1)
+
+        child = self.create_category(project=project, category=category)
+        parameters = {
+            "start": (timezone.now() - timedelta(days=1)).isoformat(),
+            "end": (timezone.now() + timedelta(days=1)).isoformat(),
+            "own_data": False,
+        }
+        for linked_category in (category, child):
+            link.category = linked_category
+            link.save(update_fields=["category"])
+            for mode in (
+                CountsReportsForm.COUNTING_MODE_UNIQUE,
+                CountsReportsForm.COUNTING_MODE_ALL,
+            ):
+                with self.subTest(category=linked_category.pk, counting_mode=mode):
+                    self.assertEqual(
+                        collect_report_data(
+                            Report.Kind.CONTRIBUTOR_STATS,
+                            {**parameters, "counting_mode": mode},
+                            self.user,
+                            category,
+                        ),
+                        [],
+                    )
+
+        owned = self.create_po(project=project, category=child)
+        translation = owned.translation_set.get(language__code="cs")
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n", translation=translation)
+        category = Category.objects.get(pk=category.pk)
+        for mode in (
+            CountsReportsForm.COUNTING_MODE_UNIQUE,
+            CountsReportsForm.COUNTING_MODE_ALL,
+        ):
+            with self.subTest(counting_mode=mode):
+                self.assertEqual(
+                    collect_report_data(
+                        Report.Kind.CONTRIBUTOR_STATS,
+                        {**parameters, "counting_mode": mode},
+                        self.user,
+                        category,
+                    ),
+                    self.counts_data,
+                )
 
     def test_counts_one(self) -> None:
         self.add_change()

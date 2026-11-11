@@ -34,8 +34,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-29 23:00-0500\n"
-"PO-Revision-Date: 2026-10-31 17:23+0000\n"
+"POT-Creation-Date: 2026-11-05 22:27-0600\n"
+"PO-Revision-Date: 2026-11-10 21:04+0000\n"
 "Last-Translator: Lee Vincent <leevincent@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hant/>\n"
@@ -44,7 +44,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.11.2.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -390,14 +390,14 @@ msgid "Authentication app"
 msgstr "身分驗證應用程式"
 
 msgid "Project, category, component, or translation path"
-msgstr "專案、分類、組件或翻譯路徑"
+msgstr "專案、類別、組件或翻譯路徑"
 
 msgid ""
 "Enter slash-separated slugs, for example project/category/component/cs. "
 "Project and category paths summarize inherited settings and component "
 "exceptions."
 msgstr ""
-"輸入以斜線分隔的代稱，例如 project/category/component/cs。專案與分類路徑會摘"
+"輸入以斜線分隔的代稱，例如 project/category/component/cs。專案與類別路徑會摘"
 "要顯示繼承的設定及組件例外。"
 
 msgid "Enter a valid object path."
@@ -411,6 +411,16 @@ msgstr "通知設定"
 
 msgid "Saved search"
 msgstr "已儲存的搜尋"
+
+msgid ""
+"A lookalike e-mail identity was removed, the password was disabled, and API "
+"tokens were revoked."
+msgstr "已移除外觀相似的電子郵件身分，並停用密碼、撤銷 API 權杖。"
+
+msgid ""
+"Password disabled as reported leaked credential matched the password; API "
+"tokens revoked."
+msgstr "通報的外洩登入憑證與密碼相符，已停用密碼並撤銷 API 權杖。"
 
 #. Translators: Audit log entry
 msgid "Password changed."
@@ -639,6 +649,19 @@ msgstr "由 {username} 邀請至 {project}。"
 #. Translators: Audit log entry
 msgid "Password configured."
 msgstr "密碼已設定。"
+
+msgid ""
+"Reset your password to restore password access and review your account "
+"activity."
+msgstr "請重設密碼以重新啟用密碼登入，並檢閱帳號活動紀錄。"
+
+msgid ""
+"Reset your password to restore password access. Choose a unique password and "
+"review your account activity. The report didn't disclose the source of the "
+"leak."
+msgstr ""
+"請重設密碼以重新啟用密碼登入。請選用未在其他地方使用過的密碼，並檢閱帳號活動"
+"紀錄。通報未透露外洩來源。"
 
 msgid "To restore access to your account, please reset your password."
 msgstr "若要還原您的帳號存取權，請重設您的密碼。"
@@ -964,6 +987,9 @@ msgid ""
 "a translation."
 msgstr "這個範圍太大，無法檢查。請選擇較小的分類、組件或翻譯。"
 
+msgid "Contributor"
+msgstr "貢獻者"
+
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "在儲存庫執行了操作"
@@ -1212,6 +1238,11 @@ msgid ""
 "inviter; it can't be used by your account."
 msgstr "此邀請只能由邀請者指定的電子郵件地址接受，無法透過您的帳號接受。"
 
+msgid ""
+"Your e-mail address has been added. You can now select it as your account e-"
+"mail address in Account settings."
+msgstr "已新增您的電子郵件地址。現在可到帳號設定中，將它設為帳號的電子郵件地址。"
+
 #, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
@@ -1240,7 +1271,10 @@ msgid "Dark"
 msgstr "暗色"
 
 msgid "Please confirm your identity using a second factor before proceeding."
-msgstr "請在繼續之前使用第二種驗證來確認您的身分。"
+msgstr "請先使用第二項驗證因素確認身分，再繼續操作。"
+
+msgid "Please confirm your identity before proceeding."
+msgstr "請先確認身分再繼續。"
 
 #, python-format
 msgid "Security key (%s)"
@@ -1276,7 +1310,7 @@ msgid "Your profile has been updated."
 msgstr "您的個人檔案已更新。"
 
 msgid "User profile"
-msgstr "使用者設定檔"
+msgstr "使用者個人檔案"
 
 msgid "Your account has been removed."
 msgstr "您的帳號已被移除。"
@@ -1344,14 +1378,17 @@ msgstr "登入"
 msgid "Signed out"
 msgstr "已經登出"
 
-msgid "Verify new e-mail address"
-msgstr "驗證新的電子郵件位址"
+msgid "Add and verify e-mail address"
+msgstr "新增並驗證電子郵件地址"
 
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "無法重設密碼，電子郵件身分驗證功能已停用。"
 
 msgid "Change password"
 msgstr "變更密碼"
+
+msgid "Set password"
+msgstr "設定密碼"
 
 msgid "Password reset has been already completed."
 msgstr "密碼重設已經完成。"
@@ -1486,7 +1523,7 @@ msgid ""
 msgstr "驗證失敗的嘗試次數過多。請重設密碼，以重新取得帳號的存取權。"
 
 msgid "Second factor sign in"
-msgstr "雙重要素登入"
+msgstr "以第二項驗證因素登入"
 
 msgid "Evaluation service"
 msgstr "評估服務"
@@ -1694,7 +1731,7 @@ msgid "This add-on executes a script."
 msgstr "此附加元件會執行指令稿。"
 
 msgid "Fedora Messaging"
-msgstr "Fedora 訊息"
+msgstr "Fedora Messaging"
 
 msgid "Sends notifications to a Fedora Messaging compatible AMQP exchange."
 msgstr "傳送通知到相容 Fedora Messaging 的 AMQP exchange。"
@@ -1707,21 +1744,15 @@ msgstr "訊息 ID：%(message_id)s"
 msgid ""
 "Fedora Messaging publish timed out; the broker connection or delivery "
 "confirmation did not complete: %(error)s"
-msgstr "Fedora Messaging 發佈逾時；未完成 broker 連線或傳遞確認：%(error)s"
-
-#, python-format
-msgid ""
-"Fedora Messaging publisher service was unavailable; the connection will be "
-"recreated on the next attempt: %(error)s"
-msgstr "Fedora Messaging 發佈服務無法使用；下次嘗試時將重新建立連線：%(error)s"
+msgstr "Fedora Messaging 發佈逾時；與訊息代理伺服器的連線或傳遞確認未完成：%(error)s"
 
 #, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
-msgstr "Fedora Messaging broker 退回了訊息：%(error)s"
+msgstr "Fedora Messaging 訊息代理伺服器退回了訊息：%(error)s"
 
 #, python-format
 msgid "Fedora Messaging broker rejected the message: %(error)s"
-msgstr "Fedora Messaging broker 拒絕了訊息：%(error)s"
+msgstr "Fedora Messaging 訊息代理伺服器拒絕了訊息：%(error)s"
 
 #, python-format
 msgid "Fedora Messaging publish failed: %(error)s"
@@ -1730,8 +1761,8 @@ msgstr "Fedora Messaging 發佈失敗：%(error)s"
 msgid "configured"
 msgstr "已設定"
 
-msgid "Could not reset Fedora Messaging publisher service."
-msgstr "無法重設 Fedora Messaging 發佈服務。"
+msgid "The SSL certificates have to be provided for SSL connection."
+msgstr "必須提供 SSL 憑證才能建立 SSL 連線。"
 
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
 msgstr "CA 憑證必須是有效且採 PEM 編碼的 X.509 憑證。"
@@ -1743,13 +1774,9 @@ msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
 msgstr "用戶端 SSL 憑證必須是有效且採 PEM 編碼的 X.509 憑證。"
 
 #, python-format
-msgid "Fedora Messaging broker URL is invalid: %(error)s"
-msgstr "Fedora Messaging broker URL 無效：%(error)s"
-
-#, python-format
 msgid ""
 "Could not verify TLS connection to the Fedora Messaging broker: %(error)s"
-msgstr "無法驗證與 Fedora Messaging broker 的 TLS 連線：%(error)s"
+msgstr "無法驗證與 Fedora Messaging 訊息代理伺服器的 TLS 連線：%(error)s"
 
 msgid "Flag new source strings as \"Needs checking\""
 msgstr "標記新來源字串為「需要檢查」"
@@ -2122,7 +2149,7 @@ msgid "Please review and confirm the missing language changes."
 msgstr "請檢查並確認缺漏語言的變動。"
 
 msgid "Regular expression to match translation files against"
-msgstr "用來比對出翻譯檔案的正規表達式"
+msgstr "用來比對翻譯檔案的正規表達式"
 
 msgid ""
 "The regular expression must define a named group for component. Also define "
@@ -2130,9 +2157,8 @@ msgid ""
 "mask is set, omit language and match the monolingual base or new base file "
 "instead."
 msgstr ""
-"正規表示式必須為 component 定義具名群組。比對翻譯檔案時，也要為 language 定義"
-"具名群組。設定檔案遮罩時，請省略 language，改為比對單語基礎檔案或新的基礎檔"
-"案。"
+"正規表達式必須為 component 定義具名群組。比對翻譯檔案時，也要為 language 定義"
+"具名群組。設定檔案遮罩時，請省略 language，改為比對單語基底檔案或新基底檔案。"
 
 msgid "File format"
 msgstr "檔案格式"
@@ -2181,9 +2207,9 @@ msgid ""
 "mask. Include a language wildcard and {{ component }}, for example locale/*/"
 "{{ component }}.po or docs/{{ component }}_*.md."
 msgstr ""
-"留白即可直接比對翻譯檔案。設定後，探索功能會比對單語言基礎檔案或新的基礎檔"
-"案，並使用此範本作為檔案遮罩。請加入語言萬用字元和 {{ component }}，例如 "
-"locale/*/{{ component }}.po 或 docs/{{ component }}_*.md。"
+"留白即可直接比對翻譯檔案。設定後，探索功能會比對單語基底檔案或新基底檔案，並"
+"使用此範本作為檔案遮罩。請加入語言萬用字元和 {{ component }}，例如 locale/*/{"
+"{ component }}.po 或 docs/{{ component }}_*.md。"
 
 msgid "Language filter"
 msgstr "語言篩選"
@@ -2423,10 +2449,10 @@ msgid "The Standard Webhooks secret is a base64 encoded string."
 msgstr "標準 Webhook 秘密是個 base64 編碼的字串。"
 
 msgid "AMQP broker URL"
-msgstr "AMQP broker URL"
+msgstr "AMQP 訊息代理伺服器網址"
 
 msgid "The AMQP broker URL to connect to."
-msgstr "要連線的 AMQP broker URL。"
+msgstr "要連線的 AMQP 訊息代理伺服器網址。"
 
 msgid "Topic prefix"
 msgstr "主題前綴"
@@ -2499,9 +2525,6 @@ msgstr "主題前綴只能包含 ASCII 字元。"
 msgid "Topic prefix must not exceed %(limit)d characters."
 msgstr "主題前綴不得超過 %(limit)d 個字元。"
 
-msgid "The SSL certificates have to be provided for SSL connection."
-msgstr "必須提供 SSL 憑證才能建立 SSL 連線。"
-
 msgid "The SSL certificates are not used without a SSL connection."
 msgstr "SSL 憑證在沒有 SSL 連線的情況下不會用到。"
 
@@ -2560,8 +2583,8 @@ msgid ""
 "Updates all PO files (as configured by \"File mask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
-"使用 msgmerge 更新所有（在「檔案遮罩」設定的）PO 檔案以跟（在「新翻譯的範本」"
-"設定的）POT 檔案同步。"
+"使用 msgmerge 更新「檔案遮罩」指定的所有 PO 檔案，使其與「新翻譯的範本」指定"
+"的 POT 檔案同步。"
 
 msgid "Update POT file (xgettext)"
 msgstr "更新 POT 檔案 (xgettext)"
@@ -2775,8 +2798,8 @@ msgid ""
 "Each user has a personal access token which they can get from their "
 "respective user profile. These tokens have the `wlu_` prefix."
 msgstr ""
-"每個使用者都有一個個人存取權杖，他們可以從各自的使用者個人資料中取得。這些權"
-"杖具有 `wlu_` 前綴。"
+"每位使用者都有個人存取權杖，可在自己的個人檔案中取得。這些權杖以 `wlu_` 開頭"
+"。"
 
 msgid ""
 "It is possible to create project tokens whose access to the API is limited "
@@ -3063,6 +3086,26 @@ msgstr "使用者"
 msgid "Language"
 msgstr "語言"
 
+msgid ""
+"Contributor identities are exposed by View contributor identities, Download "
+"changes, Manage reports, and access-management permissions. Permissions from "
+"all assigned roles are additive."
+msgstr ""
+"具備「檢視貢獻者身分資訊」、「下載變更」、「管理報告」或存取權管理相關權限，"
+"都能查看貢獻者身分資訊。已指派角色的權限會累加生效。"
+
+msgid "Built-in"
+msgstr "內建"
+
+msgid "Customized"
+msgstr "已自訂"
+
+msgid "Reset built-in roles to defaults"
+msgstr "將內建角色還原為預設值"
+
+msgid "Built-in role permissions reset."
+msgstr "已將內建角色的權限還原為預設值。"
+
 msgid "Personal info"
 msgstr "個人資訊"
 
@@ -3080,6 +3123,10 @@ msgstr "當選擇組件清單時，這不會被使用。"
 
 msgid "This is not used when a component is selected."
 msgstr "當選擇組件時，這不會被使用。"
+
+#. Translators: Permission name
+msgid "View contributor identities"
+msgstr "檢視貢獻者身分資訊"
 
 #. Translators: Permission name
 msgid "Download changes"
@@ -3290,6 +3337,18 @@ msgid "Manage workspace access"
 msgstr "管理工作空間存取權"
 
 #. Translators: Permission name
+msgid "Browse users"
+msgstr "瀏覽使用者"
+
+#. Translators: Permission name
+msgid "Search resource contributors"
+msgstr "搜尋資源的貢獻者"
+
+#. Translators: Permission name
+msgid "View user profiles"
+msgstr "檢視使用者個人檔案"
+
+#. Translators: Permission name
 msgid "Use management interface"
 msgstr "使用管理介面"
 
@@ -3360,6 +3419,14 @@ msgstr "管理付款"
 #. Translators: Permission name
 msgid "Manage site-wide add-ons"
 msgstr "管理網站端的附加元件"
+
+msgctxt "Access-control role"
+msgid "Discover users"
+msgstr "尋找使用者"
+
+msgctxt "Access-control role"
+msgid "View user profiles"
+msgstr "檢視使用者個人檔案"
 
 msgctxt "Access-control role"
 msgid "Administration"
@@ -3439,7 +3506,7 @@ msgstr "訪客"
 
 msgctxt "Access-control team name"
 msgid "Viewers"
-msgstr "查看者"
+msgstr "檢視者"
 
 msgctxt "Access-control team name"
 msgid "Users"
@@ -3564,6 +3631,10 @@ msgstr "名稱"
 msgid "Choose permissions granted to this role."
 msgstr "選擇要賦予此角色的取用權。"
 
+msgid ""
+"Remove the component from project teams before moving it to another project."
+msgstr "請先從專案團隊中移除這個組件，再將它移至其他專案。"
+
 msgid "Roles"
 msgstr "角色"
 
@@ -3671,10 +3742,10 @@ msgid ""
 msgstr "使用者將獲得所有其加入團隊所賦予的取用權。"
 
 msgid "Regular expression for e-mail address"
-msgstr "比對電子郵件的正規表達式"
+msgstr "用於比對電子郵件地址的正規表達式"
 
 msgid "Users with e-mail addresses found to match will be added to this team."
-msgstr "找到相符的電子郵件會被加入此團隊中。"
+msgstr "電子郵件地址符合規則的使用者會加入此團隊。"
 
 msgid "Team to assign"
 msgstr "要分派的團隊"
@@ -3848,6 +3919,9 @@ msgid ""
 "access; otherwise, you would lock yourself out."
 msgstr "啟用受限存取前，您必須擁有此組件的明確存取權，否則會失去存取權。"
 
+msgid "Blocked users cannot be granted project administration rights."
+msgstr "無法授予遭封鎖的使用者專案管理權限。"
+
 #, python-format
 msgid ""
 "Team %(name)s was renamed to %(new_name)s because its name was already in "
@@ -3868,6 +3942,12 @@ msgstr "無法移除內建團隊！"
 
 msgid "User invitation was removed."
 msgstr "已移除使用者邀請。"
+
+msgid "This invitation was already accepted or removed."
+msgstr "這份邀請已接受或已移除。"
+
+msgid "Remove the project block before accepting this invitation."
+msgstr "請先解除此專案對您的封鎖，再接受這份邀請。"
 
 #, python-format
 msgid "Accepted invitation to the %s team."
@@ -3939,7 +4019,7 @@ msgid "%(path)s: not requires exactly one condition."
 msgstr "%(path)s：not 條件只能搭配一個條件。"
 
 msgid "Automation context is too large."
-msgstr "自動化脈絡太大。"
+msgstr "自動化情境資料過大。"
 
 msgid "CEL validation or evaluation failed or exceeded its resource limit."
 msgstr "CEL 驗證或評估失敗，或超出資源限制。"
@@ -4055,6 +4135,51 @@ msgstr "任一符合"
 
 msgid "Not"
 msgstr "不符合"
+
+msgid "Sequence"
+msgstr "動作序列"
+
+msgid "Choose"
+msgstr "選擇"
+
+msgid "Trigger"
+msgstr "觸發"
+
+msgid "Add trigger"
+msgstr "新增觸發條件"
+
+msgid "Condition"
+msgstr "條件"
+
+msgid "Add condition"
+msgstr "新增條件"
+
+msgid "Action"
+msgstr "動作"
+
+msgid "Add action"
+msgstr "新增動作"
+
+msgid "Conditions"
+msgstr "條件"
+
+msgid "Actions"
+msgstr "動作"
+
+msgid "Branches"
+msgstr "條件分支"
+
+msgid "Add branch"
+msgstr "新增條件分支"
+
+msgid "Otherwise"
+msgstr "其他情況"
+
+msgid "Add action to run otherwise"
+msgstr "新增其他情況下要執行的動作"
+
+msgid "Branch"
+msgstr "分支"
 
 msgid "Additional message"
 msgstr "附加訊息"
@@ -4688,6 +4813,10 @@ msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr "HTML {tag} 標記缺少配對的結束標籤：{end}。"
 
 #, python-brace-format
+msgid "The HTML {tag} tag is nested too deeply."
+msgstr "HTML {tag} 標籤的巢狀層數太深。"
+
+#, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
 "end with {semicolon}. If you do not want a character reference, use "
@@ -4892,6 +5021,12 @@ msgstr "Fluent 翻譯語法"
 
 msgid "Fluent syntax error in the translation."
 msgstr "翻譯中 Fluent 的語法有錯。"
+
+msgid "The Fluent value could not be checked because it is too complex."
+msgstr "Fluent 值過於複雜，無法檢查。"
+
+msgid "the value is too complex or nested too deeply"
+msgstr "值過於複雜，或巢狀層數太深"
 
 msgid "The following format strings are in the wrong order:"
 msgstr "下列格式字串的排序錯誤："
@@ -5767,6 +5902,14 @@ msgstr ""
 "限制所有套件名稱合計可保留的建置版本數量。達到數量上限或最長存留期限時，建置"
 "版本就會退役。"
 
+msgid "Install Translation files CDN"
+msgstr "安裝翻譯檔案 CDN"
+
+msgid ""
+"Publishes original translation files publicly, including files from private "
+"components."
+msgstr "公開發佈原始翻譯檔案，包括私人組件中的檔案。"
+
 msgid "Kotlin SDK CDN"
 msgstr "Kotlin SDK CDN"
 
@@ -5774,6 +5917,9 @@ msgid ""
 "Publishes Android string and plural resources for registered Kotlin SDK "
 "builds."
 msgstr "發布已註冊 Kotlin SDK 建置版本的 Android 字串與複數形式資源。"
+
+msgid "Translation files CDN cannot be installed on this component."
+msgstr "無法在這個組件上安裝翻譯檔案 CDN。"
 
 msgid "Weblate languages"
 msgstr "Weblate 語言"
@@ -7281,10 +7427,10 @@ msgid "Statistics"
 msgstr "統計資料"
 
 msgid "Second factor sign-in"
-msgstr "雙重要素登入"
+msgstr "以第二項驗證因素登入"
 
 msgid "Please complete your sign-in using second factor credential."
-msgstr "請使用雙重要素憑證完成登入。"
+msgstr "請使用第二項驗證因素完成登入。"
 
 msgid "Other ways to verify your identity"
 msgstr "其他身分驗證方式"
@@ -7299,8 +7445,17 @@ msgstr ""
 msgid "Your profile"
 msgstr "您的個人檔案"
 
+msgid "Confirm adding e-mail address"
+msgstr "確認新增電子郵件地址"
+
 msgid "Confirm adding user identity"
 msgstr "確認加入使用者身分"
+
+#, python-format
+msgid ""
+"Confirm adding %(uid)s to your existing Weblate account by entering your "
+"current password."
+msgstr "請輸入目前的密碼，確認將 %(uid)s 新增至您現有的 Weblate 帳號。"
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #, python-format
@@ -7309,6 +7464,9 @@ msgid ""
 "%(backend_verbose)s (%(uid)s)."
 msgstr ""
 "確認之後，您就可以使用 %(backend_verbose)s (%(uid)s) 的身分使用 Weblate。"
+
+msgid "Add e-mail address"
+msgstr "新增電子郵件地址"
 
 msgid "Confirm"
 msgstr "確認"
@@ -7403,14 +7561,14 @@ msgstr "開啟聯絡表單"
 msgid "Registration"
 msgstr "註冊"
 
+msgid "Check your e-mail"
+msgstr "請查看您的電子郵件"
+
 msgid "Password reset almost complete"
 msgstr "密碼重設幾近完成"
 
 msgid "Account removal almost complete"
 msgstr "帳號移除幾近完成"
-
-msgid "E-mail verification almost complete"
-msgstr "電子郵件驗證即將完成"
 
 msgid "Registration almost complete"
 msgstr "註冊幾近完成"
@@ -7424,9 +7582,12 @@ msgid ""
 msgstr "移除帳號的確認連結已寄送到您的電子郵件。"
 
 msgid ""
-"Click the confirmation link sent to your e-mail inbox to verify the address "
-"for your account."
-msgstr "請點選寄到您信箱中的確認連結，驗證帳號使用的電子郵件地址。"
+"Check your e-mail for instructions. If this address is already associated "
+"with an account, you may receive account recovery guidance instead of a "
+"verification link."
+msgstr ""
+"請查看電子郵件中的操作說明。如果此地址已連結至帳號，您可能會收到帳號復原說明"
+"，而非驗證連結。"
 
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
@@ -7435,6 +7596,13 @@ msgstr "點選寄給您的信件中的確認連結，開始使用您的帳號。
 
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr "若無法在您的收件夾找到它，請到垃圾郵件找看看。"
+
+#, python-format
+msgid ""
+"If you receive a verification link, it will expire after %(count)s hour."
+msgid_plural ""
+"If you receive a verification link, it will expire after %(count)s hours."
+msgstr[0] "若收到驗證連結，該連結會在 %(count)s 小時後失效。"
 
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
@@ -7453,6 +7621,17 @@ msgid "Register again if the confirmation link expires."
 msgstr "若確認連結過期，請重新註冊。"
 
 msgid ""
+"If you receive a verification link, open it while signed in to this account "
+"and follow the confirmation steps. You may be asked for your current "
+"password."
+msgstr ""
+"若收到驗證連結，請登入這個帳號後開啟連結，並依照步驟確認。過程中可能需要輸入"
+"目前的密碼。"
+
+msgid "Back to account settings"
+msgstr "回到帳號設定"
+
+msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr "電子郵件不為即時通訊設計。在報告問題前，請等待確認信至少 30 分鐘。"
@@ -7466,11 +7645,47 @@ msgstr "如果註冊發生問題，請聯絡我們。"
 msgid "Please fix errors in the form."
 msgstr "請修正表單中的錯誤。"
 
+msgid ""
+"Verification instructions will be sent to the new e-mail address. You do not "
+"need access to your old mailbox."
+msgstr "驗證說明會寄到新的電子郵件地址，不需要存取原來的信箱。"
+
+msgid ""
+"Adding an address does not change your account e-mail address. After "
+"verification, you can select the new address in Account settings."
+msgstr ""
+"新增地址不會變更帳號目前使用的電子郵件地址。完成驗證後，即可在帳號設定中選用"
+"新地址。"
+
 msgid "Send verification e-mail"
 msgstr "傳送驗證信"
 
-msgid "Back to account settings"
-msgstr "回到帳號設定"
+msgid "Confirm your identity"
+msgstr "確認您的身分"
+
+msgid "Confirm your existing sign-in method before continuing."
+msgstr "請先使用既有登入方式確認身分，再繼續操作。"
+
+msgid ""
+"Confirm your existing sign-in method before registering your first second "
+"factor."
+msgstr "首次設定雙重要素身分驗證前，請先使用既有登入方式確認身分。"
+
+msgid "Sign in again using a connected provider:"
+msgstr "請使用已連結的登入服務重新登入："
+
+msgid ""
+"Your previous e-mail verification has expired. Reset your password to "
+"continue."
+msgstr "您先前的電子郵件驗證已失效。請重設密碼後再繼續。"
+
+msgid "Sign out and reset password by e-mail"
+msgstr "登出並透過電子郵件重設密碼"
+
+msgid ""
+"No sign-in method is available to confirm your identity. Contact an "
+"administrator to recover access."
+msgstr "目前沒有可用來確認身分的登入方式，請聯絡管理員協助重新取得存取權。"
 
 msgid "Trial subscriptions"
 msgstr "試用約期訂購"
@@ -7651,6 +7866,9 @@ msgstr "為了確保您的密碼輸入正確，請輸入您的新密碼兩次。
 msgid "Change my password"
 msgstr "變更我的密碼"
 
+msgid "Set my password"
+msgstr "設定我的密碼"
+
 msgid "Back to security settings"
 msgstr "返回安全性設定"
 
@@ -7686,9 +7904,6 @@ msgstr "活動"
 
 msgid "The e-mail address can be chosen from verified addresses only."
 msgstr "只能從驗證過的電子郵件位址中選擇。"
-
-msgid "Add and verify e-mail address"
-msgstr "新增並驗證電子郵件地址"
 
 msgid "Save"
 msgstr "儲存"
@@ -7726,8 +7941,8 @@ msgid ""
 "and by filling them out, you're giving us consent to share this data "
 "wherever your user profile appears."
 msgstr ""
-"此頁面上的所有欄位皆為選填，且可隨時刪除。一旦填入這些資訊，即表示您同意我們"
-"在您的個人檔案出現時分享這些資料。"
+"此頁面的所有欄位皆為選填，填入的資料可隨時刪除。填寫後，即表示您同意我們在所"
+"有顯示您個人檔案的地方分享這些資料。"
 
 msgid "Your avatar"
 msgstr "您的頭像"
@@ -7774,9 +7989,6 @@ msgstr "已設定"
 
 msgid "Not configured"
 msgstr "尚未設定"
-
-msgid "Set password"
-msgstr "設定密碼"
 
 msgid "Two-factor authentication"
 msgstr "雙重要素身分驗證"
@@ -8044,9 +8256,6 @@ msgstr ""
 "忘記您的密碼？請在下方輸入您的電子郵件，我們會寄郵件給您並指示新密碼的設定方"
 "式。"
 
-msgid "Set my password"
-msgstr "設定我的密碼"
-
 msgid "Reset my password"
 msgstr "重設我的密碼"
 
@@ -8082,10 +8291,10 @@ msgstr ""
 
 msgid ""
 "You can enable the use of a private commit e-mail and name in your profile."
-msgstr "您可以在個人資料中啟用用於提交記錄的私密電子郵件和名稱。"
+msgstr "您可在個人檔案中啟用提交用的私密電子郵件地址與私密名稱。"
 
 msgid "You can enable the use of a private commit e-mail in your profile."
-msgstr "您可以在個人資料中啟用用於提交記錄的私密電子郵件。"
+msgstr "您可在個人檔案中啟用提交用的私密電子郵件地址。"
 
 msgid ""
 "Additionally, your name can be used in version control system commits to "
@@ -8095,7 +8304,7 @@ msgstr ""
 "訊可能會被無限期地儲存在該系統中。"
 
 msgid "You can enable the use of a private commit name in your profile."
-msgstr "您可以在個人資料中啟用用於提交記錄的私密名稱。"
+msgstr "您可在個人檔案中啟用提交用的私密名稱。"
 
 msgid ""
 "You provide your contribution under the license defined by each project you "
@@ -8125,8 +8334,8 @@ msgid ""
 "Authenticator apps generate time-based one-time passwords that are used as a "
 "second factor to verify your identity when prompted during sign-in."
 msgstr ""
-"身分驗證器應用程式會產生基於時間的一次性密碼，該密碼可在登入時用作驗證您身分"
-"的第二要素。"
+"驗證器應用程式會依時間產生一次性密碼，登入時可依提示使用，作為驗證身分的第二"
+"項驗證因素。"
 
 msgid "Scan the QR code"
 msgstr "掃描 QR 碼"
@@ -8550,35 +8759,11 @@ msgid ""
 "manually."
 msgstr "用來啟動工作流程的事件。若未設定任何觸發條件，就只能手動執行。"
 
-msgid "Trigger"
-msgstr "觸發"
-
-msgid "Add trigger"
-msgstr "新增觸發條件"
-
-msgid "Conditions"
-msgstr "條件"
-
 msgid "All conditions have to pass before any action runs."
 msgstr "必須符合所有條件，才會執行任何動作。"
 
-msgid "Condition"
-msgstr "條件"
-
-msgid "Add condition"
-msgstr "新增條件"
-
-msgid "Actions"
-msgstr "動作"
-
 msgid "Operations performed in this order once the conditions pass."
 msgstr "符合條件後，依此順序執行的操作。"
-
-msgid "Action"
-msgstr "動作"
-
-msgid "Add action"
-msgstr "新增動作"
 
 msgid "Move up"
 msgstr "上移"
@@ -8716,6 +8901,19 @@ msgid ""
 msgstr ""
 "Gradle 外掛與程式庫的設定方式，請參閱 <a href=\"%(url)s\">Kotlin SDK 儲存庫</"
 "a>。"
+
+msgid ""
+"Install Translation files CDN to let the SDK download original XML "
+"translation files. These files are published publicly, including files from "
+"private components."
+msgstr ""
+"安裝翻譯檔案 CDN，讓 SDK 下載原始 XML 翻譯檔案。這些檔案會公開發佈，包括私人"
+"組件中的檔案。"
+
+msgid ""
+"After installation, return to this page to copy the updated Gradle "
+"configuration."
+msgstr "安裝後，請回到此頁面複製更新後的 Gradle 設定。"
 
 msgid "Configure the Kotlin SDK Gradle plugin with these values:"
 msgstr "請使用以下值設定 Kotlin SDK Gradle 外掛："
@@ -8857,7 +9055,8 @@ msgstr ""
 msgid ""
 "Configure your service to receive JSON POST requests, enter its URL below, "
 "and select the events to send."
-msgstr "請將服務設定為接收 JSON POST 請求，在下方輸入其 URL，並選取要傳送的事件。"
+msgstr ""
+"請將服務設定為接收 JSON POST 請求，在下方輸入其 URL，並選取要傳送的事件。"
 
 msgid ""
 "To verify request signatures, configure the same Standard Webhooks secret in "
@@ -8887,14 +9086,32 @@ msgstr "回應內容"
 msgid "Request payload"
 msgstr "請求承載內容"
 
+msgid ""
+"Reset these built-in roles to the current default permissions? This discards "
+"their customizations."
+msgstr "要將這些內建角色的權限還原為目前的預設值嗎？此操作會捨棄自訂設定。"
+
+msgid "Reset permissions"
+msgstr "重設權限"
+
+msgid "Cancel"
+msgstr "取消"
+
 msgid "Settings"
 msgstr "設定"
 
 msgid "Automatic assignments"
-msgstr "自動分派指定"
+msgstr "自動指派"
 
 msgid "Access control"
 msgstr "存取控制"
+
+msgid ""
+"Automatically invite newly created users to this team based on their e-mail "
+"address. Users join only after accepting the invitation."
+msgstr ""
+"依新建立使用者的電子郵件地址，自動邀請他們加入此團隊。使用者接受邀請後才會加"
+"入。"
 
 msgid ""
 "Automatically add newly created users to this team based on their e-mail "
@@ -8907,7 +9124,7 @@ msgid ""
 msgstr "網站上的每位新使用者都會檢查此項目，不論使用的專案為何。"
 
 msgid "Add automatic assignment"
-msgstr "加入自動分派指定"
+msgstr "新增自動指派規則"
 
 msgid "Last sign in"
 msgstr "上次登入"
@@ -8937,14 +9154,17 @@ msgstr "這會移除 <b>%(user)s</b> 對此專案的存取權。"
 msgid "Add"
 msgstr "新增"
 
+msgid "Moved component"
+msgstr "移動了組件"
+
 msgid "All components"
 msgstr "所有組件"
 
 msgid "Automatic assignment of users is configured for this team"
-msgstr "已為這個團隊設定自動分配使用者的功能"
+msgstr "此團隊已設定使用者自動指派規則"
 
 msgid "Automatic assignment"
-msgstr "自動分配"
+msgstr "自動指派"
 
 msgid "Requires two-factor authentication"
 msgstr "需要雙重要素身分驗證"
@@ -9261,7 +9481,27 @@ msgstr "處理中…"
 msgid ""
 "Verification failed. Enable JavaScript, workers, and cookies, then retry. "
 "You can also sign in."
-msgstr "驗證失敗。請啟用 JavaScript、Web Workers 與 Cookie 後再試一次，也可以登入。"
+msgstr ""
+"驗證失敗。請啟用 JavaScript、Web Workers 與 Cookie 後再試一次，也可以登入。"
+
+msgid "The challenge expired. Retry to start a new challenge."
+msgstr "驗證挑戰已到期，請重試以開始新的驗證挑戰。"
+
+msgid "This challenge was already used. Retry to start a new challenge."
+msgstr "這個驗證挑戰已使用過，請重試以開始新的驗證挑戰。"
+
+msgid "Browser verification was unsuccessful. Please retry."
+msgstr "瀏覽器驗證失敗，請重試。"
+
+msgid "Browser verification could not be confirmed. Enable cookies and retry."
+msgstr "無法確認瀏覽器驗證結果。請啟用 Cookie 後重試。"
+
+msgid ""
+"The verification service is temporarily unavailable. Please retry later."
+msgstr "驗證服務暫時無法使用，請稍後重試。"
+
+msgid "Verification cookies could not be confirmed. Enable cookies and retry."
+msgstr "無法確認驗證 Cookie。請啟用 Cookie 後重試。"
 
 msgid "JavaScript is required for anonymous access. You can sign in instead."
 msgstr "匿名存取需要 JavaScript，也可以改為登入。"
@@ -9437,7 +9677,7 @@ msgid "Total"
 msgstr "總計"
 
 msgid "Dismissed"
-msgstr "已略過"
+msgstr "已忽略"
 
 msgid "Translated"
 msgstr "已翻譯"
@@ -9490,7 +9730,7 @@ msgid "Share in projects"
 msgstr "分享專案"
 
 msgid "dismissed"
-msgstr "已略過"
+msgstr "已忽略"
 
 #. Translators: Component alert footer, first contain localized human readable time span, for example 5 days ago
 #, python-format
@@ -10273,7 +10513,8 @@ msgstr "也可以使用代稱來選取："
 msgid ""
 "The numeric ID always selects this installation. The slug selects the "
 "installation currently using that name in the project."
-msgstr "數字 ID 一律選取此安裝項目。代稱則會選取專案中目前使用該名稱的安裝項目。"
+msgstr ""
+"數字 ID 一律選取此安裝項目。代稱則會選取專案中目前使用該名稱的安裝項目。"
 
 msgid ""
 "Set an installation slug above to give this service a readable name in your "
@@ -10306,7 +10547,8 @@ msgstr "停用安裝項目"
 msgid ""
 "Stop using this installation here and in scopes inheriting it. Its settings "
 "are kept so you can enable it again later."
-msgstr "停止在此處及繼承此安裝項目的範圍中使用。系統會保留設定，方便日後重新啟用。"
+msgstr ""
+"停止在此處及繼承此安裝項目的範圍中使用。系統會保留設定，方便日後重新啟用。"
 
 msgid ""
 "Stop using this inherited installation in this workspace and its projects. "
@@ -10340,8 +10582,8 @@ msgid ""
 "here when it is enabled at its installation scope and is not excluded "
 "upstream. Other excluded installations remain excluded."
 msgstr ""
-"移除此處對這個安裝項目的排除設定。只要在安裝範圍中已啟用，且未被上層範圍排除"
-"，就能在此處提供建議。其他已排除的安裝項目仍維持排除狀態。"
+"移除此處對這個安裝項目的排除設定。只要在安裝範圍中已啟用，且未被上層範圍排"
+"除，就能在此處提供建議。其他已排除的安裝項目仍維持排除狀態。"
 
 msgid "Enable"
 msgstr "啟用"
@@ -10615,6 +10857,39 @@ msgstr "已解除鎖定 %(component)s 組件"
 msgid "Digest: %(notification_name)s"
 msgstr "摘要：%(notification_name)s"
 
+#, python-format
+msgid ""
+"Somebody requested to add this e-mail address to another account at "
+"%(site_title)s. This address is already associated with an account and "
+"cannot be added to another."
+msgstr ""
+"有人要求將這個電子郵件地址新增至 %(site_title)s 的另一個帳號。此地址已連結至"
+"一個帳號，因此無法再新增至其他帳號。"
+
+msgid ""
+"If you intended to access the existing account, sign out and use password "
+"recovery. The button below opens the password reset form; it does not reset "
+"your password."
+msgstr ""
+"如果您想登入原有帳號，請先登出，再使用密碼復原功能。下方按鈕只會開啟密碼重設"
+"表單，不會直接重設密碼。"
+
+msgid "Open password recovery"
+msgstr "開啟密碼復原頁面"
+
+msgid "Contact support for help moving this address between accounts."
+msgstr "如需將此地址移至其他帳號，請聯絡支援人員協助。"
+
+msgid ""
+"If you did not request this, you can ignore this e-mail. Your account has "
+"not been changed."
+msgstr "如果您未提出這項要求，可以忽略這封電子郵件。您的帳號沒有任何變更。"
+
+#. Translators: e-mail subject
+#, python-format
+msgid "E-mail address already associated with an account on %(site_title)s"
+msgstr "此電子郵件地址已連結至 %(site_title)s 的帳號"
+
 msgid "View invitation"
 msgstr "查看邀請函"
 
@@ -10622,6 +10897,10 @@ msgstr "查看邀請函"
 msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
 msgstr[0] "邀請函會在 %(count)s 小時後失效。"
+
+#, python-format
+msgid "Automatic team assignment: invitation to join %(team_name)s"
+msgstr "團隊自動指派：邀請加入 %(team_name)s"
 
 #. Translators: e-mail subject
 #, python-format
@@ -10848,6 +11127,9 @@ msgstr "帳號移除確認"
 msgid "Confirm invitation"
 msgstr "確認邀請"
 
+msgid "Verify e-mail address"
+msgstr "驗證電子郵件地址"
+
 msgid ""
 "Note: This notification has been truncated as there were over 100 entries."
 msgstr "註：此通知的項目超過 100 筆，因此已截斷。"
@@ -10904,6 +11186,15 @@ msgstr "未完成"
 #. Translators: e-mail subject
 msgid "Translation activity summary"
 msgstr "翻譯活動摘要"
+
+#, python-format
+msgid "Verify this e-mail address for your account at %(site_title)s."
+msgstr "請驗證這個電子郵件地址，以供您在 %(site_title)s 的帳號使用。"
+
+#. Translators: e-mail subject
+#, python-format
+msgid "Verify your e-mail address on %(site_title)s"
+msgstr "驗證您在 %(site_title)s 的電子郵件地址"
 
 msgid "Component diagnostics"
 msgstr "組件診斷"
@@ -11090,6 +11381,50 @@ msgstr "瀏覽「探索」"
 msgid "Performance report"
 msgstr "效能報告"
 
+msgid "Bot protection"
+msgstr "機器人防護"
+
+msgid ""
+"Issued challenges, requests requiring proof of work, and verification "
+"outcomes in hourly buckets. Counts are best-effort and can be lost during "
+"cache outages or eviction."
+msgstr ""
+"以小時為單位統計發出的驗證挑戰、需要工作量證明的請求及驗證結果。系統會盡量記"
+"錄，但快取服務中斷或快取項目遭清除時，計數仍可能遺失。"
+
+msgid "Counters are unavailable."
+msgstr "無法取得計數資料。"
+
+msgid "Outcome"
+msgstr "結果"
+
+msgid "Current hour"
+msgstr "目前這一小時"
+
+msgid "Previous 24 completed hours"
+msgstr "過去 24 個完整小時"
+
+msgid "Issued challenges"
+msgstr "已發出的驗證挑戰"
+
+msgid "Requests requiring proof of work"
+msgstr "需要工作量證明的請求"
+
+msgid "Expired challenge"
+msgstr "驗證挑戰已到期"
+
+msgid "Invalid solution"
+msgstr "解答無效"
+
+msgid "Replayed challenge"
+msgstr "重複使用驗證挑戰"
+
+msgid "CSRF failure"
+msgstr "CSRF 驗證失敗"
+
+msgid "Service unavailable"
+msgstr "服務無法使用"
+
 msgid "Last occurrence"
 msgstr "上次出現"
 
@@ -11241,6 +11576,259 @@ msgstr "顯示沒有遠端版本控制系統的組件"
 msgid "This repository is linked to:"
 msgstr "這個儲存庫連結到："
 
+msgid "Confirm security action"
+msgstr "確認安全性操作"
+
+#, python-format
+msgid "Selected %(count)s findings affecting %(accounts)s accounts."
+msgstr "已選取 %(count)s 個安全問題，涉及 %(accounts)s 個帳號。"
+
+msgid ""
+"Disable the matching passwords, invalidate signed-in sessions, and revoke "
+"all API tokens. Users with an e-mail address will be notified. Single sign-"
+"on and two-factor settings are preserved. Accounts whose passwords have "
+"changed will be skipped."
+msgstr ""
+"停用比對相符的密碼、使已登入的工作階段失效，並撤銷所有 API 權杖。系統會通知有"
+"電子郵件地址的使用者。單一登入與雙重要素身分驗證設定會保留；密碼已變更的帳號"
+"則會略過。"
+
+msgid ""
+"Remove the selected lookalike verified e-mail addresses and associated sign-"
+"in identities, disable account passwords, invalidate sessions, and revoke "
+"API tokens. Account owners will be notified at their primary e-mail address."
+msgstr ""
+"移除所選外觀相似的已驗證電子郵件地址與相關登入身分，停用帳號密碼、使工作階段"
+"失效，並撤銷 API 權杖。系統會寄信到主要電子郵件地址，通知帳號擁有者。"
+
+msgid ""
+"Dismiss the selected findings without changing credentials or notifying "
+"users. A new report confirming the same exposure can reopen them."
+msgstr ""
+"忽略所選安全問題，不變更登入憑證或通知使用者。若新報告再次確認相同的安全風險"
+"，這些問題可能會重新列為待處理。"
+
+msgid "Reset passwords"
+msgstr "重設密碼"
+
+msgid "Remove identities and reset accounts"
+msgstr "移除身分並重設帳號"
+
+msgid "Dismiss findings"
+msgstr "忽略安全問題"
+
+#, python-format
+msgid "Security finding for %(username)s"
+msgstr "%(username)s 的安全問題"
+
+msgid "CSV row"
+msgstr "CSV 資料列"
+
+msgid "Identifier"
+msgstr "辨識碼"
+
+msgid "Matching method"
+msgstr "比對方式"
+
+msgid "No matching row details."
+msgstr "沒有相符資料列的詳細資料。"
+
+#, python-format
+msgid "Page %(number)s of %(total)s"
+msgstr "第 %(number)s 頁，共 %(total)s 頁"
+
+msgid "Detected in reports"
+msgstr "發現此問題的報告"
+
+msgid "Administrator"
+msgstr "管理員"
+
+msgid "Deleted administrator"
+msgstr "已刪除的管理員"
+
+msgid "No validation reports for this finding."
+msgstr "此安全問題沒有驗證報告。"
+
+#, python-format
+msgid "Reports page %(number)s of %(total)s"
+msgstr "報告第 %(number)s 頁，共 %(total)s 頁"
+
+msgid "Previous reports"
+msgstr "上一頁報告"
+
+msgid "Next reports"
+msgstr "下一頁報告"
+
+msgid "Account security findings"
+msgstr "帳號安全問題"
+
+msgid "Validation reports"
+msgstr "驗證報告"
+
+msgid "Filename"
+msgstr "檔案名稱"
+
+msgid "Not recorded"
+msgstr "未記錄"
+
+msgid "Submitted by"
+msgstr "提交者"
+
+msgid "Processing summary"
+msgstr "處理摘要"
+
+msgid "Password validation completed."
+msgstr "密碼驗證已完成。"
+
+msgid "Legacy e-mail identity check completed."
+msgstr "舊版電子郵件身分檢查已完成。"
+
+msgid "Security action completed."
+msgstr "安全性操作已完成。"
+
+msgid "Processing failed."
+msgstr "處理失敗。"
+
+msgid "Processing is not complete. Findings may still be added."
+msgstr "處理尚未完成，仍可能新增安全問題。"
+
+msgid "View progress"
+msgstr "查看進度"
+
+#, python-format
+msgid "Processed %(processed)s of %(total)s entries."
+msgstr "已處理 %(processed)s 筆，共 %(total)s 筆。"
+
+msgid "Finding type"
+msgstr "安全問題類型"
+
+msgid "Filter"
+msgstr "篩選"
+
+msgid "Actions apply only to checked findings on this page."
+msgstr "操作僅適用於此頁勾選的安全問題。"
+
+msgid "Select all on this page"
+msgstr "選取此頁全部項目"
+
+msgid "Clear selection"
+msgstr "清除選取"
+
+msgid "Finding"
+msgstr "安全問題"
+
+#, python-format
+msgid "Select finding for %(username)s"
+msgstr "選取 %(username)s 的安全問題"
+
+msgid "Inactive"
+msgstr "未啟用"
+
+msgid "Bot"
+msgstr "機器人"
+
+msgid "No e-mail address: notification unavailable"
+msgstr "沒有電子郵件地址：無法通知"
+
+msgid "Date joined:"
+msgstr "加入日期："
+
+msgid "Last sign-in:"
+msgstr "上次登入："
+
+#, python-format
+msgid "Row %(row)s: %(identifier)s (%(method)s)"
+msgstr "第 %(row)s 列：%(identifier)s (%(method)s)"
+
+#, python-format
+msgid "View details (%(count)s match)"
+msgid_plural "View details (%(count)s matches)"
+msgstr[0] "查看詳細資料 (%(count)s 筆相符資料)"
+
+msgid "First detected:"
+msgstr "首次發現："
+
+msgid "Last detected:"
+msgstr "最近發現："
+
+msgid "No security findings match these filters."
+msgstr "沒有符合這些篩選條件的安全問題。"
+
+msgid "Remove lookalike e-mail identities and reset selected accounts"
+msgstr "移除外觀相似的電子郵件身分並重設所選帳號"
+
+msgid "Reset passwords for selected accounts"
+msgstr "重設所選帳號的密碼"
+
+msgid "Dismiss selected findings"
+msgstr "忽略所選安全問題"
+
+msgid ""
+"Dismissing findings marks them as reviewed without changing passwords or "
+"notifying users."
+msgstr "忽略安全問題會將其標示為已檢閱，不會變更密碼或通知使用者。"
+
+msgid "Account security operation"
+msgstr "帳號安全性操作"
+
+msgid "Processing progress"
+msgstr "處理進度"
+
+msgid "Refresh progress"
+msgstr "重新整理進度"
+
+msgid ""
+"Review previous credential validation reports, including reports with no "
+"matching passwords."
+msgstr "檢閱先前的登入憑證驗證報告，包括沒有相符密碼的報告。"
+
+msgid "Upload report"
+msgstr "上傳報告"
+
+msgid "Processed rows"
+msgstr "已處理的資料列數"
+
+msgid "Matching rows"
+msgstr "相符的資料列數"
+
+msgid "Affected accounts"
+msgstr "受影響的帳號數"
+
+#, python-format
+msgid "%(processed)s of %(total)s"
+msgstr "%(processed)s 筆，共 %(total)s 筆"
+
+msgid "No validation reports yet."
+msgstr "尚無驗證報告。"
+
+msgid ""
+"Upload a CSV containing usernames or e-mail addresses and passwords. "
+"Passwords are checked in the background and never displayed in the report."
+msgstr ""
+"上傳含有使用者名稱或電子郵件地址，以及密碼的 CSV 檔案。密碼會在背景檢查，不會"
+"顯示在報告中。"
+
+msgid ""
+"Reports must use UTF-8 and contain at most 50,000 rows and 10 MiB. Leave the "
+"delimiter and column numbers blank for automatic detection."
+msgstr ""
+"報告須使用 UTF-8 編碼，最多 50,000 列，大小不得超過 10 MiB。分隔字元與欄號留"
+"白即可自動偵測。"
+
+msgid ""
+"The uploaded file is available for one hour. Adjust the CSV settings below "
+"to try again."
+msgstr "上傳的檔案可使用 1 小時。請調整下方的 CSV 設定後再試一次。"
+
+msgid "CSV format (detected automatically)"
+msgstr "CSV 格式 (自動偵測)"
+
+msgid "Validate passwords"
+msgstr "驗證密碼"
+
+msgid "Validate leaked passwords"
+msgstr "驗證外洩密碼"
+
 msgid "Activate support package"
 msgstr "啟用支援套件"
 
@@ -11371,6 +11959,18 @@ msgstr "移除邀請函"
 msgid "Check user access"
 msgstr "檢查使用者存取"
 
+msgid "Account security"
+msgstr "帳號安全性"
+
+#, python-format
+msgid "Security report (%(security_findings_open)s open findings)"
+msgstr "安全性報告 (%(security_findings_open)s 個待處理的安全問題)"
+
+msgid ""
+"Validate a CSV report of leaked credentials against current account "
+"passwords."
+msgstr "將外洩登入憑證的 CSV 報告與目前帳號密碼比對驗證。"
+
 msgid "Add workspace"
 msgstr "新增工作空間"
 
@@ -11394,9 +11994,6 @@ msgstr "對照表"
 
 msgid "Displayed languages"
 msgstr "顯示的語言"
-
-msgid "Choose"
-msgstr "選擇"
 
 msgid "Translation memory status"
 msgstr "翻譯記憶狀態"
@@ -11822,8 +12419,8 @@ msgid ""
 "translations across components, quality checks and automatic linking to "
 "source files."
 msgstr ""
-"Weblate 是個與版本控制系統緊密整合的網頁翻譯工具。它具備簡潔直觀的使用者介面"
-"、跨組件翻譯重用、品質檢查，以及自動連結至來源檔案等功能。"
+"Weblate 是個與版本控制系統緊密整合的網頁翻譯工具。它具備簡潔直觀的使用者介"
+"面、跨組件翻譯重用、品質檢查，以及自動連結至來源檔案等功能。"
 
 #, python-format
 msgid "More information about Weblate can be found on %(weblate_link)s."
@@ -11941,9 +12538,6 @@ msgid "The translation was automatically locked due to the following alert:"
 msgid_plural ""
 "The translation was automatically locked due to the following alerts:"
 msgstr[0] "翻譯因為以下警告而自動鎖定："
-
-msgid "Filter"
-msgstr "篩選"
 
 msgid "Clear filters"
 msgstr "清除篩選器"
@@ -12095,7 +12689,7 @@ msgid "Project reviewers"
 msgstr "專案檢閱者"
 
 msgid "Automatic component list assignment"
-msgstr "自動組件清單指派"
+msgstr "自動將組件加入清單"
 
 msgid "Translation license"
 msgstr "翻譯授權條款"
@@ -12248,6 +12842,23 @@ msgstr "翻譯"
 
 #, python-format
 msgid ""
+"An automatic team assignment rule invited you to collaborate on "
+"%(project_name)s and join the %(team_name)s team. You will join only if you "
+"accept this invitation."
+msgstr ""
+"系統已依團隊自動指派規則，邀請您參與 %(project_name)s 專案協作，並加入 %"
+"(team_name)s 團隊。您接受邀請後才會加入。"
+
+#, python-format
+msgid ""
+"An automatic team assignment rule invited you to join the %(team_name)s team "
+"in %(workspace_name)s. You will join only if you accept this invitation."
+msgstr ""
+"系統已依團隊自動指派規則，邀請您加入 %(workspace_name)s 工作空間中的 %"
+"(team_name)s 團隊。您接受邀請後才會加入。"
+
+#, python-format
+msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
 "on %(project_name)s and join the %(team_name)s team."
 msgstr ""
@@ -12291,6 +12902,9 @@ msgstr "封鎖使用者"
 
 msgid "View notification"
 msgstr "檢視通知"
+
+msgid "View full change"
+msgstr "查看完整變更"
 
 msgid "No matching activity found."
 msgstr "找不到相符的活動。"
@@ -12862,6 +13476,11 @@ msgstr "您即將繼續重設 Weblate 帳號的密碼。"
 msgid "You are about to continue removing your Weblate account."
 msgstr "您即將繼續移除 Weblate 帳號。"
 
+msgid ""
+"You are about to continue adding this e-mail address to your existing "
+"Weblate account."
+msgstr "接下來將繼續把此電子郵件地址新增至您現有的 Weblate 帳號。"
+
 msgid "You are about to accept an invitation and create a Weblate account."
 msgstr "您即將接受邀請並建立 Weblate 帳號。"
 
@@ -12876,6 +13495,9 @@ msgstr "繼續重設密碼"
 
 msgid "Continue account removal"
 msgstr "繼續移除帳號"
+
+msgid "Continue e-mail verification"
+msgstr "繼續驗證電子郵件"
 
 msgid "Accept invitation"
 msgstr "接受邀請"
@@ -12963,9 +13585,6 @@ msgstr "Weblate 無法驗證專案網站 URL："
 
 msgid "Weblate CDN add-on could not parse the HTML files."
 msgstr "Weblate CDN 附加元件無法解析 HTML 檔案。"
-
-msgid "Filename"
-msgstr "檔案名稱"
 
 msgid ""
 "The local repository checkout or its Git directory is missing. Repeated "
@@ -13376,7 +13995,7 @@ msgstr "在 Weblate 新增翻譯或將翻譯提交至儲存庫後，此警示便
 msgid ""
 "Starting new translations directly in Weblate is possible, and creates files "
 "based on the file mask."
-msgstr "可以直接在 Weblate 開始新翻譯，並建立以檔案遮罩為基礎的檔案。"
+msgstr "可直接在 Weblate 建立新翻譯，系統會依檔案遮罩建立檔案。"
 
 #, python-format
 msgid ""
@@ -13401,7 +14020,8 @@ msgstr "Weblate 無法在更新翻譯時解析翻譯檔案。"
 msgid ""
 "Weblate pushed the changes and created the pull request, but could not apply "
 "the configured labels or assignees."
-msgstr "Weblate 已推送變更並建立 Pull request，但無法套用設定的標籤或指派對象。"
+msgstr ""
+"Weblate 已推送變更並建立 Pull request，但無法套用設定的標籤或指派對象。"
 
 msgid ""
 "Check that the labels and assignees exist and that Weblate can write pull "
@@ -13534,6 +14154,9 @@ msgstr "跳至日期"
 msgid "Go"
 msgstr "前往"
 
+msgid "Change details"
+msgstr "變更詳細資料"
+
 msgid "Download latest changes as CSV"
 msgstr "將最近的變更以 CSV 檔下載"
 
@@ -13634,9 +14257,6 @@ msgstr ""
 
 msgid "Add or configure account"
 msgstr "新增或設定帳號"
-
-msgid "Branch"
-msgstr "分支"
 
 msgid "Visibility"
 msgstr "可見性"
@@ -13933,9 +14553,6 @@ msgstr ""
 
 msgid "Edit source"
 msgstr "編輯來源字串"
-
-msgid "Cancel"
-msgstr "取消"
 
 msgid "Learn more about pushing changes from Weblate."
 msgstr "進一步瞭解如何從 Weblate 推送變更。"
@@ -14287,6 +14904,13 @@ msgstr "您可以在此新增翻譯字串，它會自動出現在所有翻譯中
 
 msgid "Quick downloads"
 msgstr "快速下載"
+
+msgid ""
+"Original files can contain contributor identities and require additional "
+"permission. Use a generated export below for offline translation."
+msgstr ""
+"原始檔案可能包含貢獻者身分資訊，需額外權限才能存取。如需離線翻譯，請使用下方"
+"產生的匯出檔案。"
 
 msgid "File in original format as translated in the repository"
 msgstr "儲存庫中已經翻譯的原始格式檔案"
@@ -14787,8 +15411,8 @@ msgid ""
 "A language translation became fully translated after an individual edit. "
 "Automatic translation, uploads, and bulk edits do not emit this event."
 msgstr ""
-"個別編輯後，某個語言的翻譯已全部完成。自動翻譯、上傳及大量編輯不會觸發此事"
-"件。"
+"個別編輯後，某個語言的翻譯已全部完成。自動翻譯、上傳及批次編輯不會觸發此事件"
+"。"
 
 msgid "Translation completed"
 msgstr "完成了翻譯"
@@ -15013,9 +15637,6 @@ msgstr "重新命名了組件"
 msgid "A component was moved within a project."
 msgstr "已在專案中移動組件。"
 
-msgid "Moved component"
-msgstr "移動了組件"
-
 msgid "A user made their first contribution to a translation."
 msgstr "使用者首次對翻譯做出貢獻。"
 
@@ -15202,7 +15823,7 @@ msgid ""
 "individual edit. Automatic translation, uploads, and bulk edits do not emit "
 "this event."
 msgstr ""
-"個別編輯後，組件中所有語言的翻譯皆已全部完成。自動翻譯、上傳及大量編輯不會觸"
+"個別編輯後，組件中所有語言的翻譯皆已全部完成。自動翻譯、上傳及批次編輯不會觸"
 "發此事件。"
 
 msgid "Component translation completed"
@@ -15526,7 +16147,7 @@ msgid "Could not parse translation files."
 msgstr "無法解析翻譯檔案。"
 
 msgid "No file mask matches."
-msgstr "找不到符合的檔案遮罩。"
+msgstr "找不到符合檔案遮罩的翻譯檔案。"
 
 msgid "Inexistent files."
 msgstr "無此檔案。"
@@ -15621,6 +16242,15 @@ msgid ""
 msgstr ""
 "部分來源組件的複數形式與目標翻譯不符。自動翻譯已略過含複數形式的字串，只處理"
 "單一形式的字串。"
+
+msgid ""
+"Automatic translation lost its database connection. Please try again later."
+msgstr "自動翻譯與資料庫的連線已中斷，請稍後再試。"
+
+msgid ""
+"Automatic translation is already running for this translation. Please try "
+"again later."
+msgstr "這份翻譯的自動翻譯作業已在執行中，請稍後再試。"
 
 #, python-format
 msgid "Automatic translation failed: %s"
@@ -15740,7 +16370,8 @@ msgstr "因連結的儲存庫無法使用，已略過組件 %(component)s。"
 msgid ""
 "Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
 "it is unknown."
-msgstr "已略過組件 %(component)s 的 %(family)s 中無法識別的參數 %(parameter)s。"
+msgstr ""
+"已略過組件 %(component)s 的 %(family)s 中無法識別的參數 %(parameter)s。"
 
 #, python-format
 msgid ""
@@ -15768,6 +16399,10 @@ msgstr "目標狀態無效。"
 
 msgid "Choose either replacement or clearing translations."
 msgstr "請擇一執行取代或清空翻譯。"
+
+#, python-format
+msgid "Bulk edits are limited to %(limit)d strings. Narrow the search query."
+msgstr "批次編輯一次最多可處理 %(limit)d 個字串，請縮小搜尋範圍。"
 
 msgid "The component was automatically locked because of an alert."
 msgstr "組件因警告而自動鎖定。"
@@ -15823,6 +16458,9 @@ msgstr "原始修訂版：{}"
 
 msgid "New revision: {}"
 msgstr "新的修訂版：{}"
+
+msgid "Content is too long to show in the change list."
+msgstr "內容過長，無法顯示在變更清單中。"
 
 #, python-format
 msgctxt "Number of edits on a change in Damerau–Levenshtein distance"
@@ -15930,6 +16568,11 @@ msgstr "檔案遮罩符合主組件。"
 #, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
 msgstr "{filename}（{parameter}）不存在。"
+
+#. Translators: condensed rendering of a change action in history
+#, python-format
+msgid "%(action)s at %(time)s on %(translation)s"
+msgstr "在 %(time)s 對 %(translation)s %(action)s"
 
 #. Translators: %s is site title here
 #, python-format
@@ -16091,6 +16734,49 @@ msgstr "MAC (\\r)"
 
 msgid "Include closing tag for blank XML tags"
 msgstr "包含空白 XML 標記的結束標記"
+
+msgid "UTF-8 byte order mark"
+msgstr "UTF-8 位元組順序標記"
+
+msgid "Preserve input"
+msgstr "保留輸入檔案的設定"
+
+msgid "Always include"
+msgstr "一律包含"
+
+msgid "Always omit"
+msgstr "一律省略"
+
+msgid ""
+"Controls the UTF-8 byte order mark. Other encodings are unchanged. New files "
+"without a template omit the mark when preserving input."
+msgstr ""
+"設定是否包含 UTF-8 位元組順序標記，其他編碼不受影響。選擇保留輸入檔案的設定時"
+"，若新檔案沒有範本，就會省略此標記。"
+
+msgid "XML declaration encoding case"
+msgstr "XML 宣告中編碼名稱的大小寫"
+
+msgid "Format default"
+msgstr "使用格式預設值"
+
+msgid "Uppercase"
+msgstr "大寫"
+
+msgid "Lowercase"
+msgstr "小寫"
+
+msgid ""
+"Controls encoding names in the XML declaration, for example \"UTF-8\" or "
+"\"utf-8\"."
+msgstr "設定 XML 宣告中編碼名稱的大小寫，例如「UTF-8」或「utf-8」。"
+
+msgid "XML final newline"
+msgstr "XML 檔案結尾換行"
+
+msgid ""
+"Controls the newline at the end of the file, using the format's line endings."
+msgstr "設定檔案結尾是否換行，並使用該格式的換行字元。"
 
 msgid "Whitespace handling"
 msgstr "空白字元處理方式"
@@ -16634,6 +17320,9 @@ msgstr "每日變更數上限"
 msgid "Maximum source words per day"
 msgstr "每日來源單字上限"
 
+msgid "This component does not exist or you cannot access it."
+msgstr "此組件不存在，或您沒有存取權。"
+
 msgid "Inherit from workspace"
 msgstr "繼承自工作空間"
 
@@ -16837,8 +17526,8 @@ msgid ""
 "Case-sensitive text or regular expression to replace in matching strings. "
 "Leave empty to disable replacement."
 msgstr ""
-"要在符合條件的字串中取代的文字或正規表達式，區分大小寫。留白即可停用取代功能"
-"。"
+"要在符合條件的字串中取代的文字或正規表達式，區分大小寫。留白即可停用取代功"
+"能。"
 
 msgid "Replacement string"
 msgstr "取代用字串"
@@ -16888,12 +17577,14 @@ msgstr "來源旗標"
 msgid ""
 "Flags are set on the source strings corresponding to your selection and "
 "apply to their translations in every language."
-msgstr "旗標會設定在所選項目對應的來源字串上，並套用至這些字串在所有語言中的翻譯。"
+msgstr ""
+"旗標會設定在所選項目對應的來源字串上，並套用至這些字串在所有語言中的翻譯。"
 
 msgid ""
 "Flags are set on the source strings corresponding to your filter results and "
 "apply to their translations in every language."
-msgstr "旗標會設定在篩選結果對應的來源字串上，並套用至這些字串在所有語言中的翻譯。"
+msgstr ""
+"旗標會設定在篩選結果對應的來源字串上，並套用至這些字串在所有語言中的翻譯。"
 
 msgid ""
 "Flags apply only to translations in your selection. Source strings are "
@@ -17334,11 +18025,6 @@ msgstr "透過文件上傳建立了組件"
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(user)s 在 %(time)s 對 %(translation)s %(action)s"
 
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "在 %(time)s 對 %(translation)s %(action)s"
-
 msgctxt "Change origin badge"
 msgid "API"
 msgstr "API"
@@ -17710,7 +18396,7 @@ msgstr "鍵值篩選器"
 msgid ""
 "Regular expression used to filter keys. This is only available for "
 "monolingual formats."
-msgstr "用於篩選鍵值的正規表達式。這僅適用於單語言格式。"
+msgstr "用於篩選索引鍵的正規表達式。僅適用於單語言格式。"
 
 msgid "This setting is inherited from the project if left empty."
 msgstr "如果此設定留空，則從專案繼承。"
@@ -17978,6 +18664,9 @@ msgstr ""
 "不使用合併請求進行推送時，需要儲存庫的寫入權限。請設定含認證資訊的推送 URL，"
 "或使用 SSH 儲存庫 URL。"
 
+msgid "The file mask is too complex and took too long to evaluate."
+msgstr "檔案遮罩過於複雜，評估時間過長。"
+
 msgid ""
 "A component can not be restricted while its project uses shared translation "
 "memory."
@@ -18053,13 +18742,13 @@ msgid "Project regular expression"
 msgstr "專案正規表達式"
 
 msgid "Regular expression which is used to match project slug."
-msgstr "用來比對專案 slug 的正規表達式。"
+msgstr "用來比對專案代稱的正規表達式。"
 
 msgid "Component regular expression"
 msgstr "組件正規表達式"
 
 msgid "Regular expression which is used to match component slug."
-msgstr "用來比對組件 slug 的正規表達式。"
+msgstr "用來比對組件代稱的正規表達式。"
 
 msgid "Component list to assign"
 msgstr "要指派的組件清單"
@@ -18522,6 +19211,27 @@ msgstr[0] ""
 "已接受來自 %(user)s 的 %(total)d 個建議中的 %(accepted)d 個。%(failed)d 個因"
 "權限或檢查而失敗。"
 
+msgid "Bulk edit parameters are no longer valid."
+msgstr "批次編輯參數已失效。"
+
+#, python-format
+msgid "Bulk edit failed after processing %(count)d strings: %(error)s"
+msgstr "處理 %(count)d 個字串後，批次編輯失敗：%(error)s"
+
+msgid "The target or permissions changed."
+msgstr "操作對象或權限已變更。"
+
+#, python-format
+msgid ""
+"Bulk edit failed after processing %(count)d strings. Earlier batches may "
+"have been applied."
+msgstr "處理 %(count)d 個字串後，批次編輯失敗。先前批次的變更可能已套用。"
+
+#, python-format
+msgid "Bulk edit completed, %d string was updated."
+msgid_plural "Bulk edit completed, %d strings were updated."
+msgstr[0] "批次編輯完成，已更新 %d 個字串。"
+
 msgid "Automatic translation skipped because the target no longer exists."
 msgstr "由於目標已不存在，已略過自動翻譯。"
 
@@ -18713,7 +19423,7 @@ msgid "Update source strings upload is not supported with this format."
 msgstr "不支援以此格式上傳更新原始字串。"
 
 msgid "File mask does not contain * as a language placeholder!"
-msgstr "檔案遮罩不包含作語言代碼預留位置用的 * 號！"
+msgstr "檔案遮罩未包含用來代表語言的 *！"
 
 msgid ""
 "A value of 1 is not allowed for automatic acceptance as it would permit "
@@ -18772,6 +19482,9 @@ msgstr "不能移除自己！"
 msgid "You can not block yourself on this project."
 msgstr "您不能在此專案中封鎖自己。"
 
+msgid "Remove project administration rights before blocking this user."
+msgstr "封鎖此使用者前，請先移除其專案管理權限。"
+
 msgid "User has been blocked on this project."
 msgstr "在這專案當中使用者被封鎖。"
 
@@ -18816,6 +19529,9 @@ msgid_plural ""
 "Language %(language)s could not be added to %(count)d components. Please "
 "check the components' configuration."
 msgstr[0] "無法將 %(language)s 語言加入到 %(count)d 個組件中。請檢查組件設定。"
+
+msgid "You do not have permission to add this language."
+msgstr "您沒有新增此語言的權限。"
 
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
@@ -19050,11 +19766,17 @@ msgstr "組件現在因翻譯更新而鎖定中！"
 msgid "All components are now locked for translation updates!"
 msgstr "所有組件現在因翻譯更新而鎖定中！"
 
+msgid "Allowed components are now locked for translation updates!"
+msgstr "您有權限操作的組件現已鎖定，無法更新翻譯！"
+
 msgid "Component is now open for translation updates."
 msgstr "組件現在開放更新翻譯。"
 
 msgid "All components are now open for translation updates."
 msgstr "現已開放所有組件更新翻譯。"
+
+msgid "Allowed components are now open for translation updates."
+msgstr "您有權限操作的組件現已開放更新翻譯。"
 
 msgid "Generating report…"
 msgstr "正在產生報告…"
@@ -19114,11 +19836,17 @@ msgstr "查詢太多次，請稍後重試。"
 msgid "Invalid search query!"
 msgstr "不正確搜尋查詢！"
 
+msgid "Too many bulk edits, please try again later."
+msgstr "批次編輯操作過多，請稍後再試。"
+
 msgid "The preview has expired or is invalid. Preview the changes again."
 msgstr "預覽已過期或無效，請重新預覽變更。"
 
 msgid "Could not process form!"
 msgstr "無法處理表單！"
+
+msgid "Bulk edit in progress."
+msgstr "正在進行批次編輯。"
 
 #, python-format
 msgid "Bulk edit failed: %s"
@@ -19126,11 +19854,6 @@ msgstr "批次編輯失敗：%s"
 
 msgid "Bulk edit completed, no strings were updated."
 msgstr "批次編輯完成，未更新任何字串。"
-
-#, python-format
-msgid "Bulk edit completed, %d string was updated."
-msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] "大量編輯完成，%d 個字串已更新。"
 
 msgid "Settings saved"
 msgstr "設定已儲存"
@@ -19389,6 +20112,9 @@ msgstr "正規表達式或取代文字無效：%s"
 
 msgid "Automatic translation reported a warning."
 msgstr "自動翻譯回報了警告。"
+
+msgid "Automatic translation is waiting for another operation to finish."
+msgstr "自動翻譯正在等待另一項操作完成。"
 
 msgid "Automatic translation failed. See the task log for details."
 msgstr "自動翻譯失敗。詳情請查看工作記錄。"
@@ -19659,13 +20385,13 @@ msgid "Compilation failed: {0}"
 msgstr "彙編失敗：{0}"
 
 msgid "The regular expression can not match an empty string."
-msgstr "正規表達式無法比對空字串。"
+msgstr "正規表達式不得比對到空字串。"
 
 #, python-brace-format
 msgid ""
 "Regular expression is missing named group \"{0}\", the simplest way to "
 "define it is {1}."
-msgstr "正規表達式缺少命名群組「{0}」，最簡單的方法是將之定義為 {1}。"
+msgstr "正規表達式缺少具名群組「{0}」，最簡單的定義方式為 {1}。"
 
 msgid "Uploaded ZIP file is too big."
 msgstr "上傳的 ZIP 檔案過大。"
@@ -19792,6 +20518,9 @@ msgstr "Fediverse URL 應連結到 Fediverse 使用者個人檔案。"
 
 msgid "URL domain is not allowed."
 msgstr "URL 域名不被允許。"
+
+msgid "AMQP broker URLs must not contain query strings or fragments."
+msgstr "AMQP 訊息代理伺服器的網址不得包含查詢字串或片段。"
 
 msgid "Repository URL contains unsafe characters."
 msgstr "儲存庫 URL 含有不安全字元。"
@@ -19969,7 +20698,8 @@ msgstr "自訂 Pull request 時，%(service)s API 請求失敗：%(status)s"
 msgid ""
 "%(service)s API request failed while customizing a pull request: %(status)s "
 "Please retry later."
-msgstr "自訂 Pull request 時，%(service)s API 請求失敗：%(status)s 請稍後再試。"
+msgstr ""
+"自訂 Pull request 時，%(service)s API 請求失敗：%(status)s 請稍後再試。"
 
 #, python-format
 msgid ""
@@ -20361,8 +21091,8 @@ msgid ""
 "Also assign the GitHub account linked to the Weblate user who starts the "
 "push, when available."
 msgstr ""
-"若發起推送的 Weblate 使用者已連結 GitHub 帳號，也將 Pull request 指派給該帳號"
-"。"
+"若發起推送的 Weblate 使用者已連結 GitHub 帳號，也將 Pull request 指派給該帳"
+"號。"
 
 msgid "Pull request labels"
 msgstr "Pull request 標籤"
@@ -20370,7 +21100,8 @@ msgstr "Pull request 標籤"
 msgid ""
 "Comma-separated names of labels to add to pull requests created by Weblate. "
 "Existing labels are kept."
-msgstr "要新增至 Weblate 建立的 Pull request 的標籤名稱，以逗號分隔。既有標籤會保留。"
+msgstr ""
+"要新增至 Weblate 建立的 Pull request 的標籤名稱，以逗號分隔。既有標籤會保留。"
 
 msgid "Merge pull requests automatically"
 msgstr "自動合併拉取請求"
@@ -20695,6 +21426,54 @@ msgid ""
 "there is room for a full menu."
 msgstr "右上角恆久顯示導覽用下拉選單，即使畫面空間足以呈現完整選單時依然如此。"
 
+msgid "CSV report"
+msgstr "CSV 報告"
+
+msgid "Delimiter"
+msgstr "分隔字元"
+
+msgid ""
+"Leave blank to detect automatically. Use a comma, semicolon, pipe, or \\t "
+"for a tab."
+msgstr "留白即可自動偵測。可使用逗號、分號、直線符號，或以 \\t 代表定位字元。"
+
+msgid "First row contains column names"
+msgstr "第一列包含欄位名稱"
+
+msgid "Username or e-mail column"
+msgstr "使用者名稱或電子郵件地址欄號"
+
+msgid "Password column"
+msgstr "密碼欄號"
+
+msgid ""
+"Specify both column numbers, or leave both blank for automatic detection."
+msgstr "請填寫這兩個欄位的欄號，或將兩者都留白以自動偵測。"
+
+msgid "Configuring"
+msgstr "設定中"
+
+msgid "Running"
+msgstr "執行中"
+
+msgid "Open"
+msgstr "未結案"
+
+msgid "Resolved"
+msgstr "已解決"
+
+msgid "Dismissed by administrator"
+msgstr "管理員已忽略"
+
+msgid "Lookalike e-mail identity removed"
+msgstr "已移除外觀相似的電子郵件身分"
+
+msgid "E-mail identity already changed"
+msgstr "電子郵件身分已變更"
+
+msgid "Password already changed"
+msgstr "密碼已變更"
+
 #. Translators: The Weblate server has no paid support by the Weblate team
 msgid "Community support"
 msgstr "社群支援"
@@ -20756,11 +21535,142 @@ msgstr "已清理備份儲存區"
 msgid "Repository initialization"
 msgstr "初始化儲存庫"
 
+msgid "Leaked password"
+msgstr "外洩的密碼"
+
+msgid "Lookalike verified e-mail address"
+msgstr "外觀相似的已驗證電子郵件地址"
+
+msgid "The uploaded report has expired. Upload it again."
+msgstr "上傳的報告已過期，請重新上傳。"
+
+msgid ""
+"Could not detect the credential columns. Configure their column numbers."
+msgstr "無法偵測登入憑證欄位，請設定這些欄位的欄號。"
+
+msgid "Choose different identifier and password columns."
+msgstr "帳號識別資料與密碼必須選擇不同的欄位。"
+
+msgid "The report exceeds the 10 MiB limit."
+msgstr "報告超過 10 MiB 的大小限制。"
+
+msgid "Upload a UTF-8 encoded CSV file."
+msgstr "請上傳 UTF-8 編碼的 CSV 檔案。"
+
+msgid ""
+"Could not detect the delimiter. Configure the CSV columns and delimiter."
+msgstr "無法偵測分隔字元，請設定 CSV 欄位與分隔字元。"
+
+msgid "Choose a single delimiter character."
+msgstr "請使用單一字元作為分隔字元。"
+
+msgid "The file contains malformed CSV quoting."
+msgstr "檔案中的 CSV 引號格式不正確。"
+
+msgid "The report is empty."
+msgstr "報告內容空白。"
+
+msgid "The report exceeds the 50,000 row limit."
+msgstr "報告超過 50,000 列的上限。"
+
+msgid "The report contains no credential rows."
+msgstr "報告中沒有包含登入憑證的資料列。"
+
+msgid ""
+"The initiating administrator no longer has permission to perform this "
+"operation."
+msgstr "發起操作的管理員已無權執行此操作。"
+
+msgid ""
+"The security operation failed. Review any findings already recorded and "
+"start a new operation."
+msgstr "安全性操作失敗。請檢閱已記錄的安全問題，並開始新的操作。"
+
+msgid "Security report"
+msgstr "安全性報告"
+
+#, python-format
+msgid "Report from %(date)s"
+msgstr "%(date)s 的報告"
+
+#, python-format
+msgid "%(filename)s — %(report)s"
+msgstr "%(filename)s — %(report)s"
+
+msgid ""
+"Your identity verification has expired. Confirm your identity, then select "
+"and upload the CSV report again."
+msgstr "您的身分驗證已過期。請先確認身分，再重新選取並上傳 CSV 報告。"
+
+msgid "Could not store the encrypted upload. Try again."
+msgstr "無法儲存加密的上傳檔案，請再試一次。"
+
+msgid "Choose a CSV report of at most 10 MiB."
+msgstr "請選擇大小不超過 10 MiB 的 CSV 報告。"
+
+msgid "Could not read the uploaded report. Upload it again."
+msgstr "無法讀取上傳的報告，請重新上傳。"
+
+msgid "Passwords checked"
+msgstr "已檢查的密碼"
+
+msgid "Duplicate rows"
+msgstr "重複的資料列"
+
+msgid "Unknown accounts"
+msgstr "找不到的帳號"
+
+msgid "Ambiguous accounts"
+msgstr "無法唯一識別的帳號"
+
+msgid "Malformed rows"
+msgstr "格式不正確的資料列"
+
+msgid "Unusable passwords"
+msgstr "無法使用的密碼"
+
+msgid "Passwords that did not match"
+msgstr "不相符的密碼"
+
+msgid "Passwords reset"
+msgstr "已重設的密碼"
+
+msgid "Lookalike e-mail identities removed"
+msgstr "已移除外觀相似的電子郵件身分"
+
+msgid "E-mail identities already changed"
+msgstr "電子郵件身分已變更"
+
+msgid "Passwords already changed"
+msgstr "密碼已變更"
+
+msgid "Dismissed findings"
+msgstr "已忽略的安全問題"
+
+msgid "Skipped findings"
+msgstr "已略過的安全問題"
+
+msgid "Unsupported actions"
+msgstr "不支援的操作"
+
+msgid "Primary e-mail address"
+msgstr "主要電子郵件地址"
+
+msgid "Verified e-mail address"
+msgstr "已驗證的電子郵件地址"
+
+#, python-format
+msgid "Finding for %(username)s"
+msgstr "%(username)s 的安全問題"
+
 msgid "Weblate administration"
 msgstr "Weblate 管理"
 
 msgid "Object listing turned off"
 msgstr "物件表列已關閉"
+
+msgid "The security operation expired. Start a new operation."
+msgstr "安全性操作已過期，請開始新的操作。"
 
 msgid "Return to Weblate"
 msgstr "返回 Weblate"
@@ -20919,6 +21829,28 @@ msgstr "工作空間仍在使用中，因此無法移除。"
 
 msgid "The workspace has been removed."
 msgstr "工作空間已移除。"
+
+#, python-format
+#~ msgid ""
+#~ "Fedora Messaging publisher service was unavailable; the connection will "
+#~ "be recreated on the next attempt: %(error)s"
+#~ msgstr ""
+#~ "Fedora Messaging 發佈服務無法使用；下次嘗試時將重新建立連線：%(error)s"
+
+#~ msgid "Could not reset Fedora Messaging publisher service."
+#~ msgstr "無法重設 Fedora Messaging 發佈服務。"
+
+#, python-format
+#~ msgid "Fedora Messaging broker URL is invalid: %(error)s"
+#~ msgstr "Fedora Messaging broker URL 無效：%(error)s"
+
+#~ msgid "E-mail verification almost complete"
+#~ msgstr "電子郵件驗證即將完成"
+
+#~ msgid ""
+#~ "Click the confirmation link sent to your e-mail inbox to verify the "
+#~ "address for your account."
+#~ msgstr "請點選寄到您信箱中的確認連結，驗證帳號使用的電子郵件地址。"
 
 #~ msgid "Search and replace"
 #~ msgstr "搜尋並取代"
@@ -21244,9 +22176,6 @@ msgstr "工作空間已移除。"
 #~ msgid "Join us in shaping the future of localization and contribute today!"
 #~ msgstr "加入我們，共同塑造在地化的未來，立刻開始貢獻！"
 
-#~ msgid "Download reports"
-#~ msgstr "下載報表"
-
 #~ msgid "DeepL API v1 is no longer supported."
 #~ msgstr "不再支援 DeepL API v1。"
 
@@ -21378,9 +22307,6 @@ msgstr "工作空間已移除。"
 #~ "showing a preview of edited strings before the actual change is confirmed."
 #~ msgstr ""
 #~ "不用擔心會弄亂字串。這分成兩個步驟：先預覽編輯字串，才會確認實際變更。"
-
-#~ msgid "Activation completed."
-#~ msgstr "啟用完成。"
 
 #, python-format
 #~ msgid "Could not activate your installation: %s"
@@ -22238,9 +23164,6 @@ msgstr "工作空間已移除。"
 #~ msgid "Starting date"
 #~ msgstr "開始日期"
 
-#~ msgid "Ending date"
-#~ msgstr "結束日期"
-
 #~ msgid "Last 30 days"
 #~ msgstr "近 30 天"
 
@@ -22382,9 +23305,6 @@ msgstr "工作空間已移除。"
 #~ msgid "Committed changes"
 #~ msgstr "送交了更動"
 
-#~ msgid "Pushed changes"
-#~ msgstr "推送了更動"
-
 #~ msgid "Failed merge on repository"
 #~ msgstr "無法合併到儲存庫"
 
@@ -22514,9 +23434,6 @@ msgstr "工作空間已移除。"
 
 #~ msgid "New language"
 #~ msgstr "新增語言"
-
-#~ msgid "Check details"
-#~ msgstr "查核的詳細資訊"
 
 #~ msgid ""
 #~ "Customizable quality checks will help you improve the quality of "
@@ -23667,9 +24584,6 @@ msgstr "工作空間已移除。"
 #~ msgid "Toggle edit needed flag"
 #~ msgstr "切換需編輯的標記"
 
-#~ msgid "Merge failure"
-#~ msgstr "合併失敗"
-
 #~ msgid "Standard user"
 #~ msgstr "標準使用者"
 
@@ -23832,9 +24746,6 @@ msgstr "工作空間已移除。"
 #~ msgid "User has all permissions without having been given them."
 #~ msgstr "使用者擁有所有的權利許可，無須特別指派。"
 
-#~ msgid "active"
-#~ msgstr "有效"
-
 #~ msgid ""
 #~ "Choose languages you speak in the preferences, to see an overview of all "
 #~ "projects that feature those languages here."
@@ -23893,9 +24804,6 @@ msgstr "工作空間已移除。"
 
 #~ msgid "Host:"
 #~ msgstr "主機："
-
-#~ msgid "Process"
-#~ msgstr "處理"
 
 #~ msgid "Automatically add language file"
 #~ msgstr "自動加入語言檔"
@@ -26074,9 +26982,6 @@ msgstr "工作空間已移除。"
 #~ msgid "Messages"
 #~ msgstr "訊息"
 
-#~ msgid "Others"
-#~ msgstr "其它"
-
 #~ msgid "Subprojects"
 #~ msgstr "子專案"
 
@@ -26104,9 +27009,6 @@ msgstr "工作空間已移除。"
 
 #~ msgid "Words extracted from glossary"
 #~ msgstr "從詞彙表中提取出單字"
-
-#~ msgid "Comments (%(count)s)"
-#~ msgstr "評論 (%(count)s)"
 
 #~ msgid "Source string details and feedback"
 #~ msgstr "來源字串的細節和回報"
@@ -26166,12 +27068,6 @@ msgstr "工作空間已移除。"
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."
 #~ msgstr "您的個人設定檔已經移轉，您可能想要調整參數。"
-
-#~ msgid "Old password"
-#~ msgstr "舊密碼"
-
-#~ msgid "The two password fields didn't match."
-#~ msgstr "兩個密碼欄位並不符合。"
 
 #~ msgid "Your account could not be activated"
 #~ msgstr "無法啟動您的帳號"

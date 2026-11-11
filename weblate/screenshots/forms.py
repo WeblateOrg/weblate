@@ -21,7 +21,10 @@ from django.utils.translation import gettext, gettext_lazy
 from weblate.screenshots.models import Screenshot
 from weblate.trans.forms import QueryField
 from weblate.utils.forms import AssetImageField, SortedSelect
-from weblate.utils.requests import open_restricted_asset_url
+from weblate.utils.requests import (
+    ResponseTooLarge,
+    fetch_restricted_asset_url,
+)
 from weblate.utils.validators import ALLOWED_IMAGES, WeblateURLValidator
 
 if TYPE_CHECKING:
@@ -33,31 +36,21 @@ class ScreenshotImageValidationMixin(BaseForm):
         raise forms.ValidationError({"image_url": message})
 
     def get_image_url_content(self, url: str) -> tuple[bytes, str]:
-        with open_restricted_asset_url(
-            "get",
-            url,
-            allow_private_targets=not settings.ASSET_RESTRICT_PRIVATE,
-            private_allowlist=settings.ASSET_PRIVATE_ALLOWLIST,
-        ) as response:
-            content = b""
-            for chunk in response.iter_bytes(
-                chunk_size=settings.ALLOWED_ASSET_SIZE + 1
-            ):
-                if not content:
-                    content = chunk
-                else:
-                    # This can be slow, but it typically won't happen
-                    content += chunk
-                if len(content) > settings.ALLOWED_ASSET_SIZE:
-                    break
-            if len(content) > settings.ALLOWED_ASSET_SIZE:
-                self.raise_image_url_error(gettext("Image is too big."))
-            content_type = response.headers.get("Content-Type")
-            if not content_type or content_type not in ALLOWED_IMAGES:
-                self.raise_image_url_error(
-                    gettext("Unsupported image type: %s") % content_type
-                )
-            return content, content_type
+        try:
+            response = fetch_restricted_asset_url(
+                "get",
+                url,
+                allow_private_targets=not settings.ASSET_RESTRICT_PRIVATE,
+                private_allowlist=settings.ASSET_PRIVATE_ALLOWLIST,
+            )
+        except ResponseTooLarge:
+            self.raise_image_url_error(gettext("Image is too big."))
+        content_type = response.headers.get("Content-Type")
+        if not content_type or content_type not in ALLOWED_IMAGES:
+            self.raise_image_url_error(
+                gettext("Unsupported image type: %s") % content_type
+            )
+        return response.content, content_type
 
     def clean_images(
         self, cleaned_data: dict[str, Any], edit: bool = False

@@ -405,7 +405,7 @@ class ImportTest(ImportBaseTest):
                     "invalid page in block 876338 of relation base/16386/17990"
                 ),
             ),
-            patch("weblate.trans.views.files.report_error") as mocked_report_error,
+            patch("weblate.trans.uploads.report_error") as mocked_report_error,
         ):
             response = self.do_import(follow=True)
 

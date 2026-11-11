@@ -33,6 +33,7 @@ from weblate.lang.data import FORMULA_WITH_ZERO
 from weblate.lang.models import Language, Plural
 from weblate.memory.machine import WeblateMemory
 from weblate.memory.models import (
+    MEMORY_IMPORT_BATCH_SIZE,
     MEMORY_LOOKUP_LIMIT,
     MEMORY_LOOKUP_PREFIX_LENGTH,
     Memory,
@@ -83,6 +84,7 @@ from weblate.trans.tasks import (
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import create_another_user, get_test_actor, get_test_file
 from weblate.utils.hash import hash_to_checksum
+from weblate.utils.ratelimit import RateLimitHttpRequest
 from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED
 from weblate.workspaces.models import Workspace
 
@@ -146,6 +148,66 @@ class MemoryParserTest(SimpleTestCase):
         )
 
         self.assertEqual(len(list(store.units)), 1)
+
+    def test_json_entry_limit_precedes_schema_validation(self) -> None:
+        with (
+            patch("weblate.formats.limits.MAX_TRANSLATION_UNITS", 1),
+            patch("jsonschema.validate") as validate_data,
+            self.assertRaisesMessage(MemoryImportError, "count of 1 strings"),
+        ):
+            load_memory_json_data(b"[{}, {}]")
+        validate_data.assert_not_called()
+
+    def test_json_entry_limit_boundary(self) -> None:
+        content = Path(get_test_file("memory.json")).read_bytes()
+        with patch("weblate.formats.limits.MAX_TRANSLATION_UNITS", 1):
+            self.assertEqual(len(load_memory_json_data(content)), 1)
+
+    @override_settings(TRANSLATION_MAX_SIZE=1)
+    def test_import_size_limit_precedes_read(self) -> None:
+        for method in ("import_json", "import_tmx", "import_other_format"):
+            with (
+                self.subTest(method=method),
+                BytesIO(b"xx") as stream,
+                patch.object(stream, "read", wraps=stream.read) as read,
+                self.assertRaisesMessage(MemoryImportError, "1 bytes"),
+            ):
+                getattr(Memory.objects, method)(
+                    request=None, fileobj=stream, origin="memory.json"
+                )
+            read.assert_not_called()
+
+    def test_json_size_limit_boundary(self) -> None:
+        content = Path(get_test_file("memory.json")).read_bytes()
+        with override_settings(TRANSLATION_MAX_SIZE=len(content)):
+            self.assertEqual(len(load_memory_json_data(content)), 1)
+        with (
+            override_settings(TRANSLATION_MAX_SIZE=len(content) - 1),
+            self.assertRaisesMessage(MemoryImportError, "maximum allowed size"),
+        ):
+            load_memory_json_data(content)
+
+    def test_tmx_limits_count_units_and_target_variants(self) -> None:
+        source = b'<tuv xml:lang="en"><seg>Hello</seg></tuv>'
+        target = b'<tuv xml:lang="cs"><seg>Ahoj</seg></tuv>'
+        for units, targets in ((1, 1), (2, 1), (1, 2)):
+            content = (
+                b'<tmx version="1.4"><header srclang="en"/><body>'
+                + (b"<tu>" + source + target * targets + b"</tu>") * units
+                + b"</body></tmx>"
+            )
+            with (
+                self.subTest(units=units, targets=targets),
+                patch("weblate.formats.limits.MAX_TRANSLATION_UNITS", 1),
+            ):
+                if units == targets == 1:
+                    store = load_memory_tmx_store(BytesIO(content))
+                    self.assertEqual(len(store.units), 1)
+                else:
+                    with self.assertRaisesMessage(
+                        MemoryImportError, "count of 1 strings"
+                    ):
+                        load_memory_tmx_store(BytesIO(content))
 
     def test_import_tmx_missing_header(self) -> None:
         with self.assertRaisesMessage(
@@ -1533,6 +1595,192 @@ class MemoryModelTest(FixtureTestCase):
                 ],
             },
         )
+
+    def make_import_entries(
+        self, count: int, *, prefix: str = "Import"
+    ) -> list[Memory]:
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        return [
+            Memory(
+                source_language=source_language,
+                target_language=target_language,
+                source=f"{prefix} {index}",
+                target=f"Imported target {index}",
+                origin="memory.json",
+                context="context",
+                status=Memory.STATUS_ACTIVE,
+            )
+            for index in range(count)
+        ]
+
+    def test_import_queries_scale_by_batch(self) -> None:
+        query_counts = []
+        for count in (1, MEMORY_IMPORT_BATCH_SIZE):
+            entries = self.make_import_entries(count, prefix=f"Import {count}")
+            with CaptureQueriesContext(connection) as queries:
+                processed = Memory.objects.import_entries(
+                    entries, user=self.user, project=None, from_file=True
+                )
+            self.assertEqual(processed, count)
+            query_counts.append(len(queries))
+        self.assertEqual(query_counts[0], query_counts[1])
+        self.assertLessEqual(query_counts[0], 6)
+        entries = self.make_import_entries(4, prefix="Multiple batches")
+        with (
+            patch("weblate.memory.models.MEMORY_IMPORT_BATCH_SIZE", 2),
+            CaptureQueriesContext(connection) as queries,
+        ):
+            Memory.objects.import_entries(
+                entries, user=self.user, project=None, from_file=True
+            )
+        self.assertEqual(len(queries), 2 * query_counts[0])
+
+    def test_import_deduplicates_within_and_across_batches(self) -> None:
+        entries = self.make_import_entries(2)
+        with patch("weblate.memory.models.MEMORY_IMPORT_BATCH_SIZE", 2):
+            count = Memory.objects.import_entries(
+                [entries[0], entries[0], entries[1], entries[0]],
+                user=self.user,
+                project=None,
+                from_file=True,
+            )
+        self.assertEqual(count, 4)
+        self.assertEqual(Memory.objects.filter(origin="memory.json").count(), 2)
+        with CaptureQueriesContext(connection) as queries:
+            count = Memory.objects.import_entries(
+                self.make_import_entries(2),
+                user=self.user,
+                project=None,
+                from_file=True,
+            )
+        self.assertEqual(count, 2)
+        self.assertFalse(any("INSERT INTO" in query["sql"] for query in queries))
+        self.assertEqual(
+            MemoryScope.objects.filter(
+                scope=MemoryScope.SCOPE_USER_FILE,
+                user=self.user,
+                memory__origin="memory.json",
+            ).count(),
+            2,
+        )
+
+    def test_import_reuses_scoped_memory_and_normalizes_legacy_owner(self) -> None:
+        entries = self.make_import_entries(1)
+        memory = entries[0]
+        memory.legacy_project = self.project
+        memory.legacy_from_file = True
+        memory.save()
+        Memory.objects.import_entries(
+            self.make_import_entries(1), user=self.user, project=None, from_file=True
+        )
+        memory.refresh_from_db()
+        self.assertIsNone(memory.legacy_project_id)
+        self.assertFalse(memory.legacy_from_file)
+        self.assertEqual(Memory.objects.filter(origin="memory.json").count(), 1)
+        self.assertEqual(
+            set(memory.scopes.values_list("scope", flat=True)),
+            {MemoryScope.SCOPE_PROJECT_FILE, MemoryScope.SCOPE_USER_FILE},
+        )
+
+    def test_import_prefers_destination_scope_over_lower_id(self) -> None:
+        first, preferred = [self.make_import_entries(1)[0] for _ in range(2)]
+        first.legacy_project = self.project
+        first.legacy_from_file = True
+        first.save()
+        preferred.legacy_user = self.user
+        preferred.legacy_from_file = True
+        preferred.save()
+        Memory.objects.import_entries(
+            self.make_import_entries(1), user=self.user, project=None, from_file=True
+        )
+        self.assertFalse(first.scopes.filter(user=self.user).exists())
+        self.assertEqual(Memory.objects.filter(origin="memory.json").count(), 2)
+
+    def test_import_preserves_unscoped_memory_and_distinct_identity(self) -> None:
+        unscoped = self.make_import_entries(1)[0]
+        unscoped.save()
+        entries = self.make_import_entries(3)
+        entries[1].source = entries[0].source
+        entries[1].target = entries[0].target
+        entries[1].context = "other context"
+        entries[2].source = entries[0].source
+        entries[2].target = entries[0].target
+        entries[2].status = Memory.STATUS_PENDING
+        Memory.objects.import_entries(
+            entries, user=self.user, project=None, from_file=True
+        )
+        self.assertFalse(unscoped.scopes.exists())
+        self.assertEqual(Memory.objects.filter(origin="memory.json").count(), 4)
+
+    @override_settings(
+        DATABASE_ROUTERS=["weblate.memory.tests.MemoryReadReplicaRouter"]
+    )
+    def test_import_uses_write_database(self) -> None:
+        entries = self.make_import_entries(1)
+        for _ in range(2):
+            Memory.objects.import_entries(
+                entries, user=self.user, project=None, from_file=True
+            )
+        self.assertEqual(
+            Memory.objects.using("default").filter(origin="memory.json").count(), 1
+        )
+        self.assertEqual(
+            MemoryScope.objects.using("default")
+            .filter(user=self.user, scope=MemoryScope.SCOPE_USER_FILE)
+            .count(),
+            1,
+        )
+
+    def test_rejected_import_writes_nothing(self) -> None:
+        for filename in ("memory.json", "memory.tmx", "cs.po"):
+            with (
+                self.subTest(filename=filename),
+                patch("weblate.formats.limits.MAX_TRANSLATION_UNITS", 0),
+                open(get_test_file(filename), "rb") as handle,
+                self.assertRaisesMessage(MemoryImportError, "maximum allowed count"),
+                patch.object(Memory.objects, "import_entries") as write,
+            ):
+                Memory.objects.import_file(request=None, fileobj=handle, user=self.user)
+            write.assert_not_called()
+
+    def test_import_batch_rolls_back_when_scope_write_fails(self) -> None:
+        entries = self.make_import_entries(2)
+        with (
+            patch(
+                "weblate.memory.models.MemoryScopeManager.bulk_create_for_memories",
+                side_effect=DatabaseError("Scope write failed"),
+            ),
+            self.assertRaisesMessage(DatabaseError, "Scope write failed"),
+        ):
+            Memory.objects.import_entries(
+                entries, user=self.user, project=None, from_file=True
+            )
+        self.assertFalse(Memory.objects.filter(origin="memory.json").exists())
+
+    def test_tmx_language_error_precedes_all_writes(self) -> None:
+        content = (
+            b'<tmx version="1.4"><header srclang="en"/><body>'
+            b'<tu><tuv xml:lang="en"><seg>Hello</seg></tuv>'
+            b'<tuv xml:lang="cs"><seg>Ahoj</seg></tuv></tu>'
+            b'<tu><tuv xml:lang="en"><seg>Hello again</seg></tuv>'
+            b'<tuv xml:lang="unknown-language"><seg>Unknown</seg></tuv></tu>'
+            b"</body></tmx>"
+        )
+        with self.assertRaisesMessage(MemoryImportError, "Could not find language"):
+            Memory.objects.import_tmx(
+                request=None,
+                fileobj=BytesIO(content),
+                origin="invalid-language.tmx",
+                user=self.user,
+                from_file=True,
+            )
+        self.assertFalse(Memory.objects.filter(origin="invalid-language.tmx").exists())
+
+    @override_settings(TRANSLATION_MAX_SIZE=1)
+    def test_import_command_enforces_size_limit(self) -> None:
+        with self.assertRaisesMessage(CommandError, "maximum allowed size"):
+            call_command("import_memory", get_test_file("memory.json"))
 
     def do_import_file_command_test(
         self, filename: str, expected_count: int, **cmd_kwargs
@@ -4568,6 +4816,49 @@ class MemoryViewTest(FixtureTestCase):
 
         self.assertContains(response, "Uploaded translation file is too big.")
 
+    def test_upload_rate_limit_precedes_form_parsing(self) -> None:
+        with (
+            patch("weblate.memory.views.check_rate_limit", return_value=False) as limit,
+            patch("weblate.memory.views.UploadView.get_form") as form,
+            patch.object(Memory.objects, "import_file") as import_file,
+        ):
+            response = self.client.post(reverse("memory-upload"), {}, follow=True)
+        self.assertContains(response, "Too many uploads, please try again later.")
+        self.assertEqual(limit.call_args.args[0], "upload")
+        form.assert_not_called()
+        import_file.assert_not_called()
+
+    def test_upload_permission_denied_does_not_consume_rate_budget(self) -> None:
+        with patch("weblate.memory.views.check_rate_limit") as limit:
+            response = self.client.post(reverse("manage-memory-upload"), {})
+        self.assertEqual(response.status_code, 403)
+        limit.assert_not_called()
+
+    @override_settings(RATELIMIT_UPLOAD_ATTEMPTS=1)
+    def test_upload_shares_translation_rate_budget(self) -> None:
+        limiter = RateLimitHttpRequest("upload", user=self.user)
+        self.assertFalse(limiter.is_limit_exceeded()[0])
+        with patch.object(Memory.objects, "import_file") as import_file:
+            response = self.upload_file("memory.json")
+        self.assertContains(response, "Too many uploads, please try again later.")
+        import_file.assert_not_called()
+
+    @override_settings(RATELIMIT_UPLOAD_ATTEMPTS=1)
+    def test_upload_superuser_rate_exemption(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        limiter = RateLimitHttpRequest("upload", user=self.user)
+        self.assertFalse(limiter.is_limit_exceeded()[0])
+        self.assertTrue(limiter.is_limit_exceeded()[0])
+        with patch.object(Memory.objects, "import_file", return_value=1) as import_file:
+            self.upload_file("memory.json")
+        import_file.assert_called_once()
+
+    @override_settings(TRANSLATION_MAX_SIZE=1)
+    def test_upload_parser_size_limit(self) -> None:
+        response = self.upload_file("memory.json")
+        self.assertContains(response, "maximum allowed size of 1 bytes")
+
     def test_upload_reports_active_entry(self) -> None:
         unit = self.get_unit()
         target = "Uploaded active translation"
@@ -4772,10 +5063,13 @@ class MemoryViewTest(FixtureTestCase):
 
         # Test upload a file that requires source and target languages
         response = self.upload_file("ids-translated.xliff", **kwargs)
-        self.assertContains(
-            response,
-            "Source language and target language must be specified for this file format",
-        )
+        if fail:
+            self.assertContains(response, "Permission Denied", status_code=403)
+        else:
+            self.assertContains(
+                response,
+                "Source language and target language must be specified for this file format",
+            )
 
         en = Language.objects.get(code="en")
         cs = Language.objects.get(code="cs")

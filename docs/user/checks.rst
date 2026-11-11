@@ -16,6 +16,12 @@ Checks on the edited string update immediately. Related warnings for
 :ref:`reused translations <check-reused>` update in the background, so warnings
 and statistics on other strings can briefly reflect the previous translation.
 
+Built-in format matching uses a 0.3-second regular-expression timeout as a
+fallback to the format-specific scanners. A timeout reports that matching
+exceeded its time limit instead of treating an incomplete scan as successful.
+Markdown syntax checks also report matching timeouts as failures.
+Syntax highlighting discards incomplete matches when this timeout is reached.
+
 
 .. _autofix:
 

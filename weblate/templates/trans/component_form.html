@@ -13,7 +13,7 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
-  {% if not projects %}
+  {% if not projects and not form.fields.project.queryset %}
     {% translate "You do not have permission to create components in any projects." as msg %}
     {% show_message "warning" msg %}
 

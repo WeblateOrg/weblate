@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 from time import monotonic, process_time
+from unittest.mock import patch
 
 from django.test import SimpleTestCase
 
@@ -197,6 +198,26 @@ class HTMLSanitizerTestCase(SimpleTestCase):
 
 
 class MarkdownSyntaxTestCase(SimpleTestCase):
+    def test_unicode_underscore_boundaries(self) -> None:
+        for prefix, expected in (
+            ("a\u0301", ["_"]),
+            ("²", []),
+            ("é", []),
+            ("\u200c", ["_"]),
+        ):
+            with self.subTest(prefix=prefix):
+                self.assertEqual(
+                    [span.value for span in iter_markdown_syntax(prefix + "_word_")],
+                    expected,
+                )
+
+    def test_matching_timeout_is_reported(self) -> None:
+        with (
+            patch("weblate.utils.regex.REGEX_TIMEOUT", 0),
+            self.assertRaises(TimeoutError),
+        ):
+            list(iter_markdown_syntax("**bold** `code` <https://example.com>"))
+
     def test_code_spans(self) -> None:
         text = "`one` ``two ` inner`` ```three\nlines```"
         self.assertEqual(
@@ -305,6 +326,11 @@ class HtmlTestCase(SimpleTestCase):
 
     def test_auto_safe_html_plain_text(self) -> None:
         self.assertTrue(is_auto_safe_html_source("Just text", Flags()))
+
+    def test_auto_safe_html_many_segments(self) -> None:
+        started = process_time()
+        self.assertTrue(is_auto_safe_html_source("<br>" * 20_000, Flags()))
+        self.assertLess(process_time() - started, 2)
 
     def test_auto_safe_html_html(self) -> None:
         self.assertTrue(

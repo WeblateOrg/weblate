@@ -335,6 +335,8 @@ class ProjectBackup:
         self.components_cache: dict[str, Component] = {}
         self.categories_cache: dict[str, Category] = {}
         self.roles_cache: dict[str, Role] = {}
+        self.components_made_public: list[str] = []
+        self.public_only_restore = False
         self.skipped_components: list[str] = []
         self.renamed_teams: list[tuple[str, str]] = []
         self.skipped_parameters: list[tuple[str, str, str, bool]] = []
@@ -802,7 +804,7 @@ class ProjectBackup:
                 ),
                 extras,
             )
-            for group in project.defined_groups.all()
+            for group in project.defined_groups.order_by("pk")
         ]
 
     @staticmethod
@@ -921,6 +923,8 @@ class ProjectBackup:
         directory: str,
         target: str,
         refresh_lock: Callable[[], None],
+        *,
+        metadata_dir_name: str | None = None,
     ) -> None:
         """Backup single directory to specified target in zip."""
 
@@ -937,10 +941,19 @@ class ProjectBackup:
                 refresh_lock()
                 refresh_at = now + REPOSITORY_LOCK_REFRESH_INTERVAL
 
-        for folder, _subfolders, filenames in os.walk(directory, onerror=onerror):
+        for folder, subfolders, filenames in os.walk(directory, onerror=onerror):
             refresh_repository_lock()
+            is_root = folder == directory
+            subfolders[:] = [
+                name
+                for name in subfolders
+                if name.casefold() not in {".hg", ".git"}
+                or (is_root and name == metadata_dir_name)
+            ]
             for filename in filenames:
                 refresh_repository_lock()
+                if filename.casefold() in {".hg", ".git"}:
+                    continue
                 path = os.path.join(folder, filename)
                 # zipfile does not support storing symlinks, it dereferences them
                 if os.path.islink(path):
@@ -1167,6 +1180,7 @@ class ProjectBackup:
                 component.full_path,
                 f"{self.VCS_PREFIX}{self.full_slug_without_project(component)}",
                 component.repository.lock.reacquire,
+                metadata_dir_name=component.repository.metadata_dir_name,
             )
 
     @transaction.atomic
@@ -1434,6 +1448,19 @@ class ProjectBackup:
                 "repo": component["repo"],
             },
         )
+        for field in ("repo", "push"):
+            url = getattr(component_object, field)
+            if not url:
+                continue
+            try:
+                component_object.repository_class.validate_remote_url(url)
+            except RepositoryError as error:
+                raise ValidationError(
+                    {
+                        field: gettext("Could not validate repository URL: %s")
+                        % component_object.error_text(error)
+                    }
+                ) from error
         source_language = self.validate_language(
             component["source_language"], f"{path}.component.source_language"
         )
@@ -2220,6 +2247,14 @@ class ProjectBackup:
             used_names.add(team["name"])
             self.restore_team(team, group)
 
+    def get_restricted_components(self) -> list[str]:
+        """List restricted component paths in the validated backup for preview."""
+        return sorted(
+            self.get_component_backup_slug(data["component"])
+            for data in self.component_data.values()
+            if data["component"]["restricted"]
+        )
+
     def get_restore_warnings(self) -> list[str]:
         """Return user-facing warnings for all changes made during import."""
         return (
@@ -2229,6 +2264,13 @@ class ProjectBackup:
                 )
                 % {"component": component}
                 for component in self.skipped_components
+            ]
+            + [
+                gettext(
+                    "Restricted component %(component)s was restored as public because the target workspace's billing plan requires public content."
+                )
+                % {"component": component}
+                for component in self.components_made_public
             ]
             + get_team_rename_warnings(self.renamed_teams)
             + [
@@ -2258,6 +2300,7 @@ class ProjectBackup:
         self,
         data: dict,
         *,
+        actor: User,
         units: list[Unit],
         pending_unit_change_map: dict[tuple[int, int], list[dict]] | None = None,
     ) -> None:
@@ -2275,6 +2318,7 @@ class ProjectBackup:
                     (
                         PendingUnitChange(
                             unit=unit,
+                            metadata={"actor_id": actor.pk},
                             author=self.restore_user(item["author"]),
                             target=item["target"],
                             explanation=item["explanation"],
@@ -2303,6 +2347,7 @@ class ProjectBackup:
             pending_unit_changes = [
                 PendingUnitChange(
                     unit=unit,
+                    metadata={"actor_id": actor.pk},
                     author_id=authors[unit.pk] or anonymous_id,
                     target=unit.target,
                     explanation=unit.explanation,
@@ -2397,6 +2442,8 @@ class ProjectBackup:
         batch: list[Unit],
         data: dict,
         pending_unit_change_map: dict[tuple[int, int], list[dict]] | None,
+        *,
+        actor: User,
     ) -> list[Unit]:
         if not batch:
             return []
@@ -2405,6 +2452,7 @@ class ProjectBackup:
         self.restore_unit_metadata(units)
         self.restore_pending_unit_changes(
             data,
+            actor=actor,
             units=units,
             pending_unit_change_map=pending_unit_change_map,
         )
@@ -2417,6 +2465,8 @@ class ProjectBackup:
         data: dict,
         pending_unit_change_map: dict[tuple[int, int], list[dict]] | None,
         source_unit_lookup: dict[int, int],
+        *,
+        actor: User,
     ) -> None:
         if not batch:
             return
@@ -2435,6 +2485,7 @@ class ProjectBackup:
         self.restore_unit_metadata(source_units)
         self.restore_pending_unit_changes(
             data,
+            actor=actor,
             units=source_units,
             pending_unit_change_map=pending_unit_change_map,
         )
@@ -2444,6 +2495,7 @@ class ProjectBackup:
         self,
         data: dict,
         *,
+        actor: User,
         translation_lookup: dict,
         source_translation_id: int,
         pending_unit_change_map: dict[tuple[int, int], list[dict]] | None,
@@ -2456,11 +2508,15 @@ class ProjectBackup:
             batch.append(self.restore_unit(item, translation_lookup))
             if len(batch) >= self.IMPORT_BATCH_SIZE:
                 self.restore_source_unit_batch(
-                    batch, data, pending_unit_change_map, source_unit_lookup
+                    batch,
+                    data,
+                    pending_unit_change_map,
+                    source_unit_lookup,
+                    actor=actor,
                 )
                 batch = []
         self.restore_source_unit_batch(
-            batch, data, pending_unit_change_map, source_unit_lookup
+            batch, data, pending_unit_change_map, source_unit_lookup, actor=actor
         )
         return source_unit_lookup
 
@@ -2468,6 +2524,7 @@ class ProjectBackup:
         self,
         data: dict,
         *,
+        actor: User,
         translation_lookup: dict,
         source_translation_id: int,
         source_unit_lookup: dict[int, int],
@@ -2481,9 +2538,11 @@ class ProjectBackup:
                 self.restore_unit(item, translation_lookup, source_unit_lookup)
             )
             if len(batch) >= self.IMPORT_BATCH_SIZE:
-                self.restore_unit_batch(batch, data, pending_unit_change_map)
+                self.restore_unit_batch(
+                    batch, data, pending_unit_change_map, actor=actor
+                )
                 batch = []
-        self.restore_unit_batch(batch, data, pending_unit_change_map)
+        self.restore_unit_batch(batch, data, pending_unit_change_map, actor=actor)
 
     def restore_memory(self, zipfile: ZipFile, project: Project) -> None:
         memory = self.load_memory(zipfile)
@@ -2617,6 +2676,10 @@ class ProjectBackup:
         if "category" in kwargs:
             kwargs["category"] = self.categories_cache[kwargs["category"]]
 
+        if self.public_only_restore and kwargs["restricted"]:
+            kwargs["restricted"] = False
+            self.components_made_public.append(original_slug)
+
         component = Component(project=self.project, **kwargs)
         # Trigger pre_save to update git export URL
         pre_save.send(
@@ -2681,6 +2744,7 @@ class ProjectBackup:
         # Create source units first so translation units can link to them.
         source_unit_lookup = self.restore_source_units(
             data,
+            actor=actor,
             translation_lookup=translation_lookup,
             source_translation_id=source_translation_id,
             pending_unit_change_map=pending_unit_change_map,
@@ -2690,6 +2754,7 @@ class ProjectBackup:
         # in memory for components with many languages.
         self.restore_translation_units(
             data,
+            actor=actor,
             translation_lookup=translation_lookup,
             source_translation_id=source_translation_id,
             source_unit_lookup=source_unit_lookup,
@@ -2809,6 +2874,8 @@ class ProjectBackup:
             msg = "Project backup has to be validated before restore."
             raise ValueError(msg)
 
+        self.components_made_public.clear()
+        self.public_only_restore = False
         self.skipped_components.clear()
         self.renamed_teams.clear()
         self.created_media.clear()
@@ -2888,6 +2955,9 @@ class ProjectBackup:
             from weblate.billing.models import Billing
 
             billing = Billing.objects.lock_project_creation(workspace_id)
+        self.public_only_restore = (
+            billing is not None and not billing.plan.change_access_control
+        )
         restore_changes: list[Change] = []
 
         kwargs = self.data["project"].copy()

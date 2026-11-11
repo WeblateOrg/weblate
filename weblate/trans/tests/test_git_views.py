@@ -19,6 +19,7 @@ from weblate.auth.models import Group, Permission, Role, TeamMembership
 from weblate.lang.models import Language
 from weblate.trans.models import Component, PendingUnitChange, Project, Translation
 from weblate.trans.repository import (
+    QueuedRepositoryOperation,
     RepositoryOperationConflictError,
     acquire_repository_operation,
     get_repository_operation_key,
@@ -379,6 +380,33 @@ class RepositoryPermissionScopeTest(ViewTestCase):
                 language
             )
         self.user.clear_permissions_cache()
+
+    def test_new_repository_operations_require_current_authority(self) -> None:
+        self.user.groups.clear()
+        self.grant_permission("vcs.view", project=self.project)
+        self.grant_permission("vcs.reset", project=self.project)
+        reset_group = self.user.groups.get(roles__permissions__codename="vcs.reset")
+        url = reverse("reset", kwargs={"path": self.project.get_url_path()})
+        with patch(
+            "weblate.trans.views.git.queue_repository_operation",
+            return_value=QueuedRepositoryOperation("task-id"),
+        ) as queue:
+            self.client.post(url)
+            queue.assert_called_once()
+            queue.reset_mock()
+
+            self.user.groups.remove(reset_group)
+            response = self.client.post(url)
+            self.assertEqual(response.status_code, 403)
+            queue.assert_not_called()
+
+            self.grant_permission("vcs.reset", project=self.project)
+            self.user.is_active = False
+            self.user.save(update_fields=["is_active"])
+            response = self.client.post(url)
+            self.assertEqual(response.status_code, 302)
+            self.assertIn("/accounts/login/", response["Location"])
+            queue.assert_not_called()
 
     def test_language_limited_reset_and_cleanup_are_denied(self) -> None:
         self.user.groups.clear()

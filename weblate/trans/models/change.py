@@ -14,7 +14,8 @@ from uuid import uuid5
 from django.conf import settings
 from django.core.cache import cache
 from django.db import models, transaction
-from django.db.models import Count, F, OuterRef, Q, Subquery
+from django.db.models import Count, Exists, F, OuterRef, Q, Subquery
+from django.db.models.functions import Coalesce
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
@@ -35,6 +36,7 @@ from weblate.trans.actions import (
     ActionEvents,
 )
 from weblate.trans.mixins import UserDisplayMixin
+from weblate.trans.models.alert import visible_conflict_components
 from weblate.trans.models.project import Project
 from weblate.trans.signals import change_bulk_create
 from weblate.trans.util import split_plural
@@ -42,7 +44,12 @@ from weblate.utils.change_origin import get_change_origin
 from weblate.utils.const import WEBLATE_UUID_NAMESPACE
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_message
-from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED, StringState
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_READONLY,
+    STATE_TRANSLATED,
+    StringState,
+)
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.task_log import get_log_user_label
 from weblate.utils.tracing import start_span
@@ -343,12 +350,68 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
 
         return changes
 
-    def filter_components(self, user: User) -> Self:
-        if not user.needs_component_restrictions_filter:
+    def filter_team_history(self, user: User) -> Self:
+        """Keep historical access-management details out of public activity."""
+        if user.is_superuser:
             return self
         return self.filter(
+            ~Q(
+                action__in=(
+                    ActionEvents.ADD_USER,
+                    ActionEvents.REMOVE_USER,
+                    ActionEvents.USER_ACCESS_CHANGE,
+                )
+            )
+            | Q(project__in=user.accessible_managed_projects)
+        )
+
+    def filter_components(self, user: User) -> Self:
+        if not user.is_superuser:
+            # The former visibility of older removed components cannot be recovered.
+            # Only project administrators may see removal records without a flag.
+            result = self.filter(
+                ~Q(action=ActionEvents.REMOVE_COMPONENT)
+                | Q(project__in=user.accessible_managed_projects)
+                | Q(details__restricted=False)
+            )
+        else:
+            result = self
+        result = result.filter_team_history(user)
+        if not user.needs_component_restrictions_filter:
+            return result
+        return result.filter(
             Q(component__isnull=True) | user.get_component_access_query("component")
         )
+
+    def filter_visible_alerts(self, user: User) -> Self:
+        """Hide historical conflict signals with no accessible stored peer."""
+        if user.is_superuser:
+            return self
+        peers = visible_conflict_components(
+            user,
+            Coalesce(
+                OuterRef("details__alert_snapshot__details__component_ids"),
+                OuterRef("alert__details__component_ids"),
+                output_field=models.JSONField(),
+            ),
+        )
+        conflict = Q(
+            action__in=(
+                ActionEvents.ALERT,
+                ActionEvents.ALERT_DISMISSED,
+                ActionEvents.ALERT_REOPENED,
+            )
+        ) & (
+            Q(alert__name="ConflictingRepositorySetup")
+            | Q(details__alert="ConflictingRepositorySetup")
+        )
+        return self.alias(
+            repository_conflict=models.Case(
+                models.When(conflict, then=models.Value(True)),
+                default=models.Value(False),
+                output_field=models.BooleanField(),
+            )
+        ).filter(Q(repository_conflict=False) | Exists(peers))
 
     def filter_projects(self, user: User) -> Self:
         if not user.needs_project_filter:
@@ -468,7 +531,13 @@ class ChangeManager(models.Manager["Change"]):
             result = language.change_set.filter_projects(user).filter_components(user)
         else:
             result = self.filter_projects(user).filter_components(user)  # type: ignore[attr-defined]
-        return cast("ChangeQuerySet", result).prefetch_for_render().order()
+        return (
+            cast("ChangeQuerySet", result)
+            .filter_visible_alerts(user)
+            .filter_team_history(user)
+            .prefetch_for_render()
+            .order()
+        )
 
     def latest_revertable_changes(
         self,
@@ -1015,8 +1084,13 @@ class Change(models.Model, UserDisplayMixin):
     def permitted_revert_state(
         state: StringState, unit: Unit, user: User
     ) -> StringState:
-        if state == STATE_APPROVED and (
-            not unit.translation.enable_review or not user.has_perm("unit.review", unit)
+        """Restore content without copying read-only state or unauthorized approval."""
+        if state == STATE_READONLY or (
+            state == STATE_APPROVED
+            and (
+                not unit.translation.enable_review
+                or not user.has_perm("unit.review", unit)
+            )
         ):
             return STATE_TRANSLATED
         return state

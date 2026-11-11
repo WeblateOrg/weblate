@@ -27,6 +27,7 @@ from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
+from weblate.machinery.admission import complete_provider_call, machinery_slot
 from weblate.machinery.base import (
     MachineTranslationError,
     sanitize_machinery_error,
@@ -42,6 +43,7 @@ from weblate.machinery.models import (
 from weblate.trans.formatting import format_language_string
 from weblate.trans.models import Project, Unit
 from weblate.utils.errors import report_error
+from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.views import get_paginator, parse_path
 from weblate.wladmin.views import MENU as MANAGE_MENU
 
@@ -1035,7 +1037,9 @@ def get_machinery_unit(user, unit_id: int) -> Unit:
 
 
 @require_POST
-async def translate(request: AuthenticatedHttpRequest, unit_id: int, service: str):
+async def translate(
+    request: AuthenticatedHttpRequest, unit_id: int, service: str
+) -> JsonResponse:
     """AJAX handler for translating."""
     unit = await sync_to_async(get_machinery_unit)(request.user, unit_id)
     translation = await sync_to_async(lambda: unit.translation)()
@@ -1075,29 +1079,48 @@ async def translate(request: AuthenticatedHttpRequest, unit_id: int, service: st
         response["responseDetails"] = gettext("Service is currently not available.")
     else:
         response["service"] = translation_service.name
-        source_translation = await sync_to_async(get_machinery_source_translation)(
-            translation_service, unit
-        )
-        try:
-            response["translations"] = await get_machinery_translations_async(
-                request,
-                translation_service,
-                unit,
-                None,
-                targets,
-                translation,
-                source_translation,
+        if not await sync_to_async(check_rate_limit)("machinery", request):
+            return JsonResponse(
+                {"responseDetails": gettext("Too many translation requests.")},
+                status=429,
             )
-            response["responseStatus"] = 200
-        except MachineTranslationError as exc:
-            response["responseDetails"] = sanitize_machinery_error(str(exc))
-        except Exception as error:
-            await sync_to_async(report_error)(
-                "Machinery failed",
-                project=component.project,
-                exception=error,
+        async with machinery_slot(request.user.pk, installation.pk) as admitted:
+            if not admitted:
+                return JsonResponse(
+                    {
+                        "responseDetails": gettext(
+                            "Too many concurrent translation requests for this service."
+                        )
+                    },
+                    status=429,
+                )
+            source_translation = await sync_to_async(get_machinery_source_translation)(
+                translation_service, unit
             )
-            response["responseDetails"] = gettext("Service is currently not available.")
+            try:
+                response["translations"] = await complete_provider_call(
+                    get_machinery_translations_async(
+                        request,
+                        translation_service,
+                        unit,
+                        None,
+                        targets,
+                        translation,
+                        source_translation,
+                    )
+                )
+                response["responseStatus"] = 200
+            except MachineTranslationError as exc:
+                response["responseDetails"] = sanitize_machinery_error(str(exc))
+            except Exception as error:
+                await sync_to_async(report_error)(
+                    "Machinery failed",
+                    project=component.project,
+                    exception=error,
+                )
+                response["responseDetails"] = gettext(
+                    "Service is currently not available."
+                )
 
     if response["responseStatus"] != 200:
         await sync_to_async(translation.log_info)(

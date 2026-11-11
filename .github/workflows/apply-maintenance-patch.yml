@@ -304,8 +304,8 @@ jobs:
           --head "$PR_BRANCH" \
           --base "$BASE_BRANCH" \
           --state open \
-          --json number \
-          --jq '.[0].number // empty')
+          --json number,isCrossRepository \
+          --jq 'first(.[] | select(.isCrossRepository == false) | .number) // empty')
 
         if [ -z "$pr_number" ]; then
           pr_url=$(gh pr create \
@@ -327,12 +327,14 @@ jobs:
         fi
 
         echo "pull-request-number=$pr_number" >> "$GITHUB_OUTPUT"
+        echo "pull-request-head=$commit" >> "$GITHUB_OUTPUT"
 
     - name: Enable Pull Request Automerge
       if: steps.cpr.outputs.pull-request-operation && steps.cpr.outputs.pull-request-operation != 'none'
       shell: bash
-      run: gh pr merge --rebase --auto "$PR_NUMBER"
+      run: gh pr merge --rebase --auto --match-head-commit "$PR_HEAD_SHA" "$PR_NUMBER"
       env:
         GH_TOKEN: ${{ secrets.WEBLATE_CI_TOKEN }} # zizmor: ignore[secrets-outside-env]
         GH_REPO: ${{ github.repository }}
         PR_NUMBER: ${{ steps.cpr.outputs.pull-request-number }}
+        PR_HEAD_SHA: ${{ steps.cpr.outputs.pull-request-head }}

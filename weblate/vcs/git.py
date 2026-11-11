@@ -39,8 +39,10 @@ from urllib.parse import urlparse, urlunparse
 from zipfile import ZipFile
 
 import httpx2
+from asgiref.sync import async_to_sync
 from django.conf import settings
 from django.core.cache import cache
+from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
 from git.config import GitConfigParser
@@ -62,9 +64,10 @@ from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
 from weblate.utils.render import render_template
 from weblate.utils.requests import (
     JSON_RESPONSE_ERRORS,
+    VCS_RESPONSE_SIZE,
     RedirectValidators,
-    create_http_client,
-    fetch_url,
+    async_open_url,
+    fetch_validated_url,
 )
 from weblate.utils.tracing import start_span
 from weblate.utils.xml import parse_xml
@@ -353,16 +356,23 @@ def _perform_git_probe(
     environment: dict[str, str] | None,
 ) -> tuple[int, str | None, str]:
     """Perform one Git smart-HTTP probe using the shared HTTP client."""
-    with (
-        create_http_client(validators=GitProbeRedirectValidators(target)) as client,
-        client.stream(
-            "GET",
-            _build_git_probe_url(repository_url),
-            headers=_get_git_probe_headers(repository_url, environment),
-            timeout=20,
-            follow_redirects=False,
-        ) as response,
-    ):
+    return async_to_sync(_async_perform_git_probe)(repository_url, target, environment)
+
+
+async def _async_perform_git_probe(
+    repository_url: str,
+    target: ResolvedRepositoryURL,
+    environment: dict[str, str] | None,
+) -> tuple[int, str | None, str]:
+    async with async_open_url(
+        "GET",
+        _build_git_probe_url(repository_url),
+        validators=GitProbeRedirectValidators(target),
+        headers=_get_git_probe_headers(repository_url, environment),
+        timeout=20,
+        follow_redirects=False,
+        raise_for_status=False,
+    ) as response:
         return (
             response.status_code,
             response.headers.get("Location"),
@@ -2900,7 +2910,7 @@ class GitMergeRequestBase(GitRepository):
                 with start_span(op="vcs.api_sleep", name=vcs_id):
                     sleep(next_api_time - now)
             try:
-                response = fetch_url(
+                response = fetch_validated_url(
                     method,
                     url,
                     headers=self.get_headers(credentials),
@@ -2909,8 +2919,16 @@ class GitMergeRequestBase(GitRepository):
                     json=json,
                     auth=self.get_auth(credentials),
                     timeout=settings.VCS_API_TIMEOUT,
+                    max_response_size=VCS_RESPONSE_SIZE,
+                    allow_private_targets=not settings.VCS_RESTRICT_PRIVATE,
+                    private_allowlist=[
+                        *settings.VCS_ALLOW_HOSTS,
+                        *settings.VCS_PRIVATE_ALLOWLIST,
+                    ],
                     raise_for_status=False,
                 )
+            except ValidationError as error:
+                raise RepositoryError(0, str(error)) from error
             except (OSError, httpx2.HTTPError) as error:
                 report_error("Git API request")
                 raise RepositoryError(0, str(error)) from error

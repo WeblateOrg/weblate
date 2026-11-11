@@ -2852,12 +2852,32 @@ Translations
     :param language: Translation language code
     :type language: string
     :form boolean ignore_language: Ignore a mismatch between the declared file language and the translation language (defaults to ``false``), see :ref:`upload-ignore_language`
+    :form boolean background: Process the upload in the background (defaults to ``false``). This temporary field will be removed in 2027.1, when only background processing will be supported.
     :form string conflicts: How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-approved``), see :ref:`upload-conflicts`
     :form file file: Uploaded file or file content sent as a form field without a filename
     :form string author_email: Author e-mail
     :form string author_name: Author name
     :form string method: Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, ``replace``, ``source``, ``add``), see :ref:`upload-method`
     :form string fuzzy: Fuzzy (marked for edit) strings processing (*empty*, ``process``, ``approve``)
+
+    With ``background=true``, returns ``202 Accepted`` with ``detail`` and
+    ``task_url``. Poll :http:get:`/api/tasks/(str:uuid)/` for completion. Its
+    ``result`` contains the usual ``not_found``, ``skipped``, ``accepted``,
+    ``total``, ``result``, and ``count`` fields on success, or ``detail`` on
+    failure. File parsing and import errors are reported by the task.
+    Results also include ``upload_warnings`` and a ``completion_message``.
+
+    The same behavior is available with ``PUT``. For a raw file body, supply
+    ``background=true`` as a query parameter. A multipart ``background`` field
+    takes precedence over the query parameter.
+
+    Switch clients to background processing before upgrading to 2027.1. That
+    release will remove the ``background`` option and synchronous processing.
+
+    Suggestion uploads accept at most 20,000 content strings. Browser and API
+    uploads share :setting:`RATELIMIT_UPLOAD_ATTEMPTS`; exceeding it returns
+    ``429 Too Many Requests``. API uploads have no per-user outstanding-task
+    restriction. Existing byte and general string-count limits still apply.
 
     **CURL example:**
 
@@ -3399,6 +3419,7 @@ Changes
 
     When an IP address is recorded for an anonymous change, the ``ip_address``
     attribute in ``details`` is included only for superusers.
+    Invitation e-mail addresses in ``details`` are masked for all users.
 
     New changes include a ``change_origin`` object in ``details``, for example
     ``{"change_origin": {"scope": "api"}}``. The scope is ``ui`` for browser sessions,

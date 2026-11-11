@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/javascript/"
 "\n"
-"POT-Creation-Date: 2026-10-29 23:03-0500\n"
-"PO-Revision-Date: 2026-10-30 09:22+0000\n"
+"POT-Creation-Date: 2026-11-05 22:35-0600\n"
+"PO-Revision-Date: 2026-11-10 15:37+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "javascript/de/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.11.2.dev0\n"
 
 msgid "Unsaved changes!"
 msgstr "Nicht gespeicherte Änderungen!"
@@ -121,9 +121,21 @@ msgstr "Vorschläge ausblenden"
 msgid "Show suggestions"
 msgstr "Vorschläge anzeigen"
 
+msgid "Processed %(processed)s of %(total)s entries."
+msgstr "%(processed)s von %(total)s Einträgen verarbeitet."
+
 #, javascript-format
 msgid "Results of action %s"
 msgstr "Ergebnisse der Aktion %s"
+
+msgid "Not takes exactly one condition."
+msgstr "Not erfordert genau eine Bedingung."
+
+msgid "Automations can nest eight levels deep."
+msgstr "Automatisierungen können bis zu acht Ebenen tief verschachtelt werden."
+
+msgid "Automations can hold one hundred nodes."
+msgstr "Automatisierungen können bis zu hundert Knoten enthalten."
 
 msgid "This workflow is not valid YAML, so the editor cannot show it."
 msgstr ""
@@ -131,12 +143,12 @@ msgstr ""
 "anzeigen."
 
 msgid ""
-"This workflow uses parts the editor does not handle yet, such as nested "
-"conditions or branches. Edit it as YAML."
+"This workflow has something the editor cannot show, such as an unknown "
+"action or a setting that is no longer available. Edit it as YAML."
 msgstr ""
-"Dieser Arbeitsablauf verwendet Elemente, die der Editor noch nicht "
-"unterstützt, wie beispielsweise verschachtelte Bedingungen oder Branches. "
-"Bearbeiten Sie ihn als YAML."
+"Dieser Arbeitsablauf enthält Elemente, die der Editor nicht anzeigen kann, "
+"beispielsweise eine unbekannte Aktion oder eine Einstellung, die nicht mehr "
+"verfügbar ist. Bearbeiten Sie ihn als YAML."
 
 #, javascript-format
 msgid "Added %s."
@@ -149,6 +161,14 @@ msgstr "%s entfernt."
 #, javascript-format
 msgid "Moved %s."
 msgstr "%s verschoben."
+
+msgid ""
+"An action running on the whole component needs a query. Enter one or pick "
+"another scope."
+msgstr ""
+"Für eine Aktion, die auf die gesamte Komponente angewendet wird, ist eine "
+"Abfrage erforderlich. Geben Sie eine ein oder wählen Sie einen anderen "
+"Anwendungsbereich aus."
 
 msgid "Security token missing. Please reload the page."
 msgstr "Sicherheitstoken fehlt. Bitte laden Sie die Seite neu."
@@ -484,8 +504,14 @@ msgstr "Bitte Strg+C zum Kopieren drücken."
 msgid "Search…"
 msgstr "Suchen …"
 
+msgid "Could not load teams. Please try again."
+msgstr "Teams konnten nicht geladen werden. Bitte erneut versuchen."
+
 msgid "Loading…"
 msgstr "Wird geladen …"
+
+msgid "No more results."
+msgstr "Keine weiteren Ergebnisse."
 
 msgid "Error while loading form:"
 msgstr "Fehler beim Laden des Formulars:"

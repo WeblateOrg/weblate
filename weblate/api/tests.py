@@ -20,10 +20,11 @@ from pathlib import Path
 from threading import Barrier
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, PropertyMock, patch
 from uuid import uuid4
 
 import yaml
+from celery.backends.cache import CacheBackend
 from django.conf import settings
 from django.contrib import messages as django_messages
 from django.contrib.messages import get_messages
@@ -48,8 +49,10 @@ from weblate_language_data.languages import LANGUAGES
 
 from weblate.accounts.models import (
     MAX_LISTING_COLUMNS,
+    AuditLog,
     Profile,
     Subscription,
+    TeamAuditLog,
     VerifiedEmail,
 )
 from weblate.accounts.notifications import (
@@ -73,6 +76,7 @@ from weblate.api.parsers import TranslationFileMultiPartParser
 from weblate.api.renderers import AutoCSVRenderer
 from weblate.api.serializers import (
     CategorySerializer,
+    ChangeSerializer,
     CommentSerializer,
     ComponentSerializer,
     MemoryLookupRequestSerializer,
@@ -131,6 +135,7 @@ from weblate.trans.models import (
     Component,
     ComponentLink,
     ComponentList,
+    ContributorAgreement,
     PendingUnitChange,
     Project,
     SavedSearch,
@@ -139,6 +144,7 @@ from weblate.trans.models import (
     Unit,
     WorkflowSetting,
 )
+from weblate.trans.models.alert import Alert
 from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.repository import (
     QueuedRepositoryOperation,
@@ -164,13 +170,16 @@ from weblate.trans.validators import (
 )
 from weblate.utils.celery import (
     TASK_METADATA_TTL,
+    app,
     get_task_metadata_key,
     handle_task_failure,
     handle_task_failure_result,
 )
 from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.data import data_dir
+from weblate.utils.files import PathMatchBudget
 from weblate.utils.lock import WeblateLockTimeoutError
+from weblate.utils.pii import mask_email
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -3017,6 +3026,70 @@ class UserAPITest(APIBaseTest):
 
 
 class GroupAPITest(APIBaseTest):
+    def test_team_mutations_have_private_actor_attributed_audits(self) -> None:
+        self.grant_perm_to_user("project.permissions", project=self.project)
+        target = User.objects.create_user(
+            username="audited-target", password="testpassword"
+        )
+        role = Role.objects.get(name="Administration")
+        before = Change.objects.count()
+        response = self.do_request(
+            "api:group-list",
+            method="post",
+            code=201,
+            request={
+                "name": "Audited API team",
+                "defining_project": reverse(
+                    "api:project-detail", kwargs=self.project_kwargs
+                ),
+            },
+        )
+        team = Group.objects.get(pk=response.data["id"])
+        self.do_request(
+            "api:group-roles",
+            kwargs={"id": team.pk},
+            method="post",
+            code=200,
+            request={"role_id": role.pk},
+        )
+        self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": team.pk},
+            method="post",
+            code=200,
+            request={"user_id": target.pk},
+        )
+        self.do_request(
+            "api:group-revoke-admin",
+            kwargs={"id": team.pk, "user_pk": target.pk},
+            method="delete",
+            code=200,
+        )
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": team.pk},
+            method="patch",
+            code=200,
+            request={"enforced_2fa": True},
+        )
+        self.do_request(
+            "api:group-detail", kwargs={"id": team.pk}, method="delete", code=204
+        )
+        entries = TeamAuditLog.objects.filter(team_name="Audited API team")
+        self.assertTrue(entries.filter(event="created").exists())
+        self.assertTrue(entries.filter(event="deleted", team__isnull=True).exists())
+        self.assertFalse(
+            entries.exclude(actor=self.user, project=self.project).exists()
+        )
+        self.assertEqual(
+            AuditLog.objects.filter(user=target, activity="team-admin-added").count(), 1
+        )
+        self.assertEqual(
+            AuditLog.objects.filter(user=target, activity="team-admin-removed").count(),
+            1,
+        )
+        self.assertEqual(Change.objects.count(), before)
+
     def test_group_list_prefetches_component_links(self) -> None:
         for index in range(3):
             team = Group.objects.create(
@@ -5238,6 +5311,18 @@ class ProjectAPITest(APIBaseTest):
 
     def test_language_workflow_source_language(self) -> None:
         self.authenticate(True)
+        child = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        parent = self.component.translation_set.get(language_code="de").unit_set.get(
+            id_hash=child.id_hash
+        )
+        parent.translate(self.user, "German source", STATE_TRANSLATED, propagate=False)
+        child.translate(
+            self.user, "Child translation", STATE_TRANSLATED, propagate=False
+        )
+        self.component.commit_pending("before workflow", self.user)
+        child.change_set.all().delete()
         url = reverse(
             "api:project-language-workflow",
             kwargs={"slug": self.project.slug, "language": "cs"},
@@ -5249,6 +5334,12 @@ class ProjectAPITest(APIBaseTest):
         response = self.client.patch(url, {"source_language": "de"})
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data["source_language"], "de")
+        pending = child.pending_changes.get()
+        self.assertEqual(pending.author, self.user)
+        self.assertEqual(pending.get_actor(), self.user)
+        change = child.change_set.get(action=ActionEvents.SOURCE_CHANGE)
+        self.assertEqual(change.user, self.user)
+        self.assertEqual(change.author, self.user)
         self.assertEqual(
             self.project.workflowsetting_set.get(
                 language__code="cs"
@@ -5488,6 +5579,40 @@ class ProjectAPITest(APIBaseTest):
             self.user,
             repository_components=selection.repositories,
         )
+
+    def test_new_repository_operations_require_current_authority(self) -> None:
+        self.authenticate()
+        self.user.groups.clear()
+        role = Role.objects.create(name="Queued repository reset")
+        role.permissions.add(Permission.objects.get(codename="vcs.reset"))
+        group = Group.objects.create(
+            name="Queued repository reset", language_selection=SELECTION_ALL
+        )
+        group.projects.add(self.project)
+        group.roles.add(role)
+        self.user.groups.add(group)
+        url = reverse("api:project-repository", kwargs=self.project_kwargs)
+        data = {"operation": "reset", "background": True}
+        with patch(
+            "weblate.api.views.queue_repository_operation",
+            return_value=QueuedRepositoryOperation("task-id"),
+        ) as queue:
+            response = self.client.post(url, data)
+            self.assertEqual(response.status_code, 202)
+            queue.assert_called_once()
+            queue.reset_mock()
+
+            self.user.groups.remove(group)
+            response = self.client.post(url, data)
+            self.assertEqual(response.status_code, 403)
+            queue.assert_not_called()
+
+            self.user.groups.add(group)
+            self.user.is_active = False
+            self.user.save(update_fields=["is_active"])
+            response = self.client.post(url, data)
+            self.assertEqual(response.status_code, 401)
+            queue.assert_not_called()
 
     def test_eager_repo_operation_returns_result(self) -> None:
         with patch(
@@ -6918,20 +7043,21 @@ class ProjectAPITest(APIBaseTest):
     def test_create_component_ignores_missing_autoshare_target(self) -> None:
         repo = self.component.repo
         link_repo = self.component.get_repo_link_url()
-        original_get_linked = Component.objects.get_linked
+        original_get_linked = ComponentQuerySet.get_linked
 
-        def get_linked(candidate):
+        def get_linked(queryset: ComponentQuerySet, candidate: str) -> Component | None:
             if candidate == link_repo:
                 msg = "Component disappeared."
                 raise Component.DoesNotExist(msg)
-            return original_get_linked(candidate)
+            return original_get_linked(queryset, candidate)
 
         self.grant_perm_to_user("project.edit", project=self.project)
         self.user.clear_permissions_cache()
 
         with patch.object(
-            Component.objects,
+            ComponentQuerySet,
             "get_linked",
+            autospec=True,
             side_effect=get_linked,
         ):
             self.do_request(
@@ -6953,6 +7079,61 @@ class ProjectAPITest(APIBaseTest):
         component = Component.objects.get(slug="missing-autoshare-target")
         self.assertEqual(component.repo, repo)
         self.assertIsNone(component.linked_component_id)
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_project_admin_cannot_create_component_with_invalid_billing(
+        self,
+    ) -> None:
+        billing = create_test_billing(self.user)
+        billing.add_project(self.project)
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+        request = {
+            "name": "Extra component",
+            "slug": "extra-component",
+            "repo": self.component.repo,
+            "branch": self.component.branch,
+            "filemask": "po/*.po",
+            "file_format": "po",
+            "new_lang": "none",
+        }
+
+        for state, paid, in_limits in (
+            (billing.STATE_TRIAL, True, False),
+            (billing.STATE_ACTIVE, False, True),
+            (billing.STATE_TERMINATED, True, True),
+        ):
+            with self.subTest(state=state, paid=paid, in_limits=in_limits):
+                billing.state = state
+                billing.paid = paid
+                billing.in_limits = in_limits
+                billing.save(skip_limits=True)
+                response = self.do_request(
+                    "api:project-components",
+                    self.project_kwargs,
+                    method="post",
+                    code=403,
+                    request=request,
+                )
+                self.assertEqual(
+                    response.data["errors"][0]["detail"],
+                    "No valid billing found or limit exceeded.",
+                )
+                self.assertFalse(
+                    Component.objects.filter(slug="extra-component").exists()
+                )
+
+        billing.state = billing.STATE_TRIAL
+        billing.in_limits = True
+        billing.save(skip_limits=True)
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            request=request,
+        )
+        self.assertTrue(Component.objects.filter(slug="extra-component").exists())
 
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     @override_settings(OFFER_HOSTING=True)
@@ -7180,31 +7361,81 @@ class ProjectAPITest(APIBaseTest):
         )
         self.user.clear_permissions_cache()
 
+        restricted = self.create_po(
+            project=self.create_project(name="Public target", slug="public-target"),
+            name="Restricted target",
+            restricted=True,
+        )
+        two_factor = self.create_po(
+            project=self.create_project(
+                name="Two factor target", slug="two-factor-target", enforced_2fa=True
+            ),
+            name="Two factor component",
+        )
+        for fields in (
+            {},
+            {"name": self.component.name, "slug": self.component.slug},
+            {
+                "name": "Inaccessible repository link",
+                "slug": "inaccessible-repository-link",
+                "filemask": "po/*.po",
+                "file_format": "po",
+                "new_lang": "none",
+            },
+        ):
+            responses = []
+            for repo in (
+                private_component.get_repo_link_url(),
+                restricted.get_repo_link_url(),
+                two_factor.get_repo_link_url(),
+                "weblate://acl/missing",
+                "weblate://missing-project/missing",
+            ):
+                with self.subTest(repo=repo, fields=fields):
+                    response = self.do_request(
+                        "api:project-components",
+                        self.project_kwargs,
+                        method="post",
+                        code=400,
+                        format="json",
+                        request={**fields, "repo": repo},
+                    )
+                    responses.append(response.data)
+                    self.assertEqual(response.data["errors"][0]["attr"], "repo")
+                    self.assertEqual(
+                        response.data["errors"][0]["detail"],
+                        "This component does not exist or you cannot access it.",
+                    )
+            self.assertTrue(all(response == responses[0] for response in responses))
+        self.assertFalse(
+            self.project.component_set.filter(
+                slug="inaccessible-repository-link"
+            ).exists()
+        )
+
+    def test_create_component_rejects_visible_repository_without_edit_permission(
+        self,
+    ) -> None:
+        visible = self.create_po(
+            project=self.create_project(name="Visible target", slug="visible-target"),
+            name="Visible component",
+        )
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.can_access_component(visible))
+        self.assertFalse(self.user.has_perm("component.edit", visible))
         response = self.do_request(
             "api:project-components",
             self.project_kwargs,
             method="post",
             code=400,
             format="json",
-            request={
-                "name": "Inaccessible repository link",
-                "slug": "inaccessible-repository-link",
-                "repo": private_component.get_repo_link_url(),
-                "filemask": "po/*.po",
-                "file_format": "po",
-                "new_lang": "none",
-            },
+            request={"repo": visible.get_repo_link_url()},
         )
-
         self.assertEqual(response.data["errors"][0]["attr"], "repo")
         self.assertEqual(
             response.data["errors"][0]["detail"],
             "You do not have permission to access this component.",
-        )
-        self.assertFalse(
-            self.project.component_set.filter(
-                slug="inaccessible-repository-link"
-            ).exists()
         )
 
     def test_create_component_no_push(self) -> None:
@@ -7795,6 +8026,187 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(change.user, self.user)
         self.assertEqual(change.details["old_workspace_name"], "Current workspace")
         self.assertEqual(change.details["workspace_name"], "Target workspace")
+
+    def prepare_public_plan_move(self) -> tuple[Workspace, Workspace]:
+        source = create_test_billing(self.user)
+        source.plan.change_access_control = True
+        source.plan.name = "Source move plan"
+        source.plan.slug = "source-move-plan"
+        source.plan.save(update_fields=["change_access_control", "name", "slug"])
+        target = create_test_billing(self.user)
+        target.plan.change_access_control = False
+        target.plan.save(update_fields=["change_access_control"])
+        Project.objects.filter(pk=self.project.pk).update(
+            workspace=source.workspace, access_control=Project.ACCESS_PUBLIC
+        )
+        self.project.refresh_from_db()
+        self.project.component_set.update(license="MIT", inherit_license=False)
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.grant_perm_to_user("project.permissions", project=self.project)
+        self.user.clear_permissions_cache()
+        assert source.workspace is not None
+        assert target.workspace is not None
+        return source.workspace, target.workspace
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_move_public_plan_rejects_nonpublic_project(self) -> None:
+        source, target = self.prepare_public_plan_move()
+        for access_control, _label in Project.ACCESS_CHOICES:
+            if access_control == Project.ACCESS_PUBLIC:
+                continue
+            with self.subTest(access_control=access_control):
+                Project.objects.filter(pk=self.project.pk).update(
+                    access_control=access_control
+                )
+                response = self.do_request(
+                    "api:project-detail",
+                    self.project_kwargs,
+                    method="patch",
+                    code=400,
+                    format="json",
+                    request={"workspace": str(target.pk)},
+                )
+                self.assertIn("only allows public projects", str(response.data))
+                self.project.refresh_from_db()
+                self.assertEqual(self.project.workspace_id, source.pk)
+                self.assertEqual(self.project.access_control, access_control)
+        self.assertFalse(
+            self.project.change_set.filter(action=ActionEvents.MOVE_PROJECT).exists()
+        )
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_move_public_plan_uses_submitted_access(self) -> None:
+        source, target = self.prepare_public_plan_move()
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=400,
+            format="json",
+            request={
+                "workspace": str(target.pk),
+                "access_control": Project.ACCESS_PRIVATE,
+            },
+        )
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, source.pk)
+        Project.objects.filter(pk=self.project.pk).update(
+            access_control=Project.ACCESS_PRIVATE
+        )
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=200,
+            format="json",
+            request={
+                "workspace": str(target.pk),
+                "access_control": Project.ACCESS_PUBLIC,
+            },
+        )
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, target.pk)
+        self.assertEqual(self.project.access_control, Project.ACCESS_PUBLIC)
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_move_public_plan_rejects_restricted_component(self) -> None:
+        source, target = self.prepare_public_plan_move()
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=400,
+            format="json",
+            request={
+                "workspace": str(target.pk),
+                "access_control": Project.ACCESS_PUBLIC,
+            },
+        )
+        self.assertIn("without restricted components", str(response.data))
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, source.pk)
+        self.assertFalse(
+            self.project.change_set.filter(action=ActionEvents.MOVE_PROJECT).exists()
+        )
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_move_public_plan_keeps_superuser_exemption(self) -> None:
+        _source, target = self.prepare_public_plan_move()
+        Project.objects.filter(pk=self.project.pk).update(
+            access_control=Project.ACCESS_PRIVATE
+        )
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=200,
+            format="json",
+            superuser=True,
+            request={"workspace": str(target.pk)},
+        )
+        self.project.refresh_from_db()
+        self.component.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, target.pk)
+        self.assertEqual(self.project.access_control, Project.ACCESS_PRIVATE)
+        self.assertTrue(self.component.restricted)
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_move_public_plan_keeps_existing_incompatible_project(self) -> None:
+        _source, target = self.prepare_public_plan_move()
+        Project.objects.filter(pk=self.project.pk).update(
+            workspace=target, access_control=Project.ACCESS_PRIVATE
+        )
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=200,
+            format="json",
+            request={"workspace": str(target.pk), "name": "Existing private project"},
+        )
+        self.project.refresh_from_db()
+        self.component.refresh_from_db()
+        self.assertEqual(self.project.access_control, Project.ACCESS_PRIVATE)
+        self.assertTrue(self.component.restricted)
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_move_public_plan_rechecks_after_validation(self) -> None:
+        source, target = self.prepare_public_plan_move()
+        plan = target.billing.plan
+        plan.change_access_control = True
+        plan.save(update_fields=["change_access_control"])
+        Project.objects.filter(pk=self.project.pk).update(
+            access_control=Project.ACCESS_PRIVATE
+        )
+        original = ProjectSerializer.is_valid
+
+        def restrict_plan(
+            serializer: ProjectSerializer, *, raise_exception: bool = False
+        ) -> bool:
+            valid = original(serializer, raise_exception=raise_exception)
+            if valid:
+                plan.change_access_control = False
+                plan.save(update_fields=["change_access_control"])
+            return valid
+
+        with patch.object(ProjectSerializer, "is_valid", restrict_plan):
+            response = self.do_request(
+                "api:project-detail",
+                self.project_kwargs,
+                method="patch",
+                code=400,
+                format="json",
+                request={"workspace": str(target.pk)},
+            )
+        self.assertIn("only allows public projects", str(response.data))
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, source.pk)
+        self.assertFalse(
+            self.project.change_set.filter(action=ActionEvents.MOVE_PROJECT).exists()
+        )
 
     def test_patch_workspace_move_reports_machinery_conflicts(self) -> None:
         target = Workspace.objects.create(name="Target workspace")
@@ -9917,6 +10329,27 @@ class ProjectAPITest(APIBaseTest):
 
 
 class ComponentAPITest(APIBaseTest):
+    def test_patch_filemask_scan_limit(self) -> None:
+        original_name = self.component.name
+        original_mask = self.component.filemask
+        self.grant_perm_to_user("component.edit", component=self.component)
+        with patch(
+            "weblate.trans.models.component.PathMatchBudget",
+            side_effect=lambda: PathMatchBudget(max_work=0),
+        ):
+            response = self.do_request(
+                "api:component-detail",
+                self.component_kwargs,
+                method="patch",
+                code=400,
+                format="json",
+                request={"name": "Limited scan"},
+            )
+        self.assertEqual(response.data["errors"][0]["attr"], "filemask")
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.name, original_name)
+        self.assertEqual(self.component.filemask, original_mask)
+
     def test_xml_serialization_params(self) -> None:
         component = self._create_component(
             "xliff", "xliff/*/complex.xlf", project=self.project, name="XML"
@@ -9980,6 +10413,51 @@ class ComponentAPITest(APIBaseTest):
             push_branch="",
         )
         self.component.refresh_from_db()
+
+    @mock_dns("github.com", "example.com")
+    def test_github_app_api_clears_push_settings(self) -> None:
+        self.configure_github_app_component()
+        Component.objects.filter(pk=self.component.pk).update(vcs="git")
+        for create in (False, True):
+            with (
+                self.subTest(create=create),
+                patch.object(Component, "after_save"),
+                patch.object(Component, "validate_repository_access"),
+                patch.object(Component, "clean_files"),
+                patch.object(Component, "get_mask_matches", return_value=["po/cs.po"]),
+            ):
+                data = {
+                    "vcs": "github-app",
+                    "repo": "https://github.com/test-org/repo.git",
+                    "branch": "main",
+                    "push": "https://example.com/attacker/repo.git",
+                    "push_branch": "translations",
+                }
+                if create:
+                    data.update(
+                        name="GitHub App cleared",
+                        slug="github-app-cleared",
+                        file_format="po",
+                        filemask="po/*.po",
+                        disable_autoshare=True,
+                        new_lang="none",
+                    )
+                response = self.do_request(
+                    "api:project-components" if create else "api:component-detail",
+                    self.project_kwargs if create else self.component_kwargs,
+                    method="post" if create else "patch",
+                    request=data,
+                    format="json",
+                    superuser=True,
+                    code=201 if create else 200,
+                )
+                self.assertEqual(response.data["push"], "")
+                self.assertEqual(response.data["push_branch"], "")
+                component = Component.objects.get(
+                    project=self.project,
+                    slug="github-app-cleared" if create else self.component.slug,
+                )
+                self.assertEqual((component.push, component.push_branch), ("", ""))
 
     def test_list_components(self) -> None:
         response = self.client.get(reverse("api:component-list"))
@@ -10920,19 +11398,27 @@ class ComponentAPITest(APIBaseTest):
         )
         self.user.clear_permissions_cache()
 
-        self.do_request(
-            "api:component-detail",
-            self.component_kwargs,
-            method="patch",
-            code=400,
-            format="json",
-            request={
-                "repo": private_component.get_repo_link_url(),
-                "branch": "",
-                "push": "",
-                "push_branch": "",
-            },
-        )
+        responses = []
+        for repo in (
+            private_component.get_repo_link_url(),
+            "weblate://acl/missing",
+            "weblate://missing-project/missing",
+        ):
+            with self.subTest(repo=repo):
+                response = self.do_request(
+                    "api:component-detail",
+                    self.component_kwargs,
+                    method="patch",
+                    code=400,
+                    format="json",
+                    request={"repo": repo, "branch": "", "push": "", "push_branch": ""},
+                )
+                responses.append(response.data)
+                self.assertEqual(
+                    response.data["errors"][0]["detail"],
+                    "This component does not exist or you cannot access it.",
+                )
+        self.assertTrue(all(response == responses[0] for response in responses))
         self.component.refresh_from_db()
         self.assertEqual(self.component.repo, original_repo)
         self.assertIsNone(self.component.linked_component_id)
@@ -12470,6 +12956,67 @@ class ComponentAPITest(APIBaseTest):
         self.component.new_lang = "add"
         self.component.new_base = "po/hello.pot"
         self.component.save()
+        self.do_request(
+            "api:component-translations",
+            self.component_kwargs,
+            method="post",
+            code=201,
+            request={"language_code": "fa"},
+        )
+
+    def test_create_translation_team_language_scope(self) -> None:
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.save(update_fields=["new_lang", "new_base"])
+        self.user.groups.clear()
+        group = Group.objects.create(
+            name="Language scoped", language_selection=SELECTION_MANUAL
+        )
+        group.projects.add(self.project)
+        group.languages.add(Language.objects.get(code="fa"))
+        group.roles.add(Role.objects.get(name="Manage languages"))
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+
+        self.do_request(
+            "api:component-translations",
+            self.component_kwargs,
+            method="post",
+            code=403,
+            request={"language_code": "nl"},
+        )
+        self.assertFalse(
+            self.component.translation_set.filter(language_code="nl").exists()
+        )
+        self.do_request(
+            "api:component-translations",
+            self.component_kwargs,
+            method="post",
+            code=201,
+            request={"language_code": "fa"},
+        )
+
+    def test_create_translation_contributor_agreement(self) -> None:
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.agreement = "CLA"
+        self.component.save(update_fields=["new_lang", "new_base", "agreement"])
+
+        response = self.do_request(
+            "api:component-translations",
+            self.component_kwargs,
+            method="post",
+            code=403,
+            request={"language_code": "fa"},
+        )
+        self.assertIn(
+            "contributor license agreement", response.data["errors"][0]["detail"]
+        )
+        self.assertFalse(
+            self.component.translation_set.filter(language_code="fa").exists()
+        )
+
+        ContributorAgreement.objects.create(self.user, self.component)
         self.do_request(
             "api:component-translations",
             self.component_kwargs,
@@ -16034,6 +16581,78 @@ class MemoryAPITest(APIBaseTest):
 
 
 class TranslationAPITest(APIBaseTest):
+    @override_settings(CELERY_TASK_STORE_EAGER_RESULT=True)
+    def test_upload_background(self) -> None:
+        self.authenticate()
+        with patch.object(
+            type(app),
+            "backend",
+            new_callable=PropertyMock,
+            return_value=CacheBackend(app=app, backend="memory"),
+        ):
+            for method in ("post", "put"):
+                with self.subTest(method=method), open(TEST_PO, "rb") as handle:
+                    response = getattr(self.client, method)(
+                        reverse("api:translation-file", kwargs=self.translation_kwargs),
+                        {"file": handle, "background": True, "method": "suggest"},
+                    )
+                self.assertEqual(response.status_code, 202)
+                self.assertIn("/api/tasks/", response.data["task_url"])
+                task_response = self.client.get(response.data["task_url"])
+                self.assertEqual(task_response.status_code, 200)
+                self.assertTrue(task_response.data["completed"])
+                self.assertIn("accepted", task_response.data["result"])
+
+    def test_upload_background_false(self) -> None:
+        self.authenticate()
+        with open(TEST_PO, "rb") as handle:
+            response = self.client.post(
+                reverse("api:translation-file", kwargs=self.translation_kwargs)
+                + "?background=true",
+                {"file": handle, "background": False},
+            )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("accepted", response.data)
+
+    def test_upload_raw_background(self) -> None:
+        self.authenticate()
+        response = self.client.put(
+            reverse("api:translation-file", kwargs=self.translation_kwargs)
+            + "?background=true",
+            Path(TEST_PO).read_bytes(),
+            content_type="application/octet-stream",
+            headers={"content-disposition": 'attachment; filename="test.po"'},
+        )
+        self.assertEqual(response.status_code, 202)
+
+    def test_upload_rate_limit(self) -> None:
+        self.authenticate()
+        with (
+            patch("weblate.api.views.check_rate_limit", return_value=False),
+            patch("weblate.api.views.queue_translation_upload") as queue,
+            open(TEST_PO, "rb") as handle,
+        ):
+            response = self.client.post(
+                reverse("api:translation-file", kwargs=self.translation_kwargs),
+                {"file": handle, "background": True},
+            )
+        self.assertEqual(response.status_code, 429)
+        queue.assert_not_called()
+
+    def test_upload_task_is_private(self) -> None:
+        from weblate.utils.celery import store_task_metadata  # ruff: ignore[import-outside-top-level]
+
+        self.authenticate()
+        task_id = "d0db0567-bd78-481e-ac61-df5ddc24f783"
+        store_task_metadata(
+            task_id,
+            user_id=self.user.pk + 1000,
+            task_kind="translation-upload",
+            cancellable=False,
+        )
+        response = self.client.get(reverse("api:task-detail", kwargs={"pk": task_id}))
+        self.assertEqual(response.status_code, 404)
+
     def test_list_translations(self) -> None:
         response = self.client.get(reverse("api:translation-list"))
         self.assertEqual(response.data["count"], 8)
@@ -20452,6 +21071,183 @@ class ScreenshotAPITest(APIBaseTest):
 
 
 class ChangeAPITest(APIBaseTest):
+    def test_invitation_email_masked_in_history(self) -> None:
+        email = "victim.person@corp.example"
+        change = self.project.change_set.create(
+            action=ActionEvents.INVITE_USER,
+            user=self.user,
+            author=self.user,
+            details={"email": email},
+        )
+        endpoints = (
+            reverse("api:change-list"),
+            reverse("api:project-changes", kwargs=self.project_kwargs),
+            reverse("api:change-detail", kwargs={"pk": change.pk}),
+        )
+        for viewer in ("anonymous", "member", "superuser"):
+            if viewer == "anonymous":
+                self.client.credentials()
+            else:
+                self.authenticate(superuser=viewer == "superuser")
+            for url in endpoints:
+                with self.subTest(viewer=viewer, url=url):
+                    response = self.client.get(url)
+                    self.assertEqual(response.status_code, 200, response.data)
+                    entries = response.data.get("results", [response.data])
+                    entry = next(item for item in entries if item["id"] == change.pk)
+                    self.assertNotIn(email, str(entry))
+                    self.assertEqual(entry["details"]["email"], mask_email(email))
+
+    def test_removed_component_history_respects_former_visibility(self) -> None:
+        changes = {
+            slug: self.project.change_set.create(
+                action=ActionEvents.REMOVE_COMPONENT,
+                target=slug,
+                details=details,
+                user=self.user,
+                author=self.user,
+            )
+            for slug, details in (
+                ("removed-public", {"restricted": False}),
+                ("removed-private", {"restricted": True}),
+                ("removed-legacy", {}),
+            )
+        }
+        endpoints = (
+            reverse("api:change-list"),
+            reverse("api:project-changes", kwargs=self.project_kwargs),
+        )
+        for viewer, expected in (
+            ("anonymous", {"removed-public"}),
+            ("member", {"removed-public"}),
+            ("project_admin", set(changes)),
+            ("superuser", set(changes)),
+        ):
+            if viewer == "anonymous":
+                self.client.credentials()
+            else:
+                if viewer == "project_admin":
+                    self.grant_perm_to_user("project.edit", project=self.project)
+                    self.user.clear_permissions_cache()
+                self.authenticate(superuser=viewer == "superuser")
+            for url in endpoints:
+                with self.subTest(viewer=viewer, url=url):
+                    response = self.client.get(url)
+                    self.assertEqual(response.status_code, 200, response.data)
+                    visible = {
+                        entry["target"]
+                        for entry in response.data["results"]
+                        if entry["id"] in {change.pk for change in changes.values()}
+                    }
+                    self.assertEqual(visible, expected)
+            for slug, change in changes.items():
+                with self.subTest(viewer=viewer, slug=slug):
+                    response = self.client.get(
+                        reverse("api:change-detail", kwargs={"pk": change.pk})
+                    )
+                    self.assertEqual(
+                        response.status_code, 200 if slug in expected else 404
+                    )
+
+    def test_conflict_visibility_preserves_unrelated_legacy_alerts(self) -> None:
+        self.authenticate()
+        for details in ({}, {"alert": "UnusedScreenshot"}):
+            with self.subTest(details=details):
+                change = self.component.change_set.create(
+                    action=ActionEvents.ALERT,
+                    user=self.user,
+                    details=details,
+                )
+                response = self.client.get(
+                    reverse("api:change-detail", kwargs={"pk": change.pk})
+                )
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.data["details"], change.details)
+
+    def test_conflict_history_visibility_and_count(self) -> None:
+        hidden = self.create_acl()
+        alert = Alert.objects.create(
+            component=self.component,
+            name="ConflictingRepositorySetup",
+            details={"component_ids": [hidden.pk]},
+        )
+        created = self.component.change_set.get(alert=alert, action=ActionEvents.ALERT)
+        dismissed = self.component.change_set.create(
+            action=ActionEvents.ALERT_DISMISSED,
+            user=self.user,
+            alert=alert,
+            details={
+                "alert": alert.name,
+                "alert_snapshot": {
+                    "details": alert.details,
+                    "severity": alert.severity,
+                    "category": alert.category,
+                },
+            },
+        )
+        reopened = self.component.change_set.create(
+            action=ActionEvents.ALERT_REOPENED,
+            user=self.user,
+            alert=alert,
+            details={"alert": alert.name, "fingerprint": "private-fingerprint"},
+        )
+        for keep_alert in (True, False):
+            if not keep_alert:
+                alert.delete()
+            for admin in (False, True):
+                self.authenticate(superuser=admin)
+                with self.subTest(keep_alert=keep_alert, admin=admin):
+                    for change in (created, dismissed, reopened):
+                        response = self.client.get(
+                            reverse("api:change-detail", kwargs={"pk": change.pk})
+                        )
+                        self.assertEqual(response.status_code, 200 if admin else 404)
+                    response = self.client.get(
+                        reverse("api:component-changes", kwargs=self.component_kwargs)
+                    )
+                    expected = (
+                        self.component.change_set.count()
+                        if admin
+                        else self.component.change_set.count() - 3
+                    )
+                    self.assertEqual(response.data["count"], expected)
+
+    def test_conflict_history_serialization_batches_access_queries(self) -> None:
+        visible = self.create_po(project=self.project, name="Visible peer")
+        hidden = self.create_acl()
+        alert = Alert.objects.create(
+            component=self.component,
+            name="ConflictingRepositorySetup",
+            details={"component_ids": [visible.pk, hidden.pk]},
+        )
+        ids = [
+            self.component.change_set.create(
+                action=ActionEvents.ALERT,
+                user=self.user,
+                alert=alert,
+                details={"alert": alert.name},
+            ).pk
+            for _ in range(8)
+        ]
+        request = Request(APIRequestFactory().get("/api/changes/"))
+        request.user = self.user
+        counts = []
+        for selected in (ids[:1], ids):
+            changes = list(Change.objects.filter(pk__in=selected).prefetch_for_render())
+            Change.objects.preload_list(changes)
+            # Warm permission caches independently of the page size.
+            _ = ChangeSerializer(changes, many=True, context={"request": request}).data
+            with CaptureQueriesContext(connection) as queries:
+                data = ChangeSerializer(
+                    changes, many=True, context={"request": request}
+                ).data
+            counts.append(len(queries))
+            for entry in data:
+                self.assertEqual(
+                    entry["alert"]["details"]["component_ids"], [visible.pk]
+                )
+        self.assertEqual(counts, [1, 1])
+
     def test_conflicting_repository_alert_hides_inaccessible_components(self) -> None:
         visible = self.create_po(project=self.project, name="Visible conflict peer")
         hidden = self.create_acl()
@@ -20549,8 +21345,13 @@ class ChangeAPITest(APIBaseTest):
         response = self.client.get(
             reverse("api:change-detail", kwargs={"pk": created.pk})
         )
-        self.assertEqual(response.data["alert"]["name"], alert.name)
-        self.assertEqual(response.data["alert"]["details"], {"component_ids": []})
+        self.assertEqual(response.status_code, 404)
+        response = self.client.get(
+            reverse("api:component-changes", kwargs=self.component_kwargs)
+        )
+        self.assertNotIn(
+            created.pk, {entry["id"] for entry in response.data["results"]}
+        )
 
         self.component.delete_alert(alert.name)
         response = self.client.get(

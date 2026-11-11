@@ -1351,6 +1351,24 @@ class BulkGlossaryFlagsTest(ReusableViewTestCase):
         self.source.refresh_from_db()
         self.assertEqual(self.source.extra_flags, "read-only")
 
+    def test_bulk_terminology_preserves_other_flag_changes(self) -> None:
+        self.group.roles.add(Role.objects.get(name="Power user"))
+        self.editor.clear_permissions_cache()
+        updated = bulk_perform(
+            self.editor,
+            Unit.objects.filter(pk=self.source.pk),
+            query="",
+            target_state=-1,
+            add_flags="terminology, max-length:20",
+            remove_flags="",
+            add_labels=self.project.label_set.none(),
+            remove_labels=self.project.label_set.none(),
+            project=self.project,
+        )
+        self.assertEqual(updated, 1)
+        self.source.refresh_from_db()
+        self.assertEqual(self.source.extra_flags, "max-length:20")
+
 
 class BulkEditTest(ReusableViewTestCase):
     """Test for build edit functionality."""

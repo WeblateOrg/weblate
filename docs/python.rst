@@ -57,6 +57,14 @@ To use configuration-file and environment discovery, explicitly load
    config.load()
    client = Weblate(config=config)
 
+To explicitly select project configuration while retaining personal settings
+and URL-scoped credentials, use ``config.load(project_path="/shared/weblate.ini")``.
+This bypasses automatic discovery location checks while preserving project
+credential and transport restrictions. It cannot be combined with an explicit
+complete configuration path, such as ``config.load("/trusted/weblate.ini")``.
+Constructing ``WeblateConfig`` without calling ``load()`` skips configuration
+files while still permitting environment settings when passed to ``Weblate``.
+
 The Python client follows the same URL, credential, and transport policy as the
 command-line client, see :ref:`wlc-security`. Direct API consumers remain
 responsible for safely rendering and storing returned values.

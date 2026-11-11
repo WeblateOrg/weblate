@@ -676,6 +676,54 @@ configuration, and VCS-specific proxy configuration are not supported.
 
    `Proxy environment variables <https://everything.curl.dev/usingcurl/proxies/env.html>`_
 
+.. _outbound-http-limits:
+
+HTTP response limits
+++++++++++++++++++++
+
+Weblate's shared HTTP client limits response bodies before buffering them.
+The limits count decoded bytes, including decompression, and apply even when
+the server omits or misstates ``Content-Length``. An oversized response fails
+as an HTTP download error; it is not truncated or returned as partial data.
+
+The following limits apply to each response:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Caller
+     - Maximum decoded body
+   * - Translation services using the shared HTTP client
+     - 1 MiB
+   * - Screenshot URL uploads and remote CDN add-on HTML
+     - :setting:`ALLOWED_ASSET_SIZE`
+   * - Tesseract OCR language data
+     - 64 MiB
+   * - VCS hosting and GitHub App APIs
+     - 16 MiB
+   * - Avatars, PyPI, support, activation, Zammad, and site statistics
+     - 2 MiB
+
+The shared HTTP client also applies each caller's existing timeout to the
+complete HTTP exchange, including connection attempts, authentication exchanges,
+redirects, response headers, and body consumption. Progress does not restart
+this budget. The default is five seconds; integrations that specify a longer
+timeout retain it, including LLM requests and support-status refreshes.
+Per-operation socket timeouts remain in effect. An explicitly disabled timeout
+remains disabled; a structured HTTPX timeout uses its read timeout as the total
+budget. Exceeding the total budget raises an HTTP timeout error and closes the
+response. Each explicit retry by an integration starts a new budget.
+
+Both synchronous and asynchronous callers use asynchronous network I/O.
+Cancellation bounds HTTP activity, but system DNS resolution uses operating
+system worker threads which cannot be forcibly cancelled. DNS completion and
+event-loop shutdown can therefore delay return after the HTTP budget expires.
+The timeout is not an unconditional wall-clock limit for the entire calling
+function, its local processing, or third-party provider SDKs.
+
+Operator-run crawler-range updates, maintenance scripts, and Sentry deployment
+use separate download paths and are outside these shared-client limits.
+
 .. _configuration:
 
 Adjusting configuration

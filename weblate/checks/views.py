@@ -6,7 +6,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from django.db.models import Count, Q
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils.translation import gettext
@@ -317,7 +317,9 @@ class CheckList(PathViewMixin, ListView):
         return super().get(request, *args, **kwargs)
 
 
-def render_check(request: AuthenticatedHttpRequest, unit_id, check_id):
+def render_check(
+    request: AuthenticatedHttpRequest, unit_id: int, check_id: str
+) -> HttpResponse:
     """Render endpoint for checks."""
     try:
         obj = Check.objects.get(unit_id=unit_id, name=check_id)
@@ -328,6 +330,14 @@ def render_check(request: AuthenticatedHttpRequest, unit_id, check_id):
 
     if obj.check_obj is None:
         msg = "No check object found."
+        raise Http404(msg)
+
+    if obj.pk is None and not (
+        obj.check_obj.applies_to_propagated_unit(obj.unit)
+        and obj.check_obj.always_display
+        and not obj.check_obj.should_skip(obj.unit)
+    ):
+        msg = "No check attached to this string."
         raise Http404(msg)
 
     return obj.check_obj.render(request, obj.unit)

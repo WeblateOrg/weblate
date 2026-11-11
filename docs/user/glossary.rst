@@ -187,6 +187,9 @@ bulk-editing, typing in the flag, or by using :guilabel:`Tools` ↓
 glossary. Use this for important terms that should be well thought out, and
 retain a consistent meaning across all languages.
 
+Adding terminology through forms, flag edits, bulk edits, or uploaded files
+requires the :guilabel:`Add glossary terminology` permission.
+
 Enable :ref:`component-manage_units` on the glossary component to synchronize
 terminology. When it is disabled, Weblate does not create missing language
 entries, even for terms marked as terminology.

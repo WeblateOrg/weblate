@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from pathlib import Path
 from unittest.mock import patch
 
 from django.core.exceptions import PermissionDenied, ValidationError
@@ -744,6 +745,120 @@ class MonolingualSourceEditTest(SourceEditTest):
             )
 
 
+class SourceKeyValidationTest(ViewTestCase):
+    def create_component(self) -> Component:
+        return self.create_php_mono()
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.make_manager()
+        self.component.manage_units = True
+        self.component.save()
+
+    def test_invalid_rename_leaves_files_and_database_unchanged(self) -> None:
+        source = self.component.source_translation.unit_set.get(context='$loc["hello"]')
+        filename = source.translation.get_filename()
+        assert filename is not None
+        original = Path(filename).read_bytes()
+        old_context = source.context
+        changes = source.change_set.count()
+
+        for api in (True, False):
+            with self.subTest(api=api):
+                data = {
+                    "content_hash": source.content_hash,
+                    "context": "$old[1 + 2]",
+                }
+                if api:
+                    response = self.client.post(
+                        f"/api/units/{source.pk}/source/",
+                        data,
+                        content_type="application/json",
+                    )
+                else:
+                    data["source_0"] = source.source
+                    response = self.client.post(
+                        reverse("edit-source-unit", kwargs={"unit_id": source.pk}),
+                        data,
+                    )
+                self.assertContains(response, "cannot be represented", status_code=400)
+                source.refresh_from_db()
+                self.assertEqual(source.context, old_context)
+                self.assertEqual(source.change_set.count(), changes)
+                self.assertFalse(
+                    source.unit_set.filter(pending_changes__isnull=False).exists()
+                )
+                self.assertEqual(Path(filename).read_bytes(), original)
+
+    def test_add_unit_validates_before_queueing(self) -> None:
+        translation = self.component.source_translation
+        count = translation.unit_set.count()
+        with self.assertRaisesMessage(ValidationError, "cannot be represented"):
+            translation.add_unit(None, "$old[1 + 2]", ["New source"], author=self.user)
+        self.assertEqual(translation.unit_set.count(), count)
+        self.assertFalse(
+            translation.unit_set.filter(pending_changes__isnull=False).exists()
+        )
+
+    def test_rename_without_file_still_validates(self) -> None:
+        source = self.component.source_translation.unit_set.get(context='$loc["hello"]')
+        source.translation.filename = ""
+        source.translation.save(update_fields=["filename"])
+        with self.assertRaisesMessage(ValidationError, "cannot be represented"):
+            edit_source(
+                source,
+                self.user,
+                content_hash=source.content_hash,
+                context="$old[1 + 2]",
+            )
+
+    def test_api_add_unit_returns_validation_error(self) -> None:
+        response = self.client.post(
+            reverse(
+                "api:translation-units",
+                kwargs={
+                    "language__code": "en",
+                    "component__slug": self.component.slug,
+                    "component__project__slug": self.project.slug,
+                },
+            ),
+            {"key": "$old[1 + 2]", "value": ["New source"]},
+            content_type="application/json",
+        )
+        self.assertContains(response, "cannot be represented", status_code=400)
+        self.assertFalse(
+            self.component.source_translation.unit_set.filter(
+                source="New source"
+            ).exists()
+        )
+
+    def test_new_key_uses_actual_store_encoding(self) -> None:
+        translation = self.component.source_translation
+        key = '$loc["Ω"]'
+        self.component.file_format_cls.validate_context(key)
+        with (
+            patch.object(translation.store.store, "_encoding", "iso-8859-1"),
+            self.assertRaisesMessage(ValidationError, "cannot be represented"),
+        ):
+            translation.validate_new_unit_data(key, ["New source"])
+
+    def test_valid_rename_is_written_to_source_and_translations(self) -> None:
+        source = self.component.source_translation.unit_set.get(context='$loc["hello"]')
+        targets = dict(source.unit_set.values_list("pk", "target"))
+        key = '$loc["it\'s"]'
+        source = edit_source(
+            source, self.user, content_hash=source.content_hash, context=key
+        )
+        self.component.commit_pending("test", self.user)
+        for unit in source.unit_set.all():
+            unit.translation.drop_store_cache()
+            backend = find_identity(
+                unit.translation.store, {"source": source.source, "context": key}
+            )
+            self.assertEqual(backend.target, targets[unit.pk])
+            self.assertFalse(unit.pending_changes.exists())
+
+
 class GlossarySourceEditTest(ViewTestCase):
     def create_component(self) -> Component:
         return self.create_tbx(is_glossary=True, manage_units=True)
@@ -786,3 +901,51 @@ class GlossarySourceEditTest(ViewTestCase):
             self.assertEqual(backend.source_explanation, "Definition")
         source.refresh_from_db()
         self.assertEqual(source.explanation, "Definition")
+
+
+class DTDSourceEditValidationTest(ViewTestCase):
+    def create_component(self) -> Component:
+        return self.create_dtd()
+
+    def check_source_rejection(self, *, existing: bool) -> None:
+        self.make_manager()
+        self.component.manage_units = True
+        self.component.save()
+        source = self.component.source_translation.unit_set.get(context="hello")
+        # The fixture's raw printf percent needs escaping before serialization.
+        store = source.translation.store
+        for unit in store.all_units:
+            unit.set_target(unit.target)
+        store.save()
+        filename = source.translation.get_filename()
+        assert filename is not None
+        path = Path(filename)
+        if existing:
+            path.write_bytes(
+                path.read_bytes().replace(b"Hello, world!", b"Invalid &#; source")
+            )
+        original_file = path.read_bytes()
+        source.translation.drop_store_cache()
+        original_source = source.source
+        changes = source.change_set.count()
+        with self.assertWarnsRegex(UserWarning, "DTD parse error"):
+            response = self.client.post(
+                f"/api/units/{source.pk}/source/",
+                {
+                    "content_hash": source.content_hash,
+                    "source": ["Valid source" if existing else "Invalid &#; source"],
+                },
+                content_type="application/json",
+            )
+        self.assertContains(response, "does not validate", status_code=400)
+        source.refresh_from_db()
+        self.assertEqual(source.source, original_source)
+        self.assertEqual(source.change_set.count(), changes)
+        self.assertFalse(source.unit_set.filter(pending_changes__isnull=False).exists())
+        self.assertEqual(path.read_bytes(), original_file)
+
+    def test_invalid_source_returns_error_without_queueing(self) -> None:
+        self.check_source_rejection(existing=False)
+
+    def test_existing_invalid_source_returns_error_without_queueing(self) -> None:
+        self.check_source_rejection(existing=True)

@@ -586,24 +586,106 @@ class TasksTest(ReusableComponentTestCase):
 
         retry.assert_called_once_with(exc=conflict, countdown=3600, kwargs={})
 
-    def test_repository_operation_revalidates_permission(self) -> None:
-        task = SimpleNamespace(update_state=Mock())
-        with (
-            patch.object(User, "has_perm", return_value=False),
-            patch.object(Component, "do_cleanup", autospec=True) as cleanup,
-            self.assertRaises(PermissionDenied),
-        ):
-            execute_repository_operation(
-                task,
-                "cleanup",
-                [self.component.pk],
-                self.user.pk,
-                "task-id",
-            )
+    def check_repository_operation_survives_revocation(
+        self, phase: str, *, deactivate: bool = False
+    ) -> None:
+        self.user.groups.clear()
+        role = Role.objects.create(name="Queued repository reset")
+        role.permissions.add(Permission.objects.get(codename="vcs.reset"))
+        group = Group.objects.create(
+            name="Queued repository reset", language_selection=SELECTION_ALL
+        )
+        group.projects.add(self.project)
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        second = self.create_po(project=self.project, name="Second")
+        component_ids = [self.component.pk, second.pk]
+        for component in (self.component, second):
+            self.assertTrue(self.user.has_perm("vcs.reset", component))
 
-        cleanup.assert_not_called()
+        def revoke() -> None:
+            # Change a separate instance, as a concurrent request would.
+            user = User.objects.get(pk=self.user.pk)
+            if deactivate:
+                user.is_active = False
+                user.save(update_fields=["is_active"])
+                self.assertFalse(User.objects.get(pk=user.pk).is_active)
+            else:
+                user.groups.remove(group)
+                self.assertFalse(
+                    User.objects.get(pk=user.pk).has_perm("vcs.reset", second)
+                )
 
-    def test_repository_operation_rechecks_owner_after_link_added(self) -> None:
+        calls: list[int] = []
+
+        def cleanup(component, request) -> bool:
+            calls.append(component.pk)
+            self.assertEqual(request.user.pk, self.user.pk)
+            self.assertEqual(get_acting_user(), request.user)
+            if phase == "between" and component.pk == self.component.pk:
+                revoke()
+            if phase == "retry" and calls == component_ids:
+                msg = "locked"
+                raise WeblateLockTimeoutError(msg, lock=second.lock)
+            return True
+
+        if phase == "before":
+            revoke()
+        task = Mock()
+        with patch.object(Component, "do_cleanup", autospec=True, side_effect=cleanup):
+            if phase == "retry":
+                with self.assertRaises(RepositoryOperationRetryError) as raised:
+                    execute_repository_operation(
+                        task, "cleanup", component_ids, self.user.pk, "task-id"
+                    )
+                revoke()
+                retry = raised.exception
+                result = execute_repository_operation(
+                    task,
+                    "cleanup",
+                    component_ids,
+                    self.user.pk,
+                    "task-id",
+                    start_index=retry.start_index,
+                    successful=retry.successful,
+                    failure_messages=retry.failure_messages,
+                    resume_followup=retry.resume_followup,
+                    followup_previous_head=retry.followup_previous_head,
+                )
+            else:
+                result = execute_repository_operation(
+                    task, "cleanup", component_ids, self.user.pk, "task-id"
+                )
+
+        self.assertTrue(result["result"])
+        self.assertEqual(
+            calls, component_ids + ([second.pk] if phase == "retry" else [])
+        )
+
+    def test_repository_operation_survives_revocation_before_execution(self) -> None:
+        self.check_repository_operation_survives_revocation("before")
+
+    def test_repository_operation_survives_deactivation_before_execution(self) -> None:
+        self.check_repository_operation_survives_revocation("before", deactivate=True)
+
+    def test_repository_operation_survives_revocation_between_repositories(
+        self,
+    ) -> None:
+        self.check_repository_operation_survives_revocation("between")
+
+    def test_repository_operation_survives_deactivation_between_repositories(
+        self,
+    ) -> None:
+        self.check_repository_operation_survives_revocation("between", deactivate=True)
+
+    def test_repository_operation_survives_revocation_on_retry(self) -> None:
+        self.check_repository_operation_survives_revocation("retry")
+
+    def test_repository_operation_survives_deactivation_on_retry(self) -> None:
+        self.check_repository_operation_survives_revocation("retry", deactivate=True)
+
+    def test_repository_operation_keeps_owner_after_link_added(self) -> None:
         self.user.groups.clear()
         role = Role.objects.create(name="Repository owner reset")
         role.permissions.add(Permission.objects.get(codename="vcs.reset"))
@@ -627,14 +709,12 @@ class TasksTest(ReusableComponentTestCase):
         cleanup.assert_called_once()
 
         self.user.groups.remove(group)
-        with (
-            patch.object(Component, "do_cleanup") as cleanup,
-            self.assertRaises(PermissionDenied),
-        ):
-            execute_repository_operation(
+        with patch.object(Component, "do_cleanup", return_value=True) as cleanup:
+            result = execute_repository_operation(
                 task, "cleanup", [self.component.pk], self.user.pk, "task-id"
             )
-        cleanup.assert_not_called()
+        self.assertTrue(result["result"])
+        cleanup.assert_called_once()
 
     def test_repository_operation_rejects_changed_repository_link(self) -> None:
         repository = self.create_po(project=self.project, name="Other repository")
@@ -644,7 +724,6 @@ class TasksTest(ReusableComponentTestCase):
         task = SimpleNamespace(update_state=Mock())
 
         with (
-            patch.object(User, "has_perm", return_value=True),
             patch.object(Component, "do_cleanup", autospec=True) as cleanup,
         ):
             result = execute_repository_operation(
@@ -666,7 +745,6 @@ class TasksTest(ReusableComponentTestCase):
             return False
 
         with (
-            patch.object(User, "has_perm", return_value=True),
             patch.object(Component, "do_cleanup", autospec=True, side_effect=cleanup),
         ):
             result = execute_repository_operation(
@@ -694,7 +772,6 @@ class TasksTest(ReusableComponentTestCase):
             return False
 
         with (
-            patch.object(User, "has_perm", return_value=True),
             patch.object(Component, "do_cleanup", autospec=True, side_effect=cleanup),
         ):
             result = execute_repository_operation(
@@ -727,7 +804,6 @@ class TasksTest(ReusableComponentTestCase):
 
         with (
             patch("weblate.trans.models.component.current_task", task),
-            patch.object(User, "has_perm", return_value=True),
             patch.object(Component, "do_cleanup", autospec=True, side_effect=cleanup),
         ):
             result = execute_repository_operation(
@@ -754,7 +830,6 @@ class TasksTest(ReusableComponentTestCase):
         followup_error = RepositoryFollowupLockError(lock_timeout, "file-sync")
 
         with (
-            patch.object(User, "has_perm", return_value=True),
             patch.object(
                 Component,
                 "do_file_sync",
@@ -773,7 +848,6 @@ class TasksTest(ReusableComponentTestCase):
 
         self.assertEqual(raised.exception.resume_followup, "file-sync")
         with (
-            patch.object(User, "has_perm", return_value=True),
             patch.object(Component, "do_file_sync", autospec=True) as file_sync,
             patch("weblate.trans.tasks.perform_component_commit") as commit,
         ):
@@ -807,7 +881,6 @@ class TasksTest(ReusableComponentTestCase):
 
         with (
             patch.object(task, "update_state"),
-            patch.object(User, "has_perm", return_value=True),
             patch.object(
                 Component,
                 "do_update",
@@ -827,7 +900,6 @@ class TasksTest(ReusableComponentTestCase):
         self.assertEqual(raised.exception.resume_followup, followup)
         with (
             patch.object(task, "update_state"),
-            patch.object(User, "has_perm", return_value=True),
             patch.object(Component, "do_update", autospec=True) as update,
             patch.object(Component, "finish_update", autospec=True) as finish_update,
         ):
@@ -854,7 +926,6 @@ class TasksTest(ReusableComponentTestCase):
 
         with (
             patch.object(task, "update_state"),
-            patch.object(User, "has_perm", return_value=True),
             patch.object(
                 Component,
                 "do_push",
@@ -873,7 +944,6 @@ class TasksTest(ReusableComponentTestCase):
 
         with (
             patch.object(task, "update_state"),
-            patch.object(User, "has_perm", return_value=True),
             patch.object(Component, "finish_update", autospec=True) as finish_update,
             patch.object(
                 Component, "do_push", autospec=True, return_value=True
@@ -905,7 +975,6 @@ class TasksTest(ReusableComponentTestCase):
         )
 
         with (
-            patch.object(User, "has_perm", return_value=True),
             patch.object(
                 Component,
                 "do_reset",
@@ -924,7 +993,6 @@ class TasksTest(ReusableComponentTestCase):
 
         self.assertEqual(raised.exception.resume_followup, "reset-keep")
         with (
-            patch.object(User, "has_perm", return_value=True),
             patch.object(Component, "do_reset", autospec=True) as reset,
             patch("weblate.trans.tasks.perform_component_commit") as commit,
         ):
@@ -968,7 +1036,6 @@ class TasksTest(ReusableComponentTestCase):
 
         component_ids = [self.component.pk, second.pk]
         with (
-            patch.object(User, "has_perm", return_value=True),
             patch.object(Component, "do_cleanup", autospec=True, side_effect=cleanup),
             patch("weblate.trans.tasks.refresh_repository_operation"),
             self.assertRaises(RepositoryOperationRetryError) as raised,
@@ -983,7 +1050,6 @@ class TasksTest(ReusableComponentTestCase):
         )
 
         with (
-            patch.object(User, "has_perm", return_value=True),
             patch.object(Component, "do_cleanup", autospec=True, side_effect=cleanup),
             patch("weblate.trans.tasks.refresh_repository_operation"),
         ):
