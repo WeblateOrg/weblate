@@ -12,6 +12,10 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
+  {% if user.is_superuser %}
+    <p><a href="{% url 'team-audit' %}">{% translate "Team audit log" %}</a></p>
+  {% endif %}
+
 
   <div class="card">
     <div class="card-header">

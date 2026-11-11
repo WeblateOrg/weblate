@@ -40,7 +40,11 @@ from weblate.accounts.utils import (
     sensitive_verification_redirect,
 )
 from weblate.accounts.views import UserList, get_initial_contact
-from weblate.auth.decorators import management_access, management_permission_required
+from weblate.auth.audit import audit_team_changes
+from weblate.auth.decorators import (
+    management_access,
+    management_permission_required,
+)
 from weblate.auth.forms import (
     AdminBulkInviteForm,
     AdminInviteUserForm,
@@ -1231,6 +1235,8 @@ def billing(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 @method_decorator(management_access, name="dispatch")
 class TeamListView(FormMixin, ListView):
+    request: AuthenticatedHttpRequest
+
     template_name = "manage/teams.html"
     paginate_by = 50
     model = Group
@@ -1274,7 +1280,8 @@ class TeamListView(FormMixin, ListView):
         return self.form_invalid(form)
 
     def form_valid(self, form: SitewideTeamForm) -> HttpResponse:
-        form.save()
+        with audit_team_changes(form.instance, self.request.user, self.request):
+            form.save()
         return super().form_valid(form)
 
 

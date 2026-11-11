@@ -408,6 +408,10 @@ def perform_rename(
             locked_obj.refresh_from_db()
             return redirect_param(locked_obj, "#organize")
 
+        target = form.cleaned_data.get("project")
+        if target is not None and not request.user.has_perm("project.edit", target):
+            raise PermissionDenied
+
         # Invalidate old stats
         old_stats = list(locked_obj.stats.get_update_objects())
 
@@ -519,6 +523,8 @@ def component_link_add(request: AuthenticatedHttpRequest, path):
     if form.is_valid():
         project = form.cleaned_data["project"]
         category = form.cleaned_data["category"]
+        if not request.user.has_perm("project.edit", project):
+            raise PermissionDenied
         _link, created = ComponentLink.objects.get_or_create(
             component=obj, project=project, defaults={"category": category}
         )

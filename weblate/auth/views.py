@@ -3,24 +3,26 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
-from django.contrib.auth.decorators import login_not_required
+from django.contrib.auth.decorators import login_not_required, login_required
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.forms import inlineformset_factory
 from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext
 from django.views.generic import DetailView, UpdateView
 
 from weblate.accounts.forms import UserManageForm
+from weblate.accounts.models import TeamAuditLog
 from weblate.accounts.utils import (
     has_recent_sensitive_verification,
     sensitive_verification_redirect,
 )
+from weblate.auth.audit import audit_team_changes
 from weblate.auth.decorators import check_management_access
 from weblate.auth.forms import ProjectTeamForm, SitewideTeamForm, WorkspaceTeamForm
 from weblate.auth.models import (
@@ -31,6 +33,7 @@ from weblate.auth.models import (
     InvitationExpiredError,
     InvitationRemovedError,
     InvitationUserMismatchError,
+    User,
 )
 from weblate.auth.utils import prefetch_membership_limit_languages
 from weblate.trans.forms import UserAddTeamForm
@@ -40,12 +43,59 @@ from weblate.utils.views import get_paginator, show_form_errors
 from weblate.wladmin.forms import ChangedCharField
 
 if TYPE_CHECKING:
+    from typing import Any
+
     from django.forms.models import BaseInlineFormSet
-    from django.http import HttpResponse
+    from django.http import HttpRequest, HttpResponse
 
     from weblate.auth.models import (
         AuthenticatedHttpRequest,
-        User,
+    )
+
+
+@login_required
+def team_audit(request: AuthenticatedHttpRequest) -> HttpResponse:
+    """Expose team details only within the viewer's administrative scopes."""
+    user = request.user
+    if not user.is_superuser and not (
+        user.accessible_managed_projects.exists()
+        or user.workspaces_with_perm("workspace.edit_members").exists()
+    ):
+        raise PermissionDenied
+    entries = TeamAuditLog.objects.for_user(user).select_related(
+        "actor", "project", "workspace"
+    )
+    if project := request.GET.get("project"):
+        entries = entries.filter(project__slug=project)
+    if team := request.GET.get("team"):
+        try:
+            team_id = int(team)
+        except ValueError:
+            entries = entries.none()
+        else:
+            entries = entries.filter(team_id=team_id)
+    return render(
+        request,
+        "auth/team-audit.html",
+        {
+            "entries": get_paginator(request, entries),
+            "title": gettext("Team audit log"),
+        },
+    )
+
+
+@login_required
+def team_audit_detail(request: AuthenticatedHttpRequest, pk: int) -> HttpResponse:
+    entry = get_object_or_404(
+        TeamAuditLog.objects.for_user(request.user).select_related(
+            "actor", "project", "workspace"
+        ),
+        pk=pk,
+    )
+    return render(
+        request,
+        "auth/team-audit-detail.html",
+        {"entry": entry, "title": gettext("Team audit entry")},
     )
 
 
@@ -103,8 +153,29 @@ class TeamUpdateView(UpdateView):
 
         return result
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         result = super().get_context_data(**kwargs)
+        user = self.request.user
+        result["can_view_team_audit"] = (
+            user.is_superuser
+            or (
+                self.object.defining_project_id is not None
+                and user.has_perm("project.edit", self.object.defining_project)
+            )
+            or (
+                self.object.defining_workspace_id is not None
+                and user.has_perm(
+                    "workspace.edit_members", self.object.defining_workspace
+                )
+            )
+        )
+        if result["can_view_team_audit"]:
+            result["team_audit_entries"] = get_paginator(
+                self.request,
+                TeamAuditLog.objects.for_user(user)
+                .filter(team=self.object)
+                .select_related("actor", "project", "workspace"),
+            )
 
         if "auto_formset" not in result:
             result["auto_formset"] = self.auto_formset(instance=self.object)
@@ -179,8 +250,18 @@ class TeamUpdateView(UpdateView):
         return redirect_next(request.POST.get("next"), fallback)
 
     # pylint: disable=arguments-differ
-    def post(self, request: AuthenticatedHttpRequest, **kwargs):
+    @transaction.atomic
+    def post(
+        self, request: HttpRequest, *args: object, **kwargs: object
+    ) -> HttpResponse:
+        if not isinstance(request.user, User):
+            raise PermissionDenied
         self.object = self.get_object()
+        authenticated_request = cast("AuthenticatedHttpRequest", request)
+        with audit_team_changes(self.object, request.user, request):
+            return self.handle_team_post(authenticated_request)
+
+    def handle_team_post(self, request: AuthenticatedHttpRequest) -> HttpResponse:
         if (
             self.object.defining_project is None
             and self.object.defining_workspace is None

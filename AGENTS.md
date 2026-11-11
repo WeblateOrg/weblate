@@ -210,6 +210,14 @@ For application-developer workflows and broader product integration guidance, us
   the commands below. Run `./scripts/devcontainer doctor` to diagnose setup,
   and `./scripts/devcontainer bootstrap` after dependency changes. The test
   environment uses PostgreSQL and Valkey; it does not start application workers.
+- Use `./scripts/devcontainer verify` for full lint, typing, documentation, and
+  frontend verification, or repeat `--check lint`, `--check types`, `--check docs`,
+  and `--check frontend` to select groups. This requires an already prepared
+  environment and does not synchronize dependencies. Hooks can apply fixes.
+- Use `./scripts/devcontainer migration-test VERSION` for populated historical
+  upgrade verification. It snapshots current edits into a disposable clone and
+  uses a separate database; do not run `ci/run-migrate` directly in a working
+  checkout because it changes Git checkouts and resets the database.
 - Install the development dependencies first using
   `uv sync --all-extras --dev`.
 - After syncing, prefer `uv run ...` for subsequent commands so they use the

@@ -208,6 +208,38 @@ multiple projects, the restriction applies to the whole team.
 
 This is useful in case you want to build self-governed teams.
 
+.. _team-audit:
+
+Team audit log
+++++++++++++++
+
+Open :guilabel:`Team audit log` from a team's page or from project or workspace
+access control. Site administrators can also open it from
+:guilabel:`Manage teams`.
+
+The log records team creation, deletion, roles, language and component selection,
+enforced two-factor authentication, automatic assignment rules, memberships,
+and team administrator changes with the initiating account. Administrator grants
+and removals also appear in the affected account's activity log.
+
+Project entries require ``project.edit`` on that project. Workspace entries
+require ``workspace.edit_members`` on that workspace. Site administrators can
+read all entries, including site-wide team changes. Team administration alone
+does not grant access to the detailed audit log.
+
+Stale assignments that have moved outside a scoped team retain their identifiers
+without exposing names from another project.
+
+Entries retain team names and changes after a team is deleted. After a project
+or workspace is removed, its retained records are available only to site
+administrators. Retention follows :setting:`AUDITLOG_EXPIRY`.
+
+Public translation history omits sensitive team membership changes, including
+existing records. The detailed audit log starts when this feature is installed;
+earlier team-definition changes cannot be reconstructed. Audit entries are
+internal security records, separate from portable user settings and backup
+contents.
+
 .. _site-wide-team-management:
 
 Site-wide team management

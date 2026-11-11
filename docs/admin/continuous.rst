@@ -250,6 +250,11 @@ task and shows its progress. Repeating the same action opens the existing task;
 a different action cannot be started for the same repository until that task
 finishes.
 
+Repository actions are authorized when Weblate accepts and queues the request.
+Later changes to the initiating user's permissions or team memberships, or
+account deactivation, do not cancel accepted work, including task retries.
+New requests require the current account and permissions to authorize them.
+
 The :guilabel:`Synchronize` and :guilabel:`Rescan` repository operations are
 queued for background processing as described above. The separate
 :guilabel:`File management` actions are available only for an individual

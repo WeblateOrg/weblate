@@ -804,7 +804,7 @@ class ProjectBackup:
                 ),
                 extras,
             )
-            for group in project.defined_groups.all()
+            for group in project.defined_groups.order_by("pk")
         ]
 
     @staticmethod

@@ -12,7 +12,6 @@ from contextlib import contextmanager, nullcontext, suppress
 from copy import deepcopy
 from dataclasses import dataclass
 from functools import partial
-from glob import glob
 from itertools import chain
 from typing import (
     TYPE_CHECKING,
@@ -160,6 +159,7 @@ from weblate.utils.colors import ColorChoices
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 from weblate.utils.fields import EmailField
+from weblate.utils.files import PathMatchBudget, PathMatchLimitError, bounded_glob
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.licenses import (
     get_license_choices,
@@ -4799,12 +4799,27 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     def get_mask_matches(self, *, raise_on_timeout: bool = False) -> list[str]:
         """Return files matching current mask."""
+        budget = PathMatchBudget()
+        try:
+            return self._get_mask_matches(budget, raise_on_timeout=raise_on_timeout)
+        except PathMatchLimitError as error:
+            if not raise_on_timeout:
+                report_error(
+                    "Component file mask scan limit exceeded", project=self.project
+                )
+                self.log_warning("file mask scan limit exceeded: %s", error)
+            raise FileMaskTimeoutError(str(error)) from error
+
+    def _get_mask_matches(
+        self, budget: PathMatchBudget, *, raise_on_timeout: bool
+    ) -> list[str]:
         prefix = path_separator(os.path.join(self.full_path, ""))
         matches = set()
         language_re = compile_regex(self.language_regex)
         language_timeout_reported = False
 
-        for filename in glob(os.path.join(self.full_path, self.filemask)):
+        for filename in bounded_glob(self.full_path, self.filemask, budget=budget):
+            budget.check()
             path = path_separator(filename).replace(prefix, "")
             try:
                 code = self.get_lang_code(path)
@@ -4833,6 +4848,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # Remove symlinked translations
         targets = set()
         for filename in sorted(matches):
+            budget.check()
             try:
                 resolved = self.repository.resolve_symlinks(filename)
             except RepositorySymlinkError:
@@ -4848,14 +4864,18 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     else:
                         targets.add(resolved)
 
+        budget.check()
         if self.has_template():
             # We do not want to show intermediate translation standalone
             if self.intermediate:
                 matches.discard(self.intermediate)
             # We want to list template among translations as well
             matches.discard(self.template)
-            return [self.template, *sorted(matches)]
-        return sorted(matches)
+            result = [self.template, *sorted(matches)]
+        else:
+            result = sorted(matches)
+        budget.check()
+        return result
 
     def is_gettext_po_template(self) -> bool:
         """Check whether the base file should be handled as a gettext template."""

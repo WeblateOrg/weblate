@@ -20,10 +20,11 @@ from pathlib import Path
 from threading import Barrier
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, PropertyMock, patch
 from uuid import uuid4
 
 import yaml
+from celery.backends.cache import CacheBackend
 from django.conf import settings
 from django.contrib import messages as django_messages
 from django.contrib.messages import get_messages
@@ -48,8 +49,10 @@ from weblate_language_data.languages import LANGUAGES
 
 from weblate.accounts.models import (
     MAX_LISTING_COLUMNS,
+    AuditLog,
     Profile,
     Subscription,
+    TeamAuditLog,
     VerifiedEmail,
 )
 from weblate.accounts.notifications import (
@@ -73,6 +76,7 @@ from weblate.api.parsers import TranslationFileMultiPartParser
 from weblate.api.renderers import AutoCSVRenderer
 from weblate.api.serializers import (
     CategorySerializer,
+    ChangeSerializer,
     CommentSerializer,
     ComponentSerializer,
     MemoryLookupRequestSerializer,
@@ -140,6 +144,7 @@ from weblate.trans.models import (
     Unit,
     WorkflowSetting,
 )
+from weblate.trans.models.alert import Alert
 from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.repository import (
     QueuedRepositoryOperation,
@@ -164,12 +169,14 @@ from weblate.trans.validators import (
 )
 from weblate.utils.celery import (
     TASK_METADATA_TTL,
+    app,
     get_task_metadata_key,
     handle_task_failure,
     handle_task_failure_result,
 )
 from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.data import data_dir
+from weblate.utils.files import PathMatchBudget
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.pii import mask_email
 from weblate.utils.state import (
@@ -3017,6 +3024,70 @@ class UserAPITest(APIBaseTest):
 
 
 class GroupAPITest(APIBaseTest):
+    def test_team_mutations_have_private_actor_attributed_audits(self) -> None:
+        self.grant_perm_to_user("project.permissions", project=self.project)
+        target = User.objects.create_user(
+            username="audited-target", password="testpassword"
+        )
+        role = Role.objects.get(name="Administration")
+        before = Change.objects.count()
+        response = self.do_request(
+            "api:group-list",
+            method="post",
+            code=201,
+            request={
+                "name": "Audited API team",
+                "defining_project": reverse(
+                    "api:project-detail", kwargs=self.project_kwargs
+                ),
+            },
+        )
+        team = Group.objects.get(pk=response.data["id"])
+        self.do_request(
+            "api:group-roles",
+            kwargs={"id": team.pk},
+            method="post",
+            code=200,
+            request={"role_id": role.pk},
+        )
+        self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": team.pk},
+            method="post",
+            code=200,
+            request={"user_id": target.pk},
+        )
+        self.do_request(
+            "api:group-revoke-admin",
+            kwargs={"id": team.pk, "user_pk": target.pk},
+            method="delete",
+            code=200,
+        )
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": team.pk},
+            method="patch",
+            code=200,
+            request={"enforced_2fa": True},
+        )
+        self.do_request(
+            "api:group-detail", kwargs={"id": team.pk}, method="delete", code=204
+        )
+        entries = TeamAuditLog.objects.filter(team_name="Audited API team")
+        self.assertTrue(entries.filter(event="created").exists())
+        self.assertTrue(entries.filter(event="deleted", team__isnull=True).exists())
+        self.assertFalse(
+            entries.exclude(actor=self.user, project=self.project).exists()
+        )
+        self.assertEqual(
+            AuditLog.objects.filter(user=target, activity="team-admin-added").count(), 1
+        )
+        self.assertEqual(
+            AuditLog.objects.filter(user=target, activity="team-admin-removed").count(),
+            1,
+        )
+        self.assertEqual(Change.objects.count(), before)
+
     def test_group_list_prefetches_component_links(self) -> None:
         for index in range(3):
             team = Group.objects.create(
@@ -5507,6 +5578,40 @@ class ProjectAPITest(APIBaseTest):
             repository_components=selection.repositories,
         )
 
+    def test_new_repository_operations_require_current_authority(self) -> None:
+        self.authenticate()
+        self.user.groups.clear()
+        role = Role.objects.create(name="Queued repository reset")
+        role.permissions.add(Permission.objects.get(codename="vcs.reset"))
+        group = Group.objects.create(
+            name="Queued repository reset", language_selection=SELECTION_ALL
+        )
+        group.projects.add(self.project)
+        group.roles.add(role)
+        self.user.groups.add(group)
+        url = reverse("api:project-repository", kwargs=self.project_kwargs)
+        data = {"operation": "reset", "background": True}
+        with patch(
+            "weblate.api.views.queue_repository_operation",
+            return_value=QueuedRepositoryOperation("task-id"),
+        ) as queue:
+            response = self.client.post(url, data)
+            self.assertEqual(response.status_code, 202)
+            queue.assert_called_once()
+            queue.reset_mock()
+
+            self.user.groups.remove(group)
+            response = self.client.post(url, data)
+            self.assertEqual(response.status_code, 403)
+            queue.assert_not_called()
+
+            self.user.groups.add(group)
+            self.user.is_active = False
+            self.user.save(update_fields=["is_active"])
+            response = self.client.post(url, data)
+            self.assertEqual(response.status_code, 401)
+            queue.assert_not_called()
+
     def test_eager_repo_operation_returns_result(self) -> None:
         with patch(
             "weblate.api.views.queue_repository_operation",
@@ -6936,20 +7041,21 @@ class ProjectAPITest(APIBaseTest):
     def test_create_component_ignores_missing_autoshare_target(self) -> None:
         repo = self.component.repo
         link_repo = self.component.get_repo_link_url()
-        original_get_linked = Component.objects.get_linked
+        original_get_linked = ComponentQuerySet.get_linked
 
-        def get_linked(candidate):
+        def get_linked(queryset: ComponentQuerySet, candidate: str) -> Component | None:
             if candidate == link_repo:
                 msg = "Component disappeared."
                 raise Component.DoesNotExist(msg)
-            return original_get_linked(candidate)
+            return original_get_linked(queryset, candidate)
 
         self.grant_perm_to_user("project.edit", project=self.project)
         self.user.clear_permissions_cache()
 
         with patch.object(
-            Component.objects,
+            ComponentQuerySet,
             "get_linked",
+            autospec=True,
             side_effect=get_linked,
         ):
             self.do_request(
@@ -7253,31 +7359,81 @@ class ProjectAPITest(APIBaseTest):
         )
         self.user.clear_permissions_cache()
 
+        restricted = self.create_po(
+            project=self.create_project(name="Public target", slug="public-target"),
+            name="Restricted target",
+            restricted=True,
+        )
+        two_factor = self.create_po(
+            project=self.create_project(
+                name="Two factor target", slug="two-factor-target", enforced_2fa=True
+            ),
+            name="Two factor component",
+        )
+        for fields in (
+            {},
+            {"name": self.component.name, "slug": self.component.slug},
+            {
+                "name": "Inaccessible repository link",
+                "slug": "inaccessible-repository-link",
+                "filemask": "po/*.po",
+                "file_format": "po",
+                "new_lang": "none",
+            },
+        ):
+            responses = []
+            for repo in (
+                private_component.get_repo_link_url(),
+                restricted.get_repo_link_url(),
+                two_factor.get_repo_link_url(),
+                "weblate://acl/missing",
+                "weblate://missing-project/missing",
+            ):
+                with self.subTest(repo=repo, fields=fields):
+                    response = self.do_request(
+                        "api:project-components",
+                        self.project_kwargs,
+                        method="post",
+                        code=400,
+                        format="json",
+                        request={**fields, "repo": repo},
+                    )
+                    responses.append(response.data)
+                    self.assertEqual(response.data["errors"][0]["attr"], "repo")
+                    self.assertEqual(
+                        response.data["errors"][0]["detail"],
+                        "This component does not exist or you cannot access it.",
+                    )
+            self.assertTrue(all(response == responses[0] for response in responses))
+        self.assertFalse(
+            self.project.component_set.filter(
+                slug="inaccessible-repository-link"
+            ).exists()
+        )
+
+    def test_create_component_rejects_visible_repository_without_edit_permission(
+        self,
+    ) -> None:
+        visible = self.create_po(
+            project=self.create_project(name="Visible target", slug="visible-target"),
+            name="Visible component",
+        )
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.can_access_component(visible))
+        self.assertFalse(self.user.has_perm("component.edit", visible))
         response = self.do_request(
             "api:project-components",
             self.project_kwargs,
             method="post",
             code=400,
             format="json",
-            request={
-                "name": "Inaccessible repository link",
-                "slug": "inaccessible-repository-link",
-                "repo": private_component.get_repo_link_url(),
-                "filemask": "po/*.po",
-                "file_format": "po",
-                "new_lang": "none",
-            },
+            request={"repo": visible.get_repo_link_url()},
         )
-
         self.assertEqual(response.data["errors"][0]["attr"], "repo")
         self.assertEqual(
             response.data["errors"][0]["detail"],
             "You do not have permission to access this component.",
-        )
-        self.assertFalse(
-            self.project.component_set.filter(
-                slug="inaccessible-repository-link"
-            ).exists()
         )
 
     def test_create_component_no_push(self) -> None:
@@ -10171,6 +10327,27 @@ class ProjectAPITest(APIBaseTest):
 
 
 class ComponentAPITest(APIBaseTest):
+    def test_patch_filemask_scan_limit(self) -> None:
+        original_name = self.component.name
+        original_mask = self.component.filemask
+        self.grant_perm_to_user("component.edit", component=self.component)
+        with patch(
+            "weblate.trans.models.component.PathMatchBudget",
+            side_effect=lambda: PathMatchBudget(max_work=0),
+        ):
+            response = self.do_request(
+                "api:component-detail",
+                self.component_kwargs,
+                method="patch",
+                code=400,
+                format="json",
+                request={"name": "Limited scan"},
+            )
+        self.assertEqual(response.data["errors"][0]["attr"], "filemask")
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.name, original_name)
+        self.assertEqual(self.component.filemask, original_mask)
+
     def test_xml_serialization_params(self) -> None:
         component = self._create_component(
             "xliff", "xliff/*/complex.xlf", project=self.project, name="XML"
@@ -11219,19 +11396,27 @@ class ComponentAPITest(APIBaseTest):
         )
         self.user.clear_permissions_cache()
 
-        self.do_request(
-            "api:component-detail",
-            self.component_kwargs,
-            method="patch",
-            code=400,
-            format="json",
-            request={
-                "repo": private_component.get_repo_link_url(),
-                "branch": "",
-                "push": "",
-                "push_branch": "",
-            },
-        )
+        responses = []
+        for repo in (
+            private_component.get_repo_link_url(),
+            "weblate://acl/missing",
+            "weblate://missing-project/missing",
+        ):
+            with self.subTest(repo=repo):
+                response = self.do_request(
+                    "api:component-detail",
+                    self.component_kwargs,
+                    method="patch",
+                    code=400,
+                    format="json",
+                    request={"repo": repo, "branch": "", "push": "", "push_branch": ""},
+                )
+                responses.append(response.data)
+                self.assertEqual(
+                    response.data["errors"][0]["detail"],
+                    "This component does not exist or you cannot access it.",
+                )
+        self.assertTrue(all(response == responses[0] for response in responses))
         self.component.refresh_from_db()
         self.assertEqual(self.component.repo, original_repo)
         self.assertIsNone(self.component.linked_component_id)
@@ -16394,6 +16579,78 @@ class MemoryAPITest(APIBaseTest):
 
 
 class TranslationAPITest(APIBaseTest):
+    @override_settings(CELERY_TASK_STORE_EAGER_RESULT=True)
+    def test_upload_background(self) -> None:
+        self.authenticate()
+        with patch.object(
+            type(app),
+            "backend",
+            new_callable=PropertyMock,
+            return_value=CacheBackend(app=app, backend="memory"),
+        ):
+            for method in ("post", "put"):
+                with self.subTest(method=method), open(TEST_PO, "rb") as handle:
+                    response = getattr(self.client, method)(
+                        reverse("api:translation-file", kwargs=self.translation_kwargs),
+                        {"file": handle, "background": True, "method": "suggest"},
+                    )
+                self.assertEqual(response.status_code, 202)
+                self.assertIn("/api/tasks/", response.data["task_url"])
+                task_response = self.client.get(response.data["task_url"])
+                self.assertEqual(task_response.status_code, 200)
+                self.assertTrue(task_response.data["completed"])
+                self.assertIn("accepted", task_response.data["result"])
+
+    def test_upload_background_false(self) -> None:
+        self.authenticate()
+        with open(TEST_PO, "rb") as handle:
+            response = self.client.post(
+                reverse("api:translation-file", kwargs=self.translation_kwargs)
+                + "?background=true",
+                {"file": handle, "background": False},
+            )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("accepted", response.data)
+
+    def test_upload_raw_background(self) -> None:
+        self.authenticate()
+        response = self.client.put(
+            reverse("api:translation-file", kwargs=self.translation_kwargs)
+            + "?background=true",
+            Path(TEST_PO).read_bytes(),
+            content_type="application/octet-stream",
+            headers={"content-disposition": 'attachment; filename="test.po"'},
+        )
+        self.assertEqual(response.status_code, 202)
+
+    def test_upload_rate_limit(self) -> None:
+        self.authenticate()
+        with (
+            patch("weblate.api.views.check_rate_limit", return_value=False),
+            patch("weblate.api.views.queue_translation_upload") as queue,
+            open(TEST_PO, "rb") as handle,
+        ):
+            response = self.client.post(
+                reverse("api:translation-file", kwargs=self.translation_kwargs),
+                {"file": handle, "background": True},
+            )
+        self.assertEqual(response.status_code, 429)
+        queue.assert_not_called()
+
+    def test_upload_task_is_private(self) -> None:
+        from weblate.utils.celery import store_task_metadata  # ruff: ignore[import-outside-top-level]
+
+        self.authenticate()
+        task_id = "d0db0567-bd78-481e-ac61-df5ddc24f783"
+        store_task_metadata(
+            task_id,
+            user_id=self.user.pk + 1000,
+            task_kind="translation-upload",
+            cancellable=False,
+        )
+        response = self.client.get(reverse("api:task-detail", kwargs={"pk": task_id}))
+        self.assertEqual(response.status_code, 404)
+
     def test_list_translations(self) -> None:
         response = self.client.get(reverse("api:translation-list"))
         self.assertEqual(response.data["count"], 8)
@@ -20791,6 +21048,105 @@ class ChangeAPITest(APIBaseTest):
                         response.status_code, 200 if slug in expected else 404
                     )
 
+    def test_conflict_visibility_preserves_unrelated_legacy_alerts(self) -> None:
+        self.authenticate()
+        for details in ({}, {"alert": "UnusedScreenshot"}):
+            with self.subTest(details=details):
+                change = self.component.change_set.create(
+                    action=ActionEvents.ALERT,
+                    user=self.user,
+                    details=details,
+                )
+                response = self.client.get(
+                    reverse("api:change-detail", kwargs={"pk": change.pk})
+                )
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.data["details"], change.details)
+
+    def test_conflict_history_visibility_and_count(self) -> None:
+        hidden = self.create_acl()
+        alert = Alert.objects.create(
+            component=self.component,
+            name="ConflictingRepositorySetup",
+            details={"component_ids": [hidden.pk]},
+        )
+        created = self.component.change_set.get(alert=alert, action=ActionEvents.ALERT)
+        dismissed = self.component.change_set.create(
+            action=ActionEvents.ALERT_DISMISSED,
+            user=self.user,
+            alert=alert,
+            details={
+                "alert": alert.name,
+                "alert_snapshot": {
+                    "details": alert.details,
+                    "severity": alert.severity,
+                    "category": alert.category,
+                },
+            },
+        )
+        reopened = self.component.change_set.create(
+            action=ActionEvents.ALERT_REOPENED,
+            user=self.user,
+            alert=alert,
+            details={"alert": alert.name, "fingerprint": "private-fingerprint"},
+        )
+        for keep_alert in (True, False):
+            if not keep_alert:
+                alert.delete()
+            for admin in (False, True):
+                self.authenticate(superuser=admin)
+                with self.subTest(keep_alert=keep_alert, admin=admin):
+                    for change in (created, dismissed, reopened):
+                        response = self.client.get(
+                            reverse("api:change-detail", kwargs={"pk": change.pk})
+                        )
+                        self.assertEqual(response.status_code, 200 if admin else 404)
+                    response = self.client.get(
+                        reverse("api:component-changes", kwargs=self.component_kwargs)
+                    )
+                    expected = (
+                        self.component.change_set.count()
+                        if admin
+                        else self.component.change_set.count() - 3
+                    )
+                    self.assertEqual(response.data["count"], expected)
+
+    def test_conflict_history_serialization_batches_access_queries(self) -> None:
+        visible = self.create_po(project=self.project, name="Visible peer")
+        hidden = self.create_acl()
+        alert = Alert.objects.create(
+            component=self.component,
+            name="ConflictingRepositorySetup",
+            details={"component_ids": [visible.pk, hidden.pk]},
+        )
+        ids = [
+            self.component.change_set.create(
+                action=ActionEvents.ALERT,
+                user=self.user,
+                alert=alert,
+                details={"alert": alert.name},
+            ).pk
+            for _ in range(8)
+        ]
+        request = Request(APIRequestFactory().get("/api/changes/"))
+        request.user = self.user
+        counts = []
+        for selected in (ids[:1], ids):
+            changes = list(Change.objects.filter(pk__in=selected).prefetch_for_render())
+            Change.objects.preload_list(changes)
+            # Warm permission caches independently of the page size.
+            _ = ChangeSerializer(changes, many=True, context={"request": request}).data
+            with CaptureQueriesContext(connection) as queries:
+                data = ChangeSerializer(
+                    changes, many=True, context={"request": request}
+                ).data
+            counts.append(len(queries))
+            for entry in data:
+                self.assertEqual(
+                    entry["alert"]["details"]["component_ids"], [visible.pk]
+                )
+        self.assertEqual(counts, [1, 1])
+
     def test_conflicting_repository_alert_hides_inaccessible_components(self) -> None:
         visible = self.create_po(project=self.project, name="Visible conflict peer")
         hidden = self.create_acl()
@@ -20888,8 +21244,13 @@ class ChangeAPITest(APIBaseTest):
         response = self.client.get(
             reverse("api:change-detail", kwargs={"pk": created.pk})
         )
-        self.assertEqual(response.data["alert"]["name"], alert.name)
-        self.assertEqual(response.data["alert"]["details"], {"component_ids": []})
+        self.assertEqual(response.status_code, 404)
+        response = self.client.get(
+            reverse("api:component-changes", kwargs=self.component_kwargs)
+        )
+        self.assertNotIn(
+            created.pk, {entry["id"] for entry in response.data["results"]}
+        )
 
         self.component.delete_alert(alert.name)
         response = self.client.get(

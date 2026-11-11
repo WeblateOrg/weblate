@@ -734,7 +734,7 @@ class ExtractorGuidanceAlertTest(ReusableViewTestCase):
 
         self.assertTrue(self.component.all_active_alerts)
         self.assertFalse(self.component.all_problem_alerts)
-        self.assertFalse(list(component_alerts(self.component)))
+        self.assertFalse(list(component_alerts(self.component, self.user)))
         response = self.client.get(self.component.get_absolute_url())
         self.assertContains(response, 'data-bs-target="#alerts"')
         self.assertEqual(response.context["problem_alerts_count"], 0)

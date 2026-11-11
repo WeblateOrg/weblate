@@ -75,6 +75,12 @@ The summary can be filtered by active or dismissed state, severity, category,
 or whether the signed-in user can act on the diagnostic. Components shared into
 a project are listed only in the diagnostics of their owning project.
 
+Repository conflict detection covers the whole site. A conflict warning and its
+history are shown only when you can access at least one conflicting component,
+and list only the conflicting components you can access. Site administrators
+can see all conflicts. Conflicts involving only inaccessible components do not
+appear in diagnostic counts or indicators.
+
 If it is missing, the component clears all current checks. Alerts disappear once
 the underlying condition has been resolved.
 

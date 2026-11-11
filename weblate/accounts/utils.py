@@ -324,6 +324,13 @@ def remove_user(
         params["email"] = user.email
     AuditLog.objects.create(user, request, activity, **params)
 
+    # Preserve the original identity and actor in each scope's membership log.
+    # Acquire the audit locks before changing the account or its memberships.
+    for team in user.groups.select_related(
+        "defining_project", "defining_workspace"
+    ).order_by("defining_project_id", "pk"):
+        user.remove_team(request, team)
+
     # Remove any email validation codes
     invalidate_reset_codes(user)
 
@@ -346,8 +353,7 @@ def remove_user(
     # Remove all social auth associations
     user.social_auth.all().delete()
 
-    # Remove user from all groups
-    user.groups.clear()
+    # Remove any remaining administrator assignments without a membership.
     user.administered_group_set.clear()
 
     # Remove user translation memory

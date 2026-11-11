@@ -27,6 +27,18 @@
          id="tab_api"
          href="#">{% translate "API access" %}</a>
     </li>
+    {% if can_view_team_audit %}
+      <li class="nav-item" role="presentation">
+        <a class="nav-link"
+           id="tab_team_audit"
+           data-bs-target="#team-audit"
+           data-bs-toggle="tab"
+           role="tab"
+           aria-controls="team-audit"
+           aria-selected="false"
+           href="#team-audit">{% translate "Team audit log" %}</a>
+      </li>
+    {% endif %}
   </ul>
 {% endblock nav_pills %}
 
@@ -459,6 +471,15 @@
       {% include "snippets/ssh-key.html" %}
       {% documentation_icon 'vcs' right=True %}
     </div>
+    {% if can_view_team_audit %}
+      <div class="tab-pane"
+           id="team-audit"
+           role="tabpanel"
+           aria-labelledby="tab_team_audit"
+           tabindex="0">
+        {% include "auth/team-audit-list.html" with entries=team_audit_entries anchor="team-audit" paginator_form="team-audit-paginator-form" %}
+      </div>
+    {% endif %}
   </div>
 
   <form action="{% url "set-groups" project=object.slug %}"
@@ -490,6 +511,10 @@
     </div>
   </form>
 
+  {% if can_view_team_audit %}
+    <form method="get" action="#team-audit" id="team-audit-paginator-form">
+    </form>
+  {% endif %}
   <form method="get" id="paginator-form">
   </form>
 

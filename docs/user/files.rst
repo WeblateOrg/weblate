@@ -89,6 +89,20 @@ Uploading translations
 When you have made your changes, use :guilabel:`Upload translation`
 in the :guilabel:`Files` menu.
 
+You must be logged in to upload translations, even if upload permissions have
+been assigned to the Guests team.
+
+Uploads are processed in the background, with progress and results shown in the
+notification. You can have one browser upload queued or running at a time.
+Suggestion uploads are limited to 20,000 content strings present in the uploaded
+file, including strings which are skipped or do not match. Source-template
+strings absent from the upload do not count toward this limit. Split larger
+suggestion files before uploading.
+Other upload methods retain the general 100,000-string limit.
+
+Browser and API uploads share the per-user :setting:`RATELIMIT_UPLOAD_ATTEMPTS`
+limit. The API supports multiple outstanding uploads; see :doc:`/api`.
+
 .. image:: /screenshots/file-upload.webp
 
 .. _upload-file:

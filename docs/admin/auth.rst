@@ -216,6 +216,93 @@ section enables OpenID authentication for OpenSUSE, Fedora and Ubuntu:
 
    :doc:`psa:backends/openid`
 
+.. _keycloak_auth:
+
+Keycloak authentication
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Register a client in Keycloak with the callback URL
+``https://WEBLATE SERVER/accounts/complete/keycloak/``. Follow
+:doc:`psa:backends/keycloak` for the client credentials, signing key, audience,
+and endpoint configuration. Add
+``social_core.backends.keycloak.KeycloakOAuth2`` to
+:setting:`django:AUTHENTICATION_BACKENDS` alongside the Weblate backends.
+
+Use the stable subject claim to identify accounts::
+
+    SOCIAL_AUTH_KEYCLOAK_ID_KEY = "sub"
+    SOCIAL_AUTH_KEYCLOAK_LEGACY_ID_KEYS = ["email"]
+    SOCIAL_AUTH_KEYCLOAK_ALLOW_UNVERIFIED_LEGACY_UID_MIGRATION = False
+
+Docker also uses ``sub`` with historical e-mail lookup, but enables compatibility
+migration when no identifier is explicitly configured, as described below. See the
+:envvar:`WEBLATE_SOCIAL_AUTH_KEYCLOAK_KEY` configuration variables.
+
+.. warning::
+
+   E-mail addresses and usernames can change or be reassigned to another
+   Keycloak account. Using either as ``ID_KEY`` can let the new owner access
+   an existing Weblate account. E-mail verification does not prevent this
+   reassignment risk.
+
+Weblate relies on the provider to validate e-mail addresses, as described in
+`Social authentication`_. If the realm does not enforce validation, configure
+``SOCIAL_AUTH_KEYCLOAK_FORCE_EMAIL_VALIDATION = True``. This controls e-mail
+validation and does not replace the stable account identifier.
+
+Upgrading existing Keycloak associations
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Earlier Docker configurations defaulted to ``email``. Python Social Auth
+migrates existing associations to ``sub`` on the next successful login.
+When :envvar:`WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY` is unset, Docker enables
+``SOCIAL_AUTH_KEYCLOAK_ALLOW_UNVERIFIED_LEGACY_UID_MIGRATION`` so that
+associations without a saved subject can migrate using their historical e-mail
+address or username. An explicit identifier disables this compatibility default,
+including an explicit ``sub``. You can override the policy using
+:envvar:`WEBLATE_SOCIAL_AUTH_KEYCLOAK_ALLOW_UNVERIFIED_LEGACY_UID_MIGRATION`.
+After migration, authentication matches the subject instead of the historical
+identifier. Conflicting saved subject evidence still stops authentication.
+
+.. warning::
+
+   Until an association migrates, its historical e-mail address or username
+   remains sufficient to claim it. A different Keycloak account assigned that
+   identifier could take over the association during migration. Once migrated,
+   the association is bound to the subject and this fallback no longer applies.
+
+To require saved subject evidence instead, set
+``SOCIAL_AUTH_KEYCLOAK_ALLOW_UNVERIFIED_LEGACY_UID_MIGRATION = False`` in your
+Django settings, or set
+:envvar:`WEBLATE_SOCIAL_AUTH_KEYCLOAK_ALLOW_UNVERIFIED_LEGACY_UID_MIGRATION`
+to ``0`` in Docker. Associations without this evidence then require recovery
+through another login method, removal of the stale association, and linking the
+identity again, or administrative repair using independently verified Keycloak
+records.
+
+Before applying the Python Social Auth historical-key backfill migration,
+configure ``SOCIAL_AUTH_OLD_ID_KEYS`` with the identifier that actually created
+the associations. For example, for the historical Docker default::
+
+    SOCIAL_AUTH_OLD_ID_KEYS = {"keycloak": "email"}
+
+Docker sets this mapping to ``email`` unless
+:envvar:`WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY` is explicitly configured, in which
+case it assumes that value also created the historical associations. This
+historical default is ``email`` even though the new active default is ``sub``.
+If you change this variable during the upgrade,
+override the historical mapping separately using
+:ref:`docker-settings-override`. In particular, retain the historical ``sub``
+mapping for deployments that already used subjects. Never infer the historical
+key from the identifier value alone.
+
+If the migration has already assigned incorrect keys, changing
+``SOCIAL_AUTH_OLD_ID_KEYS`` does not repair them. Audit and correct affected
+associations against trusted provider records. See
+:doc:`psa:configuration/identifier-migration` for evidence requirements and
+backfill details. Explicit mutable identifier overrides remain supported, but
+must be changed to ``sub`` to obtain the protection described here.
+
 .. _github_auth:
 
 GitHub authentication

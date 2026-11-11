@@ -5,10 +5,11 @@ from __future__ import annotations
 
 import os
 from functools import wraps
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied, ValidationError
-from django.db import DatabaseError
 from django.db.models import Exists, OuterRef
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
@@ -19,11 +20,6 @@ from django.views.decorators.http import require_POST
 from weblate.auth.bots import InternalBot
 from weblate.formats.base import is_identity_safe_exporter
 from weblate.formats.models import EXPORTERS
-from weblate.trans.exceptions import (
-    FailedCommitError,
-    FileParseError,
-    PluralFormsMismatchError,
-)
 from weblate.trans.forms import DownloadForm, get_upload_form
 from weblate.trans.models import (
     Category,
@@ -32,12 +28,14 @@ from weblate.trans.models import (
     Project,
     Translation,
 )
+from weblate.trans.uploads import queue_translation_upload
 from weblate.trans.util import get_upload_error_message
 from weblate.utils import messages
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
 from weblate.utils.files import get_upload_message
 from weblate.utils.lock import WeblateLockTimeoutError
+from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import (
     download_translation_file,
@@ -52,6 +50,7 @@ from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
+    from typing import Any
     from zipfile import ZipFile
 
     from django.db.models import Model, QuerySet
@@ -457,6 +456,7 @@ def download(request: AuthenticatedHttpRequest, path):
     raise TypeError(msg)
 
 
+@login_required
 @require_POST
 def upload(request: AuthenticatedHttpRequest, path):
     """Handle translation upload."""
@@ -464,6 +464,10 @@ def upload(request: AuthenticatedHttpRequest, path):
 
     if not request.user.has_perm("upload.perform", obj):
         raise PermissionDenied
+
+    if not check_rate_limit("upload", request):
+        messages.error(request, gettext("Too many uploads, please try again later."))
+        return redirect(obj)
 
     # Check method and lock
     if obj.component.locked:
@@ -493,52 +497,22 @@ def upload(request: AuthenticatedHttpRequest, path):
 
     # Do actual import
     try:
-        not_found, skipped, accepted, total = obj.handle_upload(
-            request,
-            request.FILES["file"],
-            conflicts,
-            author_name,
-            author_email,
-            method=form.cleaned_data["method"],
-            fuzzy=form.cleaned_data["fuzzy"],
-            ignore_language=form.cleaned_data["ignore_language"],
+        task = queue_translation_upload(
+            obj,
+            request.user,
+            form.cleaned_data["file"],
+            {
+                "conflicts": conflicts,
+                "author_name": author_name,
+                "author_email": author_email,
+                "method": form.cleaned_data["method"],
+                "fuzzy": form.cleaned_data["fuzzy"],
+                "ignore_language": form.cleaned_data["ignore_language"],
+            },
+            browser=True,
         )
-    except PluralFormsMismatchError:
-        messages.error(
-            request,
-            gettext(
-                "Plural forms in the uploaded file do not match current translation."
-            ),
-        )
-    except FileParseError as error:
-        messages.error(
-            request,
-            get_upload_error_message(
-                error,
-                repo_urls=(obj.component.repo, obj.component.push),
-                extra_paths=(obj.component.full_path,),
-            ),
-        )
-    except FailedCommitError as error:
-        messages.error(
-            request,
-            get_upload_error_message(
-                error,
-                repo_urls=(obj.component.repo, obj.component.push),
-                extra_paths=(obj.component.full_path,),
-            ),
-        )
-        report_error("Upload error", project=obj.component.project)
-    except DatabaseError as error:
-        messages.error(
-            request,
-            get_upload_error_message(
-                error,
-                repo_urls=(obj.component.repo, obj.component.push),
-                extra_paths=(obj.component.full_path,),
-            ),
-        )
-        report_error("Upload error", project=obj.component.project)
+    except ValidationError as error:
+        messages.error(request, "; ".join(error.messages))
     except Exception as error:
         messages.error(
             request,
@@ -550,10 +524,24 @@ def upload(request: AuthenticatedHttpRequest, path):
         )
         report_error("Upload error", project=obj.component.project)
     else:
-        message = get_upload_message(not_found, skipped, accepted, total)
-        if accepted == 0:
-            messages.warning(request, message)
+        if settings.CELERY_TASK_ALWAYS_EAGER:
+            result = cast("dict[str, Any]", task.result)
+            completion = result["completion_message"]
+            for warning in result.get("upload_warnings", []):
+                messages.warning(request, warning)
+            if "accepted" in result:
+                message = get_upload_message(
+                    result["not_found"],
+                    result["skipped"],
+                    result["accepted"],
+                    result["total"],
+                )
+            else:
+                message = completion["text"]
+            getattr(messages, completion["level"])(request, message)
         else:
-            messages.success(request, message)
+            messages.success(
+                request, gettext("Translation upload in progress."), f"task:{task.id}"
+            )
 
     return redirect(obj)

@@ -22,7 +22,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
 from weblate.accounts.forms import UserManageForm
-from weblate.accounts.models import AuditLog
+from weblate.accounts.models import AuditLog, TeamAuditLog
 from weblate.accounts.utils import (
     has_recent_sensitive_verification,
     is_site_api_token_user,
@@ -30,13 +30,14 @@ from weblate.accounts.utils import (
     require_project_sensitive_verification,
     sensitive_verification_redirect,
 )
+from weblate.auth.audit import audit_team_changes
 from weblate.auth.forms import (
     BulkInviteForm,
     InviteEmailForm,
     InviteUserForm,
     ProjectTeamForm,
 )
-from weblate.auth.models import Invitation, TeamMembership, User
+from weblate.auth.models import Group, Invitation, TeamMembership, User
 from weblate.auth.utils import (
     format_membership_limit_language_codes,
     has_project_admin_grant,
@@ -64,6 +65,8 @@ from weblate.utils.views import get_paginator, parse_path, show_form_errors
 from weblate.vcs.ssh import get_all_key_data
 
 if TYPE_CHECKING:
+    from django.http import HttpResponse
+
     from weblate.auth.models import AuthenticatedHttpRequest
 
 
@@ -92,10 +95,22 @@ def check_user_form(
     return obj, None
 
 
+def lock_project_teams(project: Project) -> None:
+    """Serialize project/team changes before acquiring membership locks."""
+    Project.objects.select_for_update(no_key=True).filter(pk=project.pk).exists()
+    list(
+        Group.objects.select_for_update(no_key=True)
+        .filter(defining_project=project)
+        .order_by("pk")
+        .values_list("pk", flat=True)
+    )
+
+
 def lock_project_member(project: Project, user: User) -> User:
     """Lock and recheck a project member before destructive changes."""
+    lock_project_teams(project)
     users = User.objects.select_for_update()
-    memberships = TeamMembership.objects.select_for_update().filter(
+    memberships = TeamMembership.objects.select_for_update(of=("self",)).filter(
         user_id=user.pk, group__defining_project=project
     )
     user = get_object_or_404(users, pk=user.pk)
@@ -147,6 +162,7 @@ def set_groups(request: AuthenticatedHttpRequest, project):
     if form is None:
         return redirect_param("manage-access", "", project=obj.slug)
 
+    lock_project_teams(obj)
     user = form.cleaned_data["user"]
     desired_groups = {group.id for group in form.cleaned_data["groups"]}
     current_groups = set(
@@ -499,12 +515,22 @@ def delete_user(request: AuthenticatedHttpRequest, project):
 
 @login_required
 @never_cache
-def manage_access(request: AuthenticatedHttpRequest, project):
+def manage_access(request: AuthenticatedHttpRequest, project: str) -> HttpResponse:
     """User management view."""
     obj = parse_path(request, [project], (Project,))
 
     if not request.user.has_perm("project.permissions", obj):
         raise PermissionDenied
+
+    can_view_team_audit = request.user.has_perm("project.edit", obj)
+    team_audit_entries = None
+    if can_view_team_audit:
+        team_audit_entries = get_paginator(
+            request,
+            TeamAuditLog.objects.for_user(request.user)
+            .filter(project=obj)
+            .select_related("actor", "project", "workspace"),
+        )
 
     groups = (
         obj.defined_groups.order()
@@ -556,6 +582,8 @@ def manage_access(request: AuthenticatedHttpRequest, project):
         request,
         "trans/project-access.html",
         {
+            "can_view_team_audit": can_view_team_audit,
+            "team_audit_entries": team_audit_entries,
             "object": obj,
             "project": obj,
             "project_tokens": project_tokens,
@@ -636,7 +664,8 @@ def create_group(request: AuthenticatedHttpRequest, project):
 
     if form.is_valid():
         try:
-            form.save(project=obj)
+            with audit_team_changes(form.instance, request.user, request):
+                form.save(project=obj)
         except ValidationError as error:
             form.add_error(None, error)
     if form.errors:

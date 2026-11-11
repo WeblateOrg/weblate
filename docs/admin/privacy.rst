@@ -164,9 +164,9 @@ only selected projects need this policy.
        and :guilabel:`Manage languages` wherever assigned to ordinary users.
        Original-file downloads then become unavailable; supported regenerated
        translation exports remain available with ``translation.download``.
-       Also remove ``vcs.access`` wherever granted, including
-       :guilabel:`Power user`, to prevent Git repository export from exposing
-       existing commit history.
+       Also remove ``vcs.view`` and ``vcs.access`` wherever granted, including
+       :guilabel:`Power user`, to prevent repository information and Git
+       repository export from exposing identities stored in existing commits.
    * - Trusted project administrators
      - Retain ``contribution.view_author`` in their :guilabel:`Administration`
        role. Keep ``reports.view``, ``change.download``, and project access
@@ -175,7 +175,8 @@ only selected projects need this policy.
        who need them; a project role does not scope global user permissions.
 
 Remove independent disclosure privileges from ordinary translators, including
-``reports.view``, ``change.download``, ``vcs.access``, ``project.permissions``, ``workspace.edit``,
+``reports.view``, ``change.download``, ``vcs.view``, ``vcs.access``,
+``project.permissions``, ``workspace.edit``,
 and ``workspace.edit_members``. Review custom roles and team restrictions as well
 as built-in roles. Keep add-on configuration privileges such as ``project.edit``,
 ``component.edit``, and ``management.addons`` with trusted operators.

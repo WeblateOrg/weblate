@@ -50,6 +50,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
+from weblate.trans.models.alert import filter_visible_alerts
 from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import translation_percent
@@ -76,11 +77,12 @@ if TYPE_CHECKING:
 
     from django import forms
     from django.core.paginator import Page
-    from django.db.models import QuerySet
+    from django.db.models import Model, QuerySet
     from django.template.context import Context
     from django.utils.safestring import SafeString
     from django_stubs_ext import StrOrPromise
 
+    from weblate.billing.models import LibreCheckAlert
     from weblate.lang.models import Language
     from weblate.metrics.wrapper import MetricsWrapper
     from weblate.trans.models import (
@@ -577,8 +579,22 @@ def translation_alerts(
         )
 
 
+@register.filter
+def visible_billing_alerts(
+    alerts: Iterable[LibreCheckAlert], user: User
+) -> list[LibreCheckAlert]:
+    """Apply diagnostic visibility to the Libre-hosting checklist as well."""
+    items = list(alerts)
+    visible_ids = {
+        alert.pk
+        for alert in filter_visible_alerts((item.alert for item in items), user)
+    }
+    return [item for item in items if item.alert.pk in visible_ids]
+
+
 def component_alerts(
     component: Component,
+    user: User,
 ) -> Iterable[tuple[str, StrOrPromise, str | None, str]]:
     if component.is_repo_link:
         yield (
@@ -589,7 +605,7 @@ def component_alerts(
             "",
         )
 
-    if component.all_problem_alerts:
+    if filter_visible_alerts(component.all_problem_alerts, user):
         yield (
             "state/alert.svg",
             gettext("Fix this component to clear its diagnostics."),
@@ -611,8 +627,12 @@ def component_alerts(
 
 def project_alerts(
     project: Project,
+    user: User,
 ) -> Iterable[tuple[str, StrOrPromise, str | None, str]]:
-    if project.has_alerts:
+    has_alerts = project.__dict__.get("visible_has_alerts")
+    if has_alerts is None:
+        has_alerts = project.all_problem_alerts.filter_visible_conflicts(user).exists()
+    if has_alerts:
         yield (
             "state/alert.svg",
             gettext("Some of the components within this project have diagnostics."),
@@ -659,9 +679,9 @@ def get_alerts(
         yield ("state/shield.svg", gettext("Restricted component"), None, "")
 
     if component is not None:
-        yield from (component_alerts(component))
+        yield from (component_alerts(component, context["user"]))
     elif project is not None:
-        yield from (project_alerts(project))
+        yield from (project_alerts(project, context["user"]))
 
     if getattr(obj, "is_ghost", False):
         yield (
@@ -785,7 +805,11 @@ def can_dismiss_alert(alert: Alert, user: User) -> bool:
 
 
 @register.filter
-def format_commit_author(commit, *, viewer: User | AnonymousUser | None = None) -> str:
+def format_commit_author(
+    commit, resource: Model, *, viewer: User | AnonymousUser | None = None
+) -> str:
+    if not can_view_contributor(viewer, resource):
+        return commit["author_name"]
     users = User.objects.filter(
         social_auth__verifiedemail__email=commit["author_email"]
     )
