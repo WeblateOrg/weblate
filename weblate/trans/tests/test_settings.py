@@ -252,6 +252,16 @@ class ComponentRestrictedVerificationTest(ReusableViewTestCase):
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_browser_repo_link_requires_verification(self) -> None:
+        self.assert_browser_repo_link_requires_verification()
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_browser_repo_link_with_unrestricted_config_requires_verification(
+        self,
+    ) -> None:
+        source = self.create_link_existing(restricted=False)
+        self.assert_browser_repo_link_requires_verification(source_component=source.pk)
+
+    def assert_browser_repo_link_requires_verification(self, **kwargs) -> None:
         url = reverse("create-component-vcs")
         params = {
             "name": "Copy",
@@ -265,6 +275,7 @@ class ComponentRestrictedVerificationTest(ReusableViewTestCase):
             "new_lang": "add",
             "language_regex": "^[^.]+$",
             "source_language": self.component.source_language.pk,
+            **kwargs,
         }
 
         response = self.client.post(url, params)

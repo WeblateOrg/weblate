@@ -392,10 +392,11 @@ class CreateComponent(BaseCreateView):
     def exposes_restricted_source(form) -> bool:
         if form.instance.restricted:
             return False
-        source = (
-            form.cleaned_data.get("source_component") or form.instance.linked_component
+        sources = (
+            form.cleaned_data.get("source_component"),
+            form.instance.linked_component,
         )
-        return source is not None and source.restricted
+        return any(source is not None and source.restricted for source in sources)
 
     @transaction.atomic
     def form_valid(self, form: ComponentProjectForm) -> HttpResponse:
