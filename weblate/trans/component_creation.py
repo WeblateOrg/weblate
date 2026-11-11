@@ -80,7 +80,9 @@ def get_accessible_repository_link(user: User, repo: str | None) -> Component | 
     return component
 
 
-def changes_component_sensitive_access(form: ModelForm[Component], user: User) -> bool:
+def changes_component_sensitive_access(
+    form: ModelForm[Component], user: User, *, source_component: Component | None = None
+) -> bool:
     """Check submitted access changes before model validation touches the repo."""
     if form.instance.pk and "restricted" in form.changed_data:
         return True
@@ -91,7 +93,11 @@ def changes_component_sensitive_access(form: ModelForm[Component], user: User) -
             restricted = field.field.clean(field.value())
         except ValidationError:
             return False
-    if restricted or "repo" not in form.changed_data:
+    if restricted:
+        return False
+    if source_component is not None and source_component.restricted:
+        return True
+    if "repo" not in form.changed_data:
         return False
     # Normalize only this field; full form validation can mutate the checkout.
     repo_field = form["repo"]

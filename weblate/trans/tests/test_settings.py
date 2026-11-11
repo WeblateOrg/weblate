@@ -380,10 +380,43 @@ class ComponentRestrictedVerificationTest(ReusableViewTestCase):
     def test_admin_save_as_new_requires_verification(self) -> None:
         self.assert_admin_link_creation_requires_verification(save_as_new=True)
 
+    def test_admin_save_as_new_preserves_restricted_source(self) -> None:
+        self.assert_admin_restricted_source_copy(restricted=False)
+
+    def test_admin_save_as_new_keeps_restricted_source_private(self) -> None:
+        self.assert_admin_restricted_source_copy(restricted=True)
+
+    def assert_admin_restricted_source_copy(self, *, restricted: bool) -> None:
+        owner = self.create_po(name="Owner", project=self.project, restricted=False)
+        source = self.create_link_existing(
+            name="Restricted source",
+            slug="restricted-source",
+            repo=owner.get_repo_link_url(),
+            language_regex="^[a-z]{2}$",
+            restricted=True,
+        )
+        self.assert_admin_link_creation_requires_verification(
+            save_as_new=True,
+            restricted=restricted,
+            source=source,
+            repository_source=owner,
+        )
+        source.refresh_from_db()
+        self.assertTrue(source.restricted)
+
     def assert_admin_link_creation_requires_verification(
-        self, *, save_as_new: bool, restricted: bool = False
+        self,
+        *,
+        save_as_new: bool,
+        restricted: bool = False,
+        source: Component | None = None,
+        repository_source: Component | None = None,
     ) -> None:
-        change_url = reverse("admin:trans_component_change", args=(self.component.pk,))
+        source = source if source is not None else self.component
+        repository_source = (
+            repository_source if repository_source is not None else source
+        )
+        change_url = reverse("admin:trans_component_change", args=(source.pk,))
         data = self.get_admin_form(change_url)
         data.pop("restricted")
         if restricted:
@@ -391,7 +424,7 @@ class ComponentRestrictedVerificationTest(ReusableViewTestCase):
         data.update(
             name="Copy",
             slug="copy",
-            repo=self.component.get_repo_link_url(),
+            repo=repository_source.get_repo_link_url(),
             branch="",
             push="",
             push_branch="",
@@ -420,7 +453,8 @@ class ComponentRestrictedVerificationTest(ReusableViewTestCase):
             response.headers["Location"].startswith(reverse("first-factor-verify"))
         )
         copy = self.project.component_set.get(slug="copy")
-        self.assertEqual(copy.linked_component, self.component)
+        self.assertEqual(copy.linked_component, repository_source)
+        self.assertEqual(copy.filemask, source.filemask)
         self.assertEqual(copy.restricted, restricted)
 
     def test_api_verification_precedes_repository_validation(self) -> None:

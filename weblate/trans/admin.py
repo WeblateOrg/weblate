@@ -82,10 +82,14 @@ class SensitiveFieldsAdmin(WeblateModelAdmin):
     sensitive_fields: frozenset[str] = frozenset()
 
     def changes_sensitive_fields(self, request, object_id: str | None) -> bool:
-        # Django treats Save as new as an addition, including on change URLs.
-        if "_saveasnew" in request.POST:
-            object_id = None
         obj = self.get_object(request, unquote(object_id)) if object_id else None
+        source = None
+        # Django treats Save as new as an addition, but copying can expose the
+        # original component even when its repository owner is unrestricted.
+        if "_saveasnew" in request.POST:
+            source = obj
+            object_id = None
+            obj = None
         if object_id is not None:
             if obj is None or not self.has_change_permission(request, obj):
                 return False
@@ -95,9 +99,9 @@ class SensitiveFieldsAdmin(WeblateModelAdmin):
         # changed_data compares raw input only, without running model
         # validation, which can touch the repository.
         form = form_class(request.POST, request.FILES, instance=obj)
-        return self.form_changes_sensitive_fields(request, form)
+        return self.form_changes_sensitive_fields(request, form, source)
 
-    def form_changes_sensitive_fields(self, request, form) -> bool:
+    def form_changes_sensitive_fields(self, request, form, source=None) -> bool:
         return bool(form.instance.pk and self.sensitive_fields & set(form.changed_data))
 
     def changeform_view(self, request, object_id=None, form_url="", extra_context=None):
@@ -173,8 +177,10 @@ class ComponentAdmin(SensitiveFieldsAdmin, RepoAdminMixin):
     list_filter = ("vcs", "file_format")
     autocomplete_fields = ("project",)
 
-    def form_changes_sensitive_fields(self, request, form) -> bool:
-        return changes_component_sensitive_access(form, request.user)
+    def form_changes_sensitive_fields(self, request, form, source=None) -> bool:
+        return changes_component_sensitive_access(
+            form, request.user, source_component=source
+        )
 
     def get_queryset(self, request):
         # Component labels include their category ancestry and project.
