@@ -65,7 +65,7 @@ from weblate.machinery.openai import OpenAITranslation
 from weblate.trans.actions import ActionEvents, get_change_action_identifier
 from weblate.trans.automation import UnitSelection
 from weblate.trans.autotranslate import AutoTranslate, BatchAutoTranslate
-from weblate.trans.models import Change, Unit
+from weblate.trans.models import Change, Unit, WorkflowSetting
 from weblate.trans.templatetags.translations import format_last_changes_content
 from weblate.trans.tests.test_views import (
     ComponentTestCase,
@@ -1795,6 +1795,27 @@ class AutomationTest(ReusableComponentTestCase):
             operation.assert_not_called()
         activity.refresh_from_db()
         self.assertEqual(activity.status, AddonActivityLogStatus.SUCCESS)
+
+    def test_change_context_custom_source_language(self) -> None:
+        parent = self.component.translation_set.get(language_code="de").unit_set.get(
+            source="Hello, world!\n"
+        )
+        parent.translate(self.user, "Hallo, Welt!\n", STATE_TRANSLATED)
+        unit = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=unit.translation.language,
+            source_language=parent.translation.language,
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.translation_parent_id, parent.pk)
+        change = Change.objects.create(
+            unit=unit, action=ActionEvents.CHANGE, user=self.user
+        )
+        context = execution_context(self.component, "change", change)
+        self.assertEqual(context["unit"]["source"], "Hallo, Welt!\n")
 
     def test_change_context_and_recursion(self) -> None:
         addon = self.install(

@@ -498,7 +498,11 @@ def addon_change(change_ids: list[int], **kwargs) -> None:
             category_ids_cache[change.category_id] = category_ids
         return category_ids_cache[change.category_id]
 
-    for change in Change.objects.filter(pk__in=change_ids).prefetch_for_render():
+    for change in (
+        Change.objects.filter(pk__in=change_ids)
+        .prefetch_for_render()
+        .prefetch_related("unit__translation_parent")
+    ):
         change.fill_in_prefetched()
         # Filter addons for this change
         change_addons = [

@@ -152,7 +152,9 @@ Timestamps are strings, not CEL timestamp objects.
      - Captured string state; see :ref:`automation-string-states`.
    * - ``unit.source``
      - string
-     - Source text, truncated to 4,096 characters.
+     - Source text, truncated to 4,096 characters. With a
+       :ref:`custom source language <workflow-source-language>`, this is the
+       text in that language.
    * - ``unit.target``
      - string
      - Target text, truncated to 4,096 characters.

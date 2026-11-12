@@ -84,6 +84,7 @@ Weblate 2026.11.2
 * Fixed the Matplotlib font rendering check to run without accessing the :ref:`cache <production-cache>`.
 * Required contributor agreement acceptance before creating a translation file.
 * Preserved independently retained :doc:`translation-memory scopes <admin/memory>` during concurrent scope deletion.
+* Used the :ref:`custom source language <workflow-source-language>` text for ``unit.source`` in the :ref:`Automation execution context <automation-execution-context>`.
 
 .. rubric:: Compatibility
 
