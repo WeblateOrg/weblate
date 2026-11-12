@@ -52,9 +52,11 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.models.alert import Alert
+from weblate.trans.templatetags.translations import project_alerts
 from weblate.trans.tests.test_views import ReusableViewTestCase, ViewTestCase
 from weblate.trans.tests.utils import create_test_addon, get_test_actor
 from weblate.utils.docs import get_doc_url
+from weblate.utils.stats import ProjectLanguage
 from weblate.utils.tests.network import mock_dns
 from weblate.vcs.base import (
     RepositoryDiagnosis,
@@ -1785,6 +1787,63 @@ class GitHubAppMigrationAlertTest(ViewTestCase):
     }
 )
 class ConflictingRepositorySetupAlertTest(ViewTestCase):
+    def test_project_language_indicators_use_prefetched_visibility(self) -> None:
+        hidden = self.create_po(
+            project=self.create_project(
+                name="Hidden peers",
+                slug="hidden-peers",
+                access_control=Project.ACCESS_PRIVATE,
+            ),
+            name="Hidden peer",
+        )
+        languages = [
+            Language.objects.get(code=code)
+            for code in ("en", "cs", "de", "fr", "es", "it", "pt", "pl")
+        ]
+        for name, peers, superuser, expected in (
+            (None, [], False, False),
+            ("ConflictingRepositorySetup", [hidden.pk], False, False),
+            ("ConflictingRepositorySetup", [self.component.pk], False, True),
+            ("PushFailure", [], False, True),
+            ("ConflictingRepositorySetup", [hidden.pk], True, True),
+        ):
+            with self.subTest(name=name, peers=peers, superuser=superuser):
+                Alert.objects.filter(component__project=self.project).delete()
+                if name is not None:
+                    Alert.objects.create(
+                        component=self.component,
+                        name=name,
+                        details={"component_ids": peers},
+                        severity=AlertSeverity.ERROR,
+                    )
+                self.user.is_superuser = superuser
+                self.user.save(update_fields=["is_superuser"])
+                with CaptureQueriesContext(connection) as queries:
+                    response = self.client.get(self.project.get_absolute_url())
+                self.assertEqual(response.status_code, 200)
+                project = response.context["project"]
+                self.assertIs(project.__dict__["visible_has_alerts"], expected)
+                self.assertFalse(
+                    any(
+                        query["sql"].startswith('SELECT 1 AS "a" FROM "trans_alert"')
+                        for query in queries
+                    )
+                )
+                for count in (1, 8):
+                    rows = [
+                        ProjectLanguage(project, language)
+                        for language in languages[:count]
+                    ]
+                    with self.assertNumQueries(0):
+                        for row in rows:
+                            icons = list(
+                                project_alerts(row.project, response.wsgi_request.user)
+                            )
+                            self.assertEqual(
+                                any(icon[0] == "state/alert.svg" for icon in icons),
+                                expected,
+                            )
+
     def test_profile_project_indicators_use_batched_visibility(self) -> None:
         counts = []
         projects = []

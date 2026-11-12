@@ -535,6 +535,7 @@ def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpRespons
     obj.project_languages.preload_workflow_settings(language_objects)
 
     components = prefetch_tasks(all_components)
+    prefetch_project_flags([obj], user=user)
     available_exporters = [(item.name, item.verbose) for item in EXPORTERS.values()]
 
     return render(
