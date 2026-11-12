@@ -11,7 +11,7 @@ import json
 import os
 import tempfile
 import time
-from contextlib import contextmanager, suppress
+from contextlib import ExitStack, contextmanager, suppress
 from html import unescape
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
@@ -79,6 +79,17 @@ def upload_lock(upload_id: str) -> Generator[None, None, None]:
             yield
         finally:
             fcntl.flock(handle, fcntl.LOCK_UN)
+
+
+def defer_upload_cleanup(directory: Path, cleanup: ExitStack) -> None:
+    """Retire a locked upload, then remove it after closing the payload."""
+    # NFS retains unlinked open files as .nfs files, preventing rmdir. Rename
+    # under the lock so duplicate tasks cannot process the upload again.
+    # Keep the periodic staging cleanup away until this worker closes the file.
+    # A worker crash leaves an ordinary staging directory for later cleanup.
+    retired = Path(tempfile.mkdtemp(prefix=".staging-", dir=directory.parent))
+    cleanup.callback(remove_tree, retired)
+    directory.rename(retired / "upload")
 
 
 def browser_upload_key(user_id: int) -> str:
@@ -192,7 +203,7 @@ def translation_upload(*, upload_id: str) -> dict[str, Any]:
     directory = upload_directory(upload_id)
     if not directory.exists():
         return expired_upload_result()
-    with upload_lock(upload_id):
+    with ExitStack() as cleanup, upload_lock(upload_id):
         # A duplicate delivery after cleanup must never repeat a repository edit.
         if not directory.exists():
             return expired_upload_result()
@@ -212,7 +223,7 @@ def translation_upload(*, upload_id: str) -> dict[str, Any]:
                 if metadata["browser"]:
                     release_browser_upload(metadata["user_id"], upload_id)
             finally:
-                remove_tree(directory)
+                defer_upload_cleanup(directory, cleanup)
 
 
 def expired_upload_result() -> dict[str, Any]:
@@ -328,10 +339,14 @@ def cleanup_translation_uploads() -> None:
         if directory.name.startswith(".staging-"):
             remove_tree(directory)
             continue
-        with suppress(BlockingIOError, FileNotFoundError), upload_lock(directory.name):
+        with (
+            suppress(BlockingIOError, FileNotFoundError),
+            ExitStack() as cleanup,
+            upload_lock(directory.name),
+        ):
             metadata = json.loads((directory / "metadata.json").read_text())
             try:
                 if metadata["browser"]:
                     release_browser_upload(metadata["user_id"], directory.name)
             finally:
-                remove_tree(directory)
+                defer_upload_cleanup(directory, cleanup)

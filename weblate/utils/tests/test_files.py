@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import errno
 import os
 import tempfile
 from io import BytesIO
@@ -167,6 +168,34 @@ class FilesTestCase(SimpleTestCase):
             os.chmod(nested, 0)
 
         self.test_remove(callback_readonly)
+
+    def test_remove_nonempty_directory(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory) / "upload"
+            target.mkdir()
+            error = OSError(errno.ENOTEMPTY, "Directory not empty", str(target))
+            with (
+                patch("weblate.utils.files.os.rmdir", side_effect=error) as rmdir,
+                patch("weblate.utils.files.os.chmod") as chmod,
+                self.assertRaises(OSError) as raised,
+            ):
+                remove_tree(target)
+            self.assertIs(raised.exception, error)
+            rmdir.assert_called_once()
+            chmod.assert_not_called()
+
+    def test_remove_persistent_permission_error(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory) / "upload"
+            target.mkdir()
+            error = PermissionError(errno.EACCES, "Permission denied", str(target))
+            with (
+                patch("weblate.utils.files.os.open", side_effect=error) as open_dir,
+                self.assertRaises(PermissionError) as raised,
+            ):
+                remove_tree(target)
+            self.assertIs(raised.exception, error)
+            self.assertEqual(open_dir.call_count, 2)
 
     def test_read_file_bytes_rejects_oversized_file(self) -> None:
         with self.assertRaisesMessage(ValidationError, "Uploaded file is too big."):

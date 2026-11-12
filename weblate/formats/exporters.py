@@ -135,7 +135,7 @@ class PoXliffExporter(XMLExporter):
         if flags.has_value("max-length"):
             output.xmlelement.set("maxwidth", str(flags.get_value("max-length")))
 
-        output.xmlelement.set("weblate-flags", flags.format())
+        output.xmlelement.set("weblate-flags", self.string_filter(flags.format()))
 
     def handle_plurals(self, plurals):
         if len(plurals) == 1:
@@ -196,7 +196,7 @@ class TBXExporter(XMLExporter):
         return output
 
     def store_flags(self, output, flags) -> None:
-        output.xmlelement.set("weblate-flags", flags.format())
+        output.xmlelement.set("weblate-flags", self.string_filter(flags.format()))
 
     def _export_term_metadata(
         self, output, records, language_code, shared_notes
