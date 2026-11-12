@@ -13,6 +13,7 @@ import shutil
 # ruff: ignore[suspicious-subprocess-import]
 import subprocess
 import tempfile
+from concurrent.futures import ThreadPoolExecutor
 from configparser import RawConfigParser
 from contextlib import ExitStack, nullcontext
 from datetime import datetime
@@ -41,6 +42,7 @@ from weblate.trans.tests.utils import (
     TempDirMixin,
 )
 from weblate.utils.files import REPO_TEMP_DIRNAME
+from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
 from weblate.utils.render import render_template
 from weblate.utils.tests import http_mock
 from weblate.utils.zip import ZipSafetyLimits
@@ -50,6 +52,7 @@ from weblate.vcs.base import (
     RepositoryCommandError,
     RepositoryError,
     RepositoryInternalError,
+    RepositoryLock,
     RepositoryRedirectError,
     RepositoryRestrictedPathError,
     RepositorySymlinkError,
@@ -6438,6 +6441,73 @@ class VCSLocalTest(VCSGitTest):
         status = self.repo.status()
         # Older git print up-to-date, newer up to date
         self.assertIn("On branch main", status)
+
+    def test_from_files_holds_supplied_lock_through_cleanup(self) -> None:
+        target = os.path.join(self.tempdir, "shared-lock")
+        lock = RepositoryLock(
+            LocalRepository(target),
+            WeblateLock(
+                scope="repository",
+                key="local-initialization-test",
+                slug="shared-lock",
+                timeout=0,
+            ),
+        )
+
+        def acquire_competing_lock() -> bool:
+            competing = WeblateLock(
+                scope="repository",
+                key="local-initialization-test",
+                slug="shared-lock",
+                timeout=0,
+            )
+            try:
+                with competing:
+                    return True
+            except WeblateLockTimeoutError:
+                return False
+
+        original_remove_tree = git_module.remove_tree
+        with ThreadPoolExecutor(max_workers=1) as executor:
+
+            def remove_while_locked(path, **kwargs):
+                self.assertFalse(
+                    executor.submit(acquire_competing_lock).result(timeout=5)
+                )
+                return original_remove_tree(path, **kwargs)
+
+            # Successful initialization reenters the caller's lock, and no
+            # competing component operation may write during file population.
+            with (
+                lock,
+                LocalRepository.build_local_repo(
+                    target, "Initialize test repository", lock=lock
+                ),
+            ):
+                self.assertFalse(
+                    executor.submit(acquire_competing_lock).result(timeout=5)
+                )
+                Path(target, "translation.txt").write_bytes(b"translation")
+            self.assertTrue(executor.submit(acquire_competing_lock).result(timeout=5))
+
+            with (
+                patch.object(LocalRepository, "commit", side_effect=OSError("failed")),
+                patch.object(
+                    git_module, "remove_tree", side_effect=remove_while_locked
+                ),
+                self.assertRaisesRegex(OSError, "failed"),
+            ):
+                LocalRepository.from_files(
+                    target, {"translation.txt": b"translation"}, lock=lock
+                )
+
+            self.assertFalse(Path(target).exists())
+            self.assertTrue(executor.submit(acquire_competing_lock).result(timeout=5))
+            repo = LocalRepository.from_files(
+                target, {"translation.txt": b"retry"}, lock=lock
+            )
+            self.assertTrue(repo.is_valid())
+            self.assertFalse(repo.needs_commit())
 
     def test_upstream_changes(self) -> NoReturn:
         self.skipTest("Not supported")
