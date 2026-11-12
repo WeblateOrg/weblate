@@ -276,6 +276,11 @@ Execution can be delayed by queued tasks or repository operations. Restarting
 Celery does not change the assigned hour. This setting does not provide a
 configurable update time window.
 
+When a repository update fails, Weblate retries it before the next assigned
+hour. The delay before each retry equals how long the update has been failing,
+so retries happen after about 1, 2, 4, 8, and 16 hours until the daily update
+takes over. A successful update stops the retries.
+
 .. hint::
 
     Useful if you are not using :ref:`hooks` to update Weblate repositories automatically.

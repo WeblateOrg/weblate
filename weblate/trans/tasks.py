@@ -25,7 +25,16 @@ from django.contrib.messages.storage.cookie import CookieStorage
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.db import IntegrityError, transaction
-from django.db.models import Exists, F, OuterRef, Prefetch, Q
+from django.db.models import (
+    DateTimeField,
+    Exists,
+    ExpressionWrapper,
+    F,
+    OuterRef,
+    Prefetch,
+    Q,
+    Value,
+)
 from django.utils import timezone
 from django.utils.timezone import make_aware
 from django.utils.translation import gettext, ngettext, override
@@ -111,6 +120,7 @@ if TYPE_CHECKING:
     from celery import Celery, Task
 
     from weblate.trans.models.change import RevertUserEditsResult
+    from weblate.trans.models.component import ComponentQuerySet
     from weblate.workspaces.models import Workspace
 
 
@@ -1065,11 +1075,36 @@ def update_remotes() -> None:
     components = (
         Component.objects.with_repo()
         .annotate(hourmod=F("id") % 24)
-        .filter(hourmod=now.hour)
+        .filter(
+            Q(hourmod=now.hour)
+            | Q(pk__in=get_failed_update_retry_components(now).values("pk"))
+        )
     )
     component_ids = components.values_list("pk", flat=True)
     for component_id in component_ids.iterator(chunk_size=100):
         perform_update.delay("Component", component_id, auto=True)
+
+
+def get_failed_update_retry_components(now: datetime) -> ComponentQuerySet:
+    """
+    Select components with a failed repository update that are due for a retry.
+
+    Without this, a component whose update failed is retried only in its daily
+    slot, so a single temporary error can leave it locked for up to a day.
+
+    The wait before the next attempt equals how long the update had been failing
+    at the last attempt, so the delay roughly doubles with every failed attempt
+    (after about 1, 2, 4, 8, and 16 hours given the hourly schedule) until the
+    daily update takes over. The alert timestamp marks the first failure, and
+    every further failure refreshes its updated timestamp.
+    """
+    failing_for = F("alert__updated") - F("alert__timestamp")
+    return Component.objects.with_repo().filter(
+        alert__name="UpdateFailure",
+        alert__updated__lte=ExpressionWrapper(
+            Value(now) - failing_for, output_field=DateTimeField()
+        ),
+    )
 
 
 @app.task(trail=False)
