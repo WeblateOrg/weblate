@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING, NoReturn, cast
 from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import ValidationError
+from django.db import IntegrityError, transaction
 from django.http import HttpResponseRedirect
 from django.middleware.csrf import rotate_token
 from django.shortcuts import redirect
@@ -31,7 +32,11 @@ from social_core.pipeline.social_auth import (
 )
 from social_core.utils import PARTIAL_TOKEN_SESSION_NAME
 
-from weblate.accounts.flows import PASSWORD_RESET_SCOPE_SESSION
+from weblate.accounts.flows import (
+    PASSWORD_RESET_SCOPE_SESSION,
+    PASSWORD_RESET_USER_SESSION,
+)
+from weblate.accounts.forms import UniqueEmailMixin
 from weblate.accounts.models import AuditLog, VerifiedEmail
 from weblate.accounts.notifications import send_notification_email
 from weblate.accounts.templatetags.authnames import get_auth_name
@@ -57,6 +62,7 @@ from weblate.auth.models import (
 )
 from weblate.trans.defines import FULLNAME_LENGTH
 from weblate.utils import messages
+from weblate.utils.email import email_key
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.validators import (
     CRUD_RE,
@@ -273,6 +279,29 @@ def require_email(
     return None
 
 
+def validate_password_reset(
+    backend: BaseAuth,
+    details: dict[str, Any],
+    user_id: int | None,
+    user: User | None = None,
+) -> User:
+    """Lock and recheck the account bound to an e-mail recovery request."""
+    owner = None
+    if isinstance(user_id, int) and not isinstance(user_id, bool):
+        owner = User.objects.select_for_update().filter(pk=user_id).first()
+    match = UniqueEmailMixin.get_email_owner(details.get("email", ""))
+    if (
+        owner is None
+        or match is None
+        or match[0].pk != owner.pk
+        or (user is not None and user.pk != owner.pk)
+    ):
+        raise AuthSessionError(
+            backend, code="weblate.confirmation_expired", stage="pipeline"
+        )
+    return owner
+
+
 def verify_email_confirmation(strategy: WeblateStrategy, backend: BaseAuth) -> None:
     """Allow e-mail confirmation only from a checked Weblate form request."""
     if backend.name == "email" and not getattr(
@@ -455,11 +484,14 @@ def store_params(
                 invitation_pk = None
 
     params: dict[str, object] = {
+        "weblate_auth_pipeline": list(strategy.get_pipeline(backend)),
         "weblate_action": action,
         "registering_user": registering_user,
         "invitation_link": invitation,
         "invitation_pk": str(invitation_pk) if invitation_pk else None,
     }
+    if backend.name == "email" and action == "reset":
+        params["weblate_reset_user"] = session.get(PASSWORD_RESET_USER_SESSION)
     if (
         backend.name == "email"
         and user is not None
@@ -513,8 +545,9 @@ def ensure_valid(
     details,
     invitation_link: Invitation | None = None,
     invitation_pk: str | None = None,
+    weblate_reset_user: int | None = None,
     **kwargs,
-) -> None:
+) -> dict[str, User] | None:
     """Validate account binding and invitations for the activation link."""
     # We allow password reset for unauthenticated users
     if weblate_action == "reset":
@@ -529,7 +562,9 @@ def ensure_valid(
             raise AuthSessionError(
                 backend, code="weblate.confirmation_user_mismatch", stage="pipeline"
             )
-        return
+        return {
+            "user": validate_password_reset(backend, details, weblate_reset_user, user)
+        }
 
     # Preserve Weblate action ownership in addition to core's external-partial
     # binding. This also covers non-partial registration and account workflows.
@@ -593,6 +628,7 @@ def ensure_valid(
         validator = EmailValidator()
         # This raises ValidationError
         validator(details["email"])
+    return None
 
 
 def associate_by_email(strategy, backend, details, user=None, **kwargs):
@@ -631,16 +667,97 @@ def store_email(strategy, backend, user: User, social, details, **kwargs) -> Non
         valid_emails.add((email, is_deliverable))
     current = valid_emails
 
-    existing_emails = set()
-    for verified in social.verifiedemail_set.order_by("pk"):
-        entry = (verified.email, verified.is_deliverable)
-        if entry in current and entry not in existing_emails:
-            existing_emails.add(entry)
-        else:
-            verified.delete()
+    with transaction.atomic():
+        # Serialize provider refreshes and e-mail recovery for this account.
+        locked_user = User.objects.select_for_update().get(pk=user.pk)
+        if kwargs.get("weblate_action") == "reset":
+            # A resumed second-factor pipeline can skip ensure_valid(). Check
+            # again before it can restore an e-mail verification record.
+            locked_user = validate_password_reset(
+                backend, details, kwargs.get("weblate_reset_user"), user
+            )
+        previous = set()
+        existing_emails = set()
+        for verified in social.verifiedemail_set.order_by("pk"):
+            previous.add(email_key(verified.email))
+            entry = (verified.email, verified.is_deliverable)
+            if entry in current and entry not in existing_emails:
+                existing_emails.add(entry)
+            else:
+                verified.delete()
 
-    for add in current - existing_emails:
-        social.verifiedemail_set.create(email=add[0], is_deliverable=add[1])
+        for email, is_deliverable in sorted(current - existing_emails):
+            social.verifiedemail_set.create(email=email, is_deliverable=is_deliverable)
+
+        remaining = list(VerifiedEmail.objects.filter(social__user=user).order_by("pk"))
+        revoked = previous - {email_key(entry.email) for entry in remaining}
+        if revoked:
+            invalidate_reset_codes(emails=revoked)
+
+        if locked_user.email and email_key(locked_user.email) in revoked:
+            replace_revoked_primary(strategy, locked_user, remaining, details)
+        # The pipeline continues with the original user instance.
+        user.email = locked_user.email
+
+
+def replace_revoked_primary(
+    strategy: WeblateStrategy,
+    user: User,
+    remaining: list[VerifiedEmail],
+    details: dict[str, Any],
+) -> None:
+    """Replace a primary address only after its last verification disappears."""
+    old_email = user.email
+    preferred = email_key(details.get("email") or "")
+    candidates = sorted(
+        remaining, key=lambda entry: email_key(entry.email) != preferred
+    )
+    user.email = None
+    for candidate in candidates:
+        if not candidate.is_deliverable:
+            continue
+        try:
+            email = User._meta.get_field("email").clean(candidate.email, user)  # ruff: ignore[private-member-access]
+        except ValidationError:
+            continue
+        if User.objects.filter(email=email).exclude(pk=user.pk).exists():
+            continue
+        try:
+            # A concurrent account may claim the candidate after our check.
+            with transaction.atomic():
+                user.email = email
+                user.save(update_fields=["email"])
+        except IntegrityError:
+            user.email = None
+            continue
+        break
+    else:
+        user.email = None
+        user.save(update_fields=["email"])
+
+    # The user already holds the new address, so notifications cannot go to
+    # the revoked mailbox. A cleared address does not trigger notifications.
+    AuditLog.objects.create(
+        user, strategy.request, "email", actor=user, old=old_email, new=user.email
+    )
+    if user.email:
+        messages.warning(
+            strategy.request,
+            gettext(
+                "Your e-mail no longer belongs to a verified account, "
+                "it has been changed to {0}."
+            ).format(user.email),
+        )
+    else:
+        messages.warning(
+            strategy.request,
+            gettext(
+                "Your account e-mail is no longer verified and has been removed. "
+                "Add and verify an e-mail address to recover your password, "
+                "then select it as your account e-mail in Account settings "
+                "to receive notifications."
+            ),
+        )
 
 
 def handle_invite(
