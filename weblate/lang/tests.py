@@ -1024,6 +1024,73 @@ class PluralTest(BaseTestCase):
 
 
 class PluralMapperTestCase(FixtureComponentTestCase):
+    def test_english_extended_plurals(self) -> None:
+        english = Language.objects.get(code="en")
+        unit = Unit.objects.get(
+            translation__language=english, id_hash=2097404709965985808
+        )
+        singular, plural = unit.get_source_plurals()
+        for code, expected in (
+            ("ar", [plural, singular, plural, plural, plural, plural]),
+            ("he", [singular, plural, plural, plural]),
+            ("mt", [singular, plural, plural, plural]),
+            ("ru", [plural, plural, plural]),
+            ("uk", [plural, plural, plural]),
+            ("hr", [plural, plural, plural]),
+            ("sr", [plural, plural, plural]),
+            ("lt", [plural, plural, plural]),
+            ("is", [plural, plural]),
+        ):
+            with self.subTest(language=code):
+                target = Language.objects.get(code=code)
+                mapper = PluralMapper(english.plural, target.plural)
+                self.assertEqual(mapper.map(unit), expected)
+
+    def test_ambiguous_plural_mapping(self) -> None:
+        czech = Language.objects.get(code="cs")
+        russian = Language.objects.get(code="ru")
+        mapper = PluralMapper(czech.plural, russian.plural)
+        # Russian few includes both Czech few (2) and other (22). Neither
+        # source form alone covers it, even though display examples suggest so.
+        self.assertEqual(mapper.target_map, ((2, None), (None, None), (-1, None)))
+
+    def test_rare_plural_mapping(self) -> None:
+        source = Plural(number=3, formula="n == 1 ? 0 : n >= 1000000 ? 1 : 2")
+        target = Plural(number=3, formula="n == 1 ? 0 : n >= 1500001 ? 1 : 2")
+        # The target threshold is outside the dense example range and between
+        # its sparse samples. It still overlaps only source form 1.
+        self.assertEqual(
+            PluralMapper(source, target).target_map,
+            ((0, None), (1, None), (-1, None)),
+        )
+
+    def test_custom_singleton_plural_mapping(self) -> None:
+        source = Plural(number=2, formula="n != 2500001")
+        target = Plural(number=3, formula="n == 2500001 ? 0 : n == 2500002 ? 1 : 2")
+        self.assertEqual(
+            PluralMapper(source, target).target_map,
+            ((0, None), (1, 2500002), (-1, None)),
+        )
+
+    def test_rare_plural_difference(self) -> None:
+        source = Plural(number=2, formula="n != 1")
+        target = Plural(number=2, formula="n != 1 && n != 2500001")
+        mapper = PluralMapper(source, target)
+        self.assertFalse(mapper.same_plurals)
+        self.assertEqual(mapper.target_map, ((1, None), (-1, None)))
+        self.assertTrue(PluralMapper(target, target).same_plurals)
+
+    def test_plural_count_cache_key(self) -> None:
+        source = Plural(number=2, formula="n != 1")
+        target = Plural(number=2, formula="n != 1")
+        extended = Plural(number=3, formula="n != 1")
+        original_mapper = PluralMapper(source, target)
+        extended_mapper = PluralMapper(source, extended)
+        self.assertIsNot(original_mapper, extended_mapper)
+        self.assertTrue(original_mapper.same_plurals)
+        self.assertFalse(extended_mapper.same_plurals)
+        self.assertEqual(len(extended_mapper.target_map), 3)
+
     def test_english_czech(self) -> None:
         english = Language.objects.get(code="en")
         czech = Language.objects.get(code="cs")
