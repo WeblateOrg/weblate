@@ -11,15 +11,18 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from threading import Event
 from types import SimpleNamespace
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, cast
 from unittest.mock import MagicMock, patch
 
 from django.core.cache import cache
-from django.db import close_old_connections, connection, transaction
-from django.test import SimpleTestCase, TransactionTestCase
+from django.db import OperationalError, close_old_connections, connection, transaction
+from django.db.models import QuerySet
+from django.test import RequestFactory, SimpleTestCase, TransactionTestCase
 from django.urls import reverse
 from django.utils.html import format_html
 
+from weblate.auth.data import SELECTION_ALL
+from weblate.auth.models import Group, Role, User
 from weblate.automation.context import automation_origin
 from weblate.checks.base import BatchCheckMixin, TargetCheck
 from weblate.checks.consistency import ConsistencyCheck
@@ -37,11 +40,17 @@ from weblate.checks.tasks import (
     refresh_propagated_checks,
     schedule_component_check_batch,
 )
-from weblate.trans.models import Component, Project, Unit
+from weblate.trans.models import Component, Project, Translation, Unit
 from weblate.trans.tasks import auto_translate
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
-from weblate.trans.tests.utils import RepoTestMixin, get_test_actor
+from weblate.trans.tests.utils import (
+    RepoTestMixin,
+    clear_users_cache,
+    create_another_user,
+    get_test_actor,
+)
 from weblate.trans.util import join_plural
+from weblate.trans.views.js import ignore_check
 from weblate.utils.change_origin import (
     acting_user_context,
     change_origin,
@@ -55,6 +64,7 @@ from weblate.workspaces.models import Workspace
 if TYPE_CHECKING:
     from types import TracebackType
 
+    from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.utils.change_origin import ChangeOrigin
 
 
@@ -175,6 +185,111 @@ class CheckBoundaryLockTest(TransactionTestCase):
                 self.assertFalse(acquired.wait(0.1))
             result.result(timeout=10)
         self.assertTrue(acquired.is_set())
+
+
+class CheckDismissalConcurrencyTest(RepoTestMixin, TransactionTestCase):
+    def setUp(self) -> None:
+        clear_users_cache()
+        self.addCleanup(clear_users_cache)
+        self.clone_test_repos()
+        super().setUp()
+        self.component = self.create_component()
+        self.other = self.create_po(name="Other", project=self.component.project)
+        self.create_project(
+            name="Private", slug="private", access_control=Project.ACCESS_PRIVATE
+        )
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        self.user = create_another_user()
+        group = Group.objects.create(
+            name="Check dismissal", language_selection=SELECTION_ALL
+        )
+        group.projects.add(self.component.project)
+        group.components.add(self.component, self.other)
+        group.roles.add(Role.objects.get(name="Translate"))
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.needs_project_filter)
+        self.assertTrue(self.user.needs_component_restrictions_filter)
+        self.checks = []
+        for component in (self.component, self.other):
+            unit = Unit.objects.get(
+                translation__component=component,
+                translation__language__code="cs",
+                source="Hello, world!\n",
+            )
+            check, _ = Check.objects.update_or_create(
+                unit=unit, name="same", defaults={"dismissed": False}
+            )
+            self.checks.append(check)
+
+    def assert_dismissal_locks_only_checks(self, *, propagated: bool) -> None:
+        entered = Event()
+        release = Event()
+        selected = self.checks[int(propagated)]
+        original = Check.set_dismiss
+
+        def dismiss(
+            check: Check,
+            *,
+            state: bool = True,
+            recurse: bool = True,
+            user: User | None = None,
+        ) -> None:
+            if check.pk == selected.pk:
+                entered.set()
+                if not release.wait(10):
+                    msg = "Check dismissal was not released"
+                    raise TimeoutError(msg)
+            original(check, state=state, recurse=recurse, user=user)
+
+        def perform() -> int:
+            close_old_connections()
+            try:
+                request = cast(
+                    "AuthenticatedHttpRequest",
+                    RequestFactory().post(
+                        reverse("js-ignore-check", args=[self.checks[0].pk])
+                    ),
+                )
+                request.user = User.objects.get(pk=self.user.pk)
+                return ignore_check(request, self.checks[0].pk).status_code
+            finally:
+                connection.close()
+
+        with (
+            patch.object(Check, "set_dismiss", dismiss),
+            ThreadPoolExecutor(max_workers=1) as executor,
+        ):
+            future = executor.submit(perform)
+            try:
+                self.assertTrue(entered.wait(10))
+                unit = selected.unit
+                with transaction.atomic():
+                    for model, pk in (
+                        (Unit, unit.pk),
+                        (Translation, unit.translation_id),
+                        (Component, unit.translation.component_id),
+                        (Project, unit.translation.component.project_id),
+                    ):
+                        QuerySet(model=model).select_for_update(nowait=True).get(pk=pk)
+                with (
+                    self.assertRaisesMessage(OperationalError, "could not obtain lock"),
+                    transaction.atomic(),
+                ):
+                    Check.objects.select_for_update(nowait=True).get(pk=selected.pk)
+            finally:
+                release.set()
+                status = future.result(timeout=10)
+            self.assertEqual(status, 200)
+        for check in self.checks:
+            check.refresh_from_db()
+            self.assertTrue(check.dismissed)
+
+    def test_initial_dismissal_locks_only_checks(self) -> None:
+        self.assert_dismissal_locks_only_checks(propagated=False)
+
+    def test_propagated_dismissal_locks_only_checks(self) -> None:
+        self.assert_dismissal_locks_only_checks(propagated=True)
 
 
 class CheckFinalizationConcurrencyTest(RepoTestMixin, TransactionTestCase):
