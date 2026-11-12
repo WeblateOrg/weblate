@@ -288,6 +288,38 @@ class MetricTestCase(FixtureComponentTestCase):
             self.assertEqual(language_metric.dict_data["contributors"], expected)
             self.assertEqual(language_metric.dict_data["contributors_total"], expected)
 
+    def test_collect_category_component_counts(self) -> None:
+        other = Project.objects.create(name="Metrics target", slug="metrics-target")
+        parent = Category.objects.create(project=other, name="Parent", slug="parent")
+        child = Category.objects.create(
+            project=other, category=parent, name="Child", slug="child"
+        )
+        grandchild = Category.objects.create(
+            project=other, category=child, name="Grandchild", slug="grandchild"
+        )
+        owned = self.create_po(project=other, name="Owned", category=child)
+        expected_translations = (
+            owned.translation_set.count() + self.component.translation_set.count()
+        )
+        link = ComponentLink.objects.create(
+            component=self.component, project=other, category=grandchild
+        )
+        for placement in (parent, child, grandchild):
+            link.category = placement
+            link.save(update_fields=["category"])
+            category = Category.objects.get(pk=parent.pk)
+            with self.subTest(placement=placement):
+                metric = Metric.objects.collect_category(category)
+                self.assertEqual(metric.dict_data["components"], 2)
+                self.assertEqual(
+                    metric.dict_data["translations"], expected_translations
+                )
+
+        empty = Category.objects.create(project=other, name="Empty", slug="empty")
+        metric = Metric.objects.collect_category(empty)
+        self.assertEqual(metric.dict_data["components"], 0)
+        self.assertEqual(metric.dict_data["translations"], 0)
+
     def test_cleanup_legacy_category_language_metric_keys(self) -> None:
         migration = importlib.import_module(
             "weblate.metrics.migrations.0003_cleanup_category_language_metric_keys"

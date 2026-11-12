@@ -9,6 +9,7 @@ Weblate 2026.11.2
 
 .. rubric:: Improvements
 
+* Improved database query performance for category :ref:`statistics <stats>`.
 * Shortened oversized exception chains in :ref:`Sentry error reports <collecting-errors>` to avoid losing reports to payload limits.
 * Reduced database workspace used by :ref:`automatic translation <machine-translation>` searches across ordinary and custom source languages.
 * Included category paths in search results, diagnostics, notification navigation, GitHub App migration lists, gettext template headers, and default :ref:`component templates <markup>`.
