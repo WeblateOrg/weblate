@@ -92,6 +92,7 @@ Weblate 2026.11.2
 * Translation files are now subject to a pre-parse byte limit and a 100,000-content-string limit. See :setting:`TRANSLATION_MAX_SIZE`.
 * The temporary ``background`` API option and synchronous translation upload processing will be removed in 2027.1. Switch clients to background processing before upgrading; see :doc:`api`.
 * Clarified the :ref:`RESP3 datastore requirement <production-cache>` introduced in Weblate 2026.11.1, including errors from incompatible Redis servers or proxies.
+* :ref:`Automation <automation-workflows>` conditions using ``unit.source`` now evaluate the custom source text, or an empty string when unavailable. Review workflows relying on canonical source text.
 
 .. rubric:: Upgrading
 
