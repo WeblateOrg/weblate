@@ -112,7 +112,8 @@ LOGGING = {
     "loggers": {
         "django.request": {
             "handlers": ["mail_admins"],
-            "level": "ERROR",
+            # Preserve exceptions behind HTTP 400 responses in pytest's captured logs.
+            "level": "WARNING",
             "propagate": True,
         },
         "weblate": {"handlers": [], "level": "ERROR"},
