@@ -7,11 +7,12 @@ from __future__ import annotations
 import errno
 import ssl
 import time
+from itertools import chain, repeat
 from pathlib import Path
 from struct import pack
 from unittest.mock import MagicMock, call, patch
 
-from amqp import Message, spec
+from amqp import spec
 from amqp.exceptions import AccessRefused, MessageNacked
 from amqp.method_framing import frame_handler
 from django.core.exceptions import ValidationError
@@ -87,6 +88,54 @@ class PublisherTest(SimpleTestCase):
         self.assertEqual(properties["exchange"], "amq.topic")
         self.assertFalse(properties["retry"])
 
+    def test_setup_does_not_consume_publish_budget(self) -> None:
+        now = 0.0
+
+        def finish_setup() -> None:
+            nonlocal now
+            now = 4.5
+            self.assertEqual(self.state.phase, "setup")
+            self.assertEqual(self.state.deadline, 5)
+
+        def publish(*args: object, **kwargs: object) -> None:
+            self.assertEqual(self.state.phase, "publish")
+            self.assertEqual(self.state.deadline, 11.5)
+            self.assertEqual(kwargs["timeout"], 7)
+            self.assertEqual(kwargs["confirm_timeout"], 7)
+
+        self.producer.channel.confirm_select.side_effect = finish_setup
+        self.producer.publish.side_effect = publish
+        with patch.object(self.clock, "monotonic", side_effect=lambda: now):
+            self.publish(connection_timeout=5, timeout=7)
+        self.producer.channel.confirm_select.assert_called_once()
+
+    def test_channel_setup_exhaustion_does_not_send(self) -> None:
+        now = 0.0
+
+        def finish_setup() -> None:
+            nonlocal now
+            now = 5
+
+        self.producer.channel.confirm_select.side_effect = finish_setup
+        with (
+            patch.object(self.clock, "monotonic", side_effect=lambda: now),
+            self.assertRaises(messaging.FedoraMessagingPublishError),
+        ):
+            self.publish(connection_timeout=5, timeout=20)
+        self.producer.publish.assert_not_called()
+        self.assertEqual(self.state.phase, "setup")
+
+    def test_failure_diagnostics_distinguish_delivery_uncertainty(self) -> None:
+        self.producer.publish.side_effect = TimeoutError("confirmation lost")
+        with (
+            patch.object(messaging, "add_breadcrumb") as breadcrumb,
+            self.assertRaises(messaging.FedoraMessagingPublishError),
+        ):
+            self.publish()
+        self.assertEqual(breadcrumb.call_args.kwargs["phase"], "publish")
+        self.assertEqual(breadcrumb.call_args.kwargs["attempt"], 1)
+        self.assertTrue(breadcrumb.call_args.kwargs["delivery_uncertain"])
+
     @override_settings(WEBHOOK_RESTRICT_PRIVATE=True, WEBHOOK_PRIVATE_ALLOWLIST=[])
     def test_reuse_avoids_dns_and_reconnect_revalidates(self) -> None:
         self.connection_patch.stop()
@@ -131,9 +180,16 @@ class PublisherTest(SimpleTestCase):
             self.publish()
             resolve.assert_called_once()
             self.assertEqual(self.producer.publish.call_count, 2)
-            self.state.disconnect()
+            assert self.state.connection is not None  # ruff: ignore[assert]
             resolve.return_value = [private_entry]
-            with self.assertRaises(messaging.FedoraMessagingPublishError):
+            with (
+                patch.object(
+                    self.state.connection.connection,
+                    "drain_events",
+                    side_effect=OSError("Server unexpectedly closed connection"),
+                ),
+                self.assertRaises(messaging.FedoraMessagingPublishError),
+            ):
                 self.publish()
             self.assertEqual(resolve.call_count, 2)
             create_socket.assert_called_once()
@@ -190,7 +246,7 @@ class PublisherTest(SimpleTestCase):
             OSError(errno.ENOTCONN, "not connected"),
             ("93.184.216.34", 5672),
         ]
-        self.publish(connection_attempts=2, retry_delay=0)
+        self.publish()
         self.connection.collect.assert_called_once()
         self.assertEqual(self.connection.ensure_connection.call_count, 2)
         self.producer.publish.assert_called_once()
@@ -198,11 +254,140 @@ class PublisherTest(SimpleTestCase):
             self.producer.publish.call_args.kwargs["message_id"], self.message.id
         )
         self.report.assert_not_called()
+        self.clock.sleep.assert_not_called()
+
+    def test_stale_tls_eof_reconnects_before_publishing(self) -> None:
+        self.check_stale_tls_reconnect()
+
+    def test_stale_tls_connection_timeout_reconnects_before_publishing(self) -> None:
+        self.check_stale_tls_reconnect(
+            TimeoutError(errno.ETIMEDOUT, "Connection timed out")
+        )
+
+    def check_stale_tls_reconnect(self, error: OSError | None = None) -> None:
+        self.publish()
+        self.producer.publish.reset_mock()
+        # A TLS socket can retain its peer address after the broker closes it.
+        connection = messaging.DeadlineConnection()
+        transport = messaging.DeadlineSSLTransport("broker.example:5671")
+        sock = MagicMock()
+        sock.getpeername.return_value = ("93.184.216.34", 5671)
+        sock.gettimeout.return_value = 5
+        sock.recv.return_value = b""
+        sock.recv.side_effect = error
+        transport.sock = sock
+        transport._quick_recv = transport._deadline_recv  # ruff: ignore[private-member-access]
+        connection.transport = transport  # type: ignore[misc]
+        self.connection.connection = connection
+        self.connection.collect.side_effect = transport.close
+        fresh = MagicMock()
+        fresh.connection.transport.sock.getpeername.return_value = (
+            "93.184.216.34",
+            5671,
+        )
+        with patch.object(messaging, "Connection", return_value=fresh):
+            self.publish()
+
+        sock.recv.assert_called_once_with(7)
+        sock.close.assert_called_once()
+        self.connection.collect.assert_called_once()
+        fresh.ensure_connection.assert_called_once_with(
+            max_retries=0, reraise_as_library_errors=False
+        )
+        self.producer.publish.assert_called_once()
+        self.assertEqual(
+            self.producer.publish.call_args.kwargs["message_id"], self.message.id
+        )
+        self.report.assert_not_called()
+        self.clock.sleep.assert_not_called()
+
+    def test_empty_broker_poll_preserves_cached_connection(self) -> None:
+        self.publish()
+        self.connection.connection.drain_events.side_effect = messaging.socket.timeout
+        self.publish()
+        self.connection.ensure_connection.assert_called_once()
+        self.connection.collect.assert_not_called()
+        self.assertEqual(self.producer.publish.call_count, 2)
+        self.connection.connection.drain_events.assert_called_with(timeout=0)
+
+    def test_stale_broker_poll_reconnect_failure_is_bounded(self) -> None:
+        self.publish()
+        self.producer.publish.reset_mock()
+        poll = self.connection.connection.drain_events
+        poll.reset_mock()
+        poll.side_effect = OSError("Server unexpectedly closed connection")
+        with self.assertRaises(messaging.FedoraMessagingPublishError):
+            self.publish()
+        self.assertEqual(poll.call_count, 2)
+        self.assertEqual(self.connection.ensure_connection.call_count, 2)
+        self.producer.publish.assert_not_called()
+        self.report.assert_called_once()
+        self.assertIsNone(self.state.connection)
+
+    def test_publish_failure_does_not_get_stale_connection_recovery(self) -> None:
+        self.publish()
+        self.producer.publish.reset_mock()
+        self.producer.publish.side_effect = OSError("closed while publishing")
+        with self.assertRaises(messaging.FedoraMessagingPublishError):
+            self.publish()
+        self.connection.ensure_connection.assert_called_once()
+        self.producer.publish.assert_called_once()
+        self.report.assert_called_once()
+
+    def test_broker_poll_obeys_publish_deadline(self) -> None:
+        self.publish()
+        self.producer.publish.reset_mock()
+        self.clock.monotonic.side_effect = chain([0, 0, 0, 0], repeat(5))
+        with self.assertRaises(messaging.FedoraMessagingPublishError) as error:
+            self.publish(timeout=5)
+        self.assertIsInstance(error.exception.__cause__, TimeoutError)
+        self.connection.ensure_connection.assert_called_once()
+        self.producer.publish.assert_not_called()
+        self.assertIsNone(self.state.connection)
+
+    def test_confirmation_timeout_discards_connection_without_extra_retry(self) -> None:
+        self.publish()
+        self.producer.publish.reset_mock()
+        timeout = TimeoutError(errno.ETIMEDOUT, "Connection timed out")
+        self.producer.publish.side_effect = timeout
+        with self.assertRaises(messaging.FedoraMessagingPublishError) as error:
+            self.publish()
+        self.assertIs(error.exception.__cause__, timeout)
+        self.connection.ensure_connection.assert_called_once()
+        self.producer.publish.assert_called_once()
+        self.report.assert_called_once()
+        self.assertIsNone(self.state.connection)
+
+    def test_stale_peer_reconnect_failure_is_bounded(self) -> None:
+        self.publish()
+        self.producer.publish.reset_mock()
+        sock = self.connection.connection.transport.sock
+        sock.getpeername.reset_mock()
+        sock.getpeername.side_effect = OSError(errno.ENOTCONN, "not connected")
+        with self.assertRaises(messaging.FedoraMessagingPublishError):
+            self.publish()
+        self.assertEqual(sock.getpeername.call_count, 2)
+        self.assertEqual(self.connection.ensure_connection.call_count, 2)
+        self.producer.publish.assert_not_called()
+        self.report.assert_called_once()
+        self.assertIsNone(self.state.connection)
+
+    def test_stale_peer_reconnect_obeys_deadline(self) -> None:
+        self.publish()
+        self.producer.publish.reset_mock()
+        self.connection.connection.transport.sock.getpeername.side_effect = OSError(
+            errno.ENOTCONN, "not connected"
+        )
+        self.clock.monotonic.side_effect = chain([0, 0, 0, 0], repeat(5))
+        with self.assertRaises(messaging.FedoraMessagingPublishError) as error:
+            self.publish(timeout=5)
+        self.assertIsInstance(error.exception.__cause__, TimeoutError)
+        self.connection.ensure_connection.assert_called_once()
+        self.producer.publish.assert_not_called()
+        self.assertIsNone(self.state.connection)
 
     @override_settings(WEBHOOK_RESTRICT_PRIVATE=True, WEBHOOK_PRIVATE_ALLOWLIST=[])
     def test_peer_lookup_failures_exhaust_retries_without_publishing(self) -> None:
-        self.publish()
-        self.producer.publish.reset_mock()
         sock = self.connection.connection.transport.sock
         sock.getpeername.reset_mock()
         sock.getpeername.side_effect = OSError(errno.ENOTCONN, "not connected")
@@ -225,6 +410,16 @@ class PublisherTest(SimpleTestCase):
                 self.producer.publish.assert_called_once()
                 self.assertIsNone(self.state.connection)
 
+    def test_invalid_tls_certificate_is_not_retried(self) -> None:
+        self.connection.ensure_connection.side_effect = ssl.SSLCertVerificationError(
+            1, "certificate verification failed"
+        )
+        with self.assertRaises(messaging.FedoraMessagingPublishError):
+            self.publish(connection_attempts=3)
+        self.connection.ensure_connection.assert_called_once()
+        self.producer.publish.assert_not_called()
+        self.clock.sleep.assert_not_called()
+
     def test_exhausted_attempts_report_once_and_allow_recovery(self) -> None:
         self.producer.publish.side_effect = OSError("closed")
         with self.assertRaises(messaging.FedoraMessagingPublishError):
@@ -237,7 +432,7 @@ class PublisherTest(SimpleTestCase):
 
     def test_expired_budget_does_not_connect(self) -> None:
         with self.assertRaises(messaging.FedoraMessagingPublishError):
-            self.publish(timeout=0)
+            self.publish(connection_timeout=0)
         self.connection.ensure_connection.assert_not_called()
 
     def test_connection_attempts_use_only_explicit_retries(self) -> None:
@@ -278,19 +473,22 @@ class PublisherTest(SimpleTestCase):
 
         self.assertEqual(establish.call_count, attempts)
         self.assertEqual(retry_sleep.call_count, attempts - 1)
-        self.assertEqual(
-            budgets, [30 - index * (0.25 + delay) for index in range(attempts)]
-        )
+        self.assertEqual(budgets, [5] * attempts)
         kombu_sleep.assert_not_called()
         self.assertIsNone(self.state.connection)
 
-    def test_connection_retry_stops_at_deadline(self) -> None:
+    def test_connection_retries_have_independent_setup_budgets(self) -> None:
         self.connection_patch.stop()
         now = 0.0
 
         def sleep(seconds: float) -> None:
             nonlocal now
             now += seconds
+
+        def fail_connection() -> None:
+            nonlocal now
+            now += 1
+            messaging.FedoraMessagingAddon.remaining(self.state.deadline)
 
         with (
             patch.object(self.clock, "monotonic", side_effect=lambda: now),
@@ -299,14 +497,15 @@ class PublisherTest(SimpleTestCase):
             patch.object(
                 messaging.PublisherTransport,
                 "establish_connection",
-                side_effect=OSError("broker unavailable"),
+                side_effect=fail_connection,
             ) as establish,
             self.assertRaises(messaging.FedoraMessagingPublishError) as error,
         ):
-            self.publish(connection_attempts=3, retry_delay=2, timeout=1)
+            self.publish(connection_attempts=3, retry_delay=2, connection_timeout=1)
 
-        establish.assert_called_once()
-        retry_sleep.assert_called_once_with(1)
+        self.assertEqual(establish.call_count, 3)
+        self.assertEqual(retry_sleep.call_args_list, [call(2), call(2)])
+        self.assertEqual(now, 7)
         kombu_sleep.assert_not_called()
         self.assertIsInstance(error.exception.__cause__, TimeoutError)
 
@@ -495,6 +694,40 @@ class PublisherSocketTest(SimpleTestCase):
         self.addCleanup(patcher.stop)
         self.addCleanup(self.state.close)
 
+    def test_partial_writes_share_active_deadline(self) -> None:
+        for transport_type in (
+            messaging.DeadlineTCPTransport,
+            messaging.DeadlineSSLTransport,
+        ):
+            with self.subTest(transport=transport_type.__name__):
+                self.check_partial_writes(transport_type)
+
+    def check_partial_writes(
+        self, transport_type: type[messaging.DeadlineTCPTransport]
+    ) -> None:
+        now = 0.0
+        transport = transport_type("broker.example:5672")
+        sock = MagicMock()
+        transport.sock = sock
+
+        def send(data: memoryview) -> int:
+            nonlocal now
+            now += 1
+            return 1
+
+        sock.send.side_effect = send
+        with (
+            patch.object(self.clock, "monotonic", side_effect=lambda: now),
+            self.assertRaises(TimeoutError),
+        ):
+            transport._deadline_write(b"123456")  # ruff: ignore[private-member-access]
+        self.assertEqual(sock.send.call_count, 5)
+        self.assertEqual(
+            sock.settimeout.call_args_list,
+            [call(5), call(4), call(3), call(2), call(1)],
+        )
+        transport.close()
+
     def test_address_attempts_share_deadline(self) -> None:
         transport = messaging.DeadlineTCPTransport(
             "broker.example:5672", connect_timeout=5
@@ -590,7 +823,7 @@ class PublisherSocketTest(SimpleTestCase):
         now = 0.0
         raw = MagicMock()
         wrapped = MagicMock()
-        wrapped.write.side_effect = len
+        wrapped.send.side_effect = len
 
         def connect(address: tuple) -> None:
             nonlocal now
@@ -625,7 +858,10 @@ class PublisherSocketTest(SimpleTestCase):
         ):
             transport.connect()
         raw.connect.assert_called_once()
-        wrapped.settimeout.assert_called_once_with(1)
+        self.assertTrue(wrapped.settimeout.called)
+        self.assertTrue(
+            all(args == call(1) for args in wrapped.settimeout.call_args_list)
+        )
         wrapped.do_handshake.assert_called_once()
         transport.close()
         wrapped.close.assert_called_once()
@@ -671,8 +907,21 @@ class PublisherSocketTest(SimpleTestCase):
             with self.subTest(transport=transport_type.__name__):
                 self.check_confirmed_publish_after_empty_poll(transport_type)
 
+    def test_fresh_channel_negotiates_confirms_before_publishing(self) -> None:
+        for transport_type in (
+            messaging.DeadlineTCPTransport,
+            messaging.DeadlineSSLTransport,
+        ):
+            with self.subTest(transport=transport_type.__name__):
+                self.check_confirmed_publish_after_empty_poll(
+                    transport_type, fresh=True
+                )
+
     def check_confirmed_publish_after_empty_poll(
-        self, transport_type: type[messaging.DeadlineTCPTransport]
+        self,
+        transport_type: type[messaging.DeadlineTCPTransport],
+        *,
+        fresh: bool = False,
     ) -> None:
         now = 0.0
         current_timeout = None
@@ -685,9 +934,12 @@ class PublisherSocketTest(SimpleTestCase):
         handler = frame_handler(connection, connection.on_inbound_method)
         connection.on_inbound_frame = handler  # type: ignore[misc]
         channel = connection.Channel(connection, channel_id=1)
-        channel._confirm_selected = True  # type: ignore[attr-defined]  # ruff: ignore[private-member-access]
+        channel._confirm_selected = not fresh  # type: ignore[attr-defined]  # ruff: ignore[private-member-access]
         payload = pack(">HHQ?", *spec.Basic.Ack, 1, False)
         frame = pack(">BHI", 1, 1, len(payload)) + payload + b"\xce"
+        if fresh:
+            selected = pack(">HH", *spec.Confirm.SelectOk)
+            frame = pack(">BHI", 1, 1, len(selected)) + selected + b"\xce" + frame
         sock = MagicMock()
 
         def set_timeout(value: float | None) -> None:
@@ -712,20 +964,31 @@ class PublisherSocketTest(SimpleTestCase):
         transport = transport_type("broker.example:5672")
         transport.sock = sock
         connection.transport = transport  # type: ignore[misc]
+        sock.getpeername.return_value = ("93.184.216.34", 5672)
+        wrapper = MagicMock()
+        wrapper.connection = connection
+        wrapper.hostname = "broker.example"
+        producer = messaging.Producer(channel, auto_declare=False)
+        self.state.connection = None if fresh else wrapper
+        self.state.producer = None if fresh else producer
         with (
             patch.object(self.clock, "monotonic", side_effect=lambda: now),
             patch.object(transport, "_wrap_socket", return_value=sock, create=True),
+            patch.object(messaging, "Connection", return_value=wrapper),
+            patch.object(messaging, "Producer", return_value=producer),
         ):
             transport._setup_transport()  # ruff: ignore[private-member-access]
-            channel.basic_publish(
-                Message(b"data"),
-                exchange="amq.topic",
-                routing_key="weblate.test",
-                timeout=5,
-                confirm_timeout=5,
+            messaging.FedoraMessagingAddon._publish_once(  # ruff: ignore[private-member-access]
+                messaging.WeblateMessage(topic="weblate.test", headers={}, body={}),
+                "amqp://broker.example",
+                self.state.deadline,
             )
-        writer.assert_called_once()
-        self.assertEqual(writer.call_args.args[2], spec.Basic.Publish)
+        self.assertEqual(
+            [args.args[2] for args in writer.call_args_list],
+            [spec.Confirm.Select, spec.Basic.Publish]
+            if fresh
+            else [spec.Basic.Publish],
+        )
         self.assertLess(now, self.state.deadline)
         self.assertEqual(frame, b"")
         transport.close()

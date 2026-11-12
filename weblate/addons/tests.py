@@ -131,6 +131,7 @@ from .cleanup import CleanupAddon, RemoveBlankAddon, ResetAddon
 from .consistency import LanguageConsistencyAddon
 from .defaults import (
     DEFAULT_FEDORA_MESSAGING_CONNECTION_ATTEMPTS,
+    DEFAULT_FEDORA_MESSAGING_CONNECTION_TIMEOUT,
     DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT,
     DEFAULT_FEDORA_MESSAGING_RETRY_DELAY,
 )
@@ -10280,6 +10281,7 @@ class AddonConfigurationUnitTest(SimpleTestCase):
                     "client_cert": "private-certificate",
                     "client_key": "private-key",
                     "connection_attempts": 3,
+                    "connection_timeout": 7,
                     "event_filter": CHANGE_EVENT_FILTER_CONTENT,
                     "events": [],
                     "publish_timeout": 30,
@@ -10297,6 +10299,7 @@ class AddonConfigurationUnitTest(SimpleTestCase):
                 "client_cert": None,
                 "client_key": None,
                 "connection_attempts": 3,
+                "connection_timeout": 7,
                 "event_filter": CHANGE_EVENT_FILTER_CONTENT,
                 "events": [],
                 "publish_timeout": 30,
@@ -13139,6 +13142,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             publish_message.call_args.kwargs,
             {
                 "timeout": DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT,
+                "connection_timeout": DEFAULT_FEDORA_MESSAGING_CONNECTION_TIMEOUT,
                 "connection_attempts": DEFAULT_FEDORA_MESSAGING_CONNECTION_ATTEMPTS,
                 "retry_delay": DEFAULT_FEDORA_MESSAGING_RETRY_DELAY,
             },
@@ -13397,6 +13401,10 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             addon.configuration["amqp_url"], "amqps://rabbitmq.example.com"
         )
         self.assertEqual(addon.configuration["topic_prefix"], "org.fedoraproject")
+        self.assertEqual(
+            addon.configuration["connection_timeout"],
+            DEFAULT_FEDORA_MESSAGING_CONNECTION_TIMEOUT,
+        )
         self.assertEqual(
             addon.configuration["publish_timeout"],
             DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT,
