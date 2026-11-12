@@ -101,6 +101,16 @@ remote: Host key verification failed.
 class ComponentTest(RepoTestCase):
     """Component object testing."""
 
+    def test_ensure_local_repository_skips_remote_and_linked_repositories(self) -> None:
+        for vcs, repo in (
+            ("git", "https://example.com/repository.git"),
+            ("local", "weblate://project/source"),
+        ):
+            with self.subTest(vcs=vcs, repo=repo):
+                component = Component(vcs=vcs, repo=repo)
+                component.ensure_local_repository()
+                self.assertNotIn("repository", component.__dict__)
+
     def test_commit_pending_without_changes_does_not_fetch_bot(self) -> None:
         component = self.create_component()
         with patch("weblate.auth.models.User.objects.get_or_create_bot") as get_bot:

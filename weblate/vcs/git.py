@@ -107,7 +107,7 @@ from weblate.vcs.params import (
 from weblate.vcs.ssh import SSH_WRAPPER, resolve_ssh_destination
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Iterator
+    from collections.abc import Callable, Generator, Iterator
     from datetime import datetime
     from zipfile import ZipInfo
 
@@ -118,6 +118,7 @@ if TYPE_CHECKING:
     from weblate.vcs.base import (
         RawCommitInfo,
         RepositoryErrorCode,
+        RepositoryLock,
         RepositoryStructuredError,
     )
 
@@ -4291,8 +4292,16 @@ class LocalRepository(GitRepository):
 
     @classmethod
     @contextmanager
-    def build_local_repo(cls, target: str, commit_message: str):
+    def build_local_repo(
+        cls,
+        target: str,
+        commit_message: str,
+        *,
+        lock: RepositoryLock | None = None,
+    ) -> Generator[Self, None, None]:
         repo = cls(target)
+        if lock is not None:
+            repo.lock.replace_lock(lock)
         with repo.lock:
             # Create empty repo
             if os.path.exists(target):
@@ -4341,8 +4350,16 @@ class LocalRepository(GitRepository):
                 return repo
 
     @classmethod
-    def from_files(cls, target: str, files: dict[str, bytes]) -> Self:
-        with cls.build_local_repo(target, "Started translation using Weblate") as repo:
+    def from_files(
+        cls,
+        target: str,
+        files: dict[str, bytes],
+        *,
+        lock: RepositoryLock | None = None,
+    ) -> Self:
+        with cls.build_local_repo(
+            target, "Started translation using Weblate", lock=lock
+        ) as repo:
             # Create files
             for name, content in files.items():
                 fullname = os.path.join(target, name)
