@@ -3344,6 +3344,15 @@ Anubis can be deployed using Docker Compose:
    https://anubis.techaro.lol/docs/admin/policies/#storage-backends.
 
 
+Restrict Anubis's ``REDIRECT_DOMAINS`` to your intended public hostnames, matching
+:envvar:`WEBLATE_SITE_DOMAIN` as shown above.
+
+Challenge redirects and their return destinations use :envvar:`WEBLATE_SITE_DOMAIN`,
+including when a request arrives through an alias. Set :envvar:`WEBLATE_ENABLE_HTTPS`
+to ``1`` when a reverse proxy terminates TLS so these redirects use the public
+HTTPS origin. Built-in TLS also selects HTTPS automatically. Include any public
+nonstandard port in :envvar:`WEBLATE_SITE_DOMAIN`.
+
 You can then turn on the Anubis usage in Weblate using:
 
 .. code-block:: yaml
