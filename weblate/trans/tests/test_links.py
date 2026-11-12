@@ -13,7 +13,8 @@ from django.db import connection, transaction
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 
-from weblate.trans.models import Category, Project
+from weblate.auth.permissions import _get_upload_child_translations
+from weblate.trans.models import Category, Component, Project
 from weblate.trans.models.component import ComponentLink
 from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.utils.stats import CategoryLanguage, GlobalStats, ProjectLanguage
@@ -448,6 +449,111 @@ class ComponentLinkTestCase(ReusableViewTestCase):
         cat = Category.objects.get(pk=cat.pk)
         child_ids = set(cat.stats.get_child_objects().values_list("pk", flat=True))
         self.assertIn(self.component.pk, child_ids)
+
+    def test_category_component_queries_preserve_scope(self) -> None:
+        parent = Category.objects.create(
+            project=self.other, name="Parent", slug="parent"
+        )
+        child = Category.objects.create(
+            project=self.other, category=parent, name="Child", slug="child"
+        )
+        grandchild = Category.objects.create(
+            project=self.other, category=child, name="Grandchild", slug="grandchild"
+        )
+        unrelated = Category.objects.create(
+            project=self.other, name="Unrelated", slug="unrelated"
+        )
+        owned = self.create_po(project=self.other, name="Owned", category=child)
+        language = self.translation.language
+        owned_translation = owned.translation_set.get(language=language)
+        shared_translation = self.component.translation_set.get(language=language)
+
+        self.assertIn("UNION", str(parent.stats.get_child_objects().query))
+        for placement in (parent, child, grandchild, unrelated, None):
+            ComponentLink.objects.filter(pk=self.link.pk).update(category=placement)
+            for category in (parent, child, grandchild, unrelated):
+                with self.subTest(placement=placement, category=category):
+                    direct_components = set()
+                    direct_translations = set()
+                    if category == child:
+                        direct_components.add(owned.pk)
+                        direct_translations.add(owned_translation.pk)
+                    if category == placement:
+                        direct_components.add(self.component.pk)
+                        direct_translations.add(shared_translation.pk)
+                    with self.assertNumQueries(1):
+                        components = list(category.stats.get_child_objects())
+                    self.assertEqual(
+                        {component.pk for component in components}, direct_components
+                    )
+                    stats = CategoryLanguage(category, language).stats
+                    with self.assertNumQueries(1):
+                        translations = list(stats.get_child_objects())
+                    self.assertEqual(
+                        {translation.pk for translation in translations},
+                        direct_translations,
+                    )
+
+                    subtree_components = set()
+                    if category in {parent, child}:
+                        subtree_components.add(owned.pk)
+                    if (
+                        placement == category
+                        or (placement in {child, grandchild} and category == parent)
+                        or (placement == grandchild and category == child)
+                    ):
+                        subtree_components.add(self.component.pk)
+                    expected_translations = set(
+                        Component.objects.filter(pk__in=subtree_components).values_list(
+                            "translation__pk", flat=True
+                        )
+                    )
+                    with self.assertNumQueries(1):
+                        upload_translations = list(
+                            _get_upload_child_translations(category)
+                        )
+                    self.assertEqual(
+                        {translation.pk for translation in upload_translations},
+                        expected_translations,
+                    )
+
+    def test_category_source_language_ids_query(self) -> None:
+        parent = Category.objects.create(
+            project=self.other, name="Parent", slug="parent"
+        )
+        child = Category.objects.create(
+            project=self.other, category=parent, name="Child", slug="child"
+        )
+        owned = self.create_po(project=self.other, name="Owned", category=child)
+        # Distinguish owned and shared sources without rewriting repository files.
+        Component.objects.filter(pk=owned.pk).update(
+            source_language=self.translation.language
+        )
+        for placement in (None, child):
+            ComponentLink.objects.filter(pk=self.link.pk).update(category=placement)
+            category = Category.objects.get(pk=parent.pk)
+            expected: set[int | None] = {self.translation.language_id}
+            if placement is not None:
+                expected.add(self.component.source_language_id)
+            with self.subTest(placement=placement), self.assertNumQueries(1):
+                self.assertEqual(category.source_language_ids, expected)
+            with self.assertNumQueries(0):
+                self.assertEqual(category.source_language_ids, expected)
+
+        Component.objects.filter(pk=owned.pk).update(
+            source_language=self.component.source_language
+        )
+        category = Category.objects.get(pk=parent.pk)
+        with self.assertNumQueries(1):
+            self.assertEqual(
+                category.source_language_ids, {self.component.source_language_id}
+            )
+
+        Component.objects.filter(pk=owned.pk).update(category=None)
+        ComponentLink.objects.filter(pk=self.link.pk).update(category=None)
+        category = Category.objects.get(pk=parent.pk)
+        with self.assertNumQueries(1):
+            self.assertEqual(category.source_language_ids, set())
 
     def test_category_languages_include_shared(self) -> None:
         """An empty category with only a shared component should show that component's languages and translations in the language tab."""

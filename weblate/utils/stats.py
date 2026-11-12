@@ -1582,15 +1582,10 @@ class CategoryLanguageStats(ChecklistStats):
         ]
 
     def get_child_objects(self):
-        # ruff: ignore[import-outside-top-level]
-        from weblate.trans.models.component import ComponentLink
-
-        shared_component_ids = ComponentLink.objects.filter(
-            category=self.category
-        ).values_list("component_id", flat=True)
         return self.language.translation_set.filter(
-            Q(component__category=self.category)
-            | Q(component__pk__in=shared_component_ids)
+            component_id__in=self.category.get_component_ids_with_links(
+                include_descendants=False
+            )
         ).only("id", "language")
 
 
@@ -1606,16 +1601,10 @@ class CategoryStats(ParentAggregatingStats):
 
     def get_child_objects(self):
         # ruff: ignore[import-outside-top-level]
-        from weblate.trans.models.component import (
-            Component,
-            ComponentLink,
-        )
+        from weblate.trans.models.component import Component
 
-        shared_ids = ComponentLink.objects.filter(category=self._object).values_list(
-            "component_id", flat=True
-        )
         return Component.objects.filter(
-            Q(category=self._object) | Q(pk__in=shared_ids)
+            pk__in=self._object.get_component_ids_with_links(include_descendants=False)
         ).only("id", "slug", "category", "check_flags")
 
     def get_category_objects(self):
