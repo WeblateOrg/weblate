@@ -40,6 +40,7 @@ def sync_glossary_languages(pk: int, component: Component | None = None) -> None
     if not missing:
         return
     with component.repository.lock:
+        component.ensure_local_repository()
         component.log_info("Adding glossary languages: %s", missing)
         # Make sure changes are committed, create_translations might discard pending ones
         component.commit_pending("glossary languages", None)

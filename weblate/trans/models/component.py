@@ -3203,12 +3203,13 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     )
         return True
 
-    def configure_repo(self, validate=False, pull=True) -> None:
-        """Ensure repository is correctly set up."""
-        if self.is_repo_link:
+    def ensure_local_repository(self) -> None:
+        """Initialize a local repository before component operations use it."""
+        if self.is_repo_link or not self.is_repo_local:
             return
-
-        if self.is_repo_local:
+        # Initialization must use the saved component's lock, including the
+        # existence check, rather than the standalone repository's path lock.
+        with self.repository.lock:
             if not os.path.exists(os.path.join(self.full_path, ".git")):
                 if (
                     not self.template
@@ -3233,7 +3234,16 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     }
                     if self.template
                     else {},
+                    lock=self.repository.lock,
                 )
+
+    def configure_repo(self, validate=False, pull=True) -> None:
+        """Ensure repository is correctly set up."""
+        if self.is_repo_link:
+            return
+
+        if self.is_repo_local:
+            self.ensure_local_repository()
             return
 
         with self.repository.lock:
@@ -7217,6 +7227,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         fullname = os.path.join(self.full_path, filename)
 
         with self.repository.lock:
+            self.ensure_local_repository()
             if create_translations:
                 self.commit_pending("add language", None)
 
