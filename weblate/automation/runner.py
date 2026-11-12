@@ -53,7 +53,7 @@ def execution_context(
         "unit": {
             "id": unit.pk,
             "state": unit.state,
-            "source": unit.source[:4096],
+            "source": unit.effective_source[:4096],
             "target": unit.target[:4096],
         }
         if unit
