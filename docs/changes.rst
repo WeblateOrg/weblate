@@ -71,6 +71,7 @@ Weblate 2026.11.2
 
 .. rubric:: Bug fixes
 
+* Fixed :ref:`project backup <projectbackup>` imports when plural rules with a separate zero form do not yet exist on the target server.
 * Fixed missing plural forms in :ref:`automatic translation <machine-translation>` by comparing plural rules over shared example counts instead of capped display examples.
 * Respected custom XML names when creating new translations for :ref:`flatxml` without a template.
 * Improved :ref:`Fedora Messaging <addon-weblate.fedora_messaging.publish>` delivery with automatic stale-connection recovery and separate connection and publish timeouts per attempt.
