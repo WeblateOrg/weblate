@@ -10,6 +10,7 @@ Weblate 2026.12
 .. rubric:: Security fixes
 
 * Prevented component creation from writing translation templates outside its repository.
+* Applied :setting:`VCS_RESTRICT_PRIVATE` and trusted-host exemptions to :ref:`GitHub App manifest-code and OAuth exchanges <code-hosting-github-app-register>` and API requests, including redirects and pagination URLs.
 
 .. rubric:: Bug fixes
 

@@ -23,12 +23,14 @@ from weblate.trans.models import Project
 from weblate.utils.requests import (
     DEFAULT_RESPONSE_SIZE,
     MACHINERY_RESPONSE_SIZE,
+    PEER_IP_RESPONSE_ATTR,
     ResponseTooLarge,
     async_fetch_url,
     async_fetch_validated_url,
     fetch_url,
     fetch_validated_url,
 )
+from weblate.utils.tests.network import mock_dns
 from weblate.vcs.github import GitHubAppCredentials, get_authenticated_github_user
 
 if TYPE_CHECKING:
@@ -67,9 +69,11 @@ class ResponseLimitsTest(SimpleTestCase):
         stream: ChunkStream, headers: dict[str, str] | None = None
     ) -> httpx2.MockTransport:
         def handle(_request: httpx2.Request) -> httpx2.Response:
-            return httpx2.Response(
+            response = httpx2.Response(
                 200, stream=stream, headers=headers, extensions={"marker": "retained"}
             )
+            setattr(response, PEER_IP_RESPONSE_ATTR, "93.184.216.34")
+            return response
 
         return httpx2.MockTransport(handle)
 
@@ -283,14 +287,23 @@ class ResponseLimitsTest(SimpleTestCase):
             self.assertEqual(list(Path(directory).iterdir()), [target])
         self.assertTrue(stream.closed)
 
+    @override_settings(
+        VCS_RESTRICT_PRIVATE=True,
+        VCS_ALLOW_HOSTS=[],
+        VCS_PRIVATE_ALLOWLIST=[],
+    )
+    @mock_dns("api.github.com")
     def test_github_json_uses_larger_budget(self) -> None:
         body = json.dumps(
             {"login": "test", "details": "x" * DEFAULT_RESPONSE_SIZE}
         ).encode()
         stream = ChunkStream([body])
-        with patch(
-            "weblate.utils.requests._TEST_TRANSPORT.transport",
-            self.make_transport(stream),
+        with (
+            patch("weblate.utils.requests.get_environment_proxy", return_value=None),
+            patch(
+                "weblate.utils.requests._TEST_TRANSPORT.transport",
+                self.make_transport(stream),
+            ),
         ):
             data = asyncio.run(
                 get_authenticated_github_user(

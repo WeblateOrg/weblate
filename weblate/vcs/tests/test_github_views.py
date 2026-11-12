@@ -28,6 +28,7 @@ from weblate.trans.tests.test_views import ReusableViewTestCase, ViewTestCase
 from weblate.utils.change_origin import acting_user_context
 from weblate.utils.site import get_site_url
 from weblate.utils.tests import http_mock
+from weblate.utils.tests.network import mock_dns
 from weblate.vcs.github import (
     GITHUB_APP_MANIFEST_EVENTS,
     GITHUB_APP_MANIFEST_PERMISSIONS,
@@ -74,6 +75,9 @@ def _import_url(installation: GitHubInstallation, repo: dict, **overrides) -> st
 class GitHubInstallationViewTest(ReusableViewTestCase):
     def setUp(self) -> None:
         super().setUp()
+        self.enterContext(
+            mock_dns("api.github.com", "github.com", "github.example.com")
+        )
         cache.clear()
         self.user.is_superuser = True
         self.user.save()
@@ -1876,6 +1880,9 @@ class GitHubAppAccessControlTest(ViewTestCase):
 
     def setUp(self) -> None:
         super().setUp()
+        self.enterContext(
+            mock_dns("api.github.com", "github.com", "github.example.com")
+        )
         cache.clear()
 
         self.workspace = Workspace.objects.create(name="ACL Workspace")
@@ -2130,6 +2137,9 @@ MANIFEST_RESPONSE = {
 class GitHubAppManifestViewTest(TestCase):
     def setUp(self) -> None:
         super().setUp()
+        self.enterContext(
+            mock_dns("api.github.com", "github.com", "github.example.com")
+        )
         self.user = User.objects.create_superuser(
             username="admin",
             email="admin@example.org",

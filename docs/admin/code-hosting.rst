@@ -300,6 +300,17 @@ manifest with the correct permissions, events, and webhook URL pre-filled:
    database. The :guilabel:`Connect GitHub account` button is available
    immediately afterwards.
 
+GitHub App manifest-code exchanges, OAuth exchanges, and API requests follow
+:setting:`VCS_RESTRICT_PRIVATE`, including redirects and pagination URLs. The
+initial manifest submission goes directly from your browser to GitHub and is
+outside this server-side policy.
+
+For a GitHub Enterprise host on a private network, add its hostname to
+:setting:`VCS_PRIVATE_ALLOWLIST` or :setting:`VCS_ALLOW_HOSTS` before registering
+the App. The same exemption is needed for repository access. If
+:setting:`VCS_ALLOW_HOSTS` is non-empty, it must also include the Enterprise
+hostname; :setting:`VCS_PRIVATE_ALLOWLIST` does not bypass that host filter.
+
 The manifest requests the permissions and event subscriptions Weblate needs
 (``Contents`` and ``Pull requests`` read/write, ``Metadata`` read-only,
 ``Organization administration`` read-only, ``Workflows`` read/write, and the
