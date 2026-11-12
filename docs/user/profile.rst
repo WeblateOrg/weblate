@@ -263,6 +263,22 @@ confirmation steps. You may be asked for your current password.
 Adding an address does not change your account e-mail address. After verification,
 you can select the new address in the :guilabel:`Account` tab.
 
+When a connected service provides e-mail verification data during sign-in,
+Weblate refreshes the addresses verified by that service. Missing e-mail claims
+leave the stored addresses unchanged; an explicitly empty verified-address list
+removes that service's stored addresses. If your account e-mail loses its last
+verification, Weblate selects another available, verified address or clears
+the account e-mail if none is available. You can still sign in through the
+connected service. Add and verify an address to restore password recovery,
+then select it as your account e-mail to receive notifications. Verified
+secondary addresses can also be used for password recovery.
+Pending confirmation links for removed addresses are invalidated. An address
+still verified by another connected identity remains available.
+
+If you changed your service's e-mail addresses before upgrading Weblate,
+check your :guilabel:`Account` settings and replace any retired account e-mail.
+Previously removed addresses cannot always be identified automatically.
+
 If the new address already belongs to another account, that mailbox
 receives guidance on recovering access instead of a verification link. Sign out
 before recovering the other account.
