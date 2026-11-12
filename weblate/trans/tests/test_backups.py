@@ -52,7 +52,9 @@ from weblate.auth.models import (
 )
 from weblate.checks.models import Check
 from weblate.formats.base import UnitNotFoundError
-from weblate.lang.models import Language
+from weblate.formats.ttkit import ZeroCLDRPluralMixin
+from weblate.lang.data import PLURAL_ZERO_ONE_OTHER
+from weblate.lang.models import Language, Plural
 from weblate.memory.models import Memory, MemoryScope
 from weblate.memory.utils import CATEGORY_FILE, CATEGORY_PRIVATE_OFFSET
 from weblate.screenshots.models import Screenshot
@@ -4463,6 +4465,45 @@ class BackupsTest(ReusableViewTestCase):
             restore.restore(
                 project_name="Restored", project_slug="restored", user=self.user
             )
+
+    def test_restore_missing_zero_plural(self) -> None:
+        self.verify_restore_zero_plural(existing=False)
+
+    def test_restore_migrated_zero_plural(self) -> None:
+        self.verify_restore_zero_plural(existing=True)
+
+    def verify_restore_zero_plural(self, *, existing: bool) -> None:
+        language = Language.objects.get(code="cs")
+        current = ZeroCLDRPluralMixin.get_zero_plural(language)
+        expected = (current.source, current.number, current.formula)
+        if not existing:
+            current.delete()
+        plural_data = {
+            "source": Plural.SOURCE_CLDR_ZERO,
+            "number": 3,
+            "formula": "n==0 ? 0 : n==1 ? 1 : 2",
+            "type": PLURAL_ZERO_ONE_OTHER,
+        }
+        filename = self.write_tampered_component_backup(
+            translation_language_code="cs",
+            translation_updates={"plural": plural_data},
+        )
+        with remove_file_after(filename):
+            backup = ProjectBackup(filename)
+            backup.validate()
+            restored = backup.restore("Restored", "restored", self.user)
+        translation = Translation.objects.get(
+            component__project=restored,
+            component__slug=self.component.slug,
+            language_code="cs",
+        )
+        plural = translation.plural
+        self.assertEqual((plural.source, plural.number, plural.formula), expected)
+        if existing:
+            self.assertEqual(plural.pk, current.pk)
+        self.assertEqual(
+            language.plural_set.filter(source=Plural.SOURCE_CLDR_ZERO).count(), 1
+        )
 
     @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_restore_cli(self) -> None:

@@ -65,6 +65,7 @@ from weblate.auth.utils import (
     validate_team_assignable_user,
 )
 from weblate.checks.models import Check
+from weblate.formats.ttkit import ZeroCLDRPluralMixin
 from weblate.lang.models import Language, Plural
 from weblate.memory.models import Memory, MemoryDict, MemoryScope
 from weblate.memory.utils import CATEGORY_FILE, CATEGORY_PRIVATE_OFFSET
@@ -2796,6 +2797,21 @@ class ProjectBackup:
                 "restored available files and translation data"
             )
 
+    @staticmethod
+    def restore_plural(language: Language, data: dict[str, Any]) -> Plural:
+        if data["source"] == Plural.SOURCE_CLDR_ZERO:
+            # Generate current rules rather than resurrect a formula
+            # from before a language-data update or plural migration.
+            return ZeroCLDRPluralMixin.get_zero_plural(language)
+        plural = language.plural_set.filter(**data).first()
+        if plural is not None:
+            return plural
+        if data["source"] == Plural.SOURCE_DEFAULT:
+            return language.plural
+        if data["source"] in {Plural.SOURCE_MANUAL, Plural.SOURCE_GETTEXT}:
+            return language.plural_set.create(**data)
+        return language.plural_set.filter(source=data["source"])[0]
+
     def restore_component(
         self, zipfile: ZipFile, data: dict, actor: User, changes: list[Change]
     ) -> bool:
@@ -2868,21 +2884,7 @@ class ProjectBackup:
         source_translation_id = -1
         for item in data["translations"]:
             language = self.import_language(item["language_code"])
-            plurals = language.plural_set.filter(**item["plural"])
-            try:
-                plural = plurals[0]
-            except IndexError:
-                if item["plural"]["source"] == Plural.SOURCE_DEFAULT:
-                    plural = language.plural
-                elif item["plural"]["source"] in {
-                    Plural.SOURCE_MANUAL,
-                    Plural.SOURCE_GETTEXT,
-                }:
-                    plural = language.plural_set.create(**item["plural"])
-                else:
-                    plural = language.plural_set.filter(
-                        source=item["plural"]["source"]
-                    )[0]
+            plural = self.restore_plural(language, item["plural"])
             translation = Translation(
                 component=component,
                 filename=item["filename"],

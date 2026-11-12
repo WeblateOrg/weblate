@@ -916,7 +916,12 @@ class ZeroCLDRPluralMixin(TranslationFormat):
 
     def get_plural(self, language: Language) -> Plural:
         """Return matching plural object."""
-        plural = super().get_plural(language)
+        return self.get_zero_plural(language)
+
+    @classmethod
+    def get_zero_plural(cls, language: Language) -> Plural:
+        """Resolve current zero-plural rules without loading a translation file."""
+        plural = cls.get_plural_by_preference(language)
         if plural.type in ZERO_PLURAL_TYPES:
             return plural
 
