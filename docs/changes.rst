@@ -1,7 +1,7 @@
 Weblate 2026.11.2
 -----------------
 
-*Not yet released.*
+*Released on November 12th 2026.*
 
 .. rubric:: New features
 
