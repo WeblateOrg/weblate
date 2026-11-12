@@ -74,6 +74,7 @@ Weblate 2026.11.2
 * Restored inline terms on :ref:`legal` confirmation when no external terms URL is configured.
 * Restored pending translation writes for :ref:`text files <txt>` and other database-backed formats, PHP, and XWiki, and made output of translations needing editing consistent with cleanup rebuilds.
 * Generated valid resource names for incompatible keys when :doc:`exporting Android translations <user/files>`.
+* Escaped multiline keys when :doc:`exporting iOS strings translations <user/files>`.
 * Limited repository add-on installation to repository-owning components and showed inherited add-ons on linked components.
 * Preserved approvals during concurrent translation edits, suggestion acceptance, merges, and reverts, and preserved text and approvals when dismissing automatically translated status.
 * Rechecked :ref:`billing <billing>` status when creating components through the API or web wizard.
