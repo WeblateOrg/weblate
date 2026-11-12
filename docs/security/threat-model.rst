@@ -60,6 +60,12 @@ feature inventory. *(maintainer)*
      - Same application effects as the token permissions allow
      - In scope as authenticated actors with delegated project scope.
        *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)
+   * - Site-wide API tokens
+     - Tokens created in management :guilabel:`API tokens`
+     - Same application effects as the token's site-wide team permissions allow
+     - In scope as authenticated actors with delegated site-wide team scope.
+       Unavailable on Hosted Weblate.
+       *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)
    * - Webhooks
      - :ref:`hooks`, project :ref:`project-enable_hooks`,
        :ref:`code-hosting-github-app-webhook`
@@ -675,6 +681,12 @@ Adversary model
        :ref:`projectbackup`)
      - Access projects, components, or site-wide functions outside its scope.
        *(documented)* (source: :doc:`/admin/access`)
+   * - Site-wide API token holder
+     - Use API permissions assigned to its site-wide team memberships, including
+       authenticated endpoints such as :http:get:`/api/metrics/`.
+       *(documented)* (source: :doc:`/api`, :ref:`site-api-tokens`)
+     - Act outside assigned team permissions without exploiting a Weblate flaw.
+       *(documented)* (source: :doc:`/admin/access`)
    * - Webhook sender
      - Send forged, replayed, malformed, or high-volume webhook requests to
        enabled hook endpoints and observe documented matching diagnostics.
@@ -808,15 +820,27 @@ Security properties Weblate provides
      - A scoped automatic assignment grants membership without acceptance.
      - Security-critical. Pending invitations remain visible to team managers,
        and matching rules can send unsolicited invitation e-mails.
+   * - Site-wide API tokens are limited by assigned site-wide team permissions
+       and are managed only from the management interface.
+       *(documented)* (source: :doc:`/api`, :ref:`site-api-tokens`)
+     - Token is created, revoked, or has team membership changed from the
+       browser by a site administrator with ``user.edit`` after recent
+       credential verification. Accounts with 2FA use a second factor; other
+       accounts confirm their password or an existing sign-in provider.
+     - Token can act outside assigned team scope, or tokens can be managed
+       without ``user.edit``, or a stale browser session can create, revoke, or
+       alter site-wide tokens without recent credential verification.
+     - Security-critical.
    * - Authentication and session controls protect browser sessions when HTTPS
        and proxy settings are correct. Pending second-factor sessions are bound
        to the current password authentication state, and repeated rejected
        second-factor submissions lock password sign-in according to
-       :setting:`AUTH_LOCK_ATTEMPTS`. Access to personal API tokens and
-       changes to authentication credentials, access permissions, project
-       and component visibility, account status, and bulk user-contribution
-       cleanup require recent credential verification for browser sessions.
-       Accounts with 2FA use a second factor; other accounts confirm their password or an existing
+       :setting:`AUTH_LOCK_ATTEMPTS`. Access to personal API tokens,
+       site-wide API token management, authentication credentials, access
+       permissions, project and component visibility, account status, and
+       bulk user-contribution cleanup require recent credential
+       verification for browser sessions. Accounts with 2FA use a second
+       factor; other accounts confirm their password or an existing
        sign-in provider. API tokens remain separate credentials. *(documented)* (source:
        :doc:`/admin/auth`, :setting:`ENABLE_HTTPS`)
      - Production HTTPS and secure-cookie settings are enabled.

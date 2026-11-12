@@ -7,6 +7,7 @@ from __future__ import annotations
 import json
 import struct
 from datetime import UTC, datetime, timedelta
+from secrets import token_hex
 from typing import TYPE_CHECKING, ClassVar, cast
 
 from altcha import Payload, create_challenge, verify_solution
@@ -18,12 +19,13 @@ from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
-from django.db.models.fields import BLANK_CHOICE_DASH
+from django.db.models import BLANK_CHOICE_DASH, Q
 from django.forms import Script
 from django.forms.utils import ErrorDict
 from django.http import Http404
 from django.middleware.csrf import rotate_token
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.html import escape, format_html
 from django.utils.translation import (
@@ -53,7 +55,9 @@ from weblate.accounts.models import (
 )
 from weblate.accounts.notifications import NOTIFICATIONS
 from weblate.accounts.utils import (
+    BOT_NOREPLY_EMAIL_SUFFIX,
     adjust_session_expiry,
+    bound_bot_basename,
     cycle_session_keys,
     get_all_user_mails,
     get_totp_device_label,
@@ -65,17 +69,19 @@ from weblate.lang.forms import LimitLanguagesField, get_language_code_choices
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.defines import FULLNAME_LENGTH
-from weblate.trans.forms import FieldDocsMixin
 from weblate.trans.models import Category, Component, Project, Translation
 from weblate.utils import messages
 from weblate.utils.forms import (
     ContextDiv,
     EmailField,
+    FieldDocsMixin,
     QueryField,
     SearchableSelect,
     SortedSelect,
     SortedSelectMultiple,
+    UserField,
     UsernameField,
+    WeblateDateInput,
 )
 from weblate.utils.ratelimit import (
     check_rate_limit,
@@ -951,6 +957,16 @@ class SetPasswordForm(DjangoSetPasswordForm):
         messages.success(request, gettext("Your password has been changed."))
 
 
+class UserManageForm(forms.Form):
+    user = UserField(
+        label=gettext_lazy("User to add"),
+        required=True,
+        help_text=gettext_lazy(
+            "Please type in an existing Weblate account name or e-mail address."
+        ),
+    )
+
+
 class EmptyConfirmForm(forms.Form):
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         self.request = request
@@ -1606,3 +1622,38 @@ class NotificationDebugForm(forms.Form):
             raise forms.ValidationError(
                 gettext("The target does not exist or you cannot access it.")
             ) from error
+
+
+class BaseTokenCreateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        # ruff: ignore[mutable-class-default]
+        fields = ["full_name", "date_expires"]
+        # ruff: ignore[mutable-class-default]
+        widgets = {
+            "date_expires": WeblateDateInput(),
+        }
+
+    def clean_date_expires(self):
+        expires = self.cleaned_data["date_expires"]
+        if expires is None:
+            return expires
+        expires = expires.replace(hour=23, minute=59, second=59, microsecond=999999)
+        if expires < timezone.now():
+            raise ValidationError(gettext("Expiry cannot be in the past."))
+        return expires
+
+    def save(self, *args, acting_user: User | None = None, **kwargs):
+        self.instance.is_bot = True
+        base_name = name = bound_bot_basename(self.get_bot_basename())
+        while User.objects.filter(
+            Q(username=name) | Q(email=f"{name}{BOT_NOREPLY_EMAIL_SUFFIX}")
+        ).exists():
+            name = f"{base_name}-{token_hex(2)}"
+        self.instance.username = name
+        self.instance.email = f"{name}{BOT_NOREPLY_EMAIL_SUFFIX}"
+        return super().save(*args, **kwargs)
+
+    def get_bot_basename(self) -> str:
+        msg = "Subclasses must implement this method"
+        raise NotImplementedError(msg)

@@ -1103,6 +1103,31 @@ real_patterns = [
         name="manage-teams",
     ),
     path(
+        "manage/api-tokens/",
+        weblate.wladmin.views.api_tokens,
+        name="manage-api-tokens",
+    ),
+    path(
+        "manage/api-tokens/create/",
+        weblate.wladmin.views.create_site_token,
+        name="create-site-token",
+    ),
+    path(
+        "manage/api-tokens/delete/",
+        weblate.wladmin.views.delete_site_token,
+        name="delete-site-token",
+    ),
+    path(
+        "manage/api-tokens/groups/",
+        weblate.wladmin.views.set_site_token_groups,
+        name="set-site-token-groups",
+    ),
+    path(
+        "manage/api-tokens/<int:user_id>/groups/",
+        weblate.wladmin.views.site_token_groups,
+        name="js-site-token-groups",
+    ),
+    path(
         "manage/workspaces/",
         weblate.wladmin.views.WorkspaceListView.as_view(),
         name="manage-workspaces",

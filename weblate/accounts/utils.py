@@ -31,6 +31,7 @@ from social_django.models import Code
 from weblate.accounts.models import AuditLog, VerifiedEmail
 from weblate.auth.models import User
 from weblate.memory.models import Memory, MemoryScope
+from weblate.trans.defines import USERNAME_LENGTH
 from weblate.trans.signals import user_pre_delete
 from weblate.utils.email import email_key, email_key_expression
 from weblate.utils.token import get_token
@@ -38,6 +39,7 @@ from weblate.utils.token import get_token
 if TYPE_CHECKING:
     from collections.abc import Callable
 
+    from django.db.models import QuerySet
     from django.http import HttpRequest
     from django_otp.models import Device
 
@@ -257,11 +259,33 @@ def require_recent_second_factor(
     return wrapped
 
 
-def create_api_token(user: User) -> Token:
-    """Create an API token for a user."""
-    return Token.objects.create(
-        user=user, key=get_token("wlp" if user.is_bot else "wlu")
+BOT_NOREPLY_EMAIL_SUFFIX = "@bots.noreply.weblate.org"
+# ruff: ignore[hardcoded-password-string]
+SITE_API_TOKEN_USERNAME_PREFIX = "sitebot-"
+BOT_USERNAME_COLLISION_SUFFIX_LENGTH = 5
+
+
+def bound_bot_basename(basename: str) -> str:
+    """Truncate a bot username base so collision suffixes still fit."""
+    limit = USERNAME_LENGTH - BOT_USERNAME_COLLISION_SUFFIX_LENGTH
+    return basename if len(basename) <= limit else basename[:limit]
+
+
+def is_site_api_token_user(user: User) -> bool:
+    """Return whether the user is a site-wide API token bot."""
+    return bool(
+        user.is_bot
+        and user.username.startswith(SITE_API_TOKEN_USERNAME_PREFIX)
+        and user.email
+        and user.email.endswith(BOT_NOREPLY_EMAIL_SUFFIX)
     )
+
+
+def create_api_token(user: User, *, prefix: str | None = None) -> Token:
+    """Create an API token for a user."""
+    if prefix is None:
+        prefix = "wlp" if user.is_bot else "wlu"
+    return Token.objects.create(user=user, key=get_token(prefix))
 
 
 def delete_api_tokens(user: User) -> None:
@@ -269,10 +293,19 @@ def delete_api_tokens(user: User) -> None:
     Token.objects.filter(user=user).delete()
 
 
-def reset_api_token(user: User) -> Token:
+def reset_api_token(user: User, *, prefix: str | None = None) -> Token:
     """Reset API token for a user."""
     delete_api_tokens(user)
-    return create_api_token(user)
+    return create_api_token(user, prefix=prefix)
+
+
+def get_site_api_tokens() -> QuerySet[User]:
+    """Return site-wide API token bots."""
+    return User.objects.filter(
+        is_bot=True,
+        username__startswith=SITE_API_TOKEN_USERNAME_PREFIX,
+        email__endswith=BOT_NOREPLY_EMAIL_SUFFIX,
+    )
 
 
 def remove_user(

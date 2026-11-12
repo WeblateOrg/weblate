@@ -21,9 +21,11 @@ from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
+from weblate.accounts.forms import UserManageForm
 from weblate.accounts.models import AuditLog, TeamAuditLog
 from weblate.accounts.utils import (
     has_recent_sensitive_verification,
+    is_site_api_token_user,
     remove_user,
     require_project_sensitive_verification,
     sensitive_verification_redirect,
@@ -49,7 +51,6 @@ from weblate.trans.forms import (
     ProjectUserGroupForm,
     UserBlockForm,
     UserContributionCleanupForm,
-    UserManageForm,
 )
 from weblate.trans.models import Project
 from weblate.trans.tasks import (
@@ -482,7 +483,12 @@ def delete_user(request: AuthenticatedHttpRequest, project):
             obj.remove_user(user)
             if user.is_bot:
                 redirect_url = "#api"
-                if not user.groups.filter(defining_project__isnull=False).exists():
+                # Site-wide tokens keep their account when detached from a
+                # project. Revoking them requires the global user.edit permission.
+                if (
+                    not is_site_api_token_user(user)
+                    and not user.groups.filter(defining_project__isnull=False).exists()
+                ):
                     remove_user(
                         user,
                         request,

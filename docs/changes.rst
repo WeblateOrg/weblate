@@ -1,3 +1,30 @@
+Weblate 2026.12
+---------------
+
+*Not yet released.*
+
+.. rubric:: New features
+
+* Added :ref:`site-wide API tokens <site-api-tokens>` in the management interface for instance-level automation such as :http:get:`/api/metrics/` scraping. Unavailable on Hosted Weblate.
+
+.. rubric:: Improvements
+
+.. rubric:: Security fixes
+
+.. rubric:: Bug fixes
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: /changes/contributors/2026.12.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/177?closed=1>`__.
+
 Weblate 2026.11.2
 -----------------
 

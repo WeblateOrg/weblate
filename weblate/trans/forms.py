@@ -11,7 +11,6 @@ from collections import defaultdict
 from collections.abc import Mapping, MutableMapping, Sequence
 from datetime import datetime, timedelta
 from itertools import chain
-from secrets import token_hex
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, Protocol, TypedDict, cast
 
 import jsonschema
@@ -42,6 +41,7 @@ from django.utils.text import format_lazy, normalize_newlines, slugify
 from django.utils.translation import get_language, gettext, gettext_lazy
 from translation_finder import DiscoveryResult, discover
 
+from weblate.accounts.forms import BaseTokenCreateForm, UserManageForm
 from weblate.accounts.models import AuditLog
 from weblate.auth.models import Group, User
 from weblate.auth.utils import (
@@ -121,6 +121,7 @@ from weblate.utils.forms import (
     ColorWidget,
     ContextDiv,
     EmailField,
+    FieldDocsMixin,
     FormFieldGroup,
     InheritedSetting,
     NormalizedNewlineCharField,
@@ -291,11 +292,6 @@ TOOLBAR_TEMPLATE = """
 <div class="btn-toolbar float-end editor-toolbar">{0}</div>
 """
 MIN_COST_ESTIMATE_TM_THRESHOLD = 75
-
-
-class FieldDocsMixin(forms.Form):
-    def get_field_doc(self, field: forms.Field) -> tuple[str, str] | None:
-        raise NotImplementedError
 
 
 class MarkdownTextarea(forms.Textarea):
@@ -1891,16 +1887,6 @@ class ContextForm(FieldDocsMixin, forms.ModelForm):
             self.instance.save_labels(self.cleaned_data["labels"], self.user)
             return self.instance
         return super().save(commit)
-
-
-class UserManageForm(forms.Form):
-    user = UserField(
-        label=gettext_lazy("User to add"),
-        required=True,
-        help_text=gettext_lazy(
-            "Please type in an existing Weblate account name or e-mail address."
-        ),
-    )
 
 
 class ProjectMemberManageForm(UserManageForm):
@@ -5203,29 +5189,12 @@ class SavedSearchForm(forms.ModelForm):
         return cleaned_data
 
 
-class ProjectTokenCreateForm(forms.ModelForm):
-    class Meta:
-        model = User
-        # ruff: ignore[mutable-class-default]
-        fields = ["full_name", "date_expires"]
-        # ruff: ignore[mutable-class-default]
-        widgets = {
-            "date_expires": WeblateDateInput(),
-        }
-
+class ProjectTokenCreateForm(BaseTokenCreateForm):
     def __init__(self, project, *args, **kwargs) -> None:
         self.project = project
         super().__init__(*args, **kwargs)
 
     def save(self, *args, acting_user: User | None = None, **kwargs):
-        self.instance.is_bot = True
-        base_name = name = f"bot-{self.project.slug}-{slugify(self.instance.full_name)}"
-        while User.objects.filter(
-            Q(username=name) | Q(email=f"{name}@bots.noreply.weblate.org")
-        ).exists():
-            name = f"{base_name}-{token_hex(2)}"
-        self.instance.username = name
-        self.instance.email = f"{name}@bots.noreply.weblate.org"
         result = super().save(*args, **kwargs)
         self.project.add_user(self.instance, "Administration", allow_bot=True)
         AuditLog.objects.create(
@@ -5237,14 +5206,8 @@ class ProjectTokenCreateForm(forms.ModelForm):
         )
         return result
 
-    def clean_date_expires(self):
-        expires = self.cleaned_data["date_expires"]
-        if expires is None:
-            return expires
-        expires = expires.replace(hour=23, minute=59, second=59, microsecond=999999)
-        if expires < timezone.now():
-            raise forms.ValidationError(gettext("Expiry cannot be in the past."))
-        return expires
+    def get_bot_basename(self) -> str:
+        return f"bot-{self.project.slug}-{slugify(self.instance.full_name)}"
 
 
 class ProjectGroupDeleteForm(forms.Form):

@@ -1,8 +1,10 @@
 <ul class="nav nav-pills">
   {% for item in menu_items %}
-    <li class="nav-item">
-      <a {% if item.0 == menu_page %}class="nav-link active"{% else %}class="nav-link"{% endif %}
-         href="{% url item.1 %}">{{ item.2 }}</a>
-    </li>
+    {% if not offer_hosting or item.0 != "api-tokens" %}
+      <li class="nav-item">
+        <a {% if item.0 == menu_page %}class="nav-link active"{% else %}class="nav-link"{% endif %}
+           href="{% url item.1 %}">{{ item.2 }}</a>
+      </li>
+    {% endif %}
   {% endfor %}
 </ul>

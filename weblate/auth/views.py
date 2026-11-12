@@ -16,6 +16,7 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import gettext
 from django.views.generic import DetailView, UpdateView
 
+from weblate.accounts.forms import UserManageForm
 from weblate.accounts.models import TeamAuditLog
 from weblate.accounts.utils import (
     has_recent_sensitive_verification,
@@ -35,7 +36,7 @@ from weblate.auth.models import (
     User,
 )
 from weblate.auth.utils import prefetch_membership_limit_languages
-from weblate.trans.forms import UserAddTeamForm, UserManageForm
+from weblate.trans.forms import UserAddTeamForm
 from weblate.trans.util import redirect_next, redirect_param
 from weblate.utils import messages
 from weblate.utils.views import get_paginator, show_form_errors

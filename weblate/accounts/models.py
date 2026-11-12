@@ -508,6 +508,12 @@ ACCOUNT_ACTIVITY_METHOD = {
         # Translators: Audit log entry
         "password": gettext_lazy("Password configured."),
     },
+    "site": {
+        # Translators: Audit log entry
+        "token-created": gettext_lazy("Site-wide API token was created."),
+        # Translators: Audit log entry
+        "token-removed": gettext_lazy("Site-wide API token was removed."),
+    },
 }
 
 EXTRA_MESSAGES = {

@@ -18,9 +18,10 @@ from django.core.checks import run_checks
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.db import transaction
-from django.db.models import Count, Max
-from django.http import Http404, HttpResponse
-from django.shortcuts import redirect, render
+from django.db.models import Count, Max, Prefetch
+from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
@@ -33,7 +34,9 @@ from django.views.generic.edit import CreateView, FormMixin
 
 from weblate.accounts.forms import AdminUserSearchForm, ContactForm
 from weblate.accounts.utils import (
+    get_site_api_tokens,
     has_recent_sensitive_verification,
+    remove_user,
     sensitive_verification_redirect,
 )
 from weblate.accounts.views import UserList, get_initial_contact
@@ -47,25 +50,21 @@ from weblate.auth.forms import (
     AdminInviteUserForm,
     SitewideTeamForm,
 )
-from weblate.auth.models import (
-    Group,
-    Invitation,
-    User,
+from weblate.auth.models import Group, Invitation, TeamMembership, User
+from weblate.auth.utils import (
+    format_membership_limit_language_codes,
+    prefetch_membership_limit_languages,
 )
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.configuration.views import CustomCSSView
+from weblate.lang.forms import get_language_code_choices
+from weblate.lang.models import Language
 from weblate.memory.models import Memory, MemoryScopeMigrationState
 from weblate.memory.tasks import MEMORY_SCOPE_COMPACTION_STATE
 from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.forms import AnnouncementForm
-from weblate.trans.models import (
-    Alert,
-    Announcement,
-    Change,
-    Component,
-    Project,
-)
+from weblate.trans.models import Alert, Announcement, Change, Component, Project
 from weblate.trans.util import redirect_param
 from weblate.utils import messages
 from weblate.utils.bot_protection import option, verification_stats
@@ -102,9 +101,14 @@ from weblate.wladmin.forms import (
     AppearanceForm,
     BackupForm,
     BackupSelectionForm,
+    SiteTokenCreateForm,
+    SiteTokenGroupForm,
+    SiteTokenManageForm,
     SSHAddForm,
     TestMailForm,
     WorkspaceCreateForm,
+    apply_site_token_groups,
+    sitewide_teams_queryset,
 )
 from weblate.wladmin.middleware import (
     claim_configuration_health_check,
@@ -141,6 +145,7 @@ MENU: tuple[tuple[str, str, StrOrPromise], ...] = (
     ("workspaces", "manage-workspaces", gettext_lazy("Workspaces")),
     ("users", "manage-users", gettext_lazy("Users")),
     ("teams", "manage-teams", gettext_lazy("Teams")),
+    ("api-tokens", "manage-api-tokens", gettext_lazy("API tokens")),
     ("appearance", "manage-appearance", gettext_lazy("Appearance")),
     ("tools", "manage-tools", gettext_lazy("Tools")),
     ("machinery", "manage-machinery", gettext_lazy("Translation services")),
@@ -925,6 +930,187 @@ class AdminUserList(UserList):
             "group__defining_workspace",
         )
         return result
+
+
+def check_site_token_view_access(request: AuthenticatedHttpRequest) -> None:
+    """Require site-wide tokens to be available and user.view or user.edit."""
+    if settings.OFFER_HOSTING:
+        raise Http404
+    if not (request.user.has_perm("user.view") or request.user.has_perm("user.edit")):
+        raise PermissionDenied
+
+
+def site_token_verification_redirect(
+    request: AuthenticatedHttpRequest,
+) -> HttpResponseRedirect | None:
+    if has_recent_sensitive_verification(request):
+        return None
+    return sensitive_verification_redirect(request, reverse("manage-api-tokens"))
+
+
+def get_site_token_memberships_prefetch(groups):
+    return Prefetch(
+        "team_memberships",
+        queryset=TeamMembership.objects.filter(group__in=groups)
+        .select_related("group")
+        .prefetch_related(prefetch_membership_limit_languages())
+        .order_by("group__name"),
+        to_attr="site_group_memberships",
+    )
+
+
+def setup_site_token_membership_badges(user) -> None:
+    for membership in user.site_group_memberships:
+        membership.limit_language_codes = format_membership_limit_language_codes(
+            membership
+        )
+
+
+def setup_site_token_group_edit_form(
+    user, groups, limit_language_choices
+) -> SiteTokenGroupForm:
+    initial = {"user": user.username, "groups": user.site_groups}
+    setup_site_token_membership_badges(user)
+    for membership in user.site_group_memberships:
+        initial[SiteTokenGroupForm.get_limit_languages_field(membership.group)] = (
+            membership.limit_languages.all()
+        )
+    return SiteTokenGroupForm(
+        initial=initial,
+        auto_id=f"id_site_token_{user.id}_%s",
+        group_queryset=groups,
+        limit_language_choices=limit_language_choices,
+    )
+
+
+@management_access
+def api_tokens(request: AuthenticatedHttpRequest) -> HttpResponse:
+    """Manage site-wide API tokens."""
+    check_site_token_view_access(request)
+    can_edit_users = request.user.has_perm("user.edit")
+    groups = sitewide_teams_queryset().prefetch_related("languages")
+    site_tokens = list(
+        get_site_api_tokens()
+        .order()  # type: ignore[attr-defined]
+        .prefetch_related(
+            Prefetch(
+                "groups",
+                queryset=groups,
+                to_attr="site_groups",
+            ),
+            get_site_token_memberships_prefetch(groups),
+        )
+    )
+    for token_user in site_tokens:
+        setup_site_token_membership_badges(token_user)
+
+    create_form = (
+        SiteTokenCreateForm(auto_id="id_site_token_%s") if can_edit_users else None
+    )
+
+    return render(
+        request,
+        "manage/api_tokens.html",
+        {
+            "menu_items": MENU,
+            "menu_page": "api-tokens",
+            "site_tokens": site_tokens,
+            "can_edit_users": can_edit_users,
+            "create_site_token_form": create_form,
+        },
+    )
+
+
+@require_POST
+@management_permission_required("user.edit")
+@transaction.atomic
+def create_site_token(request: AuthenticatedHttpRequest) -> HttpResponse:
+    """Create a site-wide API token."""
+    check_site_token_view_access(request)
+    if redirect_ := site_token_verification_redirect(request):
+        return redirect_
+    form = SiteTokenCreateForm(request.POST)
+    if form.is_valid():
+        token = form.save(acting_user=request.user, request=request)
+        messages.info(
+            request,
+            render_to_string(
+                "trans/projecttoken-created.html", {"token": token.auth_token.key}
+            ),
+        )
+    else:
+        show_form_errors(request, form)
+    return redirect("manage-api-tokens")
+
+
+@require_POST
+@management_permission_required("user.edit")
+@transaction.atomic
+def delete_site_token(request: AuthenticatedHttpRequest) -> HttpResponse:
+    """Revoke a site-wide API token by deleting its bot user."""
+    check_site_token_view_access(request)
+    if redirect_ := site_token_verification_redirect(request):
+        return redirect_
+    form = SiteTokenManageForm(request.POST)
+    if form.is_valid():
+        user = form.cleaned_data["user"]
+        remove_user(
+            user,
+            request,
+            activity="token-removed",
+            method="site",
+            username=request.user.username,
+        )
+        messages.success(request, gettext("Site-wide API token has been removed."))
+    else:
+        show_form_errors(request, form)
+    return redirect("manage-api-tokens")
+
+
+@require_POST
+@management_permission_required("user.edit")
+@transaction.atomic
+def set_site_token_groups(request: AuthenticatedHttpRequest) -> HttpResponse:
+    """Change team membership for a site-wide API token."""
+    check_site_token_view_access(request)
+    if redirect_ := site_token_verification_redirect(request):
+        return redirect_
+    form = SiteTokenGroupForm(request.POST)
+    if form.is_valid():
+        apply_site_token_groups(request, form.cleaned_data["user"], form)
+    else:
+        show_form_errors(request, form)
+    return redirect("manage-api-tokens")
+
+
+@management_access
+def site_token_groups(request: AuthenticatedHttpRequest, user_id: int) -> HttpResponse:
+    """Render team assignment form for a site-wide API token."""
+    check_site_token_view_access(request)
+    if not request.user.has_perm("user.edit"):
+        raise PermissionDenied
+
+    groups = sitewide_teams_queryset().prefetch_related("languages")
+    user = get_object_or_404(
+        get_site_api_tokens()
+        .filter(pk=user_id)
+        .prefetch_related(
+            Prefetch(
+                "groups",
+                queryset=groups,
+                to_attr="site_groups",
+            ),
+            get_site_token_memberships_prefetch(groups),
+        )
+    )
+    group_edit_form = setup_site_token_group_edit_form(
+        user, groups, get_language_code_choices(Language.objects.order())
+    )
+    return render(
+        request,
+        "trans/project-access-team-form.html",
+        {"form": group_edit_form},
+    )
 
 
 @management_permission_required("user.edit")

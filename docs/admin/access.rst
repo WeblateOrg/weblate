@@ -487,6 +487,42 @@ workspace owners.
 
    * :ref:`api-tokens`
    * :ref:`expiring-accounts`
+   * :ref:`site-api-tokens`
+
+.. _site-api-tokens:
+
+Site-wide API tokens
+++++++++++++++++++++
+
+.. versionadded:: 2026.12
+
+.. note::
+
+   This feature is unavailable on Hosted Weblate.
+
+Site administrators can create site-wide API tokens in the
+:ref:`management-interface` under :guilabel:`API tokens`. These credentials are
+intended for instance-level automation such as scraping
+:http:get:`/api/metrics/`.
+
+Every token must belong to at least one site-wide team, chosen when the token is
+created and adjustable later from the pencil dialog. The built-in `Users` team
+can act on public projects; it is not preselected. For metrics-only access,
+create a site-wide team with no roles (for example `Monitoring`) and assign the
+token to it. :http:get:`/api/metrics/` returns whole-server counts and is not
+limited by team membership.
+
+Token keys use the ``wls_`` prefix. The secret is shown once after creation. To
+replace a leaked secret, delete the token and create another. Deleting the
+underlying user account also revokes the token. Once the expiry date passes, the
+scheduled background task removes the token the same way as deleting it from the
+management interface.
+
+.. seealso::
+
+   * :ref:`api-tokens`
+   * :ref:`project-api`
+   * :ref:`expiring-accounts`
 
 .. _custom-acl:
 
