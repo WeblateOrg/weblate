@@ -611,7 +611,7 @@ def verify_webhook_signature(
     payload_body: bytes, signature_header: str, secret: str
 ) -> bool:
     """Verify a GitHub X-Hub-Signature-256 header using HMAC-SHA256."""
-    if not signature_header or not signature_header.startswith("sha256="):
+    if not signature_header.isascii() or not signature_header.startswith("sha256="):
         return False
     expected_signature = (
         "sha256="
