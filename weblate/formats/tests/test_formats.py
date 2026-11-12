@@ -3919,6 +3919,30 @@ class FlatXMLFormatTest(BaseFormatTest):
     MONOLINGUAL = True
     SUPPORTS_NOTES = False
 
+    def test_add_without_base(self) -> None:
+        out = Path(self.tempdir) / "empty.xml"
+        self.format_class.add_language(
+            out,
+            Language.objects.get(code="cs"),
+            "",
+            file_format_params=self.FILE_FORMAT_PARAMS,
+        )
+        storage = self.format_class(
+            out, is_template=True, file_format_params=self.FILE_FORMAT_PARAMS
+        )
+        self.assertEqual(len(storage.all_units), 0)
+        self.assertEqual(
+            storage.store.root.tag,
+            self.FILE_FORMAT_PARAMS.get("flatxml_root_name", "root").strip(),
+        )
+        storage.new_unit("key", "Source string")
+        storage.save()
+        self.assertIn(self.NEW_UNIT_MATCH, out.read_bytes())
+        storage = self.parse_file(str(out))
+        self.assertEqual(len(storage.all_units), 1)
+        self.assertEqual(storage.content_units[0].context, "key")
+        self.assertEqual(storage.content_units[0].target, "Source string")
+
 
 class CustomFlatXMLFormatTest(FlatXMLFormatTest):
     FILE = TEST_CUSTOM_FLATXML
@@ -3929,6 +3953,16 @@ class CustomFlatXMLFormatTest(FlatXMLFormatTest):
         "flatxml_value_name": "entry",
         "flatxml_key_name": "name",
     }
+
+    def test_add_without_base_custom_root(self) -> None:
+        for root in ("data", " dictionary "):
+            with (
+                self.subTest(root=root),
+                self.temporary_file_format_param("flatxml_root_name", root),
+                self.temporary_file_format_param("flatxml_value_name", " entry "),
+                self.temporary_file_format_param("flatxml_key_name", " name "),
+            ):
+                self.test_add_without_base()
 
     def test_parameter_whitespace_is_normalized(self) -> None:
         with (
@@ -3958,6 +3992,27 @@ class ResourceDictionaryFormatTest(BaseFormatTest):
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     MONOLINGUAL = True
     SUPPORTS_NOTES = False
+
+    def test_add_without_base(self) -> None:
+        out = Path(self.tempdir) / "empty.xaml"
+        self.format_class.add_language(out, Language.objects.get(code="cs"), "")
+        storage = self.format_class(out, is_template=True)
+        self.assertEqual(len(storage.all_units), 0)
+        self.assertEqual(
+            storage.store.root.nsmap,
+            {
+                None: "http://schemas.microsoft.com/winfx/2006/xaml/presentation",
+                "x": "http://schemas.microsoft.com/winfx/2006/xaml",
+                "system": "clr-namespace:System;assembly=mscorlib",
+            },
+        )
+        storage.new_unit("key", "Source string")
+        storage.save()
+        self.assertIn(self.NEW_UNIT_MATCH, out.read_bytes())
+        storage = self.parse_file(str(out))
+        self.assertEqual(len(storage.all_units), 1)
+        self.assertEqual(storage.content_units[0].context, "key")
+        self.assertEqual(storage.content_units[0].target, "Source string")
 
 
 class INIFormatTest(BaseFormatTest):
