@@ -10,6 +10,7 @@ import json
 from datetime import timedelta
 from io import StringIO
 from pathlib import Path
+from unittest.mock import patch
 
 from django.core.cache import cache
 from django.core.management import call_command
@@ -421,16 +422,23 @@ class TestGitHubAppHooks(ViewTestCase):
             "installation": {"id": 12345, "app_id": 99999, "account": {}},
         }
         body = json.dumps(data)
-        response = self.client.post(
-            self.WEBHOOK_URL,
-            data=body,
-            content_type="application/json",
-            headers={
-                "x-github-event": "installation",
-                "x-hub-signature-256": "sha256=0" * 32,
-            },
-        )
-        self.assertEqual(response.status_code, 403)
+        for signature in ("sha256=0" * 32, "sha256=é"):
+            with (
+                self.subTest(signature=signature),
+                patch("weblate.trans.views.hooks.report_error") as report_error,
+            ):
+                response = self.client.post(
+                    self.WEBHOOK_URL,
+                    data=body,
+                    content_type="application/json",
+                    headers={
+                        "x-github-event": "installation",
+                        "x-hub-signature-256": signature,
+                    },
+                )
+                self.assertEqual(response.status_code, 403)
+                report_error.assert_not_called()
+        self.assertTrue(GitHubInstallation.objects.get(installation_id="12345").enabled)
 
     def test_other_integration_secret_does_not_authorize(self) -> None:
         """Signing with another integration's secret must be rejected."""
@@ -575,12 +583,17 @@ class TestGitHubAppHooks(ViewTestCase):
             {"secret": None},
             {"secret": "wrong-secret"},
             {"signature": "invalid"},
+            {"signature": "sha256=é"},
         )
 
         for signature in signatures:
-            with self.subTest(signature=signature):
+            with (
+                self.subTest(signature=signature),
+                patch("weblate.trans.views.hooks.report_error") as report_error,
+            ):
                 response = self._legacy_post("push", data, **signature)
                 self.assertEqual(response.status_code, 403)
+                report_error.assert_not_called()
 
     @override_settings(GITHUB_LEGACY_APP_WEBHOOK_SECRET="legacy-secret")
     def test_legacy_app_push_excludes_github_app_components(self) -> None:
