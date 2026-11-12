@@ -759,7 +759,7 @@ def select_screenshot(request: AuthenticatedHttpRequest, unit_id: int) -> HttpRe
         # Serialize submissions so retries do not duplicate change events.
         with transaction.atomic():
             screenshot = (
-                Screenshot.objects.select_for_update()
+                Screenshot.objects.select_for_update(of=("self",))
                 .select_related("translation__component__project")
                 .get(pk=screenshot.pk)
             )
