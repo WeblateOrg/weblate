@@ -64,6 +64,7 @@ MAX_MACHINERY_SIMILARITY_BACKOFF = 0.2
 MEMORY_LOOKUP_LIMIT = 50
 MEMORY_LOOKUP_PREFIX_LENGTH = 2048
 MEMORY_IMPORT_BATCH_SIZE = 1000
+MEMORY_SCOPE_DELETE_BATCH_SIZE = 1000
 
 # Exact identity, including fields not covered by the MD5 lookup index.
 type MemoryImportKey = tuple[str, str, int, int, str, str, int]
@@ -382,12 +383,6 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
         # supports direct upgrades from 2026 releases. Runtime visibility is
         # scope-only; this exists for the temporary migration/backfill window.
         queryset = self.using_write_db()
-        memory_query = queryset.order_by().values("pk")
-        if delete_legacy:
-            queryset.alias(memory_has_scope=queryset.get_has_scope_exists()).filter(
-                memory_has_scope=False
-            ).delete()
-
         matching_scope = MemoryScope.objects.using(queryset.db).filter(
             scope_query, memory_id=OuterRef("pk")
         )
@@ -396,14 +391,47 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
             .filter(memory_id=OuterRef("pk"))
             .exclude(scope_query)
         )
-        Memory.objects.using(queryset.db).filter(pk__in=memory_query).alias(
-            has_matching_scope=Exists(matching_scope),
-            has_remaining_scope=Exists(remaining_scope),
-        ).filter(has_matching_scope=True, has_remaining_scope=False).delete()
-
-        MemoryScope.objects.using(queryset.db).filter(
-            memory_id__in=memory_query
-        ).filter(scope_query).delete()
+        candidates = queryset.alias(
+            memory_has_matching_scope=Exists(matching_scope),
+            memory_has_scope=queryset.get_has_scope_exists(),
+        )
+        condition = Q(memory_has_matching_scope=True)
+        if delete_legacy:
+            condition |= Q(memory_has_scope=False)
+        candidates = candidates.filter(condition)
+        last_id = 0
+        with transaction.atomic(using=queryset.db):
+            while memory_ids := list(
+                candidates.filter(pk__gt=last_id)
+                .order_by("pk")
+                .values_list("pk", flat=True)
+                .distinct()[:MEMORY_SCOPE_DELETE_BATCH_SIZE]
+            ):
+                last_id = memory_ids[-1]
+                # Prevent new foreign-key references before deciding whether a
+                # parent can be deleted. Recheck scopes after any lock wait.
+                locked_ids = list(
+                    Memory.objects.using(queryset.db)
+                    .filter(pk__in=memory_ids)
+                    .order_by("pk")
+                    .select_for_update(of=("self",))
+                    .values_list("pk", flat=True)
+                )
+                selected = queryset.filter(pk__in=locked_ids)
+                parents = Memory.objects.using(queryset.db).filter(
+                    pk__in=selected.order_by().values("pk")
+                )
+                if delete_legacy:
+                    parents.alias(
+                        memory_has_scope=queryset.get_has_scope_exists()
+                    ).filter(memory_has_scope=False).delete()
+                parents.alias(
+                    has_matching_scope=Exists(matching_scope),
+                    has_remaining_scope=Exists(remaining_scope),
+                ).filter(has_matching_scope=True, has_remaining_scope=False).delete()
+                MemoryScope.objects.using(queryset.db).filter(
+                    memory_id__in=selected.order_by().values("pk")
+                ).filter(scope_query).delete()
 
     def filter(self, *args, **kwargs) -> Self:
         # Use MD5 for filtering to utilize MD5 index

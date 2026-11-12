@@ -79,6 +79,7 @@ Weblate 2026.11.2
 * Rechecked :ref:`billing <billing>` status when creating components through the API or web wizard.
 * Fixed the Matplotlib font rendering check to run without accessing the :ref:`cache <production-cache>`.
 * Required contributor agreement acceptance before creating a translation file.
+* Preserved independently retained :doc:`translation-memory scopes <admin/memory>` during concurrent scope deletion.
 
 .. rubric:: Compatibility
 
