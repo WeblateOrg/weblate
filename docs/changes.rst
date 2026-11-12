@@ -9,6 +9,7 @@ Weblate 2026.11.2
 
 .. rubric:: Improvements
 
+* Shortened oversized exception chains in :ref:`Sentry error reports <collecting-errors>` to avoid losing reports to payload limits.
 * Reduced database workspace used by :ref:`automatic translation <machine-translation>` searches across ordinary and custom source languages.
 * Improved peer lookup performance for :ref:`translation propagation <component-allow_translation_propagation>` and related consistency checks.
 * Aligned queued :doc:`repository maintenance <admin/continuous>` with background-work authorization: later permission changes or account deactivation do not cancel accepted operations.

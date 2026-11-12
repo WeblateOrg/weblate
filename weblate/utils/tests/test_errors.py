@@ -4,15 +4,18 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+import json
+from typing import TYPE_CHECKING, cast
 from unittest.mock import MagicMock, patch
 
 from django.test import SimpleTestCase, override_settings
+from sentry_sdk.transport import Transport
 
 from weblate.utils import errors
 
 if TYPE_CHECKING:
-    from sentry_sdk._types import Event
+    from sentry_sdk._types import Event, Hint
+    from sentry_sdk.envelope import Envelope
 
 
 def raise_broken_error() -> None:
@@ -351,6 +354,123 @@ class GoogleCloudErrorReportingTest(SimpleTestCase):
         google_client.report.assert_called_once_with("Handled message")
         self.assertIsNone(record_error.call_args.kwargs["exception"])
         self.assertEqual(logs.output, ["ERROR:weblate.errors:Handled message"])
+
+
+class SentryBeforeSendTest(SimpleTestCase):
+    def test_normal_event_is_unchanged(self) -> None:
+        event: Event = {"exception": {"values": [{"type": "ValueError"}]}}
+        original = json.dumps(event)
+        self.assertIs(errors.SentryBeforeSend()(event, {}), event)
+        self.assertEqual(json.dumps(event), original)
+
+    def test_configured_filter_can_drop_event(self) -> None:
+        callback = MagicMock(return_value=None)
+        event: Event = {"message": "filtered"}
+        hint: Hint = {}
+        self.assertIsNone(errors.SentryBeforeSend(callback)(event, hint))
+        callback.assert_called_once_with(event, hint)
+
+    def test_configured_callback_can_replace_event(self) -> None:
+        replacement: Event = {"message": "replacement"}
+        callback = MagicMock(return_value=replacement)
+        self.assertIs(errors.SentryBeforeSend(callback)({}, {}), replacement)
+
+    def test_large_exception_chain_is_captured(self) -> None:
+        events: list[Event] = []
+
+        class CollectingTransport(Transport):
+            def capture_envelope(self, envelope: Envelope) -> None:
+                for item in envelope.items:
+                    event = item.get_event()
+                    if event is not None:
+                        events.append(event)
+
+        sentry_sdk = errors.get_sentry_sdk()
+        client = sentry_sdk.Client(
+            dsn="https://public@example.com/1",
+            transport=CollectingTransport,
+            default_integrations=False,
+            auto_enabling_integrations=False,
+            before_send=errors.SentryBeforeSend(),
+            max_value_length=10_000,
+        )
+        self.addCleanup(client.close)
+        error: BaseException = OSError("original filesystem error")
+        for _ in range(250):
+            previous = error
+            error = OSError("Directory not empty: " + "x" * 8192)
+            error.__context__ = previous
+        final_error = RecursionError("maximum recursion depth exceeded")
+        final_error.__context__ = error
+
+        with sentry_sdk.isolation_scope() as scope:
+            scope.set_client(client)
+            scope.set_tag("celery_task_id", "upload-task")
+            scope.set_extra("celery-job", {"task_name": "translation_upload"})
+            self.assertIsNotNone(sentry_sdk.capture_exception(final_error))
+
+        self.assertEqual(len(events), 1)
+        event = events[0]
+        self.assertLess(len(json.dumps(event).encode()), 1_000_000)
+        values = event["exception"]["values"]
+        self.assertEqual(values[0]["value"], "original filesystem error")
+        self.assertEqual(values[-1]["type"], "RecursionError")
+        self.assertEqual(event["tags"]["celery_task_id"], "upload-task")
+        self.assertEqual(
+            cast("dict[str, str]", event["extra"]["celery-job"])["task_name"],
+            "translation_upload",
+        )
+        self.assertEqual(
+            event["contexts"]["weblate_exception_chain"]["omitted_count"],
+            252 - len(values),
+        )
+
+    def test_exception_group_hierarchy_is_preserved(self) -> None:
+        event = cast(
+            "Event",
+            {
+                "exception": {
+                    "values": [
+                        {
+                            "value": "x" * 400_000,
+                            "mechanism": {"exception_id": index},
+                        }
+                        for index in range(3)
+                    ]
+                }
+            },
+        )
+        self.assertIs(errors.SentryBeforeSend()(event, {}), event)
+        self.assertEqual(len(event["exception"]["values"]), 3)
+
+    def test_shortening_chain_removes_stale_annotations(self) -> None:
+        event = cast(
+            "Event",
+            {
+                "exception": {"values": [{"value": "x" * 60_000} for _ in range(20)]},
+                "_meta": {
+                    "exception": {"values": {"10": {"value": {"": {"len": 100}}}}},
+                    "extra": {"diagnostic": {"": {"len": 100}}},
+                },
+            },
+        )
+        errors.SentryBeforeSend()(event, {})
+        metadata = cast("dict[str, object]", event.get("_meta"))
+        self.assertNotIn("exception", metadata)
+        self.assertIn("extra", metadata)
+
+    @override_settings(SENTRY_DSN="https://public@example.com/1")
+    def test_init_sentry_wraps_configured_callback(self) -> None:
+        callback = MagicMock(return_value=None)
+        sentry_sdk = MagicMock()
+        with (
+            override_settings(SENTRY_EXTRA_ARGS={"before_send": callback}),
+            patch("weblate.utils.errors.get_sentry_sdk", return_value=sentry_sdk),
+        ):
+            errors.init_sentry()
+        before_send = sentry_sdk.init.call_args.kwargs["before_send"]
+        self.assertIsNone(before_send({}, {}))
+        callback.assert_called_once_with({}, {})
 
 
 class SentryScrubberTest(SimpleTestCase):
