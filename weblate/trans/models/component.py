@@ -465,6 +465,9 @@ class ComponentQuerySet(models.QuerySet["Component", "Component"]):
             linked_component_project,
             project_workspace,
             linked_component_project_workspace,
+            "category__project__workspace",
+            "category__category__project__workspace",
+            "category__category__category__project__workspace",
         )
 
     def defer_huge(self):
@@ -4300,6 +4303,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         return [
             {
                 "project_name": linked.project.name,
+                "full_name": str(linked),
                 "name": linked.name,
                 "url": get_site_url(linked.get_absolute_url()),
             }

@@ -318,7 +318,7 @@ def _get_github_app_migration_entries(
             project__workspace=workspace,
             vcs__in=GITHUB_APP_MIGRATABLE_VCS,
         )
-        .select_related("project")
+        .prefetch(alerts=False)
         .order_by("project__name", "name", "pk")
     )
     for component in components:

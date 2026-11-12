@@ -554,7 +554,13 @@ class ExtractPotBaseAddon(UpdateBaseAddon, GettextBaseAddon):
         return Path(component.new_base).stem
 
     def get_component_full_name(self, component: Component) -> str:
-        return f"{component.project.name} / {component.name}"
+        names = [component.name]
+        category = component.category
+        while category is not None:
+            names.append(category.name)
+            category = category.category
+        names.append(component.project.name)
+        return " / ".join(reversed(names))
 
     def should_normalize_header(self) -> bool:
         return bool(self.instance.configuration.get("normalize_header"))

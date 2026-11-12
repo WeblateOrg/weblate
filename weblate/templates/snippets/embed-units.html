@@ -97,7 +97,7 @@
             title="{% unit_state_title unit %}"></td>
         {% if show_translation %}
           <td class="object-link">
-            <a href="{{ unit.translation.component.project.get_absolute_url }}">{{ unit.translation.component.project.name }}</a>/<a href="{{ unit.translation.component.get_absolute_url }}">{{ unit.translation.component.name }}</a>
+            {% path_object_links unit.translation.component flags=False %}
             — <a class="tail" href="{{ unit.translation.get_absolute_url }}">{{ unit.translation.language }}</a>
           </td>
         {% endif %}

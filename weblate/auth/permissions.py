@@ -1100,14 +1100,6 @@ def _category_component_filter(category: Category) -> Q:
     )
 
 
-def _category_translation_component_filter(category: Category) -> Q:
-    return (
-        Q(component__category=category)
-        | Q(component__category__category=category)
-        | Q(component__category__category__category=category)
-    )
-
-
 def _category_link_filter(category: Category) -> Q:
     return (
         Q(category=category)
@@ -1117,12 +1109,7 @@ def _category_link_filter(category: Category) -> Q:
 
 
 def _category_translation_filter(category: Category) -> Q:
-    shared_component_ids = ComponentLink.objects.filter(
-        _category_link_filter(category)
-    ).values("component_id")
-    return _category_translation_component_filter(category) | Q(
-        component_id__in=shared_component_ids
-    )
+    return Q(component_id__in=category.get_component_ids_with_links())
 
 
 def _has_upload_scope_permission(

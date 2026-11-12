@@ -1632,6 +1632,13 @@ The following variables are available in the component templates:
     Language name
 ``{{ component_name }}``
     Component name
+``{{ component_full_name }}``
+    Component name prefixed with the project and all parent categories, separated
+    by ``/``. Built-in message defaults use this value; existing saved templates
+    are unchanged.
+``{{ component_linked_children }}``
+    Linked repository components. Each entry provides ``full_name`` (including
+    project and categories), ``project_name``, ``name``, and ``url``.
 ``{{ component_slug }}``
     Component slug
 ``{{ project_name }}``

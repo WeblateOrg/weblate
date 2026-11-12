@@ -166,7 +166,7 @@ class Check(models.Model):
                 name=self.name,
                 unit__in=self.unit.propagated_units.filter_restricted_peers(self.unit),
                 dismissed=not state,
-            ).select_for_update():
+            ).select_for_update(of=("self",)):
                 if user is not None and not user.has_perm("unit.check", child):
                     continue
                 child.set_dismiss(state=state, recurse=False)

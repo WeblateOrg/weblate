@@ -9,8 +9,10 @@ Weblate 2026.11.2
 
 .. rubric:: Improvements
 
+* Improved database query performance for category :ref:`statistics <stats>`.
 * Shortened oversized exception chains in :ref:`Sentry error reports <collecting-errors>` to avoid losing reports to payload limits.
 * Reduced database workspace used by :ref:`automatic translation <machine-translation>` searches across ordinary and custom source languages.
+* Included category paths in search results, diagnostics, notification navigation, GitHub App migration lists, gettext template headers, and default :ref:`component templates <markup>`.
 * Improved peer lookup performance for :ref:`translation propagation <component-allow_translation_propagation>` and related consistency checks.
 * Aligned queued :doc:`repository maintenance <admin/continuous>` with background-work authorization: later permission changes or account deactivation do not cancel accepted operations.
 * Bounded :ref:`Weblate Client project configuration discovery <wlc-config>` by repository and POSIX permission boundaries, and added explicit project-file selection and configuration-free invocation.
@@ -69,16 +71,19 @@ Weblate 2026.11.2
 
 .. rubric:: Bug fixes
 
+* Respected custom XML names when creating new translations for :ref:`flatxml` without a template.
 * Fixed browser Content Security Policy blocking identity confirmation using an external :doc:`authentication provider <admin/auth>`.
 * Restored inline terms on :ref:`legal` confirmation when no external terms URL is configured.
 * Restored pending translation writes for :ref:`text files <txt>` and other database-backed formats, PHP, and XWiki, and made output of translations needing editing consistent with cleanup rebuilds.
 * Generated valid resource names for incompatible keys when :doc:`exporting Android translations <user/files>`.
 * Fixed concurrent initialization and language creation in local :ref:`glossary` repositories.
+* Escaped multiline keys when :doc:`exporting iOS strings translations <user/files>`.
 * Limited repository add-on installation to repository-owning components and showed inherited add-ons on linked components.
 * Preserved approvals during concurrent translation edits, suggestion acceptance, merges, and reverts, and preserved text and approvals when dismissing automatically translated status.
 * Rechecked :ref:`billing <billing>` status when creating components through the API or web wizard.
 * Fixed the Matplotlib font rendering check to run without accessing the :ref:`cache <production-cache>`.
 * Required contributor agreement acceptance before creating a translation file.
+* Preserved independently retained :doc:`translation-memory scopes <admin/memory>` during concurrent scope deletion.
 
 .. rubric:: Compatibility
 

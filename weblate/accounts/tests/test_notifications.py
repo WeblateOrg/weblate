@@ -22,6 +22,7 @@ from django.template.loader import render_to_string
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 from django.utils import timezone
+from django.utils.html import escape
 
 from weblate.accounts.models import AuditLog, Profile, Subscription, WeblateAccountsConf
 from weblate.accounts.notifications import (
@@ -56,6 +57,7 @@ from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
     Announcement,
+    Category,
     Change,
     Comment,
     Project,
@@ -366,6 +368,35 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
 
         # Check mail
         self.validate_notifications(2, "[Weblate] Repository failure in Test/Test")
+
+    def test_notification_category_navigation(self) -> None:
+        parent = None
+        categories = []
+        for index in range(3):
+            parent = Category.objects.create(
+                name=f"Mail category {index}",
+                slug=f"mail-{index}",
+                project=self.project,
+                category=parent,
+            )
+            categories.append(parent)
+        self.component.category = parent
+        change = self.component.change_set.create(
+            action=ActionEvents.MERGE,
+            user=self.user,
+        )
+        change = Change.objects.prefetch_for_render().get(pk=change.pk)
+        change.fill_in_prefetched()
+        notification = RepositoryNotification([])
+        context = notification.get_context(change)
+        content = notification.render_template(".html", context)
+        for category in categories:
+            self.assertIn(
+                f'href="{get_site_url(category.get_absolute_url())}"', content
+            )
+            self.assertIn(escape(category.name), content)
+        with self.assertNumQueries(0):
+            notification.render_template(".html", context)
 
     def test_notify_repository(self) -> None:
         change = self.create_with_callbacks(

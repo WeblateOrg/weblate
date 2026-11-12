@@ -59,7 +59,7 @@ DEFAULT_VCS = "git"
 
 DEFAULT_COMMIT_MESSAGE = (
     "chore(l10n): update {{ language_name }} translation\n\n"
-    "Translation: {{ project_name }}/{{ component_name }}\n"
+    "Translation: {{ component_full_name }}\n"
     "Language: {{ language_name }}\n"
     "Progress: {{ stats.translated_percent }}% "
     "({{ stats.translated }} of {{ stats.all }} strings)\n"
@@ -68,21 +68,21 @@ DEFAULT_COMMIT_MESSAGE = (
 
 DEFAULT_ADD_MESSAGE = (
     "chore(l10n): add {{ language_name }} translation\n\n"
-    "Translation: {{ project_name }}/{{ component_name }}\n"
+    "Translation: {{ component_full_name }}\n"
     "Language: {{ language_name }}\n"
     "Translate-URL: {{ url }}"
 )
 
 DEFAULT_DELETE_MESSAGE = (
     "chore(l10n): remove {{ language_name }} translation\n\n"
-    "Translation: {{ project_name }}/{{ component_name }}\n"
+    "Translation: {{ component_full_name }}\n"
     "Language: {{ language_name }}\n"
     "Translate-URL: {{ url }}"
 )
 
 DEFAULT_MERGE_MESSAGE = (
     "chore(l10n): merge remote changes\n\n"
-    "Translation: {{ project_name }}/{{ component_name }}\n"
+    "Translation: {{ component_full_name }}\n"
     "Remote-Branch: {{ component_remote_branch }}\n"
     "Translate-URL: {{ url }}"
 )
@@ -90,17 +90,17 @@ DEFAULT_MERGE_MESSAGE = (
 DEFAULT_ADDON_MESSAGE = """chore(l10n): update translation files
 
 Add-on: {{ addon_name }}
-Translation: {{ project_name }}/{{ component_name }}
+Translation: {{ component_full_name }}
 Translate-URL: {{ url }}"""
 
 DEFAULT_PULL_MESSAGE = """chore(l10n): update translations
 
-Translations updated in [{{ site_title }}]({{ site_url }}) for [{{ project_name }}/{{ component_name }}]({{ url }}).
+Translations updated in [{{ site_title }}]({{ site_url }}) for [{{ component_full_name }}]({{ url }}).
 
 {% if component_linked_children %}
 Included components:
 {% for linked in component_linked_children %}
-* [{{ linked.project_name }}/{{ linked.name }}]({{ linked.url }})
+* [{{ linked.full_name }}]({{ linked.url }})
 {% endfor %}
 {% endif %}
 

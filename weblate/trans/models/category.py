@@ -718,19 +718,13 @@ class Category(
     @cached_property
     def source_language_ids(self) -> set[int]:
         # ruff: ignore[import-outside-top-level]
-        from weblate.trans.models.component import ComponentLink
+        from weblate.trans.models.component import Component
 
-        result = set(
-            self.all_components.values_list("source_language_id", flat=True).distinct()
+        return set(
+            Component.objects.filter(pk__in=self.get_component_ids_with_links())
+            .values_list("source_language_id", flat=True)
+            .distinct()
         )
-        result.update(
-            ComponentLink.objects.filter(
-                Q(category=self)
-                | Q(category__category=self)
-                | Q(category__category__category=self)
-            ).values_list("component__source_language_id", flat=True)
-        )
-        return result
 
     def get_widgets_url(self) -> str:
         """Return absolute URL for widgets."""

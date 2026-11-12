@@ -21,7 +21,9 @@ from django.utils.html import conditional_escape
 from django.utils.timezone import override as override_timezone
 from django.utils.translation import override
 
-from weblate.utils.render import render_template, validate_render
+from weblate.trans import defaults
+from weblate.trans.models import Category, Component, Project
+from weblate.utils.render import render_template, validate_render, validate_render_mock
 from weblate.utils.render_worker import (
     CONTEXT_LIMIT,
     LOOP_LIMIT,
@@ -31,6 +33,92 @@ from weblate.utils.render_worker import (
 
 
 class RenderTest(SimpleTestCase):
+    def test_component_full_name(self) -> None:
+        project = Project(name="Project", slug="project")
+        component = Component(
+            name="Component", slug="component", project=project, source_language_id=1
+        )
+        parent = None
+        for depth in range(4):
+            if depth:
+                parent = Category(
+                    name=f"Category {depth}",
+                    slug=f"category-{depth}",
+                    project=project,
+                    category=parent,
+                )
+            component.category = parent
+            expected = "/".join(
+                [
+                    project.name,
+                    *(f"Category {index}" for index in range(1, depth + 1)),
+                    component.name,
+                ]
+            )
+            with (
+                self.subTest(depth=depth),
+                patch.object(Component, "repository") as repository,
+            ):
+                repository.get_remote_branch_name.return_value = "main"
+                self.assertEqual(
+                    render_template(
+                        "{{ component_full_name }}|{{ project_name }}|{{ component_name }}",
+                        component=component,
+                    ),
+                    f"{expected}|Project|Component",
+                )
+                for message in (
+                    defaults.DEFAULT_COMMIT_MESSAGE,
+                    defaults.DEFAULT_ADD_MESSAGE,
+                    defaults.DEFAULT_DELETE_MESSAGE,
+                    defaults.DEFAULT_MERGE_MESSAGE,
+                    defaults.DEFAULT_ADDON_MESSAGE,
+                    defaults.DEFAULT_PULL_MESSAGE,
+                ):
+                    rendered = render_template(
+                        message,
+                        component=component,
+                        language_name="Czech",
+                        stats={"translated_percent": 100, "translated": 1, "all": 1},
+                        addon_name="Test add-on",
+                        component_linked_children=[],
+                    )
+                    self.assertIn(expected, rendered)
+
+    def test_linked_component_full_name(self) -> None:
+        project = Project(name="Project", slug="project")
+        category = Category(name="Category", slug="category", project=project)
+        component = Component(
+            name="Component", slug="component", project=project, source_language_id=1
+        )
+        linked = Component(
+            name="Linked",
+            slug="linked",
+            project=project,
+            category=category,
+            source_language_id=1,
+        )
+        component.__dict__["linked_children"] = [linked]
+        children = component.get_linked_children_for_template()
+        self.assertEqual(children[0]["name"], "Linked")
+        self.assertEqual(children[0]["project_name"], "Project")
+        self.assertEqual(children[0]["full_name"], "Project/Category/Linked")
+        with patch.object(Component, "repository") as repository:
+            repository.get_remote_branch_name.return_value = "main"
+            rendered = render_template(
+                defaults.DEFAULT_PULL_MESSAGE,
+                component=component,
+                component_linked_children=children,
+            )
+        self.assertIn("[Project/Category/Linked]", rendered)
+
+    def test_full_name_template_validation(self) -> None:
+        for template in ("{{ component_full_name }}", defaults.DEFAULT_PULL_MESSAGE):
+            with patch.object(
+                Component, "get_linked_children_for_template", return_value=[]
+            ):
+                self.assertIn("project/component", validate_render_mock(template))
+
     def test_output_is_plain_text(self) -> None:
         rendered = render_template("<b>{{ value }}</b>", value="text")
         self.assertEqual(rendered, "<b>text</b>")

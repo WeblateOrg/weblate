@@ -651,5 +651,14 @@ class StringsExporter(MonolingualExporter):
     file_format = "strings"
     verbose = gettext_lazy("iOS strings")
 
+    def get_unit_id(self, unit: Unit) -> str:
+        identifier = super().get_unit_id(unit)
+        if unit.translation.component.file_format == self.file_format:
+            # Native .strings contexts already contain serialized key escapes.
+            return identifier
+        # Other formats provide logical identifiers, while setid() expects the
+        # serialized spelling. The serializer handles quotation marks itself.
+        return self.storage.personality.encode(identifier).replace("\r", r"\r")
+
     def create_unit(self, source):
         return self.storage.UnitClass(source, self.storage.personality.name)

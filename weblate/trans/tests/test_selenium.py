@@ -6921,12 +6921,8 @@ class SeleniumTests(
             ),
             1,
         )
-        self.assertIn(
-            "Website translations / Checkout interface", workspace_diagnostics
-        )
-        self.assertIn(
-            "Mobile applications / Android application", workspace_diagnostics
-        )
+        self.assertIn("Website translations/Checkout interface", workspace_diagnostics)
+        self.assertIn("Mobile applications/Android application", workspace_diagnostics)
         self.assertIn("Dismissed: 1", workspace_diagnostics)
         self.assertEqual(
             Select(
