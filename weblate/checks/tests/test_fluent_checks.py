@@ -8,9 +8,10 @@ import itertools
 import re
 from time import monotonic
 from typing import TYPE_CHECKING, ClassVar
+from unittest.mock import patch
 
 from django.test import SimpleTestCase
-from translate.storage.fluent import FluentUnit
+from translate.storage.fluent import FluentSelectorBranch, FluentUnit
 
 from weblate.checks.flags import Flags
 from weblate.checks.fluent.inner_html import (
@@ -37,7 +38,7 @@ from weblate.trans.tests.factories import make_check, make_unit
 from weblate.utils.fluent import MAX_FLUENT_AST_DEPTH, MAX_FLUENT_SELECT_EXPRESSIONS
 
 if TYPE_CHECKING:
-    from translate.storage.fluent import FluentSelectorBranch
+    from collections.abc import Iterator
 
     from weblate.checks.base import BaseCheck, SourceCheck, TargetCheck
     from weblate.trans.models import Unit
@@ -3038,21 +3039,33 @@ class FluentResourceLimitsTest(SimpleTestCase):
         )
 
     def test_exponential_variants(self) -> None:
+        branch_paths = FluentSelectorBranch.branch_paths
+
+        def checked_branch_paths(
+            branch: FluentSelectorBranch,
+        ) -> Iterator[list[FluentSelectorBranch]]:
+            # Only the plain "hello" value may reach enumeration. Reject the
+            # exponential payload immediately, independently of runner speed.
+            self.assertFalse(branch.child_nodes)
+            return branch_paths(branch)
+
         # Would be 2^38 variants when enumerated.
         for count in (9, 16, 20, 38):
-            payload = fluent_select() * count
-            started = monotonic()
-            failing = self.run_all_checks("hello", payload)
-            self.assertLess(monotonic() - started, 5)
-            self.assertIn("fluent-references", failing)
-            self.assertIn("fluent-target-inner-html", failing)
-            self.assertNotIn("fluent-target-syntax", failing)
+            with (
+                self.subTest(count=count),
+                patch.object(
+                    FluentSelectorBranch, "branch_paths", checked_branch_paths
+                ),
+            ):
+                payload = fluent_select() * count
+                failing = self.run_all_checks("hello", payload)
+                self.assertIn("fluent-references", failing)
+                self.assertIn("fluent-target-inner-html", failing)
+                self.assertNotIn("fluent-target-syntax", failing)
 
-            started = monotonic()
-            failing = self.run_all_checks(payload, "hello")
-            self.assertLess(monotonic() - started, 5)
-            self.assertIn("fluent-source-inner-html", failing)
-            self.assertIn("fluent-references", failing)
+                failing = self.run_all_checks(payload, "hello")
+                self.assertIn("fluent-source-inner-html", failing)
+                self.assertIn("fluent-references", failing)
 
     def test_complexity_description(self) -> None:
         payload = fluent_select() * 16
