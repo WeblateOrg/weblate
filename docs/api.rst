@@ -3656,6 +3656,12 @@ Add-ons
 
     Edit partial information about add-on.
 
+    :ref:`Fedora Messaging <addon-weblate.fedora_messaging.publish>` accepts
+    ``connection_timeout`` in ``configuration`` (1–60 seconds, default 5).
+    It bounds setup per attempt, separately from ``publish_timeout`` for
+    sending and acknowledgement. Managing this site-wide add-on requires
+    site-wide add-on management permission.
+
     :param id: Add-on ID
     :type id: int
     :>json object configuration: Optional add-on configuration

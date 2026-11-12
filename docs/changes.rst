@@ -72,6 +72,7 @@ Weblate 2026.11.2
 .. rubric:: Bug fixes
 
 * Respected custom XML names when creating new translations for :ref:`flatxml` without a template.
+* Improved :ref:`Fedora Messaging <addon-weblate.fedora_messaging.publish>` delivery with automatic stale-connection recovery and separate connection and publish timeouts per attempt.
 * Fixed browser Content Security Policy blocking identity confirmation using an external :doc:`authentication provider <admin/auth>`.
 * Restored inline terms on :ref:`legal` confirmation when no external terms URL is configured.
 * Restored pending translation writes for :ref:`text files <txt>` and other database-backed formats, PHP, and XWiki, and made output of translations needing editing consistent with cleanup rebuilds.

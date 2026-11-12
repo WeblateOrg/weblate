@@ -26,6 +26,7 @@ from weblate.addons.base import (
 )
 from weblate.addons.defaults import (
     DEFAULT_FEDORA_MESSAGING_CONNECTION_ATTEMPTS,
+    DEFAULT_FEDORA_MESSAGING_CONNECTION_TIMEOUT,
     DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT,
     DEFAULT_FEDORA_MESSAGING_RETRY_DELAY,
 )
@@ -1982,6 +1983,7 @@ class WebhooksAddonForm(BaseWebhooksAddonForm):
 class FedoraMessagingAddonForm(ChangeBaseAddonForm):
     public_configuration_fields = ChangeBaseAddonForm.public_configuration_fields | {
         "connection_attempts",
+        "connection_timeout",
         "publish_timeout",
         "retry_delay",
         "topic_prefix",
@@ -2024,10 +2026,20 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
         ),
         required=False,
     )
+    connection_timeout = forms.IntegerField(
+        label=gettext_lazy("Connection timeout"),
+        help_text=gettext_lazy(
+            "How many seconds to allow for connection and channel setup per attempt."
+        ),
+        initial=DEFAULT_FEDORA_MESSAGING_CONNECTION_TIMEOUT,
+        min_value=1,
+        max_value=60,
+        required=False,
+    )
     publish_timeout = forms.IntegerField(
         label=gettext_lazy("Publish timeout"),
         help_text=gettext_lazy(
-            "How many seconds to wait for the broker delivery acknowledgement."
+            "How many seconds to allow for sending and the broker delivery acknowledgement per attempt, after connection setup."
         ),
         initial=DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT,
         min_value=1,
@@ -2065,7 +2077,12 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
             ),
             FormFieldGroup(
                 gettext_lazy("Timeouts and retries"),
-                ("publish_timeout", "connection_attempts", "retry_delay"),
+                (
+                    "connection_timeout",
+                    "publish_timeout",
+                    "connection_attempts",
+                    "retry_delay",
+                ),
             ),
             FormFieldGroup(
                 gettext_lazy("TLS credentials"),
@@ -2084,6 +2101,8 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
         )
         if result.get("publish_timeout") is None:
             result["publish_timeout"] = DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT
+        if result.get("connection_timeout") is None:
+            result["connection_timeout"] = DEFAULT_FEDORA_MESSAGING_CONNECTION_TIMEOUT
         if result.get("connection_attempts") is None:
             result["connection_attempts"] = DEFAULT_FEDORA_MESSAGING_CONNECTION_ATTEMPTS
         if result.get("retry_delay") is None:

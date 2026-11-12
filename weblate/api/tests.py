@@ -22408,6 +22408,48 @@ class ComponentListAPITest(APIBaseTest):
 
 
 class AddonAPITest(APIBaseTest):
+    def test_fedora_connection_timeout_configuration(self) -> None:
+        addon = create_test_addon(
+            acting_user=get_test_actor(self),
+            name="weblate.fedora_messaging.publish",
+            configuration={"amqp_url": "amqp://93.184.216.34", "events": []},
+        )
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": addon.pk},
+            method="patch",
+            format="json",
+            request={"configuration": {"connection_timeout": 7}},
+            code=404,
+        )
+        for value in (0, 61, "invalid", 7):
+            with self.subTest(value=value):
+                response = self.do_request(
+                    "api:addon-detail",
+                    kwargs={"pk": addon.pk},
+                    method="patch",
+                    format="json",
+                    superuser=True,
+                    request={
+                        "configuration": {
+                            "amqp_url": addon.configuration["amqp_url"],
+                            "events": [],
+                            "connection_timeout": value,
+                        }
+                    },
+                    code=200 if value == 7 else 400,
+                )
+                if value == 7:
+                    self.assertEqual(
+                        response.data["configuration"]["connection_timeout"], 7
+                    )
+                else:
+                    self.assertIn(
+                        "connection_timeout", response.data["errors"][0]["detail"]
+                    )
+        addon.refresh_from_db()
+        self.assertEqual(addon.configuration["connection_timeout"], 7)
+
     def test_autotranslate_configuration_accepts_restricted_source(self) -> None:
         source = self.create_link_existing(
             name="Restricted automatic translation source",

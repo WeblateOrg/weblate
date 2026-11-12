@@ -38,6 +38,7 @@ from weblate_schemas import validate_schema
 from weblate.addons.base import ChangeBaseAddon
 from weblate.addons.defaults import (
     DEFAULT_FEDORA_MESSAGING_CONNECTION_ATTEMPTS,
+    DEFAULT_FEDORA_MESSAGING_CONNECTION_TIMEOUT,
     DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT,
     DEFAULT_FEDORA_MESSAGING_RETRY_DELAY,
 )
@@ -54,6 +55,7 @@ if TYPE_CHECKING:
     from collections.abc import Mapping
     from typing import Any
 
+    from amqp import Channel
     from django.forms.boundfield import BoundField
     from django.http import HttpRequest
     from django_stubs_ext import StrOrPromise
@@ -156,6 +158,18 @@ class DeadlineTCPTransport(TCPTransport):
     def _setup_transport(self) -> None:
         super()._setup_transport()  # type: ignore[misc]
         self._quick_recv = self._deadline_recv
+        self._write = self._deadline_write
+
+    def _deadline_write(self, data: bytes | memoryview) -> None:
+        assert self.sock is not None  # ruff: ignore[assert]
+        remaining_data = memoryview(data)
+        while remaining_data:
+            self.sock.settimeout(FedoraMessagingAddon.remaining(PUBLISHER.deadline))
+            written = self.sock.send(remaining_data)
+            if not written:
+                msg = "Fedora Messaging socket closed while writing"
+                raise OSError(msg)
+            remaining_data = remaining_data[written:]
 
     def _deadline_recv(self, size: int) -> bytes:
         # py-amqp may perform several reads to assemble one frame. Each read
@@ -182,6 +196,7 @@ class DeadlineSSLTransport(SSLTransport, DeadlineTCPTransport):
         tls_socket.settimeout(FedoraMessagingAddon.remaining(PUBLISHER.deadline))
         tls_socket.do_handshake()
         self._quick_recv = self._deadline_recv
+        self._write = self._deadline_write
 
 
 class DeadlineConnection(KombuAMQPConnection):
@@ -225,6 +240,10 @@ class PublisherState:
 
     def __init__(self) -> None:
         self.deadline = 0.0
+        self.phase = "setup"
+        self.attempt = 0
+        self.started = 0.0
+        self.reused_connection = False
         self.configuration: tuple | None = None
         self.connection: Connection | None = None
         self.producer: Producer | None = None
@@ -344,6 +363,11 @@ class FedoraMessagingAddon(ChangeBaseAddon):
         publish_timeout = int(
             config.get("publish_timeout", DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT)
         )
+        connection_timeout = int(
+            config.get(
+                "connection_timeout", DEFAULT_FEDORA_MESSAGING_CONNECTION_TIMEOUT
+            )
+        )
         amqp_url = config["amqp_url"]
 
         with FEDORA_MESSAGING_PUBLISH_LOCK:
@@ -370,6 +394,7 @@ class FedoraMessagingAddon(ChangeBaseAddon):
                 amqp_url,
                 change.project,
                 timeout=publish_timeout,
+                connection_timeout=connection_timeout,
                 connection_attempts=connection_attempts,
                 retry_delay=retry_delay,
             )
@@ -391,14 +416,22 @@ class FedoraMessagingAddon(ChangeBaseAddon):
         timeout: int = DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT,
         connection_attempts: int = DEFAULT_FEDORA_MESSAGING_CONNECTION_ATTEMPTS,
         retry_delay: int = DEFAULT_FEDORA_MESSAGING_RETRY_DELAY,
+        connection_timeout: int = DEFAULT_FEDORA_MESSAGING_CONNECTION_TIMEOUT,
     ) -> None:
         """Publish message and report Fedora Messaging failures with context."""
         with FEDORA_MESSAGING_PUBLISH_LOCK:
-            deadline = time.monotonic() + timeout
-            PUBLISHER.deadline = deadline
+            PUBLISHER.started = time.monotonic()
+            PUBLISHER.attempt = 0
+            PUBLISHER.phase = "setup"
+            PUBLISHER.reused_connection = PUBLISHER.connection is not None
             try:
                 FedoraMessagingAddon._publish_with_retries(
-                    message, amqp_url, deadline, connection_attempts, retry_delay
+                    message,
+                    amqp_url,
+                    connection_timeout,
+                    timeout,
+                    connection_attempts,
+                    retry_delay,
                 )
             except Exception as error:
                 PUBLISHER.disconnect()
@@ -413,26 +446,66 @@ class FedoraMessagingAddon(ChangeBaseAddon):
     def _publish_with_retries(
         message: WeblateMessage,
         amqp_url: str,
-        deadline: float,
+        connection_timeout: int,
+        publish_timeout: int,
         connection_attempts: int,
         retry_delay: int,
     ) -> None:
         validate_fedora_messaging_url(amqp_url, resolve=False)
         message.validate()
         for attempt in range(connection_attempts):
+            PUBLISHER.attempt = attempt + 1
+            PUBLISHER.phase = "setup"
+            PUBLISHER.reused_connection = PUBLISHER.connection is not None
+            deadline = time.monotonic() + connection_timeout
+            PUBLISHER.deadline = deadline
             try:
-                FedoraMessagingAddon._publish_once(message, amqp_url, deadline)
+                FedoraMessagingAddon._publish_once(
+                    message, amqp_url, deadline, publish_timeout
+                )
+            except ssl_module.SSLCertVerificationError:
+                raise
             except (OSError, RecoverableConnectionError):
                 PUBLISHER.disconnect()
                 if attempt + 1 == connection_attempts:
                     raise
-                time.sleep(min(retry_delay, FedoraMessagingAddon.remaining(deadline)))
+                time.sleep(retry_delay)
             else:
                 return
 
     @staticmethod
-    def _publish_once(message: WeblateMessage, amqp_url: str, deadline: float) -> None:
+    def _publish_once(
+        message: WeblateMessage,
+        amqp_url: str,
+        deadline: float,
+        publish_timeout: int = DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT,
+    ) -> None:
+        sock = FedoraMessagingAddon._prepare_connection(amqp_url, deadline)
+        FedoraMessagingAddon.remaining(deadline)
+        PUBLISHER.phase = "publish"
+        PUBLISHER.deadline = time.monotonic() + publish_timeout
+        remaining = FedoraMessagingAddon.remaining(PUBLISHER.deadline)
+        sock.settimeout(remaining)
+        assert PUBLISHER.producer is not None  # ruff: ignore[assert]
+        PUBLISHER.producer.publish(
+            json.dumps(message.body),
+            exchange="amq.topic",
+            routing_key=message.topic,
+            headers=message.headers,
+            message_id=message.id,
+            delivery_mode=2,
+            priority=0,
+            content_type="application/json",
+            content_encoding="utf-8",
+            retry=False,
+            timeout=remaining,
+            confirm_timeout=remaining,
+        )
+
+    @staticmethod
+    def _prepare_connection(amqp_url: str, deadline: float) -> socket.socket:
         remaining = FedoraMessagingAddon.remaining(deadline)
+        reused_connection = PUBLISHER.connection is not None
         if PUBLISHER.connection is None:
             parsed = urlsplit(amqp_url)
             PUBLISHER.connection = Connection(
@@ -461,33 +534,48 @@ class FedoraMessagingAddon(ChangeBaseAddon):
                     },
                 },
             )
-            # Weblate owns retries and the overall publish deadline.
+            # Weblate owns retries and the setup deadline.
             PUBLISHER.connection.ensure_connection(
                 max_retries=0, reraise_as_library_errors=False
             )
             PUBLISHER.producer = Producer(PUBLISHER.connection, auto_declare=False)
-        remaining = FedoraMessagingAddon.remaining(deadline)
-        sock = PUBLISHER.connection.connection.transport.sock
+        FedoraMessagingAddon.remaining(deadline)
+        try:
+            sock = FedoraMessagingAddon._get_publisher_socket(PUBLISHER.connection)
+        except (OSError, RecoverableConnectionError):
+            if not reused_connection:
+                raise
+            # An idle cached connection can close between events. No message
+            # has been sent yet; replace it within this attempt and deadline.
+            PUBLISHER.disconnect()
+            return FedoraMessagingAddon._prepare_connection(amqp_url, deadline)
+        if not reused_connection:
+            sock.settimeout(FedoraMessagingAddon.remaining(deadline))
+            assert PUBLISHER.producer is not None  # ruff: ignore[assert]
+            channel = cast("Channel", PUBLISHER.producer.channel)
+            channel.confirm_select()
+            # py-amqp lazily negotiates confirms unless this flag is set.
+            channel._confirm_selected = True  # type: ignore[attr-defined]  # ruff: ignore[private-member-access]
+        return sock
+
+    @staticmethod
+    def _get_publisher_socket(connection: Connection) -> socket.socket:
+        broker = connection.connection
+        sock = broker.transport.sock
         FedoraMessagingAddon.validate_broker_peer(
-            PUBLISHER.connection.hostname or "",
+            connection.hostname or "",
             FedoraMessagingAddon._get_socket_peer_ip(sock),
         )
-        sock.settimeout(remaining)
-        assert PUBLISHER.producer is not None  # ruff: ignore[assert]
-        PUBLISHER.producer.publish(
-            json.dumps(message.body),
-            exchange="amq.topic",
-            routing_key=message.topic,
-            headers=message.headers,
-            message_id=message.id,
-            delivery_mode=2,
-            priority=0,
-            content_type="application/json",
-            content_encoding="utf-8",
-            retry=False,
-            timeout=remaining,
-            confirm_timeout=remaining,
-        )
+        # A closed TLS connection can still have a peer address. Poll for
+        # broker events before publishing so EOF is safe to recover from.
+        try:
+            broker.drain_events(timeout=0)
+        except TimeoutError as error:
+            # A zero-timeout poll with no event has no errno. Preserve
+            # TCP errors such as ETIMEDOUT so stale sockets are replaced.
+            if error.errno is not None:
+                raise
+        return sock
 
     @staticmethod
     def remaining(deadline: float) -> float:
@@ -511,6 +599,11 @@ class FedoraMessagingAddon(ChangeBaseAddon):
             message_id=message.id,
             topic=message.topic,
             exception_class=error.__class__.__name__,
+            phase=PUBLISHER.phase,
+            attempt=PUBLISHER.attempt,
+            elapsed=time.monotonic() - PUBLISHER.started,
+            reused_connection=PUBLISHER.reused_connection,
+            delivery_uncertain=PUBLISHER.phase == "publish",
             **FedoraMessagingAddon._get_broker_context(amqp_url),
         )
         report_error(
