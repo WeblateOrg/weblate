@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-05 22:27-0600\n"
+"POT-Creation-Date: 2026-11-13 01:19-0600\n"
 "PO-Revision-Date: 2026-11-12 16:31+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
@@ -613,7 +613,18 @@ msgid "User access to the {team} team was changed by {username}."
 msgstr ""
 "Quyền truy cập của người dùng vào nhóm {team} đã được {username} thay đổi."
 
-#. Translators: Audit log entry
+#, fuzzy, python-brace-format
+#| msgid "User access to the {team} team was changed by {username}."
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr ""
+"Quyền truy cập của người dùng vào nhóm {team} đã được {username} thay đổi."
+
+#, fuzzy, python-brace-format
+#| msgid "User access to the {team} team was changed by {username}."
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr ""
+"Quyền truy cập của người dùng vào nhóm {team} đã được {username} thay đổi."
+
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr "Người dùng đã bị xóa khỏi nhóm {team} bởi {username}."
@@ -731,6 +742,44 @@ msgstr "Điện Thoại Tính Năng Thông Thường"
 msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr "Thiết Bị iOS"
+
+#, fuzzy
+#| msgid "site-wide"
+msgid "Site-wide"
+msgstr "trên toàn trang"
+
+msgid "Workspace"
+msgstr "Không gian làm việc"
+
+#, fuzzy
+#| msgid "Backup created"
+msgid "Team created"
+msgstr "Bản sao lưu đã được tạo"
+
+#, fuzzy
+#| msgid "Last change"
+msgid "Team changed"
+msgstr "Thay đổi cuối cùng"
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "Team deleted"
+msgstr "Đã xóa phông chữ."
+
+#, fuzzy
+#| msgid "Label added"
+msgid "Team member added"
+msgstr "Đã thêm nhãn"
+
+#, fuzzy
+#| msgid "Label removed"
+msgid "Team member removed"
+msgstr "Đã xóa nhãn"
+
+#, fuzzy
+#| msgid "User access changed"
+msgid "Team member access changed"
+msgstr "Quyền truy cập của người dùng đã thay đổi"
 
 msgid "Account activity"
 msgstr "Hoạt động tài khoản"
@@ -2669,10 +2718,24 @@ msgstr ""
 "Chỉ dán khối chứng chỉ PEM bắt đầu bằng \"-----BEGIN CERTIFICATE-----\"; "
 "không dán kết quả từ lệnh \"openssl x509 -text\"."
 
+#, fuzzy
+#| msgid "Connection attempts"
+msgid "Connection timeout"
+msgstr "Các lần thử kết nối"
+
+#, fuzzy
+#| msgid "How many seconds to wait between connection attempts."
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr "Cần chờ bao nhiêu giây giữa các lần thử kết nối."
+
 msgid "Publish timeout"
 msgstr "Thời gian chờ xuất bản"
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
+#, fuzzy
+#| msgid "How many seconds to wait for the broker delivery acknowledgement."
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
 msgstr ""
 "Cần chờ bao nhiêu giây để nhận được xác nhận giao hàng từ máy chủ trung gian."
 
@@ -2891,6 +2954,16 @@ msgstr ""
 msgid "This add-on is already installed on this component."
 msgstr "Tiện ích bổ sung này đã được cài đặt sẵn trên thành phần này."
 
+#, fuzzy
+#| msgid ""
+#| "Repository operations require permission on the component that owns the "
+#| "shared repository."
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr ""
+"Các thao tác trên kho lưu trữ yêu cầu quyền đối với thành phần sở hữu kho "
+"lưu trữ dùng chung."
+
 msgid "This add-on cannot be triggered manually."
 msgstr "Tiện ích bổ sung này không thể được kích hoạt thủ công."
 
@@ -2950,6 +3023,11 @@ msgstr "Dự án"
 msgctxt "Add-on scope"
 msgid "Site"
 msgstr "Trang"
+
+#, fuzzy
+#| msgid "The target does not exist or you cannot access it."
+msgid "a component you cannot access"
+msgstr "Mục tiêu không tồn tại hoặc bạn không thể truy cập được."
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -4161,6 +4239,11 @@ msgstr ""
 "Đề xuất bị tắt cho ngôn ngữ này. Hãy yêu cầu quản trị viên dự án kích hoạt "
 "chúng."
 
+#, fuzzy
+#| msgid "You do not have permission to approve translations."
+msgid "You need to log in to upload translations."
+msgstr "Bạn không có quyền phê duyệt bản dịch."
+
 msgid "The file format does not support updating source strings."
 msgstr "Định dạng tệp không hỗ trợ cập nhật chuỗi nguồn."
 
@@ -4200,6 +4283,16 @@ msgstr "Người dùng không hoạt động không thể được chỉ định
 
 msgid "Project tokens can not be assigned to teams here."
 msgstr "Không thể gán mã thông báo dự án cho các nhóm tại đây."
+
+#, fuzzy
+#| msgid "View audit log"
+msgid "Team audit log"
+msgstr "Xem nhật ký kiểm tra"
+
+#, fuzzy
+#| msgid "Team administrator"
+msgid "Team audit entry"
+msgstr "Quản trị viên nhóm"
 
 msgid "Cannot remove built-in team!"
 msgstr "Không thể xóa nhóm đã tích hợp sẵn!"
@@ -4545,9 +4638,6 @@ msgstr ""
 msgid "No valid billing found or limit exceeded."
 msgstr "Không tìm thấy thanh toán hợp lệ hoặc vượt quá giới hạn."
 
-msgid "Workspace"
-msgstr "Không gian làm việc"
-
 msgid "Customer name"
 msgstr "Tên khách hàng"
 
@@ -4643,6 +4733,9 @@ msgid "Contains %d component"
 msgid_plural "Contains %d components"
 msgstr[0] "Chứa %d thành phần"
 
+msgid "Restricted components are not allowed by this billing plan."
+msgstr ""
+
 msgid "Missing license"
 msgstr "Thiếu giấy phép"
 
@@ -4701,6 +4794,11 @@ msgstr ""
 
 msgid "To terminate billing you have to remove all projects first."
 msgstr "Để chấm dứt thanh toán bạn phải xóa tất cả các dự án trước."
+
+#, fuzzy
+#| msgid "A workspace associated with billing cannot be removed."
+msgid "Externally managed billings cannot be merged."
+msgstr "Không thể xóa không gian làm việc liên quan đến thanh toán."
 
 msgid "Cannot merge such a billing."
 msgstr "Không thể gộp các hóa đơn như vậy."
@@ -5414,6 +5512,11 @@ msgstr ""
 msgid "the value is too complex or nested too deeply"
 msgstr ""
 
+#, fuzzy
+#| msgid "Your billing plan has exceeded its limits."
+msgid "Format matching exceeded its time limit."
+msgstr "Gói thanh toán của bạn đã vượt quá giới hạn."
+
 msgid "The following format strings are in the wrong order:"
 msgstr "Các chuỗi định dạng sau đây không đúng thứ tự:"
 
@@ -5663,6 +5766,9 @@ msgstr "Cú pháp Markdown"
 msgid "Markdown syntax does not match source."
 msgstr "Cú pháp Markdown không khớp với nguồn."
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr ""
+
 msgid "The translation does not contain a URL."
 msgstr "Bản dịch không chứa URL."
 
@@ -5817,6 +5923,11 @@ msgstr "Cấu hình Weblate"
 
 msgid "Your translation is foo"
 msgstr "Bản dịch của bạn là foo"
+
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
+msgstr ""
 
 msgid "Font style"
 msgstr "Kiểu phông chữ"
@@ -5978,6 +6089,25 @@ msgstr "Chuỗi ký tự iOS"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
+#, fuzzy
+#| msgid "Could not update the repository."
+msgid "Could not open the workbook archive."
+msgstr "Không thể cập nhật kho lưu trữ."
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr ""
+
 msgid "Multivalue CSV file"
 msgstr "Tệp CSV nhiều giá trị"
 
@@ -6028,6 +6158,10 @@ msgstr "Dữ liệu mô tả id_hash không hợp lệ trong tệp CSV: %s"
 
 msgid "Plural form metadata in CSV file requires id_hash."
 msgstr "Dữ liệu mô tả dạng số nhiều trong tệp CSV yêu cầu id_hash."
+
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
+msgstr ""
 
 #. Translators: File format name
 msgid "gettext PO file"
@@ -6250,6 +6384,13 @@ msgid "App store metadata files"
 msgstr "Tệp dữ liệu mô tả cửa hàng ứng dụng"
 
 msgid "File validation is required for directory-based formats."
+msgstr ""
+
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr ""
+
+msgid "Converted workbook content exceeds the configured size limit."
 msgstr ""
 
 msgid ""
@@ -7453,6 +7594,16 @@ msgstr "Ngôn ngữ thứ hai được định nghĩa trong dự án hoặc thà
 msgid "Rate limit reset."
 msgstr "Đặt lại giới hạn tốc độ."
 
+#, fuzzy
+#| msgid "The translation request timed out"
+msgid "Too many translation requests."
+msgstr "Yêu cầu dịch thuật đã hết thời gian chờ"
+
+#, fuzzy
+#| msgid "Too many authentication attempts from this location."
+msgid "Too many concurrent translation requests for this service."
+msgstr "Có quá nhiều lần thử xác thực từ vị trí này."
+
 msgid "File"
 msgstr "Tập tin"
 
@@ -7580,6 +7731,11 @@ msgid ""
 msgstr ""
 "Các mục trong bộ nhớ dịch được tạo từ các bản dịch hiện tại đã bị xóa và sẽ "
 "được tạo lại trong nền."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many uploads, please try again later."
+msgstr "Quá nhiều truy vấn tìm kiếm, vui lòng thử lại sau."
 
 #, python-format
 msgid "Processed %(count)d active translation memory entry."
@@ -9398,6 +9554,33 @@ msgstr "Tiện ích bổ sung chỉ có thể được cài đặt ở cấp đ�
 msgid "Install"
 msgstr "Cài đặt"
 
+#, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid "Install on the component owning the repository."
+msgstr ""
+"Tiện ích bổ sung này được sử dụng cho tất cả các thành phần dùng chung kho "
+"lưu trữ này."
+
+#, fuzzy
+#| msgid ""
+#| "One component was not migrated because its repository is no longer "
+#| "available."
+#| msgid_plural ""
+#| "%(count)d components were not migrated because their repositories are no "
+#| "longer available."
+msgid "The component owning this repository is not available to you."
+msgstr ""
+"%(count)d thành phần không được di chuyển vì kho lưu trữ của chúng không còn "
+"khả dụng."
+
+#, fuzzy
+#| msgid "Repository changes"
+msgid "Open repository add-ons"
+msgstr "Thay đổi kho lưu trữ"
+
+msgid "Unavailable"
+msgstr "Không có sẵn"
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -9818,6 +10001,32 @@ msgstr "Quyền hạn"
 
 msgid "Cancel"
 msgstr "Hủy bỏ"
+
+msgid "Actor"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete entry"
+msgid "Deleted user"
+msgstr "Xóa mục"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Administrative team changes"
+msgstr "Quản trị"
+
+#, fuzzy
+#| msgid "Changes"
+msgid "Change"
+msgstr "Thay đổi"
+
+msgid "View details"
+msgstr "Xem chi tiết"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No team audit entries found."
+msgstr "Không tìm thấy chuỗi phù hợp."
 
 msgid "Settings"
 msgstr "Cài đặt"
@@ -13613,9 +13822,6 @@ msgstr "Tệp ngôn ngữ cơ sở đơn ngữ"
 msgid "Configure translation quality filter"
 msgstr "Bộ lọc chất lượng dịch thuật"
 
-msgid "View details"
-msgstr "Xem chi tiết"
-
 msgid "View contributor license agreement"
 msgstr "Xem thỏa thuận cấp phép cho người đóng góp"
 
@@ -13953,9 +14159,9 @@ msgid ""
 "%(project_name)s and join the %(team_name)s team. You will join only if you "
 "accept this invitation."
 msgstr ""
-"Một quy tắc phân công nhóm tự động đã mời bạn cộng tác trên dự án %"
-"(project_name)s và tham gia nhóm %(team_name)s. Bạn sẽ chỉ tham gia nếu chấp "
-"nhận lời mời này."
+"Một quy tắc phân công nhóm tự động đã mời bạn cộng tác trên dự án "
+"%(project_name)s và tham gia nhóm %(team_name)s. Bạn sẽ chỉ tham gia nếu "
+"chấp nhận lời mời này."
 
 #, python-format
 msgid ""
@@ -13978,6 +14184,19 @@ msgid ""
 msgstr ""
 "Bạn đã được %(invitation_author)s mời vào %(site_title)s để tham gia nhóm "
 "%(team_name)s."
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr ""
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -15837,6 +16056,15 @@ msgstr "Nhập bản sao lưu"
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr "Được tạo trên %(server)s (%(domain)s) bởi Weblate %(version)s"
 
+msgid "Public access on import"
+msgstr ""
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
+
 msgid "Token copied to clipboard."
 msgstr "Mã thông báo đã được sao chép vào bảng nhớ tạm."
 
@@ -16526,9 +16754,6 @@ msgstr "Kho lưu trữ đã được cập nhật"
 
 msgid "Available Repositories"
 msgstr "Kho Lưu Trữ Có Sẵn"
-
-msgid "Unavailable"
-msgstr "Không có sẵn"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -17649,6 +17874,12 @@ msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "Quá trình dịch tự động đã hoàn tất, %d chuỗi đã được cập nhật."
 
+#, fuzzy
+#| msgid "Automatic translation skipped because the target no longer exists."
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr "Quá trình dịch tự động bị bỏ qua vì đích đến không còn tồn tại."
+
 #, python-format
 msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
@@ -17735,6 +17966,11 @@ msgstr "Ảnh chụp màn hình bị thiếu."
 msgid "Revision must be a complete hexadecimal object ID."
 msgstr ""
 
+#, fuzzy, python-format
+#| msgid "Could not validate push URL: %s"
+msgid "Could not validate repository URL: %s"
+msgstr "Không thể xác thực URL thông báo đẩy: %s"
+
 msgid "Duplicate check name."
 msgstr "Trùng tên kiểm tra."
 
@@ -17801,6 +18037,11 @@ msgstr ""
 "Các thành phần được liên kết với kho lưu trữ không thể chứa dữ liệu kho lưu "
 "trữ."
 
+#, fuzzy
+#| msgid "Important dates"
+msgid "Imported authors"
+msgstr "Ngày quan trọng"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
@@ -17808,6 +18049,24 @@ msgid ""
 msgstr ""
 "Thành phần %(component)s đã bị bỏ qua vì kho lưu trữ được liên kết của nó "
 "không có sẵn."
+
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -17837,6 +18096,19 @@ msgstr "Loại tìm kiếm không hợp lệ."
 
 msgid "Enter a search string to replace."
 msgstr ""
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] ""
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] ""
 
 #, fuzzy
 #| msgid "Invalid request."
@@ -17960,6 +18232,11 @@ msgstr "Các đề xuất đang chờ xử lý"
 
 msgid "Needs review"
 msgstr "Cần đánh giá"
+
+#, fuzzy
+#| msgid "The target does not exist or you cannot access it."
+msgid "This component does not exist or you cannot access it."
+msgstr "Mục tiêu không tồn tại hoặc bạn không thể truy cập được."
 
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr "Lưu Trữ Weblate, nơi lý tưởng để bản địa hóa dự án phần mềm của bạn."
@@ -18737,6 +19014,9 @@ msgstr "Cờ dịch — %(language)s"
 msgid "You do not have permission to edit these flags."
 msgstr "Bạn không có quyền chỉnh sửa chuỗi nguồn."
 
+msgid "You do not have permission to create terminology."
+msgstr "Bạn không có quyền tạo ra thuật ngữ."
+
 msgid ""
 "Revert the latest translation edits from this user in the current project."
 msgstr ""
@@ -18830,11 +19110,6 @@ msgstr "Số lần thay đổi tối đa mỗi ngày"
 msgid "Maximum source words per day"
 msgstr "Số từ nguồn tối đa mỗi ngày"
 
-#, fuzzy
-#| msgid "The target does not exist or you cannot access it."
-msgid "This component does not exist or you cannot access it."
-msgstr "Mục tiêu không tồn tại hoặc bạn không thể truy cập được."
-
 msgid "Inherit from workspace"
 msgstr "Kế thừa từ không gian làm việc"
 
@@ -18896,6 +19171,11 @@ msgstr "Quá nhiều truy vấn tìm kiếm, vui lòng thử lại sau."
 msgid "Could not load repository branches. Please try again."
 msgstr ""
 "Không thể phân nhánh từ kho lưu trữ tại %(hostname)s. Vui lòng thử lại sau."
+
+#, fuzzy
+#| msgid "You do not have permission to edit glossary entries."
+msgid "You do not have permission to edit this project."
+msgstr "Bạn không có quyền chỉnh sửa các mục trong bảng thuật ngữ."
 
 msgid "ZIP file containing translations"
 msgstr "Tệp ZIP chứa bản dịch"
@@ -19052,9 +19332,6 @@ msgid ""
 msgstr ""
 "Chọn tùy chọn này nếu câu văn nên giữ nguyên như trong ngôn ngữ gốc, không "
 "thay đổi."
-
-msgid "You do not have permission to create terminology."
-msgstr "Bạn không có quyền tạo ra thuật ngữ."
 
 msgid "Invalid string selection!"
 msgstr "Lựa chọn chuỗi không hợp lệ!"
@@ -20699,6 +20976,11 @@ msgstr "Mô tả nhãn"
 msgid "Could not accept suggestion!"
 msgstr "Không thể chấp nhận đề xuất!"
 
+#, fuzzy, python-format
+#| msgid "Some settings could not be imported: %s"
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr "Một số cài đặt không thể nhập: %s"
+
 msgid "Uploaded translation file is too big."
 msgstr "Tệp dịch đã tải lên quá lớn."
 
@@ -20754,6 +21036,18 @@ msgstr "Dạng số nhiều %d trong tệp đã tải lên nằm ngoài phạm v
 msgid "Plural form %d in the uploaded file is missing."
 msgstr "Dạng số nhiều %d trong tệp đã tải lên bị thiếu."
 
+#, fuzzy, python-format
+#| msgid "The uploaded file contains too many settings."
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr "Tệp đã tải lên chứa quá nhiều cài dặt."
+
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] "Không thể lan truyền chuỗi đến %d thành phần."
+
 msgid "The uploaded file contains too many language declarations."
 msgstr "Tệp đã tải lên chứa quá nhiều khai báo ngôn ngữ."
 
@@ -20776,6 +21070,10 @@ msgstr "Không thể lưu các thay đổi đang chờ xử lý: %s"
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr ""
 "Không thể phân tích cú pháp tệp đã tải lên dưới dạng {file_format}: {error}"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr ""
 
 #, python-format
 msgid "Could not parse translation file: %s"
@@ -21222,6 +21520,33 @@ msgstr "Thêm các chuỗi ký tự mới vào bản dịch. Bỏ qua những ch
 msgid "Updates source strings in bilingual translation file."
 msgstr "Cập nhật chuỗi nguồn trong tệp dịch song ngữ."
 
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "A translation upload is already in progress."
+msgstr "Đang tiến hành cập nhật các bản dịch."
+
+msgid "The uploaded file has expired or was already processed."
+msgstr ""
+
+#, fuzzy
+#| msgid "The uploaded image was invalid."
+msgid "The uploaded file has expired."
+msgstr "Ảnh đã tải lên không hợp lệ."
+
+#, fuzzy
+#| msgid "A user's access permissions were changed."
+msgid "The upload target or permissions changed."
+msgstr "Quyền truy cập của người dùng đã được thay đổi."
+
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr ""
+"Các dạng số nhiều trong tệp đã tải lên không khớp với bản dịch hiện tại."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "File upload has failed. Please try again later."
+msgstr "Quá nhiều truy vấn tìm kiếm, vui lòng thử lại sau."
+
 msgid "Very high"
 msgstr "Rất cao"
 
@@ -21603,9 +21928,10 @@ msgstr ""
 msgid "Access denied."
 msgstr "Truy cập bị từ chối."
 
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr ""
-"Các dạng số nhiều trong tệp đã tải lên không khớp với bản dịch hiện tại."
+#, fuzzy
+#| msgid "Translation uploaded"
+msgid "Translation upload in progress."
+msgstr "Bản dịch được tải lên"
 
 msgid "Use the button on the repository status page to run this action."
 msgstr "Sử dụng nút trên trang trạng thái kho lưu trữ để chạy hành động này."
@@ -21875,6 +22201,11 @@ msgstr "Lỗi trong tham số %(field)s: %(error)s"
 msgid "language"
 msgid_plural "languages"
 msgstr[0] "ngôn ngữ"
+
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
+msgstr ""
 
 msgid "The project is already assigned to this workspace."
 msgstr "Dự án đã được chỉ định cho không gian làm việc này."
@@ -22196,9 +22527,19 @@ msgstr "Giá trị tham số được lưu trữ không hợp lệ."
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "Các tham số phải là một từ điển gồm các cặp khóa-giá trị."
 
-#, python-format
-msgid "Undefined variable: \"%s\""
-msgstr "Biến không xác định: \"%s\""
+msgid "Template output exceeds its size limit."
+msgstr ""
+
+msgid "Template rendering failed or exceeded its resource limits."
+msgstr ""
+
+msgid "Oversized template response."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid translation flag: \"%s\""
+msgid "Invalid template rendering response."
+msgstr "Cờ dịch không hợp lệ: \"%s\""
 
 msgid "Could not render template: {}"
 msgstr "Không thể hiển thị mẫu: {}"
@@ -22209,6 +22550,52 @@ msgid ""
 msgstr ""
 "Các chuỗi định dạng không còn được hỗ trợ nữa, vui lòng sử dụng ngôn ngữ mẫu "
 "thay thế."
+
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The HTML {tag} tag is nested too deeply."
+msgid "Template context is nested too deeply."
+msgstr "Thẻ HTML {tag} được lồng quá sâu."
+
+msgid "Template context exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported template context key."
+msgstr "Định dạng tệp quy tắc ITS không được hỗ trợ."
+
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported template context value."
+msgstr "Định dạng tệp quy tắc ITS không được hỗ trợ."
+
+msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+msgid "Template rendering exceeded its loop limit."
+msgstr ""
+
+msgid "Template intermediate value exceeds its size limit."
+msgstr ""
+
+msgid "Template replacement exceeds its size limit."
+msgstr ""
+
+msgid "Template padding exceeds its size limit."
+msgstr ""
+
+msgid "Template formatting exceeds its size limit."
+msgstr ""
+
+msgid "Template join exceeds its size limit."
+msgstr ""
+
+#, python-format
+msgid "Undefined variable: \"%s\""
+msgstr "Biến không xác định: \"%s\""
 
 #, python-format
 msgid ""
@@ -23031,6 +23418,11 @@ msgstr ""
 
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr "Thao tác này sẽ đẩy các thay đổi lên kho lưu trữ Mercurial gốc."
+
+#, fuzzy
+#| msgid "Could not recover the repository."
+msgid "Could not remove nested repository metadata."
+msgstr "Không thể khôi phục kho lưu trữ."
 
 msgid "GitHub"
 msgstr "GitHub"
@@ -24486,9 +24878,6 @@ msgstr "Không gian làm việc đã bị xóa."
 #~ msgid "Translation files in accessible repositories have been synchronized."
 #~ msgstr "Các tệp dịch trong kho lưu trữ có thể truy cập đã được đồng bộ hóa."
 
-#~ msgid "Updates of translations are in progress."
-#~ msgstr "Đang tiến hành cập nhật các bản dịch."
-
 #~ msgid "Updates of translations in accessible repositories are in progress."
 #~ msgstr ""
 #~ "Việc cập nhật các bản dịch trong các kho lưu trữ có thể truy cập đang "
@@ -24598,9 +24987,6 @@ msgstr "Không gian làm việc đã bị xóa."
 
 #~ msgid "project-wide"
 #~ msgstr "toàn bộ dự án"
-
-#~ msgid "site-wide"
-#~ msgstr "trên toàn trang"
 
 #, python-format
 #~ msgid "Manage add-ons at %(location)s"
@@ -25351,9 +25737,6 @@ msgstr "Không gian làm việc đã bị xóa."
 
 #~ msgid "Too many failed registration attempts from this location."
 #~ msgstr "Có quá nhiều lần thử đăng ký thất bại từ vị trí này."
-
-#~ msgid "Too many authentication attempts from this location."
-#~ msgstr "Có quá nhiều lần thử xác thực từ vị trí này."
 
 #~ msgid "HTML code"
 #~ msgstr "Mã HTML"

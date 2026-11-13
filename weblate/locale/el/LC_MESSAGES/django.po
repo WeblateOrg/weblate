@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-05 22:27-0600\n"
+"POT-Creation-Date: 2026-11-13 01:19-0600\n"
 "PO-Revision-Date: 2026-10-30 05:04+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -628,7 +628,16 @@ msgstr "Ο χρήστης προστέθηκε στην ομάδα {team} από
 msgid "User access to the {team} team was changed by {username}."
 msgstr "Ο χρήστης προστέθηκε στην ομάδα {team} από τον/την {username}."
 
-#. Translators: Audit log entry
+#, fuzzy, python-brace-format
+#| msgid "User was added to the {team} team by {username}."
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr "Ο χρήστης προστέθηκε στην ομάδα {team} από τον/την {username}."
+
+#, fuzzy, python-brace-format
+#| msgid "User was added to the {team} team by {username}."
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr "Ο χρήστης προστέθηκε στην ομάδα {team} από τον/την {username}."
+
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr "Ο χρήστης αφαιρέθηκε από την ομάδα {team} από τον/την {username}."
@@ -767,6 +776,44 @@ msgstr "Γενικές προεπιλογές"
 msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr "Υπηρεσία"
+
+#, fuzzy
+#| msgid "site wide"
+msgid "Site-wide"
+msgstr "σε όλο τον ιστότοπο"
+
+msgid "Workspace"
+msgstr ""
+
+#, fuzzy
+#| msgid "Backup created"
+msgid "Team created"
+msgstr "Το αντίγραφο ασφαλείας δημιουργήθηκε"
+
+#, fuzzy
+#| msgid "Last change"
+msgid "Team changed"
+msgstr "Τελευταία αλλαγή"
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "Team deleted"
+msgstr "Η γραμματοσειρά διαγράφηκε."
+
+#, fuzzy
+#| msgid "Label added"
+msgid "Team member added"
+msgstr "Προσθήκη ετικέτας"
+
+#, fuzzy
+#| msgid "Label removed"
+msgid "Team member removed"
+msgstr "Αφαίρεση ετικέτας"
+
+#, fuzzy
+#| msgid "User access changed"
+msgid "Team member access changed"
+msgstr "Αλλαγή πρόσβασης χρήστη"
 
 msgid "Account activity"
 msgstr "Δραστηριότητα λογαριασμού"
@@ -2882,10 +2929,20 @@ msgid ""
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
 
+#, fuzzy
+#| msgid "Creation timestamp"
+msgid "Connection timeout"
+msgstr "Χρονική σήμανση δημιουργίας"
+
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr ""
+
 msgid "Publish timeout"
 msgstr ""
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
 msgstr ""
 
 msgid "Connection attempts"
@@ -3149,6 +3206,14 @@ msgid "This add-on is already installed on this component."
 msgstr "Το πρόσθετο μπορεί μόνο να εγκατασταθεί στο στοιχείο."
 
 #, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr ""
+"Αυτό το πρόσθετο χρησιμοποιείται για όλα τα στοιχεία που μοιράζονται αυτό το "
+"αποθετήριο."
+
+#, fuzzy
 #| msgid "This add-on has no settings."
 msgid "This add-on cannot be triggered manually."
 msgstr "Αυτό το πρόσθετο δεν έχει ρυθμίσεις."
@@ -3215,6 +3280,11 @@ msgstr "Έργο"
 msgctxt "Add-on scope"
 msgid "Site"
 msgstr ""
+
+#, fuzzy
+#| msgid "Categorized component can not be shared."
+msgid "a component you cannot access"
+msgstr "Δεν είναι δυνατή η κοινή χρήση κατηγοριοποιημένου στοιχείου."
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -4540,6 +4610,11 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "You do not have permission to accept suggestions."
+msgid "You need to log in to upload translations."
+msgstr "Δεν έχετε άδεια να αποδεχτείτε προτάσεις."
+
+#, fuzzy
 #| msgid "File format does not support this."
 msgid "The file format does not support updating source strings."
 msgstr "Η μορφή αρχείου δεν το υποστηρίζει αυτό."
@@ -4580,6 +4655,16 @@ msgstr ""
 
 msgid "Project tokens can not be assigned to teams here."
 msgstr ""
+
+#, fuzzy
+#| msgid "Audit log"
+msgid "Team audit log"
+msgstr "Εξέταση καταγραφών"
+
+#, fuzzy
+#| msgid "Team administrator"
+msgid "Team audit entry"
+msgstr "Διαχειριστής ομάδας"
 
 msgid "Cannot remove built-in team!"
 msgstr "Δεν μπορείτε να αφαιρέσετε την ενσωματωμένη ομάδα!"
@@ -4940,9 +5025,6 @@ msgstr ""
 msgid "No valid billing found or limit exceeded."
 msgstr ""
 
-msgid "Workspace"
-msgstr ""
-
 #, fuzzy
 #| msgctxt "OpenAI model selection"
 #| msgid "Custom model name"
@@ -5055,6 +5137,9 @@ msgid_plural "Contains %d components"
 msgstr[0] "Περιέχει %d στοιχείο"
 msgstr[1] "Περιέχει %d στοιχεία"
 
+msgid "Restricted components are not allowed by this billing plan."
+msgstr ""
+
 msgid "Missing license"
 msgstr "Λείπει η άδεια"
 
@@ -5123,6 +5208,9 @@ msgstr ""
 
 msgid "To terminate billing you have to remove all projects first."
 msgstr "Για να τερματίσετε τη χρέωση πρέπει πρώτα να αφαιρέσετε όλα τα έργα."
+
+msgid "Externally managed billings cannot be merged."
+msgstr ""
 
 #, fuzzy
 #| msgid "Cannot change this on a built-in team."
@@ -5856,6 +5944,11 @@ msgstr ""
 msgid "the value is too complex or nested too deeply"
 msgstr ""
 
+#, fuzzy
+#| msgid "Your billing plan has exceeded its limits."
+msgid "Format matching exceeded its time limit."
+msgstr "Το πρόγραμμα χρέωσής σας έχει υπερβεί τα όριά του."
+
 msgid "The following format strings are in the wrong order:"
 msgstr "Οι εξής συμβολοσειρές μορφοποίησης είναι σε λανθασμένη σειρά:"
 
@@ -6189,6 +6282,9 @@ msgstr "Σύνταξη Markdown"
 msgid "Markdown syntax does not match source."
 msgstr "Η σύνταξη Markdown δεν ταιριάζει με την προέλευση"
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr ""
+
 #, fuzzy
 #| msgid "The translation does not contain an URL"
 msgid "The translation does not contain a URL."
@@ -6394,6 +6490,11 @@ msgstr "Ρύθμιση του Weblate"
 msgid "Your translation is foo"
 msgstr "Η μετάφρασή σας είναι foo"
 
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
+msgstr ""
+
 msgid "Font style"
 msgstr "Στυλ γραμματοσειράς"
 
@@ -6556,6 +6657,25 @@ msgstr "Κείμενα iOS"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
+#, fuzzy
+#| msgid "Could not update the repository."
+msgid "Could not open the workbook archive."
+msgstr "Απέτυχε η ενημέρωση του αποθετηρίου."
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr ""
+
 msgid "Multivalue CSV file"
 msgstr "Αρχείο CSV πολλαπλών τιμών"
 
@@ -6606,6 +6726,10 @@ msgid "Invalid id_hash metadata in CSV file: %s"
 msgstr "Άκυρος δείκτης μετάφρασης: \"%s\""
 
 msgid "Plural form metadata in CSV file requires id_hash."
+msgstr ""
+
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
 msgstr ""
 
 #. Translators: File format name
@@ -6836,6 +6960,13 @@ msgid "App store metadata files"
 msgstr "Αρχεία μεταδεδομένων καταστήματος εφαρμογών"
 
 msgid "File validation is required for directory-based formats."
+msgstr ""
+
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr ""
+
+msgid "Converted workbook content exceeds the configured size limit."
 msgstr ""
 
 msgid ""
@@ -8076,6 +8207,16 @@ msgstr "Προστέθηκε νέα γλώσσα στο %(component)s"
 msgid "Rate limit reset."
 msgstr "Ενημέρωση με αλλαγή βάσης"
 
+#, fuzzy
+#| msgid "This translation is locked."
+msgid "Too many translation requests."
+msgstr "Αυτή η μετάφραση είναι κλειδωμένη."
+
+#, fuzzy
+#| msgid "Too many authentication attempts from this location."
+msgid "Too many concurrent translation requests for this service."
+msgstr "Πάρα πολλές προσπάθειες επιβεβαίωσης από αυτήν την τοποθεσία."
+
 msgid "File"
 msgstr "Αρχείο"
 
@@ -8221,6 +8362,11 @@ msgid ""
 msgstr ""
 "Οι καταχωρήσεις διαγράφηκαν και η μεταφραστική μνήμη θα ανακατασκευαστεί στο "
 "παρασκήνιο."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many uploads, please try again later."
+msgstr "Πάρα πολλές αιτήσεις αναζήτησης, δοκιμάστε ξανά αργότερα."
 
 #, fuzzy, python-format
 #| msgid "Remove selected translation memory entries"
@@ -10180,6 +10326,28 @@ msgstr "Το πρόσθετο μπορεί μόνο να εγκατασταθε�
 msgid "Install"
 msgstr "Εγκατάσταση"
 
+#, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid "Install on the component owning the repository."
+msgstr ""
+"Αυτό το πρόσθετο χρησιμοποιείται για όλα τα στοιχεία που μοιράζονται αυτό το "
+"αποθετήριο."
+
+#, fuzzy
+#| msgid "This component is set up incorrectly."
+msgid "The component owning this repository is not available to you."
+msgstr "Αυτό το στοιχείο έχει ρυθμιστεί εσφαλμένα."
+
+#, fuzzy
+#| msgid "Repository changes"
+msgid "Open repository add-ons"
+msgstr "Αλλαγές αποθετηρίου"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Unavailable"
+msgstr "Μη διαθέσιμο"
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -10578,6 +10746,32 @@ msgstr "Αδειοδοτήσεις"
 
 msgid "Cancel"
 msgstr "Άκυρο"
+
+msgid "Actor"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete entry"
+msgid "Deleted user"
+msgstr "Διαγραφή καταχώρησης"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Administrative team changes"
+msgstr "Διαχείριση"
+
+#, fuzzy
+#| msgid "Changes"
+msgid "Change"
+msgstr "Αλλαγές"
+
+msgid "View details"
+msgstr "Προβολή λεπτομερειών"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No team audit entries found."
+msgstr "Δεν βρέθηκαν κείμενα που να ταιριάζουν."
 
 msgid "Settings"
 msgstr "Ρυθμίσεις"
@@ -14625,9 +14819,6 @@ msgstr "Αρχείο γλώσσας μονόγλωσσης βάσης"
 msgid "Configure translation quality filter"
 msgstr "Φίλτρο ποιότητας μετάφρασης"
 
-msgid "View details"
-msgstr "Προβολή λεπτομερειών"
-
 #, fuzzy
 #| msgid "View contributor agreement"
 msgid "View contributor license agreement"
@@ -15021,6 +15212,19 @@ msgid ""
 msgstr ""
 "Έχετε προσκληθεί στο %(site_title)s από τον %(invitation_author)s για να "
 "γίνετε μέλος της ομάδας %(team_name)s."
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr ""
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -16872,6 +17076,15 @@ msgstr "Εισαγωγή αντιγράφου ασφαλείας"
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr "Δημιουργήθηκε στο %(server)s (%(domain)s) από το Weblate %(version)s"
 
+msgid "Public access on import"
+msgstr ""
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
+
 msgid "Token copied to clipboard."
 msgstr "Το αδειοδοτικό αντιγράφηκε στο πρόχειρο."
 
@@ -17590,11 +17803,6 @@ msgstr "Παρωχημένο αποθετήριο."
 #| msgid "Repositories"
 msgid "Available Repositories"
 msgstr "Αποθετήρια"
-
-#, fuzzy
-#| msgid "Not available"
-msgid "Unavailable"
-msgstr "Μη διαθέσιμο"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -18914,6 +19122,12 @@ msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "Ολοκλήρωση αυτόματης μετάφρασης, %d κείμενο ενημερώθηκε."
 msgstr[1] "Ολοκλήρωση αυτόματης μετάφρασης, %d κείμενα ενημερώθηκαν."
 
+#, fuzzy
+#| msgid "Automatic translation in progress"
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr "Αυτόματη μετάφραση σε εξέλιξη"
+
 #, python-format
 msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
@@ -19001,6 +19215,11 @@ msgstr "Το στιγμιότυπο δείχνει τη χρήση αυτού τ
 
 msgid "Revision must be a complete hexadecimal object ID."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not update repository: %s"
+msgid "Could not validate repository URL: %s"
+msgstr "Απέτυχε η ενημέρωση του αποθετηρίου: %s"
 
 #, fuzzy
 #| msgid "Duplicated file mask."
@@ -19099,10 +19318,33 @@ msgstr "Η κατηγορία δεν ανήκει σε αυτό το έργο."
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 
+#, fuzzy
+#| msgid "Important dates"
+msgid "Imported authors"
+msgstr "Σημαντικές ημερομηνίες"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
+msgstr ""
+
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
 msgstr ""
 
 #, python-format
@@ -19137,6 +19379,21 @@ msgstr "Μη έγκυρο ερώτηση αναζήτησης!"
 
 msgid "Enter a search string to replace."
 msgstr ""
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
 
 #, fuzzy
 #| msgid "Invalid request."
@@ -19266,6 +19523,9 @@ msgstr "Εκκρεμούν προτάσεις"
 
 msgid "Needs review"
 msgstr "Χρειάζεται έλεγχο"
+
+msgid "This component does not exist or you cannot access it."
+msgstr ""
 
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr ""
@@ -20090,6 +20350,9 @@ msgstr "Αλλαγή μετάφρασης:"
 msgid "You do not have permission to edit these flags."
 msgstr "Δεν έχετε άδεια να αποδεχτείτε προτάσεις."
 
+msgid "You do not have permission to create terminology."
+msgstr "Δεν έχετε δικαίωμα δημιουργίας ορολογίας."
+
 #, fuzzy
 #| msgid "Navigate to the first translation in the current search."
 msgid ""
@@ -20203,9 +20466,6 @@ msgstr ""
 msgid "Maximum source words per day"
 msgstr ""
 
-msgid "This component does not exist or you cannot access it."
-msgstr ""
-
 #, fuzzy
 #| msgid "Inherited flags"
 msgid "Inherit from workspace"
@@ -20270,6 +20530,11 @@ msgstr "Πάρα πολλές αιτήσεις αναζήτησης, δοκιμ�
 #| msgid "Could not open a ticket, please try again later."
 msgid "Could not load repository branches. Please try again."
 msgstr "Δεν ήταν δυνατό το άνοιγμα ενός αιτήματος, δοκιμάστε ξανά αργότερα."
+
+#, fuzzy
+#| msgid "You do not have permission to accept suggestions."
+msgid "You do not have permission to edit this project."
+msgstr "Δεν έχετε άδεια να αποδεχτείτε προτάσεις."
 
 msgid "ZIP file containing translations"
 msgstr "Αρχείο ZIP που εμπεριέχει μεταφράσεις"
@@ -20433,9 +20698,6 @@ msgid ""
 "Mark this option if the sentence should stay as in the source language, "
 "without change."
 msgstr ""
-
-msgid "You do not have permission to create terminology."
-msgstr "Δεν έχετε δικαίωμα δημιουργίας ορολογίας."
 
 #, fuzzy
 #| msgid "Invalid suggestion!"
@@ -22147,6 +22409,12 @@ msgstr "Περιγραφή ετικέτας"
 msgid "Could not accept suggestion!"
 msgstr "Δεν ήταν δυνατή η αποδοχή της πρότασης!"
 
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr "Δεν ήταν δυνατή η διάδοση της συμβολοσειράς σε %d στοιχείο."
+
 msgid "Uploaded translation file is too big."
 msgstr "Το μεταφορτωμένο αρχείο μετάφρασης είναι πολύ μεγάλο."
 
@@ -22227,6 +22495,19 @@ msgstr ""
 "Οι μορφές πληθυντικού αριθμού στο απεσταλμένο αρχείο δεν ταιριάζουν με την "
 "τρέχουσα μετάφραση."
 
+#, fuzzy, python-format
+#| msgid "The ZIP file contains too many entries."
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr "Το αρχείο ZIP περιέχει πάρα πολλές καταχωρίσεις."
+
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] "Δεν ήταν δυνατή η διάδοση της συμβολοσειράς σε %d στοιχείο."
+msgstr[1] "Δεν ήταν δυνατή η διάδοση της συμβολοσειράς σε %d στοιχεία."
+
 #, fuzzy
 #| msgid "The ZIP file contains too many entries."
 msgid "The uploaded file contains too many language declarations."
@@ -22252,6 +22533,10 @@ msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr ""
 "Δεν ήταν δυνατή η ανάλυση του μεταφορτωμένου αρχείου ως {file_format}: "
 "{error}"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Could not parse translation files."
@@ -22726,6 +23011,34 @@ msgstr ""
 msgid "Updates source strings in bilingual translation file."
 msgstr "Αφήστε κενό για δίγλωσσα αρχεία μετάφρασης."
 
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "A translation upload is already in progress."
+msgstr "Ενημερώσεις των μεταφράσεων είναι σε εξέλιξη."
+
+msgid "The uploaded file has expired or was already processed."
+msgstr ""
+
+#, fuzzy
+#| msgid "The uploaded image was invalid."
+msgid "The uploaded file has expired."
+msgstr "Η ανεβασμένη εικόνα δεν ήταν έγκυρη."
+
+#, fuzzy
+#| msgid "User access changed"
+msgid "The upload target or permissions changed."
+msgstr "Αλλαγή πρόσβασης χρήστη"
+
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr ""
+"Οι μορφές πληθυντικού αριθμού στο απεσταλμένο αρχείο δεν ταιριάζουν με την "
+"τρέχουσα μετάφραση."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "File upload has failed. Please try again later."
+msgstr "Πάρα πολλές αιτήσεις αναζήτησης, δοκιμάστε ξανά αργότερα."
+
 msgid "Very high"
 msgstr "Πολύ υψηλά"
 
@@ -23163,10 +23476,10 @@ msgstr "Κακή αίτηση"
 msgid "Access denied."
 msgstr "Η πρόσβαση δεν επιτρέπεται."
 
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr ""
-"Οι μορφές πληθυντικού αριθμού στο απεσταλμένο αρχείο δεν ταιριάζουν με την "
-"τρέχουσα μετάφραση."
+#, fuzzy
+#| msgid "Translation uploaded"
+msgid "Translation upload in progress."
+msgstr "Η μετάφραση απεστάλει"
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -23490,6 +23803,11 @@ msgid "language"
 msgid_plural "languages"
 msgstr[0] "γλώσσα"
 msgstr[1] "γλώσσες"
+
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
+msgstr ""
 
 #, fuzzy
 #| msgid "This translation is currently locked."
@@ -23844,9 +24162,19 @@ msgstr "Μη έγκυρες παράμετροι!"
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
-#, python-format
-msgid "Undefined variable: \"%s\""
-msgstr "Απροσδιόριστη μεταβλητή: \"%s\""
+msgid "Template output exceeds its size limit."
+msgstr ""
+
+msgid "Template rendering failed or exceeded its resource limits."
+msgstr ""
+
+msgid "Oversized template response."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid translation flag: \"%s\""
+msgid "Invalid template rendering response."
+msgstr "Άκυρος δείκτης μετάφρασης: \"%s\""
 
 msgid "Could not render template: {}"
 msgstr "Δεν ήταν δυνατή η απόδοση του προτύπου: {}"
@@ -23857,6 +24185,52 @@ msgid ""
 msgstr ""
 "Οι συμβολοσειρές μορφοποίησης δεν υποστηρίζονται πλέον, χρησιμοποιήστε τη "
 "γλώσσα προτύπου."
+
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic component list assignment"
+msgid "Template context is nested too deeply."
+msgstr "Αυτόματη συσχέτιση λίστας περιεχομένου"
+
+msgid "Template context exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template context key."
+msgstr "Μη υποστηριζόμενη μορφή αρχείου."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template context value."
+msgstr "Μη υποστηριζόμενη μορφή αρχείου."
+
+msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+msgid "Template rendering exceeded its loop limit."
+msgstr ""
+
+msgid "Template intermediate value exceeds its size limit."
+msgstr ""
+
+msgid "Template replacement exceeds its size limit."
+msgstr ""
+
+msgid "Template padding exceeds its size limit."
+msgstr ""
+
+msgid "Template formatting exceeds its size limit."
+msgstr ""
+
+msgid "Template join exceeds its size limit."
+msgstr ""
+
+#, python-format
+msgid "Undefined variable: \"%s\""
+msgstr "Απροσδιόριστη μεταβλητή: \"%s\""
 
 #, python-format
 msgid ""
@@ -24701,6 +25075,11 @@ msgstr ""
 
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr "Αυτό θα προωθήσει τις αλλαγές στο ανάντη Mercurial αποθετήριο."
+
+#, fuzzy
+#| msgid "Could not merge the repository."
+msgid "Could not remove nested repository metadata."
+msgstr "Απέτυχε η συγχώνευση του αποθετηρίου."
 
 msgid "GitHub"
 msgstr "GitHub"
@@ -26157,9 +26536,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 #~ msgid "Translation files in accessible repositories have been synchronized."
 #~ msgstr "Τα αρχεία μετάφρασης έχουν συγχρονιστεί."
 
-#~ msgid "Updates of translations are in progress."
-#~ msgstr "Ενημερώσεις των μεταφράσεων είναι σε εξέλιξη."
-
 #, fuzzy
 #~| msgid "Updates of translations are in progress."
 #~ msgid "Updates of translations in accessible repositories are in progress."
@@ -26264,11 +26640,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 #~| msgid "project wide"
 #~ msgid "project-wide"
 #~ msgstr "σε όλο το έργο"
-
-#, fuzzy
-#~| msgid "site wide"
-#~ msgid "site-wide"
-#~ msgstr "σε όλο τον ιστότοπο"
 
 #, fuzzy, python-format
 #~| msgctxt "Automatic suggestion service configuration"
@@ -26562,9 +26933,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 
 #~ msgid "This URL is prohibited"
 #~ msgstr "Αυτή η διεύθυνση URL απαγορεύεται"
-
-#~ msgid "Categorized component can not be shared."
-#~ msgstr "Δεν είναι δυνατή η κοινή χρήση κατηγοριοποιημένου στοιχείου."
 
 #~ msgctxt "Access-control role"
 #~ msgid "Billing"
@@ -27613,9 +27981,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 #~ msgid "Too many failed registration attempts from this location."
 #~ msgstr ""
 #~ "Πάρα πολλές αποτυχημένες προσπάθειες εγγραφής από αυτήν την τοποθεσία."
-
-#~ msgid "Too many authentication attempts from this location."
-#~ msgstr "Πάρα πολλές προσπάθειες επιβεβαίωσης από αυτήν την τοποθεσία."
 
 #~ msgid ""
 #~ "Weblate user management is turned off, you can change permissions in the "

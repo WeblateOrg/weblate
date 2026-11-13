@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-05 22:27-0600\n"
+"POT-Creation-Date: 2026-11-13 01:19-0600\n"
 "PO-Revision-Date: 2026-11-10 15:37+0000\n"
 "Last-Translator: Besnik Bleta <besnik_b@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/"
@@ -596,7 +596,16 @@ msgstr "Përdoruesi qe shtuar te ekipi {team} nga {username}."
 msgid "User access to the {team} team was changed by {username}."
 msgstr "Hyrja e përdoruesit te ekipi {team} u ndryshua nga {username}."
 
-#. Translators: Audit log entry
+#, fuzzy, python-brace-format
+#| msgid "User access to the {team} team was changed by {username}."
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr "Hyrja e përdoruesit te ekipi {team} u ndryshua nga {username}."
+
+#, fuzzy, python-brace-format
+#| msgid "User access to the {team} team was changed by {username}."
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr "Hyrja e përdoruesit te ekipi {team} u ndryshua nga {username}."
+
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr "Përdoruesi i hoq nga ekipi {team} prej {username}."
@@ -711,6 +720,44 @@ msgstr "Telefon Celular i Thjeshtë"
 msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr "Pajisje iOS"
+
+#, fuzzy
+#| msgid "site-wide"
+msgid "Site-wide"
+msgstr "për krejt sajtin"
+
+msgid "Workspace"
+msgstr "Hapësirë pune"
+
+#, fuzzy
+#| msgid "Backup created"
+msgid "Team created"
+msgstr "Kopjeruajtja u krijua"
+
+#, fuzzy
+#| msgid "Last change"
+msgid "Team changed"
+msgstr "Ndryshimi i fundit"
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "Team deleted"
+msgstr "U fshi grup shkronjash."
+
+#, fuzzy
+#| msgid "Label added"
+msgid "Team member added"
+msgstr "Etiketa u shtua"
+
+#, fuzzy
+#| msgid "Label removed"
+msgid "Team member removed"
+msgstr "Etiketa u hoq"
+
+#, fuzzy
+#| msgid "User access changed"
+msgid "Team member access changed"
+msgstr "Ndryshoi hyrje përdoruesi"
 
 msgid "Account activity"
 msgstr "Veprimtari llogarie"
@@ -2623,10 +2670,20 @@ msgid ""
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
 
+#, fuzzy
+#| msgid "Connection attempts"
+msgid "Connection timeout"
+msgstr "Përpjekje"
+
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr ""
+
 msgid "Publish timeout"
 msgstr "Pa u plotësuar"
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
 msgstr ""
 
 msgid "Connection attempts"
@@ -2848,6 +2905,12 @@ msgstr "Shtesa mund të instalohet vetëm te përbërësi."
 msgid "This add-on is already installed on this component."
 msgstr "Shtesa mund të instalohet vetëm te përbërësi."
 
+#, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr "Kjo shtesë përdoret për krejt përbërësit që janë pjesë e kësaj depoje."
+
 msgid "This add-on cannot be triggered manually."
 msgstr "Kjo shtesë s’mund të vihet në punë dorazi."
 
@@ -2907,6 +2970,11 @@ msgstr "Projekt"
 msgctxt "Add-on scope"
 msgid "Site"
 msgstr "Sajt"
+
+#, fuzzy
+#| msgid "Categorized component can not be shared."
+msgid "a component you cannot access"
+msgstr "S’mund të ndahen me të tjerë përbërës me kategori."
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -4082,6 +4150,11 @@ msgid ""
 "enable them."
 msgstr ""
 
+#, fuzzy
+#| msgid "You do not have permission to approve translations."
+msgid "You need to log in to upload translations."
+msgstr "S’keni leje të miratoni vargje."
+
 msgid "The file format does not support updating source strings."
 msgstr "Formati i kartelave s’mbulon përditësim vargjesh burim."
 
@@ -4115,6 +4188,16 @@ msgstr "Përdoruesi joaktiv s’mund t’u caktohet ekipeve."
 
 msgid "Project tokens can not be assigned to teams here."
 msgstr "Këtu s’mund t’u përshoqërohen ekipeve token-ë projektesh."
+
+#, fuzzy
+#| msgid "View audit log"
+msgid "Team audit log"
+msgstr "Shihni regjistër auditimesh"
+
+#, fuzzy
+#| msgid "Team administrator"
+msgid "Team audit entry"
+msgstr "Përgjegjës ekipi"
 
 msgid "Cannot remove built-in team!"
 msgstr "S’mund të hiqet ekip i brendshëm!"
@@ -4385,9 +4468,6 @@ msgstr ""
 msgid "No valid billing found or limit exceeded."
 msgstr ""
 
-msgid "Workspace"
-msgstr "Hapësirë pune"
-
 msgid "Customer name"
 msgstr "Emër klienti"
 
@@ -4485,6 +4565,9 @@ msgid_plural "Contains %d components"
 msgstr[0] "Përmban %d përbërës"
 msgstr[1] "Përmban %d përbërës"
 
+msgid "Restricted components are not allowed by this billing plan."
+msgstr ""
+
 msgid "Missing license"
 msgstr "Mungon licenca"
 
@@ -4543,6 +4626,9 @@ msgstr ""
 
 msgid "To terminate billing you have to remove all projects first."
 msgstr "Që të përfundohet faturimi, së pari duhet të hiqni krejt projektet."
+
+msgid "Externally managed billings cannot be merged."
+msgstr ""
 
 msgid "Cannot merge such a billing."
 msgstr "S’mund të përzieni faturim të tillë."
@@ -5256,6 +5342,11 @@ msgstr ""
 msgid "the value is too complex or nested too deeply"
 msgstr ""
 
+#, fuzzy
+#| msgid "Your billing plan has exceeded its limits."
+msgid "Format matching exceeded its time limit."
+msgstr "Keni mbërritur në kufijtë e planit që keni blerë."
+
 msgid "The following format strings are in the wrong order:"
 msgstr "Vargjet vijuese për formatet janë në rend të gabuar:"
 
@@ -5507,6 +5598,9 @@ msgstr "Sintaksë Markdown"
 msgid "Markdown syntax does not match source."
 msgstr "Sintaksë Markdown s’përputhet me burimin."
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr ""
+
 msgid "The translation does not contain a URL."
 msgstr "Përkthimi s’përmban URL."
 
@@ -5658,6 +5752,11 @@ msgid "Weblate configuration"
 msgstr "Formësim Weblate-i"
 
 msgid "Your translation is foo"
+msgstr ""
+
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
 msgstr ""
 
 msgid "Font style"
@@ -5822,6 +5921,25 @@ msgstr "Vargje iOS"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
+#, fuzzy
+#| msgid "Could not update the repository."
+msgid "Could not open the workbook archive."
+msgstr "S’u përditësua dot depoja."
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr ""
+
 msgid "Multivalue CSV file"
 msgstr "Kartelë CSV shumëvlerëshe"
 
@@ -5864,6 +5982,10 @@ msgstr "Tejtëdhëna të pavlefshme id_hash në kartelë CSV: %s"
 
 msgid "Plural form metadata in CSV file requires id_hash."
 msgstr "Tejtëdhëna forme shumësi në kartelë CSV lypin id_hash."
+
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
+msgstr ""
 
 #. Translators: File format name
 msgid "gettext PO file"
@@ -6086,6 +6208,13 @@ msgid "App store metadata files"
 msgstr "Kartela tejtëdhënash shitoreje aplikacionesh"
 
 msgid "File validation is required for directory-based formats."
+msgstr ""
+
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr ""
+
+msgid "Converted workbook content exceeds the configured size limit."
 msgstr ""
 
 msgid ""
@@ -6659,8 +6788,8 @@ msgstr "GEN 1"
 msgctxt "eTranslation domain"
 msgid "EU Formal Language (SPD)"
 msgstr ""
-"Përdoret formaliteti i treguar, nëse gjuha nuk është përcaktuar si (jo)"
-"formale"
+"Përdoret formaliteti i treguar, nëse gjuha nuk është përcaktuar si "
+"(jo)formale"
 
 msgctxt "eTranslation domain"
 msgid "Finance (ECB)"
@@ -7182,7 +7311,8 @@ msgid "Exclude the inherited installation before enabling this service."
 msgstr ""
 
 msgid "This slug is already used in an affected project."
-msgstr "Shprehje e rregullt që përdoret për përputhje me identifikues projekti."
+msgstr ""
+"Shprehje e rregullt që përdoret për përputhje me identifikues projekti."
 
 msgid "Choose one exclusion scope."
 msgstr "…ose zgjidhni një tjetër"
@@ -7219,6 +7349,16 @@ msgstr "Gjuhë dytësore e përkufizuar në projekt ose përbërës"
 
 msgid "Rate limit reset."
 msgstr "Kufi shpejtësie"
+
+#, fuzzy
+#| msgid "The translation request timed out"
+msgid "Too many translation requests."
+msgstr "Na ndjeni, kërkesës email i mbaroi koha."
+
+#, fuzzy
+#| msgid "Too many authentication attempts from this location."
+msgid "Too many concurrent translation requests for this service."
+msgstr "Shumë përpjekje mirëfilltësimi prej kësaj vendndodhjeje."
 
 msgid "File"
 msgstr "Kartelë"
@@ -7344,6 +7484,11 @@ msgid ""
 "and will be rebuilt in the background."
 msgstr ""
 "Zërat u fshinë dhe kujtesa e përkthimeve do të rindërtohet në prapaskenë."
+
+#, fuzzy
+#| msgid "Too many bulk edits, please try again later."
+msgid "Too many uploads, please try again later."
+msgstr "Shumë përpjekje, ju lutemi, riprovoni më vonë."
 
 #, python-format
 msgid "Processed %(count)d active translation memory entry."
@@ -7658,7 +7803,8 @@ msgid "Welcome and thank you for supporting Weblate"
 msgstr "Mirë se vini dhe faleminderit për përkrahjen e Weblate-it"
 
 msgid "Continue to Weblate"
-msgstr "Ju lutemi, që të vazhdoni të përkrahni Weblate-in, kryeni pagesën tani."
+msgstr ""
+"Ju lutemi, që të vazhdoni të përkrahni Weblate-in, kryeni pagesën tani."
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -9112,6 +9258,24 @@ msgstr "Shtesa mund të instalohet vetëm në nivel përbërësi."
 msgid "Install"
 msgstr "Instaloje"
 
+#, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid "Install on the component owning the repository."
+msgstr "Kjo shtesë përdoret për krejt përbërësit që janë pjesë e kësaj depoje."
+
+#, fuzzy
+#| msgid "The component is outside this add-on's scope or is incompatible."
+msgid "The component owning this repository is not available to you."
+msgstr "Ky përbërës s’është ujdisur saktë."
+
+#, fuzzy
+#| msgid "Repository changes"
+msgid "Open repository add-ons"
+msgstr "Ndryshime në depo"
+
+msgid "Unavailable"
+msgstr "Jo e passhme"
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -9523,6 +9687,32 @@ msgstr "S’ka leje"
 
 msgid "Cancel"
 msgstr "Anuloje"
+
+msgid "Actor"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete entry"
+msgid "Deleted user"
+msgstr "Fshije zërin"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Administrative team changes"
+msgstr "Administrim"
+
+#, fuzzy
+#| msgid "Changes"
+msgid "Change"
+msgstr "Ndryshime"
+
+msgid "View details"
+msgstr "Shihni hollësitë"
+
+#, fuzzy
+#| msgid "No audit log entries found."
+msgid "No team audit entries found."
+msgstr "regjistër auditimesh"
 
 msgid "Settings"
 msgstr "Rregullime"
@@ -13100,9 +13290,6 @@ msgstr "Formësoni rrjedhë pune për gjuhën"
 msgid "Configure translation quality filter"
 msgstr "Formësoni filtër cilësie përkthimesh"
 
-msgid "View details"
-msgstr "Shihni hollësitë"
-
 msgid "View contributor license agreement"
 msgstr "Shihni marrëveshje licence kontribuesi"
 
@@ -13467,6 +13654,19 @@ msgid ""
 msgstr ""
 "Qetë ftuar te %(site_title)s nga %(invitation_author)s për t’u bërë pjesë e "
 "ekipit %(team_name)s."
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr ""
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -14396,8 +14596,8 @@ msgid ""
 "rebasing commits in Weblate."
 msgstr ""
 "Mund të doni të zgjidhni Git me “ force push” si sistem kontrolli versionesh "
-"te formësimi i përbërësit, që të mbishkruhet depoja e largët pasi kryhet “"
-"rebase” parashtrimesh në Weblate."
+"te formësimi i përbërësit, që të mbishkruhet depoja e largët pasi kryhet "
+"“rebase” parashtrimesh në Weblate."
 
 msgid ""
 "The Weblate repository is missing some commits from upstream. Perhaps it is "
@@ -14975,8 +15175,8 @@ msgid ""
 "category and its directly related content. Translation memory is handled "
 "separately below."
 msgstr ""
-"Ky veprim s’mund të zhbëhet. Kjo do të fshijë përgjithmonë kategorinë %"
-"(object)s dhe krejt lëndën e lidhur drejtpërdrejt me të. Kujtesa e "
+"Ky veprim s’mund të zhbëhet. Kjo do të fshijë përgjithmonë kategorinë "
+"%(object)s dhe krejt lëndën e lidhur drejtpërdrejt me të. Kujtesa e "
 "përkthimit trajtohet veçmas më poshtë."
 
 msgid ""
@@ -15001,8 +15201,8 @@ msgid ""
 "component and its directly related content. Translation memory is handled "
 "separately below."
 msgstr ""
-"Ky veprim s’mund të zhbëhet. Kjo do të fshijë përgjithmonë përbërësin %"
-"(object)s dhe krejt lëndën e lidhur drejtpërdrejt me të. Kujtesa e "
+"Ky veprim s’mund të zhbëhet. Kjo do të fshijë përgjithmonë përbërësin "
+"%(object)s dhe krejt lëndën e lidhur drejtpërdrejt me të. Kujtesa e "
 "përkthimit trajtohet veçmas më poshtë."
 
 msgid ""
@@ -15219,6 +15419,15 @@ msgstr "Importim kopjeruajtjeje"
 #, python-format
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr "Krijuar në %(server)s (%(domain)s) nga Weblate %(version)s"
+
+msgid "Public access on import"
+msgstr ""
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
 
 msgid "Token copied to clipboard."
 msgstr "Token-i u kopjua në të papastër."
@@ -15855,9 +16064,6 @@ msgstr "U përditësuan depo"
 msgid "Available Repositories"
 msgstr "Depo të Gatshme"
 
-msgid "Unavailable"
-msgstr "Jo e passhme"
-
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
 "GitHub."
@@ -16061,8 +16267,8 @@ msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "workspace and all related workspace data."
 msgstr ""
-"Ky veprim s’mund të zhbëhet. Kjo do të fshijë përgjithmonë përbërësin %"
-"(object)s dhe krejt lëndën e lidhur me të."
+"Ky veprim s’mund të zhbëhet. Kjo do të fshijë përgjithmonë përbërësin "
+"%(object)s dhe krejt lëndën e lidhur me të."
 
 msgid ""
 "This includes workspace access-control teams, translation memory, and code-"
@@ -16919,6 +17125,12 @@ msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "Përkthimi i automatizuar u plotësua, u përditësua %d varg."
 msgstr[1] "Përkthimi i automatizuar u plotësua, u përditësuan %d vargje."
 
+#, fuzzy
+#| msgid "Automatic translation skipped because the target no longer exists."
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr "U anashkalua përkthim i automatizuar, ngaqë objektivi s’ekziston më."
+
 #, python-format
 msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
@@ -16995,6 +17207,11 @@ msgstr "Mungon figurë fotoje ekrani."
 msgid "Revision must be a complete hexadecimal object ID."
 msgstr ""
 
+#, fuzzy, python-format
+#| msgid "Could not validate push URL: %s"
+msgid "Could not validate repository URL: %s"
+msgstr "S’u bë dot vleftësimi i depos: %s"
+
 msgid "Duplicate check name."
 msgstr ""
 
@@ -17014,7 +17231,8 @@ msgid "Duplicate translation identifier."
 msgstr "Përsëdyte"
 
 msgid "Component has to contain exactly one source translation."
-msgstr "Përbërësi duhet të përcaktojë një gjedhe gettext për përkthime të reja."
+msgstr ""
+"Përbërësi duhet të përcaktojë një gjedhe gettext për përkthime të reja."
 
 msgid "Referenced translation does not exist."
 msgstr "Ky përkthim s’ekziston ende."
@@ -17059,10 +17277,33 @@ msgstr "Kategoria s’i përket projektit të përzgjedhur."
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 
+#, fuzzy
+#| msgid "Important dates"
+msgid "Imported authors"
+msgstr "Të dhëna të rëndësishme"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
+msgstr ""
+
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
 msgstr ""
 
 #, python-format
@@ -17091,6 +17332,21 @@ msgstr "Lloj i pavlefshëm kërkimi."
 
 msgid "Enter a search string to replace."
 msgstr "Varg për kërkim dhe zëvendësim, marrë parasysh siç është shkruar."
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Invalid target state."
 msgstr "Të dhëna të pavlefshme. Gjendje e panjohur."
@@ -17208,6 +17464,9 @@ msgstr "Sugjerime pezull"
 
 msgid "Needs review"
 msgstr "Lyp shqyrtim"
+
+msgid "This component does not exist or you cannot access it."
+msgstr ""
 
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr "Hosted Weblate, vendi për përkthimin e projektit tuaj software."
@@ -17948,6 +18207,9 @@ msgstr "Flamurka përkthimi për shtim"
 msgid "You do not have permission to edit these flags."
 msgstr "S’keni leje për përpunim të hapësirës së tanishme të punës."
 
+msgid "You do not have permission to create terminology."
+msgstr "S’keni leje për krijim terminologjie."
+
 msgid ""
 "Revert the latest translation edits from this user in the current project."
 msgstr ""
@@ -18040,9 +18302,6 @@ msgstr "Maksimum ndryshimesh për ditë"
 msgid "Maximum source words per day"
 msgstr "Maksimum fjalësh burim për ditë"
 
-msgid "This component does not exist or you cannot access it."
-msgstr ""
-
 msgid "Inherit from workspace"
 msgstr "Trashëgoje kërkesën prej gjedheje"
 
@@ -18097,6 +18356,11 @@ msgstr "Shumë kërkesa degësh. Ju lutemi, riprovoni më vonë."
 
 msgid "Could not load repository branches. Please try again."
 msgstr "S’u ngarkuan dot degë depoje. Ju lutemi, riprovoni."
+
+#, fuzzy
+#| msgid "You do not have permission to edit these flags."
+msgid "You do not have permission to edit this project."
+msgstr "S’keni leje për përpunim të hapësirës së tanishme të punës."
 
 msgid "ZIP file containing translations"
 msgstr "Kartelë ZIP që përmban përkthime"
@@ -18242,9 +18506,6 @@ msgid ""
 msgstr ""
 "I vini shenjë kësaj mundësie, nëse togfjalëshi duhet të mbetet si te gjuha "
 "burim, pa ndryshim."
-
-msgid "You do not have permission to create terminology."
-msgstr "S’keni leje për krijim terminologjie."
 
 msgid "Invalid string selection!"
 msgstr "Përzgjedhje e pavlefshme vargu!"
@@ -19544,8 +19805,8 @@ msgid ""
 "The parameter '%(param)s' is not applicable for the version control system "
 "'%(vcs)s'."
 msgstr ""
-"Parametri '%(param)s' s’është i zbatueshëm për formatin e kartelave '%"
-"(format)s'."
+"Parametri '%(param)s' s’është i zbatueshëm për formatin e kartelave "
+"'%(format)s'."
 
 msgid ""
 "Pushing without a merge request needs write access to the repository. "
@@ -19852,6 +20113,11 @@ msgstr "Përshkrim kërkimi"
 msgid "Could not accept suggestion!"
 msgstr "S’u arrit të pranohej sugjerimi!"
 
+#, fuzzy, python-format
+#| msgid "Some settings could not be imported: %s"
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr "S’u importuan dot disa rregullime: %s"
+
 msgid "Uploaded translation file is too big."
 msgstr "Përkthimi i ngarkuar është shumë i madh."
 
@@ -19905,6 +20171,19 @@ msgstr "Formë %d shumësi te kartela e ngarkuar është jashtë intervali."
 msgid "Plural form %d in the uploaded file is missing."
 msgstr "Te kartela e ngarkuar mungon formë %d shumësi."
 
+#, fuzzy, python-format
+#| msgid "The uploaded file contains too many settings."
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr "Kartela e ngarkuar përmban shumë rregullime."
+
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] "Vargu s’u përhap dot nëpër %d përbërës."
+msgstr[1] "Vargu s’u përhap dot nëpër %d përbërës."
+
 msgid "The uploaded file contains too many language declarations."
 msgstr "Kartela e ngarkuar përmban shumë rregullime."
 
@@ -19926,6 +20205,10 @@ msgstr "S’u arrit të depozitohen ndryshimet pezull: %s"
 #, python-brace-format
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "S’u arrit të analizohej kartela e ngarkuar si {file_format}: {error}"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr ""
 
 #, python-format
 msgid "Could not parse translation file: %s"
@@ -20325,6 +20608,34 @@ msgstr ""
 msgid "Updates source strings in bilingual translation file."
 msgstr "Bën përditësim të vargjeve burim në kartela përkthimi dygjuhëshe."
 
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "A translation upload is already in progress."
+msgstr "Përditësimet e përkthimeve janë në kryerje e sipër."
+
+msgid "The uploaded file has expired or was already processed."
+msgstr ""
+
+#, fuzzy
+#| msgid "The uploaded image was invalid."
+msgid "The uploaded file has expired."
+msgstr "Figura e ngarkuar qe e pavlefshme."
+
+#, fuzzy
+#| msgid "The target or permissions changed."
+msgid "The upload target or permissions changed."
+msgstr "%{name} ndryshoi rolin e %{target}"
+
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr ""
+"Format e shumësit te kartela e ngarkuar nuk përputhen me të tanishmet e "
+"përkthimit."
+
+#, fuzzy
+#| msgid "Too many bulk edits, please try again later."
+msgid "File upload has failed. Please try again later."
+msgstr "Shumë përpjekje, ju lutemi, riprovoni më vonë."
+
 msgid "Very high"
 msgstr "Shumë e lartë"
 
@@ -20695,8 +21006,8 @@ msgstr "Kartela tani është e zënë, ju lutemi, riprovoni më vonë"
 
 msgid "Source string updated."
 msgstr ""
-"Pasi të jetë përditësuar vargu burim, vargjeve zakonisht u vihet shenjë si “"
-"Lyp përpunim”, ose kur shënohen si të tillë dorazi."
+"Pasi të jetë përditësuar vargu burim, vargjeve zakonisht u vihet shenjë si "
+"“Lyp përpunim”, ose kur shënohen si të tillë dorazi."
 
 #, python-format
 msgid "Could not remove the string: %s"
@@ -20711,10 +21022,10 @@ msgstr "Kërkesë e Gabuar"
 msgid "Access denied."
 msgstr "Hyrje e mohuar."
 
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr ""
-"Format e shumësit te kartela e ngarkuar nuk përputhen me të tanishmet e "
-"përkthimit."
+#, fuzzy
+#| msgid "Translation uploaded"
+msgid "Translation upload in progress."
+msgstr "U përditësua përkthim"
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -20970,6 +21281,11 @@ msgid "language"
 msgid_plural "languages"
 msgstr[0] "gjuhë"
 msgstr[1] "gjuhë"
+
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
+msgstr ""
 
 msgid "The project is already assigned to this workspace."
 msgstr "Projekti i është caktuar tashmë një hapësire pune."
@@ -21283,9 +21599,19 @@ msgstr "Parametër i pavlefshëm"
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "Parametrat duhet të jenë një fjalorth dyshesh zë-vlerë."
 
-#, python-format
-msgid "Undefined variable: \"%s\""
-msgstr "Ndryshore e papërcaktuar: “%s”"
+msgid "Template output exceeds its size limit."
+msgstr ""
+
+msgid "Template rendering failed or exceeded its resource limits."
+msgstr ""
+
+msgid "Oversized template response."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid eTranslation domains response"
+msgid "Invalid template rendering response."
+msgstr "Përgjigje e pavlefshme shërbyesi"
 
 msgid "Could not render template: {}"
 msgstr "S’u vizatua gjedhe: {}"
@@ -21296,6 +21622,52 @@ msgid ""
 msgstr ""
 "Vargjet e formatit s’mbulohen më, ju lutemi, në vend të tyre përdorni gjuhë "
 "gjedhesh."
+
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automation context is too large."
+msgid "Template context is nested too deeply."
+msgstr "Kartela e përzgjedhur është shumë e madhe"
+
+msgid "Template context exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported template context key."
+msgstr "Lloj i pambuluar figure: %s"
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported template context value."
+msgstr "Lloj i pambuluar figure: %s"
+
+msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+msgid "Template rendering exceeded its loop limit."
+msgstr ""
+
+msgid "Template intermediate value exceeds its size limit."
+msgstr ""
+
+msgid "Template replacement exceeds its size limit."
+msgstr ""
+
+msgid "Template padding exceeds its size limit."
+msgstr ""
+
+msgid "Template formatting exceeds its size limit."
+msgstr ""
+
+msgid "Template join exceeds its size limit."
+msgstr ""
+
+#, python-format
+msgid "Undefined variable: \"%s\""
+msgstr "Ndryshore e papërcaktuar: “%s”"
 
 #, python-format
 msgid ""
@@ -21672,8 +22044,8 @@ msgid ""
 "%(service)s API request failed while merging a pull request: %(status)s "
 "Please retry later."
 msgstr ""
-"Kërkesa API %(service)s dështoi teksa përzihej një kërkesë për tërheqje: %"
-"(status)s Ju lutemi, riprovoni më vonë."
+"Kërkesa API %(service)s dështoi teksa përzihej një kërkesë për tërheqje: "
+"%(status)s Ju lutemi, riprovoni më vonë."
 
 #, python-format
 msgid ""
@@ -21686,8 +22058,8 @@ msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
-"Kërkesa API %(service)s dështoi teksa përzihej një kërkesë për tërheqje (%"
-"(status)s): %(error)s Ju lutemi, riprovoni më vonë."
+"Kërkesa API %(service)s dështoi teksa përzihej një kërkesë për tërheqje "
+"(%(status)s): %(error)s Ju lutemi, riprovoni më vonë."
 
 msgid "GitHub App repositories must be imported with a branch."
 msgstr ""
@@ -21737,8 +22109,8 @@ msgid ""
 "%(service)s API request failed while customizing a pull request: %(status)s "
 "Please retry later."
 msgstr ""
-"Kërkesa API %(service)s dështoi teksa përshtatej një kërkesë për tërheqje: %"
-"(status)s Ju lutemi, riprovoni më vonë."
+"Kërkesa API %(service)s dështoi teksa përshtatej një kërkesë për tërheqje: "
+"%(status)s Ju lutemi, riprovoni më vonë."
 
 #, python-format
 msgid ""
@@ -22057,6 +22429,11 @@ msgstr ""
 
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr "Kjo do të vendosë ndryshimet te depoja “upstream” Mercurial."
+
+#, fuzzy
+#| msgid "Could not recover the repository."
+msgid "Could not remove nested repository metadata."
+msgstr "Weblate-i s’riktheu dot një veprim të ndërprerë për depon."
 
 msgid "GitHub"
 msgstr "GitHub"
@@ -23360,9 +23737,6 @@ msgstr "Hapësira e punës u hoq."
 #~ msgid "Translation files in accessible repositories have been synchronized."
 #~ msgstr "Kartelat e përkthimit u njëkohësuan."
 
-#~ msgid "Updates of translations are in progress."
-#~ msgstr "Përditësimet e përkthimeve janë në kryerje e sipër."
-
 #, fuzzy
 #~| msgid "Updates of translations are in progress."
 #~ msgid "Updates of translations in accessible repositories are in progress."
@@ -23448,9 +23822,6 @@ msgstr "Hapësira e punës u hoq."
 
 #~ msgid "project-wide"
 #~ msgstr "mbi gjithë projektin"
-
-#~ msgid "site-wide"
-#~ msgstr "për krejt sajtin"
 
 #, python-format
 #~ msgid "Manage add-ons at %(location)s"
@@ -23747,9 +24118,6 @@ msgstr "Hapësira e punës u hoq."
 
 #~ msgid "This URL is prohibited"
 #~ msgstr "Kjo URL është e ndaluar"
-
-#~ msgid "Categorized component can not be shared."
-#~ msgstr "S’mund të ndahen me të tjerë përbërës me kategori."
 
 #~ msgctxt "Access-control role"
 #~ msgid "Billing"
@@ -24787,9 +25155,6 @@ msgstr "Hapësira e punës u hoq."
 
 #~ msgid "Too many failed registration attempts from this location."
 #~ msgstr "Shumë përpjekje të dështuara regjistrimi prej kësaj vendndodhjeje."
-
-#~ msgid "Too many authentication attempts from this location."
-#~ msgstr "Shumë përpjekje mirëfilltësimi prej kësaj vendndodhjeje."
 
 #~ msgid ""
 #~ "Weblate user management is turned off, you can change permissions in the "

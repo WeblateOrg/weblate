@@ -31,7 +31,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-05 22:27-0600\n"
+"POT-Creation-Date: 2026-11-13 01:19-0600\n"
 "PO-Revision-Date: 2026-11-11 06:16+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
@@ -636,7 +636,16 @@ msgstr "Kullanıcı {username} tarafından {team} takımına eklendi."
 msgid "User access to the {team} team was changed by {username}."
 msgstr "{team} takımına kullanıcı erişimi {username} tarafından değiştirildi."
 
-#. Translators: Audit log entry
+#, fuzzy, python-brace-format
+#| msgid "User access to the {team} team was changed by {username}."
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr "{team} takımına kullanıcı erişimi {username} tarafından değiştirildi."
+
+#, fuzzy, python-brace-format
+#| msgid "User access to the {team} team was changed by {username}."
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr "{team} takımına kullanıcı erişimi {username} tarafından değiştirildi."
+
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr "Kullanıcı {username} tarafından {team} takımından çıkarıldı."
@@ -751,6 +760,45 @@ msgstr "Genel Özellikli Telefon"
 msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr "IOS Cihaz"
+
+#, fuzzy
+#| msgid "site wide"
+msgid "Site-wide"
+msgstr "tüm sitede"
+
+msgid "Workspace"
+msgstr ""
+
+#, fuzzy
+#| msgid "Backup created"
+msgid "Team created"
+msgstr "Yedek oluşturuldu"
+
+#, fuzzy
+#| msgid "Last change"
+msgid "Team changed"
+msgstr "Son değiştirilme"
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "Team deleted"
+msgstr "Yazı tipi silindi."
+
+#, fuzzy
+#| msgid "Label added"
+msgid "Team member added"
+msgstr "Etiket eklendi"
+
+#, fuzzy
+#| msgid "Label removed"
+msgid "Team member removed"
+msgstr "Etiket kaldırıldı"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "Team member access changed"
+msgstr "Lisans değiştirildi"
 
 msgid "Account activity"
 msgstr "Hesap etkinliği"
@@ -2780,10 +2828,20 @@ msgstr ""
 "Sadece \"-----BEGIN CERTIFICATE-----\" ile başlayan sertfika parçasını "
 "yapıştır; \"openssl x509 -text\" den çıkan çıktıyı yapıştırma."
 
+#, fuzzy
+#| msgid "Creation timestamp"
+msgid "Connection timeout"
+msgstr "Oluşturulma zaman damgası"
+
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr ""
+
 msgid "Publish timeout"
 msgstr "Yayınlama zaman aşımı"
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
 msgstr ""
 
 msgid "Connection attempts"
@@ -3038,6 +3096,12 @@ msgstr "Eklenti yalnızca bileşen üzerine kurulabilir."
 msgid "This add-on is already installed on this component."
 msgstr "Eklenti yalnızca bileşen üzerine kurulabilir."
 
+#, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr "Bu eklenti, bu depoyu paylaşan tüm bileşenler için kullanılır."
+
 msgid "This add-on cannot be triggered manually."
 msgstr "Bu eklenti el ile tetiklenemez."
 
@@ -3103,6 +3167,11 @@ msgstr "Tasarı"
 msgctxt "Add-on scope"
 msgid "Site"
 msgstr ""
+
+#, fuzzy
+#| msgid "The target does not exist or you cannot access it."
+msgid "a component you cannot access"
+msgstr "Hedef mevcut değil veya ona erişemiyorsunuz."
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -4371,6 +4440,11 @@ msgstr ""
 "Bu dil için öneriler devre dışıdır. Bir tasarı yöneticisinden bu özelliği "
 "etkinleştirmesini isteyin."
 
+#, fuzzy
+#| msgid "You do not have permission to accept suggestions."
+msgid "You need to log in to upload translations."
+msgstr "Önerileri kabul etme izniniz yok."
+
 msgid "The file format does not support updating source strings."
 msgstr "Dosya biçimi kaynak dizgelerin güncellenmesini desteklenmiyor."
 
@@ -4406,6 +4480,16 @@ msgstr "Etkin olmayan kullanıcılar takımlara atanamaz."
 
 msgid "Project tokens can not be assigned to teams here."
 msgstr "Tasarı kodları burada takımlara atanamaz."
+
+#, fuzzy
+#| msgid "View audit log"
+msgid "Team audit log"
+msgstr "Denetim günlüğünü görüntüle"
+
+#, fuzzy
+#| msgid "Team administrator"
+msgid "Team audit entry"
+msgstr "Takım yöneticisi"
 
 msgid "Cannot remove built-in team!"
 msgstr "İç takım silinemez!"
@@ -4756,9 +4840,6 @@ msgstr ""
 msgid "No valid billing found or limit exceeded."
 msgstr ""
 
-msgid "Workspace"
-msgstr ""
-
 #, fuzzy
 #| msgctxt "OpenAI model selection"
 #| msgid "Custom model name"
@@ -4859,6 +4940,11 @@ msgid_plural "Contains %d components"
 msgstr[0] "%d bileşen içeriyor"
 msgstr[1] "%d bileşen içeriyor"
 
+#, fuzzy
+#| msgid "Suggestions are not allowed on this translation!"
+msgid "Restricted components are not allowed by this billing plan."
+msgstr "Bu çeviride önerilere izin verilmiyor!"
+
 msgid "Missing license"
 msgstr "Lisans eksik"
 
@@ -4925,6 +5011,9 @@ msgstr ""
 
 msgid "To terminate billing you have to remove all projects first."
 msgstr "Faturalamayı sonlandırmadan önce tüm tasarıları kaldırmalısınız."
+
+msgid "Externally managed billings cannot be merged."
+msgstr ""
 
 msgid "Cannot merge such a billing."
 msgstr "Böyle bir faturalama aktarılamaz."
@@ -5702,6 +5791,11 @@ msgstr ""
 msgid "the value is too complex or nested too deeply"
 msgstr ""
 
+#, fuzzy
+#| msgid "Your billing plan has exceeded its limits."
+msgid "Format matching exceeded its time limit."
+msgstr "Fatura tarifenizin sınırları aşıldı."
+
 msgid "The following format strings are in the wrong order:"
 msgstr "Şu biçim dizgelerinin sırası yanlış:"
 
@@ -5955,6 +6049,9 @@ msgstr "Markdown söz dizimi"
 msgid "Markdown syntax does not match source."
 msgstr "Markdown söz dizimi kaynaktaki ile aynı değil."
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr ""
+
 #, fuzzy
 #| msgid "The translation does not contain an URL."
 msgid "The translation does not contain a URL."
@@ -6124,6 +6221,11 @@ msgstr "Weblate yapılandırması"
 msgid "Your translation is foo"
 msgstr "Çeviriniz foo"
 
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
+msgstr ""
+
 msgid "Font style"
 msgstr "Yazı tipi biçemi"
 
@@ -6285,6 +6387,25 @@ msgstr "iOS dizgeleri"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
+#, fuzzy
+#| msgid "Could not update the repository."
+msgid "Could not open the workbook archive."
+msgstr "Depo güncellenemedi."
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr ""
+
 msgid "Multivalue CSV file"
 msgstr "Çok değerli CSV dosyası"
 
@@ -6332,6 +6453,10 @@ msgid "Invalid id_hash metadata in CSV file: %s"
 msgstr "Çeviri imi geçersiz: \"%s\""
 
 msgid "Plural form metadata in CSV file requires id_hash."
+msgstr ""
+
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
 msgstr ""
 
 #. Translators: File format name
@@ -6561,6 +6686,13 @@ msgid "App store metadata files"
 msgstr "Uygulama mağazası üst veri dosyaları"
 
 msgid "File validation is required for directory-based formats."
+msgstr ""
+
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr ""
+
+msgid "Converted workbook content exceeds the configured size limit."
 msgstr ""
 
 msgid ""
@@ -7825,6 +7957,16 @@ msgstr "Tasarı veya bileşen için tanımlanmış ikincil dil"
 msgid "Rate limit reset."
 msgstr "Yeniden yerleştirerek güncelle"
 
+#, fuzzy
+#| msgid "This translation needs editing."
+msgid "Too many translation requests."
+msgstr "Bu çevirinin düzenlemesi gerekiyor."
+
+#, fuzzy
+#| msgid "Too many authentication attempts from this location."
+msgid "Too many concurrent translation requests for this service."
+msgstr "Bu konumdan çok fazla kimlik doğrulama girişimi."
+
 msgid "File"
 msgstr "Dosya"
 
@@ -7966,6 +8108,12 @@ msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background."
 msgstr "Kayıtlar silindi ve çeviri belleği arka planda yeniden oluşturulacak."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many uploads, please try again later."
+msgstr ""
+"Çok sayıda arama sorgusu gönderildi. Lütfen bir süre sonra yeniden deneyin."
 
 #, fuzzy, python-format
 #| msgid "Remove selected translation memory entries"
@@ -9867,6 +10015,26 @@ msgstr "Eklenti yalnızca bileşen düzeyinde kurulabilir."
 msgid "Install"
 msgstr "Kur"
 
+#, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid "Install on the component owning the repository."
+msgstr "Bu eklenti, bu depoyu paylaşan tüm bileşenler için kullanılır."
+
+#, fuzzy
+#| msgid "This component is set up incorrectly."
+msgid "The component owning this repository is not available to you."
+msgstr "Bu bileşen yanlış ayarlanmış."
+
+#, fuzzy
+#| msgid "Repository changes"
+msgid "Open repository add-ons"
+msgstr "Depo değişiklikleri"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Unavailable"
+msgstr "Yok"
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -10296,6 +10464,32 @@ msgstr "İzinler"
 
 msgid "Cancel"
 msgstr "İptal"
+
+msgid "Actor"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete entry"
+msgid "Deleted user"
+msgstr "Kaydı sil"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Administrative team changes"
+msgstr "Yönetim"
+
+#, fuzzy
+#| msgid "Changes"
+msgid "Change"
+msgstr "Değişiklikler"
+
+msgid "View details"
+msgstr "Ayrıntıları görüntüle"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No team audit entries found."
+msgstr "Eşleşen herhangi bir dizge bulunamadı."
 
 msgid "Settings"
 msgstr "Ayarlar"
@@ -14311,9 +14505,6 @@ msgstr "Tek dilli temel dil dosyası"
 msgid "Configure translation quality filter"
 msgstr "Çeviri kalitesi süzgeci"
 
-msgid "View details"
-msgstr "Ayrıntıları görüntüle"
-
 msgid "View contributor license agreement"
 msgstr "Katılımcı lisans anlaşmasını görüntüle"
 
@@ -14696,6 +14887,19 @@ msgid ""
 msgstr ""
 "%(invitation_author)s tarafından %(site_title)s sitesindeki %(team_name)s "
 "takımına katılmaya davet edildiniz."
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr ""
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -16561,6 +16765,15 @@ msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr ""
 "Weblate %(version)s tarafından %(server)s (%(domain)s) üzerinde oluşturuldu"
 
+msgid "Public access on import"
+msgstr ""
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
+
 msgid "Token copied to clipboard."
 msgstr "Kod panoya kopyalandı."
 
@@ -17269,11 +17482,6 @@ msgstr "Depo güncel değil."
 #| msgid "Repositories"
 msgid "Available Repositories"
 msgstr "Depolar"
-
-#, fuzzy
-#| msgid "Not available"
-msgid "Unavailable"
-msgstr "Yok"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -18571,6 +18779,12 @@ msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "Kendiliğinden çeviri tamamlandı. %d dizge güncellendi."
 msgstr[1] "Kendiliğinden çeviri tamamlandı. %d dizge güncellendi."
 
+#, fuzzy
+#| msgid "Automatic translation skipped because the target no longer exists."
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr "Hedef artık var olmadığından kendiliğinden çeviri atlandı."
+
 #, python-format
 msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
@@ -18666,6 +18880,11 @@ msgstr "Ekran görüntüsü görseli eksik."
 msgid "Revision must be a complete hexadecimal object ID."
 msgstr ""
 
+#, fuzzy, python-format
+#| msgid "Could not update repository: %s"
+msgid "Could not validate repository URL: %s"
+msgstr "Depo güncellenemedi: %s"
+
 #, fuzzy
 #| msgid "Duplicated file mask."
 msgid "Duplicate check name."
@@ -18759,10 +18978,33 @@ msgstr "Depo verileri, geri yüklenen bir bileşene ait değildir."
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 
+#, fuzzy
+#| msgid "Important dates"
+msgid "Imported authors"
+msgstr "Önemli tarihler"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
+msgstr ""
+
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
 msgstr ""
 
 #, python-format
@@ -18797,6 +19039,21 @@ msgstr "Arama sorgusu geçersiz!"
 
 msgid "Enter a search string to replace."
 msgstr ""
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
 
 #, fuzzy
 #| msgid "Invalid request."
@@ -18939,6 +19196,11 @@ msgstr "Öneriler oylanabilsin"
 #| msgid "Needs review"
 msgid "Needs review"
 msgstr "Gözden geçirme gerekli"
+
+#, fuzzy
+#| msgid "The target does not exist or you cannot access it."
+msgid "This component does not exist or you cannot access it."
+msgstr "Hedef mevcut değil veya ona erişemiyorsunuz."
 
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr "Hosted Weblate, yazılım tasarınızı yerelleştirebileceğiniz bir yerdir."
@@ -19740,6 +20002,9 @@ msgstr "Çeviri dili:"
 msgid "You do not have permission to edit these flags."
 msgstr "Önerileri kabul etme izniniz yok."
 
+msgid "You do not have permission to create terminology."
+msgstr "Terminoloji oluşturma izniniz yok."
+
 msgid ""
 "Revert the latest translation edits from this user in the current project."
 msgstr ""
@@ -19850,11 +20115,6 @@ msgid "Maximum source words per day"
 msgstr ""
 
 #, fuzzy
-#| msgid "The target does not exist or you cannot access it."
-msgid "This component does not exist or you cannot access it."
-msgstr "Hedef mevcut değil veya ona erişemiyorsunuz."
-
-#, fuzzy
 #| msgid "Inherited flags"
 msgid "Inherit from workspace"
 msgstr "Devralınan imler"
@@ -19915,6 +20175,11 @@ msgstr ""
 
 msgid "Could not load repository branches. Please try again."
 msgstr "Depo dalları yüklenemedi. Lütfen yeniden deneyin."
+
+#, fuzzy
+#| msgid "You do not have permission to accept suggestions."
+msgid "You do not have permission to edit this project."
+msgstr "Önerileri kabul etme izniniz yok."
 
 msgid "ZIP file containing translations"
 msgstr "Çevirilerin bulunduğu ZIP dosyası"
@@ -20069,9 +20334,6 @@ msgid ""
 msgstr ""
 "Çevirinin kaynak dilin aynısı olarak, değiştirilmeden kalması gerekiyorsa bu "
 "seçeneği işaretleyin."
-
-msgid "You do not have permission to create terminology."
-msgstr "Terminoloji oluşturma izniniz yok."
 
 #, fuzzy
 #| msgid "Invalid suggestion!"
@@ -21791,6 +22053,12 @@ msgstr "Etiket açıklaması"
 msgid "Could not accept suggestion!"
 msgstr "Öneri kabul edilemedi!"
 
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr "Dizge %d bileşene yayılamadı."
+
 msgid "Uploaded translation file is too big."
 msgstr "Yüklenen çeviri dosyası çok büyük."
 
@@ -21858,6 +22126,19 @@ msgstr "Yüklenen dosyanın çoğul biçimleri geçerli çeviri ile eşleşmiyor
 msgid "Plural form %d in the uploaded file is missing."
 msgstr "Yüklenen dosyanın çoğul biçimleri geçerli çeviri ile eşleşmiyor."
 
+#, fuzzy, python-format
+#| msgid "The ZIP file contains too many entries."
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr "ZIP dosyasında çok sayıda kayıt var."
+
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] "Dizge %d bileşene yayılamadı."
+msgstr[1] "Dizge %d bileşene yayılamadı."
+
 #, fuzzy
 #| msgid "The ZIP file contains too many entries."
 msgid "The uploaded file contains too many language declarations."
@@ -21881,6 +22162,10 @@ msgstr "Bekleyen değişiklikler işlenemedi: %s"
 #, python-brace-format
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "Yüklenen dosya {file_format} olarak işlenemedi: {error}"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr ""
 
 #, python-format
 msgid "Could not parse translation file: %s"
@@ -22365,6 +22650,34 @@ msgstr "Çeviriye yeni dizgeler ekler. Zaten var olanları atlar."
 msgid "Updates source strings in bilingual translation file."
 msgstr "İki dilli çeviri dosyalarında kaynak dizgeleri günceller."
 
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "A translation upload is already in progress."
+msgstr "Çeviri güncellemeleri sürüyor."
+
+msgid "The uploaded file has expired or was already processed."
+msgstr ""
+
+#, fuzzy
+#| msgid "The uploaded image was invalid."
+msgid "The uploaded file has expired."
+msgstr "Yüklenen görsel geçersiz."
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "The upload target or permissions changed."
+msgstr "Lisans değiştirildi"
+
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr "Yüklenen dosyanın çoğul biçimleri geçerli çeviri ile eşleşmiyor."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "File upload has failed. Please try again later."
+msgstr ""
+"Çok sayıda arama sorgusu gönderildi. Lütfen bir süre sonra yeniden deneyin."
+
 msgid "Very high"
 msgstr "Çok yüksek"
 
@@ -22790,8 +23103,10 @@ msgstr "İstek geçersiz"
 msgid "Access denied."
 msgstr "Erişim reddedildi."
 
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr "Yüklenen dosyanın çoğul biçimleri geçerli çeviri ile eşleşmiyor."
+#, fuzzy
+#| msgid "Translation uploaded"
+msgid "Translation upload in progress."
+msgstr "Çeviri yüklendi"
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -23113,6 +23428,11 @@ msgid "language"
 msgid_plural "languages"
 msgstr[0] "dil"
 msgstr[1] "dil"
+
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
+msgstr ""
 
 msgid "The project is already assigned to this workspace."
 msgstr "Tasarı zaten bu çalışma alanına atanmış durumda."
@@ -23465,9 +23785,19 @@ msgstr ""
 "Dosya biçimi parametreleri anahtar-değer çiftlerinden oluşan bir sözlük "
 "olmalıdır."
 
-#, python-format
-msgid "Undefined variable: \"%s\""
-msgstr "Değişken tanımlanmamış: \"%s\""
+msgid "Template output exceeds its size limit."
+msgstr ""
+
+msgid "Template rendering failed or exceeded its resource limits."
+msgstr ""
+
+msgid "Oversized template response."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid translation flag: \"%s\""
+msgid "Invalid template rendering response."
+msgstr "Çeviri imi geçersiz: \"%s\""
 
 msgid "Could not render template: {}"
 msgstr "Kalıp görünümü oluşturulamadı: {}"
@@ -23478,6 +23808,52 @@ msgid ""
 msgstr ""
 "Biçim dizgeleri artık desteklenmiyor. Lütfen bunun yerine kalıp dilini "
 "kullanın."
+
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The HTML {tag} tag is missing a matching end tag: {end}."
+msgid "Template context is nested too deeply."
+msgstr "{tag} HTML kod iminin bitiş kod imi eksik: {end}."
+
+msgid "Template context exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template context key."
+msgstr "Dosya biçimi desteklenmiyor."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template context value."
+msgstr "Dosya biçimi desteklenmiyor."
+
+msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+msgid "Template rendering exceeded its loop limit."
+msgstr ""
+
+msgid "Template intermediate value exceeds its size limit."
+msgstr ""
+
+msgid "Template replacement exceeds its size limit."
+msgstr ""
+
+msgid "Template padding exceeds its size limit."
+msgstr ""
+
+msgid "Template formatting exceeds its size limit."
+msgstr ""
+
+msgid "Template join exceeds its size limit."
+msgstr ""
+
+#, python-format
+msgid "Undefined variable: \"%s\""
+msgstr "Değişken tanımlanmamış: \"%s\""
 
 #, python-format
 msgid ""
@@ -24313,6 +24689,11 @@ msgstr ""
 
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr "Bu işlem değişiklikleri Mercurial yukarı akış deposuna iter."
+
+#, fuzzy
+#| msgid "Could not merge the repository."
+msgid "Could not remove nested repository metadata."
+msgstr "Depo birleştirilemedi."
 
 msgid "GitHub"
 msgstr "GitHub"
@@ -25832,9 +26213,6 @@ msgstr "Kaynak silindi."
 #~ msgid "Translation files in accessible repositories have been synchronized."
 #~ msgstr "Çeviri dosyaları eşitlendi."
 
-#~ msgid "Updates of translations are in progress."
-#~ msgstr "Çeviri güncellemeleri sürüyor."
-
 #, fuzzy
 #~| msgid "Updates of translations are in progress."
 #~ msgid "Updates of translations in accessible repositories are in progress."
@@ -25934,11 +26312,6 @@ msgstr "Kaynak silindi."
 #~| msgid "project wide"
 #~ msgid "project-wide"
 #~ msgstr "tüm projede"
-
-#, fuzzy
-#~| msgid "site wide"
-#~ msgid "site-wide"
-#~ msgstr "tüm sitede"
 
 #, fuzzy, python-format
 #~| msgctxt "Automatic suggestion service configuration"
@@ -27298,9 +27671,6 @@ msgstr "Kaynak silindi."
 
 #~ msgid "Too many failed registration attempts from this location."
 #~ msgstr "Bu konumdan çok fazla başarısız kayıt denemesi."
-
-#~ msgid "Too many authentication attempts from this location."
-#~ msgstr "Bu konumdan çok fazla kimlik doğrulama girişimi."
 
 #~ msgid ""
 #~ "Weblate user management is turned off, you can change permissions in the "
@@ -30786,9 +31156,6 @@ msgstr "Kaynak silindi."
 #~ msgstr[1] ""
 #~ "Dosya içeriği başarılı olarak çeviri içine birleştirildi, %d satır "
 #~ "işlendi."
-
-#~ msgid "Suggestions are not allowed on this translation!"
-#~ msgstr "Bu çeviride önerilere izin verilmiyor!"
 
 #~ msgid "You don't have privileges to save templates!"
 #~ msgstr "Şablonları kaydetmek için yetkileriniz yok!"

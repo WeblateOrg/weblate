@@ -22,10 +22,10 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-05 22:27-0600\n"
+"POT-Creation-Date: 2026-11-13 01:19-0600\n"
 "PO-Revision-Date: 2026-11-12 16:31+0000\n"
-"Last-Translator: Massimo Pissarello <mapi68@users.noreply.hosted.weblate.org>"
-"\n"
+"Last-Translator: Massimo Pissarello "
+"<mapi68@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
 "Language: it\n"
@@ -637,7 +637,18 @@ msgid "User access to the {team} team was changed by {username}."
 msgstr ""
 "L'accesso dell'utente alla squadra {team} è stato modificato da {username}."
 
-#. Translators: Audit log entry
+#, fuzzy, python-brace-format
+#| msgid "User access to the {team} team was changed by {username}."
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr ""
+"L'accesso dell'utente alla squadra {team} è stato modificato da {username}."
+
+#, fuzzy, python-brace-format
+#| msgid "User access to the {team} team was changed by {username}."
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr ""
+"L'accesso dell'utente alla squadra {team} è stato modificato da {username}."
+
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr "L'utente è stato rimosso dalla squadra {team} da {username}."
@@ -759,6 +770,45 @@ msgstr "Telefono cellulare tradizionale"
 msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr "Dispositivo iOS"
+
+#, fuzzy
+#| msgid "site wide"
+msgid "Site-wide"
+msgstr "a livello di sito"
+
+msgid "Workspace"
+msgstr ""
+
+#, fuzzy
+#| msgid "Backup created"
+msgid "Team created"
+msgstr "Backup creato"
+
+#, fuzzy
+#| msgid "Last change"
+msgid "Team changed"
+msgstr "Ultima modifica"
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "Team deleted"
+msgstr "Font eliminato."
+
+#, fuzzy
+#| msgid "Label added"
+msgid "Team member added"
+msgstr "Etichetta aggiunta"
+
+#, fuzzy
+#| msgid "Label removed"
+msgid "Team member removed"
+msgstr "Etichetta rimossa"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "Team member access changed"
+msgstr "È stata modificata la licenza"
 
 msgid "Account activity"
 msgstr "Attività dell'account"
@@ -2813,10 +2863,20 @@ msgid ""
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
 
+#, fuzzy
+#| msgid "Creation timestamp"
+msgid "Connection timeout"
+msgstr "Timestamp di creazione"
+
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr ""
+
 msgid "Publish timeout"
 msgstr ""
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
 msgstr ""
 
 msgid "Connection attempts"
@@ -3072,6 +3132,14 @@ msgstr "L'add-on può essere installato solo sul componente."
 msgid "This add-on is already installed on this component."
 msgstr "L'add-on può essere installato solo sul componente."
 
+#, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr ""
+"Questo add-on viene usato per tutti i componenti che condividono questo "
+"repository."
+
 msgid "This add-on cannot be triggered manually."
 msgstr "Questo componente aggiuntivo non può essere avviato manualmente."
 
@@ -3133,6 +3201,11 @@ msgstr "Progetto"
 msgctxt "Add-on scope"
 msgid "Site"
 msgstr ""
+
+#, fuzzy
+#| msgid "The target does not exist or you cannot access it."
+msgid "a component you cannot access"
+msgstr "La destinazione non esiste o non puoi accedervi."
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -4361,6 +4434,11 @@ msgid ""
 "enable them."
 msgstr ""
 
+#, fuzzy
+#| msgid "You do not have permission to approve translations."
+msgid "You need to log in to upload translations."
+msgstr "Non hai l'autorizzazione per approvare le traduzioni."
+
 msgid "The file format does not support updating source strings."
 msgstr ""
 "Il formato del file non supporta l'aggiornamento delle stringhe sorgente."
@@ -4400,6 +4478,16 @@ msgstr ""
 
 msgid "Project tokens can not be assigned to teams here."
 msgstr ""
+
+#, fuzzy
+#| msgid "View audit log"
+msgid "Team audit log"
+msgstr "Visualizza registro di controllo"
+
+#, fuzzy
+#| msgid "Team administrator"
+msgid "Team audit entry"
+msgstr "Amministratore della squadra"
 
 msgid "Cannot remove built-in team!"
 msgstr "Impossibile rimuovere la squadra integrata!"
@@ -4758,9 +4846,6 @@ msgstr ""
 msgid "No valid billing found or limit exceeded."
 msgstr ""
 
-msgid "Workspace"
-msgstr ""
-
 msgid "Customer name"
 msgstr "Nome cliente"
 
@@ -4860,6 +4945,9 @@ msgid_plural "Contains %d components"
 msgstr[0] "Contiene %d componente"
 msgstr[1] "Contiene %d componenti"
 
+msgid "Restricted components are not allowed by this billing plan."
+msgstr ""
+
 msgid "Missing license"
 msgstr "Licenza mancante"
 
@@ -4920,6 +5008,9 @@ msgstr ""
 
 msgid "To terminate billing you have to remove all projects first."
 msgstr "Per terminare la fatturazione, devi prima cancellare tutti i progetti."
+
+msgid "Externally managed billings cannot be merged."
+msgstr ""
 
 msgid "Cannot merge such a billing."
 msgstr "Impossibile eseguire il merge della fatturazione."
@@ -5688,6 +5779,11 @@ msgstr ""
 msgid "the value is too complex or nested too deeply"
 msgstr ""
 
+#, fuzzy
+#| msgid "Your billing plan has exceeded its limits."
+msgid "Format matching exceeded its time limit."
+msgstr "Il piano di fatturazione ha ecceduto i suoi limiti."
+
 msgid "The following format strings are in the wrong order:"
 msgstr "Le seguenti stringhe di formato sono nell'ordine sbagliato:"
 
@@ -5942,6 +6038,9 @@ msgstr "Sintassi markdown"
 msgid "Markdown syntax does not match source."
 msgstr "La sintassi markdown non corrisponde al sorgente."
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr ""
+
 #, fuzzy
 #| msgid "The translation does not contain an URL."
 msgid "The translation does not contain a URL."
@@ -6101,6 +6200,11 @@ msgstr "Configurazione Weblate"
 
 msgid "Your translation is foo"
 msgstr "La tua traduzione è generica"
+
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
+msgstr ""
 
 msgid "Font style"
 msgstr "Stile del font"
@@ -6264,6 +6368,25 @@ msgstr "Stringhe iOS"
 msgid "Excel Open XML"
 msgstr "Open XML di Excel"
 
+#, fuzzy
+#| msgid "Could not update the repository."
+msgid "Could not open the workbook archive."
+msgstr "Impossibile aggiornare il repository."
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr ""
+
 msgid "Multivalue CSV file"
 msgstr "File CSV multivalore"
 
@@ -6314,6 +6437,10 @@ msgid "Invalid id_hash metadata in CSV file: %s"
 msgstr "Metadati id_hash non validi nel file CSV: %s"
 
 msgid "Plural form metadata in CSV file requires id_hash."
+msgstr ""
+
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
 msgstr ""
 
 #. Translators: File format name
@@ -6537,6 +6664,13 @@ msgid "App store metadata files"
 msgstr "File metadati store app"
 
 msgid "File validation is required for directory-based formats."
+msgstr ""
+
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr ""
+
+msgid "Converted workbook content exceeds the configured size limit."
 msgstr ""
 
 msgid ""
@@ -7766,6 +7900,16 @@ msgstr "Lingua secondaria definita nel progetto o nel componente"
 msgid "Rate limit reset."
 msgstr "Aggiorna con rebase"
 
+#, fuzzy
+#| msgid "This translation needs editing."
+msgid "Too many translation requests."
+msgstr "Questa traduzione necessita di revisione."
+
+#, fuzzy
+#| msgid "Too many authentication attempts from this location."
+msgid "Too many concurrent translation requests for this service."
+msgstr "Troppi tentativi di autenticazione da questa posizione."
+
 msgid "File"
 msgstr "File"
 
@@ -7896,6 +8040,11 @@ msgid ""
 msgstr ""
 "Le voci di memoria di traduzione create dalle traduzioni attuali sono state "
 "eliminate e verranno ricostruite in background."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many uploads, please try again later."
+msgstr "Hai inviato troppe richieste di ricerca. Riprova più tardi."
 
 #, python-format
 msgid "Processed %(count)d active translation memory entry."
@@ -9764,6 +9913,28 @@ msgstr "L'add-on può essere installato solo a livello di componente."
 msgid "Install"
 msgstr "Installa"
 
+#, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid "Install on the component owning the repository."
+msgstr ""
+"Questo add-on viene usato per tutti i componenti che condividono questo "
+"repository."
+
+#, fuzzy
+#| msgid "This component is set up incorrectly."
+msgid "The component owning this repository is not available to you."
+msgstr "Questo componente non è impostato correttamente."
+
+#, fuzzy
+#| msgid "Repository changes"
+msgid "Open repository add-ons"
+msgstr "Modifiche del repository"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Unavailable"
+msgstr "Non disponibile"
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -10163,6 +10334,32 @@ msgstr "Permessi"
 
 msgid "Cancel"
 msgstr "Cancella"
+
+msgid "Actor"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete entry"
+msgid "Deleted user"
+msgstr "Elimina voce"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Administrative team changes"
+msgstr "Amministrazione"
+
+#, fuzzy
+#| msgid "Changes"
+msgid "Change"
+msgstr "Modifiche"
+
+msgid "View details"
+msgstr "Visualizza dettagli"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No team audit entries found."
+msgstr "Nessuna corrispondenza stringa trovata."
 
 msgid "Settings"
 msgstr "Impostazioni"
@@ -14090,9 +14287,6 @@ msgstr "File di lingua a base monolingue"
 msgid "Configure translation quality filter"
 msgstr "Filtro qualità traduzione"
 
-msgid "View details"
-msgstr "Visualizza dettagli"
-
 msgid "View contributor license agreement"
 msgstr "Visualizza il contratto di licenza per i collaboratori"
 
@@ -14470,6 +14664,19 @@ msgid ""
 msgstr ""
 "Sei stato invitato in %(site_title)s da %(invitation_author)s per unirti "
 "alla squadra %(team_name)s."
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr ""
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -16308,6 +16515,15 @@ msgstr "Importazione backup"
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr "Creato su %(server)s (%(domain)s) da Weblate %(version)s"
 
+msgid "Public access on import"
+msgstr ""
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
+
 msgid "Token copied to clipboard."
 msgstr "Token copiato negli Appunti."
 
@@ -16991,11 +17207,6 @@ msgstr "Repository aggiornati"
 
 msgid "Available Repositories"
 msgstr "Repository disponibili"
-
-#, fuzzy
-#| msgid "Not available"
-msgid "Unavailable"
-msgstr "Non disponibile"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -18178,6 +18389,14 @@ msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "Traduzione automatica completata. %d stringa aggiornata."
 msgstr[1] "Traduzione automatica completata. %d stringhe aggiornate."
 
+#, fuzzy
+#| msgid "Automatic translation skipped because the target no longer exists."
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr ""
+"La traduzione automatica è stata omessa in quanto la destinazione non è più "
+"disponibile."
+
 #, python-format
 msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
@@ -18255,6 +18474,11 @@ msgstr "Screenshot non disponibile."
 
 msgid "Revision must be a complete hexadecimal object ID."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not update repository: %s"
+msgid "Could not validate repository URL: %s"
+msgstr "Impossibile aggiornare il repository: %s"
 
 msgid "Duplicate check name."
 msgstr "Nome controllo duplicato."
@@ -18340,10 +18564,33 @@ msgstr "La categoria non appartiene al progetto selezionato."
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 
+#, fuzzy
+#| msgid "Important dates"
+msgid "Imported authors"
+msgstr "Date importanti"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
+msgstr ""
+
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
 msgstr ""
 
 #, python-format
@@ -18376,6 +18623,21 @@ msgstr "Richiesta ricerca non valida!"
 
 msgid "Enter a search string to replace."
 msgstr ""
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
 
 #, fuzzy
 #| msgid "Invalid request."
@@ -18508,6 +18770,11 @@ msgstr "Suggerimenti in sospeso"
 #| msgid "Needs review"
 msgid "Needs review"
 msgstr "Richiede revisione"
+
+#, fuzzy
+#| msgid "The target does not exist or you cannot access it."
+msgid "This component does not exist or you cannot access it."
+msgstr "La destinazione non esiste o non puoi accedervi."
 
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr "Weblate in hosting, il luogo in cui localizzare i progetti software."
@@ -19301,6 +19568,9 @@ msgstr "Lingua di traduzione:"
 msgid "You do not have permission to edit these flags."
 msgstr "Non hai l'autorizzazione per modificare le stringhe sorgente."
 
+msgid "You do not have permission to create terminology."
+msgstr "Non hai l'autorizzazione per creare terminologia."
+
 msgid ""
 "Revert the latest translation edits from this user in the current project."
 msgstr ""
@@ -19396,11 +19666,6 @@ msgstr ""
 msgid "Maximum source words per day"
 msgstr ""
 
-#, fuzzy
-#| msgid "The target does not exist or you cannot access it."
-msgid "This component does not exist or you cannot access it."
-msgstr "La destinazione non esiste o non puoi accedervi."
-
 msgid "Inherit from workspace"
 msgstr "Eredita dallo spazio di lavoro"
 
@@ -19461,6 +19726,11 @@ msgid "Could not load repository branches. Please try again."
 msgstr ""
 "Impossibile fare il fork del repository all'indirizzo %(hostname)s. Riprova "
 "più tardi."
+
+#, fuzzy
+#| msgid "You do not have permission to edit glossary entries."
+msgid "You do not have permission to edit this project."
+msgstr "Non hai l'autorizzazione per modificare le voci del glossario."
 
 msgid "ZIP file containing translations"
 msgstr "File ZIP contenente le traduzioni"
@@ -19620,9 +19890,6 @@ msgid ""
 msgstr ""
 "Contrassegna questa opzione se la frase deve rimanere così com'è nella "
 "lingua di origine, senza modifiche."
-
-msgid "You do not have permission to create terminology."
-msgstr "Non hai l'autorizzazione per creare terminologia."
 
 #, fuzzy
 #| msgid "Invalid listing column selection."
@@ -21306,6 +21573,12 @@ msgstr "Descrizione etichetta"
 msgid "Could not accept suggestion!"
 msgstr "Impossibile accettare il suggerimento!"
 
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr "La stringa non può essere propagata a %d componente."
+
 #, fuzzy
 #| msgid "Image is too big."
 msgid "Uploaded translation file is too big."
@@ -21373,6 +21646,19 @@ msgstr "La forma plurale %d nel file caricato è fuori intervallo."
 msgid "Plural form %d in the uploaded file is missing."
 msgstr "La forma plurale %d nel file caricato è mancante."
 
+#, fuzzy, python-format
+#| msgid "The ZIP file contains too many entries."
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr "Il file ZIP contiene troppi elementi."
+
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] "La stringa non può essere propagata a %d componente."
+msgstr[1] "La stringa non può essere propagata a %d componenti."
+
 #, fuzzy
 #| msgid "The ZIP file contains too many entries."
 msgid "The uploaded file contains too many language declarations."
@@ -21399,6 +21685,10 @@ msgstr "Impossibile eseguire il commit delle modifiche in sospeso: %s"
 #, python-brace-format
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "Impossibile analizzare il file caricato come {file_format}: {error}"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr ""
 
 #, python-format
 msgid "Could not parse translation file: %s"
@@ -21861,6 +22151,34 @@ msgstr "Aggiunge nuove stringhe alla traduzione. Salta quelle già esistenti."
 msgid "Updates source strings in bilingual translation file."
 msgstr "Aggiorna stringhe sorgente nel file di traduzione bilingue."
 
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "A translation upload is already in progress."
+msgstr "Sono in corso gli aggiornamenti delle traduzioni."
+
+msgid "The uploaded file has expired or was already processed."
+msgstr ""
+
+#, fuzzy
+#| msgid "The uploaded image was invalid."
+msgid "The uploaded file has expired."
+msgstr "L'immagine caricata non è valida."
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "The upload target or permissions changed."
+msgstr "È stata modificata la licenza"
+
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr ""
+"Le forme plurali nel file caricato non corrispondono alla traduzione attuale."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "File upload has failed. Please try again later."
+msgstr "Hai inviato troppe richieste di ricerca. Riprova più tardi."
+
 msgid "Very high"
 msgstr "Molto alto"
 
@@ -22289,9 +22607,10 @@ msgstr "Richiesta non valida"
 msgid "Access denied."
 msgstr "Accesso negato."
 
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr ""
-"Le forme plurali nel file caricato non corrispondono alla traduzione attuale."
+#, fuzzy
+#| msgid "Translation uploaded"
+msgid "Translation upload in progress."
+msgstr "Traduzione caricata"
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -22590,6 +22909,11 @@ msgid "language"
 msgid_plural "languages"
 msgstr[0] "lingua"
 msgstr[1] "lingue"
+
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
+msgstr ""
 
 #, fuzzy
 #| msgid "This component is already shared in %s."
@@ -22950,9 +23274,19 @@ msgstr ""
 "I parametri del formato file devono essere un dizionario di coppie chiave-"
 "valore."
 
-#, python-format
-msgid "Undefined variable: \"%s\""
-msgstr "Variabile non definita: \"%s\""
+msgid "Template output exceeds its size limit."
+msgstr ""
+
+msgid "Template rendering failed or exceeded its resource limits."
+msgstr ""
+
+msgid "Oversized template response."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid translation flag: \"%s\""
+msgid "Invalid template rendering response."
+msgstr "Flag di traduzione non valido: «%s»"
 
 msgid "Could not render template: {}"
 msgstr "Impossibile eseguire il rendering del modello: {}"
@@ -22961,6 +23295,52 @@ msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
 msgstr "Il formato stringa non è più supportato. Usa invece il modello lingua."
+
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The HTML {tag} tag is missing a matching end tag: {end}."
+msgid "Template context is nested too deeply."
+msgstr "Nel tag HTML {tag} manca un tag di chiusura corrispondente: {end}."
+
+msgid "Template context exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template context key."
+msgstr "Formato file non supportato."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template context value."
+msgstr "Formato file non supportato."
+
+msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+msgid "Template rendering exceeded its loop limit."
+msgstr ""
+
+msgid "Template intermediate value exceeds its size limit."
+msgstr ""
+
+msgid "Template replacement exceeds its size limit."
+msgstr ""
+
+msgid "Template padding exceeds its size limit."
+msgstr ""
+
+msgid "Template formatting exceeds its size limit."
+msgstr ""
+
+msgid "Template join exceeds its size limit."
+msgstr ""
+
+#, python-format
+msgid "Undefined variable: \"%s\""
+msgstr "Variabile non definita: \"%s\""
 
 #, fuzzy, python-format
 #| msgid ""
@@ -23762,6 +24142,11 @@ msgstr ""
 
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr "Questo invierà le modifiche al repository upstream Mercurial."
+
+#, fuzzy
+#| msgid "Could not merge the repository."
+msgid "Could not remove nested repository metadata."
+msgstr "Impossibile unire il repository."
 
 msgid "GitHub"
 msgstr "GitHub"
@@ -25223,9 +25608,6 @@ msgstr "Il sorgente è stato rimosso."
 #~ msgid "Translation files in accessible repositories have been synchronized."
 #~ msgstr "I file traduzione sono stati sincronizzati."
 
-#~ msgid "Updates of translations are in progress."
-#~ msgstr "Sono in corso gli aggiornamenti delle traduzioni."
-
 #, fuzzy
 #~| msgid "Updates of translations are in progress."
 #~ msgid "Updates of translations in accessible repositories are in progress."
@@ -25328,11 +25710,6 @@ msgstr "Il sorgente è stato rimosso."
 #~| msgid "project wide"
 #~ msgid "project-wide"
 #~ msgstr "progetto ampio"
-
-#, fuzzy
-#~| msgid "site wide"
-#~ msgid "site-wide"
-#~ msgstr "a livello di sito"
 
 #, python-format
 #~ msgid "Manage add-ons at %(location)s"
@@ -26681,9 +27058,6 @@ msgstr "Il sorgente è stato rimosso."
 
 #~ msgid "Too many failed registration attempts from this location."
 #~ msgstr "Troppi tentativi di registrazione non riusciti da questo indirizzo."
-
-#~ msgid "Too many authentication attempts from this location."
-#~ msgstr "Troppi tentativi di autenticazione da questa posizione."
 
 #~ msgid ""
 #~ "Weblate user management is turned off, you can change permissions in the "

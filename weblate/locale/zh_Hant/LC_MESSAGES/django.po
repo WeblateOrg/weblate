@@ -34,7 +34,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-05 22:27-0600\n"
+"POT-Creation-Date: 2026-11-13 01:19-0600\n"
 "PO-Revision-Date: 2026-11-11 17:28+0000\n"
 "Last-Translator: Lee Vincent <leevincent@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
@@ -97,7 +97,8 @@ msgstr "全名"
 msgid ""
 "Your full name may appear in version control commits, depending on the "
 "commit name setting below."
-msgstr "您的全名可能會出現在版本控制的提交紀錄中，實際使用的名稱取決於提交名稱設定。"
+msgstr ""
+"您的全名可能會出現在版本控制的提交紀錄中，實際使用的名稱取決於提交名稱設定。"
 
 msgid "User data file"
 msgstr "使用者資料檔案"
@@ -583,7 +584,16 @@ msgstr "使用者已由 {username} 加入到 {team} 團隊。"
 msgid "User access to the {team} team was changed by {username}."
 msgstr "{username} 已變更使用者對 {team} 團隊的存取權。"
 
-#. Translators: Audit log entry
+#, fuzzy, python-brace-format
+#| msgid "User access to the {team} team was changed by {username}."
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr "{username} 已變更使用者對 {team} 團隊的存取權。"
+
+#, fuzzy, python-brace-format
+#| msgid "User access to the {team} team was changed by {username}."
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr "{username} 已變更使用者對 {team} 團隊的存取權。"
+
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr "使用者已由 {username} 從 {team} 團隊移除。"
@@ -693,6 +703,44 @@ msgstr "一般功能型手機"
 msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr "iOS 裝置"
+
+#, fuzzy
+#| msgid "site-wide"
+msgid "Site-wide"
+msgstr "全站"
+
+msgid "Workspace"
+msgstr "工作空間"
+
+#, fuzzy
+#| msgid "Backup created"
+msgid "Team created"
+msgstr "備份已建立"
+
+#, fuzzy
+#| msgid "Last change"
+msgid "Team changed"
+msgstr "上次變更"
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "Team deleted"
+msgstr "字型已刪除。"
+
+#, fuzzy
+#| msgid "Label added"
+msgid "Team member added"
+msgstr "標籤已新增"
+
+#, fuzzy
+#| msgid "Label removed"
+msgid "Team member removed"
+msgstr "標籤已移除"
+
+#, fuzzy
+#| msgid "User access changed"
+msgid "Team member access changed"
+msgstr "使用者存取已變更"
 
 msgid "Account activity"
 msgstr "帳號活動"
@@ -1239,7 +1287,8 @@ msgstr "此邀請只能由邀請者指定的電子郵件地址接受，無法透
 msgid ""
 "Your e-mail address has been added. You can now select it as your account e-"
 "mail address in Account settings."
-msgstr "已新增您的電子郵件地址。現在可到帳號設定中，將它設為帳號的電子郵件地址。"
+msgstr ""
+"已新增您的電子郵件地址。現在可到帳號設定中，將它設為帳號的電子郵件地址。"
 
 #, python-brace-format
 msgid ""
@@ -1742,7 +1791,8 @@ msgstr "訊息 ID：%(message_id)s"
 msgid ""
 "Fedora Messaging publish timed out; the broker connection or delivery "
 "confirmation did not complete: %(error)s"
-msgstr "Fedora Messaging 發佈逾時；與訊息代理伺服器的連線或傳遞確認未完成：%(error)s"
+msgstr ""
+"Fedora Messaging 發佈逾時；與訊息代理伺服器的連線或傳遞確認未完成：%(error)s"
 
 #, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
@@ -2206,8 +2256,8 @@ msgid ""
 "{{ component }}.po or docs/{{ component }}_*.md."
 msgstr ""
 "留白即可直接比對翻譯檔案。設定後，探索功能會比對單語基底檔案或新基底檔案，並"
-"使用此範本作為檔案遮罩。請加入語言萬用字元和 {{ component }}，例如 locale/*/{"
-"{ component }}.po 或 docs/{{ component }}_*.md。"
+"使用此範本作為檔案遮罩。請加入語言萬用字元和 {{ component }}，例如 locale/*/"
+"{{ component }}.po 或 docs/{{ component }}_*.md。"
 
 msgid "Language filter"
 msgstr "語言篩選"
@@ -2486,10 +2536,24 @@ msgstr ""
 "僅貼上以 \"-----BEGIN CERTIFICATE-----\" 開頭的 PEM 憑證區塊；請勿貼上 "
 "\"openssl x509 -text\" 的輸出。"
 
+#, fuzzy
+#| msgid "Connection attempts"
+msgid "Connection timeout"
+msgstr "連線嘗試"
+
+#, fuzzy
+#| msgid "How many seconds to wait between connection attempts."
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr "兩次連線嘗試之間的等待秒數。"
+
 msgid "Publish timeout"
 msgstr "發佈逾時"
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
+#, fuzzy
+#| msgid "How many seconds to wait for the broker delivery acknowledgement."
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
 msgstr "等待 broker 傳遞確認的秒數。"
 
 msgid "Connection attempts"
@@ -2698,6 +2762,14 @@ msgstr "API 附加元件必須直接安裝在組件上。"
 msgid "This add-on is already installed on this component."
 msgstr "此組件已安裝這個附加元件。"
 
+#, fuzzy
+#| msgid ""
+#| "Repository operations require permission on the component that owns the "
+#| "shared repository."
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr "執行儲存庫操作，需要具備共用儲存庫所屬組件的權限。"
+
 msgid "This add-on cannot be triggered manually."
 msgstr "這個附加元件不能手動觸發。"
 
@@ -2757,6 +2829,11 @@ msgctxt "Add-on scope"
 msgid "Site"
 msgstr "網站"
 
+#, fuzzy
+#| msgid "This component does not exist or you cannot access it."
+msgid "a component you cannot access"
+msgstr "此組件不存在，或您沒有存取權。"
+
 #, python-format
 msgid "Invalid add-on name: ”%s”"
 msgstr "附加元件名稱無效：「%s」"
@@ -2796,8 +2873,8 @@ msgid ""
 "Each user has a personal access token which they can get from their "
 "respective user profile. These tokens have the `wlu_` prefix."
 msgstr ""
-"每位使用者都有個人存取權杖，可在自己的個人檔案中取得。這些權杖以 `wlu_` 開頭"
-"。"
+"每位使用者都有個人存取權杖，可在自己的個人檔案中取得。這些權杖以 `wlu_` 開"
+"頭。"
 
 msgid ""
 "It is possible to create project tokens whose access to the API is limited "
@@ -3901,6 +3978,11 @@ msgid ""
 "enable them."
 msgstr "此語言已停用建議功能。請要求專案管理員啟用。"
 
+#, fuzzy
+#| msgid "You do not have permission to approve translations."
+msgid "You need to log in to upload translations."
+msgstr "您沒有核可翻譯的權限。"
+
 msgid "The file format does not support updating source strings."
 msgstr "此檔案格式不支援更新來源字串。"
 
@@ -3934,6 +4016,16 @@ msgstr "不活躍使用者無法指派到團隊。"
 
 msgid "Project tokens can not be assigned to teams here."
 msgstr "專案權杖無法在此指派到團隊。"
+
+#, fuzzy
+#| msgid "View audit log"
+msgid "Team audit log"
+msgstr "檢視稽核紀錄"
+
+#, fuzzy
+#| msgid "Team administrator"
+msgid "Team audit entry"
+msgstr "團隊管理員"
 
 msgid "Cannot remove built-in team!"
 msgstr "無法移除內建團隊！"
@@ -4199,9 +4291,6 @@ msgstr "將此計費項目設為一般試用期，並清除排定的移除作業
 msgid "No valid billing found or limit exceeded."
 msgstr "找不到有效的計費項目，或已超過限制。"
 
-msgid "Workspace"
-msgstr "工作空間"
-
 msgid "Customer name"
 msgstr "客戶名稱"
 
@@ -4297,6 +4386,11 @@ msgid "Contains %d component"
 msgid_plural "Contains %d components"
 msgstr[0] "有 %d 個組件"
 
+#, fuzzy
+#| msgid "Suggestions are not allowed on this translation!"
+msgid "Restricted components are not allowed by this billing plan."
+msgstr "在這個翻譯裡不允許建議！"
+
 msgid "Missing license"
 msgstr "缺少授權條款"
 
@@ -4351,6 +4445,11 @@ msgstr "待您改為一般約期訂購或是移除專案以後，就會停止收
 
 msgid "To terminate billing you have to remove all projects first."
 msgstr "若要終止付費，您必須先移除所有專案。"
+
+#, fuzzy
+#| msgid "A workspace associated with billing cannot be removed."
+msgid "Externally managed billings cannot be merged."
+msgstr "已與計費項目建立關聯的工作空間無法移除。"
 
 msgid "Cannot merge such a billing."
 msgstr "無法合併此類帳務。"
@@ -5026,6 +5125,11 @@ msgstr "Fluent 值過於複雜，無法檢查。"
 msgid "the value is too complex or nested too deeply"
 msgstr "值過於複雜，或巢狀層數太深"
 
+#, fuzzy
+#| msgid "Your billing plan has exceeded its limits."
+msgid "Format matching exceeded its time limit."
+msgstr "您已超出付費方案的上限。"
+
 msgid "The following format strings are in the wrong order:"
 msgstr "下列格式字串的排序錯誤："
 
@@ -5270,6 +5374,9 @@ msgstr "Markdown 語法"
 msgid "Markdown syntax does not match source."
 msgstr "Markdown 語法與來源不符。"
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr ""
+
 msgid "The translation does not contain a URL."
 msgstr "譯文未包含 URL。"
 
@@ -5420,6 +5527,11 @@ msgstr "Weblate 設定"
 
 msgid "Your translation is foo"
 msgstr "您的翻譯是 foo"
+
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
+msgstr ""
 
 msgid "Font style"
 msgstr "字型樣式"
@@ -5575,6 +5687,25 @@ msgstr "iOS 字串"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
+#, fuzzy
+#| msgid "Could not update the repository."
+msgid "Could not open the workbook archive."
+msgstr "無法更新儲存庫。"
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr ""
+
 msgid "Multivalue CSV file"
 msgstr "多數值 CSV 檔案"
 
@@ -5612,6 +5743,10 @@ msgstr "CSV 檔案中的 id_hash 詮釋資料無效：%s"
 
 msgid "Plural form metadata in CSV file requires id_hash."
 msgstr "CSV 檔案中的複數形式詮釋資料需要 id_hash。"
+
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
+msgstr ""
 
 #. Translators: File format name
 msgid "gettext PO file"
@@ -5835,6 +5970,13 @@ msgstr "App Store 詮釋資料檔案"
 
 msgid "File validation is required for directory-based formats."
 msgstr "以目錄為單位的格式必須驗證檔案。"
+
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr ""
+
+msgid "Converted workbook content exceeds the configured size limit."
+msgstr ""
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -6929,6 +7071,16 @@ msgstr "專案或組件中定義的第二語言"
 msgid "Rate limit reset."
 msgstr "已重設速率限制。"
 
+#, fuzzy
+#| msgid "The translation request timed out"
+msgid "Too many translation requests."
+msgstr "翻譯請求逾時"
+
+#, fuzzy
+#| msgid "Too many authentication attempts from this location."
+msgid "Too many concurrent translation requests for this service."
+msgstr "嘗試從這個地方認證太多次。"
+
 msgid "File"
 msgstr "檔案"
 
@@ -7052,6 +7204,11 @@ msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background."
 msgstr "已刪除由目前翻譯建立的翻譯記憶條目，並將在背景重新建立。"
+
+#, fuzzy
+#| msgid "Too many bulk edits, please try again later."
+msgid "Too many uploads, please try again later."
+msgstr "批次編輯操作過多，請稍後再試。"
 
 #, python-format
 msgid "Processed %(count)d active translation memory entry."
@@ -7583,8 +7740,8 @@ msgid ""
 "with an account, you may receive account recovery guidance instead of a "
 "verification link."
 msgstr ""
-"請查看電子郵件中的操作說明。如果此地址已連結至帳號，您可能會收到帳號復原說明"
-"，而非驗證連結。"
+"請查看電子郵件中的操作說明。如果此地址已連結至帳號，您可能會收到帳號復原說"
+"明，而非驗證連結。"
 
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
@@ -8251,7 +8408,8 @@ msgstr "忘記密碼了嗎？您現在可以設定新密碼。"
 msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll e-mail "
 "instructions for setting a new one."
-msgstr "忘記密碼了嗎？請在下方輸入您的電子郵件地址，我們會寄送設定新密碼的操作說明。"
+msgstr ""
+"忘記密碼了嗎？請在下方輸入您的電子郵件地址，我們會寄送設定新密碼的操作說明。"
 
 msgid "Reset my password"
 msgstr "重設密碼"
@@ -8702,6 +8860,29 @@ msgstr "這個附加元件只能安裝於組件層級。"
 msgid "Install"
 msgstr "安裝"
 
+#, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid "Install on the component owning the repository."
+msgstr "此附加元件用於共享此儲存庫的所有組件。"
+
+#, fuzzy
+#| msgid ""
+#| "One component was not migrated because its repository is no longer "
+#| "available."
+#| msgid_plural ""
+#| "%(count)d components were not migrated because their repositories are no "
+#| "longer available."
+msgid "The component owning this repository is not available to you."
+msgstr "%(count)d 個組件因其儲存庫已無法使用而未移轉。"
+
+#, fuzzy
+#| msgid "Repository changes"
+msgid "Open repository add-ons"
+msgstr "儲存庫變更"
+
+msgid "Unavailable"
+msgstr "無法使用"
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -9093,6 +9274,32 @@ msgstr "重設權限"
 
 msgid "Cancel"
 msgstr "取消"
+
+msgid "Actor"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete entry"
+msgid "Deleted user"
+msgstr "刪除項目"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Administrative team changes"
+msgstr "管理"
+
+#, fuzzy
+#| msgid "Changes"
+msgid "Change"
+msgstr "變更"
+
+msgid "View details"
+msgstr "檢視詳細資訊"
+
+#, fuzzy
+#| msgid "No audit log entries found."
+msgid "No team audit entries found."
+msgstr "找不到任何稽核紀錄。"
 
 msgid "Settings"
 msgstr "設定"
@@ -11055,13 +11262,15 @@ msgstr "%(site_title)s 沒有用這個電子郵件註冊的帳號，因此無法
 msgid ""
 "Please check whether this Weblate instance is the one you have used and what "
 "e-mail address you did use when registering."
-msgstr "請確認這是否為您之前使用的 Weblate 網站，並核對註冊時使用的電子郵件地址。"
+msgstr ""
+"請確認這是否為您之前使用的 Weblate 網站，並核對註冊時使用的電子郵件地址。"
 
 #, python-format
 msgid ""
 "Perhaps, you have registered at <a "
 "href=\"%(registration_hint)s\">%(registration_hint)s</a>?"
-msgstr "您是否曾在 <a href=\"%(registration_hint)s\">%(registration_hint)s</a> 註冊？"
+msgstr ""
+"您是否曾在 <a href=\"%(registration_hint)s\">%(registration_hint)s</a> 註冊？"
 
 msgid ""
 "Weblate.org has created this Hosted Weblate sign-in account so you can "
@@ -11599,8 +11808,8 @@ msgid ""
 "Dismiss the selected findings without changing credentials or notifying "
 "users. A new report confirming the same exposure can reopen them."
 msgstr ""
-"忽略所選安全問題，不變更登入憑證或通知使用者。若新報告再次確認相同的安全風險"
-"，這些問題可能會重新列為待處理。"
+"忽略所選安全問題，不變更登入憑證或通知使用者。若新報告再次確認相同的安全風"
+"險，這些問題可能會重新列為待處理。"
 
 msgid "Reset passwords"
 msgstr "重設密碼"
@@ -12514,9 +12723,6 @@ msgstr "設定語言工作流程"
 msgid "Configure translation quality filter"
 msgstr "設定翻譯品質篩選器"
 
-msgid "View details"
-msgstr "檢視詳細資訊"
-
 msgid "View contributor license agreement"
 msgstr "檢視貢獻者授權協議"
 
@@ -12840,16 +13046,16 @@ msgid ""
 "%(project_name)s and join the %(team_name)s team. You will join only if you "
 "accept this invitation."
 msgstr ""
-"系統已依團隊自動指派規則，邀請您參與 %(project_name)s 專案協作，並加入 %"
-"(team_name)s 團隊。您接受邀請後才會加入。"
+"系統已依團隊自動指派規則，邀請您參與 %(project_name)s 專案協作，並加入 "
+"%(team_name)s 團隊。您接受邀請後才會加入。"
 
 #, python-format
 msgid ""
 "An automatic team assignment rule invited you to join the %(team_name)s team "
 "in %(workspace_name)s. You will join only if you accept this invitation."
 msgstr ""
-"系統已依團隊自動指派規則，邀請您加入 %(workspace_name)s 工作空間中的 %"
-"(team_name)s 團隊。您接受邀請後才會加入。"
+"系統已依團隊自動指派規則，邀請您加入 %(workspace_name)s 工作空間中的 "
+"%(team_name)s 團隊。您接受邀請後才會加入。"
 
 #, python-format
 msgid ""
@@ -12866,6 +13072,19 @@ msgid ""
 msgstr ""
 "%(invitation_author)s 邀請您加入 %(site_title)s 並成為 %(team_name)s 團隊的一"
 "員。"
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr ""
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -14524,6 +14743,15 @@ msgstr "匯入備份中"
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr "由 Weblate %(version)s 在 %(server)s (%(domain)s) 上建立"
 
+msgid "Public access on import"
+msgstr ""
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
+
 msgid "Token copied to clipboard."
 msgstr "已將權杖複製至剪貼簿。"
 
@@ -15160,9 +15388,6 @@ msgstr "已更新儲存庫"
 msgid "Available Repositories"
 msgstr "可用的儲存庫"
 
-msgid "Unavailable"
-msgstr "無法使用"
-
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
 "GitHub."
@@ -15405,8 +15630,8 @@ msgid ""
 "A language translation became fully translated after an individual edit. "
 "Automatic translation, uploads, and bulk edits do not emit this event."
 msgstr ""
-"個別編輯後，某個語言的翻譯已全部完成。自動翻譯、上傳及批次編輯不會觸發此事件"
-"。"
+"個別編輯後，某個語言的翻譯已全部完成。自動翻譯、上傳及批次編輯不會觸發此事"
+"件。"
 
 msgid "Translation completed"
 msgstr "完成了翻譯"
@@ -16220,6 +16445,12 @@ msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "自動翻譯完成，%d 個字串已更新。"
 
+#, fuzzy
+#| msgid "Automatic translation skipped because the target no longer exists."
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr "由於目標已不存在，已略過自動翻譯。"
+
 #, python-format
 msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
@@ -16290,6 +16521,11 @@ msgstr "缺少螢幕擷圖。"
 msgid "Revision must be a complete hexadecimal object ID."
 msgstr "修訂版本必須是完整的十六進位物件 ID。"
 
+#, fuzzy, python-format
+#| msgid "Could not validate push URL: %s"
+msgid "Could not validate repository URL: %s"
+msgstr "無法驗證推送 URL: %s"
+
 msgid "Duplicate check name."
 msgstr "檢查名稱重複。"
 
@@ -16354,11 +16590,34 @@ msgstr "儲存庫資料不屬於已還原的組件。"
 msgid "Repository-linked components can not contain repository data."
 msgstr "與儲存庫連結的組件不得包含儲存庫資料。"
 
+#, fuzzy
+#| msgid "Important dates"
+msgid "Imported authors"
+msgstr "重要日期"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
 msgstr "因連結的儲存庫無法使用，已略過組件 %(component)s。"
+
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -16387,6 +16646,19 @@ msgstr "搜尋類型無效。"
 
 msgid "Enter a search string to replace."
 msgstr "請輸入要取代的搜尋字串。"
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] ""
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] ""
 
 msgid "Invalid target state."
 msgstr "目標狀態無效。"
@@ -16502,6 +16774,9 @@ msgstr "建議未決"
 
 msgid "Needs review"
 msgstr "需要檢閱"
+
+msgid "This component does not exist or you cannot access it."
+msgstr "此組件不存在，或您沒有存取權。"
 
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr "Hosted Weblate，是您軟體專案發展在地化的好地方。"
@@ -16745,8 +17020,8 @@ msgid ""
 "Controls the UTF-8 byte order mark. Other encodings are unchanged. New files "
 "without a template omit the mark when preserving input."
 msgstr ""
-"設定是否包含 UTF-8 位元組順序標記，其他編碼不受影響。選擇保留輸入檔案的設定時"
-"，若新檔案沒有範本，就會省略此標記。"
+"設定是否包含 UTF-8 位元組順序標記，其他編碼不受影響。選擇保留輸入檔案的設定"
+"時，若新檔案沒有範本，就會省略此標記。"
 
 msgid "XML declaration encoding case"
 msgstr "XML 宣告中編碼名稱的大小寫"
@@ -17227,6 +17502,9 @@ msgstr "翻譯旗標 — %(language)s"
 msgid "You do not have permission to edit these flags."
 msgstr "您沒有編輯這些旗標的權限。"
 
+msgid "You do not have permission to create terminology."
+msgstr "您無權建立專有名詞。"
+
 msgid ""
 "Revert the latest translation edits from this user in the current project."
 msgstr "還原此使用者於本專案中最後一次的翻譯編輯。"
@@ -17314,9 +17592,6 @@ msgstr "每日變更數上限"
 msgid "Maximum source words per day"
 msgstr "每日來源單字上限"
 
-msgid "This component does not exist or you cannot access it."
-msgstr "此組件不存在，或您沒有存取權。"
-
 msgid "Inherit from workspace"
 msgstr "繼承自工作空間"
 
@@ -17371,6 +17646,11 @@ msgstr "分支請求過多。請稍後再試。"
 
 msgid "Could not load repository branches. Please try again."
 msgstr "無法載入儲存庫分支。請再試一次。"
+
+#, fuzzy
+#| msgid "You do not have permission to edit this glossary."
+msgid "You do not have permission to edit this project."
+msgstr "您沒有編輯此詞彙表的權限。"
 
 msgid "ZIP file containing translations"
 msgstr "包含翻譯的 ZIP 檔案"
@@ -17500,9 +17780,6 @@ msgid ""
 "Mark this option if the sentence should stay as in the source language, "
 "without change."
 msgstr "若句子應與來源語言保持相同，不應變更，請核取此選項。"
-
-msgid "You do not have permission to create terminology."
-msgstr "您無權建立專有名詞。"
 
 msgid "Invalid string selection!"
 msgstr "選取的字串無效！"
@@ -18915,6 +19192,11 @@ msgstr "搜尋說明"
 msgid "Could not accept suggestion!"
 msgstr "無法接受翻譯建議！"
 
+#, fuzzy, python-format
+#| msgid "Some settings could not be imported: %s"
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr "部分設定無法匯入：%s"
+
 msgid "Uploaded translation file is too big."
 msgstr "上傳的翻譯檔案過大。"
 
@@ -18965,6 +19247,18 @@ msgstr "上傳檔案中的複數形式 %d 超出範圍。"
 msgid "Plural form %d in the uploaded file is missing."
 msgstr "上傳的檔案缺少複數形式 %d。"
 
+#, fuzzy, python-format
+#| msgid "The uploaded file contains too many settings."
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr "上傳的檔案包含太多設定。"
+
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] "無法將譯文套用至 %d 個組件。"
+
 msgid "The uploaded file contains too many language declarations."
 msgstr "上傳的檔案包含太多語言宣告。"
 
@@ -18988,6 +19282,10 @@ msgstr "無法提交未決的變動：%s"
 #, python-brace-format
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "無法將上傳的檔案解析為 {file_format}：{error}"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr ""
 
 #, python-format
 msgid "Could not parse translation file: %s"
@@ -19371,6 +19669,34 @@ msgstr "將新字串加入為翻譯，略過現有的字串。"
 msgid "Updates source strings in bilingual translation file."
 msgstr "更新雙語言翻譯檔案中的來源字串。"
 
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "A translation upload is already in progress."
+msgstr "翻譯更新正在進行中。"
+
+#, fuzzy
+#| msgid "The uploaded report has expired. Upload it again."
+msgid "The uploaded file has expired or was already processed."
+msgstr "上傳的報告已過期，請重新上傳。"
+
+#, fuzzy
+#| msgid "The uploaded image was invalid."
+msgid "The uploaded file has expired."
+msgstr "上傳的圖片無效。"
+
+#, fuzzy
+#| msgid "The target or permissions changed."
+msgid "The upload target or permissions changed."
+msgstr "操作對象或權限已變更。"
+
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr "上傳檔案中的複數形式與目前的翻譯不符。"
+
+#, fuzzy
+#| msgid "Too many bulk edits, please try again later."
+msgid "File upload has failed. Please try again later."
+msgstr "批次編輯操作過多，請稍後再試。"
+
 msgid "Very high"
 msgstr "非常高"
 
@@ -19719,8 +20045,10 @@ msgstr "不良的請求"
 msgid "Access denied."
 msgstr "拒絕存取。"
 
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr "上傳檔案中的複數形式與目前的翻譯不符。"
+#, fuzzy
+#| msgid "Translation uploaded"
+msgid "Translation upload in progress."
+msgstr "上傳了翻譯"
 
 msgid "Use the button on the repository status page to run this action."
 msgstr "請使用儲存庫狀態頁面上的按鈕執行此動作。"
@@ -19968,6 +20296,11 @@ msgstr "%(field)s 參數錯誤：%(error)s"
 msgid "language"
 msgid_plural "languages"
 msgstr[0] "語言"
+
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
+msgstr ""
 
 msgid "The project is already assigned to this workspace."
 msgstr "專案已指派至此工作空間。"
@@ -20270,9 +20603,23 @@ msgstr "儲存的參數值無效。"
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "參數必須是由鍵值對組成的字典。"
 
-#, python-format
-msgid "Undefined variable: \"%s\""
-msgstr "未定義的變數：「%s」"
+#, fuzzy
+#| msgid "Regex output exceeds its size limit."
+msgid "Template output exceeds its size limit."
+msgstr "正規表達式輸出超過大小限制。"
+
+#, fuzzy
+#| msgid "Regular expression processing failed or exceeded its resource limit."
+msgid "Template rendering failed or exceeded its resource limits."
+msgstr "正規表達式處理失敗或超出資源限制。"
+
+msgid "Oversized template response."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid eTranslation domains response"
+msgid "Invalid template rendering response."
+msgstr "eTranslation 回傳的翻譯領域資料無效"
 
 msgid "Could not render template: {}"
 msgstr "無法處理範本：{}"
@@ -20281,6 +20628,70 @@ msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
 msgstr "不再支援格式字串，請改用範本語言。"
+
+#, fuzzy
+#| msgid "Regex request exceeds its size limit."
+msgid "Template value exceeds its size limit."
+msgstr "正規表達式請求超過大小限制。"
+
+#, fuzzy
+#| msgid "The HTML {tag} tag is nested too deeply."
+msgid "Template context is nested too deeply."
+msgstr "HTML {tag} 標籤的巢狀層數太深。"
+
+#, fuzzy
+#| msgid "Regex output exceeds its size limit."
+msgid "Template context exceeds its size limit."
+msgstr "正規表達式輸出超過大小限制。"
+
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported template context key."
+msgstr "不支援的 ITS 規則內容。"
+
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported template context value."
+msgstr "不支援的 ITS 規則內容。"
+
+#, fuzzy
+#| msgid "Regex response exceeds its size limit."
+msgid "Template rendering exceeded its time limit."
+msgstr "正規表達式回應超過大小限制。"
+
+#, fuzzy
+#| msgid "Regex response exceeds its size limit."
+msgid "Template rendering exceeded its loop limit."
+msgstr "正規表達式回應超過大小限制。"
+
+#, fuzzy
+#| msgid "Regex request exceeds its size limit."
+msgid "Template intermediate value exceeds its size limit."
+msgstr "正規表達式請求超過大小限制。"
+
+#, fuzzy
+#| msgid "Regex request exceeds its size limit."
+msgid "Template replacement exceeds its size limit."
+msgstr "正規表達式請求超過大小限制。"
+
+#, fuzzy
+#| msgid "Regex response exceeds its size limit."
+msgid "Template padding exceeds its size limit."
+msgstr "正規表達式回應超過大小限制。"
+
+#, fuzzy
+#| msgid "Regex output exceeds its size limit."
+msgid "Template formatting exceeds its size limit."
+msgstr "正規表達式輸出超過大小限制。"
+
+#, fuzzy
+#| msgid "Regex response exceeds its size limit."
+msgid "Template join exceeds its size limit."
+msgstr "正規表達式回應超過大小限制。"
+
+#, python-format
+msgid "Undefined variable: \"%s\""
+msgstr "未定義的變數：「%s」"
 
 #, python-format
 msgid ""
@@ -21010,6 +21421,11 @@ msgstr "此工作空間的已連結 GitHub 帳號無法使用該儲存庫。"
 
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr "這將會推送變更至上游 Mercurial 儲存庫。"
+
+#, fuzzy
+#| msgid "Could not recover the repository."
+msgid "Could not remove nested repository metadata."
+msgstr "無法復原儲存庫。"
 
 msgid "GitHub"
 msgstr "GitHub"
@@ -22281,9 +22697,6 @@ msgstr "工作空間已移除。"
 #~ msgid "Translation files in accessible repositories have been synchronized."
 #~ msgstr "已同步可存取儲存庫中的翻譯檔案。"
 
-#~ msgid "Updates of translations are in progress."
-#~ msgstr "翻譯更新正在進行中。"
-
 #~ msgid "Updates of translations in accessible repositories are in progress."
 #~ msgstr "可存取儲存庫中的翻譯更新正在進行中。"
 
@@ -22392,9 +22805,6 @@ msgstr "工作空間已移除。"
 
 #~ msgid "project-wide"
 #~ msgstr "整個專案"
-
-#~ msgid "site-wide"
-#~ msgstr "全站"
 
 #, python-format
 #~ msgid "Manage add-ons at %(location)s"
@@ -23671,9 +24081,6 @@ msgstr "工作空間已移除。"
 
 #~ msgid "Too many failed registration attempts from this location."
 #~ msgstr "嘗試從這個地方登入太多次。"
-
-#~ msgid "Too many authentication attempts from this location."
-#~ msgstr "嘗試從這個地方認證太多次。"
 
 #~ msgid ""
 #~ "Weblate user management is turned off, you can change permissions in the "
@@ -26937,9 +27344,6 @@ msgstr "工作空間已移除。"
 #~ msgid_plural ""
 #~ "File content successfully merged into translation, processed %d strings."
 #~ msgstr[0] "檔案內容成功的合併到翻譯，已處理 %d 字串。"
-
-#~ msgid "Suggestions are not allowed on this translation!"
-#~ msgstr "在這個翻譯裡不允許建議！"
 
 #, fuzzy
 #~| msgid "You don't have privileges to save translations!"

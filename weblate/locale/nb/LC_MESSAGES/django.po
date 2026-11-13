@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-05 22:27-0600\n"
+"POT-Creation-Date: 2026-11-13 01:19-0600\n"
 "PO-Revision-Date: 2026-11-04 12:51+0000\n"
 "Last-Translator: Frank Paul Silye "
 "<frankps@users.noreply.hosted.weblate.org>\n"
@@ -637,7 +637,16 @@ msgstr "Bruker ble lagt til i {team}-teamet av {username}."
 msgid "User access to the {team} team was changed by {username}."
 msgstr "Bruker ble lagt til i {team}-teamet av {username}."
 
-#. Translators: Audit log entry
+#, fuzzy, python-brace-format
+#| msgid "User was added to the {team} team by {username}."
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr "Bruker ble lagt til i {team}-teamet av {username}."
+
+#, fuzzy, python-brace-format
+#| msgid "User was added to the {team} team by {username}."
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr "Bruker ble lagt til i {team}-teamet av {username}."
+
 #, fuzzy, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr "Brukeren ble fjernet fra {team}-laget av {username}."
@@ -762,6 +771,45 @@ msgstr "Kodelagerleser"
 msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr "Tjeneste"
+
+#, fuzzy
+#| msgid "repository wide"
+msgid "Site-wide"
+msgstr "for hele siden"
+
+msgid "Workspace"
+msgstr ""
+
+#, fuzzy
+#| msgid "Backup created"
+msgid "Team created"
+msgstr "Sikkerhetskopi opprettet"
+
+#, fuzzy
+#| msgid "Last change"
+msgid "Team changed"
+msgstr "Siste endring"
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "Team deleted"
+msgstr "Skrift slettet."
+
+#, fuzzy
+#| msgid "Label added"
+msgid "Team member added"
+msgstr "Etikett lagt til"
+
+#, fuzzy
+#| msgid "Labels to remove"
+msgid "Team member removed"
+msgstr "Etiketter å fjerne"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "Team member access changed"
+msgstr "Lisens ble endret"
 
 msgid "Account activity"
 msgstr "Kontoaktivitet"
@@ -2950,10 +2998,20 @@ msgid ""
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
 
+#, fuzzy
+#| msgid "Generated on %(timestamp)s."
+msgid "Connection timeout"
+msgstr "Generert %(timestamp)s."
+
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr ""
+
 msgid "Publish timeout"
 msgstr ""
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
 msgstr ""
 
 msgid "Connection attempts"
@@ -3220,6 +3278,13 @@ msgid "This add-on is already installed on this component."
 msgstr "Det er ingen oversettelser i denne komponenten."
 
 #, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr ""
+"Dette tillegget brukes for alle komponentene som deler dette kodelageret."
+
+#, fuzzy
 #| msgid "This add-on executes a script."
 msgid "This add-on cannot be triggered manually."
 msgstr "Dette tillegget kjører et skript."
@@ -3286,6 +3351,11 @@ msgstr "Prosjekt"
 msgctxt "Add-on scope"
 msgid "Site"
 msgstr ""
+
+#, fuzzy
+#| msgid "Component list can not be chosen when unused."
+msgid "a component you cannot access"
+msgstr "Komponentlisten kan ikke velges, når den ikke brukes."
 
 #, fuzzy, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -4664,6 +4734,11 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You need to log in to upload translations."
+msgstr "Du har ikke rettighet til å godta forslag!"
+
+#, fuzzy
 #| msgid "The detected file format is not supported."
 msgid "The file format does not support updating source strings."
 msgstr "Oppdaget filformat støttes ikke."
@@ -4704,6 +4779,16 @@ msgstr ""
 
 msgid "Project tokens can not be assigned to teams here."
 msgstr ""
+
+#, fuzzy
+#| msgid "Audit log"
+msgid "Team audit log"
+msgstr "Oppsynslogg"
+
+#, fuzzy
+#| msgid "Administrators"
+msgid "Team audit entry"
+msgstr "Administratorer"
 
 #, fuzzy
 msgid "Cannot remove built-in team!"
@@ -5067,9 +5152,6 @@ msgstr ""
 msgid "No valid billing found or limit exceeded."
 msgstr ""
 
-msgid "Workspace"
-msgstr ""
-
 #, fuzzy
 #| msgid "Customize the component name"
 msgid "Customer name"
@@ -5183,6 +5265,9 @@ msgid_plural "Contains %d components"
 msgstr[0] "Inneholder %d komponent"
 msgstr[1] "Inneholder %d komponenter"
 
+msgid "Restricted components are not allowed by this billing plan."
+msgstr ""
+
 msgid "Missing license"
 msgstr "Manglende lisens"
 
@@ -5251,6 +5336,9 @@ msgstr ""
 
 msgid "To terminate billing you have to remove all projects first."
 msgstr "For å oppheve betaling, må du først fjerne alle prosjektene."
+
+msgid "Externally managed billings cannot be merged."
+msgstr ""
 
 #, fuzzy
 msgid "Cannot merge such a billing."
@@ -6032,6 +6120,11 @@ msgstr ""
 msgid "the value is too complex or nested too deeply"
 msgstr ""
 
+#, fuzzy
+#| msgid "Your billing plan has exceeded its limits."
+msgid "Format matching exceeded its time limit."
+msgstr "Din faktureringsplan er oversteget."
+
 msgid "The following format strings are in the wrong order:"
 msgstr "De følgende formatstrengene er i feil rekkefølge:"
 
@@ -6359,6 +6452,9 @@ msgstr "Markdown-syntaks"
 msgid "Markdown syntax does not match source."
 msgstr "Markdown-syntaks samsvarer ikke med kilde"
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr ""
+
 #, fuzzy
 #| msgid "The translation does not contain an URL"
 msgid "The translation does not contain a URL."
@@ -6561,6 +6657,11 @@ msgstr "Weblate-oppsett"
 msgid "Your translation is foo"
 msgstr "Fant ingen oversettelse."
 
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
+msgstr ""
+
 msgid "Font style"
 msgstr "Skriftstil"
 
@@ -6730,6 +6831,25 @@ msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
 #, fuzzy
+#| msgid "Could not update the repository."
+msgid "Could not open the workbook archive."
+msgstr "Kunne ikke oppdatere kodelageret."
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr ""
+
+#, fuzzy
 #| msgid "Simple CSV file"
 msgid "Multivalue CSV file"
 msgstr "Enkel CSV-fil"
@@ -6778,6 +6898,10 @@ msgid "Invalid id_hash metadata in CSV file: %s"
 msgstr "Ugyldig oversettelsesflagg: «%s»"
 
 msgid "Plural form metadata in CSV file requires id_hash."
+msgstr ""
+
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
 msgstr ""
 
 #. Translators: File format name
@@ -7041,6 +7165,13 @@ msgid "App store metadata files"
 msgstr "Metadatafiler for programbutikk"
 
 msgid "File validation is required for directory-based formats."
+msgstr ""
+
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr ""
+
+msgid "Converted workbook content exceeds the configured size limit."
 msgstr ""
 
 msgid ""
@@ -8356,6 +8487,16 @@ msgstr "Nytt språk lagt til i %(component)s"
 msgid "Rate limit reset."
 msgstr "Oppdater kvalitetskontroller"
 
+#, fuzzy
+#| msgid "This translation needs editing."
+msgid "Too many translation requests."
+msgstr "Denne oversettelsen trenger redigering."
+
+#, fuzzy
+#| msgid "Too many authentication attempts from this location."
+msgid "Too many concurrent translation requests for this service."
+msgstr "For mange innloggingsforsøk fra denne plasseringen."
+
 msgid "File"
 msgstr "Fil"
 
@@ -8511,6 +8652,11 @@ msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background."
 msgstr "Oversettelsen vil bli oppdatert i bakgrunnen."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many uploads, please try again later."
+msgstr "For mange søk sendt, prøv igjen senere."
 
 #, fuzzy, python-format
 #| msgid "Confirm deleting all translation memory entries"
@@ -10538,6 +10684,27 @@ msgstr "Det er ingen oversettelser i denne komponenten."
 msgid "Install"
 msgstr "Installer"
 
+#, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid "Install on the component owning the repository."
+msgstr ""
+"Dette tillegget brukes for alle komponentene som deler dette kodelageret."
+
+#, fuzzy
+#| msgid "This component is set up incorrectly."
+msgid "The component owning this repository is not available to you."
+msgstr "Denne komponenten er satt opp feil."
+
+#, fuzzy
+#| msgid "Repository changes"
+msgid "Open repository add-ons"
+msgstr "Kodelagerendringer"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Unavailable"
+msgstr "Ikke tilgjengelig"
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -10957,6 +11124,32 @@ msgstr "Tillatelser"
 
 msgid "Cancel"
 msgstr ""
+
+msgid "Actor"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete entry"
+msgid "Deleted user"
+msgstr "Slett oppføring"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Administrative team changes"
+msgstr "Administrasjon"
+
+#, fuzzy
+#| msgid "Changes"
+msgid "Change"
+msgstr "Endringer"
+
+msgid "View details"
+msgstr "Vis detaljer"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No team audit entries found."
+msgstr "Ingen sammenfallende strenger funnet."
 
 msgid "Settings"
 msgstr "Oppsett"
@@ -15216,9 +15409,6 @@ msgstr "Ettspråklig basis-språkfil"
 msgid "Configure translation quality filter"
 msgstr "Oversettelsesfil"
 
-msgid "View details"
-msgstr "Vis detaljer"
-
 #, fuzzy
 #| msgid "View contributor agreement"
 msgid "View contributor license agreement"
@@ -15634,6 +15824,19 @@ msgid ""
 msgstr ""
 "Du ble invitert til %(site_title)s av %(invitation_author)s for å ta del i "
 "%(team_name)s laget."
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr ""
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -17565,6 +17768,15 @@ msgstr "Utfør sikkerhetskopiering"
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr "Opprettet %(server)s (%(domain)s) med Weblate %(version)s"
 
+msgid "Public access on import"
+msgstr ""
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
+
 #, fuzzy
 #| msgid "API key copied to clipboard."
 msgid "Token copied to clipboard."
@@ -18323,11 +18535,6 @@ msgstr "Kodelager er utdatert."
 #| msgid "Repositories"
 msgid "Available Repositories"
 msgstr "Kodelager"
-
-#, fuzzy
-#| msgid "Not available"
-msgid "Unavailable"
-msgstr "Ikke tilgjengelig"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -19764,6 +19971,12 @@ msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "Automatisk oversettelse fullført, %d streng ble oppdatert."
 msgstr[1] "Automatisk oversettelse fullført, %d strenger ble oppdaterte."
 
+#, fuzzy
+#| msgid "Automatic translation skipped because the target no longer exists."
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr "Automatisk oversettelse hoppet over fordi målet ikke lenger finnes."
+
 #, python-format
 msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
@@ -19852,6 +20065,11 @@ msgstr "Skjermbilde som viser hvordan denne strengen brukes"
 
 msgid "Revision must be a complete hexadecimal object ID."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not update repository: %s"
+msgid "Could not validate repository URL: %s"
+msgstr "Kunne ikke oppdatere kodelageret: %s"
 
 #, fuzzy
 #| msgid "Duplicated filemask."
@@ -19950,10 +20168,33 @@ msgstr "Bruker har blitt blokkert i dette prosjektet."
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 
+#, fuzzy
+#| msgid "Important dates"
+msgid "Imported authors"
+msgstr "Viktige datoer"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
+msgstr ""
+
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
 msgstr ""
 
 #, python-format
@@ -19990,6 +20231,21 @@ msgstr "Ugyldig søk!"
 
 msgid "Enter a search string to replace."
 msgstr ""
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
 
 #, fuzzy
 #| msgid "Invalid merge request!"
@@ -20149,6 +20405,9 @@ msgstr "Forslagsavstemning"
 #| msgid "Needs review"
 msgid "Needs review"
 msgstr "Trenger gjennomgang"
+
+msgid "This component does not exist or you cannot access it."
+msgstr ""
 
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr "Vertslagret Weblate, stedet du kan oversette ditt programvareprosjekt."
@@ -21026,6 +21285,11 @@ msgid "You do not have permission to edit these flags."
 msgstr "Du har ikke rettighet til å godta forslag!"
 
 #, fuzzy
+#| msgid "You currently do not have permission to create projects."
+msgid "You do not have permission to create terminology."
+msgstr "Du har for tiden ikke rettigheter til å opprette prosjekter."
+
+#, fuzzy
 #| msgid "This translation is currently locked."
 msgid ""
 "Revert the latest translation edits from this user in the current project."
@@ -21148,9 +21412,6 @@ msgstr ""
 msgid "Maximum source words per day"
 msgstr ""
 
-msgid "This component does not exist or you cannot access it."
-msgstr ""
-
 #, fuzzy
 #| msgid "Inherited flags"
 msgid "Inherit from workspace"
@@ -21220,6 +21481,11 @@ msgstr "For mange søk sendt, prøv igjen senere."
 #| msgid "Too many messages sent, please try again later."
 msgid "Could not load repository branches. Please try again."
 msgstr "For mange meldinger sendt, prøv igjen senere."
+
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You do not have permission to edit this project."
+msgstr "Du har ikke rettighet til å godta forslag!"
 
 msgid "ZIP file containing translations"
 msgstr "ZIP-fil inneholdende oversettelser"
@@ -21378,11 +21644,6 @@ msgid ""
 "Mark this option if the sentence should stay as in the source language, "
 "without change."
 msgstr ""
-
-#, fuzzy
-#| msgid "You currently do not have permission to create projects."
-msgid "You do not have permission to create terminology."
-msgstr "Du har for tiden ikke rettigheter til å opprette prosjekter."
 
 #, fuzzy
 #| msgid "Invalid suggestion!"
@@ -23133,6 +23394,14 @@ msgstr "Beskrivelse"
 msgid "Could not accept suggestion!"
 msgstr "Klarte ikke å godta forslag!"
 
+#, fuzzy, python-format
+#| msgid ""
+#| "Contribution to this translation requires you to agree with a contributor "
+#| "agreement."
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr ""
+"Bidrag til denne oversettelsen krever at du samtykker til bidragsyteravtalen."
+
 msgid "Uploaded translation file is too big."
 msgstr "Opplastet oversettelsesfil er for stor."
 
@@ -23206,6 +23475,22 @@ msgstr ""
 "Flertallsformer i den opplastede filen stemmer ikke med den gjeldende "
 "oversettelsen."
 
+#, fuzzy, python-format
+#| msgid "ZIP file containing translations"
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr "ZIP-fil inneholdende oversettelser"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "Contribution to this translation requires you to agree with a contributor "
+#| "agreement."
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] ""
+"Bidrag til denne oversettelsen krever at du samtykker til bidragsyteravtalen."
+msgstr[1] ""
+"Bidrag til denne oversettelsen krever at du samtykker til bidragsyteravtalen."
+
 #, fuzzy
 #| msgid "ZIP file containing translations"
 msgid "The uploaded file contains too many language declarations."
@@ -23231,6 +23516,10 @@ msgstr "Kunne ikke sende inn ventende endringer: %s"
 #| msgid "Failed to parse file %(file)s: %(error)s"
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "Kunne inne analysere filen %(file)s: %(error)s"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Could not parse translation files."
@@ -23737,6 +24026,35 @@ msgstr ""
 msgid "Updates source strings in bilingual translation file."
 msgstr "La stå tom for tospråklige oversettelsesfiler."
 
+#, fuzzy
+#| msgid "Automatic translation in progress"
+msgid "A translation upload is already in progress."
+msgstr "Automatisk oversettelse pågår"
+
+msgid "The uploaded file has expired or was already processed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Language %s removed."
+msgid "The uploaded file has expired."
+msgstr "Språket for prosjektet ble fjernet."
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "The upload target or permissions changed."
+msgstr "Lisens ble endret"
+
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr ""
+"Flertallsformer i den opplastede filen stemmer ikke med den gjeldende "
+"oversettelsen."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "File upload has failed. Please try again later."
+msgstr "For mange søk sendt, prøv igjen senere."
+
 msgid "Very high"
 msgstr "Svært høy"
 
@@ -24200,10 +24518,10 @@ msgstr "Feilaktig forespørsel"
 msgid "Access denied."
 msgstr "Ingen tilgang."
 
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr ""
-"Flertallsformer i den opplastede filen stemmer ikke med den gjeldende "
-"oversettelsen."
+#, fuzzy
+#| msgid "Translation uploaded"
+msgid "Translation upload in progress."
+msgstr "Oversettelse lastet opp"
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -24563,6 +24881,11 @@ msgid_plural "languages"
 msgstr[0] "Språk"
 msgstr[1] "Språk"
 
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
+msgstr ""
+
 #, fuzzy
 #| msgid "This translation is currently locked."
 msgid "The project is already assigned to this workspace."
@@ -24919,9 +25242,19 @@ msgstr "Ugyldige argumenter!"
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
-#, python-format
-msgid "Undefined variable: \"%s\""
-msgstr "Udefinert variabel: «%s»"
+msgid "Template output exceeds its size limit."
+msgstr ""
+
+msgid "Template rendering failed or exceeded its resource limits."
+msgstr ""
+
+msgid "Oversized template response."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid translation flag: \"%s\""
+msgid "Invalid template rendering response."
+msgstr "Ugyldig oversettelsesflagg: «%s»"
 
 #, fuzzy
 #| msgid "Failed to render template: {}"
@@ -24932,6 +25265,52 @@ msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
 msgstr "Formatstrengene støttes ikke lengre, bruk malspråket istedenfor."
+
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic component list assignment"
+msgid "Template context is nested too deeply."
+msgstr "Automatisk komponentlistetildeling"
+
+msgid "Template context exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template context key."
+msgstr "Filformat som ikke støttes."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template context value."
+msgstr "Filformat som ikke støttes."
+
+msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+msgid "Template rendering exceeded its loop limit."
+msgstr ""
+
+msgid "Template intermediate value exceeds its size limit."
+msgstr ""
+
+msgid "Template replacement exceeds its size limit."
+msgstr ""
+
+msgid "Template padding exceeds its size limit."
+msgstr ""
+
+msgid "Template formatting exceeds its size limit."
+msgstr ""
+
+msgid "Template join exceeds its size limit."
+msgstr ""
+
+#, python-format
+msgid "Undefined variable: \"%s\""
+msgstr "Udefinert variabel: «%s»"
 
 #, python-format
 msgid ""
@@ -25794,6 +26173,11 @@ msgstr ""
 #| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr "Weblate kunne ikke dytte endringer til oppstrømskodelageret."
+
+#, fuzzy
+#| msgid "Could not merge the repository."
+msgid "Could not remove nested repository metadata."
+msgstr "Kunne ikke flette kodelageret."
 
 msgid "GitHub"
 msgstr "GitHub"
@@ -27257,11 +27641,6 @@ msgstr "Kilden er blitt fjernet."
 
 #, fuzzy
 #~| msgid "Automatic translation in progress"
-#~ msgid "Updates of translations are in progress."
-#~ msgstr "Automatisk oversettelse pågår"
-
-#, fuzzy
-#~| msgid "Automatic translation in progress"
 #~ msgid "Updates of translations in accessible repositories are in progress."
 #~ msgstr "Automatisk oversettelse pågår"
 
@@ -27363,11 +27742,6 @@ msgstr "Kilden er blitt fjernet."
 #~| msgid "project wide"
 #~ msgid "project-wide"
 #~ msgstr "for hele prosjektet"
-
-#, fuzzy
-#~| msgid "repository wide"
-#~ msgid "site-wide"
-#~ msgstr "for hele siden"
 
 #, fuzzy, python-format
 #~| msgid "Translation notifications"
@@ -27652,11 +28026,6 @@ msgstr "Kilden er blitt fjernet."
 
 #~ msgid "This URL is prohibited"
 #~ msgstr "Denne adressen er forbudt"
-
-#, fuzzy
-#~| msgid "Component list can not be chosen when unused."
-#~ msgid "Categorized component can not be shared."
-#~ msgstr "Komponentlisten kan ikke velges, når den ikke brukes."
 
 #~ msgctxt "Access-control role"
 #~ msgid "Billing"
@@ -28794,9 +29163,6 @@ msgstr "Kilden er blitt fjernet."
 
 #~ msgid "Too many failed registration attempts from this location."
 #~ msgstr "For mange mislykkede registreringsforsøk fra denne plasseringen."
-
-#~ msgid "Too many authentication attempts from this location."
-#~ msgstr "For mange innloggingsforsøk fra denne plasseringen."
 
 #~ msgid ""
 #~ "Weblate user management is turned off, you can change permissions in the "

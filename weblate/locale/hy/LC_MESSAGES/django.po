@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-05 22:27-0600\n"
+"POT-Creation-Date: 2026-11-13 01:19-0600\n"
 "PO-Revision-Date: 2026-10-30 05:04+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -646,7 +646,14 @@ msgstr ""
 msgid "User access to the {team} team was changed by {username}."
 msgstr ""
 
-#. Translators: Audit log entry
+#, python-brace-format
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr ""
+
+#, python-brace-format
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr ""
+
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr ""
@@ -771,6 +778,42 @@ msgstr "VCS պահեստարաններ"
 msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr ""
+
+#, fuzzy
+#| msgid "VCS repositories"
+msgid "Site-wide"
+msgstr "VCS պահեստարաններ"
+
+msgid "Workspace"
+msgstr ""
+
+#, fuzzy
+#| msgid "Reset repository"
+msgid "Team created"
+msgstr "Վերակայել պահեստարանը"
+
+#, fuzzy
+#| msgid "License"
+msgid "Team changed"
+msgstr "Արտոնագիր"
+
+msgid "Team deleted"
+msgstr ""
+
+#, fuzzy
+#| msgid "Language"
+msgid "Team member added"
+msgstr "Լեզու"
+
+#, fuzzy
+#| msgid "Language"
+msgid "Team member removed"
+msgstr "Լեզու"
+
+#, fuzzy
+#| msgid "License"
+msgid "Team member access changed"
+msgstr "Արտոնագիր"
 
 msgid "Account activity"
 msgstr ""
@@ -2896,10 +2939,20 @@ msgid ""
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
 
+#, fuzzy
+#| msgid "Glossary"
+msgid "Connection timeout"
+msgstr "Բառարան"
+
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr ""
+
 msgid "Publish timeout"
 msgstr ""
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
 msgstr ""
 
 msgid "Connection attempts"
@@ -3149,6 +3202,12 @@ msgstr "Ձեր հաշիվը ջնջվել է։"
 msgid "This add-on is already installed on this component."
 msgstr "Ձեր հաշիվը ջնջվել է։"
 
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
 msgid "This add-on cannot be triggered manually."
 msgstr ""
 
@@ -3219,6 +3278,11 @@ msgstr "Նախագծի"
 msgctxt "Add-on scope"
 msgid "Site"
 msgstr ""
+
+#, fuzzy
+#| msgid "Comment:"
+msgid "a component you cannot access"
+msgstr "Մեկնաբանություն՝"
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -4701,6 +4765,11 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "Managed projects"
+msgid "You need to log in to upload translations."
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
 #| msgid "Your account has been removed."
 msgid "The file format does not support updating source strings."
 msgstr "Ձեր հաշիվը ջնջվել է։"
@@ -4737,6 +4806,16 @@ msgstr ""
 
 msgid "Project tokens can not be assigned to teams here."
 msgstr ""
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Team audit log"
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Team audit entry"
+msgstr "Կառավարում"
 
 msgid "Cannot remove built-in team!"
 msgstr ""
@@ -5091,9 +5170,6 @@ msgstr ""
 msgid "No valid billing found or limit exceeded."
 msgstr ""
 
-msgid "Workspace"
-msgstr ""
-
 #, fuzzy
 #| msgid "Search"
 msgid "Customer name"
@@ -5213,6 +5289,9 @@ msgid_plural "Contains %d components"
 msgstr[0] "Նախագծի անվանում"
 msgstr[1] "Նախագծի անվանում"
 
+msgid "Restricted components are not allowed by this billing plan."
+msgstr ""
+
 #, fuzzy
 #| msgid "Change password"
 msgid "Missing license"
@@ -5274,6 +5353,9 @@ msgid ""
 msgstr ""
 
 msgid "To terminate billing you have to remove all projects first."
+msgstr ""
+
+msgid "Externally managed billings cannot be merged."
 msgstr ""
 
 msgid "Cannot merge such a billing."
@@ -6056,6 +6138,9 @@ msgstr ""
 msgid "the value is too complex or nested too deeply"
 msgstr ""
 
+msgid "Format matching exceeded its time limit."
+msgstr ""
+
 #, fuzzy
 #| msgid "Your account has been removed."
 msgid "The following format strings are in the wrong order:"
@@ -6392,6 +6477,9 @@ msgstr ""
 msgid "Markdown syntax does not match source."
 msgstr "Ձեր հաշիվը ջնջվել է։"
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr ""
+
 #, fuzzy
 #| msgid "Your account has been removed."
 msgid "The translation does not contain a URL."
@@ -6597,6 +6685,11 @@ msgstr "Կառավարում"
 msgid "Your translation is foo"
 msgstr "Կառավարվող նախագծեր"
 
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
+msgstr ""
+
 msgid "Font style"
 msgstr ""
 
@@ -6775,6 +6868,25 @@ msgstr "Որոնում"
 msgid "Excel Open XML"
 msgstr ""
 
+#, fuzzy
+#| msgid "Update VCS repository"
+msgid "Could not open the workbook archive."
+msgstr "Արդիացնել VCS պահեստարանը"
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr ""
+
 msgid "Multivalue CSV file"
 msgstr ""
 
@@ -6820,6 +6932,10 @@ msgid "Invalid id_hash metadata in CSV file: %s"
 msgstr "Ձեր հաշիվը ջնջվել է։"
 
 msgid "Plural form metadata in CSV file requires id_hash."
+msgstr ""
+
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
 msgstr ""
 
 #. Translators: File format name
@@ -7095,6 +7211,13 @@ msgid "App store metadata files"
 msgstr ""
 
 msgid "File validation is required for directory-based formats."
+msgstr ""
+
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr ""
+
+msgid "Converted workbook content exceeds the configured size limit."
 msgstr ""
 
 msgid ""
@@ -8339,6 +8462,14 @@ msgstr "Միջերեսի լեզու"
 msgid "Rate limit reset."
 msgstr "VCS պահեստարաններ"
 
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "Too many translation requests."
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+msgid "Too many concurrent translation requests for this service."
+msgstr ""
+
 msgid "File"
 msgstr "Ֆայլ"
 
@@ -8495,6 +8626,11 @@ msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background."
 msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Too many uploads, please try again later."
+msgstr "Կառավարվող նախագծեր"
 
 #, fuzzy, python-format
 #| msgid "Managed projects"
@@ -10437,6 +10573,24 @@ msgstr "Ձեր հաշիվը ջնջվել է։"
 msgid "Install"
 msgstr ""
 
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "Install on the component owning the repository."
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "The component owning this repository is not available to you."
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "VCS repositories"
+msgid "Open repository add-ons"
+msgstr "VCS պահեստարաններ"
+
+msgid "Unavailable"
+msgstr ""
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -10862,6 +11016,34 @@ msgstr "Տարբերակներ"
 
 msgid "Cancel"
 msgstr ""
+
+msgid "Actor"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete"
+msgid "Deleted user"
+msgstr "Հեռացնել"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Administrative team changes"
+msgstr "Կառավարում"
+
+#, fuzzy
+#| msgid "Change password"
+msgid "Change"
+msgstr "Փոխել գաղտնաբառը"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "View details"
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "No team audit entries found."
+msgstr "Կառավարվող նախագծեր"
 
 msgid "Settings"
 msgstr ""
@@ -15010,11 +15192,6 @@ msgstr "Միջերեսի լեզու"
 msgid "Configure translation quality filter"
 msgstr "Ձեր հաշիվը ջնջվել է։"
 
-#, fuzzy
-#| msgid "Managed projects"
-msgid "View details"
-msgstr "Կառավարվող նախագծեր"
-
 msgid "View contributor license agreement"
 msgstr ""
 
@@ -15472,6 +15649,19 @@ msgstr ""
 msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to join the "
 "%(team_name)s team."
+msgstr ""
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr ""
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
 msgstr ""
 
 #, python-format
@@ -17291,6 +17481,15 @@ msgstr ""
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr ""
 
+msgid "Public access on import"
+msgstr ""
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
+
 #, fuzzy
 #| msgid "Managed projects"
 msgid "Token copied to clipboard."
@@ -18062,9 +18261,6 @@ msgstr "VCS պահեստարաններ"
 #| msgid "VCS repositories"
 msgid "Available Repositories"
 msgstr "VCS պահեստարաններ"
-
-msgid "Unavailable"
-msgstr ""
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -19520,6 +19716,12 @@ msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] ""
 msgstr[1] ""
 
+#, fuzzy
+#| msgid "Managed projects"
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr "Կառավարվող նախագծեր"
+
 #, python-format
 msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
@@ -19604,6 +19806,11 @@ msgstr "Կառավարվող նախագծեր"
 
 msgid "Revision must be a complete hexadecimal object ID."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Update VCS repository"
+msgid "Could not validate repository URL: %s"
+msgstr "Արդիացնել VCS պահեստարանը"
 
 #, fuzzy
 #| msgid "Managed projects"
@@ -19702,10 +19909,33 @@ msgstr "Կառավարվող նախագծեր"
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 
+#, fuzzy
+#| msgid "Status"
+msgid "Imported authors"
+msgstr "Կարգավիճակ"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
+msgstr ""
+
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
 msgstr ""
 
 #, python-format
@@ -19742,6 +19972,21 @@ msgstr "Կառավարվող նախագծեր"
 
 msgid "Enter a search string to replace."
 msgstr ""
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
 
 #, fuzzy
 #| msgid "Managed projects"
@@ -19899,6 +20144,9 @@ msgstr "Որոնում"
 #| msgid "Your account has been removed."
 msgid "Needs review"
 msgstr "Ձեր հաշիվը ջնջվել է։"
+
+msgid "This component does not exist or you cannot access it."
+msgstr ""
 
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr ""
@@ -20758,6 +21006,11 @@ msgid "You do not have permission to edit these flags."
 msgstr "Կառավարվող նախագծեր"
 
 #, fuzzy
+#| msgid "Managed projects"
+msgid "You do not have permission to create terminology."
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
 #| msgid "Your account has been removed."
 msgid ""
 "Revert the latest translation edits from this user in the current project."
@@ -20872,9 +21125,6 @@ msgstr ""
 msgid "Maximum source words per day"
 msgstr ""
 
-msgid "This component does not exist or you cannot access it."
-msgstr ""
-
 #, fuzzy
 #| msgid "Interface Language"
 msgid "Inherit from workspace"
@@ -20952,6 +21202,11 @@ msgstr "Կառավարվող նախագծեր"
 #, fuzzy
 #| msgid "Managed projects"
 msgid "Could not load repository branches. Please try again."
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "You do not have permission to edit this project."
 msgstr "Կառավարվող նախագծեր"
 
 #, fuzzy
@@ -21113,11 +21368,6 @@ msgid ""
 "Mark this option if the sentence should stay as in the source language, "
 "without change."
 msgstr ""
-
-#, fuzzy
-#| msgid "Managed projects"
-msgid "You do not have permission to create terminology."
-msgstr "Կառավարվող նախագծեր"
 
 #, fuzzy
 #| msgid "Project name"
@@ -22772,6 +23022,11 @@ msgstr "Նկարագրություն"
 msgid "Could not accept suggestion!"
 msgstr "Տարբերակներ"
 
+#, fuzzy, python-format
+#| msgid "Versions"
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr "Տարբերակներ"
+
 #, fuzzy
 #| msgid "New password (again)"
 msgid "Uploaded translation file is too big."
@@ -22837,6 +23092,18 @@ msgstr ""
 msgid "Plural form %d in the uploaded file is missing."
 msgstr ""
 
+#, fuzzy, python-format
+#| msgid "Managed projects"
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy, python-format
+#| msgid "Versions"
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] "Տարբերակներ"
+msgstr[1] "Տարբերակներ"
+
 #, fuzzy
 #| msgid "Managed projects"
 msgid "The uploaded file contains too many language declarations."
@@ -22863,6 +23130,10 @@ msgstr "Միջերեսի լեզու"
 #| msgid "Managed projects"
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "Կառավարվող նախագծեր"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Managed projects"
@@ -23353,6 +23624,32 @@ msgstr ""
 msgid "Updates source strings in bilingual translation file."
 msgstr "Կառավարվող նախագծեր"
 
+#, fuzzy
+#| msgid "Managed projects"
+msgid "A translation upload is already in progress."
+msgstr "Կառավարվող նախագծեր"
+
+msgid "The uploaded file has expired or was already processed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Language"
+msgid "The uploaded file has expired."
+msgstr "Լեզու"
+
+#, fuzzy
+#| msgid "License"
+msgid "The upload target or permissions changed."
+msgstr "Արտոնագիր"
+
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr ""
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "File upload has failed. Please try again later."
+msgstr "Կառավարվող նախագծեր"
+
 msgid "Very high"
 msgstr ""
 
@@ -23782,8 +24079,10 @@ msgstr ""
 msgid "Access denied."
 msgstr ""
 
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr ""
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "Translation upload in progress."
+msgstr "Ձեր հաշիվը ջնջվել է։"
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -24122,6 +24421,11 @@ msgid "language"
 msgid_plural "languages"
 msgstr[0] "Լեզուներ"
 msgstr[1] "Լեզուներ"
+
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
+msgstr ""
 
 #, fuzzy
 #| msgid "Your account has been removed."
@@ -24481,9 +24785,19 @@ msgstr ""
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
-#, python-format
-msgid "Undefined variable: \"%s\""
+msgid "Template output exceeds its size limit."
 msgstr ""
+
+msgid "Template rendering failed or exceeded its resource limits."
+msgstr ""
+
+msgid "Oversized template response."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "Invalid template rendering response."
+msgstr "Ձեր հաշիվը ջնջվել է։"
 
 #, fuzzy
 #| msgid "Username or email"
@@ -24493,6 +24807,50 @@ msgstr "Օգտանուն կամ էլ-փոստ"
 msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
+msgstr ""
+
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+msgid "Template context is nested too deeply."
+msgstr ""
+
+msgid "Template context exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Status"
+msgid "Unsupported template context key."
+msgstr "Կարգավիճակ"
+
+#, fuzzy
+#| msgid "Status"
+msgid "Unsupported template context value."
+msgstr "Կարգավիճակ"
+
+msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+msgid "Template rendering exceeded its loop limit."
+msgstr ""
+
+msgid "Template intermediate value exceeds its size limit."
+msgstr ""
+
+msgid "Template replacement exceeds its size limit."
+msgstr ""
+
+msgid "Template padding exceeds its size limit."
+msgstr ""
+
+msgid "Template formatting exceeds its size limit."
+msgstr ""
+
+msgid "Template join exceeds its size limit."
+msgstr ""
+
+#, python-format
+msgid "Undefined variable: \"%s\""
 msgstr ""
 
 #, python-format
@@ -25352,6 +25710,11 @@ msgstr ""
 #| msgid "Update VCS repository"
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr "Արդիացնել VCS պահեստարանը"
+
+#, fuzzy
+#| msgid "Failed merge on repository"
+msgid "Could not remove nested repository metadata."
+msgstr "Պահեստարանի միաձուլումը ձախողվեց"
 
 #, fuzzy
 #| msgid "Username"
@@ -26499,11 +26862,6 @@ msgstr "Ձեր հաշիվը ջնջվել է։"
 
 #, fuzzy
 #~| msgid "Managed projects"
-#~ msgid "Updates of translations are in progress."
-#~ msgstr "Կառավարվող նախագծեր"
-
-#, fuzzy
-#~| msgid "Managed projects"
 #~ msgid "Updates of translations in accessible repositories are in progress."
 #~ msgstr "Կառավարվող նախագծեր"
 
@@ -26548,11 +26906,6 @@ msgstr "Ձեր հաշիվը ջնջվել է։"
 #~ msgstr "VCS պահեստարաններ"
 
 #, fuzzy
-#~| msgid "VCS repositories"
-#~ msgid "repository wide"
-#~ msgstr "VCS պահեստարաններ"
-
-#, fuzzy
 #~| msgid "Full name"
 #~ msgid "category"
 #~ msgstr "Ամբողջական անուն"
@@ -26561,11 +26914,6 @@ msgstr "Ձեր հաշիվը ջնջվել է։"
 #~| msgid "Project website"
 #~ msgid "project-wide"
 #~ msgstr "Նախագծի կայք"
-
-#, fuzzy
-#~| msgid "VCS repositories"
-#~ msgid "site-wide"
-#~ msgstr "VCS պահեստարաններ"
 
 #, fuzzy, python-format
 #~| msgid "Your account has been removed."

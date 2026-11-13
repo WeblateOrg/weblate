@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-05 22:27-0600\n"
+"POT-Creation-Date: 2026-11-13 01:19-0600\n"
 "PO-Revision-Date: 2026-10-16 04:35+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -618,7 +618,14 @@ msgstr ""
 msgid "User access to the {team} team was changed by {username}."
 msgstr ""
 
-#. Translators: Audit log entry
+#, python-brace-format
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr ""
+
+#, python-brace-format
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr ""
+
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr ""
@@ -736,6 +743,42 @@ msgstr "ਆਪਣੇ-ਆਪ ਅਨੁਵਾਦ"
 msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Site-wide"
+msgstr "ਆਪਣੇ-ਆਪ ਅਨੁਵਾਦ"
+
+msgid "Workspace"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project name"
+msgid "Team created"
+msgstr "ਪਰੋਜੈਕਟ ਦਾ ਨਾਂ"
+
+#, fuzzy
+#| msgid "Download changes"
+msgid "Team changed"
+msgstr "ਤਬਦੀਲੀਆਂ ਡਾਊਨਲੋਡ ਕਰੋ"
+
+msgid "Team deleted"
+msgstr ""
+
+#, fuzzy
+#| msgid "Full name"
+msgid "Team member added"
+msgstr "ਪੂਰਾ ਨਾਂ"
+
+#, fuzzy
+#| msgid "User profile"
+msgid "Team member removed"
+msgstr "ਵਰਤੋਂਕਾਰ ਪਰੋਫਾਈਲ"
+
+#, fuzzy
+#| msgid "String has plural"
+msgid "Team member access changed"
+msgstr "ਸਤਰ ਵਿੱਚ ਬਹੁ-ਵਚਨ ਹੈ"
 
 msgid "Account activity"
 msgstr "ਖਾਤੇ ਦੀਆਂ ਗਤੀਵਿਧੀਆਂ"
@@ -2801,10 +2844,21 @@ msgid ""
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
 
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Manage glossary"
+msgid "Connection timeout"
+msgstr "ਸ਼ਬਦਾਵਲੀ ਦਾ ਇੰਤਜ਼ਾਮ ਕਰੋ"
+
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr ""
+
 msgid "Publish timeout"
 msgstr ""
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
 msgstr ""
 
 msgid "Connection attempts"
@@ -3044,6 +3098,12 @@ msgstr "ਨਵਾਂ ਉਲੱਥਾ ਭਾਗ"
 msgid "This add-on is already installed on this component."
 msgstr "ਨਵਾਂ ਉਲੱਥਾ ਭਾਗ"
 
+#, fuzzy
+#| msgid "New translation component"
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr "ਨਵਾਂ ਉਲੱਥਾ ਭਾਗ"
+
 msgid "This add-on cannot be triggered manually."
 msgstr ""
 
@@ -3110,6 +3170,11 @@ msgstr "ਪਰੋਜੈਕਟ"
 msgctxt "Add-on scope"
 msgid "Site"
 msgstr ""
+
+#, fuzzy
+#| msgid "Components"
+msgid "a component you cannot access"
+msgstr "ਭਾਗ"
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -4455,6 +4520,11 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "Upload translations"
+msgid "You need to log in to upload translations."
+msgstr "ਉਲੱਥੇ ਅੱਪਲੋਡ ਕਰੋ"
+
+#, fuzzy
 #| msgid "Automatic translation"
 msgid "The file format does not support updating source strings."
 msgstr "ਆਪਣੇ-ਆਪ ਅਨੁਵਾਦ"
@@ -4490,6 +4560,12 @@ msgid "Inactive users can not be assigned to teams."
 msgstr ""
 
 msgid "Project tokens can not be assigned to teams here."
+msgstr ""
+
+msgid "Team audit log"
+msgstr ""
+
+msgid "Team audit entry"
 msgstr ""
 
 msgid "Cannot remove built-in team!"
@@ -4835,9 +4911,6 @@ msgstr ""
 msgid "No valid billing found or limit exceeded."
 msgstr ""
 
-msgid "Workspace"
-msgstr ""
-
 #, fuzzy
 #| msgid "Username or e-mail"
 msgid "Customer name"
@@ -4947,6 +5020,9 @@ msgid_plural "Contains %d components"
 msgstr[0] "ਭਾਗ ਬਣਾਇਆ"
 msgstr[1] "ਭਾਗ ਬਣਾਇਆ"
 
+msgid "Restricted components are not allowed by this billing plan."
+msgstr ""
+
 #, fuzzy
 #| msgid "Change plan"
 msgid "Missing license"
@@ -5008,6 +5084,9 @@ msgid ""
 msgstr ""
 
 msgid "To terminate billing you have to remove all projects first."
+msgstr ""
+
+msgid "Externally managed billings cannot be merged."
 msgstr ""
 
 msgid "Cannot merge such a billing."
@@ -5772,6 +5851,9 @@ msgstr ""
 msgid "the value is too complex or nested too deeply"
 msgstr ""
 
+msgid "Format matching exceeded its time limit."
+msgstr ""
+
 #, fuzzy
 #| msgid "Automatic translation"
 msgid "The following format strings are in the wrong order:"
@@ -6061,6 +6143,9 @@ msgstr ""
 msgid "Markdown syntax does not match source."
 msgstr "ਖੁਦ ਦੇ ਉਲੱਥੇ ਉੱਤੇ ਟਿੱਪਣੀ"
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr ""
+
 #, fuzzy
 #| msgid "Automatic translation"
 msgid "The translation does not contain a URL."
@@ -6257,6 +6342,11 @@ msgstr "ਨਵੇਂ ਪਾਸਵਰਡ ਦੀ ਤਸਦੀਕ ਕਰੋ"
 msgid "Your translation is foo"
 msgstr "ਨਵਾਂ ਉਲੱਥਾ ਭਾਗ"
 
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
+msgstr ""
+
 msgid "Font style"
 msgstr ""
 
@@ -6419,6 +6509,25 @@ msgstr ""
 msgid "Excel Open XML"
 msgstr ""
 
+#, fuzzy
+#| msgid "Template for new translations"
+msgid "Could not open the workbook archive."
+msgstr "ਨਵੇ ਉਲੱਥੇ ਲਈ ਟੈਪਲੇਟ"
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr ""
+
 msgid "Multivalue CSV file"
 msgstr ""
 
@@ -6463,6 +6572,10 @@ msgid "Invalid id_hash metadata in CSV file: %s"
 msgstr ""
 
 msgid "Plural form metadata in CSV file requires id_hash."
+msgstr ""
+
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
 msgstr ""
 
 #. Translators: File format name
@@ -6707,6 +6820,13 @@ msgid "App store metadata files"
 msgstr ""
 
 msgid "File validation is required for directory-based formats."
+msgstr ""
+
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr ""
+
+msgid "Converted workbook content exceeds the configured size limit."
 msgstr ""
 
 msgid ""
@@ -7918,6 +8038,14 @@ msgstr ""
 msgid "Rate limit reset."
 msgstr "ਆਪਣੇ-ਆਪ ਅਨੁਵਾਦ"
 
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Too many translation requests."
+msgstr "ਆਪਣੇ-ਆਪ ਅਨੁਵਾਦ"
+
+msgid "Too many concurrent translation requests for this service."
+msgstr ""
+
 msgid "File"
 msgstr "ਫਾਇਲ"
 
@@ -8067,6 +8195,11 @@ msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background."
 msgstr ""
+
+#, fuzzy
+#| msgid "That was not correct, please try again."
+msgid "Too many uploads, please try again later."
+msgstr "ਇਹ ਸਹੀ ਨਹੀਂ ਹੈ, ਮੁੜ ਕੋਸ਼ਿਸ਼ ਕਰੋ ਜੀ।"
 
 #, fuzzy, python-format
 #| msgid "Automatic translation"
@@ -9882,6 +10015,24 @@ msgstr "ਨਵਾਂ ਉਲੱਥਾ ਭਾਗ"
 msgid "Install"
 msgstr ""
 
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Install on the component owning the repository."
+msgstr "ਆਪਣੇ-ਆਪ ਅਨੁਵਾਦ"
+
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "The component owning this repository is not available to you."
+msgstr "ਆਪਣੇ-ਆਪ ਅਨੁਵਾਦ"
+
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Open repository add-ons"
+msgstr "ਆਪਣੇ-ਆਪ ਅਨੁਵਾਦ"
+
+msgid "Unavailable"
+msgstr ""
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -10282,6 +10433,31 @@ msgstr "ਆਪਣੇ-ਆਪ ਅਨੁਵਾਦ"
 
 msgid "Cancel"
 msgstr ""
+
+msgid "Actor"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "String state"
+#| msgid "Translated"
+msgid "Deleted user"
+msgstr "ਉਲੱਥਾ ਕੀਤੇ"
+
+msgid "Administrative team changes"
+msgstr ""
+
+#, fuzzy
+#| msgid "Change"
+msgid "Change"
+msgstr "ਬਦਲੋ"
+
+msgid "View details"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation Info"
+msgid "No team audit entries found."
+msgstr "ਉਲੱਥਾ ਜਾਣਕਾਰੀ"
 
 msgid "Settings"
 msgstr ""
@@ -14180,9 +14356,6 @@ msgstr "ਸਰੋਤ ਸਤਰਾਂ"
 msgid "Configure translation quality filter"
 msgstr "ਉਲੱਥਾ ਫਾਇਲਾਂ"
 
-msgid "View details"
-msgstr ""
-
 msgid "View contributor license agreement"
 msgstr ""
 
@@ -14610,6 +14783,19 @@ msgstr ""
 msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to join the "
 "%(team_name)s team."
+msgstr ""
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr ""
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
 msgstr ""
 
 #, python-format
@@ -16339,6 +16525,15 @@ msgstr ""
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr ""
 
+msgid "Public access on import"
+msgstr ""
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
+
 msgid "Token copied to clipboard."
 msgstr ""
 
@@ -17073,9 +17268,6 @@ msgstr "ਆਪਣੇ-ਆਪ ਅਨੁਵਾਦ"
 #| msgid "Source code repository"
 msgid "Available Repositories"
 msgstr "ਸਰੋਤ ਕੋਡ ਦੀ ਰਿਪੋਰਜ਼ਟਰੀ"
-
-msgid "Unavailable"
-msgstr ""
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -18471,6 +18663,12 @@ msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] ""
 msgstr[1] ""
 
+#, fuzzy
+#| msgid "Automatic translation"
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr "ਆਪਣੇ-ਆਪ ਅਨੁਵਾਦ"
+
 #, python-format
 msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
@@ -18553,6 +18751,11 @@ msgstr "ਸਕਰੀਨਸ਼ਾਟ"
 
 msgid "Revision must be a complete hexadecimal object ID."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Template for new translations"
+msgid "Could not validate repository URL: %s"
+msgstr "ਨਵੇ ਉਲੱਥੇ ਲਈ ਟੈਪਲੇਟ"
 
 #, fuzzy
 #| msgid "Created component"
@@ -18647,10 +18850,33 @@ msgstr ""
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 
+#, fuzzy
+#| msgid "Template for new translations"
+msgid "Imported authors"
+msgstr "ਨਵੇ ਉਲੱਥੇ ਲਈ ਟੈਪਲੇਟ"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
+msgstr ""
+
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
 msgstr ""
 
 #, python-format
@@ -18685,6 +18911,21 @@ msgstr "ਆਪਣੇ-ਆਪ ਅਨੁਵਾਦ"
 
 msgid "Enter a search string to replace."
 msgstr ""
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
 
 #, fuzzy
 #| msgid "Automatic translation"
@@ -18833,6 +19074,9 @@ msgstr "ਦਿੱਤੇ ਸੁਝਾਅ"
 #| msgid "Source strings"
 msgid "Needs review"
 msgstr "ਸਰੋਤ ਸਤਰਾਂ"
+
+msgid "This component does not exist or you cannot access it."
+msgstr ""
 
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr ""
@@ -19647,6 +19891,9 @@ msgstr "ਉਲੱਥਾ ਫਾਇਲਾਂ"
 msgid "You do not have permission to edit these flags."
 msgstr "ਉਲੱਥੇ ਅੱਪਲੋਡ ਕਰੋ"
 
+msgid "You do not have permission to create terminology."
+msgstr ""
+
 #, fuzzy
 #| msgid "Automatic translation"
 msgid ""
@@ -19762,9 +20009,6 @@ msgstr ""
 msgid "Maximum source words per day"
 msgstr ""
 
-msgid "This component does not exist or you cannot access it."
-msgstr ""
-
 #, fuzzy
 #| msgid "Add an user"
 msgid "Inherit from workspace"
@@ -19831,6 +20075,11 @@ msgstr "ਇਹ ਸਹੀ ਨਹੀਂ ਹੈ, ਮੁੜ ਕੋਸ਼ਿਸ਼ ਕਰ�
 #| msgid "That was not correct, please try again."
 msgid "Could not load repository branches. Please try again."
 msgstr "ਇਹ ਸਹੀ ਨਹੀਂ ਹੈ, ਮੁੜ ਕੋਸ਼ਿਸ਼ ਕਰੋ ਜੀ।"
+
+#, fuzzy
+#| msgid "Upload translations"
+msgid "You do not have permission to edit this project."
+msgstr "ਉਲੱਥੇ ਅੱਪਲੋਡ ਕਰੋ"
 
 #, fuzzy
 #| msgid "Automatic translation"
@@ -19981,9 +20230,6 @@ msgstr "ਉਲੱਥਾ ਨਹੀਂ ਕੀਤਾ"
 msgid ""
 "Mark this option if the sentence should stay as in the source language, "
 "without change."
-msgstr ""
-
-msgid "You do not have permission to create terminology."
 msgstr ""
 
 #, fuzzy
@@ -21544,6 +21790,11 @@ msgstr "ਸਰੋਤ ਸਤਰਾਂ"
 msgid "Could not accept suggestion!"
 msgstr "ਉਲੱਥੇ ਅੱਪਲੋਡ ਕਰੋ"
 
+#, fuzzy, python-format
+#| msgid "Automatic translation"
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr "ਆਪਣੇ-ਆਪ ਅਨੁਵਾਦ"
+
 #, fuzzy
 #| msgid "Upload translations files"
 msgid "Uploaded translation file is too big."
@@ -21608,6 +21859,18 @@ msgstr ""
 msgid "Plural form %d in the uploaded file is missing."
 msgstr ""
 
+#, fuzzy, python-format
+#| msgid "Automatic translation"
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr "ਆਪਣੇ-ਆਪ ਅਨੁਵਾਦ"
+
+#, fuzzy, python-format
+#| msgid "Automatic translation"
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] "ਆਪਣੇ-ਆਪ ਅਨੁਵਾਦ"
+msgstr[1] "ਆਪਣੇ-ਆਪ ਅਨੁਵਾਦ"
+
 #, fuzzy
 #| msgid "Automatic translation"
 msgid "The uploaded file contains too many language declarations."
@@ -21634,6 +21897,10 @@ msgstr "ਨਵੇ ਉਲੱਥੇ ਲਈ ਟੈਪਲੇਟ"
 #| msgid "Template for new translations"
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "ਨਵੇ ਉਲੱਥੇ ਲਈ ਟੈਪਲੇਟ"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Upload translations"
@@ -22113,6 +22380,32 @@ msgstr ""
 msgid "Updates source strings in bilingual translation file."
 msgstr "ਆਪਣੇ-ਆਪ ਅਨੁਵਾਦ"
 
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "A translation upload is already in progress."
+msgstr "ਆਪਣੇ-ਆਪ ਅਨੁਵਾਦ"
+
+msgid "The uploaded file has expired or was already processed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Activation e-mail will be sent here."
+msgid "The uploaded file has expired."
+msgstr "ਐਕਟੀਵੇਸ਼ਨ ਈਮੇਲ ਇੱਥੇ ਭੇਜੀ ਜਾਵੇਗੀ।"
+
+#, fuzzy
+#| msgid "String has plural"
+msgid "The upload target or permissions changed."
+msgstr "ਸਤਰ ਵਿੱਚ ਬਹੁ-ਵਚਨ ਹੈ"
+
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr ""
+
+#, fuzzy
+#| msgid "That was not correct, please try again."
+msgid "File upload has failed. Please try again later."
+msgstr "ਇਹ ਸਹੀ ਨਹੀਂ ਹੈ, ਮੁੜ ਕੋਸ਼ਿਸ਼ ਕਰੋ ਜੀ।"
+
 msgid "Very high"
 msgstr ""
 
@@ -22520,8 +22813,10 @@ msgstr ""
 msgid "Access denied."
 msgstr ""
 
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr ""
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Translation upload in progress."
+msgstr "ਆਪਣੇ-ਆਪ ਅਨੁਵਾਦ"
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -22852,6 +23147,11 @@ msgid "language"
 msgid_plural "languages"
 msgstr[0] "ਭਾਸ਼ਾਵਾਂ"
 msgstr[1] "ਭਾਸ਼ਾਵਾਂ"
+
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
+msgstr ""
 
 msgid "The project is already assigned to this workspace."
 msgstr ""
@@ -23207,9 +23507,19 @@ msgstr ""
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
-#, python-format
-msgid "Undefined variable: \"%s\""
+msgid "Template output exceeds its size limit."
 msgstr ""
+
+msgid "Template rendering failed or exceeded its resource limits."
+msgstr ""
+
+msgid "Oversized template response."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation Information"
+msgid "Invalid template rendering response."
+msgstr "ਉਲੱਥਾ ਜਾਣਕਾਰੀ"
 
 #, fuzzy
 #| msgid "Template for new translations"
@@ -23219,6 +23529,50 @@ msgstr "ਨਵੇ ਉਲੱਥੇ ਲਈ ਟੈਪਲੇਟ"
 msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
+msgstr ""
+
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+msgid "Template context is nested too deeply."
+msgstr ""
+
+msgid "Template context exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Hosted service"
+msgid "Unsupported template context key."
+msgstr "ਹੋਸਟ ਕੀਤੀ ਸੇਵਾ"
+
+#, fuzzy
+#| msgid "Hosted service"
+msgid "Unsupported template context value."
+msgstr "ਹੋਸਟ ਕੀਤੀ ਸੇਵਾ"
+
+msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+msgid "Template rendering exceeded its loop limit."
+msgstr ""
+
+msgid "Template intermediate value exceeds its size limit."
+msgstr ""
+
+msgid "Template replacement exceeds its size limit."
+msgstr ""
+
+msgid "Template padding exceeds its size limit."
+msgstr ""
+
+msgid "Template formatting exceeds its size limit."
+msgstr ""
+
+msgid "Template join exceeds its size limit."
+msgstr ""
+
+#, python-format
+msgid "Undefined variable: \"%s\""
 msgstr ""
 
 #, python-format
@@ -24027,6 +24381,11 @@ msgstr ""
 
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr ""
+
+#, fuzzy
+#| msgid "Template for new translations"
+msgid "Could not remove nested repository metadata."
+msgstr "ਨਵੇ ਉਲੱਥੇ ਲਈ ਟੈਪਲੇਟ"
 
 #, fuzzy
 #| msgid "username"

@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-05 22:27-0600\n"
+"POT-Creation-Date: 2026-11-13 01:19-0600\n"
 "PO-Revision-Date: 2026-10-30 05:03+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -604,7 +604,16 @@ msgstr "เพิ่มผู้ใช้ลงในทีม {team} โดย 
 msgid "User access to the {team} team was changed by {username}."
 msgstr "ผู้ใช้ได้รับการเข้าถึงกับทีม {team} ถูกเปลี่ยนโดย {username}"
 
-#. Translators: Audit log entry
+#, fuzzy, python-brace-format
+#| msgid "User was added to the {team} team by {username}."
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr "ผู้ใช้ได้รับการเข้าถึงกับทีม {team} ถูกเปลี่ยนโดย {username}"
+
+#, fuzzy, python-brace-format
+#| msgid "User was added to the {team} team by {username}."
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr "ผู้ใช้ได้รับการเข้าถึงกับทีม {team} ถูกเปลี่ยนโดย {username}"
+
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr "ลบผู้ใช้ออกจากทีม {team} โดย {username}"
@@ -720,6 +729,45 @@ msgstr "ฟีเจอร์โฟนทั่วไป"
 msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr "เครื่อง-iOS"
+
+#, fuzzy
+#| msgid "Versions"
+msgid "Site-wide"
+msgstr "รุ่น"
+
+msgid "Workspace"
+msgstr ""
+
+#, fuzzy
+#| msgid "Backup repository"
+msgid "Team created"
+msgstr "สำรองข้อมูลคลังโค้ด"
+
+#, fuzzy
+#| msgid "Last change"
+msgid "Team changed"
+msgstr "การเปลี่ยนแปลงล่าสุด"
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "Team deleted"
+msgstr "ลบแบบอักษรแล้ว"
+
+#, fuzzy
+#| msgid "Label name"
+msgid "Team member added"
+msgstr "ชื่อป้ายชื่อ"
+
+#, fuzzy
+#| msgid "Language"
+msgid "Team member removed"
+msgstr "ภาษา"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "Team member access changed"
+msgstr "เปลี่ยนสัญญาอนุญาตแล้ว"
 
 msgid "Account activity"
 msgstr "กิจกรรมของบัญชี"
@@ -2712,10 +2760,20 @@ msgid ""
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
 
+#, fuzzy
+#| msgid "Creation timestamp"
+msgid "Connection timeout"
+msgstr "การประทับเวลาที่สร้าง"
+
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr ""
+
 msgid "Publish timeout"
 msgstr ""
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
 msgstr ""
 
 msgid "Connection attempts"
@@ -2970,6 +3028,12 @@ msgid "This add-on is already installed on this component."
 msgstr "การดูแลระบบ"
 
 #, fuzzy
+#| msgid "Administration"
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr "การดูแลระบบ"
+
+#, fuzzy
 #| msgid "This add-on executes a script."
 msgid "This add-on cannot be triggered manually."
 msgstr "ส่วนเสริมนี้สั่งทำงานสคริปต์"
@@ -3035,6 +3099,11 @@ msgstr "โครงการ"
 msgctxt "Add-on scope"
 msgid "Site"
 msgstr ""
+
+#, fuzzy
+#| msgid "Component lists"
+msgid "a component you cannot access"
+msgstr "รายการคอมโพเนนต์"
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -4312,6 +4381,11 @@ msgid ""
 "enable them."
 msgstr ""
 
+#, fuzzy
+#| msgid "Administration"
+msgid "You need to log in to upload translations."
+msgstr "การดูแลระบบ"
+
 msgid "The file format does not support updating source strings."
 msgstr "รูปแบบไฟล์ไม่รองรับการอัปเดตข้อความต้นฉบับ"
 
@@ -4347,6 +4421,16 @@ msgstr ""
 
 msgid "Project tokens can not be assigned to teams here."
 msgstr ""
+
+#, fuzzy
+#| msgid "Audit log"
+msgid "Team audit log"
+msgstr "บันทึกการตรวจสอบ"
+
+#, fuzzy
+#| msgid "Administrators"
+msgid "Team audit entry"
+msgstr "ผู้ดูแลระบบ"
 
 msgid "Cannot remove built-in team!"
 msgstr "ไม่สามารถลบทีมที่มีมาให้ในระบบได้!"
@@ -4706,9 +4790,6 @@ msgstr ""
 msgid "No valid billing found or limit exceeded."
 msgstr ""
 
-msgid "Workspace"
-msgstr ""
-
 #, fuzzy
 #| msgid "Customize the component name"
 msgid "Customer name"
@@ -4814,6 +4895,9 @@ msgid "Contains %d component"
 msgid_plural "Contains %d components"
 msgstr[0] "มี %d คอมโพเนนต์"
 
+msgid "Restricted components are not allowed by this billing plan."
+msgstr ""
+
 msgid "Missing license"
 msgstr "ไม่มีใบอนุญาต"
 
@@ -4877,6 +4961,9 @@ msgstr "คุณจะหยุดได้รับการแจ้งเต
 
 msgid "To terminate billing you have to remove all projects first."
 msgstr "หากต้องการสิ้นสุดการเรียกเก็บเงิน คุณจะต้องเอาโครงการทั้งหมดออกก่อน"
+
+msgid "Externally managed billings cannot be merged."
+msgstr ""
 
 #, fuzzy
 #| msgid "Cannot change this on a built-in team."
@@ -5639,6 +5726,9 @@ msgstr ""
 msgid "the value is too complex or nested too deeply"
 msgstr ""
 
+msgid "Format matching exceeded its time limit."
+msgstr ""
+
 #, fuzzy
 #| msgid "The following format strings are in the wrong order: %s"
 msgid "The following format strings are in the wrong order:"
@@ -5916,6 +6006,9 @@ msgstr "ไวยากรณ์ Markdown"
 msgid "Markdown syntax does not match source."
 msgstr "ไวยากรณ์ Markdown ไม่ตรงกับต้นฉบับ"
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr ""
+
 #, fuzzy
 #| msgid "The translation does not contain an URL."
 msgid "The translation does not contain a URL."
@@ -6109,6 +6202,11 @@ msgstr "การกำหนดค่า Weblate"
 msgid "Your translation is foo"
 msgstr "คำแปลของคุณคือ foo"
 
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
+msgstr ""
+
 msgid "Font style"
 msgstr "ลักษณะแบบอักษร"
 
@@ -6288,6 +6386,25 @@ msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
 #, fuzzy
+#| msgid "Administration"
+msgid "Could not open the workbook archive."
+msgstr "การดูแลระบบ"
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr ""
+
+#, fuzzy
 #| msgid "Simple CSV file"
 msgid "Multivalue CSV file"
 msgstr "ไฟล์ CSV อย่างง่าย"
@@ -6334,6 +6451,10 @@ msgid "Invalid id_hash metadata in CSV file: %s"
 msgstr "ธงคำแปลไม่ถูกต้อง: \"%s\""
 
 msgid "Plural form metadata in CSV file requires id_hash."
+msgstr ""
+
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
 msgstr ""
 
 #. Translators: File format name
@@ -6595,6 +6716,13 @@ msgid "App store metadata files"
 msgstr "ไฟล์ Metadata ของ App Store"
 
 msgid "File validation is required for directory-based formats."
+msgstr ""
+
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr ""
+
+msgid "Converted workbook content exceeds the configured size limit."
 msgstr ""
 
 msgid ""
@@ -7903,6 +8031,16 @@ msgstr "เพิ่มภาษาใหม่ไปยัง %(component)s แ
 msgid "Rate limit reset."
 msgstr "อัปเดตด้วยการ Rebase"
 
+#, fuzzy
+#| msgid "Administration"
+msgid "Too many translation requests."
+msgstr "การดูแลระบบ"
+
+#, fuzzy
+#| msgid "Too many authentication attempts from this location."
+msgid "Too many concurrent translation requests for this service."
+msgstr "มีความพยายามในการรับรองความถูกต้องมากเกินไปจากตำแหน่งที่ตั้งนี้"
+
 msgid "File"
 msgstr "ไฟล์"
 
@@ -8055,6 +8193,11 @@ msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background."
 msgstr "การดูแลระบบ"
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "Too many uploads, please try again later."
+msgstr "ส่งข้อความมากเกินไป โปรดลองอีกครั้งภายหลัง"
 
 #, fuzzy, python-format
 #| msgid "Confirm deleting all translation memory entries"
@@ -9989,6 +10132,26 @@ msgstr "การดูแลระบบ"
 msgid "Install"
 msgstr "ติดตั้ง"
 
+#, fuzzy
+#| msgid "Administration"
+msgid "Install on the component owning the repository."
+msgstr "การดูแลระบบ"
+
+#, fuzzy
+#| msgid "This component is currently locked."
+msgid "The component owning this repository is not available to you."
+msgstr "คอมโพเนนต์นี้ถูกล็อกอยู่ในขณะนี้"
+
+#, fuzzy
+#| msgid "Repository changes"
+msgid "Open repository add-ons"
+msgstr "การเปลี่ยนแปลงคลังเก็บ"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Unavailable"
+msgstr "ไม่พร้อมใช้งาน"
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -10408,6 +10571,32 @@ msgstr "สิทธิ์"
 
 msgid "Cancel"
 msgstr ""
+
+msgid "Actor"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete entry"
+msgid "Deleted user"
+msgstr "ลบรายการ"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Administrative team changes"
+msgstr "การดูแลระบบ"
+
+#, fuzzy
+#| msgid "Changes"
+msgid "Change"
+msgstr "การเปลี่ยนแปลง"
+
+msgid "View details"
+msgstr "ดูรายละเอียด"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No team audit entries found."
+msgstr "ไม่พบสตริงที่ตรงกัน"
 
 msgid "Settings"
 msgstr "การตั้งค่า"
@@ -14526,9 +14715,6 @@ msgstr "ไฟล์ภาษาพื้นฐานแบบภาษาเด
 msgid "Configure translation quality filter"
 msgstr "ไฟล์คำแปล"
 
-msgid "View details"
-msgstr "ดูรายละเอียด"
-
 #, fuzzy
 #| msgid "Contributor agreement"
 msgid "View contributor license agreement"
@@ -14971,6 +15157,19 @@ msgstr ""
 msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to join the "
 "%(team_name)s team."
+msgstr ""
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr ""
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
 msgstr ""
 
 #, python-format
@@ -16791,6 +16990,15 @@ msgstr "สำรองข้อมูล"
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr ""
 
+msgid "Public access on import"
+msgstr ""
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
+
 #, fuzzy
 #| msgid "Repository operation"
 msgid "Token copied to clipboard."
@@ -17540,11 +17748,6 @@ msgstr "วันครบกำหนด"
 #| msgid "Versions"
 msgid "Available Repositories"
 msgstr "รุ่น"
-
-#, fuzzy
-#| msgid "Not available"
-msgid "Unavailable"
-msgstr "ไม่พร้อมใช้งาน"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -19015,6 +19218,12 @@ msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] ""
 
+#, fuzzy
+#| msgid "Administration"
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr "การดูแลระบบ"
+
 #, python-format
 msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
@@ -19101,6 +19310,11 @@ msgstr "รายละเอียดภาพหน้าจอ"
 
 msgid "Revision must be a complete hexadecimal object ID."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Administration"
+msgid "Could not validate repository URL: %s"
+msgstr "การดูแลระบบ"
 
 #, fuzzy
 #| msgid "Administration"
@@ -19199,10 +19413,33 @@ msgstr "การดูแลระบบ"
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 
+#, fuzzy
+#| msgid "Important dates"
+msgid "Imported authors"
+msgstr "วันที่สำคัญ"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
+msgstr ""
+
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
 msgstr ""
 
 #, python-format
@@ -19239,6 +19476,19 @@ msgstr "จัดการผู้ใช้"
 
 msgid "Enter a search string to replace."
 msgstr ""
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] ""
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] ""
 
 #, fuzzy
 #| msgid "Invalid merge request!"
@@ -19398,6 +19648,9 @@ msgstr "คำแนะนำที่เสนอ"
 #| msgid "Source has been removed."
 msgid "Needs review"
 msgstr "ต้นฉบับได้ถูกเอาออกแล้ว"
+
+msgid "This component does not exist or you cannot access it."
+msgstr ""
 
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr ""
@@ -20274,6 +20527,11 @@ msgid "You do not have permission to edit these flags."
 msgstr "การดูแลระบบ"
 
 #, fuzzy
+#| msgid "Administration"
+msgid "You do not have permission to create terminology."
+msgstr "การดูแลระบบ"
+
+#, fuzzy
 #| msgid "This translation is currently locked."
 msgid ""
 "Revert the latest translation edits from this user in the current project."
@@ -20392,9 +20650,6 @@ msgstr ""
 msgid "Maximum source words per day"
 msgstr ""
 
-msgid "This component does not exist or you cannot access it."
-msgstr ""
-
 #, fuzzy
 #| msgid "Add new word"
 msgid "Inherit from workspace"
@@ -20469,6 +20724,11 @@ msgstr "ส่งข้อความมากเกินไป โปรด�
 #| msgid "Could not open a ticket, please try again later."
 msgid "Could not load repository branches. Please try again."
 msgstr "ไม่สามารถเปิดตั๋วงานได้ โปรดลองอีกครั้งภายหลัง"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "You do not have permission to edit this project."
+msgstr "การดูแลระบบ"
 
 #, fuzzy
 #| msgid "Administration"
@@ -20628,11 +20888,6 @@ msgid ""
 "Mark this option if the sentence should stay as in the source language, "
 "without change."
 msgstr ""
-
-#, fuzzy
-#| msgid "Administration"
-msgid "You do not have permission to create terminology."
-msgstr "การดูแลระบบ"
 
 #, fuzzy
 msgid "Invalid string selection!"
@@ -22304,6 +22559,11 @@ msgstr "คำอธิบาย"
 msgid "Could not accept suggestion!"
 msgstr "ยอมรับข้อเสนอแนะ"
 
+#, fuzzy, python-format
+#| msgid "Versions"
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr "รุ่น"
+
 #, fuzzy
 #| msgid "Administration"
 msgid "Uploaded translation file is too big."
@@ -22370,6 +22630,17 @@ msgstr ""
 msgid "Plural form %d in the uploaded file is missing."
 msgstr ""
 
+#, fuzzy, python-format
+#| msgid "Administration"
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr "การดูแลระบบ"
+
+#, fuzzy, python-format
+#| msgid "The string has not been translated for a long time"
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] "สตริงนี้ไม่ได้ถูกแปลมาเป็นเวลานานแล้ว"
+
 #, fuzzy
 #| msgid "Administration"
 msgid "The uploaded file contains too many language declarations."
@@ -22396,6 +22667,10 @@ msgstr "ส่งการเปลี่ยนแปลงที่รอค้
 #| msgid "Error in parameter %(field)s: %(error)s"
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "ข้อผิดพลาดในพารามิเตอร์ %(field)s: %(error)s"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Administration"
@@ -22889,6 +23164,33 @@ msgstr ""
 msgid "Updates source strings in bilingual translation file."
 msgstr "เว้นว่างไว้สำหรับไฟล์คำแปลแบบสองภาษา"
 
+#, fuzzy
+#| msgid "Administration"
+msgid "A translation upload is already in progress."
+msgstr "การดูแลระบบ"
+
+msgid "The uploaded file has expired or was already processed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Language"
+msgid "The uploaded file has expired."
+msgstr "ภาษา"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "The upload target or permissions changed."
+msgstr "เปลี่ยนสัญญาอนุญาตแล้ว"
+
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "File upload has failed. Please try again later."
+msgstr "ส่งข้อความมากเกินไป โปรดลองอีกครั้งภายหลัง"
+
 msgid "Very high"
 msgstr ""
 
@@ -23317,8 +23619,10 @@ msgstr ""
 msgid "Access denied."
 msgstr ""
 
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr ""
+#, fuzzy
+#| msgid "Translation process"
+msgid "Translation upload in progress."
+msgstr "กระบวนการแปล"
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -23668,6 +23972,11 @@ msgstr "พบข้อผิดพลาดที่พารามิเตอ
 msgid "language"
 msgid_plural "languages"
 msgstr[0] "ภาษา"
+
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
+msgstr ""
 
 #, fuzzy
 #| msgid "This component is currently locked."
@@ -24029,9 +24338,19 @@ msgstr ""
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
-#, python-format
-msgid "Undefined variable: \"%s\""
+msgid "Template output exceeds its size limit."
 msgstr ""
+
+msgid "Template rendering failed or exceeded its resource limits."
+msgstr ""
+
+msgid "Oversized template response."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid translation flag: \"%s\""
+msgid "Invalid template rendering response."
+msgstr "ธงคำแปลไม่ถูกต้อง: \"%s\""
 
 #, fuzzy
 #| msgid "Administration"
@@ -24041,6 +24360,52 @@ msgstr "การดูแลระบบ"
 msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
+msgstr ""
+
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The HTML {tag} tag is missing a matching end tag: {end}."
+msgid "Template context is nested too deeply."
+msgstr "แท็ก HTML {tag} ขาดแท็กปิดที่คู่กัน: {end}"
+
+msgid "Template context exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template context key."
+msgstr "รูปแบบไฟล์ที่ไม่สนับสนุน"
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template context value."
+msgstr "รูปแบบไฟล์ที่ไม่สนับสนุน"
+
+msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+msgid "Template rendering exceeded its loop limit."
+msgstr ""
+
+msgid "Template intermediate value exceeds its size limit."
+msgstr ""
+
+msgid "Template replacement exceeds its size limit."
+msgstr ""
+
+msgid "Template padding exceeds its size limit."
+msgstr ""
+
+msgid "Template formatting exceeds its size limit."
+msgstr ""
+
+msgid "Template join exceeds its size limit."
+msgstr ""
+
+#, python-format
+msgid "Undefined variable: \"%s\""
 msgstr ""
 
 #, python-format
@@ -24910,6 +25275,11 @@ msgstr ""
 #| msgid "Push changes to the remote repository"
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr "ผลักข้อมูลการเปลี่ยนแปลงจากคลังเก็บระยะไกล"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Could not remove nested repository metadata."
+msgstr "การดูแลระบบ"
 
 #, fuzzy
 #| msgid "GitHub username"
@@ -26216,11 +26586,6 @@ msgstr "ต้นฉบับได้ถูกเอาออกแล้ว"
 #~ msgid "project-wide"
 #~ msgstr "โครงการ"
 
-#, fuzzy
-#~| msgid "Versions"
-#~ msgid "site-wide"
-#~ msgstr "รุ่น"
-
 #, fuzzy, python-format
 #~| msgid "Translation notifications"
 #~ msgid "Manage add-ons at %(location)s"
@@ -27200,9 +27565,6 @@ msgstr "ต้นฉบับได้ถูกเอาออกแล้ว"
 
 #~ msgid "Too many failed registration attempts from this location."
 #~ msgstr "มีความพยายามในการลงทะเบียนที่ล้มเหลวมากเกินไปจากตำแหน่งที่ตั้งนี้"
-
-#~ msgid "Too many authentication attempts from this location."
-#~ msgstr "มีความพยายามในการรับรองความถูกต้องมากเกินไปจากตำแหน่งที่ตั้งนี้"
 
 #, fuzzy
 #~| msgid "Versions"

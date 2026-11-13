@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-05 22:27-0600\n"
+"POT-Creation-Date: 2026-11-13 01:19-0600\n"
 "PO-Revision-Date: 2026-11-09 08:51+0000\n"
 "Last-Translator: Alexis Launay "
 "<yorunohikage@users.noreply.hosted.weblate.org>\n"
@@ -636,7 +636,16 @@ msgstr "Ouzhpennet eo bet an implijer d'ar skipailh {team} gant {username}."
 msgid "User access to the {team} team was changed by {username}."
 msgstr "Kemmet eo bet moned an implijer d'ar skipailh {team} gant {username}."
 
-#. Translators: Audit log entry
+#, fuzzy, python-brace-format
+#| msgid "User access to the {team} team was changed by {username}."
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr "Kemmet eo bet moned an implijer d'ar skipailh {team} gant {username}."
+
+#, fuzzy, python-brace-format
+#| msgid "User access to the {team} team was changed by {username}."
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr "Kemmet eo bet moned an implijer d'ar skipailh {team} gant {username}."
+
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr "Dilamet eo bet an implijer diouzh ar skipailh {team} gant {username}."
@@ -750,6 +759,45 @@ msgstr "Arc'hwel poellgor boutin"
 msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr "Ardivink iOS"
+
+#, fuzzy
+#| msgid "Reports"
+msgid "Site-wide"
+msgstr "Danevelloù"
+
+msgid "Workspace"
+msgstr ""
+
+#, fuzzy
+#| msgid "Git repository"
+msgid "Team created"
+msgstr "Kavlec'h Git"
+
+#, fuzzy
+#| msgid "Last change"
+msgid "Team changed"
+msgstr "Kemm diwezhañ"
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "Team deleted"
+msgstr "Font dilamet."
+
+#, fuzzy
+#| msgid "Language"
+msgid "Team member added"
+msgstr "Yezh"
+
+#, fuzzy
+#| msgid "Suggestions made"
+msgid "Team member removed"
+msgstr "Kinnigoù graet"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "Team member access changed"
+msgstr "Kemmet eo bet an aotre-implijout"
 
 msgid "Account activity"
 msgstr "Obererezh ar gont"
@@ -2834,10 +2882,20 @@ msgid ""
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
 
+#, fuzzy
+#| msgid "Manage all glossaries"
+msgid "Connection timeout"
+msgstr "Merañ an holl c'heriaouegi"
+
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr ""
+
 msgid "Publish timeout"
 msgstr ""
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
 msgstr ""
 
 msgid "Connection attempts"
@@ -3093,6 +3151,12 @@ msgstr "Kendestenn ar meneg da dreiñ"
 msgid "This add-on is already installed on this component."
 msgstr "Kendestenn ar meneg da dreiñ"
 
+#, fuzzy
+#| msgid "Translation context"
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr "Kendestenn ar meneg da dreiñ"
+
 msgid "This add-on cannot be triggered manually."
 msgstr ""
 
@@ -3164,6 +3228,11 @@ msgstr "Raktres"
 msgctxt "Add-on scope"
 msgid "Site"
 msgstr ""
+
+#, fuzzy
+#| msgid "The target does not exist or you cannot access it."
+msgid "a component you cannot access"
+msgstr "N'eus ket eus ar pal pe n'oc'h ket evit e dizhout."
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -4687,6 +4756,11 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "You don't have privileges to display this page."
+msgid "You need to log in to upload translations."
+msgstr "N'oc'h ket aotreet da ziskwel ar bajenn-mañ."
+
+#, fuzzy
 #| msgid "Translation is currently not locked."
 msgid "The file format does not support updating source strings."
 msgstr "N'eo ket prennet an treiñ."
@@ -4725,6 +4799,16 @@ msgstr ""
 
 msgid "Project tokens can not be assigned to teams here."
 msgstr ""
+
+#, fuzzy
+#| msgid "Checks"
+msgid "Team audit log"
+msgstr "Gwiriadennoù"
+
+#, fuzzy
+#| msgid "Registration"
+msgid "Team audit entry"
+msgstr "Enrollañ"
 
 msgid "Cannot remove built-in team!"
 msgstr ""
@@ -5093,9 +5177,6 @@ msgstr ""
 msgid "No valid billing found or limit exceeded."
 msgstr ""
 
-msgid "Workspace"
-msgstr ""
-
 #, fuzzy
 #| msgid "Project name"
 msgid "Customer name"
@@ -5233,6 +5314,9 @@ msgstr[2] "Evezhiadennoù"
 msgstr[3] "Evezhiadennoù"
 msgstr[4] "Evezhiadennoù"
 
+msgid "Restricted components are not allowed by this billing plan."
+msgstr ""
+
 #, fuzzy
 #| msgid "Changes"
 msgid "Missing license"
@@ -5310,6 +5394,9 @@ msgstr ""
 "yezhoù."
 
 msgid "To terminate billing you have to remove all projects first."
+msgstr ""
+
+msgid "Externally managed billings cannot be merged."
 msgstr ""
 
 msgid "Cannot merge such a billing."
@@ -6136,6 +6223,9 @@ msgstr ""
 msgid "the value is too complex or nested too deeply"
 msgstr ""
 
+msgid "Format matching exceeded its time limit."
+msgstr ""
+
 #, fuzzy
 #| msgid "Translation has been saved!"
 msgid "The following format strings are in the wrong order:"
@@ -6496,6 +6586,9 @@ msgstr "Kod Markdown"
 msgid "Markdown syntax does not match source."
 msgstr "Troidigezh enrollet !"
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr ""
+
 #, fuzzy
 #| msgid "Translation has been saved!"
 msgid "The translation does not contain a URL."
@@ -6709,6 +6802,11 @@ msgstr "Ho troidigezhioù"
 msgid "Your translation is foo"
 msgstr "N'eus bet kavet neudennad ebet o kenglotañ !"
 
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
+msgstr ""
+
 msgid "Font style"
 msgstr ""
 
@@ -6900,6 +6998,25 @@ msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
 #, fuzzy
+#| msgid "Git repository:"
+msgid "Could not open the workbook archive."
+msgstr "Kavlec'h Git :"
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr ""
+
+#, fuzzy
 #| msgid "Simplified Chinese"
 msgid "Multivalue CSV file"
 msgstr "Sinaeg eeunaet"
@@ -6946,6 +7063,10 @@ msgid "Invalid id_hash metadata in CSV file: %s"
 msgstr "Troidigezh"
 
 msgid "Plural form metadata in CSV file requires id_hash."
+msgstr ""
+
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
 msgstr ""
 
 #. Translators: File format name
@@ -7225,6 +7346,13 @@ msgid "App store metadata files"
 msgstr ""
 
 msgid "File validation is required for directory-based formats."
+msgstr ""
+
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr ""
+
+msgid "Converted workbook content exceeds the configured size limit."
 msgstr ""
 
 msgid ""
@@ -8518,6 +8646,16 @@ msgstr "Kemm er vammenn"
 msgid "Rate limit reset."
 msgstr "Hizivaat gant rebase"
 
+#, fuzzy
+#| msgid "Translation is currently not locked."
+msgid "Too many translation requests."
+msgstr "N'eo ket prennet an treiñ."
+
+#, fuzzy
+#| msgid "Too many authentication attempts from this location."
+msgid "Too many concurrent translation requests for this service."
+msgstr "Re a daolioù-esae anaout o tont eus al lec'h-mañ."
+
 msgid "File"
 msgstr "Restr"
 
@@ -8679,6 +8817,11 @@ msgid ""
 "and will be rebuilt in the background."
 msgstr ""
 "Dilamet eo bet an enmonedoù hag adsavet e vo ar memor treiñ en drekleur."
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "Too many uploads, please try again later."
+msgstr "Re a gemennadennoù zo bet kaset, klaskit c'hoazh diwezhatoc'h."
 
 #, fuzzy, python-format
 #| msgid "Your translations"
@@ -10745,6 +10888,24 @@ msgstr "Kendestenn ar meneg da dreiñ"
 msgid "Install"
 msgstr "Staliañ"
 
+#, fuzzy
+#| msgid "Translation has been saved!"
+msgid "Install on the component owning the repository."
+msgstr "Troidigezh enrollet !"
+
+#, fuzzy
+#| msgid "Translation is currently not locked."
+msgid "The component owning this repository is not available to you."
+msgstr "N'eo ket prennet an treiñ."
+
+#, fuzzy
+#| msgid "Git maintenance"
+msgid "Open repository add-ons"
+msgstr "Trezalc'h GIT"
+
+msgid "Unavailable"
+msgstr ""
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -11203,6 +11364,32 @@ msgstr "Stummoù"
 
 msgid "Cancel"
 msgstr "Nullañ"
+
+msgid "Actor"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete entry"
+msgid "Deleted user"
+msgstr "Dilemel an enmont"
+
+#, fuzzy
+#| msgid "Registration"
+msgid "Administrative team changes"
+msgstr "Enrollañ"
+
+#, fuzzy
+#| msgid "Change word"
+msgid "Change"
+msgstr "Cheñch ger"
+
+msgid "View details"
+msgstr "Diskwel ar munudoù"
+
+#, fuzzy
+#| msgid "No matching strings found!"
+msgid "No team audit entries found."
+msgstr "N'eus bet kavet neudennad ebet o kenglotañ !"
 
 #, fuzzy
 #| msgid "Strings"
@@ -15658,9 +15845,6 @@ msgstr "Kemm er vammenn"
 msgid "Configure translation quality filter"
 msgstr "Troidigezh"
 
-msgid "View details"
-msgstr "Diskwel ar munudoù"
-
 #, fuzzy
 #| msgid "Source strings review"
 msgid "View contributor license agreement"
@@ -16141,6 +16325,19 @@ msgstr ""
 msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to join the "
 "%(team_name)s team."
+msgstr ""
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr ""
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
 msgstr ""
 
 #, python-format
@@ -18092,6 +18289,15 @@ msgstr "Danevelloù"
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr ""
 
+msgid "Public access on import"
+msgstr ""
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
+
 #, fuzzy
 #| msgid "Git maintenance"
 msgid "Token copied to clipboard."
@@ -18906,9 +19112,6 @@ msgstr "Trezalc'h GIT"
 #| msgid "Reports"
 msgid "Available Repositories"
 msgstr "Danevelloù"
-
-msgid "Unavailable"
-msgstr ""
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -20466,6 +20669,12 @@ msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] ""
 msgstr[1] ""
 
+#, fuzzy
+#| msgid "Automatic translation"
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr "Treiñ emgefre"
+
 #, python-format
 msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
@@ -20554,6 +20763,11 @@ msgstr "Anv-bihan"
 
 msgid "Revision must be a complete hexadecimal object ID."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Git repository:"
+msgid "Could not validate repository URL: %s"
+msgstr "Kavlec'h Git :"
 
 #, fuzzy
 #| msgid "Your translations"
@@ -20653,10 +20867,33 @@ msgstr "Raktresoù"
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 
+#, fuzzy
+#| msgid "Words to translate"
+msgid "Imported authors"
+msgstr "Gerioù da dreiñ"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
+msgstr ""
+
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
 msgstr ""
 
 #, python-format
@@ -20693,6 +20930,27 @@ msgstr "Merañ an holl c'heriaouegi"
 
 msgid "Enter a search string to replace."
 msgstr ""
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #, fuzzy
 #| msgid "Songhai languages"
@@ -20852,6 +21110,11 @@ msgstr "Kinnigoù graet"
 #| msgid "review"
 msgid "Needs review"
 msgstr "adwelet"
+
+#, fuzzy
+#| msgid "The target does not exist or you cannot access it."
+msgid "This component does not exist or you cannot access it."
+msgstr "N'eus ket eus ar pal pe n'oc'h ket evit e dizhout."
 
 #, fuzzy
 #| msgid ""
@@ -21772,6 +22035,11 @@ msgid "You do not have permission to edit these flags."
 msgstr "N'oc'h ket aotreet da ziskwel ar bajenn-mañ."
 
 #, fuzzy
+#| msgid "You don't have privileges to display this page."
+msgid "You do not have permission to create terminology."
+msgstr "N'oc'h ket aotreet da ziskwel ar bajenn-mañ."
+
+#, fuzzy
 #| msgid "Translation is currently not locked."
 msgid ""
 "Revert the latest translation edits from this user in the current project."
@@ -21891,11 +22159,6 @@ msgid "Maximum source words per day"
 msgstr ""
 
 #, fuzzy
-#| msgid "The target does not exist or you cannot access it."
-msgid "This component does not exist or you cannot access it."
-msgstr "N'eus ket eus ar pal pe n'oc'h ket evit e dizhout."
-
-#, fuzzy
 #| msgid "Checks"
 msgid "Inherit from workspace"
 msgstr "Gwiriadennoù"
@@ -21975,6 +22238,11 @@ msgstr "Re a gemennadennoù zo bet kaset, klaskit c'hoazh diwezhatoc'h."
 #| msgid "Could not open a ticket, please try again later."
 msgid "Could not load repository branches. Please try again."
 msgstr "Dibosupl digeriñ un dikedenn, klaskit diwezhatoc'hik."
+
+#, fuzzy
+#| msgid "You don't have privileges to display this page."
+msgid "You do not have permission to edit this project."
+msgstr "N'oc'h ket aotreet da ziskwel ar bajenn-mañ."
 
 #, fuzzy
 #| msgid "New translation"
@@ -22139,11 +22407,6 @@ msgid ""
 "Mark this option if the sentence should stay as in the source language, "
 "without change."
 msgstr ""
-
-#, fuzzy
-#| msgid "You don't have privileges to display this page."
-msgid "You do not have permission to create terminology."
-msgstr "N'oc'h ket aotreet da ziskwel ar bajenn-mañ."
 
 #, fuzzy
 #| msgid "Comments"
@@ -23874,6 +24137,11 @@ msgstr "Deskrivadur"
 msgid "Could not accept suggestion!"
 msgstr "Kinnigoù treiñ emgefre"
 
+#, fuzzy, python-format
+#| msgid "Suggestions"
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr "Kinnigoù"
+
 #, fuzzy
 #| msgid "Your translations"
 msgid "Uploaded translation file is too big."
@@ -23944,6 +24212,21 @@ msgstr "Kendeuzet e vo ar restr enporzhiet gant an droidigezh zo c'hoazh."
 msgid "Plural form %d in the uploaded file is missing."
 msgstr "Kendeuzet e vo ar restr enporzhiet gant an droidigezh zo c'hoazh."
 
+#, fuzzy, python-format
+#| msgid "New translation"
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr "Troidigezh nevez"
+
+#, fuzzy, python-format
+#| msgid "Source strings review"
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] "Selladenn ouzh mammennoù an neudennadoù"
+msgstr[1] "Selladenn ouzh mammennoù an neudennadoù"
+msgstr[2] "Selladenn ouzh mammennoù an neudennadoù"
+msgstr[3] "Selladenn ouzh mammennoù an neudennadoù"
+msgstr[4] "Selladenn ouzh mammennoù an neudennadoù"
+
 #, fuzzy
 #| msgid "New translation"
 msgid "The uploaded file contains too many language declarations."
@@ -23970,6 +24253,10 @@ msgstr "Furchal er c'hemmoù"
 #| msgid "Start new translation"
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "Kregiñ gant un droidigezh nevez"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Start new translation"
@@ -24494,6 +24781,35 @@ msgstr ""
 msgid "Updates source strings in bilingual translation file."
 msgstr "Lezel goullo evit ar restroù treiñ divyezhek."
 
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "A translation upload is already in progress."
+msgstr "Treiñ emgefre"
+
+msgid "The uploaded file has expired or was already processed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Language"
+msgid "The uploaded file has expired."
+msgstr "Yezh"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "The upload target or permissions changed."
+msgstr "Kemmet eo bet an aotre-implijout"
+
+#, fuzzy
+#| msgid "Uploaded file will be merged with current translation."
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr "Kendeuzet e vo ar restr enporzhiet gant an droidigezh zo c'hoazh."
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "File upload has failed. Please try again later."
+msgstr "Re a gemennadennoù zo bet kaset, klaskit c'hoazh diwezhatoc'h."
+
 msgid "Very high"
 msgstr "Uhel-tre"
 
@@ -24962,9 +25278,9 @@ msgid "Access denied."
 msgstr ""
 
 #, fuzzy
-#| msgid "Uploaded file will be merged with current translation."
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr "Kendeuzet e vo ar restr enporzhiet gant an droidigezh zo c'hoazh."
+#| msgid "Translations"
+msgid "Translation upload in progress."
+msgstr "Troidigezhioù"
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -25324,6 +25640,11 @@ msgstr[1] "Yezhoù"
 msgstr[2] "Yezhoù"
 msgstr[3] "Yezhoù"
 msgstr[4] "Yezhoù"
+
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation is currently not locked."
@@ -25693,9 +26014,19 @@ msgstr "Yezhoù Songhai"
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
-#, python-format
-msgid "Undefined variable: \"%s\""
+msgid "Template output exceeds its size limit."
 msgstr ""
+
+msgid "Template rendering failed or exceeded its resource limits."
+msgstr ""
+
+msgid "Oversized template response."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation"
+msgid "Invalid template rendering response."
+msgstr "Troidigezh"
 
 #, fuzzy
 #| msgid "Git repository:"
@@ -25705,6 +26036,52 @@ msgstr "Kavlec'h Git :"
 msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
+msgstr ""
+
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Template context is nested too deeply."
+msgstr "Treiñ emgefre"
+
+msgid "Template context exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported template context key."
+msgstr "Seurt skeudenn anskoret : %s"
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported template context value."
+msgstr "Seurt skeudenn anskoret : %s"
+
+msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+msgid "Template rendering exceeded its loop limit."
+msgstr ""
+
+msgid "Template intermediate value exceeds its size limit."
+msgstr ""
+
+msgid "Template replacement exceeds its size limit."
+msgstr ""
+
+msgid "Template padding exceeds its size limit."
+msgstr ""
+
+msgid "Template formatting exceeds its size limit."
+msgstr ""
+
+msgid "Template join exceeds its size limit."
+msgstr ""
+
+#, python-format
+msgid "Undefined variable: \"%s\""
 msgstr ""
 
 #, python-format
@@ -26591,6 +26968,11 @@ msgstr ""
 #, fuzzy
 #| msgid "Git repository:"
 msgid "This will push changes to the upstream Mercurial repository."
+msgstr "Kavlec'h Git :"
+
+#, fuzzy
+#| msgid "Git repository:"
+msgid "Could not remove nested repository metadata."
 msgstr "Kavlec'h Git :"
 
 #, fuzzy
@@ -27858,11 +28240,6 @@ msgstr "Dilamet eo bet ho kont."
 
 #, fuzzy
 #~| msgid "Automatic translation"
-#~ msgid "Updates of translations are in progress."
-#~ msgstr "Treiñ emgefre"
-
-#, fuzzy
-#~| msgid "Automatic translation"
 #~ msgid "Updates of translations in accessible repositories are in progress."
 #~ msgstr "Treiñ emgefre"
 
@@ -27946,11 +28323,6 @@ msgstr "Dilamet eo bet ho kont."
 #~| msgid "Project website"
 #~ msgid "project-wide"
 #~ msgstr "Lec'hienn ar raktres"
-
-#, fuzzy
-#~| msgid "Reports"
-#~ msgid "site-wide"
-#~ msgstr "Danevelloù"
 
 #, fuzzy, python-format
 #~| msgid "Translation notifications"
@@ -28833,9 +29205,6 @@ msgstr "Dilamet eo bet ho kont."
 
 #~ msgid "Too many failed registration attempts from this location."
 #~ msgstr "Re a enskrivadurioù c'hwitet adalek ho lec'hiadur."
-
-#~ msgid "Too many authentication attempts from this location."
-#~ msgstr "Re a daolioù-esae anaout o tont eus al lec'h-mañ."
 
 #, fuzzy
 #~| msgid "Failing checks"
