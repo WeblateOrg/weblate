@@ -60,6 +60,7 @@ from weblate.trans.tasks import (
     daily_update_checks,
     execute_repository_operation,
     execute_repository_operation_method,
+    get_failed_update_retry_components,
     perform_commit,
     perform_load,
     perform_push,
@@ -1549,7 +1550,10 @@ class TasksTest(ReusableComponentTestCase):
         update.assert_any_call("Component", self.component.pk, auto=True)
 
     def run_update_remotes_outside_slot(
-        self, failing_for: timedelta | None, last_attempt_ago: timedelta
+        self,
+        failing_for: timedelta | None,
+        last_attempt_ago: timedelta,
+        diagnosis: str = "temporary_failure",
     ) -> set[int]:
         """
         Run update_remotes in an hour which is not the component's daily slot.
@@ -1559,7 +1563,10 @@ class TasksTest(ReusableComponentTestCase):
         current_time = timezone.now().replace(hour=(self.component.pk + 1) % 24)
         if failing_for is not None:
             last_attempt = current_time - last_attempt_ago
-            self.component.alert_set.create(name="UpdateFailure")
+            self.component.alert_set.create(
+                name="UpdateFailure",
+                details={"error": "failed", "diagnoses": [{"code": diagnosis}]},
+            )
             self.component.alert_set.filter(name="UpdateFailure").update(
                 timestamp=last_attempt - failing_for, updated=last_attempt
             )
@@ -1573,7 +1580,11 @@ class TasksTest(ReusableComponentTestCase):
     def test_repeated_update_failure_tracks_attempts(self) -> None:
         # The retry backoff relies on the alert keeping the time of the first
         # failure while every further failure refreshes the updated timestamp.
-        error = RepositoryError(128, "fatal: unable to access remote: 502")
+        error = RepositoryError(
+            128,
+            "fatal: unable to access 'https://git.example/repo/': "
+            "The requested URL returned error: 502",
+        )
         with patch.object(
             Component, "update_remote_repository", return_value=(None, error)
         ):
@@ -1584,6 +1595,37 @@ class TasksTest(ReusableComponentTestCase):
 
         self.assertEqual(second.timestamp, first.timestamp)
         self.assertGreater(second.updated, first.updated)
+
+    def test_update_failure_diagnosis_selects_retry(self) -> None:
+        # Real failure path: only a server error ends up in the retry selection
+        missing_credentials = (
+            "fatal: could not read Username for 'https://git.example': "
+            "terminal prompts disabled"
+        )
+        cases = (
+            ("The requested URL returned error: 502", True),
+            (missing_credentials, False),
+        )
+        now = timezone.now()
+        for message, retried in cases:
+            with self.subTest(message=message):
+                self.component.alert_set.all().delete()
+                self.component.all_alerts.clear()
+                error = RepositoryError(128, message)
+                with patch.object(
+                    Component, "update_remote_repository", return_value=(None, error)
+                ):
+                    self.assertFalse(self.component.update_remote_branch())
+                self.component.alert_set.filter(name="UpdateFailure").update(
+                    timestamp=now - timedelta(hours=3), updated=now - timedelta(hours=3)
+                )
+
+                self.assertEqual(
+                    get_failed_update_retry_components(now)
+                    .filter(pk=self.component.pk)
+                    .exists(),
+                    retried,
+                )
 
     def test_update_remotes_skips_outside_slot(self) -> None:
         queued = self.run_update_remotes_outside_slot(None, timedelta(0))
@@ -1604,6 +1646,17 @@ class TasksTest(ReusableComponentTestCase):
         )
 
         self.assertIn(self.component.pk, queued)
+
+    def test_update_remotes_does_not_retry_permanent_failure(self) -> None:
+        # Retrying rejected credentials or a missing repository cannot help
+        for diagnosis in ("repository_not_found", "missing_credentials"):
+            with self.subTest(diagnosis=diagnosis):
+                self.component.alert_set.all().delete()
+                queued = self.run_update_remotes_outside_slot(
+                    timedelta(hours=2), timedelta(hours=3), diagnosis
+                )
+
+                self.assertNotIn(self.component.pk, queued)
 
     def test_update_remotes_waits_during_backoff(self) -> None:
         # Failing for 4 hours at the last attempt, which was only 1 hour ago

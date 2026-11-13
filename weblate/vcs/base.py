@@ -452,6 +452,11 @@ REPOSITORY_TEMPORARY_MESSAGES = (
     "Too many retries",
     "Connection timed out",
 )
+# HTTP server errors which are likely to go away on their own. Other 5xx
+# statuses, such as 501 or 505, point to a problem retrying does not fix.
+REPOSITORY_TEMPORARY_HTTP_ERROR_RE = re.compile(
+    r"returned error: (?:500|502|503|504)\b"
+)
 GITHUB_FORKING_DISABLED_MESSAGE = "The repository exists, but forking is disabled."
 REPOSITORY_PERMISSION_MESSAGES = (
     "denied to",
@@ -732,7 +737,9 @@ def get_repository_error_diagnoses(error: str) -> list[RepositoryDiagnosis]:
         diagnoses.append({"code": "gerrit_permission"})
     if "lfs objects are missing" in normalized:
         diagnoses.append({"code": "git_lfs_missing_objects"})
-    if any(message in error for message in REPOSITORY_TEMPORARY_MESSAGES):
+    if any(
+        message in error for message in REPOSITORY_TEMPORARY_MESSAGES
+    ) or REPOSITORY_TEMPORARY_HTTP_ERROR_RE.search(error):
         diagnoses.append({"code": "temporary_failure"})
 
     return diagnoses

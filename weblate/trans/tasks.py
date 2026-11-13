@@ -1092,6 +1092,9 @@ def get_failed_update_retry_components(now: datetime) -> ComponentQuerySet:
     Without this, a component whose update failed is retried only in its daily
     slot, so a single temporary error can leave it locked for up to a day.
 
+    Only failures diagnosed as temporary are retried early. Retrying errors
+    such as rejected credentials or a missing repository cannot help.
+
     The wait before the next attempt equals how long the update had been failing
     at the last attempt, so the delay roughly doubles with every failed attempt
     (after about 1, 2, 4, 8, and 16 hours given the hourly schedule) until the
@@ -1101,6 +1104,7 @@ def get_failed_update_retry_components(now: datetime) -> ComponentQuerySet:
     failing_for = F("alert__updated") - F("alert__timestamp")
     return Component.objects.with_repo().filter(
         alert__name="UpdateFailure",
+        alert__details__diagnoses__contains=[{"code": "temporary_failure"}],
         alert__updated__lte=ExpressionWrapper(
             Value(now) - failing_for, output_field=DateTimeField()
         ),
