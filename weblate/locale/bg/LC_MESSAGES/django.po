@@ -16,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-11-13 01:19-0600\n"
-"PO-Revision-Date: 2026-11-13 08:11+0000\n"
+"PO-Revision-Date: 2026-11-13 19:11+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@users.noreply.hosted.weblate.org>"
 "\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
@@ -609,15 +609,13 @@ msgstr "Потребител е добавен в екип {team} от {username
 msgid "User access to the {team} team was changed by {username}."
 msgstr "Достъпът на потребител до екип {team} беше променен от {username}."
 
-#, fuzzy, python-brace-format
-#| msgid "User access to the {team} team was changed by {username}."
+#, python-brace-format
 msgid "Team administrator access to {team} was granted by {username}."
-msgstr "Достъпът на потребител до екип {team} беше променен от {username}."
+msgstr "Достъп за екипен администратор за {team} беше даден от {username}."
 
-#, fuzzy, python-brace-format
-#| msgid "User access to the {team} team was changed by {username}."
+#, python-brace-format
 msgid "Team administrator access to {team} was removed by {username}."
-msgstr "Достъпът на потребител до екип {team} беше променен от {username}."
+msgstr "Достъп за екипен администратор за {team} беше премахнат от {username}."
 
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
@@ -738,43 +736,29 @@ msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr "Устройство с iOS"
 
-#, fuzzy
-#| msgid "site-wide"
 msgid "Site-wide"
-msgstr "за целия уеб сайт"
+msgstr "За целия уеб сайт"
 
 msgid "Workspace"
 msgstr "Работно пространство"
 
-#, fuzzy
-#| msgid "Backup created"
 msgid "Team created"
-msgstr "Създаване на резервното копие"
+msgstr "Екипът е създаден"
 
-#, fuzzy
-#| msgid "Last change"
 msgid "Team changed"
-msgstr "Последна промяна"
+msgstr "Екипът е променен"
 
-#, fuzzy
-#| msgid "Font deleted."
 msgid "Team deleted"
-msgstr "Шрифтът е изтрит."
+msgstr "Екипът е изтрит"
 
-#, fuzzy
-#| msgid "Label added"
 msgid "Team member added"
-msgstr "Добавен е етикет"
+msgstr "Добавен е член към екипа"
 
-#, fuzzy
-#| msgid "Label removed"
 msgid "Team member removed"
-msgstr "Премахнат е етикет"
+msgstr "Премахнат е член от екипа"
 
-#, fuzzy
-#| msgid "User access changed"
 msgid "Team member access changed"
-msgstr "Достъпът на потребител е променен"
+msgstr "Достъпът на потребител от екипа е променен"
 
 msgid "Account activity"
 msgstr "Дейност на акаунта"
@@ -2764,25 +2748,23 @@ msgstr ""
 "Поставете само блока от сертификата PEM, който започва с „-----BEGIN "
 "CERTIFICATE-----“. Не поставяйте резултата от „openssl x509 -text“."
 
-#, fuzzy
-#| msgid "Connection attempts"
 msgid "Connection timeout"
-msgstr "Опити за свързване"
+msgstr "Време за изчакване на връзката"
 
-#, fuzzy
-#| msgid "How many seconds to wait between connection attempts."
 msgid "How many seconds to allow for connection and channel setup per attempt."
-msgstr "Колко секунди да се изчаква преди всеки нов опит за свързване."
+msgstr ""
+"Колко секунди да се изчаква за свързване и настройка на канала при всеки "
+"опит."
 
 msgid "Publish timeout"
 msgstr "Време за изчакване на публикуването"
 
-#, fuzzy
-#| msgid "How many seconds to wait for the broker delivery acknowledgement."
 msgid ""
 "How many seconds to allow for sending and the broker delivery "
 "acknowledgement per attempt, after connection setup."
-msgstr "Колко секунди да се чака брокерът за потвърждение на доставката."
+msgstr ""
+"Колко секунди да се чака за изпращане и за потвърждение на доставката при "
+"брокера при всеки опит, след настройката на връзката."
 
 msgid "Connection attempts"
 msgstr "Опити за свързване"
@@ -3003,15 +2985,11 @@ msgstr "Добавките за ППИ трябва да бъдат инстал
 msgid "This add-on is already installed on this component."
 msgstr "Тази добавка вече е инсталирана на този компонент."
 
-#, fuzzy
-#| msgid ""
-#| "Repository operations require permission on the component that owns the "
-#| "shared repository."
 msgid ""
 "Repository add-ons must be installed on the component owning the repository."
 msgstr ""
-"Операциите с хранилището изискват права за компонента, на който принадлежи "
-"споделеното хранилище."
+"Добавките за хранилището трябва да бъдат инсталирани в компонента, който е "
+"собственик на хранилището."
 
 msgid "This add-on cannot be triggered manually."
 msgstr "Тази добавка не може да бъде стартирана ръчно."
@@ -3073,10 +3051,8 @@ msgctxt "Add-on scope"
 msgid "Site"
 msgstr "Уеб сайт"
 
-#, fuzzy
-#| msgid "This component does not exist or you cannot access it."
 msgid "a component you cannot access"
-msgstr "Този компонент не съществува или нямате достъп до него."
+msgstr "компонент, до който нямате достъп"
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -4289,10 +4265,8 @@ msgstr ""
 "Предложенията са изключени за този език. Помолете администратор на проекта "
 "да ги включи."
 
-#, fuzzy
-#| msgid "You do not have permission to approve translations."
 msgid "You need to log in to upload translations."
-msgstr "Нямате право да одобрявате преводи."
+msgstr "Трябва да сте влезли в системата, за да може да качвате преводи."
 
 msgid "The file format does not support updating source strings."
 msgstr "Файловият формат не поддържа обновяване на изходните низове."
@@ -4336,15 +4310,11 @@ msgstr "Неактивните потребители не могат да бъ�
 msgid "Project tokens can not be assigned to teams here."
 msgstr "Идентификаторите на проекти не могат да бъдат добавяни към екипи тук."
 
-#, fuzzy
-#| msgid "View audit log"
 msgid "Team audit log"
-msgstr "Преглед на дневника на действията"
+msgstr "Журнал на екипа"
 
-#, fuzzy
-#| msgid "Team administrator"
 msgid "Team audit entry"
-msgstr "Администратор на екипа"
+msgstr "Запис в журнала на екипа"
 
 msgid "Cannot remove built-in team!"
 msgstr "Не могат да се премахват вградени екипи!"
@@ -4725,7 +4695,7 @@ msgstr[0] "Съдържа %d компонент"
 msgstr[1] "Съдържа %d компонента"
 
 msgid "Restricted components are not allowed by this billing plan."
-msgstr ""
+msgstr "Ограничените компоненти не са разрешени от този платежен план."
 
 msgid "Missing license"
 msgstr "Липсващ лиценз"
