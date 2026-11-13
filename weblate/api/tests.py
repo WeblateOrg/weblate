@@ -15244,6 +15244,88 @@ class TasksAPITest(APIBaseTest):
         self.assertFalse(response.data["completed"])
         self.assertFalse(response.data["cancellable"])
 
+    def test_retrieve_multi_component_scope_visibility(self) -> None:
+        hidden = self.create_acl()
+        missing_id = max(self.component.pk, hidden.pk) + 1_000_000
+        cases = (
+            ([self.component.pk, self.component.pk], None, 200, True),
+            ([self.component.pk, hidden.pk], self.user.pk, 404, None),
+            ([self.component.pk, missing_id], self.user.pk, 200, True),
+            ([self.component.pk, missing_id], self.user.pk + 1_000_000, 404, None),
+            ([self.component.pk, missing_id], None, 404, None),
+            ([missing_id], self.user.pk, 200, False),
+            ([missing_id], self.user.pk + 1_000_000, 404, None),
+            ([missing_id], None, 404, None),
+        )
+        task = SimpleNamespace(
+            id=self.task_id,
+            result=None,
+            state="PENDING",
+            ready=MagicMock(return_value=False),
+        )
+        with patch("weblate.api.views.AsyncResult", return_value=task):
+            for component_ids, user_id, code, cancellable in cases:
+                with self.subTest(component_ids=component_ids, user_id=user_id):
+                    cache.set(
+                        get_task_metadata_key(self.task_id),
+                        {"component_ids": component_ids, "user_id": user_id},
+                        TASK_METADATA_TTL,
+                    )
+                    response = self.do_request(
+                        "api:task-detail",
+                        kwargs={"pk": self.task_id},
+                        method="get",
+                        code=code,
+                    )
+                    if code == 200:
+                        self.assertEqual(response.data["cancellable"], cancellable)
+
+    def test_retrieve_multi_component_materialization_is_bounded(self) -> None:
+        components = [
+            self.component,
+            self.create_link_existing(),
+            self.create_link_existing(name="Third", slug="third"),
+        ]
+        for component in components:
+            self.assertTrue(self.user.can_access_component(component))
+        _ = self.user.needs_project_filter
+        _ = self.user.needs_component_restrictions_filter
+        request = SimpleNamespace(user=self.user)
+        query_counts = []
+        for scoped_components in (components[:1], components):
+            with self.subTest(size=len(scoped_components)):
+                cache.set(
+                    get_task_metadata_key(self.task_id),
+                    {
+                        "component_ids": [
+                            item.pk for item in reversed(scoped_components)
+                        ]
+                        + [scoped_components[0].pk]
+                    },
+                    TASK_METADATA_TTL,
+                )
+                with (
+                    patch("weblate.api.views.AsyncResult"),
+                    patch.object(
+                        Component, "from_db", wraps=Component.from_db
+                    ) as component_from_db,
+                    patch.object(
+                        Project, "from_db", wraps=Project.from_db
+                    ) as project_from_db,
+                    CaptureQueriesContext(connection) as queries,
+                ):
+                    _, representative, _ = TasksViewSet().get_task(
+                        request, self.task_id
+                    )
+                assert representative is not None
+                self.assertEqual(
+                    representative.pk, min(item.pk for item in scoped_components)
+                )
+                self.assertEqual(component_from_db.call_count, 1)
+                self.assertEqual(project_from_db.call_count, 1)
+                query_counts.append(len(queries))
+        self.assertEqual(query_counts[0], query_counts[1])
+
     def test_destroy_rejects_non_cancellable_task(self) -> None:
         cache.set(
             get_task_metadata_key(self.task_id),

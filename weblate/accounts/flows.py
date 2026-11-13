@@ -13,6 +13,8 @@ from weblate.utils.email import email_key
 # ruff: ignore[hardcoded-password-string]
 PASSWORD_RESET_EMAIL_SESSION = "password_reset_email"
 # ruff: ignore[hardcoded-password-string]
+PASSWORD_RESET_USER_SESSION = "password_reset_user"
+# ruff: ignore[hardcoded-password-string]
 PASSWORD_RESET_SCOPE_SESSION = "password_reset_scope"
 # ruff: ignore[hardcoded-password-string]
 PASSWORD_RESET_SCOPE_TOKEN_PARAM = "password_reset_scope"

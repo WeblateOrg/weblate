@@ -31,10 +31,51 @@ if TYPE_CHECKING:
 
 
 class WeblateStrategy(DjangoStrategy):
+    invalid_partial_token: str | None = None
+
     def partial_load(self, token: str) -> PartialMixin | None:
+        from weblate.accounts.pipeline import (  # ruff: ignore[import-outside-top-level]
+            validate_password_reset,
+        )
+
         partial = super().partial_load(token)
-        # Keep pre-upgrade flows valid until their normal expiry.
-        if partial is None or "weblate_email_auth_hash" not in partial.kwargs:
+        if partial is None:
+            return partial
+        if partial.pipeline_type == "authentication" and partial.kwargs.get(
+            "weblate_auth_pipeline"
+        ) != list(self.get_pipeline(self.get_backend(partial.backend))):
+            # Saved positions must never resume against a reordered pipeline,
+            # where the same index could skip an authentication check.
+            self.invalidate_partial(token)
+            raise AuthSessionError(
+                self.get_backend(partial.backend),
+                code="weblate.confirmation_expired",
+                stage="pipeline",
+            )
+        if partial.backend == "email" and (user := partial.kwargs.get("user")):
+            # Linking and removal also verify codes before store_email(). Use
+            # the same account-first lock order as recovery and revocation.
+            partial.kwargs["user"] = (
+                User.objects.select_for_update().filter(pk=user.pk).first()
+            )
+        if (
+            partial.backend == "email"
+            and partial.kwargs.get("weblate_action") == "reset"
+        ):
+            try:
+                # Acquire the account lock before mail_validation can lock a
+                # code row. Provider refresh invalidates codes in that order.
+                validate_password_reset(
+                    self.get_backend(partial.backend),
+                    partial.kwargs.get("details", {}),
+                    partial.kwargs.get("weblate_reset_user"),
+                    partial.kwargs.get("user"),
+                )
+            except AuthSessionError:
+                self.invalidate_partial(token)
+                raise
+        # Other authentication flows do not carry an e-mail-addition auth hash.
+        if "weblate_email_auth_hash" not in partial.kwargs:
             return partial
         saved_hash = partial.kwargs["weblate_email_auth_hash"]
         user = partial.kwargs.get("user")
@@ -44,14 +85,20 @@ class WeblateStrategy(DjangoStrategy):
             and constant_time_compare(saved_hash, user.get_session_auth_hash())
         ):
             return partial
-        self.clean_partial_pipeline(token)
-        self.session_pop("reauthenticate")
-        self.session_pop("reauthenticate_done")
+        self.invalidate_partial(token)
         raise AuthSessionError(
             self.get_backend(partial.backend),
             code="weblate.confirmation_expired",
             stage="pipeline",
         )
+
+    def invalidate_partial(self, token: str) -> None:
+        # E-mail completion can roll back the pipeline transaction. Remember
+        # this cleanup so the view can repeat it outside that transaction.
+        self.invalid_partial_token = token
+        self.clean_partial_pipeline(token)
+        self.session_pop("reauthenticate")
+        self.session_pop("reauthenticate_done")
 
     def sync_user_groups(
         self,
