@@ -21,6 +21,7 @@ from django.test.utils import override_settings
 from django.utils import timezone
 
 from weblate.accounts.models import Profile
+from weblate.auth.bots import InternalBot
 from weblate.runner import main
 from weblate.trans.actions import ActionEvents
 from weblate.trans.file_format_params import (
@@ -29,6 +30,7 @@ from weblate.trans.file_format_params import (
     register_file_format_param,
 )
 from weblate.trans.models import Change, Component, Project, Suggestion, Translation
+from weblate.trans.repository import RepositoryOperationConflictError
 from weblate.trans.tests.github import github_fixture_repositories
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import (
@@ -43,6 +45,8 @@ from weblate.trans.tests.utils import (
     get_test_actor,
     get_test_file,
 )
+from weblate.utils.files import remove_tree
+from weblate.utils.state import STATE_TRANSLATED
 from weblate.vcs.git import GitRepository
 from weblate.vcs.mercurial import HgRepository
 from weblate.vcs.params import VCS_PARAMS, BaseVCSParam, register_vcs_param
@@ -590,6 +594,60 @@ class UpdateChecksTest(WeblateComponentCommandTestCase):
 class UpdateGitTest(WeblateComponentCommandTestCase):
     command_name = "updategit"
     expected_string = ""
+
+
+class RecoverGitTest(WeblateComponentCommandTestCase):
+    command_name = "recovergit"
+    expected_string = ""
+
+
+class RecoverGitMissingCheckoutTest(ComponentTestCase):
+    def test_recovers_wiped_checkouts(self) -> None:
+        linked = self.create_link_existing()
+        unit = self.get_translation().unit_set.order_by("pk")[0]
+        unit.translate(self.user, "Recovered translation\n", STATE_TRANSLATED)
+        remove_tree(Path(self.component.full_path).parent)
+
+        output = StringIO()
+        with self.captureOnCommitCallbacks(execute=True):
+            call_command("recovergit", all=True, stdout=output)
+
+        self.assertEqual(output.getvalue(), "test/test: queued recovery\n")
+        self.component.drop_repository_cache()
+        self.assertTrue(cast("GitRepository", self.component.repository).is_valid())
+        reset = self.component.change_set.filter(action=ActionEvents.RESET).latest("pk")
+        self.assertEqual(reset.user, InternalBot.REPOSITORY.get_user())
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Recovered translation\n")
+        self.component.drop_template_store_cache()
+        translation = unit.translation
+        translation.component = self.component
+        self.assertEqual(
+            translation.load_store().find_unit(unit.context, unit.source)[0].target,
+            "Recovered translation\n",
+        )
+        linked_translation = linked.translation_set.get(language=translation.language)
+        filename = linked_translation.get_filename()
+        self.assertIsNotNone(filename)
+        self.assertTrue(Path(cast("str", filename)).exists())
+
+        # Nothing is missing anymore, so a second run does nothing.
+        output = StringIO()
+        call_command("recovergit", all=True, stdout=output)
+        self.assertEqual(output.getvalue(), "")
+
+    def test_conflicting_operation(self) -> None:
+        remove_tree(self.component.full_path)
+        output = StringIO()
+        with patch(
+            "weblate.trans.management.commands.recovergit.queue_repository_operation",
+            side_effect=RepositoryOperationConflictError("other-task"),
+        ):
+            call_command("recovergit", "test/test", stderr=output)
+        self.assertEqual(
+            output.getvalue(),
+            "test/test: another repository operation is in progress\n",
+        )
 
 
 class LockTranslationTest(WeblateComponentCommandTestCase):
