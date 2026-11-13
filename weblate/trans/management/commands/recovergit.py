@@ -17,7 +17,7 @@ class Command(WeblateComponentCommand):
 
     def handle(self, *args: object, **options: object) -> None:
         user = InternalBot.REPOSITORY.get_user()
-        for component in self.get_components(**options):
+        for component in self.get_components(**options).prefetch():
             if not checkout_needs_recovery(component.repository):
                 continue
             try:
