@@ -588,6 +588,30 @@ Related :file:`docker-compose.yml` might look like:
 Generic settings
 ++++++++++++++++
 
+.. envvar:: WEBLATE_SECRET_KEY
+
+   .. versionadded:: 2026.12
+
+   Configures Django's :setting:`SECRET_KEY`. You can provide the key directly
+   or use ``WEBLATE_SECRET_KEY_FILE`` to read it from a mounted secret file:
+
+   .. code-block:: yaml
+
+      environment:
+        WEBLATE_SECRET_KEY_FILE: /run/secrets/weblate_secret_key
+
+   The file variant takes precedence over the direct value. If the resolved key
+   is empty or neither variable is configured, Weblate reads :file:`/app/data/secret`.
+   An unreadable file configured through ``WEBLATE_SECRET_KEY_FILE`` causes a
+   configuration error.
+
+   Keep the key stable across container restarts and use the same key for all
+   containers in the deployment to preserve sessions and signed links.
+
+   .. seealso::
+
+      :ref:`docker-secrets`
+
 .. envvar:: WEBLATE_DEBUG
 
     Configures Django debug mode using :setting:`DEBUG`.

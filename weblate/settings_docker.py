@@ -234,7 +234,9 @@ STORAGES = {
 
 # Make this unique, and don't share it with anybody.
 # You can generate it using weblate-generate-secret-key
-SECRET_KEY = Path("/app/data/secret").read_text(encoding="utf-8")
+SECRET_KEY = get_env_str("WEBLATE_SECRET_KEY") or Path("/app/data/secret").read_text(
+    encoding="utf-8"
+)
 
 TEMPLATES = [
     {
