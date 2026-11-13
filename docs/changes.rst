@@ -7,6 +7,8 @@ Weblate 2026.12
 
 .. rubric:: Improvements
 
+* Improved database query performance for project language :ref:`statistics <stats>`.
+
 .. rubric:: Security fixes
 
 * Prevented component creation from writing translation templates outside its repository.
