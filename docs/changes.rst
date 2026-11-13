@@ -33,7 +33,6 @@ Weblate 2026.11.2
 .. rubric:: New features
 
 * Added :setting:`DEFAULT_WORKSPACE_TM` to configure default workspace translation memory usage and contribution for projects.
-* String line number in the translation file is now stored in the unit for supported formats; when available, the line number is used for repository links and :guilabel:`Nearby strings`.
 
 .. rubric:: Improvements
 
