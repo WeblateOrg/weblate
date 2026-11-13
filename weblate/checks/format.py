@@ -338,7 +338,7 @@ PERCENT_MATCH = re.compile(r"(%([a-zA-Z0-9_]+)%)")
 VUE_MATCH = re.compile(
     r"""
     (
-    %?{([^}]++)}
+    (?:%|@:)?{([^}]++)}
     |
 # See https://github.com/kazupon/vue-i18n/blob/44ff0b9/src/index.js#L30
 # but without case
