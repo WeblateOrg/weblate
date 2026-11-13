@@ -217,7 +217,7 @@ Installation
     # Social auth pipeline to confirm TOS upon registration/subsequent sign in
     SOCIAL_AUTH_PIPELINE = list(SOCIAL_AUTH_PIPELINE)
     SOCIAL_AUTH_PIPELINE.insert(
-        SOCIAL_AUTH_PIPELINE.index("weblate.accounts.pipeline.second_factor") + 1,
+        SOCIAL_AUTH_PIPELINE.index("weblate.accounts.pipeline.handle_invite") + 1,
         "weblate.legal.pipeline.tos_confirm",
     )
 
@@ -226,9 +226,10 @@ Installation
         "weblate.legal.middleware.RequireTOSMiddleware",
     ]
 
-Insert terms confirmation after two-factor authentication and before team
-synchronization so that logins awaiting terms acceptance do not change team
-memberships.
+Insert terms confirmation after e-mail verification synchronization and invitation
+handling, and before team synchronization. Invitation grants are applied before
+terms confirmation; synchronization of external team memberships waits until
+terms are accepted.
 
 2. Run the database migration to optionally install additional database structures for the module:
 

@@ -3130,7 +3130,7 @@ LEGAL_PIPELINE = list(settings.SOCIAL_AUTH_PIPELINE)
 if "weblate.legal.pipeline.tos_confirm" in LEGAL_PIPELINE:
     LEGAL_PIPELINE.remove("weblate.legal.pipeline.tos_confirm")
 LEGAL_PIPELINE.insert(
-    LEGAL_PIPELINE.index("weblate.accounts.pipeline.second_factor") + 1,
+    LEGAL_PIPELINE.index("weblate.accounts.pipeline.handle_invite") + 1,
     "weblate.legal.pipeline.tos_confirm",
 )
 

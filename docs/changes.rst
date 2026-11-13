@@ -7,18 +7,42 @@ Weblate 2026.12
 
 .. rubric:: Improvements
 
+* Added :envvar:`WEBLATE_SECRET_KEY` support to configure Docker's Django secret key directly or from a mounted secret file.
+* Reduced database loading when polling :ref:`background tasks <api-tasks>` spanning many components.
+
 .. rubric:: Security fixes
 
 * Prevented component creation from writing translation templates outside its repository.
 * Applied :setting:`VCS_RESTRICT_PRIVATE` and trusted-host exemptions to :ref:`GitHub App manifest-code and OAuth exchanges <code-hosting-github-app-register>` and API requests, including redirects and pagination URLs.
+* Revoked stale OAuth e-mail recovery addresses and reconciled the :ref:`account e-mail <user-profile>` when its last verification is removed.
 
 .. rubric:: Bug fixes
+
+* Fixed delayed database cursor cleanup in :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` with custom source languages.
 
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+If you copied or customized ``SOCIAL_AUTH_PIPELINE`` in :file:`settings.py`, move
+``weblate.accounts.pipeline.handle_invite`` immediately after
+``weblate.accounts.pipeline.store_email``. Remove its previous occurrence;
+do not add a second invitation-handling step. E-mail verification must be
+synchronized before invitations are matched to an account. The default Docker
+configuration already uses the new order.
+
+If you use terms confirmation, place ``weblate.legal.pipeline.tos_confirm``
+immediately after ``handle_invite`` and before
+``social_core.pipeline.user.sync_groups``. Update
+any insertion code that previously placed it immediately after ``second_factor``;
+see :doc:`admin/optionals`.
+
+In-progress sign-in, e-mail verification, and password recovery flows must be
+restarted after upgrading or changing the authentication pipeline. Their saved
+step positions cannot safely be resumed against a different pipeline order.
+Existing authenticated sessions remain valid.
 
 .. rubric:: Contributors
 
