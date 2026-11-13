@@ -19,6 +19,7 @@ from weblate.trans.validators import (
     MAX_TRANSLATION_ALTERNATIVES,
     MAX_TRANSLATION_TOTAL_LENGTH,
     validate_multivalue_size,
+    validate_translation_text_change,
     validate_translation_text_length,
 )
 
@@ -47,6 +48,34 @@ class TranslationSizeValidationTest(SimpleTestCase):
         with self.assertRaisesMessage(ValidationError, "Translation text too long!"):
             validate_translation_text_length(self.unit, target)
 
+    def test_reads_stored_alternatives_and_rejects_growth(self) -> None:
+        stored = [f"text {index}" for index in range(150)]
+        self.unit.get_target_plurals.return_value = stored
+        self.unit.get_source_plurals.return_value = stored
+        for edit_source in (False, True):
+            with self.subTest(edit_source=edit_source):
+                field = PluralField()
+                field.widget.unit = self.unit
+                field.widget.edit_source = edit_source
+                data = {f"target_{index}": value for index, value in enumerate(stored)}
+                target = field.clean(
+                    field.widget.value_from_datadict(data, {}, "target")
+                )
+                self.assertEqual(target, stored)
+                validate_translation_text_change(self.unit, target, stored)
+
+                # Read a sentinel beyond the stored count instead of accepting
+                # a truncated prefix when more alternatives are submitted.
+                data.update({f"target_{index}": "text 0" for index in range(150, 160)})
+                target = field.clean(
+                    field.widget.value_from_datadict(data, {}, "target")
+                )
+                self.assertEqual(len(target), 151)
+                with self.assertRaisesMessage(
+                    ValidationError, "Translation text too long!"
+                ):
+                    validate_translation_text_change(self.unit, target, stored)
+
     def test_add_alternative_reserves_capacity(self) -> None:
         target = ["text"] * MAX_TRANSLATION_ALTERNATIVES
 
@@ -67,6 +96,19 @@ class TranslationSizeValidationTest(SimpleTestCase):
 
         with self.assertRaisesMessage(ValidationError, "Translation text too long!"):
             validate_multivalue_size(True, ["x" * (MAX_TRANSLATION_TOTAL_LENGTH + 1)])
+
+    def test_repeating_stored_alternative_keeps_aggregate_limit(self) -> None:
+        old_target = ["x" * 2000, *(["y"] * (MAX_TRANSLATION_ALTERNATIVES - 1))]
+        new_target = ["x" * 2000] * MAX_TRANSLATION_ALTERNATIVES
+
+        with self.assertRaisesMessage(ValidationError, "Translation text too long!"):
+            validate_translation_text_change(self.unit, new_target, old_target)
+
+    def test_reordering_stored_alternatives_is_accepted(self) -> None:
+        old_target = ["x" * (MAX_TRANSLATION_TOTAL_LENGTH + 1), "y"]
+
+        validate_translation_text_change(self.unit, old_target[::-1], old_target)
+        validate_translation_text_change(self.unit, old_target[:1], old_target)
 
     def test_new_plural_limits_are_not_applied(self) -> None:
         validate_multivalue_size(False, ["text"] * (MAX_TRANSLATION_ALTERNATIVES + 1))

@@ -853,49 +853,46 @@ class SeleniumTests(
                 """
             )
         )
-        self.driver.execute_async_script(
-            """
-            const done = arguments[0];
-            let lastSnapshot = null;
-            let stableFrames = 0;
+        last_snapshot: dict[str, int] | None = None
+        stable_samples = 0
 
-            function snapshot() {
+        def layout_is_stable(driver: WebDriver) -> bool:
+            nonlocal last_snapshot, stable_samples
+            # Poll directly so a paused animation frame cannot stall the wait.
+            snapshot = driver.execute_script(
+                """
                 const body = document.body;
                 const doc = document.documentElement;
-                return [
-                    window.scrollX,
-                    window.scrollY,
-                    body?.scrollWidth,
-                    body?.scrollHeight,
-                    body?.offsetWidth,
-                    body?.offsetHeight,
-                    doc?.scrollWidth,
-                    doc?.scrollHeight,
-                    doc?.offsetWidth,
-                    doc?.offsetHeight,
-                    doc?.clientWidth,
-                    doc?.clientHeight,
-                ].join(":");
-            }
+                return {
+                    scrollX: window.scrollX,
+                    scrollY: window.scrollY,
+                    bodyScrollWidth: body?.scrollWidth,
+                    bodyScrollHeight: body?.scrollHeight,
+                    bodyOffsetWidth: body?.offsetWidth,
+                    bodyOffsetHeight: body?.offsetHeight,
+                    docScrollWidth: doc?.scrollWidth,
+                    docScrollHeight: doc?.scrollHeight,
+                    docOffsetWidth: doc?.offsetWidth,
+                    docOffsetHeight: doc?.offsetHeight,
+                    docClientWidth: doc?.clientWidth,
+                    docClientHeight: doc?.clientHeight,
+                };
+                """
+            )
+            if snapshot == last_snapshot:
+                stable_samples += 1
+            else:
+                stable_samples = 0
+                last_snapshot = snapshot
+            return stable_samples >= 3
 
-            function check() {
-                const currentSnapshot = snapshot();
-                if (currentSnapshot === lastSnapshot) {
-                    stableFrames += 1;
-                } else {
-                    stableFrames = 0;
-                    lastSnapshot = currentSnapshot;
-                }
-                if (stableFrames >= 3) {
-                    done(true);
-                    return;
-                }
-                requestAnimationFrame(check);
-            }
-
-            requestAnimationFrame(check);
-            """
-        )
+        try:
+            WebDriverWait(self.driver, timeout, poll_frequency=0.1).until(
+                layout_is_stable
+            )
+        except TimeoutException as error:
+            msg = f"Screenshot layout did not stabilize; last snapshot: {last_snapshot}"
+            raise TimeoutException(msg) from error
 
     def screenshot(self, name: str) -> None:
         """Capture named full page screenshot."""
@@ -6921,12 +6918,8 @@ class SeleniumTests(
             ),
             1,
         )
-        self.assertIn(
-            "Website translations / Checkout interface", workspace_diagnostics
-        )
-        self.assertIn(
-            "Mobile applications / Android application", workspace_diagnostics
-        )
+        self.assertIn("Website translations/Checkout interface", workspace_diagnostics)
+        self.assertIn("Mobile applications/Android application", workspace_diagnostics)
         self.assertIn("Dismissed: 1", workspace_diagnostics)
         self.assertEqual(
             Select(

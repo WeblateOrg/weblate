@@ -15,3 +15,7 @@
 {% if invitation.team_admin %}
   {% translate "Accepting this invitation will also make you a team administrator, allowing you to add or remove team members." %}
 {% endif %}
+
+{% if invitation.backup_authorship %}
+  {% translate "A restored project backup attributes earlier contributions to your username. Accepting this invitation will claim that imported authorship, including history and changes propagated to other projects. Future commits of these contributions may use your configured commit name and e-mail address. Existing repository commits will remain unchanged." %}
+{% endif %}

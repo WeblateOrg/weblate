@@ -42,6 +42,7 @@ from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.validators import (
     iter_plural_formula_examples,
+    iter_plural_formula_validation_numbers,
     validate_plural_formula,
     validate_plural_formula_range,
 )
@@ -1675,12 +1676,17 @@ class Plural(models.Model):
 
 
 class PluralMapper:
-    instances: ClassVar[WeakValueDictionary[tuple[str, str], PluralMapper]] = (
-        WeakValueDictionary()
-    )
+    instances: ClassVar[
+        WeakValueDictionary[tuple[int, str, int, str], PluralMapper]
+    ] = WeakValueDictionary()
 
     def __new__(cls, source_plural: Plural, target_plural: Plural):
-        key = (source_plural.formula, target_plural.formula)
+        key = (
+            source_plural.number,
+            source_plural.formula,
+            target_plural.number,
+            target_plural.formula,
+        )
         obj = cls.instances.get(key)
         if obj is None:
             obj = cls.instances[key] = super().__new__(cls)
@@ -1689,34 +1695,59 @@ class PluralMapper:
     def __init__(self, source_plural: Plural, target_plural: Plural) -> None:
         self.source_plural = source_plural
         self.target_plural = target_plural
-        self.same_plurals = source_plural.same_as(target_plural)
 
     def __str__(self) -> str:
         return f"<PluralMapper '{self.source_plural}' -> '{self.target_plural}'>"
 
     @cached_property
+    def same_plurals(self) -> bool:
+        if self.source_plural.number != self.target_plural.number:
+            return False
+        return (
+            self.source_plural.formula == self.target_plural.formula
+            or self._plural_examples[0] == self._plural_examples[1]
+        )
+
+    @cached_property
+    def _plural_examples(self) -> tuple[dict[int, list[int]], dict[int, list[int]]]:
+        # Compare both rules over the same counts. Display examples are capped
+        # independently for each form and can miss otherwise valid overlaps.
+        # Include constants from both rules to cover custom and rare forms.
+        numbers = set(
+            chain(
+                iter_plural_formula_validation_numbers(self.source_plural.formula),
+                iter_plural_formula_validation_numbers(self.target_plural.formula),
+            )
+        )
+        source_examples: dict[int, list[int]] = defaultdict(list)
+        target_examples: dict[int, list[int]] = defaultdict(list)
+        source_function = self.source_plural.plural_function
+        target_function = self.target_plural.plural_function
+        for number in numbers:
+            source_examples[source_function(number)].append(number)
+            target_examples[target_function(number)].append(number)
+        return source_examples, target_examples
+
+    @cached_property
     def target_map(self) -> tuple[tuple[int | None, int | None], ...]:
+        source_examples, target_examples = self._plural_examples
         exact_source_map: dict[int, int] = {}
         all_source_map: dict[int, int] = {}
-        for i, examples in self.source_plural.examples.items():
+        for i, examples in source_examples.items():
             if len(examples) == 1:
-                exact_source_map[int(examples[0])] = i
+                exact_source_map[examples[0]] = i
             else:
                 for example in examples:
-                    try:
-                        value = int(example)
-                    except ValueError:
-                        continue
-                    all_source_map[value] = i
+                    all_source_map[example] = i
 
         target_plural = self.target_plural
         result: list[tuple[int | None, int | None]] = []
         last = target_plural.number - 1
         for i in range(target_plural.number):
-            examples = target_plural.examples.get(i, [])
+            examples = target_examples.get(i, [])
             if len(examples) == 1:
                 # Map plurals 1:1
-                number = int(examples[0])
+                number = examples[0]
                 if number in exact_source_map:
                     result.append((exact_source_map[number], None))
                 elif number in all_source_map:
@@ -1728,15 +1759,10 @@ class PluralMapper:
                 result.append((-1, None))
             else:
                 # Look for examples subset
-                values = []
-                for example in examples:
-                    try:
-                        value = int(example)
-                    except ValueError:
-                        continue
-                    values.append(value)
                 mapped = {
-                    all_source_map[value] for value in values if value in all_source_map
+                    all_source_map[value]
+                    for value in examples
+                    if value in all_source_map
                 }
                 if len(mapped) == 1:
                     result.append((mapped.pop(), None))

@@ -203,6 +203,7 @@ INSTALLATION_CASES = {
             "client_key": "",
             "client_cert": "",
             "publish_timeout": 5,
+            "connection_timeout": 5,
             "connection_attempts": 1,
             "retry_delay": 2,
             "event_filter": "content",

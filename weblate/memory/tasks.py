@@ -307,6 +307,31 @@ def _attribute_memory_scope_components(scopes: list[MemoryScope]) -> None:
         ).delete_scope(Q(id__in=restricted_shared_scope_ids), delete_legacy=False)
 
 
+def _lock_memory_scope_batch(
+    queryset: QuerySet[MemoryScope], candidates: list[tuple[int, int]]
+) -> list[MemoryScope]:
+    """Lock parents before scopes, matching scope cleanup's lock order."""
+    if not candidates:
+        return []
+    parent_ids = list(
+        Memory.objects.using("default")
+        .filter(pk__in={memory_id for _, memory_id in candidates})
+        .order_by("pk")
+        .select_for_update(no_key=True, of=("self",))
+        .values_list("pk", flat=True)
+    )
+    # Cleanup may remove candidates while we wait. Recheck the original
+    # selection and only lock scopes whose parents we have already locked.
+    return list(
+        queryset.filter(
+            pk__in=[scope_id for scope_id, _ in candidates], memory_id__in=parent_ids
+        )
+        .select_for_update(no_key=True, of=("self",))
+        .select_related("memory")
+        .order_by("id")
+    )
+
+
 def attribute_memory_scope_queryset(
     queryset: QuerySet[MemoryScope], batch_size: int = 5000
 ) -> None:
@@ -314,16 +339,16 @@ def attribute_memory_scope_queryset(
     last_scope_id = 0
     while True:
         with transaction.atomic(using="default"):
-            scopes = list(
-                queryset.filter(id__gt=last_scope_id)
-                .select_for_update()
-                .select_related("memory")
-                .order_by("id")[:batch_size]
+            selected = queryset.filter(id__gt=last_scope_id)
+            candidates = list(
+                selected.order_by("id").values_list("pk", "memory_id")[:batch_size]
             )
-            if not scopes:
+            if not candidates:
                 return
-            last_scope_id = scopes[-1].id
-            _attribute_memory_scope_components(scopes)
+            last_scope_id = candidates[-1][0]
+            scopes = _lock_memory_scope_batch(selected, candidates)
+            if scopes:
+                _attribute_memory_scope_components(scopes)
 
 
 @app.task(trail=False)
@@ -395,27 +420,27 @@ def backfill_memory_scope_components(batch_size: int = 5000) -> None:
         if state.completed:
             return
 
-        scopes = list(
-            scope_objects.filter(
-                id__gt=state.last_memory_id,
-                scope__in=AUTOMATIC_SCOPE_TYPES,
-                source_component__isnull=True,
-            )
-            .select_for_update()
-            .select_related("memory")
-            .order_by("id")[:batch_size]
+        selected = scope_objects.filter(
+            id__gt=state.last_memory_id,
+            scope__in=AUTOMATIC_SCOPE_TYPES,
+            source_component__isnull=True,
         )
-        if not scopes:
+        candidates = list(
+            selected.order_by("id").values_list("pk", "memory_id")[:batch_size]
+        )
+        if not candidates:
             state.completed = True
             state.updated = timezone.now()
             state.save(using="default", update_fields=["completed", "updated"])
             run_next = False
         else:
-            _attribute_memory_scope_components(scopes)
+            scopes = _lock_memory_scope_batch(selected, candidates)
+            if scopes:
+                _attribute_memory_scope_components(scopes)
 
-            state.last_memory_id = scopes[-1].id
+            state.last_memory_id = candidates[-1][0]
             state.updated = timezone.now()
-            run_next = len(scopes) == batch_size
+            run_next = len(candidates) == batch_size
             if not run_next:
                 state.completed = True
             state.save(

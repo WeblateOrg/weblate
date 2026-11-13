@@ -69,7 +69,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet
 
 from weblate.accounts.models import Subscription
-from weblate.accounts.utils import has_recent_sensitive_verification, remove_user
+from weblate.accounts.utils import remove_user
 from weblate.accounts.visibility import (
     can_browse_users,
     can_manage_users,
@@ -155,6 +155,7 @@ from weblate.api.serializers import (
     UserStatisticsSerializer,
     UserUpdateRequestSerializer,
     WorkflowSettingSerializer,
+    check_session_sensitive_verification,
     get_reverse_kwargs,
 )
 from weblate.auth.audit import audit_team_changes, log_team_changes
@@ -227,6 +228,7 @@ from weblate.trans.tasks import (
 )
 from weblate.trans.uploads import queue_translation_upload
 from weblate.trans.util import get_upload_error_message
+from weblate.trans.validators import TranslationTextTooLongError
 from weblate.trans.views.files import (
     download_multi,
     get_download_components,
@@ -1197,17 +1199,15 @@ class SensitiveSessionMutationMixin(APIView):
     def requires_sensitive_verification(self, request: Request) -> bool:
         return self.action in self.sensitive_actions
 
+    def check_sensitive_verification(self, request: Request) -> None:
+        check_session_sensitive_verification(request)
+
     def initial(self, request: Request, *args, **kwargs) -> None:
         super().initial(request, *args, **kwargs)
-        if (
-            isinstance(request.successful_authenticator, SessionAuthentication)
-            and self.requires_sensitive_verification(request)
-            and not has_recent_sensitive_verification(
-                cast("AuthenticatedHttpRequest", request)
-            )
-        ):
-            msg = "Recent credential verification required."
-            raise PermissionDenied(msg)
+        if isinstance(
+            request.successful_authenticator, SessionAuthentication
+        ) and self.requires_sensitive_verification(request):
+            self.check_sensitive_verification(request)
 
 
 @extend_schema_view(
@@ -2475,14 +2475,13 @@ class ProjectViewSet(
 ):
     """Translation projects API."""
 
+    sensitive_fields = frozenset({"access_control", "public_sharing", "enforced_2fa"})
+
     def requires_sensitive_verification(self, request: Request) -> bool:
         return (
             self.action in {"update", "partial_update"}
             and isinstance(request.data, Mapping)
-            and bool(
-                {"access_control", "public_sharing", "enforced_2fa"}
-                & request.data.keys()
-            )
+            and bool(self.sensitive_fields & request.data.keys())
         )
 
     raw_urls: tuple[str, ...] = ("project-file", "project-language-file")
@@ -3014,6 +3013,13 @@ class ProjectViewSet(
             serializer.instance.post_create(self.request.user, billing)
 
     def perform_update(self, serializer) -> None:
+        # Omitting a boolean from a form-encoded PUT clears it.
+        if any(
+            serializer.validated_data.get(field, getattr(serializer.instance, field))
+            != getattr(serializer.instance, field)
+            for field in self.sensitive_fields
+        ):
+            self.check_sensitive_verification(self.request)
         with transaction.atomic():
             workspace = serializer.validated_data.get("workspace")
             if (
@@ -3451,9 +3457,6 @@ class ComponentViewSet(
                 return super().update(request, *args, **kwargs)
             finally:
                 self.__dict__.pop("_locked_component_instance", None)
-
-    def perform_update(self, serializer) -> None:
-        serializer.save()
 
     @extend_schema(
         description=(
@@ -4822,7 +4825,11 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
     def perform_update(self, serializer) -> None:
         from weblate.trans.models.source import source_operation  # ruff: ignore[import-outside-top-level]
 
-        with source_operation(serializer.instance.translation.component):
+        # Rejected translation must not leave other updated attributes stored
+        with (
+            transaction.atomic(),
+            source_operation(serializer.instance.translation.component),
+        ):
             serializer.instance = get_object_or_404(
                 Unit.objects.select_for_update(), pk=serializer.instance.pk
             )
@@ -4918,6 +4925,10 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         if do_translate:
             try:
                 unit.translate(user, new_target, new_state)
+            except TranslationTextTooLongError as error:
+                # The limit can change after validating the serializer, for
+                # example by the submitted extra_flags.
+                raise ValidationError({"target": error.messages}) from error
             except Unit.DoesNotExist as error:
                 # The unit can be removed by a concurrent component update between
                 # the initial lookup and the locking re-fetch in Unit.translate()
@@ -5256,10 +5267,13 @@ class SuggestionViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
                     request, getattr(review_permission, "reason", None)
                 )
 
-        suggestion.accept(
-            request,
-            state=STATE_APPROVED if approve else STATE_TRANSLATED,
-        )
+        try:
+            suggestion.accept(
+                request,
+                state=STATE_APPROVED if approve else STATE_TRANSLATED,
+            )
+        except TranslationTextTooLongError as error:
+            raise ValidationError({"target": error.messages}) from error
         return Response(data={"result": "accepted"}, status=HTTP_200_OK)
 
     @extend_schema(

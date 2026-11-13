@@ -47,17 +47,25 @@ from django.utils.translation import gettext
 from packaging.version import InvalidVersion, Version
 from weblate_schemas import load_schema, validate_schema
 
+from weblate.auth.audit import audit_team_changes
 from weblate.auth.bots import InternalBot
+from weblate.auth.invitations import create_team_invitation
 from weblate.auth.models import (
     AutoGroup,
     Group,
+    Invitation,
     Role,
     TeamMembership,
     User,
     get_anonymous,
 )
-from weblate.auth.utils import TeamNameAllocator, get_team_rename_warnings
+from weblate.auth.utils import (
+    TeamNameAllocator,
+    get_team_rename_warnings,
+    validate_team_assignable_user,
+)
 from weblate.checks.models import Check
+from weblate.formats.ttkit import ZeroCLDRPluralMixin
 from weblate.lang.models import Language, Plural
 from weblate.memory.models import Memory, MemoryDict, MemoryScope
 from weblate.memory.utils import CATEGORY_FILE, CATEGORY_PRIVATE_OFFSET
@@ -73,6 +81,8 @@ from weblate.trans.inherited_settings import (
     INHERITABLE_COMPONENT_SETTINGS,
 )
 from weblate.trans.models import (
+    BackupAuthorClaim,
+    BackupAuthorVote,
     Category,
     Change,
     Comment,
@@ -86,6 +96,7 @@ from weblate.trans.models import (
     Unit,
     Vote,
 )
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.data import data_path
 from weblate.utils.files import remove_tree
 from weblate.utils.forms import QueryField
@@ -332,6 +343,11 @@ class ProjectBackup:
         self.languages_cache: dict[str, Language] = {}
         self.labels_map: dict[str, Label] = {}
         self.user_cache: dict[str, User] = {}
+        self.restore_actor: User | None = None
+        self.author_claims: dict[str, BackupAuthorClaim] = {}
+        self.author_claims_by_user: dict[int, BackupAuthorClaim] = {}
+        self.unmapped_usernames: set[str] = set()
+        self.pending_usernames: set[str] = set()
         self.components_cache: dict[str, Component] = {}
         self.categories_cache: dict[str, Category] = {}
         self.roles_cache: dict[str, Role] = {}
@@ -2074,109 +2090,196 @@ class ProjectBackup:
         unit.import_data = item
         return unit
 
-    def restore_user(self, username: str) -> User:
-        if not self.user_cache:
-            self.user_cache[settings.ANONYMOUS_USER_NAME] = get_anonymous()
+    def lookup_backup_user(self, username: str | None) -> User:
+        if not username:
+            return get_anonymous()
         if username not in self.user_cache:
-            try:
-                self.user_cache[username] = User.objects.get(username=username)
-            except User.DoesNotExist:
-                # Fallback to anonymous?
-                self.user_cache[username] = self.user_cache[
-                    settings.ANONYMOUS_USER_NAME
-                ]
+            self.user_cache[username] = (
+                User.objects.filter(username=username).first() or get_anonymous()
+            )
+        user = self.user_cache[username]
+        if user.is_anonymous and username != settings.ANONYMOUS_USER_NAME:
+            self.unmapped_usernames.add(username)
+        return user
 
-        return self.user_cache[username]
+    def restore_user(self, username: str | None) -> User:
+        if self.restore_actor is None:
+            msg = "Need a restore actor."
+            raise TypeError(msg)
+        if not username:
+            return get_anonymous()
+        user = self.lookup_backup_user(username)
+        if (
+            self.restore_actor.is_superuser
+            or user == self.restore_actor
+            or user.is_anonymous
+        ):
+            return user
+        try:
+            validate_team_assignable_user(user)
+        except ValidationError:
+            self.unmapped_usernames.add(username)
+            return get_anonymous()
+        if self.project is None:
+            msg = "Need a restored project."
+            raise TypeError(msg)
+        if username not in self.author_claims:
+            claim = self.author_claims_by_user.get(user.pk)
+            if claim is None:
+                claim = BackupAuthorClaim.objects.create(
+                    project=self.project, user=user
+                )
+                self.author_claims_by_user[user.pk] = claim
+            self.author_claims[username] = claim
+        self.pending_usernames.add(user.username)
+        return get_anonymous()
 
     def restore_with_user(
         self, data: dict[str, Any], field: str = "user", remove: str | None = None
     ) -> dict[str, Any]:
         data = data.copy()
+        data.pop("backup_author_claim", None)
+        data.pop("backup_author_claim_id", None)
         if remove is not None:
             data.pop(remove)
-        data[field] = self.restore_user(data[field])
+        username = data[field]
+        data[field] = self.restore_user(username)
+        if claim := self.author_claims.get(username):
+            data["backup_author_claim"] = claim
         return data
 
-    def restore_users(self, usernames: list[str]) -> list[User]:
-        users = []
-        for username in usernames:
-            user = self.restore_user(username)
-            if user.username == settings.ANONYMOUS_USER_NAME:
-                continue
-            users.append(user)
-        return users
+    def invite_backup_user(
+        self, user: User, group: Group, languages: list[Language], *, team_admin: bool
+    ) -> Invitation:
+        if self.restore_actor is None:
+            msg = "Need a restore actor."
+            raise TypeError(msg)
+        claim = self.author_claims_by_user.get(user.pk)
+        if claim is not None and claim.invitation_id is not None:
+            claim = None
+        invitation = create_team_invitation(
+            author=self.restore_actor,
+            group=group,
+            project=self.project,
+            user=user,
+            limit_languages=languages,
+            team_admin=team_admin,
+            backup_author_claim=claim,
+            defer_email=True,
+        )
+        self.pending_usernames.add(user.username)
+        return invitation
 
+    @transaction.atomic
     def restore_team_members(
-        self, group: Group, members: list[str | dict[str, Any]]
+        self,
+        group: Group,
+        members: list[str | dict[str, Any]],
+        *,
+        admins: list[str] | None = None,
     ) -> None:
-        users: dict[str, User] = {}
-        limit_languages: dict[str, list[str]] = {}
-        for member in members:
-            if isinstance(member, str):
-                username = member
-                languages = []
-            else:
-                username = member["username"]
-                languages = member.get("limit_languages", [])
-            user = self.restore_user(username)
-            if user.username == settings.ANONYMOUS_USER_NAME:
-                continue
-            for language_code in dict.fromkeys(languages):
-                self.import_language(language_code)
-            if user.username in limit_languages and set(
-                limit_languages[user.username]
-            ) != set(languages):
-                warnings.warn(
-                    f"Conflicting language limits for {user.username!r} in backup.",
-                    stacklevel=2,
+        if self.restore_actor is None:
+            msg = "Need a restore actor."
+            raise TypeError(msg)
+        with (
+            acting_user_context(self.restore_actor),
+            audit_team_changes(group, self.restore_actor),
+        ):
+            admins = admins or []
+            records: dict[str, str | dict[str, Any]] = {}
+            for member in members:
+                username = member if isinstance(member, str) else member["username"]
+                user = self.lookup_backup_user(username)
+                if user.is_anonymous:
+                    continue
+                username = user.username
+                self.user_cache[username] = user
+                previous = records.get(username)
+                previous_languages = (
+                    []
+                    if isinstance(previous, str) or previous is None
+                    else previous.get("limit_languages", [])
                 )
-            users[user.username] = user
-            limit_languages[user.username] = languages
-
-        with transaction.atomic():
-            user_list = list(users.values())
-            group.user_set.set(user_list)
-            memberships = list(
-                TeamMembership.objects.filter(
-                    group=group, user__in=user_list
-                ).select_related("user")
-            )
-            membership_ids = [membership.id for membership in memberships]
-            if not membership_ids:
-                return
-
-            through = TeamMembership.limit_languages.through
-            through.objects.filter(teammembership_id__in=membership_ids).delete()
-            through.objects.bulk_create(
-                through(teammembership_id=membership.id, language_id=language_id)
-                for membership in memberships
-                for language_id in sorted(
-                    {
-                        language.id
-                        for language in self.get_items_from_cache(
-                            self.languages_cache,
-                            limit_languages[membership.user.username],
-                        )
-                    }
+                languages = (
+                    [] if isinstance(member, str) else member.get("limit_languages", [])
                 )
-            )
+                if previous is not None and set(previous_languages) != set(languages):
+                    warnings.warn(
+                        f"Conflicting language limits for {username!r} in backup.",
+                        stacklevel=2,
+                    )
+                records[username] = member
+            admin_names = set()
+            for username in admins:
+                user = self.lookup_backup_user(username)
+                if not user.is_anonymous:
+                    self.user_cache[user.username] = user
+                    admin_names.add(user.username)
+                    records.setdefault(user.username, user.username)
+            desired: set[int] = set()
+            desired_admins: list[User] = []
+            for username, member in records.items():
+                languages = (
+                    [] if isinstance(member, str) else member.get("limit_languages", [])
+                )
+                user = self.lookup_backup_user(username)
+                if user.is_anonymous:
+                    continue
+                if not self.restore_actor.is_superuser and user != self.restore_actor:
+                    try:
+                        validate_team_assignable_user(user)
+                    except ValidationError:
+                        self.unmapped_usernames.add(username)
+                        continue
+                    limit_languages = [
+                        self.import_language(code) for code in dict.fromkeys(languages)
+                    ]
+                    self.invite_backup_user(
+                        user, group, limit_languages, team_admin=username in admin_names
+                    )
+                    continue
+                desired.add(user.pk)
+                limit_languages = [
+                    self.import_language(code) for code in dict.fromkeys(languages)
+                ]
+                user.add_team(None, group, user=self.restore_actor)
+                TeamMembership.objects.get(user=user, group=group).set_limit_languages(
+                    limit_languages, actor=self.restore_actor
+                )
+                if username in admin_names:
+                    desired_admins.append(user)
+            if (
+                not self.restore_actor.is_superuser
+                and group.user_set.filter(pk=self.restore_actor.pk).exists()
+            ):
+                desired.add(self.restore_actor.pk)
+            for user in group.user_set.exclude(pk__in=desired):
+                user.remove_team(None, group)
+            group.admins.set(desired_admins)
 
     @staticmethod
     def get_items_from_cache(cache: dict[str, Any], keys: list[str]) -> list:
         return [value for key in keys if (value := cache.get(key))]
 
     def restore_team(self, team: dict, group: Group | None = None) -> None:
+        if self.restore_actor is None:
+            msg = "Need a restore actor."
+            raise TypeError(msg)
         if group is None:
-            if self.project is None:
-                raise TypeError
             group = Group(
                 name=team["name"],
                 defining_project=self.project,
                 internal=team.get("internal", False),
-                language_selection=team["language_selection"],
-                enforced_2fa=team["enforced_2fa"],
             )
-            group = Group.objects.bulk_create([group])[0]
+        with (
+            acting_user_context(self.restore_actor),
+            audit_team_changes(group, self.restore_actor),
+        ):
+            self.restore_team_definition(team, group)
+
+    def restore_team_definition(self, team: dict[str, Any], group: Group) -> None:
+        if group.pk is None:
+            group.save()
             group.projects.add(self.project)
 
         group.language_selection = team["language_selection"]
@@ -2188,8 +2291,7 @@ class ProjectBackup:
             self.get_items_from_cache(self.components_cache, team["components"])
         )
         group.languages.set(self.import_language(code) for code in team["languages"])
-        group.admins.set(self.restore_users(team["admins"]))
-        self.restore_team_members(group, team["members"])
+        self.restore_team_members(group, team["members"], admins=team["admins"])
 
         autogroups = [
             AutoGroup(match=match, group=group) for match in team["autogroups"]
@@ -2247,6 +2349,31 @@ class ProjectBackup:
             used_names.add(team["name"])
             self.restore_team(team, group)
 
+    def finish_author_invitations(self) -> None:
+        if self.project is None or self.restore_actor is None:
+            msg = "Need a restored project and actor."
+            raise TypeError(msg)
+        pending = [
+            claim
+            for claim in self.author_claims_by_user.values()
+            if claim.invitation_id is None
+        ]
+        if not pending:
+            return
+        names = set(self.project.defined_groups.values_list("name", flat=True))
+        base_name = gettext("Imported authors")
+        name = base_name
+        suffix = 1
+        while name in names:
+            suffix += 1
+            name = f"{base_name} ({suffix})"
+        group = Group(name=name, defining_project=self.project)
+        with audit_team_changes(group, self.restore_actor):
+            group.save()
+            group.projects.add(self.project)
+        for claim in pending:
+            self.invite_backup_user(claim.user, group, [], team_admin=False)
+
     def get_restricted_components(self) -> list[str]:
         """List restricted component paths in the validated backup for preview."""
         return sorted(
@@ -2271,6 +2398,20 @@ class ProjectBackup:
                 )
                 % {"component": component}
                 for component in self.components_made_public
+            ]
+            + [
+                gettext(
+                    "User %(username)s was skipped because no eligible local account matches the backup."
+                )
+                % {"username": username}
+                for username in sorted(self.unmapped_usernames)
+            ]
+            + [
+                gettext(
+                    "User %(username)s is awaiting invitation acceptance; imported authorship remains anonymous until accepted."
+                )
+                % {"username": username}
+                for username in sorted(self.pending_usernames)
             ]
             + get_team_rename_warnings(self.renamed_teams)
             + [
@@ -2319,7 +2460,9 @@ class ProjectBackup:
                         PendingUnitChange(
                             unit=unit,
                             metadata={"actor_id": actor.pk},
-                            author=self.restore_user(item["author"]),
+                            **self.restore_with_user(
+                                {"author": item["author"]}, field="author"
+                            ),
                             target=item["target"],
                             explanation=item["explanation"],
                             source_unit_explanation=item["source_unit_explanation"],
@@ -2409,18 +2552,38 @@ class ProjectBackup:
                 }
                 for suggestion in suggestions:
                     if suggestion_data[suggestion.target]["votes"]:
-                        # Ignore conflicts here as more users can be mapped to anonymous
-                        # in restore_user().
-                        Vote.objects.bulk_create(
-                            [
-                                Vote(
-                                    suggestion=suggestion,
-                                    **self.restore_with_user(vote),
-                                )
-                                for vote in suggestion_data[suggestion.target]["votes"]
-                            ],
-                            ignore_conflicts=True,
+                        self.restore_votes(
+                            suggestion, suggestion_data[suggestion.target]["votes"]
                         )
+
+    def restore_votes(
+        self, suggestion: Suggestion, votes: list[dict[str, Any]]
+    ) -> None:
+        ordinary = []
+        claimed = []
+        for vote in votes:
+            values = self.restore_with_user(vote)
+            claim = values.pop("backup_author_claim", None)
+            if claim is None:
+                ordinary.append(Vote(suggestion=suggestion, **values))
+            else:
+                claimed.append((claim, values["value"]))
+        Vote.objects.bulk_create(ordinary, ignore_conflicts=True)
+        if not claimed:
+            return
+        placeholder = None
+        if not any(vote.user.is_anonymous for vote in ordinary):
+            placeholder, _created = Vote.objects.get_or_create(
+                suggestion=suggestion,
+                user=get_anonymous(),
+                defaults={"value": claimed[0][1]},
+            )
+        BackupAuthorVote.objects.bulk_create(
+            BackupAuthorVote(
+                claim=claim, suggestion=suggestion, value=value, placeholder=placeholder
+            )
+            for claim, value in claimed
+        )
 
     def clear_unit_import_data(self, units: list[Unit]) -> None:
         for unit in units:
@@ -2634,6 +2797,21 @@ class ProjectBackup:
                 "restored available files and translation data"
             )
 
+    @staticmethod
+    def restore_plural(language: Language, data: dict[str, Any]) -> Plural:
+        if data["source"] == Plural.SOURCE_CLDR_ZERO:
+            # Generate current rules rather than resurrect a formula
+            # from before a language-data update or plural migration.
+            return ZeroCLDRPluralMixin.get_zero_plural(language)
+        plural = language.plural_set.filter(**data).first()
+        if plural is not None:
+            return plural
+        if data["source"] == Plural.SOURCE_DEFAULT:
+            return language.plural
+        if data["source"] in {Plural.SOURCE_MANUAL, Plural.SOURCE_GETTEXT}:
+            return language.plural_set.create(**data)
+        return language.plural_set.filter(source=data["source"])[0]
+
     def restore_component(
         self, zipfile: ZipFile, data: dict, actor: User, changes: list[Change]
     ) -> bool:
@@ -2706,21 +2884,7 @@ class ProjectBackup:
         source_translation_id = -1
         for item in data["translations"]:
             language = self.import_language(item["language_code"])
-            plurals = language.plural_set.filter(**item["plural"])
-            try:
-                plural = plurals[0]
-            except IndexError:
-                if item["plural"]["source"] == Plural.SOURCE_DEFAULT:
-                    plural = language.plural
-                elif item["plural"]["source"] in {
-                    Plural.SOURCE_MANUAL,
-                    Plural.SOURCE_GETTEXT,
-                }:
-                    plural = language.plural_set.create(**item["plural"])
-                else:
-                    plural = language.plural_set.filter(
-                        source=item["plural"]["source"]
-                    )[0]
+            plural = self.restore_plural(language, item["plural"])
             translation = Translation(
                 component=component,
                 filename=item["filename"],
@@ -2768,7 +2932,7 @@ class ProjectBackup:
             screenshot = Screenshot(
                 name=item["name"],
                 translation=translation_lookup[item["translation_id"]],
-                user=self.restore_user(item["user"]),
+                **self.restore_with_user({"user": item["user"]}),
                 timestamp=item["timestamp"],
             )
             member_name = f"screenshots/{item['image']}"
@@ -2874,6 +3038,12 @@ class ProjectBackup:
             msg = "Project backup has to be validated before restore."
             raise ValueError(msg)
 
+        self.restore_actor = user
+        self.user_cache.clear()
+        self.author_claims.clear()
+        self.author_claims_by_user.clear()
+        self.pending_usernames.clear()
+        self.unmapped_usernames.clear()
         self.components_made_public.clear()
         self.public_only_restore = False
         self.skipped_components.clear()
@@ -3043,6 +3213,8 @@ class ProjectBackup:
 
         if "teams" in self.data:
             self.restore_teams(self.data["teams"])
+
+        self.finish_author_invitations()
 
         restore_changes.append(
             Change(

@@ -73,7 +73,11 @@ from weblate.trans.util import (
     join_plural,
     split_plural,
 )
-from weblate.trans.validators import validate_check_flags
+from weblate.trans.validators import (
+    is_translation_text_change_too_long,
+    validate_check_flags,
+    validate_translation_text_change,
+)
 from weblate.utils import messages
 from weblate.utils.db import verify_in_transaction
 from weblate.utils.errors import report_error
@@ -324,6 +328,9 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
                 queryset=Workspace.objects.defer_huge(),
             ),
             "translation__component__source_language",
+            "translation__component__category__project__workspace",
+            "translation__component__category__category__project__workspace",
+            "translation__component__category__category__category__project__workspace",
         )
 
     def prefetch_translation_parent(self):
@@ -556,9 +563,16 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
         translation = unit.translation
         component = translation.component
         custom_sources = propagation_uses_custom_sources(component.project)
-        result = self.exclude_blocked(
-            custom_sources=custom_sources
-        ).with_effective_source(custom_sources=custom_sources, select=False)
+        result = (
+            self.exclude_blocked(custom_sources=custom_sources)
+            .filter(
+                propagation_filter(
+                    component.project, "translation__component__", component.name
+                ),
+                translation__language_id=translation.language_id,
+            )
+            .with_effective_source(custom_sources=custom_sources, select=False)
+        )
         if custom_sources:
             result = result.filter(
                 Q(
@@ -584,12 +598,6 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
         result = result.filter(
             context__lower__md5=MD5(Lower(Value(unit.context))),
             context=unit.context,
-            translation__language_id=translation.language_id,
-        )
-        result = result.filter(
-            propagation_filter(
-                component.project, "translation__component__", component.name
-            )
         )
         if custom_sources:
             plural = unit.effective_source_plural
@@ -632,22 +640,21 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
         custom_sources = propagation_uses_custom_sources(component.project)
         result = (
             self.exclude_blocked(custom_sources=custom_sources)
-            .with_effective_source(custom_sources=custom_sources, select=False)
             .filter(
+                propagation_filter(
+                    component.project, "translation__component__", component.name
+                ),
                 state__gte=STATE_TRANSLATED,
                 target__lower__md5=MD5(Lower(Value(target))),
                 target=target,
-                check_source_language=unit.effective_source_language.pk,
                 translation__component__allow_translation_propagation=True,
                 translation__plural_id=translation.plural_id,
                 translation__plural__number__gt=1,
             )
+            .filter_restricted_peers(unit)
+            .with_effective_source(custom_sources=custom_sources, select=False)
+            .filter(check_source_language=unit.effective_source_language.pk)
             .exclude(check_source=unit.effective_source)
-        )
-        result = result.filter(
-            propagation_filter(
-                component.project, "translation__component__", component.name
-            )
         )
         if custom_sources:
             plural = unit.effective_source_plural
@@ -656,7 +663,6 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
                 check_source_formula=plural.formula,
                 check_source_type=plural.type,
             )
-        result = result.filter_restricted_peers(unit)
         if not unit.translation.language.is_case_sensitive():
             result = result.exclude(
                 check_source__lower__md5=MD5(Lower(Value(unit.effective_source)))
@@ -2391,6 +2397,62 @@ class Unit(models.Model, LoggerMixin):
 
         return ret
 
+    @staticmethod
+    def can_propagate_text(
+        unit: Unit,
+        target_plurals: list[str],
+        submitted_target: list[str] | None,
+        user: User | None,
+        request: AuthenticatedHttpRequest | None,
+        warnings: list[str],
+    ) -> bool:
+        """
+        Check that propagated text fits the limit of the target string.
+
+        Components can have different limits, for example by the max-length flag.
+        The submitted text before autofixes is accepted as well, matching the
+        validation of a direct edit, where autofixes can extend the text.
+        """
+        current = unit.get_target_plurals()
+        if not is_translation_text_change_too_long(unit, target_plurals, current):
+            return True
+        if submitted_target is not None and not is_translation_text_change_too_long(
+            unit, submitted_target, current
+        ):
+            return True
+        component = unit.translation.component
+        if request and user is not None and user.can_access_component(component):
+            warnings.append(
+                gettext("String could not be propagated to %(component)s: %(reason)s")
+                % {
+                    "component": component,
+                    "reason": gettext("Translation text too long!"),
+                },
+            )
+        return False
+
+    def show_propagation_warnings(
+        self, request: AuthenticatedHttpRequest | None, warnings: list[str]
+    ) -> None:
+        if not warnings:
+            return
+        if self.is_batch_update:
+            # Summarized once for the whole batch, see merge_translations
+            self.translation.batch_propagation_failures += 1
+        elif len(warnings) > 10:
+            messages.warning(
+                request,
+                ngettext(
+                    "String could not be propagated to %d component.",
+                    "String could not be propagated to %d components.",
+                    len(warnings),
+                )
+                % len(warnings),
+            )
+        else:
+            for warning in warnings:
+                messages.warning(request, warning)
+
     @source_operation_method
     def propagate(
         self,
@@ -2400,12 +2462,18 @@ class Unit(models.Model, LoggerMixin):
         request=None,
         *,
         exclude_ids: Collection[int] = (),
+        submitted_target: list[str] | None = None,
     ) -> bool:
-        """Propagate current translation to all others."""
+        """
+        Propagate current translation to all others.
+
+        The submitted_target is the translation before autofixes, if available.
+        """
         warnings: list[str] = []
 
         with start_span(op="unit.propagate", name=f"{self.pk}"):
             to_update: list[Unit] = []
+            target_plurals = split_plural(self.target)
             units = self.propagated_units
             if self.state != STATE_APPROVED:
                 units = units.exclude(target=self.target, state=self.state)
@@ -2440,6 +2508,10 @@ class Unit(models.Model, LoggerMixin):
                     state = STATE_TRANSLATED
                 if unit.target == self.target and unit.state == state:
                     continue
+                if not self.can_propagate_text(
+                    unit, target_plurals, submitted_target, user, request, warnings
+                ):
+                    continue
 
                 # Update unit attributes for the current instance, the database is bulk updated later
                 unit.store_old_unit(unit)
@@ -2457,20 +2529,7 @@ class Unit(models.Model, LoggerMixin):
 
                 unit.update_translation_memory(user)
 
-            if warnings:
-                if len(warnings) > 10:
-                    messages.warning(
-                        request,
-                        ngettext(
-                            "String could not be propagated to %d component.",
-                            "String could not be propagated to %d components.",
-                            len(warnings),
-                        )
-                        % len(warnings),
-                    )
-                else:
-                    for warning in warnings:
-                        messages.warning(request, warning)
+            self.show_propagation_warnings(request, warnings)
             if not to_update:
                 return False
 
@@ -2521,6 +2580,8 @@ class Unit(models.Model, LoggerMixin):
         request=None,
         change_details: dict[str, Any] | None = None,
         propagation_exclude_ids: Collection[int] = (),
+        *,
+        submitted_target: list[str] | None = None,
     ) -> bool:
         """
         Store unit to backend.
@@ -2544,6 +2605,7 @@ class Unit(models.Model, LoggerMixin):
                 author=author,
                 request=request,
                 exclude_ids=propagation_exclude_ids,
+                submitted_target=submitted_target,
             )
 
         # Return if there was no change
@@ -3276,11 +3338,15 @@ class Unit(models.Model, LoggerMixin):
         change_details: dict[str, Any] | None = None,
         expected_source_hash: int | None = None,
         expected_state: int | None = None,
+        validate_length: bool = True,
     ) -> bool:
         """
         Store new translation of a unit.
 
         Propagation is currently disabled on import.
+
+        The length validation can be skipped only for text which was already
+        stored, such as when reverting a change.
         """
         component = self.translation.component
 
@@ -3306,6 +3372,15 @@ class Unit(models.Model, LoggerMixin):
 
         if not component.is_multivalue:
             new_target_list = self.adjust_plurals(new_target_list)
+
+        # Validated before autofixes to match the editor form validation
+        if validate_length:
+            validate_translation_text_change(
+                self, new_target_list, split_plural(self.old_unit["target"])
+            )
+
+        # Kept for propagation, which validates the same text as above
+        submitted_target = list(new_target_list)
 
         # Apply autofixes
         if not self.translation.is_template:
@@ -3352,6 +3427,7 @@ class Unit(models.Model, LoggerMixin):
             author=author,
             request=request,
             change_details=change_details,
+            submitted_target=submitted_target,
         )
 
         # Enforced checks can revert the state to needs editing (fuzzy)

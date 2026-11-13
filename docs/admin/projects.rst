@@ -1463,6 +1463,9 @@ default `custom` or `private` access control groups.
 
 The default value can be changed in :setting:`DEFAULT_RESTRICTED_COMPONENT`.
 
+Changing this setting in a browser session requires recent credential
+verification, see :ref:`2fa`.
+
 Restricted access controls visibility of component pages, translations, API
 reads, and translation memory for users without component access or
 :guilabel:`Edit project settings` permission. Project administrators with that
@@ -1629,6 +1632,13 @@ The following variables are available in the component templates:
     Language name
 ``{{ component_name }}``
     Component name
+``{{ component_full_name }}``
+    Component name prefixed with the project and all parent categories, separated
+    by ``/``. Built-in message defaults use this value; existing saved templates
+    are unchanged.
+``{{ component_linked_children }}``
+    Linked repository components. Each entry provides ``full_name`` (including
+    project and categories), ``project_name``, ``name``, and ``url``.
 ``{{ component_slug }}``
     Component slug
 ``{{ project_name }}``

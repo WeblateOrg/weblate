@@ -20,6 +20,10 @@ import weblate.utils.version
 from weblate.utils.tracing import record_error
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
+    from sentry_sdk._types import Event, Hint
+
     from weblate.auth.models import AuthenticatedHttpRequest
 
 ERROR_LOGGER = "weblate.errors"
@@ -231,6 +235,48 @@ class ChainedEventScrubber:
             scrubber.scrub_event(event)
 
 
+class SentryBeforeSend:
+    """Keep long exception chains below Sentry's uncompressed event limit."""
+
+    def __init__(
+        self, callback: Callable[[Event, Hint], Event | None] | None = None
+    ) -> None:
+        self.callback = callback
+
+    def __call__(self, event: Event, hint: Hint) -> Event | None:
+        # ruff: ignore[import-outside-top-level]
+        from sentry_sdk.utils import json_dumps
+
+        if self.callback is not None:
+            filtered_event = self.callback(event, hint)
+            if filtered_event is None:
+                return None
+            event = filtered_event
+        if len(json_dumps(event)) <= 1_000_000:
+            return event
+
+        values = event.get("exception", {}).get("values", [])
+        # Exception groups have a hierarchy rather than a linear cause chain.
+        if any("exception_id" in value.get("mechanism", {}) for value in values):
+            return event
+        original_count = len(values)
+        while len(values) > 2 and len(json_dumps(event)) > 900_000:
+            # Preserve the original cause and the final exception. Remove
+            # intermediate exceptions in batches, leaving room for metadata.
+            values = values[:1] + values[1 + max(1, (len(values) - 2) // 2) :]
+            event["exception"]["values"] = values
+            # Serialized annotations refer to indices in the original chain.
+            metadata = event.get("_meta")
+            if isinstance(metadata, dict):
+                metadata.pop("exception", None)
+            event.setdefault("contexts", {})["weblate_exception_chain"] = {
+                "original_count": original_count,
+                "omitted_count": original_count - len(values),
+            }
+
+        return event
+
+
 def add_breadcrumb(category: str, message: str, level: str = "info", **data) -> None:
     # Add breadcrumb only if settings are already loaded,
     # we do not want to force loading settings early
@@ -283,6 +329,9 @@ def init_sentry() -> None:
         RedisIntegration(),
     ]
     sentry_extra_args = dict(settings.SENTRY_EXTRA_ARGS)
+    sentry_extra_args["before_send"] = SentryBeforeSend(
+        sentry_extra_args.get("before_send")
+    )
     configured_scrubber = sentry_extra_args.pop("event_scrubber", None)
     mandatory_scrubber = EventScrubber(
         denylist=[*DEFAULT_DENYLIST, *SENTRY_SECRET_DENYLIST],

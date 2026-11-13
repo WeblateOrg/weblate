@@ -128,7 +128,8 @@ def markdown_preview(request: AuthenticatedHttpRequest) -> HttpResponse:
 @transaction.atomic
 def ignore_check(request: AuthenticatedHttpRequest, check_id):
     obj = get_object_or_404(
-        Check.objects.filter_access(request.user).select_for_update(), pk=int(check_id)
+        Check.objects.filter_access(request.user).select_for_update(of=("self",)),
+        pk=int(check_id),
     )
 
     if not request.user.has_perm("unit.check", obj):
@@ -189,7 +190,7 @@ def dismiss_automatically_translated(request: AuthenticatedHttpRequest, unit_id)
 
         unit.translate(
             request.user,
-            unit.target,
+            unit.get_target_plurals(),
             unit.state,
             request=request,
         )

@@ -923,7 +923,12 @@ class ZeroCLDRPluralMixin(TranslationFormat):
 
     def get_plural(self, language: Language) -> Plural:
         """Return matching plural object."""
-        plural = super().get_plural(language)
+        return self.get_zero_plural(language)
+
+    @classmethod
+    def get_zero_plural(cls, language: Language) -> Plural:
+        """Resolve current zero-plural rules without loading a translation file."""
+        plural = cls.get_plural_by_preference(language)
         if plural.type in ZERO_PLURAL_TYPES:
             return plural
 
@@ -3500,15 +3505,40 @@ class FlatXMLFormat(TTKitFormat):
     empty_file_template = '<?xml version="1.0" encoding="utf-8"?>\n<root></root>'
     supports_flags: bool = True
 
-    def get_format_class_kwargs(self):
-        params = get_effective_params_for_file_format(
-            self.format_id, self.file_format_params
-        )
+    @classmethod
+    def get_flatxml_store_kwargs(
+        cls, file_format_params: FileFormatParams | None
+    ) -> dict[str, str | None]:
+        params = get_effective_params_for_file_format(cls.format_id, file_format_params)
         return {
             "root_name": params.get("flatxml_root_name"),
             "value_name": params.get("flatxml_value_name"),
             "key_name": params.get("flatxml_key_name"),
         }
+
+    def get_format_class_kwargs(self) -> dict[str, str | None]:
+        return self.get_flatxml_store_kwargs(self.file_format_params)
+
+    @classmethod
+    def create_new_file(
+        cls,
+        filename: str,
+        language: Language,
+        base: str,
+        callback: Callable | None = None,
+        file_format_params: FileFormatParams | None = None,
+    ) -> None:
+        if base or cls.format_id != "flatxml":
+            super().create_new_file(
+                filename, language, base, callback, file_format_params
+            )
+            return
+
+        store = cls(
+            cls.get_class()(**cls.get_flatxml_store_kwargs(file_format_params)),
+            file_format_params=file_format_params,
+        )
+        cls.save_atomic(filename, store.save_content)
 
     def get_unit_class_kwargs(self):
         params = get_effective_params_for_file_format(

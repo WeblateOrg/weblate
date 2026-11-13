@@ -11,7 +11,7 @@ from typing import TYPE_CHECKING
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.db.models import F
-from django.utils.translation import gettext
+from django.utils.translation import gettext, ngettext
 
 from weblate.checks.flags import Flags, FlagsValidator
 from weblate.trans.actions import ActionEvents
@@ -19,6 +19,10 @@ from weblate.trans.autofixes import fix_target
 from weblate.trans.models import Change, Component, Unit
 from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.models.source import propagate_parent_change, source_operation
+from weblate.trans.validators import (
+    TranslationTextTooLongError,
+    is_translation_text_change_too_long,
+)
 from weblate.utils.bulk_regex import regex_session, replace_regex, validate_regex
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -135,11 +139,15 @@ class BulkReplacement:
 class BulkUnitEdit:
     unit: Unit
     target: list[str] | None = None
+    # Target before autofixes, validated and stored like an editor submission
+    submitted_target: list[str] | None = None
     state: int | None = None
     source_flags: str | None = None
     translation_flags: str | None = None
     add_labels: set[int] = field(default_factory=set)
     remove_labels: set[int] = field(default_factory=set)
+    # The text change was skipped as the result exceeds the length limit
+    too_long: bool = False
 
     @property
     def state_label(self) -> str:
@@ -153,6 +161,28 @@ class BulkUnitEdit:
             or self.translation_flags is not None
             or bool(self.add_labels or self.remove_labels)
         )
+
+
+def get_bulk_too_long_message(count: int, *, preview: bool = False) -> str:
+    if preview:
+        return (
+            ngettext(
+                "%d string will be left unchanged because the edited text "
+                "would be too long.",
+                "%d strings will be left unchanged because the edited text "
+                "would be too long.",
+                count,
+            )
+            % count
+        )
+    return (
+        ngettext(
+            "%d string was left unchanged because the edited text would be too long.",
+            "%d strings were left unchanged because the edited text would be too long.",
+            count,
+        )
+        % count
+    )
 
 
 def changed_flags(unit: Unit, add: str | Flags, remove: str | Flags) -> str | None:
@@ -246,6 +276,26 @@ def plan_bulk_units(
             replacement.prepared.clear()
 
 
+def get_bulk_target(
+    unit: Unit, target_state: int, replacement: BulkReplacement
+) -> tuple[list[str], int]:
+    """Prepare submitted text, normalizing empty alternatives as Unit.translate()."""
+    old_target = unit.get_target_plurals()
+    target = old_target
+    state = unit.state
+    if target_state == STATE_EMPTY:
+        if not unit.is_source:
+            target = [""] * len(old_target)
+            state = STATE_EMPTY
+    else:
+        target = [replacement.replace(value) for value in old_target]
+        if target_state != -1 and (unit.state in EDITABLE_STATES or any(target)):
+            state = target_state
+    if target != old_target and unit.translation.component.is_multivalue:
+        target = [value for value in target if value] or [""]
+    return target, state
+
+
 def plan_bulk_unit(
     unit: Unit,
     user: User | None,
@@ -268,16 +318,14 @@ def plan_bulk_unit(
         unit, user, target_state, enforce_permissions=enforce_permissions
     ):
         old_target = unit.get_target_plurals()
-        target = old_target
-        state = unit.state
-        if target_state == STATE_EMPTY:
-            if not unit.is_source:
-                target = [""] * len(old_target)
-                state = STATE_EMPTY
-        else:
-            target = [replacement.replace(value) for value in old_target]
-            if target_state != -1 and (unit.state in EDITABLE_STATES or any(target)):
-                state = target_state
+        target, state = get_bulk_target(unit, target_state, replacement)
+        if target != old_target and is_translation_text_change_too_long(
+            unit, target, old_target
+        ):
+            edit.too_long = True
+            target = old_target
+            state = unit.state
+        submitted_target = target
         if target != old_target:
             if not unit.translation.is_template:
                 target, _fixups = fix_target(target, unit)
@@ -289,7 +337,9 @@ def plan_bulk_unit(
             elif state == STATE_EMPTY:
                 state = STATE_TRANSLATED
         if target != old_target or state != unit.state:
-            edit.target = target if target != old_target else None
+            if target != old_target:
+                edit.target = target
+                edit.submitted_target = submitted_target
             edit.state = state
 
     if trusted or (
@@ -401,6 +451,7 @@ def bulk_perform(
     expected_unit_snapshots: dict[int, EvaluatedUnitSnapshot] | None = None,
     preview: list[BulkUnitEdit] | None = None,
     progress: Callable[[int, int, int], None] | None = None,
+    too_long_unit_ids: set[int] | None = None,
 ) -> int:
     if user is None:
         msg = "Bulk edits require an explicit actor."
@@ -506,6 +557,8 @@ def bulk_perform(
                     )
                     if preview is not None:
                         for edit in planned:
+                            if edit.too_long and too_long_unit_ids is not None:
+                                too_long_unit_ids.add(edit.unit.pk)
                             if edit.changed:
                                 preview_count += 1
                                 if len(preview) < BULK_EDIT_PREVIEW_LIMIT:
@@ -517,22 +570,30 @@ def bulk_perform(
                     for edit in edits:
                         unit = edit.unit
                         unit.translation.component = component
+                        if edit.too_long and too_long_unit_ids is not None:
+                            too_long_unit_ids.add(unit.pk)
                         if edit.state is None:
                             continue
                         if edit.target is not None or target_state == STATE_EMPTY:
-                            saved = unit.translate(
-                                user,
-                                edit.target
-                                if edit.target is not None
-                                else unit.get_target_plurals(),
-                                StringState(edit.state),
-                                author=user,
-                                change_action=ActionEvents.REPLACE
-                                if search
-                                else ActionEvents.BULK_EDIT,
-                                select_for_update=False,
-                                propagation_exclude_ids=selected_ids,
-                            )
+                            try:
+                                saved = unit.translate(
+                                    user,
+                                    edit.submitted_target
+                                    if edit.submitted_target is not None
+                                    else unit.get_target_plurals(),
+                                    StringState(edit.state),
+                                    author=user,
+                                    change_action=ActionEvents.REPLACE
+                                    if search
+                                    else ActionEvents.BULK_EDIT,
+                                    select_for_update=False,
+                                    propagation_exclude_ids=selected_ids,
+                                )
+                            except TranslationTextTooLongError:
+                                # The limit changed after planning the edit
+                                if too_long_unit_ids is not None:
+                                    too_long_unit_ids.add(unit.pk)
+                                continue
                             if not saved:
                                 continue
                         else:

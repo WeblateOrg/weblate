@@ -783,7 +783,9 @@ Fedora Messaging
                 +-------------------------+-----------------------------+--------------------------------------------------------------------------------------------------------------------------------------+
                 | **Timeouts and retries**                                                                                                                                                                     |
                 +-------------------------+-----------------------------+--------------------------------------------------------------------------------------------------------------------------------------+
-                | ``publish_timeout``     | Publish timeout             | How many seconds to wait for the broker delivery acknowledgement.                                                                    |
+                | ``connection_timeout``  | Connection timeout          | How many seconds to allow for connection and channel setup per attempt.                                                              |
+                +-------------------------+-----------------------------+--------------------------------------------------------------------------------------------------------------------------------------+
+                | ``publish_timeout``     | Publish timeout             | How many seconds to allow for sending and the broker delivery acknowledgement per attempt, after connection setup.                   |
                 +-------------------------+-----------------------------+--------------------------------------------------------------------------------------------------------------------------------------+
                 | ``connection_attempts`` | Connection attempts         | How many times to try connecting to the broker.                                                                                      |
                 +-------------------------+-----------------------------+--------------------------------------------------------------------------------------------------------------------------------------+
@@ -816,19 +818,32 @@ You can hook additional services on changes happening in Weblate using this.
 
 Configure the broker with a plain ``amqp://`` or ``amqps://`` URL, including
 its virtual host. URL query strings and fragments are not supported. Use the
-add-on's connection attempts, retry delay, and publish timeout fields instead.
-The publish timeout covers connection attempts, retry delays, and broker
-confirmation. Publishing resolves DNS when opening a connection and reuses the
+add-on's connection attempts, retry delay, and timeout fields instead.
+Each connection attempt has separate connection and publish timeouts. The
+connection timeout covers DNS resolution, TCP and TLS connection establishment,
+AMQP authentication, channel opening, and publisher-confirm negotiation. The
+publish timeout starts when the connection is ready and covers sending the
+message and waiting for broker confirmation. Both timeouts default to five
+seconds. Previously, the publish timeout covered the entire operation.
+
+Each configured retry receives fresh timeout budgets, with the retry delay
+between attempts. The maximum socket-operation and retry-delay time is
+``connection_attempts * (connection_timeout + publish_timeout) +
+(connection_attempts - 1) * retry_delay``.
+
+Publishing resolves DNS when opening a connection and reuses the
 existing connection without further DNS lookups. Resolved addresses and the
 connected peer are checked against the configured private-network restrictions.
-Synchronous DNS resolution cannot be interrupted by the publish timeout and
+Synchronous DNS resolution cannot be interrupted by the connection timeout and
 can exceed it when the system resolver is slow or unavailable. Rejected
 messages are not retried.
 
 Weblate reuses a publisher connection in each worker process, with AMQP
-heartbeats disabled. Failed connections are discarded and recreated on the
-next attempt. A lost broker confirmation can cause duplicate delivery;
-consumers can identify retries by their unchanged message ID.
+heartbeats disabled. A stale connection detected before sending is replaced
+once within the same connection timeout, even with only one configured
+attempt. Other failed connections are discarded and recreated on the next
+configured attempt. A write failure or lost broker confirmation can cause
+duplicate delivery; consumers can identify retries by their unchanged message ID.
 
 Message topic
 ~~~~~~~~~~~~~

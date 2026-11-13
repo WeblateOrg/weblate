@@ -1905,6 +1905,67 @@ class SourceLanguageTest(FixtureComponentTestCase):
             [],
         )
 
+    def test_internal_machinery_merges_sources_and_batches_candidates(self) -> None:
+        self.set_target(self.parent, "Long German source")
+        self.configure()
+        self.set_target(self.child, "Custom-source translation")
+        # The other component supplies an ordinary German source alongside the
+        # workflow's German parent source. Both must be ranked together.
+        other = self.create_po_new_base(
+            name="German source", source_language=self.parent.translation.language
+        )
+        translation = other.translation_set.get(language_code="cs")
+        ordinary = translation.unit_set.get(source="Hello, world!\n")
+        Unit.objects.filter(pk=ordinary.pk).update(
+            source="Long German source",
+            target="Ordinary translation",
+            state=STATE_TRANSLATED,
+        )
+        machine = WeblateTranslation({})
+        machine.candidate_limit = 1
+        for text, threshold in (
+            ("Long German source", 100),
+            ("Long German source", 75),
+            ("id", 100),
+            ("id", 75),
+        ):
+            with self.subTest(text=text, threshold=threshold):
+                self.set_target(self.parent, text)
+                self.child.refresh_from_db()
+                self.set_target(self.child, "Custom-source translation")
+                Unit.objects.filter(pk=ordinary.pk).update(source=text)
+                base = machine.get_base_queryset(
+                    self.user, self.parent.translation.language, translation.language
+                )
+                with CaptureQueriesContext(connection) as queries:
+                    matches = list(machine.get_matching_units(base, text, threshold))
+                candidate_sql = next(
+                    query["sql"] for query in queries if "UNION ALL" in query["sql"]
+                )
+                self.assertNotIn("COALESCE", candidate_sql)
+                self.assertNotIn('"lang_plural"', candidate_sql)
+                self.assertEqual(
+                    [unit.pk for unit in matches],
+                    sorted([self.child.pk, ordinary.pk]),
+                )
+                # Reject the first candidate and ensure the next batch still
+                # supplies a result instead of applying the result limit in SQL.
+                Unit.objects.filter(pk=matches[0].pk).update(flags="forbidden")
+                results = list(
+                    machine.download_translations(
+                        self.parent.translation.language,
+                        translation.language,
+                        text,
+                        None,
+                        self.user,
+                        threshold,
+                    )
+                )
+                self.assertEqual(
+                    [result["text"] for result in results], [matches[1].target]
+                )
+                Unit.objects.filter(pk=matches[0].pk).update(flags="")
+
     def test_internal_machinery_excludes_missing_parent_from_canonical_query(
         self,
     ) -> None:

@@ -13,6 +13,8 @@ from weblate.trans.models import Component, Project
 from weblate.trans.util import is_repo_link
 
 if TYPE_CHECKING:
+    from django.forms import ModelForm
+
     from weblate.auth.models import User
     from weblate.trans.models.component import ComponentQuerySet
     from weblate.trans.models.project import ProjectQuerySet
@@ -76,6 +78,35 @@ def get_accessible_repository_link(user: User, repo: str | None) -> Component | 
     ):
         return None
     return component
+
+
+def changes_component_sensitive_access(
+    form: ModelForm[Component], user: User, *, source_component: Component | None = None
+) -> bool:
+    """Check submitted access changes before model validation touches the repo."""
+    if form.instance.pk and "restricted" in form.changed_data:
+        return True
+    restricted = form.instance.restricted
+    if not form.instance.pk and "restricted" in form.fields:
+        field = form["restricted"]
+        try:
+            restricted = field.field.clean(field.value())
+        except ValidationError:
+            return False
+    if restricted:
+        return False
+    if source_component is not None and source_component.restricted:
+        return True
+    if "repo" not in form.changed_data:
+        return False
+    # Normalize only this field; full form validation can mutate the checkout.
+    repo_field = form["repo"]
+    try:
+        repo = repo_field.field.clean(repo_field.value())
+    except ValidationError:
+        return False
+    source = get_accessible_repository_link(user, repo)
+    return source is not None and source.restricted
 
 
 def validate_repository_link(

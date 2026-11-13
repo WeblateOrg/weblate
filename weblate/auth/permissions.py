@@ -1100,14 +1100,6 @@ def _category_component_filter(category: Category) -> Q:
     )
 
 
-def _category_translation_component_filter(category: Category) -> Q:
-    return (
-        Q(component__category=category)
-        | Q(component__category__category=category)
-        | Q(component__category__category__category=category)
-    )
-
-
 def _category_link_filter(category: Category) -> Q:
     return (
         Q(category=category)
@@ -1117,12 +1109,7 @@ def _category_link_filter(category: Category) -> Q:
 
 
 def _category_translation_filter(category: Category) -> Q:
-    shared_component_ids = ComponentLink.objects.filter(
-        _category_link_filter(category)
-    ).values("component_id")
-    return _category_translation_component_filter(category) | Q(
-        component_id__in=shared_component_ids
-    )
+    return Q(component_id__in=category.get_component_ids_with_links())
 
 
 def _has_upload_scope_permission(
@@ -1392,6 +1379,17 @@ def check_possibly_global(
     ):
         return False
     return check_permission(user, permission, obj)
+
+
+@register_perm("meta:vcs.view")
+def check_repository_view(user: User, permission: str, obj: Component) -> bool:
+    """Require access to the source of linked repository information."""
+    if not check_permission(user, "vcs.view", obj):
+        return False
+    source = obj.linked_component
+    return source is None or (
+        user.can_access_component(source) and check_permission(user, "vcs.view", source)
+    )
 
 
 @register_perm("meta:vcs.status")

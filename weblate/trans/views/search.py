@@ -18,7 +18,11 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
-from weblate.trans.bulk import BULK_EDIT_PREVIEW_LIMIT, bulk_perform
+from weblate.trans.bulk import (
+    BULK_EDIT_PREVIEW_LIMIT,
+    bulk_perform,
+    get_bulk_too_long_message,
+)
 from weblate.trans.forms import (
     BulkEditForm,
     SearchForm,
@@ -272,13 +276,26 @@ def bulk_edit(
         )
         messages.success(request, gettext("Bulk edit in progress."), f"task:{task.id}")
         return redirect_next(next_url, obj)
+    too_long: set[int] = set()
     try:
-        updated = bulk_perform(request.user, unit_set, preview=preview, **options)
+        updated = bulk_perform(
+            request.user,
+            unit_set,
+            preview=preview,
+            too_long_unit_ids=too_long,
+            **options,
+        )
     except ValidationError as error:
         messages.error(
             request, gettext("Bulk edit failed: %s") % "; ".join(error.messages)
         )
         return redirect_next(next_url, obj)
+
+    if too_long:
+        messages.warning(
+            request,
+            get_bulk_too_long_message(len(too_long), preview=preview is not None),
+        )
 
     if preview is not None:
         return render_bulk_preview(request, obj, data, form, context, preview, updated)

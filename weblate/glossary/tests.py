@@ -33,6 +33,7 @@ from weblate.glossary.models import (
 from weblate.glossary.tasks import (
     cleanup_stale_glossaries,
     get_stale_glossary_translations,
+    sync_glossary_languages,
     sync_terminology,
 )
 from weblate.lang.models import Language
@@ -48,7 +49,9 @@ from weblate.trans.models import PendingUnitChange, Unit, WorkflowSetting
 from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.util import join_plural
+from weblate.trans.validators import MAX_NEW_TEXT_LENGTH
 from weblate.utils.change_origin import acting_user_context
+from weblate.utils.files import remove_tree
 from weblate.utils.hash import calculate_hash
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
@@ -178,6 +181,69 @@ class GlossaryTest(ReusableViewTestCase):
         self.glossary = self.glossary_component.translation_set.get(
             language=self.get_translation().language
         )
+
+    def test_sync_languages_initializes_local_repository(self) -> None:
+        component = self.glossary_component
+        language = self.get_translation().language
+        component.translation_set.filter(language=language).delete()
+        remove_tree(component.full_path)
+
+        with acting_user_context(self.user):
+            sync_glossary_languages(component.pk, component)
+
+        translation = component.translation_set.get(language=language)
+        filename = Path(component.full_path, translation.filename)
+        self.assertTrue(component.repository.is_valid())
+        self.assertTrue(filename.is_file())
+        content = filename.read_bytes()
+        revision = component.repository.get_last_revision()
+
+        # The queued initializer must preserve files created by synchronization.
+        component.configure_repo(pull=False)
+        self.assertEqual(filename.read_bytes(), content)
+        self.assertEqual(component.repository.get_last_revision(), revision)
+        self.assertFalse(component.repository.needs_commit())
+
+    def test_add_language_initializes_local_repository(self) -> None:
+        component = self.glossary_component
+        language = self.get_translation().language
+        component.translation_set.filter(language=language).delete()
+        remove_tree(component.full_path)
+
+        with acting_user_context(self.user):
+            translation = component.add_new_language(language, None)
+
+        if translation is None:
+            self.fail("Expected the new glossary translation to be created.")
+        self.assertTrue(component.repository.is_valid())
+        self.assertTrue(Path(component.full_path, translation.filename).is_file())
+        self.assertFalse(component.repository.needs_commit())
+
+    def test_configure_local_repository_rechecks_after_lock(self) -> None:
+        component = self.glossary_component
+        remove_tree(component.full_path)
+        original_enter = type(component.repository.lock).__enter__
+        initialized = False
+
+        def enter_after_initialization(lock) -> None:
+            nonlocal initialized
+            if not initialized:
+                initialized = True
+                # Another initializer completes before this caller gets its lock.
+                with patch.object(type(lock), "__enter__", original_enter):
+                    component.configure_repo(pull=False)
+                Path(component.full_path, "sentinel").write_bytes(b"preserve")
+            original_enter(lock)
+
+        with patch.object(
+            type(component.repository.lock), "__enter__", enter_after_initialization
+        ):
+            component.configure_repo(pull=False)
+
+        self.assertEqual(
+            Path(component.full_path, "sentinel").read_bytes(), b"preserve"
+        )
+        self.assertTrue(component.repository.is_valid())
 
     def import_file(self, filename, **kwargs):
         with open(filename, "rb") as handle:
@@ -1265,6 +1331,26 @@ class GlossaryTest(ReusableViewTestCase):
         sync_terminology(unit.translation.component.id, unit.translation.component)
         self.assertEqual(Unit.objects.count(), start + 4)
         self.assertEqual(unit.unit_set.count(), 4)
+
+    def test_terminology_sync_oversized_term(self) -> None:
+        """Terms already stored in the glossary are not limited when synced."""
+        oversized = "B" * (MAX_NEW_TEXT_LENGTH + 1)
+        # Stored directly as the repository content is not limited
+        self.add_term(oversized, "Ahoj")
+        # Updated directly as saving terminology flag triggers the sync
+        Unit.objects.filter(
+            translation=self.glossary_component.source_translation, source=oversized
+        ).update(extra_flags="terminology")
+
+        # The terms are only stored in the database, not in the files
+        with patch(
+            "weblate.trans.models.translation.Translation._add_unit_locked"
+        ) as add_unit:
+            sync_terminology(self.glossary_component.id, self.glossary_component)
+
+        self.assertTrue(add_unit.called)
+        for call in add_unit.call_args_list:
+            self.assertEqual(call.args[2], [oversized])
 
     def test_string_management_alert_local(self) -> None:
         component = self.glossary_component

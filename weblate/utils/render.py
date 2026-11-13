@@ -141,6 +141,7 @@ def render_template(template: str, **kwargs: object) -> str:
 
     if isinstance(component, Component):
         kwargs["component_name"] = component.name
+        kwargs["component_full_name"] = str(component)
         kwargs["component_slug"] = component.slug
         kwargs["component_remote_branch"] = (
             component.repository.get_remote_branch_name()

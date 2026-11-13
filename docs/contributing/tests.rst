@@ -16,6 +16,7 @@ linting, and other tasks to ensure code quality.
 
 .. _GitHub Actions: https://github.com/WeblateOrg/weblate/actions
 .. _Codecov: https://app.codecov.io/gh/WeblateOrg/weblate/
+.. _GitHub repository rules: https://github.com/WeblateOrg/weblate/rules
 
 There are several jobs to verify different aspects:
 
@@ -28,7 +29,17 @@ There are several jobs to verify different aspects:
   third-party reimplementation of the `pre-commit <https://pre-commit.com/>`_
   framework.
 * Migration testing from all supported releases
-* Setup verification (ensures that generated dist files do not miss anything and can be tested)
+* Package builds, metadata, manifest, archive-content, and installation checks.
+  The package lint tools are pinned in :file:`pyproject.toml` and resolved in
+  :file:`uv.lock`; CI runs them with :command:`uv run --frozen`.
+* Dependency review of pull requests.
+
+GitHub rulesets protect ``main`` and ``stable``. They require pull requests and
+passing status checks, including package build and lint checks and dependency
+review. The `GitHub repository rules`_ show the current required checks and
+permitted writers. Membership in the writer allowlist does not by itself
+bypass the pull-request or CI requirements. Repository administrators and
+organization owners have a separate bypass for maintainer operations.
 
 The configuration for the CI is in :file:`.github/workflows` directory. It
 heavily uses helper scripts stored in :file:`ci` directory. The scripts can be

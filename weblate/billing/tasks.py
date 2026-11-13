@@ -171,7 +171,7 @@ def inactive_recurring_check() -> None:
     ):
         with transaction.atomic():
             bill = (
-                Billing.objects.select_for_update()
+                Billing.objects.select_for_update(of=("self",))
                 .select_related("plan")
                 .prefetch_related("workspace__projects")
                 .get(pk=billing_id)
@@ -194,20 +194,31 @@ def inactive_recurring_check() -> None:
 
 
 @app.task(trail=False)
-@transaction.atomic
 def schedule_removal() -> None:
     removal = timezone.now() + timedelta(days=settings.BILLING_REMOVAL_PERIOD)
-    for bill in Billing.objects.filter(
+    candidates = Billing.objects.filter(
         state=Billing.STATE_ACTIVE, removal=None
-    ).select_for_update():
-        if bill.check_payment_status():
-            continue
-        bill.billinglog_set.create(
-            event=BillingEvent.UNPAID,
-            summary=f"Scheduled removal at {removal.isoformat()}",
-        )
-        bill.removal = removal
-        bill.save(update_fields=["removal"])
+    ).order_by("pk")
+    for billing_id in candidates.values_list("pk", flat=True).iterator():
+        with transaction.atomic():
+            bill = (
+                Billing.objects.select_for_update(of=("self",))
+                .filter(pk=billing_id)
+                .first()
+            )
+            if (
+                bill is None
+                or bill.state != Billing.STATE_ACTIVE
+                or bill.removal is not None
+                or bill.check_payment_status()
+            ):
+                continue
+            bill.billinglog_set.create(
+                event=BillingEvent.UNPAID,
+                summary=f"Scheduled removal at {removal.isoformat()}",
+            )
+            bill.removal = removal
+            bill.save(update_fields=["removal"])
 
 
 @app.task(trail=False)

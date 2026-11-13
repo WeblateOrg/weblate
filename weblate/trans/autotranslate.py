@@ -41,6 +41,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.models.source import source_operation, source_operation_method
 from weblate.trans.util import is_plural, split_plural
+from weblate.trans.validators import TranslationTextTooLongError
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_FUZZY,
@@ -343,14 +344,22 @@ class AutoTranslate(BaseAutoTranslate):
             # Ensure deferred changes accumulate on the right Translation instance
             unit.translation = self.translation
             unit.is_batch_update = True
-            saved = unit.translate(
-                user or self.user,
-                target,
-                state,
-                change_action=ActionEvents.AUTO,
-                propagate=False,
-                select_for_update=False,
-            )
+            try:
+                saved = unit.translate(
+                    user or self.user,
+                    target,
+                    state,
+                    change_action=ActionEvents.AUTO,
+                    propagate=False,
+                    select_for_update=False,
+                )
+            except TranslationTextTooLongError:
+                self.add_warning(
+                    gettext(
+                        "Automatic translation skipped strings that exceed the text length limit."
+                    )
+                )
+                return
             self.updated += 1
             if saved:
                 self.affected_unit_ids.add(unit.pk)

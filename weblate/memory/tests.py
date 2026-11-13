@@ -3905,7 +3905,7 @@ msgstr "Nazdar svete!\n"
             memory.scopes.filter(scope=MemoryScope.SCOPE_GLOBAL_FILE).exists()
         )
 
-    def test_delete_scope_keeps_memory_ids_database_side(self) -> None:
+    def test_delete_scope_batches_memory_ids(self) -> None:
         source_language = Language.objects.get(code="en")
         target_language = Language.objects.get(code="cs")
         values = {
@@ -3937,14 +3937,17 @@ msgstr "Nazdar svete!\n"
         )
         MemoryScope.objects.filter(memory=legacy_unscoped).delete()
 
-        with patch.object(
-            MemoryQuerySet,
-            "values_list",
-            side_effect=AssertionError("delete_scope must keep ids in SQL"),
+        with (
+            patch("weblate.memory.models.MEMORY_SCOPE_DELETE_BATCH_SIZE", 1),
+            CaptureQueriesContext(connection) as queries,
         ):
             Memory.objects.filter(origin="delete-scope-db-side").delete_scope(
                 Q(scope=MemoryScope.SCOPE_PROJECT, project=self.project)
             )
+        self.assertEqual(
+            sum('FOR UPDATE OF "memory_memory"' in query["sql"] for query in queries),
+            3,
+        )
 
         self.assertFalse(Memory.objects.filter(pk=project_only.pk).exists())
         self.assertFalse(Memory.objects.filter(pk=legacy_unscoped.pk).exists())

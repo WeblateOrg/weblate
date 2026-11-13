@@ -1,4 +1,4 @@
-{% load humanize i18n site_url static user_display %}
+{% load humanize i18n site_url static translations user_display %}
 
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}"
@@ -28,13 +28,10 @@
               <div class="nav">
                 {% if change.author %}{% user_display change.author resource=change %}:{% endif %}
                 <a href="{{ current_site_url }}">{{ site_title }}</a>
-                {% if project %}/ <a href="{{ project.get_absolute_url }}">{{ project.name }}</a>{% endif %}
                 {% if component %}
-                  /
-                  {% if component.is_glossary %}
-                    <span class="badge label-{{ component.glossary_color }}">{% translate "Glossary" %}</span>
-                  {% endif %}
-                  <a href="{{ component.get_absolute_url }}">{{ component.name }}</a>
+                  / {% path_object_links component %}
+                {% elif project %}
+                  / {% path_object_links project %}
                 {% endif %}
                 {% if translation %}/ <a href="{{ translation.get_absolute_url }}">{{ translation.language.name }}</a>{% endif %}
               </div>

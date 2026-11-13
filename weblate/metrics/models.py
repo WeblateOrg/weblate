@@ -24,7 +24,6 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
     Category,
     Component,
-    ComponentLink,
     ComponentList,
     Project,
     Translation,
@@ -430,23 +429,11 @@ class MetricManager(models.Manager["Metric"]):
                     {"changes": 0, "contributors": 0, "contributors_total": 0},
                 ),
             )
-        category_filter = (
-            Q(category=category)
-            | Q(category__category=category)
-            | Q(category__category__category=category)
-        )
-        shared_component_ids = ComponentLink.objects.filter(
-            Q(category=category)
-            | Q(category__category=category)
-            | Q(category__category__category=category)
-        ).values_list("component_id", flat=True)
-        components = Component.objects.filter(
-            category_filter | Q(pk__in=shared_component_ids)
-        ).distinct()
+        component_ids = category.get_component_ids_with_links()
         data = {
-            "components": components.count(),
+            "components": Component.objects.filter(pk__in=component_ids).count(),
             "translations": Translation.objects.filter(
-                component__in=components
+                component_id__in=component_ids
             ).count(),
             **get_change_metric_data(changes, date),
         }

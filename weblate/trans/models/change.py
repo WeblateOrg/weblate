@@ -37,6 +37,7 @@ from weblate.trans.actions import (
 )
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.alert import visible_conflict_components
+from weblate.trans.models.backup import BackupAuthorshipMixin, apply_backup_authorship
 from weblate.trans.models.project import Project
 from weblate.trans.signals import change_bulk_create
 from weblate.trans.util import split_plural
@@ -202,12 +203,20 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
 
         Might be used with Change.fill_in_prefetched.
         """
-        return self.prefetch().select_related(
-            "alert",
-            "screenshot",
-            "announcement",
-            "suggestion",
-            "comment",
+        return (
+            self.prefetch()
+            .prefetch_related(
+                "category__project__workspace",
+                "category__category__project__workspace",
+                "category__category__category__project__workspace",
+            )
+            .select_related(
+                "alert",
+                "screenshot",
+                "announcement",
+                "suggestion",
+                "comment",
+            )
         )
 
     def prefetch(self) -> Self:
@@ -609,7 +618,7 @@ class ChangeManager(models.Manager["Change"]):
         }
 
 
-class Change(models.Model, UserDisplayMixin):
+class Change(BackupAuthorshipMixin, UserDisplayMixin):
     ACTIONS_DICT: ClassVar[dict[int, StrOrPromise]] = dict(ActionEvents.choices)
     ACTION_STRINGS: ClassVar[dict[str, int]] = {
         name.lower().replace(" ", "-"): value for value, name in ActionEvents.choices
@@ -817,6 +826,8 @@ class Change(models.Model, UserDisplayMixin):
         }
 
     def __init__(self, *args, **kwargs) -> None:
+        if not args and not kwargs.get("pk") and not kwargs.get("id"):
+            apply_backup_authorship(kwargs)
         for attr in ("user", "author"):
             user = kwargs.get(attr)
             if user is not None and hasattr(user, "get_token_user"):
@@ -1149,6 +1160,8 @@ class Change(models.Model, UserDisplayMixin):
             request=request,
             select_for_update=False,
             change_details=change_details,
+            # The text was stored before, possibly with a different limit
+            validate_length=False,
         )
 
     @transaction.atomic
@@ -1179,6 +1192,8 @@ class Change(models.Model, UserDisplayMixin):
             request=request,
             select_for_update=False,
             change_details=change_details,
+            # The text was stored before, possibly with a different limit
+            validate_length=False,
         )
 
     def show_source(self) -> bool:

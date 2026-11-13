@@ -6,6 +6,8 @@
 
 from __future__ import annotations
 
+import errno
+import fcntl
 import json
 import os
 import time
@@ -42,6 +44,7 @@ from weblate.trans.uploads import (
 )
 from weblate.utils.celery import get_task_metadata
 from weblate.utils.change_origin import change_origin_context
+from weblate.utils.files import remove_tree
 
 
 class UploadNotFoundLogTest(SimpleTestCase):
@@ -51,6 +54,23 @@ class UploadNotFoundLogTest(SimpleTestCase):
             log.append(str(index))
         self.assertEqual(len(log), 30)
         self.assertEqual(log.strings, [str(index) for index in range(8)])
+
+
+class UploadLockTest(SimpleTestCase):
+    def test_exclusive_byte_range_lock_preserves_payload(self) -> None:
+        with TemporaryDirectory() as temporary:
+            directory = Path(temporary)
+            payload = directory / "file"
+            payload.write_bytes(b"translation upload")
+            # Linux implements flock over NFS using byte-range locks, which
+            # require a writable descriptor for an exclusive lock.
+            with (
+                patch("weblate.trans.uploads.upload_directory", return_value=directory),
+                patch("weblate.trans.uploads.fcntl.flock", wraps=fcntl.lockf),
+                upload_lock("upload-id"),
+            ):
+                self.assertEqual(payload.read_bytes(), b"translation upload")
+            self.assertEqual(payload.read_bytes(), b"translation upload")
 
 
 class BackgroundUploadTest(ImportBaseTest):
@@ -147,6 +167,83 @@ class BackgroundUploadTest(ImportBaseTest):
         )
         self.assertEqual(change.user, self.user)
         self.assertEqual(change.author, author)
+
+    def remove_closed_upload(self, directory: Path, flock: Mock) -> None:
+        # Model NFS retaining an unlinked payload until every handle closes.
+        # Releasing the lock alone is insufficient.
+        handles = [
+            call.args[0]
+            for call in flock.call_args_list
+            if not isinstance(call.args[0], int)
+        ]
+        self.assertTrue(handles)
+        if any(not handle.closed for handle in handles):
+            raise OSError(errno.ENOTEMPTY, "Directory not empty", directory)
+        remove_tree(directory)
+
+    def test_worker_closes_payload_before_removal(self) -> None:
+        upload_id = self.stage()
+
+        def remove_retired_upload(path: Path) -> None:
+            self.assertFalse(upload_directory(upload_id).exists())
+            with patch("weblate.trans.uploads.perform_translation_upload") as perform:
+                duplicate = translation_upload.run(upload_id=upload_id)
+            self.assertIn("expired", duplicate["detail"])
+            perform.assert_not_called()
+            self.remove_closed_upload(path, flock)
+
+        with (
+            patch("weblate.trans.uploads.fcntl.flock", wraps=fcntl.flock) as flock,
+            patch(
+                "weblate.trans.uploads.remove_tree",
+                side_effect=remove_retired_upload,
+            ) as remove,
+        ):
+            result = translation_upload.run(upload_id=upload_id)
+        self.assertGreater(result["accepted"], 0)
+        remove.assert_called_once()
+        self.assertEqual(list((self.upload_root / "translation-uploads").iterdir()), [])
+
+    def test_cleanup_closes_payload_before_removal(self) -> None:
+        upload_id = self.stage(browser=True)
+        directory = upload_directory(upload_id)
+        old = time.time() - UPLOAD_CLEANUP_AGE - 1
+        os.utime(directory, (old, old))
+        with (
+            patch("weblate.trans.uploads.fcntl.flock", wraps=fcntl.flock) as flock,
+            patch(
+                "weblate.trans.uploads.remove_tree",
+                side_effect=lambda path: self.remove_closed_upload(path, flock),
+            ) as remove,
+        ):
+            cleanup_translation_uploads()
+        remove.assert_called_once()
+        self.assertFalse(directory.exists())
+        self.assertIsNone(cache.get(browser_upload_key(self.user.pk)))
+
+    def test_failed_removal_leaves_recoverable_staging(self) -> None:
+        upload_id = self.stage(browser=True)
+        directory = upload_directory(upload_id)
+        old = time.time() - UPLOAD_CLEANUP_AGE - 1
+        os.utime(directory, (old, old))
+        with (
+            patch(
+                "weblate.trans.uploads.remove_tree", side_effect=OSError("NFS error")
+            ),
+            self.assertRaisesMessage(OSError, "NFS error"),
+        ):
+            translation_upload.run(upload_id=upload_id)
+        self.assertFalse(directory.exists())
+        self.assertIsNone(cache.get(browser_upload_key(self.user.pk)))
+        retired_directories = list(directory.parent.iterdir())
+        self.assertEqual(len(retired_directories), 1)
+        retired = retired_directories[0]
+        self.assertTrue(retired.name.startswith(".staging-"))
+        cleanup_translation_uploads()
+        self.assertTrue(retired.exists())
+        os.utime(retired, (old, old))
+        cleanup_translation_uploads()
+        self.assertFalse(retired.exists())
 
     def test_deleted_target_does_not_process(self) -> None:
         upload_id = self.stage()

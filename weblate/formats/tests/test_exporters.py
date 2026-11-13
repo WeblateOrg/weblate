@@ -15,6 +15,7 @@ import pytest
 from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory
 from lxml import etree
+from translate.storage.properties import stringsfile, stringsutf8file
 
 from weblate.formats.base import EmptyFormat
 from weblate.formats.exporters import (
@@ -246,6 +247,15 @@ class PoXliffExporterTest(ExporterTestMixin, BaseTestCase):
     _class = PoXliffExporter
     _has_context = True
 
+    def test_flags_control_characters(self) -> None:
+        result = self.check_unit(
+            source="source",
+            target="target",
+            extra_flags='placeholders:"pří\x00\x1e\ufffe\uffffklad<&>"',
+        )
+        xml = etree.fromstring(result)
+        self.assertEqual(xml.xpath("//@weblate-flags"), ["placeholders:příklad<&>"])
+
     def check_plurals(self, result) -> None:
         self.assertIn(b"[2]", result)
 
@@ -297,6 +307,15 @@ class XliffExporterTest(PoXliffExporterTest):
 class TBXExporterTest(ExporterTestMixin, BaseTestCase):
     _class = TBXExporter
     _has_context = True
+
+    def test_flags_control_characters(self) -> None:
+        result = self.check_unit(
+            source="source",
+            target="target",
+            extra_flags='placeholders:"pří\x00\x1e\ufffe\uffffklad<&>"',
+        )
+        xml = etree.fromstring(result)
+        self.assertEqual(xml.xpath("//@weblate-flags"), ["placeholders:příklad<&>"])
 
     def check_plurals(self, result) -> None:
         # Doesn't support plurals
@@ -629,6 +648,51 @@ class StringsExporterTest(ExporterTestMixin, BaseTestCase):
     def check_plurals(self, result) -> None:
         # Doesn't support plurals
         pass
+
+    def test_multiline_key(self) -> None:
+        context = "This plugin could not be loaded.\nIt may have been deleted."
+        result = self.check_unit(
+            nplurals=1,
+            context=context,
+            source="Source",
+            target="Translation",
+            state=STATE_TRANSLATED,
+        )
+        storage = stringsutf8file(BytesIO(result))
+        self.assertEqual(len(storage.units), 1)
+        self.assertEqual(storage.personality.decode(storage.units[0].getid()), context)
+        self.assertEqual(storage.units[0].source, "Translation")
+
+    def test_key_escapes(self) -> None:
+        context = 'tab\tnewline\nreturn\r literal \\n quoted \\"value" trailing\\'
+        result = self.check_unit(
+            nplurals=1,
+            file_format="json",
+            context=context,
+            source="Source",
+            target="Translation",
+            state=STATE_TRANSLATED,
+        )
+        storage = stringsutf8file(BytesIO(result))
+        self.assertEqual(len(storage.units), 1)
+        self.assertEqual(storage.personality.decode(storage.units[0].getid()), context)
+        self.assertEqual(storage.units[0].source, "Translation")
+
+    def test_native_key_escapes(self) -> None:
+        context = r'newline\n tab\t backslash\\ "quoted" trailing\\'
+        result = self.check_unit(
+            nplurals=1,
+            file_format="strings",
+            file_format_params={"strings_encoding": "utf-16"},
+            context=context,
+            source="Source",
+            target="Translation",
+            state=STATE_TRANSLATED,
+        )
+        storage = stringsfile(BytesIO(result))
+        self.assertEqual(len(storage.units), 1)
+        self.assertEqual(storage.units[0].getid(), context)
+        self.assertEqual(storage.units[0].source, "Translation")
 
     def test_matching_encoding_params(self) -> None:
         exporter = self.get_exporter(

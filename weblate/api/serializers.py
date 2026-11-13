@@ -32,6 +32,7 @@ from drf_standardized_errors.openapi_serializers import (
     ValidationErrorEnum,
 )
 from rest_framework import serializers
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.reverse import reverse
 from rest_framework.validators import UniqueValidator
@@ -44,7 +45,10 @@ from weblate.accounts.models import (
     validate_listing_columns,
 )
 from weblate.accounts.notifications import NotificationScope
-from weblate.accounts.utils import get_all_user_mails
+from weblate.accounts.utils import (
+    get_all_user_mails,
+    has_recent_sensitive_verification,
+)
 from weblate.accounts.visibility import (
     can_view_contributor,
     prepare_contributor_visibility,
@@ -107,6 +111,7 @@ from weblate.trans.models.translation import NewUnitParams
 from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.trans.validators import (
     SUGGESTION_REJECTION_REASON_LENGTH,
+    validate_changed_text_length,
     validate_translation_text_length,
 )
 from weblate.trans.workspace_move import (
@@ -148,6 +153,15 @@ NEW_UNIT_STATE_CHOICES = tuple(
 )
 
 LOGGER = logging.getLogger("weblate.api")
+
+
+def check_session_sensitive_verification(request) -> None:
+    """Require recent credential verification for session-authenticated requests."""
+    if isinstance(
+        getattr(request, "successful_authenticator", None), SessionAuthentication
+    ) and not has_recent_sensitive_verification(request):
+        msg = "Recent credential verification required."
+        raise PermissionDenied(msg)
 
 
 def validate_report_component(value: str, user: User | None = None) -> Component:
@@ -2883,6 +2897,37 @@ class ComponentSerializer(RemovableSerializer[Component]):
             preserve_existing=preserve_existing,
         )
 
+    def requires_sensitive_verification(
+        self, attrs, source_component: Component | None
+    ) -> bool:
+        """
+        Return whether saving would change or expose restricted access.
+
+        Works on the attributes being validated, so it can run before model
+        validation, which may update the repository of an existing component.
+        """
+        current = self.instance.restricted if self.instance else False
+        restricted = attrs.get("restricted", current)
+        # Compare values rather than request keys: omitting a boolean from a
+        # form-encoded PUT clears it.
+        if self.instance and restricted != current:
+            return True
+        if restricted:
+            return False
+        source = source_component
+        if source is None:
+            repo = attrs.get("repo")
+            if self.instance and repo == self.instance.repo:
+                return False
+            source = self.get_linked_component_or_none(repo)
+        return source is not None and source.restricted
+
+    def check_sensitive_verification(
+        self, attrs, source_component: Component | None
+    ) -> None:
+        if self.requires_sensitive_verification(attrs, source_component):
+            check_session_sensitive_verification(self.context["request"])
+
     def check_restricted_permission(self, attrs) -> None:
         if self.instance:
             if (
@@ -2973,6 +3018,9 @@ class ComponentSerializer(RemovableSerializer[Component]):
             attrs, preserve_existing=source_component is not None
         )
         self.check_restricted_permission(attrs)
+        # Must run before model validation, which can switch the branch of the
+        # live checkout and commit pending changes.
+        self.check_sensitive_verification(attrs, source_component)
 
         # Build new or patched Component instance with changed attributes
         if self.instance:
@@ -2990,9 +3038,12 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
             # Call model validation here, DRF does not do that
             self.validate_component_instance(instance, source_component)
+            repo = attrs.get("repo")
             for field in instance.repository_class.component_clear_fields:
                 attrs[field] = getattr(instance, field)
             self.apply_autoshare(attrs, instance, source_component, disable_autoshare)
+            if attrs.get("repo") != repo:
+                self.check_sensitive_verification(attrs, source_component)
             if source_component is not None:
                 attrs["from_component"] = source_component
         return attrs
@@ -4218,7 +4269,12 @@ class UnitWriteSerializer(serializers.ModelSerializer[Unit]):
 
     def validate_target(self, value: list[str]) -> list[str]:
         if self.instance is not None:
-            validate_translation_text_length(self.instance, value)
+            validate_translation_text_length(self.instance, value, allow_stored=True)
+        return value
+
+    def validate_explanation(self, value: str) -> str:
+        if self.instance is not None:
+            validate_changed_text_length([value], [self.instance.explanation])
         return value
 
 

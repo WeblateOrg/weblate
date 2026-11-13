@@ -159,6 +159,11 @@ class TestGithubAppHookUtils(TestCase):
 
         self.assertFalse(verify_webhook_signature(b"t", "", "s"))
 
+    def test_verify_webhook_signature_non_ascii(self) -> None:
+        for signature in ("sha256=é", "sha256=" + "é" * 64, "sha256=🔒"):
+            with self.subTest(signature=signature):
+                self.assertFalse(verify_webhook_signature(b"t", signature, "s"))
+
     def test_github_app_is_configured(self) -> None:
         self.assertEqual(get_github_app_configurations(), {})
         self.assertFalse(github_app_is_configured())

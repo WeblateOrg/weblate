@@ -14,6 +14,7 @@ from threading import Barrier
 from typing import TYPE_CHECKING, Any, TypedDict, Unpack
 from unittest.mock import Mock, call, patch
 
+from crispy_forms.utils import render_crispy_form
 from django.core.exceptions import ValidationError
 from django.db.models import QuerySet
 from django.template.loader import render_to_string
@@ -64,7 +65,7 @@ from weblate.machinery.openai import OpenAITranslation
 from weblate.trans.actions import ActionEvents, get_change_action_identifier
 from weblate.trans.automation import UnitSelection
 from weblate.trans.autotranslate import AutoTranslate, BatchAutoTranslate
-from weblate.trans.models import Change, Unit
+from weblate.trans.models import Change, Unit, WorkflowSetting
 from weblate.trans.templatetags.translations import format_last_changes_content
 from weblate.trans.tests.test_views import (
     ComponentTestCase,
@@ -1795,6 +1796,27 @@ class AutomationTest(ReusableComponentTestCase):
         activity.refresh_from_db()
         self.assertEqual(activity.status, AddonActivityLogStatus.SUCCESS)
 
+    def test_change_context_custom_source_language(self) -> None:
+        parent = self.component.translation_set.get(language_code="de").unit_set.get(
+            source="Hello, world!\n"
+        )
+        parent.translate(self.user, "Hallo, Welt!\n", STATE_TRANSLATED)
+        unit = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=unit.translation.language,
+            source_language=parent.translation.language,
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.translation_parent_id, parent.pk)
+        change = Change.objects.create(
+            unit=unit, action=ActionEvents.CHANGE, user=self.user
+        )
+        context = execution_context(self.component, "change", change)
+        self.assertEqual(context["unit"]["source"], "Hallo, Welt!\n")
+
     def test_change_context_and_recursion(self) -> None:
         addon = self.install(
             WORKFLOW
@@ -2295,6 +2317,28 @@ class AutomationTest(ReusableComponentTestCase):
                     in chrome.fields["scope"].widget.attrs,
                     "result" in OPERATIONS[node.name].supported_scopes,
                 )
+
+    def test_editor_bulk_edit_groups_flag_fields(self) -> None:
+        node = next(
+            node
+            for node in action_nodes(self.component)
+            if node.name == BulkEditOperation.name
+        )
+        if node.form is None:
+            self.fail("Bulk editing has no editor form")
+        rendered = render_crispy_form(node.form)
+        source = rendered.index("Source flags")
+        translation = rendered.index("Translation flags")
+        labels = rendered.index("<legend>Labels</legend>")
+        self.assertLess(source, rendered.index('name="add_flags"'))
+        self.assertLess(rendered.index('name="remove_flags"'), translation)
+        self.assertLess(translation, rendered.index('name="add_translation_flags"'))
+        self.assertLess(rendered.index('name="remove_translation_flags"'), labels)
+        self.assertLess(labels, rendered.index('name="add_labels"'))
+        self.assertIn(
+            'aria-describedby="id_automation_settings_weblate_bulk_edit_add_flags_scope"',
+            rendered,
+        )
 
     def test_editor_offers_every_automatic_translation_mode(self) -> None:
         # Workflows run as the add-on service identity, so the editor offers
