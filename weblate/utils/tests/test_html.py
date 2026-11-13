@@ -32,6 +32,9 @@ from weblate.utils.html import (
 
 class MarkdownLinkTest(SimpleTestCase):
     # Measure CPU time so CI scheduling delays do not affect performance guards.
+    # Allow for coverage's Python tracer, which adds substantial per-line overhead.
+    performance_budget = 5
+
     def test_brackets_in_link_text(self) -> None:
         for source in ("[a [b]](url)", "[a]b](url)", r"[a\]b](url)"):
             with self.subTest(source=source):
@@ -45,7 +48,7 @@ class MarkdownLinkTest(SimpleTestCase):
         self.assertEqual(MD_LINK.sub("", malformed), malformed)
         self.assertEqual(list(MD_LINK.finditer(malformed)), [])
         self.assertEqual(len(MD_REFLINK.findall("[" * 5000 + "] [x" * 500)), 250)
-        self.assertLess(process_time() - started, 1)
+        self.assertLess(process_time() - started, self.performance_budget)
 
     def test_link_after_malformed_prefix(self) -> None:
         source = "[" * 5000 + "](x" * 500 + " [valid](relative)"
@@ -53,7 +56,7 @@ class MarkdownLinkTest(SimpleTestCase):
         matches = list(MD_LINK.finditer(source))
         self.assertTrue(matches)
         self.assertEqual(matches[-1].end(), len(source))
-        self.assertLess(process_time() - started, 1)
+        self.assertLess(process_time() - started, self.performance_budget)
 
     def test_title(self) -> None:
         for title in (
@@ -78,37 +81,37 @@ class MarkdownLinkTest(SimpleTestCase):
         match = next(MD_LINK.finditer(malformed))
         self.assertEqual(match[3], ("url " + "( " * 8000).rstrip())
         self.assertEqual(match[4], "")
-        self.assertLess(process_time() - started, 1)
+        self.assertLess(process_time() - started, self.performance_budget)
 
     def test_angle_destination_past_last_parenthesis_is_linear(self) -> None:
         malformed = "[x](<" * 8000 + ")>" + "a" * 8000
         started = process_time()
         self.assertEqual(MD_LINK.findall(malformed), [])
-        self.assertLess(process_time() - started, 1)
+        self.assertLess(process_time() - started, self.performance_budget)
 
     def test_failed_titles_across_destinations_are_linear(self) -> None:
         malformed = "[x](url ( " * 4000 + r"\)"
         started = process_time()
         self.assertEqual(MD_LINK.findall(malformed), [])
-        self.assertLess(process_time() - started, 1)
+        self.assertLess(process_time() - started, self.performance_budget)
 
     def test_failed_angle_destinations_are_linear(self) -> None:
         malformed = "[x](<" * 8000 + ')> "' + "a" * 8000
         started = process_time()
         self.assertEqual(MD_LINK.findall(malformed), [])
-        self.assertLess(process_time() - started, 1)
+        self.assertLess(process_time() - started, self.performance_budget)
 
     def test_post_title_whitespace_across_destinations_is_linear(self) -> None:
         malformed = "[x](<" * 4000 + r'> "a\)"' + " " * 4000
         started = process_time()
         self.assertEqual(MD_LINK.findall(malformed), [])
-        self.assertLess(process_time() - started, 1)
+        self.assertLess(process_time() - started, self.performance_budget)
 
     def test_failed_destination_suffix_across_links_is_linear(self) -> None:
         malformed = "[x](<" * 8000 + ">" + "a" * 8000 + ' "' + r"\)"
         started = process_time()
         self.assertEqual(MD_LINK.findall(malformed), [])
-        self.assertLess(process_time() - started, 1)
+        self.assertLess(process_time() - started, self.performance_budget)
 
     def test_nested_image_link(self) -> None:
         source = "[![alt](image.png)](./page)"
