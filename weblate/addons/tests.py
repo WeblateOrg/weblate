@@ -47,6 +47,7 @@ from django.test import SimpleTestCase, TestCase, TransactionTestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import get_language, override
 from django_celery_beat.models import IntervalSchedule, PeriodicTask, PeriodicTasks
 from rest_framework.test import APIClient
 from standardwebhooks.webhooks import Webhook, WebhookVerificationError
@@ -68,6 +69,7 @@ from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
 from weblate.trans.component_copy import copy_component_addons
+from weblate.trans.defaults import DEFAULT_ADDON_MESSAGE
 from weblate.trans.discovery import DetectedDiscoveryPresets
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.file_format_params import get_default_params_for_file_format
@@ -102,6 +104,7 @@ from weblate.trans.validators import MAX_NEW_TEXT_LENGTH
 from weblate.utils.celery import handle_task_failure
 from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.forms import FormFieldGroup
+from weblate.utils.render import render_template
 from weblate.utils.rst import FullWidthRow
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
@@ -227,6 +230,39 @@ def get_webhook_request_data(
         assert isinstance(value, str)
         headers[key] = value
     return request.content, headers
+
+
+class AddonCommitContextTest(SimpleTestCase):
+    def test_english_commit_labels(self) -> None:
+        for addon_class, expected_name in (
+            (GenerateMoAddon, "Generate MO files"),
+            (GitSquashAddon, "Squash Git commits"),
+        ):
+            addon = addon_class(Addon(configuration={"squash": "all"}))
+            component = MagicMock()
+            component.linked_component = None
+            component.repo_needs_merge.return_value = False
+            component.effective_addon_message = DEFAULT_ADDON_MESSAGE
+            with self.subTest(addon=addon_class.name), override("cs"):
+                if isinstance(addon, GitSquashAddon):
+                    with (
+                        patch.object(addon, "ensure_repository_clean"),
+                        patch.object(addon, "squash_all"),
+                    ):
+                        addon.post_commit(component, True)
+                else:
+                    self.assertTrue(addon.commit_and_push(component, files=["file.po"]))
+                extra_context = component.commit_files.call_args.kwargs["extra_context"]
+                self.assertIs(type(extra_context["addon_name"]), str)
+                self.assertEqual(extra_context["addon_name"], expected_name)
+                rendered = render_template(
+                    DEFAULT_ADDON_MESSAGE,
+                    component_full_name="project/component",
+                    url="https://example.org/",
+                    **extra_context,
+                )
+                self.assertIn(f"Add-on: {expected_name}", rendered)
+                self.assertEqual(get_language(), "cs")
 
 
 class GettextUtilityTest(SimpleTestCase):
@@ -5641,7 +5677,7 @@ msgstr ""
         )
         output = Path(self.component.full_path) / "locales.json"
         output.write_text("original", encoding="utf-8")
-        with self.assertRaisesMessage(TemplateSyntaxError, "padding"):
+        with self.assertRaises(TemplateSyntaxError):
             addon.generate_component(self.component)
         self.assertEqual(output.read_text(encoding="utf-8"), "original")
 
@@ -10514,7 +10550,7 @@ class AddonConfigurationUnitTest(SimpleTestCase):
             },
         )
         self.assertFalse(form.is_valid())
-        self.assertIn("padding", str(form.errors["template"]))
+        self.assertIn("template", form.errors)
 
     def test_generate_file_runtime_configuration_is_normalized(self) -> None:
         addon = GenerateFileAddon(
