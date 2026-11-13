@@ -9,6 +9,8 @@ Weblate 2026.12
 
 .. rubric:: Security fixes
 
+* Prevented component creation from writing translation templates outside its repository.
+
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility

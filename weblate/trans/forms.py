@@ -68,6 +68,7 @@ from weblate.trans.component_creation import (
     changes_component_sensitive_access,
     get_accessible_repository_link,
     get_component_branches,
+    get_creation_projects,
     validate_repository_link,
 )
 from weblate.trans.defines import (
@@ -3093,12 +3094,15 @@ class ComponentCreateForm(
         else:
             value = self.initial.get(field_name)
         if isinstance(value, model):
-            return value
+            value = value.pk
         if not value:
             return None
         try:
-            return model.objects.get(pk=value)
-        except (TypeError, ValueError, model.DoesNotExist):
+            projects = get_creation_projects(self.request.user)
+            if model is Project:
+                return projects.filter(pk=value).first()
+            return Category.objects.filter(pk=value, project__in=projects).first()
+        except (TypeError, ValueError):
             return None
 
     def setup_create_inherited_settings(self) -> None:

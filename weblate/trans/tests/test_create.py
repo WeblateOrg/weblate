@@ -6,6 +6,8 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+from tempfile import TemporaryDirectory
 from typing import TYPE_CHECKING, cast
 from unittest.mock import patch
 
@@ -313,6 +315,37 @@ class CreateTest(ViewTestCase):
         else:
             self.assertEqual(response.status_code, 200)
         return response
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_component_rejects_outside_template(self) -> None:
+        with TemporaryDirectory() as directory:
+            outside = Path(directory, "outside.po")
+            outside.write_bytes(b"existing content")
+            category = Category.objects.create(
+                name="Unauthorized category", slug="unauthorized", project=self.project
+            )
+            params = {
+                "vcs": "local",
+                "repo": "local:",
+                "category": category.pk,
+                "file_format": "po-mono",
+                "filemask": "*.po",
+                "template": str(outside),
+                "edit_template": "on",
+                "new_base": "",
+            }
+
+            with patch.object(Component, "clean_repo") as prepare:
+                response = self.client_create_component(False, **params)
+            self.assertIn("project", response.context["form"].errors)
+            prepare.assert_not_called()
+            self.assertEqual(outside.read_bytes(), b"existing content")
+
+            self.project.add_user(self.user, "Administration")
+            response = self.client_create_component(False, **params)
+            self.assertIn("template", response.context["form"].errors)
+            self.assertEqual(outside.read_bytes(), b"existing content")
+            self.assertFalse(Component.objects.filter(slug="create-component").exists())
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_component_blocked(self) -> None:
