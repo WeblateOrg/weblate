@@ -1207,12 +1207,34 @@ class CreateTest(ViewTestCase):
         self.assertEqual(component.effective_language_code_style, "")
 
     def test_create_component_blank_parent_license_is_editable(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
         form = ComponentCreateForm(
             self.get_request(), initial={"project": self.project.pk}
         )
 
         self.assertFalse(form.fields["license"].disabled)
         self.assertFalse(form["inherit_license"].value())
+
+    def test_create_component_inaccessible_initial_project(self) -> None:
+        form = ComponentCreateForm(
+            self.get_request(), initial={"project": self.project.pk}
+        )
+
+        self.assertIsNone(form.instance.project_id)
+        self.assertFalse(form.fields["license"].disabled)
+        self.assertFalse(form["inherit_license"].value())
+
+        detected = ComponentCreateForm(
+            self.get_request(),
+            initial={
+                "project": self.project.pk,
+                "license": "MIT",
+                "detected_license": "MIT",
+            },
+        )
+        self.assertIsNone(detected.instance.project_id)
+        self.assertFalse(detected["inherit_license"].value())
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_component_blank_parent_preserves_selected_license(self) -> None:
