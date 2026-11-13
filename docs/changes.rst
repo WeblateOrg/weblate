@@ -13,6 +13,8 @@ Weblate 2026.12
 
 .. rubric:: Bug fixes
 
+* Fixed delayed database cursor cleanup in :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` with custom source languages.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
