@@ -8,6 +8,7 @@ Weblate 2026.12
 .. rubric:: Improvements
 
 * Added :envvar:`WEBLATE_SECRET_KEY` support to configure Docker's Django secret key directly or from a mounted secret file.
+* Reduced database loading when polling :ref:`background tasks <api-tasks>` spanning many components.
 
 .. rubric:: Security fixes
 
