@@ -5,6 +5,8 @@ Weblate 2026.12
 
 .. rubric:: New features
 
+* Added :wladmin:`recovergit` to rebuild missing repository checkouts.
+
 .. rubric:: Improvements
 
 * Improved database query performance for project language :ref:`statistics <stats>`.
