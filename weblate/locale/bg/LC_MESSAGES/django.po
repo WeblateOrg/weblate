@@ -16,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-11-13 01:19-0600\n"
-"PO-Revision-Date: 2026-11-13 19:11+0000\n"
+"PO-Revision-Date: 2026-11-15 03:51+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@users.noreply.hosted.weblate.org>"
 "\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
@@ -4757,12 +4757,8 @@ msgid "To terminate billing you have to remove all projects first."
 msgstr ""
 "За да прекратите платежния план, трябва първо да премахнете всички проекти."
 
-#, fuzzy
-#| msgid "A workspace associated with billing cannot be removed."
 msgid "Externally managed billings cannot be merged."
-msgstr ""
-"Работно пространство, което е обвързано с плащания, не може да бъде "
-"премахнато."
+msgstr "Външно управляваните платежни планове не могат да бъдат обединявани."
 
 msgid "Cannot merge such a billing."
 msgstr "Такова таксуване не може да бъде обединено."
@@ -5480,10 +5476,8 @@ msgstr ""
 msgid "the value is too complex or nested too deeply"
 msgstr "стойността е твърде сложна или е вложена твърде дълбоко"
 
-#, fuzzy
-#| msgid "Your billing plan has exceeded its limits."
 msgid "Format matching exceeded its time limit."
-msgstr "Ограниченията на платежния Ви план са превишени."
+msgstr "Съпоставянето на формати превиши времевото ограничение."
 
 msgid "The following format strings are in the wrong order:"
 msgstr "Следните низове за форматиране са в грешен ред:"
@@ -5739,7 +5733,7 @@ msgid "Markdown syntax does not match source."
 msgstr "Синтаксисът на Markdown не съвпада с този в изходния низ."
 
 msgid "Markdown syntax matching exceeded its time limit."
-msgstr ""
+msgstr "Съпоставянето на синтаксис на Markdown превиши времевото ограничение."
 
 msgid "The translation does not contain a URL."
 msgstr "Преводът не съдържа даден уеб-адрес."
@@ -5902,6 +5896,9 @@ msgid ""
 "Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
 "px fonts, and 2,048 px preview dimensions."
 msgstr ""
+"Превишени са ограниченията за изчертаване на шрифтове: използвайте не повече "
+"от 16 000 знака, 64 реда, 256-пикселови шрифтове и размер за предварителен "
+"преглед до 2 048 пиксела."
 
 msgid "Font style"
 msgstr "Стил на шрифта"
@@ -6065,24 +6062,26 @@ msgstr "Низове за iOS"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "Could not open the workbook archive."
-msgstr "Неуспешно обновяване на хранилището."
+msgstr "Неуспешно отваряне на архива на работната книга."
 
 #, python-format
 msgid ""
 "Workbook exceeds the maximum allowed count of %d worksheet rows after the "
 "header."
 msgstr ""
+"Работната книга превишава ограничението за максимален брой листове (%d) след "
+"заглавната част."
 
 #, python-format
 msgid "Translation file exceeds the maximum allowed size of %d bytes."
 msgstr ""
+"Файлът за превод превишава ограничението за максимален размер — %d байта."
 
 #, python-format
 msgid "Translation file exceeds the maximum allowed count of %d strings."
 msgstr ""
+"Файлът за превод превишава ограничението за максимален брой низове — %d."
 
 msgid "Multivalue CSV file"
 msgstr "Файл CSV с множество стойности"
@@ -6132,6 +6131,7 @@ msgstr ""
 #, python-format
 msgid "CSV file exceeds the maximum allowed count of %d data rows."
 msgstr ""
+"Файлът CSV превишава ограничението за максимален брой редове с данни — %d."
 
 #. Translators: File format name
 msgid "gettext PO file"
@@ -6365,9 +6365,13 @@ msgstr ""
 #, python-format
 msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
 msgstr ""
+"Архивът на работната книга превишава ограничението за максимален "
+"разархивиран размер — %d байта."
 
 msgid "Converted workbook content exceeds the configured size limit."
 msgstr ""
+"Преобразуваното съдържание на работната книга превишава настроеното "
+"ограничение за размера."
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -7549,15 +7553,11 @@ msgstr "Второстепенен език определен в проекта
 msgid "Rate limit reset."
 msgstr "Ограничението на скоростта е нулирано."
 
-#, fuzzy
-#| msgid "The translation request timed out"
 msgid "Too many translation requests."
-msgstr "Заявката за превод не получи отговор навреме"
+msgstr "Твърде много заявки за превод."
 
-#, fuzzy
-#| msgid "Too many authentication attempts from this location."
 msgid "Too many concurrent translation requests for this service."
-msgstr "Твърде много опити за удостоверяване от това местоположение."
+msgstr "Твърде много едновременни заявки за превод към тази услуга."
 
 msgid "File"
 msgstr "Файл"
@@ -7688,10 +7688,8 @@ msgstr ""
 "Записите в паметта за преводи, които са били създадени от текущите преводи, "
 "бяха изтрити и ще бъдат създадени наново на заден план."
 
-#, fuzzy
-#| msgid "Too many bulk edits, please try again later."
 msgid "Too many uploads, please try again later."
-msgstr "Твърде много масови редактирания. Моля, опитайте отново по-късно."
+msgstr "Твърде много качвания. Моля, опитайте отново по-късно."
 
 #, python-format
 msgid "Processed %(count)d active translation memory entry."
@@ -9525,27 +9523,15 @@ msgstr "Добавката може да бъде инсталирана сам�
 msgid "Install"
 msgstr "Инсталиране"
 
-#, fuzzy
-#| msgid "This add-on is used for all components sharing this repository."
 msgid "Install on the component owning the repository."
-msgstr ""
-"Тази добавка се използва за всички компоненти, споделящи това хранилище."
+msgstr "Инсталира се в компонента, който е собственик хранилището."
 
-#, fuzzy
-#| msgid ""
-#| "One component was not migrated because its repository is no longer "
-#| "available."
-#| msgid_plural ""
-#| "%(count)d components were not migrated because their repositories are no "
-#| "longer available."
 msgid "The component owning this repository is not available to you."
 msgstr ""
-"Един компонент не беше мигриран, тъй като хранилището му вече не е налично."
+"Компонентът, който е собственик на това хранилище, не е достъпен за Вас."
 
-#, fuzzy
-#| msgid "Repository changes"
 msgid "Open repository add-ons"
-msgstr "Промени в хранилището"
+msgstr "Отваряне на добавките за хранилища"
 
 msgid "Unavailable"
 msgstr "Неналично"
@@ -10007,30 +9993,22 @@ msgid "Cancel"
 msgstr "Отказ"
 
 msgid "Actor"
-msgstr ""
+msgstr "Извършващ действието"
 
-#, fuzzy
-#| msgid "Delete entry"
 msgid "Deleted user"
-msgstr "Изтриване на записа"
+msgstr "Изтрит потребител"
 
-#, fuzzy
-#| msgid "Administration"
 msgid "Administrative team changes"
-msgstr "Администриране"
+msgstr "Администрирани промени в екипа"
 
-#, fuzzy
-#| msgid "Changes"
 msgid "Change"
-msgstr "Промени"
+msgstr "Промяна"
 
 msgid "View details"
 msgstr "Подробности"
 
-#, fuzzy
-#| msgid "No audit log entries found."
 msgid "No team audit entries found."
-msgstr "Няма намерени одиторски журнали."
+msgstr "Няма намерени записи в журнала за одит."
 
 msgid "Settings"
 msgstr "Настройки"
@@ -14116,6 +14094,8 @@ msgid ""
 "Accepting this invitation will also make you a team administrator, allowing "
 "you to add or remove team members."
 msgstr ""
+"Приемането на тази покана ще Ви направи също и администратор на екип, с "
+"което ще можете да добавяте и премахвате членове на екипа."
 
 msgid ""
 "A restored project backup attributes earlier contributions to your username. "
@@ -14124,6 +14104,12 @@ msgid ""
 "contributions may use your configured commit name and e-mail address. "
 "Existing repository commits will remain unchanged."
 msgstr ""
+"Възстановено резервно копие на проекта приписва предишната работа на Вашето "
+"потребителско име. Приемането на тази покана ще означава, че приемате това "
+"авторство, включително историята и промените разпространени към други "
+"проекти. Бъдещите промени по тези записи може да използват настроеното от "
+"Вас име за подавания и Вашата е-поща. Текущите подавания в хранилището няма "
+"да бъдат променени."
 
 #, python-format
 msgid ""
@@ -16011,13 +15997,16 @@ msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr "Създадено на %(server)s (%(domain)s) от Weblate %(version)s"
 
 msgid "Public access on import"
-msgstr ""
+msgstr "Публичен достъп при внасяне"
 
 msgid ""
 "If the selected workspace's billing plan requires public content, the "
 "project and the following restricted components will be publicly accessible "
 "after import:"
 msgstr ""
+"Ако платежният план на избраното работно пространство изисква съдържанието "
+"да е публично, след внасянето проектът и следните ограничени компоненти ще "
+"станат публично достъпни:"
 
 msgid "Token copied to clipboard."
 msgstr "Идентификаторът е копиран в буфера за обмен."
@@ -17828,11 +17817,11 @@ msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "Автоматичният превод е завършен, обновен е %d низ."
 msgstr[1] "Автоматичният превод е завършен, обновени са %d низа."
 
-#, fuzzy
-#| msgid "Automatic translation skipped because the target no longer exists."
 msgid ""
 "Automatic translation skipped strings that exceed the text length limit."
-msgstr "Автоматичният превод е пропуснат, тъй като целта вече не съществува."
+msgstr ""
+"Автоматичният превод пропусна низовете, които превишават ограничението за "
+"дължина на текста."
 
 #, python-format
 msgid ""
@@ -17914,10 +17903,9 @@ msgstr "Липсва екранна снимка."
 msgid "Revision must be a complete hexadecimal object ID."
 msgstr "Ревизията трябва да бъде пълен шестнадесетичен идентификатор на обект."
 
-#, fuzzy, python-format
-#| msgid "Could not validate push URL: %s"
+#, python-format
 msgid "Could not validate repository URL: %s"
-msgstr "Адресът за изпращания не може да бъде потвърден: %s"
+msgstr "Адресът на хранилището не може да бъде потвърден: %s"
 
 msgid "Duplicate check name."
 msgstr "Дублирано име на проверка."
@@ -17984,10 +17972,8 @@ msgid "Repository-linked components can not contain repository data."
 msgstr ""
 "Свързаните с хранилище компоненти не могат да съдържат данни от хранилището."
 
-#, fuzzy
-#| msgid "Important dates"
 msgid "Imported authors"
-msgstr "Важни дати"
+msgstr "Внесени автори"
 
 #, python-format
 msgid ""
@@ -18002,18 +17988,25 @@ msgid ""
 "Restricted component %(component)s was restored as public because the target "
 "workspace's billing plan requires public content."
 msgstr ""
+"Ограниченият компонент %(component)s беше възстановен като публичен, тъй "
+"като платежният план на целевото работно пространство изисква съдържанието "
+"да е публично."
 
 #, python-format
 msgid ""
 "User %(username)s was skipped because no eligible local account matches the "
 "backup."
 msgstr ""
+"Потребителят %(username)s беше пропуснат, тъй като няма подходящ локален "
+"акаунт, който да отговаря на резервното копие."
 
 #, python-format
 msgid ""
 "User %(username)s is awaiting invitation acceptance; imported authorship "
 "remains anonymous until accepted."
 msgstr ""
+"Потребителят %(username)s чака приема на поканата. Внесеното авторство "
+"остава анонимно до приемането."
 
 #, python-format
 msgid ""
@@ -18052,14 +18045,22 @@ msgid ""
 msgid_plural ""
 "%d strings will be left unchanged because the edited text would be too long."
 msgstr[0] ""
+"%d низ ще остане непроменен, тъй като редактираният текст би бил твърде "
+"дълъг."
 msgstr[1] ""
+"%d низа ще останат непроменени, тъй като редактираните текстове биха били "
+"твърде дълги."
 
 #, python-format
 msgid "%d string was left unchanged because the edited text would be too long."
 msgid_plural ""
 "%d strings were left unchanged because the edited text would be too long."
 msgstr[0] ""
+"%d низ остана непроменен, тъй като редактираният текст щеше да бъде твърде "
+"дълъг."
 msgstr[1] ""
+"%d низа останаха непроменени, тъй като редактираните текстове щяха да бъдат "
+"твърде дълги."
 
 msgid "Invalid target state."
 msgstr "Грешно целево състояние."
@@ -19131,10 +19132,8 @@ msgstr ""
 "Клоните на хранилището не могат да бъдат заредени. Моля, опитайте отново по-"
 "късно."
 
-#, fuzzy
-#| msgid "You do not have permission to edit this glossary."
 msgid "You do not have permission to edit this project."
-msgstr "Нямате право да редактирате този речник."
+msgstr "Нямате право да редактирате този проект."
 
 msgid "ZIP file containing translations"
 msgstr "Файл ZIP с преводи"
@@ -20949,10 +20948,9 @@ msgstr "Описание на търсенето"
 msgid "Could not accept suggestion!"
 msgstr "Предложението не бе прието!"
 
-#, fuzzy, python-format
-#| msgid "Some settings could not be imported: %s"
+#, python-format
 msgid "The suggestion could not be accepted automatically: %s"
-msgstr "Някои настройки не могат да бъдат внесени: %s"
+msgstr "Предложението не може да бъде прието автоматично: %s"
 
 msgid "Uploaded translation file is too big."
 msgstr "Каченият файл с преводи е твърде голям."
@@ -21011,18 +21009,15 @@ msgstr ""
 msgid "Plural form %d in the uploaded file is missing."
 msgstr "Формата за множествено число %d липсва в качения файл."
 
-#, fuzzy, python-format
-#| msgid "The uploaded file contains too many settings."
+#, python-format
 msgid "The uploaded file contains a string that is too long: %s"
-msgstr "Каченият файл съдържа твърде много настройки."
+msgstr "Каченият файл съдържа низ, който е твърде дълъг: %s"
 
-#, fuzzy, python-format
-#| msgid "String could not be propagated to %d component."
-#| msgid_plural "String could not be propagated to %d components."
+#, python-format
 msgid "%d string could not be propagated to all components."
 msgid_plural "%d strings could not be propagated to all components."
-msgstr[0] "Низът не може да бъде прехвърлен в %d компонент."
-msgstr[1] "Низът не може да бъде прехвърлен в %d компонента."
+msgstr[0] "%d низ не може да бъде прехвърлен във всички компоненти."
+msgstr[1] "%d низа не могат да бъдат прехвърлени във всички компоненти."
 
 msgid "The uploaded file contains too many language declarations."
 msgstr "Каченият файл съдържа твърде много езикови декларации."
@@ -21051,7 +21046,7 @@ msgstr "Каченият файл не може да бъде анализира
 
 #, python-format
 msgid "Suggestion uploads are limited to %d strings."
-msgstr ""
+msgstr "Качването на предложения е ограничено до най-много %d низа."
 
 #, python-format
 msgid "Could not parse translation file: %s"
@@ -21470,38 +21465,25 @@ msgstr ""
 msgid "Updates source strings in bilingual translation file."
 msgstr "Обновява изходните низове в двуезичните файлове за превод."
 
-#, fuzzy
-#| msgid "Updates of translations are in progress."
 msgid "A translation upload is already in progress."
-msgstr "Извършват се актуализации на превода."
+msgstr "В момента вече протича качване на превод."
 
-#, fuzzy
-#| msgid ""
-#| "The authentication response has expired. Please try signing in again."
 msgid "The uploaded file has expired or was already processed."
-msgstr ""
-"Отговорът на удостоверяването е с изтекла давност. Моля, опитайте да се "
-"впишете отново."
+msgstr "Времето на давност на качения файл е изтекло или вече е бил обработен."
 
-#, fuzzy
-#| msgid "The uploaded image was invalid."
 msgid "The uploaded file has expired."
-msgstr "Каченото изображение не може да се ползва."
+msgstr "Времето на давност на качения файл е изтекло."
 
-#, fuzzy
-#| msgid "The target or permissions changed."
 msgid "The upload target or permissions changed."
-msgstr "Целта или правомощията бяха променени."
+msgstr "Целта на качването или правомощията бяха променени."
 
 msgid "Plural forms in the uploaded file do not match current translation."
 msgstr ""
 "Формите за множествено число в качения файл не съответстват на текущия "
 "превод."
 
-#, fuzzy
-#| msgid "Too many bulk edits, please try again later."
 msgid "File upload has failed. Please try again later."
-msgstr "Твърде много масови редактирания. Моля, опитайте отново по-късно."
+msgstr "Качването на файла беше неуспешно. Моля, опитайте отново по-късно."
 
 msgid "Very high"
 msgstr "Много висок"
@@ -21896,10 +21878,8 @@ msgstr "Лоша заявка"
 msgid "Access denied."
 msgstr "Достъпът е отказан."
 
-#, fuzzy
-#| msgid "Translation uploaded"
 msgid "Translation upload in progress."
-msgstr "Качване на превода"
+msgstr "В момента протича качване на превод."
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -22166,6 +22146,8 @@ msgid ""
 "The target workspace's billing plan only allows public projects without "
 "restricted components."
 msgstr ""
+"Платежният план на целевото работно пространство позволява само публични "
+"проекти без ограничени компоненти."
 
 msgid "The project is already assigned to this workspace."
 msgstr "Проектът вече е назначен към това работно пространство."
@@ -22297,55 +22279,51 @@ msgstr "Речниците могат да отбелязват имена и д
 msgid ""
 "Watch projects you care about and choose which translation events notify you."
 msgstr ""
+"Наблюдавайте проектите, за които Ви е грижа и изберете за кои събития около "
+"превода да получавате известия."
 
 msgid ""
 "Choose notification digests to receive translation updates together instead "
 "of one email at a time."
 msgstr ""
+"Изберете да получавате резюмета, така че известията да бъдат комбинирани в "
+"едно е-писмо, вместо на части."
 
-#, fuzzy
-#| msgid "CEL validation or evaluation failed or exceeded its resource limit."
 msgid "Regular expression processing failed or exceeded its resource limit."
 msgstr ""
-"Проверката или оценката на CEL беше неуспешна или превиши ограничението на "
+"Обработката на регулярен израз беше неуспешна или превиши ограничението на "
 "ресурсите."
 
-#, fuzzy
-#| msgid "The API request rate limit was exceeded."
 msgid "Cumulative regex time limit exceeded."
-msgstr "Превишено е ограничението за честота на заявките къп ППИ."
+msgstr ""
+"Превишено е целокупното ограничение на времето за изчисляване на регулярни "
+"изрази."
 
 msgid "Regex request exceeds its size limit."
-msgstr ""
+msgstr "Заявката за регулярен израз превишава ограничението за размер."
 
-#, fuzzy
-#| msgid "Regular expression to match translation files against"
 msgid "Regular expression evaluation timed out."
-msgstr "Регулярен израз, с който да се проверяват файловете за превод"
+msgstr "Времето за изчисляване на регулярен израз изтече."
 
 msgid "Regex response exceeds its size limit."
-msgstr ""
+msgstr "Отговорът на регулярен израз превишава ограничението за размер."
 
 msgid "Regex output exceeds its size limit."
-msgstr ""
+msgstr "Резултатът от регулярен израз превишава ограничението за размер."
 
-#, fuzzy
-#| msgid "Topic prefix must not exceed %(limit)d characters."
 msgid "Pattern and replacement must not exceed 4096 characters."
-msgstr "Представката на темата може да бъде не по-дълга от %(limit)d знака."
+msgstr "Шаблонът и низът за замяна не трябва да превишават 4096 знака."
 
 msgid "Regex input exceeds 1 MiB per plural."
 msgstr ""
+"Входните данни на регулярен израз превишават 1 МиБ на множествено число."
 
-#, fuzzy, python-format
-#| msgid "Invalid regular expression: {}"
+#, python-format
 msgid "Invalid regular expression or replacement: %s"
-msgstr "Неправилен регулярен израз: {}"
+msgstr "Неправилен регулярен израз или низ за замяна: %s"
 
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Automatic translation reported a warning."
-msgstr "Източник за автоматичен превод"
+msgstr "Автоматичният превод докладва предупреждение."
 
 #, fuzzy
 #| msgid ""
