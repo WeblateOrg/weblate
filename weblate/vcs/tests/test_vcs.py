@@ -346,6 +346,28 @@ class RepositoryTest(SimpleTestCase):
 
         self.assertEqual(str(error), "Can not switch subversion URL (-1)")
 
+    def test_repository_error_diagnoses_not_temporary(self) -> None:
+        for message in (
+            "The requested URL returned error: 401",
+            "The requested URL returned error: 403",
+            "The requested URL returned error: 404",
+            "The requested URL returned error: 501",
+            "The requested URL returned error: 5020",
+            (
+                "fatal: could not read Username for 'https://git.example': "
+                "terminal prompts disabled"
+            ),
+            "fatal: repository 'https://git.example/repo/' not found",
+        ):
+            with self.subTest(message=message):
+                self.assertNotIn(
+                    "temporary_failure",
+                    {
+                        diagnosis["code"]
+                        for diagnosis in get_repository_error_diagnoses(message)
+                    },
+                )
+
     def test_repository_error_diagnoses(self) -> None:
         cases = (
             ("The requested URL returned error: 301", "repository_redirect"),
@@ -363,6 +385,10 @@ class RepositoryTest(SimpleTestCase):
                 "git_lfs_missing_objects",
             ),
             ("Connection timed out", "temporary_failure"),
+            ("The requested URL returned error: 500", "temporary_failure"),
+            ("The requested URL returned error: 502", "temporary_failure"),
+            ("The requested URL returned error: 503", "temporary_failure"),
+            ("The requested URL returned error: 504", "temporary_failure"),
             ("Host key verification failed", "ssh_host_key_unverified"),
             (
                 (

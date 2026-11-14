@@ -20,6 +20,7 @@ Weblate 2026.12
 .. rubric:: Bug fixes
 
 * Fixed delayed database cursor cleanup in :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` with custom source languages.
+* Retried repository updates that failed because of temporary errors, such as server errors, with increasing delays instead of waiting for the next daily :setting:`AUTO_UPDATE` slot.
 
 .. rubric:: Compatibility
 
