@@ -1188,12 +1188,20 @@ class ComponentStats(AggregatingStats):
             update_language_stats_parents.delay_on_commit(pk)
 
     def get_language_stats(self):
-        return (
-            translation.stats
-            for translation in prefetch_stats(
-                self._object.translation_set.select_related("language")
-            )
+        component = self._object
+        translations = [
+            component.reuse_component_for_translation(translation)
+            for translation in component.translation_set.select_related("language")
+        ]
+        factory = component.project.project_languages
+        factory.ensure_workflow_settings(
+            factory[translation.language] for translation in translations
         )
+        for translation in translations:
+            translation.__dict__["workflow_settings"] = factory[
+                translation.language
+            ].workflow_settings
+        return (translation.stats for translation in prefetch_stats(translations))
 
     def get_single_language_stats(self, language):
         try:
@@ -1617,10 +1625,15 @@ class CategoryStats(ParentAggregatingStats):
         return CategoryLanguageStats(CategoryLanguage(self._object, language))
 
     def get_language_stats(self):
-        return prefetch_stats(
-            self.get_single_language_stats(language)
+        objects = [
+            CategoryLanguage(self._object, language)
             for language in self._object.languages
-        )
+        ]
+        factory = self._object.project.project_languages
+        factory.ensure_workflow_settings(factory[obj.language] for obj in objects)
+        for obj in objects:
+            obj.__dict__["workflow_settings"] = factory[obj.language].workflow_settings
+        return prefetch_stats(obj.stats for obj in objects)
 
 
 class ProjectStats(ParentAggregatingStats):
@@ -1644,10 +1657,10 @@ class ProjectStats(ParentAggregatingStats):
         return ProjectLanguageStats(ProjectLanguage(self._object, language))
 
     def get_language_stats(self) -> list[ProjectLanguageStats]:
-        return prefetch_stats(
-            self.get_single_language_stats(language)
-            for language in self._object.languages
-        )
+        factory = self._object.project_languages
+        objects = factory.preload()
+        factory.ensure_workflow_settings(objects)
+        return prefetch_stats(obj.stats for obj in objects)
 
     def _calculate_basic(self) -> None:
         super()._calculate_basic()
