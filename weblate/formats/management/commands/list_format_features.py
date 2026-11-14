@@ -133,6 +133,12 @@ class Command(DocGeneratorCommand):
             )
             self.new_list_table_row(
                 output,
+                "Supports line number",
+                file_format.supports_line_number,
+                "format-line-number",
+            )
+            self.new_list_table_row(
+                output,
                 "Supports flags",
                 file_format.supports_flags,
                 "format-flags",

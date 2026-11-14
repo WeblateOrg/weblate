@@ -238,6 +238,7 @@ class TranslationUnit[U: InnerUnit, F: "TranslationFormat"]:
             "explanation",
             "source_explanation",
             "previous_source",
+            "line_number",
         ):
             if attr in self.__dict__:
                 del self.__dict__[attr]
@@ -321,6 +322,11 @@ class TranslationUnit[U: InnerUnit, F: "TranslationFormat"]:
     def previous_source(self) -> str:
         """Return previous message source if there was any."""
         return ""
+
+    @cached_property
+    def line_number(self) -> int | None:
+        """Return line number from a ttkit unit."""
+        return None
 
     @classmethod
     def calculate_id_hash(cls, has_template: bool, source: str, context: str) -> int:
@@ -445,6 +451,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     supports_descriptions: bool = False
     supports_context: bool = False
     supports_location: bool = False
+    supports_line_number: bool = False
     supports_flags: bool = False
     supports_read_only: bool = False
     supports_remove_obsolete_units: bool = False

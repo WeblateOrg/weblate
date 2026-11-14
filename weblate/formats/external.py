@@ -35,6 +35,7 @@ class XlsxFormat(CSVFormat):
     name = gettext_lazy("Excel Open XML")
     format_id = "xlsx"
     autoload = ("*.xlsx",)
+    supports_line_number = False
 
     def get_encoding(self) -> str | None:
         return "utf-8"

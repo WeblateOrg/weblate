@@ -130,6 +130,7 @@ UNIT_METADATA_UPDATE_FIELDS = (
     "automatically_translated",
     "flags",
     "last_updated",
+    "line_number",
 )
 UNIT_SOURCE_UPDATE_FIELDS = (
     "translation_parent",
@@ -915,6 +916,7 @@ class UnitAttributesDict(TypedDict):
     unit: TranslationUnit
     created: bool
     pos: int
+    line_number: int | None
     id_hash: int
     automatically_translated: bool
 
@@ -947,6 +949,8 @@ class Unit(models.Model, LoggerMixin):
     details = models.JSONField(default=dict)
 
     position = models.IntegerField()
+
+    line_number = models.IntegerField(null=True, blank=True)
 
     num_words = models.IntegerField(default=0)
 
@@ -1828,6 +1832,7 @@ class Unit(models.Model, LoggerMixin):
             "pos": pos,
             "id_hash": id_hash,
             "automatically_translated": unit.is_automatically_translated(),
+            "line_number": unit.line_number,
         }
 
     def update_from_unit(  # ruff: ignore[complex-structure, too-many-locals, too-many-statements]
@@ -1865,6 +1870,7 @@ class Unit(models.Model, LoggerMixin):
         unit = unit_attributes["unit"]
         created = unit_attributes["created"]
         pos = unit_attributes["pos"]
+        line_number = unit_attributes["line_number"]
         automatically_translated = unit_attributes["automatically_translated"]
 
         # Should not be needed again
@@ -1956,6 +1962,7 @@ class Unit(models.Model, LoggerMixin):
             and location == self.location
             and note == self.note
             and pos == self.position
+            and line_number == self.line_number
             and automatically_translated == self.automatically_translated
             and not pending
         )
@@ -2014,6 +2021,7 @@ class Unit(models.Model, LoggerMixin):
         # Store updated values
         self.original_state = original_state
         self.position = pos
+        self.line_number = line_number
         self.location = location
         if (not same_data and not preserve_pending_target) or not supports_explanation:
             self.explanation = explanation
@@ -2040,6 +2048,7 @@ class Unit(models.Model, LoggerMixin):
                     "note",
                     "position",
                     "automatically_translated",
+                    "line_number",
                 ]
                 if not supports_explanation:
                     update_fields.append("explanation")
@@ -3166,9 +3175,34 @@ class Unit(models.Model, LoggerMixin):
 
     def nearby(self, count: int) -> models.QuerySet[Unit]:
         """Return list of nearby messages based on location."""
-        if self.position == 0:
-            return Unit.objects.none()
         with start_span(op="unit.nearby", name=f"{self.pk}"):
+            if self.line_number is not None:
+                qs = self.translation.unit_set.exclude(line_number=None)
+                before = list(
+                    qs.filter(
+                        Q(line_number__lt=self.line_number)
+                        | Q(line_number=self.line_number, position__lt=self.position)
+                    )
+                    .order_by("-line_number", "-position")
+                    .values_list("id", flat=True)[:count]
+                )
+                after = list(
+                    qs.filter(
+                        Q(line_number__gt=self.line_number)
+                        | Q(line_number=self.line_number, position__gt=self.position)
+                    )
+                    .order_by("line_number", "position")
+                    .values_list("id", flat=True)[:count]
+                )
+                return (
+                    self.translation.unit_set.filter(id__in=[self.id, *before, *after])
+                    .prefetch_embed()
+                    .order_by("line_number", "position")
+                    .fill_in_source_translation()
+                )
+
+            if self.position == 0:
+                return Unit.objects.none()
             # Limiting the query is needed to avoid issues when unit
             # position is not properly populated
             result = (

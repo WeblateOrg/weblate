@@ -49,4 +49,5 @@ class CommandsTest(SimpleTestCase):
                     self.assertEqual(
                         generated_file.read_text(encoding="utf-8"),
                         checked_in_file.read_text(encoding="utf-8"),
+                        msg=f"Snippet {generated_file.name} does not match checked-in file",
                     )
