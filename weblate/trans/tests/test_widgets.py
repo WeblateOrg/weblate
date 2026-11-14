@@ -12,8 +12,10 @@ from types import SimpleNamespace
 from typing import TYPE_CHECKING, Any, cast
 from unittest.mock import patch
 
+from django.db import connection
 from django.http import HttpResponse
 from django.test import RequestFactory, SimpleTestCase, override_settings
+from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 from PIL import Image
 
@@ -30,6 +32,7 @@ from weblate.trans.models import (
     ComponentLink,
     Project,
     Translation,
+    WorkflowSetting,
 )
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.views.widgets import WIDGETS
@@ -181,6 +184,162 @@ class FilterPresentationTest(SimpleTestCase):
         self.assertEqual(
             next(choice[3] for choice in choices if choice[0] == "context"), ""
         )
+
+
+class LanguageStatsWorkflowTest(FixtureTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.category = self.create_category(self.project)
+        Component.objects.filter(pk=self.component.pk).update(category=self.category)
+        Project.objects.filter(pk=self.project.pk).update(
+            translation_review=True, source_review=False
+        )
+        self.languages = list(
+            self.component.translation_set.select_related("language").order_by(
+                "language__code"
+            )
+        )
+        targets = [item.language for item in self.languages if not item.is_source]
+        self.local = WorkflowSetting.objects.create(
+            project=self.project, language=targets[0], translation_review=True
+        )
+        WorkflowSetting.objects.create(language=targets[0], translation_review=False)
+        self.fallback = WorkflowSetting.objects.create(
+            language=targets[1], translation_review=False
+        )
+
+    def get_scope(self, model):
+        if model is Project:
+            obj = Project.objects.get(pk=self.project.pk)
+            # Isolate percentage reads from the source-language cache miss path.
+            self.assertIn(self.component.source_language_id, obj.source_language_ids)
+        elif model is Category:
+            obj = Category.objects.select_related("project").get(pk=self.category.pk)
+            self.assertIn(self.component.source_language_id, obj.source_language_ids)
+        else:
+            obj = Component.objects.select_related("project").get(pk=self.component.pk)
+        return obj
+
+    def test_collections_batch_workflows_and_preserve_review_rules(self) -> None:
+        for model in (Project, Category, Component):
+            with self.subTest(scope=model.__name__):
+                obj = self.get_scope(model)
+                with CaptureQueriesContext(connection) as queries:
+                    stats = list(obj.stats.get_language_stats())
+                workflows = [
+                    query
+                    for query in queries
+                    if '"trans_workflowsetting"' in query["sql"]
+                ]
+                self.assertEqual(len(workflows), 1)
+                # Languages/translations and the workflows each take one query.
+                self.assertEqual(len(queries), 2)
+                self.assertEqual(len(stats), len(self.languages))
+                with self.assertNumQueries(0):
+                    for item in stats:
+                        language = item.language
+                        expected = (
+                            self.local
+                            if language.pk == self.local.language_id
+                            else self.fallback
+                            if language.pk == self.fallback.language_id
+                            else None
+                        )
+                        self.assertEqual(item.obj.workflow_settings, expected)
+                        review = (
+                            language.pk != obj.source_language_id
+                            if model is Component
+                            else language.pk not in obj.source_language_ids
+                        )
+                        review = review and (
+                            expected.translation_review
+                            if expected is not None
+                            else True
+                        )
+                        self.assertEqual(item.has_review, review)
+                        item.set_data({"all": 0, "translated": 0, "approved": 0})
+                        self.assertEqual(item.translated_percent, 0 if review else 100)
+                        self.assertEqual(item.approved_percent, 100 if review else 0)
+                with CaptureQueriesContext(connection) as repeated:
+                    list(obj.stats.get_language_stats())
+                self.assertFalse(
+                    any('"trans_workflowsetting"' in query["sql"] for query in repeated)
+                )
+
+    def test_workflow_query_count_does_not_grow_with_languages(self) -> None:
+        languages = [item.language for item in self.languages]
+        for model in (Project, Category):
+            for count in (1, len(languages)):
+                with self.subTest(scope=model.__name__, count=count):
+                    obj = self.get_scope(model)
+                    obj.__dict__["languages"] = languages[:count]
+                    with self.assertNumQueries(1):
+                        stats = obj.stats.get_language_stats()
+                        self.assertEqual(len(stats), count)
+
+    def test_source_and_target_review_switches(self) -> None:
+        Project.objects.filter(pk=self.project.pk).update(
+            source_review=True, translation_review=False
+        )
+        for model in (Project, Category, Component):
+            with self.subTest(scope=model.__name__):
+                obj = self.get_scope(model)
+                stats = list(obj.stats.get_language_stats())
+                with self.assertNumQueries(0):
+                    for item in stats:
+                        self.assertEqual(item.has_review, item.is_source)
+
+    def test_ensure_missing_workflows_and_explicit_refresh(self) -> None:
+        project = Project.objects.get(pk=self.project.pk)
+        language = self.component.source_language
+        wrapper = project.project_languages[language]
+        with self.assertNumQueries(1):
+            project.project_languages.ensure_workflow_settings([wrapper])
+        self.assertIsNone(wrapper.workflow_settings)
+        setting = WorkflowSetting.objects.create(
+            language=language, translation_review=True
+        )
+        with self.assertNumQueries(0):
+            project.project_languages.ensure_workflow_settings([wrapper])
+            project.project_languages.ensure_workflow_settings([])
+        self.assertIsNone(wrapper.workflow_settings)
+        with self.assertNumQueries(1):
+            project.project_languages.preload_workflow_settings([wrapper])
+        self.assertEqual(wrapper.workflow_settings, setting)
+
+    def test_empty_language_collections(self) -> None:
+        for model in (Project, Category):
+            obj = self.get_scope(model)
+            obj.__dict__["languages"] = []
+            with self.assertNumQueries(0):
+                self.assertEqual(obj.stats.get_language_stats(), [])
+
+    def test_widget_requests_batch_workflows(self) -> None:
+        for model in (Project, Category, Component):
+            with self.subTest(scope=model.__name__):
+                obj = self.get_scope(model)
+                url = reverse(
+                    "widget-image",
+                    kwargs={
+                        "path": obj.get_url_path(),
+                        "widget": "multi",
+                        "color": "auto",
+                        "extension": "svg",
+                    },
+                )
+                self.assertEqual(self.client.get(url).status_code, 200)
+                with CaptureQueriesContext(connection) as queries:
+                    response = self.client.get(url)
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(
+                    sum('"trans_workflowsetting"' in query["sql"] for query in queries),
+                    1,
+                    "\n".join(
+                        query["sql"]
+                        for query in queries
+                        if '"trans_workflowsetting"' in query["sql"]
+                    ),
+                )
 
 
 class WidgetsTest(FixtureTestCase):

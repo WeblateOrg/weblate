@@ -6302,14 +6302,22 @@ class ProjectAPITest(APIBaseTest):
         self.assertTrue(response.content.endswith(b"# EOF\n"))
 
     def test_languages(self) -> None:
+        Project.objects.filter(pk=self.project.pk).update(translation_review=True)
         request = self.do_request("api:project-languages", self.project_kwargs)
         self.assertEqual(len(request.data), 4)
-        response = self.do_request(
-            "api:project-languages",
-            self.project_kwargs,
-            request={
-                "format": "json-flat",
-            },
+        with CaptureQueriesContext(connection) as queries:
+            response = self.do_request(
+                "api:project-languages",
+                self.project_kwargs,
+                request={
+                    "format": "json-flat",
+                },
+            )
+        workflows = [
+            query for query in queries if '"trans_workflowsetting"' in query["sql"]
+        ]
+        self.assertEqual(
+            len(workflows), 1, "\n".join(query["sql"] for query in workflows)
         )
         data = response.json()
         self.assertIsInstance(data, list)
