@@ -190,6 +190,41 @@ class ComponentLinkTestCase(ReusableViewTestCase):
         self.assertEqual({language.pk for language in languages}, shared_language_ids)
         self.assertIn("UNION", str(languages.query))
 
+    def test_project_language_stats_with_shared_components(self) -> None:
+        owned = self.create_po(project=self.other, name="Owned")
+        third = Project.objects.create(name="Third", slug="third")
+        unrelated = self.create_po(project=third, name="Unrelated")
+        ComponentLink.objects.create(component=self.component, project=third)
+        category = Category.objects.create(
+            project=self.other, name="Category", slug="category"
+        )
+
+        for placement in (None, category):
+            ComponentLink.objects.filter(pk=self.link.pk).update(category=placement)
+            for language in (self.translation.language, self.component.source_language):
+                owned_translation = owned.translation_set.get(language=language)
+                shared_translation = self.component.translation_set.get(
+                    language=language
+                )
+                unrelated_translation = unrelated.translation_set.get(language=language)
+                for project, expected in (
+                    (self.project, [shared_translation.pk]),
+                    (self.other, [owned_translation.pk, shared_translation.pk]),
+                    (third, [unrelated_translation.pk, shared_translation.pk]),
+                ):
+                    with self.subTest(
+                        placement=placement, language=language, project=project
+                    ):
+                        stats = ProjectLanguage(project, language).stats
+                        queryset = stats.get_child_objects()
+                        self.assertIn("UNION", str(queryset.query))
+                        self.assertNotIn("LEFT OUTER JOIN", str(queryset.query))
+                        with self.assertNumQueries(1):
+                            translations = list(queryset)
+                        self.assertCountEqual(
+                            [translation.pk for translation in translations], expected
+                        )
+
     def test_has_language_with_shared_components(self) -> None:
         """Project language membership should not load the full language listing."""
         other = Project.objects.get(pk=self.other.pk)

@@ -15,9 +15,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-11-13 01:19-0600\n"
-"PO-Revision-Date: 2026-11-13 10:37+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-11-15 11:38+0000\n"
+"Last-Translator: Peter Vančo <peva@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
 "Language: sk\n"
@@ -603,15 +602,13 @@ msgstr "Používateľ bol pridaný do tímu {team} používateľom {username}."
 msgid "User access to the {team} team was changed by {username}."
 msgstr "Prístup používateľa k tímu {team} bol zmenený používateľom {username}."
 
-#, fuzzy, python-brace-format
-#| msgid "User access to the {team} team was changed by {username}."
+#, python-brace-format
 msgid "Team administrator access to {team} was granted by {username}."
-msgstr "Prístup používateľa k tímu {team} bol zmenený používateľom {username}."
+msgstr "Prístup správcu tímu pre {team} udelil {username}."
 
-#, fuzzy, python-brace-format
-#| msgid "User access to the {team} team was changed by {username}."
+#, python-brace-format
 msgid "Team administrator access to {team} was removed by {username}."
-msgstr "Prístup používateľa k tímu {team} bol zmenený používateľom {username}."
+msgstr "Prístup správcu tímu pre {team} odobral {username}."
 
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
@@ -726,43 +723,29 @@ msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr "Zariadenie iOS"
 
-#, fuzzy
-#| msgid "site-wide"
 msgid "Site-wide"
-msgstr "v celom-webe"
+msgstr "Celostránkové"
 
 msgid "Workspace"
 msgstr "Pracovný priestor"
 
-#, fuzzy
-#| msgid "Backup created"
 msgid "Team created"
-msgstr "Záloha vytvorená"
+msgstr "Tím vytvorený"
 
-#, fuzzy
-#| msgid "Last change"
 msgid "Team changed"
-msgstr "Posledná zmena"
+msgstr "Tím zmenený"
 
-#, fuzzy
-#| msgid "Font deleted."
 msgid "Team deleted"
-msgstr "Písmo odstránené."
+msgstr "Tím odstránený"
 
-#, fuzzy
-#| msgid "Label added"
 msgid "Team member added"
-msgstr "Štítok pridaný"
+msgstr "Člen tímu pridaný"
 
-#, fuzzy
-#| msgid "Label removed"
 msgid "Team member removed"
-msgstr "Štítok odstránený"
+msgstr "Člen tímu odstránený"
 
-#, fuzzy
-#| msgid "User access changed"
 msgid "Team member access changed"
-msgstr "Prístup používateľa zmenený"
+msgstr "Prístup člena tímu zmenený"
 
 msgid "Account activity"
 msgstr "Aktivita účtu"
@@ -2702,25 +2685,21 @@ msgstr ""
 "Vložte iba blok certifikátu PEM začínajúci „-----BEGIN CERTIFICATE-----“; "
 "nevkladajte výstup z „openssl x509 -text“."
 
-#, fuzzy
-#| msgid "Connection attempts"
 msgid "Connection timeout"
-msgstr "Pokusy o pripojenie"
+msgstr "Časový limit pripojenia"
 
-#, fuzzy
-#| msgid "How many seconds to wait between connection attempts."
 msgid "How many seconds to allow for connection and channel setup per attempt."
-msgstr "Koľko sekúnd čakať medzi pokusmi o pripojenie."
+msgstr "Koľko sekúnd povoliť na nastavenie pripojenia a kanála na jeden pokus."
 
 msgid "Publish timeout"
 msgstr "Časový limit publikovania"
 
-#, fuzzy
-#| msgid "How many seconds to wait for the broker delivery acknowledgement."
 msgid ""
 "How many seconds to allow for sending and the broker delivery "
 "acknowledgement per attempt, after connection setup."
-msgstr "Koľko sekúnd čakať na potvrdenie doručenia brokerom."
+msgstr ""
+"Koľko sekúnd povoliť na odoslanie a potvrdenie doručenia brokerom na jeden "
+"pokus po nastavení pripojenia."
 
 msgid "Connection attempts"
 msgstr "Pokusy o pripojenie"
@@ -2937,15 +2916,11 @@ msgstr "API doplnky musia byť nainštalované priamo na komponente."
 msgid "This add-on is already installed on this component."
 msgstr "Tento doplnok je už nainštalovaný na tomto komponente."
 
-#, fuzzy
-#| msgid ""
-#| "Repository operations require permission on the component that owns the "
-#| "shared repository."
 msgid ""
 "Repository add-ons must be installed on the component owning the repository."
 msgstr ""
-"Operácie repozitára vyžadujú oprávnenie na komponente, ktorý vlastní "
-"zdieľaný repozitár."
+"Doplnky repozitára musia byť nainštalované na komponente vlastniacom "
+"repozitár."
 
 msgid "This add-on cannot be triggered manually."
 msgstr "Tento doplnok nemôže byť spustený manuálne."
@@ -3007,10 +2982,8 @@ msgctxt "Add-on scope"
 msgid "Site"
 msgstr "Stránka"
 
-#, fuzzy
-#| msgid "This component does not exist or you cannot access it."
 msgid "a component you cannot access"
-msgstr "Tento komponent neexistuje alebo k nemu nemáte prístup."
+msgstr "komponent, ku ktorému nemáte prístup"
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -4211,10 +4184,8 @@ msgstr ""
 "Návrhy sú pre tento jazyk vypnuté. Požiadajte správcu projektu o ich "
 "zapnutie."
 
-#, fuzzy
-#| msgid "You do not have permission to approve translations."
 msgid "You need to log in to upload translations."
-msgstr "Nemáte oprávnenie na schvaľovanie prekladov."
+msgstr "Na nahrávanie prekladov sa musíte prihlásiť."
 
 msgid "The file format does not support updating source strings."
 msgstr "Formát súboru nepodporuje aktualizáciu zdrojových reťazcov."
@@ -4256,15 +4227,11 @@ msgstr "Neaktívnych používateľov nie je možné priradiť do tímov."
 msgid "Project tokens can not be assigned to teams here."
 msgstr "Tokeny projektu tu nie je možné priradiť tímom."
 
-#, fuzzy
-#| msgid "View audit log"
 msgid "Team audit log"
-msgstr "Zobraziť auditný záznam"
+msgstr "Audítorský protokol tímu"
 
-#, fuzzy
-#| msgid "Team administrator"
 msgid "Team audit entry"
-msgstr "Správca tímu"
+msgstr "Záznam auditu tímu"
 
 msgid "Cannot remove built-in team!"
 msgstr "Nemožno odstrániť vstavaný tím!"
@@ -4597,7 +4564,7 @@ msgid "Number of changes"
 msgstr "Počet zmien"
 
 msgid "Hosted strings"
-msgstr "Hosťovaných reťazce"
+msgstr "Hosťovaných reťazcov"
 
 msgid "Source words"
 msgstr "Zdrojové slová"
@@ -4636,7 +4603,7 @@ msgstr[1] "Obsahuje %d komponenty"
 msgstr[2] "Obsahuje %d komponentov"
 
 msgid "Restricted components are not allowed by this billing plan."
-msgstr ""
+msgstr "Tento fakturačný plán nepovoľuje obmedzené komponenty."
 
 msgid "Missing license"
 msgstr "Chýbajúca licencia"
@@ -4697,10 +4664,8 @@ msgstr ""
 msgid "To terminate billing you have to remove all projects first."
 msgstr "Na zastavenie fakturácie musíte najprv odstrániť všetky projekty."
 
-#, fuzzy
-#| msgid "A workspace associated with billing cannot be removed."
 msgid "Externally managed billings cannot be merged."
-msgstr "Pracovný priestor spojený s fakturáciou nemožno odstrániť."
+msgstr "Externe spravované fakturácie nemožno zlúčiť."
 
 msgid "Cannot merge such a billing."
 msgstr "Nemožno zlúčiť takúto fakturáciu."
@@ -5408,10 +5373,8 @@ msgstr "Hodnotu Fluent sa nepodarilo skontrolovať, pretože je príliš zložit
 msgid "the value is too complex or nested too deeply"
 msgstr "hodnota je príliš zložitá alebo vnorená príliš hlboko"
 
-#, fuzzy
-#| msgid "Your billing plan has exceeded its limits."
 msgid "Format matching exceeded its time limit."
-msgstr "Váš fakturačný plán presiahol svoje limity."
+msgstr "Párovanie formátu prekročilo časový limit."
 
 msgid "The following format strings are in the wrong order:"
 msgstr "Nasledujúce formátovacie reťazce sú v nesprávnom poradí:"
@@ -5666,7 +5629,7 @@ msgid "Markdown syntax does not match source."
 msgstr "Syntax Markdown sa nezhoduje so zdrojom."
 
 msgid "Markdown syntax matching exceeded its time limit."
-msgstr ""
+msgstr "Párovanie syntaxe Markdown prekročilo časový limit."
 
 msgid "The translation does not contain a URL."
 msgstr "Preklad neobsahuje URL adresu."
@@ -5828,6 +5791,8 @@ msgid ""
 "Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
 "px fonts, and 2,048 px preview dimensions."
 msgstr ""
+"Prekročené limity vykresľovania písma: použite najviac 16 000 znakov, 64 "
+"riadkov, písma 256 px a rozmery ukážky 2 048 px."
 
 msgid "Font style"
 msgstr "Štýl písma"
@@ -5987,24 +5952,22 @@ msgstr "iOS reťazce"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "Could not open the workbook archive."
-msgstr "Nepodarilo sa aktualizovať repozitár."
+msgstr "Nepodarilo sa otvoriť archív zošita."
 
 #, python-format
 msgid ""
 "Workbook exceeds the maximum allowed count of %d worksheet rows after the "
 "header."
-msgstr ""
+msgstr "Zošit prekračuje maximálny povolený počet %d riadkov hárka po hlavičke."
 
 #, python-format
 msgid "Translation file exceeds the maximum allowed size of %d bytes."
-msgstr ""
+msgstr "Prekladový súbor prekračuje maximálnu povolenú veľkosť %d bajtov."
 
 #, python-format
 msgid "Translation file exceeds the maximum allowed count of %d strings."
-msgstr ""
+msgstr "Prekladový súbor prekračuje maximálny povolený počet %d reťazcov."
 
 msgid "Multivalue CSV file"
 msgstr "Viachodnotový súbor CSV"
@@ -6048,7 +6011,7 @@ msgstr "Metadáta množného čísla v CSV súbore vyžadujú id_hash."
 
 #, python-format
 msgid "CSV file exceeds the maximum allowed count of %d data rows."
-msgstr ""
+msgstr "Súbor CSV prekračuje maximálny povolený počet %d dátových riadkov."
 
 #. Translators: File format name
 msgid "gettext PO file"
@@ -6275,10 +6238,10 @@ msgstr "Overenie súboru je vyžadované pre formáty založené na adresároch.
 
 #, python-format
 msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
-msgstr ""
+msgstr "Archív zošita prekračuje maximálnu rozbalenú veľkosť %d bajtov."
 
 msgid "Converted workbook content exceeds the configured size limit."
-msgstr ""
+msgstr "Konvertovaný obsah zošita prekračuje nastavený limit veľkosti."
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -7436,15 +7399,11 @@ msgstr "Sekundárny jazyk definovaný v projekte alebo komponente"
 msgid "Rate limit reset."
 msgstr "Reset limitu rýchlosti."
 
-#, fuzzy
-#| msgid "The translation request timed out"
 msgid "Too many translation requests."
-msgstr "Požiadavka na preklad vypršala"
+msgstr "Príliš veľa požiadaviek na preklad."
 
-#, fuzzy
-#| msgid "Too many authentication attempts from this location."
 msgid "Too many concurrent translation requests for this service."
-msgstr "Príliš veľa pokusov o prihlásenie z tejto oblasti."
+msgstr "Príliš veľa súbežných požiadaviek na preklad pre túto službu."
 
 msgid "File"
 msgstr "Súbor"
@@ -7575,10 +7534,8 @@ msgstr ""
 "Položky pamäte prekladov vytvorené z aktuálnych prekladov boli odstránené a "
 "budú obnovené na pozadí."
 
-#, fuzzy
-#| msgid "Too many bulk edits, please try again later."
 msgid "Too many uploads, please try again later."
-msgstr "Príliš veľa hromadných úprav, skúste to znova neskôr."
+msgstr "Príliš veľa nahraní, skúste to znova neskôr."
 
 #, python-format
 msgid "Processed %(count)d active translation memory entry."
@@ -9405,27 +9362,14 @@ msgstr "Doplnok sa dá nainštalovať iba na úrovni komponentu."
 msgid "Install"
 msgstr "Inštalovať"
 
-#, fuzzy
-#| msgid "This add-on is used for all components sharing this repository."
 msgid "Install on the component owning the repository."
-msgstr ""
-"Tento doplnok sa používa pre všetky komponenty zdieľajúce tento repozitár."
+msgstr "Nainštalovať na komponente vlastniacom repozitár."
 
-#, fuzzy
-#| msgid ""
-#| "One component was not migrated because its repository is no longer "
-#| "available."
-#| msgid_plural ""
-#| "%(count)d components were not migrated because their repositories are no "
-#| "longer available."
 msgid "The component owning this repository is not available to you."
-msgstr ""
-"Jeden komponent nebol migrovaný, pretože jeho repozitár už nie je dostupný."
+msgstr "Komponent vlastniaci tento repozitár nie je pre vás dostupný."
 
-#, fuzzy
-#| msgid "Repository changes"
 msgid "Open repository add-ons"
-msgstr "Zmeny repozitára"
+msgstr "Otvoriť doplnky repozitára"
 
 msgid "Unavailable"
 msgstr "Nedostupné"
@@ -9898,26 +9842,20 @@ msgstr "Zrušiť"
 msgid "Actor"
 msgstr "Aktér"
 
-#, fuzzy
-#| msgid "Delete entry"
 msgid "Deleted user"
-msgstr "Odstrániť položku"
+msgstr "Odstránený používateľ"
 
-#, fuzzy
-#| msgid "Administration"
 msgid "Administrative team changes"
-msgstr "Administrácia"
+msgstr "Administratívne zmeny tímu"
 
 msgid "Change"
-msgstr "Zmeniť"
+msgstr "Zmena"
 
 msgid "View details"
 msgstr "Zobraziť podrobnosti"
 
-#, fuzzy
-#| msgid "No audit log entries found."
 msgid "No team audit entries found."
-msgstr "Nenašli sa žiadne záznamy v audítorskom protokole."
+msgstr "Nenašli sa žiadne záznamy auditu tímu."
 
 msgid "Settings"
 msgstr "Nastavenia"
@@ -13981,6 +13919,8 @@ msgid ""
 "Accepting this invitation will also make you a team administrator, allowing "
 "you to add or remove team members."
 msgstr ""
+"Prijatím tejto pozvánky sa stanete aj správcom tímu, čo vám umožní pridávať "
+"alebo odstraňovať členov tímu."
 
 msgid ""
 "A restored project backup attributes earlier contributions to your username. "
@@ -13989,6 +13929,11 @@ msgid ""
 "contributions may use your configured commit name and e-mail address. "
 "Existing repository commits will remain unchanged."
 msgstr ""
+"Obnovená záloha projektu pripisuje skoršie príspevky vášmu používateľskému "
+"menu. Prijatím tejto pozvánky prevezmete toto importované autorstvo vrátane "
+"histórie a zmien šírených do iných projektov. Budúce zápisy týchto "
+"príspevkov môžu použiť vaše nastavené meno a e-mail pre zápis. Existujúce "
+"zápisy v repozitári zostanú nezmenené."
 
 #, python-format
 msgid ""
@@ -15864,13 +15809,15 @@ msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr "Vytvorené na %(server)s (%(domain)s) pomocou Weblate %(version)s"
 
 msgid "Public access on import"
-msgstr ""
+msgstr "Verejný prístup pri importe"
 
 msgid ""
 "If the selected workspace's billing plan requires public content, the "
 "project and the following restricted components will be publicly accessible "
 "after import:"
 msgstr ""
+"Ak fakturačný plán vybraného pracovného priestoru vyžaduje verejný obsah, "
+"projekt a nasledujúce obmedzené komponenty budú po importe verejne dostupné:"
 
 msgid "Token copied to clipboard."
 msgstr "Token skopírovaný do schránky."
@@ -17669,11 +17616,9 @@ msgstr[0] "Automatický preklad dokončený, %d reťazec bol aktualizovaný."
 msgstr[1] "Automatický preklad dokončený, %d reťazce boli aktualizované."
 msgstr[2] "Automatický preklad dokončený, %d reťazcov bolo aktualizovaných."
 
-#, fuzzy
-#| msgid "Automatic translation skipped because the target no longer exists."
 msgid ""
 "Automatic translation skipped strings that exceed the text length limit."
-msgstr "Automatický preklad preskočený, pretože cieľ už neexistuje."
+msgstr "Automatický preklad preskočil reťazce prekračujúce limit dĺžky textu."
 
 #, python-format
 msgid ""
@@ -17753,10 +17698,9 @@ msgstr "Chýba obrázok snímky obrazovky."
 msgid "Revision must be a complete hexadecimal object ID."
 msgstr "Revízia musí byť kompletné hexadecimálne ID objektu."
 
-#, fuzzy, python-format
-#| msgid "Could not validate push URL: %s"
+#, python-format
 msgid "Could not validate repository URL: %s"
-msgstr "Nepodarilo sa overiť URL odoslania: %s"
+msgstr "Nepodarilo sa overiť URL repozitára: %s"
 
 msgid "Duplicate check name."
 msgstr "Duplicitný názov kontroly."
@@ -17822,10 +17766,8 @@ msgstr "Údaje repozitára nepatria k obnovenému komponentu."
 msgid "Repository-linked components can not contain repository data."
 msgstr "Komponenty prepojené s repozitárom nemôžu obsahovať údaje repozitára."
 
-#, fuzzy
-#| msgid "Important dates"
 msgid "Imported authors"
-msgstr "Dôležité dátumy"
+msgstr "Importovaní autori"
 
 #, python-format
 msgid ""
@@ -17840,18 +17782,24 @@ msgid ""
 "Restricted component %(component)s was restored as public because the target "
 "workspace's billing plan requires public content."
 msgstr ""
+"Obmedzený komponent %(component)s bol obnovený ako verejný, pretože "
+"fakturačný plán cieľového pracovného priestoru vyžaduje verejný obsah."
 
 #, python-format
 msgid ""
 "User %(username)s was skipped because no eligible local account matches the "
 "backup."
 msgstr ""
+"Používateľ %(username)s bol preskočený, pretože zálohe nezodpovedá žiadny "
+"oprávnený lokálny účet."
 
 #, python-format
 msgid ""
 "User %(username)s is awaiting invitation acceptance; imported authorship "
 "remains anonymous until accepted."
 msgstr ""
+"Používateľ %(username)s čaká na prijatie pozvánky; importované autorstvo "
+"zostáva anonymné až do prijatia."
 
 #, python-format
 msgid ""
@@ -17889,17 +17837,19 @@ msgid ""
 "%d string will be left unchanged because the edited text would be too long."
 msgid_plural ""
 "%d strings will be left unchanged because the edited text would be too long."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d reťazec zostane nezmenený, pretože upravený text by bol príliš dlhý."
+msgstr[1] "%d reťazce zostanú nezmenené, pretože upravený text by bol príliš dlhý."
 msgstr[2] ""
+"%d reťazcov zostane nezmenených, pretože upravený text by bol príliš dlhý."
 
 #, python-format
 msgid "%d string was left unchanged because the edited text would be too long."
 msgid_plural ""
 "%d strings were left unchanged because the edited text would be too long."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d reťazec zostal nezmenený, pretože upravený text by bol príliš dlhý."
+msgstr[1] "%d reťazce zostali nezmenené, pretože upravený text by bol príliš dlhý."
 msgstr[2] ""
+"%d reťazcov zostalo nezmenených, pretože upravený text by bol príliš dlhý."
 
 msgid "Invalid target state."
 msgstr "Neplatný cieľový stav."
@@ -18952,10 +18902,8 @@ msgstr "Príliš veľa požiadaviek na vetvy. Prosím, skúste to znova neskôr.
 msgid "Could not load repository branches. Please try again."
 msgstr "Nepodarilo sa načítať vetvy repozitára. Prosím, skúste to znova."
 
-#, fuzzy
-#| msgid "You do not have permission to edit this glossary."
 msgid "You do not have permission to edit this project."
-msgstr "Nemáte oprávnenie na úpravu tohto slovníka."
+msgstr "Nemáte oprávnenie na úpravu tohto projektu."
 
 msgid "ZIP file containing translations"
 msgstr "ZIP súbor obsahujúci preklady"
@@ -20743,10 +20691,9 @@ msgstr "Popis vyhľadávania"
 msgid "Could not accept suggestion!"
 msgstr "Nepodarilo sa prijať návrh!"
 
-#, fuzzy, python-format
-#| msgid "Some settings could not be imported: %s"
+#, python-format
 msgid "The suggestion could not be accepted automatically: %s"
-msgstr "Niektoré nastavenia sa nepodarilo importovať: %s"
+msgstr "Návrh sa nepodarilo prijať automaticky: %s"
 
 msgid "Uploaded translation file is too big."
 msgstr "Nahraný prekladový súbor je príliš veľký."
@@ -20807,19 +20754,16 @@ msgstr "Tvary množného čísla %d v nahranom súbore sú mimo povoleného rozs
 msgid "Plural form %d in the uploaded file is missing."
 msgstr "Tvary množného čísla v nahranom súbore chýbajú %d."
 
-#, fuzzy, python-format
-#| msgid "The uploaded file contains too many settings."
+#, python-format
 msgid "The uploaded file contains a string that is too long: %s"
-msgstr "Nahraný súbor obsahuje príliš veľa nastavení."
+msgstr "Nahraný súbor obsahuje príliš dlhý reťazec: %s"
 
-#, fuzzy, python-format
-#| msgid "String could not be propagated to %d component."
-#| msgid_plural "String could not be propagated to %d components."
+#, python-format
 msgid "%d string could not be propagated to all components."
 msgid_plural "%d strings could not be propagated to all components."
-msgstr[0] "Reťazec sa nedal šíriť do %d komponentu."
-msgstr[1] "Reťazec sa nedal šíriť do %d komponentov."
-msgstr[2] "Reťazec sa nedal šíriť do %d komponentov."
+msgstr[0] "%d reťazec sa nepodarilo šíriť do všetkých komponentov."
+msgstr[1] "%d reťazce sa nepodarilo šíriť do všetkých komponentov."
+msgstr[2] "%d reťazcov sa nepodarilo šíriť do všetkých komponentov."
 
 msgid "The uploaded file contains too many language declarations."
 msgstr "Nahraný súbor obsahuje príliš veľa deklarácií jazykov."
@@ -20848,7 +20792,7 @@ msgstr "Nepodarilo sa spracovať nahraný súbor ako {file_format}: {error}"
 
 #, python-format
 msgid "Suggestion uploads are limited to %d strings."
-msgstr ""
+msgstr "Nahrávanie návrhov je obmedzené na %d reťazcov."
 
 #, python-format
 msgid "Could not parse translation file: %s"
@@ -21264,34 +21208,24 @@ msgstr "Pridáva nové reťazce do prekladu. Preskakuje tie, ktoré už existuj�
 msgid "Updates source strings in bilingual translation file."
 msgstr "Aktualizuje zdrojové reťazce v dvojjazyčnom prekladovom súbore."
 
-#, fuzzy
-#| msgid "Updates of translations are in progress."
 msgid "A translation upload is already in progress."
-msgstr "Aktualizácie prekladov sú v priebehu."
+msgstr "Nahrávanie prekladu už prebieha."
 
-#, fuzzy
-#| msgid "The uploaded report has expired. Upload it again."
 msgid "The uploaded file has expired or was already processed."
-msgstr "Platnosť nahranej správy vypršala. Nahrajte ju znova."
+msgstr "Platnosť nahraného súboru vypršala alebo už bol spracovaný."
 
-#, fuzzy
-#| msgid "The uploaded image was invalid."
 msgid "The uploaded file has expired."
-msgstr "Nahraný obrázok bol neplatný."
+msgstr "Platnosť nahraného súboru vypršala."
 
-#, fuzzy
-#| msgid "The target or permissions changed."
 msgid "The upload target or permissions changed."
-msgstr "Cieľ alebo oprávnenia sa zmenili."
+msgstr "Cieľ nahrávania alebo oprávnenia sa zmenili."
 
 msgid "Plural forms in the uploaded file do not match current translation."
 msgstr ""
 "Tvary množného čísla v nahranom súbore sa nezhodujú s aktuálnym prekladom."
 
-#, fuzzy
-#| msgid "Too many bulk edits, please try again later."
 msgid "File upload has failed. Please try again later."
-msgstr "Príliš veľa hromadných úprav, skúste to znova neskôr."
+msgstr "Nahratie súboru zlyhalo. Skúste to znova neskôr."
 
 msgid "Very high"
 msgstr "Veľmi vysoká"
@@ -21690,10 +21624,8 @@ msgstr "Zlá požiadavka"
 msgid "Access denied."
 msgstr "Prístup zamietnutý."
 
-#, fuzzy
-#| msgid "Translation uploaded"
 msgid "Translation upload in progress."
-msgstr "Preklad nahraný"
+msgstr "Prebieha nahrávanie prekladu."
 
 msgid "Use the button on the repository status page to run this action."
 msgstr "Na spustenie tejto akcie použite tlačidlo na stránke stavu repozitára."
@@ -21954,6 +21886,8 @@ msgid ""
 "The target workspace's billing plan only allows public projects without "
 "restricted components."
 msgstr ""
+"Fakturačný plán cieľového pracovného priestoru povoľuje iba verejné projekty "
+"bez obmedzených komponentov."
 
 msgid "The project is already assigned to this workspace."
 msgstr "Projekt je už priradený k tomuto pracovnému priestoru."
@@ -22298,23 +22232,17 @@ msgstr "Neplatná uložená hodnota parametra."
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "Parametre musia byť slovníkom párov kľúč-hodnota."
 
-#, fuzzy
-#| msgid "Regex output exceeds its size limit."
 msgid "Template output exceeds its size limit."
-msgstr "Výstup regulárneho výrazu presahuje limit veľkosti."
+msgstr "Výstup šablóny prekračuje limit veľkosti."
 
-#, fuzzy
-#| msgid "Regular expression processing failed or exceeded its resource limit."
 msgid "Template rendering failed or exceeded its resource limits."
-msgstr "Spracovanie regulárneho výrazu zlyhalo alebo presiahlo limit zdrojov."
+msgstr "Vykreslenie šablóny zlyhalo alebo prekročilo limity zdrojov."
 
 msgid "Oversized template response."
-msgstr ""
+msgstr "Nadmerne veľká odpoveď šablóny."
 
-#, fuzzy
-#| msgid "Invalid eTranslation domains response"
 msgid "Invalid template rendering response."
-msgstr "Neplatná odpoveď domén eTranslation"
+msgstr "Neplatná odpoveď vykreslenia šablóny."
 
 msgid "Could not render template: {}"
 msgstr "Nepodarilo sa renderovať šablónu: {}"
@@ -22326,65 +22254,41 @@ msgstr ""
 "Formátové reťazce už nie sú podporované, prosím, namiesto toho použite jazyk "
 "šablóny."
 
-#, fuzzy
-#| msgid "Regex request exceeds its size limit."
 msgid "Template value exceeds its size limit."
-msgstr "Požiadavka na regulárny výraz presahuje limit veľkosti."
+msgstr "Hodnota šablóny prekračuje limit veľkosti."
 
-#, fuzzy
-#| msgid "The HTML {tag} tag is nested too deeply."
 msgid "Template context is nested too deeply."
-msgstr "HTML značka {tag} je vnorená príliš hlboko."
+msgstr "Kontext šablóny je vnorený príliš hlboko."
 
-#, fuzzy
-#| msgid "Regex output exceeds its size limit."
 msgid "Template context exceeds its size limit."
-msgstr "Výstup regulárneho výrazu presahuje limit veľkosti."
+msgstr "Kontext šablóny prekračuje limit veľkosti."
 
-#, fuzzy
-#| msgid "Unsupported ITS rule content."
 msgid "Unsupported template context key."
-msgstr "Nepodporovaný obsah pravidla ITS."
+msgstr "Nepodporovaný kľúč kontextu šablóny."
 
-#, fuzzy
-#| msgid "Unsupported ITS rule content."
 msgid "Unsupported template context value."
-msgstr "Nepodporovaný obsah pravidla ITS."
+msgstr "Nepodporovaná hodnota kontextu šablóny."
 
-#, fuzzy
-#| msgid "Regex response exceeds its size limit."
 msgid "Template rendering exceeded its time limit."
-msgstr "Odpoveď regulárneho výrazu presahuje limit veľkosti."
+msgstr "Vykreslenie šablóny prekročilo časový limit."
 
-#, fuzzy
-#| msgid "Regex response exceeds its size limit."
 msgid "Template rendering exceeded its loop limit."
-msgstr "Odpoveď regulárneho výrazu presahuje limit veľkosti."
+msgstr "Vykreslenie šablóny prekročilo limit cyklov."
 
-#, fuzzy
-#| msgid "Regex request exceeds its size limit."
 msgid "Template intermediate value exceeds its size limit."
-msgstr "Požiadavka na regulárny výraz presahuje limit veľkosti."
+msgstr "Medzihodnota šablóny prekračuje limit veľkosti."
 
-#, fuzzy
-#| msgid "Regex request exceeds its size limit."
 msgid "Template replacement exceeds its size limit."
-msgstr "Požiadavka na regulárny výraz presahuje limit veľkosti."
+msgstr "Náhrada v šablóne prekračuje limit veľkosti."
 
-#, fuzzy
-#| msgid "Regex response exceeds its size limit."
 msgid "Template padding exceeds its size limit."
-msgstr "Odpoveď regulárneho výrazu presahuje limit veľkosti."
+msgstr "Zarovnanie v šablóne prekračuje limit veľkosti."
 
-#, fuzzy
-#| msgid "Regex output exceeds its size limit."
 msgid "Template formatting exceeds its size limit."
-msgstr "Výstup regulárneho výrazu presahuje limit veľkosti."
+msgstr "Formátovanie šablóny prekračuje limit veľkosti."
 
-#, fuzzy
-#| msgid "Regex response exceeds its size limit."
 msgid "Template join exceeds its size limit."
-msgstr "Odpoveď regulárneho výrazu presahuje limit veľkosti."
+msgstr "Spojenie v šablóne prekračuje limit veľkosti."
 
 #, python-format
 msgid "Undefined variable: \"%s\""
@@ -23173,10 +23077,8 @@ msgstr ""
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr "Tým sa odošlú zmeny do hlavného Mercurial repozitára."
 
-#, fuzzy
-#| msgid "Could not recover the repository."
 msgid "Could not remove nested repository metadata."
-msgstr "Nepodarilo sa obnoviť repozitár."
+msgstr "Nepodarilo sa odstrániť metadáta vnoreného repozitára."
 
 msgid "GitHub"
 msgstr "GitHub"

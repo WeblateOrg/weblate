@@ -6,13 +6,15 @@
 
 from __future__ import annotations
 
+import socket
 from base64 import b64decode
 from typing import TYPE_CHECKING
 from unittest.mock import patch
 
 from asgiref.sync import async_to_sync
 from django.core.cache import cache
-from django.test import SimpleTestCase, TestCase
+from django.core.exceptions import ValidationError
+from django.test import SimpleTestCase, TestCase, override_settings
 
 from weblate.trans.models import Component, Project
 from weblate.utils.tests import http_mock
@@ -136,6 +138,8 @@ def _assert_github_app_auth_environment(
 
 class TestGitHubInstallationManager(TestCase):
     def setUp(self) -> None:
+        super().setUp()
+        self.enterContext(mock_dns("api.github.com", "github.com"))
         self.installation = _make_installation(
             repositories=[{"full_name": "test-org/repo1"}]
         )
@@ -253,6 +257,48 @@ class TestGitHubInstallationManager(TestCase):
         )
         self.assertFalse(GitHubInstallation.objects.filter(pk=installation.pk).exists())
         report_error.assert_called_once()
+
+    @override_settings(
+        VCS_RESTRICT_PRIVATE=True,
+        VCS_ALLOW_HOSTS=[],
+        VCS_PRIVATE_ALLOWLIST=[],
+    )
+    @http_mock.activate
+    def test_remove_installation_with_dns_failure(self) -> None:
+        _make_credentials()
+        for index, best_effort in enumerate((False, True)):
+            with self.subTest(best_effort=best_effort):
+                installation = _make_installation(installation_id=str(13579 + index))
+                installation_pk = installation.pk
+                with (
+                    patch(
+                        "weblate.utils.requests.get_environment_proxy",
+                        return_value=None,
+                    ),
+                    patch(
+                        "weblate.utils.outbound.socket.getaddrinfo",
+                        side_effect=socket.gaierror(
+                            socket.EAI_AGAIN, "Temporary DNS failure"
+                        ),
+                    ),
+                    patch("weblate.vcs.github.report_error") as report_error,
+                ):
+                    self.assertEqual(
+                        remove_github_installation(
+                            installation, best_effort=best_effort
+                        ),
+                        InstallationRemoval.FAILED,
+                    )
+
+                self.assertEqual(
+                    GitHubInstallation.objects.filter(pk=installation_pk).exists(),
+                    not best_effort,
+                )
+                report_error.assert_called_once()
+                error = report_error.call_args.kwargs["exception"]
+                self.assertIsInstance(error, ValidationError)
+                self.assertEqual(error.code, "url_unresolved_with_error")
+        self.assertEqual(len(http_mock.calls), 0)
 
     def test_installation_id_is_validated_on_save(self) -> None:
         with self.assertRaises(ValueError):
@@ -483,6 +529,23 @@ class TestGitHubInstallationManager(TestCase):
             repository.get_auth_environment()
 
         self.assertEqual(len(http_mock.calls), 1)
+
+    def test_github_repository_token_validation_failure_raises_repository_error(
+        self,
+    ) -> None:
+        _make_credentials()
+        repository = self._make_app_repository()
+        with (
+            patch.object(
+                GitHubInstallation,
+                "get_access_token",
+                side_effect=ValidationError("Private target prohibited"),
+            ),
+            self.assertRaisesRegex(
+                RepositoryError, "Could not obtain GitHub App access token"
+            ),
+        ):
+            repository.get_auth_environment()
 
     @http_mock.activate
     def test_github_repository_auth_args_malformed_installation_id_raises_repository_error(

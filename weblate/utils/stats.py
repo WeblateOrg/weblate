@@ -1413,13 +1413,16 @@ class ProjectLanguageStats(ChecklistStats):
         return self._object.enable_review
 
     def get_child_objects(self):
-        return (
-            self.language.translation_set.filter(
-                Q(component__project=self.project) | Q(component__links=self.project)
-            )
-            .distinct()
-            .only("id", "language")
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.component import ComponentLink
+
+        owned = self.project.component_set.values_list("pk", flat=True)
+        shared = ComponentLink.objects.filter(project=self.project).values_list(
+            "component_id", flat=True
         )
+        return self.language.translation_set.filter(
+            component_id__in=owned.union(shared)
+        ).only("id", "language")
 
 
 class CategoryLanguage(BaseURLMixin, TranslationChecklistMixin):

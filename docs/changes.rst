@@ -7,12 +7,14 @@ Weblate 2026.12
 
 .. rubric:: Improvements
 
+* Improved database query performance for project language :ref:`statistics <stats>`.
 * Added :envvar:`WEBLATE_SECRET_KEY` support to configure Docker's Django secret key directly or from a mounted secret file.
 * Reduced database loading when polling :ref:`background tasks <api-tasks>` spanning many components.
 
 .. rubric:: Security fixes
 
 * Prevented component creation from writing translation templates outside its repository.
+* Applied :setting:`VCS_RESTRICT_PRIVATE` and trusted-host exemptions to :ref:`GitHub App manifest-code and OAuth exchanges <code-hosting-github-app-register>` and API requests, including redirects and pagination URLs.
 * Revoked stale OAuth e-mail recovery addresses and reconciled the :ref:`account e-mail <user-profile>` when its last verification is removed.
 
 .. rubric:: Bug fixes
