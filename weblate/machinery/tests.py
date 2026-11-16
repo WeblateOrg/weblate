@@ -10897,7 +10897,12 @@ class ViewsTest(FixtureTestCase):
         unit = self.get_unit()
         url = reverse("js-translate", kwargs={"unit_id": unit.pk, "service": "dummy"})
         self.assertEqual(self.client.post(url).status_code, 200)
-        self.assertEqual(self.client.post(url).status_code, 429)
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, 429)
+        data = response.json()
+        self.assertEqual(data["service"], DummyTranslation.name)
+        self.assertEqual(data["responseStatus"], 429)
+        self.assertEqual(data["responseDetails"], "Too many translation requests.")
 
     def test_translate_concurrency_is_per_installation(self) -> None:
         from weblate.machinery.admission import machinery_slot  # ruff: ignore[import-outside-top-level]
@@ -10925,6 +10930,13 @@ class ViewsTest(FixtureTestCase):
                     )
                 )
                 self.assertEqual(response.status_code, 429)
+                data = response.json()
+                self.assertEqual(data["service"], DummyTranslation.name)
+                self.assertEqual(data["responseStatus"], 429)
+                self.assertEqual(
+                    data["responseDetails"],
+                    "Too many concurrent translation requests for this service.",
+                )
                 response = await self.async_client.post(
                     reverse(
                         "js-translate",
