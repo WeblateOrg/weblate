@@ -7,6 +7,8 @@ Weblate 2026.12
 
 .. rubric:: Improvements
 
+* Sped up :ref:`Weblate translation suggestions <mt-weblate>` by fetching ranked candidates in limited batches and avoiding repeated similarity calculations for exact matches.
+
 * Sped up :ref:`quality checks <checks>` by skipping format and markup extraction for strings without relevant syntax.
 
 * Improved database query performance for project language :ref:`statistics <stats>`.
