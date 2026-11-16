@@ -613,13 +613,30 @@ class SiteWideTokenTest(FixtureTestCase):
                 params__team=self.managers_group.name,
             ).exists()
         )
-        self.assertTrue(
-            token_user.auditlog_set.filter(
-                activity="sitewide-team-change",
-                params__team=self.managers_group.name,
-            ).exists()
-            or membership.limit_languages.exists()
+
+        # Changing the limit on an existing membership is audited
+        german = Language.objects.get(code="de")
+        response = self.client.post(
+            reverse("set-site-token-groups"),
+            {
+                "user": token_user.username,
+                "groups": [self.monitoring_group.pk, self.managers_group.pk],
+                limit_field: [german.code],
+            },
+            follow=True,
         )
+        self.assertEqual(response.status_code, 200)
+        membership.refresh_from_db()
+        self.assertEqual(
+            list(membership.limit_languages.values_list("code", flat=True)),
+            ["de"],
+        )
+        audit = token_user.auditlog_set.get(
+            activity="sitewide-team-change",
+            params__team=self.managers_group.name,
+        )
+        self.assertEqual(audit.params["previous_limit_languages"], ["cs"])
+        self.assertEqual(audit.params["limit_languages"], ["de"])
 
         # Remove monitoring, keep managers
         response = self.client.post(

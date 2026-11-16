@@ -989,18 +989,11 @@ def api_tokens(request: AuthenticatedHttpRequest) -> HttpResponse:
     """Manage site-wide API tokens."""
     check_site_token_view_access(request)
     can_edit_users = request.user.has_perm("user.edit")
-    groups = sitewide_teams_queryset().prefetch_related("languages")
+    groups = sitewide_teams_queryset()
     site_tokens = list(
         get_site_api_tokens()
         .order()  # type: ignore[attr-defined]
-        .prefetch_related(
-            Prefetch(
-                "groups",
-                queryset=groups,
-                to_attr="site_groups",
-            ),
-            get_site_token_memberships_prefetch(groups),
-        )
+        .prefetch_related(get_site_token_memberships_prefetch(groups))
     )
     for token_user in site_tokens:
         setup_site_token_membership_badges(token_user)
