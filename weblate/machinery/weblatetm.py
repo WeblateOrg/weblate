@@ -5,13 +5,12 @@
 from __future__ import annotations
 
 import re
-from itertools import batched
 from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.contrib.postgres.search import TrigramSimilarity, TrigramWordSimilarity
-from django.db.models import Case, F, IntegerField, Q, Value, When
-from django.db.models.functions import MD5, Length, Lower
+from django.db.models import Case, F, FloatField, IntegerField, Q, Value, When
+from django.db.models.functions import MD5, Cast, Length, Lower
 
 from weblate.formats.models import FILE_FORMATS
 from weblate.glossary.models import iter_glossary_alternatives
@@ -154,15 +153,22 @@ class WeblateTranslation(InternalMachineTranslation):
         )
         # Sort only IDs and ranks, rather than complete units (including text
         # and JSON). The branches are disjoint, so UNION ALL needs no deduplication.
-        candidates = (
-            ordinary.order_by()
-            .values_list(*fields)
-            .union(custom.order_by().values_list(*fields), all=True)
-            .order_by(*ordering)
-        )
-        for batch in batched(
-            candidates.iterator(chunk_size=self.candidate_limit), self.candidate_limit
-        ):
+        after = Q()
+        while True:
+            # Limit each branch as well as the combined result so PostgreSQL
+            # can use bounded sorts. Fetch another page only when Python-side
+            # filtering has not produced enough usable suggestions.
+            batch = list(
+                ordinary.filter(after)
+                .values_list(*fields)[: self.candidate_limit]
+                .union(
+                    custom.filter(after).values_list(*fields)[: self.candidate_limit],
+                    all=True,
+                )
+                .order_by(*ordering)[: self.candidate_limit]
+            )
+            if not batch:
+                return
             ids = [row[0] for row in batch]
             units = self.prepare_queryset(
                 Unit.objects.using(base.db).filter(pk__in=ids)
@@ -170,6 +176,20 @@ class WeblateTranslation(InternalMachineTranslation):
             for pk in ids:
                 if pk in units:
                     yield units[pk]
+            if len(batch) < self.candidate_limit:
+                return
+
+            # Seek past the last rank and ID instead of repeatedly sorting and
+            # skipping earlier pages with OFFSET. Include the ID to preserve
+            # candidates tied at a page boundary.
+            last = dict(zip(fields, batch[-1], strict=True))
+            after = Q(pk__in=[])
+            equal = Q()
+            for field in ordering:
+                name = field.removeprefix("-")
+                comparison = "lt" if field.startswith("-") else "gt"
+                after |= equal & Q(**{f"{name}__{comparison}": last[name]})
+                equal &= Q(**{name: last[name]})
 
     def get_matching_queryset(self, base, text: str, threshold: int):
         if threshold < 100:
@@ -185,12 +205,22 @@ class WeblateTranslation(InternalMachineTranslation):
                         & Q(check_source__trigram_word_similar=text)
                     )
                 ).annotate(
-                    match_similarity=Case(
-                        When(
-                            self.multivalue_query(),
-                            then=TrigramWordSimilarity(text, "check_source"),
+                    # PostgreSQL returns trigram similarity as float4. Cast to
+                    # float8 so a page cursor round-trips without losing the
+                    # precision needed for equality at tied ranks.
+                    match_similarity=Cast(
+                        Case(
+                            # Exact sources already have the highest rank.
+                            # Avoid computing their trigrams a second time
+                            # after the similarity lookup has admitted them.
+                            When(check_source=text, then=Value(1.0)),
+                            When(
+                                self.multivalue_query(),
+                                then=TrigramWordSimilarity(text, "check_source"),
+                            ),
+                            default=TrigramSimilarity("check_source", text),
                         ),
-                        default=TrigramSimilarity("check_source", text),
+                        output_field=FloatField(),
                     )
                 )
                 queryset = queryset.order_by("-match_similarity", "pk")
