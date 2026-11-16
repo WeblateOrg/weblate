@@ -271,20 +271,18 @@ def bound_bot_basename(basename: str) -> str:
     return basename if len(basename) <= limit else basename[:limit]
 
 
-def is_site_api_token_user(user: User) -> bool:
-    """Return whether the user is a site-wide API token bot."""
-    return bool(
-        user.is_bot
-        and user.username.startswith(SITE_API_TOKEN_USERNAME_PREFIX)
-        and user.email
-        and user.email.endswith(BOT_NOREPLY_EMAIL_SUFFIX)
-    )
+def create_api_token(user: User) -> Token:
+    """
+    Create an API token for a user.
 
-
-def create_api_token(user: User, *, prefix: str | None = None) -> Token:
-    """Create an API token for a user."""
-    if prefix is None:
-        prefix = "wlp" if user.is_bot else "wlu"
+    The key prefix is chosen here so every token kind is defined in one place.
+    """
+    if user.is_site_api_token_bot:
+        prefix = "wls"
+    elif user.is_bot:
+        prefix = "wlp"
+    else:
+        prefix = "wlu"
     return Token.objects.create(user=user, key=get_token(prefix))
 
 
@@ -293,10 +291,10 @@ def delete_api_tokens(user: User) -> None:
     Token.objects.filter(user=user).delete()
 
 
-def reset_api_token(user: User, *, prefix: str | None = None) -> Token:
+def reset_api_token(user: User) -> Token:
     """Reset API token for a user."""
     delete_api_tokens(user)
-    return create_api_token(user, prefix=prefix)
+    return create_api_token(user)
 
 
 def get_site_api_tokens() -> QuerySet[User]:

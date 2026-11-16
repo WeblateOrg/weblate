@@ -15,12 +15,7 @@ from django.utils.translation import gettext, gettext_lazy
 
 from weblate.accounts.forms import BaseTokenCreateForm, EmailField, UserManageForm
 from weblate.accounts.models import AuditLog
-from weblate.accounts.utils import (
-    SITE_API_TOKEN_USERNAME_PREFIX,
-    create_api_token,
-    delete_api_tokens,
-    is_site_api_token_user,
-)
+from weblate.accounts.utils import SITE_API_TOKEN_USERNAME_PREFIX
 from weblate.auth.models import Group, TeamMembership, User
 from weblate.auth.utils import prefetch_membership_limit_languages
 from weblate.lang.forms import LimitLanguagesField, get_language_code_choices
@@ -266,8 +261,6 @@ class SiteTokenCreateForm(BaseTokenCreateForm):
 
     def save(self, *args, acting_user: User | None = None, request=None, **kwargs):
         result = super().save(*args, **kwargs)
-        delete_api_tokens(result)
-        result.auth_token = create_api_token(result, prefix="wls")
         for team in self.cleaned_data["teams"]:
             result.add_team(request, team, user=acting_user)
         AuditLog.objects.create(
@@ -284,7 +277,7 @@ class SiteTokenManageForm(UserManageForm):
     def clean_user(self) -> User:
         user = self.cleaned_data["user"]
 
-        if not is_site_api_token_user(user):
+        if not user.is_site_api_token_bot:
             raise ValidationError(gettext("Could not find any such user."))
         return user
 
