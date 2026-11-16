@@ -1157,10 +1157,10 @@ class WidgetsSortByPercentTest(FixtureTestCase):
     # Alphabetical order and percentage order differ, and German and Italian
     # tie, so the tie-break can be checked too.
     PERCENTS: ClassVar[dict[str, float]] = {
-        "cs": 25.0,
-        "de": 50.0,
-        "it": 50.0,
         "ja": 100.0,
+        "cs": 25.0,
+        "it": 50.0,
+        "de": 50.0,
     }
 
     def get_fake_stats(self) -> list[SimpleNamespace]:
