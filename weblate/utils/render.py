@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING, cast
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.template import TemplateSyntaxError
 from django.urls import reverse
 from django.utils.translation import gettext, override
 
@@ -15,6 +16,7 @@ from weblate.utils.outbound import validate_runtime_url
 from weblate.utils.render_context import validate_context
 from weblate.utils.render_engine import check_text, render_bounded
 from weblate.utils.render_limits import SOURCE_LIMIT
+from weblate.utils.render_policy import TemplateDiagnosticError
 from weblate.utils.site import get_site_url
 from weblate.utils.validators import WeblateEditorURLValidator, WeblateURLValidator
 
@@ -99,20 +101,42 @@ def prepare_template_context(
 
 def render_template(template: str, **kwargs: object) -> str:
     """Render string template with validated Weblate context."""
+    return _render_template(template, kwargs)
+
+
+def _render_template(
+    template: str, values: dict[str, object], *, for_validation: bool = False
+) -> str:
     check_text(template, SOURCE_LIMIT)
-    values = prepare_template_context(template, kwargs)
+    context = prepare_template_context(template, values)
 
     with override("en"):
-        rendered = render_bounded(template, values)
+        rendered = render_bounded(template, context, for_validation=for_validation)
     # Django marks this result safe even though its source was not HTML-escaped.
     # These templates produce plain text; a plain str lets HTML sinks escape it.
     return "" + rendered
 
 
-def validate_render(value: str, **kwargs: object) -> str:
-    """Validate rendered template."""
+def render_repository_template(template: str, *, setting: str, **kwargs: object) -> str:
+    """Expose configured message failures through repository error handling."""
+    from weblate.vcs.base import RepositoryTemplateError  # ruff: ignore[import-outside-top-level]
+
     try:
-        return render_template(value, **kwargs)
+        with override("en"):
+            return render_template(template, **kwargs)
+    except TemplateSyntaxError as error:
+        diagnostic = (
+            str(error)
+            if isinstance(error, TemplateDiagnosticError)
+            else "Template rendering failed."
+        )
+        raise RepositoryTemplateError(setting, diagnostic) from error
+
+
+def validate_render(value: str, **kwargs: object) -> str:
+    """Validate a submitted template with editor diagnostics."""
+    try:
+        return _render_template(value, kwargs, for_validation=True)
     except Exception as err:
         raise ValidationError(
             gettext("Could not render template: {}").format(err)

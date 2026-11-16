@@ -971,9 +971,10 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             raise ValueError(msg)
 
         # Render the template
-        filename = render_template(
-            template, translation=translation, component=component
-        )
+        with override("en"):
+            filename = render_template(
+                template, translation=translation, component=component
+            )
 
         # Validate filename (not absolute or linking to parent dir)
         try:

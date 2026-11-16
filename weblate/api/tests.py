@@ -154,6 +154,7 @@ from weblate.trans.tasks import (
     auto_translate,
     component_after_save,
     execute_repository_operation,
+    perform_commit,
 )
 from weblate.trans.tests.test_views import ReusableComponentTestCase
 from weblate.trans.tests.utils import (
@@ -180,6 +181,7 @@ from weblate.utils.data import data_dir
 from weblate.utils.files import PathMatchBudget
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.pii import mask_email
+from weblate.utils.render import render_repository_template
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -14298,6 +14300,57 @@ class LanguageAPITest(APIBaseTest):
 class TasksAPITest(APIBaseTest):
     task_id = "01234567-89ab-cdef-0123-456789abcdef"
 
+    def test_component_task_exposes_safe_template_diagnostic(self) -> None:
+        Project.objects.filter(pk=self.project.pk).update(
+            access_control=Project.ACCESS_PRIVATE
+        )
+        self.grant_language_download()
+        self.component.refresh_from_db()
+        self.assertFalse(self.user.has_perm("vcs.view", self.component))
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"component_id": self.component.pk},
+            TASK_METADATA_TTL,
+        )
+        for target, setting, expected in (
+            (
+                "weblate.trans.tasks.perform_component_commit",
+                "commit message",
+                "Could not commit pending changes",
+            ),
+            (
+                "weblate.trans.models.Component.push_if_needed",
+                "merge message",
+                "Changes committed, but could not push",
+            ),
+        ):
+            with self.subTest(setting=setting):
+
+                def fail(*args, setting=setting, **kwargs) -> None:
+                    render_repository_template(
+                        "Header\n{% /private/repo %}", setting=setting
+                    )
+
+                with (
+                    patch("weblate.trans.tasks.perform_component_commit"),
+                    patch(target, side_effect=fail),
+                ):
+                    result = perform_commit.run(self.component.pk, "test")
+                task = SimpleNamespace(
+                    id=self.task_id, result=result, state="SUCCESS", ready=lambda: True
+                )
+                with patch("weblate.api.views.AsyncResult", return_value=task):
+                    response = self.do_request(
+                        "api:task-detail",
+                        kwargs={"pk": self.task_id},
+                        authenticated=False,
+                    )
+                message = response.data["result"]["completion_message"]["text"]
+                self.assertIn(expected, message)
+                self.assertIn(f"Could not render {setting} template", message)
+                self.assertIn("Line 2: Unsupported template tag", message)
+                self.assertNotIn("/private/repo", str(response.data))
+
     def tearDown(self) -> None:
         cache.delete(get_task_metadata_key(self.task_id))
         cache.delete(f"task-log-{self.task_id}")
@@ -16788,6 +16841,22 @@ class MemoryAPITest(APIBaseTest):
 
 
 class TranslationAPITest(APIBaseTest):
+    def test_delete_with_broken_template(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            delete_message="{% invalid %}", inherit_delete_message=False
+        )
+        response = self.do_request(
+            "api:translation-detail",
+            self.translation_kwargs,
+            method="delete",
+            superuser=True,
+            code=400,
+        )
+        self.assertIn("Could not render delete message template", str(response.data))
+        self.assertTrue(
+            self.component.translation_set.filter(language_code="cs").exists()
+        )
+
     @override_settings(CELERY_TASK_STORE_EAGER_RESULT=True)
     def test_upload_background(self) -> None:
         self.authenticate()
@@ -18772,6 +18841,32 @@ class TranslationAPITest(APIBaseTest):
 
 
 class UnitAPITest(APIBaseTest):
+    def test_delete_unit_with_broken_commit_template(self) -> None:
+        component = self._create_component(
+            "po-mono",
+            "po-mono/*.po",
+            "po-mono/en.po",
+            project=self.component.project,
+            name="mono",
+        )
+        Component.objects.filter(pk=component.pk).update(
+            commit_message="{% invalid %}", inherit_commit_message=False
+        )
+        unit = Unit.objects.get(
+            translation__component=component,
+            translation__language_code="cs",
+            source="Hello, world!\n",
+        ).source_unit
+        response = self.do_request(
+            "api:unit-detail",
+            {"pk": unit.pk},
+            method="delete",
+            superuser=True,
+            code=400,
+        )
+        self.assertIn("Could not render commit message template", str(response.data))
+        self.assertTrue(Unit.objects.filter(pk=unit.pk).exists())
+
     def test_report_requires_effective_parent_permission(self) -> None:
         unit = self.component.translation_set.get(language_code="cs").unit_set.get(
             source="Hello, world!\n"
