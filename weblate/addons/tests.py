@@ -42,7 +42,7 @@ from django.core.management.commands.makemessages import (
 )
 from django.core.management.utils import find_command
 from django.db import connection
-from django.template import TemplateSyntaxError
+from django.template import Context, Template, TemplateSyntaxError
 from django.test import SimpleTestCase, TestCase, TransactionTestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
@@ -12014,6 +12014,88 @@ class TargetChangeAddonTest(ComponentTestCase):
 class TasksTest(TestCase):
     def test_cleanup_addon_activity_log(self) -> None:
         cleanup_addon_activity_log()
+
+
+class WebhookActivityLogTest(SimpleTestCase):
+    def render_result(self, addon_class: type[BaseAddon], details: dict) -> str:
+        addon = addon_class(MagicMock())
+        activity = AddonActivityLog(id=123, details=details)
+        return Template("{{ result }}").render(
+            Context({"result": addon.render_activity_log(activity)})
+        )
+
+    def test_success(self) -> None:
+        for addon_class in (WebhookAddon, SlackWebhookAddon):
+            for headers in ({}, {"X-Header": "<unsafe>"}):
+                with self.subTest(addon_class=addon_class, headers=headers):
+                    rendered = self.render_result(
+                        addon_class,
+                        {
+                            "result": {
+                                "request": {
+                                    "headers": headers,
+                                    "payload": {"message": "<payload>"},
+                                },
+                                "response": {
+                                    "status_code": 201,
+                                    "headers": headers,
+                                    "content": "<content>",
+                                },
+                            }
+                        },
+                    )
+                    self.assertIn('id="response-123"', rendered)
+                    self.assertIn('id="request-123"', rendered)
+                    self.assertIn("201", rendered)
+                    self.assertIn("&lt;payload&gt;", rendered)
+                    self.assertIn("&lt;content&gt;", rendered)
+                    if headers:
+                        self.assertIn("<b>X-Header</b>: &lt;unsafe&gt;", rendered)
+
+    def test_pending_and_errors(self) -> None:
+        for addon_class in (WebhookAddon, SlackWebhookAddon):
+            for details, expected in (
+                ({}, ""),
+                ({"result": None}, ""),
+                ({"result": ""}, ""),
+                (
+                    {"result": "Unable to deliver webhook: <unsafe>"},
+                    "Unable to deliver webhook: &lt;unsafe&gt;",
+                ),
+                (
+                    {"result": "Delivery failed\n<unsafe>"},
+                    "Delivery failed<br>&lt;unsafe&gt;",
+                ),
+            ):
+                with self.subTest(addon_class=addon_class, details=details):
+                    self.assertEqual(self.render_result(addon_class, details), expected)
+
+    def test_unstructured_results(self) -> None:
+        for addon_class in (WebhookAddon, SlackWebhookAddon):
+            for result in (
+                {"results": ["<unsafe>", {"response": {"status_code": 200}}]},
+                {"message": "<unsafe>"},
+                {"request": {"headers": {}}, "message": "<unsafe>"},
+                {"response": {"headers": {}}, "message": "<unsafe>"},
+                *(
+                    {
+                        "request": {"headers": {}},
+                        "response": {"headers": {}},
+                        key: {"headers": headers},
+                        "message": "<unsafe>",
+                    }
+                    for key in ("request", "response")
+                    for headers in (None, "", "<unsafe>", [])
+                ),
+            ):
+                with self.subTest(addon_class=addon_class, result=result):
+                    rendered = self.render_result(addon_class, {"result": result})
+                    self.assertIn("&lt;unsafe&gt;", rendered)
+                    self.assertNotIn("<unsafe>", rendered)
+                    self.assertNotIn('class="nav nav-pills"', rendered)
+                    if "results" in result:
+                        self.assertIn("200", rendered)
+                        self.assertIn("results", rendered)
 
 
 class WebhookDeliveryTest(SimpleTestCase):
