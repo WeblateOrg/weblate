@@ -44,6 +44,15 @@ class SafeMDXCheckTest(CheckTestCase):
             "safe-mdx,ignore-safe-mdx",
         )
 
+    def test_plain_text_skips_markdown_preparation(self) -> None:
+        with patch(
+            "weblate.checks.mdx._get_markdown_code_span_ends",
+            side_effect=AssertionError("Unexpected Markdown preparation"),
+        ):
+            self.assertEqual(
+                list(self.check.get_jsx_expression_signatures("Plain text")), []
+            )
+
     def test_complex_expressions(self) -> None:
         self.check_jsx_expression_matches(
             "Expression one {[1, 2, 3].map(({ id }) => (<p key={id}>{id}</p>))} and two {[1, 2, 3].map(({ id }) => (<p key={id}>{id}</p>))}",

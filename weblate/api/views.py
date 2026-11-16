@@ -6092,21 +6092,37 @@ class TasksViewSet(ViewSet):
                     "pk", flat=True
                 )
             )
-            components = list(
-                Component.objects.filter_access(user)
-                .filter(pk__in=existing_component_ids)
-                .select_related("project")
-                .order_by("pk")
+            component_queryset = Component.objects.filter_access(user).filter(
+                pk__in=existing_component_ids
             )
-            permission_components = components
-            if len(components) != len(existing_component_ids) or (
+            if permission:
+                permission_components = list(
+                    component_queryset.select_related("project").order_by("pk")
+                )
+                accessible_component_ids = {
+                    candidate.pk for candidate in permission_components
+                }
+            else:
+                # Polling needs visibility for the entire scope, but only one
+                # component instance to represent the task.
+                accessible_component_ids = set(
+                    component_queryset.values_list("pk", flat=True)
+                )
+            if accessible_component_ids != existing_component_ids or (
                 existing_component_ids != unique_component_ids
                 and metadata.get("user_id") != user.pk
             ):
                 msg = "Invalid task"
                 raise Http404(msg)
-            if components:
-                component = components[0]
+            if accessible_component_ids:
+                component = (
+                    permission_components[0]
+                    if permission_components is not None
+                    else get_object_or_404(
+                        component_queryset.select_related("project"),
+                        pk=min(accessible_component_ids),
+                    )
+                )
                 obj = component
             else:
                 component = None

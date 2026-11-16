@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-05 22:27-0600\n"
-"PO-Revision-Date: 2026-11-06 11:06+0000\n"
+"POT-Creation-Date: 2026-11-13 01:19-0600\n"
+"PO-Revision-Date: 2026-11-13 19:12+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin "
 "<aindriu80@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :(n>"
 "6 && n<11) ? 3 : 4;\n"
-"X-Generator: Weblate 2026.11.2.dev0\n"
+"X-Generator: Weblate 2026.12.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -621,7 +621,14 @@ msgstr "Cuireadh úsáideoir leis an bhfoireann {team} trí {username}."
 msgid "User access to the {team} team was changed by {username}."
 msgstr "Athraíodh rochtain úsáideora ar fhoireann {team} ag {username}."
 
-#. Translators: Audit log entry
+#, python-brace-format
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr "Thug {username} rochtain riarthóra foirne ar {team}."
+
+#, python-brace-format
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr "Baineadh rochtain riarthóra foirne ar {team} ag {username}."
+
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr "Baineadh an t-úsáideoir den fhoireann {team} le {username}."
@@ -738,6 +745,30 @@ msgstr "Fón Gnéithe Cineálach"
 msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr "Gléas iOS"
+
+msgid "Site-wide"
+msgstr "Ar fud an tsuímh"
+
+msgid "Workspace"
+msgstr "Spás Oibre"
+
+msgid "Team created"
+msgstr "Foireann cruthaithe"
+
+msgid "Team changed"
+msgstr "Athraíodh an fhoireann"
+
+msgid "Team deleted"
+msgstr "Foireann scriosta"
+
+msgid "Team member added"
+msgstr "Ball foirne curtha leis"
+
+msgid "Team member removed"
+msgstr "Ball foirne bainte amach"
+
+msgid "Team member access changed"
+msgstr "Athraíodh rochtain an bhaill foirne"
 
 msgid "Account activity"
 msgstr "Gníomhaíocht an chuntais"
@@ -2760,11 +2791,23 @@ msgstr ""
 "Greamaigh an bloc deimhnithe PEM amháin ag tosú le \"-----BEGIN "
 "CERTIFICATE-----\"; ná greamaigh an t-aschur ó \"openssl x509 -text\"."
 
+msgid "Connection timeout"
+msgstr "Teorainn ama don nasc"
+
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr ""
+"Cé mhéad soicind ba chóir a cheadú don nascadh agus do shocrú an chainéil in "
+"aghaidh an iarrachta."
+
 msgid "Publish timeout"
 msgstr "Am críochnaithe foilsitheoireachta"
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
-msgstr "Cé mhéad soicind le fanacht ar admháil seachadta an bhróicéara."
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
+msgstr ""
+"Cé mhéad soicind atá le ceadú le haghaidh seolta agus admháil seachadta an "
+"bhróicéara in aghaidh gach iarrachta, tar éis socrú nasc."
 
 msgid "Connection attempts"
 msgstr "Iarrachtaí ceangail"
@@ -2990,6 +3033,12 @@ msgstr "Caithfear breiseáin API a shuiteáil go díreach ar chomhpháirt."
 msgid "This add-on is already installed on this component."
 msgstr "Tá an breiseán seo suiteáilte cheana féin ar an gcomhpháirt seo."
 
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr ""
+"Ní mór breiseáin stórais a shuiteáil ar an gcomhpháirt a bhfuil an stóras "
+"faoina húinéireacht."
+
 msgid "This add-on cannot be triggered manually."
 msgstr "Ní féidir an breiseán seo a ghníomhachtú de láimh."
 
@@ -3049,6 +3098,9 @@ msgstr "Tionscadal"
 msgctxt "Add-on scope"
 msgid "Site"
 msgstr "Áit"
+
+msgid "a component you cannot access"
+msgstr "comhpháirt nach féidir leat rochtain a fháil uirthi"
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -4265,6 +4317,9 @@ msgid ""
 msgstr ""
 "Tá moltaí múchta don teanga seo. Iarr ar riarthóir tionscadail iad a chumasú."
 
+msgid "You need to log in to upload translations."
+msgstr "Caithfidh tú logáil isteach chun aistriúcháin a uaslódáil."
+
 msgid "The file format does not support updating source strings."
 msgstr "Ní thacaíonn an fhormáid comhaid le teaghráin foinse a nuashonrú."
 
@@ -4306,6 +4361,12 @@ msgstr "Ní féidir úsáideoirí neamhghníomhacha a shannadh do fhoirne."
 
 msgid "Project tokens can not be assigned to teams here."
 msgstr "Ní féidir comharthaí tionscadail a shannadh do fhoirne anseo."
+
+msgid "Team audit log"
+msgstr "Loga iniúchta foirne"
+
+msgid "Team audit entry"
+msgstr "Iontráil iniúchta foirne"
 
 msgid "Cannot remove built-in team!"
 msgstr "Ní féidir an fhoireann ionsuite a bhaint!"
@@ -4591,9 +4652,6 @@ msgstr ""
 msgid "No valid billing found or limit exceeded."
 msgstr "Níor aimsíodh aon bhilleáil bhailí ná níor sáraíodh an teorainn."
 
-msgid "Workspace"
-msgstr "Spás Oibre"
-
 msgid "Customer name"
 msgstr "Ainm an chustaiméara"
 
@@ -4697,6 +4755,9 @@ msgstr[2] "Tá %d ghné ann"
 msgstr[3] "Tá %d ngné ann"
 msgstr[4] "Tá %d gné ann"
 
+msgid "Restricted components are not allowed by this billing plan."
+msgstr "Ní cheadaítear comhpháirteanna srianta faoin bplean billeála seo."
+
 msgid "Missing license"
 msgstr "Ceadúnas ar iarraidh"
 
@@ -4757,6 +4818,9 @@ msgid "To terminate billing you have to remove all projects first."
 msgstr ""
 "Chun deireadh a chur le billeáil caithfidh tú gach tionscadal a bhaint ar "
 "dtús."
+
+msgid "Externally managed billings cannot be merged."
+msgstr "Ní féidir billí a bhainistítear go seachtrach a chumasc."
 
 msgid "Cannot merge such a billing."
 msgstr "Ní féidir billeáil den sórt sin a chumasc."
@@ -5480,10 +5544,14 @@ msgid "Fluent syntax error in the translation."
 msgstr "Earráid chomhréire líofa san aistriúchán."
 
 msgid "The Fluent value could not be checked because it is too complex."
-msgstr "Níorbh fhéidir an luach Fluent a sheiceáil toisc go bhfuil sé róchasta."
+msgstr ""
+"Níorbh fhéidir an luach Fluent a sheiceáil toisc go bhfuil sé róchasta."
 
 msgid "the value is too complex or nested too deeply"
 msgstr "tá an luach róchasta nó neadaithe ró-dhomhain"
+
+msgid "Format matching exceeded its time limit."
+msgstr "Sháraigh meaitseáil formáide a teorainn ama."
 
 msgid "The following format strings are in the wrong order:"
 msgstr "Tá na teaghráin fhormáide seo a leanas san ord mícheart:"
@@ -5742,6 +5810,9 @@ msgstr "Comhréir Markdown"
 msgid "Markdown syntax does not match source."
 msgstr "Ní hionann comhréir an marcála síos agus an fhoinse."
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr "Sháraigh meaitseáil na comhréire Markdown an teorainn ama."
+
 msgid "The translation does not contain a URL."
 msgstr "Níl URL san aistriúchán."
 
@@ -5898,6 +5969,13 @@ msgstr "Cumraíocht Weblate"
 
 msgid "Your translation is foo"
 msgstr "Is foo do aistriúchán"
+
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
+msgstr ""
+"Sáraíodh teorainneacha rindreála cló: ná húsáid níos mó ná 16,000 carachtar, "
+"64 líne, clónna 256 px, agus toisí réamhamhairc 2,048 px."
 
 msgid "Font style"
 msgstr "Stíl cló"
@@ -6060,6 +6138,26 @@ msgstr "teaghráin iOS"
 msgid "Excel Open XML"
 msgstr "Excel Oscailte XML"
 
+msgid "Could not open the workbook archive."
+msgstr "Níorbh fhéidir cartlann an leabhair oibre a oscailt."
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr ""
+"Tá líon na sraitheanna bileoige oibre i ndiaidh an cheanntásc sa leabhar "
+"oibre níos mó ná an t-uasmhéid ceadaithe de %d."
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr ""
+"Tá an comhad aistriúcháin níos mó ná an méid uasta ceadaithe de %d beart."
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr "Sáraíonn an comhad aistriúcháin an líon uasta ceadaithe de %d teaghrán."
+
 msgid "Multivalue CSV file"
 msgstr "Comhad CSV illuach"
 
@@ -6107,6 +6205,10 @@ msgstr "Meiteashonraí id_hash neamhbhailí sa chomhad CSV: %s"
 
 msgid "Plural form metadata in CSV file requires id_hash."
 msgstr "Éilíonn meiteashonraí iolra i gcomhad CSV id_hash."
+
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
+msgstr "Sáraíonn an comhad CSV an líon uasta ceadaithe de %d sraith sonraí."
 
 #. Translators: File format name
 msgid "gettext PO file"
@@ -6332,6 +6434,16 @@ msgstr "Comhaid meiteashonraí ó App Store"
 msgid "File validation is required for directory-based formats."
 msgstr ""
 "Teastaíonn bailíochtú comhad le haghaidh formáidí atá bunaithe ar eolaire."
+
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr ""
+"Sáraíonn cartlann an leabhair oibre an méid uasta leathnaithe de %d beart."
+
+msgid "Converted workbook content exceeds the configured size limit."
+msgstr ""
+"Sáraíonn ábhar an leabhair oibre, tar éis a thiontaithe, an teorainn méide "
+"atá cumraithe."
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -7509,6 +7621,12 @@ msgstr "Teanga thánaisteach atá sainmhínithe sa tionscadal nó sa chomhpháir
 msgid "Rate limit reset."
 msgstr "Athshocraíodh an teorainn ráta."
 
+msgid "Too many translation requests."
+msgstr "An iomarca iarratais ar aistriúchán."
+
+msgid "Too many concurrent translation requests for this service."
+msgstr "An iomarca iarratas aistriúcháin comhuaineacha don tseirbhís seo."
+
 msgid "File"
 msgstr "Comhaid"
 
@@ -7635,6 +7753,9 @@ msgid ""
 msgstr ""
 "Scriosadh iontrálacha cuimhne aistriúcháin a cruthaíodh ó aistriúcháin "
 "reatha agus atógfar iad sa chúlra."
+
+msgid "Too many uploads, please try again later."
+msgstr "An iomarca uaslódálacha; déan iarracht arís níos déanaí, le do thoil."
 
 #, python-format
 msgid "Processed %(count)d active translation memory entry."
@@ -9561,6 +9682,18 @@ msgstr "Ní féidir an breiseán a shuiteáil ach ar leibhéal an chomhpháirte.
 msgid "Install"
 msgstr "Suiteáil"
 
+msgid "Install on the component owning the repository."
+msgstr "Suiteáil ar an gcomhpháirt a bhfuil an stór ina seilbh aici."
+
+msgid "The component owning this repository is not available to you."
+msgstr "Níl an comhpháirt a bhfuil an stór seo ina seilbh aici ar fáil duit."
+
+msgid "Open repository add-ons"
+msgstr "Breiseáin stórtha a oscailt"
+
+msgid "Unavailable"
+msgstr "Gan a bheith ar fáil"
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -10084,6 +10217,24 @@ msgstr "Athshocraigh ceadanna"
 
 msgid "Cancel"
 msgstr "Cealaigh"
+
+msgid "Actor"
+msgstr "Aisteoir"
+
+msgid "Deleted user"
+msgstr "Úsáideoir scriosta"
+
+msgid "Administrative team changes"
+msgstr "Athruithe ar an bhfoireann riaracháin"
+
+msgid "Change"
+msgstr "Athraigh"
+
+msgid "View details"
+msgstr "Féach ar na sonraí"
+
+msgid "No team audit entries found."
+msgstr "Níor aimsíodh aon iontráil iniúchta foirne."
 
 msgid "Settings"
 msgstr "Socruithe"
@@ -12454,7 +12605,8 @@ msgstr "Achoimre ar ghníomhaíocht aistriúcháin"
 
 #, python-format
 msgid "Verify this e-mail address for your account at %(site_title)s."
-msgstr "Deimhnigh an seoladh ríomhphoist seo chun do chuntas ag %(site_title)s."
+msgstr ""
+"Deimhnigh an seoladh ríomhphoist seo chun do chuntas ag %(site_title)s."
 
 #. Translators: e-mail subject
 #, python-format
@@ -12865,7 +13017,8 @@ msgstr "Deimhnigh gníomh slándála"
 
 #, python-format
 msgid "Selected %(count)s findings affecting %(accounts)s accounts."
-msgstr "Roghnaíodh %(count)s toradh a théann i bhfeidhm ar %(accounts)s cuntas."
+msgstr ""
+"Roghnaíodh %(count)s toradh a théann i bhfeidhm ar %(accounts)s cuntas."
 
 msgid ""
 "Disable the matching passwords, invalidate signed-in sessions, and revoke "
@@ -13951,9 +14104,6 @@ msgstr "Cumraigh an sreabhadh oibre teanga"
 msgid "Configure translation quality filter"
 msgstr "Cumraigh scagaire cáilíochta aistriúcháin"
 
-msgid "View details"
-msgstr "Féach ar na sonraí"
-
 msgid "View contributor license agreement"
 msgstr "Féach ar chomhaontú ceadúnais ranníocóra"
 
@@ -14323,8 +14473,8 @@ msgid ""
 "%(project_name)s and join the %(team_name)s team. You will join only if you "
 "accept this invitation."
 msgstr ""
-"Thug riail uathoibríoch um shannadh foirne cuireadh duit comhoibriú ar %"
-"(project_name)s agus a bheith páirteach san fhoireann %(team_name)s. Ní "
+"Thug riail uathoibríoch um shannadh foirne cuireadh duit comhoibriú ar "
+"%(project_name)s agus a bheith páirteach san fhoireann %(team_name)s. Ní "
 "bheidh tú páirteach ann ach amháin má ghlacann tú leis an gcuireadh seo."
 
 #, python-format
@@ -14351,6 +14501,28 @@ msgid ""
 msgstr ""
 "Thug %(invitation_author)s cuireadh do %(site_title)s dul isteach san "
 "fhoireann %(team_name)s."
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr ""
+"Má ghlacann tú leis an gcuireadh seo, beidh tú i do riarthóir foirne chomh "
+"maith, rud a chuirfidh ar do chumas baill foirne a chur leis nó a bhaint "
+"amach."
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
+msgstr ""
+"Cuireann cúltaca tionscadail athchóirithe ranníocaíochtaí níos luaithe i "
+"leith d'ainm úsáideora. Má ghlacann tú leis an gcuireadh seo, maítear gur "
+"údar allmhairithe é, lena n-áirítear stair agus athruithe a cuireadh i "
+"bhfeidhm ar thionscadail eile. Féadfaidh tiomnuithe amach anseo de na "
+"ranníocaíochtaí seo d'ainm tiomnúcháin cumraithe agus do sheoladh "
+"ríomhphoist a úsáid. Fanfaidh tiomnuithe stóir atá ann cheana gan athrú."
 
 #, python-format
 msgid ""
@@ -16291,6 +16463,18 @@ msgstr "Cúltaca á iompórtáil"
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr "Cruthaithe ar %(server)s (%(domain)s) ag Weblate %(version)s"
 
+msgid "Public access on import"
+msgstr "Rochtain phoiblí ar allmhairiú"
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
+"Má éilíonn plean billeála an spáis oibre roghnaithe go mbeadh ábhar poiblí "
+"ann, beidh an tionscadal agus na comhpháirteanna srianta seo a leanas "
+"inrochtana go poiblí tar éis iad a allmhairiú:"
+
 msgid "Token copied to clipboard."
 msgstr "Cóipeáladh an comhartha chuig an ngearrthaisce."
 
@@ -17008,9 +17192,6 @@ msgstr "Nuashonraíodh na stórtha"
 
 msgid "Available Repositories"
 msgstr "Stórtha atá ar Fáil"
-
-msgid "Unavailable"
-msgstr "Gan a bheith ar fáil"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -18157,6 +18338,12 @@ msgstr[2] "Aistriúchán uathoibríoch críochnaithe, nuashonraíodh %d teaghrá
 msgstr[3] "Aistriúchán uathoibríoch críochnaithe, nuashonraíodh %d teaghráin."
 msgstr[4] "Aistriúchán uathoibríoch críochnaithe, nuashonraíodh %d teaghráin."
 
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr ""
+"D’fhág an t-aistriúchán uathoibríoch ar lár teaghráin a sháraíonn an "
+"teorainn fhad téacs."
+
 #, python-format
 msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
@@ -18240,6 +18427,10 @@ msgid "Revision must be a complete hexadecimal object ID."
 msgstr ""
 "Caithfidh an leasú a bheith ina aitheantóir réada heicsidheachúlach iomlán."
 
+#, python-format
+msgid "Could not validate repository URL: %s"
+msgstr "Níorbh fhéidir URL an stórais a bhailíochtú: %s"
+
 msgid "Duplicate check name."
 msgstr "Ainm seiceála dúblach."
 
@@ -18306,6 +18497,9 @@ msgid "Repository-linked components can not contain repository data."
 msgstr ""
 "Ní féidir sonraí stórtha a bheith i gcomhpháirteanna atá nasctha le stórtha."
 
+msgid "Imported authors"
+msgstr "Údair allmhairithe"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
@@ -18313,6 +18507,31 @@ msgid ""
 msgstr ""
 "Léimeadh thar chomhpháirt %(component)s mar nach bhfuil a stór nasctha ar "
 "fáil."
+
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+"Athchóiríodh an comhpháirt shrianta %(component)s mar chomhpháirt phoiblí, "
+"ós rud é go n-éilíonn plean billeála an spás oibre sprice go mbeadh ábhar "
+"poiblí ann."
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr ""
+"Rinneadh an t-úsáideoir %(username)s a fhágáil ar lár toisc nach bhfuil aon "
+"chuntas áitiúil incháilithe ann a fhreagraíonn don chúltaca."
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
+msgstr ""
+"Tá an t-úsáideoir %(username)s ag fanacht go nglacfar leis an gcuireadh; "
+"fanann an t-údaras allmhairithe gan ainm go dtí go nglactar leis."
 
 #, python-format
 msgid ""
@@ -18344,6 +18563,37 @@ msgstr "Cineál cuardaigh neamhbhailí."
 
 msgid "Enter a search string to replace."
 msgstr "Cuir isteach teaghrán cuardaigh le cur ina áit."
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] ""
+"Fágfar an teaghrán %d gan athrú mar go mbeadh an téacs eagraithe rófhada."
+msgstr[1] ""
+"Fágfar %d teaghrán gan athrú toisc go mbeadh an téacs eagraithe rófhada."
+msgstr[2] ""
+"Fágfar %d teaghrán gan athrú toisc go mbeadh an téacs eagraithe rófhada."
+msgstr[3] ""
+"Fágfar %d teaghrán gan athrú toisc go mbeadh an téacs eagraithe rófhada."
+msgstr[4] ""
+"Fágfar %d teaghrán gan athrú toisc go mbeadh an téacs eagraithe rófhada."
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] ""
+"Fágadh %d teaghrán gan athrú toisc go mbeadh an téacs eagraithe rófhada."
+msgstr[1] ""
+"Fágadh %d theaghrán gan athrú toisc go mbeadh an téacs eagraithe rófhada."
+msgstr[2] ""
+"Fágadh %d theaghrán gan athrú toisc go mbeadh an téacs eagraithe rófhada."
+msgstr[3] ""
+"Fágadh %d teaghrán gan athrú toisc go mbeadh an téacs eagraithe rófhada."
+msgstr[4] ""
+"Fágadh %d teaghrán gan athrú toisc go mbeadh an téacs eagraithe rófhada."
 
 msgid "Invalid target state."
 msgstr "Staid sprice neamhbhailí."
@@ -18468,6 +18718,9 @@ msgstr "Moltaí ar feitheamh"
 
 msgid "Needs review"
 msgstr "Athbhreithniú ag teastáil"
+
+msgid "This component does not exist or you cannot access it."
+msgstr "Níl an comhpháirt seo ann, nó ní féidir leat rochtain a fháil uirthi."
 
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr "Óstáil Weblate, an áit chun do thionscadal bogearraí a logánú."
@@ -18750,8 +19003,8 @@ msgid ""
 "Controls encoding names in the XML declaration, for example \"UTF-8\" or "
 "\"utf-8\"."
 msgstr ""
-"Rialaíonn sé ainmneacha an ionchódaithe san fhógra XML, mar shampla \"UTF-"
-"8\" nó \"utf-8\"."
+"Rialaíonn sé ainmneacha an ionchódaithe san fhógra XML, mar shampla "
+"\"UTF-8\" nó \"utf-8\"."
 
 msgid "XML final newline"
 msgstr "Líne nua deiridh XML"
@@ -19276,6 +19529,9 @@ msgstr "Bratacha aistriúcháin — %(language)s"
 msgid "You do not have permission to edit these flags."
 msgstr "Níl cead agat na bratacha seo a chur in eagar."
 
+msgid "You do not have permission to create terminology."
+msgstr "Níl cead agat téarmaíocht a chruthú."
+
 msgid ""
 "Revert the latest translation edits from this user in the current project."
 msgstr ""
@@ -19369,9 +19625,6 @@ msgstr "Uasmhéid athruithe in aghaidh an lae"
 msgid "Maximum source words per day"
 msgstr "Uasmhéid focal foinse in aghaidh an lae"
 
-msgid "This component does not exist or you cannot access it."
-msgstr "Níl an comhpháirt seo ann, nó ní féidir leat rochtain a fháil uirthi."
-
 msgid "Inherit from workspace"
 msgstr "Oidhreacht ón spás oibre"
 
@@ -19431,6 +19684,9 @@ msgstr ""
 msgid "Could not load repository branches. Please try again."
 msgstr ""
 "Níorbh fhéidir brainsí an stórtha a luchtú. Bain triail as arís, le do thoil."
+
+msgid "You do not have permission to edit this project."
+msgstr "Níl cead agat an tionscadal seo a chur in eagar."
 
 msgid "ZIP file containing translations"
 msgstr "Comhad ZIP ina bhfuil aistriúcháin"
@@ -19585,9 +19841,6 @@ msgid ""
 msgstr ""
 "Marcáil an rogha seo más mian leat an abairt a choinneáil mar atá sa teanga "
 "foinse, gan athrú."
-
-msgid "You do not have permission to create terminology."
-msgstr "Níl cead agat téarmaíocht a chruthú."
 
 msgid "Invalid string selection!"
 msgstr "Roghnú teaghráin neamhbhailí!"
@@ -21342,6 +21595,10 @@ msgstr "Cur síos cuardaigh"
 msgid "Could not accept suggestion!"
 msgstr "Níorbh fhéidir glacadh le moladh!"
 
+#, python-format
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr "Níorbh fhéidir glacadh leis an moladh go huathoibríoch: %s"
+
 msgid "Uploaded translation file is too big."
 msgstr "Tá an comhad aistriúcháin uaslódáilte rómhór."
 
@@ -21401,6 +21658,24 @@ msgstr "Tá an fhoirm iolra %d sa chomhad uaslódáilte lasmuigh den raon."
 msgid "Plural form %d in the uploaded file is missing."
 msgstr "Tá an fhoirm iolra %d ar iarraidh sa chomhad uaslódáilte."
 
+#, python-format
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr "Tá teaghrán sa chomhad uaslódáilte atá rófhada: %s"
+
+#, python-format
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] ""
+"Níorbh fhéidir an teaghrán %d a scaipeadh chuig na comhpháirteanna go léir."
+msgstr[1] ""
+"Níorbh fhéidir %d theaghrán a scaipeadh chuig na comhpháirteanna go léir."
+msgstr[2] ""
+"Níorbh fhéidir %d theaghrán a scaipeadh chuig na comhpháirteanna go léir."
+msgstr[3] ""
+"Níorbh fhéidir %d teaghrán a scaipeadh chuig na comhpháirteanna go léir."
+msgstr[4] ""
+"Níorbh fhéidir %d teaghrán a scaipeadh chuig na comhpháirteanna go léir."
+
 msgid "The uploaded file contains too many language declarations."
 msgstr "Tá an iomarca dearbhuithe teanga sa chomhad uaslódáilte."
 
@@ -21426,6 +21701,11 @@ msgstr "Níorbh fhéidir athruithe ar feitheamh a dhéanamh: %s"
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr ""
 "Níorbh fhéidir an comhad uaslódáilte a pharsáil mar {file_format}: {error}"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr ""
+"Tá uaslíon na teaghrán is féidir a uaslódáil mar mholtaí socraithe ag %d."
 
 #, python-format
 msgid "Could not parse translation file: %s"
@@ -21683,8 +21963,8 @@ msgstr "Níl paraiméadair eagarthóireachta mórchóir bailí a thuilleadh."
 #, python-format
 msgid "Bulk edit failed after processing %(count)d strings: %(error)s"
 msgstr ""
-"Theip ar an mór-eagar tar éis próiseáil a dhéanamh ar %(count)d teaghrán: %"
-"(error)s"
+"Theip ar an mór-eagar tar éis próiseáil a dhéanamh ar %(count)d teaghrán: "
+"%(error)s"
 
 msgid "The target or permissions changed."
 msgstr "Athraíodh an sprioc nó na ceadanna."
@@ -21876,6 +22156,28 @@ msgstr ""
 
 msgid "Updates source strings in bilingual translation file."
 msgstr "Nuashonraíonn sé teaghráin foinse i gcomhad aistriúcháin dátheangach."
+
+msgid "A translation upload is already in progress."
+msgstr "Tá aistriúchán á uaslódáil cheana féin."
+
+msgid "The uploaded file has expired or was already processed."
+msgstr ""
+"Tá an comhad uaslódáilte imithe in éag nó tá sé próiseáilte cheana féin."
+
+msgid "The uploaded file has expired."
+msgstr "Tá an comhad uaslódáilte imithe in éag."
+
+msgid "The upload target or permissions changed."
+msgstr "Athraíodh an sprioc uaslódála nó na ceadanna."
+
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr ""
+"Ní hionann foirmeacha iolra sa chomhad uaslódáilte leis an aistriúchán "
+"reatha."
+
+msgid "File upload has failed. Please try again later."
+msgstr ""
+"Theip ar uaslódáil an chomhaid. Bain triail as arís níos déanaí, le do thoil."
 
 msgid "Very high"
 msgstr "An-ard"
@@ -22318,10 +22620,8 @@ msgstr "Droch-Iarratas"
 msgid "Access denied."
 msgstr "Rochtain diúltaithe."
 
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr ""
-"Ní hionann foirmeacha iolra sa chomhad uaslódáilte leis an aistriúchán "
-"reatha."
+msgid "Translation upload in progress."
+msgstr "Aistriúchán á uaslódáil."
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -22593,6 +22893,13 @@ msgstr[1] "teangacha"
 msgstr[2] "teangacha"
 msgstr[3] "teangacha"
 msgstr[4] "teangacha"
+
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
+msgstr ""
+"Ní cheadaíonn plean billeála an spáis oibre sprice ach tionscadail phoiblí "
+"nach bhfuil comhpháirteanna srianta iontu."
 
 msgid "The project is already assigned to this workspace."
 msgstr "Tá an tionscadal sannta don spás oibre seo cheana féin."
@@ -22958,9 +23265,18 @@ msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 "Ní mór do pharaiméadair a bheith ina bhfoclóir de phéirí eochrach-luachanna."
 
-#, python-format
-msgid "Undefined variable: \"%s\""
-msgstr "Athróg neamhshainithe: \"%s\""
+msgid "Template output exceeds its size limit."
+msgstr "Sáraíonn aschur an teimpléid an teorainn méide."
+
+msgid "Template rendering failed or exceeded its resource limits."
+msgstr ""
+"Theip ar rindreáil na teimpléide, nó sháraigh sí na teorainneacha acmhainní."
+
+msgid "Oversized template response."
+msgstr "Freagra teimpléid ró-mhór."
+
+msgid "Invalid template rendering response."
+msgstr "Freagra neamhbhailí maidir le rindreáil teimpléid."
 
 msgid "Could not render template: {}"
 msgstr "Níorbh fhéidir an teimpléad a sholáthar: {}"
@@ -22971,6 +23287,46 @@ msgid ""
 msgstr ""
 "Ní thacaítear leis na teaghráin formáide a thuilleadh, bain úsáid as teanga "
 "an teimpléid ina ionad."
+
+msgid "Template value exceeds its size limit."
+msgstr "Sáraíonn luach na teimpléid a theorainn méide."
+
+msgid "Template context is nested too deeply."
+msgstr "Tá comhthéacs an teimpléid neadaithe ró-dhomhain."
+
+msgid "Template context exceeds its size limit."
+msgstr "Sáraíonn comhthéacs na teimpléide a theorainn méide."
+
+msgid "Unsupported template context key."
+msgstr "Eochair chomhthéacs teimpléid nach dtacaítear léi."
+
+msgid "Unsupported template context value."
+msgstr "Luach comhthéacs teimpléid nach dtacaítear leis."
+
+msgid "Template rendering exceeded its time limit."
+msgstr "Sháraigh rindreáil an teimpléid an teorainn ama."
+
+msgid "Template rendering exceeded its loop limit."
+msgstr "Sháraigh rindreáil an teimpléid a theorainn lúibe."
+
+msgid "Template intermediate value exceeds its size limit."
+msgstr "Sáraíonn luach idirmheánach an teimpléid a theorainn méide."
+
+msgid "Template replacement exceeds its size limit."
+msgstr "Sáraíonn athsholáthar an teimpléid an teorainn méide."
+
+msgid "Template padding exceeds its size limit."
+msgstr "Sáraíonn líonadh an teimpléid a theorainn méide."
+
+msgid "Template formatting exceeds its size limit."
+msgstr "Sáraíonn formáidiú an teimpléid an teorainn méide."
+
+msgid "Template join exceeds its size limit."
+msgstr "Sáraíonn an nascadh teimpléid a theorainn méide."
+
+#, python-format
+msgid "Undefined variable: \"%s\""
+msgstr "Athróg neamhshainithe: \"%s\""
 
 #, python-format
 msgid ""
@@ -23780,6 +24136,9 @@ msgstr ""
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr ""
 "Cuirfidh sé seo brú ar athruithe ar an stór mearcair in aghaidh an tsrutha."
+
+msgid "Could not remove nested repository metadata."
+msgstr "Níorbh fhéidir meiteashonraí an stórtha neadaithe a bhaint."
 
 msgid "GitHub"
 msgstr "GitHub"
@@ -25242,9 +25601,6 @@ msgstr "Baineadh an spás oibre."
 #~ msgid "Translation files in accessible repositories have been synchronized."
 #~ msgstr "Tá comhaid aistriúcháin i stórtha inrochtana sioncrónaithe."
 
-#~ msgid "Updates of translations are in progress."
-#~ msgstr "Tá nuashonruithe aistriúcháin ar siúl."
-
 #~ msgid "Updates of translations in accessible repositories are in progress."
 #~ msgstr "Tá nuashonruithe ar siúl ar aistriúcháin i stórtha inrochtana."
 
@@ -25363,9 +25719,6 @@ msgstr "Baineadh an spás oibre."
 
 #~ msgid "project-wide"
 #~ msgstr "ar fud an tionscadail"
-
-#~ msgid "site-wide"
-#~ msgstr "ar fud an tsuímh"
 
 #, python-format
 #~ msgid "Manage add-ons at %(location)s"

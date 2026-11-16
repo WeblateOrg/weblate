@@ -10,6 +10,7 @@ import time
 from base64 import b32encode
 from binascii import unhexlify
 from collections import defaultdict
+from contextlib import nullcontext
 from dataclasses import dataclass
 from datetime import timedelta
 from functools import wraps
@@ -107,6 +108,7 @@ from weblate.accounts.flows import (
     PASSWORD_RESET_SCOPE_SESSION,
     PASSWORD_RESET_SCOPE_TOKEN_PARAM,
     PASSWORD_RESET_SCOPE_TOKEN_SESSION,
+    PASSWORD_RESET_USER_SESSION,
     get_signed_password_reset_scope,
 )
 from weblate.accounts.forms import (
@@ -150,6 +152,7 @@ from weblate.accounts.notifications import (
 )
 from weblate.accounts.oidc import prepare_oidc_login
 from weblate.accounts.pipeline import adjust_primary_mail
+from weblate.accounts.strategy import WeblateStrategy
 from weblate.accounts.tasks import notify_email_conflict
 from weblate.accounts.templatetags.authnames import get_auth_name
 from weblate.accounts.utils import (
@@ -1703,14 +1706,23 @@ def get_password_reset_scope(request: AuthenticatedHttpRequest, email: str) -> s
     return ""
 
 
+@transaction.atomic
 def send_password_reset_email(
     request: AuthenticatedHttpRequest, user: User, *, email: str, scope: str = ""
 ) -> HttpResponse | None:
     """Start the existing e-mail password reset flow for a known user."""
+    locked_user = User.objects.select_for_update().filter(pk=user.pk).first()
+    if locked_user is None:
+        return None
+    user = locked_user
+    owner = ResetForm.get_email_owner(email)
+    if owner is None or owner[0].pk != user.pk:
+        return None
     audit = AuditLog.objects.create(user, request, "reset-request")
     if audit.check_rate_limit(request):
         return None
     request.session[PASSWORD_RESET_EMAIL_SESSION] = email
+    request.session[PASSWORD_RESET_USER_SESSION] = user.pk
     store_userid(request, reset=True, reset_scope=scope)
     return send_email_confirmation(request)
 
@@ -1980,6 +1992,7 @@ def store_userid(
     request.session.pop(PASSWORD_RESET_SCOPE_TOKEN_SESSION, None)
     if not reset:
         request.session.pop(PASSWORD_RESET_EMAIL_SESSION, None)
+        request.session.pop(PASSWORD_RESET_USER_SESSION, None)
 
 
 @require_POST
@@ -2388,8 +2401,14 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):
     ):
         return response
     try:
-        response = complete(request, backend)
+        # Keep recovery ownership checks locked through identity association
+        # and password reset, including resumed e-mail pipelines.
+        with transaction.atomic() if backend == "email" else nullcontext():
+            response = complete(request, backend)
     except (SocialAuthBaseException, ValidationError) as error:
+        strategy = getattr(request, "social_strategy", None)
+        if isinstance(strategy, WeblateStrategy) and strategy.invalid_partial_token:
+            strategy.clean_partial_pipeline(strategy.invalid_partial_token)
         return handle_auth_error(request, backend, error)
 
     # Finish second factor authentication

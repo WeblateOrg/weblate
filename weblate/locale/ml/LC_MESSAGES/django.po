@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-05 22:27-0600\n"
+"POT-Creation-Date: 2026-11-13 01:19-0600\n"
 "PO-Revision-Date: 2026-10-16 04:38+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -598,7 +598,14 @@ msgstr ""
 msgid "User access to the {team} team was changed by {username}."
 msgstr ""
 
-#. Translators: Audit log entry
+#, python-brace-format
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr ""
+
+#, python-brace-format
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr ""
+
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr ""
@@ -709,6 +716,42 @@ msgstr ""
 msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr ""
+
+#, fuzzy
+#| msgid "Language name"
+msgid "Site-wide"
+msgstr "ഭാഷയുടെ പേര്"
+
+msgid "Workspace"
+msgstr ""
+
+#, fuzzy
+#| msgid "Backup failed"
+msgid "Team created"
+msgstr "ബാക്കപ്പ് പരാജയപ്പെട്ടു"
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Team changed"
+msgstr "രഹസ്യവാക്ക് മാറ്റി."
+
+msgid "Team deleted"
+msgstr ""
+
+#, fuzzy
+#| msgid "Language code"
+msgid "Team member added"
+msgstr "ഭാഷയുടെ കോഡ്"
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "Team member removed"
+msgstr "വിവർത്തനങ്ങൾ നടത്തി"
+
+#, fuzzy
+#| msgid "Statistics"
+msgid "Team member access changed"
+msgstr "സ്ഥിതിവിവരക്കണക്കുകൾ"
 
 msgid "Account activity"
 msgstr "അക്കൗണ്ട് പ്രവർത്തനം"
@@ -2631,10 +2674,20 @@ msgid ""
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
 
+#, fuzzy
+#| msgid "Activity"
+msgid "Connection timeout"
+msgstr "പ്രവർത്തനം"
+
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr ""
+
 msgid "Publish timeout"
 msgstr ""
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
 msgstr ""
 
 msgid "Connection attempts"
@@ -2857,6 +2910,10 @@ msgstr ""
 msgid "This add-on is already installed on this component."
 msgstr ""
 
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr ""
+
 msgid "This add-on cannot be triggered manually."
 msgstr ""
 
@@ -2925,6 +2982,11 @@ msgstr "Weblate-ന്റെ നില"
 msgctxt "Add-on scope"
 msgid "Site"
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "a component you cannot access"
+msgstr "വിവർത്തന നില"
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -4150,6 +4212,11 @@ msgid ""
 "enable them."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation status"
+msgid "You need to log in to upload translations."
+msgstr "വിവർത്തന നില"
+
 msgid "The file format does not support updating source strings."
 msgstr ""
 
@@ -4182,6 +4249,12 @@ msgid "Inactive users can not be assigned to teams."
 msgstr ""
 
 msgid "Project tokens can not be assigned to teams here."
+msgstr ""
+
+msgid "Team audit log"
+msgstr ""
+
+msgid "Team audit entry"
 msgstr ""
 
 msgid "Cannot remove built-in team!"
@@ -4515,9 +4588,6 @@ msgstr ""
 msgid "No valid billing found or limit exceeded."
 msgstr ""
 
-msgid "Workspace"
-msgstr ""
-
 #, fuzzy
 #| msgid "Username or e-mail"
 msgid "Customer name"
@@ -4619,6 +4689,9 @@ msgid_plural "Contains %d components"
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "Restricted components are not allowed by this billing plan."
+msgstr ""
+
 msgid "Missing license"
 msgstr ""
 
@@ -4678,6 +4751,9 @@ msgid ""
 msgstr ""
 
 msgid "To terminate billing you have to remove all projects first."
+msgstr ""
+
+msgid "Externally managed billings cannot be merged."
 msgstr ""
 
 msgid "Cannot merge such a billing."
@@ -5379,6 +5455,9 @@ msgstr ""
 msgid "the value is too complex or nested too deeply"
 msgstr ""
 
+msgid "Format matching exceeded its time limit."
+msgstr ""
+
 #, fuzzy
 #| msgid "Translations made"
 msgid "The following format strings are in the wrong order:"
@@ -5651,6 +5730,9 @@ msgstr ""
 msgid "Markdown syntax does not match source."
 msgstr "വിവർത്തന നില"
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr ""
+
 #, fuzzy
 #| msgid "Translations made"
 msgid "The translation does not contain a URL."
@@ -5822,6 +5904,11 @@ msgstr ""
 msgid "Your translation is foo"
 msgstr "വിവർത്തന നില"
 
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
+msgstr ""
+
 msgid "Font style"
 msgstr ""
 
@@ -5977,6 +6064,25 @@ msgstr ""
 msgid "Excel Open XML"
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation status"
+msgid "Could not open the workbook archive."
+msgstr "വിവർത്തന നില"
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr ""
+
 msgid "Multivalue CSV file"
 msgstr ""
 
@@ -6013,6 +6119,10 @@ msgid "Invalid id_hash metadata in CSV file: %s"
 msgstr ""
 
 msgid "Plural form metadata in CSV file requires id_hash."
+msgstr ""
+
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
 msgstr ""
 
 #. Translators: File format name
@@ -6247,6 +6357,13 @@ msgid "App store metadata files"
 msgstr ""
 
 msgid "File validation is required for directory-based formats."
+msgstr ""
+
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr ""
+
+msgid "Converted workbook content exceeds the configured size limit."
 msgstr ""
 
 msgid ""
@@ -7424,6 +7541,14 @@ msgstr ""
 msgid "Rate limit reset."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translations made"
+msgid "Too many translation requests."
+msgstr "വിവർത്തനങ്ങൾ നടത്തി"
+
+msgid "Too many concurrent translation requests for this service."
+msgstr ""
+
 msgid "File"
 msgstr "ഫയല്‍"
 
@@ -7564,6 +7689,11 @@ msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background."
 msgstr ""
+
+#, fuzzy
+#| msgid "That was not correct, please try again."
+msgid "Too many uploads, please try again later."
+msgstr "അത് ശെരിയായില്ല, ദയവായി വീണ്ടും ശ്രമിക്കുക."
 
 #, fuzzy, python-format
 #| msgid "Translation status"
@@ -9331,6 +9461,24 @@ msgstr ""
 msgid "Install"
 msgstr ""
 
+#, fuzzy
+#| msgid "Screenshots uploaded"
+msgid "Install on the component owning the repository."
+msgstr "സ്ക്രീൻഷോട്ട് അപ്‌ലോഡ് ചെയ്തൂ"
+
+#, fuzzy
+#| msgid "Reports"
+msgid "The component owning this repository is not available to you."
+msgstr "റിപ്പോർട്ടുകൾ"
+
+#, fuzzy
+#| msgid "Reports"
+msgid "Open repository add-ons"
+msgstr "റിപ്പോർട്ടുകൾ"
+
+msgid "Unavailable"
+msgstr ""
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -9710,6 +9858,30 @@ msgstr "രജിസ്ട്രേഷൻ"
 
 msgid "Cancel"
 msgstr ""
+
+msgid "Actor"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete"
+msgid "Deleted user"
+msgstr "ഡിലീറ്റ്"
+
+msgid "Administrative team changes"
+msgstr ""
+
+#, fuzzy
+#| msgid "Special characters"
+msgid "Change"
+msgstr "പ്രത്യേക പ്രതീകങ്ങൾ"
+
+msgid "View details"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "No team audit entries found."
+msgstr "വിവർത്തന നില"
 
 msgid "Settings"
 msgstr ""
@@ -13438,9 +13610,6 @@ msgstr "സ്ഥിതിവിവരക്കണക്കുകൾ"
 msgid "Configure translation quality filter"
 msgstr "പ്രത്യേക പ്രതീകങ്ങൾ"
 
-msgid "View details"
-msgstr ""
-
 msgid "View contributor license agreement"
 msgstr ""
 
@@ -13829,6 +13998,19 @@ msgstr ""
 msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to join the "
 "%(team_name)s team."
+msgstr ""
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr ""
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
 msgstr ""
 
 #, python-format
@@ -15469,6 +15651,15 @@ msgstr ""
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr ""
 
+msgid "Public access on import"
+msgstr ""
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
+
 msgid "Token copied to clipboard."
 msgstr ""
 
@@ -16157,9 +16348,6 @@ msgid "Repositories updated"
 msgstr "റിപ്പോർട്ടുകൾ"
 
 msgid "Available Repositories"
-msgstr ""
-
-msgid "Unavailable"
 msgstr ""
 
 msgid ""
@@ -17455,6 +17643,12 @@ msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] ""
 msgstr[1] ""
 
+#, fuzzy
+#| msgid "Translation status"
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr "വിവർത്തന നില"
+
 #, python-format
 msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
@@ -17529,6 +17723,11 @@ msgstr "സ്ക്രീൻഷോട്ട് അപ്‌ലോഡ് ച�
 
 msgid "Revision must be a complete hexadecimal object ID."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translation status"
+msgid "Could not validate repository URL: %s"
+msgstr "വിവർത്തന നില"
 
 msgid "Duplicate check name."
 msgstr ""
@@ -17609,10 +17808,33 @@ msgstr ""
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 
+#, fuzzy
+#| msgid "Hosted service"
+msgid "Imported authors"
+msgstr "ഹോസ്റ്റുചെയ്‌ത സേവനം"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
+msgstr ""
+
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
 msgstr ""
 
 #, python-format
@@ -17643,6 +17865,21 @@ msgstr "ഭാഷയുടെ പേര്"
 
 msgid "Enter a search string to replace."
 msgstr ""
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
 
 #, fuzzy
 #| msgid "Language name"
@@ -17788,6 +18025,9 @@ msgstr "സ്ഥിതിവിവരക്കണക്കുകൾ"
 #| msgid "Overview"
 msgid "Needs review"
 msgstr "അവലോകനം"
+
+msgid "This component does not exist or you cannot access it."
+msgstr ""
 
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr ""
@@ -18554,6 +18794,9 @@ msgstr "വിവർത്തന നില"
 msgid "You do not have permission to edit these flags."
 msgstr "വിവർത്തന നില"
 
+msgid "You do not have permission to create terminology."
+msgstr ""
+
 #, fuzzy
 #| msgid "Translation status"
 msgid ""
@@ -18665,9 +18908,6 @@ msgstr ""
 msgid "Maximum source words per day"
 msgstr ""
 
-msgid "This component does not exist or you cannot access it."
-msgstr ""
-
 #, fuzzy
 #| msgid "Language name"
 msgid "Inherit from workspace"
@@ -18732,6 +18972,11 @@ msgstr "അത് ശെരിയായില്ല, ദയവായി വീ�
 #| msgid "That was not correct, please try again."
 msgid "Could not load repository branches. Please try again."
 msgstr "അത് ശെരിയായില്ല, ദയവായി വീണ്ടും ശ്രമിക്കുക."
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "You do not have permission to edit this project."
+msgstr "വിവർത്തന നില"
 
 msgid "ZIP file containing translations"
 msgstr ""
@@ -18860,9 +19105,6 @@ msgstr "പ്രത്യേക പ്രതീകങ്ങൾ"
 msgid ""
 "Mark this option if the sentence should stay as in the source language, "
 "without change."
-msgstr ""
-
-msgid "You do not have permission to create terminology."
 msgstr ""
 
 #, fuzzy
@@ -20315,6 +20557,10 @@ msgstr "വിവരണം"
 msgid "Could not accept suggestion!"
 msgstr ""
 
+#, python-format
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr ""
+
 #, fuzzy
 #| msgid "Translation status"
 msgid "Uploaded translation file is too big."
@@ -20375,6 +20621,17 @@ msgstr ""
 msgid "Plural form %d in the uploaded file is missing."
 msgstr ""
 
+#, python-format
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translation status"
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] "വിവർത്തന നില"
+msgstr[1] "വിവർത്തന നില"
+
 msgid "The uploaded file contains too many language declarations."
 msgstr ""
 
@@ -20398,6 +20655,10 @@ msgstr ""
 #| msgid "Translation status"
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "വിവർത്തന നില"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Translation status"
@@ -20831,6 +21092,32 @@ msgstr ""
 msgid "Updates source strings in bilingual translation file."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation status"
+msgid "A translation upload is already in progress."
+msgstr "വിവർത്തന നില"
+
+msgid "The uploaded file has expired or was already processed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Language %s removed."
+msgid "The uploaded file has expired."
+msgstr "%s ഭാഷ നീക്കം ച്ചെയ്തു."
+
+#, fuzzy
+#| msgid "Statistics"
+msgid "The upload target or permissions changed."
+msgstr "സ്ഥിതിവിവരക്കണക്കുകൾ"
+
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr ""
+
+#, fuzzy
+#| msgid "That was not correct, please try again."
+msgid "File upload has failed. Please try again later."
+msgstr "അത് ശെരിയായില്ല, ദയവായി വീണ്ടും ശ്രമിക്കുക."
+
 msgid "Very high"
 msgstr ""
 
@@ -21210,8 +21497,10 @@ msgstr ""
 msgid "Access denied."
 msgstr ""
 
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr ""
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation upload in progress."
+msgstr "വിവർത്തന നില"
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -21505,6 +21794,11 @@ msgid "language"
 msgid_plural "languages"
 msgstr[0] "ഭാഷ"
 msgstr[1] "ഭാഷ"
+
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
+msgstr ""
 
 msgid "The project is already assigned to this workspace."
 msgstr ""
@@ -21833,9 +22127,19 @@ msgstr ""
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
-#, python-format
-msgid "Undefined variable: \"%s\""
+msgid "Template output exceeds its size limit."
 msgstr ""
+
+msgid "Template rendering failed or exceeded its resource limits."
+msgstr ""
+
+msgid "Oversized template response."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Invalid template rendering response."
+msgstr "വിവർത്തന നില"
 
 msgid "Could not render template: {}"
 msgstr ""
@@ -21843,6 +22147,50 @@ msgstr ""
 msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
+msgstr ""
+
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+msgid "Template context is nested too deeply."
+msgstr ""
+
+msgid "Template context exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Hosted service"
+msgid "Unsupported template context key."
+msgstr "ഹോസ്റ്റുചെയ്‌ത സേവനം"
+
+#, fuzzy
+#| msgid "Hosted service"
+msgid "Unsupported template context value."
+msgstr "ഹോസ്റ്റുചെയ്‌ത സേവനം"
+
+msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+msgid "Template rendering exceeded its loop limit."
+msgstr ""
+
+msgid "Template intermediate value exceeds its size limit."
+msgstr ""
+
+msgid "Template replacement exceeds its size limit."
+msgstr ""
+
+msgid "Template padding exceeds its size limit."
+msgstr ""
+
+msgid "Template formatting exceeds its size limit."
+msgstr ""
+
+msgid "Template join exceeds its size limit."
+msgstr ""
+
+#, python-format
+msgid "Undefined variable: \"%s\""
 msgstr ""
 
 #, python-format
@@ -22615,6 +22963,11 @@ msgstr ""
 
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Could not remove nested repository metadata."
+msgstr "വിവർത്തന നില"
 
 #, fuzzy
 #| msgid "Username"

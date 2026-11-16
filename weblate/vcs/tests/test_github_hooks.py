@@ -13,6 +13,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from django.core.cache import cache
+from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test import override_settings
@@ -24,6 +25,7 @@ from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.data import data_dir
 from weblate.utils.tests import http_mock
+from weblate.utils.tests.network import mock_dns
 from weblate.vcs.git import GitRepository
 from weblate.vcs.github import (
     GitHubAppCredentials,
@@ -71,6 +73,9 @@ class TestGitHubAppHooks(ViewTestCase):
 
     def setUp(self) -> None:
         super().setUp()
+        self.enterContext(
+            mock_dns("api.github.com", "github.com", "github.example.com")
+        )
         # Webhook endpoints are unauthenticated; use a plain API client.
         self.client = APIClient()
         self.workspace = Workspace.objects.create(name="Hook Workspace")
@@ -760,6 +765,9 @@ class RefreshGitHubRepositoriesTest(ViewTestCase):
 
     def setUp(self) -> None:
         super().setUp()
+        self.enterContext(
+            mock_dns("api.github.com", "github.com", "github.example.com")
+        )
         cache.clear()
         http_mock.start()
         self.addCleanup(http_mock.stop)
@@ -887,6 +895,23 @@ class RefreshGitHubRepositoriesTest(ViewTestCase):
 
         call_command("refresh_github_repositories", stdout=StringIO())
 
+        self.assert_component_repo(self.OLD_URL)
+
+    def test_reports_blocked_repository_lookup(self) -> None:
+        self._register_repositories("test-org/other")
+        with (
+            patch(
+                "weblate.vcs.github.get_app_repository",
+                side_effect=ValidationError("Private target prohibited"),
+            ),
+            patch("weblate.vcs.github.report_error") as report_error,
+        ):
+            call_command("refresh_github_repositories", stdout=StringIO())
+
+        report_error.assert_called_once()
+        self.assertEqual(
+            report_error.call_args.args[0], "Failed to look up moved GitHub repository"
+        )
         self.assert_component_repo(self.OLD_URL)
 
     def test_ignores_deleted_repository(self) -> None:

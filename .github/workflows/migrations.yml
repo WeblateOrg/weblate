@@ -32,7 +32,7 @@ jobs:
       UV_FROZEN: '1'
     services:
       database:
-        image: postgres:18.7-alpine@sha256:75dcac3dfb1cd01ca3536910bbc84128759362f8b118bf8c55b38a94f68f3b73
+        image: postgres:18.7-alpine@sha256:b6972e1115a4ff8eba5d7f7d19184926d1e16d7d1136ae1e1a7ebf286da0f015
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: weblate
@@ -58,7 +58,7 @@ jobs:
         # Do not share cache with tests as this uses python 3.11 for older versions
         cache-suffix: multi
         save-cache: ${{ github.ref == 'refs/heads/main' }}
-        version: 0.13.7
+        version: 0.13.8
     - name: Set up Python
       uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
       with:

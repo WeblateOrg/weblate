@@ -234,7 +234,9 @@ STORAGES = {
 
 # Make this unique, and don't share it with anybody.
 # You can generate it using weblate-generate-secret-key
-SECRET_KEY = Path("/app/data/secret").read_text(encoding="utf-8")
+SECRET_KEY = get_env_str("WEBLATE_SECRET_KEY") or Path("/app/data/secret").read_text(
+    encoding="utf-8"
+)
 
 TEMPLATES = [
     {
@@ -685,11 +687,11 @@ SOCIAL_AUTH_PIPELINE = [
     "weblate.accounts.pipeline.verify_username",
     "social_core.pipeline.user.create_user",
     "social_core.pipeline.social_auth.associate_user",
-    "weblate.accounts.pipeline.handle_invite",
     "social_core.pipeline.social_auth.load_extra_data",
     "weblate.accounts.pipeline.second_factor",
     "weblate.accounts.pipeline.user_full_name",
     "weblate.accounts.pipeline.store_email",
+    "weblate.accounts.pipeline.handle_invite",
     "weblate.accounts.pipeline.notify_connect",
     "weblate.accounts.pipeline.password_reset",
     "social_core.pipeline.user.sync_groups",
@@ -1042,7 +1044,7 @@ if LEGAL_INTEGRATION:
         # Social auth pipeline to confirm TOS upon registration/subsequent sign in
         SOCIAL_AUTH_PIPELINE.insert(
             SOCIAL_AUTH_PIPELINE.index(
-                "weblate.accounts.pipeline.second_factor",
+                "weblate.accounts.pipeline.handle_invite",
             )
             + 1,
             "weblate.legal.pipeline.tos_confirm",

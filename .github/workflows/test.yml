@@ -50,7 +50,7 @@ jobs:
       PYTHONUNBUFFERED: 1
     services:
       database:
-        image: postgres:18.7-alpine@sha256:75dcac3dfb1cd01ca3536910bbc84128759362f8b118bf8c55b38a94f68f3b73
+        image: postgres:18.7-alpine@sha256:b6972e1115a4ff8eba5d7f7d19184926d1e16d7d1136ae1e1a7ebf286da0f015
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: weblate
@@ -88,7 +88,7 @@ jobs:
       with:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
-        version: 0.13.7
+        version: 0.13.8
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Install Python dependencies

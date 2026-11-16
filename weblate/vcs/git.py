@@ -15,6 +15,7 @@ import re
 import shlex
 import stat
 import sys
+import tempfile
 import urllib.parse
 from configparser import NoOptionError, NoSectionError, RawConfigParser
 from contextlib import contextmanager, suppress
@@ -70,6 +71,7 @@ from weblate.utils.requests import (
     fetch_validated_url,
 )
 from weblate.utils.tracing import start_span
+from weblate.utils.validators import validate_filename
 from weblate.utils.xml import parse_xml
 from weblate.utils.zip import (
     ZipSafetyError,
@@ -1351,6 +1353,7 @@ class GitRepository(Repository):
                 *self._get_auth_args(source),
                 "clone",
                 *self.get_depth(),
+                "--no-tags",
                 "--branch",
                 branch,
                 "--",
@@ -1880,7 +1883,7 @@ class GitRepository(Repository):
             remote_op="none",
             merge_err=False,
         ).splitlines():
-            self.execute(["tag", "--delete", tag], remote_op="none")
+            self.execute(["tag", "--delete", "--", tag], remote_op="none")
 
     def cleanup_files(self) -> None:
         """Remove not tracked files from the repository."""
@@ -4357,6 +4360,9 @@ class LocalRepository(GitRepository):
         *,
         lock: RepositoryLock | None = None,
     ) -> Self:
+        # Check all names before build_local_repo can replace an existing tree.
+        for name in files:
+            validate_filename(name)
         with cls.build_local_repo(
             target, "Started translation using Weblate", lock=lock
         ) as repo:
@@ -4364,9 +4370,23 @@ class LocalRepository(GitRepository):
             for name, content in files.items():
                 fullname = os.path.join(target, name)
                 dirname = os.path.dirname(fullname)
+                repo.resolve_symlinks(dirname)
                 if not os.path.exists(dirname):
                     os.makedirs(dirname)
-                Path(fullname).write_bytes(content)
+                repo.resolve_symlinks(fullname)
+                temp_name = ""
+                try:
+                    with tempfile.NamedTemporaryFile(
+                        dir=dirname, delete=False
+                    ) as handle:
+                        temp_name = handle.name
+                        handle.write(content)
+                    repo.resolve_symlinks(fullname)
+                    os.replace(temp_name, fullname)
+                    temp_name = ""
+                finally:
+                    if temp_name:
+                        Path(temp_name).unlink(missing_ok=True)
             return repo
 
 

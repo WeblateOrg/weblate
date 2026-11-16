@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-05 22:27-0600\n"
+"POT-Creation-Date: 2026-11-13 01:19-0600\n"
 "PO-Revision-Date: 2026-10-30 05:05+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -649,7 +649,16 @@ msgstr "بانگهێشتکراوە بۆ وێبسایت لەلایەن {username}
 msgid "User access to the {team} team was changed by {username}."
 msgstr "بانگهێشتکراوە بۆ وێبسایت لەلایەن {username}."
 
-#. Translators: Audit log entry
+#, fuzzy, python-brace-format
+#| msgid "Invited to Weblate by {username}."
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr "بانگهێشتکراوە بۆ وێبسایت لەلایەن {username}."
+
+#, fuzzy, python-brace-format
+#| msgid "Invited to Weblate by {username}."
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr "بانگهێشتکراوە بۆ وێبسایت لەلایەن {username}."
+
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr ""
@@ -766,6 +775,44 @@ msgstr "سەرپەرشتیکردنی وەشان"
 msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr ""
+
+#, fuzzy
+#| msgid "Version control"
+msgid "Site-wide"
+msgstr "سەرپەرشتیکردنی وەشان"
+
+msgid "Workspace"
+msgstr ""
+
+#, fuzzy
+#| msgid "Version control"
+msgid "Team created"
+msgstr "سەرپەرشتیکردنی وەشان"
+
+#, fuzzy
+#| msgid "License"
+msgid "Team changed"
+msgstr "مۆڵەت"
+
+#, fuzzy
+#| msgid "Profile"
+msgid "Team deleted"
+msgstr "پرۆفایل"
+
+#, fuzzy
+#| msgid "Language"
+msgid "Team member added"
+msgstr "زمان"
+
+#, fuzzy
+#| msgid "Suggestion voting"
+msgid "Team member removed"
+msgstr "دەنگدانی پێشنیار"
+
+#, fuzzy
+#| msgid "License"
+msgid "Team member access changed"
+msgstr "مۆڵەت"
 
 msgid "Account activity"
 msgstr "چالاکی هەژمار"
@@ -2976,10 +3023,20 @@ msgid ""
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
 
+#, fuzzy
+#| msgid "Glossary"
+msgid "Connection timeout"
+msgstr "فەرهەنگۆگ"
+
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr ""
+
 msgid "Publish timeout"
 msgstr ""
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
 msgstr ""
 
 msgid "Connection attempts"
@@ -3239,6 +3296,12 @@ msgid "This add-on is already installed on this component."
 msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
 
 #, fuzzy
+#| msgid "Translation is now locked for you."
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+#, fuzzy
 #| msgid "This add-on executes a script."
 msgid "This add-on cannot be triggered manually."
 msgstr "ئەم زیادکراوە دەقێک جێبەجێ دەکات."
@@ -3311,6 +3374,11 @@ msgstr "پڕۆژە"
 msgctxt "Add-on scope"
 msgid "Site"
 msgstr ""
+
+#, fuzzy
+#| msgid "Component lists"
+msgid "a component you cannot access"
+msgstr "لیستەکانی پێکهاتە"
 
 #, fuzzy, python-format
 #| msgid "Invalid addon name specified!"
@@ -4690,6 +4758,11 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "Project is now open for translation updates."
+msgid "You need to log in to upload translations."
+msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
+
+#, fuzzy
 #| msgid "Translation is now locked for you."
 msgid "The file format does not support updating source strings."
 msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
@@ -4728,6 +4801,16 @@ msgstr ""
 
 msgid "Project tokens can not be assigned to teams here."
 msgstr ""
+
+#, fuzzy
+#| msgid "Check details"
+msgid "Team audit log"
+msgstr "وردەکاری پشکنین"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Team audit entry"
+msgstr "کارگێڕی"
 
 msgid "Cannot remove built-in team!"
 msgstr ""
@@ -5088,9 +5171,6 @@ msgstr ""
 msgid "No valid billing found or limit exceeded."
 msgstr ""
 
-msgid "Workspace"
-msgstr ""
-
 #, fuzzy
 #| msgid "Customize the component name"
 msgid "Customer name"
@@ -5200,6 +5280,9 @@ msgid_plural "Contains %d components"
 msgstr[0] "%d پێکهاتە لەخۆ دەگرێت"
 msgstr[1] "%d پێکهاتەکانی لەخۆ دەگرێت"
 
+msgid "Restricted components are not allowed by this billing plan."
+msgstr ""
+
 msgid "Missing license"
 msgstr "مۆڵەتبزربوو"
 
@@ -5267,6 +5350,9 @@ msgstr ""
 "پرۆژەکە لادەبرێ."
 
 msgid "To terminate billing you have to remove all projects first."
+msgstr ""
+
+msgid "Externally managed billings cannot be merged."
 msgstr ""
 
 msgid "Cannot merge such a billing."
@@ -6055,6 +6141,9 @@ msgstr ""
 msgid "the value is too complex or nested too deeply"
 msgstr ""
 
+msgid "Format matching exceeded its time limit."
+msgstr ""
+
 #, fuzzy
 #| msgid "Your account has been removed."
 msgid "The following format strings are in the wrong order:"
@@ -6405,6 +6494,9 @@ msgstr ""
 msgid "Markdown syntax does not match source."
 msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr ""
+
 #, fuzzy
 #| msgid "Translation is now locked for you."
 msgid "The translation does not contain a URL."
@@ -6612,6 +6704,11 @@ msgstr "کارگێڕی"
 msgid "Your translation is foo"
 msgstr "وەرگێڕانە پێشنیارکراوەکان"
 
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
+msgstr ""
+
 msgid "Font style"
 msgstr ""
 
@@ -6794,6 +6891,25 @@ msgstr "وشەکانی سەرچاوە"
 msgid "Excel Open XML"
 msgstr ""
 
+#, fuzzy
+#| msgid "Failed to change a priority!"
+msgid "Could not open the workbook archive."
+msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr ""
+
 msgid "Multivalue CSV file"
 msgstr ""
 
@@ -6839,6 +6955,10 @@ msgid "Invalid id_hash metadata in CSV file: %s"
 msgstr "ڕەوشی وەرگێڕان"
 
 msgid "Plural form metadata in CSV file requires id_hash."
+msgstr ""
+
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
 msgstr ""
 
 #. Translators: File format name
@@ -7116,6 +7236,13 @@ msgid "App store metadata files"
 msgstr ""
 
 msgid "File validation is required for directory-based formats."
+msgstr ""
+
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr ""
+
+msgid "Converted workbook content exceeds the configured size limit."
 msgstr ""
 
 msgid ""
@@ -8385,6 +8512,16 @@ msgstr "زمانی تۆ"
 msgid "Rate limit reset."
 msgstr "بەخشین بۆ وێبلەیت"
 
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "Too many translation requests."
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+#, fuzzy
+#| msgid "Too many authentication attempts from this location."
+msgid "Too many concurrent translation requests for this service."
+msgstr "هەوڵی سەلماندن زۆر لەم شوێنە."
+
 msgid "File"
 msgstr "پەڕگە"
 
@@ -8536,6 +8673,11 @@ msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background."
 msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "Too many uploads, please try again later."
+msgstr "نامەی زۆر نێردراو، تکایە دواتر دووبارە هەوڵدەوە."
 
 #, fuzzy, python-format
 #| msgid "Save translation history"
@@ -10470,6 +10612,26 @@ msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کر�
 msgid "Install"
 msgstr ""
 
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "Install on the component owning the repository."
+msgstr "هەژمارەکەت سڕدرایەوە."
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "The component owning this repository is not available to you."
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+#, fuzzy
+#| msgid "Version control"
+msgid "Open repository add-ons"
+msgstr "سەرپەرشتیکردنی وەشان"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Unavailable"
+msgstr "بەردەست نییە"
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -10903,6 +11065,34 @@ msgstr "مۆڵەتەکان"
 
 msgid "Cancel"
 msgstr ""
+
+msgid "Actor"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete comment"
+msgid "Deleted user"
+msgstr "سڕینەوەی لێدوان"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Administrative team changes"
+msgstr "کارگێڕی"
+
+#, fuzzy
+#| msgid "Changes"
+msgid "Change"
+msgstr "گۆڕانکارییەکان"
+
+#, fuzzy
+#| msgid "Check details"
+msgid "View details"
+msgstr "وردەکاری پشکنین"
+
+#, fuzzy
+#| msgid "Suggested translations"
+msgid "No team audit entries found."
+msgstr "وەرگێڕانە پێشنیارکراوەکان"
 
 msgid "Settings"
 msgstr ""
@@ -15083,11 +15273,6 @@ msgid "Configure translation quality filter"
 msgstr "ڕەوشی وەرگێڕان"
 
 #, fuzzy
-#| msgid "Check details"
-msgid "View details"
-msgstr "وردەکاری پشکنین"
-
-#, fuzzy
 #| msgid "Notification on new comment"
 msgid "View contributor license agreement"
 msgstr "ئاگادارکردنەوە بۆ هەر سەرنجێکی نوێ"
@@ -15546,6 +15731,19 @@ msgstr ""
 msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to join the "
 "%(team_name)s team."
+msgstr ""
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr ""
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
 msgstr ""
 
 #, python-format
@@ -17381,6 +17579,15 @@ msgstr "هەڵبژاردن"
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr ""
 
+msgid "Public access on import"
+msgstr ""
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
+
 #, fuzzy
 #| msgid "Repository operation"
 msgid "Token copied to clipboard."
@@ -18154,11 +18361,6 @@ msgstr "سەرپەرشتیکردنی وەشان"
 #| msgid "Version control"
 msgid "Available Repositories"
 msgstr "سەرپەرشتیکردنی وەشان"
-
-#, fuzzy
-#| msgid "Not available"
-msgid "Unavailable"
-msgstr "بەردەست نییە"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -19615,6 +19817,12 @@ msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] ""
 msgstr[1] ""
 
+#, fuzzy
+#| msgid "Suggested translations"
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr "وەرگێڕانە پێشنیارکراوەکان"
+
 #, python-format
 msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
@@ -19703,6 +19911,11 @@ msgstr "پڕۆژە بەڕێبراوەکان"
 
 msgid "Revision must be a complete hexadecimal object ID."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Failed to change a priority!"
+msgid "Could not validate repository URL: %s"
+msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
 
 #, fuzzy
 #| msgid "Suggested translations"
@@ -19801,10 +20014,33 @@ msgstr "پڕۆژە بەڕێبراوەکان"
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 
+#, fuzzy
+#| msgid "Important dates"
+msgid "Imported authors"
+msgstr "داتای گرنگ"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
+msgstr ""
+
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
 msgstr ""
 
 #, python-format
@@ -19841,6 +20077,21 @@ msgstr "بەکارهێنەران بەڕێوە ببە"
 
 msgid "Enter a search string to replace."
 msgstr ""
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
 
 #, fuzzy
 msgid "Invalid target state."
@@ -19999,6 +20250,9 @@ msgstr "دەنگدانی پێشنیار"
 #| msgid "Your account has been removed."
 msgid "Needs review"
 msgstr "هەژمارەکەت سڕدرایەوە."
+
+msgid "This component does not exist or you cannot access it."
+msgstr ""
 
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr ""
@@ -20874,6 +21128,11 @@ msgid "You do not have permission to edit these flags."
 msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
 
 #, fuzzy
+#| msgid "Project is now open for translation updates."
+msgid "You do not have permission to create terminology."
+msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
+
+#, fuzzy
 #| msgid "Translation is now locked for you."
 msgid ""
 "Revert the latest translation edits from this user in the current project."
@@ -20993,9 +21252,6 @@ msgstr ""
 msgid "Maximum source words per day"
 msgstr ""
 
-msgid "This component does not exist or you cannot access it."
-msgstr ""
-
 #, fuzzy
 #| msgid "Add new word"
 msgid "Inherit from workspace"
@@ -21074,6 +21330,11 @@ msgstr "نامەی زۆر نێردراو، تکایە دواتر دووبارە 
 #| msgid "Too many messages sent, please try again later."
 msgid "Could not load repository branches. Please try again."
 msgstr "نامەی زۆر نێردراو، تکایە دواتر دووبارە هەوڵدەوە."
+
+#, fuzzy
+#| msgid "Project is now open for translation updates."
+msgid "You do not have permission to edit this project."
+msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
 
 #, fuzzy
 #| msgid "Suggested translations"
@@ -21232,11 +21493,6 @@ msgid ""
 "Mark this option if the sentence should stay as in the source language, "
 "without change."
 msgstr ""
-
-#, fuzzy
-#| msgid "Project is now open for translation updates."
-msgid "You do not have permission to create terminology."
-msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
 
 #, fuzzy
 #| msgid "Delete this account"
@@ -22924,6 +23180,11 @@ msgstr "پێناسە"
 msgid "Could not accept suggestion!"
 msgstr "ڕازیبوونی خۆکارانەی پێشنیار"
 
+#, fuzzy, python-format
+#| msgid "Enable suggestions"
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr "چالاکردنی پێشنیار"
+
 #, fuzzy
 #| msgid "Add new word"
 msgid "Uploaded translation file is too big."
@@ -22989,6 +23250,18 @@ msgstr ""
 msgid "Plural form %d in the uploaded file is missing."
 msgstr ""
 
+#, fuzzy, python-format
+#| msgid "Suggested translations"
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr "وەرگێڕانە پێشنیارکراوەکان"
+
+#, fuzzy, python-format
+#| msgid "Suggested translations"
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] "وەرگێڕانە پێشنیارکراوەکان"
+msgstr[1] "وەرگێڕانە پێشنیارکراوەکان"
+
 #, fuzzy
 #| msgid "Suggested translations"
 msgid "The uploaded file contains too many language declarations."
@@ -23015,6 +23288,10 @@ msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
 #| msgid "Failed to change a priority!"
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Failed to change a priority!"
@@ -23505,6 +23782,32 @@ msgstr ""
 msgid "Updates source strings in bilingual translation file."
 msgstr "بە بەتاڵی جێبهێڵەوە بۆ فایلەکانی وەرگێڕان دووزمانی."
 
+#, fuzzy
+#| msgid "Suggested translations"
+msgid "A translation upload is already in progress."
+msgstr "وەرگێڕانە پێشنیارکراوەکان"
+
+msgid "The uploaded file has expired or was already processed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Language"
+msgid "The uploaded file has expired."
+msgstr "زمان"
+
+#, fuzzy
+#| msgid "License"
+msgid "The upload target or permissions changed."
+msgstr "مۆڵەت"
+
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "File upload has failed. Please try again later."
+msgstr "نامەی زۆر نێردراو، تکایە دواتر دووبارە هەوڵدەوە."
+
 msgid "Very high"
 msgstr ""
 
@@ -23934,8 +24237,10 @@ msgstr ""
 msgid "Access denied."
 msgstr ""
 
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr ""
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation upload in progress."
+msgstr "ڕەوشی وەرگێڕان"
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -24288,6 +24593,11 @@ msgid "language"
 msgid_plural "languages"
 msgstr[0] "زمانەکان"
 msgstr[1] "زمانەکان"
+
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation is now locked for you."
@@ -24651,9 +24961,19 @@ msgstr ""
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
-#, python-format
-msgid "Undefined variable: \"%s\""
+msgid "Template output exceeds its size limit."
 msgstr ""
+
+msgid "Template rendering failed or exceeded its resource limits."
+msgstr ""
+
+msgid "Oversized template response."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Invalid template rendering response."
+msgstr "ڕەوشی وەرگێڕان"
 
 #, fuzzy
 #| msgid "Register email"
@@ -24663,6 +24983,52 @@ msgstr "پۆستی ئەلیکترۆنی خۆتۆمارکردن"
 msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
+msgstr ""
+
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic group assignments"
+msgid "Template context is nested too deeply."
+msgstr "ئەرکە خۆکارەکانی دەستە"
+
+msgid "Template context exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported template context key."
+msgstr "جۆری وێنەی پشتگیری نەکراو: %s"
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported template context value."
+msgstr "جۆری وێنەی پشتگیری نەکراو: %s"
+
+msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+msgid "Template rendering exceeded its loop limit."
+msgstr ""
+
+msgid "Template intermediate value exceeds its size limit."
+msgstr ""
+
+msgid "Template replacement exceeds its size limit."
+msgstr ""
+
+msgid "Template padding exceeds its size limit."
+msgstr ""
+
+msgid "Template formatting exceeds its size limit."
+msgstr ""
+
+msgid "Template join exceeds its size limit."
+msgstr ""
+
+#, python-format
+msgid "Undefined variable: \"%s\""
 msgstr ""
 
 #, python-format
@@ -25533,6 +25899,11 @@ msgstr ""
 #, fuzzy
 #| msgid "Failed to change a priority!"
 msgid "This will push changes to the upstream Mercurial repository."
+msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
+
+#, fuzzy
+#| msgid "Failed to change a priority!"
+msgid "Could not remove nested repository metadata."
 msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
 
 #, fuzzy
@@ -26738,11 +27109,6 @@ msgstr "هەژمارەکەت سڕدرایەوە."
 
 #, fuzzy
 #~| msgid "Suggested translations"
-#~ msgid "Updates of translations are in progress."
-#~ msgstr "وەرگێڕانە پێشنیارکراوەکان"
-
-#, fuzzy
-#~| msgid "Suggested translations"
 #~ msgid "Updates of translations in accessible repositories are in progress."
 #~ msgstr "وەرگێڕانە پێشنیارکراوەکان"
 
@@ -26788,11 +27154,6 @@ msgstr "هەژمارەکەت سڕدرایەوە."
 #~ msgstr "دووبارە ڕێکخستنەوەی تێپەڕەوشەکەت داواکراوە."
 
 #, fuzzy
-#~| msgid "Version control"
-#~ msgid "repository wide"
-#~ msgstr "سەرپەرشتیکردنی وەشان"
-
-#, fuzzy
 #~| msgid "Component"
 #~ msgid "component"
 #~ msgstr "پێکهاتە"
@@ -26806,11 +27167,6 @@ msgstr "هەژمارەکەت سڕدرایەوە."
 #~| msgid "Project website"
 #~ msgid "project-wide"
 #~ msgstr "ماڵپەڕی پڕۆژە"
-
-#, fuzzy
-#~| msgid "Version control"
-#~ msgid "site-wide"
-#~ msgstr "سەرپەرشتیکردنی وەشان"
 
 #, fuzzy, python-format
 #~| msgid "Translation notifications"
@@ -27409,9 +27765,6 @@ msgstr "هەژمارەکەت سڕدرایەوە."
 
 #~ msgid "Too many failed registration attempts from this location."
 #~ msgstr "زۆر هەوڵی تۆمارکردن سەرکەوتوو نەبوو لەم شوێنە"
-
-#~ msgid "Too many authentication attempts from this location."
-#~ msgstr "هەوڵی سەلماندن زۆر لەم شوێنە."
 
 #, fuzzy
 #~| msgid "Enable suggestions"
