@@ -16,6 +16,7 @@ Weblate 2026.12
 
 .. rubric:: Security fixes
 
+* Redacted machine translation API keys, GitHub App credentials, authentication headers, and credentials in URLs from :ref:`Sentry error reports <collecting-errors>` and performance traces.
 * Prevented component creation from writing translation templates outside its repository.
 * Applied :setting:`VCS_RESTRICT_PRIVATE` and trusted-host exemptions to :ref:`GitHub App manifest-code and OAuth exchanges <code-hosting-github-app-register>` and API requests, including redirects and pagination URLs.
 * Revoked stale OAuth e-mail recovery addresses and reconciled the :ref:`account e-mail <user-profile>` when its last verification is removed.
