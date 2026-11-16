@@ -66,6 +66,9 @@ from weblate.trans.tasks import (
     create_project_backup,
     project_removal,
     remove_project_backup_download,
+    validate_category_removal,
+    validate_component_removal,
+    validate_project_removal,
 )
 from weblate.trans.util import redirect_param, render
 from weblate.trans.workspace_move import get_project_move_plan_error
@@ -313,6 +316,13 @@ def remove(request: AuthenticatedHttpRequest, path):
         show_form_errors(request, form)
         return redirect_param(obj, "#organize")
 
+    try:
+        _validate_removal_scope(obj)
+    except ValidationError as error:
+        form.add_error(None, error)
+        show_form_errors(request, form)
+        return redirect_param(obj, "#organize")
+
     parent: Component | Category | Project | str
     if isinstance(obj, Translation):
         parent = obj.component
@@ -350,6 +360,22 @@ def remove(request: AuthenticatedHttpRequest, path):
         messages.success(request, gettext("A language in the category was removed."))
 
     return redirect(parent)
+
+
+def _validate_removal_scope(
+    obj: Component
+    | Category
+    | Project
+    | Translation
+    | ProjectLanguage
+    | CategoryLanguage,
+) -> None:
+    if isinstance(obj, Component):
+        validate_component_removal(obj.pk)
+    elif isinstance(obj, Category):
+        validate_category_removal(obj)
+    elif isinstance(obj, Project):
+        validate_project_removal(obj)
 
 
 @contextmanager

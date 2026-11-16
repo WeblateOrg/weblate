@@ -6329,6 +6329,18 @@ class ProjectAPITest(APIBaseTest):
         self.do_request(
             "api:project-detail", self.project_kwargs, method="delete", code=403
         )
+        team = Group.objects.create(name="Global component team")
+        team.components.add(self.component)
+        blocked = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="delete",
+            superuser=True,
+            code=400,
+        )
+        self.assertIn("Remove the component from its teams", str(blocked.data))
+        self.assertTrue(Project.objects.filter(pk=self.project.pk).exists())
+        team.components.remove(self.component)
         response = self.do_request(
             "api:project-detail",
             self.project_kwargs,
@@ -12251,6 +12263,25 @@ class ComponentAPITest(APIBaseTest):
             code=204,
         )
         self.assertEqual(Component.objects.count(), 1)
+
+    def test_delete_last_team_component_does_not_expand_scope(self) -> None:
+        team = Group.objects.create(
+            name="Component administrators", defining_project=self.project
+        )
+        team.projects.add(self.project)
+        team.components.add(self.component)
+        team.roles.add(Role.objects.get(name="Administration"))
+        self.user.groups.add(team)
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("project.edit", self.project))
+
+        response = self.do_request(
+            "api:component-detail", self.component_kwargs, method="delete", code=400
+        )
+        self.assertIn("Remove the component from its teams", str(response.data))
+        self.assertTrue(Component.objects.filter(pk=self.component.pk).exists())
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("project.edit", self.project))
 
     def test_project_admin_can_delete_restricted_component(self) -> None:
         self.component.restricted = True
@@ -23519,6 +23550,20 @@ class CategoryAPITest(APIBaseTest):
         )
         response = self.list_categories()
         self.assertEqual(response.data["count"], 0)
+
+    def test_delete_category_with_last_team_component(self) -> None:
+        response = self.api_create_category()
+        category = Category.objects.get(pk=response.data["id"])
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        team = Group.objects.create(name="Category team", defining_project=self.project)
+        team.components.add(self.component)
+
+        deletion = self.do_request(
+            response.data["url"], method="delete", superuser=True, code=400
+        )
+        self.assertIn("Remove the component from its teams", str(deletion.data))
+        self.assertTrue(Category.objects.filter(pk=category.pk).exists())
 
     def test_delete_memory_option_in_body(self) -> None:
         response = self.api_create_category()
