@@ -62,7 +62,8 @@ feature inventory. *(maintainer)*
        *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)
    * - Site-wide API tokens
      - Tokens created in management :guilabel:`API tokens`
-     - Same application effects as the token's site-wide team permissions allow
+     - Same application effects as the token's site-wide team permissions allow.
+       :http:get:`/api/metrics/` returns whole-server counts for any authenticated token.
      - In scope as authenticated actors with delegated site-wide team scope.
        Unavailable on Hosted Weblate.
        *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)
@@ -682,8 +683,9 @@ Adversary model
      - Access projects, components, or site-wide functions outside its scope.
        *(documented)* (source: :doc:`/admin/access`)
    * - Site-wide API token holder
-     - Use API permissions assigned to its site-wide team memberships, including
-       authenticated endpoints such as :http:get:`/api/metrics/`.
+     - Use API permissions assigned to its site-wide team memberships.
+       :http:get:`/api/metrics/` returns whole-server counts and is not limited
+       by team membership.
        *(documented)* (source: :doc:`/api`, :ref:`site-api-tokens`)
      - Act outside assigned team permissions without exploiting a Weblate flaw.
        *(documented)* (source: :doc:`/admin/access`)
@@ -820,8 +822,10 @@ Security properties Weblate provides
      - A scoped automatic assignment grants membership without acceptance.
      - Security-critical. Pending invitations remain visible to team managers,
        and matching rules can send unsolicited invitation e-mails.
-   * - Site-wide API tokens are limited by assigned site-wide team permissions
-       and are managed only from the management interface.
+   * - Site-wide API tokens use assigned site-wide team permissions for scoped
+       API operations. :http:get:`/api/metrics/` returns whole-server counts
+       and is not limited by team membership. Tokens are managed only from the
+       management interface.
        *(documented)* (source: :doc:`/api`, :ref:`site-api-tokens`)
      - Token is created, revoked, or has team membership changed from the
        browser by a site administrator with ``user.edit`` after recent

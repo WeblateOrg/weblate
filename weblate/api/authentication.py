@@ -99,7 +99,7 @@ class BearerScheme(OpenApiAuthenticationExtension):
             "It is possible to create project tokens whose access to the API is limited to operations to their associated project. These tokens have the `wlp_` prefix."
         )
         site_token = gettext(
-            "Site administrators can create site-wide tokens in the management interface. These tokens have the `wls_` prefix."
+            "Site administrators can create site-wide tokens in the management interface. These tokens have the `wls_` prefix and are unavailable on Hosted Weblate."
         )
         return f"""{intro}
 

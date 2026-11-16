@@ -5,6 +5,8 @@ Weblate 2026.12
 
 .. rubric:: New features
 
+* Added :ref:`site-wide API tokens <site-api-tokens>` in the management interface for instance-level automation such as :http:get:`/api/metrics/` scraping. Unavailable on Hosted Weblate.
+
 .. rubric:: Improvements
 
 * Improved database query performance for project language :ref:`statistics <stats>`.
@@ -20,14 +22,6 @@ Weblate 2026.12
 .. rubric:: Bug fixes
 
 * Fixed delayed database cursor cleanup in :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` with custom source languages.
-
-* Added :ref:`site-wide API tokens <site-api-tokens>` in the management interface for instance-level automation such as :http:get:`/api/metrics/` scraping. Unavailable on Hosted Weblate.
-
-.. rubric:: Improvements
-
-.. rubric:: Security fixes
-
-.. rubric:: Bug fixes
 
 .. rubric:: Compatibility
 
