@@ -522,6 +522,9 @@ class EscapedNewlineCountingCheck(CodeDescriptionMixin, CountingCheck):
         if not target or not source:
             return False
 
+        if self.string not in source and self.string not in target:
+            return False
+
         target = self.ignore_re.sub("", target)
         source = self.ignore_re.sub("", source)
         return super().check_single(source, target, unit)
