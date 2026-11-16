@@ -89,6 +89,7 @@ DOC_LINKS: dict[str, str | tuple[str] | tuple[str, str]] = {
     "weblate.E050": ("api", "api-rate"),
     "weblate.W052": ("admin/access", "account-security-findings"),
     "weblate.C051": ("admin/config", "default-notifications"),
+    "weblate.W053": ("admin/install", "screenshot-storage"),
 }
 
 

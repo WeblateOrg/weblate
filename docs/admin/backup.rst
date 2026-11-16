@@ -511,6 +511,9 @@ Stored in :setting:`DATA_DIR` ``/media``.
 
 You should back up all user uploaded files (e.g. :ref:`screenshots`).
 
+Screenshots stored in object storage are not in this directory, see
+:ref:`screenshot-storage`.
+
 Celery tasks
 ++++++++++++
 

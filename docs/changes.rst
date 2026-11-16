@@ -5,6 +5,8 @@ Weblate 2026.12
 
 .. rubric:: New features
 
+* Added support for :ref:`storing screenshots in object storage <screenshot-storage>` such as Amazon S3 or Google Cloud Storage, configurable in Docker using :envvar:`WEBLATE_MEDIA_STORAGE_BACKEND`.
+
 .. rubric:: Improvements
 
 * Sped up :ref:`quality checks <checks>` by skipping format and markup extraction for strings without relevant syntax.

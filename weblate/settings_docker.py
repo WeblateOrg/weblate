@@ -222,7 +222,14 @@ STATICFILES_FINDERS = (
 )
 
 STORAGES = {
-    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    # Storage for user-uploaded media such as screenshots
+    "default": {
+        "BACKEND": get_env_str(
+            "WEBLATE_MEDIA_STORAGE_BACKEND",
+            "django.core.files.storage.FileSystemStorage",
+        ),
+        "OPTIONS": get_env_json("WEBLATE_MEDIA_STORAGE_OPTIONS", {}),
+    },
     "staticfiles": {
         "BACKEND": (
             "django.contrib.staticfiles.storage.StaticFilesStorage"
