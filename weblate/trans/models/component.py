@@ -6225,6 +6225,17 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if errors:
             raise ValidationError(errors)
 
+    def clean_vcs_change(self, old: Component) -> None:
+        """Reject backend switches outside the component settings choices."""
+        if self.vcs not in VCS_REGISTRY.allowed_component_vcs_choices(old.vcs):
+            raise ValidationError(
+                {
+                    "vcs": gettext(
+                        "Version control system cannot be changed to this backend."
+                    )
+                }
+            )
+
     def clean_fields(self, exclude: Collection[str] | None = None) -> None:
         """Validate inherited settings without changing their stored overrides."""
         excluded = set(exclude or ())
@@ -6331,6 +6342,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         if self.id:
             old = Component.objects.get(pk=self.id)
+            self.clean_vcs_change(old)
             self.clean_integration_locked_fields(old)
             self.check_rename(old, validate=True)
             if old.source_language != self.source_language:

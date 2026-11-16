@@ -589,6 +589,11 @@ Version control system
 
 VCS to use, see :ref:`vcs` for details.
 
+After creating a component, you can switch only between compatible backends
+offered in the settings form. Switching to another VCS family requires
+recreating the component. Backends managed by an authenticated integration are
+available through their provider import flow, not generic component creation.
+
 .. seealso::
 
    :ref:`code-hosting-push-options`

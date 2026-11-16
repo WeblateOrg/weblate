@@ -245,6 +245,34 @@ class VcsClassLoader(ClassLoader):
         }
 
     @cached_property
+    def unfiltered_git_based(self) -> set[str]:
+        """Classify existing Git backends even when currently unavailable."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.vcs.git import GitRepository
+
+        return {
+            identifier
+            for identifier, backend in self.unfiltered_data.items()
+            if issubclass(backend, GitRepository)
+        }
+
+    def allowed_component_vcs_choices(self, current_vcs: str | None = None) -> set[str]:
+        """Return backends offered by generic component creation or settings."""
+        if current_vcs is None:
+            return {
+                identifier
+                for identifier, backend in self.items()
+                if backend.manual_component_creation
+            }
+        if current_vcs not in self.unfiltered_git_based:
+            return {current_vcs}
+        return {current_vcs} | {
+            identifier
+            for identifier in self.git_based
+            if self[identifier].manual_component_creation
+        }
+
+    @cached_property
     def merge_request_based(self) -> set[str]:
         # ruff: ignore[import-outside-top-level]
         from weblate.vcs.git import GitMergeRequestBase
