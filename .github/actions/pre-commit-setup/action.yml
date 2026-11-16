@@ -10,6 +10,16 @@ description: Prepare pre-commit environment
 runs:
   using: composite
   steps:
+  - name: Setup Python
+    id: python
+    uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0   # v7.1.0
+    with:
+      python-version: '3.15'
+  - name: Identify cache environment
+    id: environment
+    shell: bash
+    # ImageOS identifies the runner OS release, without the image build date.
+    run: echo "os-release=${ImageOS:?}" >> "$GITHUB_OUTPUT"
   # Save on default-branch pushes; other runs only restore shared caches.
   # Keep installed environments, but exclude package-manager download/build caches.
   # Select entries separately so tar cannot include excluded buckets via a parent.
@@ -25,9 +35,9 @@ runs:
         !~/.cache/prek/cache/go
         !~/.cache/prek/cache/cargo
         ~/.cache/kingfisher
-      key: ${{ runner.os }}-${{ runner.arch }}-prek-${{ hashFiles('.pre-commit-config.yaml') }}
+      key: ${{ runner.os }}-${{ runner.arch }}-${{ steps.environment.outputs.os-release }}-python-${{ steps.python.outputs.python-version }}-prek-${{ hashFiles('.pre-commit-config.yaml') }}
       restore-keys: |
-        ${{ runner.os }}-${{ runner.arch }}-prek-
+        ${{ runner.os }}-${{ runner.arch }}-${{ steps.environment.outputs.os-release }}-python-${{ steps.python.outputs.python-version }}-prek-
   - uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9   # v6.1.0
     if: github.event_name != 'push' || github.ref != format('refs/heads/{0}', github.event.repository.default_branch)
     with:
@@ -40,14 +50,11 @@ runs:
         !~/.cache/prek/cache/go
         !~/.cache/prek/cache/cargo
         ~/.cache/kingfisher
-      key: ${{ runner.os }}-${{ runner.arch }}-prek-${{ hashFiles('.pre-commit-config.yaml') }}
+      key: ${{ runner.os }}-${{ runner.arch }}-${{ steps.environment.outputs.os-release }}-python-${{ steps.python.outputs.python-version }}-prek-${{ hashFiles('.pre-commit-config.yaml') }}
       restore-keys: |
-        ${{ runner.os }}-${{ runner.arch }}-prek-
-  - name: Setup Python
-    uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0   # v7.1.0
-    with:
-      python-version: '3.15'
+        ${{ runner.os }}-${{ runner.arch }}-${{ steps.environment.outputs.os-release }}-python-${{ steps.python.outputs.python-version }}-prek-
   - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2   # v10.3.3
     with:
       version: 0.13.8
+      prune-cache: true
       save-cache: ${{ github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
