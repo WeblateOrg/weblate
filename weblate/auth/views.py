@@ -16,8 +16,8 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import gettext
 from django.views.generic import DetailView, UpdateView
 
-from weblate.accounts.models import TeamAuditLog
 from weblate.accounts.forms import UserManageForm
+from weblate.accounts.models import TeamAuditLog
 from weblate.accounts.utils import (
     has_recent_sensitive_verification,
     sensitive_verification_redirect,
