@@ -613,6 +613,63 @@ class SiteWideTokenTest(FixtureTestCase):
             ).exists()
         )
 
+    def test_blocked_token_cannot_join_admin_team(self) -> None:
+        token = self.create_token(teams=[self.monitoring_group])
+        token_user = self.get_token_user(token)
+        token_user.userblock_set.create(project=self.project)
+        czech = Language.objects.get(code="cs")
+        limit_field = SiteTokenGroupForm.get_limit_languages_field(self.managers_group)
+
+        response = self.client.post(
+            reverse("set-site-token-groups"),
+            {
+                "user": token_user.username,
+                "groups": [self.monitoring_group.pk, self.managers_group.pk],
+            },
+            follow=True,
+        )
+        self.assertContains(
+            response,
+            "Blocked users cannot be granted project administration rights.",
+        )
+        self.assertFalse(token_user.groups.filter(pk=self.managers_group.pk).exists())
+        self.assertTrue(token_user.groups.filter(pk=self.monitoring_group.pk).exists())
+
+        response = self.client.post(
+            reverse("set-site-token-groups"),
+            {
+                "user": token_user.username,
+                "groups": [self.monitoring_group.pk, self.managers_group.pk],
+                limit_field: [czech.code],
+            },
+            follow=True,
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(token_user.groups.filter(pk=self.managers_group.pk).exists())
+        membership = token_user.team_memberships.get(group=self.managers_group)
+        self.assertEqual(
+            list(membership.limit_languages.values_list("code", flat=True)),
+            ["cs"],
+        )
+
+        response = self.client.post(
+            reverse("set-site-token-groups"),
+            {
+                "user": token_user.username,
+                "groups": [self.monitoring_group.pk, self.managers_group.pk],
+            },
+            follow=True,
+        )
+        self.assertContains(
+            response,
+            "Blocked users cannot be granted project administration rights.",
+        )
+        membership.refresh_from_db()
+        self.assertEqual(
+            list(membership.limit_languages.values_list("code", flat=True)),
+            ["cs"],
+        )
+
     def test_prefix_collision_with_project_slug_site(self) -> None:
         site_project = self.create_additional_project(name="Site", slug="site")
         site_project.access_control = Project.ACCESS_PRIVATE
@@ -674,6 +731,54 @@ class SiteWideTokenTest(FixtureTestCase):
 
         # No dedicated create/revoke REST endpoints
         self.assertEqual(self.client.post("/api/site-tokens/", {}).status_code, 404)
+
+    def test_delete_revokes_token_when_commit_fails(self) -> None:
+        token = self.create_token(
+            full_name="Delete Commit Fail", teams=[self.managers_group]
+        )
+        token_user = self.get_token_user(token)
+        translation = self.component.translation_set.get(language_code="cs")
+        translation.change_set.content().delete()
+        Change.objects.create(
+            user=token_user,
+            author=token_user,
+            action=ActionEvents.CHANGE,
+            project=self.project,
+            component=self.component,
+            translation=translation,
+        )
+
+        lock_error = WeblateLockTimeoutError("locked", lock=self.component.lock)
+        with patch.object(Translation, "commit_pending", side_effect=lock_error):
+            response = self.delete_token(token)
+
+        self.assertContains(
+            response,
+            "The API token was revoked, but the account could not be removed. Please try again.",
+        )
+        token_user.refresh_from_db()
+        self.assertTrue(token_user.username.startswith("sitebot-"))
+        self.assertTrue(token_user.is_active)
+        self.assertTrue(token_user.groups.exists())
+        self.assertFalse(Token.objects.filter(key=token).exists())
+        self.assertFalse(
+            token_user.auditlog_set.filter(activity="token-removed").exists()
+        )
+        response = self.token_api_client().get(
+            reverse("api:metrics"),
+            headers={"authorization": f"Token {token}"},
+        )
+        self.assertEqual(response.status_code, 401)
+
+        response = self.client.post(
+            reverse("delete-site-token"),
+            {"user": token_user.username},
+            follow=True,
+        )
+        self.assertContains(response, "Site-wide API token has been removed.")
+        token_user.refresh_from_db()
+        self.assertTrue(token_user.username.startswith("deleted-"))
+        self.assertFalse(token_user.is_active)
 
     def test_wrong_account_denied(self) -> None:
         site_token = self.create_token()

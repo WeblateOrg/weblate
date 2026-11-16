@@ -17,7 +17,10 @@ from weblate.accounts.forms import BaseTokenCreateForm, EmailField, UserManageFo
 from weblate.accounts.models import AuditLog
 from weblate.accounts.utils import SITE_API_TOKEN_USERNAME_PREFIX
 from weblate.auth.models import Group, TeamMembership, User
-from weblate.auth.utils import prefetch_membership_limit_languages
+from weblate.auth.utils import (
+    prefetch_membership_limit_languages,
+    validate_admin_team_assignment,
+)
 from weblate.lang.forms import LimitLanguagesField, get_language_code_choices
 from weblate.lang.models import Language
 from weblate.utils.validators import DomainOrIPValidator
@@ -357,6 +360,16 @@ class SiteTokenGroupForm(SiteTokenManageForm):
         cleaned_data = super().clean() or {}
         user = cleaned_data.get("user")
         groups = cleaned_data.get("groups")
+        if user and groups:
+            for group in groups:
+                limit_languages = cleaned_data.get(
+                    self.get_limit_languages_field(group)
+                )
+                if limit_languages is None:
+                    continue
+                validate_admin_team_assignment(
+                    user, group, limit_languages=list(limit_languages)
+                )
         if user and user.is_bot and not groups:
             raise ValidationError(
                 gettext_lazy("At least one team is required for a site-wide token.")

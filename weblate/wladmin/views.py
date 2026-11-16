@@ -34,6 +34,7 @@ from django.views.generic.edit import CreateView, FormMixin
 
 from weblate.accounts.forms import AdminUserSearchForm, ContactForm
 from weblate.accounts.utils import (
+    delete_api_tokens,
     get_site_api_tokens,
     has_recent_sensitive_verification,
     remove_user,
@@ -1045,7 +1046,6 @@ def create_site_token(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 @require_POST
 @management_permission_required("user.edit")
-@transaction.atomic
 def delete_site_token(request: AuthenticatedHttpRequest) -> HttpResponse:
     """Revoke a site-wide API token by deleting its bot user."""
     check_site_token_view_access(request)
@@ -1054,14 +1054,29 @@ def delete_site_token(request: AuthenticatedHttpRequest) -> HttpResponse:
     form = SiteTokenManageForm(request.POST)
     if form.is_valid():
         user = form.cleaned_data["user"]
-        remove_user(
-            user,
-            request,
-            activity="token-removed",
-            method="site",
-            username=request.user.username,
-        )
-        messages.success(request, gettext("Site-wide API token has been removed."))
+        # Revoke the key before remove_user commits pending edits. A commit or
+        # lock failure must not roll this back with the account cleanup.
+        delete_api_tokens(user)
+        try:
+            with transaction.atomic():
+                remove_user(
+                    user,
+                    request,
+                    activity="token-removed",
+                    method="site",
+                    username=request.user.username,
+                )
+        except Exception:
+            report_error("Could not remove site-wide API token")
+            messages.error(
+                request,
+                gettext(
+                    "The API token was revoked, but the account could not be removed. "
+                    "Please try again."
+                ),
+            )
+        else:
+            messages.success(request, gettext("Site-wide API token has been removed."))
     else:
         show_form_errors(request, form)
     return redirect("manage-api-tokens")
