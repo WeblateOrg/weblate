@@ -18,7 +18,7 @@ from django.conf import settings
 from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.core.exceptions import PermissionDenied, ValidationError
-from django.db import transaction
+from django.db import IntegrityError, transaction
 from django.db.models import BLANK_CHOICE_DASH, Q
 from django.forms import Script
 from django.forms.utils import ErrorDict
@@ -1624,6 +1624,10 @@ class NotificationDebugForm(forms.Form):
             ) from error
 
 
+# A concurrent create can pass the availability check and then lose the insert.
+BOT_USERNAME_ALLOCATION_ATTEMPTS = 5
+
+
 class BaseTokenCreateForm(forms.ModelForm):
     class Meta:
         model = User
@@ -1645,14 +1649,28 @@ class BaseTokenCreateForm(forms.ModelForm):
 
     def save(self, *args, acting_user: User | None = None, **kwargs):
         self.instance.is_bot = True
-        base_name = name = bound_bot_basename(self.get_bot_basename())
-        while User.objects.filter(
-            Q(username=name) | Q(email=f"{name}{BOT_NOREPLY_EMAIL_SUFFIX}")
-        ).exists():
-            name = f"{base_name}-{token_hex(2)}"
-        self.instance.username = name
-        self.instance.email = f"{name}{BOT_NOREPLY_EMAIL_SUFFIX}"
-        return super().save(*args, **kwargs)
+        base_name = bound_bot_basename(self.get_bot_basename())
+        name = base_name
+        error: IntegrityError | None = None
+        for _attempt in range(BOT_USERNAME_ALLOCATION_ATTEMPTS):
+            while User.objects.filter(
+                Q(username=name) | Q(email=f"{name}{BOT_NOREPLY_EMAIL_SUFFIX}")
+            ).exists():
+                name = f"{base_name}-{token_hex(2)}"
+            self.instance.username = name
+            self.instance.email = f"{name}{BOT_NOREPLY_EMAIL_SUFFIX}"
+            try:
+                # Savepoint so a uniqueness conflict does not abort the caller.
+                with transaction.atomic():
+                    return super().save(*args, **kwargs)
+            except IntegrityError as exc:
+                self.instance.pk = None
+                name = f"{base_name}-{token_hex(2)}"
+                error = exc
+        if error is not None:
+            raise error
+        msg = "Could not allocate a unique bot username"
+        raise IntegrityError(msg)
 
     def get_bot_basename(self) -> str:
         msg = "Subclasses must implement this method"

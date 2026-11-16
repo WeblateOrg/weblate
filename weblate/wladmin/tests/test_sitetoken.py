@@ -11,6 +11,7 @@ from typing import Any
 from unittest.mock import patch
 from urllib.parse import parse_qs, urlparse
 
+from django.db.models.query import QuerySet
 from django.test import override_settings
 from django.urls import reverse
 from django.utils import timezone
@@ -184,6 +185,32 @@ class SiteWideTokenTest(FixtureTestCase):
         self.assertEqual(token_user.full_name, long_name)
         self.assertLessEqual(len(token_user.username), USERNAME_LENGTH)
         self.assertTrue(token_user.username.startswith("sitebot-"))
+
+    def test_create_token_retries_username_uniqueness_conflict(self) -> None:
+        occupied_username = "sitebot-race-token"
+        User.objects.create_user(
+            occupied_username,
+            f"{occupied_username}@bots.noreply.weblate.org",
+            "x",
+        )
+        real_exists = QuerySet.exists
+        raced = False
+
+        def exists(queryset: QuerySet) -> bool:
+            nonlocal raced
+            _sql, params = queryset.query.sql_with_params()
+            if not raced and occupied_username in params:
+                raced = True
+                return False
+            return real_exists(queryset)
+
+        with patch.object(QuerySet, "exists", exists):
+            token = self.create_token(full_name="Race Token")
+
+        self.assertTrue(raced)
+        token_user = self.get_token_user(token)
+        self.assertTrue(token_user.username.startswith(f"{occupied_username}-"))
+        self.assertTrue(User.objects.filter(username=occupied_username).exists())
 
     def test_site_token_mutations_require_unexpired_verification(self) -> None:
         token = self.create_token()
