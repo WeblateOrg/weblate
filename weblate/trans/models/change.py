@@ -374,6 +374,33 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
             | Q(project__in=user.accessible_managed_projects)
         )
 
+    def filter_workspaces(self, user: User) -> Self:
+        """
+        Hide changes in workspaces the user cannot view.
+
+        Rows without a workspace are kept. Visibility follows
+        Workspace.can_view(): a workspace is visible when it holds one of the
+        user's allowed projects or the user has a workspace permission on it.
+        """
+        if user.is_superuser:
+            return self
+        # ruff: ignore[import-outside-top-level]
+        from weblate.workspaces.models import Workspace
+
+        visible_workspaces = Workspace.objects.filter(
+            Q(projects__in=user.allowed_projects.all())
+            | Q(
+                pk__in=(
+                    user.workspace_ids_with_perm("workspace.edit")
+                    | user.workspace_ids_with_perm("workspace.add_project")
+                    | user.workspace_ids_with_perm("workspace.edit_members")
+                )
+            )
+        )
+        return self.filter(
+            Q(workspace__isnull=True) | Q(workspace__in=visible_workspaces)
+        )
+
     def filter_components(self, user: User) -> Self:
         if not user.is_superuser:
             # The former visibility of older removed components cannot be recovered.
@@ -539,7 +566,11 @@ class ChangeManager(models.Manager["Change"]):
         elif language is not None:
             result = language.change_set.filter_projects(user).filter_components(user)
         else:
-            result = self.filter_projects(user).filter_components(user)  # type: ignore[attr-defined]
+            result = (
+                self.filter_projects(user)  # type: ignore[attr-defined]
+                .filter_components(user)
+                .filter_workspaces(user)
+            )
         return (
             cast("ChangeQuerySet", result)
             .filter_visible_alerts(user)
