@@ -26,6 +26,8 @@ Weblate 2026.12
 
 .. rubric:: Compatibility
 
+* Restricted :ref:`configurable templates <markup>` to documented operations with parsing, allocation, and cumulative work limits.
+
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
