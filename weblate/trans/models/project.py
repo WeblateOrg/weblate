@@ -79,6 +79,7 @@ if TYPE_CHECKING:
     from weblate.trans.models.alert import AlertQuerySet
     from weblate.trans.models.component import Component, ComponentQuerySet
     from weblate.trans.models.label import Label
+    from weblate.utils.stats import GhostProjectLanguageStats
     from weblate.workspaces.models import Workspace
 
 
@@ -113,7 +114,8 @@ class ProjectLanguageFactory(UserDict):
         return [self[language] for language in self._project.languages]
 
     def preload_workflow_settings(
-        self, instances: Iterable[ProjectLanguage] | None = None
+        self,
+        instances: Iterable[ProjectLanguage | GhostProjectLanguageStats] | None = None,
     ) -> None:
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models.workflow import WorkflowSetting
@@ -148,6 +150,18 @@ class ProjectLanguageFactory(UserDict):
         # Indicate that there is no setting
         for instance in pending.values():
             instance.__dict__["workflow_settings"] = None
+
+    def ensure_workflow_settings(
+        self, instances: Iterable[ProjectLanguage | GhostProjectLanguageStats]
+    ) -> None:
+        """Load workflows that have not been resolved for these instances."""
+        pending = [
+            instance
+            for instance in instances
+            if "workflow_settings" not in instance.__dict__
+        ]
+        if pending:
+            self.preload_workflow_settings(pending)
 
 
 class ProjectQuerySet(QuerySet["Project", "Project"]):

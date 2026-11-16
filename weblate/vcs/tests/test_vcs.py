@@ -2500,6 +2500,31 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             dirname = f".{self._vcs}"
         self.assertTrue(os.path.exists(os.path.join(self.tempdir, dirname)))
 
+    @override_settings(VCS_CLONE_DEPTH=1)
+    def test_clone_does_not_fetch_tags(self) -> None:
+        if self._class is not GitRepository:
+            self.skipTest("GitRepository-specific regression test")
+
+        with self.repo.lock:
+            self.repo.execute(
+                ["update-ref", "refs/tags/--list", self.repo.last_revision],
+                remote_op="none",
+            )
+            self.repo.execute(
+                ["push", "origin", "refs/tags/--list:refs/tags/--list"],
+                remote_op="push",
+            )
+
+        with tempfile.TemporaryDirectory() as tempdir:
+            cloned = self.clone_repo(tempdir)
+            with cloned.lock:
+                self.assertEqual(
+                    "",
+                    cloned.execute(
+                        ["tag", "--list"], remote_op="none", merge_err=False
+                    ),
+                )
+
     def test_revision(self) -> None:
         self.assertEqual(self.repo.last_revision, self.repo.last_remote_revision)
 
@@ -2598,6 +2623,21 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             patch.object(self.repo, "execute", side_effect=mocked_execute),
         ):
             self.repo.remove_stale_branches()
+
+    def test_maintenance_deletes_option_like_tag(self) -> None:
+        if self._class is not GitRepository:
+            self.skipTest("GitRepository-specific regression test")
+
+        with self.repo.lock:
+            self.repo.execute(
+                ["update-ref", "refs/tags/--list", self.repo.last_revision],
+                remote_op="none",
+            )
+            self.repo.maintenance()
+            self.assertEqual(
+                "",
+                self.repo.execute(["tag", "--list"], remote_op="none", merge_err=False),
+            )
 
     def test_update_remote_runtime_private_url_rejected(self) -> None:
         if self._class in {SubversionRepository, HgRepository, LocalRepository}:

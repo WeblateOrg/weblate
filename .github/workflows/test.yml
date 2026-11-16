@@ -90,7 +90,9 @@ jobs:
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
         version: 0.13.8
     - name: Install apt dependencies
-      run: sudo ./ci/apt-install
+      uses: $/.github/actions/apt-install
+      with:
+        save-cache: ${{ matrix.python-version == '3.14' && matrix.requirements == 'latest' }}
     - name: Install Python dependencies
       run: ./ci/pip-install ${{ matrix.requirements }}
     - name: Used versions
