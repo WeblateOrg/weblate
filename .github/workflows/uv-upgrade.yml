@@ -33,7 +33,9 @@ jobs:
         persist-credentials: false
     - uses: $/.github/actions/pre-commit-setup
     - name: Install apt dependencies
-      run: sudo ./ci/apt-install
+      uses: $/.github/actions/apt-install
+      with:
+        save-cache: 'true'
 
     - name: Verify lock file
       if: github.event_name != 'pull_request' || github.event.sender.type != 'User'
