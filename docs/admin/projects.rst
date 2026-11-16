@@ -1621,7 +1621,7 @@ work to an 8 MiB budget. These budgets count
 repeated operations even inside conditions that produce no output. A five-second
 deadline provides an additional guard. Exceeding any limit fails the render.
 Errors identify the failed limit or unsupported operation and the relevant filter
-or tag when available. Multiline templates also include the source line number.
+or tag when available. Multiline parsing and evaluation errors also include the source line number.
 
 Contexts support scalar substitutions, dictionary lookups such as
 ``{{ stats.translated }}``, and list or string indexing such as
