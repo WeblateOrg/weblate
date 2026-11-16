@@ -1175,6 +1175,7 @@ class WidgetsSortByPercentTest(FixtureTestCase):
 
     def get_codes(self, widget_name: str, params: dict[str, str]) -> list[str]:
         widget = WIDGETS[widget_name](self.project, "auto")
+        assert isinstance(widget, MultiLanguageWidget)
         request = RequestFactory().get("/", params)
         with patch.object(
             type(widget), "get_language_stats", return_value=self.get_fake_stats()
