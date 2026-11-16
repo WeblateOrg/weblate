@@ -380,23 +380,28 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
 
         Rows without a workspace are kept. Visibility follows
         Workspace.can_view(): a workspace is visible when it holds one of the
-        user's allowed projects or the user has a workspace permission on it.
+        user's allowed projects, the user has a workspace permission on it,
+        or the user can view it globally (management access, or billing
+        management for workspaces that carry a billing; billed workspaces
+        otherwise reduce to the workspace.edit permission).
         """
-        if user.is_superuser:
+        if user.is_superuser or user.has_perm("management.use"):
             return self
         # ruff: ignore[import-outside-top-level]
         from weblate.workspaces.models import Workspace
 
-        visible_workspaces = Workspace.objects.filter(
-            Q(projects__in=user.allowed_projects.all())
-            | Q(
-                pk__in=(
-                    user.workspace_ids_with_perm("workspace.edit")
-                    | user.workspace_ids_with_perm("workspace.add_project")
-                    | user.workspace_ids_with_perm("workspace.edit_members")
-                )
+        condition = Q(projects__in=user.allowed_projects.all()) | Q(
+            pk__in=(
+                user.workspace_ids_with_perm("workspace.edit")
+                | user.workspace_ids_with_perm("workspace.add_project")
+                | user.workspace_ids_with_perm("workspace.edit_members")
             )
         )
+        if "weblate.billing" in settings.INSTALLED_APPS and user.has_perm(
+            "billing.manage"
+        ):
+            condition |= Q(billing__isnull=False)
+        visible_workspaces = Workspace.objects.filter(condition)
         return self.filter(
             Q(workspace__isnull=True) | Q(workspace__in=visible_workspaces)
         )
@@ -494,6 +499,18 @@ class ChangeManager(models.Manager["Change"]):
     def get_queryset(self) -> ChangeQuerySet:
         return cast("ChangeQuerySet", super().get_queryset())
 
+    def _last_site_changes(self, user: User) -> ChangeQuerySet:
+        result = self.get_queryset()
+        if user.needs_project_filter:
+            # Keep workspace-only rows alive so filter_workspaces() can
+            # decide their visibility; other projectless rows keep the
+            # historical project filtering.
+            result = result.filter(
+                Q(project__isnull=True, workspace__isnull=False)
+                | user.get_project_access_query("project")
+            )
+        return result.filter_components(user).filter_workspaces(user)
+
     def _last_category_changes(
         self,
         user: User,
@@ -566,11 +583,7 @@ class ChangeManager(models.Manager["Change"]):
         elif language is not None:
             result = language.change_set.filter_projects(user).filter_components(user)
         else:
-            result = (
-                self.filter_projects(user)  # type: ignore[attr-defined]
-                .filter_components(user)
-                .filter_workspaces(user)
-            )
+            result = self._last_site_changes(user)
         return (
             cast("ChangeQuerySet", result)
             .filter_visible_alerts(user)

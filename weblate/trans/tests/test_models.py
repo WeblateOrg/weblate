@@ -3587,6 +3587,7 @@ class ChangeTest(ModelTestCase):
         empty = Workspace.objects.create(name="Invisible empty workspace")
         occupied = Workspace.objects.create(name="Visible project workspace")
         Project.objects.filter(pk=self.component.project_id).update(workspace=occupied)
+        self.component.project.refresh_from_db()
         user = User.objects.create_user(
             "workspace-history", "workspace-history@example.com", "workspace-history"
         )
