@@ -1643,13 +1643,13 @@ class TranslationTest(RepoTestCase):
 
         translation.unit_set.update(line_number=None)
         chosen = list(translation.unit_set.order_by("pk")[:3])
-        for unit_item, line in zip(chosen, (10, 40, 90), strict=True):
+        for unit_item, line in zip(chosen, (20, 30, 10), strict=True):
             unit_item.line_number = line
             unit_item.save(update_fields=["line_number"])
-        middle = chosen[1]
+        current = chosen[0]
         self.assertEqual(
-            [item.pk for item in middle.nearby(1)],
-            [item.pk for item in chosen],
+            [item.pk for item in current.nearby(1)],
+            [chosen[2].pk, chosen[0].pk, chosen[1].pk],
         )
 
         position_unit = translation.unit_set.order_by("position")[0]

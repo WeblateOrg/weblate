@@ -428,8 +428,8 @@ String attributes
     Things like message ID, context (``msgctxt``) or location in source code.
 Translation file
     Where the string appears in the component translation file; when the format
-    provides a line number, the link opens the repository browser at that line,
-    otherwise the string index in the file is shown.
+    provides a line number, Weblate shows it and uses it for repository links
+    when available. Without a line number, the string index in the file is shown.
 Explanation
     Further clarification can be provided in Weblate via :ref:`additional-explanation`.
 Screenshots

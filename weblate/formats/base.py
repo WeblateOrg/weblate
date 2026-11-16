@@ -417,6 +417,9 @@ class TranslationUnit[U: InnerUnit, F: "TranslationFormat"]:
             raise MissingTemplateError
         self.mainunit = self._unit = copy(self.template)
         self._invalidate_target()
+        # The previous read cached None while this wrapper had no unit.
+        if "line_number" in self.__dict__:
+            del self.__dict__["line_number"]
 
     def untranslate(self, language) -> None:
         self.set_target("")
