@@ -772,11 +772,13 @@ Weblate needs the following from the storage:
   after checking their permissions.
 
 To move existing screenshots, copy the content of :setting:`DATA_DIR`
-``/media`` to the bucket, keeping the :file:`screenshots/` prefix. Weblate
+``/media`` to the bucket, keeping the :file:`screenshots/` prefix. When
+``location`` is configured, copy the files under that prefix instead. Weblate
 stores relative file names, so no database changes are needed.
 
-Files in object storage are not included in :ref:`backup`; use the
-versioning or backup features of the storage service instead.
+:ref:`projectbackup` include screenshots from object storage, but
+:ref:`automated-backup` does not; use the versioning or backup features of the
+storage service instead.
 
 User-uploaded fonts are not affected by this setting and are always stored in
 :setting:`DATA_DIR`.
