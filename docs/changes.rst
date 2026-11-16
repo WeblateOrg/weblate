@@ -5,6 +5,8 @@ Weblate 2026.12
 
 .. rubric:: New features
 
+* Added an option to sort languages by translation percentage in language bar chart widgets.
+
 .. rubric:: Improvements
 
 * Improved database query performance for project language :ref:`statistics <stats>`.
