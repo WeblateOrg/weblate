@@ -447,7 +447,7 @@ class TTKitUnit[U: TranslateToolkitUnit, F: "BaseTTKitFormat"](TranslationUnit[U
     @cached_property
     def line_number(self) -> int | None:
         """Return line number from a TTKit unit."""
-        if not self.has_unit():
+        if not self.has_unit() or not self.parent.supports_line_number:
             return None
         return self.unit.line_number
 
@@ -3117,6 +3117,9 @@ class CSVFormat(TTKitFormat[WeblateCSVFile, WeblateCSVUnit, CSVUnit]):
         ):
             setattr(unit, attr, getattr(first, attr))
         unit.id_hash = format_csv_id_hash(group["import_id_hash"])
+        # The synthetic unit replaces the parsed rows. Keep the first row's
+        # locator for the API, repository links, and nearby strings.
+        unit._line_number = first.line_number  # ruff: ignore[private-member-access]
 
         return unit
 

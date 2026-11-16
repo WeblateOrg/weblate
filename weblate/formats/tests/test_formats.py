@@ -3460,6 +3460,9 @@ class CSVFormatTest(BaseFormatTest):
         self.assertEqual(units[0].context, "ctx")
         self.assertEqual(units[0].import_id_hash, -123)
         self.assertEqual(units[0].target_plural_forms, (0, 1, 2))
+        # Header is line 1, so the first physical plural row is line 2.
+        self.assertEqual(units[0].line_number, 2)
+        self.assertEqual(units[0].unit.plural_rows[0].line_number, 2)
 
         units[0].set_target(["jeden soubor", "%(count)s soubory", "%(count)s souboru"])
         units[0].set_state(STATE_FUZZY)
