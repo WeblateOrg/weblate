@@ -20851,7 +20851,10 @@ class ScreenshotAPITest(APIBaseTest):
     def test_download_without_path(self) -> None:
         # Remote storage backends do not provide local paths
         with patch.object(
-            FieldFile, "path", new_callable=PropertyMock, side_effect=NotImplementedError
+            FieldFile,
+            "path",
+            new_callable=PropertyMock,
+            side_effect=NotImplementedError,
         ):
             response = self.client.get(
                 reverse(

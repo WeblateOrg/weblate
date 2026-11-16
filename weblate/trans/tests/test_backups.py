@@ -2741,7 +2741,10 @@ class BackupsTest(ReusableViewTestCase):
         backup = ProjectBackup()
         # Remote storage backends do not provide local paths
         with patch.object(
-            FieldFile, "path", new_callable=PropertyMock, side_effect=NotImplementedError
+            FieldFile,
+            "path",
+            new_callable=PropertyMock,
+            side_effect=NotImplementedError,
         ):
             backup.backup_project(self.project)
 
