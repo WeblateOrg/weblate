@@ -1197,8 +1197,17 @@ class WidgetsSortByPercentTest(FixtureTestCase):
         for widget_name in ("multi", "horizontal", "matrix"):
             with self.subTest(widget=widget_name):
                 self.assertEqual(
-                    self.get_codes(widget_name, {"sort_by_percent": "1"}),
+                    self.get_codes(widget_name, {"sort": "percent"}),
                     ["ja", "de", "it", "cs"],
+                )
+
+    def test_sort_by_name_and_unknown_value(self) -> None:
+        # The explicit default and values the widget doesn't know keep
+        # the alphabetical order.
+        for value in ("name", "unknown"):
+            with self.subTest(sort=value):
+                self.assertEqual(
+                    self.get_codes("multi", {"sort": value}), ["cs", "de", "it", "ja"]
                 )
 
     def test_sort_by_percent_rendered(self) -> None:
@@ -1217,7 +1226,7 @@ class WidgetsSortByPercentTest(FixtureTestCase):
                         "extension": "svg",
                     },
                 ),
-                {"sort_by_percent": "1"},
+                {"sort": "percent"},
             )
         self.assertEqual(response.status_code, 200)
         names = re.findall(r'id="text\d+">([^<]+)</text>', response.content.decode())

@@ -84,11 +84,17 @@ def register_widget(widget):
     return widget
 
 
+class ExtraParameterChoiceDict(TypedDict):
+    value: str
+    label: StrOrPromise
+
+
 class ExtraParametersDict(TypedDict):
     name: str
     label: StrOrPromise
-    type: Literal["number", "boolean"]
-    default: int | bool
+    type: Literal["number", "boolean", "select"]
+    default: int | bool | str
+    choices: NotRequired[list[ExtraParameterChoiceDict]]
     min: NotRequired[int]
     max: NotRequired[int]
     step: NotRequired[int]
@@ -601,10 +607,14 @@ class MultiLanguageWidget(SVGWidget):
     }
     extra_parameters: ClassVar[list[ExtraParametersDict]] = [
         {
-            "name": "sort_by_percent",
-            "label": gettext_lazy("Sort by translation percentage"),
-            "type": "boolean",
-            "default": False,
+            "name": "sort",
+            "label": gettext_lazy("Sort languages by"),
+            "type": "select",
+            "default": "name",
+            "choices": [
+                {"value": "name", "label": gettext_lazy("Language name")},
+                {"value": "percent", "label": gettext_lazy("Translation percentage")},
+            ],
         }
     ]
 
@@ -620,9 +630,9 @@ class MultiLanguageWidget(SVGWidget):
         return self.stats.get_language_stats()
 
     def get_sorted_language_stats(self, request: HttpRequest) -> list[BaseStats]:
-        """Return language stats sorted by name, or by translated percentage."""
+        """Return language stats sorted as the ``sort`` parameter asks."""
         stats = sort_unicode(self.get_language_stats(), lambda x: str(x.language))
-        if request.GET.get("sort_by_percent") == "1":
+        if request.GET.get("sort") == "percent":
             # sorted() is stable, so languages with equal percentage stay
             # in alphabetical order.
             stats = sorted(stats, key=lambda x: x.translated_percent, reverse=True)
