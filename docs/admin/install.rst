@@ -668,9 +668,15 @@ requests and Git repositories. Define the proxy environment variables in
    os.environ["http_proxy"] = "http://proxy.example.com:8080"
    os.environ["https_proxy"] = "http://proxy.example.com:8080"
 
-Only ``http_proxy`` and ``https_proxy`` are supported. Generic and bypass
-variables such as ``all_proxy`` and ``no_proxy``, operating-system proxy
-configuration, and VCS-specific proxy configuration are not supported.
+Only ``http_proxy`` and ``https_proxy`` are supported, together with
+``no_proxy`` listing hosts that are connected to directly. Generic variables
+such as ``all_proxy``, operating-system proxy configuration, and VCS-specific
+proxy configuration are not supported.
+
+``no_proxy`` is a comma-separated list of host names (also matching their
+subdomains) or IP addresses; ``*`` bypasses the proxy for all hosts. Ports
+and network ranges are not matched. Hosts reached directly are subject to
+private-address restrictions such as :setting:`VCS_RESTRICT_PRIVATE`.
 
 .. seealso::
 

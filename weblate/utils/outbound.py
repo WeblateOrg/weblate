@@ -9,7 +9,7 @@ import socket
 from asyncio import get_running_loop
 from typing import TYPE_CHECKING, Any
 from urllib.parse import urlparse
-from urllib.request import getproxies_environment
+from urllib.request import getproxies_environment, proxy_bypass_environment
 
 from django.core.exceptions import ValidationError
 from django.http.request import validate_host
@@ -46,11 +46,14 @@ _NON_PUBLIC_SPECIAL_USE_PREFIXES: tuple[
 
 
 def get_environment_proxy(url: str) -> str | None:
-    """Return the per-protocol environment proxy configured for a URL."""
-    scheme = urlparse(url).scheme
-    if scheme not in {"http", "https"}:
+    """Return the per-protocol environment proxy for a URL unless no_proxy excludes its host."""
+    parsed = urlparse(url)
+    if parsed.scheme not in {"http", "https"}:
         return None
-    return getproxies_environment().get(scheme)
+    proxies = getproxies_environment()
+    if proxy_bypass_environment(parsed.hostname or "", proxies):
+        return None
+    return proxies.get(parsed.scheme)
 
 
 def _parse_ip(value: str) -> ipaddress.IPv4Address | ipaddress.IPv6Address | None:

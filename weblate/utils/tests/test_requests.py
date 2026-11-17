@@ -58,7 +58,6 @@ class FetchURLTest(SimpleTestCase):
                 "https_proxy": "http://https-proxy.example:8080",
                 "all_proxy": "http://generic-proxy.example:8080",
                 "ftp_proxy": "http://ftp-proxy.example:8080",
-                "no_proxy": "*",
             },
             clear=True,
         ):
@@ -71,6 +70,22 @@ class FetchURLTest(SimpleTestCase):
                 "http://https-proxy.example:8080",
             )
             self.assertIsNone(get_environment_proxy("ftp://example.com/source"))
+
+    def test_environment_proxy_honors_no_proxy(self) -> None:
+        with patch.dict(
+            os.environ,
+            {
+                "https_proxy": "http://https-proxy.example:8080",
+                "no_proxy": ".example.com,plain.host",
+            },
+            clear=True,
+        ):
+            self.assertIsNone(get_environment_proxy("https://api.example.com/x"))
+            self.assertIsNone(get_environment_proxy("https://plain.host/x"))
+            self.assertEqual(
+                get_environment_proxy("https://other.org/x"),
+                "http://https-proxy.example:8080",
+            )
 
     def test_environment_proxy_does_not_use_all_proxy(self) -> None:
         with patch.dict(
