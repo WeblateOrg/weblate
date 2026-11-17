@@ -785,6 +785,11 @@ class ImportCheckLockTest(ViewTestCase):
             component.create_translations_immediate(force=True)
         self.assertEqual(lock.call_count, len(matches))
 
+    def test_unchanged_files_do_not_lock(self) -> None:
+        with patch("weblate.checks.locks._check_project_read_lock") as lock:
+            self.component.create_translations_immediate(force_scan=True)
+        lock.assert_not_called()
+
 
 class CheckLintTestCase(SimpleTestCase):
     def test_plain_description(self) -> None:
