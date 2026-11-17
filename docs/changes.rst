@@ -11,6 +11,7 @@ Weblate 2026.12
 * Batched daily statistics collection to reduce database queries and bound memory use on large sites with cached statistics.
 * Added :envvar:`WEBLATE_SECRET_KEY` support to configure Docker's Django secret key directly or from a mounted secret file.
 * Reduced database loading when polling :ref:`background tasks <api-tasks>` spanning many components.
+* Listed :ref:`saved-searches` first in the search filters and truncated long saved queries.
 
 .. rubric:: Security fixes
 
