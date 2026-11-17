@@ -3644,6 +3644,33 @@ class ChangeTest(ModelTestCase):
 
         self.assertIn(workspace_change, Change.objects.last_changes(user))
 
+    def test_last_changes_keeps_project_history_after_workspace_move(self) -> None:
+        original = Workspace.objects.create(name="Left workspace")
+        other = Workspace.objects.create(name="Receiving workspace")
+        project = self.component.project
+        Project.objects.filter(pk=project.pk).update(workspace=original)
+        project.refresh_from_db()
+        user = User.objects.create_user(
+            "workspace-move-history",
+            "workspace-move-history@example.com",
+            "workspace-move-history",
+        )
+        moved_change = Change.objects.create(
+            user=get_test_actor(self),
+            project=project,
+            action=ActionEvents.LOCK,
+        )
+        self.assertEqual(moved_change.workspace_id, original.pk)
+
+        # The project leaves for another workspace; the user cannot view the
+        # one the history was recorded in, but can access the project.
+        Project.objects.filter(pk=project.pk).update(workspace=other)
+        project.refresh_from_db()
+        self.assertFalse(original.can_view(user))
+        self.assertTrue(user.can_access_project(project))
+
+        self.assertIn(moved_change, Change.objects.last_changes(user))
+
     def test_change_workspace_backfill_migration(self) -> None:
         migration = importlib.import_module(
             "weblate.trans.migrations.0088_change_workspace_backfill"

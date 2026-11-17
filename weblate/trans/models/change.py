@@ -378,12 +378,16 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
         """
         Hide changes in workspaces the user cannot view.
 
-        Rows without a workspace are kept. Visibility follows
-        Workspace.can_view(): a workspace is visible when it holds one of the
-        user's allowed projects, the user has a workspace permission on it,
-        or the user can view it globally (management access, or billing
-        management for workspaces that carry a billing; billed workspaces
-        otherwise reduce to the workspace.edit permission).
+        Only workspace-only rows (no project) are judged here: rows carrying
+        a project keep the workspace they were recorded with even after the
+        project moves (see the workspace backfill), and their visibility is
+        governed by the project access checks instead. For workspace-only
+        rows, visibility follows Workspace.can_view(): a workspace is
+        visible when it holds one of the user's allowed projects, the user
+        has a workspace permission on it, or the user can view it globally
+        (management access, or billing management for workspaces that carry
+        a billing; billed workspaces otherwise reduce to the
+        workspace.edit permission).
         """
         if user.is_superuser or user.has_perm("management.use"):
             return self
@@ -403,7 +407,9 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
             condition |= Q(billing__isnull=False)
         visible_workspaces = Workspace.objects.filter(condition)
         return self.filter(
-            Q(workspace__isnull=True) | Q(workspace__in=visible_workspaces)
+            Q(project__isnull=False)
+            | Q(workspace__isnull=True)
+            | Q(workspace__in=visible_workspaces)
         )
 
     def filter_components(self, user: User) -> Self:
