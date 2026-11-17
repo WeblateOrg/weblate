@@ -228,6 +228,7 @@ from weblate.vcs.ssh import add_host_key
 
 if TYPE_CHECKING:
     from collections.abc import Collection, Generator, Iterable
+    from contextlib import AbstractContextManager
     from datetime import datetime
     from typing import BinaryIO
     from uuid import UUID
@@ -5379,17 +5380,18 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     )
                     continue
                 try:
-                    translation = Translation.objects.check_sync(
-                        self,
-                        lang,
-                        code,
-                        path,
-                        force=force,
-                        request=request,
-                        user=user,
-                        change=change,
-                        preserve_pending_units=preserve_pending_units,
-                    )
+                    with self.import_check_lock():
+                        translation = Translation.objects.check_sync(
+                            self,
+                            lang,
+                            code,
+                            path,
+                            force=force,
+                            request=request,
+                            user=user,
+                            change=change,
+                            preserve_pending_units=preserve_pending_units,
+                        )
                 except InvalidTemplateError as error:
                     self.log_warning(
                         "skipping update due to error in parsing template: %s",
@@ -5517,6 +5519,15 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         self.log_info("updating completed")
         return was_change
+
+    def import_check_lock(self) -> AbstractContextManager[object]:
+        """Hold the check boundary lock once per file instead of per unit."""
+        if not (CHECKS.get("inconsistent") or CHECKS.get("reused")):
+            return nullcontext()
+
+        from weblate.checks.locks import check_project_read_lock  # ruff: ignore[import-outside-top-level]
+
+        return check_project_read_lock(self)
 
     def start_batched_checks(self) -> None:
         self.batch_checks = True

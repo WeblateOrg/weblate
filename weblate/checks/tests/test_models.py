@@ -24,6 +24,7 @@ from django.utils.html import format_html
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, Role, User
 from weblate.automation.context import automation_origin
+from weblate.checks import locks
 from weblate.checks.base import BatchCheckMixin, TargetCheck
 from weblate.checks.consistency import ConsistencyCheck
 from weblate.checks.locks import (
@@ -758,6 +759,31 @@ class CheckBoundaryRefreshTest(FixtureTestCase):
                 with lock(component):
                     self.assertEqual(component.project_id, destination.pk)
                     self.assertEqual(component.project.pk, destination.pk)
+
+    def test_nested_read_lock_reuses_outer_lock(self) -> None:
+        component = self.component
+        with (
+            check_project_read_lock(component) as outer_changed,
+            self.assertNumQueries(0),
+            check_project_read_lock(component) as changed,
+        ):
+            self.assertEqual(changed, outer_changed)
+
+
+class ImportCheckLockTest(ViewTestCase):
+    def test_import_locks_once_per_file(self) -> None:
+        component = self.component
+        Unit.objects.filter(translation__component=component).exclude(
+            translation=component.source_translation
+        ).delete()
+        matches = component.get_mask_matches()
+        self.assertTrue(matches)
+        with patch(
+            "weblate.checks.locks._check_project_read_lock",
+            wraps=locks._check_project_read_lock,  # ruff: ignore[private-member-access]
+        ) as lock:
+            component.create_translations_immediate(force=True)
+        self.assertEqual(lock.call_count, len(matches))
 
 
 class CheckLintTestCase(SimpleTestCase):

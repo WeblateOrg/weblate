@@ -26,6 +26,10 @@ _boundary_locks: ContextVar[dict[str, WeblateLock] | None] = ContextVar(
     "check_boundary_locks", default=None
 )
 
+_component_read_locks: ContextVar[tuple[tuple[Component, bool], ...]] = ContextVar(
+    "check_component_read_locks", default=()
+)
+
 
 @contextmanager
 def check_boundary_lock(project: Project) -> Generator[None, None, None]:
@@ -152,7 +156,27 @@ def _refresh_check_component(component: Component, current: Component) -> None:
 
 @contextmanager
 def check_project_read_lock(component: Component) -> Generator[bool, None, None]:
-    """Refresh component access after waiting for a boundary transition."""
+    """
+    Refresh component access after waiting for a boundary transition.
+
+    Nested calls for the same component instance reuse the outer lock.
+    """
+    active = _component_read_locks.get()
+    for locked_component, changed in active:
+        if locked_component is component:
+            yield changed
+            return
+
+    with _check_project_read_lock(component) as changed:
+        token = _component_read_locks.set((*active, (component, changed)))
+        try:
+            yield changed
+        finally:
+            _component_read_locks.reset(token)
+
+
+@contextmanager
+def _check_project_read_lock(component: Component) -> Generator[bool, None, None]:
     from weblate.trans.models import Component, Project  # ruff: ignore[import-outside-top-level]
 
     with transaction.atomic():
