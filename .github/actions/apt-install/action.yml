@@ -1,0 +1,47 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: Install APT dependencies
+description: Install CI dependencies using an offline-first APT cache
+
+inputs:
+  save-cache:
+    description: Designate this job as a cache writer on main
+    default: 'false'
+
+runs:
+  using: composite
+  steps:
+  - name: Prepare APT cache
+    id: key
+    shell: bash
+    env:
+      INSTALLER_HASH: ${{ hashFiles('ci/apt-install') }}
+    run: |
+      mkdir -p "$GITHUB_WORKSPACE/build/apt-cache"
+      source /etc/os-release
+      prefix="apt-v1-ubuntu-${VERSION_ID}-${RUNNER_ARCH}-${INSTALLER_HASH}-"
+      echo "prefix=$prefix" >> "$GITHUB_OUTPUT"
+      echo "key=${prefix}$(date -u +%G-%V)" >> "$GITHUB_OUTPUT"
+  - name: Restore APT cache
+    id: cache
+    continue-on-error: true
+    uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+    with:
+      path: build/apt-cache
+      key: ${{ steps.key.outputs.key }}
+      restore-keys: ${{ steps.key.outputs.prefix }}
+  - name: Install APT dependencies
+    id: install
+    shell: bash
+    env:
+      REFRESH: ${{ github.ref == 'refs/heads/main' && inputs.save-cache == 'true' && steps.cache.outputs.cache-hit != 'true' }}
+    run: sudo env GITHUB_OUTPUT="$GITHUB_OUTPUT" ./ci/apt-install "$GITHUB_WORKSPACE/build/apt-cache" "$REFRESH"
+  - name: Save APT cache
+    if: github.ref == 'refs/heads/main' && inputs.save-cache == 'true' && steps.cache.outputs.cache-hit != 'true' && steps.install.outputs.refreshed == 'true'
+    continue-on-error: true
+    uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+    with:
+      path: build/apt-cache
+      key: ${{ steps.key.outputs.key }}
