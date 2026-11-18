@@ -6436,6 +6436,53 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         self.assertEqual(translation[cleaned_source][0]["text"], "Bonjour @@PH7@@!")
         self.assertEqual(label_languages, ["en", "en"])
 
+    def test_translate_sends_source_notes(self) -> None:
+        machine = self.get_machine()
+        unit = make_unit(code="fr", source="New", context="ActionNew")
+        unit.source_unit.note = "Button that creates a new examination type."
+        unit.note = "Stale comment copied into the translation file."
+        typed_unit = cast("Unit", unit)
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            item = json.loads(content)["strings"][0]
+            self.assertEqual(
+                item["notes"], "Button that creates a new examination type."
+            )
+            return json.dumps(["Nouveau"])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = machine.download_multiple_translations(
+                "en", "fr", [("New", typed_unit)]
+            )
+
+        self.assertEqual(translation["New"][0]["text"], "Nouveau")
+
+    def test_translate_omits_empty_notes(self) -> None:
+        machine = self.get_machine()
+        unit = make_unit(code="fr", source="New", context="ActionNew")
+        typed_unit = cast("Unit", unit)
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            self.assertNotIn("notes", json.loads(content)["strings"][0])
+            return json.dumps(["Nouveau"])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            machine.download_multiple_translations("en", "fr", [("New", typed_unit)])
+
     def test_translate_uses_neutral_previous_messages_without_czech(self) -> None:
         machine = self.get_machine()
         unit = make_unit(code="fr", source="Hello, world!")
