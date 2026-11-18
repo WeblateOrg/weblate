@@ -1,0 +1,90 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: Restore Python dependencies
+description: Restore compatible uv artifacts without sharing virtual environments
+
+inputs:
+  profile:
+    description: Dependency profile (runtime or migrations)
+    default: runtime
+  python-version:
+    description: Resolved Python version from setup-python
+    required: true
+
+outputs:
+  primary-key:
+    description: Cache key captured before dependency installation
+    value: ${{ steps.key.outputs.primary-key }}
+  matched-key:
+    description: Restored cache key, if any
+    value: ${{ steps.restore.outputs.cache-matched-key }}
+  exact-hit:
+    description: Whether the primary key was restored
+    value: ${{ steps.restore.outputs.cache-hit }}
+  cache-directory:
+    description: uv dependency cache directory
+    value: ${{ steps.key.outputs.cache-directory }}
+
+runs:
+  using: composite
+  steps:
+  - name: Identify compatible build environment
+    id: key
+    shell: bash
+    env:
+      CACHE_PROFILE: ${{ inputs.profile }}
+      CACHE_PYTHON_VERSION: ${{ inputs.python-version }}
+      CACHE_RUNNER_OS: ${{ runner.os }}
+      CACHE_RUNNER_ARCH: ${{ runner.arch }}
+      CACHE_BUILD_FILES: ${{ hashFiles('ci/apt-install', 'ci/pip-install') }}
+      CACHE_MIGRATION_FILES: ${{ hashFiles('ci/migrate-override.txt') }}
+      CACHE_DEPENDENCIES: ${{ hashFiles('pyproject.toml', 'uv.lock') }}
+    run: |
+      set -euo pipefail
+      case "$CACHE_PROFILE" in
+        runtime) ;;
+        migrations)
+          CACHE_PYTHON_VERSION+="-$(python3.11 --version)-$(python3.13 --version)"
+          CACHE_BUILD_FILES+="-$CACHE_MIGRATION_FILES"
+          ;;
+        *) echo "Unknown cache profile: $CACHE_PROFILE" >&2; exit 1 ;;
+      esac
+      # Source-built wheels must match both the runner release and native libraries.
+      . /etc/os-release
+      native_versions=$(pkg-config --modversion libxml-2.0 xmlsec1)
+      build_hash=$(printf '%s\n' "$CACHE_BUILD_FILES" "$native_versions" | sha256sum | cut -d ' ' -f 1)
+      python_versions=${CACHE_PYTHON_VERSION// /}
+      uv_version=$(uv --version | cut -d ' ' -f 2)
+      prefix="weblate-uv-v1-${CACHE_RUNNER_OS}-${CACHE_RUNNER_ARCH}-${ID}-${VERSION_ID}-${python_versions}-${uv_version}-${CACHE_PROFILE}-${build_hash}-"
+      {
+        echo "primary-key=${prefix}${CACHE_DEPENDENCIES}"
+        echo "restore-prefix=$prefix"
+        echo "cache-directory=$(uv cache dir)"
+      } >> "$GITHUB_OUTPUT"
+  - name: Restore uv artifacts
+    id: restore
+    continue-on-error: true
+    uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+    with:
+      path: ${{ steps.key.outputs.cache-directory }}
+      key: ${{ steps.key.outputs.primary-key }}
+      restore-keys: ${{ steps.key.outputs.restore-prefix }}
+  - name: Report cache reuse
+    shell: bash
+    env:
+      CACHE_EXACT_HIT: ${{ steps.restore.outputs.cache-hit }}
+      CACHE_MATCHED_KEY: ${{ steps.restore.outputs.cache-matched-key }}
+      CACHE_DIRECTORY: ${{ steps.key.outputs.cache-directory }}
+    run: |
+      if [ "$CACHE_EXACT_HIT" = true ]; then
+        echo "Python dependency cache: exact hit ($CACHE_MATCHED_KEY)"
+      elif [ -n "$CACHE_MATCHED_KEY" ]; then
+        echo "Python dependency cache: compatible fallback ($CACHE_MATCHED_KEY)"
+      else
+        echo "Python dependency cache: miss"
+      fi
+      if [ -d "$CACHE_DIRECTORY" ]; then
+        du -sh "$CACHE_DIRECTORY"
+      fi

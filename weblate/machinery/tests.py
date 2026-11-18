@@ -27,8 +27,9 @@ from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from django.db import connection
 from django.test import Client, SimpleTestCase, TestCase
-from django.test.utils import override_settings
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils.translation import get_language
 from django.utils.translation import override as translation_override
@@ -10503,6 +10504,100 @@ class AnthropicCustomModelTranslationTest(AnthropicTranslationTest):
 
 
 class WeblateTranslationTest(FixtureComponentTestCase):
+    def test_candidate_pages_keep_short_source_ranking(self) -> None:
+        unit = self.get_unit(language="cs")
+        candidates = Unit.objects.bulk_create(
+            [
+                Unit(
+                    translation=unit.translation,
+                    source_unit_id=unit.source_unit_id,
+                    source=source,
+                    target=source,
+                    state=STATE_TRANSLATED,
+                    id_hash=index,
+                    position=index,
+                )
+                for index, source in enumerate(["map", "apple", "app", "ap", "AP"])
+            ]
+        )
+        machine = WeblateTranslation({})
+        machine.candidate_limit = 2
+        matches = list(
+            machine.get_matching_units(
+                Unit.objects.filter(pk__in=[unit.pk for unit in candidates]), "ap", 75
+            )
+        )
+        self.assertEqual(
+            [unit.pk for unit in matches],
+            [candidates[index].pk for index in (3, 4, 2, 1, 0)],
+        )
+
+    def test_candidate_pages_continue_after_rejected_long_sources(self) -> None:
+        unit = self.get_unit(language="cs")
+        text = (
+            "<p>"
+            + "".join(
+                f"Template message {index} for the customer. " for index in range(60)
+            )[:1739]
+            + "</p>"
+        )
+        candidates = Unit.objects.bulk_create(
+            [
+                Unit(
+                    translation=unit.translation,
+                    source_unit_id=unit.source_unit_id,
+                    source=source,
+                    target=f"Translation {index}",
+                    flags=flags,
+                    state=STATE_TRANSLATED,
+                    id_hash=index,
+                    position=index,
+                )
+                for index, (source, flags) in enumerate(
+                    [
+                        (text.upper(), ""),
+                        (text, "forbidden"),
+                        (text, ""),
+                        (text.replace("customer", "customers", 1), ""),
+                        (text.replace("customer", "customers", 1), ""),
+                    ]
+                )
+            ]
+        )
+        machine = WeblateTranslation({})
+        machine.candidate_limit = 2
+        with CaptureQueriesContext(connection) as queries:
+            results = list(
+                machine.download_translations(
+                    unit.translation.component.source_language,
+                    unit.translation.language,
+                    text,
+                    unit=None,
+                    user=self.user,
+                    threshold=75,
+                )
+            )
+        self.assertEqual(
+            [result["text"] for result in results],
+            [candidates[index].target for index in (2, 3)],
+        )
+        candidate_queries = [
+            query["sql"] for query in queries if "UNION ALL" in query["sql"]
+        ]
+        self.assertEqual(len(candidate_queries), 2)
+        for sql in candidate_queries:
+            self.assertIn("LIMIT 2", sql)
+            self.assertNotIn("OFFSET", sql)
+        # Continue through a nonintegral similarity rank shared across pages.
+        matches = list(
+            machine.get_matching_units(
+                Unit.objects.filter(pk__in=[unit.pk for unit in candidates]), text, 75
+            )
+        )
+        self.assertEqual(
+            [unit.pk for unit in matches], [unit.pk for unit in candidates]
+        )
+
     def test_regular_source_query_keeps_indexed_lookup(self) -> None:
         unit = self.get_unit(language="cs")
         machine = WeblateTranslation({})
@@ -10897,7 +10992,12 @@ class ViewsTest(FixtureTestCase):
         unit = self.get_unit()
         url = reverse("js-translate", kwargs={"unit_id": unit.pk, "service": "dummy"})
         self.assertEqual(self.client.post(url).status_code, 200)
-        self.assertEqual(self.client.post(url).status_code, 429)
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, 429)
+        data = response.json()
+        self.assertEqual(data["service"], DummyTranslation.name)
+        self.assertEqual(data["responseStatus"], 429)
+        self.assertEqual(data["responseDetails"], "Too many translation requests.")
 
     def test_translate_concurrency_is_per_installation(self) -> None:
         from weblate.machinery.admission import machinery_slot  # ruff: ignore[import-outside-top-level]
@@ -10925,6 +11025,13 @@ class ViewsTest(FixtureTestCase):
                     )
                 )
                 self.assertEqual(response.status_code, 429)
+                data = response.json()
+                self.assertEqual(data["service"], DummyTranslation.name)
+                self.assertEqual(data["responseStatus"], 429)
+                self.assertEqual(
+                    data["responseDetails"],
+                    "Too many concurrent translation requests for this service.",
+                )
                 response = await self.async_client.post(
                     reverse(
                         "js-translate",

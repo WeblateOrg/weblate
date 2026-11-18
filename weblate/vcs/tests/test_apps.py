@@ -100,6 +100,17 @@ class VCSChecksTest(SimpleTestCase):
         Repository.clear_version_cache()
         VCS_REGISTRY.clear_cache()
 
+    @override_settings(GITHUB_CREDENTIALS={})
+    def test_unavailable_git_backend_can_switch_to_available_git(self) -> None:
+        self.assertIsNotNone(VCS_REGISTRY.get_unfiltered("github"))
+        self.assertNotIn("github", VCS_REGISTRY.git_based)
+
+        choices = VCS_REGISTRY.allowed_component_vcs_choices("github")
+
+        self.assertIn("github", choices)
+        self.assertIn("git", choices)
+        self.assertNotIn("mercurial", choices)
+
     def test_builtin_required_commands(self) -> None:
         with patch("weblate.vcs.base.find_runtime_command", return_value=None):
             self.assertEqual(GitRepository.get_missing_commands(), ("git",))

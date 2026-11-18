@@ -1080,20 +1080,16 @@ async def translate(
     else:
         response["service"] = translation_service.name
         if not await sync_to_async(check_rate_limit)("machinery", request):
-            return JsonResponse(
-                {"responseDetails": gettext("Too many translation requests.")},
-                status=429,
-            )
+            response["responseStatus"] = 429
+            response["responseDetails"] = gettext("Too many translation requests.")
+            return JsonResponse(response, status=429)
         async with machinery_slot(request.user.pk, installation.pk) as admitted:
             if not admitted:
-                return JsonResponse(
-                    {
-                        "responseDetails": gettext(
-                            "Too many concurrent translation requests for this service."
-                        )
-                    },
-                    status=429,
+                response["responseStatus"] = 429
+                response["responseDetails"] = gettext(
+                    "Too many concurrent translation requests for this service."
                 )
+                return JsonResponse(response, status=429)
             source_translation = await sync_to_async(get_machinery_source_translation)(
                 translation_service, unit
             )
