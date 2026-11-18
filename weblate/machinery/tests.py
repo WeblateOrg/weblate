@@ -6464,6 +6464,33 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
         self.assertEqual(translation["New"][0]["text"], "Nouveau")
 
+    def test_translate_falls_back_to_unit_notes(self) -> None:
+        machine = self.get_machine()
+        unit = make_unit(code="fr", source="New", context="ActionNew")
+        unit.note = "Button that creates a new examination type."
+        typed_unit = cast("Unit", unit)
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            item = json.loads(content)["strings"][0]
+            self.assertEqual(
+                item["notes"], "Button that creates a new examination type."
+            )
+            return json.dumps(["Nouveau"])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = machine.download_multiple_translations(
+                "en", "fr", [("New", typed_unit)]
+            )
+
+        self.assertEqual(translation["New"][0]["text"], "Nouveau")
+
     def test_translate_omits_empty_notes(self) -> None:
         machine = self.get_machine()
         unit = make_unit(code="fr", source="New", context="ActionNew")
