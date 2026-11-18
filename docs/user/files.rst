@@ -98,7 +98,7 @@ Suggestion uploads are limited to 20,000 content strings present in the uploaded
 file, including strings which are skipped or do not match. Source-template
 strings absent from the upload do not count toward this limit. Split larger
 suggestion files before uploading.
-Other upload methods retain the general 100,000-string limit.
+Other upload methods use the general :setting:`TRANSLATION_MAX_UNITS` limit.
 
 Browser and API uploads share the per-user :setting:`RATELIMIT_UPLOAD_ATTEMPTS`
 limit. The API supports multiple outstanding uploads; see :doc:`/api`.

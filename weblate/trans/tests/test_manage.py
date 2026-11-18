@@ -35,7 +35,7 @@ from weblate.trans.models import Announcement, Category, Component, Project, Tra
 from weblate.trans.models.component import ComponentLink, ComponentQuerySet
 from weblate.trans.tasks import category_removal, component_removal
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.tests.utils import get_test_actor
+from weblate.trans.tests.utils import get_optional_path, get_test_actor
 from weblate.utils.change_origin import acting_user_context
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
@@ -318,6 +318,65 @@ class RemovalTest(ViewTestCase):
             Project.objects.filter(pk=self.project.pk).delete()
         self.assertTrue(Project.objects.filter(pk=self.project.pk).exists())
 
+    def test_bulk_removal_preflights_all_delete_templates(self) -> None:
+        self.make_manager()
+        other = self.create_po(name="Other", project=self.project)
+        category = self.create_category(self.project)
+        translations = [
+            component.translation_set.get(language_code="cs")
+            for component in (self.component, other)
+        ]
+        filenames = [
+            get_optional_path(translation.get_filename())
+            for translation in translations
+        ]
+        heads = [
+            component.repository.last_revision for component in (self.component, other)
+        ]
+        Component.objects.filter(pk=other.pk).update(
+            delete_message="{% invalid %}", inherit_delete_message=False
+        )
+        for parent in (self.project, category):
+            with self.subTest(parent=parent):
+                if isinstance(parent, Category):
+                    Component.objects.filter(
+                        pk__in=[self.component.pk, other.pk]
+                    ).update(category=parent)
+                path = [*parent.get_url_path(), "-", "cs"]
+                response = self.client.post(
+                    reverse("remove", kwargs={"path": path}),
+                    {"confirm": "/".join(path)},
+                    follow=True,
+                )
+                self.assertContains(
+                    response, "Could not render delete message template"
+                )
+                for translation, filename, head in zip(
+                    translations, filenames, heads, strict=True
+                ):
+                    self.assertTrue(
+                        Translation.objects.filter(pk=translation.pk).exists()
+                    )
+                    self.assertTrue(filename.exists())
+                    self.assertEqual(
+                        translation.component.repository.get_last_revision(), head
+                    )
+
+    def test_invalid_delete_template_is_handled(self) -> None:
+        self.make_manager()
+        Component.objects.filter(pk=self.component.pk).update(
+            delete_message="{% invalid %}", inherit_delete_message=False
+        )
+        response = self.client.post(
+            reverse("remove", kwargs=self.kw_translation),
+            {"confirm": "test/test/cs"},
+            follow=True,
+        )
+        self.assertContains(response, "Could not render delete message template")
+        self.assertTrue(
+            self.component.translation_set.filter(language_code="cs").exists()
+        )
+
     def test_translation_remove_is_atomic(self) -> None:
         translation = self.get_translation()
         original_delete = Translation.delete
@@ -358,7 +417,7 @@ class RemovalTest(ViewTestCase):
         atomic_states: list[bool] = []
         url = reverse("remove", kwargs={"path": [self.project.slug, "-", "cs"]})
 
-        def wrapped_remove(instance, user) -> None:
+        def wrapped_remove(instance, user, *, commit_message=None) -> None:
             atomic_states.append(connection.in_atomic_block)
 
         with patch.object(

@@ -156,6 +156,7 @@ type RepositoryDiagnosisCode = Literal[
     "temporary_failure",
 ]
 type RepositoryErrorCode = Literal[
+    "template_render_failed",
     "repository_checkout_missing",
     "repository_checkout_invalid",
     "api_error",
@@ -246,6 +247,9 @@ class RepositoryAlertDetails(TypedDict):
 
 
 REPOSITORY_ERROR_MESSAGES: dict[RepositoryErrorCode, str] = {
+    "template_render_failed": gettext_noop(
+        "Could not render %(setting)s template: %(error)s"
+    ),
     "repository_checkout_missing": gettext_noop(
         "The local repository checkout is missing."
     ),
@@ -633,6 +637,15 @@ def format_stored_repository_error(
         params=error.get("params"),
     )
     return structured.get_message(translator)
+
+
+class RepositoryTemplateError(RepositoryInternalError):
+    """A configured message could not be rendered; no fallback is safe."""
+
+    def __init__(self, setting: str, error: str) -> None:
+        super().__init__(
+            0, "template_render_failed", params={"setting": setting, "error": error}
+        )
 
 
 class RepositoryCommandError(RepositoryError):
