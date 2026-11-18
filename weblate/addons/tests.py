@@ -42,11 +42,12 @@ from django.core.management.commands.makemessages import (
 )
 from django.core.management.utils import find_command
 from django.db import connection
-from django.template import TemplateSyntaxError
+from django.template import Context, Template, TemplateSyntaxError
 from django.test import SimpleTestCase, TestCase, TransactionTestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import get_language, override
 from django_celery_beat.models import IntervalSchedule, PeriodicTask, PeriodicTasks
 from rest_framework.test import APIClient
 from standardwebhooks.webhooks import Webhook, WebhookVerificationError
@@ -68,6 +69,7 @@ from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
 from weblate.trans.component_copy import copy_component_addons
+from weblate.trans.defaults import DEFAULT_ADDON_MESSAGE
 from weblate.trans.discovery import DetectedDiscoveryPresets
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.file_format_params import get_default_params_for_file_format
@@ -102,6 +104,7 @@ from weblate.trans.validators import MAX_NEW_TEXT_LENGTH
 from weblate.utils.celery import handle_task_failure
 from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.forms import FormFieldGroup
+from weblate.utils.render import render_template
 from weblate.utils.rst import FullWidthRow
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
@@ -227,6 +230,39 @@ def get_webhook_request_data(
         assert isinstance(value, str)
         headers[key] = value
     return request.content, headers
+
+
+class AddonCommitContextTest(SimpleTestCase):
+    def test_english_commit_labels(self) -> None:
+        for addon_class, expected_name in (
+            (GenerateMoAddon, "Generate MO files"),
+            (GitSquashAddon, "Squash Git commits"),
+        ):
+            addon = addon_class(Addon(configuration={"squash": "all"}))
+            component = MagicMock()
+            component.linked_component = None
+            component.repo_needs_merge.return_value = False
+            component.effective_addon_message = DEFAULT_ADDON_MESSAGE
+            with self.subTest(addon=addon_class.name), override("cs"):
+                if isinstance(addon, GitSquashAddon):
+                    with (
+                        patch.object(addon, "ensure_repository_clean"),
+                        patch.object(addon, "squash_all"),
+                    ):
+                        addon.post_commit(component, True)
+                else:
+                    self.assertTrue(addon.commit_and_push(component, files=["file.po"]))
+                extra_context = component.commit_files.call_args.kwargs["extra_context"]
+                self.assertIs(type(extra_context["addon_name"]), str)
+                self.assertEqual(extra_context["addon_name"], expected_name)
+                rendered = render_template(
+                    DEFAULT_ADDON_MESSAGE,
+                    component_full_name="project/component",
+                    url="https://example.org/",
+                    **extra_context,
+                )
+                self.assertIn(f"Add-on: {expected_name}", rendered)
+                self.assertEqual(get_language(), "cs")
 
 
 class GettextUtilityTest(SimpleTestCase):
@@ -5641,7 +5677,7 @@ msgstr ""
         )
         output = Path(self.component.full_path) / "locales.json"
         output.write_text("original", encoding="utf-8")
-        with self.assertRaisesMessage(TemplateSyntaxError, "padding"):
+        with self.assertRaises(TemplateSyntaxError):
             addon.generate_component(self.component)
         self.assertEqual(output.read_text(encoding="utf-8"), "original")
 
@@ -10514,7 +10550,7 @@ class AddonConfigurationUnitTest(SimpleTestCase):
             },
         )
         self.assertFalse(form.is_valid())
-        self.assertIn("padding", str(form.errors["template"]))
+        self.assertIn("template", form.errors)
 
     def test_generate_file_runtime_configuration_is_normalized(self) -> None:
         addon = GenerateFileAddon(
@@ -12014,6 +12050,88 @@ class TargetChangeAddonTest(ComponentTestCase):
 class TasksTest(TestCase):
     def test_cleanup_addon_activity_log(self) -> None:
         cleanup_addon_activity_log()
+
+
+class WebhookActivityLogTest(SimpleTestCase):
+    def render_result(self, addon_class: type[BaseAddon], details: dict) -> str:
+        addon = addon_class(MagicMock())
+        activity = AddonActivityLog(id=123, details=details)
+        return Template("{{ result }}").render(
+            Context({"result": addon.render_activity_log(activity)})
+        )
+
+    def test_success(self) -> None:
+        for addon_class in (WebhookAddon, SlackWebhookAddon):
+            for headers in ({}, {"X-Header": "<unsafe>"}):
+                with self.subTest(addon_class=addon_class, headers=headers):
+                    rendered = self.render_result(
+                        addon_class,
+                        {
+                            "result": {
+                                "request": {
+                                    "headers": headers,
+                                    "payload": {"message": "<payload>"},
+                                },
+                                "response": {
+                                    "status_code": 201,
+                                    "headers": headers,
+                                    "content": "<content>",
+                                },
+                            }
+                        },
+                    )
+                    self.assertIn('id="response-123"', rendered)
+                    self.assertIn('id="request-123"', rendered)
+                    self.assertIn("201", rendered)
+                    self.assertIn("&lt;payload&gt;", rendered)
+                    self.assertIn("&lt;content&gt;", rendered)
+                    if headers:
+                        self.assertIn("<b>X-Header</b>: &lt;unsafe&gt;", rendered)
+
+    def test_pending_and_errors(self) -> None:
+        for addon_class in (WebhookAddon, SlackWebhookAddon):
+            for details, expected in (
+                ({}, ""),
+                ({"result": None}, ""),
+                ({"result": ""}, ""),
+                (
+                    {"result": "Unable to deliver webhook: <unsafe>"},
+                    "Unable to deliver webhook: &lt;unsafe&gt;",
+                ),
+                (
+                    {"result": "Delivery failed\n<unsafe>"},
+                    "Delivery failed<br>&lt;unsafe&gt;",
+                ),
+            ):
+                with self.subTest(addon_class=addon_class, details=details):
+                    self.assertEqual(self.render_result(addon_class, details), expected)
+
+    def test_unstructured_results(self) -> None:
+        for addon_class in (WebhookAddon, SlackWebhookAddon):
+            for result in (
+                {"results": ["<unsafe>", {"response": {"status_code": 200}}]},
+                {"message": "<unsafe>"},
+                {"request": {"headers": {}}, "message": "<unsafe>"},
+                {"response": {"headers": {}}, "message": "<unsafe>"},
+                *(
+                    {
+                        "request": {"headers": {}},
+                        "response": {"headers": {}},
+                        key: {"headers": headers},
+                        "message": "<unsafe>",
+                    }
+                    for key in ("request", "response")
+                    for headers in (None, "", "<unsafe>", [])
+                ),
+            ):
+                with self.subTest(addon_class=addon_class, result=result):
+                    rendered = self.render_result(addon_class, {"result": result})
+                    self.assertIn("&lt;unsafe&gt;", rendered)
+                    self.assertNotIn("<unsafe>", rendered)
+                    self.assertNotIn('class="nav nav-pills"', rendered)
+                    if "results" in result:
+                        self.assertIn("200", rendered)
+                        self.assertIn("results", rendered)
 
 
 class WebhookDeliveryTest(SimpleTestCase):

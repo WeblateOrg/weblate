@@ -4,117 +4,31 @@
 
 from __future__ import annotations
 
-import json
-import subprocess  # ruff: ignore[suspicious-subprocess-import]
-import sys
-from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.template import Context, TemplateSyntaxError
-from django.template.base import render_value_in_context
 from django.urls import reverse
-from django.utils.timezone import get_current_timezone_name
 from django.utils.translation import gettext, override
 
 from weblate.utils.outbound import validate_runtime_url
-from weblate.utils.render_engine import check_text, encode_request, encode_value
-from weblate.utils.render_worker import (
-    ERROR_LIMIT,
-    OUTPUT_LIMIT,
-    RENDER_TIMEOUT,
-    SOURCE_LIMIT,
-)
+from weblate.utils.render_context import validate_context
+from weblate.utils.render_engine import check_text, render_bounded
+from weblate.utils.render_limits import SOURCE_LIMIT
 from weblate.utils.site import get_site_url
 from weblate.utils.validators import WeblateEditorURLValidator, WeblateURLValidator
 
 if TYPE_CHECKING:
     from django.core.validators import URLValidator
 
-
-def render_simple(source: str, values: dict[str, object]) -> str | None:
-    """Keep frequent flat substitutions bounded without starting a process."""
-    if "{%" in source or "{#" in source:
-        return None
-    parts = source.split("{{")
-    substitutions = []
-    for part in parts[1:]:
-        name, closing, tail = part.partition("}}")
-        if "\n" in name:
-            return None
-        name = name.strip()
-        if (
-            not closing
-            or not name.isascii()
-            or not name.isidentifier()
-            or name.startswith("_")
-            or name not in values
-            or type(values[name]) not in {str, int, float, bool, type(None)}
-        ):
-            return None
-        substitutions.append((name, tail))
-    result = [parts[0]]
-    size = check_text(parts[0])
-    context = Context(autoescape=False)
-    for name, tail in substitutions:
-        # These are built-in scalars only, without user-provided conversion hooks.
-        value = render_value_in_context(values[name], context)
-        size += check_text(value) + check_text(tail)
-        if size > OUTPUT_LIMIT:
-            msg = gettext("Template output exceeds its size limit.")
-            raise TemplateSyntaxError(msg)
-        result.extend((value, tail))
-    return "".join(result)
+    from weblate.utils.render_context import TemplateContext
 
 
-def render_isolated(source: str, values: dict[str, object]) -> str:
-    payload = encode_request(
-        {
-            "template": source,
-            "context": encode_value(values),
-            "use_tz": settings.USE_TZ,
-            "time_zone": get_current_timezone_name(),
-            "thousands": settings.USE_THOUSAND_SEPARATOR,
-        }
-    )
-    try:
-        completed = subprocess.run(
-            [sys.executable, "-I", str(Path(__file__).with_name("render_worker.py"))],
-            input=payload,
-            capture_output=True,
-            timeout=RENDER_TIMEOUT,
-            check=True,
-            env={"LANG": "C.UTF-8"},
-        )
-    except (OSError, subprocess.SubprocessError) as error:
-        msg = gettext("Template rendering failed or exceeded its resource limits.")
-        raise TemplateSyntaxError(msg) from error
-    return decode_response(completed.stdout)
-
-
-def decode_response(data: bytes) -> str:
-    if len(data) > OUTPUT_LIMIT * 6 + ERROR_LIMIT:
-        raise TemplateSyntaxError(gettext("Oversized template response."))
-    try:
-        response = json.loads(data)
-        rendered = response.get("text")
-        error = response.get("error")
-    except (ValueError, AttributeError) as parse_error:
-        raise TemplateSyntaxError(
-            gettext("Invalid template rendering response.")
-        ) from parse_error
-    if isinstance(error, str):
-        raise TemplateSyntaxError(gettext(error[:ERROR_LIMIT]))
-    if not isinstance(rendered, str):
-        raise TemplateSyntaxError(gettext("Invalid template rendering response."))
-    check_text(rendered)
-    return rendered
-
-
-def render_template(template: str, **kwargs: object) -> str:
-    """Render string template with Weblate context."""
-    check_text(template, SOURCE_LIMIT)
+def prepare_template_context(
+    template: str, values: dict[str, object]
+) -> TemplateContext:
+    """Expand Weblate objects and snapshot the complete evaluation context."""
+    kwargs = values.copy()
 
     from weblate.trans.models import (  # ruff: ignore[import-outside-top-level]
         Component,
@@ -126,11 +40,13 @@ def render_template(template: str, **kwargs: object) -> str:
     component = kwargs.get("component")
     project = kwargs.get("project")
 
-    # Comppatibility with older templates
+    # Compatibility with older templates
     if "addon_name" in kwargs:
         kwargs["hook_name"] = kwargs["addon_name"]
 
-    if isinstance(translation, Translation):
+    # Inspect the actual type, without consulting arbitrary __class__ hooks.
+    if issubclass(type(translation), Translation):
+        translation = cast("Translation", translation)
         kwargs["language_code"] = translation.language_code
         kwargs["language_name"] = translation.language.get_name()
         kwargs["stats"] = translation.stats.get_data()
@@ -139,7 +55,8 @@ def render_template(template: str, **kwargs: object) -> str:
         component = translation.component
         kwargs.pop("translation", None)
 
-    if isinstance(component, Component):
+    if issubclass(type(component), Component):
+        component = cast("Component", component)
         kwargs["component_name"] = component.name
         kwargs["component_full_name"] = str(component)
         kwargs["component_slug"] = component.slug
@@ -166,7 +83,8 @@ def render_template(template: str, **kwargs: object) -> str:
         project = component.project
         kwargs.pop("component", None)
 
-    if isinstance(project, Project):
+    if issubclass(type(project), Project):
+        project = cast("Project", project)
         kwargs["project_name"] = project.name
         kwargs["project_slug"] = project.slug
         if "url" not in kwargs:
@@ -176,10 +94,16 @@ def render_template(template: str, **kwargs: object) -> str:
     kwargs["site_title"] = settings.SITE_TITLE
     kwargs["site_url"] = get_site_url()
 
+    return validate_context(kwargs)
+
+
+def render_template(template: str, **kwargs: object) -> str:
+    """Render string template with validated Weblate context."""
+    check_text(template, SOURCE_LIMIT)
+    values = prepare_template_context(template, kwargs)
+
     with override("en"):
-        rendered = render_simple(template, kwargs)
-        if rendered is None:
-            rendered = render_isolated(template, kwargs)
+        rendered = render_bounded(template, values)
     # Django marks this result safe even though its source was not HTML-escaped.
     # These templates produce plain text; a plain str lets HTML sinks escape it.
     return "" + rendered

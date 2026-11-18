@@ -6,12 +6,8 @@ from __future__ import annotations
 
 import ast
 import json
-import os
-import subprocess  # ruff: ignore[suspicious-subprocess-import]
-import tempfile
 from datetime import UTC, date, datetime, time
 from decimal import Decimal
-from pathlib import Path
 from unittest.mock import patch
 
 from django.core.exceptions import ValidationError
@@ -23,13 +19,20 @@ from django.utils.translation import override
 
 from weblate.trans import defaults
 from weblate.trans.models import Category, Component, Project
-from weblate.utils.render import render_template, validate_render, validate_render_mock
-from weblate.utils.render_worker import (
+from weblate.utils.render import (
+    render_template,
+    validate_render,
+    validate_render_mock,
+)
+from weblate.utils.render_context import validate_context
+from weblate.utils.render_engine import render_bounded
+from weblate.utils.render_limits import (
     CONTEXT_LIMIT,
     LOOP_LIMIT,
     OUTPUT_LIMIT,
     SOURCE_LIMIT,
 )
+from weblate.utils.tests.render_reference import render_reference
 
 
 class RenderTest(SimpleTestCase):
@@ -189,35 +192,178 @@ class RenderTest(SimpleTestCase):
         with self.assertRaises(ValidationError):
             validate_render(source + "é")
 
-    def test_simple_substitutions_do_not_start_worker(self) -> None:
-        with patch("weblate.utils.render.subprocess.run") as run:
+    def test_simple_substitutions(self) -> None:
+        self.assertEqual(
+            render_template(
+                "{{ branch }}/{{ filename }}:{{ line }}",
+                branch="main",
+                filename="cs.po",
+                line=9,
+            ),
+            "main/cs.po:9",
+        )
+
+    def test_plain_text_does_not_compile(self) -> None:
+        with patch(
+            "weblate.utils.render_engine.RestrictedTemplate"
+        ) as compile_template:
+            self.assertEqual(render_bounded("plain text", {}), "plain text")
+        compile_template.assert_not_called()
+
+    def test_bounded_filter_compatibility(self) -> None:
+        expressions = (
+            "value|parentdir|parentdir",
+            "value|dirname",
+            "value|stripext",
+            "value|lower",
+            "value|upper",
+            "value|capfirst",
+            "value|title",
+            "value|urlencode",
+            'value|urlencode:""',
+            "value|iriencode",
+            'value|cut:"a"',
+            'value|slice:"::-1"',
+            "value|length",
+            "value|first",
+            "value|last",
+            'value|default:"fallback"',
+            'value|default_if_none:"fallback"',
+            'value|yesno:"yes,no,maybe"',
+            "value|yesno",
+            "value|escape",
+            "value|force_escape",
+            "value|escapejs",
+            "value|addslashes",
+            "value|escape|escape",
+            "value|escape|force_escape",
+            "value|escape|upper|escape",
+            "value|cut:options.remove|slice:options.range",
+            '"<b>literal</b>"|escape',
+            "value|length|default:7",
+            "stats.translated|default:stats.all",
+            'value | upper | cut:"A"',
+            "'a\\'b|c:d'|addslashes",
+        )
+        for value in ("", "a/b/file.po", "Český ß ﬃ İ <b>&\"'\\\n\u2028"):
+            values: dict[str, object] = {
+                "value": value,
+                "options": {"remove": "a", "range": "1:4"},
+                "stats": {"translated": 0, "all": 7},
+            }
+            for expression in expressions:
+                source = "prefix {{ " + expression + " }} suffix"
+                with self.subTest(value=value, expression=expression), override("en"):
+                    expected = render_reference(source, validate_context(values))
+                    self.assertEqual(render_template(source, **values), expected)
+
+    def test_bounded_scalar_defaults(self) -> None:
+        for value in (None, True, False, 0, 12, 1.25, ""):
+            for expression in (
+                'value|default:"<b>fallback</b>"',
+                'value|default_if_none:"fallback"',
+                'value|yesno:"yes,no,maybe"',
+                "value|default:False",
+                "value|default_if_none:None",
+            ):
+                source = "{{ " + expression + " }}"
+                with self.subTest(value=value, expression=expression), override("en"):
+                    self.assertEqual(
+                        render_template(source, value=value),
+                        render_reference(source, {"value": value}),
+                    )
+
+    def test_bounded_hot_paths(self) -> None:
+        source = (
+            "https://github.com/godotengine/godot-docs/blob/master/"
+            "{{filename|parentdir|parentdir|parentdir}}#L{{line}}"
+        )
+        with patch.object(Component, "repository") as repository:
+            repository.get_remote_branch_name.return_value = "main"
             self.assertEqual(
                 render_template(
-                    "{{ branch }}/{{ filename }}:{{ line }}",
-                    branch="main",
-                    filename="cs.po",
-                    line=9,
+                    source,
+                    filename="../../docs/tutorials/3d/3d_antialiasing.rst",
+                    line="341",
                 ),
-                "main/cs.po:9",
+                "https://github.com/godotengine/godot-docs/blob/master/"
+                "tutorials/3d/3d_antialiasing.rst#L341",
             )
-        run.assert_not_called()
-
-    def test_simple_and_isolated_scalar_formatting(self) -> None:
-        for value in (None, True, False, 1234, 1.25, "<b>text</b>"):
-            with self.subTest(value=value):
-                self.assertEqual(
-                    render_template("{{ value }}", value=value),
-                    render_template("{% if True %}{{ value }}{% endif %}", value=value),
+            for message in (
+                defaults.DEFAULT_COMMIT_MESSAGE,
+                defaults.DEFAULT_ADD_MESSAGE,
+                defaults.DEFAULT_DELETE_MESSAGE,
+                defaults.DEFAULT_MERGE_MESSAGE,
+                defaults.DEFAULT_ADDON_MESSAGE,
+            ):
+                self.assertIn(
+                    "project/component",
+                    validate_render_mock(
+                        message,
+                        language_name="Czech",
+                        addon_name="addon",
+                        stats={"translated_percent": 100, "translated": 1, "all": 1},
+                    ),
                 )
 
-    def test_multiline_variable_remains_literal(self) -> None:
-        self.assertEqual(render_template("{{\nvalue}}", value="text"), "{{\nvalue}}")
+    def test_bounded_dictionary_lookups(self) -> None:
+        values: dict[str, object] = {
+            "stats": {"items": "item", "get": "getter", "nested": {"0": 3}}
+        }
+        for expression in ("stats.items", "stats.get", "stats.nested.0"):
+            source = "{{ " + expression + " }}"
+            with self.subTest(expression=expression):
+                self.assertEqual(
+                    render_template(source, **values),
+                    render_reference(source, validate_context(values)),
+                )
+
+    def test_unsupported_operands_fail_directly(self) -> None:
+        for source, values in (
+            ("{{ value.items }}", {"value": {}}),
+            ("{{ value|cut:123 }}", {"value": "text"}),
+        ):
+            with self.subTest(source=source), self.assertRaises(TemplateSyntaxError):
+                render_template(source, **values)
+
+    def test_bounded_validates_before_transforming(self) -> None:
+        with (
+            patch("weblate.utils.render_engine.RenderBudget.apply_filter") as apply,
+            self.assertRaises(TemplateSyntaxError),
+        ):
+            render_bounded("{{ value|upper }}{{ value|pprint }}", {"value": "text"})
+        apply.assert_not_called()
+
+    def test_bounded_budgets_fail_directly(self) -> None:
+        for limit, source, values in (
+            ("FILTER_LIMIT", "{{ value|upper|lower }}", {"value": "text"}),
+            ("WORK_LIMIT", "{{ value|upper }}", {"value": "text"}),
+            ("OPERATION_LIMIT", "{{ stats.translated }}", {"stats": {"translated": 1}}),
+        ):
+            with (
+                self.subTest(limit=limit),
+                patch("weblate.utils.render_policy." + limit, 1),
+                self.assertRaises(TemplateSyntaxError),
+            ):
+                render_bounded(source, validate_context(dict(values)))
+        with self.assertRaises(TemplateSyntaxError):
+            render_bounded(
+                "{{ value|upper }}", {"value": "a" * (OUTPUT_LIMIT // 3 + 1)}
+            )
+        with self.assertRaises(TemplateSyntaxError):
+            render_bounded("{{ value|upper }}", {"value": "a" * (OUTPUT_LIMIT + 1)})
+
+    def test_bounded_escaping_returns_plain_text(self) -> None:
+        rendered = render_template("{{ value|escape }}", value="<b>text</b>")
+        self.assertIs(type(rendered), str)
+        self.assertEqual(rendered, "&lt;b&gt;text&lt;/b&gt;")
 
     def test_unknown_variables_and_tags(self) -> None:
         for source in ("{{ missing }}", "{% include 'file' %}", "{% load static %}"):
             with self.subTest(source=source), self.assertRaises(TemplateSyntaxError):
                 render_template(source)
 
+    @patch("weblate.utils.render_policy.OPERATION_LIMIT", 100000)
     def test_loop_limit(self) -> None:
         template = "{% for value in values %}x{% endfor %}"
         self.assertEqual(
@@ -225,39 +371,6 @@ class RenderTest(SimpleTestCase):
         )
         with self.assertRaisesMessage(TemplateSyntaxError, "loop limit"):
             render_template(template, values=[0] * (LOOP_LIMIT + 1))
-
-    def test_nested_and_sibling_loops_share_budget(self) -> None:
-        for template in (
-            "{% for a in values %}{% for b in values %}x{% endfor %}{% endfor %}",
-            "{% for a in values %}{% endfor %}{% for a in values %}{% endfor %}",
-        ):
-            with (
-                self.subTest(template=template),
-                self.assertRaisesMessage(TemplateSyntaxError, "loop limit"),
-            ):
-                render_template(template, values=[0] * (LOOP_LIMIT // 2 + 1))
-
-    def test_loop_semantics(self) -> None:
-        self.assertEqual(
-            render_template(
-                "{% for a,b in values reversed %}{{ forloop.counter }}:{{ a }}={{ b }};{% empty %}empty{% endfor %}",
-                values=[("a", 1), ("b", 2)],
-            ),
-            "1:b=2;2:a=1;",
-        )
-        self.assertEqual(
-            render_template(
-                "{% for a in values %}x{% empty %}empty{% endfor %}", values=[]
-            ),
-            "empty",
-        )
-        self.assertEqual(
-            render_template(
-                "{% for a in values %}{% for b in values %}{{ forloop.parentloop.counter }}{{ forloop.counter }}{% endfor %}{% endfor %}",
-                values=[1, 2],
-            ),
-            "11122122",
-        )
 
     def test_output_byte_limit(self) -> None:
         value = "é" * (OUTPUT_LIMIT // 2)
@@ -268,14 +381,6 @@ class RenderTest(SimpleTestCase):
                     render_template(template, value=value + "é")
                 with self.assertRaises(TemplateSyntaxError):
                     render_template(template + "x", value=value)
-
-    def test_loop_output_limit(self) -> None:
-        with self.assertRaises(TemplateSyntaxError):
-            render_template(
-                "{% for a in values %}{{ text }}{% endfor %}",
-                values=[1, 2],
-                text="x" * (OUTPUT_LIMIT // 2 + 1),
-            )
 
     def test_expanding_filters(self) -> None:
         for name in ("center", "ljust", "rjust", "floatformat", "stringformat"):
@@ -324,28 +429,12 @@ class RenderTest(SimpleTestCase):
             ):
                 render_template("{{ value|length }}", value=context)
 
-    def test_deadline_kills_worker(self) -> None:
-        with tempfile.TemporaryDirectory() as directory:
-            worker = Path(directory) / "worker.py"
-            worker.write_text(
-                "import os, time\nprint(os.getpid(), flush=True)\ntime.sleep(2)\n",
-                encoding="utf-8",
-            )
-            with (
-                patch("weblate.utils.render.Path.with_name", return_value=worker),
-                patch("weblate.utils.render.RENDER_TIMEOUT", 0.5),
-                self.assertRaisesMessage(
-                    TemplateSyntaxError, "resource limits"
-                ) as raised,
-            ):
-                render_template("{{ value|upper }}", value="text")
-        cause = raised.exception.__cause__
-        self.assertIsInstance(cause, subprocess.TimeoutExpired)
-        assert isinstance(cause, subprocess.TimeoutExpired)
-        assert cause.output
-        pid = int(cause.output.strip())
-        with self.assertRaises(ProcessLookupError):
-            os.kill(pid, 0)
+    def test_deadline_fails_and_resets(self) -> None:
+        with (
+            patch("weblate.utils.render_engine.RENDER_TIMEOUT", -1),
+            self.assertRaisesMessage(TemplateSyntaxError, "time limit"),
+        ):
+            render_template("{{ value|upper }}", value="text")
         self.assertEqual(render_template("{{ value|upper }}", value="text"), "TEXT")
 
     def test_current_timezone(self) -> None:

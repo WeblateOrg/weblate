@@ -399,7 +399,7 @@ class GitSquashAddon(
             # by addon and do not exactly match patterns above
             component.commit_files(
                 template=component.effective_addon_message,
-                extra_context={"addon_name": self.verbose},
+                extra_context={"addon_name": self.english_name},
                 signals=False,
                 skip_push=True,
             )

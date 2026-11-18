@@ -60,7 +60,7 @@ repos:
   - id: pretty-format-yaml
     args: [--autofix, --indent, '2']
 - repo: https://github.com/pappasam/toml-sort
-  rev: v0.25.0
+  rev: v0.26.0
   hooks:
   - id: toml-sort-fix
 - repo: https://github.com/scop/pre-commit-shfmt
@@ -78,12 +78,12 @@ repos:
   - id: shellcheck
     require_serial: true
 - repo: https://github.com/biomejs/pre-commit
-  rev: v2.6.7
+  rev: v2.6.8
   hooks:
   - id: biome-check
     args: [--error-on-warnings]
     additional_dependencies:
-    - '@biomejs/biome@2.6.7'
+    - '@biomejs/biome@2.6.8'
     language: node
 - repo: https://github.com/abravalheri/validate-pyproject
   rev: v0.27

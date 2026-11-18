@@ -1353,6 +1353,7 @@ class GitRepository(Repository):
                 *self._get_auth_args(source),
                 "clone",
                 *self.get_depth(),
+                "--no-tags",
                 "--branch",
                 branch,
                 "--",
@@ -1882,7 +1883,7 @@ class GitRepository(Repository):
             remote_op="none",
             merge_err=False,
         ).splitlines():
-            self.execute(["tag", "--delete", tag], remote_op="none")
+            self.execute(["tag", "--delete", "--", tag], remote_op="none")
 
     def cleanup_files(self) -> None:
         """Remove not tracked files from the repository."""
