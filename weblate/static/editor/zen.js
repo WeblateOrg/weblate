@@ -581,9 +581,10 @@
       ngettext("%s suggestion", "%s suggestions", count),
       [count],
     );
-    indicator.title = text;
     indicator.querySelector(".zen-suggestions-count").textContent = count;
-    indicator.querySelector(".zen-suggestions-label").textContent = text;
+    for (const label of indicator.querySelectorAll(".zen-suggestions-label")) {
+      label.textContent = text;
+    }
   }
 
   /* Resync a Zen row from the JSON payload of the zen unit endpoints */
