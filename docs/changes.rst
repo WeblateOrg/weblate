@@ -31,6 +31,7 @@ Weblate 2026.12
 
 .. rubric:: Bug fixes
 
+* Fixed :ref:`AI translation suggestions <machine-translation>` when a provider omits the outer JSON array for a single translation.
 * Fixed delayed database cursor cleanup in :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` with custom source languages.
 
 .. rubric:: Compatibility

@@ -9170,6 +9170,51 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         self.assertEqual(translation[0][0]["text"], "**Konfigurēt paziņojumus**:")
 
     @http_mock.activate
+    def test_translate_wraps_single_structured_reply(self) -> None:
+        self.mock_response('{"parts": [{"type": "text", "text": "Premier"}]}')
+
+        translation = self.get_machine().download_multiple_translations(
+            "en", "fr", [("One", None)]
+        )
+
+        self.assertEqual(translation["One"][0]["text"], "Premier")
+
+    @http_mock.activate
+    def test_translate_rejects_bare_structured_reply_for_multiple_sources(self) -> None:
+        self.mock_response('{"parts": [{"type": "text", "text": "Premier"}]}')
+
+        with self.assertRaisesMessage(
+            MachineTranslationError, "Mismatching assistant reply."
+        ):
+            self.get_machine().download_multiple_translations(
+                "en", "fr", [("One", None), ("Two", None)]
+            )
+
+    @http_mock.activate
+    def test_translate_rejects_bare_structured_reply_missing_placeholder(self) -> None:
+        self.mock_response('{"parts": [{"type": "text", "text": "Bonjour !"}]}')
+
+        with self.assertRaisesMessage(
+            MachineTranslationError, "Mismatching assistant reply."
+        ):
+            self.assert_translate(
+                "fr", "Hello, %s!", 1, unit_args={"flags": "python-format"}
+            )
+
+    @http_mock.activate
+    def test_translate_rejects_bare_structured_reply_with_metadata(self) -> None:
+        self.mock_response(
+            '{"parts": [{"type": "text", "text": "Premier"}], "diagnostic": "extra"}'
+        )
+
+        with self.assertRaisesMessage(
+            MachineTranslationError, "Mismatching assistant reply."
+        ):
+            self.get_machine().download_multiple_translations(
+                "en", "fr", [("One", None)]
+            )
+
+    @http_mock.activate
     def test_translate_drops_trailing_empty_extra_structured_reply(self) -> None:
         self.mock_response(
             json.dumps(
