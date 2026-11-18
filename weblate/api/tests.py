@@ -14121,6 +14121,42 @@ class LanguageAPITest(APIBaseTest):
             },
         )
 
+    def test_create_requires_language_add_permission(self) -> None:
+        self.grant_perm_to_user("language.edit")
+
+        self.do_request(
+            "api:language-list",
+            method="post",
+            code=403,
+            format="json",
+            request={
+                "code": "new_lang",
+                "name": "New Language",
+                "plural": {"number": 2, "formula": "n != 1"},
+            },
+        )
+        self.assertFalse(Language.objects.filter(code="new_lang").exists())
+
+    def test_create_with_language_add_permission(self) -> None:
+        self.grant_perm_to_user("language.add")
+
+        response = self.do_request(
+            "api:language-list",
+            method="post",
+            code=201,
+            format="json",
+            request={
+                "code": "new_lang",
+                "name": "New Language",
+                "plural": {"number": 2, "formula": "n != 1"},
+            },
+        )
+        self.assertEqual(response.data["code"], "new_lang")
+        language = Language.objects.get(code="new_lang")
+        self.assertEqual(language.name, "New Language")
+        self.assertEqual(language.plural.number, 2)
+        self.assertEqual(language.plural.formula, "n != 1")
+
     def test_create_gettext_variant_code(self) -> None:
         response = self.do_request(
             "api:language-list",
