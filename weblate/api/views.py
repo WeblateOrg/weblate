@@ -4731,8 +4731,13 @@ class LanguageViewSet(viewsets.ModelViewSet):
         return super().update(request, *args, **kwargs)
 
     def create(self, request: Request, *args, **kwargs):
-        """Create a new language."""
-        self.perm_check(request)
+        """
+        Create a new language.
+
+        Requires the site-wide `language.add` permission.
+        """
+        if not request.user.has_perm("language.add"):
+            self.permission_denied(request, "Can not create languages")
         return super().create(request, *args, **kwargs)
 
     def destroy(self, request: Request, *args, **kwargs):

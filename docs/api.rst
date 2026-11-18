@@ -944,6 +944,8 @@ Languages
 
     Creates a new language.
 
+    Requires the site-wide ``language.add`` permission.
+
     :param code: Language name
     :type code: string
     :param name: Language name
