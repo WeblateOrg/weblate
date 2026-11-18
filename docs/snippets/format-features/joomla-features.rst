@@ -18,6 +18,8 @@
      - ``No``
    * - Supports location :ref:`ⓘ <format-location>`
      - ``No``
+   * - Supports line number :ref:`ⓘ <format-line-number>`
+     - ``Yes``
    * - Supports flags :ref:`ⓘ <format-flags>`
      - ``No``
    * - API identifier

@@ -74,11 +74,13 @@ from weblate.trans.util import redirect_param, render
 from weblate.trans.workspace_move import get_project_move_plan_error
 from weblate.utils import messages
 from weblate.utils.celery import get_task_metadata
+from weblate.utils.errors import log_handled_exception
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.messages import store_task_completion_message
 from weblate.utils.random import get_random_identifier
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import aparse_path, parse_path, show_form_errors
+from weblate.vcs.base import RepositoryTemplateError
 from weblate.workspaces.forms import WorkspaceSettingsForm
 from weblate.workspaces.models import Workspace
 
@@ -323,6 +325,25 @@ def remove(request: AuthenticatedHttpRequest, path):
         show_form_errors(request, form)
         return redirect_param(obj, "#organize")
 
+    try:
+        return _perform_removal(request, obj, form)
+    except RepositoryTemplateError as error:
+        log_handled_exception("Could not remove translation")
+        messages.error(request, error.get_message(gettext))
+        return redirect_param(obj, "#organize")
+
+
+@transaction.atomic
+def _perform_removal(
+    request: AuthenticatedHttpRequest,
+    obj: Translation
+    | Component
+    | Category
+    | Project
+    | ProjectLanguage
+    | CategoryLanguage,
+    form: BaseDeleteForm,
+) -> HttpResponseRedirect:
     parent: Component | Category | Project | str
     if isinstance(obj, Translation):
         parent = obj.component
@@ -334,7 +355,8 @@ def remove(request: AuthenticatedHttpRequest, path):
             obj.pk, request.user.pk, form.cleaned_data["delete_memory"]
         )
         messages.success(
-            request, gettext("The translation component was scheduled for removal.")
+            request,
+            gettext("The translation component was scheduled for removal."),
         )
     elif isinstance(obj, Category):
         parent = obj.category or obj.project
@@ -346,18 +368,30 @@ def remove(request: AuthenticatedHttpRequest, path):
         parent = reverse("home")
         project_removal.delay(obj.pk, request.user.pk)
         messages.success(request, gettext("The project was scheduled for removal."))
-    elif isinstance(obj, ProjectLanguage):
-        parent = obj.project
-        for translation in obj.action_translation_set.prefetch():
-            translation.remove(request.user)
+    elif isinstance(obj, (ProjectLanguage, CategoryLanguage)):
+        author = request.user.get_author_name()
+        # Database rollback cannot undo repository commits. Render every message
+        # before removing anything, then reuse the prepared messages.
+        removals = [
+            (
+                translation,
+                translation.get_commit_message(
+                    author, template=translation.component.effective_delete_message
+                ),
+            )
+            for translation in obj.action_translation_set.prefetch().order_by("pk")
+        ]
+        for translation, commit_message in removals:
+            translation.remove(request.user, commit_message=commit_message)
 
-        messages.success(request, gettext("A language in the project was removed."))
-    elif isinstance(obj, CategoryLanguage):
-        parent = obj.category
-        for translation in obj.action_translation_set.prefetch():
-            translation.remove(request.user)
-
-        messages.success(request, gettext("A language in the category was removed."))
+        if isinstance(obj, ProjectLanguage):
+            parent = obj.project
+            messages.success(request, gettext("A language in the project was removed."))
+        else:
+            parent = obj.category
+            messages.success(
+                request, gettext("A language in the category was removed.")
+            )
 
     return redirect(parent)
 

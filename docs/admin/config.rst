@@ -3068,11 +3068,27 @@ Uploads must also satisfy :setting:`TRANSLATION_UPLOAD_MAX_SIZE`, even when
 ``TRANSLATION_MAX_SIZE`` is higher. This byte limit does not bound decompression
 or other expansion performed by a parser.
 
-Translation files are also limited to 100,000 logical content strings per file
-before database synchronization or import. Existing tighter limits for
-compressed formats remain in effect.
+Translation files must also satisfy :setting:`TRANSLATION_MAX_UNITS`.
 
 In Docker, configure this using :envvar:`WEBLATE_TRANSLATION_MAX_SIZE`.
+
+.. setting:: TRANSLATION_MAX_UNITS
+
+TRANSLATION_MAX_UNITS
+---------------------
+
+.. versionadded:: 2026.12
+
+Maximum number of logical content strings in a translation file before
+database synchronization or import. Set this to a positive integer. Defaults
+to 200,000.
+
+The same limit applies to data rows while parsing :ref:`CSV files <csv>`,
+worksheet rows while reading :ref:`XLSX files <xlsx>`, and entries in
+:doc:`translation-memory imports </admin/memory>`. File size, compressed
+format extraction, and suggestion uploads have separate limits.
+
+In Docker, configure this using :envvar:`WEBLATE_TRANSLATION_MAX_UNITS`.
 
 .. setting:: TRANSLATION_UPLOAD_MAX_SIZE
 

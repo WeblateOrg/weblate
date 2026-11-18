@@ -15,11 +15,11 @@ from decimal import Decimal
 from typing import cast
 from uuid import UUID
 
-from django.template import TemplateSyntaxError
 from django.utils.translation import gettext
 
 from weblate.utils.render_engine import check_text
 from weblate.utils.render_limits import CONTEXT_LIMIT, DEPTH_LIMIT
+from weblate.utils.render_policy import TemplateDiagnosticError
 
 type TemplateScalar = str | bool | int | float | datetime | date | time | Decimal | None
 type TemplateValue = TemplateScalar | list[TemplateValue] | dict[str, TemplateValue]
@@ -34,12 +34,12 @@ class ContextSnapshot:
         self.remaining -= size
         if self.remaining < 0:
             msg = gettext("Template context exceeds its size limit.")
-            raise TemplateSyntaxError(msg)
+            raise TemplateDiagnosticError(msg)
 
     def copy(self, value: object, depth: int = 0) -> TemplateValue:
         if depth > DEPTH_LIMIT:
             msg = gettext("Template context is nested too deeply.")
-            raise TemplateSyntaxError(msg)
+            raise TemplateDiagnosticError(msg)
         # Charge every occurrence before copying, including shared references.
         self.charge(32)
         if value is None or type(value) is bool:
@@ -54,7 +54,7 @@ class ContextSnapshot:
         if type(value) is float:
             if not math.isfinite(value):
                 msg = gettext("Unsupported nonfinite template context value.")
-                raise TemplateSyntaxError(msg)
+                raise TemplateDiagnosticError(msg)
             return value
         if type(value) is datetime or type(value) is date or type(value) is time:
             self.charge(len(value.isoformat()))
@@ -65,7 +65,7 @@ class ContextSnapshot:
             # fixed overhead covers sign, decimal point, and exponent notation.
             if 4 * value.__sizeof__() + 64 > self.remaining:
                 msg = gettext("Template context exceeds its size limit.")
-                raise TemplateSyntaxError(msg)
+                raise TemplateDiagnosticError(msg)
             self.charge(check_text(str(value), CONTEXT_LIMIT))
             return value
         if type(value) is UUID:
@@ -76,19 +76,19 @@ class ContextSnapshot:
             for key, item in value.items():
                 if type(key) is not str:
                     msg = gettext("Unsupported template context key.")
-                    raise TemplateSyntaxError(msg)
+                    raise TemplateDiagnosticError(msg)
                 self.charge(check_text(key, CONTEXT_LIMIT) + 8)
                 result[key] = self.copy(item, depth + 1)
             return result
         if type(value) is list or type(value) is tuple:
             return [self.copy(item, depth + 1) for item in value]
         msg = gettext("Unsupported template context value.")
-        raise TemplateSyntaxError(msg)
+        raise TemplateDiagnosticError(msg)
 
 
 def validate_context(values: dict[str, object]) -> TemplateContext:
     """Copy a complete context, rejecting unsupported types without coercion."""
     if type(values) is not dict:
         msg = gettext("Unsupported template context value.")
-        raise TemplateSyntaxError(msg)
+        raise TemplateDiagnosticError(msg)
     return cast("TemplateContext", ContextSnapshot().copy(values))

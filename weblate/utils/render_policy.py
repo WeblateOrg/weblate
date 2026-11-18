@@ -28,6 +28,15 @@ CONDITION_TERM_LIMIT = 64
 OPENING = re.compile(r"{{|{%|{#")
 
 
+class TemplateDiagnosticError(TemplateSyntaxError):
+    """A bounded-render failure. Only validation may include source details."""
+
+
+TEMPLATE_TAGS = frozenset(
+    {"if", "elif", "else", "endif", "for", "empty", "endfor", "replace"}
+)
+
+
 def count_filters(contents: str) -> int:
     """Count separators outside quoted literals in one bounded token."""
     quote = None
@@ -46,19 +55,19 @@ def count_filters(contents: str) -> int:
         elif char == "|":
             count += 1
         elif char == "{" and contents[index : index + 2] in {"{{", "{%", "{#"}:
-            raise TemplateSyntaxError(
+            raise TemplateDiagnosticError(
                 gettext("Nested template delimiters are not supported.")
             )
     return count
 
 
-def preflight(source: str) -> None:
+def preflight(source: str, *, for_validation: bool = False) -> None:
     """Conservatively bound Django parsing without interpreting expressions."""
     position = tokens = separators = work = 0
     stack: list[tuple[str, int]] = []
 
     def fail(message: str, offset: int) -> Never:
-        error = TemplateSyntaxError(message)
+        error = TemplateDiagnosticError(message)
         error.__dict__["render_location"] = (source.count("\n", 0, offset) + 1, None)
         raise error
 
@@ -82,7 +91,7 @@ def preflight(source: str) -> None:
         tokens += 1 + (start > position)
         try:
             separators += count_filters(contents) if opening != "{#" else 0
-        except TemplateSyntaxError as error:
+        except TemplateDiagnosticError as error:
             fail(str(error), start)
         work += size * size
         if size > TOKEN_SIZE_LIMIT:
@@ -110,7 +119,7 @@ def preflight(source: str) -> None:
                 start,
             )
         if opening == "{%":
-            check_tag(contents, stack, start, fail)
+            check_tag(contents, stack, start, fail, for_validation=for_validation)
         position = end + 2
     if stack:
         tag, start = stack[-1]
@@ -128,6 +137,8 @@ def check_tag(
     stack: list[tuple[str, int]],
     start: int,
     fail: Callable[[str, int], Never],
+    *,
+    for_validation: bool = False,
 ) -> None:
     terms = list(smart_split(contents))
     if not terms:
@@ -162,4 +173,6 @@ def check_tag(
                 start,
             )
     elif tag != "replace":
-        fail(gettext('Unsupported template tag "%(tag)s".') % {"tag": tag}, start)
+        if for_validation:
+            fail(gettext('Unsupported template tag "%(tag)s".') % {"tag": tag}, start)
+        fail(gettext("Unsupported template tag."), start)

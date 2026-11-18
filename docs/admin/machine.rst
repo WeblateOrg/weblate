@@ -139,9 +139,10 @@ LLM translation context
 
 LLM-based translation services receive additional context about each
 translated string, when available. This includes the string context or
-monolingual key, additional explanation, configured secondary-language
-translation, plural information, failing quality checks, and placeholder
-contents. Matching glossary entries are passed with their explanations and
+monolingual key, additional explanation, developer comments from the source
+file (such as a RESX ``<comment>`` or a gettext ``#.`` comment), configured
+secondary-language translation, plural information, failing quality checks,
+and placeholder contents. Matching glossary entries are passed with their explanations and
 selected flags, so duplicate glossary terms can be disambiguated.
 
 You can add target-language-specific instructions in

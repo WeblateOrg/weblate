@@ -271,6 +271,7 @@ from weblate.utils.views import (
     snapshot_file_response,
     zip_download,
 )
+from weblate.vcs.base import RepositoryTemplateError
 from weblate.workspaces.models import Workspace
 
 from .renderers import (
@@ -629,6 +630,8 @@ class NotSourceUnit(APIException):
 
 class WeblateExceptionHandler(ExceptionHandler):
     def convert_known_exceptions(self, exc: Exception) -> Exception:
+        if isinstance(exc, RepositoryTemplateError):
+            return ValidationError(str(exc))
         if isinstance(exc, WeblateLockTimeoutError):
             if exc.lock.scope == "repository":
                 return LockedError(
