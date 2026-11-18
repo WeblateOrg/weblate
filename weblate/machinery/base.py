@@ -35,7 +35,7 @@ from weblate.checks.utils import highlight_string
 from weblate.lang.models import Language, PluralMapper
 from weblate.machinery.forms import BaseMachineryForm
 from weblate.utils.docs import DocVersionsMixin
-from weblate.utils.errors import log_handled_exception, report_error
+from weblate.utils.errors import log_handled_exception, report_error, report_message
 from weblate.utils.forms import WeblateServiceURLField
 from weblate.utils.hash import calculate_dict_hash, calculate_hash, hash_to_checksum
 from weblate.utils.outbound import is_allowlisted_hostname
@@ -531,9 +531,19 @@ class BatchMachineTranslation(DocVersionsMixin):
         except Exception:
             log_handled_exception("Could not save machinery error")
 
-    def log_handled_error(self, cause: str, extra_log: str | None = None) -> None:
+    def log_handled_error(
+        self,
+        cause: str,
+        extra_log: str | None = None,
+        *,
+        include_exception: bool = True,
+    ) -> None:
         """Log a handled error without reporting it to external services."""
-        log_handled_exception(f"machinery[{self.name}]: {cause}", extra_log=extra_log)
+        message = f"machinery[{self.name}]: {cause}"
+        if include_exception:
+            log_handled_exception(message, extra_log=extra_log)
+        else:
+            report_message(message, extra_log=extra_log, skip_error_reporting=True)
 
     @cached_property
     def supported_languages(self):
@@ -644,6 +654,10 @@ class BatchMachineTranslation(DocVersionsMixin):
             True,
             self.rate_limit_window if timeout is None else timeout,
         )
+
+    def apply_rate_limit(self, exc: Exception) -> None:
+        if self.is_rate_limit_error(exc):
+            self.set_rate_limit(self.get_rate_limit_timeout(exc))
 
     def is_rate_limit_error(self, exc: Exception) -> bool:
         if isinstance(exc, MachineryRateLimitError):
@@ -1335,8 +1349,7 @@ class BatchMachineTranslation(DocVersionsMixin):
         return batch_keys, next_remaining_keys
 
     def _handle_download_error(self, exc: Exception) -> None:
-        if self.is_rate_limit_error(exc):
-            self.set_rate_limit(self.get_rate_limit_timeout(exc))
+        self.apply_rate_limit(exc)
 
         if isinstance(exc, MachineTranslationError):
             self.report_error("Could not fetch translations", exception=exc)

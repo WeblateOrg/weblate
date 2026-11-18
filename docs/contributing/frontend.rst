@@ -166,6 +166,13 @@ When translating text with ``blocktranslate``, account for the escaping of
 interpolated values. Applying ``force_escape`` to a rendered block can escape
 those values twice.
 
+Place ``blocktranslate`` in element content when the translated text is a
+visible or visually hidden label. For text needed in an HTML attribute, use
+``blocktranslate asvar`` in a narrow ``autoescape off`` block and apply
+``force_escape`` when inserting the variable into the quoted attribute.
+This escapes the whole message once, including the interpolated values.
+For a URL query value, apply ``urlencode:""`` to the assembled text.
+
 .. seealso::
 
    :doc:`Translation topic in the Django documentation <django:topics/i18n/translation>`

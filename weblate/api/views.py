@@ -4731,8 +4731,13 @@ class LanguageViewSet(viewsets.ModelViewSet):
         return super().update(request, *args, **kwargs)
 
     def create(self, request: Request, *args, **kwargs):
-        """Create a new language."""
-        self.perm_check(request)
+        """
+        Create a new language.
+
+        Requires the site-wide `language.add` permission.
+        """
+        if not request.user.has_perm("language.add"):
+            self.permission_denied(request, "Can not create languages")
         return super().create(request, *args, **kwargs)
 
     def destroy(self, request: Request, *args, **kwargs):
@@ -5348,8 +5353,8 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Screenshot.objects.filter_access(self.request.user).order_by("id")
-        if self.action in {"units", "delete_units"}:
-            # Serialize association changes with the unit-side endpoints.
+        if self.action in {"units", "delete_units", "update", "partial_update"}:
+            # Serialize unit association changes and repository path edits.
             queryset = queryset.select_for_update(of=("self",))
         return queryset
 
@@ -5397,8 +5402,11 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
 
         obj.image.save(
-            serializer.validated_data["image"].name, serializer.validated_data["image"]
+            serializer.validated_data["image"].name,
+            serializer.validated_data["image"],
+            save=False,
         )
+        obj.save(update_fields=["image"])
 
         return Response(data={"result": True})
 
@@ -5474,7 +5482,8 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
 
         with transaction.atomic():
             serializer = ScreenshotCreateSerializer(
-                data=request.data, context={"request": request}
+                data=request.data,
+                context={"request": request, "translation": translation},
             )
             serializer.is_valid(raise_exception=True)
             instance = serializer.save(translation=translation, user=user)
@@ -5495,12 +5504,18 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
 
             return Response(serializer.data, status=HTTP_201_CREATED)
 
+    @transaction.atomic
     def update(self, request: Request, *args, **kwargs):
         """Edit full information about screenshot."""
         instance = self.get_object()
         if not request.user.has_perm("screenshot.edit", instance.translation):
             self.permission_denied(request, "Can not edit screenshot.")
-        return super().update(request, *args, **kwargs)
+        serializer = self.get_serializer(
+            instance, data=request.data, partial=kwargs.get("partial", False)
+        )
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
 
     def destroy(self, request: Request, *args, **kwargs):
         """Delete screenshot."""

@@ -153,6 +153,10 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
 
         self.assertContains(response, form_url)
         self.assertContains(response, 'id="project-user-groups-modal"')
+        self.assertContains(
+            response,
+            f'data-modal-title="Edit team membership for {self.second_user.username}"',
+        )
         self.assertNotContains(response, f'id="edit_user_{self.second_user.id}"')
         self.assertNotContains(response, "project-membership-team-toggle")
         self.assertNotContains(

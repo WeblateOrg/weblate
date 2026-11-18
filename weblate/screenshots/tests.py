@@ -589,6 +589,21 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
         self.assertEqual(uploaded_changes.count(), 1)
         self.assertEqual(uploaded_changes[0].user, self.user)
 
+    def test_upload_without_repository_access_ignores_path(self) -> None:
+        self.make_language_scoped_user("en", "screenshot.add")
+        response = self.client.get(reverse("screenshots", kwargs=self.kw_component))
+        field = html.fromstring(response.content).get_element_by_id(
+            "id_repository_filename"
+        )
+        self.assertIn("disabled", field.attrib)
+        self.assertContains(
+            response, "Repository access is required to change this path."
+        )
+
+        response = self.do_upload(repository_filename="docs/example.png")
+        self.assertContains(response, "Obrazek")
+        self.assertEqual(Screenshot.objects.get(name="Obrazek").repository_filename, "")
+
     def test_upload_redirect_next(self) -> None:
         self.make_manager()
         next_url = "/projects/weblate/weblate/cs/translate/"
@@ -673,6 +688,51 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
         )
         self.assertContains(response, "Picture")
         self.assertEqual(Screenshot.objects.all()[0].name, "Picture")
+
+    def test_edit_without_repository_access_preserves_path(self) -> None:
+        self.make_manager()
+        original_path = "docs/example.png"
+        self.do_upload(repository_filename=original_path)
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        self.assertEqual(screenshot.repository_filename, original_path)
+        self.make_language_scoped_user("en", "screenshot.edit")
+        url = screenshot.get_absolute_url()
+
+        response = self.client.get(url)
+        field = html.fromstring(response.content).get_element_by_id(
+            "id_repository_filename"
+        )
+        self.assertIn("disabled", field.attrib)
+        self.assertEqual(field.get("value"), original_path)
+
+        for extra_data in (
+            {},
+            {"repository_filename": "other.png"},
+            {"repository_filename": ""},
+        ):
+            with self.subTest(extra_data=extra_data):
+                screenshot.name = "Obrazek"
+                screenshot.save(update_fields=["name"])
+                response = self.client.post(url, {"name": "Picture", **extra_data})
+                self.assertRedirects(response, url, fetch_redirect_response=False)
+                screenshot.refresh_from_db()
+                self.assertEqual(screenshot.name, "Picture")
+                self.assertEqual(screenshot.repository_filename, original_path)
+
+    def test_edit_with_repository_access_can_change_and_clear_path(self) -> None:
+        self.make_manager()
+        self.do_upload(repository_filename="docs/example.png")
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        url = screenshot.get_absolute_url()
+
+        for filename in ("other.png", ""):
+            with self.subTest(filename=filename):
+                response = self.client.post(
+                    url, {"name": "Obrazek", "repository_filename": filename}
+                )
+                self.assertRedirects(response, url, fetch_redirect_response=False)
+                screenshot.refresh_from_db()
+                self.assertEqual(screenshot.repository_filename, filename)
 
     def test_detail_has_documentation_link(self) -> None:
         self.make_manager()
@@ -2537,6 +2597,8 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
         return filename
 
     def test_update_screenshots_from_repo(self) -> None:
+        # A manual link can refresh even when the mask would not discover it.
+        self.component.screenshot_filemask = "screenshots/*.png"
         repository = self.component.repository
         last_revision = repository.last_revision
         screenshot = Screenshot.objects.get(

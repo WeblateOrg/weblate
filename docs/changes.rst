@@ -6,10 +6,12 @@ Weblate 2026.12
 .. rubric:: New features
 
 * Added support for :ref:`storing screenshots in object storage <screenshot-storage>` such as Amazon S3 or Google Cloud Storage, configurable in Docker using :envvar:`WEBLATE_MEDIA_STORAGE_BACKEND`.
+* Added :wladmin:`recovergit` to rebuild missing repository checkouts.
 * :ref:`format-line-number` in the translation file is now stored in the unit for supported formats; when available, the line number is used for repository links and :guilabel:`Nearby strings`.
 
 .. rubric:: Improvements
 
+* Added failure reasons to :ref:`AI quality evaluation <addon-weblate.ai.quality>` and its :ref:`automation action <automation-action-weblate.ai_quality>`.
 * Enabled Anthropic prompt caching for :ref:`automatic translation <machine-translation>`, so the system prompt is read from cache between batch requests instead of being billed in full on every request.
 * Raised the shared limit for translation strings, CSV and XLSX rows, and translation-memory entries to 200,000. Configure it with :setting:`TRANSLATION_MAX_UNITS`.
 
@@ -25,10 +27,13 @@ Weblate 2026.12
 * Batched daily statistics collection to reduce database queries and bound memory use on large sites with cached statistics.
 * Added :envvar:`WEBLATE_SECRET_KEY` support to configure Docker's Django secret key directly or from a mounted secret file.
 * Reduced database loading when polling :ref:`background tasks <api-tasks>` spanning many components.
+* Sped up importing translation files by locking :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` once per file instead of once per string.
 * Listed :ref:`saved-searches` first in the search filters and truncated long saved queries.
+* Show :ref:`linked components <internal-urls>` in repository details and label suggestion counts on wider screens in :ref:`zen-mode`.
 
 .. rubric:: Security fixes
 
+* Required the site-wide ``language.add`` permission to :http:post:`create a language through the REST API </api/languages/>`.
 * Checked :ref:`translation memory deletion permissions <api-memory>` on the primary database to protect entries from restricted components when replicas lag.
 * Prevented deleting a component from expanding a :ref:`component-limited team <access-control>` to project-wide access.
 * Redacted machine translation API keys, GitHub App credentials, authentication headers, and credentials in URLs from :ref:`Sentry error reports <collecting-errors>` and performance traces.
@@ -38,6 +43,7 @@ Weblate 2026.12
 * Revoked stale OAuth e-mail recovery addresses and reconciled the :ref:`account e-mail <user-profile>` when its last verification is removed.
 * Filtered the site-wide changes listings and feeds by workspace visibility, so workspaces the viewer cannot access no longer appear there.
 * Restricted :ref:`webhook matching <hooks-target-matching>` to repository owners, preventing generic deliveries from triggering GitHub App updates through linked components.
+* Required repository access to set a path for a :ref:`repository-linked screenshot <screenshots>`.
 
 .. rubric:: Bug fixes
 
@@ -46,6 +52,7 @@ Weblate 2026.12
 
 * Fixed :ref:`AI translation suggestions <machine-translation>` when a provider omits the outer JSON array for a single translation.
 * Fixed delayed database cursor cleanup in :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` with custom source languages.
+* Preserved punctuation and complete messages in :ref:`project sharing <project-public_sharing>` links.
 
 .. rubric:: Compatibility
 

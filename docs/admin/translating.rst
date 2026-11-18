@@ -221,7 +221,10 @@ the repository, or you can add or update screenshots when uploading them manuall
 
 To connect a manually uploaded screenshot with later repository updates, fill
 in :guilabel:`Repository path to screenshot` with the path tracked in the
-repository.
+repository. Setting or changing this path requires repository access
+(``vcs.access`` on the component that owns the repository). If you lack this
+permission, the web form shows the path in a disabled field and preserves it
+when you save other changes.
 
 When the repository is updated, the system will automatically scan
 for changes. Existing screenshots in the repository will be updated,

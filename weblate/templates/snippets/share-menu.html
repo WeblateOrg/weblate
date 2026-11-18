@@ -5,15 +5,18 @@
     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Community" %}</a>
     <ul class="dropdown-menu shadow">
       {% with share_url=object.get_share_url widgets_url=object.get_widgets_url %}
+        {% autoescape off %}
+          {% blocktranslate asvar share_message %}Translate {{ object }} using #Weblate at {{ share_url }}!{% endblocktranslate %}
+        {% endautoescape %}
         <li>
           <a class="dropdown-item"
-             href="https://bsky.app/intent/compose?text={% blocktranslate %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktranslate %}">{% translate "Share on Bluesky" %}</a>
+             href="https://bsky.app/intent/compose?text={{ share_message|urlencode:"" }}">{% translate "Share on Bluesky" %}</a>
         </li>
         {% with fediverse_url=user.profile.get_fediverse_share %}
           {% if fediverse_url %}
             <li>
               <a class="dropdown-item"
-                 href="{{ fediverse_url }}{% blocktranslate %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktranslate %}">{% translate "Share on Fediverse" %}</a>
+                 href="{{ fediverse_url }}{{ share_message|urlencode:"" }}">{% translate "Share on Fediverse" %}</a>
             </li>
           {% endif %}
         {% endwith %}
@@ -23,7 +26,7 @@
         </li>
         <li>
           <a class="dropdown-item"
-             href="https://x.com/share?text={% blocktranslate %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktranslate %}">{% translate "Share on X" %}</a>
+             href="https://x.com/share?text={{ share_message|urlencode:"" }}">{% translate "Share on X" %}</a>
         </li>
         <li>
           <a class="dropdown-item" href="{{ share_url }}">{% translate "Engage page" %}</a>
