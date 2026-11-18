@@ -7,7 +7,7 @@ Weblate 2026.12
 
 .. rubric:: Improvements
 
-* Enabled Anthropic prompt caching for :ref:`automatic translation <machine-translation>`, so a repeated system prompt can be served from cache instead of being billed on every request.
+* Enabled Anthropic prompt caching for :ref:`automatic translation <machine-translation>`, so the system prompt is read from cache between batch requests instead of being billed in full on every request.
 
 * Show inclusive ranges and representative counts in :ref:`plural form examples <plurals>`.
 
