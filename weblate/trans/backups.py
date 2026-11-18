@@ -1163,7 +1163,6 @@ class ProjectBackup:
                 backupzip.open(
                     os.path.join("screenshots", os.path.basename(image_name)),
                     "w",
-                    force_zip64=True,
                 ) as output,
             ):
                 copyfileobj(source, output)
