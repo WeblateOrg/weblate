@@ -5334,7 +5334,11 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
     raw_formats = ()
 
     def get_queryset(self):
-        return Screenshot.objects.filter_access(self.request.user).order_by("id")
+        queryset = Screenshot.objects.filter_access(self.request.user).order_by("id")
+        if self.action in {"units", "delete_units"}:
+            # Serialize association changes with the unit-side endpoints.
+            queryset = queryset.select_for_update(of=("self",))
+        return queryset
 
     @extend_schema(
         description="Download the screenshot image.",
@@ -5395,7 +5399,8 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         except Unit.DoesNotExist as error:
             raise not_found_validation_error(field_name, "Unit") from error
 
-        obj.add_unit(unit, user=request.user)
+        if not obj.units.filter(pk=unit.pk).exists():
+            obj.add_unit(unit, user=request.user)
         serializer = ScreenshotSerializer(obj, context={"request": request})
 
         return Response(serializer.data, status=HTTP_200_OK)
@@ -5405,6 +5410,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         methods=["delete"],
     )
     @action(detail=True, methods=["delete"], url_path="units/(?P<unit_id>[0-9]+)")
+    @transaction.atomic
     def delete_units(self, request: Request, pk, unit_id):
         obj = self.get_object()
         if not request.user.has_perm("screenshot.edit", obj.translation):
@@ -5415,7 +5421,8 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         except Unit.DoesNotExist as error:
             msg = "Unit"
             raise not_found_http404(msg) from error
-        obj.remove_unit(unit, user=request.user)
+        if obj.units.filter(pk=unit.pk).exists():
+            obj.remove_unit(unit, user=request.user)
         return Response(status=HTTP_204_NO_CONTENT)
 
     def create(self, request: Request, *args, **kwargs):
