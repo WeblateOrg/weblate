@@ -2459,7 +2459,16 @@ class ZenViewTest(ReusableViewTestCase):
         self.add_zen_suggestion("Ahoj svete!\n")
         response = self.client.get(reverse("zen", kwargs=self.kw_translation))
         self.assertContains(response, "zen-suggestions-indicator", count=1)
-        self.assertContains(response, 'title="2 suggestions"')
+        (indicator,) = html.fromstring(response.content).find_class(
+            "zen-suggestions-indicator"
+        )
+        self.assertNotIn("title", indicator.attrib)
+        desktop_label, mobile_label = indicator.find_class("zen-suggestions-label")
+        self.assertEqual(desktop_label.text_content(), "2 suggestions")
+        self.assertIn("d-md-inline", desktop_label.classes)
+        self.assertEqual(mobile_label.text_content(), "2 suggestions")
+        self.assertIn("visually-hidden", mobile_label.classes)
+        self.assertIn("d-md-none", mobile_label.classes)
 
     def test_zen_suggestions_toggle(self) -> None:
         # The visibility is remembered client side, the toggle is always there

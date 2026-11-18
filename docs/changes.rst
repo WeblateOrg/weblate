@@ -24,6 +24,7 @@ Weblate 2026.12
 * Added :envvar:`WEBLATE_SECRET_KEY` support to configure Docker's Django secret key directly or from a mounted secret file.
 * Reduced database loading when polling :ref:`background tasks <api-tasks>` spanning many components.
 * Listed :ref:`saved-searches` first in the search filters and truncated long saved queries.
+* Show :ref:`linked components <internal-urls>` in repository details and label suggestion counts on wider screens in :ref:`zen-mode`.
 
 .. rubric:: Security fixes
 
@@ -41,6 +42,7 @@ Weblate 2026.12
 
 * Fixed :ref:`AI translation suggestions <machine-translation>` when a provider omits the outer JSON array for a single translation.
 * Fixed delayed database cursor cleanup in :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` with custom source languages.
+* Preserved punctuation and complete messages in :ref:`project sharing <project-public_sharing>` links.
 
 .. rubric:: Compatibility
 

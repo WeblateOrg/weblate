@@ -337,6 +337,10 @@ class RepositoryPermissionScopeTest(ViewTestCase):
                 self.assertContains(response, linked.name)
                 self.assertNotContains(response, "Source code repository")
                 self.assertNotContains(response, "Last remote commit")
+                self.assertNotContains(response, "Linked component")
+                self.assertNotContains(
+                    response, f"{self.component.get_absolute_url()}#information"
+                )
 
     def test_linked_repository_info_requires_both_view_permissions(self) -> None:
         linked = self.create_link_existing()
@@ -358,6 +362,12 @@ class RepositoryPermissionScopeTest(ViewTestCase):
         response = self.client.get(linked.get_absolute_url())
         self.assertContains(response, "Source code repository")
         self.assertContains(response, "Repository branch")
+        self.assertContains(response, "Linked component")
+        self.assertContains(
+            response,
+            f'<a href="{self.component.get_absolute_url()}#information">{self.component}</a>',
+            html=True,
+        )
 
     def test_repository_info_preserves_unlinked_and_superuser_access(self) -> None:
         self.assertTrue(self.user.has_perm("meta:vcs.view", self.component))

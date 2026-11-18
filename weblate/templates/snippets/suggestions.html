@@ -50,14 +50,16 @@
                 {% contributor_access suggestion as can_view_suggestion_author %}
                 {% if can_view_suggestion_author and suggestion.user and not suggestion.user.is_anonymous %}
                   {% ifchanged suggestion.user.username %}
-                    {% blocktranslate with username=suggestion.user.username translation=suggestion.unit.translation asvar bulk_accept_label %}Accept all suggestions from {{ username }} in {{ translation }}{% endblocktranslate %}
+                    {% autoescape off %}
+                      {% blocktranslate with username=suggestion.user.username translation=suggestion.unit.translation asvar bulk_accept_label %}Accept all suggestions from {{ username }} in {{ translation }}{% endblocktranslate %}
+                    {% endautoescape %}
                     <button type="button"
                             class="aa-accept-all-btn btn btn-link green"
                             data-username="{{ suggestion.user.username }}"
                             data-translation-name="{{ suggestion.unit.translation }}"
                             data-translation-url="{% url 'bulk-accept-user-suggestions' path=suggestion.unit.translation.get_url_path %}"
-                            title="{{ bulk_accept_label }}"
-                            aria-label="{{ bulk_accept_label }}">{% icon "account-check.svg" %}</button>
+                            title="{{ bulk_accept_label|force_escape }}"
+                            aria-label="{{ bulk_accept_label|force_escape }}">{% icon "account-check.svg" %}</button>
                   {% endifchanged %}
                 {% endif %}
                 <button type="submit"

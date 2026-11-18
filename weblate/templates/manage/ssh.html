@@ -34,10 +34,7 @@
             <input type="hidden" name="type" value="{{ ssh_key.type }}">
           </div>
           <div class="card-footer">
-            <input type="submit"
-                   id="generate-ssh-button"
-                   class="btn btn-primary"
-                   value="{% blocktranslate with key_type=ssh_key.name %}Generate new {{ key_type }} SSH key{% endblocktranslate %}" />
+            <button type="submit" id="generate-ssh-button" class="btn btn-primary">{% blocktranslate with key_type=ssh_key.name %}Generate new {{ key_type }} SSH key{% endblocktranslate %}</button>
           </div>
         </div>
       </form>

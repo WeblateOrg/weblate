@@ -2927,7 +2927,17 @@ class SeleniumTests(
 
         self.assertTrue(indicator().is_displayed())
         self.assertEqual(indicator_count(), "2")
-        self.assertEqual(indicator().get_attribute("title"), "2 suggestions")
+        self.assertEqual(
+            indicator()
+            .find_element(By.CSS_SELECTOR, ".zen-suggestions-label.d-md-inline")
+            .text,
+            "2 suggestions",
+        )
+        self.assertFalse(
+            indicator()
+            .find_element(By.CSS_SELECTOR, ".zen-suggestions-count")
+            .is_displayed()
+        )
         self.assertEqual(indicator().get_attribute("aria-expanded"), "false")
 
         # Clicking it shows the suggestions and moves to those of the string
@@ -2976,7 +2986,30 @@ class SeleniumTests(
             By.CSS_SELECTOR, f'{row_selector} button[name="delete"][value="{first.pk}"]'
         ).click()
         WebDriverWait(self.driver, 15).until(lambda _driver: indicator_count() == "1")
-        self.assertEqual(indicator().get_attribute("title"), "1 suggestion")
+        self.assertEqual(
+            indicator()
+            .find_element(By.CSS_SELECTOR, ".zen-suggestions-label.d-md-inline")
+            .text,
+            "1 suggestion",
+        )
+        self.driver.set_window_size(375, 900)
+        self.assertTrue(
+            indicator()
+            .find_element(By.CSS_SELECTOR, ".zen-suggestions-count")
+            .is_displayed()
+        )
+        self.assertFalse(
+            indicator()
+            .find_element(By.CSS_SELECTOR, ".zen-suggestions-label.d-md-inline")
+            .is_displayed()
+        )
+        self.assertEqual(
+            indicator()
+            .find_element(By.CSS_SELECTOR, ".zen-suggestions-label.visually-hidden")
+            .get_attribute("textContent"),
+            "1 suggestion",
+        )
+        self.driver.set_window_size(1200, 1024)
 
         self.driver.find_element(
             By.CSS_SELECTOR, f'{row_selector} button[name="accept"]'
