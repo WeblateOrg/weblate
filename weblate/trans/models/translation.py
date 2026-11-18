@@ -2986,15 +2986,15 @@ class Translation(
 
         return result
 
-    def _invalidate_trigger(self) -> None:
+    def _invalidate_trigger(self, *, update_stats_parents: bool) -> None:
         self._invalidate_scheduled = False
-        self.stats.update_stats()
+        self.stats.update_stats(update_parents=update_stats_parents)
         self.component.invalidate_glossary_cache()
         # Delete UnusedComponent alert as the translation has just
         # apparently received some update.
         self.component.delete_alert("UnusedComponent")
 
-    def invalidate_cache(self) -> None:
+    def invalidate_cache(self, *, update_stats_parents: bool = True) -> None:
         """Invalidate any cached stats."""
         if self._suppress_cache_invalidation_depth:
             return
@@ -3002,7 +3002,13 @@ class Translation(
         if self._invalidate_scheduled:
             return
         self._invalidate_scheduled = True
-        transaction.on_commit(capture_change_origin(self._invalidate_trigger))
+        transaction.on_commit(
+            capture_change_origin(
+                lambda: self._invalidate_trigger(
+                    update_stats_parents=update_stats_parents
+                )
+            )
+        )
 
     @contextmanager
     def suppress_cache_invalidation(self):
