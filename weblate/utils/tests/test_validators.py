@@ -1007,6 +1007,14 @@ class RepoURLValidationTestCase(SimpleTestCase):
         with self.assertRaises(ValidationError):
             validate_repo_url("[/weblate")
 
+    def test_invalid_port(self) -> None:
+        for url in (
+            "https://example.com:65536/repo.git",
+            "https://example.com:bad/repo",
+        ):
+            with self.subTest(url=url), self.assertRaises(ValidationError):
+                validate_repo_url(url)
+
     def test_file(self) -> None:
         with override_settings(VCS_ALLOW_SCHEMES={"https", "ssh", "file"}):
             validate_repo_url("file:///home/weblate")

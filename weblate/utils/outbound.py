@@ -54,8 +54,12 @@ def get_environment_proxy(url: str) -> str | None:
     if parsed.scheme not in DEFAULT_PORTS:
         return None
     proxies = getproxies_environment()
-    # HTTPX2 drops default ports from URLs, so compare against the effective port
-    port = parsed.port or DEFAULT_PORTS[parsed.scheme]
+    try:
+        # HTTPX2 drops default ports from URLs, so compare against the effective port
+        port = parsed.port or DEFAULT_PORTS[parsed.scheme]
+    except ValueError:
+        # Invalid port, leave rejecting the URL to its validation
+        return proxies.get(parsed.scheme)
     if _matches_no_proxy(parsed.hostname or "", port, proxies.get("no", "")):
         return None
     return proxies.get(parsed.scheme)
