@@ -5,6 +5,7 @@ Weblate 2026.12
 
 .. rubric:: New features
 
+* Added :wladmin:`recovergit` to rebuild missing repository checkouts.
 * :ref:`format-line-number` in the translation file is now stored in the unit for supported formats; when available, the line number is used for repository links and :guilabel:`Nearby strings`.
 
 .. rubric:: Improvements
