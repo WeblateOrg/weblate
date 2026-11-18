@@ -33,7 +33,13 @@ from django.core.exceptions import PermissionDenied
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.db import DatabaseError, close_old_connections, connection, transaction
+from django.db import (
+    DatabaseError,
+    close_old_connections,
+    connection,
+    router,
+    transaction,
+)
 from django.db.models import Q
 from django.http import StreamingHttpResponse
 from django.templatetags.static import static
@@ -16205,6 +16211,64 @@ class MemoryAPITest(APIBaseTest):
         )
         self.assertTrue(MemoryScope.objects.filter(pk=shared_scope.pk).exists())
 
+    def test_delete_checks_restricted_scope_on_write_database(self) -> None:
+        db_for_read = router.db_for_read
+
+        def route_read(model: type, **hints: object) -> str:
+            # Related managers consult the router for backend features even
+            # when the prefetch queryset already has an explicit alias.
+            if model in {Memory, MemoryScope} and "instance" not in hints:
+                return "memory_db"
+            return db_for_read(model, **hints)
+
+        project = self.component.project
+        project.access_control = Project.ACCESS_PRIVATE
+        project.save(update_fields=["access_control"])
+        project.add_user(self.user, "Memory")
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        memory = self.create_memory(
+            source="Delete with routed memory reads",
+            target="Smazat pri smerovanem cteni pameti",
+            project=project,
+            origin=self.component.full_slug,
+        )
+        restricted_scope = memory.scopes.get(scope=MemoryScope.SCOPE_PROJECT)
+        self.assertEqual(restricted_scope.source_component_id, self.component.pk)
+        global_scope = MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_GLOBAL_FILE,
+        )
+        with patch.object(router, "db_for_read", side_effect=route_read):
+            self.do_request(
+                "api:memory-detail",
+                kwargs={"pk": memory.pk},
+                method="delete",
+                code=403,
+            )
+
+        self.assertSetEqual(
+            set(memory.scopes.values_list("pk", flat=True)),
+            {restricted_scope.pk, global_scope.pk},
+        )
+
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT_FILE,
+            project=project,
+        )
+        with patch.object(router, "db_for_read", side_effect=route_read):
+            self.do_request(
+                "api:memory-detail",
+                kwargs={"pk": memory.pk},
+                method="delete",
+                code=204,
+            )
+
+        self.assertSetEqual(
+            set(memory.scopes.values_list("pk", flat=True)),
+            {restricted_scope.pk, global_scope.pk},
+        )
+
     def test_delete_unattributed_project_memory(self) -> None:
         self.component.project.add_user(self.user, "Administration")
         self.authenticate()
@@ -21325,13 +21389,13 @@ class ScreenshotAPITest(APIBaseTest):
     def test_units(self) -> None:
         self.authenticate(True)
         screenshot = Screenshot.objects.get()
-        unit = self.component.source_translation.unit_set.all()[0]
-        response = self.client.post(
-            reverse("api:screenshot-units", kwargs={"pk": screenshot.pk}),
-            {"unit_id": unit.pk},
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(str(unit.pk), response.data["units"][0])
+        unit = screenshot.translation.unit_set.get(source="Hello, world!\n")
+        url = reverse("api:screenshot-units", kwargs={"pk": screenshot.pk})
+        for _ in range(2):
+            response = self.client.post(url, {"unit_id": unit.pk})
+            self.assertEqual(response.status_code, 200)
+            self.assertIn(str(unit.pk), response.data["units"][0])
+        self.assertEqual(list(screenshot.units.all()), [unit])
         added_changes = Change.objects.filter(
             action=ActionEvents.SCREENSHOT_ADDED,
             screenshot=screenshot,
@@ -21343,7 +21407,7 @@ class ScreenshotAPITest(APIBaseTest):
     def test_units_delete(self) -> None:
         self.authenticate(True)
         screenshot = Screenshot.objects.get()
-        unit = self.component.source_translation.unit_set.all()[0]
+        unit = screenshot.translation.unit_set.get(source="Hello, world!\n")
         self.client.post(
             reverse("api:screenshot-units", kwargs={"pk": screenshot.pk}),
             {"unit_id": unit.pk},
@@ -21355,13 +21419,13 @@ class ScreenshotAPITest(APIBaseTest):
             ),
         )
         self.assertEqual(response.status_code, 404)
-        response = self.client.delete(
-            reverse(
-                "api:screenshot-delete-units",
-                kwargs={"pk": screenshot.pk, "unit_id": unit.pk},
-            ),
+        url = reverse(
+            "api:screenshot-delete-units",
+            kwargs={"pk": screenshot.pk, "unit_id": unit.pk},
         )
-        self.assertEqual(response.status_code, 204)
+        for _ in range(2):
+            response = self.client.delete(url)
+            self.assertEqual(response.status_code, 204)
         self.assertEqual(screenshot.units.all().count(), 0)
         removed_changes = Change.objects.filter(
             action=ActionEvents.SCREENSHOT_REMOVED,
