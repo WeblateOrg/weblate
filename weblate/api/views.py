@@ -21,7 +21,13 @@ from django.core.exceptions import (
 from django.core.exceptions import (
     ValidationError as DjangoValidationError,
 )
-from django.db import DatabaseError, IntegrityError, transaction
+from django.db import (
+    DEFAULT_DB_ALIAS,
+    DatabaseError,
+    IntegrityError,
+    router,
+    transaction,
+)
 from django.db.models import Exists, OuterRef, Prefetch, Q
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404
@@ -3914,6 +3920,11 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
     permission_classes = (IsAuthenticated,)
     comparer = Comparer()
 
+    @cached_property
+    def write_db_alias(self) -> str:
+        # Keep delete authorization on the same database as the mutation.
+        return router.db_for_write(Memory) or DEFAULT_DB_ALIAS
+
     def get_read_db_alias(self) -> str:
         if "memory_db" in settings.DATABASES:
             return "memory_db"
@@ -3929,13 +3940,14 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         else:
             queryset = Memory.objects.using(alias).visible_to_user(user, alias=alias)
 
-        # Reads can use a dedicated memory_db alias when configured, but delete
-        # object resolution stays on default because memory_db is typically
-        # deployed as a read-only replica.
         return queryset.prefetch_scopes().order_by("id")
 
     def get_queryset(self):
-        alias = "default" if self.action == "destroy" else self.get_read_db_alias()
+        alias = (
+            self.write_db_alias
+            if self.action == "destroy"
+            else self.get_read_db_alias()
+        )
         return self.get_scoped_queryset(alias=alias)
 
     def get_deletable_scope_ids(self, request: Request, instance: Memory) -> list[int]:
@@ -3950,7 +3962,8 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
             if scope.scope in {MemoryScope.SCOPE_PROJECT, MemoryScope.SCOPE_WORKSPACE}
         }
         accessible_project_or_workspace_scope_ids = set(
-            MemoryScope.objects.filter(id__in=component_scoped_ids)
+            MemoryScope.objects.using(self.write_db_alias)
+            .filter(id__in=component_scoped_ids)
             .filter(MemoryQuerySet.get_component_access_query(user))
             .values_list("id", flat=True)
         )
@@ -3984,9 +3997,9 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         instance = self.get_object()
         scope_ids = self.get_deletable_scope_ids(request, instance)
         if scope_ids:
-            Memory.objects.filter(pk=instance.pk).delete_scope(
-                Q(id__in=scope_ids), delete_legacy=False
-            )
+            Memory.objects.using(self.write_db_alias).filter(
+                pk=instance.pk
+            ).delete_scope(Q(id__in=scope_ids), delete_legacy=False)
         else:
             self.permission_denied(request, "Can not delete memory entry")
         return Response(status=HTTP_204_NO_CONTENT)
