@@ -6867,7 +6867,7 @@ class ProjectAPITest(APIBaseTest):
                 "repo": self.format_test_repo_url(self.git_repo_path),
                 "filemask": "po/*.po",
                 "file_format": "po",
-                "push": "https://username:password@github.com/example/push.git",
+                "push": "https://username:password@github.com/example/push.git",  # kingfisher:ignore
                 "new_lang": "none",
             },
         )
@@ -6875,7 +6875,7 @@ class ProjectAPITest(APIBaseTest):
         component = Component.objects.get(slug="api-project", project__slug="test")
         self.assertEqual(
             component.push,
-            "https://username:password@github.com/example/push.git",
+            "https://username:password@github.com/example/push.git",  # kingfisher:ignore
         )
         self.assertFalse(component.manage_units)
         self.assertFalse(response.data["manage_units"])
@@ -6957,7 +6957,7 @@ class ProjectAPITest(APIBaseTest):
                 "repo": self.format_test_repo_url(self.git_repo_path),
                 "filemask": "po/*.po",
                 "file_format": "po",
-                "push": "https://username:password@github.com/example/push.git",
+                "push": "https://username:password@github.com/example/push.git",  # kingfisher:ignore
                 "new_lang": "none",
                 "category": reverse("api:category-detail", kwargs={"pk": category.pk}),
             },
@@ -8926,7 +8926,7 @@ class ProjectAPITest(APIBaseTest):
                     "filemask": "*.po",
                     "new_base": "project.pot",
                     "file_format": "po",
-                    "push": "https://username:password@github.com/example/push.git",
+                    "push": "https://username:password@github.com/example/push.git",  # kingfisher:ignore
                     "new_lang": "none",
                 },
             )
@@ -8951,7 +8951,7 @@ class ProjectAPITest(APIBaseTest):
                     "filemask": "*.po",
                     "new_base": "project.pot",
                     "file_format": "po",
-                    "push": "https://username:password@github.com/example/push.git",
+                    "push": "https://username:password@github.com/example/push.git",  # kingfisher:ignore
                     "new_lang": "none",
                 },
             )
@@ -9094,7 +9094,7 @@ class ProjectAPITest(APIBaseTest):
             "repo": self.format_test_repo_url(self.git_repo_path),
             "filemask": "po/*.po",
             "file_format": "po",
-            "push": "https://username:password@github.com/example/push.git",
+            "push": "https://username:password@github.com/example/push.git",  # kingfisher:ignore
             "new_lang": "none",
         }
 
@@ -9169,7 +9169,7 @@ class ProjectAPITest(APIBaseTest):
             "repo": self.format_test_repo_url(self.git_repo_path),
             "filemask": "po/*.po",
             "file_format": "po",
-            "push": "https://username:password@github.com/example/push.git",
+            "push": "https://username:password@github.com/example/push.git",  # kingfisher:ignore
             "new_lang": "none",
         }
 
