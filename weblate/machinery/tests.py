@@ -10588,6 +10588,37 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
             '["Hallo Welt"]',
         )
 
+    def test_batch_system_prompt_is_cached(self) -> None:
+        machine = self.get_machine()
+
+        payload = machine.get_chat_payload(
+            "claude-haiku-4-5", "system prompt", "source", "", ""
+        )
+
+        self.assertEqual(
+            payload["system"],
+            [
+                {
+                    "type": "text",
+                    "text": "system prompt",
+                    "cache_control": {"type": "ephemeral"},
+                }
+            ],
+        )
+
+    @http_mock.activate
+    def test_single_lookup_skips_prompt_cache(self) -> None:
+        self.mock_response()
+        machine = self.get_machine()
+
+        self.assert_translate(
+            self.SUPPORTED, self.SOURCE_BLANK, self.EXPECTED_LEN, machine=machine
+        )
+
+        payload = load_request_json(http_mock.calls[-1].request)
+        self.assertIsInstance(payload["system"], str)
+        self.assertTrue(machine.prompt_cache)
+
 
 class AnthropicCustomModelTranslationTest(AnthropicTranslationTest):
     CONFIGURATION: ClassVar[SettingsDict] = {

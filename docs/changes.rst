@@ -9,6 +9,7 @@ Weblate 2026.12
 
 .. rubric:: Improvements
 
+* Enabled Anthropic prompt caching for :ref:`automatic translation <machine-translation>`, so the system prompt is read from cache between batch requests instead of being billed in full on every request.
 * Raised the shared limit for translation strings, CSV and XLSX rows, and translation-memory entries to 200,000. Configure it with :setting:`TRANSLATION_MAX_UNITS`.
 
 * Show inclusive ranges and representative counts in :ref:`plural form examples <plurals>`.

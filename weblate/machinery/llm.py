@@ -47,6 +47,7 @@ if TYPE_CHECKING:
     import httpx2
     from django_stubs_ext import StrOrPromise
 
+    from weblate.auth.models import User
     from weblate.checks.base import Highlight, HighlightKind
     from weblate.lang.models import Plural
     from weblate.trans.models import Component, Translation, Unit
@@ -367,6 +368,41 @@ class BaseLLMTranslation(BatchMachineTranslation):
         super().__init__(configuration)
         self._secondary_context_cache: dict[tuple[int, int], Unit | None] | None = None
         self._suggestion_model: str | None = None
+        self.prompt_cache = True
+
+    def translate(
+        self,
+        unit: Unit,
+        user: User | None = None,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+        *,
+        source_language: Language | None = None,
+    ) -> list[list[TranslationResultDict]]:
+        """Translate a single unit without paying for a prompt cache write."""
+        self.prompt_cache = False
+        try:
+            return super().translate(
+                unit, user, threshold, source_language=source_language
+            )
+        finally:
+            self.prompt_cache = True
+
+    async def atranslate(
+        self,
+        unit: Unit,
+        user: User | None = None,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+        *,
+        source_language: Language | None = None,
+    ) -> list[list[TranslationResultDict]]:
+        """Translate a single unit without paying for a prompt cache write."""
+        self.prompt_cache = False
+        try:
+            return await super().atranslate(
+                unit, user, threshold, source_language=source_language
+            )
+        finally:
+            self.prompt_cache = True
 
     def is_supported(self, source_language, target_language) -> bool:
         return True
