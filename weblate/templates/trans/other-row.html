@@ -23,7 +23,7 @@
     {% needs_agreement item.translation.component as needs_agreement %}
     {% if needs_agreement %}
       <span class="badge float-end text-bg-secondary"
-            title="{% translate "Contributing to this translation requires agreeing to its contributor license agreement." %}">{% translate "Contributor license agreement" %}</span>
+            title="{% translate "Contributing to this translation requires agreeing to its contributor license agreement."|force_escape %}">{% translate "Contributor license agreement" %}</span>
     {% endif %}
     <span class="badge float-end text-bg-secondary">{{ item.get_state_display }}</span>
     <a href="{{ item.get_absolute_url }}">{{ item.translation.component }}</a>

@@ -80,11 +80,11 @@
                   <input type="hidden" name="pk" value="{{ error.pk }}" />
                   <input type="submit"
                          name="dismiss"
-                         value="{% translate "Dismiss" %}"
+                         value="{% translate "Dismiss"|force_escape %}"
                          class="btn btn-primary" />
                   <input type="submit"
                          name="ignore"
-                         value="{% translate "Ignore permanently" %}"
+                         value="{% translate "Ignore permanently"|force_escape %}"
                          class="btn btn-primary" />
                 </form>
               </td>
@@ -176,7 +176,7 @@
                        aria-valuenow="{{ memory_migration_status.backfill_percent }}"
                        aria-valuemin="0"
                        aria-valuemax="100"
-                       aria-label="{% translate "Translation memory scope backfill" %}"
+                       aria-label="{% translate "Translation memory scope backfill"|force_escape %}"
                        style="width: {{ memory_migration_status.backfill_percent }}%">
                     {{ memory_migration_status.backfill_percent }}%
                   </div>
@@ -196,7 +196,7 @@
                        aria-valuenow="{{ memory_migration_status.compaction_percent }}"
                        aria-valuemin="0"
                        aria-valuemax="100"
-                       aria-label="{% translate "Translation memory duplicate candidate scan" %}"
+                       aria-label="{% translate "Translation memory duplicate candidate scan"|force_escape %}"
                        style="width: {{ memory_migration_status.compaction_percent }}%">
                     {{ memory_migration_status.compaction_percent }}%
                   </div>
@@ -255,7 +255,7 @@
                          aria-valuenow="{{ disk_usage_percent }}"
                          aria-valuemin="0"
                          aria-valuemax="100"
-                         aria-label="{% translate "Disk usage" %}"
+                         aria-label="{% translate "Disk usage"|force_escape %}"
                          style="width: {{ disk_usage_percent }}%"></div>
                   </div>
                 </td>

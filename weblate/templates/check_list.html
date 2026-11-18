@@ -65,7 +65,7 @@
                  aria-valuenow="{{ row.check_progress }}"
                  aria-valuemin="0"
                  aria-valuemax="100"
-                 aria-label="{% translate "Checks" %}">
+                 aria-label="{% translate "Checks"|force_escape %}">
               <div class="progress-bar progress-bar-danger"
                    style="width: {{ row.check_progress }}%"></div>
             </div>

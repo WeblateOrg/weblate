@@ -158,7 +158,7 @@
 
   <a class="ms-auto" href="{{ object.get_widgets_url }}">
     <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1"
-         alt="{% translate "Translation status widgets" %}" />
+         alt="{% translate "Translation status widgets"|force_escape %}" />
   </a>
 {% endblock breadcrumbs %}
 
@@ -228,7 +228,9 @@
             </div>
             <div class="card-body">{% crispy bulk_state_form %}</div>
             <div class="card-footer">
-              <input type="submit" value="{% translate "Apply" %}" class="btn btn-primary" />
+              <input type="submit"
+                     value="{% translate "Apply"|force_escape %}"
+                     class="btn btn-primary" />
             </div>
           </div>
         </form>
@@ -265,7 +267,9 @@
                 {% endif %}
               </div>
               <div class="card-footer">
-                <input type="submit" value="{% translate "Add" %}" class="btn btn-primary" />
+                <input type="submit"
+                       value="{% translate "Add"|force_escape %}"
+                       class="btn btn-primary" />
               </div>
             </div>
           </form>
@@ -293,7 +297,9 @@
                   </label>
                 </div>
                 <div class="card-footer">
-                  <input type="submit" value="{% translate "Add" %}" class="btn btn-primary" />
+                  <input type="submit"
+                         value="{% translate "Add"|force_escape %}"
+                         class="btn btn-primary" />
                 </div>
               </div>
             </form>
@@ -367,7 +373,9 @@
           </div>
           <div class="card-body">{% crispy download_form %}</div>
           <div class="card-footer">
-            <input type="submit" value="{% translate "Download" %}" class="btn btn-primary" />
+            <input type="submit"
+                   value="{% translate "Download"|force_escape %}"
+                   class="btn btn-primary" />
           </div>
         </div>
       </form>
@@ -397,7 +405,9 @@
               {% crispy form %}
             </div>
             <div class="card-footer">
-              <input type="submit" value="{% translate "Upload" %}" class="btn btn-primary" />
+              <input type="submit"
+                     value="{% translate "Upload"|force_escape %}"
+                     class="btn btn-primary" />
             </div>
           </div>
         </form>
@@ -422,7 +432,9 @@
               </p>
             </div>
             <div class="card-footer">
-              <input type="submit" value="{% translate "Add" %}" class="btn btn-primary" />
+              <input type="submit"
+                     value="{% translate "Add"|force_escape %}"
+                     class="btn btn-primary" />
             </div>
           </div>
         </form>

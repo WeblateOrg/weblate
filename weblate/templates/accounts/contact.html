@@ -36,7 +36,9 @@
           </div>
           <div class="card-footer">
             <a href="{% url 'contact' %}" class="btn btn-primary">{% translate "Back" %}</a>
-            <input type="submit" value="{% translate "Send" %}" class="btn btn-warning" />
+            <input type="submit"
+                   value="{% translate "Send"|force_escape %}"
+                   class="btn btn-warning" />
           </div>
         </div>
       </form>
