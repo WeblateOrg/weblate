@@ -13,8 +13,6 @@ from typing import IO
 from django.conf import settings
 from django.utils.translation import gettext
 
-MAX_TRANSLATION_UNITS = 100_000
-
 
 class TranslationLimitError(ValueError):
     """A file exceeds the shared translation-file acceptance limits."""
@@ -52,8 +50,9 @@ def check_translation_file_size(storefile: str | Path | IO[bytes]) -> None:
 
 def check_translation_unit_count(count: int) -> None:
     """Reject oversized logical stores before syncing or importing their units."""
-    if count > MAX_TRANSLATION_UNITS:
+    limit = settings.TRANSLATION_MAX_UNITS
+    if count > limit:
         raise TranslationLimitError(
             gettext("Translation file exceeds the maximum allowed count of %d strings.")
-            % MAX_TRANSLATION_UNITS
+            % limit
         )

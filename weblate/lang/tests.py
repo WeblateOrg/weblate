@@ -15,6 +15,7 @@ from unittest.mock import patch
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.db import connection
+from django.template.loader import render_to_string
 from django.test import SimpleTestCase, TestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
@@ -858,17 +859,68 @@ class PluralTest(BaseTestCase):
         self.assertEqual(plural.get_plural_name(1), "Plural")
         self.assertEqual(plural.get_plural_name(2), "Plural form 2")
 
-    def test_plural_labels(self) -> None:
+    def test_plural_display_examples(self) -> None:
         plural = Plural.objects.get(language__code="cs", source=Plural.SOURCE_DEFAULT)
-        label = plural.get_plural_label(0)
-        self.assertIn("One", label)
-        self.assertIn("1", label)
-        label = plural.get_plural_label(1)
-        self.assertIn("Few", label)
-        self.assertIn("2, 3, 4", label)
-        label = plural.get_plural_label(2)
-        self.assertIn("Many", label)
-        self.assertIn("5, 6, 7", label)
+        self.assertEqual(plural.display_examples[0], ["1"])
+        self.assertEqual(plural.display_examples[1], ["2–4"])
+        self.assertEqual(plural.display_examples[2][:2], ["0", "5–99"])
+
+    def test_latvian_display_examples(self) -> None:
+        plural = Plural.objects.get(language__code="lv", source=Plural.SOURCE_DEFAULT)
+        self.assertEqual(
+            plural.format_plural_examples(0),
+            "0, 10–20, 30, 40, 50, 60, 100, 1000, 10000, 100000, 1000000, …",
+        )
+        gettext_plural = Plural.objects.get(
+            language__code="lv",
+            source=Plural.SOURCE_GETTEXT,
+            formula="n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2",
+        )
+        self.assertEqual(gettext_plural.display_examples[2], ["0"])
+
+    def test_arabic_display_examples(self) -> None:
+        plural = Plural.objects.get(language__code="ar", source=Plural.SOURCE_DEFAULT)
+        self.assertEqual(plural.display_examples[4], ["11–99", "111", "1011", "…"])
+        self.assertEqual(
+            plural.display_examples[5],
+            [
+                "100–102",
+                "200–202",
+                "300–302",
+                "400–402",
+                "1000–1002",
+                "10000",
+                "100000",
+                "1000000",
+                "…",
+            ],
+        )
+
+    def test_breton_display_examples(self) -> None:
+        plural = Plural.objects.get(language__code="br", source=Plural.SOURCE_DEFAULT)
+        self.assertEqual(
+            plural.display_examples[3],
+            ["1000000", "2000000", "3000000", "4000000", "…"],
+        )
+
+    def test_sparse_display_examples(self) -> None:
+        plural = Plural(number=3, formula="n==10000 || n==11000 || n==12345678 ? 1 : 0")
+        self.assertEqual(plural.display_examples[1], ["10000", "11000", "12345678"])
+        self.assertEqual(plural.format_plural_examples(2), "")
+
+        info = render_to_string("snippets/plural.html", {"plural": plural})
+        self.assertInHTML(
+            '<bdi class="plural-examples" dir="ltr">10000, 11000, 12345678</bdi>',
+            info,
+        )
+        self.assertIn("No integer examples found", info)
+
+    def test_display_examples_skip_invalid_supplemental_counts(self) -> None:
+        plural = Plural(
+            number=2,
+            formula="n > 2000000 && n % 1000000 == 0 ? 1 / (n % 1000000) : n != 1",
+        )
+        self.assertEqual(plural.display_examples[0], ["1"])
 
     def test_plural_type(self) -> None:
         language = Language.objects.get(code="cs")

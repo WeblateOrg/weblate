@@ -61,6 +61,7 @@ from weblate.trans.tests.utils import (
     clear_users_cache,
     create_another_user,
     create_test_user,
+    fixup_languages_seq,
     wait_for_celery,
 )
 from weblate.trans.views.basic import add_languages_to_component
@@ -655,6 +656,10 @@ class FixtureComponentTestCase(ComponentTestCase):
     @classmethod
     def setUpTestData(cls) -> None:
         """Manually load fixture."""
+        # The fixture load resets the sequences, which survive the class rollback.
+        # Realign them with the original rows after Django restores those rows.
+        cls.addClassCleanup(fixup_languages_seq)
+
         # Ensure there are no Language objects, we add
         # them in defined order in fixture
         Language.objects.all().delete()

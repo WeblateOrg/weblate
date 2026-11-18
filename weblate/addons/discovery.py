@@ -14,6 +14,9 @@ from weblate.addons.forms import DiscoveryForm
 from weblate.trans.discovery import ComponentDiscovery
 
 DISCOVERY_LIMIT_ERROR = "Component discovery stopped after exceeding resource limits."
+DISCOVERY_TEMPLATE_ERROR = (
+    "Component discovery stopped because a template could not be rendered."
+)
 
 if TYPE_CHECKING:
     from weblate.addons.forms import BaseAddonForm
@@ -55,6 +58,8 @@ class DiscoveryAddon(BaseAddon):
         )
         if discovery.limit_exceeded:
             return AddonEventOutcome.error(result=DISCOVERY_LIMIT_ERROR)
+        if discovery.template_error:
+            return AddonEventOutcome.error(result=DISCOVERY_TEMPLATE_ERROR)
         return None
 
     def get_settings_form(self, user: User | None, **kwargs) -> BaseAddonForm | None:

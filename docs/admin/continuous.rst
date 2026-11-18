@@ -103,9 +103,11 @@ triggered, see :ref:`addons`.
 Matching webhook targets
 ++++++++++++++++++++++++
 
-Forge webhooks update components whose :ref:`component-repo` exactly matches a
-repository URL from the payload (HTTPS or SSH as reported by the forge, plus
-common variants such as a trailing slash).
+Forge webhooks match repository-owning components whose :ref:`component-repo`
+exactly matches a repository URL from the payload (HTTPS or SSH as reported by
+the forge, plus common variants such as a trailing slash). Components that
+share a repository through :ref:`internal-urls` are refreshed as part of the
+owner's update and are excluded from webhook matching and diagnostic counts.
 Webhook deliveries containing more than 64 repository URLs are rejected before
 matching components.
 

@@ -211,6 +211,13 @@ The :file:`weblate/settings_test.py` is used in CI environment as well (see
     See :doc:`django:topics/testing/index` for more info on running and
     writing tests for Django.
 
+Keep test files covered by Kingfisher secret scanning. Use dummy credentials in
+tests and add ``# kingfisher:ignore`` on the same line when Kingfisher reports an
+intentional test credential. Do not exclude whole test modules or directories.
+For dedicated credential fixtures whose formats do not support comments, such as
+JSON credentials and PEM private keys, exclude the exact file in
+:file:`.pre-commit-config.yaml` instead.
+
 Tests that repeatedly import the same component can inherit from
 ``ReusableComponentTestCase`` or ``ReusableViewTestCase`` in
 :file:`weblate/trans/tests/test_views.py`. These bases build the initial user,

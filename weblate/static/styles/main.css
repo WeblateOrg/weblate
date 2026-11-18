@@ -430,6 +430,35 @@ span.replaced {
   max-width: 100%;
 }
 
+.editor-plural-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.5rem;
+}
+
+.editor-plural-header > label {
+  display: flex;
+  flex: 1 1 16rem;
+  align-items: baseline;
+  min-inline-size: 0;
+}
+
+.editor-plural-name {
+  flex: none;
+  max-inline-size: 100%;
+  padding-inline-end: 0.25em;
+  overflow-wrap: anywhere;
+}
+
+.editor-plural-toolbar {
+  max-inline-size: 100%;
+}
+
+.plural-examples {
+  overflow-wrap: anywhere;
+}
+
 .card-body .table-sm {
   margin-bottom: 0;
 }
@@ -1049,6 +1078,14 @@ legend {
 }
 #query-dropdown {
   height: 100%;
+}
+.query-field .dropdown-item .saved-query {
+  display: inline-block;
+  max-width: 20em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+  white-space: nowrap;
 }
 
 .forbidden-term svg,

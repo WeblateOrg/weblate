@@ -1901,6 +1901,12 @@ Sentry can be also used to monitor performance of Weblate by collecting traces
 and profiles for defined percentage of operations. This can be configured using
 :setting:`SENTRY_TRACES_SAMPLE_RATE` and :setting:`SENTRY_PROFILES_SAMPLE_RATE`.
 
+Weblate redacts known credential fields, authentication headers, and sensitive
+URL query parameters from error reports and transaction events, including
+exception messages, serialized HTTP buffers, and breadcrumbs.
+This also applies when :setting:`SENTRY_SEND_PII` is enabled and
+after custom ``before_send`` or ``before_send_transaction`` callbacks run.
+
 Weblate shortens oversized exception chains before sending them to Sentry,
 preserving the original cause and final exception. The report records how many
 intermediate exceptions were omitted. Other oversized event data can still

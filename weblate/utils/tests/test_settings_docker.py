@@ -13,6 +13,25 @@ from django.core.exceptions import ImproperlyConfigured
 from django.test import SimpleTestCase
 
 
+class DockerTranslationMaxUnitsTest(SimpleTestCase):
+    def test_default_and_override(self) -> None:
+        environment = {
+            "WEBLATE_SITE_DOMAIN": "example.com",
+            "WEBLATE_DATABASES": "0",
+            "WEBLATE_SECRET_KEY": "environment-secret",
+        }
+        for overrides, limit in (
+            ({}, 200_000),
+            ({"WEBLATE_TRANSLATION_MAX_UNITS": "150000"}, 150_000),
+        ):
+            with (
+                self.subTest(overrides=overrides),
+                patch.dict(os.environ, environment | overrides, clear=True),
+            ):
+                configuration = run_module("weblate.settings_docker")
+            self.assertEqual(configuration["TRANSLATION_MAX_UNITS"], limit)
+
+
 class DockerSecretKeyTest(SimpleTestCase):
     def setUp(self) -> None:
         super().setUp()

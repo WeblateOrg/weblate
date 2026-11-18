@@ -13,8 +13,8 @@
         <button type="button"
                 class="btn btn-link btn-xs float-end"
                 data-clipboard-value="{{ ssh_key.key }}"
-                data-clipboard-message="{% translate "Public key copied to clipboard." %}"
-                title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                data-clipboard-message="{% translate "Public key copied to clipboard."|force_escape %}"
+                title="{% translate "Copy to clipboard"|force_escape %}">{% icon "copy.svg" %}</button>
         <p>
           {% blocktranslate %}Weblate uses SSH key to access remote repositories. The corresponding public key is found below, you can use it to grant Weblate access to a repository.{% endblocktranslate %}
         </p>
@@ -49,8 +49,8 @@
             <button type="button"
                     class="btn btn-link btn-xs float-end"
                     data-clipboard-value="{{ address }}"
-                    data-clipboard-message="{% translate "IP address copied to clipboard." %}"
-                    title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                    data-clipboard-message="{% translate "IP address copied to clipboard."|force_escape %}"
+                    title="{% translate "Copy to clipboard"|force_escape %}">{% icon "copy.svg" %}</button>
           </li>
         {% endfor %}
       </ul>

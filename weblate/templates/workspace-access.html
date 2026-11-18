@@ -34,7 +34,7 @@
             <td>
               <a href="{{ group.get_absolute_url }}"
                  class="btn btn-link btn-xs"
-                 title="{% translate "Edit" %}">{% icon 'pencil.svg' %}</a>
+                 title="{% translate "Edit"|force_escape %}">{% icon 'pencil.svg' %}</a>
             </td>
           </tr>
         {% endfor %}
