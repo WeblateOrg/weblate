@@ -1620,6 +1620,10 @@ Generic settings
    Configures :setting:`TRANSLATION_MAX_SIZE` in bytes. When unset, follows
    :envvar:`WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE`.
 
+.. envvar:: WEBLATE_TRANSLATION_MAX_UNITS
+
+   Configures :setting:`TRANSLATION_MAX_UNITS`. Defaults to 200,000.
+
 .. envvar:: WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE
 
    Configures :setting:`TRANSLATION_UPLOAD_MAX_SIZE`.

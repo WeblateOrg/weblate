@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from django.core.exceptions import ImproperlyConfigured
 from django.test import SimpleTestCase, override_settings
 
 from weblate.accounts import defaults as accounts_defaults
@@ -63,6 +64,7 @@ class DefaultsTest(SimpleTestCase):
             UtilsConf.TRANSLATION_UPLOAD_MAX_SIZE,
             utils_defaults.DEFAULT_TRANSLATION_UPLOAD_MAX_SIZE,
         )
+        self.assertEqual(UtilsConf.TRANSLATION_MAX_UNITS, 200_000)
         self.assertEqual(
             UtilsConf.SENTRY_PROFILES_SAMPLE_RATE,
             utils_defaults.DEFAULT_SENTRY_PROFILES_SAMPLE_RATE,
@@ -79,6 +81,14 @@ class DefaultsTest(SimpleTestCase):
             VCSConf.VCS_CLONE_DEPTH,
             vcs_defaults.DEFAULT_VCS_CLONE_DEPTH,
         )
+
+    def test_translation_max_units_requires_positive_integer(self) -> None:
+        for value in (0, -1, None, True, "100000"):
+            with (
+                self.subTest(value=value),
+                self.assertRaisesMessage(ImproperlyConfigured, "TRANSLATION_MAX_UNITS"),
+            ):
+                UtilsConf().configure_translation_max_units(value)
 
     def test_backup_import_limits(self) -> None:
         self.assertEqual(

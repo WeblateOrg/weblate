@@ -20,6 +20,7 @@ from io import BytesIO, StringIO
 from pathlib import Path
 from typing import IO, TYPE_CHECKING, Any, ClassVar, TypedDict, cast
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
@@ -85,7 +86,7 @@ from weblate.formats.helpers import (
     CSV_TARGET_PLURAL_FORM,
     format_csv_id_hash,
 )
-from weblate.formats.limits import MAX_TRANSLATION_UNITS, TranslationLimitError
+from weblate.formats.limits import TranslationLimitError
 from weblate.lang.data import FORMULA_WITH_ZERO, ZERO_PLURAL_TYPES
 from weblate.lang.models import Plural
 from weblate.trans.exceptions import is_expected_parse_error
@@ -1655,12 +1656,13 @@ class WeblateCSVFile(csvfile):
     def addunit(self, unit: WeblateCSVUnit) -> None:
         if self._parsed_rows is not None:
             self._parsed_rows += 1
-            if self._parsed_rows > MAX_TRANSLATION_UNITS:
+            max_rows = settings.TRANSLATION_MAX_UNITS
+            if self._parsed_rows > max_rows:
                 raise TranslationLimitError(
                     gettext(
                         "CSV file exceeds the maximum allowed count of %d data rows."
                     )
-                    % MAX_TRANSLATION_UNITS
+                    % max_rows
                 )
         super().addunit(unit)
 
