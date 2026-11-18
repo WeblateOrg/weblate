@@ -1,0 +1,14 @@
+{% if projects %}
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{{ title }}</h4>
+    </div>
+    <div class="card-body">
+      <p>
+        {% for project in projects %}
+          <a href="{{ project.get_absolute_url }}" class="btn btn-link">{{ project }}</a>
+        {% endfor %}
+      </p>
+    </div>
+  </div>
+{% endif %}
