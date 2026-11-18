@@ -249,7 +249,8 @@ processed during the request, stored as active, and added to the selected scope:
   Weblate instance.
 
 Imports enforce :setting:`TRANSLATION_MAX_SIZE` before parsing and accept at most
-100,000 entries per file. JSON entries are counted before schema validation.
+:setting:`TRANSLATION_MAX_UNITS` entries per file. JSON entries are counted
+before schema validation.
 For TMX, both translation units and source-target pairs count toward the limit,
 including repeated or empty entries and multiple target languages. Limit failures
 are rejected before any entries are written. Accepted imports write database

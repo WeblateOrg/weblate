@@ -7,6 +7,8 @@ Weblate 2026.12
 
 .. rubric:: Improvements
 
+* Raised the shared limit for translation strings, CSV and XLSX rows, and translation-memory entries to 200,000. Configure it with :setting:`TRANSLATION_MAX_UNITS`.
+
 * Show inclusive ranges and representative counts in :ref:`plural form examples <plurals>`.
 
 * Sped up :ref:`Weblate translation suggestions <mt-weblate>` by fetching ranked candidates in limited batches and avoiding repeated similarity calculations for exact matches.
