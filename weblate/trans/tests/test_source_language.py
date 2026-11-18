@@ -1946,12 +1946,13 @@ class SourceLanguageTest(FixtureComponentTestCase):
                 )
                 self.assertNotIn("COALESCE", candidate_sql)
                 self.assertNotIn('"lang_plural"', candidate_sql)
+                self.assertEqual(candidate_sql.count("LIMIT 1"), 3)
                 self.assertEqual(
                     [unit.pk for unit in matches],
                     sorted([self.child.pk, ordinary.pk]),
                 )
                 # Reject the first candidate and ensure the next batch still
-                # supplies a result instead of applying the result limit in SQL.
+                # supplies a result instead of stopping at the first SQL page.
                 Unit.objects.filter(pk=matches[0].pk).update(flags="forbidden")
                 results = list(
                     machine.download_translations(
