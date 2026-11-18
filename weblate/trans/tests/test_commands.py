@@ -119,6 +119,21 @@ class AnalyzeTranslatorWorkTest(ComponentTestCase):
 
 
 class ImportProjectTest(RepoTestCase):
+    def test_import_reports_discovery_template_errors(self) -> None:
+        project = self.create_project()
+        component = self.create_po(project=project)
+        count = project.component_set.count()
+        for path in (None, component.get_repo_link_url()):
+            for setting in ("name_template", "base_file_template", "new_base_template"):
+                with (
+                    self.subTest(path=path, setting=setting),
+                    self.assertRaisesRegex(
+                        CommandError, f"Could not render {setting} template"
+                    ),
+                ):
+                    self.do_import(path, **{setting: "{% invalid %}"})
+                self.assertEqual(project.component_set.count(), count)
+
     def do_import(self, path=None, **kwargs) -> None:
         kwargs.setdefault("user", get_test_actor(self).username)
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):

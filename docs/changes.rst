@@ -5,25 +5,46 @@ Weblate 2026.12
 
 .. rubric:: New features
 
+* :ref:`format-line-number` in the translation file is now stored in the unit for supported formats; when available, the line number is used for repository links and :guilabel:`Nearby strings`.
+
 .. rubric:: Improvements
+
+* Enabled Anthropic prompt caching for :ref:`automatic translation <machine-translation>`, so the system prompt is read from cache between batch requests instead of being billed in full on every request.
+* Raised the shared limit for translation strings, CSV and XLSX rows, and translation-memory entries to 200,000. Configure it with :setting:`TRANSLATION_MAX_UNITS`.
+
+* Show inclusive ranges and representative counts in :ref:`plural form examples <plurals>`.
+* Pass developer comments from the source file to :ref:`LLM-based machine translation <llm-translation-context>`, so short strings such as button labels can be translated in context.
+
+* Sped up :ref:`Weblate translation suggestions <mt-weblate>` by fetching ranked candidates in limited batches and avoiding repeated similarity calculations for exact matches.
 
 * Sped up :ref:`quality checks <checks>` by skipping format and markup extraction for strings without relevant syntax.
 
 * Improved database query performance for project language :ref:`statistics <stats>`.
+* Batched shared :ref:`statistics <stats>` updates after refreshing propagated quality checks.
 * Batched daily statistics collection to reduce database queries and bound memory use on large sites with cached statistics.
 * Added :envvar:`WEBLATE_SECRET_KEY` support to configure Docker's Django secret key directly or from a mounted secret file.
 * Reduced database loading when polling :ref:`background tasks <api-tasks>` spanning many components.
 * Outbound requests and Git repositories now honor ``no_proxy`` with the :ref:`HTTP proxy <http-proxy>`.
+* Listed :ref:`saved-searches` first in the search filters and truncated long saved queries.
 
 .. rubric:: Security fixes
 
+* Checked :ref:`translation memory deletion permissions <api-memory>` on the primary database to protect entries from restricted components when replicas lag.
+* Prevented deleting a component from expanding a :ref:`component-limited team <access-control>` to project-wide access.
+* Redacted machine translation API keys, GitHub App credentials, authentication headers, and credentials in URLs from :ref:`Sentry error reports <collecting-errors>` and performance traces.
 * Prevented component API requests from switching between incompatible VCS backends or creating integration-managed components outside their provider import flow.
 * Prevented component creation from writing translation templates outside its repository.
 * Applied :setting:`VCS_RESTRICT_PRIVATE` and trusted-host exemptions to :ref:`GitHub App manifest-code and OAuth exchanges <code-hosting-github-app-register>` and API requests, including redirects and pagination URLs.
 * Revoked stale OAuth e-mail recovery addresses and reconciled the :ref:`account e-mail <user-profile>` when its last verification is removed.
+* Filtered the site-wide changes listings and feeds by workspace visibility, so workspaces the viewer cannot access no longer appear there.
+* Restricted :ref:`webhook matching <hooks-target-matching>` to repository owners, preventing generic deliveries from triggering GitHub App updates through linked components.
 
 .. rubric:: Bug fixes
 
+* Preserved special characters in e-mail subjects for :ref:`notifications`.
+* Handled invalid configured :ref:`templates <markup>` without unhandled server errors, preserving editor access and reporting failed repository and add-on operations.
+
+* Fixed :ref:`AI translation suggestions <machine-translation>` when a provider omits the outer JSON array for a single translation.
 * Fixed delayed database cursor cleanup in :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` with custom source languages.
 
 .. rubric:: Compatibility

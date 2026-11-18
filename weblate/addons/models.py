@@ -16,6 +16,7 @@ from django.db import models, transaction
 from django.db.models import Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.template import TemplateSyntaxError
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
@@ -42,7 +43,9 @@ from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.classloader import ClassRegistry
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
+from weblate.utils.render_policy import TemplateDiagnosticError
 from weblate.utils.tracing import start_span
+from weblate.vcs.base import RepositoryTemplateError
 
 from .base import (
     AddonConfigurationValue,
@@ -619,7 +622,9 @@ def _report_addon_error(
     scope: Translation | Component | Category | Project | None,
     error: Exception,
 ) -> None:
-    if getattr(error, "_weblate_reported", False):
+    if isinstance(error, (TemplateSyntaxError, RepositoryTemplateError)) or getattr(
+        error, "_weblate_reported", False
+    ):
         return
     report_error(
         f"add-on {addon.name} failed",
@@ -686,17 +691,17 @@ def execute_addon_event(  # ruff: ignore[complex-structure]
             return
 
     def addon_logger(
-        level: Literal["debug", "error"], message: str, *args: StrOrPromise
+        level: Literal["debug", "warning", "error"],
+        message: str,
+        *args: StrOrPromise,
+        sensitive: bool = False,
     ) -> None:
         if scope is None:
-            if level == "debug":
-                LOGGER.debug(message, *args)
-            else:
-                LOGGER.error(message, *args)
-        elif level == "debug":
-            scope.log_debug(message, *args)
+            getattr(LOGGER, level)(message, *args)
+        elif level == "warning":
+            scope.log_warning(message, *args, sensitive=sensitive)
         else:
-            scope.log_error(message, *args)
+            getattr(scope, f"log_{level}")(message, *args)
 
     log_result = None
     outcome_status = AddonActivityLogStatus.SUCCESS
@@ -762,7 +767,15 @@ def execute_addon_event(  # ruff: ignore[complex-structure]
             outcome_status = AddonActivityLogStatus.ERROR
             log_result = str(error)
             addon_logger(
-                "error", "failed %s add-on: %s: %s", event.label, addon.name, str(error)
+                "warning"
+                if isinstance(error, (TemplateSyntaxError, RepositoryTemplateError))
+                else "error",
+                "failed %s add-on: %s: %s",
+                event.label,
+                addon.name,
+                str(error),
+                sensitive=isinstance(error, TemplateSyntaxError)
+                and not isinstance(error, TemplateDiagnosticError),
             )
             _report_addon_error(addon, component, scope, error)
             # Uninstall no longer compatible add-ons

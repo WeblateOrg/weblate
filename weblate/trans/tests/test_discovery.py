@@ -43,6 +43,23 @@ if TYPE_CHECKING:
 
 
 class RepositoryImportDiscoveryTest(SimpleTestCase):
+    def test_attached_failed_discovery_cannot_mutate_components(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            pathlib.Path(tempdir, "cs.po").touch()
+            discovery = ComponentDiscovery.for_repository_import(
+                path=tempdir,
+                file_format="po",
+                match=r"(?P<language>[^/]*)\.po",
+                name_template="{% invalid %}",
+                user=MagicMock(),
+            )
+            self.assertEqual(discovery.matched_components, {})
+            attached = discovery.with_component(
+                MagicMock(spec=Component, full_path=tempdir)
+            )
+            self.assertEqual(attached.perform(remove=True), ([], [], [], []))
+            self.assertEqual(attached.errors, discovery.errors)
+
     def test_with_component_retains_discovery_results(self) -> None:
         with (
             tempfile.TemporaryDirectory() as tempdir,
@@ -692,6 +709,57 @@ class ComponentDiscoveryTest(RepoTestCase):
             created, matched, deleted, skipped = self.discovery.perform(remove=True)
 
         self.assertEqual((created, matched, deleted, skipped), ([], [], [], []))
+        cleanup.assert_not_called()
+
+    def test_template_failure_prevents_creation_and_removal(self) -> None:
+        for setting in (
+            "name_template",
+            "base_file_template",
+            "new_base_template",
+            "intermediate_template",
+            "filemask_template",
+        ):
+            with self.subTest(setting=setting):
+                discovery = ComponentDiscovery(
+                    self.component,
+                    user=get_test_actor(self),
+                    file_format="po",
+                    match=r"(?P<language>[^/]*)\.po",
+                    name_template="{{ language }}",
+                )
+                setattr(discovery, setting, "{% invalid %}")
+                discovery.__dict__["repository_paths"] = ["cs.po", "de.po"]
+                with (
+                    patch.object(discovery, "cleanup") as cleanup,
+                    patch.object(discovery, "create_component") as create,
+                ):
+                    self.assertEqual(discovery.perform(remove=True), ([], [], [], []))
+                self.assertTrue(discovery.template_error)
+                self.assertIn(setting, discovery.errors[0][1])
+                create.assert_not_called()
+                cleanup.assert_not_called()
+
+    def test_runtime_template_failure_discards_partial_discovery(self) -> None:
+        discovery = ComponentDiscovery(
+            self.component,
+            user=get_test_actor(self),
+            file_format="po",
+            match=r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+            name_template=(
+                "{% for a in language %}{% for b in language %}x{% endfor %}{% endfor %}"
+            ),
+        )
+        discovery.__dict__["repository_paths"] = [
+            "good/cs.po",
+            "bad/" + "a" * 101 + ".po",
+        ]
+        with patch.object(discovery, "cleanup") as cleanup:
+            self.assertEqual(
+                discovery.perform(preview=True, remove=True), ([], [], [], [])
+            )
+        self.assertTrue(discovery.template_error)
+        self.assertIn("limit", discovery.errors[0][1])
+        self.assertEqual(discovery.matched_components, {})
         cleanup.assert_not_called()
 
     def test_create_from_template_reports_colliding_masks(self) -> None:

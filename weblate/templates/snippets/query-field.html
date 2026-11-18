@@ -12,6 +12,30 @@
       <span class="search-label">{% translate "Filters" %}</span>
     </button>
     <ul class="dropdown-menu shadow">
+      {% for heading, entries in saved_filter_lists %}
+        {% if not forloop.first %}
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+        {% endif %}
+        <li>
+          <h6 class="dropdown-header">{{ heading }}</h6>
+        </li>
+        {% for key, name, query, color in entries %}
+          <li>
+            <a class="dropdown-item" href="#" data-filter="{{ key }}" data-field="{{ query }}">
+              <span class="legend filter-marker" aria-hidden="true"><span class="progress"></span></span>
+              <span class="title">{{ name }}</span>
+              • <code class="saved-query" title="{{ query }}">{{ query }}</code>
+            </a>
+          </li>
+        {% endfor %}
+        {% if forloop.last %}
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+        {% endif %}
+      {% endfor %}
       {% for key, name, query, color in custom_filter_list %}
         <li>
           <a class="dropdown-item" href="#" data-filter="{{ key }}" data-field="{{ query }}">
@@ -26,23 +50,6 @@
             {% if query %}• <code>{{ query }}</code>{% endif %}
           </a>
         </li>
-      {% endfor %}
-      {% for heading, entries in saved_filter_lists %}
-        <li>
-          <hr class="dropdown-divider">
-        </li>
-        <li>
-          <h6 class="dropdown-header">{{ heading }}</h6>
-        </li>
-        {% for key, name, query, color in entries %}
-          <li>
-            <a class="dropdown-item" href="#" data-filter="{{ key }}" data-field="{{ query }}">
-              <span class="legend filter-marker" aria-hidden="true"><span class="progress"></span></span>
-              <span class="title">{{ name }}</span>
-              • <code>{{ query }}</code>
-            </a>
-          </li>
-        {% endfor %}
       {% endfor %}
       {% if can_save_search %}
         <li>
@@ -64,8 +71,8 @@
             name="refresh"
             value="1"
             class="btn btn-outline-primary"
-            title="{% translate 'Refresh results' %}"
-            aria-label="{% translate 'Refresh results' %}"
+            title="{% translate 'Refresh results'|force_escape %}"
+            aria-label="{% translate 'Refresh results'|force_escape %}"
             aria-describedby="search-cache-help">{% icon "refresh.svg" %}</button>
   {% endif %}
 </div>

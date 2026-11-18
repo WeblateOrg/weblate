@@ -35,7 +35,7 @@
         </div>
         <input class="btn btn-primary"
                type="submit"
-               value="{% if has_existing_language_policy %}{% translate "Submit" %}{% else %}{% translate "Start new translation" %}{% endif %}" />
+               value="{% if has_existing_language_policy %}{% translate "Submit"|force_escape %}{% else %}{% translate "Start new translation"|force_escape %}{% endif %}" />
       </div>
     </form>
   </div>

@@ -21,11 +21,13 @@
       </div>
       <div class="card-body" id="appearance-settings">{% crispy form %}</div>
       <div class="card-footer">
-        <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
+        <input type="submit"
+               class="btn btn-primary"
+               value="{% translate "Save"|force_escape %}" />
         <input type="submit"
                class="btn btn-danger"
                name="reset"
-               value="{% translate "Reset customization" %}" />
+               value="{% translate "Reset customization"|force_escape %}" />
       </div>
     </div>
   </form>

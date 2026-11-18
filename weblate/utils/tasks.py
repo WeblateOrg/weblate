@@ -189,8 +189,10 @@ def update_component_topology_stats(
 
 
 @app.task(trail=False)
-def update_translation_stats(pks: list[int]) -> None:
-    """Update translations in chunks and refresh their shared parents once."""
+def update_translation_stats(
+    pks: list[int], *, update_translations: bool = True
+) -> None:
+    """Refresh shared parents, optionally rebuilding their translations first."""
     # ruff: ignore[import-outside-top-level]
     from weblate.utils.stats import (
         BaseStats,
@@ -205,8 +207,14 @@ def update_translation_stats(pks: list[int]) -> None:
             "component__project",
             "component__category",
         )
-        for translation in iter_prefetch_stats(translations):
-            translation.stats.update_stats(update_parents=False)
+        translation_batch = (
+            iter_prefetch_stats(translations)
+            if update_translations
+            else translations.iterator(chunk_size=100)
+        )
+        for translation in translation_batch:
+            if update_translations:
+                translation.stats.update_stats(update_parents=False)
             for stats in translation.stats.get_update_objects():
                 parent_stats.setdefault(stats.cache_key, stats)
     update_stats_objects(parent_stats.values())

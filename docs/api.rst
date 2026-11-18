@@ -3106,6 +3106,7 @@ and XLIFF.
     :>json boolean translated: whether the unit is translated
     :>json boolean approved: whether the translation is approved
     :>json int position: unit position in translation file
+    :>json int line_number: read-only line in the translation file, or null when the format does not provide one
     :>json boolean has_suggestion: whether the unit has suggestions
     :>json boolean has_comment: whether the unit has comments
     :>json boolean has_failing_check: whether the unit has failing checks
@@ -4181,7 +4182,8 @@ The generic hook endpoints return diagnostics intended to help configure
 repository notifications. The ``match_status`` object contains:
 
 ``repository_matches``
-    Number of components whose repository URL matches the payload.
+    Number of repository-owning components whose repository URL matches the
+    payload.
 ``branch_matches``
     Number of repository matches whose configured branch matches the payload.
     For events without a branch, every repository match is counted as a branch

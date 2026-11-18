@@ -592,7 +592,7 @@ class WebsiteTest(SimpleTestCase):
         validator("http://1.1.1.1")
         validator("https://[2606:4700:4700::1111]")
         validator("https://domain.tld:5000")
-        validator("https://user:password@domain.tld/path")
+        validator("https://user:password@domain.tld/path")  # kingfisher:ignore
         validator("https://user%5C@domain.tld/path")
         with self.assertRaises(ValidationError):
             validator("ftp://domain.tld")

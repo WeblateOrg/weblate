@@ -21,7 +21,7 @@
                         {{ field.label }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
                         {% form_field_doc_link field.form field %}
                     </label>
-                    <button type="button" class="btn btn-outline-secondary btn-xs site-default-field-button" data-site-default-target="{{ field.html_name }}"{% if field.id_for_label %} aria-controls="{{ field.id_for_label }}"{% endif %} title="{% translate "Restore site default" %}">
+                    <button type="button" class="btn btn-outline-secondary btn-xs site-default-field-button" data-site-default-target="{{ field.html_name }}"{% if field.id_for_label %} aria-controls="{{ field.id_for_label }}"{% endif %} title="{% translate "Restore site default"|force_escape %}">
                         {% icon "undo.svg" %} {% translate "Restore site default" %}
                     </button>
                 </div>
