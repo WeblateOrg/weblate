@@ -21230,13 +21230,13 @@ class ScreenshotAPITest(APIBaseTest):
     def test_units(self) -> None:
         self.authenticate(True)
         screenshot = Screenshot.objects.get()
-        unit = self.component.source_translation.unit_set.all()[0]
-        response = self.client.post(
-            reverse("api:screenshot-units", kwargs={"pk": screenshot.pk}),
-            {"unit_id": unit.pk},
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(str(unit.pk), response.data["units"][0])
+        unit = screenshot.translation.unit_set.get(source="Hello, world!\n")
+        url = reverse("api:screenshot-units", kwargs={"pk": screenshot.pk})
+        for _ in range(2):
+            response = self.client.post(url, {"unit_id": unit.pk})
+            self.assertEqual(response.status_code, 200)
+            self.assertIn(str(unit.pk), response.data["units"][0])
+        self.assertEqual(list(screenshot.units.all()), [unit])
         added_changes = Change.objects.filter(
             action=ActionEvents.SCREENSHOT_ADDED,
             screenshot=screenshot,
@@ -21248,7 +21248,7 @@ class ScreenshotAPITest(APIBaseTest):
     def test_units_delete(self) -> None:
         self.authenticate(True)
         screenshot = Screenshot.objects.get()
-        unit = self.component.source_translation.unit_set.all()[0]
+        unit = screenshot.translation.unit_set.get(source="Hello, world!\n")
         self.client.post(
             reverse("api:screenshot-units", kwargs={"pk": screenshot.pk}),
             {"unit_id": unit.pk},
@@ -21260,13 +21260,13 @@ class ScreenshotAPITest(APIBaseTest):
             ),
         )
         self.assertEqual(response.status_code, 404)
-        response = self.client.delete(
-            reverse(
-                "api:screenshot-delete-units",
-                kwargs={"pk": screenshot.pk, "unit_id": unit.pk},
-            ),
+        url = reverse(
+            "api:screenshot-delete-units",
+            kwargs={"pk": screenshot.pk, "unit_id": unit.pk},
         )
-        self.assertEqual(response.status_code, 204)
+        for _ in range(2):
+            response = self.client.delete(url)
+            self.assertEqual(response.status_code, 204)
         self.assertEqual(screenshot.units.all().count(), 0)
         removed_changes = Change.objects.filter(
             action=ActionEvents.SCREENSHOT_REMOVED,
