@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }
           input.value = param.default;
           input.dataset.default = param.default;
-          input.className = "form-select mt-2";
+          input.className = "form-control mt-2";
           supported = true;
         } else if (param.type === "number") {
           input.type = param.type;
