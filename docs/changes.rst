@@ -24,6 +24,7 @@ Weblate 2026.12
 
 .. rubric:: Security fixes
 
+* Checked :ref:`translation memory deletion permissions <api-memory>` on the primary database to protect entries from restricted components when replicas lag.
 * Prevented deleting a component from expanding a :ref:`component-limited team <access-control>` to project-wide access.
 * Redacted machine translation API keys, GitHub App credentials, authentication headers, and credentials in URLs from :ref:`Sentry error reports <collecting-errors>` and performance traces.
 * Prevented component API requests from switching between incompatible VCS backends or creating integration-managed components outside their provider import flow.
