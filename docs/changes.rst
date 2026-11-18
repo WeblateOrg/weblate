@@ -5,6 +5,8 @@ Weblate 2026.12
 
 .. rubric:: New features
 
+* :ref:`format-line-number` in the translation file is now stored in the unit for supported formats; when available, the line number is used for repository links and :guilabel:`Nearby strings`.
+
 .. rubric:: Improvements
 
 * Raised the shared limit for translation strings, CSV and XLSX rows, and translation-memory entries to 200,000. Configure it with :setting:`TRANSLATION_MAX_UNITS`.
