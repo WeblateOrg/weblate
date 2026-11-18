@@ -99,6 +99,15 @@ out how the string is used.
 This information is typically available in bilingual formats where strings are
 extracted from the source code using tools. For example :ref:`gettext` and :ref:`qtling`.
 
+.. _format-line-number:
+
+Source string line number
++++++++++++++++++++++++++
+
+Some localization file formats record the line number of each string in the
+translation file itself. When supported, Weblate stores the value on each
+unit and uses it for repository links and :guilabel:`Nearby strings`.
+
 .. _format-flags:
 
 Translation flags

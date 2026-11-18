@@ -22,9 +22,9 @@ the following files:
 * Remember to define :ref:`component-template` when your files are monolingual
   (see :ref:`bimono`).
 
-CSV parsing accepts at most 100,000 data rows per file. The header and blank lines
-do not count toward this limit. Quoted multiline values remain part of one row,
-while each plural-form row counts separately. This limit also applies when
+CSV parsing accepts up to :setting:`TRANSLATION_MAX_UNITS` data rows per file.
+The header and blank lines are excluded. Quoted multiline values remain part of
+one row, while each plural-form row counts separately. This limit also applies when
 Weblate detects the CSV format automatically. Compressed uploads retain their
 tighter extraction limit. The file must also satisfy
 :setting:`TRANSLATION_MAX_SIZE`.

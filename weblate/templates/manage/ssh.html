@@ -73,7 +73,9 @@
                   {% csrf_token %}
                   <input type="hidden" name="action" value="remove-host" />
                   <input type="hidden" name="host_key" value="{{ key.id }}" />
-                  <input type="submit" class="btn btn-link btn-xs red" value="{% translate "Remove" %}" />
+                  <input type="submit"
+                         class="btn btn-link btn-xs red"
+                         value="{% translate "Remove"|force_escape %}" />
                 </form>
               </td>
             </tr>
@@ -102,7 +104,7 @@
         <input type="submit"
                id="ssh-add-button"
                class="btn btn-primary"
-               value="{% translate "Submit" %}" />
+               value="{% translate "Submit"|force_escape %}" />
       </div>
     </div>
   </form>

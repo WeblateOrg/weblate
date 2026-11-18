@@ -7,6 +7,8 @@ from __future__ import annotations
 import os
 from typing import TYPE_CHECKING
 
+from django.utils.translation import override
+
 from weblate.addons.base import BaseAddon
 from weblate.utils.render import render_template
 from weblate.utils.site import get_site_url
@@ -78,13 +80,15 @@ class BaseScriptAddon(BaseAddon):
         store_hash: bool,
         activity_log_id: int | None = None,
     ) -> None:
-        self.run_script(translation=translation)
-
+        filename = None
         if self.add_file:
-            filename = os.path.join(
-                translation.component.full_path,
-                render_template(self.add_file, translation=translation),
-            )
+            with override("en"):
+                filename = os.path.join(
+                    translation.component.full_path,
+                    render_template(self.add_file, translation=translation),
+                )
+        self.run_script(translation=translation)
+        if filename is not None:
             translation.addon_commit_files.append(filename)
 
     def post_add(self, translation, activity_log_id: int | None = None) -> None:

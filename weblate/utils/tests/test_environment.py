@@ -348,12 +348,15 @@ class EnvTest(SimpleTestCase):
             self.assertEqual(get_env_redis_url(), "rediss://cache:6379/1")
 
             os.environ["REDIS_PASSWORD"] = "pass:word"
-            self.assertEqual(get_env_redis_url(), "rediss://:pass%3Aword@cache:6379/1")
+            self.assertEqual(
+                get_env_redis_url(),
+                "rediss://:pass%3Aword@cache:6379/1",  # kingfisher:ignore
+            )
 
             os.environ["REDIS_USER"] = "user@example.com"
             self.assertEqual(
                 get_env_redis_url(),
-                "rediss://user%40example.com:pass%3Aword@cache:6379/1",
+                "rediss://user%40example.com:pass%3Aword@cache:6379/1",  # kingfisher:ignore
             )
 
             del os.environ["REDIS_PASSWORD"]

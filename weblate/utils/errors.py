@@ -5,12 +5,14 @@ from __future__ import annotations
 
 import logging
 import os
+import re
 import sys
 from contextlib import suppress
 from importlib import import_module
 from json import JSONDecodeError
 from traceback import format_exception
 from typing import TYPE_CHECKING, Any, Literal, cast
+from urllib.parse import unquote_plus
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
@@ -27,7 +29,36 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
 
 ERROR_LOGGER = "weblate.errors"
-SENTRY_SECRET_DENYLIST = ("passphrase", "borg_passphrase", "borg_new_passphrase")
+SENTRY_SECRET_DENYLIST = (
+    "passphrase",
+    "borg_passphrase",
+    "borg_new_passphrase",
+    "set-cookie",
+    # Machine translation configuration and provider authentication headers.
+    "key",
+    "api-key",
+    "x-api-key",
+    "x-goog-api-key",
+    "mmt-apikey",
+    "ocp-apim-subscription-key",
+    # GitHub App authentication and OAuth responses.
+    "private_key_pem",
+    "pem",
+    "client_secret",
+    "webhook_secret",
+    "access_token",
+    "refresh_token",
+    "cached_token",
+    "user_token",
+)
+
+SENTRY_QUERY_PARAMETER = re.compile(
+    r"(?<![\w%+.-])(?P<name>[\w%+.-]+)=(?P<value>[^&\s#'\"<>]*)"
+)
+SENTRY_URL_USERINFO = re.compile(
+    r"(?<![a-z0-9+.-])(?P<scheme>[a-z][a-z0-9+.-]*://)[^/\s?#\"<>]*@",
+    re.IGNORECASE,
+)
 
 LOGGER = logging.getLogger(ERROR_LOGGER)
 _STATE: dict[str, Any] = {
@@ -236,12 +267,74 @@ class ChainedEventScrubber:
 
 
 class SentryBeforeSend:
-    """Keep long exception chains below Sentry's uncompressed event limit."""
+    """Scrub serialized events and bound the size of long exception chains."""
 
     def __init__(
         self, callback: Callable[[Event, Hint], Event | None] | None = None
     ) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from sentry_sdk.scrubber import DEFAULT_DENYLIST
+
         self.callback = callback
+        self.secret_fields = frozenset(
+            name.lower() for name in (*DEFAULT_DENYLIST, *SENTRY_SECRET_DENYLIST)
+        )
+        secret_names = "|".join(
+            re.escape(name)
+            for name in sorted(self.secret_fields, key=len, reverse=True)
+        )
+        # SDK frame serialization can turn headers into tuple/dict reprs or
+        # raw HTTP bytes before EventScrubber sees them. Match both forms,
+        # including truncated reprs and escaped CR/LF in bytes reprs.
+        self.quoted_secret = re.compile(
+            rf"(?P<prefix>(?P<quote>['\"])(?:{secret_names})(?P=quote)"
+            r"\s*[:,]\s*b?(?P<value_quote>['\"]))"
+            r"(?:\\[\s\S]|(?!(?P=value_quote))[^\\])*"
+            r"(?P<suffix>(?P=value_quote)|\\?$)",
+            re.IGNORECASE,
+        )
+        self.header_secret = re.compile(
+            rf"(?P<prefix>(?:(?<![\w-])|(?<=\\[rn]))(?:{secret_names})[ \t]*:[ \t]*)"
+            r"(?:(?!\\[rn])[^\r\n])*",
+            re.IGNORECASE,
+        )
+
+    def _scrub_query_parameter(self, match: re.Match[str]) -> str:
+        name = match["name"]
+        if unquote_plus(name).lower() in self.secret_fields:
+            return f"{name}=[Filtered]"
+        return match[0]
+
+    def _scrub_serialized_data(self, value: object) -> object:
+        # EventScrubber runs before serialization. Scrub again afterwards to
+        # cover query strings in exception text, breadcrumbs, and object reprs,
+        # and fields added by operator callbacks.
+        if isinstance(value, dict):
+            for key, item in value.items():
+                value[key] = (
+                    "[Filtered]"
+                    if isinstance(key, str) and key.lower() in self.secret_fields
+                    else self._scrub_serialized_data(item)
+                )
+        elif isinstance(value, (list, tuple)):
+            items = [self._scrub_serialized_data(item) for item in value]
+            # Header pairs can be added by callbacks after SDK serialization.
+            if (
+                len(value) == 2
+                and isinstance(value[0], str)
+                and value[0].lower() in self.secret_fields
+            ):
+                items[1] = "[Filtered]"
+            if isinstance(value, tuple):
+                return tuple(items)
+            value[:] = items
+        elif isinstance(value, str):
+            value = self.quoted_secret.sub(r"\g<prefix>[Filtered]\g<suffix>", value)
+            value = self.header_secret.sub(r"\g<prefix>[Filtered]", value)
+            value = SENTRY_URL_USERINFO.sub(r"\g<scheme>[Filtered]@", value)
+            if "=" in value:
+                value = SENTRY_QUERY_PARAMETER.sub(self._scrub_query_parameter, value)
+        return value
 
     def __call__(self, event: Event, hint: Hint) -> Event | None:
         # ruff: ignore[import-outside-top-level]
@@ -252,6 +345,7 @@ class SentryBeforeSend:
             if filtered_event is None:
                 return None
             event = filtered_event
+        self._scrub_serialized_data(event)
         if len(json_dumps(event)) <= 1_000_000:
             return event
 
@@ -331,6 +425,9 @@ def init_sentry() -> None:
     sentry_extra_args = dict(settings.SENTRY_EXTRA_ARGS)
     sentry_extra_args["before_send"] = SentryBeforeSend(
         sentry_extra_args.get("before_send")
+    )
+    sentry_extra_args["before_send_transaction"] = SentryBeforeSend(
+        sentry_extra_args.get("before_send_transaction")
     )
     configured_scrubber = sentry_extra_args.pop("event_scrubber", None)
     mandatory_scrubber = EventScrubber(

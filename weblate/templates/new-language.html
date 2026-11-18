@@ -73,15 +73,17 @@
               </div>
               <div class="card-footer">
                 {% if new_lang == "existing" %}
-                  <input class="btn btn-primary" type="submit" value="{% translate "Submit" %}" />
+                  <input class="btn btn-primary"
+                         type="submit"
+                         value="{% translate "Submit"|force_escape %}" />
                 {% elif new_lang == "contact" %}
                   <input class="btn btn-primary"
                          type="submit"
-                         value="{% translate "Request new translation" %}" />
+                         value="{% translate "Request new translation"|force_escape %}" />
                 {% else %}
                   <input class="btn btn-primary"
                          type="submit"
-                         value="{% translate "Start new translation" %}" />
+                         value="{% translate "Start new translation"|force_escape %}" />
                 {% endif %}
             {% endif %}
           </div>

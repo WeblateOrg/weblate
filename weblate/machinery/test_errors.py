@@ -64,7 +64,7 @@ class MachineryErrorTest(TestCase):
         self.machine.settings.update(
             cast("SettingsDict", {"key": secret, "credentials": {"tokens": [nested]}})
         )
-        message = f"Quota exhausted: {secret} {quote(secret, safe='')} {quote_plus(secret)} {nested} https://user:password@[2001:db8::1]/private?key=hidden"
+        message = f"Quota exhausted: {secret} {quote(secret, safe='')} {quote_plus(secret)} {nested} https://user:password@[2001:db8::1]/private?key=hidden"  # kingfisher:ignore
         self.machine.report_error("Provider failure", MachineTranslationError(message))
         error = MachineryError.objects.get().error
         self.assertIn("Quota exhausted", error)

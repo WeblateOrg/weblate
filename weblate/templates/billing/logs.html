@@ -14,7 +14,7 @@
     </div>
     {% include "billing/log-table.html" %}
     <div class="card-footer">
-      <nav aria-label="{% translate 'Audit log pagination' %}">
+      <nav aria-label="{% translate 'Audit log pagination'|force_escape %}">
         {% include "paginator.html" with page_obj=billing_logs %}
       </nav>
     </div>

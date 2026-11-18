@@ -9,7 +9,7 @@
       <span class="badge badge-danger float-end">{% translate "The add-on can only be installed on the component." %}</span>
     {% elif addon.repo_scope %}
       <span class="badge addon-scope float-end text-bg-secondary"
-            title="{% translate "This add-on is used for all components sharing this repository." %}">{% translate "Repository" context "Add-on scope" %}</span>
+            title="{% translate "This add-on is used for all components sharing this repository."|force_escape %}">{% translate "Repository" context "Add-on scope" %}</span>
     {% endif %}
   {% endif %}
   {% icon addon.icon %}

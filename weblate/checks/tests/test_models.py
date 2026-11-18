@@ -445,7 +445,9 @@ class CheckFinalizationConcurrencyTest(RepoTestMixin, TransactionTestCase):
         with (
             patch("weblate.utils.lock.is_redis_cache", return_value=False),
             patch.object(BatchCheckMixin, "_perform_batch", perform),
-            patch("weblate.checks.tasks._refresh_propagated_checks") as refresh,
+            patch(
+                "weblate.checks.tasks._refresh_propagated_checks", return_value=[]
+            ) as refresh,
         ):
             self.run_finalizer(self.component.pk)
         refresh.assert_called_once()
@@ -467,12 +469,16 @@ class CheckFinalizationConcurrencyTest(RepoTestMixin, TransactionTestCase):
             finally:
                 connection.close()
 
+        def record_refresh(*_args: object) -> list[int]:
+            entered.set()
+            return []
+
         with (
             patch("weblate.utils.lock.is_redis_cache", return_value=False),
             patch.object(WeblateLock, "__enter__", enter),
             patch(
                 "weblate.checks.tasks._refresh_propagated_checks",
-                side_effect=lambda *_args: entered.set(),
+                side_effect=record_refresh,
             ),
             ThreadPoolExecutor(max_workers=1) as pool,
         ):

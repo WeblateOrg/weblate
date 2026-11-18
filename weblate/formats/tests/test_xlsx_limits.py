@@ -185,7 +185,7 @@ class XlsxLimitsTest(SimpleTestCase):
 
     def test_streaming_row_limit_accepts_exact_boundary(self) -> None:
         content = make_workbook([["source", "target"], ["one", "uno"], ["two", "dos"]])
-        with patch("weblate.formats.external.MAX_TRANSLATION_UNITS", 2):
+        with override_settings(TRANSLATION_MAX_UNITS=2):
             storage = XlsxFormat(NamedBytesIO("test.xlsx", content))
         self.assertEqual(len(storage.content_units), 2)
 
@@ -194,7 +194,7 @@ class XlsxLimitsTest(SimpleTestCase):
             [["source", "target"], ["one", "uno"], ["two", "dos"], ["three", "tres"]]
         )
         with (
-            patch("weblate.formats.external.MAX_TRANSLATION_UNITS", 2),
+            override_settings(TRANSLATION_MAX_UNITS=2),
             self.assertRaisesRegex(TranslationLimitError, "worksheet rows"),
         ):
             XlsxFormat(NamedBytesIO("test.xlsx", content))
@@ -211,7 +211,7 @@ class XlsxLimitsTest(SimpleTestCase):
         workbook.save(output)
         workbook.close()
         with (
-            patch("weblate.formats.external.MAX_TRANSLATION_UNITS", 2),
+            override_settings(TRANSLATION_MAX_UNITS=2),
             self.assertRaises(TranslationLimitError),
         ):
             XlsxFormat(NamedBytesIO("test.xlsx", output.getvalue()))

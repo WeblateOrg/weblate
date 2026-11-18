@@ -37,6 +37,7 @@ from weblate.utils.change_origin import (
     get_change_origin,
 )
 from weblate.utils.lock import WeblateLockTimeoutError
+from weblate.utils.tasks import update_translation_stats
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator
@@ -353,12 +354,16 @@ def refresh_propagated_checks(
         if project is None:
             return
         with check_boundary_lock(project):
-            _refresh_propagated_checks(project, groups, unit_ids)
+            translation_ids = _refresh_propagated_checks(project, groups, unit_ids)
+    if len(translation_ids) > 1:
+        update_translation_stats.delay_on_commit(
+            translation_ids, update_translations=False
+        )
 
 
 def _refresh_propagated_checks(
     project: Project, groups: list[PropagatedCheckGroup], unit_ids: list[int] | None
-) -> None:
+) -> list[int]:
     project_id = project.pk
     project.log_info("refreshing %d propagated check groups", len(groups))
     translations: dict[int, Translation] = {}
@@ -421,7 +426,8 @@ def _refresh_propagated_checks(
     with transaction.atomic():
         for translation in translations.values():
             translation.require_full_stats_rebuild()
-            translation.invalidate_cache()
+            translation.invalidate_cache(update_stats_parents=len(translations) == 1)
+    return list(translations)
 
 
 def _perform_batched_checks(component: Component, checks: list[str]) -> None:

@@ -292,6 +292,34 @@ class SavedSearchDropdownTest(SavedSearchTestCase):
         self.assertContains(response, "data-save-search")
         self.assertContains(response, f'data-project="{self.project.slug}"')
 
+    def test_order(self) -> None:
+        self.create_project_search(name="Project filter")
+        self.create_user_search(name="Personal filter")
+        response = self.client.get(reverse("translate", kwargs=self.kw_translation))
+        content = response.content.decode()
+        dropdown = content[content.index('id="query-dropdown"') :]
+        positions = [
+            dropdown.index(marker)
+            for marker in (
+                "Project searches",
+                "Project filter",
+                "My searches",
+                "Personal filter",
+                'data-filter="nottranslated"',
+                "data-save-search",
+            )
+        ]
+        # Saved searches are listed before the built-in filters
+        self.assertEqual(positions, sorted(positions))
+
+    def test_long_query_truncated(self) -> None:
+        query = " OR ".join(f"key:long{i}" for i in range(20))
+        self.create_user_search(name="Long filter", query=query)
+        response = self.client.get(reverse("translate", kwargs=self.kw_translation))
+        self.assertContains(
+            response, f'<code class="saved-query" title="{query}">{query}</code>'
+        )
+
     def test_other_scopes_hidden(self) -> None:
         other_project = Project.objects.create(name="Other", slug="other")
         self.create_project_search(project=other_project, name="Foreign filter")
