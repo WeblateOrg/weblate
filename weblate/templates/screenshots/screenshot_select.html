@@ -43,7 +43,7 @@
   </fieldset>
 </form>
 {% if page_obj.has_other_pages %}
-  <nav class="mt-3" aria-label="{% translate 'Screenshot pages' %}">
+  <nav class="mt-3" aria-label="{% translate 'Screenshot pages'|force_escape %}">
     {% if page_obj.has_previous %}
       <button type="button"
               class="btn btn-outline-primary"

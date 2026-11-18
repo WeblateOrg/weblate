@@ -1976,6 +1976,14 @@ class BaseLLMTranslation(BatchMachineTranslation):
     def _normalize_translations(
         cls, translations: JSONValue, expected_length: int
     ) -> JSONValue:
+        if (
+            expected_length == 1
+            and isinstance(translations, dict)
+            and set(translations) == {"parts"}
+            and isinstance(translations["parts"], list)
+        ):
+            return [translations]
+
         if isinstance(translations, list) and len(translations) > expected_length:
             expected_items = translations[:expected_length]
             extra_items = translations[expected_length:]

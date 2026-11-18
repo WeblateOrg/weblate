@@ -67,7 +67,9 @@
         </div>
         <div class="card-body">{{ override_form|crispy }}</div>
         <div class="card-footer">
-          <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
+          <input type="submit"
+                 class="btn btn-primary"
+                 value="{% translate "Save"|force_escape %}" />
         </div>
       </div>
     </form>
@@ -80,7 +82,9 @@
         </div>
         <div class="card-body">{{ form|crispy }}</div>
         <div class="card-footer">
-          <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
+          <input type="submit"
+                 class="btn btn-primary"
+                 value="{% translate "Save"|force_escape %}" />
         </div>
       </div>
     </form>

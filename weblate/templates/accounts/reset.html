@@ -44,7 +44,7 @@
               {% csrf_token %}
               {{ form|crispy }}
               <input type="submit"
-                     value="{% if second_stage %}{% translate 'Set my password' %}{% else %}{% translate 'Reset my password' %}{% endif %}"
+                     value="{% if second_stage %}{% translate 'Set my password'|force_escape %}{% else %}{% translate 'Reset my password'|force_escape %}{% endif %}"
                      class="btn btn-primary btn-full" />
             </form>
 

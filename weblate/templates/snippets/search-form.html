@@ -9,6 +9,8 @@
   </div>
   <div class="card-body">{% crispy search_form %}</div>
   <div class="card-footer">
-    <input type="submit" value="{% translate "Search" %}" class="btn btn-primary" />
+    <input type="submit"
+           value="{% translate "Search"|force_escape %}"
+           class="btn btn-primary" />
   </div>
 </div>

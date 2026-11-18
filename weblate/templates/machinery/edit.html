@@ -44,7 +44,9 @@
           {% crispy form %}
         </div>
         <div class="card-footer">
-          <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+          <input type="submit"
+                 value="{% translate "Save"|force_escape %}"
+                 class="btn btn-primary" />
         </div>
       </div>
     </form>
@@ -62,10 +64,10 @@
       </div>
       <div class="card-body">
         <p>{% translate "Select this installation in the engines setting of an automatic translation action using its numeric ID:" %}</p>
-        <pre><button type="button" class="btn btn-link btn-xs float-end" data-clipboard-value="{{ installation.selector }}" title="{% translate "Copy to clipboard" %}" aria-label="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button><code>engines: ["{{ installation.selector }}"]</code></pre>
+        <pre><button type="button" class="btn btn-link btn-xs float-end" data-clipboard-value="{{ installation.selector }}" title="{% translate "Copy to clipboard"|force_escape %}" aria-label="{% translate "Copy to clipboard"|force_escape %}">{% icon "copy.svg" %}</button><code>engines: ["{{ installation.selector }}"]</code></pre>
         {% if installation.slug %}
           <p>{% translate "You can also select it using its slug:" %}</p>
-          <pre><button type="button" class="btn btn-link btn-xs float-end" data-clipboard-value="{{ installation.engine }}:{{ installation.slug }}" title="{% translate "Copy to clipboard" %}" aria-label="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button><code>engines: ["{{ installation.engine }}:{{ installation.slug }}"]</code></pre>
+          <pre><button type="button" class="btn btn-link btn-xs float-end" data-clipboard-value="{{ installation.engine }}:{{ installation.slug }}" title="{% translate "Copy to clipboard"|force_escape %}" aria-label="{% translate "Copy to clipboard"|force_escape %}">{% icon "copy.svg" %}</button><code>engines: ["{{ installation.engine }}:{{ installation.slug }}"]</code></pre>
           <p>{% translate "The numeric ID always selects this installation. The slug selects the installation currently using that name in the project." %}</p>
         {% elif service.can_delete and form %}
           <p>{% translate "Set an installation slug above to give this service a readable name in your automations." %}</p>

@@ -269,7 +269,7 @@
                          aria-valuenow="{{ u.translated_width }}"
                          aria-valuemin="0"
                          aria-valuemax="100"
-                         aria-label="{% translate "Most active translators" %}"
+                         aria-label="{% translate "Most active translators"|force_escape %}"
                          style="width: {{ u.translated_width }}%"></div>
                   </div>
                 </td>

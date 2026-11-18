@@ -3,7 +3,7 @@
 <button type="button"
         class="btn btn-primary btn-xs float-end"
         data-clipboard-value="{{ token }}"
-        data-clipboard-message="{% translate "Token copied to clipboard." %}">
+        data-clipboard-message="{% translate "Token copied to clipboard."|force_escape %}">
   {% translate "Copy token to clipboard" %}
 </button>
 
