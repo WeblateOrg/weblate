@@ -708,6 +708,19 @@ class Translation(
 
         return check_project_read_lock(self.component)
 
+    def update_units_from_store_locked(
+        self, *, user: User | None, author: User | None
+    ) -> tuple[dict[int, Unit], dict[int, Unit]]:
+        """Update units from store while holding the check lock."""
+        with self.units_check_lock():
+            try:
+                return self.update_units_from_store(user=user, author=author)
+            except FileParseError as error:
+                # Raise it after leaving the lock, its transaction would roll
+                # back the parse error change recorded while parsing
+                parse_error = error
+        raise parse_error
+
     def update_units_from_store(  # ruff: ignore[complex-structure]
         self, *, user: User | None, author: User | None
     ) -> tuple[dict[int, Unit], dict[int, Unit]]:
@@ -975,10 +988,9 @@ class Translation(
             self.component.check_template_valid()
 
             try:
-                with self.units_check_lock():
-                    dbunits, updated = self.update_units_from_store(
-                        user=user, author=author
-                    )
+                dbunits, updated = self.update_units_from_store_locked(
+                    user=user, author=author
+                )
             except FileParseError as error:
                 if not is_expected_parse_error(error):
                     report_error(

@@ -20,7 +20,9 @@ from django.db.models import QuerySet
 from django.test import RequestFactory, SimpleTestCase, TransactionTestCase
 from django.urls import reverse
 from django.utils.html import format_html
+from translate.storage.base import ParseError
 
+from weblate.accounts.tasks import notify_changes
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, Role, User
 from weblate.automation.context import automation_origin
@@ -41,6 +43,7 @@ from weblate.checks.tasks import (
     refresh_propagated_checks,
     schedule_component_check_batch,
 )
+from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Component, Project, Translation, Unit
 from weblate.trans.tasks import auto_translate
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
@@ -789,6 +792,21 @@ class ImportCheckLockTest(ViewTestCase):
         with patch("weblate.checks.locks._check_project_read_lock") as lock:
             self.component.create_translations_immediate(force_scan=True)
         lock.assert_not_called()
+
+    def test_parse_error_is_recorded(self) -> None:
+        self.assertIn("inconsistent", CHECKS)
+        translation = self.get_translation()
+        with (
+            patch.object(translation, "load_store", side_effect=ParseError("invalid")),
+            patch.object(notify_changes, "delay") as notify,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            self.assertFalse(translation.check_sync(force=True))
+
+        change = self.component.change_set.get(
+            action=ActionEvents.PARSE_ERROR, translation=translation
+        )
+        notify.assert_called_once_with([change.pk])
 
 
 class CheckLintTestCase(SimpleTestCase):
