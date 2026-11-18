@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-05 22:27-0600\n"
-"PO-Revision-Date: 2026-11-06 21:33+0000\n"
+"POT-Creation-Date: 2026-11-13 01:19-0600\n"
+"PO-Revision-Date: 2026-11-13 10:37+0000\n"
 "Last-Translator: Matthaiks <kityn@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -33,7 +33,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.11.2.dev0\n"
+"X-Generator: Weblate 2026.12.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -617,7 +617,16 @@ msgid "User access to the {team} team was changed by {username}."
 msgstr ""
 "Dostęp użytkownika do zespołu {team} został zmieniony przez {username}."
 
-#. Translators: Audit log entry
+#, python-brace-format
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr ""
+"Dostęp administratora zespołu do {team} został przyznany przez {username}."
+
+#, python-brace-format
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr ""
+"Dostęp administratora zespołu do {team} został usunięty przez {username}."
+
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr "Użytkownik został usunięty z zespołu {team} przez {username}."
@@ -734,6 +743,30 @@ msgstr "Ogólny telefon komórkowy"
 msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr "Urządzenie iOS"
+
+msgid "Site-wide"
+msgstr "Cała strona"
+
+msgid "Workspace"
+msgstr "Obszar roboczy"
+
+msgid "Team created"
+msgstr "Zespół utworzono"
+
+msgid "Team changed"
+msgstr "Zespół zmieniono"
+
+msgid "Team deleted"
+msgstr "Zespół usunięto"
+
+msgid "Team member added"
+msgstr "Dodano członka zespołu"
+
+msgid "Team member removed"
+msgstr "Usunięto członka zespołu"
+
+msgid "Team member access changed"
+msgstr "Zmieniono dostęp członka zespołu"
 
 msgid "Account activity"
 msgstr "Aktywność konta"
@@ -2709,11 +2742,23 @@ msgstr ""
 "CERTIFICATE-----”; nie wklejaj danych wyjściowych z polecenia „openssl x509 "
 "-text”."
 
+msgid "Connection timeout"
+msgstr "Przekroczono limit czasu połączenia"
+
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr ""
+"Ile sekund przeznaczyć na nawiązanie połączenia i konfigurację kanału w "
+"ramach jednej próby."
+
 msgid "Publish timeout"
 msgstr "Limit czasu publikacji"
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
-msgstr "Ile sekund należy czekać na potwierdzenie dostawy od brokera."
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
+msgstr ""
+"Ile sekund należy przeznaczyć na wysłanie danych oraz otrzymanie od brokera "
+"potwierdzenia dostarczenia w ramach jednej próby po nawiązaniu połączenia."
 
 msgid "Connection attempts"
 msgstr "Próby połączenia"
@@ -2933,6 +2978,12 @@ msgstr "Dodatki API muszą być zainstalowane bezpośrednio na komponencie."
 msgid "This add-on is already installed on this component."
 msgstr "Ten dodatek jest już zainstalowany na tym komponencie."
 
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr ""
+"Dodatki do repozytorium muszą zostać zainstalowane w komponencie, do którego "
+"należy dane repozytorium."
+
 msgid "This add-on cannot be triggered manually."
 msgstr "Tego dodatku nie można wywołać ręcznie."
 
@@ -2992,6 +3043,9 @@ msgstr "Projekt"
 msgctxt "Add-on scope"
 msgid "Site"
 msgstr "Strona"
+
+msgid "a component you cannot access"
+msgstr "komponent, do którego nie masz dostępu"
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -3352,8 +3406,9 @@ msgid ""
 "all assigned roles are additive."
 msgstr ""
 "Tożsamości współpracowników są ujawniane poprzez uprawnienia „Wyświetlanie "
-"tożsamości współpracowników”, „Pobieranie zmian”, „Zarządzanie raportami” i „"
-"Zarządzanie dostępem”. Uprawnienia ze wszystkich przypisanych ról sumują się."
+"tożsamości współpracowników”, „Pobieranie zmian”, „Zarządzanie raportami” i "
+"„Zarządzanie dostępem”. Uprawnienia ze wszystkich przypisanych ról sumują "
+"się."
 
 msgid "Built-in"
 msgstr "Wbudowana"
@@ -4196,6 +4251,9 @@ msgstr ""
 "Sugestie są wyłączone dla tego języka. Poproś administratora projektu o ich "
 "włączenie."
 
+msgid "You need to log in to upload translations."
+msgstr "Aby przesłać tłumaczenia, musisz się zalogować."
+
 msgid "The file format does not support updating source strings."
 msgstr "Format pliku nie obsługuje aktualizacji ciągów źródłowych."
 
@@ -4237,6 +4295,12 @@ msgstr "Nieaktywni użytkownicy nie mogą zostać przypisani do zespołów."
 
 msgid "Project tokens can not be assigned to teams here."
 msgstr "Tutaj tokeny projektu nie mogą zostać przypisane do zespołów."
+
+msgid "Team audit log"
+msgstr "Dziennik aktywności zespołu"
+
+msgid "Team audit entry"
+msgstr "Wpis aktywności zespołu"
 
 msgid "Cannot remove built-in team!"
 msgstr "Nie można usunąć wbudowanego zespołu!"
@@ -4517,9 +4581,6 @@ msgstr ""
 msgid "No valid billing found or limit exceeded."
 msgstr "Nie znaleziono ważnego rozliczenia lub przekroczono limit."
 
-msgid "Workspace"
-msgstr "Obszar roboczy"
-
 msgid "Customer name"
 msgstr "Imię i nazwisko klienta"
 
@@ -4619,6 +4680,11 @@ msgstr[0] "Zawiera %d komponent"
 msgstr[1] "Zawiera %d komponenty"
 msgstr[2] "Zawiera %d komponentów"
 
+msgid "Restricted components are not allowed by this billing plan."
+msgstr ""
+"Ten plan rozliczeniowy nie zezwala na używanie komponentów objętych "
+"ograniczeniami."
+
 msgid "Missing license"
 msgstr "Brak licencji"
 
@@ -4677,6 +4743,9 @@ msgstr ""
 
 msgid "To terminate billing you have to remove all projects first."
 msgstr "Aby zakończyć rozliczanie, musisz najpierw usunąć wszystkie projekty."
+
+msgid "Externally managed billings cannot be merged."
+msgstr "Rozliczenia zarządzane zewnętrznie nie mogą zostać scalone."
 
 msgid "Cannot merge such a billing."
 msgstr "Nie można scalić takiej płatności."
@@ -5391,6 +5460,9 @@ msgstr ""
 msgid "the value is too complex or nested too deeply"
 msgstr "wartość jest zbyt złożona lub zbyt głęboko zagnieżdżona"
 
+msgid "Format matching exceeded its time limit."
+msgstr "Dopasowywanie formatu przekroczyło limit czasu."
+
 msgid "The following format strings are in the wrong order:"
 msgstr "Następujące ciągi formatu są w niewłaściwej kolejności:"
 
@@ -5646,6 +5718,9 @@ msgstr "Składnia Markdown"
 msgid "Markdown syntax does not match source."
 msgstr "Składnia Markdown nie pasuje do źródła."
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr "Dopasowanie składni Markdown przekroczyło limit czasu."
+
 msgid "The translation does not contain a URL."
 msgstr "Tłumaczenie nie zawiera adresu URL."
 
@@ -5802,6 +5877,14 @@ msgstr "Konfiguracja Weblate"
 
 msgid "Your translation is foo"
 msgstr "Twoje tłumaczenie to foo"
+
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
+msgstr ""
+"Przekroczono limity renderowania czcionek: użyj maksymalnie 16 000 znaków, "
+"64 wierszy, czcionek o rozmiarze 256 px oraz wymiarów podglądu wynoszących "
+"2048 px."
 
 msgid "Font style"
 msgstr "Styl czcionki"
@@ -5963,6 +6046,27 @@ msgstr "Ciągi iOS"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
+msgid "Could not open the workbook archive."
+msgstr "Nie udało się otworzyć archiwum skoroszytu."
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr ""
+"Skoroszyt przekracza maksymalną dozwoloną liczbę %d wierszy arkusza po "
+"nagłówku."
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr ""
+"Plik tłumaczenia przekracza maksymalny dopuszczalny rozmiar wynoszący %d "
+"bajtów."
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr "Plik tłumaczenia przekracza maksymalną dozwoloną liczbę %d ciągów."
+
 msgid "Multivalue CSV file"
 msgstr "Wielowartościowy plik CSV"
 
@@ -6006,6 +6110,10 @@ msgstr "Nieprawidłowe metadane id_hash w pliku CSV: %s"
 
 msgid "Plural form metadata in CSV file requires id_hash."
 msgstr "Metadane formy liczby mnogiej w pliku CSV wymagają id_hash."
+
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
+msgstr "Plik CSV przekracza maksymalną dozwoloną liczbę %d wierszy danych."
 
 #. Translators: File format name
 msgid "gettext PO file"
@@ -6230,6 +6338,17 @@ msgstr "Pliki metadanych sklepu z aplikacjami"
 msgid "File validation is required for directory-based formats."
 msgstr ""
 "W przypadku formatów opartych na katalogach wymagana jest walidacja plików."
+
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr ""
+"Archiwum skoroszytu przekracza maksymalny rozmiar po rozpakowaniu wynoszący "
+"%d bajtów."
+
+msgid "Converted workbook content exceeds the configured size limit."
+msgstr ""
+"Zawartość przekonwertowanego skoroszytu przekracza skonfigurowany limit "
+"rozmiaru."
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -7411,6 +7530,12 @@ msgstr "Język dodatkowy zdefiniowany w projekcie lub komponencie"
 msgid "Rate limit reset."
 msgstr "Reset limitu zapytań."
 
+msgid "Too many translation requests."
+msgstr "Zbyt wiele żądań tłumaczenia."
+
+msgid "Too many concurrent translation requests for this service."
+msgstr "Zbyt wiele jednoczesnych żądań tłumaczenia dla tej usługi."
+
 msgid "File"
 msgstr "Plik"
 
@@ -7539,6 +7664,9 @@ msgid ""
 msgstr ""
 "Wpisy w pamięci tłumaczeniowej utworzone na podstawie bieżących tłumaczeń "
 "zostały usunięte i zostaną odtworzone w tle."
+
+msgid "Too many uploads, please try again later."
+msgstr "Zbyt wiele przesłanych plików; spróbuj ponownie później."
 
 #, python-format
 msgid "Processed %(count)d active translation memory entry."
@@ -8143,9 +8271,12 @@ msgid ""
 "If you receive a verification link, it will expire after %(count)s hour."
 msgid_plural ""
 "If you receive a verification link, it will expire after %(count)s hours."
-msgstr[0] "Jeśli otrzymasz link weryfikacyjny, wygaśnie on po %(count)s godzinie."
-msgstr[1] "Jeśli otrzymasz link weryfikacyjny, wygaśnie on po %(count)s godzinach."
-msgstr[2] "Jeśli otrzymasz link weryfikacyjny, wygaśnie on po %(count)s godzinach."
+msgstr[0] ""
+"Jeśli otrzymasz link weryfikacyjny, wygaśnie on po %(count)s godzinie."
+msgstr[1] ""
+"Jeśli otrzymasz link weryfikacyjny, wygaśnie on po %(count)s godzinach."
+msgstr[2] ""
+"Jeśli otrzymasz link weryfikacyjny, wygaśnie on po %(count)s godzinach."
 
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
@@ -9388,6 +9519,19 @@ msgstr "Dodatek można zainstalować tylko na poziomie komponentu."
 msgid "Install"
 msgstr "Zainstaluj"
 
+msgid "Install on the component owning the repository."
+msgstr "Zainstaluj na komponencie, do którego należy repozytorium."
+
+msgid "The component owning this repository is not available to you."
+msgstr ""
+"Komponent, do którego należy to repozytorium, nie jest dla Ciebie dostępny."
+
+msgid "Open repository add-ons"
+msgstr "Otwórz repozytorium dodatków"
+
+msgid "Unavailable"
+msgstr "Niedostępne"
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -9865,6 +10009,24 @@ msgstr "Zresetuj uprawnienia"
 
 msgid "Cancel"
 msgstr "Anuluj"
+
+msgid "Actor"
+msgstr "Aktor"
+
+msgid "Deleted user"
+msgstr "Usunięty użytkownik"
+
+msgid "Administrative team changes"
+msgstr "Zmiany w zespole administracyjnym"
+
+msgid "Change"
+msgstr "Zmień"
+
+msgid "View details"
+msgstr "Zobacz szczegóły"
+
+msgid "No team audit entries found."
+msgstr "Nie znaleziono wpisów w audycie zespołu."
 
 msgid "Settings"
 msgstr "Ustawienia"
@@ -11850,8 +12012,8 @@ msgstr[2] "Zaproszenie wygaśnie po %(count)s godzinach."
 #, python-format
 msgid "Automatic team assignment: invitation to join %(team_name)s"
 msgstr ""
-"Automatyczne przydzielanie zespołu: zaproszenie do dołączenia do %(team_name)"
-"s"
+"Automatyczne przydzielanie zespołu: zaproszenie do dołączenia do "
+"%(team_name)s"
 
 #. Translators: e-mail subject
 #, python-format
@@ -13617,9 +13779,6 @@ msgstr "Skonfiguruj przepływ pracy języka"
 msgid "Configure translation quality filter"
 msgstr "Skonfiguruj filtr jakości tłumaczenia"
 
-msgid "View details"
-msgstr "Zobacz szczegóły"
-
 msgid "View contributor license agreement"
 msgstr "Wyświetl umowę licencyjną dla współtwórców"
 
@@ -13980,8 +14139,8 @@ msgid ""
 "in %(workspace_name)s. You will join only if you accept this invitation."
 msgstr ""
 "Zasada automatycznego przypisywania do zespołów sprawiła, że otrzymano "
-"zaproszenie do dołączenia do zespołu %(team_name)s w obszarze roboczym %"
-"(workspace_name)s. Dołączysz do niego tylko wtedy, gdy zaakceptujesz to "
+"zaproszenie do dołączenia do zespołu %(team_name)s w obszarze roboczym "
+"%(workspace_name)s. Dołączysz do niego tylko wtedy, gdy zaakceptujesz to "
 "zaproszenie."
 
 #, python-format
@@ -13999,6 +14158,27 @@ msgid ""
 msgstr ""
 "Zostałeś zaproszony do %(site_title)s przez %(invitation_author)s, aby "
 "dołączyć do zespołu %(team_name)s."
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr ""
+"Przyjęcie tego zaproszenia uczyni Cię również administratorem zespołu, co "
+"umożliwi Ci dodawanie lub usuwanie członków zespołu."
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
+msgstr ""
+"Przywrócona kopia zapasowa projektu przypisuje wcześniejszy wkład Twojej "
+"nazwie użytkownika. Zaakceptowanie tego zaproszenia oznacza przejęcie "
+"autorstwa zaimportowanych elementów, w tym historii oraz zmian "
+"przeniesionych do innych projektów. Przyszłe commity w ramach tego wkładu "
+"mogą wykorzystywać skonfigurowaną przez Ciebie nazwę użytkownika oraz adres "
+"e-mail. Istniejące w repozytorium commity pozostaną niezmienione."
 
 #, python-format
 msgid ""
@@ -15881,6 +16061,18 @@ msgstr "Importowanie kopii zapasowej"
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr "Utworzono na %(server)s (%(domain)s) przez Weblate %(version)s"
 
+msgid "Public access on import"
+msgstr "Dostęp publiczny przy imporcie"
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
+"Jeśli plan rozliczeniowy wybranego obszaru roboczego wymaga, aby zawartość "
+"była publiczna, projekt oraz wymienione poniżej ograniczone komponenty staną "
+"się po imporcie publicznie dostępne:"
+
 msgid "Token copied to clipboard."
 msgstr "Token skopiowano do schowka."
 
@@ -16584,9 +16776,6 @@ msgstr "Repozytoria zaktualizowano"
 
 msgid "Available Repositories"
 msgstr "Repozytoria dostępne"
-
-msgid "Unavailable"
-msgstr "Niedostępne"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -17704,6 +17893,12 @@ msgstr[0] "Zakończono automatyczne tłumaczenie. Zaktualizowano %d ciąg."
 msgstr[1] "Zakończono automatyczne tłumaczenie. Zaktualizowano %d ciągi."
 msgstr[2] "Zakończono automatyczne tłumaczenie. Zaktualizowano %d ciągów."
 
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr ""
+"W tłumaczeniu automatycznym pominięto fragmenty przekraczające limit "
+"długości tekstu."
+
 #, python-format
 msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
@@ -17785,6 +17980,10 @@ msgstr "Brakuje zrzutu ekranu."
 msgid "Revision must be a complete hexadecimal object ID."
 msgstr "Wersja musi być pełnym szesnastkowym identyfikatorem obiektu."
 
+#, python-format
+msgid "Could not validate repository URL: %s"
+msgstr "Nie można zweryfikować adresu URL repozytorium: %s"
+
 msgid "Duplicate check name."
 msgstr "Zduplikowana nazwa sprawdzenia."
 
@@ -17851,6 +18050,9 @@ msgid "Repository-linked components can not contain repository data."
 msgstr ""
 "Komponenty powiązane z repozytorium nie mogą zawierać danych repozytorium."
 
+msgid "Imported authors"
+msgstr "Importowani autorzy"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
@@ -17858,6 +18060,31 @@ msgid ""
 msgstr ""
 "Komponent %(component)s został pominięty, ponieważ powiązane z nim "
 "repozytorium jest niedostępne."
+
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+"Ograniczony komponent %(component)s został przywrócony jako publiczny, "
+"ponieważ plan rozliczeniowy docelowego obszaru roboczego wymaga, aby "
+"zawartość była publiczna."
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr ""
+"Użytkownik %(username)s został pominięty, ponieważ nie znaleziono "
+"odpowiedniego konta lokalnego pasującego do kopii zapasowej."
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
+msgstr ""
+"Użytkownik %(username)s oczekuje na zaakceptowanie zaproszenia; "
+"zaimportowane autorstwo pozostaje anonimowe do momentu dokonania akceptacji."
 
 #, python-format
 msgid ""
@@ -17889,6 +18116,31 @@ msgstr "Nieprawidłowy typ wyszukiwania."
 
 msgid "Enter a search string to replace."
 msgstr "Wprowadź ciąg do zastąpienia."
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] ""
+"%d ciąg pozostanie niezmieniony, ponieważ po edycji tekst byłby zbyt długi."
+msgstr[1] ""
+"%d ciągi pozostaną niezmienione, ponieważ po edycji tekst byłby zbyt długi."
+msgstr[2] ""
+"%d ciągów pozostanie niezmienionych, ponieważ po edycji tekst byłby zbyt "
+"długi."
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] ""
+"%d ciąg pozostał niezmieniony, ponieważ po edycji tekst byłby zbyt długi."
+msgstr[1] ""
+"%d ciągi pozostały niezmienione, ponieważ po edycji tekst byłby zbyt długi."
+msgstr[2] ""
+"%d ciągów pozostało niezmienionych, ponieważ po edycji tekst byłby zbyt "
+"długi."
 
 msgid "Invalid target state."
 msgstr "Nieprawidłowy stan docelowy."
@@ -18010,6 +18262,9 @@ msgstr "Sugestie oczekujące"
 
 msgid "Needs review"
 msgstr "Wymagane sprawdzenie"
+
+msgid "This component does not exist or you cannot access it."
+msgstr "Ten składnik nie istnieje lub nie masz do niego dostępu."
 
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr ""
@@ -18801,6 +19056,9 @@ msgstr "Flagi tłumaczenia — %(language)s"
 msgid "You do not have permission to edit these flags."
 msgstr "Nie masz uprawnień do edycji tych flag."
 
+msgid "You do not have permission to create terminology."
+msgstr "Nie masz uprawnienia do tworzenia terminologii."
+
 msgid ""
 "Revert the latest translation edits from this user in the current project."
 msgstr ""
@@ -18895,9 +19153,6 @@ msgstr "Maksymalna liczba zmian dziennie"
 msgid "Maximum source words per day"
 msgstr "Maksymalna liczba słów źródłowych dziennie"
 
-msgid "This component does not exist or you cannot access it."
-msgstr "Ten składnik nie istnieje lub nie masz do niego dostępu."
-
 msgid "Inherit from workspace"
 msgstr "Dziedzicz z obszaru roboczego"
 
@@ -18954,6 +19209,9 @@ msgstr "Zbyt wiele żądań dotyczących gałęzi. Spróbuj ponownie później."
 
 msgid "Could not load repository branches. Please try again."
 msgstr "Nie udało się wczytać gałęzi repozytorium. Spróbuj ponownie."
+
+msgid "You do not have permission to edit this project."
+msgstr "Nie masz uprawnień do edycji tego projektu."
 
 msgid "ZIP file containing translations"
 msgstr "Plik ZIP zawierający tłumaczenia"
@@ -19101,9 +19359,6 @@ msgid ""
 msgstr ""
 "Zaznacz tę opcję, jeśli zdanie powinno pozostać takie samo, jak w języku "
 "źródłowym."
-
-msgid "You do not have permission to create terminology."
-msgstr "Nie masz uprawnienia do tworzenia terminologii."
 
 msgid "Invalid string selection!"
 msgstr "Nieprawidłowy wybór ciągu!"
@@ -20781,6 +21036,10 @@ msgstr "Opis wyszukiwania"
 msgid "Could not accept suggestion!"
 msgstr "Nie udało się zaakceptować sugestii!"
 
+#, python-format
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr "Propozycja nie mogła zostać zaakceptowana automatycznie: %s"
+
 msgid "Uploaded translation file is too big."
 msgstr "Przesłany plik tłumaczenia jest za duży."
 
@@ -20838,6 +21097,17 @@ msgstr "Forma liczby mnogiej %d w przesłanym pliku jest poza zakresem."
 msgid "Plural form %d in the uploaded file is missing."
 msgstr "Brak formy liczby mnogiej %d w przesłanym pliku."
 
+#, python-format
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr "Przesłany plik zawiera ciąg, który jest zbyt długi: %s"
+
+#, python-format
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] "%d ciąg nie mógł zostać rozpropagowany do wszystkich komponentów."
+msgstr[1] "%d ciągi nie mogły zostać rozpropagowane do wszystkich komponentów."
+msgstr[2] "%d ciągów nie mogło zostać rozpropagowanych do wszystkich komponentów."
+
 msgid "The uploaded file contains too many language declarations."
 msgstr "Przesłany plik zawiera zbyt wiele deklaracji językowych."
 
@@ -20863,6 +21133,10 @@ msgstr "Nie udało się scommitować oczekujących zmian: %s"
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr ""
 "Nie udało się przeanalizować przesłanego pliku jako {file_format}: {error}"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr "Przesyłanie sugestii jest ograniczone do %d ciągów znaków."
 
 #, python-format
 msgid "Could not parse translation file: %s"
@@ -21286,6 +21560,25 @@ msgstr "Dodaje nowe ciągi do tłumaczenia. Pomija te, które już istnieją."
 msgid "Updates source strings in bilingual translation file."
 msgstr "Aktualizuje ciągi źródłowe w pliku tłumaczenia dwujęzycznego."
 
+msgid "A translation upload is already in progress."
+msgstr "Przesyłanie tłumaczenia jest już w toku."
+
+msgid "The uploaded file has expired or was already processed."
+msgstr "Przesłany plik wygasł lub został już przetworzony."
+
+msgid "The uploaded file has expired."
+msgstr "Przesłany plik wygasł."
+
+msgid "The upload target or permissions changed."
+msgstr "Zmienił się cel przesyłania lub uprawnienia."
+
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr ""
+"Forma liczby mnogiej w przesłanym pliku nie pasują do bieżącego tłumaczenia."
+
+msgid "File upload has failed. Please try again later."
+msgstr "Przesyłanie pliku nie powiodło się. Spróbuj ponownie później."
+
 msgid "Very high"
 msgstr "Bardzo wysoki"
 
@@ -21684,9 +21977,8 @@ msgstr "Nieprawidłowa prośba"
 msgid "Access denied."
 msgstr "Odmowa dostępu."
 
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr ""
-"Forma liczby mnogiej w przesłanym pliku nie pasują do bieżącego tłumaczenia."
+msgid "Translation upload in progress."
+msgstr "Trwa przesyłanie tłumaczenia."
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -21943,6 +22235,13 @@ msgid_plural "languages"
 msgstr[0] "język"
 msgstr[1] "języki"
 msgstr[2] "języków"
+
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
+msgstr ""
+"Plan rozliczeniowy docelowego obszaru roboczego zezwala wyłącznie na "
+"projekty publiczne, które nie zawierają elementów objętych ograniczeniami."
 
 msgid "The project is already assigned to this workspace."
 msgstr "Projekt jest już przypisany do tego obszaru roboczego."
@@ -22299,9 +22598,17 @@ msgstr "Nieprawidłowa wartość zapisanego parametru."
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "Parametry muszą być słownikiem par klucz-wartość."
 
-#, python-format
-msgid "Undefined variable: \"%s\""
-msgstr "Niezdefiniowana zmienna: \"%s\""
+msgid "Template output exceeds its size limit."
+msgstr "Dane wyjściowe szablonu przekraczają limit rozmiaru."
+
+msgid "Template rendering failed or exceeded its resource limits."
+msgstr "Renderowanie szablonu nie powiodło się lub przekroczono limity zasobów."
+
+msgid "Oversized template response."
+msgstr "Szablon odpowiedzi jest zbyt duży."
+
+msgid "Invalid template rendering response."
+msgstr "Nieprawidłowa odpowiedź podczas renderowania szablonu."
 
 msgid "Could not render template: {}"
 msgstr "Nie udało się wyrenderować szablonu: {}"
@@ -22311,6 +22618,46 @@ msgid ""
 "instead."
 msgstr ""
 "Ciągi formatu nie są już obsługiwane, użyj zamiast tego języka szablonu."
+
+msgid "Template value exceeds its size limit."
+msgstr "Wartość szablonu przekracza limit rozmiaru."
+
+msgid "Template context is nested too deeply."
+msgstr "Kontekst szablonu jest zagnieżdżony zbyt głęboko."
+
+msgid "Template context exceeds its size limit."
+msgstr "Kontekst szablonu przekracza limit rozmiaru."
+
+msgid "Unsupported template context key."
+msgstr "Nieobsługiwany klucz kontekstu szablonu."
+
+msgid "Unsupported template context value."
+msgstr "Nieobsługiwana wartość kontekstu szablonu."
+
+msgid "Template rendering exceeded its time limit."
+msgstr "Renderowanie szablonu przekroczyło limit czasu."
+
+msgid "Template rendering exceeded its loop limit."
+msgstr "Proces renderowania szablonu przekroczył limit iteracji pętli."
+
+msgid "Template intermediate value exceeds its size limit."
+msgstr "Wartość pośrednia szablonu przekracza limit rozmiaru."
+
+msgid "Template replacement exceeds its size limit."
+msgstr "Zastąpienie szablonu przekracza limit rozmiaru."
+
+msgid "Template padding exceeds its size limit."
+msgstr "Wypełnienie szablonu przekracza limit rozmiaru."
+
+msgid "Template formatting exceeds its size limit."
+msgstr "Formatowanie szablonu przekracza limit rozmiaru."
+
+msgid "Template join exceeds its size limit."
+msgstr "Łączenie szablonów przekracza limit rozmiaru."
+
+#, python-format
+msgid "Undefined variable: \"%s\""
+msgstr "Niezdefiniowana zmienna: \"%s\""
 
 #, python-format
 msgid ""
@@ -23119,6 +23466,9 @@ msgstr ""
 
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr "Spowoduje to wypchnięcie zmian do nadrzędnego repozytorium Mercurial."
+
+msgid "Could not remove nested repository metadata."
+msgstr "Nie udało się usunąć metadanych zagnieżdżonego repozytorium."
 
 msgid "GitHub"
 msgstr "GitHub"
@@ -24545,9 +24895,6 @@ msgstr "Obszar roboczy został usunięty."
 #~ msgstr ""
 #~ "Pliki tłumaczeń w dostępnych repozytoriach zostały zsynchronizowane."
 
-#~ msgid "Updates of translations are in progress."
-#~ msgstr "Aktualizacje tłumaczeń są w toku."
-
 #~ msgid "Updates of translations in accessible repositories are in progress."
 #~ msgstr "Aktualizacje tłumaczeń w dostępnych repozytoriach są w toku."
 
@@ -24667,9 +25014,6 @@ msgstr "Obszar roboczy został usunięty."
 
 #~ msgid "project-wide"
 #~ msgstr "cały projekt"
-
-#~ msgid "site-wide"
-#~ msgstr "cała strona"
 
 #, python-format
 #~ msgid "Manage add-ons at %(location)s"
@@ -26089,9 +26433,6 @@ msgstr "Obszar roboczy został usunięty."
 
 #~ msgid "Too many failed registration attempts from this location."
 #~ msgstr "Zbyt wiele nieudanych prób rejestracji z tej lokalizacji."
-
-#~ msgid "Too many authentication attempts from this location."
-#~ msgstr "Zbyt wiele prób uwierzytelniania w tej lokalizacji."
 
 #~ msgid ""
 #~ "Weblate user management is turned off, you can change permissions in the "
@@ -29637,9 +29978,6 @@ msgstr "Obszar roboczy został usunięty."
 #~ msgstr[2] ""
 #~ "Zawartość pliku pomyślnie połączona z tłumaczeniem, przetworzono %d "
 #~ "napisów."
-
-#~ msgid "Suggestions are not allowed on this translation!"
-#~ msgstr "Sugestie nie są dozwolone przy tym tłumaczeniu!"
 
 #, fuzzy
 #~| msgid "You don't have privileges to save translations!"

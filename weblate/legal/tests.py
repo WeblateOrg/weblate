@@ -452,7 +452,7 @@ class LegalTest(TestCase, RegistrationTestMixin):
         """TOS confirmation on social auth."""
         pipeline = list(settings.SOCIAL_AUTH_PIPELINE)
         pipeline.insert(
-            pipeline.index("weblate.accounts.pipeline.second_factor") + 1,
+            pipeline.index("weblate.accounts.pipeline.handle_invite") + 1,
             "weblate.legal.pipeline.tos_confirm",
         )
         self.enterContext(self.settings(SOCIAL_AUTH_PIPELINE=pipeline))

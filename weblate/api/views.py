@@ -225,6 +225,9 @@ from weblate.trans.tasks import (
     create_project_backup,
     generate_report,
     project_removal,
+    validate_category_removal,
+    validate_component_removal,
+    validate_project_removal,
 )
 from weblate.trans.uploads import queue_translation_upload
 from weblate.trans.util import get_upload_error_message
@@ -268,6 +271,7 @@ from weblate.utils.views import (
     snapshot_file_response,
     zip_download,
 )
+from weblate.vcs.base import RepositoryTemplateError
 from weblate.workspaces.models import Workspace
 
 from .renderers import (
@@ -626,6 +630,8 @@ class NotSourceUnit(APIException):
 
 class WeblateExceptionHandler(ExceptionHandler):
     def convert_known_exceptions(self, exc: Exception) -> Exception:
+        if isinstance(exc, RepositoryTemplateError):
+            return ValidationError(str(exc))
         if isinstance(exc, WeblateLockTimeoutError):
             if exc.lock.scope == "repository":
                 return LockedError(
@@ -3059,6 +3065,10 @@ class ProjectViewSet(
         instance = self.get_object()
         if not request.user.has_perm("project.edit", instance):
             self.permission_denied(request, "Can not delete project")
+        try:
+            validate_project_removal(instance)
+        except DjangoValidationError as error:
+            raise ValidationError(error.messages) from error
         task = project_removal.delay(instance.pk, request.user.pk)
         store_task_metadata(task.id, user_id=request.user.id)
         return Response(
@@ -3763,6 +3773,10 @@ class ComponentViewSet(
         instance = self.get_object()
         if not request.user.has_perm("component.edit", instance):
             self.permission_denied(request, "Can not delete component")
+        try:
+            validate_component_removal(instance.pk)
+        except DjangoValidationError as error:
+            raise ValidationError(error.messages) from error
         component_removal.delay(
             instance.pk, request.user.pk, get_delete_memory_option(request)
         )
@@ -5665,6 +5679,10 @@ class CategoryViewSet(viewsets.ModelViewSet, ReportsMixin, AnnouncementsMixin):
         """Delete category."""
         instance = self.get_object()
         self.perm_check(request, instance)
+        try:
+            validate_category_removal(instance)
+        except DjangoValidationError as error:
+            raise ValidationError(error.messages) from error
         category_removal.delay(
             instance.pk, request.user.pk, get_delete_memory_option(request)
         )
@@ -6092,21 +6110,37 @@ class TasksViewSet(ViewSet):
                     "pk", flat=True
                 )
             )
-            components = list(
-                Component.objects.filter_access(user)
-                .filter(pk__in=existing_component_ids)
-                .select_related("project")
-                .order_by("pk")
+            component_queryset = Component.objects.filter_access(user).filter(
+                pk__in=existing_component_ids
             )
-            permission_components = components
-            if len(components) != len(existing_component_ids) or (
+            if permission:
+                permission_components = list(
+                    component_queryset.select_related("project").order_by("pk")
+                )
+                accessible_component_ids = {
+                    candidate.pk for candidate in permission_components
+                }
+            else:
+                # Polling needs visibility for the entire scope, but only one
+                # component instance to represent the task.
+                accessible_component_ids = set(
+                    component_queryset.values_list("pk", flat=True)
+                )
+            if accessible_component_ids != existing_component_ids or (
                 existing_component_ids != unique_component_ids
                 and metadata.get("user_id") != user.pk
             ):
                 msg = "Invalid task"
                 raise Http404(msg)
-            if components:
-                component = components[0]
+            if accessible_component_ids:
+                component = (
+                    permission_components[0]
+                    if permission_components is not None
+                    else get_object_or_404(
+                        component_queryset.select_related("project"),
+                        pk=min(accessible_component_ids),
+                    )
+                )
                 obj = component
             else:
                 component = None

@@ -8,20 +8,29 @@ from __future__ import annotations
 
 from base64 import b64decode
 from typing import cast
+from unittest.mock import AsyncMock, patch
 
 import jwt as pyjwt
-from django.test import TestCase
+from django.core.exceptions import ValidationError
+from django.test import SimpleTestCase, TestCase, override_settings
 
+from weblate.utils.tests import http_mock
 from weblate.vcs.github import (
     JWT_MAX_LIFETIME,
     GitHubAppCredentials,
+    exchange_github_app_manifest_code,
+    exchange_github_user_code,
     generate_jwt,
+    get_app_repositories,
+    get_app_repository,
     get_github_api_base,
     get_github_app_configurations,
     get_github_app_install_url,
     get_github_app_settings,
     get_github_git_auth_environment,
+    get_user_admin_installation,
     github_app_is_configured,
+    user_can_administer_org_installation,
     validate_private_key,
     verify_webhook_signature,
 )
@@ -172,7 +181,7 @@ class TestGithubAppHookUtils(TestCase):
             hostname="github.com",
             app_id="fromdb",
             app_slug="db-app",
-            private_key="-----BEGIN RSA PRIVATE KEY-----\ndb\n-----END RSA PRIVATE KEY-----",
+            private_key=generate_private_key(),
             webhook_secret="db-secret",
         )
 
@@ -180,3 +189,144 @@ class TestGithubAppHookUtils(TestCase):
         self.assertEqual(configs["github.com"].app_id, "fromdb")
         self.assertEqual(configs["github.com"].webhook_secret, "db-secret")
         self.assertTrue(github_app_is_configured())
+
+
+@override_settings(
+    VCS_RESTRICT_PRIVATE=True,
+    VCS_ALLOW_HOSTS=[],
+    VCS_PRIVATE_ALLOWLIST=[],
+)
+class GitHubAppOutboundTest(SimpleTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.enterContext(
+            patch("weblate.utils.requests.get_environment_proxy", return_value=None)
+        )
+        self.resolve = self.enterContext(
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
+            )
+        )
+        self.enterContext(
+            patch(
+                "weblate.vcs.github.get_installation_token",
+                new=AsyncMock(return_value="installation-token"),
+            )
+        )
+        self.config = GitHubAppCredentials(hostname="github.example.com")
+
+    @http_mock.activate
+    async def test_private_registration_rejected(self) -> None:
+        with self.assertRaises(ValidationError):
+            await exchange_github_app_manifest_code("code", "127.0.0.1")
+        self.assertEqual(len(http_mock.calls), 0)
+
+    @http_mock.activate
+    async def test_private_oauth_rejected(self) -> None:
+        self.resolve.return_value = [(0, 0, 0, "", ("10.0.0.1", 443))]
+        with self.assertRaises(ValidationError):
+            await exchange_github_user_code(self.config, "code")
+        self.assertEqual(len(http_mock.calls), 0)
+
+    @http_mock.activate
+    async def test_public_repository_redirect_pins_each_request(self) -> None:
+        old_url = "https://github.example.com/api/v3/repos/owner/old"
+        new_url = "https://github.example.com/api/v3/repos/owner/new"
+        http_mock.register(
+            "GET", old_url, status_code=301, headers={"Location": new_url}
+        )
+        http_mock.register("GET", new_url, json={"full_name": "owner/new"})
+
+        repository = await get_app_repository(
+            "1", "key", "2", self.config.hostname, "owner/old"
+        )
+
+        self.assertEqual(repository, {"full_name": "owner/new"})
+        self.assertEqual(self.resolve.call_count, 2)
+        self.assertEqual(len(http_mock.calls), 2)
+        for request_call in http_mock.calls:
+            self.assertEqual(
+                http_mock.get_transport_url(request_call.request).host, "93.184.216.34"
+            )
+
+    @http_mock.activate
+    async def test_private_redirect_rejected(self) -> None:
+        http_mock.register(
+            "POST",
+            "https://github.example.com/api/v3/app-manifests/code/conversions",
+            status_code=302,
+            headers={"Location": "https://127.0.0.1/internal"},
+        )
+        with self.assertRaises(ValidationError):
+            await exchange_github_app_manifest_code("code", self.config.hostname)
+        self.assertEqual(len(http_mock.calls), 1)
+
+    @http_mock.activate
+    async def test_private_pagination_rejected(self) -> None:
+        for path, function, args, payload in (
+            (
+                "installation/repositories",
+                get_app_repositories,
+                ("1", "key", "2", self.config.hostname),
+                {"repositories": []},
+            ),
+            (
+                "user/installations",
+                get_user_admin_installation,
+                (self.config, "user-token", "2"),
+                {"installations": []},
+            ),
+            (
+                "orgs/owner/installations",
+                user_can_administer_org_installation,
+                (self.config, "user-token", "owner", "2"),
+                {"installations": []},
+            ),
+        ):
+            with self.subTest(path=path):
+                http_mock.reset()
+                http_mock.register(
+                    "GET",
+                    f"https://github.example.com/api/v3/{path}?per_page=100",
+                    json=payload,
+                    headers={"Link": '<https://127.0.0.1/internal>; rel="next"'},
+                )
+                with self.assertRaises(ValidationError):
+                    await function(*args)
+                self.assertEqual(len(http_mock.calls), 1)
+
+    @http_mock.activate
+    async def test_private_host_exemptions(self) -> None:
+        self.resolve.return_value = [(0, 0, 0, "", ("10.0.0.1", 443))]
+        http_mock.register(
+            "POST",
+            "https://github.example.com/login/oauth/access_token",
+            json={"access_token": "user-token"},
+        )
+        for configuration in (
+            {"VCS_RESTRICT_PRIVATE": False},
+            {"VCS_ALLOW_HOSTS": ["github.example.com"]},
+            {"VCS_PRIVATE_ALLOWLIST": [".example.com"]},
+        ):
+            with (
+                self.subTest(configuration=configuration),
+                override_settings(**configuration),
+            ):
+                self.assertEqual(
+                    await exchange_github_user_code(self.config, "code"), "user-token"
+                )
+        self.assertEqual(len(http_mock.calls), 3)
+
+    @http_mock.activate
+    @override_settings(VCS_PRIVATE_ALLOWLIST=["github.example.com"])
+    async def test_exemption_does_not_allow_private_redirect(self) -> None:
+        http_mock.register(
+            "POST",
+            "https://github.example.com/login/oauth/access_token",
+            status_code=302,
+            headers={"Location": "https://127.0.0.1/internal"},
+        )
+        with self.assertRaises(ValidationError):
+            await exchange_github_user_code(self.config, "code")
+        self.assertEqual(len(http_mock.calls), 1)

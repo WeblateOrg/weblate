@@ -531,8 +531,11 @@ def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpRespons
     language_stats = sort_unicode(
         language_stats, user.profile.get_translation_orderer(request)
     )
-    language_objects = [stat.obj or stat for stat in language_stats]
-    obj.project_languages.preload_workflow_settings(language_objects)
+    language_objects = cast(
+        "list[ProjectLanguage | GhostProjectLanguageStats]",
+        [stat.obj or stat for stat in language_stats],
+    )
+    obj.project_languages.ensure_workflow_settings(language_objects)
 
     components = prefetch_tasks(all_components)
     prefetch_project_flags([obj], user=user)

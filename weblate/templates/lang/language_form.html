@@ -34,7 +34,9 @@
       <div class="tab-pane" id="workflow">{% crispy workflow_form %}</div>
     </div>
 
-    <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+    <input type="submit"
+           value="{% translate "Save"|force_escape %}"
+           class="btn btn-primary" />
   </form>
 
 {% endblock content %}

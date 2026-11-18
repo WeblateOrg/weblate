@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-05 22:27-0600\n"
+"POT-Creation-Date: 2026-11-13 01:19-0600\n"
 "PO-Revision-Date: 2026-10-30 05:05+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -626,7 +626,16 @@ msgstr "Notanda var bætt í {team} teymið af {username}."
 msgid "User access to the {team} team was changed by {username}."
 msgstr "Notanda var bætt í {team} teymið af {username}."
 
-#. Translators: Audit log entry
+#, fuzzy, python-brace-format
+#| msgid "User was added to the {team} team by {username}."
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr "Notanda var bætt í {team} teymið af {username}."
+
+#, fuzzy, python-brace-format
+#| msgid "User was added to the {team} team by {username}."
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr "Notanda var bætt í {team} teymið af {username}."
+
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr "Notandi var fjarlægður úr {team} teyminu af {username}."
@@ -759,6 +768,45 @@ msgstr "Endurstilling gagnasafns"
 msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr ""
+
+#, fuzzy
+#| msgid "site wide"
+msgid "Site-wide"
+msgstr "á öllu vefsvæðinu"
+
+msgid "Workspace"
+msgstr ""
+
+#, fuzzy
+#| msgid "Backup failed"
+msgid "Team created"
+msgstr "Öryggisafritun mistókst"
+
+#, fuzzy
+#| msgid "Last change"
+msgid "Team changed"
+msgstr "Síðasta breyting"
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "Team deleted"
+msgstr "Letri eytt."
+
+#, fuzzy
+#| msgid "Label name"
+msgid "Team member added"
+msgstr "Heiti merkingar"
+
+#, fuzzy
+#| msgid "Labels to remove"
+msgid "Team member removed"
+msgstr "Merking sem á að fjarlægja"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "Team member access changed"
+msgstr "Notkunarleyfi breyttist"
 
 msgid "Account activity"
 msgstr "Virkni aðgangs"
@@ -2915,10 +2963,20 @@ msgid ""
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
 
+#, fuzzy
+#| msgid "Creation timestamp"
+msgid "Connection timeout"
+msgstr "Tímamerki þegar var útbúið"
+
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr ""
+
 msgid "Publish timeout"
 msgstr ""
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
 msgstr ""
 
 msgid "Connection attempts"
@@ -3171,6 +3229,14 @@ msgid "This add-on is already installed on this component."
 msgstr "Viðbótina er aðeins hægt að setja upp á þýðingarhlutann."
 
 #, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr ""
+"Þessi viðbót er notuð fyrir allar þýðingareiningar sem deila þessu "
+"gagnasafni."
+
+#, fuzzy
 #| msgid "This add-on has no settings."
 msgid "This add-on cannot be triggered manually."
 msgstr "Þessi viðbót er ekki með neinar stillingar."
@@ -3234,6 +3300,11 @@ msgstr "Verkefni"
 msgctxt "Add-on scope"
 msgid "Site"
 msgstr ""
+
+#, fuzzy
+#| msgid "Component lists"
+msgid "a component you cannot access"
+msgstr "Þýðingahlutalistar"
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -4534,6 +4605,11 @@ msgid ""
 "enable them."
 msgstr ""
 
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You need to log in to upload translations."
+msgstr "Þú hefur ekki heimild til að samþykkja tillögur!"
+
 msgid "The file format does not support updating source strings."
 msgstr "Skráasniðið styður ekki uppfærslur á frumtextum."
 
@@ -4571,6 +4647,16 @@ msgstr ""
 
 msgid "Project tokens can not be assigned to teams here."
 msgstr ""
+
+#, fuzzy
+#| msgid "View audit log"
+msgid "Team audit log"
+msgstr "Skoða öryggisatvikaskrá"
+
+#, fuzzy
+#| msgid "Team administrator"
+msgid "Team audit entry"
+msgstr "Stjórnandi teymisins"
 
 msgid "Cannot remove built-in team!"
 msgstr "Ekki er hægt að fjarlægja innbyggð teymi!"
@@ -4934,9 +5020,6 @@ msgstr ""
 msgid "No valid billing found or limit exceeded."
 msgstr ""
 
-msgid "Workspace"
-msgstr ""
-
 #, fuzzy
 #| msgctxt "OpenAI model selection"
 #| msgid "Custom model name"
@@ -5047,6 +5130,9 @@ msgid_plural "Contains %d components"
 msgstr[0] "Inniheldur %d þýðingarhluta"
 msgstr[1] "Inniheldur %d þýðingarhluta"
 
+msgid "Restricted components are not allowed by this billing plan."
+msgstr ""
+
 msgid "Missing license"
 msgstr "Vantar notkunarleyfi"
 
@@ -5116,6 +5202,9 @@ msgstr ""
 
 msgid "To terminate billing you have to remove all projects first."
 msgstr "Til að hætta áskrift þarftu fyrst að fjarlægja öll verkefni."
+
+msgid "Externally managed billings cannot be merged."
+msgstr ""
 
 #, fuzzy
 #| msgid "Cannot change this on a built-in team."
@@ -5815,6 +5904,11 @@ msgid "the value is too complex or nested too deeply"
 msgstr ""
 
 #, fuzzy
+#| msgid "Your billing plan has exceeded its limits."
+msgid "Format matching exceeded its time limit."
+msgstr "Áskriftin þín er komin að mörkum þess sem samið var um."
+
+#, fuzzy
 #| msgid "The following format strings are in the wrong order: %s"
 msgid "The following format strings are in the wrong order:"
 msgstr "Eftirfarandi sniðstrengir eru í rangri röð: %s"
@@ -6092,6 +6186,9 @@ msgstr "Markdown-málskipan"
 msgid "Markdown syntax does not match source."
 msgstr "Markdown-málskipan samsvarar ekki frumtexta."
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr ""
+
 #, fuzzy
 #| msgid "The translation does not contain an URL."
 msgid "The translation does not contain a URL."
@@ -6261,6 +6358,11 @@ msgstr "Uppsetning Weblate"
 msgid "Your translation is foo"
 msgstr "Engin þýðing fannst."
 
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
+msgstr ""
+
 msgid "Font style"
 msgstr "Leturstíll"
 
@@ -6424,6 +6526,25 @@ msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
 #, fuzzy
+#| msgid "Could not update the repository."
+msgid "Could not open the workbook archive."
+msgstr "Ekki tókst að uppfæra gagnasafnið."
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr ""
+
+#, fuzzy
 #| msgid "Multivalue CSV file (UTF-8)"
 msgid "Multivalue CSV file"
 msgstr "Marggilda CSV-skrá (UTF-8)"
@@ -6470,6 +6591,10 @@ msgid "Invalid id_hash metadata in CSV file: %s"
 msgstr "Ógilt þýðingaflagg: \"%s\""
 
 msgid "Plural form metadata in CSV file requires id_hash."
+msgstr ""
+
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
 msgstr ""
 
 #. Translators: File format name
@@ -6712,6 +6837,13 @@ msgid "App store metadata files"
 msgstr "Lýsigagnaskrá App Store forritaverslunar"
 
 msgid "File validation is required for directory-based formats."
+msgstr ""
+
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr ""
+
+msgid "Converted workbook content exceeds the configured size limit."
 msgstr ""
 
 msgid ""
@@ -7950,6 +8082,16 @@ msgstr "Aukatungumál skráð í verkefni eða þýðingarhluta"
 msgid "Rate limit reset."
 msgstr "Uppfæra með endurmiðun (rebase)"
 
+#, fuzzy
+#| msgid "This translation is locked."
+msgid "Too many translation requests."
+msgstr "Þessi þýðing er læst."
+
+#, fuzzy
+#| msgid "Too many authentication attempts from this location."
+msgid "Too many concurrent translation requests for this service."
+msgstr "Of margar tilraunir til auðkenningar frá þessari staðsetningu."
+
 msgid "File"
 msgstr "Skrá"
 
@@ -8095,6 +8237,11 @@ msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background."
 msgstr "Færslum var eytt og þýðingaminnið verður endurbyggt í bakgrunni."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many uploads, please try again later."
+msgstr "Of margar leitarbeiðnir., reyndu aftur síðar."
 
 #, fuzzy, python-format
 #| msgid "Confirm deleting all translation memory entries"
@@ -9980,6 +10127,28 @@ msgstr "Viðbótina er aðeins hægt að setja upp á þýðingarhlutann."
 msgid "Install"
 msgstr "Setja inn"
 
+#, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid "Install on the component owning the repository."
+msgstr ""
+"Þessi viðbót er notuð fyrir allar þýðingareiningar sem deila þessu "
+"gagnasafni."
+
+#, fuzzy
+#| msgid "This component is set up incorrectly."
+msgid "The component owning this repository is not available to you."
+msgstr "Þessi þýðingarhluti er ekki rétt uppsettur."
+
+#, fuzzy
+#| msgid "Repository changes"
+msgid "Open repository add-ons"
+msgstr "Breytingar í gagnasafni"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Unavailable"
+msgstr "Ekki tiltækt"
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -10382,6 +10551,32 @@ msgstr "Heimildir"
 
 msgid "Cancel"
 msgstr ""
+
+msgid "Actor"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete entry"
+msgid "Deleted user"
+msgstr "Eyða færslu"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Administrative team changes"
+msgstr "Kerfisstjórnun"
+
+#, fuzzy
+#| msgid "Changes"
+msgid "Change"
+msgstr "Breytingar"
+
+msgid "View details"
+msgstr "Skoða nánar"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No team audit entries found."
+msgstr "Engir samsvarandi strengir fundust."
 
 msgid "Settings"
 msgstr "Stillingar"
@@ -14243,9 +14438,6 @@ msgstr "Eins-tungumáls grunntungumálsskrá"
 msgid "Configure translation quality filter"
 msgstr "Gæðasía þýðinga"
 
-msgid "View details"
-msgstr "Skoða nánar"
-
 msgid "View contributor license agreement"
 msgstr "Skoða skilmála vegna framlags"
 
@@ -14637,6 +14829,19 @@ msgid ""
 msgstr ""
 "Þér var boðið á %(site_title)s af %(invitation_author)s til að taka þátt í "
 "%(team_name)s teyminu."
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr ""
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -16363,6 +16568,15 @@ msgstr "Flyt inn öryggisafrit"
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr "Gert á %(server)s (%(domain)s) með Weblate %(version)s"
 
+msgid "Public access on import"
+msgstr ""
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
+
 msgid "Token copied to clipboard."
 msgstr "Teikn afritað á klippispjald."
 
@@ -17068,11 +17282,6 @@ msgstr "Gagnasafn er úrelt."
 #| msgid "Repositories"
 msgid "Available Repositories"
 msgstr "Gagnasöfn"
-
-#, fuzzy
-#| msgid "Not available"
-msgid "Unavailable"
-msgstr "Ekki tiltækt"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -18408,6 +18617,12 @@ msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "Sjálfvirkri þýðingu lokið, %d strengur var uppfærður."
 msgstr[1] "Sjálfvirkri þýðingu lokið, %d strengir voru uppfærðir."
 
+#, fuzzy
+#| msgid "Automatic translation in progress"
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr "Sjálfvirk þýðing í gangi"
+
 #, python-format
 msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
@@ -18493,6 +18708,11 @@ msgstr "Skráasía skjámyndar"
 
 msgid "Revision must be a complete hexadecimal object ID."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not update repository: %s"
+msgid "Could not validate repository URL: %s"
+msgstr "Ekki tókst að uppfæra gagnasafnið: %s"
 
 #, fuzzy
 #| msgid "Duplicated file mask."
@@ -18591,10 +18811,33 @@ msgstr "Flokkur tilheyrir ekki þessu verkefni."
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 
+#, fuzzy
+#| msgid "Important dates"
+msgid "Imported authors"
+msgstr "Mikilvægar dagsetningar"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
+msgstr ""
+
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
 msgstr ""
 
 #, python-format
@@ -18629,6 +18872,21 @@ msgstr "Ógild leitarbeiðni!"
 
 msgid "Enter a search string to replace."
 msgstr ""
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
 
 #, fuzzy
 #| msgid "Invalid merge request!"
@@ -18785,6 +19043,9 @@ msgstr "Kosið um tillögu"
 #| msgid "Source needs review"
 msgid "Needs review"
 msgstr "Frumtexti þarfnast yfirferðar"
+
+msgid "This component does not exist or you cannot access it."
+msgstr ""
 
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr "Hýst Weblate, staðurinn þar sem hugbúnaðarverkefnið þitt er þýtt."
@@ -19593,6 +19854,9 @@ msgstr "Þýðingaflögg sem á að bæta við"
 msgid "You do not have permission to edit these flags."
 msgstr "Þú hefur ekki heimild til að samþykkja tillögur!"
 
+msgid "You do not have permission to create terminology."
+msgstr "Þú hefur ekki leyfi til að búa til hugtakasafn."
+
 #, fuzzy
 #| msgid "Navigate to the last translation in the current search."
 msgid ""
@@ -19704,9 +19968,6 @@ msgstr ""
 msgid "Maximum source words per day"
 msgstr ""
 
-msgid "This component does not exist or you cannot access it."
-msgstr ""
-
 #, fuzzy
 #| msgid "Inherited flags"
 msgid "Inherit from workspace"
@@ -19771,6 +20032,11 @@ msgstr "Of margar leitarbeiðnir., reyndu aftur síðar."
 #| msgid "Could not open a ticket, please try again later."
 msgid "Could not load repository branches. Please try again."
 msgstr "Gat ekki opnað verkbeiðni, reyndu aftur síðar."
+
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You do not have permission to edit this project."
+msgstr "Þú hefur ekki heimild til að samþykkja tillögur!"
 
 msgid "ZIP file containing translations"
 msgstr "ZIP-skrá sem inniheldur þýðingar"
@@ -19911,9 +20177,6 @@ msgid ""
 "Mark this option if the sentence should stay as in the source language, "
 "without change."
 msgstr ""
-
-msgid "You do not have permission to create terminology."
-msgstr "Þú hefur ekki leyfi til að búa til hugtakasafn."
 
 #, fuzzy
 #| msgid "Invalid suggestion!"
@@ -21484,6 +21747,12 @@ msgstr "Lýsing merkingar"
 msgid "Could not accept suggestion!"
 msgstr "Gat ekki samþykkt tillögu!"
 
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr "Strengurinn var ekki áframsendur í %d þýðingahluta."
+
 #, fuzzy
 #| msgid "Upload translations files"
 msgid "Uploaded translation file is too big."
@@ -21555,6 +21824,19 @@ msgstr ""
 "Fleirtölusnið í innsendu skránni samsvara ekki því sem gildir í "
 "þýðingaskránni."
 
+#, fuzzy, python-format
+#| msgid "ZIP file containing translations"
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr "ZIP-skrá sem inniheldur þýðingar"
+
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] "Strengurinn var ekki áframsendur í %d þýðingahluta."
+msgstr[1] "Strengurinn var ekki áframsendur í %d þýðingahluta."
+
 #, fuzzy
 #| msgid "ZIP file containing translations"
 msgid "The uploaded file contains too many language declarations."
@@ -21580,6 +21862,10 @@ msgstr "Mistókst að senda inn breytingar sem bíða: %s"
 #| msgid "Could not parse {file}: {error}"
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "Mistókst að þátta {file}: {error}"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Could not parse translation files."
@@ -22058,6 +22344,35 @@ msgstr ""
 msgid "Updates source strings in bilingual translation file."
 msgstr "Skilið eftir autt fyrir tvítyngd þýðingaskjöl."
 
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "A translation upload is already in progress."
+msgstr "Uppfærsla þýðinga er í gangi."
+
+msgid "The uploaded file has expired or was already processed."
+msgstr ""
+
+#, fuzzy
+#| msgid "A language in the project was removed."
+msgid "The uploaded file has expired."
+msgstr "Tungumál í verkefninu var fjarlægt."
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "The upload target or permissions changed."
+msgstr "Notkunarleyfi breyttist"
+
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr ""
+"Fleirtölusnið í innsendu skránni samsvara ekki því sem gildir í "
+"þýðingaskránni."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "File upload has failed. Please try again later."
+msgstr "Of margar leitarbeiðnir., reyndu aftur síðar."
+
 msgid "Very high"
 msgstr "Mjög hátt"
 
@@ -22491,10 +22806,10 @@ msgstr "Ógild beiðni"
 msgid "Access denied."
 msgstr "Aðgangi hafnað."
 
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr ""
-"Fleirtölusnið í innsendu skránni samsvara ekki því sem gildir í "
-"þýðingaskránni."
+#, fuzzy
+#| msgid "Translation uploaded"
+msgid "Translation upload in progress."
+msgstr "Þýðing send inn"
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -22812,6 +23127,11 @@ msgid "language"
 msgid_plural "languages"
 msgstr[0] "tungumál"
 msgstr[1] "tungumál"
+
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
+msgstr ""
 
 #, fuzzy
 #| msgid "This component is currently locked."
@@ -23162,9 +23482,19 @@ msgstr "Ógild viðföng!"
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
-#, python-format
-msgid "Undefined variable: \"%s\""
-msgstr "Óskilgreind breyta: \"%s\""
+msgid "Template output exceeds its size limit."
+msgstr ""
+
+msgid "Template rendering failed or exceeded its resource limits."
+msgstr ""
+
+msgid "Oversized template response."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid translation flag: \"%s\""
+msgid "Invalid template rendering response."
+msgstr "Ógilt þýðingaflagg: \"%s\""
 
 msgid "Could not render template: {}"
 msgstr "Gat ekki myndgert sniðskrá: {}"
@@ -23173,6 +23503,50 @@ msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
 msgstr ""
+
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+msgid "Template context is nested too deeply."
+msgstr ""
+
+msgid "Template context exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template context key."
+msgstr "Óstutt skráasnið."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template context value."
+msgstr "Óstutt skráasnið."
+
+msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+msgid "Template rendering exceeded its loop limit."
+msgstr ""
+
+msgid "Template intermediate value exceeds its size limit."
+msgstr ""
+
+msgid "Template replacement exceeds its size limit."
+msgstr ""
+
+msgid "Template padding exceeds its size limit."
+msgstr ""
+
+msgid "Template formatting exceeds its size limit."
+msgstr ""
+
+msgid "Template join exceeds its size limit."
+msgstr ""
+
+#, python-format
+msgid "Undefined variable: \"%s\""
+msgstr "Óskilgreind breyta: \"%s\""
 
 #, python-format
 msgid ""
@@ -24008,6 +24382,11 @@ msgstr ""
 
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr "Þetta mun ýta breytingum yfir í Mercurial-yfirgagnasafnið."
+
+#, fuzzy
+#| msgid "Could not merge the repository."
+msgid "Could not remove nested repository metadata."
+msgstr "Ekki tókst að sameina gagnasafnið."
 
 msgid "GitHub"
 msgstr "GitHub"
@@ -25323,9 +25702,6 @@ msgstr "Frummyndin hefur verið fjarlægð."
 #~ msgid "Translation files in accessible repositories have been synchronized."
 #~ msgstr "Þýðingaskrár hafa verið samstilltar."
 
-#~ msgid "Updates of translations are in progress."
-#~ msgstr "Uppfærsla þýðinga er í gangi."
-
 #, fuzzy
 #~| msgid "Updates of translations are in progress."
 #~ msgid "Updates of translations in accessible repositories are in progress."
@@ -25417,11 +25793,6 @@ msgstr "Frummyndin hefur verið fjarlægð."
 #~| msgid "project wide"
 #~ msgid "project-wide"
 #~ msgstr "fyrir allt verkefnið"
-
-#, fuzzy
-#~| msgid "site wide"
-#~ msgid "site-wide"
-#~ msgstr "á öllu vefsvæðinu"
 
 #, fuzzy, python-format
 #~| msgctxt "Automatic suggestion service configuration"
@@ -26491,9 +26862,6 @@ msgstr "Frummyndin hefur verið fjarlægð."
 #~ msgstr ""
 #~ "Of margar tilraunir til skráningar hafa mistekist frá þessari "
 #~ "staðsetningu."
-
-#~ msgid "Too many authentication attempts from this location."
-#~ msgstr "Of margar tilraunir til auðkenningar frá þessari staðsetningu."
 
 #~ msgid "String has suggestion"
 #~ msgstr "Strengur er með tillögu"

@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-05 22:27-0600\n"
+"POT-Creation-Date: 2026-11-13 01:19-0600\n"
 "PO-Revision-Date: 2026-10-30 05:04+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -612,7 +612,16 @@ msgstr "A felhasználót {username} hozzáadta a(z) {team} csapathoz."
 msgid "User access to the {team} team was changed by {username}."
 msgstr "A felhasználót {username} hozzáadta a(z) {team} csapathoz."
 
-#. Translators: Audit log entry
+#, fuzzy, python-brace-format
+#| msgid "User was added to the {team} team by {username}."
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr "A felhasználót {username} hozzáadta a(z) {team} csapathoz."
+
+#, fuzzy, python-brace-format
+#| msgid "User was added to the {team} team by {username}."
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr "A felhasználót {username} hozzáadta a(z) {team} csapathoz."
+
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr "A felhasználót {username} eltávolította a(z) {team} csapatból."
@@ -745,6 +754,45 @@ msgstr "Tároló visszaállítva"
 msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr "Szolgáltatás"
+
+#, fuzzy
+#| msgid "site wide"
+msgid "Site-wide"
+msgstr "webhelyszintű"
+
+msgid "Workspace"
+msgstr ""
+
+#, fuzzy
+#| msgid "Backup failed"
+msgid "Team created"
+msgstr "Biztonsági mentés sikertelen"
+
+#, fuzzy
+#| msgid "Last change"
+msgid "Team changed"
+msgstr "Utolsó változtatás"
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "Team deleted"
+msgstr "Betűkészlet törölve."
+
+#, fuzzy
+#| msgid "Label added"
+msgid "Team member added"
+msgstr "Címke hozzáadva"
+
+#, fuzzy
+#| msgid "Label removed"
+msgid "Team member removed"
+msgstr "Címke eltávolítva"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "Team member access changed"
+msgstr "A licenc meg lett változtatva"
 
 msgid "Account activity"
 msgstr "Fióktevékenység"
@@ -2878,10 +2926,20 @@ msgid ""
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
 
+#, fuzzy
+#| msgid "Creation timestamp"
+msgid "Connection timeout"
+msgstr "Létrehozás időbélyege"
+
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr ""
+
 msgid "Publish timeout"
 msgstr ""
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
 msgstr ""
 
 msgid "Connection attempts"
@@ -3157,6 +3215,13 @@ msgid "This add-on is already installed on this component."
 msgstr "A kiegészítő csak az összetevőre telepíthető."
 
 #, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr ""
+"Ez a kiegészítő az ezt a tárolót megosztó összes összetevőnél használva van."
+
+#, fuzzy
 #| msgid "This add-on has no settings."
 msgid "This add-on cannot be triggered manually."
 msgstr "Ennek a kiegészítőnek nincsenek beállításai."
@@ -3223,6 +3288,11 @@ msgstr "Projekt"
 msgctxt "Add-on scope"
 msgid "Site"
 msgstr ""
+
+#, fuzzy
+#| msgid "Categorized component can not be shared."
+msgid "a component you cannot access"
+msgstr "A kategorizált összetevőt nem lehet megosztani."
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -4530,6 +4600,11 @@ msgid ""
 "enable them."
 msgstr ""
 
+#, fuzzy
+#| msgid "You do not have permission to accept suggestions."
+msgid "You need to log in to upload translations."
+msgstr "Nincs jogosultsága javaslatok elfogadására."
+
 msgid "The file format does not support updating source strings."
 msgstr "A fájlformátum nem támogatja a forrásszövegek frissítését."
 
@@ -4569,6 +4644,16 @@ msgstr ""
 
 msgid "Project tokens can not be assigned to teams here."
 msgstr ""
+
+#, fuzzy
+#| msgid "View audit log"
+msgid "Team audit log"
+msgstr "Ellenőrzési napló megtekintése"
+
+#, fuzzy
+#| msgid "Team administrator"
+msgid "Team audit entry"
+msgstr "Csapatadminisztrátor"
 
 msgid "Cannot remove built-in team!"
 msgstr "Nem lehet eltávolítani a beépített csapatot!"
@@ -4929,9 +5014,6 @@ msgstr ""
 msgid "No valid billing found or limit exceeded."
 msgstr ""
 
-msgid "Workspace"
-msgstr ""
-
 #, fuzzy
 #| msgctxt "OpenAI model selection"
 #| msgid "Custom model name"
@@ -5042,6 +5124,9 @@ msgid_plural "Contains %d components"
 msgstr[0] "%d összetevőt tartalmaz"
 msgstr[1] "%d összetevőt tartalmaz"
 
+msgid "Restricted components are not allowed by this billing plan."
+msgstr ""
+
 msgid "Missing license"
 msgstr "Hiányzó licenc"
 
@@ -5109,6 +5194,9 @@ msgstr ""
 msgid "To terminate billing you have to remove all projects first."
 msgstr ""
 "A számlázás megszüntetéséhez először el kell távolítania az összes projektet."
+
+msgid "Externally managed billings cannot be merged."
+msgstr ""
 
 msgid "Cannot merge such a billing."
 msgstr "Ilyen számlázást nem lehet egyesíteni."
@@ -5901,6 +5989,11 @@ msgstr ""
 msgid "the value is too complex or nested too deeply"
 msgstr ""
 
+#, fuzzy
+#| msgid "Your billing plan has exceeded its limits."
+msgid "Format matching exceeded its time limit."
+msgstr "A számlázási csomagja elérte a korlátjait."
+
 msgid "The following format strings are in the wrong order:"
 msgstr "A következő formátumszövegek hibás sorrendben vannak:"
 
@@ -6185,6 +6278,9 @@ msgstr "Markdown szintaxis"
 msgid "Markdown syntax does not match source."
 msgstr "A Markdown szintaxis nem egyezik meg a forrással."
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr ""
+
 #, fuzzy
 #| msgid "The translation does not contain an URL."
 msgid "The translation does not contain a URL."
@@ -6359,6 +6455,11 @@ msgstr "Weblate beállítás"
 msgid "Your translation is foo"
 msgstr "Nem található fordítás."
 
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
+msgstr ""
+
 msgid "Font style"
 msgstr "Betűstílus"
 
@@ -6527,6 +6628,25 @@ msgstr "iOS szövegek"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
+#, fuzzy
+#| msgid "Could not update the repository."
+msgid "Could not open the workbook archive."
+msgstr "Nem sikerült frissíteni a tárolót."
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr ""
+
 msgid "Multivalue CSV file"
 msgstr "Többértékű CSV-fájl"
 
@@ -6575,6 +6695,10 @@ msgid "Invalid id_hash metadata in CSV file: %s"
 msgstr "Érvénytelen fordítási jelző: „%s”"
 
 msgid "Plural form metadata in CSV file requires id_hash."
+msgstr ""
+
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
 msgstr ""
 
 #. Translators: File format name
@@ -6806,6 +6930,13 @@ msgid "App store metadata files"
 msgstr "App Store-metaadatfájlok"
 
 msgid "File validation is required for directory-based formats."
+msgstr ""
+
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr ""
+
+msgid "Converted workbook content exceeds the configured size limit."
 msgstr ""
 
 msgid ""
@@ -8069,6 +8200,16 @@ msgstr "A projektben vagy összetevőben meghatározott másodlagos nyelv"
 msgid "Rate limit reset."
 msgstr "Frissítés újraalapozással"
 
+#, fuzzy
+#| msgid "This translation needs editing."
+msgid "Too many translation requests."
+msgstr "Ez a fordítás szerkesztést igényel."
+
+#, fuzzy
+#| msgid "Too many authentication attempts from this location."
+msgid "Too many concurrent translation requests for this service."
+msgstr "Túl sok hitelesítési próbálkozás erről a helyről."
+
 msgid "File"
 msgstr "Fájl"
 
@@ -8218,6 +8359,11 @@ msgid ""
 msgstr ""
 "A bejegyzések törölve lettek, és a fordítási memória a háttérben újra lesz "
 "építve."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many uploads, please try again later."
+msgstr "Túl sok keresési lekérdezés, próbálja meg később újra."
 
 #, fuzzy, python-format
 #| msgid "Confirm deleting all translation memory entries"
@@ -10150,6 +10296,27 @@ msgstr "A kiegészítő csak összetevőszinten telepíthető."
 msgid "Install"
 msgstr "Telepítés"
 
+#, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid "Install on the component owning the repository."
+msgstr ""
+"Ez a kiegészítő az ezt a tárolót megosztó összes összetevőnél használva van."
+
+#, fuzzy
+#| msgid "This component is set up incorrectly."
+msgid "The component owning this repository is not available to you."
+msgstr "Ez az összetevő helytelenül van beállítva."
+
+#, fuzzy
+#| msgid "Repository changes"
+msgid "Open repository add-ons"
+msgstr "Tároló változtatásai"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Unavailable"
+msgstr "Nem érhető el"
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -10563,6 +10730,32 @@ msgstr "Jogosultságok"
 
 msgid "Cancel"
 msgstr ""
+
+msgid "Actor"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete entry"
+msgid "Deleted user"
+msgstr "Bejegyzés törlése"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Administrative team changes"
+msgstr "Adminisztráció"
+
+#, fuzzy
+#| msgid "Changes"
+msgid "Change"
+msgstr "Változások"
+
+msgid "View details"
+msgstr "Részletek megtekintése"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No team audit entries found."
+msgstr "Nem találhatók megfelelő szövegek."
 
 msgid "Settings"
 msgstr "Beállítások"
@@ -14622,9 +14815,6 @@ msgstr "Egynyelvű alap nyelvi fájl"
 msgid "Configure translation quality filter"
 msgstr "Fordításminőség szűrő"
 
-msgid "View details"
-msgstr "Részletek megtekintése"
-
 msgid "View contributor license agreement"
 msgstr "Közreműködői licencmegállapodás megtekintése"
 
@@ -15018,6 +15208,19 @@ msgid ""
 msgstr ""
 "%(invitation_author)s meghívta Önt a(z) %(site_title)s webhelyre, hogy "
 "csatlakozzon a(z) %(team_name)s csapathoz."
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr ""
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -16896,6 +17099,15 @@ msgstr "Biztonsági mentés importálása"
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr "A Weblate %(version)s hozta létre következőn: %(server)s (%(domain)s)"
 
+msgid "Public access on import"
+msgstr ""
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
+
 msgid "Token copied to clipboard."
 msgstr "A token a vágólapra másolva."
 
@@ -17619,11 +17831,6 @@ msgstr "A tároló elavult."
 #| msgid "Repositories"
 msgid "Available Repositories"
 msgstr "Tárolók"
-
-#, fuzzy
-#| msgid "Not available"
-msgid "Unavailable"
-msgstr "Nem érhető el"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -18965,6 +19172,12 @@ msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "Az automatikus fordítás befejeződött, %d szöveg frissült."
 msgstr[1] "Az automatikus fordítás befejeződött, %d szöveg frissült."
 
+#, fuzzy
+#| msgid "Automatic translation in progress"
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr "Automatikus fordítás folyamatban"
+
 #, python-format
 msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
@@ -19052,6 +19265,11 @@ msgstr "Képernyőkép fájlmaszk"
 
 msgid "Revision must be a complete hexadecimal object ID."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not update repository: %s"
+msgid "Could not validate repository URL: %s"
+msgstr "Nem sikerült frissíteni a tárolót: %s"
 
 #, fuzzy
 #| msgid "Duplicated file mask."
@@ -19152,10 +19370,33 @@ msgstr "A kategória nem tartozik ehhez a projekthez."
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 
+#, fuzzy
+#| msgid "Important dates"
+msgid "Imported authors"
+msgstr "Fontos dátumok"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
+msgstr ""
+
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
 msgstr ""
 
 #, python-format
@@ -19190,6 +19431,21 @@ msgstr "Érvénytelen keresési lekérdezés!"
 
 msgid "Enter a search string to replace."
 msgstr ""
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
 
 #, fuzzy
 #| msgid "Invalid request."
@@ -19346,6 +19602,9 @@ msgstr "Javaslatok szavazása"
 #| msgid "Source needs review"
 msgid "Needs review"
 msgstr "A forrás felülvizsgálatot igényel"
+
+msgid "This component does not exist or you cannot access it."
+msgstr ""
 
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr "Szolgáltatott Weblate, a hely a szoftverprojektek honosításához."
@@ -20172,6 +20431,9 @@ msgstr "Fordítás nyelve:"
 msgid "You do not have permission to edit these flags."
 msgstr "Nincs jogosultsága javaslatok elfogadására."
 
+msgid "You do not have permission to create terminology."
+msgstr "Nincs jogosultsága terminológia létrehozásához."
+
 #, fuzzy
 #| msgid "Navigate to the last translation in the current search."
 msgid ""
@@ -20285,9 +20547,6 @@ msgstr ""
 msgid "Maximum source words per day"
 msgstr ""
 
-msgid "This component does not exist or you cannot access it."
-msgstr ""
-
 #, fuzzy
 #| msgid "Inherited flags"
 msgid "Inherit from workspace"
@@ -20352,6 +20611,11 @@ msgstr "Túl sok keresési lekérdezés, próbálja meg később újra."
 #| msgid "Could not open a ticket, please try again later."
 msgid "Could not load repository branches. Please try again."
 msgstr "Nem sikerült jegyet nyitni, próbálja meg később újra."
+
+#, fuzzy
+#| msgid "You do not have permission to accept suggestions."
+msgid "You do not have permission to edit this project."
+msgstr "Nincs jogosultsága javaslatok elfogadására."
 
 msgid "ZIP file containing translations"
 msgstr "Fordításokat tartalmazó ZIP-fájl"
@@ -20518,9 +20782,6 @@ msgid ""
 msgstr ""
 "Jelölje be ezt az opciót, ha a mondat változtatás nélkül, a forrásnyelven "
 "maradjon."
-
-msgid "You do not have permission to create terminology."
-msgstr "Nincs jogosultsága terminológia létrehozásához."
 
 #, fuzzy
 #| msgid "Invalid suggestion!"
@@ -22232,6 +22493,12 @@ msgstr "Címke leírása"
 msgid "Could not accept suggestion!"
 msgstr "Nem sikerült elfogadni a javaslatot!"
 
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr "A szöveget nem sikerült terjeszteni %d összetevőbe."
+
 #, fuzzy
 #| msgid "Image is too big."
 msgid "Uploaded translation file is too big."
@@ -22305,6 +22572,19 @@ msgstr ""
 "A feltöltött fájlban lévő többes számú alakok nem egyeznek a jelenlegi "
 "fordítással."
 
+#, fuzzy, python-format
+#| msgid "The uploaded file contains too many settings."
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr "Fordításokat tartalmazó ZIP-fájl"
+
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] "A szöveget nem sikerült terjeszteni %d összetevőbe."
+msgstr[1] "A szöveget nem sikerült terjeszteni %d összetevőbe."
+
 #, fuzzy
 #| msgid "ZIP file containing translations"
 msgid "The uploaded file contains too many language declarations."
@@ -22329,6 +22609,10 @@ msgstr "Nem sikerült véglegesíteni a függőben lévő változtatásokat: %s"
 #, python-brace-format
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "Nem sikerült feldolgozni a(z) {file_format} fájlt: {error}"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Could not parse translation files."
@@ -22823,6 +23107,35 @@ msgstr "Új szövegeket ad a fordításhoz. Kihagyja azokat, amelyek már létez
 msgid "Updates source strings in bilingual translation file."
 msgstr "Frissíti a forrásszövegeket kétnyelvű fordítási fájlban."
 
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "A translation upload is already in progress."
+msgstr "A fordítások frissítései folyamatban vannak."
+
+msgid "The uploaded file has expired or was already processed."
+msgstr ""
+
+#, fuzzy
+#| msgid "The uploaded image was invalid."
+msgid "The uploaded file has expired."
+msgstr "A feltöltött kép érvénytelen volt."
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "The upload target or permissions changed."
+msgstr "A licenc meg lett változtatva"
+
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr ""
+"A feltöltött fájlban lévő többes számú alakok nem egyeznek a jelenlegi "
+"fordítással."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "File upload has failed. Please try again later."
+msgstr "Túl sok keresési lekérdezés, próbálja meg később újra."
+
 msgid "Very high"
 msgstr "Nagyon magas"
 
@@ -23254,10 +23567,10 @@ msgstr "Hibás kérés"
 msgid "Access denied."
 msgstr "Hozzáférés megtagadva."
 
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr ""
-"A feltöltött fájlban lévő többes számú alakok nem egyeznek a jelenlegi "
-"fordítással."
+#, fuzzy
+#| msgid "Translation uploaded"
+msgid "Translation upload in progress."
+msgstr "Fordítás feltöltve"
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -23577,6 +23890,11 @@ msgid "language"
 msgid_plural "languages"
 msgstr[0] "nyelv"
 msgstr[1] "nyelvek"
+
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
+msgstr ""
 
 #, fuzzy
 #| msgid "This component is currently locked."
@@ -23934,9 +24252,19 @@ msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 "A fájlformátum-paramétereknek kulcs-érték párok szótárának kell lenniük."
 
-#, python-format
-msgid "Undefined variable: \"%s\""
-msgstr "Meghatározatlan változó: „%s”"
+msgid "Template output exceeds its size limit."
+msgstr ""
+
+msgid "Template rendering failed or exceeded its resource limits."
+msgstr ""
+
+msgid "Oversized template response."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid translation flag: \"%s\""
+msgid "Invalid template rendering response."
+msgstr "Érvénytelen fordítási jelző: „%s”"
 
 msgid "Could not render template: {}"
 msgstr "Nem sikerült a sablon megjelenítése: {}"
@@ -23947,6 +24275,52 @@ msgid ""
 msgstr ""
 "A formátumszövegek többé már nem támogatottak, használja a sablonnyelvet "
 "helyette."
+
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The HTML {tag} tag is missing a matching end tag: {end}."
+msgid "Template context is nested too deeply."
+msgstr "A HTML {tag} címkéből hiányzik az illeszkedő záró címke: {end}."
+
+msgid "Template context exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template context key."
+msgstr "Nem támogatott fájlformátum."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template context value."
+msgstr "Nem támogatott fájlformátum."
+
+msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+msgid "Template rendering exceeded its loop limit."
+msgstr ""
+
+msgid "Template intermediate value exceeds its size limit."
+msgstr ""
+
+msgid "Template replacement exceeds its size limit."
+msgstr ""
+
+msgid "Template padding exceeds its size limit."
+msgstr ""
+
+msgid "Template formatting exceeds its size limit."
+msgstr ""
+
+msgid "Template join exceeds its size limit."
+msgstr ""
+
+#, python-format
+msgid "Undefined variable: \"%s\""
+msgstr "Meghatározatlan változó: „%s”"
 
 #, fuzzy, python-format
 #| msgid ""
@@ -24790,6 +25164,11 @@ msgstr ""
 
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr "Ez fel fogja küldeni a változtatásokat a távoli Mercurial-tárolóba."
+
+#, fuzzy
+#| msgid "Could not merge the repository."
+msgid "Could not remove nested repository metadata."
+msgstr "Nem sikerült beolvasztani a tárolót."
 
 msgid "GitHub"
 msgstr "GitHub"
@@ -26318,9 +26697,6 @@ msgstr "A forrás el lett távolítva."
 #~ msgid "Translation files in accessible repositories have been synchronized."
 #~ msgstr "A fordítási fájlok szinkronizálva lettek."
 
-#~ msgid "Updates of translations are in progress."
-#~ msgstr "A fordítások frissítései folyamatban vannak."
-
 #, fuzzy
 #~| msgid "Updates of translations are in progress."
 #~ msgid "Updates of translations in accessible repositories are in progress."
@@ -26421,11 +26797,6 @@ msgstr "A forrás el lett távolítva."
 #~| msgid "project wide"
 #~ msgid "project-wide"
 #~ msgstr "projektszintű"
-
-#, fuzzy
-#~| msgid "site wide"
-#~ msgid "site-wide"
-#~ msgstr "webhelyszintű"
 
 #, fuzzy, python-format
 #~| msgctxt "Automatic suggestion service configuration"
@@ -26737,9 +27108,6 @@ msgstr "A forrás el lett távolítva."
 
 #~ msgid "This URL is prohibited"
 #~ msgstr "Ez az URL tiltott"
-
-#~ msgid "Categorized component can not be shared."
-#~ msgstr "A kategorizált összetevőt nem lehet megosztani."
 
 #~ msgctxt "Access-control role"
 #~ msgid "Billing"
@@ -27781,9 +28149,6 @@ msgstr "A forrás el lett távolítva."
 
 #~ msgid "Too many failed registration attempts from this location."
 #~ msgstr "Túl sok sikertelen regisztrációs kísérlet erről a helyről."
-
-#~ msgid "Too many authentication attempts from this location."
-#~ msgstr "Túl sok hitelesítési próbálkozás erről a helyről."
 
 #~ msgid ""
 #~ "Weblate user management is turned off, you can change permissions in the "

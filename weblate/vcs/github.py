@@ -20,6 +20,7 @@ from urllib.parse import quote, urlencode, urlparse
 import httpx2
 import jwt
 from asgiref.sync import async_to_sync, sync_to_async
+from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
@@ -36,7 +37,7 @@ from weblate.trans.hooks.repository import (
     repo_path,
 )
 from weblate.utils.errors import report_error
-from weblate.utils.requests import VCS_RESPONSE_SIZE, async_fetch_url
+from weblate.utils.requests import VCS_RESPONSE_SIZE, async_fetch_validated_url
 from weblate.vcs.base import RepositoryInternalError, RepositoryRedirectError
 from weblate.vcs.git import GithubRepository
 from weblate.vcs.models import Installation, InstallationProvider
@@ -334,13 +335,27 @@ def get_github_app_manifest_new_url(hostname: str, org: str | None = None) -> st
     return f"https://{hostname}/settings/apps/new"
 
 
+async def _github_app_request(method: str, url: str, **kwargs) -> httpx2.Response:
+    """Apply the VCS network policy to GitHub App API and OAuth requests."""
+    return await async_fetch_validated_url(
+        method,
+        url,
+        allow_private_targets=not settings.VCS_RESTRICT_PRIVATE,
+        private_allowlist=[
+            *settings.VCS_ALLOW_HOSTS,
+            *settings.VCS_PRIVATE_ALLOWLIST,
+        ],
+        **kwargs,
+    )
+
+
 async def exchange_github_app_manifest_code(
     code: str, hostname: str = "github.com"
 ) -> dict[str, object]:
     """Exchange a temporary manifest code for the created app's credentials."""
     code = quote(normalize_github_callback_code(code), safe="")
     api_base = get_github_api_base(normalize_github_app_hostname(hostname))
-    response = await async_fetch_url(
+    response = await _github_app_request(
         "post",
         f"{api_base}/app-manifests/{code}/conversions",
         headers={"Accept": "application/vnd.github.v3+json"},
@@ -427,7 +442,7 @@ async def get_installation_token(
     token = generate_jwt(app_id, private_key_pem)
 
     api_base = get_github_api_base(hostname)
-    response = await async_fetch_url(
+    response = await _github_app_request(
         "post",
         f"{api_base}/app/installations/{installation_id}/access_tokens",
         headers={
@@ -462,7 +477,7 @@ async def get_app_installation(
     private_key_pem = validate_private_key(private_key)
     token = generate_jwt(app_id, private_key_pem)
     api_base = get_github_api_base(hostname)
-    response = await async_fetch_url(
+    response = await _github_app_request(
         "get",
         f"{api_base}/app/installations/{installation_id}",
         headers={
@@ -493,7 +508,7 @@ async def delete_app_installation(
     private_key_pem = validate_private_key(private_key)
     token = generate_jwt(app_id, private_key_pem)
     api_base = get_github_api_base(hostname)
-    response = await async_fetch_url(
+    response = await _github_app_request(
         "delete",
         f"{api_base}/app/installations/{installation_id}",
         headers={
@@ -538,7 +553,7 @@ async def get_app_repositories(
         "Accept": "application/vnd.github.v3+json",
     }
     while url:
-        response = await async_fetch_url(
+        response = await _github_app_request(
             "get",
             url,
             headers=headers,
@@ -590,7 +605,7 @@ async def get_app_repository(
         app_id, private_key, installation_id, hostname
     )
     api_base = get_github_api_base(hostname)
-    response = await async_fetch_url(
+    response = await _github_app_request(
         "get",
         f"{api_base}/repos/{quote(full_name, safe='/')}",
         headers={
@@ -692,7 +707,7 @@ def get_github_oauth_base(hostname: str) -> str:
 
 async def exchange_github_user_code(config: GitHubAppCredentials, code: str) -> str:
     """Exchange an install-time OAuth ``code`` for a user-to-server access token."""
-    response = await async_fetch_url(
+    response = await _github_app_request(
         "post",
         f"{get_github_oauth_base(config.hostname)}/login/oauth/access_token",
         data={
@@ -719,7 +734,7 @@ async def get_authenticated_github_user(
 ) -> dict:
     """Return metadata for the authenticated GitHub user."""
     api_base = get_github_api_base(normalize_github_app_hostname(config.hostname))
-    response = await async_fetch_url(
+    response = await _github_app_request(
         "get",
         f"{api_base}/user",
         headers=_get_github_user_headers(user_token),
@@ -747,7 +762,7 @@ async def _get_user_accessible_installation(
     url: str | None = f"{api_base}/user/installations?per_page=100"
     headers = _get_github_user_headers(user_token)
     while url:
-        response = await async_fetch_url(
+        response = await _github_app_request(
             "get",
             url,
             headers=headers,
@@ -777,7 +792,7 @@ async def user_can_administer_org_installation(
     )
     headers = _get_github_user_headers(user_token)
     while url:
-        response = await async_fetch_url(
+        response = await _github_app_request(
             "get",
             url,
             headers=headers,
@@ -1177,7 +1192,7 @@ class GitHubInstallation(Installation):
                     self.hostname,
                     full_name,
                 )
-            except httpx2.HTTPError as error:
+            except (ValidationError, httpx2.HTTPError) as error:
                 await sync_to_async(report_error)(
                     "Failed to look up moved GitHub repository", exception=error
                 )
@@ -1316,7 +1331,7 @@ def remove_github_installation(
                 installation.installation_id,
                 installation.hostname,
             )
-        except (ValueError, TypeError, ValidationError, jwt.PyJWTError) as error:
+        except (ValueError, TypeError, jwt.PyJWTError) as error:
             # The stored credentials cannot produce a valid request at all
             report_error(
                 "Failed to uninstall connected GitHub account", exception=error
@@ -1481,7 +1496,7 @@ class GithubAppRepository(GithubRepository):
             raise RepositoryInternalError(
                 0, "github_app_installation_invalid"
             ) from error
-        except httpx2.HTTPError as error:
+        except (ValidationError, httpx2.HTTPError) as error:
             raise RepositoryInternalError(
                 0,
                 "github_app_token_failed",

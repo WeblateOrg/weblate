@@ -19,7 +19,7 @@ from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.template.defaultfilters import linebreaksbr
 from django.utils.functional import cached_property
-from django.utils.translation import gettext
+from django.utils.translation import gettext, override
 
 from weblate.addons.events import (
     POST_CONFIGURE_EVENTS,
@@ -208,6 +208,12 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
 
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__} instance={self.instance}>"
+
+    @property
+    def english_name(self) -> str:
+        """Plain English label for persisted commit messages."""
+        with override("en"):
+            return str(self.verbose)
 
     @cached_property
     def doc_anchor(self) -> str:
@@ -945,7 +951,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         with repository.lock:
             component.commit_files(
                 template=component.effective_addon_message,
-                extra_context={"addon_name": self.verbose},
+                extra_context={"addon_name": self.english_name},
                 files=files,
                 skip_push=skip_push,
             )
@@ -965,9 +971,10 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             raise ValueError(msg)
 
         # Render the template
-        filename = render_template(
-            template, translation=translation, component=component
-        )
+        with override("en"):
+            filename = render_template(
+                template, translation=translation, component=component
+            )
 
         # Validate filename (not absolute or linking to parent dir)
         try:

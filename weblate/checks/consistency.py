@@ -593,9 +593,11 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
                 .order_by(*ordering)
                 .distinct()[:100]
             )
-            match_rows = matches.iterator(chunk_size=100)
+            # The query is bounded. Fetch all rows so reaching the group limit
+            # cannot leave a server-side cursor open past a transaction rollback.
+            match_rows = list(matches)
         else:
-            match_rows = iter(project_batch_matches(component.project, "inconsistent"))
+            match_rows = project_batch_matches(component.project, "inconsistent")
 
         found: list[Unit] = []
         valid_groups = 0
@@ -855,9 +857,10 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
                 )
                 .distinct()[:20]
             )
-            match_rows = matches.iterator(chunk_size=20)
+            # Fetch the bounded result before yielding units to the caller.
+            match_rows = list(matches)
         else:
-            match_rows = iter(project_batch_matches(component.project, "reused"))
+            match_rows = project_batch_matches(component.project, "reused")
 
         valid_groups = 0
         for match_batch in batched(match_rows, 20):

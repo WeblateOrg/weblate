@@ -6,18 +6,67 @@ Weblate 2026.12
 .. rubric:: New features
 
 * Added :wladmin:`recovergit` to rebuild missing repository checkouts.
+* :ref:`format-line-number` in the translation file is now stored in the unit for supported formats; when available, the line number is used for repository links and :guilabel:`Nearby strings`.
 
 .. rubric:: Improvements
 
+* Raised the shared limit for translation strings, CSV and XLSX rows, and translation-memory entries to 200,000. Configure it with :setting:`TRANSLATION_MAX_UNITS`.
+
+* Show inclusive ranges and representative counts in :ref:`plural form examples <plurals>`.
+
+* Sped up :ref:`Weblate translation suggestions <mt-weblate>` by fetching ranked candidates in limited batches and avoiding repeated similarity calculations for exact matches.
+
+* Sped up :ref:`quality checks <checks>` by skipping format and markup extraction for strings without relevant syntax.
+
+* Improved database query performance for project language :ref:`statistics <stats>`.
+* Batched shared :ref:`statistics <stats>` updates after refreshing propagated quality checks.
+* Batched daily statistics collection to reduce database queries and bound memory use on large sites with cached statistics.
+* Added :envvar:`WEBLATE_SECRET_KEY` support to configure Docker's Django secret key directly or from a mounted secret file.
+* Reduced database loading when polling :ref:`background tasks <api-tasks>` spanning many components.
+* Listed :ref:`saved-searches` first in the search filters and truncated long saved queries.
+
 .. rubric:: Security fixes
+
+* Prevented deleting a component from expanding a :ref:`component-limited team <access-control>` to project-wide access.
+* Redacted machine translation API keys, GitHub App credentials, authentication headers, and credentials in URLs from :ref:`Sentry error reports <collecting-errors>` and performance traces.
+* Prevented component API requests from switching between incompatible VCS backends or creating integration-managed components outside their provider import flow.
+* Prevented component creation from writing translation templates outside its repository.
+* Applied :setting:`VCS_RESTRICT_PRIVATE` and trusted-host exemptions to :ref:`GitHub App manifest-code and OAuth exchanges <code-hosting-github-app-register>` and API requests, including redirects and pagination URLs.
+* Revoked stale OAuth e-mail recovery addresses and reconciled the :ref:`account e-mail <user-profile>` when its last verification is removed.
+* Filtered the site-wide changes listings and feeds by workspace visibility, so workspaces the viewer cannot access no longer appear there.
 
 .. rubric:: Bug fixes
 
+* Handled invalid configured :ref:`templates <markup>` without unhandled server errors, preserving editor access and reporting failed repository and add-on operations.
+
+* Fixed :ref:`AI translation suggestions <machine-translation>` when a provider omits the outer JSON array for a single translation.
+* Fixed delayed database cursor cleanup in :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` with custom source languages.
+
 .. rubric:: Compatibility
+
+* Restricted :ref:`configurable templates <markup>` to documented operations with parsing, allocation, and cumulative work limits.
 
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+If you copied or customized ``SOCIAL_AUTH_PIPELINE`` in :file:`settings.py`, move
+``weblate.accounts.pipeline.handle_invite`` immediately after
+``weblate.accounts.pipeline.store_email``. Remove its previous occurrence;
+do not add a second invitation-handling step. E-mail verification must be
+synchronized before invitations are matched to an account. The default Docker
+configuration already uses the new order.
+
+If you use terms confirmation, place ``weblate.legal.pipeline.tos_confirm``
+immediately after ``handle_invite`` and before
+``social_core.pipeline.user.sync_groups``. Update
+any insertion code that previously placed it immediately after ``second_factor``;
+see :doc:`admin/optionals`.
+
+In-progress sign-in, e-mail verification, and password recovery flows must be
+restarted after upgrading or changing the authentication pipeline. Their saved
+step positions cannot safely be resumed against a different pipeline order.
+Existing authenticated sessions remain valid.
 
 .. rubric:: Contributors
 

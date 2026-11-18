@@ -386,6 +386,12 @@ class LocationLinksTest(TestCase):
             """,
         )
 
+    def test_broken_editor_template_preserves_location_text(self) -> None:
+        self.unit.translation.component.repoweb = "https://example.net/{{ filename }}"
+        self.user.profile.editor_link = '{{ filename|center:"1048577" }}'
+        self.unit.location = "foo.bar:123"
+        self.assertHTMLEqual(get_location_links(self.user, self.unit), "foo.bar:123")
+
     def test_filename_quote(self) -> None:
         self.unit.translation.component.repoweb = (
             "http://example.net/{{filename}}#L{{line}}"

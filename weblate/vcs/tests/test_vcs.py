@@ -28,6 +28,7 @@ from zipfile import ZIP_DEFLATED, ZipFile
 
 import httpx2
 from django.core.cache import cache
+from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase, TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
@@ -1463,6 +1464,23 @@ class GitBranchValidationTest(SimpleTestCase):
         )
         self.assertIsInstance(component.repository, GitRepository)
 
+    def test_invalid_pull_message_is_repository_error(self) -> None:
+        component = Component(
+            slug="test",
+            name="Test",
+            project=Project(name="Test", slug="test", pk=-1),
+            source_language_id=1,
+            branch="main",
+            vcs="git",
+            repo="https://example.invalid/repo.git",
+            pk=-1,
+            pull_message="{% invalid %}",
+            inherit_pull_message=False,
+        )
+        repo = GithubFakeRepository(".", branch="main", component=component, local=True)
+        with self.assertRaisesMessage(RepositoryError, "pull request message"):
+            repo.get_merge_message()
+
     def test_default_pull_message_title_ignores_multiline_names(self) -> None:
         component = Component(
             slug="test",
@@ -1647,7 +1665,7 @@ class RepositoryRemotePinningTest(SimpleTestCase):
         request = http_mock.calls[0].request
         self.assertEqual(
             str(http_mock.get_transport_url(request)),
-            "https://user:secret@93.184.216.34/owner/repo/"
+            "https://user:secret@93.184.216.34/owner/repo/"  # kingfisher:ignore
             "info/refs?service=git-upload-pack",
         )
         self.assertEqual(request.headers["Host"], "git.example")
@@ -2499,6 +2517,31 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             dirname = f".{self._vcs}"
         self.assertTrue(os.path.exists(os.path.join(self.tempdir, dirname)))
 
+    @override_settings(VCS_CLONE_DEPTH=1)
+    def test_clone_does_not_fetch_tags(self) -> None:
+        if self._class is not GitRepository:
+            self.skipTest("GitRepository-specific regression test")
+
+        with self.repo.lock:
+            self.repo.execute(
+                ["update-ref", "refs/tags/--list", self.repo.last_revision],
+                remote_op="none",
+            )
+            self.repo.execute(
+                ["push", "origin", "refs/tags/--list:refs/tags/--list"],
+                remote_op="push",
+            )
+
+        with tempfile.TemporaryDirectory() as tempdir:
+            cloned = self.clone_repo(tempdir)
+            with cloned.lock:
+                self.assertEqual(
+                    "",
+                    cloned.execute(
+                        ["tag", "--list"], remote_op="none", merge_err=False
+                    ),
+                )
+
     def test_revision(self) -> None:
         self.assertEqual(self.repo.last_revision, self.repo.last_remote_revision)
 
@@ -2597,6 +2640,21 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             patch.object(self.repo, "execute", side_effect=mocked_execute),
         ):
             self.repo.remove_stale_branches()
+
+    def test_maintenance_deletes_option_like_tag(self) -> None:
+        if self._class is not GitRepository:
+            self.skipTest("GitRepository-specific regression test")
+
+        with self.repo.lock:
+            self.repo.execute(
+                ["update-ref", "refs/tags/--list", self.repo.last_revision],
+                remote_op="none",
+            )
+            self.repo.maintenance()
+            self.assertEqual(
+                "",
+                self.repo.execute(["tag", "--list"], remote_op="none", merge_err=False),
+            )
 
     def test_update_remote_runtime_private_url_rejected(self) -> None:
         if self._class in {SubversionRepository, HgRepository, LocalRepository}:
@@ -3269,7 +3327,7 @@ class VCSGiteaTest(VCSGitUpstreamTest):
     _repo_override = "https://try.gitea.io/WeblateOrg/test.git"
 
     def test_fork_remote_name_from_url_credentials(self) -> None:
-        url = "https://--output=.:token@try.gitea.io/WeblateOrg/test.git"
+        url = "https://--output=.:token@try.gitea.io/WeblateOrg/test.git"  # kingfisher:ignore
         for field in ("push", "repo"):
             with self.subTest(field=field):
                 self.repo.component.repo = self._repo_override
@@ -3300,7 +3358,7 @@ class VCSGiteaTest(VCSGitUpstreamTest):
 
     def test_fork_remote_name_accepts_valid_url_credentials(self) -> None:
         self.repo.component.push = (
-            "https://alice:token@try.gitea.io/WeblateOrg/test.git"
+            "https://alice:token@try.gitea.io/WeblateOrg/test.git"  # kingfisher:ignore
         )
         self.assertEqual(self.repo.get_credentials()["username"], "alice")
 
@@ -3844,9 +3902,7 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
 
     def test_api_url_visualstudio_com(self) -> None:
         # HTTPS with PAT
-        self.repo.component.repo = (
-            "https://username:PAT@summanv.visualstudio.com/Lancelot/_git/GoSuite"
-        )
+        self.repo.component.repo = "https://username:PAT@summanv.visualstudio.com/Lancelot/_git/GoSuite"  # kingfisher:ignore
         self.assertEqual(
             self.repo.get_credentials()["url"],
             "https://summanv.visualstudio.com/Lancelot/_apis/git/repositories/GoSuite",
@@ -5407,7 +5463,9 @@ class VCSGitLabTest(VCSGitUpstreamTest):
             self.repo.get_credentials()["url"],
             "http://gitlab.com/api/v4/projects/WeblateOrg%2Ftest",
         )
-        self.repo.component.repo = "https://user:pass@gitlab.com/WeblateOrg/test.git"
+        self.repo.component.repo = (
+            "https://user:pass@gitlab.com/WeblateOrg/test.git"  # kingfisher:ignore
+        )
         self.assertEqual(
             self.repo.get_credentials()["url"],
             "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest",
@@ -5453,7 +5511,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         )
         self.assertEqual(
             self.repo.parse_repo_url(
-                "https://bot:glpat@gitlab.com/path/group/repo.git"
+                "https://bot:glpat@gitlab.com/path/group/repo.git"  # kingfisher:ignore
             ),
             ("https", "bot", "glpat", "gitlab.com", "path", "group/repo"),
         )
@@ -6441,6 +6499,28 @@ class VCSLocalTest(VCSGitTest):
         status = self.repo.status()
         # Older git print up-to-date, newer up to date
         self.assertIn("On branch main", status)
+
+    def test_from_files_rejects_outside_paths_before_replacing_target(self) -> None:
+        target = Path(self.tempdir, "new-repository")
+        target.mkdir()
+        sentinel = target / "sentinel.txt"
+        sentinel.write_bytes(b"original")
+        outside = Path(self.tempdir, "outside.txt")
+        outside.write_bytes(b"outside original")
+
+        for name in (str(outside), "../outside.txt"):
+            with self.subTest(name=name), self.assertRaises(ValidationError):
+                LocalRepository.from_files(str(target), {name: b"replacement"})
+            self.assertEqual(sentinel.read_bytes(), b"original")
+            self.assertEqual(outside.read_bytes(), b"outside original")
+
+        repo = LocalRepository.from_files(
+            str(target), {"nested/translation.txt": b"translation"}
+        )
+        self.assertTrue(repo.is_valid())
+        self.assertEqual(
+            (target / "nested" / "translation.txt").read_bytes(), b"translation"
+        )
 
     def test_from_files_holds_supplied_lock_through_cleanup(self) -> None:
         target = os.path.join(self.tempdir, "shared-lock")

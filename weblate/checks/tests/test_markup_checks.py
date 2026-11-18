@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING
 from unittest.mock import patch
 
 from django.contrib.admindocs.utils import docutils_is_available
+from django.test import SimpleTestCase
 from docutils.nodes import Text, substitution_reference
 from docutils.nodes import target as docutils_target
 
@@ -45,6 +46,27 @@ if TYPE_CHECKING:
     from collections.abc import Iterator
 
     import regex
+
+
+class MarkupEligibilityTest(SimpleTestCase):
+    def test_plain_text_skips_bbcode_scan(self) -> None:
+        with patch("weblate.checks.markup.BBCODE_TOKEN") as pattern:
+            self.assertEqual(extract_bbcode_pairs("Plain text"), [])
+            pattern.finditer.assert_not_called()
+
+    def test_plain_source_skips_markdown_link_scan(self) -> None:
+        for check, name in (
+            (MarkdownLinkCheck(), "MD_LINK"),
+            (MarkdownRefLinkCheck(), "MD_REFLINK"),
+        ):
+            with (
+                self.subTest(check=check.check_id),
+                patch(f"weblate.checks.markup.{name}") as pattern,
+            ):
+                self.assertFalse(
+                    check.check_single("Plain text", "Translation", make_unit())
+                )
+                pattern.findall.assert_not_called()
 
 
 class BBCodeCheckTest(CheckTestCase):

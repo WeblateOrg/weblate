@@ -1580,6 +1580,22 @@ class BasicViewTest(ReusableViewTestCase):
             "\n".join(query["sql"] for query in workflow_queries),
         )
 
+    def test_view_category_preloads_workflow_settings(self) -> None:
+        category = self.create_category(self.project)
+        Component.objects.filter(pk=self.component.pk).update(category=category)
+        Project.objects.filter(pk=self.project.pk).update(translation_review=True)
+        self.client.get(category.get_absolute_url())
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(category.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Czech")
+        workflows = [
+            query for query in queries if '"trans_workflowsetting"' in query["sql"]
+        ]
+        self.assertEqual(
+            len(workflows), 1, "\n".join(query["sql"] for query in workflows)
+        )
+
     def test_project_component_listing_shows_inherited_license_badge(self) -> None:
         self.project.license = "MIT"
         self.project.save(update_fields=["license"])

@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import gc
 import json
 import re
 from collections import defaultdict
@@ -120,6 +121,7 @@ from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from django import forms
+    from django.db.backends.utils import CursorWrapper
 
     from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.machinery.base import SettingsDict, UnitMemoryResultDict
@@ -1944,12 +1946,13 @@ class SourceLanguageTest(FixtureComponentTestCase):
                 )
                 self.assertNotIn("COALESCE", candidate_sql)
                 self.assertNotIn('"lang_plural"', candidate_sql)
+                self.assertEqual(candidate_sql.count("LIMIT 1"), 3)
                 self.assertEqual(
                     [unit.pk for unit in matches],
                     sorted([self.child.pk, ordinary.pk]),
                 )
                 # Reject the first candidate and ensure the next batch still
-                # supplies a result instead of applying the result limit in SQL.
+                # supplies a result instead of stopping at the first SQL page.
                 Unit.objects.filter(pk=matches[0].pk).update(flags="forbidden")
                 results = list(
                     machine.download_translations(
@@ -2279,8 +2282,29 @@ class SourceLanguageTest(FixtureComponentTestCase):
         for unit in units:
             expected[unit.context, unit.translation.plural_id].add(unit.pk)
         expected_ids = set().union(*(expected[key] for key in sorted(expected)[:100]))
+        cursors: list[CursorWrapper] = []
+        chunked_cursor = connection.chunked_cursor
+
+        def track_cursor() -> CursorWrapper:
+            cursor = chunked_cursor()
+            cursors.append(cursor)
+            return cursor
+
+        # Cursor cleanup must complete before the caller can roll back, without
+        # relying on a later garbage collection to finalize abandoned iterators.
+        gc_enabled = gc.isenabled()
+        gc.disable()
+        try:
+            with patch.object(connection, "chunked_cursor", side_effect=track_cursor):
+                found = ConsistencyCheck().check_component(self.component)
+            self.assertEqual(
+                [cursor.name for cursor in cursors if not cursor.closed], []
+            )
+        finally:
+            if gc_enabled:
+                gc.enable()
         self.assertSetEqual(
-            {unit.pk for unit in ConsistencyCheck().check_component(self.component)},
+            {unit.pk for unit in found},
             expected_ids,
         )
 

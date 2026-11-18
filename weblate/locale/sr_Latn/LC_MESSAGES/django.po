@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-05 22:27-0600\n"
+"POT-Creation-Date: 2026-11-13 01:19-0600\n"
 "PO-Revision-Date: 2026-10-30 05:05+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -649,7 +649,16 @@ msgstr "{username} vas poziva na {site_title}."
 msgid "User access to the {team} team was changed by {username}."
 msgstr "{username} vas poziva na {site_title}."
 
-#. Translators: Audit log entry
+#, fuzzy, python-brace-format
+#| msgid "Invited to {site_title} by {username}."
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr "{username} vas poziva na {site_title}."
+
+#, fuzzy, python-brace-format
+#| msgid "Invited to {site_title} by {username}."
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr "{username} vas poziva na {site_title}."
+
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr ""
@@ -766,6 +775,44 @@ msgstr "Pregledač skladišta"
 msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr ""
+
+#, fuzzy
+#| msgid "repository wide"
+msgid "Site-wide"
+msgstr "u celom skladištu"
+
+msgid "Workspace"
+msgstr ""
+
+#, fuzzy
+#| msgid "Backup repository"
+msgid "Team created"
+msgstr "Rezerva riznice"
+
+#, fuzzy
+#| msgid "Last change"
+msgid "Team changed"
+msgstr "Poslednja promena"
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "Team deleted"
+msgstr "Font izbrisan."
+
+#, fuzzy
+#| msgid "Label name"
+msgid "Team member added"
+msgstr "Naziv oznake"
+
+#, fuzzy
+#| msgid "Labels to remove"
+msgid "Team member removed"
+msgstr "Oznake za uklanjanje"
+
+#, fuzzy
+#| msgid "License changed"
+msgid "Team member access changed"
+msgstr "Izmena licence"
 
 msgid "Account activity"
 msgstr "Aktivnost naloga"
@@ -2893,10 +2940,20 @@ msgid ""
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
 
+#, fuzzy
+#| msgid "Generated on %(timestamp)s."
+msgid "Connection timeout"
+msgstr "Generisano %(timestamp)s."
+
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr ""
+
 msgid "Publish timeout"
 msgstr ""
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
 msgstr ""
 
 msgid "Connection attempts"
@@ -3149,6 +3206,12 @@ msgid "This add-on is already installed on this component."
 msgstr "Ostale komponente prevoda"
 
 #, fuzzy
+#| msgid "Other translation components"
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr "Ostale komponente prevoda"
+
+#, fuzzy
 #| msgid "This add-on executes a script."
 msgid "This add-on cannot be triggered manually."
 msgstr "Ovaj dodatak izvršava skriptu."
@@ -3218,6 +3281,11 @@ msgstr "Projekat"
 msgctxt "Add-on scope"
 msgid "Site"
 msgstr ""
+
+#, fuzzy
+#| msgid "Component lists"
+msgid "a component you cannot access"
+msgstr "Liste komponenti"
 
 #, fuzzy, python-format
 #| msgid "Invalid addon name specified!"
@@ -4572,6 +4640,11 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You need to log in to upload translations."
+msgstr "Nemate dozvole da prihvatate predloge!"
+
+#, fuzzy
 #| msgid "File does not exist."
 msgid "The file format does not support updating source strings."
 msgstr "Fajl ne postoji."
@@ -4610,6 +4683,16 @@ msgstr ""
 
 msgid "Project tokens can not be assigned to teams here."
 msgstr ""
+
+#, fuzzy
+#| msgid "Audit log"
+msgid "Team audit log"
+msgstr "Detaljan zapisnik"
+
+#, fuzzy
+#| msgid "Administrators"
+msgid "Team audit entry"
+msgstr "Administratori"
 
 msgid "Cannot remove built-in team!"
 msgstr ""
@@ -4968,9 +5051,6 @@ msgstr ""
 msgid "No valid billing found or limit exceeded."
 msgstr ""
 
-msgid "Workspace"
-msgstr ""
-
 #, fuzzy
 #| msgid "Customize the component name"
 msgid "Customer name"
@@ -5080,6 +5160,9 @@ msgstr[0] "Sadrži %d komponentu"
 msgstr[1] "Sadrži %d komponente"
 msgstr[2] "Sadrži %d komponenti"
 
+msgid "Restricted components are not allowed by this billing plan."
+msgstr ""
+
 msgid "Missing license"
 msgstr "Nedostaje licenca"
 
@@ -5144,6 +5227,9 @@ msgid ""
 msgstr ""
 
 msgid "To terminate billing you have to remove all projects first."
+msgstr ""
+
+msgid "Externally managed billings cannot be merged."
 msgstr ""
 
 msgid "Cannot merge such a billing."
@@ -5927,6 +6013,9 @@ msgstr ""
 msgid "the value is too complex or nested too deeply"
 msgstr ""
 
+msgid "Format matching exceeded its time limit."
+msgstr ""
+
 #, fuzzy
 #| msgid "Following format strings are extra: %s"
 msgid "The following format strings are in the wrong order:"
@@ -6260,6 +6349,9 @@ msgstr ""
 msgid "Markdown syntax does not match source."
 msgstr "LUA oznake u prevodu ne odgovaraju izvoru"
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr ""
+
 #, fuzzy
 #| msgid "The translation does not contain an URL"
 msgid "The translation does not contain a URL."
@@ -6460,6 +6552,11 @@ msgstr "Veblejt postavka"
 msgid "Your translation is foo"
 msgstr "Podaci o prevodu"
 
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
+msgstr ""
+
 msgid "Font style"
 msgstr ""
 
@@ -6628,6 +6725,25 @@ msgstr ""
 msgid "Excel Open XML"
 msgstr ""
 
+#, fuzzy
+#| msgid "Could not update the repository."
+msgid "Could not open the workbook archive."
+msgstr "Neuspelo ažuriranje skladišta."
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr ""
+
 msgid "Multivalue CSV file"
 msgstr ""
 
@@ -6672,6 +6788,10 @@ msgid "Invalid id_hash metadata in CSV file: %s"
 msgstr ""
 
 msgid "Plural form metadata in CSV file requires id_hash."
+msgstr ""
+
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
 msgstr ""
 
 #. Translators: File format name
@@ -6934,6 +7054,13 @@ msgid "App store metadata files"
 msgstr ""
 
 msgid "File validation is required for directory-based formats."
+msgstr ""
+
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr ""
+
+msgid "Converted workbook content exceeds the configured size limit."
 msgstr ""
 
 msgid ""
@@ -8225,6 +8352,16 @@ msgstr "Novi jezik dodat u %(component)s"
 msgid "Rate limit reset."
 msgstr "Pregledač skladišta"
 
+#, fuzzy
+#| msgid "This translation is locked."
+msgid "Too many translation requests."
+msgstr "Ovaj prevod je zaključan."
+
+#, fuzzy
+#| msgid "Too many authentication attempts from this location."
+msgid "Too many concurrent translation requests for this service."
+msgstr "Previše pokušaja prijavljivanja sa ove lokacije."
+
 msgid "File"
 msgstr "Fajl"
 
@@ -8372,6 +8509,11 @@ msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background."
 msgstr "Prevod će biti osvežen u pozadini."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many uploads, please try again later."
+msgstr "Previše upita za pretragu. Pokušajte kasnije."
 
 #, fuzzy, python-format
 #| msgid "Confirm deleting all translation memory entries"
@@ -10351,6 +10493,26 @@ msgstr "Ostale komponente prevoda"
 msgid "Install"
 msgstr ""
 
+#, fuzzy
+#| msgid "Show components with linked repositories"
+msgid "Install on the component owning the repository."
+msgstr "Prikaži komponente sa povezanim spremištima"
+
+#, fuzzy
+#| msgid "This component is set up incorrectly."
+msgid "The component owning this repository is not available to you."
+msgstr "Ova komponenta nije ispravno podešena."
+
+#, fuzzy
+#| msgid "Repository changes"
+msgid "Open repository add-ons"
+msgstr "Izmene skladišta"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Unavailable"
+msgstr "Nije dostupno"
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -10766,6 +10928,32 @@ msgstr "Dozvole"
 
 msgid "Cancel"
 msgstr ""
+
+msgid "Actor"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete comment"
+msgid "Deleted user"
+msgstr "Briše komentare"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Administrative team changes"
+msgstr "Administracija"
+
+#, fuzzy
+#| msgid "Changes"
+msgid "Change"
+msgstr "Izmene"
+
+msgid "View details"
+msgstr "Pregled detalja"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No team audit entries found."
+msgstr "Nema odgovarajućih niski."
 
 msgid "Settings"
 msgstr "Postavke"
@@ -14854,9 +15042,6 @@ msgstr "Izvorni jezik"
 msgid "Configure translation quality filter"
 msgstr "Fajl prevoda"
 
-msgid "View details"
-msgstr "Pregled detalja"
-
 #, fuzzy
 #| msgid "View contributor agreement"
 msgid "View contributor license agreement"
@@ -15283,6 +15468,19 @@ msgstr ""
 msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to join the "
 "%(team_name)s team."
+msgstr ""
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr ""
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
 msgstr ""
 
 #, python-format
@@ -17047,6 +17245,15 @@ msgstr "Napravi rezervnu kopiju"
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr ""
 
+msgid "Public access on import"
+msgstr ""
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
+
 msgid "Token copied to clipboard."
 msgstr "Token je kopiran u privremenu memoriju."
 
@@ -17785,11 +17992,6 @@ msgstr "Skladište zastarelo."
 #| msgid "Repositories"
 msgid "Available Repositories"
 msgstr "Skladišta"
-
-#, fuzzy
-#| msgid "Not available"
-msgid "Unavailable"
-msgstr "Nije dostupno"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -19230,6 +19432,12 @@ msgstr[0] "Automatski prevod završen, %d niska je ažurirana."
 msgstr[1] "Automatski prevod završen, %d niske su ažurirane."
 msgstr[2] "Automatski prevod završen, %d niski je ažurirano."
 
+#, fuzzy
+#| msgid "Automatic translation in progress"
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr "Napredak automatskog prevođenja"
+
 #, python-format
 msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
@@ -19314,6 +19522,11 @@ msgstr "Detalji snimka ekrana"
 
 msgid "Revision must be a complete hexadecimal object ID."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not update repository: %s"
+msgid "Could not validate repository URL: %s"
+msgstr "Ne mogu da osvežim skladište: %s"
 
 #, fuzzy
 #| msgid "Duplicated filemask."
@@ -19412,10 +19625,33 @@ msgstr "Korisnik je uklonjen iz ovog projekta."
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 
+#, fuzzy
+#| msgid "Important dates"
+msgid "Imported authors"
+msgstr "Važni datumi"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
+msgstr ""
+
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
 msgstr ""
 
 #, python-format
@@ -19452,6 +19688,23 @@ msgstr "Nevažeći upit za pretragu!"
 
 msgid "Enter a search string to replace."
 msgstr ""
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #, fuzzy
 #| msgid "Invalid merge request!"
@@ -19620,6 +19873,9 @@ msgstr "Sugestija dato"
 #| msgid "Source needs review"
 msgid "Needs review"
 msgstr "Izvor zahteva overu"
+
+msgid "This component does not exist or you cannot access it."
+msgstr ""
 
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr "Hostovani Veblejt, mesto za lokalizaciju vašeg softverskog projekta."
@@ -20470,6 +20726,11 @@ msgid "You do not have permission to edit these flags."
 msgstr "Nemate dozvole da prihvatate predloge!"
 
 #, fuzzy
+#| msgid "You currently do not have permission to create projects."
+msgid "You do not have permission to create terminology."
+msgstr "Trenutno nemate dozvole da pravite projekte."
+
+#, fuzzy
 #| msgid "This translation is currently locked."
 msgid ""
 "Revert the latest translation edits from this user in the current project."
@@ -20584,9 +20845,6 @@ msgstr ""
 msgid "Maximum source words per day"
 msgstr ""
 
-msgid "This component does not exist or you cannot access it."
-msgstr ""
-
 #, fuzzy
 #| msgid "Add a user"
 msgid "Inherit from workspace"
@@ -20655,6 +20913,11 @@ msgstr "Previše upita za pretragu. Pokušajte kasnije."
 #| msgid "Too many messages sent, please try again later."
 msgid "Could not load repository branches. Please try again."
 msgstr "Previše poruka je poslato. Pokušajte kasnije."
+
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You do not have permission to edit this project."
+msgstr "Nemate dozvole da prihvatate predloge!"
 
 msgid "ZIP file containing translations"
 msgstr "ZIP fajl sa prevodima"
@@ -20804,11 +21067,6 @@ msgid ""
 "Mark this option if the sentence should stay as in the source language, "
 "without change."
 msgstr ""
-
-#, fuzzy
-#| msgid "You currently do not have permission to create projects."
-msgid "You do not have permission to create terminology."
-msgstr "Trenutno nemate dozvole da pravite projekte."
 
 #, fuzzy
 #| msgid "Invalid suggestion!"
@@ -22404,6 +22662,11 @@ msgstr "Opis"
 msgid "Could not accept suggestion!"
 msgstr "Neuspelo prihvatanje predloga!"
 
+#, fuzzy, python-format
+#| msgid "Repository operation"
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr "Operacija skladišta"
+
 #, fuzzy
 #| msgid "Upload translations files"
 msgid "Uploaded translation file is too big."
@@ -22476,6 +22739,19 @@ msgid "Plural form %d in the uploaded file is missing."
 msgstr ""
 "Oblici množine u otpremljenom fajlu se ne poklapaju sa trenutnim prevodom."
 
+#, fuzzy, python-format
+#| msgid "ZIP file containing translations"
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr "ZIP fajl sa prevodima"
+
+#, fuzzy, python-format
+#| msgid "This string has been translated in the past"
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] "Ova niska je ranije bila prevedena"
+msgstr[1] "Ova niska je ranije bila prevedena"
+msgstr[2] "Ova niska je ranije bila prevedena"
+
 #, fuzzy
 #| msgid "ZIP file containing translations"
 msgid "The uploaded file contains too many language declarations."
@@ -22502,6 +22778,10 @@ msgstr "Ne mogu da raščlanim „JSON“ fajl: {!s}"
 #| msgid "Error in parameter %(field)s: %(error)s"
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "Greška parametra %(field)s: %(error)s"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Could not parse translation files."
@@ -22999,6 +23279,33 @@ msgstr ""
 msgid "Updates source strings in bilingual translation file."
 msgstr "Ostavite prazno za dvojezične fajlove prevoda."
 
+#, fuzzy
+#| msgid "Automatic translation in progress"
+msgid "A translation upload is already in progress."
+msgstr "Napredak automatskog prevođenja"
+
+msgid "The uploaded file has expired or was already processed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Language of the project was removed."
+msgid "The uploaded file has expired."
+msgstr "Jezik projekta je uklonjen."
+
+#, fuzzy
+#| msgid "License changed"
+msgid "The upload target or permissions changed."
+msgstr "Izmena licence"
+
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr ""
+"Oblici množine u otpremljenom fajlu se ne poklapaju sa trenutnim prevodom."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "File upload has failed. Please try again later."
+msgstr "Previše upita za pretragu. Pokušajte kasnije."
+
 msgid "Very high"
 msgstr ""
 
@@ -23441,9 +23748,10 @@ msgstr ""
 msgid "Access denied."
 msgstr "Pristup odbijen."
 
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr ""
-"Oblici množine u otpremljenom fajlu se ne poklapaju sa trenutnim prevodom."
+#, fuzzy
+#| msgid "Translation process"
+msgid "Translation upload in progress."
+msgstr "Proces prevođenja"
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -23786,6 +24094,11 @@ msgid_plural "languages"
 msgstr[0] "Jezici"
 msgstr[1] "Jezici"
 msgstr[2] "Jezici"
+
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
+msgstr ""
 
 #, fuzzy
 #| msgid "This translation is currently locked."
@@ -24142,9 +24455,19 @@ msgstr "Neispravni parametri!"
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
-#, python-format
-msgid "Undefined variable: \"%s\""
-msgstr "Neodređena promenljiva: „%s“"
+msgid "Template output exceeds its size limit."
+msgstr ""
+
+msgid "Template rendering failed or exceeded its resource limits."
+msgstr ""
+
+msgid "Oversized template response."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation Information"
+msgid "Invalid template rendering response."
+msgstr "Informacije o prevodu"
 
 #, fuzzy
 #| msgid "Failed to render template: {}"
@@ -24155,6 +24478,50 @@ msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
 msgstr ""
+
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+msgid "Template context is nested too deeply."
+msgstr ""
+
+msgid "Template context exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported template context key."
+msgstr "Nepodržan tip slike: %s"
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported template context value."
+msgstr "Nepodržan tip slike: %s"
+
+msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+msgid "Template rendering exceeded its loop limit."
+msgstr ""
+
+msgid "Template intermediate value exceeds its size limit."
+msgstr ""
+
+msgid "Template replacement exceeds its size limit."
+msgstr ""
+
+msgid "Template padding exceeds its size limit."
+msgstr ""
+
+msgid "Template formatting exceeds its size limit."
+msgstr ""
+
+msgid "Template join exceeds its size limit."
+msgstr ""
+
+#, python-format
+msgid "Undefined variable: \"%s\""
+msgstr "Neodređena promenljiva: „%s“"
 
 #, python-format
 msgid ""
@@ -25018,6 +25385,11 @@ msgstr ""
 #| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr "Veblejt ne može da doturi izmene u izvorno skladište."
+
+#, fuzzy
+#| msgid "Could not merge the repository."
+msgid "Could not remove nested repository metadata."
+msgstr "Neuspelo stapanje skladišta."
 
 #, fuzzy
 #| msgid "GitHub username"
@@ -26223,11 +26595,6 @@ msgstr "Izvor je uklonjen."
 
 #, fuzzy
 #~| msgid "Automatic translation in progress"
-#~ msgid "Updates of translations are in progress."
-#~ msgstr "Napredak automatskog prevođenja"
-
-#, fuzzy
-#~| msgid "Automatic translation in progress"
 #~ msgid "Updates of translations in accessible repositories are in progress."
 #~ msgstr "Napredak automatskog prevođenja"
 
@@ -26303,11 +26670,6 @@ msgstr "Izvor je uklonjen."
 #~| msgid "project wide"
 #~ msgid "project-wide"
 #~ msgstr "u celom projektu"
-
-#, fuzzy
-#~| msgid "repository wide"
-#~ msgid "site-wide"
-#~ msgstr "u celom skladištu"
 
 #, fuzzy, python-format
 #~| msgid "Translation notifications"
@@ -27034,9 +27396,6 @@ msgstr "Izvor je uklonjen."
 
 #~ msgid "Too many failed registration attempts from this location."
 #~ msgstr "Previše neuspešnih pokušaja registracije sa ove lokacije."
-
-#~ msgid "Too many authentication attempts from this location."
-#~ msgstr "Previše pokušaja prijavljivanja sa ove lokacije."
 
 #~ msgid "String has suggestion"
 #~ msgstr "Niska ima predlog"

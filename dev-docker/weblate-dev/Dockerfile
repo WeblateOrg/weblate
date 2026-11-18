@@ -6,7 +6,7 @@ FROM node:26.13.1-bookworm-slim@sha256:5df79989ed685e09f0a98019db4cebfb22fb9df1a
 # Yarn Classic matches client/yarn.lock; recent Node images omit Yarn.
 RUN npm install --global yarn@1.22.22
 
-FROM weblate/weblate:2026.11.1.0@sha256:6e0caa383cdf44e6130d5d3fe858c2addc959a1d091de86d67aefb6bb892a42b AS common
+FROM weblate/weblate:2026.11.2.0@sha256:559bb57e2cae8471386ac646cb852c615996d199d02a3f8894d004acb03a1b77 AS common
 
 ##########
 # WARNING!
