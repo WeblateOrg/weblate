@@ -3514,8 +3514,8 @@ Screenshots
 
     Creates a new screenshot.
 
-    Setting a repository path requires ``vcs.access`` on the component that
-    owns the repository, in addition to ``screenshot.add``.
+    Setting a repository path requires access to the component that owns the
+    repository and ``vcs.access`` on it, in addition to ``screenshot.add``.
 
     :form file image: Uploaded file
     :form string name: Screenshot name
