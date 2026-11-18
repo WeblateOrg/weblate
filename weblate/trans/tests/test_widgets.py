@@ -6,10 +6,11 @@
 
 from __future__ import annotations
 
+import re
 from io import BytesIO
 from math import ceil
 from types import SimpleNamespace
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any, ClassVar, cast
 from unittest.mock import patch
 from urllib.parse import parse_qs, urlsplit
 
@@ -26,6 +27,7 @@ from weblate.fonts.render import (
     measure_line,
     rendering_lock,
 )
+from weblate.lang.models import Language
 from weblate.trans.checklists import TranslationChecklistMixin
 from weblate.trans.filter import FILTERS
 from weblate.trans.models import (
@@ -1337,3 +1339,83 @@ class WidgetsCapitalizeTest(FixtureTestCase):
             {"capitalize": "1"},
         )
         self.assertContains(response, ">Translated<")
+
+
+class WidgetsSortByPercentTest(FixtureTestCase):
+    # Alphabetical order and percentage order differ, and German and Italian
+    # tie, so the tie-break can be checked too.
+    PERCENTS: ClassVar[dict[str, float]] = {
+        "ja": 100.0,
+        "cs": 25.0,
+        "it": 50.0,
+        "de": 50.0,
+    }
+
+    def get_fake_stats(self) -> list[SimpleNamespace]:
+        return [
+            SimpleNamespace(
+                language=Language.objects.get(code=code),
+                translated=int(percent),
+                translated_percent=percent,
+            )
+            for code, percent in self.PERCENTS.items()
+        ]
+
+    def get_codes(self, widget_name: str, params: dict[str, str]) -> list[str]:
+        widget = WIDGETS[widget_name](self.project, "auto")
+        assert isinstance(widget, MultiLanguageWidget)
+        request = RequestFactory().get("/", params)
+        with patch.object(
+            type(widget), "get_language_stats", return_value=self.get_fake_stats()
+        ):
+            return [
+                stats.language.code
+                for stats in widget.get_sorted_language_stats(request)
+            ]
+
+    def test_default_order_is_alphabetical(self) -> None:
+        for widget_name in ("multi", "horizontal", "matrix"):
+            with self.subTest(widget=widget_name):
+                self.assertEqual(
+                    self.get_codes(widget_name, {}), ["cs", "de", "it", "ja"]
+                )
+
+    def test_sort_by_percent(self) -> None:
+        # Highest first; German and Italian tie and stay alphabetical.
+        for widget_name in ("multi", "horizontal", "matrix"):
+            with self.subTest(widget=widget_name):
+                self.assertEqual(
+                    self.get_codes(widget_name, {"sort": "percent"}),
+                    ["ja", "de", "it", "cs"],
+                )
+
+    def test_sort_by_name_and_unknown_value(self) -> None:
+        # The explicit default and values the widget doesn't know keep
+        # the alphabetical order.
+        for value in ("name", "unknown"):
+            with self.subTest(sort=value):
+                self.assertEqual(
+                    self.get_codes("multi", {"sort": value}), ["cs", "de", "it", "ja"]
+                )
+
+    def test_sort_by_percent_rendered(self) -> None:
+        with patch.object(
+            MultiLanguageWidget,
+            "get_language_stats",
+            return_value=self.get_fake_stats(),
+        ):
+            response = self.client.get(
+                reverse(
+                    "widget-image",
+                    kwargs={
+                        "path": self.project.get_url_path(),
+                        "widget": "multi",
+                        "color": "auto",
+                        "extension": "svg",
+                    },
+                ),
+                {"sort": "percent"},
+            )
+        self.assertEqual(response.status_code, 200)
+        names = re.findall(r'id="text\d+">([^<]+)</text>', response.content.decode())
+        self.assertEqual(names, ["Japanese", "German", "Italian", "Czech"])

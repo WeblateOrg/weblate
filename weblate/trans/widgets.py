@@ -84,11 +84,17 @@ def register_widget(widget):
     return widget
 
 
+class ExtraParameterChoiceDict(TypedDict):
+    value: str
+    label: StrOrPromise
+
+
 class ExtraParametersDict(TypedDict):
     name: str
     label: StrOrPromise
-    type: Literal["number", "boolean"]
-    default: int | bool
+    type: Literal["number", "boolean", "select"]
+    default: int | bool | str
+    choices: NotRequired[list[ExtraParameterChoiceDict]]
     min: NotRequired[int]
     max: NotRequired[int]
     step: NotRequired[int]
@@ -599,6 +605,18 @@ class MultiLanguageWidget(SVGWidget):
         "blue": "#3f85ed",
         "auto": None,
     }
+    extra_parameters: ClassVar[list[ExtraParametersDict]] = [
+        {
+            "name": "sort",
+            "label": gettext_lazy("Sort languages by"),
+            "type": "select",
+            "default": "name",
+            "choices": [
+                {"value": "name", "label": gettext_lazy("Language name")},
+                {"value": "percent", "label": gettext_lazy("Translation percentage")},
+            ],
+        }
+    ]
 
     def get_language_stats(self) -> list[BaseStats]:
         if isinstance(
@@ -610,6 +628,15 @@ class MultiLanguageWidget(SVGWidget):
         if isinstance(self.obj, Language):
             return [self.obj.stats]
         return self.stats.get_language_stats()
+
+    def get_sorted_language_stats(self, request: HttpRequest) -> list[BaseStats]:
+        """Return language stats sorted as the ``sort`` parameter asks."""
+        stats = sort_unicode(self.get_language_stats(), lambda x: str(x.language))
+        if request.GET.get("sort") == "percent":
+            # sorted() is stable, so languages with equal percentage stay
+            # in alphabetical order.
+            stats = sorted(stats, key=lambda x: x.translated_percent, reverse=True)
+        return stats
 
     def get_language_url(self, language: Language) -> str:
         if isinstance(self.obj, Component):
@@ -639,7 +666,7 @@ class MultiLanguageWidget(SVGWidget):
         offset = 20
         color = self.COLOR_MAP[self.color]
         language_width = 190
-        for stats in sort_unicode(self.get_language_stats(), lambda x: str(x.language)):
+        for stats in self.get_sorted_language_stats(request):
             # Skip empty translations
             if stats.translated == 0:
                 continue
@@ -807,7 +834,7 @@ class MatrixMultiLanguageWidget(MultiLanguageWidget):
     def render(self, request: HttpRequest, response: HttpResponse) -> None:
         cells: list[MatrixCellDict] = []
         color = self.COLOR_MAP[self.color]
-        for stats in sort_unicode(self.get_language_stats(), lambda x: str(x.language)):
+        for stats in self.get_sorted_language_stats(request):
             # Skip empty translations
             if stats.translated == 0:
                 continue
