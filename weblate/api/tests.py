@@ -21309,6 +21309,136 @@ class ScreenshotAPITest(APIBaseTest):
 
         self.assertEqual(hidden_response.data, missing_response.data)
 
+    def test_create_screenshot_repository_path_permission(self) -> None:
+        self.user.groups.clear()
+        self.grant_perm_to_user("screenshot.add", component=self.component)
+        data = {
+            "name": "Linked screenshot",
+            "project_slug": self.project.slug,
+            "component_slug": self.component.slug,
+            "language_code": self.component.source_translation.language.code,
+        }
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            response = self.do_request(
+                "api:screenshot-list",
+                method="post",
+                code=400,
+                request={
+                    **data,
+                    "repository_filename": "docs/example.png",
+                    "image": handle,
+                },
+            )
+        self.assertEqual(response.data["errors"][0]["attr"], "repository_filename")
+        self.assertEqual(
+            response.data["errors"][0]["code"], "repository_access_required"
+        )
+        self.assertFalse(Screenshot.objects.filter(name=data["name"]).exists())
+
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            self.do_request(
+                "api:screenshot-list",
+                method="post",
+                code=201,
+                request={**data, "image": handle},
+            )
+        self.assertEqual(
+            Screenshot.objects.get(name=data["name"]).repository_filename, ""
+        )
+
+    def test_linked_screenshot_requires_repository_owner_access(self) -> None:
+        linked = self.create_link_existing()
+        self.user.groups.clear()
+        self.grant_perm_to_user("screenshot.add", component=linked)
+        self.grant_perm_to_user("vcs.access", component=linked)
+        data = {
+            "name": "Linked screenshot",
+            "project_slug": linked.project.slug,
+            "component_slug": linked.slug,
+            "language_code": linked.source_translation.language.code,
+            "repository_filename": "docs/example.png",
+        }
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            response = self.do_request(
+                "api:screenshot-list",
+                method="post",
+                code=400,
+                request={**data, "image": handle},
+            )
+        self.assertEqual(response.data["errors"][0]["attr"], "repository_filename")
+        self.assertFalse(Screenshot.objects.filter(name=data["name"]).exists())
+
+        self.grant_perm_to_user(
+            "vcs.access", group_name="Repository owner access", component=self.component
+        )
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            self.do_request(
+                "api:screenshot-list",
+                method="post",
+                code=201,
+                request={**data, "image": handle},
+            )
+        screenshot = Screenshot.objects.get(
+            name=data["name"], translation=linked.source_translation
+        )
+        self.assertEqual(screenshot.repository_filename, data["repository_filename"])
+
+    def test_edit_screenshot_repository_path_permission(self) -> None:
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        self.user.groups.clear()
+        self.grant_perm_to_user("screenshot.edit", component=self.component)
+        url_kwargs = {"pk": screenshot.pk}
+        original_path = "docs/example.png"
+        original_image = screenshot.image.name
+
+        for method in ("put", "patch"):
+            with self.subTest(method=method):
+                screenshot.repository_filename = original_path
+                screenshot.save(update_fields=["repository_filename"])
+                response = self.do_request(
+                    "api:screenshot-detail",
+                    url_kwargs,
+                    method=method,
+                    code=400,
+                    request={
+                        "name": "Rejected edit",
+                        "repository_filename": "other.png",
+                    },
+                )
+                self.assertEqual(
+                    response.data["errors"][0]["attr"], "repository_filename"
+                )
+                screenshot.refresh_from_db()
+                self.assertEqual(screenshot.repository_filename, original_path)
+                self.assertEqual(screenshot.image.name, original_image)
+                self.assertEqual(screenshot.name, "Obrazek")
+
+                for extra_data, expected_path in (
+                    ({}, original_path),
+                    ({"repository_filename": original_path}, original_path),
+                    ({"repository_filename": ""}, ""),
+                ):
+                    response = self.do_request(
+                        "api:screenshot-detail",
+                        url_kwargs,
+                        method=method,
+                        request={"name": "Obrazek", **extra_data},
+                    )
+                    self.assertEqual(
+                        response.data["repository_filename"], expected_path
+                    )
+
+        self.grant_perm_to_user("vcs.access", component=self.component)
+        response = self.do_request(
+            "api:screenshot-detail",
+            url_kwargs,
+            method="patch",
+            request={"repository_filename": original_path},
+        )
+        self.assertEqual(response.data["repository_filename"], original_path)
+        screenshot.refresh_from_db()
+        self.assertEqual(screenshot.repository_filename, original_path)
+
     def test_patch_screenshot(self) -> None:
         self.do_request(
             "api:screenshot-detail",

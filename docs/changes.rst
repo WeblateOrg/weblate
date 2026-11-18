@@ -38,6 +38,7 @@ Weblate 2026.12
 * Revoked stale OAuth e-mail recovery addresses and reconciled the :ref:`account e-mail <user-profile>` when its last verification is removed.
 * Filtered the site-wide changes listings and feeds by workspace visibility, so workspaces the viewer cannot access no longer appear there.
 * Restricted :ref:`webhook matching <hooks-target-matching>` to repository owners, preventing generic deliveries from triggering GitHub App updates through linked components.
+* Required repository access to set a path for a :ref:`repository-linked screenshot <screenshots>`.
 
 .. rubric:: Bug fixes
 
@@ -72,6 +73,10 @@ In-progress sign-in, e-mail verification, and password recovery flows must be
 restarted after upgrading or changing the authentication pipeline. Their saved
 step positions cannot safely be resumed against a different pipeline order.
 Existing authenticated sessions remain valid.
+
+Existing screenshot repository links continue to refresh after upgrading.
+If you use private repositories, review :ref:`repository-linked screenshots <screenshots>`
+and clear any paths whose images should no longer be shared with screenshot viewers.
 
 .. rubric:: Contributors
 
