@@ -10,6 +10,7 @@ Weblate 2026.12
 
 .. rubric:: Improvements
 
+* Added failure reasons to :ref:`AI quality evaluation <addon-weblate.ai.quality>` and its :ref:`automation action <automation-action-weblate.ai_quality>`.
 * Enabled Anthropic prompt caching for :ref:`automatic translation <machine-translation>`, so the system prompt is read from cache between batch requests instead of being billed in full on every request.
 * Raised the shared limit for translation strings, CSV and XLSX rows, and translation-memory entries to 200,000. Configure it with :setting:`TRANSLATION_MAX_UNITS`.
 
