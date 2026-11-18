@@ -1,0 +1,13 @@
+{% extends "mail/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+  <p>
+    <a href="{{ project.get_absolute_url }}">{{ project }}</a>
+  </p>
+  {% include "billing/libre-cleanup-warning.html" %}
+  <p>
+    <a href="{{ billing.get_absolute_url }}">{% translate "Review Libre hosting conditions" %}</a>
+  </p>
+{% endblock content %}

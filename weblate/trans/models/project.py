@@ -649,6 +649,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     # Workspace loaded with this instance; used to detect workspace changes.
     billing_original_workspace_id: UUID | Deferred | None
     # Old workspace captured by pre_save for one post_save billing recalculation.
+    billing_workspace_changed: bool
     billing_previous_workspace_id: UUID | None
     _all_glossaries_cache: tuple[int, list[Component]] | None = None
     _glossaries_cache: tuple[int, list[Component]] | None = None

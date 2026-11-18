@@ -145,6 +145,14 @@ if [ "$file_format_encoding_merge" -eq 0 ]; then
     check
 fi
 
+# Seed legacy Libre requests before billing stores pending approval separately.
+semver_compare "$1" "<" "2026.12"
+libre_request_migrate=$?
+if [ "$libre_request_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-libre-requests.py"
+    check
+fi
+
 # Add users with billing permission
 semver_compare "$1" "<" "5.16"
 billing_users_migrate=$?
@@ -339,6 +347,11 @@ fi
 if [ "$billing_users_migrate" -eq 0 ]; then
     # Verify that the user has been migrated from the billing permission to the owner
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-billing.py"
+    check
+fi
+
+if [ "$libre_request_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-libre-requests.py"
     check
 fi
 

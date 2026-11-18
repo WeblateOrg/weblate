@@ -18,12 +18,6 @@ class Command(BaseCommand):
     help = "extend pending approval billings"
 
     def handle(self, *args: object, **options: object) -> None:
-        pending = [
-            bill
-            for bill in Billing.objects.filter(state=Billing.STATE_TRIAL)
-            if bill.payment.get("libre_request")
-        ]
-        for bill in pending:
-            bill.expiry = timezone.now() + timedelta(days=9 * 7)
-            bill.removal = None
-        Billing.objects.bulk_update(pending, ["expiry", "removal"])
+        Billing.objects.filter(
+            state=Billing.STATE_TRIAL, plan__price=0, libre_request_pending=True
+        ).update(expiry=timezone.now() + timedelta(weeks=9), removal=None)
