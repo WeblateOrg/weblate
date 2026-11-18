@@ -38,6 +38,7 @@ Weblate 2026.12
 
 .. rubric:: Bug fixes
 
+* Preserved special characters in e-mail subjects for :ref:`notifications`.
 * Handled invalid configured :ref:`templates <markup>` without unhandled server errors, preserving editor access and reporting failed repository and add-on operations.
 
 * Fixed :ref:`AI translation suggestions <machine-translation>` when a provider omits the outer JSON array for a single translation.
