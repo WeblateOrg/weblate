@@ -4181,7 +4181,8 @@ The generic hook endpoints return diagnostics intended to help configure
 repository notifications. The ``match_status`` object contains:
 
 ``repository_matches``
-    Number of components whose repository URL matches the payload.
+    Number of repository-owning components whose repository URL matches the
+    payload.
 ``branch_matches``
     Number of repository matches whose configured branch matches the payload.
     For events without a branch, every repository match is counted as a branch
