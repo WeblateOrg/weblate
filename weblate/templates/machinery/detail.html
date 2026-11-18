@@ -4,17 +4,17 @@
   {% if service.is_configured %}
     {% if service.inherited_scope == "site" %}
       <span class="badge float-end text-bg-secondary"
-            title="{% translate "This service is installed site wide." %}">{% translate "site wide" %}</span>
+            title="{% translate "This service is installed site wide."|force_escape %}">{% translate "site wide" %}</span>
     {% elif service.inherited_scope == "workspace" %}
       <span class="badge float-end text-bg-secondary"
-            title="{% translate "This service is installed in the workspace." %}">{% translate "workspace" %}</span>
+            title="{% translate "This service is installed in the workspace."|force_escape %}">{% translate "workspace" %}</span>
     {% endif %}
     {% if service.is_rate_limited %}
       <span class="badge float-end text-bg-warning">{% translate "Rate limited" %}</span>
     {% endif %}
     {% if not service.is_enabled %}
       <span class="badge float-end text-bg-secondary"
-            title="{% translate "This service is disabled." %}">{% translate "disabled" %}</span>
+            title="{% translate "This service is disabled."|force_escape %}">{% translate "disabled" %}</span>
     {% endif %}
   {% endif %}
   {% if link %}<a href="{{ service.get_absolute_url }}">{{ service.name }}</a>{% else %}{{ service.name }}{% endif %}

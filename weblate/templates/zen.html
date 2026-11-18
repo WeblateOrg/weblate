@@ -20,7 +20,7 @@
   {% if object.get_widgets_url %}
     <a class="float-end ms-auto" href="{{ object.get_widgets_url }}">
       <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1"
-           alt="{% translate "Translation status widgets" %}" />
+           alt="{% translate "Translation status widgets"|force_escape %}" />
     </a>
   {% endif %}
 {% endblock breadcrumbs %}
@@ -41,21 +41,21 @@
 
     <a href="{% url 'translate' path=object.get_url_path %}{% querystring query_params %}"
        data-params="{{ search_url }}"
-       title="{% translate "Edit in single string mode" %}"
+       title="{% translate "Edit in single string mode"|force_escape %}"
        class="btn btn-link">{% icon "close.svg" %} <span class="d-none d-md-inline">{% translate "Exit Zen" %}</span></a>
 
     <button type="button"
             class="btn btn-link"
             id="zen-toggle-suggestions"
-            title="{% translate "Show suggestions" %}"
-            aria-label="{% translate "Show suggestions" %}">
+            title="{% translate "Show suggestions"|force_escape %}"
+            aria-label="{% translate "Show suggestions"|force_escape %}">
       {% icon "suggest.svg" %}
       <span id="zen-toggle-suggestions-label" class="d-none d-md-inline">{% translate "Show suggestions" %}</span>
     </button>
 
     <a href="{% url 'profile' %}#preferences"
        class="btn btn-link"
-       title="{% translate "Configure editor" %}">{% icon "settings.svg" %}</a>
+       title="{% translate "Configure editor"|force_escape %}">{% icon "settings.svg" %}</a>
   </div>
 
   <div class="query-container">

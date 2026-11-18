@@ -31,7 +31,9 @@
           {% crispy form %}
         </div>
         <div class="card-footer">
-          <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+          <input type="submit"
+                 value="{% translate "Save"|force_escape %}"
+                 class="btn btn-primary" />
           {% if instance and addon.has_preview and not execution_form %}
             <button type="submit"
                     name="preview"

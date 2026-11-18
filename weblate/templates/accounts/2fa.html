@@ -30,7 +30,7 @@
 
               {% if form.show_submit %}
                 <input type="submit"
-                       value="{% translate "Sign in" %}"
+                       value="{% translate "Sign in"|force_escape %}"
                        class="btn btn-primary btn-full" />
               {% endif %}
             </form>

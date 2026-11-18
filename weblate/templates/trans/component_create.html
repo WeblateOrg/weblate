@@ -95,7 +95,7 @@
             <p>{% translate "Create a new translation component from remote version control system repository." %}</p>
             {% crispy full_form %}
             <input type="submit"
-                   value="{% translate "Continue" %}"
+                   value="{% translate "Continue"|force_escape %}"
                    class="btn btn-primary"
                    id="create-vcs">
           </form>
@@ -111,7 +111,7 @@
             <p>{% translate "Create a new translation component from a repository already cloned in Weblate." %}</p>
             {% crispy existing_form %}
             <input type="submit"
-                   value="{% translate "Continue" %}"
+                   value="{% translate "Continue"|force_escape %}"
                    class="btn btn-primary"
                    id="create-existing">
           </form>
@@ -137,7 +137,7 @@
               {% translate "The new component will be created for the selected branch with the exact same configuration as the existing one." %}
             </p>
             <input type="submit"
-                   value="{% translate "Continue" %}"
+                   value="{% translate "Continue"|force_escape %}"
                    class="btn btn-primary"
                    id="create-branch"
                    disabled>
@@ -158,7 +158,7 @@
             </p>
             {% crispy zip_form %}
             <input type="submit"
-                   value="{% translate "Continue" %}"
+                   value="{% translate "Continue"|force_escape %}"
                    class="btn btn-primary"
                    id="create-zip">
           </form>
@@ -175,7 +175,7 @@
             <p>{% translate "Create a new translation component from an uploaded document for translation." %}</p>
             {% crispy doc_form %}
             <input type="submit"
-                   value="{% translate "Continue" %}"
+                   value="{% translate "Continue"|force_escape %}"
                    class="btn btn-primary"
                    id="create-doc">
           </form>
@@ -194,7 +194,7 @@
             </p>
             {% crispy scratch_form %}
             <input type="submit"
-                   value="{% translate "Continue" %}"
+                   value="{% translate "Continue"|force_escape %}"
                    class="btn btn-primary"
                    id="create-scratch">
           </form>
