@@ -12,10 +12,6 @@
         {% else %}
           <code class="wrap-text">{{ repo_url }}</code>
         {% endif %}
-        {% if object.linked_component %}
-          <a href="{{ object.linked_component.get_absolute_url }}#information"
-             title="{% blocktranslate with target=object.linked_component %}This component is linked to the {{ target }} repository.{% endblocktranslate %}">{% icon "link.svg" %}</a>
-        {% endif %}
         <button type="button"
                 class="btn btn-link btn-xs"
                 data-clipboard-value="{{ repo_url }}"
@@ -24,6 +20,17 @@
       {% endwith %}
     </td>
   </tr>
+
+  {% with linked_component=object.linked_component %}
+    {% if linked_component %}
+      <tr>
+        <th scope="row">{% translate "Linked component" %} {% icon "link.svg" %}</th>
+        <td colspan="2" class="full-cell">
+          <a href="{{ linked_component.get_absolute_url }}#information">{{ linked_component }}</a>
+        </td>
+      </tr>
+    {% endif %}
+  {% endwith %}
 
   <tr>
     <th>{% translate "Repository branch" %}</th>

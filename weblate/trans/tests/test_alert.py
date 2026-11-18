@@ -898,7 +898,11 @@ class AlertTest(ReusableViewTestCase):
                     if supported and translation.pk in allowed:
                         self.assertIn(f'data-href="{cleanup_url}"', row)
                         self.assertIn(
-                            f'aria-label="Remove duplicate strings from {translation.language} ({translation.filename})"',
+                            '<span aria-hidden="true">Remove duplicate strings</span>',
+                            row,
+                        )
+                        self.assertIn(
+                            f'<span class="visually-hidden">Remove duplicate strings from {translation.language} ({translation.filename})</span>',
                             row,
                         )
                         self.assertEqual(

@@ -944,6 +944,8 @@ Languages
 
     Creates a new language.
 
+    Requires the site-wide ``language.add`` permission.
+
     :param code: Language name
     :type code: string
     :param name: Language name
@@ -3514,6 +3516,9 @@ Screenshots
 
     Creates a new screenshot.
 
+    Setting a repository path requires access to the component that owns the
+    repository and ``vcs.access`` on it, in addition to ``screenshot.add``.
+
     :form file image: Uploaded file
     :form string name: Screenshot name
     :form string project_slug: Project slug
@@ -3530,6 +3535,10 @@ Screenshots
 
     Edit partial information about screenshot.
 
+    Setting a different nonempty ``repository_filename`` requires ``vcs.access``
+    on the component that owns the repository. With ``screenshot.edit``, you
+    can also omit the path, submit the current value, or clear it with an empty string.
+
     :param id: Screenshot ID
     :type id: int
     :>json string name: name of a screenshot
@@ -3541,6 +3550,9 @@ Screenshots
 .. http:put:: /api/screenshots/(int:id)/
 
     Edit full information about screenshot.
+
+    The same repository path permissions apply as for
+    :http:patch:`/api/screenshots/(int:id)/`.
 
     :param id: Screenshot ID
     :type id: int

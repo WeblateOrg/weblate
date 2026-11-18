@@ -12,12 +12,14 @@ from math import ceil
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, Any, ClassVar, cast
 from unittest.mock import patch
+from urllib.parse import parse_qs, urlsplit
 
 from django.db import connection
 from django.http import HttpResponse
 from django.test import RequestFactory, SimpleTestCase, override_settings
 from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
+from lxml import html
 from PIL import Image
 
 from weblate.fonts.render import (
@@ -813,6 +815,32 @@ class PublicSharingTest(FixtureTestCase):
         self.set_project_access(Project.ACCESS_PUBLIC, public_sharing=False)
         response = self.client.get(self.project.get_absolute_url())
         self.assertContains(response, ">Community<")
+
+    @override_settings(ENABLE_SHARING=True)
+    def test_community_menu_encodes_share_messages(self) -> None:
+        self.set_project_access(Project.ACCESS_PUBLIC, public_sharing=False)
+        self.project.name = "R&D #1"
+        self.project.save(update_fields=["name"])
+        self.user.profile.fediverse = "https://social.example/@test"
+        self.user.profile.save(update_fields=["fediverse"])
+
+        response = self.client.get(self.project.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+        page = html.fromstring(response.content)
+        expected = f"Translate R&D #1 using #Weblate at {self.project.get_share_url()}!"
+        for label, hostname in (
+            ("Share on Bluesky", "bsky.app"),
+            ("Share on Fediverse", "social.example"),
+            ("Share on X", "x.com"),
+        ):
+            with self.subTest(label=label):
+                (href,) = page.xpath(
+                    "//a[normalize-space(.)=$label]/@href", label=label
+                )
+                url = urlsplit(href)
+                self.assertEqual(url.hostname, hostname)
+                self.assertEqual(parse_qs(url.query), {"text": [expected]})
+                self.assertEqual(url.fragment, "")
 
 
 class WidgetsMeta(type):
