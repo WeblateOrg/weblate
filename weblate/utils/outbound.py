@@ -9,7 +9,7 @@ import socket
 from asyncio import get_running_loop
 from typing import TYPE_CHECKING, Any
 from urllib.parse import urlparse
-from urllib.request import getproxies_environment, proxy_bypass_environment
+from urllib.request import getproxies_environment
 
 from django.core.exceptions import ValidationError
 from django.http.request import validate_host
@@ -45,17 +45,52 @@ _NON_PUBLIC_SPECIAL_USE_PREFIXES: tuple[
 )
 
 
+DEFAULT_PORTS = {"http": 80, "https": 443}
+
+
 def get_environment_proxy(url: str) -> str | None:
     """Return the per-protocol environment proxy for a URL unless no_proxy excludes its host."""
     parsed = urlparse(url)
-    if parsed.scheme not in {"http", "https"}:
+    if parsed.scheme not in DEFAULT_PORTS:
         return None
     proxies = getproxies_environment()
-    # Check host:port for no_proxy entries with a port, and the bare host for IPv6.
-    hosts = (parsed.netloc.rpartition("@")[2], parsed.hostname or "")
-    if any(proxy_bypass_environment(host, proxies) for host in hosts):
+    # HTTPX2 drops default ports from URLs, so compare against the effective port
+    port = parsed.port or DEFAULT_PORTS[parsed.scheme]
+    if _matches_no_proxy(parsed.hostname or "", port, proxies.get("no", "")):
         return None
     return proxies.get(parsed.scheme)
+
+
+def _matches_no_proxy(host: str, port: int, no_proxy: str) -> bool:
+    host = host.rstrip(".")
+    address = _parse_ip(host)
+    for item in no_proxy.lower().split(","):
+        entry = item.strip()
+        if entry == "*":
+            return True
+        # Bare IP addresses and networks, checked first as IPv6 ones contain colons
+        try:
+            network = ipaddress.ip_network(entry, strict=False)
+        except ValueError:
+            pass
+        else:
+            if address is not None and address in network:
+                return True
+            continue
+        parsed = urlparse(f"//{entry}")
+        try:
+            entry_port = parsed.port
+        except ValueError:
+            continue
+        if not parsed.hostname or entry_port not in {None, port}:
+            continue
+        entry_host = parsed.hostname.strip(".")
+        if address is not None:
+            if _parse_ip(entry_host) == address:
+                return True
+        elif host == entry_host or host.endswith(f".{entry_host}"):
+            return True
+    return False
 
 
 def _parse_ip(value: str) -> ipaddress.IPv4Address | ipaddress.IPv6Address | None:

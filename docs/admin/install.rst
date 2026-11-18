@@ -674,8 +674,8 @@ such as ``all_proxy``, operating-system proxy configuration, and VCS-specific
 proxy configuration are not supported.
 
 ``no_proxy`` is a comma-separated list of host names (also matching their
-subdomains) or IP addresses, optionally with a port; ``*`` bypasses the proxy
-for all hosts. Network ranges are not matched. Hosts reached directly are subject to
+subdomains) or IP addresses, optionally with a port, and IP networks in CIDR
+notation; ``*`` bypasses the proxy for all hosts. Hosts reached directly are subject to
 private-address restrictions such as :setting:`VCS_RESTRICT_PRIVATE`.
 
 .. seealso::
