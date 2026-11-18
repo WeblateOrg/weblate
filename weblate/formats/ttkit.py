@@ -495,9 +495,10 @@ class KeyValueUnit[U: phpunit | propunit, F: "TTKitFormat"](TTKitUnit[U, F]):
     def set_target(self, target: str | list[str]) -> None:
         """Set translation unit target."""
         super().set_target(target)
-        # Propagate to value so that serializing of empty values works correctly
+        # Empty targets serialize as the stored source. Use the setter to
+        # invalidate any cached representation of that source.
         if not target:
-            self.unit.value = self.unit.target
+            self.unit.source = self.unit.target
 
 
 class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
