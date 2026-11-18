@@ -76,12 +76,18 @@ class FetchURLTest(SimpleTestCase):
             os.environ,
             {
                 "https_proxy": "http://https-proxy.example:8080",
-                "no_proxy": ".example.com,plain.host",
+                "no_proxy": ".example.com,plain.host,port.host:8443,::1",
             },
             clear=True,
         ):
             self.assertIsNone(get_environment_proxy("https://api.example.com/x"))
-            self.assertIsNone(get_environment_proxy("https://plain.host/x"))
+            self.assertIsNone(get_environment_proxy("https://plain.host:8443/x"))
+            self.assertIsNone(get_environment_proxy("https://user@port.host:8443/x"))
+            self.assertIsNone(get_environment_proxy("https://[::1]:8080/x"))
+            self.assertEqual(
+                get_environment_proxy("https://port.host/x"),
+                "http://https-proxy.example:8080",
+            )
             self.assertEqual(
                 get_environment_proxy("https://other.org/x"),
                 "http://https-proxy.example:8080",

@@ -51,7 +51,9 @@ def get_environment_proxy(url: str) -> str | None:
     if parsed.scheme not in {"http", "https"}:
         return None
     proxies = getproxies_environment()
-    if proxy_bypass_environment(parsed.hostname or "", proxies):
+    # Check host:port for no_proxy entries with a port, and the bare host for IPv6.
+    hosts = (parsed.netloc.rpartition("@")[2], parsed.hostname or "")
+    if any(proxy_bypass_environment(host, proxies) for host in hosts):
         return None
     return proxies.get(parsed.scheme)
 
