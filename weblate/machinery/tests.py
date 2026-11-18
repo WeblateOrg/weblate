@@ -10514,6 +10514,24 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
             '["Hallo Welt"]',
         )
 
+    def test_system_prompt_is_cached(self) -> None:
+        machine = self.get_machine()
+
+        payload = machine.get_chat_payload(
+            "claude-haiku-4-5", "system prompt", "source", "", ""
+        )
+
+        self.assertEqual(
+            payload["system"],
+            [
+                {
+                    "type": "text",
+                    "text": "system prompt",
+                    "cache_control": {"type": "ephemeral"},
+                }
+            ],
+        )
+
 
 class AnthropicCustomModelTranslationTest(AnthropicTranslationTest):
     CONFIGURATION: ClassVar[SettingsDict] = {
