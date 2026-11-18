@@ -20,10 +20,13 @@ from django.db.models import QuerySet
 from django.test import RequestFactory, SimpleTestCase, TransactionTestCase
 from django.urls import reverse
 from django.utils.html import format_html
+from translate.storage.base import ParseError
 
+from weblate.accounts.tasks import notify_changes
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, Role, User
 from weblate.automation.context import automation_origin
+from weblate.checks import locks
 from weblate.checks.base import BatchCheckMixin, TargetCheck
 from weblate.checks.consistency import ConsistencyCheck
 from weblate.checks.locks import (
@@ -40,6 +43,7 @@ from weblate.checks.tasks import (
     refresh_propagated_checks,
     schedule_component_check_batch,
 )
+from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Component, Project, Translation, Unit
 from weblate.trans.tasks import auto_translate
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
@@ -764,6 +768,51 @@ class CheckBoundaryRefreshTest(FixtureTestCase):
                 with lock(component):
                     self.assertEqual(component.project_id, destination.pk)
                     self.assertEqual(component.project.pk, destination.pk)
+
+    def test_nested_read_lock_reuses_outer_lock(self) -> None:
+        component = self.component
+        with (
+            check_project_read_lock(component) as outer_changed,
+            self.assertNumQueries(0),
+            check_project_read_lock(component) as changed,
+        ):
+            self.assertEqual(changed, outer_changed)
+
+
+class ImportCheckLockTest(ViewTestCase):
+    def test_import_locks_once_per_file(self) -> None:
+        component = self.component
+        Unit.objects.filter(translation__component=component).exclude(
+            translation=component.source_translation
+        ).delete()
+        matches = component.get_mask_matches()
+        self.assertTrue(matches)
+        with patch(
+            "weblate.checks.locks._check_project_read_lock",
+            wraps=locks._check_project_read_lock,  # ruff: ignore[private-member-access]
+        ) as lock:
+            component.create_translations_immediate(force=True)
+        self.assertEqual(lock.call_count, len(matches))
+
+    def test_unchanged_files_do_not_lock(self) -> None:
+        with patch("weblate.checks.locks._check_project_read_lock") as lock:
+            self.component.create_translations_immediate(force_scan=True)
+        lock.assert_not_called()
+
+    def test_parse_error_is_recorded(self) -> None:
+        self.assertIn("inconsistent", CHECKS)
+        translation = self.get_translation()
+        with (
+            patch.object(translation, "load_store", side_effect=ParseError("invalid")),
+            patch.object(notify_changes, "delay") as notify,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            self.assertFalse(translation.check_sync(force=True))
+
+        change = self.component.change_set.get(
+            action=ActionEvents.PARSE_ERROR, translation=translation
+        )
+        notify.assert_called_once_with([change.pk])
 
 
 class CheckLintTestCase(SimpleTestCase):

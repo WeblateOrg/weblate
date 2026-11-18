@@ -7,7 +7,7 @@ from __future__ import annotations
 import codecs
 import os
 import tempfile
-from contextlib import contextmanager, suppress
+from contextlib import contextmanager, nullcontext, suppress
 from copy import deepcopy
 from dataclasses import dataclass, field
 from datetime import UTC
@@ -40,6 +40,7 @@ from translate.storage.fluent import FluentContentError
 
 from weblate.auth.bots import InternalBot
 from weblate.checks.flags import Flags
+from weblate.checks.models import CHECKS
 from weblate.formats.auto import try_load
 from weblate.formats.base import (
     MAX_DECLARED_LANGUAGES,
@@ -132,6 +133,7 @@ SINGLE_FILE_IMPORT_ALERTS = {"DuplicateString", "ParseError"}
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable, Iterator
+    from contextlib import AbstractContextManager
     from datetime import datetime
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
@@ -697,6 +699,28 @@ class Translation(
         )
         return newunit
 
+    def units_check_lock(self) -> AbstractContextManager[object]:
+        """Hold the check boundary lock once per file instead of per unit."""
+        if self.is_source or not (CHECKS.get("inconsistent") or CHECKS.get("reused")):
+            return nullcontext()
+
+        from weblate.checks.locks import check_project_read_lock  # ruff: ignore[import-outside-top-level]
+
+        return check_project_read_lock(self.component)
+
+    def update_units_from_store_locked(
+        self, *, user: User | None, author: User | None
+    ) -> tuple[dict[int, Unit], dict[int, Unit]]:
+        """Update units from store while holding the check lock."""
+        with self.units_check_lock():
+            try:
+                return self.update_units_from_store(user=user, author=author)
+            except FileParseError as error:
+                # Raise it after leaving the lock, its transaction would roll
+                # back the parse error change recorded while parsing
+                parse_error = error
+        raise parse_error
+
     def update_units_from_store(  # ruff: ignore[complex-structure]
         self, *, user: User | None, author: User | None
     ) -> tuple[dict[int, Unit], dict[int, Unit]]:
@@ -964,7 +988,7 @@ class Translation(
             self.component.check_template_valid()
 
             try:
-                dbunits, updated = self.update_units_from_store(
+                dbunits, updated = self.update_units_from_store_locked(
                     user=user, author=author
                 )
             except FileParseError as error:
