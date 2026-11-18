@@ -37,6 +37,7 @@ from rest_framework.test import APITestCase
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
+from weblate.screenshots.apps import check_screenshot_storage
 from weblate.screenshots.models import Screenshot, ScreenshotOCR
 from weblate.screenshots.ocr import (
     OCR_LINE_LIMIT,
@@ -3047,3 +3048,42 @@ class ScreenshotSelectTest(LanguageScopedScreenshotMixin, FixtureTestCase):
                 )
                 response = self.client.get(self.url)
                 self.assertEqual(response.status_code, 200 if existing else 403)
+
+
+class ScreenshotStorageCheckTest(SimpleTestCase):
+    def check_storage(self, backend: str, options: dict[str, object]) -> list[str]:
+        with override_settings(
+            STORAGES={
+                **settings.STORAGES,
+                "default": {"BACKEND": backend, "OPTIONS": options},
+            }
+        ):
+            return [
+                message.id or ""
+                for message in check_screenshot_storage(
+                    app_configs=None, databases=None
+                )
+            ]
+
+    def test_filesystem(self) -> None:
+        self.assertEqual(
+            self.check_storage("django.core.files.storage.FileSystemStorage", {}), []
+        )
+
+    def test_overwrite(self) -> None:
+        for backend in (
+            "storages.backends.s3.S3Storage",
+            "storages.backends.gcloud.GoogleCloudStorage",
+        ):
+            with self.subTest(backend=backend):
+                # django-storages overwrites files by default
+                self.assertEqual(
+                    self.check_storage(backend, {"bucket_name": "weblate"}),
+                    ["weblate.W053"],
+                )
+                self.assertEqual(
+                    self.check_storage(
+                        backend, {"bucket_name": "weblate", "file_overwrite": False}
+                    ),
+                    [],
+                )

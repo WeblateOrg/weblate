@@ -41,6 +41,7 @@ from django.db import (
     transaction,
 )
 from django.db.models import Q
+from django.db.models.fields.files import FieldFile
 from django.http import StreamingHttpResponse
 from django.templatetags.static import static
 from django.test import SimpleTestCase, TransactionTestCase
@@ -21072,6 +21073,37 @@ class ScreenshotAPITest(APIBaseTest):
             reverse("api:screenshot-file", kwargs={"pk": Screenshot.objects.get().pk})
         )
         self.assertContains(response, b"PNG")
+
+    def test_download_without_path(self) -> None:
+        # Remote storage backends do not provide local paths
+        with patch.object(
+            FieldFile,
+            "path",
+            new_callable=PropertyMock,
+            side_effect=NotImplementedError,
+        ):
+            response = self.client.get(
+                reverse(
+                    "api:screenshot-file", kwargs={"pk": Screenshot.objects.get().pk}
+                )
+            )
+            assert isinstance(response, StreamingHttpResponse)
+            self.assertEqual(
+                b"".join(response.streaming_content),
+                Path(TEST_SCREENSHOT).read_bytes(),
+            )
+        self.assertEqual(response.status_code, 200)
+
+    def test_download_missing_file(self) -> None:
+        screenshot = Screenshot.objects.get()
+        assert screenshot.image.name is not None
+        screenshot.image.storage.delete(screenshot.image.name)
+
+        response = self.client.get(
+            reverse("api:screenshot-file", kwargs={"pk": screenshot.pk})
+        )
+
+        self.assertEqual(response.status_code, 404)
 
     def test_head_screenshot_file(self) -> None:
         screenshot = Screenshot.objects.get()

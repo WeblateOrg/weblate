@@ -5381,7 +5381,19 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
     def file(self, request: Request, **kwargs):
         obj = self.get_object()
         if request.method not in {"POST", "PUT"}:
-            return self.download_file(obj.image.path, "application/binary")
+            # Read through the storage API, remote storage backends do not
+            # provide a local path.
+            try:
+                handle = obj.image.open("rb")
+            except FileNotFoundError as error:
+                msg = "File not found"
+                raise Http404(msg) from error
+            return FileResponse(
+                handle,
+                content_type="application/binary",
+                as_attachment=True,
+                filename=os.path.basename(obj.image.name),
+            )
 
         if not request.user.has_perm("screenshot.edit", obj.translation):
             raise PermissionDenied

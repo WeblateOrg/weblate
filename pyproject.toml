@@ -241,7 +241,7 @@ version = "2026.12.dev0"
 
 [project.optional-dependencies]
 all = [
-  "weblate[amazon,gelf,gerrit,google,google-errors,ldap,mercurial,postgres,rollbar,sphinx,zxcvbn]"
+  "weblate[amazon,gelf,gerrit,google,google-errors,ldap,mercurial,postgres,rollbar,sphinx,storage,zxcvbn]"
 ]
 amazon = [
   "boto3==1.44.3",
@@ -285,6 +285,9 @@ saml = [
 ]
 sphinx = [
   "Sphinx==8.2.3"
+]
+storage = [
+  "django-storages==1.14.6"
 ]
 wllegal = [
   "wllegal==2026.6"
