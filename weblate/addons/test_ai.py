@@ -41,7 +41,7 @@ from weblate.utils.state import STATE_TRANSLATED
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-    from weblate.addons.ai import AIEvaluationConfiguration
+    from weblate.addons.ai import AIEvaluationConfiguration, AIEvaluationResult
     from weblate.machinery.evaluation import EvaluationIssue
     from weblate.machinery.types import SettingsDict
 
@@ -233,28 +233,58 @@ class AIEvaluationTest(ReusableComponentTestCase):
         )
         self.addCleanup(cache.delete, service.rate_limit_cache)
         request = httpx2.Request("POST", "https://example.com/evaluate")
-        errors = (
-            httpx2.HTTPStatusError(
-                "Too many requests",
-                request=request,
-                response=httpx2.Response(429, request=request),
+        cases = (
+            (
+                httpx2.HTTPStatusError(
+                    "Too many requests",
+                    request=request,
+                    response=httpx2.Response(
+                        429, request=request, headers={"Retry-After": "17"}
+                    ),
+                ),
+                "Service rate limit or quota exceeded",
+                17,
             ),
-            MachineryRateLimitError("Provider quota exceeded"),
+            (
+                MachineryRateLimitError("Provider quota exceeded"),
+                "Service rate limit or quota exceeded",
+                service.rate_limit_window,
+            ),
+            (
+                httpx2.HTTPStatusError(
+                    "Unauthorized",
+                    request=request,
+                    response=httpx2.Response(401, request=request),
+                ),
+                "Service returned an HTTP error",
+                service.rate_limit_window,
+            ),
         )
-        for error in errors:
-            with self.subTest(error=type(error).__name__):
+        for error, reason, timeout in cases:
+            with self.subTest(error=error):
                 cache.delete(service.rate_limit_cache)
                 with (
                     patch.object(OpenAITranslation, "batch_size", 2),
                     patch.object(
                         OpenAITranslation, "fetch_llm_translations", side_effect=error
                     ) as fetch,
+                    patch.object(
+                        OpenAITranslation,
+                        "set_rate_limit",
+                        wraps=service.set_rate_limit,
+                    ) as set_rate_limit,
                 ):
                     self.assertEqual(
                         self.run_batch_evaluation(scheduled=True),
-                        {"evaluated": 0, "failed": 2, "skipped": 3},
+                        {
+                            "evaluated": 0,
+                            "failed": 2,
+                            "skipped": 3,
+                            "errors": [reason],
+                        },
                     )
                 fetch.assert_called_once()
+                set_rate_limit.assert_called_once_with(timeout)
                 self.assertTrue(service.is_rate_limited())
                 self.addon.instance.refresh_from_db()
                 self.assertTrue(self.addon.is_schedule_due(self.component))
@@ -466,8 +496,11 @@ class AIEvaluationTest(ReusableComponentTestCase):
             component=self.component,
             event=AddonEvent.EVENT_MANUAL,
         )
-        with patch.object(
-            OpenAITranslation, "fetch_llm_translations", return_value="invalid JSON"
+        with (
+            patch.object(
+                OpenAITranslation, "fetch_llm_translations", return_value="invalid JSON"
+            ),
+            self.assertLogs("weblate.errors", level="WARNING") as logs,
         ):
             evaluate_quality(
                 self.addon.instance.pk,
@@ -477,12 +510,73 @@ class AIEvaluationTest(ReusableComponentTestCase):
             )
         activity.refresh_from_db()
         self.assertEqual(activity.status, AddonActivityLogStatus.ERROR)
+        self.assertEqual(
+            activity.details["result"][self.component.full_slug],
+            {
+                "evaluated": 0,
+                "failed": 1,
+                "skipped": 0,
+                "errors": ["Invalid evaluation response"],
+            },
+        )
+        self.assertEqual(len(logs.output), 1)
+        self.assertIn("was not valid JSON", logs.output[0])
         self.assertFalse(
             self.component.alert_set.filter(name="AIEvaluationUnavailable").exists()
         )
         self.addon.instance.refresh_from_db()
         self.assertTrue(self.addon.is_schedule_due(self.component))
         self.assertFalse(self.unit.check_set.filter(name__in=AI_CHECKS).exists())
+
+    def test_mixed_failures_report_distinct_reasons_without_provider_details(
+        self,
+    ) -> None:
+        units = self.create_batch_units(4)
+        private_detail = "private-evaluation-data"
+        request = httpx2.Request(
+            "POST", f"https://example.com/evaluate?key={private_detail}"
+        )
+        timeout = httpx2.ReadTimeout(private_detail, request=request)
+        http_error = httpx2.HTTPStatusError(
+            private_detail,
+            request=request,
+            response=httpx2.Response(500, request=request, text=private_detail),
+        )
+        with (
+            patch.object(OpenAITranslation, "batch_size", 1),
+            patch.object(
+                OpenAITranslation,
+                "fetch_llm_translations",
+                side_effect=[
+                    timeout,
+                    http_error,
+                    timeout,
+                    evaluation_response({units[3].pk: []}),
+                ],
+            ),
+            self.assertLogs("weblate.errors", level="WARNING") as logs,
+        ):
+            result = self.run_batch_evaluation()
+        self.assertEqual(
+            result,
+            {
+                "evaluated": 1,
+                "failed": 3,
+                "skipped": 0,
+                "errors": [
+                    "Evaluation request timed out",
+                    "Service returned an HTTP error",
+                ],
+            },
+        )
+        self.assertEqual(len(logs.output), 3)
+        self.assertIn("machinery[OpenAI]", logs.output[0])
+        self.assertIn(f"{self.component.full_slug} (batch size 1)", logs.output[0])
+        self.assertIn(self.installation.selector, logs.output[0])
+        self.assertIn("ReadTimeout", logs.output[0])
+        self.assertIn("HTTP 500", logs.output[1])
+        self.assertNotIn(private_detail, "\n".join(logs.output))
+        self.assertNotIn(private_detail, json.dumps(result))
 
     def test_unavailable_service_diagnostic(self) -> None:
         for service in (
@@ -508,6 +602,7 @@ class AIEvaluationTest(ReusableComponentTestCase):
                         Project, "get_machinery_settings", return_value=configured
                     ),
                     patch.object(OpenAITranslation, "fetch_llm_translations") as fetch,
+                    self.assertLogs("weblate.errors", level="WARNING") as logs,
                 ):
                     evaluate_quality(
                         self.addon.instance.pk,
@@ -518,6 +613,17 @@ class AIEvaluationTest(ReusableComponentTestCase):
                 fetch.assert_not_called()
                 activity.refresh_from_db()
                 self.assertEqual(activity.status, AddonActivityLogStatus.ERROR)
+                self.assertEqual(
+                    activity.details["result"][self.component.full_slug],
+                    {
+                        "evaluated": 0,
+                        "failed": 0,
+                        "skipped": 0,
+                        "errors": ["Evaluation service unavailable"],
+                    },
+                )
+                self.assertEqual(len(logs.output), 1)
+                self.assertIn("Evaluation service unavailable", logs.output[0])
                 alert = self.component.alert_set.get(name="AIEvaluationUnavailable")
                 self.assertEqual(alert.severity, AlertSeverity.ERROR)
                 self.assertEqual(
@@ -793,7 +899,7 @@ class AIEvaluationTest(ReusableComponentTestCase):
             }
         )
 
-    def run_batch_evaluation(self, *, scheduled: bool = False) -> dict[str, int]:
+    def run_batch_evaluation(self, *, scheduled: bool = False) -> AIEvaluationResult:
         activity = AddonActivityLog.objects.create(
             addon=self.addon.instance,
             component=self.component,
@@ -808,7 +914,7 @@ class AIEvaluationTest(ReusableComponentTestCase):
         )
         activity.refresh_from_db()
         return cast(
-            "dict[str, int]", activity.details["result"][self.component.full_slug]
+            "AIEvaluationResult", activity.details["result"][self.component.full_slug]
         )
 
     def test_default_batch_size_and_reordered_results(self) -> None:
@@ -875,10 +981,21 @@ class AIEvaluationTest(ReusableComponentTestCase):
             patch.object(
                 OpenAITranslation, "fetch_llm_translations", side_effect=response
             ) as fetch,
+            self.assertLogs("weblate.errors", level="WARNING") as logs,
         ):
             result = self.run_batch_evaluation()
         self.assertEqual(fetch.call_count, 3)
-        self.assertEqual(result, {"evaluated": 3, "failed": 2, "skipped": 0})
+        self.assertEqual(
+            result,
+            {
+                "evaluated": 3,
+                "failed": 2,
+                "skipped": 0,
+                "errors": ["Invalid evaluation response"],
+            },
+        )
+        self.assertEqual(len(logs.output), 1)
+        self.assertIn("did not match the requested units", logs.output[0])
         self.assertEqual(
             set(
                 Check.objects.filter(unit__in=units, name="ai_accuracy").values_list(

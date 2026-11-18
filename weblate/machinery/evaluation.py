@@ -11,6 +11,10 @@ from weblate.checks.ai import AI_CATEGORIES
 from weblate.machinery.base import MachineTranslationError
 
 
+class EvaluationResponseError(MachineTranslationError):
+    """An evaluation validation error with a fixed, log-safe message."""
+
+
 class EvaluationIssue(TypedDict):
     category: Literal["accuracy", "fluency", "terminology", "style", "formatting"]
     severity: Literal["minor", "major", "critical"]
@@ -40,22 +44,32 @@ Use an empty issues array for units without issues. No Markdown or additional ke
 def parse_evaluation_response(
     response: str | None, unit_ids: set[int]
 ) -> dict[int, list[EvaluationIssue]]:
-    message = "Invalid quality evaluation response."
-    if not response or len(response) > 500_000:
-        raise MachineTranslationError(message)
+    if not response:
+        message = "The evaluation response was empty."
+        raise EvaluationResponseError(message)
+    if len(response) > 500_000:
+        message = "The evaluation response exceeded the size limit."
+        raise EvaluationResponseError(message)
     try:
         result = json.loads(response)
     except (ValueError, RecursionError) as error:
-        raise MachineTranslationError(message) from error
-    if not isinstance(result, dict) or set(result) != {"results"}:
-        raise MachineTranslationError(message)
+        message = "The evaluation response was not valid JSON."
+        raise EvaluationResponseError(message) from error
+    if (
+        not isinstance(result, dict)
+        or set(result) != {"results"}
+        or not isinstance(result["results"], list)
+    ):
+        message = "The evaluation response must contain a list of unit results."
+        raise EvaluationResponseError(message)
     results = result["results"]
-    if not isinstance(results, list) or len(results) != len(unit_ids):
-        raise MachineTranslationError(message)
+    message = "The evaluation response did not match the requested units."
+    if len(results) != len(unit_ids):
+        raise EvaluationResponseError(message)
     parsed: dict[int, list[EvaluationIssue]] = {}
     for item in results:
         if not isinstance(item, dict) or set(item) != {"unit_id", "issues"}:
-            raise MachineTranslationError(message)
+            raise EvaluationResponseError(message)
         unit_id = item["unit_id"]
         if (
             not isinstance(unit_id, int)
@@ -63,7 +77,7 @@ def parse_evaluation_response(
             or unit_id not in unit_ids
             or unit_id in parsed
         ):
-            raise MachineTranslationError(message)
+            raise EvaluationResponseError(message)
         parsed[unit_id] = validate_evaluation_issues(item["issues"])
     return parsed
 
@@ -71,7 +85,7 @@ def parse_evaluation_response(
 def validate_evaluation_issues(issues: object) -> list[EvaluationIssue]:
     message = "Invalid quality evaluation issues."
     if not isinstance(issues, list) or len(issues) > 100:
-        raise MachineTranslationError(message)
+        raise EvaluationResponseError(message)
     for issue in issues:
         if (
             not isinstance(issue, dict)
@@ -80,7 +94,7 @@ def validate_evaluation_issues(issues: object) -> list[EvaluationIssue]:
             or not isinstance(issue["severity"], str)
             or issue["severity"] not in {"minor", "major", "critical"}
         ):
-            raise MachineTranslationError(message)
+            raise EvaluationResponseError(message)
         explanation = issue["explanation"]
         if (
             not isinstance(explanation, str)
@@ -88,10 +102,10 @@ def validate_evaluation_issues(issues: object) -> list[EvaluationIssue]:
             or len(explanation) > 4000
             or "\x00" in explanation
         ):
-            raise MachineTranslationError(message)
+            raise EvaluationResponseError(message)
         try:
             explanation.encode("utf-8")
         except UnicodeEncodeError as error:
             # PostgreSQL JSON cannot store unpaired Unicode surrogates.
-            raise MachineTranslationError(message) from error
+            raise EvaluationResponseError(message) from error
     return cast("list[EvaluationIssue]", issues)

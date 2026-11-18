@@ -490,6 +490,11 @@ The component's :guilabel:`Diagnostics` recommends the add-on when an LLM servic
 is configured. If the selected service becomes unavailable, an error diagnostic
 links maintainers to the installed add-on's configuration.
 
+The add-on activity log shows failure reasons and counts the translation units
+in failed batches. If the service fails before any batch starts, the activity
+shows an error with zero failed units. The Weblate system log records details
+for each failure, such as the HTTP status returned by the service.
+
 .. _translation-reuse-workflow:
 
 Reusing existing translations

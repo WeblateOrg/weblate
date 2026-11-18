@@ -63,7 +63,11 @@ def evaluate_quality(
     scheduled: bool = False,
     activity_log_id: int | None = None,
 ) -> None:
-    from weblate.addons.ai import AIEvaluationAddon, evaluate_component  # ruff: ignore[import-outside-top-level]
+    from weblate.addons.ai import (  # ruff: ignore[import-outside-top-level]
+        AIEvaluationAddon,
+        evaluate_component,
+        log_evaluation_error,
+    )
     from weblate.machinery.base import MachineTranslationError  # ruff: ignore[import-outside-top-level]
 
     storage = Addon.objects.filter(pk=addon_id, name=AIEvaluationAddon.name).first()
@@ -79,10 +83,16 @@ def evaluate_quality(
                     unit_ids,
                     scheduled=scheduled,
                 )
-            except (MachineTranslationError, httpx2.HTTPError):
-                result = {"evaluated": 0, "failed": 1, "skipped": 0}
+            except (MachineTranslationError, httpx2.HTTPError) as error:
+                result = {
+                    "evaluated": 0,
+                    "failed": 0,
+                    "skipped": 0,
+                    "errors": [log_evaluation_error(component, error)],
+                }
+            result.pop("rate_limited", None)
             results[component.full_slug] = result
-            if result["failed"]:
+            if result.get("errors"):
                 status = AddonActivityLogStatus.ERROR
         if results and status != AddonActivityLogStatus.ERROR:
             status = AddonActivityLogStatus.SUCCESS
