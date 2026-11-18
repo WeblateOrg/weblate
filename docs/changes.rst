@@ -74,10 +74,6 @@ restarted after upgrading or changing the authentication pipeline. Their saved
 step positions cannot safely be resumed against a different pipeline order.
 Existing authenticated sessions remain valid.
 
-Existing screenshot repository links continue to refresh after upgrading.
-If you use private repositories, review :ref:`repository-linked screenshots <screenshots>`
-and clear any paths whose images should no longer be shared with screenshot viewers.
-
 .. rubric:: Contributors
 
 .. include:: /changes/contributors/2026.12.rst
