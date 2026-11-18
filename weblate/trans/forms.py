@@ -589,8 +589,10 @@ class PluralTextarea(forms.Textarea):
             textarea = super().render(fieldname, val, attrs, renderer, **kwargs)
             # Label for plural
             label = lang_label
+            plural_examples = ""
             if show_plural_labels:
-                label = format_html("{}, {}", label, plural.get_plural_label(idx))
+                label = format_html("{}, {}", label, plural.get_plural_name(idx))
+                plural_examples = plural.format_plural_examples(idx)
             elif translation.component.is_multivalue and idx > 0:
                 label = format_html("{}, {}", label, gettext("Alternative translation"))
             ret.append(
@@ -600,6 +602,8 @@ class PluralTextarea(forms.Textarea):
                         "toolbar": self.get_toolbar(lang, fieldid, unit, idx, source),
                         "fieldid": fieldid,
                         "label": label,
+                        "show_plural_label": show_plural_labels,
+                        "plural_examples": plural_examples,
                         "textarea": textarea,
                         "max_length": attrs["data-max"],
                         "length": len(val),
