@@ -6329,6 +6329,18 @@ class ProjectAPITest(APIBaseTest):
         self.do_request(
             "api:project-detail", self.project_kwargs, method="delete", code=403
         )
+        team = Group.objects.create(name="Global component team")
+        team.components.add(self.component)
+        blocked = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="delete",
+            superuser=True,
+            code=400,
+        )
+        self.assertIn("Remove the component from its teams", str(blocked.data))
+        self.assertTrue(Project.objects.filter(pk=self.project.pk).exists())
+        team.components.remove(self.component)
         response = self.do_request(
             "api:project-detail",
             self.project_kwargs,
@@ -6855,7 +6867,7 @@ class ProjectAPITest(APIBaseTest):
                 "repo": self.format_test_repo_url(self.git_repo_path),
                 "filemask": "po/*.po",
                 "file_format": "po",
-                "push": "https://username:password@github.com/example/push.git",
+                "push": "https://username:password@github.com/example/push.git",  # kingfisher:ignore
                 "new_lang": "none",
             },
         )
@@ -6863,7 +6875,7 @@ class ProjectAPITest(APIBaseTest):
         component = Component.objects.get(slug="api-project", project__slug="test")
         self.assertEqual(
             component.push,
-            "https://username:password@github.com/example/push.git",
+            "https://username:password@github.com/example/push.git",  # kingfisher:ignore
         )
         self.assertFalse(component.manage_units)
         self.assertFalse(response.data["manage_units"])
@@ -6945,7 +6957,7 @@ class ProjectAPITest(APIBaseTest):
                 "repo": self.format_test_repo_url(self.git_repo_path),
                 "filemask": "po/*.po",
                 "file_format": "po",
-                "push": "https://username:password@github.com/example/push.git",
+                "push": "https://username:password@github.com/example/push.git",  # kingfisher:ignore
                 "new_lang": "none",
                 "category": reverse("api:category-detail", kwargs={"pk": category.pk}),
             },
@@ -8914,7 +8926,7 @@ class ProjectAPITest(APIBaseTest):
                     "filemask": "*.po",
                     "new_base": "project.pot",
                     "file_format": "po",
-                    "push": "https://username:password@github.com/example/push.git",
+                    "push": "https://username:password@github.com/example/push.git",  # kingfisher:ignore
                     "new_lang": "none",
                 },
             )
@@ -8939,7 +8951,7 @@ class ProjectAPITest(APIBaseTest):
                     "filemask": "*.po",
                     "new_base": "project.pot",
                     "file_format": "po",
-                    "push": "https://username:password@github.com/example/push.git",
+                    "push": "https://username:password@github.com/example/push.git",  # kingfisher:ignore
                     "new_lang": "none",
                 },
             )
@@ -9082,7 +9094,7 @@ class ProjectAPITest(APIBaseTest):
             "repo": self.format_test_repo_url(self.git_repo_path),
             "filemask": "po/*.po",
             "file_format": "po",
-            "push": "https://username:password@github.com/example/push.git",
+            "push": "https://username:password@github.com/example/push.git",  # kingfisher:ignore
             "new_lang": "none",
         }
 
@@ -9157,7 +9169,7 @@ class ProjectAPITest(APIBaseTest):
             "repo": self.format_test_repo_url(self.git_repo_path),
             "filemask": "po/*.po",
             "file_format": "po",
-            "push": "https://username:password@github.com/example/push.git",
+            "push": "https://username:password@github.com/example/push.git",  # kingfisher:ignore
             "new_lang": "none",
         }
 
@@ -10422,50 +10434,136 @@ class ComponentAPITest(APIBaseTest):
         )
         self.component.refresh_from_db()
 
-    @mock_dns("github.com", "example.com")
-    def test_github_app_api_clears_push_settings(self) -> None:
+    @mock_dns("github.com")
+    def test_github_app_api_accepts_unchanged_backend(self) -> None:
         self.configure_github_app_component()
-        Component.objects.filter(pk=self.component.pk).update(vcs="git")
-        for create in (False, True):
-            with (
-                self.subTest(create=create),
-                patch.object(Component, "after_save"),
-                patch.object(Component, "validate_repository_access"),
-                patch.object(Component, "clean_files"),
-                patch.object(Component, "get_mask_matches", return_value=["po/cs.po"]),
-            ):
-                data = {
+        with (
+            patch.object(Component, "after_save"),
+            patch.object(Component, "validate_repository_access"),
+            patch.object(Component, "clean_files"),
+            patch.object(Component, "get_mask_matches", return_value=["po/cs.po"]),
+        ):
+            response = self.do_request(
+                "api:component-detail",
+                self.component_kwargs,
+                method="patch",
+                request={
+                    "vcs": "github-app",
+                    "name": "GitHub App component",
+                },
+                format="json",
+                superuser=True,
+                code=200,
+            )
+        self.assertEqual(response.data["name"], "GitHub App component")
+        self.assertEqual(response.data["push"], "")
+        self.assertEqual(response.data["push_branch"], "")
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.name, "GitHub App component")
+        self.assertEqual((self.component.push, self.component.push_branch), ("", ""))
+
+    @mock_dns("github.com")
+    def test_create_rejects_integration_backend(self) -> None:
+        self.configure_github_app_component()
+        with patch.object(Component, "validate_repository_access") as validate_access:
+            response = self.do_request(
+                "api:project-components",
+                self.project_kwargs,
+                method="post",
+                request={
+                    "name": "GitHub App API creation",
+                    "slug": "github-app-api-creation",
                     "vcs": "github-app",
                     "repo": "https://github.com/test-org/repo.git",
                     "branch": "main",
-                    "push": "https://example.com/attacker/repo.git",
-                    "push_branch": "translations",
-                }
-                if create:
-                    data.update(
-                        name="GitHub App cleared",
-                        slug="github-app-cleared",
-                        file_format="po",
-                        filemask="po/*.po",
-                        disable_autoshare=True,
-                        new_lang="none",
-                    )
-                response = self.do_request(
-                    "api:project-components" if create else "api:component-detail",
-                    self.project_kwargs if create else self.component_kwargs,
-                    method="post" if create else "patch",
-                    request=data,
-                    format="json",
-                    superuser=True,
-                    code=201 if create else 200,
-                )
-                self.assertEqual(response.data["push"], "")
-                self.assertEqual(response.data["push_branch"], "")
-                component = Component.objects.get(
-                    project=self.project,
-                    slug="github-app-cleared" if create else self.component.slug,
-                )
-                self.assertEqual((component.push, component.push_branch), ("", ""))
+                    "file_format": "po",
+                    "filemask": "po/*.po",
+                    "new_lang": "none",
+                },
+                format="json",
+                superuser=True,
+                code=400,
+            )
+        validate_access.assert_not_called()
+        self.assertEqual(response.data["errors"][0]["attr"], "vcs")
+        self.assertFalse(
+            Component.objects.filter(slug="github-app-api-creation").exists()
+        )
+
+    def test_patch_rejects_cross_family_vcs_change_before_repository_access(
+        self,
+    ) -> None:
+        self.grant_perm_to_user("component.edit", component=self.component)
+        with patch.object(Component, "validate_repository_access") as validate_access:
+            response = self.do_request(
+                "api:component-detail",
+                self.component_kwargs,
+                method="patch",
+                request={"vcs": "mercurial"},
+                format="json",
+                code=400,
+            )
+        validate_access.assert_not_called()
+        self.assertEqual(response.data["errors"][0]["attr"], "vcs")
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.vcs, "git")
+        self.assertTrue((Path(self.component.full_path) / ".git").exists())
+
+    def test_patch_rejects_non_git_backend_change(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(vcs="mercurial")
+        with patch.object(Component, "validate_repository_access") as validate_access:
+            response = self.do_request(
+                "api:component-detail",
+                self.component_kwargs,
+                method="patch",
+                request={"vcs": "git"},
+                format="json",
+                superuser=True,
+                code=400,
+            )
+        validate_access.assert_not_called()
+        self.assertEqual(response.data["errors"][0]["attr"], "vcs")
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.vcs, "mercurial")
+
+    def test_patch_allows_git_based_backend_change(self) -> None:
+        with (
+            patch.object(Component, "after_save"),
+            patch.object(Component, "validate_repository_access"),
+            patch.object(Component, "clean_files"),
+            patch.object(Component, "get_mask_matches", return_value=["po/cs.po"]),
+        ):
+            response = self.do_request(
+                "api:component-detail",
+                self.component_kwargs,
+                method="patch",
+                request={"vcs": "local", "push": ""},
+                format="json",
+                superuser=True,
+                code=200,
+            )
+        self.assertEqual(response.data["vcs"], "local")
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.vcs, "local")
+
+    @mock_dns("github.com")
+    def test_patch_rejects_switch_to_integration_backend(self) -> None:
+        self.configure_github_app_component()
+        Component.objects.filter(pk=self.component.pk).update(vcs="git")
+        with patch.object(Component, "validate_repository_access") as validate_access:
+            response = self.do_request(
+                "api:component-detail",
+                self.component_kwargs,
+                method="patch",
+                request={"vcs": "github-app"},
+                format="json",
+                superuser=True,
+                code=400,
+            )
+        validate_access.assert_not_called()
+        self.assertEqual(response.data["errors"][0]["attr"], "vcs")
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.vcs, "git")
 
     def test_list_components(self) -> None:
         response = self.client.get(reverse("api:component-list"))
@@ -12251,6 +12349,25 @@ class ComponentAPITest(APIBaseTest):
             code=204,
         )
         self.assertEqual(Component.objects.count(), 1)
+
+    def test_delete_last_team_component_does_not_expand_scope(self) -> None:
+        team = Group.objects.create(
+            name="Component administrators", defining_project=self.project
+        )
+        team.projects.add(self.project)
+        team.components.add(self.component)
+        team.roles.add(Role.objects.get(name="Administration"))
+        self.user.groups.add(team)
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("project.edit", self.project))
+
+        response = self.do_request(
+            "api:component-detail", self.component_kwargs, method="delete", code=400
+        )
+        self.assertIn("Remove the component from its teams", str(response.data))
+        self.assertTrue(Component.objects.filter(pk=self.component.pk).exists())
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("project.edit", self.project))
 
     def test_project_admin_can_delete_restricted_component(self) -> None:
         self.component.restricted = True
@@ -23519,6 +23636,20 @@ class CategoryAPITest(APIBaseTest):
         )
         response = self.list_categories()
         self.assertEqual(response.data["count"], 0)
+
+    def test_delete_category_with_last_team_component(self) -> None:
+        response = self.api_create_category()
+        category = Category.objects.get(pk=response.data["id"])
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        team = Group.objects.create(name="Category team", defining_project=self.project)
+        team.components.add(self.component)
+
+        deletion = self.do_request(
+            response.data["url"], method="delete", superuser=True, code=400
+        )
+        self.assertIn("Remove the component from its teams", str(deletion.data))
+        self.assertTrue(Category.objects.filter(pk=category.pk).exists())
 
     def test_delete_memory_option_in_body(self) -> None:
         response = self.api_create_category()

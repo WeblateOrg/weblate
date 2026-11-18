@@ -69,6 +69,13 @@ The Python client follows the same URL, credential, and transport policy as the
 command-line client, see :ref:`wlc-security`. Direct API consumers remain
 responsible for safely rendering and storing returned values.
 
+Request options are validated when constructing the client. ``retries`` must
+be a nonnegative integer, ``timeout`` finite and greater than zero, and
+``backoff_factor`` finite and nonnegative. ``status_forcelist`` accepts only
+integer HTTP status codes from ``400`` to ``599``. Invalid direct arguments
+raise :class:`WeblateException`; invalid configuration values raise
+:class:`~wlc.config.WLCConfigurationError`, before any HTTP request is sent.
+
 .. autoclass:: Weblate
    :members: get, post, request, raw_request, invoke_request, get_object, get_project, get_component, get_translation, get_unit, get_activity, list_projects, list_components, list_changes, list_units, list_translations, list_languages, list_categories, add_source_string, create_project, create_component, create_language
 

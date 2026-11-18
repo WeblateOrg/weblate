@@ -1,0 +1,42 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: Save Python dependencies
+description: Prune and publish uv artifacts after successful dependency installation
+
+inputs:
+  primary-key:
+    description: Original primary key from python-cache-restore
+    required: true
+  exact-hit:
+    description: Whether python-cache-restore found the primary key
+    required: true
+  cache-directory:
+    description: uv dependency cache directory from python-cache-restore
+    required: true
+
+runs:
+  using: composite
+  steps:
+  - name: Prune downloaded wheels
+    id: prune
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && inputs.exact-hit != 'true'
+    continue-on-error: true
+    shell: bash
+    env:
+      UV_CACHE_DIR: ${{ inputs.cache-directory }}
+    run: |
+      set -euo pipefail
+      echo "Python dependency cache before pruning:"
+      du -sh "$UV_CACHE_DIR"
+      uv cache prune --ci
+      echo "Python dependency cache after pruning:"
+      du -sh "$UV_CACHE_DIR"
+  - name: Save uv artifacts
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && inputs.exact-hit != 'true' && steps.prune.outcome == 'success'
+    continue-on-error: true
+    uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+    with:
+      path: ${{ inputs.cache-directory }}
+      key: ${{ inputs.primary-key }}

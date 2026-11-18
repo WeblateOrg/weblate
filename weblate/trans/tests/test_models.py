@@ -99,7 +99,7 @@ from weblate.utils.stats import (
     TranslationStats,
 )
 from weblate.utils.version import GIT_VERSION
-from weblate.workspaces.models import Workspace
+from weblate.workspaces.models import WORKSPACE_PROJECT_CREATORS_GROUP, Workspace
 
 if TYPE_CHECKING:
     from weblate.formats.base import TranslationFormat, TranslationUnit
@@ -3757,6 +3757,94 @@ class ChangeTest(ModelTestCase):
 
         self.assertIn(workspace_change, changes)
         self.assertIn(project_change, changes)
+
+    def test_last_changes_hides_invisible_workspace_rows(self) -> None:
+        empty = Workspace.objects.create(name="Invisible empty workspace")
+        occupied = Workspace.objects.create(name="Visible project workspace")
+        Project.objects.filter(pk=self.component.project_id).update(workspace=occupied)
+        self.component.project.refresh_from_db()
+        user = User.objects.create_user(
+            "workspace-history", "workspace-history@example.com", "workspace-history"
+        )
+
+        hidden_change = Change.objects.create(
+            user=get_test_actor(self),
+            workspace=empty,
+            action=ActionEvents.CREATE_WORKSPACE,
+        )
+        visible_change = Change.objects.create(
+            user=get_test_actor(self),
+            workspace=occupied,
+            action=ActionEvents.CREATE_WORKSPACE,
+        )
+        project_change = Change.objects.create(
+            user=get_test_actor(self),
+            project=self.component.project,
+            action=ActionEvents.LOCK,
+        )
+
+        self.assertTrue(user.can_access_project(self.component.project))
+
+        changes = Change.objects.last_changes(user)
+
+        self.assertNotIn(hidden_change, changes)
+        self.assertIn(visible_change, changes)
+        self.assertIn(project_change, changes)
+
+        # The anonymous user must not see the invisible workspace either.
+        anonymous = get_anonymous()
+        self.assertNotIn(hidden_change, Change.objects.last_changes(anonymous))
+        self.assertIn(visible_change, Change.objects.last_changes(anonymous))
+
+        # A user with an explicit workspace permission still sees the row.
+        groups = empty.setup_groups()
+        user.add_team(None, groups[WORKSPACE_PROJECT_CREATORS_GROUP])
+        user = User.objects.get(pk=user.pk)
+        self.assertIn(hidden_change, Change.objects.last_changes(user))
+
+    def test_last_changes_keeps_workspace_rows_for_superuser(self) -> None:
+        empty = Workspace.objects.create(name="Superuser empty workspace")
+        user = User.objects.create_user(
+            "workspace-history-admin",
+            "workspace-history-admin@example.com",
+            "workspace-history-admin",
+        )
+        user.is_superuser = True
+        user.save(update_fields=["is_superuser"])
+        workspace_change = Change.objects.create(
+            user=get_test_actor(self),
+            workspace=empty,
+            action=ActionEvents.CREATE_WORKSPACE,
+        )
+
+        self.assertIn(workspace_change, Change.objects.last_changes(user))
+
+    def test_last_changes_keeps_project_history_after_workspace_move(self) -> None:
+        original = Workspace.objects.create(name="Left workspace")
+        other = Workspace.objects.create(name="Receiving workspace")
+        project = self.component.project
+        Project.objects.filter(pk=project.pk).update(workspace=original)
+        project.refresh_from_db()
+        user = User.objects.create_user(
+            "workspace-move-history",
+            "workspace-move-history@example.com",
+            "workspace-move-history",
+        )
+        moved_change = Change.objects.create(
+            user=get_test_actor(self),
+            project=project,
+            action=ActionEvents.LOCK,
+        )
+        self.assertEqual(moved_change.workspace_id, original.pk)
+
+        # The project leaves for another workspace; the user cannot view the
+        # one the history was recorded in, but can access the project.
+        Project.objects.filter(pk=project.pk).update(workspace=other)
+        project.refresh_from_db()
+        self.assertFalse(original.can_view(user))
+        self.assertTrue(user.can_access_project(project))
+
+        self.assertIn(moved_change, Change.objects.last_changes(user))
 
     def test_change_workspace_backfill_migration(self) -> None:
         migration = importlib.import_module(

@@ -2,9 +2,23 @@
 
 <div class="clearfix"></div>
 <div class="translation-item">
-  <label for="{{ fieldid }}">{{ label }}</label>
-  {{ toolbar }}
-  <div class="clearfix"></div>
+  {% if show_plural_label %}
+    <div class="editor-plural-header">
+      <label for="{{ fieldid }}">
+        <span class="editor-plural-name">{{ label }}</span>
+        {% if plural_examples %}
+          <bdi class="text-muted text-truncate"
+               dir="ltr"
+               title="{% translate "Example counts for this plural form." %}">({{ plural_examples }})</bdi>
+        {% endif %}
+      </label>
+      <div class="editor-plural-toolbar">{{ toolbar }}</div>
+    </div>
+  {% else %}
+    <label for="{{ fieldid }}">{{ label }}</label>
+    {{ toolbar }}
+    <div class="clearfix"></div>
+  {% endif %}
   {{ textarea }}
   <div class="float-end editor-footer">
     <span class="badge length">

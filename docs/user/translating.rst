@@ -149,6 +149,10 @@ On the translation page, the source string and an editing area for its translati
 Should the translation be plural, multiple source strings and editing areas are
 shown, each described and labeled in the amount of plural forms the translated language has.
 
+The labels include example counts for each plural form. A range such as
+``10–20`` includes both endpoints. If the editor shortens the list to fit,
+open the translation's :guilabel:`Overview` tab to see all the selected examples.
+
 All special whitespace characters are underlined in red and indicated with grey
 symbols. More than one subsequent space is also underlined in red to alert the translator to
 a potential formatting issue.

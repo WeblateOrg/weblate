@@ -142,6 +142,7 @@ from weblate.utils.views import (
     guess_filemask_from_doc,
 )
 from weblate.vcs.base import RepositoryError
+from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -3029,6 +3030,14 @@ class ComponentSerializer(RemovableSerializer[Component]):
                 setattr(instance, key, value)
         else:
             instance = Component(**attrs)
+
+        if (
+            self.instance is None
+            and instance.vcs not in VCS_REGISTRY.allowed_component_vcs_choices()
+        ):
+            raise serializers.ValidationError(
+                {"vcs": "This version control system requires an integration import."}
+            )
 
         self.validate_linked_repository_setting_overrides(attrs, instance)
 
