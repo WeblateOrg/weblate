@@ -1464,6 +1464,23 @@ class GitBranchValidationTest(SimpleTestCase):
         )
         self.assertIsInstance(component.repository, GitRepository)
 
+    def test_invalid_pull_message_is_repository_error(self) -> None:
+        component = Component(
+            slug="test",
+            name="Test",
+            project=Project(name="Test", slug="test", pk=-1),
+            source_language_id=1,
+            branch="main",
+            vcs="git",
+            repo="https://example.invalid/repo.git",
+            pk=-1,
+            pull_message="{% invalid %}",
+            inherit_pull_message=False,
+        )
+        repo = GithubFakeRepository(".", branch="main", component=component, local=True)
+        with self.assertRaisesMessage(RepositoryError, "pull request message"):
+            repo.get_merge_message()
+
     def test_default_pull_message_title_ignores_multiline_names(self) -> None:
         component = Component(
             slug="test",

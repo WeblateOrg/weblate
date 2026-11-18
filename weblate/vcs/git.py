@@ -62,7 +62,7 @@ from weblate.utils.files import (
     remove_tree,
 )
 from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
-from weblate.utils.render import render_template
+from weblate.utils.render import render_repository_template
 from weblate.utils.requests import (
     JSON_RESPONSE_ERRORS,
     VCS_RESPONSE_SIZE,
@@ -2804,8 +2804,10 @@ class GitMergeRequestBase(GitRepository):
         component = self.component
         if component is None:
             raise RepositoryError(0, "Repository operation requires component.")
-        lines = render_template(
-            component.effective_pull_message.strip(), component=component
+        lines = render_repository_template(
+            component.effective_pull_message.strip(),
+            setting="pull request message",
+            component=component,
         ).splitlines()
         return lines[0], "\n".join(lines[1:]).strip()
 

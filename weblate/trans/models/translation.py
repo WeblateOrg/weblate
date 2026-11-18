@@ -114,7 +114,7 @@ from weblate.utils.change_origin import (
 from weblate.utils.errors import log_handled_exception, report_error, report_message
 from weblate.utils.html import format_html_join_comma
 from weblate.utils.regex import regex_match
-from weblate.utils.render import render_template
+from weblate.utils.render import render_repository_template
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -1570,7 +1570,13 @@ class Translation(
 
     def get_commit_message(self, author: str, template: str, **kwargs):
         """Format commit message based on project configuration."""
-        return render_template(template, translation=self, author=author, **kwargs)
+        return render_repository_template(
+            template,
+            setting="delete message",
+            translation=self,
+            author=author,
+            **kwargs,
+        )
 
     def _is_handled_fluent_content_error(self, error: Exception) -> bool:
         return self.component.file_format == "fluent" and isinstance(
@@ -3111,8 +3117,8 @@ class Translation(
         return super().delete(using=using, keep_parents=keep_parents)
 
     @transaction.atomic
-    def remove(self, user: User) -> None:
-        """Remove translation from the Database and VCS."""
+    def remove(self, user: User, *, commit_message: str | None = None) -> None:
+        """Remove translation, optionally reusing a message prepared for bulk removal."""
         # ruff: ignore[import-outside-top-level]
         from weblate.glossary.tasks import (
             cleanup_stale_glossaries,
@@ -3131,9 +3137,10 @@ class Translation(
         )
 
         # Build commit message before deleting (needs stats from DB)
-        commit_message = self.get_commit_message(
-            author, template=self.component.effective_delete_message
-        )
+        if commit_message is None:
+            commit_message = self.get_commit_message(
+                author, template=self.component.effective_delete_message
+            )
 
         # Delete the translation from the database before committing
         # to ensure add-ons operate on the updated translation set
