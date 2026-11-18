@@ -1565,14 +1565,14 @@ onReady(() => {
     const target = button?.dataset.focus;
     if (target) {
       /* Modal context focusing */
-      const input = document.querySelector(target);
-      const flagInput = input?.classList.contains("flag-editor")
-        ? document.getElementById(`${input.id}-ts-input`)
-        : null;
-      (flagInput || input)?.focus();
+      document.querySelector(target)?.focus();
     } else {
       for (const input of event.target.querySelectorAll("input")) {
-        if (!input.disabled && input.offsetParent !== null) {
+        if (
+          !input.disabled &&
+          input.offsetParent !== null &&
+          !input.closest(".flag-editor-select")
+        ) {
           input.focus();
           break;
         }

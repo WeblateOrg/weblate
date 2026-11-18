@@ -28,8 +28,8 @@
         <button type="button"
                 class="btn btn-link btn-xs float-end"
                 data-clipboard-value="{{ gpg_key }}"
-                data-clipboard-message="{% translate "Public key copied to clipboard." %}"
-                title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                data-clipboard-message="{% translate "Public key copied to clipboard."|force_escape %}"
+                title="{% translate "Copy to clipboard"|force_escape %}">{% icon "copy.svg" %}</button>
         <p>
           {% blocktranslate %}All commits made with Weblate are signed with the GPG key {{ gpg_key_id }}, for which the corresponding public key is found below.{% endblocktranslate %}
         </p>

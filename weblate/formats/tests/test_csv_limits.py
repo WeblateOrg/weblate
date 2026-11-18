@@ -12,12 +12,13 @@ from tempfile import TemporaryDirectory
 from typing import TYPE_CHECKING
 from unittest.mock import patch
 
-from django.test import SimpleTestCase
+from django.conf import settings
+from django.test import SimpleTestCase, override_settings
 from translate.storage.base import ParseError
 
 from weblate.formats.auto import AutodetectFormat, try_load
 from weblate.formats.helpers import NamedBytesIO
-from weblate.formats.limits import MAX_TRANSLATION_UNITS, TranslationLimitError
+from weblate.formats.limits import TranslationLimitError
 from weblate.formats.ttkit import (
     CSVFormat,
     CSVSimpleFormat,
@@ -34,7 +35,7 @@ class CSVRowLimitTest(SimpleTestCase):
         store = WeblateCSVFile()
         content = b"source,target\none,uno\ntwo,dos\nthree,tres\nfour,cuatro\n"
         with (
-            patch("weblate.formats.ttkit.MAX_TRANSLATION_UNITS", 2),
+            override_settings(TRANSLATION_MAX_UNITS=2),
             self.assertRaisesRegex(TranslationLimitError, "2 data rows"),
         ):
             store.parse(content)
@@ -44,7 +45,7 @@ class CSVRowLimitTest(SimpleTestCase):
 
     def test_header_and_multiline_values_do_not_consume_extra_rows(self) -> None:
         content = b'source,target\n"first\nsecond","uno\ndos"\nthree,tres\n'
-        with patch("weblate.formats.ttkit.MAX_TRANSLATION_UNITS", 2):
+        with override_settings(TRANSLATION_MAX_UNITS=2):
             storage = CSVFormat(NamedBytesIO("test.csv", content))
         self.assertEqual(len(storage.content_units), 2)
         self.assertEqual(storage.content_units[0].source, "first\nsecond")
@@ -52,7 +53,7 @@ class CSVRowLimitTest(SimpleTestCase):
     def test_empty_field_rows_consume_parser_budget(self) -> None:
         store = WeblateCSVFile()
         with (
-            patch("weblate.formats.ttkit.MAX_TRANSLATION_UNITS", 2),
+            override_settings(TRANSLATION_MAX_UNITS=2),
             self.assertRaises(TranslationLimitError),
         ):
             store.parse(b"source,target\none,uno\n,\n,\n")
@@ -60,7 +61,7 @@ class CSVRowLimitTest(SimpleTestCase):
 
     def test_blank_lines_do_not_consume_parser_budget(self) -> None:
         store = WeblateCSVFile()
-        with patch("weblate.formats.ttkit.MAX_TRANSLATION_UNITS", 2):
+        with override_settings(TRANSLATION_MAX_UNITS=2):
             store.parse(b"source,target\n\none,uno\n\ntwo,dos\n\n")
         self.assertEqual(len(store.units), 2)
 
@@ -68,7 +69,7 @@ class CSVRowLimitTest(SimpleTestCase):
         for format_class in (CSVFormat, CSVSimpleFormat):
             with (
                 self.subTest(format=format_class.format_id),
-                patch("weblate.formats.ttkit.MAX_TRANSLATION_UNITS", 2),
+                override_settings(TRANSLATION_MAX_UNITS=2),
                 self.assertRaises(TranslationLimitError),
             ):
                 format_class(
@@ -78,7 +79,7 @@ class CSVRowLimitTest(SimpleTestCase):
     def test_autodetection_stops_at_row_limit(self) -> None:
         content = b"source,target\none,uno\ntwo,dos\nthree,tres\n"
         with (
-            patch("weblate.formats.ttkit.MAX_TRANSLATION_UNITS", 2),
+            override_settings(TRANSLATION_MAX_UNITS=2),
             self.assertRaises(TranslationLimitError),
         ):
             AutodetectFormat(NamedBytesIO("test.csv", content))
@@ -93,7 +94,7 @@ class CSVRowLimitTest(SimpleTestCase):
         storage: TranslationFormat = CSVFormat(NamedBytesIO("test.csv", content))
         self.assertEqual(len(storage.content_units), 1)
         with (
-            patch("weblate.formats.ttkit.MAX_TRANSLATION_UNITS", 2),
+            override_settings(TRANSLATION_MAX_UNITS=2),
             self.assertRaises(TranslationLimitError),
         ):
             CSVFormat(NamedBytesIO("test.csv", content))
@@ -101,7 +102,7 @@ class CSVRowLimitTest(SimpleTestCase):
     def test_try_load_does_not_retry_an_oversized_csv(self) -> None:
         content = b"source,target\none,uno\ntwo,dos\nthree,tres\n"
         with (
-            patch("weblate.formats.ttkit.MAX_TRANSLATION_UNITS", 2),
+            override_settings(TRANSLATION_MAX_UNITS=2),
             patch.object(AutodetectFormat, "parse_store") as fallback,
             self.assertRaises(TranslationLimitError),
         ):
@@ -111,7 +112,7 @@ class CSVRowLimitTest(SimpleTestCase):
     def test_failed_parse_does_not_limit_programmatic_store_updates(self) -> None:
         store = WeblateCSVFile()
         with (
-            patch("weblate.formats.ttkit.MAX_TRANSLATION_UNITS", 1),
+            override_settings(TRANSLATION_MAX_UNITS=1),
             self.assertRaises(TranslationLimitError),
         ):
             store.parse(b"source,target\none,uno\ntwo,dos\n")
@@ -121,14 +122,14 @@ class CSVRowLimitTest(SimpleTestCase):
         self.assertEqual(len(store.units), 2)
 
     def test_real_row_ceiling_accepts_boundary_and_rejects_one_more(self) -> None:
-        content = b"source,target\n" + b"a,b\n" * MAX_TRANSLATION_UNITS
+        content = b"source,target\n" + b"a,b\n" * settings.TRANSLATION_MAX_UNITS
         store = WeblateCSVFile()
         store.parse(content)
-        self.assertEqual(len(store.units), MAX_TRANSLATION_UNITS)
+        self.assertEqual(len(store.units), settings.TRANSLATION_MAX_UNITS)
         store = WeblateCSVFile()
         with self.assertRaises(TranslationLimitError):
             store.parse(content + b"c,d\n")
-        self.assertEqual(len(store.units), MAX_TRANSLATION_UNITS)
+        self.assertEqual(len(store.units), settings.TRANSLATION_MAX_UNITS)
 
     def test_compressed_csv_keeps_tighter_extraction_limit(self) -> None:
         with TemporaryDirectory() as directory:

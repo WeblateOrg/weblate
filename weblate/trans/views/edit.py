@@ -79,6 +79,7 @@ from weblate.trans.validators import (
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
 from weblate.utils.celery import sanitize_task_result, store_task_metadata
+from weblate.utils.errors import log_handled_exception
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -96,6 +97,7 @@ from weblate.utils.state import (
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage, WorkspaceLanguage
 from weblate.utils.tracing import start_span
 from weblate.utils.views import parse_path, parse_path_units, show_form_errors
+from weblate.vcs.base import RepositoryTemplateError
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -1597,10 +1599,7 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
             "translation_file_link": lambda: try_linkify_filename(
                 unit.translation.filename,
                 unit.translation.filename,
-                # '1' as a placeholder, because `get_repoweb_link` can't currently
-                # generate links without line specified. Although it's ok to use
-                # '' or '0' on GitHub or GitLab, let's play it safe for now.
-                "1",
+                str(unit.line_number) if unit.line_number is not None else "1",
                 unit,
                 user,
                 is_translation=True,
@@ -2263,6 +2262,13 @@ def delete_unit(request: AuthenticatedHttpRequest, unit_id):
         unit.translation.delete_unit(request, unit)
     except WeblateLockTimeoutError:
         messages.error(request, DELETE_UNIT_LOCKED_MESSAGE)
+        return redirect(unit)
+    except RepositoryTemplateError as error:
+        log_handled_exception("Could not remove the string")
+        messages.error(
+            request,
+            gettext("Could not remove the string: %s") % error.get_message(gettext),
+        )
         return redirect(unit)
     except FileParseError as error:
         unit.translation.component.update_import_alerts(delete=False)

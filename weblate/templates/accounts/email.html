@@ -34,7 +34,7 @@
       </div>
       <div class="card-footer d-flex flex-wrap align-items-center gap-2">
         <input type="submit"
-               value="{% translate 'Send verification e-mail' %}"
+               value="{% translate 'Send verification e-mail'|force_escape %}"
                class="btn btn-primary" />
         <a class="btn btn-link" href="{% url 'profile' %}#account">{% translate "Back to account settings" %}</a>
       </div>

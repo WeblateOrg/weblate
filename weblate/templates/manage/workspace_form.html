@@ -26,7 +26,9 @@
       </div>
       <div class="card-body">{{ form|crispy }}</div>
       <div class="card-footer">
-        <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+        <input type="submit"
+               value="{% translate "Save"|force_escape %}"
+               class="btn btn-primary" />
       </div>
     </div>
   </form>

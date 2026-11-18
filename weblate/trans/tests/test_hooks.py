@@ -1575,7 +1575,9 @@ class HooksViewTest(ReusableViewTestCase):
     @override_settings(ENABLE_HOOKS=True)
     def test_hook_github_auth(self) -> None:
         # Adjust matching repo
-        self.component.repo = "https://user:pwd@github.com/defunkt/github.git"
+        self.component.repo = (
+            "https://user:pwd@github.com/defunkt/github.git"  # kingfisher:ignore
+        )
         self.component.save()
         response = self.client.post(
             reverse("webhook", kwargs={"service": "github"}),

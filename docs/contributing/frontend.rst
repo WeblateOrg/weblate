@@ -155,6 +155,17 @@ function, but there are more complex features available:
     s = interpolate(fmts, [11, 20]);
     // s is "There are 11 objects. Remaining: 20"
 
+Use ``force_escape`` on literal translations in quoted HTML attributes so that
+quotes in the translation cannot end the attribute.
+
+.. code-block:: django
+
+    <span title="{% translate 'Example tooltip'|force_escape %}">…</span>
+
+When translating text with ``blocktranslate``, account for the escaping of
+interpolated values. Applying ``force_escape`` to a rendered block can escape
+those values twice.
+
 .. seealso::
 
    :doc:`Translation topic in the Django documentation <django:topics/i18n/translation>`

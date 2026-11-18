@@ -58,7 +58,7 @@
       <div class="card-footer">
         {% if can_edit %}
           <input type="submit"
-                 value="{% translate "Update" %}"
+                 value="{% translate "Update"|force_escape %}"
                  class="btn btn-primary"
                  id="update_font_submit" />
           <a href=""

@@ -225,6 +225,9 @@ from weblate.trans.tasks import (
     create_project_backup,
     generate_report,
     project_removal,
+    validate_category_removal,
+    validate_component_removal,
+    validate_project_removal,
 )
 from weblate.trans.uploads import queue_translation_upload
 from weblate.trans.util import get_upload_error_message
@@ -268,6 +271,7 @@ from weblate.utils.views import (
     snapshot_file_response,
     zip_download,
 )
+from weblate.vcs.base import RepositoryTemplateError
 from weblate.workspaces.models import Workspace
 
 from .renderers import (
@@ -626,6 +630,8 @@ class NotSourceUnit(APIException):
 
 class WeblateExceptionHandler(ExceptionHandler):
     def convert_known_exceptions(self, exc: Exception) -> Exception:
+        if isinstance(exc, RepositoryTemplateError):
+            return ValidationError(str(exc))
         if isinstance(exc, WeblateLockTimeoutError):
             if exc.lock.scope == "repository":
                 return LockedError(
@@ -3059,6 +3065,10 @@ class ProjectViewSet(
         instance = self.get_object()
         if not request.user.has_perm("project.edit", instance):
             self.permission_denied(request, "Can not delete project")
+        try:
+            validate_project_removal(instance)
+        except DjangoValidationError as error:
+            raise ValidationError(error.messages) from error
         task = project_removal.delay(instance.pk, request.user.pk)
         store_task_metadata(task.id, user_id=request.user.id)
         return Response(
@@ -3763,6 +3773,10 @@ class ComponentViewSet(
         instance = self.get_object()
         if not request.user.has_perm("component.edit", instance):
             self.permission_denied(request, "Can not delete component")
+        try:
+            validate_component_removal(instance.pk)
+        except DjangoValidationError as error:
+            raise ValidationError(error.messages) from error
         component_removal.delay(
             instance.pk, request.user.pk, get_delete_memory_option(request)
         )
@@ -5665,6 +5679,10 @@ class CategoryViewSet(viewsets.ModelViewSet, ReportsMixin, AnnouncementsMixin):
         """Delete category."""
         instance = self.get_object()
         self.perm_check(request, instance)
+        try:
+            validate_category_removal(instance)
+        except DjangoValidationError as error:
+            raise ValidationError(error.messages) from error
         category_removal.delay(
             instance.pk, request.user.pk, get_delete_memory_option(request)
         )
