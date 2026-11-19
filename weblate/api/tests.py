@@ -22918,6 +22918,53 @@ class ComponentListAPITest(APIBaseTest):
             code=204,
         )
 
+    def test_delete_assigned_component_list(self) -> None:
+        clist = ComponentList.objects.get(slug="name")
+        private_component = self.create_acl()
+        private_project = private_component.project
+        clist.components.set([private_component])
+        team = Group.objects.create(
+            name="Component list administrators",
+            project_selection=SELECTION_COMPONENT_LIST,
+        )
+        team.componentlists.add(clist)
+        team.save()
+        team.roles.add(Role.objects.get(name="Administration"))
+        self.user.groups.add(team)
+        self.grant_perm_to_user("componentlist.edit")
+
+        project_kwargs = {"slug": private_project.slug}
+        self.do_request("api:project-backups", project_kwargs, code=403)
+        response = self.do_request(
+            "api:componentlist-detail", {"slug": clist.slug}, method="delete", code=400
+        )
+        self.assertIn("Remove the component list from its teams", str(response.data))
+        self.assertTrue(team.componentlists.filter(pk=clist.pk).exists())
+        self.do_request("api:project-backups", project_kwargs, code=403)
+
+        remaining = ComponentList.objects.create(name="Remaining", slug="remaining")
+        remaining.components.add(private_component)
+        team.componentlists.add(remaining)
+        self.do_request(
+            "api:componentlist-detail", {"slug": clist.slug}, method="delete", code=204
+        )
+        self.assertCountEqual(team.componentlists.all(), [remaining])
+        self.assertTrue(
+            User.objects.get(pk=self.user.pk).has_perm(
+                "component.edit", private_component
+            )
+        )
+        self.do_request("api:project-backups", project_kwargs, code=403)
+
+        team.componentlists.remove(remaining)
+        self.do_request(
+            "api:componentlist-detail",
+            {"slug": remaining.slug},
+            method="delete",
+            code=204,
+        )
+        self.do_request("api:project-backups", project_kwargs, code=404)
+
     def test_add_component(self) -> None:
         self.do_request(
             "api:componentlist-components",

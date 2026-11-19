@@ -12,6 +12,7 @@ from tempfile import TemporaryDirectory
 from typing import ClassVar, Never
 from unittest.mock import patch
 
+from django.contrib.admin.models import DELETION, LogEntry
 from django.core import mail
 from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 from django.db import connection, transaction
@@ -31,7 +32,14 @@ from weblate.auth.models import (
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.forms import ComponentRenameForm
-from weblate.trans.models import Announcement, Category, Component, Project, Translation
+from weblate.trans.models import (
+    Announcement,
+    Category,
+    Component,
+    ComponentList,
+    Project,
+    Translation,
+)
 from weblate.trans.models.component import ComponentLink, ComponentQuerySet
 from weblate.trans.tasks import category_removal, component_removal
 from weblate.trans.tests.test_views import ViewTestCase
@@ -175,6 +183,41 @@ class ProjectSaveTransactionTest(TransactionTestCase):
 
 
 class RemovalTest(ViewTestCase):
+    def test_admin_component_list_deletion_reports_team_scope_error(self) -> None:
+        first = ComponentList.objects.create(name="First list", slug="first")
+        second = ComponentList.objects.create(name="Second list", slug="second")
+        team = Group.objects.create(name="List deletion team")
+        team.componentlists.add(first)
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.client.force_login(self.user)
+
+        response = self.client.post(
+            reverse("admin:trans_componentlist_delete", args=(first.pk,)),
+            {"post": "yes"},
+            follow=True,
+        )
+        self.assertContains(response, "Remove the component list from its teams")
+
+        team.componentlists.add(second)
+        response = self.client.post(
+            reverse("admin:trans_componentlist_changelist"),
+            {
+                "action": "delete_selected",
+                "_selected_action": [first.pk, second.pk],
+                "post": "yes",
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Remove the component list from its teams")
+        self.assertNotContains(response, "Successfully deleted")
+        self.assertCountEqual(team.componentlists.all(), [first, second])
+        self.assertFalse(
+            LogEntry.objects.filter(
+                content_type__model="componentlist", action_flag=DELETION
+            ).exists()
+        )
+
     def test_admin_component_deletion_reports_team_scope_error(self) -> None:
         team = Group.objects.create(name="Admin deletion team")
         team.components.add(self.component)

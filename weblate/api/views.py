@@ -5609,6 +5609,15 @@ class ComponentListViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
         return super().destroy(request, *args, **kwargs)
 
+    def perform_destroy(self, instance: ComponentList) -> None:
+        try:
+            with transaction.atomic(
+                using=router.db_for_write(ComponentList, instance=instance)
+            ):
+                super().perform_destroy(instance)
+        except DjangoValidationError as error:
+            raise ValidationError(error.messages) from error
+
     @extend_schema(
         description="Associate component with a component list.", methods=["post"]
     )
