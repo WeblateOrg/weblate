@@ -155,6 +155,8 @@ from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.repository import (
     QueuedRepositoryOperation,
     RepositoryOperationConflictError,
+    acquire_repository_operation,
+    release_repository_operation,
 )
 from weblate.trans.tasks import (
     auto_translate,
@@ -14083,6 +14085,35 @@ class RepositoryRecoveryAPITest(APIBaseTest):
                 self.assertIs(response.data["result"], True)
                 for path in paths:
                     self.assertTrue((path / ".git" / "HEAD").exists())
+
+    def test_followup_is_queued_after_reservation_release(self) -> None:
+        remove_tree(self.component.full_path)
+        reserved: list[bool] = []
+
+        def delay(*args: object, **kwargs: object) -> None:
+            try:
+                acquire_repository_operation(
+                    [self.component.pk], "reset-keep", "followup-check"
+                )
+            except RepositoryOperationConflictError:
+                reserved.append(True)
+            else:
+                release_repository_operation([self.component.pk], "followup-check")
+                reserved.append(False)
+
+        # The test transaction holds on-commit callbacks, run them immediately
+        # as in autocommit mode.
+        with (
+            patch("weblate.trans.tasks.perform_commit.delay", side_effect=delay),
+            patch.object(
+                transaction,
+                "on_commit",
+                side_effect=lambda func, *_args, **_kwargs: func(),
+            ),
+        ):
+            response = self.reset_keep("component")
+        self.assertIs(response.data["result"], True)
+        self.assertEqual(reserved, [False])
 
     def test_recovery_failure_is_reported(self) -> None:
         for endpoint in ("component", "project"):
