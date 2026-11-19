@@ -7,6 +7,7 @@ from __future__ import annotations
 import logging
 import time
 from datetime import date, timedelta
+from itertools import batched
 from typing import TYPE_CHECKING
 
 from celery.schedules import crontab
@@ -14,6 +15,7 @@ from django.utils import timezone
 
 from weblate.auth.models import User
 from weblate.lang.models import Language
+from weblate.metrics.aggregation import BATCH_SIZE
 from weblate.metrics.models import Metric
 from weblate.trans.models import (
     Category,
@@ -23,7 +25,6 @@ from weblate.trans.models import (
     Translation,
 )
 from weblate.utils.celery import app
-from weblate.utils.stats import iter_prefetch_stats
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -63,9 +64,17 @@ def collect_project_metrics(date_value: str) -> None:
     started = time.monotonic()
     LOGGER.info("Collecting project metrics for %s", collection_date)
     count = 0
-    for project in iter_prefetch_stats(Project.objects.all()):
-        Metric.objects.collect_project(project, collection_date)
-        count += 1
+    for batch in batched(
+        Project.objects.order_by("pk").iterator(chunk_size=BATCH_SIZE), BATCH_SIZE
+    ):
+        batch_started = time.monotonic()
+        Metric.objects.collect_batch(batch, collection_date)
+        count += len(batch)
+        LOGGER.debug(
+            "Collected %d project metrics in %.2f seconds",
+            len(batch),
+            time.monotonic() - batch_started,
+        )
     _log_finished("project", collection_date, count, started)
 
 
@@ -75,9 +84,17 @@ def collect_workspace_metrics(date_value: str) -> None:
     started = time.monotonic()
     LOGGER.info("Collecting workspace metrics for %s", collection_date)
     count = 0
-    for workspace in iter_prefetch_stats(Workspace.objects.all()):
-        Metric.objects.collect_workspace(workspace, collection_date)
-        count += 1
+    for batch in batched(
+        Workspace.objects.order_by("pk").iterator(chunk_size=BATCH_SIZE), BATCH_SIZE
+    ):
+        batch_started = time.monotonic()
+        Metric.objects.collect_batch(batch, collection_date)
+        count += len(batch)
+        LOGGER.debug(
+            "Collected %d workspace metrics in %.2f seconds",
+            len(batch),
+            time.monotonic() - batch_started,
+        )
     _log_finished("workspace", collection_date, count, started)
 
 
@@ -87,9 +104,17 @@ def collect_category_metrics(date_value: str) -> None:
     started = time.monotonic()
     LOGGER.info("Collecting category metrics for %s", collection_date)
     count = 0
-    for category in iter_prefetch_stats(Category.objects.all()):
-        Metric.objects.collect_category(category, collection_date)
-        count += 1
+    for batch in batched(
+        Category.objects.order_by("pk").iterator(chunk_size=BATCH_SIZE), BATCH_SIZE
+    ):
+        batch_started = time.monotonic()
+        Metric.objects.collect_batch(batch, collection_date)
+        count += len(batch)
+        LOGGER.debug(
+            "Collected %d category metrics in %.2f seconds",
+            len(batch),
+            time.monotonic() - batch_started,
+        )
     _log_finished("category", collection_date, count, started)
 
 
@@ -99,9 +124,17 @@ def collect_component_metrics(date_value: str) -> None:
     started = time.monotonic()
     LOGGER.info("Collecting component metrics for %s", collection_date)
     count = 0
-    for component in iter_prefetch_stats(Component.objects.all()):
-        Metric.objects.collect_component(component, collection_date)
-        count += 1
+    for batch in batched(
+        Component.objects.order_by("pk").iterator(chunk_size=BATCH_SIZE), BATCH_SIZE
+    ):
+        batch_started = time.monotonic()
+        Metric.objects.collect_batch(batch, collection_date)
+        count += len(batch)
+        LOGGER.debug(
+            "Collected %d component metrics in %.2f seconds",
+            len(batch),
+            time.monotonic() - batch_started,
+        )
     _log_finished("component", collection_date, count, started)
 
 
@@ -111,9 +144,17 @@ def collect_component_list_metrics(date_value: str) -> None:
     started = time.monotonic()
     LOGGER.info("Collecting component list metrics for %s", collection_date)
     count = 0
-    for component_list in iter_prefetch_stats(ComponentList.objects.all()):
-        Metric.objects.collect_component_list(component_list, collection_date)
-        count += 1
+    for batch in batched(
+        ComponentList.objects.order_by("pk").iterator(chunk_size=BATCH_SIZE), BATCH_SIZE
+    ):
+        batch_started = time.monotonic()
+        Metric.objects.collect_batch(batch, collection_date)
+        count += len(batch)
+        LOGGER.debug(
+            "Collected %d component_list metrics in %.2f seconds",
+            len(batch),
+            time.monotonic() - batch_started,
+        )
     _log_finished("component list", collection_date, count, started)
 
 
@@ -123,9 +164,17 @@ def collect_translation_metrics(date_value: str) -> None:
     started = time.monotonic()
     LOGGER.info("Collecting translation metrics for %s", collection_date)
     count = 0
-    for translation in iter_prefetch_stats(Translation.objects.all()):
-        Metric.objects.collect_translation(translation, collection_date)
-        count += 1
+    for batch in batched(
+        Translation.objects.order_by("pk").iterator(chunk_size=BATCH_SIZE), BATCH_SIZE
+    ):
+        batch_started = time.monotonic()
+        Metric.objects.collect_batch(batch, collection_date)
+        count += len(batch)
+        LOGGER.debug(
+            "Collected %d translation metrics in %.2f seconds",
+            len(batch),
+            time.monotonic() - batch_started,
+        )
     _log_finished("translation", collection_date, count, started)
 
 
@@ -135,9 +184,10 @@ def collect_user_metrics(date_value: str) -> None:
     started = time.monotonic()
     LOGGER.info("Collecting user metrics for %s", collection_date)
     count = 0
-    for user in User.objects.all().iterator(chunk_size=500):
-        Metric.objects.collect_user(user, collection_date)
-        count += 1
+    user_ids = User.objects.order_by("pk").values_list("pk", flat=True)
+    for batch in batched(user_ids.iterator(chunk_size=500), 500):
+        Metric.objects.collect_users(batch, collection_date)
+        count += len(batch)
     _log_finished("user", collection_date, count, started)
 
 
@@ -147,9 +197,17 @@ def collect_language_metrics(date_value: str) -> None:
     started = time.monotonic()
     LOGGER.info("Collecting language metrics for %s", collection_date)
     count = 0
-    for language in iter_prefetch_stats(Language.objects.all()):
-        Metric.objects.collect_language(language, collection_date)
-        count += 1
+    for batch in batched(
+        Language.objects.order_by("pk").iterator(chunk_size=BATCH_SIZE), BATCH_SIZE
+    ):
+        batch_started = time.monotonic()
+        Metric.objects.collect_batch(batch, collection_date)
+        count += len(batch)
+        LOGGER.debug(
+            "Collected %d language metrics in %.2f seconds",
+            len(batch),
+            time.monotonic() - batch_started,
+        )
     _log_finished("language", collection_date, count, started)
 
 

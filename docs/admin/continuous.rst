@@ -103,9 +103,13 @@ triggered, see :ref:`addons`.
 Matching webhook targets
 ++++++++++++++++++++++++
 
-Forge webhooks update components whose :ref:`component-repo` exactly matches a
-repository URL from the payload (HTTPS or SSH as reported by the forge, plus
-common variants such as a trailing slash).
+Forge webhooks match repository-owning components whose :ref:`component-repo`
+exactly matches a repository URL from the payload (HTTPS or SSH as reported by
+the forge, plus common variants such as a trailing slash). Components that
+share a repository through :ref:`internal-urls` are refreshed as part of the
+owner's update and are excluded from webhook matching and diagnostic counts.
+Webhook deliveries containing more than 64 repository URLs are rejected before
+matching components.
 
 Generic forge webhook endpoints are compatibility interfaces, and ordinary
 repository deliveries are not cryptographically authenticated. Legacy GitHub
@@ -248,6 +252,11 @@ task and shows its progress. Repeating the same action opens the existing task;
 a different action cannot be started for the same repository until that task
 finishes.
 
+Repository actions are authorized when Weblate accepts and queues the request.
+Later changes to the initiating user's permissions or team memberships, or
+account deactivation, do not cancel accepted work, including task retries.
+New requests require the current account and permissions to authorize them.
+
 The :guilabel:`Synchronize` and :guilabel:`Rescan` repository operations are
 queued for background processing as described above. The separate
 :guilabel:`File management` actions are available only for an individual
@@ -348,7 +357,7 @@ afresh from upstream. If the affected branch is already configured, use
 .. _manage-vcs-reset-reapply:
 
 Reset and reapply translations recovery behavior
-```````````````````````````````````````````````````
+````````````````````````````````````````````````
 
 The :guilabel:`Reset and reapply translations` operation keeps translations from
 Weblate while resetting the local repository state to match upstream.
@@ -378,8 +387,9 @@ inspect and remove them manually after verifying recovery. Reconstruction cannot
 restore lost Git history or files and metadata that Weblate does not store.
 
 Recovery is explicit: background updates do not automatically rebuild checkouts.
-If a checkout is unexpectedly missing, first verify that the data volume is
-available to the worker performing recovery.
+Use :wladmin:`recovergit` with ``--all`` to queue recovery for all missing
+checkouts at once, for example at container startup. If a checkout is unexpectedly missing, first
+verify that the data volume is available to the worker performing recovery.
 Damaged Git metadata in an existing :file:`.git` directory requires manual
 inspection and repair by an instance administrator.
 
@@ -587,7 +597,9 @@ currently translating user in all components.
 
 Propagation preconditions:
 
-- All components have to reside in a single project (linking component is not enough).
+- Components must belong to the configured
+  :ref:`workspace propagation scope <workspace-propagation-scope>`. By default,
+  this is a single project (linking a component is not enough).
 - Enable :ref:`component-allow_translation_propagation` to automatically reuse translations for matching strings.
 - The translation propagation requires the key to be match for monolingual
   translation formats, so keep that in mind when creating translation keys.

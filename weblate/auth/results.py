@@ -25,3 +25,7 @@ class Allowed(PermissionResult):
 class Denied(PermissionResult):
     def __bool__(self) -> bool:
         return False
+
+
+class ContributorAgreementDenied(Denied):
+    """A contribution requires accepting its agreement first."""

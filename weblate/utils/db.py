@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+import re
 import time
 from shutil import disk_usage
 from typing import TYPE_CHECKING
@@ -13,12 +14,14 @@ from typing import TYPE_CHECKING
 from django.db import DatabaseError, ProgrammingError, connections, transaction
 from django.db.models.lookups import Lookup, PatternLookup, Regex
 
-from .inv_regex import invert_re
-
 if TYPE_CHECKING:
     from django.db.backends.base.base import BaseDatabaseWrapper
 
 ESCAPED = frozenset(".\\+*?[^]$(){}=!<>|:-")
+MAX_SEARCH_REGEX_LENGTH = 256
+MAX_SEARCH_REGEX_NESTING = 32
+MAX_SEARCH_REGEX_REPETITION = 1000
+REGEX_REPETITION = re.compile(r"\{(\d+)(?:,(\d*))?\}")
 
 PG_TRGM = "CREATE INDEX {0}_{1}_fulltext ON trans_{0} USING GIN ({1} gin_trgm_ops {2})"
 PG_DROP = "DROP INDEX {0}_{1}_fulltext"
@@ -139,6 +142,64 @@ def use_trgm_fallback(string: str) -> bool:
     return count_alnum(string) <= 3
 
 
+class RegexAnalysisLimitError(ValueError):
+    """The regular expression exceeds the search limits."""
+
+
+def validate_search_regex(pattern: str) -> None:
+    """Bound regex size and repetition before handing it to PostgreSQL."""
+    if len(pattern) > MAX_SEARCH_REGEX_LENGTH:
+        raise RegexAnalysisLimitError
+
+    depth = 0
+    escaped = False
+    in_range = False
+    for index, char in enumerate(pattern):
+        if escaped:
+            escaped = False
+        elif char == "\\":
+            escaped = True
+        elif char == "[":
+            in_range = True
+        elif char == "]":
+            in_range = False
+        elif not in_range and char == "(":
+            depth += 1
+            if depth > MAX_SEARCH_REGEX_NESTING:
+                raise RegexAnalysisLimitError
+        elif not in_range and char == ")":
+            depth -= 1
+        elif not in_range and char == "{":
+            match = REGEX_REPETITION.match(pattern, index)
+            if match and int(match[2] or match[1]) > MAX_SEARCH_REGEX_REPETITION:
+                raise RegexAnalysisLimitError
+
+
+def regex_needs_trgm_fallback(pattern: str) -> bool:
+    """Use the index only when a literal run is required by a simple regex."""
+    pattern = pattern.removeprefix("(?i)").removeprefix("^").removesuffix("$")
+
+    run = 0
+    has_literal_run = False
+    index = 0
+    while index < len(pattern):
+        if pattern.startswith(".*", index):
+            run = 0
+            index += 2
+            continue
+        char = pattern[index]
+        if char in r"\[](){}|?+*.^$":
+            return True
+        if char.isalnum():
+            run += 1
+            if run == 3:
+                has_literal_run = True
+        else:
+            run = 0
+        index += 1
+    return not has_literal_run
+
+
 class PostgreSQLFallbackLookupMixin(Lookup):
     """
     Mixin to block PostgreSQL from using trigram index.
@@ -169,9 +230,11 @@ class PostgreSQLFallbackLookup(PostgreSQLFallbackLookupMixin, PatternLookup):
 
 class PostgreSQLRegexLookup(PostgreSQLFallbackLookupMixin, Regex):
     def __init__(self, lhs, rhs) -> None:
-        self._needs_fallback = isinstance(rhs, str) and (
-            min((count_alnum(match) for match in invert_re(rhs)), default=0) < 3
-        )
+        if isinstance(rhs, str):
+            validate_search_regex(rhs)
+            self._needs_fallback = regex_needs_trgm_fallback(rhs)
+        else:
+            self._needs_fallback = False
         super().__init__(lhs, rhs)
 
 

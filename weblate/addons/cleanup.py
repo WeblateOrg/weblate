@@ -118,6 +118,7 @@ class RemoveBlankAddon(BaseCleanupAddon):
             self.extra_files.extend(filenames)
             # Do not update hash in post_update, only in post_commit
             if previous_head == "weblate:post-commit":
+                translation.refresh_unit_line_numbers()
                 translation.store_hash()
 
     def post_commit(
@@ -145,6 +146,8 @@ class ResetAddon(BaseAddon):
     repo_scope = True
     icon = "eraser.svg"
     version_added = "5.17"
+    user_name = "reset"
+    user_verbose = "Repository reset add-on"
 
     @classmethod
     def can_install(

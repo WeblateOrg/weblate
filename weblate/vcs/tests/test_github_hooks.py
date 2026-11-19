@@ -10,8 +10,10 @@ import json
 from datetime import timedelta
 from io import StringIO
 from pathlib import Path
+from unittest.mock import patch
 
 from django.core.cache import cache
+from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test import override_settings
@@ -23,6 +25,7 @@ from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.data import data_dir
 from weblate.utils.tests import http_mock
+from weblate.utils.tests.network import mock_dns
 from weblate.vcs.git import GitRepository
 from weblate.vcs.github import (
     GitHubAppCredentials,
@@ -70,6 +73,9 @@ class TestGitHubAppHooks(ViewTestCase):
 
     def setUp(self) -> None:
         super().setUp()
+        self.enterContext(
+            mock_dns("api.github.com", "github.com", "github.example.com")
+        )
         # Webhook endpoints are unauthenticated; use a plain API client.
         self.client = APIClient()
         self.workspace = Workspace.objects.create(name="Hook Workspace")
@@ -421,16 +427,23 @@ class TestGitHubAppHooks(ViewTestCase):
             "installation": {"id": 12345, "app_id": 99999, "account": {}},
         }
         body = json.dumps(data)
-        response = self.client.post(
-            self.WEBHOOK_URL,
-            data=body,
-            content_type="application/json",
-            headers={
-                "x-github-event": "installation",
-                "x-hub-signature-256": "sha256=0" * 32,
-            },
-        )
-        self.assertEqual(response.status_code, 403)
+        for signature in ("sha256=0" * 32, "sha256=é"):
+            with (
+                self.subTest(signature=signature),
+                patch("weblate.trans.views.hooks.report_error") as report_error,
+            ):
+                response = self.client.post(
+                    self.WEBHOOK_URL,
+                    data=body,
+                    content_type="application/json",
+                    headers={
+                        "x-github-event": "installation",
+                        "x-hub-signature-256": signature,
+                    },
+                )
+                self.assertEqual(response.status_code, 403)
+                report_error.assert_not_called()
+        self.assertTrue(GitHubInstallation.objects.get(installation_id="12345").enabled)
 
     def test_other_integration_secret_does_not_authorize(self) -> None:
         """Signing with another integration's secret must be rejected."""
@@ -575,12 +588,17 @@ class TestGitHubAppHooks(ViewTestCase):
             {"secret": None},
             {"secret": "wrong-secret"},
             {"signature": "invalid"},
+            {"signature": "sha256=é"},
         )
 
         for signature in signatures:
-            with self.subTest(signature=signature):
+            with (
+                self.subTest(signature=signature),
+                patch("weblate.trans.views.hooks.report_error") as report_error,
+            ):
                 response = self._legacy_post("push", data, **signature)
                 self.assertEqual(response.status_code, 403)
+                report_error.assert_not_called()
 
     @override_settings(GITHUB_LEGACY_APP_WEBHOOK_SECRET="legacy-secret")
     def test_legacy_app_push_excludes_github_app_components(self) -> None:
@@ -747,6 +765,9 @@ class RefreshGitHubRepositoriesTest(ViewTestCase):
 
     def setUp(self) -> None:
         super().setUp()
+        self.enterContext(
+            mock_dns("api.github.com", "github.com", "github.example.com")
+        )
         cache.clear()
         http_mock.start()
         self.addCleanup(http_mock.stop)
@@ -853,8 +874,11 @@ class RefreshGitHubRepositoriesTest(ViewTestCase):
         self.assertEqual(change.details["target"], self.NEW_URL)
 
     def test_update_clears_failure_alert(self) -> None:
-        # The repository is gone from the old URL
+        # Fail locally for the old URL instead of attempting a network fetch.
         self._route_git(self.NEW_URL)
+        missing_repo = Path(self.git_repo_path).with_name("missing-repo.git").as_uri()
+        with self.gitconfig.open("a") as config:
+            config.write(f'[url "{missing_repo}"]\n\tinsteadOf = {self.OLD_URL}\n')
         self.assertFalse(self.component.do_update())
         self.assertTrue(self.component.alert_set.filter(name="UpdateFailure").exists())
         self._register_repositories("test-org/new-repo")
@@ -871,6 +895,23 @@ class RefreshGitHubRepositoriesTest(ViewTestCase):
 
         call_command("refresh_github_repositories", stdout=StringIO())
 
+        self.assert_component_repo(self.OLD_URL)
+
+    def test_reports_blocked_repository_lookup(self) -> None:
+        self._register_repositories("test-org/other")
+        with (
+            patch(
+                "weblate.vcs.github.get_app_repository",
+                side_effect=ValidationError("Private target prohibited"),
+            ),
+            patch("weblate.vcs.github.report_error") as report_error,
+        ):
+            call_command("refresh_github_repositories", stdout=StringIO())
+
+        report_error.assert_called_once()
+        self.assertEqual(
+            report_error.call_args.args[0], "Failed to look up moved GitHub repository"
+        )
         self.assert_component_repo(self.OLD_URL)
 
     def test_ignores_deleted_repository(self) -> None:

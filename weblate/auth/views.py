@@ -3,27 +3,36 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
-from django.contrib.auth.decorators import login_not_required
+from django.contrib.auth.decorators import login_not_required, login_required
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.forms import inlineformset_factory
 from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext
 from django.views.generic import DetailView, UpdateView
 
+from weblate.accounts.models import TeamAuditLog
+from weblate.accounts.utils import (
+    has_recent_sensitive_verification,
+    sensitive_verification_redirect,
+)
+from weblate.auth.audit import audit_team_changes
 from weblate.auth.decorators import check_management_access
 from weblate.auth.forms import ProjectTeamForm, SitewideTeamForm, WorkspaceTeamForm
 from weblate.auth.models import (
     AutoGroup,
     Group,
     Invitation,
+    InvitationBlockedAdminError,
     InvitationExpiredError,
+    InvitationRemovedError,
     InvitationUserMismatchError,
+    User,
 )
 from weblate.auth.utils import prefetch_membership_limit_languages
 from weblate.trans.forms import UserAddTeamForm, UserManageForm
@@ -33,12 +42,59 @@ from weblate.utils.views import get_paginator, show_form_errors
 from weblate.wladmin.forms import ChangedCharField
 
 if TYPE_CHECKING:
+    from typing import Any
+
     from django.forms.models import BaseInlineFormSet
-    from django.http import HttpResponse
+    from django.http import HttpRequest, HttpResponse
 
     from weblate.auth.models import (
         AuthenticatedHttpRequest,
-        User,
+    )
+
+
+@login_required
+def team_audit(request: AuthenticatedHttpRequest) -> HttpResponse:
+    """Expose team details only within the viewer's administrative scopes."""
+    user = request.user
+    if not user.is_superuser and not (
+        user.accessible_managed_projects.exists()
+        or user.workspaces_with_perm("workspace.edit_members").exists()
+    ):
+        raise PermissionDenied
+    entries = TeamAuditLog.objects.for_user(user).select_related(
+        "actor", "project", "workspace"
+    )
+    if project := request.GET.get("project"):
+        entries = entries.filter(project__slug=project)
+    if team := request.GET.get("team"):
+        try:
+            team_id = int(team)
+        except ValueError:
+            entries = entries.none()
+        else:
+            entries = entries.filter(team_id=team_id)
+    return render(
+        request,
+        "auth/team-audit.html",
+        {
+            "entries": get_paginator(request, entries),
+            "title": gettext("Team audit log"),
+        },
+    )
+
+
+@login_required
+def team_audit_detail(request: AuthenticatedHttpRequest, pk: int) -> HttpResponse:
+    entry = get_object_or_404(
+        TeamAuditLog.objects.for_user(request.user).select_related(
+            "actor", "project", "workspace"
+        ),
+        pk=pk,
+    )
+    return render(
+        request,
+        "auth/team-audit-detail.html",
+        {"entry": entry, "title": gettext("Team audit entry")},
     )
 
 
@@ -96,8 +152,29 @@ class TeamUpdateView(UpdateView):
 
         return result
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         result = super().get_context_data(**kwargs)
+        user = self.request.user
+        result["can_view_team_audit"] = (
+            user.is_superuser
+            or (
+                self.object.defining_project_id is not None
+                and user.has_perm("project.edit", self.object.defining_project)
+            )
+            or (
+                self.object.defining_workspace_id is not None
+                and user.has_perm(
+                    "workspace.edit_members", self.object.defining_workspace
+                )
+            )
+        )
+        if result["can_view_team_audit"]:
+            result["team_audit_entries"] = get_paginator(
+                self.request,
+                TeamAuditLog.objects.for_user(user)
+                .filter(team=self.object)
+                .select_related("actor", "project", "workspace"),
+            )
 
         if "auto_formset" not in result:
             result["auto_formset"] = self.auto_formset(instance=self.object)
@@ -172,8 +249,18 @@ class TeamUpdateView(UpdateView):
         return redirect_next(request.POST.get("next"), fallback)
 
     # pylint: disable=arguments-differ
-    def post(self, request: AuthenticatedHttpRequest, **kwargs):
+    @transaction.atomic
+    def post(
+        self, request: HttpRequest, *args: object, **kwargs: object
+    ) -> HttpResponse:
+        if not isinstance(request.user, User):
+            raise PermissionDenied
         self.object = self.get_object()
+        authenticated_request = cast("AuthenticatedHttpRequest", request)
+        with audit_team_changes(self.object, request.user, request):
+            return self.handle_team_post(authenticated_request)
+
+    def handle_team_post(self, request: AuthenticatedHttpRequest) -> HttpResponse:
         if (
             self.object.defining_project is None
             and self.object.defining_workspace is None
@@ -182,13 +269,19 @@ class TeamUpdateView(UpdateView):
             check_management_access(request, "group.edit")
         if self.request.user.has_perm("meta:team.users", self.object):
             if "add_user" in request.POST:
+                if not has_recent_sensitive_verification(request):
+                    return sensitive_verification_redirect(request, request.path)
                 return self.handle_add_user(request)
             if "remove_user" in request.POST:
+                if not has_recent_sensitive_verification(request):
+                    return sensitive_verification_redirect(request, request.path)
                 return self.handle_remove_user(request)
 
         form = self.get_form()
         if form is None:
             raise PermissionDenied
+        if not has_recent_sensitive_verification(request):
+            return sensitive_verification_redirect(request, request.path)
 
         if "delete" in request.POST:
             return self.handle_delete(request)
@@ -262,6 +355,45 @@ class InvitationView(DetailView):
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
 
+    def handle_admin_action(
+        self, request: AuthenticatedHttpRequest, action: str
+    ) -> HttpResponse:
+        invitation = self.object
+        user = request.user
+        if action == "remove" and not has_recent_sensitive_verification(request):
+            return sensitive_verification_redirect(request, request.path)
+        project = invitation.group.defining_project
+        workspace = invitation.group.defining_workspace
+        # Permission check
+        if project:
+            allowed = user.has_perm("project.permissions", project)
+        elif workspace:
+            allowed = user.has_perm("workspace.edit_members", workspace)
+        else:
+            check_management_access(request, "user.edit")
+            allowed = True
+        if not allowed:
+            raise PermissionDenied
+
+        # Perform admin action
+        if action == "resend":
+            invitation.send_email()
+            messages.success(request, gettext("User invitation e-mail was sent."))
+        elif invitation.revoke():
+            messages.success(request, gettext("User invitation was removed."))
+        else:
+            messages.error(
+                request,
+                gettext("This invitation was already accepted or removed."),
+            )
+
+        # Redirect
+        if project:
+            return redirect("manage-access", project=project.slug)
+        if workspace:
+            return redirect(workspace)
+        return redirect("manage-users")
+
     def post(self, request: AuthenticatedHttpRequest, **kwargs) -> HttpResponse:
         self.object = invitation = self.get_object()
         user = request.user
@@ -269,33 +401,7 @@ class InvitationView(DetailView):
         # Handle admin actions first
         action = request.POST.get("action", "")
         if action in {"resend", "remove"}:
-            project = invitation.group.defining_project
-            workspace = invitation.group.defining_workspace
-            # Permission check
-            if project:
-                allowed = user.has_perm("project.permissions", project)
-            elif workspace:
-                allowed = user.has_perm("workspace.edit_members", workspace)
-            else:
-                check_management_access(request, "user.edit")
-                allowed = True
-            if not allowed:
-                raise PermissionDenied
-
-            # Perform admin action
-            if action == "resend":
-                invitation.send_email()
-                messages.success(request, gettext("User invitation e-mail was sent."))
-            else:
-                invitation.delete()
-                messages.success(request, gettext("User invitation was removed."))
-
-            # Redirect
-            if project:
-                return redirect("manage-access", project=project.slug)
-            if workspace:
-                return redirect(workspace)
-            return redirect("manage-users")
+            return self.handle_admin_action(request, action)
 
         # Check if invitation can be accepted
         if not user.is_authenticated:
@@ -312,7 +418,13 @@ class InvitationView(DetailView):
         except InvitationExpiredError:
             messages.error(request, gettext("This invitation has expired."))
             return redirect_param("profile", "#account")
-        except InvitationUserMismatchError as error:
+        except InvitationBlockedAdminError:
+            messages.error(
+                request,
+                gettext("Remove the project block before accepting this invitation."),
+            )
+            return redirect_param("profile", "#account")
+        except (InvitationRemovedError, InvitationUserMismatchError) as error:
             raise Http404 from error
 
         if invitation.group.defining_project:
@@ -335,7 +447,13 @@ def accept_invitation(
     except InvitationExpiredError as error:
         messages.error(request, gettext("This invitation has expired."))
         raise Http404 from error
-    except InvitationUserMismatchError as error:
+    except InvitationBlockedAdminError as error:
+        messages.error(
+            request,
+            gettext("Remove the project block before accepting this invitation."),
+        )
+        raise Http404 from error
+    except (InvitationRemovedError, InvitationUserMismatchError) as error:
         raise Http404 from error
 
     messages.success(

@@ -19,6 +19,7 @@ from django.core.exceptions import PermissionDenied
 from django.db import IntegrityError, connection
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.utils import timezone
+from django.utils.translation import get_language, override
 
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, Permission, Role, User
@@ -49,6 +50,9 @@ from weblate.trans.repository_context import (
 )
 from weblate.trans.tasks import (
     RepositoryOperationRetryError,
+    _get_component_by_vcs_path,
+    _is_project_or_category_path,
+    _StaleRepositoryLookup,
     cleanup_repos,
     cleanup_stale_repos,
     cleanup_suggestions,
@@ -70,16 +74,23 @@ from weblate.trans.tasks import (
 from weblate.trans.tests.test_views import ComponentTestCase, ReusableComponentTestCase
 from weblate.utils import messages
 from weblate.utils.celery import delete_task_metadata
-from weblate.utils.change_origin import change_origin_context, get_change_origin
+from weblate.utils.change_origin import (
+    acting_user_context,
+    change_origin_context,
+    get_acting_user,
+    get_change_origin,
+)
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
+from weblate.utils.task_log import get_visible_task_log
 from weblate.utils.tasks import (
     update_language_stats_parents,
     update_project_stats_link,
     update_translation_stats_parents,
 )
 from weblate.utils.version import GIT_VERSION
+from weblate.vcs.base import RepositoryInternalError, RepositoryTemplateError
 
 if TYPE_CHECKING:
     from collections.abc import Generator, Iterator
@@ -88,6 +99,67 @@ if TYPE_CHECKING:
 
 
 class CleanupTest(ComponentTestCase):
+    def test_commit_template_completion_uses_initiator_language(self) -> None:
+        self.user.profile.language = "cs"
+        self.user.profile.save(update_fields=["language"])
+        for user_id, language in ((self.user.pk, "cs"), (None, "en")):
+            with (
+                self.subTest(language=language),
+                override("de"),
+                patch(
+                    "weblate.trans.tasks.perform_component_commit",
+                    side_effect=RepositoryTemplateError(
+                        "commit message", "Invalid filter"
+                    ),
+                ),
+                patch(
+                    "weblate.trans.tasks.gettext",
+                    side_effect=lambda message: f"{get_language()}: {message}",
+                ),
+            ):
+                result = perform_commit.run(self.component.pk, "test", user_id=user_id)
+            self.assertTrue(
+                result["completion_message"]["text"].startswith(f"{language}: ")
+            )
+
+    def test_push_template_failure_preserves_successful_commit(self) -> None:
+        unit = self.get_unit()
+        unit.translate(self.user, "Committed before push failure", STATE_TRANSLATED)
+        head = self.component.repository.last_revision
+
+        def push(*args, **kwargs) -> None:
+            if not repository_task_suppress_auto_push.get():
+                msg = "merge message"
+                raise RepositoryTemplateError(msg, "Invalid template")
+
+        with patch.object(Component, "push_if_needed", side_effect=push):
+            result = perform_commit.run(self.component.pk, "test", user_id=self.user.pk)
+
+        self.assertFalse(result["result"])
+        self.assertIn("could not push", result["completion_message"]["text"])
+        self.assertNotIn(
+            "Could not commit pending changes", result["completion_message"]["text"]
+        )
+        self.assertFalse(PendingUnitChange.objects.filter(unit=unit).exists())
+        self.assertNotEqual(self.component.repository.get_last_revision(), head)
+
+    def test_automatic_commit_template_failure_is_handled(self) -> None:
+        self.component.commit_message = "{% invalid %}"
+        self.component.inherit_commit_message = False
+        Component.objects.filter(pk=self.component.pk).update(
+            commit_message=self.component.commit_message, inherit_commit_message=False
+        )
+        unit = self.get_unit()
+        unit.translate(self.user, "Pending template failure", STATE_TRANSLATED)
+        head = self.component.repository.last_revision
+
+        result = perform_commit.run(self.component.pk, "test", user_id=self.user.pk)
+
+        self.assertFalse(result["result"])
+        self.assertIn("commit message", result["completion_message"]["text"])
+        self.assertTrue(PendingUnitChange.objects.filter(unit=unit).exists())
+        self.assertEqual(self.component.repository.get_last_revision(), head)
+
     def test_cleanup_suggestions_batches_query(self) -> None:
         suggestions = Mock()
         suggestions.iterator.return_value = ()
@@ -143,6 +215,10 @@ class CleanupTest(ComponentTestCase):
 
 
 class TasksTest(ReusableComponentTestCase):
+    def tearDown(self) -> None:
+        cache.delete("task-log-task-id")
+        super().tearDown()
+
     def test_repository_commit_uses_locked_wrapper(self) -> None:
         method = Mock()
 
@@ -572,24 +648,106 @@ class TasksTest(ReusableComponentTestCase):
 
         retry.assert_called_once_with(exc=conflict, countdown=3600, kwargs={})
 
-    def test_repository_operation_revalidates_permission(self) -> None:
-        task = SimpleNamespace(update_state=Mock())
-        with (
-            patch.object(User, "has_perm", return_value=False),
-            patch.object(Component, "do_cleanup", autospec=True) as cleanup,
-            self.assertRaises(PermissionDenied),
-        ):
-            execute_repository_operation(
-                task,
-                "cleanup",
-                [self.component.pk],
-                self.user.pk,
-                "task-id",
-            )
+    def check_repository_operation_survives_revocation(
+        self, phase: str, *, deactivate: bool = False
+    ) -> None:
+        self.user.groups.clear()
+        role = Role.objects.create(name="Queued repository reset")
+        role.permissions.add(Permission.objects.get(codename="vcs.reset"))
+        group = Group.objects.create(
+            name="Queued repository reset", language_selection=SELECTION_ALL
+        )
+        group.projects.add(self.project)
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        second = self.create_po(project=self.project, name="Second")
+        component_ids = [self.component.pk, second.pk]
+        for component in (self.component, second):
+            self.assertTrue(self.user.has_perm("vcs.reset", component))
 
-        cleanup.assert_not_called()
+        def revoke() -> None:
+            # Change a separate instance, as a concurrent request would.
+            user = User.objects.get(pk=self.user.pk)
+            if deactivate:
+                user.is_active = False
+                user.save(update_fields=["is_active"])
+                self.assertFalse(User.objects.get(pk=user.pk).is_active)
+            else:
+                user.groups.remove(group)
+                self.assertFalse(
+                    User.objects.get(pk=user.pk).has_perm("vcs.reset", second)
+                )
 
-    def test_repository_operation_rechecks_owner_after_link_added(self) -> None:
+        calls: list[int] = []
+
+        def cleanup(component, request) -> bool:
+            calls.append(component.pk)
+            self.assertEqual(request.user.pk, self.user.pk)
+            self.assertEqual(get_acting_user(), request.user)
+            if phase == "between" and component.pk == self.component.pk:
+                revoke()
+            if phase == "retry" and calls == component_ids:
+                msg = "locked"
+                raise WeblateLockTimeoutError(msg, lock=second.lock)
+            return True
+
+        if phase == "before":
+            revoke()
+        task = Mock()
+        with patch.object(Component, "do_cleanup", autospec=True, side_effect=cleanup):
+            if phase == "retry":
+                with self.assertRaises(RepositoryOperationRetryError) as raised:
+                    execute_repository_operation(
+                        task, "cleanup", component_ids, self.user.pk, "task-id"
+                    )
+                revoke()
+                retry = raised.exception
+                result = execute_repository_operation(
+                    task,
+                    "cleanup",
+                    component_ids,
+                    self.user.pk,
+                    "task-id",
+                    start_index=retry.start_index,
+                    successful=retry.successful,
+                    failure_messages=retry.failure_messages,
+                    resume_followup=retry.resume_followup,
+                    followup_previous_head=retry.followup_previous_head,
+                )
+            else:
+                result = execute_repository_operation(
+                    task, "cleanup", component_ids, self.user.pk, "task-id"
+                )
+
+        self.assertTrue(result["result"])
+        self.assertEqual(
+            calls, component_ids + ([second.pk] if phase == "retry" else [])
+        )
+
+    def test_repository_operation_survives_revocation_before_execution(self) -> None:
+        self.check_repository_operation_survives_revocation("before")
+
+    def test_repository_operation_survives_deactivation_before_execution(self) -> None:
+        self.check_repository_operation_survives_revocation("before", deactivate=True)
+
+    def test_repository_operation_survives_revocation_between_repositories(
+        self,
+    ) -> None:
+        self.check_repository_operation_survives_revocation("between")
+
+    def test_repository_operation_survives_deactivation_between_repositories(
+        self,
+    ) -> None:
+        self.check_repository_operation_survives_revocation("between", deactivate=True)
+
+    def test_repository_operation_survives_revocation_on_retry(self) -> None:
+        self.check_repository_operation_survives_revocation("retry")
+
+    def test_repository_operation_survives_deactivation_on_retry(self) -> None:
+        self.check_repository_operation_survives_revocation("retry", deactivate=True)
+
+    def test_repository_operation_keeps_owner_after_link_added(self) -> None:
         self.user.groups.clear()
         role = Role.objects.create(name="Repository owner reset")
         role.permissions.add(Permission.objects.get(codename="vcs.reset"))
@@ -613,14 +771,12 @@ class TasksTest(ReusableComponentTestCase):
         cleanup.assert_called_once()
 
         self.user.groups.remove(group)
-        with (
-            patch.object(Component, "do_cleanup") as cleanup,
-            self.assertRaises(PermissionDenied),
-        ):
-            execute_repository_operation(
+        with patch.object(Component, "do_cleanup", return_value=True) as cleanup:
+            result = execute_repository_operation(
                 task, "cleanup", [self.component.pk], self.user.pk, "task-id"
             )
-        cleanup.assert_not_called()
+        self.assertTrue(result["result"])
+        cleanup.assert_called_once()
 
     def test_repository_operation_rejects_changed_repository_link(self) -> None:
         repository = self.create_po(project=self.project, name="Other repository")
@@ -630,7 +786,6 @@ class TasksTest(ReusableComponentTestCase):
         task = SimpleNamespace(update_state=Mock())
 
         with (
-            patch.object(User, "has_perm", return_value=True),
             patch.object(Component, "do_cleanup", autospec=True) as cleanup,
         ):
             result = execute_repository_operation(
@@ -644,7 +799,7 @@ class TasksTest(ReusableComponentTestCase):
         self.assertFalse(result["result"])
         cleanup.assert_not_called()
 
-    def test_repository_operation_preserves_failure_message(self) -> None:
+    def test_repository_operation_returns_generic_failure(self) -> None:
         task = SimpleNamespace(update_state=Mock())
 
         def cleanup(component, request) -> bool:
@@ -652,7 +807,6 @@ class TasksTest(ReusableComponentTestCase):
             return False
 
         with (
-            patch.object(User, "has_perm", return_value=True),
             patch.object(Component, "do_cleanup", autospec=True, side_effect=cleanup),
         ):
             result = execute_repository_operation(
@@ -666,8 +820,71 @@ class TasksTest(ReusableComponentTestCase):
         self.assertFalse(result["result"])
         self.assertEqual(
             result["completion_message"],
-            {"level": "error", "text": "Specific repository failure."},
+            {"level": "error", "text": "Repository operation completed with errors."},
         )
+
+    def test_repository_operation_redacts_component_identifiers(self) -> None:
+        task = SimpleNamespace(update_state=Mock())
+
+        def cleanup(component, request) -> bool:
+            messages.error(
+                request,
+                f"Could not push {component}: specific failure in {component.full_slug}",
+            )
+            return False
+
+        with (
+            patch.object(Component, "do_cleanup", autospec=True, side_effect=cleanup),
+        ):
+            result = execute_repository_operation(
+                task, "cleanup", [self.component.pk], self.user.pk, "task-id"
+            )
+
+        self.assertEqual(
+            result["completion_message"],
+            {"level": "error", "text": "Repository operation completed with errors."},
+        )
+
+    def test_repository_operation_redacts_fork_account(self) -> None:
+        task = SimpleNamespace(
+            update_state=Mock(), request=SimpleNamespace(id="task-id")
+        )
+        Component.objects.filter(pk=self.component.pk).update(
+            repo="https://git.internal/owner/repo.git"
+        )
+        error = RepositoryInternalError(
+            0,
+            "repository_fork_not_found",
+            params={"hostname": "git.internal", "username": "private-service-account"},
+        )
+
+        def cleanup(component, request) -> bool:
+            messages.error(
+                request, f"Could not push {component}: {component.error_text(error)}"
+            )
+            return False
+
+        with (
+            patch("weblate.trans.models.component.current_task", task),
+            patch.object(Component, "do_cleanup", autospec=True, side_effect=cleanup),
+        ):
+            result = execute_repository_operation(
+                task, "cleanup", [self.component.pk], self.user.pk, "task-id"
+            )
+
+        text = result["completion_message"]["text"]
+        self.assertEqual(text, "Repository operation completed with errors.")
+        self.assertNotIn("private-service-account", text)
+        self.assertNotIn("git.internal", text)
+        self.assertEqual(error.params["username"], "private-service-account")
+        with patch.object(self.user, "has_perm", return_value=True):
+            log = "\n".join(get_visible_task_log("task-id", self.user))
+        self.assertIn("private-service-account", log)
+        self.assertIn("Repository not found", log)
+        with patch.object(self.user, "has_perm", return_value=False):
+            log = "\n".join(get_visible_task_log("task-id", self.user))
+        self.assertIn("Repository cleanup failed", log)
+        self.assertNotIn("private-service-account", log)
 
     def test_repository_operation_retries_only_file_sync_commit(self) -> None:
         task = SimpleNamespace(update_state=Mock())
@@ -675,7 +892,6 @@ class TasksTest(ReusableComponentTestCase):
         followup_error = RepositoryFollowupLockError(lock_timeout, "file-sync")
 
         with (
-            patch.object(User, "has_perm", return_value=True),
             patch.object(
                 Component,
                 "do_file_sync",
@@ -694,7 +910,6 @@ class TasksTest(ReusableComponentTestCase):
 
         self.assertEqual(raised.exception.resume_followup, "file-sync")
         with (
-            patch.object(User, "has_perm", return_value=True),
             patch.object(Component, "do_file_sync", autospec=True) as file_sync,
             patch("weblate.trans.tasks.perform_component_commit") as commit,
         ):
@@ -728,7 +943,6 @@ class TasksTest(ReusableComponentTestCase):
 
         with (
             patch.object(task, "update_state"),
-            patch.object(User, "has_perm", return_value=True),
             patch.object(
                 Component,
                 "do_update",
@@ -748,7 +962,6 @@ class TasksTest(ReusableComponentTestCase):
         self.assertEqual(raised.exception.resume_followup, followup)
         with (
             patch.object(task, "update_state"),
-            patch.object(User, "has_perm", return_value=True),
             patch.object(Component, "do_update", autospec=True) as update,
             patch.object(Component, "finish_update", autospec=True) as finish_update,
         ):
@@ -775,7 +988,6 @@ class TasksTest(ReusableComponentTestCase):
 
         with (
             patch.object(task, "update_state"),
-            patch.object(User, "has_perm", return_value=True),
             patch.object(
                 Component,
                 "do_push",
@@ -794,7 +1006,6 @@ class TasksTest(ReusableComponentTestCase):
 
         with (
             patch.object(task, "update_state"),
-            patch.object(User, "has_perm", return_value=True),
             patch.object(Component, "finish_update", autospec=True) as finish_update,
             patch.object(
                 Component, "do_push", autospec=True, return_value=True
@@ -826,7 +1037,6 @@ class TasksTest(ReusableComponentTestCase):
         )
 
         with (
-            patch.object(User, "has_perm", return_value=True),
             patch.object(
                 Component,
                 "do_reset",
@@ -845,7 +1055,6 @@ class TasksTest(ReusableComponentTestCase):
 
         self.assertEqual(raised.exception.resume_followup, "reset-keep")
         with (
-            patch.object(User, "has_perm", return_value=True),
             patch.object(Component, "do_reset", autospec=True) as reset,
             patch("weblate.trans.tasks.perform_component_commit") as commit,
         ):
@@ -889,7 +1098,6 @@ class TasksTest(ReusableComponentTestCase):
 
         component_ids = [self.component.pk, second.pk]
         with (
-            patch.object(User, "has_perm", return_value=True),
             patch.object(Component, "do_cleanup", autospec=True, side_effect=cleanup),
             patch("weblate.trans.tasks.refresh_repository_operation"),
             self.assertRaises(RepositoryOperationRetryError) as raised,
@@ -900,11 +1108,10 @@ class TasksTest(ReusableComponentTestCase):
 
         self.assertEqual(raised.exception.start_index, 1)
         self.assertEqual(
-            raised.exception.failure_messages, ["Earlier repository failure."]
+            raised.exception.failure_messages, ["Repository operation failed."]
         )
 
         with (
-            patch.object(User, "has_perm", return_value=True),
             patch.object(Component, "do_cleanup", autospec=True, side_effect=cleanup),
             patch("weblate.trans.tasks.refresh_repository_operation"),
         ):
@@ -921,7 +1128,8 @@ class TasksTest(ReusableComponentTestCase):
 
         self.assertFalse(result["result"])
         self.assertEqual(
-            result["completion_message"]["text"], "Earlier repository failure."
+            result["completion_message"]["text"],
+            "Repository operation completed with errors.",
         )
         self.assertEqual(calls, [self.component.pk, second.pk, second.pk])
 
@@ -1220,6 +1428,178 @@ class TasksTest(ReusableComponentTestCase):
 
         self.assertTrue(component_path.is_dir())
 
+    def test_cleanup_stale_repos_batches_lookups(self) -> None:
+        project_path = Path(self.project.full_path)
+        with self.assertNumQueries(3):
+            self.assertFalse(cleanup_stale_repos(project_path))
+
+        parent = None
+        for depth in range(3):
+            parent = Category.objects.create(
+                project=self.project,
+                category=parent,
+                name=f"Cleanup {depth}",
+                slug=f"cleanup-{depth}",
+            )
+            category_path = Path(parent.full_path)
+            category_path.mkdir(parents=True, exist_ok=True)
+            self.create_po(
+                project=self.project,
+                category=parent,
+                name=f"cleanup-component-{depth}",
+                vcs="local",
+            )
+            unknown = category_path / "unknown" / "nested"
+            unknown.mkdir(parents=True)
+            (unknown / "keep").touch()
+
+        with self.assertNumQueries(3):
+            self.assertFalse(cleanup_stale_repos(project_path))
+        with self.assertNumQueries(3):
+            self.assertFalse(cleanup_stale_repos(category_path))
+
+    def test_cleanup_stale_repos_lookup_matches_path_filters(self) -> None:
+        parent = Category.objects.create(
+            project=self.project, name="Parent", slug="parent"
+        )
+        child = Category.objects.create(
+            project=self.project, category=parent, name="Child", slug="child"
+        )
+        nested = Category.objects.create(
+            project=self.project, category=child, name="Nested", slug="nested"
+        )
+        other = Category.objects.create(
+            project=self.project, name="Other", slug="other"
+        )
+        Category.objects.create(
+            project=self.project, category=other, name="Child", slug="child"
+        )
+        component = self.create_po(
+            project=self.project, category=nested, name="cleanup", vcs="local"
+        )
+        with self.assertNumQueries(3):
+            lookup = _StaleRepositoryLookup.load(self.project.slug.upper())
+
+        paths = (
+            (),
+            ("parent",),
+            ("PARENT",),
+            ("parent", "CHILD"),
+            ("PARENT", "child"),
+            ("other", "child"),
+            ("child",),
+            ("parent", "child", "nested"),
+            ("child", "NESTED"),
+            ("parent", "child", "nested", component.slug.upper()),
+            ("child", "nested", component.slug),
+            ("nested", component.slug),
+            ("NESTED", component.slug),
+            (component.slug,),
+            ("missing",),
+        )
+        for path in paths:
+            parts = (self.project.slug.upper(), *path)
+            with self.subTest(path=path):
+                self.assertEqual(
+                    lookup.is_container(parts), _is_project_or_category_path(parts)
+                )
+                found = _get_component_by_vcs_path(parts)
+                self.assertEqual(
+                    lookup.component_is_link(parts),
+                    found.is_repo_link if found is not None else None,
+                )
+
+    def test_cleanup_stale_repos_removes_old_repositories(self) -> None:
+        project_path = Path(self.project.full_path)
+        linked = self.create_po(project=self.project, name="linked", vcs="local")
+        Component.objects.filter(pk=linked.pk).update(
+            repo=f"weblate://{self.component.full_slug}"
+        )
+        old_paths = [Path(linked.full_path)]
+        for dirname, metadata in (("old-git", ".git"), ("old-hg", ".hg")):
+            path = project_path / dirname
+            (path / metadata).mkdir(parents=True)
+            (path / metadata / "config").touch()
+            old_paths.append(path)
+        recent = project_path / "recent"
+        (recent / ".git").mkdir(parents=True)
+        empty = project_path / "empty-orphan"
+        empty.mkdir()
+        old_timestamp = time.time() - 2 * 86400
+        for path in old_paths:
+            os.utime(path, (old_timestamp, old_timestamp))
+
+        self.assertFalse(cleanup_stale_repos(project_path))
+
+        self.assertTrue(all(not path.exists() for path in old_paths))
+        self.assertFalse(empty.exists())
+        self.assertTrue(recent.is_dir())
+        self.assertTrue(Path(self.component.full_path).is_dir())
+
+    def test_cleanup_stale_repos_rechecks_link_status(self) -> None:
+        linked = self.create_po(project=self.project, name="linked", vcs="local")
+        Component.objects.filter(pk=linked.pk).update(
+            repo=f"weblate://{self.component.full_slug}"
+        )
+        path = Path(linked.full_path)
+        old_timestamp = time.time() - 2 * 86400
+        os.utime(path, (old_timestamp, old_timestamp))
+        load = _StaleRepositoryLookup.load
+
+        def load_then_update(slug: str) -> _StaleRepositoryLookup:
+            lookup = load(slug)
+            Component.objects.filter(pk=linked.pk).update(repo="local:")
+            return lookup
+
+        with patch.object(_StaleRepositoryLookup, "load", side_effect=load_then_update):
+            cleanup_stale_repos(Path(self.project.full_path))
+
+        self.assertTrue((path / ".git" / "config").is_file())
+
+    def test_cleanup_stale_repos_rechecks_new_category(self) -> None:
+        category = Category.objects.create(
+            project=self.project, name="Late category", slug="early-category"
+        )
+        path = Path(self.project.full_path) / "late-category"
+        (path / ".git").mkdir(parents=True)
+        metadata = path / ".git" / "config"
+        metadata.touch()
+        old_timestamp = time.time() - 2 * 86400
+        os.utime(path, (old_timestamp, old_timestamp))
+        load = _StaleRepositoryLookup.load
+
+        def load_then_create(slug: str) -> _StaleRepositoryLookup:
+            lookup = load(slug)
+            Category.objects.filter(pk=category.pk).update(slug="late-category")
+            return lookup
+
+        with patch.object(_StaleRepositoryLookup, "load", side_effect=load_then_create):
+            cleanup_stale_repos(Path(self.project.full_path))
+
+        self.assertTrue(metadata.is_file())
+
+    def test_cleanup_stale_repos_rechecks_empty_component(self) -> None:
+        path = Path(self.project.full_path) / "late-component"
+        path.mkdir()
+        load = _StaleRepositoryLookup.load
+
+        def load_then_update(slug: str) -> _StaleRepositoryLookup:
+            lookup = load(slug)
+            Component.objects.filter(pk=self.component.pk).update(slug="late-component")
+            return lookup
+
+        with patch.object(_StaleRepositoryLookup, "load", side_effect=load_then_update):
+            cleanup_stale_repos(Path(self.project.full_path))
+
+        self.assertTrue(path.is_dir())
+
+    def test_cleanup_stale_repos_removes_empty_subtree(self) -> None:
+        path = Path(self.project.full_path) / "empty-orphan"
+        path.mkdir()
+
+        self.assertTrue(cleanup_stale_repos(path))
+        self.assertFalse(path.exists())
+
     def test_update_remotes(self) -> None:
         current_time = timezone.now().replace(hour=self.component.pk % 24)
         with (
@@ -1411,9 +1791,11 @@ class TasksTest(ReusableComponentTestCase):
 
     def test_deferred_commit_preserves_queued_origin(self) -> None:
         origins: list[ChangeOrigin] = []
+        actors: list[User | None] = []
 
         def publish(*args: object, **kwargs: object) -> None:
             origins.append(get_change_origin())
+            actors.append(get_acting_user())
 
         self.addCleanup(self.component.delete_commit_task)
         with (
@@ -1427,15 +1809,18 @@ class TasksTest(ReusableComponentTestCase):
                     "force_scan": False,
                     "previous_head": None,
                     "origin": {"scope": "api"},
+                    "acting_user_id": self.user.pk,
                 },
             ),
             patch.object(perform_commit, "apply_async", side_effect=publish),
             self.captureOnCommitCallbacks(execute=True),
         ):
-            with change_origin_context({"scope": "ui"}):
+            with acting_user_context(None), change_origin_context({"scope": "ui"}):
                 schedule_deferred_commit(self.component)
+                self.assertIsNone(get_acting_user())
             self.assertEqual(get_change_origin(), {"scope": "system"})
         self.assertEqual(origins, [{"scope": "api"}])
+        self.assertEqual(actors, [self.user])
 
     def test_perform_commit_schedules_deferred_commit_request(self) -> None:
         cache.set(self.component.commit_task_key, "commit-task-id")

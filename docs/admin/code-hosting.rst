@@ -300,6 +300,17 @@ manifest with the correct permissions, events, and webhook URL pre-filled:
    database. The :guilabel:`Connect GitHub account` button is available
    immediately afterwards.
 
+GitHub App manifest-code exchanges, OAuth exchanges, and API requests follow
+:setting:`VCS_RESTRICT_PRIVATE`, including redirects and pagination URLs. The
+initial manifest submission goes directly from your browser to GitHub and is
+outside this server-side policy.
+
+For a GitHub Enterprise host on a private network, add its hostname to
+:setting:`VCS_PRIVATE_ALLOWLIST` or :setting:`VCS_ALLOW_HOSTS` before registering
+the App. The same exemption is needed for repository access. If
+:setting:`VCS_ALLOW_HOSTS` is non-empty, it must also include the Enterprise
+hostname; :setting:`VCS_PRIVATE_ALLOWLIST` does not bypass that host filter.
+
 The manifest requests the permissions and event subscriptions Weblate needs
 (``Contents`` and ``Pull requests`` read/write, ``Metadata`` read-only,
 ``Organization administration`` read-only, ``Workflows`` read/write, and the
@@ -426,6 +437,17 @@ GitHub.com, use
 ``api.github.com`` as the API host. The token must allow Weblate to read and
 write repository contents and create pull requests. If Weblate should fork
 private repositories, the token might also need administration access.
+
+Use :ref:`component-vcs_params` to add labels or an assignee to pull requests.
+Weblate can also assign the GitHub account linked to the user who started the
+push. This dynamic assignee is only added to newly created pull requests, and is
+skipped when the push has no acting user or that user has no GitHub account
+linked to Weblate. GitHub ignores assignees without access to the repository,
+including the acting user, and Weblate reports them as a component alert.
+When Weblate pushes to an already open pull request, it adds only the configured
+labels and assignee that are missing. Applying labels and assignees requires
+permission to write pull requests; failures are reported as component alerts
+without failing a push which already succeeded.
 
 If creating a pull request fails with ``404 Not Found``, GitHub can be refusing
 API access even when the repository is readable. Weblate checks the repository's

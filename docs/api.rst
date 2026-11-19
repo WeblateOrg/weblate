@@ -327,12 +327,22 @@ Users
     username, and full name of matching non-bot users. Users with either
     permission can list all users and receive detailed information.
 
+    Without ``user.browse``, discovery requires a resource-bounded ``q`` query
+    or accessible ``unit`` context. Generic filters cannot expand that scope.
+    Scoped REST discovery does not require ``user.search`` or ``user.profile``.
+    Self and administrative access remain available. See :doc:`admin/privacy`.
+
+    :query string q: User search query, such as ``contributes:project`` or ``contributes:project/component``. Every matching Boolean branch must have a positive resource scope in restricted directory modes.
+    :query int unit: Rank contributors to this string first. Requires contributor identity access to the string, independently of directory privileges. In restricted directory modes, results are limited to contributors to its translation.
     :query string username: Username prefix to search for. At least two characters after trimming surrounding whitespace are required for users without the global ``user.view`` or ``user.edit`` permission.
     :query int id: User ID to search for
     :query string email: Email to search for (case-insensitive, exact match). Requires ``user.view`` or ``user.edit`` permission; the parameter is ignored for unprivileged users.
 
     Username searches by users without the global ``user.view`` or ``user.edit``
     permission exclude bot accounts other than the caller's own account.
+    This restriction does not apply to direct lookups by exact username;
+    bot accounts follow the profile access rules at
+    :http:get:`/api/users/(str:username)/`.
 
     .. seealso::
 
@@ -359,6 +369,9 @@ Users
     :type is_bot: boolean
 
 .. http:get:: /api/users/(str:username)/
+
+    Access follows the global ``user.profile`` permission. Restricted profiles
+    return HTTP 404; self access and global administrative access are retained.
 
     Returns information about users.
 
@@ -860,6 +873,8 @@ Roles
     :type id: int
     :>json string name: Role name
     :>json array permissions: list of codenames of permissions
+    :>json boolean is_builtin: whether this is a built-in role (read-only)
+    :>json boolean is_customized: whether a built-in role differs from current defaults (read-only)
 
     **Example JSON data:**
 
@@ -876,7 +891,7 @@ Roles
 
 .. http:put:: /api/roles/(int:id)/
 
-    Changes the role parameters.
+    Changes the role parameters. Built-in role names cannot be changed.
 
     :param id: Role's ID
     :type id: int
@@ -885,7 +900,7 @@ Roles
 
 .. http:patch:: /api/roles/(int:id)/
 
-    Changes the role parameters.
+    Changes the role parameters. Built-in role names cannot be changed.
 
     When supplied, ``permissions`` replaces the role's complete permission set.
     Omit it to keep the existing permissions unchanged, or pass an empty list to
@@ -898,7 +913,17 @@ Roles
 
 .. http:delete:: /api/roles/(int:id)/
 
-    Deletes the role.
+    Deletes a custom role. Built-in roles cannot be deleted.
+
+    :param id: Role's ID
+    :type id: int
+
+
+.. http:post:: /api/roles/(int:id)/reset/
+
+    Resets a built-in role to current upstream permission defaults and returns
+    the updated role. Requires the same role-management permission as editing.
+    Custom roles cannot be reset.
 
     :param id: Role's ID
     :type id: int
@@ -918,6 +943,8 @@ Languages
 .. http:post:: /api/languages/
 
     Creates a new language.
+
+    Requires the site-wide ``language.add`` permission.
 
     :param code: Language name
     :type code: string
@@ -979,7 +1006,9 @@ Languages
     :<json string name: Language name
     :<json string direction: Text direction
     :<json int population: Number of speakers
-    :<json object plural: Language plural details
+
+    The ``plural`` field can only be set when creating a language and is
+    rejected on updates.
 
 .. http:patch:: /api/languages/(string:language)/
 
@@ -990,7 +1019,9 @@ Languages
     :<json string name: Language name
     :<json string direction: Text direction
     :<json int population: Number of speakers
-    :<json object plural: Language plural details
+
+    The ``plural`` field can only be set when creating a language and is
+    rejected on updates.
 
 .. http:delete:: /api/languages/(string:language)/
 
@@ -2774,11 +2805,18 @@ Translations
     :<json int threshold: Score threshold for machine translation (1–100)
     :<json boolean background: Schedule automatic translation as a background task instead of waiting for it to finish. Defaults to ``false``.
     :>json string details: Human-readable summary of the translation result, or status of a background task
+    :>json array errors: Errors encountered during automatic translation; an empty array when completed without errors. Omitted while a background task is queued.
     :>json string task_url: URL for tracking a background task; see :http:get:`/api/tasks/(str:uuid)/`
 
     With ``background`` set to ``true``, the endpoint returns ``202 Accepted``
     once the task is scheduled. Validation and permission errors are still
     reported immediately.
+
+    Completed requests return ``200 OK``, including when some or all translation
+    service batches fail. Successful translations are retained. Check ``errors``
+    to distinguish provider failures from a run with nothing to update. Error
+    details follow the diagnostic permissions described in :ref:`api-tasks`;
+    other readers receive a generic error explanation.
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 
@@ -2816,12 +2854,32 @@ Translations
     :param language: Translation language code
     :type language: string
     :form boolean ignore_language: Ignore a mismatch between the declared file language and the translation language (defaults to ``false``), see :ref:`upload-ignore_language`
+    :form boolean background: Process the upload in the background (defaults to ``false``). This temporary field will be removed in 2027.1, when only background processing will be supported.
     :form string conflicts: How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-approved``), see :ref:`upload-conflicts`
     :form file file: Uploaded file or file content sent as a form field without a filename
     :form string author_email: Author e-mail
     :form string author_name: Author name
     :form string method: Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, ``replace``, ``source``, ``add``), see :ref:`upload-method`
     :form string fuzzy: Fuzzy (marked for edit) strings processing (*empty*, ``process``, ``approve``)
+
+    With ``background=true``, returns ``202 Accepted`` with ``detail`` and
+    ``task_url``. Poll :http:get:`/api/tasks/(str:uuid)/` for completion. Its
+    ``result`` contains the usual ``not_found``, ``skipped``, ``accepted``,
+    ``total``, ``result``, and ``count`` fields on success, or ``detail`` on
+    failure. File parsing and import errors are reported by the task.
+    Results also include ``upload_warnings`` and a ``completion_message``.
+
+    The same behavior is available with ``PUT``. For a raw file body, supply
+    ``background=true`` as a query parameter. A multipart ``background`` field
+    takes precedence over the query parameter.
+
+    Switch clients to background processing before upgrading to 2027.1. That
+    release will remove the ``background`` option and synchronous processing.
+
+    Suggestion uploads accept at most 20,000 content strings. Browser and API
+    uploads share :setting:`RATELIMIT_UPLOAD_ATTEMPTS`; exceeding it returns
+    ``429 Too Many Requests``. API uploads have no per-user outstanding-task
+    restriction. Existing byte and general string-count limits still apply.
 
     **CURL example:**
 
@@ -3050,6 +3108,7 @@ and XLIFF.
     :>json boolean translated: whether the unit is translated
     :>json boolean approved: whether the translation is approved
     :>json int position: unit position in translation file
+    :>json int line_number: read-only line in the translation file, or null when the format does not provide one
     :>json boolean has_suggestion: whether the unit has suggestions
     :>json boolean has_comment: whether the unit has comments
     :>json boolean has_failing_check: whether the unit has failing checks
@@ -3363,6 +3422,7 @@ Changes
 
     When an IP address is recorded for an anonymous change, the ``ip_address``
     attribute in ``details`` is included only for superusers.
+    Invitation e-mail addresses in ``details`` are masked for all users.
 
     New changes include a ``change_origin`` object in ``details``, for example
     ``{"change_origin": {"scope": "api"}}``. The scope is ``ui`` for browser sessions,
@@ -3456,6 +3516,9 @@ Screenshots
 
     Creates a new screenshot.
 
+    Setting a repository path requires access to the component that owns the
+    repository and ``vcs.access`` on it, in addition to ``screenshot.add``.
+
     :form file image: Uploaded file
     :form string name: Screenshot name
     :form string project_slug: Project slug
@@ -3472,6 +3535,10 @@ Screenshots
 
     Edit partial information about screenshot.
 
+    Setting a different nonempty ``repository_filename`` requires ``vcs.access``
+    on the component that owns the repository. With ``screenshot.edit``, you
+    can also omit the path, submit the current value, or clear it with an empty string.
+
     :param id: Screenshot ID
     :type id: int
     :>json string name: name of a screenshot
@@ -3483,6 +3550,9 @@ Screenshots
 .. http:put:: /api/screenshots/(int:id)/
 
     Edit full information about screenshot.
+
+    The same repository path permissions apply as for
+    :http:patch:`/api/screenshots/(int:id)/`.
 
     :param id: Screenshot ID
     :type id: int
@@ -3598,6 +3668,12 @@ Add-ons
 .. http:patch:: /api/addons/(int:id)/
 
     Edit partial information about add-on.
+
+    :ref:`Fedora Messaging <addon-weblate.fedora_messaging.publish>` accepts
+    ``connection_timeout`` in ``configuration`` (1–60 seconds, default 5).
+    It bounds setup per attempt, separately from ``publish_timeout`` for
+    sending and acknowledgement. Managing this site-wide add-on requires
+    site-wide add-on management permission.
 
     :param id: Add-on ID
     :type id: int
@@ -3738,7 +3814,7 @@ Component lists
     :type component_slug: string
 
 Glossary
-+++++++++
+++++++++
 
 .. versionchanged:: 4.5
 
@@ -3784,6 +3860,8 @@ Reports
 
     Downloads a reStructuredText rendering of the stored report.
 
+.. _api-tasks:
+
 Tasks
 +++++
 
@@ -3807,9 +3885,31 @@ Tasks
     :>json string log: Task log
     :>json boolean cancellable: Whether the task can be cancelled
 
+    Log entries are limited to components you can access. Sensitive diagnostics
+    additionally require the :guilabel:`View upstream repository location`
+    permission on the repository-owning component and access to all components
+    referenced by the entry. General progress and failure messages remain
+    available without this permission. Repository operations report start and
+    completion summaries under the linked components included in the task, even
+    when the repository-owning component is inaccessible. Failure results contain a summary;
+    authorized users can find the detailed explanation in the task log.
+    Automatic translation warnings identify source components only when you can
+    access them. Other readers receive a general explanation of the warning.
+    Completed automatic translation results include an ``errors`` array, with
+    one entry per failed batch or operation. Provider diagnostics require the
+    same permissions as sensitive task log entries. Other readers receive a
+    generic error explanation. Completion summaries report errors alongside
+    the number of updated strings, including when some translations succeeded.
+    Normal task outcomes, including unsuccessful bulk suggestion acceptance,
+    retain their outcome messages. Backend failures use generic summaries.
+    Aggregate automatic translation backend failures without component provenance retain
+    cleaned failure diagnostics for the initiating user only.
+
 .. http:delete:: /api/tasks/(str:uuid)/
 
     Cancels a running task when its ``cancellable`` property is ``true``.
+    Requires :guilabel:`Edit component settings` permission on every component
+    associated with the task.
     Repository operation tasks cannot be cancelled because interruption can
     leave a repository operation incomplete.
 
@@ -3873,6 +3973,18 @@ Statistics
 Metrics
 +++++++
 
+.. http:get:: /api/activity/
+
+    Returns global daily activity and up to ten recently active projects visible
+    to the authenticated user. Authentication is required.
+
+    ``daily_activity`` contains 52 daily translation-change counts, oldest first,
+    ending today. ``projects`` contains project statistics with positive
+    ``recent_changes`` and a non-null ``last_change``, ordered by newest change
+    first, with project ID breaking ties. Fewer than ten projects can be returned.
+    The global totals retain the same instance-wide scope as the former
+    ``/activity/month.json`` endpoint, which has been removed.
+
 .. http:get:: /api/metrics/
 
     Returns server metrics.
@@ -3898,12 +4010,27 @@ Metrics
     :>json int configuration_errors: Number of configuration errors
     :>json int suggestions: Number of pending suggestions
     :>json object celery_queues: Lengths of Celery queues, see :ref:`celery`
+    :>json object bot_protection: Best-effort hourly bot protection counts, or null when disabled or unavailable
     :>json string name: Configured server name
     :>json string version: Running Weblate version, included when :setting:`VERSION_DISPLAY` is ``show`` or ``soft``
 
     In OpenMetrics format, the version is exposed as ``weblate_info{version="..."} 1``
     when :setting:`VERSION_DISPLAY` is ``show`` or ``soft``. All metrics are
     exposed as gauges.
+
+    ``bot_protection`` contains ``current_hour`` and ``previous_24_hours``
+    objects. The latter covers the previous 24 completed hours, excluding the
+    current hour. Each contains integer counts for ``issued``, ``pow_required``, ``success``,
+    ``expired_challenge``, ``invalid_solution``, ``replayed_challenge``,
+    ``csrf_failed``, and ``verification_unavailable``. Hours are UTC-aligned;
+    counts can be lost through cache eviction or outages. The ``pow_required``
+    count covers requests rejected without issuing a challenge because of their
+    method or Accept header. It excludes explicit ``bot_denied`` policy denials
+    and exempt requests, and counts requests rather than unique clients.
+
+    CSV responses flatten these objects into columns. OpenMetrics exposes
+    ``bot_protection_events`` gauges with ``window`` and ``event`` labels,
+    omitting these samples when protection is disabled or counters are unavailable.
 
 Project metrics expose translation statistics for each visible component and
 language at :http:get:`/api/projects/(string:project)/metrics/`. They include
@@ -3912,7 +4039,7 @@ character counts; suggestions; comments; and translated and approved
 percentages.
 
 Search
-+++++++
+++++++
 
 .. http:get:: /api/search/
 
@@ -4067,7 +4194,8 @@ The generic hook endpoints return diagnostics intended to help configure
 repository notifications. The ``match_status`` object contains:
 
 ``repository_matches``
-    Number of components whose repository URL matches the payload.
+    Number of repository-owning components whose repository URL matches the
+    payload.
 ``branch_matches``
     Number of repository matches whose configured branch matches the payload.
     For events without a branch, every repository match is counted as a branch

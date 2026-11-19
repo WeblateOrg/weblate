@@ -4,28 +4,174 @@
 
 from __future__ import annotations
 
+import json
+from contextlib import ExitStack, contextmanager, nullcontext
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Literal, NotRequired, TypedDict
 
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError, OperationalError, transaction
 from django.db.models import Value
 from django.db.models.functions import MD5, Lower
 
 from weblate.checks.base import BatchCheckMixin
+from weblate.checks.locks import (
+    check_boundary_lock,
+    check_component_session_read_lock,
+    check_project_session_read_lock,
+)
 from weblate.checks.models import CHECKS, Check
 from weblate.trans.models import Component, Project, Unit
+from weblate.trans.propagation import (
+    get_propagation_scope,
+    propagation_filter,
+    propagation_uses_custom_sources,
+    workspace_propagation,
+)
 from weblate.trans.util import split_plural
 from weblate.utils.celery import app
+from weblate.utils.change_origin import (
+    capture_change_origin,
+    get_acting_user,
+    get_change_origin,
+)
 from weblate.utils.lock import WeblateLockTimeoutError
+from weblate.utils.tasks import update_translation_stats
 
 if TYPE_CHECKING:
+    from collections.abc import Callable, Generator
+
     from weblate.trans.models import Translation
     from weblate.trans.models.unit import UnitQuerySet
 
 
+@dataclass
+class PendingComponentChecks:
+    """Component batches collected at a successful workflow transaction boundary."""
+
+    requests: dict[int, tuple[set[int], set[str]]]
+    inline: bool
+    publish: Callable[[], None] = field(init=False, repr=False)
+    context_key: tuple[bool, int | None, str] = field(init=False)
+
+    def __post_init__(self) -> None:
+        user = get_acting_user()
+        self.context_key = (
+            self.inline,
+            user.pk if user is not None else None,
+            json.dumps(get_change_origin(), sort_keys=True),
+        )
+        self.publish = capture_change_origin(self._publish)
+
+    def __call__(self) -> None:
+        self.publish()
+
+    def _publish(self) -> None:
+        scheduled = set()
+        for component in (
+            Component.objects.filter(pk__in=self.requests)
+            .select_related("project__workspace")
+            .order_by("pk")
+        ):
+            units, requested = self.requests[component.pk]
+            checks = []
+            project = component.project
+            scope = get_propagation_scope(project)
+            boundary = (
+                ("project", str(project.pk), None)
+                if scope == "project"
+                else (
+                    "workspace",
+                    str(project.workspace_id),
+                    component.name if scope == "component_name" else None,
+                )
+            )
+            for name in sorted(requested):
+                check = CHECKS.get(name)
+                if not isinstance(check, BatchCheckMixin):
+                    continue
+                if check.batch_project_wide and component.allow_translation_propagation:
+                    key = (boundary, name)
+                    if key in scheduled:
+                        continue
+                    scheduled.add(key)
+                checks.append(name)
+            if not units and not checks:
+                continue
+            if self.inline:
+                finalize_component_checks(
+                    component.pk,
+                    sorted(units),
+                    checks,
+                    batch_mode=True,
+                    refresh_source_checks=True,
+                )
+            else:
+                finalize_component_checks.delay(
+                    component.pk,
+                    sorted(units),
+                    checks,
+                    batch_mode=True,
+                    refresh_source_checks=True,
+                )
+
+
+def schedule_component_check_batch(
+    component: Component, source_ids: set[int], checks: set[str], *, using: str
+) -> None:
+    from weblate.automation.context import automation_origin  # ruff: ignore[import-outside-top-level]
+
+    transaction.on_commit(
+        PendingComponentChecks(
+            {component.pk: (set(source_ids), set(checks))},
+            bool(settings.CELERY_TASK_ALWAYS_EAGER or automation_origin.get()),
+        ),
+        using=using,
+    )
+
+
+@contextmanager
+def coalesce_component_check_batches(*, using: str) -> Generator[None]:
+    """Adopt successful child callbacks without merging across rollback boundaries."""
+    connection = transaction.get_connection(using)
+    start = len(connection.run_on_commit)
+    succeeded = False
+    try:
+        yield
+        succeeded = True
+    finally:
+        if succeeded:
+            _coalesce_component_check_batches(using=using, start=start)
+
+
+def _coalesce_component_check_batches(*, using: str, start: int) -> None:
+    connection = transaction.get_connection(using)
+    pending: dict[tuple[bool, int | None, str], PendingComponentChecks] = {}
+    keep = connection.run_on_commit[:start]
+    for entry in connection.run_on_commit[start:]:
+        callback = entry[1]
+        if not isinstance(callback, PendingComponentChecks):
+            keep.append(entry)
+            continue
+        if callback.context_key not in pending:
+            pending[callback.context_key] = callback
+            continue
+        batch = pending[callback.context_key]
+        for component_id, (units, checks) in callback.requests.items():
+            current_units, current_checks = batch.requests.setdefault(
+                component_id, (set(), set())
+            )
+            current_units.update(units)
+            current_checks.update(checks)
+    connection.run_on_commit = keep
+    for batch in pending.values():
+        transaction.on_commit(batch, using=using)
+
+
 class PropagatedCheckGroup(TypedDict):
     check: str
+    component_id: int
     scope: Literal["source", "target"]
     source_language_id: int | None
     language_id: int
@@ -72,7 +218,7 @@ def schedule_propagated_checks(
     if refresh_unit:
         pending.unit_ids.add(unit.pk)
 
-    custom_sources = bool(component.project.translation_parent_language_ids)
+    custom_sources = propagation_uses_custom_sources(component.project)
     for check in sorted(checks):
         scope = CHECKS[check].propagates
         if scope is None:
@@ -88,6 +234,7 @@ def schedule_propagated_checks(
         for state in states:
             group: PropagatedCheckGroup = {
                 "check": check,
+                "component_id": component.pk,
                 "scope": scope,
                 "source_language_id": component.source_language_id,
                 "language_id": unit.translation.language_id,
@@ -130,18 +277,33 @@ def _store_propagated_checks(
 
 
 def _get_propagated_check_units(
-    project_id: int, group: PropagatedCheckGroup, *, custom_sources: bool
+    project_id: int, group: PropagatedCheckGroup
 ) -> UnitQuerySet:
     """Find peers sharing the check's effective source or target context."""
+    component = (
+        Component.objects.select_related("project__workspace")
+        .filter(pk=group["component_id"], project_id=project_id)
+        .first()
+    )
+    if component is None:
+        return Unit.objects.none()
+    # Membership and policy may have changed since the refresh was queued.
+    project = component.project
+    custom_sources = propagation_uses_custom_sources(project)
+    if custom_sources and "source_rules" not in group:
+        # A project-only group can outlive a scope/workflow change. The boundary
+        # rebuild handles the new groups; this incomplete payload must not
+        # expand its old group to incompatible effective source plural rules.
+        return Unit.objects.none()
     units = (
         Unit.objects.exclude_blocked(custom_sources=custom_sources)
-        .with_effective_source(custom_sources=custom_sources, select=False)
         .filter(
-            translation__component__project_id=project_id,
-            check_source_language=group["source_language_id"],
+            propagation_filter(project, "translation__component__", component.name),
             translation__component__allow_translation_propagation=True,
             translation__plural_id=group["plural_id"],
         )
+        .with_effective_source(custom_sources=custom_sources, select=False)
+        .filter(check_source_language=group["source_language_id"])
     )
     if custom_sources and "source_rules" in group:
         number, formula, plural_type = group["source_rules"]
@@ -163,6 +325,8 @@ def _get_propagated_check_units(
             target=group["target"],
             target__lower__md5=MD5(Lower(Value(group["target"]))),
         )
+    if workspace_propagation(project):
+        units = units.annotate(workspace_propagation=Value(True))
     return units.prefetch().prefetch_source().prefetch_all_checks()
 
 
@@ -181,78 +345,89 @@ def refresh_propagated_checks(
     groups: list[PropagatedCheckGroup],
     unit_ids: list[int] | None = None,
 ) -> None:
-    try:
-        project = Project.objects.get(pk=project_id)
-    except Project.DoesNotExist:
-        return
     # Commit warning changes in chunks so the worker does not hold row locks
     # for the entire group and block concurrent translation saves.
-    with project.checks_lock:
-        project.log_info("refreshing %d propagated check groups", len(groups))
-        custom_sources = bool(project.translation_parent_language_ids)
-        translations: dict[int, Translation] = {}
-        sources: set[int] = set()
-        # Text propagation has already changed these units' content. They need
-        # their own checks updated, in addition to related propagated warnings.
-        if unit_ids:
-            for unit in (
-                Unit.objects.filter(
-                    pk__in=unit_ids, translation__component__project_id=project_id
-                )
-                .prefetch()
-                .prefetch_source()
-                .prefetch_all_checks()
-                .iterator(chunk_size=500)
-            ):
-                with transaction.atomic():
-                    unit.is_batch_update = True
-                    unit.run_checks(skip_propagate=True)
-                translations[unit.translation_id] = unit.translation
-                if unit.source_unit_id is not None:
-                    sources.add(unit.source_unit_id)
-        for group in groups:
-            check = CHECKS.get(group["check"])
-            if check is None or check.propagates != group["scope"]:
-                continue
-            if check.propagates == "target" and not any(split_plural(group["target"])):
-                continue
-            units = _get_propagated_check_units(
-                project_id, group, custom_sources=custom_sources
+    with check_project_session_read_lock(project_id):
+        project = (
+            Project.objects.select_related("workspace").filter(pk=project_id).first()
+        )
+        if project is None:
+            return
+        with check_boundary_lock(project):
+            translation_ids = _refresh_propagated_checks(project, groups, unit_ids)
+    if len(translation_ids) > 1:
+        update_translation_stats.delay_on_commit(
+            translation_ids, update_translations=False
+        )
+
+
+def _refresh_propagated_checks(
+    project: Project, groups: list[PropagatedCheckGroup], unit_ids: list[int] | None
+) -> list[int]:
+    project_id = project.pk
+    project.log_info("refreshing %d propagated check groups", len(groups))
+    translations: dict[int, Translation] = {}
+    sources: set[int] = set()
+    # Text propagation has already changed these units' content. They need
+    # their own checks updated, in addition to related propagated warnings.
+    if unit_ids:
+        for unit in (
+            Unit.objects.filter(
+                pk__in=unit_ids, translation__component__project_id=project_id
             )
-            create = []
-            remove = []
-            for unit, failed in check.evaluate_propagated(units):
-                # Also repair derived source warnings and stats on a retry
-                # after an earlier attempt committed only some chunks.
-                translations[unit.translation_id] = unit.translation
-                if not unit.is_source and unit.source_unit_id is not None:
-                    sources.add(unit.source_unit_id)
-                existing = check.check_id in unit.all_checks_names
-                if existing == failed:
-                    continue
-                if failed:
-                    create.append(Check(unit_id=unit.pk, name=check.check_id))
-                else:
-                    remove.append(unit.pk)
-                if len(create) + len(remove) >= 500:
-                    _store_propagated_checks(check.check_id, create, remove)
-                    create = []
-                    remove = []
-            _store_propagated_checks(check.check_id, create, remove)
-        for source in (
-            Unit.objects.filter(pk__in=sources)
             .prefetch()
+            .prefetch_source()
             .prefetch_all_checks()
             .iterator(chunk_size=500)
         ):
             with transaction.atomic():
-                source.is_batch_update = True
-                source.run_checks(skip_propagate=True)
-            translations[source.translation_id] = source.translation
+                unit.is_batch_update = True
+                unit.run_checks(skip_propagate=True)
+            translations[unit.translation_id] = unit.translation
+            if unit.source_unit_id is not None:
+                sources.add(unit.source_unit_id)
+    for group in groups:
+        check = CHECKS.get(group["check"])
+        if check is None or check.propagates != group["scope"]:
+            continue
+        if check.propagates == "target" and not any(split_plural(group["target"])):
+            continue
+        units = _get_propagated_check_units(project_id, group)
+        create = []
+        remove = []
+        for unit, failed in check.evaluate_propagated(units):
+            # Also repair derived source warnings and stats on a retry
+            # after an earlier attempt committed only some chunks.
+            translations[unit.translation_id] = unit.translation
+            if not unit.is_source and unit.source_unit_id is not None:
+                sources.add(unit.source_unit_id)
+            existing = check.check_id in unit.all_checks_names
+            if existing == failed:
+                continue
+            if failed:
+                create.append(Check(unit_id=unit.pk, name=check.check_id))
+            else:
+                remove.append(unit.pk)
+            if len(create) + len(remove) >= 500:
+                _store_propagated_checks(check.check_id, create, remove)
+                create = []
+                remove = []
+        _store_propagated_checks(check.check_id, create, remove)
+    for source in (
+        Unit.objects.filter(pk__in=sources)
+        .prefetch()
+        .prefetch_all_checks()
+        .iterator(chunk_size=500)
+    ):
         with transaction.atomic():
-            for translation in translations.values():
-                translation.require_full_stats_rebuild()
-                translation.invalidate_cache()
+            source.is_batch_update = True
+            source.run_checks(skip_propagate=True)
+        translations[source.translation_id] = source.translation
+    with transaction.atomic():
+        for translation in translations.values():
+            translation.require_full_stats_rebuild()
+            translation.invalidate_cache(update_stats_parents=len(translations) == 1)
+    return list(translations)
 
 
 def _perform_batched_checks(component: Component, checks: list[str]) -> None:
@@ -298,20 +473,55 @@ def finalize_component_checks(
     *,
     batch_mode: bool,
     component: Component | None = None,
+    refresh_source_checks: bool = False,
 ) -> None:
+    checks = [name for name in checks if isinstance(CHECKS.get(name), BatchCheckMixin)]
     if not unit_ids and not checks:
         return
     if component is None:
         try:
-            component = Component.objects.get(pk=component_id)
+            component = Component.objects.select_related("project__workspace").get(
+                pk=component_id
+            )
         except Component.DoesNotExist:
             return
-    with component.checks_lock:
-        component.batch_checks = batch_mode
-        component.batched_checks = set(checks)
+    with ExitStack() as stack:
         try:
-            _run_component_checks(component, unit_ids)
-        finally:
-            component.batch_checks = False
-            component.batched_checks = set()
-        component.invalidate_cache()
+            stack.enter_context(check_component_session_read_lock(component))
+        except Component.DoesNotExist:
+            return
+        boundary_lock = (
+            check_boundary_lock(component.project)
+            if component.allow_translation_propagation
+            and (unit_ids or any(CHECKS[name].batch_project_wide for name in checks))
+            else nullcontext()
+        )
+        with boundary_lock, component.checks_lock:
+            _finalize_component_checks(
+                component,
+                unit_ids,
+                checks,
+                batch_mode=batch_mode,
+                refresh_source_checks=refresh_source_checks,
+            )
+
+
+def _finalize_component_checks(
+    component: Component,
+    unit_ids: list[int],
+    checks: list[str],
+    *,
+    batch_mode: bool,
+    refresh_source_checks: bool,
+) -> None:
+    previous_source_checks = component.refresh_peer_source_checks
+    component.refresh_peer_source_checks = refresh_source_checks
+    component.batch_checks = batch_mode
+    component.batched_checks = set(checks)
+    try:
+        _run_component_checks(component, unit_ids)
+    finally:
+        component.batch_checks = False
+        component.batched_checks = set()
+        component.refresh_peer_source_checks = previous_source_checks
+    component.invalidate_cache()

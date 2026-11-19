@@ -4,9 +4,7 @@
 
 {% block breadcrumbs %}
   {% if project %}
-    <li class="breadcrumb-item">
-      <a href="{{ project.get_absolute_url }}">{{ project }}</a>
-    </li>
+    {% path_object_breadcrumbs project %}
     <li class="breadcrumb-item">
       <a href="{% url 'project-saved-searches' project=project.slug %}">{% translate "Saved searches" %}</a>
     </li>

@@ -15,6 +15,7 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Category, Component, Project, Unit
 from weblate.trans.tasks import update_enforced_checks
 from weblate.trans.tests.test_views import ComponentTestCase
+from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.state import STATE_NEEDS_REWRITING, STATE_TRANSLATED
 from weblate.workspaces.models import Workspace
 
@@ -25,30 +26,52 @@ class EnforcedChecksInheritanceTest(ComponentTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.workspace = Workspace.objects.create(name="Test workspace")
-        self.workspace.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         Project.objects.filter(pk=self.project.pk).update(workspace=self.workspace)
         self.category = Category.objects.create(
             name="Test category",
             slug="test-category",
             project=self.project,
         )
-        self.category.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         Component.objects.filter(pk=self.component.pk).update(
             category=self.category,
             inherit_enforced_checks=True,
         )
         self.component = Component.objects.get(pk=self.component.pk)
-        self.component.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
 
     def test_queued_enforcement_preserves_settings_actor(self) -> None:
         unit = self.get_same_check_unit()
         Unit.objects.filter(pk=unit.pk).update(state=STATE_TRANSLATED)
         Workspace.objects.filter(pk=self.workspace.pk).update(enforced_checks=["same"])
 
-        update_enforced_checks(self.component.pk, user_id=self.user.pk)
+        update_enforced_checks(self.component.pk)
 
         change = unit.change_set.get(action=ActionEvents.ENFORCED_CHECK)
         self.assertEqual(change.user, self.user)
+
+    def test_repository_scan_enforcement_preserves_actor(self) -> None:
+        Workspace.objects.filter(pk=self.workspace.pk).update(enforced_checks=["same"])
+        actors = []
+
+        with (
+            patch.object(
+                Component,
+                "update_enforced_checks",
+                autospec=True,
+                side_effect=lambda _component: actors.append(get_acting_user()),
+            ) as enforce,
+            acting_user_context(None),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            with acting_user_context(self.user):
+                self.component.create_translations_immediate(force_scan=True)
+            self.assertIsNone(get_acting_user())
+
+        enforce.assert_called_once()
+        self.assertEqual(enforce.call_args.args[0].pk, self.component.pk)
+        self.assertEqual(actors, [self.user])
 
     def get_same_check_unit(self) -> Unit:
         unit = Unit.objects.filter(
@@ -175,11 +198,16 @@ class EnforcedChecksInheritanceTest(ComponentTestCase):
     @patch("weblate.trans.tasks.update_enforced_checks.delay_on_commit")
     def test_workspace_save_schedules_updates(self, mock_delay: MagicMock) -> None:
         self.workspace.enforced_checks = ["same"]
-        with self.captureOnCommitCallbacks(execute=True):
-            self.workspace.save(update_fields=["enforced_checks"])
+        actors = []
+        mock_delay.side_effect = lambda *_args: actors.append(get_acting_user())
+        with acting_user_context(None), self.captureOnCommitCallbacks(execute=True):
+            with acting_user_context(self.user):
+                self.workspace.save(update_fields=["enforced_checks"])
+            self.assertIsNone(get_acting_user())
+        self.assertTrue(actors)
+        self.assertEqual(set(actors), {self.user})
         scheduled = {call.args[0] for call in mock_delay.call_args_list}
         self.assertIn(self.component.pk, scheduled)
-        self.assertEqual(mock_delay.call_args.kwargs["user_id"], self.user.pk)
 
     @patch("weblate.trans.tasks.update_enforced_checks.delay_on_commit")
     def test_project_save_schedules_updates(self, mock_delay: MagicMock) -> None:

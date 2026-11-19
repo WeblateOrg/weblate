@@ -27,6 +27,7 @@ from weblate.trans.inherited_settings import (
 )
 from weblate.trans.mixins import CacheKeyMixin
 from weblate.trans.validators import validate_check_flags, validate_enforced_checks
+from weblate.utils.change_origin import capture_change_origin, get_acting_user
 from weblate.utils.licenses import get_license_choices
 from weblate.utils.render import (
     validate_render_addon,
@@ -60,6 +61,30 @@ class WorkspaceQuerySet(models.QuerySet["Workspace", "Workspace"]):
     def order(self) -> Self:
         return self.order_by("name")
 
+    def relevant_to(self, user: User) -> Self:
+        """Workspaces with explicit permissions or watched projects worth grouping."""
+        if not user.is_authenticated:
+            return self.none()
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.project import Project
+
+        # Count all projects, not just the watched or accessible ones, while
+        # restricting the aggregation to workspaces containing watched projects.
+        watched_workspaces = user.watched_projects.order_by().values("workspace_id")
+        multi_project_workspaces = (
+            Project.objects.filter(workspace_id__in=watched_workspaces)
+            .order_by()
+            .values("workspace_id")
+            .annotate(project_count=models.Count("pk"))
+            .filter(project_count__gt=1)
+            .values("workspace_id")
+        )
+        return self.filter(
+            models.Q(pk__in=user.workspace_permissions)
+            | models.Q(pk__in=multi_project_workspaces)
+        )
+
     def defer_huge(self) -> Self:
         return self.defer(*HUGE_INHERITABLE_SETTINGS)
 
@@ -67,6 +92,7 @@ class WorkspaceQuerySet(models.QuerySet["Workspace", "Workspace"]):
 class Workspace(models.Model, CacheKeyMixin):
     AUDIT_SETTINGS: ClassVar[tuple[str, ...]] = (
         "name",
+        "propagation_scope",
         "use_workspace_tm",
         "contribute_workspace_tm",
         "license",
@@ -96,6 +122,22 @@ class Workspace(models.Model, CacheKeyMixin):
         verbose_name=gettext_lazy("Workspace name"),
         max_length=WORKSPACE_NAME_LENGTH,
         help_text=gettext_lazy("Display name"),
+    )
+    propagation_scope = models.CharField(
+        verbose_name=gettext_lazy("Translation propagation scope"),
+        max_length=20,
+        choices=(
+            ("project", gettext_lazy("Project")),
+            ("workspace", gettext_lazy("Workspace")),
+            (
+                "component_name",
+                gettext_lazy("Matching component name within workspace"),
+            ),
+        ),
+        default="project",
+        help_text=gettext_lazy(
+            "Where translations of matching strings are propagated."
+        ),
     )
     name_managed = models.BooleanField(
         default=False,
@@ -252,7 +294,6 @@ class Workspace(models.Model, CacheKeyMixin):
         self.workspace_original_name_managed = self.__dict__.get(
             "name_managed", models.DEFERRED
         )
-        self.acting_user: User | None = None
         self.stats_languages: int | None = None
         self.stats = WorkspaceStats(self)
 
@@ -260,6 +301,30 @@ class Workspace(models.Model, CacheKeyMixin):
         return self.name
 
     def save(self, *args, **kwargs) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.checks.locks import lock_check_workspaces
+        from weblate.trans.propagation import refresh_propagation_checks  # ruff: ignore[import-outside-top-level]
+
+        update_fields = kwargs.get("update_fields")
+        with transaction.atomic():
+            changed = False
+            if not self._state.adding and (
+                update_fields is None or "propagation_scope" in update_fields
+            ):
+                lock_check_workspaces({self.pk}, exclusive=True)
+                changed = self.propagation_scope != type(self).objects.values_list(
+                    "propagation_scope", flat=True
+                ).get(pk=self.pk)
+            self._save(*args, **kwargs)
+            if changed:
+                refresh_propagation_checks(
+                    set(self.projects.values_list("pk", flat=True))
+                )
+
+    def get_absolute_url(self) -> str:
+        return reverse("workspace", kwargs={"pk": self.pk})
+
+    def _save(self, *args, **kwargs) -> None:
         create_groups = self._state.adding
         update_fields = kwargs.get("update_fields")
         old = None
@@ -295,12 +360,16 @@ class Workspace(models.Model, CacheKeyMixin):
 
         super().save(*args, **kwargs)
         if old is not None and old.check_flags != self.check_flags:
-            transaction.on_commit(self.schedule_component_check_updates)
+            transaction.on_commit(
+                capture_change_origin(self.schedule_component_check_updates)
+            )
         if old is not None and (
             old.enforced_checks != self.enforced_checks
             or old.inherit_enforced_checks != self.inherit_enforced_checks
         ):
-            transaction.on_commit(self.schedule_component_enforced_checks_updates)
+            transaction.on_commit(
+                capture_change_origin(self.schedule_component_enforced_checks_updates)
+            )
         if (
             old is not None
             and old.contribute_workspace_tm
@@ -317,9 +386,6 @@ class Workspace(models.Model, CacheKeyMixin):
             self.setup_groups()
         self.workspace_original_name = self.name
         self.workspace_original_name_managed = self.name_managed
-
-    def get_absolute_url(self) -> str:
-        return reverse("workspace", kwargs={"pk": self.pk})
 
     def clean(self) -> None:
         """Validate workspace settings."""
@@ -372,10 +438,7 @@ class Workspace(models.Model, CacheKeyMixin):
         from weblate.trans.tasks import update_enforced_checks
 
         for component in Component.objects.filter(project__workspace=self).iterator():
-            update_enforced_checks.delay_on_commit(
-                component.pk,
-                user_id=self.acting_user.pk if self.acting_user is not None else None,
-            )
+            update_enforced_checks.delay_on_commit(component.pk)
 
     def schedule_workspace_memory_updates(self) -> None:
         # ruff: ignore[import-outside-top-level]
@@ -456,7 +519,7 @@ class Workspace(models.Model, CacheKeyMixin):
             old,
             self.AUDIT_SETTINGS,
             ActionEvents.WORKSPACE_SETTING_CHANGE,
-            self.acting_user,
+            get_acting_user(),
             update_fields,
         )
 

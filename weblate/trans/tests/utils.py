@@ -6,11 +6,14 @@ from __future__ import annotations
 import os.path
 import shutil
 import sys
+from contextlib import contextmanager
 from datetime import timedelta
 from hashlib import sha256
 from pathlib import Path
 from tarfile import TarFile
 from tempfile import mkdtemp
+from typing import TYPE_CHECKING
+from unittest import TestCase
 
 import social_core.backends.utils
 from celery.contrib.testing.tasks import ping  # type: ignore[import-untyped]
@@ -31,10 +34,14 @@ from weblate.lang.models import Language, Plural
 from weblate.machinery.models import MachineryInstallation
 from weblate.trans.inherited_settings import INHERITABLE_COMPONENT_FLAGS
 from weblate.trans.models import Category, Component, Project
+from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
 from weblate.vcs.git import GitRepository
 from weblate.vcs.models import VCS_REGISTRY
+
+if TYPE_CHECKING:
+    from collections.abc import Generator
 
 # Directory holding test data
 TEST_DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
@@ -116,8 +123,8 @@ def get_test_actor(test_case: object) -> User:
 def create_test_addon(*, acting_user: User, **kwargs) -> Addon:
     """Persist an add-on fixture with an explicit actor."""
     addon = Addon(**kwargs)
-    addon.acting_user = acting_user
-    addon.save(force_insert=True)
+    with acting_user_context(acting_user):
+        addon.save(force_insert=True)
     return addon
 
 
@@ -138,6 +145,17 @@ class RepoTestMixin:
     CREATE_GLOSSARIES: bool = False
 
     local_repo_path = "local:"
+
+    @contextmanager
+    def fixture_actor_context(self) -> Generator[None, None, None]:
+        """Scope standalone fixtures locally and test case fixtures until cleanup."""
+        context = acting_user_context(get_acting_user() or get_test_actor(self))
+        if isinstance(self, TestCase):
+            self.enterContext(context)
+            yield
+        else:
+            with context:
+                yield
 
     def optional_extract(self, output, tarname) -> None:
         """
@@ -230,8 +248,8 @@ class RepoTestMixin:
         project = Project(
             name=name, slug=slug, web="https://nonexisting.weblate.org/", **kwargs
         )
-        project.acting_user = get_test_actor(self)
-        project.save()
+        with self.fixture_actor_context():
+            project.save()
         self.addCleanup(remove_tree, project.full_path, True)
         return project
 
@@ -240,8 +258,8 @@ class RepoTestMixin:
         category = Category(
             name="Test category", slug="test-category", project=project, **kwargs
         )
-        category.acting_user = get_test_actor(self)
-        category.save()
+        with self.fixture_actor_context():
+            category.save()
         return category
 
     @staticmethod
@@ -324,8 +342,8 @@ class RepoTestMixin:
                 vcs=vcs,
                 **kwargs,
             )
-            component.acting_user = get_test_actor(self)
-            component.save()
+            with self.fixture_actor_context():
+                component.save()
             return component
 
     @staticmethod
@@ -551,8 +569,8 @@ class RepoTestMixin:
                 new_lang="contact",
                 **dict.fromkeys(INHERITABLE_COMPONENT_FLAGS, False),
             )
-            component.acting_user = get_test_actor(self)
-            component.save()
+            with self.fixture_actor_context():
+                component.save()
             return component
 
     def create_link_existing(
@@ -576,8 +594,8 @@ class RepoTestMixin:
                 slug=slug,
                 **params,
             )
-            linked.acting_user = get_test_actor(self)
-            linked.save()
+            with self.fixture_actor_context():
+                linked.save()
             return linked
 
 

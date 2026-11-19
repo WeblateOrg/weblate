@@ -2,7 +2,11 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-FROM weblate/weblate:2026.10.1.1@sha256:b0f200f38d70ed0db026ee969898b96dbeee5e9961b8c40ed05433e94354b4a8
+FROM node:26.13.1-bookworm-slim@sha256:5df79989ed685e09f0a98019db4cebfb22fb9df1a53c0161664a011f7ff6b0f1 AS node
+# Yarn Classic matches client/yarn.lock; recent Node images omit Yarn.
+RUN npm install --global yarn@1.22.22
+
+FROM weblate/weblate:2026.11.2.0@sha256:559bb57e2cae8471386ac646cb852c615996d199d02a3f8894d004acb03a1b77 AS common
 
 ##########
 # WARNING!
@@ -88,7 +92,70 @@ RUN ln -sf "$(uv --no-cache python find --system --managed-python --no-python-do
     && /usr/bin/env python3 --version
 
 
+# Compose selects this target with the existing small development context.
+FROM common AS development
 COPY --link --chmod=0755 start-dev /app/bin/
+COPY --from=node /usr/local/ /opt/node/
+ENV PATH=/app/venv/bin:/opt/node/bin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
+RUN apt-get update --error-on=any \
+    && apt-get install -y --no-install-recommends graphviz \
+    && node --version && npm --version && yarn --version
+# The small development build context contains this Dockerfile. Diagnostics
+# compare it with the mounted checkout to detect an image needing a rebuild.
+COPY Dockerfile /usr/local/share/weblate-dev.Dockerfile
 
 ENTRYPOINT ["/app/bin/start-dev"]
 CMD ["runserver"]
+
+
+FROM development AS migration
+ENV UV_PYTHON_INSTALL_DIR=/opt/python
+RUN apt-get update --error-on=any \
+    && apt-get install -y --no-install-recommends \
+        libgirepository-2.0-dev libcairo-dev gir1.2-rsvg-2.0 gir1.2-pango-1.0 \
+    && uv --no-cache python install --install-dir /opt/python 3.11 3.13 \
+    && ln -s "$(uv --no-cache python find --managed-python --no-python-downloads 3.11)" /usr/local/bin/python3.11 \
+    && ln -s "$(uv --no-cache python find --managed-python --no-python-downloads 3.13)" /usr/local/bin/python3.13
+
+
+# OSS Scanner builds the final target with the repository root as context.
+# No application entrypoint or mounted checkout is needed at audit time.
+FROM common AS scanner
+USER root
+ENV DEBIAN_FRONTEND=noninteractive
+# The inherited PGDG source targets noble; use this image's Ubuntu packages.
+RUN rm -f /etc/apt/sources.list.d/pgdg.list \
+    && printf '%s\n' 'Package: postgresql*' 'Pin: release o=Ubuntu' 'Pin-Priority: 1001' \
+        > /etc/apt/preferences.d/oss-scanner-postgresql \
+    && apt-get update --error-on=any \
+    && apt-get install -y --no-install-recommends --allow-downgrades postgresql-18 valkey-server \
+    && rm -rf /var/lib/apt/lists/*
+
+# Keep prepared files outside the base image's /app/data and /app/cache volumes.
+ENV DJANGO_SETTINGS_MODULE=weblate.settings_test \
+    CI_DB_HOST=127.0.0.1 \
+    CI_DB_PORT=5432 \
+    CI_DB_NAME=weblate \
+    CI_DB_USER=weblate \
+    CI_REDIS_HOST=127.0.0.1 \
+    CI_REDIS_PORT=6379 \
+    CI_BASE_DIR=/opt/oss-scanner/tests \
+    UV_PROJECT_ENVIRONMENT=/opt/oss-scanner/venv \
+    VIRTUAL_ENV=/opt/oss-scanner/venv \
+    UV_CACHE_DIR=/opt/oss-scanner/uv-cache \
+    UV_PYTHON_DOWNLOADS=never \
+    PATH=/opt/oss-scanner/venv/bin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
+
+COPY . /src
+WORKDIR /src
+RUN ./ci/pip-install latest \
+    && mkdir -p "$CI_BASE_DIR" \
+    && uv run --offline --no-sync ./manage.py compilemessages \
+    && uv run --offline --no-sync ./manage.py collectstatic --noinput --verbosity 0 \
+    && uv run --offline --no-sync ./manage.py shell -c \
+        'from weblate.screenshots.ocr import ensure_tesseract_language; ensure_tesseract_language("eng")'
+
+# The scanner replaces ENTRYPOINT; helpers must work when called from bash.
+HEALTHCHECK NONE
+ENTRYPOINT []
+CMD ["bash"]

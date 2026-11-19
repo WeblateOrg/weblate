@@ -211,6 +211,39 @@ If you already host other sites on the same server, it is likely ports ``80`` an
 Replace ``<SITE_URL>``, ``<SITE>`` and ``<EXPOSED_DOCKER_PORT>`` with actual values from your environment.
 
 
+.. _docker-custom-ca:
+
+Trusting custom CA certificates
++++++++++++++++++++++++++++++++
+
+.. versionadded:: 2026.11
+
+When Weblate connects to services secured by certificates issued by a private
+certificate authority (for example an internal SMTP, LDAP, or Git server),
+place the CA certificates into the Weblate data volume (see :ref:`docker-volume`):
+
+* :file:`ssl/ca-certificates/` containing one or more ``.crt`` files in PEM format
+
+On every container start, the certificates are combined with the system CA
+bundle and made available to Python (``requests``), OpenSSL, libcurl, and Git
+via ``REQUESTS_CA_BUNDLE``, ``SSL_CERT_FILE``, ``CURL_CA_BUNDLE``, and
+``GIT_SSL_CAINFO``. The system trust store is not modified, and removing a
+``.crt`` file from the directory removes it from the bundle on the next
+start.
+
+.. note::
+
+   Only files with the ``.crt`` extension are picked up.
+
+.. note::
+
+   Weblate runs repository operations (clone, fetch, push) with a cleaned-up
+   environment, but passes the CA certificate variables (``SSL_CERT_FILE``,
+   ``SSL_CERT_DIR``, ``GIT_SSL_CAINFO``, ``GIT_SSL_CAPATH``,
+   ``REQUESTS_CA_BUNDLE`` and ``CURL_CA_BUNDLE``) through to Git and other
+   subprocesses, so HTTPS Git remotes trust the CA as well.
+
+
 .. _docker-https-portal:
 
 Automatic SSL certificates using Let’s Encrypt
@@ -554,6 +587,30 @@ Related :file:`docker-compose.yml` might look like:
 
 Generic settings
 ++++++++++++++++
+
+.. envvar:: WEBLATE_SECRET_KEY
+
+   .. versionadded:: 2026.12
+
+   Configures Django's :setting:`SECRET_KEY`. You can provide the key directly
+   or use ``WEBLATE_SECRET_KEY_FILE`` to read it from a mounted secret file:
+
+   .. code-block:: yaml
+
+      environment:
+        WEBLATE_SECRET_KEY_FILE: /run/secrets/weblate_secret_key
+
+   The file variant takes precedence over the direct value. If the resolved key
+   is empty or neither variable is configured, Weblate reads :file:`/app/data/secret`.
+   An unreadable file configured through ``WEBLATE_SECRET_KEY_FILE`` causes a
+   configuration error.
+
+   Keep the key stable across container restarts and use the same key for all
+   containers in the deployment to preserve sessions and signed links.
+
+   .. seealso::
+
+      :ref:`docker-secrets`
 
 .. envvar:: WEBLATE_DEBUG
 
@@ -1139,6 +1196,10 @@ Generic settings
 
    Configures :setting:`DEFAULT_SHARED_TM`.
 
+.. envvar:: WEBLATE_DEFAULT_WORKSPACE_TM
+
+   Configures :setting:`DEFAULT_WORKSPACE_TM`.
+
 .. envvar:: WEBLATE_DEFAULT_AUTOCLEAN_TM
 
    Configures :setting:`DEFAULT_AUTOCLEAN_TM`.
@@ -1171,6 +1232,36 @@ Generic settings
 
    Configures checks which you do not want to be displayed, see
    :setting:`django:SILENCED_SYSTEM_CHECKS`.
+
+.. envvar:: WEBLATE_MEDIA_STORAGE_BACKEND
+.. envvar:: WEBLATE_MEDIA_STORAGE_OPTIONS
+
+   .. versionadded:: 2026.12
+
+   Configures storage for uploaded files, which are stored in the
+   :file:`data` volume by default. This currently covers screenshots; fonts
+   are always stored in the :file:`data` volume. Set :envvar:`WEBLATE_MEDIA_STORAGE_BACKEND`
+   to the storage class and :envvar:`WEBLATE_MEDIA_STORAGE_OPTIONS` to its
+   options as a JSON object; they configure ``default`` in
+   :setting:`django:STORAGES`. The image includes :pypi:`django-storages` with
+   the Amazon S3 and Google Cloud Storage backends.
+
+   For example, to use Amazon S3 or an S3-compatible service with credentials
+   from the ``AWS_ACCESS_KEY_ID`` and ``AWS_SECRET_ACCESS_KEY`` environment
+   variables:
+
+   .. code-block:: yaml
+
+      environment:
+        WEBLATE_MEDIA_STORAGE_BACKEND: storages.backends.s3.S3Storage
+        WEBLATE_MEDIA_STORAGE_OPTIONS: '{"bucket_name": "weblate-media", "endpoint_url": "https://s3.example.com", "file_overwrite": false}'
+
+   Use ``WEBLATE_MEDIA_STORAGE_OPTIONS_FILE`` to pass options containing
+   credentials as a secret, see :ref:`docker-secrets`.
+
+   .. seealso::
+
+      :ref:`screenshot-storage`
 
 .. envvar:: WEBLATE_CSP_SCRIPT_SRC
 .. envvar:: WEBLATE_CSP_IMG_SRC
@@ -1235,6 +1326,18 @@ Generic settings
 .. envvar:: WEBLATE_RATELIMIT_ATTEMPTS
 .. envvar:: WEBLATE_RATELIMIT_LOCKOUT
 .. envvar:: WEBLATE_RATELIMIT_WINDOW
+.. envvar:: WEBLATE_RATELIMIT_OCR_ATTEMPTS
+.. envvar:: WEBLATE_RATELIMIT_OCR_WINDOW
+.. envvar:: WEBLATE_RATELIMIT_OCR_LOCKOUT
+.. envvar:: WEBLATE_RATELIMIT_BULK_EDIT_ATTEMPTS
+.. envvar:: WEBLATE_RATELIMIT_BULK_EDIT_WINDOW
+.. envvar:: WEBLATE_RATELIMIT_BULK_EDIT_LOCKOUT
+.. envvar:: WEBLATE_RATELIMIT_UPLOAD_ATTEMPTS
+.. envvar:: WEBLATE_RATELIMIT_UPLOAD_WINDOW
+.. envvar:: WEBLATE_RATELIMIT_UPLOAD_LOCKOUT
+.. envvar:: WEBLATE_RATELIMIT_MACHINERY_ATTEMPTS
+.. envvar:: WEBLATE_RATELIMIT_MACHINERY_WINDOW
+.. envvar:: WEBLATE_RATELIMIT_MACHINERY_LOCKOUT
 
    .. versionadded:: 4.6
 
@@ -1251,6 +1354,18 @@ Generic settings
       * :setting:`RATELIMIT_ATTEMPTS`
       * :setting:`RATELIMIT_WINDOW`
       * :setting:`RATELIMIT_LOCKOUT`
+      * :setting:`RATELIMIT_OCR_ATTEMPTS`
+      * :setting:`RATELIMIT_OCR_WINDOW`
+      * :setting:`RATELIMIT_OCR_LOCKOUT`
+      * :setting:`RATELIMIT_BULK_EDIT_ATTEMPTS`
+      * :setting:`RATELIMIT_BULK_EDIT_WINDOW`
+      * :setting:`RATELIMIT_BULK_EDIT_LOCKOUT`
+      * :setting:`RATELIMIT_UPLOAD_ATTEMPTS`
+      * :setting:`RATELIMIT_UPLOAD_WINDOW`
+      * :setting:`RATELIMIT_UPLOAD_LOCKOUT`
+      * :setting:`RATELIMIT_MACHINERY_ATTEMPTS`
+      * :setting:`RATELIMIT_MACHINERY_WINDOW`
+      * :setting:`RATELIMIT_MACHINERY_LOCKOUT`
 
 .. envvar:: WEBLATE_API_RATELIMIT_ANON
 .. envvar:: WEBLATE_API_RATELIMIT_USER
@@ -1366,11 +1481,19 @@ Generic settings
 
    Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`.
 
+   .. seealso::
+
+      :doc:`/admin/privacy`
+
 .. envvar:: WEBLATE_PRIVATE_COMMIT_EMAIL_OPT_IN
 
    .. versionadded:: 4.15
 
    Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`.
+
+   .. seealso::
+
+      :doc:`/admin/privacy`
 
 .. envvar:: WEBLATE_PRIVATE_COMMIT_NAME_TEMPLATE
 
@@ -1378,11 +1501,19 @@ Generic settings
 
    Configures :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`.
 
+   .. seealso::
+
+      :doc:`/admin/privacy`
+
 .. envvar:: WEBLATE_PRIVATE_COMMIT_NAME_OPT_IN
 
    .. versionadded:: 5.16
 
    Configures :setting:`PRIVATE_COMMIT_NAME_OPT_IN`.
+
+   .. seealso::
+
+      :doc:`/admin/privacy`
 
    To use private commit e-mails and names by default, set both opt-in variables
    to ``False`` in :file:`docker-compose.override.yml`:
@@ -1394,11 +1525,9 @@ Generic settings
           environment:
             WEBLATE_PRIVATE_COMMIT_EMAIL_OPT_IN: "False"
             WEBLATE_PRIVATE_COMMIT_NAME_OPT_IN: "False"
-            WEBLATE_PRIVATE_COMMIT_EMAIL_TEMPLATE: "user-{user_id}@users.noreply.{site_domain}"
-            WEBLATE_PRIVATE_COMMIT_NAME_TEMPLATE: "{site_title} user {user_id}"
 
-   The template variables are optional customizations. This e-mail template uses
-   the user ID instead of the username included in the default template.
+   The default templates use the user ID for both the private e-mail and name.
+   The template variables are optional customizations.
    Setting the templates alone leaves private commit identities opt-in.
 
    These defaults apply to new and existing users without explicit commit
@@ -1515,6 +1644,15 @@ Generic settings
 
       This variable intentionally lacks ``WEBLATE_`` prefix as it is shared
       with third-party container used in :ref:`docker-https-portal`.
+
+.. envvar:: WEBLATE_TRANSLATION_MAX_SIZE
+
+   Configures :setting:`TRANSLATION_MAX_SIZE` in bytes. When unset, follows
+   :envvar:`WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE`.
+
+.. envvar:: WEBLATE_TRANSLATION_MAX_UNITS
+
+   Configures :setting:`TRANSLATION_MAX_UNITS`. Defaults to 200,000.
 
 .. envvar:: WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE
 
@@ -1903,14 +2041,18 @@ Keycloak
 .. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_TITLE
 .. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_IMAGE
 
-    Enables Keycloak authentication, see :doc:`psa:backends/keycloak`.
+    Enables :ref:`keycloak_auth`.
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY
 
     .. versionadded:: 5.17
 
     Configures which claim is used as the unique user identifier from Keycloak.
-    Defaults to ``email``.
+    Defaults to the stable subject claim, ``sub``. Explicit overrides remain
+    supported, but e-mail addresses and usernames can be reassigned and are
+    unsafe account identifiers. See :ref:`keycloak_auth` for migration and
+    historical-key backfill requirements when upgrading from the earlier
+    ``email`` default.
 
     .. hint::
 
@@ -1923,6 +2065,21 @@ Keycloak
           environment:
             WEBLATE_CSP_FORM_SRC: login.microsoftonline.com
 
+
+
+.. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_ALLOW_UNVERIFIED_LEGACY_UID_MIGRATION
+
+    .. versionadded:: 2026.11.2
+
+    Allows migration of historical Keycloak associations without saved subject
+    evidence. Defaults to enabled only when
+    :envvar:`WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY` is unset; an explicit identifier,
+    including ``sub``, defaults to disabled. Set to ``1`` or ``0`` to override
+    this default. When disabled, matching saved subjects are required;
+    associations without this evidence then require account recovery
+    or verified administrative repair. Until migration, enabled fallback retains
+    the risk of historical e-mail address or username reassignment. See
+    :ref:`keycloak_auth` for upgrade guidance.
 
 
 Linux vendors
@@ -1981,6 +2138,51 @@ OpenID Connect
    .. seealso::
 
       :doc:`psa:backends/oidc`
+
+.. _docker-weblate-auth:
+
+Weblate OpenID Connect
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 2026.11
+
+.. envvar:: WEBLATE_SOCIAL_AUTH_WEBLATE_KEY
+.. envvar:: WEBLATE_SOCIAL_AUTH_WEBLATE_SECRET
+
+   Enable authentication through Hosted Weblate or another Weblate installation
+   (see :ref:`weblate-auth`) using the client ID and client secret registered with its
+   :ref:`oidc-provider`. Register the exact HTTPS callback URL of this
+   installation, for example
+   ``https://weblate.example.com/accounts/complete/weblate/``.
+
+   .. code-block:: yaml
+
+      environment:
+        WEBLATE_SOCIAL_AUTH_WEBLATE_KEY: your-client-id
+        WEBLATE_SOCIAL_AUTH_WEBLATE_SECRET_FILE: /run/secrets/weblate-client-secret
+
+.. envvar:: WEBLATE_SOCIAL_AUTH_WEBLATE_OIDC_ENDPOINT
+
+   Optional issuer URL. Defaults to ``https://hosted.weblate.org/oidc``.
+   For another installation, use its base URL followed by ``/oidc``, including
+   any deployment prefix, for example
+   ``https://example.com/translations/oidc``. Do not append
+   ``/.well-known/openid-configuration``.
+
+   Changing the issuer requires an explicit migration of existing account
+   associations: the same subject identifier on different servers can refer
+   to different people.
+
+.. envvar:: WEBLATE_SOCIAL_AUTH_WEBLATE_TITLE
+.. envvar:: WEBLATE_SOCIAL_AUTH_WEBLATE_IMAGE
+
+   Optional sign-in label and icon overrides. By default, the label is
+   :guilabel:`Hosted Weblate` for Hosted Weblate and :guilabel:`Weblate` for
+   other installations; both use the Weblate icon.
+
+.. seealso::
+
+   :doc:`psa:backends/weblate`
 
 Fedora OpenID Connect
 ~~~~~~~~~~~~~~~~~~~~~
@@ -2179,9 +2381,12 @@ Datastore server setup
 Using Valkey or Redis is required by the Weblate container and you have to
 provide a connection parameters when running Weblate in Docker.
 
+The datastore and any proxy must support RESP3.
+
 .. seealso::
 
-   :ref:`production-cache`
+   :ref:`production-cache` for version requirements and troubleshooting
+   ``unknown command HELLO`` errors.
 
 .. envvar:: REDIS_HOST
 
@@ -2538,7 +2743,7 @@ Localization CDN
 
 
 Changing enabled apps, checks, formats, add-ons, translation services, or autofixes
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 The built-in configuration of enabled checks, file formats, add-ons,
 translation services, or autofixes can be adjusted by the following variables:
@@ -2824,6 +3029,8 @@ container.
 The :file:`data` volume is mounted as :file:`/app/data` and is used to store
 Weblate persistent data such as cloned repositories or to customize Weblate
 installation. :setting:`DATA_DIR` describes in more detail what is stored here.
+Screenshots can be stored outside of this volume, see
+:envvar:`WEBLATE_MEDIA_STORAGE_BACKEND`.
 
 The :file:`data` volume is also place to store Weblate customization such as
 :ref:`docker-settings-override`, :ref:`docker-static-override` or
@@ -3197,6 +3404,15 @@ Anubis can be deployed using Docker Compose:
    https://anubis.techaro.lol/docs/admin/policies/#storage-backends.
 
 
+Restrict Anubis's ``REDIRECT_DOMAINS`` to your intended public hostnames, matching
+:envvar:`WEBLATE_SITE_DOMAIN` as shown above.
+
+Challenge redirects and their return destinations use :envvar:`WEBLATE_SITE_DOMAIN`,
+including when a request arrives through an alias. Set :envvar:`WEBLATE_ENABLE_HTTPS`
+to ``1`` when a reverse proxy terminates TLS so these redirects use the public
+HTTPS origin. Built-in TLS also selects HTTPS automatically. Include any public
+nonstandard port in :envvar:`WEBLATE_SITE_DOMAIN`.
+
 You can then turn on the Anubis usage in Weblate using:
 
 .. code-block:: yaml
@@ -3207,6 +3423,58 @@ You can then turn on the Anubis usage in Weblate using:
 .. seealso::
 
    :envvar:`WEBLATE_ANUBIS_URL`
+
+Application-aware proof of work
++++++++++++++++++++++++++++++++
+
+.. versionadded:: 2026.11
+
+This integration is a technology preview. See :ref:`bot-protection` for its
+stability and maintenance policy.
+
+.. envvar:: WEBLATE_BOT_PROTECTION_ENABLED
+.. envvar:: WEBLATE_BOT_PROTECTION_DIFFICULTY
+.. envvar:: WEBLATE_BOT_PROTECTION_CHALLENGE_AGE
+.. envvar:: WEBLATE_BOT_PROTECTION_COOKIE_AGE
+.. envvar:: WEBLATE_BOT_PROTECTION_CACHE_ALIAS
+.. envvar:: WEBLATE_BOT_PROTECTION_EXEMPT_PATHS
+.. envvar:: WEBLATE_BOT_PROTECTION_EXEMPT_AGENTS
+.. envvar:: WEBLATE_BOT_PROTECTION_CRAWLER_FILE
+.. envvar:: WEBLATE_BOT_PROTECTION_CRAWLER_RULES
+.. envvar:: WEBLATE_BOT_PROTECTION_UNWANTED_AGENTS
+.. envvar:: WEBLATE_BOT_PROTECTION_UNWANTED_ACTION
+
+Enable :ref:`bot-protection` with :envvar:`WEBLATE_BOT_PROTECTION_ENABLED` set to
+``1``. The Django gate works without an Anubis container. During migration,
+remove ``WEBLATE_ANUBIS_URL`` from the container environment and recreate the
+container to remove the NGINX Anubis subrequest gate. Keeping both enabled can
+produce two challenges; application authentication cannot bypass an upstream
+Anubis challenge. Existing Anubis configuration and cookies are not modified or
+trusted by the application gate.
+
+Every ``BOT_PROTECTION_*`` setting has a matching ``WEBLATE_BOT_PROTECTION_*``
+environment variable: ``DIFFICULTY`` (4), ``CHALLENGE_AGE`` (300), ``COOKIE_AGE``
+(3600), ``CACHE_ALIAS`` (default), ``EXEMPT_PATHS`` (empty list),
+``EXEMPT_AGENTS`` (empty list), ``CRAWLER_FILE`` (empty), ``CRAWLER_RULES`` (empty
+JSON object), ``UNWANTED_AGENTS`` (empty list), and ``UNWANTED_ACTION`` (challenge). Lists use the standard comma-separated
+Docker setting syntax. Configure a persistent writable crawler snapshot and run
+``weblate update_crawler_ranges`` daily from an external scheduler; application
+workers do not perform refreshes. Restart application workers after updating
+the snapshot; ranges are loaded only at startup and do not expire by age. Use
+the existing shared cache for replay protection and best-effort verification
+counters, shown in the management overview.
+
+Set :envvar:`WEBLATE_BOT_PROTECTION_EXEMPT_AGENTS` to comma-separated,
+case-insensitive User-Agent regular expressions for monitoring exemptions.
+For example, ``^Weblate-Uptime/1\.0$`` exempts a monitor using that exact agent.
+Matching requests bypass bot protection for all methods and paths, including
+unwanted-agent denial. This trusts a spoofable header and does not grant
+application access; see :setting:`BOT_PROTECTION_EXEMPT_AGENTS`.
+
+HTTPS, trusted proxy IP handling, same-origin challenge assets, and bypassing
+shared proxy caches for protected application routes are required. Deployments
+with CDN-hosted static files must provide these challenge assets at the same
+origin as Weblate.
 
 Configuring PostgreSQL server
 -----------------------------

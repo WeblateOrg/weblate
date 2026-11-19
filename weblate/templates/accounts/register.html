@@ -7,9 +7,7 @@
 {% endblock extra_script %}
 
 {% block breadcrumbs %}
-  <li class="breadcrumb-item">
-    <a href="{% url 'register' %}">{% translate "Registration" %}</a>
-  </li>
+  <li class="breadcrumb-item active" aria-current="page">{% translate "Registration" %}</li>
 {% endblock breadcrumbs %}
 
 {% block content %}
@@ -48,7 +46,7 @@
                 <form action="{% url 'register' %}" method="post" accept-charset="utf-8">
                   {% crispy form %}
                   <input type="submit"
-                         value="{% translate 'Register' %}"
+                         value="{% translate 'Register'|force_escape %}"
                          class="btn btn-primary btn-full" />
                 </form>
 

@@ -22,9 +22,7 @@
 {% endblock nav_pills %}
 
 {% block breadcrumbs %}
-  <li class="breadcrumb-item">
-    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
-  </li>
+  {% path_object_breadcrumbs object %}
   <li class="breadcrumb-item">
     <a href="{% url 'fonts' project=object.slug %}">{% translate "Fonts" %}</a>
   </li>
@@ -74,7 +72,9 @@
               </div>
               <div class="card-body">{{ group_form|crispy }}</div>
               <div class="card-footer">
-                <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
+                <input type="submit"
+                       class="btn btn-primary"
+                       value="{% translate "Save"|force_escape %}" />
               </div>
             </div>
           </form>
@@ -120,7 +120,7 @@
             <div class="card-footer">
               <input type="submit"
                      class="btn btn-primary"
-                     value="{% translate "Upload" %}"
+                     value="{% translate "Upload"|force_escape %}"
                      id="upload_font_submit" />
             </div>
           </div>

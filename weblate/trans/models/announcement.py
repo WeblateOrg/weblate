@@ -208,9 +208,7 @@ class AnnouncementQuerySet(models.QuerySet["Announcement", "Announcement"]):
             user.get_project_access_query("component__project")
         )
         if user.needs_component_restrictions_filter:
-            component_scope &= Q(component__restricted=False) | Q(
-                component_id__in=user.component_permissions
-            )
+            component_scope &= user.get_component_access_query("component")
 
         return self.filter(
             global_scope | project_scope | category_scope | component_scope

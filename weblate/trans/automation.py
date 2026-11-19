@@ -74,15 +74,18 @@ def automatic_translation(
         enforce_permissions=enforce_permissions,
         unit_ids=unit_ids,
     )
-    message = auto.perform(
-        auto_source=settings["auto_source"],
-        engines=settings["engines"],
-        threshold=settings["threshold"],
-        source_component_ids=(
-            [settings["component"]] if settings.get("component") else None
-        ),
-    )
-    component.run_batched_checks()
+    try:
+        message = auto.perform(
+            auto_source=settings["auto_source"],
+            engines=settings["engines"],
+            threshold=settings["threshold"],
+            source_component_ids=(
+                [settings["component"]] if settings.get("component") else None
+            ),
+        )
+    finally:
+        # Completed languages can have committed before another language defers.
+        component.run_batched_checks()
     if auto.failure_message:
         raise MachineTranslationError(auto.failure_message)
     if affected is not None:
@@ -118,12 +121,16 @@ def bulk_edit(
         selection = UnitSelection()
     affected_ids: set[int] = set()
     affected_sources: set[int] = set()
+    too_long: set[int] = set()
     updated = bulk_perform(
         user,
         selection.queryset(component),
         components=[component],
         query=settings["q"],
         target_state=settings["state"],
+        search=settings.get("search", ""),
+        replacement=settings.get("replacement", ""),
+        search_type=settings.get("search_type", "text"),
         add_flags=settings["add_flags"],
         remove_flags=settings["remove_flags"],
         add_translation_flags=settings.get("add_translation_flags", ""),
@@ -136,6 +143,7 @@ def bulk_edit(
         affected_unit_ids=affected_ids,
         affected_source_unit_ids=affected_sources,
         expected_unit_snapshots=selection.unit_snapshots,
+        too_long_unit_ids=too_long,
     )
     if affected is not None:
         affected.unit_ids = affected_ids
@@ -147,4 +155,7 @@ def bulk_edit(
                 for unit_id in affected_ids
                 if unit_id in selection.unit_snapshots
             }
-    return {"component": component.pk, "updated": updated}
+    result: dict[str, Any] = {"component": component.pk, "updated": updated}
+    if too_long:
+        result["skipped_too_long"] = len(too_long)
+    return result

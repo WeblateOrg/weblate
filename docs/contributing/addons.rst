@@ -13,6 +13,40 @@ including ``Addon``, ``Component``, ``Translation``, ``Category``, ``Project``,
 ``Unit``, ``Change``, and ``User``. Add-on configuration forms should subclass
 ``weblate.addons.forms.BaseAddonForm``.
 
+Override ``get_integration_instructions(user)`` to render integration guidance
+independently of the settings form. Return HTML rendered using Django templates,
+with translated text and escaped context values, or an empty string when no
+instructions are available. The user argument identifies the administrator
+viewing the page and can be used to check permissions for links and actions.
+
+Instructions appear in a separate panel above installation and settings forms.
+For instructions that require an installed add-on, return an empty string when
+``self.instance.pk`` is not set. An add-on providing only instructions can leave
+``settings_form`` unset. Set ``stay_on_create = True`` to redirect administrators
+to the installed add-on and its instructions after installation.
+
+Use :ref:`acting-user-context` when saving configuration outside a request.
+``BaseAddon.create(..., acting_user=user)`` scopes the complete installation
+operation. ``create_object()`` returns an unsaved object and no longer accepts
+``acting_user``; scope the subsequent save instead. Hook execution uses the
+add-on bot, while installation and configuration retain the initiating actor.
+
+When calling ``weblate.utils.render.render_template()``, pass plain context
+values: strings, booleans, integers, finite floats, ``None``, dates, times,
+datetimes, decimals, UUIDs, and lists, tuples, or dictionaries containing these
+values. Dictionary keys must be strings. Only the exact supported types are
+accepted; lazy translations, safe-string markers, subclasses, and arbitrary
+objects are rejected, including in unused context values. Tuples are copied to
+lists and UUIDs become strings. The ``translation``, ``component``, and
+``project`` convenience arguments are expanded into plain data before this
+validation; a string ``component`` remains available for discovery templates.
+See :ref:`markup` for rendering limits.
+
+Resolve translated context values explicitly at the caller. Use
+``BaseAddon.english_name`` for an English add-on label in commit messages;
+``BaseAddon.commit_and_push()`` supplies it automatically. The template
+evaluators do not coerce lazy translations or arbitrary objects.
+
 Here is an example add-on:
 
 .. literalinclude:: ../../weblate/addons/example.py

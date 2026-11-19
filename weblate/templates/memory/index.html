@@ -11,9 +11,7 @@
       <a href="{% url 'memory' workspace=workspace.pk %}">{% translate "Translation memory" %}</a>
     </li>
   {% elif project %}
-    <li class="breadcrumb-item">
-      <a href="{{ project.get_absolute_url }}">{{ project }}</a>
-    </li>
+    {% path_object_breadcrumbs project %}
     <li class="breadcrumb-item">
       <a href="{% url 'memory' project=project.slug %}">{% translate "Translation memory" %}</a>
     </li>
@@ -77,13 +75,15 @@
                       <button type="button"
                               class="btn-close"
                               data-bs-dismiss="modal"
-                              aria-label="{% translate "Close" %}"></button>
+                              aria-label="{% translate "Close"|force_escape %}"></button>
                     </div>
                     <div class="modal-body">
                       {% blocktranslate count count=num_entries %}This will permanently delete {{ count }} entry from the translation memory.{% plural %}This will permanently delete {{ count }} entries from the translation memory.{% endblocktranslate %}
                     </div>
                     <div class="modal-footer">
-                      <input type="submit" class="btn btn-danger" value="{% translate "Delete" %}" />
+                      <input type="submit"
+                             class="btn btn-danger"
+                             value="{% translate "Delete"|force_escape %}" />
                     </div>
                   </div>
                   <!-- /.modal-content -->
@@ -109,7 +109,7 @@
                       <button type="button"
                               class="btn-close"
                               data-bs-dismiss="modal"
-                              aria-label="{% translate "Close" %}"></button>
+                              aria-label="{% translate "Close"|force_escape %}"></button>
                     </div>
                     <div class="modal-body">
                       {% if workspace %}
@@ -119,7 +119,9 @@
                       {% endif %}
                     </div>
                     <div class="modal-footer">
-                      <input type="submit" class="btn btn-warning" value="{% translate "Rebuild" %}" />
+                      <input type="submit"
+                             class="btn btn-warning"
+                             value="{% translate "Rebuild"|force_escape %}" />
                     </div>
                   </div>
                   <!-- /.modal-content -->
@@ -179,13 +181,15 @@
                         <button type="button"
                                 class="btn-close"
                                 data-bs-dismiss="modal"
-                                aria-label="{% translate "Close" %}"></button>
+                                aria-label="{% translate "Close"|force_escape %}"></button>
                       </div>
                       <div class="modal-body">
                         {% blocktranslate count count=item.id__count %}This will permanently delete {{ count }} entry from the translation memory.{% plural %}This will permanently delete {{ count }} entries from the translation memory.{% endblocktranslate %}
                       </div>
                       <div class="modal-footer">
-                        <input type="submit" class="btn btn-danger" value="{% translate "Delete" %}" />
+                        <input type="submit"
+                               class="btn btn-danger"
+                               value="{% translate "Delete"|force_escape %}" />
                       </div>
                     </div>
                     <!-- /.modal-content -->
@@ -215,7 +219,7 @@
                         <button type="button"
                                 class="btn-close"
                                 data-bs-dismiss="modal"
-                                aria-label="{% translate "Close" %}"></button>
+                                aria-label="{% translate "Close"|force_escape %}"></button>
                       </div>
                       <div class="modal-body">
                         {% if workspace %}
@@ -225,7 +229,9 @@
                         {% endif %}
                       </div>
                       <div class="modal-footer">
-                        <input type="submit" class="btn btn-warning" value="{% translate "Rebuild" %}" />
+                        <input type="submit"
+                               class="btn btn-warning"
+                               value="{% translate "Rebuild"|force_escape %}" />
                       </div>
                     </div>
                     <!-- /.modal-content -->
@@ -366,7 +372,9 @@
         </div>
         <div class="card-body">{{ upload_form|crispy }}</div>
         <div class="card-footer">
-          <input type="submit" class="btn btn-primary" value="{% translate "Upload" %}" />
+          <input type="submit"
+                 class="btn btn-primary"
+                 value="{% translate "Upload"|force_escape %}" />
         </div>
       </div>
     </form>

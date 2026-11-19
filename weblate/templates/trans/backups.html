@@ -3,9 +3,7 @@
 {% load humanize i18n translations %}
 
 {% block breadcrumbs %}
-  <li class="breadcrumb-item">
-    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
-  </li>
+  {% path_object_breadcrumbs object %}
   <li class="breadcrumb-item">
     <a href="{% url 'backups' project=object.slug %}">{% translate "Backups" %}</a>
   </li>
@@ -50,7 +48,9 @@
         </p>
       </div>
       <div class="card-footer">
-        <input type="submit" class="btn btn-primary" value="{% translate "Trigger backup" %}" />
+        <input type="submit"
+               class="btn btn-primary"
+               value="{% translate "Trigger backup"|force_escape %}" />
       </div>
     </div>
   </form>

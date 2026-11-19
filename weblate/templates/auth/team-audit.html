@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% load humanize i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item active" aria-current="page">{% translate "Team audit log" %}</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  <h1>{% translate "Team audit log" %}</h1>
+  {% include "auth/team-audit-list.html" with anchor="" paginator_form="" %}
+{% endblock content %}

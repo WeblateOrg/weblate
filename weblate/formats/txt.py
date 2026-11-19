@@ -21,6 +21,7 @@ from weblate.formats.base import (
     TranslationFormat,
     TranslationUnit,
 )
+from weblate.formats.limits import check_translation_file_size
 from weblate.trans.exceptions import is_expected_parse_error
 from weblate.utils.errors import report_error
 
@@ -65,7 +66,13 @@ class TextItem(BaseItem):
 class TextParser:
     """Simple text parser returning all content as single unit."""
 
-    def __init__(self, storefile, filename=None, flags: str | None = None) -> None:
+    def __init__(
+        self,
+        storefile: str | Path,
+        filename: str | None = None,
+        flags: str | None = None,
+    ) -> None:
+        check_translation_file_size(storefile)
         content = Path(storefile).read_text(encoding="utf-8")
         if filename:
             self.filename = filename

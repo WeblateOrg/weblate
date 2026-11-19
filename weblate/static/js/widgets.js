@@ -80,11 +80,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Include extra parameters in the URL
     const params = new URLSearchParams();
-    for (const input of extraParamsContainer.querySelectorAll("input")) {
+    for (const input of extraParamsContainer.querySelectorAll(
+      "input, select",
+    )) {
       const paramName = input.getAttribute("name");
       let paramValue = input.value;
       if (input.type === "checkbox") {
         paramValue = input.checked ? "1" : "";
+      } else if (
+        input.tagName === "SELECT" &&
+        paramValue === input.dataset.default
+      ) {
+        paramValue = "";
       }
       if (paramValue) {
         params.set(paramName, paramValue);
@@ -144,12 +151,25 @@ document.addEventListener("DOMContentLoaded", () => {
         label.className = "form-label mt-2";
         extraParamsContainer.append(label);
 
-        const input = document.createElement("input");
+        const input = document.createElement(
+          param.type === "select" ? "select" : "input",
+        );
         input.id = param.name;
         input.name = param.name;
 
         let supported = false;
-        if (param.type === "number") {
+        if (param.type === "select") {
+          for (const choice of param.choices) {
+            const option = document.createElement("option");
+            option.value = choice.value;
+            option.textContent = choice.label;
+            input.append(option);
+          }
+          input.value = param.default;
+          input.dataset.default = param.default;
+          input.className = "form-control mt-2";
+          supported = true;
+        } else if (param.type === "number") {
           input.type = param.type;
           input.min = param.min;
           input.max = param.max;

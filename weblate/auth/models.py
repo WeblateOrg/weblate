@@ -18,15 +18,15 @@ from appconf import AppConf
 from asgiref.sync import sync_to_async
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password, verify_password
 from django.contrib.auth.models import Group as DjangoGroup
 from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator as DjangoEmailValidator
 from django.core.validators import MinValueValidator
-from django.db import models, router, transaction
-from django.db.models import Count, Q, UniqueConstraint
+from django.db import connections, models, router, transaction
+from django.db.models import Count, Exists, F, OuterRef, Q, UniqueConstraint
 from django.db.models.functions import Upper
-from django.db.models.signals import m2m_changed, post_delete, post_save
+from django.db.models.signals import m2m_changed, post_delete, post_save, pre_delete
 from django.dispatch import receiver
 from django.http import Http404, HttpRequest
 from django.urls import reverse
@@ -38,6 +38,7 @@ from weblate.auth.data import (
     ACL_GROUPS,
     GLOBAL_PERM_NAMES,
     PERMISSION_NAMES,
+    ROLES,
     SELECTION_ALL,
     SELECTION_ALL_PROTECTED,
     SELECTION_ALL_PUBLIC,
@@ -63,8 +64,9 @@ from weblate.auth.utils import (
 from weblate.logger import LOGGER
 from weblate.trans.defines import EMAIL_LENGTH, FULLNAME_LENGTH, USERNAME_LENGTH
 from weblate.trans.fields import RegexField
-from weblate.trans.models import ComponentList, Project
+from weblate.trans.models import Category, Component, ComponentList, Project
 from weblate.utils.decorators import disable_for_loaddata
+from weblate.utils.email import email_key, email_key_expression
 from weblate.utils.fields import EmailField, UsernameField
 from weblate.utils.regex import regex_match
 from weblate.utils.search import parse_query
@@ -87,6 +89,7 @@ if TYPE_CHECKING:
     from weblate.accounts.strategy import WeblateStrategy
     from weblate.auth.results import PermissionResult
     from weblate.lang.models import Language
+    from weblate.trans.models.project import ProjectQuerySet
     from weblate.utils.stats import CategoryLanguage, ProjectLanguage
     from weblate.wladmin.models import SupportStatusDict
 
@@ -110,6 +113,7 @@ if TYPE_CHECKING:
 
 @dataclass(slots=True)
 class CachedPermissionMembership:
+    defining_project_id: int | None
     defining_workspace_id: uuid.UUID | None
     project_selection: int
     language_selection: int
@@ -119,8 +123,14 @@ class CachedPermissionMembership:
     permission_codenames: set[str]
     componentlist_component_values: set[tuple[int, int]]
     has_componentlists: bool
+    has_components: bool
     component_values: set[tuple[int, int]]
     project_ids: set[int]
+
+    def allows_project(self, project_id: int) -> bool:
+        return (
+            self.defining_project_id is None or project_id == self.defining_project_id
+        )
 
 
 class Permission(models.Model):
@@ -202,34 +212,62 @@ class Role(models.Model):
     def __str__(self) -> str:
         return pgettext("Access-control role", self.name)
 
+    @property
+    def is_builtin(self) -> bool:
+        return self.name in dict(ROLES)
+
+    @property
+    def is_customized(self) -> bool:
+        defaults = dict(ROLES).get(self.name)
+        return defaults is not None and {
+            permission.codename for permission in self.permissions.all()
+        } != set(defaults)
+
+    def reset_permissions(self) -> None:
+        defaults = dict(ROLES).get(self.name)
+        if defaults is None:
+            msg = "Only built-in roles can be reset."
+            raise ValueError(msg)
+        with transaction.atomic(using=self._state.db):
+            self.permissions.set(
+                Permission.objects.using(self._state.db).filter(codename__in=defaults)
+            )
+
 
 def _fetch_relation_ids(
     through: type[models.Model],
     source_field: str,
     target_field: str,
     source_ids: Iterable[int],
+    using: str | None = None,
 ) -> defaultdict[int, set[int]]:
     source_ids = set(source_ids)
     result: defaultdict[int, set[int]] = defaultdict(set)
     if not source_ids:
         return result
 
-    for source_id, target_id in through.objects.filter(
-        **{f"{source_field}__in": source_ids}
-    ).values_list(source_field, target_field):
+    for source_id, target_id in (
+        through.objects.using(using)
+        .filter(**{f"{source_field}__in": source_ids})
+        .values_list(source_field, target_field)
+    ):
         result[source_id].add(target_id)
     return result
 
 
-def _fetch_role_permissions(role_ids: Iterable[int]) -> defaultdict[int, set[str]]:
+def _fetch_role_permissions(
+    role_ids: Iterable[int], using: str | None = None
+) -> defaultdict[int, set[str]]:
     role_ids = set(role_ids)
     result: defaultdict[int, set[str]] = defaultdict(set)
     if not role_ids:
         return result
 
-    for role_id, codename in Role.permissions.through.objects.filter(
-        role_id__in=role_ids
-    ).values_list("role_id", "permission__codename"):
+    for role_id, codename in (
+        Role.permissions.through.objects.using(using)
+        .filter(role_id__in=role_ids)
+        .values_list("role_id", "permission__codename")
+    ):
         result[role_id].add(codename)
     return result
 
@@ -238,17 +276,204 @@ def _fetch_component_values(
     through: type[models.Model],
     source_field: str,
     source_ids: Iterable[int],
+    using: str | None = None,
 ) -> defaultdict[int, set[tuple[int, int]]]:
     source_ids = set(source_ids)
     result: defaultdict[int, set[tuple[int, int]]] = defaultdict(set)
     if not source_ids:
         return result
 
-    for source_id, component_id, project_id in through.objects.filter(
-        **{f"{source_field}__in": source_ids}
-    ).values_list(source_field, "component_id", "component__project_id"):
+    for source_id, component_id, project_id in (
+        through.objects.using(using)
+        .filter(**{f"{source_field}__in": source_ids})
+        .values_list(source_field, "component_id", "component__project_id")
+    ):
         result[source_id].add((component_id, project_id))
     return result
+
+
+def validate_component_project_move(component_ids: Iterable[int]) -> None:
+    """Do not move components while project teams still assign them."""
+    if Group.objects.filter(
+        defining_project__isnull=False, components__pk__in=component_ids
+    ).exists():
+        raise ValidationError(
+            {
+                "project": gettext(
+                    "Remove the component from project teams before moving it to another project."
+                )
+            }
+        )
+
+
+def validate_component_deletion(
+    component_ids: Iterable[int],
+    *,
+    using: str | None = None,
+    deleting_project_ids: Iterable[int] = (),
+) -> None:
+    """Keep deleting components from widening an assigned team's scope."""
+    component_ids = set(component_ids)
+    if not component_ids:
+        return
+    affected = set(
+        Group.objects.using(using)
+        .filter(components__pk__in=component_ids, componentlists__isnull=True)
+        .exclude(defining_project_id__in=deleting_project_ids)
+        .values_list("pk", flat=True)
+    )
+    if not affected:
+        return
+    # Serialize removals that affect the same team until the deletion commits.
+    if connections[using or "default"].in_atomic_block:
+        affected = set(
+            Group.objects.using(using)
+            .filter(pk__in=affected)
+            .order_by("pk")
+            .select_for_update()
+            .values_list("pk", flat=True)
+        )
+    remaining = set(
+        Group.components.through.objects.using(using)
+        .filter(group_id__in=affected)
+        .exclude(component_id__in=component_ids)
+        .values_list("group_id", flat=True)
+    )
+    if affected - remaining:
+        raise ValidationError(
+            gettext(
+                "Remove the component from its teams before deleting it. "
+                "Deleting the last assigned component would expand the team's access."
+            )
+        )
+
+
+def _deletion_origin_ids(origin: models.Model | models.QuerySet) -> set[int]:
+    if isinstance(origin, models.QuerySet):
+        return set(origin.values_list("pk", flat=True))
+    return {origin.pk}
+
+
+def _linked_deletion_ids(component_ids: set[int], using: str) -> set[int]:
+    frontier = component_ids.copy()
+    while frontier:
+        frontier = (
+            set(
+                Component.objects.using(using)
+                .filter(linked_component_id__in=frontier)
+                .values_list("pk", flat=True)
+            )
+            - component_ids
+        )
+        component_ids.update(frontier)
+    return component_ids
+
+
+def _first_deleted_instance(
+    instance: models.Model, origin: models.Model | models.QuerySet
+) -> bool:
+    if isinstance(origin, models.QuerySet):
+        return instance.pk == origin.order_by("pk").values_list("pk", flat=True).first()
+    return instance.pk == origin.pk
+
+
+@receiver(pre_delete, sender=Component)
+def prevent_component_team_scope_escalation(
+    sender: type[Component],
+    instance: Component,
+    using: str,
+    origin: models.Model | models.QuerySet | None = None,
+    **kwargs: object,
+) -> None:
+    """Check direct component deletions once, including linked descendants."""
+    if origin is None:
+        component_ids = {instance.pk}
+    elif isinstance(origin, Component) or (
+        isinstance(origin, models.QuerySet) and origin.model is Component
+    ):
+        if not _first_deleted_instance(instance, origin):
+            return
+        component_ids = _deletion_origin_ids(origin)
+    else:
+        return
+    validate_component_deletion(_linked_deletion_ids(component_ids, using), using=using)
+
+
+@receiver(pre_delete, sender=Category)
+def prevent_category_team_scope_escalation(
+    sender: type[Category],
+    instance: Category,
+    using: str,
+    origin: models.Model | models.QuerySet | None = None,
+    **kwargs: object,
+) -> None:
+    """Check direct category deletions once, including child categories."""
+    if not isinstance(origin, Category) and not (
+        isinstance(origin, models.QuerySet) and origin.model is Category
+    ):
+        return
+    if not _first_deleted_instance(instance, origin):
+        return
+    category_ids = _deletion_origin_ids(origin)
+    frontier = category_ids.copy()
+    while frontier:
+        frontier = (
+            set(
+                Category.objects.using(using)
+                .filter(category_id__in=frontier)
+                .values_list("pk", flat=True)
+            )
+            - category_ids
+        )
+        category_ids.update(frontier)
+    component_ids = set(
+        Component.objects.using(using)
+        .filter(category_id__in=category_ids)
+        .values_list("pk", flat=True)
+    )
+    validate_component_deletion(_linked_deletion_ids(component_ids, using), using=using)
+
+
+@receiver(pre_delete, sender=Project)
+def prevent_project_team_scope_escalation(
+    sender: type[Project],
+    instance: Project,
+    using: str,
+    origin: models.Model | models.QuerySet | None = None,
+    **kwargs: object,
+) -> None:
+    """Check a project deletion once before the collector removes its components."""
+    if not isinstance(origin, Project) and not (
+        isinstance(origin, models.QuerySet) and origin.model is Project
+    ):
+        return
+    if not _first_deleted_instance(instance, origin):
+        return
+    project_ids = _deletion_origin_ids(origin)
+    component_ids = set(
+        Component.objects.using(using)
+        .filter(project_id__in=project_ids)
+        .values_list("pk", flat=True)
+    )
+    validate_component_deletion(
+        _linked_deletion_ids(component_ids, using),
+        using=using,
+        deleting_project_ids=project_ids,
+    )
+
+
+def _add_component_permissions(
+    membership: CachedPermissionMembership,
+    values: set[tuple[int, int]],
+    languages: PermissionLanguageScope | None,
+    projects: PermissionCacheType,
+    components: SimplePermissionCacheType,
+) -> None:
+    for component_id, project_id in values:
+        if not membership.allows_project(project_id):
+            continue
+        components[component_id].append((membership.permission_codenames, languages))
+        projects[project_id].append((set(), languages))
 
 
 class GroupQuerySet(models.QuerySet["Group", "Group"]):
@@ -343,6 +568,8 @@ class Group(models.Model):
             "Requires users to have two-factor authentication configured."
         ),
     )
+
+    team_audit_before: dict[str, Any] | None = None
 
     objects = GroupQuerySet.as_manager()
 
@@ -525,6 +752,7 @@ class TeamMembership(models.Model):
     def get_limit_language_ids(self) -> set[int]:
         return {language.id for language in self.limit_languages.all()}
 
+    @transaction.atomic
     def set_limit_languages(
         self,
         limit_languages: Iterable[Language],
@@ -533,6 +761,7 @@ class TeamMembership(models.Model):
         actor: User | None = None,
         audit: bool = True,
     ) -> MembershipLimitLanguageChange | None:
+        TeamMembership.objects.select_for_update().filter(pk=self.pk).exists()
         limit_languages = list(limit_languages)
         limit_language_ids = {language.id for language in limit_languages}
         previous_limit_languages_by_id = dict(
@@ -555,6 +784,22 @@ class TeamMembership(models.Model):
                 previous_limit_languages=change.previous_limit_languages,
                 limit_languages=change.limit_languages,
             )
+        else:
+            from weblate.accounts.models import TeamAuditLog  # ruff: ignore[import-outside-top-level]
+            from weblate.auth.audit import audit_actor, record_team_event  # ruff: ignore[import-outside-top-level]
+
+            initiating_user = audit_actor(request, actor)
+            if initiating_user is not None:
+                record_team_event(
+                    self.group,
+                    initiating_user,
+                    TeamAuditLog.Event.MEMBER_CHANGED,
+                    {
+                        "username": self.user.username,
+                        "previous_limit_languages": change.previous_limit_languages,
+                        "limit_languages": change.limit_languages,
+                    },
+                )
         return change
 
 
@@ -660,12 +905,27 @@ class UserQuerySet(models.QuerySet["User", "User"]):
         Note: This intentionally does not list superusers or site-wide permissions
         given using project_selection.
         """
-        return self.filter(
-            team_memberships__in=TeamMembership.objects.unlimited().filter(
-                group__roles__permissions__codename=perm,
-                group__projects=project,
+        active_blocks = UserBlock.objects.filter(
+            user_id=OuterRef("pk"), project=project
+        ).filter(Q(expiry__isnull=True) | Q(expiry__gt=timezone.now()))
+        return (
+            self.filter(
+                team_memberships__in=TeamMembership.objects.unlimited()
+                .filter(
+                    group__roles__permissions__codename=perm,
+                    group__projects=project,
+                    group__components__isnull=True,
+                    group__componentlists__isnull=True,
+                    group__defining_workspace__isnull=True,
+                )
+                .filter(
+                    Q(group__defining_project__isnull=True)
+                    | Q(group__defining_project=project)
+                )
             )
-        ).distinct()
+            .filter(Q(is_superuser=True) | ~Exists(active_blocks))
+            .distinct()
+        )
 
     def all_admins(self, project: Project) -> Self:
         """All admins in a project."""
@@ -836,6 +1096,8 @@ class GroupManyToManyField(models.ManyToManyField):
 
 
 class User(AbstractBaseUser):
+    contributor_visibility: dict[tuple[object, ...], bool]
+
     @dataclass
     class AuditState:
         group_ids: set[int]
@@ -924,7 +1186,9 @@ class User(AbstractBaseUser):
         # ruff: ignore[mutable-class-default]
         constraints = [
             UniqueConstraint(Upper("username"), name="weblate_auth_user_username_ci"),
-            UniqueConstraint(Upper("email"), name="weblate_auth_user_email_ci"),
+            UniqueConstraint(
+                email_key_expression("email"), name="weblate_auth_user_email_ci"
+            ),
         ]
 
     def __str__(self) -> str:
@@ -989,12 +1253,15 @@ class User(AbstractBaseUser):
         self.cla_cache = {}
         perm_caches = (
             "_permissions",
+            "contributor_visibility",
             "allowed_projects",
             "needs_component_restrictions_filter",
             "needs_project_filter",
             "watched_projects",
             "owned_projects",
             "managed_projects",
+            "accessible_managed_projects",
+            "visible_repository_conflict_ids",
             "global_permissions",
             "cached_memberships",
         )
@@ -1005,6 +1272,43 @@ class User(AbstractBaseUser):
     def has_usable_password(self):
         # For some reason Django says that empty string is a valid password
         return self.password and super().has_usable_password()
+
+    def check_password(self, raw_password: str | None) -> bool:
+        """Keep leaked-password findings valid when Django upgrades a hash."""
+        old_password = self.password
+        correct, must_update = verify_password(raw_password, old_password)
+        if not correct or not must_update:
+            return correct
+
+        from weblate.wladmin.security import (  # ruff: ignore[import-outside-top-level]
+            upgrade_password_finding_fingerprints,
+        )
+
+        database = router.db_for_write(type(self), instance=self)
+        with transaction.atomic(using=database):
+            current_password = (
+                type(self)
+                .objects.using(database)
+                .select_for_update()
+                .values_list("password", flat=True)
+                .get(pk=self.pk)
+            )
+            if current_password != old_password:
+                # A reset or another login won the race. Verify the current hash
+                # rather than restoring a stale password over that change.
+                self.password = current_password
+                return self.check_password(raw_password)
+            self.set_password(raw_password)
+            # Match Django: a hash upgrade is not a password change.
+            self._password = None
+            self.save(using=database, update_fields=["password"])
+            upgrade_password_finding_fingerprints(self, old_password, using=database)
+        return True
+
+    async def acheck_password(self, raw_password: str | None) -> bool:
+        return await sync_to_async(self.check_password, thread_sensitive=True)(
+            raw_password
+        )
 
     @cached_property
     def is_anonymous(self):
@@ -1102,6 +1406,7 @@ class User(AbstractBaseUser):
             _ = self.global_permissions
             _ = self.needs_project_filter
             _ = self.needs_component_restrictions_filter
+            _ = self.accessible_managed_projects
 
         await sync_to_async(prepare, thread_sensitive=True)()
 
@@ -1144,7 +1449,26 @@ class User(AbstractBaseUser):
             return True
         if not self.can_access_project(component.project):
             return False
-        return not component.restricted or component.pk in self.component_permissions
+        return (
+            not component.restricted
+            or component.pk in self.component_permissions
+            or bool(self.has_perm("project.edit", component.project))
+        )
+
+    def get_component_access_query(self, path: str = "") -> Q:
+        """Return the visibility filter for components at a relation path."""
+        prefix = f"{path}__" if path else ""
+        return (
+            Q(**{f"{prefix}restricted": False})
+            | Q(**{f"{prefix}pk__in": self.component_permissions})
+            | Q(
+                **{
+                    f"{prefix}project_id__in": self.accessible_managed_projects.values(
+                        "pk"
+                    )
+                }
+            )
+        )
 
     def check_access_component(self, component) -> None:
         """Raise an error if user is not allowed to access this component."""
@@ -1159,23 +1483,26 @@ class User(AbstractBaseUser):
             return Project.objects.order()
         return Project.objects.filter(self.get_project_access_query()).order()
 
-    def get_project_access_query(self, prefix: str = "") -> Q:
+    def get_project_access_query(
+        self, prefix: str = "", *, permissions: PermissionCacheType | None = None
+    ) -> Q:
         """Return direct project access filter for related objects."""
         if self.is_superuser:
             return Q()
 
+        if permissions is None:
+            permissions = self.project_permissions
+
         field_prefix = f"{prefix}__" if prefix else ""
         # All public and protected projects are accessible
         acls = {Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED}
-        if self.project_permissions[-SELECTION_ALL]:
+        if permissions[-SELECTION_ALL]:
             acls.add(Project.ACCESS_PRIVATE)
             acls.add(Project.ACCESS_CUSTOM)
         condition = Q(**{f"{field_prefix}access_control__in": acls})
 
         blocked_ids = {
-            key
-            for key, permissions in self.project_permissions.items()
-            if permissions == [(None, None)]
+            key for key, grants in permissions.items() if grants == [(None, None)]
         }
         if blocked_ids:
             condition &= ~Q(**{f"{field_prefix}pk__in": blocked_ids})
@@ -1184,8 +1511,8 @@ class User(AbstractBaseUser):
         restricted = {-SELECTION_ALL_PUBLIC, -SELECTION_ALL_PROTECTED, -SELECTION_ALL}
         project_ids = {
             key
-            for key, permissions in self.project_permissions.items()
-            if key not in restricted and key not in blocked_ids and permissions
+            for key, grants in permissions.items()
+            if key not in restricted and key not in blocked_ids and grants
         }
         if project_ids:
             condition |= Q(**{f"{field_prefix}pk__in": project_ids})
@@ -1231,6 +1558,42 @@ class User(AbstractBaseUser):
         return self.projects_with_perm("project.edit")
 
     @cached_property
+    def accessible_managed_projects(self) -> ProjectQuerySet:
+        """Projects where project administration also grants component access."""
+        result = self.managed_projects.filter(pk__in=self.allowed_projects)
+        if not self.is_superuser and not self.is_bot and not self.profile.has_2fa:
+            result = result.filter(enforced_2fa=False)
+        return result
+
+    @cached_property
+    def visible_repository_conflict_ids(self) -> set[int]:
+        """Batch accessible peers referenced by current repository conflict alerts."""
+        from weblate.trans.models import Alert  # ruff: ignore[import-outside-top-level]
+
+        references = (
+            Alert.objects.filter(name="ConflictingRepositorySetup")
+            .annotate(
+                peer_id=models.Func(
+                    "details",
+                    models.Value("$.component_ids[*]"),
+                    function="jsonb_path_query",
+                    output_field=models.JSONField(),
+                )
+            )
+            .values("peer_id")
+        )
+        return set(
+            Component.objects.filter_access(self)
+            .alias(
+                json_pk=models.Func(
+                    F("pk"), function="to_jsonb", output_field=models.JSONField()
+                )
+            )
+            .filter(json_pk__in=models.Subquery(references))
+            .values_list("pk", flat=True)
+        )
+
+    @cached_property
     def administered_group_ids(self):
         return set(self.administered_group_set.values_list("id", flat=True))
 
@@ -1265,6 +1628,7 @@ class User(AbstractBaseUser):
             .values(
                 "id",
                 "group_id",
+                "group__defining_project_id",
                 "group__defining_workspace_id",
                 "group__project_selection",
                 "group__language_selection",
@@ -1303,18 +1667,21 @@ class User(AbstractBaseUser):
             "teammembership_id",
             "language_id",
             limited_membership_ids,
+            using=self._state.db,
         )
         group_language_ids = _fetch_relation_ids(
             Group.languages.through,
             "group_id",
             "language_id",
             manual_language_group_ids,
+            using=self._state.db,
         )
         group_role_ids = _fetch_relation_ids(
-            Group.roles.through, "group_id", "role_id", group_ids
+            Group.roles.through, "group_id", "role_id", group_ids, using=self._state.db
         )
         role_permissions = _fetch_role_permissions(
-            role_id for role_ids in group_role_ids.values() for role_id in role_ids
+            (role_id for role_ids in group_role_ids.values() for role_id in role_ids),
+            using=self._state.db,
         )
         group_permission_codenames: defaultdict[int, set[str]] = defaultdict(set)
         for group_id, role_ids in group_role_ids.items():
@@ -1326,6 +1693,7 @@ class User(AbstractBaseUser):
             "group_id",
             "componentlist_id",
             componentlist_group_ids,
+            using=self._state.db,
         )
         componentlist_component_values = _fetch_component_values(
             ComponentList.components.through,
@@ -1335,9 +1703,13 @@ class User(AbstractBaseUser):
                 for componentlist_ids in group_componentlist_ids.values()
                 for componentlist_id in componentlist_ids
             ),
+            using=self._state.db,
         )
         group_component_values = _fetch_component_values(
-            Group.components.through, "group_id", component_group_ids
+            Group.components.through,
+            "group_id",
+            component_group_ids,
+            using=self._state.db,
         )
 
         group_componentlist_component_values: defaultdict[int, set[tuple[int, int]]] = (
@@ -1350,11 +1722,16 @@ class User(AbstractBaseUser):
                 )
 
         group_project_ids = _fetch_relation_ids(
-            Group.projects.through, "group_id", "project_id", project_group_ids
+            Group.projects.through,
+            "group_id",
+            "project_id",
+            project_group_ids,
+            using=self._state.db,
         )
 
         return [
             CachedPermissionMembership(
+                defining_project_id=row["group__defining_project_id"],
                 defining_workspace_id=row["group__defining_workspace_id"],
                 project_selection=row["group__project_selection"],
                 language_selection=row["group__language_selection"],
@@ -1366,6 +1743,7 @@ class User(AbstractBaseUser):
                     row["group_id"]
                 ],
                 has_componentlists=bool(group_componentlist_ids[row["group_id"]]),
+                has_components=row["has_components"],
                 component_values=group_component_values[row["group_id"]],
                 project_ids=group_project_ids[row["group_id"]],
             )
@@ -1398,6 +1776,12 @@ class User(AbstractBaseUser):
     @cached_property
     def _permissions(self) -> PermissionsDictType:
         """Fetch all user permissions into a dictionary."""
+        return self._build_permissions()
+
+    def _build_permissions(
+        self, *, ignore_temporary_restrictions: bool = False
+    ) -> PermissionsDictType:
+        """Build entitlements, optionally retaining temporarily unavailable grants."""
         projects: PermissionCacheType = defaultdict(list)
         components: SimplePermissionCacheType = defaultdict(list)
         workspaces: dict[uuid.UUID, set[str]] = defaultdict(set)
@@ -1405,7 +1789,11 @@ class User(AbstractBaseUser):
         with start_span(op="auth.permissions", name=self.username):
             for membership in self.cached_memberships:
                 # Skip permissions for not verified users
-                if membership.enforced_2fa and not self.profile.has_2fa:
+                if (
+                    not ignore_temporary_restrictions
+                    and membership.enforced_2fa
+                    and not self.profile.has_2fa
+                ):
                     continue
                 languages = self.get_membership_languages(membership)
                 if (
@@ -1428,22 +1816,33 @@ class User(AbstractBaseUser):
                 # Even if componentlist_values is empty, having a componentlist assignment
                 # means we need to stop processing here.
                 if membership.has_componentlists:
-                    for component, project in membership.componentlist_component_values:
-                        components[component].append((permissions, languages))
-                        # Grant access to the project
-                        projects[project].append((set(), languages))
+                    _add_component_permissions(
+                        membership,
+                        membership.componentlist_component_values,
+                        languages,
+                        projects,
+                        components,
+                    )
                     continue
 
                 # Component specific permissions
-                if membership.component_values:
-                    for component, project in membership.component_values:
-                        components[component].append((permissions, languages))
-                        # Grant access to the project
-                        projects[project].append((set(), languages))
+                if membership.has_components:
+                    _add_component_permissions(
+                        membership,
+                        membership.component_values,
+                        languages,
+                        projects,
+                        components,
+                    )
                     continue
 
                 # Handle project selection
-                if membership.project_selection in {
+                if membership.defining_project_id is not None:
+                    if membership.defining_project_id in membership.project_ids:
+                        projects[membership.defining_project_id].append(
+                            (permissions, languages)
+                        )
+                elif membership.project_selection in {
                     SELECTION_ALL_PUBLIC,
                     SELECTION_ALL_PROTECTED,
                     SELECTION_ALL,
@@ -1455,21 +1854,62 @@ class User(AbstractBaseUser):
                     # Project specific permissions
                     for project_id in membership.project_ids:
                         projects[project_id].append((permissions, languages))
-        # Apply blocking
-        now = timezone.now()
-        for block in self.userblock_set.all():
-            if block.expiry is not None and block.expiry <= now:
-                # Delete expired blocks
-                block.delete()
-            else:
-                # Remove all permissions for blocked user
-                projects[block.project_id] = [(None, None)]
-
+        if not ignore_temporary_restrictions:
+            # Apply blocking
+            now = timezone.now()
+            for block in self.userblock_set.all():
+                if block.expiry is not None and block.expiry <= now:
+                    # Delete expired blocks
+                    block.delete()
+                else:
+                    # Remove all permissions for blocked user
+                    projects[block.project_id] = [(None, None)]
         return {
             "projects": projects,
             "components": components,
             "workspaces": workspaces,
         }
+
+    def get_subscription_retention_queries(self) -> tuple[Q, Q]:
+        """
+        Return project/component access ignoring blocks and two-factor gates.
+
+        These entitlements only decide which subscriptions to retain. They must
+        never authorize delivery or expose otherwise inaccessible objects.
+        """
+        if self.is_superuser:
+            return Q(), Q()
+        permissions = self._build_permissions(ignore_temporary_restrictions=True)
+        projects = permissions["projects"]
+        managed = Q(pk__in=())
+        for project_id, grants in projects.items():
+            if not any(
+                perms is not None
+                and "project.edit" in perms
+                and (languages is None or not languages.membership_limited)
+                for perms, languages in grants
+            ):
+                continue
+            if project_id == -SELECTION_ALL:
+                managed = Q()
+                break
+            if project_id == -SELECTION_ALL_PUBLIC:
+                managed |= Q(access_control=Project.ACCESS_PUBLIC)
+            elif project_id == -SELECTION_ALL_PROTECTED:
+                managed |= Q(access_control=Project.ACCESS_PROTECTED)
+            else:
+                managed |= Q(pk=project_id)
+        managed_projects = Project.objects.using(self._state.db).filter(managed)
+        component_access = (
+            Q(restricted=False)
+            | Q(pk__in=permissions["components"])
+            | Q(project__in=managed_projects)
+        )
+        return (
+            self.get_project_access_query(permissions=projects),
+            self.get_project_access_query("project", permissions=projects)
+            & component_access,
+        )
 
     @property
     def project_permissions(self) -> PermissionCacheType:
@@ -1512,6 +1952,11 @@ class User(AbstractBaseUser):
             & Q(group__roles__permissions__codename=perm)
             & Q(group__components__isnull=True)
             & Q(group__componentlists__isnull=True)
+            & Q(group__defining_workspace__isnull=True)
+            & (
+                Q(group__defining_project__isnull=True)
+                | Q(group__defining_project_id=F("pk"))
+            )
         )
 
         # Site-wide permissions
@@ -1531,6 +1976,14 @@ class User(AbstractBaseUser):
                         condition = Q()
                         break
                     condition |= Q(access_control=access)
+        if not self.is_superuser:
+            blocked_ids = {
+                project_id
+                for project_id, permissions in self.project_permissions.items()
+                if permissions == [(None, None)]
+            }
+            if blocked_ids:
+                condition &= ~Q(pk__in=blocked_ids)
         return Project.objects.filter(condition).distinct().order()
 
     def workspace_ids_with_perm(self, perm: str) -> set[uuid.UUID]:
@@ -1567,6 +2020,7 @@ class User(AbstractBaseUser):
             self.profile.get_commit_name(), address or self.profile.get_commit_email()
         )
 
+    @transaction.atomic
     def add_team(
         self,
         request: AuthenticatedHttpRequest | None,
@@ -1583,10 +2037,20 @@ class User(AbstractBaseUser):
         if created:
             self._audit_team_change(request, team, activity="team-add", actor=user)
 
+    @transaction.atomic
     def remove_team(
         self, request: AuthenticatedHttpRequest | None, team: Group
     ) -> None:
-        self.groups.remove(team)
+        from weblate.auth.audit import audit_actor, audit_team_changes  # ruff: ignore[import-outside-top-level]
+
+        actor = audit_actor(request)
+        if not self.team_memberships.filter(group=team).exists():
+            return
+        if actor is None:
+            self.groups.remove(team)
+        else:
+            with audit_team_changes(team, actor, request):
+                self.groups.remove(team)
         self._audit_team_change(request, team, activity="team-remove")
 
     def store_audit_state(
@@ -1753,6 +2217,22 @@ class User(AbstractBaseUser):
             **params,
         )
 
+        from weblate.accounts.models import TeamAuditLog  # ruff: ignore[import-outside-top-level]
+        from weblate.auth.audit import audit_actor, record_team_event  # ruff: ignore[import-outside-top-level]
+
+        initiating_user = audit_actor(request, actor)
+        if initiating_user is not None:
+            record_team_event(
+                team,
+                initiating_user,
+                {
+                    "team-add": TeamAuditLog.Event.MEMBER_ADDED,
+                    "team-change": TeamAuditLog.Event.MEMBER_CHANGED,
+                    "team-remove": TeamAuditLog.Event.MEMBER_REMOVED,
+                }[activity],
+                {"username": self.username, **params},
+            )
+
     @staticmethod
     def _get_team_audit_activity(
         team: Group,
@@ -1766,7 +2246,7 @@ class User(AbstractBaseUser):
         if not email:
             return False
         return (
-            bool(self.email and self.email.casefold() == email.casefold())
+            bool(self.email and email_key(self.email) == email_key(email))
             or User.objects.filter(
                 pk=self.pk, social_auth__verifiedemail__email__iexact=email
             ).exists()
@@ -1869,13 +2349,42 @@ def auto_assign_group(user: User) -> None:
     """Automatic group assignment based on user e-mail address."""
     if user.is_anonymous or user.is_bot:
         return
-    # Add user to automatic groups
-    for auto in AutoGroup.objects.prefetch_related("group"):
+    # Import here because invitations also depend on these models.
+    # ruff: ignore[import-outside-top-level]
+    from weblate.auth.bots import InternalBot
+
+    # ruff: ignore[import-outside-top-level]
+    from weblate.auth.invitations import create_team_invitation
+
+    assigned = set(user.groups.values_list("pk", flat=True))
+    pending = Invitation.objects.filter(user=user)
+    if user.email:
+        pending = Invitation.objects.filter(Q(user=user) | Q(email__iexact=user.email))
+    invited = set(pending.values_list("group_id", flat=True))
+    for auto in AutoGroup.objects.select_related("group", "group__defining_project"):
+        if auto.group_id in assigned:
+            continue
         try:
-            if regex_match(auto.match, user.email or ""):
-                user.add_team(None, auto.group)
+            matches = regex_match(auto.match, user.email or "")
         except (regex.error, TimeoutError):
             LOGGER.error("Invalid automatic group rule %s", auto.pk)
+            continue
+        if not matches:
+            continue
+        if auto.group.defining_project_id or auto.group.defining_workspace_id:
+            if auto.group_id in invited:
+                continue
+            create_team_invitation(
+                author=InternalBot.TEAM_ASSIGNMENT.get_user(),
+                group=auto.group,
+                project=auto.group.defining_project,
+                user=user,
+                automatic=True,
+            )
+            invited.add(auto.group_id)
+        else:
+            user.add_team(None, auto.group, user=InternalBot.TEAM_ASSIGNMENT.get_user())
+        assigned.add(auto.group_id)
 
 
 @receiver(m2m_changed, sender=ComponentList.components.through)
@@ -1886,14 +2395,38 @@ def change_componentlist(sender, instance, action, **kwargs) -> None:
     groups = Group.objects.filter(
         componentlists=instance, project_selection=SELECTION_COMPONENT_LIST
     )
+    from weblate.auth.audit import audit_team_changes  # ruff: ignore[import-outside-top-level]
+    from weblate.utils.change_origin import get_acting_user  # ruff: ignore[import-outside-top-level]
+
     for group in groups:
-        group.projects.set(
-            Project.objects.filter(component__componentlist=instance), clear=True
-        )
+        actor = get_acting_user()
+        if actor is None:
+            group.projects.set(
+                Project.objects.filter(component__componentlist=instance), clear=True
+            )
+        else:
+            with audit_team_changes(group, actor):
+                group.projects.set(
+                    Project.objects.filter(component__componentlist=instance),
+                    clear=True,
+                )
 
 
 @receiver(post_delete, sender=TeamMembership)
 def remove_deleted_membership_admin(sender, instance, **kwargs) -> None:
+    from weblate.auth.audit import audit_admin_removal  # ruff: ignore[import-outside-top-level]
+
+    if Group.admins.through.objects.filter(
+        group_id=instance.group_id, user_id=instance.user_id
+    ).exists():
+        team = Group.objects.filter(pk=instance.group_id).first()
+        if team is not None:
+            origin = kwargs.get("origin")
+            account_deleted = (
+                isinstance(origin, User) or getattr(origin, "model", None) is User
+            )
+            audit_admin_removal(team, instance.user_id, account_deleted=account_deleted)
+
     Group.admins.through.objects.filter(
         group_id=instance.group_id, user_id=instance.user_id
     ).delete()
@@ -2077,6 +2610,14 @@ class InvitationUserMismatchError(InvitationError):
     """Invitation can not be accepted by this user."""
 
 
+class InvitationBlockedAdminError(InvitationError):
+    """Invitation would grant project administration to a blocked user."""
+
+
+class InvitationRemovedError(InvitationError):
+    """Invitation no longer exists, it was revoked or already accepted."""
+
+
 class Invitation(models.Model):
     """
     User invitation store.
@@ -2085,6 +2626,8 @@ class Invitation(models.Model):
     """
 
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    # Internal provenance, never accepted from invitation forms or API inputs.
+    backup_authorship = models.BooleanField(default=False, editable=False)
     timestamp = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(
         User, on_delete=models.deletion.CASCADE, related_name="created_invitation_set"
@@ -2128,6 +2671,10 @@ class Invitation(models.Model):
         gettext_lazy("E-mail"),
         blank=True,
     )
+    # Internal provenance, never accepted from invitation forms or API inputs.
+    automatic = models.BooleanField(default=False, editable=False)
+    # Internal pending grant, never accepted from invitation forms or API inputs.
+    team_admin = models.BooleanField(default=False, editable=False)
     is_superuser = models.BooleanField(
         gettext_lazy("Superuser status"),
         default=False,
@@ -2160,7 +2707,7 @@ class Invitation(models.Model):
         )
 
     def matches_email(self, email: str) -> bool:
-        return bool(self.email and email and self.email.casefold() == email.casefold())
+        return bool(self.email and email and email_key(self.email) == email_key(email))
 
     def matches_user(self, user: User) -> bool:
         if self.user_id is not None:
@@ -2191,47 +2738,96 @@ class Invitation(models.Model):
             user=self.user,
         )
 
+    @transaction.atomic
+    def revoke(self) -> bool:
+        """Remove the invitation, returning False if it no longer exists."""
+        current = Invitation.objects.select_for_update().filter(pk=self.pk).first()
+        if current is None:
+            return False
+        current.delete()
+        return True
+
+    @transaction.atomic
     def accept(self, request: AuthenticatedHttpRequest | None, user: User) -> None:
         # ruff: ignore[import-outside-top-level]
         from weblate.accounts.models import AuditLog
+        from weblate.auth.audit import audit_team_changes, lock_team_for_audit  # ruff: ignore[import-outside-top-level]
 
-        if self.is_expired():
+        # ruff: ignore[import-outside-top-level]
+        from weblate.auth.utils import validate_admin_team_assignment
+
+        # Team deletion locks the project and team before cascading to invitations.
+        # Read the current team without locking the invitation, then follow that order.
+        team = Group.objects.filter(invitation__pk=self.pk).first()
+        if team is None:
+            msg = "Invitation removed before accept!"
+            raise InvitationRemovedError(msg)
+        lock_team_for_audit(team)
+
+        # Only the locked row can authorize the grants, self might be stale.
+        current = Invitation.objects.select_for_update().filter(pk=self.pk).first()
+        if current is None or current.group_id != team.pk:
+            msg = "Invitation removed before accept!"
+            raise InvitationRemovedError(msg)
+
+        if current.is_expired():
             msg = "Invitation expired on accept!"
             raise InvitationExpiredError(msg)
 
-        if not self.matches_user(user):
+        if not current.matches_user(user):
             msg = "User mismatch on accept!"
             raise InvitationUserMismatchError(msg)
 
-        if self.is_superuser:
+        limit_languages = list(current.limit_languages.all())
+        try:
+            validate_admin_team_assignment(
+                user,
+                current.group,
+                team_admin=current.team_admin,
+                limit_languages=limit_languages,
+            )
+        except ValidationError as error:
+            raise InvitationBlockedAdminError from error
+
+        if current.is_superuser:
             user.store_audit_state()
             user.is_superuser = True
             user.save(update_fields=["is_superuser"])
-            user.log_audit_state(request, actor=self.author)
+            user.log_audit_state(request, actor=current.author)
 
         AuditLog.objects.create(
             user=user,
             request=request,
             activity="accepted",
-            username=self.author.username,
+            username=current.author.username,
+            team_admin=current.team_admin,
         )
 
-        had_membership = user.team_memberships.filter(group=self.group).exists()
-        user.add_team(request, self.group, user=self.author)
-        # Accepting an invitation applies the invitation state even when the
-        # user is already a member; an empty invitation limit clears old limits.
-        limit_languages = list(self.limit_languages.all())
-        TeamMembership.objects.get(user=user, group=self.group).set_limit_languages(
-            limit_languages,
-            request,
-            actor=self.author,
-            audit=had_membership,
-        )
+        # Match membership removal's project/team-before-membership lock order.
+        with audit_team_changes(current.group, current.author, request):
+            had_membership = user.team_memberships.filter(group=current.group).exists()
+            user.add_team(request, current.group, user=current.author)
+            # Apply invitation limits even to existing members; empty clears old limits.
+            TeamMembership.objects.get(
+                user=user, group=current.group
+            ).set_limit_languages(
+                limit_languages,
+                request,
+                actor=current.author,
+                audit=had_membership,
+            )
+            if current.team_admin:
+                current.group.admins.add(user)
 
-        if self.group.defining_project:
-            user.profile.watched.add(self.group.defining_project)
+        if current.group.defining_project:
+            user.profile.watched.add(current.group.defining_project)
 
-        self.delete()
+        if current.backup_authorship:
+            from weblate.trans.models.backup import BackupAuthorClaim  # ruff: ignore[import-outside-top-level]
+
+            for claim in BackupAuthorClaim.objects.filter(invitation=current):
+                claim.accept(current, user)
+        current.delete()
 
 
 class WeblateAuthConf(AppConf):
@@ -2266,6 +2862,9 @@ class AuthenticatedHttpRequest(HttpRequest):
     # type hint for auth
     backend: BaseAuth | None
 
+    # Set by checked account forms before starting e-mail confirmation.
+    weblate_email_confirmation: bool
+
     # type hint for accounts middleware
     weblate_cached_user: User
 
@@ -2277,3 +2876,23 @@ class AuthenticatedHttpRequest(HttpRequest):
 
     # Overrides django.http.request URL generating
     _current_scheme_host: str
+
+
+@receiver(post_delete, sender=User)
+@receiver(post_delete, sender=Group)
+@receiver(post_delete, sender=Project)
+@receiver(post_delete, sender="workspaces.Workspace")
+def clear_deleted_team_audit_reference(
+    sender: type[models.Model], instance: models.Model, using: str, **kwargs: object
+) -> None:
+    """Also clear references created by membership-deletion signal handlers."""
+    from weblate.accounts.models import TeamAuditLog  # ruff: ignore[import-outside-top-level]
+
+    field = {
+        User: "actor_id",
+        Group: "team_id",
+        Project: "project_id",
+    }.get(sender, "workspace_id")
+    TeamAuditLog.objects.using(using).filter(**{field: instance.pk}).update(
+        **{field: None}
+    )

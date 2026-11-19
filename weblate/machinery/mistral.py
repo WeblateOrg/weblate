@@ -19,6 +19,9 @@ class MistralTranslation(OpenAITranslation):
     """
 
     name = "Mistral"
+    # Per-second request and per-minute token limits; allow a minute to recover.
+    # https://docs.mistral.ai/admin/billing-usage/usage-limits
+    rate_limit_window = 60
     default_api_url = "https://api.mistral.ai/v1"
     trusted_error_hosts: ClassVar[set[str]] = {"api.mistral.ai"}
 

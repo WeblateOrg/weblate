@@ -57,12 +57,27 @@ To use configuration-file and environment discovery, explicitly load
    config.load()
    client = Weblate(config=config)
 
+To explicitly select project configuration while retaining personal settings
+and URL-scoped credentials, use ``config.load(project_path="/shared/weblate.ini")``.
+This bypasses automatic discovery location checks while preserving project
+credential and transport restrictions. It cannot be combined with an explicit
+complete configuration path, such as ``config.load("/trusted/weblate.ini")``.
+Constructing ``WeblateConfig`` without calling ``load()`` skips configuration
+files while still permitting environment settings when passed to ``Weblate``.
+
 The Python client follows the same URL, credential, and transport policy as the
 command-line client, see :ref:`wlc-security`. Direct API consumers remain
 responsible for safely rendering and storing returned values.
 
+Request options are validated when constructing the client. ``retries`` must
+be a nonnegative integer, ``timeout`` finite and greater than zero, and
+``backoff_factor`` finite and nonnegative. ``status_forcelist`` accepts only
+integer HTTP status codes from ``400`` to ``599``. Invalid direct arguments
+raise :class:`WeblateException`; invalid configuration values raise
+:class:`~wlc.config.WLCConfigurationError`, before any HTTP request is sent.
+
 .. autoclass:: Weblate
-   :members: get, post, request, raw_request, invoke_request, get_object, get_project, get_component, get_translation, get_unit, list_projects, list_components, list_changes, list_units, list_translations, list_languages, list_categories, add_source_string, create_project, create_component, create_language
+   :members: get, post, request, raw_request, invoke_request, get_object, get_project, get_component, get_translation, get_unit, get_activity, list_projects, list_components, list_changes, list_units, list_translations, list_languages, list_categories, add_source_string, create_project, create_component, create_language
 
 
 Exceptions
@@ -137,6 +152,17 @@ Projects, components, and translations share repository operations:
 
 .. autoclass:: Repository
    :members: get_data, commit, push, pull, reset, cleanup
+
+
+:class:`Activity`
+-----------------
+
+.. autoclass:: wlc.Activity
+
+``client.get_activity()`` returns a :class:`wlc.Activity` with
+``daily_activity`` (a list of daily counts) and ``projects`` (a list of
+:class:`wlc.Statistics` objects). Project timestamps are parsed as datetimes.
+This requires a server providing :http:get:`/api/activity/`.
 
 
 :mod:`wlc.config`

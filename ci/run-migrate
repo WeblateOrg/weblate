@@ -102,6 +102,22 @@ if [ "$bot_membership_cleanup" -eq 0 ]; then
     check
 fi
 
+# Exercise the repair after the previous token cleanup migrations already ran.
+semver_compare "$1" ">=" "2026.10" && semver_compare "$1" "<" "2026.11.2"
+project_token_repair=$?
+if [ "$project_token_repair" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-project-token-repair.py"
+    check
+fi
+
+# Seed built-in role identity and custom roles before editable role synchronization.
+semver_compare "$1" "<" "2026.11"
+editable_roles_migrate=$?
+if [ "$editable_roles_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-editable-roles.py"
+    check
+fi
+
 # Add a pending unit
 semver_compare "$1" "<" "5.12"
 pending_migration_test=$?
@@ -187,6 +203,22 @@ if [ "$xliff_params_migrate" -eq 0 ]; then
     check
 fi
 
+# Seed duplicate zero plurals before their cleanup and uniqueness migrations.
+semver_compare "$1" "<" "2026.11.2"
+zero_plurals_migrate=$?
+if [ "$zero_plurals_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-zero-plurals.py"
+    check
+fi
+
+# Seed invalid GitHub App push settings before the cleanup migration.
+semver_compare "2026.7" "<=" "$1" && semver_compare "$1" "<" "2026.11.2"
+github_app_push_migrate=$?
+if [ "$github_app_push_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-github-app-push.py"
+    check
+fi
+
 # Seed an ordinary workflow before the source-workflow gate function is installed.
 semver_compare "$1" "<" "2026.10"
 source_workflow_gate_migrate=$?
@@ -203,11 +235,34 @@ if [ "$automation_audit_redaction_migrate" -eq 0 ]; then
     check
 fi
 
+# Seed vulnerable automatic translation snapshots before upgrading.
+semver_compare "5.10" "<=" "$1" && semver_compare "$1" "<" "2026.11"
+autotranslate_audit_redaction_migrate=$?
+if [ "$autotranslate_audit_redaction_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-autotranslate-audit-redaction.py"
+    check
+fi
+
 # Preserve populated automatic suggestion settings and project overrides.
 semver_compare "$1" "<" "2026.11"
 machinery_installations_migrate=$?
 if [ "$machinery_installations_migrate" -eq 0 ]; then
     ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-machinery-installations.py"
+    check
+fi
+
+# Populate screenshot storage before the automatic extension repair migration.
+semver_compare "$1" "<" "2026.11"
+screenshot_extensions_migrate=$?
+if [ "$screenshot_extensions_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-screenshot-extensions.py"
+    check
+fi
+
+semver_compare "$1" "<" "2026.11"
+legacy_email_migrate=$?
+if [ "$legacy_email_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-legacy-email-alias.py"
     check
 fi
 
@@ -253,6 +308,12 @@ if [ "$bot_membership_cleanup" -eq 0 ]; then
     check
 fi
 
+# Check project-token authority and orphaned credentials were repaired.
+if [ "$project_token_repair" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-project-token-repair.py"
+    check
+fi
+
 # Check cleanup settings were migrated to site-wide add-ons
 if [ "$cleanup_settings_migrate" -eq 0 ]; then
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-cleanup-settings.py"
@@ -278,6 +339,7 @@ fi
 if [ "$billing_users_migrate" -eq 0 ]; then
     # Verify that the user has been migrated from the billing permission to the owner
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-billing.py"
+    check
 fi
 
 if [ "$workspace_migrate" -eq 0 ]; then
@@ -318,11 +380,39 @@ if [ "$source_workflow_gate_migrate" -eq 0 ]; then
     check
 fi
 
+if [ "$github_app_push_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-github-app-push.py"
+    check
+fi
+
+if [ "$zero_plurals_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-zero-plurals.py"
+    check
+fi
+
 if [ "$automation_audit_redaction_migrate" -eq 0 ]; then
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-automation-audit-redaction.py"
     check
 fi
+if [ "$autotranslate_audit_redaction_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-autotranslate-audit-redaction.py"
+    check
+fi
 if [ "$machinery_installations_migrate" -eq 0 ]; then
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-machinery-installations.py"
+    check
+fi
+if [ "$screenshot_extensions_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-screenshot-extensions.py"
+    check
+fi
+
+if [ "$legacy_email_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-legacy-email-alias.py"
+    check
+fi
+
+if [ "$editable_roles_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-editable-roles.py"
     check
 fi

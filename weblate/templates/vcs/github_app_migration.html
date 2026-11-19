@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load i18n %}
+{% load i18n translations %}
 
 {% block breadcrumbs %}
   <li class="breadcrumb-item">
@@ -103,7 +103,7 @@
             <tbody>
               {% for entry in entries %}
                 <tr>
-                  <td>{{ entry.component.project.name }} / {{ entry.component.name }}</td>
+                  <td>{% path_object_links entry.component flags=False %}</td>
                   <td>{{ entry.full_name }}</td>
                   <td>
                     {% if entry.canonical_url %}

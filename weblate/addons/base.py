@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import os
+import shutil
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import tempfile
 from collections.abc import Mapping, Sequence
@@ -18,7 +19,7 @@ from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.template.defaultfilters import linebreaksbr
 from django.utils.functional import cached_property
-from django.utils.translation import gettext
+from django.utils.translation import gettext, override
 
 from weblate.addons.events import (
     POST_CONFIGURE_EVENTS,
@@ -32,6 +33,8 @@ from weblate.trans.actions import ACTIONS_CONTENT
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Component
 from weblate.utils import messages
+from weblate.utils.bulk_regex import regex_session
+from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.commands import get_clean_env
 from weblate.utils.docs import DocVersionsMixin
 from weblate.utils.errors import report_error
@@ -46,6 +49,7 @@ if TYPE_CHECKING:
 
     from django.forms import Form
     from django.forms.boundfield import BoundField
+    from django.http import HttpRequest
     from django.urls.resolvers import URLPattern
     from django_stubs_ext import StrOrPromise
 
@@ -170,12 +174,11 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
 
     @classmethod
     def api_available(cls, component: Component | None) -> bool:
-        if not cls.api_name:
-            return True
         return (
             component is not None
+            and bool(cls.api_name)
             and not cls.repo_scope
-            and not component.addon_set.filter(name=cls.name).exists()
+            and cls.can_process(component=component)
         )
 
     compat: ClassVar[CompatDict] = {}
@@ -206,6 +209,12 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__} instance={self.instance}>"
 
+    @property
+    def english_name(self) -> str:
+        """Plain English label for persisted commit messages."""
+        with override("en"):
+            return str(self.verbose)
+
     @cached_property
     def doc_anchor(self) -> str:
         return self.get_doc_anchor()
@@ -218,6 +227,12 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     def has_settings(cls) -> bool:
         return cls.settings_form is not None
 
+    def get_integration_instructions(
+        self, user: User, request: HttpRequest | None = None
+    ) -> str:
+        """Render integration instructions independently of the settings form."""
+        return ""
+
     @classmethod
     def get_identifier(cls) -> str:
         return cls.name
@@ -229,7 +244,6 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         component: Component | None = None,
         category: Category | None = None,
         project: Project | None = None,
-        acting_user: User | None = None,
         **kwargs,
     ) -> Addon:
         from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level]
@@ -239,7 +253,6 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             category=category,
             component=component,
             name=cls.name,
-            acting_user=acting_user,  # type: ignore[misc]
             **kwargs,
         )
 
@@ -257,17 +270,19 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         acting_user: User | None = None,
         **kwargs,
     ) -> Self:
-        storage = cls.create_object(
-            component=component,
-            category=category,
-            project=project,
-            acting_user=acting_user,
-            **kwargs,
-        )
-        storage.save(force_insert=True)
-        result = cls(storage)
-        result.post_configure(run=run)
-        return result
+        with acting_user_context(
+            acting_user if acting_user is not None else get_acting_user()
+        ):
+            storage = cls.create_object(
+                component=component,
+                category=category,
+                project=project,
+                **kwargs,
+            )
+            storage.save(force_insert=True)
+            result = cls(storage)
+            result.post_configure(run=run)
+            return result
 
     @classmethod
     def get_add_form(
@@ -283,7 +298,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         if cls.settings_form is None:
             return None
         storage = cls.create_object(
-            component=component, project=project, category=category, acting_user=user
+            component=component, project=project, category=category
         )
         instance = cls(storage)
         return cls.settings_form(user, instance, **kwargs)
@@ -398,18 +413,14 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             if settings.CELERY_TASK_ALWAYS_EAGER:
                 postconfigure_addon(self.instance.pk, self.instance)
             else:
-                postconfigure_addon.delay_on_commit(
-                    self.instance.pk,
-                    user_id=self.instance.acting_user.pk
-                    if self.instance.acting_user is not None
-                    else None,
-                )
+                postconfigure_addon.delay_on_commit(self.instance.pk)
 
+    @regex_session()
     def post_configure_run(self) -> None:
         # Trigger post events to ensure direct processing
         if component := self.instance.component:
-            if self.repo_scope and component.linked_component:
-                component = component.linked_component
+            if self.repo_scope and component.linked_component_id is not None:
+                return
             self.post_configure_run_component(component)
         elif category := self.instance.category:
             self.post_configure_run_category(category)
@@ -588,6 +599,8 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     ) -> bool:
         """Check whether add-on is compatible with given component."""
         if component is not None:
+            if cls.repo_scope and component.linked_component_id is not None:
+                return False
             return all(
                 getattr(component, key) in cast("set", values)
                 for key, values in cls.compat.items()
@@ -602,6 +615,8 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         category: Category | None = None,
         project: Project | None = None,
     ) -> bool:
+        if cls.repo_scope and component is not None and component.linked_component_id:
+            component = component.linked_component
         return cls.can_install(component=component, category=category, project=project)
 
     def pre_push(
@@ -936,7 +951,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         with repository.lock:
             component.commit_files(
                 template=component.effective_addon_message,
-                extra_context={"addon_name": self.verbose},
+                extra_context={"addon_name": self.english_name},
                 files=files,
                 skip_push=skip_push,
             )
@@ -956,9 +971,10 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             raise ValueError(msg)
 
         # Render the template
-        filename = render_template(
-            template, translation=translation, component=component
-        )
+        with override("en"):
+            filename = render_template(
+                template, translation=translation, component=component
+            )
 
         # Validate filename (not absolute or linking to parent dir)
         try:
@@ -1048,6 +1064,8 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         temp_dir = get_repo_temp_dir(dirname)
         temp_filename = BaseAddon.write_repo_temp_file(basename, temp_dir, content)
         try:
+            with suppress(FileNotFoundError):
+                shutil.copymode(filename, temp_filename)
             os.replace(temp_filename, filename)
             temp_filename = ""
         finally:

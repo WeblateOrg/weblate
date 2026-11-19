@@ -40,6 +40,19 @@ class MaxSizeCheckTest(FontTestCase):
         self.assertFalse(self.perform_check("short", "max-size:500"))
         self.assertEqual(self.check.last_font, "sans")
 
+    def test_oversized_flags_and_expansion_do_not_render(self) -> None:
+        for text, flags in (
+            ("short", "max-size:24000:1000"),
+            ("short", "max-size:100, font-size:999999"),
+            ("a" * 10000, "max-size:100, replacements:a:aaa"),
+        ):
+            with (
+                self.subTest(flags=flags),
+                patch("weblate.checks.render.check_render_size") as renderer,
+            ):
+                self.assertTrue(self.perform_check(text, flags))
+                renderer.assert_not_called()
+
     def test_bad_long(self) -> None:
         self.assertTrue(self.perform_check("long" * 50, "max-size:500"))
         self.assertEqual(self.check.last_font, "sans")

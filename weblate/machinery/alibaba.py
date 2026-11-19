@@ -15,6 +15,7 @@ from weblate.utils.requests import JSON_RESPONSE_ERRORS
 
 from .base import (
     MACHINERY_DEFAULT_THRESHOLD,
+    MachineryRateLimitError,
     MachineTranslation,
     MachineTranslationError,
 )
@@ -74,6 +75,9 @@ class AlibabaTranslation(MachineTranslation):
     """Alibaba API machine translation support."""
 
     name = "Alibaba"
+    # Per-second throttling; allow a conservative minute to recover.
+    # https://help.aliyun.com/en/machine-translation/developer-reference/limits
+    rate_limit_window = 60
     max_score = 80
 
     language_map: ClassVar[dict[str, str]] = {
@@ -116,6 +120,12 @@ class AlibabaTranslation(MachineTranslation):
 
         if isinstance(payload, dict) and "Message" in payload:
             msg = f"Error {payload.get('Code')}: {payload['Message']}"
+            code = payload.get("Code")
+            if response.status_code == 429 or (
+                isinstance(code, str)
+                and (code == "Throttling" or code.startswith("Throttling."))
+            ):
+                raise MachineryRateLimitError(msg, response=response)
             raise MachineTranslationError(msg)
 
         super().check_failure(response)

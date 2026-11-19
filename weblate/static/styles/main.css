@@ -53,7 +53,7 @@ label {
   flex-wrap: wrap;
 }
 
-.user-list a {
+.user-list .user-list-item {
   padding: 20px;
   width: 168px;
   overflow: hidden;
@@ -352,6 +352,10 @@ textarea.highlight-editor {
   outline: 1px dotted red;
 }
 
+.hlspace.space-run {
+  white-space: break-spaces;
+}
+
 .space-tab,
 .space-nl,
 .space-space,
@@ -428,6 +432,35 @@ span.replaced {
   margin: 3px 0;
   overflow-y: auto;
   max-width: 100%;
+}
+
+.editor-plural-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.5rem;
+}
+
+.editor-plural-header > label {
+  display: flex;
+  flex: 1 1 16rem;
+  align-items: baseline;
+  min-inline-size: 0;
+}
+
+.editor-plural-name {
+  flex: none;
+  max-inline-size: 100%;
+  padding-inline-end: 0.25em;
+  overflow-wrap: anywhere;
+}
+
+.editor-plural-toolbar {
+  max-inline-size: 100%;
+}
+
+.plural-examples {
+  overflow-wrap: anywhere;
 }
 
 .card-body .table-sm {
@@ -1049,6 +1082,14 @@ legend {
 }
 #query-dropdown {
   height: 100%;
+}
+.query-field .dropdown-item .saved-query {
+  display: inline-block;
+  max-width: 20em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+  white-space: nowrap;
 }
 
 .forbidden-term svg,
@@ -2195,7 +2236,7 @@ input.color_edit:checked + label {
   overflow-wrap: anywhere;
 }
 
-.editor-wrap > textarea,
+.editor-wrap:not(.editor-wrap-plain) > textarea,
 .editor-wrap > .highlighted-output {
   position: absolute;
   padding: 0.5em;
@@ -2212,10 +2253,10 @@ input.color_edit:checked + label {
   padding: 6px 12px;
 }
 
-.editor-wrap > textarea.form-control[readonly],
-.editor-wrap > textarea.form-control[disabled],
-.editor-wrap > textarea.form-control:focus,
-.editor-wrap > textarea {
+.editor-wrap:not(.editor-wrap-plain) > textarea.form-control[readonly],
+.editor-wrap:not(.editor-wrap-plain) > textarea.form-control[disabled],
+.editor-wrap:not(.editor-wrap-plain) > textarea.form-control:focus,
+.editor-wrap:not(.editor-wrap-plain) > textarea {
   position: relative;
   z-index: 1;
   color: transparent;
@@ -2863,6 +2904,16 @@ table.table-simple tbody#glossary-terms td {
   width: 40%;
 }
 
+.glossary-table-container .glossary-badge-cell {
+  width: 1%;
+}
+
+#glossary-terms .glossary-badge-cell .badge {
+  width: max-content;
+  max-width: 25cqw;
+  white-space: normal;
+}
+
 table.table-simple tbody#glossary-terms .alert-info {
   margin-bottom: 0px;
 }
@@ -3111,4 +3162,21 @@ table.zen.zen-hide-suggestions .zen-suggestions-row {
 .ts-wrapper.flag-editor-select .ts-control > div.active code {
   color: inherit;
   background-color: transparent;
+}
+
+.automation-slot[data-automation-indent="1"],
+.automation-slot[data-automation-indent="2"],
+.automation-slot[data-automation-indent="3"],
+.automation-slot[data-automation-indent="4"] {
+  border-left: 3px solid var(--wl-color-border);
+  padding-left: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.automation-slot[data-automation-indent="2"] {
+  border-left-color: var(--wl-color-accent-bg);
+}
+
+.automation-slot[data-automation-indent="4"] {
+  border-left-style: dashed;
 }

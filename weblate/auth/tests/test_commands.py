@@ -93,7 +93,8 @@ class CommandTest(TestCase, TempDirMixin):
     def test_importdjangousers(self) -> None:
         # First import
         call_command("importusers", get_test_file("users-django.json"))
-        self.assertEqual(User.objects.count(), 2)
+        # Automatic assignments can also create their dedicated service identity.
+        self.assertEqual(User.objects.filter(is_bot=False).count(), 2)
 
     def test_import_empty_users(self) -> None:
         """Test importing empty file."""

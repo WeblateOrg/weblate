@@ -197,61 +197,64 @@ hotkeys("ctrl+enter,command+enter", (e) => {
   return submitForm(e);
 });
 
-function screenshotStart() {
-  document
-    .querySelector("#search-results tbody.unit-listing-body")
-    ?.replaceChildren();
-  const summary = document.getElementById("screenshots-search-summary");
-  if (summary !== null) {
+function screenshotActivePanel() {
+  return document.querySelector("#search-results .tab-pane.active");
+}
+
+function screenshotStart(panel = screenshotActivePanel()) {
+  panel?.querySelector("tbody.unit-listing-body")?.replaceChildren();
+  const summary = panel?.querySelector(".screenshots-search-summary");
+  if (summary) {
     summary.textContent = "";
   }
   screenshotUpdateBulkControls();
-  increaseLoading("screenshots");
+  if (panel) {
+    panel.setAttribute("aria-busy", "true");
+    increaseLoading(`screenshots-${panel.dataset.screenshotResults}`);
+  }
 }
 
-function screenshotFailure() {
-  screenshotLoaded({ responseCode: 500 });
+function screenshotFailure(panel = screenshotActivePanel()) {
+  screenshotLoaded({ responseCode: 500 }, panel);
 }
 
-function screenshotSelectedSources() {
+function screenshotSelectedSources(panel = screenshotActivePanel()) {
   return Array.from(
-    document.querySelectorAll(
-      "#search-results .screenshot-source-select:checked",
-    ),
+    panel?.querySelectorAll(".screenshot-source-select:checked") ?? [],
     (element) => element.value,
   );
 }
 
-function screenshotAllSources() {
+function screenshotAllSources(panel = screenshotActivePanel()) {
   return Array.from(
-    document.querySelectorAll("#search-results .screenshot-source-select"),
+    panel?.querySelectorAll(".screenshot-source-select") ?? [],
     (element) => element.value,
   );
 }
 
 function screenshotUpdateBulkControls() {
-  const sourceCount = screenshotAllSources().length;
-  const selectedCount = screenshotSelectedSources().length;
-  const addSelected = document.getElementById("screenshots-add-selected");
-  const selectionToggle = document.getElementById(
-    "screenshots-toggle-selection",
-  );
-  if (addSelected !== null) {
-    addSelected.disabled = selectedCount === 0;
-  }
-  if (selectionToggle instanceof HTMLInputElement) {
-    selectionToggle.disabled = sourceCount === 0;
-    selectionToggle.checked = sourceCount > 0 && selectedCount === sourceCount;
-    selectionToggle.indeterminate =
-      selectedCount > 0 && selectedCount < sourceCount;
+  for (const panel of document.querySelectorAll("[data-screenshot-results]")) {
+    const sourceCount = screenshotAllSources(panel).length;
+    const selectedCount = screenshotSelectedSources(panel).length;
+    const addSelected = panel.querySelector(".screenshots-add-selected");
+    const selectionToggle = panel.querySelector(
+      ".screenshots-toggle-selection",
+    );
+    if (addSelected !== null) {
+      addSelected.disabled = selectedCount === 0;
+    }
+    if (selectionToggle instanceof HTMLInputElement) {
+      selectionToggle.disabled = sourceCount === 0;
+      selectionToggle.checked =
+        sourceCount > 0 && selectedCount === sourceCount;
+      selectionToggle.indeterminate =
+        selectedCount > 0 && selectedCount < sourceCount;
+    }
   }
 }
 
-function screenshotToggleSelection(checked) {
-  const checkboxes = document.querySelectorAll(
-    "#search-results .screenshot-source-select",
-  );
-  for (const checkbox of checkboxes) {
+function screenshotToggleSelection(checked, panel) {
+  for (const checkbox of panel.querySelectorAll(".screenshot-source-select")) {
     checkbox.checked = checked;
   }
   screenshotUpdateBulkControls();
@@ -383,7 +386,10 @@ function screenshotBindAddButtons() {
   for (const button of document.querySelectorAll(
     "#search-results .add-string",
   )) {
-    button.addEventListener("click", screenshotAddString);
+    if (!button.dataset.screenshotBound) {
+      button.addEventListener("click", screenshotAddString);
+      button.dataset.screenshotBound = "1";
+    }
   }
 }
 
@@ -431,13 +437,10 @@ function screenshotAddString(event) {
   }
 }
 
-function screenshotResultError(severity, message) {
-  const columnCount =
-    document.querySelectorAll("#search-results thead th").length || 6;
-  const body = document.querySelector(
-    "#search-results tbody.unit-listing-body",
-  );
-  if (body === null) {
+function screenshotResultError(severity, message, panel) {
+  const columnCount = panel?.querySelectorAll("thead th").length || 6;
+  const body = panel?.querySelector("tbody.unit-listing-body");
+  if (!body) {
     return;
   }
   const row = document.createElement("tr");
@@ -449,25 +452,31 @@ function screenshotResultError(severity, message) {
   body.replaceChildren(row);
 }
 
-function screenshotLoaded(data) {
-  decreaseLoading("screenshots");
-  const summary = document.getElementById("screenshots-search-summary");
-  if (summary !== null) {
-    summary.textContent = data.summary || "";
+function screenshotLoaded(data, panel = screenshotActivePanel()) {
+  panel?.setAttribute("aria-busy", "false");
+  if (panel) decreaseLoading(`screenshots-${panel.dataset.screenshotResults}`);
+  const summary = panel?.querySelector(".screenshots-search-summary");
+  if (summary) {
+    summary.textContent =
+      data.responseCode === 200
+        ? [data.summary, data.incomplete].filter(Boolean).join(" ")
+        : data.error || gettext("Error loading search results!");
   }
   if (data.responseCode !== 200) {
     screenshotResultError(
       "danger",
       data.error || gettext("Error loading search results!"),
+      panel,
     );
   } else if (data.count === 0) {
     screenshotResultError(
       "warning",
       data.empty || gettext("No new matching source strings found."),
+      panel,
     );
   } else {
-    const table = document.querySelector("#search-results table");
-    if (table !== null) {
+    const table = panel?.querySelector("table");
+    if (table) {
       table.outerHTML = data.results;
     }
     screenshotBindAddButtons();
@@ -773,6 +782,7 @@ function initHighlight(root) {
 
     resizeObserver.observe(input);
   });
+  const translationHighlightLimit = 16_384;
   root.querySelectorAll(".highlight-editor").forEach((editor) => {
     const parent = editor.parentElement;
     const hasFocus = editor === document.activeElement;
@@ -782,6 +792,7 @@ function initHighlight(root) {
     }
 
     const mode = editor.getAttribute("data-mode");
+    const isTranslationEditor = editor.classList.contains("translation-editor");
 
     /* Create wrapper element */
     const wrapper = document.createElement("div");
@@ -818,10 +829,13 @@ function initHighlight(root) {
     }
 
     /* Content synchronisation and highlighting */
-    let languageMode = Prism.languages[mode];
-    if (editor.classList.contains("translation-editor")) {
+    const getLanguageMode = () => {
+      const languageMode = Prism.languages[mode];
+      if (!isTranslationEditor) {
+        return languageMode;
+      }
       const placeables = editor.getAttribute("data-placeables");
-      /* This should match WHITESPACE_REGEX in weblate/trans/templatetags/translations.py */
+      /* This should match WHITESPACE_REGEX in weblate/trans/formatting.py */
       const whitespaceRegex = new RegExp(
         [
           "  +|(^) +| +(?=$)| +\n|\n +|\t|",
@@ -901,16 +915,38 @@ function initHighlight(root) {
         }
       }
       injectNestedTokens(extension, new Set());
-      languageMode = extension;
-    }
+      return extension;
+    };
+    let languageMode;
     const syncContent = () => {
+      const plain =
+        isTranslationEditor && editor.value.length >= translationHighlightLimit;
+      const wasPlain = highlight.hidden;
+      if (plain !== wasPlain) {
+        wrapper.classList.toggle("editor-wrap-plain", plain);
+        highlight.hidden = plain;
+        if (plain) {
+          highlight.replaceChildren();
+        }
+      }
+      if (plain) {
+        return;
+      }
+      languageMode ??= getLanguageMode();
       highlight.innerHTML = Prism.highlight(editor.value, languageMode, mode);
+      if (wasPlain) {
+        highlight.scrollTop = editor.scrollTop;
+        highlight.scrollLeft = editor.scrollLeft;
+      }
     };
     syncContent();
     editor.addEventListener("input", syncContent);
 
     /* Handle scrolling */
     editor.addEventListener("scroll", (_event) => {
+      if (highlight.hidden) {
+        return;
+      }
       highlight.scrollTop = editor.scrollTop;
       highlight.scrollLeft = editor.scrollLeft;
     });
@@ -1313,7 +1349,8 @@ onReady(() => {
   });
   /* Screenshot management */
   async function screenshotLoadResults(url, form) {
-    screenshotStart();
+    const panel = form.closest("[data-screenshot-results]");
+    screenshotStart(panel);
     try {
       const response = await fetch(url, {
         method: "POST",
@@ -1321,25 +1358,115 @@ onReady(() => {
         headers: { "X-Requested-With": "XMLHttpRequest" },
       });
       if (!response.ok) {
-        screenshotFailure();
+        screenshotFailure(panel);
         return;
       }
-      screenshotLoaded(await response.json());
+      screenshotLoaded(await response.json(), panel);
     } catch (_error) {
-      screenshotFailure();
+      screenshotFailure(panel);
     }
   }
-  for (const button of document.querySelectorAll("#screenshots-auto")) {
-    button.addEventListener("click", function (event) {
-      event.preventDefault();
-      const url = this.getAttribute("data-href");
-      const form = this.closest("form");
-      if (url === null || form === null) {
-        screenshotFailure();
-        return;
+
+  const recognitionForm = document.getElementById("screenshots-ocr-form");
+  if (recognitionForm) {
+    const panel = recognitionForm.closest("[data-screenshot-results]");
+    const retryButton = document.getElementById(
+      "screenshots-recognition-retry",
+    );
+    let running = false;
+    async function loadImageText(retry = false) {
+      if (running) return;
+      running = true;
+      retryButton.hidden = true;
+      screenshotStart(panel);
+      const deadline = Date.now() + 300000;
+      let retryRequested = retry;
+      let taskUrl = null;
+      try {
+        while (Date.now() < deadline) {
+          if (taskUrl) {
+            let taskResponse;
+            try {
+              taskResponse = await fetch(taskUrl, {
+                credentials: "same-origin",
+                headers: { "X-Requested-With": "XMLHttpRequest" },
+              });
+            } catch (_error) {
+              await new Promise((resolve) => setTimeout(resolve, 1000));
+              continue;
+            }
+            if (taskResponse.status === 404) {
+              // Recheck persisted results if task metadata expired.
+              taskUrl = null;
+            } else if (taskResponse.status >= 500) {
+              await new Promise((resolve) => setTimeout(resolve, 1000));
+              continue;
+            } else if (!taskResponse.ok) {
+              throw new Error(
+                gettext(
+                  "Could not load text recognition progress. Please try again.",
+                ),
+              );
+            } else {
+              const task = await taskResponse.json();
+              if (!task.completed) {
+                await new Promise((resolve) => setTimeout(resolve, 1000));
+                continue;
+              }
+            }
+          }
+          const body = new FormData(recognitionForm);
+          if (retryRequested) body.set("retry", "1");
+          retryRequested = false;
+          const response = await fetch(recognitionForm.dataset.href, {
+            method: "POST",
+            body,
+            headers: { "X-Requested-With": "XMLHttpRequest" },
+          });
+          if (!response.ok && response.status !== 429)
+            throw new Error(
+              gettext(
+                "Could not load strings from the image. Please try again.",
+              ),
+            );
+          const data = await response.json();
+          if (data.responseCode !== 200) {
+            screenshotLoaded(data, panel);
+            retryButton.hidden = false;
+            return;
+          }
+          if (!data.pending) {
+            screenshotLoaded(data, panel);
+            return;
+          }
+          taskUrl = data.task_url;
+          screenshotResultError(
+            "info",
+            gettext("Finding strings in image…"),
+            panel,
+          );
+          panel.querySelector(".screenshots-search-summary").textContent =
+            gettext("Finding strings in image…");
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+        }
+        throw new Error(
+          gettext(
+            "Finding strings is taking longer than expected. Please try again later.",
+          ),
+        );
+      } catch (error) {
+        screenshotLoaded({ responseCode: 500, error: error.message }, panel);
+        retryButton.hidden = false;
+      } finally {
+        panel.setAttribute("aria-busy", "false");
+        running = false;
       }
-      void screenshotLoadResults(url, form);
+    }
+    recognitionForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      void loadImageText(true);
     });
+    void loadImageText();
   }
   document
     .getElementById("screenshots-search-form")
@@ -1347,7 +1474,7 @@ onReady(() => {
       event.preventDefault();
       const url = this.getAttribute("data-href");
       if (url === null) {
-        screenshotFailure();
+        screenshotFailure(this.closest("[data-screenshot-results]"));
         return;
       }
       void screenshotLoadResults(url, this);
@@ -1361,17 +1488,22 @@ onReady(() => {
     }
     if (
       event.target instanceof HTMLInputElement &&
-      event.target.id === "screenshots-toggle-selection"
+      event.target.matches(".screenshots-toggle-selection")
     ) {
-      screenshotToggleSelection(event.target.checked);
+      screenshotToggleSelection(
+        event.target.checked,
+        event.target.closest("[data-screenshot-results]"),
+      );
     }
   });
-  document
-    .getElementById("screenshots-add-selected")
-    ?.addEventListener("click", (event) => {
+  for (const button of document.querySelectorAll(".screenshots-add-selected")) {
+    button.addEventListener("click", (event) => {
       event.preventDefault();
-      screenshotAddSources(screenshotSelectedSources());
+      screenshotAddSources(
+        screenshotSelectedSources(button.closest("[data-screenshot-results]")),
+      );
     });
+  }
   document
     .getElementById("sources-listing")
     ?.addEventListener("submit", (event) => {
@@ -1450,14 +1582,14 @@ onReady(() => {
     const target = button?.dataset.focus;
     if (target) {
       /* Modal context focusing */
-      const input = document.querySelector(target);
-      const flagInput = input?.classList.contains("flag-editor")
-        ? document.getElementById(`${input.id}-ts-input`)
-        : null;
-      (flagInput || input)?.focus();
+      document.querySelector(target)?.focus();
     } else {
       for (const input of event.target.querySelectorAll("input")) {
-        if (!input.disabled && input.offsetParent !== null) {
+        if (
+          !input.disabled &&
+          input.offsetParent !== null &&
+          !input.closest(".flag-editor-select")
+        ) {
           input.focus();
           break;
         }
@@ -1521,7 +1653,7 @@ onReady(() => {
         placeholder: el.dataset.placeholder || gettext("Search…"),
         hidePlaceholder: el.dataset.hidePlaceholder === "true",
         persist: false,
-        create: false,
+        create: el.dataset.create === "true",
         allowEmptyOption: true,
       };
       if (el.dataset.maxOptions === "none") {
@@ -1595,22 +1727,90 @@ onReady(() => {
     });
   };
 
+  /* Searchable single selects */
+  const initializeSearchableSelects = (root = document) => {
+    findElements(root, "select.searchable-select").forEach((el) => {
+      if (el.tomselect) {
+        return;
+      }
+      const options = {
+        placeholder: gettext("Search…"),
+        hidePlaceholder: true,
+        persist: false,
+        create: false,
+        allowEmptyOption: true,
+        maxOptions: null,
+      };
+      if (el.dataset.searchUrl) {
+        let searchController;
+        Object.assign(options, {
+          plugins: ["virtual_scroll"],
+          valueField: "id",
+          labelField: "text",
+          searchField: [],
+          preload: "focus",
+          loadThrottle: 300,
+          firstUrl(query) {
+            const url = new URL(el.dataset.searchUrl, window.location.origin);
+            url.searchParams.set("q", query);
+            return url.href;
+          },
+          async load(query, callback) {
+            searchController?.abort();
+            const controller = new AbortController();
+            searchController = controller;
+            const url = this.getUrl(query);
+            try {
+              const response = await fetch(url, { signal: controller.signal });
+              if (!response.ok) {
+                throw new Error("Team lookup failed");
+              }
+              const data = await response.json();
+              if (data.more) {
+                const next = new URL(url);
+                next.searchParams.set(
+                  "page",
+                  Number(next.searchParams.get("page") || 1) + 1,
+                );
+                this.setNextUrl(query, next.href);
+              }
+              callback(data.results);
+            } catch (_error) {
+              if (!controller.signal.aborted) {
+                addAlert(
+                  gettext("Could not load teams. Please try again."),
+                  "danger",
+                );
+              }
+              callback([]);
+              delete this.loadedSearches[query];
+              this.clearPagination();
+            }
+          },
+          render: {
+            loading_more(_data, escapeText) {
+              return `<div class="loading-more-results">${escapeText(gettext("Loading…"))}</div>`;
+            },
+            no_more_results(_data, escapeText) {
+              return `<div class="no-more-results">${escapeText(gettext("No more results."))}</div>`;
+            },
+          },
+        });
+      }
+      new TomSelect(el, options);
+    });
+  };
+
   /* Override all multiple selects */
   initializeMultipleSelects();
+  initializeSearchableSelects();
 
-  /* Searchable single selects */
-  document.querySelectorAll("select.searchable-select").forEach((el) => {
-    if (el.tomselect) {
-      return;
-    }
-    new TomSelect(el, {
-      placeholder: gettext("Search…"),
-      hidePlaceholder: true,
-      persist: false,
-      create: false,
-      allowEmptyOption: true,
-      maxOptions: null,
-    });
+  /* Upgrade controls of markup inserted after load, such as the nodes added by
+   * the automation workflow editor. */
+  document.addEventListener("weblate:content-added", (event) => {
+    const root = event.detail?.root ?? document;
+    initializeMultipleSelects(root);
+    initializeSearchableSelects(root);
   });
 
   const getControlValue = (control) => {
@@ -1885,6 +2085,7 @@ onReady(() => {
     const bar = message.querySelector(".progress-bar");
     const messageText = message.querySelector(".task-message");
     const warnings = message.querySelector(".task-warnings");
+    const errors = message.querySelector(".task-errors");
     if (bar !== null) {
       bar.setAttribute("data-completed", "0");
     }
@@ -1921,11 +2122,15 @@ onReady(() => {
           const data = await response.json();
           if (bar !== null) {
             bar.style.width = `${data.progress}%`;
+            bar.setAttribute("aria-valuenow", data.progress);
           }
           if (data.completed) {
             const result = data.result ?? {};
+            const completion = result.completion_message;
             progressCompleted();
-            if (result.message) {
+            if (completion?.text && messageText !== null) {
+              messageText.textContent = completion.text;
+            } else if (result.message) {
               if (messageText !== null) {
                 messageText.textContent = result.message;
               }
@@ -1933,6 +2138,21 @@ onReady(() => {
               if (messageText !== null) {
                 messageText.textContent = result;
               }
+            }
+            const completionLevel = {
+              error: "danger",
+              warning: "warning",
+              success: "success",
+              info: "info",
+            }[completion?.level];
+            if (completionLevel) {
+              message.classList.remove(
+                "alert-success",
+                "alert-warning",
+                "alert-danger",
+                "alert-info",
+              );
+              message.classList.add(`alert-${completionLevel}`);
             }
             if (result.url) {
               window.location = result.url;
@@ -1945,6 +2165,19 @@ onReady(() => {
                 div.textContent = warning;
                 warnings.appendChild(div);
               });
+            }
+            if (result.errors?.length) {
+              message.classList.remove("alert-success");
+              message.classList.add("alert-danger");
+              if (errors !== null) {
+                errors.replaceChildren();
+                result.errors.forEach((error) => {
+                  const div = document.createElement("div");
+                  div.className = "mt-2";
+                  div.textContent = interpolate(gettext("Error: %s"), [error]);
+                  errors.appendChild(div);
+                });
+              }
             }
           }
         } catch (_error) {
@@ -2118,69 +2351,55 @@ onReady(() => {
     }
   });
 
-  /* Click to edit position inline. Disable when clicked outside or pressed ESC */
-  const positionInputs = document.querySelectorAll(".position-input");
-  const positionInputEditables = document.querySelectorAll(
-    ".position-input-editable",
-  );
-  const positionInputEditableInput = document.getElementById(
-    "position-input-editable-input",
-  );
-  positionInputEditableInput?.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      if (!event.repeat) {
-        event.target.form.requestSubmit();
+  /* Each position editor belongs to its own paginator or translation control. */
+  document.querySelectorAll(".position-input").forEach((positionInput) => {
+    const editable = positionInput.nextElementSibling;
+    const input = editable?.querySelector(
+      "input[name=page], input[name=offset]",
+    );
+    if (!input) {
+      return;
+    }
+    const close = () => {
+      show(positionInput);
+      input.setAttribute("type", "hidden");
+      hide(editable);
+      document.removeEventListener("click", clickedOutside);
+      document.removeEventListener("keyup", pressedEscape);
+    };
+    const clickedOutside = (event) => {
+      if (
+        !positionInput.contains(event.target) &&
+        !editable.contains(event.target)
+      ) {
+        close();
       }
-    }
-  });
-  const clickedOutsideEditableInput = (event) => {
-    // Check if clicked outside of the input and the editable input
-    if (
-      ![...positionInputs].includes(event.target) &&
-      event.target.id !== "position-input-editable-input"
-    ) {
-      positionInputs.forEach(show);
-      positionInputEditableInput?.setAttribute("type", "hidden");
-      positionInputEditables.forEach(hide);
-      document.removeEventListener("click", clickedOutsideEditableInput);
-      document.removeEventListener("keyup", pressedEscape);
-    }
-  };
-  const pressedEscape = (event) => {
-    if (event.key === "Escape" && event.target !== positionInputs[0]) {
-      positionInputs.forEach(show);
-      positionInputEditableInput?.setAttribute("type", "hidden");
-      positionInputEditables.forEach(hide);
-      document.removeEventListener("click", clickedOutsideEditableInput);
-      document.removeEventListener("keyup", pressedEscape);
-    }
-  };
-  positionInputs.forEach((positionInput) => {
-    positionInput.addEventListener("click", function (event) {
-      event.preventDefault();
-      const form = this.closest("form");
-      positionInputs.forEach(hide);
-      form?.querySelectorAll("input[name=offset]").forEach((input) => {
-        input.disabled = false;
-      });
-      positionInputEditables.forEach((element) => {
-        element.style.display = "inline-block";
-      });
-      positionInputEditableInput?.setAttribute("type", "number");
-      if (positionInputs.length > 1) {
-        const input = event.target.parentElement?.querySelector(
-          "#position-input-editable-input",
-        );
-        if (input !== null && input !== undefined) {
-          input.focus();
-          input.select();
+    };
+    const pressedEscape = (event) => {
+      if (event.key === "Escape") {
+        close();
+        positionInput.focus();
+      }
+    };
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        if (!event.repeat) {
+          input.form.requestSubmit();
         }
-      } else if (positionInputEditableInput !== null) {
-        positionInputEditableInput.focus();
-        positionInputEditableInput.select();
       }
-      document.addEventListener("click", clickedOutsideEditableInput);
+    });
+    positionInput.addEventListener("click", (event) => {
+      event.preventDefault();
+      hide(positionInput);
+      input.form?.querySelectorAll("input[name=offset]").forEach((offset) => {
+        offset.disabled = false;
+      });
+      editable.style.display = "inline-block";
+      input.setAttribute("type", "number");
+      input.focus();
+      input.select();
+      document.addEventListener("click", clickedOutside);
       document.addEventListener("keyup", pressedEscape);
     });
   });
@@ -2559,6 +2778,8 @@ onReady(() => {
           const unitId = editor.closest("#comment-form")?.dataset.unitId;
           if (unitId) {
             url += `&unit=${encodeURIComponent(unitId)}`;
+          } else if (document.body.dataset.contributorSearchQuery) {
+            url += `&q=${encodeURIComponent(document.body.dataset.contributorSearchQuery)}`;
           }
           const response = await fetch(url);
           const data = await response.json();
@@ -2754,9 +2975,14 @@ onReady(() => {
           src: async (query) => {
             try {
               // Fetch Data from external Source
-              const source = await fetch(
-                `/api/users/?username=${encodeURIComponent(query)}`,
-              );
+              let url = `/api/users/?username=${encodeURIComponent(query)}`;
+              const scope = autoCompleteInput.dataset.contributorAutocomplete
+                ? document.body.dataset.contributorSearchQuery
+                : document.body.dataset.userSearchQuery;
+              if (scope) {
+                url += `&q=${encodeURIComponent(scope)}`;
+              }
+              const source = await fetch(url);
               // Data should be an array of `Objects` or `Strings`
               const data = await source.json();
               return data.results.map((user) => {

@@ -16,7 +16,7 @@ from itertools import product
 from pathlib import Path
 from textwrap import dedent
 from typing import TYPE_CHECKING, Any
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 from urllib.parse import parse_qs, urlencode, urlsplit
 
 import jwt
@@ -847,8 +847,10 @@ class OIDCProviderTest(TestCase):
     def test_expired_login_attempt(self) -> None:
         target = self.begin_login()
         with patch(
-            "weblate.accounts.oidc.time.time",
-            return_value=timezone.now().timestamp() + OIDC_ATTEMPT_LIFETIME + 1,
+            "weblate.accounts.oidc.time",
+            time=Mock(
+                return_value=timezone.now().timestamp() + OIDC_ATTEMPT_LIFETIME + 1
+            ),
         ):
             response = self.password_login(target)
         self.assertContains(response, "Start signing in again", status_code=400)
@@ -1859,37 +1861,6 @@ class OIDCProviderTest(TestCase):
             else:
                 raise AssertionError("Disabled provider exposes endpoints")
             assert "oauth2_provider" not in sys.modules
-        """)
-        result = subprocess.run(
-            [sys.executable, "-c", script],
-            env={**os.environ, "DJANGO_SETTINGS_MODULE": "weblate.settings_test"},
-            capture_output=True,
-            text=True,
-            check=False,
-        )
-        self.assertEqual(result.returncode, 0, result.stderr)
-
-    def test_saml_coexistence(self) -> None:
-        # App installation registers admin models for the life of the process.
-        # Check a real startup without leaving SAML registrations in this worker.
-        script = dedent("""
-            import warnings
-            from cryptography.utils import CryptographyDeprecationWarning
-            from django.conf import settings
-
-            warnings.filterwarnings("ignore", category=CryptographyDeprecationWarning)
-            settings.INSTALLED_APPS = [*settings.INSTALLED_APPS, "djangosaml2idp"]
-            settings.ALLOWED_HOSTS = ["testserver"]
-
-            import django
-            django.setup()
-            from django.test import RequestFactory
-            from django.urls import resolve, reverse
-
-            assert reverse("saml_login_binding", args=["redirect"]) == "/idp/sso/redirect/"
-            path = reverse("oauth2_provider:oidc-connect-discovery-info")
-            response = resolve(path).func(RequestFactory().get(path))
-            assert response.status_code == 200, response.content
         """)
         result = subprocess.run(
             [sys.executable, "-c", script],

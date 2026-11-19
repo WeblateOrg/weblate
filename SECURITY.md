@@ -8,22 +8,30 @@ This file is maintained in https://github.com/WeblateOrg/meta/
 
 # Weblate security
 
-The Weblate team takes security and related transparency very seriously.
-We welcome any peer review of our 100% open-source code to ensure nobody's Weblate
-is ever compromised or hacked.
+Report **low and medium severity** security issues in a Weblate project as
+public GitHub issues in the affected repository.
 
-If you think you have identified a security issue with a Weblate project, **do
-not open a public issue**.
+For **high and critical severity** vulnerabilities, **do not open a public
+issue**. Report them privately by emailing
+[security@weblate.org](mailto:security@weblate.org) or selecting
+**Security → Report a vulnerability** in this repository.
 
-To responsibly report a security issue, please navigate to the Security tab for
-the repository and click “Report a vulnerability”.
+If you are unsure of the severity, you may start privately. If the security
+team assesses the issue as low or medium severity, we will ask you to continue
+in a public GitHub issue.
 
-Be sure to include as much detail as necessary in your report. As with
-reporting normal issues, a minimal reproducible example will help the
-maintainers address the issue faster.
+Please describe the issue, affected versions, and steps to reproduce it, if
+known.
 
-More information about practices for reporting and fixing security issues is
-described in [our documentation][1]. This ensures all vulnerabilities are
-solved securely, quickly, and transparently.
+Public discussion allows the community to help review and fix low and medium
+severity issues, while private coordination focuses on vulnerabilities with
+serious impact. We publish security advisories only for high and critical
+severity vulnerabilities, not for low or medium severity issues.
 
-[1]: https://docs.weblate.org/en/latest/security/issues.html
+For security scope and assumptions, consult this repository's threat model if
+it has one, or the [Weblate threat model][threat-model] for the main application.
+The [security documentation][reporting] explains the full reporting and
+disclosure process.
+
+[threat-model]: https://docs.weblate.org/en/latest/security/threat-model.html
+[reporting]: https://docs.weblate.org/en/latest/security/issues.html

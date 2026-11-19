@@ -128,14 +128,15 @@ def markdown_preview(request: AuthenticatedHttpRequest) -> HttpResponse:
 @transaction.atomic
 def ignore_check(request: AuthenticatedHttpRequest, check_id):
     obj = get_object_or_404(
-        Check.objects.filter_access(request.user).select_for_update(), pk=int(check_id)
+        Check.objects.filter_access(request.user).select_for_update(of=("self",)),
+        pk=int(check_id),
     )
 
     if not request.user.has_perm("unit.check", obj):
         raise PermissionDenied
 
     # Mark check for ignoring
-    obj.set_dismiss(state="revert" not in request.GET)
+    obj.set_dismiss(state="revert" not in request.GET, user=request.user)
     # response for AJAX
     return JsonResponse({})
 
@@ -148,7 +149,7 @@ def ignore_check_source(request: AuthenticatedHttpRequest, check_id):
     unit = obj.unit.source_unit
 
     if not request.user.has_perm("unit.check", obj) or not request.user.has_perm(
-        "source.edit", unit.translation.component
+        "source.edit", unit.translation
     ):
         raise PermissionDenied
 
@@ -177,16 +178,22 @@ def ignore_check_source(request: AuthenticatedHttpRequest, check_id):
 @login_required
 @transaction.atomic
 def dismiss_automatically_translated(request: AuthenticatedHttpRequest, unit_id):
-    unit = get_object_or_404(Unit.objects.filter_access(request.user), pk=int(unit_id))
-    if not request.user.has_perm("unit.edit", unit):
-        raise PermissionDenied
+    from weblate.trans.models.source import source_operation  # ruff: ignore[import-outside-top-level]
 
-    unit.translate(
-        request.user,
-        unit.target,
-        unit.state,
-        request=request,
-    )
+    unit = get_object_or_404(Unit.objects.filter_access(request.user), pk=int(unit_id))
+    with source_operation(unit.translation.component):
+        unit = get_object_or_404(
+            Unit.objects.filter_access(request.user).select_for_update(), pk=unit.pk
+        )
+        if not request.user.has_perm("unit.edit", unit):
+            raise PermissionDenied
+
+        unit.translate(
+            request.user,
+            unit.get_target_plurals(),
+            unit.state,
+            request=request,
+        )
     return JsonResponse({})
 
 

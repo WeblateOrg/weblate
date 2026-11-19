@@ -17,14 +17,14 @@ from weblate.machinery.models import (
     MachineryInstallation,
     validate_service_configuration,
 )
+from weblate.trans.models import Project
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from django.contrib.auth.models import AnonymousUser
     from django.db.models import QuerySet
 
     from weblate.auth.models import User
-    from weblate.trans.models import Project
-    from weblate.workspaces.models import Workspace
 
 
 def can_edit_scope(
@@ -40,18 +40,26 @@ def can_edit_scope(
     return bool(user.has_perm("machinery.edit"))
 
 
+def editable_projects(user: User | AnonymousUser) -> QuerySet[Project]:
+    if not user.is_authenticated:
+        return Project.objects.none()
+    if user.is_superuser:
+        return Project.objects.all().order()
+    projects = user.projects_with_perm("project.edit").filter(
+        user.get_project_access_query()
+    )
+    if not user.is_bot and not user.profile.has_2fa:
+        projects = projects.exclude(enforced_2fa=True)
+    return projects
+
+
 def editable_scopes(user: User | AnonymousUser) -> Q:
     """Limit installation and exclusion lists to scopes the user can edit."""
     if not user.is_authenticated:
         return Q(pk__in=[])
     if user.is_superuser:
         return Q()
-    projects = user.projects_with_perm("project.edit").filter(
-        user.get_project_access_query()
-    )
-    if not user.is_bot and not user.profile.has_2fa:
-        projects = projects.exclude(enforced_2fa=True)
-    scopes = Q(project__in=projects) | Q(
+    scopes = Q(project__in=editable_projects(user)) | Q(
         workspace_id__in=user.workspace_ids_with_perm("workspace.edit")
     )
     if user.has_perm("machinery.edit"):
@@ -59,9 +67,52 @@ def editable_scopes(user: User | AnonymousUser) -> Q:
     return scopes
 
 
+class EditableProjectField(serializers.PrimaryKeyRelatedField):
+    def get_queryset(self) -> QuerySet[Project]:
+        request = self.context.get("request")
+        return editable_projects(request.user) if request else Project.objects.none()
+
+
+class EditableWorkspaceField(serializers.PrimaryKeyRelatedField):
+    def get_queryset(self) -> QuerySet[Workspace]:
+        request = self.context.get("request")
+        if request is None or not request.user.is_authenticated:
+            return Workspace.objects.none()
+        return request.user.workspaces_with_perm("workspace.edit")
+
+
+class ExcludableInstallationField(serializers.PrimaryKeyRelatedField):
+    def get_queryset(self) -> QuerySet[MachineryInstallation]:
+        request = self.context.get("request")
+        if request is None or not request.user.is_authenticated:
+            return MachineryInstallation.objects.none()
+        projects = editable_projects(request.user)
+        workspace_ids = request.user.workspace_ids_with_perm("workspace.edit")
+        if not workspace_ids and not projects.exists():
+            return MachineryInstallation.objects.none()
+        # A project editor can exclude site installations and installations
+        # inherited from its workspace, even without workspace.edit.
+        return MachineryInstallation.objects.filter(
+            Q(project__isnull=True, workspace__isnull=True)
+            | Q(project__isnull=True, workspace_id__in=workspace_ids)
+            | Q(
+                project__isnull=True,
+                workspace_id__in=projects.exclude(workspace__isnull=True).values(
+                    "workspace_id"
+                ),
+            )
+        )
+
+
 class InstallationSerializer(serializers.ModelSerializer):
     selector = serializers.CharField(read_only=True)
     configuration = serializers.JSONField(required=False)
+    workspace = EditableWorkspaceField(
+        queryset=Workspace.objects.none(), required=False, allow_null=True, default=None
+    )
+    project = EditableProjectField(
+        queryset=Project.objects.none(), required=False, allow_null=True, default=None
+    )
 
     class Meta:
         model = MachineryInstallation
@@ -136,6 +187,19 @@ class InstallationViewSet(viewsets.ModelViewSet):
 
 
 class ExclusionSerializer(serializers.ModelSerializer):
+    workspace = EditableWorkspaceField(
+        queryset=Workspace.objects.none(), required=False, allow_null=True, default=None
+    )
+    project = EditableProjectField(
+        queryset=Project.objects.none(), required=False, allow_null=True, default=None
+    )
+    installation = ExcludableInstallationField(
+        queryset=MachineryInstallation.objects.none(),
+        required=False,
+        allow_null=True,
+        default=None,
+    )
+
     class Meta:
         model = MachineryExclusion
         fields = ("id", "workspace", "project", "installation", "engine")

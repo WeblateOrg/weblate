@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load authnames crispy_forms_tags i18n icons otp_webauthn static translations %}
+{% load authnames crispy_forms_tags i18n icons otp_webauthn static translations user_display %}
 
 {% block extra_script %}
   <script defer src="{% static 'js/accounts/profile/index.js' %}"></script>
@@ -9,7 +9,7 @@
 {% block nav_pills %}
   <ul class="nav nav-pills flex-wrap"
       role="tablist"
-      aria-label="{% translate "Profile settings" %}">
+      aria-label="{% translate "Profile settings"|force_escape %}">
     <li class="nav-item" role="presentation">
       <a id="profile-tab-account"
          class="nav-link active"
@@ -130,6 +130,7 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
+  {% can_show_personal_api_key request as can_show_api_key %}
 
   {% if form_errors %}
     {% translate "Please fix errors in the form." as msg %}
@@ -264,8 +265,8 @@
             <div class="card-body">
               <p>
                 <img class="avatar w128"
-                     alt="{% translate "User avatar" %}"
-                     src="{% url 'user_avatar' user=request.user.username size=128 %}" />
+                     alt="{% translate "User avatar"|force_escape %}"
+                     src="{% user_avatar request.user size=128 %}" />
               </p>
               <p>
                 <a href="{{ avatar_url_prefix }}">{% blocktranslate %}Avatars are provided using {{ avatar_url_prefix }}.{% endblocktranslate %}</a>
@@ -388,8 +389,8 @@
                   {% if form.removable %}
                     <button type="button"
                             class="btn-close"
-                            aria-label="{% translate "Remove this notification setting" %}"
-                            title="{% translate "Remove this notification setting" %}"></button>
+                            aria-label="{% translate "Remove this notification setting"|force_escape %}"
+                            title="{% translate "Remove this notification setting"|force_escape %}"></button>
                   {% endif %}
                 </li>
               {% endfor %}
@@ -579,7 +580,13 @@
                       {% for name in new_backends %}
                         <a href=""
                            class="btn btn-outline-primary link-post link-auth"
-                           data-href="{% url 'social:begin' name %}?next={% url 'profile' %}%23security">{% auth_name name only="icon" %} {% auth_name name only="name" %}</a>
+                           data-href="{% url 'social:begin' name %}?next={% url 'profile' %}%23{% if name == 'email' %}account{% else %}security{% endif %}">{% auth_name name only="icon" %}
+                          {% if name == "email" %}
+                            {% translate "Add and verify e-mail address" %}
+                          {% else %}
+                            {% auth_name name only="name" %}
+                          {% endif %}
+                        </a>
                       {% endfor %}
                     </div>
                   </details>
@@ -606,22 +613,27 @@
           </div>
           <div class="table-responsive"
                role="region"
-               aria-label="{% translate "API access" %}"
+               aria-label="{% translate "API access"|force_escape %}"
                tabindex="0">
             <table class="table">
               <tr>
                 <th scope="row">{% translate "Your personal API key:" %}</th>
                 <td>
-                  <span class="auth-token">{{ user.auth_token.key }}</span>
-                  <button type="button"
-                          class="btn btn-link btn-xs"
-                          data-visibility=".auth-token"
-                          title="{% translate "Toggle API key visibility" %}">{% icon "eye.svg" %}</button>
-                  <button type="button"
-                          class="btn btn-link btn-xs"
-                          data-clipboard-value="{{ user.auth_token.key }}"
-                          data-clipboard-message="{% translate "API key copied to clipboard." %}"
-                          title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                  <span class="auth-token">{% personal_api_key request %}</span>
+                  {% if can_show_api_key %}
+                    <button type="button"
+                            class="btn btn-link btn-xs"
+                            data-visibility=".auth-token"
+                            title="{% translate "Toggle API key visibility"|force_escape %}">{% icon "eye.svg" %}</button>
+                    <button type="button"
+                            class="btn btn-link btn-xs"
+                            data-clipboard-value="{{ user.auth_token.key }}"
+                            data-clipboard-message="{% translate "API key copied to clipboard."|force_escape %}"
+                            title="{% translate "Copy to clipboard"|force_escape %}">{% icon "copy.svg" %}</button>
+                  {% else %}
+                    <a href="{% url 'verify-second-factor' %}?next={{ request.path|urlencode }}"
+                       class="btn btn-link btn-xs">{% translate "Verify your identity to view your API key" %}</a>
+                  {% endif %}
                   <a href=""
                      class="float-end btn btn-primary link-post"
                      data-href="{% url 'reset-api-key' %}">{% translate "Regenerate API key" %}</a>
@@ -642,7 +654,7 @@
                   <pre dir="ltr">
                   <code>
 curl \
-    -H "Authorization: Token <span class="auth-token">{{ user.auth_token.key }}</span>" \
+    -H "Authorization: Token <span class="auth-token">{% personal_api_key request %}</span>" \
     {{ site_url }}{% url 'api:api-root' %}
                   </code>
 </pre>
@@ -657,7 +669,7 @@ curl \
                   <pre dir="ltr">
                   <code>
 wlc \
-    --key <span class="auth-token">{{ user.auth_token.key }}</span> \
+    --key <span class="auth-token">{% personal_api_key request %}</span> \
     --url {{ site_url }}{% url 'api:api-root' %} \
     list-projects
                   </code>
@@ -680,7 +692,7 @@ wlc \
                 {% blocktranslate %}The API key is also used to authenticate to automatically exported Git repositories.{% endblocktranslate %}
               </p>
               <code dir="ltr">
-              git clone 'https://{{ user.username|urlencode }}:<span class="auth-token">{{ user.auth_token.key }}</span>@{{ site_domain }}{% get_git_export_example_url %}'</code>
+              git clone 'https://{{ user.username|urlencode }}:<span class="auth-token">{% personal_api_key request %}</span>@{{ site_domain }}{% get_git_export_example_url %}'</code>
             </div>
           </div>
         {% endif %}
@@ -705,7 +717,7 @@ wlc \
            tabindex="0">
         <div class="table-responsive"
              role="region"
-             aria-label="{% translate "Teams" %}"
+             aria-label="{% translate "Teams"|force_escape %}"
              tabindex="0">
           <table class="table">
             <thead>
@@ -836,7 +848,7 @@ wlc \
           </div>
           <div class="table-responsive"
                role="region"
-               aria-label="{% translate "Audit log" %}"
+               aria-label="{% translate "Audit log"|force_escape %}"
                tabindex="0">
             <table class="table">
               <thead>

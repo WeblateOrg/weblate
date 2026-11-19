@@ -1,0 +1,14 @@
+{% extends "manage/security-base.html" %}
+
+{% load crispy_forms_tags i18n %}
+
+
+
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      <h1 class="card-title">{% translate "Validate leaked passwords" %}</h1>
+    </div>
+    <div class="card-body">{% include "manage/security-upload-form.html" %}</div>
+  </div>
+{% endblock content %}

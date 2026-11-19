@@ -12,6 +12,7 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext
 
 import weblate.utils.version
+from weblate.accounts.visibility import can_browse_users, can_search_scoped_users
 from weblate.configuration.views import CustomCSSView
 from weblate.legal.utils import get_document_context
 from weblate.trans.validators import SUGGESTION_REJECTION_REASON_LENGTH
@@ -21,6 +22,7 @@ from weblate.utils.version_display import (
     hide_prominent_version,
 )
 from weblate.wladmin.models import ConfigurationError, get_support_status
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -28,6 +30,7 @@ if TYPE_CHECKING:
 WEBLATE_URL = "https://weblate.org/"
 DONATE_URL = "https://weblate.org/donate/"
 SUPPORT_URL = "https://weblate.org/support/"
+WORKSPACE_NAVIGATION_LIMIT = 10
 
 CONTEXT_SETTINGS = [
     "SITE_TITLE",
@@ -122,10 +125,16 @@ def weblate_context(request: AuthenticatedHttpRequest):
 
     # Load user translations if user is authenticated
     watched_projects = None
+    navigation_workspaces = []
     theme = "auto"
     user = getattr(request, "user", None)
     if user is not None and user.is_authenticated:
         watched_projects = user.watched_projects
+        navigation_workspaces = list(
+            Workspace.objects.relevant_to(user)
+            .only("id", "name")
+            .order_by("name", "pk")[:WORKSPACE_NAVIGATION_LIMIT]
+        )
         theme = user.profile.theme
 
     if settings.OFFER_HOSTING:
@@ -153,6 +162,8 @@ def weblate_context(request: AuthenticatedHttpRequest):
     )
 
     context = {
+        "can_browse_users": user is not None and can_browse_users(user),
+        "can_search_scoped_users": user is not None and can_search_scoped_users(user),
         "support_status": support_status,
         "version": weblate.utils.version.VERSION,
         "bread_image": get_bread_image(request.path),
@@ -174,6 +185,7 @@ def weblate_context(request: AuthenticatedHttpRequest):
         "has_sentry": bool(settings.SENTRY_DSN),
         "suggestion_rejection_reason_length": SUGGESTION_REJECTION_REASON_LENGTH,
         "watched_projects": watched_projects,
+        "navigation_workspaces": navigation_workspaces,
         "allow_index": False,
         "configuration_errors": ConfigurationError.objects.filter(
             ignored=False

@@ -7,16 +7,28 @@ from __future__ import annotations
 import re
 from copy import deepcopy
 from functools import partial
-from typing import TYPE_CHECKING, Any, TypedDict
+from typing import TYPE_CHECKING, Any, TypedDict, cast
 
 from django.conf import settings
 from django.contrib.postgres import indexes as postgres_indexes
 from django.core.cache import cache
-from django.core.exceptions import ValidationError
+from django.core.exceptions import PermissionDenied, ValidationError
+from django.db import DatabaseError, connections, models, transaction
 from django.db import Error as DjangoDatabaseError
-from django.db import models, transaction
-from django.db.models import Count, ManyToManyField, Max, Q, Sum, Value
+from django.db.models import (
+    Count,
+    F,
+    ManyToManyField,
+    Max,
+    OuterRef,
+    Q,
+    Subquery,
+    Sum,
+    Value,
+)
+from django.db.models.expressions import CombinedExpression
 from django.db.models.functions import MD5, Cast, Coalesce, Length, Lower
+from django.db.transaction import TransactionManagementError
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy, ngettext
@@ -26,7 +38,7 @@ from weblate.auth.results import PermissionResult
 from weblate.auth.scope import get_permission_scope_query
 from weblate.checks.flags import Flags, FlagsValidator
 from weblate.checks.models import CHECKS, Check
-from weblate.formats.helpers import CONTROLCHARS
+from weblate.formats.helpers import CONTROLCHARS, CONTROLCHARS_TRANS
 from weblate.memory.tasks import (
     get_unit_memory_update,
     schedule_memory_update,
@@ -48,6 +60,10 @@ from weblate.trans.models.source import (
 )
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.variant import Variant
+from weblate.trans.propagation import (
+    propagation_filter,
+    propagation_uses_custom_sources,
+)
 from weblate.trans.signals import unit_post_sync, unit_pre_create
 from weblate.trans.source_snapshot import MissingSourceCache, SourceSnapshot
 from weblate.trans.util import (
@@ -57,7 +73,11 @@ from weblate.trans.util import (
     join_plural,
     split_plural,
 )
-from weblate.trans.validators import validate_check_flags
+from weblate.trans.validators import (
+    is_translation_text_change_too_long,
+    validate_check_flags,
+    validate_translation_text_change,
+)
 from weblate.utils import messages
 from weblate.utils.db import verify_in_transaction
 from weblate.utils.errors import report_error
@@ -72,17 +92,19 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
     StringState,
+    get_state_label,
 )
 from weblate.utils.tracing import start_span
 
 if TYPE_CHECKING:
-    from collections.abc import Generator, Iterable
+    from collections.abc import Collection, Generator, Iterable
     from datetime import datetime
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.formats.base import TranslationUnit
     from weblate.lang.models import Language, Plural
     from weblate.machinery.base import UnitMemoryResultDict
+    from weblate.memory.tasks import MemoryUpdatePayload
     from weblate.trans.models.label import Label
     from weblate.trans.models.translation import Translation
     from weblate.utils.stats import StatItem, TranslationStats
@@ -108,6 +130,15 @@ UNIT_METADATA_UPDATE_FIELDS = (
     "automatically_translated",
     "flags",
     "last_updated",
+    "line_number",
+)
+UNIT_SOURCE_UPDATE_FIELDS = (
+    "translation_parent",
+    "details",
+    "state",
+    "original_state",
+    "num_words",
+    "last_updated",
 )
 
 
@@ -119,9 +150,10 @@ def orders_units_by_component(obj: object) -> bool:
     from weblate.utils.stats import (  # ruff: ignore[import-outside-top-level]
         CategoryLanguage,
         ProjectLanguage,
+        WorkspaceLanguage,
     )
 
-    return isinstance(obj, (ProjectLanguage, CategoryLanguage))
+    return isinstance(obj, (ProjectLanguage, CategoryLanguage, WorkspaceLanguage))
 
 
 def get_component_order_fields(sign: str = "") -> list[str]:
@@ -145,6 +177,99 @@ def fill_in_source_translation(units: Iterable[Unit]) -> None:
 
 
 class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
+    def bulk_update_source_units(self, units: list[Unit]) -> None:
+        """
+        Persist a prepared reconciliation batch without invoking model save hooks.
+
+        Only existing, distinct units are supported. The caller prepares save
+        bookkeeping and dispatches notifications after the rows are persisted.
+        """
+        self._bulk_update_values(units, UNIT_SOURCE_UPDATE_FIELDS)
+
+    def _bulk_update_values(
+        self, units: list[Unit], field_names: tuple[str, ...]
+    ) -> None:
+        """
+        Persist prepared field values for an existing-unit batch by ID.
+
+        This internal writer uses the database alias, but not queryset filters.
+        Call it only on unfiltered querysets with explicit concrete field names.
+        It does not prepare model saves, evaluate expressions, or send signals.
+        """
+        if not units:
+            return
+        if len(units) > 500:
+            msg = "Unit update batches must contain at most 500 units."
+            raise ValueError(msg)
+        if any(unit.pk is None or unit._state.adding for unit in units):  # ruff: ignore[private-member-access]
+            msg = "Batch updates require saved units."
+            raise ValueError(msg)
+        if len({unit.pk for unit in units}) != len(units):
+            msg = "Batch updates require distinct units."
+            raise ValueError(msg)
+
+        database = connections[self.db]
+        model_meta = Unit._meta  # ruff: ignore[private-member-access]
+        concrete_fields = {
+            model_field.name: model_field for model_field in model_meta.concrete_fields
+        }
+        fields = [
+            model_meta.pk,
+            *(concrete_fields[name] for name in field_names),
+        ]
+        quote = database.ops.quote_name
+        columns = [quote(cast("str", model_field.column)) for model_field in fields]
+        row_sql = (
+            "("
+            + ", ".join(
+                f"%s::{model_field.db_type(database)}" for model_field in fields
+            )
+            + ")"
+        )
+        assignments = ", ".join(
+            f"{column} = incoming.{column}" for column in columns[1:]
+        )
+        # Only model identifiers and database types enter the statement. All
+        # unit content, including JSON, is passed through field preparation and
+        # query parameters.
+        sql = (
+            f"UPDATE {quote(model_meta.db_table)} AS existing SET {assignments} "  # ruff: ignore[hardcoded-sql-expression]
+            "FROM (VALUES "
+            + ", ".join([row_sql] * len(units))
+            + f") AS incoming ({', '.join(columns)}) "
+            + f"WHERE existing.{columns[0]} = incoming.{columns[0]}"
+        )
+        params = [
+            model_field.get_db_prep_save(
+                getattr(unit, model_field.attname), connection=database
+            )
+            for unit in units
+            for model_field in fields
+        ]
+        with (
+            transaction.atomic(using=self.db, savepoint=False),
+            database.cursor() as cursor,
+        ):
+            cursor.execute(sql, params)
+            if cursor.rowcount != len(units):
+                msg = "Batch update did not update every unit."
+                raise DatabaseError(msg)
+
+    def with_last_content_author(self) -> UnitQuerySet:
+        """
+        Annotate the latest content author's ID, or None without a known author.
+
+        A null author on the latest change does not select an older author.
+        Callers needing a concrete account should fall back to anonymous.
+        """
+        latest = (
+            Change.objects.content()
+            .filter(unit_id=OuterRef("pk"))
+            .order_by("-timestamp", "-pk")
+            .values("author_id")[:1]
+        )
+        return self.annotate(last_content_author_id=Subquery(latest))
+
     def delete(self):
         project_ids = self.values_list(
             "translation__component__project_id", flat=True
@@ -203,6 +328,9 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
                 queryset=Workspace.objects.defer_huge(),
             ),
             "translation__component__source_language",
+            "translation__component__category__project__workspace",
+            "translation__component__category__category__project__workspace",
+            "translation__component__category__category__category__project__workspace",
         )
 
     def prefetch_translation_parent(self):
@@ -431,13 +559,20 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
         )
 
     def same(self, unit: Unit, exclude: bool = True) -> UnitQuerySet:
-        """Get units with same source within same project."""
+        """Get units with the same source within the propagation group."""
         translation = unit.translation
         component = translation.component
-        custom_sources = bool(component.project.translation_parent_language_ids)
-        result = self.exclude_blocked(
-            custom_sources=custom_sources
-        ).with_effective_source(custom_sources=custom_sources, select=False)
+        custom_sources = propagation_uses_custom_sources(component.project)
+        result = (
+            self.exclude_blocked(custom_sources=custom_sources)
+            .filter(
+                propagation_filter(
+                    component.project, "translation__component__", component.name
+                ),
+                translation__language_id=translation.language_id,
+            )
+            .with_effective_source(custom_sources=custom_sources, select=False)
+        )
         if custom_sources:
             result = result.filter(
                 Q(
@@ -463,8 +598,6 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
         result = result.filter(
             context__lower__md5=MD5(Lower(Value(unit.context))),
             context=unit.context,
-            translation__component__project_id=component.project_id,
-            translation__language_id=translation.language_id,
         )
         if custom_sources:
             plural = unit.effective_source_plural
@@ -476,6 +609,20 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
         if exclude:
             result = result.exclude(pk=unit.id)
         return result
+
+    def filter_restricted_peers(self, unit: Unit) -> UnitQuerySet:
+        """Limit cross-component check peers to a stable visibility boundary."""
+        component = unit.translation.component
+        public = (component.project.ACCESS_PUBLIC, component.project.ACCESS_PROTECTED)
+        project_peers = Q(translation__component__project_id=component.project_id)
+        if component.project.access_control in public:
+            project_peers |= Q(
+                translation__component__project__access_control__in=public
+            )
+        return self.filter(project_peers).filter(
+            Q(translation__component__restricted=False)
+            | Q(translation__component_id=component.pk)
+        )
 
     def same_target(self, unit: Unit, target: str | None = None) -> UnitQuerySet:
         """
@@ -490,20 +637,23 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
             return self.none()
         translation = unit.translation
         component = translation.component
-        custom_sources = bool(component.project.translation_parent_language_ids)
+        custom_sources = propagation_uses_custom_sources(component.project)
         result = (
             self.exclude_blocked(custom_sources=custom_sources)
-            .with_effective_source(custom_sources=custom_sources, select=False)
             .filter(
+                propagation_filter(
+                    component.project, "translation__component__", component.name
+                ),
                 state__gte=STATE_TRANSLATED,
                 target__lower__md5=MD5(Lower(Value(target))),
                 target=target,
-                translation__component__project_id=component.project_id,
-                check_source_language=unit.effective_source_language.pk,
                 translation__component__allow_translation_propagation=True,
                 translation__plural_id=translation.plural_id,
                 translation__plural__number__gt=1,
             )
+            .filter_restricted_peers(unit)
+            .with_effective_source(custom_sources=custom_sources, select=False)
+            .filter(check_source_language=unit.effective_source_language.pk)
             .exclude(check_source=unit.effective_source)
         )
         if custom_sources:
@@ -672,8 +822,7 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
             )
         if user.needs_component_restrictions_filter:
             result = result.filter(
-                Q(translation__component__restricted=False)
-                | Q(translation__component_id__in=user.component_permissions)
+                user.get_component_access_query("translation__component")
             )
         return result
 
@@ -723,16 +872,22 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
         )
 
     def clear_disk_state(self) -> None:
-        units_to_update = list(
-            self.filter(details__has_key="disk_state").select_for_update()
+        """Remove snapshot bookkeeping from the current JSON inside a transaction."""
+        units = self.filter(details__has_key="disk_state").select_for_update()
+        # Keep write routing and the caller-owned transaction contract. The
+        # UPDATE itself locks rows, so no SELECT FOR UPDATE needs to execute.
+        if connections[units.db].get_autocommit():
+            msg = "Disk-state cleanup requires a transaction."
+            raise TransactionManagementError(msg)
+
+        details = CombinedExpression(
+            F("details"), "-", Value("disk_state"), output_field=models.JSONField()
         )
-
-        for unit in units_to_update:
-            del unit.details["disk_state"]
-            unit.details.pop("disk_identity", None)
-
-        if units_to_update:
-            Unit.objects.bulk_update(units_to_update, ["details"], batch_size=500)
+        units.update(
+            details=CombinedExpression(
+                details, "-", Value("disk_identity"), output_field=models.JSONField()
+            )
+        )
 
 
 class OldUnit(TypedDict):
@@ -761,6 +916,7 @@ class UnitAttributesDict(TypedDict):
     unit: TranslationUnit
     created: bool
     pos: int
+    line_number: int | None
     id_hash: int
     automatically_translated: bool
 
@@ -772,6 +928,8 @@ class TranslationDeltaEntry(TypedDict):
 
 
 class Unit(models.Model, LoggerMixin):
+    # Present on instances loaded with with_last_content_author().
+    last_content_author_id: int | None
     translation = models.ForeignKey(
         "trans.Translation", on_delete=models.deletion.CASCADE, db_index=False
     )
@@ -791,6 +949,8 @@ class Unit(models.Model, LoggerMixin):
     details = models.JSONField(default=dict)
 
     position = models.IntegerField()
+
+    line_number = models.IntegerField(null=True, blank=True)
 
     num_words = models.IntegerField(default=0)
 
@@ -972,10 +1132,6 @@ class Unit(models.Model, LoggerMixin):
 
         Wrapper around save to run checks or update fulltext.
         """
-        # Update last_updated timestamp
-        if update_fields and "last_updated" not in update_fields:
-            update_fields.append("last_updated")
-
         was_created = force_insert or self.pk is None
         previous_parent_values = None
         if not only_save:
@@ -989,23 +1145,11 @@ class Unit(models.Model, LoggerMixin):
                     None,
                 ),
             )
-        if (
-            self.state >= STATE_TRANSLATED
-            and self.state != STATE_READONLY
-            and "translation_parent" in self.details
-        ):
-            self.accept_source_snapshot()
-            if update_fields and "details" not in update_fields:
-                update_fields.append("details")
-
-        if was_created:
-            self.resolve_translation_parent()
-
-        # Workload follows the source shown to the translator.
-        if not same_content or not self.num_words:
-            self.num_words = self.effective_source_num_words
-            if update_fields and "num_words" not in update_fields:
-                update_fields.append("num_words")
+        self._prepare_save(
+            same_content=same_content,
+            was_created=was_created,
+            update_fields=update_fields,
+        )
 
         # Actually save the unit
         super().save(
@@ -1014,12 +1158,7 @@ class Unit(models.Model, LoggerMixin):
             using=using,
             update_fields=update_fields,
         )
-        self._saved_parent_values = (
-            self.target,
-            self.state,
-            self.original_state,
-            deepcopy(self.details.get("tbx_terms")),
-        )
+        self._store_saved_parent_values()
 
         # Set source_unit for source units, this needs to be done after
         # having a primary key
@@ -1068,6 +1207,43 @@ class Unit(models.Model, LoggerMixin):
     def get_absolute_url(self) -> str:
         return f"{self.translation.get_translate_url()}?checksum={self.checksum}"
 
+    def _prepare_save(
+        self,
+        *,
+        same_content: bool,
+        was_created: bool,
+        update_fields: list[str] | None,
+    ) -> None:
+        """Prepare unit content for either an individual or reconciliation save."""
+        if update_fields and "last_updated" not in update_fields:
+            update_fields.append("last_updated")
+        if (
+            self.state >= STATE_TRANSLATED
+            and self.state != STATE_READONLY
+            and "translation_parent" in self.details
+        ):
+            self.accept_source_snapshot()
+            if update_fields and "details" not in update_fields:
+                update_fields.append("details")
+
+        if was_created:
+            self.resolve_translation_parent()
+
+        # Workload follows the source shown to the translator.
+        if not same_content or not self.num_words:
+            self.num_words = self.effective_source_num_words
+            if update_fields and "num_words" not in update_fields:
+                update_fields.append("num_words")
+
+    def _store_saved_parent_values(self) -> None:
+        """Remember persisted parent inputs after save notifications finish."""
+        self._saved_parent_values = (
+            self.target,
+            self.state,
+            self.original_state,
+            deepcopy(self.details.get("tbx_terms")),
+        )
+
     @source_operation_method
     def delete(self, using=None, keep_parents=False):
         return super().delete(using=using, keep_parents=keep_parents)
@@ -1111,7 +1287,8 @@ class Unit(models.Model, LoggerMixin):
                     self.source_snapshot.as_dict()
                 )
             if self.translation_parent_blocked:
-                self.original_state = self.state
+                if not self.readonly:
+                    self.original_state = self.state
                 self.state = STATE_READONLY
                 self.details["translation_parent"]["blocked"] = True
 
@@ -1194,11 +1371,21 @@ class Unit(models.Model, LoggerMixin):
             "automatically_translated": automatically_translated,
         }
 
-    def store_disk_state(self) -> None:
+    @property
+    def file_state(self) -> int:
+        """Stored state without dependency-only editor restrictions."""
+        if self.state == STATE_READONLY and self.details.get(
+            "translation_parent", {}
+        ).get("blocked"):
+            return self.original_state
+        return self.state
+
+    def store_disk_state(self, *, save: bool = True) -> None:
         """
         Store a snapshot of unit state before pending changes are created.
 
         Only stores the state if it doesn't already exist (first pending change).
+        Set save=False to include the snapshot in a subsequent unit save.
         """
         if self.old_unit is None:
             msg = "`store_old_unit` should be called before saving disk state."
@@ -1211,10 +1398,11 @@ class Unit(models.Model, LoggerMixin):
                 explanation=self.old_unit["explanation"],
                 automatically_translated=self.old_unit["automatically_translated"],
             )
-            # Saving bookkeeping must not accept target/state changes still in memory.
-            saved_parent_values = self._saved_parent_values
-            self.save(same_content=True, only_save=True, update_fields=["details"])
-            self._saved_parent_values = saved_parent_values
+            if save:
+                # Saving bookkeeping must not accept target/state changes still in memory.
+                saved_parent_values = self._saved_parent_values
+                self.save(same_content=True, only_save=True, update_fields=["details"])
+                self._saved_parent_values = saved_parent_values
 
     def clear_disk_state(self) -> None:
         """
@@ -1644,6 +1832,7 @@ class Unit(models.Model, LoggerMixin):
             "pos": pos,
             "id_hash": id_hash,
             "automatically_translated": unit.is_automatically_translated(),
+            "line_number": unit.line_number,
         }
 
     def update_from_unit(  # ruff: ignore[complex-structure, too-many-locals, too-many-statements]
@@ -1681,6 +1870,7 @@ class Unit(models.Model, LoggerMixin):
         unit = unit_attributes["unit"]
         created = unit_attributes["created"]
         pos = unit_attributes["pos"]
+        line_number = unit_attributes["line_number"]
         automatically_translated = unit_attributes["automatically_translated"]
 
         # Should not be needed again
@@ -1772,6 +1962,7 @@ class Unit(models.Model, LoggerMixin):
             and location == self.location
             and note == self.note
             and pos == self.position
+            and line_number == self.line_number
             and automatically_translated == self.automatically_translated
             and not pending
         )
@@ -1830,6 +2021,7 @@ class Unit(models.Model, LoggerMixin):
         # Store updated values
         self.original_state = original_state
         self.position = pos
+        self.line_number = line_number
         self.location = location
         if (not same_data and not preserve_pending_target) or not supports_explanation:
             self.explanation = explanation
@@ -1856,6 +2048,7 @@ class Unit(models.Model, LoggerMixin):
                     "note",
                     "position",
                     "automatically_translated",
+                    "line_number",
                 ]
                 if not supports_explanation:
                     update_fields.append("explanation")
@@ -2128,8 +2321,12 @@ class Unit(models.Model, LoggerMixin):
 
     @property
     def effective_previous_source(self) -> str:
-        previous = self.details.get("translation_parent", {}).get("previous")
-        return previous["text"] if previous is not None else self.previous_source
+        metadata = self.details.get("translation_parent", {})
+        if (previous := metadata.get("previous")) is not None:
+            return previous["text"]
+        if self.translation_parent_id is not None or "missing" in metadata:
+            return ""
+        return self.previous_source
 
     def get_effective_previous_source_plurals(self) -> list[str]:
         return split_plural(self.effective_previous_source)
@@ -2200,24 +2397,100 @@ class Unit(models.Model, LoggerMixin):
 
         return ret
 
+    @staticmethod
+    def can_propagate_text(
+        unit: Unit,
+        target_plurals: list[str],
+        submitted_target: list[str] | None,
+        user: User | None,
+        request: AuthenticatedHttpRequest | None,
+        warnings: list[str],
+    ) -> bool:
+        """
+        Check that propagated text fits the limit of the target string.
+
+        Components can have different limits, for example by the max-length flag.
+        The submitted text before autofixes is accepted as well, matching the
+        validation of a direct edit, where autofixes can extend the text.
+        """
+        current = unit.get_target_plurals()
+        if not is_translation_text_change_too_long(unit, target_plurals, current):
+            return True
+        if submitted_target is not None and not is_translation_text_change_too_long(
+            unit, submitted_target, current
+        ):
+            return True
+        component = unit.translation.component
+        if request and user is not None and user.can_access_component(component):
+            warnings.append(
+                gettext("String could not be propagated to %(component)s: %(reason)s")
+                % {
+                    "component": component,
+                    "reason": gettext("Translation text too long!"),
+                },
+            )
+        return False
+
+    def show_propagation_warnings(
+        self, request: AuthenticatedHttpRequest | None, warnings: list[str]
+    ) -> None:
+        if not warnings:
+            return
+        if self.is_batch_update:
+            # Summarized once for the whole batch, see merge_translations
+            self.translation.batch_propagation_failures += 1
+        elif len(warnings) > 10:
+            messages.warning(
+                request,
+                ngettext(
+                    "String could not be propagated to %d component.",
+                    "String could not be propagated to %d components.",
+                    len(warnings),
+                )
+                % len(warnings),
+            )
+        else:
+            for warning in warnings:
+                messages.warning(request, warning)
+
     @source_operation_method
     def propagate(
-        self, user: User | None, change_action=None, author=None, request=None
+        self,
+        user: User | None,
+        change_action=None,
+        author=None,
+        request=None,
+        *,
+        exclude_ids: Collection[int] = (),
+        submitted_target: list[str] | None = None,
     ) -> bool:
-        """Propagate current translation to all others."""
+        """
+        Propagate current translation to all others.
+
+        The submitted_target is the translation before autofixes, if available.
+        """
         warnings: list[str] = []
 
         with start_span(op="unit.propagate", name=f"{self.pk}"):
             to_update: list[Unit] = []
-            units = self.propagated_units.exclude(
-                target=self.target, state=self.state
-            ).select_for_update()
-            for unit in units:
+            target_plurals = split_plural(self.target)
+            units = self.propagated_units
+            if self.state != STATE_APPROVED:
+                units = units.exclude(target=self.target, state=self.state)
+            for unit in units.select_for_update():
+                # Bulk selections apply each target's own edit. Propagating into
+                # another selected target would change its replacement input.
+                if unit.pk in exclude_ids:
+                    continue
                 if user is not None and not (
                     denied := user.has_perm("unit.edit", unit)
                 ):
                     component = unit.translation.component
-                    if request and isinstance(denied, PermissionResult):
+                    if (
+                        request
+                        and isinstance(denied, PermissionResult)
+                        and user.can_access_component(component)
+                    ):
                         warnings.append(
                             gettext(
                                 "String could not be propagated to %(component)s: %(reason)s"
@@ -2226,10 +2499,25 @@ class Unit(models.Model, LoggerMixin):
                         )
                     continue
 
+                state = self.state
+                if state == STATE_APPROVED and (
+                    not unit.translation.enable_review
+                    or user is None
+                    or not user.has_perm("unit.review", unit)
+                ):
+                    state = STATE_TRANSLATED
+                if unit.target == self.target and unit.state == state:
+                    continue
+                if not self.can_propagate_text(
+                    unit, target_plurals, submitted_target, user, request, warnings
+                ):
+                    continue
+
                 # Update unit attributes for the current instance, the database is bulk updated later
                 unit.store_old_unit(unit)
                 unit.target = self.target
-                unit.state = self.state
+                unit.state = unit.original_state = state
+                unit.last_updated = self.last_updated
 
                 PendingUnitChange.store_unit_change(
                     unit=unit,
@@ -2241,29 +2529,13 @@ class Unit(models.Model, LoggerMixin):
 
                 unit.update_translation_memory(user)
 
-            if warnings:
-                if len(warnings) > 10:
-                    messages.warning(
-                        request,
-                        ngettext(
-                            "String could not be propagated to %d component.",
-                            "String could not be propagated to %d components.",
-                            len(warnings),
-                        )
-                        % len(warnings),
-                    )
-                else:
-                    for warning in warnings:
-                        messages.warning(request, warning)
+            self.show_propagation_warnings(request, warnings)
             if not to_update:
                 return False
 
             # Bulk update units
-            Unit.objects.filter(pk__in=(unit.pk for unit in to_update)).update(
-                target=self.target,
-                state=self.state,
-                original_state=self.state,
-                last_updated=self.last_updated,
+            Unit.objects.bulk_update(
+                to_update, ["target", "state", "original_state", "last_updated"]
             )
 
             from weblate.checks.tasks import schedule_propagated_checks  # ruff: ignore[import-outside-top-level]
@@ -2307,6 +2579,9 @@ class Unit(models.Model, LoggerMixin):
         run_checks: bool = True,
         request=None,
         change_details: dict[str, Any] | None = None,
+        propagation_exclude_ids: Collection[int] = (),
+        *,
+        submitted_target: list[str] | None = None,
     ) -> bool:
         """
         Store unit to backend.
@@ -2325,7 +2600,12 @@ class Unit(models.Model, LoggerMixin):
         was_propagated = False
         if propagate:
             was_propagated = self.propagate(
-                user, change_action, author=author, request=request
+                user,
+                change_action,
+                author=author,
+                request=request,
+                exclude_ids=propagation_exclude_ids,
+                submitted_target=submitted_target,
             )
 
         # Return if there was no change
@@ -2491,7 +2771,9 @@ class Unit(models.Model, LoggerMixin):
 
                 request_reconciliation(
                     self.translation.component,
-                    DependencyWork(children={unit.pk for unit in units}, author=author),
+                    DependencyWork(
+                        children={unit.pk for unit in units}, author=author, actor=user
+                    ),
                 )
                 delta_failed = True
             if changes:
@@ -2746,7 +3028,29 @@ class Unit(models.Model, LoggerMixin):
             return len(self._prefetched_objects_cache["labels"])
         return self.labels.count()
 
-    def run_checks(  # ruff: ignore[complex-structure]
+    def run_checks(
+        self, *, force_propagate: bool = False, skip_propagate: bool = False
+    ) -> None:
+        """Update checks under the current component access boundary."""
+        if self.is_source or not (CHECKS.get("inconsistent") or CHECKS.get("reused")):
+            self._run_checks_unlocked(
+                force_propagate=force_propagate, skip_propagate=skip_propagate
+            )
+            return
+
+        from weblate.checks.locks import (  # ruff: ignore[import-outside-top-level]
+            check_project_read_lock,
+        )
+
+        with check_project_read_lock(self.translation.component) as changed:
+            if changed:
+                self.clear_checks_cache()
+                self.invalidate_checks_cache()
+            self._run_checks_unlocked(
+                force_propagate=force_propagate, skip_propagate=skip_propagate
+            )
+
+    def _run_checks_unlocked(  # ruff: ignore[complex-structure]
         self, *, force_propagate: bool = False, skip_propagate: bool = False
     ) -> None:
         """Update checks for this unit."""
@@ -2871,9 +3175,34 @@ class Unit(models.Model, LoggerMixin):
 
     def nearby(self, count: int) -> models.QuerySet[Unit]:
         """Return list of nearby messages based on location."""
-        if self.position == 0:
-            return Unit.objects.none()
         with start_span(op="unit.nearby", name=f"{self.pk}"):
+            if self.line_number is not None:
+                qs = self.translation.unit_set.exclude(line_number=None)
+                before = list(
+                    qs.filter(
+                        Q(line_number__lt=self.line_number)
+                        | Q(line_number=self.line_number, position__lt=self.position)
+                    )
+                    .order_by("-line_number", "-position")
+                    .values_list("id", flat=True)[:count]
+                )
+                after = list(
+                    qs.filter(
+                        Q(line_number__gt=self.line_number)
+                        | Q(line_number=self.line_number, position__gt=self.position)
+                    )
+                    .order_by("line_number", "position")
+                    .values_list("id", flat=True)[:count]
+                )
+                return (
+                    self.translation.unit_set.filter(id__in=[self.id, *before, *after])
+                    .prefetch_embed()
+                    .order_by("line_number", "position")
+                    .fill_in_source_translation()
+                )
+
+            if self.position == 0:
+                return Unit.objects.none()
             # Limiting the query is needed to avoid issues when unit
             # position is not properly populated
             result = (
@@ -2919,10 +3248,33 @@ class Unit(models.Model, LoggerMixin):
             .order_by("context")
         )
 
+    def validate_review_state(self, expected_state: int) -> None:
+        """Reject an edit based on an outdated review state."""
+        if expected_state == self.state:
+            return
+        previous = StringState(expected_state)
+        current = StringState(self.state)
+        enable_review = self.translation.enable_review
+        raise ValidationError(
+            gettext(
+                "The review state of this string has changed from %(previous)s "
+                "to %(current)s while you were editing it. "
+                "Reload the editor and review your changes before saving."
+            ),
+            params={
+                "previous": get_state_label(previous, previous.label, enable_review),
+                "current": get_state_label(current, current.label, enable_review),
+            },
+        )
+
     def prepare_translation_update(
-        self, *, select_for_update: bool, expected_source_hash: int | None
+        self,
+        *,
+        select_for_update: bool,
+        expected_source_hash: int | None,
+        expected_state: int | None,
     ) -> None:
-        """Lock the current unit and revalidate the source used for this edit."""
+        """Lock the current unit and revalidate the source and review state."""
         if expected_source_hash is None:
             expected_source_hash = self.edit_content_hash
 
@@ -2955,6 +3307,10 @@ class Unit(models.Model, LoggerMixin):
                         "Please check your changes."
                     )
                 )
+        if expected_state is not None and expected_state != old_unit.state:
+            self.state = old_unit.state
+            self.original_state = old_unit.original_state
+            self.validate_review_state(expected_state)
         if "disk_identity" in old_unit.details:
             # A source edit may have happened since this editor loaded the unit.
             self.source = old_unit.source
@@ -2965,6 +3321,7 @@ class Unit(models.Model, LoggerMixin):
 
     @transaction.atomic
     @source_operation_method
+    # ruff: ignore[too-many-arguments]
     def translate(
         self,
         user: User | None,
@@ -2973,17 +3330,23 @@ class Unit(models.Model, LoggerMixin):
         *,
         change_action: int | None = None,
         propagate: bool = True,
+        propagation_exclude_ids: Collection[int] = (),
         author: User | None = None,
         request: AuthenticatedHttpRequest | None = None,
         add_alternative: bool = False,
         select_for_update: bool = True,
         change_details: dict[str, Any] | None = None,
         expected_source_hash: int | None = None,
+        expected_state: int | None = None,
+        validate_length: bool = True,
     ) -> bool:
         """
         Store new translation of a unit.
 
         Propagation is currently disabled on import.
+
+        The length validation can be skipped only for text which was already
+        stored, such as when reverting a change.
         """
         component = self.translation.component
 
@@ -2993,6 +3356,7 @@ class Unit(models.Model, LoggerMixin):
         self.prepare_translation_update(
             select_for_update=select_for_update,
             expected_source_hash=expected_source_hash,
+            expected_state=expected_state,
         )
 
         # Handle simple string units
@@ -3009,9 +3373,23 @@ class Unit(models.Model, LoggerMixin):
         if not component.is_multivalue:
             new_target_list = self.adjust_plurals(new_target_list)
 
+        # Validated before autofixes to match the editor form validation
+        if validate_length:
+            validate_translation_text_change(
+                self, new_target_list, split_plural(self.old_unit["target"])
+            )
+
+        # Kept for propagation, which validates the same text as above
+        submitted_target = list(new_target_list)
+
         # Apply autofixes
         if not self.translation.is_template:
             new_target_list, self.fixups = fix_target(new_target_list, self)
+
+        # Files containing these characters would fail validation on reload.
+        new_target_list = [
+            text.translate(CONTROLCHARS_TRANS) for text in new_target_list
+        ]
 
         # Update unit and save it
         if "tbx_terms" in self.details:
@@ -3045,9 +3423,11 @@ class Unit(models.Model, LoggerMixin):
             user,
             change_action=change_action,
             propagate=propagate,
+            propagation_exclude_ids=propagation_exclude_ids,
             author=author,
             request=request,
             change_details=change_details,
+            submitted_target=submitted_target,
         )
 
         # Enforced checks can revert the state to needs editing (fuzzy)
@@ -3155,6 +3535,15 @@ class Unit(models.Model, LoggerMixin):
 
     def get_unit_flags(self) -> Flags:
         return FlagsValidator(self.extra_flags)
+
+    def can_set_extra_flags(self, user: User, extra_flags: str) -> bool:
+        """Check permission when adding terminology to a glossary string."""
+        return bool(
+            not self.translation.component.is_glossary
+            or "terminology" not in Flags(extra_flags)
+            or "terminology" in Flags(self.extra_flags)
+            or user.has_perm("glossary.terminology", self.translation)
+        )
 
     @cached_property
     def edit_mode(self) -> str:
@@ -3275,9 +3664,13 @@ class Unit(models.Model, LoggerMixin):
         """
         Content changes for a unit ordered by timestamp.
 
-        Can be prefetched using prefetch_recent_content_changes.
+        Use with_last_content_author() when only author IDs are needed in bulk.
         """
-        return self.change_set.content().select_related("author").order_by("-timestamp")
+        return (
+            self.change_set.content()
+            .select_related("author")
+            .order_by("-timestamp", "-pk")
+        )
 
     def get_last_content_change(self, silent: bool = False) -> tuple[User, datetime]:
         """
@@ -3339,6 +3732,13 @@ class Unit(models.Model, LoggerMixin):
                 scope == "source"
                 and flag == "read-only"
                 and "read-only" in self.translation.component.all_flags
+            ):
+                return
+            if (
+                action == "addflag"
+                and flag == "terminology"
+                and user is not None
+                and not source.can_set_extra_flags(user, "terminology")
             ):
                 return
             if user is None or all(
@@ -3478,13 +3878,20 @@ class Unit(models.Model, LoggerMixin):
         return True
 
     def update_extra_flags(
-        self, extra_flags: str, user: User, save: bool = True
+        self,
+        extra_flags: str,
+        user: User,
+        save: bool = True,
+        *,
+        enforce_permissions: bool = True,
     ) -> None:
         """Update unit extra flags."""
         verify_in_transaction()
         old = self.old_unit["extra_flags"]
         if old == extra_flags:
             return
+        if enforce_permissions and not self.can_set_extra_flags(user, extra_flags):
+            raise PermissionDenied
         self.extra_flags = extra_flags
         self.__dict__.pop("all_flags", None)
         self.__dict__.pop("untranslatable", None)
@@ -3521,7 +3928,11 @@ class Unit(models.Model, LoggerMixin):
         return (self.translation.component.priority, self.source.lower())
 
     def update_translation_memory(
-        self, user: User | None = None, *, needs_user_check: bool = True
+        self,
+        user: User | None = None,
+        *,
+        needs_user_check: bool = True,
+        memory_updates: list[MemoryUpdatePayload] | None = None,
     ) -> None:
         if needs_user_check and (
             not user
@@ -3545,7 +3956,9 @@ class Unit(models.Model, LoggerMixin):
             payload = get_unit_memory_update(self, user, component)
             if payload is None:
                 return
-            if user is None and component.batch_memory:
+            if memory_updates is not None:
+                memory_updates.append(payload)
+            elif user is None and component.batch_memory:
                 component.add_batched_memory_update(payload)
             else:
                 schedule_memory_update(payload)

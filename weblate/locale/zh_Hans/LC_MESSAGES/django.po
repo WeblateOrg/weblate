@@ -35,8 +35,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-15 21:46-0500\n"
-"PO-Revision-Date: 2026-10-17 09:10+0000\n"
+"POT-Creation-Date: 2026-11-13 01:19-0600\n"
+"PO-Revision-Date: 2026-11-15 03:51+0000\n"
 "Last-Translator: Hosted Weblate user 54392 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -46,7 +46,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.12.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -412,6 +412,16 @@ msgstr "通知设置"
 msgid "Saved search"
 msgstr "保存的搜索"
 
+msgid ""
+"A lookalike e-mail identity was removed, the password was disabled, and API "
+"tokens were revoked."
+msgstr "删除了一个相像的电子邮件身份，禁用了密码，撤销了 API 令牌。"
+
+msgid ""
+"Password disabled as reported leaked credential matched the password; API "
+"tokens revoked."
+msgstr "密码已禁用，因为报告的泄露凭证与密码匹配，API令牌已被撤销。"
+
 #. Translators: Audit log entry
 msgid "Password changed."
 msgstr "密码已更改。"
@@ -575,7 +585,14 @@ msgstr "用户由 {username} 添加到 {team} 团队中。"
 msgid "User access to the {team} team was changed by {username}."
 msgstr "{username} 更改了用户对 {team} 团队的权限。"
 
-#. Translators: Audit log entry
+#, python-brace-format
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr "{username} 授予了对 {team} 团队的团队管理员权限。"
+
+#, python-brace-format
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr "{username} 删除了对 {team} 团队的团队管理员权限。"
+
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr "用户被 {username} 从 {team} 团队中除名。"
@@ -640,6 +657,19 @@ msgstr "由 {username} 邀请至 {project} 项目。"
 msgid "Password configured."
 msgstr "密码已配置。"
 
+msgid ""
+"Reset your password to restore password access and review your account "
+"activity."
+msgstr "重置你的密码来回复密码访问并查看你的账户活动。"
+
+msgid ""
+"Reset your password to restore password access. Choose a unique password and "
+"review your account activity. The report didn't disclose the source of the "
+"leak."
+msgstr ""
+"重置密码来恢复密码访问。选择唯一的密码并查看你的账户活动。此报告不披露泄露源"
+"头。"
+
 msgid "To restore access to your account, please reset your password."
 msgstr "如需恢复对您账户的访问，请重置密码。"
 
@@ -672,6 +702,30 @@ msgstr "一般功能机"
 msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr "iOS 设备"
+
+msgid "Site-wide"
+msgstr "整个站点"
+
+msgid "Workspace"
+msgstr "工作区"
+
+msgid "Team created"
+msgstr "创建了团队"
+
+msgid "Team changed"
+msgstr "团队已更改"
+
+msgid "Team deleted"
+msgstr "删除了团队"
+
+msgid "Team member added"
+msgstr "添加了团队成员"
+
+msgid "Team member removed"
+msgstr "删除了团队成员"
+
+msgid "Team member access changed"
+msgstr "更改了团队成员权限"
 
 msgid "Account activity"
 msgstr "账号活动"
@@ -965,6 +1019,9 @@ msgid ""
 "a translation."
 msgstr "此作用域太大无法检查。选择较小的类别、部件或翻译。"
 
+msgid "Contributor"
+msgstr "贡献者"
+
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "在仓库内执行了操作"
@@ -1159,6 +1216,11 @@ msgctxt "Notification name"
 msgid "Unfinished strings exist"
 msgstr "有未完成的字符串"
 
+msgid ""
+"This sign-in request has expired or changed. Start signing in again from the "
+"application."
+msgstr "此登录请求已过期或更改。从应用程序再次启动登录。"
+
 msgid "This password consists of only whitespace."
 msgstr "该密码只由空格组成。"
 
@@ -1209,6 +1271,12 @@ msgid ""
 "inviter; it can't be used by your account."
 msgstr "此邀请只能由邀请者选择的电子邮件地址接受；您的账户无法使用它。"
 
+msgid ""
+"Your e-mail address has been added. You can now select it as your account e-"
+"mail address in Account settings."
+msgstr ""
+"您的电子邮件地址已添加。您现在可以在账户设置中将其选为您的账户电子邮件地址。"
+
 #, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
@@ -1235,6 +1303,12 @@ msgstr "浅色"
 msgctxt "Theme selection"
 msgid "Dark"
 msgstr "深色"
+
+msgid "Please confirm your identity using a second factor before proceeding."
+msgstr "请在继续前使用第二个因素确认身份。"
+
+msgid "Please confirm your identity before proceeding."
+msgstr "继续之前请确认你的身份。"
 
 #, python-format
 msgid "Security key (%s)"
@@ -1338,17 +1412,17 @@ msgstr "登录"
 msgid "Signed out"
 msgstr "已退出登录"
 
-msgid "Verify new e-mail address"
-msgstr "验证新电子邮件地址"
-
-msgid "Please confirm your identity using a second factor before proceeding."
-msgstr "请在继续前使用第二个因素确认身份。"
+msgid "Add and verify e-mail address"
+msgstr "添加并验证电子邮件地址"
 
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "无法重置密码，电子邮件验证已禁用。"
 
 msgid "Change password"
 msgstr "更改密码"
+
+msgid "Set password"
+msgstr "设置密码"
 
 msgid "Password reset has been already completed."
 msgstr "密码重置已完成。"
@@ -1510,7 +1584,7 @@ msgid "Evaluate repository updates"
 msgstr "评估仓库更新"
 
 msgid "AI quality evaluation"
-msgstr "所有质量评估"
+msgstr "AI 质量评估"
 
 msgid ""
 "Evaluates existing translations using an LLM and records quality checks."
@@ -1524,6 +1598,10 @@ msgid ""
 "components."
 msgstr "使用机器翻译或其他部件自动翻译字符串。"
 
+#, python-format
+msgid "Error: %s"
+msgstr "错误：%s"
+
 msgid "enabled"
 msgstr "已启用"
 
@@ -1531,6 +1609,9 @@ msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
 msgstr "仓库已过期，您可能无法获得预期的结果，除非对其进行更新。"
+
+msgid "The CDN add-on cannot publish a translation as manifest.json."
+msgstr "CDN 附加组件无法将译文发布为 manifest.json。"
 
 msgid "JavaScript localization CDN"
 msgstr "JavaScript 本地化 CDN"
@@ -1700,12 +1781,6 @@ msgid ""
 msgstr "Fedora Messaging 发布超时；代理连接或传送确认未完成：%(error)s"
 
 #, python-format
-msgid ""
-"Fedora Messaging publisher service was unavailable; the connection will be "
-"recreated on the next attempt: %(error)s"
-msgstr "Fedora Messaging 发布者服务不可用；下次尝试时将重新创建连接：%(error)s"
-
-#, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
 msgstr "Fedora Messaging 代理返回如下消息：%(error)s"
 
@@ -1720,8 +1795,8 @@ msgstr "Fedora Messaging 发布失败了：%(error)s"
 msgid "configured"
 msgstr "已配置"
 
-msgid "Could not reset Fedora Messaging publisher service."
-msgstr "无法重置 Fedora Messaging 发布者服务。"
+msgid "The SSL certificates have to be provided for SSL connection."
+msgstr "必须提供 SSL 证书用于 SSL 连接。"
 
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
 msgstr "CA 证书必须是有效的 PEM 编码的 X.509 证书。"
@@ -1731,10 +1806,6 @@ msgstr "客户端 SSL key 须为不加密的 PEM 编码的私钥。"
 
 msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
 msgstr "客户端 SSL 证书须为有效的 PEM 编码的 X.509 证书。"
-
-#, python-format
-msgid "Fedora Messaging broker URL is invalid: %(error)s"
-msgstr "Fedora Messaging 代理 URL 无效：%(error)s"
 
 #, python-format
 msgid ""
@@ -1777,8 +1848,8 @@ msgstr ""
 msgid "Bulk edit"
 msgstr "批量编辑"
 
-msgid "Bulk edit flags, labels, or states of strings."
-msgstr "批量编辑标记、标签或字符串状态。"
+msgid "Bulk edit text, flags, labels, or states of strings."
+msgstr "批量编辑文本、标记或字符串状态。"
 
 msgid "Flag updated translations from repository as \"Needs rewriting\""
 msgstr "将仓库中更新的译文标记为“需要重写”"
@@ -1908,6 +1979,18 @@ msgstr ""
 "启用后，在额外的关键词之前传递不含值的 --keyword 参数到 xgettext，这会禁用所"
 "有默认关键词只识别上方指定的关键词。"
 
+msgid "Comment extraction"
+msgstr "注释提取"
+
+msgid "Keywords"
+msgstr "关键词"
+
+msgid "Checks and ITS data"
+msgstr "检查和 ITS 数据"
+
+msgid "Update behavior"
+msgstr "更新行为"
+
 msgid "This field is required."
 msgstr "该字段必填。"
 
@@ -1954,6 +2037,9 @@ msgid ""
 msgstr ""
 "POTFILES 或 POTFILES.in. 的相对于仓库的路径。相对于仓库根目录解析条目。如果在"
 "清单文件旁边，那么 POTFILES.skip 不提取所列文件。"
+
+msgid "Input files"
+msgstr "输入文件"
 
 msgid "Invalid symbolic link in a repository."
 msgstr "无效的仓库符号链接。"
@@ -2169,6 +2255,15 @@ msgstr "删除不存在文件的部件"
 msgid "I confirm the above matches look correct"
 msgstr "我确认上述匹配是正确的"
 
+msgid "File matching"
+msgstr "文件匹配"
+
+msgid "Component naming and file templates"
+msgstr "部件命名和文件模板"
+
+msgid "Component lifecycle"
+msgstr "部件生命周期"
+
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
 msgstr "通用预设：%(name)s [%(details)s]"
@@ -2338,6 +2433,18 @@ msgstr "根据源字符串的长度确定变量文本的重复次数。"
 msgid "Include read-only strings"
 msgstr "包含只读字符串"
 
+msgid "Source and target"
+msgstr "源和目标"
+
+msgid "Prepended text"
+msgstr "前置文本"
+
+msgid "Appended text"
+msgstr "后置文本"
+
+msgid "Text expansion"
+msgstr "文字扩展"
+
 msgid "The source and target have to be different languages."
 msgstr "原文和目标必须是不同的语言。"
 
@@ -2408,11 +2515,19 @@ msgstr ""
 "只粘贴以 \"-----BEGIN CERTIFICATE-----\" 开头的 PEM 证书块；不粘贴来自 "
 "\"openssl x509 -text\" 的输出。"
 
+msgid "Connection timeout"
+msgstr "连接超时"
+
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr "每次尝试允许连接和通道设置持续几秒钟。"
+
 msgid "Publish timeout"
 msgstr "发布超时"
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
-msgstr "代理传输确认等待秒数。"
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
+msgstr "设置好连接后，每次尝试允许几秒钟的发送和 broker 传输确认。"
 
 msgid "Connection attempts"
 msgstr "连接尝试"
@@ -2426,15 +2541,24 @@ msgstr "重试延迟时间"
 msgid "How many seconds to wait between connection attempts."
 msgstr "两次连接尝试间相隔的秒数。"
 
+msgid "Broker connection"
+msgstr "Broker 连接"
+
+msgid "Timeouts and retries"
+msgstr "超时和重试"
+
+msgid "TLS credentials"
+msgstr "TLS 证书与密钥"
+
+msgid "Event selection"
+msgstr "事件选择"
+
 msgid "Topic prefix can contain only ASCII characters."
 msgstr "主题前缀只能包含 ASCII 字符。"
 
 #, python-format
 msgid "Topic prefix must not exceed %(limit)d characters."
 msgstr "主题前缀字数须不超过%(limit)d个。"
-
-msgid "The SSL certificates have to be provided for SSL connection."
-msgstr "必须提供 SSL 证书用于 SSL 连接。"
 
 msgid "The SSL certificates are not used without a SSL connection."
 msgstr "没有 SSL 连接不会使用 SSL 证书。"
@@ -2611,6 +2735,10 @@ msgstr "API 附加组件必须直接安装在组件上。"
 msgid "This add-on is already installed on this component."
 msgstr "此附加组件已安装在这个部件上。"
 
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr "仓库附加组件必须安装在拥有该仓库的部件上。"
+
 msgid "This add-on cannot be triggered manually."
 msgstr "无法手动触发此附加组件。"
 
@@ -2669,6 +2797,9 @@ msgstr "项目"
 msgctxt "Add-on scope"
 msgid "Site"
 msgstr "站点"
+
+msgid "a component you cannot access"
+msgstr "一个你无法访问的部件"
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -2815,7 +2946,7 @@ msgid "This e-mail address has not been verified."
 msgstr "此电子邮件地址还没有验证。"
 
 msgid "Scope"
-msgstr "范围"
+msgstr "作用域"
 
 msgid ""
 "Is your comment specific to this translation, or generic for all of them?"
@@ -2918,6 +3049,9 @@ msgstr "译文文本太长！"
 msgid "Your suggestion already exists!"
 msgstr "您的建议已存在！"
 
+msgid "Search query"
+msgstr "搜索查询"
+
 msgid "Inherit enforced checks from the parent category, project or workspace."
 msgstr "从主类别、项目或工作区继承强制的检查。"
 
@@ -2994,6 +3128,26 @@ msgstr "用户"
 msgid "Language"
 msgstr "语言"
 
+msgid ""
+"Contributor identities are exposed by View contributor identities, Download "
+"changes, Manage reports, and access-management permissions. Permissions from "
+"all assigned roles are additive."
+msgstr ""
+"贡献者身份由查看贡献者身份、下载更改、管理报告和访问管理权限暴露。所有分配角"
+"色的权限都是添加性的。"
+
+msgid "Built-in"
+msgstr "内置"
+
+msgid "Customized"
+msgstr "定制的"
+
+msgid "Reset built-in roles to defaults"
+msgstr "重置内置角色为默认"
+
+msgid "Built-in role permissions reset."
+msgstr "内置角色权限重置。"
+
 msgid "Personal info"
 msgstr "个人信息"
 
@@ -3013,8 +3167,12 @@ msgid "This is not used when a component is selected."
 msgstr "选中一个部件时，不使用此选项。"
 
 #. Translators: Permission name
+msgid "View contributor identities"
+msgstr "查看贡献者身份"
+
+#. Translators: Permission name
 msgid "Download changes"
-msgstr "下载变化"
+msgstr "下载更改"
 
 #. Translators: Permission name
 msgid "Post comment"
@@ -3078,7 +3236,7 @@ msgstr "管理项目访问权"
 
 #. Translators: Permission name
 msgid "Manage reports"
-msgstr "管理报告"
+msgstr "管理举报"
 
 #. Translators: Permission name
 msgid "Add screenshot"
@@ -3221,6 +3379,18 @@ msgid "Manage workspace access"
 msgstr "管理工作区权限"
 
 #. Translators: Permission name
+msgid "Browse users"
+msgstr "浏览用户"
+
+#. Translators: Permission name
+msgid "Search resource contributors"
+msgstr "搜索资源贡献者"
+
+#. Translators: Permission name
+msgid "View user profiles"
+msgstr "查看用户个人资料"
+
+#. Translators: Permission name
 msgid "Use management interface"
 msgstr "使用管理界面"
 
@@ -3290,7 +3460,15 @@ msgstr "管理账单"
 
 #. Translators: Permission name
 msgid "Manage site-wide add-ons"
-msgstr "管理全站范围的附加组件"
+msgstr "管理站点级附加组件"
+
+msgctxt "Access-control role"
+msgid "Discover users"
+msgstr "发现用户"
+
+msgctxt "Access-control role"
+msgid "View user profiles"
+msgstr "查看用户个人资料"
 
 msgctxt "Access-control role"
 msgid "Administration"
@@ -3495,6 +3673,10 @@ msgstr "名称"
 
 msgid "Choose permissions granted to this role."
 msgstr "选择授予此角色的权限。"
+
+msgid ""
+"Remove the component from project teams before moving it to another project."
+msgstr "在把部件移动到别的项目前将其从项目团队中删除。"
 
 msgid "Roles"
 msgstr "角色"
@@ -3762,6 +3944,9 @@ msgid ""
 "enable them."
 msgstr "此语言的建议被关闭。请求项目管理员启用建议。"
 
+msgid "You need to log in to upload translations."
+msgstr "要上传翻译你需要登录。"
+
 msgid "The file format does not support updating source strings."
 msgstr "该文件格式不支持更新源字符串。"
 
@@ -3779,6 +3964,9 @@ msgid ""
 msgstr ""
 "开启受限访问前你需要对这个部件的显式访问权限；否则，你会把自己锁在外面。"
 
+msgid "Blocked users cannot be granted project administration rights."
+msgstr "无法将项目管理权授予被封禁用户。"
+
 #, python-format
 msgid ""
 "Team %(name)s was renamed to %(new_name)s because its name was already in "
@@ -3794,11 +3982,23 @@ msgstr "无法分派不活跃用户到团队。"
 msgid "Project tokens can not be assigned to teams here."
 msgstr "不能在此处将项目令牌分配到团队。"
 
+msgid "Team audit log"
+msgstr "团队审计日志"
+
+msgid "Team audit entry"
+msgstr "团队审计条目"
+
 msgid "Cannot remove built-in team!"
 msgstr "无法删除内置的团队！"
 
 msgid "User invitation was removed."
 msgstr "用户邀请已删除。"
+
+msgid "This invitation was already accepted or removed."
+msgstr "此邀请已被接收或删除。"
+
+msgid "Remove the project block before accepting this invitation."
+msgstr "接收此邀请前删除项目封禁。"
 
 #, python-format
 msgid "Accepted invitation to the %s team."
@@ -3900,6 +4100,138 @@ msgstr "对于只使用更改触发器的工作流是必需的。"
 msgid "Preview without changes"
 msgstr "以无更改方式进行预览"
 
+msgid "Change events"
+msgstr "变更事件"
+
+msgid "The workflow runs for each of the selected events."
+msgstr "该工作流为每个选中的事件运行。"
+
+msgid "CEL expression"
+msgstr "CEL 表达式"
+
+msgid "The expression has to evaluate to a boolean."
+msgstr "该表达式的值必须为布尔值。"
+
+msgid "Category path"
+msgstr "类别路径"
+
+msgid "Slash-separated category path inside the project."
+msgstr "项目内用斜杠隔开的类别路径。"
+
+msgid "Language code"
+msgstr "语言代码"
+
+msgid "Change event"
+msgstr "变更事件"
+
+msgid "String state"
+msgstr "字符串状态"
+
+msgid "Action ID"
+msgstr "操作 ID"
+
+msgid "Optional identifier so that later actions can use its results."
+msgstr "可选标识符以便之后操作可以使用其结果。"
+
+msgid "Whole component"
+msgstr "整个部件"
+
+msgid "String affected by the change"
+msgstr "受该变更影响的字符串"
+
+msgid "String scope"
+msgstr "字符串作用域"
+
+msgid "Default (whole component)"
+msgstr "默认（整个部件）"
+
+msgid "Select strings"
+msgstr "选择字符串"
+
+msgid "Use the effective AI quality add-on"
+msgstr "使用有效的 AI 质量附加组件"
+
+msgid "Bulk editing"
+msgstr "批量编辑"
+
+msgid "Component update"
+msgstr "部件更新"
+
+msgid "Repository update"
+msgstr "仓库更新"
+
+msgid "Repository commit"
+msgstr "仓库提交"
+
+msgid "Repository push"
+msgstr "仓库推送"
+
+msgid "Manual run"
+msgstr "手动运行"
+
+msgid "Expression"
+msgstr "表达式"
+
+msgid "Component category"
+msgstr "部件类别"
+
+msgid "Matching strings"
+msgstr "匹配的字符串"
+
+msgid "All of"
+msgstr "全部"
+
+msgid "Any of"
+msgstr "任一"
+
+msgid "Not"
+msgstr "非"
+
+msgid "Sequence"
+msgstr "序列"
+
+msgid "Choose"
+msgstr "选择"
+
+msgid "Trigger"
+msgstr "触发器"
+
+msgid "Add trigger"
+msgstr "添加触发器"
+
+msgid "Condition"
+msgstr "条件"
+
+msgid "Add condition"
+msgstr "添加条件"
+
+msgid "Action"
+msgstr "操作"
+
+msgid "Add action"
+msgstr "添加操作"
+
+msgid "Conditions"
+msgstr "条件"
+
+msgid "Actions"
+msgstr "操作"
+
+msgid "Branches"
+msgstr "分支"
+
+msgid "Add branch"
+msgstr "添加分支"
+
+msgid "Otherwise"
+msgstr "不然"
+
+msgid "Add action to run otherwise"
+msgstr "添加运行动作"
+
+msgid "Branch"
+msgstr "分支"
+
 msgid "Additional message"
 msgstr "附加信息"
 
@@ -3917,8 +4249,8 @@ msgid ""
 "Set this billing to the regular trial period and clear scheduled removal."
 msgstr "将此账单设为正常试用期并批准定时删除。"
 
-msgid "Workspace"
-msgstr "工作区"
+msgid "No valid billing found or limit exceeded."
+msgstr "未找到有效付账信息或超过限制。"
 
 msgid "Customer name"
 msgstr "客户名"
@@ -4015,6 +4347,9 @@ msgid "Contains %d component"
 msgid_plural "Contains %d components"
 msgstr[0] "包含 %d 个部件"
 
+msgid "Restricted components are not allowed by this billing plan."
+msgstr "这个付费套餐不允许受限的部件。"
+
 msgid "Missing license"
 msgstr "缺少许可证"
 
@@ -4069,6 +4404,9 @@ msgstr "一旦您更改为常规订阅或项目被删除，您将不再收到此
 
 msgid "To terminate billing you have to remove all projects first."
 msgstr "要终止计费您首先必须删除所有项目。"
+
+msgid "Externally managed billings cannot be merged."
+msgstr "无法合并外部管理的账单。"
 
 msgid "Cannot merge such a billing."
 msgstr "无法合并这样的账单。"
@@ -4288,9 +4626,9 @@ msgid "Inconsistent"
 msgstr "不一致的"
 
 msgid ""
-"This string has more than one translation in this project or is untranslated "
-"in some components."
-msgstr "此字符串在此项目中有不止一种译文，或者在某些部件中未翻译。"
+"This string has more than one translation in its propagation group or is "
+"untranslated in some components."
+msgstr "此字符串在传播组中有不止一种译文，或者在某些部件中未翻译。"
 
 msgid "Reused translation"
 msgstr "重用的译文"
@@ -4528,6 +4866,10 @@ msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr "HTML {tag} 标签缺少匹配的结束标签：{end}。"
 
 #, python-brace-format
+msgid "The HTML {tag} tag is nested too deeply."
+msgstr "这个 HTML {tag} 标签嵌套得太深了。"
+
+#, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
 "end with {semicolon}. If you do not want a character reference, use "
@@ -4731,6 +5073,15 @@ msgstr "Fluent 翻译语法"
 
 msgid "Fluent syntax error in the translation."
 msgstr "译文中的 Fluent 语法错误。"
+
+msgid "The Fluent value could not be checked because it is too complex."
+msgstr "无法检查此 Fluent 值，因为它太复杂。"
+
+msgid "the value is too complex or nested too deeply"
+msgstr "值太复杂或嵌套太深"
+
+msgid "Format matching exceeded its time limit."
+msgstr "格式匹配超出了时间限制。"
 
 msgid "The following format strings are in the wrong order:"
 msgstr "以下格式字符串排序不正确："
@@ -4976,6 +5327,9 @@ msgstr "Markdown 语法"
 msgid "Markdown syntax does not match source."
 msgstr "Markdown 语法与原文不匹配。"
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr "Markdown 语法匹配超出了其时间限制。"
+
 msgid "The translation does not contain a URL."
 msgstr "译文不包含 URL。"
 
@@ -5126,6 +5480,13 @@ msgstr "Weblate 配置"
 
 msgid "Your translation is foo"
 msgstr "Your translation is foo"
+
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
+msgstr ""
+"超出了字体渲染限制：最多使用 16,000 个字符，64 行，256 px 字体和 2,048 px 预"
+"览维度。"
 
 msgid "Font style"
 msgstr "字体样式"
@@ -5281,6 +5642,23 @@ msgstr "iOS 字符串"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
+msgid "Could not open the workbook archive."
+msgstr "打不开工作簿存档。"
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr "工作簿超出了标题行之后允许的工作表最大行数 %d。"
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr "翻译文件超出了允许的最大大小 %d 字节。"
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr "翻译文件超出了允许的字符串最大数量 %d。"
+
 msgid "Multivalue CSV file"
 msgstr "多值 CSV 文件"
 
@@ -5318,6 +5696,10 @@ msgstr "CSV 文件中无效的 id_hash 元数据： %s"
 
 msgid "Plural form metadata in CSV file requires id_hash."
 msgstr "CSV 文件中的复数形式元数据要求 id_hash。"
+
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
+msgstr "CSV 文件超出了允许的数据行的最大数量 %d。"
 
 #. Translators: File format name
 msgid "gettext PO file"
@@ -5542,6 +5924,13 @@ msgstr "应用商店元数据文件"
 msgid "File validation is required for directory-based formats."
 msgstr "文件验证对基于目录的格式是必需的。"
 
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr "工作簿超出了最大的展开大小 %d 字节。"
+
+msgid "Converted workbook content exceeds the configured size limit."
+msgstr "转换后的工作簿内容超出了配置的大小限制。"
+
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
@@ -5603,6 +5992,14 @@ msgid ""
 "either this limit or the maximum age is reached."
 msgstr "所有包名最多保留几个版本。当达到此限制或最大年龄时将报废一个版本。"
 
+msgid "Install Translation files CDN"
+msgstr "安装翻译文件 CDN"
+
+msgid ""
+"Publishes original translation files publicly, including files from private "
+"components."
+msgstr "公开发布原始的翻译文件，包括来自私密部件的文件。"
+
 msgid "Kotlin SDK CDN"
 msgstr "Kotlin SDK CDN"
 
@@ -5610,6 +6007,9 @@ msgid ""
 "Publishes Android string and plural resources for registered Kotlin SDK "
 "builds."
 msgstr "发布已注册 Kotlin SDK 版本的 Android 字符串和复数资源。"
+
+msgid "Translation files CDN cannot be installed on this component."
+msgstr "无法在这个部件上安装翻译文件CDN。"
 
 msgid "Weblate languages"
 msgstr "Weblate 语言"
@@ -5662,9 +6062,6 @@ msgstr "无语言限制"
 
 msgid "Enter a valid language code."
 msgstr "输入有效的语言代码。"
-
-msgid "Language code"
-msgstr "语言代码"
 
 msgid "Language name"
 msgstr "语言名称"
@@ -6038,7 +6435,8 @@ msgstr "未知错误"
 msgid ""
 "eTranslation failed in domain %(domain)s: %(description)s (error code "
 "%(code)s)."
-msgstr "eTranslation 在 %(domain)s 域名中失灵：%(description)s（错误码 %(code)s）。"
+msgstr ""
+"eTranslation 在 %(domain)s 域名中失灵：%(description)s（错误码 %(code)s）。"
 
 msgid "Invalid eTranslation domains response"
 msgstr "无效的 eTranslation 域名响应"
@@ -6090,6 +6488,9 @@ msgstr "质量预估（QE）"
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
 msgstr "源语言选择"
+
+msgid "disabled"
+msgstr "已禁用"
 
 msgid ""
 "Project-level machine translation cannot use internal or non-public "
@@ -6607,6 +7008,15 @@ msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "项目或部件中定义的第二语言"
 
+msgid "Rate limit reset."
+msgstr "速率限制重置。"
+
+msgid "Too many translation requests."
+msgstr "翻译请求太多。"
+
+msgid "Too many concurrent translation requests for this service."
+msgstr "该服务的并发翻译请求数过多。"
+
 msgid "File"
 msgstr "文件"
 
@@ -6731,6 +7141,9 @@ msgid ""
 "and will be rebuilt in the background."
 msgstr "删除了从当前翻译创建的翻译记忆库条目并将在后台重建条目。"
 
+msgid "Too many uploads, please try again later."
+msgstr "上传过多，请稍后再试。"
+
 #, python-format
 msgid "Processed %(count)d active translation memory entry."
 msgid_plural "Processed %(count)d active translation memory entries."
@@ -6787,6 +7200,27 @@ msgstr "12 月"
 #, python-format
 msgid "%s translation is currently not available, but can be added."
 msgstr "%s 翻译当前不可用，但可添加。"
+
+msgid "Confidential"
+msgstr "机密"
+
+msgid "Authorization code"
+msgstr "授权码"
+
+msgid "RSA with SHA-256"
+msgstr "RSA-SHA256 算法"
+
+msgid "Identify your account"
+msgstr "识别你的账户"
+
+msgid "Read your name and username"
+msgstr "读取你的姓名和用户名"
+
+msgid "Read your e-mail address"
+msgstr "读取你的电子邮件地址"
+
+msgid "Read the version of the legal documents you accepted"
+msgstr "读取你接受的法律文档的版本"
 
 msgid "Image is too big."
 msgstr "图片太大。"
@@ -6889,8 +7323,17 @@ msgstr[0] "找到 %(count)s 条匹配的源字符串。"
 msgid "No new matching source strings found."
 msgstr "未找到新的匹配的源字符串。"
 
-msgid "OCR data could not be downloaded. Please try again later."
-msgstr "无法下载 OCR 数据。请稍后重试。"
+msgid "Only some matching strings are shown. Search for more strings manually."
+msgstr "仅显示了一些匹配的字符串。手动搜索更多字符串。"
+
+msgid "Too many image text searches. Please try again later."
+msgstr "图像文本搜索次数过多。请稍后重试。"
+
+msgid "Text recognition data could not be downloaded. Please try again later."
+msgstr "无法下载文本识别数据。请稍后重试。"
+
+msgid "Could not find strings in the image. Please try again."
+msgstr "在图像中找不到字符串，请重试。"
 
 msgid "Select a valid screenshot."
 msgstr "选择有效的屏幕截图。"
@@ -7091,8 +7534,17 @@ msgstr ""
 msgid "Your profile"
 msgstr "您的个人资料"
 
+msgid "Confirm adding e-mail address"
+msgstr "确认添加电子邮件地址"
+
 msgid "Confirm adding user identity"
 msgstr "确认添加用户身份"
+
+#, python-format
+msgid ""
+"Confirm adding %(uid)s to your existing Weblate account by entering your "
+"current password."
+msgstr "输入当前密码确认将 %(uid)s 添加到你现有的 Weblate 账户中。"
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #, python-format
@@ -7100,6 +7552,9 @@ msgid ""
 "After confirming this, you will be able to authenticate to Weblate using "
 "%(backend_verbose)s (%(uid)s)."
 msgstr "确认完后，您将可以使用 %(backend_verbose)s（%(uid)s）认证到 Weblate。"
+
+msgid "Add e-mail address"
+msgstr "添加电子邮件地址"
 
 msgid "Confirm"
 msgstr "确认"
@@ -7193,14 +7648,14 @@ msgstr "打开联系表单"
 msgid "Registration"
 msgstr "注册"
 
+msgid "Check your e-mail"
+msgstr "检查你的电子邮件地址"
+
 msgid "Password reset almost complete"
 msgstr "密码重置即将完成"
 
 msgid "Account removal almost complete"
 msgstr "账户删除即将完成"
-
-msgid "E-mail verification almost complete"
-msgstr "即将完成电子邮箱验证"
 
 msgid "Registration almost complete"
 msgstr "注册即将完成"
@@ -7214,9 +7669,12 @@ msgid ""
 msgstr "点击发送到您的电子邮件收件箱的确认链接删除您的账户。"
 
 msgid ""
-"Click the confirmation link sent to your e-mail inbox to verify the address "
-"for your account."
-msgstr "单击发送到您的电子邮件收件箱的确认链接来验证账户的地址。"
+"Check your e-mail for instructions. If this address is already associated "
+"with an account, you may receive account recovery guidance instead of a "
+"verification link."
+msgstr ""
+"查看电子邮件获取操作说明。如果这个地址已经和一个账户关联，那么你可能收到账户"
+"恢复指引而不是验证链接。"
 
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
@@ -7225,6 +7683,13 @@ msgstr "点击发送到您的电子邮件收件箱的确认链接，然后开始
 
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr "如果您在收件箱中未找到该邮件，请检查您的垃圾邮件文件夹。"
+
+#, python-format
+msgid ""
+"If you receive a verification link, it will expire after %(count)s hour."
+msgid_plural ""
+"If you receive a verification link, it will expire after %(count)s hours."
+msgstr[0] "如果收到一个验证链接，它将在 %(count)s 小时后过期。"
 
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
@@ -7243,6 +7708,17 @@ msgid "Register again if the confirmation link expires."
 msgstr "如果验证电子邮件过期请重新注册。"
 
 msgid ""
+"If you receive a verification link, open it while signed in to this account "
+"and follow the confirmation steps. You may be asked for your current "
+"password."
+msgstr ""
+"如果你收到验证链接，请在登录到这个账户情况下打开它并按照确认步骤进行操作。你"
+"可能会被问到你当前的密码。"
+
+msgid "Back to account settings"
+msgstr "返回账户设置"
+
+msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr "电子邮件不是即时技术。在向我们反映问题之前请至少等待确认邮件 30 分钟。"
@@ -7256,11 +7732,46 @@ msgstr "如果您的注册有问题，请与我们联系。"
 msgid "Please fix errors in the form."
 msgstr "请更正表单中的错误。"
 
+msgid ""
+"Verification instructions will be sent to the new e-mail address. You do not "
+"need access to your old mailbox."
+msgstr "验证操作说明将被发送到新的电子邮件地址。你不需要对旧邮箱的权限。"
+
+msgid ""
+"Adding an address does not change your account e-mail address. After "
+"verification, you can select the new address in Account settings."
+msgstr ""
+"添加地址不改变账户的电子邮件地址。验证后，你可以在账户设置中选择新地址。"
+
 msgid "Send verification e-mail"
 msgstr "发送验证邮件"
 
-msgid "Back to account settings"
-msgstr "返回账户设置"
+msgid "Confirm your identity"
+msgstr "确认你的身份"
+
+msgid "Confirm your existing sign-in method before continuing."
+msgstr "继续前确认你现有的登录方式。"
+
+msgid ""
+"Confirm your existing sign-in method before registering your first second "
+"factor."
+msgstr "注册你的第一个双因素认证方式前确认你现有的登录方式。"
+
+msgid "Sign in again using a connected provider:"
+msgstr "用已连接的提供商再次登录："
+
+msgid ""
+"Your previous e-mail verification has expired. Reset your password to "
+"continue."
+msgstr "之前的电子邮件验证已过期。重置密码继续。"
+
+msgid "Sign out and reset password by e-mail"
+msgstr "退出登录并通过电子邮件重置密码"
+
+msgid ""
+"No sign-in method is available to confirm your identity. Contact an "
+"administrator to recover access."
+msgstr "没有确认你身份的登录方式可用。联系管理员恢复访问。"
 
 msgid "Trial subscriptions"
 msgstr "试用订阅"
@@ -7441,6 +7952,9 @@ msgstr "请输入两次新密码，让我们确认您已正确输入了想要设
 msgid "Change my password"
 msgstr "更改我的密码"
 
+msgid "Set my password"
+msgstr "设置我的密码"
+
 msgid "Back to security settings"
 msgstr "返回安全性设置"
 
@@ -7476,9 +7990,6 @@ msgstr "活动"
 
 msgid "The e-mail address can be chosen from verified addresses only."
 msgstr "电子邮件地址只能从已验证的地址中选择。"
-
-msgid "Add and verify e-mail address"
-msgstr "添加并验证电子邮件地址"
 
 msgid "Save"
 msgstr "保存"
@@ -7565,9 +8076,6 @@ msgstr "已配置"
 msgid "Not configured"
 msgstr "未配置"
 
-msgid "Set password"
-msgstr "设置密码"
-
 msgid "Two-factor authentication"
 msgstr "双因素身份认证"
 
@@ -7653,6 +8161,9 @@ msgstr "切换 API 密钥可见性"
 
 msgid "API key copied to clipboard."
 msgstr "API 密钥已复制到剪贴板。"
+
+msgid "Verify your identity to view your API key"
+msgstr "验证你的身份来查看你的 API 密钥"
 
 msgid "API root URL:"
 msgstr "API 根网址："
@@ -7828,9 +8339,6 @@ msgid ""
 "instructions for setting a new one."
 msgstr ""
 "忘记了您的密码？请在下方输入您的电子邮件地址，我们将发送设置新密码的说明。"
-
-msgid "Set my password"
-msgstr "设置我的密码"
 
 msgid "Reset my password"
 msgstr "重置我的密码"
@@ -8197,6 +8705,9 @@ msgstr "不兼容"
 msgid "No components found."
 msgstr "未找到部件。"
 
+msgid "Integration instructions"
+msgstr "集成说明"
+
 msgid "Configure add-on"
 msgstr "配置附加组件"
 
@@ -8277,6 +8788,18 @@ msgstr "该附加组件只能安装在部件级别上。"
 msgid "Install"
 msgstr "安装"
 
+msgid "Install on the component owning the repository."
+msgstr "在拥有该仓库的部件上安装。"
+
+msgid "The component owning this repository is not available to you."
+msgstr "拥有这个仓库的部件对你不可用。"
+
+msgid "Open repository add-ons"
+msgstr "打开仓库附加组件"
+
+msgid "Unavailable"
+msgstr "不可用"
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -8309,8 +8832,39 @@ msgstr "上一个"
 msgid "Next"
 msgstr "下一个"
 
-msgid "Integration instructions"
-msgstr "集成说明"
+msgid "Workflow editing mode"
+msgstr "工作流程编辑模式"
+
+msgid "Editor"
+msgstr "编辑器"
+
+msgid "YAML"
+msgstr "YAML"
+
+msgid ""
+"Both modes edit the same workflow, and switching between them keeps unsaved "
+"changes."
+msgstr "两种模式编辑同一个工作流，在它们之间切换保留未保存的更改。"
+
+msgid "Triggers"
+msgstr "触发器"
+
+msgid ""
+"Events starting the workflow. Without any trigger it can only be run "
+"manually."
+msgstr "启动该工作流的事件。如果没有任何触发器则只能手动运行它。"
+
+msgid "All conditions have to pass before any action runs."
+msgstr "运行任何操作前都必须满足所有条件。"
+
+msgid "Operations performed in this order once the conditions pass."
+msgstr "一旦满足条件将以该顺序执行操作。"
+
+msgid "Move up"
+msgstr "上移"
+
+msgid "Move down"
+msgstr "下移"
 
 msgid "Published translation files are available from the CDN base URL:"
 msgstr "可从 CDN 基 URL 获取已发布的翻译文件："
@@ -8323,6 +8877,9 @@ msgstr "包含以下用于从 CDN 加载本地化的代码片段："
 
 msgid "The localizable elements have to match configured CSS selector."
 msgstr "可本地化的元素必须与配置的 CSS 选择器匹配。"
+
+msgid "Available languages and translation files are listed in the manifest:"
+msgstr "可用语言和翻译文件列于清单文件中："
 
 msgid "Guided presets"
 msgstr "有引导的预设"
@@ -8367,6 +8924,28 @@ msgstr "无法创建下列部件"
 
 msgid "No matching components were found!"
 msgstr "未找到匹配的部件！"
+
+msgid ""
+"Configure the AMQP broker connection below, including any TLS certificates "
+"required by your broker, and select the events to publish."
+msgstr ""
+"在下方配置 AMQP broker 连接，包括 broker 所需的任何 TLS 证书，并选择要发布的"
+"事件。"
+
+msgid "Configure your consumer to subscribe to Weblate message topics:"
+msgstr "配置你的客户来订阅 Weblate 消息主题："
+
+msgid ""
+"Topics include only the path segments available for the event. If you "
+"configure a topic prefix, it is prepended with a dot separator."
+msgstr ""
+"主题只包括事件可用的路片段。如果你配置主题前缀，则其开头会加上一个点（ . ）分"
+"隔符。"
+
+msgid ""
+"See the add-on documentation for topic examples, the message schema, and "
+"consumer configuration."
+msgstr "查看附加组件文档获取主题示例、消息方案和消费者配置。"
 
 msgid ""
 "You can use Django templates markup in both filename and content, for "
@@ -8417,6 +8996,19 @@ msgid ""
 msgstr ""
 "见 <a href=\"%(url)s\">Kotlin SDK repository</a> 获得 Gradle 插件和库文件设置"
 "信息。"
+
+msgid ""
+"Install Translation files CDN to let the SDK download original XML "
+"translation files. These files are published publicly, including files from "
+"private components."
+msgstr ""
+"安装翻译文件 CDN 让 SDK 下载原始 XML 翻译文件。这些文件公开发布，包括来自私密"
+"部件的文件。"
+
+msgid ""
+"After installation, return to this page to copy the updated Gradle "
+"configuration."
+msgstr "安装完成后，请返回此页面以复制更新后的 Gradle 配置。"
 
 msgid "Configure the Kotlin SDK Gradle plugin with these values:"
 msgstr "用这些值配置 Kotlin SDK Gradle 插件："
@@ -8530,6 +9122,21 @@ msgstr "将使用以下模式生成字符串："
 msgid "Source string"
 msgstr "源字符串"
 
+#, python-format
+msgid ""
+"Create an <a href=\"%(url)s\">incoming webhook in Slack</a> for the channel "
+"that should receive notifications."
+msgstr ""
+"为应该接收通知的 Slack 频道在 <a href=\"%(url)s\">Slack 中创建传入 webhook</"
+"a> 。"
+
+msgid ""
+"Enter the webhook URL below and select the events to send to the channel."
+msgstr "在下方输入 webhook URL，并选择要发送到频道的事件。"
+
+msgid "See the add-on documentation for more information."
+msgstr "更多信息见附加组件文档。"
+
 msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr "来自该仓库中部件的 Weblate 提交将被挤压成一次提交。"
@@ -8541,6 +9148,25 @@ msgid ""
 msgstr ""
 "原始提交说明会保留，但是除非选择“每位作者”或“每个作者和语言”,或是在自定义提交"
 "说明以包括它，否则作者身份将丢失。"
+
+msgid ""
+"Configure your service to receive JSON POST requests, enter its URL below, "
+"and select the events to send."
+msgstr ""
+"配置你的服务来接收 JSON POST 请求，在下方输入其 URL，并选择要发送的事件。"
+
+msgid ""
+"To verify request signatures, configure the same Standard Webhooks secret in "
+"Weblate and your receiver. Requests are signed only when a secret is "
+"configured."
+msgstr ""
+"要验证请求签名，在 Weblate 和接收器中配置相同的“标准 Webhooks” secret 。只有"
+"配置好 secret 时才会签名请求。"
+
+msgid ""
+"See the add-on documentation for the message payload and signature "
+"verification."
+msgstr "消息载荷和签名验证的信息见该附加组件的文档。"
 
 msgid "HTTP Response"
 msgstr "HTTP 响应"
@@ -8557,6 +9183,35 @@ msgstr "响应的内容"
 msgid "Request payload"
 msgstr "请求的载荷"
 
+msgid ""
+"Reset these built-in roles to the current default permissions? This discards "
+"their customizations."
+msgstr "重置这些内置角色为当前默认权限？这会丢弃它们的自定义。"
+
+msgid "Reset permissions"
+msgstr "重置权限"
+
+msgid "Cancel"
+msgstr "取消"
+
+msgid "Actor"
+msgstr "操作者"
+
+msgid "Deleted user"
+msgstr "删除了用户"
+
+msgid "Administrative team changes"
+msgstr "管理团队更改"
+
+msgid "Change"
+msgstr "更改"
+
+msgid "View details"
+msgstr "查看详细信息"
+
+msgid "No team audit entries found."
+msgstr "未找到团队审计条目。"
+
 msgid "Settings"
 msgstr "设置"
 
@@ -8565,6 +9220,12 @@ msgstr "自动分配"
 
 msgid "Access control"
 msgstr "访问控制"
+
+msgid ""
+"Automatically invite newly created users to this team based on their e-mail "
+"address. Users join only after accepting the invitation."
+msgstr ""
+"根据电子邮件地址自动将新创建的用户邀请到此团队。用户只在接受邀请后才加入。"
 
 msgid ""
 "Automatically add newly created users to this team based on their e-mail "
@@ -8607,6 +9268,9 @@ msgstr "这会使 <b>%(user)s</b> 无法访问这个项目。"
 msgid "Add"
 msgstr "添加"
 
+msgid "Moved component"
+msgstr "移动了部件"
+
 msgid "All components"
 msgstr "所有部件"
 
@@ -8630,6 +9294,9 @@ msgstr "管理已关注项目"
 
 msgid "My workspaces"
 msgstr "我的工作空间"
+
+msgid "Workspaces"
+msgstr "工作区"
 
 msgid "Manage translated languages"
 msgstr "管理翻译语言"
@@ -8814,9 +9481,6 @@ msgstr "查看"
 msgid "Event details"
 msgstr "事件详情"
 
-msgid "Actions"
-msgstr "操作"
-
 msgid "Download"
 msgstr "下载"
 
@@ -8915,6 +9579,115 @@ msgstr "您没有更改项目访问控制的权限。"
 msgid "Check your billing status"
 msgstr "检查您的账单状态"
 
+msgid "Checking your browser"
+msgstr "正在检查浏览器"
+
+msgid ""
+"Your browser will calculate a short proof of work to protect this site "
+"against automated scraping."
+msgstr "你的浏览器会计算简短的工作证明来保护该站点免遭自动化抓取。"
+
+msgid "Working…"
+msgstr "正在工作…"
+
+msgid ""
+"Verification failed. Enable JavaScript, workers, and cookies, then retry. "
+"You can also sign in."
+msgstr ""
+"验证失败。请启用 JavaScript、Web Workers 和Cookies后重试，您也可以登录。"
+
+msgid "The challenge expired. Retry to start a new challenge."
+msgstr "挑战已过期。重试以启动新挑战。"
+
+msgid "This challenge was already used. Retry to start a new challenge."
+msgstr "已经使用了这个挑战。重试以启动新挑战。"
+
+msgid "Browser verification was unsuccessful. Please retry."
+msgstr "浏览器验证不成功。请重试。"
+
+msgid "Browser verification could not be confirmed. Enable cookies and retry."
+msgstr "无法确认浏览器验证。启用 cookies 并重试。"
+
+msgid ""
+"The verification service is temporarily unavailable. Please retry later."
+msgstr "验证服务暂不可用。请稍后重试。"
+
+msgid "Verification cookies could not be confirmed. Enable cookies and retry."
+msgstr "无法确认验证 cookies。启用 cookies 并重试。"
+
+msgid "JavaScript is required for anonymous access. You can sign in instead."
+msgstr "匿名访问需要 JavaScript。你也可以选择登录。"
+
+msgid "Retry"
+msgstr "重试"
+
+msgid "Did you know?"
+msgstr "你知道吗？"
+
+msgid "Review and confirm the bulk edit changes."
+msgstr "审核并确认批量编辑更改。"
+
+#, python-format
+msgid "%(counter)s string would change."
+msgid_plural "%(counter)s strings would change."
+msgstr[0] "%(counter)s 条字符串将更改。"
+
+msgid ""
+"Showing the first 250 changes. Only selected displayed strings will be "
+"processed unless you choose to apply all matching strings."
+msgstr ""
+"显示前 250 个变化。只会处理选中的已显示字符串，除非你选择应用所有匹配的字符"
+"串。"
+
+msgid "Update preview"
+msgstr "更新预览"
+
+#, python-format
+msgid "Apply all matching strings (%(total)s)"
+msgstr "应用至所有符合条件的字符串（%(total)s）"
+
+msgid ""
+"Applies to all current matches, including those not displayed. The query and "
+"permissions are checked again when applying changes."
+msgstr ""
+"应用到所有当前匹配项，包括那些未显示的。应用更改时会再次检查查询和权限。"
+
+msgid "Select"
+msgstr "选择"
+
+msgid "String"
+msgstr "字符串"
+
+msgid "Changes"
+msgstr "变化"
+
+msgid "State"
+msgstr "状态"
+
+msgid "Before"
+msgstr "下列日期前"
+
+msgid "After"
+msgstr "下列日期后"
+
+msgid "Empty"
+msgstr "空白"
+
+msgid "Source flags (all languages)"
+msgstr "原文标记（所有语言）"
+
+msgid "Translation flags"
+msgstr "翻译标记"
+
+msgid "Add label (all languages)"
+msgstr "添加标签（所有语言）"
+
+msgid "Remove label (all languages)"
+msgstr "删除标签（所有语言）"
+
+msgid "Apply"
+msgstr "应用"
+
 msgid "Insights"
 msgstr "洞察"
 
@@ -8933,9 +9706,6 @@ msgstr "上传译文"
 msgid "Operations"
 msgstr "操作"
 
-msgid "Search and replace"
-msgstr "搜索并替换"
-
 msgid "Post announcement"
 msgstr "发布公告"
 
@@ -8944,12 +9714,6 @@ msgstr "组织或删除"
 
 msgid "Browse all changes for this language"
 msgstr "浏览此语言的所有更改"
-
-msgid "Review changes"
-msgstr "检查更改"
-
-msgid "Apply"
-msgstr "应用"
 
 msgid "Browse components"
 msgstr "浏览部件"
@@ -9657,9 +10421,6 @@ msgstr "无可预览内容。"
 msgid "Shortcut"
 msgstr "快捷键"
 
-msgid "Action"
-msgstr "操作"
-
 msgid "Open available keyboard shortcuts."
 msgstr "打开可用的键盘快捷键。"
 
@@ -9793,6 +10554,9 @@ msgstr "解决"
 msgid "Mark as spam"
 msgstr "标记为垃圾"
 
+msgid "Service is no longer available"
+msgstr "服务不再可用"
+
 msgid "This service is installed site wide."
 msgstr "此服务安装范围是整个站点。"
 
@@ -9805,23 +10569,17 @@ msgstr "此服务安装在工作区中。"
 msgid "workspace"
 msgstr "工作区"
 
+msgid "Rate limited"
+msgstr "速率限制"
+
 msgid "This service is disabled."
 msgstr "已禁用此服务。"
-
-msgid "disabled"
-msgstr "已禁用"
-
-msgid "Service is no longer available"
-msgstr "服务不再可用"
 
 msgid "ID"
 msgstr "ID"
 
 msgid "Slug"
 msgstr "标识串"
-
-msgid "Installation slug (optional)"
-msgstr "安装标识串（可选）"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -9831,32 +10589,148 @@ msgstr ""
 "此服务可发送源字符串、翻译、和相关上下文到第三方提供商。启用前检查提供商的条"
 "款和隐私政策。"
 
-msgid "Configured translation services"
-msgstr "已配置的翻译服务"
+msgid "Inherited service"
+msgstr "继承的服务"
 
-msgid "Stop using this installation without removing its configuration."
-msgstr "停止使用这个安装而不删除其配置。"
+msgid "This service is managed at its installation scope."
+msgstr "此服务在其安装范围内管理。"
+
+msgid "Manage this installation"
+msgstr "管理这个安装"
+
+msgid "Installation slug (optional)"
+msgstr "安装标识串（可选）"
+
+msgid "This service has no settings."
+msgstr "此服务无设置。"
+
+msgid "Use in automations"
+msgstr "在自动化中使用"
+
+msgid ""
+"Select this installation in the engines setting of an automatic translation "
+"action using its numeric ID:"
+msgstr "用这个安装的数字 ID 在自动翻译操作的引擎设置中选中这个安装："
+
+msgid "You can also select it using its slug:"
+msgstr "也可以用它的标识串来选择它："
+
+msgid ""
+"The numeric ID always selects this installation. The slug selects the "
+"installation currently using that name in the project."
+msgstr ""
+"这个数字 ID 始终选中这个安装。该标识串选择当前在该项目中使用这个名称的安装。"
+
+msgid ""
+"Set an installation slug above to give this service a readable name in your "
+"automations."
+msgstr "在上方设置一个安装标识串以在你的自动化中给这个服务一个可读的名称。"
+
+msgid "Rate limit"
+msgstr "频次限制"
+
+msgid ""
+"Requests to this service are temporarily paused after a provider error. "
+"Resetting the rate limit allows Weblate to try again; it does not reset the "
+"provider’s quota."
+msgstr ""
+"在提供商错误后，到这个服务的请求暂时暂停。重置速率允许 Weblate 再次尝试；它不"
+"重置该提供商的配额。"
+
+msgid "Reset rate limit"
+msgstr "重置速率限制"
+
+msgid "The rate limit can be reset at the service’s installation scope."
+msgstr "速率限制可在该服务的安装范围内重置。"
+
+msgid "Service control"
+msgstr "服务控制"
+
+msgid "Disable installation"
+msgstr "禁用安装"
+
+msgid ""
+"Stop using this installation here and in scopes inheriting it. Its settings "
+"are kept so you can enable it again later."
+msgstr ""
+"在此处及继承这个安装的作用域中停止使用这个安装。将保留其设置以便你可以之后再"
+"启用它。"
+
+msgid ""
+"Stop using this inherited installation in this workspace and its projects. "
+"Other installations of this service remain available."
+msgstr ""
+"在这个工作区间和它的项目中停止使用这个继承的安装。这个服务的其他安装依旧可"
+"用。"
+
+msgid ""
+"Stop using this inherited installation in this project. Other installations "
+"of this service and its use in other projects are unaffected."
+msgstr ""
+"在这个项目中停止使用这个继承的安装。这个服务的其他安装和它在别的项目中的使用"
+"不受影响。"
 
 msgid "Disable"
 msgstr "禁用"
 
-msgid "Stop using this inherited installation here."
-msgstr "停止在此处使用这个继承的安装。"
+msgid "Enable installation"
+msgstr "启用安装"
+
+msgid ""
+"Resume using this installation with its saved settings here and in scopes "
+"inheriting it. Existing exclusions still apply."
+msgstr ""
+"在此处和继承这个安装的作用域中继续以这个安装已保存的设置使用这个安装。现有的"
+"排除仍生效。"
+
+msgid ""
+"Remove the local exclusion for this installation. It can provide suggestions "
+"here when it is enabled at its installation scope and is not excluded "
+"upstream. Other excluded installations remain excluded."
+msgstr ""
+"删除这个安装的本地排除。当它在它的安装范围中启用且未在上游被排除时，它可以提"
+"供建议。其他排除的安装仍被排除。"
 
 msgid "Enable"
 msgstr "启用"
 
-msgid "Remove this installation and its configuration."
-msgstr "删除这个安装及其配置。"
+msgid ""
+"This installation is disabled at its installation scope or excluded by an "
+"upstream scope."
+msgstr "这个安装在其安装范围被禁用或被上游范围所排除。"
 
-msgid "Exclude all inherited installations of this service"
-msgstr "排除此服务所有继承的安装"
+msgid "Exclude inherited service"
+msgstr "排除继承的服务"
+
+msgid ""
+"Stop using all site-wide installations of this service in this workspace and "
+"its projects, including installations added later. Installations configured "
+"directly in this workspace or its projects remain available."
+msgstr ""
+"在这个工作区及其项目中停止使用这个安装的所有全站安装，包括之后添加的安装。直"
+"接在这个工作区或其项目中配置的安装仍可用。"
+
+msgid ""
+"Stop using all inherited installations of this service in this project, "
+"including installations added later. Installations configured directly in "
+"this project and use in other projects are unaffected."
+msgstr ""
+"在这个项目中停止使用这个项目所有的继承安装，包括之后添加的安装。直接在这个项"
+"目中配置的安装以及在其他项目中的使用不受影响。"
 
 msgid "Exclude"
 msgstr "排除"
 
-msgid "Configure"
-msgstr "配置"
+msgid ""
+"Removing this installation stops it from being used here and in scopes "
+"inheriting it, and deletes its saved settings. You will need to install and "
+"configure it again to use it later."
+msgstr ""
+"删除这个安装会在此处及继承它的作用域中停止使用它，并删除其已保存的设置。你需"
+"要再次安装并配置它以在之后使用它。"
+
+msgid "Configured translation services"
+msgstr "已配置的翻译服务"
 
 msgid "There are no services currently installed."
 msgstr "目前未安装服务。"
@@ -9875,6 +10749,12 @@ msgstr "找不到任何额外的服务。"
 msgid ""
 "Some services will ask for additional configuration during installation."
 msgstr "某些服务会在安装时要求额外配置。"
+
+msgid "Translation service errors"
+msgstr "翻译服务错误"
+
+msgid "No translation service errors available."
+msgstr "无 没有翻译服务错误可用。"
 
 #, python-format
 msgid "The following activity has occurred on your account at %(site_title)s:"
@@ -10080,6 +10960,39 @@ msgstr "%(component)s 部件已解锁"
 msgid "Digest: %(notification_name)s"
 msgstr "摘要：%(notification_name)s"
 
+#, python-format
+msgid ""
+"Somebody requested to add this e-mail address to another account at "
+"%(site_title)s. This address is already associated with an account and "
+"cannot be added to another."
+msgstr ""
+"某人请求将这个电子邮件地址添加到 %(site_title)s 上的另一个账户。这个地址已经"
+"和一个账户关联，无法被添加到别的账户。"
+
+msgid ""
+"If you intended to access the existing account, sign out and use password "
+"recovery. The button below opens the password reset form; it does not reset "
+"your password."
+msgstr ""
+"如果你打算访问现有账户，请退出登录并使用密码恢复。下方按钮打开密码重置表单；"
+"它不重置你的密码。"
+
+msgid "Open password recovery"
+msgstr "打开密码恢复"
+
+msgid "Contact support for help moving this address between accounts."
+msgstr "联系支持人员获取在账户间移动这个地址的帮助。"
+
+msgid ""
+"If you did not request this, you can ignore this e-mail. Your account has "
+"not been changed."
+msgstr "如果你没有请求这个可以忽略这封电子邮件。你的账户尚未被更改。"
+
+#. Translators: e-mail subject
+#, python-format
+msgid "E-mail address already associated with an account on %(site_title)s"
+msgstr "电子邮件地址已经和 %(site_title)s 上的一个账户关联"
+
 msgid "View invitation"
 msgstr "查看邀请"
 
@@ -10087,6 +11000,10 @@ msgstr "查看邀请"
 msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
 msgstr[0] "邀请将在 %(count)s 小时后过期。"
+
+#, python-format
+msgid "Automatic team assignment: invitation to join %(team_name)s"
+msgstr "自动团队分配：加入 %(team_name)s 的邀请"
 
 #. Translators: e-mail subject
 #, python-format
@@ -10313,6 +11230,9 @@ msgstr "确认账户删除"
 msgid "Confirm invitation"
 msgstr "确认邀请"
 
+msgid "Verify e-mail address"
+msgstr "验证电子邮件地址"
+
 msgid ""
 "Note: This notification has been truncated as there were over 100 entries."
 msgstr "注意：由于超过 100 个条目，未显示本通知全部内容。"
@@ -10369,6 +11289,15 @@ msgstr "未完成"
 #. Translators: e-mail subject
 msgid "Translation activity summary"
 msgstr "翻译活动概况"
+
+#, python-format
+msgid "Verify this e-mail address for your account at %(site_title)s."
+msgstr "验证你在 %(site_title)s 账户的这个电子邮件地址。"
+
+#. Translators: e-mail subject
+#, python-format
+msgid "Verify your e-mail address on %(site_title)s"
+msgstr "验证你在 %(site_title)s 的电子邮件地址"
 
 msgid "Component diagnostics"
 msgstr "部件诊断"
@@ -10555,6 +11484,50 @@ msgstr "浏览“发现”"
 msgid "Performance report"
 msgstr "性能报告"
 
+msgid "Bot protection"
+msgstr "Bot 保护"
+
+msgid ""
+"Issued challenges, requests requiring proof of work, and verification "
+"outcomes in hourly buckets. Counts are best-effort and can be lost during "
+"cache outages or eviction."
+msgstr ""
+"已发布的挑战、需要工作证明的请求以及小时存储桶中的验证结果。不保证这些数目绝"
+"对准确，计数可能在缓存故障或驱逐期间丢失。"
+
+msgid "Counters are unavailable."
+msgstr "计数器不可用。"
+
+msgid "Outcome"
+msgstr "结果"
+
+msgid "Current hour"
+msgstr "当前小时"
+
+msgid "Previous 24 completed hours"
+msgstr "之前 24 个完整的小时"
+
+msgid "Issued challenges"
+msgstr "已发布的挑战"
+
+msgid "Requests requiring proof of work"
+msgstr "要求工作证明的请求"
+
+msgid "Expired challenge"
+msgstr "已过期的挑战"
+
+msgid "Invalid solution"
+msgstr "无效的解决"
+
+msgid "Replayed challenge"
+msgstr "重新播放的挑战"
+
+msgid "CSRF failure"
+msgstr "CSRF 失败"
+
+msgid "Service unavailable"
+msgstr "服务不可用"
+
 msgid "Last occurrence"
 msgstr "上次出现"
 
@@ -10706,6 +11679,257 @@ msgstr "显示无远程版本控制系统的部件"
 msgid "This repository is linked to:"
 msgstr "本仓库链接到："
 
+msgid "Confirm security action"
+msgstr "确认安全操作"
+
+#, python-format
+msgid "Selected %(count)s findings affecting %(accounts)s accounts."
+msgstr "选中了影响 %(accounts)s 个账户的 %(count)s 个发现。"
+
+msgid ""
+"Disable the matching passwords, invalidate signed-in sessions, and revoke "
+"all API tokens. Users with an e-mail address will be notified. Single sign-"
+"on and two-factor settings are preserved. Accounts whose passwords have "
+"changed will be skipped."
+msgstr ""
+"禁用匹配的密码、无效化已登录的会话并撤销所有 API 令牌。将通知有电子邮件地址的"
+"用户。保留单点登录和双因素设置。将跳过密码已更改的账户。"
+
+msgid ""
+"Remove the selected lookalike verified e-mail addresses and associated sign-"
+"in identities, disable account passwords, invalidate sessions, and revoke "
+"API tokens. Account owners will be notified at their primary e-mail address."
+msgstr ""
+"删除选中的相像电子邮件地址和关联的登录身份、禁用账户密码、无效化会话并撤销 "
+"API 令牌。会通过账户所有者的主电子邮件地址进行通知。"
+
+msgid ""
+"Dismiss the selected findings without changing credentials or notifying "
+"users. A new report confirming the same exposure can reopen them."
+msgstr ""
+"不更改凭据或通知用户就关闭选中的发现。确认相同暴露的新报告可以重新打开它们。"
+
+msgid "Reset passwords"
+msgstr "重置密码"
+
+msgid "Remove identities and reset accounts"
+msgstr "删除身份并重置账户"
+
+msgid "Dismiss findings"
+msgstr "忽略发现"
+
+#, python-format
+msgid "Security finding for %(username)s"
+msgstr "%(username)s 的安全发现"
+
+msgid "CSV row"
+msgstr "CSV 行"
+
+msgid "Identifier"
+msgstr "标识符"
+
+msgid "Matching method"
+msgstr "匹配的方式"
+
+msgid "No matching row details."
+msgstr "没有匹配行的详情。"
+
+#, python-format
+msgid "Page %(number)s of %(total)s"
+msgstr "第 %(number)s 页，共 %(total)s 页"
+
+msgid "Detected in reports"
+msgstr "在报告中检测到"
+
+msgid "Administrator"
+msgstr "管理员"
+
+msgid "Deleted administrator"
+msgstr "删除了管理员"
+
+msgid "No validation reports for this finding."
+msgstr "此发现没有验证报告。"
+
+#, python-format
+msgid "Reports page %(number)s of %(total)s"
+msgstr "报告的第 %(number)s 页，共 %(total)s 页"
+
+msgid "Previous reports"
+msgstr "上份报告"
+
+msgid "Next reports"
+msgstr "下份报告"
+
+msgid "Account security findings"
+msgstr "账户安全性检查发现"
+
+msgid "Validation reports"
+msgstr "认证报告"
+
+msgid "Filename"
+msgstr "文件名"
+
+msgid "Not recorded"
+msgstr "未记录"
+
+msgid "Submitted by"
+msgstr "提交者"
+
+msgid "Processing summary"
+msgstr "处理概况"
+
+msgid "Password validation completed."
+msgstr "完成了密码验证。"
+
+msgid "Legacy e-mail identity check completed."
+msgstr "完成了旧的电子邮件身份检查。"
+
+msgid "Security action completed."
+msgstr "完成了安全操作。"
+
+msgid "Processing failed."
+msgstr "处理失败。"
+
+msgid "Processing is not complete. Findings may still be added."
+msgstr "处理不完全。仍可以添加发现。"
+
+msgid "View progress"
+msgstr "查看进度"
+
+#, python-format
+msgid "Processed %(processed)s of %(total)s entries."
+msgstr "处理了 %(total)s 个条目中的 %(processed)s 个。"
+
+msgid "Finding type"
+msgstr "发现类型"
+
+msgid "Filter"
+msgstr "筛选器"
+
+msgid "Actions apply only to checked findings on this page."
+msgstr "操作仅应用到这个页面上已勾选的发现。"
+
+msgid "Select all on this page"
+msgstr "全选本页上的发现"
+
+msgid "Clear selection"
+msgstr "清除选择"
+
+msgid "Finding"
+msgstr "发现"
+
+#, python-format
+msgid "Select finding for %(username)s"
+msgstr "选择 %(username)s 的发现"
+
+msgid "Inactive"
+msgstr "不活跃"
+
+msgid "Bot"
+msgstr "Bot"
+
+msgid "No e-mail address: notification unavailable"
+msgstr "无电子邮件地址：通知不可用"
+
+msgid "Date joined:"
+msgstr "加入日期："
+
+msgid "Last sign-in:"
+msgstr "上次登录："
+
+#, python-format
+msgid "Row %(row)s: %(identifier)s (%(method)s)"
+msgstr "第 %(row)s 行：%(identifier)s (%(method)s)"
+
+#, python-format
+msgid "View details (%(count)s match)"
+msgid_plural "View details (%(count)s matches)"
+msgstr[0] "查看详情 (%(count)s 个匹配)"
+
+msgid "First detected:"
+msgstr "首次检测到："
+
+msgid "Last detected:"
+msgstr "最后检测到："
+
+msgid "No security findings match these filters."
+msgstr "没有安全发现匹配这些筛选器。"
+
+msgid "Remove lookalike e-mail identities and reset selected accounts"
+msgstr "删除相像的电子邮件身份并重置选中的账户"
+
+msgid "Reset passwords for selected accounts"
+msgstr "重置所选账户的密码"
+
+msgid "Dismiss selected findings"
+msgstr "忽略选中的发现"
+
+msgid ""
+"Dismissing findings marks them as reviewed without changing passwords or "
+"notifying users."
+msgstr "忽略发现会将它们标记为已审核但未更改密码或通知用户。"
+
+msgid "Account security operation"
+msgstr "账户安全操作"
+
+msgid "Processing progress"
+msgstr "处理进度"
+
+msgid "Refresh progress"
+msgstr "刷新进度"
+
+msgid ""
+"Review previous credential validation reports, including reports with no "
+"matching passwords."
+msgstr "审核之前的凭据验证报告，包括没有相匹配密码的报告。"
+
+msgid "Upload report"
+msgstr "上传报告"
+
+msgid "Processed rows"
+msgstr "已处理的行"
+
+msgid "Matching rows"
+msgstr "匹配的行"
+
+msgid "Affected accounts"
+msgstr "受影响的账户"
+
+#, python-format
+msgid "%(processed)s of %(total)s"
+msgstr "已处理 %(processed)s，共 %(total)s"
+
+msgid "No validation reports yet."
+msgstr "尚无验证报告。"
+
+msgid ""
+"Upload a CSV containing usernames or e-mail addresses and passwords. "
+"Passwords are checked in the background and never displayed in the report."
+msgstr ""
+"上传包含用户名或电子邮件地址和密码的 CSV 文件。密码在后台检查，永远不会展示在"
+"报告中。"
+
+msgid ""
+"Reports must use UTF-8 and contain at most 50,000 rows and 10 MiB. Leave the "
+"delimiter and column numbers blank for automatic detection."
+msgstr ""
+"报告必须使用 UTF-8，最多 5 万行和 10 MiB 大小。留空定界符和列编号用于自动检"
+"测。"
+
+msgid ""
+"The uploaded file is available for one hour. Adjust the CSV settings below "
+"to try again."
+msgstr "上传的文件在 1 小时内可用。在下方调整 CSV 设置来重试。"
+
+msgid "CSV format (detected automatically)"
+msgstr "CSV 格式（自动检测）"
+
+msgid "Validate passwords"
+msgstr "验证密码"
+
+msgid "Validate leaked passwords"
+msgstr "验证已泄露的密码"
+
 msgid "Activate support package"
 msgstr "激活支持包"
 
@@ -10834,8 +12058,17 @@ msgstr "删除邀请"
 msgid "Check user access"
 msgstr "检查用户访问"
 
-msgid "Workspaces"
-msgstr "工作区"
+msgid "Account security"
+msgstr "账户安全"
+
+#, python-format
+msgid "Security report (%(security_findings_open)s open findings)"
+msgstr "安全报告（%(security_findings_open)s 打开发现）"
+
+msgid ""
+"Validate a CSV report of leaked credentials against current account "
+"passwords."
+msgstr "对照当前账户密码验证泄露凭据的 CSV 报告。"
 
 msgid "Add workspace"
 msgstr "添加工作区"
@@ -10860,9 +12093,6 @@ msgstr "矩阵"
 
 msgid "Displayed languages"
 msgstr "显示语言"
-
-msgid "Choose"
-msgstr "选择"
 
 msgid "Translation memory status"
 msgstr "翻译记忆库状态"
@@ -10939,6 +12169,9 @@ msgstr "已开启"
 #. Translators: Shared translation memory is disabled
 msgid "off"
 msgstr "已关闭"
+
+msgid "Configure"
+msgstr "配置"
 
 msgid "Autoclean translation memory"
 msgstr "自动清理翻译记忆库"
@@ -11019,6 +12252,19 @@ msgstr "请求新翻译"
 
 msgid "You don't have permission to start a new translation"
 msgstr "您没有开始新翻译的权限"
+
+msgid "Authorize application"
+msgstr "应用程序授权"
+
+#, python-format
+msgid "Allow %(application)s to access your account?"
+msgstr "允许 %(application)s 访问你的账户吗？"
+
+msgid "Authorize"
+msgstr "授权"
+
+msgid "Deny"
+msgstr "拒绝"
 
 msgid "Click to edit position"
 msgstr "点击编辑位次"
@@ -11114,20 +12360,6 @@ msgstr "感谢您贡献翻译。"
 msgid "Donate to Weblate development"
 msgstr "给 Weblate 开发捐款"
 
-msgid "Please review and confirm the search and replace results."
-msgstr "请审核并确认本次搜索与替换的结果。"
-
-msgid ""
-"Showing and replacing only the first 250 matches. Perform the replacement "
-"again to replace more."
-msgstr "仅显示和替换前 250 个匹配项。再次执行替换以替换更多。"
-
-msgid "Update preview"
-msgstr "更新预览"
-
-msgid "Replace"
-msgstr "替换"
-
 msgid "Generated by"
 msgstr "生成方"
 
@@ -11159,6 +12391,18 @@ msgstr "屏幕截图用于为所有列出的源字符串添加可视化上下文
 msgid "Assign source strings"
 msgstr "分配源字符串"
 
+msgid "Find source strings"
+msgstr "寻找源字符串"
+
+msgid "Image text"
+msgstr "图像文本"
+
+msgid "Suggests source strings by recognizing text in this screenshot."
+msgstr "通过识别此屏幕截图中的文本建议源字符串。"
+
+msgid "Add selected"
+msgstr "添加所选"
+
 msgid "Source string search"
 msgstr "源字符串搜索"
 
@@ -11171,15 +12415,6 @@ msgstr ""
 
 msgid "Search query syntax documentation"
 msgstr "搜索查询语法文档"
-
-msgid "Suggests source strings by recognizing text in this screenshot."
-msgstr "通过识别此屏幕截图中的文本建议源字符串。"
-
-msgid "Find strings in image"
-msgstr "在图片中寻找字符串"
-
-msgid "Add selected"
-msgstr "添加所选"
 
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr "删除屏幕截图将从关联的源字符串处移除它。"
@@ -11319,7 +12554,8 @@ msgstr "自动翻译使用这个工作区中的现有译文并将它们应用到
 msgid ""
 "Automatic translation uses active translation services to get the best "
 "possible translations and applies them in this workspace."
-msgstr "自动翻译使用激活的翻译服务获得最佳的翻译结果，并将翻译应用于此工作区中。"
+msgstr ""
+"自动翻译使用激活的翻译服务获得最佳的翻译结果，并将翻译应用于此工作区中。"
 
 msgid ""
 "Automatic translation takes existing translations in this project and "
@@ -11333,7 +12569,8 @@ msgstr ""
 msgid ""
 "Automatic translation uses active translation services to get the best "
 "possible translations and applies them in this project."
-msgstr "自动翻译使用激活的翻译服务尽可能获得最佳的翻译结果，并将翻译应用于此项目中。"
+msgstr ""
+"自动翻译使用激活的翻译服务尽可能获得最佳的翻译结果，并将翻译应用于此项目中。"
 
 msgid "This might be caused by missing subscription."
 msgstr "这可能是因为您没有订阅。"
@@ -11349,8 +12586,8 @@ msgstr "全选本页的字符串"
 msgid "Select string for bulk edit"
 msgstr "选择字符串进行批量编辑"
 
-msgid "You can change the state of all strings matching given type at once."
-msgstr "您可以一次性更改所有匹配给定类型的字符串的状态。"
+msgid "Choose which strings to edit and the changes to apply."
+msgstr "选择要编辑的字符串和要应用的更改。"
 
 msgid "The operation is applied to the strings selected in the list above."
 msgstr "该操作应用到上方列表中所选的字符串。"
@@ -11382,9 +12619,6 @@ msgstr "配置语言工作流"
 msgid "Configure translation quality filter"
 msgstr "配置翻译质量筛选器"
 
-msgid "View details"
-msgstr "查看详细信息"
-
 msgid "View contributor license agreement"
 msgstr "查看贡献者许可协议"
 
@@ -11400,9 +12634,6 @@ msgid "The translation was automatically locked due to the following alert:"
 msgid_plural ""
 "The translation was automatically locked due to the following alerts:"
 msgstr[0] "由于以下警报，该翻译被自动锁定："
-
-msgid "Filter"
-msgstr "筛选器"
 
 msgid "Clear filters"
 msgstr "清除筛选器"
@@ -11452,9 +12683,6 @@ msgstr "最大字符串长度由源字符串或标记确定。"
 msgid "Clone to translation"
 msgstr "克隆到翻译"
 
-msgid "Select"
-msgstr "选择"
-
 msgid "Target string"
 msgstr "目标字符串"
 
@@ -11499,7 +12727,6 @@ msgstr "拉取请求 URL 已复制到剪贴板。"
 msgid "Last remote commit"
 msgstr "最后一次远程提交"
 
-#. Translators: For example: "nijel authored five days ago"
 #, python-format
 msgid "%(author)s authored %(date)s"
 msgstr "由 %(author)s 著于 %(date)s"
@@ -11712,6 +12939,23 @@ msgstr "翻译"
 
 #, python-format
 msgid ""
+"An automatic team assignment rule invited you to collaborate on "
+"%(project_name)s and join the %(team_name)s team. You will join only if you "
+"accept this invitation."
+msgstr ""
+"一条自动的团队分配规则邀请你在 %(project_name)s 项目进行协作并加入 "
+"%(team_name)s 团队。只有接受这份邀请你才会加入。"
+
+#, python-format
+msgid ""
+"An automatic team assignment rule invited you to join the %(team_name)s team "
+"in %(workspace_name)s. You will join only if you accept this invitation."
+msgstr ""
+"自动团队分配规则邀请你加入 %(workspace_name)s 中的 %(team_name)s 团队。只有接"
+"受该邀请你才会加入。"
+
+#, python-format
+msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
 "on %(project_name)s and join the %(team_name)s team."
 msgstr ""
@@ -11725,6 +12969,22 @@ msgid ""
 msgstr ""
 "你被 %(invitation_author)s 邀请到 %(site_title)s 站点加入 %(team_name)s 团"
 "队。"
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr "接受该邀请也会使你成为团队管理员，允许你添加或删除团队成员。"
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
+msgstr ""
+"恢复的项目备份将先前的贡献归到你的用户名下。接受该邀请会认领导入的作者身份，"
+"包括历史记录和传播到其他项目的更改。这些贡献将来的提交可以使用你配置好的提交"
+"名和电子邮件地址。现有的仓库提交将保持不变。"
 
 #, python-format
 msgid ""
@@ -11755,6 +13015,9 @@ msgstr "阻止用户"
 
 msgid "View notification"
 msgstr "查看通知"
+
+msgid "View full change"
+msgstr "查看完整更改"
 
 msgid "No matching activity found."
 msgstr "未找到匹配的活动。"
@@ -11928,9 +13191,6 @@ msgstr "键/上下文字符串"
 msgid "Location strings"
 msgstr "位置字符串"
 
-msgid "String state"
-msgstr "字符串状态"
-
 #. Translators: String pending for flushing to VCS.
 msgid "Pending string"
 msgstr "待处理的字符串"
@@ -12086,9 +13346,6 @@ msgstr "配置翻译工作流"
 msgid "Saved search name"
 msgstr "保存搜索名"
 
-msgid "Search query"
-msgstr "搜索查询"
-
 msgid "No saved searches yet."
 msgstr "尚无已保存的搜索。"
 
@@ -12116,8 +13373,8 @@ msgid "Community"
 msgstr "社区"
 
 #, python-format
-msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr "在 %(share_url)s 使用 %%23Weblate 翻译 %(object)s !"
+msgid "Translate %(object)s using #Weblate at %(share_url)s!"
+msgstr "在 %(share_url)s 使用 #Weblate 翻译 %(object)s !"
 
 msgid "Share on Bluesky"
 msgstr "分享到 Bluesky"
@@ -12329,6 +13586,11 @@ msgstr "你将继续重置 Weblate 账户的密码。"
 msgid "You are about to continue removing your Weblate account."
 msgstr "你将继续删除 Weblate 账户。"
 
+msgid ""
+"You are about to continue adding this e-mail address to your existing "
+"Weblate account."
+msgstr "你正要继续添加这个电子邮件地址到现有的 Weblate 账户。"
+
 msgid "You are about to accept an invitation and create a Weblate account."
 msgstr "你将接受邀请并创建 Weblate 账户。"
 
@@ -12343,6 +13605,9 @@ msgstr "继续密码重置"
 
 msgid "Continue account removal"
 msgstr "继续账户删除"
+
+msgid "Continue e-mail verification"
+msgstr "继续电子邮箱验证"
 
 msgid "Accept invitation"
 msgstr "接受邀请"
@@ -12430,9 +13695,6 @@ msgstr "Weblate 无法验证项目网站 URL："
 
 msgid "Weblate CDN add-on could not parse the HTML files."
 msgstr "Weblate CDN 附加组件无法解析这些 HTML 文件。"
-
-msgid "Filename"
-msgstr "文件名"
 
 msgid ""
 "The local repository checkout or its Git directory is missing. Repeated "
@@ -12863,6 +14125,19 @@ msgid ""
 "translations."
 msgstr "Weblate 不能在更新翻译文件时解析这些翻译文件。"
 
+msgid ""
+"Weblate pushed the changes and created the pull request, but could not apply "
+"the configured labels or assignees."
+msgstr ""
+"Weblate已推送更改并创建拉取请求，但无法应用配置的标签或分配到任务的用户。"
+
+msgid ""
+"Check that the labels and assignees exist and that Weblate can write pull "
+"requests, or remove the customization from the version control parameters."
+msgstr ""
+"检查标签和分配到任务的用户存在且 Weblate 能写入拉取请求，或从版本控制参数中删"
+"除自定义。"
+
 msgid "Weblate could not push changes to the upstream repository."
 msgstr "Weblate 无法将更改推送到上游仓库。"
 
@@ -12888,6 +14163,21 @@ msgid ""
 msgstr ""
 "版本控制系统仓库并不是最新的上游仓库版本。请手动合并更改或设置钩子来实现自动"
 "化操作。"
+
+msgid ""
+"Restricted components are not used as glossaries. Their terms are not shown "
+"in other components, included in quality checks, or sent to translation "
+"services."
+msgstr ""
+"受限部件不用作术语表。它们的术语不显示在其他部件中，不包含在质量检查中，或被"
+"发送到翻译服务。"
+
+msgid ""
+"Remove restricted access to use this glossary project-wide, or disable ‘Use "
+"as a glossary’ to keep it as an ordinary restricted component."
+msgstr ""
+"删除受限访问在整个项目中使用这个术语表，或禁用“用作术语表”使其继续作为普通受"
+"限部件。"
 
 msgid "Version control system"
 msgstr "版本控制系统"
@@ -12974,8 +14264,8 @@ msgstr "跳转到日期"
 msgid "Go"
 msgstr "转到"
 
-msgid "Changes"
-msgstr "变化"
+msgid "Change details"
+msgstr "更改详情"
 
 msgid "Download latest changes as CSV"
 msgstr "以 CSV 格式下载最新变化"
@@ -13041,9 +14331,6 @@ msgid ""
 "translation component."
 msgstr "以现有翻译部件的额外分支创建新的翻译部件。"
 
-msgid "Retry"
-msgstr "重试"
-
 msgid ""
 "The new component will be created for the selected branch with the exact "
 "same configuration as the existing one."
@@ -13081,9 +14368,6 @@ msgstr ""
 
 msgid "Add or configure account"
 msgstr "添加或配置账户"
-
-msgid "Branch"
-msgstr "分支"
 
 msgid "Visibility"
 msgstr "可见性"
@@ -13213,6 +14497,11 @@ msgstr "要删除的翻译"
 
 msgid "The detected file format is not supported."
 msgstr "检测到的文件格式不支持。"
+
+msgid ""
+"Translation discovery reached a resource limit. Results might be incomplete. "
+"You can configure missing translation files manually."
+msgstr "翻译发现达到资源限制。结果可能不完整。可以手动配置缺失的翻译文件。"
 
 msgid "Typical workflow for fixing merge conflicts"
 msgstr "解决合并冲突的典型工作流程"
@@ -13347,6 +14636,17 @@ msgstr "正在导入备份"
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr "由 Weblate %(version)s 创建于 %(server)s（%(domain)s）"
 
+msgid "Public access on import"
+msgstr "导入时的公开访问"
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
+"如果所选工作区的付费套餐要求公开的内容，那么该项目和下列受限部件在导入后将可"
+"公开访问："
+
 msgid "Token copied to clipboard."
 msgstr "令牌已复制到剪贴板。"
 
@@ -13369,9 +14669,6 @@ msgstr ""
 
 msgid "Edit source"
 msgstr "编辑原文"
-
-msgid "Cancel"
-msgstr "取消"
 
 msgid "Learn more about pushing changes from Weblate."
 msgstr "了解更多从 Weblate 推送更改的信息。"
@@ -13724,6 +15021,12 @@ msgstr "您可以在这里添加新的翻译字符串，它会自动出现在所
 msgid "Quick downloads"
 msgstr "快速下载"
 
+msgid ""
+"Original files can contain contributor identities and require additional "
+"permission. Use a generated export below for offline translation."
+msgstr ""
+"原始文件可能包含贡献者身份并要求额外权限。使用下方生成的导出进行离线翻译。"
+
 msgid "File in original format as translated in the repository"
 msgstr "仓库中已翻译的原始格式文件"
 
@@ -13973,9 +15276,6 @@ msgstr "仓库已更新"
 msgid "Available Repositories"
 msgstr "可用仓库"
 
-msgid "Unavailable"
-msgstr "不可用"
-
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
 "GitHub."
@@ -14214,7 +15514,8 @@ msgstr "资源已更新"
 msgid ""
 "A language translation became fully translated after an individual edit. "
 "Automatic translation, uploads, and bulk edits do not emit this event."
-msgstr "单个编辑后一种翻译语言翻译完毕。自动翻译、上传和批量编辑不省略此事件。"
+msgstr ""
+"单个编辑后一种翻译语言翻译完毕。自动翻译、上传和批量编辑不会发出此事件。"
 
 msgid "Translation completed"
 msgstr "完成了翻译"
@@ -14243,9 +15544,7 @@ msgstr "添加了译文"
 msgid ""
 "A translation was added or changed by automatic translation. This is emitted "
 "instead of Translation added or Translation changed."
-msgstr ""
-"自动翻译添加或更改了一则译文。这个事件将被省略，而非显示为添加了翻译或更改了"
-"翻译。"
+msgstr "自动翻译添加或更改了一个翻译，不会发出“已添加翻译”或“已更改翻译”。"
 
 msgid "A translation suggestion was accepted as the translation."
 msgstr "一个翻译建议被接受为译文。"
@@ -14350,7 +15649,7 @@ msgstr "删除了建议"
 msgid ""
 "A translation was changed by a search-and-replace operation. This is emitted "
 "instead of Translation changed."
-msgstr "搜索并替换操作更改了一个翻译。该事件将被省略而非显示为更改了翻译。"
+msgstr "搜索和并替换操作更改了一个翻译，不会发出“翻译已更改”事件。"
 
 msgid "Translation replaced"
 msgstr "替换了翻译"
@@ -14441,9 +15740,6 @@ msgstr "重命名了部件"
 
 msgid "A component was moved within a project."
 msgstr "在项目内移动了一个部件。"
-
-msgid "Moved component"
-msgstr "移动了部件"
 
 msgid "A user made their first contribution to a translation."
 msgstr "用户向翻译作了第一个贡献。"
@@ -14631,7 +15927,7 @@ msgid ""
 "individual edit. Automatic translation, uploads, and bulk edits do not emit "
 "this event."
 msgstr ""
-"单个编辑后一个部件中的所有语言均翻译完毕。自动翻译、上传和批量编辑不省略这个"
+"单个编辑后一个部件中的所有语言均翻译完毕。自动翻译、上传和批量编辑不会发出此"
 "事件。"
 
 msgid "Component translation completed"
@@ -14928,6 +16224,9 @@ msgstr "该部件似乎未使用。"
 msgid "Glossary using monolingual files."
 msgstr "使用单语言文件的术语表。"
 
+msgid "Restricted glossary is not used."
+msgstr "不使用受限的术语表。"
+
 msgid "Glossary string management is disabled"
 msgstr "禁用了术语表字符串管理"
 
@@ -14984,6 +16283,10 @@ msgid "Could not merge the pull request automatically."
 msgstr "无法自动合并拉取请求。"
 
 #. Translators: Name of an alert
+msgid "Could not customize the pull request."
+msgstr "无法自定义拉取请求。"
+
+#. Translators: Name of an alert
 msgid "Repository outdated."
 msgstr "仓库已过时。"
 
@@ -15009,6 +16312,15 @@ msgstr "Java MessageFormat 中的撇号 '"
 msgid "Trailing and leading whitespace"
 msgstr "首尾空格"
 
+msgid "Automatic translation completed with errors, no strings were updated."
+msgstr "自动翻译已完成，但有错误，没有更新字符串。"
+
+#, python-format
+msgid "Automatic translation completed with errors, %d string was updated."
+msgid_plural ""
+"Automatic translation completed with errors, %d strings were updated."
+msgstr[0] "自动翻译已完成，但有错误，%d 条字符串已更新。"
+
 msgid "Automatic translation completed, no strings were updated."
 msgstr "自动翻译已完成，没有字符串被更新。"
 
@@ -15016,6 +16328,10 @@ msgstr "自动翻译已完成，没有字符串被更新。"
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "自动翻译已完成，%d 条字符串已更新。"
+
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr "自动翻译跳过了超出文本长度限制的字符串。"
 
 #, python-format
 msgid ""
@@ -15025,6 +16341,23 @@ msgid ""
 msgstr ""
 "%(component)s 复数形式不匹配目标翻译。自动翻译跳过了复数形式字符串，只处理了"
 "单数形式字符串。"
+
+msgid ""
+"Plural forms in some source components do not match the target translation. "
+"Automatic translation skipped pluralized strings and processed only single-"
+"form strings."
+msgstr ""
+"某些源部件中的复数形式不匹配目标翻译。自动翻译跳过了复数形式字符串，只处理了"
+"单数形式字符串。"
+
+msgid ""
+"Automatic translation lost its database connection. Please try again later."
+msgstr "自动翻译丢失了它的数据库连接。请稍后再试。"
+
+msgid ""
+"Automatic translation is already running for this translation. Please try "
+"again later."
+msgstr "这个翻译已经在运行自动翻译。请稍后重试。"
 
 #, python-format
 msgid "Automatic translation failed: %s"
@@ -15067,6 +16400,13 @@ msgstr "重复的已保存的搜索名。"
 msgid "Screenshot image is missing."
 msgstr "缺少屏幕截图。"
 
+msgid "Revision must be a complete hexadecimal object ID."
+msgstr "修改必须是一个完整的十六进制对象 ID。"
+
+#, python-format
+msgid "Could not validate repository URL: %s"
+msgstr "无法验证仓库 URL：%s"
+
 msgid "Duplicate check name."
 msgstr "重复检查名。"
 
@@ -15078,6 +16418,9 @@ msgstr "部件文件名不匹配其类别和标识串。"
 
 msgid "Duplicate component slug."
 msgstr "重复部件标识串。"
+
+msgid "Translation revision has an invalid format."
+msgstr "翻译修改有一个无效的格式。"
 
 msgid "Duplicate translation identifier."
 msgstr "重复的译文标识符。"
@@ -15128,14 +16471,85 @@ msgstr "仓库数据不属于已恢复的部件。"
 msgid "Repository-linked components can not contain repository data."
 msgstr "与仓库链接的部件不能含有仓库数据。"
 
+msgid "Imported authors"
+msgstr "导入了作者"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
 msgstr "跳过了 %(component)s 部件因其链接的仓库不可用。"
 
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+"已将受限部件 %(component)s 访问属性恢复为公开，因为目标工作区的付费套餐要求公"
+"开的内容。"
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr "跳过了 %(username)s 用户因为没有符合要求的本地账户匹配该备份。"
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
+msgstr "用户 %(username)s 正在等待邀请接受；导入的作者身份在接受前保持匿名。"
+
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is unknown."
+msgstr "跳过了 %(component)s %(family)s 中的 %(parameter)s 参数，因为它未知。"
+
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is not applicable."
+msgstr ""
+"跳过了 %(component)s %(family)s 中的 %(parameter)s 参数，因为它不可应用。"
+
+msgid "Version control parameters"
+msgstr "版本控制参数"
+
+msgid "File format parameters"
+msgstr "文件格式参数"
+
 msgid "The project repository directory already exists."
 msgstr "项目存储库目录已存在。"
+
+msgid "Invalid search type."
+msgstr "无效的搜索类型。"
+
+msgid "Enter a search string to replace."
+msgstr "请输入一个要被替代的搜索字符。"
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] "%d 条字符串将保持不变，因为编辑后的文本会太长。"
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] "未更改 %d 条字符串，因为编辑过的文本会太长。"
+
+msgid "Invalid target state."
+msgstr "无效的目标状态。"
+
+msgid "Choose either replacement or clearing translations."
+msgstr "选择替换或清理译文。"
+
+#, python-format
+msgid "Bulk edits are limited to %(limit)d strings. Narrow the search query."
+msgstr "批量编辑上限为 %(limit)d 条字符串。请缩小搜索查询。"
 
 msgid "The component was automatically locked because of an alert."
 msgstr "该部件因为一个警报而被自动锁定。"
@@ -15192,6 +16606,9 @@ msgstr "原始更改：{}"
 msgid "New revision: {}"
 msgstr "新版本：{}"
 
+msgid "Content is too long to show in the change list."
+msgstr "内容太长无法在更改列表中显示。"
+
 #, python-format
 msgctxt "Number of edits on a change in Damerau–Levenshtein distance"
 msgid "%(count)d character edited"
@@ -15239,6 +16656,9 @@ msgstr "待接受的建议"
 msgid "Needs review"
 msgstr "需要复查"
 
+msgid "This component does not exist or you cannot access it."
+msgstr "这个部件不存在或你无法访问它。"
+
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr "Hosted Weblate，本地化您的软件项目的最佳之处。"
 
@@ -15250,9 +16670,6 @@ msgstr "本站正运行 Weblate 以进行各种软件项目的本地化。"
 
 msgid "Version control"
 msgstr "版本控制"
-
-msgid "State"
-msgstr "状态"
 
 msgid "Severity"
 msgstr "严重程度"
@@ -15301,6 +16718,11 @@ msgstr "文件掩码匹配主部件。"
 #, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
 msgstr "{filename}（{parameter}）不存在。"
+
+#. Translators: condensed rendering of a change action in history
+#, python-format
+msgid "%(action)s at %(time)s on %(translation)s"
+msgstr "于 %(time)s 对 %(translation)s %(action)s"
 
 #. Translators: %s is site title here
 #, python-format
@@ -15462,6 +16884,49 @@ msgstr "MAC (\\r)"
 
 msgid "Include closing tag for blank XML tags"
 msgstr "包括空白 XML 标记的结束标记"
+
+msgid "UTF-8 byte order mark"
+msgstr "UTF-8 字节顺序标记"
+
+msgid "Preserve input"
+msgstr "保留输入"
+
+msgid "Always include"
+msgstr "始终包括"
+
+msgid "Always omit"
+msgstr "始终略去"
+
+msgid ""
+"Controls the UTF-8 byte order mark. Other encodings are unchanged. New files "
+"without a template omit the mark when preserving input."
+msgstr ""
+"控制 UTF-8 字节顺序标记。不更改其他编码。没有模板的新文件保留输入时省去该标"
+"记。"
+
+msgid "XML declaration encoding case"
+msgstr "XML 声明编码大小写"
+
+msgid "Format default"
+msgstr "格式默认值"
+
+msgid "Uppercase"
+msgstr "大写"
+
+msgid "Lowercase"
+msgstr "小写字母"
+
+msgid ""
+"Controls encoding names in the XML declaration, for example \"UTF-8\" or "
+"\"utf-8\"."
+msgstr "控制 XML 声明中的编码名，比如 \"UTF-8\" 或 \"utf-8\" 。"
+
+msgid "XML final newline"
+msgstr "XML 最终换行符"
+
+msgid ""
+"Controls the newline at the end of the file, using the format's line endings."
+msgstr "控制文件末尾的换行符，使用该格式的行尾结束符。"
 
 msgid "Whitespace handling"
 msgstr "空白处理"
@@ -15732,6 +17197,17 @@ msgstr "当源字符串更新或者被手动标记时，相应的字符串会被
 msgid "Review state"
 msgstr "审核状态"
 
+msgid "The original review state is missing. Reload the editor and try again."
+msgstr "原本的审核状态缺失。重新加载编辑器并重试。"
+
+msgid "The original review state is invalid. Reload the editor and try again."
+msgstr "原本的审核状态无效。重新加载编辑器并重试。"
+
+msgid ""
+"This review state is not available for this string. Reload the editor and "
+"select an available state."
+msgstr "这条字符串没有这个审核状态。重新加载编辑器比给选择可用的状态。"
+
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "额外的解释，用于阐明字符串的含义或用法。"
 
@@ -15906,6 +17382,9 @@ msgstr "译文标记—— %(language)s"
 msgid "You do not have permission to edit these flags."
 msgstr "你无权编辑这些标记。"
 
+msgid "You do not have permission to create terminology."
+msgstr "您没有创建术语的权限。"
+
 msgid ""
 "Revert the latest translation edits from this user in the current project."
 msgstr "撤销此用户在当前项目中最新的翻译编辑。"
@@ -16048,6 +17527,9 @@ msgstr "分支请求次数过多，请稍后重试。"
 msgid "Could not load repository branches. Please try again."
 msgstr "无法加载仓库分支。请重试。"
 
+msgid "You do not have permission to edit this project."
+msgstr "你无权编辑这个项目。"
+
 msgid "ZIP file containing translations"
 msgstr "包含翻译的 ZIP 文件"
 
@@ -16134,18 +17616,6 @@ msgstr "无法加载项目备份：%s"
 msgid "Could not load project backup."
 msgstr "无法加载项目备份。"
 
-msgid "Optional additional filter applied to the strings"
-msgstr "应用于字符串的可选附加筛选器"
-
-msgid "Search string"
-msgstr "搜索字符串"
-
-msgid "Case-sensitive string to search for and replace."
-msgstr "要搜索和替换的区分大小写的字符串。"
-
-msgid "Replacement string"
-msgstr "替换字符串"
-
 msgid "Key or context"
 msgstr "键或上下文"
 
@@ -16190,11 +17660,32 @@ msgid ""
 "without change."
 msgstr "如果句子应与源语言保持相同，没有更改，则标记此选项。"
 
-msgid "You do not have permission to create terminology."
-msgstr "您没有创建术语的权限。"
-
 msgid "Invalid string selection!"
 msgstr "无效的字符串选择！"
+
+msgid "Search type"
+msgstr "搜索方式"
+
+msgid "Text"
+msgstr "文本"
+
+msgid "Search string"
+msgstr "搜索字符串"
+
+msgid ""
+"Case-sensitive text or regular expression to replace in matching strings. "
+"Leave empty to disable replacement."
+msgstr "要在匹配的字符串中替换的不区分大小写的文本或正则表达式。留空禁用替换。"
+
+msgid "Replacement string"
+msgstr "替换字符串"
+
+msgid ""
+"Leave empty to remove matching text. In regular expression mode, use \\1 for "
+"the first captured group. Named group references are also supported."
+msgstr ""
+"留空删除匹配的文本。正则表达式模式下，对第一个捕获的组使用 \\1。也支持命名组"
+"的参考。"
 
 msgid "State to set"
 msgstr "要设置的状态"
@@ -16202,29 +17693,66 @@ msgstr "要设置的状态"
 msgid "Do not change"
 msgstr "请勿更改"
 
-msgid "Source flags to add — all languages"
-msgstr "要添加的原文标记——所有语言"
+msgid "Add flags"
+msgstr "添加标记"
 
-msgid "Source flags to remove — all languages"
-msgstr "要删除的原文标记——所有语言"
+msgid "Remove flags"
+msgstr "删除标记"
 
-msgid "Translation flags to add — matching translations"
-msgstr "要添加的译文标记——匹配的译文"
+msgid ""
+"Only flags set directly on these translations are removed. Inherited flags "
+"remain in effect."
+msgstr "只删除直接设定在这些译文上的标记，继承的标记仍有效。"
 
-msgid "Applies only to matching translations, excluding source strings."
-msgstr "只应用到匹配的译文，排除源字符串。"
+msgid "Add labels"
+msgstr "添加标签"
 
-msgid "Translation flags to remove — matching translations"
-msgstr "要删除的翻译标记——匹配的译文"
+msgid "Remove labels"
+msgstr "删除标签"
 
-msgid "Removes locally set flags. Inherited flags remain in effect."
-msgstr "移除本地设置的标记。继承的标记仍然有效。"
+msgid "Preview changes"
+msgstr "预览更改"
 
-msgid "Labels to add — all languages"
-msgstr "要添加的标签——所有语言"
+msgid "Choose flags to add…"
+msgstr "选择要添加的标记…"
 
-msgid "Labels to remove — all languages"
-msgstr "要删除的标签——所有语言"
+msgid "Choose flags to remove…"
+msgstr "选择要删除的标记…"
+
+msgid "Source flags"
+msgstr "源标记"
+
+msgid ""
+"Flags are set on the source strings corresponding to your selection and "
+"apply to their translations in every language."
+msgstr ""
+"标记在对应于你的选择的源字符串上设置并应用到这些字符串每种语言的译文中。"
+
+msgid ""
+"Flags are set on the source strings corresponding to your filter results and "
+"apply to their translations in every language."
+msgstr ""
+"标记在对应于你的筛选结果的源字符串上设置并应用到这些字符串每种语言的译文中。"
+
+msgid ""
+"Flags apply only to translations in your selection. Source strings are "
+"excluded."
+msgstr "标记只应用到你选择的译文。源字符串被排除。"
+
+msgid ""
+"Flags apply only to translations matching your filter. Source strings are "
+"excluded."
+msgstr "标记只应用到匹配你的筛选器的译文。源字符串被排除。"
+
+msgid ""
+"Labels apply to the source strings corresponding to your selection and are "
+"shared across all languages."
+msgstr "标签应用到对应你的选择的源字符串并在所有语言间共享。"
+
+msgid ""
+"Labels apply to the source strings corresponding to your filter results and "
+"are shared across all languages."
+msgstr "标签应用到对应于你的筛选器结果的源字符串并在所有语言间共享。"
 
 msgid "Select strings to edit or enter a search query."
 msgstr "选择要编辑或输入搜索查询的字符串。"
@@ -16463,9 +17991,6 @@ msgstr "类别名称"
 msgid "Display name"
 msgstr "显示名称"
 
-msgid "Translation flags"
-msgstr "翻译标记"
-
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr "影响 Weblate 行为的额外逗号分隔的标记。"
 
@@ -16648,11 +18173,6 @@ msgstr "通过文档上传创建了部件"
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(user)s 于 %(time)s 对 %(translation)s %(action)s"
 
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "于 %(time)s 对 %(translation)s %(action)s"
-
 msgctxt "Change origin badge"
 msgid "API"
 msgstr "API"
@@ -16726,9 +18246,6 @@ msgid ""
 msgstr ""
 "用于访问包含翻译的仓库的版本控制系统。您还可以选择与第三方提供商的其他集成来"
 "提交拉取/合并请求。"
-
-msgid "Version control parameters"
-msgstr "版本控制参数"
 
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
@@ -16837,9 +18354,6 @@ msgid ""
 msgstr ""
 "请指定模板文件，新语言的翻译文档将会套用该模板。对于 gettext 格式，请选"
 "择 .pot 文件。"
-
-msgid "File format parameters"
-msgstr "文件格式参数"
 
 msgid "Locked component will not get any translation updates."
 msgstr "锁定的部件将不会收到任何翻译更新。"
@@ -17299,6 +18813,9 @@ msgstr ""
 "不用合并请求进行推送需要仓库的写入权限。配置含凭证的推送 URL，或使用 SSH 仓"
 "库 URL。"
 
+msgid "The file mask is too complex and took too long to evaluate."
+msgstr "文件掩码太复杂，求值时间太长。"
+
 msgid ""
 "A component can not be restricted while its project uses shared translation "
 "memory."
@@ -17552,6 +19069,10 @@ msgstr "搜索描述"
 msgid "Could not accept suggestion!"
 msgstr "无法接受建议！"
 
+#, python-format
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr "无法自动接受该建议：%s"
+
 msgid "Uploaded translation file is too big."
 msgstr "上传的翻译文件太大。"
 
@@ -17603,6 +19124,15 @@ msgstr "上传文件中的复数形式 %d 超出范围。"
 msgid "Plural form %d in the uploaded file is missing."
 msgstr "上传文件中的复数形式 %d 缺失。"
 
+#, python-format
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr "上传的文件包含一条过长的字符串：%s"
+
+#, python-format
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] "无法将 %d 条字符串传播到所有部件。"
+
 msgid "The uploaded file contains too many language declarations."
 msgstr "上传的文件包含太多语言说明。"
 
@@ -17626,6 +19156,10 @@ msgstr "无法提交待处理的更改：%s"
 #, python-brace-format
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "无法将上传文件解析为 {file_format} 格式：{error}"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr "建议上传上限为 %d 条字符串。"
 
 #, python-format
 msgid "Could not parse translation file: %s"
@@ -17661,6 +19195,15 @@ msgstr "无法将字符串传播至 %(component)s 部件：%(reason)s"
 msgid "String could not be propagated to %d component."
 msgid_plural "String could not be propagated to %d components."
 msgstr[0] "无法将字符串传播至 %d 个部件。"
+
+#, python-format
+msgid ""
+"The review state of this string has changed from %(previous)s to %(current)s "
+"while you were editing it. Reload the editor and review your changes before "
+"saving."
+msgstr ""
+"这条字符串的审核状态在你编辑它时已从 %(previous)s 变为 %(current)s。重新加载"
+"编辑器并在保存前查看你的更改。"
 
 msgid "Unmark as untranslatable for all languages"
 msgstr "在所有语言中取消标记为不可翻译"
@@ -17833,6 +19376,27 @@ msgstr[0] ""
 "接受了来自 %(user)s 的 %(total)d 个建议中的 %(accepted)d 个建议。因权限或检查"
 "有 %(failed)d 个建议失败。"
 
+msgid "Bulk edit parameters are no longer valid."
+msgstr "批量编辑参数不再有效。"
+
+#, python-format
+msgid "Bulk edit failed after processing %(count)d strings: %(error)s"
+msgstr "在处理了 %(count)d 条字符串后批量编辑失败：%(error)s"
+
+msgid "The target or permissions changed."
+msgstr "目标或权限已更改。"
+
+#, python-format
+msgid ""
+"Bulk edit failed after processing %(count)d strings. Earlier batches may "
+"have been applied."
+msgstr "在处理了 %(count)d 条字符串后批量编辑失败。早先的批次可能已被应用。"
+
+#, python-format
+msgid "Bulk edit completed, %d string was updated."
+msgid_plural "Bulk edit completed, %d strings were updated."
+msgstr[0] "批量编辑已完成，已更新 %d 条字符串。"
+
 msgid "Automatic translation skipped because the target no longer exists."
 msgstr "跳过了自动翻译，因目标不再存在。"
 
@@ -17846,13 +19410,13 @@ msgid "Project backup import completed."
 msgstr "项目备份导入完成。"
 
 msgid "Good configuration"
-msgstr "好的设定"
+msgstr "好配置"
 
 msgid "Bad configuration"
-msgstr "坏的设定"
+msgstr "坏配置"
 
 msgid "Possible configuration"
-msgstr "可能的设定"
+msgstr "可能的配置"
 
 msgid "Priority: Very high"
 msgstr "优先级：极高"
@@ -17978,6 +19542,24 @@ msgstr "添加新的翻译字符串，跳过已存在的字符串。"
 msgid "Updates source strings in bilingual translation file."
 msgstr "更新双语翻译文件中的源字符串。"
 
+msgid "A translation upload is already in progress."
+msgstr "已经在进行一个翻译上传。"
+
+msgid "The uploaded file has expired or was already processed."
+msgstr "上传的文件已过期或已被处理。"
+
+msgid "The uploaded file has expired."
+msgstr "上传的文件已过期。"
+
+msgid "The upload target or permissions changed."
+msgstr "上传目标或权限已更改。"
+
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr "上传文件的复数形式和当前翻译不匹配。"
+
+msgid "File upload has failed. Please try again later."
+msgstr "文件上传失败了，请稍后再试。"
+
 msgid "Very high"
 msgstr "极高"
 
@@ -18083,6 +19665,9 @@ msgstr "您不能移除你自己！"
 msgid "You can not block yourself on this project."
 msgstr "你不能在这个项目上阻止自己。"
 
+msgid "Remove project administration rights before blocking this user."
+msgstr "封禁该用户前删除项目管理权。"
+
 msgid "User has been blocked on this project."
 msgstr "用户已在这个项目上被阻止。"
 
@@ -18127,6 +19712,9 @@ msgid_plural ""
 "Language %(language)s could not be added to %(count)d components. Please "
 "check the components' configuration."
 msgstr[0] "无法添加 %(language)s 语言到 %(count)d 个部件。请检查部件的配置。"
+
+msgid "You do not have permission to add this language."
+msgstr "你没有添加这种语言的权限。"
 
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
@@ -18320,8 +19908,8 @@ msgstr "无效的请求"
 msgid "Access denied."
 msgstr "访问被拒绝。"
 
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr "上传文件的复数形式和当前翻译不匹配。"
+msgid "Translation upload in progress."
+msgstr "翻译上传进行中。"
 
 msgid "Use the button on the repository status page to run this action."
 msgstr "使用仓库状态页上的按钮运行此操作。"
@@ -18361,11 +19949,17 @@ msgstr "因为翻译更新，部件现已锁定！"
 msgid "All components are now locked for translation updates!"
 msgstr "因为翻译更新，所有部件现已锁定！"
 
+msgid "Allowed components are now locked for translation updates!"
+msgstr "现已锁定已允许的部件进行翻译更新！"
+
 msgid "Component is now open for translation updates."
 msgstr "部件已开放翻译更新。"
 
 msgid "All components are now open for translation updates."
 msgstr "现已开放所有部件进行翻译更新。"
+
+msgid "Allowed components are now open for translation updates."
+msgstr "已允许的部件现已开放翻译更新。"
 
 msgid "Generating report…"
 msgstr "正在生成报告…"
@@ -18415,17 +20009,6 @@ msgstr "包含的用户天数"
 msgid "Excluded user days"
 msgstr "排除了用户天数"
 
-msgid "Could not process form!"
-msgstr "无法处理表单！"
-
-msgid "Search and replace completed, no strings were updated."
-msgstr "搜索并替换已完成，未更新任何字符串。"
-
-#, python-format
-msgid "Search and replace completed, %d string was updated."
-msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] "搜索并替换已完成，%d 条字符串已更新。"
-
 #, python-format
 msgid "Search for %s"
 msgstr "搜索 %s"
@@ -18436,13 +20019,24 @@ msgstr "搜索查询请求次数过多，请稍后重试。"
 msgid "Invalid search query!"
 msgstr "无效的搜索查询请求！"
 
-msgid "Bulk edit completed, no strings were updated."
-msgstr "批量编辑已完成，未更新任何字符串。"
+msgid "Too many bulk edits, please try again later."
+msgstr "批量编辑过多，请稍后再试。"
+
+msgid "The preview has expired or is invalid. Preview the changes again."
+msgstr "预览已过期或无效。再次预览这些更改。"
+
+msgid "Could not process form!"
+msgstr "无法处理表单！"
+
+msgid "Bulk edit in progress."
+msgstr "正进行批量编辑。"
 
 #, python-format
-msgid "Bulk edit completed, %d string was updated."
-msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] "批量编辑已完成，已更新 %d 条字符串。"
+msgid "Bulk edit failed: %s"
+msgstr "批量编辑失败：%s"
+
+msgid "Bulk edit completed, no strings were updated."
+msgstr "批量编辑已完成，未更新任何字符串。"
 
 msgid "Settings saved"
 msgstr "设置已保存"
@@ -18564,8 +20158,10 @@ msgid "language"
 msgid_plural "languages"
 msgstr[0] "语言"
 
-msgid "No valid billing found or limit exceeded."
-msgstr "未找到有效付账信息或超过限制。"
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
+msgstr "目标工作区的付费套餐只允许没有受限部件的公开项目。"
 
 msgid "The project is already assigned to this workspace."
 msgstr "该项目已分配到此工作区。"
@@ -18587,6 +20183,135 @@ msgstr "Borg 已完成，但有没有任何输出的警告。"
 
 msgid "Invalid host name given!"
 msgstr "主机名无效！"
+
+msgid "Press ? in the translation editor to discover keyboard shortcuts."
+msgstr "在翻译编辑器中按下 ? 来发现键盘快捷键。"
+
+msgid ""
+"Add secondary languages in your preferences to see translations you already "
+"understand alongside the source."
+msgstr "在首选项中添加第二语言来同时查看原文和你已经理解的译文。"
+
+msgid ""
+"Customize your special characters in your profile to keep frequently used "
+"characters within reach."
+msgstr "在个人资料中自定义你的特殊字符便于使用常用字符。"
+
+msgid ""
+"Use the visual keyboard above the translation field to insert special "
+"characters."
+msgstr "使用翻译框上方的可视化键盘来插入特殊字符。"
+
+msgid ""
+"Save searches you use often so you can return to them from the search "
+"filters."
+msgstr "保存经常使用的搜索以便可以在搜索筛选器中便捷使用。"
+
+msgid ""
+"Combine search conditions with AND, OR, and NOT to find exactly the strings "
+"you need."
+msgstr "使用 AND、OR 与 NOT 组合搜索条件，精确找出你所需要的字符串。"
+
+msgid ""
+"Search with regular expressions when a simple word search is not enough."
+msgstr "简单的单词搜索不够用时通过正则表达式来搜索。"
+
+msgid "Use labels to organize strings and find related translation work."
+msgstr "用标签组织字符串并寻找相关的翻译工作。"
+
+msgid ""
+"Check a string’s screenshots to see where the text appears in the "
+"application."
+msgstr "查看字符串的屏幕截图看一看文本出现在程序的什么地方。"
+
+msgid ""
+"Link an existing screenshot to a string to give translators more context."
+msgstr "将一张现有的屏幕截图关联到一条字符串以给予更多上下文信息。"
+
+msgid ""
+"Check nearby strings for context before translating a short or ambiguous "
+"message."
+msgstr "翻译简短或含糊的字符串前查看附近字符串获取上下文信息。"
+
+msgid "Explore a string’s history to see how its translation has changed."
+msgstr "探索一条字符串的历史看一看其译文如何变化。"
+
+msgid ""
+"Leave a comment on a source string to ask for context that can help every "
+"language."
+msgstr "留下一则源字符串评论来请求可以帮助每种语言的上下文信息。"
+
+msgid ""
+"Suggest a translation when you want others to review your wording before it "
+"is accepted."
+msgstr "希望其他人在你的翻译被接受前审核你的措辞时请做出建议。"
+
+msgid "You can edit a translation suggestion before accepting it."
+msgstr "在接受翻译建议前你可以编辑它。"
+
+msgid ""
+"Add terms to a project glossary to help translators use consistent wording."
+msgstr "添加术语到项目的术语表来帮助译者使用一致的措辞。"
+
+msgid ""
+"Glossaries can mark terms as forbidden to help translators avoid unwanted "
+"wording."
+msgstr "术语表可将属于标记为禁止翻译来帮助译者避免多余的措辞。"
+
+msgid "Glossaries can mark names and other terms as untranslatable."
+msgstr "词汇表可将名称等术语标示为不可翻译。"
+
+msgid ""
+"Watch projects you care about and choose which translation events notify you."
+msgstr "关注你在意的项目并选择要通知你的翻译事件。"
+
+msgid ""
+"Choose notification digests to receive translation updates together instead "
+"of one email at a time."
+msgstr "选择通知摘要来集中接收翻译更新而不是一次一封电子邮件。"
+
+msgid "Regular expression processing failed or exceeded its resource limit."
+msgstr "正则表达式处理失败或超出了其资源限制。"
+
+msgid "Cumulative regex time limit exceeded."
+msgstr "超过了累计的正则表达式时间限制。"
+
+msgid "Regex request exceeds its size limit."
+msgstr "正则表达式请求超出了其大小限制。"
+
+msgid "Regular expression evaluation timed out."
+msgstr "正则表达式求值超时。"
+
+msgid "Regex response exceeds its size limit."
+msgstr "正则表达式响应超出了其大小限制。"
+
+msgid "Regex output exceeds its size limit."
+msgstr "正则表达式输出超过了其大小限制。"
+
+msgid "Pattern and replacement must not exceed 4096 characters."
+msgstr "模式和替换不能超过 4096 个字符。"
+
+msgid "Regex input exceeds 1 MiB per plural."
+msgstr "正则表达式输入超出了每个复数 1 MiB。"
+
+#, python-format
+msgid "Invalid regular expression or replacement: %s"
+msgstr "无效的正则表达式或替换：%s"
+
+msgid "Automatic translation reported a warning."
+msgstr "自动翻译报告了警告。"
+
+msgid "Automatic translation is waiting for another operation to finish."
+msgstr "自动翻译正等待别的操作完成。"
+
+msgid "Automatic translation failed. See the task log for details."
+msgstr "自动翻译失败。查看任务日志了解详情。"
+
+msgid "Task could not be completed. See the task log for details."
+msgstr "无法完成任务。详情见任务日志。"
+
+msgid "Automatic translation reported an error."
+msgstr "自动翻译报告了错误。"
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -18733,12 +20458,23 @@ msgstr "无法解析 URL 域名：{}"
 msgid "Could not resolve the URL domain."
 msgstr "无法解析 URL 域名。"
 
+msgid "Invalid stored parameter value."
+msgstr "无效的已存储的参数值。"
+
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "参数必须是键值对的字典。"
 
-#, python-format
-msgid "Undefined variable: \"%s\""
-msgstr "未定义的变量：“%s”"
+msgid "Template output exceeds its size limit."
+msgstr "模板输出超过了其大小限制。"
+
+msgid "Template rendering failed or exceeded its resource limits."
+msgstr "模板渲染失败或超出了其资源限制。"
+
+msgid "Oversized template response."
+msgstr "过大的模板响应。"
+
+msgid "Invalid template rendering response."
+msgstr "无效的模板渲染响应。"
 
 msgid "Could not render template: {}"
 msgstr "无法渲染模版：{}"
@@ -18746,12 +20482,55 @@ msgstr "无法渲染模版：{}"
 msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
-msgstr "格式化字符串已不再支持，请改用模板语言。"
+msgstr "该格式字符串已不再支持，请改用模板语言。"
+
+msgid "Template value exceeds its size limit."
+msgstr "模板值超过了其大小限制。"
+
+msgid "Template context is nested too deeply."
+msgstr "模板上下文嵌套太深。"
+
+msgid "Template context exceeds its size limit."
+msgstr "模板上下文超出了其大小限制。"
+
+msgid "Unsupported template context key."
+msgstr "不支持的模板上下文键。"
+
+msgid "Unsupported template context value."
+msgstr "不支持的模板上下文值。"
+
+msgid "Template rendering exceeded its time limit."
+msgstr "模板渲染超出了其时间限制。"
+
+msgid "Template rendering exceeded its loop limit."
+msgstr "模板渲染超出了其循环限制。"
+
+msgid "Template intermediate value exceeds its size limit."
+msgstr "模板中间值超出了其大小限制。"
+
+msgid "Template replacement exceeds its size limit."
+msgstr "模板替换超出了其大小限制。"
+
+msgid "Template padding exceeds its size limit."
+msgstr "模板填充超出了其大小限制。"
+
+msgid "Template formatting exceeds its size limit."
+msgstr "模板格式超出了其大小限制。"
+
+msgid "Template join exceeds its size limit."
+msgstr "模板连接超出了其大小限制。"
+
+#, python-format
+msgid "Undefined variable: \"%s\""
+msgstr "未定义的变量：“%s”"
 
 #, python-format
 msgid ""
 "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
 msgstr "无法从提供的 URL 下载资产（HTTP 状态码：%(code)s）。"
+
+msgid "Regular expression is too complex."
+msgstr "正则表达式太复杂。"
 
 msgid "Search query is too complex."
 msgstr "搜索条目太复杂。"
@@ -18781,6 +20560,9 @@ msgstr "无效正则表达式：{}"
 msgid "Unsupported lookup for {field}: {value}"
 msgstr "不支持查找 {field}:{value}"
 
+msgid "A concrete project or component is required."
+msgstr "需要具体的项目或部件。"
+
 msgid "Could not parse IP address: {}"
 msgstr "无法解析 IP 地址：{}"
 
@@ -18792,6 +20574,9 @@ msgstr "{} 字段不支持区间"
 
 msgid "Mixed operators!"
 msgstr "混合的搜索运算符！"
+
+msgid "Search query is too long."
+msgstr "搜索查询过长。"
 
 msgid "Invalid character in the query string"
 msgstr "查询字符串中的字符无效"
@@ -18970,6 +20755,9 @@ msgstr "Fediverse URL 应该链接到 Fediverse 用户个人资料。"
 msgid "URL domain is not allowed."
 msgstr "URL 域不被允许。"
 
+msgid "AMQP broker URLs must not contain query strings or fragments."
+msgstr "AMQP broker URL 不能包含查询字符串或片段。"
+
 msgid "Repository URL contains unsafe characters."
 msgstr "仓库 URL 包含不安全的字符。"
 
@@ -19136,6 +20924,35 @@ msgstr "拉取请求列举失败：%(error)s"
 #, python-format
 msgid "Pull request listing failed: %(error)s Please retry later."
 msgstr "拉取请求列举失败：%(error)s 请稍后重试。"
+
+#, python-format
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s"
+msgstr "在自定义拉取请求时 %(service)s API 请求失败：%(status)s"
+
+#, python-format
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s "
+"Please retry later."
+msgstr "自定义拉取请求时 %(service)s API 请求失败：%(status)s 请稍后重试。"
+
+#, python-format
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s"
+msgstr "自定义拉取请求时 %(service)s API 请求失败 (%(status)s): %(error)s"
+
+#, python-format
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s Please retry later."
+msgstr ""
+"自定义拉取请求时 %(service)s API 请求失败 (%(status)s): %(error)s 请稍后重"
+"试。"
+
+#, python-format
+msgid "GitHub did not assign the requested users: %(assignees)s"
+msgstr "GitHub 未分配请求的用户：%(assignees)s"
 
 #, python-format
 msgid "Could not fork repository at %(hostname)s"
@@ -19433,6 +21250,9 @@ msgstr "无法从这个工作区的已连接 GitHub 账户获取仓库。"
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr "这会推送更改到上游 Mercurial 仓库。"
 
+msgid "Could not remove nested repository metadata."
+msgstr "无法删除嵌套仓库元数据。"
+
 msgid "GitHub"
 msgstr "GitHub"
 
@@ -19494,6 +21314,29 @@ msgstr ""
 "打开翻译更改的拉取或合并请求。关闭时，Weblate 直接推送到翻译分支，这要求写入"
 "该分支的权限。"
 
+msgid "Pull request assignee"
+msgstr "分配到拉取请求任务的用户"
+
+msgid "GitHub username to assign to pull requests created by Weblate."
+msgstr "GitHub 用户名，分配给 Weblate 创建的拉取请求。"
+
+msgid "Assign pull requests to acting user"
+msgstr "分配拉取请求到操作用户"
+
+msgid ""
+"Also assign the GitHub account linked to the Weblate user who starts the "
+"push, when available."
+msgstr "可用时，也分配与启动该推送的 Weblate 用户相关联的 GitHub 账户。"
+
+msgid "Pull request labels"
+msgstr "拉取请求标签"
+
+msgid ""
+"Comma-separated names of labels to add to pull requests created by Weblate. "
+"Existing labels are kept."
+msgstr ""
+"要添加到 Weblate 创建的拉取请求的标签名称（名称间用逗号隔开）。保留现有标签。"
+
 msgid "Merge pull requests automatically"
 msgstr "自动合并拉取请求"
 
@@ -19502,7 +21345,7 @@ msgid ""
 "are merged once the required checks pass. Pull requests with nothing to wait "
 "for are merged right away."
 msgstr ""
-"为Weblate 创建的拉取请求打开 GitHub 自动合并以便通过必需检查后就合并它们。没"
+"为 Weblate 创建的拉取请求打开 GitHub 自动合并以便通过必需检查后就合并它们。没"
 "有等待项的拉取请求会马上合并。"
 
 msgid "Merge method"
@@ -19814,6 +21657,54 @@ msgid ""
 "there is room for a full menu."
 msgstr "右上角始终显示下拉导航菜单，即使有足够的空间显示完整菜单。"
 
+msgid "CSV report"
+msgstr "CSV 报告"
+
+msgid "Delimiter"
+msgstr "定界符"
+
+msgid ""
+"Leave blank to detect automatically. Use a comma, semicolon, pipe, or \\t "
+"for a tab."
+msgstr "留空进行自动检测。标签页使用英文逗号、分号、管道符或 \\t。"
+
+msgid "First row contains column names"
+msgstr "第一行包含列名称"
+
+msgid "Username or e-mail column"
+msgstr "用户名或电子邮件列"
+
+msgid "Password column"
+msgstr "密码列"
+
+msgid ""
+"Specify both column numbers, or leave both blank for automatic detection."
+msgstr "明确两个列编号，或者两个都留空进行自动检测。"
+
+msgid "Configuring"
+msgstr "配置"
+
+msgid "Running"
+msgstr "运行中"
+
+msgid "Open"
+msgstr "未关闭"
+
+msgid "Resolved"
+msgstr "已解决"
+
+msgid "Dismissed by administrator"
+msgstr "被管理员忽略"
+
+msgid "Lookalike e-mail identity removed"
+msgstr "删除了相像的电子邮件身份"
+
+msgid "E-mail identity already changed"
+msgstr "电子邮件身份已更改"
+
+msgid "Password already changed"
+msgstr "密码已更改"
+
 #. Translators: The Weblate server has no paid support by the Weblate team
 msgid "Community support"
 msgstr "社区支持"
@@ -19875,11 +21766,142 @@ msgstr "已清理备份存储"
 msgid "Repository initialization"
 msgstr "仓库初始化"
 
+msgid "Leaked password"
+msgstr "泄露的密码"
+
+msgid "Lookalike verified e-mail address"
+msgstr "极相像的已验证的电子邮箱地址"
+
+msgid "The uploaded report has expired. Upload it again."
+msgstr "上传的报告已过期。再次上传。"
+
+msgid ""
+"Could not detect the credential columns. Configure their column numbers."
+msgstr "无法检测凭据列。配置它们的列编号。"
+
+msgid "Choose different identifier and password columns."
+msgstr "选择不同的标识符和密码列。"
+
+msgid "The report exceeds the 10 MiB limit."
+msgstr "该报告超出了 10 MiB 限制。"
+
+msgid "Upload a UTF-8 encoded CSV file."
+msgstr "上传 UTF-8 编码的 CSV 文件。"
+
+msgid ""
+"Could not detect the delimiter. Configure the CSV columns and delimiter."
+msgstr "无法检测定界符。配置 CSV 列和定界符。"
+
+msgid "Choose a single delimiter character."
+msgstr "选择单个定界符字符。"
+
+msgid "The file contains malformed CSV quoting."
+msgstr "文件包含畸形的 CSV 引用。"
+
+msgid "The report is empty."
+msgstr "该报告是空的。"
+
+msgid "The report exceeds the 50,000 row limit."
+msgstr "该报告超出了 5 万行限制。"
+
+msgid "The report contains no credential rows."
+msgstr "报告不含凭据行。"
+
+msgid ""
+"The initiating administrator no longer has permission to perform this "
+"operation."
+msgstr "发起管理员不再有执行该操作的权限。"
+
+msgid ""
+"The security operation failed. Review any findings already recorded and "
+"start a new operation."
+msgstr "安全操作失败。审核任何已记录的发现并开始新操作。"
+
+msgid "Security report"
+msgstr "安全报告"
+
+#, python-format
+msgid "Report from %(date)s"
+msgstr "从 %(date)s 起的报告"
+
+#, python-format
+msgid "%(filename)s — %(report)s"
+msgstr "%(filename)s — %(report)s"
+
+msgid ""
+"Your identity verification has expired. Confirm your identity, then select "
+"and upload the CSV report again."
+msgstr "你的身份验证已过期。确认你的身份，然后选择并再次上传 CSV 报告。"
+
+msgid "Could not store the encrypted upload. Try again."
+msgstr "无法存储加密的上传。再次尝试。"
+
+msgid "Choose a CSV report of at most 10 MiB."
+msgstr "选择最大 10 MiB 的 CSV 报告。"
+
+msgid "Could not read the uploaded report. Upload it again."
+msgstr "无法读取已上传的报告。再次上传。"
+
+msgid "Passwords checked"
+msgstr "已检查密码"
+
+msgid "Duplicate rows"
+msgstr "重复行"
+
+msgid "Unknown accounts"
+msgstr "未知账户"
+
+msgid "Ambiguous accounts"
+msgstr "模糊账户"
+
+msgid "Malformed rows"
+msgstr "畸形的行"
+
+msgid "Unusable passwords"
+msgstr "不稳定密码"
+
+msgid "Passwords that did not match"
+msgstr "不匹配的密码"
+
+msgid "Passwords reset"
+msgstr "密码已重置"
+
+msgid "Lookalike e-mail identities removed"
+msgstr "删除了相像的电子邮件身份"
+
+msgid "E-mail identities already changed"
+msgstr "电子邮件身份已更改"
+
+msgid "Passwords already changed"
+msgstr "密码已更改"
+
+msgid "Dismissed findings"
+msgstr "忽略的发现"
+
+msgid "Skipped findings"
+msgstr "跳过的发现"
+
+msgid "Unsupported actions"
+msgstr "不支持的操作"
+
+msgid "Primary e-mail address"
+msgstr "主电子邮件地址"
+
+msgid "Verified e-mail address"
+msgstr "已验证的电子邮件地址"
+
+#, python-format
+msgid "Finding for %(username)s"
+msgstr "%(username)s 的发现"
+
 msgid "Weblate administration"
 msgstr "Weblate 管理"
 
 msgid "Object listing turned off"
 msgstr "对象列出功能已关闭"
+
+msgid "The security operation expired. Start a new operation."
+msgstr "安全操作已过期。开始新操作。"
 
 msgid "Return to Weblate"
 msgstr "回到 Weblate"
@@ -20003,6 +22025,15 @@ msgstr "继承的部件默认值"
 msgid "Workspace name"
 msgstr "工作区名"
 
+msgid "Translation propagation scope"
+msgstr "翻译传播范围"
+
+msgid "Matching component name within workspace"
+msgstr "工作区内相匹配的部件名"
+
+msgid "Where translations of matching strings are propagated."
+msgstr "在哪里传播匹配的字符串的译文。"
+
 msgid "Managed name"
 msgstr "管理的名称"
 
@@ -20028,6 +22059,89 @@ msgstr "仍在使用该工作区，无法删除它。"
 
 msgid "The workspace has been removed."
 msgstr "删除了工作区。"
+
+#, python-format
+#~ msgid ""
+#~ "Fedora Messaging publisher service was unavailable; the connection will "
+#~ "be recreated on the next attempt: %(error)s"
+#~ msgstr ""
+#~ "Fedora Messaging 发布者服务不可用；下次尝试时将重新创建连接：%(error)s"
+
+#~ msgid "Could not reset Fedora Messaging publisher service."
+#~ msgstr "无法重置 Fedora Messaging 发布者服务。"
+
+#, python-format
+#~ msgid "Fedora Messaging broker URL is invalid: %(error)s"
+#~ msgstr "Fedora Messaging 代理 URL 无效：%(error)s"
+
+#~ msgid "E-mail verification almost complete"
+#~ msgstr "即将完成电子邮箱验证"
+
+#~ msgid ""
+#~ "Click the confirmation link sent to your e-mail inbox to verify the "
+#~ "address for your account."
+#~ msgstr "单击发送到您的电子邮件收件箱的确认链接来验证账户的地址。"
+
+#~ msgid "Search and replace"
+#~ msgstr "搜索并替换"
+
+#~ msgid "Stop using this installation without removing its configuration."
+#~ msgstr "停止使用这个安装而不删除其配置。"
+
+#~ msgid "Stop using this inherited installation here."
+#~ msgstr "停止在此处使用这个继承的安装。"
+
+#~ msgid "Remove this installation and its configuration."
+#~ msgstr "删除这个安装及其配置。"
+
+#~ msgid "Please review and confirm the search and replace results."
+#~ msgstr "请审核并确认本次搜索与替换的结果。"
+
+#~ msgid ""
+#~ "Showing and replacing only the first 250 matches. Perform the replacement "
+#~ "again to replace more."
+#~ msgstr "仅显示和替换前 250 个匹配项。再次执行替换以替换更多。"
+
+#~ msgid "Replace"
+#~ msgstr "替换"
+
+#~ msgid "Find strings in image"
+#~ msgstr "在图片中寻找字符串"
+
+#~ msgid "You can change the state of all strings matching given type at once."
+#~ msgstr "您可以一次性更改所有匹配给定类型的字符串的状态。"
+
+#~ msgid "Optional additional filter applied to the strings"
+#~ msgstr "应用于字符串的可选附加筛选器"
+
+#~ msgid "Case-sensitive string to search for and replace."
+#~ msgstr "要搜索和替换的区分大小写的字符串。"
+
+#~ msgid "Source flags to add — all languages"
+#~ msgstr "要添加的原文标记——所有语言"
+
+#~ msgid "Source flags to remove — all languages"
+#~ msgstr "要删除的原文标记——所有语言"
+
+#~ msgid "Translation flags to add — matching translations"
+#~ msgstr "要添加的译文标记——匹配的译文"
+
+#~ msgid "Translation flags to remove — matching translations"
+#~ msgstr "要删除的翻译标记——匹配的译文"
+
+#~ msgid "Labels to add — all languages"
+#~ msgstr "要添加的标签——所有语言"
+
+#~ msgid "Labels to remove — all languages"
+#~ msgstr "要删除的标签——所有语言"
+
+#~ msgid "Search and replace completed, no strings were updated."
+#~ msgstr "搜索并替换已完成，未更新任何字符串。"
+
+#, python-format
+#~ msgid "Search and replace completed, %d string was updated."
+#~ msgid_plural "Search and replace completed, %d strings were updated."
+#~ msgstr[0] "搜索并替换已完成，%d 条字符串已更新。"
 
 #~ msgid "Name is also used in version control commits."
 #~ msgstr "名称同样用于版本控制提交。"
@@ -20176,10 +22290,6 @@ msgstr "删除了工作区。"
 #~ "error."
 #~ msgstr "验证已失败，可能是由于过期令牌或者连接错误。"
 
-#, python-format
-#~ msgid "Authentication failed: %s"
-#~ msgstr "身份验证失败：%s"
-
 #~ msgid "The authentication provider could not be reached."
 #~ msgstr "无法访问身份验证提供者。"
 
@@ -20296,9 +22406,6 @@ msgstr "删除了工作区。"
 #~ msgid "Join us in shaping the future of localization and contribute today!"
 #~ msgstr "加入我们塑造本地化的未来并且今天就作贡献！"
 
-#~ msgid "Download reports"
-#~ msgstr "下载报告"
-
 #~ msgid "DeepL API v1 is no longer supported."
 #~ msgstr "不再支持 DeepL API v1。"
 
@@ -20404,9 +22511,6 @@ msgstr "删除了工作区。"
 #~ msgid "Translation files in accessible repositories have been synchronized."
 #~ msgstr "已同步在可访问的仓库中的翻译文件。"
 
-#~ msgid "Updates of translations are in progress."
-#~ msgstr "翻译的更新正在进行中。"
-
 #~ msgid "Updates of translations in accessible repositories are in progress."
 #~ msgstr "可访问的仓库的翻译更新正在进行中。"
 
@@ -20425,9 +22529,6 @@ msgstr "删除了工作区。"
 #~ msgstr ""
 #~ "不用担心会弄乱字符串。此过程分为两步：先显示要编辑字符串的预览，再确认实际"
 #~ "改动。"
-
-#~ msgid "Activation completed."
-#~ msgstr "已完成激活。"
 
 #, python-format
 #~ msgid "Could not activate your installation: %s"
@@ -20468,9 +22569,6 @@ msgstr "删除了工作区。"
 
 #~ msgid "Repository URL"
 #~ msgstr "仓库 URL"
-
-#~ msgid "Repository name"
-#~ msgstr "仓库名"
 
 #~ msgid "Configure component"
 #~ msgstr "配置部件"
@@ -20520,9 +22618,6 @@ msgstr "删除了工作区。"
 
 #~ msgid "project-wide"
 #~ msgstr "项目全局"
-
-#~ msgid "site-wide"
-#~ msgstr "整个站点"
 
 #, python-format
 #~ msgid "Manage add-ons at %(location)s"
@@ -20743,9 +22838,6 @@ msgstr "删除了工作区。"
 
 #~ msgid "Provide context to the translators"
 #~ msgstr "为译者提供上下文"
-
-#~ msgid "Workflow customization"
-#~ msgstr "定制工作流程"
 
 #~ msgid "Add team"
 #~ msgstr "添加团队"
@@ -21255,9 +23347,6 @@ msgstr "删除了工作区。"
 #~ msgid "Disable two-factor authentication"
 #~ msgstr "禁用双因素身份验证"
 
-#~ msgid "Translation reviews are not enabled."
-#~ msgstr "未启用翻译审校。"
-
 #~ msgid "Reviews are not enabled."
 #~ msgstr "未启用审校。"
 
@@ -21298,9 +23387,6 @@ msgstr "删除了工作区。"
 
 #~ msgid "Starting date"
 #~ msgstr "开始日期"
-
-#~ msgid "Ending date"
-#~ msgstr "结束日期"
 
 #~ msgid "Last 30 days"
 #~ msgstr "过去 30 天"
@@ -21419,9 +23505,6 @@ msgstr "删除了工作区。"
 #~ msgid "Rename component"
 #~ msgstr "重命名部件"
 
-#~ msgid "Move component"
-#~ msgstr "移动部件"
-
 #~ msgid "Moving the component will also change its URLs."
 #~ msgstr "移动该部件会同时更改其 URL。"
 
@@ -21446,9 +23529,6 @@ msgstr "删除了工作区。"
 
 #~ msgid "Committed changes"
 #~ msgstr "提交了更改"
-
-#~ msgid "Pushed changes"
-#~ msgstr "推送了更改"
 
 #~ msgid "Failed merge on repository"
 #~ msgstr "仓库合并失败"
@@ -21569,9 +23649,6 @@ msgstr "删除了工作区。"
 
 #~ msgid "New language"
 #~ msgstr "新语言"
-
-#~ msgid "Check details"
-#~ msgstr "检查的详细信息"
 
 #~ msgid ""
 #~ "Customizable quality checks will help you improve the quality of "
@@ -21767,9 +23844,6 @@ msgstr "删除了工作区。"
 #~ msgid "Sorts the Java properties file."
 #~ msgstr "排序 Java 属性文件。"
 
-#~ msgid "Automatic translation source"
-#~ msgstr "自动翻译的来源"
-
 #~ msgid "Ask for libre project hosting"
 #~ msgstr "请求自由软件项目托管"
 
@@ -21815,9 +23889,6 @@ msgstr "删除了工作区。"
 #~ msgid "Too many failed registration attempts from this location."
 #~ msgstr "来自该地址的失败注册尝试过多。"
 
-#~ msgid "Too many authentication attempts from this location."
-#~ msgstr "来自该地址的验证请求次数过多."
-
 #~ msgid ""
 #~ "Weblate user management is turned off, you can change permissions in the "
 #~ "Django admin interface."
@@ -21845,9 +23916,6 @@ msgstr "删除了工作区。"
 #~ msgid "source"
 #~ msgstr "原文"
 
-#~ msgid "Invalid parameters!"
-#~ msgstr "无效参数！"
-
 #~ msgid "Not translated strings"
 #~ msgstr "未翻译字符串"
 
@@ -21856,11 +23924,6 @@ msgstr "删除了工作区。"
 
 #~ msgid "Strings needing action"
 #~ msgstr "需要处理的字符串"
-
-#, python-format
-#~ msgid "%(count)s string needing action"
-#~ msgid_plural "%(count)s strings needing action"
-#~ msgstr[0] "%(count)s 个需要处理的字符串"
 
 #~ msgid ""
 #~ "Strings needing action, converted files enriched with comments; suitable "
@@ -22287,9 +24350,6 @@ msgstr "删除了工作区。"
 #~ msgid "Use this translation for all components"
 #~ msgstr "所有组件均使用此翻译"
 
-#~ msgid "Use this translation"
-#~ msgstr "使用此翻译"
-
 #~ msgid "Change compared to this translation:"
 #~ msgstr "与此翻译相比："
 
@@ -22552,9 +24612,6 @@ msgstr "删除了工作区。"
 #~ msgid "You can no longer log in using {method} ({name})."
 #~ msgstr "您不再可以使用 {method} 登录 {name}。"
 
-#~ msgid "You can now log in using password."
-#~ msgstr "您现在可以使用密码登录。"
-
 #~ msgid "New whiteboard message"
 #~ msgstr "新白板消息"
 
@@ -22782,9 +24839,6 @@ msgstr "删除了工作区。"
 #~ msgid "Toggle edit needed flag"
 #~ msgstr "切换需要编辑标记"
 
-#~ msgid "Merge failure"
-#~ msgstr "合并失败"
-
 #~ msgid "Standard user"
 #~ msgstr "标准用户"
 
@@ -22910,9 +24964,6 @@ msgstr "删除了工作区。"
 #~ msgid "Your languages"
 #~ msgstr "您的语言"
 
-#~ msgid "Search type"
-#~ msgstr "搜索方式"
-
 #~ msgid "Fulltext"
 #~ msgstr "全文匹配"
 
@@ -22950,14 +25001,8 @@ msgstr "删除了工作区。"
 #~ msgid "{0}%"
 #~ msgstr "{0}%"
 
-#~ msgid "Repositories limit"
-#~ msgstr "代码库限制"
-
 #~ msgid "User has all permissions without having been given them."
 #~ msgstr "用户拥有所有权限而无需授予他们。"
-
-#~ msgid "active"
-#~ msgstr "启用"
 
 #~ msgid ""
 #~ "Choose languages you speak in the preferences, to see an overview of all "
@@ -23015,9 +25060,6 @@ msgstr "删除了工作区。"
 
 #~ msgid "Host:"
 #~ msgstr "主机:"
-
-#~ msgid "Process"
-#~ msgstr "开始处理"
 
 #~ msgid "Automatically add language file"
 #~ msgstr "自动添加语言文件"
@@ -24346,10 +26388,6 @@ msgstr "删除了工作区。"
 #~ msgstr "印尼语（Bahasa Indonesia）"
 
 #, fuzzy
-#~ msgid "Occidental"
-#~ msgstr "西方（Occidental）"
-
-#, fuzzy
 #~ msgid "Igbo"
 #~ msgstr "伊博语（Igbo）"
 
@@ -24929,9 +26967,6 @@ msgstr "删除了工作区。"
 #~ msgid "End date"
 #~ msgstr "截止日期"
 
-#~ msgid "Text"
-#~ msgstr "文本"
-
 #~ msgid "Depending on placement, HTML can be allowed."
 #~ msgstr "上下文有关，允许HTML."
 
@@ -25239,11 +27274,6 @@ msgstr "删除了工作区。"
 #~ msgstr[0] "文件内容已成功合并入现有译文，已处理 %d 个条目。"
 
 #, fuzzy
-#~| msgid "Only suggestions are allowed in this translation!"
-#~ msgid "Suggestions are not allowed on this translation!"
-#~ msgstr "此翻译当前仅允许提出建议！"
-
-#, fuzzy
 #~| msgid "You don't have privileges to save translations!"
 #~ msgid "You don't have privileges to save templates!"
 #~ msgstr "您没有保存译文的权限！"
@@ -25276,9 +27306,6 @@ msgstr "删除了工作区。"
 #~ msgid "Messages"
 #~ msgstr "信息"
 
-#~ msgid "Others"
-#~ msgstr "其它"
-
 #~ msgid "Subprojects"
 #~ msgstr "子项目"
 
@@ -25307,9 +27334,6 @@ msgstr "删除了工作区。"
 
 #~ msgid "Words extracted from glossary"
 #~ msgstr "词汇表中提取的单词"
-
-#~ msgid "Comments (%(count)s)"
-#~ msgstr "评论 (%(count)s)"
 
 #~ msgid "Source string details and feedback"
 #~ msgstr "源条目详细及反馈"
@@ -25373,12 +27397,6 @@ msgstr "删除了工作区。"
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."
 #~ msgstr "您的资料已经迁移，您也许想要调整首选项。"
-
-#~ msgid "Old password"
-#~ msgstr "原密码"
-
-#~ msgid "The two password fields didn't match."
-#~ msgstr "两次输入的密码不一致。"
 
 #~ msgid "Your account could not be activated"
 #~ msgstr "无法激活您的帐号"

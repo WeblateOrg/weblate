@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
-from typing import TYPE_CHECKING, ClassVar, Protocol
+from typing import TYPE_CHECKING, ClassVar, Protocol, cast
 
 from django.core.exceptions import ValidationError
 from django.urls import reverse
@@ -22,8 +22,11 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
     from uuid import UUID
 
+    from django.contrib.auth.models import AnonymousUser
+    from django.db.models import Model
+
     from weblate.auth.models import User
-    from weblate.trans.models import Category, Project
+    from weblate.trans.models import Category, Component, Project
 
 
 class _HasUser(Protocol):
@@ -78,23 +81,73 @@ class URLMixin(BaseURLMixin):
 class LoggerMixin(BaseURLMixin):
     """Mixin for models with logging."""
 
-    def log_hook(self, level: str, msg: str, *args) -> None:
+    def log_hook(
+        self,
+        level: str,
+        msg: str,
+        *args,
+        sensitive: bool = False,
+        public_message: str | None = None,
+        dependencies: tuple[Component, ...] = (),
+    ) -> None:
         return
 
     def log_debug(self, msg, *args):
         self.log_hook("DEBUG", msg, *args)
         return LOGGER.debug(f"{self.full_slug}: {msg}", *args)
 
-    def log_info(self, msg, *args):
-        self.log_hook("INFO", msg, *args)
+    def log_info(
+        self,
+        msg,
+        *args,
+        sensitive: bool = False,
+        public_message: str | None = None,
+        dependencies: tuple[Component, ...] = (),
+    ):
+        self.log_hook(
+            "INFO",
+            msg,
+            *args,
+            sensitive=sensitive,
+            public_message=public_message,
+            dependencies=dependencies,
+        )
         return LOGGER.info(f"{self.full_slug}: {msg}", *args)
 
-    def log_warning(self, msg, *args):
-        self.log_hook("WARNING", msg, *args)
+    def log_warning(
+        self,
+        msg,
+        *args,
+        sensitive: bool = False,
+        public_message: str | None = None,
+        dependencies: tuple[Component, ...] = (),
+    ):
+        self.log_hook(
+            "WARNING",
+            msg,
+            *args,
+            sensitive=sensitive,
+            public_message=public_message,
+            dependencies=dependencies,
+        )
         return LOGGER.warning(f"{self.full_slug}: {msg}", *args)
 
-    def log_error(self, msg, *args):
-        self.log_hook("ERROR", msg, *args)
+    def log_error(
+        self,
+        msg,
+        *args,
+        sensitive: bool = True,
+        public_message: str | None = None,
+        dependencies: tuple[Component, ...] = (),
+    ):
+        self.log_hook(
+            "ERROR",
+            msg,
+            *args,
+            sensitive=sensitive,
+            public_message=public_message,
+            dependencies=dependencies,
+        )
         return LOGGER.error(f"{self.full_slug}: {msg}", *args)
 
 
@@ -138,14 +191,24 @@ class PathMixin(LoggerMixin, URLMixin):
                 self.__dict__["full_path"] = old_path
                 return True
 
-            self.log_info("path changed from %s to %s", old_path, new_path)
+            self.log_info(
+                "path changed from %s to %s",
+                old_path,
+                new_path,
+                sensitive=True,
+                public_message="Updating repository storage path.",
+            )
             if os.path.exists(old_path):
-                self.log_info('renaming "%s" to "%s"', old_path, new_path)
+                self.log_info(
+                    'renaming "%s" to "%s"', old_path, new_path, sensitive=True
+                )
                 new_parent = os.path.dirname(new_path)
                 if not os.path.exists(new_parent):
                     os.makedirs(new_parent)
                 if os.path.lexists(new_path):
-                    self.log_info('removing stale target "%s"', new_path)
+                    self.log_info(
+                        'removing stale target "%s"', new_path, sensitive=True
+                    )
                     if os.path.isdir(new_path) and not os.path.islink(new_path):
                         remove_tree(new_path)
                     else:
@@ -156,7 +219,9 @@ class PathMixin(LoggerMixin, URLMixin):
                     if os.path.exists(old_path) or not os.path.exists(new_path):
                         raise
                     self.log_info(
-                        'source path "%s" disappeared during rename', old_path
+                        'source path "%s" disappeared during rename',
+                        old_path,
+                        sensitive=True,
                     )
             return True
         return False
@@ -171,11 +236,19 @@ class PathMixin(LoggerMixin, URLMixin):
 
 
 class UserDisplayMixin:
-    def get_user_display(self: _HasUser, icon: bool = True):
-        return get_user_display(self.user, icon, link=True)
+    def get_user_display(
+        self: _HasUser, icon: bool = True, *, viewer: User | AnonymousUser | None = None
+    ):
+        from weblate.accounts.visibility import can_view_contributor  # ruff: ignore[import-outside-top-level]
 
-    def get_user_text_display(self: _HasUser):
-        return get_user_display(self.user, icon=False, link=True)
+        if not can_view_contributor(viewer, cast("Model", self)):
+            return gettext("Contributor")
+        return get_user_display(self.user, icon, link=True, viewer=viewer)
+
+    def get_user_text_display(
+        self: _HasUser, *, viewer: User | AnonymousUser | None = None
+    ):
+        return UserDisplayMixin.get_user_display(self, icon=False, viewer=viewer)
 
 
 class CacheKeyMixin:

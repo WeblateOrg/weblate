@@ -1,0 +1,8 @@
+{% load i18n translations %}
+
+<p>{% blocktranslate with url="https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks" %}Create an <a href="{{ url }}">incoming webhook in Slack</a> for the channel that should receive notifications.{% endblocktranslate %}</p>
+<p>{% translate "Enter the webhook URL below and select the events to send to the channel." %}</p>
+<p>
+  {% translate "See the add-on documentation for more information." %}
+  {% documentation_icon 'admin/addons' addon.doc_anchor %}
+</p>

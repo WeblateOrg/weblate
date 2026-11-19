@@ -31,6 +31,8 @@ Search query syntax
 Advanced searches support boolean operations, parentheses, field-specific
 lookup, field operators, exact match, date values, and regular expressions.
 The available fields depend on what kind of object is being searched.
+Queries can contain up to 2,048 characters and 128 search terms. Quoted text
+counts as one term.
 
 .. _search-boolean:
 
@@ -119,6 +121,9 @@ Anywhere text is accepted you can also specify a regular expression as
 
 For example, to search for all source strings which contain any digit between 2
 and 5, use ``source:r"[2-5]"``.
+
+Search rejects regular expressions longer than 256 characters, nested more than
+32 groups deep, or containing a counted repetition above 1,000.
 
 .. hint::
 
@@ -428,6 +433,9 @@ The user browsing has similar search abilities:
    Same as in :ref:`search-strings`.
 ``change_action:TEXT``
    Same as in :ref:`search-strings`.
+
+The contribution, language, change time, and change action filters only match
+history you are allowed to view.
 
 Additional lookups are available in the :ref:`management-interface`:
 

@@ -2,4 +2,7 @@
 
 {% perm 'screenshot.edit' object.translation as user_can_edit_screenshot %}
 
-{% include "snippets/embed-units.html" with translation=object.translation component=object.translation.component show_location=True show_screenshots=True loading_id="loading-screenshots" selection_template="screenshots/screenshot_sources_search_selection.html" selection_header_template="screenshots/screenshot_sources_search_selection_header.html" actions_template="screenshots/screenshot_sources_search_actions.html" search_query="" %}
+{% with loading_id="loading-screenshots-"|add:result_kind %}
+  {% include "snippets/embed-units.html" with translation=object.translation component=object.translation.component show_location=True show_screenshots=True loading_id=loading_id selection_template="screenshots/screenshot_sources_search_selection.html" selection_header_template="screenshots/screenshot_sources_search_selection_header.html" actions_template="screenshots/screenshot_sources_search_actions.html" search_query="" %}
+
+{% endwith %}

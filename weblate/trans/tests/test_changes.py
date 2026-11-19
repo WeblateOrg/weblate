@@ -6,8 +6,10 @@
 
 from __future__ import annotations
 
+import csv
 from datetime import UTC, datetime, timedelta
 from html import escape
+from io import StringIO
 from typing import TYPE_CHECKING, cast
 from unittest.mock import Mock, patch
 
@@ -15,13 +17,14 @@ from django.core import serializers
 from django.db import connection
 from django.http import QueryDict
 from django.template.loader import render_to_string
-from django.test import TestCase
+from django.test import SimpleTestCase, TestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.http import urlencode
 from lxml import html
 
+from weblate.accounts.visibility import public_profile_render
 from weblate.auth.models import User, get_anonymous
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
@@ -31,15 +34,16 @@ from weblate.trans.forms import ChangesDateForm
 from weblate.trans.models import Announcement, Change, Project, Translation, Unit
 from weblate.trans.models.change import COMPONENT_ORIGINS
 from weblate.trans.repository_context import repository_changes
+from weblate.trans.source_snapshot import SourceSnapshot
 from weblate.trans.templatetags.translations import format_last_changes_content
 from weblate.trans.tests.test_views import (
     FixtureTestCase,
     ReusableViewTestCase,
     ViewTestCase,
 )
-from weblate.trans.tests.utils import get_test_actor
+from weblate.trans.tests.utils import clear_users_cache, get_test_actor
 from weblate.trans.views.changes import ChangesView
-from weblate.utils.change_origin import change_origin_context
+from weblate.utils.change_origin import acting_user_context, change_origin_context
 from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.xml import parse_xml
@@ -49,6 +53,69 @@ if TYPE_CHECKING:
 
     from weblate.trans.models import Component
     from weblate.utils.change_origin import ChangeOrigin
+
+
+class ChangeDistanceTest(SimpleTestCase):
+    def test_exact_distance(self) -> None:
+        for old, target, expected in (
+            ("", "", 0),
+            ("", "abc", 3),
+            ("abc", "", 3),
+            ("abc", "abc", 0),
+            ("abc", "adc", 1),
+            ("abc", "abxc", 1),
+            ("abxc", "abc", 1),
+            ("on", "no", 1),
+            ("CA", "ABC", 2),
+            ("a" * 998 + "on", "a" * 998 + "no", 1),
+        ):
+            with self.subTest(old=old, target=target):
+                self.assertEqual(
+                    Change(old=old, target=target).get_distance(), expected
+                )
+
+    def test_exact_distance_budget(self) -> None:
+        for old_length, target_length in ((1000, 1000), (1, 1_000_000)):
+            with (
+                self.subTest(old_length=old_length, target_length=target_length),
+                patch(
+                    "weblate.trans.models.change.DamerauLevenshtein.distance",
+                    return_value=7,
+                ) as distance,
+            ):
+                change = Change(old="a" * old_length, target="b" * target_length)
+                self.assertEqual(change.get_distance(), 7)
+                distance.assert_called_once_with(change.old, change.target)
+
+    def test_large_distance(self) -> None:
+        prefix = "p" * 1000
+        suffix = "s" * 1000
+        cases = (
+            ("a" * 1000, "b" * 1001, 1001),
+            ("a", "b" * 1_000_001, 1_000_001),
+            ("a" * 100_000, "b" * 100_000, 100_000),
+            ("a" * 100_000, "a" * 100_000, 0),
+            ("", "a" * 100_000, 100_000),
+            ("a" * 100_000, "", 100_000),
+            (prefix + suffix, prefix + "x" + suffix, 1),
+            (prefix + "x" + suffix, prefix + suffix, 1),
+            (prefix, prefix + "x", 1),
+            (suffix, "x" + suffix, 1),
+            (prefix, prefix + "p", 1),
+            (prefix + "on" + suffix, prefix + "no" + suffix, 2),
+            (prefix + "abc" + suffix, prefix + "bca" + suffix, 3),
+            ("🐈" * 1001, "🐕" * 1001, 1001),
+            (prefix + "é" + suffix, prefix + "e\u0301" + suffix, 2),
+        )
+        with patch(
+            "weblate.trans.models.change.DamerauLevenshtein.distance",
+            side_effect=AssertionError("Unbounded exact distance calculation"),
+        ):
+            for index, (old, target, expected) in enumerate(cases):
+                with self.subTest(case=index):
+                    change = Change(old=old, target=target)
+                    self.assertEqual(change.get_distance(), expected)
+                    self.assertEqual(change.get_distance(), expected)
 
 
 class ChangeOriginTest(FixtureTestCase):
@@ -162,7 +229,8 @@ class ChangeOriginTest(FixtureTestCase):
             details={"origin": {"scope": "system"}},
         )
         self.assertEqual(
-            change.get_details_display(), ActionEvents.CREATE_COMPONENT.label
+            change.get_details_display(trusted=True),
+            ActionEvents.CREATE_COMPONENT.label,
         )
 
     def test_history_label_visibility(self) -> None:
@@ -529,7 +597,7 @@ class ChangeCompletionTest(ViewTestCase):
 
 class ChangeScopeTest(ViewTestCase):
     def test_settings_change_requires_actor(self) -> None:
-        self.component.acting_user = None
+        self.enterContext(acting_user_context(None))
         self.component.restricted = True
         with (
             patch("weblate.trans.models.change.report_message") as report,
@@ -636,12 +704,83 @@ class ChangeScopeTest(ViewTestCase):
                 setattr(change, field, None)
 
 
+class ChangeQueriesTest(FixtureTestCase):
+    def create_history_changes(
+        self, action: ActionEvents, *, snapshot: bool = False
+    ) -> list[Change]:
+        Change.objects.all().delete()
+        units = list(self.translation.unit_set.order_by("pk")[:3])
+        self.assertEqual(len(units), 3)
+        changes = []
+        for unit in units:
+            details = (
+                {
+                    "source_snapshot": SourceSnapshot.from_unit(
+                        unit, canonical=True
+                    ).as_dict()
+                }
+                if snapshot
+                else {}
+            )
+            changes.append(
+                Change.objects.create(
+                    unit=unit,
+                    user=self.user,
+                    action=action,
+                    old="Previous text",
+                    target="Updated text",
+                    details=details,
+                )
+            )
+        return changes
+
+    def test_recent_prefetches_source_translation_plurals(self) -> None:
+        changes = self.create_history_changes(ActionEvents.CHANGE)
+        recent = self.project.change_set.recent(skip_preload="project")
+        self.assertCountEqual(
+            [change.pk for change in recent], [change.pk for change in changes]
+        )
+        expected_plural = self.component.source_translation.plural
+
+        with self.assertNumQueries(0):
+            for change in recent:
+                assert change.unit is not None
+                self.assertEqual(
+                    change.unit.source_unit.translation.plural, expected_plural
+                )
+
+    def test_history_render_does_not_fetch_translation_metadata(self) -> None:
+        for action in (ActionEvents.CHANGE, ActionEvents.SOURCE_CHANGE):
+            for snapshot in (False, True):
+                with self.subTest(action=action, snapshot=snapshot):
+                    changes = self.create_history_changes(action, snapshot=snapshot)
+                    recent = self.project.change_set.recent(skip_preload="project")
+                    with CaptureQueriesContext(connection) as queries:
+                        rendered = render_to_string(
+                            "snippets/last-changes-content.html",
+                            format_last_changes_content(recent, ""),
+                        )
+                    self.assertEqual(
+                        rendered.count('class="history-data col-md-9"'), len(changes)
+                    )
+                    self.assertIn("Updated", html.fromstring(rendered).text_content())
+                    metadata_queries = [
+                        query["sql"]
+                        for query in queries
+                        if 'FROM "trans_translation"' in query["sql"]
+                        or 'FROM "lang_plural"' in query["sql"]
+                    ]
+                    self.assertEqual(metadata_queries, [])
+
+
 class FeedQueriesTest(FixtureTestCase):
     # Reverse managers populate different related objects up front, so the
     # fixed query budget differs between project/component/translation feeds.
-    PROJECT_FEED_QUERIES = 11
-    COMPONENT_FEED_QUERIES = 10
-    TRANSLATION_FEED_QUERIES = 10
+    # This includes two bulk queries for source translations and their plurals,
+    # plus the public viewer lookup and its fixed permission/2FA query cost.
+    PROJECT_FEED_QUERIES = 22
+    COMPONENT_FEED_QUERIES = 21
+    TRANSLATION_FEED_QUERIES = 21
 
     def setUp(self) -> None:
         super().setUp()
@@ -659,24 +798,31 @@ class FeedQueriesTest(FixtureTestCase):
 
     def assert_feed_queries(self, obj, expected_queries: int) -> None:
         feed = TranslationChangesFeed()
-        with self.assertNumQueries(expected_queries):
+        clear_users_cache()
+        with self.assertNumQueries(expected_queries), public_profile_render():
             items = list(feed.items(ChangeFeedScope(self.user, obj)))
             for item in items:
                 str(item)
 
     def test_project_feed_queries_do_not_scale_with_change_count(self) -> None:
-        self.add_feed_changes(6)
+        self.add_feed_changes(1)
+        self.assert_feed_queries(self.project, self.PROJECT_FEED_QUERIES)
+        self.add_feed_changes(5)
         self.assert_feed_queries(self.project, self.PROJECT_FEED_QUERIES)
 
     def test_component_feed_queries_do_not_scale_with_change_count(self) -> None:
-        self.add_feed_changes(6)
+        self.add_feed_changes(1)
+        self.assert_feed_queries(self.component, self.COMPONENT_FEED_QUERIES)
+        self.add_feed_changes(5)
         self.assert_feed_queries(
             self.component,
             self.COMPONENT_FEED_QUERIES,
         )
 
     def test_translation_feed_queries_do_not_scale_with_change_count(self) -> None:
-        self.add_feed_changes(6)
+        self.add_feed_changes(1)
+        self.assert_feed_queries(self.translation, self.TRANSLATION_FEED_QUERIES)
+        self.add_feed_changes(5)
         self.assert_feed_queries(
             self.translation,
             self.TRANSLATION_FEED_QUERIES,
@@ -684,6 +830,55 @@ class FeedQueriesTest(FixtureTestCase):
 
 
 class ChangesTest(ReusableViewTestCase):
+    def test_email_author_filter_requires_account_lookup_permission(self) -> None:
+        author = User.objects.create_user("hidden-author", "hidden@example.org", "x")
+        self.client.logout()
+        url = reverse("changes")
+
+        response = self.client.get(url, {"user": author.email})
+        self.assertContains(response, "Could not find any such user.")
+        response = self.client.get(url, {"user": author.username})
+        self.assertNotContains(response, "Could not find any such user.")
+
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.client.force_login(self.user)
+        response = self.client.get(url, {"user": author.email})
+        self.assertNotContains(response, "Could not find any such user.")
+
+    def test_anonymous_history_skips_large_diffs(self) -> None:
+        Change.objects.all().delete()
+        unit = self.get_unit()
+        target = "B" * 10_000
+        changes = Change.objects.bulk_create(
+            [
+                Change(
+                    unit=unit,
+                    user=self.user,
+                    action=ActionEvents.CHANGE,
+                    old="A" * 10_000,
+                    target=target,
+                )
+                for _ in range(20)
+            ]
+        )
+        self.client.logout()
+
+        with patch(
+            "weblate.utils.diff.diff_match_patch.diff_main",
+            side_effect=AssertionError("Unbounded diff calculation"),
+        ):
+            response = self.client.get(reverse("changes"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, target)
+        self.assertContains(response, "View full change", count=20)
+
+        detail_url = reverse("change-detail", kwargs={"pk": changes[0].pk})
+        self.assertContains(response, detail_url)
+        detail_response = self.client.get(detail_url)
+        self.assertContains(detail_response, target)
+
     def assert_rss_response(self, response) -> None:
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["Content-Type"], "application/rss+xml; charset=utf-8")
@@ -814,6 +1009,118 @@ class ChangesTest(ReusableViewTestCase):
         response = self.client.get(reverse("changes-csv"))
         self.assertContains(response, "timestamp,")
 
+    def test_large_history_distance(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        Change.objects.all().delete()
+        change = Change.objects.create(
+            unit=self.get_unit("Hello, world!\n"),
+            user=self.user,
+            action=ActionEvents.CHANGE,
+            old="a" * 100_000,
+            target="b" * 100_000,
+        )
+        with patch(
+            "weblate.trans.models.change.DamerauLevenshtein.distance",
+            side_effect=AssertionError("Unbounded exact distance calculation"),
+        ):
+            response = self.client.get(
+                reverse("changes-csv", kwargs={"path": self.project.get_url_path()})
+            )
+            self.assertEqual(response.status_code, 200)
+            rows = list(csv.DictReader(StringIO(response.content.decode())))
+            self.assertEqual(len(rows), 1)
+            self.assertEqual(rows[0]["edit_distance"], "100000")
+            change.refresh_from_db()
+            rendered = render_to_string(
+                "snippets/last-changes-content.html",
+                format_last_changes_content([change], self.user),
+            )
+            self.assertIn(
+                "Content is too long to show in the change list.",
+                html.fromstring(rendered).text_content(),
+            )
+            detail = self.client.get(reverse("change-detail", kwargs={"pk": change.pk}))
+            self.assertContains(detail, "100000 characters edited")
+
+    def test_csv_escapes_formula_cells(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.anotheruser.username = "@csv-user"
+        self.anotheruser.save(update_fields=["username"])
+        Change.objects.all().delete()
+        targets = (
+            '=HYPERLINK("https://example.com", "click")',
+            "+1+1",
+            "-1+1",
+            "@SUM(1+1)*cmd|' /C calc'!A0",
+            " =1+1",
+            "\ufeff=1+1",
+            '\u034f=HYPERLINK("https://example.com", "click")',
+            "\u200b=1+1",
+            "\u2800=1+1",
+            "\u200b\u034f +1+1",
+            "\v=1+1",
+            "\uff1d1+1",
+            "\u200bordinary target",
+            "ordinary target",
+            "",
+        )
+        for target in targets:
+            Change.objects.create(
+                action=ActionEvents.CHANGE,
+                project=self.project,
+                user=self.anotheruser,
+                target=target,
+            )
+
+        response = self.client.get(
+            reverse("changes-csv", kwargs={"path": self.project.get_url_path()})
+        )
+        self.assertEqual(response.status_code, 200)
+        rows = list(csv.DictReader(StringIO(response.content.decode())))
+        self.assertEqual(len(rows), len(targets))
+        self.assertEqual(
+            {row["target"] for row in rows},
+            {
+                '\'=HYPERLINK("https://example.com", "click")\'',
+                "'+1+1'",
+                "'-1+1'",
+                "'@SUM(1+1)*cmd\\|' /C calc'!A0'",
+                "' =1+1'",
+                "'\ufeff=1+1'",
+                '\'\u034f=HYPERLINK("https://example.com", "click")\'',
+                "'\u200b=1+1'",
+                "'\u2800=1+1'",
+                "'\u200b\u034f +1+1'",
+                "'\v=1+1'",
+                "'\uff1d1+1'",
+                "\u200bordinary target",
+                "ordinary target",
+                "",
+            },
+        )
+        self.assertTrue(all(row["user"] == "'@csv-user'" for row in rows))
+        self.assertEqual(
+            set(Change.objects.values_list("target", flat=True)), set(targets)
+        )
+
+    def test_csv_escapes_historical_translation(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        Change.objects.all().delete()
+        self.change_unit("=1+1")
+        self.change_unit("\ufeff=1+1")
+        self.change_unit("corrected translation")
+
+        response = self.client.get(
+            reverse("changes-csv", kwargs={"path": self.project.get_url_path()})
+        )
+        rows = list(csv.DictReader(StringIO(response.content.decode())))
+        self.assertIn("'=1+1\n'", {row["target"] for row in rows})
+        self.assertIn("'\ufeff=1+1\n'", {row["target"] for row in rows})
+        self.assertIn("corrected translation\n", {row["target"] for row in rows})
+
     def test_filter(self) -> None:
         response = self.client.get(reverse("changes", kwargs={"path": ["test"]}))
         self.assertContains(response, "Resource update")
@@ -854,6 +1161,12 @@ class ChangesTest(ReusableViewTestCase):
             reverse("show_change", kwargs={"pk": hidden_change.pk})
         )
         self.assertEqual(response.status_code, 404)
+        self.assertEqual(
+            self.client.get(
+                reverse("change-detail", kwargs={"pk": hidden_change.pk})
+            ).status_code,
+            404,
+        )
 
         response = self.client.get(reverse("show_change", kwargs={"pk": 999999}))
         self.assertEqual(response.status_code, 404)

@@ -6,6 +6,7 @@ from __future__ import annotations
 import operator
 from typing import TYPE_CHECKING, ClassVar
 
+from botocore.exceptions import ClientError
 from django.utils.functional import cached_property
 
 from .base import (
@@ -28,6 +29,9 @@ class AWSTranslation(GlossaryMachineTranslationMixin):
     """AWS machine translation."""
 
     name = "Amazon Translate"
+    # Short-term throttling; allow a conservative minute before retrying.
+    # https://docs.aws.amazon.com/translate/latest/APIReference/API_TranslateText.html
+    rate_limit_window = 60
     max_score = 88
     language_map: ClassVar[dict[str, str]] = {
         "zh_Hant": "zh-TW",
@@ -47,6 +51,27 @@ class AWSTranslation(GlossaryMachineTranslationMixin):
     @classmethod
     def get_identifier(cls) -> str:
         return "aws"
+
+    def is_rate_limit_error(self, exc: Exception) -> bool:
+        if isinstance(exc, ClientError):
+            return (
+                exc.response.get("Error", {}).get("Code")
+                in {
+                    "TooManyRequestsException",
+                    "Throttling",
+                    "ThrottlingException",
+                    "RequestLimitExceeded",
+                }
+                or exc.response.get("ResponseMetadata", {}).get("HTTPStatusCode") == 429
+            )
+        return super().is_rate_limit_error(exc)
+
+    def get_rate_limit_timeout(self, exc: Exception) -> int:
+        if isinstance(exc, ClientError):
+            headers = exc.response.get("ResponseMetadata", {}).get("HTTPHeaders", {})
+            if (delay := self.get_retry_after(headers)) is not None:
+                return delay
+        return super().get_rate_limit_timeout(exc)
 
     @cached_property
     def client(self):

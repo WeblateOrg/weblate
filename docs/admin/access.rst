@@ -182,6 +182,21 @@ the project’s menu :guilabel:`Operations` ↓ :guilabel:`Users`.
     You can limit teams to languages or components,
     and assign them designated access roles (see :ref:`privileges`).
 
+Before moving a component to another project, remove it from teams defined in
+its current project. Moving a category requires removing its components from
+such teams as well. Removing the last component from a team grants its roles to
+the whole project, so review the team's membership and roles first.
+Weblate blocks deleting a component when it would remove the last component
+assignment from a team. Assign another component that will remain, or remove
+the team after reviewing its roles and membership, before deleting the component.
+This also applies when deleting a category or project would expand a team that
+survives the deletion.
+
+Teams left with moved components by an earlier release show those assignments
+by component ID. The assignments grant no access to the destination project.
+You can remove them through the :doc:`REST API </api>` after reviewing the
+effect of an empty component selection on the original project.
+
 .. _team-admins:
 
 Team administrators
@@ -190,8 +205,45 @@ Team administrators
 .. versionadded:: 4.15
 
 Each team can have team administrators, who can add and remove users within the team.
+Administrators relying on this designation must satisfy the team's enforced
+two-factor authentication. Their team management access is suspended while
+they are blocked in any project covered by the team, or while a covered project
+requires two-factor authentication they have not configured. For a team covering
+multiple projects, the restriction applies to the whole team.
 
 This is useful in case you want to build self-governed teams.
+
+.. _team-audit:
+
+Team audit log
+++++++++++++++
+
+Open :guilabel:`Team audit log` from a team's page or from project or workspace
+access control. Site administrators can also open it from
+:guilabel:`Manage teams`.
+
+The log records team creation, deletion, roles, language and component selection,
+enforced two-factor authentication, automatic assignment rules, memberships,
+and team administrator changes with the initiating account. Administrator grants
+and removals also appear in the affected account's activity log.
+
+Project entries require ``project.edit`` on that project. Workspace entries
+require ``workspace.edit_members`` on that workspace. Site administrators can
+read all entries, including site-wide team changes. Team administration alone
+does not grant access to the detailed audit log.
+
+Stale assignments that have moved outside a scoped team retain their identifiers
+without exposing names from another project.
+
+Entries retain team names and changes after a team is deleted. After a project
+or workspace is removed, its retained records are available only to site
+administrators. Retention follows :setting:`AUDITLOG_EXPIRY`.
+
+Public translation history omits sensitive team membership changes, including
+existing records. The detailed audit log starts when this feature is installed;
+earlier team-definition changes cannot be reconstructed. Audit entries are
+internal security records, separate from portable user settings and backup
+contents.
 
 .. _site-wide-team-management:
 
@@ -224,6 +276,10 @@ Adding existing users will send them invitation to confirm. With
 e-mail. Invited users have to complete the registration process to get access
 to the project.
 
+An invitation can also include team administration. The invitation states this
+explicitly, and the user becomes a team administrator only after accepting it.
+Team administrators can add or remove team members.
+
 It is not required to have any site-wide privileges in order to do so, access management
 permission on the project’s scope (e.g. a membership in the `Administration`
 team) would be sufficient.
@@ -241,6 +297,11 @@ invitations created in one bulk action use the selected team, and site-wide
 bulk invites also apply the selected superuser flag.
 
 .. _site-wide-user-management:
+
+Opening the :guilabel:`Users` page requires recent identity verification, including
+for users with read-only access. Weblate requests a second factor when configured,
+or an existing sign-in credential otherwise. Verification remains valid for ten
+minutes and is checked again when submitting changes.
 
 Site-wide user management is controlled by the global ``user.edit``
 permission. Unlike project access management, this is a trusted administrative
@@ -269,6 +330,78 @@ still created and sent.
    Weblate now does not automatically create accounts or add users to the
    teams. This is only done after confirmation from the user.
 
+.. _account-security-findings:
+
+Account security findings
++++++++++++++++++++++++++
+
+In :guilabel:`Manage` → :guilabel:`Users`, select :guilabel:`Validate leaked
+passwords` to upload a CSV report containing usernames or e-mail addresses and
+passwords. This requires the global ``user.edit`` permission and recent identity
+verification. Reports and findings are shared with other administrators who have
+this permission. Opening the security report or an individual finding also
+requires recent identity verification.
+
+The CSV upload form opens on a separate page after identity verification. If
+verification expires before the upload is submitted, confirm your identity again
+and select the file for another upload. Weblate does not retain uploads rejected
+because verification expired.
+
+Weblate detects common delimiters and credential column names automatically.
+If detection fails, configure the delimiter, whether the file has a header, and
+the column numbers, starting from one. Use UTF-8 files of at most 10 MiB and
+50,000 data rows. The uploaded file remains available for configuration for one
+hour. Validation runs in the background and redirects to stored findings when
+complete. The summary counts unknown or ambiguous accounts, unusable passwords,
+malformed or duplicate entries, and matching or nonmatching passwords.
+
+Identifiers are matched against exact usernames, primary e-mail addresses, and
+verified secondary e-mail addresses. E-mail matching uses the same normalization
+as account recovery. Inactive users and bot accounts are included. Ambiguous
+identifiers are not used for password resets. Only confirmed matches become
+findings. Passwords are never displayed or stored in findings; the uploaded
+credentials are temporarily encrypted and deleted after processing or expiry.
+
+The :guilabel:`Security report` link appears once findings or validation reports
+exist. Findings remain
+available with their history after handling them. Filter by status, type, or
+scan. Select :guilabel:`Validation reports` to return to previous uploads,
+including reports with no matches and reports still running or that failed.
+Reports record the uploaded filename and the administrator who submitted it.
+Individual reports include resolved and dismissed findings by default. Finding
+history links to each report that detected the issue, and finding details list
+these reports under :guilabel:`Detected in reports`. Use the breadcrumbs to move
+between user management, the security report, validation reports, and findings.
+
+Open findings on the current page are selected by default. Select or clear
+checkboxes in the browser, then submit an action. Actions apply only to checked
+findings shown on that page; selections do not carry across pages. Bulk actions
+require confirmation:
+
+* :guilabel:`Reset passwords for selected accounts` disables matching local
+  passwords, invalidates
+  sessions, revokes all API tokens, and notifies accounts with an e-mail address.
+  Single sign-on and two-factor authentication settings are preserved. Passwords
+  changed since validation are skipped and their obsolete findings resolved.
+* :guilabel:`Dismiss selected findings` records the administrator's decision
+  without changing credentials or notifying the account. A later upload confirming the exposure
+  reopens the finding; retrying the same scan does not.
+
+The deployment check ``weblate.W052`` warns while open findings exist. Resolve or
+dismiss them in the report to clear the warning. A matching credential establishes
+that the current password was present in the report; it does not establish where
+it was exposed.
+
+An upgrade check also reports verified e-mail addresses that match their
+account's primary address only under the database's former locale-sensitive
+comparison. These findings indicate a possible earlier account compromise.
+The address remains usable until an administrator reviews the finding. The
+:guilabel:`Remove lookalike e-mail identities and reset selected accounts`
+action removes the suspect verified address and associated sign-in identity,
+disables the account password, invalidates sessions, revokes API tokens, and
+notifies the primary address. Dismiss a finding only after confirming that the
+address is intentionally linked to the account.
+
 .. _block-user:
 
 Blocking users
@@ -277,8 +410,20 @@ Blocking users
 .. versionadded:: 4.7
 
 If users misbehave in your project, you can block them from contributing.
-With the relevant permissions blocked, users can still see the project,
-but won't be able to contribute.
+Blocked users cannot access the project or use their project permissions,
+including project administration permissions. Site superusers are exempt.
+
+Blocking preserves team memberships. Permissions granted by those memberships
+apply again when the block expires or is removed. Blocking does not cancel
+background work that was already authorized or remove existing administrative
+configuration, such as add-ons.
+
+Remove a user's project administration or team administration rights before
+blocking them. Weblate rejects new blocks on administrators and direct
+administrative team assignments to users blocked in a covered project. Changes
+to broader team roles or project scope can still create such a combination;
+the block continues to suppress project permissions in that case. Project
+blocks do not revoke independent workspace permissions.
 
 .. _cleanup-user-contributions:
 
@@ -338,6 +483,11 @@ You can define project-scoped access tokens in :guilabel:`API access` tab. The
 API tokens can have expiry date set, and their permissions can be customized by
 team memberships same as with users.
 
+Deleting a project revokes its tokens unless they still belong to a team defined
+by another project. Token display names do not affect revocation. Billing access
+preservation when deleting the last project never promotes bot accounts to
+workspace owners.
+
 .. seealso::
 
    * :ref:`api-tokens`
@@ -384,9 +534,15 @@ You should keep all projects configured as `Public` (see :ref:`acl`), otherwise
 the site-wide permissions provided by membership in the `Users` and `Reviewers` teams
 won’t have any effect.
 
-You may also grant some additional permissions of your choice to the default
-teams. For example, you may want to give a permission to manage screenshots to all
-the `Users`.
+You may also grant additional permissions to the default teams. To change a
+built-in role for every team using it, customize its permissions as described in
+:ref:`default-roles`. For example, adding screenshot permissions to `Power user`
+affects the `Users` team and any other teams assigned that role.
+
+To change permissions for only one team, create a custom role and assign it to
+that team. Custom roles remain independent of upstream defaults. To reduce a
+team's permissions, replace or remove its existing roles as needed; adding a
+narrower role does not revoke permissions granted by another role.
 
 You can define some new custom teams as well. If you want to
 keep managing your permissions site-wide for these teams, choose an
@@ -490,8 +646,9 @@ Component-browsing access
 
 Granting browsing access to a user in one project gives it access to
 any component with derived browsing permissions.
-With :ref:`component-restricted` on, access to components
-(or component lists) are granted explicitly.
+With :ref:`component-restricted` on, ordinary component access requires an
+explicit grant. Users with :guilabel:`Edit project settings` permission can
+also browse all components in that project.
 
 .. _perm-check:
 
@@ -524,7 +681,9 @@ the following rules:
 - The restrictions imposed by a team’s :guilabel:`Languages` are applied separately,
   when it’s verified if a user has access to perform certain actions. Namely,
   it’s applied only to actions directly related to the translation process itself like
-  reviewing, saving translations, adding suggestions, etc.
+  reviewing, saving translations, adding suggestions, and creating new
+  translations. Requesting a language from maintainers does not create a
+  translation and remains available outside the team's language selection.
 
   Individual team memberships can further limit these permissions to selected
   languages. Leaving the per-member language limit empty applies no additional
@@ -535,8 +694,8 @@ the following rules:
   team are not granted for that member.
 
 Aggregate translation downloads apply these rules to each translation. Project,
-category, component-list, and workspace archives contain only components and
-languages for which the user has :guilabel:`Download translation file`
+category, component, component-list, and workspace archives contain only
+components and languages for which the user has :guilabel:`Download translation file`
 permission. Restricted components therefore require an explicit component grant
 for this permission even when the user can download unrestricted components in
 the same project.
@@ -582,11 +741,16 @@ the same project.
 
 - The :guilabel:`Edit project settings` permission authorizes persistent
   administration across the project. Project backups contain all components,
-  including restricted ones. Project and category add-ons also operate on all
-  compatible components in their configured scope. Grant this permission only
-  to users trusted with the complete project data and these administrative
-  effects, even when restricted components remain hidden from their ordinary
-  component listings.
+  including restricted ones. It also grants direct access to all project
+  components and allows editing their settings, deleting them, and changing
+  restricted access, subject to billing limits. It does not grant translation,
+  review, or download permissions. On restricted components, these action
+  permissions must come from a team scoped to the component or a component list
+  containing it; project-scoped action permissions do not apply, including for
+  project administrators. Project and category add-ons also operate on
+  all compatible components in their configured scope. Grant this permission
+  only to users trusted with the complete project data and these administrative
+  effects.
 
 - Add-on configuration is stored system configuration rather than a delegation
   from the account which saved it. Component add-ons can consume inputs outside
@@ -637,7 +801,17 @@ Automatic team assignments
 While editing the :guilabel:`Team`, you can specify
 :guilabel:`Automatic assignments`, which is a list of regular expressions
 used to automatically assign newly created users to a team based on their
-e-mail addresses. This assignment only happens upon account creation.
+e-mail addresses. Rules are evaluated only upon account creation, for every
+new user on the instance.
+
+For project and workspace teams, matching rules create invitations. Users
+receive an e-mail identifying automatic team assignment as the source and must
+accept the invitation before joining. Pending invitations are also available
+in account settings. Accounts without an e-mail address see the invitation
+only in account settings. Team managers can see pending invitations.
+
+For site-defined teams, matching users are added directly. This includes the
+default teams. Existing memberships are not changed by this behavior.
 
 The most common use-case for the feature is to assign all new users to some
 default team. This behavior is used for the default `Users` and `Guest` teams
@@ -661,15 +835,128 @@ be accomplished with an expression like ``^.*@mycompany.com``.
     Bulk inviting through the user interface creates invitations. Existing
     users still have to confirm the invitation before they become team members.
 
+.. _default-roles:
+
 Default teams and roles
 -----------------------
 
 After installation, a default set of teams is created (see :ref:`default-teams`).
 
-These roles and teams are created upon installation. The built-in roles are
-always kept up to date by the database migration when upgrading. You can’t
-actually change them, please define a new role if you want to define your own
-set of permissions.
+These roles and teams are created upon installation. Administrators can edit
+built-in role permissions in the management interface or through the REST API.
+Built-in roles have fixed names and cannot be deleted. The role list identifies
+built-in roles and indicates whether their permissions are customized. Editing a
+role affects every team assigned that role. You no longer need to create a custom
+role solely to change built-in defaults; use a custom role when you need an
+independent permission set for selected teams.
+
+During upgrades, database migrations merge changes to the built-in defaults with
+your assigned permissions. Locally added permissions remain assigned, and locally
+removed permissions remain excluded. New upstream permissions are added, and
+permissions removed from upstream defaults are removed. Custom roles are unchanged.
+The merge compares permission sets, not editing history: keeping an existing
+default permission does not record a separate local addition. If an upstream
+permission is removed and later reintroduced, it is treated as a new upstream
+addition. A previous local removal does not survive the permission's intervening
+absence from upstream defaults.
+
+To discard customizations, select built-in roles and use :guilabel:`Reset built-in
+roles to defaults` in the management interface, then confirm the reset. Resetting
+applies the current upstream defaults to all teams using those roles.
+
+.. versionchanged:: 2026.11
+
+   Built-in role permissions became editable. On the first upgrade to this
+   version, existing built-in roles are assumed to be synchronized and receive
+   the current defaults. Earlier changes made through the API or database are
+   replaced. Subsequent upgrades preserve local customizations.
+
+   Existing custom roles named `Discover users` or `View user profiles` are
+   renamed with a ``(custom)`` suffix before the new built-in roles are created.
+   A numbered suffix is used if that name is already taken. Their permissions
+   and team assignments are preserved.
+
+.. _confidential-collaboration:
+
+Confidential collaboration
+--------------------------
+
+The resource permission ``contribution.view_author`` controls contributor
+attribution in translation history, comments, suggestions, activity, feeds, and
+the REST API. Built-in translation and review roles grant it by default,
+including :guilabel:`Administration`. History and attribution remain stored;
+hiding identities does not remove changes, timestamps, diffs, or revert actions.
+
+.. seealso::
+
+   :ref:`privacy-confidential-setup` for the combined role and team configuration.
+
+Regenerated translation exports require ``translation.download`` and remain
+available without contributor identity access when the exporter explicitly
+supports identity-safe output. Original files, original-file archives, and
+unclassified exporters also require ``contribution.view_author`` because their
+metadata can contain contributor identities. The built-in :guilabel:`Access
+repository` and :guilabel:`Manage languages` roles grant contributor identity
+access to preserve their original-file download capability. Remove this grant
+from those roles too when configuring confidential collaboration.
+
+The following inventory summarizes independent identity disclosure paths:
+
+.. list-table:: Contributor identity disclosure
+   :header-rows: 1
+
+   * - Surface
+     - Authorization
+   * - Editor attribution, history, comments, suggestions, feeds, notifications
+     - ``contribution.view_author`` on the relevant resource and language
+   * - Regenerated content exports
+     - ``translation.download`` and an identity-safe exporter
+   * - Original files and unclassified exports
+     - Download permission and contributor identity access
+   * - :ref:`Git repository export <git-exporter>`
+     - Independent ``vcs.access`` permission; existing commit history is retained
+   * - Full reports and change downloads
+     - Independent ``reports.view`` and ``change.download`` permissions
+   * - Own-data reports
+     - The report creator, limited to their own contributions
+   * - Membership, directory, and profile information
+     - Existing access-management and user permissions
+   * - Workspace-only attribution
+     - ``workspace.edit`` or ``workspace.edit_members``
+   * - Unscoped global attribution
+     - Site administrators
+   * - Administrator-configured add-on searches
+     - Persistent administrative configuration, independent of direct contributor access
+   * - Administrator-configured integrations
+     - Trusted destinations; contributor identities are retained
+
+Author filters in full reports and change downloads use their independent
+``reports.view`` and ``change.download`` permissions, including when
+``contribution.view_author`` is removed.
+
+Workspace grants do not override project, component, or language restrictions
+when a history entry has a more specific resource scope.
+
+Original archives omit auxiliary files when their translation scope is not
+allowed. Auxiliary files without a translation scope require component-wide
+download and contributor identity permissions.
+
+Configured add-ons retain their administrative search scope, just as they do
+for restricted components. Removing a configuring user's contributor identity
+access does not disable the saved operation.
+
+Individual notifications use the recipient's permissions. Administrator-managed
+integrations, including webhooks and Slack, are trusted exports and can retain
+contributor identities. Configure their destinations for an appropriately
+restricted audience, or disable them. Weblate cannot control onward sharing or
+remove copies already delivered to mailboxes, downloaded files, or external
+systems.
+
+This feature hides system-provided attribution, not identifying text entered by
+users in translations, comments, announcements, filenames, or other content.
+It does not provide comprehensive anonymity or prevent correlation using timing
+and content. See :doc:`privacy` for the separate Git commit identity, profile, and discovery
+controls.
 
 .. _privileges:
 
@@ -683,9 +970,9 @@ set of permissions.
    instance when assigned through a site-wide team. The team's project
    selection does not narrow these permissions.
 
-   Site-wide privileges are not granted to any default role. Treat custom roles
-   containing them as trusted administrative access because some are
-   effectively equivalent to superuser status. For example, ``group.edit``
+   Site-wide privileges are not granted to any default role. Treat any roles
+   containing them, including customized built-in roles, as trusted administrative
+   access because some are effectively equivalent to superuser status. For example, ``group.edit``
    allows changing team scope to grant access to private projects, and
    ``user.edit`` allows users to change their own team memberships and grant
    themselves superuser status. See :ref:`site-wide-team-management` and
@@ -710,7 +997,7 @@ however, re-create them if you delete or rename them.
     Remove roles from this team to limit permissions for
     non-authenticated users.
 
-    Default roles: `Add suggestion`, `Access repository`
+    Default roles: `Add suggestion`, `Access repository`, `View user profiles`
 
 `Viewers`
     This role ensures the visibility of public projects to all users.
@@ -727,7 +1014,7 @@ however, re-create them if you delete or rename them.
     By default, :ref:`automatic team assignment <autoteam>` makes all new
     accounts members of this team when they join.
 
-    Default roles: `Power user`
+    Default roles: `Power user`, `Discover users`, `View user profiles`
 
 `Reviewers`
     Group for reviewers (see :ref:`workflows`).
@@ -777,3 +1064,5 @@ Expiration of user accounts
 Each account can have an expiry set. After the expiration, the account will be
 automatically disabled. This is used for :ref:`project-api`, but can be
 utilized for regular users as well.
+
+See :doc:`privacy` to configure user discovery and profile access through roles.

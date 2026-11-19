@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING, Any, ClassVar, cast
 from django import forms
 from django.core.exceptions import ValidationError
 from django.db.models import F
+from django.utils.translation import gettext_lazy
 from jsonschema import Draft202012Validator
 
 from weblate.addons.ai import (
@@ -21,6 +22,7 @@ from weblate.addons.ai import (
     evaluate_component,
 )
 from weblate.machinery.models import (
+    MACHINERY,
     machinery_settings_for_project,
     resolve_installation,
 )
@@ -28,8 +30,11 @@ from weblate.trans.automation import UnitSelection, automatic_translation, bulk_
 from weblate.trans.forms import AutoForm, BulkEditForm
 from weblate.trans.models import Component, Project
 from weblate.utils.forms import QueryField
+from weblate.utils.search import MAX_SEARCH_QUERY_LENGTH
 
 if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
+
     from weblate.auth.models import User
 
 
@@ -43,18 +48,25 @@ def object_schema(properties: dict[str, Any], required: list[str]) -> dict[str, 
 
 
 STRING = {"type": "string", "maxLength": 4096}
+QUERY_STRING = {"type": "string", "maxLength": MAX_SEARCH_QUERY_LENGTH}
 STRINGS = {"type": "array", "items": STRING, "maxItems": 100}
 
 
 class AutomationOperation:
     name: ClassVar[str]
     title: ClassVar[str]
+    verbose: ClassVar[StrOrPromise]
     version_added: ClassVar[str]
     settings_schema: ClassVar[dict[str, Any]]
     result_schema: ClassVar[dict[str, Any]]
     supported_scopes: ClassVar[frozenset[str]] = frozenset({"component"})
     query_required_for_component: ClassVar[bool] = False
     preview_safe: ClassVar[bool] = False
+
+    @classmethod
+    def settings_form(cls, obj: Component | Project | None) -> forms.Form:
+        """Return an unbound form rendering this operation's settings."""
+        raise NotImplementedError
 
     @classmethod
     def normalize(
@@ -77,6 +89,33 @@ class AutomationOperation:
         affected: UnitSelection | None = None,
     ) -> dict[str, Any]:
         raise NotImplementedError
+
+
+def build_settings_form(**fields: forms.Field) -> forms.Form:
+    """Build an unbound form out of explicit fields for the visual editor."""
+    form = forms.Form()
+    form.fields.update(fields)
+    return form
+
+
+def evaluation_service_choices(
+    obj: Component | Project | None,
+) -> list[tuple[str, str]]:
+    """List evaluation services offered by the AI quality add-on for this scope."""
+    project = obj.project if isinstance(obj, Component) else obj
+    configured = (
+        project.get_machinery_settings()
+        if project is not None
+        else machinery_settings_for_project()
+    )
+    choices = []
+    for key in available_evaluation_services(configured):
+        engine = MACHINERY[key.partition(":")[0]]
+        choices.append((key, f"{engine.name} ({key})"))
+        if slug := configured.get(key, {}).get("_installation_slug"):
+            alias = f"{key.partition(':')[0]}:{slug}"
+            choices.append((alias, f"{engine.name} ({alias})"))
+    return choices
 
 
 OPERATIONS: dict[str, type[AutomationOperation]] = {}
@@ -136,11 +175,12 @@ def execute_operation(
 class SelectOperation(AutomationOperation):
     name = "weblate.select"
     title = "Select strings"
+    verbose = gettext_lazy("Select strings")
     version_added = "2026.11"
     supported_scopes = frozenset({"component", "trigger", "result"})
     query_required_for_component = True
     preview_safe = True
-    settings_schema = object_schema({"q": STRING}, [])
+    settings_schema = object_schema({"q": QUERY_STRING}, [])
     result_schema = object_schema(
         {
             "component": {"type": "integer"},
@@ -148,6 +188,13 @@ class SelectOperation(AutomationOperation):
         },
         ["component", "selected"],
     )
+
+    @classmethod
+    def settings_form(
+        cls,
+        obj: Component | Project | None,  # ruff: ignore[unused-class-method-argument]
+    ) -> forms.Form:
+        return build_settings_form(q=QueryField(required=True))
 
     @classmethod
     def normalize(
@@ -178,7 +225,7 @@ class SelectOperation(AutomationOperation):
         query = settings["q"]
         if query:
             units = selection.queryset(component).search(
-                query, project=component.project
+                query, project=component.project, enforce_contributor_permissions=False
             )
             if affected is None:
                 selected = units.count()
@@ -222,12 +269,13 @@ class SelectOperation(AutomationOperation):
 class AutomaticTranslationOperation(AutomationOperation):
     name = "weblate.automatic_translation"
     title = "Automatic translation"
+    verbose = gettext_lazy("Automatic translation")
     version_added = "2026.10"
     supported_scopes = frozenset({"component", "trigger", "result"})
     settings_schema = object_schema(
         {
             "mode": {"enum": ["suggest", "translate", "fuzzy", "approved"]},
-            "q": STRING,
+            "q": QUERY_STRING,
             "auto_source": {"enum": ["others", "mt"]},
             "component": {"type": ["integer", "null"], "minimum": 1},
             "engines": STRINGS,
@@ -251,6 +299,28 @@ class AutomaticTranslationOperation(AutomationOperation):
     )
 
     @classmethod
+    def auto_form(
+        cls, obj: Component | Project | None, data: dict[str, Any] | None = None
+    ) -> AutoForm:
+        form = AutoForm(obj=obj, user=None, data=data)
+        cast("forms.ChoiceField", form.fields["mode"]).choices = cast(
+            "forms.ChoiceField", AutoForm.base_fields["mode"]
+        ).choices
+        return form
+
+    @classmethod
+    def settings_form(cls, obj: Component | Project | None) -> forms.Form:
+        form = cls.auto_form(obj)
+        if not isinstance(form.fields["component"], forms.ChoiceField):
+            form.fields["component"] = forms.IntegerField(
+                label=gettext_lazy("Component"),
+                required=False,
+                min_value=1,
+                help_text=AutoForm.COMPONENT_ID_HELP_TEXT,
+            )
+        return form
+
+    @classmethod
     def normalize(
         cls,
         settings: dict[str, Any],
@@ -266,14 +336,9 @@ class AutomaticTranslationOperation(AutomationOperation):
             "engines": [],
             "threshold": 80,
         } | settings
-        # Workflows are persistent administrative configuration and execute as
-        # the add-on service identity, independently of the editor's later access.
-        form = AutoForm(obj=obj, user=None, data=data)
+        form = cls.auto_form(obj, data)
         if scope != "component":
             form.fields["q"].required = False
-        cast("forms.ChoiceField", form.fields["mode"]).choices = cast(
-            "forms.ChoiceField", AutoForm.base_fields["mode"]
-        ).choices
         if obj is None:
             cast("forms.MultipleChoiceField", form.fields["engines"]).choices = [
                 (engine, engine) for engine in data["engines"]
@@ -312,9 +377,10 @@ class AutomaticTranslationOperation(AutomationOperation):
 class AIQualityOperation(AutomationOperation):
     name = "weblate.ai_quality"
     title = "AI quality evaluation"
+    verbose = gettext_lazy("AI quality evaluation")
     version_added = "2026.10"
     supported_scopes = frozenset({"component", "trigger", "result"})
-    settings_schema = object_schema({"service": STRING, "q": STRING}, [])
+    settings_schema = object_schema({"service": STRING, "q": QUERY_STRING}, [])
     result_schema = object_schema(
         {
             "component": {"type": "integer"},
@@ -322,6 +388,20 @@ class AIQualityOperation(AutomationOperation):
         },
         ["component", "evaluated"],
     )
+
+    @classmethod
+    def settings_form(cls, obj: Component | Project | None) -> forms.Form:
+        return build_settings_form(
+            service=forms.ChoiceField(
+                label=gettext_lazy("Evaluation service"),
+                required=False,
+                choices=[
+                    ("", gettext_lazy("Use the effective AI quality add-on")),
+                    *evaluation_service_choices(obj),
+                ],
+            ),
+            q=QueryField(),
+        )
 
     @staticmethod
     def services_match(first: str, second: str, project: Project) -> bool:
@@ -400,7 +480,11 @@ class AIQualityOperation(AutomationOperation):
             .exclude(pk=F("source_unit_id"))
         )
         if settings["q"]:
-            units = units.search(settings["q"], project=component.project)
+            units = units.search(
+                settings["q"],
+                project=component.project,
+                enforce_contributor_permissions=False,
+            )
         evaluated: set[int] = set()
         snapshots: dict[int, EvaluatedUnitSnapshot] = {}
         result = evaluate_component(
@@ -421,6 +505,12 @@ class AIQualityOperation(AutomationOperation):
         ):
             msg = "AI quality evaluation add-on changed during execution."
             raise ValueError(msg)
+        if errors := result.get("errors"):
+            msg = f"AI quality evaluation failed: {', '.join(errors)}."
+            raise ValueError(msg)
+        if result["skipped"] and result["skipped"] == result.get("rate_limited"):
+            msg = "AI quality evaluation was incomplete because the service is on cooldown."
+            raise ValueError(msg)
         if result["failed"] or result["skipped"]:
             msg = "AI quality evaluation was incomplete."
             raise ValueError(msg)
@@ -434,13 +524,17 @@ class AIQualityOperation(AutomationOperation):
 class BulkEditOperation(AutomationOperation):
     name = "weblate.bulk_edit"
     title = "Bulk editing"
+    verbose = gettext_lazy("Bulk editing")
     version_added = "2026.10"
     supported_scopes = frozenset({"component", "trigger", "result"})
     query_required_for_component = True
     settings_schema = object_schema(
         {
-            "q": STRING,
+            "q": QUERY_STRING,
             "state": {"type": "integer"},
+            "search": STRING,
+            "replacement": STRING,
+            "search_type": {"enum": ["text", "regex"]},
             **dict.fromkeys(
                 (
                     "add_flags",
@@ -456,9 +550,26 @@ class BulkEditOperation(AutomationOperation):
         [],
     )
     result_schema = object_schema(
-        {"component": {"type": "integer"}, "updated": {"type": "integer"}},
+        {
+            "component": {"type": "integer"},
+            "updated": {"type": "integer"},
+            "skipped_too_long": {"type": "integer", "minimum": 1},
+        },
         ["component", "updated"],
     )
+
+    @classmethod
+    def settings_form(cls, obj: Component | Project | None) -> forms.Form:
+        project = obj.project if isinstance(obj, Component) else obj
+        form = BulkEditForm(obj=obj, project=project, user=None)
+        for name in ("add_labels", "remove_labels"):
+            field = cast("forms.ModelMultipleChoiceField", form.fields[name])
+            field.to_field_name = "name"
+            field.widget = forms.SelectMultiple()
+            field.widget.choices = field.choices
+            if project is None:
+                field.widget.attrs["data-create"] = "true"
+        return form
 
     @classmethod
     def normalize(
@@ -472,6 +583,9 @@ class BulkEditOperation(AutomationOperation):
             settings.setdefault("q", "")
         data = {
             "state": -1,
+            "search": "",
+            "replacement": "",
+            "search_type": "text",
             "add_flags": "",
             "remove_flags": "",
             "add_translation_flags": "",

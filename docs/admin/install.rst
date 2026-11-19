@@ -260,12 +260,13 @@ Django REST Framework
          | :pypi:`xmlsec`
        - :ref:`saml-auth`
 
-     * - ``saml2idp``
-       - | :pypi:`djangosaml2idp2`
-       - Integrating SAML 2 IDP into Weblate
      * - ``sphinx``
        - | :pypi:`Sphinx`
        - Needed for :ref:`addon-weblate.gettext.sphinx`
+
+     * - ``storage``
+       - | :pypi:`django-storages`
+       - :ref:`screenshot-storage`
 
      * - ``wllegal``
        - | :pypi:`wllegal`
@@ -679,6 +680,113 @@ configuration, and VCS-specific proxy configuration are not supported.
 
    `Proxy environment variables <https://everything.curl.dev/usingcurl/proxies/env.html>`_
 
+.. _outbound-http-limits:
+
+HTTP response limits
+++++++++++++++++++++
+
+Weblate's shared HTTP client limits response bodies before buffering them.
+The limits count decoded bytes, including decompression, and apply even when
+the server omits or misstates ``Content-Length``. An oversized response fails
+as an HTTP download error; it is not truncated or returned as partial data.
+
+The following limits apply to each response:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Caller
+     - Maximum decoded body
+   * - Translation services using the shared HTTP client
+     - 1 MiB
+   * - Screenshot URL uploads and remote CDN add-on HTML
+     - :setting:`ALLOWED_ASSET_SIZE`
+   * - Tesseract OCR language data
+     - 64 MiB
+   * - VCS hosting and GitHub App APIs
+     - 16 MiB
+   * - Avatars, PyPI, support, activation, Zammad, and site statistics
+     - 2 MiB
+
+The shared HTTP client also applies each caller's existing timeout to the
+complete HTTP exchange, including connection attempts, authentication exchanges,
+redirects, response headers, and body consumption. Progress does not restart
+this budget. The default is five seconds; integrations that specify a longer
+timeout retain it, including LLM requests and support-status refreshes.
+Per-operation socket timeouts remain in effect. An explicitly disabled timeout
+remains disabled; a structured HTTPX timeout uses its read timeout as the total
+budget. Exceeding the total budget raises an HTTP timeout error and closes the
+response. Each explicit retry by an integration starts a new budget.
+
+Both synchronous and asynchronous callers use asynchronous network I/O.
+Cancellation bounds HTTP activity, but system DNS resolution uses operating
+system worker threads which cannot be forcibly cancelled. DNS completion and
+event-loop shutdown can therefore delay return after the HTTP budget expires.
+The timeout is not an unconditional wall-clock limit for the entire calling
+function, its local processing, or third-party provider SDKs.
+
+Operator-run crawler-range updates, maintenance scripts, and Sentry deployment
+use separate download paths and are outside these shared-client limits.
+
+.. _screenshot-storage:
+
+Storing screenshots in object storage
++++++++++++++++++++++++++++++++++++++
+
+.. versionadded:: 2026.12
+
+Uploaded :ref:`screenshots` are stored using the Django default file storage,
+which keeps them in :setting:`DATA_DIR` ``/media`` unless configured otherwise.
+To store them in an object storage service such as Amazon S3 or another
+S3-compatible service, Google Cloud Storage, or Azure Blob Storage, install the
+``storage`` optional dependency, which provides :pypi:`django-storages`, and
+configure ``default`` in :setting:`django:STORAGES`:
+
+.. code-block:: python
+
+    STORAGES["default"] = {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "bucket_name": "weblate-media",
+            "file_overwrite": False,
+        },
+    }
+
+The Amazon S3 backend also needs the ``amazon`` optional dependency, Google
+Cloud Storage needs the ``google`` one, and Azure Blob Storage needs
+:pypi:`azure-storage-blob`, which Weblate does not install. See the
+`django-storages documentation <https://django-storages.readthedocs.io/>`_ for
+backend options and how credentials are configured.
+
+Weblate needs the following from the storage:
+
+* Existing files must not be overwritten. Uploaded screenshots keep their file
+  names, and overwriting would make screenshots with the same name replace each
+  other. The Amazon S3 and Google Cloud Storage backends overwrite files by
+  default, so set ``file_overwrite`` to ``False``. Weblate reports a warning in
+  system checks when the storage overwrites files.
+* Use a dedicated bucket or set ``location`` to a dedicated prefix. Weblate
+  periodically removes files in :file:`screenshots/` that do not belong to any
+  screenshot.
+* The bucket does not have to be public. Weblate serves screenshots to users
+  after checking their permissions.
+
+To move existing screenshots, copy the content of :setting:`DATA_DIR`
+``/media`` to the bucket, keeping the :file:`screenshots/` prefix. When
+``location`` is configured, copy the files under that prefix instead. Weblate
+stores relative file names, so no database changes are needed.
+
+:ref:`projectbackup` include screenshots from object storage, but
+:ref:`automated-backup` does not; use the versioning or backup features of the
+storage service instead.
+
+User-uploaded fonts are not affected by this setting and are always stored in
+:setting:`DATA_DIR`.
+
+.. seealso::
+
+   :envvar:`WEBLATE_MEDIA_STORAGE_BACKEND`
+
 .. _configuration:
 
 Adjusting configuration
@@ -980,6 +1088,25 @@ Use a powerful database engine
 
 Configure cache
 +++++++++++++++
+
+Weblate requires a datastore supporting RESP3: Valkey or Redis 6.0 or later.
+Use a maintained server release. Any proxy between Weblate and the datastore
+must also support RESP3 and the ``HELLO`` command. This requirement applies to
+both caching and the :ref:`Celery task queue <celery>`.
+
+.. versionchanged:: 2026.11.1
+
+   The redis-py dependency now uses RESP3 by default. Older Redis servers and
+   incompatible proxies fail with an error such as
+   ``unknown command HELLO, with args beginning with: 3,``.
+   Upgrade the datastore or proxy to a compatible version.
+
+   In Weblate 2026.11.1, this error can appear as
+   ``weblate.C024: Could not use Matplotlib`` during startup because the font
+   rendering check accesses the datastore. The cause is Redis compatibility;
+   reinstalling Matplotlib does not resolve it. From Weblate 2026.11.2, the
+   font rendering check no longer accesses the datastore, but other operations
+   that require the datastore still fail with an incompatible server or proxy.
 
 If possible, use Valkey or Redis from Django by adjusting the ``CACHES``
 configuration variable, for example:
@@ -1332,7 +1459,7 @@ configuration, but this might need customization for your environment.
 .. _nginx-granian:
 
 Sample configuration for NGINX and Granian
-+++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++
 
 The following configuration runs Weblate using Granian with the NGINX webserver:
 
@@ -1479,7 +1606,7 @@ number of blocking threads.
 .. _running-granian-asgi:
 
 Sample configuration to start Granian with ASGI
-++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. versionadded:: 2026.8
 
@@ -1774,6 +1901,17 @@ Sentry can be also used to monitor performance of Weblate by collecting traces
 and profiles for defined percentage of operations. This can be configured using
 :setting:`SENTRY_TRACES_SAMPLE_RATE` and :setting:`SENTRY_PROFILES_SAMPLE_RATE`.
 
+Weblate redacts known credential fields, authentication headers, and sensitive
+URL query parameters from error reports and transaction events, including
+exception messages, serialized HTTP buffers, and breadcrumbs.
+This also applies when :setting:`SENTRY_SEND_PII` is enabled and
+after custom ``before_send`` or ``before_send_transaction`` callbacks run.
+
+Weblate shortens oversized exception chains before sending them to Sentry,
+preserving the original cause and final exception. The report records how many
+intermediate exceptions were omitted. Other oversized event data can still
+exceed Sentry's payload limits.
+
 .. seealso::
 
    * `Sentry Performance Monitoring <https://docs.sentry.io/product/sentry-basics/performance-monitoring/>`_
@@ -1884,7 +2022,7 @@ replication if your database supports it.
    Migrating between databases described in :ref:`database-migration`.
 
 Migrating VCS repositories
-+++++++++++++++++++++++++++
+++++++++++++++++++++++++++
 
 The VCS repositories stored under :setting:`DATA_DIR` need to be migrated as
 well. You can simply copy them or use :command:`rsync` to do the migration

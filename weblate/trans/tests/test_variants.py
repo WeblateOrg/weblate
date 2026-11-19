@@ -54,16 +54,14 @@ class VariantTest(ViewTestCase):
         self.test_add_units("Max")
 
     def test_variants_inner(self) -> None:
-        self.component.variant_regex = (
-            "//(SCRTEXT_S|SCRTEXT_M|SCRTEXT_L|REPTEXT|DDTEXT)"
-        )
+        self.component.variant_regex = "_(SCRTEXT_S|SCRTEXT_M|SCRTEXT_L|REPTEXT|DDTEXT)"
         self.component.save()
         units = (
-            "DTEL///ABSD/DE_INTEND_POSTBACKGR//SCRTEXT_M 00001",
-            "DTEL///ABSD/DE_INTEND_POSTBACKGR//REPTEXT 00001",
-            "DTEL///ABSD/DE_INTEND_POSTBACKGR//SCRTEXT_L 00001",
-            "DTEL///ABSD/DE_INTEND_POSTBACKGR//SCRTEXT_S 00001",
-            "DTEL///ABSD/DE_INTEND_POSTBACKGR//DDTEXT 00001",
+            "DTEL_ABSD_DE_INTEND_POSTBACKGR_SCRTEXT_M_00001",
+            "DTEL_ABSD_DE_INTEND_POSTBACKGR_REPTEXT_00001",
+            "DTEL_ABSD_DE_INTEND_POSTBACKGR_SCRTEXT_L_00001",
+            "DTEL_ABSD_DE_INTEND_POSTBACKGR_SCRTEXT_S_00001",
+            "DTEL_ABSD_DE_INTEND_POSTBACKGR_DDTEXT_00001",
         )
         request = self.get_request()
         translation = self.component.source_translation

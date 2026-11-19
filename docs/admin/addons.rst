@@ -21,6 +21,12 @@ Add-ons that opt in to manual triggering can be run from add-on management or us
 Add-ons that expose a component API show its base URL on the add-on's
 :guilabel:`API` tab, alongside a link to the API root.
 
+Add-ons can show :guilabel:`Integration instructions` above their settings.
+These explain how to connect your application or service to the add-on.
+Add-ons without configurable settings, such as :ref:`addon-weblate.cdn.files`,
+show instructions without a settings form. Generated URLs and integration
+snippets are available after installation.
+
 Add-ons are persistent administrative configuration. They run with their
 service identity in the scope where they are installed, rather than repeatedly
 using the permissions of the administrator who configured them. This ensures
@@ -43,10 +49,18 @@ source components as follows:
   they do not create shared translation-memory entries; the add-on reads the
   explicitly selected component as an administrative input instead.
 
-Restricted components remain filtered from ordinary listings and direct access.
+Restricted components remain filtered from ordinary listings and direct access
+for users without an explicit grant or :guilabel:`Edit project settings`
+permission.
 Grant add-on management permissions only to users trusted with the add-on's
 complete input and effect scope. See :ref:`perm-check` and
 :ref:`component-restricted`.
+
+Repository add-ons, including :ref:`addon-weblate.discovery.discovery`, can be
+installed only on the component that owns the repository. Linked components
+show installed repository add-ons as inherited. Their available add-on list
+links to the owning component's add-ons when you can manage it; otherwise the
+entry is unavailable.
 
 .. image:: /screenshots/addons.webp
 
@@ -62,6 +76,48 @@ mode is preserved, including for project-wide and site-wide add-ons whose target
 have different review settings. Configuring this mode requires the usual add-on
 management permission; it does not require the configuring user to be a reviewer.
 
+.. _cdn-manifest:
+
+The :ref:`addon-weblate.cdn.files` and :ref:`addon-weblate.cdn.cdnjs` add-ons
+publish :file:`manifest.json` at their CDN base URL. Clients can download it
+without an API token to discover available languages and translation files::
+
+   {
+     "schemaVersion": 1,
+     "locales": {
+       "cs": [
+         {
+           "url": "cs.json",
+           "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+           "size": 123
+         }
+       ]
+     }
+   }
+
+The ``locales`` keys are Weblate language codes. Each value lists the published
+files for that language, sorted by URL. The ``url`` is relative to the manifest
+URL, ``sha256`` is the SHA-256 checksum of the published bytes, and ``size`` is
+the file size in bytes. Multi-file translations have several entries per
+language. The JavaScript add-on includes only languages meeting its translation
+threshold. Source-language inclusion follows each add-on's existing publication
+rules. The JavaScript loader and the manifest itself are not listed.
+When no translation files are published, ``locales`` is an empty object.
+The root filename :file:`manifest.json` is reserved for this manifest.
+Weblate validates each manifest against the :ref:`schema-cdn-manifest` before
+publishing it.
+
+Translation files are written before the manifest is replaced, and stale files
+are removed afterwards. File URLs remain mutable, and CDN caches can refresh
+the manifest and translation files at different times. If a download fails or
+its checksum does not match, refresh the manifest and retry the download.
+The manifest does not provide an immutable snapshot or revoke cached copies
+of removed files. Existing add-on installations publish a manifest on their
+next successful publication.
+
+The :ref:`addon-weblate.cdn.kotlin` add-on uses a separate build-specific
+:ref:`manifest format <schema-kotlin-sdk-manifest>`.
+
 .. _component-discovery-limits:
 
 The :ref:`addon-weblate.discovery.discovery` add-on stops with an error if the
@@ -71,6 +127,14 @@ checked using the number of repository paths multiplied by the number of file
 masks. These fixed limits bound resource consumption when repository content
 determines the masks. When either limit is exceeded, discovery does not create
 or remove components.
+
+When configuring the add-on, Weblate also suggests presets detected from the
+repository. Preset detection analyzes at most 4,096 distinct results with file
+masks no longer than 512 characters or 16 path segments. It samples groups of
+more than 128 compatible results and limits itself to 8,192 comparisons, 50
+presets, and eight examples per preset. If a limit omits results or comparisons,
+Weblate warns that suggestions might be incomplete. You can enter the
+configuration manually.
 
 .. _webhook-response-limits:
 

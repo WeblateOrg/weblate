@@ -1,10 +1,10 @@
-{% load i18n icons permissions translations %}
+{% load i18n icons permissions translations user_display %}
 
 <div class="container-fluid container-gapped">
   {% for comment in comments %}
     <div class="row history-row" id="comments__{{ comment.pk }}">
       <div class="col-md-3 history-event comment-section">
-        <strong>{{ comment.get_user_display }}</strong>
+        <strong>{% user_display comment.user resource=comment %}</strong>
         <p class="text-muted">
           {% if comment.resolved %}
             {% translate "Resolved comment" %}
@@ -26,7 +26,7 @@
               {% csrf_token %}
               <input type="hidden" name="next" value="{{ next_url }}#comments__{{ comment.pk }}" />
               <button class="btn btn-link green"
-                      title="{% translate "Resolve" %}"
+                      title="{% translate "Resolve"|force_escape %}"
                       type="submit">{% icon "check.svg" %}</button>
             </form>
           {% endif %}
@@ -41,11 +41,11 @@
                         class="btn btn-link red"
                         name="spam"
                         value="{{ suggestion.id }}"
-                        title="{% translate "Mark as spam" %}">{% icon "spam.svg" %}</button>
+                        title="{% translate "Mark as spam"|force_escape %}">{% icon "spam.svg" %}</button>
               {% endif %}
               <button class="btn btn-link red"
                       type="submit"
-                      title="{% translate "Delete" %}">{% icon "delete.svg" %}</button>
+                      title="{% translate "Delete"|force_escape %}">{% icon "delete.svg" %}</button>
             </form>
           {% endif %}
         </div>
@@ -54,7 +54,7 @@
         <div class="comment-content{% if comment.resolved %} comment-resolved{% elif comment.unit.is_source %} comment-source{% endif %}"
              lang="{{ comment.unit.translation.language.code }}"
              dir="{{ comment.unit.translation.language.direction }}">
-          {{ comment.comment|markdown }}
+          {% user_markdown comment.comment %}
           <span class="float-end text-muted">{{ comment.timestamp|naturaltime }}</span>
           <div class="clearfix"></div>
         </div>

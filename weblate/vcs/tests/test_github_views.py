@@ -16,16 +16,19 @@ from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import connection
+from django.template import Context, Template
 from django.test import TestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
-from weblate.auth.models import Group, Permission, Role, User
-from weblate.trans.models import Component, Project
+from weblate.auth.models import Group, Permission, Role, User, UserBlock
+from weblate.trans.models import Category, Component, Project
 from weblate.trans.tests.test_views import ReusableViewTestCase, ViewTestCase
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.site import get_site_url
 from weblate.utils.tests import http_mock
+from weblate.utils.tests.network import mock_dns
 from weblate.vcs.github import (
     GITHUB_APP_MANIFEST_EVENTS,
     GITHUB_APP_MANIFEST_PERMISSIONS,
@@ -72,6 +75,9 @@ def _import_url(installation: GitHubInstallation, repo: dict, **overrides) -> st
 class GitHubInstallationViewTest(ReusableViewTestCase):
     def setUp(self) -> None:
         super().setUp()
+        self.enterContext(
+            mock_dns("api.github.com", "github.com", "github.example.com")
+        )
         cache.clear()
         self.user.is_superuser = True
         self.user.save()
@@ -1049,7 +1055,7 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
         )
         other_workspace = Workspace.objects.create(name="Other Workspace")
         other_project.workspace = other_workspace
-        other_project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         other_project.save(update_fields=["workspace"])
         GitHubInstallation.objects.create(
             installation_id="12345",
@@ -1626,6 +1632,38 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
         self.assertEqual(install_query["workspace"], [str(self.workspace.pk)])
         self.assertEqual(install_query["next"], [url])
 
+    def test_migration_category_paths(self) -> None:
+        parent = None
+        categories = []
+        for index in range(3):
+            parent = Category.objects.create(
+                name=f"Migration category {index}",
+                slug=f"migration-{index}",
+                project=self.project,
+                category=parent,
+            )
+            categories.append(parent)
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="git",
+            repo="git@github.com:test-org/repo1.git",
+            category=parent,
+        )
+        response = self.client.get(
+            reverse("github-app-migration", kwargs={"workspace_id": self.workspace.pk})
+        )
+        for category in categories:
+            self.assertContains(response, f'href="{category.get_absolute_url()}"')
+        component = next(
+            entry["component"]
+            for entry in response.context["entries"]
+            if entry["component"].pk == self.component.pk
+        )
+        template = Template(
+            "{% load translations %}{% path_object_links component flags=False %}"
+        )
+        with self.assertNumQueries(0):
+            template.render(Context({"component": component}))
+
     @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
     def test_migration_updates_selected_component(self) -> None:
         repository = _repo_entry("test-org/repo1")
@@ -1842,6 +1880,9 @@ class GitHubAppAccessControlTest(ViewTestCase):
 
     def setUp(self) -> None:
         super().setUp()
+        self.enterContext(
+            mock_dns("api.github.com", "github.com", "github.example.com")
+        )
         cache.clear()
 
         self.workspace = Workspace.objects.create(name="ACL Workspace")
@@ -1932,6 +1973,61 @@ class GitHubAppAccessControlTest(ViewTestCase):
             },
         )["Location"]
         return parse_qs(urlparse(location).query)["state"][0]
+
+    def test_policy_restricted_project_targets(self) -> None:
+        repo = _repo_entry("test-org/repo1")
+        installation = GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[repo],
+        )
+        category = Category.objects.create(
+            project=self.project, name="Category", slug="category"
+        )
+        self.project.add_user(self.other_user, "Administration")
+        self.client.login(username=self.other_user.username, password="testpassword")
+        self.assertContains(
+            self.client.get(reverse("github-app-repositories")), "test-org/repo1"
+        )
+        for restriction in ("block", "two-factor"):
+            if restriction == "block":
+                block = UserBlock.objects.create(
+                    user=self.other_user, project=self.project
+                )
+            else:
+                self.project.enforced_2fa = True
+                self.project.save(update_fields=["enforced_2fa"])
+            for workspace_access in (False, True):
+                if workspace_access:
+                    self.workspace.add_owner(self.other_user)
+                with self.subTest(
+                    restriction=restriction, workspace_access=workspace_access
+                ):
+                    self.assertEqual(
+                        self.client.get(reverse("github-app-repositories")).status_code,
+                        200 if workspace_access else 403,
+                    )
+                    self.assertEqual(
+                        self.client.get(
+                            reverse("github-app-repositories"),
+                            {"project": self.project.pk},
+                        ).status_code,
+                        403,
+                    )
+                    for target in (
+                        {"project": self.project.pk},
+                        {"category": category.pk},
+                    ):
+                        response = self.client.get(
+                            _import_url(installation, repo, **target)
+                        )
+                        self.assertEqual(response.status_code, 403)
+                    self.assertNotIn("session_component", self.client.session)
+            self.other_user.remove_team(None, self.workspace.get_owners_group())
+            if restriction == "block":
+                block.delete()
 
     def test_install_requires_login(self) -> None:
         self.client.logout()
@@ -2041,6 +2137,9 @@ MANIFEST_RESPONSE = {
 class GitHubAppManifestViewTest(TestCase):
     def setUp(self) -> None:
         super().setUp()
+        self.enterContext(
+            mock_dns("api.github.com", "github.com", "github.example.com")
+        )
         self.user = User.objects.create_superuser(
             username="admin",
             email="admin@example.org",

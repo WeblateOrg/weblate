@@ -26,6 +26,7 @@ from weblate.trans.models._conf import WeblateConf
 from weblate.trans.models.agreement import ContributorAgreement
 from weblate.trans.models.alert import Alert
 from weblate.trans.models.announcement import Announcement
+from weblate.trans.models.backup import BackupAuthorClaim, BackupAuthorVote
 from weblate.trans.models.category import Category
 from weblate.trans.models.change import Change
 from weblate.trans.models.comment import Comment, schedule_comment_stats_update
@@ -57,6 +58,8 @@ __all__ = [
     "Alert",
     "AlertSeverity",
     "Announcement",
+    "BackupAuthorClaim",
+    "BackupAuthorVote",
     "Category",
     "Change",
     "Comment",
@@ -503,8 +506,11 @@ def remove_source_workflow(sender, instance, origin, **kwargs) -> None:
         refresh_source_workflows,
     )
 
-    refresh_source_workflows(instance.project_id, using=kwargs.get("using", "default"))
-    reconcile_project_parents(instance.project_id)
+    using = kwargs.get("using", "default")
+    languages = refresh_source_workflows(instance.project_id, using=using)
+    reconcile_project_parents(
+        instance.project_id, language_ids=languages, using=using, batch_checks=True
+    )
 
 
 @receiver(pre_delete, sender=Unit)

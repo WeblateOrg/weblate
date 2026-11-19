@@ -22,7 +22,8 @@ from weblate.automation.operations import (
 )
 from weblate.trans.automation import UnitSelection
 from weblate.trans.models import Unit
-from weblate.utils.change_origin import change_origin_context
+from weblate.utils.bulk_regex import regex_session
+from weblate.utils.change_origin import acting_user_context, change_origin_context
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -52,7 +53,7 @@ def execution_context(
         "unit": {
             "id": unit.pk,
             "state": unit.state,
-            "source": unit.source[:4096],
+            "source": unit.effective_source[:4096],
             "target": unit.target[:4096],
         }
         if unit
@@ -191,7 +192,11 @@ class Runner:
         if kind == "matching_strings":
             return (
                 Unit.objects.filter(translation__component=self.component)
-                .search(value, project=self.component.project)
+                .search(
+                    value,
+                    project=self.component.project,
+                    enforce_contributor_permissions=False,
+                )
                 .exists()
             )
         if kind == "component_category":
@@ -379,6 +384,7 @@ class Runner:
             conditional=uncertain,
         )
 
+    @regex_session()
     def run(self) -> AddonActivityLogStatus:
         with override("en"):
             try:
@@ -455,15 +461,17 @@ def run_automation(activity_id: int) -> None:
                 workflow = validate_operations(
                     parse_workflow(result["workflow"]), activity.component
                 )
-                runner = Runner(
-                    workflow,
-                    result["context"],
-                    activity.component,
-                    addon.addon.user,
-                    persist=persist,
-                )
-                status = runner.run()
-                result = runner.result()
+                actor = addon.addon.user
+                with acting_user_context(actor):
+                    runner = Runner(
+                        workflow,
+                        result["context"],
+                        activity.component,
+                        actor,
+                        persist=persist,
+                    )
+                    status = runner.run()
+                    result = runner.result()
     except Exception as error:
         status = AddonActivityLogStatus.ERROR
         result.setdefault("trace", []).append(

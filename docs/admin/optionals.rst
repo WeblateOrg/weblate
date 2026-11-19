@@ -100,6 +100,39 @@ If you wish to assign a billing plan to an existing project, this can also be do
 
 Lastly, the `Django admin interface` provides an `Invoice` option for logging your customer payments.
 
+Externally managed payments
++++++++++++++++++++++++++++
+
+Billing records use local invoices to determine paid validity by default.
+An integration can explicitly set ``Billing.payment_mode`` to
+``Billing.PaymentMode.EXTERNAL`` and supply an aware datetime in
+``external_paid_until``. In this mode, local invoices remain available as
+history but do not establish paid validity. An unset timestamp grants no paid
+validity. Free plans and trials retain their existing behavior.
+
+The timestamp can be extended, shortened, or cleared. Normal model saves
+recalculate the paid status; bulk database updates bypass this calculation.
+Payment validity includes ``BILLING_GRACE_PERIOD``, while
+``check_payment_status(now=True)`` checks validity without that grace period.
+Expired external billings use the existing unpaid notification and removal
+schedule. Restoring validity for an active external billing cancels scheduled
+removal, including removal work already queued before renewal.
+
+Changing payment mode does not change the plan, workspace, or billing lifecycle
+state. Switching back to ``Billing.PaymentMode.LOCAL`` uses local invoices again
+and ignores the retained external timestamp. These integration fields are not
+exposed in forms or REST APIs.
+
+Merging billings is supported only when both use local payment mode. A merge
+involving an externally managed billing is rejected without changing either
+billing. External entitlement transfers require coordination by the integration.
+
+Integrations must manage authentication, update ordering, and atomic entitlement
+updates. They must explicitly activate trials or reactivate terminated billings
+when appropriate, and exclude externally managed billings from local checkout
+and recurring payment processing. Local recurring payment inactivity assessment
+does not apply to externally managed billings.
+
 Usage
 +++++
 
@@ -150,8 +183,9 @@ or :setting:`PRIVACY_URL` to use externally hosted documents. Configured URLs
 take priority in the footer, sign-in pages, legal pages, and confirmation page.
 The default terms and privacy templates link to the configured URL instead of
 showing their placeholder text. Without a configured URL, Weblate links to a
-visible internal legal page. When no terms link is available, the confirmation
-page embeds :file:`legal/documents/tos.html`.
+visible internal legal page. Without :setting:`LEGAL_URL`, the confirmation
+page embeds :file:`legal/documents/tos.html`. The privacy policy remains linked
+when an external URL or a visible internal page is available.
 
 On changing the terms of service or privacy policy, adjust
 :setting:`LEGAL_TOS_DATE` when users should be forced to agree with the updated
@@ -183,7 +217,7 @@ Installation
     # Social auth pipeline to confirm TOS upon registration/subsequent sign in
     SOCIAL_AUTH_PIPELINE = list(SOCIAL_AUTH_PIPELINE)
     SOCIAL_AUTH_PIPELINE.insert(
-        SOCIAL_AUTH_PIPELINE.index("weblate.accounts.pipeline.second_factor") + 1,
+        SOCIAL_AUTH_PIPELINE.index("weblate.accounts.pipeline.handle_invite") + 1,
         "weblate.legal.pipeline.tos_confirm",
     )
 
@@ -192,9 +226,10 @@ Installation
         "weblate.legal.middleware.RequireTOSMiddleware",
     ]
 
-Insert terms confirmation after two-factor authentication and before team
-synchronization so that logins awaiting terms acceptance do not change team
-memberships.
+Insert terms confirmation after e-mail verification synchronization and invitation
+handling, and before team synchronization. Invitation grants are applied before
+terms confirmation; synchronization of external team memberships waits until
+terms are accepted.
 
 2. Run the database migration to optionally install additional database structures for the module:
 
@@ -237,7 +272,7 @@ policy documents.
 .. _legal-customization:
 
 Customizing legal documents and styles
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Provide your own legal documents by overriding these templates in a
 :ref:`custom-module`:
@@ -442,6 +477,8 @@ The following operations are subject to rate limiting:
 | Second-factor authentication       | ``SECOND_FACTOR``      | 5                | 300              | 600            |
 +------------------------------------+------------------------+------------------+------------------+----------------+
 | Sitewide search                    | ``SEARCH``             | 6                | 60               | 60             |
++------------------------------------+------------------------+------------------+------------------+----------------+
+| Screenshot image text suggestions  | ``OCR``                | 6                | 60               | 60             |
 +------------------------------------+------------------------+------------------+------------------+----------------+
 | Translating                        | ``TRANSLATE``          | 30               | 60               | 600            |
 +------------------------------------+------------------------+------------------+------------------+----------------+

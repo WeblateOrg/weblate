@@ -31,6 +31,7 @@ from weblate.addons.gettext import MsgmergeAddon, SphinxAddon, XgettextAddon
 from weblate.addons.models import Addon
 from weblate.auth.bots import InternalBot
 from weblate.auth.models import Group, Permission, Role, get_anonymous
+from weblate.billing.models import LibreCheck, get_component_billing_alerts
 from weblate.lang.models import Language
 from weblate.machinery.models import MachineryInstallation
 from weblate.trans.actions import ActionEvents
@@ -43,6 +44,7 @@ from weblate.trans.alerts.vcs import PushFailure, RepositoryErrorAlert, UpdateFa
 from weblate.trans.diagnostics import DIAGNOSTICS_LINK_LIMIT, get_diagnostics_context
 from weblate.trans.models import (
     Category,
+    Change,
     Component,
     ComponentLink,
     Project,
@@ -50,9 +52,12 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.models.alert import Alert
+from weblate.trans.templatetags.translations import project_alerts
 from weblate.trans.tests.test_views import ReusableViewTestCase, ViewTestCase
 from weblate.trans.tests.utils import create_test_addon, get_test_actor
 from weblate.utils.docs import get_doc_url
+from weblate.utils.stats import ProjectLanguage
+from weblate.utils.tests.network import mock_dns
 from weblate.vcs.base import (
     RepositoryDiagnosis,
     RepositoryError,
@@ -89,6 +94,7 @@ class WebsiteAlertSettingTest(ViewTestCase):
 
     @override_settings(WEBSITE_ALERTS_ENABLED=True)
     @patch("weblate.trans.alerts.config.get_uri_error", return_value="unreachable")
+    @mock_dns("example.com")
     def test_website_alerts_enabled(self, mocked_get_uri_error: Mock) -> None:
         """Test that website alerts are created when setting is True."""
         self.project.web = "https://example.com/project"
@@ -485,6 +491,9 @@ class AlertTest(ReusableViewTestCase):
                 categorized.get_absolute_url(),
                 "/projects/test/root/parent/category/categorized/",
             )
+        self.assertContains(response, "Test/Root/Parent/Category/Categorized")
+        with self.assertNumQueries(0):
+            self.assertEqual(str(categorized), "Test/Root/Parent/Category/Categorized")
         self.assertIn("commit_message", categorized.get_deferred_fields())
         self.assertIn("instructions", categorized.project.get_deferred_fields())
 
@@ -657,8 +666,9 @@ class AlertTest(ReusableViewTestCase):
                 "process_occurrences",
                 side_effect=AssertionError("MultiAlert was constructed"),
             ),
-            # Includes loading the owner for repository alert permissions.
-            self.assertNumQueries(12),
+            # Includes repository-owner loading and two component-visibility
+            # scope checks for repository-conflict filtering.
+            self.assertNumQueries(14),
         ):
             context = get_diagnostics_context(
                 QueryDict("diagnostic_actionable=on"),
@@ -888,7 +898,11 @@ class AlertTest(ReusableViewTestCase):
                     if supported and translation.pk in allowed:
                         self.assertIn(f'data-href="{cleanup_url}"', row)
                         self.assertIn(
-                            f'aria-label="Remove duplicate strings from {translation.language} ({translation.filename})"',
+                            '<span aria-hidden="true">Remove duplicate strings</span>',
+                            row,
+                        )
+                        self.assertIn(
+                            f'<span class="visually-hidden">Remove duplicate strings from {translation.language} ({translation.filename})</span>',
                             row,
                         )
                         self.assertEqual(
@@ -965,7 +979,7 @@ class AlertTest(ReusableViewTestCase):
         self.user.groups.add(group)
         self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("project.edit", self.component.project))
-        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.assertTrue(self.user.has_perm("component.edit", self.component))
         self.component.add_alert("BrokenProjectURL", error="failure")
 
         response = self.client.get(f"{self.component.get_absolute_url()}?alerts=1")
@@ -1420,6 +1434,55 @@ class AlertTest(ReusableViewTestCase):
         self.component.save(update_fields=["vcs_params"])
         self.assertNotIn("AutomergeFailure", self.get_problem_alert_names())
 
+    def set_pull_request_customization(self, **vcs_params) -> None:
+        self.component.vcs = "github"
+        self.component.vcs_params = vcs_params
+        self.component.save(update_fields=["vcs", "vcs_params"])
+
+    @override_settings(
+        GITHUB_CREDENTIALS={"api.github.com": {"username": "test", "token": "token"}}
+    )
+    def test_pull_request_update_failure_alert(self) -> None:
+        self.set_pull_request_customization(merge_request_labels="translations")
+        self.component.handle_pull_request_update_failure(
+            "GitHub API request failed while customizing a pull request (403): "
+            "Resource not accessible by integration"
+        )
+        alert = self.component.alert_set.get(name="PullRequestUpdateFailure")
+
+        rendered = alert.render(self.user)
+        self.assertIn("Resource not accessible", rendered)
+        self.assertIn("could not apply the configured labels or assignees", rendered)
+
+        self.component.handle_pull_request_update_success()
+        self.assertFalse(
+            self.component.alert_set.filter(name="PullRequestUpdateFailure").exists()
+        )
+
+    def assert_pull_request_update_failure_cleared(self, **vcs_params) -> None:
+        self.set_pull_request_customization(merge_request_assignee="octocat")
+        self.component.handle_pull_request_update_failure("boom")
+        self.assertIn("PullRequestUpdateFailure", self.get_problem_alert_names())
+
+        self.set_pull_request_customization(**vcs_params)
+        self.assertNotIn("PullRequestUpdateFailure", self.get_problem_alert_names())
+
+    @override_settings(
+        GITHUB_CREDENTIALS={"api.github.com": {"username": "test", "token": "token"}}
+    )
+    def test_pull_request_update_failure_alert_cleared_when_turned_off(self) -> None:
+        self.assert_pull_request_update_failure_cleared()
+
+    @override_settings(
+        GITHUB_CREDENTIALS={"api.github.com": {"username": "test", "token": "token"}}
+    )
+    def test_pull_request_update_failure_alert_cleared_without_merge_request(
+        self,
+    ) -> None:
+        self.assert_pull_request_update_failure_cleared(
+            merge_request_assignee="octocat", create_merge_request=False
+        )
+
     def test_view(self) -> None:
         response = self.client.get(self.component.get_absolute_url())
         self.assertContains(response, "Duplicated translation")
@@ -1731,6 +1794,167 @@ class GitHubAppMigrationAlertTest(ViewTestCase):
     }
 )
 class ConflictingRepositorySetupAlertTest(ViewTestCase):
+    def test_project_language_indicators_use_prefetched_visibility(self) -> None:
+        hidden = self.create_po(
+            project=self.create_project(
+                name="Hidden peers",
+                slug="hidden-peers",
+                access_control=Project.ACCESS_PRIVATE,
+            ),
+            name="Hidden peer",
+        )
+        languages = [
+            Language.objects.get(code=code)
+            for code in ("en", "cs", "de", "fr", "es", "it", "pt", "pl")
+        ]
+        for name, peers, superuser, expected in (
+            (None, [], False, False),
+            ("ConflictingRepositorySetup", [hidden.pk], False, False),
+            ("ConflictingRepositorySetup", [self.component.pk], False, True),
+            ("PushFailure", [], False, True),
+            ("ConflictingRepositorySetup", [hidden.pk], True, True),
+        ):
+            with self.subTest(name=name, peers=peers, superuser=superuser):
+                Alert.objects.filter(component__project=self.project).delete()
+                if name is not None:
+                    Alert.objects.create(
+                        component=self.component,
+                        name=name,
+                        details={"component_ids": peers},
+                        severity=AlertSeverity.ERROR,
+                    )
+                self.user.is_superuser = superuser
+                self.user.save(update_fields=["is_superuser"])
+                with CaptureQueriesContext(connection) as queries:
+                    response = self.client.get(self.project.get_absolute_url())
+                self.assertEqual(response.status_code, 200)
+                project = response.context["project"]
+                self.assertIs(project.__dict__["visible_has_alerts"], expected)
+                self.assertFalse(
+                    any(
+                        query["sql"].startswith('SELECT 1 AS "a" FROM "trans_alert"')
+                        for query in queries
+                    )
+                )
+                for count in (1, 8):
+                    rows = [
+                        ProjectLanguage(project, language)
+                        for language in languages[:count]
+                    ]
+                    with self.assertNumQueries(0):
+                        for row in rows:
+                            icons = list(
+                                project_alerts(row.project, response.wsgi_request.user)
+                            )
+                            self.assertEqual(
+                                any(icon[0] == "state/alert.svg" for icon in icons),
+                                expected,
+                            )
+
+    def test_profile_project_indicators_use_batched_visibility(self) -> None:
+        counts = []
+        projects = []
+        for count in (1, 8):
+            for index in range(len(projects), count):
+                project = self.create_project(
+                    name=f"Profile {index}", slug=f"profile-{index}"
+                )
+                project.add_user(self.user, "Administration")
+                self.user.profile.watched.add(project)
+                projects.append(project)
+            self.client.get(self.user.get_absolute_url())
+            with CaptureQueriesContext(connection) as queries:
+                response = self.client.get(self.user.get_absolute_url())
+            self.assertEqual(response.status_code, 200)
+            for key in ("page_owned_projects", "page_watched_projects"):
+                self.assertEqual(len(response.context[key]), count)
+                self.assertTrue(
+                    all(
+                        "visible_has_alerts" in project.__dict__
+                        for project in response.context[key]
+                    )
+                )
+            counts.append(len(queries))
+        self.assertEqual(counts[0], counts[1])
+
+    def test_hidden_only_conflict_has_no_visible_signal(self) -> None:
+        hidden = self.create_po(
+            project=self.create_project(
+                name="Hidden peers",
+                slug="hidden-peers",
+                access_control=Project.ACCESS_PRIVATE,
+            ),
+            name="Hidden peer",
+        )
+        Alert.objects.filter(component__project=self.project).delete()
+        alert = Alert.objects.create(
+            component=self.component,
+            name="ConflictingRepositorySetup",
+            details={"component_ids": [hidden.pk]},
+        )
+        self.assertFalse(
+            Alert.objects.filter(pk=alert.pk)
+            .filter_visible_conflicts(self.user)
+            .exists()
+        )
+        self.assertEqual(alert.render(self.user), "")
+        self.assertNotIn(
+            alert.pk,
+            self.component.alert_set.filter_visible_conflicts(self.user).values_list(
+                "pk", flat=True
+            ),
+        )
+        self.assertFalse(
+            Change.objects.last_changes(self.user, component=self.component)
+            .filter(alert=alert)
+            .exists()
+        )
+        response = self.client.get(self.component.get_absolute_url())
+        self.assertEqual(response.context["problem_alerts_count"], 0)
+        self.assertNotContains(response, "Conflicting repository setup.")
+        context = get_diagnostics_context(
+            QueryDict(), self.user, Component.objects.filter(project=self.project)
+        )
+        self.assertFalse(
+            any(group.name == alert.name for group in context["diagnostics"])
+        )
+        response = self.client.get(reverse("projects"))
+        self.assertNotContains(
+            response, "Some of the components within this project have diagnostics."
+        )
+        self.component.__dict__.pop("all_alerts", None)
+        self.component.clear_prefetched_alerts()
+        checklist_context = {
+            "user": self.user,
+            "show_alerts": True,
+            "libre_component_checklist": [
+                LibreCheck(
+                    True,
+                    "",
+                    component=self.component,
+                    alerts=get_component_billing_alerts(self.component),
+                )
+            ],
+        }
+        self.assertNotIn(
+            "Conflicting repository setup.",
+            render_to_string("snippets/libre-checklist.html", checklist_context),
+        )
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.assertTrue(
+            Alert.objects.filter(pk=alert.pk)
+            .filter_visible_conflicts(self.user)
+            .exists()
+        )
+        response = self.client.get(self.component.get_absolute_url())
+        self.assertEqual(response.context["problem_alerts_count"], 1)
+        self.assertContains(response, "Conflicting repository setup.")
+        self.assertIn(
+            "Conflicting repository setup.",
+            render_to_string("snippets/libre-checklist.html", checklist_context),
+        )
+
     def create_component(self):
         return self.create_po()
 

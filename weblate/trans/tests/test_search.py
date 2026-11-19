@@ -11,12 +11,15 @@ from types import SimpleNamespace
 from unittest.mock import ANY, patch
 from urllib.parse import urlsplit
 
+from django.core.exceptions import ValidationError
 from django.db import connection
 from django.http import QueryDict
 from django.template import Context
+from django.template.loader import render_to_string
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils.html import escape
+from lxml import html
 
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, Role, User
@@ -26,6 +29,7 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.bulk import bulk_perform
 from weblate.trans.forms import AutoForm, BulkEditForm
 from weblate.trans.models import (
+    Category,
     Change,
     Comment,
     Component,
@@ -41,6 +45,7 @@ from weblate.utils.forms import SearchField
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import (
     STATE_APPROVED,
+    STATE_EMPTY,
     STATE_FUZZY,
     STATE_NEEDS_CHECKING,
     STATE_NEEDS_REWRITING,
@@ -412,6 +417,86 @@ class SearchViewTest(ReusableViewTestCase):
         """Searching in all projects."""
         response = self.client.get(reverse("search"), {"q": "hello", "lang": "cs"})
         self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
+
+    def test_search_category_paths(self) -> None:
+        categories = []
+        parent = None
+        for index in range(3):
+            parent = Category.objects.create(
+                name=f"Search category {index}",
+                slug=f"search-category-{index}",
+                project=self.project,
+                category=parent,
+            )
+            categories.append(parent)
+        Component.objects.filter(pk=self.component.pk).update(category=parent)
+        self.component.refresh_from_db()
+        other = self.create_po(
+            project=self.project, category=categories[0], name=self.component.name
+        )
+        self.update_fulltext_index()
+        for scope in (None, self.project.get_url_path()):
+            url = (
+                reverse("search", kwargs={"path": scope})
+                if scope
+                else reverse("search")
+            )
+            with self.subTest(scope=scope):
+                response = self.client.get(url, {"q": "hello", "lang": "cs"})
+                self.assertEqual(response.status_code, 200)
+                document = html.fromstring(response.content)
+                for component, ancestors in (
+                    (self.component, categories),
+                    (other, categories[:1]),
+                ):
+                    cells = document.xpath(
+                        '//td[contains(@class, "object-link")][a/@href=$url]',
+                        url=Component.objects.get(pk=component.pk).get_absolute_url(),
+                    )
+                    self.assertTrue(cells)
+                    for cell in cells:
+                        links = cell.xpath("./a")
+                        expected: list[Project | Category | Component] = [
+                            self.project,
+                            *ancestors,
+                            component,
+                        ]
+                        self.assertEqual(
+                            [link.text_content() for link in links[:-1]],
+                            [obj.name for obj in expected],
+                        )
+                        self.assertEqual(
+                            [link.get("href") for link in links[:-1]],
+                            [obj.get_absolute_url() for obj in expected],
+                        )
+
+    def test_search_prefetched_category_paths_do_not_query(self) -> None:
+        parent = None
+        for index in range(3):
+            parent = Category.objects.create(
+                name=f"Category {index}",
+                slug=f"category-{index}",
+                project=self.project,
+                category=parent,
+            )
+        Component.objects.filter(pk=self.component.pk).update(category=parent)
+        workspace = Workspace.objects.create(name="Path workspace")
+        Project.objects.filter(pk=self.project.pk).update(workspace=workspace)
+        units = list(
+            Unit.objects.filter(translation=self.translation).prefetch().prefetch_bulk()
+        )
+        with self.assertNumQueries(0):
+            content = render_to_string(
+                "snippets/embed-units.html",
+                {
+                    "units": units,
+                    "show_translation": True,
+                    "force_source": True,
+                    "search_query": "",
+                },
+            )
+        self.assertIn("Category 0", content)
+        self.assertIn("Category 2", content)
 
     def test_project_search(self) -> None:
         """Searching within project."""
@@ -855,35 +940,38 @@ class ReplaceTest(ReusableViewTestCase):
 
     def setUp(self) -> None:
         super().setUp()
+        reset_rate_limit("bulk_edit", user=self.user)
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.unit = self.get_unit()
+        self.make_manager()
+
+    def confirm_preview(self, response, url, units=None, *, apply_all=False):
+        return self.client.post(
+            url,
+            {
+                "bulk_confirmation": response.context["confirmation"],
+                "preview_units": [] if units is None else units,
+                **({"apply_all": "1"} if apply_all else {}),
+            },
+            follow=True,
+        )
 
     def do_replace_test(self, url, confirm=True, query=None) -> None:
         query = query or ""
         response = self.client.post(
             url, {"q": query, "search": "Nazdar", "replacement": "Ahoj"}, follow=True
         )
-        self.assertContains(
-            response, "Please review and confirm the search and replace results."
+        self.assertContains(response, "Review and confirm the bulk edit changes.")
+        response = self.confirm_preview(
+            response, url, [self.unit.pk] if confirm else []
         )
-        payload = {
-            "q": query,
-            "search": "Nazdar",
-            "replacement": "Ahoj",
-            "confirm": "1",
-        }
-        if confirm:
-            payload["units"] = self.unit.pk
-        response = self.client.post(url, payload, follow=True)
         unit = self.get_unit()
         if confirm:
-            self.assertContains(
-                response, "Search and replace completed, 1 string was updated."
-            )
+            self.assertContains(response, "Bulk edit completed, 1 string was updated.")
             self.assertEqual(unit.target, "Ahoj svete!\n")
         else:
             self.assertContains(
-                response, "Search and replace completed, no strings were updated."
+                response, "Bulk edit completed, no strings were updated."
             )
             self.assertEqual(unit.target, "Nazdar svete!\n")
 
@@ -893,9 +981,7 @@ class ReplaceTest(ReusableViewTestCase):
             {"search": "Ahoj", "replacement": "Cau"},
             follow=True,
         )
-        self.assertContains(
-            response, "Search and replace completed, no strings were updated."
-        )
+        self.assertEqual(response.context["total"], 0)
         unit = self.get_unit()
         self.assertEqual(unit.target, "Nazdar svete!\n")
 
@@ -911,9 +997,7 @@ class ReplaceTest(ReusableViewTestCase):
             {"q": "NOT is:translated", "search": "Nazdar", "replacement": "Ahoj"},
             follow=True,
         )
-        self.assertNotContains(
-            response, "Please review and confirm the search and replace results."
-        )
+        self.assertEqual(response.context["total"], 0)
 
     def test_replace(self) -> None:
         self.do_replace_test(reverse("replace", kwargs=self.kw_translation))
@@ -921,7 +1005,7 @@ class ReplaceTest(ReusableViewTestCase):
     def test_replace_initial_action(self) -> None:
         response = self.client.get(self.component.get_absolute_url())
 
-        self.assertContains(response, 'value="Review changes"')
+        self.assertContains(response, 'id="id_bulk_preview"')
         self.assertNotContains(response, 'value="Replace"')
         self.assertNotContains(response, "Don’t worry about messing up the strings.")
 
@@ -934,16 +1018,14 @@ class ReplaceTest(ReusableViewTestCase):
             follow=True,
         )
 
-        self.assertContains(
-            response, "Please review and confirm the search and replace results."
-        )
+        self.assertContains(response, "Review and confirm the bulk edit changes.")
         self.assertContains(response, "Update preview")
-        self.assertContains(response, ">Replace</button>")
-        self.assertContains(response, 'id="id_replace_search"')
-        self.assertContains(response, 'id="id_replace_replacement"')
+        self.assertContains(response, ">Apply</button>")
+        self.assertContains(response, 'id="id_bulk_search"')
+        self.assertContains(response, 'id="id_bulk_replacement"')
         content = response.content.decode()
-        self.assertEqual(content.count('id="id_replace_search"'), 1)
-        self.assertEqual(content.count('id="id_replace_replacement"'), 1)
+        self.assertEqual(content.count('id="id_bulk_search"'), 1)
+        self.assertEqual(content.count('id="id_bulk_replacement"'), 1)
 
         response = self.client.post(
             url,
@@ -952,27 +1034,13 @@ class ReplaceTest(ReusableViewTestCase):
         )
 
         unit = self.get_unit()
-        self.assertContains(
-            response, "Please review and confirm the search and replace results."
-        )
+        self.assertContains(response, "Review and confirm the bulk edit changes.")
         self.assertContains(response, 'value="Cau"')
         self.assertEqual(unit.target, "Nazdar svete!\n")
 
-        response = self.client.post(
-            url,
-            {
-                "q": "",
-                "search": "Nazdar",
-                "replacement": "Cau",
-                "confirm": "1",
-                "units": unit.pk,
-            },
-            follow=True,
-        )
+        response = self.confirm_preview(response, url, [self.unit.pk])
 
-        self.assertContains(
-            response, "Search and replace completed, 1 string was updated."
-        )
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
         unit = self.get_unit()
         self.assertEqual(unit.target, "Cau svete!\n")
 
@@ -988,7 +1056,7 @@ class ReplaceTest(ReusableViewTestCase):
 
         response = self.client.get(workspace.get_absolute_url())
 
-        self.assertContains(response, 'data-bs-target="#replace"')
+        self.assertContains(response, 'data-bs-target="#bulk-edit"')
         self.do_replace_test(
             reverse("replace", kwargs={"path": workspace.get_url_path()})
         )
@@ -1020,26 +1088,12 @@ class ReplaceTest(ReusableViewTestCase):
             {"q": "", "search": "Nazdar", "replacement": "Ahoj"},
         )
 
-        self.assertContains(
-            response, "Please review and confirm the search and replace results."
-        )
+        self.assertContains(response, "Review and confirm the bulk edit changes.")
         self.assertNotContains(response, outside_component.name)
 
-        response = self.client.post(
-            url,
-            {
-                "q": "",
-                "search": "Nazdar",
-                "replacement": "Ahoj",
-                "confirm": "1",
-                "units": self.unit.pk,
-            },
-            follow=True,
-        )
+        response = self.confirm_preview(response, url, [self.unit.pk])
 
-        self.assertContains(
-            response, "Search and replace completed, 1 string was updated."
-        )
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
         outside_unit.refresh_from_db()
         self.assertEqual(outside_unit.target, "Nazdar outside!\n")
 
@@ -1115,7 +1169,9 @@ class ReplaceTest(ReusableViewTestCase):
             name="Editable workspace project",
             language_selection=SELECTION_ALL,
         )
-        edit_group.roles.add(Role.objects.get(name="Translate"))
+        edit_group.roles.add(
+            Role.objects.get(name="Translate"), Role.objects.get(name="Bulk editing")
+        )
         edit_group.projects.add(editable_project)
         self.user.groups.add(view_group, edit_group)
         self.user.clear_permissions_cache()
@@ -1125,10 +1181,10 @@ class ReplaceTest(ReusableViewTestCase):
             {"q": "", "search": "Nazdar", "replacement": "Ahoj"},
         )
 
-        self.assertContains(
-            response, "Please review and confirm the search and replace results."
+        self.assertContains(response, "Review and confirm the bulk edit changes.")
+        self.assertEqual(
+            [edit.unit for edit in response.context["matching"]], [editable_unit]
         )
-        self.assertEqual(list(response.context["matching"]), [editable_unit])
         self.assertFalse(response.context["limited"])
 
     def test_replace_workspace_with_component_language_permission(self) -> None:
@@ -1137,7 +1193,9 @@ class ReplaceTest(ReusableViewTestCase):
         self.project.save(update_fields=["workspace"])
         self.user.groups.clear()
         group = Group.objects.create(name="Workspace component translator")
-        group.roles.add(Role.objects.get(name="Translate"))
+        group.roles.add(
+            Role.objects.get(name="Translate"), Role.objects.get(name="Bulk editing")
+        )
         group.components.add(self.component)
         group.languages.add(self.translation.language)
         self.user.groups.add(group)
@@ -1155,7 +1213,7 @@ class ReplaceTest(ReusableViewTestCase):
 
         response = self.client.get(workspace.get_absolute_url())
 
-        self.assertContains(response, 'data-bs-target="#replace"')
+        self.assertContains(response, 'data-bs-target="#bulk-edit"')
         self.do_replace_test(
             reverse("replace", kwargs={"path": workspace.get_url_path()})
         )
@@ -1185,21 +1243,10 @@ class ReplaceTest(ReusableViewTestCase):
         response = self.client.post(
             url, {"q": "", "search": "Opice", "replacement": "Orangutan"}, follow=True
         )
-        self.assertContains(
-            response, "Please review and confirm the search and replace results."
-        )
-        payload = {
-            "q": "",
-            "search": "Opice",
-            "replacement": "Orangutan",
-            "confirm": "1",
-            "units": unit.pk,
-        }
-        response = self.client.post(url, payload, follow=True)
+        self.assertContains(response, "Review and confirm the bulk edit changes.")
+        response = self.confirm_preview(response, url, [unit.pk])
         unit = self.get_unit("Orangutan")
-        self.assertContains(
-            response, "Search and replace completed, 1 string was updated."
-        )
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
         self.assertEqual(
             unit.get_target_plurals(),
             [
@@ -1210,14 +1257,791 @@ class ReplaceTest(ReusableViewTestCase):
         )
 
 
+class BulkGlossaryFlagsTest(ReusableViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.project.access_control = Project.ACCESS_PROTECTED
+        self.project.save(update_fields=["access_control"])
+        self.component.create_glossary()
+        self.glossary = Component.objects.get(project=self.project, is_glossary=True)
+        source = self.glossary.source_translation.add_unit(
+            None, "", source="bulk-glossary-term", author=self.user
+        )
+        assert source is not None
+        self.source = source
+        self.glossary.add_new_language(self.translation.language, None)
+        self.term = self.glossary.translation_set.get(
+            language=self.translation.language
+        ).unit_set.get(source_unit=source)
+        self.editor = User.objects.create_user(
+            "glossary-bulk", "glossary-bulk@example.com", "glossary-bulk"
+        )
+        self.group = Group.objects.create(
+            name="Glossary bulk sources", language_selection=SELECTION_ALL
+        )
+        self.group.projects.add(self.project)
+        self.group.roles.set(
+            Role.objects.filter(name__in=["Edit source", "Bulk editing"])
+        )
+        self.editor.groups.add(self.group)
+        self.editor.clear_permissions_cache()
+        self.assertTrue(self.editor.has_perm("source.edit", self.glossary))
+        self.assertTrue(self.editor.has_perm("unit.bulk_edit", self.glossary))
+        self.assertFalse(
+            self.editor.has_perm("meta:unit.flag", self.source.translation)
+        )
+        self.client.force_login(self.editor)
+        self.url = reverse("bulk-edit", kwargs={"path": self.project.get_url_path()})
+
+    def test_source_flags_require_glossary_permission(self) -> None:
+        role = Role.objects.get(name="Manage glossary")
+        for selected in (self.source, self.term):
+            for field, initial, expected in (
+                ("add_flags", "", "forbidden, read-only"),
+                ("remove_flags", "forbidden, read-only", ""),
+            ):
+                with self.subTest(selected=selected.pk, field=field):
+                    self.source.update_extra_flags(initial, self.user)
+                    data = {
+                        "q": f"id:{selected.pk}",
+                        "state": -1,
+                        field: "forbidden, read-only",
+                    }
+                    response = self.client.post(self.url, data, follow=True)
+                    self.assertContains(
+                        response, "Bulk edit completed, no strings were updated."
+                    )
+                    self.source.refresh_from_db()
+                    self.assertEqual(self.source.extra_flags, initial)
+
+                    self.group.roles.add(role)
+                    self.editor.clear_permissions_cache()
+                    response = self.client.post(self.url, data, follow=True)
+                    self.assertContains(
+                        response, "Bulk edit completed, 1 string was updated."
+                    )
+                    self.source.refresh_from_db()
+                    self.term.refresh_from_db()
+                    self.assertEqual(self.source.extra_flags, expected)
+                    self.assertEqual(self.term.readonly, bool(expected))
+                    self.group.roles.remove(role)
+                    self.editor.clear_permissions_cache()
+
+    def test_glossary_scope_requires_glossary_permission(self) -> None:
+        response = self.client.post(
+            reverse("bulk-edit", kwargs={"path": self.glossary.get_url_path()}),
+            {"q": f"id:{self.source.pk}", "state": -1, "add_flags": "forbidden"},
+        )
+        self.assertEqual(response.status_code, 403)
+        self.source.refresh_from_db()
+        self.assertEqual(self.source.extra_flags, "")
+
+    def test_mixed_preview_skips_glossary_flags(self) -> None:
+        unit = self.get_unit()
+        response = self.client.post(
+            self.url,
+            {
+                "q": f"id:{unit.pk},{self.term.pk}",
+                "state": -1,
+                "add_flags": "read-only",
+                "preview": "1",
+            },
+        )
+        self.assertEqual(response.context["total"], 1)
+        self.assertEqual(
+            [edit.unit.pk for edit in response.context["matching"]], [unit.pk]
+        )
+        unit.source_unit.refresh_from_db()
+        self.assertEqual(unit.source_unit.extra_flags, "")
+        response = self.client.post(
+            self.url,
+            {
+                "bulk_confirmation": response.context["confirmation"],
+                "apply_all": "1",
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+        unit.source_unit.refresh_from_db()
+        self.source.refresh_from_db()
+        self.assertEqual(unit.source_unit.extra_flags, "read-only")
+        self.assertEqual(self.source.extra_flags, "")
+
+    def test_confirmation_rechecks_glossary_permission(self) -> None:
+        role = Role.objects.get(name="Manage glossary")
+        self.group.roles.add(role)
+        self.editor.clear_permissions_cache()
+        response = self.client.post(
+            self.url,
+            {
+                "q": f"id:{self.source.pk}",
+                "state": -1,
+                "add_flags": "read-only",
+                "preview": "1",
+            },
+        )
+        self.assertEqual(response.context["total"], 1)
+        self.group.roles.remove(role)
+        self.editor.clear_permissions_cache()
+        response = self.client.post(
+            self.url,
+            {
+                "bulk_confirmation": response.context["confirmation"],
+                "preview_units": [self.source.pk],
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, no strings were updated.")
+        self.source.refresh_from_db()
+        self.assertEqual(self.source.extra_flags, "")
+
+    def test_labels_keep_source_permission(self) -> None:
+        label = self.project.label_set.create(name="Bulk glossary label", color="black")
+        for field, expected in (("add_labels", [label]), ("remove_labels", [])):
+            with self.subTest(field=field):
+                response = self.client.post(
+                    self.url,
+                    {
+                        "q": f"id:{self.term.pk}",
+                        "state": -1,
+                        "add_flags": "read-only",
+                        field: label.pk,
+                    },
+                    follow=True,
+                )
+                self.assertContains(
+                    response, "Bulk edit completed, 1 string was updated."
+                )
+                self.source.refresh_from_db()
+                self.assertEqual(self.source.extra_flags, "")
+                self.assertEqual(list(self.source.labels.all()), expected)
+
+    def test_trusted_bulk_edit_can_change_glossary_flags(self) -> None:
+        updated = bulk_perform(
+            self.editor,
+            Unit.objects.filter(pk=self.source.pk),
+            query="",
+            target_state=-1,
+            add_flags="read-only",
+            remove_flags="",
+            add_labels=self.project.label_set.none(),
+            remove_labels=self.project.label_set.none(),
+            project=self.project,
+            enforce_permissions=False,
+        )
+        self.assertEqual(updated, 1)
+        self.source.refresh_from_db()
+        self.assertEqual(self.source.extra_flags, "read-only")
+
+    def test_bulk_terminology_preserves_other_flag_changes(self) -> None:
+        self.group.roles.add(Role.objects.get(name="Power user"))
+        self.editor.clear_permissions_cache()
+        updated = bulk_perform(
+            self.editor,
+            Unit.objects.filter(pk=self.source.pk),
+            query="",
+            target_state=-1,
+            add_flags="terminology, max-length:20",
+            remove_flags="",
+            add_labels=self.project.label_set.none(),
+            remove_labels=self.project.label_set.none(),
+            project=self.project,
+        )
+        self.assertEqual(updated, 1)
+        self.source.refresh_from_db()
+        self.assertEqual(self.source.extra_flags, "max-length:20")
+
+
 class BulkEditTest(ReusableViewTestCase):
     """Test for build edit functionality."""
 
     def setUp(self) -> None:
         super().setUp()
+        reset_rate_limit("bulk_edit", user=self.user)
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n", fuzzy=True)
         self.unit = self.get_unit()
         self.make_manager()
+
+    def create_extra_bulk_unit(self) -> Unit:
+        return Unit.objects.bulk_create(
+            [
+                Unit(
+                    translation=self.translation,
+                    source="Another bulk string",
+                    target="Another target",
+                    id_hash=-99_000_000,
+                    source_unit=self.unit.source_unit,
+                    state=STATE_FUZZY,
+                    original_state=STATE_FUZZY,
+                    position=20_000,
+                )
+            ]
+        )[0]
+
+    def test_preview_is_read_only_and_confirmation_applies(self) -> None:
+        url = reverse("bulk-edit", kwargs=self.kw_translation)
+        before = (Change.objects.count(), PendingUnitChange.objects.count())
+        response = self.client.post(
+            url,
+            {
+                "q": f"id:{self.unit.pk}",
+                "state": STATE_EMPTY,
+                "preview": "1",
+            },
+        )
+        self.assertContains(response, "Review and confirm")
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.target, "Nazdar svete!\n")
+        self.assertEqual(
+            (Change.objects.count(), PendingUnitChange.objects.count()), before
+        )
+        response = self.client.post(
+            url,
+            {
+                "bulk_confirmation": response.context["confirmation"],
+                "preview_units": [self.unit.pk],
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.target, "")
+        self.assertEqual(self.unit.state, STATE_EMPTY)
+        change = self.unit.change_set.filter(action=ActionEvents.BULK_EDIT).latest("pk")
+        self.assertEqual(change.user, self.user)
+        self.assertTrue(
+            PendingUnitChange.objects.filter(unit=self.unit, author=self.user).exists()
+        )
+
+    def test_preview_breadcrumbs_have_a_list_parent(self) -> None:
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {
+                "q": f"id:{self.unit.pk}",
+                "state": STATE_EMPTY,
+                "preview": "1",
+            },
+        )
+        tree = html.fromstring(response.content)
+        items = tree.xpath(
+            "//li[contains(concat(' ', normalize-space(@class), ' '), ' breadcrumb-item ')]"
+        )
+        self.assertTrue(items)
+        self.assertEqual(items[-1].text_content().strip(), "Bulk edit")
+        self.assertTrue(all(item.getparent().tag == "ol" for item in items))
+
+    def test_replacement_processes_each_selected_translation_once(self) -> None:
+        other = self.create_po(
+            project=self.project, slug="replace-peer", name="Replace peer"
+        )
+        outside = self.create_po(
+            project=self.project, slug="replace-outside", name="Replace outside"
+        )
+        other_unit = other.translation_set.get(language_code="cs").unit_set.get(
+            source=self.unit.source
+        )
+        outside_unit = outside.translation_set.get(language_code="cs").unit_set.get(
+            source=self.unit.source
+        )
+        for unit in (self.unit, other_unit, outside_unit):
+            unit.translate(self.user, "a", STATE_TRANSLATED, propagate=False)
+        workspace = Workspace.objects.create(name="Bulk replacement")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        for scope in (self.project, workspace):
+            for search_type in ("text", "regex"):
+                with self.subTest(scope=type(scope).__name__, search_type=search_type):
+                    Unit.objects.filter(
+                        pk__in=[self.unit.pk, other_unit.pk, outside_unit.pk]
+                    ).update(target="a\n")
+                    url = reverse("bulk-edit", kwargs={"path": scope.get_url_path()})
+                    response = self.client.post(
+                        url,
+                        {
+                            "q": f"id:{self.unit.pk},{other_unit.pk}",
+                            "state": -1,
+                            "search_type": search_type,
+                            "search": "a",
+                            "replacement": "aa",
+                            "preview": "1",
+                        },
+                    )
+                    self.assertEqual(response.context["total"], 2)
+                    self.assertEqual(
+                        [edit.target for edit in response.context["matching"]],
+                        [["aa\n"], ["aa\n"]],
+                    )
+                    response = self.client.post(
+                        url,
+                        {
+                            "bulk_confirmation": response.context["confirmation"],
+                            "apply_all": "1",
+                        },
+                        follow=True,
+                    )
+                    self.assertContains(
+                        response, "Bulk edit completed, 2 strings were updated."
+                    )
+                    for unit in (self.unit, other_unit, outside_unit):
+                        unit.refresh_from_db()
+                        self.assertEqual(unit.target, "aa\n")
+
+    def test_selected_translation_with_different_text_is_not_overwritten(self) -> None:
+        other = self.create_po(
+            project=self.project, slug="different-peer", name="Different peer"
+        )
+        other_unit = other.translation_set.get(language_code="cs").unit_set.get(
+            source=self.unit.source
+        )
+        self.unit.translate(self.user, "a", STATE_TRANSLATED, propagate=False)
+        other_unit.translate(self.user, "b", STATE_TRANSLATED, propagate=False)
+        response = self.client.post(
+            reverse("bulk-edit", kwargs={"path": self.project.get_url_path()}),
+            {
+                "q": f"id:{self.unit.pk},{other_unit.pk}",
+                "state": -1,
+                "search": "a",
+                "replacement": "aa",
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+        self.unit.refresh_from_db()
+        other_unit.refresh_from_db()
+        self.assertEqual((self.unit.target, other_unit.target), ("aa\n", "b\n"))
+
+    @override_settings(AUTOFIX_LIST=[])
+    def test_regex_replacement_with_state_and_flags(self) -> None:
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {
+                "q": f"id:{self.unit.pk}",
+                "state": STATE_TRANSLATED,
+                "search_type": "regex",
+                "search": r"(?P<greeting>Nazdar) (svete)",
+                "replacement": r" \g<2> \g<greeting> ",
+                "add_translation_flags": "max-length:100",
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.target, " svete Nazdar !\n")
+        self.assertEqual(self.unit.state, STATE_TRANSLATED)
+        self.assertIn("max-length:100", self.unit.extra_flags)
+
+    def test_zero_width_replacement_fills_empty_translation(self) -> None:
+        self.unit.translate(self.user, "", STATE_EMPTY)
+        url = reverse("bulk-edit", kwargs=self.kw_translation)
+        response = self.client.post(
+            url,
+            {
+                "q": f"id:{self.unit.pk}",
+                "state": STATE_TRANSLATED,
+                "preview": "1",
+                "search_type": "regex",
+                "search": "^",
+                "replacement": "Prefix",
+            },
+        )
+        self.assertEqual(response.context["matching"][0].state, STATE_TRANSLATED)
+        self.client.post(
+            url,
+            {
+                "bulk_confirmation": response.context["confirmation"],
+                "preview_units": [self.unit.pk],
+            },
+        )
+        self.unit.refresh_from_db()
+        self.assertEqual(
+            (self.unit.target, self.unit.state), ("Prefix\n", STATE_TRANSLATED)
+        )
+
+    def test_invalid_replacement_does_not_write(self) -> None:
+        for search, replacement in [("(", "x"), ("(x)", r"\g<missing>")]:
+            with self.subTest(search=search):
+                form = BulkEditForm(
+                    self.user,
+                    self.translation,
+                    data={
+                        "q": "state:translated",
+                        "state": -1,
+                        "search_type": "regex",
+                        "search": search,
+                        "replacement": replacement,
+                    },
+                )
+                self.assertFalse(form.is_valid())
+                self.assertIn(
+                    "Invalid regular expression or replacement", str(form.errors)
+                )
+
+    def test_clearing_sources_is_excluded(self) -> None:
+        source = self.unit.source_unit
+        old = source.target
+        self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_component),
+            {
+                "q": f"id:{source.pk}",
+                "state": STATE_EMPTY,
+            },
+        )
+        source.refresh_from_db()
+        self.assertEqual(source.target, old)
+
+    def test_editable_source_replacement_cannot_clear(self) -> None:
+        component = self.create_json_mono(
+            project=self.project, slug="bulk-source", name="Bulk source"
+        )
+        source = component.source_translation.unit_set.get(source__startswith="Hello")
+        self.assertTrue(self.user.has_perm("unit.edit", source))
+        url = reverse("bulk-edit", kwargs={"path": component.get_url_path()})
+        original = source.target
+        response = self.client.post(
+            url,
+            {
+                "q": f"id:{source.pk}",
+                "state": -1,
+                "search": original,
+                "replacement": "",
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, no strings were updated.")
+        source.refresh_from_db()
+        self.assertEqual(source.target, original)
+        response = self.client.post(
+            url,
+            {
+                "q": f"id:{source.pk}",
+                "state": -1,
+                "search": "Hello",
+                "replacement": "Hi",
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+        source.refresh_from_db()
+        self.assertEqual(source.target, original.replace("Hello", "Hi"))
+
+    def test_empty_replacement_clears_state(self) -> None:
+        self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {
+                "q": f"id:{self.unit.pk}",
+                "state": -1,
+                "search": "Nazdar svete!\n",
+                "replacement": "",
+            },
+        )
+        self.unit.refresh_from_db()
+        self.assertEqual((self.unit.target, self.unit.state), ("", STATE_EMPTY))
+
+    def test_replacement_does_not_narrow_other_operations(self) -> None:
+        self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {
+                "q": f"id:{self.unit.pk}",
+                "state": STATE_TRANSLATED,
+                "search": "absent text",
+                "replacement": "x",
+            },
+        )
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.target, "Nazdar svete!\n")
+        self.assertEqual(self.unit.state, STATE_TRANSLATED)
+
+    def test_confirmation_rejects_unshown_units(self) -> None:
+        url = reverse("bulk-edit", kwargs=self.kw_translation)
+        response = self.client.post(
+            url,
+            {
+                "q": f"id:{self.unit.pk}",
+                "state": STATE_EMPTY,
+                "preview": "1",
+            },
+        )
+        response = self.client.post(
+            url,
+            {
+                "bulk_confirmation": response.context["confirmation"],
+                "preview_units": [self.unit.source_unit_id],
+            },
+        )
+        self.assertEqual(response.status_code, 403)
+
+    def test_confirmation_rechecks_permissions(self) -> None:
+        url = reverse("bulk-edit", kwargs=self.kw_translation)
+        response = self.client.post(
+            url,
+            {
+                "q": f"id:{self.unit.pk}",
+                "state": STATE_EMPTY,
+                "preview": "1",
+            },
+        )
+        self.user.groups.clear()
+        self.user.clear_permissions_cache()
+        response = self.client.post(
+            url,
+            {
+                "bulk_confirmation": response.context["confirmation"],
+                "apply_all": "1",
+            },
+        )
+        self.assertIn(response.status_code, (403, 404))
+        self.unit.refresh_from_db()
+        self.assertNotEqual(self.unit.target, "")
+
+    def test_preview_limit_and_apply_all(self) -> None:
+        units = Unit.objects.bulk_create(
+            [
+                Unit(
+                    translation=self.translation,
+                    source=f"Bulk {index}",
+                    target=f"Target {index}",
+                    id_hash=-90_000_000 - index,
+                    source_unit=self.unit.source_unit,
+                    state=STATE_FUZZY,
+                    original_state=STATE_FUZZY,
+                    position=20_000 + index,
+                )
+                for index in range(251)
+            ]
+        )
+        ids = [unit.pk for unit in units]
+        url = reverse("bulk-edit", kwargs=self.kw_translation)
+        response = self.client.post(
+            url,
+            {
+                "q": "id:" + ",".join(map(str, ids)),
+                "state": STATE_TRANSLATED,
+                "preview": "1",
+            },
+        )
+        self.assertEqual(response.context["total"], 251)
+        self.assertEqual(len(response.context["matching"]), 250)
+        self.assertTrue(response.context["limited"])
+        token = response.context["confirmation"]
+        displayed = [edit.unit.pk for edit in response.context["matching"]]
+        self.client.post(url, {"bulk_confirmation": token, "preview_units": displayed})
+        self.assertEqual(
+            Unit.objects.filter(pk__in=ids, state=STATE_TRANSLATED).count(), 250
+        )
+        Unit.objects.filter(pk__in=ids).update(state=STATE_FUZZY)
+        self.client.post(url, {"bulk_confirmation": token, "apply_all": "1"})
+        self.assertEqual(
+            Unit.objects.filter(pk__in=ids, state=STATE_TRANSLATED).count(), 251
+        )
+
+    def test_bulk_edit_rejects_oversized_selection_before_writing(self) -> None:
+        source_id = self.unit.source_unit_id
+        before = self.unit.target
+        with (
+            patch("weblate.trans.bulk.BULK_EDIT_MAX_UNITS", 1),
+            self.assertRaisesMessage(ValidationError, "limited to 1 string"),
+        ):
+            bulk_perform(
+                self.user,
+                Unit.objects.filter(pk__in=[self.unit.pk, source_id]),
+                query="",
+                target_state=STATE_EMPTY,
+                add_flags="",
+                remove_flags="",
+                add_labels=self.project.label_set.none(),
+                remove_labels=self.project.label_set.none(),
+                project=self.project,
+                components=[self.component],
+            )
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.target, before)
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_bulk_edit_queues_apply_and_preserves_actor(self) -> None:
+        url = reverse("bulk-edit", kwargs=self.kw_translation)
+        with patch("weblate.trans.tasks.bulk_edit_task.delay") as delay:
+            delay.return_value.id = "bulk-edit-task"
+            response = self.client.post(
+                url,
+                {"q": f"id:{self.unit.pk}", "state": STATE_EMPTY},
+                follow=True,
+            )
+        self.assertContains(response, "Bulk edit in progress")
+        self.assertEqual(delay.call_args.kwargs["user_id"], self.user.pk)
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.target, "Nazdar svete!\n")
+
+    def test_bulk_edit_task_applies_with_initiating_actor(self) -> None:
+        from weblate.trans.tasks import bulk_edit_task  # ruff: ignore[import-outside-top-level]
+
+        result = bulk_edit_task(
+            user_id=self.user.pk,
+            path=self.kw_translation["path"],
+            data={
+                "q": [f"id:{self.unit.pk}"],
+                "state": [str(STATE_EMPTY)],
+            },
+        )
+        self.assertEqual(result["updated"], 1)
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.target, "")
+        self.assertEqual(self.unit.change_set.latest("pk").user, self.user)
+
+    @override_settings(RATELIMIT_BULK_EDIT_ATTEMPTS=1)
+    def test_bulk_edit_rate_limit_blocks_repeated_preview(self) -> None:
+        url = reverse("bulk-edit", kwargs=self.kw_translation)
+        reset_rate_limit("bulk_edit", user=self.user)
+        data = {"q": f"id:{self.unit.pk}", "state": STATE_EMPTY, "preview": "1"}
+        first = self.client.post(url, data)
+        self.assertEqual(first.status_code, 200)
+        second = self.client.post(url, data, follow=True)
+        self.assertContains(second, "Too many bulk edits")
+
+    def test_bulk_edit_reports_progress_after_each_batch(self) -> None:
+        extra = self.create_extra_bulk_unit()
+        progress = []
+        with patch("weblate.trans.bulk.BULK_EDIT_PREVIEW_LIMIT", 1):
+            updated = bulk_perform(
+                self.user,
+                Unit.objects.filter(pk__in=[self.unit.pk, extra.pk]),
+                query="",
+                target_state=STATE_TRANSLATED,
+                add_flags="",
+                remove_flags="",
+                add_labels=self.project.label_set.none(),
+                remove_labels=self.project.label_set.none(),
+                project=self.project,
+                components=[self.component],
+                progress=lambda done, total, changed: progress.append(
+                    (done, total, changed)
+                ),
+            )
+        self.assertEqual(updated, 2)
+        self.assertEqual(progress, [(0, 2, 0), (1, 2, 1), (2, 2, 2)])
+
+    def test_bulk_edit_keeps_completed_batch_on_later_failure(self) -> None:
+        extra = self.create_extra_bulk_unit()
+        updates = 0
+        original_bulk_update = Unit.objects.bulk_update
+
+        def fail_second(objs: list[Unit], fields: list[str], batch_size: int) -> int:
+            nonlocal updates
+            updates += 1
+            if updates == 2:
+                msg = "Second batch failed"
+                raise RuntimeError(msg)
+            return original_bulk_update(objs, fields, batch_size=batch_size)
+
+        with (
+            patch("weblate.trans.bulk.BULK_EDIT_PREVIEW_LIMIT", 1),
+            patch.object(Unit.objects, "bulk_update", side_effect=fail_second),
+            self.assertRaisesMessage(RuntimeError, "Second batch failed"),
+        ):
+            bulk_perform(
+                self.user,
+                Unit.objects.filter(pk__in=[self.unit.pk, extra.pk]),
+                query="",
+                target_state=STATE_TRANSLATED,
+                add_flags="",
+                remove_flags="",
+                add_labels=self.project.label_set.none(),
+                remove_labels=self.project.label_set.none(),
+                project=self.project,
+                components=[self.component],
+            )
+        self.unit.refresh_from_db()
+        extra.refresh_from_db()
+        self.assertEqual(self.unit.state, STATE_TRANSLATED)
+        self.assertEqual(extra.state, STATE_FUZZY)
+
+    def test_regex_output_failure_does_not_write(self) -> None:
+        # Stored directly as the editor limit does not apply to repository content
+        Unit.objects.filter(pk=self.unit.pk).update(
+            target="a" * 8000 + "\n", state=STATE_TRANSLATED
+        )
+        before = (Change.objects.count(), PendingUnitChange.objects.count())
+        url = reverse("bulk-edit", kwargs=self.kw_translation)
+        for preview in ("1", ""):
+            with self.subTest(preview=preview):
+                response = self.client.post(
+                    url,
+                    {
+                        "q": f"id:{self.unit.pk}",
+                        "state": -1,
+                        "preview": preview,
+                        "search_type": "regex",
+                        "search": r"(?=(.*))",
+                        "replacement": r"\1",
+                        "add_flags": "max-length:100",
+                    },
+                    follow=True,
+                )
+                self.assertContains(response, "output exceeds")
+                self.assertEqual(
+                    (Change.objects.count(), PendingUnitChange.objects.count()), before
+                )
+                self.unit.refresh_from_db()
+                self.assertEqual(self.unit.target, "a" * 8000 + "\n")
+                self.unit.source_unit.refresh_from_db()
+                self.assertNotIn("max-length:100", self.unit.source_unit.extra_flags)
+
+    def test_regex_budget_shared_across_components(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            allow_translation_propagation=False
+        )
+        other = self.create_po(
+            project=self.project,
+            slug="regex-other",
+            name="Regex other",
+            allow_translation_propagation=False,
+        )
+        other_unit = other.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        for unit in (self.unit, other_unit):
+            unit.translate(self.user, "value", STATE_TRANSLATED)
+        with patch("weblate.utils.bulk_regex.OUTPUT_LIMIT", 7):
+            response = self.client.post(
+                reverse("bulk-edit", kwargs={"path": self.project.get_url_path()}),
+                {
+                    "q": f"id:{self.unit.pk},{other_unit.pk}",
+                    "state": -1,
+                    "search_type": "regex",
+                    "search": "^value",
+                    "replacement": "values",
+                },
+                follow=True,
+            )
+        self.assertContains(response, "output exceeds")
+        self.unit.refresh_from_db()
+        other_unit.refresh_from_db()
+        self.assertEqual(
+            sorted([self.unit.target, other_unit.target]), ["value\n", "values\n"]
+        )
+
+    def test_regex_timeout_rolls_back_component(self) -> None:
+        url = reverse("bulk-edit", kwargs=self.kw_translation)
+        with patch(
+            "weblate.trans.bulk.BulkReplacement.replace",
+            side_effect=ValidationError("Timed out"),
+        ):
+            response = self.client.post(
+                url,
+                {
+                    "q": f"id:{self.unit.pk}",
+                    "state": STATE_TRANSLATED,
+                    "search_type": "regex",
+                    "search": "Nazdar",
+                    "replacement": "Hello",
+                    "add_flags": "max-length:100",
+                },
+                follow=True,
+            )
+        self.assertContains(response, "Bulk edit failed: Timed out")
+        self.unit.refresh_from_db()
+        self.unit.source_unit.refresh_from_db()
+        self.assertEqual(self.unit.state, STATE_FUZZY)
+        self.assertNotIn("max-length:100", self.unit.source_unit.extra_flags)
 
     def do_bulk_edit_test(self, url) -> None:
         response = self.client.post(

@@ -15,12 +15,15 @@ from django.core import mail
 from django.core.exceptions import ValidationError
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
+from lxml.html import fromstring
 from social_django.models import UserSocialAuth
 
 from weblate.accounts.models import VerifiedEmail
+from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import (
     Group,
     Invitation,
+    InvitationBlockedAdminError,
     Permission,
     Role,
     TeamMembership,
@@ -30,7 +33,7 @@ from weblate.auth.models import (
 from weblate.lang.forms import LimitLanguagesField, validate_language_code
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
-from weblate.trans.forms import ProjectUserGroupForm
+from weblate.trans.forms import ProjectUserGroupForm, UserAddTeamForm
 from weblate.trans.models import Change, Comment, Project, Suggestion
 from weblate.trans.tasks import (
     cleanup_user_contributions as cleanup_user_contributions_task,
@@ -41,7 +44,7 @@ from weblate.trans.tasks import (
 from weblate.trans.tests.test_views import FixtureTestCase, RegistrationTestMixin
 from weblate.trans.tests.utils import enable_login_required_settings
 from weblate.utils.pii import mask_email
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED
 
 if TYPE_CHECKING:
     from weblate.accounts.models import AuditLog
@@ -150,6 +153,10 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
 
         self.assertContains(response, form_url)
         self.assertContains(response, 'id="project-user-groups-modal"')
+        self.assertContains(
+            response,
+            f'data-modal-title="Edit team membership for {self.second_user.username}"',
+        )
         self.assertNotContains(response, f'id="edit_user_{self.second_user.id}"')
         self.assertNotContains(response, "project-membership-team-toggle")
         self.assertNotContains(
@@ -207,17 +214,23 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
 
         response = self.client.get(self.access_url)
 
-        self.assertContains(response, "acl-page-00")
-        self.assertContains(response, "acl-page-09")
-        self.assertNotContains(response, "acl-page-10")
+        current_users = (
+            fromstring(response.content).get_element_by_id("users").text_content()
+        )
+        self.assertIn("acl-page-00", current_users)
+        self.assertIn("acl-page-09", current_users)
+        self.assertNotIn("acl-page-10", current_users)
         self.assertNotContains(response, f"edit_user_{users[10].id}")
         self.assertContains(response, "?page=2&amp;limit=10#users")
 
         response = self.client.get(f"{self.access_url}?page=2")
 
-        self.assertContains(response, "acl-page-10")
-        self.assertContains(response, self.user.username)
-        self.assertNotContains(response, "acl-page-00")
+        current_users = (
+            fromstring(response.content).get_element_by_id("users").text_content()
+        )
+        self.assertIn("acl-page-10", current_users)
+        self.assertIn(self.user.username, current_users)
+        self.assertNotIn("acl-page-00", current_users)
 
     def add_user(self) -> None:
         self.add_acl()
@@ -274,7 +287,9 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         change = Project.objects.get(pk=self.project.pk).change_set.get(
             action=ActionEvents.INVITE_USER
         )
-        self.assertEqual(change.get_details_display(), self.user.username)
+        self.assertEqual(
+            change.get_details_display(viewer=self.user), self.user.username
+        )
 
     def test_invite_forms_limit_language_fields(self) -> None:
         """User additions and new-user invitations can specify language limits."""
@@ -695,7 +710,9 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         change = Project.objects.get(pk=self.project.pk).change_set.get(
             action=ActionEvents.INVITE_USER
         )
-        self.assertEqual(change.get_details_display(), mask_email("user@example.com"))
+        self.assertEqual(
+            change.get_details_display(viewer=self.user), mask_email("user@example.com")
+        )
 
         self.assertEqual(Invitation.objects.count(), 1)
 
@@ -772,7 +789,8 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
 
         # Ensure user is now not listed
         response = self.client.get(self.access_url)
-        self.assertNotContains(response, self.second_user.username)
+        users = fromstring(response.content).get_element_by_id("users")
+        self.assertNotIn(self.second_user.username, users.text_content())
         self.assertNotContains(response, self.second_user.email)
 
     def test_add_acl(self) -> None:
@@ -806,7 +824,9 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         change = Project.objects.get(pk=self.project.pk).change_set.get(
             action=ActionEvents.ADD_USER
         )
-        self.assertIn(self.translate_group.name, change.get_details_display())
+        self.assertIn(
+            self.translate_group.name, change.get_details_display(viewer=self.user)
+        )
 
         self.assertFalse(
             User.objects.all_admins(self.project)
@@ -859,7 +879,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
             action=ActionEvents.USER_ACCESS_CHANGE
         )
         self.assertEqual(
-            change.get_details_display(),
+            change.get_details_display(viewer=self.user),
             f"{self.second_user.username} ({self.translate_group.name})",
         )
         self.assertEqual(change.details["previous_limit_languages"], ["cs"])
@@ -1093,6 +1113,183 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.assertEqual(self.project.userblock_set.count(), 1)
         self.assertEqual(self.project.userblock_set.filter(note="Spamming").count(), 1)
 
+    def test_cannot_block_project_admin(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.project.add_user(self.second_user, "Administration")
+        response = self.client.post(
+            reverse("block-user", kwargs=self.kw_project),
+            {"user": self.second_user.username},
+            follow=True,
+        )
+        self.assertContains(
+            response, "Remove project administration rights before blocking this user."
+        )
+        self.assertFalse(
+            self.second_user.userblock_set.filter(project=self.project).exists()
+        )
+
+    def test_cannot_block_broad_team_admin(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        group = Group.objects.create(
+            name="Broad administration", project_selection=SELECTION_ALL
+        )
+        group.roles.add(Role.objects.get(name="Administration"))
+        self.second_user.groups.add(group)
+        response = self.client.post(
+            reverse("block-user", kwargs=self.kw_project),
+            {"user": self.second_user.username},
+            follow=True,
+        )
+        self.assertContains(
+            response, "Remove project administration rights before blocking this user."
+        )
+        self.assertFalse(
+            self.second_user.userblock_set.filter(project=self.project).exists()
+        )
+
+    def test_cannot_assign_blocked_user_to_broad_admin_team(self) -> None:
+        self.second_user.userblock_set.create(project=self.project)
+        group = Group.objects.create(
+            name="Broad administration", project_selection=SELECTION_ALL
+        )
+        group.roles.add(Role.objects.get(name="Administration"))
+        form = UserAddTeamForm({"user": self.second_user.username}, team=group)
+        self.assertFalse(form.is_valid())
+        self.assertIn(
+            "Blocked users cannot be granted project administration rights.",
+            form.non_field_errors(),
+        )
+
+    def test_cannot_make_blocked_user_team_admin(self) -> None:
+        self.second_user.userblock_set.create(project=self.project)
+        form = UserAddTeamForm(
+            {"user": self.second_user.username, "make_admin": True},
+            team=self.translate_group,
+        )
+        self.assertFalse(form.is_valid())
+        self.assertIn(
+            "Blocked users cannot be granted project administration rights.",
+            form.non_field_errors(),
+        )
+
+    def test_language_limited_admin_membership_is_allowed(self) -> None:
+        self.second_user.userblock_set.create(project=self.project)
+        czech = Language.objects.get(code="cs")
+        team_form = UserAddTeamForm(
+            {"user": self.second_user.username, "limit_languages": [czech.code]},
+            team=self.admin_group,
+        )
+        self.assertTrue(team_form.is_valid(), team_form.errors)
+
+        self.project.add_user(self.second_user, "Translate")
+        project_form = ProjectUserGroupForm(
+            self.project,
+            data={
+                "user": self.second_user.username,
+                "groups": [self.admin_group.pk],
+                f"limit_languages_{self.admin_group.pk}": [czech.code],
+            },
+        )
+        self.assertTrue(project_form.is_valid(), project_form.errors)
+
+    def test_language_limited_admin_can_be_blocked(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.project.add_user(self.second_user, "Administration")
+        membership = TeamMembership.objects.get(
+            user=self.second_user, group=self.admin_group
+        )
+        membership.limit_languages.add(Language.objects.get(code="cs"))
+        response = self.client.post(
+            reverse("block-user", kwargs=self.kw_project),
+            {"user": self.second_user.username},
+        )
+        self.assertRedirects(response, self.access_url)
+        self.assertTrue(
+            self.second_user.userblock_set.filter(project=self.project).exists()
+        )
+
+    def test_cannot_clear_blocked_admin_membership_limit(self) -> None:
+        self.second_user.userblock_set.create(project=self.project)
+        self.project.add_user(self.second_user, "Administration")
+        membership = TeamMembership.objects.get(
+            user=self.second_user, group=self.admin_group
+        )
+        membership.limit_languages.add(Language.objects.get(code="cs"))
+        form = ProjectUserGroupForm(
+            self.project,
+            data={"user": self.second_user.username, "groups": [self.admin_group.pk]},
+        )
+        self.assertFalse(form.is_valid())
+        self.assertIn(
+            "Blocked users cannot be granted project administration rights.",
+            form.non_field_errors(),
+        )
+
+    def test_invalid_admin_membership_language_shows_field_error(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.project.add_user(self.second_user, "Translate")
+        self.second_user.userblock_set.create(project=self.project)
+        field_name = f"limit_languages_{self.admin_group.pk}"
+        data = {
+            "user": self.second_user.username,
+            "groups": [self.admin_group.pk],
+            field_name: ["not-a-language"],
+        }
+        form = ProjectUserGroupForm(self.project, data=data)
+        self.assertFalse(form.is_valid())
+        self.assertIn(field_name, form.errors)
+        self.assertFalse(form.non_field_errors())
+
+        response = self.client.post(
+            reverse("set-groups", kwargs=self.kw_project), data, follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(
+            self.second_user.groups.filter(pk=self.admin_group.pk).exists()
+        )
+
+    def test_cannot_grant_project_admin_to_blocked_user(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.project.add_user(self.second_user, "Translate")
+        self.second_user.userblock_set.create(project=self.project)
+        response = self.client.post(
+            reverse("set-groups", kwargs=self.kw_project),
+            {"user": self.second_user.username, "groups": [self.admin_group.pk]},
+            follow=True,
+        )
+        self.assertContains(
+            response, "Blocked users cannot be granted project administration rights."
+        )
+        self.assertFalse(
+            self.second_user.groups.filter(pk=self.admin_group.pk).exists()
+        )
+
+    def test_blocked_user_cannot_accept_admin_invitation(self) -> None:
+        self.second_user.userblock_set.create(project=self.project)
+        invitation = Invitation.objects.create(
+            author=self.user,
+            user=self.second_user,
+            group=self.admin_group,
+        )
+        with self.assertRaises(InvitationBlockedAdminError):
+            invitation.accept(None, self.second_user)
+        self.assertTrue(Invitation.objects.filter(pk=invitation.pk).exists())
+        self.assertFalse(
+            self.second_user.groups.filter(pk=self.admin_group.pk).exists()
+        )
+
+    def test_blocked_user_can_accept_language_limited_admin_invitation(self) -> None:
+        self.second_user.userblock_set.create(project=self.project)
+        invitation = Invitation.objects.create(
+            author=self.user,
+            user=self.second_user,
+            group=self.admin_group,
+        )
+        invitation.limit_languages.add(Language.objects.get(code="cs"))
+        invitation.accept(None, self.second_user)
+        self.assertTrue(self.second_user.groups.filter(pk=self.admin_group.pk).exists())
+        self.assertFalse(self.second_user.has_perm("project.edit", self.project))
+
     def test_blocked_user_email_visibility(self) -> None:
         self.project.add_user(self.user, "Administration")
         self.client.post(
@@ -1305,7 +1502,40 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
 
         change = Change.objects.get(action=ActionEvents.USER_REVERT, unit=unit)
         self.assertEqual(change.user, self.user)
-        self.assertEqual(change.get_details_display(), self.second_user.username)
+        self.assertEqual(
+            change.get_details_display(viewer=self.user), self.second_user.username
+        )
+
+    def test_revert_user_edits_task_requires_review_for_approved_state(self) -> None:
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        self.project.add_user(self.second_user, "Administration")
+        self.project.add_user(self.user, "Translate")
+        target_user = User.objects.create_user(
+            "targetuser", "targetuser@example.org", "testpassword"
+        )
+        unit = self.get_unit()
+        original = "Approved translation\n"
+        self.change_unit(original, user=self.second_user, state=STATE_APPROVED)
+        self.change_unit("First revision\n", user=target_user)
+        self.change_unit("Second revision\n", user=target_user)
+        self.assertTrue(self.user.has_perm("unit.edit", unit))
+        self.assertFalse(self.user.has_perm("unit.review", unit))
+
+        result = revert_user_edits_task(
+            target_user_id=target_user.pk,
+            acting_user_id=self.user.pk,
+            project_id=self.project.pk,
+        )
+
+        self.assertEqual(result["reverted"], 1)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, original)
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+        self.assertEqual(
+            Change.objects.get(unit=unit, action=ActionEvents.USER_REVERT).user,
+            self.user,
+        )
 
     def test_revert_user_edits_task_invalid_old_state(self) -> None:
         self.project.add_user(self.user, "Administration")

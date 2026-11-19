@@ -18,9 +18,11 @@ from rest_framework.exceptions import ParseError
 
 from weblate.trans.actions import ActionEvents
 from weblate.trans.hooks.repository import validate_full_name
+from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.views.hooks import (
     HOOK_HANDLERS,
+    HOOK_MAX_REPOSITORY_URLS,
     HookPayloadError,
     HookRequestSerializer,
     extract_payload,
@@ -1574,7 +1576,20 @@ class HooksViewTest(ReusableViewTestCase):
     @override_settings(ENABLE_HOOKS=True)
     def test_hook_github_auth(self) -> None:
         # Adjust matching repo
-        self.component.repo = "https://user:pwd@github.com/defunkt/github.git"
+        self.component.repo = (
+            "https://user:pwd@github.com/defunkt/github.git"  # kingfisher:ignore
+        )
+        self.component.save()
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "github"}),
+            {"payload": GITHUB_PAYLOAD},
+            headers={"x-github-event": "push"},
+        )
+        self.assertContains(response, "Update triggered")
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_hook_github_trailing_slash(self) -> None:
+        self.component.repo = "git://github.com/defunkt/github.git/"
         self.component.save()
         response = self.client.post(
             reverse("webhook", kwargs={"service": "github"}),
@@ -1642,6 +1657,45 @@ class HooksViewTest(ReusableViewTestCase):
         )
 
     @override_settings(ENABLE_HOOKS=True)
+    def test_hook_bitbucket_rejects_excess_clone_links(self) -> None:
+        payload = json.loads(BITBUCKET_PAYLOAD_SERVER)
+        payload["repository"]["links"]["clone"] = [
+            {"href": f"https://example.invalid/{index}", "name": "http"}
+            for index in range(HOOK_MAX_REPOSITORY_URLS + 1)
+        ]
+        with patch("weblate.trans.views.hooks.get_hook_components") as components:
+            response = self.client.post(
+                reverse("webhook", kwargs={"service": "bitbucket"}),
+                {"payload": json.dumps(payload)},
+                headers={"x-event-key": "repo:refs_changed"},
+            )
+        self.assertContains(response, "Too many repository URLs", status_code=400)
+        components.assert_not_called()
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_hook_rejects_excess_repository_urls_from_handler(self) -> None:
+        service_data = {
+            "service_long_name": "Test",
+            "repo_url": "https://example.invalid/repository",
+            "repos": [
+                f"https://example.invalid/{index}"
+                for index in range(HOOK_MAX_REPOSITORY_URLS + 1)
+            ],
+            "branch": "main",
+            "full_name": "example/repository",
+        }
+        with (
+            patch.dict(HOOK_HANDLERS, {"github": lambda _data, _request: service_data}),
+            patch("weblate.trans.views.hooks.get_hook_components") as components,
+        ):
+            response = self.client.post(
+                reverse("webhook", kwargs={"service": "github"}),
+                {"payload": GITHUB_PAYLOAD},
+            )
+        self.assertContains(response, "Too many repository URLs", status_code=400)
+        components.assert_not_called()
+
+    @override_settings(ENABLE_HOOKS=True)
     def test_hook_bitbucket_hg(self) -> None:
         response = self.client.post(
             reverse("webhook", kwargs={"service": "bitbucket"}),
@@ -1697,6 +1751,53 @@ class HooksViewTest(ReusableViewTestCase):
         )
 
     @override_settings(ENABLE_HOOKS=True)
+    def test_hook_skips_linked_components(self) -> None:
+        owner = self.component
+        project = self.create_project(name="Linked project", slug="linked-project")
+        linked = self.create_po(project=project, name="Linked")
+        repo = owner.get_repo_link_url()
+        Component.objects.filter(pk=linked.pk).update(
+            repo=repo, linked_component=owner, branch="", push=""
+        )
+        service_data = {
+            "service_long_name": "GitHub",
+            "repo_url": repo,
+            "repos": [repo],
+            "branch": None,
+            "full_name": owner.full_slug,
+        }
+
+        for vcs in ("git", "github-app"):
+            with (
+                self.subTest(vcs=vcs),
+                patch.dict(
+                    HOOK_HANDLERS, {"github": lambda _data, _request: service_data}
+                ),
+                patch("weblate.trans.views.hooks.perform_update.delay") as enqueue,
+            ):
+                Component.objects.filter(pk=owner.pk).update(vcs=vcs)
+                response = self.client.post(
+                    reverse("webhook", kwargs={"service": "github"}),
+                    {"payload": GITHUB_PAYLOAD},
+                )
+
+                self.assertContains(
+                    response, "No matching repositories found!", status_code=202
+                )
+                self.assertEqual(
+                    response.json()["match_status"],
+                    {
+                        "repository_matches": 0,
+                        "branch_matches": 0,
+                        "enabled_hook_matches": 0,
+                    },
+                )
+                enqueue.assert_not_called()
+                self.assertFalse(
+                    linked.change_set.filter(action=ActionEvents.HOOK).exists()
+                )
+
+    @override_settings(ENABLE_HOOKS=True)
     def test_unauthenticated_hooks_skip_github_app_components(self) -> None:
         hook_cases = [
             ("azure", AZURE_PAYLOAD_NEW, {}),
@@ -1708,6 +1809,8 @@ class HooksViewTest(ReusableViewTestCase):
             ("gitlab", GITLAB_PAYLOAD, {}),
             ("pagure", PAGURE_PAYLOAD, {}),
         ]
+        regular = self.component
+        integrated = self.create_po(name="Integrated", project=self.project)
 
         for service, payload, headers in hook_cases:
             with self.subTest(service=service):
@@ -1718,13 +1821,8 @@ class HooksViewTest(ReusableViewTestCase):
                 repo = service_data["repos"][0]
                 branch = service_data["branch"] or "main"
 
-                integrated = self.create_po(
-                    name=f"Integrated {service}", project=self.project
-                )
-                regular = self.create_po(
-                    name=f"Regular {service}", project=self.project
-                )
                 for component, vcs in ((integrated, "github-app"), (regular, "git")):
+                    component.change_set.filter(action=ActionEvents.HOOK).delete()
                     type(component).objects.filter(pk=component.pk).update(
                         repo=repo, vcs=vcs, branch=branch
                     )

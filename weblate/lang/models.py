@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import re
+from bisect import bisect_left
 from collections import defaultdict
 from gettext import c2py
 from itertools import chain
@@ -42,6 +43,7 @@ from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.validators import (
     iter_plural_formula_examples,
+    iter_plural_formula_validation_numbers,
     validate_plural_formula,
     validate_plural_formula_range,
 )
@@ -51,6 +53,7 @@ from . import defaults
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
 
+    from django.utils.safestring import SafeString
     from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
@@ -63,9 +66,8 @@ PLURAL_RE = re.compile(
     r"\s*nplurals\s*=\s*([0-9]+)\s*;\s*plural\s*=\s*([()n0-9!=|&<>+*/%\s?:-]+)"
 )
 PLURAL_COUNT_MAX = 10
-PLURAL_TITLE = """
-{name} <span class="text-muted" title="{title}">({examples})</span>
-"""
+PLURAL_EXAMPLE_LIMIT = 11
+PLURAL_EXAMPLE_MAGNITUDES = (100, 1000, 10000, 100000, 1000000)
 COPY_RE = re.compile(r"\([0-9]+\)")
 KNOWN_SUFFIXES = {"hant", "hans", "latn", "cyrl", "shaw"}
 GENERATED_SUFFIX = "(generated)"
@@ -511,6 +513,8 @@ class LanguageQuerySet(models.QuerySet["Language", "Language"]):
 
         It is based on code and best guess of parameters.
         """
+        Language._meta.get_field("code").clean(code, None)  # ruff: ignore[private-member-access]
+
         # Create standard language
         name = f"{code} {GENERATED_SUFFIX}"
         if create:
@@ -1000,8 +1004,10 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
             setting.save()
 
         for plural in source.plural_set.iterator():
+            # Zero plurals are shared per language even when their formulas differ.
             formulas = target.plural_set.filter(
-                source=plural.source, formula=plural.formula
+                Q(source=Plural.SOURCE_CLDR_ZERO) | Q(formula=plural.formula),
+                source=plural.source,
             )
             try:
                 # Use matching plural if it exists
@@ -1350,6 +1356,45 @@ class PluralQuerySet(models.QuerySet["Plural", "Plural"]):
         return None
 
 
+def _plural_example_ranges(counts: list[int]) -> list[tuple[int, int]]:
+    """Group sorted, distinct sample counts into inclusive ranges."""
+    ranges: list[tuple[int, int]] = []
+    for count in counts:
+        if ranges and count == ranges[-1][1] + 1:
+            ranges[-1] = (ranges[-1][0], count)
+        else:
+            ranges.append((count, count))
+    return ranges
+
+
+def _select_plural_example_ranges(counts: list[int]) -> list[tuple[int, int]]:
+    ranges = _plural_example_ranges(counts)
+    if len(ranges) <= PLURAL_EXAMPLE_LIMIT:
+        return ranges
+
+    # Reserve space for samples at different magnitudes, even if the low
+    # counts alone would fill the list.
+    low_counts = counts[: bisect_left(counts, 100)]
+    samples: set[tuple[int, int]] = set()
+    for magnitude in PLURAL_EXAMPLE_MAGNITUDES:
+        pos = bisect_left(counts, magnitude)
+        if pos == len(counts) or counts[pos] >= magnitude + 100:
+            continue
+        count = counts[pos]
+        if low_counts:
+            samples.add((count, count))
+        else:
+            samples.add(next(span for span in ranges if span[0] <= count <= span[1]))
+
+    if low_counts:
+        primary = _plural_example_ranges(low_counts)[
+            : PLURAL_EXAMPLE_LIMIT - len(samples)
+        ]
+    else:
+        primary = [span for span in ranges if span not in samples][:3]
+    return sorted(samples.union(primary))
+
+
 class Plural(models.Model):
     PLURAL_CHOICES = (
         (
@@ -1498,6 +1543,13 @@ class Plural(models.Model):
         required_db_vendor = "postgresql"
         verbose_name = "Plural form"
         verbose_name_plural = "Plural forms"
+        constraints = (
+            models.UniqueConstraint(
+                fields=("language",),
+                condition=Q(source=3),
+                name="lang_plural_unique_cldr_zero",
+            ),
+        )
 
     def __str__(self) -> str:
         return self.get_type_display()
@@ -1585,6 +1637,35 @@ class Plural(models.Model):
                 example.append("…")
         return result
 
+    @cached_property
+    def display_examples(self) -> dict[int, list[str]]:
+        """Return bounded examples for display, grouped into consecutive ranges."""
+        counts: dict[int, list[int]] = defaultdict(list)
+        function = self.plural_function
+        numbers = set(iter_plural_formula_validation_numbers(self.formula))
+        # Include enough examples to illustrate rules that match multiples of a million.
+        numbers.update(range(3000000, 13000000, 1000000))
+        for count in sorted(numbers):
+            try:
+                index = function(count)
+            except ArithmeticError:
+                # A saved formula may fail for a count outside its original validation set.
+                continue
+            if 0 <= index < self.number:
+                counts[index].append(count)
+
+        result = {}
+        for index, matches in counts.items():
+            ranges = _select_plural_example_ranges(matches)
+            examples = [
+                str(start) if start == end else f"{start}–{end}"
+                for start, end in ranges
+            ]
+            if sum(end - start + 1 for start, end in ranges) < len(matches):
+                examples.append("…")
+            result[index] = examples
+        return result
+
     @staticmethod
     def parse_plural_forms(plurals: str) -> tuple[int, str]:
         matches = PLURAL_RE.match(plurals)
@@ -1630,15 +1711,9 @@ class Plural(models.Model):
             our_function=self.plural_function,
         )
 
-    def get_plural_label(self, idx):
-        """Return label for plural form."""
-        return format_html(
-            PLURAL_TITLE,
-            name=self.get_plural_name(idx),
-            examples=format_html_join_comma(
-                "{}", list_to_tuples(self.examples.get(idx, []))
-            ),
-            title=gettext("Example counts for this plural form."),
+    def format_plural_examples(self, idx: int) -> SafeString:
+        return format_html_join_comma(
+            "{}", list_to_tuples(self.display_examples.get(idx, ()))
         )
 
     def get_plural_name(self, idx):
@@ -1657,19 +1732,22 @@ class Plural(models.Model):
             yield {
                 "index": i,
                 "name": self.get_plural_name(i),
-                "examples": format_html_join_comma(
-                    "{}", list_to_tuples(self.examples.get(i, []))
-                ),
+                "examples": self.format_plural_examples(i),
             }
 
 
 class PluralMapper:
-    instances: ClassVar[WeakValueDictionary[tuple[str, str], PluralMapper]] = (
-        WeakValueDictionary()
-    )
+    instances: ClassVar[
+        WeakValueDictionary[tuple[int, str, int, str], PluralMapper]
+    ] = WeakValueDictionary()
 
     def __new__(cls, source_plural: Plural, target_plural: Plural):
-        key = (source_plural.formula, target_plural.formula)
+        key = (
+            source_plural.number,
+            source_plural.formula,
+            target_plural.number,
+            target_plural.formula,
+        )
         obj = cls.instances.get(key)
         if obj is None:
             obj = cls.instances[key] = super().__new__(cls)
@@ -1678,34 +1756,59 @@ class PluralMapper:
     def __init__(self, source_plural: Plural, target_plural: Plural) -> None:
         self.source_plural = source_plural
         self.target_plural = target_plural
-        self.same_plurals = source_plural.same_as(target_plural)
 
     def __str__(self) -> str:
         return f"<PluralMapper '{self.source_plural}' -> '{self.target_plural}'>"
 
     @cached_property
+    def same_plurals(self) -> bool:
+        if self.source_plural.number != self.target_plural.number:
+            return False
+        return (
+            self.source_plural.formula == self.target_plural.formula
+            or self._plural_examples[0] == self._plural_examples[1]
+        )
+
+    @cached_property
+    def _plural_examples(self) -> tuple[dict[int, list[int]], dict[int, list[int]]]:
+        # Compare both rules over the same counts. Display examples are capped
+        # independently for each form and can miss otherwise valid overlaps.
+        # Include constants from both rules to cover custom and rare forms.
+        numbers = set(
+            chain(
+                iter_plural_formula_validation_numbers(self.source_plural.formula),
+                iter_plural_formula_validation_numbers(self.target_plural.formula),
+            )
+        )
+        source_examples: dict[int, list[int]] = defaultdict(list)
+        target_examples: dict[int, list[int]] = defaultdict(list)
+        source_function = self.source_plural.plural_function
+        target_function = self.target_plural.plural_function
+        for number in numbers:
+            source_examples[source_function(number)].append(number)
+            target_examples[target_function(number)].append(number)
+        return source_examples, target_examples
+
+    @cached_property
     def target_map(self) -> tuple[tuple[int | None, int | None], ...]:
+        source_examples, target_examples = self._plural_examples
         exact_source_map: dict[int, int] = {}
         all_source_map: dict[int, int] = {}
-        for i, examples in self.source_plural.examples.items():
+        for i, examples in source_examples.items():
             if len(examples) == 1:
-                exact_source_map[int(examples[0])] = i
+                exact_source_map[examples[0]] = i
             else:
                 for example in examples:
-                    try:
-                        value = int(example)
-                    except ValueError:
-                        continue
-                    all_source_map[value] = i
+                    all_source_map[example] = i
 
         target_plural = self.target_plural
         result: list[tuple[int | None, int | None]] = []
         last = target_plural.number - 1
         for i in range(target_plural.number):
-            examples = target_plural.examples.get(i, [])
+            examples = target_examples.get(i, [])
             if len(examples) == 1:
                 # Map plurals 1:1
-                number = int(examples[0])
+                number = examples[0]
                 if number in exact_source_map:
                     result.append((exact_source_map[number], None))
                 elif number in all_source_map:
@@ -1717,15 +1820,10 @@ class PluralMapper:
                 result.append((-1, None))
             else:
                 # Look for examples subset
-                values = []
-                for example in examples:
-                    try:
-                        value = int(example)
-                    except ValueError:
-                        continue
-                    values.append(value)
                 mapped = {
-                    all_source_map[value] for value in values if value in all_source_map
+                    all_source_map[value]
+                    for value in examples
+                    if value in all_source_map
                 }
                 if len(mapped) == 1:
                     result.append((mapped.pop(), None))

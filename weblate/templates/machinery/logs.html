@@ -1,0 +1,39 @@
+{% extends "machinery/base.html" %}
+
+{% load humanize i18n translations %}
+
+{% block machinery_content %}
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Translation service errors" %}</h4>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">{% translate "Timestamp" %}</th>
+            <th scope="col">{% translate "Error" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for error in machinery_errors %}
+            <tr>
+              <td class="text-nowrap">
+                <time datetime="{{ error.timestamp|date:'c' }}"
+                      title="{{ error.timestamp }}">{{ error.timestamp|naturaltime:True }}</time>
+              </td>
+              <td class="text-break">{{ error.error }}</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="2">{% translate "No translation service errors available." %}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% if machinery_errors.has_other_pages %}
+      <div class="card-footer">{% include "paginator.html" with page_obj=machinery_errors %}</div>
+    {% endif %}
+  </div>
+{% endblock machinery_content %}

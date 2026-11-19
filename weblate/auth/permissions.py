@@ -9,8 +9,14 @@ from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.db.models import Q
+from django.utils import timezone
 from django.utils.translation import gettext
 
+from weblate.auth.data import (
+    SELECTION_ALL,
+    SELECTION_ALL_PROTECTED,
+    SELECTION_ALL_PUBLIC,
+)
 from weblate.checks.flags import Flags
 from weblate.formats.base import BilingualUpdateMixin
 from weblate.lang.models import Language
@@ -28,7 +34,7 @@ from weblate.trans.models import (
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.workspaces.models import Workspace
 
-from .results import Allowed, Denied
+from .results import Allowed, ContributorAgreementDenied, Denied
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
@@ -319,12 +325,15 @@ def check_permission(
             )
         )
     if isinstance(obj, (ProjectLanguage, CategoryLanguage)):
-        return _check_language_scope_permission(
-            user,
-            permission,
-            obj,
-            allow_limited_without_language=allow_limited_without_language,
-        )
+        if permission == "project.edit":
+            obj = obj.project
+        else:
+            return _check_language_scope_permission(
+                user,
+                permission,
+                obj,
+                allow_limited_without_language=allow_limited_without_language,
+            )
     if isinstance(obj, Category):
         obj = obj.project
     if isinstance(obj, Workspace):
@@ -354,6 +363,10 @@ def check_permission(
     if isinstance(obj, Component):
         return (
             (
+                permission == "component.edit"
+                and check_permission(user, "project.edit", obj.project)
+            )
+            or (
                 not obj.restricted
                 and any(
                     _has_scoped_permission(
@@ -964,8 +977,26 @@ def check_unit_add(
 
 @register_perm("translation.add")
 def check_translation_add(
-    user: User, permission: str, obj: Component | Project
+    user: User, permission: str, obj: Component | Project | Translation
 ) -> bool | PermissionResult:
+    if isinstance(obj, Translation):
+        component = obj.component
+        component_permission = check_translation_add(user, permission, component)
+        if not component_permission:
+            return component_permission
+        if not check_permission(user, permission, obj):
+            return False
+        if (
+            not user.is_bot
+            and component.effective_agreement
+            and not ContributorAgreement.objects.has_agreed(user, component)
+        ):
+            return ContributorAgreementDenied(
+                gettext(
+                    "Contributing to this translation requires agreeing to its contributor license agreement."
+                )
+            )
+        return True
     if (
         isinstance(obj, Component)
         and obj.effective_new_lang == "none"
@@ -996,6 +1027,15 @@ def check_autotranslate(
     if isinstance(translation, Unit):
         translation = translation.translation
     if isinstance(translation, Workspace):
+        if permission == "unit.bulk_edit":
+            return any(
+                check_autotranslate(user, permission, item)
+                for item in Translation.objects.filter(
+                    component__project__in=user.allowed_projects.filter(
+                        workspace=translation
+                    )
+                ).select_related("component", "component__project", "language")
+            )
         return any(
             check_autotranslate(user, permission, project)
             for project in user.allowed_projects.filter(workspace=translation)
@@ -1060,14 +1100,6 @@ def _category_component_filter(category: Category) -> Q:
     )
 
 
-def _category_translation_component_filter(category: Category) -> Q:
-    return (
-        Q(component__category=category)
-        | Q(component__category__category=category)
-        | Q(component__category__category__category=category)
-    )
-
-
 def _category_link_filter(category: Category) -> Q:
     return (
         Q(category=category)
@@ -1077,12 +1109,7 @@ def _category_link_filter(category: Category) -> Q:
 
 
 def _category_translation_filter(category: Category) -> Q:
-    shared_component_ids = ComponentLink.objects.filter(
-        _category_link_filter(category)
-    ).values("component_id")
-    return _category_translation_component_filter(category) | Q(
-        component_id__in=shared_component_ids
-    )
+    return Q(component_id__in=category.get_component_ids_with_links())
 
 
 def _has_upload_scope_permission(
@@ -1255,6 +1282,8 @@ def check_upload(
     The actual check for the method is implemented in
     weblate.trans.util.check_upload_method_permissions.
     """
+    if not user.is_authenticated:
+        return Denied(gettext("You need to log in to upload translations."))
     if isinstance(obj, Translation):
         # Source upload
         if obj.is_source and not user.has_perm("source.edit", obj):
@@ -1314,13 +1343,23 @@ def check_machinery(
 
 @register_perm("translation.delete")
 def check_translation_delete(
-    user: User, permission: str, obj: Translation | CategoryLanguage | ProjectLanguage
+    user: User,
+    permission: str,
+    obj: Translation | CategoryLanguage | ProjectLanguage | Component,
 ) -> bool | PermissionResult:
     if (
         isinstance(obj, (Translation, CategoryLanguage, ProjectLanguage))
         and obj.is_source
     ):
         return False
+    if isinstance(obj, Translation):
+        locked = obj.component.locked
+    elif isinstance(obj, (CategoryLanguage, ProjectLanguage)):
+        locked = obj.action_translation_set.filter(component__locked=True).exists()
+    else:
+        locked = obj.locked
+    if locked:
+        return Denied(gettext("This component is currently locked."))
     return check_permission(user, permission, obj)
 
 
@@ -1340,6 +1379,17 @@ def check_possibly_global(
     ):
         return False
     return check_permission(user, permission, obj)
+
+
+@register_perm("meta:vcs.view")
+def check_repository_view(user: User, permission: str, obj: Component) -> bool:
+    """Require access to the source of linked repository information."""
+    if not check_permission(user, "vcs.view", obj):
+        return False
+    source = obj.linked_component
+    return source is None or (
+        user.can_access_component(source) and check_permission(user, "vcs.view", source)
+    )
 
 
 @register_perm("meta:vcs.status")
@@ -1410,11 +1460,39 @@ def check_team_edit_users(
     user: User, permission: str, obj: Group | Project | Workspace
 ) -> bool | PermissionResult:
     # ruff: ignore[import-outside-top-level]
-    from weblate.auth.models import Group
+    from weblate.auth.models import Group, UserBlock
 
-    return check_team_edit(user, permission, obj) or (
-        isinstance(obj, Group) and obj.pk in user.administered_group_ids
+    if check_team_edit(user, permission, obj):
+        return True
+    if not isinstance(obj, Group) or obj.pk not in user.administered_group_ids:
+        return False
+    if obj.enforced_2fa and not (user.is_bot or user.profile.has_2fa):
+        return False
+
+    if obj.defining_workspace_id:
+        project_scope = Q(workspace_id=obj.defining_workspace_id)
+    elif obj.componentlists.exists():
+        project_scope = Q(component__componentlist__in=obj.componentlists.all())
+    elif obj.components.exists():
+        project_scope = Q(component__in=obj.components.all())
+    elif obj.defining_project_id:
+        project_scope = Q(pk=obj.defining_project_id)
+    elif obj.project_selection == SELECTION_ALL:
+        project_scope = Q()
+    elif obj.project_selection == SELECTION_ALL_PUBLIC:
+        project_scope = Q(access_control=Project.ACCESS_PUBLIC)
+    elif obj.project_selection == SELECTION_ALL_PROTECTED:
+        project_scope = Q(access_control=Project.ACCESS_PROTECTED)
+    else:
+        project_scope = Q(pk__in=obj.projects.values("pk"))
+
+    active_blocks = UserBlock.objects.filter(user=user).filter(
+        Q(expiry__isnull=True) | Q(expiry__gt=timezone.now())
     )
+    restrictions = Q(pk__in=active_blocks.values("project_id"))
+    if not user.is_bot and not user.profile.has_2fa:
+        restrictions |= Q(enforced_2fa=True)
+    return not Project.objects.filter(project_scope).filter(restrictions).exists()
 
 
 @register_perm("meta:billing.view")
@@ -1470,15 +1548,25 @@ def check_billing_component_permissions(
     """Return whether user can change component restricted access."""
     if user.is_superuser:
         return Allowed()
-    if obj.pk is None:
+    if obj.project_id is None:
         return Denied(
             gettext(
                 "Create the component and grant yourself explicit access before enabling restricted access."
             )
         )
-    if not obj.restricted and not billing_plan_allows_access_control(obj.project):
+    if (
+        obj.pk is None or not obj.restricted
+    ) and not billing_plan_allows_access_control(obj.project):
         return Denied(
             gettext("The billing plan does not allow private access control.")
+        )
+    if check_permission(user, "project.edit", obj.project):
+        return Allowed()
+    if obj.pk is None:
+        return Denied(
+            gettext(
+                "Create the component and grant yourself explicit access before enabling restricted access."
+            )
         )
     if not any(
         _has_scoped_permission("component.edit", permissions, languages)

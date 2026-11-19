@@ -22,7 +22,7 @@ if TYPE_CHECKING:
 
 
 class TranslationProtocol(Protocol):
-    project: Project
+    project: Project | None
     stats: BaseStats
     enable_review: bool
     is_readonly: bool
@@ -113,7 +113,7 @@ class TranslationChecklistMixin:
         result.add_if(self.stats, "comments", "")
 
         # Include labels
-        labels = self.project.label_set.order()
+        labels = self.project.label_set.order() if self.project is not None else []
         if labels:
             has_label = False
             for label in labels:

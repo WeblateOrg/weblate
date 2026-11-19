@@ -20,8 +20,14 @@ workspace :guilabel:`Diagnostics` tab. See :ref:`diagnostics-overviews`.
 
 Signed-in users can open :guilabel:`Projects` ↓ :guilabel:`My workspaces` to
 list workspaces where they have an explicit workspace-team assignment. This
-list does not include workspaces merely because the user has site-wide
-management access.
+list also includes workspaces containing a watched project when the workspace
+contains more than one project in total. Public project access or site-wide
+management access alone does not add workspaces to this list.
+
+When at least two workspaces match these rules, a :guilabel:`Workspaces` menu
+appears in the global navigation. It shows up to ten workspaces ordered by name,
+with a :guilabel:`My workspaces` link to the full listing. Workspace navigation
+does not grant additional access to projects.
 
 Site managers can list all workspaces in the management interface at
 :guilabel:`Manage` ↓ :guilabel:`Workspaces`.
@@ -32,6 +38,18 @@ Workspace statistics aggregate all owned and shared content, including projects
 and restricted components that you cannot access. Project listings and actions
 remain permission-filtered. See
 :ref:`statistics access filtering <statistics-access-filtering>`.
+
+The :guilabel:`Languages` tab lists language statistics across workspace
+projects. Select a language to open its translation overview, then use
+:guilabel:`Translate`, :guilabel:`Zen`, or a review status link to work across
+projects while keeping the workspace and language selected. Each translation
+uses its project's workflow and permissions.
+
+As on project pages, language statistics and component listings include shared
+components. Workspace language search, translation, and review actions cover
+owned components only. Open a shared component's translation individually to
+work on it. Aggregate statistics retain the visibility rules described above;
+translation listings and actions remain permission-filtered.
 
 The workspace :guilabel:`Files` menu downloads a ZIP archive of owned
 components that you can access and have permission to download. Workspace
@@ -79,6 +97,17 @@ workspace. The target workspace also requires the
 :guilabel:`Add projects to workspace` permission. Moving a project out of a
 workspace also requires the site-wide :guilabel:`Add new projects` permission.
 
+If the target workspace's billing plan permits only public content, the
+project must use :guilabel:`Public` access and have no restricted components.
+An API request may make a project public and move it in the same update, but
+restricted components must be made public separately. Superusers retain their
+exemption from this access restriction; billing validity and project-slot
+limits still apply.
+
+Existing incompatible projects are not changed automatically. The Libre
+hosting checklist reports non-public projects and restricted components for
+administrator review.
+
 .. _workspace-settings:
 
 Workspace settings
@@ -93,6 +122,34 @@ Workspace name
 ++++++++++++++
 
 Verbose workspace name used in workspace listings and project organization.
+
+.. _workspace-propagation-scope:
+
+Translation propagation scope
++++++++++++++++++++++++++++++
+
+Select where :ref:`translation-propagation` shares translations of matching
+strings:
+
+* :guilabel:`Project` (default): components within the same project.
+* :guilabel:`Workspace`: components across all projects in this workspace.
+* :guilabel:`Matching component name within workspace`: components with the
+  same exact, case-sensitive display name across projects in this workspace.
+  Component slugs and categories do not affect matching.
+
+Projects without a workspace always use project-wide propagation. Components
+can still opt out using :ref:`component-allow_translation_propagation`.
+Propagation requires permission to edit each destination string and preserves
+translation authorship. Approved translations retain their state only when
+reviews are enabled at the destination and the initiating user has permission
+to review there. Otherwise, the text is propagated as translated, awaiting
+review where enabled. Changing the scope does not synchronize existing
+translations.
+
+The :ref:`check-inconsistent` and :ref:`check-reused` checks follow this scope.
+Cross-project check comparisons require both projects to use Public or Protected
+access control. Private and Custom projects compare strings only within their
+own project. Restricted components keep their existing visibility boundaries.
 
 .. _workspace-use-workspace-tm:
 

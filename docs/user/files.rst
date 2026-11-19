@@ -50,6 +50,11 @@ Several file formats are available via the :guilabel:`Files` ↓
 * Android String Resource (only available for monolingual translations) (``aresource``)
 * iOS strings (only available for monolingual translations) (``strings``)
 
+Android String Resource exports preserve valid resource names. Empty keys and
+keys that are not valid Android resource names are replaced with identifiers
+based on the string checksum, with numeric suffixes added to avoid collisions.
+This changes only the exported identifiers, not the keys stored in Weblate.
+
 .. hint::
 
    The content available in the converted files differs based on file format
@@ -84,6 +89,20 @@ Uploading translations
 When you have made your changes, use :guilabel:`Upload translation`
 in the :guilabel:`Files` menu.
 
+You must be logged in to upload translations, even if upload permissions have
+been assigned to the Guests team.
+
+Uploads are processed in the background, with progress and results shown in the
+notification. You can have one browser upload queued or running at a time.
+Suggestion uploads are limited to 20,000 content strings present in the uploaded
+file, including strings which are skipped or do not match. Source-template
+strings absent from the upload do not count toward this limit. Split larger
+suggestion files before uploading.
+Other upload methods use the general :setting:`TRANSLATION_MAX_UNITS` limit.
+
+Browser and API uploads share the per-user :setting:`RATELIMIT_UPLOAD_ATTEMPTS`
+limit. The API supports multiple outstanding uploads; see :doc:`/api`.
+
 .. image:: /screenshots/file-upload.webp
 
 .. _upload-file:
@@ -99,6 +118,25 @@ features might not be translated properly.
 
    * :ref:`formats`
    * :doc:`/user/files`
+
+.. _upload-string-length:
+
+String length limits
+++++++++++++++++++++
+
+Translations merged into existing strings use the same limit as the
+translation editor, which depends on the ``max-length`` flag and the source
+string length. When adding new strings or replacing the file, each source
+string, translation, and string metadata value stored from the file is limited
+to 101,000 characters. Text which Weblate already stores, for example from the
+template file in the repository, is not limited.
+
+An upload containing a string that is too long is rejected as a whole, and
+nothing from the file is imported. When adding suggestions, strings that are
+too long are skipped instead and counted as skipped in the upload result.
+
+The size of the whole file is limited separately by
+:setting:`TRANSLATION_UPLOAD_MAX_SIZE`.
 
 .. _upload-ignore_language:
 
@@ -160,6 +198,8 @@ Replace existing translation file (``replace``)
 
     This option is available only if the user has the
     :ref:`"Edit component settings" permission or "Add new string", "Remove a string" and "Edit strings" permissions <privileges>`.
+    When reviews are enabled, the :ref:`"Review strings" permission <privileges>`
+    is also required because the file can contain approved strings.
 Update source strings (``source``)
     Updates source strings in bilingual translation file. This is similar to
     what :ref:`addon-weblate.gettext.msgmerge` does.

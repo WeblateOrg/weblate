@@ -8,6 +8,7 @@ from io import StringIO
 from typing import TYPE_CHECKING, Any, cast
 
 from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Field, Layout
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext, gettext_lazy
@@ -21,7 +22,9 @@ from weblate.automation.definition import (
     walk,
 )
 from weblate.automation.operations import get_operation
-from weblate.utils.forms import QueryField
+from weblate.automation.ui import editor_context
+from weblate.utils.bulk_regex import regex_session
+from weblate.utils.forms import ContextDiv, QueryField
 
 if TYPE_CHECKING:
     from collections.abc import Mapping, MutableMapping
@@ -32,6 +35,14 @@ if TYPE_CHECKING:
     from weblate.trans.models import Component, Project
 
 
+def target_object(instance: Addon) -> Component | Project | None:
+    """Resolve the object whose settings an automation is validated against."""
+    if instance.category is not None:
+        return instance.category.project
+    return instance.component or instance.project
+
+
+@regex_session()
 def validate_operations(
     workflow: dict[str, Any], obj: Component | Project | None
 ) -> dict[str, Any]:
@@ -98,16 +109,22 @@ class AutomationForm(BaseAddonForm):
         super().__init__(user, addon, instance, *args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
+        if not addon.documentation_build:
+            self.helper.layout = Layout(
+                ContextDiv(
+                    template="addons/automation_editor.html",
+                    context=editor_context(target_object(addon.instance)),
+                ),
+                Field("workflow"),
+            )
 
     def serialize_form(self) -> dict[str, Any]:
         return {"workflow": self.cleaned_data["workflow"]}
 
     def clean_workflow(self) -> dict[str, Any]:
-        instance = self._addon.instance
-        obj = instance.component or instance.project
-        if instance.category_id:
-            obj = instance.category.project
-        return validate_operations(self.cleaned_data["workflow"], obj)
+        return validate_operations(
+            self.cleaned_data["workflow"], target_object(self._addon.instance)
+        )
 
 
 class AutomationExecutionForm(forms.Form):

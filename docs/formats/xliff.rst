@@ -38,7 +38,7 @@ Weblate supports XLIFF in several variants:
 
 
 Translation states
-+++++++++++++++++++
+++++++++++++++++++
 
 The ``state`` attribute in the file is partially processed and mapped to the
 "Needs edit" state in Weblate (the following states are used to flag the string as
@@ -70,6 +70,10 @@ Similarly upon importing such files (in the upload form), you should choose
 
 Whitespace and newlines in XLIFF
 ++++++++++++++++++++++++++++++++
+
+Use the ``xml_utf8_bom``, ``xml_encoding_case``, and ``xml_final_newline``
+:ref:`file_format_params` to control the byte order mark, declaration encoding
+case, and final newline when writing XLIFF files.
 
 Weblate controls how whitespaces are handled with the ``xml_whitespace_handling``
 :ref:`file_format_params` for XLIFF components:

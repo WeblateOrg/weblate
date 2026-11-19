@@ -1,0 +1,54 @@
+{% load i18n %}
+
+<div class="mb-4" data-automation-editor hidden>
+  <div class="mb-3">
+    <div class="btn-group"
+         role="group"
+         aria-label="{% translate "Workflow editing mode"|force_escape %}">
+      <input type="radio"
+             class="btn-check"
+             name="automation_mode"
+             id="automation-mode-editor"
+             value="editor"
+             checked />
+      <label class="btn btn-outline-primary" for="automation-mode-editor">{% translate "Editor" %}</label>
+      <input type="radio"
+             class="btn-check"
+             name="automation_mode"
+             id="automation-mode-yaml"
+             value="yaml" />
+      <label class="btn btn-outline-primary" for="automation-mode-yaml">{% translate "YAML" %}</label>
+    </div>
+    <div class="form-text">
+      {% translate "Both modes edit the same workflow, and switching between them keeps unsaved changes." %}
+    </div>
+  </div>
+
+  <div class="alert alert-warning" role="alert" hidden data-automation-alert></div>
+
+  <div data-automation-pane="editor">
+    <fieldset class="mb-4">
+      <legend class="h5">{% translate "Triggers" %}</legend>
+      <p class="form-text">
+        {% translate "Events starting the workflow. Without any trigger it can only be run manually." %}
+      </p>
+      {% include "addons/automation_slot.html" with slot=editor.trigger_slot %}
+    </fieldset>
+
+    <fieldset class="mb-4">
+      <legend class="h5">{% translate "Conditions" %}</legend>
+      <p class="form-text">{% translate "All conditions have to pass before any action runs." %}</p>
+      {% include "addons/automation_slot.html" with slot=editor.condition_slot %}
+    </fieldset>
+
+    <fieldset class="mb-4">
+      <legend class="h5">{% translate "Actions" %}</legend>
+      <p class="form-text">{% translate "Operations performed in this order once the conditions pass." %}</p>
+      {% include "addons/automation_slot.html" with slot=editor.action_slot %}
+    </fieldset>
+  </div>
+
+  <p class="visually-hidden" aria-live="polite" data-automation-status></p>
+</div>
+
+{% include "addons/automation_node_templates.html" %}

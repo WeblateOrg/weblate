@@ -11,14 +11,19 @@ from io import BytesIO, StringIO
 from typing import TYPE_CHECKING
 from zipfile import BadZipFile
 
-from django.utils.translation import gettext_lazy
+from django.conf import settings
+from django.utils.translation import gettext, gettext_lazy
+from translate.storage.base import ParseError
 from translate.storage.csvl10n import csv
 
 from weblate.formats.helpers import CONTROLCHARS_TRANS, NamedBytesIO
-from weblate.formats.ttkit import CSVFormat
+from weblate.formats.limits import TranslationLimitError
+from weblate.formats.ttkit import CSVFormat, WeblateCSVFile
+from weblate.formats.xlsx_limits import prepare_xlsx_csv_row, validate_xlsx_archive
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+    from typing import BinaryIO
 
     from weblate.lang.models import Language
     from weblate.trans.file_format_params import FileFormatParams
@@ -30,6 +35,7 @@ class XlsxFormat(CSVFormat):
     name = gettext_lazy("Excel Open XML")
     format_id = "xlsx"
     autoload = ("*.xlsx",)
+    supports_line_number = False
 
     def get_encoding(self) -> str | None:
         return "utf-8"
@@ -87,14 +93,14 @@ class XlsxFormat(CSVFormat):
         workbook.save(handle)
 
     @staticmethod
-    def serialize(store):
+    def serialize(store, file_format_params: FileFormatParams | None = None) -> bytes:
         # store is CSV (csvfile) here
         output = BytesIO()
-        XlsxFormat(store).save_content(output)
+        XlsxFormat(store, file_format_params=file_format_params).save_content(output)
         return output.getvalue()
 
     # pylint: disable-next=arguments-differ
-    def parse_store(self, storefile):
+    def parse_store(self, storefile: str | BinaryIO) -> WeblateCSVFile:
         # ruff: ignore[import-outside-top-level]
         from openpyxl import load_workbook
 
@@ -102,30 +108,49 @@ class XlsxFormat(CSVFormat):
         # catch at least the BadZipFile exception if an unsupported
         # file has been given
         try:
-            workbook = load_workbook(filename=storefile)
+            max_size = settings.TRANSLATION_UPLOAD_MAX_SIZE
+            validate_xlsx_archive(storefile, max_size)
+            workbook = load_workbook(filename=storefile, read_only=True)
+        except BadZipFile as error:
+            raise ParseError(gettext("Could not open the workbook archive.")) from error
+
+        try:
+            output = StringIO()
+            writer = csv.writer(output, dialect=CSV_DIALECT)
             worksheet = workbook.active
-        except BadZipFile:
-            return None, None
+            if worksheet is None:
+                msg = "Workbook without an active sheet!"
+                raise TypeError(msg)
 
-        if worksheet is None:
-            msg = "Workbook without an active sheet!"
-            raise TypeError(msg)
+            # Some producers report incorrect dimensions. Read the actual cells
+            # rather than truncating content or iterating an inflated range.
+            worksheet.reset_dimensions()
 
-        output = StringIO()
-
-        writer = csv.writer(output, dialect=CSV_DIALECT)
-
-        # value can be None or blank stringfor cells having formatting only,
-        # we need to ignore such columns as that would be treated like "" fields
-        # later in the translate-toolkit
-        fields = [cell.value for cell in next(worksheet.rows) if cell.value]
-        for row in worksheet.rows:
-            values = [cell.value for cell in row]
-            values = values[: len(fields)]
-            # Skip formatting only cells
-            if not any(values):
-                continue
-            writer.writerow(values)
+            # Ignore formatting-only columns when determining the field count.
+            fields = [value for value in next(worksheet.values) if value]
+            converted_size = 0
+            max_rows = settings.TRANSLATION_MAX_UNITS
+            for row, values in enumerate(
+                worksheet.iter_rows(max_col=len(fields), values_only=True)
+            ):
+                if row > max_rows:
+                    raise TranslationLimitError(
+                        gettext(
+                            "Workbook exceeds the maximum allowed count of %d worksheet rows after the header."
+                        )
+                        % max_rows
+                    )
+                values = values[: len(fields)]
+                # Skip formatting-only rows.
+                if not any(values):
+                    continue
+                csv_row, row_size = prepare_xlsx_csv_row(
+                    values, max_size - converted_size
+                )
+                writer.writerow(csv_row)
+                converted_size += row_size
+        finally:
+            workbook.close()
 
         if isinstance(storefile, str):
             name = f"{os.path.basename(storefile)}.csv"
@@ -166,5 +191,4 @@ class XlsxFormat(CSVFormat):
         if callback:
             callback(store)
         store.untranslate_store(language, file_format_params=file_format_params)
-        with open(filename, "wb") as handle:
-            XlsxFormat(store.store).save_content(handle)
+        cls.save_atomic(filename, XlsxFormat(store.store).save_content)

@@ -9,7 +9,7 @@ from __future__ import annotations
 from contextlib import contextmanager, nullcontext
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, TypeGuard
 from uuid import uuid4
 
 from django.core.cache import cache
@@ -26,6 +26,16 @@ if TYPE_CHECKING:
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.trans.models import Component
+    from weblate.vcs.base import Repository
+
+
+def checkout_needs_recovery(repository: Repository) -> TypeGuard[GitRepository]:
+    """Whether the checkout is missing and Weblate can reconstruct it."""
+    return (
+        isinstance(repository, GitRepository)
+        and not isinstance(repository, SubversionRepository)
+        and repository.checkout_is_missing()
+    )
 
 
 @contextmanager
@@ -33,11 +43,7 @@ if TYPE_CHECKING:
 def recover_checkout(component: Component) -> Generator[bool]:
     """Stage recovery and restore the old checkout if reset subsequently fails."""
     repository = component.repository
-    if (
-        not isinstance(repository, GitRepository)
-        or isinstance(repository, SubversionRepository)
-        or not repository.checkout_is_missing()
-    ):
+    if not checkout_needs_recovery(repository):
         yield False
         return
     original = Path(repository.path)
@@ -55,7 +61,11 @@ def recover_checkout(component: Component) -> Generator[bool]:
         committed = True
 
     component.log_info(
-        "repository recovery started: component_id=%s path=%s", component.pk, original
+        "repository recovery started: component_id=%s path=%s",
+        component.pk,
+        original,
+        sensitive=True,
+        public_message="Repository recovery started.",
     )
     try:  # ruff: ignore[too-many-statements-in-try-clause]
         with (
@@ -71,6 +81,7 @@ def recover_checkout(component: Component) -> Generator[bool]:
                     "repository preserved: component_id=%s path=%s",
                     component.pk,
                     preserved,
+                    sensitive=True,
                 )
             original.parent.mkdir(parents=True, exist_ok=True)
             staged_path.rename(original)
@@ -86,6 +97,8 @@ def recover_checkout(component: Component) -> Generator[bool]:
             "repository recovery completed: component_id=%s path=%s",
             component.pk,
             original,
+            sensitive=True,
+            public_message="Repository recovery completed.",
         )
     except BaseException:
         if committed:

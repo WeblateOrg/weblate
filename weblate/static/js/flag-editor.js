@@ -151,7 +151,7 @@
       optgroupField: "category",
       optgroupLabelField: "category",
       optgroupValueField: "category",
-      placeholder: gettext("Add a flag…"),
+      placeholder: input.getAttribute("placeholder") || gettext("Add a flag…"),
       hidePlaceholder: false,
       maxOptions: null,
       render: {
@@ -437,14 +437,23 @@
     });
   }
 
-  function initAll() {
-    document
-      .querySelectorAll("input.flag-editor, textarea.flag-editor")
-      .forEach(initFlagEditor);
+  const FLAG_SELECTOR = "input.flag-editor, textarea.flag-editor";
+
+  function initAll(root = document) {
+    if (root instanceof Element && root.matches(FLAG_SELECTOR)) {
+      initFlagEditor(root);
+    }
+    root.querySelectorAll(FLAG_SELECTOR).forEach(initFlagEditor);
   }
 
+  /* Markup inserted after load, such as the nodes added by the automation
+   * workflow editor, carries flag fields of its own. */
+  document.addEventListener("weblate:content-added", (event) => {
+    initAll(event.detail?.root ?? document);
+  });
+
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initAll);
+    document.addEventListener("DOMContentLoaded", () => initAll());
   } else {
     initAll();
   }

@@ -11,7 +11,7 @@
     {% translate "Sign in using a passkey or security key" %}
   </button>
   <div id="passkey-verification-status-message"
-       data-not-allowed-message="{% translate 'Passkey or security key verification could not be completed. The request may have timed out or been canceled, or your credential may be unavailable on this device. Try again or use another verification method if available.' %}">
+       data-not-allowed-message="{% translate 'Passkey or security key verification could not be completed. The request may have timed out or been canceled, or your credential may be unavailable on this device. Try again or use another verification method if available.'|force_escape %}">
   </div>
 </template>
 

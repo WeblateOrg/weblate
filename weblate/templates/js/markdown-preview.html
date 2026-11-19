@@ -1,7 +1,7 @@
-{% load i18n translations %}
+{% load i18n translations user_display %}
 
 {% if text.strip %}
-  {{ text|markdown }}
+  {% user_markdown text %}
 {% else %}
   <p class="text-muted">{% translate "Nothing to preview." %}</p>
 {% endif %}

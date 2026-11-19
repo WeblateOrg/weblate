@@ -3,15 +3,17 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import TYPE_CHECKING, Literal
 
-from crispy_forms.layout import Div, Field, LayoutObject
+from crispy_forms.layout import HTML, Div, Field, Fieldset, LayoutObject
 from crispy_forms.utils import TEMPLATE_PACK, render_field
 from django import forms
 from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.forms.models import ModelChoiceIterator
 from django.template.loader import render_to_string
+from django.utils.html import format_html
 from django.utils.text import normalize_newlines
 from django.utils.translation import gettext, gettext_lazy
 
@@ -34,18 +36,42 @@ if TYPE_CHECKING:
     from weblate.trans.models import Project
 
 
+@dataclass(frozen=True)
+class FormFieldGroup:
+    """Share a group of configuration fields between forms and documentation."""
+
+    title: StrOrPromise
+    fields: tuple[str, ...]
+    description: StrOrPromise = ""
+
+    def as_fieldset(self, form: forms.Form, *layout: LayoutObject) -> Fieldset:
+        fields = list(layout) if layout else [Field(name) for name in self.fields]
+        if not self.description:
+            return Fieldset(self.title, *fields)
+        description_id = f"{form[self.fields[0]].auto_id}_scope"
+        return Fieldset(
+            self.title,
+            HTML(format_html('<p id="{}">{}</p>', description_id, self.description)),
+            *fields,
+            aria_describedby=description_id,
+        )
+
+
 class QueryField(forms.CharField):
     def __init__(
         self,
         parser: Literal["unit", "user", "superuser", "screenshot"] = "unit",
         **kwargs,
     ) -> None:
+        from weblate.utils.search import MAX_SEARCH_QUERY_LENGTH  # ruff: ignore[import-outside-top-level]
+
         if "label" not in kwargs:
             kwargs["label"] = gettext_lazy("Query")
         if "required" not in kwargs:
             kwargs["required"] = False
         if "widget" not in kwargs:
             kwargs["widget"] = forms.Textarea(attrs={"cols": None, "rows": 1})
+        kwargs["max_length"] = MAX_SEARCH_QUERY_LENGTH
         self.parser = parser
         super().__init__(**kwargs)
 
@@ -63,6 +89,7 @@ class QueryField(forms.CharField):
             if self.required:
                 raise ValidationError(gettext("Missing query string."))
             return ""
+        value = super().clean(value)
         try:
             # Use anonymous user for parsing here, it is needed for some searches
             # and anonymous user will serve well for the validation.
@@ -117,9 +144,11 @@ class UserField(forms.CharField):
         to_field_name=None,
         limit_choices_to=None,
         blank=None,
+        allow_email: bool = True,
         **kwargs,
     ) -> None:
         # This swallows some parameters to mimic ModelChoiceField API
+        self.allow_email = allow_email
         super().__init__(**kwargs)
 
     def widget_attrs(self, widget):
@@ -132,7 +161,7 @@ class UserField(forms.CharField):
         attrs["autocapitalize"] = "off"
         return attrs
 
-    def clean(self, value):
+    def clean(self, value: str | None) -> User | None:
         from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
 
         if not value:
@@ -144,7 +173,10 @@ class UserField(forms.CharField):
                 gettext("String contains control character: %s") % repr(value)
             )
         try:
-            return User.objects.get(Q(username=value) | Q(email=value))
+            lookup = Q(username=value)
+            if self.allow_email:
+                lookup |= Q(email=value)
+            return User.objects.get(lookup)
         except User.DoesNotExist as error:
             raise ValidationError(gettext("Could not find any such user.")) from error
         except User.MultipleObjectsReturned as error:

@@ -12,7 +12,6 @@ from contextlib import contextmanager, nullcontext, suppress
 from copy import deepcopy
 from dataclasses import dataclass
 from functools import partial
-from glob import glob
 from itertools import chain
 from typing import (
     TYPE_CHECKING,
@@ -39,10 +38,11 @@ from django.core.exceptions import (
 )
 from django.core.validators import MaxValueValidator, URLValidator
 from django.db import IntegrityError, models, transaction
-from django.db.models import F, OuterRef, Q, Subquery, Value
+from django.db.models import F, Q, Value
 from django.db.models.functions import MD5
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
+from django.template import TemplateSyntaxError
 from django.utils.functional import cached_property
 from django.utils.html import format_html, format_html_join
 from django.utils.safestring import mark_safe
@@ -63,7 +63,7 @@ from weblate.memory.tasks import (
     schedule_memory_updates,
     update_memory_bulk,
 )
-from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
+from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.alerts.registry import (
     get_alert_class,
@@ -150,11 +150,17 @@ from weblate.utils.celery import (
     get_task_progress,
     store_task_metadata,
 )
-from weblate.utils.change_origin import capture_change_origin, get_change_origin
+from weblate.utils.change_origin import (
+    acting_user_context,
+    capture_change_origin,
+    get_acting_user,
+    get_change_origin,
+)
 from weblate.utils.colors import ColorChoices
 from weblate.utils.decorators import disable_for_loaddata
-from weblate.utils.errors import report_error
+from weblate.utils.errors import log_handled_exception, report_error
 from weblate.utils.fields import EmailField
+from weblate.utils.files import PathMatchBudget, PathMatchLimitError, bounded_glob
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.licenses import (
     get_license_choices,
@@ -171,6 +177,7 @@ from weblate.utils.regex import (
     regex_sub,
 )
 from weblate.utils.render import (
+    render_repository_template,
     render_template,
     validate_render_addon,
     validate_render_commit,
@@ -186,6 +193,7 @@ from weblate.utils.state import (
     STATE_TRANSLATED,
 )
 from weblate.utils.stats import ComponentStats
+from weblate.utils.task_log import get_visible_task_log
 from weblate.utils.tracing import start_span
 from weblate.utils.validators import (
     validate_filename,
@@ -203,10 +211,12 @@ from weblate.vcs.base import (
     RepositoryRestrictedPathError,
     RepositoryStructuredError,
     RepositorySymlinkError,
+    RepositoryTemplateError,
     get_repository_error_diagnoses,
     is_possible_checkout_error,
     is_ssh_host_key_mismatch_error,
     is_ssh_host_key_verification_error,
+    is_valid_revision_hash,
     should_auto_add_ssh_host_key,
 )
 from weblate.vcs.git import (
@@ -222,6 +232,7 @@ from weblate.vcs.ssh import add_host_key
 if TYPE_CHECKING:
     from collections.abc import Collection, Generator, Iterable
     from datetime import datetime
+    from typing import BinaryIO
     from uuid import UUID
 
     from django_stubs_ext import StrOrPromise
@@ -319,6 +330,7 @@ class CommitTaskPayload(TypedDict):
     force_scan: bool
     previous_head: str | None
     origin: NotRequired[ChangeOrigin]
+    acting_user_id: int | None
 
 
 def prefetch_tasks(components):
@@ -357,6 +369,10 @@ def prefetch_glossary_terms(components) -> None:
     for item, value in cache.get_many(lookup.keys()).items():
         component, attribute = lookup[item]
         component.__dict__[attribute] = value
+
+
+class FileMaskTimeoutError(TimeoutError):
+    """A component file mask took too long to match a path."""
 
 
 class ComponentQuerySet(models.QuerySet["Component", "Component"]):
@@ -452,6 +468,9 @@ class ComponentQuerySet(models.QuerySet["Component", "Component"]):
             linked_component_project,
             project_workspace,
             linked_component_project_workspace,
+            "category__project__workspace",
+            "category__category__project__workspace",
+            "category__category__category__project__workspace",
         )
 
     def defer_huge(self):
@@ -499,9 +518,7 @@ class ComponentQuerySet(models.QuerySet["Component", "Component"]):
         if user.needs_project_filter:
             result = result.filter(user.get_project_access_query("project"))
         if user.needs_component_restrictions_filter:
-            result = result.filter(
-                Q(restricted=False) | Q(id__in=user.component_permissions)
-            )
+            result = result.filter(user.get_component_access_query())
         return result
 
     def filter_permission_scope(self, user: User, permission: str):
@@ -1253,9 +1270,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self.logs: list[str] = []
         self.translations_count: int | None = None
         self.translations_progress = 0
-        self.acting_user: User | None = None
         self.removal_batch: RemovalBatch | None = None
         self.batch_checks = False
+        self.refresh_peer_source_checks = False
         self.batched_checks: set[str] = set()
         self.batch_memory = False
         self.batched_memory: list[MemoryUpdatePayload] = []
@@ -1270,6 +1287,17 @@ class Component(  # ruff: ignore[too-many-public-methods]
         previous_project = self.old_component_settings.get("project_id")
         previous_source = self.old_component_settings.get("source_language_id")
         update_fields = kwargs.get("update_fields")
+        if (
+            self.pk
+            and previous_project is not None
+            and previous_project != self.project_id
+            and (
+                update_fields is None or {"project", "project_id"} & set(update_fields)
+            )
+        ):
+            from weblate.auth.models import validate_component_project_move  # ruff: ignore[import-outside-top-level]
+
+            validate_component_project_move((self.pk,))
         source_changed = (
             previous_source is not None
             and previous_source != self.source_language_id
@@ -1319,7 +1347,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 *kwargs["update_fields"],
                 *(field for field, _old, _new in repository_redirect_changes),
             }
-        acting_user_id = self.acting_user.pk if self.acting_user else None
 
         self.drop_file_format_cache()
         self.set_default_branch()
@@ -1347,6 +1374,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # enabled later for units that already exist.
         update_tm = False
         restricted_changed = False
+        project_changed = False
         glossary_settings_changed = False
         old_full_slug = None
         old_source_project_id = None
@@ -1416,6 +1444,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
             restricted_changed = restricted_changed and (
                 update_fields is None or "restricted" in update_fields
             )
+            project_changed = old.project_id != self.project_id and (
+                update_fields is None or "project" in update_fields
+            )
             glossary_settings_changed = (
                 glossary_settings_changed
                 and (update_fields is None or "is_glossary" in update_fields)
@@ -1475,18 +1506,56 @@ class Component(  # ruff: ignore[too-many-public-methods]
             self.has_conflicting_repository_setup_changed() if self.id else False
         )
 
-        # Save/Create object
-        super().save(*args, **kwargs)
+        # Stored cross-component warnings can outlive a restriction or project move.
+        boundary_changed = (
+            restricted_changed
+            or project_changed
+            or (
+                not create
+                and any(
+                    (update_fields is None or field in update_fields)
+                    and getattr(old, field) != getattr(self, field)
+                    for field in ("name", "allow_translation_propagation")
+                )
+            )
+        )
+        with transaction.atomic() if boundary_changed else nullcontext():
+            if boundary_changed:
+                from weblate.checks.locks import (  # ruff: ignore[import-outside-top-level]
+                    lock_check_projects,
+                )
+
+                lock_check_projects(
+                    {
+                        project_id
+                        for project_id in (self.project_id, old_source_project_id)
+                        if project_id is not None
+                    },
+                    exclusive=True,
+                )
+            super().save(*args, **kwargs)
+            if boundary_changed:
+                from weblate.trans.propagation import refresh_propagation_checks  # ruff: ignore[import-outside-top-level]
+
+                refresh_propagation_checks(
+                    {
+                        project_id
+                        for project_id in (self.project_id, old_source_project_id)
+                        if project_id is not None
+                    }
+                )
         if glossary_settings_changed or (create and self.is_glossary):
             transaction.on_commit(
-                partial(
-                    self._update_glossary_configuration,
-                    update_checks=glossary_settings_changed,
-                    sync_terminology=(
-                        glossary_settings_changed
-                        and self.is_glossary
-                        and not self.restricted
-                    ),
+                capture_change_origin(
+                    partial(
+                        self._update_glossary_configuration,
+                        update_checks=glossary_settings_changed,
+                        sync_terminology=(
+                            glossary_settings_changed
+                            and self.is_glossary
+                            and not self.restricted
+                        ),
+                    )
                 )
             )
         if restricted_changed and self.restricted:
@@ -1506,8 +1575,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         if cleanup_conflicting_repository_setup:
             transaction.on_commit(
-                lambda: self.cleanup_conflicting_repository_setup_alerts(
-                    cleanup_configs
+                capture_change_origin(
+                    lambda: self.cleanup_conflicting_repository_setup_alerts(
+                        cleanup_configs
+                    )
                 )
             )
 
@@ -1546,7 +1617,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 seed_source_component_id=seed_source_component_id,
                 copy_seed_addons=copy_seed_addons,
                 seed_author=seed_author,
-                acting_user_id=acting_user_id,
             )
 
         if (
@@ -1555,7 +1625,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
             or self.old_component_settings["category_id"] != self.category_id
         ):
             transaction.on_commit(
-                lambda: self.schedule_update_checks(update_state=True)
+                capture_change_origin(
+                    lambda: self.schedule_update_checks(update_state=True)
+                )
             )
 
         self.old_component_settings = self.get_old_component_settings()
@@ -1743,8 +1815,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
         repository = self.repository
         with repository.lock, transaction.atomic():
             locked_component = queryset.get_for_update(pk=self.pk)
-            if self.acting_user is not None:
-                locked_component.acting_user = self.acting_user
             locked_component.__dict__["repository"] = locked_component.build_repository(
                 lock_override=repository.lock
             )
@@ -1937,14 +2007,14 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     action=action,
                     old=old_value,
                     target=current_value,
-                    user=self.acting_user,
+                    user=get_acting_user(),
                 )
         log_setting_changes(
             self,
             old,
             self.AUDIT_SETTINGS,
             ActionEvents.COMPONENT_SETTING_CHANGE,
-            self.acting_user,
+            get_acting_user(),
             update_fields,
         )
 
@@ -1982,9 +2052,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     )
                     continue
 
-            if not addon.can_install(component=component) or not addon.api_available(
-                component
-            ):
+            if not addon.can_install(component=component):
                 component.log_warning("could not enable addon %s, not compatible", name)
                 continue
 
@@ -1995,7 +2063,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     component=component,
                     run=False,
                     configuration=configuration,
-                    acting_user=self.acting_user,
+                    acting_user=get_acting_user(),
                 )
             except ValidationError as error:
                 component.log_warning("could not enable addon %s: %s", name, error)
@@ -2026,7 +2094,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             has_template=False,
             allow_translation_propagation=False,
             license=self.effective_license,
-            acting_user=self.acting_user,
+            acting_user=get_acting_user(),
         )
 
     @cached_property
@@ -2096,7 +2164,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if deferred is None:
             transaction.on_commit(publish)
         else:
-            transaction.on_commit(lambda: deferred.append(publish))
+            transaction.on_commit(
+                capture_change_origin(lambda: deferred.append(publish))
+            )
 
     @staticmethod
     def get_current_task_id() -> str | None:
@@ -2141,12 +2211,14 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         @capture_change_origin
         def schedule_commit() -> None:
+            actor = get_acting_user()
             payload: CommitTaskPayload = {
                 "reason": reason,
                 "user_id": user_id,
                 "force_scan": force_scan,
                 "previous_head": previous_head,
                 "origin": get_change_origin(),
+                "acting_user_id": actor.pk if actor is not None else None,
             }
             task_kwargs = {
                 "user_id": user_id,
@@ -2237,35 +2309,96 @@ class Component(  # ruff: ignore[too-many-public-methods]
             state="PROGRESS", meta={"progress": progress, "component": self.pk}
         )
 
-    def store_log(self, slug, msg, *args) -> None:
+    def store_log(
+        self,
+        slug,
+        msg,
+        *args,
+        origin_component: Component | None = None,
+        sensitive: bool = False,
+        public_message: str | None = None,
+        dependencies: tuple[Component, ...] = (),
+    ) -> None:
+        origin_component = origin_component or self
         if self.translations_count == -1 and self.linked_component:
-            self.linked_component.store_log(slug, msg, *args)
+            self.linked_component.store_log(
+                slug,
+                msg,
+                *args,
+                origin_component=origin_component,
+                sensitive=sensitive,
+                public_message=public_message,
+                dependencies=dependencies,
+            )
             return
-        entry = f"{slug}: {msg % args}"
         if current_task and current_task.request.id:
-            # ruff: ignore[import-outside-top-level]
-            from weblate.trans.repository_context import (
-                repository_task_inline_followups,
+            from weblate.utils.task_log import append_task_log, make_task_log_entry  # ruff: ignore[import-outside-top-level]
+
+            if origin_component.pk is None:
+                return
+            task_id = str(current_task.request.id)
+            suffix = (
+                slug[len(origin_component.full_slug) :]
+                if slug.startswith(f"{origin_component.full_slug}/")
+                else ""
+            )
+            if public_message is not None:
+                append_task_log(
+                    task_id,
+                    make_task_log_entry(
+                        origin_component, public_message, suffix=suffix
+                    ),
+                )
+            append_task_log(
+                task_id,
+                make_task_log_entry(
+                    origin_component,
+                    msg % args,
+                    suffix=suffix,
+                    sensitive=sensitive,
+                    dependencies=dependencies,
+                ),
+            )
+        else:
+            self.logs.append(f"{slug}: {msg % args}")
+
+    def log_hook(
+        self,
+        level,
+        msg,
+        *args,
+        sensitive: bool = False,
+        public_message: str | None = None,
+        dependencies: tuple[Component, ...] = (),
+    ) -> None:
+        if level != "DEBUG":
+            has_exception = any(isinstance(arg, BaseException) for arg in args)
+            sensitive = sensitive or has_exception
+            if (
+                sensitive
+                and public_message is None
+                and (has_exception or level in {"WARNING", "ERROR"})
+            ):
+                public_message = (
+                    "An operation reported a warning."
+                    if level == "WARNING"
+                    else "An operation failed."
+                )
+            self.store_log(
+                self.full_slug,
+                msg,
+                *args,
+                sensitive=sensitive,
+                public_message=public_message,
+                dependencies=dependencies,
             )
 
-            task_log_key = f"task-log-{current_task.request.id}"
-            if repository_task_inline_followups.get():
-                self.logs = cache.get(task_log_key, [])
-            self.logs.append(entry)
-            cache.set(task_log_key, self.logs, 2 * 3600)
-        else:
-            self.logs.append(entry)
-
-    def log_hook(self, level, msg, *args) -> None:
-        if level != "DEBUG":
-            self.store_log(self.full_slug, msg, *args)
-
-    def get_progress(self):
+    def get_progress(self, user: User | None = None):
         task = self.background_task
         if task is None:
             return 100, []
         progress = get_task_progress(task)
-        return (progress, cache.get(f"task-log-{task.id}", []))
+        return (progress, get_visible_task_log(task.id, user) if user else [])
 
     def in_progress(self) -> bool:
         return (
@@ -2519,7 +2652,13 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 raw.append(char)
         append(None)
         expression = "".join(result)
-        return re.compile(f"^{expression}$")
+        return compile_regex(f"^{expression}$")
+
+    def _match_filemask(self, path: str) -> regex.Match | None:
+        try:
+            return regex_match(self.filemask_re, path)
+        except TimeoutError as error:
+            raise FileMaskTimeoutError from error
 
     def get_url_path(self) -> tuple[str, ...]:
         parent = self.category or self.project
@@ -2624,7 +2763,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
     @perform_on_link
     def get_last_remote_commit(self) -> CommitInfo | None:
         """Return latest locally known remote commit."""
-        if self.is_repo_local or not self.remote_revision:
+        if self.is_repo_local or not is_valid_revision_hash(self.remote_revision):
             return None
         try:
             return self.repository.get_revision_info(self.remote_revision)
@@ -2633,7 +2772,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     def get_last_commit(self) -> CommitInfo | None:
         """Return latest locally known remote commit."""
-        if self.is_repo_local or not self.local_revision:
+        if self.is_repo_local or not is_valid_revision_hash(self.local_revision):
             return None
         try:
             return self.repository.get_revision_info(self.local_revision)
@@ -2687,7 +2826,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 filename,
                 line,
                 template,
-                user=user or self.acting_user,
+                user=user or get_acting_user(),
                 is_translation=is_translation,
             )
         if not template:
@@ -2695,13 +2834,20 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 return filename
             return None
 
-        return render_template(
-            template,
-            filename=urlquote(filename),
-            line=urlquote(line),
-            branch=urlquote(self.branch),
-            component=self,
-        )
+        try:
+            return render_template(
+                template,
+                filename=urlquote(filename),
+                line=urlquote(line),
+                branch=urlquote(self.branch),
+                component=self,
+            )
+        except TemplateSyntaxError:
+            log_handled_exception(
+                "Could not render repository browser or editor link",
+                extra_log=self.full_slug,
+            )
+            return None
 
     def get_git_repoweb_template(self):
         """Return the template link for a specific vcs."""
@@ -2891,15 +3037,26 @@ class Component(  # ruff: ignore[too-many-public-methods]
         repository = self.repository
 
         def add(repo: str) -> None:
-            self.log_info("checking for key to add for %s", repo)
+            self.log_info("checking SSH host key")
             try:
                 target = repository.validate_remote_url(repo)
             except RepositoryError as error:
-                self.log_info("skipping SSH key for invalid URL %s: %s", repo, error)
+                self.log_info(
+                    "skipping SSH key for invalid repository URL: %s",
+                    self.error_text(error),
+                    sensitive=True,
+                    public_message="skipping SSH key for invalid repository URL",
+                )
                 return
             if target is None or target.scheme != "ssh":
                 return
-            self.log_info("adding SSH key for %s:%s", target.hostname, target.port)
+            self.log_info(
+                "adding SSH host key for %s:%s",
+                target.hostname,
+                target.port,
+                sensitive=True,
+                public_message="adding SSH host key",
+            )
             add_host_key(
                 None,
                 target.hostname,
@@ -2990,6 +3147,11 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     user=user,
                 )
             error_text = self.error_text(error)
+            self.log_error(
+                "repository update failed: %s",
+                error_text,
+                public_message="Repository update attempt failed.",
+            )
             if validate and retry and should_auto_add_ssh_host_key(error_text):
                 self.handle_update_error(error_text, retry)
                 return self.update_remote_branch(True, False, user=user)
@@ -3051,12 +3213,13 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     )
         return True
 
-    def configure_repo(self, validate=False, pull=True) -> None:
-        """Ensure repository is correctly set up."""
-        if self.is_repo_link:
+    def ensure_local_repository(self) -> None:
+        """Initialize a local repository before component operations use it."""
+        if self.is_repo_link or not self.is_repo_local:
             return
-
-        if self.is_repo_local:
+        # Initialization must use the saved component's lock, including the
+        # existence check, rather than the standalone repository's path lock.
+        with self.repository.lock:
             if not os.path.exists(os.path.join(self.full_path, ".git")):
                 if (
                     not self.template
@@ -3081,7 +3244,16 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     }
                     if self.template
                     else {},
+                    lock=self.repository.lock,
                 )
+
+    def configure_repo(self, validate=False, pull=True) -> None:
+        """Ensure repository is correctly set up."""
+        if self.is_repo_link:
+            return
+
+        if self.is_repo_local:
+            self.ensure_local_repository()
             return
 
         with self.repository.lock:
@@ -3108,7 +3280,12 @@ class Component(  # ruff: ignore[too-many-public-methods]
         for filename in [self.template, self.intermediate, self.new_base]:
             if filename and filename in changed:
                 return True
-        return any(self.filemask_re.match(path) for path in changed)
+        try:
+            return any(self._match_filemask(path) for path in changed)
+        except FileMaskTimeoutError:
+            report_error("Component file mask timed out", project=self.project)
+            self.log_warning("file mask timed out while checking changed files")
+            return True
 
     def needs_commit_upstream(self) -> bool:
         """
@@ -3230,7 +3407,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     def get_update_user(self, request: AuthenticatedHttpRequest | None) -> User:
         """Return user to credit for background update events."""
-        user = request.user if request else self.acting_user
+        user = request.user if request else get_acting_user()
         if user is not None:
             return user
 
@@ -3287,7 +3464,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     def get_push_user(self, request: AuthenticatedHttpRequest | None) -> User:
         """Return user to credit for push events."""
-        user = request.user if request else self.acting_user
+        user = request.user if request else get_acting_user()
         if user is not None:
             return user
 
@@ -3322,7 +3499,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 report_error(
                     "Could not push the repo",
                     project=self.project,
-                    skip_error_reporting=not settings.DEBUG,
+                    skip_error_reporting=not settings.DEBUG
+                    or isinstance(error, RepositoryTemplateError),
                 )
                 self.change_set.create(
                     action=ActionEvents.FAILED_PUSH,
@@ -3444,7 +3622,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
         user = self.get_push_user(request)
 
         # Do actual push
-        result = self.push_repo(request, user, retry=retry)
+        with acting_user_context(user):
+            result = self.push_repo(request, user, retry=retry)
         if not result:
             return False
 
@@ -3543,7 +3722,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.tasks import perform_commit, perform_component_commit
 
-        user = request.user if request else self.acting_user
+        user = request.user if request else get_acting_user()
         try:
             previous_head = reset_with_recovery(
                 self, request, user, keep_changes=keep_changes
@@ -3695,6 +3874,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     operation_log,
                     translation.filename,
                     reason,
+                    sensitive=True,
+                    public_message=f"Could not restore translation file {translation.filename}.",
                 )
 
             if request is not None:
@@ -3804,12 +3985,16 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 operation_log,
                 current_translation.filename,
                 error_message,
+                sensitive=True,
+                public_message=f"Could not restore translation file {current_translation.filename}.",
             )
         else:
             failed_component.log_error(
                 "%s failed before recreating missing translation files: %s",
                 operation_log,
                 error_message,
+                sensitive=True,
+                public_message="Could not restore missing translation files.",
             )
         if reset_repository_on_failure:
             try:
@@ -3823,7 +4008,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     skip_error_reporting=not settings.DEBUG,
                 )
                 self.log_error(
-                    "reset/reapply failed to roll back partial missing translation restore"
+                    "reset/reapply failed to roll back partial missing translation restore",
+                    sensitive=False,
                 )
         elif rollback_revision is not None:
             try:
@@ -3838,7 +4024,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     skip_error_reporting=not settings.DEBUG,
                 )
                 self.log_error(
-                    "file sync failed to roll back partial missing translation restore"
+                    "file sync failed to roll back partial missing translation restore",
+                    sensitive=False,
                 )
         if request is not None:
             if current_translation is not None:
@@ -3926,7 +4113,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         self.change_set.create(
             action=ActionEvents.REPO_CLEANUP,
-            user=self.acting_user
+            user=get_acting_user()
             or (request.user if request else None)
             or self.get_repository_maintenance_user(),
         )
@@ -3958,11 +4145,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
         units_to_update: list[Unit] = []
         anonymous_id = get_anonymous().id
         actor_id = self.get_update_user(request).pk
-        last_author = (
-            Change.objects.filter(unit_id=OuterRef("pk"), action__in=ACTIONS_CONTENT)
-            .order_by("-timestamp")
-            .values("author_id")[:1]
-        )
         # Local repositories have no upstream source of truth. Reapply can use
         # the same unit-creation path as adding strings in Weblate.
         components = [self, *self.linked_children]
@@ -3983,8 +4165,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
             for component in components
             if component.pk in local_components and component.has_template()
         }
+        # django-stubs cannot track annotations returned by queryset helpers.
         units = (
-            Unit.objects.filter(
+            Unit.objects.filter(  # type: ignore[misc]
                 Q(translation__component=self)
                 | Q(translation__component__linked_component=self)
             )
@@ -3997,7 +4180,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 & ~Q(translation__component_id__in=local_templates)
                 | Q(translation__filename="")
             )
-            .annotate(last_author_id=Subquery(last_author))
+            .with_last_content_author()
             .values(
                 "id",
                 "translation__component_id",
@@ -4008,7 +4191,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 "details",
                 "automatically_translated",
                 "source_unit__explanation",
-                "last_author_id",
+                "last_content_author_id",
             )
         )
         for unit in units.iterator(chunk_size=1000):
@@ -4024,15 +4207,20 @@ class Component(  # ruff: ignore[too-many-public-methods]
                             automatically_translated=unit["automatically_translated"],
                         ),
                     }
-                    units_to_update.append(Unit(id=unit["id"], details=details))
-                    if len(units_to_update) > 1000:
-                        Unit.objects.bulk_update(units_to_update, ["details"])
+                    # Mark the selected row as existing, leaving other fields deferred.
+                    units_to_update.append(
+                        Unit.from_db(units.db, ["id", "details"], [unit["id"], details])
+                    )
+                    if len(units_to_update) == 500:
+                        Unit.objects.using(units.db)._bulk_update_values(  # ruff: ignore[private-member-access]
+                            units_to_update, ("details",)
+                        )
                         units_to_update.clear()
 
             pending.append(
                 PendingUnitChange.build_unit_change(
                     unit_id=unit["id"],
-                    author_id=unit["last_author_id"] or anonymous_id,
+                    author_id=unit["last_content_author_id"] or anonymous_id,
                     user_id=actor_id,
                     target=unit["target"],
                     explanation=unit["explanation"],
@@ -4054,7 +4242,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 pending.clear()
 
         if units_to_update:
-            Unit.objects.bulk_update(units_to_update, ["details"])
+            Unit.objects.using(units.db)._bulk_update_values(  # ruff: ignore[private-member-access]
+                units_to_update, ("details",)
+            )
             units_to_update.clear()
 
         if pending:
@@ -4063,19 +4253,19 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         self.change_set.create(
             action=ActionEvents.FORCE_SYNC,
-            user=self.acting_user or self.get_update_user(request),
+            user=get_acting_user() or self.get_update_user(request),
         )
 
         if do_commit:
             if not self.restore_pending_translation_files(
                 request=request,
-                user=request.user if request else self.acting_user,
+                user=request.user if request else get_acting_user(),
                 apply_pending_filters=True,
                 reset_repository_on_failure=False,
             ):
                 return False
             if repository_task_inline_followups.get():
-                user = request.user if request else self.acting_user
+                user = request.user if request else get_acting_user()
 
                 @capture_change_origin
                 def commit_file_sync() -> None:
@@ -4101,7 +4291,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self.commit_pending("file-scan", request.user if request else None)
         self.change_set.create(
             action=ActionEvents.FORCE_SCAN,
-            user=self.acting_user or self.get_update_user(request),
+            user=get_acting_user() or self.get_update_user(request),
         )
 
         self.create_translations(request=request, force=True)
@@ -4124,6 +4314,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         return [
             {
                 "project_name": linked.project.name,
+                "full_name": str(linked),
                 "name": linked.name,
                 "url": get_site_url(linked.get_absolute_url()),
             }
@@ -4302,7 +4493,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     context.update(extra_context)
 
                 # Generate commit message
-                message = render_template(template, **context)
+                message = render_repository_template(
+                    template, setting="commit message", **context
+                )
 
             # Actual commit
             if not self.repository.commit(message, author, localtime(timestamp), files):
@@ -4418,6 +4611,20 @@ class Component(  # ruff: ignore[too-many-public-methods]
             return
         self.delete_alert("AutomergeFailure")
 
+    def handle_pull_request_update_failure(
+        self, error: str | RepositoryStructuredError
+    ) -> None:
+        """Surface a failed pull request customization."""
+        if self._state.adding:
+            return
+        self.add_alert("PullRequestUpdateFailure", error=error)
+
+    def handle_pull_request_update_success(self) -> None:
+        """Clear a pull request customization failure."""
+        if self._state.adding:
+            return
+        self.delete_alert("PullRequestUpdateFailure")
+
     def handle_repository_recovery_failure(self, error: Exception) -> None:
         """Surface failed recovery from interrupted repository operations."""
         if self._state.adding:
@@ -4452,6 +4659,18 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     if not raised:
                         raise
 
+    def get_branch_update_kwargs(self, method: str) -> dict[str, Any]:
+        if method == "rebase":
+            return {}
+        kwargs: dict[str, Any] = {
+            "message": render_repository_template(
+                self.effective_merge_message, setting="merge message", component=self
+            )
+        }
+        if method == "merge_noff":
+            kwargs["no_ff"] = True
+        return kwargs
+
     @perform_on_link
     def update_branch(
         self,
@@ -4478,21 +4697,16 @@ class Component(  # ruff: ignore[too-many-public-methods]
             error_msg = gettext("Could not rebase local branch onto remote branch %s.")
             action = ActionEvents.REBASE
             action_failed = ActionEvents.FAILED_REBASE
-            kwargs = {}
         else:
             method_func = self.repository.merge
             error_msg = gettext("Could not merge remote branch into %s.")
             action = ActionEvents.MERGE
             action_failed = ActionEvents.FAILED_MERGE
-            kwargs = {
-                "message": render_template(self.effective_merge_message, component=self)
-            }
-            if method == "merge_noff":
-                kwargs["no_ff"] = True
 
         with self.track_local_head_change() as head_change:
             previous_head = head_change.previous_head or "N/A"
             try:
+                kwargs = self.get_branch_update_kwargs(method)
                 # Try to merge it
                 method_func(**kwargs)
                 new_head = head_change.refresh_new_head()
@@ -4507,7 +4721,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 report_error(
                     f"Failed {method}",
                     project=self.project,
-                    skip_error_reporting=not settings.DEBUG,
+                    skip_error_reporting=not settings.DEBUG
+                    or isinstance(error, RepositoryTemplateError),
                 )
 
                 # In case merge has failure recover
@@ -4540,7 +4755,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     )
 
                 # Reset repo back
-                method_func(abort=True)
+                if not isinstance(error, RepositoryTemplateError):
+                    method_func(abort=True)
 
                 # Tell user (if there is any)
                 messages.error(request, error_msg % self)
@@ -4619,25 +4835,46 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     def get_mask_matches(self, *, raise_on_timeout: bool = False) -> list[str]:
         """Return files matching current mask."""
+        budget = PathMatchBudget()
+        try:
+            return self._get_mask_matches(budget, raise_on_timeout=raise_on_timeout)
+        except PathMatchLimitError as error:
+            if not raise_on_timeout:
+                report_error(
+                    "Component file mask scan limit exceeded", project=self.project
+                )
+                self.log_warning("file mask scan limit exceeded: %s", error)
+            raise FileMaskTimeoutError(str(error)) from error
+
+    def _get_mask_matches(
+        self, budget: PathMatchBudget, *, raise_on_timeout: bool
+    ) -> list[str]:
         prefix = path_separator(os.path.join(self.full_path, ""))
         matches = set()
         language_re = compile_regex(self.language_regex)
-        timeout_reported = False
+        language_timeout_reported = False
 
-        for filename in glob(os.path.join(self.full_path, self.filemask)):
+        for filename in bounded_glob(self.full_path, self.filemask, budget=budget):
+            budget.check()
             path = path_separator(filename).replace(prefix, "")
-            code = self.get_lang_code(path)
+            try:
+                code = self.get_lang_code(path)
+            except FileMaskTimeoutError:
+                if not raise_on_timeout:
+                    report_error("Component file mask timed out", project=self.project)
+                    self.log_warning("file mask timed out for [%s]", path)
+                raise
             try:
                 language_match = regex_match(language_re, code)
             except TimeoutError:
                 if raise_on_timeout:
                     raise
-                if not timeout_reported:
+                if not language_timeout_reported:
                     report_error(
                         "Component language regex timed out", project=self.project
                     )
                     self.log_warning("language regex timed out for %s [%s]", code, path)
-                    timeout_reported = True
+                    language_timeout_reported = True
                 continue
             if language_match and code != "source":
                 matches.add(path)
@@ -4647,6 +4884,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # Remove symlinked translations
         targets = set()
         for filename in sorted(matches):
+            budget.check()
             try:
                 resolved = self.repository.resolve_symlinks(filename)
             except RepositorySymlinkError:
@@ -4662,14 +4900,18 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     else:
                         targets.add(resolved)
 
+        budget.check()
         if self.has_template():
             # We do not want to show intermediate translation standalone
             if self.intermediate:
                 matches.discard(self.intermediate)
             # We want to list template among translations as well
             matches.discard(self.template)
-            return [self.template, *sorted(matches)]
-        return sorted(matches)
+            result = [self.template, *sorted(matches)]
+        else:
+            result = sorted(matches)
+        budget.check()
+        return result
 
     def is_gettext_po_template(self) -> bool:
         """Check whether the base file should be handled as a gettext template."""
@@ -5232,11 +5474,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         # Process linked repos
         for pos, component in enumerate(self.linked_children):
-            self.log_info(
-                "updating linked project %s [%d/%d]",
-                component,
-                pos + 1,
-                len(self.linked_children),
+            component.log_info(
+                "updating linked project [%d/%d]", pos + 1, len(self.linked_children)
             )
             component.translations_count = -1
             try:
@@ -5296,7 +5535,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         effective = self.get_effective_setting("enforced_checks")
         if effective:
-            update_enforced_checks.delay_on_commit(component=self.pk, user_id=user.pk)
+            update_enforced_checks.delay_on_commit(component=self.pk)
 
         self.log_info("updating completed")
         return was_change
@@ -5343,12 +5582,17 @@ class Component(  # ruff: ignore[too-many-public-methods]
         from weblate.checks.tasks import finalize_component_checks
 
         if settings.CELERY_TASK_ALWAYS_EAGER or automation_origin.get():
-            finalize_component_checks(
-                self.id,
-                source_unit_ids,
-                batched_checks,
-                batch_mode=batch_mode,
-                component=self,
+            transaction.on_commit(
+                capture_change_origin(
+                    partial(
+                        finalize_component_checks,
+                        self.id,
+                        source_unit_ids,
+                        batched_checks,
+                        batch_mode=batch_mode,
+                    )
+                ),
+                using=self._state.db,
             )
         else:
             finalize_component_checks.delay_on_commit(
@@ -5369,7 +5613,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             return
 
         self._invalidate_scheduled = True
-        transaction.on_commit(self._invalidate_trigger)
+        transaction.on_commit(capture_change_origin(self._invalidate_trigger))
 
     @cached_property
     def glossary_sources_key(self) -> str:
@@ -5427,7 +5671,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if not validate and path == self.template:
             return self.source_language.code
         # Parse filename
-        matches = self.filemask_re.match(path)
+        matches = self._match_filemask(path)
 
         if not matches or not matches.lastindex:
             if path == self.template:
@@ -5462,7 +5706,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         self.configure_repo(validate, pull=False)
         if self.id:
-            if not self.update_remote_branch(validate, user=self.acting_user):
+            if not self.update_remote_branch(validate, user=get_acting_user()):
                 return False
             if not skip_commit:
                 self.commit_pending("sync", None, skip_push=skip_push)
@@ -5479,7 +5723,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # Reset to upstream in case not yet saved model (this is called
         # from the clean method only)
         with self.repository.lock:
-            self.update_remote_branch(validate, user=self.acting_user)
+            self.update_remote_branch(validate, user=get_acting_user())
             self.configure_branch()
             self.repository.reset()
         return True
@@ -6003,6 +6247,17 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if errors:
             raise ValidationError(errors)
 
+    def clean_vcs_change(self, old: Component) -> None:
+        """Reject backend switches outside the component settings choices."""
+        if self.vcs not in VCS_REGISTRY.allowed_component_vcs_choices(old.vcs):
+            raise ValidationError(
+                {
+                    "vcs": gettext(
+                        "Version control system cannot be changed to this backend."
+                    )
+                }
+            )
+
     def clean_fields(self, exclude: Collection[str] | None = None) -> None:
         """Validate inherited settings without changing their stored overrides."""
         excluded = set(exclude or ())
@@ -6043,7 +6298,19 @@ class Component(  # ruff: ignore[too-many-public-methods]
         - it tries to find translation files and checks that they are valid
         """
         self.clean_model_settings()
-        self._clean_repository_settings()
+        try:
+            self._clean_repository_settings()
+        except FileMaskTimeoutError as error:
+            report_error(
+                "Component file mask validation timed out", project=self.project
+            )
+            raise ValidationError(
+                {
+                    "filemask": gettext(
+                        "The file mask is too complex and took too long to evaluate."
+                    )
+                }
+            ) from error
 
     def can_validate_repository_compatibility(self, old: Component | None) -> bool:
         """Check whether repository validation can avoid worktree updates."""
@@ -6067,6 +6334,15 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self.drop_file_format_cache()
         if self.project_id is None:
             return
+        if (
+            self.pk
+            and Component.objects.filter(pk=self.pk)
+            .exclude(project_id=self.project_id)
+            .exists()
+        ):
+            from weblate.auth.models import validate_component_project_move  # ruff: ignore[import-outside-top-level]
+
+            validate_component_project_move((self.pk,))
         if settings.OFFER_HOSTING and self.project.use_shared_tm and self.restricted:
             raise ValidationError(
                 {
@@ -6088,6 +6364,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         if self.id:
             old = Component.objects.get(pk=self.id)
+            self.clean_vcs_change(old)
             self.clean_integration_locked_fields(old)
             self.check_rename(old, validate=True)
             if old.source_language != self.source_language:
@@ -6191,6 +6468,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     "Can not validate file matches due to invalid regular expression."
                 )
             ) from error
+        except FileMaskTimeoutError:
+            raise
         except TimeoutError as error:
             report_error(
                 "Component language regex validation timed out",
@@ -6344,7 +6623,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 seeded = seed_component_from_source(
                     self,
                     source_component,
-                    author_name=seed_author or "Weblate <noreply@weblate.org>",
                     skip_push=skip_push,
                 )
             if not seeded:
@@ -6492,7 +6770,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             return
 
         self._alerts_scheduled = True
-        transaction.on_commit(self._update_alerts)
+        transaction.on_commit(capture_change_origin(self._update_alerts))
 
     def get_ambiguous_translations(self):
         return self.translation_set.filter(language__code__in=AMBIGUOUS.keys())
@@ -6628,7 +6906,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     def load_intermediate_store(self) -> TranslationFormat:
         """Load translate-toolkit store for intermediate."""
-        return self.file_format_cls(  # pylint: disable=too-many-function-args,unexpected-keyword-arg
+        store = self.file_format_cls(  # pylint: disable=too-many-function-args,unexpected-keyword-arg
             self.get_intermediate_filename(),
             language_code=self.source_language.code,
             source_language=self.source_language.code,
@@ -6636,6 +6914,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
             repo_temp_dir=self.repository.get_repo_temp_dir(),
             file_validator=self.check_file_is_valid,
         )
+        store.check_valid()
+        return store
 
     @cached_property
     def intermediate_store(self) -> TranslationFormat | None:
@@ -6650,10 +6930,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
             self.handle_parse_error(exc, filename=self.intermediate)
             return None
 
-    def load_template_store(self, fileobj=None) -> TranslationFormat:
+    def load_template_store(self, fileobj: BinaryIO | None = None) -> TranslationFormat:
         """Load translate-toolkit store for template."""
         with self.start_tracing_span("load_template_store"):
-            return self.file_format_cls(  # pylint: disable=too-many-function-args,unexpected-keyword-arg
+            store = self.file_format_cls(  # pylint: disable=too-many-function-args,unexpected-keyword-arg
                 fileobj or self.get_template_filename(),
                 language_code=self.source_language.code,
                 source_language=self.source_language.code,
@@ -6662,6 +6942,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 repo_temp_dir=self.repository.get_repo_temp_dir(),
                 file_validator=self.check_file_is_valid,
             )
+            store.check_valid()
+            return store
 
     @cached_property
     def template_store(self) -> TranslationFormat | None:
@@ -6979,6 +7261,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         fullname = os.path.join(self.full_path, filename)
 
         with self.repository.lock:
+            self.ensure_local_repository()
             if create_translations:
                 self.commit_pending("add language", None)
 
@@ -7026,6 +7309,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     else "Weblate <noreply@weblate.org>",
                     template=self.effective_add_message,
                     store_hash=False,
+                    log_author=request.user if request else None,
                 )
 
         # Trigger parsing of the newly added file
@@ -7104,6 +7388,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             signals=signals,
             template=self.effective_add_message,
             store_hash=False,
+            log_author=user,
         )
 
         # Delete no matches alert as we have just recreated the file
@@ -7191,7 +7476,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     sync_glossary_languages(glossary.pk, component=glossary)
         elif not self._glossary_sync_scheduled:
             self._glossary_sync_scheduled = True
-            transaction.on_commit(self._schedule_sync_terminology)
+            transaction.on_commit(
+                capture_change_origin(self._schedule_sync_terminology)
+            )
 
     def _schedule_sync_terminology(self) -> None:
         # ruff: ignore[import-outside-top-level]
@@ -7450,4 +7737,4 @@ def change_component_link(sender, instance, **kwargs) -> None:
 
     with suppress(Project.DoesNotExist):
         project = Project.objects.get(pk=instance.project_id)
-        transaction.on_commit(project.invalidate_glossary_cache)
+        transaction.on_commit(capture_change_origin(project.invalidate_glossary_cache))

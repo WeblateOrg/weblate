@@ -9,14 +9,21 @@ from unittest.mock import patch
 from django.db import transaction
 from django.urls import reverse
 
-from weblate.auth.models import User
+from weblate.auth.data import SELECTION_MANUAL
+from weblate.auth.models import Group, Role, User
 from weblate.checks.flags import Flags
+from weblate.checks.models import Check
 from weblate.trans.actions import ActionEvents
 from weblate.trans.bulk import bulk_perform
 from weblate.trans.forms import UnitFlagsForm
 from weblate.trans.models import Unit
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_EMPTY,
+    STATE_FUZZY,
+    STATE_READONLY,
+    STATE_TRANSLATED,
+)
 
 if TYPE_CHECKING:
     from django.db.models import Model
@@ -220,6 +227,71 @@ class UnitFlagsTest(ViewTestCase):
             self.assertEqual(self.unit.readonly, readonly)
             self.assertEqual(self.source.extra_flags, "")
 
+    def test_bulk_source_and_translation_flags_across_batches(self) -> None:
+        sibling = self.component.translation_set.get(language_code="de").unit_set.get(
+            id_hash=self.unit.id_hash
+        )
+        units = (self.unit, sibling)
+        for add_source, remove_source, add_local, remove_local in (
+            ("read-only", "", "", "read-only"),
+            ("", "read-only", "read-only", ""),
+        ):
+            with self.subTest(add_source=add_source):
+                self.set_flags(self.source, remove_source)
+                for unit in units:
+                    self.set_flags(unit, remove_local)
+                original_states = {unit.pk: unit.original_state for unit in units}
+                # Force sibling source objects into independent prefetch batches.
+                with patch("weblate.trans.bulk.BULK_EDIT_PREVIEW_LIMIT", 1):
+                    bulk_perform(
+                        self.user,
+                        Unit.objects.filter(pk__in=[unit.pk for unit in units]),
+                        query="",
+                        target_state=-1,
+                        add_flags=add_source,
+                        remove_flags=remove_source,
+                        add_translation_flags=add_local,
+                        remove_translation_flags=remove_local,
+                        add_labels=self.project.label_set.none(),
+                        remove_labels=self.project.label_set.none(),
+                        project=self.project,
+                    )
+                self.source.refresh_from_db()
+                self.assertEqual(self.source.extra_flags, add_source)
+                for unit in units:
+                    unit.refresh_from_db()
+                    self.assertEqual(unit.extra_flags, add_local)
+                    self.assertEqual(unit.state, STATE_READONLY)
+                    self.assertEqual(unit.original_state, original_states[unit.pk])
+                    self.assertIn("read-only", unit.all_flags)
+
+    def test_bulk_inherited_priority_after_removing_local_override(self) -> None:
+        sibling = self.component.translation_set.get(language_code="de").unit_set.get(
+            id_hash=self.unit.id_hash
+        )
+        units = (self.unit, sibling)
+        for unit in units:
+            self.set_flags(unit, "priority:20")
+        with patch("weblate.trans.bulk.BULK_EDIT_PREVIEW_LIMIT", 1):
+            bulk_perform(
+                self.user,
+                Unit.objects.filter(pk__in=[unit.pk for unit in units]),
+                query="",
+                target_state=-1,
+                add_flags="priority:70",
+                remove_flags="",
+                add_translation_flags="",
+                remove_translation_flags="priority",
+                add_labels=self.project.label_set.none(),
+                remove_labels=self.project.label_set.none(),
+                project=self.project,
+            )
+        for unit in units:
+            unit.refresh_from_db()
+            self.assertEqual(unit.extra_flags, "")
+            self.assertEqual(unit.priority, 70)
+            self.assertEqual(unit.all_flags.get_value("priority"), 70)
+
     def test_source_view_offers_source_scope_only(self) -> None:
         actions = self.source.get_flag_actions(self.user)
         self.assertTrue(actions)
@@ -274,6 +346,45 @@ class UnitFlagsTest(ViewTestCase):
         self.assertEqual(updated, 0)
         self.unit.refresh_from_db()
         self.assertEqual(self.unit.extra_flags, "")
+
+    def test_bulk_source_metadata_requires_source_language(self) -> None:
+        editor = User.objects.create_user("limited-source", "limited@example.org")
+        group = Group.objects.create(
+            name="Limited source editors", language_selection=SELECTION_MANUAL
+        )
+        group.projects.add(self.project)
+        group.roles.set(Role.objects.filter(name__in=["Edit source", "Bulk editing"]))
+        editor.groups.add(group)
+        group.languages.set([self.unit.translation.language])
+        editor.clear_permissions_cache()
+        self.assertTrue(editor.has_perm("source.edit", self.component))
+        self.assertFalse(editor.has_perm("source.edit", self.source.translation))
+        label = self.project.label_set.create(name="Protected label", color="black")
+        updated = bulk_perform(
+            editor,
+            Unit.objects.filter(pk=self.unit.pk),
+            query="",
+            target_state=-1,
+            add_flags="read-only",
+            remove_flags="",
+            add_labels=self.project.label_set.filter(pk=label.pk),
+            remove_labels=self.project.label_set.none(),
+            project=self.project,
+        )
+        self.assertEqual(updated, 0)
+        self.source.refresh_from_db()
+        self.assertEqual(self.source.extra_flags, "")
+        self.assertFalse(self.source.labels.exists())
+        check, _created = Check.objects.get_or_create(
+            unit=self.unit, name="python_format"
+        )
+        self.client.force_login(editor)
+        response = self.client.post(
+            reverse("js-ignore-check-source", kwargs={"check_id": check.pk})
+        )
+        self.assertEqual(response.status_code, 403)
+        self.source.refresh_from_db()
+        self.assertEqual(self.source.extra_flags, "")
 
     def test_disabled_source_field_rejects_forged_edit(self) -> None:
         with patch.object(User, "has_perm", return_value=False):

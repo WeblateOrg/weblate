@@ -187,6 +187,15 @@ class ProjectDescriptionTest(SimpleTestCase):
 
 
 class BackendErrorSanitizationTest(SimpleTestCase):
+    def test_preserve_diagnostic_hostname_and_account(self) -> None:
+        message = "Could not fork repository at git.internal for account service-user."
+        self.assertEqual(
+            sanitize_backend_error_message(
+                message, repo_urls=("https://git.internal/owner/repo.git",)
+            ),
+            message,
+        )
+
     def test_sanitize_backend_error_message(self) -> None:
         sanitized = sanitize_backend_error_message(
             (

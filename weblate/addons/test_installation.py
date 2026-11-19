@@ -15,7 +15,6 @@ from unittest.mock import patch
 from django.db import transaction
 from django.http import QueryDict
 from django.test import SimpleTestCase, override_settings
-from fedora_messaging.config import LazyConfig
 
 from weblate.addons.defaults import DEFAULT_WEBLATE_ADDONS
 from weblate.addons.models import ADDONS, Addon
@@ -24,6 +23,7 @@ from weblate.machinery.openai import OpenAITranslation
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Component
 from weblate.trans.tests.test_views import ReusableComponentTestCase
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.unittest import tempdir_setting
 
 if TYPE_CHECKING:
@@ -126,6 +126,9 @@ INSTALLATION_CASES = {
         {
             "q": "state:empty",
             "state": "-1",
+            "search": "",
+            "replacement": "",
+            "search_type": "text",
             "path": "",
             "add_flags": "",
             "remove_flags": "",
@@ -200,6 +203,7 @@ INSTALLATION_CASES = {
             "client_key": "",
             "client_cert": "",
             "publish_timeout": 5,
+            "connection_timeout": 5,
             "connection_attempts": 1,
             "retry_delay": 2,
             "event_filter": "content",
@@ -245,7 +249,7 @@ class AddonInstallationTest(ReusableComponentTestCase):
                 **({"edit_template": True} if fixture == "json_mono" else {}),
             )
         component = Component.objects.get(pk=self.component.pk)
-        component.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         root = Path(component.full_path)
         if fixture in {"xgettext", "meson"}:
             (root / "src").mkdir(exist_ok=True)
@@ -338,11 +342,6 @@ class AddonInstallationTest(ReusableComponentTestCase):
     def test_installations(self) -> None:
         with (
             patch("weblate.addons.tasks.postconfigure_addon"),
-            patch("fedora_messaging.config.conf", LazyConfig()),
-            patch(
-                "weblate.addons.fedora_messaging.FedoraMessagingAddon._reset_fedora_messaging_service",
-                return_value=True,
-            ),
             patch(
                 "weblate.utils.outbound.socket.getaddrinfo",
                 return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],

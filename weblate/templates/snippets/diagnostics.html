@@ -55,13 +55,7 @@
         <ul>
           {% for component in group.components %}
             <li>
-              <a href="{{ component.get_absolute_url }}?alerts=1#alerts">
-                {% if show_projects %}
-                  {{ component.project }} / {{ component.name }}
-                {% else %}
-                  {{ component.name }}
-                {% endif %}
-              </a>
+              <a href="{{ component.get_absolute_url }}?alerts=1#alerts">{{ component }}</a>
             </li>
           {% endfor %}
         </ul>

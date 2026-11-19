@@ -1345,7 +1345,7 @@ translations have been reverted in VCS or lost otherwise.
 Inconsistent
 ~~~~~~~~~~~~
 
-:Summary: This string has more than one translation in this project or is untranslated in some components.
+:Summary: This string has more than one translation in its propagation group or is untranslated in some components.
 :Scope: all strings
 :Check class: ``weblate.checks.consistency.ConsistencyCheck``
 :Check identifier: ``inconsistent``

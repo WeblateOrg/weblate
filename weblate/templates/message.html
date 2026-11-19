@@ -7,18 +7,21 @@
     <button type="button"
             class="btn btn-link btn-red float-end"
             data-bs-dismiss="alert"
-            title="{% translate "Delete announcement" %}">{% icon "delete.svg" %}</button>
+            title="{% translate "Delete announcement"|force_escape %}">{% icon "delete.svg" %}</button>
   {% elif can_delete %}
     <button type="button"
             class="btn-close"
             data-bs-dismiss="alert"
-            aria-label="{% translate "Close" %}"></button>
+            aria-label="{% translate "Close"|force_escape %}"></button>
   {% endif %}
-  <div class="task-message">
+  <div class="task-message" {% if task_id %}role="status"{% endif %}>
     {% block message %}{{ message }}{% endblock %}
 
   </div>
-  {% if task_id %}<div class="task-warnings"></div>{% endif %}
+  {% if task_id %}
+    <div class="task-warnings"></div>
+    <div class="task-errors" role="alert"></div>
+  {% endif %}
 
   <div class="clearfix"></div>
   {% if task_id %}

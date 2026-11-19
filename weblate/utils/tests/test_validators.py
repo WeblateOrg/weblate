@@ -132,6 +132,17 @@ class UserNameCleanTest(SimpleTestCase):
 
 
 class EmailValidatorTestCase(SimpleTestCase):
+    @override_settings(
+        REGISTRATION_ALLOW_DISPOSABLE_EMAILS=False, REGISTRATION_EMAIL_MATCH=".*"
+    )
+    def test_github_noreply(self) -> None:
+        for email in (
+            "octocat@users.noreply.github.com",
+            "12345+octocat@users.noreply.github.com",
+        ):
+            with self.subTest(email=email):
+                self.assertIsNone(EmailValidator()(email))
+
     def test_valid(self) -> None:
         validator = EmailValidator()
         self.assertIsNone(validator("noreply@example.com"))
@@ -352,8 +363,26 @@ class FedoraMessagingURLTest(SimpleTestCase):
         validate_fedora_messaging_url("amqp://broker.example/%2F")
         validate_fedora_messaging_url(
             "amqps://user:password@broker.example:5671/vhost"  # kingfisher:ignore
-            "?connection_attempts=3&retry_delay=5"
         )
+
+    @override_settings(WEBHOOK_RESTRICT_PRIVATE=True, WEBHOOK_PRIVATE_ALLOWLIST=[])
+    def test_resolution_can_be_deferred(self) -> None:
+        with patch("weblate.utils.outbound.socket.getaddrinfo") as resolve:
+            validate_fedora_messaging_url("amqp://broker.example/vhost", resolve=False)
+            resolve.assert_not_called()
+
+    @override_settings(WEBHOOK_RESTRICT_PRIVATE=True, WEBHOOK_PRIVATE_ALLOWLIST=[])
+    def test_deferred_resolution_preserves_url_checks(self) -> None:
+        with patch("weblate.utils.outbound.socket.getaddrinfo") as resolve:
+            for url in (
+                "https://broker.example",
+                "amqp://127.0.0.1",
+                "amqp://broker.example?heartbeat=10",
+                "amqp://broker.example#fragment",
+            ):
+                with self.subTest(url=url), self.assertRaises(ValidationError):
+                    validate_fedora_messaging_url(url, resolve=False)
+            resolve.assert_not_called()
 
     def test_invalid_scheme(self) -> None:
         with self.assertRaises(ValidationError):
@@ -563,7 +592,7 @@ class WebsiteTest(SimpleTestCase):
         validator("http://1.1.1.1")
         validator("https://[2606:4700:4700::1111]")
         validator("https://domain.tld:5000")
-        validator("https://user:password@domain.tld/path")
+        validator("https://user:password@domain.tld/path")  # kingfisher:ignore
         validator("https://user%5C@domain.tld/path")
         with self.assertRaises(ValidationError):
             validator("ftp://domain.tld")

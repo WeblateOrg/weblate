@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.conf import settings
+from django.template.loader import render_to_string
 from django.urls import reverse
 
 from weblate.auth.data import (
@@ -12,9 +13,9 @@ from weblate.auth.data import (
     SELECTION_MANUAL,
 )
 from weblate.auth.forms import ProjectTeamForm, SitewideTeamForm, WorkspaceTeamForm
-from weblate.auth.models import Group, Permission, Role, TeamMembership, User
+from weblate.auth.models import Group, Permission, Role, TeamMembership, User, UserBlock
 from weblate.lang.models import Language
-from weblate.trans.models import ComponentList
+from weblate.trans.models import Component, ComponentList, Project
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.workspaces.models import Workspace
 
@@ -23,6 +24,35 @@ class TeamsTest(FixtureTestCase):
     def make_superuser(self, superuser: bool = True) -> None:
         self.user.is_superuser = superuser
         self.user.save()
+
+    def test_restricted_team_admin_cannot_add_user(self) -> None:
+        for restriction in ("block", "team_2fa", "project_2fa"):
+            with self.subTest(restriction=restriction):
+                group = Group.objects.create(
+                    name=f"Restricted {restriction}",
+                    defining_project=self.project,
+                    enforced_2fa=restriction == "team_2fa",
+                )
+                group.admins.add(self.user)
+                self.user.groups.add(group)
+                if restriction == "block":
+                    UserBlock.objects.create(user=self.user, project=self.project)
+                if restriction == "project_2fa":
+                    self.project.enforced_2fa = True
+                    self.project.save(update_fields=["enforced_2fa"])
+
+                self.user.clear_permissions_cache()
+                response = self.client.post(
+                    group.get_absolute_url(),
+                    {"add_user": "1", "user": self.anotheruser.username},
+                )
+                self.assertEqual(response.status_code, 403)
+                self.assertFalse(group.user_set.filter(pk=self.anotheruser.pk).exists())
+
+                group.delete()
+                UserBlock.objects.filter(user=self.user, project=self.project).delete()
+                self.project.enforced_2fa = False
+                self.project.save(update_fields=["enforced_2fa"])
 
     def test_sitewide(self) -> None:
         group = Group.objects.create(name="Test group")
@@ -79,6 +109,46 @@ class TeamsTest(FixtureTestCase):
         self.assertRedirects(response, group.get_absolute_url())
         group.refresh_from_db()
         self.assertEqual(group.name, "Other")
+
+    def test_edit_project_team_preserves_stale_component_scope(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        destination = Project.objects.create(
+            name="Destination",
+            slug="destination",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        group = Group.objects.create(name="Scoped team", defining_project=self.project)
+        group.projects.add(self.project)
+        group.roles.add(Role.objects.get(name="Administration"))
+        group.components.add(self.component)
+        self.anotheruser.groups.add(group)
+        Component.objects.filter(pk=self.component.pk).update(project=destination)
+        components_html = render_to_string(
+            "auth/teams-components.html", {"group": group}
+        )
+        self.assertIn(f"Moved component #{self.component.pk}", components_html)
+        self.assertNotIn(destination.name, components_html)
+        self.make_superuser()
+
+        response = self.client.post(
+            group.get_absolute_url(),
+            {
+                "name": "Renamed scoped team",
+                "all_languages": "on",
+                "roles": [Role.objects.get(name="Administration").pk],
+                "autogroup_set-TOTAL_FORMS": "0",
+                "autogroup_set-INITIAL_FORMS": "0",
+            },
+        )
+
+        self.assertRedirects(response, group.get_absolute_url())
+        group.refresh_from_db()
+        self.assertEqual(group.name, "Renamed scoped team")
+        self.assertTrue(group.components.filter(pk=self.component.pk).exists())
+        self.anotheruser.clear_permissions_cache()
+        self.assertFalse(self.anotheruser.can_access_project(self.project))
+        self.assertFalse(self.anotheruser.can_access_project(destination))
 
     def test_project_team_form_roles(self) -> None:
         global_role = Role.objects.create(name="Global project")

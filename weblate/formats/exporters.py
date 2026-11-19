@@ -10,6 +10,7 @@ import re
 from itertools import chain
 from typing import TYPE_CHECKING, ClassVar, cast
 
+from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 from lxml import etree
 from lxml.etree import XMLSyntaxError
@@ -41,7 +42,7 @@ from weblate.trans.file_format_params import (
     GettextXGenerator,
 )
 from weblate.trans.util import split_plural, xliff_string_to_rich
-from weblate.utils.csv import PROHIBITED_INITIAL_CHARS
+from weblate.utils.csv import escape_csv_formula
 
 from .base import BaseExporter
 
@@ -51,7 +52,7 @@ if TYPE_CHECKING:
     from translate.storage.poxliff import PoXliffUnit
     from translate.storage.tbx import tbxunit
 
-    from weblate.trans.models import Translation
+    from weblate.trans.models import Translation, Unit
 
 # Map to remove control characters except newlines and tabs
 # Based on lxml - src/lxml/apihelpers.pxi _is_valid_xml_utf8
@@ -67,6 +68,7 @@ DASHES = re.compile(r"--+")
 
 
 class PoExporter(BaseExporter):
+    identity_safe = True
     name = "po"
     content_type = "text/x-po"
     extension = "po"
@@ -121,6 +123,7 @@ class XMLExporter(XMLFilterMixin, BaseExporter):
 
 
 class PoXliffExporter(XMLExporter):
+    identity_safe = True
     name = "xliff"
     content_type = "application/x-xliff+xml"
     extension = "xlf"
@@ -132,7 +135,7 @@ class PoXliffExporter(XMLExporter):
         if flags.has_value("max-length"):
             output.xmlelement.set("maxwidth", str(flags.get_value("max-length")))
 
-        output.xmlelement.set("weblate-flags", flags.format())
+        output.xmlelement.set("weblate-flags", self.string_filter(flags.format()))
 
     def handle_plurals(self, plurals):
         if len(plurals) == 1:
@@ -152,6 +155,7 @@ class PoXliffExporter(XMLExporter):
 
 
 class XliffExporter(PoXliffExporter):
+    identity_safe = True
     name = "xliff11"
     content_type = "application/x-xliff+xml"
     extension = "xlf"
@@ -161,6 +165,7 @@ class XliffExporter(PoXliffExporter):
 
 
 class TBXExporter(XMLExporter):
+    identity_safe = True
     name = "tbx"
     content_type = "application/x-tbx"
     extension = "tbx"
@@ -191,7 +196,7 @@ class TBXExporter(XMLExporter):
         return output
 
     def store_flags(self, output, flags) -> None:
-        output.xmlelement.set("weblate-flags", flags.format())
+        output.xmlelement.set("weblate-flags", self.string_filter(flags.format()))
 
     def _export_term_metadata(
         self, output, records, language_code, shared_notes
@@ -321,6 +326,7 @@ class TBXExporter(XMLExporter):
 
 
 class TMXExporter(XMLExporter):
+    identity_safe = True
     name = "tmx"
     content_type = "application/x-tmx"
     extension = "tmx"
@@ -329,6 +335,7 @@ class TMXExporter(XMLExporter):
 
 
 class MoExporter(PoExporter):
+    identity_safe = True
     name = "mo"
     content_type = "application/x-gettext-catalog"
     extension = "mo"
@@ -457,6 +464,7 @@ class PluralCSVExportMixin(BaseExporter):
 
 
 class CSVExporter(PluralCSVExportMixin, CVSBaseExporter):
+    identity_safe = True
     name = "csv"
     content_type = "text/csv"
     extension = "csv"
@@ -464,22 +472,11 @@ class CSVExporter(PluralCSVExportMixin, CVSBaseExporter):
     verbose = gettext_lazy("CSV")
 
     def string_filter(self, text):
-        """
-        Avoid Excel interpreting text as formula.
-
-        This is really bad idea, implemented in Excel, as this change leads to
-        displaying additional ' in all other tools, but this seems to be what most
-        people have gotten used to. Hopefully these characters are not widely used at
-        first position of translatable strings, so that harm is reduced.
-
-        Reverse for this is in weblate.formats.ttkit.CSVUnit.unescape_csv
-        """
-        if text and text[0] in PROHIBITED_INITIAL_CHARS:
-            return "'{}'".format(text.replace("|", "\\|"))
-        return text
+        return escape_csv_formula(text)
 
 
 class MultiCSVExporter(CVSBaseExporter):
+    identity_safe = True
     name = "csv-multi"
     content_type = "text/csv"
     extension = "csv"
@@ -491,19 +488,7 @@ class MultiCSVExporter(CVSBaseExporter):
         return translation.component.file_format == "csv-multi"
 
     def string_filter(self, text):
-        """
-        Avoid Excel interpreting text as formula.
-
-        This is really bad idea, implemented in Excel, as this change leads to
-        displaying additional ' in all other tools, but this seems to be what most
-        people have gotten used to. Hopefully these characters are not widely used at
-        first position of translatable strings, so that harm is reduced.
-
-        Reverse for this is in weblate.formats.ttkit.CSVUnit.unescape_csv
-        """
-        if text and text[0] in PROHIBITED_INITIAL_CHARS:
-            return "'{}'".format(text.replace("|", "\\|"))
-        return text
+        return escape_csv_formula(text)
 
     def add_units(self, units) -> None:
         # Override add_units to handle multivalue units by adding each translation
@@ -548,6 +533,7 @@ class MultiCSVExporter(CVSBaseExporter):
 
 
 class XlsxExporter(PluralCSVExportMixin, XMLFilterMixin, CVSBaseExporter):
+    identity_safe = True
     name = "xlsx"
     content_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     extension = "xlsx"
@@ -567,14 +553,19 @@ class MonolingualExporter(BaseExporter):
             BaseExporter.supports(translation) and translation.component.has_template()
         )
 
+    def get_unit_id(self, unit: Unit) -> str:
+        return unit.context
+
     def build_unit(self, unit):
-        output = self.create_unit(unit.context)
-        output.setid(unit.context)
+        identifier = self.get_unit_id(unit)
+        output = self.create_unit(identifier)
+        output.setid(identifier)
         self.add(output, self.handle_plurals(unit.get_target_plurals()))
         return output
 
 
 class JSONExporter(MonolingualExporter):
+    identity_safe = True
     storage_class = JsonFile
     name = "json"
     content_type = "application/json"
@@ -584,6 +575,7 @@ class JSONExporter(MonolingualExporter):
 
 
 class JSONNestedExporter(JSONExporter):
+    identity_safe = True
     name = "json-nested"
     file_format = "json-nested"
     verbose = gettext_lazy("JSON nested structure file")
@@ -591,11 +583,49 @@ class JSONNestedExporter(JSONExporter):
 
 
 class AndroidResourceExporter(XMLFilterMixin, MonolingualExporter):
+    identity_safe = True
     storage_class = AndroidResourceFile
     name = "aresource"
     content_type = "application/xml"
     extension = "xml"
     verbose = gettext_lazy("Android String Resource")
+
+    @cached_property
+    def reserved_ids(self) -> set[str]:
+        return set()
+
+    @cached_property
+    def used_ids(self) -> set[str]:
+        return set()
+
+    def is_valid_id(self, identifier: str) -> bool:
+        try:
+            self.storage.UnitClass(None).validate_id(identifier)
+        except ValueError:
+            return False
+        return True
+
+    def add_units(self, units: list[Unit]) -> None:
+        # Reserve original names before generating replacements, regardless of
+        # their position in the export. Materialize iterators for both passes.
+        units = list(units)
+        self.reserved_ids.update(
+            unit.context for unit in units if self.is_valid_id(unit.context)
+        )
+        super().add_units(units)
+
+    def get_unit_id(self, unit: Unit) -> str:
+        if self.is_valid_id(unit.context):
+            identifier = unit.context
+        else:
+            base = f"weblate_{unit.checksum}"
+            identifier = base
+            suffix = 2
+            while identifier in self.reserved_ids or identifier in self.used_ids:
+                identifier = f"{base}_{suffix}"
+                suffix += 1
+        self.used_ids.add(identifier)
+        return identifier
 
     def add(self, unit, word) -> None:
         # Need to have storage to handle plurals
@@ -613,12 +643,22 @@ class AndroidResourceExporter(XMLFilterMixin, MonolingualExporter):
 
 
 class StringsExporter(MonolingualExporter):
+    identity_safe = True
     storage_class = stringsutf8file
     name = "strings"
     content_type = "text/plain"
     extension = "strings"
     file_format = "strings"
     verbose = gettext_lazy("iOS strings")
+
+    def get_unit_id(self, unit: Unit) -> str:
+        identifier = super().get_unit_id(unit)
+        if unit.translation.component.file_format == self.file_format:
+            # Native .strings contexts already contain serialized key escapes.
+            return identifier
+        # Other formats provide logical identifiers, while setid() expects the
+        # serialized spelling. The serializer handles quotation marks itself.
+        return self.storage.personality.encode(identifier).replace("\r", r"\r")
 
     def create_unit(self, source):
         return self.storage.UnitClass(source, self.storage.personality.name)

@@ -7,25 +7,29 @@ from __future__ import annotations
 import json
 import os
 import re
+from contextlib import contextmanager
 from copy import copy
 from datetime import UTC, datetime
 from functools import partial
 from io import StringIO
 from pathlib import Path
-from typing import TYPE_CHECKING, ClassVar, NoReturn, cast
+from types import SimpleNamespace
+from typing import TYPE_CHECKING, Any, ClassVar, NoReturn, cast
 from unittest.mock import AsyncMock, MagicMock, Mock, call, patch
 from urllib.parse import parse_qs, urlparse
 
 import httpx2
-from asgiref.sync import async_to_sync
+from asgiref.sync import async_to_sync, sync_to_async
+from botocore.exceptions import ClientError
 from botocore.stub import ANY, Stubber
 from django.conf import settings as django_settings
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.core.management.base import CommandError
-from django.test import SimpleTestCase, TestCase
-from django.test.utils import override_settings
+from django.db import connection
+from django.test import Client, SimpleTestCase, TestCase
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils.translation import get_language
 from django.utils.translation import override as translation_override
@@ -37,7 +41,9 @@ from google.cloud.translate import (
 )
 from google.cloud.translate_v3 import Glossary
 from google.oauth2 import service_account
+from google.rpc.error_details_pb2 import RetryInfo  # type: ignore[import-untyped]
 
+from weblate.auth.models import Group, Role
 from weblate.checks import flags as check_flags
 from weblate.checks import models as check_models
 from weblate.checks.utils import highlight_string
@@ -54,6 +60,7 @@ from weblate.machinery.base import (
     InternalMachineTranslation,
     MachineryRateLimitError,
     MachineTranslationError,
+    sanitize_machinery_error,
 )
 from weblate.machinery.cyrtranslit import CyrTranslitTranslation
 from weblate.machinery.deepl import DeepLTranslation
@@ -116,13 +123,26 @@ from weblate.workspaces.models import Workspace
 from .types import SourceLanguageChoices
 
 if TYPE_CHECKING:
-    from typing import Any
+    from collections.abc import Generator
 
     from weblate.machinery.base import (
         SettingsDict,
     )
 
 HTTPError = httpx2.HTTPStatusError
+
+
+@contextmanager
+def mock_machinery_time(timestamp: int) -> Generator[Mock, None, None]:
+    now = Mock(return_value=timestamp)
+    clock = SimpleNamespace(time=now)
+    # Cache timeout creation and expiry checks must advance with retry parsing.
+    with (
+        patch("weblate.machinery.base.time", clock),
+        patch("django.core.cache.backends.base.time", clock),
+        patch("django.core.cache.backends.locmem.time", clock),
+    ):
+        yield now
 
 
 def make_error_response(
@@ -437,6 +457,52 @@ class NorwegianLanguageMappingTest(SimpleTestCase):
                 for code in ("nb", "nb_NO"):
                     with self.subTest(machine=machine.name, code=code):
                         self.assertEqual(machine.map_language_code(code), expected)
+
+
+class MachineryRateLimitTest(SimpleTestCase):
+    def setUp(self) -> None:
+        self.addCleanup(cache.clear)
+        cache.clear()
+
+    def test_uninstalled_configurations_have_independent_cooldowns(self) -> None:
+        first = DeepLTranslation({"key": "first"})
+        second = DeepLTranslation({"key": "second"})
+        first.set_rate_limit()
+        self.assertTrue(DeepLTranslation({"key": "first"}).is_rate_limited())
+        self.assertFalse(second.is_rate_limited())
+
+    def test_installations_with_identical_credentials_are_independent(self) -> None:
+        first = DeepLTranslation({"key": "shared", "_installation_id": 1})
+        second = DeepLTranslation({"key": "shared", "_installation_id": 2})
+        first.set_rate_limit()
+        first.set_rephrase_rate_limit()
+        self.assertFalse(second.is_rate_limited())
+        self.assertFalse(second.is_rephrase_rate_limited())
+
+    def test_inherited_installation_shares_both_cooldowns(self) -> None:
+        first = DeepLTranslation(
+            {"_installation_id": 1, "_project": Mock(spec=Project)}
+        )
+        second = DeepLTranslation(
+            {"_installation_id": 1, "_project": Mock(spec=Project)}
+        )
+        first.set_rate_limit()
+        first.set_rephrase_rate_limit()
+        self.assertTrue(second.is_rate_limited())
+        self.assertTrue(second.is_rephrase_rate_limited())
+        self.assertTrue(async_to_sync(second.ais_rephrase_rate_limited)())
+
+    def test_cooldowns_expire(self) -> None:
+        machine = DeepLTranslation({"_installation_id": 1})
+        with mock_machinery_time(1000):
+            machine.set_rate_limit()
+            machine.set_rephrase_rate_limit()
+        with mock_machinery_time(2799):
+            self.assertTrue(machine.is_rate_limited())
+            self.assertTrue(machine.is_rephrase_rate_limited())
+        with mock_machinery_time(2801):
+            self.assertFalse(machine.is_rate_limited())
+            self.assertFalse(machine.is_rephrase_rate_limited())
 
 
 class BaseMachineTranslationTest(TestCase):
@@ -834,7 +900,446 @@ class MachineTranslationTest(BaseMachineTranslationTest):
         )
 
 
+@override_settings(
+    CACHES={"default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"}}
+)
+class MachineTranslationRateLimitTest(SimpleTestCase):
+    def test_default_window(self) -> None:
+        self.assert_window_expires(DeepLTranslation({}), 1800)
+
+    def test_custom_window(self) -> None:
+        class CustomTranslation(DeepLTranslation):
+            rate_limit_window = 15
+
+        self.assert_window_expires(CustomTranslation({}), 15)
+
+    def assert_window_expires(self, machine: DeepLTranslation, window: int) -> None:
+        cache.clear()
+        with mock_machinery_time(10000) as now:
+            machine.set_rate_limit()
+            self.assertTrue(machine.is_rate_limited())
+            self.assertFalse(machine.is_rephrase_rate_limited())
+            machine.set_rephrase_rate_limit()
+
+            now.return_value += window - 1
+            self.assertTrue(machine.is_rate_limited())
+            self.assertTrue(machine.is_rephrase_rate_limited())
+            self.assertTrue(async_to_sync(machine.ais_rephrase_rate_limited)())
+
+            now.return_value += 1
+            self.assertFalse(machine.is_rate_limited())
+            self.assertFalse(machine.is_rephrase_rate_limited())
+            self.assertFalse(async_to_sync(machine.ais_rephrase_rate_limited)())
+
+    def test_rephrase_cooldown_is_separate(self) -> None:
+        machine = DeepLTranslation({})
+        cache.clear()
+        machine.set_rephrase_rate_limit()
+        self.assertTrue(machine.is_rephrase_rate_limited())
+        self.assertFalse(machine.is_rate_limited())
+
+    def test_service_windows(self) -> None:
+        for machine_cls, window in (
+            (AlibabaTranslation, 60),
+            (AWSTranslation, 60),
+            (AnthropicTranslation, 60),
+            (BaiduTranslation, 60),
+            (GoogleTranslation, 60),
+            (GoogleV3Translation, 60),
+            (LibreTranslateTranslation, 60),
+            (MistralTranslation, 60),
+            (OpenAITranslation, 60),
+            (AzureOpenAITranslation, 60),
+            (DeepLTranslation, 1800),
+            (LTEngineTranslation, 1800),
+            (OllamaTranslation, 1800),
+        ):
+            with self.subTest(service=machine_cls.name):
+                machine = machine_cls({})
+                with patch("weblate.machinery.base.cache.set") as cache_set:
+                    machine.set_rate_limit()
+                cache_set.assert_called_once_with(
+                    machine.rate_limit_cache, True, window
+                )
+
+    def test_retry_headers(self) -> None:
+        for headers, expected in (
+            ({"Retry-After": "12"}, 12),
+            ({"Retry-After": "3600"}, 3600),
+            ({"Retry-After": "0"}, 0),
+            ({"Retry-After": "1.2"}, 2),
+            ({"retry-after-ms": "1501", "Retry-After": "30"}, 2),
+            ({"retry-after-ms": "invalid", "Retry-After": "30"}, 30),
+            ({"Retry-After": "Thu, 01 Jan 1970 03:00:00 GMT"}, 800),
+            ({"Retry-After": "Thu, 01 Jan 1970 00:00:00 GMT"}, 1800),
+            ({}, 1800),
+            ({"Retry-After": "bad date"}, 1800),
+            ({"Retry-After": "-1"}, 1800),
+            ({"Retry-After": "nan"}, 1800),
+            ({"Retry-After": "inf"}, 1800),
+            ({"Retry-After": "1e1000"}, 1800),
+            ({"Retry-After": "1e100"}, 1800),
+        ):
+            with self.subTest(headers=headers), mock_machinery_time(10000):
+                response = make_error_response("https://example.com/", 429)
+                response.headers.update(headers)
+                error = HTTPError(
+                    "throttled", request=response.request, response=response
+                )
+                self.assertEqual(
+                    DeepLTranslation({}).get_rate_limit_timeout(error), expected
+                )
+
+    def test_google_json_retry_info(self) -> None:
+        for details, headers, expected in (
+            (
+                [
+                    {
+                        "@type": "type.googleapis.com/google.rpc.RetryInfo",
+                        "retryDelay": "2.5s",
+                    }
+                ],
+                {},
+                3,
+            ),
+            (
+                [
+                    {
+                        "@type": "type.googleapis.com/google.rpc.RetryInfo",
+                        "retryDelay": "120s",
+                    }
+                ],
+                {"Retry-After": "7"},
+                7,
+            ),
+            ([{"@type": "unrelated", "retryDelay": "5s"}], {}, 60),
+            (
+                [
+                    {
+                        "@type": "type.googleapis.com/google.rpc.RetryInfo",
+                        "retryDelay": "invalid",
+                    }
+                ],
+                {},
+                60,
+            ),
+            (
+                [
+                    {
+                        "@type": "type.googleapis.com/google.rpc.RetryInfo",
+                        "retryDelay": "1e2s",
+                    }
+                ],
+                {},
+                60,
+            ),
+            ([None], {}, 60),
+            ("invalid", {}, 60),
+        ):
+            with self.subTest(details=details, headers=headers):
+                response = make_error_response(
+                    "https://example.com/",
+                    429,
+                    json_data={"error": {"details": details}},
+                )
+                response.headers.update(headers)
+                error = HTTPError(
+                    "throttled", request=response.request, response=response
+                )
+                self.assertEqual(
+                    OpenAITranslation({}).get_rate_limit_timeout(error), expected
+                )
+
+    def test_converted_errors_preserve_retry_headers(self) -> None:
+        for machine in (
+            AnthropicTranslation({}),
+            OpenAITranslation({}),
+            AzureOpenAITranslation({}),
+            MistralTranslation({}),
+            ApertiumAPYTranslation({}),
+            BaiduTranslation({}),
+        ):
+            with self.subTest(service=machine.name):
+                response = make_error_response(
+                    "https://example.com/",
+                    429,
+                    json_data={
+                        "responseStatus": 429,
+                        "responseDetails": "Throttled",
+                        "error_code": 54003,
+                        "error_msg": "Throttled",
+                    },
+                )
+                response.headers["Retry-After"] = "17"
+                with self.assertRaises(MachineryRateLimitError) as raised:
+                    machine.check_failure(response)
+                self.assertEqual(machine.get_rate_limit_timeout(raised.exception), 17)
+
+    def test_aws_errors(self) -> None:
+        machine = AWSTranslation({})
+        for code, status, limited in (
+            ("TooManyRequestsException", 400, True),
+            ("Throttling", 400, True),
+            ("ThrottlingException", 400, True),
+            ("RequestLimitExceeded", 400, True),
+            ("UnknownError", 429, True),
+            ("AccessDeniedException", 403, False),
+        ):
+            with self.subTest(code=code):
+                error = ClientError(
+                    {
+                        "Error": {"Code": code, "Message": "Request failed"},
+                        "ResponseMetadata": {
+                            "HTTPStatusCode": status,
+                            "HostId": "",
+                            "RequestId": "test",
+                            "RetryAttempts": 0,
+                            "HTTPHeaders": {"retry-after": "23"},
+                        },
+                    },
+                    "TranslateText",
+                )
+                self.assertEqual(machine.is_rate_limit_error(error), limited)
+                self.assertEqual(machine.get_rate_limit_timeout(error), 23)
+
+    def test_google_sdk_retry_info(self) -> None:
+        machine = GoogleV3Translation({})
+        info = RetryInfo()
+        info.retry_delay.seconds = 75
+        info.retry_delay.nanos = 1
+        error = google_api_exceptions.ResourceExhausted("Throttled", details=[info])
+        for exception in (
+            error,
+            google_api_exceptions.RetryError("Retries exhausted", error),
+        ):
+            with self.subTest(exception=type(exception)):
+                self.assertTrue(machine.is_rate_limit_error(exception))
+                self.assertEqual(machine.get_rate_limit_timeout(exception), 76)
+        response = Mock(headers={"retry-after": "3"})
+        header_error = google_api_exceptions.TooManyRequests(
+            "Throttled", details=[info], response=response
+        )
+        self.assertEqual(machine.get_rate_limit_timeout(header_error), 3)
+        rest_error = google_api_exceptions.ResourceExhausted(
+            "Throttled",
+            details=[
+                {
+                    "@type": "type.googleapis.com/google.rpc.RetryInfo",
+                    "retryDelay": "4.1s",
+                }
+            ],
+        )
+        self.assertEqual(machine.get_rate_limit_timeout(rest_error), 5)
+        negative_info = RetryInfo()
+        negative_info.retry_delay.seconds = -1
+        self.assertEqual(
+            machine.get_rate_limit_timeout(
+                google_api_exceptions.ResourceExhausted(
+                    "Throttled", details=[negative_info]
+                )
+            ),
+            60,
+        )
+        self.assertFalse(
+            machine.is_rate_limit_error(
+                google_api_exceptions.RetryError(
+                    "Retries exhausted",
+                    google_api_exceptions.InvalidArgument("Invalid"),
+                )
+            )
+        )
+        self.assertFalse(
+            machine.is_rate_limit_error(
+                google_api_exceptions.InvalidArgument("Invalid")
+            )
+        )
+        self.assertEqual(
+            machine.get_rate_limit_timeout(
+                google_api_exceptions.ResourceExhausted("Throttled")
+            ),
+            60,
+        )
+
+    def test_sdk_translation_cooldown(self) -> None:
+        for machine, method, error in (
+            (
+                AWSTranslation({}),
+                "translate_text",
+                ClientError(
+                    {
+                        "Error": {
+                            "Code": "TooManyRequestsException",
+                            "Message": "Throttled",
+                        }
+                    },
+                    "TranslateText",
+                ),
+            ),
+            (
+                GoogleV3Translation({"project": "test", "location": "global"}),
+                "translate_text",
+                google_api_exceptions.ResourceExhausted("Throttled"),
+            ),
+        ):
+            with (
+                self.subTest(service=machine.name),
+                mock_machinery_time(10000) as now,
+            ):
+                cache.clear()
+                machine.cache_translations = False
+                translate = machine._translate_sources  # ruff: ignore[private-member-access]
+                client = Mock()
+                machine.client = client
+                request = getattr(client, method)
+                request.side_effect = error
+                with patch.object(machine, "report_error"):
+                    with self.assertRaises(MachineTranslationError):
+                        translate("en", "cs", [("Hello", None)])
+                    self.assertTrue(machine.is_rate_limited())
+                    self.assertEqual(
+                        translate("en", "cs", [("Hello", None)]),
+                        [[]],
+                    )
+                    request.assert_called_once()
+                    now.return_value += 60
+                    with self.assertRaises(MachineTranslationError):
+                        translate("en", "cs", [("Hello", None)])
+                    self.assertEqual(request.call_count, 2)
+
+    @http_mock.activate
+    def test_alibaba_translation_cooldown(self) -> None:
+        machine = AlibabaTranslation(
+            {"key": "key", "secret": "secret", "region": "cn-hangzhou"}
+        )
+        machine.cache_translations = False
+        translate = machine._translate_sources  # ruff: ignore[private-member-access]
+        for code, status in (
+            ("Throttling", 400),
+            ("Throttling.User", 400),
+            ("Throttling.Api", 400),
+            ("Unknown", 429),
+        ):
+            with self.subTest(code=code), mock_machinery_time(10000) as now:
+                cache.clear()
+                http_mock.register(
+                    "POST",
+                    AlibabaTranslationTest.API_URL,
+                    json={"Code": code, "Message": "Throttled"},
+                    status_code=status,
+                    headers={"Retry-After": "17"},
+                )
+                with patch.object(machine, "report_error"):
+                    with self.assertRaises(MachineryRateLimitError):
+                        translate("en", "cs", [("Hello", None)])
+                    call_count = len(http_mock.calls)
+                    self.assertEqual(
+                        translate("en", "cs", [("Hello", None)]),
+                        [[]],
+                    )
+                    self.assertEqual(len(http_mock.calls), call_count)
+                    now.return_value += 17
+                    with self.assertRaises(MachineryRateLimitError):
+                        translate("en", "cs", [("Hello", None)])
+                    self.assertEqual(len(http_mock.calls), call_count + 1)
+
+    def test_unrelated_error_with_retry_header(self) -> None:
+        machine = DeepLTranslation({})
+        response = make_error_response("https://example.com/", 400)
+        response.headers["Retry-After"] = "17"
+        error = HTTPError("Invalid", request=response.request, response=response)
+        cache.clear()
+        with (
+            patch.object(machine, "report_error"),
+            self.assertRaises(MachineTranslationError),
+        ):
+            machine._handle_download_error(error)  # ruff: ignore[private-member-access]
+        self.assertFalse(machine.is_rate_limited())
+
+    def test_rephrase_retry_delay(self) -> None:
+        for asynchronous in (False, True):
+            with (
+                self.subTest(asynchronous=asynchronous),
+                mock_machinery_time(10000) as now,
+            ):
+                cache.clear()
+                machine = DeepLTranslation({})
+                response = make_error_response(
+                    "https://api.deepl.com/v2/write/rephrase", 429
+                )
+                response.headers["Retry-After"] = "7"
+                error = HTTPError(
+                    "Throttled", request=response.request, response=response
+                )
+                with (
+                    patch.object(machine, "log_handled_error"),
+                    patch.object(
+                        machine,
+                        "_collect_rephrase_candidates",
+                        return_value=("de", [(0, "Hello", "Hallo")]),
+                    ),
+                    patch.object(
+                        machine, "download_rephrased_translations", side_effect=error
+                    ) as download,
+                    patch.object(
+                        machine, "adownload_rephrased_translations", side_effect=error
+                    ) as adownload,
+                ):
+                    if asynchronous:
+                        resolve = async_to_sync(machine._aappend_rephrase_suggestions)  # ruff: ignore[private-member-access]
+                        request = adownload
+                    else:
+                        resolve = machine._append_rephrase_suggestions  # ruff: ignore[private-member-access]
+                        request = download
+                    resolve([[]], [], "de")
+                    self.assertTrue(machine.is_rephrase_rate_limited())
+                    self.assertFalse(machine.is_rate_limited())
+                    resolve([[]], [], "de")
+                    request.assert_called_once()
+                    now.return_value += 7
+                    resolve([[]], [], "de")
+                    self.assertEqual(request.call_count, 2)
+
+
 class MachineTranslationErrorLoggingTest(SimpleTestCase):
+    def test_sanitize_machinery_error_keeps_status_and_provider_message(self) -> None:
+        message = (
+            "HTTPStatusError: Client error '429 Too Many Requests' for url "
+            "'https://admin:pass'word@example.com/api'endpoint?key=SECRET&de=admin%40example.com#token'"
+            ": Rate limit exceeded"
+        )
+        sanitized = sanitize_machinery_error(message)
+        self.assertIn("429 Too Many Requests", sanitized)
+        self.assertIn("Rate limit exceeded", sanitized)
+        self.assertIn("[redacted URL]", sanitized)
+        for secret in (
+            "pass'word",
+            "word@example.com",
+            "api'endpoint",
+            "SECRET",
+            "admin%40example.com",
+            "#token",
+        ):
+            self.assertNotIn(secret, sanitized)
+
+    def test_language_discovery_error_hides_request_url(self) -> None:
+        machine = YandexTranslation({"key": "SECRET"})
+        machine.__dict__["supported_languages"] = set()
+        response = make_error_response(
+            "https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=SECRET",
+            429,
+        )
+        with self.assertRaises(HTTPError) as raised:
+            response.raise_for_status()
+        machine.supported_languages_error = raised.exception
+        machine.supported_languages_error_age = float("inf")
+
+        with self.assertRaises(MachineTranslationError) as exposed:
+            machine.get_languages(Mock(code="en"), Mock(code="cs"))
+
+        self.assertIn("429 Too Many Requests", str(exposed.exception))
+        self.assertNotIn("SECRET", str(exposed.exception))
+        self.assertNotIn("key=", str(exposed.exception))
+
     def test_supplemental_log_output(self) -> None:
         for message, extra in (
             ("ValueError: Provider failed", None),
@@ -891,7 +1396,7 @@ class MachineTranslationErrorLoggingTest(SimpleTestCase):
             machine._handle_download_error(original.exception)  # ruff: ignore[private-member-access]
         message = "Quota exceeded. The character limit has been reached."
         self.assertEqual(str(raised.exception), message)
-        set_rate_limit.assert_called_once_with()
+        set_rate_limit.assert_called_once_with(machine.rate_limit_window)
         report_error.assert_called_once_with(
             "machinery[DeepL]: Could not fetch translations",
             exception=original.exception,
@@ -952,7 +1457,7 @@ class MachineTranslationErrorLoggingTest(SimpleTestCase):
             machine._handle_download_error(error)  # ruff: ignore[private-member-access]
         self.assertIs(raised.exception, error)
         extract.assert_not_called()
-        set_rate_limit.assert_called_once_with()
+        set_rate_limit.assert_called_once_with(machine.rate_limit_window)
         report_error.assert_called_once_with(
             "machinery[Dummy]: Could not fetch translations",
             exception=error,
@@ -961,6 +1466,53 @@ class MachineTranslationErrorLoggingTest(SimpleTestCase):
 
 
 class MachineTranslationCleanupTest(SimpleTestCase):
+    def test_many_placeholders_restore_in_one_pass(self) -> None:
+        machine = DummyTranslation({})
+        replacements = {
+            f"[X{index * 8}X]": f"{{name{index}}}" for index in range(20_000)
+        }
+        text = " ".join(replacements)
+        self.assertEqual(
+            machine.uncleanup_text(replacements, text), " ".join(replacements.values())
+        )
+
+    def test_unknown_and_spaced_placeholders(self) -> None:
+        machine = DummyTranslation({})
+        self.assertEqual(
+            machine.uncleanup_text(
+                {"[X0X]": "[X8X]", "[X8X]": "done"},
+                "[X0X ] [X8X] [X999X]",
+            ),
+            "[X8X] done [X999X]",
+        )
+
+    def test_cyrillic_placeholder_shape(self) -> None:
+        machine = CyrTranslitTranslation({})
+        self.assertEqual(
+            machine.uncleanup_text({"[___12___]": "%s"}, "[___12___ ]"), "%s"
+        )
+
+    def test_llm_spaced_placeholder_shape(self) -> None:
+        machine = BaseLLMTranslation({})
+        self.assertEqual(
+            machine.uncleanup_text({"@@PH12@@": "%s"}, "@@PH12@ @ @@PH999@@"),
+            "%s @@PH999@@",
+        )
+
+    def test_xml_placeholders_restore_in_one_pass(self) -> None:
+        machine = GoogleV3Translation({})
+        replacements = {
+            '<span translate="no" id="7">&lt;b&gt;</span>': "&lt;b&gt;",
+            '<br translate="no">': "\n",
+        }
+        self.assertEqual(
+            machine.uncleanup_text(
+                replacements,
+                '<span translate="no" id="7">&lt;b&gt;</span><br translate="no">',
+            ),
+            "<b>\n",
+        )
+
     def test_rst_reference_remains_placeholder(self) -> None:
         machine_translation = DummyTranslation({})
         unit = make_unit(
@@ -1362,6 +1914,8 @@ class MyMemoryTranslationTest(BaseMachineTranslationTest):
 
         self.assertIsInstance(raised.exception.__cause__, HTTPError)
         self.assertIn("403 Forbidden", str(raised.exception))
+        for secret in ("key=", "de=", "user=", "test%40weblate.org"):
+            self.assertNotIn(secret, str(raised.exception))
 
 
 class ApertiumAPYTranslationTest(BaseMachineTranslationTest):
@@ -1505,7 +2059,7 @@ class MicrosoftCognitiveTranslationTest(BaseMachineTranslationTest):
             self.assertFalse(form.is_valid())
 
         mocked_getaddrinfo.assert_called_once_with(
-            "api.cognitive.microsofttranslator.com", None, type=1
+            "api.cognitive.microsofttranslator.com", None, 0, 1, 0, 0
         )
         self.assertEqual(len(http_mock.calls), 0)
         self.assertIn("internal or non-public address", str(form.non_field_errors()))
@@ -2029,6 +2583,28 @@ class YandexTranslationTest(BaseMachineTranslationTest):
             "https://translate.yandex.net/api/v1.5/tr.json/translate",
             json={"code": 200, "lang": "en-cs", "text": ["svet"]},
         )
+
+    @http_mock.activate
+    def test_http_error_hides_key(self) -> None:
+        http_mock.register(
+            "GET",
+            "https://translate.yandex.net/api/v1.5/tr.json/getLangs",
+            json={"langs": {"en": "English", "cs": "Czech"}},
+        )
+        http_mock.register(
+            "GET",
+            "https://translate.yandex.net/api/v1.5/tr.json/translate",
+            status_code=429,
+            text="Rate limit exceeded.",
+        )
+
+        with self.assertRaises(MachineTranslationError) as raised:
+            self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, 0)
+
+        self.assertIn("429 Too Many Requests", str(raised.exception))
+        self.assertIn("Rate limit exceeded.", str(raised.exception))
+        self.assertNotIn("key=KEY", str(raised.exception))
+        self.assertNotIn("/tr.json/translate", str(raised.exception))
 
     @http_mock.activate
     def test_error_message(self) -> None:
@@ -5860,6 +6436,80 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         self.assertEqual(translation[cleaned_source][0]["text"], "Bonjour @@PH7@@!")
         self.assertEqual(label_languages, ["en", "en"])
 
+    def test_translate_sends_source_notes(self) -> None:
+        machine = self.get_machine()
+        unit = make_unit(code="fr", source="New", context="ActionNew")
+        unit.source_unit.note = "Button that creates a new examination type."
+        unit.note = "Stale comment copied into the translation file."
+        typed_unit = cast("Unit", unit)
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            item = json.loads(content)["strings"][0]
+            self.assertEqual(
+                item["notes"], "Button that creates a new examination type."
+            )
+            return json.dumps(["Nouveau"])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = machine.download_multiple_translations(
+                "en", "fr", [("New", typed_unit)]
+            )
+
+        self.assertEqual(translation["New"][0]["text"], "Nouveau")
+
+    def test_translate_falls_back_to_unit_notes(self) -> None:
+        machine = self.get_machine()
+        unit = make_unit(code="fr", source="New", context="ActionNew")
+        unit.note = "Button that creates a new examination type."
+        typed_unit = cast("Unit", unit)
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            item = json.loads(content)["strings"][0]
+            self.assertEqual(
+                item["notes"], "Button that creates a new examination type."
+            )
+            return json.dumps(["Nouveau"])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = machine.download_multiple_translations(
+                "en", "fr", [("New", typed_unit)]
+            )
+
+        self.assertEqual(translation["New"][0]["text"], "Nouveau")
+
+    def test_translate_omits_empty_notes(self) -> None:
+        machine = self.get_machine()
+        unit = make_unit(code="fr", source="New", context="ActionNew")
+        typed_unit = cast("Unit", unit)
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            self.assertNotIn("notes", json.loads(content)["strings"][0])
+            return json.dumps(["Nouveau"])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            machine.download_multiple_translations("en", "fr", [("New", typed_unit)])
+
     def test_translate_uses_neutral_previous_messages_without_czech(self) -> None:
         machine = self.get_machine()
         unit = make_unit(code="fr", source="Hello, world!")
@@ -8594,6 +9244,51 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         self.assertEqual(translation[0][0]["text"], "**Konfigurēt paziņojumus**:")
 
     @http_mock.activate
+    def test_translate_wraps_single_structured_reply(self) -> None:
+        self.mock_response('{"parts": [{"type": "text", "text": "Premier"}]}')
+
+        translation = self.get_machine().download_multiple_translations(
+            "en", "fr", [("One", None)]
+        )
+
+        self.assertEqual(translation["One"][0]["text"], "Premier")
+
+    @http_mock.activate
+    def test_translate_rejects_bare_structured_reply_for_multiple_sources(self) -> None:
+        self.mock_response('{"parts": [{"type": "text", "text": "Premier"}]}')
+
+        with self.assertRaisesMessage(
+            MachineTranslationError, "Mismatching assistant reply."
+        ):
+            self.get_machine().download_multiple_translations(
+                "en", "fr", [("One", None), ("Two", None)]
+            )
+
+    @http_mock.activate
+    def test_translate_rejects_bare_structured_reply_missing_placeholder(self) -> None:
+        self.mock_response('{"parts": [{"type": "text", "text": "Bonjour !"}]}')
+
+        with self.assertRaisesMessage(
+            MachineTranslationError, "Mismatching assistant reply."
+        ):
+            self.assert_translate(
+                "fr", "Hello, %s!", 1, unit_args={"flags": "python-format"}
+            )
+
+    @http_mock.activate
+    def test_translate_rejects_bare_structured_reply_with_metadata(self) -> None:
+        self.mock_response(
+            '{"parts": [{"type": "text", "text": "Premier"}], "diagnostic": "extra"}'
+        )
+
+        with self.assertRaisesMessage(
+            MachineTranslationError, "Mismatching assistant reply."
+        ):
+            self.get_machine().download_multiple_translations(
+                "en", "fr", [("One", None)]
+            )
+
+    @http_mock.activate
     def test_translate_drops_trailing_empty_extra_structured_reply(self) -> None:
         self.mock_response(
             json.dumps(
@@ -9893,6 +10588,37 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
             '["Hallo Welt"]',
         )
 
+    def test_batch_system_prompt_is_cached(self) -> None:
+        machine = self.get_machine()
+
+        payload = machine.get_chat_payload(
+            "claude-haiku-4-5", "system prompt", "source", "", ""
+        )
+
+        self.assertEqual(
+            payload["system"],
+            [
+                {
+                    "type": "text",
+                    "text": "system prompt",
+                    "cache_control": {"type": "ephemeral"},
+                }
+            ],
+        )
+
+    @http_mock.activate
+    def test_single_lookup_skips_prompt_cache(self) -> None:
+        self.mock_response()
+        machine = self.get_machine()
+
+        self.assert_translate(
+            self.SUPPORTED, self.SOURCE_BLANK, self.EXPECTED_LEN, machine=machine
+        )
+
+        payload = load_request_json(http_mock.calls[-1].request)
+        self.assertIsInstance(payload["system"], str)
+        self.assertTrue(machine.prompt_cache)
+
 
 class AnthropicCustomModelTranslationTest(AnthropicTranslationTest):
     CONFIGURATION: ClassVar[SettingsDict] = {
@@ -9928,10 +10654,106 @@ class AnthropicCustomModelTranslationTest(AnthropicTranslationTest):
 
 
 class WeblateTranslationTest(FixtureComponentTestCase):
+    def test_candidate_pages_keep_short_source_ranking(self) -> None:
+        unit = self.get_unit(language="cs")
+        candidates = Unit.objects.bulk_create(
+            [
+                Unit(
+                    translation=unit.translation,
+                    source_unit_id=unit.source_unit_id,
+                    source=source,
+                    target=source,
+                    state=STATE_TRANSLATED,
+                    id_hash=index,
+                    position=index,
+                )
+                for index, source in enumerate(["map", "apple", "app", "ap", "AP"])
+            ]
+        )
+        machine = WeblateTranslation({})
+        machine.candidate_limit = 2
+        matches = list(
+            machine.get_matching_units(
+                Unit.objects.filter(pk__in=[unit.pk for unit in candidates]), "ap", 75
+            )
+        )
+        self.assertEqual(
+            [unit.pk for unit in matches],
+            [candidates[index].pk for index in (3, 4, 2, 1, 0)],
+        )
+
+    def test_candidate_pages_continue_after_rejected_long_sources(self) -> None:
+        unit = self.get_unit(language="cs")
+        text = (
+            "<p>"
+            + "".join(
+                f"Template message {index} for the customer. " for index in range(60)
+            )[:1739]
+            + "</p>"
+        )
+        candidates = Unit.objects.bulk_create(
+            [
+                Unit(
+                    translation=unit.translation,
+                    source_unit_id=unit.source_unit_id,
+                    source=source,
+                    target=f"Translation {index}",
+                    flags=flags,
+                    state=STATE_TRANSLATED,
+                    id_hash=index,
+                    position=index,
+                )
+                for index, (source, flags) in enumerate(
+                    [
+                        (text.upper(), ""),
+                        (text, "forbidden"),
+                        (text, ""),
+                        (text.replace("customer", "customers", 1), ""),
+                        (text.replace("customer", "customers", 1), ""),
+                    ]
+                )
+            ]
+        )
+        machine = WeblateTranslation({})
+        machine.candidate_limit = 2
+        with CaptureQueriesContext(connection) as queries:
+            results = list(
+                machine.download_translations(
+                    unit.translation.component.source_language,
+                    unit.translation.language,
+                    text,
+                    unit=None,
+                    user=self.user,
+                    threshold=75,
+                )
+            )
+        self.assertEqual(
+            [result["text"] for result in results],
+            [candidates[index].target for index in (2, 3)],
+        )
+        candidate_queries = [
+            query["sql"] for query in queries if "UNION ALL" in query["sql"]
+        ]
+        self.assertEqual(len(candidate_queries), 2)
+        for sql in candidate_queries:
+            self.assertIn("LIMIT 2", sql)
+            self.assertNotIn("OFFSET", sql)
+            self.assertNotIn("WORD_SIMILARITY", sql)
+            self.assertNotIn("%>", sql)
+        # Continue through a nonintegral similarity rank shared across pages.
+        matches = list(
+            machine.get_matching_units(
+                Unit.objects.filter(pk__in=[unit.pk for unit in candidates]), text, 75
+            )
+        )
+        self.assertEqual(
+            [unit.pk for unit in matches], [unit.pk for unit in candidates]
+        )
+
     def test_regular_source_query_keeps_indexed_lookup(self) -> None:
         unit = self.get_unit(language="cs")
         machine = WeblateTranslation({})
-        base = machine.get_base_queryset(
+        base, _translations = machine.get_search_querysets(
             self.user,
             unit.translation.component.source_language,
             unit.translation.language,
@@ -10311,6 +11133,70 @@ class ViewsTest(FixtureTestCase):
         "to a third-party provider."
     )
 
+    def test_translate_rate_limit(self) -> None:
+        from weblate.utils.ratelimit import reset_rate_limit  # ruff: ignore[import-outside-top-level]
+
+        # Restore overrides in the same cleanup order as ensure_dummy_mt().
+        self.enterContext(override_settings(RATELIMIT_MACHINERY_ATTEMPTS=1))
+        reset_rate_limit("machinery", user=self.user)
+        self.addCleanup(reset_rate_limit, "machinery", user=self.user)
+        self.ensure_dummy_mt()
+        unit = self.get_unit()
+        url = reverse("js-translate", kwargs={"unit_id": unit.pk, "service": "dummy"})
+        self.assertEqual(self.client.post(url).status_code, 200)
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, 429)
+        data = response.json()
+        self.assertEqual(data["service"], DummyTranslation.name)
+        self.assertEqual(data["responseStatus"], 429)
+        self.assertEqual(data["responseDetails"], "Too many translation requests.")
+
+    def test_translate_concurrency_is_per_installation(self) -> None:
+        from weblate.machinery.admission import machinery_slot  # ruff: ignore[import-outside-top-level]
+
+        self.ensure_dummy_mt()
+        installation = MachineryInstallation.objects.get(engine="dummy")
+        self.enterContext(
+            patch.object(DummyTranslation, "settings_form", BaseMachineryForm)
+        )
+        other = MachineryInstallation.objects.create(engine="dummy", slug="other")
+        unit = self.get_unit()
+        self.async_client.force_login(self.user)
+
+        async def request() -> None:
+            async with (
+                machinery_slot(self.user.pk, installation.pk) as first,
+                machinery_slot(self.user.pk, installation.pk) as second,
+            ):
+                self.assertTrue(first)
+                self.assertTrue(second)
+                response = await self.async_client.post(
+                    reverse(
+                        "js-translate",
+                        kwargs={"unit_id": unit.pk, "service": installation.selector},
+                    )
+                )
+                self.assertEqual(response.status_code, 429)
+                data = response.json()
+                self.assertEqual(data["service"], DummyTranslation.name)
+                self.assertEqual(data["responseStatus"], 429)
+                self.assertEqual(
+                    data["responseDetails"],
+                    "Too many concurrent translation requests for this service.",
+                )
+                response = await self.async_client.post(
+                    reverse(
+                        "js-translate",
+                        kwargs={"unit_id": unit.pk, "service": other.selector},
+                    )
+                )
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(
+                    response.json()["responseStatus"], 200, response.json()
+                )
+
+        async_to_sync(request)()
+
     def ensure_dummy_mt(self):
         """Ensure we have dummy mt installed."""
         machinery_override = override_settings(
@@ -10379,11 +11265,95 @@ class ViewsTest(FixtureTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["responseStatus"], 200)
 
+    def assert_weblate_suggestions_respect_access(self, protected: Component) -> None:
+        public_unit = self.get_unit()
+        protected_unit = protected.translation_set.get(language_code="cs").unit_set.get(
+            source=public_unit.source
+        )
+        secret = "Protected translation for automatic suggestions"
+        Unit.objects.filter(pk=protected_unit.pk).update(
+            target=secret, state=STATE_TRANSLATED
+        )
+        access_group = Group.objects.create(name="Protected suggestion access")
+        access_group.roles.add(Role.objects.get(name="Translate"))
+        access_group.components.add(protected)
+        self.user.groups.add(access_group)
+        self.anotheruser.groups.add(Group.objects.get(name="Users"))
+        self.user.clear_permissions_cache()
+        self.anotheruser.clear_permissions_cache()
+        self.assertTrue(self.user.can_access_component(protected))
+        self.assertTrue(self.anotheruser.can_access_component(self.component))
+        self.assertFalse(self.anotheruser.can_access_component(protected))
+        machine = WeblateTranslation({})
+        base, _translations = machine.get_search_querysets(
+            self.user, self.component.source_language, public_unit.translation.language
+        )
+        self.assertIn(protected_unit.pk, base.values_list("pk", flat=True))
+
+        async def download_in_test_transaction(
+            service, source_language, target_language, text, unit, user, threshold
+        ):
+            return await sync_to_async(
+                lambda: list(
+                    service.download_translations(
+                        source_language, target_language, text, unit, user, threshold
+                    )
+                )
+            )()
+
+        installation, _ = MachineryInstallation.objects.get_or_create(engine="weblate")
+        url = reverse(
+            "js-translate",
+            kwargs={"unit_id": public_unit.pk, "service": installation.selector},
+        )
+        with patch.object(
+            WeblateTranslation, "adownload_translations", download_in_test_transaction
+        ):
+            self.client.force_login(self.user)
+            member_response = self.client.post(url)
+            self.client.force_login(self.anotheruser)
+            outsider_response = self.client.post(url)
+
+        self.assertEqual(member_response.status_code, 200)
+        self.assertEqual(member_response.json()["responseStatus"], 200)
+        member_results = member_response.json()["translations"]
+        self.assertTrue(
+            any(
+                item["text"] == secret
+                and item["origin"] == str(protected)
+                and item["origin_url"] == protected_unit.get_absolute_url()
+                for item in member_results
+            ),
+            member_results,
+        )
+
+        self.assertEqual(outsider_response.status_code, 200)
+        self.assertEqual(outsider_response.json()["responseStatus"], 200)
+        outsider_results = outsider_response.json()["translations"]
+        outsider_data = json.dumps(outsider_results)
+        self.assertNotIn(secret, outsider_data)
+        self.assertNotIn(str(protected), outsider_data)
+        self.assertNotIn(protected_unit.get_absolute_url(), outsider_data)
+
+    def test_weblate_suggestions_do_not_leak_private_project(self) -> None:
+        private = Project.objects.create(
+            name="Private suggestions",
+            slug="private-suggestions",
+            web="https://example.com/",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        protected = self.create_po(project=private, name="Private source")
+        self.assert_weblate_suggestions_respect_access(protected)
+
+    def test_weblate_suggestions_do_not_leak_restricted_component(self) -> None:
+        protected = self.create_po(name="Restricted source", restricted=True)
+        self.assert_weblate_suggestions_respect_access(protected)
+
     def test_translate_asgi_reports_original_exception(self) -> None:
         self.ensure_dummy_mt()
         unit = self.get_unit()
         project = unit.translation.component.project
-        error = ValueError("Provider failed")
+        error = ValueError("Provider failed with key=SECRET")
         self.async_client.force_login(self.user)
 
         with (
@@ -10403,11 +11373,73 @@ class ViewsTest(FixtureTestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["responseStatus"], 500)
+        self.assertEqual(
+            response.json()["responseDetails"], "Service is currently not available."
+        )
+        self.assertNotIn("SECRET", response.content.decode())
         report_error.assert_called_once_with(
             "Machinery failed",
             project=project,
             exception=error,
         )
+
+    def test_translate_hides_error_request_url(self) -> None:
+        self.ensure_dummy_mt()
+        unit = self.get_unit()
+        error = MachineTranslationError(
+            "HTTPStatusError: 429 Too Many Requests for url "
+            "'https://admin:pass'word@example.com/translate?key=SECRET'"
+        )
+
+        with (
+            patch.object(
+                DummyTranslation, "atranslate", new=AsyncMock(side_effect=error)
+            ),
+            patch.object(unit.translation.__class__, "log_info") as log_info,
+        ):
+            response = self.client.post(
+                reverse("js-translate", kwargs={"unit_id": unit.id, "service": "dummy"})
+            )
+
+        data = response.json()
+        self.assertEqual(data["responseStatus"], 500)
+        self.assertIn("429 Too Many Requests", data["responseDetails"])
+        self.assertNotIn("SECRET", data["responseDetails"])
+        self.assertNotIn("key=", data["responseDetails"])
+        self.assertNotIn("word@example.com", data["responseDetails"])
+        log_info.assert_called_once()
+        self.assertNotIn("SECRET", str(log_info.call_args))
+        self.assertNotIn("word@example.com", str(log_info.call_args))
+
+    def test_memory_hides_error_request_url(self) -> None:
+        unit = self.get_unit()
+        MachineryInstallation.objects.get_or_create(
+            engine=WeblateMemory.get_identifier(),
+            project=None,
+            workspace=None,
+        )
+        error = MachineTranslationError(
+            "HTTPStatusError: 429 Too Many Requests for url "
+            "'https://example.com/search'path?key=SECRET'"
+        )
+
+        with (
+            patch.object(WeblateMemory, "search", side_effect=error),
+            patch.object(unit.translation.__class__, "log_info") as log_info,
+        ):
+            response = self.client.post(
+                reverse("js-memory", kwargs={"unit_id": unit.id}), {"q": "Hello"}
+            )
+
+        data = response.json()
+        self.assertEqual(data["responseStatus"], 500)
+        self.assertIn("429 Too Many Requests", data["responseDetails"])
+        self.assertNotIn("SECRET", data["responseDetails"])
+        self.assertNotIn("key=", data["responseDetails"])
+        self.assertNotIn("path?key", data["responseDetails"])
+        log_info.assert_called_once()
+        self.assertNotIn("SECRET", str(log_info.call_args))
+        self.assertNotIn("path?key", str(log_info.call_args))
 
     def test_translate_escapes_html(self) -> None:
         self.ensure_dummy_mt()
@@ -10568,7 +11600,7 @@ class ViewsTest(FixtureTestCase):
             engine=service.get_identifier()
         )
         existing_url = reverse(
-            "machinery-edit", kwargs={"machinery": installation.selector}
+            "machinery-edit", kwargs={"machinery": str(installation.pk)}
         )
         self.client.post(existing_url, {"delete": "1"})
         self.assertFalse(
@@ -10689,7 +11721,7 @@ class ViewsTest(FixtureTestCase):
         )
         inherited_url = reverse(
             "machinery-edit",
-            kwargs={"project": self.project.slug, "machinery": installation.selector},
+            kwargs={"project": self.project.slug, "machinery": str(installation.pk)},
         )
         self.client.post(inherited_url, {"delete": "1"})
         self.assertTrue(
@@ -10706,7 +11738,7 @@ class ViewsTest(FixtureTestCase):
             self.client.post(inherited_url, {"enable": "1"})
             response = self.client.post(inherited_url, {"enable": "1"})
         delete_service.assert_not_called()
-        self.assertRedirects(response, list_url)
+        self.assertRedirects(response, inherited_url)
         self.assertTrue(
             MachineryInstallation.objects.filter(pk=installation.pk).exists()
         )
@@ -10723,9 +11755,7 @@ class ViewsTest(FixtureTestCase):
         identifier = "nonexisting"
         installation = MachineryInstallation.objects.create(engine=identifier)
         list_url = reverse("manage-machinery")
-        edit_url = reverse(
-            "machinery-edit", kwargs={"machinery": installation.selector}
-        )
+        edit_url = reverse("machinery-edit", kwargs={"machinery": str(installation.pk)})
         response = self.client.get(list_url)
         self.assertContains(response, edit_url)
 
@@ -10764,14 +11794,14 @@ class ViewsTest(FixtureTestCase):
                 )
                 url = reverse(
                     "machinery-edit",
-                    kwargs={**kwargs, "machinery": installation.selector},
+                    kwargs={**kwargs, "machinery": str(installation.pk)},
                 )
                 self.assertEqual(self.client.post(url, {"pause": "1"}).status_code, 302)
                 installation.refresh_from_db()
                 self.assertFalse(installation.enabled)
                 self.assertEqual(installation.configuration, {"key": "saved"})
                 url = reverse(
-                    "machinery-edit", kwargs={**kwargs, "machinery": inherited.selector}
+                    "machinery-edit", kwargs={**kwargs, "machinery": str(inherited.pk)}
                 )
                 self.assertEqual(
                     self.client.post(url, {"exclude_engine": "1"}).status_code, 302
@@ -10793,7 +11823,7 @@ class ViewsTest(FixtureTestCase):
         self.make_manager()
         url = reverse(
             "machinery-edit",
-            kwargs={"project": self.project.slug, "machinery": installation.selector},
+            kwargs={"project": self.project.slug, "machinery": str(installation.pk)},
         )
         self.client.post(url, {"exclude_engine": "1"})
         self.assertTrue(
@@ -10815,7 +11845,7 @@ class ViewsTest(FixtureTestCase):
         MachineryExclusion.objects.create(project=self.project, engine="openai")
         url = reverse(
             "machinery-edit",
-            kwargs={"project": self.project.slug, "machinery": first.selector},
+            kwargs={"project": self.project.slug, "machinery": str(first.pk)},
         )
         self.assertEqual(self.client.post(url, {"enable": "1"}).status_code, 302)
         self.assertFalse(
@@ -10839,7 +11869,7 @@ class ViewsTest(FixtureTestCase):
         MachineryExclusion.objects.create(workspace=workspace, engine="openai")
         url = reverse(
             "machinery-edit",
-            kwargs={"workspace": workspace.pk, "machinery": second.selector},
+            kwargs={"workspace": workspace.pk, "machinery": str(second.pk)},
         )
         self.assertEqual(self.client.post(url, {"enable": "1"}).status_code, 302)
         self.assertFalse(
@@ -10871,98 +11901,488 @@ class ViewsTest(FixtureTestCase):
         )
         url = reverse(
             "machinery-edit",
-            kwargs={"project": self.project.slug, "machinery": installation.selector},
+            kwargs={"project": self.project.slug, "machinery": str(installation.pk)},
         )
         self.assertEqual(self.client.get(url).status_code, 404)
         self.assertEqual(self.client.post(url, {"delete": "1"}).status_code, 404)
+        self.assertEqual(
+            self.client.post(url, {"reset_rate_limit": "1"}).status_code, 404
+        )
+
+    def test_machinery_rate_limit_reset(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        workspace = Workspace.objects.create(name="Rate limit workspace")
+        for scope, kwargs, list_url in (
+            ({}, {}, reverse("manage-machinery")),
+            (
+                {"workspace": workspace},
+                {"workspace": workspace.pk},
+                reverse("workspace-machinery", kwargs={"workspace": workspace.pk}),
+            ),
+            (
+                {"project": self.project},
+                {"project": self.project.slug},
+                reverse("machinery-list", kwargs={"project": self.project.slug}),
+            ),
+        ):
+            with self.subTest(scope=scope):
+                installation = MachineryInstallation.objects.create(
+                    engine="deepl", **scope
+                )
+                sibling = MachineryInstallation.objects.create(engine="deepl", **scope)
+                machine = DeepLTranslation({"_installation_id": installation.pk})
+                other = DeepLTranslation({"_installation_id": sibling.pk})
+                self.addCleanup(machine.delete_cache)
+                self.addCleanup(other.delete_cache)
+                url = reverse(
+                    "machinery-edit",
+                    kwargs={**kwargs, "machinery": str(installation.pk)},
+                )
+                self.assertNotContains(self.client.get(url), 'name="reset_rate_limit"')
+                cache.set(machine.languages_cache, {"en", "cs"})
+                translation_key = machine.get_cache_key("test-translation")
+                rephrase_key = machine.get_rephrase_cache_version_key()
+                self.addCleanup(cache.delete_many, [translation_key, rephrase_key])
+                cache.set(translation_key, "cached suggestion")
+                cache.set(rephrase_key, 5)
+                other.set_rate_limit()
+                for cooldown in (
+                    machine.set_rate_limit,
+                    machine.set_rephrase_rate_limit,
+                ):
+                    cooldown()
+                    self.assertContains(self.client.get(list_url), "Rate limited")
+                    self.assertContains(self.client.get(url), 'name="reset_rate_limit"')
+                    response = self.client.post(url, {"reset_rate_limit": "1"})
+                    self.assertRedirects(response, url)
+                    self.assertFalse(machine.is_rate_limited())
+                    self.assertFalse(machine.is_rephrase_rate_limited())
+                    self.assertTrue(other.is_rate_limited())
+                    self.assertEqual(cache.get(machine.languages_cache), {"en", "cs"})
+                    self.assertEqual(cache.get(translation_key), "cached suggestion")
+                    self.assertEqual(cache.get(rephrase_key), 5)
+                    self.assertNotContains(
+                        self.client.get(url), 'name="reset_rate_limit"'
+                    )
+                self.assertRedirects(
+                    self.client.post(url, {"reset_rate_limit": "1"}), url
+                )
+
+    def test_inherited_rate_limit_is_read_only(self) -> None:
+        self.make_manager()
+        workspace = Workspace.objects.create(name="Inherited rate limit workspace")
+        workspace.add_owner(self.user)
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        for scope in ({}, {"workspace": workspace}):
+            installation = MachineryInstallation.objects.create(
+                engine="openai", configuration={"key": "inherited-secret"}, **scope
+            )
+            machine = OpenAITranslation({"_installation_id": installation.pk})
+            machine.set_rate_limit()
+            self.addCleanup(machine.delete_cache)
+            contexts: list[dict[str, Any]] = [{"project": self.project.slug}]
+            if not scope:
+                contexts.append({"workspace": workspace.pk})
+            for kwargs in contexts:
+                with self.subTest(scope=scope, context=kwargs):
+                    url = reverse(
+                        "machinery-edit",
+                        kwargs={**kwargs, "machinery": str(installation.pk)},
+                    )
+                    response = self.client.get(url)
+                    self.assertContains(
+                        response, "Requests to this service are temporarily paused"
+                    )
+                    self.assertNotContains(response, "inherited-secret")
+                    self.assertNotContains(response, 'name="reset_rate_limit"')
+                    self.assertIsNone(response.context["form"])
+                    self.assertEqual(
+                        self.client.post(url, {"reset_rate_limit": "1"}).status_code,
+                        403,
+                    )
+                    self.assertEqual(
+                        self.client.post(url, {"key": "new"}).status_code, 403
+                    )
+                    self.assertTrue(machine.is_rate_limited())
+                    installation.refresh_from_db()
+                    self.assertEqual(
+                        installation.configuration, {"key": "inherited-secret"}
+                    )
+
+    def test_rate_limit_reset_requires_management_permission_and_csrf(self) -> None:
+        installation = MachineryInstallation.objects.create(
+            engine="openai", project=self.project
+        )
+        machine = OpenAITranslation({"_installation_id": installation.pk})
+        machine.set_rate_limit()
+        self.addCleanup(machine.delete_cache)
+        url = reverse(
+            "machinery-edit",
+            kwargs={"project": self.project.slug, "machinery": str(installation.pk)},
+        )
+        self.assertEqual(
+            self.client.post(url, {"reset_rate_limit": "1"}).status_code, 403
+        )
+        self.make_manager()
+        client = Client(enforce_csrf_checks=True)
+        client.force_login(self.user)
+        self.assertEqual(client.post(url, {"reset_rate_limit": "1"}).status_code, 403)
+        self.assertTrue(machine.is_rate_limited())
+
+    def test_machinery_listing_and_detail_controls(self) -> None:
+        service = self.ensure_dummy_mt()
+        installation = MachineryInstallation.objects.get(
+            engine=service.get_identifier()
+        )
+        self.user.is_superuser = True
+        self.user.save()
+        response = self.client.get(reverse("manage-machinery"))
+        self.assertContains(
+            response,
+            reverse("machinery-edit", kwargs={"machinery": str(installation.pk)}),
+        )
+        for action in ("pause", "enable", "delete", "exclude_engine", "install"):
+            self.assertNotContains(response, f'name="{action}"')
+        url = reverse("machinery-edit", kwargs={"machinery": str(installation.pk)})
+        self.assertContains(self.client.get(url), 'name="pause"')
+        self.assertRedirects(self.client.post(url, {"pause": "1"}), url)
+        self.assertContains(self.client.get(url), 'name="enable"')
+        self.assertRedirects(self.client.post(url, {"enable": "1"}), url)
+        self.assertRedirects(
+            self.client.post(url, {"delete": "1"}), reverse("manage-machinery")
+        )
+        available_url = reverse(
+            "machinery-edit", kwargs={"machinery": service.get_identifier()}
+        )
+        self.assertContains(self.client.get(available_url), 'name="install"')
+        response = self.client.post(available_url, {"install": "1"})
+        installation = MachineryInstallation.objects.get(
+            engine=service.get_identifier()
+        )
+        self.assertRedirects(
+            response,
+            reverse("machinery-edit", kwargs={"machinery": str(installation.pk)}),
+        )
+
+    def test_machinery_configuration_summaries(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        workspace = Workspace.objects.create(name="Summary workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        installation = MachineryInstallation.objects.create(
+            engine="openai",
+            slug="custom-model",
+            configuration={
+                "model": "custom",
+                "custom_model": "summary-model",
+                "source_language": "secondary",
+                "key": "secret-api-key",
+                "base_url": "https://user:password@example.com/?key=secret-url-key",
+                "persona": "private-persona",
+                "style": "private-style",
+                "unknown_setting": "private-unknown-setting",
+            },
+        )
+        MachineryInstallation.objects.create(
+            engine=GoogleV3Translation.get_identifier(),
+            configuration={"credentials": "private-credentials"},
+        )
+        MachineryInstallation.objects.create(
+            engine="aws",
+            configuration={
+                "key": "private-key",
+                "secret": "private-secret",
+                "region": "eu-central-1",
+            },
+        )
+        MachineryInstallation.objects.create(
+            engine=SAPTranslationHub.get_identifier(),
+            configuration={
+                "username": "private-username",
+                "password": "private-password",
+            },
+        )
+        MachineryInstallation.objects.create(
+            engine="mymemory",
+            configuration={
+                "email": "private-email",
+                "username": "private-username",
+                "key": "private-key",
+            },
+        )
+        MachineryInstallation.objects.create(
+            engine="deepl",
+            configuration={
+                "formality": "prefer_more",
+                "next_gen": True,
+                "context": "private-context",
+            },
+        )
+        for url in (
+            reverse("manage-machinery"),
+            reverse("workspace-machinery", kwargs={"workspace": workspace.pk}),
+            reverse("machinery-list", kwargs={"project": self.project.slug}),
+        ):
+            with (
+                self.subTest(url=url),
+                patch.object(BatchMachineTranslation, "validate_settings") as validate,
+            ):
+                response = self.client.get(url)
+                self.assertContains(
+                    response,
+                    f'<span class="format-item">ID <span>{installation.pk}</span></span>',
+                    html=True,
+                )
+                self.assertContains(
+                    response,
+                    '<span class="format-item">Slug <span>custom-model</span></span>',
+                    html=True,
+                )
+                self.assertContains(response, "summary-model")
+                self.assertContains(
+                    response, "Secondary language defined in project or component"
+                )
+                self.assertContains(response, "eu-central-1")
+                self.assertContains(
+                    response,
+                    '<span class="format-item">Formality <span>Formal</span></span>',
+                    html=True,
+                )
+                self.assertContains(
+                    response,
+                    '<span class="format-item">Use next-gen model <span>enabled</span></span>',
+                    html=True,
+                )
+                for secret in (
+                    "secret-api-key",
+                    "secret-url-key",
+                    "example.com/?key=",
+                    "private-persona",
+                    "private-style",
+                    "private-unknown-setting",
+                    "private-credentials",
+                    "private-key",
+                    "private-secret",
+                    "private-password",
+                    "private-username",
+                    "private-email",
+                    "private-context",
+                ):
+                    self.assertNotContains(response, secret)
+                validate.assert_not_called()
+
+    def test_machinery_summary_escapes_values(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        MachineryInstallation.objects.create(
+            engine="openai",
+            configuration={
+                "model": "custom",
+                "custom_model": '<script>alert("model")</script>',
+            },
+        )
+        response = self.client.get(reverse("manage-machinery"))
+        self.assertContains(response, "&lt;script&gt;")
+        self.assertNotContains(response, '<script>alert("model")</script>')
+
+    @patch.object(DeepLTranslation, "validate_settings")
+    def test_machinery_settings_save_stays_on_detail(self, validate: Mock) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        workspace = Workspace.objects.create(name="Settings workspace")
+        for scope, kwargs in (
+            ({}, {}),
+            ({"workspace": workspace}, {"workspace": workspace.pk}),
+            ({"project": self.project}, {"project": self.project.slug}),
+        ):
+            with self.subTest(scope=scope):
+                url = reverse("machinery-edit", kwargs={**kwargs, "machinery": "deepl"})
+                response = self.client.post(
+                    url,
+                    {
+                        "key": "saved-secret",
+                        "url": "https://api.deepl.com/",
+                        "slug": f"saved-{next(iter(kwargs), 'site')}",
+                    },
+                )
+                installation = MachineryInstallation.objects.get(
+                    engine="deepl", slug=f"saved-{next(iter(kwargs), 'site')}", **scope
+                )
+                detail_url = reverse(
+                    "machinery-edit",
+                    kwargs={**kwargs, "machinery": str(installation.pk)},
+                )
+                self.assertRedirects(response, detail_url)
+                response = self.client.post(
+                    detail_url,
+                    {
+                        "key": "updated-secret",
+                        "url": "https://api.deepl.com/",
+                        "slug": f"updated-{next(iter(kwargs), 'site')}",
+                    },
+                )
+                self.assertRedirects(response, detail_url)
+                installation.refresh_from_db()
+                self.assertEqual(
+                    installation.slug, f"updated-{next(iter(kwargs), 'site')}"
+                )
+                self.assertEqual(installation.configuration["key"], "updated-secret")
+        self.assertEqual(validate.call_count, 6)
+
+    def test_machinery_detail_uses_numeric_url(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        workspace = Workspace.objects.create(name="Numeric URL workspace")
+        for scope, kwargs in (
+            ({}, {}),
+            ({"workspace": workspace}, {"workspace": workspace.pk}),
+            ({"project": self.project}, {"project": self.project.slug}),
+        ):
+            with self.subTest(scope=scope):
+                installation = MachineryInstallation.objects.create(
+                    engine="openai", **scope
+                )
+                url = reverse(
+                    "machinery-edit",
+                    kwargs={**kwargs, "machinery": str(installation.pk)},
+                )
+                response = self.client.get(url)
+                self.assertContains(
+                    self.client.get(
+                        reverse("manage-machinery")
+                        if not kwargs
+                        else reverse(
+                            "workspace-machinery"
+                            if "workspace" in kwargs
+                            else "machinery-list",
+                            kwargs=kwargs,
+                        )
+                    ),
+                    url,
+                )
+                self.assertEqual(response.context["installation"], installation)
+                self.assertEqual(response.context["service"].get_absolute_url(), url)
+                old_url = reverse(
+                    "machinery-edit",
+                    kwargs={**kwargs, "machinery": installation.selector},
+                )
+                self.assertEqual(self.client.get(old_url).status_code, 404)
+
+    def test_machinery_detail_explains_controls_and_selectors(self) -> None:
+        workspace = Workspace.objects.create(name="Control workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        self.make_manager()
+        installation = MachineryInstallation.objects.create(
+            engine="openai", slug="my-service"
+        )
+        url = reverse(
+            "machinery-edit",
+            kwargs={"project": self.project.slug, "machinery": str(installation.pk)},
+        )
+        response = self.client.get(url)
+        self.assertContains(response, "Disable installation")
+        self.assertContains(response, "Exclude inherited service")
+        self.assertContains(response, "including installations added later")
+        self.assertContains(response, 'aria-describedby="disable-description"')
+        self.assertContains(response, 'aria-describedby="exclude-description"')
+        self.assertContains(response, 'class="row g-3 mt-4 pt-4 border-top"')
+        self.assertNotContains(response, 'class="format-item"')
+        self.assertNotContains(response, 'class="badge float-end')
+        self.assertContains(
+            response, f'<code>engines: ["{installation.selector}"]</code>', html=True
+        )
+        self.assertContains(
+            response, '<code>engines: ["openai:my-service"]</code>', html=True
+        )
+        self.assertContains(response, f'data-clipboard-value="{installation.selector}"')
+        self.assertContains(response, 'data-clipboard-value="openai:my-service"')
+        content = response.content.decode()
+        self.assertLess(
+            content.index(self.THIRD_PARTY_WARNING), content.index("Inherited service")
+        )
+        self.assertNotContains(response, "Manage this installation")
+        self.assertIsNone(response.context["management_url"])
+        self.assertRedirects(self.client.post(url, {"delete": "1"}), url)
+        response = self.client.get(url)
+        self.assertContains(response, "Enable installation")
+        self.assertContains(response, "Other excluded installations remain excluded")
+
+    def test_machinery_detail_links_to_permitted_installation_scope(self) -> None:
+        self.make_manager()
+        workspace = Workspace.objects.create(name="Management link workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        for scope in ({}, {"workspace": workspace}):
+            installation = MachineryInstallation.objects.create(
+                engine="openai", **scope
+            )
+            url = reverse(
+                "machinery-edit",
+                kwargs={
+                    "project": self.project.slug,
+                    "machinery": str(installation.pk),
+                },
+            )
+            response = self.client.get(url)
+            self.assertIsNone(response.context["management_url"])
+            self.assertNotContains(response, "Manage this installation")
+            if scope:
+                workspace.add_owner(self.user)
+                owner_kwargs = {"workspace": workspace.pk}
+            else:
+                self.user.is_superuser = True
+                self.user.save()
+                owner_kwargs = {}
+            owner_url = reverse(
+                "machinery-edit",
+                kwargs={**owner_kwargs, "machinery": str(installation.pk)},
+            )
+            response = self.client.get(url)
+            self.assertEqual(response.context["management_url"], owner_url)
+            self.assertContains(
+                response,
+                f'<a class="btn btn-primary" href="{owner_url}">Manage this installation</a>',
+                html=True,
+            )
+            self.assertEqual(self.client.get(owner_url).status_code, 200)
+            self.user.is_superuser = False
+            self.user.save()
+
+    def test_machinery_warning_precedes_settings_form(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        installation = MachineryInstallation.objects.create(engine="openai")
+        response = self.client.get(
+            reverse("machinery-edit", kwargs={"machinery": str(installation.pk)})
+        )
+        content = response.content.decode()
+        self.assertLess(
+            content.index(self.THIRD_PARTY_WARNING),
+            content.index('<form method="post">'),
+        )
+
+    def test_unavailable_machinery_detail(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        installation = MachineryInstallation.objects.create(engine="removed-service")
+        url = reverse("machinery-edit", kwargs={"machinery": str(installation.pk)})
+        response = self.client.get(url)
+        self.assertContains(response, "Service is no longer available")
+        self.assertContains(response, 'name="delete"')
+        self.assertIsNone(response.context["form"])
+        self.assertEqual(
+            self.client.get(
+                reverse("machinery-edit", kwargs={"machinery": "removed-service"})
+            ).status_code,
+            404,
+        )
 
 
 class WeblateTranslationLookupTest(SimpleTestCase):
-    @patch("weblate.machinery.weblatetm.adjust_similarity_threshold")
-    def test_get_matching_units_uses_fuzzy_lookup(self, adjust_threshold: Mock) -> None:
-        machine = WeblateTranslation({})
-        base = MagicMock()
-        queryset = MagicMock()
-        annotated_queryset = MagicMock()
-        ordered_queryset = MagicMock()
-        prepared_queryset = MagicMock()
-        fuzzy_match = MagicMock(pk=1)
-        base.filter.return_value = queryset
-        queryset.annotate.return_value = annotated_queryset
-        annotated_queryset.order_by.return_value = ordered_queryset
-        prepared_queryset.iterator.return_value = [fuzzy_match]
-
-        with patch.object(
-            machine, "prepare_queryset", return_value=prepared_queryset
-        ) as prepare_queryset:
-            results = machine.get_matching_units(base, "Hello", 75)
-
-        self.assertEqual(results, [fuzzy_match])
-        base.filter.assert_called_once()
-        queryset.annotate.assert_called_once()
-        annotated_queryset.order_by.assert_called_once_with("-match_similarity", "pk")
-        prepare_queryset.assert_called_once_with(ordered_queryset)
-        prepared_queryset.iterator.assert_called_once_with(
-            chunk_size=machine.candidate_limit
-        )
-        adjust_threshold.assert_called_once_with(0.98)
-
-    @patch("weblate.machinery.weblatetm.adjust_similarity_threshold")
-    def test_get_matching_units_orders_short_queries_before_slicing(
-        self, adjust_threshold: Mock
-    ) -> None:
-        machine = WeblateTranslation({})
-        base = MagicMock()
-        short_queryset = MagicMock()
-        prepared_queryset = MagicMock()
-        fuzzy_match = MagicMock(pk=1)
-        prepared_queryset.iterator.return_value = [fuzzy_match]
-
-        with (
-            patch.object(
-                machine, "get_short_query_matches", return_value=short_queryset
-            ) as get_short_query_matches,
-            patch.object(
-                machine, "prepare_queryset", return_value=prepared_queryset
-            ) as prepare_queryset,
-        ):
-            results = machine.get_matching_units(base, "id", 75)
-
-        self.assertEqual(results, [fuzzy_match])
-        get_short_query_matches.assert_called_once_with(base, "id")
-        prepare_queryset.assert_called_once_with(short_queryset)
-        prepared_queryset.iterator.assert_called_once_with(
-            chunk_size=machine.candidate_limit
-        )
-        adjust_threshold.assert_called_once_with(0.98)
-
-    @patch("weblate.machinery.weblatetm.adjust_similarity_threshold")
-    def test_get_matching_units_uses_exact_lookup_at_full_threshold(
-        self, adjust_threshold: Mock
-    ) -> None:
-        machine = WeblateTranslation({})
-        base = MagicMock()
-        queryset = MagicMock()
-        ordered_queryset = MagicMock()
-        prepared_queryset = MagicMock()
-        exact_match = MagicMock(pk=1)
-        base.filter.return_value = queryset
-        queryset.order_by.return_value = ordered_queryset
-        prepared_queryset.iterator.return_value = [exact_match]
-
-        with patch.object(
-            machine, "prepare_queryset", return_value=prepared_queryset
-        ) as prepare_queryset:
-            results = machine.get_matching_units(base, "Hello", 100)
-
-        self.assertEqual(results, [exact_match])
-        queryset.order_by.assert_called_once_with("pk")
-        prepare_queryset.assert_called_once_with(ordered_queryset)
-        prepared_queryset.iterator.assert_called_once_with(
-            chunk_size=machine.candidate_limit
-        )
-        adjust_threshold.assert_not_called()
-
     def test_download_translations_limits_after_filtering(self) -> None:
         machine = WeblateTranslation({})
         machine.candidate_limit = 2
@@ -10999,7 +12419,9 @@ class WeblateTranslationLookupTest(SimpleTestCase):
         third_match.get_absolute_url.return_value = "/third/"
 
         with (
-            patch.object(machine, "get_base_queryset", return_value=MagicMock()),
+            patch.object(
+                machine, "get_search_querysets", return_value=(MagicMock(), MagicMock())
+            ),
             patch.object(
                 machine,
                 "get_matching_units",

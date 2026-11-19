@@ -18,8 +18,13 @@ class GitHubInstallationAdmin(WeblateModelAdmin):
         "enabled",
         "created",
     )
-    list_filter = ("enabled", "hostname", "target_type", "workspace")
-    search_fields = ("target_login", "installation_id", "workspace__name")
+    list_filter = ("enabled", "hostname", "target_type")
+    search_fields = (
+        "target_login",
+        "installation_id",
+        "workspace__name",
+    )
+    autocomplete_fields = ("workspace",)
     readonly_fields = ("created", "repositories_updated")
 
 

@@ -20,6 +20,9 @@ class AnthropicTranslation(BaseLLMTranslation):
     """
 
     name = "Anthropic"
+    # Requests and tokens are limited per minute.
+    # https://platform.claude.com/docs/en/api/rate-limits
+    rate_limit_window = 60
     default_api_url = "https://api.anthropic.com"
     trusted_error_hosts: ClassVar[set[str]] = {"api.anthropic.com"}
     end_point = "v1/messages"
@@ -42,7 +45,7 @@ class AnthropicTranslation(BaseLLMTranslation):
     def check_failure(self, response: httpx2.Response) -> None:
         if response.status_code == 429:
             message = self.get_error_detail(response) or "Rate limit exceeded"
-            raise MachineryRateLimitError(message)
+            raise MachineryRateLimitError(message, response=response)
         super().check_failure(response)
 
     def fetch_llm_translations(
@@ -79,10 +82,22 @@ class AnthropicTranslation(BaseLLMTranslation):
         previous_content: str,
         previous_response: str,
     ) -> dict:
+        system: str | list[dict[str, object]] = prompt
+        if self.prompt_cache:
+            # Prompt caching has to be requested per content block. Marking the
+            # system prompt as a cache prefix pays off in batch translation,
+            # where many requests share it within the cache lifetime.
+            system = [
+                {
+                    "type": "text",
+                    "text": prompt,
+                    "cache_control": {"type": "ephemeral"},
+                }
+            ]
         return {
             "model": model,
             "max_tokens": self.settings.get("max_tokens", 4096),
-            "system": prompt,
+            "system": system,
             "messages": [
                 {"role": "user", "content": previous_content},
                 {"role": "assistant", "content": previous_response},

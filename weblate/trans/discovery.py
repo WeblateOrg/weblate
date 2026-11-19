@@ -3,15 +3,18 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
+import contextlib
 import os
 import re
+from collections import deque
 from dataclasses import dataclass, field
-from itertools import islice
+from itertools import combinations, islice
 from operator import itemgetter
 from pathlib import Path
 from typing import TYPE_CHECKING, NotRequired, Required, TypedDict, cast
 
 from django.core.exceptions import ValidationError
+from django.template import TemplateSyntaxError
 from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django.utils.translation import gettext
@@ -28,6 +31,7 @@ from weblate.trans.inherited_settings import apply_create_inheritance_defaults
 from weblate.trans.models import Component
 from weblate.trans.tasks import create_component
 from weblate.trans.util import path_separator
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.errors import report_error
 from weblate.utils.files import (
     is_managed_vcs_metadata_path,
@@ -37,7 +41,7 @@ from weblate.utils.regex import compile_regex, regex_match
 from weblate.utils.render import render_template
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Mapping
+    from collections.abc import Callable, Iterator, Mapping
     from typing import Self
 
     from translation_finder import DiscoveryResult
@@ -52,6 +56,13 @@ DISCOVERY_PRESET_LANGUAGE_CAPTURE = r"(?P<language>[^/.]*)"
 DISCOVERY_PRESET_COMPONENT_CAPTURE = r"(?P<component>[^/]*)"
 MAX_DISCOVERY_PATHS = 100_000
 MAX_DISCOVERY_COMPARISONS = 1_000_000
+MAX_PRESET_RESULTS = 4096
+MAX_PRESET_MASK_LENGTH = 512
+MAX_PRESET_SEGMENTS = 16
+MAX_PRESET_GROUP_SIZE = 128
+MAX_PRESET_COMPARISONS = 8192
+MAX_DETECTED_PRESETS = 50
+MAX_PRESET_EXAMPLES = 8
 
 
 class DiscoveryErrorMatch(TypedDict):
@@ -413,31 +424,135 @@ def build_detected_discovery_preset(
 def get_detected_discovery_presets_from_results(
     discovered: list[DiscoveryResult],
 ) -> list[DetectedDiscoveryPreset]:
+    return detect_discovery_presets_from_results(discovered).presets
+
+
+def evenly_spaced[PresetValue](
+    values: list[PresetValue], limit: int
+) -> list[PresetValue]:
+    if len(values) <= limit:
+        return values
+    return [values[index * (len(values) - 1) // (limit - 1)] for index in range(limit)]
+
+
+def iter_preset_group_pairs(
+    results: list[tuple[str, DiscoveryResult]],
+) -> Iterator[tuple[DiscoveryResult, DiscoveryResult]]:
+    by_segment: dict[str, deque[DiscoveryResult]] = {}
+    for segment, result in results:
+        by_segment.setdefault(segment, deque()).append(result)
+    if len(by_segment) < 2:
+        return
+
+    segments = evenly_spaced(sorted(by_segment), MAX_PRESET_GROUP_SIZE)
+    selected: list[tuple[str, DiscoveryResult]] = []
+    while segments and len(selected) < MAX_PRESET_GROUP_SIZE:
+        remaining = []
+        for segment in segments:
+            if len(selected) >= MAX_PRESET_GROUP_SIZE:
+                break
+            selected.append((segment, by_segment[segment].popleft()))
+            if by_segment[segment]:
+                remaining.append(segment)
+        segments = remaining
+
+    for first, second in combinations(selected, 2):
+        if first[0] != second[0]:
+            yield first[1], second[1]
+
+
+def get_preset_pair_groups(
+    unique_results: dict[tuple[str, str, str, str, str, str], DiscoveryResult],
+) -> tuple[list[Iterator[tuple[DiscoveryResult, DiscoveryResult]]], bool]:
+    keys = sorted(unique_results)
+    truncated = len(keys) > MAX_PRESET_RESULTS
+    keys = evenly_spaced(keys, MAX_PRESET_RESULTS)
+    groups: dict[tuple[object, ...], list[tuple[str, DiscoveryResult]]] = {}
+    for key in keys:
+        filemask = key[1]
+        if len(filemask) > MAX_PRESET_MASK_LENGTH or filemask.count("*") != 1:
+            truncated |= len(filemask) > MAX_PRESET_MASK_LENGTH
+            continue
+        segments = split_discovery_path(filemask)
+        if len(segments) > MAX_PRESET_SEGMENTS:
+            truncated = True
+            continue
+        language_index = next(
+            index for index, segment in enumerate(segments) if "*" in segment
+        )
+        for index, segment in enumerate(segments):
+            group_key = (
+                key[0],
+                key[5],
+                language_index,
+                index,
+                tuple(segments[:index]),
+                tuple(segments[index + 1 :]),
+            )
+            groups.setdefault(group_key, []).append((segment, unique_results[key]))
+
+    pair_groups: list[Iterator[tuple[DiscoveryResult, DiscoveryResult]]] = []
+    for results in groups.values():
+        if len({segment for segment, _ in results}) < 2:
+            continue
+        truncated |= len(results) > MAX_PRESET_GROUP_SIZE
+        pair_groups.append(iter_preset_group_pairs(results))
+    if len(pair_groups) > MAX_PRESET_COMPARISONS:
+        truncated = True
+        pair_groups = evenly_spaced(pair_groups, MAX_PRESET_COMPARISONS)
+    return pair_groups, truncated
+
+
+def detect_discovery_presets_from_results(
+    discovered: list[DiscoveryResult],
+) -> DetectedDiscoveryPresets:
     unique_results: dict[tuple[str, str, str, str, str, str], DiscoveryResult] = {}
     for result in discovered:
         key = get_discovery_result_key(result)
         if key[0] and key[1]:
             unique_results.setdefault(key, result)
 
-    candidates: dict[tuple[str, ...], dict[str, object]] = {}
-    values = list(unique_results.values())
-    for index, first in enumerate(values):
-        for second in values[index + 1 :]:
-            if detected := build_detected_discovery_preset(first, second):
-                preset_key = get_detected_discovery_preset_values_key(
-                    detected["values"]
-                )
-                if preset_key not in candidates:
-                    candidates[preset_key] = {
-                        "examples": set(detected["examples"]),
-                        "values": detected["values"],
-                    }
-                else:
-                    cast("set[str]", candidates[preset_key]["examples"]).update(
-                        detected["examples"]
-                    )
+    pair_groups, truncated = get_preset_pair_groups(unique_results)
 
-    return [
+    candidates: dict[tuple[str, ...], dict[str, object]] = {}
+    pending: deque[
+        tuple[
+            tuple[DiscoveryResult, DiscoveryResult],
+            Iterator[tuple[DiscoveryResult, DiscoveryResult]],
+        ]
+    ] = deque()
+    for group in pair_groups:
+        try:
+            pending.append((next(group), group))
+        except StopIteration:
+            continue
+    comparisons = 0
+    while pending and comparisons < MAX_PRESET_COMPARISONS:
+        (first, second), group = pending.popleft()
+        with contextlib.suppress(StopIteration):
+            pending.append((next(group), group))
+        comparisons += 1
+        if detected := build_detected_discovery_preset(first, second):
+            preset_key = get_detected_discovery_preset_values_key(detected["values"])
+            if preset_key not in candidates:
+                if len(candidates) >= MAX_DETECTED_PRESETS:
+                    truncated = True
+                    continue
+                candidates[preset_key] = {
+                    "examples": set(detected["examples"]),
+                    "values": detected["values"],
+                }
+            else:
+                examples = cast("set[str]", candidates[preset_key]["examples"])
+                examples.update(detected["examples"])
+                if len(examples) > MAX_PRESET_EXAMPLES:
+                    candidates[preset_key]["examples"] = set(
+                        sorted(examples)[:MAX_PRESET_EXAMPLES]
+                    )
+    if comparisons == MAX_PRESET_COMPARISONS and pending:
+        truncated = True
+
+    presets: list[DetectedDiscoveryPreset] = [
         {
             "examples": tuple(sorted(cast("set[str]", candidate["examples"]))),
             "values": cast("DetectedDiscoveryPresetValues", candidate["values"]),
@@ -450,36 +565,43 @@ def get_detected_discovery_presets_from_results(
             ),
         )
     ]
+    return DetectedDiscoveryPresets(presets=presets, truncated=truncated)
+
+
+def discover_component_preset_results(
+    component: Component,
+) -> tuple[list[DiscoveryResult], bool]:
+    discovered = discover(
+        component.full_path,
+        source_language=component.source_language.code,
+        hint=component.filemask,
+    )
+    truncated = discovered.truncated
+    if not discovered:
+        discovered = discover(
+            component.full_path,
+            source_language=component.source_language.code,
+            eager=True,
+            hint=component.filemask,
+        )
+        truncated |= discovered.truncated
+    return discovered, truncated
 
 
 def get_component_detected_discovery_presets(
     component: Component,
 ) -> DetectedDiscoveryPresets:
     try:
-        discovered = discover(
-            component.full_path,
-            source_language=component.source_language.code,
-            hint=component.filemask,
-        )
-        truncated = discovered.truncated
-        if not discovered:
-            discovered = discover(
-                component.full_path,
-                source_language=component.source_language.code,
-                eager=True,
-                hint=component.filemask,
-            )
-            truncated |= discovered.truncated
-        return DetectedDiscoveryPresets(
-            presets=get_detected_discovery_presets_from_results(discovered),
-            truncated=truncated,
-        )
+        discovered, truncated = discover_component_preset_results(component)
+        detected = detect_discovery_presets_from_results(discovered)
     except Exception:  # pragma: no cover - defensive fallback
         report_error(
             "Component discovery preset detection failed",
             project=component.project,
         )
         return DetectedDiscoveryPresets()
+    detected.truncated |= truncated
+    return detected
 
 
 class ComponentDiscovery:
@@ -569,6 +691,7 @@ class ComponentDiscovery:
         self.match = match
         self.errors: list[tuple[DiscoveryErrorMatch, str]] = []
         self.limit_exceeded = False
+        self.template_error = False
         self.path = path
         self.path_match = self.compile_match(match)
         self.name_template = name_template
@@ -607,6 +730,7 @@ class ComponentDiscovery:
         )
         discovery.errors = self.errors.copy()
         discovery.limit_exceeded = self.limit_exceeded
+        discovery.template_error = self.template_error
         for name in (
             "repository_paths",
             "matches",
@@ -712,7 +836,7 @@ class ComponentDiscovery:
     def build_match_from_groups(
         self, groups: Mapping[str, str], *, mask: str, path: str | None = None
     ) -> MutableDiscoveryMatch:
-        name = render_template(self.name_template, **groups)
+        name = self.render_discovery_template("name_template", groups)
         files = {path} if path else set()
         languages: set[str] = set()
         files_langs: set[tuple[str, str]] = set()
@@ -723,13 +847,27 @@ class ComponentDiscovery:
             "files": files,
             "languages": languages,
             "files_langs": files_langs,
-            "base_file": render_template(self.base_file_template, **groups),
-            "new_base": render_template(self.new_base_template, **groups),
-            "intermediate": render_template(self.intermediate_template, **groups),
+            "base_file": self.render_discovery_template("base_file_template", groups),
+            "new_base": self.render_discovery_template("new_base_template", groups),
+            "intermediate": self.render_discovery_template(
+                "intermediate_template", groups
+            ),
             "mask": mask,
             "name": name,
             "slug": slugify(name),
         }
+
+    def render_discovery_template(self, setting: str, groups: Mapping[str, str]) -> str:
+        """Record invalid configuration without treating partial discovery as complete."""
+        try:
+            return render_template(getattr(self, setting), **groups)
+        except TemplateSyntaxError as error:
+            self.template_error = True
+            self.add_error(
+                gettext("Could not render %(setting)s template: %(error)s")
+                % {"setting": setting, "error": error}
+            )
+            raise
 
     def _iter_repository_paths(self):
         """Yield relative repository paths found under the discovery root."""
@@ -863,7 +1001,7 @@ class ComponentDiscovery:
             for key, value in matches.groupdict().items()
             if value is not None
         }
-        if mask := render_template(self.filemask_template, **groups):
+        if mask := self.render_discovery_template("filemask_template", groups):
             return path, groups, mask
         return None
 
@@ -946,6 +1084,8 @@ class ComponentDiscovery:
                     match = self._get_base_mode_match(path)
                 else:
                     match = self._get_classic_match(path)
+            except TemplateSyntaxError:
+                return []
             except TimeoutError:
                 break
             if match:
@@ -964,9 +1104,12 @@ class ComponentDiscovery:
 
         for path, groups, mask in self.matches:
             if mask not in result:
-                result[mask] = self.build_match_from_groups(
-                    groups, mask=mask, path=path
-                )
+                try:
+                    result[mask] = self.build_match_from_groups(
+                        groups, mask=mask, path=path
+                    )
+                except TemplateSyntaxError:
+                    return {}
                 if self.create_from_template:
                     # Base-mode matches the source/base file; translations under the
                     # rendered mask are collected separately for preview accuracy.
@@ -978,7 +1121,12 @@ class ComponentDiscovery:
                 result[mask]["languages"].add(groups["language"])
                 result[mask]["files_langs"].add((path, groups["language"]))
             else:
-                new_match = self.build_match_from_groups(groups, mask=mask, path=path)
+                try:
+                    new_match = self.build_match_from_groups(
+                        groups, mask=mask, path=path
+                    )
+                except TemplateSyntaxError:
+                    return {}
                 self.add_error(
                     gettext(
                         "Multiple base or new base files render to the same file "
@@ -1012,7 +1160,7 @@ class ComponentDiscovery:
             translations_by_mask = self._collect_translations_by_mask(
                 set(result), exclude_paths=exclude_paths
             )
-            if self.limit_exceeded:
+            if self.limit_exceeded or self.template_error:
                 return {}
             for mask, translations in translations_by_mask.items():
                 for translation_path, language in translations:
@@ -1170,26 +1318,26 @@ class ComponentDiscovery:
         return create_component(**kwargs)
 
     def cleanup(self, main, processed, preview=False):
-        deleted = []
-        for component in main.linked_children.exclude(pk__in=processed):
-            if component.has_template():
-                # Valid template?
-                if os.path.exists(component.get_template_filename()):
+        with acting_user_context(self.user):
+            deleted = []
+            for component in main.linked_children.exclude(pk__in=processed):
+                if component.has_template():
+                    # Valid template?
+                    if os.path.exists(component.get_template_filename()):
+                        continue
+                elif component.new_base:
+                    # Valid new base?
+                    if os.path.exists(component.get_new_base_filename()):
+                        continue
+                elif component.get_mask_matches():
                     continue
-            elif component.new_base:
-                # Valid new base?
-                if os.path.exists(component.get_new_base_filename()):
-                    continue
-            elif component.get_mask_matches():
-                continue
 
-            # Delete as needed files seem to be missing
-            deleted.append((None, component))
-            if not preview:
-                component.acting_user = self.user
-                component.delete()
+                # Delete as needed files seem to be missing
+                deleted.append((None, component))
+                if not preview:
+                    component.delete()
 
-        return deleted
+            return deleted
 
     def get_skip_reason(self, match):
         component = self._require_component()
@@ -1214,67 +1362,71 @@ class ComponentDiscovery:
         return None
 
     def perform(self, preview=False, remove=False, background=False):
-        main = self._require_component()
-        if not preview:
-            if self.user is None:
+        with acting_user_context(self.user):
+            main = self._require_component()
+            if not preview and self.user is None:
                 msg = "Component discovery requires an acting user"
                 raise ValueError(msg)
-            main.acting_user = self.user
-        created: list[tuple[DiscoveryMatch, Component | None]] = []
-        matched: list[tuple[DiscoveryMatch, Component]] = []
-        deleted: list[tuple[None, Component]] = []
-        skipped: list[tuple[DiscoveryMatch, str]] = []
-        processed: set[int] = set()
+            created: list[tuple[DiscoveryMatch, Component | None]] = []
+            matched: list[tuple[DiscoveryMatch, Component]] = []
+            deleted: list[tuple[None, Component]] = []
+            skipped: list[tuple[DiscoveryMatch, str]] = []
+            processed: set[int] = set()
 
-        discovered = self.matched_components
-        if self.limit_exceeded:
-            return created, matched, deleted, skipped
+            discovered = self.matched_components
+            if self.limit_exceeded or self.template_error:
+                return created, matched, deleted, skipped
 
-        category_components = main.project.component_set.filter(category=main.category)
-        existing_children: dict[str, Component] = {
-            component.filemask: component for component in main.linked_children.all()
-        }
-        existing_slugs: set[str] = {
-            slug.lower() for slug in category_components.values_list("slug", flat=True)
-        }
-        existing_names: set[str] = {
-            name.lower() for name in category_components.values_list("name", flat=True)
-        }
+            category_components = main.project.component_set.filter(
+                category=main.category
+            )
+            existing_children: dict[str, Component] = {
+                component.filemask: component
+                for component in main.linked_children.all()
+            }
+            existing_slugs: set[str] = {
+                slug.lower()
+                for slug in category_components.values_list("slug", flat=True)
+            }
+            existing_names: set[str] = {
+                name.lower()
+                for name in category_components.values_list("name", flat=True)
+            }
 
-        for match in discovered.values():
-            # Skip invalid matches
-            reason = self.get_skip_reason(match)
-            if reason is not None:
-                skipped.append((match, reason))
-                continue
+            for match in discovered.values():
+                # Skip invalid matches
+                reason = self.get_skip_reason(match)
+                if reason is not None:
+                    skipped.append((match, reason))
+                    continue
 
-            try:
-                found = existing_children[match["mask"]]
-            except KeyError:
-                # Create new component
                 try:
-                    component = self.create_component(
-                        main,
-                        match,
-                        background=background,
-                        preview=preview,
-                        existing_slugs=existing_slugs,
-                        existing_names=existing_names,
-                    )
-                except ValidationError as error:
-                    skipped.append((match, str(error)))
+                    found = existing_children[match["mask"]]
+                except KeyError:
+                    # Create new component
+                    try:
+                        component = self.create_component(
+                            main,
+                            match,
+                            background=background,
+                            preview=preview,
+                            existing_slugs=existing_slugs,
+                            existing_names=existing_names,
+                        )
+                    except ValidationError as error:
+                        skipped.append((match, str(error)))
+                    else:
+                        # Correctly created
+                        if component is not None and component.id:
+                            processed.add(component.id)
+                        created.append((match, component))
+                        existing_children[match["mask"]] = component
                 else:
-                    # Correctly created
-                    if component is not None and component.id:
-                        processed.add(component.id)
-                    created.append((match, component))
-                    existing_children[match["mask"]] = component
-            else:
-                # Component already exists
-                matched.append((match, found))
-                processed.add(found.id)
+                    # Component already exists
+                    matched.append((match, found))
+                    processed.add(found.id)
 
-        if remove:
-            deleted = self.cleanup(main, processed, preview)
+            if remove:
+                deleted = self.cleanup(main, processed, preview)
 
-        return created, matched, deleted, skipped
+            return created, matched, deleted, skipped

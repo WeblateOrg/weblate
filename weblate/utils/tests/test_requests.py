@@ -22,26 +22,17 @@ from weblate.utils.requests import (
     _validate_response_peer,
     async_fetch_url,
     async_fetch_validated_url,
+    async_open_validated_url,
     create_async_http_client,
+    fetch_restricted_asset_url,
     fetch_url,
     fetch_validated_url,
     get_uri_error,
-    open_restricted_asset_url,
-    open_validated_url,
 )
 from weblate.utils.tests import http_mock
 
 if TYPE_CHECKING:
-    from collections.abc import AsyncIterator, Iterator
-
-
-class TrackedSyncStream(httpx2.SyncByteStream):
-    def __init__(self, events: list[str]) -> None:
-        self.events = events
-
-    def __iter__(self) -> Iterator[bytes]:
-        self.events.append("read")
-        yield b"response-body"
+    from collections.abc import AsyncIterator
 
 
 class TrackedAsyncStream(httpx2.AsyncByteStream):
@@ -51,11 +42,6 @@ class TrackedAsyncStream(httpx2.AsyncByteStream):
     async def __aiter__(self) -> AsyncIterator[bytes]:
         self.events.append("read")
         yield b"response-body"
-
-
-class TrackedRedirectSyncStream(TrackedSyncStream):
-    def close(self) -> None:
-        self.events.append("close")
 
 
 class TrackedRedirectAsyncStream(TrackedAsyncStream):
@@ -102,7 +88,7 @@ class FetchURLTest(SimpleTestCase):
                 return httpx2.Response(
                     302,
                     headers={"Location": "/final"},
-                    stream=TrackedRedirectSyncStream(events),
+                    stream=TrackedRedirectAsyncStream(events),
                 )
             return httpx2.Response(200, content=b"final-response")
 
@@ -153,7 +139,7 @@ class FetchURLTest(SimpleTestCase):
             return httpx2.Response(
                 302,
                 headers={"Location": "/redirect"},
-                stream=TrackedRedirectSyncStream(events),
+                stream=TrackedRedirectAsyncStream(events),
             )
 
         with (
@@ -218,8 +204,8 @@ class FetchURLTest(SimpleTestCase):
         validators.validate_request_url.assert_not_called()
 
 
-class OpenRestrictedAssetURLBehaviorTest(SimpleTestCase):
-    def test_open_restricted_asset_url_does_not_read_redirect_body(self) -> None:
+class RestrictedAssetFetchBehaviorTest(SimpleTestCase):
+    def test_fetch_restricted_asset_url_does_not_read_redirect_body(self) -> None:
         events: list[str] = []
 
         def handle_request(request):
@@ -227,7 +213,7 @@ class OpenRestrictedAssetURLBehaviorTest(SimpleTestCase):
                 return httpx2.Response(
                     302,
                     headers={"Location": "/final"},
-                    stream=TrackedRedirectSyncStream(events),
+                    stream=TrackedRedirectAsyncStream(events),
                 )
             return httpx2.Response(200, content=b"final-response")
 
@@ -237,15 +223,13 @@ class OpenRestrictedAssetURLBehaviorTest(SimpleTestCase):
                 httpx2.MockTransport(handle_request),
             ),
             patch(
-                "weblate.utils.requests.RestrictedAssetRedirectValidators.validate_request_url",
+                "weblate.utils.requests.RestrictedAssetRedirectValidators.validate_async_request_url",
                 return_value=(),
             ),
-            open_restricted_asset_url(
-                "get",
-                "https://example.com/redirect",
-                allow_private_targets=True,
-            ) as response,
         ):
+            response = fetch_restricted_asset_url(
+                "get", "https://example.com/redirect", allow_private_targets=True
+            )
             self.assertEqual(response.read(), b"final-response")
             self.assertEqual(len(response.history), 1)
             self.assertTrue(response.history[0].is_closed)
@@ -254,7 +238,7 @@ class OpenRestrictedAssetURLBehaviorTest(SimpleTestCase):
 
     @http_mock.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
-    def test_open_restricted_asset_url_follows_allowed_redirect(self) -> None:
+    def test_fetch_restricted_asset_url_follows_allowed_redirect(self) -> None:
         http_mock.register(
             "GET",
             "https://images.allowed.com/redirect-image.png",
@@ -268,12 +252,12 @@ class OpenRestrictedAssetURLBehaviorTest(SimpleTestCase):
             content=b"image-data",
         )
 
-        with open_restricted_asset_url(
+        response = fetch_restricted_asset_url(
             "get",
             "https://images.allowed.com/redirect-image.png",
             allow_private_targets=True,
-        ) as response:
-            self.assertEqual(response.content, b"image-data")
+        )
+        self.assertEqual(response.content, b"image-data")
 
         self.assertEqual(len(http_mock.calls), 2)
         self.assertEqual(
@@ -283,7 +267,7 @@ class OpenRestrictedAssetURLBehaviorTest(SimpleTestCase):
 
     @http_mock.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
-    def test_open_restricted_asset_url_blocks_disallowed_redirect(self) -> None:
+    def test_fetch_restricted_asset_url_blocks_disallowed_redirect(self) -> None:
         http_mock.register(
             "GET",
             "https://images.allowed.com/redirect-image.png",
@@ -299,13 +283,12 @@ class OpenRestrictedAssetURLBehaviorTest(SimpleTestCase):
 
         with (
             self.assertRaises(ValidationError),
-            open_restricted_asset_url(
+        ):
+            fetch_restricted_asset_url(
                 "get",
                 "https://images.allowed.com/redirect-image.png",
                 allow_private_targets=True,
-            ),
-        ):
-            pass
+            )
 
         self.assertEqual(len(http_mock.calls), 1)
         self.assertEqual(
@@ -315,7 +298,7 @@ class OpenRestrictedAssetURLBehaviorTest(SimpleTestCase):
 
     @http_mock.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
-    def test_open_restricted_asset_url_preserves_redirect_cookies(self) -> None:
+    def test_fetch_restricted_asset_url_preserves_redirect_cookies(self) -> None:
         http_mock.register(
             "GET",
             "https://images.allowed.com/redirect-image.png",
@@ -332,12 +315,12 @@ class OpenRestrictedAssetURLBehaviorTest(SimpleTestCase):
             content=b"image-data",
         )
 
-        with open_restricted_asset_url(
+        response = fetch_restricted_asset_url(
             "get",
             "https://images.allowed.com/redirect-image.png",
             allow_private_targets=True,
-        ) as response:
-            self.assertEqual(response.content, b"image-data")
+        )
+        self.assertEqual(response.content, b"image-data")
 
         self.assertEqual(
             http_mock.calls[1].request.headers["Cookie"],
@@ -346,7 +329,7 @@ class OpenRestrictedAssetURLBehaviorTest(SimpleTestCase):
 
     @http_mock.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
-    def test_open_restricted_asset_url_raises_validation_error_for_http_status(
+    def test_fetch_restricted_asset_url_raises_validation_error_for_http_status(
         self,
     ) -> None:
         http_mock.register(
@@ -360,17 +343,16 @@ class OpenRestrictedAssetURLBehaviorTest(SimpleTestCase):
                 ValidationError,
                 "Unable to download asset from the provided URL (HTTP status code: 404).",
             ),
-            open_restricted_asset_url(
+        ):
+            fetch_restricted_asset_url(
                 "get",
                 "https://images.allowed.com/missing-image.png",
                 allow_private_targets=True,
-            ),
-        ):
-            pass
+            )
 
     @http_mock.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
-    def test_open_restricted_asset_url_raises_validation_error_for_redirect_status(
+    def test_fetch_restricted_asset_url_raises_validation_error_for_redirect_status(
         self,
     ) -> None:
         http_mock.register(
@@ -384,23 +366,22 @@ class OpenRestrictedAssetURLBehaviorTest(SimpleTestCase):
                 ValidationError,
                 "Unable to download asset from the provided URL (HTTP status code: 301).",
             ),
-            open_restricted_asset_url(
+        ):
+            fetch_restricted_asset_url(
                 "get",
                 "https://images.allowed.com/redirect-image.png",
                 allow_private_targets=True,
-            ),
-        ):
-            pass
+            )
 
 
-class OpenRestrictedAssetURLTest(SimpleTestCase):
+class RestrictedAssetFetchTest(SimpleTestCase):
     @http_mock.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=["*"])
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
     )
-    def test_open_restricted_asset_url_blocks_private_target(
+    def test_fetch_restricted_asset_url_blocks_private_target(
         self, mocked_getaddrinfo
     ) -> None:
         http_mock.register(
@@ -412,14 +393,14 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
 
         with (
             self.assertRaises(ValidationError),
-            open_restricted_asset_url(
-                "get",
-                "https://private.example.com/messages.html",
-            ),
         ):
-            pass
+            fetch_restricted_asset_url(
+                "get", "https://private.example.com/messages.html"
+            )
 
-        mocked_getaddrinfo.assert_called_once_with("private.example.com", None, type=1)
+        mocked_getaddrinfo.assert_called_once_with(
+            "private.example.com", None, 0, 1, 0, 0
+        )
         self.assertEqual(len(http_mock.calls), 0)
 
     @http_mock.activate
@@ -432,7 +413,7 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
             [(0, 0, 0, "", ("127.0.0.1", 443))],
         ],
     )
-    def test_open_restricted_asset_url_blocks_private_redirect(
+    def test_fetch_restricted_asset_url_blocks_private_redirect(
         self, mocked_getaddrinfo, mocked_get_peer
     ) -> None:
         http_mock.register(
@@ -450,13 +431,12 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
 
         with (
             self.assertRaises(ValidationError),
-            open_restricted_asset_url(
+        ):
+            fetch_restricted_asset_url(
                 "get",
                 "https://public.example.com/messages.html",
                 allow_private_targets=False,
-            ),
-        ):
-            pass
+            )
 
         self.assertEqual(mocked_getaddrinfo.call_count, 2)
         mocked_get_peer.assert_called_once()
@@ -469,7 +449,7 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
     )
-    def test_open_restricted_asset_url_blocks_private_peer_after_public_dns(
+    def test_fetch_restricted_asset_url_blocks_private_peer_after_public_dns(
         self, mocked_getaddrinfo, mocked_get_peer
     ) -> None:
         http_mock.register(
@@ -481,15 +461,16 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
 
         with (
             self.assertRaises(ValidationError),
-            open_restricted_asset_url(
+        ):
+            fetch_restricted_asset_url(
                 "get",
                 "https://public.example.com/messages.html",
                 allow_private_targets=False,
-            ),
-        ):
-            pass
+            )
 
-        mocked_getaddrinfo.assert_called_once_with("public.example.com", None, type=1)
+        mocked_getaddrinfo.assert_called_once_with(
+            "public.example.com", None, 0, 1, 0, 0
+        )
         mocked_get_peer.assert_called_once()
         self.assertEqual(len(http_mock.calls), 1)
 
@@ -500,7 +481,7 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
     )
-    def test_open_restricted_asset_url_blocks_missing_peer_after_public_dns(
+    def test_fetch_restricted_asset_url_blocks_missing_peer_after_public_dns(
         self, mocked_getaddrinfo, mocked_get_peer
     ) -> None:
         http_mock.register(
@@ -512,15 +493,16 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
 
         with (
             self.assertRaises(ValidationError),
-            open_restricted_asset_url(
+        ):
+            fetch_restricted_asset_url(
                 "get",
                 "https://public.example.com/messages.html",
                 allow_private_targets=False,
-            ),
-        ):
-            pass
+            )
 
-        mocked_getaddrinfo.assert_called_once_with("public.example.com", None, type=1)
+        mocked_getaddrinfo.assert_called_once_with(
+            "public.example.com", None, 0, 1, 0, 0
+        )
         mocked_get_peer.assert_called_once()
         self.assertEqual(len(http_mock.calls), 1)
 
@@ -531,7 +513,7 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
     )
-    def test_open_restricted_asset_url_allows_allowlisted_private_target(
+    def test_fetch_restricted_asset_url_allows_allowlisted_private_target(
         self, mocked_getaddrinfo, mocked_get_peer
     ) -> None:
         http_mock.register(
@@ -541,13 +523,13 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
             content=b"allowlisted-private-target",
         )
 
-        with open_restricted_asset_url(
+        response = fetch_restricted_asset_url(
             "get",
             "https://private.example.com/messages.html",
             allow_private_targets=False,
             private_allowlist=["private.example.com"],
-        ) as response:
-            self.assertEqual(response.content, b"allowlisted-private-target")
+        )
+        self.assertEqual(response.content, b"allowlisted-private-target")
 
         mocked_getaddrinfo.assert_not_called()
         mocked_get_peer.assert_not_called()
@@ -556,7 +538,7 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
     @http_mock.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
     @patch("weblate.utils.outbound.socket.getaddrinfo")
-    def test_open_restricted_asset_url_blocks_disallowed_asset_domain(
+    def test_fetch_restricted_asset_url_blocks_disallowed_asset_domain(
         self, mocked_getaddrinfo
     ) -> None:
         http_mock.register(
@@ -568,13 +550,12 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
 
         with (
             self.assertRaises(ValidationError),
-            open_restricted_asset_url(
+        ):
+            fetch_restricted_asset_url(
                 "get",
                 "https://blocked.example.com/messages.html",
                 allow_private_targets=False,
-            ),
-        ):
-            pass
+            )
 
         mocked_getaddrinfo.assert_not_called()
         self.assertEqual(len(http_mock.calls), 0)
@@ -583,15 +564,15 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
 class OpenValidatedURLTest(SimpleTestCase):
     @http_mock.activate
     def test_streaming_and_cleanup(self) -> None:
-        def consume(failure: str | None, events: list[str]) -> None:
-            with open_validated_url(
+        async def consume(failure: str | None, events: list[str]) -> None:
+            async with async_open_validated_url(
                 "get", "https://example.com/", allow_private_targets=True
             ) as streamed:
                 self.assertEqual(events, [])
                 if failure == "consumer":
                     msg = "Consumer failed"
                     raise RuntimeError(msg)
-                self.assertEqual(streamed.read(), b"response-body")
+                self.assertEqual(await streamed.aread(), b"response-body")
 
         for failure in (None, "status", "consumer"):
             with self.subTest(failure=failure):
@@ -599,7 +580,7 @@ class OpenValidatedURLTest(SimpleTestCase):
                 events: list[str] = []
                 response = httpx2.Response(
                     400 if failure == "status" else 200,
-                    stream=TrackedRedirectSyncStream(events),
+                    stream=TrackedRedirectAsyncStream(events),
                 )
                 http_mock.register_callback(
                     "GET",
@@ -609,12 +590,12 @@ class OpenValidatedURLTest(SimpleTestCase):
 
                 if failure == "status":
                     with self.assertRaises(httpx2.HTTPStatusError):
-                        consume(failure, events)
+                        asyncio.run(consume(failure, events))
                 elif failure == "consumer":
                     with self.assertRaisesMessage(RuntimeError, "Consumer failed"):
-                        consume(failure, events)
+                        asyncio.run(consume(failure, events))
                 else:
-                    consume(failure, events)
+                    asyncio.run(consume(failure, events))
                 self.assertEqual(
                     events, ["read", "close"] if failure is None else ["close"]
                 )
@@ -633,9 +614,13 @@ class OpenValidatedURLTest(SimpleTestCase):
                 return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
             ),
             self.assertRaises(ValidationError),
-            open_validated_url("get", "https://example.com/"),
         ):
-            self.fail("Private redirect was allowed")
+
+            async def consume_redirect() -> None:
+                async with async_open_validated_url("get", "https://example.com/"):
+                    self.fail("Private redirect was allowed")
+
+            asyncio.run(consume_redirect())
         self.assertEqual(len(http_mock.calls), 1)
 
 
@@ -795,7 +780,9 @@ class FetchValidatedURLTest(SimpleTestCase):
             http_mock.calls[0].request.extensions["sni_hostname"],
             "public.example.com",
         )
-        mocked_getaddrinfo.assert_called_once_with("public.example.com", None, type=1)
+        mocked_getaddrinfo.assert_called_once_with(
+            "public.example.com", None, 0, 1, 0, 0
+        )
 
     @http_mock.activate
     @patch(
@@ -846,7 +833,9 @@ class FetchValidatedURLTest(SimpleTestCase):
             [call.request.extensions["timeout"]["connect"] for call in http_mock.calls],
             [0.25, 0.25],
         )
-        mocked_getaddrinfo.assert_called_once_with("public.example.com", None, type=1)
+        mocked_getaddrinfo.assert_called_once_with(
+            "public.example.com", None, 0, 1, 0, 0
+        )
 
     @http_mock.activate
     @patch(
@@ -903,7 +892,9 @@ class FetchValidatedURLTest(SimpleTestCase):
             [call.request.extensions["timeout"]["connect"] for call in http_mock.calls],
             [0.25, 0.25, 4.75],
         )
-        mocked_getaddrinfo.assert_called_once_with("public.example.com", None, type=1)
+        mocked_getaddrinfo.assert_called_once_with(
+            "public.example.com", None, 0, 1, 0, 0
+        )
 
     @http_mock.activate
     @patch(
@@ -1111,7 +1102,7 @@ class FetchValidatedURLTest(SimpleTestCase):
             http_mock.calls[0].request.extensions["sni_hostname"],
             "xn--fa-hia.de",
         )
-        mocked_getaddrinfo.assert_called_once_with("xn--fa-hia.de", None, type=1)
+        mocked_getaddrinfo.assert_called_once_with("xn--fa-hia.de", None, 0, 1, 0, 0)
 
     @http_mock.activate
     @patch(
@@ -1259,7 +1250,9 @@ class FetchValidatedURLTest(SimpleTestCase):
                 "https://public.example.com/source",
             )
 
-        mocked_getaddrinfo.assert_called_once_with("public.example.com", None, type=1)
+        mocked_getaddrinfo.assert_called_once_with(
+            "public.example.com", None, 0, 1, 0, 0
+        )
         self.assertEqual(len(http_mock.calls), 0)
 
     @http_mock.activate
@@ -1321,7 +1314,9 @@ class FetchValidatedURLTest(SimpleTestCase):
                 allow_private_targets=False,
             )
 
-        mocked_getaddrinfo.assert_called_once_with("public.example.com", None, type=1)
+        mocked_getaddrinfo.assert_called_once_with(
+            "public.example.com", None, 0, 1, 0, 0
+        )
         mocked_get_peer.assert_called_once()
         self.assertEqual(len(http_mock.calls), 1)
 

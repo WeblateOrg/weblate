@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from django.core.exceptions import ImproperlyConfigured
 from django.test import SimpleTestCase, override_settings
 
 from weblate.accounts import defaults as accounts_defaults
@@ -37,6 +38,14 @@ class DefaultsTest(SimpleTestCase):
         self.assertEqual(VCSConf.VCS_BACKENDS, vcs_defaults.DEFAULT_VCS_BACKENDS)
         self.assertEqual(TransConf.AUTOFIX_LIST, trans_defaults.DEFAULT_AUTOFIX_LIST)
 
+    def test_upload_rate_defaults(self) -> None:
+        for suffix in ("ATTEMPTS", "WINDOW", "LOCKOUT"):
+            with self.subTest(suffix=suffix):
+                self.assertEqual(
+                    getattr(UtilsConf, f"RATELIMIT_UPLOAD_{suffix}"),
+                    getattr(utils_defaults, f"DEFAULT_RATELIMIT_UPLOAD_{suffix}"),
+                )
+
     def test_scalar_defaults(self) -> None:
         self.assertEqual(
             WeblateAccountsConf.REGISTRATION_OPEN,
@@ -55,6 +64,7 @@ class DefaultsTest(SimpleTestCase):
             UtilsConf.TRANSLATION_UPLOAD_MAX_SIZE,
             utils_defaults.DEFAULT_TRANSLATION_UPLOAD_MAX_SIZE,
         )
+        self.assertEqual(UtilsConf.TRANSLATION_MAX_UNITS, 200_000)
         self.assertEqual(
             UtilsConf.SENTRY_PROFILES_SAMPLE_RATE,
             utils_defaults.DEFAULT_SENTRY_PROFILES_SAMPLE_RATE,
@@ -71,6 +81,14 @@ class DefaultsTest(SimpleTestCase):
             VCSConf.VCS_CLONE_DEPTH,
             vcs_defaults.DEFAULT_VCS_CLONE_DEPTH,
         )
+
+    def test_translation_max_units_requires_positive_integer(self) -> None:
+        for value in (0, -1, None, True, "100000"):
+            with (
+                self.subTest(value=value),
+                self.assertRaisesMessage(ImproperlyConfigured, "TRANSLATION_MAX_UNITS"),
+            ):
+                UtilsConf().configure_translation_max_units(value)
 
     def test_backup_import_limits(self) -> None:
         self.assertEqual(

@@ -1,11 +1,9 @@
 {% extends "base.html" %}
 
-{% load i18n %}
+{% load i18n translations %}
 
 {% block breadcrumbs %}
-  <li class="breadcrumb-item">
-    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
-  </li>
+  {% path_object_breadcrumbs object %}
   <li class="breadcrumb-item">
     <a href="{% url 'project-saved-searches' project=object.slug %}">{% translate "Saved searches" %}</a>
   </li>

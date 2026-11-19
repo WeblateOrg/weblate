@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import os
 import shutil
+import time
 from contextlib import ExitStack
 from io import BytesIO
 from pathlib import Path
@@ -34,6 +35,7 @@ from django.utils.translation import activate
 from openpyxl import load_workbook
 from PIL import Image
 
+from weblate.accounts.utils import SESSION_SENSITIVE_FACTOR_GRANT
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import (
     Group,
@@ -59,9 +61,11 @@ from weblate.trans.tests.utils import (
     clear_users_cache,
     create_another_user,
     create_test_user,
+    fixup_languages_seq,
     wait_for_celery,
 )
 from weblate.trans.views.basic import add_languages_to_component
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.data import data_path
 from weblate.utils.files import remove_tree
 from weblate.utils.hash import hash_to_checksum
@@ -90,6 +94,11 @@ class PaginatorTemplateTest(TestCase):
 
 
 class ZipDownloadTest(TestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        # These direct helper calls have no request or database lifecycle to finish.
+        self.enterContext(patch("django.http.response.signals.request_finished.send"))
+
     def test_content_disposition(self) -> None:
         test_cases = (
             ("translations", 'attachment; filename="translations.zip"'),
@@ -106,6 +115,7 @@ class ZipDownloadTest(TestCase):
         for name, expected in test_cases:
             with self.subTest(name=name):
                 response = zip_download("", [], name=name)
+                self.addCleanup(response.close)
                 self.assertEqual(response["Content-Disposition"], expected)
 
     def test_zip_download_refreshes_lock_while_walking_directories(self) -> None:
@@ -120,8 +130,9 @@ class ZipDownloadTest(TestCase):
                 response = zip_download(
                     str(root), [str(root)], refresh_lock=refresh_lock
                 )
+                self.addCleanup(response.close)
 
-        with ZipFile(BytesIO(response.content)) as archive:
+        with ZipFile(BytesIO(b"".join(response))) as archive:
             self.assertEqual(archive.namelist(), [])
         refresh_lock.assert_called_once_with()
 
@@ -145,8 +156,9 @@ class ZipDownloadTest(TestCase):
                 [str(component)],
                 allowed_roots=[str(component), str(other_component)],
             )
+            self.addCleanup(response.close)
 
-        with ZipFile(BytesIO(response.content), "r") as archive:
+        with ZipFile(BytesIO(b"".join(response)), "r") as archive:
             self.assertIn("component/regular.txt", archive.namelist())
             self.assertEqual(
                 archive.read("component/safe_link.txt"), b"shared translation"
@@ -199,8 +211,9 @@ class ZipDownloadTest(TestCase):
             response = zip_download(
                 str(root), [str(root), str(outside / "outside_link.txt")]
             )
+            self.addCleanup(response.close)
 
-        with ZipFile(BytesIO(response.content), "r") as archive:
+        with ZipFile(BytesIO(b"".join(response)), "r") as archive:
             self.assertIn("regular.txt", archive.namelist())
             self.assertIn("build/translation.txt", archive.namelist())
             self.assertIn("node_modules/translation.txt", archive.namelist())
@@ -225,8 +238,9 @@ class ZipDownloadTest(TestCase):
             (root / ".SVN" / "entries").write_bytes(b"mixed case metadata")
             (root / "regular.txt").write_bytes(b"inside repository")
             response = zip_download(str(root), [str(root)])
+            self.addCleanup(response.close)
 
-        with ZipFile(BytesIO(response.content), "r") as archive:
+        with ZipFile(BytesIO(b"".join(response)), "r") as archive:
             self.assertIn("regular.txt", archive.namelist())
             self.assertIn(".SVN/entries", archive.namelist())
 
@@ -320,8 +334,7 @@ class ComponentTestCase(RepoTestCase):
         # Create project to have some test base
         self.component = self.create_component()
         self.project = self.component.project
-        self.component.acting_user = self.user
-        self.project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         if not self.project.defined_groups.exists():
             setup_project_groups(self, self.project)
         self.translation = self.get_translation()
@@ -373,6 +386,13 @@ class ComponentTestCase(RepoTestCase):
         self.anotheruser = create_another_user()
         self.user.groups.add(Group.objects.get(name="Users"))
         self.client.login(username="testuser", password="testpassword")
+        session = self.client.session
+        session[SESSION_SENSITIVE_FACTOR_GRANT] = {
+            "user": self.user.pk,
+            "hash": self.user.get_session_auth_hash(),
+            "time": int(time.time()),
+        }
+        session.save()
 
     def get_request(self, user=None):
         """Get fake request object."""
@@ -437,7 +457,7 @@ class ComponentTestCase(RepoTestCase):
     def assert_zip(self, response, filename: str | None = None):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["Content-Type"], "application/zip")
-        with ZipFile(BytesIO(response.content), "r") as zipfile:
+        with ZipFile(BytesIO(b"".join(response)), "r") as zipfile:
             self.assertIsNone(zipfile.testzip())
             if filename is not None:
                 self.assertIn(filename, zipfile.namelist())
@@ -507,6 +527,7 @@ class ComponentTestCase(RepoTestCase):
             "checksum": unit.checksum,
             "contentsum": hash_to_checksum(unit.content_hash),
             "translationsum": hash_to_checksum(unit.get_target_hash()),
+            "initial_state": str(unit.state),
             "target_0": target,
             "review": "20",
         }
@@ -621,8 +642,7 @@ class ReusableComponentTestCase(ComponentTestCase):
         self.user = User.objects.get(pk=self._fixture_user_pk)
         self.component = Component.objects.get(pk=self._fixture_component_pk)
         self.project = self.component.project
-        self.component.acting_user = self.user
-        self.project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         self.translation = self.get_translation()
 
 
@@ -636,6 +656,10 @@ class FixtureComponentTestCase(ComponentTestCase):
     @classmethod
     def setUpTestData(cls) -> None:
         """Manually load fixture."""
+        # The fixture load resets the sequences, which survive the class rollback.
+        # Realign them with the original rows after Django restores those rows.
+        cls.addClassCleanup(fixup_languages_seq)
+
         # Ensure there are no Language objects, we add
         # them in defined order in fixture
         Language.objects.all().delete()
@@ -661,13 +685,13 @@ class FixtureComponentTestCase(ComponentTestCase):
     # pylint: disable=arguments-differ
     def create_project(self, name: str = "Test", slug: str = "test", **kwargs):
         project = Project.objects.all()[0]
-        project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         setup_project_groups(self, project)
         return project
 
     def create_component(self):
         component = self.create_project().component_set.all()[0]
-        component.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         component.create_path()
         return component
 
@@ -1352,6 +1376,111 @@ class CategoryLanguageAdditionTest(ProjectLanguageAdditionTest):
         self.assertNotIn(component.pk, eligible_ids)
 
 
+class GlossaryProjectLanguageAdditionTest(ViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.glossary_project = self.create_project(
+            name="Glossaries", slug="glossaries"
+        )
+        self.glossary = self.glossary_project.scratch_create_component(
+            "Glossary",
+            "glossary",
+            Language.objects.get(code="en"),
+            "tbx",
+            is_glossary=True,
+            acting_user=self.user,
+        )
+        self.url = reverse(
+            "new-language", kwargs={"path": self.glossary_project.get_url_path()}
+        )
+
+    def test_administrator_can_add_language(self) -> None:
+        setup_project_groups(self, self.glossary_project)
+        self.glossary_project.add_user(self.user, "Administration")
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("project.edit", self.glossary_project))
+        shared_glossary = self.project.scratch_create_component(
+            "Shared glossary",
+            "shared-glossary",
+            self.glossary.source_language,
+            "tbx",
+            is_glossary=True,
+            acting_user=self.user,
+        )
+        shared_glossary.links.add(self.glossary_project)
+        self.assertNotIn(
+            shared_glossary,
+            self.glossary_project.components_user_can_add_new_language(self.user),
+        )
+
+        response = self.client.get(self.glossary_project.get_absolute_url())
+        self.assertRegex(
+            response.content.decode(), rf'id="list-add-button"\s+href="{self.url}"'
+        )
+
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+        choices = {
+            code for code, _label in response.context["form"].fields["lang"].choices
+        }
+        self.assertIn("af", choices)
+        self.assertNotIn("en", choices)
+
+        response = self.client.post(self.url, {"lang": "af"})
+        self.assertRedirects(response, self.glossary_project.get_absolute_url())
+        translation = self.glossary.translation_set.get(language_code="af")
+        change = self.glossary.change_set.get(action=ActionEvents.ADDED_LANGUAGE)
+        self.assertEqual(change.translation, translation)
+        self.assertEqual(change.user, self.user)
+        self.assertFalse(
+            shared_glossary.translation_set.filter(language_code="af").exists()
+        )
+
+    def test_translator_cannot_add_language_with_default_policy(self) -> None:
+        self.assertTrue(self.user.has_perm("translation.add", self.glossary_project))
+        self.assertFalse(self.user.has_perm("project.edit", self.glossary_project))
+        self.assertEqual(self.glossary.effective_new_lang, "none")
+
+        response = self.client.get(self.glossary_project.get_absolute_url())
+        self.assertNotContains(response, f'href="{self.url}"')
+
+        response = self.client.post(self.url, {"lang": "af"}, follow=True)
+        self.assertRedirects(response, self.glossary_project.get_absolute_url())
+        self.assertContains(
+            response, "Language addition is not supported by any of the components."
+        )
+        self.assertFalse(
+            self.glossary.translation_set.filter(language_code="af").exists()
+        )
+
+    def test_restricted_regular_component_in_category_excludes_glossaries(self) -> None:
+        self.glossary.new_lang = "add"
+        self.glossary.save(update_fields=["new_lang"])
+        self.assertIn(
+            self.glossary,
+            self.glossary_project.components_user_can_add_new_language(self.user),
+        )
+        category = self.create_category(self.glossary_project)
+        regular = self.create_po_new_base(
+            name="Regular",
+            project=self.glossary_project,
+            category=category,
+            restricted=True,
+            new_lang="none",
+            inherit_new_lang=False,
+        )
+
+        self.user.clear_permissions_cache()
+        self.assertNotIn(
+            regular, self.glossary_project.get_child_components_access(self.user)
+        )
+        self.assertFalse(
+            self.glossary_project.components_user_can_add_new_language(
+                self.user
+            ).exists()
+        )
+
+
 class BasicViewTest(ReusableViewTestCase):
     def assert_upload_placeholder(self, response, tab: str) -> None:
         self.assertContains(response, "Upload translation")
@@ -1561,6 +1690,22 @@ class BasicViewTest(ReusableViewTestCase):
             "\n".join(query["sql"] for query in workflow_queries),
         )
 
+    def test_view_category_preloads_workflow_settings(self) -> None:
+        category = self.create_category(self.project)
+        Component.objects.filter(pk=self.component.pk).update(category=category)
+        Project.objects.filter(pk=self.project.pk).update(translation_review=True)
+        self.client.get(category.get_absolute_url())
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(category.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Czech")
+        workflows = [
+            query for query in queries if '"trans_workflowsetting"' in query["sql"]
+        ]
+        self.assertEqual(
+            len(workflows), 1, "\n".join(query["sql"] for query in workflows)
+        )
+
     def test_project_component_listing_shows_inherited_license_badge(self) -> None:
         self.project.license = "MIT"
         self.project.save(update_fields=["license"])
@@ -1617,7 +1762,7 @@ class BasicViewTest(ReusableViewTestCase):
         self.component.create_glossary()
         glossary = Component.objects.get(project=self.project, is_glossary=True)
         glossary.category = category
-        glossary.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         glossary.save(update_fields=["category"])
         glossary_translation = glossary.translation_set.exclude(
             language=glossary.source_language
@@ -1820,6 +1965,79 @@ class BasicViewTest(ReusableViewTestCase):
         kwargs = {"path": [*self.component.get_url_path(), "it"]}
         response = self.client.get(reverse("show", kwargs=kwargs))
         self.assertContains(response, other.name)
+
+    def test_view_translation_others_filter_restricted_components(self) -> None:
+        hidden = self.create_po(project=self.project, name="Hidden translation peer")
+        hidden.restricted = True
+        hidden.save(update_fields=["restricted"])
+        visible = self.create_po(project=self.project, name="Visible translation peer")
+        hidden_translation = hidden.translation_set.get(
+            language=self.translation.language
+        )
+        visible_translation = visible.translation_set.get(
+            language=self.translation.language
+        )
+
+        for viewer in ("member", "anonymous"):
+            if viewer == "anonymous":
+                self.client.logout()
+            for url in (
+                self.translation.get_absolute_url(),
+                self.translation.get_translate_url(),
+            ):
+                with self.subTest(viewer=viewer, url=url):
+                    response = self.client.get(url)
+                    self.assertEqual(response.status_code, 200)
+                    if url == self.translation.get_absolute_url():
+                        self.assertContains(response, visible.name)
+                        self.assertContains(
+                            response, visible_translation.get_absolute_url()
+                        )
+                    self.assertNotContains(response, hidden.name)
+                    self.assertNotContains(
+                        response, hidden_translation.get_absolute_url()
+                    )
+            self.assertEqual(
+                self.client.get(hidden_translation.get_absolute_url()).status_code, 404
+            )
+
+        group = Group.objects.create(
+            name="Restricted translation peer access",
+            language_selection=SELECTION_ALL,
+        )
+        group.components.add(hidden)
+        group.roles.add(Role.objects.get(name="Power user"))
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.client.login(username="testuser", password="testpassword")
+        response = self.client.get(self.translation.get_absolute_url())
+        self.assertContains(response, hidden.name)
+
+    def test_restricted_ghosts_do_not_hide_visible_peer(self) -> None:
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            components = [
+                Component.objects.create(
+                    name=f"Ghost peer {index}",
+                    slug=f"ghost-peer-{index}",
+                    project=self.project,
+                    repo="weblate://test/test",
+                    file_format="resx",
+                    filemask="resx/*.resx",
+                    template="resx/en.resx",
+                    new_lang="add",
+                )
+                for index in range(5)
+            ]
+        Component.objects.filter(pk__in=[item.pk for item in components[1:]]).update(
+            restricted=True
+        )
+        response = self.client.get(
+            reverse("show", kwargs={"path": [*self.component.get_url_path(), "it"]})
+        )
+
+        self.assertContains(response, components[0].name)
+        for hidden in components[1:]:
+            self.assertNotContains(response, hidden.name)
 
     def test_translate_other_occurrences_component_queries_do_not_scale(self) -> None:
         unit = self.get_unit()
@@ -2101,6 +2319,78 @@ class SourceStringsTest(ViewTestCase):
         unit = self.get_unit().source_unit
         self.assertEqual(unit.context, "")
         self.assertEqual(unit.explanation, "Extra context")
+
+    def test_glossary_context_flags_require_glossary_edit(self) -> None:
+        self.component.create_glossary()
+        glossary = Component.objects.get(project=self.project, is_glossary=True)
+        source = glossary.source_translation.add_unit(
+            None, "", source="glossary-term", author=self.user
+        )
+        self.assertIsNotNone(source)
+        assert source is not None
+        url = reverse("edit_context", kwargs={"pk": source.pk})
+
+        group = Group.objects.get(name="Users")
+        group.roles.set([Role.objects.get(name="Edit source")])
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("source.edit", source.translation))
+        self.assertFalse(self.user.has_perm("glossary.edit", source.translation))
+
+        response = self.client.post(
+            url, {"explanation": "Forged context", "extra_flags": "terminology"}
+        )
+        self.assertEqual(response.status_code, 403)
+        source.refresh_from_db()
+        self.assertEqual(source.extra_flags, "")
+        self.assertEqual(source.explanation, "")
+        self.assertFalse(source.labels.exists())
+
+        response = self.client.post(url, {"explanation": "Allowed context"})
+        self.assertRedirects(response, source.get_absolute_url())
+        source.refresh_from_db()
+        self.assertEqual(source.explanation, "Allowed context")
+
+        response = self.client.post(
+            url, {"edit_flags": "1", "source_flags": "terminology"}
+        )
+        self.assertEqual(response.status_code, 403)
+        source.refresh_from_db()
+        self.assertEqual(source.extra_flags, "")
+
+        group.roles.add(Role.objects.get(name="Manage glossary"))
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("meta:unit.flag", source.translation))
+        response = self.client.post(
+            url, {"explanation": "Allowed context", "extra_flags": "terminology"}
+        )
+        self.assertRedirects(response, source.get_absolute_url())
+        source.refresh_from_db()
+        self.assertEqual(source.extra_flags, "terminology")
+
+        group.roles.remove(Role.objects.get(name="Manage glossary"))
+        self.user.clear_permissions_cache()
+        response = self.client.post(
+            url, {"explanation": "Forged removal", "extra_flags": ""}
+        )
+        self.assertEqual(response.status_code, 403)
+        source.refresh_from_db()
+        self.assertEqual(source.extra_flags, "terminology")
+        self.assertEqual(source.explanation, "Allowed context")
+
+    def test_non_glossary_context_flags_allow_source_edit(self) -> None:
+        group = Group.objects.get(name="Users")
+        group.roles.set([Role.objects.get(name="Edit source")])
+        self.user.clear_permissions_cache()
+        source = self.get_unit().source_unit
+        self.assertTrue(self.user.has_perm("source.edit", source.translation))
+
+        response = self.client.post(
+            reverse("edit_context", kwargs={"pk": source.pk}),
+            {"extra_flags": "ignore-same"},
+        )
+        self.assertRedirects(response, source.get_absolute_url())
+        source.refresh_from_db()
+        self.assertEqual(source.extra_flags, "ignore-same")
 
     def test_edit_context_hides_private_unit(self) -> None:
         private_project = self.create_project(

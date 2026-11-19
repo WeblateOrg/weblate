@@ -13,15 +13,17 @@ from concurrent.futures import ThreadPoolExecutor
 from tempfile import TemporaryDirectory
 from threading import Event
 from types import SimpleNamespace
-from typing import cast
+from typing import TYPE_CHECKING, cast
 from unittest.mock import Mock, call, patch
 
+import regex
 from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
 from django.db import close_old_connections, connection
 from django.db.models import F
+from django.template import TemplateSyntaxError
 from django.test import SimpleTestCase, TransactionTestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.utils import timezone
@@ -29,6 +31,7 @@ from translate.storage.base import ParseError
 
 from weblate.auth.models import setup_project_groups
 from weblate.checks.models import Check
+from weblate.formats.ttkit import PoFormat
 from weblate.formats.txt import AppStoreFormat, MultiparserError
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
@@ -44,7 +47,7 @@ from weblate.trans.models import (
     Unit,
     WorkflowSetting,
 )
-from weblate.trans.models.component import prefetch_tasks
+from weblate.trans.models.component import FileMaskTimeoutError, prefetch_tasks
 from weblate.trans.repository_context import (
     RepositoryFollowupLockError,
     inline_repository_followups,
@@ -59,10 +62,12 @@ from weblate.trans.tests.utils import (
     TEST_VCS_ALLOW_SCHEMES,
     RepoTestMixin,
     create_test_user,
+    get_optional_path,
     get_test_actor,
 )
 from weblate.trans.util import join_plural
-from weblate.utils.files import remove_tree
+from weblate.utils.change_origin import acting_user_context, get_acting_user
+from weblate.utils.files import PathMatchBudget, remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -72,15 +77,20 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
+from weblate.utils.tests.network import mock_dns
 from weblate.vcs.base import (
     RepositoryError,
     RepositoryRecoveryEvent,
     RepositoryRedirectError,
+    RepositoryTemplateError,
 )
 from weblate.vcs.git import GitMergeRequestBase, GitRepository
 from weblate.vcs.github import GitHubInstallation
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
+
+if TYPE_CHECKING:
+    from weblate.auth.models import User
 
 HOST_KEY_MISMATCH_ERROR = """remote: @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 remote: @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
@@ -94,6 +104,16 @@ remote: Host key verification failed.
 
 class ComponentTest(RepoTestCase):
     """Component object testing."""
+
+    def test_ensure_local_repository_skips_remote_and_linked_repositories(self) -> None:
+        for vcs, repo in (
+            ("git", "https://example.com/repository.git"),
+            ("local", "weblate://project/source"),
+        ):
+            with self.subTest(vcs=vcs, repo=repo):
+                component = Component(vcs=vcs, repo=repo)
+                component.ensure_local_repository()
+                self.assertNotIn("repository", component.__dict__)
 
     def test_commit_pending_without_changes_does_not_fetch_bot(self) -> None:
         component = self.create_component()
@@ -667,6 +687,17 @@ class ComponentTest(RepoTestCase):
         translation.refresh_from_db()
         self.assertTrue(translation.revision.split(",", maxsplit=1)[0].endswith(":1"))
 
+    def test_po_parse_version(self) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        with patch.object(PoFormat, "parse_version", 0):
+            translation.store_hash()
+
+        translation.refresh_from_db()
+        self.assertTrue(translation.check_sync())
+        translation.refresh_from_db()
+        self.assertTrue(translation.revision.split(",", maxsplit=1)[0].endswith(":1"))
+
     def test_create_po_pot(self) -> None:
         component = self._create_component("po", "po/*.po", new_base="po/project.pot")
         self.verify_component(component, 4, "cs", 4)
@@ -1112,7 +1143,8 @@ class ComponentTest(RepoTestCase):
 
     def test_update_checks(self) -> None:
         """Setting of check_flags changes checks for related units."""
-        component = self.create_component()
+        with self.captureOnCommitCallbacks(execute=True):
+            component = self.create_component()
         self.assertEqual(Check.objects.count(), 3)
         check = Check.objects.filter(name="same")[0]
         component.check_flags = f"ignore-{check.name}"
@@ -1122,7 +1154,8 @@ class ComponentTest(RepoTestCase):
 
     def test_category_update_checks(self) -> None:
         """Moving to category changes checks inherited by related units."""
-        component = self.create_component()
+        with self.captureOnCommitCallbacks(execute=True):
+            component = self.create_component()
         self.assertEqual(Check.objects.count(), 3)
         check = Check.objects.filter(name="same")[0]
         category = component.project.category_set.create(
@@ -1470,7 +1503,10 @@ class ComponentChangeTest(RepoTestCase):
         current_revision = component.repository.last_revision
         self.assertNotEqual(initial_revision, current_revision)
         self.assertEqual(component.local_revision, current_revision)
-        self.assertEqual(component.processed_revision, current_revision)
+        expected_processed = current_revision
+        if version := component.file_format_cls.parse_version:
+            expected_processed = f"{current_revision}:{version}"
+        self.assertEqual(component.processed_revision, expected_processed)
 
     def test_changed_setup_preserves_check_settings(self) -> None:
         component = self.create_component()
@@ -1532,7 +1568,7 @@ class ComponentChangeTest(RepoTestCase):
         link_component = self.create_link()
         self.assertIsNotNone(link_component.linked_component)
         component = cast("Component", link_component.linked_component)
-        component.acting_user = get_test_actor(self)
+        self.enterContext(acting_user_context(get_test_actor(self)))
         self.assertTrue(Component.objects.filter(repo="weblate://test/test").exists())
 
         old_path = component.full_path
@@ -1949,6 +1985,103 @@ class ComponentValidationTest(RepoTestCase):
         ):
             self.component.full_clean()
 
+    def test_filemask_timeout(self) -> None:
+        with (
+            patch.object(
+                self.component, "_match_filemask", side_effect=FileMaskTimeoutError
+            ),
+            self.assertRaisesMessage(
+                ValidationError,
+                "The file mask is too complex and took too long to evaluate.",
+            ),
+        ):
+            self.component.full_clean()
+
+    def test_filemask_traversal_limit(self) -> None:
+        with (
+            patch(
+                "weblate.trans.models.component.PathMatchBudget",
+                return_value=PathMatchBudget(max_work=0),
+            ),
+            self.assertRaisesMessage(
+                ValidationError,
+                "The file mask is too complex and took too long to evaluate.",
+            ) as raised,
+        ):
+            self.component.full_clean()
+        self.assertIn("filemask", raised.exception.message_dict)
+
+    def test_filemask_traversal_limit_during_scan(self) -> None:
+        with (
+            patch(
+                "weblate.trans.models.component.PathMatchBudget",
+                side_effect=lambda: PathMatchBudget(max_work=0),
+            ),
+            patch("weblate.trans.models.component.report_error") as report_error,
+        ):
+            with self.assertRaises(FileMaskTimeoutError):
+                self.component.get_mask_matches()
+            with self.assertRaises(FileMaskTimeoutError):
+                self.component.get_mask_matches(raise_on_timeout=True)
+        report_error.assert_called_once()
+
+    def test_filemask_deadline_during_match_processing(self) -> None:
+        def get_lang_code(path: str) -> str:
+            self.assertEqual(path, "po/cs.po")
+            clock.return_value = 11
+            return "cs"
+
+        with (
+            patch("weblate.utils.files.monotonic", return_value=0) as clock,
+            patch(
+                "weblate.trans.models.component.PathMatchBudget",
+                return_value=PathMatchBudget(deadline=10),
+            ),
+            patch(
+                "weblate.trans.models.component.bounded_glob",
+                return_value=[os.path.join(self.component.full_path, "po/cs.po")],
+            ),
+            patch.object(self.component, "get_lang_code", side_effect=get_lang_code),
+            self.assertRaisesMessage(FileMaskTimeoutError, "deadline"),
+        ):
+            self.component.get_mask_matches(raise_on_timeout=True)
+
+    def test_filemask_match_timeout(self) -> None:
+        with (
+            patch(
+                "weblate.trans.models.component.regex_match", side_effect=TimeoutError
+            ),
+            self.assertRaises(FileMaskTimeoutError),
+        ):
+            self.component.get_lang_code("po/cs.po", validate=True)
+
+    def test_filemask_timeout_during_scan(self) -> None:
+        with (
+            patch(
+                "weblate.trans.models.component.bounded_glob",
+                return_value=[os.path.join(self.component.full_path, "po/cs.po")],
+            ),
+            patch.object(
+                self.component, "get_lang_code", side_effect=FileMaskTimeoutError
+            ),
+            patch("weblate.trans.models.component.report_error") as report_error,
+        ):
+            with self.assertRaises(FileMaskTimeoutError):
+                self.component.get_mask_matches()
+            with self.assertRaises(FileMaskTimeoutError):
+                self.component.get_mask_matches(raise_on_timeout=True)
+        report_error.assert_called_once()
+
+    def test_filemask_timeout_during_changed_file_check(self) -> None:
+        with (
+            patch.object(
+                self.component, "_match_filemask", side_effect=FileMaskTimeoutError
+            ),
+            patch("weblate.trans.models.component.report_error") as report_error,
+        ):
+            self.assertTrue(self.component.uses_changed_files(["other.po"]))
+        report_error.assert_called_once()
+
     def test_screenshot_filemask(self) -> None:
         """Invalid screenshot filemask."""
         self.component.screenshot_filemask = "foo/x.png"
@@ -2094,6 +2227,7 @@ class ComponentValidationTest(RepoTestCase):
                     "managed by the repository integration", str(error.exception)
                 )
 
+    @mock_dns("github.com", "example.com")
     def test_github_app_clears_locked_push_fields(self) -> None:
         self.configure_github_app_component(push="https://example.com/other/repo.git")
 
@@ -2294,6 +2428,7 @@ class ComponentValidationTest(RepoTestCase):
 
     def test_validation_language_re_timeout(self) -> None:
         with (
+            patch.object(self.component, "get_lang_code", return_value="cs"),
             patch(
                 "weblate.trans.models.component.regex_match",
                 side_effect=TimeoutError,
@@ -2413,6 +2548,7 @@ class ComponentValidationTest(RepoTestCase):
     def test_lang_code_double(self) -> None:
         component = Component(project=Project())
         component.filemask = "path/*/resources/MessagesBundle_*.properties"
+        self.assertIsInstance(component.filemask_re, regex.Pattern)
         self.assertEqual(
             component.get_lang_code(
                 "path/pt/resources/MessagesBundle_pt_BR.properties"
@@ -2585,7 +2721,7 @@ class ComponentErrorTest(RepoTestCase):
         self.assertFalse(self.component.update_remote_branch())
 
     def test_failed_push(self) -> None:
-        self.component.acting_user = None
+        self.enterContext(acting_user_context(None))
         testfile = os.path.join(self.component.full_path, "README.md")
         with open(testfile, "a", encoding="utf-8") as handle:
             handle.write("CHANGE")
@@ -2597,6 +2733,29 @@ class ComponentErrorTest(RepoTestCase):
         self.assertEqual(change.user.username, "weblate:push")
         self.assertTrue(change.user.is_bot)
         self.assertEqual(change.user.full_name, "Background push")
+
+    def test_push_exposes_acting_user_to_repository(self) -> None:
+        user = create_test_user()
+        request = SimpleNamespace(user=user)
+        previous_acting_user = get_acting_user()
+        acting_users = []
+
+        def push_repo(*_args, **_kwargs):
+            acting_users.append(get_acting_user())
+            return True
+
+        with (
+            patch.object(self.component, "can_push", return_value=True),
+            patch.object(self.component, "repo_needs_push", return_value=True),
+            patch.object(self.component, "push_repo", side_effect=push_repo),
+        ):
+            result = self.component.do_push(
+                request, force_commit=False, do_update=False
+            )
+
+        self.assertTrue(result)
+        self.assertEqual(acting_users, [user])
+        self.assertEqual(get_acting_user(), previous_acting_user)
 
     def test_failed_reset(self) -> None:
         # Corrupt Git database so that reset fails
@@ -2808,6 +2967,7 @@ class ComponentErrorTest(RepoTestCase):
                 "force_scan": False,
                 "previous_head": None,
                 "origin": {"scope": "system"},
+                "acting_user_id": cast("User", get_acting_user()).pk,
             },
         )
         self.component.delete_commit_task()
@@ -3839,6 +3999,37 @@ class ResetDiscardRevisionTest(ComponentTestCase):
 
 
 class TranslationRemoveRevisionTest(ComponentTestCase):
+    def test_remove_reuses_prepared_message(self) -> None:
+        translation = self.component.translation_set.get(language_code="de")
+        message = translation.get_commit_message(
+            self.user.get_author_name(), self.component.effective_delete_message
+        )
+        with patch.object(
+            translation,
+            "get_commit_message",
+            side_effect=RepositoryTemplateError("delete message", "Changed context"),
+        ):
+            translation.remove(self.user, commit_message=message)
+        self.assertFalse(Translation.objects.filter(pk=translation.pk).exists())
+        self.assertEqual(
+            message.strip(),
+            self.component.repository.get_revision_info(
+                self.component.repository.get_last_revision()
+            )["message"].strip(),
+        )
+
+    def test_invalid_delete_message_preserves_translation(self) -> None:
+        translation = self.component.translation_set.get(language_code="de")
+        self.component.delete_message = "{% invalid %}"
+        self.component.inherit_delete_message = False
+        head = self.component.repository.last_revision
+        filename = get_optional_path(translation.get_filename())
+        with self.assertRaises(RepositoryTemplateError):
+            translation.remove(self.user)
+        self.assertTrue(Translation.objects.filter(pk=translation.pk).exists())
+        self.assertTrue(filename.exists())
+        self.assertEqual(self.component.repository.last_revision, head)
+
     def test_remove_updates_stored_local_revision(self) -> None:
         translation = self.component.translation_set.get(language_code="de")
         self.component.store_local_revision()
@@ -3872,16 +4063,33 @@ class TranslationRemoveRevisionTest(ComponentTestCase):
 
 class LastCommitLookupTest(ComponentTestCase):
     def test_get_last_commit_keeps_stale_local_revision_unchanged(self) -> None:
-        self.component.local_revision = "not-a-valid-revision"
+        self.component.local_revision = "--output=unexpected"
         self.component.save(update_fields=["local_revision"])
 
-        self.assertIsNone(self.component.get_last_commit())
+        with patch.object(self.component.repository, "get_revision_info") as lookup:
+            self.assertIsNone(self.component.get_last_commit())
+        lookup.assert_not_called()
 
         self.component.refresh_from_db()
-        self.assertEqual("not-a-valid-revision", self.component.local_revision)
+        self.assertEqual("--output=unexpected", self.component.local_revision)
 
 
 class UpdateBranchRevisionTest(ComponentTestCase):
+    def test_invalid_merge_message_does_not_start_or_abort_merge(self) -> None:
+        self.component.merge_message = "{% invalid %}"
+        self.component.inherit_merge_message = False
+        with (
+            override_settings(DEBUG=True),
+            patch.object(self.component.repository, "merge") as merge,
+            patch("weblate.utils.errors.record_error") as report,
+        ):
+            self.assertIsNone(
+                self.component.update_branch(method="merge", raise_update_errors=False)
+            )
+        merge.assert_not_called()
+        report.assert_not_called()
+        self.assertTrue(self.component.alert_set.filter(name="MergeFailure").exists())
+
     def test_update_branch_treats_stale_local_revision_as_update(self) -> None:
         current_head = self.component.repository.last_revision
         self.component.local_revision = ""
@@ -4052,6 +4260,9 @@ class ComponentHostKeyHandlingTest(SimpleTestCase):
             repo="git@private.example:owner/repo.git",
             push="",
             log_info=Mock(),
+            error_text=Mock(
+                return_value="Fetching VCS repository from fork.example is not allowed."
+            ),
         )
 
         with patch("weblate.trans.models.component.add_host_key") as add_host_key:
@@ -4059,6 +4270,41 @@ class ComponentHostKeyHandlingTest(SimpleTestCase):
 
         repository.validate_remote_url.assert_called_once_with(component.repo)
         add_host_key.assert_not_called()
+        self.assertNotIn("private.example", str(component.log_info.call_args_list))
+
+    def test_add_host_key_does_not_log_rejected_fork_hostname(self) -> None:
+        fork_url = "git@fork.example:owner/repo.git"
+        repository = Mock(spec=GitMergeRequestBase)
+        repository.get_fork_push_url.return_value = fork_url
+        repository.validate_remote_url.side_effect = [
+            SimpleNamespace(scheme="https"),
+            RepositoryError(
+                0, "Fetching VCS repository from fork.example is not allowed."
+            ),
+        ]
+        component = SimpleNamespace(
+            repository=repository,
+            repo="https://upstream.example/owner/repo.git",
+            push="",
+            log_info=Mock(),
+            error_text=Mock(
+                return_value="Fetching VCS repository from fork.example is not allowed."
+            ),
+        )
+
+        with patch("weblate.trans.models.component.add_host_key") as add_host_key:
+            Component.add_ssh_host_key(component)  # type: ignore[arg-type]
+
+        repository.validate_remote_url.assert_has_calls(
+            [call(component.repo), call(fork_url)]
+        )
+        add_host_key.assert_not_called()
+        component.log_info.assert_any_call(
+            "skipping SSH key for invalid repository URL: %s",
+            "Fetching VCS repository from fork.example is not allowed.",
+            sensitive=True,
+            public_message="skipping SSH key for invalid repository URL",
+        )
 
     def test_add_host_key_uses_generated_fork_remote(self) -> None:
         fork_url = "git@fork.example:owner/repo.git"
@@ -4079,6 +4325,9 @@ class ComponentHostKeyHandlingTest(SimpleTestCase):
             repo="https://upstream.example/owner/repo.git",
             push="",
             log_info=Mock(),
+            error_text=Mock(
+                return_value="Fetching VCS repository from fork.example is not allowed."
+            ),
         )
 
         with patch("weblate.trans.models.component.add_host_key") as add_host_key:
@@ -4099,6 +4348,13 @@ class ComponentHostKeyHandlingTest(SimpleTestCase):
             restrict_private=True,
             validated_addresses=("93.184.216.34",),
         )
+        component.log_info.assert_any_call(
+            "adding SSH host key for %s:%s",
+            "fork.example",
+            22,
+            sensitive=True,
+            public_message="adding SSH host key",
+        )
 
     def test_add_host_key_uses_effective_validated_destination(self) -> None:
         target = SimpleNamespace(
@@ -4116,6 +4372,9 @@ class ComponentHostKeyHandlingTest(SimpleTestCase):
             repo="git@alias.example:repo.git",
             push="",
             log_info=Mock(),
+            error_text=Mock(
+                return_value="Fetching VCS repository from fork.example is not allowed."
+            ),
         )
 
         with patch("weblate.trans.models.component.add_host_key") as add_host_key:
@@ -4128,6 +4387,13 @@ class ComponentHostKeyHandlingTest(SimpleTestCase):
             2222,
             restrict_private=True,
             validated_addresses=("93.184.216.34", "2001:4860:4860::8888"),
+        )
+        component.log_info.assert_any_call(
+            "adding SSH host key for %s:%s",
+            "alias.example",
+            2222,
+            sensitive=True,
+            public_message="adding SSH host key",
         )
 
     def test_error_text_preserves_newlines(self) -> None:
@@ -4390,6 +4656,32 @@ class ComponentJSONKeyFilterTest(ComponentKeyFilterTest):
 
 
 class ComponentRepoWebTestCase(FixtureTestCase):
+    def test_invalid_template_omits_link(self) -> None:
+        for template in ("{% invalid %}", "{{ filename|invalid }}"):
+            with self.subTest(template=template):
+                self.component.repoweb = template
+                self.assertIsNone(self.get_url())
+
+    def test_render_limit_omits_link(self) -> None:
+        self.component.repoweb = "https://example.com/{{ filename }}"
+        with patch(
+            "weblate.trans.models.component.render_template",
+            side_effect=TemplateSyntaxError("Template output exceeds its size limit."),
+        ) as render:
+            self.assertIsNone(self.get_url())
+        render.assert_called_once()
+
+    def test_unexpected_render_failure_propagates(self) -> None:
+        self.component.repoweb = "https://example.com/{{ filename }}"
+        with (
+            patch(
+                "weblate.trans.models.component.render_template",
+                side_effect=RuntimeError("bug"),
+            ),
+            self.assertRaisesMessage(RuntimeError, "bug"),
+        ):
+            self.get_url()
+
     def get_url(self) -> str | None:
         return self.component.get_repoweb_link("test.py", "42", user=self.user)
 
@@ -4488,7 +4780,7 @@ class ComponentRepoWebTestCase(FixtureTestCase):
     def test_repo_link_generation_linked_github_with_acting_user(self) -> None:
         """Test generated repository browser links delegate acting user."""
         component = self.create_github_repo_link()
-        component.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
 
         self.assertEqual(
             "https://github.com/marcus/project-x/blob/main/test.py#L42",

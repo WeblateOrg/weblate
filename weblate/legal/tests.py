@@ -6,7 +6,9 @@
 
 from __future__ import annotations
 
+from copy import deepcopy
 from itertools import product
+from typing import cast
 from unittest.mock import patch
 
 from django.conf import settings
@@ -243,6 +245,52 @@ class LegalTest(TestCase, RegistrationTestMixin):
             count=1,
         )
 
+    @override_settings(LEGAL_HIDDEN_DOCUMENTS=())
+    def test_confirm_custom_terms(self) -> None:
+        create_test_user()
+        self.client.login(username="testuser", password="testpassword")
+        templates = deepcopy(settings.TEMPLATES)
+        templates[0]["APP_DIRS"] = False
+        template_options = cast("dict[str, object]", templates[0]["OPTIONS"])
+        template_options["loaders"] = [
+            (
+                "django.template.loaders.locmem.Loader",
+                {"legal/documents/tos.html": "<p>Customized confirmation terms.</p>"},
+            ),
+            "django.template.loaders.filesystem.Loader",
+            "django.template.loaders.app_directories.Loader",
+        ]
+
+        for external_terms, external_privacy in product((False, True), repeat=2):
+            with (
+                self.subTest(terms=external_terms, privacy=external_privacy),
+                override_settings(
+                    TEMPLATES=templates,
+                    LEGAL_URL="https://example.com/terms/" if external_terms else None,
+                    PRIVACY_URL=(
+                        "https://example.com/privacy/" if external_privacy else None
+                    ),
+                ),
+            ):
+                response = self.client.get(reverse("legal:confirm"))
+                privacy_url = (
+                    "https://example.com/privacy/"
+                    if external_privacy
+                    else reverse("legal:privacy")
+                )
+                self.assertContains(response, f'href="{privacy_url}"')
+                self.assertTemplateNotUsed(response, "legal/documents/privacy.html")
+                if external_terms:
+                    self.assertContains(response, 'href="https://example.com/terms/"')
+                    self.assertNotContains(response, "Customized confirmation terms.")
+                    self.assertTemplateNotUsed(response, "legal/documents/tos.html")
+                else:
+                    self.assertContains(response, "Customized confirmation terms.")
+                    self.assertTemplateUsed(response, "legal/documents/tos.html")
+                    self.assertContains(
+                        response, "Please read the General Terms and Conditions below"
+                    )
+
     @override_settings(
         LEGAL_HIDDEN_DOCUMENTS=(),
         LEGAL_URL="https://example.com/terms/",
@@ -404,7 +452,7 @@ class LegalTest(TestCase, RegistrationTestMixin):
         """TOS confirmation on social auth."""
         pipeline = list(settings.SOCIAL_AUTH_PIPELINE)
         pipeline.insert(
-            pipeline.index("weblate.accounts.pipeline.second_factor") + 1,
+            pipeline.index("weblate.accounts.pipeline.handle_invite") + 1,
             "weblate.legal.pipeline.tos_confirm",
         )
         self.enterContext(self.settings(SOCIAL_AUTH_PIPELINE=pipeline))

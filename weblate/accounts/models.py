@@ -8,12 +8,9 @@ import datetime as dt
 import logging
 import re
 from datetime import timedelta
-from functools import partial
 from ipaddress import IPv6Network, ip_network
-from threading import Lock
 from typing import TYPE_CHECKING, Any, ClassVar, Literal
 from urllib.parse import urlparse
-from weakref import WeakKeyDictionary
 
 from appconf import AppConf
 from django.conf import settings
@@ -22,10 +19,9 @@ from django.contrib.auth.signals import user_logged_in
 from django.core.exceptions import ValidationError
 from django.core.signing import TimestampSigner
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.db import models, transaction
+from django.db import models
 from django.db.models import F, Q
-from django.db.models.functions import Upper
-from django.db.models.signals import post_delete, post_save
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -52,14 +48,15 @@ from weblate.accounts.data import (
 from weblate.accounts.notifications import (
     NOTIFICATIONS,
 )
-from weblate.accounts.tasks import cleanup_inaccessible_subscriptions, notify_auditlog
-from weblate.auth.models import TeamMembership, User
+from weblate.accounts.tasks import notify_auditlog
+from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.defines import EMAIL_LENGTH
 from weblate.trans.models import Category, Change, ComponentList, Translation
 from weblate.trans.models.translation import GhostTranslation
 from weblate.utils import messages
 from weblate.utils.decorators import disable_for_loaddata
+from weblate.utils.email import email_key_expression
 from weblate.utils.fields import EmailField
 from weblate.utils.html import mail_quote_value
 from weblate.utils.render import validate_editor
@@ -86,6 +83,7 @@ from .types import ThemeChoices
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
 
+    from django.contrib.auth.models import AnonymousUser
     from django.http.request import HttpRequest
     from django_otp.models import Device
     from django_stubs_ext import StrOrPromise
@@ -95,9 +93,6 @@ if TYPE_CHECKING:
     from weblate.trans.models import Project, Unit
 
 LOGGER = logging.getLogger("weblate.audit")
-
-SUBSCRIPTION_CLEANUP_BATCHES: WeakKeyDictionary[object, set[int]] = WeakKeyDictionary()
-SUBSCRIPTION_CLEANUP_BATCHES_LOCK = Lock()
 
 
 class WeblateAccountsConf(AppConf):
@@ -327,36 +322,15 @@ def load_subscription_categories(
     return categories
 
 
-def schedule_inaccessible_subscription_cleanup(user_ids: set[int], using: str) -> None:
-    """Schedule cleanup after collecting all users from the deletion origin."""
-    cleanup_inaccessible_subscriptions.delay(sorted(user_ids), using)
-
-
-@receiver(post_delete, sender=TeamMembership)
-def cleanup_subscriptions_after_membership_delete(
-    sender, instance: TeamMembership, using: str, origin=None, **kwargs
-) -> None:
-    """Recheck scoped subscriptions after the complete membership transaction."""
-    if origin is None:
-        origin = instance
-    schedule_cleanup = False
-    with SUBSCRIPTION_CLEANUP_BATCHES_LOCK:
-        user_ids = SUBSCRIPTION_CLEANUP_BATCHES.get(origin)
-        if user_ids is None:
-            user_ids = set()
-            SUBSCRIPTION_CLEANUP_BATCHES[origin] = user_ids
-            schedule_cleanup = True
-        user_ids.add(instance.user_id)
-    if schedule_cleanup:
-        transaction.on_commit(
-            partial(schedule_inaccessible_subscription_cleanup, user_ids, using),
-            using=using,
-        )
-
-
 EXTERNAL_CREATE_ACTIVITY = "external-create"
 
 ACCOUNT_ACTIVITY = {
+    "email-cleanup": gettext_lazy(
+        "A lookalike e-mail identity was removed, the password was disabled, and API tokens were revoked."
+    ),
+    "password-leak": gettext_lazy(
+        "Password disabled as reported leaked credential matched the password; API tokens revoked."
+    ),
     # Translators: Audit log entry
     "password": gettext_lazy("Password changed."),
     # Translators: Audit log entry
@@ -449,6 +423,12 @@ ACCOUNT_ACTIVITY = {
         "User access to the {team} team was changed by {username}."
     ),
     # Translators: Audit log entry
+    "team-admin-added": gettext_lazy(
+        "Team administrator access to {team} was granted by {username}."
+    ),
+    "team-admin-removed": gettext_lazy(
+        "Team administrator access to {team} was removed by {username}."
+    ),
     "team-remove": gettext_lazy("User was removed from the {team} team by {username}."),
     # Translators: Audit log entry
     "token-created": gettext_lazy("Project token for {project} was created."),
@@ -500,6 +480,8 @@ AUDIT_ACTOR_ACTIVITY = {
     "superuser-revoked",
     "team-add",
     "team-change",
+    "team-admin-added",
+    "team-admin-removed",
     "team-remove",
     "token-created",
     "token-removed",
@@ -529,6 +511,12 @@ ACCOUNT_ACTIVITY_METHOD = {
 }
 
 EXTRA_MESSAGES = {
+    "email-cleanup": gettext_lazy(
+        "Reset your password to restore password access and review your account activity."
+    ),
+    "password-leak": gettext_lazy(
+        "Reset your password to restore password access. Choose a unique password and review your account activity. The report didn't disclose the source of the leak."
+    ),
     # Translators: Audit log hint
     "locked": gettext_lazy(
         "To restore access to your account, please reset your password."
@@ -548,6 +536,8 @@ EXTRA_MESSAGES = {
 }
 
 NOTIFY_ACTIVITY = {
+    "email-cleanup",
+    "password-leak",
     "password",
     "reset",
     "auth-connect",
@@ -659,11 +649,65 @@ class AuditLogQuerySet(models.QuerySet["AuditLog", "AuditLog"]):
         """Get user activities with password change."""
         start = timezone.now() - dt.timedelta(days=settings.AUTH_PASSWORD_DAYS)
         return self.filter(
-            user=user, activity__in=("reset", "password"), timestamp__gt=start
+            user=user,
+            activity__in=("reset", "password", "password-leak", "email-cleanup"),
+            timestamp__gt=start,
         )
 
     def order(self):
         return self.order_by("-timestamp")
+
+
+class TeamAuditLogQuerySet(models.QuerySet["TeamAuditLog", "TeamAuditLog"]):
+    def for_user(self, user: User) -> TeamAuditLogQuerySet:
+        """Restrict team details independently of public project history."""
+        if user.is_superuser:
+            return self
+        return self.filter(
+            Q(project__in=user.accessible_managed_projects)
+            | Q(workspace__in=user.workspaces_with_perm("workspace.edit_members"))
+        )
+
+
+class TeamAuditLog(models.Model):
+    """Private, immutable snapshots of administrative team changes."""
+
+    class Scope(models.TextChoices):
+        SITE = "site", gettext_lazy("Site-wide")
+        PROJECT = "project", gettext_lazy("Project")
+        WORKSPACE = "workspace", gettext_lazy("Workspace")
+
+    class Event(models.TextChoices):
+        CREATED = "created", gettext_lazy("Team created")
+        CHANGED = "changed", gettext_lazy("Team changed")
+        DELETED = "deleted", gettext_lazy("Team deleted")
+        MEMBER_ADDED = "member-added", gettext_lazy("Team member added")
+        MEMBER_REMOVED = "member-removed", gettext_lazy("Team member removed")
+        MEMBER_CHANGED = "member-changed", gettext_lazy("Team member access changed")
+
+    team = models.ForeignKey("weblate_auth.Group", null=True, on_delete=models.SET_NULL)
+    team_name = models.CharField(max_length=150)
+    scope = models.CharField(max_length=10, choices=Scope)
+    scope_label = models.CharField(max_length=200)
+    project = models.ForeignKey("trans.Project", null=True, on_delete=models.SET_NULL)
+    workspace = models.ForeignKey(
+        "workspaces.Workspace", null=True, on_delete=models.SET_NULL
+    )
+    actor = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    event = models.CharField(max_length=20, choices=Event)
+    details = models.JSONField(default=dict)
+    timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    objects = TeamAuditLogQuerySet.as_manager()
+
+    class Meta:
+        required_db_vendor = "postgresql"
+        ordering = ("-timestamp", "-pk")
+        verbose_name = "Team audit log entry"
+        verbose_name_plural = "Team audit log entries"
+
+    def __str__(self) -> str:
+        return f"{self.event}: {self.team_name}"
 
 
 class AuditLog(models.Model):
@@ -756,6 +800,8 @@ class AuditLog(models.Model):
             "accepted",
             "team-add",
             "team-change",
+            "team-admin-added",
+            "team-admin-removed",
             "team-remove",
             "sitewide-team-add",
             "sitewide-team-change",
@@ -787,9 +833,11 @@ class AuditLog(models.Model):
     def should_notify(self) -> bool:
         return (
             self.user is not None
-            and not self.user.is_bot
-            and self.user.is_active
-            and self.user.email
+            and (
+                self.activity == "password-leak"
+                or (not self.user.is_bot and self.user.is_active)
+            )
+            and bool(self.user.email)
             and self.activity in NOTIFY_ACTIVITY
             and not self.params.get("skip_notify")
         )
@@ -857,7 +905,7 @@ class VerifiedEmail(models.Model):
         verbose_name_plural = "Verified e-mails"
         indexes = [  # ruff: ignore[mutable-class-default]
             models.Index(
-                Upper("email"),
+                email_key_expression("email"),
                 name="accounts_verifiedemail_email",
             ),
         ]
@@ -1210,11 +1258,11 @@ class Profile(models.Model):
     def get_absolute_url(self) -> str:
         return self.user.get_absolute_url()
 
-    def get_user_display(self):
-        return get_user_display(self.user)
+    def get_user_display(self, *, viewer: User | AnonymousUser | None = None):
+        return get_user_display(self.user, viewer=viewer)
 
-    def get_user_display_link(self):
-        return get_user_display(self.user, True, True)
+    def get_user_display_link(self, *, viewer: User | AnonymousUser | None = None):
+        return get_user_display(self.user, True, True, viewer=viewer)
 
     def get_user_name(self):
         return get_user_display(self.user, False)
@@ -1577,6 +1625,9 @@ class Profile(models.Model):
         from weblate.accounts.utils import get_all_user_mails
 
         commit_emails = get_all_user_mails(self.user, filter_deliverable=False)
+        if self.commit_email:
+            # Preserve explicit choices after template or username changes.
+            commit_emails.add(self.commit_email)
         choices = [("", gettext_lazy("Use account e-mail address"))]
 
         if site_commit_email := self.get_site_commit_email():
@@ -1696,8 +1747,19 @@ def post_login_handler(
     is_email_auth = backend_name.endswith((".EmailAuth", ".WeblateUserBackend"))
 
     # Warning about setting password
+    request.session.pop("show_set_password", None)
     if is_email_auth and not user.has_usable_password():
         request.session["show_set_password"] = True
+    # A fresh e-mail sign-in proves control of the existing method for setup.
+    # The UI flag above must never serve as an authorization grant.
+    from weblate.accounts.utils import (  # ruff: ignore[import-outside-top-level]
+        SESSION_SENSITIVE_FACTOR_GRANT,
+        grant_sensitive_verification,
+    )
+
+    request.session.pop(SESSION_SENSITIVE_FACTOR_GRANT, None)
+    if backend_name.endswith(".EmailAuth") and not user.has_usable_password():
+        grant_sensitive_verification(request, user=user)
 
     # Redirect superuser to donate page twice a year
     if (

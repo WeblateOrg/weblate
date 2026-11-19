@@ -4,11 +4,12 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from django.conf import settings
 from django.db import models, transaction
-from django.db.models import Q
+from django.db.models import Exists, F, OuterRef, Q
+from django.db.models.functions import JSONArray
 from django.utils import timezone
 from django.utils.functional import cached_property
 
@@ -24,7 +25,12 @@ from weblate.trans.alerts.registry import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
+    from django.db.models.expressions import Expression
+
     from weblate.auth.models import User
+    from weblate.trans.models.component import ComponentQuerySet
 
 SEVERITY_BADGE_CLASSES: dict[int, str] = {
     AlertSeverity.INFO: "text-bg-info",
@@ -46,7 +52,56 @@ __all__ = [
 ]
 
 
+def visible_conflict_components(
+    user: User, component_ids: Expression | F
+) -> ComponentQuerySet:
+    """Match accessible components against a correlated JSON array of peer IDs."""
+    from weblate.trans.models.component import Component  # ruff: ignore[import-outside-top-level]
+
+    return (
+        Component.objects.filter_access(user)
+        .alias(
+            conflict_ids=models.ExpressionWrapper(
+                component_ids, output_field=models.JSONField()
+            )
+        )
+        .filter(conflict_ids__contains=JSONArray(F("pk")))
+    )
+
+
+def conflict_component_ids(details: dict[str, Any]) -> set[int]:
+    """Read valid numeric component references from stored alert details."""
+    stored_ids = details.get("component_ids")
+    if not isinstance(stored_ids, list):
+        return set()
+    return {
+        value
+        for value in stored_ids
+        if isinstance(value, int) and not isinstance(value, bool)
+    }
+
+
+def filter_visible_alerts(alerts: Iterable[Alert], user: User) -> list[Alert]:
+    """Filter prefetched alerts without issuing a query for each component."""
+    return [
+        alert
+        for alert in alerts
+        if user.is_superuser
+        or alert.name != "ConflictingRepositorySetup"
+        or bool(
+            conflict_component_ids(alert.details) & user.visible_repository_conflict_ids
+        )
+    ]
+
+
 class AlertQuerySet(models.QuerySet["Alert", "Alert"]):
+    def filter_visible_conflicts(self, user: User) -> AlertQuerySet:
+        """Suppress conflict signals unless a conflicting component is visible."""
+        if user.is_superuser:
+            return self
+        peers = visible_conflict_components(user, OuterRef("details__component_ids"))
+        return self.filter(~Q(name="ConflictingRepositorySetup") | Exists(peers))
+
     def order(self) -> AlertQuerySet:
         return self.order_by(
             "-severity", "name", "component__project__name", "component__name", "pk"
@@ -123,6 +178,8 @@ class Alert(models.Model):
         return self.alert_class(self, **self.details)
 
     def render(self, user: User) -> str:
+        if not filter_visible_alerts([self], user):
+            return ""
         return self.obj.render(user)
 
     def get_documentation_url(self, user: User | None = None) -> str:

@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+import asyncio
 from typing import TYPE_CHECKING, cast
 from unittest.mock import patch
 
@@ -30,6 +31,7 @@ from sentry_sdk.integrations.django.middleware import (
 from weblate.accounts.middleware import AuthenticationMiddleware
 from weblate.auth.models import User, get_anonymous
 from weblate.legal.models import Agreement
+from weblate.utils.change_origin import acting_user_context, get_acting_user
 
 if TYPE_CHECKING:
     from django.http import HttpRequest
@@ -211,3 +213,56 @@ class ASGIMiddlewareTest(TestCase):
                     f"{reverse('legal:confirm')}?next=%2F",
                     fetch_redirect_response=False,
                 )
+
+
+class AuthenticationActorTest(TestCase):
+    """Authentication scopes actors even without change-origin middleware."""
+
+    def make_request(self, user: User) -> AuthenticatedHttpRequest:
+        request = cast("AuthenticatedHttpRequest", RequestFactory().get("/"))
+        request.session = self.client.session
+        request.weblate_cached_user = user
+        return request
+
+    def test_actor_and_exception_cleanup(self) -> None:
+        user = User.objects.create_user(username="actor", password="testpass")
+        request = self.make_request(user)
+        anonymous = get_anonymous()
+
+        def response(request: AuthenticatedHttpRequest) -> HttpResponse:
+            self.assertEqual(get_acting_user(), request.user)
+            raise ValueError
+
+        with acting_user_context(anonymous):
+            with self.assertRaises(ValueError):
+                AuthenticationMiddleware(response)(request)
+            self.assertIs(get_acting_user(), anonymous)
+
+    def test_async_actor_and_cleanup(self) -> None:
+        user = User.objects.create_user(username="actor", password="testpass")
+        request = self.make_request(user)
+        anonymous = get_anonymous()
+
+        async def response(request: AuthenticatedHttpRequest) -> HttpResponse:
+            await asyncio.sleep(0)
+            self.assertEqual(get_acting_user(), request.user)
+            return HttpResponse()
+
+        with acting_user_context(anonymous):
+            result = async_to_sync(AuthenticationMiddleware(response).__acall__)(
+                request
+            )
+            self.assertEqual(result.status_code, 200)
+            self.assertIs(get_acting_user(), anonymous)
+
+    def test_anonymous_actor(self) -> None:
+        anonymous = get_anonymous()
+        request = self.make_request(anonymous)
+
+        def response(request: AuthenticatedHttpRequest) -> HttpResponse:
+            self.assertEqual(get_acting_user(), anonymous)
+            return HttpResponse()
+
+        with acting_user_context(None):
+            AuthenticationMiddleware(response)(request)
+            self.assertIsNone(get_acting_user())

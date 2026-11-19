@@ -24,6 +24,7 @@ from weblate.utils.views import PathViewMixin, get_paginator
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
+    from django.http import HttpResponseRedirect
     from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -190,12 +191,19 @@ class AddonList(PathViewMixin, ListView):
         ):
             inherited = (addon.component or addon.category or addon.project) != target
             can_manage = self._can_manage_addon(addon)
+            scope_description = self._get_scope_description(addon)
+            if (
+                addon.component
+                and inherited
+                and not self.request.user.can_access_component(addon.component)
+            ):
+                scope_description = gettext("a component you cannot access")
             items.append(
                 AddonListItem(
                     instance=addon,
                     inherited=inherited,
                     scope_label=self._get_scope_label(addon, target),
-                    scope_description=self._get_scope_description(addon),
+                    scope_description=scope_description,
                     can_manage=can_manage,
                 )
             )
@@ -276,10 +284,39 @@ class AddonList(PathViewMixin, ListView):
                     component=component, category=category, project=project
                 )
                 and (x.multiple or x.name not in installed)
-                and x.api_available(component)
             ),
             key=lambda x: x.name,
         )
+        result["repository_available"] = []
+        result["repository_owner_url"] = None
+        if component and component.linked_component:
+            owner = component.linked_component
+            can_manage_owner = bool(self.request.user.has_perm("component.edit", owner))
+            if can_manage_owner:
+                result["repository_owner_url"] = reverse(
+                    "addons", kwargs={"path": owner.get_url_path()}
+                )
+                owner_installed = set(owner.addon_set.values_list("name", flat=True))
+            else:
+                owner_installed = set()
+            result["repository_available"] = sorted(
+                (
+                    addon_class(Addon())
+                    for addon_class in ADDONS.values()
+                    if addon_class.repo_scope
+                    and (
+                        not can_manage_owner
+                        or (
+                            addon_class.can_install(component=owner)
+                            and (
+                                addon_class.multiple
+                                or addon_class.name not in owner_installed
+                            )
+                        )
+                    )
+                ),
+                key=lambda addon: addon.name,
+            )
         if component:
             result["scope"] = "component"
         elif category:
@@ -311,13 +348,9 @@ class AddonList(PathViewMixin, ListView):
         if addon is None:
             return self.redirect_list(gettext("Invalid add-on name: ”%s”") % name)
         installed = {x.addon_name for x in self.get_queryset()}
-        if (
-            not addon.can_install(
-                component=obj_component, category=obj_category, project=obj_project
-            )
-            or (name in installed and not addon.multiple)
-            or not addon.api_available(obj_component)
-        ):
+        if not addon.can_install(
+            component=obj_component, category=obj_category, project=obj_project
+        ) or (name in installed and not addon.multiple):
             return self.redirect_list(
                 gettext("Add-on cannot be installed: ”%s”") % name
             )
@@ -331,7 +364,7 @@ class AddonList(PathViewMixin, ListView):
         )
         if form is None:
             try:
-                addon.create(
+                created = addon.create(
                     component=obj_component,
                     category=obj_category,
                     project=obj_project,
@@ -339,6 +372,8 @@ class AddonList(PathViewMixin, ListView):
                 )
             except ValidationError as error:
                 return self.redirect_list(" ".join(error.messages))
+            if addon.stay_on_create:
+                return self.redirect_installed(created.instance)
             return self.redirect_list()
 
         if "form" in request.POST and form.is_valid():
@@ -347,25 +382,32 @@ class AddonList(PathViewMixin, ListView):
             except ValidationError as error:
                 return self.redirect_list(" ".join(error.messages))
             if addon.stay_on_create:
-                messages.info(
-                    self.request,
-                    gettext(
-                        "Add-on installed, please review integration instructions."
-                    ),
-                )
-                return redirect(instance)
+                return self.redirect_installed(instance)
             return self.redirect_list()
 
         addon.pre_install(obj, request)
+        integration_addon = addon(
+            Addon(component=obj_component, category=obj_category, project=obj_project)
+        )
         return self.response_class(
             request=self.request,
             template=["addons/addon_detail.html"],
             context={
-                "addon": addon(Addon()),
+                "addon": integration_addon,
                 "form": form,
                 "object": self.path_object,
+                "integration_instructions": integration_addon.get_integration_instructions(
+                    request.user, request=request
+                ),
             },
         )
+
+    def redirect_installed(self, instance: Addon) -> HttpResponseRedirect:
+        messages.info(
+            self.request,
+            gettext("Add-on installed, please review integration instructions."),
+        )
+        return redirect(instance)
 
 
 class BaseAddonView(DetailView):
@@ -437,6 +479,11 @@ class AddonDetail(BaseAddonView, UpdateView):
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
         if self.object.is_valid:
+            result["integration_instructions"] = (
+                self.object.addon.get_integration_instructions(
+                    self.request.user, request=self.request
+                )
+            )
             execution_form = self.object.addon.get_execution_form()
             if execution_form is not None:
                 result.setdefault("execution_form", execution_form)
@@ -468,7 +515,6 @@ class AddonDetail(BaseAddonView, UpdateView):
     def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         obj = self.get_object()
         self.object = obj
-        obj.acting_user = request.user
         if "delete" in request.POST:
             target = obj.component or obj.category or obj.project
             obj.delete()
@@ -536,6 +582,8 @@ class AddonDetail(BaseAddonView, UpdateView):
             )
         if "run" in request.POST:
             return self.trigger_manual_run(request)
+        if not obj.addon.has_settings():
+            return redirect(self.get_success_url())
         return super().post(request, *args, **kwargs)
 
 

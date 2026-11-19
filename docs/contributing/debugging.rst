@@ -104,3 +104,22 @@ logging of all database queries using following configuration after enabling
 .. code-block:: python
 
    LOGGING["loggers"]["django.db.backends"] = {"handlers": ["console"], "level": "DEBUG"}
+
+For reproducible search-query comparisons, run :file:`scripts/benchmark-search.py`
+in the isolated :ref:`development container <devcontainer>`:
+
+.. code-block:: sh
+
+   ./scripts/devcontainer --backend compose exec -- python scripts/benchmark-search.py --prepare --profile smoke
+
+The script creates a dedicated test database and compares language filtering and
+custom-source search queries against the production search results. It records
+SQL, parameters, PostgreSQL execution plans, buffer activity, and warm-cache
+timings under :file:`reports/`. The summary accounts for the word count being
+skipped on large result sets; it does not measure the complete HTTP request.
+
+Use ``--profile representative`` for a fixture with about 6.7 million strings.
+This requires substantially more disk space and execution time. Omit
+``--prepare`` to reuse a fixture, and use ``--help`` for case selection,
+timeouts, and repetition options. Synthetic measurements guide query changes;
+confirm their effect using execution plans from the affected installation.

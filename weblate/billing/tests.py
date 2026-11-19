@@ -24,13 +24,15 @@ from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone, translation
 from lxml import html
+from rest_framework.authtoken.models import Token
 
-from weblate.auth.models import Group, Permission, Role, TeamMembership, User
+from weblate.auth.models import Group, Permission, Role, TeamMembership, User, UserBlock
 from weblate.billing.admin import BillingAdmin
 from weblate.billing.defines import TRIAL_DAYS
 from weblate.billing.models import (
     Billing,
     BillingEvent,
+    BillingLog,
     Invoice,
     Plan,
     get_component_billing_alerts,
@@ -47,11 +49,13 @@ from weblate.billing.tasks import (
     remove_single_billing,
     schedule_removal,
 )
+from weblate.billing.views import merge_billings
 from weblate.lang.models import Language
 from weblate.machinery.models import MachineryInstallation
 from weblate.trans.alerts.community import (
     MissingTranslationInstructions,
 )
+from weblate.trans.forms import ProjectTokenCreateForm
 from weblate.trans.models import (
     Component,
     PendingUnitChange,
@@ -59,12 +63,14 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
+from weblate.trans.tasks import project_removal
 from weblate.trans.tests.test_models import BaseTestCase, RepoTestCase
 from weblate.trans.tests.utils import (
     create_another_user,
     create_test_billing,
     create_test_user,
 )
+from weblate.utils.change_origin import acting_user_context
 from weblate.workspaces.models import (
     WORKSPACE_NAME_LENGTH,
     WORKSPACE_PROJECT_CREATORS_GROUP,
@@ -712,7 +718,7 @@ class BillingTest(BaseTestCase):
         project = self.add_project()
         project.web = "https://example.org/"
         project.access_control = Project.ACCESS_PUBLIC
-        project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         project.save(update_fields=["web", "access_control"])
         component = self.add_component(project, "000000")
         Component.objects.filter(pk=component.pk).update(
@@ -760,7 +766,7 @@ class BillingTest(BaseTestCase):
         project = self.add_project()
         project.web = "https://example.org/"
         project.access_control = Project.ACCESS_PUBLIC
-        project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         project.save(update_fields=["web", "access_control"])
         component = self.add_component(project, "000000")
         Component.objects.filter(pk=component.pk).update(
@@ -769,7 +775,8 @@ class BillingTest(BaseTestCase):
         component.add_alert("BillingLimit")
 
         content = render_to_string(
-            "trans/alert/nolibreconditions.html", {"component": component}
+            "trans/alert/nolibreconditions.html",
+            {"component": component, "user": self.user},
         )
 
         self.assertIn(
@@ -785,7 +792,7 @@ class BillingTest(BaseTestCase):
         project = self.add_project()
         project.web = "https://example.org/"
         project.access_control = Project.ACCESS_PUBLIC
-        project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         project.save(update_fields=["web", "access_control"])
         passing_component = self.add_component(project, "000000")
         Component.objects.filter(pk=passing_component.pk).update(
@@ -809,6 +816,67 @@ class BillingTest(BaseTestCase):
         self.assertNotIn('data-bs-target="#libre-check-', content)
         self.assertNotIn("libre-check-", content)
 
+    def test_libre_checklist_access_control(self) -> None:
+        project = self.add_project()
+        project.web = "https://example.org/"
+        self.enterContext(acting_user_context(self.user))
+        project.save(update_fields=["web"])
+        component = self.add_component(project, "000000")
+        Component.objects.filter(pk=component.pk).update(
+            license="GPL-3.0-or-later", inherit_license=False
+        )
+
+        for change_access_control in (False, True):
+            self.plan.change_access_control = change_access_control
+            self.plan.save(update_fields=["change_access_control"])
+            for access_control, _label in Project.ACCESS_CHOICES:
+                with self.subTest(
+                    change_access_control=change_access_control,
+                    access_control=access_control,
+                ):
+                    project.access_control = access_control
+                    project.save(update_fields=["access_control"])
+                    self.refresh_from_db()
+                    expected = (
+                        access_control == Project.ACCESS_PUBLIC or change_access_control
+                    )
+                    self.assertEqual(self.billing.valid_libre, expected)
+                    self.assertEqual(self.billing.valid_libre_without_alerts, expected)
+                    for checklist in (
+                        self.billing.libre_checklist,
+                        self.billing.libre_checklist_without_alerts,
+                    ):
+                        self.assertEqual(
+                            "Only public projects are allowed"
+                            in [str(check) for check in checklist],
+                            not expected,
+                        )
+
+    def test_libre_checklist_reports_existing_restricted_components(self) -> None:
+        project = self.add_project()
+        Project.objects.filter(pk=project.pk).update(
+            access_control=Project.ACCESS_PUBLIC, web="https://example.org/"
+        )
+        component = self.add_component(project, "000000")
+        Component.objects.filter(pk=component.pk).update(
+            license="GPL-3.0-or-later", inherit_license=False, restricted=True
+        )
+        self.plan.change_access_control = False
+        self.plan.save(update_fields=["change_access_control"])
+        self.refresh_from_db()
+        self.assertFalse(self.billing.valid_libre)
+        self.assertFalse(self.billing.valid_libre_without_alerts)
+        self.assertIn(
+            "Restricted components are not allowed by this billing plan.",
+            [str(check) for check in self.billing.libre_checklist],
+        )
+        component.refresh_from_db()
+        self.assertTrue(component.restricted)
+        self.plan.change_access_control = True
+        self.plan.save(update_fields=["change_access_control"])
+        self.refresh_from_db()
+        self.assertTrue(self.billing.valid_libre)
+
     def test_libre_checklist_translation_without_count_placeholder(self) -> None:
         project = self.add_project()
         self.add_component(project, "000000")
@@ -817,6 +885,258 @@ class BillingTest(BaseTestCase):
             messages = [str(check) for check in self.billing.libre_general_checklist]
 
         self.assertIn("מכיל רכיב אחד", messages)
+
+    @override_settings(BILLING_GRACE_PERIOD=15)
+    def test_external_payment_validity(self) -> None:
+        now = timezone.now()
+        self.billing.payment_mode = Billing.PaymentMode.EXTERNAL
+        with patch("weblate.billing.models.timezone.now", return_value=now):
+            for delta, grace_valid, immediately_valid in (
+                (timedelta(days=1), True, True),
+                (timedelta(), True, True),
+                (-timedelta(microseconds=1), True, False),
+                (-timedelta(days=15), True, False),
+                (-timedelta(days=15, microseconds=1), False, False),
+            ):
+                with self.subTest(delta=delta):
+                    self.billing.external_paid_until = now + delta
+                    # External validity must never consult local invoices.
+                    with self.assertNumQueries(0):
+                        self.assertEqual(
+                            self.billing.check_payment_status(), grace_valid
+                        )
+                        self.assertEqual(
+                            self.billing.check_payment_status(now=True),
+                            immediately_valid,
+                        )
+            self.billing.external_paid_until = None
+            self.assertFalse(self.billing.check_payment_status())
+            self.assertFalse(self.billing.check_payment_status(now=True))
+
+    def test_external_payment_mode_switches(self) -> None:
+        plan_id = self.billing.plan_id
+        workspace_id = self.billing.workspace_id
+        self.assertEqual(self.billing.payment_mode, Billing.PaymentMode.LOCAL)
+        self.assertTrue(self.billing.check_payment_status(now=True))
+
+        self.billing.payment_mode = Billing.PaymentMode.EXTERNAL
+        self.billing.save(update_fields=["payment_mode"])
+        self.refresh_from_db()
+        self.assertFalse(self.billing.paid)
+
+        until = timezone.now() + timedelta(days=30)
+        self.billing.external_paid_until = until
+        self.billing.save(update_fields=["external_paid_until"])
+        self.refresh_from_db()
+        self.assertTrue(self.billing.paid)
+
+        # Shortening and clearing validity immediately recalculate persisted status.
+        for shortened_until in (timezone.now() - timedelta(days=60), None):
+            self.billing.external_paid_until = shortened_until
+            self.billing.save(update_fields=["external_paid_until"])
+            self.refresh_from_db()
+            self.assertFalse(self.billing.paid)
+
+        self.billing.payment_mode = Billing.PaymentMode.LOCAL
+        self.billing.save(update_fields=["payment_mode"])
+        self.refresh_from_db()
+        self.assertTrue(self.billing.paid)
+        self.assertEqual(self.billing.plan_id, plan_id)
+        self.assertEqual(self.billing.workspace_id, workspace_id)
+        self.assertEqual(self.billing.state, Billing.STATE_ACTIVE)
+        self.assertEqual(self.billing.get_last_invoice_object(), self.invoice)
+
+        # A stored external entitlement has no effect on local billing.
+        self.billing.external_paid_until = timezone.now() + timedelta(days=60)
+        self.billing.save(update_fields=["external_paid_until"])
+        self.invoice.refresh_from_db()
+        self.invoice.end -= timedelta(days=90)
+        self.invoice.save()
+        self.refresh_from_db()
+        self.assertFalse(self.billing.paid)
+        self.billing.payment_mode = Billing.PaymentMode.EXTERNAL
+        self.billing.save(update_fields=["payment_mode"])
+        self.refresh_from_db()
+        self.assertTrue(self.billing.paid)
+
+    def test_external_payment_invoice_does_not_renew(self) -> None:
+        # Keep the invoice's cached local billing while switching another instance.
+        billing = Billing.objects.get(pk=self.billing.pk)
+        billing.payment_mode = Billing.PaymentMode.EXTERNAL
+        billing.save(update_fields=["payment_mode"])
+        self.invoice.end += timedelta(days=365)
+        self.invoice.save()
+        self.refresh_from_db()
+        self.assertEqual(self.billing.payment_mode, Billing.PaymentMode.EXTERNAL)
+        self.assertFalse(self.billing.paid)
+        self.assertIsNone(self.billing.external_paid_until)
+
+        Invoice.objects.create(
+            billing=self.billing,
+            start=timezone.now().date(),
+            end=timezone.now().date() + timedelta(days=730),
+            amount=10,
+        )
+        self.refresh_from_db()
+        self.assertFalse(self.billing.paid)
+        self.assertIsNone(self.billing.external_paid_until)
+
+    def test_external_payment_creation(self) -> None:
+        for until, paid in (
+            (None, False),
+            (timezone.now() - timedelta(days=60), False),
+            (timezone.now() + timedelta(days=60), True),
+        ):
+            with self.subTest(until=until):
+                billing = Billing.objects.create(
+                    plan=self.plan,
+                    payment_mode=Billing.PaymentMode.EXTERNAL,
+                    external_paid_until=until,
+                )
+                billing.refresh_from_db()
+                self.assertEqual(billing.paid, paid)
+                self.assertFalse(billing.invoice_set.exists())
+
+    def test_external_payment_free_and_trial(self) -> None:
+        self.billing.payment_mode = Billing.PaymentMode.EXTERNAL
+        self.billing.state = Billing.STATE_TRIAL
+        self.billing.save()
+        self.test_trial()
+        self.billing.state = Billing.STATE_ACTIVE
+        self.plan.price = 0
+        self.plan.yearly_price = 0
+        self.plan.save()
+        self.billing.save()
+        self.refresh_from_db()
+        self.assertTrue(self.billing.paid)
+        self.assertTrue(self.billing.check_payment_status(now=True))
+
+    def test_external_payment_limits(self) -> None:
+        self.billing.payment_mode = Billing.PaymentMode.EXTERNAL
+        self.billing.external_paid_until = timezone.now() + timedelta(days=30)
+        self.billing.save()
+        self.test_limit_projects()
+        self.assertTrue(self.billing.paid)
+
+    @override_settings(EMAIL_SUBJECT_PREFIX="", BILLING_GRACE_PERIOD=15)
+    def test_external_payment_expiry(self) -> None:
+        self.add_project()
+        self.billing.payment_mode = Billing.PaymentMode.EXTERNAL
+        for days, paid, scheduled, notifications in (
+            (1, True, False, 0),
+            (-1, True, False, 1),
+            (-30, False, True, 1),
+        ):
+            with self.subTest(days=days):
+                mail.outbox.clear()
+                self.billing.external_paid_until = timezone.now() + timedelta(days=days)
+                self.billing.save(update_fields=["payment_mode", "external_paid_until"])
+                billing_check()
+                schedule_removal()
+                notify_expired()
+                perform_removal()
+                self.refresh_from_db()
+                self.assertEqual(self.billing.paid, paid)
+                self.assertEqual(
+                    Billing.objects.get_valid().filter(pk=self.billing.pk).exists(),
+                    paid,
+                )
+                self.assertEqual(self.billing.removal is not None, scheduled)
+                self.assertEqual(len(mail.outbox), notifications)
+                self.assertEqual(self.billing.state, Billing.STATE_ACTIVE)
+                self.assertEqual(self.billing.count_projects, 1)
+
+        self.billing.removal = timezone.now() - timedelta(days=1)
+        self.billing.save(update_fields=["removal"])
+        perform_removal()
+        self.refresh_from_db()
+        self.assertEqual(self.billing.state, Billing.STATE_TERMINATED)
+        self.assertEqual(self.billing.count_projects, 0)
+
+    def test_external_payment_renewal_cancels_removal(self) -> None:
+        self.add_project()
+        self.billing.payment_mode = Billing.PaymentMode.EXTERNAL
+        self.billing.save(update_fields=["payment_mode"])
+        schedule_removal()
+        self.refresh_from_db()
+        self.assertIsNotNone(self.billing.removal)
+
+        self.billing.external_paid_until = timezone.now() + timedelta(days=30)
+        self.billing.save(update_fields=["external_paid_until"])
+        self.refresh_from_db()
+        self.assertTrue(self.billing.paid)
+        self.assertIsNone(self.billing.removal)
+        self.assertTrue(Billing.objects.get_valid().filter(pk=self.billing.pk).exists())
+
+        # A removal task queued before renewal must also preserve the projects.
+        with patch("weblate.billing.tasks.create_project_backup") as backup:
+            remove_single_billing(self.billing.pk)
+        backup.assert_not_called()
+        self.refresh_from_db()
+        self.assertEqual(self.billing.state, Billing.STATE_ACTIVE)
+        self.assertEqual(self.billing.count_projects, 1)
+
+    def test_external_payment_stale_check_preserves_renewal(self) -> None:
+        self.billing.payment_mode = Billing.PaymentMode.EXTERNAL
+        self.billing.external_paid_until = timezone.now() - timedelta(days=60)
+        # Model the hourly check loading an entitlement that has expired since
+        # the previous check last calculated its persisted paid status.
+        self.billing.paid = True
+        self.billing.save(skip_limits=True)
+        stale = Billing.objects.get(pk=self.billing.pk)
+
+        renewed_until = timezone.now() + timedelta(days=30)
+        self.billing.external_paid_until = renewed_until
+        self.billing.save(update_fields=["external_paid_until"])
+
+        stale.check_limits()
+
+        self.refresh_from_db()
+        self.assertEqual(self.billing.external_paid_until, renewed_until)
+        self.assertTrue(self.billing.paid)
+        self.assertEqual(stale.external_paid_until, renewed_until)
+        self.assertTrue(stale.paid)
+        schedule_removal()
+        self.refresh_from_db()
+        self.assertIsNone(self.billing.removal)
+
+    def test_external_payment_stale_check_respects_revocation(self) -> None:
+        self.billing.payment_mode = Billing.PaymentMode.EXTERNAL
+        for until in (None, timezone.now() - timedelta(days=60)):
+            with self.subTest(until=until):
+                self.billing.external_paid_until = timezone.now() + timedelta(days=30)
+                self.billing.save()
+                stale = Billing.objects.get(pk=self.billing.pk)
+
+                self.billing.external_paid_until = until
+                self.billing.save(update_fields=["external_paid_until"])
+                stale.check_limits()
+
+                self.assertFalse(stale.paid)
+                self.assertEqual(stale.external_paid_until, until)
+                self.refresh_from_db()
+                self.assertFalse(self.billing.paid)
+                self.assertEqual(self.billing.external_paid_until, until)
+
+    def test_external_payment_does_not_reactivate_terminated(self) -> None:
+        self.billing.payment_mode = Billing.PaymentMode.EXTERNAL
+        self.billing.state = Billing.STATE_TERMINATED
+        self.billing.external_paid_until = timezone.now() + timedelta(days=30)
+        removal = timezone.now() + timedelta(days=1)
+        self.billing.removal = removal
+        self.billing.save()
+        self.refresh_from_db()
+        self.assertEqual(self.billing.state, Billing.STATE_TERMINATED)
+        self.assertEqual(self.billing.removal, removal)
+
+    def test_external_payment_skips_local_inactivity(self) -> None:
+        self.billing.payment_mode = Billing.PaymentMode.EXTERNAL
+        self.billing.payment = {"recurring": "local-payment"}
+        self.billing.save()
+        with patch.object(Billing, "get_latest_upstream_commit") as latest_commit:
+            self.assertIsNone(self.billing.get_inactive_recurring_status())
+        latest_commit.assert_not_called()
+        self.assertEqual(self.billing.payment, {"recurring": "local-payment"})
 
     def test_limit_projects(self) -> None:
         self.assertTrue(self.billing.in_limits)
@@ -1046,7 +1366,7 @@ class BillingTest(BaseTestCase):
 
     def test_first_project_preserves_manual_workspace_name(self) -> None:
         self.billing.workspace.name = "Manual workspace name"
-        self.billing.workspace.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         self.billing.workspace.save(update_fields=["name"])
         project = Project.objects.create(
             name="Hosted app",
@@ -1149,7 +1469,7 @@ class BillingTest(BaseTestCase):
             yearly_price=299,
         )
         self.billing.workspace.name = "Manual workspace name"
-        self.billing.workspace.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         self.billing.workspace.save(update_fields=["name"])
 
         self.billing.plan = paid_plan
@@ -1795,7 +2115,7 @@ class BillingTest(BaseTestCase):
         other = Billing.objects.create(plan=self.plan)
 
         project.workspace = other.workspace
-        project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         project.save(update_fields=["workspace"])
 
         self.refresh_from_db()
@@ -1833,7 +2153,7 @@ class BillingTest(BaseTestCase):
             ),
             self.assertRaisesMessage(RuntimeError, "memory cleanup failed"),
         ):
-            project.acting_user = self.user
+            self.enterContext(acting_user_context(self.user))
             project.save(update_fields=["workspace"])
 
         self.assertEqual(project.billing_original_workspace_id, original_tracker)
@@ -1846,7 +2166,7 @@ class BillingTest(BaseTestCase):
         self.assertFalse(self.billing.in_limits)
         self.assertEqual(other.count_projects, 0)
 
-        project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         project.save(update_fields=["workspace"])
         self.refresh_from_db()
         other = Billing.objects.get(pk=other.pk)
@@ -1863,7 +2183,7 @@ class BillingTest(BaseTestCase):
         other = Billing.objects.create(plan=self.plan)
 
         project.workspace = other.workspace
-        project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         project.save(update_fields=["workspace"])
 
         self.billing.workspace.refresh_from_db()
@@ -2085,6 +2405,103 @@ class BillingTest(BaseTestCase):
         self.assertEqual(merge_log.details["source_billing"]["id"], self.billing.pk)
         self.assertEqual(merge_log.details["target_billing"]["id"], other.pk)
         self.assertIn("Merged billing", merge_log.get_details_display())
+
+    def test_merge_rejects_external_billings_without_changes(self) -> None:
+        other = Billing.objects.create(plan=self.plan)
+        project = self.add_project()
+        source_group = Group.objects.create(
+            name="Source team", defining_workspace=self.billing.workspace
+        )
+        source_group.user_set.add(self.user)
+        self.billing.payment = {"recurring": "source", "all": ["source"]}
+        self.billing.save()
+        other.payment = {"recurring": "target", "all": ["target"]}
+        other.save()
+        self.user.is_superuser = True
+        self.user.save()
+        self.client.force_login(self.user)
+        billings = Billing.objects.filter(pk__in=(self.billing.pk, other.pk))
+        groups = Group.objects.filter(
+            defining_workspace__in=(self.billing.workspace_id, other.workspace_id)
+        )
+
+        def snapshot():
+            return {
+                "billings": list(billings.order_by("pk").values()),
+                "projects": list(Project.objects.filter(pk=project.pk).values()),
+                "invoices": list(
+                    Invoice.objects.filter(billing__in=billings).order_by("pk").values()
+                ),
+                "logs": list(
+                    BillingLog.objects.filter(billing__in=billings)
+                    .order_by("pk")
+                    .values()
+                ),
+                "groups": list(groups.order_by("pk").values()),
+                "memberships": list(
+                    TeamMembership.objects.filter(group__in=groups)
+                    .order_by("pk")
+                    .values()
+                ),
+            }
+
+        for source_mode, target_mode in (
+            (Billing.PaymentMode.EXTERNAL, Billing.PaymentMode.LOCAL),
+            (Billing.PaymentMode.LOCAL, Billing.PaymentMode.EXTERNAL),
+            (Billing.PaymentMode.EXTERNAL, Billing.PaymentMode.EXTERNAL),
+        ):
+            for until in (
+                None,
+                timezone.now() - timedelta(days=60),
+                timezone.now() + timedelta(days=60),
+            ):
+                for state in (
+                    Billing.STATE_ACTIVE,
+                    Billing.STATE_TRIAL,
+                    Billing.STATE_TERMINATED,
+                ):
+                    with self.subTest(
+                        source=source_mode, target=target_mode, until=until, state=state
+                    ):
+                        self.billing.payment_mode = source_mode
+                        other.payment_mode = target_mode
+                        for billing in (self.billing, other):
+                            billing.external_paid_until = until
+                            billing.state = state
+                            billing.save()
+                        before = snapshot()
+                        response = self.client.post(
+                            reverse("billing-merge", kwargs={"pk": self.billing.pk}),
+                            {"other": other.pk, "confirm": 1},
+                        )
+                        self.assertRedirects(
+                            response,
+                            self.billing.get_absolute_url(),
+                            fetch_redirect_response=False,
+                        )
+                        self.assertIn(
+                            "Externally managed billings cannot be merged.",
+                            [
+                                str(message)
+                                for message in get_messages(response.wsgi_request)
+                            ],
+                        )
+                        self.assertEqual(snapshot(), before)
+
+    def test_merge_rechecks_payment_modes(self) -> None:
+        other = Billing.objects.create(plan=self.plan)
+        for stale_billing in (self.billing, other):
+            with self.subTest(billing=stale_billing.pk):
+                current = Billing.objects.get(pk=stale_billing.pk)
+                current.payment_mode = Billing.PaymentMode.EXTERNAL
+                current.save(update_fields=["payment_mode"])
+                self.assertEqual(stale_billing.payment_mode, Billing.PaymentMode.LOCAL)
+                with self.assertRaisesMessage(
+                    ValidationError, "Externally managed billings cannot be merged."
+                ):
+                    merge_billings(self.billing, other, self.user)
+                current.payment_mode = Billing.PaymentMode.LOCAL
+                current.save(update_fields=["payment_mode"])
 
     def test_merge_rejects_machinery_conflicts_without_changes(self) -> None:
         other = Billing.objects.create(plan=self.plan)
@@ -2365,6 +2782,157 @@ class BillingTest(BaseTestCase):
             response,
             reverse("admin:billing_billing_change", args=(self.billing.pk,)),
             status_code=200,
+        )
+
+
+class BillingRemovalTest(RepoTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.owner = create_test_user()
+        self.admin = create_another_user()
+        self.component = self.create_component()
+        self.project = self.component.project
+        self.billing = create_test_billing(self.owner)
+        self.billing.add_project(self.project)
+        self.project.add_user(self.admin, "Administration")
+        self.client.force_login(self.admin)
+
+    def assert_no_workspace_access(self) -> None:
+        self.assertEqual(
+            set(
+                self.billing.workspace.get_owners_group().user_set.values_list(
+                    "pk", flat=True
+                )
+            ),
+            {self.owner.pk},
+        )
+        self.assertEqual(
+            self.client.get(self.billing.get_absolute_url()).status_code, 403
+        )
+        self.assertEqual(
+            self.client.get(
+                reverse("workspace-access", kwargs={"pk": self.billing.workspace_id})
+            ).status_code,
+            404,
+        )
+        self.assertFalse(
+            self.billing.billinglog_set.filter(
+                event=BillingEvent.ADMIN_ADDED_PROJECT
+            ).exists()
+        )
+
+    def test_remove_translation_preserves_workspace_access(self) -> None:
+        self.assert_no_workspace_access()
+        translation_instance = self.component.translation_set.get(language_code="cs")
+        translation_pk = translation_instance.pk
+        path = translation_instance.get_url_path()
+        response = self.client.post(
+            reverse("remove", kwargs={"path": path}), {"confirm": "/".join(path)}
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(Translation.objects.filter(pk=translation_pk).exists())
+        self.assertTrue(Project.objects.filter(pk=self.project.pk).exists())
+        self.assert_no_workspace_access()
+
+    def test_remove_component_preserves_workspace_access(self) -> None:
+        self.assert_no_workspace_access()
+        component_pk = self.component.pk
+        self.component.delete()
+        self.assertFalse(Component.objects.filter(pk=component_pk).exists())
+        self.assertTrue(Project.objects.filter(pk=self.project.pk).exists())
+        self.assert_no_workspace_access()
+
+    def test_remove_one_of_two_projects_preserves_workspace_access(self) -> None:
+        Project.objects.create(
+            name="Other", slug="other", workspace=self.billing.workspace
+        )
+        self.project.delete()
+        self.assert_no_workspace_access()
+
+    def test_remove_last_project_keeps_billing_access(self) -> None:
+        self.project.delete()
+        self.assertFalse(self.billing.get_projects_queryset().exists())
+        self.assertTrue(
+            self.billing.workspace.get_owners_group()
+            .user_set.filter(pk=self.admin.pk)
+            .exists()
+        )
+        self.assertEqual(
+            self.client.get(self.billing.get_absolute_url()).status_code, 200
+        )
+
+    def test_remove_last_project_does_not_promote_blocked_admin(self) -> None:
+        UserBlock.objects.create(user=self.admin, project=self.project)
+        self.assertFalse(self.admin.has_perm("project.edit", self.project))
+        self.project.delete()
+        self.assert_no_workspace_access()
+
+    def test_remove_last_project_does_not_promote_bot(self) -> None:
+        bot = User.objects.create_user(
+            username="custom-billing-bot", is_bot=True, full_name="Billing bot"
+        )
+        self.project.add_user(bot, "Administration", allow_bot=True)
+        self.assertTrue(bot.has_perm("project.edit", self.project))
+
+        # Bypass task cleanup to verify the billing boundary independently.
+        self.project.delete()
+
+        self.assertFalse(
+            self.billing.workspace.get_owners_group()
+            .user_set.filter(pk=bot.pk)
+            .exists()
+        )
+        self.assertFalse(
+            self.billing.billinglog_set.filter(
+                event=BillingEvent.ADMIN_ADDED_PROJECT, summary=bot.username
+            ).exists()
+        )
+
+    def test_token_deleting_last_project_is_revoked(self) -> None:
+        form = ProjectTokenCreateForm(
+            self.project, {"full_name": "Billing token", "date_expires": ""}
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        bot = form.save(acting_user=self.admin)
+        token = Token.objects.get(user=bot)
+        headers = {"authorization": f"Token {token.key}"}
+        original_username = bot.username
+        self.client.logout()
+        response = self.client.patch(
+            reverse("api:user-detail", kwargs={"username": bot.username}),
+            {"full_name": "Deleted User"},
+            content_type="application/json",
+            headers=headers,
+        )
+        self.assertEqual(response.status_code, 200)
+
+        with patch("weblate.api.views.project_removal.delay") as removal:
+            removal.return_value.id = "token-project-removal"
+            response = self.client.delete(
+                reverse("api:project-detail", kwargs={"slug": self.project.slug}),
+                headers=headers,
+            )
+        self.assertEqual(response.status_code, 202)
+        removal.assert_called_once_with(self.project.pk, bot.pk)
+        project_removal.run(self.project.pk, bot.pk, backup=False)
+
+        self.assertFalse(Project.objects.filter(pk=self.project.pk).exists())
+        bot.refresh_from_db()
+        self.assertFalse(bot.is_active)
+        self.assertFalse(Token.objects.filter(pk=token.pk).exists())
+        self.assertFalse(bot.groups.exists())
+        self.assertEqual(
+            set(
+                self.billing.workspace.get_owners_group().user_set.values_list(
+                    "pk", flat=True
+                )
+            ),
+            {self.owner.pk, self.admin.pk},
+        )
+        audit = bot.auditlog_set.get(activity="token-removed")
+        self.assertEqual(audit.params["username"], original_username)
+        self.assertEqual(
+            self.client.get(reverse("api:user-list"), headers=headers).status_code, 401
         )
 
 

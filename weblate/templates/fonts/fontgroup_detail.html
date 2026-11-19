@@ -3,9 +3,7 @@
 {% load crispy_forms_tags i18n permissions translations %}
 
 {% block breadcrumbs %}
-  <li class="breadcrumb-item">
-    <a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a>
-  </li>
+  {% path_object_breadcrumbs object.project %}
   <li class="breadcrumb-item">
     <a href="{% url 'fonts' project=object.project.slug %}">{% translate "Font groups" %}</a>
   </li>
@@ -69,7 +67,9 @@
         </div>
         <div class="card-body">{{ override_form|crispy }}</div>
         <div class="card-footer">
-          <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
+          <input type="submit"
+                 class="btn btn-primary"
+                 value="{% translate "Save"|force_escape %}" />
         </div>
       </div>
     </form>
@@ -82,7 +82,9 @@
         </div>
         <div class="card-body">{{ form|crispy }}</div>
         <div class="card-footer">
-          <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
+          <input type="submit"
+                 class="btn btn-primary"
+                 value="{% translate "Save"|force_escape %}" />
         </div>
       </div>
     </form>

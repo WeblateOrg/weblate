@@ -10,7 +10,6 @@ from calendar import monthrange
 from datetime import date, timedelta
 
 from django.core.cache import cache
-from django.urls import reverse
 from django.utils import timezone
 
 from weblate.metrics.models import Metric
@@ -20,11 +19,6 @@ from weblate.trans.tests.test_views import FixtureTestCase
 
 class ChartsTest(FixtureTestCase):
     """Testing of charts."""
-
-    def test_activity_monthly(self) -> None:
-        """Test of monthly activity charts."""
-        response = self.client.get(reverse("monthly_activity_json"))
-        self.assertEqual(len(response.json()), 52)
 
     def test_monthly_activity_cold_cache_uses_single_metric_query(self) -> None:
         """Cold cache month aggregation should be loaded in one query."""

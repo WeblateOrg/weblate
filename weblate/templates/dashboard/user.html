@@ -9,7 +9,7 @@
   <div class="btn-group float-end btn-group-settings" role="group">
     <a href="{% url 'profile' %}#preferences"
        class="btn btn-link"
-       title="{% translate "Configure dashboard" %}">{% icon "settings.svg" %}</a>
+       title="{% translate "Configure dashboard"|force_escape %}">{% icon "settings.svg" %}</a>
   </div>
 
   <ul class="nav nav-pills">

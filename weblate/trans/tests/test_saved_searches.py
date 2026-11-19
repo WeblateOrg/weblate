@@ -11,9 +11,10 @@ from typing import TYPE_CHECKING
 from crispy_forms.utils import render_crispy_form
 from django.urls import reverse
 
-from weblate.trans.forms import AutoForm, BulkEditForm, DownloadForm, ReplaceForm
+from weblate.trans.forms import AutoForm, BulkEditForm, DownloadForm
 from weblate.trans.models import Project, SavedSearch
 from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.utils.search import MAX_SEARCH_QUERY_LENGTH
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
@@ -237,6 +238,14 @@ class SavedSearchCreateTest(SavedSearchTestCase):
         self.assertEqual(saved_search.user, self.user)
         self.assertIsNone(saved_search.project)
 
+    def test_rejects_long_query(self) -> None:
+        response = self.client.post(
+            self.create_url,
+            {"name": "Long", "query": "x" * (MAX_SEARCH_QUERY_LENGTH + 1)},
+        )
+        self.assertContains(response, "Ensure this value has at most 2048 characters")
+        self.assertFalse(SavedSearch.objects.exists())
+
     def test_project_scope(self) -> None:
         self.make_manager()
         response = self.client.get(
@@ -283,6 +292,34 @@ class SavedSearchDropdownTest(SavedSearchTestCase):
         self.assertContains(response, "data-save-search")
         self.assertContains(response, f'data-project="{self.project.slug}"')
 
+    def test_order(self) -> None:
+        self.create_project_search(name="Project filter")
+        self.create_user_search(name="Personal filter")
+        response = self.client.get(reverse("translate", kwargs=self.kw_translation))
+        content = response.content.decode()
+        dropdown = content[content.index('id="query-dropdown"') :]
+        positions = [
+            dropdown.index(marker)
+            for marker in (
+                "Project searches",
+                "Project filter",
+                "My searches",
+                "Personal filter",
+                'data-filter="nottranslated"',
+                "data-save-search",
+            )
+        ]
+        # Saved searches are listed before the built-in filters
+        self.assertEqual(positions, sorted(positions))
+
+    def test_long_query_truncated(self) -> None:
+        query = " OR ".join(f"key:long{i}" for i in range(20))
+        self.create_user_search(name="Long filter", query=query)
+        response = self.client.get(reverse("translate", kwargs=self.kw_translation))
+        self.assertContains(
+            response, f'<code class="saved-query" title="{query}">{query}</code>'
+        )
+
     def test_other_scopes_hidden(self) -> None:
         other_project = Project.objects.create(name="Other", slug="other")
         self.create_project_search(project=other_project, name="Foreign filter")
@@ -312,7 +349,6 @@ class SavedSearchDropdownTest(SavedSearchTestCase):
         self.create_user_search(name="Personal filter")
         forms = {
             "download": DownloadForm(self.translation, user=self.user),
-            "replace": ReplaceForm(self.translation, user=self.user),
             "auto": AutoForm(self.component, user=self.user),
             "bulk": BulkEditForm(self.user, self.translation, project=self.project),
         }

@@ -14,6 +14,11 @@ from typing import TYPE_CHECKING, NamedTuple
 from django.core.cache import cache as django_cache
 from PIL import ImageFont
 
+from weblate.fonts.limits import (
+    MAX_RENDER_DIMENSION,
+    MAX_RENDER_LINES,
+    validate_render_params,
+)
 from weblate.utils.files import read_file_bytes
 from weblate.utils.hash import calculate_hash
 
@@ -57,6 +62,15 @@ def _render_size(
     surface_width: int | None = None,
 ) -> tuple[Dimensions, int, bytes]:
     """Check whether rendered text fits."""
+    validate_render_params(
+        text,
+        width=width,
+        lines=lines,
+        size=size,
+        spacing=spacing,
+        surface_width=surface_width,
+        surface_height=surface_height,
+    )
     # Importing Matplotlib and NumPy has a significant memory cost. Most Weblate
     # processes only need font metadata, so defer the rendering stack until it is
     # actually used.
@@ -78,7 +92,13 @@ def _render_size(
         rendered_lines = (
             render.split_explicit_lines(text)
             if lines == 1
-            else render.wrap_text(text, width, font_properties, spacing=spacing)
+            else render.wrap_text(
+                text,
+                width,
+                font_properties,
+                spacing=spacing,
+                max_lines=MAX_RENDER_LINES,
+            )
         )
         measured_width, measured_height = render.measure_multiline(
             rendered_lines, font_properties, spacing=spacing
@@ -89,18 +109,30 @@ def _render_size(
         if not needs_output:
             return pixel_size, line_count, b""
 
-        surface_height = max(surface_height, pixel_size.height)
-        surface_width = max(
-            width,
-            surface_width,
-            min(pixel_size.width, width + MAX_RENDERED_TEXT_OVERFLOW),
+        surface_height = min(
+            MAX_RENDER_DIMENSION, max(surface_height, pixel_size.height)
+        )
+        surface_width = min(
+            MAX_RENDER_DIMENSION,
+            max(
+                width,
+                surface_width,
+                min(pixel_size.width, width + MAX_RENDERED_TEXT_OVERFLOW),
+            ),
         )
         expected_height = ceil(lines * pixel_size.height / line_count)
         overflow = pixel_size.width > width or line_count > lines
         figure = render.create_figure(
             surface_width, surface_height, facecolor=(0.8, 0.8, 0.8)
         )
-        rendered_text = "\n".join(rendered_lines)
+        rendered_text = "\n".join(
+            render.clip_preview_line(
+                line, surface_width, font_properties, spacing=spacing
+            )
+            for line in rendered_lines[
+                : max(1, ceil(surface_height * line_count / max(1, pixel_size.height)))
+            ]
+        )
 
         if overflow:
             render.draw_text(
@@ -163,6 +195,7 @@ def render_size(
     surface_width: int | None = None,
     use_cache: bool = True,
 ) -> tuple[Dimensions, int]:
+    """Measure text, skipping Django cache reads and writes if use_cache is false."""
     font_hash = calculate_hash("\0".join((font, *font_siblings)))
     render_cache_key = f"render:{calculate_hash(text)}:{font_hash}:{int(weight) if weight is not None else ''}:{size}:{spacing}:{width}:{lines}:{cache_key}:{surface_height}:{surface_width}"
     if use_cache:
@@ -182,11 +215,12 @@ def render_size(
         surface_height=surface_height,
         surface_width=surface_width,
     )
-    if cache_key:
-        # Longer expiry for rendered results so that it can be recalculated
-        django_cache.set(cache_key, buffer, timeout=4200)
     result = pixel_size, line_count
-    django_cache.set(render_cache_key, result, timeout=3600)
+    if use_cache:
+        if cache_key:
+            # Longer expiry for rendered results so that it can be recalculated
+            django_cache.set(cache_key, buffer, timeout=4200)
+        django_cache.set(render_cache_key, result, timeout=3600)
     return result
 
 
@@ -219,9 +253,15 @@ def check_render_size(
 
 def get_font_name(filelike: FieldFile | File) -> tuple[str, str]:
     """Return tuple of font family and style, for example ('Ubuntu', 'Regular')."""
+    content = read_file_bytes(filelike)
+    # Check the content before native parsing: a renamed WOFF2 file would
+    # otherwise reach FreeType's Brotli decoder through Pillow.
+    if content[:4] not in {b"\x00\x01\x00\x00", b"OTTO"}:
+        msg = "Unsupported font file signature"
+        raise OSError(msg)
     # Parse fonts from in-memory bytes so Pillow does not keep the original
     # file descriptor alive after validation.
-    family, style = ImageFont.truetype(BytesIO(read_file_bytes(filelike))).getname()
+    family, style = ImageFont.truetype(BytesIO(content)).getname()
     if family is None or style is None:
         msg = "Font does not provide family and style names"
         raise OSError(msg)

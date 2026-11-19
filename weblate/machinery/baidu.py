@@ -31,6 +31,9 @@ class BaiduTranslation(MachineTranslation):
     """Baidu API machine translation support."""
 
     name = "Baidu"
+    # Per-second throttling; allow a conservative minute to recover.
+    # https://api.fanyi.baidu.com/api/trans/product/apidoc/
+    rate_limit_window = 60
     max_score = 90
 
     # Map codes used by Baidu to codes used by Weblate
@@ -97,7 +100,9 @@ class BaiduTranslation(MachineTranslation):
                 pass
             else:
                 if error_code == 54003:
-                    raise MachineryRateLimitError(payload["error_msg"])
+                    raise MachineryRateLimitError(
+                        payload["error_msg"], response=response
+                    )
             msg = f"Error {payload['error_code']}: {payload['error_msg']}"
             raise MachineTranslationError(msg)
         super().check_failure(response)

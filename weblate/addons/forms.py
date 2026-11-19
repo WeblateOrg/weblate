@@ -26,6 +26,7 @@ from weblate.addons.base import (
 )
 from weblate.addons.defaults import (
     DEFAULT_FEDORA_MESSAGING_CONNECTION_ATTEMPTS,
+    DEFAULT_FEDORA_MESSAGING_CONNECTION_TIMEOUT,
     DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT,
     DEFAULT_FEDORA_MESSAGING_RETRY_DELAY,
 )
@@ -40,10 +41,12 @@ from weblate.trans.discovery import (
 )
 from weblate.trans.forms import AutoForm, BulkEditForm
 from weblate.trans.models import Translation
+from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.files import is_path_within_resolved_directory
 from weblate.utils.forms import (
     CachedModelChoiceField,
     ContextDiv,
+    FormFieldGroup,
     SortedSelectMultiple,
     WeblateServiceURLField,
 )
@@ -70,7 +73,6 @@ if TYPE_CHECKING:
         AutoTranslateAddonStoredConfiguration,
     )
     from weblate.addons.cdn import (  # ruff: ignore[unused-import]
-        CDNFilesAddon,
         CDNJSAddon,
     )
     from weblate.addons.consistency import (
@@ -130,10 +132,11 @@ class BaseAddonForm[StoredConfigurationT, AddonT: BaseAddon](forms.Form):
         return cast("StoredConfigurationT", self.cleaned_data)
 
     def save(self):
-        if self.user is not None:
-            self._addon.instance.acting_user = self.user
-        self._addon.configure(self.serialize_form())
-        return self._addon.instance
+        with acting_user_context(
+            self.user if self.user is not None else get_acting_user()
+        ):
+            self._addon.configure(self.serialize_form())
+            return self._addon.instance
 
 
 class GenerateMoForm(BaseAddonForm):
@@ -378,6 +381,25 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
             kwargs["data"] = data
         super().__init__(*args, **kwargs)
 
+    @staticmethod
+    def get_extraction_field_groups() -> list[FormFieldGroup]:
+        return [
+            FormFieldGroup(
+                gettext_lazy("Comment extraction"), ("comment_mode", "comment_tag")
+            ),
+            FormFieldGroup(gettext_lazy("Keywords"), ("keyword", "keyword_exclusive")),
+            FormFieldGroup(
+                gettext_lazy("Checks and ITS data"), ("checks", "data_dirs")
+            ),
+        ]
+
+    @staticmethod
+    def get_update_field_group() -> FormFieldGroup:
+        return FormFieldGroup(
+            gettext_lazy("Update behavior"),
+            ("interval", "normalize_header", "update_po_files", "location_mode"),
+        )
+
     def clean_data_dirs(self) -> list[str]:
         names = validate_data_dirs(
             [
@@ -477,25 +499,18 @@ class XgettextExtractPotForm(BaseXgettextExtractPotForm):
                 data["source_patterns"] = "\n".join(source_patterns)
             kwargs["data"] = data
         super().__init__(*args, **kwargs)
-        self.helper.layout = Layout(*self.get_xgettext_layout_fields())
+        self.helper.layout = Layout(
+            *(group.as_fieldset(self) for group in self.get_field_groups())
+        )
 
-    @classmethod
-    def get_xgettext_layout_fields(cls) -> list[Field]:
+    def get_field_groups(self) -> list[FormFieldGroup]:
         return [
-            Field("interval"),
-            Field("normalize_header"),
-            Field("update_po_files"),
-            Field("input_mode"),
-            Field("language"),
-            Field("source_patterns"),
-            Field("potfiles_path"),
-            Field("comment_mode"),
-            Field("comment_tag"),
-            Field("checks"),
-            Field("data_dirs"),
-            Field("keyword"),
-            Field("keyword_exclusive"),
-            Field("location_mode"),
+            self.get_update_field_group(),
+            FormFieldGroup(
+                gettext_lazy("Input files"),
+                ("input_mode", "language", "source_patterns", "potfiles_path"),
+            ),
+            *self.get_extraction_field_groups(),
         ]
 
     @staticmethod
@@ -565,18 +580,15 @@ class MesonExtractPotForm(BaseXgettextExtractPotForm):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.helper.layout = Layout(
-            Field("interval"),
-            Field("normalize_header"),
-            Field("update_po_files"),
-            Field("preset"),
-            Field("comment_mode"),
-            Field("comment_tag"),
-            Field("checks"),
-            Field("data_dirs"),
-            Field("keyword"),
-            Field("keyword_exclusive"),
-            Field("location_mode"),
+            *(group.as_fieldset(self) for group in self.get_field_groups())
         )
+
+    def get_field_groups(self) -> list[FormFieldGroup]:
+        return [
+            self.get_update_field_group(),
+            FormFieldGroup(gettext_lazy("Meson preset"), ("preset",)),
+            *self.get_extraction_field_groups(),
+        ]
 
     def clean(self) -> dict[str, Any]:
         super().clean()
@@ -1096,16 +1108,7 @@ class DiscoveryForm(BaseAddonForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            Field("match"),
-            Field("file_format"),
-            Field("name_template"),
-            Field("base_file_template"),
-            Field("new_base_template"),
-            Field("intermediate_template"),
-            Field("filemask_template"),
-            Field("language_regex"),
-            Field("copy_addons"),
-            Field("remove"),
+            *(group.as_fieldset(self) for group in self.get_field_groups())
         )
         if not self._addon.documentation_build and self.guided_preset_sections:
             self.helper.layout.insert(
@@ -1143,6 +1146,27 @@ class DiscoveryForm(BaseAddonForm):
                         },
                     ),
                 )
+
+    def get_field_groups(self) -> list[FormFieldGroup]:
+        return [
+            FormFieldGroup(
+                gettext_lazy("File matching"),
+                ("match", "file_format", "language_regex"),
+            ),
+            FormFieldGroup(
+                gettext_lazy("Component naming and file templates"),
+                (
+                    "name_template",
+                    "base_file_template",
+                    "new_base_template",
+                    "intermediate_template",
+                    "filemask_template",
+                ),
+            ),
+            FormFieldGroup(
+                gettext_lazy("Component lifecycle"), ("copy_addons", "remove")
+            ),
+        ]
 
     def serialize_form(self):
         result = dict(self.cleaned_data)
@@ -1532,7 +1556,7 @@ class AutoAddonForm(
     AutoForm,
 ):
     public_configuration_fields = frozenset(
-        {"auto_source", "component", "engines", "mode", "q", "threshold"}
+        {"auto_source", "engines", "mode", "q", "threshold"}
     )
 
     def __init__(
@@ -1586,6 +1610,9 @@ class BulkEditAddonForm(BaseAddonForm, BulkEditForm):
             "remove_translation_flags",
             "remove_labels",
             "state",
+            "search",
+            "replacement",
+            "search_type",
         }
     )
 
@@ -1666,14 +1693,6 @@ class CDNJSForm(BaseAddonForm[dict[str, object], "CDNJSAddon"]):
             Field("cookie_name"),
             Field("files"),
         )
-        if self.is_bound and self._addon.instance.pk:
-            self.helper.layout.insert(
-                0,
-                ContextDiv(
-                    template="addons/cdnjs.html",
-                    context={"url": self._addon.cdn_js_url, "user": self.user},
-                ),
-            )
 
     def clean_css_selector(self):
         try:
@@ -1704,21 +1723,6 @@ class CDNJSForm(BaseAddonForm[dict[str, object], "CDNJSAddon"]):
             raise forms.ValidationError(errors)
 
         return files
-
-
-class CDNFilesForm(BaseAddonForm[dict[str, object], "CDNFilesAddon"]):
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        layout = []
-        if self.is_bound and self._addon.instance.pk:
-            layout.append(
-                ContextDiv(
-                    template="addons/cdnfiles.html",
-                    context={"url": self._addon.cdn_files_url, "user": self.user},
-                )
-            )
-        self.helper.layout = Layout(*layout)
 
 
 class TranslationLanguageChoiceField(CachedModelChoiceField):
@@ -1794,18 +1798,20 @@ class PseudolocaleAddonForm(BaseAddonForm):
             self.fields["target"].queryset = queryset  # type: ignore[attr-defined]
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            Field("source"),
-            Field("include_readonly"),
-            Field("target"),
-            Field("prefix"),
-            Field("var_prefix"),
-            Field("suffix"),
-            Field("var_suffix"),
-            Field("var_multiplier"),
-            ContextDiv(
-                template="addons/pseudolocale.html",
-            ),
+            *(group.as_fieldset(self) for group in self.get_field_groups()),
+            ContextDiv(template="addons/pseudolocale.html"),
         )
+
+    def get_field_groups(self) -> list[FormFieldGroup]:
+        return [
+            FormFieldGroup(
+                gettext_lazy("Source and target"),
+                ("source", "include_readonly", "target"),
+            ),
+            FormFieldGroup(gettext_lazy("Prepended text"), ("prefix", "var_prefix")),
+            FormFieldGroup(gettext_lazy("Appended text"), ("suffix", "var_suffix")),
+            FormFieldGroup(gettext_lazy("Text expansion"), ("var_multiplier",)),
+        ]
 
     def clean(self) -> None:
         if "source" not in self.cleaned_data or "target" not in self.cleaned_data:
@@ -1977,6 +1983,7 @@ class WebhooksAddonForm(BaseWebhooksAddonForm):
 class FedoraMessagingAddonForm(ChangeBaseAddonForm):
     public_configuration_fields = ChangeBaseAddonForm.public_configuration_fields | {
         "connection_attempts",
+        "connection_timeout",
         "publish_timeout",
         "retry_delay",
         "topic_prefix",
@@ -2019,10 +2026,20 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
         ),
         required=False,
     )
+    connection_timeout = forms.IntegerField(
+        label=gettext_lazy("Connection timeout"),
+        help_text=gettext_lazy(
+            "How many seconds to allow for connection and channel setup per attempt."
+        ),
+        initial=DEFAULT_FEDORA_MESSAGING_CONNECTION_TIMEOUT,
+        min_value=1,
+        max_value=60,
+        required=False,
+    )
     publish_timeout = forms.IntegerField(
         label=gettext_lazy("Publish timeout"),
         help_text=gettext_lazy(
-            "How many seconds to wait for the broker delivery acknowledgement."
+            "How many seconds to allow for sending and the broker delivery acknowledgement per attempt, after connection setup."
         ),
         initial=DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT,
         min_value=1,
@@ -2046,33 +2063,46 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
         required=False,
     )
 
-    field_order = [  # ruff: ignore[mutable-class-default]
-        "amqp_url",
-        "topic_prefix",
-        "publish_timeout",
-        "connection_attempts",
-        "retry_delay",
-        "ca_cert",
-        "client_key",
-        "client_cert",
-        "event_filter",
-        "events",
-    ]
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            *(group.as_fieldset(self) for group in self.get_field_groups())
+        )
+
+    def get_field_groups(self) -> list[FormFieldGroup]:
+        return [
+            FormFieldGroup(
+                gettext_lazy("Broker connection"), ("amqp_url", "topic_prefix")
+            ),
+            FormFieldGroup(
+                gettext_lazy("Timeouts and retries"),
+                (
+                    "connection_timeout",
+                    "publish_timeout",
+                    "connection_attempts",
+                    "retry_delay",
+                ),
+            ),
+            FormFieldGroup(
+                gettext_lazy("TLS credentials"),
+                ("ca_cert", "client_key", "client_cert"),
+            ),
+            FormFieldGroup(gettext_lazy("Event selection"), ("event_filter", "events")),
+        ]
 
     def serialize_form(self):
         # ruff: ignore[import-outside-top-level]
         from .fedora_messaging import FedoraMessagingAddon
 
         result = dict(super().serialize_form())
-        if result.get("amqp_url"):
-            result["amqp_url"] = FedoraMessagingAddon.get_broker_amqp_url(
-                result["amqp_url"]
-            )
         result["topic_prefix"] = FedoraMessagingAddon.normalize_topic_prefix(
             result.get("topic_prefix")
         )
         if result.get("publish_timeout") is None:
             result["publish_timeout"] = DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT
+        if result.get("connection_timeout") is None:
+            result["connection_timeout"] = DEFAULT_FEDORA_MESSAGING_CONNECTION_TIMEOUT
         if result.get("connection_attempts") is None:
             result["connection_attempts"] = DEFAULT_FEDORA_MESSAGING_CONNECTION_ATTEMPTS
         if result.get("retry_delay") is None:
@@ -2101,11 +2131,9 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
 
     def clean(self) -> None:
         # ruff: ignore[import-outside-top-level]
-        from fedora_messaging.exceptions import ConfigurationException
-
-        # ruff: ignore[import-outside-top-level]
         from .fedora_messaging import (
             FedoraMessagingAddon,
+            FedoraMessagingConfigurationError,
         )
 
         amqp_url = self.cleaned_data.get("amqp_url")
@@ -2156,12 +2184,6 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
                     retry_delay=retry_delay,
                     force_update=True,
                 )
-                FedoraMessagingAddon.validate_broker_tls(
-                    FedoraMessagingAddon.get_configured_amqp_url(
-                        amqp_url,
-                        connection_attempts=connection_attempts,
-                        retry_delay=retry_delay,
-                    )
-                )
-            except ConfigurationException as error:
+                FedoraMessagingAddon.validate_broker_tls(amqp_url)
+            except FedoraMessagingConfigurationError as error:
                 raise forms.ValidationError(error.message) from error

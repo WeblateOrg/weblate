@@ -41,7 +41,7 @@ from weblate.checks.parser import RawQuotedString
 from weblate.lang.models import Language
 from weblate.trans.models import Category, Component, Label, Project, Translation
 from weblate.trans.util import PLURAL_SEPARATOR
-from weblate.utils.db import re_escape
+from weblate.utils.db import RegexAnalysisLimitError, re_escape, validate_search_regex
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_APPROVED,
@@ -55,7 +55,9 @@ from weblate.utils.views import parse_path
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-    from django.db.models import Expression, Model
+    from django.db.models import Expression, Model, QuerySet
+
+    from weblate.trans.models import Change
 
 
 class SearchQueryError(Exception):
@@ -65,10 +67,22 @@ class SearchQueryError(Exception):
 SearchParser = Literal["unit", "user", "superuser", "screenshot"]
 
 
+class ContributionScopeExists(Exists):
+    """Mark a positive, concrete contribution scope for user discovery."""
+
+
 # Helper parsing objects
 class RegexExpr:
     def __init__(self, tokens) -> None:
         self.expr = tokens[1]
+        # Validate before a query reaches PostgreSQLRegexLookup, so search
+        # surfaces return their usual query error for excessive expressions.
+        try:
+            validate_search_regex(self.expr)
+        except RegexAnalysisLimitError as error:
+            raise SearchQueryError(
+                gettext("Regular expression is too complex.")
+            ) from error
 
 
 class RangeExpr:
@@ -87,23 +101,30 @@ OPERATOR_MAP = {
 }
 
 MAX_PARSED_QUERY_CLAUSES = 64
+MAX_SEARCH_QUERY_LENGTH = 2048
+MAX_SEARCH_QUERY_TERMS = 128
 
 
 @dataclass(slots=True)
 class ParsedQueryClause:
     query: Q
     change_query: Q | None = None
+    changes: QuerySet[Change] | None = None
+    resource_bounded: bool = False
 
     def materialize(self) -> Q:
         if self.change_query is None:
             return self.query
 
-        # ruff: ignore[import-outside-top-level]
-        from weblate.trans.models import Change
+        if self.changes is None:
+            # ruff: ignore[import-outside-top-level]
+            from weblate.trans.models import Change
 
-        return self.query & Q(
-            Exists(Change.objects.filter(self.change_query, unit_id=OuterRef("pk")))
-        )
+            changes: QuerySet[Change] = Change.objects.filter(unit_id=OuterRef("pk"))
+        else:
+            changes = self.changes
+        expression = ContributionScopeExists if self.resource_bounded else Exists
+        return self.query & Q(expression(changes.filter(self.change_query)))
 
     def combine_and(self, other: ParsedQueryClause) -> ParsedQueryClause:
         change_query: Q | None
@@ -114,7 +135,12 @@ class ParsedQueryClause:
         else:
             change_query = self.change_query & other.change_query
 
-        return ParsedQueryClause(self.query & other.query, change_query)
+        return ParsedQueryClause(
+            self.query & other.query,
+            change_query,
+            self.changes if self.changes is not None else other.changes,
+            self.resource_bounded or other.resource_bounded,
+        )
 
 
 @dataclass(slots=True)
@@ -126,8 +152,14 @@ class ParsedQuery:
         return cls([ParsedQueryClause(query)])
 
     @classmethod
-    def from_change_query(cls, change_query: Q) -> ParsedQuery:
-        return cls([ParsedQueryClause(Q(), change_query)])
+    def from_change_query(
+        cls,
+        change_query: Q,
+        changes: QuerySet[Change] | None = None,
+        *,
+        resource_bounded: bool = False,
+    ) -> ParsedQuery:
+        return cls([ParsedQueryClause(Q(), change_query, changes, resource_bounded)])
 
     def materialize(self) -> Q:
         if not self.clauses:
@@ -687,6 +719,17 @@ class UnitTermExpr(BaseTermExpr):
         "source_comment_author": "source_unit__comment__user__username",
     }
 
+    def language_field(self, text: str | RegexExpr | RangeExpr, context: dict) -> Q:
+        if isinstance(text, str) and self.operator in {":", ":="}:
+            lookup = "code__exact" if self.operator == ":=" else "code__iexact"
+            # Materialize IDs so PostgreSQL can use language-frequency statistics
+            # on translations instead of estimating through a language-code join.
+            language_ids = list(
+                Language.objects.filter(**{lookup: text}).values_list("pk", flat=True)
+            )
+            return Q(translation__language_id__in=language_ids)
+        return self.build_field_query("language", text)
+
     @staticmethod
     def effective_source_query(canonical: Q, parent: Q, context: dict) -> Q:
         project = context.get("project")
@@ -744,6 +787,16 @@ class UnitTermExpr(BaseTermExpr):
                 )
             if resolved is not None:
                 query &= Q(**{f"{relation}__comment__resolved": resolved})
+            if author and context.get("enforce_contributor_permissions", True):
+                from weblate.auth.models import get_anonymous  # ruff: ignore[import-outside-top-level]
+                from weblate.auth.scope import get_permission_scope_query  # ruff: ignore[import-outside-top-level]
+
+                query &= get_permission_scope_query(
+                    context.get("user") or get_anonymous(),
+                    "contribution.view_author",
+                    component_path=f"{relation}__translation__component",
+                    language_path=f"{relation}__translation__language_id",
+                )
             result |= query
         return result
 
@@ -789,8 +842,27 @@ class UnitTermExpr(BaseTermExpr):
 
     def as_parsed_query(self, context: dict) -> ParsedQuery:
         if self.field in self.CHANGE_FIELDS:
-            return ParsedQuery.from_change_query(self.as_change_query(context))
-        return super().as_parsed_query(context)
+            result = ParsedQuery.from_change_query(self.as_change_query(context))
+        else:
+            result = super().as_parsed_query(context)
+        if context.get("enforce_contributor_permissions", True) and self.field in {
+            "changed_by",
+            "suggestion_author",
+            "comment_author",
+            "source_comment_author",
+        }:
+            from weblate.auth.models import get_anonymous  # ruff: ignore[import-outside-top-level]
+            from weblate.auth.scope import get_permission_scope_query  # ruff: ignore[import-outside-top-level]
+
+            viewer = context.get("user") or get_anonymous()
+            scope = get_permission_scope_query(
+                viewer,
+                "contribution.view_author",
+                component_path="translation__component",
+                language_path="translation__language_id",
+            )
+            result = result.combine_and(ParsedQuery.from_query(scope))
+        return result
 
     def as_query(self, context: dict) -> Q:
         if self.field in self.CHANGE_FIELDS:
@@ -1091,15 +1163,23 @@ class UnitTermExpr(BaseTermExpr):
 
 
 class UserTermExpr(BaseTermExpr):
+    CHANGE_FIELDS: ClassVar[set[str]] = {
+        "change_action",
+        "change_time",
+        "contributes",
+        "translates",
+    }
+    CHANGE_FIELD_MAP: ClassVar[dict[str, str]] = {
+        "change_action": "action",
+        "change_time": "timestamp",
+        "translates": "language__code",
+    }
     PLAIN_FIELDS: ClassVar[set[str]] = {"username", "full_name"}
     NONTEXT_FIELDS: ClassVar[dict[str, str]] = {
         "joined": "date_joined",
-        "change_time": "change__timestamp",
-        "change_action": "change__action",
     }
     EXACT_FIELD_MAP: ClassVar[dict[str, str]] = {
         "language": "profile__languages__code",
-        "translates": "change__language__code",
     }
     enable_fulltext: ClassVar[bool] = False
 
@@ -1109,16 +1189,68 @@ class UserTermExpr(BaseTermExpr):
     def convert_non_field(self, context: dict) -> Q:
         return Q(username__icontains=self.match) | Q(full_name__icontains=self.match)
 
-    def contributes_field(self, text: str, context: dict) -> Q:
-        if "/" not in text:
-            slug_filter = Q(change__project__slug__iexact=text)
-        else:
-            slug_filter = Q(
-                change__component_id__in=list(
-                    Component.objects.filter_by_path(text).values_list("id", flat=True)
-                )
+    def change_field_name(self, field: str, suffix: str | None = None) -> str:
+        if suffix is None:
+            suffix = OPERATOR_MAP[self.operator]
+        if field == "translates" and suffix == "substring":
+            suffix = "iexact"
+        if field == "translates":
+            return f"{self.CHANGE_FIELD_MAP[field]}__{suffix}"
+        if suffix in {"substring", "iexact"}:
+            return self.CHANGE_FIELD_MAP[field]
+        return f"{self.CHANGE_FIELD_MAP[field]}__{suffix}"
+
+    def as_change_query(self, context: dict) -> Q:
+        field = cast("str", self.field)
+        if field == "contributes":
+            return self.contributes_query(self.match)
+        match = self.match
+        convert_method = getattr(self, f"convert_{field}", None)
+        if convert_method is not None:
+            match = convert_method(match)
+        return self.build_field_query(field, match, self.change_field_name)
+
+    def contributes_query(self, text: str) -> Q:
+        if (
+            not isinstance(text, str)
+            or not text.strip()
+            or any(char in text for char in "*?")
+            or any(not part for part in text.split("/"))
+        ):
+            raise SearchQueryError(
+                gettext("A concrete project or component is required.")
             )
-        return slug_filter & Q(change__project__in=context["user"].allowed_projects)
+        if "/" not in text:
+            return Q(project__slug__iexact=text)
+        return Q(component_id__in=Component.objects.filter_by_path(text).values("pk"))
+
+    def change_queryset(self, context: dict) -> QuerySet[Change]:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Change
+
+        user = context["user"]
+        result: QuerySet[Change] = Change.objects.filter_projects(
+            user
+        ).filter_components(user)
+        if not user.is_superuser:
+            from weblate.accounts.visibility import filter_contributor_changes  # ruff: ignore[import-outside-top-level]
+
+            result = filter_contributor_changes(result, user)
+        return result.filter(user_id=OuterRef("pk"))
+
+    def as_parsed_query(self, context: dict) -> ParsedQuery:
+        if self.field in self.CHANGE_FIELDS:
+            return ParsedQuery.from_change_query(
+                self.as_change_query(context),
+                self.change_queryset(context),
+                resource_bounded=self.field == "contributes",
+            )
+        return super().as_parsed_query(context)
+
+    def as_query(self, context: dict) -> Q:
+        if self.field in self.CHANGE_FIELDS:
+            return self.as_parsed_query(context).materialize()
+        return super().as_query(context)
 
 
 class SuperuserUserTermExpr(UserTermExpr):
@@ -1340,17 +1472,30 @@ def parser_annotations(
     return result
 
 
-@lru_cache(maxsize=32)
 def parse_string(text: str, parser: SearchParser) -> ParseResults:
+    if len(text) > MAX_SEARCH_QUERY_LENGTH:
+        raise SearchQueryError(gettext("Search query is too long."))
     if "\x00" in text:
         raise SearchQueryError(gettext("Invalid character in the query string"))
     with PARSER_LOCK:
         try:
-            return PARSERS[parser].parse_string(text, parse_all=True)
+            parsed = PARSERS[parser].parse_string(text, parse_all=True)
         except ParseException as error:
             raise SearchQueryError(
                 gettext("Failed to parse the query string: {}").format(error)
             ) from error
+
+    remaining = [parsed]
+    term_count = 0
+    while remaining:
+        for item in remaining.pop():
+            if isinstance(item, BaseTermExpr):
+                term_count += 1
+                if term_count > MAX_SEARCH_QUERY_TERMS:
+                    raise SearchQueryError(gettext("Search query is too complex."))
+            elif isinstance(item, ParseResults):
+                remaining.append(item)
+    return parsed
 
 
 @lru_cache(maxsize=128)

@@ -72,22 +72,32 @@ from weblate.trans.models import (
 from weblate.trans.models.unit import fill_in_source_translation
 from weblate.trans.tasks import auto_translate
 from weblate.trans.util import redirect_next, render
-from weblate.trans.validators import SUGGESTION_REJECTION_REASON_LENGTH
+from weblate.trans.validators import (
+    SUGGESTION_REJECTION_REASON_LENGTH,
+    TranslationTextTooLongError,
+)
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
-from weblate.utils.celery import store_task_metadata
+from weblate.utils.celery import sanitize_task_result, store_task_metadata
+from weblate.utils.errors import log_handled_exception
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.messages import get_message_kind
-from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
+from weblate.utils.ratelimit import (
+    check_rate_limit,
+    revert_rate_limit,
+    session_ratelimit_post,
+)
 from weblate.utils.state import (
     STATE_APPROVED,
+    STATE_READONLY,
     STATE_TRANSLATED,
 )
-from weblate.utils.stats import CategoryLanguage, ProjectLanguage
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage, WorkspaceLanguage
 from weblate.utils.tracing import start_span
 from weblate.utils.views import parse_path, parse_path_units, show_form_errors
+from weblate.vcs.base import RepositoryTemplateError
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -246,11 +256,11 @@ def get_other_units(user: User, unit: Unit):
 
         units = (
             Unit.objects.filter_access(user)
-            .with_effective_source(custom_sources=custom_sources, select=False)
             .filter(
                 translation__component__project=component.project,
                 translation__language=translation.language,
             )
+            .with_effective_source(custom_sources=custom_sources, select=False)
             .filter(matches)
             .alias(
                 matches_current=Case(
@@ -452,7 +462,7 @@ class SearchNavigation:
     def __init__(
         self,
         base: _SearchBase,
-        project: Project,
+        project: Project | None,
         unit_set: UnitQuerySet,
         request: AuthenticatedHttpRequest,
         *,
@@ -515,7 +525,7 @@ class SearchNavigation:
     def get_ordered_units(self):
         """Perform the ordered search."""
         return self.unit_set.search(
-            self.query_string, project=self.project
+            self.query_string, project=self.project, user=self.request.user
         ).order_by_request(self.cleaned_data, self.base)
 
     def get_ordered_unit_ids(self) -> list[int]:
@@ -977,6 +987,7 @@ def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:
             request=request,
             add_alternative=add_alternative,
             expected_source_hash=form.cleaned_data["contentsum"],
+            expected_state=form.cleaned_data["initial_state"],
         )
     except ValidationError as error:
         form.add_error(None, error)
@@ -1079,46 +1090,71 @@ def handle_translate(
     return HttpResponseRedirect(this_unit_url)
 
 
-def handle_merge(unit, request: AuthenticatedHttpRequest, next_unit_url):
-    """Handle unit merging."""
-    mergeform = MergeForm(request.user, unit, request.POST)
-    if not mergeform.is_valid():
-        show_form_errors(request, mergeform)
-        return None
+def handle_merge(
+    unit: Unit, request: AuthenticatedHttpRequest, next_unit_url: str
+) -> HttpResponseRedirect | None:
+    """Handle unit merging against the current, locked destination."""
+    from weblate.trans.models.source import source_operation  # ruff: ignore[import-outside-top-level]
 
-    merged = mergeform.cleaned_data["merge_unit"]
+    with source_operation(unit.translation.component):
+        unit = get_object_or_404(Unit.objects.select_for_update(), pk=unit.pk)
+        mergeform = MergeForm(request.user, unit, request.POST)
+        if not mergeform.is_valid():
+            show_form_errors(request, mergeform)
+            return None
 
-    edit_permission = request.user.has_perm("unit.edit", unit)
-    if not edit_permission:
-        show_unit_edit_denied(request, edit_permission)
-        return None
+        merged = mergeform.cleaned_data["merge_unit"]
 
-    # Store unit
-    unit.translate(request.user, merged.get_target_plurals(), merged.state)
-    # Redirect to next entry
-    return HttpResponseRedirect(next_unit_url)
+        edit_permission = request.user.has_perm("unit.edit", unit)
+        if not edit_permission:
+            show_unit_edit_denied(request, edit_permission)
+            return None
+
+        # Store unit
+        state = merged.state
+        if state == STATE_READONLY or (
+            state == STATE_APPROVED
+            and (
+                not unit.translation.enable_review
+                or not request.user.has_perm("unit.review", unit)
+            )
+        ):
+            state = STATE_TRANSLATED
+        try:
+            unit.translate(request.user, merged.get_target_plurals(), state)
+        except TranslationTextTooLongError as error:
+            messages.error(request, error.messages[0])
+            return None
+        # Redirect to next entry
+        return HttpResponseRedirect(next_unit_url)
 
 
-def handle_revert(unit, request: AuthenticatedHttpRequest, next_unit_url):
-    revertform = RevertForm(unit, request.POST)
-    if not revertform.is_valid():
-        show_form_errors(request, revertform)
-        return None
+def handle_revert(
+    unit: Unit, request: AuthenticatedHttpRequest, next_unit_url: str
+) -> HttpResponseRedirect | None:
+    from weblate.trans.models.source import source_operation  # ruff: ignore[import-outside-top-level]
 
-    change = revertform.cleaned_data["revert_change"]
+    with source_operation(unit.translation.component):
+        unit = get_object_or_404(Unit.objects.select_for_update(), pk=unit.pk)
+        revertform = RevertForm(unit, request.POST)
+        if not revertform.is_valid():
+            show_form_errors(request, revertform)
+            return None
 
-    edit_permission = request.user.has_perm("unit.edit", unit)
-    if not edit_permission:
-        show_unit_edit_denied(request, edit_permission)
-        return None
+        change = revertform.cleaned_data["revert_change"]
 
-    if not change.revert(
-        request.user, change_action=ActionEvents.REVERT, request=request
-    ):
-        messages.error(request, gettext("Could not revert the selected change."))
-        return None
-    # Redirect to next entry
-    return HttpResponseRedirect(next_unit_url)
+        edit_permission = request.user.has_perm("unit.edit", unit)
+        if not edit_permission:
+            show_unit_edit_denied(request, edit_permission)
+            return None
+
+        if not change.revert(
+            request.user, change_action=ActionEvents.REVERT, request=request
+        ):
+            messages.error(request, gettext("Could not revert the selected change."))
+            return None
+        # Redirect to next entry
+        return HttpResponseRedirect(next_unit_url)
 
 
 def check_suggest_permissions(
@@ -1189,10 +1225,14 @@ def perform_suggestion_action(
 
     # Perform operation
     if mode in {"accept", "accept_edit", "accept_approve"}:
-        suggestion.accept(
-            request,
-            state=STATE_APPROVED if mode == "accept_approve" else STATE_TRANSLATED,
-        )
+        try:
+            suggestion.accept(
+                request,
+                state=STATE_APPROVED if mode == "accept_approve" else STATE_TRANSLATED,
+            )
+        except TranslationTextTooLongError as error:
+            messages.error(request, error.messages[0])
+            return None
     elif mode in {"delete", "spam"}:
         rejection_reason = request.POST.get("rejection", "")
         if len(rejection_reason) > SUGGESTION_REJECTION_REASON_LENGTH:
@@ -1287,9 +1327,21 @@ def get_addterm_glossaries(addable_ids):
 
 
 def prepare_glossary_terms(
-    units: list[Unit], project: Project, *, full: bool = False
+    units: list[Unit], project: Project | None, *, full: bool = False
 ) -> None:
     """Prepare glossary terms for units if glossary matching is useful."""
+    if project is None:
+        projects = {unit.translation.component.project_id for unit in units}
+        for project_id in projects:
+            project_units = [
+                unit
+                for unit in units
+                if unit.translation.component.project_id == project_id
+            ]
+            prepare_glossary_terms(
+                project_units, project_units[0].translation.component.project, full=full
+            )
+        return
     if (
         units
         and project.glossaries
@@ -1304,7 +1356,7 @@ def prepare_glossary_terms(
 def get_translate_unit(
     request: AuthenticatedHttpRequest,
     obj: _SearchBase,
-    project: Project,
+    project: Project | None,
     unit_set: UnitQuerySet,
 ) -> HttpResponse | TranslateUnitResult:
     """Resolve search results and current unit for the translate view."""
@@ -1394,10 +1446,12 @@ def get_translate_unit(
 def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpResponse:
     """Translate, suggest and search view."""
     obj, unit_set, context = parse_path_units(
-        request, path, (Translation, ProjectLanguage, CategoryLanguage)
+        request,
+        path,
+        (Translation, ProjectLanguage, CategoryLanguage, WorkspaceLanguage),
     )
 
-    project = context["project"]
+    project = context.get("project")
     user = request.user
 
     search_data = get_translate_unit(request, obj, project, unit_set)
@@ -1407,6 +1461,8 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
     num_results = search_data.num_results
     offset = search_data.offset
     unit = search_data.unit
+    if project is None:
+        project = unit.translation.component.project
 
     handle_component_shift_notice(request, unit_set, search_result, unit)
 
@@ -1437,7 +1493,8 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
     if isinstance(response, TranslationForm):
         form = response
         # The current source is shown, but the target still contains the draft.
-        # Preserve its translationsum so retrying cannot bypass a conflict.
+        # Preserve its translationsum and initial_state so retrying cannot
+        # bypass a conflict.
         form_data = request.POST.copy()
         for name in ("unit_id", "checksum", "contentsum"):
             form_data[name] = form.initial[name]
@@ -1542,10 +1599,7 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
             "translation_file_link": lambda: try_linkify_filename(
                 unit.translation.filename,
                 unit.translation.filename,
-                # '1' as a placeholder, because `get_repoweb_link` can't currently
-                # generate links without line specified. Although it's ok to use
-                # '' or '0' on GitHub or GitLab, let's play it safe for now.
-                "1",
+                str(unit.line_number) if unit.line_number is not None else "1",
                 unit,
                 user,
                 is_translation=True,
@@ -1643,7 +1697,14 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
             engines=autoform.cleaned_data["engines"],
             threshold=autoform.cleaned_data["threshold"],
         )
-        messages.success(request, result["message"])
+        failed = result.get("_automatic_translation_failed") or result.get("errors")
+        result = sanitize_task_result("", result, request.user)
+        if failed:
+            messages.error(request, result["message"])
+        else:
+            messages.success(request, result["message"])
+        for error in result.get("errors", []):
+            messages.error(request, error)
         for warning in result.get("warnings", []):
             messages.warning(request, warning)
     else:
@@ -1781,7 +1842,7 @@ def get_zen_unitdata(
     fill_in_source_translation(units)
     prepare_glossary_terms(units, project)
 
-    form_actions = {}
+    form_actions: dict[int, str] = {}
     suggestion_urls: dict[int, dict[str, str]] = {}
 
     def get_form_action(unit):
@@ -1790,7 +1851,11 @@ def get_zen_unitdata(
         except KeyError:
             form_action = reverse(
                 "save_zen",
-                kwargs={"path": unit.translation.get_url_path()},
+                kwargs={
+                    "path": obj.get_url_path()
+                    if isinstance(obj, WorkspaceLanguage)
+                    else unit.translation.get_url_path()
+                },
             )
             form_actions[unit.translation_id] = form_action
             return form_action
@@ -1799,7 +1864,9 @@ def get_zen_unitdata(
         try:
             return suggestion_urls[unit.translation_id]
         except KeyError:
-            urls = get_zen_suggestion_urls(unit)
+            urls = get_zen_suggestion_urls(
+                unit, scope=obj if isinstance(obj, WorkspaceLanguage) else None
+            )
             suggestion_urls[unit.translation_id] = urls
             return urls
 
@@ -1827,9 +1894,13 @@ def get_zen_unitdata(
     return search_result, unitdata
 
 
-def get_zen_suggestion_urls(unit: Unit) -> dict[str, str]:
+def get_zen_suggestion_urls(
+    unit: Unit, *, scope: WorkspaceLanguage | None = None
+) -> dict[str, str]:
     """Return endpoint URLs used by the Zen suggestions form of a unit."""
-    path = unit.translation.get_url_path()
+    path = (
+        scope.get_url_path() if scope is not None else unit.translation.get_url_path()
+    )
     return {
         "suggestion_url": reverse("zen_suggestion", kwargs={"path": path}),
         "unit_url": reverse("zen_unit", kwargs={"path": path}),
@@ -1839,9 +1910,11 @@ def get_zen_suggestion_urls(unit: Unit) -> dict[str, str]:
 def zen(request: AuthenticatedHttpRequest, path):
     """Zen mode view."""
     obj, unit_set, context = parse_path_units(
-        request, path, (Translation, ProjectLanguage, CategoryLanguage)
+        request,
+        path,
+        (Translation, ProjectLanguage, CategoryLanguage, WorkspaceLanguage),
     )
-    project = context["project"]
+    project = context.get("project")
 
     search_result, unitdata = get_zen_unitdata(
         obj, project, unit_set, request, include_count=True
@@ -1851,6 +1924,12 @@ def zen(request: AuthenticatedHttpRequest, path):
     if isinstance(search_result, HttpResponse):
         return search_result
 
+    state_components = (
+        project.component_set.filter_access(request.user).prefetch()
+        if project is not None and isinstance(obj, (ProjectLanguage, CategoryLanguage))
+        else ()
+    )
+
     return render(
         request,
         "zen.html",
@@ -1859,6 +1938,7 @@ def zen(request: AuthenticatedHttpRequest, path):
             "path_object": obj,
             "project": project,
             "component": obj.component if isinstance(obj, Translation) else None,
+            "state_components": state_components,
             "unitdata": unitdata,
             "search_query": search_result["query"],
             "filter_count": search_result["total"],
@@ -1877,9 +1957,11 @@ def zen(request: AuthenticatedHttpRequest, path):
 def load_zen(request: AuthenticatedHttpRequest, path):
     """Load additional units for zen editor."""
     obj, unit_set, context = parse_path_units(
-        request, path, (Translation, ProjectLanguage, CategoryLanguage)
+        request,
+        path,
+        (Translation, ProjectLanguage, CategoryLanguage, WorkspaceLanguage),
     )
-    project = context["project"]
+    project = context.get("project")
 
     search_result, unitdata = get_zen_unitdata(obj, project, unit_set, request)
 
@@ -1908,8 +1990,24 @@ def load_zen(request: AuthenticatedHttpRequest, path):
 @transaction.atomic
 def save_zen(request: AuthenticatedHttpRequest, path):
     """Save handler for zen mode."""
-    _obj, unit_set, _context = parse_path_units(
-        request, path, (Translation, ProjectLanguage, CategoryLanguage)
+    if not check_rate_limit("translate", request):
+        messages.error(
+            request,
+            gettext(
+                "Your request was rejected because you have performed too many operations recently."
+            )
+            + " "
+            + gettext("Please try again later."),
+        )
+        zen_messages, state = collect_zen_messages(request)
+        return JsonResponse(
+            {"messages": zen_messages, "state": state, "translationsum": ""}
+        )
+
+    obj, unit_set, _context = parse_path_units(
+        request,
+        path,
+        (Translation, ProjectLanguage, CategoryLanguage, WorkspaceLanguage),
     )
 
     checksum_form = ChecksumForm(unit_set, request.POST)
@@ -1939,11 +2037,17 @@ def save_zen(request: AuthenticatedHttpRequest, path):
         "messages": zen_messages,
         "state": state,
         "translationsum": translationsum,
+        "initial_state": unit.state if translationsum else None,
         "unit_state_class": unit_state_class(unit) if unit else "",
         "unit_state_title": unit_state_title(unit) if unit else "",
     }
     if translationsum and unit.suggestion_set.exists():
-        _unit, suggestions_html = render_zen_suggestions(request, unit_set, unit)
+        _unit, suggestions_html = render_zen_suggestions(
+            request,
+            unit_set,
+            unit,
+            scope=obj if isinstance(obj, WorkspaceLanguage) else None,
+        )
         response["suggestions_html"] = suggestions_html
         response["has_suggestions"] = bool(suggestions_html)
 
@@ -1972,7 +2076,11 @@ def collect_zen_messages(request) -> tuple[list[dict[str, str]], str]:
 
 
 def render_zen_suggestions(
-    request: AuthenticatedHttpRequest, unit_set: UnitQuerySet, unit: Unit
+    request: AuthenticatedHttpRequest,
+    unit_set: UnitQuerySet,
+    unit: Unit,
+    *,
+    scope: WorkspaceLanguage | None = None,
 ) -> tuple[Unit, str]:
     """Render the Zen suggestions block of a unit against its current target."""
     unit = unit_set.prefetch_full(suggestion_details=True).get(pk=unit.pk)
@@ -1980,7 +2088,7 @@ def render_zen_suggestions(
         return unit, ""
     return unit, render_to_string(
         "snippets/zen-suggestions.html",
-        {"unit": unit, **get_zen_suggestion_urls(unit)},
+        {"unit": unit, **get_zen_suggestion_urls(unit, scope=scope)},
         request=request,
     )
 
@@ -1991,11 +2099,14 @@ def render_zen_unit_response(
     unit: Unit,
     *,
     mode: str | None = None,
+    scope: WorkspaceLanguage | None = None,
     sync_target: bool,
     previous_target_hash: int | None = None,
 ) -> JsonResponse:
     """Build the JSON payload used to resync a Zen row in place."""
-    unit, suggestions_html = render_zen_suggestions(request, unit_set, unit)
+    unit, suggestions_html = render_zen_suggestions(
+        request, unit_set, unit, scope=scope
+    )
     if previous_target_hash is not None:
         sync_target = sync_target or unit.get_target_hash() != previous_target_hash
     zen_messages, state = collect_zen_messages(request)
@@ -2012,6 +2123,7 @@ def render_zen_unit_response(
             "translationsum": hash_to_checksum(unit.get_target_hash()),
             "target": unit.get_target_plurals() if sync_target else None,
             "review": str(unit.state) if sync_target else None,
+            "initial_state": unit.state if sync_target else None,
             "fuzzy": unit.fuzzy,
         }
     )
@@ -2022,8 +2134,10 @@ def render_zen_unit_response(
 @transaction.atomic
 def zen_suggestion(request: AuthenticatedHttpRequest, path):
     """Handle a suggestion action from the Zen editor."""
-    _obj, unit_set, _context = parse_path_units(
-        request, path, (Translation, ProjectLanguage, CategoryLanguage)
+    obj, unit_set, _context = parse_path_units(
+        request,
+        path,
+        (Translation, ProjectLanguage, CategoryLanguage, WorkspaceLanguage),
     )
 
     checksum_form = ChecksumForm(unit_set, request.POST)
@@ -2040,6 +2154,7 @@ def zen_suggestion(request: AuthenticatedHttpRequest, path):
         unit_set,
         unit,
         mode=mode,
+        scope=obj if isinstance(obj, WorkspaceLanguage) else None,
         sync_target=mode in {"accept", "accept_edit", "accept_approve"},
         previous_target_hash=target_hash,
     )
@@ -2048,8 +2163,10 @@ def zen_suggestion(request: AuthenticatedHttpRequest, path):
 @login_required
 def zen_unit(request: AuthenticatedHttpRequest, path):
     """Return the current state of a unit for the Zen editor."""
-    _obj, unit_set, _context = parse_path_units(
-        request, path, (Translation, ProjectLanguage, CategoryLanguage)
+    obj, unit_set, _context = parse_path_units(
+        request,
+        path,
+        (Translation, ProjectLanguage, CategoryLanguage, WorkspaceLanguage),
     )
 
     checksum_form = ChecksumForm(unit_set, request.GET)
@@ -2058,7 +2175,11 @@ def zen_unit(request: AuthenticatedHttpRequest, path):
         return HttpResponseBadRequest("Invalid checksum")
 
     return render_zen_unit_response(
-        request, unit_set, checksum_form.cleaned_data["unit"], sync_target=True
+        request,
+        unit_set,
+        checksum_form.cleaned_data["unit"],
+        scope=obj if isinstance(obj, WorkspaceLanguage) else None,
+        sync_target=True,
     )
 
 
@@ -2141,6 +2262,13 @@ def delete_unit(request: AuthenticatedHttpRequest, unit_id):
         unit.translation.delete_unit(request, unit)
     except WeblateLockTimeoutError:
         messages.error(request, DELETE_UNIT_LOCKED_MESSAGE)
+        return redirect(unit)
+    except RepositoryTemplateError as error:
+        log_handled_exception("Could not remove the string")
+        messages.error(
+            request,
+            gettext("Could not remove the string: %s") % error.get_message(gettext),
+        )
         return redirect(unit)
     except FileParseError as error:
         unit.translation.component.update_import_alerts(delete=False)

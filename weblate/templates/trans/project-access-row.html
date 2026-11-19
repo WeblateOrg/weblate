@@ -1,10 +1,8 @@
-{% load crispy_forms_tags i18n icons translations %}
+{% load crispy_forms_tags i18n icons translations user_display %}
 
 <tr>
   {% if not user.is_bot %}
-    <td>
-      <a href="{{ user.get_absolute_url }}">{{ user.username }}</a>
-    </td>
+    <td>{% user_display user icon=False %}</td>
   {% endif %}
   <td>{{ user.full_name }}</td>
   {% if not user.is_bot and can_edit_user %}
@@ -30,18 +28,21 @@
     {% endfor %}
   </td>
   <td>
+    {% autoescape off %}
+      {% blocktranslate with username=user.username asvar modal_title %}Edit team membership for {{ username }}{% endblocktranslate %}
+    {% endautoescape %}
     <a href="#"
        data-bs-toggle="modal"
        data-bs-target="#project-user-groups-modal"
        data-href="{% url "js-project-user-groups" project=object.slug user_id=user.id %}"
-       data-modal-title="{% blocktranslate with username=user.username %}Edit team membership for {{ username }}{% endblocktranslate %}"
+       data-modal-title="{{ modal_title|force_escape }}"
        class="btn btn-link btn-xs"
-       title="{% translate "Edit" %}">{% icon 'pencil.svg' %}</a>
+       title="{% translate "Edit"|force_escape %}">{% icon 'pencil.svg' %}</a>
     <a href="#"
        data-bs-toggle="modal"
        data-bs-target="#delete_user_{{ user.id }}"
        class="btn btn-link btn-xs red"
-       title="{% translate "Remove" %}">{% icon 'delete.svg' %}</a>
+       title="{% translate "Remove"|force_escape %}">{% icon 'delete.svg' %}</a>
     <form action="{% url "delete-user" project=object.slug %}"
           method="post"
           class="inlineform">
@@ -55,13 +56,15 @@
               <button type="button"
                       class="btn-close"
                       data-bs-dismiss="modal"
-                      aria-label="{% translate "Close" %}"></button>
+                      aria-label="{% translate "Close"|force_escape %}"></button>
             </div>
             <div class="modal-body">
               {% blocktranslate with user=user.username %}This will remove <b>{{ user }}</b> access to this project.{% endblocktranslate %}
             </div>
             <div class="modal-footer">
-              <input type="submit" class="btn btn-danger" value="{% translate "Remove" %}" />
+              <input type="submit"
+                     class="btn btn-danger"
+                     value="{% translate "Remove"|force_escape %}" />
             </div>
           </div>
           <!-- /.modal-content -->

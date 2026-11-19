@@ -1,8 +1,8 @@
 {
   "$id": "https://weblate.org/schemas/weblate-component.schema.json",
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "definitions": {},
+  "$defs": {},
   "title": "Weblate component backup",
   "additionalProperties": false,
   "required": [
@@ -13,7 +13,6 @@
   ],
   "properties": {
     "component": {
-      "$id": "#root/component",
       "title": "Component configuration",
       "type": "object",
       "required": [
@@ -67,7 +66,6 @@
       "additionalProperties": false,
       "properties": {
         "name": {
-          "$id": "#root/component/name",
           "title": "Project name",
           "type": "string",
           "default": "",
@@ -76,7 +74,6 @@
           ]
         },
         "slug": {
-          "$id": "#root/component/slug",
           "title": "URL slug",
           "type": "string",
           "default": "",
@@ -85,7 +82,6 @@
           ]
         },
         "category": {
-          "$id": "#root/component/category",
           "title": "Full category URL slug excluding the project slug",
           "type": "string",
           "default": "",
@@ -95,71 +91,39 @@
           ]
         },
         "vcs": {
-          "$id": "#root/component/vcs",
           "title": "Version control system",
           "type": "string"
         },
         "vcs_params": {
-          "$id": "#root/component/vcs_params",
           "title": "Version control parameters",
           "type": "object",
-          "additionalProperties": false,
-          "default": {},
-          "properties": {
-            "git_force_push": {
-              "$id": "#root/component/vcs_params/git_force_push",
-              "title": "Force push",
-              "type": "boolean",
-              "default": false
-            },
-            "create_merge_request": {
-              "$id": "#root/component/vcs_params/create_merge_request",
-              "title": "Create merge requests",
-              "type": "boolean",
-              "default": true
-            },
-            "merge_request_automerge": {
-              "$id": "#root/component/vcs_params/merge_request_automerge",
-              "title": "Merge pull requests automatically",
-              "type": "boolean",
-              "default": false
-            },
-            "merge_request_merge_method": {
-              "$id": "#root/component/vcs_params/merge_request_merge_method",
-              "title": "Merge method",
-              "type": "string",
-              "enum": [
-                "merge",
-                "squash",
-                "rebase"
-              ],
-              "default": "merge"
-            }
-          }
+          "additionalProperties": {
+            "type": [
+              "string",
+              "integer",
+              "boolean"
+            ]
+          },
+          "default": {}
         },
         "repo": {
-          "$id": "#root/component/repo",
           "title": "Source code repository",
           "type": "string"
         },
         "push": {
-          "$id": "#root/component/push",
           "title": "Repository push URL",
           "type": "string"
         },
         "repoweb": {
-          "$id": "#root/component/",
           "title": "Repository browser",
           "type": "string"
         },
         "repoweb_translations": {
-          "$id": "#root/component/repoweb_translations",
           "title": "Repository browser for translations",
           "type": "string",
           "default": ""
         },
         "report_source_bugs": {
-          "$id": "#root/component/report_source_bugs",
           "title": "Source string bug reporting address",
           "type": "string",
           "oneOf": [
@@ -174,53 +138,43 @@
           ]
         },
         "branch": {
-          "$id": "#root/component/branch",
           "title": "Repository branch",
           "type": "string"
         },
         "push_branch": {
-          "$id": "#root/component/push_branch",
           "title": "Push branch",
           "type": "string"
         },
         "filemask": {
-          "$id": "#root/component/filemask",
           "title": "File mask",
           "type": "string"
         },
         "screenshot_filemask": {
-          "$id": "#root/component/screenshot_filemask",
           "title": "Screenshot file mask",
           "type": "string",
           "default": ""
         },
         "template": {
-          "$id": "#root/component/template",
           "title": "Monolingual base language file",
           "type": "string"
         },
         "edit_template": {
-          "$id": "#root/component/edit_template",
           "title": "Edit base file",
           "type": "boolean"
         },
         "intermediate": {
-          "$id": "#root/component/intermediate",
           "title": "Intermediate language file",
           "type": "string"
         },
         "new_base": {
-          "$id": "#root/component/new_base",
           "title": "Template for new translations",
           "type": "string"
         },
         "file_format": {
-          "$id": "#root/component/file_format",
           "title": "File format",
           "type": "string"
         },
         "file_format_params": {
-          "$id": "#root/component/file_format_params",
           "title": "File format parameters",
           "type": "object",
           "additionalProperties": {
@@ -233,79 +187,64 @@
           "default": {}
         },
         "locked": {
-          "$id": "#root/component/locked",
           "title": "Locked",
           "type": "boolean"
         },
         "hide_glossary_matches": {
-          "$id": "#root/component/hide_glossary_matches",
           "title": "Do not show glossary matches",
           "type": "boolean",
           "default": false
         },
         "allow_translation_propagation": {
-          "$id": "#root/component/allow_translation_propagation",
           "title": "Allow translation propagation",
           "type": "boolean"
         },
         "contribute_project_tm": {
-          "$id": "#root/component/contribute_project_tm",
           "title": "Contribute to project translation memory",
           "type": "boolean",
           "default": true
         },
         "enable_suggestions": {
-          "$id": "#root/component/enable_suggestions",
           "title": "Turn on suggestions",
           "type": "boolean"
         },
         "suggestion_voting": {
-          "$id": "#root/component/suggestion_voting",
           "title": "Suggestion voting",
           "type": "boolean"
         },
         "suggestion_autoaccept": {
-          "$id": "#root/component/suggestion_autoaccept",
           "title": "Autoaccept suggestions",
           "type": "integer"
         },
         "check_flags": {
-          "$id": "#root/component/check_flags",
           "title": "Translation flags",
           "type": "string"
         },
         "enforced_checks": {
-          "$id": "#root/component/enforced_checks",
           "title": "",
           "type": "array",
           "items": {
-            "$id": "#root/component/items",
             "title": "Check name",
             "type": "string"
           }
         },
         "license": {
-          "$id": "#root/component/license",
           "title": "Translation license",
           "type": "string"
         },
         "agreement": {
-          "$id": "#root/component/agreement",
           "title": "Contributor agreement",
           "type": "string"
         },
         "new_lang": {
-          "$id": "#root/component/new_lang",
           "title": "Adding new translation",
           "type": "string"
         },
         "language_code_style": {
-          "$id": "#root/component/language_code_style",
           "title": "Language code style",
           "type": "string"
         },
         "secondary_language": {
-          "$id": "#root/component/secondary_language",
           "title": "Secondary language code",
           "oneOf": [
             {
@@ -318,84 +257,70 @@
           "default": null
         },
         "inherit_license": {
-          "$id": "#root/component/inherit_license",
           "title": "Inherit translation license",
           "type": "boolean",
           "default": false
         },
         "inherit_agreement": {
-          "$id": "#root/component/inherit_agreement",
           "title": "Inherit contributor agreement",
           "type": "boolean",
           "default": false
         },
         "inherit_new_lang": {
-          "$id": "#root/component/inherit_new_lang",
           "title": "Inherit adding new translation",
           "type": "boolean",
           "default": false
         },
         "inherit_language_code_style": {
-          "$id": "#root/component/inherit_language_code_style",
           "title": "Inherit language code style",
           "type": "boolean",
           "default": false
         },
         "inherit_secondary_language": {
-          "$id": "#root/component/inherit_secondary_language",
           "title": "Inherit secondary language",
           "type": "boolean",
           "default": false
         },
         "inherit_enforced_checks": {
-          "$id": "#root/component/inherit_enforced_checks",
           "title": "Inherit enforced checks",
           "type": "boolean",
           "default": false
         },
         "inherit_commit_message": {
-          "$id": "#root/component/inherit_commit_message",
           "title": "Inherit commit message when translating",
           "type": "boolean",
           "default": false
         },
         "inherit_add_message": {
-          "$id": "#root/component/inherit_add_message",
           "title": "Inherit commit message when adding translation",
           "type": "boolean",
           "default": false
         },
         "inherit_delete_message": {
-          "$id": "#root/component/inherit_delete_message",
           "title": "Inherit commit message when removing translation",
           "type": "boolean",
           "default": false
         },
         "inherit_merge_message": {
-          "$id": "#root/component/inherit_merge_message",
           "title": "Inherit commit message when merging translation",
           "type": "boolean",
           "default": false
         },
         "inherit_addon_message": {
-          "$id": "#root/component/inherit_addon_message",
           "title": "Inherit commit message when add-on makes a change",
           "type": "boolean",
           "default": false
         },
         "inherit_pull_message": {
-          "$id": "#root/component/inherit_pull_message",
           "title": "Inherit merge request message",
           "type": "boolean",
           "default": false
         },
         "manage_units": {
-          "$id": "#root/component/manage_units",
           "title": "Manage strings",
           "type": "boolean"
         },
         "merge_style": {
-          "$id": "#root/component/merge_style",
           "title": "Merge style",
           "type": "string",
           "enum": [
@@ -405,116 +330,96 @@
           ]
         },
         "commit_message": {
-          "$id": "#root/component/commit_message",
           "title": "Commit message when translating",
           "type": "string"
         },
         "add_message": {
-          "$id": "#root/component/add_message",
           "title": "Commit message when adding translation",
           "type": "string"
         },
         "delete_message": {
-          "$id": "#root/component/delete_message",
           "title": "Commit message when removing translation",
           "type": "string"
         },
         "merge_message": {
-          "$id": "#root/component/merge_message",
           "title": "Commit message when merging translation",
           "type": "string"
         },
         "addon_message": {
-          "$id": "#root/component/addon_message",
           "title": "Commit message when add-on makes a change",
           "type": "string"
         },
         "pull_message": {
-          "$id": "#root/component/pull_message",
           "title": "Merge request message",
           "type": "string"
         },
         "push_on_commit": {
-          "$id": "#root/component/push_on_commit",
           "title": "Push on commit",
           "type": "boolean"
         },
         "push_on_update": {
-          "$id": "#root/component/push_on_update",
           "title": "Push on update",
           "type": "boolean",
           "default": true
         },
         "commit_pending_age": {
-          "$id": "#root/component/commit_pending_age",
           "title": "Age of changes to commit",
           "type": "integer"
         },
         "auto_lock_error": {
-          "$id": "#root/component/auto_lock_error",
           "title": "Lock on error",
           "type": "boolean"
         },
         "source_language": {
-          "$id": "#root/component/source_language",
           "title": "Source language code",
           "type": "string"
         },
         "language_regex": {
-          "$id": "#root/component/language_regex",
           "title": "Language filter",
           "type": "string"
         },
         "key_filter": {
-          "$id": "#root/component/key_filter",
           "title": "Key filter",
           "type": "string",
           "default": ""
         },
         "variant_regex": {
-          "$id": "#root/component/variant_regex",
           "title": "Variants regular expression",
           "type": "string"
         },
         "priority": {
-          "$id": "#root/component/priority",
           "title": "Priority",
           "type": "integer"
         },
         "restricted": {
-          "$id": "#root/component/restricted",
           "title": "Restricted component",
           "type": "boolean"
         },
         "is_glossary": {
-          "$id": "#root/component/is_glossary",
           "title": "Use as a glossary",
           "type": "boolean"
         },
         "glossary_color": {
-          "$id": "#root/component/glossary_color",
           "title": "Glossary color",
           "type": "string"
         },
         "remote_revision": {
-          "$id": "#root/component/remote_revision",
           "title": "Remote revision",
-          "type": "string"
+          "type": "string",
+          "pattern": "^(?:[0-9a-fA-F]{40}|[0-9a-fA-F]{64})?$(?![\\s\\S])"
         },
         "local_revision": {
-          "$id": "#root/component/local_revision",
           "title": "Local revision",
-          "type": "string"
+          "type": "string",
+          "pattern": "^(?:[0-9a-fA-F]{40}|[0-9a-fA-F]{64})?$(?![\\s\\S])"
         }
       }
     },
     "translations": {
-      "$id": "#root/translations",
       "title": "Translation data",
       "type": "array",
       "default": [],
       "items": {
-        "$id": "#root/translations/items",
         "title": "Items",
         "type": "object",
         "required": [
@@ -527,22 +432,18 @@
         "additionalProperties": false,
         "properties": {
           "id": {
-            "$id": "#root/translations/items/id",
             "title": "Primary key",
             "type": "integer"
           },
           "filename": {
-            "$id": "#root/translations/items/filename",
             "title": "Filename",
             "type": "string"
           },
           "language_code": {
-            "$id": "#root/translations/items/language_code",
             "title": "Language code",
             "type": "string"
           },
           "plural": {
-            "$id": "#root/translations/items/plural",
             "title": "Plural definition",
             "type": "object",
             "required": [
@@ -554,34 +455,29 @@
             "additionalProperties": false,
             "properties": {
               "source": {
-                "$id": "#root/translations/items/plural/source",
                 "title": "Plural definition source",
                 "type": "integer"
               },
               "number": {
-                "$id": "#root/translations/items/plural/number",
                 "title": "Number of plurals",
                 "type": "integer"
               },
               "formula": {
-                "$id": "#root/translations/items/plural/formula",
                 "title": "Plural formula",
                 "type": "string"
               },
               "type": {
-                "$id": "#root/translations/items/plural/type",
                 "title": "Plural type",
                 "type": "integer"
               }
             }
           },
           "revision": {
-            "$id": "#root/translations/items/revision",
             "title": "File revision",
-            "type": "string"
+            "type": "string",
+            "pattern": "^(?:[0-9a-f]{40}(?::[0-9]+)?(?:,[0-9a-f]{40}){0,2})?$(?![\\s\\S])"
           },
           "check_flags": {
-            "$id": "#root/translations/items/check_flags",
             "title": "Translation flags",
             "type": "string"
           }
@@ -589,11 +485,9 @@
       }
     },
     "units": {
-      "$id": "#root/units",
       "title": "Unit data",
       "type": "array",
       "items": {
-        "$id": "#root/units/items",
         "title": "Unit data",
         "type": "object",
         "required": [
@@ -623,88 +517,71 @@
         "additionalProperties": false,
         "properties": {
           "translation_id": {
-            "$id": "#root/units/items/translation_id",
             "title": "",
             "type": "integer"
           },
           "id_hash": {
-            "$id": "#root/units/items/id_hash",
             "title": "",
-            "pattern": "[0-9a-f]{16}",
+            "pattern": "^[0-9a-f]{16}$(?![\\s\\S])",
             "type": "string"
           },
           "location": {
-            "$id": "#root/units/items/location",
             "title": "",
             "type": "string"
           },
           "context": {
-            "$id": "#root/units/items/context",
             "title": "",
             "type": "string"
           },
           "note": {
-            "$id": "#root/units/items/note",
             "title": "",
             "type": "string"
           },
           "flags": {
-            "$id": "#root/units/items/flags",
             "title": "",
             "type": "string"
           },
           "source": {
-            "$id": "#root/units/items/source",
             "title": "",
             "type": "string"
           },
           "previous_source": {
-            "$id": "#root/units/items/previous_source",
             "title": "",
             "type": "string"
           },
           "target": {
-            "$id": "#root/units/items/target",
             "title": "",
             "type": "string"
           },
           "state": {
-            "$id": "#root/units/items/state",
             "title": "",
             "type": "integer"
           },
           "original_state": {
-            "$id": "#root/units/items/original_state",
             "title": "",
             "type": "integer"
           },
           "details": {
-            "$id": "#root/units/items/details",
             "title": "",
             "type": "object"
           },
           "position": {
-            "$id": "#root/units/items/position",
             "title": "",
             "type": "integer"
           },
           "num_words": {
-            "$id": "#root/units/items/num_words",
             "title": "",
             "type": "integer"
           },
           "priority": {
-            "$id": "#root/units/items/priority",
             "title": "",
             "type": "integer"
           },
           "pending": {
-            "$id": "#root/units/items/pending",
             "title": "",
             "type": "boolean"
           },
           "timestamp": {
-            "$id": "#root/units/items/timestamp",
             "type": "string",
             "format": "date-time",
             "default": "",
@@ -713,31 +590,25 @@
             ]
           },
           "extra_flags": {
-            "$id": "#root/units/items/extra_flags",
             "title": "",
             "type": "string"
           },
           "explanation": {
-            "$id": "#root/units/itintegerems/explanation",
             "title": "",
             "type": "string"
           },
           "labels": {
-            "$id": "#root/units/items/labels",
             "title": "",
             "type": "array",
             "items": {
-              "$id": "#root/units/items/labels/items",
               "title": "Unit labels",
               "type": "string"
             }
           },
           "comments": {
-            "$id": "#root/units/items/comments",
             "title": "",
             "type": "array",
             "items": {
-              "$id": "#root/units/items/comments/items",
               "title": "Unit comments",
               "type": "object",
               "required": [
@@ -749,15 +620,12 @@
               "additionalProperties": false,
               "properties": {
                 "user": {
-                  "$id": "#root/units/items/comments/items/user",
                   "type": "string"
                 },
                 "comment": {
-                  "$id": "#root/units/items/comments/items/comment",
                   "type": "string"
                 },
                 "timestamp": {
-                  "$id": "#root/units/items/comments/items/timestamp",
                   "type": "string",
                   "format": "date-time",
                   "default": "",
@@ -766,18 +634,15 @@
                   ]
                 },
                 "resolved": {
-                  "$id": "#root/units/items/comments/items/resolved",
                   "type": "boolean"
                 }
               }
             }
           },
           "checks": {
-            "$id": "#root/units/items/checks",
             "title": "",
             "type": "array",
             "items": {
-              "$id": "#root/units/items/checks/items",
               "title": "Unit checks",
               "type": "object",
               "required": [
@@ -787,22 +652,18 @@
               "additionalProperties": false,
               "properties": {
                 "name": {
-                  "$id": "#root/units/items/checks/items/name",
                   "type": "string"
                 },
                 "dismissed": {
-                  "$id": "#root/units/items/checks/items/dismissed",
                   "type": "boolean"
                 }
               }
             }
           },
           "suggestions": {
-            "$id": "#root/units/items/suggestions",
             "title": "",
             "type": "array",
             "items": {
-              "$id": "#root/units/items/suggestions/items",
               "title": "Unit suggestions",
               "type": "object",
               "required": [
@@ -814,15 +675,12 @@
               "additionalProperties": false,
               "properties": {
                 "target": {
-                  "$id": "#root/units/items/suggestions/items/target",
                   "type": "string"
                 },
                 "user": {
-                  "$id": "#root/units/items/suggestions/items/user",
                   "type": "string"
                 },
                 "timestamp": {
-                  "$id": "#root/units/items/suggestions/items/timestamp",
                   "type": "string",
                   "format": "date-time",
                   "default": "",
@@ -831,7 +689,6 @@
                   ]
                 },
                 "votes": {
-                  "$id": "#root/units/items/suggestions/items/votes",
                   "type": "array",
                   "items": {
                     "type": "object",
@@ -842,11 +699,9 @@
                     "additionalProperties": false,
                     "properties": {
                       "user": {
-                        "$id": "#root/units/items/suggestions/items/votes/items/user",
                         "type": "string"
                       },
                       "value": {
-                        "$id": "#root/units/items/suggestions/items/votes/items/value",
                         "type": "integer",
                         "enum": [
                           -1,
@@ -863,11 +718,9 @@
       }
     },
     "screenshots": {
-      "$id": "#root/screenshots",
       "title": "Screenshot data",
       "type": "array",
       "items": {
-        "$id": "#root/screenshots/items",
         "type": "object",
         "required": [
           "name",
@@ -880,20 +733,16 @@
         "additionalProperties": false,
         "properties": {
           "name": {
-            "$id": "#root/screenshots/items/name",
             "type": "string"
           },
           "image": {
-            "$id": "#root/screenshots/items/image",
             "type": "string"
           },
           "translation_id": {
-            "$id": "#root/screenshots/items/translation_id",
             "title": "",
             "type": "integer"
           },
           "user": {
-            "$id": "#root/screenshots/items/user",
             "oneOf": [
               {
                 "type": "string"
@@ -904,7 +753,6 @@
             ]
           },
           "timestamp": {
-            "$id": "#root/screenshots/items/timestamp",
             "type": "string",
             "format": "date-time",
             "default": "",
@@ -913,11 +761,9 @@
             ]
           },
           "units": {
-            "$id": "#root/screenshots/items/units",
             "type": "array",
             "items": {
-              "$id": "#root/screenshots/items/units/items",
-              "pattern": "[0-9a-f]{16}",
+              "pattern": "^[0-9a-f]{16}$(?![\\s\\S])",
               "type": "string"
             }
           }
@@ -925,11 +771,9 @@
       }
     },
     "pending_unit_changes": {
-      "$id": "#root/pending_unit_changes",
       "title": "Pending unit changes data",
       "type": "array",
       "items": {
-        "$id": "#root/pending_unit_changes/items",
         "title": "Pending unit change data",
         "type": "object",
         "required": [
@@ -946,20 +790,18 @@
         "additionalProperties": false,
         "properties": {
           "translation_id": {
-            "$id": "#root/pending_unit_changes/items/translation_id",
             "title": "",
             "type": "integer"
           },
           "unit_id_hash": {
-            "$id": "#root/pending_unit_changes/items/unit_id_hash",
             "title": "",
-            "pattern": "[0-9a-f]{16}",
+            "type": "string",
+            "pattern": "^[0-9a-f]{16}$(?![\\s\\S])",
             "examples": [
               "1234567890abcdef"
             ]
           },
           "author": {
-            "$id": "#root/pending_unit_changes/items/author",
             "title": "",
             "type": "string",
             "examples": [
@@ -967,7 +809,6 @@
             ]
           },
           "target": {
-            "$id": "#root/pending_unit_changes/items/target",
             "title": "",
             "type": "string",
             "examples": [
@@ -975,7 +816,6 @@
             ]
           },
           "explanation": {
-            "$id": "#root/pending_unit_changes/items/explanation",
             "title": "",
             "type": "string",
             "examples": [
@@ -983,7 +823,6 @@
             ]
           },
           "state": {
-            "$id": "#root/pending_unit_changes/items/state",
             "title": "",
             "type": "integer",
             "examples": [
@@ -991,7 +830,6 @@
             ]
           },
           "timestamp": {
-            "$id": "#root/pending_unit_changes/items/timestamp",
             "type": "string",
             "format": "date-time",
             "default": "",
@@ -1000,7 +838,6 @@
             ]
           },
           "add_unit": {
-            "$id": "#root/pending_unit_changes/items/add_unit",
             "title": "",
             "type": "boolean",
             "default": false,
@@ -1010,7 +847,6 @@
             ]
           },
           "source_unit_explanation": {
-            "$id": "#root/pending_unit_changes/items/source_unit_explanation",
             "title": "",
             "type": "string",
             "examples": [

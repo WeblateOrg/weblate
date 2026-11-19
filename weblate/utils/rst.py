@@ -6,7 +6,10 @@ from __future__ import annotations
 
 import re
 from collections import defaultdict
+from collections.abc import Sequence
+from dataclasses import dataclass
 from itertools import zip_longest
+from textwrap import wrap
 from typing import TYPE_CHECKING, cast
 
 PARAM_RE = re.compile(r"(?:(?<=\s)|^)(--[a-z-]+)(?=\s|$)")
@@ -33,11 +36,18 @@ def get_row_lines(row: list[str | None]) -> Generator[list[str]]:
     yield from zip_longest(*data, fillvalue="")
 
 
-CellType = str | list[list["CellType"]]
+@dataclass(frozen=True)
+class FullWidthRow:
+    """A table row containing one cell spanning every column."""
+
+    text: str
+
+
+CellType = str | Sequence[Sequence["CellType"]]
 
 
 def get_cell_widths(
-    table: list[list[CellType]] | list[list[str]], *, existing: list[int] | None = None
+    table: Sequence[Sequence[CellType]], *, existing: list[int] | None = None
 ) -> list[int]:
     """Find maximal table cell widths."""
     widths: dict[int, int] = defaultdict(int)
@@ -59,7 +69,7 @@ def get_cell_widths(
 
 
 def generate_table_cells(
-    table: list[list[CellType]], widths: list[int]
+    table: Sequence[Sequence[CellType]], widths: list[int]
 ) -> Generator[list[str | None]]:
     """
     Generate table cell data.
@@ -121,7 +131,9 @@ def render_table(
         )
 
 
-def format_table(table: list[list[CellType]], header: list[str] | None) -> list[str]:
+def format_table(
+    table: Sequence[Sequence[CellType] | FullWidthRow], header: list[str] | None
+) -> list[str]:
     """
     Format reStructuredText table.
 
@@ -131,12 +143,21 @@ def format_table(table: list[list[CellType]], header: list[str] | None) -> list[
     * The cells can contain newlines.
     """
     # Get cells and header widths
-    widths: list[int] = get_cell_widths(table)
+    widths: list[int] = get_cell_widths(
+        [row for row in table if not isinstance(row, FullWidthRow)]
+    )
     if header:
         widths = get_cell_widths([header], existing=widths)
 
-    # Generate table cells
-    table_cells = list(generate_table_cells(table, widths))
+    # Long group descriptions wrap across the existing columns. Only an
+    # unbreakable word can require more space than the regular rows provide.
+    for row in table:
+        if isinstance(row, FullWidthRow):
+            if not widths:
+                widths = [1]
+            available = sum(widths) + 3 * (len(widths) - 1)
+            longest_word = max(map(len, row.text.split()), default=0)
+            widths[-1] += max(0, longest_word - available)
 
     output: list[str] = [
         # Render initial line
@@ -150,6 +171,30 @@ def format_table(table: list[list[CellType]], header: list[str] | None) -> list[
         )
 
     # Table content
-    output.extend(render_table(table_cells, widths))
+    pending: list[Sequence[CellType]] = []
+    for row in table:
+        if not isinstance(row, FullWidthRow):
+            pending.append(row)
+            continue
+        if pending:
+            output.extend(
+                render_table(list(generate_table_cells(pending, widths)), widths)
+            )
+            pending.clear()
+        available = sum(widths) + 3 * (len(widths) - 1)
+        for paragraph in row.text.split("\n"):
+            output.extend(
+                f"| {line:{available}} |\n"
+                for line in wrap(
+                    paragraph,
+                    width=available,
+                    break_long_words=False,
+                    break_on_hyphens=False,
+                )
+                or [""]
+            )
+        output.append(render_line(widths, None))
+    if pending:
+        output.extend(render_table(list(generate_table_cells(pending, widths)), widths))
 
     return output

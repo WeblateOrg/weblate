@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_tags humanize i18n metrics permissions translations %}
+{% load crispy_forms_tags humanize i18n metrics permissions translations user_display %}
 
 {% block nav_pills %}
+  {% contributor_access object as can_download_original %}
   {% perm 'meta:vcs.maintenance' object as user_can_see_repository_status %}
   {% perm 'upload.overwrite' object as user_can_overwrite_translation %}
   {% perm 'upload.perform' object as user_can_upload_translation %}
@@ -53,7 +54,8 @@
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Files" %}</a>
       <ul class="dropdown-menu shadow">
-        {% if object.filename %}
+        {% contributor_access object as can_download_original %}
+        {% if object.filename and can_download_original %}
           <li>
             <a class="dropdown-item"
                href="{% url 'download' path=object.get_url_path %}">{% translate "Download translation" %}</a>
@@ -78,14 +80,6 @@
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Operations" %}</a>
       <ul class="dropdown-menu shadow">
-        {% if replace_form %}
-          <li>
-            <a class="dropdown-item"
-               data-bs-target="#replace"
-               data-bs-toggle="tab"
-               href="#">{% translate "Search and replace" %}</a>
-          </li>
-        {% endif %}
         {% if bulk_state_form %}
           <li>
             <a class="dropdown-item"
@@ -102,7 +96,7 @@
                href="#">{% translate "Batch automatic translation" %}</a>
           </li>
         {% endif %}
-        {% if replace_form or bulk_state_form or autoform %}
+        {% if bulk_state_form or autoform %}
           {% if user_can_add_unit or user_can_see_repository_status %}
             <li>
               <hr class="dropdown-divider">
@@ -127,7 +121,7 @@
           </li>
         {% endif %}
         {% if announcement_form %}
-          {% if replace_form or bulk_state_form or autoform or user_can_add_unit or user_can_see_repository_status %}
+          {% if bulk_state_form or autoform or user_can_add_unit or user_can_see_repository_status %}
             <li>
               <hr class="dropdown-divider">
             </li>
@@ -140,7 +134,7 @@
           </li>
         {% endif %}
         {% if delete_form %}
-          {% if replace_form or bulk_state_form or autoform or user_can_add_unit or user_can_see_repository_status or announcement_form %}
+          {% if bulk_state_form or autoform or user_can_add_unit or user_can_see_repository_status or announcement_form %}
             <li>
               <hr class="dropdown-divider">
             </li>
@@ -164,7 +158,7 @@
 
   <a class="ms-auto" href="{{ object.get_widgets_url }}">
     <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1"
-         alt="{% translate "Translation status widgets" %}" />
+         alt="{% translate "Translation status widgets"|force_escape %}" />
   </a>
 {% endblock breadcrumbs %}
 
@@ -219,27 +213,6 @@
       <div class="tab-pane" id="auto">{% include "snippets/autoform.html" with object=object autoform=autoform %}</div>
     {% endif %}
 
-    {% if replace_form %}
-      <div class="tab-pane" id="replace">
-
-        <form action="{% url 'replace' path=object.get_url_path %}"
-              method="post"
-              enctype="multipart/form-data">
-          <div class="card">
-            <div class="card-header">
-              <h4 class="card-title">
-                {% documentation_icon 'user/translating' 'search-replace' right=True %}
-                {% translate "Search and replace" %}
-              </h4>
-            </div>
-            <div class="card-body">{% crispy replace_form %}</div>
-            <div class="card-footer">
-              <input type="submit" value="{% translate "Review changes" %}" class="btn btn-primary" />
-            </div>
-          </div>
-        </form>
-      </div>
-    {% endif %}
 
     {% if bulk_state_form %}
       <div class="tab-pane" id="bulk-edit">
@@ -255,7 +228,9 @@
             </div>
             <div class="card-body">{% crispy bulk_state_form %}</div>
             <div class="card-footer">
-              <input type="submit" value="{% translate "Apply" %}" class="btn btn-primary" />
+              <input type="submit"
+                     value="{% translate "Apply"|force_escape %}"
+                     class="btn btn-primary" />
             </div>
           </div>
         </form>
@@ -292,7 +267,9 @@
                 {% endif %}
               </div>
               <div class="card-footer">
-                <input type="submit" value="{% translate "Add" %}" class="btn btn-primary" />
+                <input type="submit"
+                       value="{% translate "Add"|force_escape %}"
+                       class="btn btn-primary" />
               </div>
             </div>
           </form>
@@ -320,7 +297,9 @@
                   </label>
                 </div>
                 <div class="card-footer">
-                  <input type="submit" value="{% translate "Add" %}" class="btn btn-primary" />
+                  <input type="submit"
+                         value="{% translate "Add"|force_escape %}"
+                         class="btn btn-primary" />
                 </div>
               </div>
             </form>
@@ -338,7 +317,15 @@
           </h4>
         </div>
         <table class="table table-listing table-striped">
-          {% if object.filename %}
+          {% contributor_access object as can_download_original %}
+          {% if object.filename and not can_download_original %}
+            <tr>
+              <td colspan="{{ exporters|length|add:2 }}">
+                {% translate "Original files can contain contributor identities and require additional permission. Use a generated export below for offline translation." %}
+              </td>
+            </tr>
+          {% endif %}
+          {% if object.filename and can_download_original %}
             <tr>
               <th class="number">{{ object.stats.all|intcomma }}</th>
               <td>{% translate "File in original format as translated in the repository" %}</td>
@@ -386,7 +373,9 @@
           </div>
           <div class="card-body">{% crispy download_form %}</div>
           <div class="card-footer">
-            <input type="submit" value="{% translate "Download" %}" class="btn btn-primary" />
+            <input type="submit"
+                   value="{% translate "Download"|force_escape %}"
+                   class="btn btn-primary" />
           </div>
         </div>
       </form>
@@ -416,7 +405,9 @@
               {% crispy form %}
             </div>
             <div class="card-footer">
-              <input type="submit" value="{% translate "Upload" %}" class="btn btn-primary" />
+              <input type="submit"
+                     value="{% translate "Upload"|force_escape %}"
+                     class="btn btn-primary" />
             </div>
           </div>
         </form>
@@ -441,7 +432,9 @@
               </p>
             </div>
             <div class="card-footer">
-              <input type="submit" value="{% translate "Add" %}" class="btn btn-primary" />
+              <input type="submit"
+                     value="{% translate "Add"|force_escape %}"
+                     class="btn btn-primary" />
             </div>
           </div>
         </form>

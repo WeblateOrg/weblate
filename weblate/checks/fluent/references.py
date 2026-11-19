@@ -10,8 +10,11 @@ from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import TargetCheck
 from weblate.checks.fluent.utils import (
+    FLUENT_COMPLEXITY_ERRORS,
     FluentPatterns,
     FluentUnitConverter,
+    bounded_branch_paths,
+    fluent_complexity_description,
     format_html_code,
     format_html_error_list,
     translation_from_check,
@@ -39,6 +42,7 @@ class _Reference:
 
     def __init__(self, fluent_ref: FluentReference) -> None:
         self.fluent_ref = fluent_ref
+        self.key = (fluent_ref.type_name, fluent_ref.name)
         # A reference can be flagged as shared if it was borrowed from another
         # branch.
         self.shared = False
@@ -59,10 +63,7 @@ class _Reference:
 
     def matches(self, other: _Reference) -> bool:
         """Whether the two references match in name and type."""
-        return (
-            self.fluent_ref.type_name == other.fluent_ref.type_name
-            and self.fluent_ref.name == other.fluent_ref.name
-        )
+        return self.key == other.key
 
 
 class _CountedReferences:
@@ -74,16 +75,13 @@ class _CountedReferences:
     """
 
     def __init__(self, ref_list: Iterable[_Reference]) -> None:
-        self.matching_refs: list[list[_Reference]] = []
+        self._refs_by_key: dict[tuple[str, str], list[_Reference]] = {}
         for ref in ref_list:
-            add = True
-            for other_refs in self.matching_refs:
-                if other_refs[0].matches(ref):
-                    add = False
-                    other_refs.append(ref)
-                    break
-            if add:
-                self.matching_refs.append([ref])
+            self._refs_by_key.setdefault(ref.key, []).append(ref)
+        self.matching_refs = list(self._refs_by_key.values())
+        self.signature = frozenset(
+            (key, len(refs)) for key, refs in self._refs_by_key.items()
+        )
 
     def matches(self, other: _CountedReferences) -> bool:
         """
@@ -92,21 +90,7 @@ class _CountedReferences:
         This will match if the two instances have matching _References with the
         same count in both.
         """
-        if len(self.matching_refs) != len(other.matching_refs):
-            return False
-        for refs in self.matching_refs:
-            has_match = False
-            for _index, other_refs in enumerate(other.matching_refs):
-                if refs[0].matches(other_refs[0]):
-                    if len(refs) != len(other_refs):
-                        return False
-                    has_match = True
-                    break
-            if not has_match:
-                return False
-        # Both are the same length and each ref in self was matched, so there
-        # shouldn't be any refs in other that were not matched once.
-        return True
+        return self.signature == other.signature
 
     def count(self, ref: _Reference, include_shared: bool = True) -> int:
         """
@@ -115,16 +99,10 @@ class _CountedReferences:
         If `include_shared` is False, this will only count references that are
         not flagged as "shared".
         """
-        for other_refs in self.matching_refs:
-            if ref.matches(other_refs[0]):
-                if include_shared:
-                    return len(other_refs)
-                count = 0
-                for equiv_ref in other_refs:
-                    if not equiv_ref.shared:
-                        count += 1
-                return count
-        return 0
+        other_refs = self._refs_by_key.get(ref.key, ())
+        if include_shared:
+            return len(other_refs)
+        return sum(not equiv_ref.shared for equiv_ref in other_refs)
 
 
 class _VariantReferences:
@@ -153,7 +131,9 @@ class _DifferentBranchCountError(Exception):
 class _SelectorReferences:
     """Class for extracting the references found underneath some selector branch."""
 
-    def __init__(self, top_branch: FluentSelectorBranch) -> None:
+    def __init__(self, top_branch: FluentSelectorBranch, source_length: int) -> None:
+        paths = bounded_branch_paths(top_branch, source_length)
+
         # Map from the selector branches to a list of their direct references.
         self._branch_references: dict[FluentSelectorBranch, list[_Reference]] = {}
         # Map from the selector node to a list of references found in their
@@ -170,7 +150,7 @@ class _SelectorReferences:
         # would appear in their flat form, plus any shared references.
         self.variant_references = [
             _VariantReferences(path, list(self._refs_for_path(top_branch, path)))
-            for path in top_branch.branch_paths()
+            for path in paths
         ]
 
     def _refs_for_path(
@@ -195,17 +175,11 @@ class _SelectorReferences:
         for node in branch.child_nodes:
             # Only want unique refs for the selector references, otherwise this
             # can lead to double-sharing of these references.
-            selector_refs: list[_Reference] = []
+            selector_refs: dict[tuple[str, str], _Reference] = {}
             for fluent_ref in node.selector_references:
                 ref = _Reference(fluent_ref)
-                add = True
-                for other in selector_refs:
-                    if other.matches(ref):
-                        add = False
-                        break
-                if add:
-                    selector_refs.append(ref)
-            self._selector_references[node] = selector_refs
+                selector_refs.setdefault(ref.key, ref)
+            self._selector_references[node] = list(selector_refs.values())
 
             for child in node.child_branches:
                 self._set_refs(child)
@@ -330,34 +304,33 @@ class _VariantReferencesDifference:
         self,
         source_part: FluentPart,
         target_part: FluentPart,
+        source_length: int,
+        target_length: int,
     ) -> None:
         self._part_name = source_part.name
         self._source_variants = _SelectorReferences(
-            source_part.top_branch
+            source_part.top_branch, source_length
         ).variant_references
         self._target_variants = _SelectorReferences(
-            target_part.top_branch
+            target_part.top_branch, target_length
         ).variant_references
 
+        source_signatures = {
+            variant.counted_references.signature for variant in self._source_variants
+        }
+        target_signatures = {
+            variant.counted_references.signature for variant in self._target_variants
+        }
         self._missing_variants = [
             variant
             for variant in self._source_variants
-            if not self._has_match(variant, self._target_variants)
+            if variant.counted_references.signature not in target_signatures
         ]
         self._extra_variants = [
             variant
             for variant in self._target_variants
-            if not self._has_match(variant, self._source_variants)
+            if variant.counted_references.signature not in source_signatures
         ]
-
-    @classmethod
-    def _has_match(
-        cls, variant: _VariantReferences, search_list: list[_VariantReferences]
-    ) -> bool:
-        return any(
-            variant.counted_references.matches(other.counted_references)
-            for other in search_list
-        )
 
     def __bool__(self) -> bool:
         return bool(self._missing_variants or self._extra_variants)
@@ -451,16 +424,11 @@ class _VariantReferencesDifference:
         )
 
     def _unique_target_refs(self) -> Iterator[_Reference]:
-        unique_refs: list[_Reference] = []
+        unique_keys: set[tuple[str, str]] = set()
         for variant in self._target_variants:
             for ref in variant.references:
-                add = True
-                for other in unique_refs:
-                    if other.matches(ref):
-                        add = False
-                        break
-                if add:
-                    unique_refs.append(ref)
+                if ref.key not in unique_keys:
+                    unique_keys.add(ref.key)
                     yield ref
 
     def _errors_relative_to(
@@ -697,7 +665,9 @@ class FluentReferencesCheck(TargetCheck):
                 # Ignore this part since we don't have anything to compare it
                 # against. The FluentParts checker will capture this.
                 continue
-            diff = _VariantReferencesDifference(source_parts[part.name], part)
+            diff = _VariantReferencesDifference(
+                source_parts[part.name], part, len(source), len(target)
+            )
             if not diff:
                 continue
             differences.append(diff)
@@ -709,7 +679,10 @@ class FluentReferencesCheck(TargetCheck):
         target: str,
         unit: TransUnitModel,
     ) -> bool:
-        return bool(self._compare_references(unit, source, target))
+        try:
+            return bool(self._compare_references(unit, source, target))
+        except FLUENT_COMPLEXITY_ERRORS:
+            return True
 
     @classmethod
     def _get_all_references_in_branch(
@@ -735,18 +708,26 @@ class FluentReferencesCheck(TargetCheck):
 
         highlight_patterns: list[str] = []
         # We simply match all references found in the source.
-        for part in fluent_unit.to_fluent_parts() or []:
-            if part.name and not is_message:
-                continue
-            highlight_patterns.extend(
-                FluentPatterns.reference(fluent_ref)
-                for fluent_ref in self._get_all_references_in_branch(part.top_branch)
-            )
+        try:
+            for part in fluent_unit.to_fluent_parts() or []:
+                if part.name and not is_message:
+                    continue
+                highlight_patterns.extend(
+                    FluentPatterns.reference(fluent_ref)
+                    for fluent_ref in self._get_all_references_in_branch(
+                        part.top_branch
+                    )
+                )
+        except RecursionError:
+            return []
         return FluentPatterns.highlight_source(source, highlight_patterns)
 
     def get_description(self, check_obj: CheckModel) -> StrOrPromise:
         (unit, source, target) = translation_from_check(check_obj)
-        differences = self._compare_references(unit, source, target)
+        try:
+            differences = self._compare_references(unit, source, target)
+        except FLUENT_COMPLEXITY_ERRORS:
+            return fluent_complexity_description()
         if not differences:
             return super().get_description(check_obj)
 

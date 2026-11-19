@@ -3,18 +3,27 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
+import time
 
 from django.urls import reverse
 from django.utils import timezone
+from django_otp.plugins.otp_totp.models import TOTPDevice
 from rest_framework.authtoken.models import Token
 
+from weblate.accounts.utils import (
+    SECOND_FACTOR_VERIFY_SECONDS,
+    SESSION_SECOND_FACTOR_TIMESTAMP,
+)
 from weblate.auth.models import User, setup_project_groups
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Project
 from weblate.trans.tasks import project_removal
 from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.files import remove_tree
 
 
@@ -73,7 +82,7 @@ class ProjectTokenTest(FixtureTestCase):
     def create_attacker(self):
         project = self.create_additional_project(name="Attacker", slug="attacker")
         project.access_control = Project.ACCESS_PRIVATE
-        project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         project.save()
         attacker = User.objects.create_user(
             "attacker", "attacker@example.org", "testpassword"
@@ -95,13 +104,38 @@ class ProjectTokenTest(FixtureTestCase):
             [("Administration", self.project.slug)],
         )
 
+    def test_create_token_requires_recent_second_factor(self) -> None:
+        self.make_manager()
+        TOTPDevice.objects.create(user=self.user, confirmed=True)
+        token_count = Token.objects.count()
+        url = reverse("create-project-token", kwargs={"project": self.project.slug})
+        payload = {"full_name": "Test Token", "date_expires": "2999-12-31"}
+
+        response = self.client.post(url, payload)
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(
+            reverse("2fa-login", kwargs={"backend": "totp"}),
+            response["Location"],
+        )
+        self.assertEqual(Token.objects.count(), token_count)
+
+        session = self.client.session
+        session[SESSION_SECOND_FACTOR_TIMESTAMP] = {
+            "user": self.user.pk,
+            "time": int(time.time()),
+        }
+        session.save()
+        response = self.client.post(url, payload)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Token.objects.count(), token_count + 1)
+
     def test_token_cannot_write_other_public_project(self) -> None:
         """Project tokens should not inherit public-project permissions."""
         token_project = self.create_additional_project(
             name="Token project", slug="token-project"
         )
         token_project.access_control = Project.ACCESS_PRIVATE
-        token_project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         token_project.save()
         token = self.create_token(project=token_project)
         token_user = self.get_token_user(token)
@@ -225,6 +259,71 @@ class ProjectTokenTest(FixtureTestCase):
 
         self.assertEqual(response.status_code, 401)
 
+    def test_revoke_token_requires_recent_second_factor(self) -> None:
+        token = self.create_token()
+        token_user = self.get_token_user(token)
+        TOTPDevice.objects.create(user=self.user, confirmed=True)
+        session = self.client.session
+        session[SESSION_SECOND_FACTOR_TIMESTAMP] = {
+            "user": self.user.pk,
+            "time": int(time.time()) - SECOND_FACTOR_VERIFY_SECONDS - 1,
+        }
+        session.save()
+        url = reverse("delete-user", kwargs=self.kw_project)
+        payload = {"user": token_user.username}
+
+        response = self.client.post(url, payload)
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(
+            reverse("2fa-login", kwargs={"backend": "totp"}), response["Location"]
+        )
+        token_user.refresh_from_db()
+        self.assertTrue(token_user.is_active)
+        self.assertTrue(Token.objects.filter(key=token).exists())
+        self.assertTrue(
+            token_user.groups.filter(defining_project=self.project).exists()
+        )
+        self.assertFalse(
+            self.project.change_set.filter(action=ActionEvents.REMOVE_USER).exists()
+        )
+
+        session = self.client.session
+        session[SESSION_SECOND_FACTOR_TIMESTAMP] = {
+            "user": self.user.pk,
+            "time": int(time.time()),
+        }
+        session.save()
+        response = self.client.post(url, payload)
+        self.assertRedirects(response, self.access_url, fetch_redirect_response=False)
+        token_user.refresh_from_db()
+        self.assertFalse(token_user.is_active)
+        self.assertFalse(Token.objects.filter(key=token).exists())
+
+    def test_remove_member_requires_recent_second_factor(self) -> None:
+        self.make_manager()
+        member = User.objects.create_user(
+            "member", "member@example.org", "testpassword"
+        )
+        self.project.add_user(member, "Translate")
+        TOTPDevice.objects.create(user=self.user, confirmed=True)
+        url = reverse("delete-user", kwargs=self.kw_project)
+
+        response = self.client.post(url, {"user": member.username})
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(
+            reverse("2fa-login", kwargs={"backend": "totp"}), response["Location"]
+        )
+        self.assertTrue(member.groups.filter(defining_project=self.project).exists())
+
+        session = self.client.session
+        session[SESSION_SECOND_FACTOR_TIMESTAMP] = {
+            "user": self.user.pk,
+            "time": int(time.time()),
+        }
+        session.save()
+        self.client.post(url, {"user": member.username})
+        self.assertFalse(member.groups.filter(defining_project=self.project).exists())
+
     def test_revoke_token_audit(self) -> None:
         """Manual token removal should create token-specific audit."""
         token_key = self.create_token()
@@ -285,6 +384,12 @@ class ProjectTokenTest(FixtureTestCase):
         admin_group = attacker_project.defined_groups.get(name="Administration")
 
         response = attacker_client.post(
+            reverse("first-factor-verify"),
+            {"target": "sensitive", "password": "testpassword"},
+        )
+        self.assertRedirects(response, reverse("profile"))
+
+        response = attacker_client.post(
             reverse("set-groups", kwargs={"project": attacker_project.slug}),
             {"user": token_user.username, "groups": [admin_group.pk]},
             follow=True,
@@ -306,7 +411,7 @@ class ProjectTokenTest(FixtureTestCase):
         username = token_user.username
         second_project = self.create_additional_project(name="Other", slug="other")
         second_project.access_control = Project.ACCESS_PRIVATE
-        second_project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         second_project.save()
         second_project.add_user(token_user, "Administration", allow_bot=True)
 
@@ -432,9 +537,11 @@ class ProjectTokenTest(FixtureTestCase):
         """Project removal should not delete tokens still used by another project."""
         token_key = self.create_token()
         token_user = self.get_token_user(token_key)
+        token_user.full_name = "Deleted User"
+        token_user.save(update_fields=["full_name"])
         second_project = self.create_additional_project(name="Other", slug="other")
         second_project.access_control = Project.ACCESS_PRIVATE
-        second_project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         second_project.save()
         if not second_project.defined_groups.exists():
             setup_project_groups(sender=Project, instance=second_project, created=False)
@@ -451,6 +558,21 @@ class ProjectTokenTest(FixtureTestCase):
         self.assertFalse(
             token_user.auditlog_set.filter(activity="token-removed").exists()
         )
+
+    def test_project_removal_cleans_up_renamed_token(self) -> None:
+        token_key = self.create_token()
+        token_user = self.get_token_user(token_key)
+        token_user.full_name = "Deleted User"
+        token_user.save(update_fields=["full_name"])
+
+        project_removal.run(self.project.pk, self.user.pk, backup=False)
+
+        token_user.refresh_from_db()
+        self.assertFalse(token_user.is_active)
+        self.assertFalse(Token.objects.filter(key=token_key).exists())
+        self.assertFalse(token_user.groups.exists())
+        audit = token_user.auditlog_set.get(activity="token-removed")
+        self.assertEqual(audit.params["username"], self.user.username)
 
     def test_use_token_write(self) -> None:
         """Use the token for API write."""

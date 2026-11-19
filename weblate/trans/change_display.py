@@ -31,8 +31,10 @@ from weblate.utils.markdown import render_markdown
 from weblate.utils.pii import mask_email
 
 if TYPE_CHECKING:
+    from django.contrib.auth.models import AnonymousUser
     from django_stubs_ext import StrOrPromise
 
+    from weblate.auth.models import User
     from weblate.trans.models.audit import AuditValue
     from weblate.trans.models.change import Change, Translation
 
@@ -47,27 +49,31 @@ AUTO_ACTIONS = {
     ),
 }
 
+HISTORY_LIST_TEXT_LIMIT = 4096
+
 
 class ChangeDetailsRenderFactory:
     @staticmethod
-    def get_strategy(change: Change) -> BaseDetailsRenderStrategy:
+    def get_strategy(
+        change: Change, *, viewer: User | AnonymousUser | None = None
+    ) -> BaseDetailsRenderStrategy:
         """Get strategy for displaying change details."""
         for strategy in [
             s for s in DETAILS_DISPLAY_STRATEGIES if not s.details_required
         ]:
             if change.action in strategy.actions:
-                return strategy()
+                return strategy(viewer=viewer)
 
         if not change.details:
-            return RenderEmptyDetails()
+            return RenderEmptyDetails(viewer=viewer)
 
         # Following rendering relies on details present
         for strategy in [s for s in DETAILS_DISPLAY_STRATEGIES if s.details_required]:
             if change.action in strategy.actions:
-                return strategy()
+                return strategy(viewer=viewer)
 
         # No specific strategy is found, return an empty display strategy
-        return RenderEmptyDetails()
+        return RenderEmptyDetails(viewer=viewer)
 
 
 DETAILS_DISPLAY_STRATEGIES: list[type[BaseDetailsRenderStrategy]] = []
@@ -84,6 +90,9 @@ def register_details_display_strategy(
 class BaseDetailsRenderStrategy:
     actions: ClassVar[set[ActionEvents]] = set()
     details_required: bool = False
+
+    def __init__(self, *, viewer: User | AnonymousUser | None = None) -> None:
+        self.viewer = viewer
 
     def render_details(self, change: Change) -> StrOrPromise:
         raise NotImplementedError
@@ -126,7 +135,7 @@ class RenderTarget(BaseDetailsRenderStrategy):
     }
 
     def render_details(self, change: Change) -> StrOrPromise:
-        return render_markdown(change.target)
+        return render_markdown(change.target, viewer=self.viewer)
 
 
 @register_details_display_strategy
@@ -138,7 +147,7 @@ class RenderComment(BaseDetailsRenderStrategy):
 
     def render_details(self, change: Change) -> StrOrPromise:
         if "comment" in change.details:
-            return render_markdown(change.details["comment"])
+            return render_markdown(change.details["comment"], viewer=self.viewer)
         return ""
 
 
@@ -479,7 +488,11 @@ class RenderCreateComponent(BaseDetailsRenderStrategy):
 
 
 def get_change_history_context(
-    change: Change, *, include_private_details: bool = True
+    change: Change,
+    *,
+    include_private_details: bool = True,
+    viewer: User | AnonymousUser | None = None,
+    list_preview: bool = False,
 ) -> dict[str, Any]:
     """
     Get context for rendering change history.
@@ -487,10 +500,43 @@ def get_change_history_context(
     This function returns a dictionary containing the main content and fields
     for displaying the change history.
     """
+    from copy import copy  # ruff: ignore[import-outside-top-level]
+
+    from weblate.accounts.visibility import can_view_contributor, public_change_details  # ruff: ignore[import-outside-top-level]
+
+    if not can_view_contributor(viewer, change):
+        change = copy(change)
+        change.details = public_change_details(change, viewer)
+        if not (
+            change.action == ActionEvents.COMMENT
+            or change.show_content()
+            or change.show_source()
+            or change.show_diff()
+            or change.show_removed_string()
+        ):
+            return ShowChangeAction(change).get_context()
+    if list_preview and (
+        len(change.old) > HISTORY_LIST_TEXT_LIMIT
+        or len(change.target) > HISTORY_LIST_TEXT_LIMIT
+        or any(
+            isinstance(value, str) and len(value) > HISTORY_LIST_TEXT_LIMIT
+            for value in change.details.values()
+        )
+        or (
+            (change.show_content() or change.show_source())
+            and change.unit is not None
+            and len(change.get_source()) > HISTORY_LIST_TEXT_LIMIT
+        )
+    ):
+        return {
+            "description": gettext("Content is too long to show in the change list."),
+            "change_details_fields": [],
+            "preview_truncated": True,
+        }
     if not include_private_details and change.action == ActionEvents.ALERT_DISMISSED:
         details = RenderAlert.render_alert(change)
     else:
-        details = change.get_details_display()
+        details = change.get_details_display(viewer=viewer)
     if details:
         return {"description": details, "change_details_fields": []}
     if change.action in {
@@ -565,8 +611,7 @@ class BaseChangeHistoryContext:
         return render_to_string("snippets/format-translation.html", context)
 
     def make_distance_badge(self, count: int) -> str:
-        # ruff: ignore[ambiguous-unicode-character-docstring]
-        """Create a badge for the Damerau–Levenshtein distance."""
+        """Create a badge for the edit distance, estimated for large changes."""
         return npgettext(
             "Number of edits on a change in Damerau–Levenshtein distance",
             "%(count)d character edited",

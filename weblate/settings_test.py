@@ -73,6 +73,9 @@ CELERY_BROKER_URL = "memory://"
 CELERY_TASK_EAGER_PROPAGATES = True
 CELERY_RESULT_BACKEND = None
 
+# Fail tests when crispy layouts reference missing or duplicate form fields.
+CRISPY_FAIL_SILENTLY = False
+
 # Enable lazy stats for testing
 STATS_LAZY = True
 
@@ -109,7 +112,8 @@ LOGGING = {
     "loggers": {
         "django.request": {
             "handlers": ["mail_admins"],
-            "level": "ERROR",
+            # Preserve exceptions behind HTTP 400 responses in pytest's captured logs.
+            "level": "WARNING",
             "propagate": True,
         },
         "weblate": {"handlers": [], "level": "ERROR"},

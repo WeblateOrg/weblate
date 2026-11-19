@@ -46,7 +46,9 @@
         <form action="{% url 'create-project' %}" method="post" enctype="multipart/form-data">
           {% csrf_token %}
           {% crispy form %}
-          <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+          <input type="submit"
+                 value="{% translate "Save"|force_escape %}"
+                 class="btn btn-primary" />
         </form>
       </div>
 
@@ -56,7 +58,9 @@
               enctype="multipart/form-data">
           {% csrf_token %}
           {% crispy import_form %}
-          <input type="submit" value="{% translate "Continue" %}" class="btn btn-primary" />
+          <input type="submit"
+                 value="{% translate "Continue"|force_escape %}"
+                 class="btn btn-primary" />
         </form>
       </div>
 

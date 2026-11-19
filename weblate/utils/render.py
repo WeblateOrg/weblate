@@ -4,43 +4,34 @@
 
 from __future__ import annotations
 
-from collections import UserString
-from typing import TYPE_CHECKING, ClassVar
+from typing import TYPE_CHECKING, cast
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.template import Context, Engine, Template, TemplateSyntaxError
+from django.template import TemplateSyntaxError
 from django.urls import reverse
-from django.utils.functional import SimpleLazyObject
 from django.utils.translation import gettext, override
 
 from weblate.utils.outbound import validate_runtime_url
+from weblate.utils.render_context import validate_context
+from weblate.utils.render_engine import check_text, render_bounded
+from weblate.utils.render_limits import SOURCE_LIMIT
+from weblate.utils.render_policy import TemplateDiagnosticError
 from weblate.utils.site import get_site_url
 from weblate.utils.validators import WeblateEditorURLValidator, WeblateURLValidator
 
 if TYPE_CHECKING:
     from django.core.validators import URLValidator
 
-
-class InvalidString(UserString):
-    def __mod__(self, other: str):
-        raise TemplateSyntaxError(gettext('Undefined variable: "%s"') % other)
+    from weblate.utils.render_context import TemplateContext
 
 
-class RestrictedEngine(Engine):
-    default_builtins: ClassVar[list[str]] = [
-        "django.template.defaultfilters",
-        "weblate.utils.templatetags.safe_render",
-    ]
+def prepare_template_context(
+    template: str, values: dict[str, object]
+) -> TemplateContext:
+    """Expand Weblate objects and snapshot the complete evaluation context."""
+    kwargs = values.copy()
 
-    def __init__(self, *args, **kwargs) -> None:
-        kwargs["autoescape"] = False
-        kwargs["string_if_invalid"] = InvalidString("%s")
-        super().__init__(*args, **kwargs)
-
-
-def render_template(template: str, **kwargs):
-    """Render string template with Weblate context."""
     from weblate.trans.models import (  # ruff: ignore[import-outside-top-level]
         Component,
         Project,
@@ -51,11 +42,13 @@ def render_template(template: str, **kwargs):
     component = kwargs.get("component")
     project = kwargs.get("project")
 
-    # Comppatibility with older templates
+    # Compatibility with older templates
     if "addon_name" in kwargs:
         kwargs["hook_name"] = kwargs["addon_name"]
 
-    if isinstance(translation, Translation):
+    # Inspect the actual type, without consulting arbitrary __class__ hooks.
+    if issubclass(type(translation), Translation):
+        translation = cast("Translation", translation)
         kwargs["language_code"] = translation.language_code
         kwargs["language_name"] = translation.language.get_name()
         kwargs["stats"] = translation.stats.get_data()
@@ -64,8 +57,10 @@ def render_template(template: str, **kwargs):
         component = translation.component
         kwargs.pop("translation", None)
 
-    if isinstance(component, Component):
+    if issubclass(type(component), Component):
+        component = cast("Component", component)
         kwargs["component_name"] = component.name
+        kwargs["component_full_name"] = str(component)
         kwargs["component_slug"] = component.slug
         kwargs["component_remote_branch"] = (
             component.repository.get_remote_branch_name()
@@ -83,14 +78,15 @@ def render_template(template: str, **kwargs):
                 },
             )
         )
-        if component.pk:
-            kwargs["component_linked_children"] = SimpleLazyObject(
-                component.get_linked_children_for_template
+        if component.pk and "component_linked_children" in template:
+            kwargs["component_linked_children"] = (
+                component.get_linked_children_for_template()
             )
         project = component.project
         kwargs.pop("component", None)
 
-    if isinstance(project, Project):
+    if issubclass(type(project), Project):
+        project = cast("Project", project)
         kwargs["project_name"] = project.name
         kwargs["project_slug"] = project.slug
         if "url" not in kwargs:
@@ -100,23 +96,56 @@ def render_template(template: str, **kwargs):
     kwargs["site_title"] = settings.SITE_TITLE
     kwargs["site_url"] = get_site_url()
 
+    return validate_context(kwargs)
+
+
+def render_template(template: str, **kwargs: object) -> str:
+    """Render string template with validated Weblate context."""
+    return _render_template(template, kwargs)
+
+
+def _render_template(
+    template: str, values: dict[str, object], *, for_validation: bool = False
+) -> str:
+    check_text(template, SOURCE_LIMIT)
+    context = prepare_template_context(template, values)
+
     with override("en"):
-        return Template(template, engine=RestrictedEngine()).render(
-            Context(kwargs, autoescape=False)
-        )
+        rendered = render_bounded(template, context, for_validation=for_validation)
+    # Django marks this result safe even though its source was not HTML-escaped.
+    # These templates produce plain text; a plain str lets HTML sinks escape it.
+    return "" + rendered
 
 
-def validate_render(value: str, **kwargs) -> str:
-    """Validate rendered template."""
+def render_repository_template(template: str, *, setting: str, **kwargs: object) -> str:
+    """Expose configured message failures through repository error handling."""
+    from weblate.vcs.base import RepositoryTemplateError  # ruff: ignore[import-outside-top-level]
+
     try:
-        return render_template(value, **kwargs)
+        with override("en"):
+            return render_template(template, **kwargs)
+    except TemplateSyntaxError as error:
+        diagnostic = (
+            str(error)
+            if isinstance(error, TemplateDiagnosticError)
+            else "Template rendering failed."
+        )
+        raise RepositoryTemplateError(setting, diagnostic) from error
+
+
+def validate_render(value: str, **kwargs: object) -> str:
+    """Validate a submitted template with editor diagnostics."""
+    try:
+        return _render_template(value, kwargs, for_validation=True)
     except Exception as err:
         raise ValidationError(
             gettext("Could not render template: {}").format(err)
         ) from err
 
 
-def validate_render_mock(value: str, *, translation: bool = False, **kwargs) -> str:
+def validate_render_mock(
+    value: str, *, translation: bool = False, **kwargs: object
+) -> str:
     from weblate.lang.models import Language  # ruff: ignore[import-outside-top-level]
     from weblate.trans.models import (  # ruff: ignore[import-outside-top-level]
         Component,
@@ -142,13 +171,14 @@ def validate_render_mock(value: str, *, translation: bool = False, **kwargs) -> 
     )
     component.stats = DummyTranslationStats(component)  # type: ignore[assignment]
     if translation:
-        kwargs["translation"] = Translation(
+        mock_translation = Translation(
             id=-1,
             component=component,
             language_code="xx",
             language=Language(name="xxx", code="xx"),
         )
-        kwargs["translation"].stats = DummyTranslationStats(translation)
+        mock_translation.stats = DummyTranslationStats(mock_translation)  # type: ignore[assignment]
+        kwargs["translation"] = mock_translation
     else:
         kwargs["component"] = component
     return validate_render(value, **kwargs)

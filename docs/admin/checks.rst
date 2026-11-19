@@ -150,6 +150,10 @@ menu of your translation project provides interface to upload and manage fonts.
 TrueType or OpenType fonts can be uploaded, set up font-groups and use those in
 the check.
 
+Uploads must contain a single TrueType or OpenType font with a ``.ttf`` or
+``.otf`` extension. WOFF, WOFF2, font collections, and legacy font formats are
+not supported, even when renamed to use one of these extensions.
+
 The font-groups allow you to define different fonts for different languages,
 which is typically needed for non-latin languages:
 
@@ -178,6 +182,13 @@ flags (see :ref:`custom-checks`). You will probably need the following ones:
 ``font-size:22``
    Defines font size in pixels.
 
+Font checks accept widths up to 2,048 pixels, font sizes up to 256 pixels,
+and at most 64 explicit or wrapped lines and 16,000 characters after
+replacements. Configurations or text exceeding these budgets fail the check
+with a rendering-limit message instead of being measured at a different
+threshold. New previews are clipped to 2,048 × 2,048 pixels. Existing cached
+previews can still be served.
+
 
 .. _own-checks:
 
@@ -204,6 +215,16 @@ related strings in the background after a save. They can override
 ``(unit, failed)`` pair for every string, including passing strings so stale
 warnings can be removed. Without this override, Weblate evaluates the check
 on each matching string in chunks.
+
+Format checks inheriting from ``weblate.checks.format.BaseFormatCheck`` can
+implement ``may_have_matches(text)`` to skip expensive extraction for plain text.
+Return ``False`` only when the text cannot contain any matches; return ``True``
+when full extraction is needed. The default returns ``True`` so existing custom
+checks continue to work. Extraction and highlighting use this hook independently
+for each string, preserving detection of placeholders added in the translation.
+The hook controls extraction only: additional syntax validation must still run,
+such as detection of unmatched braces or apostrophes. Custom iterators called
+directly can also use the hook before allocating parsing tables.
 
 Checking translation text does not contain "foo"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -7,6 +7,8 @@
 from __future__ import annotations
 
 import contextlib
+import json
+import math
 import random
 import re
 import time
@@ -16,26 +18,30 @@ from hashlib import md5
 from html import escape, unescape
 from itertools import chain
 from typing import TYPE_CHECKING, ClassVar
-from urllib.parse import quote, urlparse
+from urllib.parse import quote, quote_plus, urlparse
 
+import ahocorasick_rs
 import httpx2
 from asgiref.sync import sync_to_async
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
+from django.db import transaction
 from django.utils.functional import cached_property
+from django.utils.http import parse_http_date_safe
 from django.utils.translation import gettext
 
 from weblate.checks.utils import highlight_string
 from weblate.lang.models import Language, PluralMapper
 from weblate.machinery.forms import BaseMachineryForm
 from weblate.utils.docs import DocVersionsMixin
-from weblate.utils.errors import log_handled_exception, report_error
+from weblate.utils.errors import log_handled_exception, report_error, report_message
 from weblate.utils.forms import WeblateServiceURLField
 from weblate.utils.hash import calculate_dict_hash, calculate_hash, hash_to_checksum
 from weblate.utils.outbound import is_allowlisted_hostname
 from weblate.utils.requests import (
     JSON_RESPONSE_ERRORS,
+    MACHINERY_RESPONSE_SIZE,
     async_fetch_url,
     async_fetch_validated_url,
     fetch_url,
@@ -49,9 +55,16 @@ from .types import (
 )
 
 MACHINERY_DEFAULT_THRESHOLD = 80
+ERROR_URL_RE = re.compile(r"https?://\S+", re.IGNORECASE)
+
+
+def sanitize_machinery_error(message: str) -> str:
+    """Hide URLs that can contain provider credentials or user information."""
+    return ERROR_URL_RE.sub("[redacted URL]", message)
+
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable, Iterator
+    from collections.abc import Callable, Iterable, Iterator, Mapping
 
     from weblate.auth.models import User
     from weblate.checks.base import Highlight
@@ -79,6 +92,12 @@ class MachineTranslationError(Exception):
 
 class MachineryRateLimitError(MachineTranslationError):
     """Raised when rate limiting is detected."""
+
+    def __init__(
+        self, message: object, *, response: httpx2.Response | None = None
+    ) -> None:
+        super().__init__(message)
+        self.response = response
 
 
 class UnsupportedLanguageError(MachineTranslationError):
@@ -123,6 +142,8 @@ class BatchMachineTranslation(DocVersionsMixin):
     sends_data_to_third_party = True
     settings_form: type[BaseMachineryForm] | None = BaseMachineryForm
     request_timeout = 5
+    # Cooldown in seconds after detecting a rate limit or service failure.
+    rate_limit_window = 1800
     is_available = True
     replacement_start = "[X"
     replacement_end = "X]"
@@ -142,12 +163,27 @@ class BatchMachineTranslation(DocVersionsMixin):
         self.mtid = self.get_identifier()
         if installation_id := configuration.get("_installation_id"):
             self.mtid = f"{self.mtid}:{installation_id}"
-        self.rate_limit_cache = f"{self.mtid}-rate-limit"
+        self.rate_limit_cache = self.get_rate_limit_cache_keys(configuration)[0]
         self.languages_cache = f"{self.mtid}-languages"
         self.comparer = Comparer()
         self.supported_languages_error: Exception | None = None
         self.supported_languages_error_age: float = 0
         self.settings = configuration
+
+    @classmethod
+    def get_rate_limit_cache_keys(cls, configuration: SettingsDict) -> tuple[str, ...]:
+        """Identify cooldowns independently of the project consuming an installation."""
+        identifier = cls.get_identifier()
+        if installation_id := configuration.get("_installation_id"):
+            identifier = f"{identifier}:{installation_id}"
+        else:
+            cache_configuration = {
+                key: value
+                for key, value in configuration.items()
+                if not key.startswith("_")
+            }
+            identifier = f"{identifier}:{calculate_dict_hash(cache_configuration)}"
+        return (f"{identifier}-rate-limit",)
 
     def delete_cache(self) -> None:
         cache.delete_many([self.rate_limit_cache, self.languages_cache])
@@ -334,6 +370,7 @@ class BatchMachineTranslation(DocVersionsMixin):
             **kwargs,
             "headers": headers,
             "timeout": self.request_timeout,
+            "max_response_size": MACHINERY_RESPONSE_SIZE,
             "auth": self.get_auth(),
             "raise_for_status": False,
         }
@@ -399,15 +436,114 @@ class BatchMachineTranslation(DocVersionsMixin):
         extra_log: str | None = None,
     ) -> None:
         """Report error situations."""
+        self._save_machinery_error(exception, cause)
         report_error(
             f"machinery[{self.name}]: {cause}",
             extra_log=extra_log,
             exception=exception,
         )
 
-    def log_handled_error(self, cause: str, extra_log: str | None = None) -> None:
+    def _get_machinery_error(self, exc: BaseException, cause: str) -> str:
+        """Format bounded diagnostics with private configuration redacted."""
+        response = getattr(exc, "response", None)
+        try:
+            if isinstance(
+                response, httpx2.Response
+            ) and not self.can_display_error_detail(response):
+                message = str(exc)
+            else:
+                message = (
+                    self.get_error_message(exc)
+                    if isinstance(exc, Exception)
+                    else str(exc)
+                )
+        except Exception:
+            # Provider response parsing must not hide the original error.
+            message = f"{type(exc).__name__}: {exc}"
+        status = (
+            str(response.status_code) if isinstance(response, httpx2.Response) else ""
+        )
+        if not isinstance(message, str) or not message.strip():
+            message = str(exc)
+        message = message.removeprefix(f"{type(exc).__name__}: ")
+        message = ": ".join(filter(None, [cause, type(exc).__name__, status, message]))
+        message = sanitize_machinery_error(message)
+
+        # Only explicitly public configuration may be echoed in diagnostics.
+        # Include nested credentials and encoded values used in provider errors.
+        public_fields = (
+            self.settings_form.public_configuration_fields
+            if self.settings_form is not None
+            else frozenset()
+        )
+        secrets: set[str] = set()
+
+        def collect_values(value: object) -> None:
+            if isinstance(value, str) and value:
+                secrets.update((value, quote(value, safe=""), quote_plus(value)))
+                # Providers can echo individual fields from serialized service
+                # account documents instead of the complete credentials string.
+                if value.lstrip().startswith(("{", "[")):
+                    with contextlib.suppress(json.JSONDecodeError):
+                        collect_values(json.loads(value))
+            elif isinstance(value, dict):
+                for nested in value.values():
+                    collect_values(nested)
+            elif isinstance(value, list):
+                for nested in value:
+                    collect_values(nested)
+
+        for key, value in self.settings.items():
+            if not key.startswith("_") and key not in public_fields:
+                collect_values(value)
+        if secrets:
+            message = re.sub(
+                "|".join(
+                    re.escape(value) for value in sorted(secrets, key=len, reverse=True)
+                ),
+                "[redacted]",
+                message,
+            )
+        return message[:2000]
+
+    def _save_machinery_error(self, exc: BaseException, cause: str) -> None:
+        """Persist diagnostics without interfering with provider failures."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.machinery.models import MachineryError, MachineryInstallation
+
+        installation_id = self.settings.get("_installation_id")
+        if installation_id is None:
+            return
+        try:
+            message = self._get_machinery_error(exc, cause)
+            # Lock the installation against deletion. A savepoint also keeps a
+            # failed write from breaking the caller's transaction.
+            with transaction.atomic():
+                if (
+                    not MachineryInstallation.objects.select_for_update()
+                    .filter(pk=installation_id)
+                    .exists()
+                ):
+                    return
+                MachineryError.objects.create(
+                    installation_id=installation_id, error=message
+                )
+        except Exception:
+            log_handled_exception("Could not save machinery error")
+
+    def log_handled_error(
+        self,
+        cause: str,
+        extra_log: str | None = None,
+        *,
+        include_exception: bool = True,
+    ) -> None:
         """Log a handled error without reporting it to external services."""
-        log_handled_exception(f"machinery[{self.name}]: {cause}", extra_log=extra_log)
+        message = f"machinery[{self.name}]: {cause}"
+        if include_exception:
+            log_handled_exception(message, extra_log=extra_log)
+        else:
+            report_message(message, extra_log=extra_log, skip_error_reporting=True)
 
     @cached_property
     def supported_languages(self):
@@ -445,8 +581,83 @@ class BatchMachineTranslation(DocVersionsMixin):
     def is_rate_limited(self) -> bool:
         return cache.get(self.rate_limit_cache, False)
 
-    def set_rate_limit(self) -> None:
-        cache.set(self.rate_limit_cache, True, 1800)
+    @staticmethod
+    def parse_retry_delay(value: str) -> int | None:
+        """Parse seconds, rounding up so a retry never precedes the delay."""
+        try:
+            delay = float(value)
+        except (ValueError, OverflowError):
+            return None
+        # Keep the timeout representable as a signed 64-bit millisecond value
+        # for cache backends, including the current Unix timestamp.
+        if (
+            not math.isfinite(delay)
+            or not 0 <= delay <= (2**63 - 1) // 1000 - time.time()
+        ):
+            return None
+        return math.ceil(delay)
+
+    @classmethod
+    def get_retry_after(cls, headers: Mapping[str, str]) -> int | None:
+        """Read HTTP retry hints, preferring the more precise millisecond form."""
+        headers = {key.lower(): value for key, value in headers.items()}
+        if value := headers.get("retry-after-ms"):
+            try:
+                delay = cls.parse_retry_delay(str(float(value) / 1000))
+            except (ValueError, OverflowError):
+                delay = None
+            if delay is not None:
+                return delay
+        if value := headers.get("retry-after"):
+            if (delay := cls.parse_retry_delay(value)) is not None:
+                return delay
+            if (timestamp := parse_http_date_safe(value)) is not None:
+                return cls.parse_retry_delay(str(timestamp - time.time()))
+        return None
+
+    @classmethod
+    def parse_retry_info(cls, detail: object) -> int | None:
+        """Read a Google RetryInfo JSON detail without inferring free-form text."""
+        if (
+            isinstance(detail, dict)
+            and detail.get("@type") == "type.googleapis.com/google.rpc.RetryInfo"
+            and isinstance(value := detail.get("retryDelay"), str)
+            and re.fullmatch(r"[0-9]+(?:\.[0-9]{1,9})?s", value)
+        ):
+            return cls.parse_retry_delay(value[:-1])
+        return None
+
+    def get_rate_limit_timeout(self, exc: Exception) -> int:
+        """Use the provider's retry hint, falling back to the service window."""
+        response = getattr(exc, "response", None)
+        if not isinstance(response, httpx2.Response):
+            return self.rate_limit_window
+        if (delay := self.get_retry_after(response.headers)) is not None:
+            return delay
+        try:
+            payload = response.json()
+        except JSON_RESPONSE_ERRORS:
+            return self.rate_limit_window
+        if isinstance(payload, dict) and isinstance(
+            error := payload.get("error"), dict
+        ):
+            details = error.get("details")
+            if isinstance(details, list):
+                for detail in details:
+                    if (delay := self.parse_retry_info(detail)) is not None:
+                        return delay
+        return self.rate_limit_window
+
+    def set_rate_limit(self, timeout: int | None = None) -> None:
+        cache.set(
+            self.rate_limit_cache,
+            True,
+            self.rate_limit_window if timeout is None else timeout,
+        )
+
+    def apply_rate_limit(self, exc: Exception) -> None:
+        if self.is_rate_limit_error(exc):
+            self.set_rate_limit(self.get_rate_limit_timeout(exc))
 
     def is_rate_limit_error(self, exc: Exception) -> bool:
         if isinstance(exc, MachineryRateLimitError):
@@ -492,10 +703,13 @@ class BatchMachineTranslation(DocVersionsMixin):
         """Escaping of the text with replacements."""
         return text
 
-    def make_re_placeholder(self, text: str) -> str:
-        """Convert placeholder into a regular expression."""
-        # Allow additional space before ]
-        return f"{re.escape(text[:-1])} *{re.escape(text[-1:])}"
+    def get_placeholder_pattern(self) -> re.Pattern[str]:
+        """Match numbered placeholders, allowing space before the last delimiter."""
+        return re.compile(
+            f"{re.escape(self.replacement_start)}(?P<id>[0-9]+)"
+            f"{re.escape(self.replacement_end[:-1])} *"
+            f"{re.escape(self.replacement_end[-1:])}"
+        )
 
     def format_replacement(
         self, h_start: int, h_end: int, h_text: str, h_kind: Highlight | Unit | None
@@ -531,25 +745,32 @@ class BatchMachineTranslation(DocVersionsMixin):
 
         return "".join(parts), replacements
 
-    def uncleanup_text_item(self, text: str, source: str, target: str) -> str:
-        def replace_target(_match: re.Match) -> str:
-            return target
+    def build_placeholder_restorer(
+        self, replacements: dict[str, str]
+    ) -> Callable[[str], str]:
+        """Build a restorer that scans each result only once."""
+        if not replacements:
+            return lambda text: text
 
-        # Use callable for replacement to avoid interpreting escape sequences
-        return re.sub(self.make_re_placeholder(source), replace_target, text)
+        pattern = self.get_placeholder_pattern()
+
+        def replace(match: re.Match[str]) -> str:
+            key = f"{self.replacement_start}{match['id']}{self.replacement_end}"
+            return replacements.get(key, match.group(0))
+
+        return lambda text: pattern.sub(replace, text)
 
     def uncleanup_text(self, replacements: dict[str, str], text: str) -> str:
-        for source, target in replacements.items():
-            text = self.uncleanup_text_item(text, source, target)
-        return self.unescape_text(text)
+        return self.unescape_text(self.build_placeholder_restorer(replacements)(text))
 
     def uncleanup_results(
         self, replacements: dict[str, str], results: list[TranslationResultDict]
     ) -> None:
         """Reverts replacements done by cleanup_text."""
+        restore = self.build_placeholder_restorer(replacements)
         for result in results:
-            result["text"] = self.uncleanup_text(replacements, result["text"])
-            result["source"] = self.uncleanup_text(replacements, result["source"])
+            result["text"] = self.unescape_text(restore(result["text"]))
+            result["source"] = self.unescape_text(restore(result["source"]))
 
     def get_language_possibilities(self, language: Language) -> Iterator[str]:
         code = language.code
@@ -582,7 +803,9 @@ class BatchMachineTranslation(DocVersionsMixin):
 
         if self.supported_languages_error:
             if self.supported_languages_error_age + 3600 > time.time():
-                raise MachineTranslationError(repr(self.supported_languages_error))
+                raise MachineTranslationError(
+                    sanitize_machinery_error(repr(self.supported_languages_error))
+                )
             self.supported_languages_error = None
             self.supported_languages_error_age = 0
 
@@ -1126,14 +1349,13 @@ class BatchMachineTranslation(DocVersionsMixin):
         return batch_keys, next_remaining_keys
 
     def _handle_download_error(self, exc: Exception) -> None:
-        if self.is_rate_limit_error(exc):
-            self.set_rate_limit()
+        self.apply_rate_limit(exc)
 
         if isinstance(exc, MachineTranslationError):
             self.report_error("Could not fetch translations", exception=exc)
             raise exc
 
-        original_message = str(exc)
+        original_message = sanitize_machinery_error(str(exc))
         fallback = f"{exc.__class__.__name__}: {original_message}"
         try:
             error_message = self.get_error_message(exc)
@@ -1142,6 +1364,7 @@ class BatchMachineTranslation(DocVersionsMixin):
             error_message = fallback
         if not isinstance(error_message, str) or not error_message.strip():
             error_message = fallback
+        error_message = sanitize_machinery_error(error_message)
 
         extra_log = error_message.removeprefix(f"{exc.__class__.__name__}: ")
         extra_log = extra_log.removeprefix(original_message).strip(" :\r\n\t")
@@ -1222,12 +1445,12 @@ class BatchMachineTranslation(DocVersionsMixin):
         )(source_language, target_language, sources, user, threshold)
 
     def get_error_message(self, exc: Exception) -> str:
-        message = f"{exc.__class__.__name__}: {exc}"
+        message = sanitize_machinery_error(f"{exc.__class__.__name__}: {exc}")
         response = getattr(exc, "response", None)
         if isinstance(exc, httpx2.HTTPError) and response is not None:
             detail = self.get_error_detail(response)
             if detail and detail not in str(exc):
-                return f"{message}: {detail}"
+                return sanitize_machinery_error(f"{message}: {detail}")
         return message
 
     def signed_salt(self, appid, secret, text):
@@ -1660,8 +1883,29 @@ class XMLMachineTranslationMixin(BatchMachineTranslation):
         """Generate a single replacement."""
         raise NotImplementedError
 
-    def make_re_placeholder(self, text: str) -> str:
-        return re.escape(text)
+    def build_placeholder_restorer(
+        self, replacements: dict[str, str]
+    ) -> Callable[[str], str]:
+        if not replacements:
+            return lambda text: text
+
+        keys = list(replacements)
+        automaton = ahocorasick_rs.AhoCorasick(
+            keys,
+            matchkind=ahocorasick_rs.MatchKind.LeftmostLongest,
+            store_patterns=False,
+        )
+
+        def restore(text: str) -> str:
+            parts: list[str] = []
+            previous_end = 0
+            for index, start, end in automaton.find_matches_as_indexes(text):
+                parts.extend((text[previous_end:start], replacements[keys[index]]))
+                previous_end = end
+            parts.append(text[previous_end:])
+            return "".join(parts)
+
+        return restore
 
 
 class RephraseMachineTranslationMixin(MachineTranslation):
@@ -1769,8 +2013,13 @@ class RephraseMachineTranslationMixin(MachineTranslation):
         except ValueError:
             cache.set(version_key, 1, None)
 
+    @classmethod
+    def get_rate_limit_cache_keys(cls, configuration: SettingsDict) -> tuple[str, ...]:
+        keys = super().get_rate_limit_cache_keys(configuration)
+        return (*keys, f"{keys[0]}-rephrase")
+
     def get_rephrase_rate_limit_cache_key(self) -> str:
-        return self.get_cache_key("rephrase-rate-limit")
+        return self.get_rate_limit_cache_keys(self.settings)[1]
 
     def is_rephrase_rate_limited(self) -> bool:
         return bool(cache.get(self.get_rephrase_rate_limit_cache_key()))
@@ -1778,12 +2027,17 @@ class RephraseMachineTranslationMixin(MachineTranslation):
     async def ais_rephrase_rate_limited(self) -> bool:
         return bool(await cache.aget(self.get_rephrase_rate_limit_cache_key()))
 
-    def set_rephrase_rate_limit(self) -> None:
-        cache.set(self.get_rephrase_rate_limit_cache_key(), True, 1800)
+    def set_rephrase_rate_limit(self, timeout: int | None = None) -> None:
+        cache.set(
+            self.get_rephrase_rate_limit_cache_key(),
+            True,
+            self.rate_limit_window if timeout is None else timeout,
+        )
 
     def _handle_rephrase_error(self, exc: Exception) -> None:
         if self.is_rate_limit_error(exc) or isinstance(exc, httpx2.TimeoutException):
-            self.set_rephrase_rate_limit()
+            self.set_rephrase_rate_limit(self.get_rate_limit_timeout(exc))
+        self._save_machinery_error(exc, "Could not rephrase translations")
         self.log_handled_error("Could not rephrase translations")
 
     def get_rephrase_cache_version_key(self) -> str:
@@ -2012,7 +2266,7 @@ class RephraseMachineTranslationMixin(MachineTranslation):
                 write_lang, candidates
             )
         except Exception as exc:
-            self._handle_rephrase_error(exc)
+            await sync_to_async(self._handle_rephrase_error)(exc)
             return results
         return self._merge_rephrase_results(results, candidates, improved_texts)
 
@@ -2040,7 +2294,7 @@ class ResponseStatusMachineTranslation(MachineTranslation):
                 ),
             )
             if response_status == 429:
-                raise MachineryRateLimitError(error_text)
+                raise MachineryRateLimitError(error_text, response=response)
             raise MachineTranslationError(error_text)
 
         super().check_failure(response)

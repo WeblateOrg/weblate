@@ -1,0 +1,13 @@
+#!/bin/bash
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+set -euo pipefail
+cd /src
+bash .oss-scanner/start-services
+if [ "$#" -eq 0 ]; then
+    set -- weblate
+fi
+exec uv run --offline --no-sync pytest -n 2 \
+    --ignore=weblate/trans/tests/test_selenium.py "$@"

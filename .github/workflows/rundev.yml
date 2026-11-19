@@ -21,7 +21,7 @@ permissions:
 jobs:
   rundev:
     runs-on: ubuntu-26.04-arm
-    timeout-minutes: 60
+    timeout-minutes: 90
     name: Test development Docker
     env:
       PYTHONUNBUFFERED: 1
@@ -33,10 +33,10 @@ jobs:
       with:
         path: /tmp/cache/tesseract
         key: tesseract-data
-    - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+    - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
       with:
         enable-cache: false
-        version: 0.13.1
+        version: 0.13.8
     - run: ./rundev.sh test weblate/checks/tests/test_chars_checks.py
     - run: ./rundev.sh start
     - run: ./rundev.sh wait
@@ -61,7 +61,7 @@ jobs:
         persist-credentials: false
     - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
       with:
-        node-version: 24
+        node-version: 26
         package-manager-cache: false
     - name: Install Dev Container CLI
       # Standalone CLI, pinned independently of the application's client dependencies.
@@ -75,6 +75,70 @@ jobs:
         # The Dev Container CLI generates its Dockerfile outside the build context.
         BUILDX_BAKE_ENTITLEMENTS_FS: '0'
       run: python3 .devcontainer/smoke.py
+
+  oss-scanner:
+    name: OSS Scanner offline smoke test
+    runs-on: ubuntu-26.04
+    timeout-minutes: 65
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - name: Build the scanner target from the checkout
+      timeout-minutes: 45
+      run: docker build --progress=plain -f dev-docker/weblate-dev/Dockerfile -t weblate-oss-scanner .
+    - name: Verify the image without network or mounted files
+      timeout-minutes: 15
+      run: >-
+        docker run --name weblate-oss-scanner-smoke --init --network none
+        --cpus 2 --memory 8g --user 0 --workdir /src --entrypoint bash
+        weblate-oss-scanner .oss-scanner/smoke
+    - name: Print scanner smoke logs
+      if: failure()
+      run: docker logs weblate-oss-scanner-smoke
+    - name: Remove the smoke container and its anonymous volumes
+      if: always()
+      run: docker rm --force --volumes weblate-oss-scanner-smoke
+
+  verification:
+    name: Agent verification
+    runs-on: ubuntu-26.04
+    timeout-minutes: 90
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - run: ./scripts/devcontainer --backend compose up
+    - name: Test verification helpers
+      run: ./scripts/devcontainer --backend compose exec -- uv run --no-sync python -m unittest discover -s .devcontainer -p 'test_*.py'
+    - name: Run all verification groups
+      run: ./scripts/devcontainer --backend compose verify
+    - name: Verify frontend output isolation
+      if: always()
+      run: git diff --exit-code -- weblate/static/js/vendor weblate/static/styles/vendor client/yarn.lock
+    - name: Verify prepared OCR without networking
+      run: python3 .devcontainer/ocr_smoke.py
+    - run: ./scripts/devcontainer --backend compose logs
+      if: always()
+    - run: ./scripts/devcontainer --backend compose destroy --yes
+      if: always()
+
+  migration-verification:
+    name: Agent migration verification (${{ matrix.version }})
+    runs-on: ubuntu-26.04
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ['5.10', '5.14']
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - name: Verify populated historical upgrade
+      env:
+        SOURCE_VERSION: ${{ matrix.version }}
+      run: ./scripts/devcontainer migration-test "$SOURCE_VERSION"
 
   browser:
     name: Browser tests (${{ matrix.runner }})

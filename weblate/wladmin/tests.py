@@ -37,6 +37,7 @@ from django_celery_beat.models import IntervalSchedule, PeriodicTask, PeriodicTa
 from lxml import html
 
 from weblate.accounts.models import AuditLog
+from weblate.accounts.utils import SESSION_SENSITIVE_FACTOR_GRANT
 from weblate.auth.models import Group, Invitation, Permission, Role
 from weblate.memory.models import Memory, MemoryScope, MemoryScopeMigrationState
 from weblate.metrics.models import Metric
@@ -47,6 +48,8 @@ from weblate.trans.tests.test_views import ReusableViewTestCase, ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.apps import check_data_writable
 from weblate.utils.backup import BackupError, BorgResult
+from weblate.utils.bot_protection import OUTCOMES
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.data import data_path
 from weblate.utils.tests import http_mock
 from weblate.utils.unittest import tempdir_setting
@@ -595,6 +598,54 @@ class ManagementAccessControlTest(ViewTestCase):
         response = getattr(self.client, method)(reverse(url_name), **kwargs)
         self.assertEqual(response.status_code, 403)
 
+    @override_settings(
+        BOT_PROTECTION_ENABLED=True,
+        BOT_PROTECTION_CACHE_ALIAS="pow",
+        CACHES={
+            **settings.CACHES,
+            "pow": {"BACKEND": "django.core.cache.backends.redis.RedisCache"},
+        },
+    )
+    def test_bot_protection_counters(self) -> None:
+        self.grant_global_permissions("management.use")
+        with patch(
+            "weblate.wladmin.views.verification_stats",
+            return_value={
+                "current_hour": {
+                    **dict.fromkeys(OUTCOMES, 0),
+                    "issued": 9,
+                    "success": 7,
+                },
+                "previous_24_hours": {
+                    **dict.fromkeys(OUTCOMES, 0),
+                    "issued": 19,
+                    "success": 17,
+                },
+            },
+        ):
+            response = self.client.get(reverse("manage-performance"))
+        self.assertContains(response, "Bot protection")
+        self.assertEqual(
+            response.context["bot_protection_stats"]["current_hour"]["success"], 7
+        )
+        with patch("weblate.wladmin.views.verification_stats", return_value=None):
+            response = self.client.get(reverse("manage-performance"))
+        self.assertContains(response, "Counters are unavailable.")
+        with (
+            override_settings(BOT_PROTECTION_ENABLED=False),
+            patch(
+                "weblate.wladmin.views.verification_stats", side_effect=AssertionError
+            ),
+        ):
+            response = self.client.get(reverse("manage-performance"))
+        self.assertNotContains(response, "Bot protection")
+
+        with patch(
+            "weblate.wladmin.views.verification_stats", side_effect=AssertionError
+        ):
+            response = self.client.get(reverse("manage"))
+        self.assertNotContains(response, "Bot protection")
+
     def test_management_use_only_is_limited(self) -> None:
         self.grant_global_permissions("management.use")
         email = cast("str", self.user.email)
@@ -653,6 +704,60 @@ class ManagementAccessControlTest(ViewTestCase):
 
         response = self.client.get(reverse("manage-users-check"), {"q": email})
         self.assertEqual(response.status_code, 403)
+
+    def test_user_list_verifies_before_rendering_and_preserves_query(self) -> None:
+        self.grant_global_permissions("management.use", "user.view")
+        session = self.client.session
+        session.pop(SESSION_SENSITIVE_FACTOR_GRANT)
+        session.save()
+        url = f"{reverse('manage-users')}?q=testuser&page=1"
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(
+            urlparse(response["Location"]).path, reverse("first-factor-verify")
+        )
+        self.assertEqual(parse_qs(urlparse(response["Location"]).query)["next"], [url])
+        self.assertNotContains(response, "Manage users", status_code=302)
+        response = self.client.post(
+            response["Location"],
+            {"target": "sensitive", "next": url, "password": "testpassword"},
+        )
+        self.assertRedirects(response, url)
+        response = self.client.get(url)
+        self.assertContains(response, "Manage users")
+        self.assertNotContains(response, "Add new user")
+
+    def test_user_list_checks_permission_before_verification(self) -> None:
+        self.grant_global_permissions("management.use")
+        session = self.client.session
+        session.pop(SESSION_SENSITIVE_FACTOR_GRANT)
+        session.save()
+
+        self.assert_forbidden("manage-users")
+
+    def test_user_invitations_require_unexpired_verification(self) -> None:
+        self.grant_global_permissions("management.use", "user.edit")
+        self.assertContains(self.client.get(reverse("manage-users")), "Add new user")
+        session = self.client.session
+        session[SESSION_SENSITIVE_FACTOR_GRANT]["time"] -= 601
+        session.save()
+        count = Invitation.objects.count()
+        group = Group.objects.get(name="Users")
+
+        for data in (
+            {"email": "expired-single@example.net", "group": group.pk},
+            {"emails": "expired-bulk@example.net", "group": group.pk},
+        ):
+            with self.subTest(data=data):
+                response = self.client.post(reverse("manage-users"), data)
+                self.assertEqual(response.status_code, 302)
+                self.assertEqual(
+                    urlparse(response["Location"]).path, reverse("first-factor-verify")
+                )
+                self.assertEqual(Invitation.objects.count(), count)
+        self.assertEqual(len(mail.outbox), 0)
 
     def test_user_edit_allows_user_changes(self) -> None:
         self.grant_global_permissions("management.use", "user.view", "user.edit")
@@ -960,7 +1065,7 @@ class ManageMiddlewareTest(TestCase):
 
     def test_claim_configuration_health_check(self) -> None:
         with (
-            patch("weblate.wladmin.middleware.time.time", return_value=123),
+            patch("weblate.wladmin.middleware.time", time=Mock(return_value=123)),
             patch(
                 "weblate.wladmin.middleware.cache.add", return_value=True
             ) as cache_add,
@@ -985,8 +1090,8 @@ class ManageMiddlewareTest(TestCase):
         middleware = ManageMiddleware(Mock())
         with (
             patch(
-                "weblate.wladmin.middleware.time.monotonic",
-                side_effect=[100, 120, 100 + CHECK_POLL_INTERVAL],
+                "weblate.wladmin.middleware.time",
+                monotonic=Mock(side_effect=[100, 120, 100 + CHECK_POLL_INTERVAL]),
             ),
             patch("weblate.wladmin.middleware.cache.get", return_value=None),
             patch.object(middleware, "trigger_check") as trigger_check,
@@ -1001,8 +1106,11 @@ class ManageMiddlewareTest(TestCase):
     def test_recent_check(self) -> None:
         middleware = ManageMiddleware(Mock())
         with (
-            patch("weblate.wladmin.middleware.time.monotonic", return_value=100),
-            patch("weblate.wladmin.middleware.time.time", return_value=1000),
+            patch(
+                "weblate.wladmin.middleware.time",
+                monotonic=Mock(return_value=100),
+                time=Mock(return_value=1000),
+            ),
             patch(
                 "weblate.wladmin.middleware.cache.get",
                 return_value=1000 - CHECK_INTERVAL + 1,
@@ -1069,7 +1177,7 @@ class ManageMiddlewareTest(TestCase):
             patch.object(
                 ConfigurationError.objects, "configuration_health_check"
             ) as health_check,
-            patch("weblate.wladmin.middleware.time.time", return_value=123),
+            patch("weblate.wladmin.middleware.time", time=Mock(return_value=123)),
             patch("weblate.wladmin.middleware.cache.set") as cache_set,
         ):
             self.assertTrue(perform_configuration_health_check(checks))
@@ -1316,7 +1424,7 @@ class AdminTest(ReusableViewTestCase):
         billing = Billing.objects.create(plan=plan, customer_name="Acme Billing LLC")
         workspace = billing.workspace
         workspace.name = "Manually renamed workspace"
-        workspace.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         workspace.save(update_fields=["name"])
         Workspace.objects.create(name="Acme localization workspace")
 
@@ -1941,15 +2049,67 @@ class AdminTest(ReusableViewTestCase):
             response = self.client.get(reverse("manage-users"))
 
         self.assertContains(response, "User management workspace team 0")
+        # Check per-team primary-key lookups, allowing bulk navigation queries.
         workspace_fetches = [
             query["sql"]
             for query in queries
             if (
                 f'FROM "{workspace_table}"' in query["sql"]
-                and f'WHERE "{workspace_table}"."id"' in query["sql"]
+                and f'WHERE "{workspace_table}"."id" =' in query["sql"]
             )
         ]
         self.assertEqual(workspace_fetches, [])
+
+    def test_invite_forms_only_offer_sitewide_teams(self) -> None:
+        sitewide_group = Group.objects.create(
+            name="Management invitation site-wide team"
+        )
+        workspace = Workspace.objects.create(name="Management invitation workspace")
+        workspace_group = Group.objects.create(
+            name="Management invitation workspace team", defining_workspace=workspace
+        )
+        project_group = Group.objects.create(
+            name="Management invitation project team", defining_project=self.project
+        )
+
+        response = self.client.get(reverse("manage-users"))
+
+        self.assertEqual(response.status_code, 200)
+        for context_name in ("invite_form", "bulk_invite_form"):
+            with self.subTest(form=context_name):
+                field = response.context[context_name]["group"]
+                self.assertIn(sitewide_group.name, str(field))
+                self.assertNotIn(workspace_group.name, str(field))
+                self.assertNotIn(project_group.name, str(field))
+
+    def test_invite_forms_reject_scoped_teams(self) -> None:
+        workspace = Workspace.objects.create(name="Management invitation workspace")
+        workspace_group = Group.objects.create(
+            name="Management invitation workspace team", defining_workspace=workspace
+        )
+        project_group = Group.objects.create(
+            name="Management invitation project team", defining_project=self.project
+        )
+
+        for group in (workspace_group, project_group):
+            for email_field, context_name in (
+                ("email", "invite_form"),
+                ("emails", "bulk_invite_form"),
+            ):
+                with self.subTest(group=group, form=context_name):
+                    response = self.client.post(
+                        reverse("manage-users"),
+                        {email_field: "scoped-invite@example.com", "group": group.pk},
+                    )
+                    self.assertEqual(response.status_code, 200)
+                    self.assertEqual(
+                        response.context[context_name]
+                        .errors.as_data()["group"][0]
+                        .code,
+                        "invalid_choice",
+                    )
+                    self.assertFalse(Invitation.objects.exists())
+                    self.assertEqual(len(mail.outbox), 0)
 
     def test_bulk_invite_user(self) -> None:
         response = self.client.post(
@@ -2910,6 +3070,28 @@ class AdminTest(ReusableViewTestCase):
         response = self.client.get(url)
         self.assertContains(response, "Automatic team assignment")
         self.assertContains(response, name)
+
+    def test_groups_only_list_sitewide_teams(self) -> None:
+        sitewide_group = Group.objects.create(name="Management site-wide team")
+        workspace = Workspace.objects.create(name="Management teams workspace")
+        workspace_group = Group.objects.create(
+            name="Management workspace team", defining_workspace=workspace
+        )
+        project_group = Group.objects.create(
+            name="Management project team", defining_project=self.project
+        )
+
+        response = self.client.get(reverse("manage-teams"))
+
+        self.assertContains(response, sitewide_group.name)
+        self.assertNotContains(response, workspace_group.name)
+        self.assertNotContains(response, project_group.name)
+        self.assertEqual(
+            response.context["paginator"].count,
+            Group.objects.filter(
+                defining_project=None, defining_workspace=None
+            ).count(),
+        )
 
     def test_groups(self) -> None:
         name = "Test group"

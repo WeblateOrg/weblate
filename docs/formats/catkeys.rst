@@ -1,7 +1,7 @@
 .. _catkeys:
 
 Catkeys file
--------------------
+------------
 
 .. versionadded:: 5.13
 

@@ -342,7 +342,7 @@ def get_diagnostics_context(
 
     alerts = Alert.objects.filter(
         component__in=components.order_by(), name__in=allowed_names
-    )
+    ).filter_visible_conflicts(user)
     if state == DIAGNOSTICS_STATE_ACTIVE:
         alerts = alerts.filter(dismissed_at__isnull=True)
     elif state == DIAGNOSTICS_STATE_DISMISSED:

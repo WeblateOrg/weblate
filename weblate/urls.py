@@ -13,7 +13,6 @@ from django.contrib import admin
 from django.contrib.auth.decorators import login_not_required
 from django.shortcuts import redirect
 from django.urls import include, path, re_path
-from django.utils.module_loading import import_string
 from django.views.decorators.cache import cache_control, cache_page
 from django.views.decorators.vary import vary_on_cookie
 from django.views.generic import RedirectView, TemplateView
@@ -35,7 +34,6 @@ import weblate.trans.views.about
 import weblate.trans.views.acl
 import weblate.trans.views.agreement
 import weblate.trans.views.basic
-import weblate.trans.views.charts
 import weblate.trans.views.create
 import weblate.trans.views.dashboard
 import weblate.trans.views.edit
@@ -51,6 +49,7 @@ import weblate.trans.views.search
 import weblate.trans.views.settings
 import weblate.trans.views.source
 import weblate.trans.views.widgets
+import weblate.wladmin.security_views
 import weblate.wladmin.views
 import weblate.workspaces.views
 from weblate.auth.decorators import management_permission_required
@@ -63,9 +62,13 @@ from weblate.trans.views.changes import (
     ChangesCSVView,
     ChangesRSSView,
     ChangesView,
+    change_detail,
     show_change,
 )
 from weblate.trans.views.hooks import IntegrationHookView, ServiceHookView
+from weblate.utils.bot_protection import check_clearance
+from weblate.utils.bot_protection import verify as verify_pow
+from weblate.utils.crawl_policy import robots
 from weblate.utils.decorators import engage_login_not_required
 from weblate.utils.version import VERSION
 
@@ -80,6 +83,7 @@ STATIC_ICON_REDIRECTS = {
 }
 
 
+@login_not_required
 def redirect_static(
     _request: django.http.HttpRequest | None,
     filename: str,
@@ -102,6 +106,8 @@ if URL_PREFIX:
     URL_PREFIX = f"{URL_PREFIX.strip('/')}/"
 
 real_patterns = [
+    path("-/pow/check/", login_not_required(check_clearance), name="check-pow"),
+    path("-/pow/verify/", login_not_required(verify_pow), name="verify-pow"),
     path("", weblate.trans.views.dashboard.home, name="home"),
     path("projects/", weblate.trans.views.basic.list_projects, name="projects"),
     path(
@@ -458,12 +464,6 @@ real_patterns = [
         weblate.trans.views.acl.create_token,
         name="create-project-token",
     ),
-    # Used by weblate.org to render own activity chart on homepage
-    path(
-        "activity/month.json",
-        weblate.trans.views.charts.monthly_activity_json,
-        name="monthly_activity_json",
-    ),
     # Comments
     path("comment/<int:pk>/", weblate.trans.views.edit.comment, name="comment"),
     path(
@@ -791,6 +791,23 @@ real_patterns = [
         weblate.machinery.views.EditMachineryProjectView.as_view(),
         name="machinery-edit",
     ),
+    path(
+        "manage/machinery/<int:machinery>/logs/",
+        management_permission_required("machinery.edit")(
+            weblate.machinery.views.MachineryLogsGlobalView.as_view()
+        ),
+        name="machinery-logs",
+    ),
+    path(
+        "machinery/workspace/<uuid:workspace>/<int:machinery>/logs/",
+        weblate.machinery.views.MachineryLogsWorkspaceView.as_view(),
+        name="machinery-logs",
+    ),
+    path(
+        "machinery/<name:project>/<int:machinery>/logs/",
+        weblate.machinery.views.MachineryLogsProjectView.as_view(),
+        name="machinery-logs",
+    ),
     # Languages browsing
     path("languages/", weblate.lang.views.show_languages, name="languages"),
     path(
@@ -847,6 +864,7 @@ real_patterns = [
         "changes/rss/<object_path:path>/", ChangesRSSView.as_view(), name="changes-rss"
     ),
     path("changes/render/<int:pk>/", show_change, name="show_change"),
+    path("changes/<int:pk>/", change_detail, name="change-detail"),
     # Notification hooks
     path(
         "machinery/etranslation/callback/<uuid:token>/",
@@ -984,6 +1002,7 @@ real_patterns = [
         weblate.trans.views.js.markdown_preview,
         name="js-markdown-preview",
     ),
+    path("js/teams/", weblate.accounts.views.team_search, name="team-search"),
     path(
         "js/access/<name:project>/user/<int:user_id>/groups/",
         weblate.trans.views.acl.project_user_groups,
@@ -1044,6 +1063,36 @@ real_patterns = [
     ),
     path("manage/tools/", weblate.wladmin.views.tools, name="manage-tools"),
     path(
+        "manage/users/security/",
+        weblate.wladmin.security_views.security_findings,
+        name="manage-security",
+    ),
+    path(
+        "manage/users/security/reports/",
+        weblate.wladmin.security_views.security_reports,
+        name="manage-security-reports",
+    ),
+    path(
+        "manage/users/security/finding/<int:pk>/",
+        weblate.wladmin.security_views.security_finding_detail,
+        name="manage-security-detail",
+    ),
+    path(
+        "manage/users/security/upload/",
+        weblate.wladmin.security_views.security_upload,
+        name="manage-security-upload",
+    ),
+    path(
+        "manage/users/security/progress/<uuid:pk>/",
+        weblate.wladmin.security_views.security_progress,
+        name="manage-security-progress",
+    ),
+    path(
+        "manage/users/security/confirm/",
+        weblate.wladmin.security_views.security_confirm,
+        name="manage-security-confirm",
+    ),
+    path(
         "manage/users/",
         weblate.wladmin.views.AdminUserList.as_view(),
         name="manage-users",
@@ -1062,6 +1111,12 @@ real_patterns = [
         "manage/workspaces/add/",
         weblate.wladmin.views.WorkspaceCreateView.as_view(),
         name="manage-workspace-add",
+    ),
+    path("teams/audit/", weblate.auth.views.team_audit, name="team-audit"),
+    path(
+        "teams/audit/<int:pk>/",
+        weblate.auth.views.team_audit_detail,
+        name="team-audit-detail",
     ),
     path(
         "teams/<int:pk>/",
@@ -1205,15 +1260,15 @@ real_patterns = [
     ),
     path(
         "robots.txt",
-        cache_control(max_age=86400)(
-            TemplateView.as_view(template_name="robots.txt", content_type="text/plain")
-        ),
+        robots,
     ),
     path(
         "browserconfig.xml",
         cache_control(max_age=86400)(
-            TemplateView.as_view(
-                template_name="browserconfig.xml", content_type="application/xml"
+            login_not_required(
+                TemplateView.as_view(
+                    template_name="browserconfig.xml", content_type="application/xml"
+                )
             )
         ),
     ),
@@ -1326,12 +1381,18 @@ if "weblate.legal" in settings.INSTALLED_APPS:
             ),
             path(
                 "security.txt",
-                RedirectView.as_view(url="/.well-known/security.txt", permanent=True),
+                login_not_required(
+                    RedirectView.as_view(
+                        url=f"/{URL_PREFIX}.well-known/security.txt", permanent=True
+                    )
+                ),
             ),
             path(
                 ".well-known/security.txt",
-                TemplateView.as_view(
-                    template_name="security.txt", content_type="text/plain"
+                login_not_required(
+                    TemplateView.as_view(
+                        template_name="security.txt", content_type="text/plain"
+                    )
                 ),
             ),
         )
@@ -1367,19 +1428,6 @@ if "wlhosted.integrations" in settings.INSTALLED_APPS:
 # Optional OpenID Connect identity provider
 if getattr(settings, "OIDC_PROVIDER_ENABLED", False):
     real_patterns.append(path("oidc/", include("weblate.oidc.urls")))
-
-# Django SAML2 Identity Provider
-if "djangosaml2idp" in settings.INSTALLED_APPS:
-    real_patterns.append(
-        path(
-            "idp/sso/<str:binding>/",
-            import_string("weblate.utils.djangosaml2idp_views.sso_entry"),
-            name="saml_login_binding",
-        ),
-    )
-    real_patterns.append(
-        path("idp/", include("weblate.utils.djangosaml2idp_urls")),
-    )
 
 # Handle URL prefix configuration
 if not URL_PREFIX:

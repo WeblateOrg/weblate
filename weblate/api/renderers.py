@@ -10,6 +10,8 @@ from typing import TYPE_CHECKING, Literal
 from rest_framework.renderers import BaseRenderer, JSONRenderer
 from rest_framework_csv.renderers import CSVRenderer
 
+from weblate.utils.csv import escape_csv_formula
+
 if TYPE_CHECKING:
     from collections.abc import Mapping
 
@@ -91,6 +93,13 @@ class FlatBaseRenderer(BaseRenderer):
 
 class AutoCSVRenderer(FlatBaseRenderer, CSVRenderer):
     """Automatically expand paginated results."""
+
+    def tablize(self, data, header=None, labels=None):
+        for row in super().tablize(data, header=header, labels=labels):
+            yield [
+                escape_csv_formula(value) if isinstance(value, str) else value
+                for value in row
+            ]
 
 
 class FlatJsonRenderer(FlatBaseRenderer, JSONRenderer):

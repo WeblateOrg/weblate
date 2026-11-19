@@ -213,8 +213,10 @@ repository state, background tasks, outbound requests, and rendered UI.
    * - Weblate request process to repository Celery worker
      - Permission-checked browser and API repository actions become queued work
        carrying the initiating user and affected repository scope. The worker
-       reacquires the datastore reservation and rechecks the user's current VCS
-       permission on the current repository owner before mutation.
+       reacquires the datastore reservation and executes the repository scope
+       authorized when the request was queued. Later account deactivation or
+       permission changes do not cancel accepted work, including task retries.
+       A changed repository link does not redirect the operation to a new owner.
        The broker, datastore, and workers are trusted parts of the same Weblate
        instance. *(maintainer)*
    * - Webhook sender to Weblate
@@ -252,6 +254,13 @@ repository state, background tasks, outbound requests, and rendered UI.
        generated project backups are written to and read from local backup
        storage. *(documented)* (source: :doc:`/admin/backup`, :doc:`/api`,
        :ref:`projectbackup`)
+       Usernames in an ordinary user's backup are identity claims: other local
+       accounts receive membership invitations and remain anonymous authors
+       until informed acceptance. Superuser imports are trusted to map accounts
+       directly. Consent can update covered database authorship, including
+       history created before acceptance and changes propagated to other projects;
+       it does not rewrite actors, existing repository commits, or exported
+       copies. *(maintainer)*
 
 Reachability preconditions:
 
@@ -427,6 +436,8 @@ Build-time and configuration variants
        the shared trusted outbound routing. Git LFS object transfers are
        disabled and outside the supported VCS integration surface. VCS clients
        without connection binding require an explicit trusted-host exemption.
+       Mercurial subrepositories are disabled, so tracked subrepository sources
+       cannot introduce unchecked filesystem or network destinations.
        *(maintainer)*
      - Allowlist settings and privileged configuration can intentionally expand
        reachability. A non-empty :setting:`VCS_ALLOW_HOSTS` also restricts all
@@ -465,6 +476,49 @@ Build-time and configuration variants
      - Existing add-on management authority governs mutations. Operation scopes,
        validation, and automation-origin suppression constrain declarative runs;
        custom Python add-ons retain their separate trust model. *(maintainer)*
+   * - Configurable text templates
+     - Component and add-on managers configure commit messages, generated files,
+       paths, and repository browser links. *(documented)* (source: :ref:`markup`)
+     - Templates use a fixed set of Django tags and filters with plain-data
+       context. The complete context is validated against an exact-type
+       allowlist and copied with size and depth limits, including unused values.
+       The Weblate wrapper expands ``Translation``, ``Component``, and
+       ``Project`` models; other application objects are rejected. Lazy labels
+       must be resolved by callers. The restricted Django renderer enforces source,
+       parsing, nesting, iteration, intermediate-value, output, cumulative work,
+       and operation limits, with an additional deadline. Allocation guards
+       bound each supported operation's inputs and allocation-driving arguments
+       before calling native code.
+       Native serialization permits bounded temporary escaping expansion before
+       checking the result; output checks alone do not provide the allocation
+       bound. Unicode normalization accounts for potentially quadratic work.
+       Arbitrary objects, subclasses, general attribute access, method calls,
+       and unguarded filters are excluded. Unsupported filters are rejected
+       throughout the compiled tree, including untaken branches. Conditions
+       cannot suppress resource failures. Assignment tags use a private root
+       scope, and failures return no partial output. Internal escaping markers
+       are removed from the final plain-text result. This bounds template work,
+       not arbitrary Python extensions. See :ref:`markup` for supported
+       operations and resource limits. *(maintainer)*
+     - Existing component and add-on management permissions govern configuration.
+       Failed renders return no partial output; generated files are installed
+       only after rendering succeeds. See :ref:`markup` for limits. *(maintainer)*
+   * - Bulk regular expression replacement
+     - Users with bulk-edit permissions and add-on managers supply replacement
+       patterns and templates. *(maintainer)* (source: :ref:`bulk-edit`)
+     - A dedicated helper receives strings over bounded JSON messages, compiles
+       patterns, and expands replacements incrementally with input and output
+       limits. Cumulative CPU and application waiting budgets constrain a run;
+       supported platforms also enforce a helper address-space limit. The helper
+       receives no Django objects and accepts no Python code. This isolates regex
+       resource consumption, not arbitrary application extensions. On macOS,
+       native regex compilation and matching can still exhaust memory because
+       the address-space limit is unavailable. *(maintainer)*
+     - Existing edit and add-on management permissions govern mutations. Resource
+       failures abort the current batch; previously completed batches can
+       remain changed. See :ref:`bulk-edit` for limits and execution boundaries.
+       *(maintainer)*
+
 
 Input assumptions
 -----------------
@@ -577,17 +631,26 @@ Input assumptions
 
 Size and rate assumptions:
 
+* Translation uploads require an authenticated actor, regardless of permissions
+  assigned to the Guests team, and retain byte and content-string limits in
+  synchronous and background processing. Suggestion uploads have a tighter
+  string-count limit, and browser and API uploads share a per-user rate budget.
+  Background upload files are private temporary data shared between web and
+  worker processes; workers recheck the initiating user's access before applying
+  them.
+  *(documented)* (source: :ref:`upload`, :setting:`RATELIMIT_UPLOAD_ATTEMPTS`)
 * Weblate relies on application and reverse-proxy upload limits for large HTTP
   requests. *(documented)* (source: :setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`)
 * Project backup imports are bounded by member count, aggregate uncompressed
   size, compressed entry size, minimum ratio size, and compression ratio
   settings. *(documented)* (source: :doc:`/admin/config`)
-* SAML identity-provider authentication requests are bounded in encoded and
-  expanded size before XML parsing. *(maintainer)*
 * Project backup metadata, object references, repository paths, outbound URLs,
   regular expressions, and screenshot content are validated before restore
   writes project state. Failed restores remove repository and media objects
   created by that attempt. *(documented)* (source: :ref:`projectbackup`)
+  Restored repository URLs also satisfy the selected VCS backend's outbound
+  restrictions. Backups omit nested VCS metadata. *(documented)*
+  (source: :ref:`vcs-mercurial`)
 * API and selected web actions are expected to be protected by configured rate
   limits. *(documented)* (source: :doc:`/api`, :doc:`/admin/config`)
 * Repository size, number of projects, number of components, and worker
@@ -663,6 +726,14 @@ Security properties Weblate provides
      - Conditions
      - Violation symptom
      - Severity tier
+   * - User discovery and profile access respect global role permissions.
+       *(documented)* (source: :doc:`/admin/privacy`)
+     - Operators configure the desired policy. Resource-scoped discovery and
+       contribution attribution have separate permission controls; this does
+       not provide contributor anonymity. *(documented)*
+     - Generic user enumeration bypasses a restricted directory policy, or
+       profile data is returned to a viewer excluded by the profile policy.
+     - Authorization bypass; assess the exposed data and configured policy.
    * - Web authorization separates site, project, component, language,
        glossary, VCS, translation memory, screenshot, review, and access
        management permissions. *(documented)* (source: :doc:`/admin/access`,
@@ -672,7 +743,11 @@ Security properties Weblate provides
        team-derived permissions apply. Pending authenticator app registrations
        do not satisfy 2FA requirements. Registration requires a valid,
        single-use TOTP code and cannot be completed more than once, including
-       under concurrent submissions. *(documented)* (source: :ref:`2fa`)
+       under concurrent submissions. First-factor registration also requires
+       recent confirmation of an existing password or an already-linked
+       authentication provider. Registration does not establish recent
+       second-factor verification for other sensitive actions. *(documented)*
+       (source: :ref:`2fa`)
        Component administrators are trusted to
        configure operations that can affect repository contents, for example by
        selecting files through component settings, configuring add-ons, or
@@ -683,9 +758,11 @@ Security properties Weblate provides
        Their service identities and configured authority do not depend on the
        configuring user's later account or permission state. Project backups
        similarly contain every component in the project, including restricted
-       components. Consequently, component restrictions protect ordinary direct
-       access but are not an isolation boundary against these documented
-       administrative capabilities.
+       components. Project administrators with ``project.edit`` can directly
+       access and manage restricted components in their project, but retain
+       separate permissions for translation, review, and download actions.
+       Component restrictions protect other users' direct access and are not an
+       isolation boundary against these documented administrative capabilities.
        Users with management rights for a workspace are trusted to connect and
        remove its GitHub App installations; removing the final workspace
        connection can uninstall the App from GitHub. GitHub App component
@@ -700,15 +777,25 @@ Security properties Weblate provides
        VCS actions omit repositories where this permission check fails; they do
        not partially operate on an individual shared checkout. Explicit VCS
        actions queued from the browser or API retain the initiating user,
-       serialize access to the affected repositories, and recheck that user's
-       permission on the current repository owner in the worker
-       before mutation. Weblate's normal background commit and push of
+       serialize access to the affected repositories, and execute the scope
+       authorized at submission without rechecking the user's account or
+       permissions in the worker. Weblate's normal background commit and push of
        authorized translation changes does not require the editor to have
        these VCS permissions. The ``reports.view`` permission authorizes all
        report data in the selected scope, including private projects and
        restricted components below it. Complete workspace-level report access
        requires two-factor authentication for regular users if any project in
        the workspace enforces it. Superusers and bot accounts are exempt.
+       Workspace :ref:`translation propagation <workspace-propagation-scope>`
+       checks destination edit permissions and requires destination review
+       permission and enabled reviews to propagate an approved state. Otherwise,
+       propagated text awaits review where enabled. Its associated quality checks
+       compare strings across projects only when both projects use Public or
+       Protected access control, and preserve restricted-component boundaries
+       for warning presence and descriptions.
+       Enabling :ref:`suggestion autoaccept <component-suggestion_autoaccept>`
+       delegates replacement of approved translations to voting users, including
+       users without review permission. Read-only strings remain protected.
        Translation memory
        attributed to an existing restricted component follows that component's
        access rules.
@@ -727,11 +814,24 @@ Security properties Weblate provides
      - Token is created and stored by a trusted actor.
      - Token can act outside project or team scope.
      - Security-critical.
+   * - Automatic team assignments to project and workspace teams require the
+       recipient to accept an invitation before membership is granted.
+       Site-defined teams can assign users directly. *(documented)* (source:
+       :ref:`autoteam`)
+     - Rules are evaluated for newly created accounts.
+     - A scoped automatic assignment grants membership without acceptance.
+     - Security-critical. Pending invitations remain visible to team managers,
+       and matching rules can send unsolicited invitation e-mails.
    * - Authentication and session controls protect browser sessions when HTTPS
        and proxy settings are correct. Pending second-factor sessions are bound
        to the current password authentication state, and repeated rejected
        second-factor submissions lock password sign-in according to
-       :setting:`AUTH_LOCK_ATTEMPTS`. *(documented)* (source:
+       :setting:`AUTH_LOCK_ATTEMPTS`. Access to personal API tokens and
+       changes to authentication credentials, access permissions, project
+       and component visibility, account status, and bulk user-contribution
+       cleanup require recent credential verification for browser sessions.
+       Accounts with 2FA use a second factor; other accounts confirm their password or an existing
+       sign-in provider. API tokens remain separate credentials. *(documented)* (source:
        :doc:`/admin/auth`, :setting:`ENABLE_HTTPS`)
      - Production HTTPS and secure-cookie settings are enabled.
      - Session fixation, credential bypass, cross-user session confusion, or a
@@ -814,6 +914,10 @@ Security properties Weblate provides
        authenticated web-action rate-limit lockouts, and project or component
        setting changes in audit logs or history. Account-removal audit entries
        retain the former e-mail address until :setting:`AUDITLOG_EXPIRY`.
+       Detailed :ref:`team audit records <team-audit>` require the corresponding
+       project or workspace administrative authority; site-wide and deleted-scope
+       records require site administration. Sensitive membership history is not
+       public. Team audit records follow the same expiry setting.
        *(documented)* (source: :doc:`/security/privacy-compliance`,
        :ref:`rate-limit`, :ref:`billing`, :doc:`/changes`)
      - Logging is configured, storage is available, and
@@ -823,24 +927,62 @@ Security properties Weblate provides
      - Security-critical when it blocks investigation of privileged changes or
        discloses retained personal data; privacy-impacting when data exceeds the
        configured retention; correctness-only for minor event gaps.
+   * - New project moves enforce the destination billing plan's public-only
+       rule on both project access and component restrictions, except for
+       superusers. Existing incompatible data is retained for administrator
+       review. Backup restores apply the plan's access policy without a
+       superuser exception: restricted components become public on a public-only
+       plan, with preview and completion warnings. *(documented)*
+       (source: :ref:`workspace-project-creation`, :ref:`projectbackup`)
+     - Billing is enabled and the destination has a public-only plan.
+     - An ordinary user moves private content into the plan, or a restore
+       silently publishes restricted backup content without the documented notice.
+     - Commercial restriction bypass for incompatible moves; privacy-impacting
+       when an import omits the disclosure warning. The importer chooses the
+       destination's access policy. *(maintainer)*
    * - Self-service trial creation grants only the designated commercial trial
        plan or the Libre setup plan. *(maintainer)*
      - The deployment offers self-service hosting trials.
      - An authenticated user can select another public, private, or internal
        billing plan when creating a trial.
      - Security-critical when this bypasses paid service limits.
+   * - HTTP responses read through the shared buffered HTTP client, screenshot
+       URL uploads, and remote CDN HTML downloads enforce caller-specific
+       decoded-body limits before buffering the complete response. *(documented)*
+       (source: :ref:`outbound-http-limits`)
+     - A configured integration or asset URL returns an HTTP response.
+     - A response exceeding the documented decoded-byte ceiling is buffered
+       without rejection, including compressed or chunked content.
+     - Security-critical for single-request memory exhaustion. The shared client
+       also applies each caller's timeout across the HTTP exchange, including
+       redirects and response streaming, using asynchronous cancellation for
+       both synchronous and asynchronous callers. System DNS completion and
+       event-loop cleanup can delay return, so this is not an unconditional
+       whole-call wall-clock guarantee. Explicitly disabled timeouts, provider
+       SDKs, and separate operator-run maintenance downloads are outside this
+       total-time guarantee. *(maintainer)*
    * - Rate-limited API and web actions enforce configured rate limits.
        *(documented)* (source: :doc:`/api`, :doc:`/admin/config`)
      - Rate limiting is enabled and backed by a working datastore.
      - Requests exceeding configured thresholds continue to be processed.
      - Availability/security hardening depending on endpoint sensitivity.
-   * - Built-in translation quality checks must not permit user-controlled
-       content within configured size limits to monopolize synchronous request
-       workers through disproportionate resource consumption. *(maintainer)*
-     - The check is enabled and runs during a supported browser or API
-       translation write.
+   * - Built-in translation quality checks, history rendering, exports, and
+       reports must not permit user-controlled content within configured size
+       limits to monopolize request or background workers through
+       disproportionate resource consumption. *(maintainer)*
+     - Content is accepted through a supported browser or API translation write
+       and processed during the write or subsequently from stored history.
      - A single accepted translation causes CPU or memory consumption
-       disproportionate to its size and stalls a request worker.
+       disproportionate to its size and stalls a request or background worker
+       during a write or subsequent processing.
+     - Security-critical for single-request DoS; otherwise availability bug.
+   * - Component file masks must not let a single path match monopolize request
+       or background workers through disproportionate CPU consumption.
+       *(maintainer)*
+     - A user with component management permission configures a file mask, and
+       validation or repository processing matches it against repository paths.
+     - A crafted mask and path stall a worker during component validation or
+       subsequent repository processing.
      - Security-critical for single-request DoS; otherwise availability bug.
    * - Generic webhooks schedule repository updates only for eligible components
        whose repository URL exactly matches a repository URL from the payload,
@@ -871,13 +1013,20 @@ Security properties Weblate provides
      - Security-critical.
 
 Resource thresholds in this model are the documented configuration defaults
-where they exist, especially backup import limits and rate limits. For
-repository size, project count, component count, and translation volume, Weblate
-does not claim a fixed universal resource ceiling independent of deployment
-capacity. *(maintainer)*
+where they exist, especially backup import limits and rate limits. Translation
+files have a pre-parse byte limit configured by :setting:`TRANSLATION_MAX_SIZE`
+and a content-string acceptance limit configured by
+:setting:`TRANSLATION_MAX_UNITS` before synchronization or import.
+Translation-memory imports enforce the same pre-parse byte and entry-count
+limits, including TMX source-target expansion, before writing entries in bounded
+batches. Browser memory imports share the per-user translation-upload rate
+budget. See :doc:`/admin/memory`. These do not replace parser-specific expansion
+limits. For total repository size, project count, component count, and aggregate
+translation volume, Weblate does not claim a fixed universal resource ceiling
+independent of deployment capacity. *(maintainer)*
 
-Component discovery bounds repository traversal and file-mask matching work
-even when repository content controls the masks; see
+Component discovery bounds repository traversal, file-mask matching, and
+detected-preset comparison work even when repository content controls the masks; see
 :ref:`component discovery limits <component-discovery-limits>`. *(maintainer)*
 
 Security properties Weblate does not provide
@@ -1056,8 +1205,9 @@ Known non-findings
   selected parent scope. That permission intentionally authorizes the complete
   report scope. *(documented)* (source: :doc:`/devel/reporting`,
   :doc:`/admin/access`)
-* A report that a project administrator can obtain restricted descendants from
-  a complete project backup, or that an add-on manager can configure a core
+* A report that a project administrator can directly access restricted
+  components in their project or obtain them from a complete project backup,
+  or that an add-on manager can configure a core
   add-on to process its documented restricted descendants or cross-component
   inputs, is not a vulnerability. These are persistent administrative
   capabilities and do not inherit the configuring user's direct component
@@ -1079,6 +1229,18 @@ Known non-findings
   a Weblate vulnerability unless Weblate itself violates a claimed property
   while storing, checking, reviewing, or displaying that translation.
   *(documented)* (source: :doc:`/security/localization-threat`)
+
+Contributor attribution is an authorization boundary within accessible projects.
+Confidential collaboration restricts system-provided attribution while retaining
+translation content and internal history. Resource-scoped attribution
+autocomplete follows this boundary independently of general directory access.
+Identity-safe regenerated translation exports remain available without attribution
+access; original files require
+attribution access. Identity-bearing reports, change downloads,
+repository access, access management, and administrator-configured integrations remain separately
+trusted disclosure paths. User-provided content and previously exported copies
+are outside this confidentiality guarantee. See :ref:`confidential-collaboration`
+for configuration and limitations. *(maintainer)*
 
 Conditions that change this model
 ---------------------------------

@@ -11,9 +11,10 @@ from __future__ import annotations
 import os
 import time
 from collections import defaultdict
+from contextlib import suppress
 from copy import deepcopy
 from functools import partial
-from typing import Any, cast
+from typing import TYPE_CHECKING, Any, cast, overload
 
 from celery import Celery
 from celery.contrib.django.task import DjangoTask
@@ -28,15 +29,29 @@ from celery.signals import (
 from django.conf import settings
 from django.core.cache import cache
 from django.core.checks import run_checks
-from django.db import transaction
+from django.db import DatabaseError, transaction
+from django.utils.translation import gettext
 
 from weblate.automation.context import automation_origin
 from weblate.utils.change_origin import (
+    ACTING_USER_HEADER,
     CHANGE_ORIGIN_HEADER,
+    acting_user_context,
     capture_change_origin,
     change_origin,
+    get_acting_user,
     get_change_origin,
 )
+from weblate.utils.task_log import (
+    append_task_logs,
+    get_visible_task_log_entries,
+    is_task_log_entry,
+    record_task_failure,
+)
+
+if TYPE_CHECKING:
+    from weblate.auth.models import User
+
 
 # Type annotation compatibility
 # ruff: ignore[unused-lambda-argument]
@@ -56,9 +71,41 @@ os.environ.setdefault("CELERY_SKIP_CHECKS", "1")
 class OriginTask(DjangoTask):
     """Capture provenance before publication, including deferred and eager tasks."""
 
+    # Celery's custom task base does not preserve individual task return types.
+    # ruff: ignore[any-type]
+    def __call__(self, *args: object, **kwargs: object) -> Any:
+        # Resolve within execution, not a signal receiver: Celery logs receiver
+        # exceptions and would otherwise continue executing with a missing actor.
+        from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
+
+        headers = self.request.headers or {}
+        user = (
+            get_acting_user()
+            if self.request.is_eager or self.request.called_directly
+            else None
+        )
+        if ACTING_USER_HEADER in headers:
+            user_id = headers[ACTING_USER_HEADER]
+            if user_id is not None and (
+                not isinstance(user_id, int)
+                or isinstance(user_id, bool)
+                or user_id <= 0
+            ):
+                msg = "Invalid task acting user ID"
+                raise ValueError(msg)
+            user = User.objects.get(pk=user_id) if user_id is not None else None
+        with acting_user_context(user):
+            if self.request.called_directly:
+                return super().__call__(*args, **kwargs)
+            # The worker/eager tracer already installed the execution request.
+            # Task.__call__ would replace it, losing retry and header state.
+            return self.run(*args, **kwargs)
+
     def apply_async(self, *args: object, **options: object):
         headers = dict(cast("dict[str, object] | None", options.get("headers")) or {})
         headers.setdefault(CHANGE_ORIGIN_HEADER, get_change_origin())
+        user = get_acting_user()
+        headers.setdefault(ACTING_USER_HEADER, user.pk if user is not None else None)
         options["headers"] = headers
         return super().apply_async(*cast("Any", args), **cast("Any", options))
 
@@ -109,39 +156,229 @@ def store_task_metadata(
     translation_id: int | None = None,
     user_id: int | None = None,
     task_kind: str | None = None,
+    failure_component_ids: list[int] | None = None,
+    failure_repository_ids: list[int] | None = None,
     cancellable: bool = True,
 ) -> None:
     if not task_id:
         return
-    existing = get_task_metadata(task_id)
-    if existing is None:
-        data: dict[str, Any] = {
-            "component_id": component_id,
-            "translation_id": translation_id,
-        }
-    else:
-        data = existing.copy()
-        if component_id is not None:
-            data["component_id"] = component_id
-        if translation_id is not None:
-            data["translation_id"] = translation_id
-    if component_ids is not None:
-        data["component_ids"] = component_ids
-    if user_id is not None:
-        data["user_id"] = user_id
-    if task_kind is not None:
-        data["task_kind"] = task_kind
-    if not cancellable:
-        data["cancellable"] = False
-    cache.set(
-        get_task_metadata_key(task_id),
-        data,
-        TASK_METADATA_TTL,
-    )
+    from weblate.utils.lock import WeblateLock  # ruff: ignore[import-outside-top-level]
+
+    # Publisher and worker updates must preserve each other's visibility metadata.
+    with WeblateLock(scope="task-metadata", key=task_id, slug=task_id, timeout=10):
+        existing = get_task_metadata(task_id)
+        if existing is None:
+            data: dict[str, Any] = {
+                "component_id": component_id,
+                "translation_id": translation_id,
+            }
+        else:
+            data = existing.copy()
+            if component_id is not None:
+                data["component_id"] = component_id
+            if translation_id is not None:
+                data["translation_id"] = translation_id
+        if component_ids is not None:
+            data["component_ids"] = component_ids
+        if user_id is not None:
+            data["user_id"] = user_id
+        if task_kind is not None:
+            data["task_kind"] = task_kind
+        if failure_component_ids is not None:
+            data["failure_component_ids"] = failure_component_ids
+        if failure_repository_ids is not None:
+            data["failure_repository_ids"] = failure_repository_ids
+        if not cancellable:
+            data["cancellable"] = False
+        cache.set(
+            get_task_metadata_key(task_id),
+            data,
+            TASK_METADATA_TTL,
+        )
 
 
 def get_task_metadata(task_id: str) -> dict[str, Any] | None:
     return cache.get(get_task_metadata_key(task_id))
+
+
+def filter_task_warnings(result: dict, user: User | None) -> dict:
+    """Expose warning details only to readers of every named component."""
+    from weblate.trans.models import Component  # ruff: ignore[import-outside-top-level]
+
+    public_result = {
+        key: value for key, value in result.items() if key != "_warning_details"
+    }
+    warnings = result.get("warnings")
+    if not isinstance(warnings, list):
+        if "warnings" in result:
+            public_result["warnings"] = [
+                gettext("Automatic translation reported a warning.")
+            ]
+        return public_result
+    details = result.get("_warning_details")
+    validated: list[tuple[str, str, list[int]] | None] = []
+    for index, warning in enumerate(warnings):
+        detail = (
+            details[index]
+            if isinstance(details, list) and index < len(details)
+            else None
+        )
+        if (
+            isinstance(detail, dict)
+            and isinstance(warning, str)
+            and detail.get("message") == warning
+            and isinstance(detail.get("public_message"), str)
+            and isinstance(detail.get("component_ids"), list)
+            and all(
+                isinstance(pk, int) and not isinstance(pk, bool)
+                for pk in detail["component_ids"]
+            )
+        ):
+            validated.append(
+                (warning, detail["public_message"], detail["component_ids"])
+            )
+        else:
+            validated.append(None)
+    ids = {pk for detail in validated if detail is not None for pk in detail[2]}
+    accessible = (
+        set(
+            Component.objects.filter_access(user)
+            .filter(pk__in=ids)
+            .values_list("pk", flat=True)
+        )
+        if user is not None and ids
+        else set()
+    )
+    visible_warnings = []
+    for detail in validated:
+        if detail is None:
+            visible_warnings.append(
+                gettext("Automatic translation reported a warning.")
+            )
+        elif user is not None and set(detail[2]).issubset(accessible):
+            visible_warnings.append(detail[0])
+        else:
+            visible_warnings.append(detail[1])
+    public_result["warnings"] = visible_warnings
+    return public_result
+
+
+@overload
+def sanitize_task_result(
+    task_id: str,
+    result: dict,
+    user: User | None = None,
+    *,
+    metadata: dict[str, Any] | None = None,
+) -> dict: ...
+
+
+@overload
+def sanitize_task_result(
+    task_id: str,
+    result: object,
+    user: User | None = None,
+    *,
+    metadata: dict[str, Any] | None = None,
+) -> object: ...
+
+
+def sanitize_task_result(
+    task_id: str,
+    result: object,
+    user: User | None = None,
+    *,
+    metadata: dict[str, Any] | None = None,
+) -> object:
+    """Keep component task failure details in the permission-filtered log."""
+    from weblate.trans.coordination import AutomaticTranslationBusyError  # ruff: ignore[import-outside-top-level]
+
+    if isinstance(result, AutomaticTranslationBusyError):
+        return gettext(
+            "Automatic translation is waiting for another operation to finish."
+        )
+    if not isinstance(result, (Exception, dict)):
+        return result
+    if metadata is None:
+        metadata = get_task_metadata(task_id) or {}
+    if isinstance(result, dict) and ("errors" in result or "_error_details" in result):
+        result = filter_task_errors(result, user)
+    if isinstance(result, dict) and "_automatic_translation_failed" in result:
+        failed = result.get("_automatic_translation_failed") is True
+        result = {
+            key: value
+            for key, value in result.items()
+            if key != "_automatic_translation_failed"
+        }
+        if failed and not result.get("errors"):
+            result["message"] = gettext(
+                "Automatic translation failed. See the task log for details."
+            )
+    if isinstance(result, dict) and (
+        "_warning_details" in result
+        or metadata.get("task_kind") == "automatic-translation"
+    ):
+        result = filter_task_warnings(result, user)
+    if not any(
+        metadata.get(key)
+        for key in ("component_id", "component_ids", "translation_id", "task_kind")
+    ):
+        return result
+    if isinstance(result, Exception):
+        return gettext("Task could not be completed. See the task log for details.")
+    completion_message = result.get("completion_message")
+    if not isinstance(completion_message, dict) or not isinstance(
+        completion_message.get("text"), str
+    ):
+        return result
+    if metadata.get("task_kind") != "repository-operation":
+        return result
+    failed = result.get("result") is False or completion_message.get("level") == "error"
+    text = (
+        gettext("Repository operation completed with errors.")
+        if failed
+        else gettext("Repository operation completed.")
+    )
+    return {**result, "completion_message": {**completion_message, "text": text}}
+
+
+def filter_task_errors(result: dict, user: User | None) -> dict:
+    """Keep provider diagnostics behind the task log's permission checks."""
+    public_result = {
+        key: value for key, value in result.items() if key != "_error_details"
+    }
+    errors = result.get("errors", [])
+    if not isinstance(errors, list):
+        errors = [errors]
+    details = result.get("_error_details")
+    valid_details = {}
+    for index, error in enumerate(errors):
+        entry = (
+            details[index]
+            if isinstance(details, list) and index < len(details)
+            else None
+        )
+        if (
+            is_task_log_entry(entry)
+            and entry["sensitive"]
+            and entry["message"] == error
+        ):
+            valid_details[index] = entry
+    visible = (
+        get_visible_task_log_entries(list(valid_details.values()), user)
+        if user is not None
+        else {}
+    )
+    visible_errors = {
+        original_index: visible[index]
+        for index, original_index in enumerate(valid_details)
+        if index in visible
+    }
+    public_result["errors"] = [
+        visible_errors.get(index, gettext("Automatic translation reported an error."))
+        for index in range(len(errors))
+    ]
+    return public_result
 
 
 def delete_task_metadata(task_id: str | None) -> None:
@@ -164,6 +401,8 @@ def store_published_task_metadata(headers=None, body=None, **kwargs) -> None:
     if not isinstance(headers, dict):
         return
     headers.setdefault(CHANGE_ORIGIN_HEADER, get_change_origin())
+    user = get_acting_user()
+    headers.setdefault(ACTING_USER_HEADER, user.pk if user is not None else None)
     automation = headers[CHANGE_ORIGIN_HEADER].get("automation")
     if automation:
         headers["weblate_automation_origin"] = automation["activity_id"]
@@ -226,8 +465,36 @@ def reset_change_origin(task=None, **kwargs) -> None:
         change_origin.reset(token)
 
 
+@task_postrun.connect
+def handle_task_failure_result(task_id=None, retval=None, **kwargs) -> None:
+    """Preserve opted-in failure diagnostics before exposing a generic result."""
+    if not task_id or not isinstance(retval, dict):
+        return
+    if isinstance(retval.get("_error_details"), list) and retval["_error_details"]:
+        with suppress(DatabaseError, OSError):
+            append_task_logs(
+                task_id,
+                (
+                    entry
+                    for entry in retval["_error_details"]
+                    if is_task_log_entry(entry)
+                ),
+            )
+        return
+    if retval.get("_automatic_translation_failed") is True and isinstance(
+        retval.get("message"), str
+    ):
+        with suppress(DatabaseError, OSError):
+            record_task_failure(task_id, retval["message"])
+        return
+
+
 @task_failure.connect
 def handle_task_failure(task_id="", exception=None, **kwargs) -> None:
+    if exception is not None:
+        # A database outage must not prevent reporting the original failure.
+        with suppress(DatabaseError, OSError):
+            record_task_failure(task_id, exception)
     task_kwargs = kwargs.get("kwargs")
     if isinstance(task_kwargs, dict) and task_kwargs.get("activity_log_id") is not None:
         # ruff: ignore[import-outside-top-level]
@@ -309,6 +576,12 @@ def get_task_progress(task):
     result = task.result
     if task.state == "PROGRESS" and result is not None:
         return result["progress"]
+
+    if task.state == "RETRY":
+        from weblate.trans.coordination import AutomaticTranslationBusyError  # ruff: ignore[import-outside-top-level]
+
+        if isinstance(result, AutomaticTranslationBusyError):
+            return result.progress
 
     # Not yet started
     return 0

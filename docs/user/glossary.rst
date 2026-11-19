@@ -187,6 +187,9 @@ bulk-editing, typing in the flag, or by using :guilabel:`Tools` ↓
 glossary. Use this for important terms that should be well thought out, and
 retain a consistent meaning across all languages.
 
+Adding terminology through forms, flag edits, bulk edits, or uploaded files
+requires the :guilabel:`Add glossary terminology` permission.
+
 Enable :ref:`component-manage_units` on the glossary component to synchronize
 terminology. When it is disabled, Weblate does not create missing language
 entries, even for terms marked as terminology.
@@ -268,6 +271,10 @@ language files with :ref:`component-language_regex` can reduce the number of
 managed files, but it also means Weblate has no glossary entries to show for
 filtered-out target languages.
 
+If the project owns only glossary components, use :guilabel:`Start new translation`
+in the project's language list to add a language. This uses the glossary
+components' language addition settings and the usual permissions.
+
 Terminology entries are also synchronized. When a source glossary term is marked
 as terminology, Weblate creates missing entries in all glossary languages and
 recreates them if they are removed while the flag is still set.
@@ -304,7 +311,7 @@ Forbidden translations
 .. _glossary-mt:
 
 Glossaries in translation services
-------------------------------------
+----------------------------------
 
 .. versionadded:: 5.3
 

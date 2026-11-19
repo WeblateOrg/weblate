@@ -7,13 +7,13 @@ from __future__ import annotations
 import fnmatch
 import os
 from typing import TYPE_CHECKING, Any
+from uuid import uuid4
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.files import File
 from django.core.files.storage import default_storage
-from django.db import models
-from django.db.models import Q
+from django.db import models, transaction
 from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.dispatch import receiver
 from django.urls import reverse
@@ -26,6 +26,7 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models import Translation, Unit
+from weblate.trans.models.backup import BackupAuthorshipMixin
 from weblate.trans.signals import component_post_update, vcs_post_update
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
@@ -51,13 +52,18 @@ class ScreenshotQuerySet(models.QuerySet["Screenshot", "Screenshot"]):
             )
         if user.needs_component_restrictions_filter:
             result = result.filter(
-                Q(translation__component__restricted=False)
-                | Q(translation__component_id__in=user.component_permissions)
+                user.get_component_access_query("translation__component")
             )
         return result
 
 
-class Screenshot(models.Model, UserDisplayMixin):
+def can_set_screenshot_repository_path(user: User, component: Component) -> bool:
+    """Check whether the user can publish images from this checkout as screenshots."""
+    owner = component.linked_component or component
+    return user.can_access_component(owner) and bool(user.has_perm("vcs.access", owner))
+
+
+class Screenshot(BackupAuthorshipMixin, UserDisplayMixin):
     name = models.CharField(
         verbose_name=gettext_lazy("Screenshot name"), max_length=200
     )
@@ -96,6 +102,45 @@ class Screenshot(models.Model, UserDisplayMixin):
         super().__init__(*args, **kwargs)
         # Project backup integration
         self.import_data: dict[str, Any] = {}
+
+    def save(self, *args, **kwargs) -> None:
+        # Serialize image replacement with cache publication and worker completion.
+        # Bulk creation (backup restore) schedules recognition explicitly.
+        from weblate.screenshots.ocr import schedule_ocr  # ruff: ignore[import-outside-top-level]
+
+        with transaction.atomic():
+            previous = (
+                type(self)
+                .objects.select_for_update()
+                .filter(pk=self.pk)
+                .values("image", "translation_id")
+                .first()
+                if self.pk is not None
+                else None
+            )
+            update_fields = kwargs.get("update_fields")
+            image_changed = previous is None or (
+                (update_fields is None or "image" in update_fields)
+                # FieldFile has no public API for detecting newly assigned uploads.
+                and (
+                    not getattr(self.image, "_committed", True)
+                    or previous["image"] != self.image.name
+                )
+            )
+            translation_changed = (
+                previous is not None
+                and (
+                    update_fields is None
+                    or "translation" in update_fields
+                    or "translation_id" in update_fields
+                )
+                and previous["translation_id"] != self.translation_id
+            )
+            super().save(*args, **kwargs)
+            if image_changed or translation_changed:
+                ScreenshotOCR.objects.filter(screenshot=self).delete()
+                if self.image.name:
+                    schedule_ocr(self.pk)
 
     def get_absolute_url(self) -> str:
         return reverse("screenshot", kwargs={"pk": self.pk})
@@ -176,6 +221,23 @@ class Screenshot(models.Model, UserDisplayMixin):
             target=self.name,
             unit=unit,
         )
+
+
+class ScreenshotOCR(models.Model):
+    """Disposable derived data, intentionally excluded from REST and backups."""
+
+    screenshot = models.OneToOneField(
+        Screenshot, primary_key=True, on_delete=models.CASCADE, related_name="ocr_cache"
+    )
+    signature = models.JSONField(default=dict)
+    generation = models.UUIDField(default=uuid4)
+    data = models.JSONField(null=True)
+    task_id = models.UUIDField(null=True)
+    requested_at = models.DateTimeField(null=True)
+    error = models.CharField(max_length=16, blank=True)
+
+    def __str__(self) -> str:
+        return f"Text recognition for screenshot {self.screenshot_id}"
 
 
 @receiver(m2m_changed, sender=Screenshot.units.through)

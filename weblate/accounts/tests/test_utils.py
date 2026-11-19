@@ -29,7 +29,6 @@ from weblate.accounts.utils import (
     SESSION_EXPIRY_SCOPE_2FA,
     SESSION_EXPIRY_SCOPE_AUTHENTICATED,
     SESSION_EXPIRY_SCOPE_LOGIN,
-    SESSION_EXPIRY_SCOPE_SAML,
     adjust_session_expiry,
     get_session_expiry_refresh_seconds,
     invalidate_reset_codes,
@@ -112,7 +111,9 @@ class SessionExpiryTest(TestCase):
     def test_authenticated_session_expiry_is_throttled(self) -> None:
         request = self.get_request()
 
-        with mock.patch("weblate.accounts.utils.time.time", return_value=1000):
+        with mock.patch(
+            "weblate.accounts.utils.time", time=mock.Mock(return_value=1000)
+        ):
             adjust_session_expiry(request=request, user=self.user, is_login=False)
 
         self.assertEqual(
@@ -123,11 +124,15 @@ class SessionExpiryTest(TestCase):
         self.assertEqual(request.session.get_expiry_age(), 1200)
 
         request.session.modified = False
-        with mock.patch("weblate.accounts.utils.time.time", return_value=1599):
+        with mock.patch(
+            "weblate.accounts.utils.time", time=mock.Mock(return_value=1599)
+        ):
             adjust_session_expiry(request=request, user=self.user, is_login=False)
         self.assertFalse(request.session.modified)
 
-        with mock.patch("weblate.accounts.utils.time.time", return_value=1600):
+        with mock.patch(
+            "weblate.accounts.utils.time", time=mock.Mock(return_value=1600)
+        ):
             adjust_session_expiry(request=request, user=self.user, is_login=False)
         self.assertTrue(request.session.modified)
         self.assertEqual(request.session[SESSION_EXPIRY_REFRESHED], 1600)
@@ -139,15 +144,21 @@ class SessionExpiryTest(TestCase):
         self.assertEqual(get_session_expiry_refresh_seconds(1), 0)
         self.assertLess(get_session_expiry_refresh_seconds(90), 90)
 
-        with mock.patch("weblate.accounts.utils.time.time", return_value=1000):
+        with mock.patch(
+            "weblate.accounts.utils.time", time=mock.Mock(return_value=1000)
+        ):
             adjust_session_expiry(request=request, user=self.user, is_login=False)
 
         request.session.modified = False
-        with mock.patch("weblate.accounts.utils.time.time", return_value=1029):
+        with mock.patch(
+            "weblate.accounts.utils.time", time=mock.Mock(return_value=1029)
+        ):
             adjust_session_expiry(request=request, user=self.user, is_login=False)
         self.assertFalse(request.session.modified)
 
-        with mock.patch("weblate.accounts.utils.time.time", return_value=1030):
+        with mock.patch(
+            "weblate.accounts.utils.time", time=mock.Mock(return_value=1030)
+        ):
             adjust_session_expiry(request=request, user=self.user, is_login=False)
         self.assertTrue(request.session.modified)
         self.assertEqual(request.session[SESSION_EXPIRY_REFRESHED], 1030)
@@ -160,7 +171,9 @@ class SessionExpiryTest(TestCase):
     def test_session_expiry_scope_changes(self) -> None:
         request = self.get_request()
 
-        with mock.patch("weblate.accounts.utils.time.time", return_value=1000):
+        with mock.patch(
+            "weblate.accounts.utils.time", time=mock.Mock(return_value=1000)
+        ):
             adjust_session_expiry(request=request, user=self.user)
         self.assertEqual(
             request.session[SESSION_EXPIRY_SCOPE], SESSION_EXPIRY_SCOPE_LOGIN
@@ -168,7 +181,9 @@ class SessionExpiryTest(TestCase):
         self.assertEqual(request.session.get_expiry_age(), 1000)
 
         request.session.modified = False
-        with mock.patch("weblate.accounts.utils.time.time", return_value=1001):
+        with mock.patch(
+            "weblate.accounts.utils.time", time=mock.Mock(return_value=1001)
+        ):
             adjust_session_expiry(request=request, user=self.user, is_login=False)
         self.assertTrue(request.session.modified)
         self.assertEqual(
@@ -183,7 +198,9 @@ class SessionExpiryTest(TestCase):
         request = self.get_request()
         TOTPDevice.objects.create(user=self.user)
 
-        with mock.patch("weblate.accounts.utils.time.time", return_value=1000):
+        with mock.patch(
+            "weblate.accounts.utils.time", time=mock.Mock(return_value=1000)
+        ):
             adjust_session_expiry(request=request, user=self.user)
         self.assertEqual(
             request.session[SESSION_EXPIRY_SCOPE], SESSION_EXPIRY_SCOPE_2FA
@@ -192,53 +209,15 @@ class SessionExpiryTest(TestCase):
 
         request.session[DEVICE_ID_SESSION_KEY] = "otp_totp.totpdevice/1"
         request.session.modified = False
-        with mock.patch("weblate.accounts.utils.time.time", return_value=1001):
+        with mock.patch(
+            "weblate.accounts.utils.time", time=mock.Mock(return_value=1001)
+        ):
             adjust_session_expiry(request=request, user=self.user, is_login=False)
         self.assertTrue(request.session.modified)
         self.assertEqual(
             request.session[SESSION_EXPIRY_SCOPE], SESSION_EXPIRY_SCOPE_AUTHENTICATED
         )
         self.assertEqual(request.session.get_expiry_age(), 1200)
-
-    def test_saml_session_expiry_is_not_refreshed(self) -> None:
-        request = self.get_request({"next": "/idp/login/process/"})
-
-        with mock.patch("weblate.accounts.utils.time.time", return_value=1000):
-            adjust_session_expiry(request=request, user=self.user)
-        self.assertTrue(request.session["saml_only"])
-        self.assertEqual(
-            request.session[SESSION_EXPIRY_SCOPE], SESSION_EXPIRY_SCOPE_SAML
-        )
-        self.assertEqual(request.session.get_expiry_age(), 60)
-
-        request.session.modified = False
-        with mock.patch("weblate.accounts.utils.time.time", return_value=10_000):
-            adjust_session_expiry(request=request, user=self.user, is_login=False)
-        self.assertFalse(request.session.modified)
-
-    def test_saml_second_factor_session_stays_short_after_completion(self) -> None:
-        request = self.get_request({"next": "/idp/login/process/"})
-        TOTPDevice.objects.create(user=self.user)
-
-        with mock.patch("weblate.accounts.utils.time.time", return_value=1000):
-            adjust_session_expiry(request=request, user=self.user)
-        self.assertEqual(
-            request.session[SESSION_EXPIRY_SCOPE], SESSION_EXPIRY_SCOPE_SAML
-        )
-
-        request.session[DEVICE_ID_SESSION_KEY] = "otp_totp.totpdevice/1"
-        with mock.patch("weblate.accounts.utils.time.time", return_value=1001):
-            adjust_session_expiry(
-                request=request,
-                user=self.user,
-                is_login=False,
-                force=True,
-            )
-
-        self.assertEqual(
-            request.session[SESSION_EXPIRY_SCOPE], SESSION_EXPIRY_SCOPE_SAML
-        )
-        self.assertEqual(request.session.get_expiry_age(), 60)
 
 
 class TasksTest(TestCase):
@@ -269,7 +248,7 @@ class TasksTest(TestCase):
             )
         with (
             mock.patch("weblate.accounts.tasks.now", return_value=timestamp),
-            mock.patch("social_django.storage.time.time", return_value=1060),
+            mock.patch("social_django.storage._time", return_value=1060),
         ):
             cleanup_social_auth()
         self.assertEqual(

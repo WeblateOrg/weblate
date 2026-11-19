@@ -5,6 +5,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from datetime import timedelta
+from itertools import batched
 from operator import itemgetter
 from typing import TYPE_CHECKING, Any, NotRequired, TypedDict
 from uuid import UUID
@@ -306,6 +307,31 @@ def _attribute_memory_scope_components(scopes: list[MemoryScope]) -> None:
         ).delete_scope(Q(id__in=restricted_shared_scope_ids), delete_legacy=False)
 
 
+def _lock_memory_scope_batch(
+    queryset: QuerySet[MemoryScope], candidates: list[tuple[int, int]]
+) -> list[MemoryScope]:
+    """Lock parents before scopes, matching scope cleanup's lock order."""
+    if not candidates:
+        return []
+    parent_ids = list(
+        Memory.objects.using("default")
+        .filter(pk__in={memory_id for _, memory_id in candidates})
+        .order_by("pk")
+        .select_for_update(no_key=True, of=("self",))
+        .values_list("pk", flat=True)
+    )
+    # Cleanup may remove candidates while we wait. Recheck the original
+    # selection and only lock scopes whose parents we have already locked.
+    return list(
+        queryset.filter(
+            pk__in=[scope_id for scope_id, _ in candidates], memory_id__in=parent_ids
+        )
+        .select_for_update(no_key=True, of=("self",))
+        .select_related("memory")
+        .order_by("id")
+    )
+
+
 def attribute_memory_scope_queryset(
     queryset: QuerySet[MemoryScope], batch_size: int = 5000
 ) -> None:
@@ -313,16 +339,16 @@ def attribute_memory_scope_queryset(
     last_scope_id = 0
     while True:
         with transaction.atomic(using="default"):
-            scopes = list(
-                queryset.filter(id__gt=last_scope_id)
-                .select_for_update()
-                .select_related("memory")
-                .order_by("id")[:batch_size]
+            selected = queryset.filter(id__gt=last_scope_id)
+            candidates = list(
+                selected.order_by("id").values_list("pk", "memory_id")[:batch_size]
             )
-            if not scopes:
+            if not candidates:
                 return
-            last_scope_id = scopes[-1].id
-            _attribute_memory_scope_components(scopes)
+            last_scope_id = candidates[-1][0]
+            scopes = _lock_memory_scope_batch(selected, candidates)
+            if scopes:
+                _attribute_memory_scope_components(scopes)
 
 
 @app.task(trail=False)
@@ -394,27 +420,27 @@ def backfill_memory_scope_components(batch_size: int = 5000) -> None:
         if state.completed:
             return
 
-        scopes = list(
-            scope_objects.filter(
-                id__gt=state.last_memory_id,
-                scope__in=AUTOMATIC_SCOPE_TYPES,
-                source_component__isnull=True,
-            )
-            .select_for_update()
-            .select_related("memory")
-            .order_by("id")[:batch_size]
+        selected = scope_objects.filter(
+            id__gt=state.last_memory_id,
+            scope__in=AUTOMATIC_SCOPE_TYPES,
+            source_component__isnull=True,
         )
-        if not scopes:
+        candidates = list(
+            selected.order_by("id").values_list("pk", "memory_id")[:batch_size]
+        )
+        if not candidates:
             state.completed = True
             state.updated = timezone.now()
             state.save(using="default", update_fields=["completed", "updated"])
             run_next = False
         else:
-            _attribute_memory_scope_components(scopes)
+            scopes = _lock_memory_scope_batch(selected, candidates)
+            if scopes:
+                _attribute_memory_scope_components(scopes)
 
-            state.last_memory_id = scopes[-1].id
+            state.last_memory_id = candidates[-1][0]
             state.updated = timezone.now()
-            run_next = len(scopes) == batch_size
+            run_next = len(candidates) == batch_size
             if not run_next:
                 state.completed = True
             state.save(
@@ -663,7 +689,7 @@ def setup_periodic_tasks(sender: Celery, **kwargs: object) -> None:
 
 
 @app.task(trail=False)
-def update_memory(  # ruff: ignore[too-many-arguments, complex-structure]
+def update_memory(  # ruff: ignore[too-many-arguments]
     *,
     source_language_id: int,
     target_language_id: int,
@@ -833,8 +859,7 @@ def update_memory(  # ruff: ignore[too-many-arguments, complex-structure]
             memory_objects.bulk_create(to_create)
             memory_scope_objects.bulk_create_for_memories(to_create)
 
-    if to_update:
-        memory_objects.bulk_update(to_update, fields=["status"])
+    update_memory_statuses(to_update)
 
 
 @app.task(trail=False)
@@ -1095,6 +1120,22 @@ def collect_status_update(
         memory.status = status
         to_update.append(memory)
     return memory
+
+
+def update_memory_statuses(memories: list[Memory]) -> None:
+    """Persist prepared statuses for saved memories on the primary database."""
+    if not memories:
+        return
+
+    ids_by_status: dict[int, list[int]] = defaultdict(list)
+    for memory in memories:
+        ids_by_status[memory.status].append(memory.pk)
+
+    memory_objects = Memory.objects.using("default")
+    with transaction.atomic(using="default", savepoint=False):
+        for status, memory_ids in sorted(ids_by_status.items()):
+            for batch in batched(memory_ids, MEMORY_UPDATE_BATCH_SIZE):
+                memory_objects.filter(pk__in=batch).update(status=status)
 
 
 def normalize_compacted_memory_owner(memory: Memory) -> None:
@@ -1384,5 +1425,4 @@ def update_memory_bulk(entries: list[MemoryUpdatePayload]) -> None:
             memory_objects.bulk_create(to_create, batch_size=MEMORY_UPDATE_BATCH_SIZE)
             memory_scope_objects.bulk_create_for_memories(to_create)
 
-    if to_update:
-        memory_objects.bulk_update(to_update, fields=["status"])
+    update_memory_statuses(to_update)

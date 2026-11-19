@@ -4,24 +4,39 @@
 
 {% block content %}
   <div class="container">
-    <h1>{% translate "Authorize application" %}</h1>
-    {% if error %}
-      <p role="alert">{{ error.description }}</p>
-    {% else %}
-      <p>{% blocktranslate with application=application.name %}Allow {{ application }} to access your account?{% endblocktranslate %}</p>
-      <ul>
-        {% for description in scopes_descriptions %}<li>{{ description }}</li>{% endfor %}
-      </ul>
-      <form method="post">
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-        {% for field in form.hidden_fields %}{{ field }}{{ field.errors }}{% endfor %}
-        <button type="submit"
-                name="allow"
-                value="Authorize"
-                class="btn btn-primary">{% translate "Authorize" %}</button>
-        <button type="submit" class="btn btn-outline-danger">{% translate "Deny" %}</button>
-      </form>
-    {% endif %}
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <h2>{% include "accounts/snippets/login-title.html" %}</h2>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">{% translate "Authorize application" %}</h3>
+          </div>
+          {% if error %}
+            <div class="card-body">
+              <div class="alert alert-danger" role="alert">{{ error.description }}</div>
+            </div>
+          {% else %}
+            <form method="post">
+              <div class="card-body">
+                <p>{% blocktranslate with application=application.name %}Allow {{ application }} to access your account?{% endblocktranslate %}</p>
+                <ul>
+                  {% for description in scopes_descriptions %}<li>{{ description }}</li>{% endfor %}
+                </ul>
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                {% for field in form.hidden_fields %}{{ field }}{{ field.errors }}{% endfor %}
+              </div>
+              <div class="card-footer d-flex flex-wrap align-items-center gap-2">
+                <button type="submit"
+                        name="allow"
+                        value="Authorize"
+                        class="btn btn-primary">{% translate "Authorize" %}</button>
+                <button type="submit" class="btn btn-outline-danger">{% translate "Deny" %}</button>
+              </div>
+            </form>
+          {% endif %}
+        </div>
+      </div>
+    </div>
   </div>
 {% endblock content %}

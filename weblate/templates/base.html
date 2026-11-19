@@ -1,4 +1,4 @@
-{% load i18n icons permissions static translations %}
+{% load i18n icons permissions static translations user_display %}
 
 <!DOCTYPE html>
 
@@ -81,7 +81,7 @@
 
   </head>
 
-  <body {% if LANGUAGE_BIDI %}class="dir-rtl"{% endif %}>
+  <body {% if LANGUAGE_BIDI %}class="dir-rtl"{% endif %} {% if not can_browse_users %} {% if component %}data-user-search-query="contributes:{{ component.full_slug }}"{% elif project %}data-user-search-query="contributes:{{ project.slug }}"{% endif %} {% endif %} {% if component %}data-contributor-search-query="contributes:{{ component.full_slug }}"{% elif project %}data-contributor-search-query="contributes:{{ project.slug }}"{% endif %}>
     <div id="popup-toasts" class="toast-container"></div>
     <header>
       <nav class="navbar navbar-expand-lg bg-dark" role="navigation">
@@ -105,7 +105,7 @@
                 <input type="text"
                        class="form-control"
                        id="sitewide-search"
-                       placeholder="{% translate "Search" %}">
+                       placeholder="{% translate "Search"|force_escape %}">
               </div>
             </form>
             <ul class="navbar-nav">
@@ -146,6 +146,29 @@
                   </li>
                 </ul>
               </li>
+              {% if navigation_workspaces|length > 1 %}
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle"
+                     href="#"
+                     role="button"
+                     data-bs-toggle="dropdown"
+                     aria-expanded="false"
+                     id="workspaces-menu">{% translate "Workspaces" %}</a>
+                  <ul class="dropdown-menu shadow" aria-labelledby="workspaces-menu">
+                    {% for workspace in navigation_workspaces %}
+                      <li>
+                        <a class="dropdown-item" href="{{ workspace.get_absolute_url }}">{{ workspace }}</a>
+                      </li>
+                    {% endfor %}
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="{% url 'workspaces' %}">{% translate "My workspaces" %}</a>
+                    </li>
+                  </ul>
+                </li>
+              {% endif %}
               {% with languages=user.profile.all_languages.order_translated %}
                 <li class="nav-item dropdown">
                   <a href="#"
@@ -241,7 +264,7 @@
                     <a class="nav-link button"
                        id="admin-button"
                        href="{% url 'manage' %}"
-                       title="{% translate "Administration" %}">
+                       title="{% translate "Administration"|force_escape %}">
                       <span class="d-none d-sm-inline">{% icon "wrench.svg" %}</span>
                       <span class="d-inline d-sm-none">{% translate "Administration" %}</span>
                     </a>
@@ -251,7 +274,7 @@
                       <a class="nav-link button danger"
                          id="errors-button"
                          href="{% url 'manage-performance' %}"
-                         title="{% translate "Configuration errors" %}">
+                         title="{% translate "Configuration errors"|force_escape %}">
                         <span class="d-none d-sm-inline">{% icon "alert.svg" %}</span>
                         <span class="d-inline d-sm-none">{% translate "Configuration errors" %}</span>
                       </a>
@@ -341,12 +364,12 @@
                      id="user-dropdown"
                      class="nav-link dropdown-toggle"
                      data-bs-toggle="dropdown"
-                     title="{% translate "Your profile" %}">
+                     title="{% translate "Your profile"|force_escape %}">
                     {% if enable_avatars %}
                       <span class="d-none d-sm-inline">
                         <img class="avatar"
-                             alt="{% translate "User avatar" %}"
-                             src="{% url 'user_avatar' user=user.username size=24 %}" />
+                             alt="{% translate "User avatar"|force_escape %}"
+                             src="{% user_avatar user size=24 %}" />
                       </span>
                       <span class="d-inline d-sm-none">{% translate "Your profile" %}</span>
                     {% else %}
@@ -399,7 +422,7 @@
                 <a href="#"
                    class="nav-link dropdown-toggle support"
                    data-bs-toggle="dropdown"
-                   title="{% translate "Help" %}">
+                   title="{% translate "Help"|force_escape %}">
                   <span class="d-none d-sm-inline">{% icon "dots.svg" %}</span>
                   <span class="d-inline d-sm-none">{% translate "Help" %}</span>
                 </a>
@@ -521,7 +544,7 @@
             <button type="button"
                     class="btn-close"
                     data-bs-dismiss="modal"
-                    aria-label="{% translate "Close" %}"></button>
+                    aria-label="{% translate "Close"|force_escape %}"></button>
           </div>
           <div class="modal-body">
             <img id="imagepreview" class="img-fluid">
@@ -529,7 +552,7 @@
           <div class="modal-footer">
             <a class="btn btn-warning"
                id="modalDetailsLink"
-               data-edit-text="{% translate 'Edit screenshot' %}">{% translate "Screenshot details" %}</a>
+               data-edit-text="{% translate 'Edit screenshot'|force_escape %}">{% translate "Screenshot details" %}</a>
             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{% translate "Close" %}</button>
           </div>
         </div>

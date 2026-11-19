@@ -22,6 +22,7 @@ from django.template.loader import render_to_string
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 from django.utils import timezone
+from django.utils.html import escape
 
 from weblate.accounts.models import AuditLog, Profile, Subscription, WeblateAccountsConf
 from weblate.accounts.notifications import (
@@ -30,6 +31,7 @@ from weblate.accounts.notifications import (
     SUBSCRIPTION_CACHE_SIZE,
     LastAuthorCommentNotificaton,
     MergeFailureNotification,
+    NewComponentNotificaton,
     Notification,
     NotificationFrequency,
     NotificationScope,
@@ -56,6 +58,7 @@ from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
     Announcement,
+    Category,
     Change,
     Comment,
     Project,
@@ -72,6 +75,7 @@ from weblate.trans.tests.utils import (
     create_test_billing,
     get_test_actor,
 )
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.icons import load_icon
 from weblate.utils.site import get_site_url
 from weblate.utils.version import USER_AGENT
@@ -215,8 +219,7 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
     def setUp(self) -> None:
         super().setUp()
         self.automation_user = get_test_actor(self)
-        self.component.acting_user = self.automation_user
-        self.project.acting_user = self.automation_user
+        self.enterContext(acting_user_context(self.automation_user))
         self.user.email = "noreply+notify@weblate.org"
         self.user.save()
         czech = Language.objects.get(code="cs")
@@ -366,6 +369,35 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
 
         # Check mail
         self.validate_notifications(2, "[Weblate] Repository failure in Test/Test")
+
+    def test_notification_category_navigation(self) -> None:
+        parent = None
+        categories = []
+        for index in range(3):
+            parent = Category.objects.create(
+                name=f"Mail category {index}",
+                slug=f"mail-{index}",
+                project=self.project,
+                category=parent,
+            )
+            categories.append(parent)
+        self.component.category = parent
+        change = self.component.change_set.create(
+            action=ActionEvents.MERGE,
+            user=self.user,
+        )
+        change = Change.objects.prefetch_for_render().get(pk=change.pk)
+        change.fill_in_prefetched()
+        notification = RepositoryNotification([])
+        context = notification.get_context(change)
+        content = notification.render_template(".html", context)
+        for category in categories:
+            self.assertIn(
+                f'href="{get_site_url(category.get_absolute_url())}"', content
+            )
+            self.assertIn(escape(category.name), content)
+        with self.assertNumQueries(0):
+            notification.render_template(".html", context)
 
     def test_notify_repository(self) -> None:
         change = self.create_with_callbacks(
@@ -997,7 +1029,7 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
         self.user.groups.add(group)
         self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("project.edit", self.component.project))
-        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.assertTrue(self.user.has_perm("component.edit", self.component))
 
         with self.captureOnCommitCallbacks(execute=True):
             self.component.add_alert("BrokenProjectURL", error="failure")
@@ -1147,7 +1179,7 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
         self.user.groups.add(group)
         self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("project.edit", self.component.project))
-        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.assertTrue(self.user.has_perm("component.edit", self.component))
         addon = create_test_addon(
             acting_user=get_test_actor(self),
             project=self.component.project,
@@ -1354,7 +1386,7 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
         self.user.groups.add(group)
         self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("project.edit", self.component.project))
-        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.assertTrue(self.user.has_perm("component.edit", self.component))
         create_test_addon(
             acting_user=get_test_actor(self),
             component=self.component,
@@ -2111,6 +2143,39 @@ class SubscriptionTest(FixtureComponentTestCase):
         # the specific merge-failure notification.
         self.component.project.add_user(self.user, "Administration")
         self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_INSTANT)), 0)
+
+
+class NotificationSubjectTest(SimpleTestCase):
+    @override_settings(
+        SITE_TITLE='Ateliér & <Studio>\r\n"News" &amp;',
+        EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend",
+    )
+    def test_included_subject_is_plain_text_and_html_title_is_escaped(self) -> None:
+        outgoing = get_notification_emails(
+            "en", ["recipient@example.com"], "reset-nonexisting"
+        )
+        subject = 'Password reset on Ateliér & <Studio> "News" &amp;'
+        self.assertEqual(outgoing[0]["subject"], subject)
+        self.assertIn(f"<title>{escape(subject)}</title>", outgoing[0]["body"])
+
+        send_mails(outgoing)
+        serialized = mail.outbox[0].message(policy=policy.SMTP).as_bytes()
+        message = BytesParser(policy=policy.default).parsebytes(serialized)
+        self.assertEqual(message["Subject"], settings.EMAIL_SUBJECT_PREFIX + subject)
+
+    def test_immediate_and_digest_subjects_are_plain_text(self) -> None:
+        notification = NewComponentNotificaton([])
+        name = 'Ateliér & <Studio> "News" &amp;'
+        context = {"component": name, "notification_name": name}
+
+        self.assertEqual(
+            notification.render_template("_subject.txt", context),
+            f"New translation component {name}",
+        )
+        self.assertEqual(
+            notification.render_template("_subject.txt", context, digest=True),
+            f"Digest: {name}",
+        )
 
 
 class SendMailsTest(SimpleTestCase):

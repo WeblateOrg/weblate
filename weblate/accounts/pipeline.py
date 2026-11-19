@@ -6,16 +6,20 @@ from __future__ import annotations
 import re
 import unicodedata
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, NoReturn
+from typing import TYPE_CHECKING, NoReturn, cast
 
 from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError, transaction
 from django.http import HttpResponseRedirect
+from django.middleware.csrf import rotate_token
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.utils.http import urlencode
+from django.utils.http import url_has_allowed_host_and_scheme, urlencode
 from django.utils.translation import gettext
 from django_otp import DEVICE_ID_SESSION_KEY
+from django_otp.models import Device
 from social_core.exceptions import (
     AuthAssociationError,
     AuthPolicyError,
@@ -23,27 +27,42 @@ from social_core.exceptions import (
     AuthSessionError,
 )
 from social_core.pipeline.partial import partial
+from social_core.pipeline.social_auth import (
+    associate_by_email as core_associate_by_email,
+)
 from social_core.utils import PARTIAL_TOKEN_SESSION_NAME
 
-from weblate.accounts.flows import PASSWORD_RESET_SCOPE_SESSION
+from weblate.accounts.flows import (
+    PASSWORD_RESET_SCOPE_SESSION,
+    PASSWORD_RESET_USER_SESSION,
+)
+from weblate.accounts.forms import UniqueEmailMixin
 from weblate.accounts.models import AuditLog, VerifiedEmail
 from weblate.accounts.notifications import send_notification_email
 from weblate.accounts.templatetags.authnames import get_auth_name
 from weblate.accounts.utils import (
+    SESSION_FIRST_FACTOR_SSO,
     adjust_session_expiry,
+    clear_pending_first_factor,
     cycle_session_keys,
+    grant_first_factor,
+    grant_sensitive_verification,
+    has_recent_second_factor,
     invalidate_reset_codes,
     set_second_factor_session,
+    valid_first_factor_sso_intent,
 )
 from weblate.auth.models import (
     Invitation,
     InvitationError,
     InvitationExpiredError,
+    InvitationRemovedError,
     User,
     get_anonymous,
 )
 from weblate.trans.defines import FULLNAME_LENGTH
 from weblate.utils import messages
+from weblate.utils.email import email_key
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.validators import (
     CRUD_RE,
@@ -54,11 +73,55 @@ from weblate.utils.validators import (
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
+    from typing import Any
+
+    from social_core.backends.base import BaseAuth
+
+    from weblate.accounts.strategy import WeblateStrategy
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 STRIP_MATCHER = re.compile(r"[^\w\s.@+-]")
 CLEANUP_MATCHER = re.compile(r"[-\s]+")
 VerifiedEmailList = list[tuple[str, bool]]
 GitHubEmailData = Mapping[str, str | bool | None]
+
+
+def verify_first_factor_sso(strategy, backend, user, social, **kwargs):
+    """Finish first-enrollment proof before normal social login can mutate accounts."""
+    request = strategy.request
+    intent = request.session.pop(SESSION_FIRST_FACTOR_SSO, None)
+    if intent is None:
+        return None
+    if not (
+        isinstance(intent, dict)
+        and valid_first_factor_sso_intent(request, intent, backend.name)
+        and social is not None
+        and social.pk == intent.get("association")
+        and social.user_id == request.user.pk
+        and user is not None
+        and user.pk == request.user.pk
+        and not request.user.profile.has_2fa
+    ):
+        raise AuthSessionError(
+            backend, code="weblate.first_factor_identity_mismatch", stage="pipeline"
+        )
+    request.session.cycle_key()
+    rotate_token(request)
+    if intent["target"] == "sensitive":
+        grant_sensitive_verification(request)
+        next_url = intent.get("next", "")
+        if (
+            isinstance(next_url, str)
+            and next_url.startswith("/")
+            and url_has_allowed_host_and_scheme(
+                next_url, allowed_hosts={request.get_host()}
+            )
+        ):
+            return redirect(next_url)
+        return redirect("profile")
+    clear_pending_first_factor(request)
+    grant_first_factor(request)
+    return redirect("totp" if intent["target"] == "totp" else "webauthn-register")
 
 
 def invalid_invitation(
@@ -128,6 +191,33 @@ def parse_github_emails(
 
 
 @partial
+def verify_recent_second_factor(
+    strategy,
+    backend,
+    user: User | None,
+    social,
+    weblate_action,
+    current_partial,
+    **kwargs,
+):
+    """Require a fresh factor before linking a new sign-in identity."""
+    if (
+        user is not None
+        and social is None
+        and weblate_action == "activation"
+        and user.profile.has_2fa
+        and not has_recent_second_factor(strategy.request, user=user)
+    ):
+        set_second_factor_session(strategy.request, user, "", social=True)
+        continue_url = f"{reverse('social:complete', args=(backend.name,))}?partial_token={current_partial.token}"
+        login_url = reverse(
+            "2fa-login", kwargs={"backend": user.profile.get_second_factor_type()}
+        )
+        return HttpResponseRedirect(f"{login_url}?{urlencode({'next': continue_url})}")
+    return None
+
+
+@partial
 def reauthenticate(
     strategy, backend, user: User, social, uid, weblate_action, **kwargs
 ):
@@ -149,16 +239,27 @@ def reauthenticate(
 
 
 @partial
-def require_email(backend, details, weblate_action, user=None, is_new=False, **kwargs):
+def require_email(
+    strategy: WeblateStrategy,
+    backend: BaseAuth,
+    details: dict[str, Any],
+    weblate_action: str,
+    user: User | None = None,
+    is_new: bool = False,
+    **kwargs: object,
+) -> dict[str, bool] | None:
     """Force entering e-mail for backends which don't provide it."""
-    if backend.name == "github" and "emails" in kwargs["response"]:
-        email, emails = parse_github_emails(kwargs["response"]["emails"])
-        details["verified_emails"] = emails
-        if email is not None:
-            details["email"] = email
+    if backend.name == "github":
+        response = cast("Mapping[str, Any]", kwargs["response"])
+        if "emails" in response:
+            email, emails = parse_github_emails(response["emails"])
+            details["verified_emails"] = emails
+            if email is not None:
+                details["email"] = email
 
     # Remove any pending e-mail validation codes
     if details.get("email") and backend.name == "email":
+        verify_email_confirmation(strategy, backend)
         invalidate_reset_codes(emails=(details["email"],))
         # Remove all account reset codes
         if user and weblate_action == "reset":
@@ -178,8 +279,46 @@ def require_email(backend, details, weblate_action, user=None, is_new=False, **k
     return None
 
 
+def validate_password_reset(
+    backend: BaseAuth,
+    details: dict[str, Any],
+    user_id: int | None,
+    user: User | None = None,
+) -> User:
+    """Lock and recheck the account bound to an e-mail recovery request."""
+    owner = None
+    if isinstance(user_id, int) and not isinstance(user_id, bool):
+        owner = User.objects.select_for_update().filter(pk=user_id).first()
+    match = UniqueEmailMixin.get_email_owner(details.get("email", ""))
+    if (
+        owner is None
+        or match is None
+        or match[0].pk != owner.pk
+        or (user is not None and user.pk != owner.pk)
+    ):
+        raise AuthSessionError(
+            backend, code="weblate.confirmation_expired", stage="pipeline"
+        )
+    return owner
+
+
+def verify_email_confirmation(strategy: WeblateStrategy, backend: BaseAuth) -> None:
+    """Allow e-mail confirmation only from a checked Weblate form request."""
+    if backend.name == "email" and not getattr(
+        strategy.request, "weblate_email_confirmation", False
+    ):
+        raise AuthPolicyError(
+            backend,
+            code="weblate.confirmation_not_requested",
+            stage="pipeline",
+            recovery="restart_login",
+        )
+
+
 def send_validation(strategy, backend, code, partial_token) -> None:
     """Send verification e-mail."""
+    verify_email_confirmation(strategy, backend)
+
     # We need to have existing session
     session = strategy.request.session
     if not session.session_key:
@@ -199,6 +338,9 @@ def send_validation(strategy, backend, code, partial_token) -> None:
         template = "reset"
     elif session.get("account_remove"):
         template = "remove"
+    elif strategy.request.user.is_authenticated:
+        template = "verify-email"
+        context["contact_form"] = settings.CONTACT_FORM
 
     # Use None for user to enable linking by e-mail later for the registration
     AuditLog.objects.create(
@@ -279,9 +421,9 @@ def verify_open(
     **kwargs,
 ) -> None:
     """Check whether it is possible to create new user."""
-    # Ensure it's still same user (if sessions was kept as this is to avoid
-    # completing authentication under different user than initiated it, with
-    # new session, it will complete as new user)
+    # Keep ordinary provider callbacks bound to the local user who initiated
+    # them. social-auth-core separately enforces this for external partial
+    # resumes, but callbacks without a partial still need this application guard.
     current_user = strategy.request.user.pk
     init_user = strategy.request.session.get("social_auth_user")
     if strategy.request.session.session_key and current_user != init_user:
@@ -305,16 +447,22 @@ def verify_open(
         )
 
 
-def store_params(strategy, user: User, **kwargs):
+def store_params(
+    strategy: WeblateStrategy,
+    backend: BaseAuth,
+    user: User | None,
+    **kwargs: object,
+) -> dict[str, object]:
     """Store Weblate specific parameters in the pipeline."""
-    # Map standard Django anonymuos user to Weblate database backed one
-    if isinstance(strategy.request.user, AnonymousUser):
-        strategy.request.user = get_anonymous()
+    # Map standard Django anonymous user to Weblate database backed one
+    request = cast("AuthenticatedHttpRequest", strategy.request)
+    if isinstance(request.user, AnonymousUser):
+        request.user = get_anonymous()
     # Registering user
     registering_user = user.pk if user and user.is_authenticated else None
 
     # Pipeline action
-    session = strategy.request.session
+    session = request.session
     if session.get("password_reset"):
         action = "reset"
     elif session.get("account_remove"):
@@ -335,12 +483,24 @@ def store_params(strategy, user: User, **kwargs):
                 invitation = None
                 invitation_pk = None
 
-    return {
+    params: dict[str, object] = {
+        "weblate_auth_pipeline": list(strategy.get_pipeline(backend)),
         "weblate_action": action,
         "registering_user": registering_user,
         "invitation_link": invitation,
         "invitation_pk": str(invitation_pk) if invitation_pk else None,
     }
+    if backend.name == "email" and action == "reset":
+        params["weblate_reset_user"] = session.get(PASSWORD_RESET_USER_SESSION)
+    if (
+        backend.name == "email"
+        and user is not None
+        and user.is_authenticated
+        and action == "activation"
+        and kwargs.get("social") is None
+    ):
+        params["weblate_email_auth_hash"] = user.get_session_auth_hash()
+    return params
 
 
 def verify_username(strategy, backend, details, username, user=None, **kwargs) -> None:
@@ -385,8 +545,9 @@ def ensure_valid(
     details,
     invitation_link: Invitation | None = None,
     invitation_pk: str | None = None,
+    weblate_reset_user: int | None = None,
     **kwargs,
-) -> None:
+) -> dict[str, User] | None:
     """Validate account binding and invitations for the activation link."""
     # We allow password reset for unauthenticated users
     if weblate_action == "reset":
@@ -401,9 +562,12 @@ def ensure_valid(
             raise AuthSessionError(
                 backend, code="weblate.confirmation_user_mismatch", stage="pipeline"
             )
-        return
+        return {
+            "user": validate_password_reset(backend, details, weblate_reset_user, user)
+        }
 
-    # Add e-mail/register should stay on same user
+    # Preserve Weblate action ownership in addition to core's external-partial
+    # binding. This also covers non-partial registration and account workflows.
     current_user = user.pk if user and user.is_authenticated else None
 
     if current_user != registering_user:
@@ -464,6 +628,22 @@ def ensure_valid(
         validator = EmailValidator()
         # This raises ValidationError
         validator(details["email"])
+    return None
+
+
+def associate_by_email(strategy, backend, details, user=None, **kwargs):
+    """Only rebind a signed-out third-party identity when explicitly enabled."""
+    if (
+        user is None
+        and backend.name != "email"
+        and not settings.REGISTRATION_REBIND
+        and (email := details.get("email"))
+    ):
+        owner = User.objects.filter(email__iexact=email).first()
+        if owner is not None:
+            AuditLog.objects.create(owner, strategy.request, "connect")
+            raise AuthAssociationError(backend, code="email_in_use", stage="pipeline")
+    return core_associate_by_email(backend, details, user=user, **kwargs)
 
 
 def store_email(strategy, backend, user: User, social, details, **kwargs) -> None:
@@ -477,16 +657,107 @@ def store_email(strategy, backend, user: User, social, details, **kwargs) -> Non
     else:
         return
 
-    existing_emails = set()
-    for verified in social.verifiedemail_set.order_by("pk"):
-        entry = (verified.email, verified.is_deliverable)
-        if entry in current and entry not in existing_emails:
-            existing_emails.add(entry)
-        else:
-            verified.delete()
+    email_field = VerifiedEmail._meta.get_field("email")  # ruff: ignore[private-member-access]
+    valid_emails: set[tuple[str, bool]] = set()
+    for email, is_deliverable in current:
+        try:
+            email_field.clean(email, None)
+        except ValidationError:
+            continue
+        valid_emails.add((email, is_deliverable))
+    current = valid_emails
 
-    for add in current - existing_emails:
-        social.verifiedemail_set.create(email=add[0], is_deliverable=add[1])
+    with transaction.atomic():
+        # Serialize provider refreshes and e-mail recovery for this account.
+        locked_user = User.objects.select_for_update().get(pk=user.pk)
+        if kwargs.get("weblate_action") == "reset":
+            # A resumed second-factor pipeline can skip ensure_valid(). Check
+            # again before it can restore an e-mail verification record.
+            locked_user = validate_password_reset(
+                backend, details, kwargs.get("weblate_reset_user"), user
+            )
+        previous = set()
+        existing_emails = set()
+        for verified in social.verifiedemail_set.order_by("pk"):
+            previous.add(email_key(verified.email))
+            entry = (verified.email, verified.is_deliverable)
+            if entry in current and entry not in existing_emails:
+                existing_emails.add(entry)
+            else:
+                verified.delete()
+
+        for email, is_deliverable in sorted(current - existing_emails):
+            social.verifiedemail_set.create(email=email, is_deliverable=is_deliverable)
+
+        remaining = list(VerifiedEmail.objects.filter(social__user=user).order_by("pk"))
+        revoked = previous - {email_key(entry.email) for entry in remaining}
+        if revoked:
+            invalidate_reset_codes(emails=revoked)
+
+        if locked_user.email and email_key(locked_user.email) in revoked:
+            replace_revoked_primary(strategy, locked_user, remaining, details)
+        # The pipeline continues with the original user instance.
+        user.email = locked_user.email
+
+
+def replace_revoked_primary(
+    strategy: WeblateStrategy,
+    user: User,
+    remaining: list[VerifiedEmail],
+    details: dict[str, Any],
+) -> None:
+    """Replace a primary address only after its last verification disappears."""
+    old_email = user.email
+    preferred = email_key(details.get("email") or "")
+    candidates = sorted(
+        remaining, key=lambda entry: email_key(entry.email) != preferred
+    )
+    user.email = None
+    for candidate in candidates:
+        if not candidate.is_deliverable:
+            continue
+        try:
+            email = User._meta.get_field("email").clean(candidate.email, user)  # ruff: ignore[private-member-access]
+        except ValidationError:
+            continue
+        if User.objects.filter(email=email).exclude(pk=user.pk).exists():
+            continue
+        try:
+            # A concurrent account may claim the candidate after our check.
+            with transaction.atomic():
+                user.email = email
+                user.save(update_fields=["email"])
+        except IntegrityError:
+            user.email = None
+            continue
+        break
+    else:
+        user.email = None
+        user.save(update_fields=["email"])
+
+    # The user already holds the new address, so notifications cannot go to
+    # the revoked mailbox. A cleared address does not trigger notifications.
+    AuditLog.objects.create(
+        user, strategy.request, "email", actor=user, old=old_email, new=user.email
+    )
+    if user.email:
+        messages.warning(
+            strategy.request,
+            gettext(
+                "Your e-mail no longer belongs to a verified account, "
+                "it has been changed to {0}."
+            ).format(user.email),
+        )
+    else:
+        messages.warning(
+            strategy.request,
+            gettext(
+                "Your account e-mail is no longer verified and has been removed. "
+                "Add and verify an e-mail address to recover your password, "
+                "then select it as your account e-mail in Account settings "
+                "to receive notifications."
+            ),
+        )
 
 
 def handle_invite(
@@ -514,6 +785,8 @@ def handle_invite(
         elif invitation.matches_user(user):
             try:
                 invitation.accept(strategy.request, user)
+            except InvitationRemovedError:
+                strategy.request.session.pop("invitation_link", None)
             except InvitationExpiredError as error:
                 invalid_invitation(
                     strategy,
@@ -554,9 +827,24 @@ def notify_connect(
     weblate_action,
     new_association=False,
     is_new=False,
+    *,
+    registering_user: int | None = None,
     **kwargs,
 ) -> None:
     """Notify about adding new link."""
+    if (
+        new_association
+        and backend.name == "email"
+        and weblate_action == "activation"
+        and registering_user == user.pk
+    ):
+        messages.success(
+            strategy.request,
+            gettext(
+                "Your e-mail address has been added. You can now select it as your "
+                "account e-mail address in Account settings."
+            ),
+        )
     # Adjust possibly pending email confirmation audit logs
     AuditLog.objects.filter(
         user=None,
@@ -672,8 +960,26 @@ def notify_disconnect(strategy, backend, entries, user: User, **kwargs) -> None:
 
 @partial
 def second_factor(strategy, backend, user: User, current_partial, **kwargs):
-    """Force authentication when adding new association."""
-    if user.profile.has_2fa and DEVICE_ID_SESSION_KEY not in strategy.request.session:
+    """Require a second factor verified for the user being signed in."""
+    if not user.profile.has_2fa:
+        return None
+    session = strategy.request.session
+    persistent_id = session.get(DEVICE_ID_SESSION_KEY)
+    device = (
+        Device.from_persistent_id(persistent_id)
+        if isinstance(persistent_id, str)
+        else None
+    )
+    if (
+        device is None
+        or device.user_id != user.pk
+        or (
+            kwargs.get("weblate_action") == "activation"
+            and kwargs.get("social") is None
+            and not has_recent_second_factor(strategy.request, user=user)
+        )
+    ):
+        session.pop(DEVICE_ID_SESSION_KEY, None)
         # Store session indication for second factor
         set_second_factor_session(strategy.request, user, "", social=True)
         # Redirect to second factor login

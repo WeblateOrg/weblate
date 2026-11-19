@@ -212,6 +212,8 @@ class InstallationTest(ViewTestCase):
 
     def test_api_discovery(self) -> None:
         addon = self.install()
+        self.assertTrue(ExampleProvider.api_available(self.component))
+        self.assertFalse(BaseAddon.api_available(self.component))
         serializer = AddonSerializer(addon.instance, context={"request": None})
         self.assertEqual(serializer.data["api_name"], "example")
         self.assertEqual(
@@ -260,12 +262,11 @@ class InstallationTest(ViewTestCase):
     def test_duplicate_installation_ui(self) -> None:
         self.make_manager()
 
-        def install_before_insert(_component: Component) -> bool:
+        def install_before_insert(*_args: object, **_kwargs: object) -> None:
             self.install()
-            return True
 
         with patch.object(
-            ExampleProvider, "api_available", side_effect=install_before_insert
+            ExampleProvider, "get_add_form", side_effect=install_before_insert
         ):
             response = self.client.post(
                 reverse("addons", kwargs=self.kw_component),
@@ -276,13 +277,13 @@ class InstallationTest(ViewTestCase):
         self.assertEqual(self.component.addon_set.count(), 1)
 
     def test_duplicate_installation_command(self) -> None:
-        def install_before_insert(_component: Component) -> bool:
+        def install_before_insert(**_kwargs: object) -> bool:
             self.install()
             return True
 
         with (
             patch.object(
-                ExampleProvider, "api_available", side_effect=install_before_insert
+                ExampleProvider, "can_install", side_effect=install_before_insert
             ),
             self.assertRaisesMessage(CommandError, "already installed"),
         ):

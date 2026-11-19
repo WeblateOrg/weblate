@@ -222,7 +222,14 @@ STATICFILES_FINDERS = (
 )
 
 STORAGES = {
-    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    # Storage for user-uploaded media such as screenshots
+    "default": {
+        "BACKEND": get_env_str(
+            "WEBLATE_MEDIA_STORAGE_BACKEND",
+            "django.core.files.storage.FileSystemStorage",
+        ),
+        "OPTIONS": get_env_json("WEBLATE_MEDIA_STORAGE_OPTIONS", {}),
+    },
     "staticfiles": {
         "BACKEND": (
             "django.contrib.staticfiles.storage.StaticFilesStorage"
@@ -234,7 +241,9 @@ STORAGES = {
 
 # Make this unique, and don't share it with anybody.
 # You can generate it using weblate-generate-secret-key
-SECRET_KEY = Path("/app/data/secret").read_text(encoding="utf-8")
+SECRET_KEY = get_env_str("WEBLATE_SECRET_KEY") or Path("/app/data/secret").read_text(
+    encoding="utf-8"
+)
 
 TEMPLATES = [
     {
@@ -527,8 +536,20 @@ if SOCIAL_AUTH_KEYCLOAK_KEY:
     SOCIAL_AUTH_KEYCLOAK_IMAGE = get_env_str("WEBLATE_SOCIAL_AUTH_KEYCLOAK_IMAGE")
     SOCIAL_AUTH_KEYCLOAK_TITLE = get_env_str("WEBLATE_SOCIAL_AUTH_KEYCLOAK_TITLE")
     SOCIAL_AUTH_KEYCLOAK_ID_KEY = get_env_str(
-        "WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY", "email"
+        "WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY", "sub"
     )
+    SOCIAL_AUTH_KEYCLOAK_LEGACY_ID_KEYS = ["email"]
+    # Preserve first-login migration only for the historical Docker default.
+    SOCIAL_AUTH_KEYCLOAK_ALLOW_UNVERIFIED_LEGACY_UID_MIGRATION = get_env_bool(
+        "WEBLATE_SOCIAL_AUTH_KEYCLOAK_ALLOW_UNVERIFIED_LEGACY_UID_MIGRATION",
+        get_env_str("WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY") is None,
+    )
+    # Assume an explicit ID_KEY also created the historical associations.
+    # Otherwise backfill with the old Docker default, not the new sub default.
+    # Changing an explicit ID_KEY requires a settings override for this mapping.
+    SOCIAL_AUTH_OLD_ID_KEYS = {
+        "keycloak": get_env_str("WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY", "email")
+    }
     AUTHENTICATION_BACKENDS += ("social_core.backends.keycloak.KeycloakOAuth2",)
 
 # Fedora OpenIDConnect
@@ -577,6 +598,20 @@ if SOCIAL_AUTH_OIDC_OIDC_ENDPOINT:
     if oidc_username_key is not None:
         SOCIAL_AUTH_OIDC_USERNAME_KEY = oidc_username_key
     del oidc_username_key
+
+# Weblate OpenID Connect
+SOCIAL_AUTH_WEBLATE_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_WEBLATE_KEY")
+if SOCIAL_AUTH_WEBLATE_KEY:
+    SOCIAL_AUTH_WEBLATE_SECRET = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_WEBLATE_SECRET", required=True
+    )
+    weblate_oidc_endpoint = get_env_str("WEBLATE_SOCIAL_AUTH_WEBLATE_OIDC_ENDPOINT")
+    if weblate_oidc_endpoint is not None:
+        SOCIAL_AUTH_WEBLATE_OIDC_ENDPOINT = weblate_oidc_endpoint
+    del weblate_oidc_endpoint
+    SOCIAL_AUTH_WEBLATE_TITLE = get_env_str("WEBLATE_SOCIAL_AUTH_WEBLATE_TITLE")
+    SOCIAL_AUTH_WEBLATE_IMAGE = get_env_str("WEBLATE_SOCIAL_AUTH_WEBLATE_IMAGE")
+    AUTHENTICATION_BACKENDS += ("social_core.backends.weblate.WeblateOpenIdConnect",)
 
 # Gitea
 SOCIAL_AUTH_GITEA_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_GITEA_KEY")
@@ -644,6 +679,7 @@ SOCIAL_AUTH_PIPELINE = [
     "social_core.pipeline.social_auth.social_uid",
     "social_core.pipeline.social_auth.auth_allowed",
     "social_core.pipeline.social_auth.social_user",
+    "weblate.accounts.pipeline.verify_first_factor_sso",
     "weblate.accounts.pipeline.store_params",
     "weblate.accounts.pipeline.verify_open",
     "social_core.pipeline.user.get_username",
@@ -652,16 +688,17 @@ SOCIAL_AUTH_PIPELINE = [
     "weblate.accounts.pipeline.revoke_mail_code",
     "weblate.accounts.pipeline.ensure_valid",
     "weblate.accounts.pipeline.remove_account",
-    "social_core.pipeline.social_auth.associate_by_email",
+    "weblate.accounts.pipeline.associate_by_email",
+    "weblate.accounts.pipeline.verify_recent_second_factor",
     "weblate.accounts.pipeline.reauthenticate",
     "weblate.accounts.pipeline.verify_username",
     "social_core.pipeline.user.create_user",
     "social_core.pipeline.social_auth.associate_user",
-    "weblate.accounts.pipeline.handle_invite",
     "social_core.pipeline.social_auth.load_extra_data",
     "weblate.accounts.pipeline.second_factor",
     "weblate.accounts.pipeline.user_full_name",
     "weblate.accounts.pipeline.store_email",
+    "weblate.accounts.pipeline.handle_invite",
     "weblate.accounts.pipeline.notify_connect",
     "weblate.accounts.pipeline.password_reset",
     "social_core.pipeline.user.sync_groups",
@@ -860,12 +897,33 @@ PUBLIC_ENGAGE = get_env_bool(
 )
 
 # Middleware
+
+# Optional anonymous proof of work; see BOT_PROTECTION_ENABLED documentation.
+BOT_PROTECTION_ENABLED = get_env_bool("WEBLATE_BOT_PROTECTION_ENABLED", False)
+BOT_PROTECTION_DIFFICULTY = get_env_int("WEBLATE_BOT_PROTECTION_DIFFICULTY", 4)
+BOT_PROTECTION_CHALLENGE_AGE = get_env_int("WEBLATE_BOT_PROTECTION_CHALLENGE_AGE", 300)
+BOT_PROTECTION_COOKIE_AGE = get_env_int("WEBLATE_BOT_PROTECTION_COOKIE_AGE", 3600)
+BOT_PROTECTION_CACHE_ALIAS = get_env_str(
+    "WEBLATE_BOT_PROTECTION_CACHE_ALIAS", "default"
+)
+BOT_PROTECTION_EXEMPT_PATHS = get_env_list("WEBLATE_BOT_PROTECTION_EXEMPT_PATHS", [])
+BOT_PROTECTION_EXEMPT_AGENTS = get_env_list("WEBLATE_BOT_PROTECTION_EXEMPT_AGENTS", [])
+BOT_PROTECTION_CRAWLER_RULES = get_env_json("WEBLATE_BOT_PROTECTION_CRAWLER_RULES", {})
+BOT_PROTECTION_UNWANTED_AGENTS = get_env_list(
+    "WEBLATE_BOT_PROTECTION_UNWANTED_AGENTS", []
+)
+BOT_PROTECTION_UNWANTED_ACTION = get_env_str(
+    "WEBLATE_BOT_PROTECTION_UNWANTED_ACTION", "challenge"
+)
+BOT_PROTECTION_CRAWLER_FILE = get_env_str("WEBLATE_BOT_PROTECTION_CRAWLER_FILE", "")
+
 MIDDLEWARE = [
     "weblate.middleware.RedirectMiddleware",
     "weblate.middleware.ProxyMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "weblate.utils.bot_protection.BotProtectionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "weblate.accounts.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -993,7 +1051,7 @@ if LEGAL_INTEGRATION:
         # Social auth pipeline to confirm TOS upon registration/subsequent sign in
         SOCIAL_AUTH_PIPELINE.insert(
             SOCIAL_AUTH_PIPELINE.index(
-                "weblate.accounts.pipeline.second_factor",
+                "weblate.accounts.pipeline.handle_invite",
             )
             + 1,
             "weblate.legal.pipeline.tos_confirm",
@@ -1100,12 +1158,6 @@ LOGGING: dict = {
             "level": DEFAULT_LOGLEVEL,
             "propagate": False,
         },
-        # SAML IdP
-        "djangosaml2idp": {
-            "handlers": [*DEFAULT_LOG],
-            "level": DEFAULT_LOGLEVEL,
-            "propagate": False,
-        },
         # Fedora messaging
         "fedora_messaging": {
             "handlers": [*DEFAULT_LOG],
@@ -1179,6 +1231,10 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
 TRANSLATION_UPLOAD_MAX_SIZE = get_env_int(
     "WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE",
     utils_defaults.DEFAULT_TRANSLATION_UPLOAD_MAX_SIZE,
+)
+TRANSLATION_MAX_SIZE = get_env_int_or_none("WEBLATE_TRANSLATION_MAX_SIZE")
+TRANSLATION_MAX_UNITS = get_env_int(
+    "WEBLATE_TRANSLATION_MAX_UNITS", utils_defaults.DEFAULT_TRANSLATION_MAX_UNITS
 )
 # Maximum allowed uploaded component ZIP file size
 COMPONENT_ZIP_UPLOAD_MAX_SIZE = get_env_int(
@@ -1484,6 +1540,7 @@ CELERY_WORKER_PREFETCH_MULTIPLIER = 1
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 CELERY_TASK_ROUTES = {
     "weblate.trans.tasks.auto_translate*": {"queue": "translate"},
+    "weblate.trans.tasks.bulk_edit_task": {"queue": "translate"},
     "weblate.accounts.tasks.notify_*": {"queue": "notify"},
     "weblate.accounts.tasks.send_mails": {"queue": "notify"},
     "weblate.addons.tasks.addon_change": {"queue": "notify"},
@@ -1571,6 +1628,10 @@ DEFAULT_NOTIFICATIONS = get_env_tuples(
 
 DEFAULT_SHARED_TM = get_env_bool(
     "WEBLATE_DEFAULT_SHARED_TM", trans_defaults.DEFAULT_SHARED_TM
+)
+
+DEFAULT_WORKSPACE_TM = get_env_bool(
+    "WEBLATE_DEFAULT_WORKSPACE_TM", trans_defaults.DEFAULT_WORKSPACE_TM
 )
 
 DEFAULT_AUTOCLEAN_TM = get_env_bool(

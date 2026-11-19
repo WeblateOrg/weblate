@@ -13,7 +13,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import IntegrityError, models, router, transaction
-from django.db.models import F, Q, QuerySet, Value
+from django.db.models import Exists, F, Q, QuerySet, Value
 from django.db.models.functions import Replace
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -42,6 +42,11 @@ from weblate.trans.inherited_settings import (
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, PathMixin
 from weblate.trans.models.audit import log_setting_changes, should_track_field
 from weblate.trans.validators import validate_check_flags, validate_enforced_checks
+from weblate.utils.change_origin import (
+    acting_user_context,
+    capture_change_origin,
+    get_acting_user,
+)
 from weblate.utils.files import remove_tree
 from weblate.utils.licenses import get_license_choices
 from weblate.utils.lock import WeblateLock
@@ -70,9 +75,11 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, Group, User
     from weblate.billing.models import Billing
     from weblate.machinery.types import SettingsDict
-    from weblate.trans.models import Alert, Category
+    from weblate.trans.models import Category
+    from weblate.trans.models.alert import AlertQuerySet
     from weblate.trans.models.component import Component, ComponentQuerySet
     from weblate.trans.models.label import Label
+    from weblate.utils.stats import GhostProjectLanguageStats
     from weblate.workspaces.models import Workspace
 
 
@@ -107,7 +114,8 @@ class ProjectLanguageFactory(UserDict):
         return [self[language] for language in self._project.languages]
 
     def preload_workflow_settings(
-        self, instances: Iterable[ProjectLanguage] | None = None
+        self,
+        instances: Iterable[ProjectLanguage | GhostProjectLanguageStats] | None = None,
     ) -> None:
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models.workflow import WorkflowSetting
@@ -142,6 +150,18 @@ class ProjectLanguageFactory(UserDict):
         # Indicate that there is no setting
         for instance in pending.values():
             instance.__dict__["workflow_settings"] = None
+
+    def ensure_workflow_settings(
+        self, instances: Iterable[ProjectLanguage | GhostProjectLanguageStats]
+    ) -> None:
+        """Load workflows that have not been resolved for these instances."""
+        pending = [
+            instance
+            for instance in instances
+            if "workflow_settings" not in instance.__dict__
+        ]
+        if pending:
+            self.preload_workflow_settings(pending)
 
 
 class ProjectQuerySet(QuerySet["Project", "Project"]):
@@ -205,7 +225,9 @@ class ProjectQuerySet(QuerySet["Project", "Project"]):
         return self
 
 
-def prefetch_project_flags(projects: Iterable[Project]) -> Iterable[Project]:
+def prefetch_project_flags(
+    projects: Iterable[Project], user: User | None = None
+) -> Iterable[Project]:
     id_lookup = {project.id: project for project in projects}
     if id_lookup:
         queryset = Project.objects.filter(id__in=id_lookup)
@@ -213,16 +235,24 @@ def prefetch_project_flags(projects: Iterable[Project]) -> Iterable[Project]:
         for project in projects:
             project.__dict__["locked"] = False
             project.__dict__["has_alerts"] = False
-        # Indicate alerts
+        # Indicate only diagnostics visible to the viewer, before aggregation.
+        from weblate.trans.models.alert import Alert  # ruff: ignore[import-outside-top-level]
+
+        alerts = Alert.objects.filter(
+            dismissed_at__isnull=True, severity__gte=AlertSeverity.ERROR
+        )
+        if user is not None:
+            alerts = alerts.filter_visible_conflicts(user)
+            for project in projects:
+                project.__dict__["visible_has_alerts"] = False
         for project_id in (
-            queryset.filter(
-                component__alert__dismissed_at__isnull=True,
-                component__alert__severity__gte=AlertSeverity.ERROR,
-            )
+            queryset.filter(component__alert__in=alerts)
             .values_list("id", flat=True)
             .distinct()
         ):
             id_lookup[project_id].__dict__["has_alerts"] = True
+            if user is not None:
+                id_lookup[project_id].__dict__["visible_has_alerts"] = True
         # Indicate projects where all components are locked. Projects without
         # components are not locked.
         for project_id in (
@@ -324,14 +354,14 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     )
     use_workspace_tm = models.BooleanField(
         verbose_name=gettext_lazy("Use workspace translation memory"),
-        default=False,
+        default=settings.DEFAULT_WORKSPACE_TM,
         help_text=gettext_lazy(
             "Uses the pool of shared translations between projects in the workspace."
         ),
     )
     contribute_workspace_tm = models.BooleanField(
         verbose_name=gettext_lazy("Contribute to workspace translation memory"),
-        default=False,
+        default=settings.DEFAULT_WORKSPACE_TM,
         help_text=gettext_lazy(
             "Contributes translations to the pool shared between projects in the workspace."
         ),
@@ -642,7 +672,6 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         )
         self.old_source_review = self.__dict__.get("source_review", models.DEFERRED)
         self.stats = ProjectStats(self)
-        self.acting_user: User | None = None
         self.project_languages = ProjectLanguageFactory(self)
         self.label_cleanups: set[int] = set()
         self.languages_cache: dict[str, Language] = {}
@@ -686,10 +715,12 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             with transaction.atomic(using=using):
                 # Register first: a later commit callback failing must not undo
                 # a filesystem move after the database has already committed.
-                transaction.on_commit(mark_committed, using=using)
+                transaction.on_commit(
+                    capture_change_origin(mark_committed), using=using
+                )
                 old = Project.objects.using(using).get(pk=self.pk) if self.pk else None
                 renamed_paths = self._get_rename_paths(old) if old is not None else None
-                self._save_project(old, created_paths, *args, **kwargs)
+                self._save_project_with_checks(old, created_paths, *args, **kwargs)
         except Exception:
             if committed:
                 raise
@@ -738,6 +769,49 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                     )
                 )
         validate_internal_installations_for_project(self)
+
+    def _save_project_with_checks(
+        self, old: Project | None, created_paths: list[str], *args, **kwargs
+    ) -> None:
+        update_fields = kwargs.get("update_fields")
+        boundary_changed = old is not None and any(
+            (
+                update_fields is None
+                or field.removesuffix("_id") in update_fields
+                or field in update_fields
+            )
+            and getattr(old, field) != getattr(self, field)
+            for field in ("workspace_id", "access_control")
+        )
+        if not boundary_changed or old is None:
+            self._save_project(old, created_paths, *args, **kwargs)
+            return
+
+        from weblate.checks.locks import lock_check_projects  # ruff: ignore[import-outside-top-level]
+        from weblate.trans.propagation import refresh_propagation_checks  # ruff: ignore[import-outside-top-level]
+
+        lock_check_projects(
+            {self.pk},
+            workspace_ids={
+                workspace_id
+                for workspace_id in (old.workspace_id, self.workspace_id)
+                if workspace_id is not None
+            },
+            exclusive=True,
+        )
+        old = Project.objects.get(pk=self.pk)
+        affected = {self.pk}
+        affected.update(
+            Project.objects.filter(
+                workspace_id__in={
+                    workspace_id
+                    for workspace_id in (old.workspace_id, self.workspace_id)
+                    if workspace_id is not None
+                }
+            ).values_list("pk", flat=True)
+        )
+        self._save_project(old, created_paths, *args, **kwargs)
+        refresh_propagation_checks(affected)
 
     def _save_project(
         self, old: Project | None, created_paths: list[str], *args, **kwargs
@@ -817,10 +891,16 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 ).update(name=Replace("name", Value(old.name), Value(self.name)))
             if old_effective_check_flags != self.effective_check_flags.format():
                 transaction.on_commit(
-                    lambda: self.schedule_component_check_updates(update_state=True)
+                    capture_change_origin(
+                        lambda: self.schedule_component_check_updates(update_state=True)
+                    )
                 )
             if old.effective_enforced_checks != self.effective_enforced_checks:
-                transaction.on_commit(self.schedule_component_enforced_checks_updates)
+                transaction.on_commit(
+                    capture_change_origin(
+                        self.schedule_component_enforced_checks_updates
+                    )
+                )
             update_tm = self.update_memory_scope_changes(
                 old,
                 old_effective_contribute_workspace_tm,
@@ -945,10 +1025,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         from weblate.trans.tasks import update_enforced_checks
 
         for component in self.component_set.iterator():
-            update_enforced_checks.delay_on_commit(
-                component.pk,
-                user_id=self.acting_user.pk if self.acting_user is not None else None,
-            )
+            update_enforced_checks.delay_on_commit(component.pk)
 
     def clean(self) -> None:
         super().clean()
@@ -1016,6 +1093,20 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             return Flags(workspace.check_flags, self.check_flags)
         return Flags(self.check_flags)
 
+    @property
+    def propagation_checks_lock(self) -> WeblateLock:
+        from weblate.trans.propagation import workspace_propagation  # ruff: ignore[import-outside-top-level]
+
+        if workspace_propagation(self):
+            return WeblateLock(
+                scope="workspace:checks",
+                key=str(self.workspace_id),
+                slug=str(self.workspace_id),
+                timeout=PROJECT_CHECKS_LOCK_TIMEOUT,
+                origin=self.full_slug,
+            )
+        return self.checks_lock
+
     @cached_property
     def checks_lock(self):
         return WeblateLock(
@@ -1040,7 +1131,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                     action=action,
                     old=old_value,
                     target=current_value,
-                    user=self.acting_user,
+                    user=get_acting_user(),
                 )
         if (
             should_track_field(self, "access_control", update_fields)
@@ -1048,7 +1139,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         ):
             self.change_set.create(
                 action=ActionEvents.ACCESS_EDIT,
-                user=self.acting_user,
+                user=get_acting_user(),
                 details={
                     "access_control": self.access_control,
                     "old_access_control": old.access_control,
@@ -1069,7 +1160,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 old=str(old.workspace_id or ""),
                 target=str(self.workspace_id or ""),
                 workspace=self.workspace,
-                user=self.acting_user,
+                user=get_acting_user(),
                 details={
                     "old_workspace": (
                         str(old.workspace_id) if old.workspace_id else None
@@ -1084,7 +1175,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             old,
             self.AUDIT_SETTINGS,
             ActionEvents.PROJECT_SETTING_CHANGE,
-            self.acting_user,
+            get_acting_user(),
             update_fields,
         )
 
@@ -1409,22 +1500,22 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return any(billing.is_libre_trial for billing in self.billings)
 
     def post_create(self, user: User, billing: Billing | None = None) -> None:
-        self.acting_user = user
-        if billing:
-            billing.add_project(self)
-            if billing.plan.change_access_control:
-                self.access_control = Project.ACCESS_PRIVATE
-            else:
-                self.access_control = Project.ACCESS_PUBLIC
-            self.save()
-        if not user.is_superuser:
-            self.add_user(user, "Administration")
-        self.change_set.create(
-            action=ActionEvents.CREATE_PROJECT, user=user, author=user
-        )
+        with acting_user_context(user):
+            if billing:
+                billing.add_project(self)
+                if billing.plan.change_access_control:
+                    self.access_control = Project.ACCESS_PRIVATE
+                else:
+                    self.access_control = Project.ACCESS_PUBLIC
+                self.save()
+            if not user.is_superuser:
+                self.add_user(user, "Administration")
+            self.change_set.create(
+                action=ActionEvents.CREATE_PROJECT, user=user, author=user
+            )
 
     @cached_property
-    def all_active_alerts(self) -> QuerySet[Alert]:
+    def all_active_alerts(self) -> AlertQuerySet:
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models import Alert
 
@@ -1435,7 +1526,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return result
 
     @cached_property
-    def all_problem_alerts(self) -> QuerySet[Alert]:
+    def all_problem_alerts(self) -> AlertQuerySet:
         return self.all_active_alerts.filter(severity__gte=AlertSeverity.ERROR)
 
     @cached_property
@@ -1577,49 +1668,51 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         acting_user: User | None = None,
         **kwargs,
     ) -> Component:
-        format_cls = FILE_FORMATS[file_format]
-        if has_template is None:
-            has_template = format_cls.monolingual is None or format_cls.monolingual
-        if has_template:
-            template = f"{source_language.code}.{format_cls.extension()}"
-        else:
-            template = ""
-        kwargs.setdefault("restricted", settings.DEFAULT_RESTRICTED_COMPONENT)
-        kwargs.update(
-            {
-                "project": self,
-                "file_format": file_format,
-                "filemask": f"*.{format_cls.extension()}",
-                "template": template,
-                "vcs": "local",
-                "repo": "local:",
-                "source_language": source_language,
-                "manage_units": True,
-                "is_glossary": is_glossary,
-            }
-        )
-        for field in INHERITABLE_COMPONENT_SETTINGS:
-            inherit = get_inherit_field_name(field)
-            kwargs.setdefault(inherit, field not in kwargs)
-        # Create component
-        if is_glossary:
-            try:
-                return self.component_set.get(name=name, slug=slug)
-            except self.component_set.model.DoesNotExist:
-                pass
-        component = self.component_set.model(name=name, slug=slug, **kwargs)
-        component.acting_user = acting_user
-        try:
-            with transaction.atomic():
-                component.save(force_insert=True)
-        except IntegrityError:
+        with acting_user_context(
+            acting_user if acting_user is not None else get_acting_user()
+        ):
+            format_cls = FILE_FORMATS[file_format]
+            if has_template is None:
+                has_template = format_cls.monolingual is None or format_cls.monolingual
+            if has_template:
+                template = f"{source_language.code}.{format_cls.extension()}"
+            else:
+                template = ""
+            kwargs.setdefault("restricted", settings.DEFAULT_RESTRICTED_COMPONENT)
+            kwargs.update(
+                {
+                    "project": self,
+                    "file_format": file_format,
+                    "filemask": f"*.{format_cls.extension()}",
+                    "template": template,
+                    "vcs": "local",
+                    "repo": "local:",
+                    "source_language": source_language,
+                    "manage_units": True,
+                    "is_glossary": is_glossary,
+                }
+            )
+            for field in INHERITABLE_COMPONENT_SETTINGS:
+                inherit = get_inherit_field_name(field)
+                kwargs.setdefault(inherit, field not in kwargs)
+            # Create component
             if is_glossary:
                 try:
                     return self.component_set.get(name=name, slug=slug)
                 except self.component_set.model.DoesNotExist:
                     pass
-            raise
-        return component
+            component = self.component_set.model(name=name, slug=slug, **kwargs)
+            try:
+                with transaction.atomic():
+                    component.save(force_insert=True)
+            except IntegrityError:
+                if is_glossary:
+                    try:
+                        return self.component_set.get(name=name, slug=slug)
+                    except self.component_set.model.DoesNotExist:
+                        pass
+                raise
+            return component
 
     @property
     def all_glossaries(self) -> list[Component]:
@@ -1711,11 +1804,20 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return self.translation_review or self.source_review
 
     @transaction.atomic
-    def do_lock(self, user: User, lock: bool = True, auto: bool = False) -> None:
+    def do_lock(
+        self,
+        user: User,
+        lock: bool = True,
+        auto: bool = False,
+        *,
+        components: ComponentQuerySet | None = None,
+    ) -> None:
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models.change import Change
 
-        actionable = self.component_set.exclude(locked=lock)
+        actionable = (
+            components if components is not None else self.component_set
+        ).exclude(locked=lock)
         changes = [
             component.get_lock_change(user=user, lock=lock, auto=auto)
             for component in actionable
@@ -1763,7 +1865,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     def components_user_can_add_new_language(self, user: User) -> ComponentQuerySet:
         """Return owned components available for language creation or requests."""
-        filter_ = Q(is_glossary=True)
+        # In mixed projects, regular components drive glossary language sync.
+        regular_components = self.component_set.filter(is_glossary=False)
+        filter_ = Q(is_glossary=True) & Q(Exists(regular_components))
         check_effective_new_lang = not user.has_perm("project.edit", self)
         if check_effective_new_lang:
             filter_ |= get_disabled_component_new_language_filter()
@@ -1810,7 +1914,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         )
         data["contribute_workspace_tm"] = data.get(
             "use_workspace_tm",
-            defaults.use_workspace_tm if defaults is not None else False,
+            defaults.use_workspace_tm
+            if defaults is not None
+            else settings.DEFAULT_WORKSPACE_TM,
         )
 
     def get_access_control_license(

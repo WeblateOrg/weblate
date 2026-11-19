@@ -20,11 +20,13 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count, Q
 from django.db.models.functions import Coalesce
+from django.template import Context, Engine
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import (
     get_language,
     get_language_bidi,
+    gettext,
     gettext_lazy,
     override,
     pgettext_lazy,
@@ -32,6 +34,7 @@ from django.utils.translation import (
 
 from weblate.accounts.data import NotificationFrequency, NotificationScope
 from weblate.accounts.tasks import EMAIL_BATCH_SIZE, queue_mails
+from weblate.accounts.visibility import public_profile_render
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
@@ -77,6 +80,13 @@ DIGEST_USER_BATCH_SIZE = 50
 NOTIFICATION_QUERY_CHUNK_SIZE = 200
 SUBSCRIPTION_CACHE_SIZE = 16
 _UNSCOPED = object()
+
+
+def render_email_subject(template_name: str, context: dict[str, Any]) -> str:
+    """Render a plain-text, single-line subject."""
+    template = Engine.get_default().get_template(template_name)
+    rendered = template.render(Context(context, autoescape=False))
+    return " ".join(rendered.strip().splitlines())
 
 
 def get_email_headers(notification: str) -> dict[str, str]:
@@ -355,10 +365,13 @@ class Notification:
                 queue_mails(self.outgoing)
                 self.outgoing.clear()
 
+    @public_profile_render()
     def render_template(self, suffix: str, context: dict, digest: bool = False) -> str:
         """Render single mail template with given context."""
         base_name = self.digest_template if digest else self.template_name
         template_name = f"mail/{base_name}{suffix}"
+        if suffix == "_subject.txt":
+            return render_email_subject(template_name, context)
         return render_to_string(template_name, context).strip()
 
     def get_notification_name(self, num_changes: int) -> StrOrPromise:
@@ -379,7 +392,7 @@ class Notification:
         summaries: list[dict[str, Any]] | None = None,
     ) -> dict[str, Any]:
         """Return context for rendering mail."""
-        result = {
+        result: dict[str, Any] = {
             "LANGUAGE_CODE": get_language(),
             "LANGUAGE_BIDI": get_language_bidi(),
             "current_site_url": get_site_url(),
@@ -422,6 +435,23 @@ class Notification:
                 result["translation_url"] = get_site_url(
                     change.translation.get_absolute_url()
                 )
+        if change:
+            from weblate.accounts.visibility import (  # ruff: ignore[import-outside-top-level]
+                can_view_contributor,
+                public_change_details,
+            )
+
+            viewer = result.get("subscription_user")
+            if change.action == ActionEvents.LICENSE_CHANGE:
+                result["change_details"] = change.get_details_display(viewer=viewer)
+            result["details"] = public_change_details(change, viewer)
+            if not can_view_contributor(viewer, change):
+                result["user"] = None
+            result["contributor_name"] = (
+                result["user"].get_visible_name()
+                if result["user"]
+                else gettext("Contributor")
+            )
         return result
 
     def get_headers(self, context: dict[str, Any]) -> dict[str, str]:
@@ -1677,6 +1707,7 @@ class ToDoStringsNotification(SummaryNotification):
         return translation.stats.todo
 
 
+@public_profile_render()
 def get_notification_emails(
     language: str | None,
     recipients: list[str],
@@ -1708,7 +1739,7 @@ def get_notification_emails(
         context["site_title"] = settings.SITE_TITLE
 
         # Render subject
-        subject = render_to_string(context["subject_template"], context).strip()
+        subject = render_email_subject(context["subject_template"], context)
         context["subject"] = subject
 
         # Render body

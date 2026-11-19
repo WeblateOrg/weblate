@@ -4,11 +4,14 @@
 
 from __future__ import annotations
 
+import gc
+import json
 import re
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime
 from io import StringIO
+from pathlib import Path
 from threading import Barrier
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
@@ -18,21 +21,32 @@ from asgiref.sync import async_to_sync
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
-from django.db import close_old_connections, connection, transaction
+from django.db import DatabaseError, close_old_connections, connection, transaction
 from django.db.models.deletion import ProtectedError
+from django.db.models.signals import post_save, pre_save
 from django.template.loader import render_to_string
 from django.test import RequestFactory, TransactionTestCase, override_settings
 from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
+from django.utils import timezone
 
+from weblate.addons.cleanup import RemoveBlankAddon
+from weblate.addons.events import AddonEvent
+from weblate.addons.models import Addon, AddonCache
 from weblate.api.serializers import UnitSerializer
+from weblate.auth.bots import InternalBot
+from weblate.auth.models import User, get_anonymous
 from weblate.checks.ai import evaluation_fingerprint
 from weblate.checks.base import TargetCheck
 from weblate.checks.chars import BeginSpaceCheck, EndSpaceCheck
 from weblate.checks.consistency import ConsistencyCheck, ReusedCheck
 from weblate.checks.format import JavaMessageFormatCheck
 from weblate.checks.models import CHECKS, Check
-from weblate.checks.tasks import schedule_propagated_checks
+from weblate.checks.tasks import (
+    finalize_component_checks,
+    schedule_component_check_batch,
+    schedule_propagated_checks,
+)
 from weblate.formats.base import UnitNotFoundError
 from weblate.glossary.forms import TermForm
 from weblate.glossary.models import iter_glossary_alternatives
@@ -59,6 +73,7 @@ from weblate.trans.formatting import format_unit_source, get_source_changes
 from weblate.trans.forms import MergeForm, TranslationForm, WorkflowSettingForm
 from weblate.trans.models import (
     Category,
+    Change,
     Comment,
     Component,
     PendingUnitChange,
@@ -68,14 +83,18 @@ from weblate.trans.models import (
     Unit,
     WorkflowSetting,
 )
+from weblate.trans.models.pending import PendingChangeQuerySet
 from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.models.source import (
     DependencyWork,
+    ReconciliationEffects,
     reconcile_component_parents,
     reconcile_project_parents,
     request_reconciliation,
     source_operation,
+    source_project_gate,
 )
+from weblate.trans.models.unit import UnitQuerySet
 from weblate.trans.tests.test_views import (
     FixtureComponentTestCase,
     ReusableViewTestCase,
@@ -88,7 +107,9 @@ from weblate.trans.views.edit import (
     get_other_units,
     perform_translation,
 )
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.state import (
+    FUZZY_STATES,
     STATE_APPROVED,
     STATE_EMPTY,
     STATE_FUZZY,
@@ -96,11 +117,13 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from django import forms
+    from django.db.backends.utils import CursorWrapper
 
-    from weblate.auth.models import AuthenticatedHttpRequest, User
+    from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.machinery.base import SettingsDict, UnitMemoryResultDict
     from weblate.memory.tasks import MemoryUpdatePayload
 
@@ -128,6 +151,472 @@ class SourceLanguageTest(FixtureComponentTestCase):
         unit.target = target
         unit.state = unit.original_state = state
         unit.save()
+
+    def test_last_content_author_selection(self) -> None:
+        author = User.objects.create(username="content-author")
+        timestamp = timezone.now()
+        Change.objects.create(
+            unit=self.child,
+            user=self.user,
+            author=self.user,
+            action=ActionEvents.CHANGE,
+            timestamp=timestamp,
+        )
+        latest = Change.objects.create(
+            unit=self.child,
+            user=self.user,
+            author=author,
+            action=ActionEvents.CHANGE,
+            timestamp=timestamp,
+        )
+        Change.objects.create(
+            unit=self.child,
+            user=self.user,
+            author=self.user,
+            action=ActionEvents.COMMENT,
+        )
+        selected = Unit.objects.with_last_content_author().get(pk=self.child.pk)
+        self.assertEqual(selected.last_content_author_id, author.pk)
+        self.assertEqual(selected.get_last_content_change(), (author, latest.timestamp))
+        # A missing latest author is anonymous, rather than an older known author.
+        Change.objects.filter(pk=latest.pk).update(author=None)
+        selected = Unit.objects.with_last_content_author().get(pk=self.child.pk)
+        self.assertIsNone(selected.last_content_author_id)
+        self.assertEqual(selected.get_last_content_change()[0], get_anonymous())
+
+    def test_last_content_author_selection_without_history(self) -> None:
+        self.child.change_set.all().delete()
+        selected = Unit.objects.with_last_content_author().get(pk=self.child.pk)
+        self.assertIsNone(selected.last_content_author_id)
+        self.assertEqual(selected.get_last_content_change()[0], get_anonymous())
+
+    def test_pending_change_accepts_author_id_without_lookup(self) -> None:
+        author = User.objects.create(username="content-author")
+        unit = Unit.objects.prefetch().prefetch_source().get(pk=self.child.pk)
+        with self.assertNumQueries(0):
+            pending = PendingUnitChange.store_unit_change(
+                unit,
+                author_id=author.pk,
+                user=self.user,
+                store_disk_state=False,
+                save=False,
+            )
+        self.assertEqual(pending.author_id, author.pk)
+        self.assertEqual(pending.metadata["actor_id"], self.user.pk)
+        pending = PendingUnitChange.store_unit_change(
+            unit,
+            author=self.user,
+            author_id=author.pk,
+            store_disk_state=False,
+            save=False,
+        )
+        self.assertEqual(pending.author_id, self.user.pk)
+
+    def test_workflow_credits_initiator_instead_of_content_authors(self) -> None:
+        author = User.objects.create(username="content-author")
+        self.set_target(self.parent, "German source")
+        self.set_target(self.child, "Existing translation")
+        self.set_target(self.grandchild, "Translation without history")
+        Change.objects.create(
+            unit=self.child, user=self.user, author=author, action=ActionEvents.CHANGE
+        )
+        self.grandchild.change_set.all().delete()
+        with patch.object(
+            Unit,
+            "get_last_content_change",
+            side_effect=AssertionError("Per-unit author lookup"),
+        ):
+            self.configure()
+            self.configure(self.grandchild, self.parent)
+        for unit in (self.child, self.grandchild):
+            pending = unit.pending_changes.order_by("-timestamp", "-pk").first()
+            assert pending is not None
+            self.assertEqual(pending.author_id, self.user.pk)
+            self.assertEqual(pending.get_actor(), self.user)
+
+    def test_reconciliation_with_explicit_author_does_not_select_authors(self) -> None:
+        self.set_target(self.parent, "German source")
+        self.configure()
+        with patch(
+            "weblate.trans.models.unit.UnitQuerySet.with_last_content_author",
+            side_effect=AssertionError("Unneeded author query"),
+        ):
+            self.parent.translate(
+                self.user, "Changed German source", STATE_TRANSLATED, propagate=False
+            )
+
+    def test_workflow_author_selection_is_bounded(self) -> None:
+        # Isolate author selection from the historical-content quality check.
+        with (
+            patch.object(CHECKS["translated"], "check_component", return_value=[]),
+            CaptureQueriesContext(connection) as queries,
+        ):
+            self.configure()
+        author_queries = [
+            query["sql"]
+            for query in queries
+            if query["sql"].startswith("SELECT")
+            and 'FROM "trans_change"' in query["sql"]
+        ]
+        self.assertEqual(len(author_queries), 0, author_queries)
+        self.assertGreater(self.child.translation.unit_set.count(), 1)
+
+    def test_workflow_pending_changes_are_batched(self) -> None:
+        count = 501 - self.child.translation.unit_set.count()
+        sources = Unit.objects.bulk_create(
+            [
+                Unit(
+                    translation=self.component.source_translation,
+                    id_hash=1000000 + index,
+                    position=100 + index,
+                    source=f"Batch source {index}",
+                    target=f"Batch source {index}",
+                    state=STATE_READONLY,
+                    original_state=STATE_TRANSLATED,
+                )
+                for index in range(count)
+            ]
+        )
+        for unit in sources:
+            unit.source_unit = unit
+        Unit.objects.bulk_update(sources, ["source_unit"])
+        Unit.objects.bulk_create(
+            [
+                Unit(
+                    translation=translation,
+                    source_unit=unit,
+                    id_hash=unit.id_hash,
+                    position=unit.position,
+                    source=unit.source,
+                    target="Parent"
+                    if translation == self.parent.translation
+                    else "Child",
+                    state=STATE_TRANSLATED,
+                    original_state=STATE_TRANSLATED,
+                )
+                for unit in sources
+                for translation in (self.parent.translation, self.child.translation)
+            ]
+        )
+        self.child.translation.unit_set.update(
+            target="Child", state=STATE_TRANSLATED, original_state=STATE_TRANSLATED
+        )
+        expected = self.child.translation.unit_set.count()
+        before = dict(self.child.translation.unit_set.values_list("pk", "details"))
+        bulk_create = PendingChangeQuerySet.bulk_create
+        batches: list[int] = []
+
+        def insert_or_fail(
+            queryset: PendingChangeQuerySet,
+            objs: list[PendingUnitChange],
+            *,
+            batch_size: int | None = None,
+        ) -> list[PendingUnitChange]:
+            batches.append(len(objs))
+            if len(batches) == 2:
+                self.assertEqual(PendingUnitChange.objects.count(), 500)
+                msg = "Pending insert failed"
+                raise ValueError(msg)
+            return bulk_create(queryset, objs, batch_size=batch_size)
+
+        with (
+            patch.object(
+                PendingChangeQuerySet,
+                "bulk_create",
+                autospec=True,
+                side_effect=insert_or_fail,
+            ),
+            patch.object(ReconciliationEffects, "flush") as flush,
+            self.assertRaisesMessage(ValueError, "Pending insert failed"),
+        ):
+            self.configure()
+        self.assertEqual(batches, [500, 1])
+        flush.assert_not_called()
+        self.assertFalse(self.project.workflowsetting_set.exists())
+        self.assertEqual(PendingUnitChange.objects.count(), 0)
+        self.assertEqual(
+            dict(self.child.translation.unit_set.values_list("pk", "details")),
+            before,
+        )
+        self.assertFalse(
+            self.child.translation.unit_set.filter(
+                translation_parent__isnull=False
+            ).exists()
+        )
+
+        update_units = UnitQuerySet.bulk_update_source_units
+
+        def fail_partial_batch(queryset: UnitQuerySet, units: list[Unit]) -> None:
+            if len(units) < 500:
+                self.assertEqual(
+                    self.child.translation.unit_set.filter(
+                        translation_parent__isnull=False
+                    ).count(),
+                    500,
+                )
+                msg = "Unit update failed"
+                raise DatabaseError(msg)
+            update_units(queryset, units)
+
+        with (
+            patch.object(
+                UnitQuerySet,
+                "bulk_update_source_units",
+                autospec=True,
+                side_effect=fail_partial_batch,
+            ),
+            self.assertRaisesMessage(DatabaseError, "Unit update failed"),
+        ):
+            self.configure()
+        self.assertFalse(self.project.workflowsetting_set.exists())
+        self.assertEqual(PendingUnitChange.objects.count(), 0)
+        self.assertEqual(
+            dict(self.child.translation.unit_set.values_list("pk", "details")), before
+        )
+
+        def check_pending_before_effects(
+            effects: ReconciliationEffects, *, using: str
+        ) -> None:
+            self.assertEqual(
+                PendingUnitChange.objects.using(using)
+                .filter(unit__translation=self.child.translation)
+                .count(),
+                expected,
+            )
+
+        with (
+            patch.object(ReconciliationEffects, "flush", check_pending_before_effects),
+            CaptureQueriesContext(connection) as queries,
+        ):
+            self.configure()
+        inserts = [
+            query["sql"]
+            for query in queries
+            if query["sql"].startswith('INSERT INTO "trans_pendingunitchange"')
+        ]
+        self.assertEqual(len(inserts), 2)
+        updates = [
+            query["sql"]
+            for query in queries
+            if query["sql"].startswith('UPDATE "trans_unit"')
+        ]
+        self.assertEqual(len(updates), 2)
+        self.assertEqual(
+            self.child.translation.unit_set.filter(
+                details__has_key="disk_state"
+            ).count(),
+            expected,
+        )
+
+    def test_disk_state_can_be_prepared_without_saving(self) -> None:
+        unit = self.child
+        unit.details["tbx_terms"] = {"old": "term"}
+        unit.store_old_unit(unit)
+        saved_parent_values = unit._saved_parent_values  # ruff: ignore[private-member-access]
+        expected = unit.get_disk_state(
+            target=unit.target,
+            state=unit.state,
+            explanation=unit.explanation,
+            automatically_translated=unit.automatically_translated,
+            tbx_terms=unit.details["tbx_terms"],
+        )
+        unit.target = "Unsaved target"
+        unit.state = STATE_NEEDS_REWRITING
+        unit.explanation = "Unsaved explanation"
+        with self.assertNumQueries(0):
+            unit.store_disk_state(save=False)
+        self.assertEqual(unit.details["disk_state"], expected)
+        self.assertEqual(unit._saved_parent_values, saved_parent_values)  # ruff: ignore[private-member-access]
+        unit.store_old_unit(unit)
+        with self.assertNumQueries(0):
+            unit.store_disk_state(save=False)
+        self.assertEqual(unit.details["disk_state"], expected)
+        unit.refresh_from_db()
+        self.assertNotIn("disk_state", unit.details)
+
+    def test_disk_state_saves_by_default_without_accepting_pending_content(
+        self,
+    ) -> None:
+        unit = self.child
+        old_target = unit.target
+        old_state = unit.state
+        saved_parent_values = unit._saved_parent_values  # ruff: ignore[private-member-access]
+        unit.target = "Unsaved target"
+        unit.state = STATE_NEEDS_REWRITING
+        with CaptureQueriesContext(connection) as queries:
+            unit.store_disk_state()
+        updates = [
+            query["sql"]
+            for query in queries
+            if query["sql"].startswith('UPDATE "trans_unit"')
+        ]
+        self.assertEqual(len(updates), 1)
+        self.assertEqual(unit._saved_parent_values, saved_parent_values)  # ruff: ignore[private-member-access]
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, old_target)
+        self.assertEqual(unit.state, old_state)
+        self.assertEqual(unit.details["disk_state"]["target"], old_target)
+        self.assertEqual(unit.details["disk_state"]["state"], old_state)
+
+    def test_workflow_saves_disk_state_with_the_unit(self) -> None:
+        self.set_target(self.parent, "German source")
+        self.child.translation.unit_set.update(
+            target="Child", state=STATE_TRANSLATED, original_state=STATE_TRANSLATED
+        )
+        before = {
+            unit.pk: (unit.target, unit.state)
+            for unit in self.child.translation.unit_set.all()
+        }
+        saved: list[int] = []
+
+        def observe_save(
+            sender: type[Unit], instance: Unit, created: bool, **kwargs: object
+        ) -> None:
+            if instance.translation_id != self.child.translation_id:
+                return
+            self.assertFalse(created)
+            snapshot = instance.details["disk_state"]
+            self.assertEqual(
+                (snapshot["target"], snapshot["state"]), before[instance.pk]
+            )
+            self.assertEqual(
+                Unit.objects.get(pk=instance.pk).details["disk_state"], snapshot
+            )
+            self.assertEqual(instance._saved_parent_values[:2], before[instance.pk])  # ruff: ignore[private-member-access]
+            self.assertEqual(
+                self.child.translation.unit_set.filter(
+                    translation_parent__isnull=False
+                ).count(),
+                len(before),
+            )
+            saved.append(instance.pk)
+
+        post_save.connect(observe_save, sender=Unit)
+        self.addCleanup(post_save.disconnect, observe_save, sender=Unit)
+        with (
+            patch.object(Unit, "_run_checks_unlocked"),
+            CaptureQueriesContext(connection) as queries,
+        ):
+            self.configure()
+        updates = [
+            query["sql"]
+            for query in queries
+            if query["sql"].startswith('UPDATE "trans_unit"')
+        ]
+        self.assertEqual(len(updates), 1)
+        self.assertCountEqual(saved, before)
+
+    def test_workflow_pre_save_listener_retains_individual_saves(self) -> None:
+        seen: list[int] = []
+
+        def before_save(sender: type[Unit], instance: Unit, **kwargs: object) -> None:
+            self.assertEqual(
+                self.child.translation.unit_set.filter(
+                    translation_parent__isnull=False
+                ).count(),
+                len(seen),
+            )
+            seen.append(instance.pk)
+
+        pre_save.connect(before_save, sender=Unit)
+        self.addCleanup(pre_save.disconnect, before_save, sender=Unit)
+        with patch.object(
+            UnitQuerySet,
+            "bulk_update_source_units",
+            side_effect=AssertionError("Unexpected bulk save"),
+        ):
+            self.configure()
+        self.assertEqual(len(seen), self.child.translation.unit_set.count())
+
+    def test_workflow_unit_save_addon_retains_individual_saves(self) -> None:
+        addon = Addon(component=self.component, name="test.unit-save")
+        get_event = AddonCache.get_event
+        seen: list[int] = []
+
+        def events(addon_cache: AddonCache, event: int) -> list[Addon]:
+            if event == AddonEvent.EVENT_UNIT_POST_SAVE:
+                return [addon]
+            return get_event(addon_cache, event)
+
+        def observe_addon(event: int, method: str, args: tuple, unit: Unit) -> None:
+            self.assertEqual(event, AddonEvent.EVENT_UNIT_POST_SAVE)
+            self.assertEqual(
+                self.child.translation.unit_set.filter(
+                    translation_parent__isnull=False
+                ).count(),
+                len(seen) + 1,
+            )
+            seen.append(unit.pk)
+
+        with (
+            patch.object(AddonCache, "get_event", autospec=True, side_effect=events),
+            patch(
+                "weblate.addons.models.handle_unit_addon_event",
+                side_effect=observe_addon,
+            ),
+            patch.object(
+                UnitQuerySet,
+                "bulk_update_source_units",
+                side_effect=AssertionError("Unexpected bulk save"),
+            ),
+        ):
+            self.configure()
+        self.assertEqual(len(seen), self.child.translation.unit_set.count())
+
+    def test_workflow_flushes_parent_depth_before_preparing_children(self) -> None:
+        self.set_target(self.parent, "Parent")
+        self.set_target(self.child, "Child")
+        save_unit = ReconciliationEffects.save_unit
+        seen: list[int] = []
+
+        def observe_child(effects: ReconciliationEffects, unit: Unit) -> None:
+            if unit.translation_id == self.grandchild.translation_id:
+                parent = unit.translation_parent
+                assert parent is not None
+                self.assertEqual(Unit.objects.get(pk=parent.pk).state, parent.state)
+                self.assertTrue(unit.translation_parent_blocked)
+                seen.append(unit.pk)
+            save_unit(effects, unit)
+
+        with (
+            patch.object(ReconciliationEffects, "save_unit", observe_child),
+            source_project_gate([self.project.pk], exclusive=True),
+            source_operation(self.component),
+        ):
+            self.configure()
+            self.configure(self.grandchild, self.child)
+        self.assertEqual(len(seen), self.grandchild.translation.unit_set.count())
+
+    def test_workflow_pending_batch_preserves_existing_disk_state_and_identity(
+        self,
+    ) -> None:
+        self.set_target(self.parent, "German source")
+        self.set_target(self.child, "Pending translation")
+        self.child.details["disk_state"] = {
+            "target": "Original disk target",
+            "state": STATE_TRANSLATED,
+            "explanation": "Original explanation",
+            "automatically_translated": False,
+        }
+        self.child.details["disk_identity"] = True
+        self.child.explanation = "Pending explanation"
+        self.child.automatically_translated = True
+        self.child.save(only_save=True)
+        expected = self.child.details["disk_state"].copy()
+        self.configure()
+        self.child.refresh_from_db()
+        pending = self.child.pending_changes.latest("pk")
+        self.assertEqual(self.child.details["disk_state"], expected)
+        self.assertEqual(pending.target, self.child.target)
+        self.assertEqual(self.child.state, STATE_NEEDS_REWRITING)
+        self.assertEqual(pending.state, STATE_NEEDS_REWRITING)
+        self.assertEqual(pending.explanation, self.child.explanation)
+        self.assertTrue(pending.automatically_translated)
+        self.assertEqual(pending.get_actor(), self.user)
+        self.assertEqual(
+            pending.metadata["identity"],
+            {"source": self.child.source, "context": self.child.context},
+        )
 
     def test_regular_operations_use_one_gate_with_cold_instances(self) -> None:
         unit = Unit.objects.prefetch().get(pk=self.child.pk)
@@ -180,6 +669,543 @@ class SourceLanguageTest(FixtureComponentTestCase):
         self.assertGreater(len(batches[0]), 1)
         self.assertTrue(all(change.pk is not None for change in batches[0]))
 
+    def test_workflow_reconciles_only_affected_languages(self) -> None:
+        from weblate.trans.models.source import update_parent  # ruff: ignore[import-outside-top-level]
+
+        with patch(
+            "weblate.trans.models.source.update_parent", wraps=update_parent
+        ) as update:
+            workflow = self.configure()
+        self.assertEqual(
+            {call.args[0].translation_id for call in update.call_args_list},
+            {self.child.translation_id},
+        )
+        self.child.refresh_from_db()
+        self.assertEqual(self.child.translation_parent_id, self.parent.pk)
+        update.reset_mock()
+        with patch("weblate.trans.models.source.update_parent", update):
+            workflow.restrict_direct_editing = True
+            workflow.save()
+        update.assert_not_called()
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_workflow_batches_peer_checks_after_commit(self) -> None:
+        self.set_target(self.parent, "Parent")
+        self.set_target(self.child, "Child ")
+        with (
+            patch(
+                "celery.app.task.Task.apply_async",
+                return_value=SimpleNamespace(id="batch-test"),
+            ),
+            patch("weblate.checks.tasks.finalize_component_checks.delay") as publish,
+            patch(
+                "weblate.trans.models.source.previous_source_peers",
+                side_effect=AssertionError("Per-unit peer search"),
+            ),
+            patch(
+                "weblate.trans.models.unit.UnitQuerySet.same",
+                side_effect=AssertionError("Per-unit consistency search"),
+            ),
+            patch(
+                "weblate.checks.tasks.schedule_propagated_checks",
+                side_effect=AssertionError("Duplicate propagated check job"),
+            ),
+        ):
+            with self.captureOnCommitCallbacks(execute=True):
+                self.configure()
+                publish.assert_not_called()
+                self.child.refresh_from_db()
+                self.assertEqual(self.child.translation_parent_id, self.parent.pk)
+                self.assertEqual(self.child.state, STATE_NEEDS_REWRITING)
+                self.assertTrue(
+                    Check.objects.filter(unit=self.child, name="end_space").exists()
+                )
+            publish.assert_called_once()
+            component, _sources, checks = publish.call_args.args
+            self.assertEqual(component, self.component.pk)
+            self.assertIn("inconsistent", checks)
+            self.assertIn("reused", checks)
+            self.assertTrue(publish.call_args.kwargs["batch_mode"])
+
+    def test_workflow_batches_do_not_change_ordinary_parent_edits(self) -> None:
+        self.set_target(self.parent, "Parent")
+        self.configure()
+        with patch("weblate.checks.tasks.schedule_component_check_batch") as batch:
+            self.set_target(self.parent, "Changed parent")
+        batch.assert_not_called()
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_workflow_coalesces_project_check_batches(self) -> None:
+        with override_settings(CELERY_TASK_ALWAYS_EAGER=True):
+            other = self.create_po(name="Other", project=self.project)
+        with (
+            patch(
+                "celery.app.task.Task.apply_async",
+                return_value=SimpleNamespace(id="batch-test"),
+            ),
+            patch("weblate.checks.tasks.finalize_component_checks.delay") as publish,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            self.configure()
+        self.assertEqual(
+            {call.args[0] for call in publish.call_args_list},
+            {self.component.pk, other.pk},
+        )
+        for check in ("inconsistent", "reused"):
+            self.assertEqual(
+                sum(check in call.args[2] for call in publish.call_args_list), 1
+            )
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_workflow_rollback_discards_check_batches(self) -> None:
+        with (
+            patch(
+                "celery.app.task.Task.apply_async",
+                return_value=SimpleNamespace(id="batch-test"),
+            ),
+            patch("weblate.checks.tasks.finalize_component_checks.delay") as publish,
+            self.captureOnCommitCallbacks(execute=True),
+            self.assertRaisesMessage(ValueError, "Discarded"),
+            source_project_gate([self.project.pk], exclusive=True),
+        ):
+            self.configure()
+            msg = "Discarded"
+            raise ValueError(msg)
+        publish.assert_not_called()
+        self.assertFalse(self.project.workflowsetting_set.exists())
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_workflow_batch_repairs_old_workspace_peers(self) -> None:
+        workspace = Workspace.objects.create(
+            name="Source checks", propagation_scope="workspace"
+        )
+        Project.objects.filter(pk=self.project.pk).update(workspace=workspace)
+        self.project.workspace = workspace
+        project = RepoTestMixin.create_project(
+            self, name="Other", slug="other", workspace=workspace
+        )
+        with override_settings(CELERY_TASK_ALWAYS_EAGER=True):
+            component = self.create_po(project=project)
+        peer = component.translation_set.get(
+            language=self.child.translation.language
+        ).unit_set.get(id_hash=self.child.id_hash)
+        Check.objects.bulk_create(
+            [Check(unit=peer, name="inconsistent"), Check(unit=peer, name="reused")]
+        )
+        with (
+            patch(
+                "celery.app.task.Task.apply_async",
+                return_value=SimpleNamespace(id="batch-test"),
+            ),
+            patch("weblate.checks.tasks.finalize_component_checks.delay") as publish,
+        ):
+            with self.captureOnCommitCallbacks(execute=True):
+                self.configure()
+            self.assertTrue(
+                Check.objects.filter(
+                    unit=peer, name__in=("inconsistent", "reused")
+                ).exists()
+            )
+            for call in publish.call_args_list:
+                finalize_component_checks(*call.args, **call.kwargs)
+            self.assertFalse(
+                Check.objects.filter(
+                    unit=peer, name__in=("inconsistent", "reused")
+                ).exists()
+            )
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_workflow_batch_creates_failures_and_preserves_dismissals_on_retry(
+        self,
+    ) -> None:
+        workspace = Workspace.objects.create(
+            name="Source checks", propagation_scope="workspace"
+        )
+        Project.objects.filter(pk=self.project.pk).update(workspace=workspace)
+        self.project.workspace = workspace
+        project = RepoTestMixin.create_project(
+            self, name="Other", slug="other", workspace=workspace
+        )
+        with override_settings(CELERY_TASK_ALWAYS_EAGER=True):
+            component = self.create_po(project=project)
+        peer = component.translation_set.get(
+            language=self.child.translation.language
+        ).unit_set.get(id_hash=self.child.id_hash)
+        parent = component.translation_set.get(
+            language=self.parent.translation.language
+        ).unit_set.get(id_hash=self.parent.id_hash)
+        self.set_target(self.parent, "Shared German source")
+        self.set_target(parent, "Shared German source")
+        self.set_target(self.child, "First target")
+        WorkflowSetting.objects.create(
+            project=project,
+            language=peer.translation.language,
+            source_language=parent.translation.language,
+        )
+        self.set_target(peer, "Second target")
+        dismissed, _ = Check.objects.update_or_create(
+            unit=peer, name="inconsistent", defaults={"dismissed": True}
+        )
+        with (
+            patch(
+                "celery.app.task.Task.apply_async",
+                return_value=SimpleNamespace(id="batch-test"),
+            ),
+            patch("weblate.checks.tasks.finalize_component_checks.delay") as publish,
+        ):
+            with self.captureOnCommitCallbacks(execute=True):
+                self.configure()
+            for _attempt in range(2):
+                for call in publish.call_args_list:
+                    finalize_component_checks(*call.args, **call.kwargs)
+                self.assertTrue(
+                    Check.objects.filter(
+                        unit=self.child, name="inconsistent", dismissed=False
+                    ).exists()
+                )
+                dismissed.refresh_from_db()
+                self.assertTrue(dismissed.dismissed)
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_workflow_batch_refreshes_derived_source_warnings(self) -> None:
+        canonical = self.child.source_unit
+        Check.objects.bulk_create(
+            [
+                Check(unit=self.child, name="inconsistent"),
+                Check(unit=self.grandchild, name="inconsistent"),
+                Check(unit=canonical, name="multiple_failures"),
+            ]
+        )
+        with (
+            patch(
+                "celery.app.task.Task.apply_async",
+                return_value=SimpleNamespace(id="batch-test"),
+            ),
+            patch("weblate.checks.tasks.finalize_component_checks.delay") as publish,
+        ):
+            with self.captureOnCommitCallbacks(execute=True):
+                self.configure()
+            self.assertTrue(
+                Check.objects.filter(unit=canonical, name="multiple_failures").exists()
+            )
+            for call in publish.call_args_list:
+                finalize_component_checks(*call.args, **call.kwargs)
+            self.assertFalse(
+                Check.objects.filter(unit=canonical, name="multiple_failures").exists()
+            )
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_workflow_batches_use_latest_workflow(self) -> None:
+        self.set_target(self.parent, "Parent")
+        self.set_target(self.grandchild, "Latest source")
+        with (
+            patch(
+                "celery.app.task.Task.apply_async",
+                return_value=SimpleNamespace(id="batch-test"),
+            ),
+            patch("weblate.checks.tasks.finalize_component_checks.delay") as publish,
+        ):
+            with self.captureOnCommitCallbacks(execute=True):
+                workflow = self.configure()
+                workflow.source_language = self.grandchild.translation.language
+                workflow.save()
+            for call in publish.call_args_list:
+                finalize_component_checks(*call.args, **call.kwargs)
+            self.child.refresh_from_db()
+            self.assertEqual(self.child.translation_parent_id, self.grandchild.pk)
+            self.assertEqual(self.child.effective_source, "Latest source")
+
+    def test_check_batch_ignores_deleted_component_and_disabled_check(self) -> None:
+        finalize_component_checks(-1, [], ["inconsistent"], batch_mode=True)
+        with patch("weblate.checks.tasks._run_component_checks") as run:
+            finalize_component_checks(
+                self.component.pk, [], ["disabled-custom-check"], batch_mode=True
+            )
+        run.assert_not_called()
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_workflow_batch_propagation_scopes(self) -> None:
+        workspace = Workspace.objects.create(name="Check scopes")
+        Project.objects.filter(pk=self.project.pk).update(workspace=workspace)
+        project = RepoTestMixin.create_project(
+            self, name="Other", slug="other", workspace=workspace
+        )
+        with override_settings(CELERY_TASK_ALWAYS_EAGER=True):
+            same_name = self.create_po(project=project)
+            other_name = self.create_po(project=project, name="Other")
+        for scope, expected in (
+            ("project", 2),
+            ("workspace", 1),
+            ("component_name", 2),
+        ):
+            with self.subTest(scope=scope):
+                Workspace.objects.filter(pk=workspace.pk).update(
+                    propagation_scope=scope
+                )
+                with (
+                    patch(
+                        "weblate.checks.tasks.finalize_component_checks.delay"
+                    ) as publish,
+                    self.captureOnCommitCallbacks(execute=True),
+                    source_project_gate([self.project.pk, project.pk], exclusive=True),
+                ):
+                    for component in (self.component, same_name, other_name):
+                        schedule_component_check_batch(
+                            component,
+                            set(),
+                            {"inconsistent", "translated"},
+                            using="default",
+                        )
+                self.assertEqual(
+                    sum(
+                        "inconsistent" in call.args[2]
+                        for call in publish.call_args_list
+                    ),
+                    expected,
+                )
+                self.assertEqual(
+                    sum(
+                        "translated" in call.args[2] for call in publish.call_args_list
+                    ),
+                    3,
+                )
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_workflow_batch_nested_rollback_keeps_successful_sibling(self) -> None:
+        with override_settings(CELERY_TASK_ALWAYS_EAGER=True):
+            other = self.create_po(project=self.project, name="Other")
+        with (
+            patch("weblate.checks.tasks.finalize_component_checks.delay") as publish,
+            self.captureOnCommitCallbacks(execute=True),
+            source_project_gate([self.project.pk], exclusive=True),
+        ):
+            schedule_component_check_batch(
+                self.component, set(), {"translated"}, using="default"
+            )
+            with (
+                self.assertRaisesMessage(ValueError, "Discarded"),
+                source_project_gate([self.project.pk], exclusive=True),
+            ):
+                schedule_component_check_batch(
+                    other, set(), {"inconsistent"}, using="default"
+                )
+                msg = "Discarded"
+                raise ValueError(msg)
+        publish.assert_called_once_with(
+            self.component.pk,
+            [],
+            ["translated"],
+            batch_mode=True,
+            refresh_source_checks=True,
+        )
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_workflow_batch_retains_actor_after_scope_exits(self) -> None:
+        with (
+            patch(
+                "celery.app.task.Task.apply_async",
+                return_value=SimpleNamespace(id="batch-test"),
+            ) as publish,
+            acting_user_context(None),
+            self.captureOnCommitCallbacks(execute=True),
+            acting_user_context(self.user),
+        ):
+            self.configure()
+        self.assertTrue(publish.called)
+        self.assertTrue(
+            all(
+                call.kwargs["headers"]["weblate_acting_user_id"] == self.user.pk
+                for call in publish.call_args_list
+            )
+        )
+
+    def test_workflow_does_not_load_unrelated_units(self) -> None:
+        with patch.object(Unit, "from_db", wraps=Unit.from_db) as load:
+            self.configure()
+        loaded_translations = {
+            call.args[2][call.args[1].index("translation_id")]
+            for call in load.call_args_list
+            if "translation_id" in call.args[1]
+        }
+        self.assertIn(self.child.translation_id, loaded_translations)
+        self.assertIn(self.parent.translation_id, loaded_translations)
+        self.assertNotIn(self.grandchild.translation_id, loaded_translations)
+
+    def test_workflow_reconciliation_skips_unaffected_components(self) -> None:
+        from weblate.trans.models.source import _reconcile  # ruff: ignore[import-outside-top-level]
+
+        other = self.create_po(name="Other", project=self.project)
+        other.translation_set.get(language=self.child.translation.language).delete()
+        with patch(
+            "weblate.trans.models.source._reconcile", wraps=_reconcile
+        ) as reconcile:
+            self.configure()
+        self.assertEqual(
+            [call.args[0].pk for call in reconcile.call_args_list], [self.component.pk]
+        )
+
+    def test_workflow_language_change_reconciles_old_and_new_languages(self) -> None:
+        workflow = self.configure()
+        workflow.language = self.grandchild.translation.language
+        workflow.save()
+        self.child.refresh_from_db()
+        self.grandchild.refresh_from_db()
+        self.assertIsNone(self.child.translation_parent_id)
+        self.assertNotIn("translation_parent", self.child.details)
+        self.assertEqual(self.grandchild.translation_parent_id, self.parent.pk)
+
+    def test_workflow_project_move_reconciles_both_projects(self) -> None:
+        project = RepoTestMixin.create_project(self, name="Other", slug="other")
+        component = self.create_po(project=project)
+        child = component.translation_set.get(
+            language=self.child.translation.language
+        ).unit_set.get(id_hash=self.child.id_hash)
+        workflow = self.configure()
+        workflow.project = project
+        workflow.save()
+        self.child.refresh_from_db()
+        child.refresh_from_db()
+        self.assertIsNone(self.child.translation_parent_id)
+        self.assertNotIn("translation_parent", self.child.details)
+        assert child.translation_parent is not None
+        self.assertEqual(
+            child.translation_parent.translation.language_id,
+            self.parent.translation.language_id,
+        )
+
+    def test_workflow_removal_reconciles_dependants(self) -> None:
+        self.set_target(self.parent, "Parent")
+        self.set_target(self.child, "Child")
+        workflow = self.configure()
+        self.configure(self.grandchild, self.child)
+        self.grandchild.refresh_from_db()
+        self.assertTrue(self.grandchild.translation_parent_blocked)
+        self.set_target(self.child, "Child")
+        self.grandchild.refresh_from_db()
+        self.assertFalse(self.grandchild.translation_parent_blocked)
+        workflow.delete()
+        self.child.refresh_from_db()
+        self.grandchild.refresh_from_db()
+        self.assertEqual(self.child.state, STATE_NEEDS_REWRITING)
+        self.assertTrue(self.grandchild.translation_parent_blocked)
+
+    def test_targeted_reconciliation_merges_and_rolls_back(self) -> None:
+        from weblate.trans.models.source import _reconcile  # ruff: ignore[import-outside-top-level]
+
+        czech = self.child.translation.language_id
+        italian = self.grandchild.translation.language_id
+        with (
+            patch(
+                "weblate.trans.models.source._reconcile", wraps=_reconcile
+            ) as reconcile,
+            source_operation(self.component),
+        ):
+            reconcile_component_parents(self.component, language_ids={czech})
+            with (
+                self.assertRaisesMessage(ValueError, "Discarded"),
+                source_operation(self.component),
+            ):
+                reconcile_component_parents(self.component, language_ids={italian})
+                msg = "Discarded"
+                raise ValueError(msg)
+            reconcile_component_parents(self.component, language_ids={czech})
+        reconcile.assert_called_once()
+        self.assertEqual(reconcile.call_args.args[1].languages, {czech})
+        self.assertFalse(reconcile.call_args.args[1].full)
+
+    def test_previous_source_peer_groups_are_deduplicated(self) -> None:
+        effects = ReconciliationEffects()
+        other = self.child.translation.unit_set.exclude(pk=self.child.pk).get(
+            source="Thank you for using Weblate."
+        )
+        other.context = self.child.context
+        other.target = self.child.target
+        language = self.component.source_language.pk
+        effects.add_peers(self.child, "Previous", language)
+        effects.add_peers(other, "Previous", language)
+        with patch(
+            "weblate.trans.models.source.previous_source_peers",
+            return_value=Unit.objects.none(),
+        ) as peers:
+            effects.flush(using="default")
+        peers.assert_called_once_with(self.child, "Previous", language)
+        self.assertEqual(next(iter(effects.peer_groups.values())).excluded, set())
+
+    def test_reconciliation_checks_each_unit_once(self) -> None:
+        effects = ReconciliationEffects(units={self.child.pk: self.child})
+        effects.add_peers(
+            self.child, self.child.source, self.component.source_language.pk
+        )
+        with (
+            patch(
+                "weblate.trans.models.source.previous_source_peers",
+                return_value=Unit.objects.filter(
+                    pk__in=[self.child.pk, self.parent.pk]
+                ),
+            ),
+            patch.object(Unit, "run_checks", autospec=True) as checks,
+        ):
+            # A different initiating unit permits this unit in the peer union.
+            next(iter(effects.peer_groups.values())).excluded.clear()
+            effects.flush(using="default")
+        self.assertEqual(
+            {call.args[0].pk for call in checks.call_args_list},
+            {self.child.pk, self.parent.pk},
+        )
+        self.assertEqual(checks.call_count, 2)
+        self.assertFalse(checks.call_args_list[0].kwargs["skip_propagate"])
+        self.assertTrue(checks.call_args_list[1].kwargs["skip_propagate"])
+
+    def test_configuration_batches_memory_after_commit(self) -> None:
+        other = self.child.translation.unit_set.get(
+            source="Thank you for using Weblate."
+        )
+        parent = self.parent.translation.unit_set.get(id_hash=other.id_hash)
+        self.set_target(self.parent, "Parent")
+        self.set_target(parent, "Other parent")
+        self.set_target(self.child, "Child")
+        self.set_target(other, "Other child")
+        with (
+            patch("weblate.memory.tasks.MEMORY_UPDATE_BATCH_SIZE", 1),
+            patch("weblate.memory.tasks.update_memory_bulk.delay") as bulk,
+            patch("weblate.trans.models.unit.schedule_memory_update") as single,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            self.configure()
+            bulk.assert_not_called()
+            single.assert_not_called()
+        payloads = [payload for call in bulk.call_args_list for payload in call.args[0]]
+        self.assertEqual(
+            {payload["target"] for payload in payloads}, {"Child", "Other child"}
+        )
+        self.assertTrue(all(len(call.args[0]) == 1 for call in bulk.call_args_list))
+        self.assertTrue(
+            all(
+                payload["source_language_id"] == self.parent.translation.language_id
+                and payload["unit_state"] == STATE_NEEDS_REWRITING
+                for payload in payloads
+            )
+        )
+
+    def test_configuration_rollback_discards_memory_and_checks(self) -> None:
+        self.set_target(self.parent, "Parent")
+        self.set_target(self.child, "Child")
+        with (
+            patch("weblate.memory.tasks.update_memory_bulk.delay") as memory,
+            patch("weblate.checks.tasks.refresh_propagated_checks.delay") as checks,
+            self.captureOnCommitCallbacks(execute=True),
+            self.assertRaisesMessage(ValueError, "Discarded"),
+            transaction.atomic(),
+        ):
+            self.configure()
+            msg = "Discarded"
+            raise ValueError(msg)
+        memory.assert_not_called()
+        checks.assert_not_called()
+        self.child.refresh_from_db()
+        self.assertIsNone(self.child.translation_parent_id)
+        self.assertEqual(self.child.state, STATE_TRANSLATED)
+
     def test_reconciliation_is_idempotent(self) -> None:
         self.set_target(self.parent, "Parent")
         self.configure()
@@ -210,6 +1236,124 @@ class SourceLanguageTest(FixtureComponentTestCase):
         self.assertNotIn("previous", self.child.details["translation_parent"])
         self.assertEqual(
             self.child.details["translation_parent"]["applied"]["text"], "Original"
+        )
+
+    def test_fuzzy_parent_history_preserves_review_state(self) -> None:
+        self.set_target(self.parent, "Original")
+        self.configure()
+        for state in FUZZY_STATES:
+            for canonical_previous in ("", "Old English source"):
+                with self.subTest(state=state, previous=canonical_previous):
+                    self.set_target(self.child, "Child")
+                    self.set_target(self.child, "Child", state)
+                    Unit.objects.filter(pk=self.child.pk).update(
+                        previous_source=canonical_previous
+                    )
+                    self.set_target(self.parent, "Second")
+                    self.set_target(self.parent, "Third")
+                    self.child.refresh_from_db()
+                    metadata = self.child.details["translation_parent"]
+                    self.assertEqual(metadata["previous"]["text"], "Original")
+                    self.assertEqual(metadata["previous_state"], state)
+                    self.assertEqual(metadata["applied"]["text"], "Third")
+                    self.assertEqual(self.child.effective_previous_source, "Original")
+                    self.assertEqual(self.child.state, state)
+                    self.assertEqual(self.child.original_state, state)
+
+                    self.set_target(self.parent, "Original")
+                    self.child.refresh_from_db()
+                    metadata = self.child.details["translation_parent"]
+                    self.assertNotIn("previous", metadata)
+                    self.assertNotIn("previous_state", metadata)
+                    self.assertEqual(self.child.effective_previous_source, "")
+                    self.assertEqual(self.child.previous_source, canonical_previous)
+                    self.assertEqual(self.child.state, state)
+                    self.assertEqual(self.child.original_state, state)
+
+                    self.set_target(self.parent, "Second")
+                    self.set_target(self.child, "Accepted child")
+                    self.assertEqual(
+                        set(self.child.details["translation_parent"]), {"applied"}
+                    )
+                    self.set_target(self.parent, "Original")
+
+    def test_fuzzy_workflow_transition_preserves_source_metadata(self) -> None:
+        self.set_target(self.parent, "German source")
+        self.set_target(self.child, "Child", STATE_FUZZY)
+        workflow = self.configure()
+        self.child.refresh_from_db()
+        changes = get_source_changes(self.child)
+        self.assertEqual(len(changes), 2)
+        previous, current = changes[0], changes[1]
+        self.assertEqual(previous["value"], self.child.source)
+        self.assertEqual(previous["language"], self.component.source_language)
+        self.assertEqual(current["value"], "German source")
+        self.assertEqual(current["language"], self.parent.translation.language)
+        self.assertEqual(self.child.state, STATE_FUZZY)
+
+        workflow.source_language = self.grandchild.translation.language
+        self.set_target(self.grandchild, "Italian source")
+        workflow.save()
+        self.child.refresh_from_db()
+        self.assertEqual(get_source_changes(self.child)[0], previous)
+        self.assertEqual(self.child.effective_source, "Italian source")
+
+        workflow.delete()
+        self.child.refresh_from_db()
+        self.assertEqual(self.child.state, STATE_FUZZY)
+        self.assertEqual(self.child.effective_previous_source, "")
+        self.assertNotIn("translation_parent", self.child.details)
+
+    def test_legacy_previous_snapshot_reverts(self) -> None:
+        self.set_target(self.parent, "Original")
+        self.configure()
+        self.set_target(self.child, "Child", STATE_APPROVED)
+        self.set_target(self.parent, "Second")
+        self.child.refresh_from_db()
+        self.child.details["translation_parent"].pop("previous_state")
+        self.child.save(only_save=True, update_fields=["details"])
+        self.set_target(self.parent, "Original")
+        self.child.refresh_from_db()
+        self.assertEqual(self.child.state, STATE_TRANSLATED)
+        self.assertNotIn("previous", self.child.details["translation_parent"])
+
+    def test_fuzzy_canonical_change_prevents_parent_revert(self) -> None:
+        self.set_target(self.parent, "Original")
+        self.configure()
+        self.set_target(self.child, "Child", STATE_FUZZY)
+        self.set_target(self.parent, "Second")
+        self.child.refresh_from_db()
+        self.child.source = "Changed canonical source"
+        self.child.save()
+        self.set_target(self.parent, "Original")
+        self.child.refresh_from_db()
+        self.assertEqual(self.child.state, STATE_FUZZY)
+        self.assertIn("previous", self.child.details["translation_parent"])
+
+    def test_custom_source_without_history_hides_canonical_previous(self) -> None:
+        self.set_target(self.parent, "German source")
+        self.configure()
+        for missing in (False, True):
+            with self.subTest(missing=missing):
+                if missing:
+                    self.parent.delete()
+                # Empty targets must not acquire pending history.
+                self.child.refresh_from_db()
+                self.assertNotIn("previous", self.child.details["translation_parent"])
+                self.child.previous_source = "Old English source"
+                self.child.save(only_save=True, update_fields=["previous_source"])
+                self.assertEqual(self.child.effective_previous_source, "")
+                data = UnitSerializer(
+                    self.child, context={"request": RequestFactory().get("/")}
+                ).data
+                self.assertEqual(data["effective_previous_source"], [""])
+                self.assertEqual(data["previous_source"], "Old English source")
+
+    def test_canonical_previous_source_is_preserved(self) -> None:
+        self.child.previous_source = "Old English source"
+        self.assertEqual(self.child.effective_previous_source, "Old English source")
+        self.assertEqual(
+            get_source_changes(self.child)[0]["diff"], "Old English source"
         )
 
     def test_source_operation_batches_deletion(self) -> None:
@@ -438,6 +1582,68 @@ class SourceLanguageTest(FixtureComponentTestCase):
         workflow.save()
         self.child.refresh_from_db()
         self.assertEqual(self.child.state, STATE_TRANSLATED)
+
+    def test_source_comment_author_branch_permissions(self) -> None:
+        from weblate.auth.data import SELECTION_ALL  # ruff: ignore[import-outside-top-level]
+        from weblate.auth.models import Group, Permission, Role, TeamMembership  # ruff: ignore[import-outside-top-level]
+
+        self.set_target(self.parent, "Parent source")
+        self.configure()
+        author = User.objects.create_user("parent-comment-author", "parent@example.org")
+        Comment.objects.create(unit=self.parent, user=author, comment="Parent comment")
+        Comment.objects.create(
+            unit=self.child.source_unit, user=self.user, comment="Canonical comment"
+        )
+        permission = Permission.objects.get(codename="contribution.view_author")
+        for role in Role.objects.filter(permissions=permission):
+            role.permissions.remove(permission)
+        role = Role.objects.create(name="Source comment identity scope")
+        role.permissions.add(permission)
+        group = Group.objects.create(
+            name="Source comment identity scope", language_selection=SELECTION_ALL
+        )
+        group.roles.add(role)
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        membership = TeamMembership.objects.get(user=self.user, group=group)
+        units = Unit.objects.filter(pk=self.child.pk)
+        for canonical, parent in (
+            (False, True),
+            (True, False),
+            (True, True),
+            (False, False),
+        ):
+            languages = [self.child.translation.language]
+            if canonical:
+                languages.append(self.child.source_unit.translation.language)
+            if parent:
+                languages.append(self.parent.translation.language)
+            membership.limit_languages.set(languages)
+            self.user.clear_permissions_cache()
+            for contributor, visible in ((self.user, canonical), (author, parent)):
+                query = f"source_comment_author:{contributor.username}"
+                with self.subTest(
+                    canonical=canonical, parent=parent, author=contributor.username
+                ):
+                    self.assertEqual(
+                        units.search(
+                            query, project=self.project, user=self.user
+                        ).exists(),
+                        visible,
+                    )
+                    self.assertEqual(
+                        units.search(
+                            f"NOT {query}", project=self.project, user=self.user
+                        ).exists(),
+                        not visible,
+                    )
+                    self.assertTrue(
+                        units.search(
+                            query,
+                            project=self.project,
+                            enforce_contributor_permissions=False,
+                        ).exists()
+                    )
 
     def test_source_comment_search_includes_parent(self) -> None:
         self.set_target(self.parent, "Parent source")
@@ -701,6 +1907,68 @@ class SourceLanguageTest(FixtureComponentTestCase):
             [],
         )
 
+    def test_internal_machinery_merges_sources_and_batches_candidates(self) -> None:
+        self.set_target(self.parent, "Long German source")
+        self.configure()
+        self.set_target(self.child, "Custom-source translation")
+        # The other component supplies an ordinary German source alongside the
+        # workflow's German parent source. Both must be ranked together.
+        other = self.create_po_new_base(
+            name="German source", source_language=self.parent.translation.language
+        )
+        translation = other.translation_set.get(language_code="cs")
+        ordinary = translation.unit_set.get(source="Hello, world!\n")
+        Unit.objects.filter(pk=ordinary.pk).update(
+            source="Long German source",
+            target="Ordinary translation",
+            state=STATE_TRANSLATED,
+        )
+        machine = WeblateTranslation({})
+        machine.candidate_limit = 1
+        for text, threshold in (
+            ("Long German source", 100),
+            ("Long German source", 75),
+            ("id", 100),
+            ("id", 75),
+        ):
+            with self.subTest(text=text, threshold=threshold):
+                self.set_target(self.parent, text)
+                self.child.refresh_from_db()
+                self.set_target(self.child, "Custom-source translation")
+                Unit.objects.filter(pk=ordinary.pk).update(source=text)
+                base, _translations = machine.get_search_querysets(
+                    self.user, self.parent.translation.language, translation.language
+                )
+                with CaptureQueriesContext(connection) as queries:
+                    matches = list(machine.get_matching_units(base, text, threshold))
+                candidate_sql = next(
+                    query["sql"] for query in queries if "UNION ALL" in query["sql"]
+                )
+                self.assertNotIn("COALESCE", candidate_sql)
+                self.assertNotIn('"lang_plural"', candidate_sql)
+                self.assertEqual(candidate_sql.count("LIMIT 1"), 3)
+                self.assertEqual(
+                    [unit.pk for unit in matches],
+                    sorted([self.child.pk, ordinary.pk]),
+                )
+                # Reject the first candidate and ensure the next batch still
+                # supplies a result instead of stopping at the first SQL page.
+                Unit.objects.filter(pk=matches[0].pk).update(flags="forbidden")
+                results = list(
+                    machine.download_translations(
+                        self.parent.translation.language,
+                        translation.language,
+                        text,
+                        None,
+                        self.user,
+                        threshold,
+                    )
+                )
+                self.assertEqual(
+                    [result["text"] for result in results], [matches[1].target]
+                )
+                Unit.objects.filter(pk=matches[0].pk).update(flags="")
+
     def test_internal_machinery_excludes_missing_parent_from_canonical_query(
         self,
     ) -> None:
@@ -711,9 +1979,9 @@ class SourceLanguageTest(FixtureComponentTestCase):
             with self.subTest(state=state):
                 self.set_target(self.child, "Czech translation", state)
                 self.assertTrue(
-                    machine.get_base_queryset(
+                    machine.get_search_querysets(
                         self.user, source_language, target_language
-                    )
+                    )[0]
                     .filter(pk=self.child.pk)
                     .exists()
                 )
@@ -725,7 +1993,7 @@ class SourceLanguageTest(FixtureComponentTestCase):
         self.assertEqual(self.child.state, STATE_READONLY)
         self.assertIsNotNone(self.child.missing_source_snapshot)
         self.assertFalse(
-            machine.get_base_queryset(self.user, source_language, target_language)
+            machine.get_search_querysets(self.user, source_language, target_language)[0]
             .filter(pk=self.child.pk)
             .exists()
         )
@@ -1014,8 +2282,29 @@ class SourceLanguageTest(FixtureComponentTestCase):
         for unit in units:
             expected[unit.context, unit.translation.plural_id].add(unit.pk)
         expected_ids = set().union(*(expected[key] for key in sorted(expected)[:100]))
+        cursors: list[CursorWrapper] = []
+        chunked_cursor = connection.chunked_cursor
+
+        def track_cursor() -> CursorWrapper:
+            cursor = chunked_cursor()
+            cursors.append(cursor)
+            return cursor
+
+        # Cursor cleanup must complete before the caller can roll back, without
+        # relying on a later garbage collection to finalize abandoned iterators.
+        gc_enabled = gc.isenabled()
+        gc.disable()
+        try:
+            with patch.object(connection, "chunked_cursor", side_effect=track_cursor):
+                found = ConsistencyCheck().check_component(self.component)
+            self.assertEqual(
+                [cursor.name for cursor in cursors if not cursor.closed], []
+            )
+        finally:
+            if gc_enabled:
+                gc.enable()
         self.assertSetEqual(
-            {unit.pk for unit in ConsistencyCheck().check_component(self.component)},
+            {unit.pk for unit in found},
             expected_ids,
         )
 
@@ -1223,7 +2512,15 @@ class SourceLanguageTest(FixtureComponentTestCase):
             wraps=reconcile_project_parents,
         ) as reconcile:
             WorkflowSetting.objects.filter(project=self.project).delete()
-        reconcile.assert_called_once_with(self.project.pk)
+        reconcile.assert_called_once_with(
+            self.project.pk,
+            language_ids={
+                self.child.translation.language_id,
+                self.grandchild.translation.language_id,
+            },
+            using="default",
+            batch_checks=True,
+        )
         for unit in (self.child, self.grandchild):
             unit.refresh_from_db()
             self.assertIsNone(unit.translation_parent_id)
@@ -1528,6 +2825,7 @@ class SourceLanguageTest(FixtureComponentTestCase):
                     "checksum": form.initial["checksum"],
                     "contentsum": form.initial["contentsum"],
                     "translationsum": form.initial["translationsum"],
+                    "initial_state": form.initial["initial_state"],
                     "target_0": "Stale translation",
                     "review": str(STATE_TRANSLATED),
                 }
@@ -2473,12 +3771,13 @@ class SourceLanguageTest(FixtureComponentTestCase):
     def test_parent_changes_schedule_memory_update(self) -> None:
         self.set_target(self.parent, self.child.source)
         self.set_target(self.child, "Ahoj")
-        with patch("weblate.trans.models.unit.schedule_memory_update") as schedule:
+        with patch("weblate.memory.tasks.schedule_memory_updates") as schedule:
             self.configure()
             payload = next(
-                call.args[0]
+                payload
                 for call in schedule.call_args_list
-                if call.args[0]["target"] == "Ahoj"
+                for payload in call.args[0]
+                if payload["target"] == "Ahoj"
             )
             self.assertEqual(
                 payload["source_language_id"], self.parent.translation.language_id
@@ -2489,9 +3788,10 @@ class SourceLanguageTest(FixtureComponentTestCase):
             schedule.reset_mock()
             self.set_target(self.parent, "Hallo")
             payload = next(
-                call.args[0]
+                payload
                 for call in schedule.call_args_list
-                if call.args[0]["target"] == "Ahoj"
+                for payload in call.args[0]
+                if payload["target"] == "Ahoj"
             )
             self.assertEqual(payload["source"], "Hallo")
             self.assertEqual(payload["unit_state"], STATE_NEEDS_REWRITING)
@@ -2768,7 +4068,349 @@ class SourceLanguageTest(FixtureComponentTestCase):
         )
 
 
+class SourceUnitWriterTest(FixtureComponentTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.child = self.get_unit("Hello, world!\n", "cs")
+        self.parent = self.get_unit("Hello, world!\n", "de")
+        self.grandchild = self.get_unit("Hello, world!\n", "it")
+
+    def test_individual_and_batched_save_preparation_match(self) -> None:
+        original = Unit.objects.filter(pk=self.child.pk).values().get()
+        self.parent.target = "Drei deutsche Wörter"
+
+        def prepared_unit(state: int) -> Unit:
+            unit = Unit.objects.prefetch().prefetch_source().get(pk=self.child.pk)
+            unit.translation_parent = self.parent
+            unit.state = state
+            unit.original_state = STATE_NEEDS_REWRITING
+            unit.num_words = 0
+            unit.details = {
+                "translation_parent": {
+                    "applied": self.parent.source_snapshot.as_dict()
+                },
+                "tbx_terms": {"term": "value"},
+            }
+            return unit
+
+        for state in (STATE_TRANSLATED, STATE_READONLY):
+            with self.subTest(state=state):
+                Unit.objects.filter(pk=self.child.pk).update(**original)
+                individual = prepared_unit(state)
+                individual.save(
+                    only_save=True,
+                    update_fields=[
+                        "translation_parent",
+                        "details",
+                        "state",
+                        "original_state",
+                    ],
+                )
+                expected = dict(Unit.objects.filter(pk=self.child.pk).values().get())
+                expected.pop("last_updated")
+                Unit.objects.filter(pk=self.child.pk).update(**original)
+                batched = prepared_unit(state)
+                effects = ReconciliationEffects(batch_unit_updates=True)
+                effects.save_unit(batched)
+                effects.flush_unit_updates(using=connection.alias)
+                actual = dict(Unit.objects.filter(pk=self.child.pk).values().get())
+                actual.pop("last_updated")
+                self.assertEqual(actual, expected)
+                self.assertEqual(
+                    batched._saved_parent_values,  # ruff: ignore[private-member-access]
+                    individual._saved_parent_values,  # ruff: ignore[private-member-access]
+                )
+
+    def test_source_unit_writer_preserves_bound_values(self) -> None:
+        units = list(
+            Unit.objects.filter(pk__in=[self.child.pk, self.grandchild.pk]).order_by(
+                "pk"
+            )
+        )
+        targets = {unit.pk: unit.target for unit in units}
+        timestamp = timezone.now()
+        for index, unit in enumerate(units):
+            unit.translation_parent = self.parent if index == 0 else None
+            unit.details = {
+                "quoted": "český 'text'; DROP TABLE trans_unit; --",
+                "nested": [None, True],
+            }
+            unit.state = STATE_READONLY
+            unit.original_state = STATE_NEEDS_REWRITING
+            unit.num_words = 42 + index
+            unit.last_updated = timestamp
+            unit.target = "Must not overwrite content"
+        with self.assertNumQueries(1):
+            Unit.objects.using(connection.alias).bulk_update_source_units(units)
+        for index, unit in enumerate(units):
+            stored = Unit.objects.get(pk=unit.pk)
+            self.assertEqual(stored.details, unit.details)
+            self.assertEqual(stored.translation_parent_id, unit.translation_parent_id)
+            self.assertEqual(stored.state, STATE_READONLY)
+            self.assertEqual(stored.original_state, STATE_NEEDS_REWRITING)
+            self.assertEqual(stored.num_words, 42 + index)
+            self.assertEqual(stored.last_updated, timestamp)
+            self.assertEqual(stored.target, targets[unit.pk])
+
+    def test_source_unit_writer_rejects_unsaved_and_duplicate_units(self) -> None:
+        unsaved = Unit(pk=-1)
+        for units in ([unsaved], [self.child, self.child]):
+            with (
+                self.subTest(units=units),
+                self.assertNumQueries(0),
+                self.assertRaises(ValueError),
+            ):
+                Unit.objects.using(connection.alias).bulk_update_source_units(units)
+        with self.assertNumQueries(0):
+            Unit.objects.using(connection.alias).bulk_update_source_units([])
+
+    def test_source_unit_writer_row_mismatch_rolls_back(self) -> None:
+        previous = self.child.details.copy()
+        stale = Unit.objects.get(pk=self.child.pk)
+        stale.pk = -1
+        self.child.details = {"must": "roll back"}
+        with self.assertRaises(DatabaseError), transaction.atomic():
+            Unit.objects.using(connection.alias).bulk_update_source_units(
+                [self.child, stale]
+            )
+        self.child.refresh_from_db()
+        self.assertEqual(self.child.details, previous)
+
+
+class SourceLanguageReconciliationTest(FixtureComponentTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.child = self.get_unit("Hello, world!\n", "cs")
+        self.parent = self.get_unit("Hello, world!\n", "de")
+        self.grandchild = self.get_unit("Hello, world!\n", "it")
+
+    def configure(
+        self, child: Unit | None = None, parent: Unit | None = None
+    ) -> WorkflowSetting:
+        return WorkflowSetting.objects.create(
+            project=self.project,
+            language=(child or self.child).translation.language,
+            source_language=(parent or self.parent).translation.language,
+        )
+
+    def set_target(
+        self, unit: Unit, target: str, state: int = STATE_TRANSLATED
+    ) -> None:
+        unit.refresh_from_db()
+        unit.target = target
+        unit.state = unit.original_state = state
+        unit.save()
+
+    def test_workflow_source_only_changes_do_not_queue_writes(self) -> None:
+        self.set_target(self.child, "", STATE_EMPTY)
+        self.set_target(self.parent, "German source")
+        self.set_target(self.grandchild, "Italian source")
+        workflow = self.configure()
+        workflow.source_language = self.grandchild.translation.language
+        workflow.save()
+        workflow.delete()
+        self.child.refresh_from_db()
+        self.assertEqual(self.child.state, STATE_EMPTY)
+        self.assertEqual(self.child.effective_source, self.child.source)
+        self.assertFalse(self.child.pending_changes.exists())
+        self.assertNotIn("disk_state", self.child.details)
+        self.assertEqual(
+            self.child.change_set.filter(action=ActionEvents.SOURCE_CHANGE).count(), 3
+        )
+
+    def test_dependency_blocking_does_not_queue_editor_state(self) -> None:
+        self.set_target(self.child, "", STATE_EMPTY)
+        self.set_target(self.parent, "", STATE_EMPTY)
+        self.configure()
+        self.child.refresh_from_db()
+        self.assertEqual(self.child.state, STATE_READONLY)
+        self.assertEqual(self.child.file_state, STATE_EMPTY)
+        self.assertFalse(self.child.pending_changes.exists())
+        self.set_target(self.parent, "German source")
+        self.child.refresh_from_db()
+        self.assertEqual(self.child.state, STATE_EMPTY)
+        self.assertFalse(self.child.pending_changes.exists())
+        self.assertNotIn("disk_state", self.child.details)
+
+    def test_reconciliation_retains_initiator_after_scope_exits(self) -> None:
+        actor = User.objects.create(username="workflow-actor")
+        self.set_target(self.child, "Child translation")
+        self.set_target(self.parent, "German source")
+        with (
+            source_project_gate([self.project.pk], exclusive=True),
+            source_operation(self.component),
+            acting_user_context(actor),
+        ):
+            self.configure()
+        pending = self.child.pending_changes.get()
+        self.assertEqual(pending.author, actor)
+        self.assertEqual(pending.get_actor(), actor)
+        change = self.child.change_set.get(action=ActionEvents.SOURCE_CHANGE)
+        self.assertEqual(change.user, actor)
+        self.assertEqual(change.author, actor)
+
+    def test_automated_reconciliation_uses_update_bot(self) -> None:
+        self.set_target(self.child, "Child translation")
+        self.set_target(self.parent, "German source")
+        with acting_user_context(None):
+            self.configure()
+        pending = self.child.pending_changes.get()
+        self.assertEqual(pending.author, InternalBot.UPDATE.get_user())
+        self.assertEqual(pending.get_actor(), pending.author)
+
+    def test_reconciliation_keeps_explicit_author_separate_from_actor(self) -> None:
+        author = User.objects.create(username="source-author")
+        actor = User.objects.create(username="source-actor")
+        self.set_target(self.parent, "Original source")
+        self.configure()
+        self.set_target(self.child, "Child translation")
+        self.child.pending_changes.all().delete()
+        with source_operation(self.component):
+            self.set_target(self.parent, "Updated source")
+            request_reconciliation(
+                self.component,
+                DependencyWork(roots={self.parent.pk}, author=author, actor=actor),
+            )
+        pending = self.child.pending_changes.get()
+        self.assertEqual(pending.author, author)
+        self.assertEqual(pending.get_actor(), actor)
+        change = self.child.change_set.filter(action=ActionEvents.SOURCE_CHANGE).latest(
+            "pk"
+        )
+        self.assertEqual(change.user, actor)
+        self.assertEqual(change.author, author)
+
+    def test_workflow_removal_credits_initiator(self) -> None:
+        self.set_target(self.parent, "German source")
+        self.set_target(self.child, "Child translation")
+        workflow = self.configure()
+        self.child.pending_changes.all().delete()
+        actor = User.objects.create(username="workflow-removal-actor")
+        with acting_user_context(actor):
+            workflow.delete()
+        pending = self.child.pending_changes.get()
+        self.assertEqual(pending.state, STATE_TRANSLATED)
+        self.assertEqual(pending.author, actor)
+        self.assertEqual(pending.get_actor(), actor)
+
+
 class SourceLanguageFileTest(ReusableViewTestCase):
+    def test_workflow_commit_credits_initiator(self) -> None:
+        child = self.translation.unit_set.get(source="Hello, world!\n")
+        parent = self.component.translation_set.get(language_code="de").unit_set.get(
+            id_hash=child.id_hash
+        )
+        author = User.objects.create(
+            username="original-translator",
+            full_name="Original translator",
+            email="original@example.com",
+        )
+        actor = User.objects.create(
+            username="workflow-actor",
+            full_name="Workflow actor",
+            email="actor@example.com",
+        )
+        parent.translate(self.user, "German source", STATE_TRANSLATED, propagate=False)
+        child.translate(author, "Child translation", STATE_TRANSLATED, propagate=False)
+        self.component.commit_pending("before workflow", self.user)
+        with acting_user_context(actor):
+            WorkflowSetting.objects.create(
+                project=self.project,
+                language=child.translation.language,
+                source_language=parent.translation.language,
+            )
+        pending = child.pending_changes.get()
+        self.assertEqual(pending.author, actor)
+        self.assertEqual(pending.get_actor(), actor)
+        self.translation.commit_pending("workflow", self.user)
+        repository = self.component.repository
+        self.assertEqual(
+            repository.get_revision_info(repository.last_revision)["author"],
+            actor.get_author_name(),
+        )
+        self.translation.drop_store_cache()
+        stored, added = self.translation.store.find_unit(child.context, child.source)
+        self.assertFalse(added)
+        child.refresh_from_db()
+        self.assertEqual(stored.target, child.target)
+        self.assertTrue(stored.is_fuzzy())
+
+    def test_workflow_preserves_existing_pending_authorship(self) -> None:
+        child = self.translation.unit_set.get(source="Hello, world!\n")
+        parent = self.component.translation_set.get(language_code="de").unit_set.get(
+            id_hash=child.id_hash
+        )
+        author = User.objects.create(username="pending-translator")
+        parent.translate(self.user, "German source", STATE_TRANSLATED, propagate=False)
+        child.translate(author, "Pending child", STATE_TRANSLATED, propagate=False)
+        pending = child.pending_changes.get()
+        original_metadata = pending.metadata.copy()
+        child.refresh_from_db()
+        original_disk_state = child.details["disk_state"].copy()
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=child.translation.language,
+            source_language=parent.translation.language,
+        )
+        pending.refresh_from_db()
+        child.refresh_from_db()
+        self.assertEqual(pending.author, author)
+        self.assertEqual(pending.metadata, original_metadata)
+        self.assertEqual(child.details["disk_state"], original_disk_state)
+        workflow_pending = child.pending_changes.exclude(pk=pending.pk).get()
+        self.assertEqual(workflow_pending.author, self.user)
+        self.assertEqual(workflow_pending.get_actor(), self.user)
+
+    def test_imported_canonical_previous_is_not_custom_source_history(self) -> None:
+        child = self.get_unit("Hello, world!\n", translation=self.translation)
+        parent = self.component.translation_set.get(language_code="de").unit_set.get(
+            id_hash=child.id_hash
+        )
+        parent.translate(self.user, "Original German source", STATE_TRANSLATED)
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=child.translation.language,
+            source_language=parent.translation.language,
+        )
+        child.refresh_from_db()
+        child.translate(self.user, "Child translation", STATE_TRANSLATED)
+        self.component.commit_pending("test", self.user)
+        self.translation.drop_store_cache()
+        disk_unit, _ = self.translation.store.find_unit(child.context, child.source)
+        disk_unit.set_state(STATE_FUZZY)
+        disk_unit.unit.prev_source = "Previous English source"
+        self.translation.store.save()
+        self.translation.drop_store_cache()
+        self.translation.check_sync(force=True)
+        child.refresh_from_db()
+        self.assertEqual(child.previous_source, "Previous English source")
+        self.assertEqual(child.state, STATE_FUZZY)
+        self.assertEqual(child.effective_previous_source, "")
+
+        self.client.force_login(self.user)
+        urls: tuple[tuple[str, dict[str, str]], ...] = (
+            (child.get_absolute_url(), {}),
+            (reverse("zen", kwargs=self.kw_translation), {"q": f"id:{child.pk}"}),
+        )
+        for url, query in urls:
+            with self.subTest(view=url, changed=False):
+                response = self.client.get(url, query)
+                self.assertContains(response, "Original German source")
+                self.assertNotContains(response, "Previous English source")
+                self.assertNotContains(response, "Source change")
+
+        previous = child.effective_source
+        parent.translate(self.user, "Updated German source", STATE_TRANSLATED)
+        child.refresh_from_db()
+        self.assertEqual(child.state, STATE_FUZZY)
+        self.assertEqual(child.effective_previous_source, previous)
+        self.assertEqual(child.previous_source, "Previous English source")
+        for url, query in urls:
+            with self.subTest(view=url, changed=True):
+                response = self.client.get(url, query)
+                self.assertContains(response, "Source change")
+                self.assertNotContains(response, "Previous English source")
+
     def test_editor_keeps_submission_when_source_changes_after_validation(self) -> None:
         child = self.translation.unit_set.order_by("pk")[0]
         parent = self.component.translation_set.get(language_code="de").unit_set.get(
@@ -2799,6 +4441,7 @@ class SourceLanguageFileTest(ReusableViewTestCase):
                     "checksum": form.initial["checksum"],
                     "contentsum": form.initial["contentsum"],
                     "translationsum": form.initial["translationsum"],
+                    "initial_state": form.initial["initial_state"],
                     "target_0": "Submitted target",
                     "review": str(STATE_TRANSLATED),
                 },
@@ -2979,6 +4622,25 @@ class SourceLanguageFileTest(ReusableViewTestCase):
                 details__source_snapshot__formula="n > 1",
             ).exists()
         )
+
+    def test_listings_show_custom_source_language(self) -> None:
+        urls = (self.project.get_absolute_url(), self.component.get_absolute_url())
+        for url in urls:
+            with self.subTest(url=url, custom_source=False):
+                response = self.client.get(url)
+                self.assertNotContains(response, "Source: ")
+
+        parent = self.component.translation_set.get(language_code="de")
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=self.translation.language,
+            source_language=parent.language,
+        )
+
+        for url in urls:
+            with self.subTest(url=url, custom_source=True):
+                response = self.client.get(url)
+                self.assertContains(response, "Source: German", count=1)
 
     def test_listing_batches_source_languages(self) -> None:
         parent = self.component.translation_set.get(language_code="de")
@@ -3451,6 +5113,14 @@ class SourceLanguageFileTest(ReusableViewTestCase):
         self.client.force_login(self.user)
         language = self.translation.language
         parent = self.component.translation_set.get(language_code="de")
+        child = self.translation.unit_set.get(source="Hello, world!\n")
+        parent.unit_set.get(id_hash=child.id_hash).translate(
+            self.user, "German source", STATE_TRANSLATED, propagate=False
+        )
+        child.translate(
+            self.user, "Child translation", STATE_TRANSLATED, propagate=False
+        )
+        self.component.commit_pending("before workflow", self.user)
         url = reverse(
             "settings",
             kwargs={"path": self.project.project_languages[language].get_url_path()},
@@ -3471,6 +5141,9 @@ class SourceLanguageFileTest(ReusableViewTestCase):
             ).source_language_id,
             parent.language_id,
         )
+        pending = child.pending_changes.get()
+        self.assertEqual(pending.author, self.user)
+        self.assertEqual(pending.get_actor(), self.user)
 
     def test_round_trip(self) -> None:
         child = self.translation.unit_set.order_by("pk")[0]
@@ -3500,6 +5173,57 @@ class SourceLanguageFileTest(ReusableViewTestCase):
 
 
 class SourceLanguageMonoFileTest(SourceLanguageFileTest):
+    def test_sparse_workflow_preserves_file(self) -> None:
+        self.check_sparse_workflow_preserves_file(remove_blank=False)
+
+    def test_sparse_workflow_with_blank_addon_preserves_file(self) -> None:
+        self.check_sparse_workflow_preserves_file(remove_blank=True)
+
+    def check_sparse_workflow_preserves_file(self, *, remove_blank: bool) -> None:
+        for unit in self.translation.unit_set.all():
+            unit.translate(self.user, "", STATE_EMPTY, propagate=False)
+        self.component.commit_pending("empty translation", self.user)
+        if remove_blank:
+            RemoveBlankAddon.create(acting_user=self.user, component=self.component)
+        else:
+            self.translation.store.cleanup_blank()
+            self.translation.git_commit(self.user, self.user.get_author_name())
+        self.translation.drop_store_cache()
+        self.translation.check_sync(force=True)
+        filename_string = self.translation.get_filename()
+        assert filename_string is not None
+        filename = Path(filename_string)
+        original = filename.read_bytes()
+        revision = self.component.repository.last_revision
+        workflow = WorkflowSetting(
+            project=self.project,
+            language=self.translation.language,
+            source_language=self.component.translation_set.get(
+                language_code="de"
+            ).language,
+        )
+        for operation in ("enable", "switch", "remove"):
+            with self.subTest(operation=operation):
+                if operation == "switch":
+                    workflow.source_language = self.component.source_language
+                if operation == "remove":
+                    workflow.delete()
+                else:
+                    workflow.save()
+                self.assertFalse(
+                    PendingUnitChange.objects.filter(
+                        unit__translation=self.translation
+                    ).exists()
+                )
+                self.translation.commit_pending("workflow", self.user)
+                self.assertEqual(filename.read_bytes(), original)
+                self.assertEqual(self.component.repository.last_revision, revision)
+                self.assertFalse(
+                    self.translation.unit_set.filter(
+                        details__has_key="disk_state"
+                    ).exists()
+                )
+
     def test_canonical_edit_preserves_dependency_blocking(self) -> None:
         source = self.component.source_translation.unit_set.order_by("pk")[0]
         # Unit PK order processes this parent before its child in the batch.
@@ -3529,6 +5253,58 @@ class SourceLanguageMonoFileTest(SourceLanguageFileTest):
 class SourceLanguageIntermediateTest(ViewTestCase):
     def create_component(self) -> Component:
         return self.create_json_intermediate()
+
+    def test_new_intermediate_unit(self) -> None:
+        self.check_new_intermediate_unit(review=False)
+
+    def test_new_intermediate_unit_with_review(self) -> None:
+        self.check_new_intermediate_unit(review=True)
+
+    def check_new_intermediate_unit(self, *, review: bool) -> None:
+        self.project.source_review = review
+        self.project.translation_review = review
+        self.project.save()
+        child_translation = self.component.add_new_language(
+            Language.objects.get(code="it"), None, show_messages=False
+        )
+        assert child_translation is not None
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=child_translation.language,
+            source_language=self.translation.language,
+        )
+        filename = self.component.get_intermediate_filename()
+        assert filename is not None
+        path = Path(filename)
+        content = json.loads(path.read_text(encoding="utf-8"))
+        content["new-key"] = "New source string"
+        path.write_text(json.dumps(content), encoding="utf-8")
+        self.component.do_file_scan()
+
+        source = self.component.source_translation.unit_set.get(context="new-key")
+        parent = self.translation.unit_set.get(id_hash=source.id_hash)
+        child = child_translation.unit_set.get(id_hash=source.id_hash)
+        self.assertEqual(child.state, STATE_READONLY)
+        self.assertEqual(child.original_state, STATE_EMPTY)
+        self.assertEqual(child.translation_parent_id, parent.pk)
+
+        state = STATE_APPROVED if review else STATE_TRANSLATED
+        source.translate(self.user, "New source", state)
+        child.refresh_from_db()
+        self.assertEqual(child.state, STATE_READONLY)
+        self.assertFalse(self.user.has_perm("unit.edit", child))
+        parent.refresh_from_db()
+        parent.translate(self.user, "New parent", state)
+        child.refresh_from_db()
+        self.assertEqual(child.state, STATE_EMPTY)
+        self.assertFalse(child.translation_parent_blocked)
+        self.assertTrue(self.user.has_perm("unit.edit", child))
+        child.translate(self.user, "New child", state)
+        self.component.commit_pending("test", self.user)
+        self.component.do_file_scan()
+        child.refresh_from_db()
+        self.assertEqual(child.target, "New child")
+        self.assertEqual(child.state, state)
 
     def test_intermediate_source_blocks_custom_children(self) -> None:
         source = self.component.source_translation.unit_set.get(source="Hello world!\n")

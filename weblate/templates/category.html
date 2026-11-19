@@ -56,22 +56,22 @@
         <li>
           <a class="dropdown-item"
              href="{% url 'download' path=object.get_url_path %}?format=zip"
-             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translation files as ZIP file{% endblocktranslate %}</a>
+             title="{% translate "Download for offline translation."|force_escape %}">{% blocktranslate %}Download translation files as ZIP file{% endblocktranslate %}</a>
         </li>
         <li>
           <a class="dropdown-item"
              href="{% url 'download' path=object.get_url_path %}?format=zip:csv"
-             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as CSV in a ZIP file{% endblocktranslate %}</a>
+             title="{% translate "Download for offline translation."|force_escape %}">{% blocktranslate %}Download translations as CSV in a ZIP file{% endblocktranslate %}</a>
         </li>
         <li>
           <a class="dropdown-item"
              href="{% url 'download' path=object.get_url_path %}?format=zip:xliff11"
-             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as XLIFF 1.1 in a ZIP file{% endblocktranslate %}</a>
+             title="{% translate "Download for offline translation."|force_escape %}">{% blocktranslate %}Download translations as XLIFF 1.1 in a ZIP file{% endblocktranslate %}</a>
         </li>
         <li>
           <a class="dropdown-item"
              href="{% url 'download' path=object.get_url_path %}?format=zip:xlsx"
-             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as XLSX in a ZIP file{% endblocktranslate %}</a>
+             title="{% translate "Download for offline translation."|force_escape %}">{% blocktranslate %}Download translations as XLSX in a ZIP file{% endblocktranslate %}</a>
         </li>
         {% if user_can_upload_translation %}
           <li>
@@ -86,14 +86,6 @@
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Operations" %}</a>
       <ul class="dropdown-menu shadow">
-        {% if replace_form %}
-          <li>
-            <a class="dropdown-item"
-               data-bs-target="#replace"
-               data-bs-toggle="tab"
-               href="#">{% translate "Search and replace" %}</a>
-          </li>
-        {% endif %}
         {% if bulk_state_form %}
           <li>
             <a class="dropdown-item"
@@ -110,7 +102,7 @@
                href="#">{% translate "Batch automatic translation" %}</a>
           </li>
         {% endif %}
-        {% if replace_form or bulk_state_form or autoform %}
+        {% if bulk_state_form or autoform %}
           {% if user_can_add_translation or user_can_edit_project or announcement_form %}
             <li>
               <hr class="dropdown-divider">
@@ -154,7 +146,7 @@
           </li>
         {% endif %}
         {% if delete_form or rename_form %}
-          {% if replace_form or bulk_state_form or autoform or user_can_add_translation or user_can_edit_project or announcement_form %}
+          {% if bulk_state_form or autoform or user_can_add_translation or user_can_edit_project or announcement_form %}
             <li>
               <hr class="dropdown-divider">
             </li>
@@ -178,7 +170,7 @@
 
   <a class="ms-auto" href="{{ object.get_widgets_url }}">
     <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1"
-         alt="{% translate "Translation status widgets" %}" />
+         alt="{% translate "Translation status widgets"|force_escape %}" />
   </a>
 {% endblock breadcrumbs %}
 
@@ -238,26 +230,6 @@
       <div class="tab-pane" id="auto">{% include "snippets/autoform.html" with object=object autoform=autoform %}</div>
     {% endif %}
 
-    {% if replace_form %}
-      <div class="tab-pane" id="replace">
-        <form action="{% url 'replace' path=object.get_url_path %}"
-              method="post"
-              enctype="multipart/form-data">
-          <div class="card">
-            <div class="card-header">
-              <h4 class="card-title">
-                {% documentation_icon 'user/translating' 'search-replace' right=True %}
-                {% translate "Search and replace" %}
-              </h4>
-            </div>
-            <div class="card-body">{% crispy replace_form %}</div>
-            <div class="card-footer">
-              <input type="submit" value="{% translate "Review changes" %}" class="btn btn-primary" />
-            </div>
-          </div>
-        </form>
-      </div>
-    {% endif %}
 
     {% if bulk_state_form %}
       <div class="tab-pane" id="bulk-edit">
@@ -273,7 +245,9 @@
             </div>
             <div class="card-body">{% crispy bulk_state_form %}</div>
             <div class="card-footer">
-              <input type="submit" value="{% translate "Apply" %}" class="btn btn-primary" />
+              <input type="submit"
+                     value="{% translate "Apply"|force_escape %}"
+                     class="btn btn-primary" />
             </div>
           </div>
         </form>
@@ -301,7 +275,9 @@
               {% crispy add_form %}
             </div>
             <div class="card-footer">
-              <input type="submit" class="btn btn-warning" value="{% translate "Add" %}">
+              <input type="submit"
+                     class="btn btn-warning"
+                     value="{% translate "Add"|force_escape %}">
             </div>
           </div>
         </form>
@@ -328,7 +304,9 @@
                 {% crispy rename_form %}
               </div>
               <div class="card-footer">
-                <input type="submit" class="btn btn-warning" value="{% translate "Organize" %}">
+                <input type="submit"
+                       class="btn btn-warning"
+                       value="{% translate "Organize"|force_escape %}">
               </div>
             </div>
           </form>
@@ -359,7 +337,9 @@
               </p>
             </div>
             <div class="card-footer">
-              <input type="submit" value="{% translate "Add" %}" class="btn btn-primary" />
+              <input type="submit"
+                     value="{% translate "Add"|force_escape %}"
+                     class="btn btn-primary" />
             </div>
           </div>
         </form>

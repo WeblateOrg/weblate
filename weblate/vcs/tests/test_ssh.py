@@ -97,6 +97,20 @@ class SSHTest(TestCase):
 
     @tempdir_setting("CACHE_DIR")
     @tempdir_setting("DATA_DIR")
+    def test_create_ssh_wrapper_repairs_modified_file(self) -> None:
+        wrapper = SSHWrapper()
+        wrapper.create()
+        filename = wrapper.filename
+        expected = filename.read_bytes()
+        filename.write_bytes(b"#!/bin/sh\nexit 1\n")
+
+        wrapper.create()
+
+        self.assertEqual(filename.read_bytes(), expected)
+        self.assertTrue(os.access(filename, os.X_OK))
+
+    @tempdir_setting("CACHE_DIR")
+    @tempdir_setting("DATA_DIR")
     def test_ssh_wrapper_warning_configuration(self) -> None:
         if shutil.which("ssh") is None:
             self.skipTest("OpenSSH is not installed")

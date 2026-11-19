@@ -20,8 +20,12 @@ from translation_finder import DiscoveryLimit, DiscoveryResult, DiscoveryResults
 from weblate.auth.models import User
 from weblate.trans.actions import ActionEvents
 from weblate.trans.discovery import (
+    MAX_DETECTED_PRESETS,
+    MAX_PRESET_COMPARISONS,
     ComponentDiscovery,
+    DetectedDiscoveryPreset,
     build_detected_discovery_preset,
+    detect_discovery_presets_from_results,
     get_component_detected_discovery_presets,
     get_detected_discovery_preset_values_key,
     get_detected_discovery_presets_from_results,
@@ -31,7 +35,7 @@ from weblate.trans.tasks import create_component
 from weblate.trans.templatetags.translations import format_last_changes_content
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import TEST_DATA, create_test_addon, get_test_actor
-from weblate.utils.change_origin import change_origin_context
+from weblate.utils.change_origin import acting_user_context, change_origin_context
 from weblate.utils.files import remove_tree
 
 if TYPE_CHECKING:
@@ -39,6 +43,23 @@ if TYPE_CHECKING:
 
 
 class RepositoryImportDiscoveryTest(SimpleTestCase):
+    def test_attached_failed_discovery_cannot_mutate_components(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            pathlib.Path(tempdir, "cs.po").touch()
+            discovery = ComponentDiscovery.for_repository_import(
+                path=tempdir,
+                file_format="po",
+                match=r"(?P<language>[^/]*)\.po",
+                name_template="{% invalid %}",
+                user=MagicMock(),
+            )
+            self.assertEqual(discovery.matched_components, {})
+            attached = discovery.with_component(
+                MagicMock(spec=Component, full_path=tempdir)
+            )
+            self.assertEqual(attached.perform(remove=True), ([], [], [], []))
+            self.assertEqual(attached.errors, discovery.errors)
+
     def test_with_component_retains_discovery_results(self) -> None:
         with (
             tempfile.TemporaryDirectory() as tempdir,
@@ -117,7 +138,7 @@ class ComponentDiscoveryTest(RepoTestCase):
             language_regex="^(?!xx).+$",
         )
 
-    def test_legacy_discovery_job_uses_addon_actor(self) -> None:
+    def test_discovery_job_without_actor_is_rejected(self) -> None:
         match = self.discovery.matched_components["second-po/*.po"]
         with patch("weblate.trans.discovery.create_component.delay") as delay:
             self.discovery.create_component(
@@ -129,12 +150,13 @@ class ComponentDiscoveryTest(RepoTestCase):
             )
         payload = dict(delay.call_args.kwargs)
         payload.pop("user_id")
-        result = create_component(**payload)
-        component = Component.objects.get(pk=result["component"])
-        change = component.change_set.get(action=ActionEvents.CREATE_COMPONENT)
-        assert change.user is not None
-        self.assertEqual(change.user.username, "addon:discovery")
-        self.assertFalse(component.change_set.filter(user=None).exists())
+        with (
+            acting_user_context(None),
+            self.assertRaisesMessage(
+                ValueError, "Component creation requires an acting user"
+            ),
+        ):
+            create_component(**payload)
 
     def test_matched_files(self) -> None:
         self.assertEqual(
@@ -689,6 +711,57 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.assertEqual((created, matched, deleted, skipped), ([], [], [], []))
         cleanup.assert_not_called()
 
+    def test_template_failure_prevents_creation_and_removal(self) -> None:
+        for setting in (
+            "name_template",
+            "base_file_template",
+            "new_base_template",
+            "intermediate_template",
+            "filemask_template",
+        ):
+            with self.subTest(setting=setting):
+                discovery = ComponentDiscovery(
+                    self.component,
+                    user=get_test_actor(self),
+                    file_format="po",
+                    match=r"(?P<language>[^/]*)\.po",
+                    name_template="{{ language }}",
+                )
+                setattr(discovery, setting, "{% invalid %}")
+                discovery.__dict__["repository_paths"] = ["cs.po", "de.po"]
+                with (
+                    patch.object(discovery, "cleanup") as cleanup,
+                    patch.object(discovery, "create_component") as create,
+                ):
+                    self.assertEqual(discovery.perform(remove=True), ([], [], [], []))
+                self.assertTrue(discovery.template_error)
+                self.assertIn(setting, discovery.errors[0][1])
+                create.assert_not_called()
+                cleanup.assert_not_called()
+
+    def test_runtime_template_failure_discards_partial_discovery(self) -> None:
+        discovery = ComponentDiscovery(
+            self.component,
+            user=get_test_actor(self),
+            file_format="po",
+            match=r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+            name_template=(
+                "{% for a in language %}{% for b in language %}x{% endfor %}{% endfor %}"
+            ),
+        )
+        discovery.__dict__["repository_paths"] = [
+            "good/cs.po",
+            "bad/" + "a" * 101 + ".po",
+        ]
+        with patch.object(discovery, "cleanup") as cleanup:
+            self.assertEqual(
+                discovery.perform(preview=True, remove=True), ([], [], [], [])
+            )
+        self.assertTrue(discovery.template_error)
+        self.assertIn("limit", discovery.errors[0][1])
+        self.assertEqual(discovery.matched_components, {})
+        cleanup.assert_not_called()
+
     def test_create_from_template_reports_colliding_masks(self) -> None:
         templates = pathlib.Path(self.component.full_path) / "templates" / "foo"
         templates.mkdir(parents=True)
@@ -1106,6 +1179,90 @@ class DetectedDiscoveryPresetTest(SimpleTestCase):
             presets[0]["values"]["base_file_template"],
             "{{ component }}/values/strings.xml",
         )
+
+    def test_detected_presets_bound_large_compatible_group(self) -> None:
+        results = [
+            self.make_discovery_result(
+                file_format="po", filemask=f"component-{index:04d}/*.po"
+            )
+            for index in range(4096)
+        ]
+        with patch(
+            "weblate.trans.discovery.build_detected_discovery_preset",
+            return_value=None,
+        ) as build:
+            detected = detect_discovery_presets_from_results(results)
+
+        self.assertEqual(build.call_count, 8128)
+        self.assertLess(build.call_count, MAX_PRESET_COMPARISONS)
+        self.assertEqual(detected.presets, [])
+        self.assertTrue(detected.truncated)
+
+    def test_detected_presets_share_comparison_budget_across_groups(self) -> None:
+        results = [
+            self.make_discovery_result(
+                file_format="po", filemask=f"{group}/{group}/component-{index:03d}/*.po"
+            )
+            for group in ("early", "late")
+            for index in range(128)
+        ]
+        with patch(
+            "weblate.trans.discovery.build_detected_discovery_preset",
+            return_value=None,
+        ) as build:
+            detected = detect_discovery_presets_from_results(results)
+
+        self.assertEqual(build.call_count, MAX_PRESET_COMPARISONS)
+        self.assertTrue(detected.truncated)
+        first_groups = {
+            call_args.args[0]["filemask"].split("/", 1)[0]
+            for call_args in build.call_args_list[:2]
+        }
+        self.assertEqual(first_groups, {"early", "late"})
+
+    def test_detected_presets_warn_when_mask_is_too_long(self) -> None:
+        detected = detect_discovery_presets_from_results(
+            [
+                self.make_discovery_result(
+                    file_format="po", filemask=f"{'long' * 128}/*.po"
+                )
+            ]
+        )
+
+        self.assertEqual(detected.presets, [])
+        self.assertTrue(detected.truncated)
+
+    def test_detected_presets_limit_output(self) -> None:
+        results = [
+            self.make_discovery_result(
+                file_format="po", filemask=f"component-{index:03d}/*.po"
+            )
+            for index in range(12)
+        ]
+        example = build_detected_discovery_preset(results[0], results[1])
+        self.assertIsNotNone(example)
+        if example is None:
+            self.fail("Expected a detected preset")
+
+        def build_unique(
+            first: DiscoveryResult, second: DiscoveryResult
+        ) -> DetectedDiscoveryPreset:
+            return {
+                "examples": (first["filemask"], second["filemask"]),
+                "values": {
+                    **example["values"],
+                    "match": f"{first['filemask']}:{second['filemask']}",
+                },
+            }
+
+        with patch(
+            "weblate.trans.discovery.build_detected_discovery_preset",
+            side_effect=build_unique,
+        ):
+            detected = detect_discovery_presets_from_results(results)
+
+        self.assertEqual(len(detected.presets), MAX_DETECTED_PRESETS)
+        self.assertTrue(detected.truncated)
 
     def test_detected_presets_preserve_language_regex(self) -> None:
         first = self.make_discovery_result(

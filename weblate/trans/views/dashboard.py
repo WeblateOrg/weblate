@@ -66,7 +66,7 @@ def get_suggestions(
             component_id=OuterRef("component_id"),
             dismissed_at__isnull=True,
             severity__gte=AlertSeverity.ERROR,
-        )
+        ).filter_visible_conflicts(user)
         non_alerts = base.annotate(has_problem_alert=Exists(problem_alerts)).filter(
             has_problem_alert=False
         )
@@ -152,6 +152,8 @@ def redirect_single_project(user: User) -> HttpResponse:
     elif Component.objects.filter(is_glossary=False).count() == 1:
         target = component = Component.objects.filter(is_glossary=False).get()
         project = component.project
+        if not user.can_access_component(component):
+            target = project
     elif Project.objects.count() == 1:
         target = project = Project.objects.get()
     else:
@@ -339,7 +341,9 @@ def dashboard_user(request: AuthenticatedHttpRequest) -> HttpResponse:
             "active_tab_slug": active_tab_slug,
             **get_reports_context(request, None),
             "all_owned_projects": owned,
-            "owned_projects": prefetch_project_flags(prefetch_stats(owned[:10])),
+            "owned_projects": prefetch_project_flags(
+                prefetch_stats(owned[:10]), user=request.user
+            ),
         },
     )
 
@@ -363,7 +367,9 @@ def dashboard_anonymous(request: AuthenticatedHttpRequest) -> HttpResponse:
         request,
         "dashboard/anonymous.html",
         {
-            "top_projects": prefetch_stats(prefetch_project_flags(top_projects)),
+            "top_projects": prefetch_stats(
+                prefetch_project_flags(top_projects, user=request.user)
+            ),
             "all_projects": Metric.objects.get_current_metric(
                 None, Metric.SCOPE_GLOBAL, 0
             )["public_projects"],

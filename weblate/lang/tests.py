@@ -4,6 +4,8 @@
 
 """Test for language manipulations."""
 
+from __future__ import annotations
+
 import warnings
 from gettext import c2py
 from io import StringIO
@@ -13,6 +15,7 @@ from unittest.mock import patch
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.db import connection
+from django.template.loader import render_to_string
 from django.test import SimpleTestCase, TestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
@@ -29,7 +32,7 @@ from weblate.lang.models import (
     PluralMapper,
     get_plural_type,
 )
-from weblate.trans.models import Unit
+from weblate.trans.models import Component, Project, Translation, Unit, WorkflowSetting
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.test_views import (
     FixtureComponentTestCase,
@@ -341,6 +344,27 @@ class LanguageCodeValidationTest(SimpleTestCase):
 
 
 class LanguagesTest(BaseTestCase, metaclass=LanguageTestSequenceMeta):
+    def test_auto_create_rejects_invalid_code(self) -> None:
+        count = Language.objects.count()
+
+        for invalid_code in ("../../../../tmp/pwn", "z" * 51):
+            for create in (False, True):
+                with (
+                    self.subTest(code=invalid_code, create=create),
+                    self.assertRaises(ValidationError),
+                ):
+                    Language.objects.auto_create(invalid_code, create=create)
+            with self.subTest(code=invalid_code), self.assertRaises(ValidationError):
+                Language.objects.auto_get_or_create(invalid_code)
+
+        self.assertEqual(Language.objects.count(), count)
+
+    def test_auto_create_accepts_maximum_code_length(self) -> None:
+        code = "z" * 50
+        language = Language.objects.auto_create(code, create=False)
+        self.assertEqual(language.code, code)
+        self.assertIsNone(language.pk)
+
     def run_create(self, original, expected, direction, plural, name, create) -> None:
         """Test that auto create correctly handles languages."""
         # Lookup language
@@ -521,6 +545,119 @@ class VerifyPluralsTest(TestCase):
 
 
 class LanguagesViewTest(FixtureTestCase):
+    def create_language_projects(self, count: int) -> list[Project]:
+        projects = Project.objects.bulk_create(
+            Project(name=f"Workflow {index:02}", slug=f"workflow-{index}")
+            for index in range(count)
+        )
+        # Listing fixtures need translation metadata, without repositories or units.
+        components = Component.objects.bulk_create(
+            Component(
+                project=project,
+                name="Workflow",
+                slug="workflow",
+                source_language=self.component.source_language,
+            )
+            for project in projects
+        )
+        Translation.objects.bulk_create(
+            Translation(
+                component=component,
+                language=self.translation.language,
+                plural=self.translation.plural,
+                language_code=self.translation.language_code,
+                filename="cs.po",
+            )
+            for component in components
+        )
+        return projects
+
+    def test_language_preloads_workflow_settings(self) -> None:
+        projects = self.create_language_projects(3)
+        language = self.translation.language
+        local = WorkflowSetting.objects.create(
+            project=projects[0], language=language, translation_review=False
+        )
+        url = reverse("show_language", kwargs={"lang": language.code})
+
+        for authenticated in (True, False):
+            if not authenticated:
+                self.client.logout()
+            for site_wide in (False, True):
+                with self.subTest(authenticated=authenticated, site_wide=site_wide):
+                    fallback = (
+                        WorkflowSetting.objects.create(language=language)
+                        if site_wide
+                        else None
+                    )
+                    with CaptureQueriesContext(connection) as queries:
+                        response = self.client.get(url)
+
+                    self.assertEqual(response.status_code, 200)
+                    workflow_queries = [
+                        query
+                        for query in queries
+                        if query["sql"].startswith(
+                            'SELECT "trans_workflowsetting"."id"'
+                        )
+                    ]
+                    self.assertEqual(
+                        len(workflow_queries),
+                        1,
+                        "\n".join(query["sql"] for query in workflow_queries),
+                    )
+                    wrappers = {
+                        item.project.pk: item
+                        for item in response.context["project_languages"]
+                    }
+                    with self.assertNumQueries(0):
+                        self.assertEqual(
+                            wrappers[projects[0].pk].workflow_settings, local
+                        )
+                        for project in projects[1:]:
+                            self.assertEqual(
+                                wrappers[project.pk].workflow_settings, fallback
+                            )
+                    if fallback is not None:
+                        fallback.delete()
+
+    def test_language_preloads_only_displayed_projects(self) -> None:
+        self.create_language_projects(11)
+        language = self.translation.language
+        WorkflowSetting.objects.bulk_create(
+            WorkflowSetting(project=project, language=language)
+            for project in Project.objects.filter(slug__startswith="workflow-")
+        )
+        for page in (1, 2):
+            with self.subTest(page=page):
+                with CaptureQueriesContext(connection) as queries:
+                    response = self.client.get(
+                        reverse("show_language", kwargs={"lang": language.code}),
+                        {"limit": 10, "page": page},
+                    )
+                self.assertEqual(response.status_code, 200)
+                wrappers = response.context["project_languages"]
+                displayed = {item.project.pk for item in wrappers}
+                workflow_queries = [
+                    query
+                    for query in queries
+                    if query["sql"].startswith('SELECT "trans_workflowsetting"."id"')
+                ]
+                self.assertEqual(len(workflow_queries), 1)
+                project_ids = ", ".join(str(item.project.pk) for item in wrappers)
+                self.assertIn(
+                    f'"project_id" IN ({project_ids})', workflow_queries[0]["sql"]
+                )
+                with self.assertNumQueries(0):
+                    self.assertEqual(
+                        {
+                            item.workflow_settings.project_id
+                            for item in wrappers
+                            if item.workflow_settings is not None
+                        },
+                        displayed - {self.project.pk},
+                    )
+
     def test_languages(self) -> None:
         response = self.client.get(reverse("languages"))
         self.assertContains(response, "Czech")
@@ -536,8 +673,13 @@ class LanguagesViewTest(FixtureTestCase):
         self.assertContains(response, "test/test")
 
     def test_language_br(self) -> None:
-        response = self.client.get(reverse("show_language", kwargs={"lang": "br"}))
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(reverse("show_language", kwargs={"lang": "br"}))
         self.assertContains(response, "Breton")
+        self.assertFalse(response.context["project_languages"])
+        self.assertFalse(
+            any('"trans_workflowsetting"' in query["sql"] for query in queries)
+        )
         # Example is listed
         self.assertContains(response, "1000000")
 
@@ -717,17 +859,68 @@ class PluralTest(BaseTestCase):
         self.assertEqual(plural.get_plural_name(1), "Plural")
         self.assertEqual(plural.get_plural_name(2), "Plural form 2")
 
-    def test_plural_labels(self) -> None:
+    def test_plural_display_examples(self) -> None:
         plural = Plural.objects.get(language__code="cs", source=Plural.SOURCE_DEFAULT)
-        label = plural.get_plural_label(0)
-        self.assertIn("One", label)
-        self.assertIn("1", label)
-        label = plural.get_plural_label(1)
-        self.assertIn("Few", label)
-        self.assertIn("2, 3, 4", label)
-        label = plural.get_plural_label(2)
-        self.assertIn("Many", label)
-        self.assertIn("5, 6, 7", label)
+        self.assertEqual(plural.display_examples[0], ["1"])
+        self.assertEqual(plural.display_examples[1], ["2–4"])
+        self.assertEqual(plural.display_examples[2][:2], ["0", "5–99"])
+
+    def test_latvian_display_examples(self) -> None:
+        plural = Plural.objects.get(language__code="lv", source=Plural.SOURCE_DEFAULT)
+        self.assertEqual(
+            plural.format_plural_examples(0),
+            "0, 10–20, 30, 40, 50, 60, 100, 1000, 10000, 100000, 1000000, …",
+        )
+        gettext_plural = Plural.objects.get(
+            language__code="lv",
+            source=Plural.SOURCE_GETTEXT,
+            formula="n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2",
+        )
+        self.assertEqual(gettext_plural.display_examples[2], ["0"])
+
+    def test_arabic_display_examples(self) -> None:
+        plural = Plural.objects.get(language__code="ar", source=Plural.SOURCE_DEFAULT)
+        self.assertEqual(plural.display_examples[4], ["11–99", "111", "1011", "…"])
+        self.assertEqual(
+            plural.display_examples[5],
+            [
+                "100–102",
+                "200–202",
+                "300–302",
+                "400–402",
+                "1000–1002",
+                "10000",
+                "100000",
+                "1000000",
+                "…",
+            ],
+        )
+
+    def test_breton_display_examples(self) -> None:
+        plural = Plural.objects.get(language__code="br", source=Plural.SOURCE_DEFAULT)
+        self.assertEqual(
+            plural.display_examples[3],
+            ["1000000", "2000000", "3000000", "4000000", "…"],
+        )
+
+    def test_sparse_display_examples(self) -> None:
+        plural = Plural(number=3, formula="n==10000 || n==11000 || n==12345678 ? 1 : 0")
+        self.assertEqual(plural.display_examples[1], ["10000", "11000", "12345678"])
+        self.assertEqual(plural.format_plural_examples(2), "")
+
+        info = render_to_string("snippets/plural.html", {"plural": plural})
+        self.assertInHTML(
+            '<bdi class="plural-examples" dir="ltr">10000, 11000, 12345678</bdi>',
+            info,
+        )
+        self.assertIn("No integer examples found", info)
+
+    def test_display_examples_skip_invalid_supplemental_counts(self) -> None:
+        plural = Plural(
+            number=2,
+            formula="n > 2000000 && n % 1000000 == 0 ? 1 / (n % 1000000) : n != 1",
+        )
+        self.assertEqual(plural.display_examples[0], ["1"])
 
     def test_plural_type(self) -> None:
         language = Language.objects.get(code="cs")
@@ -883,6 +1076,73 @@ class PluralTest(BaseTestCase):
 
 
 class PluralMapperTestCase(FixtureComponentTestCase):
+    def test_english_extended_plurals(self) -> None:
+        english = Language.objects.get(code="en")
+        unit = Unit.objects.get(
+            translation__language=english, id_hash=2097404709965985808
+        )
+        singular, plural = unit.get_source_plurals()
+        for code, expected in (
+            ("ar", [plural, singular, plural, plural, plural, plural]),
+            ("he", [singular, plural, plural, plural]),
+            ("mt", [singular, plural, plural, plural]),
+            ("ru", [plural, plural, plural]),
+            ("uk", [plural, plural, plural]),
+            ("hr", [plural, plural, plural]),
+            ("sr", [plural, plural, plural]),
+            ("lt", [plural, plural, plural]),
+            ("is", [plural, plural]),
+        ):
+            with self.subTest(language=code):
+                target = Language.objects.get(code=code)
+                mapper = PluralMapper(english.plural, target.plural)
+                self.assertEqual(mapper.map(unit), expected)
+
+    def test_ambiguous_plural_mapping(self) -> None:
+        czech = Language.objects.get(code="cs")
+        russian = Language.objects.get(code="ru")
+        mapper = PluralMapper(czech.plural, russian.plural)
+        # Russian few includes both Czech few (2) and other (22). Neither
+        # source form alone covers it, even though display examples suggest so.
+        self.assertEqual(mapper.target_map, ((2, None), (None, None), (-1, None)))
+
+    def test_rare_plural_mapping(self) -> None:
+        source = Plural(number=3, formula="n == 1 ? 0 : n >= 1000000 ? 1 : 2")
+        target = Plural(number=3, formula="n == 1 ? 0 : n >= 1500001 ? 1 : 2")
+        # The target threshold is outside the dense example range and between
+        # its sparse samples. It still overlaps only source form 1.
+        self.assertEqual(
+            PluralMapper(source, target).target_map,
+            ((0, None), (1, None), (-1, None)),
+        )
+
+    def test_custom_singleton_plural_mapping(self) -> None:
+        source = Plural(number=2, formula="n != 2500001")
+        target = Plural(number=3, formula="n == 2500001 ? 0 : n == 2500002 ? 1 : 2")
+        self.assertEqual(
+            PluralMapper(source, target).target_map,
+            ((0, None), (1, 2500002), (-1, None)),
+        )
+
+    def test_rare_plural_difference(self) -> None:
+        source = Plural(number=2, formula="n != 1")
+        target = Plural(number=2, formula="n != 1 && n != 2500001")
+        mapper = PluralMapper(source, target)
+        self.assertFalse(mapper.same_plurals)
+        self.assertEqual(mapper.target_map, ((1, None), (-1, None)))
+        self.assertTrue(PluralMapper(target, target).same_plurals)
+
+    def test_plural_count_cache_key(self) -> None:
+        source = Plural(number=2, formula="n != 1")
+        target = Plural(number=2, formula="n != 1")
+        extended = Plural(number=3, formula="n != 1")
+        original_mapper = PluralMapper(source, target)
+        extended_mapper = PluralMapper(source, extended)
+        self.assertIsNot(original_mapper, extended_mapper)
+        self.assertTrue(original_mapper.same_plurals)
+        self.assertFalse(extended_mapper.same_plurals)
+        self.assertEqual(len(extended_mapper.target_map), 3)
+
     def test_english_czech(self) -> None:
         english = Language.objects.get(code="en")
         czech = Language.objects.get(code="cs")

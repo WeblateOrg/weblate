@@ -50,7 +50,7 @@
               "additionalProperties": false,
               "properties": {
                 "q": {
-                  "maxLength": 4096,
+                  "maxLength": 2048,
                   "type": "string"
                 }
               },
@@ -123,7 +123,7 @@
                   ]
                 },
                 "q": {
-                  "maxLength": 4096,
+                  "maxLength": 2048,
                   "type": "string"
                 },
                 "threshold": {
@@ -172,7 +172,7 @@
               "additionalProperties": false,
               "properties": {
                 "q": {
-                  "maxLength": 4096,
+                  "maxLength": 2048,
                   "type": "string"
                 },
                 "service": {
@@ -255,7 +255,7 @@
                   "type": "string"
                 },
                 "q": {
-                  "maxLength": 4096,
+                  "maxLength": 2048,
                   "type": "string"
                 },
                 "remove_flags": {
@@ -273,6 +273,20 @@
                 "remove_translation_flags": {
                   "maxLength": 4096,
                   "type": "string"
+                },
+                "replacement": {
+                  "maxLength": 4096,
+                  "type": "string"
+                },
+                "search": {
+                  "maxLength": 4096,
+                  "type": "string"
+                },
+                "search_type": {
+                  "enum": [
+                    "text",
+                    "regex"
+                  ]
                 },
                 "state": {
                   "type": "integer"
@@ -365,12 +379,28 @@
               "enum": [
                 "expression",
                 "component_category",
-                "language",
-                "matching_strings"
+                "language"
               ]
             },
             "value": {
               "maxLength": 4096,
+              "type": "string"
+            }
+          },
+          "required": [
+            "condition",
+            "value"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "condition": {
+              "const": "matching_strings"
+            },
+            "value": {
+              "maxLength": 2048,
               "type": "string"
             }
           },

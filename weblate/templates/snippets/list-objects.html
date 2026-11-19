@@ -9,7 +9,7 @@
     <div class="table-listing-wrapper table-scroll"
          tabindex="0"
          role="region"
-         aria-label="{% translate "Scrollable table" %}">
+         aria-label="{% translate "Scrollable table"|force_escape %}">
   {% else %}
     <div class="table-listing-wrapper">
   {% endif %}
@@ -23,39 +23,39 @@
                   <a class="btn btn-link btn-sm"
                      id="list-add-button"
                      href="{% url "new-language" path=object.get_url_path %}"
-                     title="{% translate "Start new translation" %}">{% icon "plus.svg" %}</a>
+                     title="{% translate "Start new translation"|force_escape %}">{% icon "plus.svg" %}</a>
                 {% endif %}
               {% elif add_link == "component" %}
                 {% if user_can_edit_project %}
                   <a class="btn btn-link btn-sm"
                      id="list-add-button"
                      href="{% url 'create-component' %}?project={{ object.pk }}"
-                     title="{% translate "Add new translation component" %}">{% icon "plus.svg" %}</a>
+                     title="{% translate "Add new translation component"|force_escape %}">{% icon "plus.svg" %}</a>
                 {% endif %}
               {% elif add_link == "component-category" %}
                 {% if user_can_edit_project %}
                   <a class="btn btn-link btn-sm"
                      id="list-add-button"
                      href="{% url 'create-component' %}?project={{ object.project.pk }}&amp;category={{ object.pk }}"
-                     title="{% translate "Add new translation component" %}">{% icon "plus.svg" %}</a>
+                     title="{% translate "Add new translation component"|force_escape %}">{% icon "plus.svg" %}</a>
                 {% endif %}
               {% elif add_link == "language" %}
                 {% if user_can_add_language %}
                   <a class="btn btn-link btn-sm"
                      id="list-add-button"
                      href="{% url 'create-language' %}"
-                     title="{% translate "Add language" %}">{% icon "plus.svg" %}</a>
+                     title="{% translate "Add language"|force_escape %}">{% icon "plus.svg" %}</a>
                 {% endif %}
               {% elif add_link == "project" %}
                 {% if user.is_authenticated %}
                   <a class="btn btn-link btn-sm"
                      id="list-add-button"
                      href="{% url 'create-project' %}"
-                     title="{% translate "Add project" %}">{% icon "plus.svg" %}</a>
+                     title="{% translate "Add project"|force_escape %}">{% icon "plus.svg" %}</a>
                 {% endif %}
               {% endif %}
             </th>
-            <th title="{% translate "Sort this column" %}" class="sort-cell">
+            <th title="{% translate "Sort this column"|force_escape %}" class="sort-cell">
               {% if objects.paginator.num_pages > 1 %}
                 <a href="{% querystring pagination_query.params page=objects.number limit=objects.paginator.per_page sort_by="name"|toggle_sort:objects.paginator.sort_by %}">
               {% endif %}
@@ -70,7 +70,7 @@
               {% endif %}
             {% endif %}
             {% if show_review_columns or project and project.enable_review %}
-              <th title="{% translate "Sort this column" %}"
+              <th title="{% translate "Sort this column"|force_escape %}"
                   class="number zero-width-540 sort-cell">
                 {% if objects.paginator.num_pages > 1 %}
                   <a href="{% querystring pagination_query.params page=objects.number limit=objects.paginator.per_page sort_by="approved"|toggle_sort:objects.paginator.sort_by %}">
@@ -80,7 +80,8 @@
                 {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
               </th>
             {% endif %}
-            <th title="{% translate "Sort this column" %}" class="number sort-cell">
+            <th title="{% translate "Sort this column"|force_escape %}"
+                class="number sort-cell">
               {% if objects.paginator.num_pages > 1 %}
                 <a href="{% querystring pagination_query.params page=objects.number limit=objects.paginator.per_page sort_by="translated"|toggle_sort:objects.paginator.sort_by %}">
               {% endif %}
@@ -89,7 +90,7 @@
               {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
             </th>
             {% if show_review_columns or project and project.enable_review %}
-              <th title="{% translate "Sort this column" %}"
+              <th title="{% translate "Sort this column"|force_escape %}"
                   class="number zero-width-640 sort-cell">
                 {% if objects.paginator.num_pages > 1 %}
                   <a href="{% querystring pagination_query.params page=objects.number limit=objects.paginator.per_page sort_by="unreviewed"|toggle_sort:objects.paginator.sort_by %}">
@@ -100,7 +101,7 @@
               </th>
             {% endif %}
             {% if "total" in listing_columns %}
-              <th title="{% translate "Sort this column" %}"
+              <th title="{% translate "Sort this column"|force_escape %}"
                   class="number zero-width-640 sort-cell">
                 {% if objects.paginator.num_pages > 1 %}
                   <a href="{% querystring pagination_query.params page=objects.number limit=objects.paginator.per_page sort_by="total"|toggle_sort:objects.paginator.sort_by %}">
@@ -111,7 +112,7 @@
               </th>
             {% endif %}
             {% if "untranslated" in listing_columns %}
-              <th title="{% translate "Sort this column" %}"
+              <th title="{% translate "Sort this column"|force_escape %}"
                   class="number zero-width-640 sort-cell">
                 {% if objects.paginator.num_pages > 1 %}
                   <a href="{% querystring pagination_query.params page=objects.number limit=objects.paginator.per_page sort_by="untranslated"|toggle_sort:objects.paginator.sort_by %}">
@@ -122,7 +123,7 @@
               </th>
             {% endif %}
             {% if "untranslated_words" in listing_columns %}
-              <th title="{% translate "Sort this column" %}"
+              <th title="{% translate "Sort this column"|force_escape %}"
                   class="number zero-width-720 sort-cell">
                 {% if objects.paginator.num_pages > 1 %}
                   <a href="{% querystring pagination_query.params page=objects.number limit=objects.paginator.per_page sort_by="untranslated_words"|toggle_sort:objects.paginator.sort_by %}">
@@ -133,7 +134,7 @@
               </th>
             {% endif %}
             {% if "untranslated_chars" in listing_columns %}
-              <th title="{% translate "Sort this column" %}"
+              <th title="{% translate "Sort this column"|force_escape %}"
                   class="number zero-width-1200 sort-cell">
                 {% if objects.paginator.num_pages > 1 %}
                   <a href="{% querystring pagination_query.params page=objects.number limit=objects.paginator.per_page sort_by="untranslated_chars"|toggle_sort:objects.paginator.sort_by %}">
@@ -144,7 +145,7 @@
               </th>
             {% endif %}
             {% if "nottranslated" in listing_columns %}
-              <th title="{% translate "Sort this column" %}"
+              <th title="{% translate "Sort this column"|force_escape %}"
                   class="number zero-width-1400 sort-cell">
                 {% if objects.paginator.num_pages > 1 %}
                   <a href="{% querystring pagination_query.params page=objects.number limit=objects.paginator.per_page sort_by="nottranslated"|toggle_sort:objects.paginator.sort_by %}">
@@ -155,7 +156,7 @@
               </th>
             {% endif %}
             {% if "checks" in listing_columns %}
-              <th title="{% translate "Sort this column" %}"
+              <th title="{% translate "Sort this column"|force_escape %}"
                   class="number zero-width-768 sort-cell">
                 {% if objects.paginator.num_pages > 1 %}
                   <a href="{% querystring pagination_query.params page=objects.number limit=objects.paginator.per_page sort_by="checks"|toggle_sort:objects.paginator.sort_by %}">
@@ -166,7 +167,7 @@
               </th>
             {% endif %}
             {% if "suggestions" in listing_columns %}
-              <th title="{% translate "Sort this column" %}"
+              <th title="{% translate "Sort this column"|force_escape %}"
                   class="number zero-width-900 sort-cell">
                 {% if objects.paginator.num_pages > 1 %}
                   <a href="{% querystring pagination_query.params page=objects.number limit=objects.paginator.per_page sort_by="suggestions"|toggle_sort:objects.paginator.sort_by %}">
@@ -177,7 +178,7 @@
               </th>
             {% endif %}
             {% if "comments" in listing_columns %}
-              <th title="{% translate "Sort this column" %}"
+              <th title="{% translate "Sort this column"|force_escape %}"
                   class="number zero-width-1000 sort-cell">
                 {% if objects.paginator.num_pages > 1 %}
                   <a href="{% querystring pagination_query.params page=objects.number limit=objects.paginator.per_page sort_by="comments"|toggle_sort:objects.paginator.sort_by %}">
@@ -202,8 +203,8 @@
             <td class="actions" rowspan="2">
               <a href="{{ category.get_absolute_url }}"
                  class="btn btn-link green"
-                 title="{% translate "Browse" %}"
-                 alt="{% translate "Browse" %}">{% icon "folder-multiple-outline.svg" %}</a>
+                 title="{% translate "Browse"|force_escape %}"
+                 alt="{% translate "Browse"|force_escape %}">{% icon "folder-multiple-outline.svg" %}</a>
             </td>
             <th class="object-link">
               <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
@@ -270,13 +271,13 @@
                     {% csrf_token %}
                     <input type="hidden" name="lang" value="{{ object.language.code }}" />
                     <button type="submit"
-                            alt="{% translate "Create translation" %}"
-                            title="{% translate "Create translation" %}"
+                            alt="{% translate "Create translation"|force_escape %}"
+                            title="{% translate "Create translation"|force_escape %}"
                             class="btn btn-link green">{% icon "plus.svg" %}</button>
                   </form>
                 {% else %}
                   <span class="gray"
-                        title="{% if user_can_add_translation.reason %}{{ user_can_add_translation.reason }}{% else %}{% translate "Cannot add translation right now" %}{% endif %}">{% icon "plus.svg" %}</span>
+                        title="{% if user_can_add_translation.reason %}{{ user_can_add_translation.reason }}{% else %}{% translate "Cannot add translation right now"|force_escape %}{% endif %}">{% icon "plus.svg" %}</span>
                 {% endif %}
 
               {% else %}
@@ -284,13 +285,13 @@
                 {% if translate_url %}
                   <a href="{{ translate_url }}{% if object.stats.todo %}?q=state:&lt;translated{% endif %}"
                      class="btn btn-link green"
-                     title="{% translate "Translate" %}"
-                     alt="{% translate "Translate" %}">{% icon "pencil.svg" %}</a>
+                     title="{% translate "Translate"|force_escape %}"
+                     alt="{% translate "Translate"|force_escape %}">{% icon "pencil.svg" %}</a>
                 {% else %}
                   <a href="{{ browse_url }}"
                      class="btn btn-link green"
-                     title="{% translate "Browse" %}"
-                     alt="{% translate "Browse" %}">{% icon "folder-outline.svg" %}</a>
+                     title="{% translate "Browse"|force_escape %}"
+                     alt="{% translate "Browse"|force_escape %}">{% icon "folder-outline.svg" %}</a>
                 {% endif %}
 
               {% endif %}
@@ -320,7 +321,7 @@
                 </span>
               {% elif name_source == "translation" %}
                 {% path_object_links object.component flags=False %} — <a class="tail"
-    href="{{ browse_url }}">{{ object.language }}</a>
+                                                                          href="{{ browse_url }}">{{ object.language }}</a>
               {% else %}
                 <a href="{{ browse_url }}">
                   {% spaceless %}
@@ -344,7 +345,7 @@
               {% endif %}
               {% indicate_alerts object %}
               {% if object.component and not object.is_source and object.workflow_settings.source_language_id %}
-                <span class="badge text-bg-secondary">{% blocktranslate with language=object.effective_source_language %}Source: {{ language }}{% endblocktranslate %}</span>
+                <span class="badge text-bg-secondary">{% blocktranslate with language=object.workflow_settings.source_language %}Source: {{ language }}{% endblocktranslate %}</span>
               {% endif %}
               {% if custom_workflows and object.pk in custom_workflows %}
                 <span class="badge text-bg-secondary">{% translate "Customized workflow" %}</span>
@@ -446,7 +447,7 @@
            id="list-add-button"
            disabled
            href="#"
-           title="{% if user.is_authenticated %}{% translate "You don't have permission to start a new translation" %}{% else %}{% translate "Please sign in to start new translation" %}{% endif %}">{% translate "Start new translation" %}</a>
+           title="{% if user.is_authenticated %}{% translate "You don't have permission to start a new translation"|force_escape %}{% else %}{% translate "Please sign in to start new translation"|force_escape %}{% endif %}">{% translate "Start new translation" %}</a>
       {% endif %}
     {% elif add_link == "component" %}
       {% if user_can_edit_project %}

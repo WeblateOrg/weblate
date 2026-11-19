@@ -23,6 +23,7 @@ from django.forms import Script
 from django.forms.utils import ErrorDict
 from django.http import Http404
 from django.middleware.csrf import rotate_token
+from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.html import escape, format_html
 from django.utils.translation import (
@@ -47,6 +48,7 @@ from weblate.accounts.models import (
     LISTING_COLUMN_CHOICES,
     AuditLog,
     Profile,
+    VerifiedEmail,
     validate_listing_columns,
 )
 from weblate.accounts.notifications import NOTIFICATIONS
@@ -63,17 +65,23 @@ from weblate.lang.forms import LimitLanguagesField, get_language_code_choices
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.defines import FULLNAME_LENGTH
+from weblate.trans.forms import FieldDocsMixin
 from weblate.trans.models import Category, Component, Project, Translation
 from weblate.utils import messages
 from weblate.utils.forms import (
     ContextDiv,
     EmailField,
     QueryField,
+    SearchableSelect,
     SortedSelect,
     SortedSelectMultiple,
     UsernameField,
 )
-from weblate.utils.ratelimit import check_rate_limit, get_rate_setting, reset_rate_limit
+from weblate.utils.ratelimit import (
+    check_rate_limit,
+    get_rate_setting,
+    revert_rate_limit,
+)
 from weblate.utils.validators import validate_fullname
 from weblate.utils.views import parse_path
 
@@ -91,19 +99,25 @@ class UniqueEmailMixin(forms.Form):
     @staticmethod
     def get_email_user(mail: str) -> User | None:
         """Return an active user matching the e-mail address."""
-        users = User.objects.filter(
-            email=mail,
-            is_active=True,
-            is_bot=False,
-        )
-        if not users:
-            users = User.objects.filter(
-                social_auth__verifiedemail__email__iexact=mail,
-                is_active=True,
-                is_bot=False,
+        match = UniqueEmailMixin.get_email_owner(mail)
+        return match[0] if match else None
+
+    @staticmethod
+    def get_email_owner(mail: str) -> tuple[User, str] | None:
+        """Return the account and stored address matching an e-mail."""
+        user = User.objects.filter(email=mail, is_active=True, is_bot=False).first()
+        if user is not None and user.email is not None:
+            return user, user.email
+        verified = (
+            VerifiedEmail.objects.filter(
+                email=mail, social__user__is_active=True, social__user__is_bot=False
             )
-        if users:
-            return users[0]
+            .select_related("social__user")
+            .order_by("pk")
+            .first()
+        )
+        if verified is not None:
+            return verified.social.user, verified.email
         return None
 
     def clean_email(self):
@@ -275,7 +289,10 @@ class LanguagesForm(ProfileBaseForm):
         activate(self.cleaned_data["language"])
 
 
-class CommitForm(ProfileBaseForm):
+class CommitForm(FieldDocsMixin, ProfileBaseForm):
+    def get_field_doc(self, field: forms.Field) -> tuple[str, str]:
+        return ("admin/privacy", "private-version-control-identities")
+
     commit_email = forms.ChoiceField(
         label=gettext_lazy("Commit e-mail"),
         choices=[("", gettext_lazy("Use account e-mail address"))],
@@ -319,8 +336,13 @@ class CommitForm(ProfileBaseForm):
         )
 
 
-class ProfileForm(ProfileBaseForm):
+class ProfileForm(FieldDocsMixin, ProfileBaseForm):
     """User profile editing."""
+
+    def get_field_doc(self, field: forms.Field) -> tuple[str, str] | None:
+        if field.name == "public_email":
+            return ("admin/privacy", "public-profile-and-avatars")
+        return None
 
     public_email = forms.ChoiceField(
         label=gettext_lazy("Public e-mail"),
@@ -959,6 +981,23 @@ class PasswordConfirmForm(EmptyConfirmForm):
             )
 
 
+class FirstFactorPasswordForm(PasswordConfirmForm):
+    password = PasswordField(label=gettext_lazy("Current password"))
+
+    def clean_password(self) -> None:
+        password = self.cleaned_data["password"]
+        if self.user.has_usable_password() and self.user.check_password(password):
+            return
+        authenticated = authenticate(
+            self.request, username=self.user.username, password=password
+        )
+        if authenticated is None or authenticated.pk != self.user.pk:
+            rotate_token(self.request)
+            raise forms.ValidationError(
+                gettext("You have entered an invalid password.")
+            )
+
+
 class ResetForm(EmailForm):
     def clean_email(self):
         if self.cleaned_data["email"] == "noreply@weblate.org":
@@ -1033,7 +1072,8 @@ class LoginForm(forms.Form):
                 user, self.request, "login", method="password", name=username
             )
             adjust_session_expiry(request=self.request, user=user)
-            reset_rate_limit("login", self.request)
+            # Keep failures from other accounts on this IP in the shared bucket.
+            revert_rate_limit("login", self.request)
         return self.cleaned_data
 
     def get_user(self):
@@ -1291,7 +1331,10 @@ class GroupChoiceField(forms.ModelChoiceField):
 class GroupAddForm(forms.Form):
     add_group = GroupChoiceField(
         label=gettext_lazy("Team"),
-        queryset=Group.objects.prefetch_related("defining_project").order(),
+        queryset=Group.objects.select_related(
+            "defining_project", "defining_workspace"
+        ).order(),
+        widget=SearchableSelect,
         required=True,
     )
     limit_languages = LimitLanguagesField(
@@ -1300,6 +1343,25 @@ class GroupAddForm(forms.Form):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+        field = cast("GroupChoiceField", self.fields["add_group"])
+        field.widget.attrs["data-search-url"] = reverse("team-search")
+        # Keep validation against the full queryset, but render only the selected
+        # option. Other choices are fetched when searching the control.
+        value = self["add_group"].value()
+        try:
+            selected_id = int(value) if value else None
+        except (TypeError, ValueError):
+            selected_id = None
+        if selected_id is not None and not 0 < selected_id <= 2**63 - 1:
+            selected_id = None
+        selected = (
+            field.queryset.filter(pk=selected_id)
+            if selected_id
+            else field.queryset.none()
+        )
+        field.widget.choices = [("", field.empty_label)] + [
+            (group.pk, field.label_from_instance(group)) for group in selected
+        ]
         self.fields["limit_languages"].choices = get_language_code_choices(
             self.fields["limit_languages"].queryset
         )
@@ -1477,6 +1539,7 @@ class TOTPTokenForm(OTPTokenForm):
                 "autocomplete": "one-time-code",
             }
         )
+        self.helper.layout = self.helper.build_default_layout(self)
 
     def clean(self):
         self.cleaned_data = forms.Form.clean(self)

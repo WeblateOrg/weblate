@@ -7,13 +7,16 @@ from datetime import UTC, datetime, timedelta, timezone
 from typing import TYPE_CHECKING, ClassVar, Literal
 from unittest.mock import patch
 
+from django.db import connection
 from django.db.models import Count, Exists, F, OuterRef, Q, Sum
 from django.test import TestCase
+from django.test.utils import CaptureQueriesContext
 from django.utils.timezone import get_current_timezone
 from pyparsing import ParserElement
 
 from weblate.auth.models import User
 from weblate.checks.models import Check
+from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
@@ -26,9 +29,11 @@ from weblate.trans.models import (
 )
 from weblate.trans.models.variant import Variant
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.tests.utils import get_test_actor
+from weblate.trans.tests.utils import create_another_user, get_test_actor
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.search import (
+    MAX_SEARCH_QUERY_LENGTH,
+    MAX_SEARCH_QUERY_TERMS,
     SearchQueryError,
     UnitTermExpr,
     build_parser,
@@ -58,7 +63,9 @@ class SearchTestCase(TestCase):
     parser: ClassVar[Literal["unit", "user", "superuser", "screenshot"]] = "unit"
 
     def assert_related_query(self, string: str, expected: Q) -> None:
-        filters, annotations = parse_query(string)
+        # These comparisons test parser structure; scoped authorization has its
+        # own behavioral tests in test_contributor_visibility.
+        filters, annotations = parse_query(string, user=User(is_superuser=True))
         self.assertEqual(annotations, {})
         expected_filter = Q(Exists(Unit.objects.filter(expected, pk=OuterRef("pk"))))
         self.assertEqual(
@@ -98,6 +105,7 @@ class SearchTestCase(TestCase):
         exists: bool = False,
         **context,
     ) -> tuple[str, tuple[object, ...]]:
+        context.setdefault("user", User(is_superuser=True))
         filters, annotations = parse_query(string, parser=self.parser, **context)
         self.assertEqual(annotations, {})
         query = self.object_class.objects.annotate(**annotations).filter(filters)
@@ -113,6 +121,27 @@ class SearchTestCase(TestCase):
 
 
 class BooleanOperatorParserTest(TestCase):
+    def test_query_length_limit_precedes_parser(self) -> None:
+        parse_string("x" * MAX_SEARCH_QUERY_LENGTH, "unit")
+        with (
+            patch("weblate.utils.search.PARSER_LOCK") as lock,
+            self.assertRaisesMessage(SearchQueryError, "Search query is too long"),
+        ):
+            parse_string("x" * (MAX_SEARCH_QUERY_LENGTH + 1), "unit")
+        lock.__enter__.assert_not_called()
+
+    def test_term_limit_counts_quoted_text_once(self) -> None:
+        terms = [f"word{index}" for index in range(MAX_SEARCH_QUERY_TERMS)]
+        parse_query(" ".join(terms))
+        parse_query('"' + " ".join(terms) + '"')
+        with self.assertRaisesMessage(SearchQueryError, "Search query is too complex"):
+            parse_query(" ".join([*terms, "extra"]))
+
+    def test_parsed_queries_are_not_retained(self) -> None:
+        first = parse_string("state:translated", "unit")
+        second = parse_string("state:translated", "unit")
+        self.assertIsNot(first, second)
+
     def test_packrat_is_enabled(self) -> None:
         with patch.object(ParserElement, "enable_packrat") as enable_packrat:
             build_parser(UnitTermExpr)
@@ -282,6 +311,10 @@ class UnitQueryParserTest(SearchTestCase):
 
     def test_regex(self) -> None:
         self.assert_query('source:r"^hello"', source_query(source__trgm_regex="^hello"))
+        with self.assertRaisesRegex(
+            SearchQueryError, "Regular expression is too complex"
+        ):
+            parse_query('source:r"(a){30000000}"')
         # Invalid regex
         with self.assertRaises(SearchQueryError):
             self.assert_query(
@@ -508,10 +541,63 @@ class UnitQueryParserTest(SearchTestCase):
         )
 
     def test_language(self) -> None:
-        self.assert_query("language:cs", Q(translation__language__code__iexact="cs"))
+        language = Language.objects.get(code="cs")
+        for query in ("language:cs", "language:CS", 'language:"cs"', "language:=cs"):
+            with self.subTest(query=query):
+                self.assert_query(query, Q(translation__language_id__in=[language.pk]))
+        for query in (
+            "language:=CS",
+            "language:unknown-search-code",
+            'language:"Czech"',
+        ):
+            with self.subTest(query=query):
+                self.assert_query(query, Q(translation__language_id__in=[]))
+
+    def test_language_case_collisions(self) -> None:
+        # Cached language objects can outlive a fixture reload and its IDs.
+        lower = Language.objects.get(code="cs", skip_cache=True)
+        upper = Language.objects.get(code="en", skip_cache=True)
+        Language.objects.filter(pk=lower.pk).update(code="qaa_search")
+        Language.objects.filter(pk=upper.pk).update(code="QAA_SEARCH")
+        self.assert_query_sql(
+            "language:qaa_search",
+            sql_contains=('"trans_translation"."language_id" IN',),
+            sql_not_contains=('"lang_language"',),
+            params_contains=(lower.pk, upper.pk),
+        )
+        self.assert_query(
+            "language:=qaa_search", Q(translation__language_id__in=[lower.pk])
+        )
+        self.assert_query(
+            "language:=QAA_SEARCH", Q(translation__language_id__in=[upper.pk])
+        )
+
+    def test_language_cached_parse_resolves_current_ids(self) -> None:
+        query = "language:qaa_search"
+        self.assert_query(query, Q(translation__language_id__in=[]))
+        language = Language.objects.get(code="cs")
+        Language.objects.filter(pk=language.pk).update(code="qaa_search")
+        self.assert_query(query, Q(translation__language_id__in=[language.pk]))
+        Language.objects.filter(pk=language.pk).update(code="qaa_search_renamed")
+        self.assert_query(query, Q(translation__language_id__in=[]))
+
+    def test_language_nonliteral_lookups(self) -> None:
         self.assert_query(
             'language:r".*"', Q(translation__language__code__trgm_regex=".*")
         )
+        with self.assertRaises(SearchQueryError):
+            parse_query('language:r"["')
+        for operator, lookup in (
+            (":<", "lt"),
+            (":<=", "lte"),
+            (":>", "gt"),
+            (":>=", "gte"),
+        ):
+            with self.subTest(operator=operator):
+                self.assert_query(
+                    f"language{operator}cs",
+                    Q(**{f"translation__language__code__{lookup}": "cs"}),
+                )
 
     def test_component(self) -> None:
         self.assert_query(
@@ -971,47 +1057,50 @@ class UserQueryParserTest(SearchTestCase):
         )
 
     def test_translates(self) -> None:
-        self.assert_query(
+        user = User.objects.create(is_superuser=True)
+        self.assert_query_sql(
             "translates:cs",
-            Q(change__language__code__iexact="cs"),
+            sql_contains=("EXISTS", '"user_id" = ("weblate_auth_user"."id")'),
+            params_contains=("cs",),
+            user=user,
         )
-        self.assert_query(
+        sql, _params = self.assert_query_sql(
             "translates:cs change_time:>'90 days ago'",
-            Q(change__language__code__iexact="cs")
-            & Q(
-                change__timestamp__gte=datetime.now(tz=UTC).replace(
-                    hour=0, minute=0, second=0, microsecond=0
-                )
-                - timedelta(days=90)
-            ),
+            sql_contains=("EXISTS", '"timestamp" >='),
+            params_contains=("cs",),
+            user=user,
         )
+        self.assertEqual(sql.count("EXISTS"), 1)
 
     def test_contributes(self) -> None:
         user = User.objects.create(is_superuser=True)
-        self.assert_query(
+        self.assert_query_sql(
             "contributes:test",
-            Q(change__project__slug__iexact="test")
-            & Q(change__project__in=user.allowed_projects),
+            sql_contains=("EXISTS", '"user_id" = ("weblate_auth_user"."id")'),
+            params_contains=("test",),
             user=user,
         )
-        self.assert_query(
+        self.assert_query_sql(
             "contributes:test/test",
-            Q(change__component_id__in=[])
-            & Q(change__project__in=user.allowed_projects),
+            sql_contains=("EXISTS", '"component_id"'),
+            params_contains=("test",),
             user=user,
         )
-        self.assert_query(
+        sql, _params = self.assert_query_sql(
             "contributes:test change_time:>'90 days ago'",
-            Q(change__project__slug__iexact="test")
-            & Q(change__project__in=user.allowed_projects)
-            & Q(
-                change__timestamp__gte=datetime.now(tz=UTC).replace(
-                    hour=0, minute=0, second=0, microsecond=0
-                )
-                - timedelta(days=90)
-            ),
+            sql_contains=("EXISTS", '"timestamp" >='),
+            params_contains=("test",),
             user=user,
         )
+        self.assertEqual(sql.count("EXISTS"), 1)
+        sql, _params = self.assert_query_sql(
+            "NOT contributes:test",
+            sql_contains=("NOT (EXISTS",),
+            params_contains=("test",),
+            exists=True,
+            user=user,
+        )
+        self.assertEqual(sql.count("EXISTS"), 1)
 
 
 class SuperuserQueryParserTest(UserQueryParserTest):
@@ -1062,6 +1151,62 @@ class SearchTest(ViewTestCase, SearchTestCase):
     def search_matches_unit(self, query: str, unit: Unit) -> bool:
         filters, annotations = parse_query(query, parser=self.parser)
         return Unit.objects.annotate(**annotations).filter(filters, pk=unit.pk).exists()
+
+    def test_language_boolean_filters(self) -> None:
+        unit = self.get_unit()
+        units = Unit.objects.filter(pk__in=(unit.pk, unit.source_unit.pk))
+        czech = Q(translation__language__code__iexact="cs")
+        english = Q(translation__language__code__iexact="en")
+        unknown = Q(translation__language__code__iexact="unknown-search-code")
+        for query, original in (
+            ("language:CS", czech),
+            ('language:"cs"', czech),
+            ("language:=cs", Q(translation__language__code__exact="cs")),
+            ("language:=CS", Q(translation__language__code__exact="CS")),
+            ("language:unknown-search-code", unknown),
+            ("NOT language:unknown-search-code", ~unknown),
+            ("NOT language:cs", ~czech),
+            ("language:cs OR language:en", czech | english),
+            ("language:cs AND language:en", czech & english),
+            ("language:cs AND NOT language:unknown-search-code", czech & ~unknown),
+            ("NOT (language:cs OR language:unknown-search-code)", ~(czech | unknown)),
+            (
+                "(language:unknown-search-code OR language:cs) AND NOT language:en",
+                (unknown | czech) & ~english,
+            ),
+            (f"language:unknown-search-code OR id:{unit.pk}", unknown | Q(pk=unit.pk)),
+            (f"language:unknown-search-code AND id:{unit.pk}", unknown & Q(pk=unit.pk)),
+        ):
+            with self.subTest(query=query):
+                self.assertEqual(
+                    list(
+                        units.search(query).order_by("pk").values_list("pk", flat=True)
+                    ),
+                    list(
+                        units.filter(original)
+                        .order_by("pk")
+                        .values_list("pk", flat=True)
+                    ),
+                )
+
+    def test_language_lookup_is_reused_for_search_operations(self) -> None:
+        unit = self.get_unit()
+        base = Unit.objects.filter(pk__in=(unit.pk, unit.source_unit.pk))
+        with self.assertNumQueries(1):
+            units = base.search("language:cs")
+        with CaptureQueriesContext(connection) as queries:
+            count = units.count()
+            words = units.aggregate(words=Sum("num_words"))["words"]
+            page = list(units.order_by("-priority", "position", "pk")[:22])
+        self.assertEqual(count, 1)
+        self.assertEqual(words, unit.num_words)
+        self.assertEqual([result.pk for result in page], [unit.pk])
+        self.assertEqual(len(queries), 3)
+        for query in queries:
+            self.assertNotIn('"lang_language"', query["sql"])
+            self.assertIn('"trans_translation"."language_id"', query["sql"])
+        with self.assertNumQueries(2):
+            parse_query("language:cs OR language:en")
 
     def test_related_search_preserves_matching_without_duplicates(self) -> None:
         unit = self.get_unit()
@@ -1263,6 +1408,48 @@ class SearchTest(ViewTestCase, SearchTestCase):
         )
         self.assertTrue(self.search_matches_unit(query, unit))
         self.assertTrue(self.search_matches_unit(grouped_query, unit))
+
+    def test_user_search_follows_change_visibility(self) -> None:
+        unit = self.get_unit()
+        contributor = self.anotheruser
+        outsider = create_another_user("-outsider")
+        Change.objects.create(user=contributor, unit=unit, action=ActionEvents.NEW)
+        queries = (
+            "translates:cs",
+            "change_action:translation-added",
+            "change_time:>'1 day ago'",
+            f"contributes:{self.project.slug}",
+            f"contributes:{self.component.full_slug}",
+        )
+
+        def matches(query: str, user: User) -> bool:
+            return (
+                User.objects.filter(pk=contributor.pk)
+                .search(query, parser="user", user=user)
+                .exists()
+            )
+
+        def assert_visibility(user: User, visible: bool) -> None:
+            user.clear_permissions_cache()
+            for query in queries:
+                with self.subTest(query=query, user=user.username, visible=visible):
+                    self.assertEqual(matches(query, user), visible)
+                    self.assertEqual(matches(f"NOT {query}", user), not visible)
+
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save()
+        self.project.add_user(contributor, "Administration")
+        assert_visibility(contributor, True)
+        assert_visibility(outsider, False)
+
+        self.project.access_control = Project.ACCESS_PUBLIC
+        self.project.save()
+        self.component.restricted = True
+        self.component.save()
+        contributor.is_superuser = True
+        contributor.save(update_fields=["is_superuser"])
+        assert_visibility(contributor, True)
+        assert_visibility(outsider, False)
 
     def test_glossary_empty(self) -> None:
         self.assert_query("has:glossary", Q(source__isnull=True), project=self.project)

@@ -7,7 +7,6 @@ from __future__ import annotations
 import json
 import os
 import re
-import shutil
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import sys
 import tempfile
@@ -46,6 +45,7 @@ from weblate.addons.gettext_rules import (
 from weblate.formats.base import UpdateError
 from weblate.formats.exporters import MoExporter
 from weblate.trans.file_format_params import GettextReportMsgidBugsTo
+from weblate.utils.change_origin import get_acting_user
 from weblate.utils.commands import find_runtime_command, get_clean_env
 from weblate.utils.errors import report_error
 from weblate.utils.files import cleanup_error_message
@@ -242,8 +242,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
         changed, lines = self.update_linguas(lines, codes)
 
         if changed:
-            with open(path, "w", encoding="utf-8") as handle:
-                handle.writelines(lines)
+            self.write_repo_file(path, "".join(lines))
 
         return changed
 
@@ -357,8 +356,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
                     added = True
 
             if added:
-                with open(path, "w", encoding="utf-8") as handle:
-                    handle.writelines(lines)
+                self.write_repo_file(path, "".join(lines))
 
         return added
 
@@ -556,7 +554,13 @@ class ExtractPotBaseAddon(UpdateBaseAddon, GettextBaseAddon):
         return Path(component.new_base).stem
 
     def get_component_full_name(self, component: Component) -> str:
-        return f"{component.project.name} / {component.name}"
+        names = [component.name]
+        category = component.category
+        while category is not None:
+            names.append(category.name)
+            category = category.category
+        names.append(component.project.name)
+        return " / ".join(reversed(names))
 
     def should_normalize_header(self) -> bool:
         return bool(self.instance.configuration.get("normalize_header"))
@@ -603,7 +607,7 @@ class ExtractPotBaseAddon(UpdateBaseAddon, GettextBaseAddon):
                 }
             )
             return False
-        MsgmergeAddon.create(run=False, acting_user=self.instance.acting_user, **kwargs)
+        MsgmergeAddon.create(run=False, acting_user=get_acting_user(), **kwargs)
         return True
 
     def has_applicable_msgmerge_addon(self, addon_model) -> bool:
@@ -1494,28 +1498,32 @@ class XgettextAddon(ExtractPotBaseAddon):
         Path(template).parent.mkdir(parents=True, exist_ok=True)
         language = self.get_language()
         language_args = ["--language", language] if language else []
-        if (
-            self.run_process(
-                component,
-                [
-                    "xgettext",
-                    "--output",
-                    component.new_base,
-                    *language_args,
-                    *self.get_extra_xgettext_args(component),
-                    *self.get_gettext_format_args(component),
-                    "--",
-                    *files,
-                ],
-                env={
-                    "GETTEXTDATADIRS": os.pathsep.join(
-                        str(path) for path in [*data_dirs, GETTEXT_DATA_DIR]
-                    )
-                },
-            )
-            is None
-        ):
-            return False
+        with tempfile.TemporaryDirectory(prefix="weblate-xgettext-") as tempdir:
+            generated = Path(tempdir) / Path(template).name
+            if (
+                self.run_process(
+                    component,
+                    [
+                        "xgettext",
+                        "--output",
+                        str(generated),
+                        *language_args,
+                        *self.get_extra_xgettext_args(component),
+                        *self.get_gettext_format_args(component),
+                        "--",
+                        *files,
+                    ],
+                    env={
+                        "GETTEXTDATADIRS": os.pathsep.join(
+                            str(path) for path in [*data_dirs, GETTEXT_DATA_DIR]
+                        )
+                    },
+                )
+                is None
+            ):
+                return False
+            if generated.exists():
+                self.write_repo_file(template, generated.read_bytes())
         return self.finalize_template(component)
 
 
@@ -1826,7 +1834,7 @@ class DjangoAddon(ExtractPotBaseAddon):
                 )
                 return False
             Path(template).parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(generated, template)
+            self.write_repo_file(template, generated.read_bytes())
         return self.finalize_template(component, template)
 
     def validate_django_repository_tree(
@@ -2027,7 +2035,7 @@ class SphinxAddon(ExtractPotBaseAddon):
             if template is None:
                 return False
             Path(template).parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(generated, template)
+            self.write_repo_file(template, generated.read_bytes())
         return self.finalize_template(component)
 
     def postprocess_sphinx_template(

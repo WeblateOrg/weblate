@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 from datetime import date, datetime
-from typing import TYPE_CHECKING, NamedTuple
+from typing import TYPE_CHECKING, Any, NamedTuple
 
 from django import template
 from django.contrib.auth.models import AnonymousUser
@@ -21,6 +21,12 @@ from siphashc import siphash
 
 from weblate.accounts.avatar import get_user_display
 from weblate.accounts.models import DEFAULT_LISTING_COLUMNS, Profile
+from weblate.accounts.visibility import (
+    can_browse_users,
+    can_search_scoped_users,
+    can_view_contributor,
+    prepare_contributor_visibility,
+)
 from weblate.auth.models import User
 from weblate.checks.models import CHECKS
 from weblate.trans.filter import FILTERS, get_filter_choice
@@ -45,6 +51,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
+from weblate.trans.models.alert import filter_visible_alerts
 from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import translation_percent
@@ -70,11 +77,12 @@ if TYPE_CHECKING:
 
     from django import forms
     from django.core.paginator import Page
-    from django.db.models import QuerySet
+    from django.db.models import Model, QuerySet
     from django.template.context import Context
     from django.utils.safestring import SafeString
     from django_stubs_ext import StrOrPromise
 
+    from weblate.billing.models import LibreCheckAlert
     from weblate.lang.models import Language
     from weblate.metrics.wrapper import MetricsWrapper
     from weblate.trans.models import (
@@ -433,7 +441,7 @@ def announcements(
                     "message.html",
                     {
                         "tags": f"{announcement.severity} announcement",
-                        "message": render_markdown(announcement.message),
+                        "message": render_markdown(announcement.message, viewer=user),
                         "announcement": announcement,
                         "can_delete": user.has_perm(
                             "announcement.delete", announcement
@@ -571,8 +579,22 @@ def translation_alerts(
         )
 
 
+@register.filter
+def visible_billing_alerts(
+    alerts: Iterable[LibreCheckAlert], user: User
+) -> list[LibreCheckAlert]:
+    """Apply diagnostic visibility to the Libre-hosting checklist as well."""
+    items = list(alerts)
+    visible_ids = {
+        alert.pk
+        for alert in filter_visible_alerts((item.alert for item in items), user)
+    }
+    return [item for item in items if item.alert.pk in visible_ids]
+
+
 def component_alerts(
     component: Component,
+    user: User,
 ) -> Iterable[tuple[str, StrOrPromise, str | None, str]]:
     if component.is_repo_link:
         yield (
@@ -583,7 +605,7 @@ def component_alerts(
             "",
         )
 
-    if component.all_problem_alerts:
+    if filter_visible_alerts(component.all_problem_alerts, user):
         yield (
             "state/alert.svg",
             gettext("Fix this component to clear its diagnostics."),
@@ -605,8 +627,12 @@ def component_alerts(
 
 def project_alerts(
     project: Project,
+    user: User,
 ) -> Iterable[tuple[str, StrOrPromise, str | None, str]]:
-    if project.has_alerts:
+    has_alerts = project.__dict__.get("visible_has_alerts")
+    if has_alerts is None:
+        has_alerts = project.all_problem_alerts.filter_visible_conflicts(user).exists()
+    if has_alerts:
         yield (
             "state/alert.svg",
             gettext("Some of the components within this project have diagnostics."),
@@ -653,9 +679,9 @@ def get_alerts(
         yield ("state/shield.svg", gettext("Restricted component"), None, "")
 
     if component is not None:
-        yield from (component_alerts(component))
+        yield from (component_alerts(component, context["user"]))
     elif project is not None:
-        yield from (project_alerts(project))
+        yield from (project_alerts(project, context["user"]))
 
     if getattr(obj, "is_ghost", False):
         yield (
@@ -779,14 +805,18 @@ def can_dismiss_alert(alert: Alert, user: User) -> bool:
 
 
 @register.filter
-def format_commit_author(commit) -> str:
+def format_commit_author(
+    commit, resource: Model, *, viewer: User | AnonymousUser | None = None
+) -> str:
+    if not can_view_contributor(viewer, resource):
+        return commit["author_name"]
     users = User.objects.filter(
         social_auth__verifiedemail__email=commit["author_email"]
     )
     user = users.first()
     if user is None:
         return commit["author_name"]
-    return get_user_display(user, True, True)
+    return get_user_display(user, True, True, viewer=viewer)
 
 
 @register.filter
@@ -1139,8 +1169,12 @@ def show_info(  # ruff: ignore[too-many-arguments]
 
     This merely exists to be able to pass default values to {% include %}.
     """
+    user = context["user"]
     return {
-        "user": context["user"],
+        "user": user,
+        "profile_viewer": user,
+        "can_browse_users": can_browse_users(user),
+        "can_search_scoped_users": can_search_scoped_users(user),
         "workspace": workspace,
         "project": project,
         "component": component,
@@ -1153,6 +1187,9 @@ def show_info(  # ruff: ignore[too-many-arguments]
         "show_global": show_global,
         "show_full_language": show_full_language,
         "top_users": top_users,
+        "can_view_top_users": can_view_contributor(
+            user, translation or component or project
+        ),
         "total_translations": total_translations,
     }
 
@@ -1193,7 +1230,8 @@ def format_last_changes_content(
     search_url: str | None = None,
     offset: int | None = None,
     translate_url: str | None = None,
-):
+    full_content: bool = False,
+) -> dict[str, Any]:
     """
     Format last changes content for display.
 
@@ -1204,9 +1242,11 @@ def format_last_changes_content(
         get_change_history_context,
     )
 
-    if isinstance(user, str):  # e.g in email digest
+    if user is None or isinstance(user, str):  # e.g in email digest
         user = AnonymousUser()
 
+    last_changes = list(last_changes)
+    user = prepare_contributor_visibility(user, last_changes)
     processed_changes = []
     for change in last_changes:
         # Permissions
@@ -1227,15 +1267,24 @@ def format_last_changes_content(
                     "can_block_user": can_block_user,
                 },
                 "ip_address": change.get_ip_address() if user.is_superuser else None,
-                "origin": change.get_origin_display(),
-                "origin_description": change.get_origin_description(),
+                "origin": change.get_origin_display()
+                if can_view_contributor(user, change)
+                else None,
+                "origin_description": change.get_origin_description()
+                if can_view_contributor(user, change)
+                else None,
                 "history_data": get_change_history_context(
-                    change, include_private_details=bool(user.is_authenticated)
+                    change,
+                    include_private_details=bool(user.is_authenticated),
+                    viewer=user,
+                    list_preview=not full_content,
                 ),
             }
         )
     return {
         "changes_with_context": processed_changes,
+        "profile_viewer": user,
+        "subscription_user": user if in_email else None,
         "in_email": in_email,
         "debug": debug,
         "query_params": QueryDict(search_url or ""),

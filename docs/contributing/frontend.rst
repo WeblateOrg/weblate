@@ -68,6 +68,11 @@ Before proceeding with an installation, make sure you have the following prerequ
 - Run ``cd client``.
 - Run ``yarn install --check-files``.
 
+The :ref:`development container <devcontainer>` supplies Node.js and Yarn.
+Use ``./scripts/devcontainer verify --check frontend`` to install dependencies
+with the frozen lockfile and build assets into a temporary directory without
+replacing the tracked vendor files.
+
 Installation
 ++++++++++++
 
@@ -149,6 +154,24 @@ function, but there are more complex features available:
             "There are %s objects. Remaining: %s", 11);
     s = interpolate(fmts, [11, 20]);
     // s is "There are 11 objects. Remaining: 20"
+
+Use ``force_escape`` on literal translations in quoted HTML attributes so that
+quotes in the translation cannot end the attribute.
+
+.. code-block:: django
+
+    <span title="{% translate 'Example tooltip'|force_escape %}">…</span>
+
+When translating text with ``blocktranslate``, account for the escaping of
+interpolated values. Applying ``force_escape`` to a rendered block can escape
+those values twice.
+
+Place ``blocktranslate`` in element content when the translated text is a
+visible or visually hidden label. For text needed in an HTML attribute, use
+``blocktranslate asvar`` in a narrow ``autoescape off`` block and apply
+``force_escape`` when inserting the variable into the quoted attribute.
+This escapes the whole message once, including the interpolated values.
+For a URL query value, apply ``urlencode:""`` to the assembled text.
 
 .. seealso::
 

@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING, ClassVar, Literal, TypedDict, cast
 from django.conf import settings
 from django.utils import timezone
 from django.utils.html import format_html_join
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import (
@@ -23,6 +23,7 @@ from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
 from weblate.trans.filter import FILTERS
 from weblate.trans.models import Component
 from weblate.trans.tasks import auto_translate, auto_translate_component
+from weblate.utils.celery import filter_task_errors
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
@@ -283,15 +284,20 @@ class AutoTranslateAddon(
         messages = []
         for item in results:
             if not isinstance(item, dict):
-                messages.append((str(item), ""))
+                messages.append((str(item), "", ""))
                 continue
             message = item.get("message")
             warnings = item.get("warnings")
+            # Activity rendering has no reader context. Keep provider diagnostics
+            # in the permission-filtered task result and log.
+            errors = filter_task_errors(item, None)["errors"]
             if not isinstance(message, str):
                 message = ""
             if not isinstance(warnings, list):
                 warnings = []
-            if message or warnings:
+            if not isinstance(errors, list):
+                errors = []
+            if message or warnings or errors:
                 messages.append(
                     (
                         message,
@@ -299,6 +305,11 @@ class AutoTranslateAddon(
                             "",
                             '<div class="text-warning mt-2">{}</div>',
                             ((warning,) for warning in warnings),
+                        ),
+                        format_html_join(
+                            "",
+                            '<div class="text-danger mt-2">{}</div>',
+                            ((gettext("Error: %s") % error,) for error in errors),
                         ),
                     )
                 )
@@ -308,7 +319,7 @@ class AutoTranslateAddon(
 
         return format_html_join(
             "",
-            '<div class="task-message">{}{}</div>',
+            '<div class="task-message">{}{}{}</div>',
             messages,
         )
 

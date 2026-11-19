@@ -4,13 +4,16 @@
 
 from __future__ import annotations
 
+import json
 import re
 import time
 from base64 import b32encode
 from binascii import unhexlify
 from collections import defaultdict
+from contextlib import nullcontext
 from dataclasses import dataclass
 from datetime import timedelta
+from functools import wraps
 from typing import TYPE_CHECKING, Any, ClassVar
 from urllib.parse import quote
 
@@ -22,6 +25,8 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_not_required, login_required
 from django.contrib.auth.views import LoginView, RedirectURLMixin
+from django.contrib.messages import ERROR, get_messages
+from django.contrib.messages.storage.base import BaseStorage
 from django.core.exceptions import (
     ImproperlyConfigured,
     ObjectDoesNotExist,
@@ -31,11 +36,12 @@ from django.core.exceptions import (
 from django.core.mail.message import EmailMessage
 from django.core.signing import BadSignature, SignatureExpired
 from django.db import transaction
-from django.db.models import Count, Q
+from django.db.models import Count, Max, Q
 from django.http import (
     Http404,
     HttpResponse,
     HttpResponseBadRequest,
+    HttpResponseBase,
     HttpResponseRedirect,
     JsonResponse,
     QueryDict,
@@ -43,19 +49,23 @@ from django.http import (
 from django.middleware.csrf import rotate_token
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
-from django.urls import reverse
+from django.urls import Resolver404, resolve, reverse
 from django.utils import timezone
 from django.utils.cache import patch_response_headers
 from django.utils.crypto import constant_time_compare
 from django.utils.decorators import method_decorator
 from django.utils.encoding import force_str
 from django.utils.functional import cached_property
-from django.utils.http import content_disposition_header, urlencode
+from django.utils.http import (
+    content_disposition_header,
+    url_has_allowed_host_and_scheme,
+    urlencode,
+)
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_GET, require_POST
 from django.views.generic import (
     DetailView,
     FormView,
@@ -73,7 +83,9 @@ from django_otp_webauthn.exceptions import OTPWebAuthnApiError
 from django_otp_webauthn.models import WebAuthnCredential
 from django_otp_webauthn.views import (
     BeginCredentialAuthenticationView,
+    BeginCredentialRegistrationView,
     CompleteCredentialAuthenticationView,
+    CompleteCredentialRegistrationView,
 )
 from social_core.actions import do_auth
 from social_core.backends.base import BaseAuth
@@ -96,6 +108,7 @@ from weblate.accounts.flows import (
     PASSWORD_RESET_SCOPE_SESSION,
     PASSWORD_RESET_SCOPE_TOKEN_PARAM,
     PASSWORD_RESET_SCOPE_TOKEN_SESSION,
+    PASSWORD_RESET_USER_SESSION,
     get_signed_password_reset_scope,
 )
 from weblate.accounts.forms import (
@@ -104,6 +117,7 @@ from weblate.accounts.forms import (
     DashboardSettingsForm,
     EmailForm,
     EmptyConfirmForm,
+    FirstFactorPasswordForm,
     GroupAddForm,
     GroupRemoveForm,
     LanguagesForm,
@@ -138,8 +152,14 @@ from weblate.accounts.notifications import (
 )
 from weblate.accounts.oidc import prepare_oidc_login
 from weblate.accounts.pipeline import adjust_primary_mail
+from weblate.accounts.strategy import WeblateStrategy
+from weblate.accounts.tasks import notify_email_conflict
+from weblate.accounts.templatetags.authnames import get_auth_name
 from weblate.accounts.utils import (
-    SECOND_FACTOR_VERIFY_SECONDS,
+    FIRST_FACTOR_VERIFY_SECONDS,
+    SESSION_FIRST_FACTOR_GRANT,
+    SESSION_FIRST_FACTOR_SSO,
+    SESSION_FIRST_WEBAUTHN_NAME,
     SESSION_SECOND_FACTOR_HASH,
     SESSION_SECOND_FACTOR_SOCIAL,
     SESSION_SECOND_FACTOR_TIMESTAMP,
@@ -148,18 +168,38 @@ from weblate.accounts.utils import (
     SESSION_WEBAUTHN_AUDIT,
     TOTP_ENROLLMENT_SECONDS,
     adjust_session_expiry,
+    clear_pending_first_factor,
     clear_second_factor_session,
     cycle_session_keys,
     get_key_name,
+    grant_first_factor,
+    grant_sensitive_verification,
+    has_first_factor_grant,
+    has_recent_second_factor,
+    has_recent_sensitive_verification,
     invalidate_reset_codes,
     lock_user,
     remove_user,
+    require_recent_second_factor,
+    require_sensitive_verification,
     reset_api_token,
+    second_factor_verification_redirect,
+    sensitive_verification_redirect,
     set_second_factor_session,
+    valid_first_factor_sso_intent,
+)
+from weblate.accounts.visibility import (
+    can_browse_users,
+    can_search_scoped_users,
+    check_profile_access,
+    contributor_translations,
+    filter_contributor_changes,
+    is_resource_bounded,
+    profile_response,
 )
 from weblate.auth.decorators import check_management_access
 from weblate.auth.forms import UserEditForm
-from weblate.auth.models import Invitation, User, get_anonymous
+from weblate.auth.models import Group, Invitation, User, get_anonymous
 from weblate.auth.utils import (
     format_address,
     format_membership_limit_language_codes,
@@ -183,6 +223,7 @@ from weblate.utils import messages
 from weblate.utils.errors import add_breadcrumb, log_handled_exception, report_error
 from weblate.utils.ratelimit import check_rate_limit, session_ratelimit_post
 from weblate.utils.request import get_ip_address, get_user_agent
+from weblate.utils.search import SearchQueryError, parse_query
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.validators import (
     WeblateURLValidator,
@@ -509,6 +550,10 @@ def user_profile(request: AuthenticatedHttpRequest):
     form_errors = False
 
     if request.method == "POST":
+        if any(
+            isinstance(form, (UserForm, CommitForm)) for form in submitted_forms
+        ) and not has_recent_sensitive_verification(request):
+            return sensitive_verification_redirect(request, request.path)
         validation_results = [form.is_valid() for form in submitted_forms]
         form_errors = not all(validation_results)
         if not form_errors:
@@ -590,6 +635,7 @@ def user_profile(request: AuthenticatedHttpRequest):
 
 
 @login_required
+@require_sensitive_verification
 @session_ratelimit_post("remove")
 @never_cache
 def user_remove(request: AuthenticatedHttpRequest):
@@ -611,7 +657,7 @@ def user_remove(request: AuthenticatedHttpRequest):
             AuditLog.objects.create(
                 request.user, request, "removal-request", **request.GET
             )
-            return social_complete(request, "email")
+            return send_email_confirmation(request)
     else:
         confirm_form = PasswordConfirmForm(request)
 
@@ -792,6 +838,7 @@ def trial(request: AuthenticatedHttpRequest):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(profile_response, name="dispatch")
 class UserNotifications(DetailView):
     model = User
     template_name = "accounts/notification_debug.html"
@@ -802,6 +849,7 @@ class UserNotifications(DetailView):
 
     def get_object(self, queryset=None):
         user = super().get_object(queryset)
+        check_profile_access(self.request.user, user)
         if user.pk != self.request.user.pk:
             check_management_access(self.request, "user.edit")
         return user
@@ -885,6 +933,42 @@ class UserNotifications(DetailView):
         return context
 
 
+@require_GET
+@never_cache
+def team_search(request: AuthenticatedHttpRequest) -> JsonResponse:
+    """Look up teams without loading the site's complete team list."""
+    check_management_access(request, "user.edit")
+    try:
+        page = int(request.GET.get("page", "1"))
+    except ValueError:
+        return JsonResponse({"error": "Invalid page."}, status=400)
+    if page < 1 or page > 10000:
+        return JsonResponse({"error": "Invalid page."}, status=400)
+    query = request.GET.get("q", "").strip()[:200]
+    groups = Group.objects.select_related("defining_project", "defining_workspace")
+    if query:
+        groups = groups.filter(
+            Q(name__icontains=query)
+            | Q(defining_project__name__icontains=query)
+            | Q(defining_workspace__name__icontains=query)
+        )
+    offset = (page - 1) * 25
+    matches = list(
+        groups.order_by(
+            "defining_project__name", "defining_workspace__name", "name", "pk"
+        )[offset : offset + 26]
+    )
+    return JsonResponse(
+        {
+            "results": [
+                {"id": group.pk, "text": group.long_name()} for group in matches[:25]
+            ],
+            "more": len(matches) > 25,
+        }
+    )
+
+
+@method_decorator(profile_response, name="dispatch")
 class UserPage(UpdateView):
     model = User
     template_name = "accounts/user.html"
@@ -924,6 +1008,8 @@ class UserPage(UpdateView):
         user = self.object = self.get_object()
         if user.is_internal:
             raise PermissionDenied(gettext("This user can not be edited."))
+        if not has_recent_sensitive_verification(request):
+            return sensitive_verification_redirect(request, request.path)
         if "add_group" in request.POST:
             response = self.handle_add_group(request, user)
             if response is not None:
@@ -1004,6 +1090,11 @@ class UserPage(UpdateView):
             return self.form_valid(form)
         return self.form_invalid(form)
 
+    def get_object(self, queryset=None):
+        user = super().get_object(queryset)
+        check_profile_access(self.request.user, user)
+        return user
+
     def get_queryset(self):
         return super().get_queryset().select_related("profile")
 
@@ -1021,18 +1112,28 @@ class UserPage(UpdateView):
         allowed_projects = request.user.allowed_projects
 
         # Filter all user activity
-        all_changes = Change.objects.last_changes(request.user).filter(user=user)
+        all_changes = filter_contributor_changes(
+            Change.objects.last_changes(request.user), request.user
+        ).filter(user=user)
 
         # Filter where project is active
-        user_translation_ids = set(
+        user_translation_ids = (
             all_changes.content()
-            .filter(timestamp__gte=timezone.now() - timedelta(days=90))
-            .values_list("translation", flat=True)
+            .filter(
+                timestamp__gte=timezone.now() - timedelta(days=90),
+                translation__component__project__in=allowed_projects,
+            )
+            .exclude(translation=None)
+            .order_by()
+            .values("translation")
+            .annotate(last_contribution=Max("timestamp"))
+            .order_by("-last_contribution", "translation")
+            .values("translation")[:10]
         )
         user_translations = (
             Translation.objects.prefetch()
             .filter(
-                id__in=list(user_translation_ids)[:10],
+                id__in=user_translation_ids,
                 component__project__in=allowed_projects,
             )
             .order()
@@ -1049,14 +1150,20 @@ class UserPage(UpdateView):
         owned = (user.owned_projects & allowed_projects.distinct()).order()[:11]
         context["page_owned_projects_more"] = len(owned) == 11
         context["page_owned_projects"] = prefetch_project_flags(
-            prefetch_stats(owned[:10])
+            prefetch_stats(owned[:10]), user=request.user
         )
         watched = (user.watched_projects & allowed_projects).order()[:11]
         context["page_watched_projects_more"] = len(watched) == 11
         context["page_watched_projects"] = prefetch_project_flags(
-            prefetch_stats(watched[:10])
+            prefetch_stats(watched[:10]), user=request.user
         )
         context["user_languages"] = user.profile.all_languages[:7]
+        context["page_user_billings"] = []
+        if not request.user.has_perm("user.edit"):
+            return context
+        context["page_user_blocks"] = user.userblock_set.select_related(
+            "project", "user"
+        )
         context["group_form"] = self.group_form or GroupAddForm()
         memberships = (
             user.team_memberships.select_related(
@@ -1083,7 +1190,6 @@ class UserPage(UpdateView):
         for group in page_user_groups:
             group.team_membership = memberships_by_group_id.get(group.pk)
         context["page_user_groups"] = page_user_groups
-        context["page_user_billings"] = []
         if "weblate.billing" in settings.INSTALLED_APPS:
             # ruff: ignore[import-outside-top-level]
             from weblate.billing.models import Billing
@@ -1100,19 +1206,17 @@ class UserPage(UpdateView):
         return context
 
 
+@profile_response
 def user_contributions(request: AuthenticatedHttpRequest, user: str):
     page_user = get_object_or_404(User, username=user)
-    user_translation_ids = set(
-        Change.objects.content()
-        .filter(user=page_user)
-        .values_list("translation", flat=True)
+    check_profile_access(request.user, page_user)
+    user_translation_ids = (
+        Change.objects.content().filter(user=page_user).order_by().values("translation")
     )
     user_translations = (
-        Translation.objects.filter_access(request.user)
+        contributor_translations(request.user)
         .prefetch()
-        .filter(
-            id__in=user_translation_ids,
-        )
+        .filter(id__in=user_translation_ids)
         .order()
     )
     return render(
@@ -1140,8 +1244,10 @@ PROFILE_EXTERNAL_LINKS: dict[str, tuple[Any, Callable[[str | None], None]]] = {
 
 
 @login_not_required
+@profile_response
 def user_profile_link(request: AuthenticatedHttpRequest, user: str, link: str):
     page_user = get_object_or_404(User.objects.select_related("profile"), username=user)
+    check_profile_access(request.user, page_user)
     page_profile = page_user.profile
     try:
         link_label, link_validator = PROFILE_EXTERNAL_LINKS[link]
@@ -1200,11 +1306,13 @@ def validate_avatar_size(size: int | str) -> int:
 
 
 @login_not_required
+@profile_response
 def user_avatar(request: AuthenticatedHttpRequest, user: str, size: int | str):
     """User avatar view."""
     avatar_size = validate_avatar_size(size)
 
     avatar_user = get_object_or_404(User, username=user)
+    check_profile_access(request.user, avatar_user)
     email = avatar_user.email
 
     # Deleted users
@@ -1313,7 +1421,13 @@ class WeblateLoginView(BaseLoginView):
         # Redirect if there is only one backend
         auth_backends = get_auth_keys()
         if len(auth_backends) == 1 and "email" not in auth_backends:
-            return redirect_single(request, auth_backends.pop())
+            storage = get_messages(request)
+            has_error = any(message.level >= ERROR for message in storage)
+            # Leave messages available for rendering or a subsequent redirect.
+            if isinstance(storage, BaseStorage):
+                storage.used = False
+            if not has_error:
+                return redirect_single(request, auth_backends.pop())
 
         if request.method == "POST" and not self.show_login_form:
             return redirect("login")
@@ -1414,7 +1528,7 @@ def register(request: AuthenticatedHttpRequest):
                 return fake_email_sent(request)
             else:
                 store_userid(request)
-                return social_complete(request, "email")
+                return send_email_confirmation(request)
     else:
         form = RegistrationForm(
             request=request, initial=initial, hide_captcha=hide_captcha
@@ -1438,6 +1552,7 @@ def register(request: AuthenticatedHttpRequest):
 
 
 @login_required
+@require_sensitive_verification
 @never_cache
 def email_login(request: AuthenticatedHttpRequest):
     """Connect e-mail."""
@@ -1446,20 +1561,49 @@ def email_login(request: AuthenticatedHttpRequest):
         if form.is_valid():
             email_user = form.cleaned_data["email_user"]
             if email_user and email_user != request.user:
-                AuditLog.objects.create(
-                    form.cleaned_data["email_user"], request, "connect"
+                audit = AuditLog.objects.create(
+                    email_user, request, "connect", skip_notify=True
+                )
+                notify_email_conflict.delay_on_commit(
+                    audit.pk, form.cleaned_data["email"], email_user.email
                 )
                 return fake_email_sent(request)
             store_userid(request)
-            return social_complete(request, "email")
+            return send_email_confirmation(request)
     else:
         form = EmailForm(request=request)
 
     return render(
         request,
         "accounts/email.html",
-        {"title": gettext("Verify new e-mail address"), "form": form},
+        {"title": gettext("Add and verify e-mail address"), "form": form},
     )
+
+
+@require_GET
+@login_required
+@never_cache
+def verify_second_factor(request: AuthenticatedHttpRequest):
+    """Return to a local page after a fresh second-factor challenge."""
+    next_url = reverse("profile")
+    requested_url = request.GET.get("next", "")
+    if requested_url.startswith("/") and not requested_url.startswith("//"):
+        try:
+            match = resolve(requested_url)
+        except Resolver404:
+            pass
+        else:
+            if match.view_name == "data_project":
+                next_url = reverse(
+                    "data_project", kwargs={"project": match.kwargs["project"]}
+                )
+            elif match.view_name == "manage-access":
+                next_url = reverse(
+                    "manage-access", kwargs={"project": match.kwargs["project"]}
+                )
+    if has_recent_sensitive_verification(request):
+        return HttpResponseRedirect(next_url)
+    return sensitive_verification_redirect(request, next_url)
 
 
 @login_required
@@ -1471,29 +1615,8 @@ def password(request: AuthenticatedHttpRequest):
     change_form = None
     user = request.user
     usable = user.has_usable_password()
-
-    if user.profile.has_2fa and (
-        SESSION_SECOND_FACTOR_TIMESTAMP not in request.session
-        or request.session[SESSION_SECOND_FACTOR_TIMESTAMP]
-        + SECOND_FACTOR_VERIFY_SECONDS
-        < int(time.time())
-    ):
-        messages.info(
-            request,
-            gettext(
-                "Please confirm your identity using a second factor before proceeding."
-            ),
-        )
-        set_second_factor_session(
-            request,
-            user,
-            "weblate.accounts.auth.WeblateUserBackend",
-        )
-        login_params: dict[str, str] = {"next": reverse("password")}
-        login_url = reverse(
-            "2fa-login", kwargs={"backend": user.profile.get_second_factor_type()}
-        )
-        return HttpResponseRedirect(f"{login_url}?{urlencode(login_params)}")
+    if not has_recent_sensitive_verification(request):
+        return sensitive_verification_redirect(request, request.path)
 
     if "email" not in get_auth_keys() and not usable:
         messages.error(
@@ -1529,7 +1652,11 @@ def password(request: AuthenticatedHttpRequest):
     return render(
         request,
         "accounts/password.html",
-        {"title": gettext("Change password"), "change_form": change_form, "form": form},
+        {
+            "title": gettext("Change password") if usable else gettext("Set password"),
+            "change_form": change_form,
+            "form": form,
+        },
     )
 
 
@@ -1579,16 +1706,25 @@ def get_password_reset_scope(request: AuthenticatedHttpRequest, email: str) -> s
     return ""
 
 
+@transaction.atomic
 def send_password_reset_email(
     request: AuthenticatedHttpRequest, user: User, *, email: str, scope: str = ""
 ) -> HttpResponse | None:
     """Start the existing e-mail password reset flow for a known user."""
+    locked_user = User.objects.select_for_update().filter(pk=user.pk).first()
+    if locked_user is None:
+        return None
+    user = locked_user
+    owner = ResetForm.get_email_owner(email)
+    if owner is None or owner[0].pk != user.pk:
+        return None
     audit = AuditLog.objects.create(user, request, "reset-request")
     if audit.check_rate_limit(request):
         return None
     request.session[PASSWORD_RESET_EMAIL_SESSION] = email
+    request.session[PASSWORD_RESET_USER_SESSION] = user.pk
     store_userid(request, reset=True, reset_scope=scope)
-    return social_complete(request, "email")
+    return send_email_confirmation(request)
 
 
 def get_registration_hint(email: str) -> str | None:
@@ -1619,12 +1755,13 @@ def reset_password(request: AuthenticatedHttpRequest):
             if not check_rate_limit("password_reset", request):
                 return fake_email_sent(request, True)
             email = form.cleaned_data["email"]
-            email_user = form.get_email_user(email)
-            if email_user:
+            email_owner = form.get_email_owner(email)
+            if email_owner:
+                email_user, stored_email = email_owner
                 response = send_password_reset_email(
                     request,
                     email_user,
-                    email=email,
+                    email=stored_email,
                     scope=get_password_reset_scope(request, email),
                 )
                 if response is not None:
@@ -1660,6 +1797,8 @@ def reset_password(request: AuthenticatedHttpRequest):
 @session_ratelimit_post("reset_api")
 def reset_api_key(request: AuthenticatedHttpRequest):
     """Reset user API key."""
+    if not has_recent_sensitive_verification(request):
+        return sensitive_verification_redirect(request, f"{reverse('profile')}#api")
     with transaction.atomic():
         reset_api_token(request.user)
 
@@ -1798,6 +1937,7 @@ async def mute(request: AuthenticatedHttpRequest, path):
     return redirect(f"{reverse('profile')}?notify_project={obj.pk}#notifications")
 
 
+@method_decorator(profile_response, name="dispatch")
 class SuggestionView(ListView):
     paginate_by = 25
     model = Suggestion
@@ -1807,9 +1947,19 @@ class SuggestionView(ListView):
             user = None
         else:
             user = get_object_or_404(User, username=self.kwargs["user"])
+        check_profile_access(
+            self.request.user,
+            user or User.objects.get(username=settings.ANONYMOUS_USER_NAME),
+        )
         return (
             Suggestion.objects.filter_access(self.request.user)
-            .filter(user=user)
+            .filter(
+                user=user,
+                unit__translation_id__in=contributor_translations(
+                    self.request.user
+                ).values("pk"),
+            )
+            .select_related("unit__translation__component__project", "user")
             .order()
         )
 
@@ -1842,6 +1992,7 @@ def store_userid(
     request.session.pop(PASSWORD_RESET_SCOPE_TOKEN_SESSION, None)
     if not reset:
         request.session.pop(PASSWORD_RESET_EMAIL_SESSION, None)
+        request.session.pop(PASSWORD_RESET_USER_SESSION, None)
 
 
 @require_POST
@@ -1859,6 +2010,10 @@ def social_disconnect(
     - Requires POST (to avoid CSRF on auth)
     - Blocks disconnecting the last identity or verified e-mail
     """
+    if not has_recent_sensitive_verification(request):
+        return sensitive_verification_redirect(
+            request, f"{reverse('profile')}#security"
+        )
     try:
         get_backend(settings.AUTHENTICATION_BACKENDS, backend)
     except AuthConfigurationError as error:
@@ -1939,6 +2094,16 @@ def social_auth(request: AuthenticatedHttpRequest, backend: str):
     - Stores current user in session (to avoid CSRF upon completion)
     - Stores session ID in the request URL if needed
     """
+    pending_proof = request.session.get(SESSION_FIRST_FACTOR_SSO)
+    provider_proof = valid_first_factor_sso_intent(request, pending_proof, backend)
+    if (
+        request.user.is_authenticated
+        and not provider_proof
+        and not has_recent_sensitive_verification(request)
+    ):
+        return sensitive_verification_redirect(
+            request, f"{reverse('profile')}#security"
+        )
     if response := prepare_oidc_login(
         request,
         request.POST.get(REDIRECT_FIELD_NAME, request.GET.get(REDIRECT_FIELD_NAME)),
@@ -1958,6 +2123,12 @@ def social_auth(request: AuthenticatedHttpRequest, backend: str):
             return handle_auth_error(request, backend, error)
         msg = "Backend not found"
         raise Http404(msg) from error
+
+    if not request.user.is_authenticated:
+        # A new sign-in supersedes any unfinished second-factor challenge.
+        clear_second_factor_session(request)
+        request.session.pop(DEVICE_ID_SESSION_KEY, None)
+        request.session.pop(SESSION_SECOND_FACTOR_TIMESTAMP, None)
 
     try:
         return do_auth(request.backend, redirect_name=REDIRECT_FIELD_NAME)
@@ -2053,6 +2224,7 @@ def get_registration_error_policy(
         case (
             "email_verification_rejected"
             | "weblate.confirmation_expired"
+            | "weblate.confirmation_not_requested"
             | "weblate.invitation_invalid"
         ):
             response = auth_redirect_token(request)
@@ -2207,6 +2379,12 @@ def handle_auth_error(
     raise error
 
 
+def send_email_confirmation(request: AuthenticatedHttpRequest) -> HttpResponse:
+    """Start e-mail authentication after a Weblate form has validated the request."""
+    request.weblate_email_confirmation = True
+    return social_complete(request, "email")
+
+
 @csrf_exempt
 @login_not_required
 @never_cache
@@ -2223,8 +2401,14 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):
     ):
         return response
     try:
-        response = complete(request, backend)
+        # Keep recovery ownership checks locked through identity association
+        # and password reset, including resumed e-mail pipelines.
+        with transaction.atomic() if backend == "email" else nullcontext():
+            response = complete(request, backend)
     except (SocialAuthBaseException, ValidationError) as error:
+        strategy = getattr(request, "social_strategy", None)
+        if isinstance(strategy, WeblateStrategy) and strategy.invalid_partial_token:
+            strategy.clean_partial_pipeline(strategy.invalid_partial_token)
         return handle_auth_error(request, backend, error)
 
     # Finish second factor authentication
@@ -2328,6 +2512,7 @@ def saml_metadata(request: AuthenticatedHttpRequest):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(profile_response, name="dispatch")
 class UserList(ListView):
     paginate_by = 50
     model = User
@@ -2340,12 +2525,27 @@ class UserList(ListView):
     def get_queryset(self):
         users = self.get_base_queryset().filter_search_access(self.request.user)
         form = self.form
+        unrestricted = can_browse_users(self.request.user)
+        if not unrestricted and not can_search_scoped_users(self.request.user):
+            raise Http404
         if form.is_valid():
             search = form.cleaned_data.get("q", "")
-            if search:
+            if not unrestricted:
+                try:
+                    search_filters, annotations = parse_query(
+                        search, parser="user", user=self.request.user
+                    )
+                except SearchQueryError as error:
+                    raise Http404 from error
+                if not is_resource_bounded(search_filters):
+                    raise Http404
+                users = users.annotate(**annotations).filter(search_filters).distinct()
+            elif search:
                 users = users.search(
                     search, parser=form.fields["q"].parser, user=self.request.user
                 )
+        elif not unrestricted:
+            raise Http404
         else:
             users = users.order()
 
@@ -2379,6 +2579,7 @@ class UserList(ListView):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(require_recent_second_factor, name="dispatch")
 class RecoveryCodesView(TemplateView):
     template_name = "accounts/recovery-codes.html"
 
@@ -2417,9 +2618,193 @@ class RecoveryCodesView(TemplateView):
         return result
 
 
+FIRST_FACTOR_TARGETS = {
+    "totp": "totp",
+    "webauthn": "webauthn-register",
+    "sensitive": "profile",
+}
+
+
+def first_factor_redirect(request: AuthenticatedHttpRequest, target: str):
+    return redirect(f"{reverse('first-factor-verify')}?{urlencode({'target': target})}")
+
+
+@login_required
+@session_ratelimit_post("confirm", logout_user=False)
+@never_cache
+def first_factor_verify(request: AuthenticatedHttpRequest):
+    """Verify an existing credential before binding the first authenticator."""
+    target = request.POST.get("target", request.GET.get("target", "totp"))
+    if target not in FIRST_FACTOR_TARGETS:
+        return HttpResponseBadRequest("Invalid enrollment target")
+    next_url = request.POST.get("next", request.GET.get("next", ""))
+    if not (
+        next_url.startswith("/")
+        and url_has_allowed_host_and_scheme(
+            next_url, allowed_hosts={request.get_host()}
+        )
+    ):
+        next_url = reverse("profile")
+    if target == "sensitive" and request.user.profile.has_2fa:
+        return second_factor_verification_redirect(request, next_url)
+    if target != "sensitive" and request.user.profile.has_2fa:
+        return redirect(FIRST_FACTOR_TARGETS[target])
+    if target == "sensitive" and has_recent_sensitive_verification(request):
+        return HttpResponseRedirect(next_url)
+    if target != "sensitive" and has_first_factor_grant(request):
+        return redirect(FIRST_FACTOR_TARGETS[target])
+
+    user = request.user
+    form = FirstFactorPasswordForm(
+        request, request.POST if request.method == "POST" else None
+    )
+    associations = [
+        (association, get_auth_name(association.provider))
+        for association in user.social_auth.filter(provider__in=get_auth_keys())
+        if association.provider != "email"
+    ]
+    backend_path = request.session.get("_auth_user_backend")
+    has_password_method = user.has_usable_password() or (
+        isinstance(backend_path, str)
+        and backend_path in settings.AUTHENTICATION_BACKENDS
+        and not backend_path.startswith("social_core.")
+        and backend_path != "weblate.accounts.auth.WeblateUserBackend"
+    )
+    can_recover_by_email = (
+        not has_password_method and not associations and "email" in get_auth_keys()
+    )
+    if request.method == "POST":
+        if "password" in request.POST:
+            if form.is_valid():
+                request.session.cycle_key()
+                rotate_token(request)
+                if target == "sensitive":
+                    grant_sensitive_verification(request)
+                    return HttpResponseRedirect(next_url)
+                clear_pending_first_factor(request)
+                grant_first_factor(request)
+                return redirect(FIRST_FACTOR_TARGETS[target])
+            rotate_token(request)
+        elif "association" in request.POST:
+            association = next(
+                (
+                    item
+                    for item, _name in associations
+                    if str(item.pk) == request.POST["association"]
+                ),
+                None,
+            )
+            if association is None:
+                return HttpResponseBadRequest("Invalid authentication provider")
+            request.session[SESSION_FIRST_FACTOR_SSO] = {
+                "user": user.pk,
+                "hash": user.get_session_auth_hash(),
+                "association": association.pk,
+                "provider": association.provider,
+                "target": target,
+                "next": next_url,
+                "time": int(time.time()),
+            }
+            return social_auth(request, association.provider)
+        elif "email_recovery" in request.POST and can_recover_by_email:
+            auth_logout(request)
+            return redirect("password_reset")
+
+    return render(
+        request,
+        "accounts/first-factor-verify.html",
+        {
+            "target": target,
+            "next_url": next_url,
+            "confirm_form": form,
+            "has_password_method": has_password_method,
+            "associations": associations,
+            "can_recover_by_email": can_recover_by_email,
+        },
+    )
+
+
+def require_enrollment_verification(
+    target: str,
+) -> Callable[[Callable[..., HttpResponseBase]], Callable[..., HttpResponseBase]]:
+    """Require a fresh factor, or independent proof for the first one."""
+
+    def decorate(
+        view: Callable[..., HttpResponseBase],
+    ) -> Callable[..., HttpResponseBase]:
+        @wraps(view)
+        def wrapped(
+            request: AuthenticatedHttpRequest, *args: object, **kwargs: object
+        ) -> HttpResponseBase:
+            if not request.user.profile.has_2fa and not has_first_factor_grant(request):
+                return first_factor_redirect(request, target)
+            if not has_recent_second_factor(request):
+                return second_factor_verification_redirect(request, request.path)
+            return view(request, *args, **kwargs)
+
+        return wrapped
+
+    return decorate
+
+
 @method_decorator(login_required, name="dispatch")
+@method_decorator(require_enrollment_verification("webauthn"), name="dispatch")
 class WebAuthnRegistrationView(TemplateView):
     template_name = "accounts/webauthn-register.html"
+
+
+class RecentSecondFactorRequiredError(OTPWebAuthnApiError):
+    status_code = 403
+    default_detail = (
+        "Verify your identity with a second factor before registering a security key."
+    )
+    default_code = "recent_second_factor_required"
+
+
+class FirstFactorVerificationRequiredError(OTPWebAuthnApiError):
+    status_code = 403
+    default_detail = (
+        "Verify your existing sign-in method before registering a security key."
+    )
+    default_code = "first_factor_verification_required"
+
+
+def check_webauthn_registration(request):
+    if not request.user.is_authenticated:
+        raise FirstFactorVerificationRequiredError
+    if not request.user.profile.has_2fa and not has_first_factor_grant(request):
+        raise FirstFactorVerificationRequiredError
+    if not has_recent_second_factor(request):
+        raise RecentSecondFactorRequiredError
+
+
+class WeblateBeginCredentialRegistrationView(BeginCredentialRegistrationView):
+    def initial(self, request, *args, **kwargs):
+        check_webauthn_registration(request)
+        return super().initial(request, *args, **kwargs)
+
+
+class WeblateCompleteCredentialRegistrationView(CompleteCredentialRegistrationView):
+    def initial(self, request, *args, **kwargs):
+        check_webauthn_registration(request)
+        return super().initial(request, *args, **kwargs)
+
+    def post(self, *args, **kwargs):
+        first_enrollment = not self.request.user.profile.has_2fa
+        response = super().post(*args, **kwargs)
+        if first_enrollment and response.status_code == 200:
+            credential_id = json.loads(response.content).get("id")
+            if WebAuthnCredential.objects.filter(
+                pk=credential_id, user=self.request.user
+            ).exists():
+                self.request.session.pop(SESSION_FIRST_FACTOR_GRANT, None)
+                self.request.session[SESSION_FIRST_WEBAUTHN_NAME] = {
+                    "user": self.request.user.pk,
+                    "hash": self.request.user.get_session_auth_hash(),
+                    "credential": credential_id,
+                    "time": int(time.time()),
+                }
+        return response
 
 
 @method_decorator(login_required, name="dispatch")
@@ -2433,10 +2818,27 @@ class WebAuthnCredentialView(DetailView):
         return super().get_queryset().filter(user=self.request.user)
 
     def get(self, request, *args, **kwargs):
+        if not has_recent_second_factor(request):
+            return second_factor_verification_redirect(request, request.path)
         return redirect_profile("#security")
 
     def post(self, request, *args, **kwargs):
         obj = self.get_object()
+        naming = request.session.get(SESSION_FIRST_WEBAUTHN_NAME)
+        first_name = (
+            isinstance(naming, dict)
+            and isinstance(naming.get("time"), int)
+            and not isinstance(naming.get("time"), bool)
+            and naming["time"] <= int(time.time())
+            and naming["time"] + FIRST_FACTOR_VERIFY_SECONDS >= int(time.time())
+            and naming.get("user") == request.user.pk
+            and naming.get("hash") == request.user.get_session_auth_hash()
+            and naming.get("credential") == obj.pk
+            and "name" in request.POST
+            and "delete" not in request.POST
+        )
+        if not has_recent_second_factor(request) and not first_name:
+            return second_factor_verification_redirect(request, request.path)
         if "delete" in request.POST:
             key_name = get_key_name(obj)
             obj.delete()
@@ -2447,6 +2849,8 @@ class WebAuthnCredentialView(DetailView):
         elif "name" in request.POST:
             obj.name = request.POST["name"]
             obj.save(update_fields=["name"])
+            if first_name:
+                request.session.pop(SESSION_FIRST_WEBAUTHN_NAME, None)
             key_name = get_key_name(obj)
             audit_pk = request.session.pop(SESSION_WEBAUTHN_AUDIT, None)
             if isinstance(obj, WebAuthnCredential) and audit_pk is not None:
@@ -2460,7 +2864,7 @@ class WebAuthnCredentialView(DetailView):
         return redirect_profile("#security")
 
 
-@method_decorator(login_required, name="dispatch")
+@method_decorator(require_recent_second_factor, name="dispatch")
 class TOTPDetailView(WebAuthnCredentialView):
     model = TOTPDevice
 
@@ -2477,6 +2881,7 @@ class TOTPDetailView(WebAuthnCredentialView):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(require_enrollment_verification("totp"), name="dispatch")
 class TOTPView(FormView):
     template_name = "accounts/totp.html"
     form_class = TOTPDeviceForm
@@ -2606,6 +3011,7 @@ class TOTPView(FormView):
         device.name = form.cleaned_data["name"]
         device.confirmed = True
         device.save(update_fields=["name", "confirmed"])
+        self.request.session.pop(SESSION_FIRST_FACTOR_GRANT, None)
         AuditLog.objects.create(
             user,
             self.request,
@@ -2644,7 +3050,10 @@ class SecondFactorMixin(View):
         user = self.get_user()
         user.profile.log_2fa(self.request, device)
         clear_second_factor_session(self.request, preserve_social=True)
-        self.request.session[SESSION_SECOND_FACTOR_TIMESTAMP] = int(time.time())
+        self.request.session[SESSION_SECOND_FACTOR_TIMESTAMP] = {
+            "user": user.pk,
+            "time": int(time.time()),
+        }
 
         if not self.request.session.get(SESSION_SECOND_FACTOR_SOCIAL):
             # Keep login on social pipeline if we got here from it

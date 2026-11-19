@@ -22,6 +22,10 @@ administrators can configure them for a project:
    them how you want. Third-party services can receive source strings,
    translations, and related context from Weblate.
 
+Responses fetched through Weblate's shared HTTP client are limited to 1 MiB
+of decoded data, including service validation and language discovery. Larger
+responses fail as download errors. See :ref:`outbound-http-limits`.
+
 The services translate from the source language as configured at
 :ref:`component`, see :ref:`component-source_language`.
 
@@ -29,6 +33,43 @@ Installations from the site, workspace, and project are combined for a project.
 You can exclude an inherited installation, or all inherited installations of
 one service, in workspace or project settings. Pausing an installation keeps
 its configuration for later use.
+
+Select a service in the listing to open its details, settings, and controls.
+Installed services use their numeric installation ID in the detail-page URL.
+The detail page provides selectors to use in Automation workflows. Inherited
+services link to their owning scope when you have permission to manage them.
+The listing summarizes basic configuration such as the model, source-language
+selection, and region, together with the installation ID and slug. Credentials,
+API URLs, and free-form prompts are excluded from these summaries.
+
+A :guilabel:`Rate limited` badge indicates that Weblate has temporarily paused
+requests after a provider error. The default cooldown is 30 minutes, but its
+duration varies by service and provider-supplied retry delays; see
+:ref:`cooldown configuration <machinery-rate-limit-window>`. It applies to one
+installation, including all projects inheriting it. Separate installations have
+independent cooldowns, even when they use the same provider credentials.
+
+Administrators can use :guilabel:`Reset rate limit` on the installation's detail
+page at its owning site, workspace, or project scope. This clears Weblate's
+translation and rephrasing cooldowns without clearing cached suggestions. It
+does not reset the provider's quota; another provider error can apply the
+cooldown again. Inherited installations show the status, but their cooldown
+cannot be reset from a consuming workspace or project.
+
+.. _machinery-error-log:
+
+The :guilabel:`Logs` tab on an installation's detail page lists errors from
+fetching supported languages, translations, and rephrased suggestions, including
+provider rate limits. Logs belong to the installation, including when it is used
+by inheriting projects. Only administrators who can manage the installation at
+its owning scope can read its logs. Inherited services link to these logs when
+you have the required permission.
+
+Messages retain provider diagnostics with URLs and configured secrets redacted.
+Providers can echo translation content in their messages, so logs can still
+contain source strings or translations. Errors are kept for 30 days by default;
+configure :setting:`MACHINERY_ERROR_KEEP_DAYS` to change retention. Old entries
+are removed daily. Removing an installation also removes its logs.
 
 Every installation has a numeric ID and can have an optional slug. Select one
 installation in automatic translation, Automation, or AI review with
@@ -58,7 +99,7 @@ selected for :ref:`auto-translation`.
 .. _mt-translation-services-priority:
 
 Priority of machine translation and translation memory services
-----------------------------------------------------------------
+---------------------------------------------------------------
 
 :ref:`mt-weblate-translation-memory` matches with 100% score take priority over machine translation services. If 100% match in translation memory is found, no machine translation is performed. If several 100% matches occur, the first one returned by the database is used.
 
@@ -98,9 +139,10 @@ LLM translation context
 
 LLM-based translation services receive additional context about each
 translated string, when available. This includes the string context or
-monolingual key, additional explanation, configured secondary-language
-translation, plural information, failing quality checks, and placeholder
-contents. Matching glossary entries are passed with their explanations and
+monolingual key, additional explanation, developer comments from the source
+file (such as a RESX ``<comment>`` or a gettext ``#.`` comment), configured
+secondary-language translation, plural information, failing quality checks,
+and placeholder contents. Matching glossary entries are passed with their explanations and
 selected flags, so duplicate glossary terms can be disambiguated.
 
 You can add target-language-specific instructions in
@@ -130,6 +172,29 @@ You can also implement your own machine translation services using a few lines
 of Python code. Place the code in a module Weblate can import (see
 :ref:`custom-module` or :ref:`docker-python-override`) and add fully qualified
 class name to :setting:`WEBLATE_MACHINERY`.
+
+.. _machinery-rate-limit-window:
+
+The ``rate_limit_window`` service class attribute controls the cooldown after
+Weblate detects rate limiting or certain service failures. Its default is
+1800 seconds. When a service returns a retry delay, Weblate uses it instead:
+``retry-after-ms`` takes precedence over ``Retry-After`` (seconds or an HTTP
+date), followed by Google ``RetryInfo`` details. Invalid delays are ignored.
+Valid delays can be shorter or longer than the service default.
+
+Services with documented short-term throttling can override the default;
+for example, add ``rate_limit_window = 60`` to your service class to retry after
+one minute. Translation and rephrasing use the same window with separate
+cooldown state.
+
+Built-in services use a 60-second cooldown for Alibaba, Amazon Translate,
+Anthropic, Baidu, Google Cloud Translation Basic and Advanced, LibreTranslate,
+Mistral, OpenAI, and Azure OpenAI. Other services retain the default.
+
+Cooldown expiry permits another request; it does not guarantee that a daily
+or billing quota has reset. The window also applies to custom endpoints
+configured for a service. Existing cached cooldowns expire at their original
+time.
 
 .. literalinclude:: ../../weblate/examples/mt_service.py
     :language: python

@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import json
 import re
+from typing import TYPE_CHECKING, ClassVar
 
 from django import forms
 from django.conf import settings
@@ -18,6 +19,9 @@ from weblate.utils.forms import WeblateServiceURLField
 from weblate.utils.validators import validate_machinery_hostname, validate_machinery_url
 
 from .types import SourceLanguageChoices
+
+if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
 
 LLM_LANGUAGE_INSTRUCTION_LENGTH = 1000
 MICROSOFT_REGION_RE = re.compile(r"[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?")
@@ -41,6 +45,12 @@ class EmptyMappingJSONField(forms.JSONField):
 
 
 class BaseMachineryForm(forms.Form):
+    # Explicitly opt in safe summary fields. Credentials, URLs (which can contain
+    # credentials), and free-form prompts must never be included.
+    public_configuration_fields: ClassVar[frozenset[str]] = frozenset(
+        {"source_language"}
+    )
+
     network_host_fields = frozenset({"base_url", "endpoint_url"})
 
     source_language = forms.ChoiceField(
@@ -58,6 +68,22 @@ class BaseMachineryForm(forms.Form):
         self.machinery = machinery
         self.allow_private_targets = allow_private_targets
         super().__init__(*args, **kwargs)
+
+    def get_settings_fields(self) -> list[tuple[StrOrPromise, StrOrPromise]]:
+        """Describe saved, non-sensitive settings without validating or contacting the provider."""
+        result = []
+        for field in self:
+            if field.name not in self.public_configuration_fields or field.is_hidden:
+                continue
+            value = field.value()
+            if value is None or (isinstance(value, str) and not value):
+                continue
+            if isinstance(value, bool):
+                value = gettext("enabled") if value else gettext("disabled")
+            elif choices := getattr(field.field.widget, "choices", None):
+                value = dict(choices).get(value, value)
+            result.append((field.label, value))
+        return result
 
     def serialize_form(self):
         return self.cleaned_data
@@ -157,6 +183,11 @@ class KeyURLMachineryForm(KeyMachineryForm, URLMachineryForm):
 
 
 class ETranslationMachineryForm(KeySecretMachineryForm):
+    public_configuration_fields = BaseMachineryForm.public_configuration_fields | {
+        "domain",
+        "other_domain",
+    }
+
     DOCUMENTED_DOMAINS = ("GEN", "SPD", "ECB", "ECJ", "IPO")
     OTHER_DOMAIN = "_OTHER"
 
@@ -275,6 +306,11 @@ class MyMemoryMachineryForm(BaseMachineryForm):
 
 
 class SAPMachineryForm(URLMachineryForm):
+    public_configuration_fields = BaseMachineryForm.public_configuration_fields | {
+        "enable_mt",
+        "domain",
+    }
+
     key = forms.CharField(
         label=pgettext_lazy("Automatic suggestion service configuration", "API key"),
         required=False,
@@ -323,6 +359,11 @@ class SAPMachineryForm(URLMachineryForm):
 
 
 class MicrosoftMachineryForm(KeyMachineryForm):
+    public_configuration_fields = BaseMachineryForm.public_configuration_fields | {
+        "region",
+        "category",
+    }
+
     base_url = forms.ChoiceField(
         label=pgettext_lazy(
             "Automatic suggestion service configuration", "Application base URL"
@@ -379,6 +420,11 @@ class MicrosoftMachineryForm(KeyMachineryForm):
 
 
 class GoogleV3MachineryForm(BaseMachineryForm):
+    public_configuration_fields = BaseMachineryForm.public_configuration_fields | {
+        "project",
+        "location",
+    }
+
     credentials = forms.CharField(
         label=pgettext_lazy(
             "Automatic suggestion service configuration",
@@ -438,6 +484,13 @@ class GoogleV3MachineryForm(BaseMachineryForm):
 
 
 class AWSMachineryForm(KeySecretMachineryForm):
+    public_configuration_fields = BaseMachineryForm.public_configuration_fields | {
+        "region",
+        "formality",
+        "brevity",
+        "profanity",
+    }
+
     key = forms.CharField(
         label=pgettext_lazy("AWS Translate configuration", "Access key ID")
     )
@@ -477,6 +530,10 @@ class AWSMachineryForm(KeySecretMachineryForm):
 
 
 class AlibabaMachineryForm(KeySecretMachineryForm):
+    public_configuration_fields = BaseMachineryForm.public_configuration_fields | {
+        "region"
+    }
+
     key = forms.CharField(
         label=pgettext_lazy("Alibaba Translate configuration", "Access key ID")
     )
@@ -521,6 +578,11 @@ class ModernMTMachineryForm(KeyURLMachineryForm):
 
 
 class DeepLMachineryForm(KeyURLMachineryForm):
+    public_configuration_fields = BaseMachineryForm.public_configuration_fields | {
+        "formality",
+        "next_gen",
+    }
+
     url = WeblateServiceURLField(
         label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
         initial="https://api.deepl.com/",
@@ -564,6 +626,10 @@ class DeepLMachineryForm(KeyURLMachineryForm):
 
 
 class LLMBasicMachineryForm(BaseMachineryForm):
+    public_configuration_fields = BaseMachineryForm.public_configuration_fields | {
+        "model"
+    }
+
     base_url = WeblateServiceURLField(
         label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
         required=False,
@@ -665,7 +731,9 @@ class LLMBasicMachineryForm(BaseMachineryForm):
 
 
 class BaseOpenAIMachineryForm(KeyMachineryForm, LLMBasicMachineryForm):
-    pass
+    public_configuration_fields = LLMBasicMachineryForm.public_configuration_fields | {
+        "custom_model"
+    }
 
 
 class OpenAIMachineryForm(BaseOpenAIMachineryForm):
@@ -805,6 +873,10 @@ class MistralMachineryForm(BaseOpenAIMachineryForm):
 
 
 class AzureOpenAIMachineryForm(BaseOpenAIMachineryForm):
+    public_configuration_fields = (
+        BaseOpenAIMachineryForm.public_configuration_fields | {"deployment"}
+    )
+
     azure_endpoint = WeblateServiceURLField(
         label=pgettext_lazy(
             "Automatic suggestion service configuration",
@@ -844,6 +916,11 @@ class OllamaMachineryForm(LLMBasicMachineryForm):
 
 
 class AnthropicMachineryForm(KeyMachineryForm, LLMBasicMachineryForm):
+    public_configuration_fields = LLMBasicMachineryForm.public_configuration_fields | {
+        "custom_model",
+        "max_tokens",
+    }
+
     # Current models are ordered from cheapest to most expensive. Previously offered
     # legacy models remain available until retirement for configuration compatibility.
     MODEL_CHOICES = (

@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from importlib import import_module
 
 from django.apps import apps
@@ -22,7 +24,11 @@ class FontModelTest(FontComponentTestCase):
     def assert_font_files(self, expected: int) -> None:
         result = 0
         excluded = {".uuid"}
-        for name in FONT_STORAGE.listdir(".")[1]:
+        try:
+            files = FONT_STORAGE.listdir(".")[1]
+        except FileNotFoundError:
+            files = []
+        for name in files:
             if name not in excluded:
                 result += 1
         self.assertEqual(result, expected)

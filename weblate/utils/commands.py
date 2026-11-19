@@ -93,6 +93,14 @@ def get_clean_env(
         "http_proxy",
         "https_proxy",
         "HTTPS_PROXY",
+        # Pass custom CA certificate configuration so that subprocesses
+        # (for example Git) trust private certificate authorities
+        "SSL_CERT_FILE",
+        "SSL_CERT_DIR",
+        "GIT_SSL_CAINFO",
+        "GIT_SSL_CAPATH",
+        "REQUESTS_CA_BUNDLE",
+        "CURL_CA_BUNDLE",
         # below two are needed for openshift3 deployment,
         # where nss_wrapper is used
         # more on the topic on below link:

@@ -51,7 +51,9 @@
       </div>
       <div class="card-body">{{ languages_form|crispy }}</div>
       <div class="card-footer">
-        <input class="btn btn-primary" type="submit" value="{% translate "Choose" %}" />
+        <input class="btn btn-primary"
+               type="submit"
+               value="{% translate "Choose"|force_escape %}" />
       </div>
     </div>
   </form>

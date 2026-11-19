@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-15 21:46-0500\n"
-"PO-Revision-Date: 2026-10-16 04:35+0000\n"
+"POT-Creation-Date: 2026-11-13 01:19-0600\n"
+"PO-Revision-Date: 2026-11-13 10:38+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/weblate/"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.12.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -439,6 +439,16 @@ msgstr "அறிவிப்பு அமைப்புகள்"
 msgid "Saved search"
 msgstr "தேடல்"
 
+msgid ""
+"A lookalike e-mail identity was removed, the password was disabled, and API "
+"tokens were revoked."
+msgstr ""
+
+msgid ""
+"Password disabled as reported leaked credential matched the password; API "
+"tokens revoked."
+msgstr ""
+
 #. Translators: Audit log entry
 msgid "Password changed."
 msgstr "கடவுச்சொல் மாற்றப்பட்டது."
@@ -608,7 +618,16 @@ msgstr "{username} ஆல் {team} குழுவில் பயனர் ச
 msgid "User access to the {team} team was changed by {username}."
 msgstr "{username} ஆல் {team} குழுவில் பயனர் சேர்க்கப்பட்டார்."
 
-#. Translators: Audit log entry
+#, fuzzy, python-brace-format
+#| msgid "User was added to the {team} team by {username}."
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr "{username} ஆல் {team} குழுவில் பயனர் சேர்க்கப்பட்டார்."
+
+#, fuzzy, python-brace-format
+#| msgid "User was added to the {team} team by {username}."
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr "{username} ஆல் {team} குழுவில் பயனர் சேர்க்கப்பட்டார்."
+
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr "{username} ஆல் {team} குழுவிலிருந்து பயனர் அகற்றப்பட்டார்."
@@ -673,6 +692,23 @@ msgstr "{username} ஆல் {project} திட்டத்திற்கு �
 msgid "Password configured."
 msgstr "கடவுச்சொல் அமைக்கப்பட்டது."
 
+#, fuzzy
+#| msgid ""
+#| "If it was you, please use a password reset to regain access to your "
+#| "account."
+msgid ""
+"Reset your password to restore password access and review your account "
+"activity."
+msgstr ""
+"இது நீங்கள் என்றால், உங்கள் கணக்கிற்கான அணுகலை மீண்டும் பெற கடவுச்சொல் மீட்டமைப்பைப் "
+"பயன்படுத்தவும்."
+
+msgid ""
+"Reset your password to restore password access. Choose a unique password and "
+"review your account activity. The report didn't disclose the source of the "
+"leak."
+msgstr ""
+
 msgid "To restore access to your account, please reset your password."
 msgstr "உங்கள் கணக்கிற்கான அணுகலை மீட்டெடுக்க, உங்கள் கடவுச்சொல்லை மீட்டமைக்கவும்."
 
@@ -722,6 +758,44 @@ msgstr "மீசன் முன்னமைவு"
 msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr "சேவை"
+
+#, fuzzy
+#| msgid "site wide"
+msgid "Site-wide"
+msgstr "தளம் அகலம்"
+
+msgid "Workspace"
+msgstr ""
+
+#, fuzzy
+#| msgid "Backup failed"
+msgid "Team created"
+msgstr "காப்புப்பிரதி தோல்வியடைந்தது"
+
+#, fuzzy
+#| msgid "Last change"
+msgid "Team changed"
+msgstr "கடைசி மாற்றம்"
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "Team deleted"
+msgstr "எழுத்துரு நீக்கப்பட்டது."
+
+#, fuzzy
+#| msgid "Label added"
+msgid "Team member added"
+msgstr "சிட்டை சேர்க்கப்பட்டது"
+
+#, fuzzy
+#| msgid "Label removed"
+msgid "Team member removed"
+msgstr "சிட்டை அகற்றப்பட்டது"
+
+#, fuzzy
+#| msgid "User access changed"
+msgid "Team member access changed"
+msgstr "பயனர் அணுகல் மாற்றப்பட்டது"
 
 msgid "Account activity"
 msgstr "கணக்கு செயல்பாடு"
@@ -1045,6 +1119,11 @@ msgid ""
 "a translation."
 msgstr ""
 
+#, fuzzy
+#| msgid "Contributors"
+msgid "Contributor"
+msgstr "பங்களிப்பாளர்கள்"
+
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "களஞ்சியத்தில் செயல்பாடு செய்யப்பட்டது"
@@ -1244,6 +1323,11 @@ msgctxt "Notification name"
 msgid "Unfinished strings exist"
 msgstr "முடிக்கப்படாத சரங்கள் உள்ளன"
 
+msgid ""
+"This sign-in request has expired or changed. Start signing in again from the "
+"application."
+msgstr ""
+
 msgid "This password consists of only whitespace."
 msgstr "இந்த கடவுச்சொல் இடைவெளியை மட்டுமே கொண்டுள்ளது."
 
@@ -1307,6 +1391,11 @@ msgstr ""
 "அழைப்பாளரால் தேர்ந்தெடுக்கப்பட்ட மின்னஞ்சல் முகவரி மூலம் மட்டுமே இந்த அழைப்பை ஏற்க முடியும்; "
 "அதை உங்கள் கணக்கில் பயன்படுத்த முடியாது."
 
+msgid ""
+"Your e-mail address has been added. You can now select it as your account e-"
+"mail address in Account settings."
+msgstr ""
+
 #, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
@@ -1336,6 +1425,17 @@ msgstr "ஒளி"
 msgctxt "Theme selection"
 msgid "Dark"
 msgstr "இருள்"
+
+msgid "Please confirm your identity using a second factor before proceeding."
+msgstr ""
+"தொடர்வதற்கு முன், இரண்டாவது காரணியைப் பயன்படுத்தி உங்கள் அடையாளத்தை உறுதிப்படுத்தவும்."
+
+#, fuzzy
+#| msgid ""
+#| "Please confirm your identity using a second factor before proceeding."
+msgid "Please confirm your identity before proceeding."
+msgstr ""
+"தொடர்வதற்கு முன், இரண்டாவது காரணியைப் பயன்படுத்தி உங்கள் அடையாளத்தை உறுதிப்படுத்தவும்."
 
 #, python-format
 msgid "Security key (%s)"
@@ -1457,18 +1557,19 @@ msgstr "உள்நுழைக"
 msgid "Signed out"
 msgstr "கையொப்பமிடப்பட்டது"
 
-msgid "Verify new e-mail address"
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Add and verify e-mail address"
 msgstr "புதிய மின்னஞ்சல் முகவரியை சரிபார்க்கவும்"
-
-msgid "Please confirm your identity using a second factor before proceeding."
-msgstr ""
-"தொடர்வதற்கு முன், இரண்டாவது காரணியைப் பயன்படுத்தி உங்கள் அடையாளத்தை உறுதிப்படுத்தவும்."
 
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "கடவுச்சொல்லை மீட்டமைக்க முடியாது, மின்னஞ்சல் ஏற்பு அணைக்கப்படுகிறது."
 
 msgid "Change password"
 msgstr "கடவுச்சொல்லை மாற்று"
+
+msgid "Set password"
+msgstr "கடவுச்சொல்லை அமைக்கவும்"
 
 msgid "Password reset has been already completed."
 msgstr "கடவுச்சொல் மீட்டமைப்பு ஏற்கனவே முடிக்கப்பட்டுள்ளது."
@@ -1693,6 +1794,10 @@ msgid ""
 msgstr ""
 "இயந்திர மொழிபெயர்ப்பு அல்லது பிற கூறுகளைப் பயன்படுத்தி சரங்களை தானாக மொழிபெயர்க்கிறது."
 
+#, python-format
+msgid "Error: %s"
+msgstr "பிழை: %s"
+
 msgid "enabled"
 msgstr "இயக்கப்பட்டது"
 
@@ -1702,6 +1807,11 @@ msgid ""
 msgstr ""
 "களஞ்சியம் காலாவதியானது, நீங்கள் அதைப் புதுப்பிக்கும் வரை எதிர்பார்க்கப்படும் முடிவுகளைப் "
 "பெறக்கூடாது."
+
+#, fuzzy
+#| msgid "The translation base language can not be edited."
+msgid "The CDN add-on cannot publish a translation as manifest.json."
+msgstr "மொழிபெயர்ப்பு அடிப்படை மொழியை திருத்த முடியாது."
 
 msgid "JavaScript localization CDN"
 msgstr "சாவாச்கிரிப்ட் உள்ளூராக்கல் சி.டி.என்"
@@ -1906,12 +2016,6 @@ msgid ""
 msgstr ""
 
 #, python-format
-msgid ""
-"Fedora Messaging publisher service was unavailable; the connection will be "
-"recreated on the next attempt: %(error)s"
-msgstr ""
-
-#, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
 msgstr ""
 
@@ -1928,8 +2032,8 @@ msgstr ""
 msgid "configured"
 msgstr "உள்ளமைக்கவும்"
 
-msgid "Could not reset Fedora Messaging publisher service."
-msgstr ""
+msgid "The SSL certificates have to be provided for SSL connection."
+msgstr "SSL இணைப்புக்கு SSL சான்றிதழ்கள் வழங்கப்பட வேண்டும்."
 
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
 msgstr ""
@@ -1938,10 +2042,6 @@ msgid "Client SSL key must be an unencrypted PEM encoded private key."
 msgstr ""
 
 msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
-msgstr ""
-
-#, python-format
-msgid "Fedora Messaging broker URL is invalid: %(error)s"
 msgstr ""
 
 #, python-format
@@ -1989,7 +2089,9 @@ msgstr ""
 msgid "Bulk edit"
 msgstr "மொத்த திருத்து"
 
-msgid "Bulk edit flags, labels, or states of strings."
+#, fuzzy
+#| msgid "Bulk edit flags, labels, or states of strings."
+msgid "Bulk edit text, flags, labels, or states of strings."
 msgstr "கொடிகள், சிட்டைகள் அல்லது சரங்களின் நிலைகளை மொத்தமாகத் திருத்தவும்."
 
 msgid "Flag updated translations from repository as \"Needs rewriting\""
@@ -2144,6 +2246,24 @@ msgid ""
 "specified above is recognized."
 msgstr ""
 
+#, fuzzy
+#| msgid "Component alerts"
+msgid "Comment extraction"
+msgstr "கூறு எச்சரிக்கைகள்"
+
+#, fuzzy
+#| msgid "words"
+msgid "Keywords"
+msgstr "சொற்கள்"
+
+msgid "Checks and ITS data"
+msgstr ""
+
+#, fuzzy
+#| msgid "Live Preview"
+msgid "Update behavior"
+msgstr "நேரடி முன்னோட்டம்"
+
 msgid "This field is required."
 msgstr "இந்த புலம் தேவை."
 
@@ -2194,6 +2314,11 @@ msgstr ""
 "POTFILES அல்லது POTFILES.in க்கான களஞ்சிய-உறவினர் பாதை. உள்ளீடுகள் களஞ்சிய மூலத்துடன் "
 "தொடர்புடையதாக தீர்க்கப்படும். மேனிஃபெச்ட்டிற்கு அடுத்ததாக இருந்தால், பட்டியலிடப்பட்ட "
 "கோப்புகளை பிரித்தெடுப்பதில் இருந்து POTFILES.skip விலக்குகிறது."
+
+#, fuzzy
+#| msgid "Font file"
+msgid "Input files"
+msgstr "எழுத்துரு கோப்பு"
 
 msgid "Invalid symbolic link in a repository."
 msgstr "ஒரு களஞ்சியத்தில் தவறான குறியீட்டு இணைப்பு."
@@ -2441,6 +2566,22 @@ msgstr "தவிர்க்கமுடியாத கோப்புகள�
 msgid "I confirm the above matches look correct"
 msgstr "மேற்கண்ட போட்டிகள் சரியாக இருப்பதை நான் உறுதிப்படுத்துகிறேன்"
 
+#, fuzzy
+#| msgid "File encoding"
+msgid "File matching"
+msgstr "கோப்பு குறியாக்கம்"
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Component source language"
+msgid "Component naming and file templates"
+msgstr "கூறு மூல மொழி"
+
+#, fuzzy
+#| msgid "Component locked"
+msgid "Component lifecycle"
+msgstr "கூறு பூட்டப்பட்டுள்ளது"
+
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
 msgstr ""
@@ -2628,6 +2769,26 @@ msgstr "மூல சரத்தின் நீளத்தைப் பொற
 msgid "Include read-only strings"
 msgstr "படிக்க மட்டும் சரங்களைச் சேர்"
 
+#, fuzzy
+#| msgid "Source language"
+msgid "Source and target"
+msgstr "மூல மொழி"
+
+#, fuzzy
+#| msgid "Prepended static text"
+msgid "Prepended text"
+msgstr "தயாரிக்கப்பட்ட நிலையான உரை"
+
+#, fuzzy
+#| msgid "Appended static text"
+msgid "Appended text"
+msgstr "சேர்க்கப்பட்ட நிலையான உரை"
+
+#, fuzzy
+#| msgid "Text direction"
+msgid "Text expansion"
+msgstr "உரை திசை"
+
 msgid "The source and target have to be different languages."
 msgstr "மூலமும் இலக்கு வெவ்வேறு மொழிகளாக இருக்க வேண்டும்."
 
@@ -2711,10 +2872,20 @@ msgid ""
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
 
+#, fuzzy
+#| msgid "Creation timestamp"
+msgid "Connection timeout"
+msgstr "உருவாக்க நேர முத்திரை"
+
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr ""
+
 msgid "Publish timeout"
 msgstr ""
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
 msgstr ""
 
 msgid "Connection attempts"
@@ -2732,6 +2903,22 @@ msgid "How many seconds to wait between connection attempts."
 msgstr ""
 
 #, fuzzy
+#| msgid "Hosting translations"
+msgid "Broker connection"
+msgstr "ஓச்டிங் மொழிபெயர்ப்புகள்"
+
+msgid "Timeouts and retries"
+msgstr ""
+
+msgid "TLS credentials"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project selection"
+msgid "Event selection"
+msgstr "திட்ட தேர்வு"
+
+#, fuzzy
 #| msgid "String contains control character: %s"
 msgid "Topic prefix can contain only ASCII characters."
 msgstr "சரம் கட்டுப்பாட்டு எழுத்து: %s"
@@ -2739,9 +2926,6 @@ msgstr "சரம் கட்டுப்பாட்டு எழுத்த�
 #, python-format
 msgid "Topic prefix must not exceed %(limit)d characters."
 msgstr ""
-
-msgid "The SSL certificates have to be provided for SSL connection."
-msgstr "SSL இணைப்புக்கு SSL சான்றிதழ்கள் வழங்கப்பட வேண்டும்."
 
 msgid "The SSL certificates are not used without a SSL connection."
 msgstr "SSL இணைப்பு இல்லாமல் SSL சான்றிதழ்கள் பயன்படுத்தப்படாது."
@@ -2957,6 +3141,13 @@ msgid "This add-on is already installed on this component."
 msgstr "கூடுதல் ஆன் கூறுகளில் மட்டுமே நிறுவ முடியும்."
 
 #, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr ""
+"இந்த களஞ்சியத்தைப் பகிரும் அனைத்து கூறுகளுக்கும் இந்த துணை நிரல் பயன்படுத்தப்படுகிறது."
+
+#, fuzzy
 #| msgid "This add-on has no settings."
 msgid "This add-on cannot be triggered manually."
 msgstr "இந்த துணை நிரலுக்கு அமைப்புகள் இல்லை."
@@ -3023,6 +3214,11 @@ msgstr "திட்டம்"
 msgctxt "Add-on scope"
 msgid "Site"
 msgstr ""
+
+#, fuzzy
+#| msgid "Categorized component can not be shared."
+msgid "a component you cannot access"
+msgstr "வகைப்படுத்தப்பட்ட கூறுகளை பகிர முடியாது."
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -3328,6 +3524,9 @@ msgstr "மொழிபெயர்ப்பு உரை மிக நீளம
 msgid "Your suggestion already exists!"
 msgstr "உங்கள் பரிந்துரை ஏற்கனவே உள்ளது!"
 
+msgid "Search query"
+msgstr "தேடல் வினவல்"
+
 msgid "Inherit enforced checks from the parent category, project or workspace."
 msgstr ""
 
@@ -3421,6 +3620,26 @@ msgstr "பயனர்"
 msgid "Language"
 msgstr "மொழி"
 
+msgid ""
+"Contributor identities are exposed by View contributor identities, Download "
+"changes, Manage reports, and access-management permissions. Permissions from "
+"all assigned roles are additive."
+msgstr ""
+
+msgid "Built-in"
+msgstr ""
+
+#, fuzzy
+#| msgid "Custom"
+msgid "Customized"
+msgstr "தனிப்பயன்"
+
+msgid "Reset built-in roles to defaults"
+msgstr ""
+
+msgid "Built-in role permissions reset."
+msgstr ""
+
 msgid "Personal info"
 msgstr "தனிப்பட்ட செய்தி"
 
@@ -3438,6 +3657,12 @@ msgstr "ஒரு கூறு பட்டியல் தேர்ந்தெ
 
 msgid "This is not used when a component is selected."
 msgstr "ஒரு கூறு தேர்ந்தெடுக்கப்படும்போது இது பயன்படுத்தப்படாது."
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "View contributor license agreement"
+msgid "View contributor identities"
+msgstr "பங்களிப்பாளர் உரிம ஒப்பந்தத்தைக் காண்க"
 
 #. Translators: Permission name
 msgid "Download changes"
@@ -3651,6 +3876,24 @@ msgid "Manage workspace access"
 msgstr "பணியிட அணுகலை நிர்வகிக்கவும்"
 
 #. Translators: Permission name
+#, fuzzy
+#| msgid "Browse all users"
+msgid "Browse users"
+msgstr "அனைத்து பயனர்களையும் உலாவுக"
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "Only chosen users can contribute."
+msgid "Search resource contributors"
+msgstr "தேர்ந்தெடுக்கப்பட்ட பயனாளர்கள் மட்டும் பங்குபெறலாம்."
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "User profile"
+msgid "View user profiles"
+msgstr "பயனர் சுயவிவரம்"
+
+#. Translators: Permission name
 msgid "Use management interface"
 msgstr "மேலாண்மை இடைமுகத்தைப் பயன்படுத்து"
 
@@ -3723,6 +3966,18 @@ msgstr "பட்டியலிடல் நிர்வகிக்கவு�
 #. Translators: Permission name
 msgid "Manage site-wide add-ons"
 msgstr "தள அளவிலான துணை நிரல்களை நிர்வகிக்கவும்"
+
+#, fuzzy
+#| msgid "Discover Weblate"
+msgctxt "Access-control role"
+msgid "Discover users"
+msgstr "வலைபெயர்ப்பைக் கண்டறியவும்"
+
+#, fuzzy
+#| msgid "User profile"
+msgctxt "Access-control role"
+msgid "View user profiles"
+msgstr "பயனர் சுயவிவரம்"
 
 msgctxt "Access-control role"
 msgid "Administration"
@@ -3932,6 +4187,10 @@ msgstr "பெயர்"
 
 msgid "Choose permissions granted to this role."
 msgstr "இந்த பாத்திரத்திற்கு வழங்கப்பட்ட அனுமதிகளைத் தேர்வுசெய்க."
+
+msgid ""
+"Remove the component from project teams before moving it to another project."
+msgstr ""
 
 msgid "Roles"
 msgstr "பாத்திரங்கள்"
@@ -4229,6 +4488,11 @@ msgid ""
 "enable them."
 msgstr ""
 
+#, fuzzy
+#| msgid "You do not have permission to accept suggestions."
+msgid "You need to log in to upload translations."
+msgstr "பரிந்துரைகளை ஏற்க உங்களுக்கு இசைவு இல்லை."
+
 msgid "The file format does not support updating source strings."
 msgstr "கோப்பு வடிவம் மூல சரங்களைப் புதுப்பிப்பதை ஆதரிக்காது."
 
@@ -4247,6 +4511,11 @@ msgid ""
 "access; otherwise, you would lock yourself out."
 msgstr ""
 
+#, fuzzy
+#| msgid "Additional labels can be defined by project administrators."
+msgid "Blocked users cannot be granted project administration rights."
+msgstr "கூடுதல் லேபிள்களை திட்ட நிர்வாகிகளால் வரையறுக்கலாம்."
+
 #, python-format
 msgid ""
 "Team %(name)s was renamed to %(new_name)s because its name was already in "
@@ -4264,11 +4533,31 @@ msgstr ""
 msgid "Project tokens can not be assigned to teams here."
 msgstr ""
 
+#, fuzzy
+#| msgid "View audit log"
+msgid "Team audit log"
+msgstr "தணிக்கை பதிவைக் காண்க"
+
+#, fuzzy
+#| msgid "Team administrator"
+msgid "Team audit entry"
+msgstr "குழு நிர்வாகி"
+
 msgid "Cannot remove built-in team!"
 msgstr "உள்ளமைக்கப்பட்ட குழுவை அகற்ற முடியாது!"
 
 msgid "User invitation was removed."
 msgstr "பயனர் அழைப்பு அகற்றப்பட்டது."
+
+#, fuzzy
+#| msgid "User invitation was removed."
+msgid "This invitation was already accepted or removed."
+msgstr "பயனர் அழைப்பு அகற்றப்பட்டது."
+
+#, fuzzy
+#| msgid "Please complete the registration to accept the invitation."
+msgid "Remove the project block before accepting this invitation."
+msgstr "அழைப்பை ஏற்க பதிவை முடிக்கவும்."
 
 #, python-format
 msgid "Accepted invitation to the %s team."
@@ -4400,6 +4689,194 @@ msgstr ""
 msgid "Preview without changes"
 msgstr "அண்மைக் கால மாற்றங்கள்"
 
+#, fuzzy
+#| msgid "Change events"
+msgid "Change events"
+msgstr "நிகழ்வுகள் மாற்று"
+
+#, fuzzy
+#| msgid "The category does not belong to the selected project."
+msgid "The workflow runs for each of the selected events."
+msgstr "வகை தேர்ந்தெடுக்கப்பட்ட திட்டத்திற்கு சொந்தமானது அல்ல."
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "CEL expression"
+msgstr "வழக்கமான வெளிப்பாடு"
+
+#, fuzzy
+#| msgid "The translation has come to an end."
+msgid "The expression has to evaluate to a boolean."
+msgstr "மொழிபெயர்ப்பு முடிவுக்கு வந்துவிட்டது."
+
+#, fuzzy
+#| msgid "Category name"
+msgid "Category path"
+msgstr "வகை பெயர்"
+
+#, fuzzy
+#| msgid "Parent category has to be in the same project!"
+msgid "Slash-separated category path inside the project."
+msgstr "பெற்றோர் வகை ஒரே திட்டத்தில் இருக்க வேண்டும்!"
+
+msgid "Language code"
+msgstr "மொழி குறியீடு"
+
+#, fuzzy
+#| msgid "Change events"
+msgid "Change event"
+msgstr "நிகழ்வுகள் மாற்று"
+
+msgid "String state"
+msgstr "சரம் நிலை"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Action ID"
+msgstr "செயல்"
+
+msgid "Optional identifier so that later actions can use its results."
+msgstr ""
+
+#, fuzzy
+#| msgid "Moved component"
+msgid "Whole component"
+msgstr "நகர்த்தப்பட்ட கூறு"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Strings were changed"
+msgid "String affected by the change"
+msgstr "சரங்கள் மாற்றப்பட்டன"
+
+#, fuzzy
+#| msgid "String state"
+msgid "String scope"
+msgstr "சரம் நிலை"
+
+#, fuzzy
+#| msgid "Default component list"
+msgid "Default (whole component)"
+msgstr "இயல்புநிலை கூறு பட்டியல்"
+
+#, fuzzy
+#| msgid "Delete string"
+msgid "Select strings"
+msgstr "சரத்தை நீக்கு"
+
+msgid "Use the effective AI quality add-on"
+msgstr ""
+
+msgid "Bulk editing"
+msgstr "மொத்தமாக திருத்துதல்"
+
+msgid "Component update"
+msgstr "கூறு புதுப்பிப்பு"
+
+#, fuzzy
+#| msgid "Repository outdated."
+msgid "Repository update"
+msgstr "களஞ்சியம் காலாவதியானது."
+
+#, fuzzy
+#| msgid "Repository merged"
+msgid "Repository commit"
+msgstr "களஞ்சியம் ஒன்றிணைந்தது"
+
+#, fuzzy
+#| msgid "Repository push URL"
+msgid "Repository push"
+msgstr "களஞ்சியம் புச் முகவரி"
+
+msgid "Manual run"
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Expression"
+msgstr "வழக்கமான வெளிப்பாடு"
+
+#, fuzzy
+#| msgid "Component created"
+msgid "Component category"
+msgstr "கூறு உருவாக்கப்பட்டது"
+
+#, fuzzy
+#| msgid "Manage strings"
+msgid "Matching strings"
+msgstr "சரங்களை நிர்வகி"
+
+msgid "All of"
+msgstr ""
+
+msgid "Any of"
+msgstr ""
+
+#, fuzzy
+#| msgid "Note"
+msgid "Not"
+msgstr "குறிப்பு"
+
+#, fuzzy
+#| msgid "Frequency"
+msgid "Sequence"
+msgstr "மீடிறன், மீள்திறன், நிகழ்வெண், நிகழ்வு"
+
+msgid "Choose"
+msgstr "தேர்வு"
+
+msgid "Trigger"
+msgstr "தூண்டுதல்"
+
+#, fuzzy
+#| msgid "Alert triggered"
+msgid "Add trigger"
+msgstr "எச்சரிக்கை தூண்டப்பட்டது"
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Condition"
+msgstr "உள்ளமைவு"
+
+#, fuzzy
+#| msgid "Bad configuration"
+msgid "Add condition"
+msgstr "மோசமான உள்ளமைவு"
+
+msgid "Action"
+msgstr "செயல்"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Add action"
+msgstr "செயல்"
+
+msgid "Conditions"
+msgstr "Conditions"
+
+msgid "Actions"
+msgstr "செயல்கள்"
+
+msgid "Branches"
+msgstr ""
+
+#, fuzzy
+#| msgid "Additional branch"
+msgid "Add branch"
+msgstr "கூடுதல் கிளை"
+
+#, fuzzy
+#| msgctxt "Plural form description"
+#| msgid "Other"
+msgid "Otherwise"
+msgstr "மற்றொன்று"
+
+msgid "Add action to run otherwise"
+msgstr ""
+
+msgid "Branch"
+msgstr ""
+
 msgid "Additional message"
 msgstr "கூடுதல் செய்தி"
 
@@ -4419,7 +4896,7 @@ msgid ""
 "Set this billing to the regular trial period and clear scheduled removal."
 msgstr ""
 
-msgid "Workspace"
+msgid "No valid billing found or limit exceeded."
 msgstr ""
 
 #, fuzzy
@@ -4532,6 +5009,9 @@ msgid_plural "Contains %d components"
 msgstr[0] "%d கூறு உள்ளது"
 msgstr[1] "%d கூறுகளைக் கொண்டுள்ளது"
 
+msgid "Restricted components are not allowed by this billing plan."
+msgstr ""
+
 msgid "Missing license"
 msgstr "உரிமம் இல்லை"
 
@@ -4598,6 +5078,9 @@ msgstr ""
 
 msgid "To terminate billing you have to remove all projects first."
 msgstr "பில்லிங்கை நிறுத்த நீங்கள் முதலில் அனைத்து திட்டங்களையும் அகற்ற வேண்டும்."
+
+msgid "Externally managed billings cannot be merged."
+msgstr ""
 
 msgid "Cannot merge such a billing."
 msgstr "அத்தகைய பில்லிங்கை ஒன்றிணைக்க முடியாது."
@@ -4841,9 +5324,13 @@ msgstr "சில பன்மை வடிவங்கள் அதே வழ�
 msgid "Inconsistent"
 msgstr "சீரற்ற"
 
+#, fuzzy
+#| msgid ""
+#| "This string has more than one translation in this project or is "
+#| "untranslated in some components."
 msgid ""
-"This string has more than one translation in this project or is untranslated "
-"in some components."
+"This string has more than one translation in its propagation group or is "
+"untranslated in some components."
 msgstr ""
 "இந்த சரம் இந்த திட்டத்தில் ஒன்றுக்கு மேற்பட்ட மொழிபெயர்ப்புகளைக் கொண்டுள்ளது அல்லது சில "
 "கூறுகளில் மொழிபெயர்க்கப்படாதது."
@@ -5135,6 +5622,11 @@ msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr "html {tag} குறிச்சொல் பொருந்தும் இறுதி குறிச்சொல்லைக் காணவில்லை: {end}."
 
 #, fuzzy, python-brace-format
+#| msgid "The HTML {tag} tag is missing a matching end tag: {end}."
+msgid "The HTML {tag} tag is nested too deeply."
+msgstr "html {tag} குறிச்சொல் பொருந்தும் இறுதி குறிச்சொல்லைக் காணவில்லை: {end}."
+
+#, fuzzy, python-brace-format
 #| msgid ""
 #| "The sequence {sequence} will begin a HTML character reference, but does "
 #| "not end with {semicolon}. If you do not want a character reference, use "
@@ -5363,6 +5855,17 @@ msgstr "சரள மொழிபெயர்ப்பு தொடரியல�
 
 msgid "Fluent syntax error in the translation."
 msgstr "மொழிபெயர்ப்பில் சரளமான தொடரியல் பிழை."
+
+msgid "The Fluent value could not be checked because it is too complex."
+msgstr ""
+
+msgid "the value is too complex or nested too deeply"
+msgstr ""
+
+#, fuzzy
+#| msgid "Your billing plan has exceeded its limits."
+msgid "Format matching exceeded its time limit."
+msgstr "உங்கள் பட்டியலிடல் திட்டம் அதன் வரம்புகளை மீறிவிட்டது."
 
 msgid "The following format strings are in the wrong order:"
 msgstr "பின்வரும் வடிவமைப்பு சரங்கள் தவறான வரிசையில் உள்ளன:"
@@ -5620,6 +6123,9 @@ msgstr "மார்க் பேரூர் தொடரியல்"
 msgid "Markdown syntax does not match source."
 msgstr "குறைகுறி தொடரியல் மூலத்துடன் பொருந்தவில்லை."
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr ""
+
 msgid "The translation does not contain a URL."
 msgstr "மொழிபெயர்ப்பில் முகவரி இல்லை."
 
@@ -5789,6 +6295,11 @@ msgstr "வலைபெயர்ப்பு configuration"
 msgid "Your translation is foo"
 msgstr "உங்கள் மொழிபெயர்ப்பு foo"
 
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
+msgstr ""
+
 msgid "Font style"
 msgstr "எழுத்துரு வகை"
 
@@ -5951,6 +6462,25 @@ msgstr "ஐஇமு சரங்கள்"
 msgid "Excel Open XML"
 msgstr "எக்செல் ஓபன் எக்ச்எம்எல்"
 
+#, fuzzy
+#| msgid "Could not update the repository."
+msgid "Could not open the workbook archive."
+msgstr "களஞ்சியத்தை புதுப்பிக்க முடியவில்லை."
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr ""
+
 msgid "Multivalue CSV file"
 msgstr "multivalue காபிம கோப்பு"
 
@@ -5998,6 +6528,10 @@ msgid "Invalid id_hash metadata in CSV file: %s"
 msgstr "தவறான மொழிபெயர்ப்பு கொடி: \"%s\""
 
 msgid "Plural form metadata in CSV file requires id_hash."
+msgstr ""
+
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
 msgstr ""
 
 #. Translators: File format name
@@ -6229,6 +6763,13 @@ msgstr "ஆப் கடை மேனிலை தரவு கோப்பு�
 msgid "File validation is required for directory-based formats."
 msgstr ""
 
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr ""
+
+msgid "Converted workbook content exceeds the configured size limit."
+msgstr ""
+
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
@@ -6297,6 +6838,16 @@ msgid ""
 "either this limit or the maximum age is reached."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation files CDN"
+msgid "Install Translation files CDN"
+msgstr "மொழிபெயர்ப்பு கோப்புகள் CDN"
+
+msgid ""
+"Publishes original translation files publicly, including files from private "
+"components."
+msgstr ""
+
 msgid "Kotlin SDK CDN"
 msgstr ""
 
@@ -6304,6 +6855,11 @@ msgid ""
 "Publishes Android string and plural resources for registered Kotlin SDK "
 "builds."
 msgstr ""
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "Translation files CDN cannot be installed on this component."
+msgstr "கூடுதல் ஆன் கூறுகளில் மட்டுமே நிறுவ முடியும்."
 
 msgid "Weblate languages"
 msgstr "வலைபெயர்ப்பு மொழிகள்"
@@ -6362,9 +6918,6 @@ msgstr "மொழிகளின் வரம்பு"
 #| msgid "Repeated language code"
 msgid "Enter a valid language code."
 msgstr "மீண்டும் மொழி குறியீடு"
-
-msgid "Language code"
-msgstr "மொழி குறியீடு"
 
 msgid "Language name"
 msgstr "மொழி பெயர்"
@@ -6857,6 +7410,9 @@ msgstr ""
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
 msgstr "மூல மொழி தேர்வு"
+
+msgid "disabled"
+msgstr "முடக்கப்பட்டது"
 
 #, fuzzy
 #| msgid ""
@@ -7456,6 +8012,19 @@ msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "திட்டம் அல்லது கூறுகளில் வரையறுக்கப்பட்ட இரண்டாம் நிலை மொழி"
 
+#, fuzzy
+#| msgid "Update with rebase"
+msgid "Rate limit reset."
+msgstr "மறுசீரமைப்புடன் புதுப்பிக்கவும்"
+
+#, fuzzy
+#| msgid "This translation needs editing."
+msgid "Too many translation requests."
+msgstr "இந்த மொழிபெயர்ப்புக்கு திருத்தம் தேவை."
+
+msgid "Too many concurrent translation requests for this service."
+msgstr ""
+
 msgid "File"
 msgstr "கோப்பு"
 
@@ -7602,6 +8171,11 @@ msgid ""
 "and will be rebuilt in the background."
 msgstr "உள்ளீடுகள் நீக்கப்பட்டன மற்றும் மொழிபெயர்ப்பு நினைவகம் பின்னணியில் மீண்டும் கட்டப்படும்."
 
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many uploads, please try again later."
+msgstr "பல தேடல் வினவல்கள், தயவுசெய்து பின்னர் மீண்டும் முயற்சிக்கவும்."
+
 #, fuzzy, python-format
 #| msgid "Remove selected translation memory entries"
 msgid "Processed %(count)d active translation memory entry."
@@ -7660,6 +8234,31 @@ msgstr "டிச"
 #, python-format
 msgid "%s translation is currently not available, but can be added."
 msgstr "%s மொழிபெயர்ப்பு தற்போது கிடைக்கவில்லை, ஆனால் சேர்க்கலாம்."
+
+msgid "Confidential"
+msgstr ""
+
+#, fuzzy
+#| msgid "Activation token"
+msgid "Authorization code"
+msgstr "செயல்படுத்தல் குறிஅடையாளம்"
+
+msgid "RSA with SHA-256"
+msgstr ""
+
+msgid "Identify your account"
+msgstr ""
+
+msgid "Read your name and username"
+msgstr ""
+
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Read your e-mail address"
+msgstr "கணக்கு மின்னஞ்சல் பயன்படுத்து"
+
+msgid "Read the version of the legal documents you accepted"
+msgstr ""
 
 msgid "Image is too big."
 msgstr "படம் மிகப் பெரியது."
@@ -7783,9 +8382,22 @@ msgstr[1] "பொருந்தக்கூடிய சரங்கள் எ�
 msgid "No new matching source strings found."
 msgstr "புதிய பொருந்தக்கூடிய மூல சரங்கள் எதுவும் காணப்படவில்லை."
 
+msgid "Only some matching strings are shown. Search for more strings manually."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many image text searches. Please try again later."
+msgstr "பல தேடல் வினவல்கள், தயவுசெய்து பின்னர் மீண்டும் முயற்சிக்கவும்."
+
 #, fuzzy
 #| msgid "Could not open a ticket, please try again later."
-msgid "OCR data could not be downloaded. Please try again later."
+msgid "Text recognition data could not be downloaded. Please try again later."
+msgstr "சிக்கலைத் திறக்க முடியவில்லை, பிறகு முயற்சிக்கவும்."
+
+#, fuzzy
+#| msgid "Could not open a ticket, please try again later."
+msgid "Could not find strings in the image. Please try again."
 msgstr "சிக்கலைத் திறக்க முடியவில்லை, பிறகு முயற்சிக்கவும்."
 
 #, fuzzy
@@ -8001,8 +8613,19 @@ msgstr ""
 msgid "Your profile"
 msgstr "உங்கள் சுயவிவரம்"
 
+#, fuzzy
+#| msgid "Enter a valid e-mail address."
+msgid "Confirm adding e-mail address"
+msgstr "செல்லுபடியாகும் மின்னஞ்சல் முகவரியை உள்ளிடவும்."
+
 msgid "Confirm adding user identity"
 msgstr "பயனர் அடையாளத்தைச் சேர்ப்பதை உறுதிப்படுத்தவும்"
+
+#, python-format
+msgid ""
+"Confirm adding %(uid)s to your existing Weblate account by entering your "
+"current password."
+msgstr ""
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #, python-format
@@ -8012,6 +8635,11 @@ msgid ""
 msgstr ""
 "இதை உறுதிப்படுத்திய பிறகு, %(backend_verbose)s (%(uid)s) ஐப் பயன்படுத்தி நீங்கள் "
 "அங்கீகரிக்க முடியும்."
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Add e-mail address"
+msgstr "புதிய மின்னஞ்சல் முகவரியை சரிபார்க்கவும்"
 
 msgid "Confirm"
 msgstr "உறுதிப்படுத்தவும்"
@@ -8143,16 +8771,16 @@ msgstr ""
 msgid "Registration"
 msgstr "பதிவு"
 
+#, fuzzy
+#| msgid "Your e-mail"
+msgid "Check your e-mail"
+msgstr "உங்கள் மின்னஞ்சல்"
+
 msgid "Password reset almost complete"
 msgstr "கடவுச்சொல் மீட்டமைப்பு கிட்டத்தட்ட முடிந்தது"
 
 msgid "Account removal almost complete"
 msgstr "கணக்கு அகற்றுதல் கிட்டத்தட்ட முடிந்தது"
-
-#, fuzzy
-#| msgid "Registration almost complete"
-msgid "E-mail verification almost complete"
-msgstr "பதிவு கிட்டத்தட்ட முடிந்தது"
 
 msgid "Registration almost complete"
 msgstr "பதிவு கிட்டத்தட்ட முடிந்தது"
@@ -8167,16 +8795,11 @@ msgstr ""
 "உங்கள் மின்னஞ்சல் இன்பாக்சுக்கு அனுப்பப்பட்ட உறுதிப்படுத்தல் இணைப்பைக் சொடுக்கு செய்வதன் மூலம் "
 "உங்கள் கணக்கை அகற்றவும்."
 
-#, fuzzy
-#| msgid ""
-#| "Click the confirmation link sent to your e-mail inbox and start using "
-#| "your account."
 msgid ""
-"Click the confirmation link sent to your e-mail inbox to verify the address "
-"for your account."
+"Check your e-mail for instructions. If this address is already associated "
+"with an account, you may receive account recovery guidance instead of a "
+"verification link."
 msgstr ""
-"உங்கள் மின்னஞ்சல் இன்பாக்சுக்கு அனுப்பப்பட்ட உறுதிப்படுத்தல் இணைப்பைக் சொடுக்கு செய்து, உங்கள் "
-"கணக்கைப் பயன்படுத்தத் தொடங்குங்கள்."
 
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
@@ -8188,6 +8811,16 @@ msgstr ""
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr ""
 "உங்கள் உள்பெட்டியில் பார்க்க முடியாவிட்டால் தயவுசெய்து உங்கள் பழுதான கோப்புறையைப் பாருங்கள்."
+
+#, fuzzy, python-format
+#| msgid "The confirmation link will expire after %(count)s hour."
+#| msgid_plural "The confirmation link will expire after %(count)s hours."
+msgid ""
+"If you receive a verification link, it will expire after %(count)s hour."
+msgid_plural ""
+"If you receive a verification link, it will expire after %(count)s hours."
+msgstr[0] "உறுதிப்படுத்தல் இணைப்பு %(count)s மணி நேரத்திற்குப் பிறகு காலாவதியாகும்."
+msgstr[1] "உறுதிப்படுத்தல் இணைப்பு %(count)s மணி நேரங்களுக்குப் பிறகு காலாவதியாகும்."
 
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
@@ -8209,6 +8842,15 @@ msgid "Register again if the confirmation link expires."
 msgstr "உறுதிப்படுத்தல் இணைப்பு காலாவதியானால் மீண்டும் பதிவு செய்யுங்கள்."
 
 msgid ""
+"If you receive a verification link, open it while signed in to this account "
+"and follow the confirmation steps. You may be asked for your current "
+"password."
+msgstr ""
+
+msgid "Back to account settings"
+msgstr "கணக்கு அமைப்புகளுக்குத் திரும்பு"
+
+msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
@@ -8226,13 +8868,49 @@ msgstr "உங்கள் பதிவில் சிக்கல் இரு
 msgid "Please fix errors in the form."
 msgstr "படிவத்தில் பிழைகளை சரிசெய்யவும்."
 
+msgid ""
+"Verification instructions will be sent to the new e-mail address. You do not "
+"need access to your old mailbox."
+msgstr ""
+
+msgid ""
+"Adding an address does not change your account e-mail address. After "
+"verification, you can select the new address in Account settings."
+msgstr ""
+
 #, fuzzy
 #| msgid "Send test e-mail"
 msgid "Send verification e-mail"
 msgstr "சோதனை மின்னஞ்சல் அனுப்பவும்"
 
-msgid "Back to account settings"
-msgstr "கணக்கு அமைப்புகளுக்குத் திரும்பு"
+#, fuzzy
+#| msgid "Confirm adding user identity"
+msgid "Confirm your identity"
+msgstr "பயனர் அடையாளத்தைச் சேர்ப்பதை உறுதிப்படுத்தவும்"
+
+msgid "Confirm your existing sign-in method before continuing."
+msgstr ""
+
+msgid ""
+"Confirm your existing sign-in method before registering your first second "
+"factor."
+msgstr ""
+
+msgid "Sign in again using a connected provider:"
+msgstr ""
+
+msgid ""
+"Your previous e-mail verification has expired. Reset your password to "
+"continue."
+msgstr ""
+
+msgid "Sign out and reset password by e-mail"
+msgstr ""
+
+msgid ""
+"No sign-in method is available to confirm your identity. Contact an "
+"administrator to recover access."
+msgstr ""
 
 msgid "Trial subscriptions"
 msgstr "சோதனை சந்தாக்கள்"
@@ -8449,6 +9127,9 @@ msgstr ""
 msgid "Change my password"
 msgstr "எனது கடவுச்சொல்லை மாற்றவும்"
 
+msgid "Set my password"
+msgstr "எனது கடவுச்சொல்லை அமைக்கவும்"
+
 #, fuzzy
 #| msgid "Back to account settings"
 msgid "Back to security settings"
@@ -8493,11 +9174,6 @@ msgstr "செயல்பாடு"
 msgid "The e-mail address can be chosen from verified addresses only."
 msgstr ""
 "சரிபார்க்கப்பட்ட முகவரிகளிலிருந்து மட்டுமே மின்னஞ்சல் முகவரியை தேர்ந்தெடுக்க முடியும்."
-
-#, fuzzy
-#| msgid "Verify new e-mail address"
-msgid "Add and verify e-mail address"
-msgstr "புதிய மின்னஞ்சல் முகவரியை சரிபார்க்கவும்"
 
 msgid "Save"
 msgstr "சேமி"
@@ -8599,9 +9275,6 @@ msgstr "உள்ளமைக்கவும்"
 msgid "Not configured"
 msgstr "உள்ளமைக்கவும்"
 
-msgid "Set password"
-msgstr "கடவுச்சொல்லை அமைக்கவும்"
-
 msgid "Two-factor authentication"
 msgstr "இரண்டு காரணி ஏற்பு"
 
@@ -8700,6 +9373,9 @@ msgstr "பநிஇ விசை தெரிவுநிலையை மாற
 
 msgid "API key copied to clipboard."
 msgstr "பநிஇ விசை கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது."
+
+msgid "Verify your identity to view your API key"
+msgstr ""
 
 msgid "API root URL:"
 msgstr "பநிஇ ரூட் url:"
@@ -8893,9 +9569,6 @@ msgid ""
 msgstr ""
 "உங்கள் கடவுச்சொல்லை மறந்து விட்டீர்களா? உங்கள் மின்னஞ்சல் முகவரியை கீழே உள்ளிடவும், புதிய "
 "ஒன்றை அமைப்பதற்கான வழிமுறைகளை நாங்கள் மின்னஞ்சல் செய்வோம்."
-
-msgid "Set my password"
-msgstr "எனது கடவுச்சொல்லை அமைக்கவும்"
 
 msgid "Reset my password"
 msgstr "எனது கடவுச்சொல்லை மீட்டமைக்கவும்"
@@ -9306,6 +9979,9 @@ msgstr "கிடைக்கவில்லை"
 msgid "No components found."
 msgstr "எந்த கூறுகளும் குறிப்பிடப்படவில்லை"
 
+msgid "Integration instructions"
+msgstr "ஒருங்கிணைப்பு வழிமுறைகள்"
+
 msgid "Configure add-on"
 msgstr "துணை நிரலை உள்ளமைக்கவும்"
 
@@ -9399,6 +10075,27 @@ msgstr "துணை நிரலை கூறு மட்டத்தில்
 msgid "Install"
 msgstr "நிறுவு"
 
+#, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid "Install on the component owning the repository."
+msgstr ""
+"இந்த களஞ்சியத்தைப் பகிரும் அனைத்து கூறுகளுக்கும் இந்த துணை நிரல் பயன்படுத்தப்படுகிறது."
+
+#, fuzzy
+#| msgid "This component is set up incorrectly."
+msgid "The component owning this repository is not available to you."
+msgstr "இந்த கூறு தவறாக அமைக்கப்பட்டுள்ளது."
+
+#, fuzzy
+#| msgid "Repository changes"
+msgid "Open repository add-ons"
+msgstr "களஞ்சிய மாற்றங்கள்"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Unavailable"
+msgstr "கிடைக்கவில்லை"
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -9432,8 +10129,52 @@ msgstr "முந்தைய"
 msgid "Next"
 msgstr "அடுத்தது"
 
-msgid "Integration instructions"
-msgstr "ஒருங்கிணைப்பு வழிமுறைகள்"
+#, fuzzy
+#| msgid "Workflow customization"
+msgid "Workflow editing mode"
+msgstr "பணிப்பாய்வு தனிப்பயனாக்கம்"
+
+#, fuzzy
+#| msgid "Edit"
+msgid "Editor"
+msgstr "தொகு"
+
+#, fuzzy
+#| msgid "YAML file"
+msgid "YAML"
+msgstr "yaml கோப்பு"
+
+msgid ""
+"Both modes edit the same workflow, and switching between them keeps unsaved "
+"changes."
+msgstr ""
+
+msgid "Triggers"
+msgstr "தூண்டுதல்கள்"
+
+msgid ""
+"Events starting the workflow. Without any trigger it can only be run "
+"manually."
+msgstr ""
+
+#, fuzzy
+#| msgid "All components are now open for translation updates."
+msgid "All conditions have to pass before any action runs."
+msgstr "அனைத்து கூறுகளும் இப்போது மொழிபெயர்ப்பு புதுப்பிப்புகளுக்கு திறந்திருக்கும்."
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Operation was performed in the repository"
+msgid "Operations performed in this order once the conditions pass."
+msgstr "களஞ்சியத்தில் செயல்பாடு செய்யப்பட்டது"
+
+#, fuzzy
+#| msgid "Browse all projects"
+msgid "Move up"
+msgstr "அனைத்து திட்டங்களையும் உலாவுக"
+
+msgid "Move down"
+msgstr ""
 
 msgid "Published translation files are available from the CDN base URL:"
 msgstr ""
@@ -9446,6 +10187,9 @@ msgstr "சி.டி.என் இலிருந்து உள்ளூர�
 
 msgid "The localizable elements have to match configured CSS selector."
 msgstr "உள்ளூர்மயமாக்கக்கூடிய கூறுகள் கட்டமைக்கப்பட்ட css தேர்வாளருடன் பொருந்த வேண்டும்."
+
+msgid "Available languages and translation files are listed in the manifest:"
+msgstr ""
 
 #, fuzzy
 #| msgid "Billed projects"
@@ -9498,6 +10242,24 @@ msgid "No matching components were found!"
 msgstr "பொருந்தக்கூடிய கூறுகள் எதுவும் காணப்படவில்லை!"
 
 msgid ""
+"Configure the AMQP broker connection below, including any TLS certificates "
+"required by your broker, and select the events to publish."
+msgstr ""
+
+msgid "Configure your consumer to subscribe to Weblate message topics:"
+msgstr ""
+
+msgid ""
+"Topics include only the path segments available for the event. If you "
+"configure a topic prefix, it is prepended with a dot separator."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for topic examples, the message schema, and "
+"consumer configuration."
+msgstr ""
+
+msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
 msgstr ""
@@ -9541,6 +10303,17 @@ msgstr "திட்ட முகவரி ச்லக்"
 msgid ""
 "See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
 "library setup."
+msgstr ""
+
+msgid ""
+"Install Translation files CDN to let the SDK download original XML "
+"translation files. These files are published publicly, including files from "
+"private components."
+msgstr ""
+
+msgid ""
+"After installation, return to this page to copy the updated Gradle "
+"configuration."
 msgstr ""
 
 msgid "Configure the Kotlin SDK Gradle plugin with these values:"
@@ -9652,6 +10425,21 @@ msgstr "பின்வரும் முறையைப் பயன்பட�
 msgid "Source string"
 msgstr "மூல சரம்"
 
+#, python-format
+msgid ""
+"Create an <a href=\"%(url)s\">incoming webhook in Slack</a> for the channel "
+"that should receive notifications."
+msgstr ""
+
+msgid ""
+"Enter the webhook URL below and select the events to send to the channel."
+msgstr ""
+
+#, fuzzy
+#| msgid "Please see a documentation for more info."
+msgid "See the add-on documentation for more information."
+msgstr "மேலும் தகவலுக்கு ஆவணத்தைப் பார்க்கவும்."
+
 msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr ""
@@ -9670,6 +10458,22 @@ msgstr ""
 "தேர்ந்தெடுக்கப்படாவிட்டால் அல்லது அதைச் சேர்க்க உறுதிமொழி செய்தி தனிப்பயனாக்கப்படாவிட்டால் "
 "படைப்புரிமை இழக்கப்படுகிறது."
 
+msgid ""
+"Configure your service to receive JSON POST requests, enter its URL below, "
+"and select the events to send."
+msgstr ""
+
+msgid ""
+"To verify request signatures, configure the same Standard Webhooks secret in "
+"Weblate and your receiver. Requests are signed only when a secret is "
+"configured."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for the message payload and signature "
+"verification."
+msgstr ""
+
 msgid "HTTP Response"
 msgstr "HTTP பதில்"
 
@@ -9685,6 +10489,45 @@ msgstr "மறுமொழி உள்ளடக்கம்"
 msgid "Request payload"
 msgstr "பேலோடைக் கோருங்கள்"
 
+msgid ""
+"Reset these built-in roles to the current default permissions? This discards "
+"their customizations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Permissions"
+msgid "Reset permissions"
+msgstr "அனுமதிகள்"
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Actor"
+msgstr "Actor"
+
+#, fuzzy
+#| msgid "Delete entry"
+msgid "Deleted user"
+msgstr "நுழைவை நீக்கு"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Administrative team changes"
+msgstr "நிர்வாகம்"
+
+#, fuzzy
+#| msgid "Changes"
+msgid "Change"
+msgstr "மாற்றங்கள்"
+
+msgid "View details"
+msgstr "விபரங்களை பார்"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No team audit entries found."
+msgstr "பொருந்தக்கூடிய சரங்கள் எதுவும் காணப்படவில்லை."
+
 msgid "Settings"
 msgstr "அமைப்புகள்"
 
@@ -9693,6 +10536,17 @@ msgstr "தானியங்கி பணிகள்"
 
 msgid "Access control"
 msgstr "நுழைவு கட்டுப்பாடு"
+
+#, fuzzy
+#| msgid ""
+#| "Automatically add newly created users to this team based on their e-mail "
+#| "address."
+msgid ""
+"Automatically invite newly created users to this team based on their e-mail "
+"address. Users join only after accepting the invitation."
+msgstr ""
+"புதிதாக உருவாக்கப்பட்ட பயனர்களை அவர்களின் மின்னஞ்சல் முகவரியின் அடிப்படையில் தானாகவே இந்த "
+"குழுவில் சேர்க்கவும்."
 
 msgid ""
 "Automatically add newly created users to this team based on their e-mail "
@@ -9739,6 +10593,9 @@ msgstr "இது <b>%(user)s</b> இந்த திட்டத்திற்
 msgid "Add"
 msgstr "கூட்டு"
 
+msgid "Moved component"
+msgstr "நகர்த்தப்பட்ட கூறு"
+
 msgid "All components"
 msgstr "அனைத்து கூறுகளும்"
 
@@ -9764,6 +10621,9 @@ msgstr "பார்த்த திட்டங்களை நிர்வக�
 #| msgid "Spaces"
 msgid "My workspaces"
 msgstr "இடங்கள்"
+
+msgid "Workspaces"
+msgstr "பணியிடங்கள்"
 
 msgid "Manage translated languages"
 msgstr "மொழிபெயர்க்கப்பட்ட மொழிகளை நிர்வகிக்கவும்"
@@ -9962,9 +10822,6 @@ msgstr "பார்வை"
 msgid "Event details"
 msgstr "நிகழ்வு விவரங்கள்"
 
-msgid "Actions"
-msgstr "செயல்கள்"
-
 msgid "Download"
 msgstr "பதிவிறக்கம்"
 
@@ -10071,6 +10928,144 @@ msgstr "திட்ட அணுகல் கட்டுப்பாட்ட�
 msgid "Check your billing status"
 msgstr "உங்கள் பட்டியலிடல் நிலையை சரிபார்க்கவும்"
 
+#, fuzzy
+#| msgid "Repository browser"
+msgid "Checking your browser"
+msgstr "களஞ்சிய உலாவி"
+
+msgid ""
+"Your browser will calculate a short proof of work to protect this site "
+"against automated scraping."
+msgstr ""
+
+#, fuzzy
+#| msgid "Loading…"
+msgid "Working…"
+msgstr "ஏற்றுகிறது…"
+
+msgid ""
+"Verification failed. Enable JavaScript, workers, and cookies, then retry. "
+"You can also sign in."
+msgstr ""
+
+msgid "The challenge expired. Retry to start a new challenge."
+msgstr ""
+
+msgid "This challenge was already used. Retry to start a new challenge."
+msgstr ""
+
+msgid "Browser verification was unsuccessful. Please retry."
+msgstr ""
+
+msgid "Browser verification could not be confirmed. Enable cookies and retry."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The verification service is temporarily unavailable. Please retry later."
+msgstr ""
+"மேலோடை களஞ்சியத்தை தற்காலிகமாக அணுக முடியவில்லை. தயவுசெய்து பின்னர் மீண்டும் "
+"முயற்சிக்கவும்."
+
+msgid "Verification cookies could not be confirmed. Enable cookies and retry."
+msgstr ""
+
+msgid "JavaScript is required for anonymous access. You can sign in instead."
+msgstr ""
+
+#, fuzzy
+#| msgid "Repository details"
+msgid "Retry"
+msgstr "களஞ்சிய விவரங்கள்"
+
+msgid "Did you know?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Please review and confirm the matched components."
+msgid "Review and confirm the bulk edit changes."
+msgstr "பொருந்திய கூறுகளை மதிப்பாய்வு செய்து உறுதிப்படுத்தவும்."
+
+#, fuzzy, python-format
+#| msgid "%(count)s string"
+#| msgid_plural "%(count)s strings"
+msgid "%(counter)s string would change."
+msgid_plural "%(counter)s strings would change."
+msgstr[0] "%(count)s சரம்"
+msgstr[1] "%(count)s சரங்கள்"
+
+msgid ""
+"Showing the first 250 changes. Only selected displayed strings will be "
+"processed unless you choose to apply all matching strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Live Preview"
+msgid "Update preview"
+msgstr "நேரடி முன்னோட்டம்"
+
+#, python-format
+msgid "Apply all matching strings (%(total)s)"
+msgstr ""
+
+msgid ""
+"Applies to all current matches, including those not displayed. The query and "
+"permissions are checked again when applying changes."
+msgstr ""
+
+#, fuzzy
+#| msgid "CSS selector"
+msgid "Select"
+msgstr "css தேர்வாளர்"
+
+#, fuzzy
+#| msgctxt "Label on engage page"
+#| msgid "String"
+#| msgid_plural "Strings"
+msgid "String"
+msgstr "சரம்"
+
+msgid "Changes"
+msgstr "மாற்றங்கள்"
+
+#, fuzzy
+#| msgid "Status"
+msgid "State"
+msgstr "நிலை"
+
+msgid "Before"
+msgstr ""
+
+msgid "After"
+msgstr ""
+
+msgid "Empty"
+msgstr "வெறுமை"
+
+#, fuzzy
+#| msgid "For all languages"
+msgid "Source flags (all languages)"
+msgstr "எல்லா மொழிகளுக்கும்"
+
+msgid "Translation flags"
+msgstr "மொழிபெயர்ப்பு கொடிகள்"
+
+#, fuzzy
+#| msgid "All languages"
+msgid "Add label (all languages)"
+msgstr "அனைத்து மொழிகளும்"
+
+#, fuzzy
+#| msgid "Browse all languages"
+msgid "Remove label (all languages)"
+msgstr "எல்லா மொழிகளையும் உலாவுக"
+
+msgid "Apply"
+msgstr "இடு"
+
 msgid "Insights"
 msgstr "நுண்ணறிவு"
 
@@ -10089,9 +11084,6 @@ msgstr "மொழிபெயர்ப்பைப் பதிவேற்ற�
 msgid "Operations"
 msgstr "செயல்பாடுகள்"
 
-msgid "Search and replace"
-msgstr "தேடி மாற்றவும்"
-
 msgid "Post announcement"
 msgstr "இடுகை அறிவிப்பு"
 
@@ -10100,14 +11092,6 @@ msgstr "ஒழுங்கமைக்கவும் அல்லது அக�
 
 msgid "Browse all changes for this language"
 msgstr "இந்த மொழிக்கான அனைத்து மாற்றங்களையும் உலாவுக"
-
-#, fuzzy
-#| msgid "Recent changes"
-msgid "Review changes"
-msgstr "அண்மைக் கால மாற்றங்கள்"
-
-msgid "Apply"
-msgstr "இடு"
 
 #, fuzzy
 #| msgid "Browse all components"
@@ -10963,9 +11947,6 @@ msgstr "மதிப்பாய்வுக்காக காத்திர�
 msgid "Shortcut"
 msgstr "குறுக்குவழி"
 
-msgid "Action"
-msgstr "செயல்"
-
 msgid "Open available keyboard shortcuts."
 msgstr "கிடைக்கக்கூடிய விசைப்பலகை குறுக்குவழிகளைத் திறக்கவும்."
 
@@ -11113,6 +12094,9 @@ msgstr "தீர்க்க"
 msgid "Mark as spam"
 msgstr "ச்பேமாக குறி"
 
+msgid "Service is no longer available"
+msgstr "பணி இனி கிடைக்காது"
+
 msgid "This service is installed site wide."
 msgstr "இந்த பணி தளம் அகலமாக நிறுவப்பட்டுள்ளது."
 
@@ -11130,26 +12114,20 @@ msgid "workspace"
 msgstr "பணியிடங்கள்"
 
 #, fuzzy
+#| msgid "Languages limit"
+msgid "Rate limited"
+msgstr "மொழிகளின் வரம்பு"
+
+#, fuzzy
 #| msgid "This service is installed site wide."
 msgid "This service is disabled."
 msgstr "இந்த பணி தளம் அகலமாக நிறுவப்பட்டுள்ளது."
-
-msgid "disabled"
-msgstr "முடக்கப்பட்டது"
-
-msgid "Service is no longer available"
-msgstr "பணி இனி கிடைக்காது"
 
 msgid "ID"
 msgstr ""
 
 msgid "Slug"
 msgstr ""
-
-#, fuzzy
-#| msgid "Translation explanation"
-msgid "Installation slug (optional)"
-msgstr "மொழிபெயர்ப்பு விளக்கம்"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -11158,37 +12136,158 @@ msgid ""
 msgstr ""
 
 #, fuzzy
-#| msgid "Cleanup translation files"
-msgid "Configured translation services"
-msgstr "தூய்மைப்படுத்தும் மொழிபெயர்ப்பு கோப்புகள்"
+#| msgid "Hosted service"
+msgid "Inherited service"
+msgstr "புரவலன் செய்யப்பட்ட பணி"
 
 #, fuzzy
-#| msgid "Adding strings is disabled in the component configuration."
-msgid "Stop using this installation without removing its configuration."
-msgstr "கூறு உள்ளமைவில் சரங்களைச் சேர்ப்பது முடக்கப்பட்டுள்ளது."
+#| msgid "This service is installed site wide."
+msgid "This service is managed at its installation scope."
+msgstr "இந்த பணி தளம் அகலமாக நிறுவப்பட்டுள்ளது."
+
+#, fuzzy
+#| msgid "Manage site configuration"
+msgid "Manage this installation"
+msgstr "தள கட்டமைப்பை நிர்வகிக்கவும்"
+
+#, fuzzy
+#| msgid "Translation explanation"
+msgid "Installation slug (optional)"
+msgstr "மொழிபெயர்ப்பு விளக்கம்"
+
+#, fuzzy
+#| msgid "This add-on has no settings."
+msgid "This service has no settings."
+msgstr "இந்த துணை நிரலுக்கு அமைப்புகள் இல்லை."
+
+#, fuzzy
+#| msgid "Use automatic suggestions"
+msgid "Use in automations"
+msgstr "தானியங்கி பரிந்துரைகளைப் பயன்படுத்து"
+
+msgid ""
+"Select this installation in the engines setting of an automatic translation "
+"action using its numeric ID:"
+msgstr ""
+
+msgid "You can also select it using its slug:"
+msgstr ""
+
+msgid ""
+"The numeric ID always selects this installation. The slug selects the "
+"installation currently using that name in the project."
+msgstr ""
+
+msgid ""
+"Set an installation slug above to give this service a readable name in your "
+"automations."
+msgstr ""
+
+msgid "Rate limit"
+msgstr "விழுக்காடு வரம்பு"
+
+msgid ""
+"Requests to this service are temporarily paused after a provider error. "
+"Resetting the rate limit allows Weblate to try again; it does not reset the "
+"provider’s quota."
+msgstr ""
+
+#, fuzzy
+#| msgid "Push the repository"
+msgid "Reset rate limit"
+msgstr "களஞ்சியத்தை தள்ளுங்கள்"
+
+#, fuzzy
+#| msgid "This component is already shared in %s."
+msgid "The rate limit can be reset at the service’s installation scope."
+msgstr "இந்தக் கூறு ஏற்கனவே %s இல் பகிரப்பட்டுள்ளது."
+
+#, fuzzy
+#| msgid "Version control"
+msgid "Service control"
+msgstr "பதிப்பு கட்டுப்பாடு"
+
+#, fuzzy
+#| msgctxt "Label on donate page"
+#| msgid "GitHub star"
+#| msgid_plural "GitHub stars"
+msgid "Disable installation"
+msgstr "அறிவிலிமையம் விண்மீன்"
+
+msgid ""
+"Stop using this installation here and in scopes inheriting it. Its settings "
+"are kept so you can enable it again later."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this workspace and its projects. "
+"Other installations of this service remain available."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this project. Other installations "
+"of this service and its use in other projects are unaffected."
+msgstr ""
 
 msgid "Disable"
 msgstr "முடக்கு"
 
-msgid "Stop using this inherited installation here."
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Enable machine translation"
+msgid "Enable installation"
+msgstr "இயந்திர மொழிபெயர்ப்பை இயக்கவும்"
+
+msgid ""
+"Resume using this installation with its saved settings here and in scopes "
+"inheriting it. Existing exclusions still apply."
+msgstr ""
+
+msgid ""
+"Remove the local exclusion for this installation. It can provide suggestions "
+"here when it is enabled at its installation scope and is not excluded "
+"upstream. Other excluded installations remain excluded."
 msgstr ""
 
 msgid "Enable"
 msgstr "இயக்கு"
 
-#, fuzzy
-#| msgid "Remove this notification setting"
-msgid "Remove this installation and its configuration."
-msgstr "இந்த அறிவிப்பு அமைப்பை அகற்று"
+msgid ""
+"This installation is disabled at its installation scope or excluded by an "
+"upstream scope."
+msgstr ""
 
-msgid "Exclude all inherited installations of this service"
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Authentication service URL"
+msgid "Exclude inherited service"
+msgstr "அங்கீகார பணி முகவரி"
+
+msgid ""
+"Stop using all site-wide installations of this service in this workspace and "
+"its projects, including installations added later. Installations configured "
+"directly in this workspace or its projects remain available."
+msgstr ""
+
+msgid ""
+"Stop using all inherited installations of this service in this project, "
+"including installations added later. Installations configured directly in "
+"this project and use in other projects are unaffected."
 msgstr ""
 
 msgid "Exclude"
 msgstr ""
 
-msgid "Configure"
-msgstr "உள்ளமைக்கவும்"
+msgid ""
+"Removing this installation stops it from being used here and in scopes "
+"inheriting it, and deletes its saved settings. You will need to install and "
+"configure it again to use it later."
+msgstr ""
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Configured translation services"
+msgstr "தூய்மைப்படுத்தும் மொழிபெயர்ப்பு கோப்புகள்"
 
 msgid "There are no services currently installed."
 msgstr "தற்போது எந்த சேவைகளும் நிறுவப்படவில்லை."
@@ -11210,6 +12309,17 @@ msgstr "கூடுதல் சேவைகளைக் கண்டுபி�
 msgid ""
 "Some services will ask for additional configuration during installation."
 msgstr "சில சேவைகள் நிறுவலின் போது கூடுதல் உள்ளமைவைக் கேட்கும்."
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "Translation service errors"
+msgstr "மொழிபெயர்ப்பு உரிமம்"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "No translation service errors available."
+msgstr "மொழிபெயர்ப்பு களம்"
 
 #, python-format
 msgid "The following activity has occurred on your account at %(site_title)s:"
@@ -11436,6 +12546,37 @@ msgstr "கூறு %(component)s திறக்கப்பட்டன"
 msgid "Digest: %(notification_name)s"
 msgstr "டைசச்ட்: %(notification_name)s"
 
+#, python-format
+msgid ""
+"Somebody requested to add this e-mail address to another account at "
+"%(site_title)s. This address is already associated with an account and "
+"cannot be added to another."
+msgstr ""
+
+msgid ""
+"If you intended to access the existing account, sign out and use password "
+"recovery. The button below opens the password reset form; it does not reset "
+"your password."
+msgstr ""
+
+#, fuzzy
+#| msgid "Confirm password reset"
+msgid "Open password recovery"
+msgstr "கடவுச்சொல் மீட்டமைப்பை உறுதிப்படுத்தவும்"
+
+msgid "Contact support for help moving this address between accounts."
+msgstr ""
+
+msgid ""
+"If you did not request this, you can ignore this e-mail. Your account has "
+"not been changed."
+msgstr ""
+
+#. Translators: e-mail subject
+#, python-format
+msgid "E-mail address already associated with an account on %(site_title)s"
+msgstr ""
+
 msgid "View invitation"
 msgstr "அழைப்பைக் காண்க"
 
@@ -11444,6 +12585,10 @@ msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
 msgstr[0] "அழைப்பு %(count)s மணி நேரத்திற்குப் பிறகு காலாவதியாகும்."
 msgstr[1] "அழைப்பு %(count)s மணி நேரங்களுக்குப் பிறகு காலாவதியாகும்."
+
+#, python-format
+msgid "Automatic team assignment: invitation to join %(team_name)s"
+msgstr ""
 
 #. Translators: e-mail subject
 #, python-format
@@ -11688,6 +12833,11 @@ msgid "Confirm invitation"
 msgstr "அழைப்பை உறுதிப்படுத்தவும்"
 
 #, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Verify e-mail address"
+msgstr "புதிய மின்னஞ்சல் முகவரியை சரிபார்க்கவும்"
+
+#, fuzzy
 #| msgid ""
 #| "Note: This digest has been truncated as there were over 100 notifications."
 msgid ""
@@ -11755,6 +12905,17 @@ msgstr "முடிக்கப்படாத"
 #| msgid "Translation memory"
 msgid "Translation activity summary"
 msgstr "மொழிபெயர்ப்பு நினைவகம்"
+
+#, fuzzy, python-format
+#| msgid "Activity on your account at %(site_title)s"
+msgid "Verify this e-mail address for your account at %(site_title)s."
+msgstr "உங்கள் கணக்கில் %(site_title)s"
+
+#. Translators: e-mail subject
+#, fuzzy, python-format
+#| msgid "Account removal on %(site_title)s"
+msgid "Verify your e-mail address on %(site_title)s"
+msgstr "%(site_title)s மீது கணக்கு அகற்றுதல்"
 
 msgid "Component diagnostics"
 msgstr "கூறு கண்டறிதல்"
@@ -11959,6 +13120,68 @@ msgstr "கண்டுபிடிப்பு உலாவுக"
 msgid "Performance report"
 msgstr "செயல்திறன் அறிக்கை"
 
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Bot protection"
+msgstr "ஓச்டிங் மொழிபெயர்ப்புகள்"
+
+msgid ""
+"Issued challenges, requests requiring proof of work, and verification "
+"outcomes in hourly buckets. Counts are best-effort and can be lost during "
+"cache outages or eviction."
+msgstr ""
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Counters are unavailable."
+msgstr "கிடைக்கவில்லை"
+
+msgid "Outcome"
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Current hour"
+msgstr "தற்போதைய கடவுச்சொல்"
+
+#, fuzzy
+#| msgid "No recovery codes generated yet."
+msgid "Previous 24 completed hours"
+msgstr "மீட்பு குறியீடுகள் இதுவரை உருவாக்கப்படவில்லை."
+
+#, fuzzy
+#| msgid "Suggested change"
+msgid "Issued challenges"
+msgstr "பரிந்துரைக்கப்பட்ட மாற்றம்"
+
+msgid "Requests requiring proof of work"
+msgstr ""
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Expired challenge"
+msgstr "மூல மாற்றம்"
+
+#, fuzzy
+#| msgid "Invalid suggestion!"
+msgid "Invalid solution"
+msgstr "தவறான பரிந்துரை!"
+
+#, fuzzy
+#| msgctxt "Label on donate page"
+#| msgid "Recent change"
+#| msgid_plural "Recent changes"
+msgid "Replayed challenge"
+msgstr "அண்மைக் கால மாற்றம்"
+
+msgid "CSRF failure"
+msgstr ""
+
+#, fuzzy
+#| msgid "Service is no longer available"
+msgid "Service unavailable"
+msgstr "பணி இனி கிடைக்காது"
+
 msgid "Last occurrence"
 msgstr "கடைசி நிகழ்வு"
 
@@ -12138,6 +13361,340 @@ msgstr "ரிமோட் பகஅ இல்லாமல் கூறுகள
 msgid "This repository is linked to:"
 msgstr "இந்த களஞ்சியம் இதனுடன் இணைக்கப்பட்டுள்ளது:"
 
+#, fuzzy
+#| msgid "Confirm registration"
+msgid "Confirm security action"
+msgstr "பதிவை உறுதிப்படுத்தவும்"
+
+#, python-format
+msgid "Selected %(count)s findings affecting %(accounts)s accounts."
+msgstr ""
+
+msgid ""
+"Disable the matching passwords, invalidate signed-in sessions, and revoke "
+"all API tokens. Users with an e-mail address will be notified. Single sign-"
+"on and two-factor settings are preserved. Accounts whose passwords have "
+"changed will be skipped."
+msgstr ""
+
+msgid ""
+"Remove the selected lookalike verified e-mail addresses and associated sign-"
+"in identities, disable account passwords, invalidate sessions, and revoke "
+"API tokens. Account owners will be notified at their primary e-mail address."
+msgstr ""
+
+msgid ""
+"Dismiss the selected findings without changing credentials or notifying "
+"users. A new report confirming the same exposure can reopen them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Reset my password"
+msgid "Reset passwords"
+msgstr "எனது கடவுச்சொல்லை மீட்டமைக்கவும்"
+
+#, fuzzy
+#| msgid "Remove my account"
+msgid "Remove identities and reset accounts"
+msgstr "எனது கணக்கை அகற்று"
+
+#, fuzzy
+#| msgid "Dismiss failing check"
+msgid "Dismiss findings"
+msgstr "தோல்வியுற்ற சோதனையை நிராகரிக்கவும்"
+
+#, fuzzy, python-format
+#| msgid "Edit team membership for %(username)s"
+msgid "Security finding for %(username)s"
+msgstr "%(username)s குழு உறுப்பினர்களைத் திருத்தவும்"
+
+msgid "CSV row"
+msgstr ""
+
+#, fuzzy
+#| msgid "Unit identifier"
+msgid "Identifier"
+msgstr "அலகு அடையாளங்காட்டி"
+
+#, fuzzy
+#| msgid "Matching multiple paths"
+msgid "Matching method"
+msgstr "பல பாதைகளுடன் பொருந்துகிறது"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "No matching row details."
+msgstr "கிடைக்கவில்லை"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Page %(number)s of %(total)s"
+msgstr "பயன்படுத்தப்பட்ட %(used)s %(total)s"
+
+#, fuzzy
+#| msgid "Weblate repository"
+msgid "Detected in reports"
+msgstr "வலைபெயர்ப்பு களஞ்சியம்"
+
+#, fuzzy
+#| msgid "Administrators"
+msgid "Administrator"
+msgstr "நிர்வாகிகள்"
+
+#, fuzzy
+#| msgid "Weblate administration"
+msgid "Deleted administrator"
+msgstr "வலைபெயர்ப்பு நிர்வாகம்"
+
+msgid "No validation reports for this finding."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Reports page %(number)s of %(total)s"
+msgstr "பயன்படுத்தப்பட்ட %(used)s %(total)s"
+
+#, fuzzy
+#| msgid "No recovery codes generated yet."
+msgid "Previous reports"
+msgstr "மீட்பு குறியீடுகள் இதுவரை உருவாக்கப்படவில்லை."
+
+#, fuzzy
+#| msgid "Data exports"
+msgid "Next reports"
+msgstr "தரவு ஏற்றுமதி"
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Account security findings"
+msgstr "கணக்கு அமைப்புகளுக்குத் திரும்பு"
+
+#, fuzzy
+#| msgid "Translation reports"
+msgid "Validation reports"
+msgstr "மொழிபெயர்ப்பு அறிக்கைகள்"
+
+msgid "Filename"
+msgstr "கோப்புப்பெயர்"
+
+#, fuzzy
+#| msgid "Not yet measured"
+msgid "Not recorded"
+msgstr "இன்னும் அளவிடப்படவில்லை"
+
+#, fuzzy
+#| msgid "Submit"
+msgid "Submitted by"
+msgstr "சமர்ப்பிக்கவும்"
+
+#, fuzzy
+#| msgid "Professional support"
+msgid "Processing summary"
+msgstr "தொழில்முறை உதவி"
+
+#, fuzzy
+#| msgid "Translation completed"
+msgid "Password validation completed."
+msgstr "மொழிபெயர்ப்பு முடிந்தது"
+
+msgid "Legacy e-mail identity check completed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Activation completed."
+msgid "Security action completed."
+msgstr "செயல்படுத்தல் முடிந்தது."
+
+#, fuzzy
+#| msgid "Parsing failed"
+msgid "Processing failed."
+msgstr "பாகுபடுத்தல் தோல்வியடைந்தது"
+
+msgid "Processing is not complete. Findings may still be added."
+msgstr ""
+
+#, fuzzy
+#| msgid "Progress"
+msgid "View progress"
+msgstr "முன்னேற்றம்"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Processed %(processed)s of %(total)s entries."
+msgstr "பயன்படுத்தப்பட்ட %(used)s %(total)s"
+
+#, fuzzy
+#| msgid "Ending date"
+msgid "Finding type"
+msgstr "முடிவு தேதி"
+
+#, fuzzy
+#| msgid "Filters"
+msgid "Filter"
+msgstr "வடிப்பான்கள்"
+
+#, fuzzy
+#| msgid "Labeled source strings"
+msgid "Actions apply only to checked findings on this page."
+msgstr "பெயரிடப்பட்ட மூல சரங்கள்"
+
+#, fuzzy
+#| msgid "Labeled source strings"
+msgid "Select all on this page"
+msgstr "பெயரிடப்பட்ட மூல சரங்கள்"
+
+#, fuzzy
+#| msgid "Project selection"
+msgid "Clear selection"
+msgstr "திட்ட தேர்வு"
+
+#, fuzzy
+#| msgid "Pending"
+msgid "Finding"
+msgstr "நிலுவையில் உள்ளது"
+
+#, python-format
+msgid "Select finding for %(username)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "Active"
+msgid "Inactive"
+msgstr "செயலில்"
+
+#, fuzzy
+#| msgid "Note"
+msgid "Bot"
+msgstr "குறிப்பு"
+
+msgid "No e-mail address: notification unavailable"
+msgstr ""
+
+#, fuzzy
+#| msgid "Date joined"
+msgid "Date joined:"
+msgstr "இணைந்த தேதி"
+
+#, fuzzy
+#| msgid "Last sign in"
+msgid "Last sign-in:"
+msgstr "கடைசி உள்நுழைவுக்கு"
+
+#, python-format
+msgid "Row %(row)s: %(identifier)s (%(method)s)"
+msgstr ""
+
+#, python-format
+msgid "View details (%(count)s match)"
+msgid_plural "View details (%(count)s matches)"
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "First detected:"
+msgstr "எழுத்துரு நீக்கப்பட்டது."
+
+#, fuzzy
+#| msgid "Last updated"
+msgid "Last detected:"
+msgstr "கடைசியாக புதுப்பிக்கப்பட்டது"
+
+msgid "No security findings match these filters."
+msgstr ""
+
+msgid "Remove lookalike e-mail identities and reset selected accounts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Reset passwords for selected accounts"
+msgstr "கணக்கை அகற்று"
+
+msgid "Dismiss selected findings"
+msgstr ""
+
+msgid ""
+"Dismissing findings marks them as reviewed without changing passwords or "
+"notifying users."
+msgstr ""
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Account security operation"
+msgstr "கணக்கு அமைப்புகளுக்குத் திரும்பு"
+
+#, fuzzy
+#| msgid "Professional support"
+msgid "Processing progress"
+msgstr "தொழில்முறை உதவி"
+
+#, fuzzy
+#| msgid "Repositories"
+msgid "Refresh progress"
+msgstr "களஞ்சியங்கள்"
+
+msgid ""
+"Review previous credential validation reports, including reports with no "
+"matching passwords."
+msgstr ""
+
+#, fuzzy
+#| msgid "Download reports"
+msgid "Upload report"
+msgstr "அறிக்கைகளைப் பதிவிறக்குங்கள்"
+
+msgid "Processed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "Manage strings"
+msgid "Matching rows"
+msgstr "சரங்களை நிர்வகி"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Affected accounts"
+msgstr "கணக்கை அகற்று"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "%(processed)s of %(total)s"
+msgstr "பயன்படுத்தப்பட்ட %(used)s %(total)s"
+
+#, fuzzy
+#| msgid "Translation reports"
+msgid "No validation reports yet."
+msgstr "மொழிபெயர்ப்பு அறிக்கைகள்"
+
+msgid ""
+"Upload a CSV containing usernames or e-mail addresses and passwords. "
+"Passwords are checked in the background and never displayed in the report."
+msgstr ""
+
+msgid ""
+"Reports must use UTF-8 and contain at most 50,000 rows and 10 MiB. Leave the "
+"delimiter and column numbers blank for automatic detection."
+msgstr ""
+
+msgid ""
+"The uploaded file is available for one hour. Adjust the CSV settings below "
+"to try again."
+msgstr ""
+
+msgid "CSV format (detected automatically)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Disable password"
+msgid "Validate passwords"
+msgstr "கடவுச்சொல்லை முடக்கு"
+
+#, fuzzy
+#| msgid "Disable password"
+msgid "Validate leaked passwords"
+msgstr "கடவுச்சொல்லை முடக்கு"
+
 msgid "Activate support package"
 msgstr "உதவி தொகுப்பை செயல்படுத்தவும்"
 
@@ -12276,8 +13833,19 @@ msgstr "அழைப்பை அகற்று"
 msgid "Check user access"
 msgstr "பயனர் அணுகலை சரிபார்க்கவும்"
 
-msgid "Workspaces"
-msgstr "பணியிடங்கள்"
+#, fuzzy
+#| msgid "Account activity"
+msgid "Account security"
+msgstr "கணக்கு செயல்பாடு"
+
+#, python-format
+msgid "Security report (%(security_findings_open)s open findings)"
+msgstr ""
+
+msgid ""
+"Validate a CSV report of leaked credentials against current account "
+"passwords."
+msgstr ""
 
 msgid "Add workspace"
 msgstr ""
@@ -12308,9 +13876,6 @@ msgstr "அணி"
 
 msgid "Displayed languages"
 msgstr "காட்டப்பட்ட மொழிகள்"
-
-msgid "Choose"
-msgstr "தேர்வு"
 
 msgid "Translation memory status"
 msgstr "மொழிபெயர்ப்பு நினைவக நிலை"
@@ -12394,6 +13959,9 @@ msgstr "இயக்கு"
 #. Translators: Shared translation memory is disabled
 msgid "off"
 msgstr "அணை"
+
+msgid "Configure"
+msgstr "உள்ளமைக்கவும்"
 
 msgid "Autoclean translation memory"
 msgstr "தானியங்கி மொழிபெயர்ப்பு நினைவகம்"
@@ -12488,6 +14056,23 @@ msgstr "புதிய மொழிபெயர்ப்பைக் கோர�
 
 msgid "You don't have permission to start a new translation"
 msgstr "புதிய மொழிபெயர்ப்பைத் தொடங்க உங்களுக்கு இசைவு இல்லை"
+
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authorize application"
+msgstr "அங்கீகார"
+
+#, python-format
+msgid "Allow %(application)s to access your account?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Author name"
+msgid "Authorize"
+msgstr "ஆசிரியரின் பெயர்"
+
+msgid "Deny"
+msgstr ""
 
 msgid "Click to edit position"
 msgstr "நிலையைத் திருத்த சொடுக்கு செய்க"
@@ -12591,24 +14176,6 @@ msgstr "%(translation)s இல் புதிய பங்களிப்பா
 msgid "Donate to Weblate development"
 msgstr "வலைபெயர்ப்புக்கு நன்கொடை"
 
-msgid "Please review and confirm the search and replace results."
-msgstr "தேடலை மதிப்பாய்வு செய்து உறுதிப்படுத்தவும், முடிவுகளை மாற்றவும்."
-
-msgid ""
-"Showing and replacing only the first 250 matches. Perform the replacement "
-"again to replace more."
-msgstr ""
-"முதல் 250 போட்டிகளைக் காண்பித்தல் மற்றும் மாற்றுகிறது. மேலும் மாற்ற மாற்றீட்டை மீண்டும் "
-"செய்யுங்கள்."
-
-#, fuzzy
-#| msgid "Live Preview"
-msgid "Update preview"
-msgstr "நேரடி முன்னோட்டம்"
-
-msgid "Replace"
-msgstr "மாற்றவும்"
-
 #, fuzzy
 #| msgid "Generate"
 msgid "Generated by"
@@ -12654,6 +14221,24 @@ msgstr ""
 msgid "Assign source strings"
 msgstr "மூல சரங்களை ஒதுக்குங்கள்"
 
+#, fuzzy
+#| msgid "Assigned source strings"
+msgid "Find source strings"
+msgstr "ஒதுக்கப்பட்ட மூல சரங்கள்"
+
+#, fuzzy
+#| msgid "Image widgets"
+msgid "Image text"
+msgstr "பட விட்செட்டுகள்"
+
+msgid "Suggests source strings by recognizing text in this screenshot."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Add selected"
+msgstr "திரை காட்சி சேர்"
+
 msgid "Source string search"
 msgstr "மூல சரம் தேடல்"
 
@@ -12666,19 +14251,6 @@ msgstr ""
 #| msgid "View check documentation"
 msgid "Search query syntax documentation"
 msgstr "சரிபார்ப்பு ஆவணங்களைக் காண்க"
-
-msgid "Suggests source strings by recognizing text in this screenshot."
-msgstr ""
-
-#, fuzzy
-#| msgid "Include strings needing editing"
-msgid "Find strings in image"
-msgstr "திருத்துதல் தேவைப்படும் சரங்களை உள்ளடக்கியது"
-
-#, fuzzy
-#| msgid "Add screenshot"
-msgid "Add selected"
-msgstr "திரை காட்சி சேர்"
 
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr "ச்கிரீன்சாட்டை நீக்குவது அனைத்து தொடர்புடைய மூல சரங்களிலிருந்தும் அதை அகற்றும்."
@@ -12907,10 +14479,8 @@ msgstr "பெயரிடப்பட்ட மூல சரங்கள்"
 msgid "Select string for bulk edit"
 msgstr "திருத்தத்திற்காக குறிக்கப்பட்ட சரங்கள்"
 
-msgid "You can change the state of all strings matching given type at once."
+msgid "Choose which strings to edit and the changes to apply."
 msgstr ""
-"கொடுக்கப்பட்ட வகைக்கு பொருந்தக்கூடிய அனைத்து சரங்களின் நிலையை நீங்கள் ஒரே நேரத்தில் "
-"மாற்றலாம்."
 
 msgid "The operation is applied to the strings selected in the list above."
 msgstr ""
@@ -12951,9 +14521,6 @@ msgstr "ஒருமொழி அடிப்படை மொழி கோப்
 msgid "Configure translation quality filter"
 msgstr "மொழிபெயர்ப்பு தர வடிகட்டி"
 
-msgid "View details"
-msgstr "விபரங்களை பார்"
-
 msgid "View contributor license agreement"
 msgstr "பங்களிப்பாளர் உரிம ஒப்பந்தத்தைக் காண்க"
 
@@ -12972,11 +14539,6 @@ msgid_plural ""
 "The translation was automatically locked due to the following alerts:"
 msgstr[0] "பின்வரும் எச்சரிக்கையின் காரணமாக மொழிபெயர்ப்பு தானாகவே பூட்டப்பட்டது:"
 msgstr[1] "பின்வரும் விழிப்பூட்டல்கள் காரணமாக மொழிபெயர்ப்பு தானாகவே பூட்டப்பட்டது:"
-
-#, fuzzy
-#| msgid "Filters"
-msgid "Filter"
-msgstr "வடிப்பான்கள்"
 
 #, fuzzy
 #| msgid "Search filter"
@@ -13044,11 +14606,6 @@ msgstr "அதிகபட்ச சரம் நீளம் மூல சர�
 msgid "Clone to translation"
 msgstr "மொழிபெயர்ப்புக்கு நகலி"
 
-#, fuzzy
-#| msgid "CSS selector"
-msgid "Select"
-msgstr "css தேர்வாளர்"
-
 msgid "Target string"
 msgstr "இலக்கு சரம்"
 
@@ -13098,7 +14655,6 @@ msgstr "களஞ்சிய முகவரி கிளிப்போர்�
 msgid "Last remote commit"
 msgstr "கடைசி தொலைநிலை உறுதிமொழி"
 
-#. Translators: For example: "nijel authored five days ago"
 #, python-format
 msgid "%(author)s authored %(date)s"
 msgstr "%(author)s எழுதப்பட்ட %(date)s"
@@ -13319,6 +14875,24 @@ msgstr "பங்களிப்பாளர்கள்"
 msgid "Translations"
 msgstr "மொழிபெயர்ப்புகள்"
 
+#, fuzzy, python-format
+#| msgid ""
+#| "You were invited to %(site_title)s by %(invitation_author)s to "
+#| "collaborate on %(project_name)s and join the %(team_name)s team."
+msgid ""
+"An automatic team assignment rule invited you to collaborate on "
+"%(project_name)s and join the %(team_name)s team. You will join only if you "
+"accept this invitation."
+msgstr ""
+"%(site_title)s இல் ஒத்துழைக்க %(invitation_author)s ஆல் %(project_name)sு நீங்கள் "
+"அழைக்கப்பட்டு %(team_name)s குழுவில் சேர அழைக்கப்பட்டீர்கள்."
+
+#, python-format
+msgid ""
+"An automatic team assignment rule invited you to join the %(team_name)s team "
+"in %(workspace_name)s. You will join only if you accept this invitation."
+msgstr ""
+
 #, python-format
 msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
@@ -13334,6 +14908,19 @@ msgid ""
 msgstr ""
 "%(team_name)s குழுவில் சேர %(site_title)s க்கு "
 "%(invitation_author)sஅழைக்கப்பட்டீர்கள்."
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr ""
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -13370,6 +14957,11 @@ msgstr "பயனரை தடைசெய்"
 
 msgid "View notification"
 msgstr "அறிவிப்பைக் காண்க"
+
+#, fuzzy
+#| msgid "All languages"
+msgid "View full change"
+msgstr "அனைத்து மொழிகளும்"
 
 msgid "No matching activity found."
 msgstr "பொருந்தக்கூடிய செயல்பாடு எதுவும் கிடைக்கவில்லை."
@@ -13561,9 +15153,6 @@ msgstr "விசை/சூழல் சரங்கள்"
 
 msgid "Location strings"
 msgstr "இருப்பிட சரங்கள்"
-
-msgid "String state"
-msgstr "சரம் நிலை"
 
 #. Translators: String pending for flushing to VCS.
 msgid "Pending string"
@@ -13761,9 +15350,6 @@ msgstr "உங்கள் மொழிபெயர்ப்பு foo"
 msgid "Saved search name"
 msgstr "sap பயனர்பெயர்"
 
-msgid "Search query"
-msgstr "தேடல் வினவல்"
-
 msgid "No saved searches yet."
 msgstr ""
 
@@ -13801,8 +15387,8 @@ msgid "Community"
 msgstr "சமூகம்"
 
 #, python-format
-msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr "%%23weblate %(share_url)s இல் பயன்படுத்தும் %(object)s மொழிபெயர்க்கவும்!"
+msgid "Translate %(object)s using #Weblate at %(share_url)s!"
+msgstr "#weblate %(share_url)s இல் பயன்படுத்தும் %(object)s மொழிபெயர்க்கவும்!"
 
 msgid "Share on Bluesky"
 msgstr "ப்ளூச்கியில் பகிர்ந்து கொள்ளுங்கள்"
@@ -14039,6 +15625,13 @@ msgstr ""
 msgid "You are about to continue removing your Weblate account."
 msgstr ""
 
+#, fuzzy
+#| msgid "You can not complete registration while signed in."
+msgid ""
+"You are about to continue adding this e-mail address to your existing "
+"Weblate account."
+msgstr "கையொப்பமிடும்போது நீங்கள் பதிவை முடிக்க முடியாது."
+
 msgid "You are about to accept an invitation and create a Weblate account."
 msgstr ""
 
@@ -14065,6 +15658,11 @@ msgstr "கடவுச்சொல் மீட்டமைப்பை உற�
 #| msgid "Confirm account removal"
 msgid "Continue account removal"
 msgstr "கணக்கு அகற்றுவதை உறுதிப்படுத்தவும்"
+
+#, fuzzy
+#| msgid "Human verification"
+msgid "Continue e-mail verification"
+msgstr "மனித சரிபார்ப்பு"
 
 msgid "Accept invitation"
 msgstr "அழைப்பை ஏற்றுக்கொள்ளுங்கள்"
@@ -14162,9 +15760,6 @@ msgstr "வலைபெயர்ப்பு மாற்றங்களை ம�
 
 msgid "Weblate CDN add-on could not parse the HTML files."
 msgstr "வலைபெயர்ப்பு சிடிஎன் கூடுதல் ஆன் html கோப்புகளை அலச முடியவில்லை."
-
-msgid "Filename"
-msgstr "கோப்புப்பெயர்"
 
 msgid ""
 "The local repository checkout or its Git directory is missing. Repeated "
@@ -14619,6 +16214,16 @@ msgstr ""
 "மொழிபெயர்ப்புகளைப் புதுப்பிக்கும்போது வலைபெயர்ப்பு மொழிபெயர்ப்பு கோப்புகளை அலச "
 "முடியவில்லை."
 
+msgid ""
+"Weblate pushed the changes and created the pull request, but could not apply "
+"the configured labels or assignees."
+msgstr ""
+
+msgid ""
+"Check that the labels and assignees exist and that Weblate can write pull "
+"requests, or remove the customization from the version control parameters."
+msgstr ""
+
 msgid "Weblate could not push changes to the upstream repository."
 msgstr "வலைபெயர்ப்பு மாற்றங்களை மேலோடை களஞ்சியத்தில் தள்ள முடியவில்லை."
 
@@ -14648,6 +16253,17 @@ msgid ""
 msgstr ""
 "வி.சி.எச் களஞ்சியம் மேலோடை ஒன்றுடன் புதுப்பித்த நிலையில் இல்லை. தயவுசெய்து மாற்றங்களை "
 "கைமுறையாக ஒன்றிணைக்கவும் அல்லது இதை தானியக்கமாக்குவதற்கு கொக்கிகள் அமைக்கவும்."
+
+msgid ""
+"Restricted components are not used as glossaries. Their terms are not shown "
+"in other components, included in quality checks, or sent to translation "
+"services."
+msgstr ""
+
+msgid ""
+"Remove restricted access to use this glossary project-wide, or disable ‘Use "
+"as a glossary’ to keep it as an ordinary restricted component."
+msgstr ""
 
 msgid "Version control system"
 msgstr "பதிப்பு கட்டுப்பாட்டு அமைப்பு"
@@ -14748,8 +16364,10 @@ msgstr "குதிக்கவும்"
 msgid "Go"
 msgstr ""
 
-msgid "Changes"
-msgstr "மாற்றங்கள்"
+#, fuzzy
+#| msgid "Change events"
+msgid "Change details"
+msgstr "நிகழ்வுகள் மாற்று"
 
 msgid "Download latest changes as CSV"
 msgstr "காபிம ஆக அண்மைக் கால மாற்றங்களைப் பதிவிறக்கவும்"
@@ -14824,11 +16442,6 @@ msgstr ""
 "தற்போதுள்ள மொழிபெயர்ப்பு கூறுகளின் கூடுதல் கிளைக்கு புதிய மொழிபெயர்ப்பு கூறுகளை "
 "உருவாக்கவும்."
 
-#, fuzzy
-#| msgid "Repository details"
-msgid "Retry"
-msgstr "களஞ்சிய விவரங்கள்"
-
 msgid ""
 "The new component will be created for the selected branch with the exact "
 "same configuration as the existing one."
@@ -14870,9 +16483,6 @@ msgstr ""
 #| msgid "Bad configuration"
 msgid "Add or configure account"
 msgstr "மோசமான உள்ளமைவு"
-
-msgid "Branch"
-msgstr ""
 
 #, fuzzy
 #| msgid "Visibility changed"
@@ -15019,6 +16629,11 @@ msgstr "அகற்ற மொழிபெயர்ப்பு"
 msgid "The detected file format is not supported."
 msgstr "கண்டறியப்பட்ட கோப்பு வடிவம் ஆதரிக்கப்படவில்லை."
 
+msgid ""
+"Translation discovery reached a resource limit. Results might be incomplete. "
+"You can configure missing translation files manually."
+msgstr ""
+
 msgid "Typical workflow for fixing merge conflicts"
 msgstr "ஒன்றிணைக்கும் மோதல்களை சரிசெய்வதற்கான வழக்கமான பணிப்பாய்வு"
 
@@ -15161,6 +16776,15 @@ msgstr "காப்புப்பிரதி இறக்குமதி ச�
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr "வலைபெயர்ப்பு %(version)s மூலம் %(server)s (%(domain)s) இல் உருவாக்கப்பட்டது"
 
+msgid "Public access on import"
+msgstr ""
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
+
 msgid "Token copied to clipboard."
 msgstr "குறிஅடையாளம் கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது."
 
@@ -15189,9 +16813,6 @@ msgstr ""
 #| msgid "Edit source"
 msgid "Edit source"
 msgstr "மூலத்தைத் திருத்து"
-
-msgid "Cancel"
-msgstr ""
 
 #, fuzzy
 #| msgid "URL of repository where users can fetch changes from Weblate"
@@ -15578,6 +17199,11 @@ msgstr ""
 msgid "Quick downloads"
 msgstr "விரைவான பதிவிறக்கங்கள்"
 
+msgid ""
+"Original files can contain contributor identities and require additional "
+"permission. Use a generated export below for offline translation."
+msgstr ""
+
 msgid "File in original format as translated in the repository"
 msgstr "களஞ்சியத்தில் மொழிபெயர்க்கப்பட்டபடி அசல் வடிவத்தில் கோப்பு"
 
@@ -15870,11 +17496,6 @@ msgstr "களஞ்சியம் காலாவதியானது."
 #| msgid "Repositories"
 msgid "Available Repositories"
 msgstr "களஞ்சியங்கள்"
-
-#, fuzzy
-#| msgid "Not available"
-msgid "Unavailable"
-msgstr "கிடைக்கவில்லை"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -16440,9 +18061,6 @@ msgstr "கூறு மறுபெயரிடப்பட்டது"
 #| msgid "All components in current project"
 msgid "A component was moved within a project."
 msgstr "தற்போதைய திட்டத்தில் உள்ள அனைத்து கூறுகளும்"
-
-msgid "Moved component"
-msgstr "நகர்த்தப்பட்ட கூறு"
 
 #, fuzzy
 #| msgctxt "Notification name"
@@ -17061,6 +18679,11 @@ msgid "Glossary using monolingual files."
 msgstr "ஒருமொழி கோப்புகளைப் பயன்படுத்தும் சொற்களஞ்சியம்."
 
 #, fuzzy
+#| msgid "Repository rebase failed"
+msgid "Restricted glossary is not used."
+msgstr "களஞ்சிய மறுதொடக்கம் தோல்வியடைந்தது"
+
+#, fuzzy
 #| msgid "Source string editing is disabled."
 msgid "Glossary string management is disabled"
 msgstr "மூல சரம் திருத்துதல் முடக்கப்பட்டுள்ளது."
@@ -17124,6 +18747,12 @@ msgid "Could not merge the pull request automatically."
 msgstr "களஞ்சியத்தை ஒன்றிணைக்க முடியவில்லை."
 
 #. Translators: Name of an alert
+#, fuzzy
+#| msgid "Could not merge the repository."
+msgid "Could not customize the pull request."
+msgstr "களஞ்சியத்தை ஒன்றிணைக்க முடியவில்லை."
+
+#. Translators: Name of an alert
 msgid "Repository outdated."
 msgstr "களஞ்சியம் காலாவதியானது."
 
@@ -17149,6 +18778,20 @@ msgstr "சாவா செய்தி வடிவத்தில் அப்
 msgid "Trailing and leading whitespace"
 msgstr "பின்தங்கிய மற்றும் வழிநடத்துதல்"
 
+#, fuzzy
+#| msgid "Automatic translation completed, no strings were updated."
+msgid "Automatic translation completed with errors, no strings were updated."
+msgstr "தானியங்கி மொழிபெயர்ப்பு முடிந்தது, எந்த சரங்களும் புதுப்பிக்கப்படவில்லை."
+
+#, fuzzy, python-format
+#| msgid "Automatic translation completed, %d string was updated."
+#| msgid_plural "Automatic translation completed, %d strings were updated."
+msgid "Automatic translation completed with errors, %d string was updated."
+msgid_plural ""
+"Automatic translation completed with errors, %d strings were updated."
+msgstr[0] "தானியங்கி மொழிபெயர்ப்பு முடிந்தது, %d சரம் புதுப்பிக்கப்பட்டது."
+msgstr[1] "தானியங்கி மொழிபெயர்ப்பு முடிந்தது, %d சரங்கள் புதுப்பிக்கப்பட்டன."
+
 msgid "Automatic translation completed, no strings were updated."
 msgstr "தானியங்கி மொழிபெயர்ப்பு முடிந்தது, எந்த சரங்களும் புதுப்பிக்கப்படவில்லை."
 
@@ -17157,6 +18800,12 @@ msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "தானியங்கி மொழிபெயர்ப்பு முடிந்தது, %d சரம் புதுப்பிக்கப்பட்டது."
 msgstr[1] "தானியங்கி மொழிபெயர்ப்பு முடிந்தது, %d சரங்கள் புதுப்பிக்கப்பட்டன."
+
+#, fuzzy
+#| msgid "Automatic translation in progress"
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr "தானியங்கி மொழிபெயர்ப்பு செயலில் உள்ளது"
 
 #, python-format
 msgid ""
@@ -17167,6 +18816,31 @@ msgstr ""
 "%(component)s உள்ள பன்மை வடிவங்கள் இலக்கு மொழிபெயர்ப்புடன் பொருந்தவில்லை. தானியங்கு "
 "மொழிபெயர்ப்பு பன்மைப்படுத்தப்பட்ட சரங்களைத் தவிர்த்து, ஒற்றை வடிவ சரங்களை மட்டுமே "
 "செயலாக்கியது."
+
+#, fuzzy
+#| msgid ""
+#| "Plural forms in %(component)s do not match the target translation. "
+#| "Automatic translation skipped pluralized strings and processed only "
+#| "single-form strings."
+msgid ""
+"Plural forms in some source components do not match the target translation. "
+"Automatic translation skipped pluralized strings and processed only single-"
+"form strings."
+msgstr ""
+"%(component)s உள்ள பன்மை வடிவங்கள் இலக்கு மொழிபெயர்ப்புடன் பொருந்தவில்லை. தானியங்கு "
+"மொழிபெயர்ப்பு பன்மைப்படுத்தப்பட்ட சரங்களைத் தவிர்த்து, ஒற்றை வடிவ சரங்களை மட்டுமே "
+"செயலாக்கியது."
+
+#, fuzzy
+#| msgid "Automatic translation in progress"
+msgid ""
+"Automatic translation lost its database connection. Please try again later."
+msgstr "தானியங்கி மொழிபெயர்ப்பு செயலில் உள்ளது"
+
+msgid ""
+"Automatic translation is already running for this translation. Please try "
+"again later."
+msgstr ""
 
 #, python-format
 msgid "Automatic translation failed: %s"
@@ -17226,6 +18900,14 @@ msgstr "நகல் மொழிபெயர்ப்பு."
 msgid "Screenshot image is missing."
 msgstr "திரைக்காட்சி படம் இல்லை."
 
+msgid "Revision must be a complete hexadecimal object ID."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not update repository: %s"
+msgid "Could not validate repository URL: %s"
+msgstr "களஞ்சியத்தை புதுப்பிக்க முடியவில்லை: %s"
+
 #, fuzzy
 #| msgid "Duplicated file mask."
 msgid "Duplicate check name."
@@ -17243,6 +18925,11 @@ msgstr ""
 #| msgid "Duplicate this component"
 msgid "Duplicate component slug."
 msgstr "இந்த கூறுகளை நகல்"
+
+#, fuzzy
+#| msgid "Translation reviews are not enabled."
+msgid "Translation revision has an invalid format."
+msgstr "மொழிபெயர்ப்பு மதிப்புரைகள் இயக்கப்படவில்லை."
 
 #, fuzzy
 #| msgid "Duplicated translation."
@@ -17318,16 +19005,96 @@ msgstr "வகை தேர்ந்தெடுக்கப்பட்ட த�
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 
+#, fuzzy
+#| msgid "Important dates"
+msgid "Imported authors"
+msgstr "முக்கிய நாட்கள்"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
 msgstr ""
 
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
+msgstr ""
+
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is unknown."
+msgstr ""
+
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is not applicable."
+msgstr ""
+
+#, fuzzy
+#| msgid "Version control settings"
+msgid "Version control parameters"
+msgstr "பதிப்பு கட்டுப்பாட்டு அமைப்புகள்"
+
+msgid "File format parameters"
+msgstr "கோப்பு வடிவ அளவுருக்கள்"
+
 #, fuzzy
 #| msgid "This string seems to already exist."
 msgid "The project repository directory already exists."
 msgstr "இந்த சரம் ஏற்கனவே இருப்பதாக தெரிகிறது."
+
+#, fuzzy
+#| msgid "Invalid search query!"
+msgid "Invalid search type."
+msgstr "தவறான தேடல் வினவல்!"
+
+msgid "Enter a search string to replace."
+msgstr ""
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy
+#| msgid "Invalid request."
+msgid "Invalid target state."
+msgstr "தவறான கோரிக்கை."
+
+#, fuzzy
+#| msgid "How to handle requests for creating new translations."
+msgid "Choose either replacement or clearing translations."
+msgstr "புதிய மொழிபெயர்ப்புகளை உருவாக்குவதற்கான கோரிக்கைகளை எவ்வாறு கையாள்வது."
+
+#, python-format
+msgid "Bulk edits are limited to %(limit)d strings. Narrow the search query."
+msgstr ""
 
 msgid "The component was automatically locked because of an alert."
 msgstr "எச்சரிக்கை காரணமாக கூறு தானாக பூட்டப்பட்டது."
@@ -17399,6 +19166,9 @@ msgstr "அசல் திருத்தம்: {}"
 msgid "New revision: {}"
 msgstr "புதிய திருத்தம்: {}"
 
+msgid "Content is too long to show in the change list."
+msgstr ""
+
 #, python-format
 msgctxt "Number of edits on a change in Damerau–Levenshtein distance"
 msgid "%(count)d character edited"
@@ -17465,6 +19235,9 @@ msgstr "பரிந்துரை வாக்களிப்பு"
 msgid "Needs review"
 msgstr "மூலத்திற்கு மதிப்பாய்வு தேவை"
 
+msgid "This component does not exist or you cannot access it."
+msgstr ""
+
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr ""
 "உங்கள் மென்பொருள் திட்டத்தை உள்ளூர்மயமாக்குவதற்கான இடமான வலைபெயர்ப்பு புரவலன் செய்யப்பட்டது."
@@ -17481,11 +19254,6 @@ msgstr ""
 
 msgid "Version control"
 msgstr "பதிப்பு கட்டுப்பாடு"
-
-#, fuzzy
-#| msgid "Status"
-msgid "State"
-msgstr "நிலை"
 
 msgid "Severity"
 msgstr "தீவிரம்"
@@ -17539,6 +19307,11 @@ msgstr "கோப்பு முகமூடி முக்கிய கூற
 #, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
 msgstr "{filename} ({parameter}) இல்லை."
+
+#. Translators: condensed rendering of a change action in history
+#, python-format
+msgid "%(action)s at %(time)s on %(translation)s"
+msgstr "%(action)s %(time)s மீது %(translation)s"
 
 #. Translators: %s is site title here
 #, python-format
@@ -17710,6 +19483,54 @@ msgstr "மேக் (\\ r)"
 
 msgid "Include closing tag for blank XML tags"
 msgstr "வெற்று எக்ச்எம்எல் குறிச்சொற்களுக்கான மூடல் குறிச்சொல்லைச் சேர்"
+
+msgid "UTF-8 byte order mark"
+msgstr ""
+
+msgid "Preserve input"
+msgstr ""
+
+msgid "Always include"
+msgstr ""
+
+msgid "Always omit"
+msgstr ""
+
+msgid ""
+"Controls the UTF-8 byte order mark. Other encodings are unchanged. New files "
+"without a template omit the mark when preserving input."
+msgstr ""
+
+msgid "XML declaration encoding case"
+msgstr ""
+
+#, fuzzy
+#| msgid "Use global default"
+msgid "Format default"
+msgstr "உலகளாவிய இயல்புநிலையைப் பயன்படுத்தவும்"
+
+msgid "Uppercase"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Power user"
+msgid "Lowercase"
+msgstr "ஆற்றல் பயனர்"
+
+msgid ""
+"Controls encoding names in the XML declaration, for example \"UTF-8\" or "
+"\"utf-8\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "Starting newline"
+msgid "XML final newline"
+msgstr "நியூலைன் தொடங்குகிறது"
+
+msgid ""
+"Controls the newline at the end of the file, using the format's line endings."
+msgstr ""
 
 #, fuzzy
 #| msgid "Conflict handling"
@@ -18000,6 +19821,17 @@ msgstr ""
 msgid "Review state"
 msgstr "மறுஆய்வு நிலை"
 
+msgid "The original review state is missing. Reload the editor and try again."
+msgstr ""
+
+msgid "The original review state is invalid. Reload the editor and try again."
+msgstr ""
+
+msgid ""
+"This review state is not available for this string. Reload the editor and "
+"select an available state."
+msgstr ""
+
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "சரத்தின் பொருள் அல்லது பயன்பாட்டை தெளிவுபடுத்த கூடுதல் விளக்கம்."
 
@@ -18195,6 +20027,9 @@ msgstr "சேர்க்க மொழிபெயர்ப்பு கொட�
 msgid "You do not have permission to edit these flags."
 msgstr "பரிந்துரைகளை ஏற்க உங்களுக்கு இசைவு இல்லை."
 
+msgid "You do not have permission to create terminology."
+msgstr "சொற்களை உருவாக்க உங்களுக்கு இசைவு இல்லை."
+
 #, fuzzy
 #| msgid "Navigate to the last translation in the current search."
 msgid ""
@@ -18369,6 +20204,11 @@ msgstr "பல தேடல் வினவல்கள், தயவுசெ�
 msgid "Could not load repository branches. Please try again."
 msgstr "சிக்கலைத் திறக்க முடியவில்லை, பிறகு முயற்சிக்கவும்."
 
+#, fuzzy
+#| msgid "You do not have permission to accept suggestions."
+msgid "You do not have permission to edit this project."
+msgstr "பரிந்துரைகளை ஏற்க உங்களுக்கு இசைவு இல்லை."
+
 msgid "ZIP file containing translations"
 msgstr "மொழிபெயர்ப்புகளைக் கொண்ட சுருக்கு கோப்பு"
 
@@ -18474,18 +20314,6 @@ msgstr "திட்ட காப்புப்பிரதியை ஏற்�
 msgid "Could not load project backup."
 msgstr "திட்ட காப்புப்பிரதியை ஏற்ற முடியவில்லை: %s"
 
-msgid "Optional additional filter applied to the strings"
-msgstr "விருப்ப கூடுதல் வடிகட்டி சரங்களுக்கு பயன்படுத்தப்படுகிறது"
-
-msgid "Search string"
-msgstr "சரம் தேடல்"
-
-msgid "Case-sensitive string to search for and replace."
-msgstr "தேடவும் மாற்றவும் வழக்கு-உணர்திறன் சரம்."
-
-msgid "Replacement string"
-msgstr "மாற்று சரம்"
-
 #, fuzzy
 #| msgid "Screenshot context"
 msgid "Key or context"
@@ -18536,13 +20364,34 @@ msgstr ""
 "வாக்கியம் எந்த மாற்றமும் இல்லாமல் மூல மொழியில் அப்படியே இருக்க வேண்டுமானால், இந்த "
 "விருப்பத்தைக் குறிக்கவும்."
 
-msgid "You do not have permission to create terminology."
-msgstr "சொற்களை உருவாக்க உங்களுக்கு இசைவு இல்லை."
-
 #, fuzzy
 #| msgid "Invalid suggestion!"
 msgid "Invalid string selection!"
 msgstr "தவறான பரிந்துரை!"
+
+#, fuzzy
+#| msgid "Search filter"
+msgid "Search type"
+msgstr "தேடல் வடிகட்டி"
+
+msgid "Text"
+msgstr ""
+
+msgid "Search string"
+msgstr "சரம் தேடல்"
+
+msgid ""
+"Case-sensitive text or regular expression to replace in matching strings. "
+"Leave empty to disable replacement."
+msgstr ""
+
+msgid "Replacement string"
+msgstr "மாற்று சரம்"
+
+msgid ""
+"Leave empty to remove matching text. In regular expression mode, use \\1 for "
+"the first captured group. Named group references are also supported."
+msgstr ""
 
 msgid "State to set"
 msgstr "அமைக்க மாநிலம்"
@@ -18550,39 +20399,80 @@ msgstr "அமைக்க மாநிலம்"
 msgid "Do not change"
 msgstr "மாற்ற வேண்டாம்"
 
-msgid "Source flags to add — all languages"
-msgstr ""
+#, fuzzy
+#| msgid "Edit label"
+msgid "Add flags"
+msgstr "லேபிளைத் திருத்து"
 
-msgid "Source flags to remove — all languages"
+#, fuzzy
+#| msgid "Remove"
+msgid "Remove flags"
+msgstr "அகற்று"
+
+msgid ""
+"Only flags set directly on these translations are removed. Inherited flags "
+"remain in effect."
 msgstr ""
 
 #, fuzzy
-#| msgid "Translation flags to add"
-msgid "Translation flags to add — matching translations"
-msgstr "சேர்க்க மொழிபெயர்ப்பு கொடிகள்"
+#| msgid "Add label"
+msgid "Add labels"
+msgstr "லேபிளைச் சேர்க்கவும்"
+
+#, fuzzy
+#| msgid "Interlingua"
+msgid "Remove labels"
+msgstr "இன்டர்லிங்வா"
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Preview changes"
+msgstr "அண்மைக் கால மாற்றங்கள்"
+
+msgid "Choose flags to add…"
+msgstr ""
+
+#, fuzzy
+#| msgid "Component to remove"
+msgid "Choose flags to remove…"
+msgstr "அகற்றுவதற்கான கூறு"
+
+#, fuzzy
+#| msgid "Source language"
+msgid "Source flags"
+msgstr "மூல மொழி"
+
+msgid ""
+"Flags are set on the source strings corresponding to your selection and "
+"apply to their translations in every language."
+msgstr ""
+
+msgid ""
+"Flags are set on the source strings corresponding to your filter results and "
+"apply to their translations in every language."
+msgstr ""
 
 #, fuzzy
 #| msgid "Fills in translation strings with source string."
-msgid "Applies only to matching translations, excluding source strings."
+msgid ""
+"Flags apply only to translations in your selection. Source strings are "
+"excluded."
 msgstr "மூல சரத்துடன் மொழிபெயர்ப்பு சரங்களை நிரப்புகிறது."
 
-#, fuzzy
-#| msgid "Translation flags to remove"
-msgid "Translation flags to remove — matching translations"
-msgstr "அகற்ற மொழிபெயர்ப்பு கொடிகள்"
-
-msgid "Removes locally set flags. Inherited flags remain in effect."
+msgid ""
+"Flags apply only to translations matching your filter. Source strings are "
+"excluded."
 msgstr ""
 
-#, fuzzy
-#| msgid "For all languages"
-msgid "Labels to add — all languages"
-msgstr "எல்லா மொழிகளுக்கும்"
+msgid ""
+"Labels apply to the source strings corresponding to your selection and are "
+"shared across all languages."
+msgstr ""
 
-#, fuzzy
-#| msgid "Labels to remove"
-msgid "Labels to remove — all languages"
-msgstr "அகற்ற சிட்டைகள்"
+msgid ""
+"Labels apply to the source strings corresponding to your filter results and "
+"are shared across all languages."
+msgstr ""
 
 msgid "Select strings to edit or enter a search query."
 msgstr ""
@@ -18833,9 +20723,6 @@ msgstr "வகை பெயர்"
 msgid "Display name"
 msgstr "காட்சி பெயர்"
 
-msgid "Translation flags"
-msgstr "மொழிபெயர்ப்பு கொடிகள்"
-
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr "வலைபெயர்ப்பு நடத்தையை பாதிக்க கூடுதல் கமாவால் பிரிக்கப்பட்ட கொடிகள்."
 
@@ -19064,11 +20951,6 @@ msgstr "ஆவண பதிவேற்றம் வழியாக உருவ
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(user)s பொழுதில் %(time)s அன்று %(translation)s ஆல் %(action)s"
 
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "%(action)s %(time)s மீது %(translation)s"
-
 msgctxt "Change origin badge"
 msgid "API"
 msgstr ""
@@ -19158,11 +21040,6 @@ msgstr ""
 "மொழிபெயர்ப்புகளைக் கொண்ட உங்கள் களஞ்சியத்தை அணுகுவதற்குப் பயன்படுத்த வேண்டிய பதிப்புக் "
 "கட்டுப்பாட்டு அமைப்பு. மூன்றாம் தரப்பு வழங்குநர்களுடன் கூடுதல் ஒருங்கிணைப்பையும் நீங்கள் "
 "தேர்வு செய்யலாம்."
-
-#, fuzzy
-#| msgid "Version control settings"
-msgid "Version control parameters"
-msgstr "பதிப்பு கட்டுப்பாட்டு அமைப்புகள்"
 
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
@@ -19291,9 +21168,6 @@ msgid ""
 msgstr ""
 "புதிய மொழிபெயர்ப்புகளை உருவாக்கப் பயன்படுத்தப்படும் கோப்பின் கோப்பு பெயர். உரைபெறு "
 "க்கு .pot கோப்பைத் தேர்வுசெய்க."
-
-msgid "File format parameters"
-msgstr "கோப்பு வடிவ அளவுருக்கள்"
 
 msgid "Locked component will not get any translation updates."
 msgstr "பூட்டப்பட்ட கூறு எந்த மொழிபெயர்ப்பு புதுப்பிப்புகளையும் பெறாது."
@@ -19837,6 +21711,12 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "The regular expression is too complex and took too long to evaluate."
+msgid "The file mask is too complex and took too long to evaluate."
+msgstr ""
+"வழக்கமான வெளிப்பாடு மிகவும் சிக்கலானது மற்றும் மதிப்பிடுவதற்கு அதிக நேரம் எடுத்தது."
+
+#, fuzzy
 #| msgid ""
 #| "Allow this component's translations to be added to the project-level "
 #| "translation memory."
@@ -20145,6 +22025,12 @@ msgstr "சிட்டை விவரம்"
 msgid "Could not accept suggestion!"
 msgstr "ஆலோசனையை ஏற்க முடியவில்லை!"
 
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr "சரத்தை %d கூறுக்கு பரப்ப முடியவில்லை."
+
 #, fuzzy
 #| msgid "Uploaded file is too big."
 msgid "Uploaded translation file is too big."
@@ -20214,6 +22100,19 @@ msgstr "பதிவேற்றிய கோப்பில் உள்ள ப
 msgid "Plural form %d in the uploaded file is missing."
 msgstr "பதிவேற்றிய கோப்பில் உள்ள பன்மை வடிவங்கள் தற்போதைய மொழிபெயர்ப்புடன் பொருந்தவில்லை."
 
+#, fuzzy, python-format
+#| msgid "ZIP file containing translations"
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr "மொழிபெயர்ப்புகளைக் கொண்ட சுருக்கு கோப்பு"
+
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] "சரத்தை %d கூறுக்கு பரப்ப முடியவில்லை."
+msgstr[1] "சரங்களை %d கூறுக்கு பரப்ப முடியவில்லை."
+
 #, fuzzy
 #| msgid "ZIP file containing translations"
 msgid "The uploaded file contains too many language declarations."
@@ -20238,6 +22137,10 @@ msgstr "நிலுவையில் உள்ள மாற்றங்கள�
 #, python-brace-format
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "பதிவேற்றிய கோப்பை {file_format} ஆக அலச முடியவில்லை: {error}"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Could not parse translation files."
@@ -20275,6 +22178,13 @@ msgid "String could not be propagated to %d component."
 msgid_plural "String could not be propagated to %d components."
 msgstr[0] "சரத்தை %d கூறுக்கு பரப்ப முடியவில்லை."
 msgstr[1] "சரங்களை %d கூறுக்கு பரப்ப முடியவில்லை."
+
+#, python-format
+msgid ""
+"The review state of this string has changed from %(previous)s to %(current)s "
+"while you were editing it. Reload the editor and review your changes before "
+"saving."
+msgstr ""
 
 #, fuzzy
 #| msgid "Unmark as untranslatable"
@@ -20508,6 +22418,32 @@ msgstr[1] ""
 "சோதனைகள் காரணமாக %(failed)d தோல்வியடைந்தது."
 
 #, fuzzy
+#| msgid "Bulk edit completed, no strings were updated."
+msgid "Bulk edit parameters are no longer valid."
+msgstr "மொத்த திருத்தம் முடிந்தது, எந்த சரங்களும் புதுப்பிக்கப்படவில்லை."
+
+#, python-format
+msgid "Bulk edit failed after processing %(count)d strings: %(error)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "User access changed"
+msgid "The target or permissions changed."
+msgstr "பயனர் அணுகல் மாற்றப்பட்டது"
+
+#, python-format
+msgid ""
+"Bulk edit failed after processing %(count)d strings. Earlier batches may "
+"have been applied."
+msgstr ""
+
+#, python-format
+msgid "Bulk edit completed, %d string was updated."
+msgid_plural "Bulk edit completed, %d strings were updated."
+msgstr[0] "மொத்த திருத்தம் முடிந்தது, %d சரம் புதுப்பிக்கப்பட்டது."
+msgstr[1] "மொத்த திருத்தம் முடிந்தது, %d சரங்கள் புதுப்பிக்கப்பட்டன."
+
+#, fuzzy
 #| msgid "Automatic translation in progress"
 msgid "Automatic translation skipped because the target no longer exists."
 msgstr "தானியங்கி மொழிபெயர்ப்பு செயலில் உள்ளது"
@@ -20694,6 +22630,32 @@ msgstr "மொழிபெயர்ப்பில் புதிய சரங�
 msgid "Updates source strings in bilingual translation file."
 msgstr "இருமொழி மொழிபெயர்ப்பு கோப்பில் மூல சரங்களைப் புதுப்பிக்கிறது."
 
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "A translation upload is already in progress."
+msgstr "மொழிபெயர்ப்புகளின் புதுப்பிப்புகள் செயலில் உள்ளன."
+
+msgid "The uploaded file has expired or was already processed."
+msgstr ""
+
+#, fuzzy
+#| msgid "The uploaded image was invalid."
+msgid "The uploaded file has expired."
+msgstr "பதிவேற்றிய படம் தவறானது."
+
+#, fuzzy
+#| msgid "User access changed"
+msgid "The upload target or permissions changed."
+msgstr "பயனர் அணுகல் மாற்றப்பட்டது"
+
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr "பதிவேற்றிய கோப்பில் உள்ள பன்மை வடிவங்கள் தற்போதைய மொழிபெயர்ப்புடன் பொருந்தவில்லை."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "File upload has failed. Please try again later."
+msgstr "பல தேடல் வினவல்கள், தயவுசெய்து பின்னர் மீண்டும் முயற்சிக்கவும்."
+
 msgid "Very high"
 msgstr "மிக அதிக"
 
@@ -20827,6 +22789,9 @@ msgstr "உங்களை நீங்களே அகற்ற முடிய
 msgid "You can not block yourself on this project."
 msgstr "இந்த திட்டத்தில் உங்களைத் தடுக்க முடியாது."
 
+msgid "Remove project administration rights before blocking this user."
+msgstr ""
+
 msgid "User has been blocked on this project."
 msgstr "இந்த திட்டத்தில் பயனர் தடுக்கப்பட்டுள்ளது."
 
@@ -20880,6 +22845,11 @@ msgstr[0] ""
 msgstr[1] ""
 "மொழி %(language)s %(count)d கூறுகளில் சேர்க்க முடியவில்லை. கூறுகளின் உள்ளமைவைச் "
 "சரிபார்க்கவும்."
+
+#, fuzzy
+#| msgid "You do not have permission to accept suggestions."
+msgid "You do not have permission to add this language."
+msgstr "பரிந்துரைகளை ஏற்க உங்களுக்கு இசைவு இல்லை."
 
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
@@ -21119,8 +23089,10 @@ msgstr "மோசமான கோரிக்கை"
 msgid "Access denied."
 msgstr "அணுகல் மறுக்கப்பட்டது."
 
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr "பதிவேற்றிய கோப்பில் உள்ள பன்மை வடிவங்கள் தற்போதைய மொழிபெயர்ப்புடன் பொருந்தவில்லை."
+#, fuzzy
+#| msgid "Translation uploaded"
+msgid "Translation upload in progress."
+msgstr "மொழிபெயர்ப்பு பதிவேற்றப்பட்டது"
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -21184,10 +23156,20 @@ msgstr "மொழிபெயர்ப்பு புதுப்பிப்�
 msgid "All components are now locked for translation updates!"
 msgstr "அனைத்து கூறுகளும் இப்போது மொழிபெயர்ப்பு புதுப்பிப்புகளுக்கு பூட்டப்பட்டுள்ளன!"
 
+#, fuzzy
+#| msgid "All components are now locked for translation updates!"
+msgid "Allowed components are now locked for translation updates!"
+msgstr "அனைத்து கூறுகளும் இப்போது மொழிபெயர்ப்பு புதுப்பிப்புகளுக்கு பூட்டப்பட்டுள்ளன!"
+
 msgid "Component is now open for translation updates."
 msgstr "மொழிபெயர்ப்பு புதுப்பிப்புகளுக்கு இப்போது கூறு திறக்கப்பட்டுள்ளது."
 
 msgid "All components are now open for translation updates."
+msgstr "அனைத்து கூறுகளும் இப்போது மொழிபெயர்ப்பு புதுப்பிப்புகளுக்கு திறந்திருக்கும்."
+
+#, fuzzy
+#| msgid "All components are now open for translation updates."
+msgid "Allowed components are now open for translation updates."
 msgstr "அனைத்து கூறுகளும் இப்போது மொழிபெயர்ப்பு புதுப்பிப்புகளுக்கு திறந்திருக்கும்."
 
 #, fuzzy
@@ -21265,18 +23247,6 @@ msgstr "பயனர் தரவைப் பதிவிறக்கவும�
 msgid "Excluded user days"
 msgstr "எழுத்தாளரை விலக்கு (பயனர்பெயர்)"
 
-msgid "Could not process form!"
-msgstr "படிவத்தை செயலாக்க முடியவில்லை!"
-
-msgid "Search and replace completed, no strings were updated."
-msgstr "தேடவும் மாற்றவும் முடிந்தது, எந்த சரங்களும் புதுப்பிக்கப்படவில்லை."
-
-#, python-format
-msgid "Search and replace completed, %d string was updated."
-msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] "தேடவும் மாற்றவும் முடிந்தது, %d சரம் புதுப்பிக்கப்பட்டது."
-msgstr[1] "தேடவும் மாற்றவும் முடிந்தது, %d சரங்கள் புதுப்பிக்கப்பட்டன."
-
 #, python-format
 msgid "Search for %s"
 msgstr "%s ஐத் தேடுங்கள்"
@@ -21287,14 +23257,29 @@ msgstr "பல தேடல் வினவல்கள், தயவுசெ�
 msgid "Invalid search query!"
 msgstr "தவறான தேடல் வினவல்!"
 
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many bulk edits, please try again later."
+msgstr "பல தேடல் வினவல்கள், தயவுசெய்து பின்னர் மீண்டும் முயற்சிக்கவும்."
+
+msgid "The preview has expired or is invalid. Preview the changes again."
+msgstr ""
+
+msgid "Could not process form!"
+msgstr "படிவத்தை செயலாக்க முடியவில்லை!"
+
+#, fuzzy
+#| msgid "Bulk edit strings"
+msgid "Bulk edit in progress."
+msgstr "மொத்த திருத்த சரங்கள்"
+
+#, fuzzy, python-format
+#| msgid "Authentication failed: %s"
+msgid "Bulk edit failed: %s"
+msgstr "ஏற்பு தோல்வியடைந்தது: %s"
+
 msgid "Bulk edit completed, no strings were updated."
 msgstr "மொத்த திருத்தம் முடிந்தது, எந்த சரங்களும் புதுப்பிக்கப்படவில்லை."
-
-#, python-format
-msgid "Bulk edit completed, %d string was updated."
-msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] "மொத்த திருத்தம் முடிந்தது, %d சரம் புதுப்பிக்கப்பட்டது."
-msgstr[1] "மொத்த திருத்தம் முடிந்தது, %d சரங்கள் புதுப்பிக்கப்பட்டன."
 
 msgid "Settings saved"
 msgstr "அமைப்புகள் சேமிக்கப்பட்டன"
@@ -21430,7 +23415,9 @@ msgid_plural "languages"
 msgstr[0] "மொழி"
 msgstr[1] "மொழிகள்"
 
-msgid "No valid billing found or limit exceeded."
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
 msgstr ""
 
 #, fuzzy
@@ -21463,6 +23450,155 @@ msgstr ""
 
 msgid "Invalid host name given!"
 msgstr "தவறான புரவலன் பெயர் கொடுக்கப்பட்டுள்ளது!"
+
+#, fuzzy
+#| msgid "XML tags in translation do not match source."
+msgid "Press ? in the translation editor to discover keyboard shortcuts."
+msgstr "மொழிபெயர்ப்பில் உள்ள எக்ச்எம்எல் குறிச்சொற்கள் மூலத்துடன் பொருந்தவில்லை."
+
+msgid ""
+"Add secondary languages in your preferences to see translations you already "
+"understand alongside the source."
+msgstr ""
+
+msgid ""
+"Customize your special characters in your profile to keep frequently used "
+"characters within reach."
+msgstr ""
+
+msgid ""
+"Use the visual keyboard above the translation field to insert special "
+"characters."
+msgstr ""
+
+msgid ""
+"Save searches you use often so you can return to them from the search "
+"filters."
+msgstr ""
+
+msgid ""
+"Combine search conditions with AND, OR, and NOT to find exactly the strings "
+"you need."
+msgstr ""
+
+msgid ""
+"Search with regular expressions when a simple word search is not enough."
+msgstr ""
+
+#, fuzzy
+#| msgid "Use flags to indicate special strings in your translation."
+msgid "Use labels to organize strings and find related translation work."
+msgstr "உங்கள் மொழிபெயர்ப்பில் சிறப்பு சரங்களைக் குறிக்க கொடிகளைப் பயன்படுத்தவும்."
+
+msgid ""
+"Check a string’s screenshots to see where the text appears in the "
+"application."
+msgstr ""
+
+msgid ""
+"Link an existing screenshot to a string to give translators more context."
+msgstr ""
+
+msgid ""
+"Check nearby strings for context before translating a short or ambiguous "
+"message."
+msgstr ""
+
+msgid "Explore a string’s history to see how its translation has changed."
+msgstr ""
+
+msgid ""
+"Leave a comment on a source string to ask for context that can help every "
+"language."
+msgstr ""
+
+msgid ""
+"Suggest a translation when you want others to review your wording before it "
+"is accepted."
+msgstr ""
+
+#, fuzzy
+#| msgid "Suggestion removed during cleanup"
+msgid "You can edit a translation suggestion before accepting it."
+msgstr "தூய்மைப்படுத்தும் போது பரிந்துரை அகற்றப்பட்டது"
+
+msgid ""
+"Add terms to a project glossary to help translators use consistent wording."
+msgstr ""
+
+msgid ""
+"Glossaries can mark terms as forbidden to help translators avoid unwanted "
+"wording."
+msgstr ""
+
+msgid "Glossaries can mark names and other terms as untranslatable."
+msgstr ""
+
+msgid ""
+"Watch projects you care about and choose which translation events notify you."
+msgstr ""
+
+msgid ""
+"Choose notification digests to receive translation updates together instead "
+"of one email at a time."
+msgstr ""
+
+msgid "Regular expression processing failed or exceeded its resource limit."
+msgstr ""
+
+msgid "Cumulative regex time limit exceeded."
+msgstr ""
+
+msgid "Regex request exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression to match translation files against"
+msgid "Regular expression evaluation timed out."
+msgstr "மொழிபெயர்ப்பு கோப்புகளை எதிர்த்து பொருத்த வழக்கமான வெளிப்பாடு"
+
+msgid "Regex response exceeds its size limit."
+msgstr ""
+
+msgid "Regex output exceeds its size limit."
+msgstr ""
+
+msgid "Pattern and replacement must not exceed 4096 characters."
+msgstr ""
+
+msgid "Regex input exceeds 1 MiB per plural."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Invalid regular expression: {}"
+msgid "Invalid regular expression or replacement: %s"
+msgstr "தவறான வழக்கமான வெளிப்பாடு: {}"
+
+#, fuzzy
+#| msgid "Automatic translation mode"
+msgid "Automatic translation reported a warning."
+msgstr "தானியங்கி மொழிபெயர்ப்பு முறை"
+
+#, fuzzy
+#| msgid ""
+#| "Automatically translates strings using machine translation or other "
+#| "components."
+msgid "Automatic translation is waiting for another operation to finish."
+msgstr ""
+"இயந்திர மொழிபெயர்ப்பு அல்லது பிற கூறுகளைப் பயன்படுத்தி சரங்களை தானாக மொழிபெயர்க்கிறது."
+
+#, fuzzy
+#| msgid "Automatic translation in progress"
+msgid "Automatic translation failed. See the task log for details."
+msgstr "தானியங்கி மொழிபெயர்ப்பு செயலில் உள்ளது"
+
+msgid "Task could not be completed. See the task log for details."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation mode"
+msgid "Automatic translation reported an error."
+msgstr "தானியங்கி மொழிபெயர்ப்பு முறை"
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -21627,13 +23763,28 @@ msgid "Could not resolve the URL domain."
 msgstr "முகவரி டொமைனைத் தீர்க்க முடியவில்லை: {}"
 
 #, fuzzy
+#| msgid "Invalid host name given!"
+msgid "Invalid stored parameter value."
+msgstr "தவறான புரவலன் பெயர் கொடுக்கப்பட்டுள்ளது!"
+
+#, fuzzy
 #| msgid "File format parameters must be a dictionary of key-value pairs."
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "கோப்பு வடிவ அளவுருக்கள் முக்கிய மதிப்பு சோடிகளின் அகராதியாக இருக்க வேண்டும்."
 
-#, python-format
-msgid "Undefined variable: \"%s\""
-msgstr "வரையறுக்கப்படாத மாறி: \"%s\""
+msgid "Template output exceeds its size limit."
+msgstr ""
+
+msgid "Template rendering failed or exceeded its resource limits."
+msgstr ""
+
+msgid "Oversized template response."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid translation flag: \"%s\""
+msgid "Invalid template rendering response."
+msgstr "தவறான மொழிபெயர்ப்பு கொடி: \"%s\""
 
 msgid "Could not render template: {}"
 msgstr "வார்ப்புருவை வழங்க முடியவில்லை: {}"
@@ -21644,12 +23795,63 @@ msgid ""
 msgstr ""
 "வடிவமைப்பு சரங்கள் இனி ஆதரிக்கப்படாது, அதற்கு பதிலாக வார்ப்புரு மொழியைப் பயன்படுத்தவும்."
 
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The HTML {tag} tag is missing a matching end tag: {end}."
+msgid "Template context is nested too deeply."
+msgstr "html {tag} குறிச்சொல் பொருந்தும் இறுதி குறிச்சொல்லைக் காணவில்லை: {end}."
+
+msgid "Template context exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template context key."
+msgstr "ஆதரிக்கப்படாத கோப்பு வடிவம்."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template context value."
+msgstr "ஆதரிக்கப்படாத கோப்பு வடிவம்."
+
+msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+msgid "Template rendering exceeded its loop limit."
+msgstr ""
+
+msgid "Template intermediate value exceeds its size limit."
+msgstr ""
+
+msgid "Template replacement exceeds its size limit."
+msgstr ""
+
+msgid "Template padding exceeds its size limit."
+msgstr ""
+
+msgid "Template formatting exceeds its size limit."
+msgstr ""
+
+msgid "Template join exceeds its size limit."
+msgstr ""
+
+#, python-format
+msgid "Undefined variable: \"%s\""
+msgstr "வரையறுக்கப்படாத மாறி: \"%s\""
+
 #, python-format
 msgid ""
 "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
 "வழங்கப்பட்ட முகவரி இலிருந்து சொத்தைப் பதிவிறக்க முடியவில்லை (HTTP நிலைக் குறியீடு: "
 "%(code)s)."
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Regular expression is too complex."
+msgstr "வழக்கமான வெளிப்பாடு"
 
 msgid "Search query is too complex."
 msgstr ""
@@ -21682,6 +23884,12 @@ msgid "Unsupported lookup for {field}: {value}"
 msgstr "{field} க்கான ஆதரிக்கப்படாத தேடல்: {value}"
 
 #, fuzzy
+#| msgctxt "Notification name"
+#| msgid "New translation component was created"
+msgid "A concrete project or component is required."
+msgstr "புதிய மொழிபெயர்ப்பு கூறு உருவாக்கப்பட்டது"
+
+#, fuzzy
 #| msgid "Could not parse {} flag: {}"
 msgid "Could not parse IP address: {}"
 msgstr "{} கொடியை அலச முடியவில்லை: {}"
@@ -21698,6 +23906,11 @@ msgstr "{field} க்கான ஆதரிக்கப்படாத தே�
 
 msgid "Mixed operators!"
 msgstr "கலப்பு இயக்குபவர்கள்!"
+
+#, fuzzy
+#| msgid "The source string needs review."
+msgid "Search query is too long."
+msgstr "மூல சரத்திற்கு மதிப்பாய்வு தேவை."
 
 msgid "Invalid character in the query string"
 msgstr "வினவல் சரத்தில் தவறான எழுத்து"
@@ -21884,6 +24097,9 @@ msgstr ""
 
 msgid "URL domain is not allowed."
 msgstr "முகவரி டொமைன் அனுமதிக்கப்படவில்லை."
+
+msgid "AMQP broker URLs must not contain query strings or fragments."
+msgstr ""
 
 #, fuzzy
 #| msgid "Name contains disallowed characters."
@@ -22074,6 +24290,37 @@ msgstr ""
 #| msgid "Too many messages sent, please try again later."
 msgid "Pull request listing failed: %(error)s Please retry later."
 msgstr "பல செய்திகள் அனுப்பப்பட்டன, தயவுசெய்து பின்னர் மீண்டும் முயற்சிக்கவும்."
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s"
+msgstr "பல செய்திகள் அனுப்பப்பட்டன, தயவுசெய்து பின்னர் மீண்டும் முயற்சிக்கவும்."
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s "
+"Please retry later."
+msgstr "பல செய்திகள் அனுப்பப்பட்டன, தயவுசெய்து பின்னர் மீண்டும் முயற்சிக்கவும்."
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s"
+msgstr "பல செய்திகள் அனுப்பப்பட்டன, தயவுசெய்து பின்னர் மீண்டும் முயற்சிக்கவும்."
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s Please retry later."
+msgstr "பல செய்திகள் அனுப்பப்பட்டன, தயவுசெய்து பின்னர் மீண்டும் முயற்சிக்கவும்."
+
+#, python-format
+msgid "GitHub did not assign the requested users: %(assignees)s"
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Could not get repository status!"
@@ -22414,6 +24661,11 @@ msgstr ""
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr "இது மேலோடை மெர்குரியல் களஞ்சியத்தில் மாற்றங்களைத் தூண்டும்."
 
+#, fuzzy
+#| msgid "Could not merge the repository."
+msgid "Could not remove nested repository metadata."
+msgstr "களஞ்சியத்தை ஒன்றிணைக்க முடியவில்லை."
+
 msgid "GitHub"
 msgstr "கிதப்"
 
@@ -22495,6 +24747,32 @@ msgid ""
 "Open a pull or merge request for the translation changes. When turned off, "
 "Weblate pushes to the translated branch directly, which requires write "
 "access to it."
+msgstr ""
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request assignee"
+msgstr "அறிவிலிதேநீர் இழுத்தல் கோரிக்கை"
+
+msgid "GitHub username to assign to pull requests created by Weblate."
+msgstr ""
+
+msgid "Assign pull requests to acting user"
+msgstr ""
+
+msgid ""
+"Also assign the GitHub account linked to the Weblate user who starts the "
+"push, when available."
+msgstr ""
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request labels"
+msgstr "அறிவிலிதேநீர் இழுத்தல் கோரிக்கை"
+
+msgid ""
+"Comma-separated names of labels to add to pull requests created by Weblate. "
+"Existing labels are kept."
 msgstr ""
 
 msgid "Merge pull requests automatically"
@@ -22857,6 +25135,70 @@ msgstr ""
 "முழு பட்டியலுக்கு இடம் இருந்தாலும், மேல் வலது மூலையில் உள்ள தொடர்ச்சியான ஊடுருவல் "
 "கீழ்தோன்றும் பட்டியல்."
 
+#, fuzzy
+#| msgid "Data exports"
+msgid "CSV report"
+msgstr "தரவு ஏற்றுமதி"
+
+#, fuzzy
+#| msgid "Languages limit"
+msgid "Delimiter"
+msgstr "மொழிகளின் வரம்பு"
+
+msgid ""
+"Leave blank to detect automatically. Use a comma, semicolon, pipe, or \\t "
+"for a tab."
+msgstr ""
+
+msgid "First row contains column names"
+msgstr ""
+
+#, fuzzy
+#| msgid "Username or e-mail"
+msgid "Username or e-mail column"
+msgstr "பயனர் பெயர் அல்லது மின்னஞ்சல்"
+
+#, fuzzy
+#| msgid "Password"
+msgid "Password column"
+msgstr "கடவுச்சொல்"
+
+msgid ""
+"Specify both column numbers, or leave both blank for automatic detection."
+msgstr ""
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Configuring"
+msgstr "உள்ளமைவு"
+
+msgid "Running"
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+#, fuzzy
+#| msgid "Resolve"
+msgid "Resolved"
+msgstr "தீர்க்க"
+
+#, fuzzy
+#| msgid "User was disabled by administrator."
+msgid "Dismissed by administrator"
+msgstr "நிர்வாகியால் பயனர் முடக்கப்பட்டது."
+
+msgid "Lookalike e-mail identity removed"
+msgstr ""
+
+msgid "E-mail identity already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Password already changed"
+msgstr "கடவுச்சொல் மாற்றப்பட்டது."
+
 #. Translators: The Weblate server has no paid support by the Weblate team
 msgid "Community support"
 msgstr "சமூக உதவி"
@@ -22923,11 +25265,187 @@ msgstr "காப்புப்பிரதி சேமிப்பகத்�
 msgid "Repository initialization"
 msgstr "களஞ்சிய துவக்கம்"
 
+#, fuzzy
+#| msgid "New password"
+msgid "Leaked password"
+msgstr "புதிய கடவுச்சொல்"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Lookalike verified e-mail address"
+msgstr "புதிய மின்னஞ்சல் முகவரியை சரிபார்க்கவும்"
+
+msgid "The uploaded report has expired. Upload it again."
+msgstr ""
+
+msgid ""
+"Could not detect the credential columns. Configure their column numbers."
+msgstr ""
+
+msgid "Choose different identifier and password columns."
+msgstr ""
+
+msgid "The report exceeds the 10 MiB limit."
+msgstr ""
+
+msgid "Upload a UTF-8 encoded CSV file."
+msgstr ""
+
+msgid ""
+"Could not detect the delimiter. Configure the CSV columns and delimiter."
+msgstr ""
+
+msgid "Choose a single delimiter character."
+msgstr ""
+
+#, fuzzy
+#| msgid "ZIP file containing translations"
+msgid "The file contains malformed CSV quoting."
+msgstr "மொழிபெயர்ப்புகளைக் கொண்ட சுருக்கு கோப்பு"
+
+#, fuzzy
+#| msgid ".NET resource file"
+msgid "The report is empty."
+msgstr "நெட் வள கோப்பு"
+
+msgid "The report exceeds the 50,000 row limit."
+msgstr ""
+
+msgid "The report contains no credential rows."
+msgstr ""
+
+#, fuzzy
+#| msgid "You do not have permission to access this component."
+msgid ""
+"The initiating administrator no longer has permission to perform this "
+"operation."
+msgstr "இந்த கூறுகளை அணுக உங்களுக்கு இசைவு இல்லை."
+
+msgid ""
+"The security operation failed. Review any findings already recorded and "
+"start a new operation."
+msgstr ""
+
+#, fuzzy
+#| msgid "Security"
+msgid "Security report"
+msgstr "பாதுகாப்பு"
+
+#, fuzzy, python-format
+#| msgid "Joined on %(date)s"
+msgid "Report from %(date)s"
+msgstr "%(date)s இல் இணைந்தன"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s — %(report)s"
+msgstr "%(filename)s, சரம் %(position)s"
+
+msgid ""
+"Your identity verification has expired. Confirm your identity, then select "
+"and upload the CSV report again."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not open a ticket, please try again later."
+msgid "Could not store the encrypted upload. Try again."
+msgstr "சிக்கலைத் திறக்க முடியவில்லை, பிறகு முயற்சிக்கவும்."
+
+msgid "Choose a CSV report of at most 10 MiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not open a ticket, please try again later."
+msgid "Could not read the uploaded report. Upload it again."
+msgstr "சிக்கலைத் திறக்க முடியவில்லை, பிறகு முயற்சிக்கவும்."
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords checked"
+msgstr "கடவுச்சொல் மாற்றப்பட்டது."
+
+#, fuzzy
+#| msgid "Duplicated translation."
+msgid "Duplicate rows"
+msgstr "நகல் மொழிபெயர்ப்பு."
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Unknown accounts"
+msgstr "கணக்கை அகற்று"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Ambiguous accounts"
+msgstr "கணக்கை அகற்று"
+
+msgid "Malformed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "Disable password"
+msgid "Unusable passwords"
+msgstr "கடவுச்சொல்லை முடக்கு"
+
+msgid "Passwords that did not match"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password reset"
+msgid "Passwords reset"
+msgstr "கடவுச்சொல் மீட்டமைப்பு"
+
+msgid "Lookalike e-mail identities removed"
+msgstr ""
+
+msgid "E-mail identities already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords already changed"
+msgstr "கடவுச்சொல் மாற்றப்பட்டது."
+
+#, fuzzy
+#| msgid "Dismissed"
+msgid "Dismissed findings"
+msgstr "தள்ளுபடி செய்யப்பட்டது"
+
+#, fuzzy
+#| msgid "Recent additions"
+msgid "Skipped findings"
+msgstr "அண்மைக் கால சேர்த்தல்கள்"
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported actions"
+msgstr "ஆதரிக்கப்படாத கோப்பு!"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Primary e-mail address"
+msgstr "புதிய மின்னஞ்சல் முகவரியை சரிபார்க்கவும்"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Verified e-mail address"
+msgstr "புதிய மின்னஞ்சல் முகவரியை சரிபார்க்கவும்"
+
+#, fuzzy, python-format
+#| msgid "Edit team membership for %(username)s"
+msgid "Finding for %(username)s"
+msgstr "%(username)s குழு உறுப்பினர்களைத் திருத்தவும்"
+
 msgid "Weblate administration"
 msgstr "வலைபெயர்ப்பு நிர்வாகம்"
 
 msgid "Object listing turned off"
 msgstr "பொருள் பட்டியல் முடக்கப்பட்டது"
+
+#, fuzzy
+#| msgid "The registration link has been invalidated."
+msgid "The security operation expired. Start a new operation."
+msgstr "பதிவு இணைப்பு செல்லாதது."
 
 msgid "Return to Weblate"
 msgstr "வலைபெயர்ப்புக்குத் திரும்பு"
@@ -23093,6 +25611,23 @@ msgid "Workspace name"
 msgstr "பணியிடத்தின் பெயர்"
 
 #, fuzzy
+#| msgid "Allow translation propagation"
+msgid "Translation propagation scope"
+msgstr "மொழிபெயர்ப்பு பரப்புதலை அனுமதிக்கவும்"
+
+#, fuzzy
+#| msgid "Cannot change this on an existing team."
+msgid "Matching component name within workspace"
+msgstr "ஏற்கனவே உள்ள அணியில் இதை மாற்ற முடியாது."
+
+#, fuzzy
+#| msgid ""
+#| "Whether to overwrite existing translations if the string is already "
+#| "translated."
+msgid "Where translations of matching strings are propagated."
+msgstr "சரம் ஏற்கனவே மொழிபெயர்க்கப்பட்டால், இருக்கும் மொழிபெயர்ப்புகளை மேலெழுத வேண்டுமா."
+
+#, fuzzy
 #| msgid "Language name"
 msgid "Managed name"
 msgstr "மொழி பெயர்"
@@ -23134,6 +25669,93 @@ msgstr ""
 #| msgid "Source has been removed."
 msgid "The workspace has been removed."
 msgstr "சான்று அகற்றப்பட்டுள்ளது."
+
+#, fuzzy
+#~| msgid "Registration almost complete"
+#~ msgid "E-mail verification almost complete"
+#~ msgstr "பதிவு கிட்டத்தட்ட முடிந்தது"
+
+#, fuzzy
+#~| msgid ""
+#~| "Click the confirmation link sent to your e-mail inbox and start using "
+#~| "your account."
+#~ msgid ""
+#~ "Click the confirmation link sent to your e-mail inbox to verify the "
+#~ "address for your account."
+#~ msgstr ""
+#~ "உங்கள் மின்னஞ்சல் இன்பாக்சுக்கு அனுப்பப்பட்ட உறுதிப்படுத்தல் இணைப்பைக் சொடுக்கு செய்து, "
+#~ "உங்கள் கணக்கைப் பயன்படுத்தத் தொடங்குங்கள்."
+
+#~ msgid "Search and replace"
+#~ msgstr "தேடி மாற்றவும்"
+
+#, fuzzy
+#~| msgid "Adding strings is disabled in the component configuration."
+#~ msgid "Stop using this installation without removing its configuration."
+#~ msgstr "கூறு உள்ளமைவில் சரங்களைச் சேர்ப்பது முடக்கப்பட்டுள்ளது."
+
+#, fuzzy
+#~| msgid "Remove this notification setting"
+#~ msgid "Remove this installation and its configuration."
+#~ msgstr "இந்த அறிவிப்பு அமைப்பை அகற்று"
+
+#~ msgid "Please review and confirm the search and replace results."
+#~ msgstr "தேடலை மதிப்பாய்வு செய்து உறுதிப்படுத்தவும், முடிவுகளை மாற்றவும்."
+
+#~ msgid ""
+#~ "Showing and replacing only the first 250 matches. Perform the replacement "
+#~ "again to replace more."
+#~ msgstr ""
+#~ "முதல் 250 போட்டிகளைக் காண்பித்தல் மற்றும் மாற்றுகிறது. மேலும் மாற்ற மாற்றீட்டை மீண்டும் "
+#~ "செய்யுங்கள்."
+
+#~ msgid "Replace"
+#~ msgstr "மாற்றவும்"
+
+#, fuzzy
+#~| msgid "Include strings needing editing"
+#~ msgid "Find strings in image"
+#~ msgstr "திருத்துதல் தேவைப்படும் சரங்களை உள்ளடக்கியது"
+
+#~ msgid "You can change the state of all strings matching given type at once."
+#~ msgstr ""
+#~ "கொடுக்கப்பட்ட வகைக்கு பொருந்தக்கூடிய அனைத்து சரங்களின் நிலையை நீங்கள் ஒரே நேரத்தில் "
+#~ "மாற்றலாம்."
+
+#~ msgid "Optional additional filter applied to the strings"
+#~ msgstr "விருப்ப கூடுதல் வடிகட்டி சரங்களுக்கு பயன்படுத்தப்படுகிறது"
+
+#~ msgid "Case-sensitive string to search for and replace."
+#~ msgstr "தேடவும் மாற்றவும் வழக்கு-உணர்திறன் சரம்."
+
+#, fuzzy
+#~| msgid "Translation flags to add"
+#~ msgid "Translation flags to add — matching translations"
+#~ msgstr "சேர்க்க மொழிபெயர்ப்பு கொடிகள்"
+
+#, fuzzy
+#~| msgid "Translation flags to remove"
+#~ msgid "Translation flags to remove — matching translations"
+#~ msgstr "அகற்ற மொழிபெயர்ப்பு கொடிகள்"
+
+#, fuzzy
+#~| msgid "For all languages"
+#~ msgid "Labels to add — all languages"
+#~ msgstr "எல்லா மொழிகளுக்கும்"
+
+#, fuzzy
+#~| msgid "Labels to remove"
+#~ msgid "Labels to remove — all languages"
+#~ msgstr "அகற்ற சிட்டைகள்"
+
+#~ msgid "Search and replace completed, no strings were updated."
+#~ msgstr "தேடவும் மாற்றவும் முடிந்தது, எந்த சரங்களும் புதுப்பிக்கப்படவில்லை."
+
+#, python-format
+#~ msgid "Search and replace completed, %d string was updated."
+#~ msgid_plural "Search and replace completed, %d strings were updated."
+#~ msgstr[0] "தேடவும் மாற்றவும் முடிந்தது, %d சரம் புதுப்பிக்கப்பட்டது."
+#~ msgstr[1] "தேடவும் மாற்றவும் முடிந்தது, %d சரங்கள் புதுப்பிக்கப்பட்டன."
 
 #~ msgid "Name is also used in version control commits."
 #~ msgstr "பதிப்பு கட்டுப்பாட்டு உறுதிமொழிகளிலும் பெயர் பயன்படுத்தப்படுகிறது."
@@ -23272,10 +25894,6 @@ msgstr "சான்று அகற்றப்பட்டுள்ளது."
 #~ msgstr ""
 #~ "காலாவதியான குறிஅடையாளம் அல்லது இணைப்பு பிழை காரணமாக அங்கீகரிக்க முடியவில்லை."
 
-#, python-format
-#~ msgid "Authentication failed: %s"
-#~ msgstr "ஏற்பு தோல்வியடைந்தது: %s"
-
 #~ msgid "The authentication provider could not be reached."
 #~ msgstr "அங்கீகார வழங்குநரைத் தொடர்பு கொள்ள முடியவில்லை."
 
@@ -23407,9 +26025,6 @@ msgstr "சான்று அகற்றப்பட்டுள்ளது."
 #~ msgstr ""
 #~ "உள்ளூர்மயமாக்கலின் எதிர்காலத்தை வடிவமைப்பதில் எங்களுடன் சேர்ந்து இன்று பங்களிக்கவும்!"
 
-#~ msgid "Download reports"
-#~ msgstr "அறிக்கைகளைப் பதிவிறக்குங்கள்"
-
 #~ msgid "DeepL API v1 is no longer supported."
 #~ msgstr "ஆழம்எல் பநிஇ v1 இனி ஆதரிக்கப்படாது."
 
@@ -23451,9 +26066,6 @@ msgstr "சான்று அகற்றப்பட்டுள்ளது."
 #~ msgctxt "Anthropic model selection"
 #~ msgid "Claude Fable 5"
 #~ msgstr "கிளாட் ஐக்கூ 4.5"
-
-#~ msgid "Suggested change"
-#~ msgstr "பரிந்துரைக்கப்பட்ட மாற்றம்"
 
 #~ msgid "Similarity"
 #~ msgstr "ஒற்றுமை"
@@ -23555,9 +26167,6 @@ msgstr "சான்று அகற்றப்பட்டுள்ளது."
 #~ msgid "Translation files in accessible repositories have been synchronized."
 #~ msgstr "மொழிபெயர்ப்பு கோப்புகள் ஒத்திசைக்கப்பட்டுள்ளன."
 
-#~ msgid "Updates of translations are in progress."
-#~ msgstr "மொழிபெயர்ப்புகளின் புதுப்பிப்புகள் செயலில் உள்ளன."
-
 #, fuzzy
 #~| msgid "Updates of translations are in progress."
 #~ msgid "Updates of translations in accessible repositories are in progress."
@@ -23583,9 +26192,6 @@ msgstr "சான்று அகற்றப்பட்டுள்ளது."
 #~ "சரங்களை குழப்புவதைப் பற்றி கவலைப்பட வேண்டாம். உண்மையான மாற்றம் உறுதிப்படுத்தப்படுவதற்கு "
 #~ "முன்னர் திருத்தப்பட்ட சரங்களின் முன்னோட்டத்தைக் காட்டும் இரண்டு-படி செயல்முறையாகும்."
 
-#~ msgid "Activation completed."
-#~ msgstr "செயல்படுத்தல் முடிந்தது."
-
 #, python-format
 #~ msgid "Could not activate your installation: %s"
 #~ msgstr "உங்கள் நிறுவலை செயல்படுத்த முடியவில்லை: %s"
@@ -23597,11 +26203,6 @@ msgstr "சான்று அகற்றப்பட்டுள்ளது."
 #~| msgid "Backup repository URL"
 #~ msgid "Repository URL"
 #~ msgstr "காப்பு களஞ்சிய முகவரி"
-
-#, fuzzy
-#~| msgid "Repository merged"
-#~ msgid "Repository name"
-#~ msgstr "களஞ்சியம் ஒன்றிணைந்தது"
 
 #, fuzzy
 #~| msgid "Create component"
@@ -23667,11 +26268,6 @@ msgstr "சான்று அகற்றப்பட்டுள்ளது."
 #~| msgid "project wide"
 #~ msgid "project-wide"
 #~ msgstr "திட்டம் அகலம்"
-
-#, fuzzy
-#~| msgid "site wide"
-#~ msgid "site-wide"
-#~ msgstr "தளம் அகலம்"
 
 #, fuzzy, python-format
 #~| msgctxt "Automatic suggestion service configuration"
@@ -23751,11 +26347,6 @@ msgstr "சான்று அகற்றப்பட்டுள்ளது."
 #~| msgid "Test Sentry integration"
 #~ msgid "VCS integrations"
 #~ msgstr "சோதனை சென்ட்ரி ஒருங்கிணைப்பு"
-
-#, fuzzy
-#~| msgid "Manage site configuration"
-#~ msgid "Manage VCS integrations"
-#~ msgstr "தள கட்டமைப்பை நிர்வகிக்கவும்"
 
 #, fuzzy
 #~| msgctxt "Label on donate page"
@@ -23905,9 +26496,6 @@ msgstr "சான்று அகற்றப்பட்டுள்ளது."
 #~ msgid "Provide context to the translators"
 #~ msgstr "மொழிபெயர்ப்பாளர்களுக்கு சூழலை வழங்கவும்"
 
-#~ msgid "Workflow customization"
-#~ msgstr "பணிப்பாய்வு தனிப்பயனாக்கம்"
-
 #~ msgid "Add team"
 #~ msgstr "குழு சேர்"
 
@@ -23969,9 +26557,6 @@ msgstr "சான்று அகற்றப்பட்டுள்ளது."
 
 #~ msgid "This URL is prohibited"
 #~ msgstr "இந்த முகவரி தடைசெய்யப்பட்டுள்ளது"
-
-#~ msgid "Categorized component can not be shared."
-#~ msgstr "வகைப்படுத்தப்பட்ட கூறுகளை பகிர முடியாது."
 
 #~ msgctxt "Access-control role"
 #~ msgid "Billing"
@@ -24432,9 +27017,6 @@ msgstr "சான்று அகற்றப்பட்டுள்ளது."
 #~ msgid "Disable two-factor authentication"
 #~ msgstr "இரண்டு காரணி அங்கீகாரத்தை முடக்கு"
 
-#~ msgid "Translation reviews are not enabled."
-#~ msgstr "மொழிபெயர்ப்பு மதிப்புரைகள் இயக்கப்படவில்லை."
-
 #~ msgid "Reviews are not enabled."
 #~ msgstr "மதிப்புரைகள் இயக்கப்படவில்லை."
 
@@ -24472,9 +27054,6 @@ msgstr "சான்று அகற்றப்பட்டுள்ளது."
 
 #~ msgid "Starting date"
 #~ msgstr "தொடக்க நாள்"
-
-#~ msgid "Ending date"
-#~ msgstr "முடிவு தேதி"
 
 #~ msgid "Last 30 days"
 #~ msgstr "கடந்த 30 நாட்கள்"

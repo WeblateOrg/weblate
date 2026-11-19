@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n static translations %}
+
+{% block extra_script %}
+  <script defer src="{% static 'js/bulk-edit-preview.js' %}"></script>
+{% endblock extra_script %}
+
+{% block breadcrumbs %}
+  {% path_object_breadcrumbs path_object %}
+  <li class="breadcrumb-item">{% translate "Bulk edit" %}</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  <p>{% translate "Review and confirm the bulk edit changes." %}</p>
+  <p>{% blocktranslate count counter=total %}{{ counter }} string would change.{% plural %}{{ counter }} strings would change.{% endblocktranslate %}</p>
+  {% if limited %}
+    <p>{% translate "Showing the first 250 changes. Only selected displayed strings will be processed unless you choose to apply all matching strings." %}</p>
+  {% endif %}
+  <form method="post">
+    {% csrf_token %}
+    {% crispy form %}
+    <input type="hidden" name="next" value="{{ next }}" />
+    <button type="submit" class="btn btn-primary">{% translate "Update preview" %}</button>
+  </form>
+  <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="bulk_confirmation" value="{{ confirmation }}" />
+    <div class="form-check my-3">
+      <input type="checkbox"
+             name="apply_all"
+             value="1"
+             id="bulk-apply-all"
+             class="form-check-input"
+             aria-describedby="bulk-apply-all-help" />
+      <label for="bulk-apply-all"
+             class="form-check-label">{% blocktranslate %}Apply all matching strings ({{ total }}){% endblocktranslate %}</label>
+      <p id="bulk-apply-all-help">{% translate "Applies to all current matches, including those not displayed. The query and permissions are checked again when applying changes." %}</p>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">{% translate "Select" %}</th>
+          <th scope="col">{% translate "String" %}</th>
+          <th scope="col">{% translate "Changes" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for edit in matching %}
+          <tr>
+            <td>
+              <input type="checkbox"
+                     name="preview_units"
+                     value="{{ edit.unit.pk }}"
+                     id="bulk-unit-{{ edit.unit.pk }}"
+                     checked
+                     class="bulk-preview-select" />
+            </td>
+            <td>
+              <label for="bulk-unit-{{ edit.unit.pk }}">{{ edit.unit.translation }}: {{ edit.unit.position }}</label>
+              {% format_unit_source edit.unit %}
+            </td>
+            <td>
+              {% if edit.state != None and edit.state != edit.unit.state %}
+                <p>{% translate "State" %}: {{ edit.unit.get_state_display }} → {{ edit.state_label }}</p>
+              {% endif %}
+              {% if edit.target != None %}
+                <div>{% translate "Before" %}: {% format_unit_target edit.unit %}</div>
+                <div>{% translate "After" %}: {% for plural in edit.target %}<pre>{% if plural %}{{ plural }}{% else %}{% translate "Empty" %}{% endif %}</pre>{% endfor %}</div>
+              {% endif %}
+              {% if edit.source_flags != None %}
+                <p>{% translate "Source flags (all languages)" %}: {{ edit.unit.source_unit.extra_flags }} → {{ edit.source_flags }}</p>
+              {% endif %}
+              {% if edit.translation_flags != None %}
+                <p>{% translate "Translation flags" %}: {{ edit.unit.extra_flags }} → {{ edit.translation_flags }}</p>
+              {% endif %}
+              {% for label in form.fields.add_labels.queryset %}
+                {% if label.pk in edit.add_labels %}<p>{% translate "Add label (all languages)" %}: {{ label.name }}</p>{% endif %}
+              {% endfor %}
+              {% for label in form.fields.remove_labels.queryset %}
+                {% if label.pk in edit.remove_labels %}<p>{% translate "Remove label (all languages)" %}: {{ label.name }}</p>{% endif %}
+              {% endfor %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary">{% translate "Apply" %}</button>
+  </form>
+{% endblock content %}

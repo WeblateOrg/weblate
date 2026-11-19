@@ -18,8 +18,6 @@ if TYPE_CHECKING:
 
 
 NEWLINES = re.compile(r"\r\n|\r|\n")
-START = re.compile(r"^(\s+)")
-END = re.compile(r"(\s+)$")
 
 
 class SameBookendingWhitespace(AutoFix):
@@ -45,16 +43,14 @@ class SameBookendingWhitespace(AutoFix):
         if "ignore-begin-space" in flags:
             head = ""
         else:
-            start = START.search(source)
-            head = start.group() if start else ""
+            head = source[: len(source) - len(source.lstrip())]
             stripped = stripped.lstrip()
 
         # Capture and strip trailing space
         if "ignore-end-space" in flags:
             tail = ""
         else:
-            end = END.search(source)
-            tail = end.group() if end else ""
+            tail = source[len(source.rstrip()) :]
             stripped = stripped.rstrip()
 
         # add the whitespace around the target translation (ignore blanks)

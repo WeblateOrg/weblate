@@ -67,7 +67,10 @@ translations and the configured source language; it does not fall back to the
 component source. Clearing the setting or selecting the component source language
 restores the canonical source. Moving a component applies the destination
 project's workflow settings. Changing workflow settings updates affected strings
-before returning; on large projects, this can delay translation edits.
+and their editing restrictions before returning; on large projects, this can
+delay translation edits. Expensive quality checks run in background batches
+after the settings are saved. Their warnings and check statistics can take
+longer to reflect the new source language.
 
 Languages selected as custom sources cannot be deleted until these workflow
 settings are cleared or changed to another language.
@@ -486,6 +489,11 @@ quality filter used for repository commits.
 The component's :guilabel:`Diagnostics` recommends the add-on when an LLM service
 is configured. If the selected service becomes unavailable, an error diagnostic
 links maintainers to the installed add-on's configuration.
+
+The add-on activity log shows failure reasons and counts the translation units
+in failed batches. If the service fails before any batch starts, the activity
+shows an error with zero failed units. The Weblate system log records details
+for each failure, such as the HTTP status returned by the service.
 
 .. _translation-reuse-workflow:
 

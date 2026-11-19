@@ -1,10 +1,14 @@
 {% extends "base.html" %}
 
-{% load authnames crispy_forms_tags humanize i18n icons metrics permissions translations urlformat %}
+{% load authnames crispy_forms_tags humanize i18n icons metrics permissions translations urlformat user_display %}
 
 {% block breadcrumbs %}
   <li class="breadcrumb-item">
-    <a href="{% url "user_list" %}">{% translate "Users" %}</a>
+    {% if can_browse_users %}
+      <a href="{% url "user_list" %}">{% translate "Users" %}</a>
+    {% else %}
+      <span>{% translate "Users" %}</span>
+    {% endif %}
   </li>
   <li class="breadcrumb-item">
     <a href="{{ page_profile.get_absolute_url }}">{{ page_profile.get_user_name }}</a>
@@ -16,8 +20,8 @@
 
   <div class="user-page text-center">
     <img class="avatar w128"
-         src="{% url 'user_avatar' user=page_user.username size=128 %}"
-         alt="{% translate "User avatar" %}" />
+         src="{% user_avatar page_user size=128 %}"
+         alt="{% translate "User avatar"|force_escape %}" />
     <h3>{{ page_user }}</h3>
     <p>
       <span class="middle-dot-divider">@{{ page_user.username }}</span>
@@ -107,31 +111,31 @@
         {% if page_profile.public_email %}
           <span class="middle-dot-divider">
             <span class="profile-icon">{% icon "email.svg" %}</span> <a href="mailto:{{ page_profile.public_email }}"
-    rel="ugc">{{ page_profile.public_email }}</a>
+                                                                        rel="ugc">{{ page_profile.public_email }}</a>
           </span>
         {% endif %}
         {% if can_edit_user and page_user.email != page_profile.public_email %}
           <span class="middle-dot-divider">
             <span class="profile-icon">{% icon "email.svg" %}</span> <a href="mailto:{{ page_user.email }}"
-    rel="ugc">{{ page_user.email }}</a>
+                                                                        rel="ugc">{{ page_user.email }}</a>
           </span>
         {% endif %}
         {% if page_profile.liberapay %}
           <span class="middle-dot-divider">
             <span class="profile-icon">{% icon "liberapay.svg" %}</span> <a href="https://liberapay.com/{{ page_profile.liberapay }}"
-    rel="ugc">{{ page_profile.liberapay }}</a>
+                                                                            rel="ugc">{{ page_profile.liberapay }}</a>
           </span>
         {% endif %}
         {% if page_profile.fediverse %}
           <span class="middle-dot-divider">
             <span class="profile-icon">{% icon "fediverse.svg" %}</span> <a href="{{ page_profile.fediverse }}"
-    rel="ugc me">{{ page_profile.fediverse|urlformat }}</a>
+                                                                            rel="ugc me">{{ page_profile.fediverse|urlformat }}</a>
           </span>
         {% endif %}
         {% if page_profile.github %}
           <span class="middle-dot-divider">
             <span class="profile-icon">{% icon "github.svg" %}</span> <a href="https://github.com/{{ page_profile.github }}"
-    rel="ugc">{{ page_profile.github }}</a>
+                                                                         rel="ugc">{{ page_profile.github }}</a>
           </span>
         {% endif %}
         {% if page_profile.codesite %}
@@ -144,13 +148,13 @@
         {% if page_profile.twitter %}
           <span class="middle-dot-divider">
             <span class="profile-icon">{% icon "twitter.svg" %}</span> <a href="https://x.com/{{ page_profile.twitter }}"
-    rel="ugc">{{ page_profile.twitter }}</a>
+                                                                          rel="ugc">{{ page_profile.twitter }}</a>
           </span>
         {% endif %}
         {% if page_profile.linkedin %}
           <span class="middle-dot-divider">
             <span class="profile-icon">{% icon "linkedin.svg" %}</span> <a href="https://www.linkedin.com/in/{{ page_profile.linkedin }}/"
-    rel="ugc">{{ page_profile.linkedin }}</a>
+                                                                           rel="ugc">{{ page_profile.linkedin }}</a>
           </span>
         {% endif %}
       </p>
@@ -341,12 +345,12 @@
                        class="btn btn-link btn-xs red link-post"
                        data-href="{{ page_user.get_absolute_url }}"
                        data-params='{"remove_group": {{ group.pk }} }'
-                       title="{% translate "Remove user from this team" %}">{% icon 'delete.svg' %}</a>
+                       title="{% translate "Remove user from this team"|force_escape %}">{% icon 'delete.svg' %}</a>
                   {% endif %}
                 </td>
               </tr>
             {% endfor %}
-            {% for userblock in page_user.userblock_set.all %}
+            {% for userblock in page_user_blocks %}
               <tr>
                 <th>{{ userblock.project.name }}</th>
                 <td>
@@ -369,7 +373,7 @@
                        class="btn btn-link btn-xs link-post"
                        data-href="{% url 'unblock-user' project=userblock.project.slug %}"
                        data-params='{"user": "{{ userblock.user.username|escapejs }}"}'
-                       title="{% translate "Unblock user" %}">{% icon 'close.svg' %}</a>
+                       title="{% translate "Unblock user"|force_escape %}">{% icon 'close.svg' %}</a>
                   {% endif %}
                 </td>
               </tr>
@@ -396,7 +400,9 @@
               </div>
               <div class="card-body">{{ form|crispy }}</div>
               <div class="card-footer">
-                <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+                <input type="submit"
+                       value="{% translate "Save"|force_escape %}"
+                       class="btn btn-primary" />
               </div>
             </div>
           </form>
@@ -432,7 +438,7 @@
                 <div class="card-footer">
                   <input type="submit"
                          name="remove_2fa"
-                         value="{% translate "Turn off two-factor authentication" %}"
+                         value="{% translate "Turn off two-factor authentication"|force_escape %}"
                          class="btn-danger red">
                 </div>
               {% endif %}
@@ -459,7 +465,7 @@
               <div class="card-footer">
                 <input type="submit"
                        name="disable_password"
-                       value="{% translate "Disable password" %}"
+                       value="{% translate "Disable password"|force_escape %}"
                        class="btn btn-danger red">
               </div>
             </div>
@@ -476,7 +482,7 @@
               <div class="card-footer">
                 <input type="button"
                        name="cleanup_user_contributions"
-                       value="{% translate "Choose cleanup actions" %}"
+                       value="{% translate "Choose cleanup actions"|force_escape %}"
                        class="btn btn-primary"
                        data-bs-toggle="modal"
                        data-bs-target="#revert_user_edits_{{ page_user.id }}">
@@ -493,7 +499,7 @@
                     <button type="button"
                             class="btn-close"
                             data-bs-dismiss="modal"
-                            aria-label="{% translate "Close" %}"></button>
+                            aria-label="{% translate "Close"|force_escape %}"></button>
                   </div>
                   <div class="modal-body">
                     {% blocktranslate with user=page_user.username %}Choose which contributions by <b>{{ user }}</b> to clean up across all projects.{% endblocktranslate %}
@@ -502,7 +508,7 @@
                   <div class="modal-footer">
                     <input type="submit"
                            name="cleanup_user_contributions"
-                           value="{% translate "Clean up selected contributions" %}"
+                           value="{% translate "Clean up selected contributions"|force_escape %}"
                            class="btn btn-danger" />
                   </div>
                 </div>
@@ -516,7 +522,7 @@
               <div class="card-footer">
                 <input type="button"
                        name="remove_user"
-                       value="{% translate "Delete" %}"
+                       value="{% translate "Delete"|force_escape %}"
                        class="btn btn-danger red"
                        data-bs-toggle="modal"
                        data-bs-target="#delete_user_{{ page_user.id }}">
@@ -533,7 +539,7 @@
                     <button type="button"
                             class="btn-close"
                             data-bs-dismiss="modal"
-                            aria-label="{% translate "Close" %}"></button>
+                            aria-label="{% translate "Close"|force_escape %}"></button>
                   </div>
                   <div class="modal-body">
                     {% blocktranslate with user=page_user.username %}This will remove <b>{{ user }}</b> from Weblate.{% endblocktranslate %}
@@ -541,7 +547,7 @@
                   <div class="modal-footer">
                     <input type="submit"
                            name="remove_user"
-                           value="{% translate "Delete" %}"
+                           value="{% translate "Delete"|force_escape %}"
                            class="btn btn-danger" />
                   </div>
                 </div>

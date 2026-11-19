@@ -14,12 +14,12 @@ from pathlib import Path
 from time import monotonic
 
 # pylint: disable-next=unused-import
-from typing import IO, TYPE_CHECKING, BinaryIO, cast
+from typing import IO, TYPE_CHECKING, cast
 from uuid import UUID
 from zipfile import ZipFile, ZipInfo
 
 from django.conf import settings
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.core.paginator import EmptyPage, Paginator
 from django.http import (
     FileResponse,
@@ -36,6 +36,7 @@ from django.views.decorators.gzip import gzip_page
 from django.views.generic.base import View
 from django.views.generic.edit import FormView
 
+from weblate.formats.base import is_identity_safe_exporter
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.trans.models import Category, Component, Project, Translation, Unit
@@ -46,7 +47,12 @@ from weblate.utils.files import (
     is_path_within_resolved_directory,
     is_unsafe_path,
 )
-from weblate.utils.stats import CategoryLanguage, ProjectLanguage, prefetch_stats
+from weblate.utils.stats import (
+    CategoryLanguage,
+    ProjectLanguage,
+    WorkspaceLanguage,
+    prefetch_stats,
+)
 from weblate.vcs.git import LocalRepository
 from weblate.workspaces.models import Workspace
 
@@ -265,7 +271,15 @@ def get_sort_name(
 ):
     """Get sort name."""
     if isinstance(
-        obj, (Project, Category, ProjectLanguage, CategoryLanguage, Workspace)
+        obj,
+        (
+            Project,
+            Category,
+            ProjectLanguage,
+            CategoryLanguage,
+            Workspace,
+            WorkspaceLanguage,
+        ),
     ):
         default = "component,-priority"
     elif hasattr(obj, "component") and obj.component.is_glossary:
@@ -292,7 +306,6 @@ def parse_path(
         return None
 
     allowed_types = {x for x in types if x is not None}
-    acting_user = request.user if request else None
 
     def check_type(cls) -> None:
         if cls not in allowed_types:
@@ -307,8 +320,9 @@ def parse_path(
 
     # Workspace URL
     if path[:2] == ["-", "workspace"]:
-        check_type(Workspace)
-        if len(path) != 3:
+        language_scope = len(path) == 5 and path[3] == "-"
+        check_type(WorkspaceLanguage if language_scope else Workspace)
+        if len(path) != 3 and not language_scope:
             msg = "Invalid workspace path"
             raise UnsupportedPathObjectError(msg)
         try:
@@ -320,7 +334,9 @@ def parse_path(
         if request is not None and not workspace.can_view(request.user):
             msg = "Access denied"
             raise Http404(msg)
-        workspace.acting_user = acting_user
+        if language_scope:
+            language = get_object_or_404(Language, code=path[4])
+            return WorkspaceLanguage(workspace, language)
         return workspace
 
     # Language URL
@@ -336,7 +352,6 @@ def parse_path(
     )
     if request is not None:
         request.user.check_access(project)
-    project.acting_user = acting_user
     if not path:
         check_type(Project)
         return project
@@ -370,7 +385,6 @@ def parse_path(
             current = current.component_set.get(slug=slug, **category_args)
             if request is not None:
                 request.user.check_access_component(current)
-            current.acting_user = acting_user
             break
 
         # Try category
@@ -378,7 +392,6 @@ def parse_path(
             current = cast("Project | Category", current).category_set.get(
                 slug=slug, **category_args
             )
-            current.acting_user = acting_user
             category_args = {}
             continue
 
@@ -469,7 +482,6 @@ async def aparse_path(
         return None
 
     allowed_types = {x for x in types if x is not None}
-    acting_user = request.user if request else None
     if request is not None:
         await request.user.aprepare_permissions()
 
@@ -486,8 +498,9 @@ async def aparse_path(
 
     # Workspace URL
     if path[:2] == ["-", "workspace"]:
-        check_type(Workspace)
-        if len(path) != 3:
+        language_scope = len(path) == 5 and path[3] == "-"
+        check_type(WorkspaceLanguage if language_scope else Workspace)
+        if len(path) != 3 and not language_scope:
             msg = "Invalid workspace path"
             raise UnsupportedPathObjectError(msg)
         try:
@@ -504,7 +517,9 @@ async def aparse_path(
         if request is not None and not await _workspace_can_view(request, workspace):
             msg = "Access denied"
             raise Http404(msg)
-        workspace.acting_user = acting_user
+        if language_scope:
+            language = await aget_object_or_404(Language, code=path[4])
+            return WorkspaceLanguage(workspace, language)
         return workspace
 
     # Language URL
@@ -520,7 +535,6 @@ async def aparse_path(
     )
     if request is not None:
         request.user.check_access(project)
-    project.acting_user = acting_user
     if not path:
         check_type(Project)
         return project
@@ -556,7 +570,6 @@ async def aparse_path(
             )
             if request is not None:
                 request.user.check_access_component(current)
-            current.acting_user = acting_user
             break
 
         # Try category
@@ -566,7 +579,6 @@ async def aparse_path(
                 .category_set.select_related("project", "category")
                 .aget(slug=slug, **category_args)
             )
-            current.acting_user = acting_user
             category_args = {}
             continue
 
@@ -633,6 +645,13 @@ def parse_path_units(
     elif isinstance(obj, Project):
         unit_set = access_units.filter(translation__component__project=obj).prefetch()
         context["project"] = obj
+    elif isinstance(obj, WorkspaceLanguage):
+        unit_set = access_units.filter(
+            translation__component__project__workspace=obj.workspace,
+            translation__language=obj.language,
+        ).prefetch()
+        context["workspace"] = obj.workspace
+        context["language"] = obj.language
     elif isinstance(obj, Workspace):
         unit_set = access_units.filter(
             translation__component__project__workspace=obj
@@ -850,7 +869,7 @@ def zip_download(
     extra: dict[str, bytes | str] | None = None,
     allowed_roots: list[str] | None = None,
     refresh_lock: Callable[[], None] | None = None,
-) -> HttpResponse:
+) -> FileResponse:
     with zip_download_archive(name) as (response, zipfile):
         write_zip_files(zipfile, root, filenames, allowed_roots, refresh_lock)
         if extra:
@@ -861,14 +880,24 @@ def zip_download(
 
 
 @contextmanager
-def zip_download_archive(name: str) -> Generator[tuple[HttpResponse, ZipFile]]:
-    """Create a ZIP download response which can be populated incrementally."""
-    response = HttpResponse(content_type="application/zip")
-    with ZipFile(cast("BinaryIO", response), "w", strict_timestamps=False) as zipfile:
-        yield response, zipfile
-    response["Content-Disposition"] = content_disposition_header(
-        as_attachment=True, filename=f"{name}.zip"
-    )
+def zip_download_archive(name: str) -> Generator[tuple[FileResponse, ZipFile]]:
+    """Build a disk-backed ZIP before streaming the completed archive."""
+    snapshot = tempfile.TemporaryFile()  # ruff: ignore[open-file-with-context-handler]
+    try:
+        response = FileResponse(
+            snapshot,
+            content_type="application/zip",
+            as_attachment=True,
+            filename=f"{name}.zip",
+        )
+        with ZipFile(snapshot, "w", strict_timestamps=False) as zipfile:
+            yield response, zipfile
+        # FileResponse initially saw an empty file. Update the completed size.
+        response["Content-Length"] = str(snapshot.tell())
+        snapshot.seek(0)
+    except BaseException:
+        snapshot.close()
+        raise
 
 
 def write_zip_files(
@@ -958,8 +987,12 @@ def repository_lock_timeout_response(error: WeblateLockTimeoutError) -> HttpResp
     )
 
 
-def _snapshot_file_response(
-    filename: str, content_type: str, refresh_lock: Callable[[], None]
+def snapshot_file_response(
+    filename: str,
+    content_type: str,
+    refresh_lock: Callable[[], None],
+    *,
+    as_attachment: bool = False,
 ) -> FileResponse:
     """Copy a file into a stable disk-backed download response."""
     refresh_repository_lock = _periodic_lock_refresher(refresh_lock)
@@ -968,7 +1001,12 @@ def _snapshot_file_response(
         with open(filename, "rb") as source:
             _copy_file_with_refresh(source, snapshot, refresh_repository_lock)
         snapshot.seek(0)
-        return FileResponse(snapshot, content_type=content_type)
+        return FileResponse(
+            snapshot,
+            content_type=content_type,
+            as_attachment=as_attachment,
+            filename=os.path.basename(filename) if as_attachment else "",
+        )
     except Exception:
         snapshot.close()
         raise
@@ -1010,7 +1048,7 @@ def _download_translation_file_locked(
             else:
                 # Materialize the response while holding the lock. An open checkout
                 # file can still change when rewritten in place.
-                response = _snapshot_file_response(
+                response = snapshot_file_response(
                     filename,
                     content_type,
                     repository.lock.reacquire,
@@ -1051,6 +1089,12 @@ def download_translation_file(
     fmt: str | None = None,
     query_string: str | None = None,
 ):
+    from weblate.accounts.visibility import can_view_contributor  # ruff: ignore[import-outside-top-level]
+
+    if not is_identity_safe_exporter(
+        EXPORTERS.get(fmt or "")
+    ) and not can_view_contributor(request.user, translation):
+        raise PermissionDenied
     response = handle_last_modified(request, translation.stats)
     if response is not None:
         return response
@@ -1067,7 +1111,7 @@ def download_translation_file(
         exporter = exporter_cls(translation=translation)
         units = translation.unit_set.prefetch_full().order_by("position")
         if query_string:
-            units = units.search(query_string)
+            units = units.search(query_string, user=request.user)
         exporter.add_units(units)
         response = exporter.get_response()
     else:
@@ -1109,7 +1153,11 @@ def get_form_errors(form):
     for field in form:
         for error in field.errors:
             yield gettext("Error in parameter %(field)s: %(error)s") % {
-                "field": field.name,
+                "field": (
+                    field.label
+                    if field.name in {"review", "initial_state"}
+                    else field.name
+                ),
                 "error": error,
             }
 

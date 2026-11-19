@@ -6,6 +6,7 @@ services:
   developer:
     build:
       context: ../dev-docker/weblate-dev
+      target: development
     entrypoint: [sleep, infinity]
     command: []
     init: true
@@ -52,6 +53,7 @@ services:
   weblate:
     build:
       context: ../dev-docker/weblate-dev
+      target: development
     env_file:
     - ../dev-docker/environment
     extends:

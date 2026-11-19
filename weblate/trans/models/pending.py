@@ -25,10 +25,10 @@ from django.db.models.fields.json import KT
 from django.db.models.functions import Now
 from django.utils import timezone
 
+from weblate.trans.models.backup import BackupAuthorshipMixin, apply_backup_authorship
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_APPROVED,
-    STATE_READONLY,
     StringState,
 )
 from weblate.utils.version import GIT_VERSION
@@ -408,7 +408,7 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
         return counts
 
 
-class PendingUnitChange(models.Model):
+class PendingUnitChange(BackupAuthorshipMixin):
     """Stores actual change data that needs to be committed to a repository."""
 
     unit = models.ForeignKey(
@@ -487,6 +487,7 @@ class PendingUnitChange(models.Model):
         if timestamp is not None:
             kwargs["timestamp"] = timestamp
 
+        apply_backup_authorship(kwargs)
         pending = cls(**kwargs)
         if user_id is not None:
             pending.metadata["actor_id"] = user_id
@@ -504,11 +505,12 @@ class PendingUnitChange(models.Model):
         return User.objects.filter(pk=actor_id).first()
 
     @classmethod
-    def store_unit_change(
+    def store_unit_change(  # ruff: ignore[too-many-arguments]
         cls,
         unit: Unit,
         *,
         author: User | None = None,
+        author_id: int | None = None,
         user: User | None = None,
         target: str | None = None,
         explanation: str | None = None,
@@ -520,7 +522,12 @@ class PendingUnitChange(models.Model):
         store_disk_state: bool = True,
         save: bool = True,
     ) -> PendingUnitChange:
-        """Store pending data with separate content authorship and initiating actor."""
+        """
+        Store pending data with separate content authorship and initiating actor.
+
+        An explicit author takes precedence over author_id. Supplying either
+        avoids looking up the latest content change.
+        """
         # update current fields in disk_state details for comparison of
         # uncommitted disk state with incoming changes during check_sync.
         if store_disk_state:
@@ -531,16 +538,10 @@ class PendingUnitChange(models.Model):
         if explanation is None:
             explanation = unit.explanation
         if state is None:
-            # Dependency blocking is an editor restriction, not a file state.
-            state = (
-                unit.original_state
-                if unit.state == STATE_READONLY
-                and unit.details.get("translation_parent", {}).get("blocked")
-                else unit.state
-            )
+            state = unit.file_state
         if source_unit_explanation is None:
             source_unit_explanation = unit.source_unit.explanation
-        if author is None:
+        if author is None and author_id is None:
             author = unit.get_last_content_change()[0]
         if automatically_translated is None:
             automatically_translated = unit.automatically_translated
@@ -550,6 +551,7 @@ class PendingUnitChange(models.Model):
         pending_unit_change = cls.build_unit_change(
             unit=unit,
             author=author,
+            author_id=author_id if author is None else None,
             user_id=user.pk if user is not None else None,
             target=target,
             explanation=explanation,

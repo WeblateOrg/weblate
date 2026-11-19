@@ -318,7 +318,7 @@ def _get_github_app_migration_entries(
             project__workspace=workspace,
             vcs__in=GITHUB_APP_MIGRATABLE_VCS,
         )
-        .select_related("project")
+        .prefetch(alerts=False)
         .order_by("project__name", "name", "pk")
     )
     for component in components:
@@ -1105,7 +1105,6 @@ def github_app_migration(request, workspace_id):
                 vcs_params = component.vcs_params.copy()
                 if component.vcs == "git":
                     vcs_params["create_merge_request"] = False
-                component.acting_user = request.user
                 component.vcs = "github-app"
                 component.repo = canonical_url
                 component.push = ""
@@ -1201,7 +1200,11 @@ def github_app_repository_list(request):
     project_id = request.GET.get("project", "").strip()
     if project_id:
         try:
-            selected_project = request.user.managed_projects.get(pk=project_id)
+            selected_project = request.user.accessible_managed_projects.get(
+                pk=project_id
+            )
+            if not request.user.has_perm("project.edit", selected_project):
+                raise PermissionDenied
         except (Project.DoesNotExist, ValueError) as error:
             raise PermissionDenied from error
         if selected_project.workspace_id is None:
@@ -1301,9 +1304,15 @@ async def github_app_import_repository(request, pk, repo_full_name):
     project_id = request.GET.get("project", "").strip()
     if project_id:
         try:
-            selected_project = await request.user.managed_projects.aget(pk=project_id)
+            selected_project = await request.user.accessible_managed_projects.aget(
+                pk=project_id
+            )
         except (Project.DoesNotExist, ValueError) as error:
             raise PermissionDenied from error
+        if not await sync_to_async(request.user.has_perm)(
+            "project.edit", selected_project
+        ):
+            raise PermissionDenied
         if selected_project.workspace_id != installation.workspace_id:
             raise PermissionDenied
         params["project"] = selected_project.pk
@@ -1315,10 +1324,14 @@ async def github_app_import_repository(request, pk, repo_full_name):
                 "project__workspace"
             ).aget(
                 pk=category_id,
-                project__in=request.user.managed_projects,
+                project__in=request.user.accessible_managed_projects,
             )
         except (Category.DoesNotExist, ValueError) as error:
             raise PermissionDenied from error
+        if not await sync_to_async(request.user.has_perm)(
+            "project.edit", selected_category.project
+        ):
+            raise PermissionDenied
         if selected_category.project.workspace_id != installation.workspace_id:
             raise PermissionDenied
         params["category"] = selected_category.pk

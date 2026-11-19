@@ -16,6 +16,7 @@ from django.db import models, transaction
 from django.db.models import Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.template import TemplateSyntaxError
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
@@ -37,10 +38,14 @@ from weblate.trans.signals import (
     vcs_pre_push,
     vcs_pre_update,
 )
+from weblate.utils.bulk_regex import regex_session
+from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.classloader import ClassRegistry
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
+from weblate.utils.render_policy import TemplateDiagnosticError
 from weblate.utils.tracing import start_span
+from weblate.vcs.base import RepositoryTemplateError
 
 from .base import (
     AddonConfigurationValue,
@@ -115,6 +120,7 @@ class AddonQuerySet(models.QuerySet["Addon", "Addon"]):
             project__in=accessible_projects
         ).filter(
             Q(project__in=component_managed_projects, restricted=False)
+            | Q(project__in=user.accessible_managed_projects)
             | Q(pk__in=explicitly_managed_component_ids)
         )
 
@@ -268,10 +274,6 @@ class Addon(models.Model):
     def __str__(self) -> str:
         return f"{self.addon.verbose}: {self.component or self.category or self.project or 'site-wide'}"
 
-    def __init__(self, *args, acting_user: User | None = None, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-        self.acting_user = acting_user
-
     @transaction.atomic
     # pylint: disable-next=arguments-differ
     def save(
@@ -308,14 +310,18 @@ class Addon(models.Model):
                 msg = gettext("This add-on is already installed on this component.")
                 raise ValidationError(msg, code="addon_already_installed")
         self.repo_scope = cls.repo_scope
-
-        # Reallocate to repository
-        original_component = None
-        if cls.repo_scope and self.component and self.component.linked_component:
-            original_component = self.component
-            self.component = self.component.linked_component
-
         creating = self._state.adding or force_insert
+        if (
+            creating
+            and cls.repo_scope
+            and self.component
+            and self.component.linked_component_id
+        ):
+            raise ValidationError(
+                gettext(
+                    "Repository add-ons must be installed on the component owning the repository."
+                )
+            )
         compared_configuration = (
             {}
             if creating
@@ -338,8 +344,6 @@ class Addon(models.Model):
 
         # Clear add-on cache after save so the DB state is consistent
         if update_fields != ["state"]:
-            if original_component:
-                original_component.drop_addons_cache()
             self._drop_addons_cache()
             self._clear_pot_guidance_alert()
             self._clear_recommendation_guidance_alerts()
@@ -363,7 +367,7 @@ class Addon(models.Model):
         Change.objects.create(
             action=action,
             addon=self,
-            user=self.acting_user,
+            user=get_acting_user(),
             project=self.project,
             category=self.category,
             component=self.component,
@@ -379,11 +383,7 @@ class Addon(models.Model):
     @property
     def api_name(self) -> str | None:
         provider = ADDONS.get(self.name)
-        if (
-            provider is None
-            or self.component is None
-            or not provider.can_process(component=self.component)
-        ):
+        if provider is None or not provider.api_available(self.component):
             return None
         return provider.api_name
 
@@ -524,9 +524,9 @@ class Addon(models.Model):
         return result
 
     def disable(self, *, user: User) -> None:
-        self.log_warning("disabling no longer compatible add-on: %s", self.name)
-        self.acting_user = user
-        self.delete()
+        with acting_user_context(user):
+            self.log_warning("disabling no longer compatible add-on: %s", self.name)
+            self.delete()
 
     @cached_property
     def logger(self) -> logging.Logger:
@@ -534,7 +534,7 @@ class Addon(models.Model):
 
     def log_warning(self, message: str, *args) -> None:
         if self.component:
-            self.component.log_warning(message, *args)
+            self.component.log_warning(message, *args, sensitive=True)
         elif self.category:
             self.category.log_warning(message, *args)
         elif self.project:
@@ -622,7 +622,9 @@ def _report_addon_error(
     scope: Translation | Component | Category | Project | None,
     error: Exception,
 ) -> None:
-    if getattr(error, "_weblate_reported", False):
+    if isinstance(error, (TemplateSyntaxError, RepositoryTemplateError)) or getattr(
+        error, "_weblate_reported", False
+    ):
         return
     report_error(
         f"add-on {addon.name} failed",
@@ -689,17 +691,17 @@ def execute_addon_event(  # ruff: ignore[complex-structure]
             return
 
     def addon_logger(
-        level: Literal["debug", "error"], message: str, *args: StrOrPromise
+        level: Literal["debug", "warning", "error"],
+        message: str,
+        *args: StrOrPromise,
+        sensitive: bool = False,
     ) -> None:
         if scope is None:
-            if level == "debug":
-                LOGGER.debug(message, *args)
-            else:
-                LOGGER.error(message, *args)
-        elif level == "debug":
-            scope.log_debug(message, *args)
+            getattr(LOGGER, level)(message, *args)
+        elif level == "warning":
+            scope.log_warning(message, *args, sensitive=sensitive)
         else:
-            scope.log_error(message, *args)
+            getattr(scope, f"log_{level}")(message, *args)
 
     log_result = None
     outcome_status = AddonActivityLogStatus.SUCCESS
@@ -747,7 +749,12 @@ def execute_addon_event(  # ruff: ignore[complex-structure]
 
         try:
             # Execute event in tracing span to track performance.
-            with start_span(op=f"addon.{event.name}", name=addon.name):
+            with (
+                acting_user_context(
+                    addon.addon.user if addon.addon.user_name else None
+                ),
+                start_span(op=f"addon.{event.name}", name=addon.name),
+            ):
                 log_result = getattr(addon.addon, method)(
                     *args,
                     **kwargs,
@@ -760,7 +767,15 @@ def execute_addon_event(  # ruff: ignore[complex-structure]
             outcome_status = AddonActivityLogStatus.ERROR
             log_result = str(error)
             addon_logger(
-                "error", "failed %s add-on: %s: %s", event.label, addon.name, str(error)
+                "warning"
+                if isinstance(error, (TemplateSyntaxError, RepositoryTemplateError))
+                else "error",
+                "failed %s add-on: %s: %s",
+                event.label,
+                addon.name,
+                str(error),
+                sensitive=isinstance(error, TemplateSyntaxError)
+                and not isinstance(error, TemplateDiagnosticError),
             )
             _report_addon_error(addon, component, scope, error)
             # Uninstall no longer compatible add-ons
@@ -827,6 +842,7 @@ def handle_daily_addon_event(addon_queryset: Iterable[Addon]) -> None:
 
 
 @transaction.atomic
+@regex_session()
 def handle_scoped_addon_event(
     addon_queryset: Iterable[Addon], event: AddonEvent, method: str
 ) -> None:

@@ -67,6 +67,28 @@ class BaseParam:
         widget = self.field_class.widget(attrs=self.get_widget_attrs())
         return self.field_class(widget=widget, **self.get_field_kwargs())
 
+    def validate_stored_value(self, value: object) -> None:
+        """Validate serialized data without accepting form input coercion."""
+        field = self.get_field()
+        if self.choices is not None:
+            # Forms store choice values as strings, while defaults and API
+            # clients can store the declared (possibly integer) choices.
+            valid = isinstance(value, str) and not value
+            valid = valid or any(
+                (type(value) is type(choice) and value == choice)
+                or (isinstance(value, str) and value == str(choice))
+                for choice, _label in self.choices
+            )
+        elif isinstance(field, forms.BooleanField):
+            valid = isinstance(value, bool)
+        elif isinstance(field, forms.IntegerField):
+            valid = isinstance(value, int) and not isinstance(value, bool)
+        else:
+            valid = isinstance(value, str)
+        if not valid:
+            raise ValidationError(gettext("Invalid stored parameter value."))
+        field.clean(value)
+
     def get_widget_attrs(self) -> dict:
         field_classes = [f"{self.widget_css_class}-field"]
 
