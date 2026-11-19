@@ -83,10 +83,11 @@ def _matches_no_proxy(host: str, port: int, no_proxy: str) -> bool:
             if address is not None and address in network:
                 return True
             continue
-        parsed = urlparse(f"//{entry}")
         try:
+            parsed = urlparse(f"//{entry}")
             entry_port = parsed.port
         except ValueError:
+            # Skip malformed entries, such as an unclosed IPv6 bracket
             continue
         if not parsed.hostname or entry_port not in {None, port}:
             continue

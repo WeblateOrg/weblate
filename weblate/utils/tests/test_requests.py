@@ -124,6 +124,18 @@ class FetchURLTest(SimpleTestCase):
         ):
             self.assertIsNone(_prepare_outbound_request(request).proxy)
 
+    def test_environment_proxy_skips_malformed_no_proxy(self) -> None:
+        for proxy in ("http://https-proxy.example:8080", None):
+            environ = {"no_proxy": "[::1,example.com"}
+            if proxy:
+                environ["https_proxy"] = proxy
+            with (
+                self.subTest(proxy=proxy),
+                patch.dict(os.environ, environ, clear=True),
+            ):
+                self.assertEqual(get_environment_proxy("https://other.org/x"), proxy)
+                self.assertIsNone(get_environment_proxy("https://example.com/x"))
+
     def test_environment_proxy_does_not_use_all_proxy(self) -> None:
         with patch.dict(
             os.environ,
