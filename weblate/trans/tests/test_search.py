@@ -570,6 +570,15 @@ class SearchViewTest(ReusableViewTestCase):
             reverse("search", kwargs={"path": [self.project.slug, "-", "cs"]})
         )
 
+    def test_search_includes_shared_components(self) -> None:
+        """Project and project language searches cover shared components."""
+        project = self.create_project(name="Shared target", slug="shared-target")
+        self.component.links.add(project)
+
+        for path in ([project.slug], [project.slug, "-", "cs"]):
+            with self.subTest(path=path):
+                self.do_search_url(reverse("search", kwargs={"path": path}))
+
     def test_project_search_skips_large_word_summary(self) -> None:
         with (
             patch(

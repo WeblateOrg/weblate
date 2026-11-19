@@ -57,6 +57,7 @@ Weblate 2026.12
 .. rubric:: Bug fixes
 
 * Preserved source strings backed by a file when :ref:`removing their last translation <component-manage_units>`.
+* Included :ref:`shared components <component-links>` in project and project language searches, matching their statistics.
 * Enabled adding languages from the project language list in :ref:`glossary-only projects <glossary-language-sync>`.
 * Preserved special characters in e-mail subjects for :ref:`notifications`.
 * Handled invalid configured :ref:`templates <markup>` without unhandled server errors, preserving editor access and reporting failed repository and add-on operations.

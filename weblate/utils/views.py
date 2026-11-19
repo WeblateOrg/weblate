@@ -658,7 +658,10 @@ def parse_path_units(
         context["project"] = obj.project
         context["components"] = [obj]
     elif isinstance(obj, Project):
-        unit_set = access_units.filter(translation__component__project=obj).prefetch()
+        # Include shared components, as the project statistics do.
+        unit_set = access_units.filter(
+            translation__component__in=obj.child_components
+        ).prefetch()
         context["project"] = obj
     elif isinstance(obj, WorkspaceLanguage):
         unit_set = access_units.filter(
@@ -674,7 +677,7 @@ def parse_path_units(
         context["workspace"] = obj
     elif isinstance(obj, ProjectLanguage):
         unit_set = access_units.filter(
-            translation__component__project=obj.project,
+            translation__component__in=obj.project.child_components,
             translation__language=obj.language,
         ).prefetch()
         context["project"] = obj.project
