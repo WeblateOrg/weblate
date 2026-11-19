@@ -45,6 +45,7 @@ Weblate 2026.12
 * Filtered the site-wide changes listings and feeds by workspace visibility, so workspaces the viewer cannot access no longer appear there.
 * Restricted :ref:`webhook matching <hooks-target-matching>` to repository owners, preventing generic deliveries from triggering GitHub App updates through linked components.
 * Required repository access to set a path for a :ref:`repository-linked screenshot <screenshots>`.
+* Kept backend errors out of :ref:`task status results <api-tasks>` when cached task metadata is removed during a request.
 
 .. rubric:: Bug fixes
 
