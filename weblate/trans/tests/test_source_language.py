@@ -1936,7 +1936,7 @@ class SourceLanguageTest(FixtureComponentTestCase):
                 self.child.refresh_from_db()
                 self.set_target(self.child, "Custom-source translation")
                 Unit.objects.filter(pk=ordinary.pk).update(source=text)
-                base = machine.get_base_queryset(
+                base, _translations = machine.get_search_querysets(
                     self.user, self.parent.translation.language, translation.language
                 )
                 with CaptureQueriesContext(connection) as queries:
@@ -1979,9 +1979,9 @@ class SourceLanguageTest(FixtureComponentTestCase):
             with self.subTest(state=state):
                 self.set_target(self.child, "Czech translation", state)
                 self.assertTrue(
-                    machine.get_base_queryset(
+                    machine.get_search_querysets(
                         self.user, source_language, target_language
-                    )
+                    )[0]
                     .filter(pk=self.child.pk)
                     .exists()
                 )
@@ -1993,7 +1993,7 @@ class SourceLanguageTest(FixtureComponentTestCase):
         self.assertEqual(self.child.state, STATE_READONLY)
         self.assertIsNotNone(self.child.missing_source_snapshot)
         self.assertFalse(
-            machine.get_base_queryset(self.user, source_language, target_language)
+            machine.get_search_querysets(self.user, source_language, target_language)[0]
             .filter(pk=self.child.pk)
             .exists()
         )
