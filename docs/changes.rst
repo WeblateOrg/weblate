@@ -64,6 +64,7 @@ Weblate 2026.12
 * Fixed delayed database cursor cleanup in :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` with custom source languages.
 * Preserved punctuation and complete messages in :ref:`project sharing <project-public_sharing>` links.
 * Fixed the automatic color theme briefly rendering partially light on page load and not fully following system theme changes on open pages.
+* Released :ref:`repository operation <repository-maintenance>` reservations within minutes when the worker running them is killed, instead of blocking further repository operations for hours.
 
 .. rubric:: Compatibility
 

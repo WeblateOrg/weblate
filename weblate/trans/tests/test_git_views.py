@@ -6,7 +6,8 @@
 
 from __future__ import annotations
 
-from contextlib import ExitStack
+import time
+from contextlib import AbstractContextManager, ExitStack
 from typing import Never
 from unittest.mock import Mock, patch
 
@@ -28,6 +29,7 @@ from weblate.auth.models import (
 from weblate.lang.models import Language
 from weblate.trans.models import Component, PendingUnitChange, Project, Translation
 from weblate.trans.repository import (
+    REPOSITORY_OPERATION_RUNNING_TTL,
     QueuedRepositoryOperation,
     RepositoryOperationConflictError,
     acquire_repository_operation,
@@ -39,8 +41,10 @@ from weblate.trans.repository import (
     queue_repository_operation,
     refresh_repository_operation,
     release_repository_operation,
+    reserve_repository_operation,
     store_repository_operation_tracking,
 )
+from weblate.trans.tasks import perform_repository_operation
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_optional_path
 from weblate.utils.celery import (
@@ -759,6 +763,33 @@ class RepositoryPermissionScopeTest(ViewTestCase):
         self.assertNotContains(response, linked.full_slug)
 
 
+class ImmediateThread:
+    """Run the heartbeat synchronously when the thread is started."""
+
+    def __init__(self, *, target, **kwargs) -> None:
+        self.target = target
+
+    def start(self) -> None:
+        self.target()
+
+    def join(self, *, timeout) -> None:
+        return None
+
+
+class ImmediateEvent:
+    """Let the heartbeat run a given number of times without waiting."""
+
+    def __init__(self, beats: int = 1) -> None:
+        self.beats = beats
+
+    def wait(self, timeout) -> bool:
+        self.beats -= 1
+        return self.beats < 0
+
+    def set(self) -> None:
+        return None
+
+
 class RepositoryOperationQueueTest(ViewTestCase):
     @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
     def test_task_tracking_excludes_inaccessible_linked_components(self) -> None:
@@ -1138,27 +1169,6 @@ class RepositoryOperationQueueTest(ViewTestCase):
         )
 
     def test_reservation_heartbeat_refreshes_long_operations(self) -> None:
-        class ImmediateThread:
-            def __init__(self, *, target, **kwargs) -> None:
-                self.target = target
-
-            def start(self) -> None:
-                self.target()
-
-            def join(self, *, timeout) -> None:
-                return None
-
-        class ImmediateEvent:
-            def __init__(self) -> None:
-                self.wait_count = 0
-
-            def wait(self, timeout) -> bool:
-                self.wait_count += 1
-                return self.wait_count > 1
-
-            def set(self) -> None:
-                return None
-
         with (
             patch("weblate.trans.repository.Thread", ImmediateThread),
             patch("weblate.trans.repository.Event", ImmediateEvent),
@@ -1170,6 +1180,90 @@ class RepositoryOperationQueueTest(ViewTestCase):
             pass
 
         self.assertEqual(refresh.call_count, 2)
+
+    def test_reservation_heartbeat_survives_refresh_error(self) -> None:
+        with (
+            patch("weblate.trans.repository.Thread", ImmediateThread),
+            patch("weblate.trans.repository.Event", lambda: ImmediateEvent(beats=2)),
+            patch(
+                "weblate.trans.repository.refresh_repository_operation",
+                side_effect=[None, ConnectionError, None],
+            ) as refresh,
+            patch("weblate.trans.repository.report_error") as report_error,
+            keep_repository_operation_reservation([self.component.pk], "task-id"),
+        ):
+            pass
+
+        # The failed refresh is reported and the heartbeat keeps going
+        self.assertEqual(refresh.call_count, 3)
+        report_error.assert_called_once()
+
+    @staticmethod
+    def advance_cache_clock(seconds: int) -> AbstractContextManager[Mock]:
+        """Make the locmem cache see time as if it was later."""
+        clock = Mock(wraps=time)
+        clock.time.return_value = time.time() + seconds
+        return patch("django.core.cache.backends.locmem.time", clock)
+
+    def test_dead_worker_does_not_block_operations(self) -> None:
+        class WorkerKilledError(BaseException):
+            pass
+
+        with patch(
+            "weblate.trans.tasks.perform_repository_operation.apply_async"
+        ) as apply_async:
+            queued = queue_repository_operation(self.component, "reset", self.user)
+        self.addCleanup(delete_task_metadata, queued.task_id)
+        self.addCleanup(
+            cache.delete_many,
+            [
+                get_repository_operation_key(self.component.pk),
+                get_repository_operation_update_key(self.component.pk),
+            ],
+        )
+
+        # The worker starts the operation and is killed while it is running,
+        # so it neither releases the reservation nor keeps refreshing it.
+        with (
+            patch(
+                "weblate.trans.tasks.execute_repository_operation",
+                side_effect=WorkerKilledError,
+            ),
+            patch("weblate.trans.tasks.release_repository_operation"),
+            self.assertRaises(WorkerKilledError),
+        ):
+            perform_repository_operation.apply(
+                kwargs=apply_async.call_args.kwargs["kwargs"], task_id=queued.task_id
+            )
+
+        with (
+            self.advance_cache_clock(REPOSITORY_OPERATION_RUNNING_TTL + 1),
+            patch("weblate.trans.tasks.perform_repository_operation.apply_async"),
+        ):
+            requeued = queue_repository_operation(self.component, "reset", self.user)
+        self.addCleanup(delete_task_metadata, requeued.task_id)
+        self.addCleanup(
+            release_repository_operation, [self.component.pk], requeued.task_id
+        )
+
+        self.assertFalse(requeued.reused)
+        self.assertNotEqual(requeued.task_id, queued.task_id)
+
+    def test_dead_process_does_not_block_operations(self) -> None:
+        # The process holding the reservation is killed in the middle of the
+        # operation: the context is never exited and the heartbeat stops.
+        dead = ExitStack()
+        with patch("weblate.trans.repository.Thread"):
+            dead.enter_context(
+                reserve_repository_operation([self.component.pk], "reset")
+            )
+        self.addCleanup(cache.delete, get_repository_operation_key(self.component.pk))
+
+        with (
+            self.advance_cache_clock(REPOSITORY_OPERATION_RUNNING_TTL + 1),
+            reserve_repository_operation([self.component.pk], "reset"),
+        ):
+            pass
 
 
 class GitNoChangeComponentTest(GitNoChangeProjectTest):

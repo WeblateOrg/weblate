@@ -20,6 +20,7 @@ from weblate.utils.celery import (
     get_task_metadata_key,
     store_task_metadata,
 )
+from weblate.utils.errors import report_error
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator, Iterable
@@ -64,8 +65,13 @@ class RepositoryOperationConflictError(Exception):
         self.task_id = task_id
 
 
+# Lifetime of a reservation while the task waits in the queue or for a retry.
 REPOSITORY_OPERATION_TTL = TASK_METADATA_TTL
-REPOSITORY_OPERATION_HEARTBEAT = REPOSITORY_OPERATION_TTL // 3
+# While an operation runs, its heartbeat keeps a short TTL, so the reservation
+# expires within minutes once the process is killed. Should the heartbeat stall,
+# the repository lock still serializes the actual repository access.
+REPOSITORY_OPERATION_RUNNING_TTL = 300
+REPOSITORY_OPERATION_HEARTBEAT = 60
 
 
 def get_repository_operation_key(component_id: int) -> str:
@@ -203,16 +209,16 @@ def refresh_repository_operation(
     component_ids: list[int],
     task_id: str,
     tracking_component_ids: list[int] | None = None,
+    *,
+    ttl: int = REPOSITORY_OPERATION_TTL,
 ) -> None:
     for component_id in component_ids:
         key = get_repository_operation_key(component_id)
         reservation = cache.get(key)
         if isinstance(reservation, dict) and reservation.get("task_id") == task_id:
-            cache.touch(key, REPOSITORY_OPERATION_TTL)
-    cache.touch(get_repository_operation_scope_key(task_id), REPOSITORY_OPERATION_TTL)
-    cache.touch(
-        get_repository_operation_published_key(task_id), REPOSITORY_OPERATION_TTL
-    )
+            cache.touch(key, ttl)
+    cache.touch(get_repository_operation_scope_key(task_id), ttl)
+    cache.touch(get_repository_operation_published_key(task_id), ttl)
     cache.touch(get_task_metadata_key(task_id), TASK_METADATA_TTL)
     for component_id in tracking_component_ids or ():
         key = get_repository_operation_update_key(component_id)
@@ -263,14 +269,27 @@ def keep_repository_operation_reservation(
     task_id: str,
     tracking_component_ids: list[int] | None = None,
 ) -> Generator[None]:
-    """Refresh a reservation while a potentially long operation is running."""
+    """Keep a reservation alive only while this process works on it."""
     stopped = Event()
+
+    def refresh() -> None:
+        refresh_repository_operation(
+            component_ids,
+            task_id,
+            tracking_component_ids,
+            ttl=REPOSITORY_OPERATION_RUNNING_TTL,
+        )
 
     def heartbeat() -> None:
         while not stopped.wait(REPOSITORY_OPERATION_HEARTBEAT):
-            refresh_repository_operation(component_ids, task_id, tracking_component_ids)
+            try:
+                refresh()
+            except Exception:
+                # A missed refresh only shortens the reservation; stopping the
+                # heartbeat would let it expire while the operation runs.
+                report_error("Could not refresh repository operation reservation")
 
-    refresh_repository_operation(component_ids, task_id, tracking_component_ids)
+    refresh()
     thread = Thread(
         target=heartbeat,
         name=f"repository-operation-{task_id}",
