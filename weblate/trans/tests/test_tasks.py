@@ -91,8 +91,11 @@ from weblate.utils.tasks import (
     update_translation_stats_parents,
 )
 from weblate.utils.version import GIT_VERSION
-from weblate.vcs.base import RepositoryError, RepositoryInternalError
-from weblate.vcs.base import RepositoryInternalError, RepositoryTemplateError
+from weblate.vcs.base import (
+    RepositoryError,
+    RepositoryInternalError,
+    RepositoryTemplateError,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Generator, Iterator
