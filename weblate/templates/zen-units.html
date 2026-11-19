@@ -21,12 +21,12 @@
               {% endblocktranslate %}
               <button type="button"
                       class="badge text-bg-secondary border-0 zen-suggestions-indicator"
-                      title="{{ suggestion_label }}"
                       aria-controls="suggestions-{{ item.unit.checksum }}"
                       aria-expanded="false"
                       tabindex="-1">
-                <span aria-hidden="true">{% icon "suggest.svg" %} <span class="zen-suggestions-count">{{ suggestion_count }}</span></span>
-                <span class="visually-hidden zen-suggestions-label">{{ suggestion_label }}</span>
+                <span aria-hidden="true">{% icon "suggest.svg" %} <span class="d-md-none zen-suggestions-count">{{ suggestion_count }}</span></span>
+                <span class="d-none d-md-inline zen-suggestions-label">{{ suggestion_label|force_escape }}</span>
+                <span class="visually-hidden d-md-none zen-suggestions-label">{{ suggestion_label|force_escape }}</span>
               </button>
             {% endwith %}
           {% endif %}

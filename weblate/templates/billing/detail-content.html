@@ -1,5 +1,9 @@
 {% load crispy_forms_tags i18n icons translations %}
 
+{% if billing.libre_cleanup_warned_at %}
+  {% include "billing/libre-cleanup-warning.html" with warning=billing.libre_cleanup_warning %}
+{% endif %}
+
 <div class="row">
 
   <div class="col-lg-6">
@@ -147,13 +151,13 @@
           <div class="card-header">
             <h4 class="card-title">
               {% translate "Libre hosting" %}
-              {% if billing.is_libre_trial and billing.payment.libre_request %}
+              {% if billing.is_libre_trial and billing.libre_request_pending %}
                 <span class="badge text-bg-secondary">{% translate "Pending approval" %}</span>
               {% endif %}
             </h4>
           </div>
           <div class="card-body">
-            {% if billing.is_libre_trial and billing.valid_libre and not billing.payment.libre_request %}
+            {% if billing.is_libre_trial and billing.valid_libre and not billing.libre_request_pending %}
               {# Second button for bigger visibility #}
               <input type="submit"
                      class="btn btn-primary float-end"
@@ -170,7 +174,7 @@
             <div class="card-footer">
               {% csrf_token %}
               {% if billing.valid_libre %}
-                {% if user_can_manage_billing or not billing.payment.libre_request %}
+                {% if user_can_manage_billing or not billing.libre_request_pending %}
                   {% include "snippets/libre-basic.html" %}
                   {% if user_can_manage_billing %}
                     <input type="submit"
@@ -178,7 +182,7 @@
                            name="approve"
                            value="{% translate "Approve as libre"|force_escape %}" />
                   {% endif %}
-                  {% if not billing.payment.libre_request %}
+                  {% if not billing.libre_request_pending %}
                     {{ hosting_form|crispy }}
                     <input type="submit"
                            class="btn btn-primary"

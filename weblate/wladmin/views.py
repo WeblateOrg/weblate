@@ -830,6 +830,11 @@ def alerts(request: AuthenticatedHttpRequest) -> HttpResponse:
         "menu_page": "alerts",
     }
 
+    if "weblate.billing" in settings.INSTALLED_APPS:
+        context["cleanup_warnings"] = Project.objects.filter(
+            workspace__billing__libre_cleanup_warned_at__isnull=False
+        ).order()
+
     return render(request, "manage/alerts.html", context)
 
 
@@ -1018,7 +1023,7 @@ def billing(request: AuthenticatedHttpRequest) -> HttpResponse:
             if (
                 current.plan
                 and current.plan.price == 0
-                and current.payment.get("libre_request")
+                and current.libre_request_pending
             ):
                 pending.append(current)
             trial.append(current)

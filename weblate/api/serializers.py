@@ -62,7 +62,7 @@ from weblate.auth.results import PermissionResult
 from weblate.checks.models import CHECKS
 from weblate.lang.models import Language, Plural, validate_language_code
 from weblate.memory.models import Memory, MemoryScope
-from weblate.screenshots.models import Screenshot
+from weblate.screenshots.models import Screenshot, can_set_screenshot_repository_path
 from weblate.trans.actions import ActionEvents
 from weblate.trans.component_copy import (
     get_inherited_component_fields,
@@ -4586,6 +4586,24 @@ class ScreenshotSerializer(RemovableSerializer[Screenshot]):
         extra_kwargs: ClassVar[dict[str, Any]] = {
             "url": {"view_name": "api:screenshot-detail"}
         }
+
+    def validate_repository_filename(self, filename: str) -> str:
+        if not filename:
+            return filename
+
+        if self.instance is None:
+            translation = self.context["translation"]
+        else:
+            if filename == self.instance.repository_filename:
+                return filename
+            translation = self.instance.translation
+
+        if not can_set_screenshot_repository_path(
+            self.context["request"].user, translation.component
+        ):
+            msg = "Repository access is required to set the screenshot repository path."
+            raise serializers.ValidationError(msg, code="repository_access_required")
+        return filename
 
 
 class ScreenshotCreateSerializer(ScreenshotSerializer):

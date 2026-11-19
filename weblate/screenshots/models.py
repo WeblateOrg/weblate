@@ -57,6 +57,12 @@ class ScreenshotQuerySet(models.QuerySet["Screenshot", "Screenshot"]):
         return result
 
 
+def can_set_screenshot_repository_path(user: User, component: Component) -> bool:
+    """Check whether the user can publish images from this checkout as screenshots."""
+    owner = component.linked_component or component
+    return user.can_access_component(owner) and bool(user.has_perm("vcs.access", owner))
+
+
 class Screenshot(BackupAuthorshipMixin, UserDisplayMixin):
     name = models.CharField(
         verbose_name=gettext_lazy("Screenshot name"), max_length=200

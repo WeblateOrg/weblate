@@ -47,10 +47,11 @@ class WeblateTranslation(InternalMachineTranslation):
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         yielded = 0
+        base, translations = self.get_search_querysets(
+            user, source_language, target_language
+        )
         matching_units = self.get_matching_units(
-            self.get_base_queryset(user, source_language, target_language),
-            text,
-            threshold,
+            base, text, threshold, translations=translations
         )
 
         for munit in matching_units:
@@ -82,7 +83,7 @@ class WeblateTranslation(InternalMachineTranslation):
                 if yielded >= self.candidate_limit:
                     return
 
-    def get_base_queryset(self, user, source_language, target_language):
+    def get_search_querysets(self, user, source_language, target_language):
         alias = "memory_db" if "memory_db" in settings.DATABASES else "default"
 
         translations = Translation.objects.using(alias).all()
@@ -103,19 +104,19 @@ class WeblateTranslation(InternalMachineTranslation):
             translations = translations.filter(
                 component__source_language=source_language
             )
-        translation_ids = translations.filter(language=target_language).values("id")
+        translations = translations.filter(language=target_language)
         units = (
             Unit.objects.using(alias)
             .filter(
                 state__gte=STATE_TRANSLATED,
-                translation_id__in=translation_ids,
+                translation_id__in=translations.values("id"),
             )
             .exclude_blocked()
         )
         if custom_sources:
             # Use native language columns without the plural-rule joins added
             # by with_effective_source().
-            return units.filter(
+            units = units.filter(
                 Q(
                     translation_parent__isnull=True,
                     translation__component__source_language=source_language,
@@ -123,13 +124,32 @@ class WeblateTranslation(InternalMachineTranslation):
                 | Q(translation_parent__translation__language=source_language),
                 details__translation_parent__missing__isnull=True,
             )
-        return units.alias(check_source=F("source")).filter(
-            translation_parent__isnull=True
-        )
+        else:
+            units = units.filter(translation_parent__isnull=True)
+        return units, translations
 
-    def get_matching_units(self, base, text: str, threshold: int):
+    def get_matching_units(self, base, text: str, threshold: int, *, translations=None):
+        formats = [
+            key
+            for key, format_cls in FILE_FORMATS.items()
+            if format_cls.has_multiple_strings
+        ]
+        multivalue = Q(translation__component__file_format__in=formats)
         if threshold < 100:
             adjust_similarity_threshold(0.98)
+            # Avoid a global word-similarity scan when none of the eligible
+            # translations has translated strings in a multivalue format.
+            # Checking the full unit queryset here is costly for empty scopes.
+            # The candidate query still applies all unit-level filters.
+            if (
+                translations is not None
+                and not use_trgm_fallback(text)
+                and not translations.filter(
+                    component__file_format__in=formats,
+                    unit__state__gte=STATE_TRANSLATED,
+                ).exists()
+            ):
+                multivalue = Q(pk__in=[])
         # Keep both searches on real, indexed columns. A CASE/COALESCE over
         # parent.target and source prevents using their trigram indexes.
         ordinary = self.get_matching_queryset(
@@ -138,6 +158,7 @@ class WeblateTranslation(InternalMachineTranslation):
             ),
             text,
             threshold,
+            multivalue,
         )
         custom = self.get_matching_queryset(
             base.filter(translation_parent__isnull=False).alias(
@@ -145,6 +166,7 @@ class WeblateTranslation(InternalMachineTranslation):
             ),
             text,
             threshold,
+            multivalue,
         )
         ordering = ordinary.query.order_by
         fields = (
@@ -191,19 +213,16 @@ class WeblateTranslation(InternalMachineTranslation):
                 after |= equal & Q(**{f"{name}__{comparison}": last[name]})
                 equal &= Q(**{name: last[name]})
 
-    def get_matching_queryset(self, base, text: str, threshold: int):
+    def get_matching_queryset(self, base, text: str, threshold: int, multivalue: Q):
         if threshold < 100:
             if use_trgm_fallback(text):
-                queryset = self.get_short_query_matches(base, text)
+                queryset = self.get_short_query_matches(base, text, multivalue)
             else:
                 # Joined aliases dilute full-string similarity. Word matches
                 # admit candidates; each alias is scored when yielding results.
                 queryset = base.filter(
                     Q(check_source__trgm_search=text)
-                    | (
-                        self.multivalue_query()
-                        & Q(check_source__trigram_word_similar=text)
-                    )
+                    | (multivalue & Q(check_source__trigram_word_similar=text))
                 ).annotate(
                     # PostgreSQL returns trigram similarity as float4. Cast to
                     # float8 so a page cursor round-trips without losing the
@@ -215,7 +234,7 @@ class WeblateTranslation(InternalMachineTranslation):
                             # after the similarity lookup has admitted them.
                             When(check_source=text, then=Value(1.0)),
                             When(
-                                self.multivalue_query(),
+                                multivalue,
                                 then=TrigramWordSimilarity(text, "check_source"),
                             ),
                             default=TrigramSimilarity("check_source", text),
@@ -228,7 +247,7 @@ class WeblateTranslation(InternalMachineTranslation):
             queryset = base.filter(
                 Q(check_source__lower__md5=MD5(Lower(Value(text))), check_source=text)
                 | (
-                    self.multivalue_query()
+                    multivalue
                     & Q(
                         check_source__regex=rf"(^|{PLURAL_SEPARATOR}){re.escape(text)}({PLURAL_SEPARATOR}|$)"
                     )
@@ -240,20 +259,10 @@ class WeblateTranslation(InternalMachineTranslation):
     def prepare_queryset(self, queryset):
         return queryset.exclude(target="").prefetch().prefetch_translation_parent()
 
-    @staticmethod
-    def multivalue_query() -> Q:
-        return Q(
-            translation__component__file_format__in=[
-                key
-                for key, format_cls in FILE_FORMATS.items()
-                if format_cls.has_multiple_strings
-            ]
-        )
-
-    def get_short_query_matches(self, base, text: str):
+    def get_short_query_matches(self, base, text: str, multivalue: Q):
         max_source_length = max(len(text) + 4, len(text) * 2, 8)
         exact_source = Q(check_source__iexact=text) | (
-            self.multivalue_query()
+            multivalue
             & Q(
                 check_source__iregex=rf"(^|{PLURAL_SEPARATOR}){re.escape(text)}({PLURAL_SEPARATOR}|$)"
             )
@@ -272,6 +281,6 @@ class WeblateTranslation(InternalMachineTranslation):
                     default=Length("check_source"),
                 ),
             )
-            .filter(Q(source_length__lte=max_source_length) | self.multivalue_query())
+            .filter(Q(source_length__lte=max_source_length) | multivalue)
             .order_by("short_query_rank", "source_length", "pk")
         )

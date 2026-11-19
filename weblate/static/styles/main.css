@@ -352,6 +352,10 @@ textarea.highlight-editor {
   outline: 1px dotted red;
 }
 
+.hlspace.space-run {
+  white-space: break-spaces;
+}
+
 .space-tab,
 .space-nl,
 .space-space,
@@ -2232,7 +2236,7 @@ input.color_edit:checked + label {
   overflow-wrap: anywhere;
 }
 
-.editor-wrap > textarea,
+.editor-wrap:not(.editor-wrap-plain) > textarea,
 .editor-wrap > .highlighted-output {
   position: absolute;
   padding: 0.5em;
@@ -2249,10 +2253,10 @@ input.color_edit:checked + label {
   padding: 6px 12px;
 }
 
-.editor-wrap > textarea.form-control[readonly],
-.editor-wrap > textarea.form-control[disabled],
-.editor-wrap > textarea.form-control:focus,
-.editor-wrap > textarea {
+.editor-wrap:not(.editor-wrap-plain) > textarea.form-control[readonly],
+.editor-wrap:not(.editor-wrap-plain) > textarea.form-control[disabled],
+.editor-wrap:not(.editor-wrap-plain) > textarea.form-control:focus,
+.editor-wrap:not(.editor-wrap-plain) > textarea {
   position: relative;
   z-index: 1;
   color: transparent;

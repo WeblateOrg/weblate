@@ -162,10 +162,10 @@ def store_task_metadata(
 ) -> None:
     if not task_id:
         return
-    from weblate.utils.lock import WeblateLock  # ruff: ignore[import-outside-top-level]
+    from weblate.utils.lock import LockScope, WeblateLock  # ruff: ignore[import-outside-top-level]
 
     # Publisher and worker updates must preserve each other's visibility metadata.
-    with WeblateLock(scope="task-metadata", key=task_id, slug=task_id, timeout=10):
+    with WeblateLock(scope=LockScope.TASK_METADATA, key=task_id, timeout=10):
         existing = get_task_metadata(task_id)
         if existing is None:
             data: dict[str, Any] = {
@@ -265,18 +265,30 @@ def filter_task_warnings(result: dict, user: User | None) -> dict:
 
 @overload
 def sanitize_task_result(
-    task_id: str, result: dict, user: User | None = None
+    task_id: str,
+    result: dict,
+    user: User | None = None,
+    *,
+    metadata: dict[str, Any] | None = None,
 ) -> dict: ...
 
 
 @overload
 def sanitize_task_result(
-    task_id: str, result: object, user: User | None = None
+    task_id: str,
+    result: object,
+    user: User | None = None,
+    *,
+    metadata: dict[str, Any] | None = None,
 ) -> object: ...
 
 
 def sanitize_task_result(
-    task_id: str, result: object, user: User | None = None
+    task_id: str,
+    result: object,
+    user: User | None = None,
+    *,
+    metadata: dict[str, Any] | None = None,
 ) -> object:
     """Keep component task failure details in the permission-filtered log."""
     from weblate.trans.coordination import AutomaticTranslationBusyError  # ruff: ignore[import-outside-top-level]
@@ -287,7 +299,8 @@ def sanitize_task_result(
         )
     if not isinstance(result, (Exception, dict)):
         return result
-    metadata = get_task_metadata(task_id) or {}
+    if metadata is None:
+        metadata = get_task_metadata(task_id) or {}
     if isinstance(result, dict) and ("errors" in result or "_error_details" in result):
         result = filter_task_errors(result, user)
     if isinstance(result, dict) and "_automatic_translation_failed" in result:

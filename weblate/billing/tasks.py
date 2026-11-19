@@ -5,20 +5,28 @@
 from __future__ import annotations
 
 from datetime import timedelta
+from functools import partial
 from typing import TYPE_CHECKING
 
 from celery.schedules import crontab
 from django.conf import settings
 from django.db import transaction
-from django.db.models import Exists, OuterRef, Q
+from django.db.models import Exists, Min, OuterRef, Q
 from django.utils import timezone
 from django.utils.translation import gettext
 
-from weblate.accounts.notifications import send_notification_email
+from weblate.accounts.notifications import (
+    get_notification_emails,
+    send_notification_email,
+)
+from weblate.accounts.tasks import queue_mails
+from weblate.auth.bots import InternalBot
+from weblate.billing.defines import LIBRE_CLEANUP_TRIAL_PERIOD, LIBRE_PROBLEM_PERIOD
 from weblate.billing.models import Billing, BillingEvent
-from weblate.trans.models import Project
+from weblate.trans.models import Alert, Project
 from weblate.trans.tasks import create_project_backup, project_removal
 from weblate.utils.celery import app
+from weblate.utils.change_origin import acting_user_context
 
 if TYPE_CHECKING:
     from datetime import datetime
@@ -193,6 +201,130 @@ def inactive_recurring_check() -> None:
             notify_inactive_recurring(bill, status)
 
 
+LIBRE_CLEANUP_ALERTS = (
+    "MissingLicense",
+    "NoLibreConditions",
+    "UpdateFailure",
+    "PushFailure",
+    "MergeFailure",
+    "RepositoryOperationFailure",
+    "RepositoryOutdated",
+    "RepositoryChanges",
+)
+
+
+def check_libre_project(bill: Billing, project: Project, now: datetime) -> None:
+    # The oldest surviving instance of each alert is enough to establish continuity.
+    problems = dict(
+        Alert.objects.filter(component__project=project, name__in=LIBRE_CLEANUP_ALERTS)
+        .order_by()
+        .values("name")
+        .annotate(oldest=Min("timestamp"))
+        .values_list("name", "oldest")
+    )
+    empty_since = None
+    if not problems and not project.component_set.exists():
+        empty_since = bill.libre_cleanup_empty_since or now
+        problems["no_components"] = empty_since
+    if empty_since != bill.libre_cleanup_empty_since:
+        bill.libre_cleanup_empty_since = empty_since
+        bill.save(update_fields=["libre_cleanup_empty_since"], skip_limits=True)
+
+    if bill.libre_cleanup_warned_at is not None:
+        cutoff = bill.libre_cleanup_warned_at - LIBRE_PROBLEM_PERIOD
+        if any(start <= cutoff for start in problems.values()):
+            trial_start = bill.libre_cleanup_trial_start
+            if trial_start is not None and trial_start <= now:
+                bill.state = Billing.STATE_TRIAL
+                bill.expiry = now + LIBRE_CLEANUP_TRIAL_PERIOD
+                bill.libre_request_pending = False
+                bill.libre_cleanup_warned_at = bill.libre_cleanup_empty_since = None
+                bill.save(
+                    update_fields=[
+                        "state",
+                        "expiry",
+                        "libre_request_pending",
+                        "libre_cleanup_warned_at",
+                        "libre_cleanup_empty_since",
+                    ]
+                )
+                bill.billinglog_set.create(
+                    event=BillingEvent.LIBRE_CLEANUP_TRIAL,
+                    user=InternalBot.ALERTS.get_user(),
+                )
+            return
+        bill.libre_cleanup_warned_at = None
+        bill.save(update_fields=["libre_cleanup_warned_at"], skip_limits=True)
+        bill.billinglog_set.create(
+            event=BillingEvent.LIBRE_CLEANUP_CANCELED,
+            user=InternalBot.ALERTS.get_user(),
+        )
+
+    reasons = sorted(
+        name for name, start in problems.items() if start <= now - LIBRE_PROBLEM_PERIOD
+    )
+    if not reasons:
+        return
+    bill.libre_cleanup_warned_at = now
+    bill.save(update_fields=["libre_cleanup_warned_at"], skip_limits=True)
+    alerts_bot = InternalBot.ALERTS.get_user()
+    with acting_user_context(alerts_bot):
+        project.do_lock(user=alerts_bot)
+    warning = bill.billinglog_set.create(
+        event=BillingEvent.LIBRE_CLEANUP_WARNING,
+        user=alerts_bot,
+        timestamp=now,
+        details={"reasons": reasons},
+    )
+    messages = []
+    for user in bill.get_notify_users():
+        messages.extend(
+            get_notification_emails(
+                user.profile.language,
+                [user.email],
+                "billing_libre_cleanup",
+                context={"billing": bill, "project": project, "warning": warning},
+                user=user,
+            )
+        )
+    transaction.on_commit(partial(queue_mails, messages))
+
+
+@app.task(trail=False)
+def libre_cleanup_check() -> None:
+    eligible = Q(
+        state=Billing.STATE_ACTIVE,
+        plan__slug="libre",
+        plan__price=0,
+        plan__yearly_price=0,
+        removal=None,
+    )
+    tracked = Q(libre_cleanup_empty_since__isnull=False) | Q(
+        libre_cleanup_warned_at__isnull=False
+    )
+    candidates = Billing.objects.filter(
+        tracked | eligible if settings.OFFER_HOSTING else tracked
+    )
+    for pk in candidates.values_list("pk", flat=True).iterator():
+        with transaction.atomic():
+            bill = (
+                Billing.objects.select_for_update(of=("self",))
+                .annotate(eligible=eligible)
+                .filter(pk=pk)
+                .first()
+            )
+            if bill is None:
+                continue
+            if settings.OFFER_HOSTING and bill.eligible:
+                projects = list(
+                    Project.objects.filter(workspace_id=bill.workspace_id)[:2]
+                )
+                if len(projects) == 1:
+                    check_libre_project(bill, projects[0], timezone.now())
+                    continue
+            bill.reset_libre_cleanup()
+
+
 @app.task(trail=False)
 def schedule_removal() -> None:
     removal = timezone.now() + timedelta(days=settings.BILLING_REMOVAL_PERIOD)
@@ -265,6 +397,9 @@ def perform_removal() -> None:
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender: Celery, **kwargs: object) -> None:
+    sender.add_periodic_task(
+        crontab(hour=3, minute=15), libre_cleanup_check.s(), name="libre-cleanup-check"
+    )
     sender.add_periodic_task(3600, billing_check.s(), name="billing-check")
     sender.add_periodic_task(
         crontab(hour=3, minute=0, day_of_week="mon,thu"),

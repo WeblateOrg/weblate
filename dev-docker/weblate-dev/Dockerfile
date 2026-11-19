@@ -153,7 +153,7 @@ RUN ./ci/pip-install latest \
     && uv run --offline --no-sync ./manage.py compilemessages \
     && uv run --offline --no-sync ./manage.py collectstatic --noinput --verbosity 0 \
     && uv run --offline --no-sync ./manage.py shell -c \
-        'from weblate.screenshots.ocr import ensure_tesseract_language; ensure_tesseract_language("eng")'
+        'from weblate.screenshots.ocr import prepare_tesseract_models; prepare_tesseract_models("eng")'
 
 # The scanner replaces ENTRYPOINT; helpers must work when called from bash.
 HEALTHCHECK NONE

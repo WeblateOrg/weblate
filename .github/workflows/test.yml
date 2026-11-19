@@ -50,7 +50,7 @@ jobs:
       PYTHONUNBUFFERED: 1
     services:
       database:
-        image: postgres:18.7-alpine@sha256:b6972e1115a4ff8eba5d7f7d19184926d1e16d7d1136ae1e1a7ebf286da0f015
+        image: postgres:18.7-alpine@sha256:ff64c9e3bdf8e2120107d3559de8db314e8305f7e38c5105903c6295876738ff
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: weblate
@@ -62,7 +62,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       cache:
-        image: valkey/valkey:9.1.3-alpine@sha256:bf09d58e96d6b4524a15396b65b242bbe18beebbcc15a04d8ee75ddac62fae0b
+        image: valkey/valkey:9.2.0-alpine@sha256:4d67e1af80c653bd46c0bbe8de438c81a6535ab5a39b22f2100028f314005663
         ports:
         - 6379:6379
         options: >-

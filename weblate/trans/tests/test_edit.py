@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import time
+from pathlib import Path
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
 from unittest import TestCase
@@ -2459,7 +2460,16 @@ class ZenViewTest(ReusableViewTestCase):
         self.add_zen_suggestion("Ahoj svete!\n")
         response = self.client.get(reverse("zen", kwargs=self.kw_translation))
         self.assertContains(response, "zen-suggestions-indicator", count=1)
-        self.assertContains(response, 'title="2 suggestions"')
+        (indicator,) = html.fromstring(response.content).find_class(
+            "zen-suggestions-indicator"
+        )
+        self.assertNotIn("title", indicator.attrib)
+        desktop_label, mobile_label = indicator.find_class("zen-suggestions-label")
+        self.assertEqual(desktop_label.text_content(), "2 suggestions")
+        self.assertIn("d-md-inline", desktop_label.classes)
+        self.assertEqual(mobile_label.text_content(), "2 suggestions")
+        self.assertIn("visually-hidden", mobile_label.classes)
+        self.assertIn("d-md-none", mobile_label.classes)
 
     def test_zen_suggestions_toggle(self) -> None:
         # The visibility is remembered client side, the toggle is always there
@@ -3981,6 +3991,54 @@ class EditComplexTest(ReusableViewTestCase):
         # The source unit should be now removed as well
         self.assertFalse(Unit.objects.filter(pk=source_unit.pk).exists())
         self.assertEqual(unit_count - 4, Unit.objects.count())
+
+    def test_remove_last_target_unit_preserves_file_backed_source(self) -> None:
+        component = self.create_po(
+            project=self.project,
+            name="Gettext-template",
+            new_base="po/project.pot",
+            manage_units=True,
+        )
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        source_unit = unit.source_unit
+        source_translation = source_unit.translation
+        self.assertEqual(source_translation.filename, "po/project.pot")
+        source_file = Path(component.full_path) / source_translation.filename
+        source_contents = source_file.read_bytes()
+
+        for sibling in source_unit.unit_set.exclude(pk__in=[unit.pk, source_unit.pk]):
+            response = self.client.post(
+                reverse("delete-unit", kwargs={"unit_id": sibling.pk})
+            )
+            self.assertEqual(response.status_code, 302)
+        self.assertCountEqual(
+            source_unit.unit_set.values_list("pk", flat=True), [source_unit.pk, unit.pk]
+        )
+
+        response = self.client.post(reverse("delete-unit", kwargs={"unit_id": unit.pk}))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(translation.unit_set.filter(id_hash=unit.id_hash).exists())
+        self.assertTrue(source_translation.unit_set.filter(pk=source_unit.pk).exists())
+        self.assertEqual(source_file.read_bytes(), source_contents)
+        self.assertFalse(
+            source_translation.change_set.filter(
+                action=ActionEvents.STRING_REMOVE
+            ).exists()
+        )
+        translation.drop_store_cache()
+        self.assertNotIn(
+            unit.id_hash, {entry.id_hash for entry in translation.store.content_units}
+        )
+
+        component.create_translations_immediate(force=True)
+
+        self.assertTrue(source_translation.unit_set.filter(pk=source_unit.pk).exists())
+        self.assertFalse(translation.unit_set.filter(id_hash=unit.id_hash).exists())
 
     def test_remove_source_unit(self) -> None:
         self.component.manage_units = True

@@ -34,22 +34,13 @@
     </div>
   {% endfor %}
 
-  {% if no_components %}
-    <div class="card">
-      <div class="card-header">
-        <h4 class="card-title">{% translate "Projects without components" %}</h4>
-      </div>
-      <div class="card-body">
-        <p>
-          {% for project in no_components %}
-            <a href="{{ project.get_absolute_url }}" class="btn btn-link">{{ project }}</a>
-          {% endfor %}
-        </p>
-      </div>
-    </div>
-  {% endif %}
+  {% translate "Projects without components" as title %}
+  {% include "manage/project-alert-list.html" with projects=no_components title=title only %}
 
-  {% if not alerts and not no_components %}
+  {% translate "Scheduled removal" as title %}
+  {% include "manage/project-alert-list.html" with projects=cleanup_warnings title=title only %}
+
+  {% if not alerts and not no_components and not cleanup_warnings %}
     {% translate "Congratulations, your setup seems to work." as msg %}
     {% show_message "success" msg %}
   {% endif %}

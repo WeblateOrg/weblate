@@ -376,17 +376,22 @@ class ScreenshotDetail(ScreenshotBaseView):
             if self._edit_form is not None:
                 result["edit_form"] = self._edit_form
             else:
-                result["edit_form"] = ScreenshotEditForm(instance=result["object"])
+                result["edit_form"] = ScreenshotEditForm(
+                    self.request.user, instance=result["object"]
+                )
         # Blank list for search results, this is populated later via JavaScript
         result["units"] = []
         result["search_query"] = ""
         return result
 
+    @transaction.atomic
     def post(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> HttpResponse:
-        obj = self.get_object()
+        obj = self.get_object(
+            queryset=self.get_queryset().select_for_update(of=("self",))
+        )
         if request.user.has_perm("screenshot.edit", obj.translation):
             self._edit_form = ScreenshotEditForm(
-                request.POST, request.FILES, instance=obj
+                request.user, request.POST, request.FILES, instance=obj
             )
             if self._edit_form.is_valid():
                 if request.FILES:
