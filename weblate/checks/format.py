@@ -260,6 +260,21 @@ def iter_python_brace_matches(string: str) -> Iterable[re.Match[str]]:
             consumed = end
 
 
+CPP_FORMAT_MATCH = re.compile(
+    r"""
+    }(})|                       # escaped }
+    {({)|                       # escaped {
+    {(                          # initial {
+        [0-9]*                  # argument index
+        (?::                    # format specification
+            (?:[^{}]|{[0-9]*})* # nested width or precision
+        )?
+    )}                          # trailing }
+    """,
+    re.VERBOSE,
+)
+
+
 PERL_BRACE_MATCH = re.compile(r"({([a-zA-Z0-9_]+)})")
 
 C_SHARP_MATCH = re.compile(
@@ -925,6 +940,23 @@ class PythonBraceFormatCheck(BaseFormatCheck):
                 result = {"missing": [], "extra": add_extra}
 
         return result
+
+
+class CppFormatCheck(PythonBraceFormatCheck):
+    """Check for C++ std::format string."""
+
+    check_id = "cpp_format"
+    name = gettext_lazy("C++ format")
+    description = gettext_lazy("C++ format string does not match source.")
+    regexp = CPP_FORMAT_MATCH
+    extra_enable_strings = ("c++-format",)
+    version_added = "2026.12"
+
+    def iter_matches(self, string: str) -> Iterable[re.Match[str]]:
+        return CPP_FORMAT_MATCH.finditer(string)
+
+    def is_position_based(self, string: str) -> bool:
+        return not string[:1].isdigit()
 
 
 class CSharpFormatCheck(BaseFormatCheck):

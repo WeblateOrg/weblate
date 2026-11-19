@@ -18,6 +18,7 @@ from weblate.checks.format import (
     AutomatticComponentsCheck,
     BaseFormatCheck,
     CFormatCheck,
+    CppFormatCheck,
     CSharpFormatCheck,
     ESTemplateLiteralsCheck,
     I18NextInterpolationCheck,
@@ -68,6 +69,7 @@ class FormatEligibilityTest(SimpleTestCase):
             PerlBraceFormatCheck(),
             PythonBraceFormatCheck(),
             CSharpFormatCheck(),
+            CppFormatCheck(),
             LaravelFormatCheck(),
             JavaFormatCheck(),
             JavaMessageFormatCheck(),
@@ -1067,6 +1069,64 @@ class PythonBraceFormatCheckTest(CheckTestCase):
             Single <span class="hlcheck" data-value="}">}</span> encountered in the format string.
             """,
         )
+
+
+class CppFormatCheckTest(CheckTestCase):
+    check = CppFormatCheck()
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.test_highlight = (
+            "cpp-format",
+            "{0}string{1:>10}",
+            [(0, 3, "{0}"), (9, 16, "{1:>10}")],
+        )
+        self.test_good_flag = ("{} -> {}", "{} -> {}", "c++-format")
+        self.test_failure_1 = ("{} -> {}", "{} -} {}", "c++-format")
+        self.test_failure_2 = ("{} string", "string", "cpp-format")
+
+    def test_no_format(self) -> None:
+        self.assertFalse(
+            self.check.check_format("strins", "string", False, make_unit())
+        )
+
+    def test_format_spec(self) -> None:
+        for string in (
+            "{:{}}",
+            "{:.{}f}",
+            "{0:{1}.{2}f}",
+            "{:%Y-%m-%d}",
+            "{:?}",
+            "{:L}",
+            "{:*^10}",
+            "{{ {:#x} }}",
+        ):
+            with self.subTest(string=string):
+                self.assertFalse(
+                    self.check.check_format(string, string, False, make_unit())
+                )
+
+    def test_wrong_order(self) -> None:
+        self.assertTrue(
+            self.check.check_format("{:>10} {:d}", "{:d} {:>10}", False, make_unit())
+        )
+
+    def test_reordered_index(self) -> None:
+        self.assertFalse(
+            self.check.check_format("{0} {1:>10}", "{1:>10} {0}", False, make_unit())
+        )
+
+    def test_named_field(self) -> None:
+        self.assertTrue(
+            self.check.check_format("{} string", "{s} string", False, make_unit())
+        )
+
+    def test_unterminated_spec(self) -> None:
+        malformed = ("{:" + "a" * 98) * 400
+        started = monotonic()
+        self.assertEqual(self.check.extract_matches(malformed), [])
+        self.assertEqual(self.check.extract_matches("{0}" + malformed), ["0"])
+        self.assertLess(monotonic() - started, 1)
 
 
 class CSharpFormatCheckTest(CheckTestCase):
