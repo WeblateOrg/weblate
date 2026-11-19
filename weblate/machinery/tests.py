@@ -10738,6 +10738,8 @@ class WeblateTranslationTest(FixtureComponentTestCase):
         for sql in candidate_queries:
             self.assertIn("LIMIT 2", sql)
             self.assertNotIn("OFFSET", sql)
+            self.assertNotIn("WORD_SIMILARITY", sql)
+            self.assertNotIn("%>", sql)
         # Continue through a nonintegral similarity rank shared across pages.
         matches = list(
             machine.get_matching_units(
@@ -10751,7 +10753,7 @@ class WeblateTranslationTest(FixtureComponentTestCase):
     def test_regular_source_query_keeps_indexed_lookup(self) -> None:
         unit = self.get_unit(language="cs")
         machine = WeblateTranslation({})
-        base = machine.get_base_queryset(
+        base, _translations = machine.get_search_querysets(
             self.user,
             unit.translation.component.source_language,
             unit.translation.language,
@@ -11283,7 +11285,7 @@ class ViewsTest(FixtureTestCase):
         self.assertTrue(self.anotheruser.can_access_component(self.component))
         self.assertFalse(self.anotheruser.can_access_component(protected))
         machine = WeblateTranslation({})
-        base = machine.get_base_queryset(
+        base, _translations = machine.get_search_querysets(
             self.user, self.component.source_language, public_unit.translation.language
         )
         self.assertIn(protected_unit.pk, base.values_list("pk", flat=True))
@@ -12417,7 +12419,9 @@ class WeblateTranslationLookupTest(SimpleTestCase):
         third_match.get_absolute_url.return_value = "/third/"
 
         with (
-            patch.object(machine, "get_base_queryset", return_value=MagicMock()),
+            patch.object(
+                machine, "get_search_querysets", return_value=(MagicMock(), MagicMock())
+            ),
             patch.object(
                 machine,
                 "get_matching_units",

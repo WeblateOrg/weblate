@@ -19,7 +19,7 @@ Weblate 2026.12
 * Show inclusive ranges and representative counts in :ref:`plural form examples <plurals>`.
 * Pass developer comments from the source file to :ref:`LLM-based machine translation <llm-translation-context>`, so short strings such as button labels can be translated in context.
 
-* Sped up :ref:`Weblate translation suggestions <mt-weblate>` by fetching ranked candidates in limited batches and avoiding repeated similarity calculations for exact matches.
+* Sped up :ref:`Weblate translation suggestions <mt-weblate>` by fetching ranked candidates in limited batches and avoiding repeated similarity calculations for exact matches. Fuzzy searches also skip word similarity when the eligible multivalue translations contain no translated strings.
 
 * Sped up :ref:`quality checks <checks>` by skipping format and markup extraction for strings without relevant syntax.
 
