@@ -21,24 +21,24 @@
               {% endblocktranslate %}
               <button type="button"
                       class="badge text-bg-secondary border-0 zen-suggestions-indicator"
-                      title="{{ suggestion_label }}"
                       aria-controls="suggestions-{{ item.unit.checksum }}"
                       aria-expanded="false"
                       tabindex="-1">
-                <span aria-hidden="true">{% icon "suggest.svg" %} <span class="zen-suggestions-count">{{ suggestion_count }}</span></span>
-                <span class="visually-hidden zen-suggestions-label">{{ suggestion_label }}</span>
+                <span aria-hidden="true">{% icon "suggest.svg" %} <span class="d-md-none zen-suggestions-count">{{ suggestion_count }}</span></span>
+                <span class="d-none d-md-inline zen-suggestions-label">{{ suggestion_label|force_escape }}</span>
+                <span class="visually-hidden d-md-none zen-suggestions-label">{{ suggestion_label|force_escape }}</span>
               </button>
             {% endwith %}
           {% endif %}
           <a class="btn btn-link btn-xs"
              href="{{ site_url }}{{ item.unit.get_absolute_url }}"
              data-clipboard-value="{{ site_url }}{{ item.unit.get_absolute_url }}"
-             data-clipboard-message="{% translate "Permalink copied to clipboard." %}"
-             title="{% translate "Copy permalink" %}"
+             data-clipboard-message="{% translate "Permalink copied to clipboard."|force_escape %}"
+             title="{% translate "Copy permalink"|force_escape %}"
              tabindex="-1">{% icon "link.svg" %}</a>
           <a class="btn btn-link btn-xs"
              href="{% url 'translate' path=object.get_url_path %}{% querystring query_params offset=item.offset %}"
-             title="{% translate "Open in full editor" %}"
+             title="{% translate "Open in full editor"|force_escape %}"
              tabindex="-1">{% icon "pencil-mini.svg" %}</a>
         </div>
         {% get_location_links user item.unit %}
@@ -131,7 +131,7 @@
       <td {% if user.profile.zen_mode != user.profile.ZEN_HORIZONTAL %}colspan="2"{% endif %}
           class="translator">
         <button class="btn btn-light btn-sm hide-sticky"
-                title="{% translate "Collapse" %}"
+                title="{% translate "Collapse"|force_escape %}"
                 type="button">{% icon "close.svg" %}</button>
         {% crispy item.form %}
       </td>

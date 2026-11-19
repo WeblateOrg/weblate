@@ -12391,6 +12391,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_languages_create
+      description: Requires the site-wide `language.add` permission.
       summary: Create a new language.
       tags:
       - languages
@@ -43532,6 +43533,12 @@ components:
           readOnly: true
         priority:
           type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        line_number:
+          type:
+          - integer
+          - 'null'
           maximum: 2147483647
           minimum: -2147483648
         id:

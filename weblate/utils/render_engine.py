@@ -52,6 +52,7 @@ from weblate.utils.render_limits import (
     RENDER_TIMEOUT,
     SOURCE_LIMIT,
 )
+from weblate.utils.render_policy import TemplateDiagnosticError
 from weblate.utils.render_serialization import serialize
 
 if TYPE_CHECKING:
@@ -63,20 +64,22 @@ if TYPE_CHECKING:
 def check_text(value: str, limit: int = OUTPUT_LIMIT) -> int:
     if len(value) > limit:
         msg = gettext("Template value exceeds its size limit.")
-        raise TemplateSyntaxError(msg)
+        raise TemplateDiagnosticError(msg)
     try:
         size = len(value.encode("utf-8"))
     except UnicodeEncodeError as error:
         msg = gettext("Template text is not valid UTF-8.")
-        raise TemplateSyntaxError(msg) from error
+        raise TemplateDiagnosticError(msg) from error
     if size > limit:
         msg = gettext("Template value exceeds its size limit.")
-        raise TemplateSyntaxError(msg)
+        raise TemplateDiagnosticError(msg)
     return size
 
 
 class RenderBudget:
-    def __init__(self) -> None:
+    def __init__(self, *, for_validation: bool = False) -> None:
+        self.for_validation = for_validation
+        self.compiling = False
         self.iterations = 0
         self.operations = 0
         self.filters = 0
@@ -97,11 +100,7 @@ class RenderBudget:
         line, current_operation = previous
         if token is not None:
             line = token.lineno
-            current_operation = (
-                gettext('Tag "%(name)s"') % {"name": token.contents.split()[0]}
-                if token.token_type == TokenType.BLOCK and token.contents.split()
-                else None
-            )
+            current_operation = self.tag_operation(token)
         self.location = (line, operation or current_operation)
         try:
             yield
@@ -118,17 +117,37 @@ class RenderBudget:
         raise self.failure
 
     def reject(self, message: str) -> Never:
-        self.fail(TemplateSyntaxError(message))
+        self.fail(TemplateDiagnosticError(message))
+
+    @staticmethod
+    def tag_operation(token: Token) -> str | None:
+        if token.token_type != TokenType.BLOCK:
+            return None
+        parts = token.contents.split(maxsplit=1)
+        if parts and parts[0] in render_policy.TEMPLATE_TAGS:
+            return gettext('Tag "%(name)s"') % {"name": parts[0]}
+        return None
 
     def format_error(self, error: Exception, *, multiline: bool) -> str:
         line, operation = getattr(error, "render_location", (None, None))
         token = getattr(error, "token", None)
         if token is not None:
             line = token.lineno
+            operation = operation or self.tag_operation(token)
         # Native exception messages can include context values. Keep their
         # control-flow semantics, but expose only a safe reason if they escape.
-        if isinstance(error, (TemplateSyntaxError, VariableDoesNotExist)):
+        if isinstance(error, TemplateDiagnosticError):
             message = str(error)
+        elif isinstance(error, TemplateSyntaxError):
+            # Django's compiler can quote the submitted template. Native
+            # evaluation errors can instead quote repository context.
+            message = (
+                str(error)
+                if self.for_validation and self.compiling
+                else gettext("Invalid template syntax.")
+            )
+        elif isinstance(error, VariableDoesNotExist):
+            message = gettext("Undefined template variable.")
         elif isinstance(error, UnicodeError):
             message = gettext("Text is not valid UTF-8.")
         elif isinstance(error, ZeroDivisionError):
@@ -160,7 +179,7 @@ class RenderBudget:
             raise self.failure
         if monotonic() >= self.deadline:
             msg = gettext("Template rendering exceeded its time limit.")
-            self.fail(TemplateSyntaxError(msg))
+            self.fail(TemplateDiagnosticError(msg))
 
     def operation(self) -> None:
         self.check()
@@ -233,7 +252,7 @@ class RenderBudget:
         self.iterations += 1
         if self.iterations > LOOP_LIMIT:
             msg = gettext("Template rendering exceeded its loop limit.")
-            self.fail(TemplateSyntaxError(msg))
+            self.fail(TemplateDiagnosticError(msg))
 
 
 _budget: ContextVar[RenderBudget] = ContextVar("template_render_budget")
@@ -325,6 +344,14 @@ class PolicyParser(Parser):
     def next_token(self) -> Token:
         self.current_token = super().next_token()
         return self.current_token
+
+    def find_filter(self, filter_name: str) -> Callable[..., Any]:
+        try:
+            return super().find_filter(filter_name)
+        except TemplateSyntaxError as error:
+            if _budget.get().for_validation:
+                raise
+            raise TemplateDiagnosticError(gettext("Invalid filter.")) from error
 
     def compile_filter(self, token: str) -> FilterExpression:
         with _budget.get().scope(self.current_token):
@@ -447,7 +474,7 @@ class OutputBuffer:
         self.size += size
         if self.size > OUTPUT_LIMIT:
             msg = gettext("Template output exceeds its size limit.")
-            budget.fail(TemplateSyntaxError(msg))
+            budget.fail(TemplateDiagnosticError(msg))
         self.parts.append(value)
 
     def render(self) -> SafeString:
@@ -501,7 +528,7 @@ class BoundedForNode(ForNode):
             count = len(values)
             if count > LOOP_LIMIT - budget.iterations:
                 msg = gettext("Template rendering exceeded its loop limit.")
-                budget.fail(TemplateSyntaxError(msg))
+                budget.fail(TemplateDiagnosticError(msg))
             if not count:
                 return self.nodelist_empty.render(context)
             if self.is_reversed:
@@ -536,7 +563,7 @@ class BoundedForNode(ForNode):
                         msg = gettext(
                             "Loop value cannot be unpacked into its variables."
                         )
-                        budget.fail(TemplateSyntaxError(msg))
+                        budget.fail(TemplateDiagnosticError(msg))
                     with context.push(dict(zip(self.loopvars, item, strict=True))):
                         output.append(self.nodelist_loop.render(context))
                 else:
@@ -618,8 +645,12 @@ class InvalidString(str):  # ruff: ignore[subclass-builtin]
     __slots__ = ()
 
     def __mod__(self, other: object) -> Never:
-        msg = gettext('Undefined variable: "%s"') % other
-        raise TemplateSyntaxError(msg)
+        budget = _budget.get(None)
+        if budget is not None and budget.for_validation:
+            msg = gettext('Undefined variable: "%s"') % other
+        else:
+            msg = gettext("Undefined template variable.")
+        raise TemplateDiagnosticError(msg)
 
 
 class RestrictedEngine(Engine):
@@ -650,11 +681,13 @@ def get_engine() -> RestrictedEngine:
     return RestrictedEngine()
 
 
-def render_bounded(source: str, values: TemplateContext) -> str:
+def render_bounded(
+    source: str, values: TemplateContext, *, for_validation: bool = False
+) -> str:
     check_text(source, SOURCE_LIMIT)
     if not any(delimiter in source for delimiter in ("{{", "{%", "{#")):
         return source
-    budget = RenderBudget()
+    budget = RenderBudget(for_validation=for_validation)
     token = _budget.set(budget)
     try:
         result = evaluate_template(source, values, budget)
@@ -666,7 +699,7 @@ def render_bounded(source: str, values: TemplateContext) -> str:
         ArithmeticError,
         IndexError,
     ) as error:
-        raise TemplateSyntaxError(
+        raise TemplateDiagnosticError(
             budget.format_error(error, multiline="\n" in source)
         ) from error
     else:
@@ -681,9 +714,11 @@ def render_bounded(source: str, values: TemplateContext) -> str:
 def evaluate_template(
     source: str, values: TemplateContext, budget: RenderBudget
 ) -> str:
-    render_policy.preflight(source)
+    render_policy.preflight(source, for_validation=budget.for_validation)
     budget.check()
+    budget.compiling = True
     template = RestrictedTemplate(source, engine=get_engine())
+    budget.compiling = False
     budget.check()
     template.nodelist = bound_nodes(template.nodelist)
     # Assignment tags must not modify the caller's snapshot.

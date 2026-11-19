@@ -115,6 +115,7 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
+from weblate.utils.task_log import get_visible_task_log
 from weblate.utils.tests import http_mock
 from weblate.utils.tests.network import mock_dns
 from weblate.utils.unittest import tempdir_setting
@@ -138,7 +139,7 @@ from .defaults import (
     DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT,
     DEFAULT_FEDORA_MESSAGING_RETRY_DELAY,
 )
-from .discovery import DISCOVERY_LIMIT_ERROR, DiscoveryAddon
+from .discovery import DISCOVERY_LIMIT_ERROR, DISCOVERY_TEMPLATE_ERROR, DiscoveryAddon
 from .events import (
     AddonActivityLogReason,
     AddonActivityLogStatus,
@@ -196,6 +197,7 @@ from .models import (
 from .properties import PropertiesSortAddon, format_file, format_unicode
 from .removal import RemoveComments, RemoveSuggestions
 from .resx import ResxUpdateAddon
+from .scripts import BaseScriptAddon
 from .tasks import (
     addon_change,
     cdn_parse_html,
@@ -492,6 +494,147 @@ class TestAddonMixin:
 
 
 class AddonBaseTest(TestAddonMixin, ComponentTestCase):
+    def test_safe_template_warning_is_visible_to_task_readers(self) -> None:
+        addon = GenerateFileAddon.create(
+            acting_user=get_test_actor(self),
+            component=self.component,
+            run=False,
+            configuration={
+                "scope": "component",
+                "filename": "stats.txt",
+                "template": "Header\n{% /private/repo %}",
+            },
+        )
+        task_id = "addon-safe-template-warning"
+        task = SimpleNamespace(request=SimpleNamespace(id=task_id))
+        with patch("weblate.trans.models.component.current_task", task):
+            handle_addon_event(
+                AddonEvent.EVENT_COMPONENT_UPDATE,
+                "component_update",
+                args=(self.component,),
+                component=self.component,
+                addon_queryset=[addon.instance],
+            )
+        with patch.object(self.user, "has_perm", return_value=False):
+            public = "\n".join(get_visible_task_log(task_id, self.user))
+        self.assertIn("Line 2: Unsupported template tag", public)
+        self.assertNotIn("/private/repo", public)
+
+    def test_template_warning_details_require_repository_permission(self) -> None:
+        for scope in ("component", "translation"):
+            with self.subTest(scope=scope):
+                addon = GenerateFileAddon.create(
+                    acting_user=get_test_actor(self),
+                    component=self.component,
+                    run=False,
+                    configuration={
+                        "scope": scope,
+                        "filename": "stats.txt",
+                        "template": "{% invalid %}",
+                    },
+                )
+                task_id = f"addon-template-warning-{scope}"
+                task = SimpleNamespace(request=SimpleNamespace(id=task_id))
+                diagnostic = (
+                    f"Template diagnostic at {self.component.full_path}/stats.txt"
+                )
+                translation = self.get_translation() if scope == "translation" else None
+                with (
+                    patch("weblate.trans.models.component.current_task", task),
+                    patch(
+                        "weblate.addons.generate.render_template",
+                        side_effect=TemplateSyntaxError(diagnostic),
+                    ),
+                ):
+                    handle_addon_event(
+                        AddonEvent.EVENT_PRE_COMMIT
+                        if translation
+                        else AddonEvent.EVENT_COMPONENT_UPDATE,
+                        "pre_commit" if translation else "component_update",
+                        args=(translation, "Author", False)
+                        if translation
+                        else (self.component,),
+                        component=self.component,
+                        translation=translation,
+                        addon_queryset=[addon.instance],
+                    )
+                with patch.object(self.user, "has_perm", return_value=False):
+                    public = "\n".join(get_visible_task_log(task_id, self.user))
+                self.assertIn("An operation reported a warning.", public)
+                self.assertNotIn("Template diagnostic", public)
+                with patch.object(self.user, "has_perm", return_value=True):
+                    private = "\n".join(get_visible_task_log(task_id, self.user))
+                self.assertIn("Template diagnostic", private)
+                self.assertNotIn(self.component.full_path, private)
+
+    def test_script_template_failure_prevents_execution(self) -> None:
+        addon = BaseScriptAddon(Addon())
+        addon.add_file = "{% invalid %}"
+        translation = self.get_translation()
+        with (
+            patch.object(addon, "run_script") as script,
+            self.assertRaises(TemplateSyntaxError),
+        ):
+            addon.pre_commit(translation, "Author", False)
+        script.assert_not_called()
+        self.assertEqual(translation.addon_commit_files, [])
+
+    def test_generate_template_failure_preserves_file_and_records_error(self) -> None:
+        for setting in ("filename", "template"):
+            with self.subTest(setting=setting):
+                configuration = {
+                    "scope": "component",
+                    "filename": "stats.txt",
+                    "template": "New content",
+                }
+                configuration[setting] = "{% invalid %}"
+                addon = GenerateFileAddon.create(
+                    acting_user=get_test_actor(self),
+                    component=self.component,
+                    configuration=configuration,
+                    run=False,
+                )
+                output = Path(self.component.full_path, "stats.txt")
+                output.write_text("Original content", encoding="utf-8")
+                with patch("weblate.addons.models.report_error") as report:
+                    handle_addon_event(
+                        AddonEvent.EVENT_COMPONENT_UPDATE,
+                        "component_update",
+                        kwargs={"component": self.component},
+                        component=self.component,
+                        addon_queryset=[addon.instance],
+                    )
+                activity = AddonActivityLog.objects.filter(addon=addon.instance).latest(
+                    "pk"
+                )
+                self.assertEqual(activity.status, AddonActivityLogStatus.ERROR)
+                self.assertEqual(output.read_text(encoding="utf-8"), "Original content")
+                report.assert_not_called()
+
+    def test_template_failure_is_logged_without_error_reporting(self) -> None:
+        addon = NoOpAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
+        for error in (TemplateSyntaxError("Invalid template"), RuntimeError("bug")):
+            with (
+                self.subTest(error=error),
+                patch.object(NoOpAddon, "post_update", side_effect=error),
+                patch("weblate.addons.models.report_error") as report,
+            ):
+                handle_addon_event(
+                    AddonEvent.EVENT_POST_UPDATE,
+                    "post_update",
+                    kwargs={"component": self.component},
+                    component=self.component,
+                    addon_queryset=[addon.instance],
+                )
+                activity = AddonActivityLog.objects.filter(addon=addon.instance).latest(
+                    "pk"
+                )
+                self.assertEqual(activity.status, AddonActivityLogStatus.ERROR)
+                self.assertIn(str(error), str(activity.details))
+                self.assertEqual(report.called, isinstance(error, RuntimeError))
+
     def test_pending_commit_reuses_unit_addon_cache(self) -> None:
         self.check_pending_commit_unit_addon_cache(self.component)
 
@@ -7475,6 +7618,27 @@ class CommandTest(ComponentTestCase):
 
 
 class DiscoveryTest(ReusableViewTestCase):
+    def test_template_failure_is_reported(self) -> None:
+        addon = DiscoveryAddon.create(
+            acting_user=get_test_actor(self),
+            component=self.component,
+            run=False,
+            configuration={
+                "file_format": "po",
+                "match": r"(?P<language>[^/]*)\.po",
+                "name_template": "{% invalid %}",
+                "language_regex": ".*",
+                "remove": True,
+            },
+        )
+        discovery = addon.get_discovery(self.component)
+        discovery.__dict__["repository_paths"] = ["cs.po"]
+        with patch.object(addon, "get_discovery", return_value=discovery):
+            outcome = addon.post_update(self.component, "", False, [])
+        self.assertEqual(
+            outcome, AddonEventOutcome.error(result=DISCOVERY_TEMPLATE_ERROR)
+        )
+
     def test_limit_failure_is_reported(self) -> None:
         addon = DiscoveryAddon.create(
             acting_user=get_test_actor(self),

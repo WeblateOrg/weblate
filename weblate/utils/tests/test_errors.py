@@ -5,13 +5,31 @@
 from __future__ import annotations
 
 import json
+from asyncio import run
+from base64 import b64encode
 from typing import TYPE_CHECKING, cast
-from unittest.mock import MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock, patch
+from uuid import uuid4
 
+import httpcore2
+import httpx2
 from django.test import SimpleTestCase, override_settings
+from sentry_sdk import Client
+from sentry_sdk.integrations.httpx2 import Httpx2Integration
 from sentry_sdk.transport import Transport
 
+from weblate.machinery.google import GoogleTranslation
+from weblate.machinery.yandex import YandexTranslation
 from weblate.utils import errors
+from weblate.vcs.git import GitRepository
+from weblate.vcs.github import (
+    GitHubAppCredentials,
+    exchange_github_user_code,
+    get_app_installation,
+    get_app_repositories,
+    get_github_git_auth_environment,
+)
+from weblate.vcs.tests.utils import generate_private_key
 
 if TYPE_CHECKING:
     from sentry_sdk._types import Event, Hint
@@ -371,9 +389,33 @@ class SentryBeforeSendTest(SimpleTestCase):
         callback.assert_called_once_with(event, hint)
 
     def test_configured_callback_can_replace_event(self) -> None:
-        replacement: Event = {"message": "replacement"}
+        replacement: Event = {
+            "message": "https://example.com/?token=callback-secret",
+            "extra": {
+                "client_secret": "callback-secret",
+                "headers": (
+                    {"Set-Cookie": "cookie-secret"},
+                    ("Authorization", "Bearer tuple-secret"),
+                ),
+                "urls": (
+                    "amqp://user:broker-secret@broker.example/vhost",
+                    "https://user:apostrophe'secret@example.com/path",
+                ),
+            },
+        }
         callback = MagicMock(return_value=replacement)
         self.assertIs(errors.SentryBeforeSend(callback)({}, {}), replacement)
+        captured = json.dumps(replacement)
+        for secret in (
+            "callback-secret",
+            "cookie-secret",
+            "tuple-secret",
+            "broker-secret",
+            "apostrophe'secret",
+        ):
+            self.assertNotIn(secret, captured)
+        self.assertIn("broker.example/vhost", captured)
+        self.assertIn("example.com/path", captured)
 
     def test_large_exception_chain_is_captured(self) -> None:
         events: list[Event] = []
@@ -461,19 +503,219 @@ class SentryBeforeSendTest(SimpleTestCase):
 
     @override_settings(SENTRY_DSN="https://public@example.com/1")
     def test_init_sentry_wraps_configured_callback(self) -> None:
-        callback = MagicMock(return_value=None)
-        sentry_sdk = MagicMock()
-        with (
-            override_settings(SENTRY_EXTRA_ARGS={"before_send": callback}),
-            patch("weblate.utils.errors.get_sentry_sdk", return_value=sentry_sdk),
-        ):
-            errors.init_sentry()
-        before_send = sentry_sdk.init.call_args.kwargs["before_send"]
-        self.assertIsNone(before_send({}, {}))
-        callback.assert_called_once_with({}, {})
+        for option in ("before_send", "before_send_transaction"):
+            with self.subTest(option=option):
+                callback = MagicMock(return_value=None)
+                sentry_sdk = MagicMock()
+                with (
+                    override_settings(SENTRY_EXTRA_ARGS={option: callback}),
+                    patch(
+                        "weblate.utils.errors.get_sentry_sdk", return_value=sentry_sdk
+                    ),
+                ):
+                    errors.init_sentry()
+                before_send = sentry_sdk.init.call_args.kwargs[option]
+                self.assertIsNone(before_send({}, {}))
+                callback.assert_called_once_with({}, {})
 
 
 class SentryScrubberTest(SimpleTestCase):
+    def create_client(self, events: list[Event]) -> Client:
+        class CollectingTransport(Transport):
+            def capture_envelope(self, envelope: Envelope) -> None:
+                for item in envelope.items:
+                    event = item.get_event() or item.get_transaction_event()
+                    if event is not None:
+                        events.append(event)
+
+        mocked_sdk = MagicMock()
+        with (
+            override_settings(SENTRY_SEND_PII=True, SENTRY_EXTRA_ARGS={}),
+            patch("weblate.utils.errors.get_sentry_sdk", return_value=mocked_sdk),
+        ):
+            errors.init_sentry()
+        options = mocked_sdk.init.call_args.kwargs
+        client = Client(
+            dsn="https://public@example.com/1",
+            event_scrubber=options["event_scrubber"],
+            before_send=options["before_send"],
+            before_send_transaction=options["before_send_transaction"],
+            default_integrations=False,
+            auto_enabling_integrations=False,
+            integrations=[Httpx2Integration()],
+            transport=CollectingTransport,
+            traces_sample_rate=1,
+        )
+        self.addCleanup(client.close)
+        return client
+
+    def test_git_auth_environment_is_scrubbed_from_captured_exceptions(self) -> None:
+        events: list[Event] = []
+        sentry_sdk = errors.get_sentry_sdk()
+        secret = "synthetic-git-auth-secret"
+        credentials = b64encode(f"x-access-token:{secret}".encode()).decode()
+        client = self.create_client(events)
+        with (
+            sentry_sdk.isolation_scope() as scope,
+            patch(
+                "weblate.vcs.base.subprocess.run",
+                side_effect=OSError("synthetic subprocess failure"),
+            ),
+        ):
+            scope.set_client(client)
+            try:
+                GitRepository._popen(  # ruff: ignore[private-member-access]
+                    ["fetch"],
+                    local=True,
+                    environment=get_github_git_auth_environment(
+                        "x-access-token", secret
+                    ),
+                )
+            except OSError as error:
+                sentry_sdk.capture_exception(error)
+            self.assertEqual(len(events), 1)
+            captured = json.dumps(events[0])
+            self.assertNotIn(secret, captured)
+            self.assertNotIn(credentials, captured)
+            self.assertIn("http.extraHeader", captured)
+            self.assertIn("synthetic subprocess failure", captured)
+
+    def test_http_auth_buffers_are_scrubbed_from_captured_exceptions(self) -> None:
+        events: list[Event] = []
+        sentry_sdk = errors.get_sentry_sdk()
+        secret = uuid4().hex
+        provider = GoogleTranslation({"key": secret, "_installation_id": 123})
+
+        async def capture_failure() -> None:
+            try:
+                await provider.arequest("post", "https://translation.googleapis.com/")
+            except httpx2.WriteTimeout as error:
+                sentry_sdk.capture_exception(error)
+
+        client = self.create_client(events)
+        with (
+            sentry_sdk.isolation_scope() as scope,
+            patch(
+                "weblate.machinery.base.get_site_url",
+                return_value="https://example.com/",
+            ),
+            patch(
+                "weblate.utils.requests._TEST_TRANSPORT.transport",
+                httpx2.AsyncHTTPTransport(),
+            ),
+            patch(
+                "httpcore2._backends.auto.AutoBackend.connect_tcp",
+                new=AsyncMock(return_value=httpcore2.AsyncMockStream([])),
+            ),
+            patch(
+                "httpcore2._backends.mock.AsyncMockStream.write",
+                new=AsyncMock(
+                    side_effect=httpcore2.WriteTimeout("synthetic write timeout")
+                ),
+            ),
+        ):
+            scope.set_client(client)
+            run(capture_failure())
+            self.assertEqual(len(events), 1)
+            self.assertNotIn(secret, json.dumps(events[0]))
+            self.assertIn("HTTP/1.1", json.dumps(events[0]))
+            self.assertIn("translation.googleapis.com", json.dumps(events[0]))
+            self.assertIn("synthetic write timeout", json.dumps(events[0]))
+
+    def test_github_credentials_are_scrubbed_from_captured_exceptions(self) -> None:
+        events: list[Event] = []
+        sentry_sdk = errors.get_sentry_sdk()
+        private_key = generate_private_key()
+        client_secret = "synthetic-github-client-secret"
+        access_token = "synthetic-github-access-token"
+        config = GitHubAppCredentials(
+            hostname="github.com", client_id="test-client", client_secret=client_secret
+        )
+
+        async def fetch() -> None:
+            if operation == "installation":
+                await get_app_installation(123, private_key, 123, "github.com")
+            elif operation == "oauth":
+                await exchange_github_user_code(config, "dummy-code")
+            else:
+                await get_app_repositories(123, private_key, 123, "github.com")
+
+        async def capture_failure() -> None:
+            try:
+                await fetch()
+            except RuntimeError as error:
+                sentry_sdk.capture_exception(error)
+
+        client = self.create_client(events)
+        for operation in ("installation", "oauth", "repositories"):
+            with (
+                self.subTest(operation=operation),
+                sentry_sdk.isolation_scope() as scope,
+                patch(
+                    "weblate.vcs.github.async_fetch_validated_url",
+                    new=AsyncMock(side_effect=RuntimeError("offline GitHub failure")),
+                ),
+                patch(
+                    "weblate.vcs.github.get_installation_token",
+                    new=AsyncMock(return_value=access_token),
+                ),
+            ):
+                events.clear()
+                scope.set_client(client)
+                run(capture_failure())
+                self.assertEqual(len(events), 1)
+                captured = json.dumps(events[0])
+                self.assertNotIn(client_secret, captured)
+                self.assertNotIn(access_token, captured)
+                self.assertNotIn(private_key.splitlines()[2], captured)
+                self.assertIn("offline GitHub failure", captured)
+
+    def test_query_credentials_are_scrubbed_after_http_capture(self) -> None:
+        events: list[Event] = []
+        sentry_sdk = errors.get_sentry_sdk()
+        secret = "synthetic-yandex-credential"
+        provider = YandexTranslation({"key": secret, "_installation_id": 123})
+
+        def handle_request(request: httpx2.Request) -> httpx2.Response:
+            return httpx2.Response(
+                400, json={"message": "provider failure"}, request=request
+            )
+
+        async def capture_failure() -> None:
+            try:
+                await provider.arequest(
+                    "get", "https://example.com/", params={"key": secret, "lang": "en"}
+                )
+            except httpx2.HTTPStatusError as error:
+                sentry_sdk.capture_exception(error)
+
+        client = self.create_client(events)
+        with (
+            sentry_sdk.isolation_scope() as scope,
+            patch(
+                "weblate.machinery.base.get_site_url",
+                return_value="https://example.com/",
+            ),
+            patch(
+                "weblate.utils.requests._TEST_TRANSPORT.transport",
+                httpx2.MockTransport(handle_request),
+            ),
+        ):
+            scope.set_client(client)
+            with sentry_sdk.start_transaction(name="machinery request", op="test"):
+                run(capture_failure())
+            self.assertEqual(len(events), 2)
+            self.assertNotIn(secret, json.dumps(events))
+            error_event = events[0]
+            transaction = events[1]
+            self.assertEqual(transaction["type"], "transaction")
+            self.assertTrue(transaction["spans"])
+            self.assertIn("key=[Filtered]&lang=en", json.dumps(transaction))
+            self.assertIn("key=[Filtered]&lang=en", json.dumps(error_event))
+            self.assertTrue(
+                cast("dict[str, object]", error_event["breadcrumbs"])["values"]
+            )
+
     @override_settings(
         SENTRY_DSN="https://public@example.com/1",
         SENTRY_SEND_PII=True,

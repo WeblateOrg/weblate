@@ -29,7 +29,9 @@
         </div>
         <div class="card-body">{{ invite_form|crispy }}</div>
         <div class="card-footer">
-          <input type="submit" class="btn btn-primary" value="{% translate "Add" %}" />
+          <input type="submit"
+                 class="btn btn-primary"
+                 value="{% translate "Add"|force_escape %}" />
         </div>
       </div>
     </form>
@@ -42,7 +44,9 @@
         </div>
         <div class="card-body">{{ bulk_invite_form|crispy }}</div>
         <div class="card-footer">
-          <input type="submit" class="btn btn-primary" value="{% translate "Invite" %}" />
+          <input type="submit"
+                 class="btn btn-primary"
+                 value="{% translate "Invite"|force_escape %}" />
         </div>
       </div>
     </form>
@@ -95,19 +99,19 @@
                     <input type="hidden" name="action" value="resend" />
                     <button type="submit"
                             class="btn btn-link btn-xs"
-                            title="{% translate "Resend invitation" %}">{% icon 'refresh.svg' %}</button>
+                            title="{% translate "Resend invitation"|force_escape %}">{% icon 'refresh.svg' %}</button>
                   </form>
                   <button type="button"
                           class="btn btn-link btn-xs"
                           data-clipboard-value="{{ site_url }}{{ invitation.get_absolute_url }}"
-                          data-clipboard-message="{% translate "Invitation link copied to clipboard." %}"
-                          title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                          data-clipboard-message="{% translate "Invitation link copied to clipboard."|force_escape %}"
+                          title="{% translate "Copy to clipboard"|force_escape %}">{% icon "copy.svg" %}</button>
                   <form action="{{ invitation.get_absolute_url }}" method="post" class="inlineform">
                     {% csrf_token %}
                     <input type="hidden" name="action" value="remove" />
                     <button type="submit"
                             class="btn btn-link btn-xs red"
-                            title="{% translate "Remove invitation" %}">{% icon 'delete.svg' %}</button>
+                            title="{% translate "Remove invitation"|force_escape %}">{% icon 'delete.svg' %}</button>
                   </form>
                 </td>
               {% endif %}
@@ -126,7 +130,9 @@
         </div>
         <div class="card-body">{{ search_form|crispy }}</div>
         <div class="card-footer">
-          <input type="submit" class="btn btn-primary" value="{% translate "Search" %}" />
+          <input type="submit"
+                 class="btn btn-primary"
+                 value="{% translate "Search"|force_escape %}" />
         </div>
       </div>
     </form>

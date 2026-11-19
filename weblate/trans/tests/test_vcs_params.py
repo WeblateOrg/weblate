@@ -283,7 +283,9 @@ class ComponentVCSParamsTest(ViewTestCase):
     def test_direct_push_accepts_push_url_with_credentials(self) -> None:
         self.component.vcs = "github"
         self.component.repo = "https://github.com/WeblateOrg/test.git"
-        self.component.push = "https://user:token@github.com/WeblateOrg/test.git"
+        self.component.push = (
+            "https://user:token@github.com/WeblateOrg/test.git"  # kingfisher:ignore
+        )
         self.component.vcs_params = {"create_merge_request": False}
         self.component.clean_vcs_params()
 
@@ -293,7 +295,9 @@ class ComponentVCSParamsTest(ViewTestCase):
     def test_direct_push_accepts_translated_branch(self) -> None:
         self.component.vcs = "github"
         self.component.repo = "https://github.com/WeblateOrg/test.git"
-        self.component.push = "https://user:token@github.com/WeblateOrg/test.git"
+        self.component.push = (
+            "https://user:token@github.com/WeblateOrg/test.git"  # kingfisher:ignore
+        )
         self.component.branch = "main"
         self.component.push_branch = ""
         self.component.vcs_params = {"create_merge_request": False}

@@ -18,7 +18,7 @@ from io import BytesIO, StringIO
 from pathlib import Path
 from shutil import copyfile
 from typing import TYPE_CHECKING, cast
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, PropertyMock, patch
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
 
 import jsonschema
@@ -29,6 +29,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.db import DatabaseError, connection, transaction
+from django.db.models.fields.files import FieldFile
 from django.test import Client, SimpleTestCase, override_settings
 from django.test.utils import CaptureQueriesContext, modify_settings
 from django.urls import reverse
@@ -2729,6 +2730,29 @@ class BackupsTest(ReusableViewTestCase):
         )
         # Verify that Git operations work on restored repos
         restored.do_reset(self.get_request())
+
+    def test_backup_screenshot_without_path(self) -> None:
+        shot = Screenshot.objects.create(
+            name="Obrazek", translation=self.component.source_translation
+        )
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            shot.image.save("screenshot.png", File(handle))
+        assert shot.image.name is not None
+        backup = ProjectBackup()
+        # Remote storage backends do not provide local paths
+        with patch.object(
+            FieldFile,
+            "path",
+            new_callable=PropertyMock,
+            side_effect=NotImplementedError,
+        ):
+            backup.backup_project(self.project)
+
+        with ZipFile(backup.filename, "r") as zipfile:
+            self.assertEqual(
+                zipfile.read(f"screenshots/{os.path.basename(shot.image.name)}"),
+                Path(TEST_SCREENSHOT).read_bytes(),
+            )
 
     def test_backup_inherited_settings(self) -> None:
         workspace = Workspace.objects.create(

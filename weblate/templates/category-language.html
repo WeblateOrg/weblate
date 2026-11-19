@@ -39,7 +39,7 @@
         <li>
           <a class="dropdown-item"
              href="{% url 'download' path=object.get_url_path %}?format=zip"
-             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download original translation files as ZIP file{% endblocktranslate %}</a>
+             title="{% translate "Download for offline translation."|force_escape %}">{% blocktranslate %}Download original translation files as ZIP file{% endblocktranslate %}</a>
         </li>
         {% if user_can_upload_translation %}
           <li>
@@ -146,7 +146,9 @@
             </div>
             <div class="card-body">{% crispy bulk_state_form %}</div>
             <div class="card-footer">
-              <input type="submit" value="{% translate "Apply" %}" class="btn btn-primary" />
+              <input type="submit"
+                     value="{% translate "Apply"|force_escape %}"
+                     class="btn btn-primary" />
             </div>
           </div>
         </form>
@@ -177,7 +179,9 @@
               </p>
             </div>
             <div class="card-footer">
-              <input type="submit" value="{% translate "Add" %}" class="btn btn-primary" />
+              <input type="submit"
+                     value="{% translate "Add"|force_escape %}"
+                     class="btn btn-primary" />
             </div>
           </div>
         </form>

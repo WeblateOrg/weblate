@@ -104,7 +104,7 @@
                 <input type="text"
                        class="form-control"
                        id="sitewide-search"
-                       placeholder="{% translate "Search" %}">
+                       placeholder="{% translate "Search"|force_escape %}">
               </div>
             </form>
             <ul class="navbar-nav">
@@ -263,7 +263,7 @@
                     <a class="nav-link button"
                        id="admin-button"
                        href="{% url 'manage' %}"
-                       title="{% translate "Administration" %}">
+                       title="{% translate "Administration"|force_escape %}">
                       <span class="d-none d-sm-inline">{% icon "wrench.svg" %}</span>
                       <span class="d-inline d-sm-none">{% translate "Administration" %}</span>
                     </a>
@@ -273,7 +273,7 @@
                       <a class="nav-link button danger"
                          id="errors-button"
                          href="{% url 'manage-performance' %}"
-                         title="{% translate "Configuration errors" %}">
+                         title="{% translate "Configuration errors"|force_escape %}">
                         <span class="d-none d-sm-inline">{% icon "alert.svg" %}</span>
                         <span class="d-inline d-sm-none">{% translate "Configuration errors" %}</span>
                       </a>
@@ -363,11 +363,11 @@
                      id="user-dropdown"
                      class="nav-link dropdown-toggle"
                      data-bs-toggle="dropdown"
-                     title="{% translate "Your profile" %}">
+                     title="{% translate "Your profile"|force_escape %}">
                     {% if enable_avatars %}
                       <span class="d-none d-sm-inline">
                         <img class="avatar"
-                             alt="{% translate "User avatar" %}"
+                             alt="{% translate "User avatar"|force_escape %}"
                              src="{% user_avatar user size=24 %}" />
                       </span>
                       <span class="d-inline d-sm-none">{% translate "Your profile" %}</span>
@@ -421,7 +421,7 @@
                 <a href="#"
                    class="nav-link dropdown-toggle support"
                    data-bs-toggle="dropdown"
-                   title="{% translate "Help" %}">
+                   title="{% translate "Help"|force_escape %}">
                   <span class="d-none d-sm-inline">{% icon "dots.svg" %}</span>
                   <span class="d-inline d-sm-none">{% translate "Help" %}</span>
                 </a>
@@ -543,7 +543,7 @@
             <button type="button"
                     class="btn-close"
                     data-bs-dismiss="modal"
-                    aria-label="{% translate "Close" %}"></button>
+                    aria-label="{% translate "Close"|force_escape %}"></button>
           </div>
           <div class="modal-body">
             <img id="imagepreview" class="img-fluid">
@@ -551,7 +551,7 @@
           <div class="modal-footer">
             <a class="btn btn-warning"
                id="modalDetailsLink"
-               data-edit-text="{% translate 'Edit screenshot' %}">{% translate "Screenshot details" %}</a>
+               data-edit-text="{% translate 'Edit screenshot'|force_escape %}">{% translate "Screenshot details" %}</a>
             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{% translate "Close" %}</button>
           </div>
         </div>

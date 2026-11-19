@@ -20,12 +20,12 @@
             <button type="button"
                     class="btn btn-link btn-xs float-end"
                     data-clipboard-value="{{ item.copy }}"
-                    title="{% translate "Copy to clipboard" %}"
+                    title="{% translate "Copy to clipboard"|force_escape %}"
                     tabindex="-1">{% icon "copy.svg" %}</button>
             <button type="button"
                     class="btn btn-link btn-xs btn-sidebar float-end"
                     data-clone-value="{{ item.copy }}"
-                    title="{% translate "Clone to translation" %}"
+                    title="{% translate "Clone to translation"|force_escape %}"
                     tabindex="-1">{% icon "clone.svg" %}</button>
           {% endif %}
           <span class="{% if wrap and item.content|length > 25 %}wrap-text{% endif %}">{{ item.content }}</span>

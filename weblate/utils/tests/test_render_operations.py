@@ -66,7 +66,9 @@ class TemplateOperationsTest(SimpleTestCase):
                 if expression != "value|cut:missing":
                     self.assertEqual(str(actual.exception), str(expected.exception))
                 else:
-                    self.assertIn("missing", str(actual.exception))
+                    self.assertEqual(
+                        str(actual.exception), "Undefined template variable."
+                    )
 
     def test_sequence_indexing(self) -> None:
         for expression in (

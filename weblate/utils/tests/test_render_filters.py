@@ -8,10 +8,15 @@ from datetime import UTC, date, time
 from decimal import Decimal
 from unittest.mock import Mock, patch
 
+from django.core.exceptions import ValidationError
 from django.template import TemplateSyntaxError
 from django.test import SimpleTestCase
 
-from weblate.utils.render import prepare_template_context, render_template
+from weblate.utils.render import (
+    prepare_template_context,
+    render_template,
+    validate_render,
+)
 from weblate.utils.render_engine import RenderBudget, get_engine
 from weblate.utils.render_filters import FILTERS
 from weblate.utils.tests.render_reference import render_reference
@@ -304,11 +309,15 @@ class TemplateFiltersTest(SimpleTestCase):
             render_template(source, value="private input" * 10, items=[0] * 10)
 
     def test_native_filter_error_omits_context_values(self) -> None:
+        source = "{{ text|center:width }}"
         with self.assertRaises(TemplateSyntaxError) as caught:
-            render_template(
-                "{{ value|center:width }}", value="text", width="private input"
-            )
+            render_template(source, text="example", width="private input")
         self.assertEqual(
             str(caught.exception),
             'Filter "center": Value or argument has an invalid format.',
         )
+        with self.assertRaisesMessage(
+            ValidationError, str(caught.exception)
+        ) as validation:
+            validate_render(source, text="example", width="private input")
+        self.assertNotIn("private input", str(validation.exception))

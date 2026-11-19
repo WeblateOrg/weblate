@@ -2058,6 +2058,18 @@ class EditTSMonoTest(EditTest):
 
 
 class ZenViewTest(ReusableViewTestCase):
+    def test_broken_link_template_keeps_editor_available(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            repoweb="{% invalid %}", repoweb_translations="{% invalid %}"
+        )
+        unit = self.get_unit()
+        unit.location = "source.py:42"
+        unit.save(update_fields=["location"], only_save=True)
+        for view in ("translate", "load_zen"):
+            with self.subTest(view=view):
+                response = self.client.get(reverse(view, kwargs=self.kw_translation))
+                self.assertEqual(response.status_code, 200)
+
     def test_project_language_zen_hides_restricted_component_state(self) -> None:
         self.create_po(name="Visible locked peer", locked=True, project=self.project)
         hidden = self.create_po(
@@ -2447,7 +2459,16 @@ class ZenViewTest(ReusableViewTestCase):
         self.add_zen_suggestion("Ahoj svete!\n")
         response = self.client.get(reverse("zen", kwargs=self.kw_translation))
         self.assertContains(response, "zen-suggestions-indicator", count=1)
-        self.assertContains(response, 'title="2 suggestions"')
+        (indicator,) = html.fromstring(response.content).find_class(
+            "zen-suggestions-indicator"
+        )
+        self.assertNotIn("title", indicator.attrib)
+        desktop_label, mobile_label = indicator.find_class("zen-suggestions-label")
+        self.assertEqual(desktop_label.text_content(), "2 suggestions")
+        self.assertIn("d-md-inline", desktop_label.classes)
+        self.assertEqual(mobile_label.text_content(), "2 suggestions")
+        self.assertIn("visually-hidden", mobile_label.classes)
+        self.assertIn("d-md-none", mobile_label.classes)
 
     def test_zen_suggestions_toggle(self) -> None:
         # The visibility is remembered client side, the toggle is always there
@@ -2719,6 +2740,23 @@ class ZenViewTest(ReusableViewTestCase):
 
 class EditComplexTest(ReusableViewTestCase):
     """Test for complex manipulating translation."""
+
+    def test_remove_unit_with_broken_commit_template(self) -> None:
+        self.component.manage_units = True
+        self.component.save()
+        self.user.is_superuser = True
+        self.user.save()
+        Component.objects.filter(pk=self.component.pk).update(
+            commit_message="{% invalid %}", inherit_commit_message=False
+        )
+        unit = self.get_unit()
+        response = self.client.post(reverse("delete-unit", kwargs={"unit_id": unit.pk}))
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(Unit.objects.filter(pk=unit.pk).exists())
+        self.assertIn(
+            "Could not render commit message template",
+            str(list(get_messages(response.wsgi_request))),
+        )
 
     def setUp(self) -> None:
         super().setUp()

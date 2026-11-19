@@ -589,6 +589,11 @@ Version control system
 
 VCS to use, see :ref:`vcs` for details.
 
+After creating a component, you can switch only between compatible backends
+offered in the settings form. Switching to another VCS family requires
+recreating the component. Backends managed by an authenticated integration are
+available through their provider import flow, not generic component creation.
+
 .. seealso::
 
    :ref:`code-hosting-push-options`
@@ -1621,7 +1626,18 @@ work to an 8 MiB budget. These budgets count
 repeated operations even inside conditions that produce no output. A five-second
 deadline provides an additional guard. Exceeding any limit fails the render.
 Errors identify the failed limit or unsupported operation and the relevant filter
-or tag when available. Multiline parsing and evaluation errors also include the source line number.
+or tag when available. Multiline parsing and evaluation errors also include
+the source line number. Validation can quote parts of the submitted template
+to help you find the error. Runtime diagnostics omit raw template fragments
+and context values.
+
+If a saved repository browser or editor link template fails to render, Weblate
+displays the filename without a link. Failed commit, merge, and pull request
+message templates stop the operation with an error. A failure in the
+:ref:`delete message <component-delete_message>` template stops translation
+deletion. Correct the template before retrying the operation.
+Discovery template failures stop component creation and removal. Add-on template
+failures appear in the add-on activity log.
 
 Contexts support scalar substitutions, dictionary lookups such as
 ``{{ stats.translated }}``, and list or string indexing such as

@@ -61,6 +61,7 @@ from weblate.trans.tests.utils import (
     clear_users_cache,
     create_another_user,
     create_test_user,
+    fixup_languages_seq,
     wait_for_celery,
 )
 from weblate.trans.views.basic import add_languages_to_component
@@ -655,6 +656,10 @@ class FixtureComponentTestCase(ComponentTestCase):
     @classmethod
     def setUpTestData(cls) -> None:
         """Manually load fixture."""
+        # The fixture load resets the sequences, which survive the class rollback.
+        # Realign them with the original rows after Django restores those rows.
+        cls.addClassCleanup(fixup_languages_seq)
+
         # Ensure there are no Language objects, we add
         # them in defined order in fixture
         Language.objects.all().delete()
@@ -1369,6 +1374,111 @@ class CategoryLanguageAdditionTest(ProjectLanguageAdditionTest):
         )
 
         self.assertNotIn(component.pk, eligible_ids)
+
+
+class GlossaryProjectLanguageAdditionTest(ViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.glossary_project = self.create_project(
+            name="Glossaries", slug="glossaries"
+        )
+        self.glossary = self.glossary_project.scratch_create_component(
+            "Glossary",
+            "glossary",
+            Language.objects.get(code="en"),
+            "tbx",
+            is_glossary=True,
+            acting_user=self.user,
+        )
+        self.url = reverse(
+            "new-language", kwargs={"path": self.glossary_project.get_url_path()}
+        )
+
+    def test_administrator_can_add_language(self) -> None:
+        setup_project_groups(self, self.glossary_project)
+        self.glossary_project.add_user(self.user, "Administration")
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("project.edit", self.glossary_project))
+        shared_glossary = self.project.scratch_create_component(
+            "Shared glossary",
+            "shared-glossary",
+            self.glossary.source_language,
+            "tbx",
+            is_glossary=True,
+            acting_user=self.user,
+        )
+        shared_glossary.links.add(self.glossary_project)
+        self.assertNotIn(
+            shared_glossary,
+            self.glossary_project.components_user_can_add_new_language(self.user),
+        )
+
+        response = self.client.get(self.glossary_project.get_absolute_url())
+        self.assertRegex(
+            response.content.decode(), rf'id="list-add-button"\s+href="{self.url}"'
+        )
+
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+        choices = {
+            code for code, _label in response.context["form"].fields["lang"].choices
+        }
+        self.assertIn("af", choices)
+        self.assertNotIn("en", choices)
+
+        response = self.client.post(self.url, {"lang": "af"})
+        self.assertRedirects(response, self.glossary_project.get_absolute_url())
+        translation = self.glossary.translation_set.get(language_code="af")
+        change = self.glossary.change_set.get(action=ActionEvents.ADDED_LANGUAGE)
+        self.assertEqual(change.translation, translation)
+        self.assertEqual(change.user, self.user)
+        self.assertFalse(
+            shared_glossary.translation_set.filter(language_code="af").exists()
+        )
+
+    def test_translator_cannot_add_language_with_default_policy(self) -> None:
+        self.assertTrue(self.user.has_perm("translation.add", self.glossary_project))
+        self.assertFalse(self.user.has_perm("project.edit", self.glossary_project))
+        self.assertEqual(self.glossary.effective_new_lang, "none")
+
+        response = self.client.get(self.glossary_project.get_absolute_url())
+        self.assertNotContains(response, f'href="{self.url}"')
+
+        response = self.client.post(self.url, {"lang": "af"}, follow=True)
+        self.assertRedirects(response, self.glossary_project.get_absolute_url())
+        self.assertContains(
+            response, "Language addition is not supported by any of the components."
+        )
+        self.assertFalse(
+            self.glossary.translation_set.filter(language_code="af").exists()
+        )
+
+    def test_restricted_regular_component_in_category_excludes_glossaries(self) -> None:
+        self.glossary.new_lang = "add"
+        self.glossary.save(update_fields=["new_lang"])
+        self.assertIn(
+            self.glossary,
+            self.glossary_project.components_user_can_add_new_language(self.user),
+        )
+        category = self.create_category(self.glossary_project)
+        regular = self.create_po_new_base(
+            name="Regular",
+            project=self.glossary_project,
+            category=category,
+            restricted=True,
+            new_lang="none",
+            inherit_new_lang=False,
+        )
+
+        self.user.clear_permissions_cache()
+        self.assertNotIn(
+            regular, self.glossary_project.get_child_components_access(self.user)
+        )
+        self.assertFalse(
+            self.glossary_project.components_user_can_add_new_language(
+                self.user
+            ).exists()
+        )
 
 
 class BasicViewTest(ReusableViewTestCase):

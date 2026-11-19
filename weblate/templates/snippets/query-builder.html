@@ -45,7 +45,9 @@
               <a class="dropdown-item" href="#" data-field="changed_by:">{% translate "String changed by" %}</a>
             </li>
           </ul>
-          <input type="text" class="form-control" placeholder="{% translate "Search for…" %}">
+          <input type="text"
+                 class="form-control"
+                 placeholder="{% translate "Search for…"|force_escape %}">
           <span class="input-group-text" id="is-exact">
             <label class="mb-0">
               <input type="checkbox" class="form-check-input me-1">
@@ -108,7 +110,9 @@
               <a class="dropdown-item" href="#" data-field="changed:&lt;=">{% translate "String changed before" %}</a>
             </li>
           </ul>
-          <input type="date" class="form-control" placeholder="{% translate "Date" %}">
+          <input type="date"
+                 class="form-control"
+                 placeholder="{% translate "Date"|force_escape %}">
           <button class="btn btn-outline-primary search-add" type="button">{% translate "Add" %}</button>
         </div>
       </div>

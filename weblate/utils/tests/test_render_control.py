@@ -384,7 +384,7 @@ class TemplateControlFlowTest(SimpleTestCase):
             ("heading\n{{ value", "Unclosed template token"),
             ("heading\n{{ value\n }}", "cannot span multiple lines"),
             ('heading\n{{ "' + "x" * 2049 + '" }}', "size limit of 2048 bytes"),
-            ("heading\n{% include 'file' %}", 'Unsupported template tag "include"'),
+            ("heading\n{% include 'file' %}", "Unsupported template tag"),
             ("heading\n{% if True %}", 'Unclosed template tag "if"'),
             ("heading\n{{ value|missing }}", "Invalid filter"),
         ):

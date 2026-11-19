@@ -21,7 +21,7 @@
         <li>
           <a class="dropdown-item"
              href="{% url "download_component_list" name=object.slug %}?format=zip"
-             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download original translation files as ZIP file{% endblocktranslate %}</a>
+             title="{% translate "Download for offline translation."|force_escape %}">{% blocktranslate %}Download original translation files as ZIP file{% endblocktranslate %}</a>
         </li>
       </ul>
     </li>

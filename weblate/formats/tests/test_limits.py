@@ -12,6 +12,7 @@ from tempfile import TemporaryDirectory
 from typing import TYPE_CHECKING
 from unittest.mock import patch
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase, override_settings
 from openpyxl import Workbook
@@ -20,7 +21,6 @@ from weblate.formats.auto import try_load
 from weblate.formats.external import XlsxFormat
 from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.limits import (
-    MAX_TRANSLATION_UNITS,
     TranslationLimitError,
     check_translation_file_size,
     translation_max_size,
@@ -124,7 +124,7 @@ class TranslationLimitsTest(SimpleTestCase):
         storage: TranslationFormat = JSONFormat(
             NamedBytesIO("source.json", content), is_template=True
         )
-        with patch("weblate.formats.limits.MAX_TRANSLATION_UNITS", 2):
+        with override_settings(TRANSLATION_MAX_UNITS=2):
             with self.assertRaisesRegex(TranslationLimitError, "2 strings"):
                 _ = storage.content_units
             with self.assertRaises(TranslationLimitError):
@@ -132,7 +132,7 @@ class TranslationLimitsTest(SimpleTestCase):
 
     def test_headers_do_not_count_as_content(self) -> None:
         content = b'msgid ""\nmsgstr ""\n\nmsgid "One"\nmsgstr "Uno"\n'
-        with patch("weblate.formats.limits.MAX_TRANSLATION_UNITS", 1):
+        with override_settings(TRANSLATION_MAX_UNITS=1):
             storage = PoFormat(NamedBytesIO("source.po", content))
             self.assertEqual(len(storage.content_units), 1)
 
@@ -145,7 +145,7 @@ class TranslationLimitsTest(SimpleTestCase):
             template_store=template,
         )
         with (
-            patch("weblate.formats.limits.MAX_TRANSLATION_UNITS", 2),
+            override_settings(TRANSLATION_MAX_UNITS=2),
             self.assertRaises(TranslationLimitError),
         ):
             _ = storage.content_units
@@ -162,7 +162,7 @@ class TranslationLimitsTest(SimpleTestCase):
         stream.seek(0)
         storage = XlsxFormat(stream)
         with (
-            patch("weblate.formats.limits.MAX_TRANSLATION_UNITS", 2),
+            override_settings(TRANSLATION_MAX_UNITS=2),
             self.assertRaises(TranslationLimitError),
         ):
             _ = storage.content_units
@@ -170,19 +170,22 @@ class TranslationLimitsTest(SimpleTestCase):
     def test_autodetection_does_not_bypass_unit_limit(self) -> None:
         content = b'{"one":"One","two":"Two","three":"Three"}'
         with (
-            patch("weblate.formats.limits.MAX_TRANSLATION_UNITS", 2),
+            override_settings(TRANSLATION_MAX_UNITS=2),
             self.assertRaises(TranslationLimitError),
         ):
             try_load("source.json", content, JSONFormat, None, is_template=True)
 
     def test_full_size_component_at_unit_boundary(self) -> None:
         content = json.dumps(
-            {str(index): f"String {index}" for index in range(MAX_TRANSLATION_UNITS)}
+            {
+                str(index): f"String {index}"
+                for index in range(settings.TRANSLATION_MAX_UNITS)
+            }
         ).encode()
         storage: TranslationFormat = JSONFormat(
             NamedBytesIO("source.json", content), is_template=True
         )
-        self.assertEqual(len(storage.content_units), MAX_TRANSLATION_UNITS)
+        self.assertEqual(len(storage.content_units), settings.TRANSLATION_MAX_UNITS)
 
 
 class RepositoryTranslationLimitsTest(ViewTestCase):
@@ -194,7 +197,7 @@ class RepositoryTranslationLimitsTest(ViewTestCase):
         before = list(translation.unit_set.order_by("pk").values_list("pk", "target"))
         self.assertGreater(len(before), 1)
         with (
-            patch("weblate.formats.limits.MAX_TRANSLATION_UNITS", 1),
+            override_settings(TRANSLATION_MAX_UNITS=1),
             self.assertRaises(FileParseError),
         ):
             translation.update_units_from_store(user=self.user, author=self.user)
@@ -211,7 +214,7 @@ class RepositoryTranslationLimitsTest(ViewTestCase):
                 self.component.load_intermediate_store()
 
     def test_source_and_intermediate_unit_limits(self) -> None:
-        with patch("weblate.formats.limits.MAX_TRANSLATION_UNITS", 1):
+        with override_settings(TRANSLATION_MAX_UNITS=1):
             with self.assertRaises(TranslationLimitError):
                 self.component.load_template_store()
             with self.assertRaises(TranslationLimitError):

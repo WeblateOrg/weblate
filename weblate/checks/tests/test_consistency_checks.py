@@ -54,6 +54,8 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
+from weblate.utils.stats import TranslationStats
+from weblate.utils.tasks import update_translation_stats
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -781,6 +783,35 @@ class ConsistencyCheckTest(ConsistencyUnitsMixin, ReusableComponentTestCase):
         self.assertEqual(
             Check.objects.filter(unit__in=[first, edited], name="reused").count(), 2
         )
+
+    def test_propagated_checks_batch_parent_stats(self) -> None:
+        first = self.add_unit(self.translation_1, "one", "One", "Shared")
+        second = self.add_unit(self.translation_2, "two", "Two", "Shared")
+        translation_ids = {
+            first.translation_id,
+            second.translation_id,
+            first.source_unit.translation_id,
+            second.source_unit.translation_id,
+        }
+        with (
+            patch.object(update_translation_stats, "delay") as delay,
+            patch.object(TranslationStats, "update_parents") as update_parents,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            refresh_propagated_checks(
+                self.component.project_id, [], [first.pk, second.pk]
+            )
+        update_parents.assert_not_called()
+        delay.assert_called_once()
+        self.assertEqual(set(delay.call_args.args[0]), translation_ids)
+        self.assertEqual(delay.call_args.kwargs, {"update_translations": False})
+
+        with patch("weblate.utils.stats.update_stats_objects") as update_stats:
+            update_translation_stats(*delay.call_args.args, **delay.call_args.kwargs)
+        update_stats.assert_called_once()
+        parent_keys = [stats.cache_key for stats in update_stats.call_args.args[0]]
+        self.assertEqual(len(parent_keys), len(set(parent_keys)))
+        self.assertIn(self.component.project.stats.cache_key, parent_keys)
 
     def test_repeated_refresh_repairs_source_checks(self) -> None:
         first = self.add_unit(self.translation_1, "one", "One", "Shared")

@@ -106,7 +106,9 @@
           {{ support_form|crispy }}
         </div>
         <div class="card-footer">
-          <input type="submit" value="{% translate "Get help" %}" class="btn btn-primary" />
+          <input type="submit"
+                 value="{% translate "Get help"|force_escape %}"
+                 class="btn btn-primary" />
           <a href="mailto:support@weblate.org?subject=Weblate support for {{ site_domain }}"
              class="btn btn-link">{% translate "Contact us via e-mail" %}</a>
         </div>
@@ -154,7 +156,7 @@
           {% csrf_token %}
           <input type="submit"
                  class="btn btn-primary"
-                 value="{% translate "Enable Discover Weblate" %}" />
+                 value="{% translate "Enable Discover Weblate"|force_escape %}" />
         </form>
       {% endif %}
       <a href="https://weblate.org/discover/" class="btn btn-link">{% translate "Browse discovery" %}</a>

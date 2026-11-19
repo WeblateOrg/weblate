@@ -29,6 +29,7 @@ from weblate_schemas import load_schema
 
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import Group, Permission, Role
+from weblate.formats.helpers import NamedBytesIO
 from weblate.lang.data import FORMULA_WITH_ZERO
 from weblate.lang.models import Language, Plural
 from weblate.memory.machine import WeblateMemory
@@ -151,7 +152,7 @@ class MemoryParserTest(SimpleTestCase):
 
     def test_json_entry_limit_precedes_schema_validation(self) -> None:
         with (
-            patch("weblate.formats.limits.MAX_TRANSLATION_UNITS", 1),
+            override_settings(TRANSLATION_MAX_UNITS=1),
             patch("jsonschema.validate") as validate_data,
             self.assertRaisesMessage(MemoryImportError, "count of 1 strings"),
         ):
@@ -160,7 +161,7 @@ class MemoryParserTest(SimpleTestCase):
 
     def test_json_entry_limit_boundary(self) -> None:
         content = Path(get_test_file("memory.json")).read_bytes()
-        with patch("weblate.formats.limits.MAX_TRANSLATION_UNITS", 1):
+        with override_settings(TRANSLATION_MAX_UNITS=1):
             self.assertEqual(len(load_memory_json_data(content)), 1)
 
     @override_settings(TRANSLATION_MAX_SIZE=1)
@@ -198,7 +199,7 @@ class MemoryParserTest(SimpleTestCase):
             )
             with (
                 self.subTest(units=units, targets=targets),
-                patch("weblate.formats.limits.MAX_TRANSLATION_UNITS", 1),
+                override_settings(TRANSLATION_MAX_UNITS=1),
             ):
                 if units == targets == 1:
                     store = load_memory_tmx_store(BytesIO(content))
@@ -1734,10 +1735,13 @@ class MemoryModelTest(FixtureTestCase):
 
     def test_rejected_import_writes_nothing(self) -> None:
         for filename in ("memory.json", "memory.tmx", "cs.po"):
+            content = Path(get_test_file(filename)).read_bytes()
+            if filename == "memory.json":
+                content = json.dumps(json.loads(content) * 2).encode()
             with (
                 self.subTest(filename=filename),
-                patch("weblate.formats.limits.MAX_TRANSLATION_UNITS", 0),
-                open(get_test_file(filename), "rb") as handle,
+                override_settings(TRANSLATION_MAX_UNITS=1),
+                NamedBytesIO(filename, content) as handle,
                 self.assertRaisesMessage(MemoryImportError, "maximum allowed count"),
                 patch.object(Memory.objects, "import_entries") as write,
             ):

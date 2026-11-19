@@ -2491,7 +2491,7 @@ class AIQualityAutomationTest(ComponentTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.service = OpenAITranslation.get_identifier()
-        MachineryInstallation.objects.create(
+        self.installation = MachineryInstallation.objects.create(
             project=self.project,
             engine=self.service,
             configuration={
@@ -3012,6 +3012,36 @@ class AIQualityAutomationTest(ComponentTestCase):
         unit.refresh_from_db()
         self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assertEqual(runner.context["results"], {})
+        self.assertEqual(runner.selections, {})
+        self.assertEqual(
+            runner.trace[-2]["error"],
+            "AI quality evaluation was incomplete because the service is on cooldown.",
+        )
+
+    def test_unavailable_evaluation_service(self) -> None:
+        workflow = validate_operations(
+            parse_workflow(WORKFLOW | {"actions": [self.quality_action()]}),
+            self.component,
+        )
+        self.installation.delete()
+        runner = Runner(
+            workflow,
+            execution_context(self.component, "manual"),
+            self.component,
+            self.user,
+        )
+        with (
+            patch.object(OpenAITranslation, "evaluate_batch") as evaluate,
+            self.assertLogs("weblate.errors", level="WARNING") as logs,
+        ):
+            self.assertEqual(runner.run(), AddonActivityLogStatus.ERROR)
+        evaluate.assert_not_called()
+        self.assertEqual(
+            runner.trace[-1]["error"],
+            "AI quality evaluation failed: Evaluation service unavailable.",
+        )
+        self.assertEqual(len(logs.output), 1)
+        self.assertIn("Evaluation service unavailable", logs.output[0])
 
     def test_failed_evaluation_stops_approval(self) -> None:
         unit = self.units[0]
@@ -3031,10 +3061,13 @@ class AIQualityAutomationTest(ComponentTestCase):
             ),
             self.component,
         )
-        with patch.object(
-            OpenAITranslation,
-            "evaluate_batch",
-            side_effect=MachineTranslationError("provider secret response"),
+        with (
+            patch.object(
+                OpenAITranslation,
+                "evaluate_batch",
+                side_effect=MachineTranslationError("provider secret response"),
+            ),
+            self.assertLogs("weblate.errors", level="WARNING") as logs,
         ):
             runner = Runner(
                 workflow,
@@ -3046,4 +3079,13 @@ class AIQualityAutomationTest(ComponentTestCase):
         unit.refresh_from_db()
         self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assertEqual(runner.trace[-1]["status"], "skipped")
+        self.assertEqual(runner.context["results"], {})
+        self.assertEqual(runner.selections, {})
+        self.assertEqual(
+            runner.trace[-2]["error"],
+            "AI quality evaluation failed: Evaluation service failed.",
+        )
+        self.assertEqual(len(logs.output), 1)
+        self.assertIn("Evaluation service failed", logs.output[0])
+        self.assertNotIn("provider secret response", logs.output[0])
         self.assertNotIn("provider secret response", json.dumps(runner.result()))

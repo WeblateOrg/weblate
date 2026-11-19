@@ -189,7 +189,7 @@
                          data-bs-toggle="modal"
                          data-bs-target="#delete_user_{{ user.id }}"
                          class="btn btn-link btn-xs red"
-                         title="{% translate "Remove" %}">{% icon 'delete.svg' %} {% translate "Remove" %}</a>
+                         title="{% translate "Remove"|force_escape %}">{% icon 'delete.svg' %} {% translate "Remove" %}</a>
                     </td>
                   </tr>
                 {% endfor %}
@@ -221,7 +221,9 @@
     </div>
 
     {% if form %}
-      <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+      <input type="submit"
+             value="{% translate "Save"|force_escape %}"
+             class="btn btn-primary" />
     {% endif %}
   </form>
 
@@ -237,7 +239,7 @@
               <button type="button"
                       class="btn-close"
                       data-bs-dismiss="modal"
-                      aria-label="{% translate "Close" %}"></button>
+                      aria-label="{% translate "Close"|force_escape %}"></button>
             </div>
             <div class="modal-body">
               {% blocktranslate with user=user.username %}This will remove <b>{{ user }}</b> access to this project.{% endblocktranslate %}
@@ -246,7 +248,7 @@
               <input type="submit"
                      class="btn btn-danger"
                      name="remove_user"
-                     value="{% translate "Remove" %}" />
+                     value="{% translate "Remove"|force_escape %}" />
             </div>
           </div>
           <!-- /.modal-content -->
@@ -268,14 +270,14 @@
             <button type="button"
                     class="btn-close"
                     data-bs-dismiss="modal"
-                    aria-label="{% translate "Close" %}"></button>
+                    aria-label="{% translate "Close"|force_escape %}"></button>
           </div>
           <div class="modal-body">{{ add_user_form|crispy }}</div>
           <div class="modal-footer">
             <input type="submit"
                    class="btn btn-primary"
                    name="add_user"
-                   value="{% translate "Add" %}" />
+                   value="{% translate "Add"|force_escape %}" />
           </div>
         </div>
         <!-- /.modal-content -->

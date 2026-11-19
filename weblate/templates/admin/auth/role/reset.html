@@ -16,7 +16,7 @@
     </ul>
     <input type="hidden" name="action" value="reset_permissions">
     <input type="hidden" name="confirm" value="1">
-    <input type="submit" value="{% translate 'Reset permissions' %}">
+    <input type="submit" value="{% translate 'Reset permissions'|force_escape %}">
     <a href="{% url 'admin:weblate_auth_role_changelist' %}">{% translate "Cancel" %}</a>
   </form>
 {% endblock content %}

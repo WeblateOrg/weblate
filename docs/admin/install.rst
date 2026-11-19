@@ -264,6 +264,10 @@ Django REST Framework
        - | :pypi:`Sphinx`
        - Needed for :ref:`addon-weblate.gettext.sphinx`
 
+     * - ``storage``
+       - | :pypi:`django-storages`
+       - :ref:`screenshot-storage`
+
      * - ``wllegal``
        - | :pypi:`wllegal`
        - Hosted Weblate integration
@@ -723,6 +727,65 @@ function, its local processing, or third-party provider SDKs.
 
 Operator-run crawler-range updates, maintenance scripts, and Sentry deployment
 use separate download paths and are outside these shared-client limits.
+
+.. _screenshot-storage:
+
+Storing screenshots in object storage
++++++++++++++++++++++++++++++++++++++
+
+.. versionadded:: 2026.12
+
+Uploaded :ref:`screenshots` are stored using the Django default file storage,
+which keeps them in :setting:`DATA_DIR` ``/media`` unless configured otherwise.
+To store them in an object storage service such as Amazon S3 or another
+S3-compatible service, Google Cloud Storage, or Azure Blob Storage, install the
+``storage`` optional dependency, which provides :pypi:`django-storages`, and
+configure ``default`` in :setting:`django:STORAGES`:
+
+.. code-block:: python
+
+    STORAGES["default"] = {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "bucket_name": "weblate-media",
+            "file_overwrite": False,
+        },
+    }
+
+The Amazon S3 backend also needs the ``amazon`` optional dependency, Google
+Cloud Storage needs the ``google`` one, and Azure Blob Storage needs
+:pypi:`azure-storage-blob`, which Weblate does not install. See the
+`django-storages documentation <https://django-storages.readthedocs.io/>`_ for
+backend options and how credentials are configured.
+
+Weblate needs the following from the storage:
+
+* Existing files must not be overwritten. Uploaded screenshots keep their file
+  names, and overwriting would make screenshots with the same name replace each
+  other. The Amazon S3 and Google Cloud Storage backends overwrite files by
+  default, so set ``file_overwrite`` to ``False``. Weblate reports a warning in
+  system checks when the storage overwrites files.
+* Use a dedicated bucket or set ``location`` to a dedicated prefix. Weblate
+  periodically removes files in :file:`screenshots/` that do not belong to any
+  screenshot.
+* The bucket does not have to be public. Weblate serves screenshots to users
+  after checking their permissions.
+
+To move existing screenshots, copy the content of :setting:`DATA_DIR`
+``/media`` to the bucket, keeping the :file:`screenshots/` prefix. When
+``location`` is configured, copy the files under that prefix instead. Weblate
+stores relative file names, so no database changes are needed.
+
+:ref:`projectbackup` include screenshots from object storage, but
+:ref:`automated-backup` does not; use the versioning or backup features of the
+storage service instead.
+
+User-uploaded fonts are not affected by this setting and are always stored in
+:setting:`DATA_DIR`.
+
+.. seealso::
+
+   :envvar:`WEBLATE_MEDIA_STORAGE_BACKEND`
 
 .. _configuration:
 
@@ -1837,6 +1900,12 @@ it, it's enough to set :setting:`SENTRY_DSN` in the :file:`settings.py`:
 Sentry can be also used to monitor performance of Weblate by collecting traces
 and profiles for defined percentage of operations. This can be configured using
 :setting:`SENTRY_TRACES_SAMPLE_RATE` and :setting:`SENTRY_PROFILES_SAMPLE_RATE`.
+
+Weblate redacts known credential fields, authentication headers, and sensitive
+URL query parameters from error reports and transaction events, including
+exception messages, serialized HTTP buffers, and breadcrumbs.
+This also applies when :setting:`SENTRY_SEND_PII` is enabled and
+after custom ``before_send`` or ``before_send_transaction`` callbacks run.
 
 Weblate shortens oversized exception chains before sending them to Sentry,
 preserving the original cause and final exception. The report records how many

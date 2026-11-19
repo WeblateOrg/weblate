@@ -13,7 +13,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import IntegrityError, models, router, transaction
-from django.db.models import F, Q, QuerySet, Value
+from django.db.models import Exists, F, Q, QuerySet, Value
 from django.db.models.functions import Replace
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -1865,7 +1865,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     def components_user_can_add_new_language(self, user: User) -> ComponentQuerySet:
         """Return owned components available for language creation or requests."""
-        filter_ = Q(is_glossary=True)
+        # In mixed projects, regular components drive glossary language sync.
+        regular_components = self.component_set.filter(is_glossary=False)
+        filter_ = Q(is_glossary=True) & Q(Exists(regular_components))
         check_effective_new_lang = not user.has_perm("project.edit", self)
         if check_effective_new_lang:
             filter_ |= get_disabled_component_new_language_filter()

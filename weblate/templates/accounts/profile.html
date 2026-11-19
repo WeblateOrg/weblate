@@ -9,7 +9,7 @@
 {% block nav_pills %}
   <ul class="nav nav-pills flex-wrap"
       role="tablist"
-      aria-label="{% translate "Profile settings" %}">
+      aria-label="{% translate "Profile settings"|force_escape %}">
     <li class="nav-item" role="presentation">
       <a id="profile-tab-account"
          class="nav-link active"
@@ -265,7 +265,7 @@
             <div class="card-body">
               <p>
                 <img class="avatar w128"
-                     alt="{% translate "User avatar" %}"
+                     alt="{% translate "User avatar"|force_escape %}"
                      src="{% user_avatar request.user size=128 %}" />
               </p>
               <p>
@@ -389,8 +389,8 @@
                   {% if form.removable %}
                     <button type="button"
                             class="btn-close"
-                            aria-label="{% translate "Remove this notification setting" %}"
-                            title="{% translate "Remove this notification setting" %}"></button>
+                            aria-label="{% translate "Remove this notification setting"|force_escape %}"
+                            title="{% translate "Remove this notification setting"|force_escape %}"></button>
                   {% endif %}
                 </li>
               {% endfor %}
@@ -613,7 +613,7 @@
           </div>
           <div class="table-responsive"
                role="region"
-               aria-label="{% translate "API access" %}"
+               aria-label="{% translate "API access"|force_escape %}"
                tabindex="0">
             <table class="table">
               <tr>
@@ -624,12 +624,12 @@
                     <button type="button"
                             class="btn btn-link btn-xs"
                             data-visibility=".auth-token"
-                            title="{% translate "Toggle API key visibility" %}">{% icon "eye.svg" %}</button>
+                            title="{% translate "Toggle API key visibility"|force_escape %}">{% icon "eye.svg" %}</button>
                     <button type="button"
                             class="btn btn-link btn-xs"
                             data-clipboard-value="{{ user.auth_token.key }}"
-                            data-clipboard-message="{% translate "API key copied to clipboard." %}"
-                            title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                            data-clipboard-message="{% translate "API key copied to clipboard."|force_escape %}"
+                            title="{% translate "Copy to clipboard"|force_escape %}">{% icon "copy.svg" %}</button>
                   {% else %}
                     <a href="{% url 'verify-second-factor' %}?next={{ request.path|urlencode }}"
                        class="btn btn-link btn-xs">{% translate "Verify your identity to view your API key" %}</a>
@@ -717,7 +717,7 @@ wlc \
            tabindex="0">
         <div class="table-responsive"
              role="region"
-             aria-label="{% translate "Teams" %}"
+             aria-label="{% translate "Teams"|force_escape %}"
              tabindex="0">
           <table class="table">
             <thead>
@@ -848,7 +848,7 @@ wlc \
           </div>
           <div class="table-responsive"
                role="region"
-               aria-label="{% translate "Audit log" %}"
+               aria-label="{% translate "Audit log"|force_escape %}"
                tabindex="0">
             <table class="table">
               <thead>

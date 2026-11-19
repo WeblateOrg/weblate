@@ -537,15 +537,14 @@ class CreateComponent(BaseCreateView):
         if vcs_field is None:
             return
 
+        allowed = VCS_REGISTRY.allowed_component_vcs_choices()
         integration_choices = [
             choice
             for choice in VCS_REGISTRY.get_choices(exclude={"local"})
-            if not VCS_REGISTRY[choice[0]].manual_component_creation
+            if choice[0] not in allowed
         ]
         vcs_field.choices = [
-            choice
-            for choice in vcs_field.choices
-            if VCS_REGISTRY[choice[0]].manual_component_creation
+            choice for choice in vcs_field.choices if choice[0] in allowed
         ]
         if (
             self.integration_import_vcs

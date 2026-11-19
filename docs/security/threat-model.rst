@@ -1043,7 +1043,8 @@ Security properties Weblate provides
 Resource thresholds in this model are the documented configuration defaults
 where they exist, especially backup import limits and rate limits. Translation
 files have a pre-parse byte limit configured by :setting:`TRANSLATION_MAX_SIZE`
-and a 100,000-content-string acceptance limit before synchronization or import.
+and a content-string acceptance limit configured by
+:setting:`TRANSLATION_MAX_UNITS` before synchronization or import.
 Translation-memory imports enforce the same pre-parse byte and entry-count
 limits, including TMX source-target expansion, before writing entries in bounded
 batches. Browser memory imports share the per-user translation-upload rate

@@ -7,8 +7,11 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from django.conf import settings
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.contrib.admin.utils import unquote
+from django.core.exceptions import ValidationError
+from django.db import router, transaction
+from django.shortcuts import redirect
 from django.utils.translation import gettext_lazy
 
 from weblate.accounts.utils import (
@@ -80,6 +83,27 @@ class SensitiveFieldsAdmin(WeblateModelAdmin):
     """Require recent credential verification for changing listed fields."""
 
     sensitive_fields: frozenset[str] = frozenset()
+
+    def delete_view(self, request, object_id, extra_context=None):
+        try:
+            return super().delete_view(request, object_id, extra_context)
+        except ValidationError as error:
+            self.message_user(request, " ".join(error.messages), level=messages.ERROR)
+            return redirect(request.path)
+
+    def changelist_view(self, request, extra_context=None):
+        if (
+            request.method != "POST"
+            or request.POST.get("action") != "delete_selected"
+            or not request.POST.get("post")
+        ):
+            return super().changelist_view(request, extra_context)
+        try:
+            with transaction.atomic(using=router.db_for_write(self.model)):
+                return super().changelist_view(request, extra_context)
+        except ValidationError as error:
+            self.message_user(request, " ".join(error.messages), level=messages.ERROR)
+            return redirect(request.path)
 
     def changes_sensitive_fields(self, request, object_id: str | None) -> bool:
         obj = self.get_object(request, unquote(object_id)) if object_id else None

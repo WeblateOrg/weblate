@@ -7,7 +7,7 @@ from __future__ import annotations
 import codecs
 import os
 import tempfile
-from contextlib import contextmanager, suppress
+from contextlib import contextmanager, nullcontext, suppress
 from copy import deepcopy
 from dataclasses import dataclass, field
 from datetime import UTC
@@ -40,6 +40,7 @@ from translate.storage.fluent import FluentContentError
 
 from weblate.auth.bots import InternalBot
 from weblate.checks.flags import Flags
+from weblate.checks.models import CHECKS
 from weblate.formats.auto import try_load
 from weblate.formats.base import (
     MAX_DECLARED_LANGUAGES,
@@ -114,7 +115,7 @@ from weblate.utils.change_origin import (
 from weblate.utils.errors import log_handled_exception, report_error, report_message
 from weblate.utils.html import format_html_join_comma
 from weblate.utils.regex import regex_match
-from weblate.utils.render import render_template
+from weblate.utils.render import render_repository_template
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -132,6 +133,7 @@ SINGLE_FILE_IMPORT_ALERTS = {"DuplicateString", "ParseError"}
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable, Iterator
+    from contextlib import AbstractContextManager
     from datetime import datetime
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
@@ -697,6 +699,28 @@ class Translation(
         )
         return newunit
 
+    def units_check_lock(self) -> AbstractContextManager[object]:
+        """Hold the check boundary lock once per file instead of per unit."""
+        if self.is_source or not (CHECKS.get("inconsistent") or CHECKS.get("reused")):
+            return nullcontext()
+
+        from weblate.checks.locks import check_project_read_lock  # ruff: ignore[import-outside-top-level]
+
+        return check_project_read_lock(self.component)
+
+    def update_units_from_store_locked(
+        self, *, user: User | None, author: User | None
+    ) -> tuple[dict[int, Unit], dict[int, Unit]]:
+        """Update units from store while holding the check lock."""
+        with self.units_check_lock():
+            try:
+                return self.update_units_from_store(user=user, author=author)
+            except FileParseError as error:
+                # Raise it after leaving the lock, its transaction would roll
+                # back the parse error change recorded while parsing
+                parse_error = error
+        raise parse_error
+
     def update_units_from_store(  # ruff: ignore[complex-structure]
         self, *, user: User | None, author: User | None
     ) -> tuple[dict[int, Unit], dict[int, Unit]]:
@@ -964,7 +988,7 @@ class Translation(
             self.component.check_template_valid()
 
             try:
-                dbunits, updated = self.update_units_from_store(
+                dbunits, updated = self.update_units_from_store_locked(
                     user=user, author=author
                 )
             except FileParseError as error:
@@ -1570,7 +1594,13 @@ class Translation(
 
     def get_commit_message(self, author: str, template: str, **kwargs):
         """Format commit message based on project configuration."""
-        return render_template(template, translation=self, author=author, **kwargs)
+        return render_repository_template(
+            template,
+            setting="delete message",
+            translation=self,
+            author=author,
+            **kwargs,
+        )
 
     def _is_handled_fluent_content_error(self, error: Exception) -> bool:
         return self.component.file_format == "fluent" and isinstance(
@@ -1711,6 +1741,51 @@ class Translation(
             for filename in self.store.get_filenames()
         ]
 
+    def refresh_unit_line_numbers(self) -> None:
+        """
+        Update stored line numbers from the file that is about to be committed.
+
+        Saving can rewrap an entry, drop filtered units, or shift every following
+        entry. Units that were not edited move too. The commit then stores the
+        file hash, so a later sync will not parse the file again.
+        """
+        if not self.filename:
+            return
+        if not self.component.file_format_cls.supports_line_number:
+            return
+        # The template cache still describes the file from before this save.
+        if self.is_template:
+            self.component.drop_template_store_cache()
+
+        try:
+            line_numbers: dict[int, int | None] = {}
+            for store_unit in self.load_store().content_units:
+                # Same first-match rule as import. A duplicate keeps the alert
+                # path there and does not get its own database row.
+                line_numbers.setdefault(store_unit.id_hash, store_unit.line_number)
+        except Exception as error:
+            if not is_expected_parse_error(error) and not isinstance(
+                error, FileParseError | ValueError
+            ):
+                raise
+            self.log_warning(
+                "skipping line number refresh due to parse error: %s", error
+            )
+            return
+
+        if not line_numbers:
+            return
+
+        changed: list[Unit] = []
+        for pk, id_hash, current in self.unit_set.filter(
+            id_hash__in=line_numbers
+        ).values_list("pk", "id_hash", "line_number"):
+            new_line = line_numbers[id_hash]
+            if current != new_line:
+                changed.append(Unit(pk=pk, line_number=new_line))
+        if changed:
+            Unit.objects.bulk_update(changed, ["line_number"], batch_size=500)
+
     def git_commit(
         self,
         user: User | None,
@@ -1746,6 +1821,9 @@ class Translation(
 
             if files is None:
                 files = self.filenames
+            # Contributor headers and pre-commit add-ons can affect line numbers
+            if self.filename and repository.needs_commit(files):
+                self.refresh_unit_line_numbers()
             # Do actual commit with git lock
             committed = self.component.commit_files(
                 template=template,
@@ -2986,15 +3064,15 @@ class Translation(
 
         return result
 
-    def _invalidate_trigger(self) -> None:
+    def _invalidate_trigger(self, *, update_stats_parents: bool) -> None:
         self._invalidate_scheduled = False
-        self.stats.update_stats()
+        self.stats.update_stats(update_parents=update_stats_parents)
         self.component.invalidate_glossary_cache()
         # Delete UnusedComponent alert as the translation has just
         # apparently received some update.
         self.component.delete_alert("UnusedComponent")
 
-    def invalidate_cache(self) -> None:
+    def invalidate_cache(self, *, update_stats_parents: bool = True) -> None:
         """Invalidate any cached stats."""
         if self._suppress_cache_invalidation_depth:
             return
@@ -3002,7 +3080,13 @@ class Translation(
         if self._invalidate_scheduled:
             return
         self._invalidate_scheduled = True
-        transaction.on_commit(capture_change_origin(self._invalidate_trigger))
+        transaction.on_commit(
+            capture_change_origin(
+                lambda: self._invalidate_trigger(
+                    update_stats_parents=update_stats_parents
+                )
+            )
+        )
 
     @contextmanager
     def suppress_cache_invalidation(self):
@@ -3057,8 +3141,8 @@ class Translation(
         return super().delete(using=using, keep_parents=keep_parents)
 
     @transaction.atomic
-    def remove(self, user: User) -> None:
-        """Remove translation from the Database and VCS."""
+    def remove(self, user: User, *, commit_message: str | None = None) -> None:
+        """Remove translation, optionally reusing a message prepared for bulk removal."""
         # ruff: ignore[import-outside-top-level]
         from weblate.glossary.tasks import (
             cleanup_stale_glossaries,
@@ -3077,9 +3161,10 @@ class Translation(
         )
 
         # Build commit message before deleting (needs stats from DB)
-        commit_message = self.get_commit_message(
-            author, template=self.component.effective_delete_message
-        )
+        if commit_message is None:
+            commit_message = self.get_commit_message(
+                author, template=self.component.effective_delete_message
+            )
 
         # Delete the translation from the database before committing
         # to ensure add-ons operate on the updated translation set

@@ -21,7 +21,13 @@ from django.core.exceptions import (
 from django.core.exceptions import (
     ValidationError as DjangoValidationError,
 )
-from django.db import DatabaseError, IntegrityError, transaction
+from django.db import (
+    DEFAULT_DB_ALIAS,
+    DatabaseError,
+    IntegrityError,
+    router,
+    transaction,
+)
 from django.db.models import Exists, OuterRef, Prefetch, Q
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404
@@ -225,6 +231,9 @@ from weblate.trans.tasks import (
     create_project_backup,
     generate_report,
     project_removal,
+    validate_category_removal,
+    validate_component_removal,
+    validate_project_removal,
 )
 from weblate.trans.uploads import queue_translation_upload
 from weblate.trans.util import get_upload_error_message
@@ -268,6 +277,7 @@ from weblate.utils.views import (
     snapshot_file_response,
     zip_download,
 )
+from weblate.vcs.base import RepositoryTemplateError
 from weblate.workspaces.models import Workspace
 
 from .renderers import (
@@ -626,6 +636,8 @@ class NotSourceUnit(APIException):
 
 class WeblateExceptionHandler(ExceptionHandler):
     def convert_known_exceptions(self, exc: Exception) -> Exception:
+        if isinstance(exc, RepositoryTemplateError):
+            return ValidationError(str(exc))
         if isinstance(exc, WeblateLockTimeoutError):
             if exc.lock.scope == "repository":
                 return LockedError(
@@ -3059,6 +3071,10 @@ class ProjectViewSet(
         instance = self.get_object()
         if not request.user.has_perm("project.edit", instance):
             self.permission_denied(request, "Can not delete project")
+        try:
+            validate_project_removal(instance)
+        except DjangoValidationError as error:
+            raise ValidationError(error.messages) from error
         task = project_removal.delay(instance.pk, request.user.pk)
         store_task_metadata(task.id, user_id=request.user.id)
         return Response(
@@ -3763,6 +3779,10 @@ class ComponentViewSet(
         instance = self.get_object()
         if not request.user.has_perm("component.edit", instance):
             self.permission_denied(request, "Can not delete component")
+        try:
+            validate_component_removal(instance.pk)
+        except DjangoValidationError as error:
+            raise ValidationError(error.messages) from error
         component_removal.delay(
             instance.pk, request.user.pk, get_delete_memory_option(request)
         )
@@ -3900,6 +3920,11 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
     permission_classes = (IsAuthenticated,)
     comparer = Comparer()
 
+    @cached_property
+    def write_db_alias(self) -> str:
+        # Keep delete authorization on the same database as the mutation.
+        return router.db_for_write(Memory) or DEFAULT_DB_ALIAS
+
     def get_read_db_alias(self) -> str:
         if "memory_db" in settings.DATABASES:
             return "memory_db"
@@ -3915,13 +3940,14 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         else:
             queryset = Memory.objects.using(alias).visible_to_user(user, alias=alias)
 
-        # Reads can use a dedicated memory_db alias when configured, but delete
-        # object resolution stays on default because memory_db is typically
-        # deployed as a read-only replica.
         return queryset.prefetch_scopes().order_by("id")
 
     def get_queryset(self):
-        alias = "default" if self.action == "destroy" else self.get_read_db_alias()
+        alias = (
+            self.write_db_alias
+            if self.action == "destroy"
+            else self.get_read_db_alias()
+        )
         return self.get_scoped_queryset(alias=alias)
 
     def get_deletable_scope_ids(self, request: Request, instance: Memory) -> list[int]:
@@ -3936,7 +3962,8 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
             if scope.scope in {MemoryScope.SCOPE_PROJECT, MemoryScope.SCOPE_WORKSPACE}
         }
         accessible_project_or_workspace_scope_ids = set(
-            MemoryScope.objects.filter(id__in=component_scoped_ids)
+            MemoryScope.objects.using(self.write_db_alias)
+            .filter(id__in=component_scoped_ids)
             .filter(MemoryQuerySet.get_component_access_query(user))
             .values_list("id", flat=True)
         )
@@ -3970,9 +3997,9 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         instance = self.get_object()
         scope_ids = self.get_deletable_scope_ids(request, instance)
         if scope_ids:
-            Memory.objects.filter(pk=instance.pk).delete_scope(
-                Q(id__in=scope_ids), delete_legacy=False
-            )
+            Memory.objects.using(self.write_db_alias).filter(
+                pk=instance.pk
+            ).delete_scope(Q(id__in=scope_ids), delete_legacy=False)
         else:
             self.permission_denied(request, "Can not delete memory entry")
         return Response(status=HTTP_204_NO_CONTENT)
@@ -4704,8 +4731,13 @@ class LanguageViewSet(viewsets.ModelViewSet):
         return super().update(request, *args, **kwargs)
 
     def create(self, request: Request, *args, **kwargs):
-        """Create a new language."""
-        self.perm_check(request)
+        """
+        Create a new language.
+
+        Requires the site-wide `language.add` permission.
+        """
+        if not request.user.has_perm("language.add"):
+            self.permission_denied(request, "Can not create languages")
         return super().create(request, *args, **kwargs)
 
     def destroy(self, request: Request, *args, **kwargs):
@@ -5320,7 +5352,11 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
     raw_formats = ()
 
     def get_queryset(self):
-        return Screenshot.objects.filter_access(self.request.user).order_by("id")
+        queryset = Screenshot.objects.filter_access(self.request.user).order_by("id")
+        if self.action in {"units", "delete_units", "update", "partial_update"}:
+            # Serialize unit association changes and repository path edits.
+            queryset = queryset.select_for_update(of=("self",))
+        return queryset
 
     @extend_schema(
         description="Download the screenshot image.",
@@ -5345,7 +5381,19 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
     def file(self, request: Request, **kwargs):
         obj = self.get_object()
         if request.method not in {"POST", "PUT"}:
-            return self.download_file(obj.image.path, "application/binary")
+            # Read through the storage API, remote storage backends do not
+            # provide a local path.
+            try:
+                handle = obj.image.open("rb")
+            except FileNotFoundError as error:
+                msg = "File not found"
+                raise Http404(msg) from error
+            return FileResponse(
+                handle,
+                content_type="application/binary",
+                as_attachment=True,
+                filename=os.path.basename(obj.image.name),
+            )
 
         if not request.user.has_perm("screenshot.edit", obj.translation):
             raise PermissionDenied
@@ -5354,8 +5402,11 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
 
         obj.image.save(
-            serializer.validated_data["image"].name, serializer.validated_data["image"]
+            serializer.validated_data["image"].name,
+            serializer.validated_data["image"],
+            save=False,
         )
+        obj.save(update_fields=["image"])
 
         return Response(data={"result": True})
 
@@ -5381,7 +5432,8 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         except Unit.DoesNotExist as error:
             raise not_found_validation_error(field_name, "Unit") from error
 
-        obj.add_unit(unit, user=request.user)
+        if not obj.units.filter(pk=unit.pk).exists():
+            obj.add_unit(unit, user=request.user)
         serializer = ScreenshotSerializer(obj, context={"request": request})
 
         return Response(serializer.data, status=HTTP_200_OK)
@@ -5391,6 +5443,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         methods=["delete"],
     )
     @action(detail=True, methods=["delete"], url_path="units/(?P<unit_id>[0-9]+)")
+    @transaction.atomic
     def delete_units(self, request: Request, pk, unit_id):
         obj = self.get_object()
         if not request.user.has_perm("screenshot.edit", obj.translation):
@@ -5401,7 +5454,8 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         except Unit.DoesNotExist as error:
             msg = "Unit"
             raise not_found_http404(msg) from error
-        obj.remove_unit(unit, user=request.user)
+        if obj.units.filter(pk=unit.pk).exists():
+            obj.remove_unit(unit, user=request.user)
         return Response(status=HTTP_204_NO_CONTENT)
 
     def create(self, request: Request, *args, **kwargs):
@@ -5428,7 +5482,8 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
 
         with transaction.atomic():
             serializer = ScreenshotCreateSerializer(
-                data=request.data, context={"request": request}
+                data=request.data,
+                context={"request": request, "translation": translation},
             )
             serializer.is_valid(raise_exception=True)
             instance = serializer.save(translation=translation, user=user)
@@ -5449,12 +5504,18 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
 
             return Response(serializer.data, status=HTTP_201_CREATED)
 
+    @transaction.atomic
     def update(self, request: Request, *args, **kwargs):
         """Edit full information about screenshot."""
         instance = self.get_object()
         if not request.user.has_perm("screenshot.edit", instance.translation):
             self.permission_denied(request, "Can not edit screenshot.")
-        return super().update(request, *args, **kwargs)
+        serializer = self.get_serializer(
+            instance, data=request.data, partial=kwargs.get("partial", False)
+        )
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
 
     def destroy(self, request: Request, *args, **kwargs):
         """Delete screenshot."""
@@ -5665,6 +5726,10 @@ class CategoryViewSet(viewsets.ModelViewSet, ReportsMixin, AnnouncementsMixin):
         """Delete category."""
         instance = self.get_object()
         self.perm_check(request, instance)
+        try:
+            validate_category_removal(instance)
+        except DjangoValidationError as error:
+            raise ValidationError(error.messages) from error
         category_removal.delay(
             instance.pk, request.user.pk, get_delete_memory_option(request)
         )
@@ -6166,8 +6231,10 @@ class TasksViewSet(ViewSet):
     )
     def retrieve(self, request: Request, pk=None):
         task, component, metadata = self.get_task(request, pk)
-        result = sanitize_task_result(task.id, task.result, cast("User", request.user))
-        if task.ready():
+        result = sanitize_task_result(
+            task.id, task.result, cast("User", request.user), metadata=metadata
+        )
+        if task.ready() and isinstance(result, dict):
             store_task_completion_message(request, task, result=result)
         serializer = self.serializer_class(
             {

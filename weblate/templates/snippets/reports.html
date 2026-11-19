@@ -27,7 +27,9 @@
           {% crispy reports_form %}
         </div>
         <div class="card-footer">
-          <input type="submit" value="{% translate "Generate" %}" class="btn btn-primary">
+          <input type="submit"
+                 value="{% translate "Generate"|force_escape %}"
+                 class="btn btn-primary">
         </div>
       </div>
     </form>
@@ -53,7 +55,9 @@
           {% crispy reports_count_form %}
         </div>
         <div class="card-footer">
-          <input type="submit" value="{% translate "Generate" %}" class="btn btn-primary">
+          <input type="submit"
+                 value="{% translate "Generate"|force_escape %}"
+                 class="btn btn-primary">
         </div>
       </div>
     </form>
@@ -80,7 +84,9 @@
             {% crispy reports_cost_form %}
           </div>
           <div class="card-footer">
-            <input type="submit" value="{% translate "Generate" %}" class="btn btn-primary">
+            <input type="submit"
+                   value="{% translate "Generate"|force_escape %}"
+                   class="btn btn-primary">
           </div>
         </div>
       </form>
@@ -106,7 +112,9 @@
             {% crispy reports_translator_work_form %}
           </div>
           <div class="card-footer">
-            <input type="submit" value="{% translate "Generate" %}" class="btn btn-primary">
+            <input type="submit"
+                   value="{% translate "Generate"|force_escape %}"
+                   class="btn btn-primary">
           </div>
         </div>
       </form>
@@ -149,7 +157,7 @@
   </table>
   {% if generated_reports.has_other_pages %}
     <div class="card-footer">
-      <nav aria-label="{% translate 'Report history pagination' %}">
+      <nav aria-label="{% translate 'Report history pagination'|force_escape %}">
         <ul class="pagination">
           {% if generated_reports.has_previous %}
             <li class="page-item">

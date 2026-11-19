@@ -62,7 +62,7 @@ from weblate.auth.results import PermissionResult
 from weblate.checks.models import CHECKS
 from weblate.lang.models import Language, Plural, validate_language_code
 from weblate.memory.models import Memory, MemoryScope
-from weblate.screenshots.models import Screenshot
+from weblate.screenshots.models import Screenshot, can_set_screenshot_repository_path
 from weblate.trans.actions import ActionEvents
 from weblate.trans.component_copy import (
     get_inherited_component_fields,
@@ -142,6 +142,7 @@ from weblate.utils.views import (
     guess_filemask_from_doc,
 )
 from weblate.vcs.base import RepositoryError
+from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -3030,6 +3031,14 @@ class ComponentSerializer(RemovableSerializer[Component]):
         else:
             instance = Component(**attrs)
 
+        if (
+            self.instance is None
+            and instance.vcs not in VCS_REGISTRY.allowed_component_vcs_choices()
+        ):
+            raise serializers.ValidationError(
+                {"vcs": "This version control system requires an integration import."}
+            )
+
         self.validate_linked_repository_setting_overrides(attrs, instance)
 
         with self.cleanup_uploaded_repository_on_error():
@@ -4208,6 +4217,7 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
             "effective_previous_source",
             "effective_source_language",
             "priority",
+            "line_number",
             "id",
             "web_url",
             "url",
@@ -4576,6 +4586,24 @@ class ScreenshotSerializer(RemovableSerializer[Screenshot]):
         extra_kwargs: ClassVar[dict[str, Any]] = {
             "url": {"view_name": "api:screenshot-detail"}
         }
+
+    def validate_repository_filename(self, filename: str) -> str:
+        if not filename:
+            return filename
+
+        if self.instance is None:
+            translation = self.context["translation"]
+        else:
+            if filename == self.instance.repository_filename:
+                return filename
+            translation = self.instance.translation
+
+        if not can_set_screenshot_repository_path(
+            self.context["request"].user, translation.component
+        ):
+            msg = "Repository access is required to set the screenshot repository path."
+            raise serializers.ValidationError(msg, code="repository_access_required")
+        return filename
 
 
 class ScreenshotCreateSerializer(ScreenshotSerializer):

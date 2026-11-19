@@ -24,7 +24,7 @@ from weblate.auth.models import (
     TeamMembership,
     User,
 )
-from weblate.trans.models import Project
+from weblate.trans.models import Component, Project
 from weblate.trans.views.acl import lock_project_member
 from weblate.utils.change_origin import acting_user_context
 
@@ -100,6 +100,53 @@ class GroupConcurrencyTest(TransactionTestCase):
 
     def test_concurrent_creation(self) -> None:
         self.check_race((None, None))
+
+    def test_concurrent_component_deletions_keep_team_scoped(self) -> None:
+        components = Component.objects.bulk_create(
+            [
+                Component(name=name, slug=slug, project=self.project)
+                for name, slug in (("First", "first"), ("Second", "second"))
+            ]
+        )
+        team = Group.objects.create(
+            name="Concurrent components", defining_project=self.project
+        )
+        team.components.add(*components)
+        first_deleted = Event()
+        release = Event()
+        waiting_pid: Queue[int] = Queue()
+
+        def delete_component(position: int) -> str:
+            close_old_connections()
+            try:
+                if position == 1:
+                    self.assertTrue(first_deleted.wait(timeout=10))
+                    with connection.cursor() as cursor:
+                        cursor.execute("SELECT pg_backend_pid()")
+                        waiting_pid.put(cursor.fetchone()[0])
+                try:
+                    with transaction.atomic():
+                        Component.objects.filter(pk=components[position].pk).delete()
+                        if position == 0:
+                            first_deleted.set()
+                            self.assertTrue(release.wait(timeout=10))
+                except ValidationError:
+                    return "blocked"
+                return "deleted"
+            finally:
+                connection.close()
+
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            futures = [
+                executor.submit(delete_component, position) for position in (0, 1)
+            ]
+            try:
+                self.wait_for_blocked_connection(waiting_pid.get(timeout=10))
+            finally:
+                release.set()
+            results = [future.result(timeout=10) for future in futures]
+        self.assertCountEqual(results, ["deleted", "blocked"])
+        self.assertEqual(team.components.count(), 1)
 
     def test_project_member_removal_waits_before_locking_memberships(self) -> None:
         actor = User.objects.create_user("audit-manager", "manager@example.org")

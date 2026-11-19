@@ -585,8 +585,10 @@ class PluralTextarea(forms.Textarea):
             textarea = super().render(fieldname, val, attrs, renderer, **kwargs)
             # Label for plural
             label = lang_label
+            plural_examples = ""
             if show_plural_labels:
-                label = format_html("{}, {}", label, plural.get_plural_label(idx))
+                label = format_html("{}, {}", label, plural.get_plural_name(idx))
+                plural_examples = plural.format_plural_examples(idx)
             elif translation.component.is_multivalue and idx > 0:
                 label = format_html("{}, {}", label, gettext("Alternative translation"))
             ret.append(
@@ -596,6 +598,8 @@ class PluralTextarea(forms.Textarea):
                         "toolbar": self.get_toolbar(lang, fieldid, unit, idx, source),
                         "fieldid": fieldid,
                         "label": label,
+                        "show_plural_label": show_plural_labels,
+                        "plural_examples": plural_examples,
                         "textarea": textarea,
                         "max_length": attrs["data-max"],
                         "length": len(val),
@@ -2830,17 +2834,10 @@ class ComponentSettingsForm(
                 template="layout/pills.html",
             )
         )
-        vcses: set[str] = {
-            identifier
-            for identifier in VCS_REGISTRY.git_based
-            if VCS_REGISTRY[identifier].manual_component_creation
-            or identifier == self.instance.vcs
-        }
-        if self.instance.vcs not in VCS_REGISTRY.git_based:
-            vcses = {self.instance.vcs}
-        self.fields["vcs"].choices = [
-            c for c in self.fields["vcs"].choices if c[0] in vcses
-        ]
+        vcses = VCS_REGISTRY.allowed_component_vcs_choices(self.instance.vcs)
+        vcs_field = cast("forms.ChoiceField", self.fields["vcs"])
+        vcs_choices = cast("list[tuple[str, object]]", vcs_field.choices)
+        vcs_field.choices = [choice for choice in vcs_choices if choice[0] in vcses]
         vcs_backend = VCS_REGISTRY.get(self.instance.vcs)
         if vcs_backend is not None and vcs_backend.component_lock_fields:
             # Integration-backed repository settings are managed by the
@@ -3425,11 +3422,10 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
         super().__init__(*args, **kwargs)
         # Integration-backed backends are selected by provider import flows,
         # not manually from the generic VCS chooser.
-        self.fields["vcs"].choices = [
-            choice
-            for choice in self.fields["vcs"].choices
-            if VCS_REGISTRY[choice[0]].manual_component_creation
-        ]
+        allowed = VCS_REGISTRY.allowed_component_vcs_choices()
+        vcs_field = cast("forms.ChoiceField", self.fields["vcs"])
+        vcs_choices = cast("list[tuple[str, object]]", vcs_field.choices)
+        vcs_field.choices = [choice for choice in vcs_choices if choice[0] in allowed]
 
     def clean_instance(self, data) -> None:
         params = copy.copy(data)

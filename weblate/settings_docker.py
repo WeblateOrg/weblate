@@ -222,7 +222,14 @@ STATICFILES_FINDERS = (
 )
 
 STORAGES = {
-    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    # Storage for user-uploaded media such as screenshots
+    "default": {
+        "BACKEND": get_env_str(
+            "WEBLATE_MEDIA_STORAGE_BACKEND",
+            "django.core.files.storage.FileSystemStorage",
+        ),
+        "OPTIONS": get_env_json("WEBLATE_MEDIA_STORAGE_OPTIONS", {}),
+    },
     "staticfiles": {
         "BACKEND": (
             "django.contrib.staticfiles.storage.StaticFilesStorage"
@@ -1226,6 +1233,9 @@ TRANSLATION_UPLOAD_MAX_SIZE = get_env_int(
     utils_defaults.DEFAULT_TRANSLATION_UPLOAD_MAX_SIZE,
 )
 TRANSLATION_MAX_SIZE = get_env_int_or_none("WEBLATE_TRANSLATION_MAX_SIZE")
+TRANSLATION_MAX_UNITS = get_env_int(
+    "WEBLATE_TRANSLATION_MAX_UNITS", utils_defaults.DEFAULT_TRANSLATION_MAX_UNITS
+)
 # Maximum allowed uploaded component ZIP file size
 COMPONENT_ZIP_UPLOAD_MAX_SIZE = get_env_int(
     "WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE",
