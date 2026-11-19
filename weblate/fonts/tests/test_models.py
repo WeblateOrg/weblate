@@ -144,6 +144,12 @@ class FontStorageTest(FontComponentTestCase):
     def test_local_copy_cleanup(self) -> None:
         font = self.add_font()
         old_copy = Path(font.get_local_path())
+        # Using a copy keeps its modification time, which the renderer caches by
+        mtime = old_copy.stat().st_mtime_ns
+        os.utime(old_copy, ns=(0, mtime))
+        self.assertEqual(font.get_local_path(), str(old_copy))
+        self.assertEqual(old_copy.stat().st_mtime_ns, mtime)
+        self.assertGreater(old_copy.stat().st_atime, 0)
         # A copy that is still in use survives a replacement
         font.save()
         new_copy = Path(font.get_local_path())

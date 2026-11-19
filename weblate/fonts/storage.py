@@ -9,7 +9,7 @@ from __future__ import annotations
 import os
 from shutil import copyfileobj
 from tempfile import NamedTemporaryFile
-from time import time
+from time import time, time_ns
 from typing import TYPE_CHECKING, cast
 
 from django.conf import settings
@@ -76,10 +76,11 @@ def get_cached_font(file: FieldFile, font_id: int, version: str) -> str:
     share the cache directory.
     """
     target = get_font_cache_dir() / f"{font_id}-{version}"
-    if target.is_file():
-        # Record the use, so pruning keeps copies that renders still use
-        target.touch()
-    else:
+    try:
+        # Record the use in the access time, so pruning keeps copies that
+        # renders still use. The renderer caches fonts by modification time.
+        os.utime(target, ns=(time_ns(), target.stat().st_mtime_ns))
+    except FileNotFoundError:
         target.parent.mkdir(parents=True, exist_ok=True)
         with NamedTemporaryFile(dir=target.parent, prefix=".", delete=False) as temp:
             try:
@@ -97,11 +98,11 @@ def get_cached_font(file: FieldFile, font_id: int, version: str) -> str:
 def remove_unused_cached_fonts(
     paths: Iterable[Path], max_age: int = FONT_CACHE_GRACE
 ) -> None:
-    """Remove local font copies not used within max_age seconds."""
+    """Remove local font copies not accessed within max_age seconds."""
     cutoff = time() - max_age
     for path in paths:
         try:
-            if path.stat().st_mtime < cutoff:
+            if path.stat().st_atime < cutoff:
                 path.unlink()
         except FileNotFoundError:
             continue
