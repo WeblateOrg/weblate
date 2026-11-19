@@ -1475,6 +1475,174 @@ class GlossaryProjectLanguageAdditionTest(ViewTestCase):
         )
 
 
+class LanguageOverviewTest(ReusableViewTestCase):
+    def test_component_hierarchy(self) -> None:
+        parent = self.create_category(self.project)
+        child = Category.objects.create(
+            project=self.project, category=parent, name="Nested", slug="nested"
+        )
+        parent_component = self.create_po(
+            project=self.project, category=parent, name="Parent component"
+        )
+        child_component = self.create_po(
+            project=self.project, category=child, name="Child component"
+        )
+        self.create_po(
+            project=self.project,
+            category=child,
+            name="Restricted child component",
+            restricted=True,
+        )
+        source = self.create_project(name="Shared source", slug="shared-source")
+        other = self.create_project(name="Other destination", slug="other-destination")
+        shared = self.create_po(project=source, name="Shared component")
+        ComponentLink.objects.create(
+            component=shared, project=self.project, category=child
+        )
+        ComponentLink.objects.create(component=shared, project=other)
+        root_shared = self.create_po(project=source, name="Root shared component")
+        ComponentLink.objects.create(component=root_shared, project=self.project)
+
+        language = self.translation.language
+        project_language = ProjectLanguage(self.project, language)
+        parent_language = CategoryLanguage(parent, language)
+        child_language = CategoryLanguage(child, language)
+        pages = (
+            (project_language, (self.component, root_shared), (parent_language,)),
+            (parent_language, (parent_component,), (child_language,)),
+            (child_language, (child_component, shared), ()),
+        )
+        for locale in ("en", "pl"):
+            self.user.profile.language = locale
+            self.user.profile.save(update_fields=["language"])
+            for scope, components, categories in pages:
+                with self.subTest(locale=locale, url=scope.get_absolute_url()):
+                    response = self.client.get(scope.get_absolute_url())
+                    self.assertEqual(response.status_code, 200)
+                    self.assertEqual(response.wsgi_request.LANGUAGE_CODE, locale)
+                    self.assertCountEqual(
+                        [row.component_id for row in response.context["translations"]],
+                        [component.pk for component in components],
+                    )
+                    self.assertEqual(
+                        [
+                            item.get_absolute_url()
+                            for item in response.context["categories"]
+                        ],
+                        [item.get_absolute_url() for item in categories],
+                    )
+                    for category in categories:
+                        self.assertContains(response, category.get_absolute_url())
+                    if categories:
+                        self.assertGreater(
+                            response.context["language_stats"].all,
+                            sum(
+                                row.stats.all
+                                for row in response.context["translations"]
+                            ),
+                        )
+
+        for page, component in enumerate((root_shared, self.component), start=1):
+            with (
+                self.subTest(page=page),
+                patch("weblate.utils.views.get_page_limit", return_value=(page, 1)),
+            ):
+                response = self.client.get(
+                    project_language.get_absolute_url(), {"sort_by": "name"}
+                )
+                self.assertEqual(response.status_code, 200)
+                listing = response.context["translations"]
+                self.assertEqual(listing.paginator.count, 2)
+                self.assertEqual(listing.number, page)
+                self.assertEqual([row.component_id for row in listing], [component.pk])
+
+    def test_missing_translations_use_component_hierarchy(self) -> None:
+        category = self.create_category(self.project)
+        root = self.create_po_new_base(
+            project=self.project, name="Root component", new_lang="add"
+        )
+        source = self.create_project(name="Shared source", slug="shared-source")
+        shared = self.create_po_new_base(
+            project=source, name="Shared component", new_lang="add"
+        )
+        ComponentLink.objects.create(
+            component=shared, project=self.project, category=category
+        )
+        language = Language.objects.get(code="pl")
+        for scope, component in (
+            (ProjectLanguage(self.project, language), root),
+            (CategoryLanguage(category, language), shared),
+        ):
+            with self.subTest(url=scope.get_absolute_url()):
+                response = self.client.get(scope.get_absolute_url())
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(
+                    [
+                        row.component.pk
+                        for row in response.context["translation_objects"]
+                        if getattr(row, "is_ghost", False)
+                    ],
+                    [component.pk],
+                )
+                create_url = reverse(
+                    "new-language", kwargs={"path": component.get_url_path()}
+                )
+                self.assertContains(response, f'action="{create_url}"')
+
+    def test_shared_root_translation_creation_uses_owner_policy(self) -> None:
+        source = self.create_project(
+            name="Shared source",
+            slug="shared-source",
+            new_lang="none",
+            inherit_new_lang=False,
+        )
+        shared = self.create_po_new_base(
+            project=source, name="Shared component", inherit_new_lang=True
+        )
+        ComponentLink.objects.create(component=shared, project=self.project)
+        language = Language.objects.get(code="pl")
+        url = ProjectLanguage(self.project, language).get_absolute_url()
+        create_url = reverse("new-language", kwargs={"path": shared.get_url_path()})
+
+        self.project.new_lang = "add"
+        self.project.inherit_new_lang = False
+        self.project.save(update_fields=["new_lang", "inherit_new_lang"])
+        self.assertNotContains(self.client.get(url), shared.name, status_code=200)
+
+        self.project.new_lang = "none"
+        self.project.save(update_fields=["new_lang"])
+        source.new_lang = "add"
+        source.save(update_fields=["new_lang"])
+        self.assertContains(self.client.get(url), f'action="{create_url}"')
+
+        response = self.client.post(create_url, {"lang": language.code})
+        translation = shared.translation_set.get(language=language)
+        self.assertRedirects(response, translation.get_absolute_url())
+
+    @override_settings(HIDE_SHARED_GLOSSARY_COMPONENTS=True)
+    def test_project_language_hides_shared_glossary(self) -> None:
+        source = self.create_project(name="Shared source", slug="shared-source")
+        language = self.component.source_language
+        glossary = source.scratch_create_component(
+            "Shared glossary",
+            "shared-glossary",
+            language,
+            "tbx",
+            is_glossary=True,
+            acting_user=self.user,
+        )
+        ComponentLink.objects.create(component=glossary, project=self.project)
+        self.assertTrue(glossary.translation_set.filter(language=language).exists())
+        url = ProjectLanguage(self.project, language).get_absolute_url()
+
+        response = self.client.get(url)
+        self.assertNotContains(response, glossary.name, status_code=200)
+
+        with override_settings(HIDE_SHARED_GLOSSARY_COMPONENTS=False):
+            response = self.client.get(url)
+        self.assertContains(response, glossary.name, status_code=200)
+
+
 class BasicViewTest(ReusableViewTestCase):
     def assert_upload_placeholder(self, response, tab: str) -> None:
         self.assertContains(response, "Upload translation")
