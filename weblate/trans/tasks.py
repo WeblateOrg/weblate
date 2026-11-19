@@ -1130,8 +1130,7 @@ def _is_project_or_category_path(parts: tuple[str, ...]) -> bool:
     for parent in reversed(categories[:-1]):
         kwargs[f"{prefix}category__slug"] = parent
         prefix = f"category__{prefix}"
-    if not kwargs:
-        kwargs["category"] = None
+    kwargs[f"{prefix}category"] = None
 
     return Category.objects.filter(
         slug__iexact=category, project__slug__iexact=project, **kwargs
@@ -1150,16 +1149,19 @@ def _get_component_by_vcs_path(parts: tuple[str, ...]) -> Component | None:
 class _StaleRepositoryLookup:
     containers: set[tuple[str, ...]]
     components: dict[tuple[str, ...], list[bool]]
+    ambiguous_project: bool = False
 
     @classmethod
     def load(cls, project_slug: str) -> _StaleRepositoryLookup:
         project_ids = list(
             Project.objects.filter(slug__iexact=project_slug).values_list(
                 "pk", flat=True
-            )
+            )[:2]
         )
         if not project_ids:
             return cls(set(), {})
+        if len(project_ids) > 1:
+            return cls(set(), {}, ambiguous_project=True)
 
         categories = {
             pk: (slug, parent_id)
@@ -1176,8 +1178,9 @@ class _StaleRepositoryLookup:
             return tuple(reversed(slugs))
 
         containers: set[tuple[str, ...]] = {()}
-        for pk in categories:
-            containers.update(cls.matching_paths(category_path(pk)))
+        containers.update(
+            cls.path_key((project_slug, *category_path(pk))) for pk in categories
+        )
 
         components: dict[tuple[str, ...], list[bool]] = {}
         for slug, category_id, is_link in (
@@ -1185,16 +1188,9 @@ class _StaleRepositoryLookup:
             .annotate(is_link=Q(repo__startswith="weblate://"))
             .values_list("slug", "category_id", "is_link")
         ):
-            for path in cls.matching_paths((*category_path(category_id), slug)):
-                components.setdefault(path, []).append(is_link)
+            path = cls.path_key((project_slug, *category_path(category_id), slug))
+            components.setdefault(path, []).append(is_link)
         return cls(containers, components)
-
-    @staticmethod
-    def matching_paths(parts: tuple[str, ...]) -> list[tuple[str, ...]]:
-        # Match the existing path filters: the leaf is case insensitive, parents
-        # are exact, and only paths without parents require a top-level object.
-        normalized = (*parts[:-1], parts[-1].upper())
-        return [normalized[index:] for index in range(max(1, len(parts) - 1))]
 
     @staticmethod
     def path_key(parts: tuple[str, ...]) -> tuple[str, ...]:
@@ -1215,7 +1211,11 @@ class _StaleRepositoryLookup:
 def _remove_empty_stale_repo(root: Path, parts: tuple[str, ...]) -> bool:
     if _is_project_or_category_path(parts):
         return False
-    component = _get_component_by_vcs_path(parts)
+    try:
+        component = _get_component_by_vcs_path(parts)
+    except Component.MultipleObjectsReturned:
+        LOGGER.warning("Skipping ambiguous VCS path: %s", root)
+        return False
     if component is not None and not component.is_repo_link:
         return False
     LOGGER.info("removing stale VCS path (not found): %s", root)
@@ -1229,65 +1229,23 @@ def _cleanup_stale_repos(
     yesterday: float,
     lookup: _StaleRepositoryLookup | None,
 ) -> bool:
+    if lookup is not None and lookup.ambiguous_project:
+        LOGGER.warning("Skipping ambiguous VCS path: %s", root)
+        return False
     root_is_known_container = lookup is None or lookup.is_container(
         root.relative_to(vcs_root).parts
     )
 
     empty_dir = True
     for path in root.glob("*"):
-        if not path.is_dir():
-            empty_dir = False
-            # Possibly a lock file
-            continue
         if (
-            root_is_known_container
-            and path.name.casefold() in MANAGED_VCS_METADATA_DIRS
+            not path.is_dir()
+            or (
+                root_is_known_container
+                and path.name.casefold() in MANAGED_VCS_METADATA_DIRS
+            )
+            or not _cleanup_stale_repo_child(path, vcs_root, yesterday, lookup)
         ):
-            empty_dir = False
-            continue
-
-        git_dir = path / ".git"
-        mercurial_dir = path / ".hg"
-        relative_parts = path.relative_to(vcs_root).parts
-        path_lookup = lookup
-        if path_lookup is None:
-            path_lookup = _StaleRepositoryLookup.load(relative_parts[0])
-
-        if path_lookup.is_container(relative_parts):
-            # Project/category dir, regardless of stale VCS metadata.
-            if not _cleanup_stale_repos(path, vcs_root, yesterday, path_lookup):
-                empty_dir = False
-            continue
-
-        is_link = path_lookup.component_is_link(relative_parts)
-        if is_link is False:
-            empty_dir = False
-            continue
-
-        if not git_dir.exists() and not mercurial_dir.exists():
-            # Possible project/category dir not present in the database.
-            if not _cleanup_stale_repos(path, vcs_root, yesterday, path_lookup):
-                empty_dir = False
-            continue
-
-        # Skip recently modified paths
-        if path.stat().st_mtime > yesterday:
-            empty_dir = False
-            continue
-
-        # The lookup is a snapshot. Recheck deletion candidates in case a project,
-        # category, or component was created or changed while traversing the tree.
-        if _is_project_or_category_path(relative_parts):
-            empty_dir = False
-            continue
-        component = _get_component_by_vcs_path(relative_parts)
-        if component is None:
-            LOGGER.info("removing stale VCS path (not found): %s", path)
-            remove_tree(path)
-        elif component.is_repo_link:
-            LOGGER.info("removing stale VCS path (uses link): %s", path)
-            remove_tree(path)
-        else:
             empty_dir = False
 
     if empty_dir and root != vcs_root:
@@ -1295,6 +1253,43 @@ def _cleanup_stale_repos(
             return False
         return _remove_empty_stale_repo(root, root.relative_to(vcs_root).parts)
     return empty_dir
+
+
+def _cleanup_stale_repo_child(
+    path: Path, vcs_root: Path, yesterday: float, lookup: _StaleRepositoryLookup | None
+) -> bool:
+    parts = path.relative_to(vcs_root).parts
+    if lookup is None:
+        lookup = _StaleRepositoryLookup.load(parts[0])
+    if lookup.ambiguous_project:
+        LOGGER.warning("Skipping ambiguous VCS path: %s", path)
+        return False
+
+    try:
+        is_link = lookup.component_is_link(parts)
+        if lookup.is_container(parts):
+            return _cleanup_stale_repos(path, vcs_root, yesterday, lookup)
+        if is_link is False:
+            return False
+        if not ((path / ".git").exists() or (path / ".hg").exists()):
+            return _cleanup_stale_repos(path, vcs_root, yesterday, lookup)
+        return path.stat().st_mtime <= yesterday and _remove_stale_checkout(path, parts)
+    except Component.MultipleObjectsReturned:
+        LOGGER.warning("Skipping ambiguous VCS path: %s", path)
+        return False
+
+
+def _remove_stale_checkout(path: Path, parts: tuple[str, ...]) -> bool:
+    # The lookup is a snapshot. Recheck deletion candidates against live data.
+    if _is_project_or_category_path(parts):
+        return False
+    component = _get_component_by_vcs_path(parts)
+    if component is not None and not component.is_repo_link:
+        return False
+    reason = "not found" if component is None else "uses link"
+    LOGGER.info("removing stale VCS path (%s): %s", reason, path)
+    remove_tree(path)
+    return True
 
 
 @app.task(trail=False)

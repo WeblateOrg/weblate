@@ -16,7 +16,7 @@ from zipfile import BadZipfile
 from django import forms
 from django.conf import settings
 from django.core.exceptions import ValidationError as DjangoValidationError
-from django.db import models, transaction
+from django.db import IntegrityError, models, transaction
 from django.db.models import Model, TextChoices
 from django.utils.translation import gettext_lazy
 from drf_spectacular.extensions import (
@@ -572,9 +572,27 @@ def resolve_component_reference_with_error(
 ) -> Component:
     try:
         return resolve_component_reference(queryset, value)
-    except Component.DoesNotExist as error:
+    except (Component.DoesNotExist, Component.MultipleObjectsReturned) as error:
         raise serializers.ValidationError(
             {field_name: "Component not found."}
+        ) from error
+
+
+@contextmanager
+def handle_slug_conflict() -> Generator[None, None, None]:
+    try:
+        yield
+    except IntegrityError as error:
+        if getattr(
+            getattr(error.__cause__, "diag", None), "constraint_name", None
+        ) not in {
+            "component_slug_ci_unique",
+            "project_slug_ci_unique",
+            "trans_project_slug_key",
+        }:
+            raise
+        raise serializers.ValidationError(
+            {"slug": "This URL slug is already in use at this level."}
         ) from error
 
 
@@ -1984,7 +2002,8 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             if inherit_field in initial_data:
                 continue
             validated_data[inherit_field] = has_workspace and field not in initial_data
-        return super().create(validated_data)
+        with handle_slug_conflict():
+            return super().create(validated_data)
 
     def update(self, instance, validated_data):
         if "enforced_checks" in validated_data:
@@ -1993,7 +2012,8 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "inherit_enforced_checks"
         )
         try:
-            return super().update(instance, validated_data)
+            with handle_slug_conflict():
+                return super().update(instance, validated_data)
         finally:
             del instance.preserve_enforced_checks_inheritance
 
@@ -2164,6 +2184,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
                 raise serializers.ValidationError(
                     {"workspace": error.messages}
                 ) from error
+        instance.validate_slug_unique()
         instance.clean()
         return attrs
 
@@ -2966,6 +2987,20 @@ class ComponentSerializer(RemovableSerializer[Component]):
         zipfile = attrs.pop("zipfile", None)
         from_component = attrs.pop("from_component", None)
 
+        if (
+            self.instance is not None
+            and (
+                attrs.get("slug", self.instance.slug) != self.instance.slug
+                or attrs.get("category", self.instance.category)
+                != self.instance.category
+            )
+            and not self.context["request"].user.has_perm(
+                "project.edit", self.instance.project
+            )
+        ):
+            msg = "Project management permission is required to change the component path."
+            raise PermissionDenied(msg)
+
         # Restrict create fields on patching
         if self.instance and (
             docfile is not None or zipfile is not None or from_component is not None
@@ -3073,7 +3108,8 @@ class ComponentSerializer(RemovableSerializer[Component]):
                     copy_addons=True,
                     seed_author=acting_user.get_author_name(),
                 )
-            component.save(force_insert=True)
+            with handle_slug_conflict():
+                component.save(force_insert=True)
             return component
 
     def update(self, instance, validated_data):
@@ -3085,7 +3121,8 @@ class ComponentSerializer(RemovableSerializer[Component]):
                 "inherit_enforced_checks"
             )
             try:
-                return super().update(instance, validated_data)
+                with handle_slug_conflict():
+                    return super().update(instance, validated_data)
             finally:
                 del instance.preserve_enforced_checks_inheritance
 

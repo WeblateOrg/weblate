@@ -2065,6 +2065,10 @@ Components
 
     Edit a component by a :http:method:`PATCH` request.
 
+    Changing the component slug or category requires both ``component.edit``
+    on the component and ``project.edit`` on its project. The same permissions
+    apply to :http:method:`PUT` requests.
+
     :param project: Project URL slug
     :type project: string
     :param component: Component URL slug

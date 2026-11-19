@@ -1061,31 +1061,31 @@ class MultipleFieldViewSet(WeblateViewSet):
         queryset = self.filter_queryset(queryset)
         # Generate lookup
         lookup = {}
-        category_path = ""
+        slug = None
         for field in reversed(self.lookup_fields):
             if field not in {"component__slug", "slug"}:
                 lookup[field] = self.kwargs[field]
-            else:
-                category_prefix = field[:-4]
-                was_category = False
-                was_slug = False
-                # Fetch component part for possible category
-                for category in reversed(unquote(self.kwargs[field]).split("/")):
-                    if not was_slug:
-                        # Component filter
-                        lookup[field] = category
-                        was_slug = True
-                    else:
-                        # Strip "slug" from category field
-                        category_path = f"category__{category_path}"
-                        lookup[f"{category_prefix}{category_path}slug"] = category
-                        was_category = True
-                if not was_category:
-                    # No category
-                    lookup[f"{category_prefix}category"] = None
+                continue
 
-        # Lookup the object
-        return get_object_or_404(queryset, **lookup)
+            *categories, slug = unquote(self.kwargs[field]).split("/")
+            lookup[f"{field}__iexact"] = slug
+            prefix = field.removesuffix("slug")
+            for category in reversed(categories):
+                lookup[f"{prefix}category__slug"] = category
+                prefix += "category__"
+            lookup[f"{prefix}category"] = None
+
+        try:
+            obj = get_object_or_404(queryset, **lookup)
+        except (
+            Component.MultipleObjectsReturned,
+            Translation.MultipleObjectsReturned,
+        ) as error:
+            raise Http404 from error
+        component = obj.component if isinstance(obj, Translation) else obj
+        if slug is not None and component.slug != slug:
+            raise Http404
+        return obj
 
 
 class UserFilter(filters.FilterSet):

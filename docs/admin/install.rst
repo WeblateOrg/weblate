@@ -390,9 +390,7 @@ owned by the ``weblate`` user inside the container (UID 1000).
 Database setup for Weblate
 --------------------------
 
-It is recommended to run Weblate with a PostgreSQL database server.
-
-PostgreSQL 13 and higher is supported. PostgreSQL 15 or newer is recommended.
+Weblate requires PostgreSQL 15 or later.
 
 .. seealso::
 
