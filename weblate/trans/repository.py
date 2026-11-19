@@ -157,7 +157,11 @@ def get_repository_operation_scope(task_id: str) -> list[int] | None:
 
 
 def acquire_repository_operation(
-    component_ids: list[int], operation: RepositoryOperation, task_id: str
+    component_ids: list[int],
+    operation: RepositoryOperation,
+    task_id: str,
+    *,
+    ttl: int = REPOSITORY_OPERATION_TTL,
 ) -> None:
     """Acquire all repository reservations, rolling back partial acquisition."""
     reservation: RepositoryOperationReservation = {
@@ -169,16 +173,13 @@ def acquire_repository_operation(
         if active is None and cache.add(
             get_repository_operation_key(component_id),
             reservation,
-            REPOSITORY_OPERATION_TTL,
+            ttl,
         ):
             continue
         if active is None:
             active = _get_active_reservation(component_id)
         if active == reservation:
-            cache.touch(
-                get_repository_operation_key(component_id),
-                REPOSITORY_OPERATION_TTL,
-            )
+            cache.touch(get_repository_operation_key(component_id), ttl)
             continue
 
         # Retries can already own later reservations in the scope. Release
@@ -188,11 +189,7 @@ def acquire_repository_operation(
             active["task_id"] if active is not None else None
         )
 
-    cache.set(
-        get_repository_operation_scope_key(task_id),
-        component_ids,
-        REPOSITORY_OPERATION_TTL,
-    )
+    cache.set(get_repository_operation_scope_key(task_id), component_ids, ttl)
 
 
 def release_repository_operation(component_ids: list[int], task_id: str) -> None:
@@ -309,7 +306,9 @@ def reserve_repository_operation(
 ) -> Generator[Callable[[], None]]:
     """Reserve repositories and yield an idempotent early-release callback."""
     task_id = uuid()
-    acquire_repository_operation(component_ids, operation, task_id)
+    acquire_repository_operation(
+        component_ids, operation, task_id, ttl=REPOSITORY_OPERATION_RUNNING_TTL
+    )
 
     def release() -> None:
         release_repository_operation(component_ids, task_id)

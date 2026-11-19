@@ -1206,6 +1206,18 @@ class RepositoryOperationQueueTest(ViewTestCase):
         return patch("django.core.cache.backends.locmem.time", clock)
 
     def test_dead_worker_does_not_block_operations(self) -> None:
+        # Killed while the operation is running
+        self.assert_dead_worker_does_not_block(
+            "weblate.trans.tasks.execute_repository_operation"
+        )
+
+    def test_worker_killed_when_starting_does_not_block_operations(self) -> None:
+        # Killed after claiming the reservation, before the operation starts
+        self.assert_dead_worker_does_not_block(
+            "weblate.trans.tasks.store_repository_operation_tracking"
+        )
+
+    def assert_dead_worker_does_not_block(self, killed_in: str) -> None:
         class WorkerKilledError(BaseException):
             pass
 
@@ -1222,13 +1234,10 @@ class RepositoryOperationQueueTest(ViewTestCase):
             ],
         )
 
-        # The worker starts the operation and is killed while it is running,
-        # so it neither releases the reservation nor keeps refreshing it.
+        # The worker is killed, so it neither releases the reservation nor
+        # keeps refreshing it.
         with (
-            patch(
-                "weblate.trans.tasks.execute_repository_operation",
-                side_effect=WorkerKilledError,
-            ),
+            patch(killed_in, side_effect=WorkerKilledError),
             patch("weblate.trans.tasks.release_repository_operation"),
             self.assertRaises(WorkerKilledError),
         ):
