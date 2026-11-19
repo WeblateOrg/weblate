@@ -9,6 +9,7 @@ from __future__ import annotations
 import os
 from shutil import copyfileobj
 from tempfile import NamedTemporaryFile
+from time import time
 from typing import TYPE_CHECKING, cast
 
 from django.conf import settings
@@ -20,6 +21,7 @@ from django.utils.functional import LazyObject, empty
 from weblate.utils.data import data_dir, data_path
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
     from pathlib import Path
 
     from django.db.models.fields.files import FieldFile
@@ -55,6 +57,11 @@ def reset_font_storage(*, setting: str, **kwargs: object) -> None:
         _font_storage.reset()
 
 
+# Copies of replaced fonts are kept this long after their last use, so
+# renders that already resolved the previous version can finish
+FONT_CACHE_GRACE = 3600
+
+
 def get_font_cache_dir() -> Path:
     return data_path("cache") / "fonts"
 
@@ -69,7 +76,10 @@ def get_cached_font(file: FieldFile, font_id: int, version: str) -> str:
     share the cache directory.
     """
     target = get_font_cache_dir() / f"{font_id}-{version}"
-    if not target.is_file():
+    if target.is_file():
+        # Record the use, so pruning keeps copies that renders still use
+        target.touch()
+    else:
         target.parent.mkdir(parents=True, exist_ok=True)
         with NamedTemporaryFile(dir=target.parent, prefix=".", delete=False) as temp:
             try:
@@ -79,12 +89,19 @@ def get_cached_font(file: FieldFile, font_id: int, version: str) -> str:
                 os.unlink(temp.name)
                 raise
         os.replace(temp.name, target)
-        # Remove copies of the previous versions of this font
-        remove_cached_font(font_id, keep=target)
+        # Remove unused copies of the previous versions of this font
+        remove_unused_cached_fonts(get_font_cache_dir().glob(f"{font_id}-*"))
     return str(target)
 
 
-def remove_cached_font(font_id: int, keep: Path | None = None) -> None:
-    for path in get_font_cache_dir().glob(f"{font_id}-*"):
-        if path != keep:
-            path.unlink(missing_ok=True)
+def remove_unused_cached_fonts(
+    paths: Iterable[Path], max_age: int = FONT_CACHE_GRACE
+) -> None:
+    """Remove local font copies not used within max_age seconds."""
+    cutoff = time() - max_age
+    for path in paths:
+        try:
+            if path.stat().st_mtime < cutoff:
+                path.unlink()
+        except FileNotFoundError:
+            continue

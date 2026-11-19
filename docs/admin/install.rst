@@ -822,7 +822,8 @@ prefix, because Weblate periodically removes files that do not belong to any
 font.
 
 The :ref:`check-max-size` check needs fonts as local files, so Weblate
-downloads each font on first use to :setting:`CACHE_DIR` ``/fonts``.
+downloads each font on first use to :setting:`CACHE_DIR` ``/fonts``. Copies
+that were not used for a day are removed, and downloaded again when needed.
 
 To move existing fonts, copy the content of :setting:`DATA_DIR` ``/fonts`` to
 the bucket, or under the ``location`` prefix when it is configured. Weblate

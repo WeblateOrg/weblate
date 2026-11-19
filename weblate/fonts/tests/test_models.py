@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import os
 from importlib import import_module
 from pathlib import Path
 
@@ -143,16 +144,22 @@ class FontStorageTest(FontComponentTestCase):
     def test_local_copy_cleanup(self) -> None:
         font = self.add_font()
         old_copy = Path(font.get_local_path())
-        # Replacing the font downloads a new copy and removes the old one
+        # A copy that is still in use survives a replacement
         font.save()
         new_copy = Path(font.get_local_path())
         self.assertNotEqual(old_copy, new_copy)
+        self.assertTrue(old_copy.exists())
+        # An unused copy is removed once the font is replaced again
+        os.utime(old_copy, (0, 0))
+        font.save()
+        newest_copy = Path(font.get_local_path())
         self.assertFalse(old_copy.exists())
         self.assertTrue(new_copy.exists())
-        # Copies of deleted fonts are removed by the cleanup
-        font.delete()
+        # The cleanup removes copies that were not used for a day
+        os.utime(new_copy, (0, 0))
         cleanup_font_files()
         self.assertFalse(new_copy.exists())
+        self.assertTrue(newest_copy.exists())
 
 
 class FontStorageCheckTest(SimpleTestCase):
