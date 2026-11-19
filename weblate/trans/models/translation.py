@@ -657,7 +657,7 @@ class Translation(
                 is_template=self.is_template,
                 existing_units=self.unit_set.all(),
                 file_format_params=self.component.file_format_params,
-                repo_temp_dir=self.component.repository.get_repo_temp_dir(),
+                repo_temp_dir=self.component.repository.get_repo_temp_dir(create=False),
                 file_validator=self.component.check_file_is_valid,
             )
 
@@ -1922,9 +1922,7 @@ class Translation(
         ):
             if "identity" in change.metadata:
                 identity_changes.setdefault(change.unit_id, []).append(change)
-        for index, pending_change in enumerate(pending_changes, start=1):
-            if index % 1000 == 0:
-                self.component.repository.lock.reacquire()
+        for pending_change in pending_changes:
             unit = pending_change.unit
 
             # update the unit in memory so that get_target_plurals returns

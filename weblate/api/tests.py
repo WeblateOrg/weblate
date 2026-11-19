@@ -5,7 +5,6 @@
 from __future__ import annotations
 
 import csv
-import itertools
 import json
 import operator
 import os
@@ -4771,6 +4770,22 @@ class GroupAPITest(APIBaseTest):
 
 
 class ComponentCopyTest(APITestCase):
+    def test_replace_component_checkout_missing_source(self) -> None:
+        with tempfile.TemporaryDirectory() as target_dir:
+            sentinel = Path(target_dir, "existing")
+            sentinel.touch()
+            source = SimpleNamespace(
+                full_path=Path(target_dir, "missing"),
+                repository=SimpleNamespace(lock=SimpleNamespace(read=nullcontext)),
+            )
+            target = SimpleNamespace(full_path=target_dir)
+            self.assertFalse(
+                replace_component_checkout(
+                    cast("Component", target), cast("Component", source)
+                )
+            )
+            self.assertTrue(sentinel.exists())
+
     def test_replace_component_checkout_protects_non_local_git_metadata(self) -> None:
         with (
             tempfile.TemporaryDirectory() as source_dir,
@@ -4791,7 +4806,9 @@ class ComponentCopyTest(APITestCase):
 
             source_component = SimpleNamespace(
                 full_path=source_dir,
-                repository=SimpleNamespace(lock=nullcontext(), metadata_dir_name=".hg"),
+                repository=SimpleNamespace(
+                    lock=SimpleNamespace(read=nullcontext), metadata_dir_name=".hg"
+                ),
             )
             target_component = SimpleNamespace(
                 full_path=target_dir,
@@ -4830,7 +4847,7 @@ class ComponentCopyTest(APITestCase):
                 source_component = SimpleNamespace(
                     full_path=source_dir,
                     repository=SimpleNamespace(
-                        lock=nullcontext(), metadata_dir_name=".hg"
+                        lock=SimpleNamespace(read=nullcontext), metadata_dir_name=".hg"
                     ),
                 )
                 target_component = SimpleNamespace(
@@ -4865,7 +4882,7 @@ class ComponentCopyTest(APITestCase):
             source = SimpleNamespace(
                 full_path=source_dir,
                 repository=SimpleNamespace(
-                    lock=nullcontext(), metadata_dir_name=".git"
+                    lock=SimpleNamespace(read=nullcontext), metadata_dir_name=".git"
                 ),
             )
             target = SimpleNamespace(
@@ -11217,7 +11234,7 @@ class ComponentAPITest(APIBaseTest):
         component.new_base = component.template
         repository = component.effective_repo_component.repository
         validate = component.check_file_is_valid
-        source_open = open
+        write = zipfile.ZipFile.write
         self.authenticate()
         self.user.groups.clear()
         self.grant_perm_to_user("translation.download", component=component)
@@ -11226,16 +11243,15 @@ class ComponentAPITest(APIBaseTest):
         self.assertFalse(self.user.has_perm("vcs.update", component))
 
         def check_validation(filename):
-            self.assertTrue(repository.lock.is_locked)
+            self.assertTrue(repository.lock.is_read_locked)
             return validate(filename)
 
-        def check_open(*args, **kwargs):
-            self.assertTrue(repository.lock.is_locked)
-            return source_open(*args, **kwargs)
+        def check_write(*args, **kwargs):
+            self.assertTrue(repository.lock.is_read_locked)
+            return write(*args, **kwargs)
 
         for endpoint in ("monolingual-base", "new-template"):
             with self.subTest(endpoint=endpoint):
-                clock = itertools.count(step=301)
                 with (
                     patch(
                         "weblate.api.views.ComponentViewSet.get_object",
@@ -11244,11 +11260,9 @@ class ComponentAPITest(APIBaseTest):
                     patch.object(
                         component, "check_file_is_valid", side_effect=check_validation
                     ) as validation,
-                    patch(
-                        "weblate.utils.views.open", side_effect=check_open, create=True
+                    patch.object(
+                        zipfile.ZipFile, "write", autospec=True, side_effect=check_write
                     ) as reads,
-                    patch.object(repository.lock, "reacquire") as reacquire,
-                    patch("weblate.utils.views.monotonic", side_effect=clock.__next__),
                 ):
                     response = self.do_request(
                         f"api:component-{endpoint}",
@@ -11259,8 +11273,7 @@ class ComponentAPITest(APIBaseTest):
                     )
                 validation.assert_called()
                 reads.assert_called()
-                reacquire.assert_called()
-                self.assertFalse(repository.lock.is_locked)
+                self.assertFalse(repository.lock.is_read_locked)
                 with zipfile.ZipFile(BytesIO(b"".join(response))) as archive:
                     self.assertIn("title.txt", archive.namelist())
 
@@ -11280,11 +11293,11 @@ class ComponentAPITest(APIBaseTest):
         validate = component.check_file_is_valid
 
         def check_validation(path):
-            self.assertTrue(repository.lock.is_locked)
+            self.assertTrue(repository.lock.is_read_locked)
             return validate(path)
 
         def check_snapshot(*args, **kwargs):
-            self.assertTrue(repository.lock.is_locked)
+            self.assertTrue(repository.lock.is_read_locked)
             return snapshot_file_response(*args, **kwargs)
 
         try:
@@ -11315,7 +11328,7 @@ class ComponentAPITest(APIBaseTest):
                         )
                     self.addCleanup(list, response.streaming_content)
                     snapshot.assert_called_once()
-                    self.assertFalse(repository.lock.is_locked)
+                    self.assertFalse(repository.lock.is_read_locked)
                     filename.write_bytes(b"changed checkout")
                     self.assertEqual(b"".join(response.streaming_content), original)
                     self.assertIn("en.po", response["Content-Disposition"])
@@ -11343,7 +11356,7 @@ class ComponentAPITest(APIBaseTest):
                     f"api:component-{endpoint}",
                     {"project__slug": component.project.slug, "slug": component.slug},
                 )
-            self.assertFalse(repository.lock.is_locked)
+            self.assertFalse(repository.lock.is_read_locked)
 
     def test_template_download_repository_locked(self) -> None:
         component = self.component
@@ -11359,7 +11372,7 @@ class ComponentAPITest(APIBaseTest):
                     return_value=component,
                 ),
                 patch.object(
-                    type(component.repository.lock), "__enter__", side_effect=error
+                    type(component.repository.lock), "read", side_effect=error
                 ),
             ):
                 response = self.do_request(

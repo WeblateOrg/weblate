@@ -7,8 +7,6 @@
 from __future__ import annotations
 
 from concurrent.futures import ThreadPoolExecutor
-from pathlib import Path
-from tempfile import TemporaryDirectory
 from threading import Event
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, Any, cast
@@ -61,7 +59,7 @@ from weblate.utils.change_origin import (
     get_acting_user,
     get_change_origin,
 )
-from weblate.utils.lock import WeblateLock
+from weblate.utils.lock import LockScope, WeblateLock
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.workspaces.models import Workspace
 
@@ -399,7 +397,6 @@ class CheckFinalizationConcurrencyTest(RepoTestMixin, TransactionTestCase):
                 )
 
         with (
-            patch("weblate.utils.lock.is_redis_cache", return_value=False),
             patch.object(WeblateLock, "__enter__", enter),
             patch.object(WeblateLock, "__exit__", exit_lock),
             patch.object(BatchCheckMixin, "_perform_batch", perform),
@@ -422,7 +419,6 @@ class CheckFinalizationConcurrencyTest(RepoTestMixin, TransactionTestCase):
             original_enter(lock)
 
         with (
-            patch("weblate.utils.lock.is_redis_cache", return_value=False),
             patch.object(WeblateLock, "__enter__", enter),
             patch.object(BatchCheckMixin, "_perform_batch"),
             ThreadPoolExecutor(max_workers=1) as pool,
@@ -443,7 +439,6 @@ class CheckFinalizationConcurrencyTest(RepoTestMixin, TransactionTestCase):
                 )
 
         with (
-            patch("weblate.utils.lock.is_redis_cache", return_value=False),
             patch.object(BatchCheckMixin, "_perform_batch", perform),
             patch(
                 "weblate.checks.tasks._refresh_propagated_checks", return_value=[]
@@ -474,7 +469,6 @@ class CheckFinalizationConcurrencyTest(RepoTestMixin, TransactionTestCase):
             return []
 
         with (
-            patch("weblate.utils.lock.is_redis_cache", return_value=False),
             patch.object(WeblateLock, "__enter__", enter),
             patch(
                 "weblate.checks.tasks._refresh_propagated_checks",
@@ -494,7 +488,6 @@ class CheckFinalizationConcurrencyTest(RepoTestMixin, TransactionTestCase):
         other_project = self.create_project(name="Independent", slug="independent")
         Component.objects.filter(pk=self.other.pk).update(project=other_project)
         with (
-            patch("weblate.utils.lock.is_redis_cache", return_value=False),
             patch.object(BatchCheckMixin, "_perform_batch"),
             ThreadPoolExecutor(max_workers=1) as pool,
             check_boundary_lock(self.component.project),
@@ -575,47 +568,23 @@ class CheckBoundaryRefreshTest(FixtureTestCase):
             for identifier in (1, 2)
         ]
         with (
-            TemporaryDirectory() as directory,
-            self.settings(DATA_DIR=directory),
-            patch("weblate.utils.lock.is_redis_cache", return_value=False),
+            self.assertNumQueries(2),
             check_boundary_lock(projects[0]),
             check_boundary_lock(projects[1]),
         ):
             pass
-        # A leaked registry entry would try to reuse the previous deleted file.
-        with (
-            TemporaryDirectory() as directory,
-            self.settings(DATA_DIR=directory),
-            patch("weblate.utils.lock.is_redis_cache", return_value=False),
-            check_boundary_lock(projects[1]),
-        ):
-            pass
 
-    def test_nested_redis_lock_released_after_error(self) -> None:
-        redis_lock = MagicMock()
-        redis_lock.owned.return_value = False
+    def test_nested_boundary_lock_released_after_error(self) -> None:
         project = Project(pk=123, name="Shared", slug="shared")
         other = Project(pk=123, name="Shared", slug="shared")
         with (
-            patch("weblate.utils.lock.is_redis_cache", return_value=True),
-            patch(
-                "weblate.utils.lock.cache",
-                SimpleNamespace(lock=MagicMock(return_value=redis_lock)),
-            ),
+            self.assertRaisesMessage(ValueError, "Failed"),
+            check_boundary_lock(project),
+            check_boundary_lock(other),
         ):
-            with (
-                self.assertRaisesMessage(ValueError, "Failed"),
-                check_boundary_lock(project),
-                check_boundary_lock(other),
-            ):
-                msg = "Failed"
-                raise ValueError(msg)
-            self.assertEqual(redis_lock.acquire.call_count, 1)
-            redis_lock.release.assert_called_once()
-            with check_boundary_lock(other):
-                pass
-            self.assertEqual(redis_lock.acquire.call_count, 2)
-            self.assertEqual(redis_lock.release.call_count, 2)
+            msg = "Failed"
+            raise ValueError(msg)
+        self.assertFalse(project.checks_lock.is_locked)
 
     def test_inline_component_batch_waits_for_commit_and_preserves_context(
         self,
@@ -1078,84 +1047,10 @@ class CheckModelTestCase(FixtureTestCase):
 
 
 class BatchCheckMixinTest(SimpleTestCase):
-    def test_project_checks_lock_uses_unique_file_name(self) -> None:
+    def test_check_lock_namespaces(self) -> None:
         project = Project(pk=1, name="Shared", slug="shared")
-
-        with (
-            TemporaryDirectory() as temp_dir,
-            self.settings(DATA_DIR=temp_dir),
-            patch("weblate.utils.lock.is_redis_cache", return_value=False),
-        ):
-            project_lock = project.checks_lock
-            component_lock = WeblateLock(
-                scope="component:checks",
-                key=1,
-                slug=project.slug,
-                timeout=5,
-                origin=project.full_slug,
-            )
-
-        # ruff: ignore[private-member-access]
-        self.assertNotEqual(project_lock._name, component_lock._name)
-        # ruff: ignore[private-member-access]
-        self.assertEqual(Path(project_lock._name).parent, Path(temp_dir, "locks"))
-        self.assertEqual(
-            # ruff: ignore[private-member-access]
-            Path(project_lock._name).name,
-            "project%3Achecks-1.lock",
-        )
-        self.assertEqual(
-            # ruff: ignore[private-member-access]
-            Path(component_lock._name).name,
-            "component%3Achecks-1.lock",
-        )
-
-    def test_project_checks_lock_uses_longer_timeout(self) -> None:
-        project = Project(name="Shared", slug="shared")
-
-        with (
-            TemporaryDirectory() as lock_path,
-            patch("weblate.utils.lock.is_redis_cache", return_value=False),
-        ):
-            project.__dict__["full_path"] = lock_path
-            project_lock = project.checks_lock
-
-        # ruff: ignore[private-member-access]
-        self.assertEqual(project_lock._timeout, 30)
-
-    def test_component_checks_lock_uses_key_in_file_name(self) -> None:
-        with (
-            TemporaryDirectory() as temp_dir,
-            self.settings(DATA_DIR=temp_dir),
-            patch("weblate.utils.lock.is_redis_cache", return_value=False),
-        ):
-            first_lock = WeblateLock(
-                scope="component:checks",
-                key=1,
-                slug="shared",
-                timeout=5,
-                origin="project/shared",
-            )
-            second_lock = WeblateLock(
-                scope="component:checks",
-                key=2,
-                slug="shared",
-                timeout=5,
-                origin="project/shared",
-            )
-
-        # ruff: ignore[private-member-access]
-        self.assertNotEqual(first_lock._name, second_lock._name)
-        self.assertEqual(
-            # ruff: ignore[private-member-access]
-            Path(first_lock._name).name,
-            "component%3Achecks-1.lock",
-        )
-        self.assertEqual(
-            # ruff: ignore[private-member-access]
-            Path(second_lock._name).name,
-            "component%3Achecks-2.lock",
-        )
+        component = WeblateLock(scope=LockScope.COMPONENT_CHECKS, key=project.pk)
+        self.assertNotEqual(project.checks_lock.name, component.name)
 
     def test_project_wide_batch_uses_project_lock(self) -> None:
         project_lock = MagicMock()

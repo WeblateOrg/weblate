@@ -12,6 +12,7 @@ import re
 import stat
 import warnings
 from collections import defaultdict
+from contextlib import ExitStack
 from datetime import datetime
 from functools import partial
 from io import BytesIO
@@ -19,7 +20,6 @@ from itertools import batched
 from operator import itemgetter
 from pathlib import Path, PurePosixPath
 from shutil import copyfileobj
-from time import monotonic
 from typing import (
     TYPE_CHECKING,
     Any,
@@ -133,8 +133,6 @@ warnings.filterwarnings("error", module="zipfile")
 
 ModelT = TypeVar("ModelT", bound="Model")
 PROJECTBACKUP_PREFIX = "projectbackups"
-REPOSITORY_LOCK_REFRESH_INTERVAL = 300
-BACKUP_COPY_CHUNK_SIZE = 1024 * 1024
 TRANSLATION_REVISION_RE = re.compile(
     r"(?:[0-9a-f]{40}(?::[0-9]+)?(?:,[0-9a-f]{40}){0,2})?"
 )
@@ -938,7 +936,6 @@ class ProjectBackup:
         backupzip: ZipFile,
         directory: str,
         target: str,
-        refresh_lock: Callable[[], None],
         *,
         metadata_dir_name: str | None = None,
     ) -> None:
@@ -948,17 +945,7 @@ class ProjectBackup:
             if not isinstance(error, FileNotFoundError):
                 raise error
 
-        refresh_at = monotonic() + REPOSITORY_LOCK_REFRESH_INTERVAL
-
-        def refresh_repository_lock() -> None:
-            nonlocal refresh_at
-            now = monotonic()
-            if now >= refresh_at:
-                refresh_lock()
-                refresh_at = now + REPOSITORY_LOCK_REFRESH_INTERVAL
-
         for folder, subfolders, filenames in os.walk(directory, onerror=onerror):
-            refresh_repository_lock()
             is_root = folder == directory
             subfolders[:] = [
                 name
@@ -967,7 +954,6 @@ class ProjectBackup:
                 or (is_root and name == metadata_dir_name)
             ]
             for filename in filenames:
-                refresh_repository_lock()
                 if filename.casefold() in {".hg", ".git"}:
                     continue
                 path = os.path.join(folder, filename)
@@ -975,20 +961,7 @@ class ProjectBackup:
                 if os.path.islink(path):
                     continue
                 archive_path = os.path.join(target, os.path.relpath(path, directory))
-                file_info = ZipInfo.from_file(path, archive_path)
-                file_info.compress_type = backupzip.compression
-                # TODO: Use compress_level after dropping Python 3.12 support.
-                # ruff: ignore[private-member-access]
-                file_info._compresslevel = (  # type: ignore[attr-defined]
-                    backupzip.compresslevel
-                )
-                with (
-                    open(path, "rb") as source,
-                    backupzip.open(file_info, "w") as output,
-                ):
-                    while chunk := source.read(BACKUP_COPY_CHUNK_SIZE):
-                        output.write(chunk)
-                        refresh_repository_lock()
+                backupzip.write(path, archive_path)
 
     def backup_json(self, backupzip: ZipFile, data: dict | list, target: str) -> None:
         with backupzip.open(target, "w") as handle:
@@ -1180,28 +1153,29 @@ class ProjectBackup:
 
         # Compact the repository
         # Recovery can fail on damaged metadata before maintenance can handle it.
-        with component.repository.lock.without_recovery(), component.repository.lock:
-            try:
-                os.stat(component.full_path)
-            except FileNotFoundError:
-                component.log_warning(
-                    "skipping missing repository directory during project backup"
-                )
-                return
-            try:
-                component.repository.maintenance()
-            except RepositoryCommandError as error:
-                component.log_warning(
-                    "repository maintenance failed during project backup: %s", error
-                )
+        lock = component.repository.lock
+        with ExitStack() as reader:
+            with lock.without_recovery(), lock:
+                try:
+                    os.stat(component.full_path)
+                except FileNotFoundError:
+                    component.log_warning(
+                        "skipping missing repository directory during project backup"
+                    )
+                    return
+                try:
+                    component.repository.maintenance()
+                except RepositoryCommandError as error:
+                    component.log_warning(
+                        "repository maintenance failed during project backup: %s", error
+                    )
+                lock.hold_read_after_write(reader)
 
             # Keep the checkout stable from validation through every archive read.
-            component.repository.lock.reacquire()
             self.backup_dir(
                 backupzip,
                 component.full_path,
                 f"{self.VCS_PREFIX}{self.full_slug_without_project(component)}",
-                component.repository.lock.reacquire,
                 metadata_dir_name=component.repository.metadata_dir_name,
             )
 

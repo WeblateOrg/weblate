@@ -26,7 +26,7 @@ from weblate.lang.models import Language
 from weblate.trans.checklists import TranslationChecklistMixin
 from weblate.trans.mixins import BaseURLMixin
 from weblate.trans.util import translation_percent
-from weblate.utils.lock import WeblateLock
+from weblate.utils.lock import LockScope, WeblateLock
 from weblate.utils.random import get_random_identifier
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
@@ -311,11 +311,9 @@ class BaseStats:
     @cached_property
     def lock(self) -> WeblateLock:
         return WeblateLock(
-            scope="stats:update",
+            scope=LockScope.STATS_UPDATE,
             key=self.cache_key,
-            slug=self.cache_key,
             timeout=5,
-            expiry_timeout=300,
             origin=self.cache_key,
         )
 

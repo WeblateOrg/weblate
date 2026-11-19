@@ -49,7 +49,7 @@ from weblate.utils.change_origin import (
 )
 from weblate.utils.files import remove_tree
 from weblate.utils.licenses import get_license_choices
-from weblate.utils.lock import WeblateLock
+from weblate.utils.lock import LockScope, WeblateLock
 from weblate.utils.render import (
     validate_render_addon,
     validate_render_commit,
@@ -1099,9 +1099,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
         if workspace_propagation(self):
             return WeblateLock(
-                scope="workspace:checks",
+                scope=LockScope.WORKSPACE_CHECKS,
                 key=str(self.workspace_id),
-                slug=str(self.workspace_id),
                 timeout=PROJECT_CHECKS_LOCK_TIMEOUT,
                 origin=self.full_slug,
             )
@@ -1110,9 +1109,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     @cached_property
     def checks_lock(self):
         return WeblateLock(
-            scope="project:checks",
+            scope=LockScope.PROJECT_CHECKS,
             key=self.pk,
-            slug=self.slug,
             timeout=PROJECT_CHECKS_LOCK_TIMEOUT,
             origin=self.full_slug,
         )

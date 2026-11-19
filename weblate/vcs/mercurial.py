@@ -122,6 +122,9 @@ class HgRepository(Repository):
                 ):
                     os.unlink(name, dir_fd=directory_fd)
 
+    # Recovery removes nested VCS metadata throughout the checkout.
+    exclusive_read_recovery = True
+
     def recover_lock_session(self) -> list[RepositoryRecoveryEvent]:
         events = super().recover_lock_session()
         try:

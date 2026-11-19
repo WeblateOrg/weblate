@@ -6,7 +6,7 @@
 
 from __future__ import annotations
 
-from contextlib import contextmanager
+from contextlib import ExitStack, contextmanager
 from contextvars import ContextVar
 from functools import wraps
 from secrets import randbelow
@@ -15,10 +15,9 @@ from typing import TYPE_CHECKING, Any, cast
 from celery import current_task
 from celery.utils.time import get_exponential_backoff_interval
 from django.db import connection
-from psycopg.pq import TransactionStatus
 
 from weblate.logger import LOGGER
-from weblate.utils.lock import WeblateLockTimeoutError
+from weblate.utils.lock import AdvisoryLock, WeblateLockTimeoutError
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator
@@ -59,38 +58,20 @@ def ensure_translation_session() -> None:
 @contextmanager
 def translation_guard(translation_id: int) -> Generator[None]:
     key = f"weblate-autotranslate:{translation_id}"
-    with connection.cursor() as cursor:
-        cursor.execute("SELECT pg_try_advisory_lock(hashtextextended(%s, 0))", [key])
-        if not cursor.fetchone()[0]:
-            raise AutomaticTranslationBusyError(translation_id)
-    session = connection.connection
-    token = _session.set((translation_id, session))
-    try:
-        if connection.in_atomic_block:
-            # The session guard covers provider calls. The transaction guard
-            # additionally protects writes until a surrounding edit commits.
-            with connection.cursor() as cursor:
-                cursor.execute(
-                    "SELECT pg_advisory_xact_lock(hashtextextended(%s, 0))", [key]
-                )
-        yield
-        ensure_translation_session()
-    finally:
-        _session.reset(token)
-        if connection.connection is session:
-            if (
-                session.closed
-                or connection.needs_rollback
-                or session.info.transaction_status == TransactionStatus.INERROR
-            ):
-                # An aborted transaction cannot execute an unlock statement.
-                # Closing also prevents a broken session leaking into the pool.
-                connection.close()
-            else:
-                with connection.cursor() as cursor:
-                    cursor.execute(
-                        "SELECT pg_advisory_unlock(hashtextextended(%s, 0))", [key]
-                    )
+    lock = AdvisoryLock(key, scope="autotranslate", timeout=0)
+    with ExitStack() as stack:
+        try:
+            stack.enter_context(lock)
+        except WeblateLockTimeoutError as error:
+            raise AutomaticTranslationBusyError(translation_id) from error
+        token = _session.set((translation_id, connection.connection))
+        try:
+            if connection.in_atomic_block:
+                lock.acquire_transaction()
+            yield
+            ensure_translation_session()
+        finally:
+            _session.reset(token)
 
 
 class TranslationContinuation:
