@@ -359,6 +359,7 @@ class ProjectBackup:
         self.memory_loaded = False
         self.category_paths: set[str] = set()
         self.component_full_slugs: set[str] = set()
+        self.component_slug_siblings: set[tuple[str, str]] = set()
         self.component_slugs_by_length: list[str] = []
         self.component_repo_links: set[str] = set()
         self.component_vcs: dict[str, type[Repository] | None] = {}
@@ -574,6 +575,11 @@ class ProjectBackup:
             },
             model_clean=True,
         )
+        if target_project_slug is not None:
+            try:
+                self.validation_project.validate_slug_unique()
+            except ValidationError as error:
+                raise self.contextualize_validation_error(error, "project") from error
         # Component.clean_model_settings() skips validation without a project
         # primary key. This sentinel keeps validation database-free while
         # allowing it to reuse project-dependent model invariants.
@@ -1508,6 +1514,12 @@ class ProjectBackup:
                 }
             )
         self.path_siblings.add(sibling)
+        folded_sibling = (category, component["slug"].upper())
+        if folded_sibling in self.component_slug_siblings:
+            raise ValidationError(
+                {f"{path}.component.slug": [gettext("Duplicate component slug.")]}
+            )
+        self.component_slug_siblings.add(folded_sibling)
         name_sibling = (category, component["name"])
         if name_sibling in self.name_siblings:
             raise ValidationError(
@@ -2031,6 +2043,7 @@ class ProjectBackup:
         self.memory_data.clear()
         self.memory_loaded = False
         self.component_full_slugs = set()
+        self.component_slug_siblings = set()
         self.component_slugs_by_length = []
         self.component_repo_links = set()
         self.component_vcs = {}
@@ -2758,7 +2771,11 @@ class ProjectBackup:
     def get_accessible_linked_component(repo: str, actor: User) -> Component | None:
         try:
             linked_component = Component.objects.get_linked(repo)
-        except (Component.DoesNotExist, ValueError):
+        except (
+            Component.DoesNotExist,
+            Component.MultipleObjectsReturned,
+            ValueError,
+        ):
             return None
         if linked_component is None or linked_component.is_repo_link:
             return None

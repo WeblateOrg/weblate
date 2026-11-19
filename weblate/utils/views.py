@@ -72,6 +72,16 @@ class UnsupportedPathObjectError(Http404):
     pass
 
 
+class ComponentSlugMismatch(Http404):
+    def __init__(
+        self, component: Component, project: Project, component_index: int
+    ) -> None:
+        super().__init__()
+        self.component = component
+        self.project = project
+        self.component_index = component_index
+
+
 def key_name(instance):
     # ruff: ignore[import-outside-top-level]
     from weblate.trans.formatting import get_breadcrumbs
@@ -364,7 +374,8 @@ def parse_path(
 
     # Component/category structure
     current: Project | Category | Component = project
-    category_args = {"category": None}
+    category_args: dict[str, Project | None] = {"category": None}
+    component_index = 1
     while path:
         slug = path.pop(0)
 
@@ -376,20 +387,28 @@ def parse_path(
                 raise TypeError
             return CategoryLanguage(current, language)
 
-        # Try component first
-        with suppress(Component.DoesNotExist):
-            current = current.component_set.get(slug=slug, **category_args)
+        try:
+            component = current.component_set.get(slug__iexact=slug, **category_args)
+        except (Component.DoesNotExist, Component.MultipleObjectsReturned):
+            component = None
+        if component is not None and component.slug == slug:
+            current = component
             if request is not None:
                 request.user.check_access_component(current)
             break
 
-        # Try category
+        # An exact category wins over a differently cased component.
         with suppress(Category.DoesNotExist):
             current = cast("Project | Category", current).category_set.get(
                 slug=slug, **category_args
             )
-            category_args = {}
+            category_args = {"project": project}
+            component_index += 1
             continue
+
+        if component is not None and request is not None:
+            request.user.check_access_component(component)
+            raise ComponentSlugMismatch(component, project, component_index)
 
         # Nothing more to try
         msg = f"Object {slug} not found in {current}"

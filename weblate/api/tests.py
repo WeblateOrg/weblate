@@ -11833,6 +11833,120 @@ class ComponentAPITest(APIBaseTest):
         self.component.refresh_from_db()
         self.assertEqual(self.component.effective_commit_message, message)
 
+    def test_path_changes_require_project_edit(self) -> None:
+        self.grant_perm_to_user("component.edit", component=self.component)
+        category = Category.objects.create(
+            project=self.project, name="Destination", slug="destination"
+        )
+        category_url = reverse("api:category-detail", kwargs={"pk": category.pk})
+        existing = self.do_request("api:component-detail", self.component_kwargs).data
+        for method, fields in (
+            ("patch", {"slug": "new-path"}),
+            ("patch", {"category": category_url}),
+            ("put", {**existing, "slug": "new-path"}),
+        ):
+            with self.subTest(method=method, fields=fields.keys()):
+                self.do_request(
+                    "api:component-detail",
+                    self.component_kwargs,
+                    method=method,
+                    code=403,
+                    format="json",
+                    request=fields,
+                )
+        self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            format="json",
+            request={"slug": self.component.slug, "category": None, "name": "New name"},
+        )
+        self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            superuser=True,
+            format="json",
+            request={"slug": "new-path", "category": category_url},
+        )
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.slug, "new-path")
+        self.assertEqual(self.component.category_id, category.pk)
+
+    def test_component_path_matches_category_ancestry(self) -> None:
+        top = Category.objects.create(
+            project=self.project, name="Shared category", slug="shared-category"
+        )
+        parent = Category.objects.create(
+            project=self.project, name="Parent", slug="parent"
+        )
+        nested = Category.objects.create(
+            project=self.project,
+            category=parent,
+            name="Shared category",
+            slug=top.slug,
+        )
+        components = [
+            self.create_po(project=self.project, name="Shared", category=category)
+            for category in (top, nested)
+        ]
+        for component in components:
+            with self.subTest(category=component.category):
+                response = self.do_request(
+                    "api:component-detail",
+                    {
+                        "project__slug": self.project.slug,
+                        "slug": "%2F".join(component.get_url_path()[1:]),
+                    },
+                )
+                self.assertEqual(response.data["id"], component.pk)
+
+    def test_component_and_translation_paths_require_exact_slug(self) -> None:
+        for endpoint, kwargs, field in (
+            ("api:component-detail", self.component_kwargs, "slug"),
+            ("api:translation-detail", self.translation_kwargs, "component__slug"),
+        ):
+            with self.subTest(endpoint=endpoint):
+                self.do_request(
+                    endpoint, {**kwargs, field: kwargs[field].upper()}, code=404
+                )
+
+    def test_slug_conflict_at_save_keeps_checkout_and_links(self) -> None:
+        sibling = self.create_po(project=self.project, name="Existing-sibling")
+        linked = self.create_link_existing(
+            name="Linked to original", slug="original-link"
+        )
+        original_slug = self.component.slug
+        original_path = Path(self.component.full_path)
+        sibling_path = Path(sibling.full_path)
+        original_repo = linked.repo
+
+        # Exercise the database guard when pre-save validation missed a conflict.
+        with patch.object(Component, "clean_unique_together"):
+            response = self.do_request(
+                "api:component-detail",
+                self.component_kwargs,
+                method="patch",
+                superuser=True,
+                code=400,
+                format="json",
+                request={"slug": sibling.slug.upper()},
+            )
+        self.assertEqual(
+            [
+                error["detail"]
+                for error in response.data["errors"]
+                if error["attr"] == "slug"
+            ],
+            ["This URL slug is already in use at this level."],
+        )
+        self.assertTrue(original_path.is_dir())
+        self.assertTrue(sibling_path.is_dir())
+        self.component.refresh_from_db()
+        linked.refresh_from_db()
+        self.assertEqual(self.component.slug, original_slug)
+        self.assertEqual(linked.repo, original_repo)
+
     def test_patch_empty_enforced_checks_overrides_inheritance(self) -> None:
         Project.objects.filter(pk=self.project.pk).update(
             enforced_checks=["same"], inherit_enforced_checks=False

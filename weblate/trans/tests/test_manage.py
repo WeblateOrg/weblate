@@ -8,13 +8,15 @@ from __future__ import annotations
 
 import os.path
 import pathlib
+from concurrent.futures import ThreadPoolExecutor
 from tempfile import TemporaryDirectory
+from threading import Barrier
 from typing import ClassVar, Never
 from unittest.mock import patch
 
 from django.core import mail
 from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
-from django.db import connection, transaction
+from django.db import IntegrityError, connection, connections, transaction
 from django.db.models.signals import post_save
 from django.test import TransactionTestCase, override_settings
 from django.urls import reverse
@@ -56,6 +58,46 @@ class ProjectSaveTransactionTest(TransactionTestCase):
 
         self.enterContext(acting_user_context(get_test_actor(self)))
 
+    def test_concurrent_slug_updates_preserve_both_checkouts(self) -> None:
+        other = Project.objects.create(name="Other project", slug="other-project")
+        projects = {project.pk: project for project in (self.project, other)}
+        old_paths = {
+            pk: pathlib.Path(project.full_path) for pk, project in projects.items()
+        }
+        for pk, path in old_paths.items():
+            (path / "probe.txt").write_text(projects[pk].name)
+
+        ready = Barrier(2, timeout=10)
+        actor = get_test_actor(self)
+
+        def rename(pk: int, slug: str) -> bool:
+            try:
+                project = Project.objects.get(pk=pk)
+                project.slug = slug
+                ready.wait()
+                with acting_user_context(actor):
+                    project.save(update_fields=["slug"])
+            except IntegrityError:
+                return False
+            finally:
+                connections.close_all()
+            return True
+
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            first = pool.submit(rename, self.project.pk, "Shared-path")
+            second = pool.submit(rename, other.pk, "shared-path")
+            self.assertCountEqual(
+                [first.result(timeout=20), second.result(timeout=20)], [True, False]
+            )
+
+        self.assertEqual(Project.objects.filter(slug__iexact="shared-path").count(), 1)
+        for project in Project.objects.filter(pk__in=projects):
+            path = pathlib.Path(project.full_path)
+            self.assertEqual((path / "probe.txt").read_text(), project.name)
+            self.assertEqual(
+                old_paths[project.pk].exists(), old_paths[project.pk] == path
+            )
+
     def test_failed_setup_discards_audit_without_outer_transaction(self) -> None:
         self.assertFalse(connection.in_atomic_block)
         changes = self.project.change_set.count()
@@ -95,6 +137,38 @@ class ProjectSaveTransactionTest(TransactionTestCase):
             (pathlib.Path(persisted.full_path) / "probe.txt").read_text(),
             "repository contents",
         )
+
+    def test_save_failure_restores_checkout_after_rename_reported_missing(self) -> None:
+        old_slug = self.project.slug
+        old_path = pathlib.Path(self.project.full_path)
+        new_path = old_path.with_name("new-path")
+        probe = old_path / "probe.txt"
+        probe.write_text("repository contents")
+        self.project.slug = new_path.name
+        rename = os.rename
+
+        def rename_then_report_missing(source: str, destination: str) -> None:
+            rename(source, destination)
+            if pathlib.Path(source) == old_path:
+                raise FileNotFoundError
+
+        with (
+            patch(
+                "weblate.trans.mixins.os.rename", side_effect=rename_then_report_missing
+            ),
+            patch.object(
+                self.project,
+                "_update_component_repository_links",
+                side_effect=RuntimeError("could not update repository links"),
+            ),
+            self.assertRaisesMessage(RuntimeError, "could not update repository links"),
+        ):
+            self.project.save(update_fields=["slug"])
+
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.slug, old_slug)
+        self.assertEqual(probe.read_text(), "repository contents")
+        self.assertFalse(new_path.exists())
 
     def test_new_project_can_retry_after_failed_setup(self) -> None:
         project = Project(

@@ -148,6 +148,8 @@ URL slug
 
 Project name suitable for URLs.
 
+Project slugs are case-insensitively unique across the instance.
+
 .. _project-web:
 
 Project website
@@ -574,6 +576,10 @@ Component slug
 ++++++++++++++
 
 Component name suitable for URLs.
+
+The slug is case-insensitively unique among components in the same category or
+at the top level of the same project. Different projects and categories may reuse
+the same component slug.
 
 .. _component-project:
 

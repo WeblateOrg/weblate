@@ -14,7 +14,7 @@ from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import IntegrityError, models, router, transaction
 from django.db.models import Exists, F, Q, QuerySet, Value
-from django.db.models.functions import Replace
+from django.db.models.functions import Replace, Upper
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
@@ -660,6 +660,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         app_label = "trans"
         verbose_name = "Project"
         verbose_name_plural = "Projects"
+        constraints = [  # ruff: ignore[mutable-class-default]
+            models.UniqueConstraint(Upper("slug"), name="project_slug_ci_unique"),
+        ]
 
     def __str__(self) -> str:
         return self.name
@@ -690,7 +693,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             self.billing_original_workspace_id,
         )
         original_state = (self.pk, self._state.adding, self._state.db)
-        renamed_paths: tuple[str, str] | None = None
+        moved_paths: list[tuple[str, str]] = []
         created_paths: list[str] = []
         committed = False
 
@@ -720,16 +723,16 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                     capture_change_origin(mark_committed), using=using
                 )
                 old = Project.objects.using(using).get(pk=self.pk) if self.pk else None
-                renamed_paths = self._get_rename_paths(old) if old is not None else None
-                self._save_project_with_checks(old, created_paths, *args, **kwargs)
+                self._save_project_with_checks(
+                    old, created_paths, moved_paths, *args, **kwargs
+                )
         except Exception:
             if committed:
                 raise
             try:
                 for path in created_paths:
                     remove_tree(path, ignore_errors=True)
-                if renamed_paths is not None:
-                    old_path, new_path = renamed_paths
+                for old_path, new_path in moved_paths:
                     if not os.path.lexists(old_path) and os.path.exists(new_path):
                         os.rename(new_path, old_path)
             finally:
@@ -772,7 +775,12 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         validate_internal_installations_for_project(self)
 
     def _save_project_with_checks(
-        self, old: Project | None, created_paths: list[str], *args, **kwargs
+        self,
+        old: Project | None,
+        created_paths: list[str],
+        moved_paths: list[tuple[str, str]],
+        *args,
+        **kwargs,
     ) -> None:
         update_fields = kwargs.get("update_fields")
         boundary_changed = old is not None and any(
@@ -785,7 +793,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             for field in ("workspace_id", "access_control")
         )
         if not boundary_changed or old is None:
-            self._save_project(old, created_paths, *args, **kwargs)
+            self._save_project(old, created_paths, moved_paths, *args, **kwargs)
             return
 
         from weblate.checks.locks import lock_check_projects  # ruff: ignore[import-outside-top-level]
@@ -811,11 +819,16 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 }
             ).values_list("pk", flat=True)
         )
-        self._save_project(old, created_paths, *args, **kwargs)
+        self._save_project(old, created_paths, moved_paths, *args, **kwargs)
         refresh_propagation_checks(affected)
 
     def _save_project(
-        self, old: Project | None, created_paths: list[str], *args, **kwargs
+        self,
+        old: Project | None,
+        created_paths: list[str],
+        moved_paths: list[tuple[str, str]],
+        *args,
+        **kwargs,
     ) -> None:
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.tasks import component_alerts
@@ -848,16 +861,6 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 update_fields = update_fields_set
             # Generate change entries for changes
             self.generate_changes(old, update_fields=update_fields)
-            # Detect slug changes and rename directory
-            self.check_rename(old)
-            # Rename linked repos
-            if old.slug != self.slug:
-                for component in old.component_set.iterator():
-                    new_component = self.component_set.get(pk=component.pk)
-                    new_component.project = self
-                    component.linked_children.update(
-                        repo=new_component.get_repo_link_url()
-                    )
             update_tm = (
                 self.contribute_shared_tm and not old.contribute_shared_tm
             ) or (
@@ -865,9 +868,20 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 and not old_effective_contribute_workspace_tm
             )
 
-        self._create_path_for_save(created_paths)
+        slug_changed = (
+            old is not None
+            and should_track_field(self, "slug", update_fields)
+            and old.slug != self.slug
+        )
+        if not slug_changed:
+            self._create_path_for_save(created_paths)
 
         super().save(*args, **kwargs)
+
+        if slug_changed:
+            self.check_rename(old, moved_paths=moved_paths)
+            self._update_component_repository_links()
+            self._create_path_for_save(created_paths)
 
         if old is not None:
             if (
@@ -931,11 +945,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         if self.create_path():
             created_paths.append(self.full_path)
 
-    def _get_rename_paths(self, old: Project) -> tuple[str, str] | None:
-        old_path, new_path = old.full_path, self._get_path()
-        if old_path != new_path and os.path.exists(old_path):
-            return old_path, new_path
-        return None
+    def _update_component_repository_links(self) -> None:
+        for component in self.component_set.iterator():
+            component.linked_children.update(repo=component.get_repo_link_url())
 
     @property
     def effective_use_workspace_tm(self) -> bool:
@@ -1027,6 +1039,32 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
         for component in self.component_set.iterator():
             update_enforced_checks.delay_on_commit(component.pk)
+
+    def validate_slug_unique(self) -> None:
+        if (
+            self.slug
+            and Project.objects.filter(slug__iexact=self.slug)
+            .exclude(pk=self.pk)
+            .exists()
+        ):
+            raise ValidationError(
+                {"slug": self.unique_error_message(Project, ("slug",))}
+            )
+
+    def validate_unique(self, exclude: Collection[str] | None = None) -> None:
+        excluded = set(exclude or ())
+        errors: dict[str, list[ValidationError]] = {}
+        try:
+            super().validate_unique(exclude=excluded | {"slug"})
+        except ValidationError as error:
+            error.update_error_dict(errors)
+        if "slug" not in excluded:
+            try:
+                self.validate_slug_unique()
+            except ValidationError as error:
+                error.update_error_dict(errors)
+        if errors:
+            raise ValidationError(errors)
 
     def clean(self) -> None:
         super().clean()

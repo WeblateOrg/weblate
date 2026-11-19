@@ -39,6 +39,7 @@ Weblate 2026.12
 
 .. rubric:: Security fixes
 
+* Required project management permission to change a component URL through the API and prevented :ref:`case-insensitive slug conflicts <component-slug>` from blocking repository cleanup.
 * Required the site-wide ``language.add`` permission to :http:post:`create a language through the REST API </api/languages/>`.
 * Checked :ref:`translation memory deletion permissions <api-memory>` on the primary database to protect entries from restricted components when replicas lag.
 * Prevented deleting a component from expanding a :ref:`component-limited team <access-control>` to project-wide access.
@@ -71,6 +72,15 @@ Weblate 2026.12
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+If your database server runs PostgreSQL 14 or earlier, upgrade it to
+:ref:`PostgreSQL 15 or later <database-setup>` before upgrading Weblate.
+For Docker deployments, see :ref:`docker-postgres-upgrade`.
+
+The upgrade checks for :ref:`project <project-slug>` and
+:ref:`component <component-slug>` slugs that differ only in case. If the
+migration lists conflicts, rename the listed projects or components through
+Weblate on the previous release, then retry the upgrade.
 
 If you copied or customized ``SOCIAL_AUTH_PIPELINE`` in :file:`settings.py`, move
 ``weblate.accounts.pipeline.handle_invite`` immediately after
