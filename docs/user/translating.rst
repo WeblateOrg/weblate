@@ -153,9 +153,11 @@ The labels include example counts for each plural form. A range such as
 ``10–20`` includes both endpoints. If the editor shortens the list to fit,
 open the translation's :guilabel:`Overview` tab to see all the selected examples.
 
-All special whitespace characters are underlined in red and indicated with grey
-symbols. More than one subsequent space is also underlined in red to alert the translator to
-a potential formatting issue.
+Special whitespace characters are marked in red and indicated with grey symbols.
+Consecutive spaces are also marked in red to flag a potential formatting issue.
+Long runs of spaces in displayed strings share a single outline. The editor
+uses plain text for long translations and restores highlighting when the text
+is shortened.
 
 Various bits of extra info can be shown on this page, most of which coming from the project source code
 (like context, comments or where the message is being used).
