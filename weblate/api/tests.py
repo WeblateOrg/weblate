@@ -184,7 +184,7 @@ from weblate.utils.celery import (
 )
 from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.data import data_dir
-from weblate.utils.files import PathMatchBudget
+from weblate.utils.files import PathMatchBudget, remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.pii import mask_email
 from weblate.utils.render import render_repository_template
@@ -211,6 +211,7 @@ from weblate.utils.version import GIT_VERSION
 from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_SOFT
 from weblate.utils.views import snapshot_file_response
 from weblate.vcs.base import RepositoryError, RepositoryInternalError, RepositoryLock
+from weblate.vcs.git import GitRepository
 from weblate.vcs.github import GitHubInstallation
 from weblate.workspaces.models import Workspace
 
@@ -14051,6 +14052,56 @@ class ComponentAPITest(APIBaseTest):
             code=200,
         )
         self.assertEqual(len(response.data["results"]), 1)
+
+
+class RepositoryRecoveryAPITest(APIBaseTest):
+    """Synchronous reset and reapply recovers a missing checkout."""
+
+    def checkout_paths(self, endpoint: str) -> list[Path]:
+        if endpoint == "project":
+            components = list(self.project.component_set.all())
+        else:
+            components = [self.component]
+        return [Path(component.full_path) for component in components]
+
+    def reset_keep(self, endpoint: str):
+        return self.do_request(
+            f"api:{endpoint}-repository",
+            getattr(self, f"{endpoint}_kwargs"),
+            method="post",
+            superuser=True,
+            request={"operation": "reset-keep"},
+        )
+
+    def test_recovers_missing_checkout(self) -> None:
+        for endpoint in ("component", "project"):
+            with self.subTest(endpoint=endpoint):
+                paths = self.checkout_paths(endpoint)
+                for path in paths:
+                    remove_tree(path)
+                response = self.reset_keep(endpoint)
+                self.assertIs(response.data["result"], True)
+                for path in paths:
+                    self.assertTrue((path / ".git" / "HEAD").exists())
+
+    def test_recovery_failure_is_reported(self) -> None:
+        for endpoint in ("component", "project"):
+            with self.subTest(endpoint=endpoint):
+                paths = self.checkout_paths(endpoint)
+                for path in paths:
+                    remove_tree(path)
+                with patch.object(
+                    GitRepository,
+                    "stage_recovery_checkout",
+                    side_effect=RepositoryError(1, "Clone failed"),
+                ):
+                    response = self.reset_keep(endpoint)
+                self.assertIs(response.data["result"], False)
+                self.assertIn("Could not reset", response.data["detail"])
+                for path in paths:
+                    self.assertFalse((path / ".git").exists())
+                # Restore the checkouts for the next endpoint
+                self.reset_keep(endpoint)
 
 
 class LanguageAPITest(APIBaseTest):
