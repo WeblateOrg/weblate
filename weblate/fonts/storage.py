@@ -20,6 +20,8 @@ from django.utils.functional import LazyObject, empty
 from weblate.utils.data import data_dir, data_path
 
 if TYPE_CHECKING:
+    from pathlib import Path
+
     from django.db.models.fields.files import FieldFile
 
 
@@ -53,16 +55,20 @@ def reset_font_storage(*, setting: str, **kwargs: object) -> None:
         _font_storage.reset()
 
 
-def get_cached_font(file: FieldFile, cache_name: str) -> str:
+def get_font_cache_dir() -> Path:
+    return data_path("cache") / "fonts"
+
+
+def get_cached_font(file: FieldFile, font_id: int, version: str) -> str:
     """
     Return a local path to a stored font, downloading it when needed.
 
     Matplotlib loads fonts by filesystem path, so fonts are copied from the
-    storage into the cache. The cache name has to change whenever the file
+    storage into the cache. The version has to change whenever the file
     content changes. Files are written atomically, so concurrent workers can
     share the cache directory.
     """
-    target = data_path("cache") / "fonts" / cache_name
+    target = get_font_cache_dir() / f"{font_id}-{version}"
     if not target.is_file():
         target.parent.mkdir(parents=True, exist_ok=True)
         with NamedTemporaryFile(dir=target.parent, prefix=".", delete=False) as temp:
@@ -73,4 +79,12 @@ def get_cached_font(file: FieldFile, cache_name: str) -> str:
                 os.unlink(temp.name)
                 raise
         os.replace(temp.name, target)
+        # Remove copies of the previous versions of this font
+        remove_cached_font(font_id, keep=target)
     return str(target)
+
+
+def remove_cached_font(font_id: int, keep: Path | None = None) -> None:
+    for path in get_font_cache_dir().glob(f"{font_id}-*"):
+        if path != keep:
+            path.unlink(missing_ok=True)

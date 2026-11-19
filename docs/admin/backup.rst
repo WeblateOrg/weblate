@@ -515,7 +515,8 @@ Screenshots stored in object storage are not in this directory, see
 :ref:`screenshot-storage`.
 
 Uploaded fonts are stored in :setting:`DATA_DIR` ``/fonts`` unless they are
-stored in object storage, see :ref:`font-storage`.
+stored in object storage, see :ref:`font-storage`. Fonts in object storage are
+not included in Weblate backups; back them up with the storage service.
 
 Celery tasks
 ++++++++++++

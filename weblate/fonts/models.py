@@ -96,7 +96,7 @@ class Font(models.Model, UserDisplayMixin):
         # The name changes whenever the font file is replaced
         suffix = PurePosixPath(self.font.name or "").suffix.lower()
         return get_cached_font(
-            self.font, f"{self.pk}-{self.updated:%Y%m%d%H%M%S%f}{suffix}"
+            self.font, self.pk, f"{self.updated:%Y%m%d%H%M%S%f}{suffix}"
         )
 
     def get_usage(self):

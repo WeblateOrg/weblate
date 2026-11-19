@@ -828,6 +828,10 @@ To move existing fonts, copy the content of :setting:`DATA_DIR` ``/fonts`` to
 the bucket, or under the ``location`` prefix when it is configured. Weblate
 stores relative file names, so no database changes are needed.
 
+Neither :ref:`projectbackup` nor :ref:`automated-backup` include fonts from
+object storage; use the versioning or backup features of the storage service
+instead.
+
 .. seealso::
 
    :envvar:`WEBLATE_FONTS_STORAGE_BACKEND`

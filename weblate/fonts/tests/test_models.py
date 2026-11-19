@@ -140,6 +140,20 @@ class FontStorageTest(FontComponentTestCase):
         cleanup_font_files()
         self.assertFalse(font_storage.exists(name))
 
+    def test_local_copy_cleanup(self) -> None:
+        font = self.add_font()
+        old_copy = Path(font.get_local_path())
+        # Replacing the font downloads a new copy and removes the old one
+        font.save()
+        new_copy = Path(font.get_local_path())
+        self.assertNotEqual(old_copy, new_copy)
+        self.assertFalse(old_copy.exists())
+        self.assertTrue(new_copy.exists())
+        # Copies of deleted fonts are removed by the cleanup
+        font.delete()
+        cleanup_font_files()
+        self.assertFalse(new_copy.exists())
+
 
 class FontStorageCheckTest(SimpleTestCase):
     def check_storage(self, options: dict[str, object]) -> list[str]:

@@ -73,12 +73,18 @@ class MaxSizeCheck(TargetCheckParametrized):
             pk=selected_font.pk
         )
         try:
-            return selected_font.get_local_path(), tuple(
-                font.get_local_path() for font in siblings
-            )
+            font_path = selected_font.get_local_path()
         except FileNotFoundError:
             # Missing font file, render with the default font
             return "sans", ()
+        sibling_paths = []
+        for sibling in siblings:
+            try:
+                sibling_paths.append(sibling.get_local_path())
+            except FileNotFoundError:
+                # Skip a missing face, the selected font is still usable
+                continue
+        return font_path, tuple(sibling_paths)
 
     def get_render_cache_key(self, unit: Unit, pos: int, text: str) -> str:
         return f"{self.get_cache_key(unit, pos)}:{calculate_hash(text)}"

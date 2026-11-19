@@ -138,6 +138,18 @@ class MaxSizeCheckTest(FontTestCase):
         self.assertFalse(self.perform_check("short", "max-size:500,font-family:droid"))
         self.assertEqual(self.check.last_font, "sans")
 
+    def test_custom_font_missing_sibling(self) -> None:
+        group = self.add_font_group()
+        bold_font = self.add_font(FONT_BOLD)
+        bold_font.font.delete(save=False)
+        # The selected font is still used, only the missing face is skipped
+        self.assertEqual(
+            self.check.load_font(
+                self.project, self.get_translation().language, "droid"
+            ),
+            (group.font.get_local_path(), ()),
+        )
+
     def test_custom_font_override(self) -> None:
         group = self.add_font_group()
         FontOverride.objects.create(
