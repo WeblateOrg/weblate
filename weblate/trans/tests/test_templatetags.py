@@ -1005,6 +1005,39 @@ glosář [glossary]">glossary</span>
             """,
         )
 
+    def test_compact_space_runs(self) -> None:
+        indentation = " " * 40
+        value = f"{indentation}<tag>   text\u00a0end\n{' ' * 8}next"
+        content = format_translation(
+            [value], self.component.source_language, search_match="   <tag>"
+        )["items"][0]["content"]
+        markup = fromstring(f"<div>{content}</div>")
+        self.assertEqual(markup.text_content(), value)
+        self.assertEqual(
+            markup.xpath('.//span[@class="hlspace space-run"]/text()'),
+            [indentation[:-3], "   ", " " * 8],
+        )
+        self.assertEqual(markup.xpath('string(.//span[@class="hlmatch"])'), "   <tag>")
+        self.assertEqual(
+            markup.xpath('.//span[@class="space-space"]/text()'), [" "] * 3
+        )
+        self.assertEqual(
+            markup.xpath('.//span[@class="space-nbsp"]/text()'), ["\u00a0"]
+        )
+        self.assertEqual(len(markup.findall(".//br")), 1)
+
+    def test_diff_keeps_individual_space_markers(self) -> None:
+        indentation = " " * 12
+        for value, previous in ((indentation, ""), ("", indentation)):
+            with self.subTest(value=value, previous=previous):
+                content = format_translation(
+                    [f"start\n{value}end"],
+                    self.component.source_language,
+                    diff=f"start\n{previous}end",
+                )["items"][0]["content"]
+                self.assertNotIn("space-run", content)
+                self.assertEqual(content.count('class="space-space"'), len(indentation))
+
     def test_whitespace_special(self) -> None:
         self.assertHTMLEqual(
             format_translation(
