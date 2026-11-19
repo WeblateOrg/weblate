@@ -48,6 +48,7 @@ Weblate 2026.12
 
 .. rubric:: Bug fixes
 
+* Preserved source strings backed by a file when :ref:`removing their last translation <component-manage_units>`.
 * Preserved special characters in e-mail subjects for :ref:`notifications`.
 * Handled invalid configured :ref:`templates <markup>` without unhandled server errors, preserving editor access and reporting failed repository and add-on operations.
 

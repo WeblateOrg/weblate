@@ -3677,10 +3677,13 @@ class Translation(
                         translation.unit_set.filter(
                             position__gt=translation_unit.position
                         ).update(position=F("position") - 1)
-                # Delete stale source units
+                # Delete unreferenced source units derived from target files.
                 if not self.is_source and translation == self:
                     source_unit = translation_unit.source_unit
-                    if source_unit.source_unit.unit_set.count() == 1:
+                    if (
+                        not source_unit.translation.filename
+                        and source_unit.unit_set.count() == 1
+                    ):
                         source_unit.delete()
                         source_unit_deleted = True
                         source_unit.translation.notify_deletion(source_unit, user)
