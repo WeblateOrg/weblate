@@ -3643,6 +3643,20 @@ class XWikiUnit(PropertiesUnit):
         # Need to decode property encoded string
         return get_string(quote.xwiki_properties_decode(super().source))
 
+    def _is_missing(self) -> bool:
+        # Units listed as "### Missing:" comments are not translated: the
+        # value they carry is the source one, to be displayed in the comment.
+        return self.has_unit() and self.unit.missing
+
+    @cached_property
+    def target(self):
+        if self._is_missing():
+            return ""
+        return super().target
+
+    def is_translated(self):
+        return not self._is_missing() and super().is_translated()
+
 
 class XWikiPropertiesFormat(PropertiesBaseFormat):
     """
