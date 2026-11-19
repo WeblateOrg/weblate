@@ -3784,6 +3784,7 @@ Component lists
 
     :param slug: Component list slug
     :type slug: string
+    :statuscode 400: The list is the last component list assigned to a team. Remove the assignment or assign another list first.
 
 .. http:get:: /api/component-lists/(str:slug)/components/
 

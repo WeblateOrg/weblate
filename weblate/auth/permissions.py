@@ -16,6 +16,7 @@ from weblate.auth.data import (
     SELECTION_ALL,
     SELECTION_ALL_PROTECTED,
     SELECTION_ALL_PUBLIC,
+    SELECTION_COMPONENT_LIST,
 )
 from weblate.checks.flags import Flags
 from weblate.formats.base import BilingualUpdateMixin
@@ -1471,7 +1472,9 @@ def check_team_edit_users(
 
     if obj.defining_workspace_id:
         project_scope = Q(workspace_id=obj.defining_workspace_id)
-    elif obj.componentlists.exists():
+    elif (
+        obj.project_selection == SELECTION_COMPONENT_LIST or obj.componentlists.exists()
+    ):
         project_scope = Q(component__componentlist__in=obj.componentlists.all())
     elif obj.components.exists():
         project_scope = Q(component__in=obj.components.all())
