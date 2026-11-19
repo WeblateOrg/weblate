@@ -4,7 +4,6 @@
 
 {% block nav_pills %}
   {% perm 'project.edit' object as user_can_edit_project %}
-  {% perm 'upload.perform' object as user_can_upload_translation %}
 
   <ul class="nav nav-pills">
     <li class="nav-item">
@@ -181,7 +180,6 @@
   {% include "snippets/project/state.html" with object=object.project %}
 
   {% perm 'project.edit' object as user_can_edit_project %}
-  {% perm 'upload.perform' object as user_can_upload_translation %}
 
   <div class="tab-content">
     <div class="tab-pane" id="components">

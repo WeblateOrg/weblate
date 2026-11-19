@@ -24,6 +24,7 @@ Weblate 2026.12
 * Sped up :ref:`quality checks <checks>` by skipping format and markup extraction for strings without relevant syntax.
 
 * Improved database query performance for project language :ref:`statistics <stats>`.
+* Sped up project and component overviews when checking :ref:`translation upload <upload>` availability.
 * Batched shared :ref:`statistics <stats>` updates after refreshing propagated quality checks.
 * Batched daily statistics collection to reduce database queries and bound memory use on large sites with cached statistics.
 * Added :envvar:`WEBLATE_SECRET_KEY` support to configure Docker's Django secret key directly or from a mounted secret file.

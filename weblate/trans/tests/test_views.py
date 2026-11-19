@@ -45,6 +45,7 @@ from weblate.auth.models import (
     User,
     setup_project_groups,
 )
+from weblate.auth.permissions import _bind_upload_child_scope, _has_upload_child
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
@@ -73,6 +74,7 @@ from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import zip_download
 from weblate.utils.xml import parse_xml
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from django.test.client import Client as TestClient
@@ -1379,6 +1381,8 @@ class CategoryLanguageAdditionTest(ProjectLanguageAdditionTest):
 class BasicViewTest(ReusableViewTestCase):
     def assert_upload_placeholder(self, response, tab: str) -> None:
         self.assertContains(response, "Upload translation")
+        self.assertContains(response, 'data-bs-target="#upload"', count=1)
+        self.assertContains(response, 'id="upload"', count=1)
         self.assertContains(
             response, "Uploading translations at this level is not supported."
         )
@@ -1386,6 +1390,8 @@ class BasicViewTest(ReusableViewTestCase):
 
     def assert_no_upload_placeholder(self, response) -> None:
         self.assertNotContains(response, "Upload translation")
+        self.assertNotContains(response, 'data-bs-target="#upload"')
+        self.assertNotContains(response, 'id="upload"')
 
     def test_view_project(self) -> None:
         response = self.client.get(self.project.get_absolute_url())
@@ -1453,6 +1459,94 @@ class BasicViewTest(ReusableViewTestCase):
         self.assert_no_upload_placeholder(response)
         get_upload_child_translations.assert_not_called()
 
+    def test_upload_placeholder_skips_children_for_anonymous_user(self) -> None:
+        self.client.logout()
+        with patch(
+            "weblate.auth.permissions._get_upload_child_translations"
+        ) as get_upload_child_translations:
+            response = self.client.get(self.project.get_absolute_url())
+
+        self.assert_no_upload_placeholder(response)
+        get_upload_child_translations.assert_not_called()
+
+    def test_upload_placeholder_skips_locked_translations(self) -> None:
+        self.component.locked = True
+        self.component.save(update_fields=["locked"])
+
+        with patch(
+            "weblate.auth.permissions._bind_upload_child_scope",
+            wraps=_bind_upload_child_scope,
+        ) as bind_child:
+            response = self.client.get(self.project.get_absolute_url())
+
+        self.assert_no_upload_placeholder(response)
+        bind_child.assert_not_called()
+
+    def test_upload_placeholder_finds_eligible_translation_in_later_batch(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        locked = self.create_po(project=self.project, name="locked-upload", locked=True)
+        eligible = self.create_po(project=self.project, name="eligible-upload")
+
+        with (
+            patch("weblate.auth.permissions.UPLOAD_CHECK_BATCH_SIZE", 1),
+            patch(
+                "weblate.auth.permissions._bind_upload_child_scope",
+                wraps=_bind_upload_child_scope,
+            ) as bind_child,
+        ):
+            response = self.client.get(self.project.get_absolute_url())
+
+        self.assert_upload_placeholder(response, "#languages")
+        checked_components = [
+            call.args[1].component_id for call in bind_child.call_args_list
+        ]
+        self.assertEqual(checked_components[0], self.component.pk)
+        self.assertEqual(checked_components[-1], eligible.pk)
+        self.assertNotIn(locked.pk, checked_components)
+
+    def test_language_upload_checks_load_inherited_agreement_in_batch(self) -> None:
+        workspace = Workspace.objects.create(
+            name="Upload workspace", agreement="Contributor license agreement"
+        )
+        self.project.workspace = workspace
+        self.project.inherit_agreement = True
+        self.project.save(update_fields=["workspace", "inherit_agreement"])
+        parent = self.create_category(self.project)
+        child = Category.objects.create(
+            project=self.project, category=parent, name="Child", slug="child"
+        )
+        leaf = Category.objects.create(
+            project=self.project, category=child, name="Leaf", slug="leaf"
+        )
+        self.component.category = leaf
+        self.component.inherit_agreement = True
+        self.component.save(update_fields=["category", "inherit_agreement"])
+        self.create_po(
+            project=self.project,
+            category=leaf,
+            name="inherited-agreement",
+            inherit_agreement=True,
+        )
+        language = self.translation.language
+        self.user.get_project_permissions(self.project)
+
+        for scope in (
+            ProjectLanguage(self.project, language),
+            CategoryLanguage(parent, language),
+        ):
+            with self.subTest(scope=type(scope).__name__):
+                self.user.cla_cache.clear()
+                # The category hierarchy and agreement are loaded for the batch.
+                with self.assertNumQueries(15) as queries:
+                    self.assertFalse(self.user.has_perm("upload.perform", scope))
+                self.assertFalse(
+                    any('"trans_alert"' in query["sql"] for query in queries)
+                )
+                self.assertEqual(
+                    self.user.cla_cache,
+                    {(self.user.pk, "workspace", workspace.pk): False},
+                )
+
     def test_upload_placeholder_requires_uploadable_child_translation(self) -> None:
         project = self.create_project(
             name="Restricted upload", slug="restricted-upload"
@@ -1515,10 +1609,17 @@ class BasicViewTest(ReusableViewTestCase):
             ),
             (component.get_absolute_url(), "#translations"),
         ):
-            with self.subTest(url=url):
+            with (
+                self.subTest(url=url),
+                patch(
+                    "weblate.auth.permissions._has_upload_child",
+                    wraps=_has_upload_child,
+                ) as has_upload_child,
+            ):
                 response = self.client.get(url)
 
                 self.assert_upload_placeholder(response, tab)
+                has_upload_child.assert_called_once()
 
     def test_upload_placeholder_uses_component_link_category(self) -> None:
         source_project = self.create_project(
