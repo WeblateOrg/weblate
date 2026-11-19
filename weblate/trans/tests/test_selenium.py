@@ -2344,7 +2344,12 @@ class SeleniumTests(
                 selector,
             )
 
-        editor.send_keys(Keys.CONTROL, "a", Keys.NULL, short_value)
+        modifier = (
+            Keys.COMMAND
+            if self.driver.capabilities.get("platformName") == "mac"
+            else Keys.CONTROL
+        )
+        editor.send_keys(modifier, "a", Keys.NULL, short_value)
         self.assertEqual(editor.get_property("value"), short_value)
         self.assertLess(editor.size["height"], long_height)
         self.assertTrue(overlay.is_displayed())
@@ -2363,7 +2368,7 @@ class SeleniumTests(
             self.driver.execute_script(
                 "return navigator.clipboard.writeText(arguments[0]);", long_value
             )
-            editor.send_keys(Keys.CONTROL, "a", "v", Keys.NULL)
+            editor.send_keys(modifier, "a", "v", Keys.NULL)
             assert_plain(long_value)
             self.assertEqual(self.driver.switch_to.active_element, editor)
             self.assertEqual(editor.get_property("selectionStart"), len(long_value))
@@ -2381,7 +2386,7 @@ class SeleniumTests(
             assert_plain(f"{long_value}abc")
             self.assertEqual(self.driver.execute_script("return window.prismCalls;"), 0)
 
-            editor.send_keys(Keys.CONTROL, "a", Keys.NULL, Keys.BACKSPACE)
+            editor.send_keys(modifier, "a", Keys.NULL, Keys.BACKSPACE)
             self.assertEqual(editor.get_property("value"), "")
             self.assertEqual(self.driver.switch_to.active_element, editor)
             editor.send_keys(short_value)
