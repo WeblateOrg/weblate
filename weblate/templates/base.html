@@ -36,6 +36,7 @@
 
     {% for domain in preconnect_list %}<link rel="preconnect" href="https://{{ domain }}">{% endfor %}
 
+    <script src="{% static 'js/theme.js' %}"></script>
     {% include "snippets/meta-css.html" %}
 
     <script src="{% url 'js-catalog' %}" defer></script>
