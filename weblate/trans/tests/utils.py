@@ -37,6 +37,7 @@ from weblate.trans.models import Category, Component, Project
 from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
+from weblate.utils.lock import LockScope
 from weblate.vcs.git import GitRepository
 from weblate.vcs.models import VCS_REGISTRY
 
@@ -52,6 +53,22 @@ TESTPASSWORD = make_password("testpassword")
 
 TEST_REPOSITORY_HOST = "vcs-fixture.invalid"
 TEST_VCS_ALLOW_SCHEMES = frozenset({"file", "https", "ssh"})
+
+
+def can_lock_repository(component_id: int, *, shared: bool = False) -> bool:
+    """Probe from a separate session. Autocommit releases the lock after the query."""
+    other = connection.copy()
+    try:
+        with other.cursor() as cursor:
+            statement = (
+                "SELECT pg_try_advisory_xact_lock_shared(%s, %s)"
+                if shared
+                else "SELECT pg_try_advisory_xact_lock(%s, %s)"
+            )
+            cursor.execute(statement, [LockScope.REPOSITORY.value, component_id])
+            return cursor.fetchone()[0]
+    finally:
+        other.close()
 
 
 def fixup_languages_seq() -> None:

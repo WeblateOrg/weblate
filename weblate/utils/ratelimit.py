@@ -6,9 +6,7 @@ from __future__ import annotations
 
 from contextlib import suppress
 from functools import wraps
-from time import monotonic, sleep
 from typing import TYPE_CHECKING
-from uuid import uuid4
 
 from django.conf import settings
 from django.contrib.auth import logout
@@ -22,10 +20,9 @@ from weblate.logger import LOGGER
 from weblate.utils import messages
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import calculate_checksum
+from weblate.utils.lock import LockScope, WeblateLock, WeblateLockTimeoutError
 from weblate.utils.request import get_ip_address
 
-NOTIFY_RATE_LIMIT_LOCK_EXPIRY = 30
-NOTIFY_RATE_LIMIT_LOCK_INTERVAL = 0.01
 NOTIFY_RATE_LIMIT_LOCK_WAIT = 5
 
 if TYPE_CHECKING:
@@ -190,29 +187,26 @@ class RateLimitNotify(RateLimitBase):
         if not self.cache_items:
             return False, ""
 
-        lock_key = f"{self.key}:reservation-lock"
-        lock_value = uuid4().hex
-        deadline = monotonic() + NOTIFY_RATE_LIMIT_LOCK_WAIT
-        while not cache.add(
-            lock_key, lock_value, timeout=NOTIFY_RATE_LIMIT_LOCK_EXPIRY
-        ):
-            if monotonic() >= deadline:
-                return True, "could not reserve notification rate limit"
-            sleep(NOTIFY_RATE_LIMIT_LOCK_INTERVAL)
-
         try:
-            # Notification rate limits can have multiple buckets. The lock makes
-            # checking all buckets before consuming capacity safe.
-            for cache_item in self.cache_items:
-                if cache_item.count_remaining <= 1:
-                    return (
-                        True,
-                        f"rate limit exceeded ({cache_item.attempts}/{cache_item.window}s)",
-                    )
-            return super().is_limit_exceeded()
-        finally:
-            if cache.get(lock_key) == lock_value:
-                cache.delete(lock_key)
+            with WeblateLock(
+                scope=LockScope.NOTIFY_RESERVATION,
+                key=self.key,
+                timeout=NOTIFY_RATE_LIMIT_LOCK_WAIT,
+            ):
+                return self._reserve()
+        except WeblateLockTimeoutError:
+            return True, "could not reserve notification rate limit"
+
+    def _reserve(self) -> tuple[bool, str]:
+        # Notification rate limits can have multiple buckets. The lock makes
+        # checking all buckets before consuming capacity safe.
+        for cache_item in self.cache_items:
+            if cache_item.count_remaining <= 1:
+                return (
+                    True,
+                    f"rate limit exceeded ({cache_item.attempts}/{cache_item.window}s)",
+                )
+        return super().is_limit_exceeded()
 
 
 class RateLimitHttpRequest(RateLimitBase):

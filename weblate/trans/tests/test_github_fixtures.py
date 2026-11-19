@@ -10,7 +10,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, TestCase
 from translation_finder import discover
 
 from weblate.trans.tests.github import DEMO_URL, TEST_URL, github_fixture_repositories
@@ -18,7 +18,7 @@ from weblate.utils.data import data_dir
 from weblate.vcs.git import GitRepository
 
 
-class GitHubFixtureTest(SimpleTestCase):
+class GitHubFixtureTest(TestCase):
     def test_offline_clone_fetch_and_branches(self) -> None:
         original_getenv = GitRepository._getenv  # ruff: ignore[private-member-access]
 
@@ -79,6 +79,8 @@ class GitHubFixtureTest(SimpleTestCase):
                 },
             )
 
+
+class GitHubFixtureConfigTest(SimpleTestCase):
     def test_config_restored_after_failure(self) -> None:
         config = Path(data_dir("home"), ".config", "git", "config")
         config.parent.mkdir(parents=True, exist_ok=True)

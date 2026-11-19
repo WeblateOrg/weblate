@@ -162,10 +162,10 @@ def store_task_metadata(
 ) -> None:
     if not task_id:
         return
-    from weblate.utils.lock import WeblateLock  # ruff: ignore[import-outside-top-level]
+    from weblate.utils.lock import LockScope, WeblateLock  # ruff: ignore[import-outside-top-level]
 
     # Publisher and worker updates must preserve each other's visibility metadata.
-    with WeblateLock(scope="task-metadata", key=task_id, slug=task_id, timeout=10):
+    with WeblateLock(scope=LockScope.TASK_METADATA, key=task_id, timeout=10):
         existing = get_task_metadata(task_id)
         if existing is None:
             data: dict[str, Any] = {
