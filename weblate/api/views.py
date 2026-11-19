@@ -839,7 +839,7 @@ class WeblateViewSet(DownloadViewSet):
                 [component.pk for component in repositories],
                 cast("RepositoryOperation", operation),
             ) as release_reservation,
-            transaction_context,
+            transaction_context as _transaction,
             deferral_context as deferred_tasks,
         ):
             if in_transaction:
