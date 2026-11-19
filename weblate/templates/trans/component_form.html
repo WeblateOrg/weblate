@@ -44,7 +44,7 @@
         </div>
         <div class="card-footer">
           <input type="submit"
-                 value="{% if stage != "create" %}{% translate "Continue" %}{% else %}{% translate "Save" %}{% endif %}"
+                 value="{% if stage != "create" %}{% translate "Continue"|force_escape %}{% else %}{% translate "Save"|force_escape %}{% endif %}"
                  class="btn btn-primary" />
         </div>
       </div>

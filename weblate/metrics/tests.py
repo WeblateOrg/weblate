@@ -6,12 +6,14 @@ from __future__ import annotations
 
 import importlib
 from concurrent.futures import ThreadPoolExecutor
+from datetime import date as dt_date
 from datetime import timedelta
 from threading import Event
 from typing import TYPE_CHECKING
 from unittest.mock import MagicMock, call, patch
 
 from django.apps import apps
+from django.core.cache import cache
 from django.db import close_old_connections, connection, transaction
 from django.test import TransactionTestCase
 from django.test.utils import CaptureQueriesContext
@@ -19,6 +21,7 @@ from django.utils import timezone
 
 from weblate.auth.models import User
 from weblate.metrics.models import (
+    SOURCE_KEYS,
     Metric,
     get_change_metric_data,
     get_language_change_metric_data,
@@ -27,14 +30,16 @@ from weblate.metrics.tasks import (
     METRIC_COLLECTION_TASKS,
     cleanup_metrics,
     collect_metrics,
+    collect_project_metrics,
     collect_user_metrics,
 )
 from weblate.metrics.wrapper import MetricsWrapper
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Category, ComponentLink, Project
+from weblate.trans.models import Category, ComponentLink, ComponentList, Project
 from weblate.trans.models.change import Change, dt_as_day_range
 from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.trans.tests.utils import create_another_user
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -42,6 +47,416 @@ if TYPE_CHECKING:
 
 
 class MetricTestCase(FixtureComponentTestCase):
+    def test_project_batches_commit_independently(self) -> None:
+        """A retry can finish after a later batch fails without changing prior rows."""
+        projects = Project.objects.bulk_create(
+            [
+                Project(name=f"Retry {index}", slug=f"retry-{index}")
+                for index in range(3)
+            ]
+        )
+        self.warm_metric_stats([self.project, *projects])
+        self.warm_metric_stats(
+            [ProjectLanguage(self.project, lang) for lang in self.project.languages]
+        )
+        date = timezone.now().date() - timedelta(days=5)
+        collector = Metric.objects.collect_batch
+        sizes = []
+
+        def fail_second_batch(
+            objects: tuple[Project, ...], collection_date: dt_date
+        ) -> None:
+            sizes.append(len(objects))
+            if len(sizes) == 2:
+                msg = "Interrupted collection"
+                raise RuntimeError(msg)
+            collector(objects, collection_date)
+
+        with (
+            patch("weblate.metrics.tasks.BATCH_SIZE", 2),
+            patch(
+                "weblate.metrics.tasks.Metric.objects.collect_batch",
+                side_effect=fail_second_batch,
+            ),
+            self.assertRaisesMessage(RuntimeError, "Interrupted collection"),
+        ):
+            collect_project_metrics(date.isoformat())
+        self.assertEqual(sizes, [2, 2])
+        completed = list(
+            Metric.objects.filter(scope=Metric.SCOPE_PROJECT, date=date).values_list(
+                "pk", "changes", "data"
+            )
+        )
+        self.assertEqual(len(completed), 2)
+        with patch("weblate.metrics.tasks.BATCH_SIZE", 2):
+            collect_project_metrics(date.isoformat())
+        self.assertEqual(
+            Metric.objects.filter(scope=Metric.SCOPE_PROJECT, date=date).count(), 4
+        )
+        for pk, changes, data in completed:
+            metric = Metric.objects.get(pk=pk)
+            self.assertEqual((metric.changes, metric.data), (changes, data))
+
+    def test_language_pair_batches(self) -> None:
+        """Even one parent can span multiple independent language batches."""
+        from weblate.metrics.aggregation import language_pairs  # ruff: ignore[import-outside-top-level]
+        from weblate.metrics.collection import collect_languages  # ruff: ignore[import-outside-top-level]
+
+        category = Category.objects.create(
+            project=self.project, name="Language batches", slug="language-batches"
+        )
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        for scope, parent, wrappers in (
+            (
+                "project",
+                self.project,
+                [
+                    ProjectLanguage(self.project, lang)
+                    for lang in self.project.languages
+                ],
+            ),
+            (
+                "category",
+                category,
+                [CategoryLanguage(category, lang) for lang in category.languages],
+            ),
+        ):
+            with self.subTest(scope=scope):
+                pairs = list(language_pairs(scope, [parent.pk], "default"))
+                self.assertGreater(len(pairs), 1)
+                self.warm_metric_stats(wrappers)
+                with (
+                    patch("weblate.metrics.collection.BATCH_SIZE", 1),
+                    patch.object(
+                        Metric.objects, "store_batch", wraps=Metric.objects.store_batch
+                    ) as store,
+                ):
+                    collect_languages(
+                        Metric.objects, [parent], scope, timezone.now().date()
+                    )
+                self.assertEqual(
+                    [len(batch.args[0]) for batch in store.call_args_list],
+                    [1] * len(pairs),
+                )
+
+    def warm_metric_stats(self, objects: list) -> None:
+        for obj in objects:
+            data = dict.fromkeys(SOURCE_KEYS, 0)
+            obj.stats.set_data(data)
+            cache.set(obj.stats.cache_key, data)
+            self.addCleanup(cache.delete, obj.stats.cache_key)
+
+    def test_batch_history_scopes(self) -> None:
+        """Stored scope references and membership scopes retain their meanings."""
+        from weblate.metrics.aggregation import history  # ruff: ignore[import-outside-top-level]
+
+        Change.objects.all().delete()
+        collection_date = timezone.now().date() - timedelta(days=5)
+        start, end = dt_as_day_range(collection_date - timedelta(days=1))
+        workspace = Workspace.objects.create(name="History metrics")
+        category = Category.objects.create(
+            project=self.project, name="History metrics", slug="history-metrics"
+        )
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        clist = ComponentList.objects.create(
+            name="History metrics", slug="history-metrics"
+        )
+        clist.components.add(self.component)
+        inactive = create_another_user("-metrics-inactive")
+        bot = create_another_user("-metrics-bot-history")
+        User.objects.filter(pk=inactive.pk).update(is_active=False)
+        User.objects.filter(pk=bot.pk).update(is_bot=True)
+        for user, timestamp in (
+            (self.user, start),
+            (self.user, end),
+            (self.user, start - timedelta(microseconds=1)),
+            (inactive, start),
+            (bot, start),
+            (self.user, start - timedelta(days=40)),
+        ):
+            change = self.translation.change_set.create(
+                action=ActionEvents.CHANGE, user=user
+            )
+            Change.objects.filter(pk=change.pk).update(
+                timestamp=timestamp, workspace=workspace
+            )
+        direct = Change.objects.create(
+            action=ActionEvents.COMMENT, user=self.user, category=category
+        )
+        Change.objects.filter(pk=direct.pk).update(timestamp=start)
+        scopes = (
+            ("project", self.project, Change.objects.filter(project=self.project)),
+            ("workspace", workspace, Change.objects.filter(workspace=workspace)),
+            (
+                "component",
+                self.component,
+                Change.objects.filter(component=self.component),
+            ),
+            (
+                "translation",
+                self.translation,
+                Change.objects.filter(translation=self.translation),
+            ),
+            (
+                "language",
+                self.translation.language,
+                Change.objects.filter(language=self.translation.language),
+            ),
+            ("category", category, Change.objects.for_category(category)),
+            ("component_list", clist, Change.objects.filter(component=self.component)),
+        )
+        for scope, obj, queryset in scopes:
+            with self.subTest(scope=scope):
+                expected = get_change_metric_data(queryset, collection_date)
+                with self.assertNumQueries(2):
+                    actual = history(scope, [obj.pk], collection_date, "default")
+                self.assertEqual(actual[obj.pk], expected)
+
+    def test_batch_category_deduplicates_direct_and_component_history(self) -> None:
+        from weblate.metrics.aggregation import history  # ruff: ignore[import-outside-top-level]
+
+        Change.objects.all().delete()
+        parent = Category.objects.create(
+            project=self.project, name="Batch parent", slug="batch-parent"
+        )
+        child = Category.objects.create(
+            project=self.project,
+            category=parent,
+            name="Batch child",
+            slug="batch-child",
+        )
+        self.component.category = child
+        self.component.save(update_fields=["category"])
+        ComponentLink.objects.create(
+            component=self.component, project=self.project, category=parent
+        )
+        change = self.translation.change_set.create(
+            action=ActionEvents.CHANGE, user=self.user
+        )
+        Change.objects.filter(pk=change.pk).update(
+            category=parent, timestamp=timezone.now() - timedelta(days=1)
+        )
+        collection_date = timezone.now().date()
+        with self.assertNumQueries(2):
+            data = history(
+                "category", [parent.pk, child.pk], collection_date, "default"
+            )
+        self.assertEqual(
+            data[parent.pk], {"changes": 1, "contributors": 1, "contributors_total": 1}
+        )
+        self.assertEqual(data[child.pk], data[parent.pk])
+
+    def test_batch_collect_queries(self) -> None:
+        """Warm collection costs depend on batches rather than object count."""
+        collection_date = timezone.now().date() - timedelta(days=5)
+        projects = [
+            self.project,
+            Project.objects.create(name="Batch empty", slug="batch-empty"),
+        ]
+        categories = [
+            Category.objects.create(
+                project=self.project, name=f"Batch {index}", slug=f"batch-{index}"
+            )
+            for index in range(2)
+        ]
+        lists = [
+            ComponentList.objects.create(name=f"Batch {index}", slug=f"batch-{index}")
+            for index in range(2)
+        ]
+        for clist in lists:
+            clist.components.add(self.component)
+        workspaces = [
+            Workspace.objects.create(name=f"Batch {index}") for index in range(2)
+        ]
+        language = self.translation.language
+        other_language = self.component.source_language
+        other_component = self.create_po(name="Batch second")
+        groups = (
+            projects,
+            categories,
+            lists,
+            workspaces,
+            [self.component, other_component],
+            list(self.component.translation_set.order_by("pk")[:2]),
+            [language, other_language],
+        )
+        for objects in groups:
+            self.warm_metric_stats(objects)
+            if isinstance(objects[0], Project):
+                self.warm_metric_stats(
+                    [
+                        ProjectLanguage(self.project, lang)
+                        for lang in self.project.languages
+                    ]
+                )
+            counts = []
+            for count in (1, 2):
+                Metric.objects.filter(date=collection_date).delete()
+                with CaptureQueriesContext(connection) as queries:
+                    Metric.objects.collect_batch(objects[:count], collection_date)
+                counts.append(len(queries))
+            with self.subTest(model=type(objects[0]).__name__):
+                self.assertEqual(counts[0], counts[1])
+
+    def test_batch_auxiliary_counters(self) -> None:
+        from weblate.memory.models import Memory, MemoryScope  # ruff: ignore[import-outside-top-level]
+        from weblate.metrics.aggregation import counters  # ruff: ignore[import-outside-top-level]
+        from weblate.screenshots.models import Screenshot  # ruff: ignore[import-outside-top-level]
+
+        workspace = Workspace.objects.create(name="Counter workspace")
+        Project.objects.filter(pk=self.project.pk).update(workspace=workspace)
+        memory = Memory.objects.create(
+            source_language=self.component.source_language,
+            target_language=self.translation.language,
+            source="Counter source",
+            target="Counter target",
+            origin="Metrics test",
+        )
+        for scope in (MemoryScope.SCOPE_PROJECT, MemoryScope.SCOPE_PROJECT_FILE):
+            MemoryScope.objects.create(memory=memory, project=self.project, scope=scope)
+        for source in (None, self.project):
+            MemoryScope.objects.create(
+                memory=memory,
+                workspace=workspace,
+                source_project=source,
+                scope=MemoryScope.SCOPE_WORKSPACE,
+            )
+        Screenshot.objects.create(translation=self.translation, name="Metric counter")
+        self.user.profile.languages.add(self.translation.language)
+        project = counters("project", [self.project.pk], "default")[self.project.pk]
+        self.assertEqual(project["memory"], 1)
+        self.assertEqual(project["components"], 1)
+        self.assertEqual(
+            project["translations"], self.component.translation_set.count()
+        )
+        self.assertEqual(project["screenshots"], 1)
+        workspace_data = counters("workspace", [workspace.pk], "default")[workspace.pk]
+        self.assertEqual(workspace_data, {**project, "projects": 1})
+        language = self.translation.language
+        language_data = counters("language", [language.pk], "default")[language.pk]
+        self.assertEqual(language_data["users"], language.profile_set.count())
+
+    def test_batch_machinery_accounting(self) -> None:
+        date = timezone.now().date() - timedelta(days=5)
+        self.warm_metric_stats([self.project])
+        self.warm_metric_stats(
+            [ProjectLanguage(self.project, lang) for lang in self.project.languages]
+        )
+        keys = {
+            f"machinery-accounting:{kind}:{self.project.pk}": value
+            for kind, value in (("internal", 13), ("external", 17))
+        }
+        cache.set_many(keys)
+        Metric.objects.collect_batch([self.project], date)
+        metric = Metric.objects.get(
+            scope=Metric.SCOPE_PROJECT, relation=self.project.pk, date=date
+        )
+        self.assertEqual(metric.dict_data["machinery:internal"], 13)
+        self.assertEqual(metric.dict_data["machinery:external"], 17)
+        self.assertFalse(cache.get_many(keys))
+        Metric.objects.collect_batch([self.project], date)
+        metric.refresh_from_db()
+        self.assertEqual(metric.dict_data["machinery:internal"], 13)
+
+    def test_batch_language_pairs_and_counters(self) -> None:
+        target = Project.objects.create(name="Batch linked", slug="batch-linked")
+        category = Category.objects.create(
+            project=target, name="Batch linked", slug="batch-linked"
+        )
+        ComponentLink.objects.create(
+            component=self.component, project=target, category=category
+        )
+        dates = [timezone.now().date() - timedelta(days=offset) for offset in (5, 6)]
+        for obj, language_scope, parent_scope in (
+            (
+                target,
+                Metric.SCOPE_PROJECT_LANGUAGE,
+                Metric.SCOPE_PROJECT,
+            ),
+            (
+                category,
+                Metric.SCOPE_CATEGORY_LANGUAGE,
+                Metric.SCOPE_CATEGORY,
+            ),
+        ):
+            self.warm_metric_stats([obj])
+            languages = list(obj.languages)
+            self.warm_metric_stats(
+                [
+                    (
+                        ProjectLanguage(obj, language)
+                        if isinstance(obj, Project)
+                        else CategoryLanguage(obj, language)
+                    )
+                    for language in languages
+                ]
+            )
+            for date in dates:
+                Metric.objects.collect_batch([obj], date)
+                rows = Metric.objects.filter(
+                    scope=language_scope, relation=obj.pk, date=date
+                )
+                self.assertEqual(
+                    set(rows.values_list("secondary", flat=True)),
+                    {lang.pk for lang in languages},
+                )
+                parent = Metric.objects.get(
+                    scope=parent_scope, relation=obj.pk, date=date
+                )
+                # Project counts include owned components only; category counts include links.
+                self.assertEqual(
+                    parent.dict_data["components"], int(isinstance(obj, Category))
+                )
+
+    def test_store_batch_preserves_composite_keys(self) -> None:
+        date = timezone.now().date() - timedelta(days=5)
+        metrics = []
+        for index, data in enumerate((None, [], [42])):
+            Metric.objects.create(
+                scope=Metric.SCOPE_PROJECT_LANGUAGE,
+                relation=self.project.pk,
+                secondary=index,
+                date=date,
+                changes=17,
+                data=data,
+            )
+            metrics.append(
+                Metric(
+                    scope=Metric.SCOPE_PROJECT_LANGUAGE,
+                    relation=self.project.pk,
+                    secondary=index,
+                    date=date,
+                    changes=99,
+                    data=[23],
+                )
+            )
+        untouched = Metric.objects.create(
+            scope=Metric.SCOPE_PROJECT_LANGUAGE,
+            relation=self.project.pk,
+            secondary=9,
+            date=date,
+            changes=11,
+        )
+        for _ in range(2):
+            Metric.objects.store_batch(metrics)
+            rows = (
+                Metric.objects.filter(
+                    scope=Metric.SCOPE_PROJECT_LANGUAGE,
+                    relation=self.project.pk,
+                    date=date,
+                )
+                .exclude(pk=untouched.pk)
+                .order_by("secondary")
+            )
+            self.assertEqual(
+                list(rows.values_list("changes", "data")),
+                [(17, [23]), (17, [23]), (17, [42])],
+            )
+        untouched.refresh_from_db()
+        self.assertIsNone(untouched.data)
+
     def test_collect_users(self) -> None:
         collection_date = timezone.now().date() - timedelta(days=5)
         start, end = dt_as_day_range(collection_date - timedelta(days=1))

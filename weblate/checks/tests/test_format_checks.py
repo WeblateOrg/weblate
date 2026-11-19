@@ -6,20 +6,24 @@
 
 from __future__ import annotations
 
+import re
 from time import monotonic, process_time
 from typing import TYPE_CHECKING
 from unittest.mock import patch
 
 from django.test import SimpleTestCase
 
+from weblate.checks.angularjs import AngularJSInterpolationCheck
 from weblate.checks.format import (
     AutomatticComponentsCheck,
+    BaseFormatCheck,
     CFormatCheck,
     CSharpFormatCheck,
     ESTemplateLiteralsCheck,
     I18NextInterpolationCheck,
     JavaFormatCheck,
     JavaMessageFormatCheck,
+    JavaScriptFormatCheck,
     LaravelFormatCheck,
     LuaFormatCheck,
     MultipleUnnamedFormatsCheck,
@@ -46,10 +50,105 @@ from weblate.trans.util import join_plural
 if TYPE_CHECKING:
     from collections.abc import Iterator
 
-    from weblate.checks.format import (
-        BaseFormatCheck,
-    )
     from weblate.utils.regex import RegexMatch
+
+
+class FormatEligibilityTest(SimpleTestCase):
+    def test_plain_text_skips_extraction_and_highlighting(self) -> None:
+        for check in (
+            PythonFormatCheck(),
+            PHPFormatCheck(),
+            CFormatCheck(),
+            ObjCFormatCheck(),
+            PerlFormatCheck(),
+            JavaScriptFormatCheck(),
+            LuaFormatCheck(),
+            ObjectPascalFormatCheck(),
+            SchemeFormatCheck(),
+            PerlBraceFormatCheck(),
+            PythonBraceFormatCheck(),
+            CSharpFormatCheck(),
+            LaravelFormatCheck(),
+            JavaFormatCheck(),
+            JavaMessageFormatCheck(),
+            I18NextInterpolationCheck(),
+            AngularJSInterpolationCheck(),
+            PercentPlaceholdersCheck(),
+            VueFormattingCheck(),
+            AutomatticComponentsCheck(),
+            QtFormatCheck(),
+            QtPluralCheck(),
+            RubyFormatCheck(),
+        ):
+            with (
+                self.subTest(check=check.check_id),
+                patch.object(
+                    check,
+                    "iter_matches",
+                    side_effect=AssertionError("Unexpected extraction"),
+                ),
+            ):
+                unit = make_unit(flags=check.enable_string)
+                self.assertEqual(check.extract_matches("Open document"), [])
+                self.assertEqual(list(check.check_highlight("Open document", unit)), [])
+
+    def test_default_hook_preserves_custom_patterns(self) -> None:
+        class CustomFormatCheck(BaseFormatCheck):
+            regexp = re.compile(r"(TOKEN)")
+
+        check = CustomFormatCheck()
+        self.assertTrue(check.may_have_matches("TOKEN"))
+        self.assertEqual(check.extract_matches("A TOKEN"), ["TOKEN"])
+
+    def test_non_percent_printf_subclasses(self) -> None:
+        for check, placeholder in (
+            (SchemeFormatCheck(), "~a"),
+            (LaravelFormatCheck(), ":name"),
+            (AutomatticComponentsCheck(), "{{name}}"),
+            (VueFormattingCheck(), "@:message"),
+            (I18NextInterpolationCheck(), "$t(message)"),
+        ):
+            with self.subTest(check=check.check_id):
+                self.assertTrue(check.extract_matches(placeholder))
+                self.assertTrue(
+                    check.check_target_unit(["Plain text"], [placeholder], make_unit())
+                )
+                self.assertTrue(
+                    list(
+                        check.check_highlight(
+                            placeholder, make_unit(flags=check.enable_string)
+                        )
+                    )
+                )
+
+    def test_validation_without_opening_braces(self) -> None:
+        unit = make_unit()
+        self.assertEqual(
+            PythonBraceFormatCheck().check_format("Plain text", "Stray }", False, unit),
+            {"missing": [], "extra": ["}"]},
+        )
+        self.assertTrue(
+            JavaMessageFormatCheck().check_format(
+                "Plain text", "Unpaired ' quote", False, unit
+            )
+        )
+
+    def test_python_escaped_closing_braces(self) -> None:
+        check = PythonBraceFormatCheck()
+        self.assertEqual(check.extract_matches("Escaped }}"), ["}"])
+        self.assertFalse(check.check_format("Text", "Escaped }}", False, make_unit()))
+
+    def test_missing_and_extra_placeholders(self) -> None:
+        for check, placeholder in (
+            (PythonBraceFormatCheck(), "{name}"),
+            (I18NextInterpolationCheck(), "{{name}}"),
+            (CFormatCheck(), "%s"),
+        ):
+            for source, target in (("Text", placeholder), (placeholder, "Text")):
+                with self.subTest(check=check.check_id, source=source):
+                    self.assertTrue(
+                        check.check_target_unit([source], [target], make_unit())
+                    )
 
 
 class FormatMatchingTimeoutTest(SimpleTestCase):

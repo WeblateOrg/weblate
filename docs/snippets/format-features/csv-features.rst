@@ -18,6 +18,8 @@
      - ``Yes``
    * - Supports location :ref:`ⓘ <format-location>`
      - ``Yes``
+   * - Supports line number :ref:`ⓘ <format-line-number>`
+     - ``Yes``
    * - Supports flags :ref:`ⓘ <format-flags>`
      - ``No``
    * - Additional states :ref:`ⓘ <format-states>`

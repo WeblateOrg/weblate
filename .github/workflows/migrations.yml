@@ -32,7 +32,7 @@ jobs:
       UV_FROZEN: '1'
     services:
       database:
-        image: postgres:18.7-alpine@sha256:b6972e1115a4ff8eba5d7f7d19184926d1e16d7d1136ae1e1a7ebf286da0f015
+        image: postgres:18.7-alpine@sha256:ff64c9e3bdf8e2120107d3559de8db314e8305f7e38c5105903c6295876738ff
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: weblate
@@ -49,22 +49,25 @@ jobs:
       with:
         persist-credentials: false
     - name: Install apt dependencies
-      run: sudo ./ci/apt-install
-    - name: Install legacy rendering dependencies
-      run: sudo apt-get install -y libgirepository-2.0-dev libcairo-dev gir1.2-rsvg-2.0 gir1.2-pango-1.0
+      uses: $/.github/actions/apt-install
     - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
       with:
-        enable-cache: true
-        # Do not share cache with tests as this uses python 3.11 for older versions
-        cache-suffix: multi
-        save-cache: ${{ github.ref == 'refs/heads/main' }}
+        enable-cache: false
+        cache-local-path: ${{ runner.temp }}/weblate-uv-cache
         version: 0.13.8
     - name: Set up Python
+      id: setup_python
       uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
       with:
         python-version: |
           3.11
           3.13
+    - name: Restore Python dependencies
+      id: python-cache
+      uses: $/.github/actions/python-cache-restore
+      with:
+        python-version: ${{ steps.setup_python.outputs.python-version }}
+        profile: migrations
     - name: Install Python dependencies
       run: ./ci/pip-install latest
     - name: Check missing migrations
@@ -99,6 +102,14 @@ jobs:
       run: ./ci/run-migrate 2026.10
     - name: Migrate from 2026.11.1
       run: ./ci/run-migrate 2026.11.1
+    # Historical runs install additional dependencies for Python 3.11 and 3.13.
+    # Save after all runs so the immutable cache includes those dependencies.
+    - name: Save Python dependencies
+      uses: $/.github/actions/python-cache-save
+      with:
+        primary-key: ${{ steps.python-cache.outputs.primary-key }}
+        exact-hit: ${{ steps.python-cache.outputs.exact-hit }}
+        cache-directory: ${{ steps.python-cache.outputs.cache-directory }}
     - name: Coverage
       run: |
         uv run coverage combine

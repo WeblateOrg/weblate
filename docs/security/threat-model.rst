@@ -480,12 +480,26 @@ Build-time and configuration variants
      - Component and add-on managers configure commit messages, generated files,
        paths, and repository browser links. *(documented)* (source: :ref:`markup`)
      - Templates use a fixed set of Django tags and filters with plain-data
-       context. Complex renders execute in a helper with source, context, loop,
-       intermediate-value, output, CPU, and wall-time limits. Supported platforms
-       also enforce an address-space limit. On macOS, the helper can exhaust
-       memory within its time limits because the address-space cap is unavailable.
-       Simple scalar substitutions use bounded in-process rendering. This bounds
-       template work, not arbitrary Python extensions. *(maintainer)*
+       context. The complete context is validated against an exact-type
+       allowlist and copied with size and depth limits, including unused values.
+       The Weblate wrapper expands ``Translation``, ``Component``, and
+       ``Project`` models; other application objects are rejected. Lazy labels
+       must be resolved by callers. The restricted Django renderer enforces source,
+       parsing, nesting, iteration, intermediate-value, output, cumulative work,
+       and operation limits, with an additional deadline. Allocation guards
+       bound each supported operation's inputs and allocation-driving arguments
+       before calling native code.
+       Native serialization permits bounded temporary escaping expansion before
+       checking the result; output checks alone do not provide the allocation
+       bound. Unicode normalization accounts for potentially quadratic work.
+       Arbitrary objects, subclasses, general attribute access, method calls,
+       and unguarded filters are excluded. Unsupported filters are rejected
+       throughout the compiled tree, including untaken branches. Conditions
+       cannot suppress resource failures. Assignment tags use a private root
+       scope, and failures return no partial output. Internal escaping markers
+       are removed from the final plain-text result. This bounds template work,
+       not arbitrary Python extensions. See :ref:`markup` for supported
+       operations and resource limits. *(maintainer)*
      - Existing component and add-on management permissions govern configuration.
        Failed renders return no partial output; generated files are installed
        only after rendering succeeds. See :ref:`markup` for limits. *(maintainer)*
@@ -1001,7 +1015,8 @@ Security properties Weblate provides
 Resource thresholds in this model are the documented configuration defaults
 where they exist, especially backup import limits and rate limits. Translation
 files have a pre-parse byte limit configured by :setting:`TRANSLATION_MAX_SIZE`
-and a 100,000-content-string acceptance limit before synchronization or import.
+and a content-string acceptance limit configured by
+:setting:`TRANSLATION_MAX_UNITS` before synchronization or import.
 Translation-memory imports enforce the same pre-parse byte and entry-count
 limits, including TMX source-target expansion, before writing entries in bounded
 batches. Browser memory imports share the per-user translation-upload rate

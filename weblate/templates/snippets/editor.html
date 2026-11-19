@@ -2,17 +2,31 @@
 
 <div class="clearfix"></div>
 <div class="translation-item">
-  <label for="{{ fieldid }}">{{ label }}</label>
-  {{ toolbar }}
-  <div class="clearfix"></div>
+  {% if show_plural_label %}
+    <div class="editor-plural-header">
+      <label for="{{ fieldid }}">
+        <span class="editor-plural-name">{{ label }}</span>
+        {% if plural_examples %}
+          <bdi class="text-muted text-truncate"
+               dir="ltr"
+               title="{% translate "Example counts for this plural form."|force_escape %}">({{ plural_examples }})</bdi>
+        {% endif %}
+      </label>
+      <div class="editor-plural-toolbar">{{ toolbar }}</div>
+    </div>
+  {% else %}
+    <label for="{{ fieldid }}">{{ label }}</label>
+    {{ toolbar }}
+    <div class="clearfix"></div>
+  {% endif %}
   {{ textarea }}
   <div class="float-end editor-footer">
     <span class="badge length">
-      <span title="{% translate "The maximal string length is determined from the source string or flags." %}">
+      <span title="{% translate "The maximal string length is determined from the source string or flags."|force_escape %}">
         <span data-max="{{ max_length }}" class="length-indicator">{{ length }}</span>/{{ max_length }}
       </span>
       {% if source_length %}
-        <span title="{% translate "Source string length" %}">· {{ source_length }}</span>
+        <span title="{% translate "Source string length"|force_escape %}">· {{ source_length }}</span>
       {% endif %}
     </span>
     {{ rtl_toggle }}

@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, NotRequired, Required, TypedDict, cast
 
 from django.core.exceptions import ValidationError
+from django.template import TemplateSyntaxError
 from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django.utils.translation import gettext
@@ -690,6 +691,7 @@ class ComponentDiscovery:
         self.match = match
         self.errors: list[tuple[DiscoveryErrorMatch, str]] = []
         self.limit_exceeded = False
+        self.template_error = False
         self.path = path
         self.path_match = self.compile_match(match)
         self.name_template = name_template
@@ -728,6 +730,7 @@ class ComponentDiscovery:
         )
         discovery.errors = self.errors.copy()
         discovery.limit_exceeded = self.limit_exceeded
+        discovery.template_error = self.template_error
         for name in (
             "repository_paths",
             "matches",
@@ -833,7 +836,7 @@ class ComponentDiscovery:
     def build_match_from_groups(
         self, groups: Mapping[str, str], *, mask: str, path: str | None = None
     ) -> MutableDiscoveryMatch:
-        name = render_template(self.name_template, **groups)
+        name = self.render_discovery_template("name_template", groups)
         files = {path} if path else set()
         languages: set[str] = set()
         files_langs: set[tuple[str, str]] = set()
@@ -844,13 +847,27 @@ class ComponentDiscovery:
             "files": files,
             "languages": languages,
             "files_langs": files_langs,
-            "base_file": render_template(self.base_file_template, **groups),
-            "new_base": render_template(self.new_base_template, **groups),
-            "intermediate": render_template(self.intermediate_template, **groups),
+            "base_file": self.render_discovery_template("base_file_template", groups),
+            "new_base": self.render_discovery_template("new_base_template", groups),
+            "intermediate": self.render_discovery_template(
+                "intermediate_template", groups
+            ),
             "mask": mask,
             "name": name,
             "slug": slugify(name),
         }
+
+    def render_discovery_template(self, setting: str, groups: Mapping[str, str]) -> str:
+        """Record invalid configuration without treating partial discovery as complete."""
+        try:
+            return render_template(getattr(self, setting), **groups)
+        except TemplateSyntaxError as error:
+            self.template_error = True
+            self.add_error(
+                gettext("Could not render %(setting)s template: %(error)s")
+                % {"setting": setting, "error": error}
+            )
+            raise
 
     def _iter_repository_paths(self):
         """Yield relative repository paths found under the discovery root."""
@@ -984,7 +1001,7 @@ class ComponentDiscovery:
             for key, value in matches.groupdict().items()
             if value is not None
         }
-        if mask := render_template(self.filemask_template, **groups):
+        if mask := self.render_discovery_template("filemask_template", groups):
             return path, groups, mask
         return None
 
@@ -1067,6 +1084,8 @@ class ComponentDiscovery:
                     match = self._get_base_mode_match(path)
                 else:
                     match = self._get_classic_match(path)
+            except TemplateSyntaxError:
+                return []
             except TimeoutError:
                 break
             if match:
@@ -1085,9 +1104,12 @@ class ComponentDiscovery:
 
         for path, groups, mask in self.matches:
             if mask not in result:
-                result[mask] = self.build_match_from_groups(
-                    groups, mask=mask, path=path
-                )
+                try:
+                    result[mask] = self.build_match_from_groups(
+                        groups, mask=mask, path=path
+                    )
+                except TemplateSyntaxError:
+                    return {}
                 if self.create_from_template:
                     # Base-mode matches the source/base file; translations under the
                     # rendered mask are collected separately for preview accuracy.
@@ -1099,7 +1121,12 @@ class ComponentDiscovery:
                 result[mask]["languages"].add(groups["language"])
                 result[mask]["files_langs"].add((path, groups["language"]))
             else:
-                new_match = self.build_match_from_groups(groups, mask=mask, path=path)
+                try:
+                    new_match = self.build_match_from_groups(
+                        groups, mask=mask, path=path
+                    )
+                except TemplateSyntaxError:
+                    return {}
                 self.add_error(
                     gettext(
                         "Multiple base or new base files render to the same file "
@@ -1133,7 +1160,7 @@ class ComponentDiscovery:
             translations_by_mask = self._collect_translations_by_mask(
                 set(result), exclude_paths=exclude_paths
             )
-            if self.limit_exceeded:
+            if self.limit_exceeded or self.template_error:
                 return {}
             for mask, translations in translations_by_mask.items():
                 for translation_path, language in translations:
@@ -1347,7 +1374,7 @@ class ComponentDiscovery:
             processed: set[int] = set()
 
             discovered = self.matched_components
-            if self.limit_exceeded:
+            if self.limit_exceeded or self.template_error:
                 return created, matched, deleted, skipped
 
             category_components = main.project.component_set.filter(

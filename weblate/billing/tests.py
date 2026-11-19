@@ -26,6 +26,7 @@ from django.utils import timezone, translation
 from lxml import html
 from rest_framework.authtoken.models import Token
 
+from weblate.auth.bots import InternalBot
 from weblate.auth.models import Group, Permission, Role, TeamMembership, User, UserBlock
 from weblate.billing.admin import BillingAdmin
 from weblate.billing.defines import TRIAL_DAYS
@@ -44,6 +45,7 @@ from weblate.billing.tasks import (
     billing_notify,
     filter_with_projects,
     inactive_recurring_check,
+    libre_cleanup_check,
     notify_expired,
     perform_removal,
     remove_single_billing,
@@ -52,6 +54,7 @@ from weblate.billing.tasks import (
 from weblate.billing.views import merge_billings
 from weblate.lang.models import Language
 from weblate.machinery.models import MachineryInstallation
+from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.community import (
     MissingTranslationInstructions,
 )
@@ -198,6 +201,153 @@ class BillingTest(BaseTestCase):
     def set_alert_timestamp(component, name, timestamp) -> None:
         component.add_alert(name)
         component.alert_set.filter(name=name).update(timestamp=timestamp)
+
+    def use_libre_plan(self) -> None:
+        self.plan.price = self.plan.yearly_price = 0
+        self.plan.slug = "libre"
+        self.plan.save()
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_empty_libre_cleanup_lifecycle(self) -> None:
+        self.use_libre_plan()
+        self.add_project()
+        start = timezone.now()
+
+        def run(day: int) -> None:
+            with patch(
+                "weblate.billing.tasks.timezone.now",
+                return_value=start + timedelta(days=day),
+            ):
+                with self.captureOnCommitCallbacks(execute=True):
+                    libre_cleanup_check()
+                self.refresh_from_db()
+
+        run(0)
+        self.assertEqual(self.billing.libre_cleanup_empty_since, start)
+        run(89)
+        self.assertIsNone(self.billing.libre_cleanup_warned_at)
+        run(90)
+        run(119)
+        self.assertEqual(
+            self.billing.libre_cleanup_warned_at, start + timedelta(days=90)
+        )
+        self.assertEqual(self.billing.state, Billing.STATE_ACTIVE)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn("Project has no components", mail.outbox[0].body)
+        run(120)
+        self.assertEqual(self.billing.state, Billing.STATE_TRIAL)
+        self.assertEqual(self.billing.expiry, start + timedelta(days=150))
+        self.assertIsNone(self.billing.removal)
+        self.assertIsNone(self.billing.libre_cleanup_warned_at)
+        run(121)
+        self.assertEqual(len(mail.outbox), 1)
+        with patch(
+            "weblate.billing.models.timezone.now",
+            return_value=start + timedelta(days=151),
+        ):
+            self.billing.check_limits()
+        self.assertIsNotNone(self.billing.removal)
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_libre_warning_locks_current_components_once(self) -> None:
+        self.use_libre_plan()
+        project = self.add_project()
+        component = self.add_component(project, "revision")
+        already_locked = self.add_component(project, "other")
+        already_locked.do_lock(self.user)
+        translator = create_another_user()
+        project.add_user(translator, "Translate")
+        self.assertTrue(translator.has_perm("unit.edit", component))
+
+        self.set_alert_timestamp(
+            component, "RepositoryChanges", timezone.now() - timedelta(days=90)
+        )
+        libre_cleanup_check()
+        component.refresh_from_db()
+        self.assertTrue(component.locked)
+        self.assertFalse(translator.has_perm("unit.edit", component))
+        self.assertEqual(
+            component.change_set.get(action=ActionEvents.LOCK).user,
+            InternalBot.ALERTS.get_user(),
+        )
+        self.assertEqual(
+            already_locked.change_set.get(action=ActionEvents.LOCK).user, self.user
+        )
+
+        component.do_lock(self.user, lock=False)
+        libre_cleanup_check()
+        component.refresh_from_db()
+        self.assertFalse(component.locked)
+        self.assertTrue(translator.has_perm("unit.edit", component))
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_libre_cleanup_replaced_diagnostic(self) -> None:
+        self.use_libre_plan()
+        component = self.add_component(self.add_project(), "revision")
+        now = timezone.now()
+        self.set_alert_timestamp(
+            component, "RepositoryChanges", now - timedelta(days=100)
+        )
+        component.alert_set.filter(name="RepositoryChanges").update(dismissed_at=now)
+        self.set_alert_timestamp(component, "MissingLicense", now - timedelta(days=70))
+        libre_cleanup_check()
+        self.refresh_from_db()
+        warning = self.billing.libre_cleanup_warning
+        assert warning is not None
+        self.assertEqual(warning.details["reasons"], ["RepositoryChanges"])
+        component.delete_alert("RepositoryChanges")
+        later = now + timedelta(days=31)
+        with patch("weblate.billing.tasks.timezone.now", return_value=later):
+            libre_cleanup_check()
+        self.refresh_from_db()
+        self.assertEqual(self.billing.libre_cleanup_warned_at, later)
+        self.assertEqual(self.billing.state, Billing.STATE_ACTIVE)
+        warning = self.billing.libre_cleanup_warning
+        assert warning is not None
+        self.assertEqual(warning.details["reasons"], ["MissingLicense"])
+        component.delete_alert("MissingLicense")
+        libre_cleanup_check()
+        self.refresh_from_db()
+        self.assertIsNone(self.billing.libre_cleanup_warned_at)
+        component.refresh_from_db()
+        self.assertTrue(component.locked)
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_libre_cleanup_billing_scope(self) -> None:
+        project = self.add_project()
+        libre_cleanup_check()
+        self.refresh_from_db()
+        self.assertIsNone(self.billing.libre_cleanup_empty_since)
+        self.use_libre_plan()
+        libre_cleanup_check()
+        self.refresh_from_db()
+        self.assertIsNotNone(self.billing.libre_cleanup_empty_since)
+        self.add_project()
+        libre_cleanup_check()
+        self.refresh_from_db()
+        self.assertIsNone(self.billing.libre_cleanup_empty_since)
+        other = Billing.objects.create(plan=self.plan)
+        now = timezone.now()
+        Billing.objects.filter(pk__in=[other.pk, self.billing.pk]).update(
+            libre_cleanup_warned_at=now, libre_cleanup_empty_since=now
+        )
+        with acting_user_context(self.user):
+            other.transfer_project(project)
+        for bill in (self.billing, other):
+            cancellation = bill.billinglog_set.get(
+                event=BillingEvent.LIBRE_CLEANUP_CANCELED
+            )
+            self.assertEqual(cancellation.user, self.user)
+        self.refresh_from_db()
+        other.refresh_from_db()
+        self.assertIsNone(other.libre_cleanup_warned_at)
+        self.assertIsNone(self.billing.libre_cleanup_warned_at)
+        libre_cleanup_check()
+        other.refresh_from_db()
+        self.assertIsNotNone(other.libre_cleanup_empty_since)
+        merge_billings(self.billing, other, self.user)
+        other.refresh_from_db()
+        self.assertIsNone(other.libre_cleanup_empty_since)
 
     def test_view_billing(self) -> None:
         self.add_project()
@@ -1198,17 +1348,20 @@ class BillingTest(BaseTestCase):
                     inherited = MachineryInstallation.objects.create(
                         workspace=target.workspace, engine=engine, slug=slug
                     )
-                    with patch(
-                        "weblate.utils.tasks.update_workspace_stats.delay_on_commit"
-                    ) as schedule:
-                        with self.assertRaisesMessage(
+                    with (
+                        patch(
+                            "weblate.utils.tasks.update_workspace_stats.delay"
+                        ) as schedule,
+                        self.captureOnCommitCallbacks(execute=True),
+                        self.assertRaisesMessage(
                             ValidationError, "conflict with the new workspace"
-                        ):
-                            if transfer:
-                                target.transfer_project(project)
-                            else:
-                                target.add_project(project)
-                        schedule.assert_not_called()
+                        ),
+                    ):
+                        if transfer:
+                            target.transfer_project(project)
+                        else:
+                            target.add_project(project)
+                    schedule.assert_not_called()
                     self.assertEqual(project.workspace_id, original_workspace_id)
                     project.refresh_from_db()
                     self.assertEqual(project.workspace_id, original_workspace_id)
@@ -3026,3 +3179,57 @@ class HostingTest(RepoTestCase):
             follow=True,
         )
         self.assertNotContains(response, "Pending approval")
+
+        billing.refresh_from_db()
+        self.assertFalse(billing.libre_request_pending)
+        component.add_alert("RepositoryChanges")
+        component.alert_set.filter(name="RepositoryChanges").update(
+            timestamp=timezone.now() - timedelta(days=100)
+        )
+        libre_cleanup_check()
+        for url in (
+            component.project.get_absolute_url(),
+            billing.get_absolute_url(),
+        ):
+            response = self.client.get(url)
+            self.assertContains(response, "Scheduled removal")
+            self.assertContains(response, "Repository has changes.")
+        response = self.client.get(reverse("manage-alerts"))
+        self.assertContains(response, "Scheduled removal")
+        self.assertContains(
+            response,
+            f'<a href="{component.project.get_absolute_url()}" class="btn btn-link">{component.project}</a>',
+            html=True,
+        )
+        self.assertNotContains(response, "Resolve the issues below")
+        billing.refresh_from_db()
+        with patch(
+            "weblate.billing.tasks.timezone.now",
+            return_value=billing.libre_cleanup_trial_start,
+        ):
+            libre_cleanup_check()
+        component.refresh_from_db()
+        self.assertTrue(component.locked)
+        component.delete_alert("RepositoryChanges")
+        user.is_superuser = False
+        user.save()
+        response = self.client.get(billing.get_absolute_url())
+        self.assertContains(response, "Request approval for Libre hosting")
+        response = self.client.post(
+            billing.get_absolute_url(),
+            {"request": "1", "message": "Fixed"},
+            follow=True,
+        )
+        self.assertContains(response, "Pending approval")
+        call_command("extend_pending")
+        billing.refresh_from_db()
+        assert billing.expiry is not None
+        self.assertGreater(billing.expiry, timezone.now() + timedelta(weeks=8))
+        user.is_superuser = True
+        user.save()
+        response = self.client.get(reverse("manage-billing"))
+        self.assertIn(billing, response.context["pending"])
+        self.client.post(billing.get_absolute_url(), {"approve": "1"})
+        billing.refresh_from_db()
+        self.assertFalse(billing.libre_request_pending)
+        self.assertEqual(billing.state, Billing.STATE_ACTIVE)

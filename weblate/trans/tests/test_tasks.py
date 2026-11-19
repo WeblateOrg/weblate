@@ -19,6 +19,7 @@ from django.core.exceptions import PermissionDenied
 from django.db import IntegrityError, connection
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.utils import timezone
+from django.utils.translation import get_language, override
 
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, Permission, Role, User
@@ -91,6 +92,7 @@ from weblate.utils.tasks import (
 )
 from weblate.utils.version import GIT_VERSION
 from weblate.vcs.base import RepositoryError, RepositoryInternalError
+from weblate.vcs.base import RepositoryInternalError, RepositoryTemplateError
 
 if TYPE_CHECKING:
     from collections.abc import Generator, Iterator
@@ -99,6 +101,67 @@ if TYPE_CHECKING:
 
 
 class CleanupTest(ComponentTestCase):
+    def test_commit_template_completion_uses_initiator_language(self) -> None:
+        self.user.profile.language = "cs"
+        self.user.profile.save(update_fields=["language"])
+        for user_id, language in ((self.user.pk, "cs"), (None, "en")):
+            with (
+                self.subTest(language=language),
+                override("de"),
+                patch(
+                    "weblate.trans.tasks.perform_component_commit",
+                    side_effect=RepositoryTemplateError(
+                        "commit message", "Invalid filter"
+                    ),
+                ),
+                patch(
+                    "weblate.trans.tasks.gettext",
+                    side_effect=lambda message: f"{get_language()}: {message}",
+                ),
+            ):
+                result = perform_commit.run(self.component.pk, "test", user_id=user_id)
+            self.assertTrue(
+                result["completion_message"]["text"].startswith(f"{language}: ")
+            )
+
+    def test_push_template_failure_preserves_successful_commit(self) -> None:
+        unit = self.get_unit()
+        unit.translate(self.user, "Committed before push failure", STATE_TRANSLATED)
+        head = self.component.repository.last_revision
+
+        def push(*args, **kwargs) -> None:
+            if not repository_task_suppress_auto_push.get():
+                msg = "merge message"
+                raise RepositoryTemplateError(msg, "Invalid template")
+
+        with patch.object(Component, "push_if_needed", side_effect=push):
+            result = perform_commit.run(self.component.pk, "test", user_id=self.user.pk)
+
+        self.assertFalse(result["result"])
+        self.assertIn("could not push", result["completion_message"]["text"])
+        self.assertNotIn(
+            "Could not commit pending changes", result["completion_message"]["text"]
+        )
+        self.assertFalse(PendingUnitChange.objects.filter(unit=unit).exists())
+        self.assertNotEqual(self.component.repository.get_last_revision(), head)
+
+    def test_automatic_commit_template_failure_is_handled(self) -> None:
+        self.component.commit_message = "{% invalid %}"
+        self.component.inherit_commit_message = False
+        Component.objects.filter(pk=self.component.pk).update(
+            commit_message=self.component.commit_message, inherit_commit_message=False
+        )
+        unit = self.get_unit()
+        unit.translate(self.user, "Pending template failure", STATE_TRANSLATED)
+        head = self.component.repository.last_revision
+
+        result = perform_commit.run(self.component.pk, "test", user_id=self.user.pk)
+
+        self.assertFalse(result["result"])
+        self.assertIn("commit message", result["completion_message"]["text"])
+        self.assertTrue(PendingUnitChange.objects.filter(unit=unit).exists())
+        self.assertEqual(self.component.repository.get_last_revision(), head)
+
     def test_cleanup_suggestions_batches_query(self) -> None:
         suggestions = Mock()
         suggestions.iterator.return_value = ()

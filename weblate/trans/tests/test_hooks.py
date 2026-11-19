@@ -18,6 +18,7 @@ from rest_framework.exceptions import ParseError
 
 from weblate.trans.actions import ActionEvents
 from weblate.trans.hooks.repository import validate_full_name
+from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.views.hooks import (
     HOOK_HANDLERS,
@@ -1575,7 +1576,9 @@ class HooksViewTest(ReusableViewTestCase):
     @override_settings(ENABLE_HOOKS=True)
     def test_hook_github_auth(self) -> None:
         # Adjust matching repo
-        self.component.repo = "https://user:pwd@github.com/defunkt/github.git"
+        self.component.repo = (
+            "https://user:pwd@github.com/defunkt/github.git"  # kingfisher:ignore
+        )
         self.component.save()
         response = self.client.post(
             reverse("webhook", kwargs={"service": "github"}),
@@ -1746,6 +1749,53 @@ class HooksViewTest(ReusableViewTestCase):
         self.assertContains(
             response, "No matching repositories found!", status_code=202
         )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_hook_skips_linked_components(self) -> None:
+        owner = self.component
+        project = self.create_project(name="Linked project", slug="linked-project")
+        linked = self.create_po(project=project, name="Linked")
+        repo = owner.get_repo_link_url()
+        Component.objects.filter(pk=linked.pk).update(
+            repo=repo, linked_component=owner, branch="", push=""
+        )
+        service_data = {
+            "service_long_name": "GitHub",
+            "repo_url": repo,
+            "repos": [repo],
+            "branch": None,
+            "full_name": owner.full_slug,
+        }
+
+        for vcs in ("git", "github-app"):
+            with (
+                self.subTest(vcs=vcs),
+                patch.dict(
+                    HOOK_HANDLERS, {"github": lambda _data, _request: service_data}
+                ),
+                patch("weblate.trans.views.hooks.perform_update.delay") as enqueue,
+            ):
+                Component.objects.filter(pk=owner.pk).update(vcs=vcs)
+                response = self.client.post(
+                    reverse("webhook", kwargs={"service": "github"}),
+                    {"payload": GITHUB_PAYLOAD},
+                )
+
+                self.assertContains(
+                    response, "No matching repositories found!", status_code=202
+                )
+                self.assertEqual(
+                    response.json()["match_status"],
+                    {
+                        "repository_matches": 0,
+                        "branch_matches": 0,
+                        "enabled_hook_matches": 0,
+                    },
+                )
+                enqueue.assert_not_called()
+                self.assertFalse(
+                    linked.change_set.filter(action=ActionEvents.HOOK).exists()
+                )
 
     @override_settings(ENABLE_HOOKS=True)
     def test_unauthenticated_hooks_skip_github_app_components(self) -> None:

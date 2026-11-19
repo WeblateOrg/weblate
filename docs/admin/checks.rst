@@ -216,6 +216,16 @@ related strings in the background after a save. They can override
 warnings can be removed. Without this override, Weblate evaluates the check
 on each matching string in chunks.
 
+Format checks inheriting from ``weblate.checks.format.BaseFormatCheck`` can
+implement ``may_have_matches(text)`` to skip expensive extraction for plain text.
+Return ``False`` only when the text cannot contain any matches; return ``True``
+when full extraction is needed. The default returns ``True`` so existing custom
+checks continue to work. Extraction and highlighting use this hook independently
+for each string, preserving detection of placeholders added in the translation.
+The hook controls extraction only: additional syntax validation must still run,
+such as detection of unmatched braces or apostrophes. Custom iterators called
+directly can also use the hook before allocating parsing tables.
+
 Checking translation text does not contain "foo"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

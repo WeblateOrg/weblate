@@ -141,9 +141,16 @@ class JSONWebhookBaseAddon(ChangeBaseAddon):
         return {}
 
     def render_activity_log(self, activity: AddonActivityLog) -> str:
+        result = activity.details.get("result")
+        if not isinstance(result, dict) or any(
+            not isinstance(part := result.get(key), dict)
+            or not isinstance(part.get("headers"), dict)
+            for key in ("request", "response")
+        ):
+            return super().render_activity_log(activity)
         return render_to_string(
             "addons/webhook_log.html",
-            {"activity": activity, "details": activity.details.get("result")},
+            {"activity": activity, "details": result},
         )
 
     def send_message(

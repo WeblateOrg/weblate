@@ -186,6 +186,11 @@ Before moving a component to another project, remove it from teams defined in
 its current project. Moving a category requires removing its components from
 such teams as well. Removing the last component from a team grants its roles to
 the whole project, so review the team's membership and roles first.
+Weblate blocks deleting a component when it would remove the last component
+assignment from a team. Assign another component that will remain, or remove
+the team after reviewing its roles and membership, before deleting the component.
+This also applies when deleting a category or project would expand a team that
+survives the deletion.
 
 Teams left with moved components by an earlier release show those assignments
 by component ID. The assignments grant no access to the destination project.
@@ -658,6 +663,11 @@ the following rules:
   lists attached to the team, and an access with no additional permissions is
   granted for all the projects these components are in. :guilabel:`Components`
   and :guilabel:`Projects` are ignored.
+
+  Weblate blocks deleting the last component list assigned to a team. Remove
+  the assignment after reviewing the team's roles and membership, or assign
+  another list that will remain. A team with :guilabel:`From component list`
+  selected and no assigned lists grants no project or component access.
 
   Using huge component lists might have a performance impact, please consider
   giving access via projects instead.

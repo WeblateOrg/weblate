@@ -250,6 +250,8 @@ class SafeMDXCheck(TargetCheck):
         self, text: str
     ) -> Iterator[tuple[str, str, tuple[str, ...], str]]:
         """Extract JSX expressions together with their syntactic context."""
+        if "{" not in text:
+            return
         code_span_ends = _get_markdown_code_span_ends(text)
         autolink_ends = _get_markdown_autolink_ends(text)
         stack: list[str] = []

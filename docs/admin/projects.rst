@@ -589,6 +589,11 @@ Version control system
 
 VCS to use, see :ref:`vcs` for details.
 
+After creating a component, you can switch only between compatible backends
+offered in the settings form. Switching to another VCS family requires
+recreating the component. Backends managed by an authenticated integration are
+available through their provider import flow, not generic component creation.
+
 .. seealso::
 
    :ref:`code-hosting-push-options`
@@ -1612,17 +1617,86 @@ bounded. These limits apply both when validating settings and when rendering
 saved templates. Exceeding a limit fails the render without returning partial
 output or replacing a generated file.
 
-Templates with tags, filters, or structured lookups run in a separate helper
-process with a five-second wall-time limit, a five-second CPU limit, and a
-512 MiB address-space limit. The address-space limit is unavailable on macOS;
-CPU, wall-time, and application-level size limits still apply there. Plain
-text and simple scalar substitutions use the same source and output size
-limits without starting a helper process.
+Template parsing is limited to 1,024 tokens, 2,048 bytes per token, 32 levels
+of nesting, and 64 terms per condition. Parsing work is limited to 8,388,608
+units, calculated as the sum of the squared UTF-8 byte lengths of token contents.
+Rendering also limits evaluated
+operations to 8,192, filter applications to 1,024, and cumulative processing
+work to an 8 MiB budget. These budgets count
+repeated operations even inside conditions that produce no output. A five-second
+deadline provides an additional guard. Exceeding any limit fails the render.
+Errors identify the failed limit or unsupported operation and the relevant filter
+or tag when available. Multiline parsing and evaluation errors also include
+the source line number. Validation can quote parts of the submitted template
+to help you find the error. Runtime diagnostics omit raw template fragments
+and context values.
 
-The helper receives plain data rather than application objects. Its context
-is limited to 8 MiB of serialized data and 32 levels of nesting. It does not
-inherit application credentials or settings; only time-zone and number-format
-settings needed for rendering are passed explicitly.
+If a saved repository browser or editor link template fails to render, Weblate
+displays the filename without a link. Failed commit, merge, and pull request
+message templates stop the operation with an error. A failure in the
+:ref:`delete message <component-delete_message>` template stops translation
+deletion. Correct the template before retrying the operation.
+Discovery template failures stop component creation and removal. Add-on template
+failures appear in the add-on activity log.
+
+Contexts support scalar substitutions, dictionary lookups such as
+``{{ stats.translated }}``, and list or string indexing such as
+``{{ translations.0.language_code }}``. Dictionaries expose read-only ``items``,
+``keys``, and ``values`` views; stored keys with these names take precedence.
+General attribute access and method calls are not supported.
+
+Supported filters are:
+
+* Strings and paths: ``parentdir``, ``dirname``, ``stripext``, ``lower``, ``upper``,
+  ``capfirst``, ``title``, ``urlencode``, ``iriencode``, ``cut``, ``addslashes``,
+  ``escape``, ``force_escape``, ``escapejs``, ``linenumbers``, ``slugify``,
+  ``truncatechars``, ``truncatewords``, ``wordcount``, ``wordwrap``, ``linebreaks``,
+  ``linebreaksbr``, ``safe``, and ``phone2numeric``.
+* Sequences: ``slice``, ``length``, ``first``, ``last``, ``join``, ``make_list``,
+  ``random``, ``safeseq``, and ``escapeseq``. Joining requires strings; sequence
+  escaping requires scalar elements.
+* Values and numbers: ``default``, ``default_if_none``, ``yesno``, ``add``,
+  ``get_digit``, ``divisibleby``, ``filesizeformat``, and ``pluralize``.
+* Formatting: ``center``, ``ljust``, ``rjust``, ``floatformat``, and
+  ``stringformat``. Padding checks its width before allocation. Numeric
+  conversions are bounded; formatting precision is limited to 1,000 places.
+  ``stringformat`` accepts a single conversion with literal flags, width, and
+  precision, without mapping keys or dynamic widths.
+* Dates: ``date``, ``time``, ``timesince``, and ``timeuntil``, with bounded format
+  strings and the current time zone.
+* Serialization: ``json`` produces JSON text, and ``python`` produces Python
+  literals using JSON-compatible value conversions. Serialized results are
+  subject to the intermediate-value and output limits.
+
+The ``default``, ``default_if_none``, and ``yesno`` filters also accept containers.
+Defaults can select containers for subsequent iteration, filtering, or serialization;
+containers cannot be rendered directly as text.
+
+Django string filters convert bounded scalar data to strings; custom filename
+filters require strings. Unicode normalization counts combining-character
+sequences against the work budget. Allocation and work guards can reject an
+operation even when its final result would fit the output limit.
+
+Supported tags are ``if`` / ``elif`` / ``else``, ``for`` / ``empty``, and
+``replace``, including replacement assignment with ``as``. Conditions support
+truth tests, ``and``, ``or``, ``not``, scalar comparisons, and identity checks
+against ``None``, ``True``, or ``False``. Membership tests and container comparisons
+are not supported. Loops support lists, strings, dictionaries, dictionary views, unpacking,
+``reversed``, and Django's ``forloop`` metadata. This covers the default
+pull-request message, including linked components. Conditions cannot suppress
+resource-limit errors.
+
+The following Django filters are not supported: ``urlize``, ``urlizetrunc``,
+``striptags``, ``truncatechars_html``, ``truncatewords_html``, ``dictsort``,
+``dictsortreversed``, ``unordered_list``, ``pprint``, and ``json_script``.
+Unsupported filters fail validation even in untaken branches.
+
+Before evaluation, the complete context is validated and copied as plain data,
+including unused values. Context data is limited to an 8 MiB budget and 32 levels
+of nesting. Application objects must be expanded into supported data before
+rendering. Add-on commit messages use the English add-on name regardless of the
+active interface language. Rendered templates return plain text; HTML sinks must
+escape it.
 
 The following variables are available in the component templates:
 

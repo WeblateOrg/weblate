@@ -350,6 +350,7 @@ def show_project_language(
         "language-project.html",
         {
             "allow_index": True,
+            "user_can_upload_translation": bool(user.has_perm("upload.perform", obj)),
             "language": language_object,
             "project": project_object,
             "object": obj,
@@ -438,6 +439,7 @@ def show_category_language(
         "category-language.html",
         {
             "allow_index": True,
+            "user_can_upload_translation": bool(user.has_perm("upload.perform", obj)),
             "language": language_object,
             "category": category_object,
             "object": obj,
@@ -531,8 +533,11 @@ def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpRespons
     language_stats = sort_unicode(
         language_stats, user.profile.get_translation_orderer(request)
     )
-    language_objects = [stat.obj or stat for stat in language_stats]
-    obj.project_languages.preload_workflow_settings(language_objects)
+    language_objects = cast(
+        "list[ProjectLanguage | GhostProjectLanguageStats]",
+        [stat.obj or stat for stat in language_stats],
+    )
+    obj.project_languages.ensure_workflow_settings(language_objects)
 
     components = prefetch_tasks(all_components)
     prefetch_project_flags([obj], user=user)
@@ -543,6 +548,7 @@ def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpRespons
         "project.html",
         {
             "allow_index": True,
+            "user_can_upload_translation": bool(user.has_perm("upload.perform", obj)),
             "object": obj,
             "path_object": obj,
             "project": obj,
@@ -639,6 +645,7 @@ def show_category(request: AuthenticatedHttpRequest, obj: Category) -> HttpRespo
         "category.html",
         {
             "allow_index": True,
+            "user_can_upload_translation": bool(user.has_perm("upload.perform", obj)),
             "object": obj,
             "path_object": obj,
             "project": obj,
@@ -753,6 +760,7 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component) -> HttpRes
         "component.html",
         {
             "allow_index": True,
+            "user_can_upload_translation": bool(user.has_perm("upload.perform", obj)),
             "object": obj,
             "path_object": obj,
             "project": obj.project,

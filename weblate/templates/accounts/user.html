@@ -21,7 +21,7 @@
   <div class="user-page text-center">
     <img class="avatar w128"
          src="{% user_avatar page_user size=128 %}"
-         alt="{% translate "User avatar" %}" />
+         alt="{% translate "User avatar"|force_escape %}" />
     <h3>{{ page_user }}</h3>
     <p>
       <span class="middle-dot-divider">@{{ page_user.username }}</span>
@@ -345,7 +345,7 @@
                        class="btn btn-link btn-xs red link-post"
                        data-href="{{ page_user.get_absolute_url }}"
                        data-params='{"remove_group": {{ group.pk }} }'
-                       title="{% translate "Remove user from this team" %}">{% icon 'delete.svg' %}</a>
+                       title="{% translate "Remove user from this team"|force_escape %}">{% icon 'delete.svg' %}</a>
                   {% endif %}
                 </td>
               </tr>
@@ -373,7 +373,7 @@
                        class="btn btn-link btn-xs link-post"
                        data-href="{% url 'unblock-user' project=userblock.project.slug %}"
                        data-params='{"user": "{{ userblock.user.username|escapejs }}"}'
-                       title="{% translate "Unblock user" %}">{% icon 'close.svg' %}</a>
+                       title="{% translate "Unblock user"|force_escape %}">{% icon 'close.svg' %}</a>
                   {% endif %}
                 </td>
               </tr>
@@ -400,7 +400,9 @@
               </div>
               <div class="card-body">{{ form|crispy }}</div>
               <div class="card-footer">
-                <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+                <input type="submit"
+                       value="{% translate "Save"|force_escape %}"
+                       class="btn btn-primary" />
               </div>
             </div>
           </form>
@@ -436,7 +438,7 @@
                 <div class="card-footer">
                   <input type="submit"
                          name="remove_2fa"
-                         value="{% translate "Turn off two-factor authentication" %}"
+                         value="{% translate "Turn off two-factor authentication"|force_escape %}"
                          class="btn-danger red">
                 </div>
               {% endif %}
@@ -463,7 +465,7 @@
               <div class="card-footer">
                 <input type="submit"
                        name="disable_password"
-                       value="{% translate "Disable password" %}"
+                       value="{% translate "Disable password"|force_escape %}"
                        class="btn btn-danger red">
               </div>
             </div>
@@ -480,7 +482,7 @@
               <div class="card-footer">
                 <input type="button"
                        name="cleanup_user_contributions"
-                       value="{% translate "Choose cleanup actions" %}"
+                       value="{% translate "Choose cleanup actions"|force_escape %}"
                        class="btn btn-primary"
                        data-bs-toggle="modal"
                        data-bs-target="#revert_user_edits_{{ page_user.id }}">
@@ -497,7 +499,7 @@
                     <button type="button"
                             class="btn-close"
                             data-bs-dismiss="modal"
-                            aria-label="{% translate "Close" %}"></button>
+                            aria-label="{% translate "Close"|force_escape %}"></button>
                   </div>
                   <div class="modal-body">
                     {% blocktranslate with user=page_user.username %}Choose which contributions by <b>{{ user }}</b> to clean up across all projects.{% endblocktranslate %}
@@ -506,7 +508,7 @@
                   <div class="modal-footer">
                     <input type="submit"
                            name="cleanup_user_contributions"
-                           value="{% translate "Clean up selected contributions" %}"
+                           value="{% translate "Clean up selected contributions"|force_escape %}"
                            class="btn btn-danger" />
                   </div>
                 </div>
@@ -520,7 +522,7 @@
               <div class="card-footer">
                 <input type="button"
                        name="remove_user"
-                       value="{% translate "Delete" %}"
+                       value="{% translate "Delete"|force_escape %}"
                        class="btn btn-danger red"
                        data-bs-toggle="modal"
                        data-bs-target="#delete_user_{{ page_user.id }}">
@@ -537,7 +539,7 @@
                     <button type="button"
                             class="btn-close"
                             data-bs-dismiss="modal"
-                            aria-label="{% translate "Close" %}"></button>
+                            aria-label="{% translate "Close"|force_escape %}"></button>
                   </div>
                   <div class="modal-body">
                     {% blocktranslate with user=page_user.username %}This will remove <b>{{ user }}</b> from Weblate.{% endblocktranslate %}
@@ -545,7 +547,7 @@
                   <div class="modal-footer">
                     <input type="submit"
                            name="remove_user"
-                           value="{% translate "Delete" %}"
+                           value="{% translate "Delete"|force_escape %}"
                            class="btn btn-danger" />
                   </div>
                 </div>

@@ -1936,7 +1936,7 @@ class SourceLanguageTest(FixtureComponentTestCase):
                 self.child.refresh_from_db()
                 self.set_target(self.child, "Custom-source translation")
                 Unit.objects.filter(pk=ordinary.pk).update(source=text)
-                base = machine.get_base_queryset(
+                base, _translations = machine.get_search_querysets(
                     self.user, self.parent.translation.language, translation.language
                 )
                 with CaptureQueriesContext(connection) as queries:
@@ -1946,12 +1946,13 @@ class SourceLanguageTest(FixtureComponentTestCase):
                 )
                 self.assertNotIn("COALESCE", candidate_sql)
                 self.assertNotIn('"lang_plural"', candidate_sql)
+                self.assertEqual(candidate_sql.count("LIMIT 1"), 3)
                 self.assertEqual(
                     [unit.pk for unit in matches],
                     sorted([self.child.pk, ordinary.pk]),
                 )
                 # Reject the first candidate and ensure the next batch still
-                # supplies a result instead of applying the result limit in SQL.
+                # supplies a result instead of stopping at the first SQL page.
                 Unit.objects.filter(pk=matches[0].pk).update(flags="forbidden")
                 results = list(
                     machine.download_translations(
@@ -1978,9 +1979,9 @@ class SourceLanguageTest(FixtureComponentTestCase):
             with self.subTest(state=state):
                 self.set_target(self.child, "Czech translation", state)
                 self.assertTrue(
-                    machine.get_base_queryset(
+                    machine.get_search_querysets(
                         self.user, source_language, target_language
-                    )
+                    )[0]
                     .filter(pk=self.child.pk)
                     .exists()
                 )
@@ -1992,7 +1993,7 @@ class SourceLanguageTest(FixtureComponentTestCase):
         self.assertEqual(self.child.state, STATE_READONLY)
         self.assertIsNotNone(self.child.missing_source_snapshot)
         self.assertFalse(
-            machine.get_base_queryset(self.user, source_language, target_language)
+            machine.get_search_querysets(self.user, source_language, target_language)[0]
             .filter(pk=self.child.pk)
             .exists()
         )

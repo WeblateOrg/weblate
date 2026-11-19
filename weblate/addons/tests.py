@@ -42,11 +42,12 @@ from django.core.management.commands.makemessages import (
 )
 from django.core.management.utils import find_command
 from django.db import connection
-from django.template import TemplateSyntaxError
+from django.template import Context, Template, TemplateSyntaxError
 from django.test import SimpleTestCase, TestCase, TransactionTestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import get_language, override
 from django_celery_beat.models import IntervalSchedule, PeriodicTask, PeriodicTasks
 from rest_framework.test import APIClient
 from standardwebhooks.webhooks import Webhook, WebhookVerificationError
@@ -68,6 +69,7 @@ from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
 from weblate.trans.component_copy import copy_component_addons
+from weblate.trans.defaults import DEFAULT_ADDON_MESSAGE
 from weblate.trans.discovery import DetectedDiscoveryPresets
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.file_format_params import get_default_params_for_file_format
@@ -102,6 +104,7 @@ from weblate.trans.validators import MAX_NEW_TEXT_LENGTH
 from weblate.utils.celery import handle_task_failure
 from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.forms import FormFieldGroup
+from weblate.utils.render import render_template
 from weblate.utils.rst import FullWidthRow
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
@@ -112,6 +115,7 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
+from weblate.utils.task_log import get_visible_task_log
 from weblate.utils.tests import http_mock
 from weblate.utils.tests.network import mock_dns
 from weblate.utils.unittest import tempdir_setting
@@ -135,7 +139,7 @@ from .defaults import (
     DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT,
     DEFAULT_FEDORA_MESSAGING_RETRY_DELAY,
 )
-from .discovery import DISCOVERY_LIMIT_ERROR, DiscoveryAddon
+from .discovery import DISCOVERY_LIMIT_ERROR, DISCOVERY_TEMPLATE_ERROR, DiscoveryAddon
 from .events import (
     AddonActivityLogReason,
     AddonActivityLogStatus,
@@ -193,6 +197,7 @@ from .models import (
 from .properties import PropertiesSortAddon, format_file, format_unicode
 from .removal import RemoveComments, RemoveSuggestions
 from .resx import ResxUpdateAddon
+from .scripts import BaseScriptAddon
 from .tasks import (
     addon_change,
     cdn_parse_html,
@@ -227,6 +232,39 @@ def get_webhook_request_data(
         assert isinstance(value, str)
         headers[key] = value
     return request.content, headers
+
+
+class AddonCommitContextTest(SimpleTestCase):
+    def test_english_commit_labels(self) -> None:
+        for addon_class, expected_name in (
+            (GenerateMoAddon, "Generate MO files"),
+            (GitSquashAddon, "Squash Git commits"),
+        ):
+            addon = addon_class(Addon(configuration={"squash": "all"}))
+            component = MagicMock()
+            component.linked_component = None
+            component.repo_needs_merge.return_value = False
+            component.effective_addon_message = DEFAULT_ADDON_MESSAGE
+            with self.subTest(addon=addon_class.name), override("cs"):
+                if isinstance(addon, GitSquashAddon):
+                    with (
+                        patch.object(addon, "ensure_repository_clean"),
+                        patch.object(addon, "squash_all"),
+                    ):
+                        addon.post_commit(component, True)
+                else:
+                    self.assertTrue(addon.commit_and_push(component, files=["file.po"]))
+                extra_context = component.commit_files.call_args.kwargs["extra_context"]
+                self.assertIs(type(extra_context["addon_name"]), str)
+                self.assertEqual(extra_context["addon_name"], expected_name)
+                rendered = render_template(
+                    DEFAULT_ADDON_MESSAGE,
+                    component_full_name="project/component",
+                    url="https://example.org/",
+                    **extra_context,
+                )
+                self.assertIn(f"Add-on: {expected_name}", rendered)
+                self.assertEqual(get_language(), "cs")
 
 
 class GettextUtilityTest(SimpleTestCase):
@@ -456,6 +494,147 @@ class TestAddonMixin:
 
 
 class AddonBaseTest(TestAddonMixin, ComponentTestCase):
+    def test_safe_template_warning_is_visible_to_task_readers(self) -> None:
+        addon = GenerateFileAddon.create(
+            acting_user=get_test_actor(self),
+            component=self.component,
+            run=False,
+            configuration={
+                "scope": "component",
+                "filename": "stats.txt",
+                "template": "Header\n{% /private/repo %}",
+            },
+        )
+        task_id = "addon-safe-template-warning"
+        task = SimpleNamespace(request=SimpleNamespace(id=task_id))
+        with patch("weblate.trans.models.component.current_task", task):
+            handle_addon_event(
+                AddonEvent.EVENT_COMPONENT_UPDATE,
+                "component_update",
+                args=(self.component,),
+                component=self.component,
+                addon_queryset=[addon.instance],
+            )
+        with patch.object(self.user, "has_perm", return_value=False):
+            public = "\n".join(get_visible_task_log(task_id, self.user))
+        self.assertIn("Line 2: Unsupported template tag", public)
+        self.assertNotIn("/private/repo", public)
+
+    def test_template_warning_details_require_repository_permission(self) -> None:
+        for scope in ("component", "translation"):
+            with self.subTest(scope=scope):
+                addon = GenerateFileAddon.create(
+                    acting_user=get_test_actor(self),
+                    component=self.component,
+                    run=False,
+                    configuration={
+                        "scope": scope,
+                        "filename": "stats.txt",
+                        "template": "{% invalid %}",
+                    },
+                )
+                task_id = f"addon-template-warning-{scope}"
+                task = SimpleNamespace(request=SimpleNamespace(id=task_id))
+                diagnostic = (
+                    f"Template diagnostic at {self.component.full_path}/stats.txt"
+                )
+                translation = self.get_translation() if scope == "translation" else None
+                with (
+                    patch("weblate.trans.models.component.current_task", task),
+                    patch(
+                        "weblate.addons.generate.render_template",
+                        side_effect=TemplateSyntaxError(diagnostic),
+                    ),
+                ):
+                    handle_addon_event(
+                        AddonEvent.EVENT_PRE_COMMIT
+                        if translation
+                        else AddonEvent.EVENT_COMPONENT_UPDATE,
+                        "pre_commit" if translation else "component_update",
+                        args=(translation, "Author", False)
+                        if translation
+                        else (self.component,),
+                        component=self.component,
+                        translation=translation,
+                        addon_queryset=[addon.instance],
+                    )
+                with patch.object(self.user, "has_perm", return_value=False):
+                    public = "\n".join(get_visible_task_log(task_id, self.user))
+                self.assertIn("An operation reported a warning.", public)
+                self.assertNotIn("Template diagnostic", public)
+                with patch.object(self.user, "has_perm", return_value=True):
+                    private = "\n".join(get_visible_task_log(task_id, self.user))
+                self.assertIn("Template diagnostic", private)
+                self.assertNotIn(self.component.full_path, private)
+
+    def test_script_template_failure_prevents_execution(self) -> None:
+        addon = BaseScriptAddon(Addon())
+        addon.add_file = "{% invalid %}"
+        translation = self.get_translation()
+        with (
+            patch.object(addon, "run_script") as script,
+            self.assertRaises(TemplateSyntaxError),
+        ):
+            addon.pre_commit(translation, "Author", False)
+        script.assert_not_called()
+        self.assertEqual(translation.addon_commit_files, [])
+
+    def test_generate_template_failure_preserves_file_and_records_error(self) -> None:
+        for setting in ("filename", "template"):
+            with self.subTest(setting=setting):
+                configuration = {
+                    "scope": "component",
+                    "filename": "stats.txt",
+                    "template": "New content",
+                }
+                configuration[setting] = "{% invalid %}"
+                addon = GenerateFileAddon.create(
+                    acting_user=get_test_actor(self),
+                    component=self.component,
+                    configuration=configuration,
+                    run=False,
+                )
+                output = Path(self.component.full_path, "stats.txt")
+                output.write_text("Original content", encoding="utf-8")
+                with patch("weblate.addons.models.report_error") as report:
+                    handle_addon_event(
+                        AddonEvent.EVENT_COMPONENT_UPDATE,
+                        "component_update",
+                        kwargs={"component": self.component},
+                        component=self.component,
+                        addon_queryset=[addon.instance],
+                    )
+                activity = AddonActivityLog.objects.filter(addon=addon.instance).latest(
+                    "pk"
+                )
+                self.assertEqual(activity.status, AddonActivityLogStatus.ERROR)
+                self.assertEqual(output.read_text(encoding="utf-8"), "Original content")
+                report.assert_not_called()
+
+    def test_template_failure_is_logged_without_error_reporting(self) -> None:
+        addon = NoOpAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
+        for error in (TemplateSyntaxError("Invalid template"), RuntimeError("bug")):
+            with (
+                self.subTest(error=error),
+                patch.object(NoOpAddon, "post_update", side_effect=error),
+                patch("weblate.addons.models.report_error") as report,
+            ):
+                handle_addon_event(
+                    AddonEvent.EVENT_POST_UPDATE,
+                    "post_update",
+                    kwargs={"component": self.component},
+                    component=self.component,
+                    addon_queryset=[addon.instance],
+                )
+                activity = AddonActivityLog.objects.filter(addon=addon.instance).latest(
+                    "pk"
+                )
+                self.assertEqual(activity.status, AddonActivityLogStatus.ERROR)
+                self.assertIn(str(error), str(activity.details))
+                self.assertEqual(report.called, isinstance(error, RuntimeError))
+
     def test_pending_commit_reuses_unit_addon_cache(self) -> None:
         self.check_pending_commit_unit_addon_cache(self.component)
 
@@ -5641,7 +5820,7 @@ msgstr ""
         )
         output = Path(self.component.full_path) / "locales.json"
         output.write_text("original", encoding="utf-8")
-        with self.assertRaisesMessage(TemplateSyntaxError, "padding"):
+        with self.assertRaises(TemplateSyntaxError):
             addon.generate_component(self.component)
         self.assertEqual(output.read_text(encoding="utf-8"), "original")
 
@@ -7439,6 +7618,27 @@ class CommandTest(ComponentTestCase):
 
 
 class DiscoveryTest(ReusableViewTestCase):
+    def test_template_failure_is_reported(self) -> None:
+        addon = DiscoveryAddon.create(
+            acting_user=get_test_actor(self),
+            component=self.component,
+            run=False,
+            configuration={
+                "file_format": "po",
+                "match": r"(?P<language>[^/]*)\.po",
+                "name_template": "{% invalid %}",
+                "language_regex": ".*",
+                "remove": True,
+            },
+        )
+        discovery = addon.get_discovery(self.component)
+        discovery.__dict__["repository_paths"] = ["cs.po"]
+        with patch.object(addon, "get_discovery", return_value=discovery):
+            outcome = addon.post_update(self.component, "", False, [])
+        self.assertEqual(
+            outcome, AddonEventOutcome.error(result=DISCOVERY_TEMPLATE_ERROR)
+        )
+
     def test_limit_failure_is_reported(self) -> None:
         addon = DiscoveryAddon.create(
             acting_user=get_test_actor(self),
@@ -10514,7 +10714,7 @@ class AddonConfigurationUnitTest(SimpleTestCase):
             },
         )
         self.assertFalse(form.is_valid())
-        self.assertIn("padding", str(form.errors["template"]))
+        self.assertIn("template", form.errors)
 
     def test_generate_file_runtime_configuration_is_normalized(self) -> None:
         addon = GenerateFileAddon(
@@ -12014,6 +12214,88 @@ class TargetChangeAddonTest(ComponentTestCase):
 class TasksTest(TestCase):
     def test_cleanup_addon_activity_log(self) -> None:
         cleanup_addon_activity_log()
+
+
+class WebhookActivityLogTest(SimpleTestCase):
+    def render_result(self, addon_class: type[BaseAddon], details: dict) -> str:
+        addon = addon_class(MagicMock())
+        activity = AddonActivityLog(id=123, details=details)
+        return Template("{{ result }}").render(
+            Context({"result": addon.render_activity_log(activity)})
+        )
+
+    def test_success(self) -> None:
+        for addon_class in (WebhookAddon, SlackWebhookAddon):
+            for headers in ({}, {"X-Header": "<unsafe>"}):
+                with self.subTest(addon_class=addon_class, headers=headers):
+                    rendered = self.render_result(
+                        addon_class,
+                        {
+                            "result": {
+                                "request": {
+                                    "headers": headers,
+                                    "payload": {"message": "<payload>"},
+                                },
+                                "response": {
+                                    "status_code": 201,
+                                    "headers": headers,
+                                    "content": "<content>",
+                                },
+                            }
+                        },
+                    )
+                    self.assertIn('id="response-123"', rendered)
+                    self.assertIn('id="request-123"', rendered)
+                    self.assertIn("201", rendered)
+                    self.assertIn("&lt;payload&gt;", rendered)
+                    self.assertIn("&lt;content&gt;", rendered)
+                    if headers:
+                        self.assertIn("<b>X-Header</b>: &lt;unsafe&gt;", rendered)
+
+    def test_pending_and_errors(self) -> None:
+        for addon_class in (WebhookAddon, SlackWebhookAddon):
+            for details, expected in (
+                ({}, ""),
+                ({"result": None}, ""),
+                ({"result": ""}, ""),
+                (
+                    {"result": "Unable to deliver webhook: <unsafe>"},
+                    "Unable to deliver webhook: &lt;unsafe&gt;",
+                ),
+                (
+                    {"result": "Delivery failed\n<unsafe>"},
+                    "Delivery failed<br>&lt;unsafe&gt;",
+                ),
+            ):
+                with self.subTest(addon_class=addon_class, details=details):
+                    self.assertEqual(self.render_result(addon_class, details), expected)
+
+    def test_unstructured_results(self) -> None:
+        for addon_class in (WebhookAddon, SlackWebhookAddon):
+            for result in (
+                {"results": ["<unsafe>", {"response": {"status_code": 200}}]},
+                {"message": "<unsafe>"},
+                {"request": {"headers": {}}, "message": "<unsafe>"},
+                {"response": {"headers": {}}, "message": "<unsafe>"},
+                *(
+                    {
+                        "request": {"headers": {}},
+                        "response": {"headers": {}},
+                        key: {"headers": headers},
+                        "message": "<unsafe>",
+                    }
+                    for key in ("request", "response")
+                    for headers in (None, "", "<unsafe>", [])
+                ),
+            ):
+                with self.subTest(addon_class=addon_class, result=result):
+                    rendered = self.render_result(addon_class, {"result": result})
+                    self.assertIn("&lt;unsafe&gt;", rendered)
+                    self.assertNotIn("<unsafe>", rendered)
+                    self.assertNotIn('class="nav nav-pills"', rendered)
+                    if "results" in result:
+                        self.assertIn("200", rendered)
+                        self.assertIn("results", rendered)
 
 
 class WebhookDeliveryTest(SimpleTestCase):

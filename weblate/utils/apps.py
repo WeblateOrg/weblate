@@ -415,7 +415,6 @@ def check_data_writable(
         ]
     dirs: list[Path] = [
         Path(settings.DATA_DIR),
-        data_path("locks"),
         data_path("home"),
         data_path("ssh"),
         data_path("vcs"),

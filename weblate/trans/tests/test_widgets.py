@@ -6,15 +6,20 @@
 
 from __future__ import annotations
 
+import re
 from io import BytesIO
 from math import ceil
 from types import SimpleNamespace
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any, ClassVar, cast
 from unittest.mock import patch
+from urllib.parse import parse_qs, urlsplit
 
+from django.db import connection
 from django.http import HttpResponse
 from django.test import RequestFactory, SimpleTestCase, override_settings
+from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
+from lxml import html
 from PIL import Image
 
 from weblate.fonts.render import (
@@ -22,6 +27,7 @@ from weblate.fonts.render import (
     measure_line,
     rendering_lock,
 )
+from weblate.lang.models import Language
 from weblate.trans.checklists import TranslationChecklistMixin
 from weblate.trans.filter import FILTERS
 from weblate.trans.models import (
@@ -30,6 +36,7 @@ from weblate.trans.models import (
     ComponentLink,
     Project,
     Translation,
+    WorkflowSetting,
 )
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.views.widgets import WIDGETS
@@ -181,6 +188,163 @@ class FilterPresentationTest(SimpleTestCase):
         self.assertEqual(
             next(choice[3] for choice in choices if choice[0] == "context"), ""
         )
+
+
+class LanguageStatsWorkflowTest(FixtureTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.category = self.create_category(self.project)
+        Component.objects.filter(pk=self.component.pk).update(category=self.category)
+        Project.objects.filter(pk=self.project.pk).update(
+            translation_review=True, source_review=False
+        )
+        self.languages = list(
+            self.component.translation_set.select_related("language").order_by(
+                "language__code"
+            )
+        )
+        targets = [item.language for item in self.languages if not item.is_source]
+        self.local = WorkflowSetting.objects.create(
+            project=self.project, language=targets[0], translation_review=True
+        )
+        WorkflowSetting.objects.create(language=targets[0], translation_review=False)
+        self.fallback = WorkflowSetting.objects.create(
+            language=targets[1], translation_review=False
+        )
+
+    def get_scope(self, model):
+        obj: Project | Category | Component
+        if model is Project:
+            obj = Project.objects.get(pk=self.project.pk)
+            # Isolate percentage reads from the source-language cache miss path.
+            self.assertIn(self.component.source_language_id, obj.source_language_ids)
+        elif model is Category:
+            obj = Category.objects.select_related("project").get(pk=self.category.pk)
+            self.assertIn(self.component.source_language_id, obj.source_language_ids)
+        else:
+            obj = Component.objects.select_related("project").get(pk=self.component.pk)
+        return obj
+
+    def test_collections_batch_workflows_and_preserve_review_rules(self) -> None:
+        for model in (Project, Category, Component):
+            with self.subTest(scope=model.__name__):
+                obj = self.get_scope(model)
+                with CaptureQueriesContext(connection) as queries:
+                    stats = list(obj.stats.get_language_stats())
+                workflows = [
+                    query
+                    for query in queries
+                    if '"trans_workflowsetting"' in query["sql"]
+                ]
+                self.assertEqual(len(workflows), 1)
+                # Languages/translations and the workflows each take one query.
+                self.assertEqual(len(queries), 2)
+                self.assertEqual(len(stats), len(self.languages))
+                with self.assertNumQueries(0):
+                    for item in stats:
+                        language = item.language
+                        expected = (
+                            self.local
+                            if language.pk == self.local.language_id
+                            else self.fallback
+                            if language.pk == self.fallback.language_id
+                            else None
+                        )
+                        self.assertEqual(item.obj.workflow_settings, expected)
+                        review = (
+                            language.pk != obj.source_language_id
+                            if model is Component
+                            else language.pk not in obj.source_language_ids
+                        )
+                        review = review and (
+                            expected.translation_review
+                            if expected is not None
+                            else True
+                        )
+                        self.assertEqual(item.has_review, review)
+                        item.set_data({"all": 0, "translated": 0, "approved": 0})
+                        self.assertEqual(item.translated_percent, 0 if review else 100)
+                        self.assertEqual(item.approved_percent, 100 if review else 0)
+                with CaptureQueriesContext(connection) as repeated:
+                    list(obj.stats.get_language_stats())
+                self.assertFalse(
+                    any('"trans_workflowsetting"' in query["sql"] for query in repeated)
+                )
+
+    def test_workflow_query_count_does_not_grow_with_languages(self) -> None:
+        languages = [item.language for item in self.languages]
+        for model in (Project, Category):
+            for count in (1, len(languages)):
+                with self.subTest(scope=model.__name__, count=count):
+                    obj = self.get_scope(model)
+                    obj.__dict__["languages"] = languages[:count]
+                    with self.assertNumQueries(1):
+                        stats = obj.stats.get_language_stats()
+                        self.assertEqual(len(stats), count)
+
+    def test_source_and_target_review_switches(self) -> None:
+        Project.objects.filter(pk=self.project.pk).update(
+            source_review=True, translation_review=False
+        )
+        for model in (Project, Category, Component):
+            with self.subTest(scope=model.__name__):
+                obj = self.get_scope(model)
+                stats = list(obj.stats.get_language_stats())
+                with self.assertNumQueries(0):
+                    for item in stats:
+                        self.assertEqual(item.has_review, item.is_source)
+
+    def test_ensure_missing_workflows_and_explicit_refresh(self) -> None:
+        project = Project.objects.get(pk=self.project.pk)
+        language = self.component.source_language
+        wrapper = project.project_languages[language]
+        with self.assertNumQueries(1):
+            project.project_languages.ensure_workflow_settings([wrapper])
+        self.assertIsNone(wrapper.workflow_settings)
+        setting = WorkflowSetting.objects.create(
+            language=language, translation_review=True
+        )
+        with self.assertNumQueries(0):
+            project.project_languages.ensure_workflow_settings([wrapper])
+            project.project_languages.ensure_workflow_settings([])
+        self.assertIsNone(wrapper.workflow_settings)
+        with self.assertNumQueries(1):
+            project.project_languages.preload_workflow_settings([wrapper])
+        self.assertEqual(wrapper.workflow_settings, setting)
+
+    def test_empty_language_collections(self) -> None:
+        for model in (Project, Category):
+            obj = self.get_scope(model)
+            obj.__dict__["languages"] = []
+            with self.assertNumQueries(0):
+                self.assertEqual(obj.stats.get_language_stats(), [])
+
+    def test_widget_requests_batch_workflows(self) -> None:
+        for model in (Project, Category, Component):
+            with self.subTest(scope=model.__name__):
+                obj = self.get_scope(model)
+                url = reverse(
+                    "widget-image",
+                    kwargs={
+                        "path": obj.get_url_path(),
+                        "widget": "multi",
+                        "color": "auto",
+                        "extension": "svg",
+                    },
+                )
+                self.assertEqual(self.client.get(url).status_code, 200)
+                with CaptureQueriesContext(connection) as queries:
+                    response = self.client.get(url)
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(
+                    sum('"trans_workflowsetting"' in query["sql"] for query in queries),
+                    1,
+                    "\n".join(
+                        query["sql"]
+                        for query in queries
+                        if '"trans_workflowsetting"' in query["sql"]
+                    ),
+                )
 
 
 class WidgetsTest(FixtureTestCase):
@@ -651,6 +815,32 @@ class PublicSharingTest(FixtureTestCase):
         self.set_project_access(Project.ACCESS_PUBLIC, public_sharing=False)
         response = self.client.get(self.project.get_absolute_url())
         self.assertContains(response, ">Community<")
+
+    @override_settings(ENABLE_SHARING=True)
+    def test_community_menu_encodes_share_messages(self) -> None:
+        self.set_project_access(Project.ACCESS_PUBLIC, public_sharing=False)
+        self.project.name = "R&D #1"
+        self.project.save(update_fields=["name"])
+        self.user.profile.fediverse = "https://social.example/@test"
+        self.user.profile.save(update_fields=["fediverse"])
+
+        response = self.client.get(self.project.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+        page = html.fromstring(response.content)
+        expected = f"Translate R&D #1 using #Weblate at {self.project.get_share_url()}!"
+        for label, hostname in (
+            ("Share on Bluesky", "bsky.app"),
+            ("Share on Fediverse", "social.example"),
+            ("Share on X", "x.com"),
+        ):
+            with self.subTest(label=label):
+                (href,) = page.xpath(
+                    "//a[normalize-space(.)=$label]/@href", label=label
+                )
+                url = urlsplit(href)
+                self.assertEqual(url.hostname, hostname)
+                self.assertEqual(parse_qs(url.query), {"text": [expected]})
+                self.assertEqual(url.fragment, "")
 
 
 class WidgetsMeta(type):
@@ -1149,3 +1339,83 @@ class WidgetsCapitalizeTest(FixtureTestCase):
             {"capitalize": "1"},
         )
         self.assertContains(response, ">Translated<")
+
+
+class WidgetsSortByPercentTest(FixtureTestCase):
+    # Alphabetical order and percentage order differ, and German and Italian
+    # tie, so the tie-break can be checked too.
+    PERCENTS: ClassVar[dict[str, float]] = {
+        "ja": 100.0,
+        "cs": 25.0,
+        "it": 50.0,
+        "de": 50.0,
+    }
+
+    def get_fake_stats(self) -> list[SimpleNamespace]:
+        return [
+            SimpleNamespace(
+                language=Language.objects.get(code=code),
+                translated=int(percent),
+                translated_percent=percent,
+            )
+            for code, percent in self.PERCENTS.items()
+        ]
+
+    def get_codes(self, widget_name: str, params: dict[str, str]) -> list[str]:
+        widget = WIDGETS[widget_name](self.project, "auto")
+        assert isinstance(widget, MultiLanguageWidget)
+        request = RequestFactory().get("/", params)
+        with patch.object(
+            type(widget), "get_language_stats", return_value=self.get_fake_stats()
+        ):
+            return [
+                stats.language.code
+                for stats in widget.get_sorted_language_stats(request)
+            ]
+
+    def test_default_order_is_alphabetical(self) -> None:
+        for widget_name in ("multi", "horizontal", "matrix"):
+            with self.subTest(widget=widget_name):
+                self.assertEqual(
+                    self.get_codes(widget_name, {}), ["cs", "de", "it", "ja"]
+                )
+
+    def test_sort_by_percent(self) -> None:
+        # Highest first; German and Italian tie and stay alphabetical.
+        for widget_name in ("multi", "horizontal", "matrix"):
+            with self.subTest(widget=widget_name):
+                self.assertEqual(
+                    self.get_codes(widget_name, {"sort": "percent"}),
+                    ["ja", "de", "it", "cs"],
+                )
+
+    def test_sort_by_name_and_unknown_value(self) -> None:
+        # The explicit default and values the widget doesn't know keep
+        # the alphabetical order.
+        for value in ("name", "unknown"):
+            with self.subTest(sort=value):
+                self.assertEqual(
+                    self.get_codes("multi", {"sort": value}), ["cs", "de", "it", "ja"]
+                )
+
+    def test_sort_by_percent_rendered(self) -> None:
+        with patch.object(
+            MultiLanguageWidget,
+            "get_language_stats",
+            return_value=self.get_fake_stats(),
+        ):
+            response = self.client.get(
+                reverse(
+                    "widget-image",
+                    kwargs={
+                        "path": self.project.get_url_path(),
+                        "widget": "multi",
+                        "color": "auto",
+                        "extension": "svg",
+                    },
+                ),
+                {"sort": "percent"},
+            )
+        self.assertEqual(response.status_code, 200)
+        names = re.findall(r'id="text\d+">([^<]+)</text>', response.content.decode())
+        self.assertEqual(names, ["Japanese", "German", "Italian", "Czech"])

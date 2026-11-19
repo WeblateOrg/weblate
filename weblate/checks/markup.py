@@ -82,6 +82,8 @@ BBCODE_TOKEN = re.compile(
 
 def extract_bbcode_pairs(text: str) -> list[tuple[re.Match[str], re.Match[str]]]:
     """Pair BBCode open/close tags in linear time, including nested tags."""
+    if "[" not in text:
+        return []
     stack: list[tuple[re.Match[str], int | None, int]] = []
     latest: dict[str, int] = {}
     pairs: list[tuple[re.Match[str], re.Match[str]] | None] = []
@@ -584,6 +586,8 @@ class MarkdownRefLinkCheck(MarkdownBaseCheck):
     description = gettext_lazy("Markdown link references do not match source.")
 
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
+        if "[" not in source:
+            return False
         src_match = MD_REFLINK.findall(source)
         if not src_match:
             return False
@@ -601,6 +605,8 @@ class MarkdownLinkCheck(MarkdownBaseCheck):
     description = gettext_lazy("Markdown links do not match source.")
 
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
+        if "[" not in source and "<" not in source:
+            return False
         src_match = MD_LINK.findall(source)
         if not src_match:
             return False

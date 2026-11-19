@@ -114,7 +114,7 @@
               {% endblocktranslate %}
               <a class="doc-link"
                  href="{% documentation 'user/search' 'search-screenshots' %}"
-                 title="{% translate "Documentation" %}"
+                 title="{% translate "Documentation"|force_escape %}"
                  target="_blank"
                  rel="noopener">{% icon "info.svg" %}<span class="visually-hidden">{% translate "Screenshot search documentation" %}</span></a>
             </div>
@@ -134,7 +134,7 @@
                        id="id_sort_by"
                        name="sort_by"
                        value="{{ sort_query }}"
-                       aria-label="{% translate "Sort By" %}" />
+                       aria-label="{% translate "Sort By"|force_escape %}" />
                 <ul class="dropdown-menu shadow">
                   {% for key, value in sort_choices.items %}
                     <li>
@@ -145,9 +145,9 @@
               </div>
               <div class="btn-group" role="group">
                 <button type="button" class="btn btn-outline-primary search-field query-sort-toggle">
-                  <span title="{% translate "Ascending" %}"
+                  <span title="{% translate "Ascending"|force_escape %}"
                         class="search-icon asc {% if not sort_desc %}active{% endif %}">{% icon "sort-ascending.svg" %}</span>
-                  <span title="{% translate "Descending" %}"
+                  <span title="{% translate "Descending"|force_escape %}"
                         class="search-icon desc {% if sort_desc %}active{% endif %}">{% icon "sort-descending.svg" %}</span>
                 </button>
               </div>
@@ -189,7 +189,7 @@
                         {% endblocktranslate %}
                       </a>
                       {% if count == 0 %}
-                        <span title="{% translate "There are no assigned strings." %}"
+                        <span title="{% translate "There are no assigned strings."|force_escape %}"
                               class="red">{% icon "alert.svg" %}</span>
                       {% endif %}
                     </div>
@@ -235,7 +235,9 @@
               <div id="screenshot-form-container">{% crispy add_form %}</div>
             </div>
             <div class="card-footer">
-              <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
+              <input type="submit"
+                     class="btn btn-primary"
+                     value="{% translate "Save"|force_escape %}" />
             </div>
           </div>
         </form>

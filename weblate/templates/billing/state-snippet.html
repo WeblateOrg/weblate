@@ -1,7 +1,7 @@
 {% load i18n %}
 
 {{ object.plan }}
-{% if object.is_libre_trial and object.payment.libre_request %}
+{% if object.is_libre_trial and object.libre_request_pending %}
   <span class="badge text-bg-secondary">{% translate "Pending approval" %}</span>
 {% elif object.is_trial %}
   <span class="badge text-bg-secondary">{% translate "Trial" %}</span>

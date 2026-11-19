@@ -4,15 +4,13 @@
 
 from __future__ import annotations
 
-import json
 import os.path
 from typing import TYPE_CHECKING
 
 from django import template
-from django.core.serializers.json import DjangoJSONEncoder
 from django.template.defaulttags import do_for, do_if
 
-from weblate.utils.render_engine import BoundedForNode, check_replace
+from weblate.utils.render_engine import BoundedForNode, check_replace, serialize_literal
 
 if TYPE_CHECKING:
     from django.template.base import Parser, Token
@@ -59,10 +57,10 @@ def bounded_for(parser: Parser, token: Token) -> BoundedForNode:
 @register.filter(name="json")
 def json_literal(value: object) -> str:
     """Serialize template data as a JSON literal."""
-    return json.dumps(value, ensure_ascii=False, cls=DjangoJSONEncoder)
+    return serialize_literal(value)
 
 
 @register.filter(name="python")
 def python_literal(value: object) -> str:
     """Serialize plain template data as a Python literal."""
-    return repr(json.loads(json_literal(value)))
+    return serialize_literal(value, python=True)

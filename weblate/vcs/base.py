@@ -13,7 +13,7 @@ import os.path
 import re
 import signal
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
-from contextlib import contextmanager, suppress
+from contextlib import ExitStack, contextmanager, suppress
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
@@ -47,7 +47,7 @@ from weblate.utils.files import (
     is_unsafe_path,
     remove_tree,
 )
-from weblate.utils.lock import WeblateLock
+from weblate.utils.lock import LockScope, WeblateLock
 from weblate.utils.outbound import get_environment_proxy
 from weblate.vcs.ssh import SSH_WRAPPER
 
@@ -156,6 +156,7 @@ type RepositoryDiagnosisCode = Literal[
     "temporary_failure",
 ]
 type RepositoryErrorCode = Literal[
+    "template_render_failed",
     "repository_checkout_missing",
     "repository_checkout_invalid",
     "api_error",
@@ -246,6 +247,9 @@ class RepositoryAlertDetails(TypedDict):
 
 
 REPOSITORY_ERROR_MESSAGES: dict[RepositoryErrorCode, str] = {
+    "template_render_failed": gettext_noop(
+        "Could not render %(setting)s template: %(error)s"
+    ),
     "repository_checkout_missing": gettext_noop(
         "The local repository checkout is missing."
     ),
@@ -493,6 +497,7 @@ class RepositoryLock:
     def __init__(self, repository: Repository, lock: WeblateLock) -> None:
         self.repository = repository
         self._lock = lock
+        self._read_lock = lock.shared_reader()
         self._recovery_pending = False
         self._recovering = False
         self._skip_recovery = RepositoryLockSkipState()
@@ -503,6 +508,7 @@ class RepositoryLock:
 
     def replace_lock(self, lock: Self) -> None:
         self._lock = lock._lock
+        self._read_lock = lock._read_lock
         self._recovery_pending = lock._recovery_pending
         self._recovering = lock._recovering
         self._skip_recovery = lock._skip_recovery
@@ -536,6 +542,38 @@ class RepositoryLock:
         self._lock.__exit__(exc_type, exc_value, traceback)
         if not self._lock.is_locked:
             self._reset_recovery_state()
+
+    @contextmanager
+    def read(self) -> Generator[None]:
+        if self._lock.is_locked or self.repository.exclusive_read_recovery:
+            with self:
+                yield
+            return
+        with self._read_lock:
+            try:
+                recover = self.repository.read_needs_recovery()
+            except (OSError, RepositoryError):
+                # Run the normal recovery and error reporting under the writer lock.
+                recover = True
+            if not recover:
+                yield
+                return
+        # Downgrade on the same session so a writer cannot intervene after recovery.
+        with ExitStack() as reader:
+            with self:
+                self.hold_read_after_write(reader)
+            yield
+
+    def hold_read_after_write(self, reader: ExitStack) -> None:
+        """Keep the checkout stable in reader after the enclosing writer exits."""
+        if not self._lock.is_locked:
+            msg = "Downgrading a repository lock requires exclusive ownership"
+            raise RuntimeError(msg)
+        reader.enter_context(self._read_lock)
+
+    @property
+    def is_read_locked(self) -> bool:
+        return self._lock.is_locked or self._read_lock.is_locked
 
     def begin_recovery(self) -> bool:
         if not self.is_locked or self._recovering or not self._recovery_pending:
@@ -638,6 +676,15 @@ def format_stored_repository_error(
         params=error.get("params"),
     )
     return structured.get_message(translator)
+
+
+class RepositoryTemplateError(RepositoryInternalError):
+    """A configured message could not be rendered; no fallback is safe."""
+
+    def __init__(self, setting: str, error: str) -> None:
+        super().__init__(
+            0, "template_render_failed", params={"setting": setting, "error": error}
+        )
 
 
 class RepositoryCommandError(RepositoryError):
@@ -840,9 +887,8 @@ class Repository:
         self.last_output = ""
         base_path = self.path.rstrip("/").rstrip("\\")
         lock = WeblateLock(
-            scope="repository",
+            scope=LockScope.REPOSITORY,
             key=get_repository_lock_key(base_path, component),
-            slug=os.path.basename(base_path),
             timeout=120,
             origin=component.full_slug if component else base_path,
         )
@@ -883,17 +929,22 @@ class Repository:
     def log(cls, message: str, level: int = logging.DEBUG) -> None:
         return LOGGER.log(level, "%s: %s", cls._cmd, message)
 
+    def config_is_current(self) -> bool:
+        if not self._config_updated and self.component is not None:
+            key = get_config_check_cache_key(self.component.pk)
+            self._config_updated = cache.get(key) is not None
+        return self._config_updated
+
     def ensure_config_updated(self) -> None:
         """Ensure the configuration is periodically checked."""
-        if self._config_updated:
+        if self.config_is_current():
             return
         if self.component is None:
             msg = "Component not set!"
             raise TypeError(msg)
         cache_key = get_config_check_cache_key(self.component.pk)
-        if cache.get(cache_key) is None:
-            self.check_config()
-            cache.set(cache_key, True, 86400)
+        self.check_config()
+        cache.set(cache_key, True, 86400)
         self._config_updated = True
 
     def check_config(self) -> None:
@@ -1116,6 +1167,12 @@ class Repository:
     # ruff: ignore[unused-static-method-argument]
     def should_retry_popen(errormessage: str, *, cwd: str | None = None) -> bool:
         return False
+
+    exclusive_read_recovery = False
+
+    def read_needs_recovery(self) -> bool:
+        temp_dir = self.get_repo_temp_dir(create=False)
+        return temp_dir is not None and temp_dir.is_dir() and any(temp_dir.iterdir())
 
     def recover_lock_session(self) -> list[RepositoryRecoveryEvent]:
         self.cleanup_repo_temp_dir()

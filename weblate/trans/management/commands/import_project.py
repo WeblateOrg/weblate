@@ -272,15 +272,20 @@ class Command(BaseCommand):
 
     def validate_discovery(self, discovery: ComponentDiscovery) -> None:
         """Perform basic discovery sanity checks."""
-        self.logger.info("Found %d matching files", len(discovery.matched_files))
+        matched_files = discovery.matched_files
+        matched_components = discovery.matched_components
+        if discovery.errors:
+            raise CommandError("\n".join(reason for _match, reason in discovery.errors))
 
-        if not discovery.matched_files:
+        self.logger.info("Found %d matching files", len(matched_files))
+
+        if not matched_files:
             msg = "Your mask did not match any files!"
             raise CommandError(msg)
 
-        self.logger.info("Found %d components", len(discovery.matched_components))
+        self.logger.info("Found %d components", len(matched_components))
         langs = set()
-        for match in discovery.matched_components.values():
+        for match in matched_components.values():
             langs.update(match["languages"])
         self.logger.info("Found %d languages", len(langs))
 

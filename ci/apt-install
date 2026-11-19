@@ -6,12 +6,47 @@
 
 set -e -x
 
+cache_dir=${1:-"$(pwd)/build/apt-cache"}
+refresh=${2:-false}
+
+# APT writes as root and _apt; actions/cache reads as the runner user.
+finish() {
+    rm -rf "$runner_state_dir"
+    # Partial downloads are transient. Let APT recreate these directories with
+    # its own ownership instead of restoring runner-owned directories.
+    rm -rf "$cache_dir/lists/partial" "$cache_dir/archives/partial"
+    chown -R "${SUDO_UID:-$(id -u)}:${SUDO_GID:-$(id -g)}" "$cache_dir"
+    chmod -R a+rX "$cache_dir"
+}
+mkdir -p "$cache_dir/lists" "$cache_dir/archives"
+runner_state_dir=$(mktemp -d)
+runner_status="$runner_state_dir/status"
+trap finish EXIT
+# Refresh downloads must resolve against the original runner, before an offline
+# installation can satisfy indirect dependencies with older cached versions.
+cp /var/lib/dpkg/status "$runner_status"
+chmod 755 "$cache_dir" "$cache_dir/lists" "$cache_dir/archives"
+install -d -o _apt -m 700 "$cache_dir/lists/partial" "$cache_dir/archives/partial"
+
+# Using a separate archive directory also avoids runner cleanup hooks which
+# remove /var/cache/apt/archives/*.deb after installation.
+cat > /etc/apt/apt.conf.d/99weblate-cache << EOF
+Dir::State::lists "$cache_dir/lists";
+Dir::Cache::archives "$cache_dir/archives";
+APT::Keep-Downloaded-Packages "true";
+Binary::apt::APT::Keep-Downloaded-Packages "true";
+Acquire::Retries "3";
+EOF
+
 mkdir -p /run/user/1000
 chown -R 1000:1000 /run/user/1000
 
 # Add PostgreSQL repo
 install -d /usr/share/postgresql-common/pgdg
-curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
+key="$cache_dir/apt.postgresql.org.asc"
+if [ -s "$key" ]; then
+    install -m 644 "$key" /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc
+fi
 echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 
 # Ubuntu 26.04's Git meets our minimum version requirement. Prefer its packages
@@ -22,11 +57,11 @@ Pin: release o=Ubuntu
 Pin-Priority: 1001
 EOF
 
-# Update package lists
-apt-get update
-
-# Install dependencies
-apt-get install -y --allow-downgrades \
+# Keep one package list for offline, online, and refresh operations.
+# libgirepository-2.0-dev, libcairo-dev, gir1.2-rsvg-2.0, and gir1.2-pango-1.0
+# are only needed by migration tests for Weblate versions before 2026.8.
+# Remove them once migrations from those versions are no longer supported.
+set -- \
     gettext \
     git \
     git-svn \
@@ -34,6 +69,10 @@ apt-get install -y --allow-downgrades \
     subversion \
     postgresql-client-18 \
     pkg-config \
+    libgirepository-2.0-dev \
+    libcairo-dev \
+    gir1.2-rsvg-2.0 \
+    gir1.2-pango-1.0 \
     libxml2-dev \
     libacl1-dev \
     liblz4-dev \
@@ -45,3 +84,37 @@ apt-get install -y --allow-downgrades \
     libssl-dev \
     libffi-dev \
     liblz4-dev
+
+online_prepare() {
+    if [ ! -s "$key" ]; then
+        curl --fail --location --retry 5 --retry-all-errors --connect-timeout 15 --max-time 120 \
+            -o "$key.tmp" https://www.postgresql.org/media/keys/ACCC4CF8.asc || return 1
+        mv "$key.tmp" "$key" || return 1
+        install -m 644 "$key" /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc || return 1
+    fi
+    apt-get -o APT::Update::Error-Mode=any update || return 1
+    apt-get -o Dir::State::status="$runner_status" install -y --allow-downgrades --download-only "$@"
+}
+
+refreshed=false
+# Preflight checks every needed archive before dpkg can change anything. Never
+# use --fix-missing here: it can silently hold back requested packages.
+if [ -s "$key" ] && apt-get install -y --allow-downgrades --no-download --download-only "$@"; then
+    apt-get install -y --allow-downgrades --no-download "$@"
+    if [ "$refresh" = true ]; then
+        if online_prepare "$@"; then
+            refreshed=true
+        else
+            echo 'APT cache refresh failed; using the successful offline installation.'
+        fi
+    fi
+else
+    echo 'APT cache incomplete; preparing dependencies online.'
+    online_prepare "$@"
+    apt-get install -y --allow-downgrades --no-download "$@"
+    refreshed=true
+fi
+
+if [ -n "${GITHUB_OUTPUT:-}" ]; then
+    echo "refreshed=$refreshed" >> "$GITHUB_OUTPUT"
+fi

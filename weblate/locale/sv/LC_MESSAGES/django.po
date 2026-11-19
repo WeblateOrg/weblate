@@ -23,9 +23,9 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-11-13 01:19-0600\n"
-"PO-Revision-Date: 2026-11-13 10:37+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-11-16 15:45+0000\n"
+"Last-Translator: Daniel Nylander "
+"<yeagersthlm2@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
 "Language: sv\n"
@@ -609,15 +609,13 @@ msgstr "Användaren lades till i team {team} av {username}."
 msgid "User access to the {team} team was changed by {username}."
 msgstr "Användaråtkomst till gruppen {team} ändrades av {username}."
 
-#, fuzzy, python-brace-format
-#| msgid "User access to the {team} team was changed by {username}."
+#, python-brace-format
 msgid "Team administrator access to {team} was granted by {username}."
-msgstr "Användaråtkomst till gruppen {team} ändrades av {username}."
+msgstr "Administratörsåtkomst till gruppen {team} beviljades av {username}."
 
-#, fuzzy, python-brace-format
-#| msgid "User access to the {team} team was changed by {username}."
+#, python-brace-format
 msgid "Team administrator access to {team} was removed by {username}."
-msgstr "Användaråtkomst till gruppen {team} ändrades av {username}."
+msgstr "Administratörsåtkomst till gruppen {team} togs bort av {username}."
 
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
@@ -734,43 +732,29 @@ msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr "IOS-enhet"
 
-#, fuzzy
-#| msgid "site-wide"
 msgid "Site-wide"
-msgstr "på hela webbplatsen"
+msgstr "Hela webbplatsen"
 
 msgid "Workspace"
 msgstr "Arbetsområde"
 
-#, fuzzy
-#| msgid "Backup created"
 msgid "Team created"
-msgstr "Säkerhetskopian skapad"
+msgstr "Grupp skapad"
 
-#, fuzzy
-#| msgid "Last change"
 msgid "Team changed"
-msgstr "Senaste ändring"
+msgstr "Senaste teamändring"
 
-#, fuzzy
-#| msgid "Font deleted."
 msgid "Team deleted"
-msgstr "Teckensnitt raderat."
+msgstr "Grupp borttagen"
 
-#, fuzzy
-#| msgid "Label added"
 msgid "Team member added"
-msgstr "Etikett tillagd"
+msgstr "Gruppmedlem tillagd"
 
-#, fuzzy
-#| msgid "Label removed"
 msgid "Team member removed"
-msgstr "Etikett togs bort"
+msgstr "Gruppmedlem borttagen"
 
-#, fuzzy
-#| msgid "User access changed"
 msgid "Team member access changed"
-msgstr "Användaråtkomst ändrad"
+msgstr "Gruppmedlems åtkomst ändrad"
 
 msgid "Account activity"
 msgstr "Kontoaktivitet"
@@ -2717,25 +2701,23 @@ msgstr ""
 "Klistra in endast PEM-certifikatblocket som börjar med ”-----BEGIN "
 "CERTIFICATE-----”; klistra inte in utdata från ”openssl x509 -text”."
 
-#, fuzzy
-#| msgid "Connection attempts"
 msgid "Connection timeout"
-msgstr "Anslutningsförsök"
+msgstr "Tidsgränsen för anslutningen överskreds"
 
-#, fuzzy
-#| msgid "How many seconds to wait between connection attempts."
 msgid "How many seconds to allow for connection and channel setup per attempt."
-msgstr "Hur många sekunder man skall vänta mellan anslutningsförsöken."
+msgstr ""
+"Hur många sekunder som får användas för anslutning och kanalupprättande per "
+"försök."
 
 msgid "Publish timeout"
 msgstr "Tidsgräns för publicering"
 
-#, fuzzy
-#| msgid "How many seconds to wait for the broker delivery acknowledgement."
 msgid ""
 "How many seconds to allow for sending and the broker delivery "
 "acknowledgement per attempt, after connection setup."
-msgstr "Hur många sekunder man skall vänta på bekräftelse från mellanhanden."
+msgstr ""
+"Hur många sekunder som får användas för sändning och meddelandeförmedlarens "
+"leveransbekräftelse per försök efter att anslutningen har upprättats."
 
 msgid "Connection attempts"
 msgstr "Anslutningsförsök"
@@ -2950,14 +2932,9 @@ msgstr "API-tillägg måste installeras direkt på en komponent."
 msgid "This add-on is already installed on this component."
 msgstr "Detta tillägg är redan installerat på denna komponent."
 
-#, fuzzy
-#| msgid ""
-#| "Repository operations require permission on the component that owns the "
-#| "shared repository."
 msgid ""
 "Repository add-ons must be installed on the component owning the repository."
-msgstr ""
-"Arkivåtgärder kräver behörighet på komponenten som äger det delade arkivet."
+msgstr "Förrådstillägg måste installeras på den komponent som äger förrådet."
 
 msgid "This add-on cannot be triggered manually."
 msgstr "Detta tillägg kan inte utlösas manuellt."
@@ -3019,10 +2996,8 @@ msgctxt "Add-on scope"
 msgid "Site"
 msgstr "Sida"
 
-#, fuzzy
-#| msgid "This component does not exist or you cannot access it."
 msgid "a component you cannot access"
-msgstr "Den här komponenten finns inte eller så har du inte åtkomst till den."
+msgstr "en komponent som du inte har åtkomst till"
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -4222,10 +4197,8 @@ msgstr ""
 "Förslag är inaktiverade för detta språk. Be en projektadministratör att "
 "aktivera dem."
 
-#, fuzzy
-#| msgid "You do not have permission to approve translations."
 msgid "You need to log in to upload translations."
-msgstr "Du har inte behörighet att godkänna översättningar."
+msgstr "Du måste logga in för att ladda upp översättningar."
 
 msgid "The file format does not support updating source strings."
 msgstr "Filformatet stöder inte uppdatering av källsträngar."
@@ -4267,15 +4240,11 @@ msgstr "Inaktiva användare kan inte tilldelas till någon grupp."
 msgid "Project tokens can not be assigned to teams here."
 msgstr "Projekt-token kan inte tilldelas till grupper här."
 
-#, fuzzy
-#| msgid "View audit log"
 msgid "Team audit log"
-msgstr "Visa revisionslogg"
+msgstr "Gruppens granskningslogg"
 
-#, fuzzy
-#| msgid "Team administrator"
 msgid "Team audit entry"
-msgstr "Gruppadministratör"
+msgstr "Gruppens granskningspost"
 
 msgid "Cannot remove built-in team!"
 msgstr "Kan inte ta bort inbyggd grupp!"
@@ -4643,10 +4612,8 @@ msgid_plural "Contains %d components"
 msgstr[0] "Innehåller %d komponent"
 msgstr[1] "Innehåller %d komponenter"
 
-#, fuzzy
-#| msgid "Only suggestions are allowed in this translation!"
 msgid "Restricted components are not allowed by this billing plan."
-msgstr "Endast förslag tillåts i denna översättning!"
+msgstr "Det här abonnemanget tillåter inte begränsade komponenter."
 
 msgid "Missing license"
 msgstr "Licens saknas"
@@ -4707,10 +4674,8 @@ msgstr ""
 msgid "To terminate billing you have to remove all projects first."
 msgstr "För att stoppa fakturering så måste du ta bort alla projekt först."
 
-#, fuzzy
-#| msgid "A workspace associated with billing cannot be removed."
 msgid "Externally managed billings cannot be merged."
-msgstr "En arbetsyta som är kopplad till fakturering kan inte tas bort."
+msgstr "Externhanterade faktureringar kan inte slås samman."
 
 msgid "Cannot merge such a billing."
 msgstr "Kan inte infoga en sådan fakturering."
@@ -5418,10 +5383,8 @@ msgstr "Fluent-värdet kunde inte kontrolleras eftersom det är för komplext."
 msgid "the value is too complex or nested too deeply"
 msgstr "värdet är för komplext eller nästlat för djupt"
 
-#, fuzzy
-#| msgid "Your billing plan has exceeded its limits."
 msgid "Format matching exceeded its time limit."
-msgstr "Din faktureringsplan har överskridit sina gränser."
+msgstr "Formatmatchningen överskred tidsgränsen."
 
 msgid "The following format strings are in the wrong order:"
 msgstr "Följande formatsträngar är i fel ordning:"
@@ -5675,7 +5638,7 @@ msgid "Markdown syntax does not match source."
 msgstr "Markdown-syntaxen stämmer inte överens med källan."
 
 msgid "Markdown syntax matching exceeded its time limit."
-msgstr ""
+msgstr "Matchningen av Markdown-syntaxen överskred tidsgränsen."
 
 msgid "The translation does not contain a URL."
 msgstr "Översättningen innehåller ingen URL."
@@ -5836,6 +5799,8 @@ msgid ""
 "Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
 "px fonts, and 2,048 px preview dimensions."
 msgstr ""
+"Gränserna för teckensnittsrendering överskreds: använd högst 16 000 tecken, "
+"64 rader, teckensnitt på 256 px och förhandsvisningsmått på 2 048 px."
 
 msgid "Font style"
 msgstr "Teckenstil"
@@ -5997,24 +5962,25 @@ msgstr "iOS-strängar"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "Could not open the workbook archive."
-msgstr "Kunde inte uppdatera arkivet."
+msgstr "Kunde inte öppna arbetsboksarkivet."
 
 #, python-format
 msgid ""
 "Workbook exceeds the maximum allowed count of %d worksheet rows after the "
 "header."
 msgstr ""
+"Arbetsboken överskrider det högsta tillåtna antalet %d rader i kalkylbladet "
+"efter rubriken."
 
 #, python-format
 msgid "Translation file exceeds the maximum allowed size of %d bytes."
 msgstr ""
+"Översättningsfilen överskrider den högsta tillåtna storleken på %d byte."
 
 #, python-format
 msgid "Translation file exceeds the maximum allowed count of %d strings."
-msgstr ""
+msgstr "Översättningsfilen överskrider det högsta tillåtna antalet %d strängar."
 
 msgid "Multivalue CSV file"
 msgstr "CSV-fil med flera värden"
@@ -6059,7 +6025,7 @@ msgstr "Metadata för pluralform i CSV-filen kräver id_hash."
 
 #, python-format
 msgid "CSV file exceeds the maximum allowed count of %d data rows."
-msgstr ""
+msgstr "CSV-filen överskrider det högsta tillåtna antalet %d datarader."
 
 #. Translators: File format name
 msgid "gettext PO file"
@@ -6287,9 +6253,12 @@ msgstr "Filvalidering krävs för katalogbaserade format."
 #, python-format
 msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
 msgstr ""
+"Arbetsboksarkivet överskrider den maximala uppackade storleken på %d byte."
 
 msgid "Converted workbook content exceeds the configured size limit."
 msgstr ""
+"Det konverterade arbetsboksinnehållet överskrider den konfigurerade "
+"storleksgränsen."
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -7445,15 +7414,11 @@ msgstr "Sekundärt språk definierat i projekt eller komponent"
 msgid "Rate limit reset."
 msgstr "Återställning av hastighetsbegränsning."
 
-#, fuzzy
-#| msgid "The translation request timed out"
 msgid "Too many translation requests."
-msgstr "Tidsgränsen för översättningsbegäran överskreds"
+msgstr "För många översättningsbegäranden."
 
-#, fuzzy
-#| msgid "Too many authentication attempts from this location."
 msgid "Too many concurrent translation requests for this service."
-msgstr "För många inloggningsförsök från den här platsen."
+msgstr "För många samtidiga översättningsbegäranden för den här tjänsten."
 
 msgid "File"
 msgstr "Fil"
@@ -7583,10 +7548,8 @@ msgstr ""
 "Poster i översättningsminnet som skapades från nuvarande översättningar "
 "raderades och kommer att byggas upp igen i bakgrunden."
 
-#, fuzzy
-#| msgid "Too many bulk edits, please try again later."
 msgid "Too many uploads, please try again later."
-msgstr "För många massredigeringar, försök igen senare."
+msgstr "För många uppladdningar, försök igen senare."
 
 #, python-format
 msgid "Processed %(count)d active translation memory entry."
@@ -8416,7 +8379,7 @@ msgid "Inspect components:"
 msgstr "Granska komponenter:"
 
 msgid "None"
-msgstr "Inget"
+msgstr "Ingen"
 
 msgid "No accessible components or translations in this target."
 msgstr "Inga tillgängliga komponenter eller översättningar i det här målet."
@@ -9394,26 +9357,14 @@ msgstr "Tillägget kan endast installeras på komponentnivå."
 msgid "Install"
 msgstr "Installera"
 
-#, fuzzy
-#| msgid "This add-on is used for all components sharing this repository."
 msgid "Install on the component owning the repository."
-msgstr "Detta tillägg gäller för alla komponenter som delar detta arkiv."
+msgstr "Installera på komponenten som äger förrådet."
 
-#, fuzzy
-#| msgid ""
-#| "One component was not migrated because its repository is no longer "
-#| "available."
-#| msgid_plural ""
-#| "%(count)d components were not migrated because their repositories are no "
-#| "longer available."
 msgid "The component owning this repository is not available to you."
-msgstr ""
-"En komponent migrerades inte eftersom dess arkiv inte längre är tillgängligt."
+msgstr "Komponenten som äger det här förrådet är inte tillgänglig för dig."
 
-#, fuzzy
-#| msgid "Repository changes"
 msgid "Open repository add-ons"
-msgstr "Arkivändringar"
+msgstr "Öppna förrådstillägg"
 
 msgid "Unavailable"
 msgstr "Inte tillgängligt"
@@ -9869,15 +9820,11 @@ msgstr "Avbryt"
 msgid "Actor"
 msgstr "Skådespelare"
 
-#, fuzzy
-#| msgid "Delete entry"
 msgid "Deleted user"
-msgstr "Ta bort post"
+msgstr "Borttagen användare"
 
-#, fuzzy
-#| msgid "Administration"
 msgid "Administrative team changes"
-msgstr "Administration"
+msgstr "Administrativa gruppändringar"
 
 msgid "Change"
 msgstr "Ändring"
@@ -9885,10 +9832,8 @@ msgstr "Ändring"
 msgid "View details"
 msgstr "Visa detaljer"
 
-#, fuzzy
-#| msgid "No audit log entries found."
 msgid "No team audit entries found."
-msgstr "Inga poster i granskningsloggen hittades."
+msgstr "Inga granskningsposter för gruppen hittades."
 
 msgid "Settings"
 msgstr "Inställningar"
@@ -13937,6 +13882,8 @@ msgid ""
 "Accepting this invitation will also make you a team administrator, allowing "
 "you to add or remove team members."
 msgstr ""
+"Om du accepterar den här inbjudan blir du också gruppadministratör, vilket "
+"gör att du kan lägga till eller ta bort gruppmedlemmar."
 
 msgid ""
 "A restored project backup attributes earlier contributions to your username. "
@@ -13945,6 +13892,12 @@ msgid ""
 "contributions may use your configured commit name and e-mail address. "
 "Existing repository commits will remain unchanged."
 msgstr ""
+"En återställd säkerhetskopia av projektet tillskriver ditt användarnamn "
+"tidigare bidrag. Om du accepterar den här inbjudan gör du anspråk på det "
+"importerade författarskapet, inklusive historik och ändringar som har "
+"spridits till andra projekt. Framtida incheckningar av dessa bidrag kan "
+"använda ditt konfigurerade namn och din e-postadress för incheckningar. "
+"Befintliga incheckningar i förrådet förblir oförändrade."
 
 #, python-format
 msgid ""
@@ -14363,8 +14316,8 @@ msgid "Community"
 msgstr "Gemenskap"
 
 #, python-format
-msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr "Översätt %(object)s med %%23Weblate på %(share_url)s!"
+msgid "Translate %(object)s using #Weblate at %(share_url)s!"
+msgstr "Översätt %(object)s med #Weblate på %(share_url)s!"
 
 msgid "Share on Bluesky"
 msgstr "Dela på Bluesky"
@@ -14601,8 +14554,7 @@ msgstr ""
 "Du står i begrepp att acceptera en inbjudan och skapa ett Weblate-konto."
 
 msgid "You are about to complete registration and create a Weblate account."
-msgstr ""
-"Du står i begrepp att slutföra registreringen och skapa ett Weblate-konto."
+msgstr "Du kan nu slutföra registreringen och skapa ett Weblate-konto."
 
 msgid "Continue only if you opened the confirmation link from your e-mail."
 msgstr ""
@@ -15807,13 +15759,16 @@ msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr "Skapad på %(server)s (%(domain)s) av Weblate %(version)s"
 
 msgid "Public access on import"
-msgstr ""
+msgstr "Offentlig åtkomst vid import"
 
 msgid ""
 "If the selected workspace's billing plan requires public content, the "
 "project and the following restricted components will be publicly accessible "
 "after import:"
 msgstr ""
+"Om den valda arbetsytans abonnemang kräver offentligt innehåll blir "
+"projektet och följande begränsade komponenter offentligt åtkomliga efter "
+"importen:"
 
 msgid "Token copied to clipboard."
 msgstr "Token kopierad till urklipp."
@@ -17611,13 +17566,11 @@ msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "Automatisk översättning klar, %d sträng blev uppdaterad."
 msgstr[1] "Automatisk översättning klar, %d strängar blev uppdaterade."
 
-#, fuzzy
-#| msgid "Automatic translation skipped because the target no longer exists."
 msgid ""
 "Automatic translation skipped strings that exceed the text length limit."
 msgstr ""
-"Den automatiska översättningen har hoppats över eftersom måltexten inte "
-"längre finns."
+"Den automatiska översättningen hoppade över strängar som överskrider "
+"textlängdsgränsen."
 
 #, python-format
 msgid ""
@@ -17699,10 +17652,9 @@ msgstr "Skärmbilden saknas."
 msgid "Revision must be a complete hexadecimal object ID."
 msgstr "Revisionen måste vara ett fullständigt hexadecimalt objekt-ID."
 
-#, fuzzy, python-format
-#| msgid "Could not validate push URL: %s"
+#, python-format
 msgid "Could not validate repository URL: %s"
-msgstr "Kunde inte validera push-URL:en: %s"
+msgstr "Kunde inte verifiera förrådets URL: %s"
 
 msgid "Duplicate check name."
 msgstr "Dubblerat kontrollnamn."
@@ -17768,10 +17720,8 @@ msgstr "Data i förrådet tillhör inte en återställd komponent."
 msgid "Repository-linked components can not contain repository data."
 msgstr "Databaslänkade komponenter får inte innehålla databasdata."
 
-#, fuzzy
-#| msgid "Important dates"
 msgid "Imported authors"
-msgstr "Viktiga datum"
+msgstr "Importerade författare"
 
 #, python-format
 msgid ""
@@ -17786,18 +17736,24 @@ msgid ""
 "Restricted component %(component)s was restored as public because the target "
 "workspace's billing plan requires public content."
 msgstr ""
+"Den begränsade komponenten %(component)s återställdes som offentlig eftersom "
+"målarbetsytans abonnemang kräver offentligt innehåll."
 
 #, python-format
 msgid ""
 "User %(username)s was skipped because no eligible local account matches the "
 "backup."
 msgstr ""
+"Användaren %(username)s hoppades över eftersom inget behörigt lokalt konto "
+"matchar säkerhetskopian."
 
 #, python-format
 msgid ""
 "User %(username)s is awaiting invitation acceptance; imported authorship "
 "remains anonymous until accepted."
 msgstr ""
+"Användaren %(username)s väntar på att inbjudan ska accepteras. Det "
+"importerade författarskapet förblir anonymt tills dess."
 
 #, python-format
 msgid ""
@@ -17836,14 +17792,22 @@ msgid ""
 msgid_plural ""
 "%d strings will be left unchanged because the edited text would be too long."
 msgstr[0] ""
+"%d sträng lämnas oförändrad eftersom den redigerade texten skulle bli för "
+"lång."
 msgstr[1] ""
+"%d strängar lämnas oförändrade eftersom den redigerade texten skulle bli för "
+"lång."
 
 #, python-format
 msgid "%d string was left unchanged because the edited text would be too long."
 msgid_plural ""
 "%d strings were left unchanged because the edited text would be too long."
 msgstr[0] ""
+"%d sträng lämnades oförändrad eftersom den redigerade texten skulle bli för "
+"lång."
 msgstr[1] ""
+"%d strängar lämnades oförändrade eftersom den redigerade texten skulle bli "
+"för lång."
 
 msgid "Invalid target state."
 msgstr "Ogiltigt måltillstånd."
@@ -18902,10 +18866,8 @@ msgstr "För många grenförfrågningar. Försök igen senare."
 msgid "Could not load repository branches. Please try again."
 msgstr "Kunde inte läsa in arkivgrenar. Försök igen."
 
-#, fuzzy
-#| msgid "You do not have permission to edit this glossary."
 msgid "You do not have permission to edit this project."
-msgstr "Du har inte behörighet att redigera den här ordlistan."
+msgstr "Du har inte behörighet att redigera det här projektet."
 
 msgid "ZIP file containing translations"
 msgstr "ZIP-fil som innehåller översättningar"
@@ -20678,10 +20640,9 @@ msgstr "Sökbeskrivning"
 msgid "Could not accept suggestion!"
 msgstr "Kunde inte acceptera förslaget!"
 
-#, fuzzy, python-format
-#| msgid "Some settings could not be imported: %s"
+#, python-format
 msgid "The suggestion could not be accepted automatically: %s"
-msgstr "Vissa inställningar kunde inte importeras: %s"
+msgstr "Förslaget kunde inte godtas automatiskt: %s"
 
 msgid "Uploaded translation file is too big."
 msgstr "Den uppladdade översättningsfilen är för stor."
@@ -20737,18 +20698,15 @@ msgstr ""
 msgid "Plural form %d in the uploaded file is missing."
 msgstr "Pluralform %d saknas i den uppladdade filen."
 
-#, fuzzy, python-format
-#| msgid "The uploaded file contains too many settings."
+#, python-format
 msgid "The uploaded file contains a string that is too long: %s"
-msgstr "Den uppladdade filen innehåller för många inställningar."
+msgstr "Den uppladdade filen innehåller en sträng som är för lång: %s"
 
-#, fuzzy, python-format
-#| msgid "String could not be propagated to %d component."
-#| msgid_plural "String could not be propagated to %d components."
+#, python-format
 msgid "%d string could not be propagated to all components."
 msgid_plural "%d strings could not be propagated to all components."
-msgstr[0] "Strängen kunde inte propageras till %d komponent."
-msgstr[1] "Strängen kunde inte propageras till %d komponenter."
+msgstr[0] "%d sträng kunde inte överföras till alla komponenter."
+msgstr[1] "%d strängar kunde inte överföras till alla komponenter."
 
 msgid "The uploaded file contains too many language declarations."
 msgstr "Den uppladdade filen innehåller för många språkspecifikationer."
@@ -20777,7 +20735,7 @@ msgstr "Kunde inte tolka den uppladdade filen som {file_format}: {error}"
 
 #, python-format
 msgid "Suggestion uploads are limited to %d strings."
-msgstr ""
+msgstr "Uppladdning av förslag är begränsad till %d strängar."
 
 #, python-format
 msgid "Could not parse translation file: %s"
@@ -21193,34 +21151,24 @@ msgstr ""
 msgid "Updates source strings in bilingual translation file."
 msgstr "Uppdaterar källsträngar i tvåspråkig översättningsfil."
 
-#, fuzzy
-#| msgid "Updates of translations are in progress."
 msgid "A translation upload is already in progress."
-msgstr "Översättningarna uppdateras för närvarande."
+msgstr "En översättningsuppladdning pågår redan."
 
-#, fuzzy
-#| msgid "The uploaded report has expired. Upload it again."
 msgid "The uploaded file has expired or was already processed."
-msgstr "Den uppladdade rapporten har upphört att gälla. Ladda upp den igen."
+msgstr "Den uppladdade filen har upphört att gälla eller har redan behandlats."
 
-#, fuzzy
-#| msgid "The uploaded image was invalid."
 msgid "The uploaded file has expired."
-msgstr "Den uppladdade bilden var ogiltig."
+msgstr "Den uppladdade filen har upphört att gälla."
 
-#, fuzzy
-#| msgid "The target or permissions changed."
 msgid "The upload target or permissions changed."
-msgstr "Målet eller behörigheterna har ändrats."
+msgstr "Uppladdningsmålet eller behörigheterna har ändrats."
 
 msgid "Plural forms in the uploaded file do not match current translation."
 msgstr ""
 "Pluralformer i den uppladdade filen matchar inte den aktuella översättningen."
 
-#, fuzzy
-#| msgid "Too many bulk edits, please try again later."
 msgid "File upload has failed. Please try again later."
-msgstr "För många massredigeringar, försök igen senare."
+msgstr "Filuppladdningen misslyckades. Försök igen senare."
 
 msgid "Very high"
 msgstr "Mycket hög"
@@ -21610,10 +21558,8 @@ msgstr "Felaktig begäran"
 msgid "Access denied."
 msgstr "Åtkomst nekad."
 
-#, fuzzy
-#| msgid "Translation uploaded"
 msgid "Translation upload in progress."
-msgstr "Översättning skickad"
+msgstr "Översättningsuppladdning pågår."
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -21875,6 +21821,8 @@ msgid ""
 "The target workspace's billing plan only allows public projects without "
 "restricted components."
 msgstr ""
+"Målarbetsytans abonnemang tillåter endast offentliga projekt utan begränsade "
+"komponenter."
 
 msgid "The project is already assigned to this workspace."
 msgstr "Projektet är redan tilldelat till det här arbetsområdet."
@@ -22220,24 +22168,17 @@ msgstr "Ogiltigt lagrat parametervärde."
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "Parametrarna måste vara avbildning med nyckel-värde-par."
 
-#, fuzzy
-#| msgid "Regex output exceeds its size limit."
 msgid "Template output exceeds its size limit."
-msgstr "Regex-utmatningen överskrider dess storleksgräns."
+msgstr "Mallens utdata överskrider storleksgränsen."
 
-#, fuzzy
-#| msgid "Regular expression processing failed or exceeded its resource limit."
 msgid "Template rendering failed or exceeded its resource limits."
-msgstr ""
-"Bearbetning av reguljära uttryck misslyckades eller överskred resursgränsen."
+msgstr "Mallrenderingen misslyckades eller överskred resursgränserna."
 
 msgid "Oversized template response."
-msgstr ""
+msgstr "För stort svar från mall."
 
-#, fuzzy
-#| msgid "Invalid eTranslation domains response"
 msgid "Invalid template rendering response."
-msgstr "Ogiltigt svar om eTranslation-domäner"
+msgstr "Ogiltigt svar från mallrenderingen."
 
 msgid "Could not render template: {}"
 msgstr "Kunde inte rendera mallen: {}"
@@ -22247,65 +22188,41 @@ msgid ""
 "instead."
 msgstr "Formatsträngarna stöds inte längre. Använd mallspråket istället."
 
-#, fuzzy
-#| msgid "Regex request exceeds its size limit."
 msgid "Template value exceeds its size limit."
-msgstr "Regex-förfrågningen överskrider dess storleksgräns."
+msgstr "Mallvärdet överskrider storleksgränsen."
 
-#, fuzzy
-#| msgid "The HTML {tag} tag is nested too deeply."
 msgid "Template context is nested too deeply."
-msgstr "HTML-taggen {tag} är nästlad för djupt."
+msgstr "Mallkontexten är nästlad för djupt."
 
-#, fuzzy
-#| msgid "Regex output exceeds its size limit."
 msgid "Template context exceeds its size limit."
-msgstr "Regex-utmatningen överskrider dess storleksgräns."
+msgstr "Mallkontexten överskrider storleksgränsen."
 
-#, fuzzy
-#| msgid "Unsupported ITS rule content."
 msgid "Unsupported template context key."
-msgstr "Innehållet i ITS-regeln stöds inte."
+msgstr "Mallkontextnyckeln stöds inte."
 
-#, fuzzy
-#| msgid "Unsupported ITS rule content."
 msgid "Unsupported template context value."
-msgstr "Innehållet i ITS-regeln stöds inte."
+msgstr "Mallkontextvärdet stöds inte."
 
-#, fuzzy
-#| msgid "Regex response exceeds its size limit."
 msgid "Template rendering exceeded its time limit."
-msgstr "Regex-svaret överskrider dess storleksgräns."
+msgstr "Mallrenderingen överskred tidsgränsen."
 
-#, fuzzy
-#| msgid "Regex response exceeds its size limit."
 msgid "Template rendering exceeded its loop limit."
-msgstr "Regex-svaret överskrider dess storleksgräns."
+msgstr "Mallrenderingen överskred gränsen för loopar."
 
-#, fuzzy
-#| msgid "Regex request exceeds its size limit."
 msgid "Template intermediate value exceeds its size limit."
-msgstr "Regex-förfrågningen överskrider dess storleksgräns."
+msgstr "Mellanvärdet i mallen överskrider storleksgränsen."
 
-#, fuzzy
-#| msgid "Regex request exceeds its size limit."
 msgid "Template replacement exceeds its size limit."
-msgstr "Regex-förfrågningen överskrider dess storleksgräns."
+msgstr "Mallersättningen överskrider storleksgränsen."
 
-#, fuzzy
-#| msgid "Regex response exceeds its size limit."
 msgid "Template padding exceeds its size limit."
-msgstr "Regex-svaret överskrider dess storleksgräns."
+msgstr "Utfyllnaden i mallen överskrider storleksgränsen."
 
-#, fuzzy
-#| msgid "Regex output exceeds its size limit."
 msgid "Template formatting exceeds its size limit."
-msgstr "Regex-utmatningen överskrider dess storleksgräns."
+msgstr "Mallformateringen överskrider storleksgränsen."
 
-#, fuzzy
-#| msgid "Regex response exceeds its size limit."
 msgid "Template join exceeds its size limit."
-msgstr "Regex-svaret överskrider dess storleksgräns."
+msgstr "Sammanfogningen av mallen överskrider storleksgränsen."
 
 #, python-format
 msgid "Undefined variable: \"%s\""
@@ -23104,10 +23021,8 @@ msgstr ""
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr "Detta kommer att skicka ändringar till uppströms Mercurial-arkiv."
 
-#, fuzzy
-#| msgid "Could not recover the repository."
 msgid "Could not remove nested repository metadata."
-msgstr "Kunde inte återställa förrådet."
+msgstr "Kunde inte ta bort kapslade förrådsmetadata."
 
 msgid "GitHub"
 msgstr "GitHub"

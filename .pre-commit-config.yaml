@@ -60,7 +60,7 @@ repos:
   - id: pretty-format-yaml
     args: [--autofix, --indent, '2']
 - repo: https://github.com/pappasam/toml-sort
-  rev: v0.25.0
+  rev: v0.26.0
   hooks:
   - id: toml-sort-fix
 - repo: https://github.com/scop/pre-commit-shfmt
@@ -78,12 +78,12 @@ repos:
   - id: shellcheck
     require_serial: true
 - repo: https://github.com/biomejs/pre-commit
-  rev: v2.6.7
+  rev: v2.6.8
   hooks:
   - id: biome-check
     args: [--error-on-warnings]
     additional_dependencies:
-    - '@biomejs/biome@2.6.7'
+    - '@biomejs/biome@2.6.8'
     language: node
 - repo: https://github.com/abravalheri/validate-pyproject
   rev: v0.27
@@ -112,6 +112,34 @@ repos:
     files: ^weblate/.*templates/.*\.html$
     entry: \bbtn-secondary\b
     language: pygrep
+  - id: html-attribute-translation
+    name: use force_escape for literal attribute translations
+    files: ^weblate/.*templates/.*\.html$
+    language: pygrep
+    args: [--multiline]
+    # Skip complete Django tokens so inner quotes do not end the attribute.
+    entry: >-
+      (?xs)
+      \s(?:title|placeholder|alt|value|data-[\w-]+|
+          aria-(?:braillelabel|brailleroledescription|description|label|placeholder|roledescription|valuetext))
+      \s*=\s*(?P<quote>["'])
+      (?:\{%(?:(?!%\}).)*%\}|\{\{(?:(?!\}\}).)*\}\}|
+         \{\#(?:(?!\#\}).)*\#\}|(?!(?P=quote)|\{[%{\#]|[<>]).)*?
+      \{%\s*translate\s+
+      (?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')
+      (?!\|force_escape(?=\s|%\}))
+  - id: html-attribute-blocktranslate
+    name: keep blocktranslate outside HTML attributes
+    files: ^weblate/.*templates/.*\.html$
+    language: pygrep
+    args: [--multiline]
+    # Skip complete Django tokens so inner quotes do not end the attribute.
+    entry: >-
+      (?xs)
+      \s[A-Za-z_:][\w:.-]*\s*=\s*(?P<quote>["'])
+      (?:\{%(?:(?!%\}).)*%\}|\{\{(?:(?!\}\}).)*\}\}|
+         \{\#(?:(?!\#\}).)*\#\}|(?!(?P=quote)|\{[%{\#]|[<>]).)*?
+      \{%\s*blocktranslate\b
   - id: rst-heading-length
     name: rst heading adornment matches title length
     entry: python scripts/check-rst-headings.py
@@ -213,7 +241,14 @@ repos:
   rev: v2.18.1
   hooks:
   - id: kingfisher-auto
-    args: [--exclude, weblate/trans/tests/data/googlev3.json, --exclude, docs/]
+    args:
+    # Dedicated credential fixtures cannot contain inline ignore comments.
+    - --exclude
+    - weblate/trans/tests/data/googlev3.json
+    - --exclude
+    - weblate/trans/tests/data/saml.key
+    - --exclude
+    - docs/
     env:
       KINGFISHER_VERSION: v2.18.1
 - repo: https://github.com/rvben/rumdl-pre-commit

@@ -40,6 +40,9 @@ class AngularJSInterpolationCheck(BaseFormatCheck):
     description = gettext_lazy("AngularJS interpolation strings do not match source.")
     regexp = ANGULARJS_INTERPOLATION_MATCH
 
+    def may_have_matches(self, text: str) -> bool:
+        return "{{" in text
+
     def iter_matches(self, string: str) -> Iterable[re.Match[str]]:
         closing = string.rfind("}}")
         if closing == -1:

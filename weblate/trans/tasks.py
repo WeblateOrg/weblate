@@ -37,12 +37,17 @@ from django.db.models import (
 )
 from django.utils import timezone
 from django.utils.timezone import make_aware
-from django.utils.translation import gettext, ngettext, override
+from django.utils.translation import gettext, gettext_noop, ngettext, override
 from translate.storage.base import ParseError as TranslateParseError
 
 from weblate.accounts.utils import remove_user
 from weblate.addons.events import AddonActivityLogReason, AddonActivityLogStatus
-from weblate.auth.models import AuthenticatedHttpRequest, User, get_anonymous
+from weblate.auth.models import (
+    AuthenticatedHttpRequest,
+    User,
+    get_anonymous,
+    validate_component_deletion,
+)
 from weblate.checks.models import Check
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
@@ -97,7 +102,7 @@ from weblate.utils.change_origin import (
     get_change_origin,
 )
 from weblate.utils.data import data_dir
-from weblate.utils.errors import report_error
+from weblate.utils.errors import log_handled_exception, report_error
 from weblate.utils.files import MANAGED_VCS_METADATA_DIRS, remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED
@@ -109,7 +114,7 @@ from weblate.utils.task_log import (
     record_task_failure,
     store_task_failure_dependencies,
 )
-from weblate.vcs.base import RepositoryError
+from weblate.vcs.base import RepositoryError, RepositoryTemplateError
 
 COMPONENT_MEMORY_CLEANUP_BATCH_SIZE = 1000
 LEGACY_REPOSITORY_LOCK_MAX_RETRIES = 3
@@ -314,8 +319,9 @@ def perform_commit(
     user_id: int | None = None,
     force_scan: bool = False,
     previous_head: str | None = None,
-) -> None:
+) -> dict | None:
     component = Component.objects.get(pk=pk)
+    failure_message = gettext_noop("Could not commit pending changes: %s")
     try:
         user = User.objects.get(pk=user_id) if user_id else None
         with (
@@ -331,15 +337,34 @@ def perform_commit(
                 force_scan=force_scan,
                 previous_head=previous_head,
             )
+        failure_message = gettext_noop(
+            "Changes committed, but could not push the repository: %s"
+        )
         component.push_if_needed()
     except (RepositoryOperationConflictError, WeblateLockTimeoutError):
         if commit_retries_exhausted():
             schedule_deferred_commit(component)
         raise
+    except RepositoryTemplateError as error:
+        log_handled_exception("Repository operation template rendering failed")
+        component.log_warning(failure_message, error)
+        if current_task and current_task.request.id:
+            record_task_failure(current_task.request.id, error)
+        component.delete_commit_task(require_match=True)
+        with override(user.profile.language if user else "en"):
+            completion_text = gettext(failure_message) % error.get_message(gettext)
+        return {
+            "result": False,
+            "completion_message": {
+                "level": "error",
+                "text": completion_text,
+            },
+        }
     except Exception:
         component.delete_commit_task(require_match=True)
         raise
     schedule_deferred_commit(component)
+    return None
 
 
 @app.task(bind=True, trail=False, max_retries=None)
@@ -1427,6 +1452,7 @@ def component_removal(pk: int, uid: int, delete_memory: bool = False) -> None:
 
     batch = RemovalBatch()
     _collect_linked_removal_targets([component.pk], batch)
+    validate_component_deletion(batch.removed_component_ids)
     with removal_batch_context(batch):
         _component_removal(component, user, batch, delete_memory=delete_memory)
     transaction.on_commit(batch.flush)
@@ -1565,6 +1591,32 @@ def _collect_linked_removal_targets(
         linked_frontier = next_frontier
 
 
+def validate_component_removal(component_id: int) -> None:
+    """Check the complete linked-component deletion before scheduling it."""
+    batch = RemovalBatch()
+    _collect_linked_removal_targets((component_id,), batch)
+    validate_component_deletion(batch.removed_component_ids)
+
+
+def validate_category_removal(category: Category) -> None:
+    """Check all category components before scheduling their deletion."""
+    batch = RemovalBatch()
+    _collect_removal_targets(category, batch)
+    validate_component_deletion(batch.removed_component_ids)
+
+
+def validate_project_removal(project: Project) -> None:
+    """Check components whose deletion could widen a surviving team."""
+    batch = RemovalBatch()
+    _collect_linked_removal_targets(
+        project.component_set.values_list("pk", flat=True).iterator(chunk_size=1000),
+        batch,
+    )
+    validate_component_deletion(
+        batch.removed_component_ids, deleting_project_ids=(project.pk,)
+    )
+
+
 def _category_removal(
     category: Category, user: User, batch: RemovalBatch | None = None
 ) -> None:
@@ -1591,6 +1643,7 @@ def category_removal(pk: int, uid: int, delete_memory: bool = False) -> None:
         return
     batch = RemovalBatch()
     _collect_removal_targets(category, batch)
+    validate_component_deletion(batch.removed_component_ids)
     memory_cleanup = collect_component_memory_cleanup(batch) if delete_memory else None
     with removal_batch_context(batch):
         if memory_cleanup is not None:
@@ -1645,6 +1698,9 @@ def _remove_project(pk: int, uid: int | None) -> None:
     _collect_linked_removal_targets(
         project.component_set.values_list("id", flat=True).iterator(chunk_size=1000),
         batch,
+    )
+    validate_component_deletion(
+        batch.removed_component_ids, deleting_project_ids=(project.pk,)
     )
     with removal_batch_context(batch):
         Change.objects.create(

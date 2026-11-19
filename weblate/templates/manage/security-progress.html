@@ -20,7 +20,7 @@
         <div class="progress">
           <div class="progress-bar"
                role="progressbar"
-               aria-label="{% translate 'Processing progress' %}"
+               aria-label="{% translate 'Processing progress'|force_escape %}"
                aria-valuenow="{{ scan.progress }}"
                aria-valuemin="0"
                aria-valuemax="100"

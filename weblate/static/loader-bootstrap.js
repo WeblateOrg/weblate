@@ -702,19 +702,20 @@ function autosizeTextarea(el) {
   resize();
 }
 
+Prism.util.encode = function encode(tokens) {
+  if (tokens instanceof Prism.Token) {
+    return new Prism.Token(tokens.type, encode(tokens.content), tokens.alias);
+  }
+  if (Array.isArray(tokens)) {
+    return tokens.map(encode);
+  }
+  return tokens.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+};
+
 function initHighlight(root) {
   if (typeof ResizeObserver === "undefined") {
     return;
   }
-  Prism.util.encode = function encode(tokens) {
-    if (tokens instanceof Prism.Token) {
-      return new Prism.Token(tokens.type, encode(tokens.content), tokens.alias);
-    }
-    if (Array.isArray(tokens)) {
-      return tokens.map(encode);
-    }
-    return tokens.replace(/&/g, "&amp;").replace(/</g, "&lt;");
-  };
   root.querySelectorAll("textarea[name='q']").forEach((input) => {
     const parent = input.parentElement;
     if (parent.classList.contains("editor-wrap")) {
@@ -781,6 +782,7 @@ function initHighlight(root) {
 
     resizeObserver.observe(input);
   });
+  const translationHighlightLimit = 16_384;
   root.querySelectorAll(".highlight-editor").forEach((editor) => {
     const parent = editor.parentElement;
     const hasFocus = editor === document.activeElement;
@@ -790,6 +792,7 @@ function initHighlight(root) {
     }
 
     const mode = editor.getAttribute("data-mode");
+    const isTranslationEditor = editor.classList.contains("translation-editor");
 
     /* Create wrapper element */
     const wrapper = document.createElement("div");
@@ -826,10 +829,13 @@ function initHighlight(root) {
     }
 
     /* Content synchronisation and highlighting */
-    let languageMode = Prism.languages[mode];
-    if (editor.classList.contains("translation-editor")) {
+    const getLanguageMode = () => {
+      const languageMode = Prism.languages[mode];
+      if (!isTranslationEditor) {
+        return languageMode;
+      }
       const placeables = editor.getAttribute("data-placeables");
-      /* This should match WHITESPACE_REGEX in weblate/trans/templatetags/translations.py */
+      /* This should match WHITESPACE_REGEX in weblate/trans/formatting.py */
       const whitespaceRegex = new RegExp(
         [
           "  +|(^) +| +(?=$)| +\n|\n +|\t|",
@@ -909,16 +915,38 @@ function initHighlight(root) {
         }
       }
       injectNestedTokens(extension, new Set());
-      languageMode = extension;
-    }
+      return extension;
+    };
+    let languageMode;
     const syncContent = () => {
+      const plain =
+        isTranslationEditor && editor.value.length >= translationHighlightLimit;
+      const wasPlain = highlight.hidden;
+      if (plain !== wasPlain) {
+        wrapper.classList.toggle("editor-wrap-plain", plain);
+        highlight.hidden = plain;
+        if (plain) {
+          highlight.replaceChildren();
+        }
+      }
+      if (plain) {
+        return;
+      }
+      languageMode ??= getLanguageMode();
       highlight.innerHTML = Prism.highlight(editor.value, languageMode, mode);
+      if (wasPlain) {
+        highlight.scrollTop = editor.scrollTop;
+        highlight.scrollLeft = editor.scrollLeft;
+      }
     };
     syncContent();
     editor.addEventListener("input", syncContent);
 
     /* Handle scrolling */
     editor.addEventListener("scroll", (_event) => {
+      if (highlight.hidden) {
+        return;
+      }
       highlight.scrollTop = editor.scrollTop;
       highlight.scrollLeft = editor.scrollLeft;
     });
@@ -983,17 +1011,6 @@ onReady(() => {
   adjustColspan();
   window.addEventListener("resize", adjustColspan);
   document.addEventListener("shown.bs.tab", adjustColspan);
-
-  /* Color theme management */
-  const theme = document.documentElement.getAttribute("data-bs-theme");
-  if (!theme || theme === "auto") {
-    document.documentElement.setAttribute(
-      "data-bs-theme",
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light",
-    );
-  }
 
   /* AJAX loading of tabs/pills */
   const loadTabContent = async (target, content) => {
@@ -1565,14 +1582,14 @@ onReady(() => {
     const target = button?.dataset.focus;
     if (target) {
       /* Modal context focusing */
-      const input = document.querySelector(target);
-      const flagInput = input?.classList.contains("flag-editor")
-        ? document.getElementById(`${input.id}-ts-input`)
-        : null;
-      (flagInput || input)?.focus();
+      document.querySelector(target)?.focus();
     } else {
       for (const input of event.target.querySelectorAll("input")) {
-        if (!input.disabled && input.offsetParent !== null) {
+        if (
+          !input.disabled &&
+          input.offsetParent !== null &&
+          !input.closest(".flag-editor-select")
+        ) {
           input.focus();
           break;
         }

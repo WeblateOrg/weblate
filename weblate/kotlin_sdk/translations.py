@@ -70,7 +70,7 @@ def extract_locale(
 ) -> Generator[tuple[tuple[str, str], ResourceValue]]:
     from weblate.trans.models import Unit  # ruff: ignore[import-outside-top-level]
 
-    with component.repository.lock:
+    with component.repository.lock.read():
         store = translation.load_store()
         for unit in (
             Unit.objects.filter(translation=translation, state__gte=STATE_TRANSLATED)

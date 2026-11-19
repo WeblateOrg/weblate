@@ -23,10 +23,10 @@ from django.contrib.auth.models import Group as DjangoGroup
 from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator as DjangoEmailValidator
 from django.core.validators import MinValueValidator
-from django.db import models, router, transaction
+from django.db import connections, models, router, transaction
 from django.db.models import Count, Exists, F, OuterRef, Q, UniqueConstraint
 from django.db.models.functions import Upper
-from django.db.models.signals import m2m_changed, post_delete, post_save
+from django.db.models.signals import m2m_changed, post_delete, post_save, pre_delete
 from django.dispatch import receiver
 from django.http import Http404, HttpRequest
 from django.urls import reverse
@@ -64,7 +64,7 @@ from weblate.auth.utils import (
 from weblate.logger import LOGGER
 from weblate.trans.defines import EMAIL_LENGTH, FULLNAME_LENGTH, USERNAME_LENGTH
 from weblate.trans.fields import RegexField
-from weblate.trans.models import ComponentList, Project
+from weblate.trans.models import Category, Component, ComponentList, Project
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.email import email_key, email_key_expression
 from weblate.utils.fields import EmailField, UsernameField
@@ -303,6 +303,198 @@ def validate_component_project_move(component_ids: Iterable[int]) -> None:
                     "Remove the component from project teams before moving it to another project."
                 )
             }
+        )
+
+
+def validate_component_deletion(
+    component_ids: Iterable[int],
+    *,
+    using: str | None = None,
+    deleting_project_ids: Iterable[int] = (),
+) -> None:
+    """Keep deleting components from widening an assigned team's scope."""
+    component_ids = set(component_ids)
+    if not component_ids:
+        return
+    affected = set(
+        Group.objects.using(using)
+        .filter(components__pk__in=component_ids, componentlists__isnull=True)
+        .exclude(defining_project_id__in=deleting_project_ids)
+        .values_list("pk", flat=True)
+    )
+    if not affected:
+        return
+    # Serialize removals that affect the same team until the deletion commits.
+    if connections[using or "default"].in_atomic_block:
+        affected = set(
+            Group.objects.using(using)
+            .filter(pk__in=affected)
+            .order_by("pk")
+            .select_for_update()
+            .values_list("pk", flat=True)
+        )
+    remaining = set(
+        Group.components.through.objects.using(using)
+        .filter(group_id__in=affected)
+        .exclude(component_id__in=component_ids)
+        .values_list("group_id", flat=True)
+    )
+    if affected - remaining:
+        raise ValidationError(
+            gettext(
+                "Remove the component from its teams before deleting it. "
+                "Deleting the last assigned component would expand the team's access."
+            )
+        )
+
+
+def _deletion_origin_ids(origin: models.Model | models.QuerySet) -> set[int]:
+    if isinstance(origin, models.QuerySet):
+        return set(origin.values_list("pk", flat=True))
+    return {origin.pk}
+
+
+def _linked_deletion_ids(component_ids: set[int], using: str) -> set[int]:
+    frontier = component_ids.copy()
+    while frontier:
+        frontier = (
+            set(
+                Component.objects.using(using)
+                .filter(linked_component_id__in=frontier)
+                .values_list("pk", flat=True)
+            )
+            - component_ids
+        )
+        component_ids.update(frontier)
+    return component_ids
+
+
+def _first_deleted_instance(
+    instance: models.Model, origin: models.Model | models.QuerySet
+) -> bool:
+    if isinstance(origin, models.QuerySet):
+        return instance.pk == origin.order_by("pk").values_list("pk", flat=True).first()
+    return instance.pk == origin.pk
+
+
+@receiver(pre_delete, sender=Component)
+def prevent_component_team_scope_escalation(
+    sender: type[Component],
+    instance: Component,
+    using: str,
+    origin: models.Model | models.QuerySet | None = None,
+    **kwargs: object,
+) -> None:
+    """Check direct component deletions once, including linked descendants."""
+    if origin is None:
+        component_ids = {instance.pk}
+    elif isinstance(origin, Component) or (
+        isinstance(origin, models.QuerySet) and origin.model is Component
+    ):
+        if not _first_deleted_instance(instance, origin):
+            return
+        component_ids = _deletion_origin_ids(origin)
+    else:
+        return
+    validate_component_deletion(_linked_deletion_ids(component_ids, using), using=using)
+
+
+@receiver(pre_delete, sender=Category)
+def prevent_category_team_scope_escalation(
+    sender: type[Category],
+    instance: Category,
+    using: str,
+    origin: models.Model | models.QuerySet | None = None,
+    **kwargs: object,
+) -> None:
+    """Check direct category deletions once, including child categories."""
+    if not isinstance(origin, Category) and not (
+        isinstance(origin, models.QuerySet) and origin.model is Category
+    ):
+        return
+    if not _first_deleted_instance(instance, origin):
+        return
+    category_ids = _deletion_origin_ids(origin)
+    frontier = category_ids.copy()
+    while frontier:
+        frontier = (
+            set(
+                Category.objects.using(using)
+                .filter(category_id__in=frontier)
+                .values_list("pk", flat=True)
+            )
+            - category_ids
+        )
+        category_ids.update(frontier)
+    component_ids = set(
+        Component.objects.using(using)
+        .filter(category_id__in=category_ids)
+        .values_list("pk", flat=True)
+    )
+    validate_component_deletion(_linked_deletion_ids(component_ids, using), using=using)
+
+
+@receiver(pre_delete, sender=Project)
+def prevent_project_team_scope_escalation(
+    sender: type[Project],
+    instance: Project,
+    using: str,
+    origin: models.Model | models.QuerySet | None = None,
+    **kwargs: object,
+) -> None:
+    """Check a project deletion once before the collector removes its components."""
+    if not isinstance(origin, Project) and not (
+        isinstance(origin, models.QuerySet) and origin.model is Project
+    ):
+        return
+    if not _first_deleted_instance(instance, origin):
+        return
+    project_ids = _deletion_origin_ids(origin)
+    component_ids = set(
+        Component.objects.using(using)
+        .filter(project_id__in=project_ids)
+        .values_list("pk", flat=True)
+    )
+    validate_component_deletion(
+        _linked_deletion_ids(component_ids, using),
+        using=using,
+        deleting_project_ids=project_ids,
+    )
+
+
+@receiver(pre_delete, sender=ComponentList)
+def prevent_component_list_team_scope_escalation(
+    sender: type[ComponentList],
+    instance: ComponentList,
+    using: str,
+    origin: ComponentList | models.QuerySet[ComponentList] | None = None,
+    **kwargs: object,
+) -> None:
+    """Reject deletions that would leave a team without an assigned list."""
+    if origin is not None and not _first_deleted_instance(instance, origin):
+        return
+    list_ids = {instance.pk} if origin is None else _deletion_origin_ids(origin)
+    assignments = Group.componentlists.through.objects.using(using)
+    assigned_teams = assignments.filter(componentlist_id__in=list_ids).values(
+        "group_id"
+    )
+    affected = Group.objects.using(using).filter(pk__in=assigned_teams)
+
+    # Concurrent deletions of different lists must check the same team in turn.
+    locked_ids = list(
+        affected.order_by("pk")
+        .select_for_update(no_key=True)
+        .values_list("pk", flat=True)
+    )
+    remaining_teams = assignments.exclude(componentlist_id__in=list_ids).values(
+        "group_id"
+    )
+    if affected.filter(pk__in=locked_ids).exclude(pk__in=remaining_teams).exists():
+        raise ValidationError(
+            gettext(
+                "Remove the component list from its teams before deleting it. "
+                "Deleting the last assigned component list could expand a team's access."
+            )
         )
 
 
@@ -766,6 +958,7 @@ class UserQuerySet(models.QuerySet["User", "User"]):
                     Q(group__defining_project__isnull=True)
                     | Q(group__defining_project=project)
                 )
+                .exclude(group__project_selection=SELECTION_COMPONENT_LIST)
             )
             .filter(Q(is_superuser=True) | ~Exists(active_blocks))
             .distinct()
@@ -1412,7 +1605,7 @@ class User(AbstractBaseUser):
     @cached_property
     def visible_repository_conflict_ids(self) -> set[int]:
         """Batch accessible peers referenced by current repository conflict alerts."""
-        from weblate.trans.models import Alert, Component  # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Alert  # ruff: ignore[import-outside-top-level]
 
         references = (
             Alert.objects.filter(name="ConflictingRepositorySetup")
@@ -1656,10 +1849,11 @@ class User(AbstractBaseUser):
                         )
                     continue
 
-                # Component list specific permissions
-                # Even if componentlist_values is empty, having a componentlist assignment
-                # means we need to stop processing here.
-                if membership.has_componentlists:
+                # An empty list selection must not use stale derived project links.
+                if (
+                    membership.has_componentlists
+                    or membership.project_selection == SELECTION_COMPONENT_LIST
+                ):
                     _add_component_permissions(
                         membership,
                         membership.componentlist_component_values,
@@ -1796,6 +1990,7 @@ class User(AbstractBaseUser):
             & Q(group__roles__permissions__codename=perm)
             & Q(group__components__isnull=True)
             & Q(group__componentlists__isnull=True)
+            & ~Q(group__project_selection=SELECTION_COMPONENT_LIST)
             & Q(group__defining_workspace__isnull=True)
             & (
                 Q(group__defining_project__isnull=True)

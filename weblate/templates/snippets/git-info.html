@@ -12,18 +12,25 @@
         {% else %}
           <code class="wrap-text">{{ repo_url }}</code>
         {% endif %}
-        {% if object.linked_component %}
-          <a href="{{ object.linked_component.get_absolute_url }}#information"
-             title="{% blocktranslate with target=object.linked_component %}This component is linked to the {{ target }} repository.{% endblocktranslate %}">{% icon "link.svg" %}</a>
-        {% endif %}
         <button type="button"
                 class="btn btn-link btn-xs"
                 data-clipboard-value="{{ repo_url }}"
-                data-clipboard-message="{% translate "Repository URL copied to clipboard." %}"
-                title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                data-clipboard-message="{% translate "Repository URL copied to clipboard."|force_escape %}"
+                title="{% translate "Copy to clipboard"|force_escape %}">{% icon "copy.svg" %}</button>
       {% endwith %}
     </td>
   </tr>
+
+  {% with linked_component=object.linked_component %}
+    {% if linked_component %}
+      <tr>
+        <th scope="row">{% translate "Linked component" %} {% icon "link.svg" %}</th>
+        <td colspan="2" class="full-cell">
+          <a href="{{ linked_component.get_absolute_url }}#information">{{ linked_component }}</a>
+        </td>
+      </tr>
+    {% endif %}
+  {% endwith %}
 
   <tr>
     <th>{% translate "Repository branch" %}</th>
@@ -39,8 +46,8 @@
           <button type="button"
                   class="btn btn-link btn-xs"
                   data-clipboard-value="{{ pull_request_url }}"
-                  data-clipboard-message="{% translate "Pull request URL copied to clipboard." %}"
-                  title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                  data-clipboard-message="{% translate "Pull request URL copied to clipboard."|force_escape %}"
+                  title="{% translate "Copy to clipboard"|force_escape %}">{% icon "copy.svg" %}</button>
         </td>
       </tr>
     {% endif %}
@@ -56,7 +63,7 @@
           <button type="button"
                   class="btn btn-link btn-xs"
                   data-clipboard-value="{{ commit.revision }}"
-                  title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                  title="{% translate "Copy to clipboard"|force_escape %}">{% icon "copy.svg" %}</button>
           <br />
           {% comment %}Translators: For example: "nijel authored five days ago"{% endcomment %}
           {% user_commit_author commit object as author %}
@@ -76,7 +83,7 @@
           <button type="button"
                   class="btn btn-link btn-xs"
                   data-clipboard-value="{{ commit.revision }}"
-                  title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                  title="{% translate "Copy to clipboard"|force_escape %}">{% icon "copy.svg" %}</button>
           <br />
           {% comment %}Translators: For example: "nijel authored five days ago"{% endcomment %}
           {% user_commit_author commit object as author %}
@@ -95,8 +102,8 @@
           <button type="button"
                   class="btn btn-link btn-xs"
                   data-clipboard-value="{{ export_url }}"
-                  data-clipboard-message="{% translate "Repository URL copied to clipboard." %}"
-                  title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                  data-clipboard-message="{% translate "Repository URL copied to clipboard."|force_escape %}"
+                  title="{% translate "Copy to clipboard"|force_escape %}">{% icon "copy.svg" %}</button>
         </td>
       </tr>
     {% endif %}

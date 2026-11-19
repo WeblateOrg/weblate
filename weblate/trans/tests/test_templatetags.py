@@ -386,6 +386,12 @@ class LocationLinksTest(TestCase):
             """,
         )
 
+    def test_broken_editor_template_preserves_location_text(self) -> None:
+        self.unit.translation.component.repoweb = "https://example.net/{{ filename }}"
+        self.user.profile.editor_link = '{{ filename|center:"1048577" }}'
+        self.unit.location = "foo.bar:123"
+        self.assertHTMLEqual(get_location_links(self.user, self.unit), "foo.bar:123")
+
     def test_filename_quote(self) -> None:
         self.unit.translation.component.repoweb = (
             "http://example.net/{{filename}}#L{{line}}"
@@ -998,6 +1004,39 @@ glosář [glossary]">glossary</span>
             </span>
             """,
         )
+
+    def test_compact_space_runs(self) -> None:
+        indentation = " " * 40
+        value = f"{indentation}<tag>   text\u00a0end\n{' ' * 8}next"
+        content = format_translation(
+            [value], self.component.source_language, search_match="   <tag>"
+        )["items"][0]["content"]
+        markup = fromstring(f"<div>{content}</div>")
+        self.assertEqual(markup.text_content(), value)
+        self.assertEqual(
+            markup.xpath('.//span[@class="hlspace space-run"]/text()'),
+            [indentation[:-3], "   ", " " * 8],
+        )
+        self.assertEqual(markup.xpath('string(.//span[@class="hlmatch"])'), "   <tag>")
+        self.assertEqual(
+            markup.xpath('.//span[@class="space-space"]/text()'), [" "] * 3
+        )
+        self.assertEqual(
+            markup.xpath('.//span[@class="space-nbsp"]/text()'), ["\u00a0"]
+        )
+        self.assertEqual(len(markup.findall(".//br")), 1)
+
+    def test_diff_keeps_individual_space_markers(self) -> None:
+        indentation = " " * 12
+        for value, previous in ((indentation, ""), ("", indentation)):
+            with self.subTest(value=value, previous=previous):
+                content = format_translation(
+                    [f"start\n{value}end"],
+                    self.component.source_language,
+                    diff=f"start\n{previous}end",
+                )["items"][0]["content"]
+                self.assertNotIn("space-run", content)
+                self.assertEqual(content.count('class="space-space"'), len(indentation))
 
     def test_whitespace_special(self) -> None:
         self.assertHTMLEqual(

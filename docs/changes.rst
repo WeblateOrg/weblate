@@ -5,24 +5,70 @@ Weblate 2026.12
 
 .. rubric:: New features
 
+* Added an option to sort languages by translation percentage in language bar chart widgets.
+* Added support for :ref:`storing screenshots in object storage <screenshot-storage>` such as Amazon S3 or Google Cloud Storage, configurable in Docker using :envvar:`WEBLATE_MEDIA_STORAGE_BACKEND`.
+* Added :wladmin:`recovergit` to rebuild missing repository checkouts.
+* :ref:`format-line-number` in the translation file is now stored in the unit for supported formats; when available, the line number is used for repository links and :guilabel:`Nearby strings`.
+* Added staged :ref:`libre-hosting-cleanup` with advance notice and a 30-day trial.
+
 .. rubric:: Improvements
 
+* Moved distributed locking to :ref:`PostgreSQL <database-setup>` and enabled concurrent repository reads for downloads, component copies, Kotlin SDK extraction, project backups, and Git status checks.
+
+* Added failure reasons to :ref:`AI quality evaluation <addon-weblate.ai.quality>` and its :ref:`automation action <automation-action-weblate.ai_quality>`.
+* Enabled Anthropic prompt caching for :ref:`automatic translation <machine-translation>`, so the system prompt is read from cache between batch requests instead of being billed in full on every request.
+* Raised the shared limit for translation strings, CSV and XLSX rows, and translation-memory entries to 200,000. Configure it with :setting:`TRANSLATION_MAX_UNITS`.
+
+* Show inclusive ranges and representative counts in :ref:`plural form examples <plurals>`.
+* Pass developer comments from the source file to :ref:`LLM-based machine translation <llm-translation-context>`, so short strings such as button labels can be translated in context.
+
+* Sped up :ref:`Weblate translation suggestions <mt-weblate>` by fetching ranked candidates in limited batches and avoiding repeated similarity calculations for exact matches. Fuzzy searches also skip word similarity when the eligible multivalue translations contain no translated strings.
+
+* Sped up :ref:`quality checks <checks>` by skipping format and markup extraction for strings without relevant syntax.
+
 * Improved database query performance for project language :ref:`statistics <stats>`.
+* Sped up project and component overviews when checking :ref:`translation upload <upload>` availability.
+* Batched shared :ref:`statistics <stats>` updates after refreshing propagated quality checks.
+* Batched daily statistics collection to reduce database queries and bound memory use on large sites with cached statistics.
 * Added :envvar:`WEBLATE_SECRET_KEY` support to configure Docker's Django secret key directly or from a mounted secret file.
 * Reduced database loading when polling :ref:`background tasks <api-tasks>` spanning many components.
+* Sped up importing translation files by locking :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` once per file instead of once per string.
+* Listed :ref:`saved-searches` first in the search filters and truncated long saved queries.
+* Show :ref:`linked components <internal-urls>` in repository details and label suggestion counts on wider screens in :ref:`zen-mode`.
+* Improved performance for long strings in the :ref:`translation editor <translating>` by grouping indentation markers and editing long translations as plain text.
 
 .. rubric:: Security fixes
 
+* Required the site-wide ``language.add`` permission to :http:post:`create a language through the REST API </api/languages/>`.
+* Checked :ref:`translation memory deletion permissions <api-memory>` on the primary database to protect entries from restricted components when replicas lag.
+* Prevented deleting a component from expanding a :ref:`component-limited team <access-control>` to project-wide access.
+* Prevented deleting the last component list assigned to a :ref:`team <perm-check>` from widening its access.
+* Redacted machine translation API keys, GitHub App credentials, authentication headers, and credentials in URLs from :ref:`Sentry error reports <collecting-errors>` and performance traces.
+* Prevented component API requests from switching between incompatible VCS backends or creating integration-managed components outside their provider import flow.
 * Prevented component creation from writing translation templates outside its repository.
 * Applied :setting:`VCS_RESTRICT_PRIVATE` and trusted-host exemptions to :ref:`GitHub App manifest-code and OAuth exchanges <code-hosting-github-app-register>` and API requests, including redirects and pagination URLs.
 * Revoked stale OAuth e-mail recovery addresses and reconciled the :ref:`account e-mail <user-profile>` when its last verification is removed.
+* Filtered the site-wide changes listings and feeds by workspace visibility, so workspaces the viewer cannot access no longer appear there.
+* Restricted :ref:`webhook matching <hooks-target-matching>` to repository owners, preventing generic deliveries from triggering GitHub App updates through linked components.
+* Required repository access to set a path for a :ref:`repository-linked screenshot <screenshots>`.
+* Kept backend errors out of :ref:`task status results <api-tasks>` when cached task metadata is removed during a request.
 
 .. rubric:: Bug fixes
 
+* Preserved source strings backed by a file when :ref:`removing their last translation <component-manage_units>`.
+* Enabled adding languages from the project language list in :ref:`glossary-only projects <glossary-language-sync>`.
+* Preserved special characters in e-mail subjects for :ref:`notifications`.
+* Handled invalid configured :ref:`templates <markup>` without unhandled server errors, preserving editor access and reporting failed repository and add-on operations.
+
+* Fixed :ref:`AI translation suggestions <machine-translation>` when a provider omits the outer JSON array for a single translation.
 * Fixed delayed database cursor cleanup in :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` with custom source languages.
 * Retried repository updates that failed because of temporary errors, such as server errors, with increasing delays instead of waiting for the next daily :setting:`AUTO_UPDATE` slot.
+* Preserved punctuation and complete messages in :ref:`project sharing <project-public_sharing>` links.
+* Fixed the automatic color theme briefly rendering partially light on page load and not fully following system theme changes on open pages.
 
 .. rubric:: Compatibility
+
+* Restricted :ref:`configurable templates <markup>` to documented operations with parsing, allocation, and cumulative work limits.
 
 .. rubric:: Upgrading
 

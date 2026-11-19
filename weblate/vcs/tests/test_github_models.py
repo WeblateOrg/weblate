@@ -48,7 +48,7 @@ class TestGitHubRepositoryURLs(SimpleTestCase):
     def test_repository_identity(self) -> None:
         for repository in (
             "https://github.com/WeblateOrg/weblate.git",
-            "https://user:token@github.com/WeblateOrg/weblate.git",
+            "https://user:token@github.com/WeblateOrg/weblate.git",  # kingfisher:ignore
             "git@github.com:WeblateOrg/weblate.git",
             "ssh://git@github.com/WeblateOrg/weblate.git",
             "git://github.com/WeblateOrg/weblate",

@@ -46,13 +46,13 @@
               <td>
                 <a href="{{ group.get_absolute_url }}"
                    class="btn btn-link btn-xs"
-                   title="{% translate "Edit" %}">{% icon 'pencil.svg' %}</a>
+                   title="{% translate "Edit"|force_escape %}">{% icon 'pencil.svg' %}</a>
                 {% if not group.internal %}
                   <a href="#"
                      data-bs-toggle="modal"
                      data-bs-target="#delete_group_{{ group.id }}"
                      class="btn btn-link btn-xs red"
-                     title="{% translate "Delete" %}">{% icon 'delete.svg' %}</a>
+                     title="{% translate "Delete"|force_escape %}">{% icon 'delete.svg' %}</a>
                 {% endif %}
                 <form action="{{ group.get_absolute_url }}" method="post" class="inlineform">
                   {% csrf_token %}
@@ -71,7 +71,7 @@
                           <button type="button"
                                   class="btn-close"
                                   data-bs-dismiss="modal"
-                                  aria-label="{% translate "Close" %}">
+                                  aria-label="{% translate "Close"|force_escape %}">
                             <span aria-hidden="true">×</span>
                           </button>
                         </div>
@@ -85,7 +85,7 @@
                           <input type="submit"
                                  class="btn btn-danger"
                                  name="delete"
-                                 value="{% translate "Delete" %}" />
+                                 value="{% translate "Delete"|force_escape %}" />
                         </div>
                       </div>
                       <!-- /.modal-content -->
@@ -112,7 +112,9 @@
         </div>
         <div class="card-body">{{ form|crispy }}</div>
         <div class="card-footer">
-          <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+          <input type="submit"
+                 value="{% translate "Save"|force_escape %}"
+                 class="btn btn-primary" />
         </div>
       </div>
     </form>

@@ -6,7 +6,7 @@
       <a id="button-first"
          class="btn btn-outline-primary green"
          href="{{ first_unit_url }}"
-         title="{% translate "First" %}">
+         title="{% translate "First"|force_escape %}">
         {% if LANGUAGE_BIDI %}
           {% icon "page-last.svg" %}
         {% else %}
@@ -16,7 +16,7 @@
       <a id="prev-section"
          class="btn btn-outline-primary green {% if offset < 2 %}disabled{% endif %}"
          href="{{ prev_section_url }}"
-         title="{% translate "Previous section" %}">
+         title="{% translate "Previous section"|force_escape %}">
         {% if LANGUAGE_BIDI %}
           {% icon "fast-forward.svg" %}
         {% else %}
@@ -26,7 +26,7 @@
       <a id="button-prev"
          class="btn btn-outline-primary green"
          href="{{ prev_unit_url }}"
-         title="{% translate "Previous" %}"
+         title="{% translate "Previous"|force_escape %}"
          rel="prev">
         {% if LANGUAGE_BIDI %}
           {% icon "page-next.svg" %}
@@ -37,7 +37,7 @@
     {% else %}
       <a id="button-first"
          class="btn btn-outline-primary green disabled"
-         title="{% translate "First" %}">
+         title="{% translate "First"|force_escape %}">
         {% if LANGUAGE_BIDI %}
           {% icon "page-last.svg" %}
         {% else %}
@@ -46,7 +46,7 @@
       </a>
       <a id="button-prev"
          class="btn btn-outline-primary green disabled"
-         title="{% translate "Previous" %}">
+         title="{% translate "Previous"|force_escape %}">
         {% if LANGUAGE_BIDI %}
           {% icon "page-next.svg" %}
         {% else %}
@@ -56,7 +56,7 @@
     {% endif %}
   {% endif %}
   <div class="btn btn-outline-primary position-input"
-       title="{% translate "Click to edit position" %}">
+       title="{% translate "Click to edit position"|force_escape %}">
     {% if filter_pos %}
       {% blocktranslate with filter_pos=filter_pos|intcomma filter_count=filter_count|intcomma %}{{ filter_pos }} / {{ filter_count }}{% endblocktranslate %}
     {% else %}
@@ -64,7 +64,7 @@
     {% endif %}
   </div>
   <div class="btn btn-outline-primary position-input-editable"
-       title="{% translate "Go to position" %}">
+       title="{% translate "Go to position"|force_escape %}">
     <div class="input-group">
       <input type="hidden"
              min="1"
@@ -72,7 +72,7 @@
              name="offset"
              class="form-control"
              value="{{ filter_pos }}"
-             aria-label="{% translate "Jump to" %}"
+             aria-label="{% translate "Jump to"|force_escape %}"
              id="position-input-editable-input">
       <span class="input-group-text">{% blocktranslate with filter_count=filter_count|intcomma %}/ {{ filter_count }}{% endblocktranslate %}</span>
     </div>
@@ -82,7 +82,7 @@
       <a id="button-next"
          class="btn btn-outline-primary green"
          href="{{ next_unit_url }}"
-         title="{% translate "Next" %}"
+         title="{% translate "Next"|force_escape %}"
          rel="next">
         {% if not LANGUAGE_BIDI %}
           {% icon "page-next.svg" %}
@@ -93,7 +93,7 @@
       <a id="next-section"
          class="btn btn-outline-primary green {% if not can_go_next_section %}disabled{% endif %}"
          href="{{ next_section_url }}"
-         title="{% translate "Next section" %}"
+         title="{% translate "Next section"|force_escape %}"
          rel="next">
         {% if not LANGUAGE_BIDI %}
           {% icon "fast-forward.svg" %}
@@ -104,7 +104,7 @@
       <a id="button-end"
          class="btn btn-outline-primary green"
          href="{{ last_unit_url }}"
-         title="{% translate "Last" %}">
+         title="{% translate "Last"|force_escape %}">
         {% if not LANGUAGE_BIDI %}
           {% icon "page-last.svg" %}
         {% else %}
@@ -114,7 +114,7 @@
     {% else %}
       <a id="button-next"
          class="btn btn-outline-primary green disabled"
-         title="{% translate "Next" %}">
+         title="{% translate "Next"|force_escape %}">
         {% if not LANGUAGE_BIDI %}
           {% icon "page-next.svg" %}
         {% else %}
@@ -123,7 +123,7 @@
       </a>
       <a id="button-end"
          class="btn btn-outline-primary green disabled"
-         title="{% translate "Last" %}">
+         title="{% translate "Last"|force_escape %}">
         {% if not LANGUAGE_BIDI %}
           {% icon "page-last.svg" %}
         {% else %}

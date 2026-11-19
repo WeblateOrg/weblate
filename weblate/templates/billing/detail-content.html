@@ -1,5 +1,9 @@
 {% load crispy_forms_tags i18n icons translations %}
 
+{% if billing.libre_cleanup_warned_at %}
+  {% include "billing/libre-cleanup-warning.html" with warning=billing.libre_cleanup_warning %}
+{% endif %}
+
 <div class="row">
 
   <div class="col-lg-6">
@@ -46,7 +50,7 @@
                       name="terminate"
                       value="{{ billing.pk }}"
                       class="btn btn-danger"
-                      {% if not can_terminate %} title="{% translate "To terminate billing you have to remove all projects first." %}" disabled {% endif %}>
+                      {% if not can_terminate %} title="{% translate "To terminate billing you have to remove all projects first."|force_escape %}" disabled {% endif %}>
                 {% translate "Terminate billing plan" %}
               </button>
             </form>
@@ -63,7 +67,9 @@
           </div>
           <div class="card-body">{% crispy merge_form %}</div>
           <div class="card-footer">
-            <input type="submit" class="btn btn-primary" value="{% translate "Review merge" %}">
+            <input type="submit"
+                   class="btn btn-primary"
+                   value="{% translate "Review merge"|force_escape %}">
           </div>
         </div>
       </form>
@@ -145,18 +151,18 @@
           <div class="card-header">
             <h4 class="card-title">
               {% translate "Libre hosting" %}
-              {% if billing.is_libre_trial and billing.payment.libre_request %}
+              {% if billing.is_libre_trial and billing.libre_request_pending %}
                 <span class="badge text-bg-secondary">{% translate "Pending approval" %}</span>
               {% endif %}
             </h4>
           </div>
           <div class="card-body">
-            {% if billing.is_libre_trial and billing.valid_libre and not billing.payment.libre_request %}
+            {% if billing.is_libre_trial and billing.valid_libre and not billing.libre_request_pending %}
               {# Second button for bigger visibility #}
               <input type="submit"
                      class="btn btn-primary float-end"
                      name="request"
-                     value="{% translate "Request approval for Libre hosting" %}" />
+                     value="{% translate "Request approval for Libre hosting"|force_escape %}" />
             {% endif %}
             {% with libre_general_checklist=billing.libre_general_checklist %}
               {% with libre_component_checklist=billing.libre_component_checklist show_alerts=True %}
@@ -168,20 +174,20 @@
             <div class="card-footer">
               {% csrf_token %}
               {% if billing.valid_libre %}
-                {% if user_can_manage_billing or not billing.payment.libre_request %}
+                {% if user_can_manage_billing or not billing.libre_request_pending %}
                   {% include "snippets/libre-basic.html" %}
                   {% if user_can_manage_billing %}
                     <input type="submit"
                            class="btn btn-primary"
                            name="approve"
-                           value="{% translate "Approve as libre" %}" />
+                           value="{% translate "Approve as libre"|force_escape %}" />
                   {% endif %}
-                  {% if not billing.payment.libre_request %}
+                  {% if not billing.libre_request_pending %}
                     {{ hosting_form|crispy }}
                     <input type="submit"
                            class="btn btn-primary"
                            name="request"
-                           value="{% translate "Request approval for Libre hosting" %}" />
+                           value="{% translate "Request approval for Libre hosting"|force_escape %}" />
                   {% endif %}
                 {% endif %}
               {% else %}

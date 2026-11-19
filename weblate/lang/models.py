@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import re
+from bisect import bisect_left
 from collections import defaultdict
 from gettext import c2py
 from itertools import chain
@@ -52,6 +53,7 @@ from . import defaults
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
 
+    from django.utils.safestring import SafeString
     from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
@@ -64,9 +66,8 @@ PLURAL_RE = re.compile(
     r"\s*nplurals\s*=\s*([0-9]+)\s*;\s*plural\s*=\s*([()n0-9!=|&<>+*/%\s?:-]+)"
 )
 PLURAL_COUNT_MAX = 10
-PLURAL_TITLE = """
-{name} <span class="text-muted" title="{title}">({examples})</span>
-"""
+PLURAL_EXAMPLE_LIMIT = 11
+PLURAL_EXAMPLE_MAGNITUDES = (100, 1000, 10000, 100000, 1000000)
 COPY_RE = re.compile(r"\([0-9]+\)")
 KNOWN_SUFFIXES = {"hant", "hans", "latn", "cyrl", "shaw"}
 GENERATED_SUFFIX = "(generated)"
@@ -1355,6 +1356,45 @@ class PluralQuerySet(models.QuerySet["Plural", "Plural"]):
         return None
 
 
+def _plural_example_ranges(counts: list[int]) -> list[tuple[int, int]]:
+    """Group sorted, distinct sample counts into inclusive ranges."""
+    ranges: list[tuple[int, int]] = []
+    for count in counts:
+        if ranges and count == ranges[-1][1] + 1:
+            ranges[-1] = (ranges[-1][0], count)
+        else:
+            ranges.append((count, count))
+    return ranges
+
+
+def _select_plural_example_ranges(counts: list[int]) -> list[tuple[int, int]]:
+    ranges = _plural_example_ranges(counts)
+    if len(ranges) <= PLURAL_EXAMPLE_LIMIT:
+        return ranges
+
+    # Reserve space for samples at different magnitudes, even if the low
+    # counts alone would fill the list.
+    low_counts = counts[: bisect_left(counts, 100)]
+    samples: set[tuple[int, int]] = set()
+    for magnitude in PLURAL_EXAMPLE_MAGNITUDES:
+        pos = bisect_left(counts, magnitude)
+        if pos == len(counts) or counts[pos] >= magnitude + 100:
+            continue
+        count = counts[pos]
+        if low_counts:
+            samples.add((count, count))
+        else:
+            samples.add(next(span for span in ranges if span[0] <= count <= span[1]))
+
+    if low_counts:
+        primary = _plural_example_ranges(low_counts)[
+            : PLURAL_EXAMPLE_LIMIT - len(samples)
+        ]
+    else:
+        primary = [span for span in ranges if span not in samples][:3]
+    return sorted(samples.union(primary))
+
+
 class Plural(models.Model):
     PLURAL_CHOICES = (
         (
@@ -1597,6 +1637,35 @@ class Plural(models.Model):
                 example.append("…")
         return result
 
+    @cached_property
+    def display_examples(self) -> dict[int, list[str]]:
+        """Return bounded examples for display, grouped into consecutive ranges."""
+        counts: dict[int, list[int]] = defaultdict(list)
+        function = self.plural_function
+        numbers = set(iter_plural_formula_validation_numbers(self.formula))
+        # Include enough examples to illustrate rules that match multiples of a million.
+        numbers.update(range(3000000, 13000000, 1000000))
+        for count in sorted(numbers):
+            try:
+                index = function(count)
+            except ArithmeticError:
+                # A saved formula may fail for a count outside its original validation set.
+                continue
+            if 0 <= index < self.number:
+                counts[index].append(count)
+
+        result = {}
+        for index, matches in counts.items():
+            ranges = _select_plural_example_ranges(matches)
+            examples = [
+                str(start) if start == end else f"{start}–{end}"
+                for start, end in ranges
+            ]
+            if sum(end - start + 1 for start, end in ranges) < len(matches):
+                examples.append("…")
+            result[index] = examples
+        return result
+
     @staticmethod
     def parse_plural_forms(plurals: str) -> tuple[int, str]:
         matches = PLURAL_RE.match(plurals)
@@ -1642,15 +1711,9 @@ class Plural(models.Model):
             our_function=self.plural_function,
         )
 
-    def get_plural_label(self, idx):
-        """Return label for plural form."""
-        return format_html(
-            PLURAL_TITLE,
-            name=self.get_plural_name(idx),
-            examples=format_html_join_comma(
-                "{}", list_to_tuples(self.examples.get(idx, []))
-            ),
-            title=gettext("Example counts for this plural form."),
+    def format_plural_examples(self, idx: int) -> SafeString:
+        return format_html_join_comma(
+            "{}", list_to_tuples(self.display_examples.get(idx, ()))
         )
 
     def get_plural_name(self, idx):
@@ -1669,9 +1732,7 @@ class Plural(models.Model):
             yield {
                 "index": i,
                 "name": self.get_plural_name(i),
-                "examples": format_html_join_comma(
-                    "{}", list_to_tuples(self.examples.get(i, []))
-                ),
+                "examples": self.format_plural_examples(i),
             }
 
 

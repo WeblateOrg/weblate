@@ -20,7 +20,9 @@
 
     {% crispy form %}
 
-    <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+    <input type="submit"
+           value="{% translate "Save"|force_escape %}"
+           class="btn btn-primary" />
 
   </form>
 

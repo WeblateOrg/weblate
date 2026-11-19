@@ -20,6 +20,7 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count, Q
 from django.db.models.functions import Coalesce
+from django.template import Context, Engine
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import (
@@ -79,6 +80,13 @@ DIGEST_USER_BATCH_SIZE = 50
 NOTIFICATION_QUERY_CHUNK_SIZE = 200
 SUBSCRIPTION_CACHE_SIZE = 16
 _UNSCOPED = object()
+
+
+def render_email_subject(template_name: str, context: dict[str, Any]) -> str:
+    """Render a plain-text, single-line subject."""
+    template = Engine.get_default().get_template(template_name)
+    rendered = template.render(Context(context, autoescape=False))
+    return " ".join(rendered.strip().splitlines())
 
 
 def get_email_headers(notification: str) -> dict[str, str]:
@@ -362,6 +370,8 @@ class Notification:
         """Render single mail template with given context."""
         base_name = self.digest_template if digest else self.template_name
         template_name = f"mail/{base_name}{suffix}"
+        if suffix == "_subject.txt":
+            return render_email_subject(template_name, context)
         return render_to_string(template_name, context).strip()
 
     def get_notification_name(self, num_changes: int) -> StrOrPromise:
@@ -1729,7 +1739,7 @@ def get_notification_emails(
         context["site_title"] = settings.SITE_TITLE
 
         # Render subject
-        subject = render_to_string(context["subject_template"], context).strip()
+        subject = render_email_subject(context["subject_template"], context)
         context["subject"] = subject
 
         # Render body

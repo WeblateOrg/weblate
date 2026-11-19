@@ -42,6 +42,7 @@ from django.db.models import F, Q, Value
 from django.db.models.functions import MD5
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
+from django.template import TemplateSyntaxError
 from django.utils.functional import cached_property
 from django.utils.html import format_html, format_html_join
 from django.utils.safestring import mark_safe
@@ -157,7 +158,7 @@ from weblate.utils.change_origin import (
 )
 from weblate.utils.colors import ColorChoices
 from weblate.utils.decorators import disable_for_loaddata
-from weblate.utils.errors import report_error
+from weblate.utils.errors import log_handled_exception, report_error
 from weblate.utils.fields import EmailField
 from weblate.utils.files import PathMatchBudget, PathMatchLimitError, bounded_glob
 from weblate.utils.html import format_html_join_comma, list_to_tuples
@@ -167,7 +168,7 @@ from weblate.utils.licenses import (
     get_license_url,
     is_libre,
 )
-from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
+from weblate.utils.lock import LockScope, WeblateLock, WeblateLockTimeoutError
 from weblate.utils.random import get_random_identifier
 from weblate.utils.regex import (
     compile_regex,
@@ -176,6 +177,7 @@ from weblate.utils.regex import (
     regex_sub,
 )
 from weblate.utils.render import (
+    render_repository_template,
     render_template,
     validate_render_addon,
     validate_render_commit,
@@ -209,6 +211,7 @@ from weblate.vcs.base import (
     RepositoryRestrictedPathError,
     RepositoryStructuredError,
     RepositorySymlinkError,
+    RepositoryTemplateError,
     get_repository_error_diagnoses,
     is_possible_checkout_error,
     is_ssh_host_key_mismatch_error,
@@ -2099,9 +2102,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # Serializes component-wide creation/import operations. Existing string
         # updates should rely on row locks, and check refreshes use checks_lock.
         return WeblateLock(
-            scope="component:update",
+            scope=LockScope.COMPONENT_UPDATE,
             key=self.pk,
-            slug=self.slug,
             timeout=5,
             origin=self.full_slug,
         )
@@ -2109,9 +2111,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
     @cached_property
     def checks_lock(self):
         return WeblateLock(
-            scope="component:checks",
+            scope=LockScope.COMPONENT_CHECKS,
             key=self.pk,
-            slug=self.slug,
             timeout=5,
             origin=self.full_slug,
         )
@@ -2831,13 +2832,20 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 return filename
             return None
 
-        return render_template(
-            template,
-            filename=urlquote(filename),
-            line=urlquote(line),
-            branch=urlquote(self.branch),
-            component=self,
-        )
+        try:
+            return render_template(
+                template,
+                filename=urlquote(filename),
+                line=urlquote(line),
+                branch=urlquote(self.branch),
+                component=self,
+            )
+        except TemplateSyntaxError:
+            log_handled_exception(
+                "Could not render repository browser or editor link",
+                extra_log=self.full_slug,
+            )
+            return None
 
     def get_git_repoweb_template(self):
         """Return the template link for a specific vcs."""
@@ -3489,7 +3497,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 report_error(
                     "Could not push the repo",
                     project=self.project,
-                    skip_error_reporting=not settings.DEBUG,
+                    skip_error_reporting=not settings.DEBUG
+                    or isinstance(error, RepositoryTemplateError),
                 )
                 self.change_set.create(
                     action=ActionEvents.FAILED_PUSH,
@@ -4388,7 +4397,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # Commit pending changes
         with self.track_local_head_change():
             for translation in translations:
-                self.repository.lock.reacquire()
                 component = translation.component
                 if component.pk in skipped:
                     # We already failed at this component
@@ -4482,7 +4490,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     context.update(extra_context)
 
                 # Generate commit message
-                message = render_template(template, **context)
+                message = render_repository_template(
+                    template, setting="commit message", **context
+                )
 
             # Actual commit
             if not self.repository.commit(message, author, localtime(timestamp), files):
@@ -4646,6 +4656,18 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     if not raised:
                         raise
 
+    def get_branch_update_kwargs(self, method: str) -> dict[str, Any]:
+        if method == "rebase":
+            return {}
+        kwargs: dict[str, Any] = {
+            "message": render_repository_template(
+                self.effective_merge_message, setting="merge message", component=self
+            )
+        }
+        if method == "merge_noff":
+            kwargs["no_ff"] = True
+        return kwargs
+
     @perform_on_link
     def update_branch(
         self,
@@ -4672,21 +4694,16 @@ class Component(  # ruff: ignore[too-many-public-methods]
             error_msg = gettext("Could not rebase local branch onto remote branch %s.")
             action = ActionEvents.REBASE
             action_failed = ActionEvents.FAILED_REBASE
-            kwargs = {}
         else:
             method_func = self.repository.merge
             error_msg = gettext("Could not merge remote branch into %s.")
             action = ActionEvents.MERGE
             action_failed = ActionEvents.FAILED_MERGE
-            kwargs = {
-                "message": render_template(self.effective_merge_message, component=self)
-            }
-            if method == "merge_noff":
-                kwargs["no_ff"] = True
 
         with self.track_local_head_change() as head_change:
             previous_head = head_change.previous_head or "N/A"
             try:
+                kwargs = self.get_branch_update_kwargs(method)
                 # Try to merge it
                 method_func(**kwargs)
                 new_head = head_change.refresh_new_head()
@@ -4701,7 +4718,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 report_error(
                     f"Failed {method}",
                     project=self.project,
-                    skip_error_reporting=not settings.DEBUG,
+                    skip_error_reporting=not settings.DEBUG
+                    or isinstance(error, RepositoryTemplateError),
                 )
 
                 # In case merge has failure recover
@@ -4734,7 +4752,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     )
 
                 # Reset repo back
-                method_func(abort=True)
+                if not isinstance(error, RepositoryTemplateError):
+                    method_func(abort=True)
 
                 # Tell user (if there is any)
                 messages.error(request, error_msg % self)
@@ -5260,15 +5279,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 raise InvalidTemplateError(info=str(exc)) from exc
         self._template_check_done = True
 
-    def refresh_lock(self) -> None:
-        """Refresh the lock to avoid expiry in long operations."""
-        if self.linked_component and self.linked_component.lock.is_locked:
-            self.linked_component.lock.reacquire()
-        if self.repository.lock.is_locked:
-            self.repository.lock.reacquire()
-        if self.lock.is_locked:
-            self.lock.reacquire()
-
     @source_operation_method
     def _create_translations(  # ruff: ignore[complex-structure, too-many-statements]
         self,
@@ -5346,8 +5356,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 c.translation_set.count() for c in self.linked_children
             )
         for pos, path in enumerate(matches):
-            self.refresh_lock()
-
             if not self._sources_prefetched and path != source_file:
                 self.preload_sources()
             with transaction.atomic():
@@ -6225,6 +6233,17 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if errors:
             raise ValidationError(errors)
 
+    def clean_vcs_change(self, old: Component) -> None:
+        """Reject backend switches outside the component settings choices."""
+        if self.vcs not in VCS_REGISTRY.allowed_component_vcs_choices(old.vcs):
+            raise ValidationError(
+                {
+                    "vcs": gettext(
+                        "Version control system cannot be changed to this backend."
+                    )
+                }
+            )
+
     def clean_fields(self, exclude: Collection[str] | None = None) -> None:
         """Validate inherited settings without changing their stored overrides."""
         excluded = set(exclude or ())
@@ -6331,6 +6350,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         if self.id:
             old = Component.objects.get(pk=self.id)
+            self.clean_vcs_change(old)
             self.clean_integration_locked_fields(old)
             self.check_rename(old, validate=True)
             if old.source_language != self.source_language:
@@ -6877,7 +6897,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             language_code=self.source_language.code,
             source_language=self.source_language.code,
             file_format_params=self.file_format_params,
-            repo_temp_dir=self.repository.get_repo_temp_dir(),
+            repo_temp_dir=self.repository.get_repo_temp_dir(create=False),
             file_validator=self.check_file_is_valid,
         )
         store.check_valid()
@@ -6905,7 +6925,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 source_language=self.source_language.code,
                 is_template=True,
                 file_format_params=self.file_format_params,
-                repo_temp_dir=self.repository.get_repo_temp_dir(),
+                repo_temp_dir=self.repository.get_repo_temp_dir(create=False),
                 file_validator=self.check_file_is_valid,
             )
             store.check_valid()

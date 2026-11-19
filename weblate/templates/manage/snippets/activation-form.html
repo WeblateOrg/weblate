@@ -16,7 +16,9 @@
       {{ activate_form|crispy }}
     </div>
     <div class="card-footer">
-      <input type="submit" class="btn btn-primary" value="{% translate "Activate" %}" />
+      <input type="submit"
+             class="btn btn-primary"
+             value="{% translate "Activate"|force_escape %}" />
     </div>
   </div>
 </form>

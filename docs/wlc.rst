@@ -582,6 +582,11 @@ customize this by :option:`--config-section`):
     and ``GET``. These retry settings are passed to ``urllib3.util.Retry``.
 
     ``timeout`` is the request timeout in seconds and defaults to ``300``.
+    ``retries`` must be a nonnegative integer, ``timeout`` a positive integer,
+    and ``backoff_factor`` a finite nonnegative number. Codes in
+    ``status_forcelist`` must be between ``400`` and ``599``. Invalid values
+    cause a configuration error before any HTTP request is sent.
+
     Current :program:`wlc` releases use ``allowed_methods`` in place of the
     older ``method_whitelist`` option.
 

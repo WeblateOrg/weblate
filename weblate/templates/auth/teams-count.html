@@ -2,6 +2,6 @@
 
 {% if group.autogroup__count %}
   <span class="badge text-bg-secondary"
-        title="{% translate "Automatic assignment of users is configured for this team" %}">{% translate "Automatic assignment" %}</span>
+        title="{% translate "Automatic assignment of users is configured for this team"|force_escape %}">{% translate "Automatic assignment" %}</span>
 {% endif %}
 {{ group.user__count|intcomma }}

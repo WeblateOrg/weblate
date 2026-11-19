@@ -17,7 +17,7 @@ from translate.storage.base import ParseError
 from translate.storage.csvl10n import csv
 
 from weblate.formats.helpers import CONTROLCHARS_TRANS, NamedBytesIO
-from weblate.formats.limits import MAX_TRANSLATION_UNITS, TranslationLimitError
+from weblate.formats.limits import TranslationLimitError
 from weblate.formats.ttkit import CSVFormat, WeblateCSVFile
 from weblate.formats.xlsx_limits import prepare_xlsx_csv_row, validate_xlsx_archive
 
@@ -35,6 +35,7 @@ class XlsxFormat(CSVFormat):
     name = gettext_lazy("Excel Open XML")
     format_id = "xlsx"
     autoload = ("*.xlsx",)
+    supports_line_number = False
 
     def get_encoding(self) -> str | None:
         return "utf-8"
@@ -128,15 +129,16 @@ class XlsxFormat(CSVFormat):
             # Ignore formatting-only columns when determining the field count.
             fields = [value for value in next(worksheet.values) if value]
             converted_size = 0
+            max_rows = settings.TRANSLATION_MAX_UNITS
             for row, values in enumerate(
                 worksheet.iter_rows(max_col=len(fields), values_only=True)
             ):
-                if row > MAX_TRANSLATION_UNITS:
+                if row > max_rows:
                     raise TranslationLimitError(
                         gettext(
                             "Workbook exceeds the maximum allowed count of %d worksheet rows after the header."
                         )
-                        % MAX_TRANSLATION_UNITS
+                        % max_rows
                     )
                 values = values[: len(fields)]
                 # Skip formatting-only rows.

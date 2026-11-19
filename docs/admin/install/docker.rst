@@ -1233,6 +1233,36 @@ Generic settings
    Configures checks which you do not want to be displayed, see
    :setting:`django:SILENCED_SYSTEM_CHECKS`.
 
+.. envvar:: WEBLATE_MEDIA_STORAGE_BACKEND
+.. envvar:: WEBLATE_MEDIA_STORAGE_OPTIONS
+
+   .. versionadded:: 2026.12
+
+   Configures storage for uploaded files, which are stored in the
+   :file:`data` volume by default. This currently covers screenshots; fonts
+   are always stored in the :file:`data` volume. Set :envvar:`WEBLATE_MEDIA_STORAGE_BACKEND`
+   to the storage class and :envvar:`WEBLATE_MEDIA_STORAGE_OPTIONS` to its
+   options as a JSON object; they configure ``default`` in
+   :setting:`django:STORAGES`. The image includes :pypi:`django-storages` with
+   the Amazon S3 and Google Cloud Storage backends.
+
+   For example, to use Amazon S3 or an S3-compatible service with credentials
+   from the ``AWS_ACCESS_KEY_ID`` and ``AWS_SECRET_ACCESS_KEY`` environment
+   variables:
+
+   .. code-block:: yaml
+
+      environment:
+        WEBLATE_MEDIA_STORAGE_BACKEND: storages.backends.s3.S3Storage
+        WEBLATE_MEDIA_STORAGE_OPTIONS: '{"bucket_name": "weblate-media", "endpoint_url": "https://s3.example.com", "file_overwrite": false}'
+
+   Use ``WEBLATE_MEDIA_STORAGE_OPTIONS_FILE`` to pass options containing
+   credentials as a secret, see :ref:`docker-secrets`.
+
+   .. seealso::
+
+      :ref:`screenshot-storage`
+
 .. envvar:: WEBLATE_CSP_SCRIPT_SRC
 .. envvar:: WEBLATE_CSP_IMG_SRC
 .. envvar:: WEBLATE_CSP_CONNECT_SRC
@@ -1619,6 +1649,10 @@ Generic settings
 
    Configures :setting:`TRANSLATION_MAX_SIZE` in bytes. When unset, follows
    :envvar:`WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE`.
+
+.. envvar:: WEBLATE_TRANSLATION_MAX_UNITS
+
+   Configures :setting:`TRANSLATION_MAX_UNITS`. Defaults to 200,000.
 
 .. envvar:: WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE
 
@@ -2995,6 +3029,8 @@ container.
 The :file:`data` volume is mounted as :file:`/app/data` and is used to store
 Weblate persistent data such as cloned repositories or to customize Weblate
 installation. :setting:`DATA_DIR` describes in more detail what is stored here.
+Screenshots can be stored outside of this volume, see
+:envvar:`WEBLATE_MEDIA_STORAGE_BACKEND`.
 
 The :file:`data` volume is also place to store Weblate customization such as
 :ref:`docker-settings-override`, :ref:`docker-static-override` or

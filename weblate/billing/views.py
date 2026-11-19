@@ -220,13 +220,17 @@ def handle_post(request: AuthenticatedHttpRequest, billing: Billing) -> None:
             billing.billinglog_set.create(
                 event=BillingEvent.LIBRE_APPROVED, user=request.user
             )
-        elif "request" in request.POST and billing.is_libre_trial:
+        elif (
+            "request" in request.POST
+            and billing.is_libre_trial
+            and not billing.libre_request_pending
+        ):
             form = HostingForm(request.POST)
             if form.is_valid():
                 project = billing.get_projects_queryset().get()
                 subject = f"Hosting request for {project}"
-                billing.payment["libre_request"] = True
-                billing.save(update_fields=["payment"])
+                billing.libre_request_pending = True
+                billing.save(update_fields=["libre_request_pending"])
                 billing.billinglog_set.create(
                     event=BillingEvent.LIBRE_REQUEST, summary=subject, user=request.user
                 )
@@ -299,6 +303,8 @@ def merge_billings(billing: Billing, other: Billing, user: User) -> None:
     other.save()
     projects_moved = moved_projects.update(workspace=other.workspace)
     if projects_moved:
+        billing.reset_libre_cleanup(user=user)
+        other.reset_libre_cleanup(user=user)
         # ruff: ignore[import-outside-top-level]
         from weblate.utils.tasks import update_workspace_stats
 

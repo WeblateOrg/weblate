@@ -7,8 +7,11 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from django.conf import settings
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.contrib.admin.utils import unquote
+from django.core.exceptions import ValidationError
+from django.db import router, transaction
+from django.shortcuts import redirect
 from django.utils.translation import gettext_lazy
 
 from weblate.accounts.utils import (
@@ -76,7 +79,32 @@ class RepoAdminMixin:
         self.message_user(request, f"Updated checks for {len(units):d} units.")
 
 
-class SensitiveFieldsAdmin(WeblateModelAdmin):
+class TeamScopeDeletionAdmin(WeblateModelAdmin):
+    """Display team scope validation errors from deletion."""
+
+    def delete_view(self, request, object_id, extra_context=None):
+        try:
+            return super().delete_view(request, object_id, extra_context)
+        except ValidationError as error:
+            self.message_user(request, " ".join(error.messages), level=messages.ERROR)
+            return redirect(request.path)
+
+    def changelist_view(self, request, extra_context=None):
+        if (
+            request.method != "POST"
+            or "delete_selected" not in request.POST.getlist("action")
+            or not request.POST.get("post")
+        ):
+            return super().changelist_view(request, extra_context)
+        try:
+            with transaction.atomic(using=router.db_for_write(self.model)):
+                return super().changelist_view(request, extra_context)
+        except ValidationError as error:
+            self.message_user(request, " ".join(error.messages), level=messages.ERROR)
+            return redirect(request.path)
+
+
+class SensitiveFieldsAdmin(TeamScopeDeletionAdmin):
     """Require recent credential verification for changing listed fields."""
 
     sensitive_fields: frozenset[str] = frozenset()
@@ -277,7 +305,7 @@ class AutoComponentListAdmin(admin.TabularInline):
 
 
 @admin.register(ComponentList)
-class ComponentListAdmin(WeblateModelAdmin):
+class ComponentListAdmin(TeamScopeDeletionAdmin):
     search_fields = ("name", "slug")
     list_display = ("name", "show_dashboard")
     list_filter = ("show_dashboard",)

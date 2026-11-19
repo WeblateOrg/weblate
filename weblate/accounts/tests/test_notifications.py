@@ -31,6 +31,7 @@ from weblate.accounts.notifications import (
     SUBSCRIPTION_CACHE_SIZE,
     LastAuthorCommentNotificaton,
     MergeFailureNotification,
+    NewComponentNotificaton,
     Notification,
     NotificationFrequency,
     NotificationScope,
@@ -2142,6 +2143,39 @@ class SubscriptionTest(FixtureComponentTestCase):
         # the specific merge-failure notification.
         self.component.project.add_user(self.user, "Administration")
         self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_INSTANT)), 0)
+
+
+class NotificationSubjectTest(SimpleTestCase):
+    @override_settings(
+        SITE_TITLE='Ateliér & <Studio>\r\n"News" &amp;',
+        EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend",
+    )
+    def test_included_subject_is_plain_text_and_html_title_is_escaped(self) -> None:
+        outgoing = get_notification_emails(
+            "en", ["recipient@example.com"], "reset-nonexisting"
+        )
+        subject = 'Password reset on Ateliér & <Studio> "News" &amp;'
+        self.assertEqual(outgoing[0]["subject"], subject)
+        self.assertIn(f"<title>{escape(subject)}</title>", outgoing[0]["body"])
+
+        send_mails(outgoing)
+        serialized = mail.outbox[0].message(policy=policy.SMTP).as_bytes()
+        message = BytesParser(policy=policy.default).parsebytes(serialized)
+        self.assertEqual(message["Subject"], settings.EMAIL_SUBJECT_PREFIX + subject)
+
+    def test_immediate_and_digest_subjects_are_plain_text(self) -> None:
+        notification = NewComponentNotificaton([])
+        name = 'Ateliér & <Studio> "News" &amp;'
+        context = {"component": name, "notification_name": name}
+
+        self.assertEqual(
+            notification.render_template("_subject.txt", context),
+            f"New translation component {name}",
+        )
+        self.assertEqual(
+            notification.render_template("_subject.txt", context, digest=True),
+            f"Digest: {name}",
+        )
 
 
 class SendMailsTest(SimpleTestCase):

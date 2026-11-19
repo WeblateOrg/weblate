@@ -2051,9 +2051,12 @@ PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE
 Defines the maximum uncompressed size, in bytes, for a single highly
 compressed ZIP entry in an imported project backup.
 
-This limit is only applied to entries that are large enough and compress
-enough to look suspicious. Large low-compression files are intentionally
-allowed here and are expected to be constrained by the HTTP upload limit.
+An entry is rejected only when its uncompressed size exceeds this limit and
+its compression ratio exceeds
+:setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`. Entries at or
+below this limit are allowed regardless of compression ratio. Large entries
+that compress poorly are also allowed. The total uncompressed size remains
+bounded by :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`.
 Defaults to 262144000 bytes (250 MiB).
 
 In Docker, configure this using the
@@ -2071,12 +2074,12 @@ PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE
 
 .. versionadded:: 5.17
 
-Defines the minimum uncompressed size, in bytes, at which Weblate starts
-considering the ZIP compression ratio during project backup import.
-
-Smaller files are ignored for the compression-ratio-based validation to avoid
-rejecting reasonably sized files that compress well. Defaults to 1048576 bytes
-(1 MiB).
+Defines the minimum uncompressed size, in bytes, for checking the compression
+ratio of an entry that already exceeds
+:setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`. Smaller files are
+allowed regardless of compression ratio. Defaults to 1048576 bytes (1 MiB),
+which is below the default compressed-entry size threshold and therefore does
+not further restrict the check unless the thresholds are changed.
 
 In Docker, configure this using the
 ``WEBLATE_PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`` environment variable.
@@ -2491,8 +2494,8 @@ Interactive requests also allow at most two concurrent calls per user per
 configured service installation. Other installations remain available. Excess
 requests return HTTP 429. Slots are released on completion or failure.
 Disconnected requests retain their slots until the provider work finishes,
-including synchronous calls already running in executor threads. Abandoned
-distributed locks expire after one hour.
+including synchronous calls already running in executor threads. If a worker
+exits, PostgreSQL releases its slots when its database session ends.
 
 .. setting:: RATELIMIT_MACHINERY_WINDOW
 
@@ -3073,11 +3076,27 @@ Uploads must also satisfy :setting:`TRANSLATION_UPLOAD_MAX_SIZE`, even when
 ``TRANSLATION_MAX_SIZE`` is higher. This byte limit does not bound decompression
 or other expansion performed by a parser.
 
-Translation files are also limited to 100,000 logical content strings per file
-before database synchronization or import. Existing tighter limits for
-compressed formats remain in effect.
+Translation files must also satisfy :setting:`TRANSLATION_MAX_UNITS`.
 
 In Docker, configure this using :envvar:`WEBLATE_TRANSLATION_MAX_SIZE`.
+
+.. setting:: TRANSLATION_MAX_UNITS
+
+TRANSLATION_MAX_UNITS
+---------------------
+
+.. versionadded:: 2026.12
+
+Maximum number of logical content strings in a translation file before
+database synchronization or import. Set this to a positive integer. Defaults
+to 200,000.
+
+The same limit applies to data rows while parsing :ref:`CSV files <csv>`,
+worksheet rows while reading :ref:`XLSX files <xlsx>`, and entries in
+:doc:`translation-memory imports </admin/memory>`. File size, compressed
+format extraction, and suggestion uploads have separate limits.
+
+In Docker, configure this using :envvar:`WEBLATE_TRANSLATION_MAX_UNITS`.
 
 .. setting:: TRANSLATION_UPLOAD_MAX_SIZE
 

@@ -10,6 +10,7 @@ from concurrent.futures import ThreadPoolExecutor
 from queue import Queue
 from threading import Barrier, Event
 from time import monotonic, sleep
+from typing import TYPE_CHECKING
 
 from django.core.exceptions import ValidationError
 from django.db import close_old_connections, connection, transaction
@@ -24,9 +25,12 @@ from weblate.auth.models import (
     TeamMembership,
     User,
 )
-from weblate.trans.models import Project
+from weblate.trans.models import Component, ComponentList, Project
 from weblate.trans.views.acl import lock_project_member
 from weblate.utils.change_origin import acting_user_context
+
+if TYPE_CHECKING:
+    from django.db.models import QuerySet
 
 
 class GroupConcurrencyTest(TransactionTestCase):
@@ -100,6 +104,74 @@ class GroupConcurrencyTest(TransactionTestCase):
 
     def test_concurrent_creation(self) -> None:
         self.check_race((None, None))
+
+    def test_concurrent_component_deletions_keep_team_scoped(self) -> None:
+        components = Component.objects.bulk_create(
+            [
+                Component(name=name, slug=slug, project=self.project)
+                for name, slug in (("First", "first"), ("Second", "second"))
+            ]
+        )
+        team = Group.objects.create(
+            name="Concurrent components", defining_project=self.project
+        )
+        team.components.add(*components)
+        self.check_concurrent_team_scope_deletions(
+            Component.objects.filter(pk=components[0].pk),
+            Component.objects.filter(pk=components[1].pk),
+        )
+        self.assertEqual(team.components.count(), 1)
+
+    def test_concurrent_component_list_deletions_keep_team_scoped(self) -> None:
+        first = ComponentList.objects.create(name="First", slug="first")
+        second = ComponentList.objects.create(name="Second", slug="second")
+        team = Group.objects.create(name="Concurrent component lists")
+        team.componentlists.add(first, second)
+
+        self.check_concurrent_team_scope_deletions(
+            ComponentList.objects.filter(pk=first.pk),
+            ComponentList.objects.filter(pk=second.pk),
+        )
+        self.assertCountEqual(team.componentlists.all(), [second])
+
+    def check_concurrent_team_scope_deletions(
+        self, first: QuerySet, second: QuerySet
+    ) -> None:
+        first_deleted = Event()
+        release = Event()
+        waiting_pid: Queue[int] = Queue()
+
+        def delete_scope(queryset: QuerySet, *, wait_for_first: bool) -> str:
+            close_old_connections()
+            try:
+                if wait_for_first:
+                    self.assertTrue(first_deleted.wait(timeout=10))
+                    with connection.cursor() as cursor:
+                        cursor.execute("SELECT pg_backend_pid()")
+                        waiting_pid.put(cursor.fetchone()[0])
+                try:
+                    with transaction.atomic():
+                        queryset.delete()
+                        if not wait_for_first:
+                            first_deleted.set()
+                            self.assertTrue(release.wait(timeout=10))
+                except ValidationError:
+                    return "blocked"
+                return "deleted"
+            finally:
+                connection.close()
+
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            futures = [
+                executor.submit(delete_scope, first, wait_for_first=False),
+                executor.submit(delete_scope, second, wait_for_first=True),
+            ]
+            try:
+                self.wait_for_blocked_connection(waiting_pid.get(timeout=10))
+            finally:
+                release.set()
+            results = [future.result(timeout=10) for future in futures]
+        self.assertEqual(results, ["deleted", "blocked"])
 
     def test_project_member_removal_waits_before_locking_memberships(self) -> None:
         actor = User.objects.create_user("audit-manager", "manager@example.org")

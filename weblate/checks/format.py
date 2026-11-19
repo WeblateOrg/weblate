@@ -232,6 +232,8 @@ def _python_brace_end(string: str, start: int, next_closing: list[int]) -> int:
 
 def iter_python_brace_matches(string: str) -> Iterable[re.Match[str]]:
     """Find brace formats without retrying long index contents at every opener."""
+    if "{" not in string and "}" not in string:
+        return
     next_closing = [-1] * (len(string) + 1)
     closing = -1
     for position in range(len(string) - 1, -1, -1):
@@ -591,7 +593,13 @@ class BaseFormatCheck(TargetCheck):
             return ()
         return builtin_regex_finditer(self.regexp, string)
 
+    def may_have_matches(self, text: str) -> bool:
+        """Return False only when text cannot contain any format matches."""
+        return True
+
     def extract_matches(self, string: str) -> list[str]:
+        if not self.may_have_matches(string):
+            return []
         return [
             self.cleanup_string(self.extract_string(match))
             for match in self.iter_matches(string)
@@ -653,7 +661,7 @@ class BaseFormatCheck(TargetCheck):
         return False
 
     def check_highlight(self, source: str, unit: Unit) -> Iterable[Highlight]:
-        if self.should_skip(unit):
+        if self.should_skip(unit) or not self.may_have_matches(source):
             return
         try:
             matches = list(self.iter_matches(source))
@@ -733,6 +741,9 @@ class BasePrintfCheck(BaseFormatCheck):
 
     normalize_remove: ClassVar[set[str]] = {"%"}
 
+    def may_have_matches(self, text: str) -> bool:
+        return "%" in text
+
     def __init__(self) -> None:
         super().__init__()
         self.regexp, self._is_position_based, self._extract_string = FLAG_RULES[
@@ -801,6 +812,9 @@ class PerlBraceFormatCheck(BaseFormatCheck):
     regexp = PERL_BRACE_MATCH
     plural_parameter_regexp = re.compile(r"\{(?:count|number|num|n)\}")
 
+    def may_have_matches(self, text: str) -> bool:
+        return "{" in text
+
     def is_position_based(self, string: str) -> bool:
         return name_format_is_position_based(string)
 
@@ -846,6 +860,9 @@ class SchemeFormatCheck(BasePrintfCheck):
     description = gettext_lazy("Scheme format string does not match source.")
     normalize_remove: ClassVar[set[str]] = {"~"}
 
+    def may_have_matches(self, text: str) -> bool:
+        return "~" in text
+
     def format_string(self, string: str) -> str:
         return f"~{string}"
 
@@ -859,6 +876,9 @@ class PythonBraceFormatCheck(BaseFormatCheck):
     regexp = PYTHON_BRACE_MATCH
     plural_parameter_regexp = re.compile(r"\{(?:count|number|num|n)\}")
     normalize_remove: ClassVar[set[str]] = {"{", "}"}
+
+    def may_have_matches(self, text: str) -> bool:
+        return "{" in text or "}" in text
 
     def iter_matches(self, string: str) -> Iterable[re.Match[str]]:
         return iter_python_brace_matches(string)
@@ -916,6 +936,9 @@ class CSharpFormatCheck(BaseFormatCheck):
     regexp = C_SHARP_MATCH
     extra_enable_strings = ("csharp-format",)
 
+    def may_have_matches(self, text: str) -> bool:
+        return "{" in text
+
     def is_position_based(self, string: str) -> bool:
         return name_format_is_position_based(string)
 
@@ -929,6 +952,9 @@ class LaravelFormatCheck(BasePrintfCheck):
     check_id = "laravel_format"
     name = gettext_lazy("Laravel format")
     description = gettext_lazy("Laravel format string does not match source.")
+
+    def may_have_matches(self, text: str) -> bool:
+        return ":" in text
 
     def format_string(self, string: str) -> str:
         return string
@@ -950,6 +976,9 @@ class JavaMessageFormatCheck(BaseFormatCheck):
     description = gettext_lazy("Java MessageFormat string does not match source.")
     regexp = JAVA_MESSAGE_MATCH
     extra_enable_strings = ("auto-java-messageformat",)
+
+    def may_have_matches(self, text: str) -> bool:
+        return "{" in text
 
     def iter_matches(self, string: str) -> Iterable[re.Match[str]]:
         return iter_java_message_matches(string, JAVA_MESSAGE_MATCH)
@@ -1000,7 +1029,12 @@ class I18NextInterpolationCheck(BaseFormatCheck):
     plural_parameter_regexp = re.compile(r"{{count}}")
     version_added = "4.0"
 
+    def may_have_matches(self, text: str) -> bool:
+        return "{{" in text or "$t(" in text
+
     def iter_matches(self, string: str) -> Iterable[re.Match[str]]:
+        if not self.may_have_matches(string):
+            return
         # Dot cannot cross a newline. Cache usable closers on each line so a
         # failed opener never scans the rest of the line again.
         next_paren = [-1] * (len(string) + 1)
@@ -1069,6 +1103,9 @@ class PercentPlaceholdersCheck(BaseFormatCheck):
     plural_parameter_regexp = re.compile(r"%(?:count|number|num|n)%")
     version_added = "4.0"
 
+    def may_have_matches(self, text: str) -> bool:
+        return "%" in text
+
 
 class VueFormattingCheck(BaseFormatCheck):
     check_id = "vue_format"
@@ -1077,6 +1114,9 @@ class VueFormattingCheck(BaseFormatCheck):
     regexp = VUE_MATCH
     # https://kazupon.github.io/vue-i18n/guide/pluralization.html
     plural_parameter_regexp = re.compile(r"%?\{(?:count|n)\}")
+
+    def may_have_matches(self, text: str) -> bool:
+        return "{" in text or "@" in text
 
     def iter_matches(self, string: str) -> Iterable[re.Match[str]]:
         closing = string.rfind("}")
@@ -1098,6 +1138,9 @@ class AutomatticComponentsCheck(BaseFormatCheck):
     description = gettext_lazy(
         "The Automattic components' placeholders do not match the source."
     )
+
+    def may_have_matches(self, text: str) -> bool:
+        return "{{" in text
 
     def __init__(self) -> None:
         super().__init__()
