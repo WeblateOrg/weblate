@@ -6,12 +6,16 @@
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import TYPE_CHECKING
-from unittest.mock import patch
+from unittest.mock import PropertyMock, patch
+
+from django.db.models.fields.files import FieldFile
 
 from weblate.checks.render import MaxSizeCheck
-from weblate.fonts.models import FONT_STORAGE, Font, FontGroup, FontOverride
+from weblate.fonts.models import FontGroup, FontOverride
 from weblate.fonts.tests.utils import FONT_BOLD, FontTestCase
+from weblate.utils.data import data_dir
 from weblate.utils.state import STATE_TRANSLATED
 
 if TYPE_CHECKING:
@@ -83,27 +87,56 @@ class MaxSizeCheckTest(FontTestCase):
     def test_custom_font(self) -> None:
         group = self.add_font_group()
         self.assertFalse(self.perform_check("short", "max-size:500,font-family:droid"))
-        self.assertEqual(self.check.last_font, group.font.font.path)
+        self.assertEqual(self.check.last_font, group.font.get_local_path())
 
     @patch("weblate.checks.render.check_render_size", return_value=True)
     def test_custom_font_uses_same_family_faces(
         self, check_render_size_mock: Mock
     ) -> None:
         self.add_font_group()
-        with FONT_BOLD.open("rb") as handle:
-            fontfile = FONT_STORAGE.save(FONT_BOLD.name, handle)
-        bold_font = Font.objects.create(
-            font=fontfile,
-            project=self.project,
-            user=self.user,
-        )
+        bold_font = self.add_font(FONT_BOLD)
 
         self.assertFalse(self.perform_check("short", "max-size:500,font-family:droid"))
 
         self.assertEqual(
             check_render_size_mock.call_args.kwargs["font_siblings"],
-            (bold_font.font.path,),
+            (bold_font.get_local_path(),),
         )
+
+    def test_custom_font_without_path(self) -> None:
+        group = self.add_font_group()
+        bold_font = self.add_font(FONT_BOLD)
+        # Remote storage backends do not provide local paths
+        with patch.object(
+            FieldFile,
+            "path",
+            new_callable=PropertyMock,
+            side_effect=NotImplementedError,
+        ):
+            self.assertFalse(
+                self.perform_check("short", "max-size:500,font-family:droid")
+            )
+            self.assertTrue(
+                self.perform_check("long" * 50, "max-size:500,font-family:droid")
+            )
+            last_font = self.check.last_font
+            assert last_font is not None
+            # Rendering uses a local copy of the stored font
+            self.assertNotEqual(Path(last_font).parent, Path(data_dir("fonts")))
+            with group.font.font.open("rb") as handle:
+                self.assertEqual(Path(last_font).read_bytes(), handle.read())
+            self.assertEqual(
+                self.check.load_font(
+                    self.project, self.get_translation().language, "droid"
+                ),
+                (last_font, (bold_font.get_local_path(),)),
+            )
+
+    def test_custom_font_missing_file(self) -> None:
+        group = self.add_font_group()
+        group.font.font.delete(save=False)
+        self.assertFalse(self.perform_check("short", "max-size:500,font-family:droid"))
+        self.assertEqual(self.check.last_font, "sans")
 
     def test_custom_font_override(self) -> None:
         group = self.add_font_group()
@@ -111,4 +144,4 @@ class MaxSizeCheckTest(FontTestCase):
             group=group, language=self.get_translation().language, font=group.font
         )
         self.assertFalse(self.perform_check("short", "max-size:500,font-family:droid"))
-        self.assertEqual(self.check.last_font, group.font.font.path)
+        self.assertEqual(self.check.last_font, group.font.get_local_path())

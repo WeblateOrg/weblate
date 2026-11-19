@@ -8,7 +8,8 @@ from typing import TYPE_CHECKING
 
 from celery.schedules import crontab
 
-from weblate.fonts.models import FONT_STORAGE, Font
+from weblate.fonts.models import Font
+from weblate.fonts.storage import font_storage
 from weblate.utils.celery import app
 
 if TYPE_CHECKING:
@@ -19,12 +20,12 @@ if TYPE_CHECKING:
 def cleanup_font_files() -> None:
     """Remove stale fonts."""
     try:
-        files = FONT_STORAGE.listdir(".")[1]
+        files = font_storage.listdir("")[1]
     except OSError:
         return
     for name in files:
         if not Font.objects.filter(font=name).exists():
-            FONT_STORAGE.delete(name)
+            font_storage.delete(name)
 
 
 @app.on_after_finalize.connect

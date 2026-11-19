@@ -499,7 +499,7 @@ The following subdirectories usually exist:
 :file:`ssh`
    Generated helper files used for VCS access.
 :file:`fonts`
-   :program:`font-config` cache for :ref:`fonts`.
+   Local copies of uploaded :ref:`fonts` used for rendering.
 :file:`avatar`
    Cached user avatars, see :ref:`avatars`.
 :file:`static`
@@ -665,7 +665,8 @@ The following subdirectories usually exist:
 :file:`backups`
     Daily backup data. Please check :ref:`backup-dumps` for details.
 :file:`fonts`:
-    User-uploaded fonts, see :ref:`fonts`.
+    User-uploaded fonts, see :ref:`fonts`. They can be stored elsewhere, see
+    :ref:`font-storage`.
 :file:`cache`
     Various caches. Can be placed elsewhere using :setting:`CACHE_DIR`.
 

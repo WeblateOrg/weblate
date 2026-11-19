@@ -421,6 +421,7 @@ def check_data_writable(
         data_path("backups"),
         data_path("fonts"),
         data_path("cache") / "ssh",
+        data_path("cache") / "fonts",
         data_path("cache") / "matplotlib",
     ]
     message = "Path {} is not writable, check your DATA_DIR and CACHE_DIR settings."

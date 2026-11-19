@@ -7,6 +7,7 @@ Weblate 2026.12
 
 * Added an option to sort languages by translation percentage in language bar chart widgets.
 * Added support for :ref:`storing screenshots in object storage <screenshot-storage>` such as Amazon S3 or Google Cloud Storage, configurable in Docker using :envvar:`WEBLATE_MEDIA_STORAGE_BACKEND`.
+* Added support for :ref:`storing fonts in object storage <font-storage>`, configurable in Docker using :envvar:`WEBLATE_FONTS_STORAGE_BACKEND`.
 * Added :wladmin:`recovergit` to rebuild missing repository checkouts.
 * :ref:`format-line-number` in the translation file is now stored in the unit for supported formats; when available, the line number is used for repository links and :guilabel:`Nearby strings`.
 * Added staged :ref:`libre-hosting-cleanup` with advance notice and a 30-day trial.
