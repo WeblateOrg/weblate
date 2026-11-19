@@ -483,6 +483,14 @@ It is usually a good idea to run Weblate in a separate database, and separate us
 Configuring Weblate to use PostgreSQL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Weblate uses PostgreSQL advisory locks to coordinate requests and background workers.
+Connect directly to PostgreSQL or configure your connection pooler for session pooling.
+Long-running repository and provider operations must keep their database session alive
+until they finish.
+
+When upgrading from a release that uses Redis or file-based locks, drain web requests
+and background workers before starting any process running the new release.
+
 The :file:`settings.py` snippet for PostgreSQL:
 
 .. code-block:: python

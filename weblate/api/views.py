@@ -756,15 +756,12 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
                 filename,
                 [filename],
                 name=component.slug if component else "weblate",
-                refresh_lock=repository.lock.reacquire if repository else None,
             )
         if not os.path.exists(filename) or os.path.islink(filename):
             msg = "File not found"
             raise Http404(msg)
         if repository is not None:
-            return snapshot_file_response(
-                filename, content_type, repository.lock.reacquire, as_attachment=True
-            )
+            return snapshot_file_response(filename, content_type, as_attachment=True)
         return FileResponse(
             open(filename, "rb"),
             content_type=content_type,
@@ -3537,7 +3534,7 @@ class ComponentViewSet(
         if not request.user.has_perm("translation.download", obj):
             raise PermissionDenied
 
-        with obj.effective_repo_component.repository.lock:
+        with obj.effective_repo_component.repository.lock.read():
             if not obj.has_template():
                 msg = "No template found!"
                 raise Http404(msg)
@@ -3566,7 +3563,7 @@ class ComponentViewSet(
             msg = "No file found!"
             raise Http404(msg)
 
-        with obj.effective_repo_component.repository.lock:
+        with obj.effective_repo_component.repository.lock.read():
             return self.download_file(
                 obj.get_new_base_filename(), "application/binary", component=obj
             )
@@ -6231,8 +6228,10 @@ class TasksViewSet(ViewSet):
     )
     def retrieve(self, request: Request, pk=None):
         task, component, metadata = self.get_task(request, pk)
-        result = sanitize_task_result(task.id, task.result, cast("User", request.user))
-        if task.ready():
+        result = sanitize_task_result(
+            task.id, task.result, cast("User", request.user), metadata=metadata
+        )
+        if task.ready() and isinstance(result, dict):
             store_task_completion_message(request, task, result=result)
         serializer = self.serializer_class(
             {

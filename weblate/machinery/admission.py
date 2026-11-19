@@ -8,11 +8,12 @@ from __future__ import annotations
 
 import asyncio
 from contextlib import ExitStack, asynccontextmanager
+from threading import local
 from typing import TYPE_CHECKING
 
 from asgiref.sync import sync_to_async
 
-from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
+from weblate.utils.lock import LockScope, WeblateLock, WeblateLockTimeoutError
 
 if TYPE_CHECKING:
     from collections.abc import AsyncGenerator, Awaitable
@@ -38,12 +39,24 @@ async def complete_provider_call[T](operation: Awaitable[T]) -> T:
         raise
 
 
+class _ProviderSlots(local):
+    def __init__(self) -> None:
+        self.held: set[tuple[int, int, int]] = set()
+
+
+_provider_slots = _ProviderSlots()
+
+
 def acquire_slot(user_id: int, installation_id: int) -> ExitStack | None:
     for slot in range(2):
+        # Async requests can share a sync executor and PostgreSQL session.
+        # PostgreSQL would grant that session its own slot again.
+        identity = (user_id, installation_id, slot)
+        if identity in _provider_slots.held:
+            continue
         lock = WeblateLock(
-            scope="machinery-request",
+            scope=LockScope.MACHINERY_REQUEST,
             key=f"{user_id}-{installation_id}-{slot}",
-            slug="Interactive machine translation",
             timeout=0,
         )
         acquired = ExitStack()
@@ -51,6 +64,8 @@ def acquire_slot(user_id: int, installation_id: int) -> ExitStack | None:
             acquired.enter_context(lock)
         except WeblateLockTimeoutError:
             continue
+        _provider_slots.held.add(identity)
+        acquired.callback(_provider_slots.held.remove, identity)
         return acquired
     return None
 

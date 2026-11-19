@@ -11,6 +11,7 @@ from django.conf import settings
 from django.contrib.messages.middleware import MessageMiddleware
 from django.contrib.sessions.backends.signed_cookies import SessionStore
 from django.core.cache import cache
+from django.db import connections
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from django.test import RequestFactory, SimpleTestCase, TestCase
@@ -286,7 +287,7 @@ class RateLimitAuditTest(TestCase):
         self.assertFalse(AuditLog.objects.filter(activity="rate-limit").exists())
 
 
-class NotifyRateLimitTest(SimpleTestCase):
+class NotifyRateLimitTest(TestCase):
     @override_settings(RATELIMIT_NOTIFICATION_LIMITS=[(2, 60), (5, 60)])
     def test_allows_until_smallest_bucket(self) -> None:
         address = "mlrl-allow@example.com"
@@ -330,21 +331,22 @@ class NotifyRateLimitTest(SimpleTestCase):
                 active -= 1
             return False, ""
 
+        def reserve(_index: int) -> None:
+            try:
+                rate_limit_notify("serialized-notify@example.com")
+            finally:
+                connections.close_all()
+
         with (
             patch.object(RateLimitBase, "is_limit_exceeded", tracked_reservation),
             ThreadPoolExecutor(max_workers=4) as executor,
         ):
-            list(
-                executor.map(
-                    lambda _unused: rate_limit_notify("serialized-notify@example.com"),
-                    range(4),
-                )
-            )
+            list(executor.map(reserve, range(4)))
 
         self.assertEqual(peak, 1)
 
 
-class NotifyRateLimitBehaviorTest(SimpleTestCase):
+class NotifyRateLimitBehaviorTest(TestCase):
     def test_notify_revert_allows_one_more_then_blocks(self) -> None:
         limits = [(2, 60)]
         limiter = RateLimitNotify("mlrl-revert", limits)

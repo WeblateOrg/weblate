@@ -252,7 +252,7 @@ class TranslationQuerySet(models.QuerySet["Translation", "Translation"]):
         with source_project_gate(project_ids, using=self.db):
             return super().delete()
 
-    def prefetch(self, *, defer_huge: bool = True):
+    def prefetch(self, *, defer_huge: bool = True, alerts: bool = True):
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models import (
             Component,
@@ -333,9 +333,9 @@ class TranslationQuerySet(models.QuerySet["Translation", "Translation"]):
             parent_category_project,
             grandparent_category,
             grandparent_category_project,
-        ).prefetch_meta()
+        ).prefetch_meta(alerts=alerts)
 
-    def prefetch_meta(self):
+    def prefetch_meta(self, *, alerts: bool = True):
         from weblate.trans.models import (  # ruff: ignore[import-outside-top-level]
             Component,
             Project,
@@ -346,7 +346,7 @@ class TranslationQuerySet(models.QuerySet["Translation", "Translation"]):
             Workspace,
         )
 
-        return self.prefetch_related(
+        result = self.prefetch_related(
             "language",
             models.Prefetch(
                 "component__linked_component",
@@ -360,8 +360,10 @@ class TranslationQuerySet(models.QuerySet["Translation", "Translation"]):
                 "component__linked_component__project__workspace",
                 queryset=Workspace.objects.defer_huge(),
             ),
-            "component__alert_set",
         )
+        if alerts:
+            result = result.prefetch_related("component__alert_set")
+        return result
 
     def prefetch_plurals(self):
         return self.prefetch_related("language__plural_set")
@@ -657,7 +659,7 @@ class Translation(
                 is_template=self.is_template,
                 existing_units=self.unit_set.all(),
                 file_format_params=self.component.file_format_params,
-                repo_temp_dir=self.component.repository.get_repo_temp_dir(),
+                repo_temp_dir=self.component.repository.get_repo_temp_dir(create=False),
                 file_validator=self.component.check_file_is_valid,
             )
 
@@ -1922,9 +1924,7 @@ class Translation(
         ):
             if "identity" in change.metadata:
                 identity_changes.setdefault(change.unit_id, []).append(change)
-        for index, pending_change in enumerate(pending_changes, start=1):
-            if index % 1000 == 0:
-                self.component.repository.lock.reacquire()
+        for pending_change in pending_changes:
             unit = pending_change.unit
 
             # update the unit in memory so that get_target_plurals returns

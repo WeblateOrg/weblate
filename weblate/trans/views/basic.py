@@ -350,6 +350,7 @@ def show_project_language(
         "language-project.html",
         {
             "allow_index": True,
+            "user_can_upload_translation": bool(user.has_perm("upload.perform", obj)),
             "language": language_object,
             "project": project_object,
             "object": obj,
@@ -438,6 +439,7 @@ def show_category_language(
         "category-language.html",
         {
             "allow_index": True,
+            "user_can_upload_translation": bool(user.has_perm("upload.perform", obj)),
             "language": language_object,
             "category": category_object,
             "object": obj,
@@ -546,6 +548,7 @@ def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpRespons
         "project.html",
         {
             "allow_index": True,
+            "user_can_upload_translation": bool(user.has_perm("upload.perform", obj)),
             "object": obj,
             "path_object": obj,
             "project": obj,
@@ -642,6 +645,7 @@ def show_category(request: AuthenticatedHttpRequest, obj: Category) -> HttpRespo
         "category.html",
         {
             "allow_index": True,
+            "user_can_upload_translation": bool(user.has_perm("upload.perform", obj)),
             "object": obj,
             "path_object": obj,
             "project": obj,
@@ -756,6 +760,7 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component) -> HttpRes
         "component.html",
         {
             "allow_index": True,
+            "user_can_upload_translation": bool(user.has_perm("upload.perform", obj)),
             "object": obj,
             "path_object": obj,
             "project": obj.project,

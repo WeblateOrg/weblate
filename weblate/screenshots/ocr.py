@@ -20,7 +20,7 @@ from django.utils import timezone
 from weblate.logger import LOGGER
 from weblate.utils.celery import store_task_metadata
 from weblate.utils.data import data_dir
-from weblate.utils.lock import WeblateLock
+from weblate.utils.lock import LockScope, WeblateLock
 from weblate.utils.requests import TESSERACT_RESPONSE_SIZE, fetch_url
 from weblate.utils.tracing import start_span
 
@@ -205,37 +205,45 @@ def download_tesseract_data(url: str, full_name: str) -> None:
                 os.unlink(temporary_name)
 
 
+def prepare_tesseract_models(lang: str) -> None:
+    """
+    Populate the model cache for the requested language, English, and OSD.
+
+    The caller must have exclusive access to the cache.
+    """
+    tessdata = data_dir("cache", "tesseract")
+
+    os.makedirs(tessdata, exist_ok=True)
+
+    for code in (lang, "eng", "osd"):
+        filename = f"{code}.traineddata"
+        full_name = os.path.join(tessdata, filename)
+        if os.path.exists(full_name):
+            continue
+
+        url = TESSERACT_URL.format(filename)
+
+        LOGGER.debug("downloading tesseract data %s", url)
+
+        download_tesseract_data(url, full_name)
+
+
 def ensure_tesseract_language(lang: str) -> None:
     """
     Ensure that tesseract trained data is present for a language.
 
     It also always includes eng (English) and osd (Orientation and script detection).
     """
-    tessdata = data_dir("cache", "tesseract")
-
     # Operate with a lock held to avoid concurrent downloads
     with (
         WeblateLock(
-            scope="screenshots:tesseract:download",
+            scope=LockScope.SCREENSHOTS_TESSERACT_DOWNLOAD,
             key=0,
-            slug="screenshots:tesseract:download",
             timeout=600,
         ),
         start_span(op="ocr.models"),
     ):
-        os.makedirs(tessdata, exist_ok=True)
-
-        for code in (lang, "eng", "osd"):
-            filename = f"{code}.traineddata"
-            full_name = os.path.join(tessdata, filename)
-            if os.path.exists(full_name):
-                continue
-
-            url = TESSERACT_URL.format(filename)
-
-            LOGGER.debug("downloading tesseract data %s", url)
-
-            download_tesseract_data(url, full_name)
+        prepare_tesseract_models(lang)
 
 
 @contextmanager

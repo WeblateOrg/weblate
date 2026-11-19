@@ -4,7 +4,6 @@
 
 {% block nav_pills %}
   {% perm 'project.edit' object.project as user_can_edit_project %}
-  {% perm 'upload.perform' object as user_can_upload_translation %}
 
   <ul class="nav nav-pills">
     <li class="nav-item">
@@ -148,7 +147,6 @@
   {% announcements language=language project=project %}
   {% perm 'project.edit' object.project as user_can_edit_project %}
   {% get_translate_url object as translate_url %}
-  {% perm 'upload.perform' object as user_can_upload_translation %}
 
   <div class="tab-content">
 

@@ -2486,8 +2486,8 @@ Interactive requests also allow at most two concurrent calls per user per
 configured service installation. Other installations remain available. Excess
 requests return HTTP 429. Slots are released on completion or failure.
 Disconnected requests retain their slots until the provider work finishes,
-including synchronous calls already running in executor threads. Abandoned
-distributed locks expire after one hour.
+including synchronous calls already running in executor threads. If a worker
+exits, PostgreSQL releases its slots when its database session ends.
 
 .. setting:: RATELIMIT_MACHINERY_WINDOW
 

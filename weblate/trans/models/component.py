@@ -168,7 +168,7 @@ from weblate.utils.licenses import (
     get_license_url,
     is_libre,
 )
-from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
+from weblate.utils.lock import LockScope, WeblateLock, WeblateLockTimeoutError
 from weblate.utils.random import get_random_identifier
 from weblate.utils.regex import (
     compile_regex,
@@ -2102,9 +2102,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # Serializes component-wide creation/import operations. Existing string
         # updates should rely on row locks, and check refreshes use checks_lock.
         return WeblateLock(
-            scope="component:update",
+            scope=LockScope.COMPONENT_UPDATE,
             key=self.pk,
-            slug=self.slug,
             timeout=5,
             origin=self.full_slug,
         )
@@ -2112,9 +2111,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
     @cached_property
     def checks_lock(self):
         return WeblateLock(
-            scope="component:checks",
+            scope=LockScope.COMPONENT_CHECKS,
             key=self.pk,
-            slug=self.slug,
             timeout=5,
             origin=self.full_slug,
         )
@@ -4399,7 +4397,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # Commit pending changes
         with self.track_local_head_change():
             for translation in translations:
-                self.repository.lock.reacquire()
                 component = translation.component
                 if component.pk in skipped:
                     # We already failed at this component
@@ -5282,15 +5279,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 raise InvalidTemplateError(info=str(exc)) from exc
         self._template_check_done = True
 
-    def refresh_lock(self) -> None:
-        """Refresh the lock to avoid expiry in long operations."""
-        if self.linked_component and self.linked_component.lock.is_locked:
-            self.linked_component.lock.reacquire()
-        if self.repository.lock.is_locked:
-            self.repository.lock.reacquire()
-        if self.lock.is_locked:
-            self.lock.reacquire()
-
     @source_operation_method
     def _create_translations(  # ruff: ignore[complex-structure, too-many-statements]
         self,
@@ -5368,8 +5356,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 c.translation_set.count() for c in self.linked_children
             )
         for pos, path in enumerate(matches):
-            self.refresh_lock()
-
             if not self._sources_prefetched and path != source_file:
                 self.preload_sources()
             with transaction.atomic():
@@ -6911,7 +6897,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             language_code=self.source_language.code,
             source_language=self.source_language.code,
             file_format_params=self.file_format_params,
-            repo_temp_dir=self.repository.get_repo_temp_dir(),
+            repo_temp_dir=self.repository.get_repo_temp_dir(create=False),
             file_validator=self.check_file_is_valid,
         )
         store.check_valid()
@@ -6939,7 +6925,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 source_language=self.source_language.code,
                 is_template=True,
                 file_format_params=self.file_format_params,
-                repo_temp_dir=self.repository.get_repo_temp_dir(),
+                repo_temp_dir=self.repository.get_repo_temp_dir(create=False),
                 file_validator=self.check_file_is_valid,
             )
             store.check_valid()

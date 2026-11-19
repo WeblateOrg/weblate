@@ -5,7 +5,6 @@
 from __future__ import annotations
 
 import csv
-import itertools
 import json
 import operator
 import os
@@ -20,7 +19,7 @@ from pathlib import Path
 from threading import Barrier
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
-from unittest.mock import MagicMock, PropertyMock, patch
+from unittest.mock import MagicMock, PropertyMock, call, patch
 from uuid import uuid4
 
 import yaml
@@ -4771,6 +4770,22 @@ class GroupAPITest(APIBaseTest):
 
 
 class ComponentCopyTest(APITestCase):
+    def test_replace_component_checkout_missing_source(self) -> None:
+        with tempfile.TemporaryDirectory() as target_dir:
+            sentinel = Path(target_dir, "existing")
+            sentinel.touch()
+            source = SimpleNamespace(
+                full_path=Path(target_dir, "missing"),
+                repository=SimpleNamespace(lock=SimpleNamespace(read=nullcontext)),
+            )
+            target = SimpleNamespace(full_path=target_dir)
+            self.assertFalse(
+                replace_component_checkout(
+                    cast("Component", target), cast("Component", source)
+                )
+            )
+            self.assertTrue(sentinel.exists())
+
     def test_replace_component_checkout_protects_non_local_git_metadata(self) -> None:
         with (
             tempfile.TemporaryDirectory() as source_dir,
@@ -4791,7 +4806,9 @@ class ComponentCopyTest(APITestCase):
 
             source_component = SimpleNamespace(
                 full_path=source_dir,
-                repository=SimpleNamespace(lock=nullcontext(), metadata_dir_name=".hg"),
+                repository=SimpleNamespace(
+                    lock=SimpleNamespace(read=nullcontext), metadata_dir_name=".hg"
+                ),
             )
             target_component = SimpleNamespace(
                 full_path=target_dir,
@@ -4830,7 +4847,7 @@ class ComponentCopyTest(APITestCase):
                 source_component = SimpleNamespace(
                     full_path=source_dir,
                     repository=SimpleNamespace(
-                        lock=nullcontext(), metadata_dir_name=".hg"
+                        lock=SimpleNamespace(read=nullcontext), metadata_dir_name=".hg"
                     ),
                 )
                 target_component = SimpleNamespace(
@@ -4865,7 +4882,7 @@ class ComponentCopyTest(APITestCase):
             source = SimpleNamespace(
                 full_path=source_dir,
                 repository=SimpleNamespace(
-                    lock=nullcontext(), metadata_dir_name=".git"
+                    lock=SimpleNamespace(read=nullcontext), metadata_dir_name=".git"
                 ),
             )
             target = SimpleNamespace(
@@ -11217,7 +11234,7 @@ class ComponentAPITest(APIBaseTest):
         component.new_base = component.template
         repository = component.effective_repo_component.repository
         validate = component.check_file_is_valid
-        source_open = open
+        write = zipfile.ZipFile.write
         self.authenticate()
         self.user.groups.clear()
         self.grant_perm_to_user("translation.download", component=component)
@@ -11226,16 +11243,15 @@ class ComponentAPITest(APIBaseTest):
         self.assertFalse(self.user.has_perm("vcs.update", component))
 
         def check_validation(filename):
-            self.assertTrue(repository.lock.is_locked)
+            self.assertTrue(repository.lock.is_read_locked)
             return validate(filename)
 
-        def check_open(*args, **kwargs):
-            self.assertTrue(repository.lock.is_locked)
-            return source_open(*args, **kwargs)
+        def check_write(*args, **kwargs):
+            self.assertTrue(repository.lock.is_read_locked)
+            return write(*args, **kwargs)
 
         for endpoint in ("monolingual-base", "new-template"):
             with self.subTest(endpoint=endpoint):
-                clock = itertools.count(step=301)
                 with (
                     patch(
                         "weblate.api.views.ComponentViewSet.get_object",
@@ -11244,11 +11260,9 @@ class ComponentAPITest(APIBaseTest):
                     patch.object(
                         component, "check_file_is_valid", side_effect=check_validation
                     ) as validation,
-                    patch(
-                        "weblate.utils.views.open", side_effect=check_open, create=True
+                    patch.object(
+                        zipfile.ZipFile, "write", autospec=True, side_effect=check_write
                     ) as reads,
-                    patch.object(repository.lock, "reacquire") as reacquire,
-                    patch("weblate.utils.views.monotonic", side_effect=clock.__next__),
                 ):
                     response = self.do_request(
                         f"api:component-{endpoint}",
@@ -11259,8 +11273,7 @@ class ComponentAPITest(APIBaseTest):
                     )
                 validation.assert_called()
                 reads.assert_called()
-                reacquire.assert_called()
-                self.assertFalse(repository.lock.is_locked)
+                self.assertFalse(repository.lock.is_read_locked)
                 with zipfile.ZipFile(BytesIO(b"".join(response))) as archive:
                     self.assertIn("title.txt", archive.namelist())
 
@@ -11280,11 +11293,11 @@ class ComponentAPITest(APIBaseTest):
         validate = component.check_file_is_valid
 
         def check_validation(path):
-            self.assertTrue(repository.lock.is_locked)
+            self.assertTrue(repository.lock.is_read_locked)
             return validate(path)
 
         def check_snapshot(*args, **kwargs):
-            self.assertTrue(repository.lock.is_locked)
+            self.assertTrue(repository.lock.is_read_locked)
             return snapshot_file_response(*args, **kwargs)
 
         try:
@@ -11315,7 +11328,7 @@ class ComponentAPITest(APIBaseTest):
                         )
                     self.addCleanup(list, response.streaming_content)
                     snapshot.assert_called_once()
-                    self.assertFalse(repository.lock.is_locked)
+                    self.assertFalse(repository.lock.is_read_locked)
                     filename.write_bytes(b"changed checkout")
                     self.assertEqual(b"".join(response.streaming_content), original)
                     self.assertIn("en.po", response["Content-Disposition"])
@@ -11343,7 +11356,7 @@ class ComponentAPITest(APIBaseTest):
                     f"api:component-{endpoint}",
                     {"project__slug": component.project.slug, "slug": component.slug},
                 )
-            self.assertFalse(repository.lock.is_locked)
+            self.assertFalse(repository.lock.is_read_locked)
 
     def test_template_download_repository_locked(self) -> None:
         component = self.component
@@ -11359,7 +11372,7 @@ class ComponentAPITest(APIBaseTest):
                     return_value=component,
                 ),
                 patch.object(
-                    type(component.repository.lock), "__enter__", side_effect=error
+                    type(component.repository.lock), "read", side_effect=error
                 ),
             ):
                 response = self.do_request(
@@ -15175,8 +15188,9 @@ class TasksAPITest(APIBaseTest):
     def test_retrieve_sanitizes_repository_completion_message(self) -> None:
         repository_url = "git@internal.example.net:owner/repo.git"
         Component.objects.filter(pk=self.component.pk).update(repo=repository_url)
+        metadata_key = get_task_metadata_key(self.task_id)
         cache.set(
-            get_task_metadata_key(self.task_id),
+            metadata_key,
             {
                 "component_ids": [self.component.id],
                 "task_kind": "repository-operation",
@@ -15199,7 +15213,10 @@ class TasksAPITest(APIBaseTest):
             def ready(self) -> bool:
                 return True
 
-        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+        with (
+            patch("weblate.api.views.AsyncResult", DummyAsyncResult),
+            patch.object(cache, "get", wraps=cache.get) as cache_get,
+        ):
             response = self.do_request(
                 "api:task-detail",
                 kwargs={"pk": self.task_id},
@@ -15207,17 +15224,27 @@ class TasksAPITest(APIBaseTest):
                 code=200,
             )
 
-        self.assertNotIn("internal.example.net", str(response.data))
-        self.assertNotIn(
-            "internal.example.net",
-            " ".join(str(message) for message in get_messages(response.wsgi_request)),
+        self.assertEqual(cache_get.call_args_list.count(call(metadata_key)), 1)
+        self.assertEqual(
+            response.data["result"]["completion_message"]["text"],
+            "Repository operation completed with errors.",
+        )
+        self.assertIn(
+            "Repository operation completed with errors.",
+            [str(message) for message in get_messages(response.wsgi_request)],
         )
 
     def test_retrieve_sanitizes_single_object_task_exception(self) -> None:
         repository_url = "git@internal.example.net:owner/repo.git"
-        Component.objects.filter(pk=self.component.pk).update(repo=repository_url)
+        Project.objects.filter(pk=self.project.pk).update(
+            access_control=Project.ACCESS_PRIVATE
+        )
+        self.grant_language_download()
+        self.component.refresh_from_db()
+        self.assertFalse(self.user.has_perm("vcs.view", self.component))
         translation = self.component.translation_set.get(language_code="cs")
         checkout_path = self.component.full_path
+        metadata_key = get_task_metadata_key(self.task_id)
 
         class DummyAsyncResult:
             def __init__(self, task_id) -> None:
@@ -15235,18 +15262,25 @@ class TasksAPITest(APIBaseTest):
             {"translation_id": translation.pk},
         ):
             with self.subTest(metadata=metadata):
-                cache.set(get_task_metadata_key(self.task_id), metadata, 3600)
-                with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+                cache.set(metadata_key, metadata, TASK_METADATA_TTL)
+                with (
+                    patch("weblate.api.views.AsyncResult", DummyAsyncResult),
+                    patch.object(cache, "get", wraps=cache.get) as cache_get,
+                ):
                     response = self.do_request(
                         "api:task-detail",
                         kwargs={"pk": self.task_id},
+                        authenticated=False,
                         method="get",
                         code=200,
                     )
 
-                self.assertIn("Task could not be completed", response.data["result"])
-                self.assertNotIn("internal.example.net", response.data["result"])
-                self.assertNotIn(checkout_path, response.data["result"])
+                self.assertEqual(cache_get.call_args_list.count(call(metadata_key)), 1)
+                self.assertTrue(response.data["completed"])
+                self.assertEqual(
+                    response.data["result"],
+                    "Task could not be completed. See the task log for details.",
+                )
 
     def test_retrieve_redacts_fork_account_in_exception(self) -> None:
         cache.set(
@@ -15767,6 +15801,24 @@ class TasksAPITest(APIBaseTest):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(list(get_messages(response.wsgi_request)), [])
+
+    def test_retrieve_reads_empty_completed_result_once(self) -> None:
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"component_id": self.component.pk},
+            TASK_METADATA_TTL,
+        )
+        task = MagicMock(id=self.task_id)
+        task.ready.return_value = True
+        result = PropertyMock(return_value=None)
+        type(task).result = result
+
+        with patch("weblate.api.views.AsyncResult", return_value=task):
+            response = self.do_request("api:task-detail", kwargs={"pk": self.task_id})
+
+        self.assertTrue(response.data["completed"])
+        self.assertIsNone(response.data["result"])
+        result.assert_called_once_with()
 
     def test_destroy_denies_cached_user_metadata(self) -> None:
         cache.set(get_task_metadata_key(self.task_id), {"user_id": self.user.id}, 3600)

@@ -2,253 +2,185 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
-from django.test import SimpleTestCase
-from filelock import FileLock
+from django.db import connection, transaction
+from django.test import TransactionTestCase
 
-from weblate.utils.lock import WeblateLock
-from weblate.vcs.base import Repository, RepositoryLock, get_repository_lock_key
+from weblate.utils.lock import LockScope, WeblateLock
+from weblate.vcs.base import Repository, RepositoryLock
 
 if TYPE_CHECKING:
     from weblate.trans.models import Component
 
 
-class RepositoryLockTest(SimpleTestCase):
-    def test_default_redis_lock_uses_scope_and_key(self) -> None:
-        redis_lock_factory = MagicMock(return_value=SimpleNamespace())
-
-        with (
-            patch("weblate.utils.lock.is_redis_cache", return_value=True),
-            patch(
-                "weblate.utils.lock.cache",
-                SimpleNamespace(lock=redis_lock_factory),
-            ),
-        ):
-            lock = WeblateLock(
-                scope="vcs:api:throttle",
-                key="github",
-                slug="ignored",
-                timeout=5,
-                origin="project/component",
+class RepositoryLockTest(TransactionTestCase):
+    def test_session_readers_and_transaction_lifetimes(self) -> None:
+        other = connection.copy()
+        self.addCleanup(other.close)
+        lock = WeblateLock(scope=LockScope.REPOSITORY, key=1, timeout=0)
+        with other.cursor() as cursor, transaction.atomic():
+            with lock.shared_reader():
+                cursor.execute(
+                    "SELECT pg_try_advisory_lock_shared(%s, 1)",
+                    [LockScope.REPOSITORY.value],
+                )
+                self.assertTrue(cursor.fetchone()[0])
+                cursor.execute(
+                    "SELECT pg_advisory_unlock_shared(%s, 1)",
+                    [LockScope.REPOSITORY.value],
+                )
+                cursor.execute(
+                    "SELECT pg_try_advisory_lock(%s, 1)", [LockScope.REPOSITORY.value]
+                )
+                self.assertFalse(cursor.fetchone()[0])
+            with lock, lock:
+                self.assertTrue(lock.is_locked)
+            cursor.execute(
+                "SELECT pg_try_advisory_lock(%s, 1)", [LockScope.REPOSITORY.value]
             )
-
-        redis_lock_factory.assert_called_once_with(
-            key="lock:vcs:api:throttle:github",
-            blocking=True,
-            timeout=3600,
-            blocking_timeout=5,
-            thread_local=True,
-        )
-        self.assertEqual(lock.name, "lock:vcs:api:throttle:github")
-
-    def test_default_file_lock_uses_locks_dir(self) -> None:
-        with (
-            TemporaryDirectory() as temp_dir,
-            self.settings(DATA_DIR=temp_dir),
-            patch("weblate.utils.lock.is_redis_cache", return_value=False),
-        ):
-            lock = WeblateLock(
-                scope="repository",
-                key=1,
-                slug="component",
-                timeout=5,
-                origin="project/component",
+            self.assertTrue(cursor.fetchone()[0])
+            cursor.execute(
+                "SELECT pg_advisory_unlock(%s, 1)", [LockScope.REPOSITORY.value]
             )
-
-        self.assertEqual(
-            lock.name, Path(temp_dir, "locks", "repository-1.lock").as_posix()
-        )
-
-    def test_default_file_lock_escapes_scope_and_key(self) -> None:
-        with (
-            TemporaryDirectory() as temp_dir,
-            self.settings(DATA_DIR=temp_dir),
-            patch("weblate.utils.lock.is_redis_cache", return_value=False),
-        ):
-            lock = WeblateLock(
-                scope="vcs:api:throttle",
-                key="project/main",
-                slug="ignored",
-                timeout=5,
-                origin="project/component",
+            lock.acquire_transaction()
+            cursor.execute(
+                "SELECT pg_try_advisory_lock(%s, 1)", [LockScope.REPOSITORY.value]
             )
-
-        self.assertEqual(
-            lock.name,
-            Path(
-                temp_dir, "locks", "vcs%3Aapi%3Athrottle-project%2Fmain.lock"
-            ).as_posix(),
-        )
+            self.assertFalse(cursor.fetchone()[0])
+        with other.cursor() as cursor:
+            cursor.execute(
+                "SELECT pg_try_advisory_lock(%s, 1)", [LockScope.REPOSITORY.value]
+            )
+            self.assertTrue(cursor.fetchone()[0])
 
     def test_reused_lock_stays_reentrant(self) -> None:
-        with (
-            TemporaryDirectory() as lock_path,
-            patch("weblate.utils.lock.is_redis_cache", return_value=False),
-            patch.object(FileLock, "acquire", autospec=True) as acquire,
-            patch.object(FileLock, "release", autospec=True) as release,
-        ):
-            first_lock = WeblateLock(
-                lock_path=lock_path,
-                scope="repository",
-                key=1,
-                slug="component",
-                timeout=5,
-                origin="project/component",
-            )
-            second_lock = WeblateLock(
-                lock_path=lock_path,
-                scope="repository",
-                key=1,
-                slug="component",
-                timeout=5,
-                origin="project/component",
-            )
-            first_repository = cast(
-                "Repository",
-                SimpleNamespace(ensure_lock_session_recovered=lambda: None),
-            )
-            second_repository = cast(
-                "Repository",
-                SimpleNamespace(ensure_lock_session_recovered=lambda: None),
-            )
-            outer_lock = RepositoryLock(first_repository, first_lock)
-            inner_lock = RepositoryLock(second_repository, second_lock)
-            self.assertTrue(inner_lock.replace_lock_if_matching(outer_lock))
-
-            with outer_lock, inner_lock:
-                self.assertTrue(outer_lock.is_locked)
-                self.assertTrue(inner_lock.is_locked)
-
-        acquire.assert_called_once()
-        self.assertEqual(
-            sum(
-                call.kwargs.get("force", False) is False
-                for call in release.call_args_list
-            ),
-            1,
+        first_lock = WeblateLock(
+            scope=LockScope.REPOSITORY,
+            key=1,
+            timeout=5,
+            origin="project/component",
         )
+        second_lock = WeblateLock(
+            scope=LockScope.REPOSITORY,
+            key=1,
+            timeout=5,
+            origin="project/component",
+        )
+        first_repository = cast(
+            "Repository",
+            SimpleNamespace(ensure_lock_session_recovered=lambda: None),
+        )
+        second_repository = cast(
+            "Repository",
+            SimpleNamespace(ensure_lock_session_recovered=lambda: None),
+        )
+        outer_lock = RepositoryLock(first_repository, first_lock)
+        inner_lock = RepositoryLock(second_repository, second_lock)
+        self.assertTrue(inner_lock.replace_lock_if_matching(outer_lock))
+
+        with outer_lock, inner_lock:
+            self.assertTrue(outer_lock.is_locked)
+            self.assertTrue(inner_lock.is_locked)
+
+        self.assertFalse(outer_lock.is_locked)
 
     def test_lock_override_is_rejected_for_different_lock_name(self) -> None:
-        with (
-            TemporaryDirectory() as lock_path,
-            patch("weblate.utils.lock.is_redis_cache", return_value=False),
-        ):
-            first_lock = WeblateLock(
-                lock_path=lock_path,
-                scope="repository",
-                key=1,
-                slug="component",
-                timeout=5,
-                origin="project/component",
-            )
-            second_lock = WeblateLock(
-                lock_path=lock_path,
-                scope="repository",
-                key=2,
-                slug="other-component",
-                timeout=5,
-                origin="project/other-component",
-            )
-            first_repository = cast(
-                "Repository",
-                SimpleNamespace(ensure_lock_session_recovered=lambda: None),
-            )
-            second_repository = cast(
-                "Repository",
-                SimpleNamespace(ensure_lock_session_recovered=lambda: None),
-            )
-            outer_lock = RepositoryLock(first_repository, first_lock)
-            inner_lock = RepositoryLock(second_repository, second_lock)
+        first_lock = WeblateLock(
+            scope=LockScope.REPOSITORY,
+            key=1,
+            timeout=5,
+            origin="project/component",
+        )
+        second_lock = WeblateLock(
+            scope=LockScope.REPOSITORY,
+            key=2,
+            timeout=5,
+            origin="project/other-component",
+        )
+        first_repository = cast(
+            "Repository",
+            SimpleNamespace(ensure_lock_session_recovered=lambda: None),
+        )
+        second_repository = cast(
+            "Repository",
+            SimpleNamespace(ensure_lock_session_recovered=lambda: None),
+        )
+        outer_lock = RepositoryLock(first_repository, first_lock)
+        inner_lock = RepositoryLock(second_repository, second_lock)
 
         self.assertFalse(inner_lock.replace_lock_if_matching(outer_lock))
         self.assertIs(inner_lock.lock_object, second_lock)
 
     def test_reused_lock_preserves_pending_recovery(self) -> None:
-        with (
-            TemporaryDirectory() as lock_path,
-            patch("weblate.utils.lock.is_redis_cache", return_value=False),
-            patch.object(FileLock, "acquire", autospec=True),
-            patch.object(FileLock, "release", autospec=True),
-        ):
-            first_lock = WeblateLock(
-                lock_path=lock_path,
-                scope="repository",
-                key=1,
-                slug="component",
-                timeout=5,
-                origin="project/component",
-            )
-            second_lock = WeblateLock(
-                lock_path=lock_path,
-                scope="repository",
-                key=1,
-                slug="component",
-                timeout=5,
-                origin="project/component",
-            )
-            first_repository = cast(
-                "Repository",
-                SimpleNamespace(ensure_lock_session_recovered=lambda: None),
-            )
-            second_repository = cast(
-                "Repository",
-                SimpleNamespace(ensure_lock_session_recovered=lambda: None),
-            )
-            outer_lock = RepositoryLock(first_repository, first_lock)
-            inner_lock = RepositoryLock(second_repository, second_lock)
+        first_lock = WeblateLock(
+            scope=LockScope.REPOSITORY,
+            key=1,
+            timeout=5,
+            origin="project/component",
+        )
+        second_lock = WeblateLock(
+            scope=LockScope.REPOSITORY,
+            key=1,
+            timeout=5,
+            origin="project/component",
+        )
+        first_repository = cast(
+            "Repository",
+            SimpleNamespace(ensure_lock_session_recovered=lambda: None),
+        )
+        second_repository = cast(
+            "Repository",
+            SimpleNamespace(ensure_lock_session_recovered=lambda: None),
+        )
+        outer_lock = RepositoryLock(first_repository, first_lock)
+        inner_lock = RepositoryLock(second_repository, second_lock)
 
-            with outer_lock:
-                self.assertTrue(inner_lock.replace_lock_if_matching(outer_lock))
-                self.assertTrue(inner_lock.begin_recovery())
-                inner_lock.finish_recovery()
+        with outer_lock:
+            self.assertTrue(inner_lock.replace_lock_if_matching(outer_lock))
+            self.assertTrue(inner_lock.begin_recovery())
+            inner_lock.finish_recovery()
 
     def test_reused_lock_shares_active_recovery_skip(self) -> None:
-        with (
-            TemporaryDirectory() as lock_path,
-            patch("weblate.utils.lock.is_redis_cache", return_value=False),
-        ):
-            first_lock = WeblateLock(
-                lock_path=lock_path,
-                scope="repository",
-                key=1,
-                slug="component",
-                timeout=5,
-                origin="project/component",
-            )
-            second_lock = WeblateLock(
-                lock_path=lock_path,
-                scope="repository",
-                key=1,
-                slug="component",
-                timeout=5,
-                origin="project/component",
-            )
-            first_repository = cast(
-                "Repository",
-                SimpleNamespace(ensure_lock_session_recovered=lambda: None),
-            )
-            second_recovery = MagicMock()
-            second_repository = cast(
-                "Repository",
-                SimpleNamespace(ensure_lock_session_recovered=second_recovery),
-            )
-            outer_lock = RepositoryLock(first_repository, first_lock)
-            inner_lock = RepositoryLock(second_repository, second_lock)
+        first_lock = WeblateLock(
+            scope=LockScope.REPOSITORY,
+            key=1,
+            timeout=5,
+            origin="project/component",
+        )
+        second_lock = WeblateLock(
+            scope=LockScope.REPOSITORY,
+            key=1,
+            timeout=5,
+            origin="project/component",
+        )
+        first_repository = cast(
+            "Repository",
+            SimpleNamespace(ensure_lock_session_recovered=lambda: None),
+        )
+        second_recovery = MagicMock()
+        second_repository = cast(
+            "Repository",
+            SimpleNamespace(ensure_lock_session_recovered=second_recovery),
+        )
+        outer_lock = RepositoryLock(first_repository, first_lock)
+        inner_lock = RepositoryLock(second_repository, second_lock)
 
-            with outer_lock.without_recovery():
-                self.assertTrue(inner_lock.replace_lock_if_matching(outer_lock))
-                with inner_lock:
-                    pass
-
-            second_recovery.assert_not_called()
-
+        with outer_lock.without_recovery():
+            self.assertTrue(inner_lock.replace_lock_if_matching(outer_lock))
             with inner_lock:
                 pass
+
+        second_recovery.assert_not_called()
+
+        with inner_lock:
+            pass
 
         second_recovery.assert_called_once_with()
 
@@ -256,7 +188,6 @@ class RepositoryLockTest(SimpleTestCase):
         with (
             TemporaryDirectory() as temp_dir,
             self.settings(DATA_DIR=temp_dir),
-            patch("weblate.utils.lock.is_redis_cache", return_value=False),
         ):
             Path(temp_dir, "home").mkdir()
             first_path = Path(temp_dir, "vcs", "project", "component")
@@ -286,7 +217,6 @@ class RepositoryLockTest(SimpleTestCase):
         with (
             TemporaryDirectory() as temp_dir,
             self.settings(DATA_DIR=temp_dir),
-            patch("weblate.utils.lock.is_redis_cache", return_value=False),
         ):
             Path(temp_dir, "home").mkdir()
             first_path = Path(temp_dir, "vcs", "project", "component")
@@ -310,20 +240,4 @@ class RepositoryLockTest(SimpleTestCase):
                 local=True,
             )
 
-        self.assertEqual(
-            first.lock.name,
-            Path(
-                temp_dir,
-                "locks",
-                f"repository-{get_repository_lock_key(first_path.as_posix(), first.component)}.lock",
-            ).as_posix(),
-        )
-        self.assertEqual(
-            second.lock.name,
-            Path(
-                temp_dir,
-                "locks",
-                f"repository-{get_repository_lock_key(second_path.as_posix(), second.component)}.lock",
-            ).as_posix(),
-        )
         self.assertNotEqual(first.lock.name, second.lock.name)

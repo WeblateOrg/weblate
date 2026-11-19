@@ -12,6 +12,8 @@ Weblate 2026.12
 
 .. rubric:: Improvements
 
+* Moved distributed locking to :ref:`PostgreSQL <database-setup>` and enabled concurrent repository reads for downloads, component copies, Kotlin SDK extraction, project backups, and Git status checks.
+
 * Added failure reasons to :ref:`AI quality evaluation <addon-weblate.ai.quality>` and its :ref:`automation action <automation-action-weblate.ai_quality>`.
 * Enabled Anthropic prompt caching for :ref:`automatic translation <machine-translation>`, so the system prompt is read from cache between batch requests instead of being billed in full on every request.
 * Raised the shared limit for translation strings, CSV and XLSX rows, and translation-memory entries to 200,000. Configure it with :setting:`TRANSLATION_MAX_UNITS`.
@@ -24,6 +26,7 @@ Weblate 2026.12
 * Sped up :ref:`quality checks <checks>` by skipping format and markup extraction for strings without relevant syntax.
 
 * Improved database query performance for project language :ref:`statistics <stats>`.
+* Sped up project and component overviews when checking :ref:`translation upload <upload>` availability.
 * Batched shared :ref:`statistics <stats>` updates after refreshing propagated quality checks.
 * Batched daily statistics collection to reduce database queries and bound memory use on large sites with cached statistics.
 * Added :envvar:`WEBLATE_SECRET_KEY` support to configure Docker's Django secret key directly or from a mounted secret file.
@@ -31,6 +34,7 @@ Weblate 2026.12
 * Sped up importing translation files by locking :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` once per file instead of once per string.
 * Listed :ref:`saved-searches` first in the search filters and truncated long saved queries.
 * Show :ref:`linked components <internal-urls>` in repository details and label suggestion counts on wider screens in :ref:`zen-mode`.
+* Improved performance for long strings in the :ref:`translation editor <translating>` by grouping indentation markers and editing long translations as plain text.
 
 .. rubric:: Security fixes
 
@@ -45,10 +49,12 @@ Weblate 2026.12
 * Filtered the site-wide changes listings and feeds by workspace visibility, so workspaces the viewer cannot access no longer appear there.
 * Restricted :ref:`webhook matching <hooks-target-matching>` to repository owners, preventing generic deliveries from triggering GitHub App updates through linked components.
 * Required repository access to set a path for a :ref:`repository-linked screenshot <screenshots>`.
+* Kept backend errors out of :ref:`task status results <api-tasks>` when cached task metadata is removed during a request.
 
 .. rubric:: Bug fixes
 
 * Preserved source strings backed by a file when :ref:`removing their last translation <component-manage_units>`.
+* Enabled adding languages from the project language list in :ref:`glossary-only projects <glossary-language-sync>`.
 * Preserved special characters in e-mail subjects for :ref:`notifications`.
 * Handled invalid configured :ref:`templates <markup>` without unhandled server errors, preserving editor access and reporting failed repository and add-on operations.
 

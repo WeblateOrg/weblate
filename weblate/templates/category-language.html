@@ -3,7 +3,6 @@
 {% load crispy_forms_tags i18n metrics permissions translations %}
 
 {% block nav_pills %}
-  {% perm 'upload.perform' object as user_can_upload_translation %}
 
   <ul class="nav nav-pills">
     <li class="nav-item">
@@ -98,7 +97,6 @@
   {% announcements category=category language=language %}
 
   {% get_translate_url object as translate_url %}
-  {% perm 'upload.perform' object as user_can_upload_translation %}
 
   <div class="tab-content">
 

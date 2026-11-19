@@ -37,7 +37,7 @@ from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.models import Unit
 from weblate.utils.errors import report_message
 from weblate.utils.forms import QueryField
-from weblate.utils.lock import WeblateLock
+from weblate.utils.lock import LockScope, WeblateLock
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
@@ -578,9 +578,7 @@ def evaluate_component(
     from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level]
 
     result: AIEvaluationResult = {"evaluated": 0, "failed": 0, "skipped": 0}
-    lock = WeblateLock(
-        scope="ai-evaluation", key=component.pk, slug=component.full_slug
-    )
+    lock = WeblateLock(scope=LockScope.AI_EVALUATION, key=component.pk)
     with lock:
         component.drop_addons_cache()
         effective = effective_evaluator(component)
@@ -606,7 +604,6 @@ def evaluate_component(
         if unit_ids is not None:
             units = units.filter(pk__in=unit_ids)
         for batch in evaluation_batches(units, service.batch_size):
-            lock.reacquire()
             # Stop a queued sweep when its installation changes or disappears.
             if not Addon.objects.filter(
                 pk=effective.pk, configuration=effective.configuration

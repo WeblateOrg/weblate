@@ -2294,6 +2294,108 @@ class SeleniumTests(
         unit.refresh_from_db()
         self.assertEqual(unit.state, STATE_FUZZY)
 
+    def test_long_translation_uses_plain_text_editor(self) -> None:
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(name="Long HTML", slug="long-html")
+        component = fixture.create_po(project=project)
+        unit = component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        short_value = "<strong>Paragraph</strong>"
+        long_value = "<div>\n" + (" " * 42 + "<p>Paragraph</p>\n") * 400 + "</div>"
+        source_unit_id = unit.source_unit_id
+        assert source_unit_id is not None
+        Unit.objects.filter(pk__in=(unit.pk, source_unit_id)).update(
+            source=long_value, target=long_value, extra_flags="xml-text"
+        )
+        self.do_login(superuser=True)
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
+
+        editor = self.driver.find_element(
+            By.CSS_SELECTOR, ".translator .translation-editor"
+        )
+        overlay = self.driver.find_element(
+            By.CSS_SELECTOR, ".translator .translation-item .highlighted-output"
+        )
+
+        def assert_plain(value: str) -> None:
+            self.assertEqual(editor.get_property("value"), value)
+            self.assertNotEqual(
+                editor.value_of_css_property("color"), "rgba(0, 0, 0, 0)"
+            )
+            self.assertFalse(overlay.is_displayed())
+            self.assertEqual(overlay.get_property("childElementCount"), 0)
+
+        assert_plain(long_value)
+        long_height = editor.size["height"]
+        self.assertEqual(editor.get_dom_attribute("data-mode"), "xml")
+        for selector, limit in (
+            (".source-language-group", 5_000),
+            (".unit-listing-body", 10_000),
+        ):
+            self.assertLess(
+                self.driver.execute_script(
+                    "return document.querySelector(arguments[0]).querySelectorAll('*').length;",
+                    selector,
+                ),
+                limit,
+                selector,
+            )
+
+        modifier = (
+            Keys.COMMAND
+            if self.driver.capabilities.get("platformName") == "mac"
+            else Keys.CONTROL
+        )
+        editor.send_keys(modifier, "a", Keys.NULL, short_value)
+        self.assertEqual(editor.get_property("value"), short_value)
+        self.assertLess(editor.size["height"], long_height)
+        self.assertTrue(overlay.is_displayed())
+        self.assertTrue(
+            overlay.find_element(By.CSS_SELECTOR, ".token.tag").is_displayed()
+        )
+
+        self.driver.execute_cdp_cmd(
+            "Browser.grantPermissions",
+            {
+                "origin": self.live_server_url,
+                "permissions": ["clipboardReadWrite", "clipboardSanitizedWrite"],
+            },
+        )
+        try:
+            self.driver.execute_script(
+                "return navigator.clipboard.writeText(arguments[0]);", long_value
+            )
+            editor.send_keys(modifier, "a", "v", Keys.NULL)
+            assert_plain(long_value)
+            self.assertEqual(self.driver.switch_to.active_element, editor)
+            self.assertEqual(editor.get_property("selectionStart"), len(long_value))
+            self.assertEqual(editor.get_property("selectionEnd"), len(long_value))
+
+            self.driver.execute_script("""
+                const highlight = Prism.highlight;
+                window.prismCalls = 0;
+                Prism.highlight = (...args) => {
+                    window.prismCalls += 1;
+                    return highlight(...args);
+                };
+                """)
+            editor.send_keys("abc")
+            assert_plain(f"{long_value}abc")
+            self.assertEqual(self.driver.execute_script("return window.prismCalls;"), 0)
+
+            editor.send_keys(modifier, "a", Keys.NULL, Keys.BACKSPACE)
+            self.assertEqual(editor.get_property("value"), "")
+            self.assertEqual(self.driver.switch_to.active_element, editor)
+            editor.send_keys(short_value)
+            self.assertTrue(
+                overlay.find_element(By.CSS_SELECTOR, ".token.tag").is_displayed()
+            )
+        finally:
+            self.driver.execute_cdp_cmd("Browser.resetPermissions", {})
+
     def test_translation_search_refresh(self) -> None:
         """Refresh and query Enter replace results; navigation preserves them."""
         fixture = RepoTestMixin()
