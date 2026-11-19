@@ -91,6 +91,8 @@ class FetchURLTest(SimpleTestCase):
             ("faß.example", "https://xn--fa-hia.example/x", True),
             ("example", "https://faß.example/x", True),
             ("fass.example", "https://faß.example/x", False),
+            ("example.test", "https://example.test\u3002/x", True),
+            ("example.test\u3002", "https://example.test/x", True),
         )
         for no_proxy, url, bypassed in cases:
             with (

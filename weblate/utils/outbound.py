@@ -104,7 +104,8 @@ def _matches_no_proxy(host: str, port: int, no_proxy: str) -> bool:
 def _ascii_hostname(hostname: str) -> str:
     """Convert an internationalized domain name to its ASCII form for comparison."""
     try:
-        return idna_encode(hostname, uts46=True).decode("ascii")
+        # UTS #46 maps full-width dots to "." and keeps a trailing one
+        return idna_encode(hostname, uts46=True).decode("ascii").rstrip(".")
     except (IDNAError, UnicodeError):
         return hostname.lower()
 
