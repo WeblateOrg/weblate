@@ -42,6 +42,7 @@ Weblate 2026.12
 * Required the site-wide ``language.add`` permission to :http:post:`create a language through the REST API </api/languages/>`.
 * Checked :ref:`translation memory deletion permissions <api-memory>` on the primary database to protect entries from restricted components when replicas lag.
 * Prevented deleting a component from expanding a :ref:`component-limited team <access-control>` to project-wide access.
+* Prevented deleting the last component list assigned to a :ref:`team <perm-check>` from widening its access.
 * Redacted machine translation API keys, GitHub App credentials, authentication headers, and credentials in URLs from :ref:`Sentry error reports <collecting-errors>` and performance traces.
 * Prevented component API requests from switching between incompatible VCS backends or creating integration-managed components outside their provider import flow.
 * Prevented component creation from writing translation templates outside its repository.
@@ -62,6 +63,7 @@ Weblate 2026.12
 * Fixed :ref:`AI translation suggestions <machine-translation>` when a provider omits the outer JSON array for a single translation.
 * Fixed delayed database cursor cleanup in :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` with custom source languages.
 * Preserved punctuation and complete messages in :ref:`project sharing <project-public_sharing>` links.
+* Fixed the automatic color theme briefly rendering partially light on page load and not fully following system theme changes on open pages.
 
 .. rubric:: Compatibility
 
