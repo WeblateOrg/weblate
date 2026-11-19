@@ -87,6 +87,10 @@ class FetchURLTest(SimpleTestCase):
             ("10.0.0.0/8", "https://10.1.2.3/x", True),
             ("10.0.0.0/8", "https://11.1.2.3/x", False),
             ("*", "https://other.org/x", True),
+            ("xn--fa-hia.example", "https://faß.example/x", True),
+            ("faß.example", "https://xn--fa-hia.example/x", True),
+            ("example", "https://faß.example/x", True),
+            ("fass.example", "https://faß.example/x", False),
         )
         for no_proxy, url, bypassed in cases:
             with (

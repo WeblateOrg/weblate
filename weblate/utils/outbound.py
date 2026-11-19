@@ -68,6 +68,8 @@ def get_environment_proxy(url: str) -> str | None:
 def _matches_no_proxy(host: str, port: int, no_proxy: str) -> bool:
     host = host.rstrip(".")
     address = _parse_ip(host)
+    if address is None:
+        host = _ascii_hostname(host)
     for item in no_proxy.lower().split(","):
         entry = item.strip()
         if entry == "*":
@@ -92,9 +94,19 @@ def _matches_no_proxy(host: str, port: int, no_proxy: str) -> bool:
         if address is not None:
             if _parse_ip(entry_host) == address:
                 return True
-        elif host == entry_host or host.endswith(f".{entry_host}"):
+            continue
+        entry_host = _ascii_hostname(entry_host)
+        if host == entry_host or host.endswith(f".{entry_host}"):
             return True
     return False
+
+
+def _ascii_hostname(hostname: str) -> str:
+    """Convert an internationalized domain name to its ASCII form for comparison."""
+    try:
+        return idna_encode(hostname, uts46=True).decode("ascii")
+    except (IDNAError, UnicodeError):
+        return hostname.lower()
 
 
 def _parse_ip(value: str) -> ipaddress.IPv4Address | ipaddress.IPv6Address | None:

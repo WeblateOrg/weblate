@@ -675,7 +675,8 @@ proxy configuration are not supported.
 
 ``no_proxy`` is a comma-separated list of host names (also matching their
 subdomains) or IP addresses, optionally with a port, and IP networks in CIDR
-notation; ``*`` bypasses the proxy for all hosts. Hosts reached directly are subject to
+notation; ``*`` bypasses the proxy for all hosts. Internationalized domain names
+match in either their Unicode or ASCII (punycode) form. Hosts reached directly are subject to
 private-address restrictions such as :setting:`VCS_RESTRICT_PRIVATE`.
 
 .. seealso::
