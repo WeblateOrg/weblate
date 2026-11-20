@@ -13,6 +13,8 @@ Weblate 2026.12
 
 .. rubric:: Improvements
 
+* Show commit counts, occurrence totals, file-format evidence, and the last recorded translation change in the relevant :ref:`component diagnostics <alerts>`.
+
 * Moved distributed locking to :ref:`PostgreSQL <database-setup>` and enabled concurrent repository reads for downloads, component copies, Kotlin SDK extraction, project backups, and Git status checks.
 
 * Added failure reasons to :ref:`AI quality evaluation <addon-weblate.ai.quality>` and its :ref:`automation action <automation-action-weblate.ai_quality>`.

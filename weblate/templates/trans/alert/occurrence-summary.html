@@ -1,0 +1,11 @@
+{% load humanize i18n %}
+
+{% if missed_occurrences %}
+  <p>
+    {% blocktranslate with shown=occurrences|length|intcomma total=total_occurrences|intcomma %}Showing the first {{ shown }} of {{ total }} occurrences.{% endblocktranslate %}
+  </p>
+{% elif total_occurrences %}
+  <p>
+    {% blocktranslate count count=total_occurrences with total=total_occurrences|intcomma %}{{ total }} occurrence found.{% plural %}{{ total }} occurrences found.{% endblocktranslate %}
+  </p>
+{% endif %}

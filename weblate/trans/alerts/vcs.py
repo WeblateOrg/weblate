@@ -38,7 +38,12 @@ from weblate.vcs.params import (
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
+    from weblate.trans.models.alert import Alert
     from weblate.trans.models.component import Component
+
+
+REPOSITORY_DIVERGENCE_ALERTS = ("RepositoryOutdated", "RepositoryChanges")
+REPOSITORY_DIVERGENCE_DETAILS = frozenset({"commit_count", "repository_owner_id"})
 
 
 REPOSITORY_URL_INVALID_ERRORS: frozenset[RepositoryErrorCode] = frozenset(
@@ -82,6 +87,36 @@ class RepositoryAlert(BaseAlert):
             user.has_perm(permission, component)
             for permission in cls.repository_permissions
         )
+
+
+class RepositoryDivergenceAlert(RepositoryAlert):
+    link_wide = True
+
+    def __init__(self, instance: Alert, **_details: int) -> None:
+        super().__init__(instance)
+
+    @classmethod
+    def get_dismissal_context(cls, component: Component, details: dict) -> dict:
+        return super().get_dismissal_context(
+            component,
+            {
+                key: value
+                for key, value in details.items()
+                if key not in REPOSITORY_DIVERGENCE_DETAILS
+            },
+        )
+
+    def get_context(self, user: User) -> dict[str, Any]:
+        context = super().get_context(user)
+        component = self.instance.component
+        if (
+            context.get("commit_count") is None
+            or context.get("repository_owner_id")
+            != (component.linked_component_id or component.pk)
+            or not user.has_perm("meta:vcs.status", component)
+        ):
+            context["commit_count"] = None
+        return context
 
 
 @register
@@ -508,22 +543,20 @@ class PullRequestUpdateFailure(RepositoryErrorAlert):
 
 
 @register
-class RepositoryOutdated(RepositoryAlert):
+class RepositoryOutdated(RepositoryDivergenceAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Repository outdated.")
     category = AlertCategory.VCS
-    link_wide = True
     doc_page = "admin/continuous"
     doc_anchor = "update-vcs"
     repository_permissions = ("vcs.update", "vcs.reset")
 
 
 @register
-class RepositoryChanges(RepositoryAlert):
+class RepositoryChanges(RepositoryDivergenceAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Repository has changes.")
     category = AlertCategory.VCS
-    link_wide = True
     dismissible = True
     doc_page = "admin/continuous"
     doc_anchor = "push-changes"
@@ -532,7 +565,7 @@ class RepositoryChanges(RepositoryAlert):
     @classmethod
     def get_dismissal_context(cls, component: Component, details: dict) -> dict:
         return {
-            "details": details,
+            **super().get_dismissal_context(component, details),
             "branch": component.branch,
             "local_revision": component.local_revision,
             "repo": component.repo,
