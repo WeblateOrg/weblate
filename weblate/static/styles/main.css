@@ -1071,11 +1071,15 @@ legend {
   margin: 0 0 15px 15px;
 }
 
-.query-field {
-  width: 400px;
-  min-width: 30%;
-  max-width: 100%;
+.search-group.query-field {
+  flex: 1 1 25rem;
+  min-width: 0;
+  margin-inline: 0;
   height: 100%;
+}
+.query-field > .editor-wrap {
+  flex: 1 1 0;
+  min-width: 0;
 }
 .query-field .input-group-btn {
   height: 100%;
@@ -2008,10 +2012,6 @@ h2 .label {
   .zero-width-768 {
     display: none;
     width: 0;
-  }
-
-  .query-field .input-group {
-    width: 100%;
   }
 }
 
