@@ -77,16 +77,14 @@
           </span>
           <h5 class="fs-6 fw-semibold">
             <a class="stretched-link"
-               href="{{ translate_url }}?{% if stats_include_shared %}include_shared=1&amp;{% endif %}q={{ filter_query }}">{{ name }}</a>
+               href="{% if stats_include_shared %}{{ browse_url }}?include_shared=1&amp;q={{ filter_query }}{% else %}{{ translate_url }}?q={{ filter_query }}{% endif %}">{{ name }}</a>
           </h5>
           {% include "snippets/string-counts.html" with count=count words=words characters=characters only %}
           <div class="d-flex flex-wrap gap-3 mt-auto pt-2 fw-semibold">
             <a class="z-2"
                href="{{ browse_url }}?{% if stats_include_shared %}include_shared=1&amp;{% endif %}q={{ filter_query }}">{% translate "Browse" %}</a>
-            <a class="z-2"
-               href="{{ edit_url }}?{% if stats_include_shared %}include_shared=1&amp;{% endif %}q={{ filter_query }}">{% translate "Translate" %}</a>
-            <a class="z-2"
-               href="{{ zen_url }}?{% if stats_include_shared %}include_shared=1&amp;{% endif %}q={{ filter_query }}">{% translate "Zen" %}</a>
+            <a class="z-2" href="{{ edit_url }}?q={{ filter_query }}">{% translate "Translate" %}</a>
+            <a class="z-2" href="{{ zen_url }}?q={{ filter_query }}">{% translate "Zen" %}</a>
           </div>
         </li>
       {% endwith %}

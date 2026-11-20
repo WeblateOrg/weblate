@@ -964,18 +964,32 @@ class SharedComponentSearchTest(ReusableViewTestCase):
         self.language_path = [self.target.slug, "-", "cs"]
         self.search_url = reverse("search", kwargs={"path": self.language_path})
 
+    def get_statistics_links(
+        self, name: str, path: list[str] | None = None
+    ) -> dict[str, str]:
+        """Return the heading and action links of a Strings status entry."""
+        response = self.client.get(
+            reverse("show", kwargs={"path": path or self.language_path})
+        )
+        entries = html.fromstring(response.content).xpath(
+            '//ul[contains(@class, "translation-checklist")]/li'
+        )
+        entry = next(
+            entry for entry in entries if entry.xpath("string(.//h5)").strip() == name
+        )
+        links = {
+            link.text_content().strip(): link.get("href")
+            for link in entry.xpath(".//div//a")
+        }
+        links["heading"] = entry.xpath(".//h5/a/@href")[0]
+        return links
+
     def get_statistics_link(self, name: str) -> str:
-        response = self.client.get(reverse("show", kwargs={"path": self.language_path}))
-        links = html.fromstring(response.content).xpath(
-            '//a[starts-with(@id, "check-label-")]'
-        )
-        return next(
-            link.get("href") for link in links if link.text_content().strip() == name
-        )
+        return self.get_statistics_links(name)["heading"]
 
     def test_read_only_link_finds_shared_string(self) -> None:
         url = self.get_statistics_link("Read-only strings")
-        self.assertEqual(url, f"{self.search_url}?include_shared=1&q=state:read-only")
+        self.assertEqual(url, f"{self.search_url}?include_shared=1&q=state%3Aread-only")
 
         response = self.client.get(url)
         self.assertContains(response, "shared-read-only-term")
@@ -992,6 +1006,23 @@ class SharedComponentSearchTest(ReusableViewTestCase):
         response = self.client.get(self.search_url, {"q": "state:read-only"})
         self.assertNotContains(response, "shared-read-only-term")
         self.assertContains(response, "No matching strings found.")
+
+    def test_statistics_actions_keep_their_own_scope(self) -> None:
+        links = self.get_statistics_links("Read-only strings")
+        query = "q=state%3Aread-only"
+        self.assertEqual(links["Browse"], f"{self.search_url}?include_shared=1&{query}")
+        # The editor and Zen ignore include_shared, so their links do not carry it.
+        for view in ("translate", "zen"):
+            with self.subTest(view=view):
+                url = reverse(view, kwargs={"path": self.language_path})
+                self.assertEqual(links[view.capitalize()], f"{url}?{query}")
+
+    def test_statistics_without_shared_components_open_the_editor(self) -> None:
+        path = [self.project.slug, "-", "cs"]
+        links = self.get_statistics_links("All strings", path)
+        translate_url = reverse("translate", kwargs={"path": path})
+        self.assertEqual(links["heading"], f"{translate_url}?q=")
+        self.assertNotIn("include_shared", links["Browse"])
 
     def test_project_search_opts_in_to_shared_components(self) -> None:
         url = reverse("search", kwargs={"path": [self.target.slug]})
