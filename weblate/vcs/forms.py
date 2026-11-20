@@ -22,6 +22,8 @@ from weblate.vcs.github import (
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
+    from weblate.workspaces.models import Workspace
+
 
 def clean_github_app_hostname(value: str) -> str:
     hostname = normalize_github_app_hostname(value.strip())
@@ -54,6 +56,27 @@ class GitHubAppSetupCallbackForm(forms.Form):
 
     def clean_installation_id(self) -> str:
         return str(self.cleaned_data["installation_id"])
+
+
+class GitHubAppRecoveryForm(forms.Form):
+    workspace = forms.ChoiceField(label=gettext_lazy("Workspace"))
+    host = forms.ChoiceField(label=gettext_lazy("GitHub host"))
+
+    def __init__(
+        self, *args, workspaces: Iterable[Workspace], hosts: Iterable[str], **kwargs
+    ) -> None:
+        super().__init__(*args, **kwargs)
+        for name, choices in (
+            (
+                "workspace",
+                [(str(workspace.pk), workspace.name) for workspace in workspaces],
+            ),
+            ("host", [(host, host) for host in hosts]),
+        ):
+            field = cast("forms.ChoiceField", self.fields[name])
+            field.choices = (
+                choices if len(choices) == 1 else [("", "---------"), *choices]
+            )
 
 
 class GitHubAppMigrationForm(forms.Form):

@@ -344,6 +344,11 @@ existing account. Authorize Weblate on GitHub to confirm that you administer
 the installation. Both workspaces can then use all repositories selected for
 that installation on GitHub.
 
+If GitHub returns you to Weblate after updating an installation that is not yet
+connected, select the workspace and GitHub host, then choose :guilabel:`Authorize
+on GitHub`. If GitHub rejects the authorization code, choose :guilabel:`Authorize
+again` to finish connecting the same installation.
+
 Projects that are not in a workspace cannot connect a GitHub account through
 the GitHub App.
 

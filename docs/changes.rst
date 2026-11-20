@@ -66,6 +66,8 @@ Weblate 2026.12
 
 * Applied :ref:`enforced checks <enforcing-checks>` when changing a string's state through :ref:`bulk editing <bulk-edit>`.
 * Preserved the :ref:`category hierarchy <category>` on project and category language overviews.
+* Fixed :ref:`connecting GitHub App installations <code-hosting-github-app-connect>` after repository access updates or a rejected authorization code.
+
 * Preserved source strings backed by a file when :ref:`removing their last translation <component-manage_units>`.
 * Enabled adding languages from the project language list in :ref:`glossary-only projects <glossary-language-sync>`.
 * Preserved special characters in e-mail subjects for :ref:`notifications`.

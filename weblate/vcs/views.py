@@ -37,6 +37,7 @@ from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.site import get_site_url
 from weblate.vcs.forms import (
     GitHubAppMigrationForm,
+    GitHubAppRecoveryForm,
     GitHubAppRegisterCallbackForm,
     GitHubAppRegisterForm,
     GitHubAppSetupCallbackForm,
@@ -48,6 +49,7 @@ from weblate.vcs.github import (
     GITHUB_APP_MIGRATABLE_VCS,
     GITHUB_APP_NAME_MAX_LENGTH,
     GitHubAppCredentials,
+    GitHubAppInvalidCodeError,
     GithubAppRepository,
     GitHubInstallation,
     InstallationRemoval,
@@ -67,6 +69,7 @@ from weblate.vcs.github import (
     get_user_admin_installation,
     github_app_is_configured,
     normalize_github_app_hostname,
+    normalize_github_installation_id,
     remove_github_installation,
 )
 from weblate.vcs.params import strip_unused_vcs_params
@@ -79,6 +82,7 @@ from weblate.wladmin.views import MENU
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.auth.results import PermissionResult
 
 logger = logging.getLogger(__name__)
@@ -824,20 +828,15 @@ def github_app_install(request):
         .values_list("target_login", "installation_id")
         .distinct()
     )
-    choices = []
-    for login, installation_id in accounts:
-        query = urlencode(
-            {
-                "client_id": configs[host].client_id,
-                "state": _build_install_state(
-                    request, next_url, host, workspace, installation_id
-                ),
-                "redirect_uri": get_site_url(reverse("github-app-setup")),
-            }
+    choices = [
+        (
+            login,
+            _get_authorize_url(
+                request, configs[host], workspace, next_url, installation_id
+            ),
         )
-        choices.append(
-            (login, f"{get_github_oauth_base(host)}/login/oauth/authorize?{query}")
-        )
+        for login, installation_id in accounts
+    ]
     if choices:
         return render(
             request,
@@ -852,29 +851,76 @@ def github_app_install(request):
     return redirect(install_url)
 
 
-async def _get_authorized_installation(
-    request, config, code, installation_id
-) -> dict | None:
-    """
-    Return the installation when the current user controls it via OAuth.
+def _get_authorize_url(
+    request: AuthenticatedHttpRequest,
+    config: GitHubAppCredentials,
+    workspace: Workspace,
+    next_url: str,
+    installation_id: str,
+) -> str:
+    query = urlencode(
+        {
+            "client_id": config.client_id,
+            "state": _build_install_state(
+                request, next_url, config.hostname, workspace, installation_id
+            ),
+            "redirect_uri": get_site_url(reverse("github-app-setup")),
+        }
+    )
+    return f"{get_github_oauth_base(config.hostname)}/login/oauth/authorize?{query}"
 
-    Exchanges the install-time ``code`` for a user-to-server token and checks
-    that the user owns or administers the selected installation.
-    """
-    if not code:
-        return None
+
+def _recover_update(
+    request: AuthenticatedHttpRequest,
+    installation_id: str,
+    next_url: str,
+    configs: dict[str, GitHubAppCredentials],
+) -> HttpResponse:
     try:
-        user_token = await exchange_github_user_code(config, code)
-        return await get_user_admin_installation(config, user_token, installation_id)
-    except Exception as error:
-        await sync_to_async(report_error)(
-            "Failed to verify GitHub installation ownership", exception=error
+        installation_id = normalize_github_installation_id(installation_id)
+    except ValueError:
+        messages.error(
+            request, gettext("GitHub did not return a valid installation ID.")
         )
-        return None
+        return redirect(next_url)
+
+    workspaces = {
+        str(workspace.pk): workspace
+        for workspace in _installation_workspaces(request.user).order_by("name", "pk")
+    }
+    if not workspaces or not configs:
+        messages.error(
+            request,
+            gettext(
+                "The Weblate GitHub app installation link is no longer valid. "
+                "Start the installation again."
+            ),
+        )
+        return redirect(next_url)
+
+    form = GitHubAppRecoveryForm(
+        request.POST if request.method == "POST" else None,
+        workspaces=workspaces.values(),
+        hosts=sorted(configs),
+    )
+    if form.is_valid():
+        workspace = workspaces[form.cleaned_data["workspace"]]
+        return redirect(
+            _get_authorize_url(
+                request,
+                configs[form.cleaned_data["host"]],
+                workspace,
+                _default_next_url(request, workspace),
+                installation_id,
+            )
+        )
+    return render(request, "vcs/github_install_recovery.html", {"form": form})
 
 
 async def _aget_update_callback_installation(
-    request, installation_id: str
+    request: AuthenticatedHttpRequest,
+    installation_id: str,
+    configured_hosts: dict[str, GitHubAppCredentials],
 ) -> GitHubInstallation | None:
     """
     Return an existing accessible installation for GitHub's update callback.
@@ -897,7 +943,6 @@ async def _aget_update_callback_installation(
         return None
 
     await request.user.aprepare_permissions()
-    configured_hosts = set(await aget_github_app_configurations())
     if not configured_hosts:
         return None
 
@@ -923,6 +968,55 @@ def _get_update_callback_next_url(request, installation: GitHubInstallation) -> 
     return _get_installation_repository_url(installation)
 
 
+async def _verify_installation(
+    request: AuthenticatedHttpRequest,
+    config: GitHubAppCredentials,
+    workspace: Workspace,
+    next_url: str,
+    installation_id: str,
+    code: str,
+) -> dict | HttpResponse:
+    """Return the verified installation or the response needed to recover."""
+    authorized_installation = None
+    if code:
+        try:
+            token = await exchange_github_user_code(config, code)
+            authorized_installation = await get_user_admin_installation(
+                config, token, installation_id
+            )
+        except GitHubAppInvalidCodeError:
+            authorize_url = await sync_to_async(_get_authorize_url)(
+                request, config, workspace, next_url, installation_id
+            )
+            return await sync_to_async(render)(
+                request,
+                "vcs/github_install_recovery.html",
+                {"authorize_url": authorize_url},
+            )
+        except Exception as error:
+            await sync_to_async(report_error)(
+                "Failed to verify GitHub installation ownership", exception=error
+            )
+            messages.error(
+                request,
+                gettext(
+                    "Weblate could not verify the installation with GitHub. Try again later."
+                ),
+            )
+            return redirect(next_url)
+    if authorized_installation is None:
+        messages.error(
+            request,
+            gettext(
+                "Weblate could not confirm that you can administer this GitHub "
+                "installation. Start the installation again with a GitHub user "
+                "who owns the account or can administer the organization."
+            ),
+        )
+        return redirect(next_url)
+    return authorized_installation
+
+
 @login_required
 async def github_app_setup(request):
     """Finish connecting a GitHub account after GitHub redirects back."""
@@ -934,8 +1028,9 @@ async def github_app_setup(request):
     # signed ``state``. Signed callbacks fall through to the normal setup flow
     # below.
     if request.GET.get("setup_action") == "update" and not request.GET.get("state"):
+        configs = await aget_github_app_configurations()
         installation = await _aget_update_callback_installation(
-            request, installation_id
+            request, installation_id, configs
         )
         if installation:
             messages.success(
@@ -943,14 +1038,9 @@ async def github_app_setup(request):
                 gettext("Connected GitHub account updated."),
             )
             return redirect(_get_update_callback_next_url(request, installation))
-        messages.error(
-            request,
-            gettext(
-                "The Weblate GitHub app installation link is no longer valid. "
-                "Start the installation again."
-            ),
+        return await sync_to_async(_recover_update)(
+            request, installation_id, next_url, configs
         )
-        return redirect(next_url)
 
     if response := await _ahandle_missing_github_app_access(request, next_url):
         return response
@@ -1023,20 +1113,16 @@ async def github_app_setup(request):
         )
         return redirect(next_url)
 
-    code = callback_form.cleaned_data.get("code", "")
-    authorized_installation = await _get_authorized_installation(
-        request, config, code, installation_id
+    authorized_installation = await _verify_installation(
+        request,
+        config,
+        workspace,
+        next_url,
+        installation_id,
+        callback_form.cleaned_data.get("code", ""),
     )
-    if authorized_installation is None:
-        messages.error(
-            request,
-            gettext(
-                "Weblate could not confirm that you can administer this GitHub "
-                "installation. Start the installation again with a GitHub user "
-                "who owns the account or can administer the organization."
-            ),
-        )
-        return redirect(next_url)
+    if isinstance(authorized_installation, HttpResponse):
+        return authorized_installation
     (
         installation,
         is_new_install,
