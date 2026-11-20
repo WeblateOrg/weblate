@@ -367,6 +367,20 @@ textarea.highlight-editor {
   white-space: pre-wrap;
 }
 
+.hlcheck.html-insertion {
+  padding: 0;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  background-color: transparent;
+}
+
+button.html-insertion:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
 .hlcheck.disabled {
   cursor: not-allowed;
 }
@@ -1234,6 +1248,10 @@ input[type="month"].form-control {
 
 .highlight-number {
   position: absolute;
+}
+
+.highlight-number:empty {
+  display: none;
 }
 
 .update-log {

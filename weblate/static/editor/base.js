@@ -263,25 +263,6 @@ WLT.Editor = (() => {
       WLT.Utils.indicateChanges(e);
     });
 
-    // Disable insertion and copy buttons for read only strings
-    for (const translator of document.querySelectorAll(".translator")) {
-      const firstEditor = translator.querySelector(".translation-editor");
-      if (firstEditor?.hasAttribute("readonly")) {
-        // Apply to zen unit or the entire document
-        // the latter also disables insertion from related strings
-        const root = translator.closest(".zen-unit") || document;
-        for (const el of root.querySelectorAll(".specialchar")) {
-          el.setAttribute("disabled", "");
-        }
-        for (const el of root.querySelectorAll("[data-clone-value]")) {
-          el.setAttribute("disabled", "");
-        }
-        for (const el of root.querySelectorAll(".hlcheck")) {
-          el.classList.add("disabled");
-        }
-      }
-    }
-
     this.initHighlight();
     this.init();
 
@@ -333,74 +314,91 @@ WLT.Editor = (() => {
 
   EditorBase.prototype.init = () => {};
 
-  EditorBase.prototype.initHighlight = function () {
-    const hlSelector = ".hlcheck";
-    const hlNumberSelector = ".highlight-number";
+  function initHighlightControls(root) {
+    if (root.querySelector(".translator .translation-editor")?.readOnly) {
+      for (const el of root.querySelectorAll(
+        ".specialchar, [data-clone-value]",
+      )) {
+        el.setAttribute("disabled", "");
+      }
+      for (const el of root.querySelectorAll(".hlcheck")) {
+        el.classList.add("disabled");
+      }
+    }
 
-    /* Copy from source text highlight check */
-    delegate(this.editors, "click", hlSelector, function (e) {
-      // Do not insert if highlighted element is disabled
+    // Formatted strings also appear outside the editor. Give whole-tag
+    // insertion a native keyboard control where its action is available.
+    for (const span of root.querySelectorAll(
+      ".js-editor span.html-insertion",
+    )) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = span.className;
+      button.dataset.value = span.dataset.value;
+      button.disabled = span.classList.contains("disabled");
+      button.append(...span.childNodes);
+      span.replaceWith(button);
+    }
+
+    const keys = new Map();
+    for (const el of root.querySelectorAll(".hlcheck")) {
+      const value = el.dataset.value;
+      if (!keys.has(value)) {
+        if (keys.size === 10) {
+          delete el.dataset.highlightKey;
+          el.removeAttribute("title");
+          el.querySelector(".highlight-number")?.replaceChildren();
+          continue;
+        }
+        keys.set(value, WLT.Utils.getNumericKey(keys.size));
+      }
+      const key = keys.get(value);
+      el.dataset.highlightKey = key;
+      el.title = interpolate(
+        WLT.Config.IS_MAC ? gettext("Cmd+%s") : gettext("Ctrl+%s"),
+        [key],
+      );
+      const number = el.querySelector(".highlight-number");
+      if (number) {
+        const kbd = document.createElement("kbd");
+        kbd.textContent = key;
+        number.replaceChildren(kbd);
+        number.style.display = "none";
+      }
+    }
+  }
+
+  EditorBase.prototype.initHighlight = function () {
+    const hlNumberSelector = ".highlight-number";
+    const units = document.querySelectorAll(".zen-unit");
+    if (units.length) {
+      units.forEach(initHighlightControls);
+    } else {
+      initHighlightControls(document);
+    }
+
+    delegate(this.editors, "click", ".hlcheck", function (e) {
       if (!this.classList.contains("disabled")) {
-        insertEditor(this.getAttribute("data-value"), this);
+        insertEditor(this.dataset.value, this);
       }
       e.preventDefault();
       WLT.Utils.indicateChanges(e);
     });
 
-    /* and shortcuts */
-    for (let i = 1; i < 10; i++) {
-      hotkeys(`ctrl+${i},command+${i}`, () => false);
-    }
-
-    const keyMap = {};
-    let keyCount = 0;
-
-    const hlChecks = document.querySelectorAll(hlSelector);
-    if (hlChecks.length > 0) {
-      hlChecks.forEach((el) => {
-        let idx;
-        let newKey = false;
-        const dataValue = el.getAttribute("data-value");
-
-        if (dataValue in keyMap) {
-          idx = keyMap[dataValue];
-        } else if (keyCount < 10) {
-          idx = keyCount++;
-          keyMap[dataValue] = idx;
-          newKey = true;
-        } else {
-          const numberEl = el.querySelector(hlNumberSelector);
-          if (numberEl) {
-            numberEl.replaceChildren();
-          }
-          return;
+    for (let key = 0; key < 10; key++) {
+      hotkeys(`ctrl+${key},command+${key}`, () => {
+        const root =
+          document.activeElement?.closest(".zen-unit") ||
+          lastEditor?.closest(".zen-unit") ||
+          document;
+        const control = root.querySelector(`[data-highlight-key="${key}"]`);
+        if (control) {
+          control.click();
+          return false;
         }
-
-        const key = WLT.Utils.getNumericKey(idx);
-
-        let title;
-        if (WLT.Config.IS_MAC) {
-          title = interpolate(gettext("Cmd+%s"), [key]);
-        } else {
-          title = interpolate(gettext("Ctrl+%s"), [key]);
-        }
-        el.setAttribute("title", title);
-        const numberEl = el.querySelector(hlNumberSelector);
-        if (numberEl) {
-          const kbd = document.createElement("kbd");
-          kbd.textContent = key;
-          numberEl.replaceChildren(kbd);
-        }
-        if (newKey) {
-          hotkeys(`ctrl+${key},command+${key}`, () => {
-            el.click();
-            return false;
-          });
-        }
+        // Reserve 1–9 even when unassigned. Leave an unused 0 to browser zoom.
+        return key === 0;
       });
-      for (const el of document.querySelectorAll(hlNumberSelector)) {
-        el.style.display = "none";
-      }
     }
 
     document.addEventListener("keydown", (e) => {
@@ -452,6 +450,7 @@ WLT.Editor = (() => {
 
   return {
     Base: EditorBase,
+    initHighlightControls,
     insertEditor,
   };
 })();
