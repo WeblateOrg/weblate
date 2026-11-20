@@ -1021,7 +1021,9 @@ class DiscoveryForm(BaseAddonForm):
             "The regular expression must define a named group for component. "
             "Also define a named group for language when matching translation files. "
             "When the file mask is set, omit language and match the "
-            "monolingual base or new base file instead."
+            "monolingual base or new base file instead. "
+            "An optional category named group places newly discovered "
+            "components into that category path."
         ),
     )
     file_format = forms.ChoiceField(

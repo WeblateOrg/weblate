@@ -11,6 +11,8 @@ Weblate 2026.12
 * Added :wladmin:`recovergit` to rebuild missing repository checkouts.
 * :ref:`format-line-number` in the translation file is now stored in the unit for supported formats; when available, the line number is used for repository links and :guilabel:`Nearby strings`.
 * Added staged :ref:`libre-hosting-cleanup` with advance notice and a 30-day trial.
+* :ref:`addon-weblate.discovery.discovery` supports a ``category`` named group in the match expression to create categories for newly discovered components.
+
 
 .. rubric:: Improvements
 
@@ -85,6 +87,7 @@ Weblate 2026.12
 .. rubric:: Compatibility
 
 * Restricted :ref:`configurable templates <markup>` to documented operations with parsing, allocation, and cumulative work limits.
+* The ``category`` named group in the :ref:`component discovery <addon-weblate.discovery.discovery>` match expression is now reserved for assigning categories. Existing configurations that used it only for templates will create categories for newly discovered components. Rename the group to keep the previous behavior.
 
 .. rubric:: Upgrading
 
