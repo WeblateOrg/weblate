@@ -52,6 +52,7 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.models.alert import Alert
+from weblate.trans.tasks import update_repository_alerts
 from weblate.trans.templatetags.translations import project_alerts
 from weblate.trans.tests.test_views import ReusableViewTestCase, ViewTestCase
 from weblate.trans.tests.utils import create_test_addon, get_test_actor
@@ -811,6 +812,7 @@ class AlertTest(ReusableViewTestCase):
         alert = self.component.alert_set.get(name="DuplicateLanguage")
         self.assertEqual(alert.details["occurrences"][0]["language_code"], "cs")
         alert = self.component.alert_set.get(name="DuplicateString")
+        self.assertIn("1 occurrence found.", alert.render(self.user))
         occurrences = alert.details["occurrences"]
         self.assertEqual(len(occurrences), 1)
         self.assertEqual(occurrences[0]["source"], "Thank you for using Weblate.")
@@ -831,6 +833,19 @@ class AlertTest(ReusableViewTestCase):
                 "BrokenProjectURL",
             },
         )
+
+    def test_truncated_occurrence_summary(self) -> None:
+        self.component.add_alert(
+            "ParseError",
+            occurrences=[
+                {"filename": f"file-{number}.po", "error": "Parse failed"}
+                for number in range(101)
+            ],
+        )
+        rendered = self.component.alert_set.get(name="ParseError").render(self.user)
+        self.assertIn("Showing the first 100 of 101 occurrences.", rendered)
+        self.assertIn("file-99.po", rendered)
+        self.assertNotIn("file-100.po", rendered)
 
     def test_duplicate_cleanup_groups(self) -> None:
         component = self._create_component(
@@ -853,6 +868,7 @@ class AlertTest(ReusableViewTestCase):
         ]
         component.add_alert("DuplicateString", occurrences=occurrences)
         instance = component.alert_set.get(name="DuplicateString")
+        self.assertIn("4 occurrences found.", instance.render(self.user))
         all_translations = {translation.pk for translation in translations}
         for supported, allowed in (
             (True, all_translations),
@@ -1031,6 +1047,77 @@ class AlertTest(ReusableViewTestCase):
             self.component.alert_set.get(name="RepositoryChanges").dismissed_by,
             self.user,
         )
+
+    def test_repository_diagnostics_refresh_counts_and_preserve_dismissal(self) -> None:
+        self.make_manager()
+        self.user.clear_permissions_cache()
+        component = self.component
+        component.add_alert("RepositoryChanges")
+        outgoing = component.alert_set.get(name="RepositoryChanges")
+        self.assertIn("has many changes", outgoing.render(self.user))
+        self.assertTrue(outgoing.dismiss(self.user))
+
+        with (
+            patch.object(
+                component.repository, "count_missing", return_value=1
+            ) as missing_count,
+            patch.object(
+                component.repository, "count_outgoing", return_value=2
+            ) as outgoing_count,
+            patch.object(
+                component.repository,
+                "get_tracked_outgoing_revisions",
+                return_value=["first", "second", "third", "fourth"],
+            ) as tracked_outgoing,
+        ):
+            update_repository_alerts(component, threshold=0)
+            missing_count.assert_called_once_with()
+            outgoing_count.assert_called_once_with()
+            incoming = component.alert_set.get(name="RepositoryOutdated")
+            self.assertIn("missing 1 commit from", incoming.render(self.user))
+            outgoing.refresh_from_db()
+            self.assertTrue(outgoing.is_dismissed)
+            self.assertIn("4 outgoing commits", outgoing.render(self.user))
+
+            outgoing_count.return_value = 3
+            tracked_outgoing.return_value.append("fifth")
+            update_repository_alerts(component, threshold=1)
+            self.assertFalse(
+                component.alert_set.filter(name="RepositoryOutdated").exists()
+            )
+            outgoing.refresh_from_db()
+            self.assertTrue(outgoing.is_dismissed)
+            self.assertIn("5 outgoing commits", outgoing.render(self.user))
+
+            update_repository_alerts(component, threshold=3)
+            self.assertFalse(
+                component.alert_set.filter(name="RepositoryChanges").exists()
+            )
+            self.assertEqual(tracked_outgoing.call_count, 2)
+
+    def test_linked_repository_diagnostic_counts_require_owner_permission(self) -> None:
+        linked = self.create_link_existing()
+        self.component.add_alert(
+            "RepositoryChanges", commit_count=26, repository_owner_id=self.component.pk
+        )
+        alert = linked.alert_set.get(name="RepositoryChanges")
+        role = Role.objects.create(name="Linked repository alert maintainer")
+        role.permissions.add(Permission.objects.get(codename="vcs.push"))
+        group = Group.objects.create(name="Linked repository alert maintainers")
+        group.roles.add(role)
+        group.components.add(linked)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertIn("has many changes", alert.render(self.user))
+        self.assertNotIn("26", alert.render(self.user))
+
+        group.components.add(self.component)
+        self.user.clear_permissions_cache()
+        self.assertIn("26 outgoing commits", alert.render(self.user))
+
+        # A persisted alert can still carry the previous owner's count after relinking.
+        alert.component.linked_component_id = None
+        self.assertNotIn("26", alert.render(self.user))
 
     def test_commit_permission_cannot_act_on_outdated_repository(self) -> None:
         role = Role.objects.create(name="Repository commit maintainer")
@@ -2518,6 +2605,13 @@ class AdvisoryAlertDismissalTest(ViewTestCase):
         ) as stats:
             update_alerts(self.component, {"UnusedComponent"})
             alert = self.component.alert_set.get(name="UnusedComponent")
+            self.assertEqual(
+                alert.details["last_translation_change"], old_activity.isoformat()
+            )
+            self.assertIn(
+                "Most recent recorded translation change was on",
+                alert.render(self.user),
+            )
             self.assertTrue(alert.dismiss(self.user))
             update_alerts(self.component, {"UnusedComponent"})
             alert.refresh_from_db()
@@ -2537,6 +2631,27 @@ class AdvisoryAlertDismissalTest(ViewTestCase):
             self.assertFalse(
                 self.component.alert_set.filter(name="UnusedComponent").exists()
             )
+
+    @override_settings(UNUSED_ALERT_DAYS=365)
+    def test_unused_component_with_no_recorded_translation(self) -> None:
+        self.component.add_alert("UnusedComponent")
+        alert = self.component.alert_set.get(name="UnusedComponent")
+        self.assertNotIn(
+            "No translation changes have been recorded.", alert.render(self.user)
+        )
+        self.assertTrue(alert.dismiss(self.user))
+        self.component.change_set.update(timestamp=timezone.now() - timedelta(days=366))
+        with patch.object(
+            self.component,
+            "stats",
+            SimpleNamespace(all=10, translated=5, last_changed=None),
+        ):
+            update_alerts(self.component, {"UnusedComponent"})
+        alert.refresh_from_db()
+        self.assertTrue(alert.is_dismissed)
+        self.assertIn(
+            "No translation changes have been recorded.", alert.render(self.user)
+        )
 
     def test_glossary_occurrences_reopen_only_when_affected_set_changes(self) -> None:
         details = self.advisory_alerts()["UnusedGlossaryLanguage"]
@@ -2609,8 +2724,12 @@ class MonolingualAlertTest(ViewTestCase):
                 "po-mono", "po-mono/*.po", project=self.project, name="bimono"
             )
         update_alerts(component)
-        self.assertTrue(
-            component.alert_set.filter(name="MonolingualTranslation").exists()
+        alert = component.alert_set.get(name="MonolingualTranslation")
+        filename = alert.details["example_filename"]
+        self.assertTrue(component.translation_set.filter(filename=filename).exists())
+        self.assertIn(
+            f"In <code>{filename}</code>, none of the source strings contain spaces",
+            alert.render(self.user),
         )
         self.assertFalse(
             component.alert_set.filter(
@@ -2628,10 +2747,11 @@ class MonolingualAlertTest(ViewTestCase):
                 name="bilingual-po-as-mono",
             )
         update_alerts(component)
-        self.assertTrue(
-            component.alert_set.filter(
-                name="BilingualPOConfiguredAsMonolingual"
-            ).exists()
+        alert = component.alert_set.get(name="BilingualPOConfiguredAsMonolingual")
+        self.assertEqual(alert.details["sampled_template"], "po/hello.pot")
+        self.assertIn(
+            f"<code>po/hello.pot</code>, {alert.details['matching_sample_count']} entries",
+            alert.render(self.user),
         )
 
     def test_bilingual_po_configured_as_monolingual_ignores_glossary(self) -> None:

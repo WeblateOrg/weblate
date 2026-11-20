@@ -1,5 +1,10 @@
 {% load i18n %}
 
 <p>
-  {% translate "The VCS repository is not up to date with the upstream one. Please merge changes manually or set up hooks to automate this." %}
+  {% if commit_count != None %}
+    {% blocktranslate count count=commit_count %}The local repository is missing {{ count }} commit from the tracked upstream branch.{% plural %}The local repository is missing {{ count }} commits from the tracked upstream branch.{% endblocktranslate %}
+    {% translate "Please merge changes manually or set up hooks to automate this." %}
+  {% else %}
+    {% translate "The VCS repository is not up to date with the upstream one. Please merge changes manually or set up hooks to automate this." %}
+  {% endif %}
 </p>

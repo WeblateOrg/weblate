@@ -22467,6 +22467,56 @@ class ChangeAPITest(APIBaseTest):
             response.data["details"], {"change_origin": {"scope": "system"}}
         )
 
+    def test_repository_diagnostic_details_are_redacted(self) -> None:
+        self.authenticate(superuser=True)
+        self.component.add_alert(
+            "RepositoryChanges", commit_count=26, repository_owner_id=self.component.pk
+        )
+        self.component.add_alert(
+            "RepositoryOutdated", commit_count=27, repository_owner_id=self.component.pk
+        )
+        alert = self.component.alert_set.get(name="RepositoryChanges")
+        self.assertTrue(alert.dismiss(self.user))
+        created = self.component.change_set.get(action=ActionEvents.ALERT, alert=alert)
+        outdated = self.component.change_set.get(
+            action=ActionEvents.ALERT, alert__name="RepositoryOutdated"
+        )
+        self.assertIn("fingerprint", outdated.details)
+        dismissed = self.component.change_set.get(
+            action=ActionEvents.ALERT_DISMISSED, alert=alert
+        )
+
+        for endpoint, expected in (
+            (reverse("api:change-list"), (created.pk, outdated.pk, dismissed.pk)),
+            (reverse("api:change-detail", kwargs={"pk": created.pk}), (created.pk,)),
+            (reverse("api:change-detail", kwargs={"pk": outdated.pk}), (outdated.pk,)),
+            (
+                reverse("api:change-detail", kwargs={"pk": dismissed.pk}),
+                (dismissed.pk,),
+            ),
+        ):
+            with self.subTest(endpoint=endpoint):
+                response = self.client.get(endpoint)
+                self.assertEqual(response.status_code, 200, response.data)
+                entries = {
+                    entry["id"]: entry
+                    for entry in response.data.get("results", [response.data])
+                }
+                for change_pk in expected:
+                    self.assertEqual(entries[change_pk]["alert"]["details"], {})
+                    self.assertNotIn("fingerprint", entries[change_pk]["details"])
+                if dismissed.pk in expected:
+                    snapshot = entries[dismissed.pk]["details"]["alert_snapshot"]
+                    self.assertEqual(snapshot["details"], {})
+
+        alert.delete()
+        response = self.client.get(
+            reverse("api:change-detail", kwargs={"pk": dismissed.pk})
+        )
+        self.assertEqual(response.status_code, 200, response.data)
+        self.assertEqual(response.data["alert"]["details"], {})
+        self.assertEqual(response.data["details"]["alert_snapshot"]["details"], {})
+
     def test_alert_metadata(self) -> None:
         self.component.add_alert("BrokenBrowserURL", link="http://a", error="first")
         alert = self.component.alert_set.get(name="BrokenBrowserURL")
