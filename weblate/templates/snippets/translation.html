@@ -27,7 +27,8 @@
           {% if user_can_add_unit %}
             <a id="string-add" class="btn btn-info" href="#">{{ object.component.get_add_label }}</a>
           {% endif %}
-          <a href="{{ browse_url }}" class="btn btn-info">{% translate "Browse" %}</a>
+          <a href="{{ browse_url }}{% if stats_include_shared %}?include_shared=1{% endif %}"
+             class="btn btn-info">{% translate "Browse" %}</a>
           <a href="{% get_translate_url object glossary_browse=False %}{% if object.stats.todo > 0 %}?q=state:&lt;translated{% endif %}"
              class="btn btn-primary">{% translate "Translate" %}</a>
         </div>
@@ -75,7 +76,9 @@
       </tr>
     </thead>
     {% for query, name, count, color, words, characters in object.list_translation_checks %}
-      <tr data-href="{{ translate_url }}?q={{ query }}" class="clickable-row">
+      {# Counts that include shared components link to the search, the only view covering them. #}
+      <tr data-href="{% if stats_include_shared %}{{ browse_url }}?include_shared=1&amp;q={{ query }}{% else %}{{ translate_url }}?q={{ query }}{% endif %}"
+          class="clickable-row">
         <th class="number split-cell wrap-cell">
           <span>{{ count|intcomma }}</span>
           <span>{{ words|intcomma }}</span>
@@ -98,10 +101,12 @@
           {% endif %}
         </td>
         <td class="full-cell">
-          <a href="{{ translate_url }}?q={{ query }}" id="check-label-{{ forloop.counter }}">{{ name }}</a>
+          <a href="{% if stats_include_shared %}{{ browse_url }}?include_shared=1&amp;q={{ query }}{% else %}{{ translate_url }}?q={{ query }}{% endif %}"
+             id="check-label-{{ forloop.counter }}">{{ name }}</a>
         </td>
         <td class="wrap-cell">
-          <a class="btn-inline" href="{{ browse_url }}?q={{ query }}">{% translate "Browse" %}</a>
+          <a class="btn-inline"
+             href="{{ browse_url }}?{% if stats_include_shared %}include_shared=1&amp;{% endif %}q={{ query }}">{% translate "Browse" %}</a>
           <a class="btn-inline" href="{{ edit_url }}?q={{ query }}">{% translate "Translate" %}</a>
           <a class="btn-inline" href="{{ zen_url }}?q={{ query }}">{% translate "Zen" %}</a>
         </td>
