@@ -144,6 +144,13 @@ def _get_active_reservation(component_id: int) -> RepositoryOperationReservation
     if not isinstance(task_id, str) or not isinstance(operation, str):
         cache.delete(key)
         return None
+    if cache.get(get_repository_operation_scope_key(task_id)) is None:
+        # The task scope has the shortest TTL of the whole reservation, so
+        # once it expires the task is gone, even when it died before
+        # shortening the reservation of every repository.
+        if cache.get(key) == reservation:
+            cache.delete(key)
+        return None
     return cast("RepositoryOperationReservation", reservation)
 
 
@@ -168,6 +175,8 @@ def acquire_repository_operation(
         "operation": operation,
         "task_id": task_id,
     }
+    # Set the scope first: the reservations are only valid while it exists.
+    cache.set(get_repository_operation_scope_key(task_id), component_ids, ttl)
     for component_id in component_ids:
         active = _get_active_reservation(component_id)
         if active is None and cache.add(
@@ -188,8 +197,6 @@ def acquire_repository_operation(
         raise RepositoryOperationConflictError(
             active["task_id"] if active is not None else None
         )
-
-    cache.set(get_repository_operation_scope_key(task_id), component_ids, ttl)
 
 
 def release_repository_operation(component_ids: list[int], task_id: str) -> None:
