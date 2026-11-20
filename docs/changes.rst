@@ -66,6 +66,7 @@ Weblate 2026.12
 .. rubric:: Bug fixes
 
 * Applied :ref:`enforced checks <enforcing-checks>` when changing a string's state through :ref:`bulk editing <bulk-edit>`.
+* Preserved draft edits and explained how to save them when submitting a :ref:`suggestion <suggestions>` with changes to a glossary explanation.
 * Preserved the :ref:`category hierarchy <category>` on project and category language overviews.
 * Fixed :ref:`connecting GitHub App installations <code-hosting-github-app-connect>` after repository access updates or a rejected authorization code.
 
