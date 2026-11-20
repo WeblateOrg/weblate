@@ -24,6 +24,7 @@ Weblate 2026.12
 * Added failure reasons to :ref:`AI quality evaluation <addon-weblate.ai.quality>` and its :ref:`automation action <automation-action-weblate.ai_quality>`.
 * Enabled Anthropic prompt caching for :ref:`automatic translation <machine-translation>`, so the system prompt is read from cache between batch requests instead of being billed in full on every request.
 * Raised the shared limit for translation strings, CSV and XLSX rows, and translation-memory entries to 200,000. Configure it with :setting:`TRANSLATION_MAX_UNITS`.
+* Limited :ref:`XLSX translation headers <xlsx>` to the first 64 columns to bound processing of sparse worksheets.
 
 * Show inclusive ranges and representative counts in :ref:`plural form examples <plurals>`.
 * Pass developer comments from the source file to :ref:`LLM-based machine translation <llm-translation-context>`, so short strings such as button labels can be translated in context.

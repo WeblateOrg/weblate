@@ -19,7 +19,11 @@ from translate.storage.csvl10n import csv
 from weblate.formats.helpers import CONTROLCHARS_TRANS, NamedBytesIO
 from weblate.formats.limits import TranslationLimitError
 from weblate.formats.ttkit import CSVFormat, WeblateCSVFile
-from weblate.formats.xlsx_limits import prepare_xlsx_csv_row, validate_xlsx_archive
+from weblate.formats.xlsx_limits import (
+    prepare_xlsx_csv_row,
+    validate_xlsx_archive,
+    xlsx_header_width,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -126,12 +130,16 @@ class XlsxFormat(CSVFormat):
             # rather than truncating content or iterating an inflated range.
             worksheet.reset_dimensions()
 
-            # Ignore formatting-only columns when determining the field count.
-            fields = [value for value in next(worksheet.values) if value]
-            converted_size = 0
+            header = next(worksheet.values, ())
+            width = xlsx_header_width(header)
+            if not width:
+                raise ParseError(gettext("The workbook header row is empty."))
+            csv_header, converted_size = prepare_xlsx_csv_row(header[:width], max_size)
+            writer.writerow(csv_header)
             max_rows = settings.TRANSLATION_MAX_UNITS
             for row, values in enumerate(
-                worksheet.iter_rows(max_col=len(fields), values_only=True)
+                worksheet.iter_rows(min_row=2, max_col=width, values_only=True),
+                start=1,
             ):
                 if row > max_rows:
                     raise TranslationLimitError(
@@ -140,7 +148,6 @@ class XlsxFormat(CSVFormat):
                         )
                         % max_rows
                     )
-                values = values[: len(fields)]
                 # Skip formatting-only rows.
                 if not any(values):
                     continue
