@@ -39,6 +39,7 @@ from weblate.checks.format import (
     SchemeFormatCheck,
     VueFormattingCheck,
 )
+from weblate.checks.models import CHECKS
 from weblate.checks.qt import QtFormatCheck, QtPluralCheck
 from weblate.checks.ruby import RubyFormatCheck
 from weblate.checks.tests.test_checks import CheckTestCase
@@ -1073,6 +1074,34 @@ class PythonBraceFormatCheckTest(CheckTestCase):
 
 class CppFormatCheckTest(CheckTestCase):
     check = CppFormatCheck()
+    chrono_tail_argument_mismatches = (
+        ("{0:%Y}", "{0:%Y{1}}"),
+        ("{:%Y}", "{:%Y{}}"),
+        ("{0:%Y}", "{0:%Y{1}{1}}"),
+        ("{:%Y}", "{:%Y{}{}}"),
+        ("{0:%Y{1}}", "{0:%Y{2}}"),
+        ("{0:%Y{1}}", "{0:%Y{1}{1}}"),
+    )
+
+    def assert_cpp_format_target(
+        self,
+        sources: list[str],
+        targets: list[str],
+        flags: str,
+        *,
+        expected: bool,
+    ) -> None:
+        check = CHECKS["cpp_format"]
+        for precomputed_flags in (False, True):
+            with self.subTest(precomputed_flags=precomputed_flags):
+                unit = make_unit(flags=flags, code="cs", source=sources, target=targets)
+                if precomputed_flags:
+                    result = check.check_target_with_flags(
+                        sources, targets, unit, unit.all_flags
+                    )
+                else:
+                    result = check.check_target(sources, targets, unit)
+                self.assertEqual(result, expected)
 
     def setUp(self) -> None:
         super().setUp()
@@ -1242,6 +1271,98 @@ class CppFormatCheckTest(CheckTestCase):
                             source, target, ignore_missing, make_unit()
                         )
                     )
+
+    def test_changed_chrono_tail_argument_references_are_rejected(self) -> None:
+        for source, target in self.chrono_tail_argument_mismatches:
+            for ignore_missing in (False, True):
+                with self.subTest(
+                    source=source, target=target, ignore_missing=ignore_missing
+                ):
+                    self.assertTrue(
+                        self.check.check_format(
+                            source, target, ignore_missing, make_unit()
+                        )
+                    )
+
+    def test_changed_chrono_tail_argument_references_with_cpp_format_flags(
+        self,
+    ) -> None:
+        for source, target in self.chrono_tail_argument_mismatches:
+            for flag in ("cpp-format", "c++-format"):
+                with self.subTest(source=source, target=target, flag=flag):
+                    self.assert_cpp_format_target(
+                        [source], [target], flag, expected=True
+                    )
+
+    def test_changed_chrono_tail_argument_references_in_czech_plurals(self) -> None:
+        for source, target in self.chrono_tail_argument_mismatches:
+            for flag in ("cpp-format", "c++-format"):
+                for strict in (False, True):
+                    with self.subTest(
+                        source=source, target=target, flag=flag, strict=strict
+                    ):
+                        flags = f"{flag}, strict-format" if strict else flag
+                        self.assert_cpp_format_target(
+                            [source, source],
+                            [target, source, source],
+                            flags,
+                            expected=True,
+                        )
+
+    def test_chrono_plural_omission_respects_strict_format(self) -> None:
+        source = "{0:%Y} {1:d}"
+        target = "{0:%Y}"
+        for flag in ("cpp-format", "c++-format"):
+            for strict in (False, True):
+                with self.subTest(flag=flag, strict=strict):
+                    flags = f"{flag}, strict-format" if strict else flag
+                    self.assert_cpp_format_target(
+                        [source, source],
+                        [target, source, source],
+                        flags,
+                        expected=strict,
+                    )
+
+    def test_chrono_prefix_automatic_explicit_indices(self) -> None:
+        for automatic, explicit in (
+            ("{:{}%Y-%m-%d} {}", "{2} {0:{1}%d.%m.%Y}"),
+            ("{:.{}%S} {}", "{2} {0:.{1}%S}"),
+            ("{:{}.{}%S} {}", "{3} {0:{1}.{2}%S}"),
+        ):
+            for source, target in ((automatic, explicit), (explicit, automatic)):
+                for ignore_missing in (False, True):
+                    with self.subTest(
+                        source=source, target=target, ignore_missing=ignore_missing
+                    ):
+                        self.assertFalse(
+                            self.check.check_format(
+                                source, target, ignore_missing, make_unit()
+                            )
+                        )
+
+    def test_changed_chrono_prefix_argument_bindings_are_rejected(self) -> None:
+        for source, target in (
+            ("{0:{1}%Y}", "{0:{2}%Y}"),
+            ("{0:.{1}%S}", "{0:.{2}%S}"),
+            ("{0:{1}.{2}%S}", "{0:{2}.{1}%S}"),
+        ):
+            for ignore_missing in (False, True):
+                with self.subTest(
+                    source=source, target=target, ignore_missing=ignore_missing
+                ):
+                    self.assertTrue(
+                        self.check.check_format(
+                            source, target, ignore_missing, make_unit()
+                        )
+                    )
+
+    def test_identical_chrono_tail_argument_references(self) -> None:
+        source = "{0:%Y{1}}"
+        for ignore_missing in (False, True):
+            with self.subTest(ignore_missing=ignore_missing):
+                self.assertFalse(
+                    self.check.check_format(source, source, ignore_missing, make_unit())
+                )
 
     def test_percent_fill(self) -> None:
         for target, expected in (

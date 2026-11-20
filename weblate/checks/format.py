@@ -277,7 +277,7 @@ CPP_FORMAT_MATCH = re.compile(
 CPP_FORMAT_INDEX = re.compile(r"(^|{)([0-9]*)")
 CPP_CHRONO_SPEC = re.compile(
     r"((?:[^{}][<^>]|[<^>])?(?:[1-9][0-9]*|{[0-9]+})?"
-    r"(?:\.(?:[0-9]+|{[0-9]+}))?L?)(%.*)",
+    r"(?:\.(?:[0-9]+|{[0-9]+}))?L?)(%[^{}]*)",
     re.DOTALL,
 )
 CPP_CHRONO_CONVERSION = re.compile(

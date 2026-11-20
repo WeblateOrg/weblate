@@ -115,9 +115,6 @@ PLAIN_FLAGS: dict[str, StrOrPromise] = {
     for check in CHECKS.values()
     if check.default_disabled and not check.param_type
 }
-if "cpp-format" in PLAIN_FLAGS:
-    PLAIN_FLAGS["c++-format"] = PLAIN_FLAGS["cpp-format"]
-
 TYPED_FLAGS: dict[str, StrOrPromise] = {
     check.enable_string: check.name for check in CHECKS.values() if check.param_type
 }
@@ -524,6 +521,13 @@ def _category_for_check_flag(name: str, *, has_value: bool) -> StrOrPromise:
     if name in {"url", "safe-html", "bbcode-text"} or name.startswith("fluent-"):
         return FLAG_CATEGORY_FORMAT
     return FLAG_CATEGORY_OTHER
+
+
+if "cpp-format" in PLAIN_FLAGS:
+    PLAIN_FLAGS["c++-format"] = PLAIN_FLAGS["cpp-format"]
+    _FLAG_CATEGORIES["c++-format"] = _category_for_check_flag(
+        "cpp-format", has_value=False
+    )
 
 
 def _flag_choice(

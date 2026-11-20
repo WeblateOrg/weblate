@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+from runpy import run_path
 from time import monotonic
 
 from django.core.exceptions import ValidationError
@@ -11,6 +13,7 @@ from django.test import SimpleTestCase
 from django.utils.translation import override
 from lxml import etree
 
+from weblate.checks.defaults import DEFAULT_CHECK_LIST
 from weblate.checks.flags import (
     TYPED_FLAGS,
     TYPED_FLAGS_ARGS,
@@ -429,3 +432,45 @@ class FlagTest(SimpleTestCase):
 
         self.assertIsNot(en_choices, cs_choices)
         self.assertIs(en_choices, en_choices_again)
+
+    def test_cpp_format_alias_shares_catalog_metadata(self) -> None:
+        for check_list in (
+            DEFAULT_CHECK_LIST,
+            ("weblate.checks.format.CppFormatCheck",),
+        ):
+            with (
+                self.subTest(check_list=check_list),
+                self.settings(CHECK_LIST=check_list),
+                override("en"),
+            ):
+                flags_module = run_path(str(Path(__file__).parents[1] / "flags.py"))
+                entries = [
+                    entry
+                    for entry in flags_module["get_flag_choices"]()
+                    if entry["name"] in {"cpp-format", "c++-format"}
+                ]
+                self.assertCountEqual(
+                    [entry["name"] for entry in entries],
+                    ["cpp-format", "c++-format"],
+                )
+                self.assertEqual(entries[0]["label"], entries[1]["label"])
+                for entry in entries:
+                    with self.subTest(flag=entry["name"]):
+                        flags_module["FlagsValidator"](entry["name"]).validate()
+                        self.assertFalse(entry["has_value"])
+                        self.assertEqual(entry["category"], "Format")
+
+    def test_cpp_format_flags_absent_without_cpp_check(self) -> None:
+        for check_list in ((), ("weblate.checks.format.PythonBraceFormatCheck",)):
+            with (
+                self.subTest(check_list=check_list),
+                self.settings(CHECK_LIST=check_list),
+                override("en"),
+            ):
+                flags_module = run_path(str(Path(__file__).parents[1] / "flags.py"))
+                names = {entry["name"] for entry in flags_module["get_flag_choices"]()}
+                for flag in ("cpp-format", "c++-format"):
+                    with self.subTest(flag=flag):
+                        self.assertNotIn(flag, names)
+                        with self.assertRaises(ValidationError):
+                            flags_module["FlagsValidator"](flag).validate()
