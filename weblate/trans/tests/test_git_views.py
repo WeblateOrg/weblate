@@ -1316,6 +1316,24 @@ class RepositoryOperationQueueTest(ViewTestCase):
         self.assertFalse(requeued.reused)
         self.assertNotEqual(requeued.task_id, queued.task_id)
 
+    def test_stale_reservation_is_removed_by_one_caller(self) -> None:
+        key = get_repository_operation_key(self.component.pk)
+        claim_key = f"{key}-stale-dead-task"
+        self.addCleanup(cache.delete_many, [key, claim_key])
+        cache.set(key, {"operation": "reset", "task_id": "dead-task"})
+
+        # Another caller has claimed the cleanup of this stale reservation and
+        # may already have replaced it, so this one must not delete the key.
+        cache.set(claim_key, True)
+        with self.assertRaises(RepositoryOperationConflictError):
+            acquire_repository_operation([self.component.pk], "reset", "task-id")
+        self.assertEqual(cache.get(key), {"operation": "reset", "task_id": "dead-task"})
+
+        cache.delete(claim_key)
+        acquire_repository_operation([self.component.pk], "reset", "task-id")
+        self.addCleanup(release_repository_operation, [self.component.pk], "task-id")
+        self.assertEqual(cache.get(key), {"operation": "reset", "task_id": "task-id"})
+
     def test_dead_process_does_not_block_operations(self) -> None:
         # The process holding the reservation is killed in the middle of the
         # operation: the context is never exited and the heartbeat stops.
