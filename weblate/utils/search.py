@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import threading
 import warnings
+from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime
 from functools import lru_cache
@@ -13,6 +14,7 @@ from ipaddress import ip_address
 from itertools import chain
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, cast, overload
 
+import regex
 from dateutil.parser import ParserError
 from dateutil.parser import parse as dateutil_parse
 from django.core.exceptions import FieldDoesNotExist
@@ -42,6 +44,7 @@ from weblate.lang.models import Language
 from weblate.trans.models import Category, Component, Label, Project, Translation
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.db import RegexAnalysisLimitError, re_escape, validate_search_regex
+from weblate.utils.regex import REGEX_TIMEOUT
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_APPROVED,
@@ -1496,6 +1499,115 @@ def parse_string(text: str, parser: SearchParser) -> ParseResults:
             elif isinstance(item, ParseResults):
                 remaining.append(item)
     return parsed
+
+
+type SearchHighlightField = Literal["source", "target", "context"]
+
+HIGHLIGHT_FIELDS: dict[str | None, tuple[SearchHighlightField, ...]] = {
+    None: ("source", "target", "context"),
+    "source": ("source",),
+    "target": ("target",),
+    "context": ("context",),
+    "key": ("context",),
+}
+
+
+@dataclass(frozen=True, slots=True)
+class SearchHighlight:
+    """Patterns to highlight, derived from the positive terms of a search query."""
+
+    patterns: dict[SearchHighlightField, tuple[regex.Pattern, ...]]
+
+    def get_patterns(
+        self, field: SearchHighlightField | None = None
+    ) -> tuple[regex.Pattern, ...]:
+        if field is not None:
+            return self.patterns.get(field, ())
+        return tuple(dict.fromkeys(chain.from_iterable(self.patterns.values())))
+
+    def finditer(
+        self, value: str, field: SearchHighlightField | None = None
+    ) -> list[tuple[int, int]]:
+        """Return sorted, non-overlapping spans matching any of the patterns."""
+        spans: list[tuple[int, int]] = []
+        for pattern in self.get_patterns(field):
+            try:
+                spans.extend(
+                    match.span()
+                    for match in pattern.finditer(value, timeout=REGEX_TIMEOUT)
+                    if match.end() > match.start()
+                )
+            except TimeoutError:
+                continue
+
+        merged: list[tuple[int, int]] = []
+        for start, end in sorted(spans):
+            if merged and start <= merged[-1][1]:
+                merged[-1] = (merged[-1][0], max(merged[-1][1], end))
+            else:
+                merged.append((start, end))
+        return merged
+
+
+def compile_highlight_pattern(term: BaseTermExpr) -> regex.Pattern | None:
+    """Convert a search term to a Python pattern following the database lookup."""
+    match = term.match
+    if isinstance(match, RegexExpr):
+        expr = match.expr
+        flags = regex.VERSION0
+        if expr.startswith("(?i)"):
+            expr = expr.removeprefix("(?i)")
+            flags |= regex.IGNORECASE
+        try:
+            return regex.compile(expr, flags)
+        except regex.error:
+            return None
+    if not isinstance(match, str) or not match:
+        return None
+    if term.operator == ":=":
+        return regex.compile(rf"\A{regex.escape(match)}\Z", regex.VERSION0)
+    if term.operator == ":":
+        return regex.compile(regex.escape(match), regex.VERSION0 | regex.IGNORECASE)
+    return None
+
+
+def collect_highlight_terms(
+    obj: ParseResults | BaseTermExpr,
+    patterns: dict[SearchHighlightField, list[regex.Pattern]],
+    *,
+    negated: bool = False,
+) -> None:
+    if isinstance(obj, BaseTermExpr):
+        if negated or obj.field not in HIGHLIGHT_FIELDS:
+            return
+        pattern = compile_highlight_pattern(obj)
+        if pattern is not None:
+            for field in HIGHLIGHT_FIELDS[obj.field]:
+                patterns[field].append(pattern)
+        return
+
+    is_not = any(isinstance(item, str) and item.upper() == "NOT" for item in obj)
+    for item in obj:
+        if isinstance(item, (BaseTermExpr, ParseResults)):
+            collect_highlight_terms(item, patterns, negated=negated ^ is_not)
+
+
+@lru_cache(maxsize=128)
+def parse_highlight(text: str) -> SearchHighlight | None:
+    """Build highlighting patterns for a unit search query."""
+    if not text:
+        return None
+    try:
+        parsed = parse_string(text, "unit")
+    except SearchQueryError:
+        return None
+    patterns: dict[SearchHighlightField, list[regex.Pattern]] = defaultdict(list)
+    collect_highlight_terms(parsed, patterns)
+    if not patterns:
+        return None
+    return SearchHighlight(
+        {field: tuple(field_patterns) for field, field_patterns in patterns.items()}
+    )
 
 
 @lru_cache(maxsize=128)

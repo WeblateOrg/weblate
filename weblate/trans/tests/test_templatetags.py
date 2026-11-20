@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 from datetime import timedelta
+from typing import TYPE_CHECKING
 from unittest.mock import patch
 
 from django.contrib.auth.models import AnonymousUser
@@ -40,6 +41,9 @@ from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.utils.files import FileUploadMethod
 from weblate.utils.formatting import render_documentation_icon
 from weblate.workspaces.models import Workspace
+
+if TYPE_CHECKING:
+    from weblate.utils.search import SearchHighlightField
 
 
 class ExtractedHelperRegistrationTest(SimpleTestCase):
@@ -789,7 +793,7 @@ ahoj svete [hello world]">
             ["Translation comment"],
             self.component.source_language,
             glossary=[glossary_unit],
-            search_match="Translation comment",
+            search_match='"Translation comment"',
         )["items"][0]["content"]
         self.assertHTMLEqual(
             content,
@@ -1271,6 +1275,43 @@ class DiffTestCase(SimpleTestCase):
             '<span class="hlmatch">Hello</span> world!',
         )
 
+    def test_fmtsearchmatch_terms(self) -> None:
+        self.assertHTMLEqual(
+            format_translation(
+                ["Hello world!"], make_language("en"), search_match="world hello"
+            )["items"][0]["content"],
+            """
+            <span class="hlmatch">Hello</span>
+            <span class="hlmatch">world</span>!
+            """,
+        )
+
+    def test_fmtsearchmatch_field(self) -> None:
+        cases: tuple[tuple[SearchHighlightField | None, str], ...] = (
+            ("source", '<span class="hlmatch">Hello</span> world!'),
+            ("target", "Hello world!"),
+            (None, '<span class="hlmatch">Hello</span> world!'),
+        )
+        for search_field, expected in cases:
+            with self.subTest(search_field=search_field):
+                self.assertHTMLEqual(
+                    format_translation(
+                        ["Hello world!"],
+                        make_language("en"),
+                        search_match="source:hello",
+                        search_field=search_field,
+                    )["items"][0]["content"],
+                    expected,
+                )
+
+    def test_fmtsearchmatch_filter_only(self) -> None:
+        self.assertHTMLEqual(
+            format_translation(
+                ["Hello world!"], make_language("en"), search_match="state:<translated"
+            )["items"][0]["content"],
+            "Hello world!",
+        )
+
     def test_fmtsearchmatch_inserted_diff(self) -> None:
         self.assertHTMLEqual(
             format_translation(
@@ -1299,7 +1340,7 @@ class DiffTestCase(SimpleTestCase):
                 ["Hello world"],
                 make_language("en"),
                 diff="Hello  world",
-                search_match="o w",
+                search_match='"o w"',
             )["items"][0]["content"],
             """
             Hell
@@ -1332,7 +1373,7 @@ class FormatterNestingTestCase(SimpleTestCase):
             ["Translation comment"],
             make_language("en"),
             glossary=[self.GlossaryTerm("Translation", "Tradução", [(0, 11)])],
-            search_match="Translation comment",
+            search_match='"Translation comment"',
         )["items"][0]["content"]
         self.assertHTMLEqual(
             content,
@@ -1372,7 +1413,7 @@ Tradução [Translation]">Translation</span> comment
             ["Hello world"],
             make_language("en"),
             diff="Hello  world",
-            search_match="o w",
+            search_match='"o w"',
         )["items"][0]["content"]
         self.assertHTMLEqual(
             content,
@@ -1396,7 +1437,7 @@ Tradução [Translation]">Translation</span> comment
             format_translation(
                 ["Hello  world"],
                 make_language("en"),
-                search_match="o  w",
+                search_match='"o  w"',
             )["items"][0]["content"],
             """
             Hell
@@ -1417,7 +1458,7 @@ Tradução [Translation]">Translation</span> comment
             format_translation(
                 ["Hello\nworld"],
                 make_language("en"),
-                search_match="o\nw",
+                search_match=r'r"o\nw"',
             )["items"][0]["content"],
             """
             Hell
@@ -1438,7 +1479,7 @@ Tradução [Translation]">Translation</span> comment
                 ["Hello  world"],
                 make_language("en"),
                 diff="Hello world",
-                search_match="o  w",
+                search_match='"o  w"',
             )["items"][0]["content"],
             """
             Hell
@@ -1464,7 +1505,7 @@ Tradução [Translation]">Translation</span> comment
                 ["Hello world"],
                 make_language("en"),
                 diff="Hello\nworld",
-                search_match="o w",
+                search_match='"o w"',
             )["items"][0]["content"],
             """
             Hell
