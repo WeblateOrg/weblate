@@ -81,8 +81,9 @@ def diagnostics(request: AuthenticatedHttpRequest, path):
         {
             "object": obj,
             "show_projects": show_projects,
-            "libre_cleanup_alerts": libre_cleanup_alerts,
-            **get_diagnostics_context(request.GET, request.user, components),
+            **get_diagnostics_context(
+                request.GET, request.user, components, libre_cleanup_alerts
+            ),
         },
     )
 
