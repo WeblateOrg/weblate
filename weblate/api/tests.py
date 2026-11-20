@@ -41,7 +41,7 @@ from django.db import (
 )
 from django.db.models import Q
 from django.db.models.fields.files import FieldFile
-from django.http import StreamingHttpResponse
+from django.http import QueryDict, StreamingHttpResponse
 from django.templatetags.static import static
 from django.test import SimpleTestCase, TransactionTestCase
 from django.test.client import BOUNDARY, MULTIPART_CONTENT, encode_multipart
@@ -49,6 +49,8 @@ from django.test.utils import CaptureQueriesContext, modify_settings, override_s
 from django.urls import Resolver404, resolve, reverse
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from drf_spectacular.validation import validate_schema
+from lxml.html import fromstring
+from rest_framework import serializers
 from rest_framework.request import Request
 from rest_framework.test import APIClient, APIRequestFactory, APITestCase
 from weblate_language_data.languages import LANGUAGES
@@ -79,7 +81,7 @@ from weblate.api.docs import (
     document_all_static_vcs_choices,
 )
 from weblate.api.parsers import TranslationFileMultiPartParser
-from weblate.api.renderers import AutoCSVRenderer
+from weblate.api.renderers import AutoCSVRenderer, WeblateHTMLFormRenderer
 from weblate.api.serializers import (
     CategorySerializer,
     ChangeSerializer,
@@ -229,6 +231,50 @@ TEST_DOC = get_test_file("cs.html")
 TEST_ZIP = get_test_file("translations.zip")
 TEST_BADPLURALS = get_test_file("cs-badplurals.po")
 TEST_SCREENSHOT = get_test_file("screenshot.png")
+
+
+class BrowsableAPIFormTest(SimpleTestCase):
+    def test_nested_relations_do_not_load_choices(self) -> None:
+        class RelationsSerializer(serializers.Serializer):
+            pk = serializers.PrimaryKeyRelatedField(queryset=Language.objects.all())
+            code = serializers.SlugRelatedField(
+                queryset=Language.objects.all(), slug_field="code"
+            )
+            url = serializers.HyperlinkedRelatedField(
+                queryset=Language.objects.all(), view_name="api:language-detail"
+            )
+
+        class FormSerializer(serializers.Serializer):
+            language = RelationsSerializer()
+
+        with patch.object(
+            serializers.RelatedField, "get_choices", side_effect=AssertionError
+        ):
+            form = fromstring(WeblateHTMLFormRenderer().render(FormSerializer().data))
+        self.assertEqual(
+            form.xpath('//input[@type="text"]/@name'),
+            ["language.pk", "language.code", "language.url"],
+        )
+
+    def test_choice_controls(self) -> None:
+        choices = [(str(i), f"Option {i}") for i in range(100)]
+        grouped_choices = [("Group", choices), ("Other", [("100", "Last option")])]
+
+        class FormSerializer(serializers.Serializer):
+            small = serializers.ChoiceField(choices=choices)
+            large = serializers.ChoiceField(choices=grouped_choices)
+            multiple = serializers.MultipleChoiceField(choices=grouped_choices)
+
+        data = QueryDict("small=99&large=100&multiple=1&multiple=2")
+        serializer = FormSerializer(data=data)
+        self.assertTrue(serializer.is_valid(), serializer.errors)
+        self.assertEqual(set(serializer.validated_data["multiple"]), {"1", "2"})
+        form = fromstring(WeblateHTMLFormRenderer().render(serializer.data))
+        self.assertEqual(
+            form.xpath('//select[@name="small"]/option[@selected]/@value'), ["99"]
+        )
+        self.assertEqual(form.xpath('//input[@name="large"]/@value'), ["100"])
+        self.assertTrue(form.xpath('//select[@name="multiple" and @multiple]'))
 
 
 class CSVRendererTest(SimpleTestCase):
@@ -5278,6 +5324,29 @@ class ProjectCreationConcurrencyTest(TransactionTestCase):
                     Project.objects.filter(workspace_id=self.workspace_id).count(), 3
                 )
                 Project.objects.filter(slug__startswith="race-project-").delete()
+
+
+class ProjectBrowsableAPIFormTest(APIBaseTest):
+    def test_workspace_and_language_inputs(self) -> None:
+        hidden = Workspace.objects.create(name="Unrelated workspace")
+        response = self.do_request("api:project-list", request={"format": "api"})
+        self.assertNotContains(response, hidden.name)
+        self.assertNotContains(response, str(hidden.pk))
+        form = fromstring(response.content)
+        for name in ("workspace", "secondary_language"):
+            self.assertTrue(
+                form.xpath('//input[@type="text" and @name=$name]', name=name)
+            )
+
+        current = Workspace.objects.create(name="Project workspace")
+        Project.objects.filter(pk=self.project.pk).update(workspace=current)
+        response = self.do_request(
+            "api:project-detail", self.project_kwargs, request={"format": "api"}
+        )
+        self.assertEqual(
+            fromstring(response.content).xpath('//input[@name="workspace"]/@value'),
+            [str(current.pk)],
+        )
 
 
 class ProjectAPITest(APIBaseTest):

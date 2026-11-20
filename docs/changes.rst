@@ -62,6 +62,7 @@ Weblate 2026.12
 * Restricted :ref:`webhook matching <hooks-target-matching>` to repository owners, preventing generic deliveries from triggering GitHub App updates through linked components.
 * Required repository access to set a path for a :ref:`repository-linked screenshot <screenshots>`.
 * Kept backend errors out of :ref:`task status results <api-tasks>` when cached task metadata is removed during a request.
+* Prevented workspace disclosure in the :ref:`browsable REST API <api>` by using text inputs for single related objects. Large single-choice fields also use text inputs.
 
 .. rubric:: Bug fixes
 

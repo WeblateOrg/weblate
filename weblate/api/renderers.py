@@ -7,13 +7,46 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Literal
 
-from rest_framework.renderers import BaseRenderer, JSONRenderer
+from rest_framework import serializers
+from rest_framework.renderers import (
+    BaseRenderer,
+    BrowsableAPIRenderer,
+    HTMLFormRenderer,
+    JSONRenderer,
+)
 from rest_framework_csv.renderers import CSVRenderer
 
 from weblate.utils.csv import escape_csv_formula
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
+    from typing import Any
+
+    from rest_framework.utils.serializer_helpers import BoundField
+
+
+class WeblateHTMLFormRenderer(HTMLFormRenderer):
+    choice_select_limit = 100
+
+    def render_field(self, field: BoundField, parent_style: Mapping[str, Any]) -> str:
+        serializer_field = field._field  # ruff: ignore[private-member-access]
+        if isinstance(serializer_field, serializers.RelatedField) or (
+            isinstance(serializer_field, serializers.ChoiceField)
+            and not isinstance(serializer_field, serializers.MultipleChoiceField)
+            and len(serializer_field.choices) > self.choice_select_limit
+        ):
+            # Override the bound field's presentation for this render only.
+            field.style = {  # type: ignore[attr-defined]
+                **field.style,
+                "base_template": "input.html",
+                "input_type": "text",
+            }
+        return super().render_field(field, parent_style)
+
+
+class WeblateBrowsableAPIRenderer(BrowsableAPIRenderer):
+    form_renderer_class = WeblateHTMLFormRenderer
+
 
 OpenMetricsMetricType = Literal[
     "counter",
