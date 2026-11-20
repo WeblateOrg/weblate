@@ -111,6 +111,15 @@ Weblate employs a wide range of quality checks on strings. The following section
 describes them all in further detail. There are also language specific checks.
 Please file a bug if anything is reported in error.
 
+The :ref:`check-cpp-format` check supports reordering fields by using explicit
+argument indices throughout the string, including nested width and precision
+fields. Automatic and explicit indices cannot be mixed. Chrono specifications
+can reorder conversion tokens and translate literal text while preserving the
+same conversions, modifiers, and formatting prefix. For example,
+``{:%Y-%m-%d on}`` can become ``{:%d.%m.%Y am}``. Other format specifications
+must remain unchanged. This check does not validate runtime C++ argument types
+or treat different chrono conversions as equivalent.
+
 .. seealso::
 
    * :setting:`CHECK_LIST`

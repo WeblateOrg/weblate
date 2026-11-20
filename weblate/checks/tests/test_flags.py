@@ -19,9 +19,11 @@ from weblate.checks.flags import (
     get_auto_flag_names,
     get_flag_choices,
 )
+from weblate.checks.format import CppFormatCheck
 from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.ttkit import PoFormat
 from weblate.trans.defines import VARIANT_KEY_LENGTH
+from weblate.trans.tests.factories import make_unit
 
 PO_HEADER = r"""
 msgid ""
@@ -182,6 +184,33 @@ class FlagTest(SimpleTestCase):
         with self.assertRaises(ValidationError):
             Flags("invalid-check-name:1").validate()
         Flags("ignore-max-length").validate()
+
+    def test_validate_cpp_format(self) -> None:
+        for flag in ("cpp-format", "c++-format"):
+            with self.subTest(flag=flag):
+                FlagsValidator(flag).validate()
+
+    def test_validate_invalid_cpp_format(self) -> None:
+        for flag in ("cpp-format:1", "c++-format:1", "unknown-cpp-format"):
+            with self.subTest(flag=flag), self.assertRaises(ValidationError):
+                FlagsValidator(flag).validate()
+
+    def test_cpp_format_alias_activates_check(self) -> None:
+        check = CppFormatCheck()
+        source = "{} -> {}"
+        target = "{} -} {}"
+        for flag in ("cpp-format", "c++-format"):
+            with self.subTest(flag=flag):
+                flags = FlagsValidator(flag)
+                flags.validate()
+                unit = make_unit(flags=flags, source=source, target=target)
+                self.assertFalse(check.should_skip(unit))
+                self.assertTrue(check.check_target([source], [target], unit))
+        self.assertFalse(
+            check.check_target(
+                [source], [target], make_unit(source=source, target=target)
+            )
+        )
 
     def test_typed(self) -> None:
         self.assertEqual(TYPED_FLAGS.keys(), TYPED_FLAGS_ARGS.keys())

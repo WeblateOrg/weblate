@@ -1116,6 +1116,187 @@ class CppFormatCheckTest(CheckTestCase):
             self.check.check_format("{0} {1:>10}", "{1:>10} {0}", False, make_unit())
         )
 
+    def test_automatic_explicit_indices(self) -> None:
+        for automatic, explicit in (
+            ("{} has {:d} files", "{1:d} files belong to {0}"),
+            ("{{}} {} {{}}", "{{}} {0} {{}}"),
+        ):
+            for source, target in ((automatic, explicit), (explicit, automatic)):
+                with self.subTest(source=source, target=target):
+                    self.assertFalse(
+                        self.check.check_format(source, target, False, make_unit())
+                    )
+
+    def test_nested_automatic_explicit_indices(self) -> None:
+        for automatic, explicit in (
+            ("{:{}} {}", "{2} {0:{1}}"),
+            ("{:.{}f} {}", "{2} {0:.{1}f}"),
+            ("{:{}.{}f} {}", "{3} {0:{1}.{2}f}"),
+        ):
+            for source, target in ((automatic, explicit), (explicit, automatic)):
+                with self.subTest(source=source, target=target):
+                    self.assertFalse(
+                        self.check.check_format(source, target, False, make_unit())
+                    )
+
+    def test_wrong_argument_bindings(self) -> None:
+        for source, target in (
+            ("{:d} {:s}", "{1:d} {0:s}"),
+            ("{0:d} {1:s}", "{1:d} {0:s}"),
+            ("{:{}} {}", "{1} {0:{2}}"),
+            ("{:.{}f} {}", "{2} {0:.{2}f}"),
+            ("{:{}.{}f} {}", "{3} {0:{2}.{1}f}"),
+            ("{0:{1}.{2}f}", "{0:{2}.{1}f}"),
+        ):
+            for ignore_missing in (False, True):
+                with self.subTest(
+                    source=source, target=target, ignore_missing=ignore_missing
+                ):
+                    self.assertTrue(
+                        self.check.check_format(
+                            source, target, ignore_missing, make_unit()
+                        )
+                    )
+
+    def test_mixed_indices(self) -> None:
+        for mixed, explicit in (
+            ("{} {0}", "{0} {0}"),
+            ("{0:{}}", "{0:{1}}"),
+            ("{:{1}}", "{0:{1}}"),
+            ("{0:.{}f}", "{0:.{1}f}"),
+            ("{:.{1}f}", "{0:.{1}f}"),
+        ):
+            for source, target in (
+                (mixed, mixed),
+                (mixed, explicit),
+                (explicit, mixed),
+            ):
+                for ignore_missing in (False, True):
+                    with self.subTest(
+                        source=source, target=target, ignore_missing=ignore_missing
+                    ):
+                        self.assertTrue(
+                            self.check.check_format(
+                                source, target, ignore_missing, make_unit()
+                            )
+                        )
+
+    def test_changed_format_spec(self) -> None:
+        for source, target in (
+            ("{:d}", "{:x}"),
+            ("{:>10}", "{:<10}"),
+            ("{:10}", "{:11}"),
+            ("{:.2f}", "{:.3f}"),
+            ("{:L}", "{}"),
+        ):
+            with self.subTest(source=source, target=target):
+                self.assertTrue(
+                    self.check.check_format(source, target, False, make_unit())
+                )
+
+    def test_chrono_localization(self) -> None:
+        for source, target in (
+            ("{:%Y-%m-%d}", "{:%d.%m.%Y}"),
+            ("{:%Y-%m-%d on}", "{:%d.%m.%Y am}"),
+            ("{:%EY-%Om-%Od}", "{:%Od.%Om.%EY}"),
+            ("{:>20%Y-%m-%d}", "{:>20%d.%m.%Y}"),
+        ):
+            with self.subTest(source=source, target=target):
+                self.assertFalse(
+                    self.check.check_format(source, target, False, make_unit())
+                )
+
+    def test_chrono_reordered_indices(self) -> None:
+        for source, target in (
+            (
+                "{0:%Y-%m-%d} has {1:d} files",
+                "{1:d} files on {0:%d.%m.%Y}",
+            ),
+            (
+                "{:%Y-%m-%d} has {:d} files",
+                "{1:d} files on {0:%d.%m.%Y}",
+            ),
+            ("{:{}%Y-%m-%d} {}", "{2} {0:{1}%d.%m.%Y}"),
+        ):
+            with self.subTest(source=source, target=target):
+                self.assertFalse(
+                    self.check.check_format(source, target, False, make_unit())
+                )
+
+    def test_changed_chrono_requirements(self) -> None:
+        for source, target in (
+            ("{0:%Y-%m-%d}", "{1:%d.%m.%Y}"),
+            ("{:%Y-%m-%d}", "{:%H:%M:%S}"),
+            ("{:%Y-%m-%d}", "{:%d.%m}"),
+            ("{:%Y-%m-%d}", "{:%d.%m.%Y %Y}"),
+            ("{:%EY-%Om-%Od}", "{:%Od.%Om.%Y}"),
+            ("{:>20%Y-%m-%d}", "{:>21%d.%m.%Y}"),
+            ("{:>20%Y-%m-%d}", "{:<20%d.%m.%Y}"),
+        ):
+            for ignore_missing in (False, True):
+                with self.subTest(
+                    source=source, target=target, ignore_missing=ignore_missing
+                ):
+                    self.assertTrue(
+                        self.check.check_format(
+                            source, target, ignore_missing, make_unit()
+                        )
+                    )
+
+    def test_percent_fill(self) -> None:
+        for target, expected in (
+            ("{0:%>10d}", False),
+            ("{:*>10d}", True),
+            ("{:%>10x}", True),
+            ("{:%>11d}", True),
+            ("{:%<10d}", True),
+        ):
+            with self.subTest(target=target):
+                self.assertEqual(
+                    bool(
+                        self.check.check_format("{:%>10d}", target, False, make_unit())
+                    ),
+                    expected,
+                )
+
+    def test_missing_fields(self) -> None:
+        for source, target in (
+            ("{} string", "string"),
+            ("{0} {1:d}", "{0}"),
+            ("{} {:d}", "{0}"),
+            ("{0} {0}", "{0}"),
+            ("{:{}.{}f} {}", "{0:{1}.{2}f}"),
+            ("{0:%Y-%m-%d} {1:d}", "{0:%d.%m.%Y}"),
+            ("{0:%Y-%m-%d} {0:%Y-%m-%d}", "{0:%d.%m.%Y}"),
+        ):
+            for ignore_missing in (False, True):
+                with self.subTest(
+                    source=source, target=target, ignore_missing=ignore_missing
+                ):
+                    self.assertEqual(
+                        bool(
+                            self.check.check_format(
+                                source, target, ignore_missing, make_unit()
+                            )
+                        ),
+                        not ignore_missing,
+                    )
+
+    def test_duplicate_fields(self) -> None:
+        for source, target in (
+            ("{0}", "{0} {0}"),
+            ("{0:%Y-%m-%d}", "{0:%d.%m.%Y} {0:%d.%m.%Y}"),
+        ):
+            for ignore_missing in (False, True):
+                with self.subTest(
+                    source=source, target=target, ignore_missing=ignore_missing
+                ):
+                    self.assertTrue(
+                        self.check.check_format(
+                            source, target, ignore_missing, make_unit()
+                        )
+                    )
+
     def test_named_field(self) -> None:
         self.assertTrue(
             self.check.check_format("{} string", "{s} string", False, make_unit())
@@ -2328,6 +2509,29 @@ class MultipleUnnamedFormatsCheckTestCase(SimpleTestCase):
         self.assertTrue(
             self.check.check_source(["{} {}"], make_unit(flags="python-brace-format"))
         )
+
+    def test_bad_cpp(self) -> None:
+        for flags in ("cpp-format", "c++-format", "cpp-format,c++-format"):
+            for source in ("{} {}", "{:d} {:s}"):
+                with self.subTest(flags=flags, source=source):
+                    self.assertTrue(
+                        self.check.check_source([source], make_unit(flags=flags))
+                    )
+
+    def test_good_cpp(self) -> None:
+        for flags in ("cpp-format", "c++-format", "cpp-format,c++-format"):
+            for source in (
+                "{0} {1}",
+                "{0:d} {1:s}",
+                "{}",
+                "{:d}",
+                "{{}} {}",
+                "{{}} {{}}",
+            ):
+                with self.subTest(flags=flags, source=source):
+                    self.assertFalse(
+                        self.check.check_source([source], make_unit(flags=flags))
+                    )
 
     def test_good_multi_format(self) -> None:
         self.assertFalse(

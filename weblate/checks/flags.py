@@ -115,6 +115,9 @@ PLAIN_FLAGS: dict[str, StrOrPromise] = {
     for check in CHECKS.values()
     if check.default_disabled and not check.param_type
 }
+if "cpp-format" in PLAIN_FLAGS:
+    PLAIN_FLAGS["c++-format"] = PLAIN_FLAGS["cpp-format"]
+
 TYPED_FLAGS: dict[str, StrOrPromise] = {
     check.enable_string: check.name for check in CHECKS.values() if check.param_type
 }
