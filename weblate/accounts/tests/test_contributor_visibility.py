@@ -666,6 +666,7 @@ class ContributorVisibilityTest(FixtureTestCase):
                         if name in {
                             "xliff",
                             "xliff11",
+                            "xliff11-plain",
                             "tmx",
                             "tbx",
                             "aresource",
