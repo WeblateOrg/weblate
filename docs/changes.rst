@@ -7,6 +7,7 @@ Weblate 2026.12
 
 * Added an option to sort languages by translation percentage in language bar chart widgets.
 * Added support for :ref:`storing screenshots in object storage <screenshot-storage>` such as Amazon S3 or Google Cloud Storage, configurable in Docker using :envvar:`WEBLATE_MEDIA_STORAGE_BACKEND`.
+* Added support for :ref:`storing fonts in object storage <font-storage>`, configurable in Docker using :envvar:`WEBLATE_FONTS_STORAGE_BACKEND`.
 * Added :wladmin:`recovergit` to rebuild missing repository checkouts.
 * :ref:`format-line-number` in the translation file is now stored in the unit for supported formats; when available, the line number is used for repository links and :guilabel:`Nearby strings`.
 * Added staged :ref:`libre-hosting-cleanup` with advance notice and a 30-day trial.
@@ -14,6 +15,9 @@ Weblate 2026.12
 .. rubric:: Improvements
 
 * Added a choice to :ref:`connect an existing GitHub App installation to another workspace <code-hosting-github-app-connect>`.
+* Show commit counts, occurrence totals, file-format evidence, and the last recorded translation change in the relevant :ref:`component diagnostics <alerts>`.
+* Redesigned the :ref:`translation checklist <strings-to-check>` as responsive cards with prominent string counts and actions next to each filter.
+* Grouped :ref:`quick downloads <download>` into cards with format links and string, word, and character counts.
 
 * Moved distributed locking to :ref:`PostgreSQL <database-setup>` and enabled concurrent repository reads for downloads, component copies, Kotlin SDK extraction, project backups, and Git status checks.
 
@@ -60,6 +64,7 @@ Weblate 2026.12
 
 .. rubric:: Bug fixes
 
+* Applied :ref:`enforced checks <enforcing-checks>` when changing a string's state through :ref:`bulk editing <bulk-edit>`.
 * Preserved the :ref:`category hierarchy <category>` on project and category language overviews.
 * Preserved source strings backed by a file when :ref:`removing their last translation <component-manage_units>`.
 * Enabled adding languages from the project language list in :ref:`glossary-only projects <glossary-language-sync>`.

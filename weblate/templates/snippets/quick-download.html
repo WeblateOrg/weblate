@@ -1,0 +1,28 @@
+{% load i18n translations %}
+
+<li class="card p-3 mb-0 overflow-wrap">
+  <h5 class="fs-6 fw-semibold">
+    {% if original_format %}
+      {% translate "Original file" %}
+    {% else %}
+      {% get_filter_name filter_name %}
+    {% endif %}
+  </h5>
+  <p class="mb-2">
+    {% if original_format %}
+      {% translate "File in its original format, as stored in the repository." %}
+    {% else %}
+      {% translate "Converted files enriched with comments; suitable for offline translation." %}
+    {% endif %}
+  </p>
+  {% include "snippets/string-counts.html" with count=count words=words characters=characters only %}
+  <div class="d-flex flex-wrap column-gap-3 row-gap-1 mt-auto pt-2 fw-semibold">
+    {% if original_format %}
+      <a class="stretched-link" href="{{ download_url }}">{{ original_format }}</a>
+    {% else %}
+      {% for exporter in exporters %}
+        <a href="{{ download_url }}?format={{ exporter.name|urlencode }}{% if query %}&amp;q={{ query|urlencode }}{% endif %}">{{ exporter.verbose }}</a>
+      {% endfor %}
+    {% endif %}
+  </div>
+</li>

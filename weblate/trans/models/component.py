@@ -72,6 +72,7 @@ from weblate.trans.alerts.registry import (
 )
 from weblate.trans.defines import (
     BRANCH_LENGTH,
+    CATEGORY_DEPTH,
     COMPONENT_NAME_LENGTH,
     FILENAME_LENGTH,
     PROJECT_NAME_LENGTH,
@@ -375,6 +376,40 @@ class FileMaskTimeoutError(TimeoutError):
     """A component file mask took too long to match a path."""
 
 
+def component_settings_lookups(*, defer: bool) -> list[str | models.Prefetch]:
+    """Return the prefetch lookups needed to resolve inherited settings."""
+    categories = [
+        "__".join(["category"] * depth) for depth in range(1, CATEGORY_DEPTH + 1)
+    ]
+    lookups: list[str | models.Prefetch]
+    if defer:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Category, Project
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.workspaces.models import Workspace
+
+        lookups = [models.Prefetch("project", queryset=Project.objects.defer_huge())]
+        for category in categories:
+            lookups.extend(
+                (
+                    models.Prefetch(category, queryset=Category.objects.defer_huge()),
+                    models.Prefetch(
+                        f"{category}__project", queryset=Project.objects.defer_huge()
+                    ),
+                )
+            )
+        lookups.append(
+            models.Prefetch(
+                "project__workspace", queryset=Workspace.objects.defer_huge()
+            )
+        )
+    else:
+        lookups = ["project__workspace"]
+    lookups.extend(f"{category}__project__workspace" for category in categories)
+    return lookups
+
+
 class ComponentQuerySet(models.QuerySet["Component", "Component"]):
     # pylint: disable-next=arguments-differ
     def select_for_update(self) -> ComponentQuerySet:  # type: ignore[override]
@@ -387,19 +422,11 @@ class ComponentQuerySet(models.QuerySet["Component", "Component"]):
     def prefetch(self, alerts: bool = True, defer: bool = True):
         result = self
         linked_component: str | models.Prefetch
-        project: str | models.Prefetch
-        category: str | models.Prefetch
-        category_project: str | models.Prefetch
-        parent_category: str | models.Prefetch
-        parent_category_project: str | models.Prefetch
-        grandparent_category: str | models.Prefetch
-        grandparent_category_project: str | models.Prefetch
         linked_component_project: str | models.Prefetch
-        project_workspace: str | models.Prefetch
         linked_component_project_workspace: str | models.Prefetch
         if defer:
             # ruff: ignore[import-outside-top-level]
-            from weblate.trans.models import Category, Project
+            from weblate.trans.models import Project
 
             # ruff: ignore[import-outside-top-level]
             from weblate.workspaces.models import Workspace
@@ -408,32 +435,8 @@ class ComponentQuerySet(models.QuerySet["Component", "Component"]):
             linked_component = models.Prefetch(
                 "linked_component", queryset=Component.objects.defer_huge()
             )
-            project = models.Prefetch("project", queryset=Project.objects.defer_huge())
-            category = models.Prefetch(
-                "category", queryset=Category.objects.defer_huge()
-            )
-            category_project = models.Prefetch(
-                "category__project", queryset=Project.objects.defer_huge()
-            )
-            parent_category = models.Prefetch(
-                "category__category", queryset=Category.objects.defer_huge()
-            )
-            parent_category_project = models.Prefetch(
-                "category__category__project", queryset=Project.objects.defer_huge()
-            )
-            grandparent_category = models.Prefetch(
-                "category__category__category",
-                queryset=Category.objects.defer_huge(),
-            )
-            grandparent_category_project = models.Prefetch(
-                "category__category__category__project",
-                queryset=Project.objects.defer_huge(),
-            )
             linked_component_project = models.Prefetch(
                 "linked_component__project", queryset=Project.objects.defer_huge()
-            )
-            project_workspace = models.Prefetch(
-                "project__workspace", queryset=Workspace.objects.defer_huge()
             )
             linked_component_project_workspace = models.Prefetch(
                 "linked_component__project__workspace",
@@ -441,15 +444,7 @@ class ComponentQuerySet(models.QuerySet["Component", "Component"]):
             )
         else:
             linked_component = "linked_component"
-            project = "project"
-            category = "category"
-            category_project = "category__project"
-            parent_category = "category__category"
-            parent_category_project = "category__category__project"
-            grandparent_category = "category__category__category"
-            grandparent_category_project = "category__category__category__project"
             linked_component_project = "linked_component__project"
-            project_workspace = "project__workspace"
             linked_component_project_workspace = "linked_component__project__workspace"
         if alerts:
             result = result.prefetch_related(
@@ -457,20 +452,10 @@ class ComponentQuerySet(models.QuerySet["Component", "Component"]):
             )
 
         return result.prefetch_related(
-            project,
-            category,
-            category_project,
-            parent_category,
-            parent_category_project,
-            grandparent_category,
-            grandparent_category_project,
+            *component_settings_lookups(defer=defer),
             linked_component,
             linked_component_project,
-            project_workspace,
             linked_component_project_workspace,
-            "category__project__workspace",
-            "category__category__project__workspace",
-            "category__category__category__project__workspace",
         )
 
     def defer_huge(self):
@@ -7291,8 +7276,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
             )
             return None
 
-        base_filename = self.get_new_base_filename()
-
         filename = file_format.get_language_filename(self.filemask, code)
         fullname = os.path.join(self.full_path, filename)
 
@@ -7302,6 +7285,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 self.commit_pending("add language", None)
 
             try:
+                # An update may have replaced the base while we waited for the lock.
+                base_filename = self.get_new_base_filename()
                 self.check_file_is_valid(fullname)
             except ValidationError:
                 fail_message(gettext("Could not add new translation file."))

@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-13 01:19-0600\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
 "PO-Revision-Date: 2026-11-16 15:45+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
@@ -1364,6 +1364,22 @@ msgid ""
 msgstr ""
 "Lời mời này chỉ có thể được chấp nhận bằng địa chỉ e-mail do người mời chọn; "
 "nó không thể được sử dụng bởi tài khoản của bạn."
+
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Your e-mail no longer belongs to verified account, it has been changed to "
+#| "{0}."
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr ""
+"Email của bạn không còn thuộc về tài khoản đã xác minh, nó đã đổi thành {0}."
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
+msgstr ""
 
 msgid ""
 "Your e-mail address has been added. You can now select it as your account e-"
@@ -3944,6 +3960,16 @@ msgid ""
 "Remove the component from project teams before moving it to another project."
 msgstr ""
 
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
+
 msgid "Roles"
 msgstr "Vai trò"
 
@@ -4745,6 +4771,11 @@ msgstr "Thanh toán"
 
 msgid "Billing event"
 msgstr "Sự kiện thanh toán"
+
+#, fuzzy
+#| msgid "Projects without components"
+msgid "Project has no components."
+msgstr "Dự án không có thành phần"
 
 msgid "monthly"
 msgstr "hàng tháng"
@@ -6702,9 +6733,6 @@ msgstr "Công thức số nhiều"
 msgid "Plural type"
 msgstr "Loại số nhiều"
 
-msgid "Example counts for this plural form."
-msgstr "Ví dụ này áp dụng cho dạng số nhiều."
-
 msgid "Singular"
 msgstr "Số ít"
 
@@ -7813,6 +7841,11 @@ msgid "Read your e-mail address"
 msgstr "Dùng địa chỉ email tài khoản"
 
 msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
 msgstr ""
 
 msgid "Image is too big."
@@ -10286,6 +10319,16 @@ msgstr ""
 "Gói đăng ký này không đủ điều kiện cho gói tự do, vui lòng sửa các lỗi ở "
 "trên hoặc mua gói đăng ký."
 
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+
 msgid "Customer"
 msgstr "Khách hàng"
 
@@ -11896,6 +11939,16 @@ msgid "Recurring payment will be disabled for inactive projects"
 msgstr ""
 "Chức năng thanh toán định kỳ sẽ bị vô hiệu hóa đối với các dự án không hoạt "
 "động"
+
+#, fuzzy
+#| msgid "Does not meet Libre hosting conditions."
+msgid "Review Libre hosting conditions"
+msgstr "Không đáp ứng các điều kiện lưu trữ Tự Do."
+
+#, fuzzy, python-format
+#| msgid "Number of entries for %(project)s"
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "Số lượng mục nhập cho %(project)s"
 
 msgid "Translation change"
 msgstr "Thay đổi dịch thuật"
@@ -13875,6 +13928,9 @@ msgid ""
 "maintenance of Weblate itself."
 msgstr ""
 
+msgid "Example counts for this plural form."
+msgstr "Ví dụ này áp dụng cho dạng số nhiều."
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr "Độ dài chuỗi tối đa được xác định từ chuỗi nguồn hoặc các cờ."
@@ -13908,12 +13964,13 @@ msgstr ""
 msgid "Source code repository"
 msgstr "Kho lưu trữ mã nguồn"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr "Thành phần này được liên kết với kho lưu trữ %(target)s."
-
 msgid "Repository URL copied to clipboard."
 msgstr "URL kho lưu trữ đã được sao chép vào bảng nhớ tạm."
+
+#, fuzzy
+#| msgid "Created new SSH key."
+msgid "Linked component"
+msgstr "Đã tạo mới khóa SSH."
 
 msgid "Repository branch"
 msgstr "Nhánh kho lưu trữ"
@@ -14355,6 +14412,11 @@ msgstr "Số nhiều: %(source_description)s"
 
 msgid "Plurals"
 msgstr "Số nhiều"
+
+#, fuzzy
+#| msgid "No strings found!"
+msgid "No integer examples found"
+msgstr "Không tìm thấy chuỗi nào!"
 
 msgid "First"
 msgstr "Đầu tiên"
@@ -15308,12 +15370,12 @@ msgstr "Thành phần có chứa một số chuỗi dịch trùng lặp."
 msgid "Source"
 msgstr "Nguồn"
 
+msgid "Remove duplicate strings"
+msgstr "Loại bỏ các chuỗi trùng lặp"
+
 #, python-format
 msgid "Remove duplicate strings from %(language)s (%(filename)s)"
 msgstr "Xóa các chuỗi trùng lặp khỏi %(language)s (%(filename)s)"
-
-msgid "Remove duplicate strings"
-msgstr "Loại bỏ các chuỗi trùng lặp"
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -16308,10 +16370,6 @@ msgstr "Chuỗi ký tự này được dịch tự động bởi %(author)s."
 msgid "Add term to glossary"
 msgstr "Thêm thuật ngữ vào bảng thuật ngữ"
 
-#, python-format
-msgid "Browse glossary %(name)s"
-msgstr "Xem bảng thuật ngữ %(name)s"
-
 msgid "Browse glossary"
 msgstr "Xem thuật ngữ"
 
@@ -16361,6 +16419,15 @@ msgstr "Cập nhật lần cuối"
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
 msgstr "Tuổi của chuỗi nguồn"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s, line %(line)s"
+msgstr "%(filename)s, chuỗi %(position)s"
+
+#, python-format
+msgid "line %(line)s"
+msgstr ""
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -17971,11 +18038,11 @@ msgstr "Trùng tên kiểm tra."
 msgid "Referenced category does not exist."
 msgstr "Danh mục được tham chiếu không tồn tại."
 
-msgid "Component filename does not match its category and slug."
-msgstr "Tên tệp thành phần không khớp với danh mục và slug của nó."
-
 msgid "Duplicate component slug."
 msgstr "Trùng lặp slug thành phần."
+
+msgid "Component filename does not match its category and slug."
+msgstr "Tên tệp thành phần không khớp với danh mục và slug của nó."
 
 msgid "Translation revision has an invalid format."
 msgstr "Bản sửa đổi bản dịch có định dạng không hợp lệ."
@@ -18228,6 +18295,11 @@ msgid "Needs review"
 msgstr "Cần đánh giá"
 
 #, fuzzy
+#| msgid "The source and target have to be different languages."
+msgid "The source and destination checkouts must be different."
+msgstr "Nguồn và đích phải là những ngôn ngữ khác nhau."
+
+#, fuzzy
 #| msgid "The target does not exist or you cannot access it."
 msgid "This component does not exist or you cannot access it."
 msgstr "Mục tiêu không tồn tại hoặc bạn không thể truy cập được."
@@ -18253,6 +18325,11 @@ msgstr "Tôi có thể thực hiện"
 
 msgid "Discovery configuration"
 msgstr "Cấu hình khám phá"
+
+#, fuzzy, python-format
+#| msgid "Could not render template: {}"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "Không thể hiển thị mẫu: {}"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -20367,6 +20444,11 @@ msgstr "Cài đặt này được kế thừa từ dự án nếu để trống.
 msgid "Use the secondary language configured in the category or project."
 msgstr "Sử dụng ngôn ngữ phụ đã được cấu hình trong danh mục hoặc dự án."
 
+#, fuzzy
+#| msgid "The project repository directory already exists."
+msgid "The linked repository path is ambiguous."
+msgstr "Thư mục lưu trữ dự án đã tồn tại."
+
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
 "admin interface."
@@ -20660,6 +20742,11 @@ msgid ""
 msgstr ""
 "Việc đẩy mà không có yêu cầu hợp nhất cần có quyền ghi vào kho lưu trữ. Định "
 "cấu hình URL đẩy bằng thông tin xác thực hoặc sử dụng URL kho lưu trữ SSH."
+
+#, fuzzy
+#| msgid "This role cannot be assigned to this team."
+msgid "Version control system cannot be changed to this backend."
+msgstr "Vai trò này không thể được giao cho nhóm này."
 
 #, fuzzy
 #| msgid ""
@@ -21285,6 +21372,11 @@ msgstr ""
 msgid "User configured character: {}"
 msgstr "Ký tự do người dùng cấu hình: {}"
 
+#, fuzzy, python-format
+#| msgid "Could not push the repository."
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "Không thể đẩy kho lưu trữ lên."
+
 msgid "Repository operation could not be completed because it remained locked."
 msgstr "Thao tác với kho lưu trữ không thể hoàn tất vì nó vẫn bị khóa."
 
@@ -21394,6 +21486,10 @@ msgstr "ID chuỗi %s"
 
 msgid "This language is used for source strings."
 msgstr "Ngôn ngữ này được sử dụng cho các chuỗi nguồn."
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr "Thành phần này được liên kết với kho lưu trữ %(target)s."
 
 msgid "Fix this component to clear its diagnostics."
 msgstr "Hãy sửa lỗi thành phần này để xóa thông báo lỗi."
@@ -22170,6 +22266,16 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "Biểu đồ thanh ngôn ngữ dọc"
 
+#, fuzzy
+#| msgid "Secondary languages"
+msgid "Sort languages by"
+msgstr "Ngôn ngữ thứ hai"
+
+#, fuzzy
+#| msgid "Translation change"
+msgid "Translation percentage"
+msgstr "Thay đổi dịch thuật"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr "Biểu đồ thanh ngôn ngữ ngang"
@@ -22518,18 +22624,6 @@ msgstr "Giá trị tham số được lưu trữ không hợp lệ."
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "Các tham số phải là một từ điển gồm các cặp khóa-giá trị."
 
-msgid "Template output exceeds its size limit."
-msgstr ""
-
-msgid "Template rendering failed or exceeded its resource limits."
-msgstr ""
-
-msgid "Oversized template response."
-msgstr ""
-
-msgid "Invalid template rendering response."
-msgstr "Phản hồi hiển thị mẫu không hợp lệ."
-
 msgid "Could not render template: {}"
 msgstr "Không thể hiển thị mẫu: {}"
 
@@ -22540,7 +22634,7 @@ msgstr ""
 "Các chuỗi định dạng không còn được hỗ trợ nữa, vui lòng sử dụng ngôn ngữ mẫu "
 "thay thế."
 
-msgid "Template value exceeds its size limit."
+msgid "Template context exceeds its size limit."
 msgstr ""
 
 #, fuzzy
@@ -22548,8 +22642,10 @@ msgstr ""
 msgid "Template context is nested too deeply."
 msgstr "Thẻ HTML {tag} được lồng quá sâu."
 
-msgid "Template context exceeds its size limit."
-msgstr ""
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported nonfinite template context value."
+msgstr "Định dạng tệp quy tắc ITS không được hỗ trợ."
 
 #, fuzzy
 #| msgid "Unsupported ITS rule content."
@@ -22561,30 +22657,339 @@ msgstr "Định dạng tệp quy tắc ITS không được hỗ trợ."
 msgid "Unsupported template context value."
 msgstr "Định dạng tệp quy tắc ITS không được hỗ trợ."
 
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Template text is not valid UTF-8."
+msgstr "Mã token đã nhập không hợp lệ."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid request."
+msgid "Invalid template syntax."
+msgstr "Yêu cầu không hợp lệ."
+
+#, fuzzy
+#| msgid "Undefined variable: \"%s\""
+msgid "Undefined template variable."
+msgstr "Biến không xác định: \"%s\""
+
+#, fuzzy
+#| msgid "The translation is not valid XML."
+msgid "Text is not valid UTF-8."
+msgstr "Bản dịch không phải là XML hợp lệ."
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Division by zero is not supported."
+msgstr "Không hỗ trợ cách sắp xếp đã chọn."
+
+#, fuzzy
+#| msgid "Select a change for this automation."
+msgid "Numeric value is too large for this operation."
+msgstr "Chọn một thay đổi cho tự động hóa này."
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Numeric operation failed."
+msgstr "Thao tác kho lưu trữ thất bại"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation revision has an invalid format."
+msgid "Value or argument has an invalid format."
+msgstr "Bản sửa đổi bản dịch có định dạng không hợp lệ."
+
+#, fuzzy, python-format
+#| msgid "%(path)s: %(error)s"
+msgid "%(operation)s: %(message)s"
+msgstr "%(path)s: %(error)s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
 msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nonfinite numbers are not supported."
+msgstr "Không hỗ trợ cách sắp xếp đã chọn."
+
+#, fuzzy, python-format
+#| msgid "File names"
+msgid "Filter \"%(name)s\""
+msgstr "Tên tệp"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
 msgstr ""
 
 msgid "Template rendering exceeded its loop limit."
 msgstr ""
 
-msgid "Template intermediate value exceeds its size limit."
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Attribute access and method calls are not supported."
+msgstr "Không hỗ trợ cách sắp xếp đã chọn."
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Index exceeds the length limit of 128 characters."
+msgstr "Tên tài khoản phải có ít nhất năm ký tự."
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Translated template literals are not supported."
+msgstr "Không hỗ trợ cách sắp xếp đã chọn."
+
+#, fuzzy
+#| msgid "Invalid unit."
+msgid "Invalid filter."
+msgstr "Đơn vị không hợp lệ."
+
+msgid "Identity comparisons require None, True, or False."
 msgstr ""
 
-msgid "Template replacement exceeds its size limit."
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This condition operator is not supported."
+msgstr "Không hỗ trợ cách sắp xếp đã chọn."
+
+msgid "Template output exceeds its size limit."
 msgstr ""
 
-msgid "Template padding exceeds its size limit."
+msgid "Loops require a list, string, dictionary, or dictionary view."
 msgstr ""
 
-msgid "Template formatting exceeds its size limit."
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
 msgstr ""
 
-msgid "Template join exceeds its size limit."
+msgid "Loop value cannot be unpacked into its variables."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This template tag is not supported."
+msgstr "Không hỗ trợ cách sắp xếp đã chọn."
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This template node is not supported."
+msgstr "Định dạng tệp đã phát hiện không được hỗ trợ."
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
 msgstr ""
 
 #, python-format
 msgid "Undefined variable: \"%s\""
 msgstr "Biến không xác định: \"%s\""
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "This field is required."
+msgid "This filter requires strings."
+msgstr "Trường này là bắt buộc."
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Choices must be a string."
+msgstr "Các khóa tự động hóa phải là chuỗi."
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr "Tên tài khoản phải có ít nhất năm ký tự."
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source string length"
+msgid "Joining requires string elements."
+msgstr "Độ dài chuỗi nguồn"
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Date format must be a string or None."
+msgstr "Các khóa tự động hóa phải là chuỗi."
+
+#, fuzzy
+#| msgid "A screenshot was associated with a string."
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "Ảnh chụp màn hình được liên kết với một chuỗi ký tự."
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Plural suffixes must be a string."
+msgstr "Các khóa tự động hóa phải là chuỗi."
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr "Tên tài khoản phải có ít nhất năm ký tự."
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nested template delimiters are not supported."
+msgstr "Không hỗ trợ cách sắp xếp đã chọn."
+
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unclosed template token."
+msgstr "Định dạng tệp quy tắc ITS không được hỗ trợ."
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "The resource is locked."
+msgid "Template tag is empty."
+msgstr "Tài nguyên đã bị khóa."
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr ""
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "Định dạng tệp quy tắc ITS không được hỗ trợ."
+
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported template tag."
+msgstr "Định dạng tệp quy tắc ITS không được hỗ trợ."
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -24343,6 +24748,13 @@ msgid "The workspace has been removed."
 msgstr "Không gian làm việc đã bị xóa."
 
 #, python-format
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "Xem bảng thuật ngữ %(name)s"
+
+#~ msgid "Invalid template rendering response."
+#~ msgstr "Phản hồi hiển thị mẫu không hợp lệ."
+
+#, python-format
 #~ msgid ""
 #~ "Fedora Messaging publisher service was unavailable; the connection will "
 #~ "be recreated on the next attempt: %(error)s"
@@ -25550,11 +25962,6 @@ msgstr "Không gian làm việc đã bị xóa."
 #~ msgstr "Chủ đề đã đăng ký theo dõi"
 
 #, fuzzy
-#~| msgid "Created new SSH key."
-#~ msgid "Renamed component"
-#~ msgstr "Đã tạo mới khóa SSH."
-
-#, fuzzy
 #~| msgid "Notification on new string to translate"
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
@@ -26175,11 +26582,6 @@ msgstr "Không gian làm việc đã bị xóa."
 #~| msgid "Failed to generate key: %s"
 #~ msgid "Backup pepository"
 #~ msgstr "Xảy ra lỗi khi tạo khóa: %s"
-
-#, fuzzy
-#~| msgid "Secondary languages"
-#~ msgid "Your languages"
-#~ msgstr "Ngôn ngữ thứ hai"
 
 #~ msgid "Fulltext"
 #~ msgstr "Toàn văn"
@@ -27237,9 +27639,6 @@ msgstr "Không gian làm việc đã bị xóa."
 #~| msgid "First name"
 #~ msgid "First seen"
 #~ msgstr "Tên"
-
-#~ msgid "Username needs to have at least five characters."
-#~ msgstr "Tên tài khoản phải có ít nhất năm ký tự."
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

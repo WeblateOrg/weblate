@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-13 01:19-0600\n"
-"PO-Revision-Date: 2026-11-19 10:23+0000\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
+"PO-Revision-Date: 2026-11-20 07:43+0000\n"
 "Last-Translator: Matthaiks <kityn@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -1363,6 +1363,24 @@ msgid ""
 msgstr ""
 "Zaproszenie może zostać przyjęte wyłącznie za pośrednictwem adresu e-mail "
 "wybranego przez osobę zapraszającą. Nie można go używać na swoim koncie."
+
+#, python-brace-format
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr ""
+"Twój adres e-mail nie należy już do zweryfikowanego konta. Został on "
+"zmieniony na {0}."
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
+msgstr ""
+"Adres e-mail Twojego konta nie jest już zweryfikowany i został usunięty. "
+"Dodaj i zweryfikuj adres e-mail, aby odzyskać hasło, a następnie wybierz go "
+"jako adres e-mail swojego konta w Ustawieniach konta, aby otrzymywać "
+"powiadomienia."
 
 msgid ""
 "Your e-mail address has been added. You can now select it as your account e-"
@@ -3958,6 +3976,20 @@ msgstr ""
 "Przed przeniesieniem komponentu do innego projektu należy go usunąć z "
 "zespołów projektowych."
 
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+"Usuń komponent z jego zespołów przed jego usunięciem. Usunięcie ostatnio "
+"przypisanego komponentu rozszerzy dostęp zespołu."
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
+"Usuń listę komponentów z jej zespołów przed jej usunięciem. Usunięcie "
+"ostatnio przypisanej listy komponentów może rozszerzyć dostęp zespołu."
+
 msgid "Roles"
 msgstr "Role"
 
@@ -4696,6 +4728,9 @@ msgstr "Rozliczenia"
 
 msgid "Billing event"
 msgstr "Zdarzenie płatności"
+
+msgid "Project has no components."
+msgstr "Projekt nie zawiera żadnych komponentów."
 
 msgid "monthly"
 msgstr "miesięcznie"
@@ -6659,9 +6694,6 @@ msgstr "Formuła liczby mnogiej"
 msgid "Plural type"
 msgstr "Typ liczby mnogiej"
 
-msgid "Example counts for this plural form."
-msgstr "Przykład dla tej formy liczby mnogiej."
-
 msgid "Singular"
 msgstr "Liczba pojedyncza"
 
@@ -7747,6 +7779,14 @@ msgstr "Przeczytaj swój adres e-mail"
 
 msgid "Read the version of the legal documents you accepted"
 msgstr "Przeczytaj wersję dokumentów prawnych, którą zaakceptowałeś"
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
+msgstr ""
+"Kiedy połączony plik ulegnie zmianie, Weblate może zastąpić zrzut ekranu "
+"obrazem z repozytorium. Aby zmienić tę ścieżkę, wymagany jest dostęp do "
+"repozytorium."
 
 msgid "Image is too big."
 msgstr "Obraz jest za duży."
@@ -9723,7 +9763,7 @@ msgstr ""
 "są dostępne w obu trybach."
 
 msgid "Percents translated"
-msgstr "Procent tłumaczenia"
+msgstr "Procenty przetłumaczone"
 
 msgid "Number of translated strings"
 msgstr "Liczba przetłumaczonych ciągów znaków"
@@ -10287,6 +10327,20 @@ msgid ""
 msgstr ""
 "Ta subskrypcja nie kwalifikuje się do wolnego planu, napraw powyższe błędy "
 "lub kup subskrypcję."
+
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+"Rozwiąż poniższe problemy do %(date)s, aby zachować hosting Libre dla "
+"swojego projektu."
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+"Weblate blokuje istniejące komponenty do tłumaczenia, gdy wyświetli to "
+"ostrzeżenie. Opiekunowie projektu mogą je odblokować."
 
 msgid "Customer"
 msgstr "Klient"
@@ -11900,6 +11954,13 @@ msgstr ""
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr ""
 "Płatności cykliczne zostaną wyłączone w przypadku nieaktywnych projektów"
+
+msgid "Review Libre hosting conditions"
+msgstr "Przejrzyj warunki hostingu Libre"
+
+#, python-format
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "Ostrzeżenie o usunięciu hostingu Libre dla %(project)s"
 
 msgid "Translation change"
 msgstr "Zmiana tłumaczenia"
@@ -13849,6 +13910,9 @@ msgstr ""
 "Jeśli chcesz przekazać więcej, dobrowolna darowizna wspiera rozwój i "
 "utrzymanie samego Weblate."
 
+msgid "Example counts for this plural form."
+msgstr "Przykład dla tej formy liczby mnogiej."
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
@@ -13885,12 +13949,11 @@ msgstr ""
 msgid "Source code repository"
 msgstr "Repozytorium kodu źródłowego"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr "Ten komponent jest połączony z repozytorium %(target)s."
-
 msgid "Repository URL copied to clipboard."
 msgstr "Adres URL repozytorium skopiowany do schowka."
+
+msgid "Linked component"
+msgstr "Połączony komponent"
 
 msgid "Repository branch"
 msgstr "Gałąź repozytorium"
@@ -14340,6 +14403,9 @@ msgstr "Liczba mnoga: %(source_description)s"
 
 msgid "Plurals"
 msgstr "Liczba mnoga"
+
+msgid "No integer examples found"
+msgstr "Nie znaleziono przykładów liczb całkowitych"
 
 msgid "First"
 msgstr "Pierwszy"
@@ -15300,12 +15366,12 @@ msgstr "Komponent zawiera kilka zduplikowanych ciągów tłumaczeń."
 msgid "Source"
 msgstr "Źródło"
 
+msgid "Remove duplicate strings"
+msgstr "Usuń zduplikowane ciągi"
+
 #, python-format
 msgid "Remove duplicate strings from %(language)s (%(filename)s)"
 msgstr "Usuń zduplikowane ciągi z %(language)s (%(filename)s)"
-
-msgid "Remove duplicate strings"
-msgstr "Usuń zduplikowane ciągi"
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -16331,10 +16397,6 @@ msgstr "Ten ciąg został przetłumaczony automatycznie przez %(author)s."
 msgid "Add term to glossary"
 msgstr "Dodaj termin do słownika"
 
-#, python-format
-msgid "Browse glossary %(name)s"
-msgstr "Przeglądaj słownik %(name)s"
-
 msgid "Browse glossary"
 msgstr "Przeglądaj słownik"
 
@@ -16382,6 +16444,14 @@ msgstr "Ostatnio zaktualizowany"
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
 msgstr "Wiek ciągu źródłowego"
+
+#, python-format
+msgid "%(filename)s, line %(line)s"
+msgstr "%(filename)s, wiersz %(line)s"
+
+#, python-format
+msgid "line %(line)s"
+msgstr "wiersz %(line)s"
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -17990,11 +18060,11 @@ msgstr "Zduplikowana nazwa sprawdzenia."
 msgid "Referenced category does not exist."
 msgstr "Podana kategoria nie istnieje."
 
-msgid "Component filename does not match its category and slug."
-msgstr "Nazwa pliku komponentu nie pasuje do jego kategorii i końcówki adresu."
-
 msgid "Duplicate component slug."
 msgstr "Zduplikowana końcówka adresu komponentu."
+
+msgid "Component filename does not match its category and slug."
+msgstr "Nazwa pliku komponentu nie pasuje do jego kategorii i końcówki adresu."
 
 msgid "Translation revision has an invalid format."
 msgstr "Weryfikacja tłumaczenia ma nieprawidłowy format."
@@ -18263,6 +18333,9 @@ msgstr "Sugestie oczekujące"
 msgid "Needs review"
 msgstr "Wymagane sprawdzenie"
 
+msgid "The source and destination checkouts must be different."
+msgstr "Kasy źródłowe i docelowe muszą być różne."
+
 msgid "This component does not exist or you cannot access it."
 msgstr "Ten składnik nie istnieje lub nie masz do niego dostępu."
 
@@ -18291,6 +18364,10 @@ msgstr "Możliwe do wykonania przeze mnie"
 
 msgid "Discovery configuration"
 msgstr "Konfiguracja odkrywania"
+
+#, python-format
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "Nie można wyrenderować szablonu %(setting)s: %(error)s"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -20390,6 +20467,9 @@ msgstr "To ustawienie jest dziedziczone z projektu, jeśli pozostanie puste."
 msgid "Use the secondary language configured in the category or project."
 msgstr "Użyj języka dodatkowego skonfigurowanego w kategorii lub projekcie."
 
+msgid "The linked repository path is ambiguous."
+msgstr "Ścieżka połączonego repozytorium jest niejednoznaczna."
+
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
 "admin interface."
@@ -20725,6 +20805,9 @@ msgstr ""
 "Przesyłanie bez żądania scalenia wymaga dostępu do zapisu w repozytorium. "
 "Skonfiguruj adres URL przesyłania za pomocą danych uwierzytelniających lub "
 "użyj adresu URL repozytorium SSH."
+
+msgid "Version control system cannot be changed to this backend."
+msgstr "Nie można zmienić systemu kontroli wersji na ten backend."
 
 msgid "The file mask is too complex and took too long to evaluate."
 msgstr ""
@@ -21106,7 +21189,8 @@ msgid "%d string could not be propagated to all components."
 msgid_plural "%d strings could not be propagated to all components."
 msgstr[0] "%d ciąg nie mógł zostać rozpropagowany do wszystkich komponentów."
 msgstr[1] "%d ciągi nie mogły zostać rozpropagowane do wszystkich komponentów."
-msgstr[2] "%d ciągów nie mogło zostać rozpropagowanych do wszystkich komponentów."
+msgstr[2] ""
+"%d ciągów nie mogło zostać rozpropagowanych do wszystkich komponentów."
 
 msgid "The uploaded file contains too many language declarations."
 msgstr "Przesłany plik zawiera zbyt wiele deklaracji językowych."
@@ -21326,6 +21410,10 @@ msgstr "Myślnik"
 msgid "User configured character: {}"
 msgstr "Znak skonfigurowany przez użytkownika: {}"
 
+#, python-format
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "Zmiany zostały zatwierdzone, ale nie można przesłać repozytorium: %s"
+
 msgid "Repository operation could not be completed because it remained locked."
 msgstr ""
 "Nie można ukończyć operacji na repozytorium, ponieważ pozostało ono "
@@ -21448,6 +21536,10 @@ msgstr "ciąg ID %s"
 
 msgid "This language is used for source strings."
 msgstr "Ten język jest używany do ciągów źródłowych."
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr "Ten komponent jest połączony z repozytorium %(target)s."
 
 msgid "Fix this component to clear its diagnostics."
 msgstr "Napraw ten komponent, aby usunąć jego diagnostykę."
@@ -22211,6 +22303,12 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "Pionowy wykres słupkowy języka"
 
+msgid "Sort languages by"
+msgstr "Sortuj języki według"
+
+msgid "Translation percentage"
+msgstr "Procent tłumaczenia"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr "Poziomy wykres słupkowy języka"
@@ -22598,18 +22696,6 @@ msgstr "Nieprawidłowa wartość zapisanego parametru."
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "Parametry muszą być słownikiem par klucz-wartość."
 
-msgid "Template output exceeds its size limit."
-msgstr "Dane wyjściowe szablonu przekraczają limit rozmiaru."
-
-msgid "Template rendering failed or exceeded its resource limits."
-msgstr "Renderowanie szablonu nie powiodło się lub przekroczono limity zasobów."
-
-msgid "Oversized template response."
-msgstr "Szablon odpowiedzi jest zbyt duży."
-
-msgid "Invalid template rendering response."
-msgstr "Nieprawidłowa odpowiedź podczas renderowania szablonu."
-
 msgid "Could not render template: {}"
 msgstr "Nie udało się wyrenderować szablonu: {}"
 
@@ -22619,14 +22705,14 @@ msgid ""
 msgstr ""
 "Ciągi formatu nie są już obsługiwane, użyj zamiast tego języka szablonu."
 
-msgid "Template value exceeds its size limit."
-msgstr "Wartość szablonu przekracza limit rozmiaru."
+msgid "Template context exceeds its size limit."
+msgstr "Kontekst szablonu przekracza limit rozmiaru."
 
 msgid "Template context is nested too deeply."
 msgstr "Kontekst szablonu jest zagnieżdżony zbyt głęboko."
 
-msgid "Template context exceeds its size limit."
-msgstr "Kontekst szablonu przekracza limit rozmiaru."
+msgid "Unsupported nonfinite template context value."
+msgstr "Nieobsługiwana nieskończona wartość kontekstu szablonu."
 
 msgid "Unsupported template context key."
 msgstr "Nieobsługiwany klucz kontekstu szablonu."
@@ -22634,30 +22720,288 @@ msgstr "Nieobsługiwany klucz kontekstu szablonu."
 msgid "Unsupported template context value."
 msgstr "Nieobsługiwana wartość kontekstu szablonu."
 
+msgid "Template value exceeds its size limit."
+msgstr "Wartość szablonu przekracza limit rozmiaru."
+
+msgid "Template text is not valid UTF-8."
+msgstr "Tekst szablonu nie jest prawidłowym kodem UTF-8."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr "Tag „%(name)s”"
+
+msgid "Invalid template syntax."
+msgstr "Nieprawidłowa składnia szablonu."
+
+msgid "Undefined template variable."
+msgstr "Niezdefiniowana zmienna szablonu."
+
+msgid "Text is not valid UTF-8."
+msgstr "Tekst nie jest prawidłowym kodem UTF-8."
+
+msgid "Division by zero is not supported."
+msgstr "Dzielenie przez zero nie jest obsługiwane."
+
+msgid "Numeric value is too large for this operation."
+msgstr "Wartość liczbowa jest za duża dla tej operacji."
+
+msgid "Numeric operation failed."
+msgstr "Operacja numeryczna nie powiodła się."
+
+msgid "Value or argument has an unsupported type."
+msgstr "Wartość lub argument ma nieobsługiwany typ."
+
+msgid "Value or argument is incomplete or out of range."
+msgstr "Wartość lub argument jest niekompletna lub spoza zakresu."
+
+msgid "Value or argument has an invalid format."
+msgstr "Wartość lub argument ma nieprawidłowy format."
+
+#, python-format
+msgid "%(operation)s: %(message)s"
+msgstr "%(operation)s: %(message)s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr "Wiersz %(line)d: %(message)s"
+
 msgid "Template rendering exceeded its time limit."
 msgstr "Renderowanie szablonu przekroczyło limit czasu."
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr "Szablon przekracza limit operacji %(limit)d."
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr "Szablon przekracza skumulowany limit pracy wynoszący %(limit)d bajtów."
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr "Wartość szablonu przekracza limit rozmiaru %(limit)d bajtów."
+
+msgid "Template value must be a supported scalar."
+msgstr "Wartość szablonu musi być obsługiwanym skalarem."
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr "Liczba całkowita przekracza numeryczny limit 4096 bitów."
+
+msgid "Nonfinite numbers are not supported."
+msgstr "Liczby nieskończone nie są obsługiwane."
+
+#, python-format
+msgid "Filter \"%(name)s\""
+msgstr "Filtruj „%(name)s”"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
+msgstr "Szablon przekracza limit zastosowania filtra wynoszący %(limit)d."
 
 msgid "Template rendering exceeded its loop limit."
 msgstr "Proces renderowania szablonu przekroczył limit iteracji pętli."
 
-msgid "Template intermediate value exceeds its size limit."
-msgstr "Wartość pośrednia szablonu przekracza limit rozmiaru."
+msgid "Attribute access and method calls are not supported."
+msgstr "Dostęp do atrybutów i wywołania metod nie są obsługiwane."
 
-msgid "Template replacement exceeds its size limit."
-msgstr "Zastąpienie szablonu przekracza limit rozmiaru."
+msgid "Index exceeds the length limit of 128 characters."
+msgstr "Indeks przekracza limit długości wynoszący 128 znaków."
 
-msgid "Template padding exceeds its size limit."
-msgstr "Wypełnienie szablonu przekracza limit rozmiaru."
+msgid "Translated template literals are not supported."
+msgstr "Przetłumaczone literały szablonów nie są obsługiwane."
 
-msgid "Template formatting exceeds its size limit."
-msgstr "Formatowanie szablonu przekracza limit rozmiaru."
+msgid "Invalid filter."
+msgstr "Nieprawidłowy filtr."
 
-msgid "Template join exceeds its size limit."
-msgstr "Łączenie szablonów przekracza limit rozmiaru."
+msgid "Identity comparisons require None, True, or False."
+msgstr "Porównania tożsamości wymagają stałej None, True lub False."
+
+msgid "This condition operator is not supported."
+msgstr "Ten operator warunku nie jest obsługiwany."
+
+msgid "Template output exceeds its size limit."
+msgstr "Dane wyjściowe szablonu przekraczają limit rozmiaru."
+
+msgid "Loops require a list, string, dictionary, or dictionary view."
+msgstr "Pętle wymagają listy, ciągu znaków, słownika lub widoku słownika."
+
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
+msgstr "Rozpakowywanie pętli wymaga listy, krotki, ciągu znaków lub słownika."
+
+msgid "Loop value cannot be unpacked into its variables."
+msgstr "Wartości pętli nie można rozpakować do jej zmiennych."
+
+msgid "This template tag is not supported."
+msgstr "Ten tag szablonu nie jest obsługiwany."
+
+msgid "This template node is not supported."
+msgstr "Ten węzeł szablonu nie jest obsługiwany."
+
+msgid "Replacement requires string values and arguments."
+msgstr "Zastąpienie wymaga wartości ciągów i argumentów."
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+"Zastąpienie przekracza pośredni limit rozmiaru wynoszący %(limit)d bajtów."
 
 #, python-format
 msgid "Undefined variable: \"%s\""
 msgstr "Niezdefiniowana zmienna: \"%s\""
+
+msgid "This filter requires scalar values and arguments."
+msgstr "Ten filtr wymaga wartości skalarnych i argumentów."
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+"Wartość pośrednia przekroczyłaby limit rozmiaru wynoszący %(limit)d bajtów."
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr "Wprowadzona liczba przekracza limit konwersji wynoszący 1240 znaków."
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr "Wartość dziesiętna przekracza limit konwersji liczbowej."
+
+msgid "This filter requires strings."
+msgstr "Ten filtr wymaga ciągów."
+
+msgid "Choices must be a string."
+msgstr "Wybory muszą być ciągiem."
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr "Długość wymaga listy, ciągu znaków, słownika lub widoku słownika."
+
+msgid "This filter requires a list, tuple, or string."
+msgstr "Ten filtr wymaga listy, krotki lub ciągu znaków."
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr "Dzielenie wymaga listy, krotki lub ciągu znaków."
+
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr "Argument wycinka przekracza limit długości wynoszący 128 znaków."
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+"Łączenie wymaga iterowalności i separatora ciągów z wyłączoną funkcją "
+"ucieczki."
+
+msgid "Joining requires string elements."
+msgstr "Łączenie wymaga elementów łańcuchowych."
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+"Połączona wartość przekroczyłaby limit rozmiaru wynoszący %(limit)d bajtów."
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr "Ucieczka sekwencji wymaga listy, krotki lub ciągu znaków."
+
+msgid "Sequence escaping requires scalar elements."
+msgstr "Ucieczka sekwencji wymaga elementów skalarnych."
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr "Formatowanie daty wymaga daty, godziny, ciągu znaków lub stałej None."
+
+msgid "Date format must be a string or None."
+msgstr "Format daty musi być ciągiem lub stałą None."
+
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "Porównanie czasu wymaga daty, godziny, ciągu lub stałej None."
+
+msgid "Time comparison argument must be a date or None."
+msgstr "Argumentem porównania czasu musi być data lub stała None."
+
+msgid "Concatenation requires sequences of the same type."
+msgstr "Konkatenacja wymaga sekwencji tego samego typu."
+
+msgid "Plural suffixes must be a string."
+msgstr "Sufiksy liczby mnogiej muszą być ciągiem."
+
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr "Argument precyzji przekracza limit długości wynoszący 128 znaków."
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr "Dokładność formatowania przekracza limit 1000 miejsc."
+
+msgid "Format must be a string of at most 128 characters."
+msgstr "Format musi być ciągiem o długości maksymalnie 128 znaków."
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+"Format musi zawierać jedną obsługiwaną konwersję bez kluczy mapowania i "
+"szerokości dynamicznych."
+
+msgid "Nested template delimiters are not supported."
+msgstr "Zagnieżdżone ograniczniki szablonów nie są obsługiwane."
+
+msgid "Unclosed template token."
+msgstr "Niezamknięty token szablonu."
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr "Token szablonu przekracza limit rozmiaru %(limit)d bajtów."
+
+msgid "Template tokens cannot span multiple lines."
+msgstr "Tokeny szablonów nie mogą obejmować wielu wierszy."
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr "Szablon przekracza limit analizowania %(limit)d tokenów."
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr "Szablon przekracza limit analizy %(limit)d filtrów."
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr "Szablon przekracza limit pracy analizy wynoszący %(limit)d jednostek."
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr "Niezamknięty tag szablonu „%(tag)s”."
+
+msgid "Template tag is empty."
+msgstr "Znacznik szablonu jest pusty."
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr "Warunek przekracza limit analizy %(limit)d warunków."
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr "Szablon przekracza limit zagnieżdżenia wynoszący %(limit)d poziomów."
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr "Nieoczekiwany tag zamykający „%(tag)s”."
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr "Tag „%(tag)s” wymaga otaczającego tagu „%(parent)s”."
+
+#, python-format
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "Nieobsługiwany tag szablonu „%(tag)s”."
+
+msgid "Unsupported template tag."
+msgstr "Nieobsługiwany tag szablonu."
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr "Serializowane dane przekraczają limit zagnieżdżenia %(limit)d."
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+"Serializacja przekracza pośredni limit rozmiaru wynoszący %(limit)d bajtów."
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+"Serializowana wartość przekracza limit rozmiaru wynoszący %(limit)d bajtów."
 
 #, python-format
 msgid ""
@@ -24362,6 +24706,29 @@ msgid "The workspace has been removed."
 msgstr "Obszar roboczy został usunięty."
 
 #, python-format
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "Przeglądaj słownik %(name)s"
+
+#~ msgid "Template rendering failed or exceeded its resource limits."
+#~ msgstr ""
+#~ "Renderowanie szablonu nie powiodło się lub przekroczono limity zasobów."
+
+#~ msgid "Oversized template response."
+#~ msgstr "Szablon odpowiedzi jest zbyt duży."
+
+#~ msgid "Invalid template rendering response."
+#~ msgstr "Nieprawidłowa odpowiedź podczas renderowania szablonu."
+
+#~ msgid "Template replacement exceeds its size limit."
+#~ msgstr "Zastąpienie szablonu przekracza limit rozmiaru."
+
+#~ msgid "Template padding exceeds its size limit."
+#~ msgstr "Wypełnienie szablonu przekracza limit rozmiaru."
+
+#~ msgid "Template formatting exceeds its size limit."
+#~ msgstr "Formatowanie szablonu przekracza limit rozmiaru."
+
+#, python-format
 #~ msgid ""
 #~ "Fedora Messaging publisher service was unavailable; the connection will "
 #~ "be recreated on the next attempt: %(error)s"
@@ -26064,9 +26431,6 @@ msgstr "Obszar roboczy został usunięty."
 #~ msgid "Renamed project"
 #~ msgstr "Zmieniono nazwę projektu"
 
-#~ msgid "Renamed component"
-#~ msgstr "Zmieniono nazwę komponentu"
-
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "Nowy ciąg do przetłumaczenia"
@@ -27553,9 +27917,6 @@ msgstr "Obszar roboczy został usunięty."
 #~| msgid "Repository"
 #~ msgid "Backup pepository"
 #~ msgstr "Repozytorium"
-
-#~ msgid "Your languages"
-#~ msgstr "Twoje języki"
 
 #~ msgid "Fulltext"
 #~ msgstr "Pełny tekst"
@@ -30093,9 +30454,6 @@ msgstr "Obszar roboczy został usunięty."
 
 #~ msgid "First name"
 #~ msgstr "Imię"
-
-#~ msgid "Username needs to have at least five characters."
-#~ msgstr "Nazwa użytkownika musi mieć przynajmniej pięć znaków."
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

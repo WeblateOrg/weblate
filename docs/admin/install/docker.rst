@@ -1240,7 +1240,7 @@ Generic settings
 
    Configures storage for uploaded files, which are stored in the
    :file:`data` volume by default. This currently covers screenshots; fonts
-   are always stored in the :file:`data` volume. Set :envvar:`WEBLATE_MEDIA_STORAGE_BACKEND`
+   are configured by :envvar:`WEBLATE_FONTS_STORAGE_BACKEND`. Set :envvar:`WEBLATE_MEDIA_STORAGE_BACKEND`
    to the storage class and :envvar:`WEBLATE_MEDIA_STORAGE_OPTIONS` to its
    options as a JSON object; they configure ``default`` in
    :setting:`django:STORAGES`. The image includes :pypi:`django-storages` with
@@ -1262,6 +1262,32 @@ Generic settings
    .. seealso::
 
       :ref:`screenshot-storage`
+
+.. envvar:: WEBLATE_FONTS_STORAGE_BACKEND
+.. envvar:: WEBLATE_FONTS_STORAGE_OPTIONS
+
+   .. versionadded:: 2026.12
+
+   Configures storage for uploaded fonts, which are stored in the :file:`data`
+   volume by default. They configure ``fonts`` in :setting:`django:STORAGES`
+   the same way as :envvar:`WEBLATE_MEDIA_STORAGE_BACKEND` and
+   :envvar:`WEBLATE_MEDIA_STORAGE_OPTIONS` configure ``default``.
+
+   For example, to store fonts in the same bucket as screenshots under a
+   separate prefix:
+
+   .. code-block:: yaml
+
+      environment:
+        WEBLATE_FONTS_STORAGE_BACKEND: storages.backends.s3.S3Storage
+        WEBLATE_FONTS_STORAGE_OPTIONS: '{"bucket_name": "weblate-media", "location": "fonts", "endpoint_url": "https://s3.example.com", "file_overwrite": false}'
+
+   Use ``WEBLATE_FONTS_STORAGE_OPTIONS_FILE`` to pass options containing
+   credentials as a secret, see :ref:`docker-secrets`.
+
+   .. seealso::
+
+      :ref:`font-storage`
 
 .. envvar:: WEBLATE_CSP_SCRIPT_SRC
 .. envvar:: WEBLATE_CSP_IMG_SRC
@@ -3029,8 +3055,9 @@ container.
 The :file:`data` volume is mounted as :file:`/app/data` and is used to store
 Weblate persistent data such as cloned repositories or to customize Weblate
 installation. :setting:`DATA_DIR` describes in more detail what is stored here.
-Screenshots can be stored outside of this volume, see
-:envvar:`WEBLATE_MEDIA_STORAGE_BACKEND`.
+Screenshots and fonts can be stored outside of this volume, see
+:envvar:`WEBLATE_MEDIA_STORAGE_BACKEND` and
+:envvar:`WEBLATE_FONTS_STORAGE_BACKEND`.
 
 The :file:`data` volume is also place to store Weblate customization such as
 :ref:`docker-settings-override`, :ref:`docker-static-override` or

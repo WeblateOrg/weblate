@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-13 01:19-0600\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
 "PO-Revision-Date: 2026-11-13 08:11+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1357,6 +1357,22 @@ msgid ""
 msgstr ""
 "Aquesta invitació només es pot acceptar amb l’adreça electrònica elegida per "
 "l’amfitrió; el vostre compte no la pot utilitzar."
+
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Your e-mail no longer belongs to verified account, it has been changed to "
+#| "{0}."
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr ""
+"El correu electrònic ja no pertany a un compte verificat, s’ha canviat a {0}."
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
+msgstr ""
 
 msgid ""
 "Your e-mail address has been added. You can now select it as your account e-"
@@ -3970,6 +3986,16 @@ msgid ""
 "Remove the component from project teams before moving it to another project."
 msgstr ""
 
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
+
 msgid "Roles"
 msgstr "Rols"
 
@@ -4753,6 +4779,11 @@ msgstr "Facturació"
 
 msgid "Billing event"
 msgstr "Esdeveniment de facturació"
+
+#, fuzzy
+#| msgid "Projects without components"
+msgid "Project has no components."
+msgstr "Projectes sense components"
 
 msgid "monthly"
 msgstr "cada mes"
@@ -6717,9 +6748,6 @@ msgstr "Fórmula del plural"
 msgid "Plural type"
 msgstr "Tipus de plural"
 
-msgid "Example counts for this plural form."
-msgstr "Comptes d’exemple per a aquesta forma del plural."
-
 msgid "Singular"
 msgstr "Singular"
 
@@ -7796,6 +7824,11 @@ msgid "Read your e-mail address"
 msgstr "Utilitza l’adreça electrònica del compte"
 
 msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
 msgstr ""
 
 msgid "Image is too big."
@@ -10434,6 +10467,16 @@ msgstr ""
 "Aquesta subscripció no és adient per al pla lliure; corregiu els errors a "
 "dalt o compreu una subscripció."
 
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+
 msgid "Customer"
 msgstr "Client"
 
@@ -12154,6 +12197,16 @@ msgstr ""
 #. Translators: e-mail subject
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr "El pagament periòdic es desactivarà per als projectes inactius"
+
+#, fuzzy
+#| msgid "Does not meet Libre hosting conditions."
+msgid "Review Libre hosting conditions"
+msgstr "No compleix les condicions per a l’allotjament de projectes lliures."
+
+#, fuzzy, python-format
+#| msgid "Number of entries for %(project)s"
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "Nombre d’entrades a %(project)s"
 
 msgid "Translation change"
 msgstr "Canvi a la traducció"
@@ -14309,6 +14362,9 @@ msgid ""
 "maintenance of Weblate itself."
 msgstr ""
 
+msgid "Example counts for this plural form."
+msgstr "Comptes d’exemple per a aquesta forma del plural."
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
@@ -14344,12 +14400,13 @@ msgstr ""
 msgid "Source code repository"
 msgstr "Repositori del codi font"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr "Aquest component s’ha enllaçat al repositori %(target)s."
-
 msgid "Repository URL copied to clipboard."
 msgstr "S’ha copiat l’URL del repositori al porta-retalls."
+
+#, fuzzy
+#| msgid "Renamed component"
+msgid "Linked component"
+msgstr "S’ha canviat el nom del component"
 
 msgid "Repository branch"
 msgstr "Branca del repositori"
@@ -14808,6 +14865,11 @@ msgstr "Plural: %(source_description)s"
 
 msgid "Plurals"
 msgstr "Plurals"
+
+#, fuzzy
+#| msgid "No strings found!"
+msgid "No integer examples found"
+msgstr "No s’ha trobat cap cadena!"
 
 msgid "First"
 msgstr "Primer"
@@ -15776,15 +15838,15 @@ msgstr "El component conté diverses cadenes de traducció duplicades."
 msgid "Source"
 msgstr "Origen"
 
-#, fuzzy, python-format
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove duplicate strings from %(language)s (%(filename)s)"
-msgstr "Força l’escriptura de totes les cadenes als fitxers de traduccions."
-
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
 msgstr "Suprimeix les cadenes buides"
+
+#, fuzzy, python-format
+#| msgid "Forces writing all strings to the translation files."
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Força l’escriptura de totes les cadenes als fitxers de traduccions."
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -16813,10 +16875,6 @@ msgstr "Aquesta cadena ha estat traduïda automàticament per %(author)s."
 msgid "Add term to glossary"
 msgstr "Afegeix un terme al glossari"
 
-#, python-format
-msgid "Browse glossary %(name)s"
-msgstr "Explora el glossari %(name)s"
-
 #, fuzzy
 #| msgid "Browse glossary %(name)s"
 msgid "Browse glossary"
@@ -16868,6 +16926,15 @@ msgstr "Darrera actualització"
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
 msgstr "Antiguitat de la cadena d’origen"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s, line %(line)s"
+msgstr "%(filename)s, cadena %(position)s"
+
+#, python-format
+msgid "line %(line)s"
+msgstr ""
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -18733,13 +18800,13 @@ msgstr "Filtre de fitxers duplicat."
 msgid "Referenced category does not exist."
 msgstr "{filename} ({parameter}) no existeix."
 
-msgid "Component filename does not match its category and slug."
-msgstr ""
-
 #, fuzzy
 #| msgid "Duplicate this component"
 msgid "Duplicate component slug."
 msgstr "Duplica aquest component"
+
+msgid "Component filename does not match its category and slug."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation reviews are not enabled."
@@ -19053,6 +19120,11 @@ msgstr "Vots als suggeriments"
 msgid "Needs review"
 msgstr "Resum"
 
+#, fuzzy
+#| msgid "The source and target have to be different languages."
+msgid "The source and destination checkouts must be different."
+msgstr "L’origen i la destinació han de ser llengües diferents."
+
 msgid "This component does not exist or you cannot access it."
 msgstr ""
 
@@ -19085,6 +19157,11 @@ msgstr ""
 #| msgid "Good configuration"
 msgid "Discovery configuration"
 msgstr "Configuració bona"
+
+#, fuzzy, python-format
+#| msgid "Could not render template: {}"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "No s’ha pogut renderitzar la plantilla: {}"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -21337,6 +21414,11 @@ msgid "Use the secondary language configured in the category or project."
 msgstr "Llengua secundària definida al projecte o component"
 
 #, fuzzy
+#| msgid "The local repository is up to date."
+msgid "The linked repository path is ambiguous."
+msgstr "El dipòsit local està al dia."
+
+#, fuzzy
 #| msgid ""
 #| "Could not verify SSH host key, please add them in SSH page in the admin "
 #| "interface."
@@ -21642,6 +21724,11 @@ msgid ""
 "Pushing without a merge request needs write access to the repository. "
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
+
+#, fuzzy
+#| msgid "This role cannot be assigned to this team."
+msgid "Version control system cannot be changed to this backend."
+msgstr "Aquest rol no es pot assignar a aquest equip."
 
 #, fuzzy
 #| msgid "The regular expression can not match an empty string."
@@ -22325,6 +22412,11 @@ msgstr "Guió llarg"
 msgid "User configured character: {}"
 msgstr "Caràcter configurat per l’usuari: {}"
 
+#, fuzzy, python-format
+#| msgid "Could not push the repository."
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "No s’han pogut pujar els canvis al repositori."
+
 #, fuzzy
 #| msgid "Automatic translation in progress"
 msgid "Repository operation could not be completed because it remained locked."
@@ -22461,6 +22553,10 @@ msgstr "ID de cadena %s"
 
 msgid "This language is used for source strings."
 msgstr "Aquesta llengua s’utilitza per a les cadenes d’origen."
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr "Aquest component s’ha enllaçat al repositori %(target)s."
 
 #, fuzzy
 #| msgid "Fix this component to clear its alerts."
@@ -23356,6 +23452,16 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "Gràfic de barres de llengües en vertical"
 
+#, fuzzy
+#| msgid "Your languages"
+msgid "Sort languages by"
+msgstr "Les vostres llengües"
+
+#, fuzzy
+#| msgid "Translation change"
+msgid "Translation percentage"
+msgstr "Canvi a la traducció"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr "Gràfic de barres de llengües en horitzontal"
@@ -23746,20 +23852,6 @@ msgstr ""
 "Els paràmetres de format de fitxer han de ser un diccionari de parells clau-"
 "valor."
 
-msgid "Template output exceeds its size limit."
-msgstr ""
-
-msgid "Template rendering failed or exceeded its resource limits."
-msgstr ""
-
-msgid "Oversized template response."
-msgstr ""
-
-#, fuzzy
-#| msgid "Invalid eTranslation domains response"
-msgid "Invalid template rendering response."
-msgstr "Resposta dels dominis d’eTranslation no vàlida"
-
 msgid "Could not render template: {}"
 msgstr "No s’ha pogut renderitzar la plantilla: {}"
 
@@ -23770,7 +23862,7 @@ msgstr ""
 "Les cadenes de format ja no s’admeten; en lloc d’això, utilitzeu el "
 "llenguatge de plantilles."
 
-msgid "Template value exceeds its size limit."
+msgid "Template context exceeds its size limit."
 msgstr ""
 
 #, fuzzy
@@ -23779,8 +23871,10 @@ msgid "Template context is nested too deeply."
 msgstr ""
 "A l’etiqueta HTML {tag} li manca una etiqueta de final coincident: {end}."
 
-msgid "Template context exceeds its size limit."
-msgstr ""
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported nonfinite template context value."
+msgstr "Contingut de regles ITS no admès."
 
 #, fuzzy
 #| msgid "Unsupported ITS rule content."
@@ -23792,30 +23886,339 @@ msgstr "Contingut de regles ITS no admès."
 msgid "Unsupported template context value."
 msgstr "Contingut de regles ITS no admès."
 
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Template text is not valid UTF-8."
+msgstr "El testimoni que heu introduït no és vàlid."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid merge request!"
+msgid "Invalid template syntax."
+msgstr "Petició de fusió no vàlida!"
+
+#, fuzzy
+#| msgid "Undefined variable: \"%s\""
+msgid "Undefined template variable."
+msgstr "No s’ha definit la variable «%s»"
+
+#, fuzzy
+#| msgid "The translation is not valid XML."
+msgid "Text is not valid UTF-8."
+msgstr "La traducció no és XML vàlid."
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Division by zero is not supported."
+msgstr "No s’admet l’ordenació seleccionada."
+
+#, fuzzy
+#| msgid "Select a change for this automation."
+msgid "Numeric value is too large for this operation."
+msgstr "Seleccioneu un canvi per a aquesta automatització."
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Numeric operation failed."
+msgstr "S’ha produït un error en una operació al repositori"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation reviews are not enabled."
+msgid "Value or argument has an invalid format."
+msgstr "Les ressenyes de traduccions no estan activades."
+
+#, fuzzy, python-format
+#| msgid "%(path)s: %(error)s"
+msgid "%(operation)s: %(message)s"
+msgstr "%(path)s: %(error)s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
 msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Nonfinite numbers are not supported."
+msgstr "No s’admeten els àlies i etiquetes YAML."
+
+#, fuzzy, python-format
+#| msgid "File names"
+msgid "Filter \"%(name)s\""
+msgstr "Noms de fitxer"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
 msgstr ""
 
 msgid "Template rendering exceeded its loop limit."
 msgstr ""
 
-msgid "Template intermediate value exceeds its size limit."
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Attribute access and method calls are not supported."
+msgstr "No s’admeten els àlies i etiquetes YAML."
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Index exceeds the length limit of 128 characters."
+msgstr "El nom d'usuari ha de tenir com a mínim 5 caràcters."
+
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Translated template literals are not supported."
+msgstr "No s’admeten els àlies i etiquetes YAML."
+
+#, fuzzy
+#| msgid "Invalid unit."
+msgid "Invalid filter."
+msgstr "Unitat no vàlida."
+
+msgid "Identity comparisons require None, True, or False."
 msgstr ""
 
-msgid "Template replacement exceeds its size limit."
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This condition operator is not supported."
+msgstr "No s’admet l’ordenació seleccionada."
+
+msgid "Template output exceeds its size limit."
 msgstr ""
 
-msgid "Template padding exceeds its size limit."
+msgid "Loops require a list, string, dictionary, or dictionary view."
 msgstr ""
 
-msgid "Template formatting exceeds its size limit."
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
 msgstr ""
 
-msgid "Template join exceeds its size limit."
+msgid "Loop value cannot be unpacked into its variables."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This template tag is not supported."
+msgstr "No s’admet l’ordenació seleccionada."
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This template node is not supported."
+msgstr "No s’admet el format de fitxer detectat."
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
 msgstr ""
 
 #, python-format
 msgid "Undefined variable: \"%s\""
 msgstr "No s’ha definit la variable «%s»"
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "This field is required."
+msgid "This filter requires strings."
+msgstr "Aquest camp és obligatori."
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Choices must be a string."
+msgstr "Les claus d’automatització han de ser cadenes."
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr "El nom d'usuari ha de tenir com a mínim 5 caràcters."
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source string length"
+msgid "Joining requires string elements."
+msgstr "Longitud de la cadena d’origen"
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Date format must be a string or None."
+msgstr "Les claus d’automatització han de ser cadenes."
+
+#, fuzzy
+#| msgid "Trigger scope requires a change with a string."
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "L’abast de l’activador requereix un canvi amb una cadena."
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Plural suffixes must be a string."
+msgstr "Les claus d’automatització han de ser cadenes."
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr "El nom d'usuari ha de tenir com a mínim 5 caràcters."
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Nested template delimiters are not supported."
+msgstr "No s’admeten els àlies i etiquetes YAML."
+
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unclosed template token."
+msgstr "Contingut de regles ITS no admès."
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "The resource is locked."
+msgid "Template tag is empty."
+msgstr "El recurs està blocat."
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr ""
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "Contingut de regles ITS no admès."
+
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported template tag."
+msgstr "Contingut de regles ITS no admès."
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -25728,6 +26131,15 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "S’ha suprimit l’origen."
 
+#, python-format
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "Explora el glossari %(name)s"
+
+#, fuzzy
+#~| msgid "Invalid eTranslation domains response"
+#~ msgid "Invalid template rendering response."
+#~ msgstr "Resposta dels dominis d’eTranslation no vàlida"
+
 #, fuzzy
 #~| msgid "Registration almost complete"
 #~ msgid "E-mail verification almost complete"
@@ -27387,9 +27799,6 @@ msgstr "S’ha suprimit l’origen."
 #~ msgid "Renamed project"
 #~ msgstr "S’ha canviat el nom del projecte"
 
-#~ msgid "Renamed component"
-#~ msgstr "S’ha canviat el nom del component"
-
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "Cadena nova sense traduir"
@@ -28846,9 +29255,6 @@ msgstr "S’ha suprimit l’origen."
 
 #~ msgid "Backup pepository"
 #~ msgstr "Dipòsit de les còpies de seguretat"
-
-#~ msgid "Your languages"
-#~ msgstr "Les vostres llengües"
 
 #~ msgid "Fulltext"
 #~ msgstr "Text complet"
@@ -30887,9 +31293,6 @@ msgstr "S’ha suprimit l’origen."
 #~| msgid "Subproject"
 #~ msgid "Subproject name"
 #~ msgstr "Subprojecte"
-
-#~ msgid "Username needs to have at least five characters."
-#~ msgstr "El nom d'usuari ha de tenir com a mínim 5 caràcters."
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

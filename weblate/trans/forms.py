@@ -1167,7 +1167,7 @@ class SearchForm(forms.Form):
                     allow_save=True,
                 ),
                 Field("sort_by", template="snippets/sort-field.html"),
-                css_class="btn-toolbar",
+                css_class="btn-toolbar column-gap-3",
                 role="toolbar",
             ),
             ContextDiv(

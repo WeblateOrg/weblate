@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-13 01:19-0600\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
 "PO-Revision-Date: 2026-11-13 08:11+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1308,6 +1308,21 @@ msgid ""
 msgstr ""
 "את ההזמנה הזאת אפשר לאשר רק דרך חשבון הדוא״ל שנבחר על ידי מי שהזמין או "
 "הזמינה, אי אפשר להשתמש בה עם החשבון שלך."
+
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Your e-mail no longer belongs to verified account, it has been changed to "
+#| "{0}."
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr "הדוא״ל שלך אינו שייך עוד לחשבון מאומת, הוא הוחלף בכתובת {0}."
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
+msgstr ""
 
 msgid ""
 "Your e-mail address has been added. You can now select it as your account e-"
@@ -4084,6 +4099,16 @@ msgid ""
 "Remove the component from project teams before moving it to another project."
 msgstr ""
 
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
+
 msgid "Roles"
 msgstr "תפקידים"
 
@@ -4916,6 +4941,11 @@ msgstr "חיוב"
 
 msgid "Billing event"
 msgstr "אירוע חיוב"
+
+#, fuzzy
+#| msgid "Projects without components"
+msgid "Project has no components."
+msgstr "מיזמים ללא רכיבים"
 
 #, fuzzy
 #| msgid "Monthly"
@@ -6936,9 +6966,6 @@ msgstr "נוסחת ריבוי"
 msgid "Plural type"
 msgstr "סוג ריבוי"
 
-msgid "Example counts for this plural form."
-msgstr "ספירות לדוגמה של צורת הריבוי הזאת."
-
 msgid "Singular"
 msgstr "יחיד"
 
@@ -8101,6 +8128,11 @@ msgid "Read your e-mail address"
 msgstr "להשתמש בכתובת הדוא״ל של החשבון"
 
 msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
 msgstr ""
 
 msgid "Image is too big."
@@ -10654,6 +10686,16 @@ msgid ""
 msgstr ""
 "מינוי זה אינו זכרי לתכנית החופשית, נא לתקן את השגיאות שלהלן או לרכוש מינוי."
 
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+
 msgid "Customer"
 msgstr "לקוח/ה"
 
@@ -12345,6 +12387,16 @@ msgstr ""
 #. Translators: e-mail subject
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr "תשלום מחזורי יושבת למיזמים רדומים"
+
+#, fuzzy
+#| msgid "Does not meet Libre hosting conditions."
+msgid "Review Libre hosting conditions"
+msgstr "לא עומד בתנאי האירוח החופשי."
+
+#, fuzzy, python-format
+#| msgid "Number of entries for %(project)s"
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "מספר הרשומות עבור %(project)s"
 
 msgid "Translation change"
 msgstr "שינוי בתרגום"
@@ -14459,6 +14511,9 @@ msgid ""
 "maintenance of Weblate itself."
 msgstr ""
 
+msgid "Example counts for this plural form."
+msgstr "ספירות לדוגמה של צורת הריבוי הזאת."
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr "אורך המחרוזת המרבי נקבע בהתאם למחרוזת המקור או הדגלונים."
@@ -14492,12 +14547,13 @@ msgstr ""
 msgid "Source code repository"
 msgstr "מאגר קוד מקור"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr "רכיב זה מקושר אל המאגר %(target)s."
-
 msgid "Repository URL copied to clipboard."
 msgstr "כתובת המאגר הועתק ללוח הגזירים."
+
+#, fuzzy
+#| msgid "Renamed component"
+msgid "Linked component"
+msgstr "רכיב ששמו השתנה"
 
 msgid "Repository branch"
 msgstr "ענף מאגר"
@@ -14943,6 +14999,11 @@ msgstr "ריבוי: %(source_description)s"
 msgid "Plurals"
 msgstr "רבים"
 
+#, fuzzy
+#| msgid "No strings found!"
+msgid "No integer examples found"
+msgstr "לא נמצאו מחרוזות!"
+
 msgid "First"
 msgstr "ראשונה"
 
@@ -15235,8 +15296,7 @@ msgstr "קהילה"
 
 #, python-format
 msgid "Translate %(object)s using #Weblate at %(share_url)s!"
-msgstr ""
-"ניתן לתרגם את %(object)s באמצעות #Weblate at %(share_url)s עוד היום!"
+msgstr "ניתן לתרגם את %(object)s באמצעות #Weblate at %(share_url)s עוד היום!"
 
 msgid "Share on Bluesky"
 msgstr "שיתוף ב־Bluesky"
@@ -15874,15 +15934,15 @@ msgstr "הרכיב מכיל מספר מחרוזות תרגום כפולות."
 msgid "Source"
 msgstr "מקור"
 
-#, fuzzy, python-format
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove duplicate strings from %(language)s (%(filename)s)"
-msgstr "מאלץ את כתיבת כל המחרוזות לקובצי תרגום."
-
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
 msgstr "הסרת מחרוזות ריקות"
+
+#, fuzzy, python-format
+#| msgid "Forces writing all strings to the translation files."
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "מאלץ את כתיבת כל המחרוזות לקובצי תרגום."
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -16863,10 +16923,6 @@ msgstr "המחרוזת הזאת תורגמה אוטומטית על ידי %(auth
 msgid "Add term to glossary"
 msgstr "הוספת ביטוי למונחון"
 
-#, python-format
-msgid "Browse glossary %(name)s"
-msgstr "לעיין במונחון %(name)s"
-
 #, fuzzy
 #| msgid "Browse glossary %(name)s"
 msgid "Browse glossary"
@@ -16922,6 +16978,15 @@ msgstr "עדכון אחרון"
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
 msgstr "גיל מחרוזת מקור"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s, line %(line)s"
+msgstr "%(filename)s, מחרוזת %(position)s"
+
+#, python-format
+msgid "line %(line)s"
+msgstr ""
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -18753,13 +18818,13 @@ msgstr "מסכת קובץ כפולה."
 msgid "Referenced category does not exist."
 msgstr "{filename} ({parameter}) לא קיים."
 
-msgid "Component filename does not match its category and slug."
-msgstr ""
-
 #, fuzzy
 #| msgid "Duplicate this component"
 msgid "Duplicate component slug."
 msgstr "שכפול הרכיב הזה"
+
+msgid "Component filename does not match its category and slug."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation reviews are not enabled."
@@ -19083,6 +19148,11 @@ msgid "Needs review"
 msgstr "טעון שיפור"
 
 #, fuzzy
+#| msgid "The source and target have to be different languages."
+msgid "The source and destination checkouts must be different."
+msgstr "המקור והיעד חייבים להיות בשפות שונות."
+
+#, fuzzy
 #| msgid "The target does not exist or you cannot access it."
 msgid "This component does not exist or you cannot access it."
 msgstr "היעד לא קיים או שאין לך גישה אליו."
@@ -19111,6 +19181,11 @@ msgstr ""
 #| msgid "Good configuration"
 msgid "Discovery configuration"
 msgstr "הגדרות תקינות"
+
+#, fuzzy, python-format
+#| msgid "Could not render template: {}"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "לא ניתן לעבד תבנית: {}"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -21244,6 +21319,11 @@ msgid "Use the secondary language configured in the category or project."
 msgstr "הוגדרה שפה משנית במיזם או רכיב"
 
 #, fuzzy
+#| msgid "The local repository is up to date."
+msgid "The linked repository path is ambiguous."
+msgstr "המאגר המקומי עדכני."
+
+#, fuzzy
 #| msgid ""
 #| "Could not verify SSH host key, please add them in SSH page in the admin "
 #| "interface."
@@ -21546,6 +21626,11 @@ msgid ""
 "Pushing without a merge request needs write access to the repository. "
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
+
+#, fuzzy
+#| msgid "The filename can not be an absolute path."
+msgid "Version control system cannot be changed to this backend."
+msgstr "שם הקובץ לא יכול להיות נתיב מלא."
 
 #, fuzzy
 #| msgid "The regular expression can not match an empty string."
@@ -22197,6 +22282,11 @@ msgstr "קו ארוך"
 msgid "User configured character: {}"
 msgstr "תו בהגדרת המשתמש: {}"
 
+#, fuzzy, python-format
+#| msgid "Could not push the repository."
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "לא ניתן לדחוף את המאגר."
+
 #, fuzzy
 #| msgid "Automatic translation in progress"
 msgid "Repository operation could not be completed because it remained locked."
@@ -22344,6 +22434,10 @@ msgstr "מזהה מחרוזת %s"
 
 msgid "This language is used for source strings."
 msgstr "שפה זו מכהנת כמחרוזת המקור."
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr "רכיב זה מקושר אל המאגר %(target)s."
 
 #, fuzzy
 #| msgid "Fix this component to clear its alerts."
@@ -23232,6 +23326,16 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "תרשים עמודות שפתי אנכי"
 
+#, fuzzy
+#| msgid "Your languages"
+msgid "Sort languages by"
+msgstr "השפות שלך"
+
+#, fuzzy
+#| msgid "Translation change"
+msgid "Translation percentage"
+msgstr "שינוי בתרגום"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr "תרשים עמודות שפתי אופקי"
@@ -23623,20 +23727,6 @@ msgstr "משתנים שגויים!"
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "משתני סוג הקובץ חייבים להיות במילון צמדים של מפתח-ערך."
 
-msgid "Template output exceeds its size limit."
-msgstr ""
-
-msgid "Template rendering failed or exceeded its resource limits."
-msgstr ""
-
-msgid "Oversized template response."
-msgstr ""
-
-#, fuzzy
-#| msgid "Invalid translation flag: \"%s\""
-msgid "Invalid template rendering response."
-msgstr "דגל תרגום שגוי: „%s”"
-
 msgid "Could not render template: {}"
 msgstr "לא ניתן לעבד תבנית: {}"
 
@@ -23645,7 +23735,7 @@ msgid ""
 "instead."
 msgstr "אין יותר תמיכה במחרוזות עיצוב, נא להשתמש בשפת התבנית במקום."
 
-msgid "Template value exceeds its size limit."
+msgid "Template context exceeds its size limit."
 msgstr ""
 
 #, fuzzy
@@ -23653,8 +23743,10 @@ msgstr ""
 msgid "Template context is nested too deeply."
 msgstr "לתגית ה־HTML‏ {tag} חסרה תגית סגירה תואמת: {end}."
 
-msgid "Template context exceeds its size limit."
-msgstr ""
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported nonfinite template context value."
+msgstr "תבנית הקובץ אינה נתמכת."
 
 #, fuzzy
 #| msgid "Unsupported file format."
@@ -23666,30 +23758,339 @@ msgstr "תבנית הקובץ אינה נתמכת."
 msgid "Unsupported template context value."
 msgstr "תבנית הקובץ אינה נתמכת."
 
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Template text is not valid UTF-8."
+msgstr "האסימון שסופק לא תקף."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid request."
+msgid "Invalid template syntax."
+msgstr "בקשה שגויה."
+
+#, fuzzy
+#| msgid "Undefined variable: \"%s\""
+msgid "Undefined template variable."
+msgstr "משתנה לא מוגדר: „%s”"
+
+#, fuzzy
+#| msgid "The translation is not valid XML."
+msgid "Text is not valid UTF-8."
+msgstr "התרגום אינו XML תקני."
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Division by zero is not supported."
+msgstr "המיון שנבחר אינו נתמך."
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Numeric value is too large for this operation."
+msgstr "עיון בכל השינויים לשפה הזאת"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Numeric operation failed."
+msgstr "פעולת מאגר נכשלה"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation reviews are not enabled."
+msgid "Value or argument has an invalid format."
+msgstr "סקירות תרגומים אינן פעילות."
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "%(operation)s: %(message)s"
+msgstr "לא ניתן לדחוף את %(component)s‏: %(error_text)s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
 msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nonfinite numbers are not supported."
+msgstr "המיון שנבחר אינו נתמך."
+
+#, fuzzy, python-format
+#| msgid "File names"
+msgid "Filter \"%(name)s\""
+msgstr "שמות קבצים"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
 msgstr ""
 
 msgid "Template rendering exceeded its loop limit."
 msgstr ""
 
-msgid "Template intermediate value exceeds its size limit."
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Attribute access and method calls are not supported."
+msgstr "המיון שנבחר אינו נתמך."
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Index exceeds the length limit of 128 characters."
+msgstr "שם המשתמש חייב להיות באורך של 5 תווים לפחות."
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Translated template literals are not supported."
+msgstr "המיון שנבחר אינו נתמך."
+
+#, fuzzy
+#| msgid "Invalid unit."
+msgid "Invalid filter."
+msgstr "יחידה שגויה."
+
+msgid "Identity comparisons require None, True, or False."
 msgstr ""
 
-msgid "Template replacement exceeds its size limit."
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This condition operator is not supported."
+msgstr "המיון שנבחר אינו נתמך."
+
+msgid "Template output exceeds its size limit."
 msgstr ""
 
-msgid "Template padding exceeds its size limit."
+msgid "Loops require a list, string, dictionary, or dictionary view."
 msgstr ""
 
-msgid "Template formatting exceeds its size limit."
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
 msgstr ""
 
-msgid "Template join exceeds its size limit."
+msgid "Loop value cannot be unpacked into its variables."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This template tag is not supported."
+msgstr "המיון שנבחר אינו נתמך."
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This template node is not supported."
+msgstr "סוג הקובץ שזוהה אינו נתמך."
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
 msgstr ""
 
 #, python-format
 msgid "Undefined variable: \"%s\""
 msgstr "משתנה לא מוגדר: „%s”"
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "This field is required."
+msgid "This filter requires strings."
+msgstr "זה שדה חובה."
+
+#, fuzzy
+#| msgid "Automatically translated strings"
+msgid "Choices must be a string."
+msgstr "מחרוזות שתורגמו אוטומטית"
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr "שם המשתמש חייב להיות באורך של 5 תווים לפחות."
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source string length"
+msgid "Joining requires string elements."
+msgstr "אורך מחרוזת מקור"
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatically translated strings"
+msgid "Date format must be a string or None."
+msgstr "מחרוזות שתורגמו אוטומטית"
+
+#, fuzzy
+#| msgid "Avoid years that are associated with you."
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "יש להימנע משנים שקשורות אליך."
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatically translated strings"
+msgid "Plural suffixes must be a string."
+msgstr "מחרוזות שתורגמו אוטומטית"
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr "שם המשתמש חייב להיות באורך של 5 תווים לפחות."
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nested template delimiters are not supported."
+msgstr "המיון שנבחר אינו נתמך."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unclosed template token."
+msgstr "תבנית הקובץ אינה נתמכת."
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid ".NET resource file"
+msgid "Template tag is empty."
+msgstr "קובץ מקור ‎.NET"
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr ""
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unsupported file format."
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "תבנית הקובץ אינה נתמכת."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template tag."
+msgstr "תבנית הקובץ אינה נתמכת."
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid ""
@@ -25465,6 +25866,15 @@ msgstr "אי אפשר להסיר את מרחב העבודה כיוון שהוא 
 msgid "The workspace has been removed."
 msgstr "מרחב העבודה הוסר."
 
+#, python-format
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "לעיין במונחון %(name)s"
+
+#, fuzzy
+#~| msgid "Invalid translation flag: \"%s\""
+#~ msgid "Invalid template rendering response."
+#~ msgstr "דגל תרגום שגוי: „%s”"
+
 #, fuzzy
 #~| msgid "Registration almost complete"
 #~ msgid "E-mail verification almost complete"
@@ -27014,9 +27424,6 @@ msgstr "מרחב העבודה הוסר."
 #~ msgid "Renamed project"
 #~ msgstr "מיזם ששמו השתנה"
 
-#~ msgid "Renamed component"
-#~ msgstr "רכיב ששמו השתנה"
-
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "מחרוזת חדשה לתרגום"
@@ -28457,9 +28864,6 @@ msgstr "מרחב העבודה הוסר."
 
 #~ msgid "Backup pepository"
 #~ msgstr "מאגר גיבוי"
-
-#~ msgid "Your languages"
-#~ msgstr "השפות שלך"
 
 #~ msgid "Fulltext"
 #~ msgstr "טקסט מלא"
@@ -30884,9 +31288,6 @@ msgstr "מרחב העבודה הוסר."
 
 #~ msgid "First name"
 #~ msgstr "שם פרטי"
-
-#~ msgid "Username needs to have at least five characters."
-#~ msgstr "שם המשתמש חייב להיות באורך של 5 תווים לפחות."
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

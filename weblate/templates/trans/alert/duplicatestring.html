@@ -2,7 +2,7 @@
 
 <p>{% translate "The component contains several duplicated translation strings." %}</p>
 
-<p>{% translate "The following occurrences were found:" %}</p>
+{% include "trans/alert/occurrence-summary.html" %}
 
 <div class="table-responsive">
   <table class="table table-sm">
@@ -54,5 +54,3 @@
 <p>
   {% translate "Please fix this by removing duplicated strings with same identifier from the translation files." %}
 </p>
-
-{% include "trans/alert/occurrences-limit.html" %}

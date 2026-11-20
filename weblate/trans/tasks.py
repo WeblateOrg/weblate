@@ -1317,12 +1317,20 @@ def repository_alerts(threshold: int = settings.REPOSITORY_ALERT_THRESHOLD) -> N
 
 
 def update_repository_alerts(component: Component, threshold: int) -> None:
-    if component.repository.count_missing() > threshold:
-        component.add_alert("RepositoryOutdated")
+    missing = component.repository.count_missing()
+    if missing > threshold:
+        component.add_alert(
+            "RepositoryOutdated", commit_count=missing, repository_owner_id=component.pk
+        )
     else:
         component.delete_alert("RepositoryOutdated")
-    if component.repository.count_outgoing() > threshold:
-        component.add_alert("RepositoryChanges")
+    outgoing = component.repository.count_outgoing()
+    if outgoing > threshold:
+        component.add_alert(
+            "RepositoryChanges",
+            commit_count=len(component.repository.get_tracked_outgoing_revisions()),
+            repository_owner_id=component.pk,
+        )
     else:
         component.delete_alert("RepositoryChanges")
 

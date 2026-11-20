@@ -864,17 +864,6 @@ class Change(BackupAuthorshipMixin, UserDisplayMixin):
         verbose_name_plural = "history events"
 
     def __str__(self) -> str:
-        if self.user:
-            # Translators: condensed rendering of a change action in history
-            return gettext("%(action)s at %(time)s on %(translation)s by %(user)s") % {
-                "action": self.get_action_display(),
-                "time": self.timestamp,
-                "translation": self.translation
-                or self.component
-                or self.project
-                or self.workspace,
-                "user": self.get_user_display(False),
-            }
         # Translators: condensed rendering of a change action in history
         return gettext("%(action)s at %(time)s on %(translation)s") % {
             "action": self.get_action_display(),

@@ -3134,6 +3134,39 @@ class FileSyncPendingUnitOptimizationTest(ComponentTestCase):
         self.assertEqual(unit.details["disk_state"], disk_state)
 
 
+class AddNewLanguageTest(ComponentTestCase):
+    def create_component(self) -> Component:
+        return self.create_po_new_base(new_lang="add")
+
+    def test_add_language_validates_and_uses_base_under_lock(self) -> None:
+        language = Language.objects.get(code="fa")
+        get_base = self.component.get_new_base_filename
+        add_language = self.component.file_format_cls.add_language
+        base_lock_states: list[bool] = []
+
+        def get_locked_base() -> str | None:
+            base_lock_states.append(self.component.repository.lock.is_locked)
+            return get_base()
+
+        def add_from_base(*args, **kwargs) -> None:
+            self.assertTrue(base_lock_states[-1])
+            self.assertTrue(self.component.repository.lock.is_locked)
+            add_language(*args, **kwargs)
+
+        with (
+            patch.object(self.component, "get_new_base_filename", get_locked_base),
+            patch.object(
+                self.component.file_format_cls,
+                "add_language",
+                side_effect=add_from_base,
+            ) as add,
+        ):
+            translation = self.component.add_new_language(language, self.get_request())
+
+        add.assert_called_once()
+        self.assertIsNotNone(translation)
+
+
 class ExistingIntermediateLanguageFileTest(ComponentTestCase):
     def create_component(self) -> Component:
         return self.create_po_mono(new_lang="add")

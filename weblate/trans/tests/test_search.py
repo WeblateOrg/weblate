@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import re
+from inspect import getattr_static
 from types import SimpleNamespace
 from unittest.mock import ANY, patch
 from urllib.parse import urlsplit
@@ -26,7 +27,8 @@ from weblate.auth.models import Group, Role, User
 from weblate.checks.models import Check
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
-from weblate.trans.bulk import bulk_perform
+from weblate.trans.bulk import BulkUnitEdit, bulk_perform
+from weblate.trans.defines import CATEGORY_DEPTH
 from weblate.trans.forms import AutoForm, BulkEditForm
 from weblate.trans.models import (
     Category,
@@ -2558,6 +2560,131 @@ class BulkEditTest(ReusableViewTestCase):
         unit = self.get_unit()
         self.assertEqual(unit.state, STATE_APPROVED)
         self.assertFalse(unit.automatically_translated)
+
+    def test_bulk_state_respects_inherited_enforced_checks(self) -> None:
+        self.project.enforced_checks = ["same"]
+        self.project.inherit_enforced_checks = False
+        self.project.save(update_fields=["enforced_checks", "inherit_enforced_checks"])
+        self.component.inherit_enforced_checks = True
+        self.component.save(update_fields=["inherit_enforced_checks"])
+
+        unit = self.unit
+        unit.translate(self.user, unit.source, STATE_NEEDS_CHECKING)
+        unit.refresh_from_db()
+        self.assertTrue(unit.has_check("same"))
+        unit.pending_changes.all().delete()
+
+        url = reverse("bulk-edit", kwargs=self.kw_translation)
+        data = {"q": f"id:{unit.pk}", "state": STATE_TRANSLATED}
+        response = self.client.post(url, {**data, "preview": "1"})
+        self.assertEqual(
+            [(edit.unit.pk, edit.state) for edit in response.context["matching"]],
+            [(unit.pk, STATE_NEEDS_REWRITING)],
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, STATE_NEEDS_CHECKING)
+        self.assertFalse(unit.pending_changes.exists())
+
+        response = self.client.post(
+            url,
+            {
+                "bulk_confirmation": response.context["confirmation"],
+                "preview_units": [unit.pk],
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, STATE_NEEDS_REWRITING)
+        self.assertEqual(unit.original_state, STATE_NEEDS_REWRITING)
+        self.assertEqual(unit.target, unit.source)
+        self.assertTrue(unit.has_check("same"))
+        change = unit.change_set.get(action=ActionEvents.ENFORCED_CHECK)
+        self.assertEqual(change.user, self.user)
+        self.assertEqual(change.details["state"], STATE_NEEDS_REWRITING)
+        pending = unit.pending_changes.get()
+        self.assertEqual(pending.state, STATE_NEEDS_REWRITING)
+        self.assertEqual(pending.get_actor(), self.user)
+
+        response = self.client.post(url, {**data, "preview": "1"})
+        self.assertEqual(response.context["total"], 0)
+        change_count = unit.change_set.count()
+        response = self.client.post(url, data, follow=True)
+        self.assertContains(response, "Bulk edit completed, no strings were updated.")
+        self.assertEqual(unit.change_set.count(), change_count)
+        self.assertEqual(unit.pending_changes.get(), pending)
+
+    def test_bulk_state_prefetches_enforced_check_inheritance(self) -> None:
+        workspace = Workspace.objects.create(
+            name="Bulk workspace", enforced_checks=["same"]
+        )
+        self.project.workspace = workspace
+        self.project.inherit_enforced_checks = True
+        self.project.save(update_fields=["workspace", "inherit_enforced_checks"])
+        category = None
+        for depth in range(CATEGORY_DEPTH):
+            category = Category.objects.create(
+                name=f"Category {depth}",
+                slug=f"category-{depth}",
+                project=self.project,
+                category=category,
+                inherit_enforced_checks=True,
+            )
+        self.component.category = category
+        self.component.inherit_enforced_checks = True
+        self.component.save(update_fields=["category", "inherit_enforced_checks"])
+        other = self.create_po(
+            project=self.project, name="Other", inherit_enforced_checks=True
+        )
+        other_unit = other.translation_set.get(language_code="cs").unit_set.get(
+            source=self.unit.source
+        )
+        for unit in (self.unit, other_unit):
+            unit.translate(
+                self.user, unit.source, STATE_NEEDS_CHECKING, propagate=False
+            )
+            self.assertTrue(unit.has_check("same"))
+
+        get_checks = getattr_static(Component, "effective_enforced_checks").fget
+
+        def check_resolution_queries(component: Component) -> list[str]:
+            with self.assertNumQueries(0):
+                return get_checks(component)
+
+        component_ids = [self.component.pk, other.pk]
+        unit_ids = [self.unit.pk, other_unit.pk]
+        for supply_components in (False, True):
+            with (
+                self.subTest(supply_components=supply_components),
+                patch.object(
+                    Component,
+                    "effective_enforced_checks",
+                    property(check_resolution_queries),
+                ),
+            ):
+                preview: list[BulkUnitEdit] = []
+                updated = bulk_perform(
+                    self.user,
+                    Unit.objects.filter(pk__in=unit_ids),
+                    query="",
+                    target_state=STATE_TRANSLATED,
+                    add_flags="",
+                    remove_flags="",
+                    add_labels=self.project.label_set.none(),
+                    remove_labels=self.project.label_set.none(),
+                    project=self.project,
+                    components=(
+                        list(Component.objects.filter(pk__in=component_ids))
+                        if supply_components
+                        else None
+                    ),
+                    preview=preview,
+                )
+                self.assertEqual(updated, len(unit_ids))
+                self.assertEqual(
+                    {edit.unit.pk: edit.state for edit in preview},
+                    dict.fromkeys(unit_ids, STATE_NEEDS_REWRITING),
+                )
 
     def test_bulk_edit_creates_change_and_pending_unit_change(self) -> None:
         """Bulk edit creates Change and PendingUnitChange records via bulk insert."""
