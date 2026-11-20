@@ -11,6 +11,7 @@ Weblate 2026.12
 * Added :wladmin:`recovergit` to rebuild missing repository checkouts.
 * :ref:`format-line-number` in the translation file is now stored in the unit for supported formats; when available, the line number is used for repository links and :guilabel:`Nearby strings`.
 * Added staged :ref:`libre-hosting-cleanup` with advance notice and a 30-day trial.
+* Added :ref:`background task tracking <api-background-operations>` for creating translations and deleting translations, components, and categories through the API.
 
 .. rubric:: Improvements
 
@@ -84,6 +85,11 @@ Weblate 2026.12
 .. rubric:: Compatibility
 
 * Restricted :ref:`configurable templates <markup>` to documented operations with parsing, allocation, and cumulative work limits.
+
+.. rubric:: Upcoming compatibility changes in 2027.1
+
+* Update API clients to :ref:`request background processing and follow task URLs <api-background-operations>` for repository operations, automatic translation, uploads, translation creation, and translation, component, and category deletion.
+* Review API list consumers for :ref:`cursor pagination <api-pagination>`. Handle an absent ``count`` and follow ``next`` and ``previous`` URLs as returned, without depending on their structure.
 
 .. rubric:: Upgrading
 

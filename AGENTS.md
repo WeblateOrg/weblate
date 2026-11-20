@@ -70,6 +70,9 @@ For application-developer workflows and broader product integration guidance, us
   pytest treats as an error. This is temporary soft enforcement in production,
   not permission to omit the actor. Do not suppress the warning to hide missing
   actors in tests; supply the correct user instead.
+- Authorize user-requested work and its scope before queueing it. Pass the actor
+  and authorized scope to the worker. See `docs/security/threat-model.rst` for
+  the trust boundary and operation-specific exceptions.
 - Weblate does not maintain compatibility for queued Celery task messages across
   upgrades. Task signatures and payloads may change without legacy argument
   adapters. Do not flag incompatibility with messages published by an older
