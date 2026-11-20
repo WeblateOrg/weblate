@@ -924,7 +924,9 @@ class PythonBraceFormatCheck(BaseFormatCheck):
     name = gettext_lazy("Python brace format")
     description = gettext_lazy("Python brace format string does not match source.")
     regexp = PYTHON_BRACE_MATCH
-    plural_parameter_regexp = re.compile(r"\{(?:count|number|num|n)\}")
+    plural_parameter_regexp: re.Pattern[str] | None = re.compile(
+        r"\{(?:count|number|num|n)\}"
+    )
     normalize_remove: ClassVar[set[str]] = {"{", "}"}
 
     def may_have_matches(self, text: str) -> bool:
@@ -984,6 +986,7 @@ class CppFormatCheck(PythonBraceFormatCheck):
     name = gettext_lazy("C++ format")
     description = gettext_lazy("C++ format string does not match source.")
     regexp = CPP_FORMAT_MATCH
+    plural_parameter_regexp = None
     extra_enable_strings = ("c++-format",)
     version_added = "2026.12"
 
