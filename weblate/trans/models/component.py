@@ -7291,8 +7291,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
             )
             return None
 
-        base_filename = self.get_new_base_filename()
-
         filename = file_format.get_language_filename(self.filemask, code)
         fullname = os.path.join(self.full_path, filename)
 
@@ -7302,6 +7300,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 self.commit_pending("add language", None)
 
             try:
+                # An update may have replaced the base while we waited for the lock.
+                base_filename = self.get_new_base_filename()
                 self.check_file_is_valid(fullname)
             except ValidationError:
                 fail_message(gettext("Could not add new translation file."))

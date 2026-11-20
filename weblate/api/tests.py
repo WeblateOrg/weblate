@@ -13225,6 +13225,38 @@ class ComponentAPITest(APIBaseTest):
             request={"language_code": "fa"},
         )
 
+    def test_create_translation_base_invalid_under_lock(self) -> None:
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.save(update_fields=["new_lang", "new_base"])
+        get_base = Component.get_new_base_filename
+
+        def validate_base(component: Component) -> str | None:
+            if component.repository.lock.is_locked:
+                msg = "Invalid base file"
+                raise DjangoValidationError(msg)
+            return get_base(component)
+
+        with (
+            patch.object(Component, "get_new_base_filename", validate_base),
+            patch.object(
+                self.component.file_format_cls, "add_language"
+            ) as add_language,
+        ):
+            self.do_request(
+                "api:component-translations",
+                self.component_kwargs,
+                method="post",
+                code=400,
+                request={"language_code": "fa"},
+            )
+
+        add_language.assert_not_called()
+        self.assertFalse(
+            self.component.translation_set.filter(language_code="fa").exists()
+        )
+        self.assertFalse((Path(self.component.full_path) / "po/fa.po").exists())
+
     def test_create_translation_team_language_scope(self) -> None:
         self.component.new_lang = "add"
         self.component.new_base = "po/hello.pot"
