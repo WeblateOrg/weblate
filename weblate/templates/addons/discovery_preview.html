@@ -4,7 +4,7 @@
   <thead>
     <tr>
       <th>{% translate "Component" %}</th>
-      <th></th>
+      <th>{% translate "Category" %}</th>
       <th>{% translate "Matched files" %}</th>
     </tr>
   </thead>
@@ -19,10 +19,10 @@
             {{ match.0.name }}
             {% if match.0.slug %}(<code>{{ match.0.slug }}</code>){% endif %}
           </th>
+          <td></td>
           <td>
             <strong>{{ match.1 }}</strong>
-          </td>
-          <td>
+            <br />
             {% if match.0.base_file %}
               <strong>{% translate "Monolingual base language file" %}:</strong> <code>{{ match.0.base_file }}</code>
               <br />
@@ -48,7 +48,13 @@
           <th>
             <a href="{{ match.1.get_absolute_url }}">{{ match.1 }}</a>
           </th>
-          <td></td>
+          <td>
+            {% if match.1.category %}
+              {{ match.1.category }}
+            {% else %}
+              {% translate "Project root" %}
+            {% endif %}
+          </td>
           <td></td>
         </tr>
       {% endfor %}
@@ -62,7 +68,14 @@
           <th>
             {{ match.0.name }} (<code>{{ match.0.slug }}</code>)
           </th>
-          <td colspan="2">
+          <td>
+            {% if match.0.category_path %}
+              {{ match.0.category_path|join:"/" }}
+            {% else %}
+              {% translate "Main component category" %}
+            {% endif %}
+          </td>
+          <td>
             {% if match.0.base_file %}
               <strong>{% translate "Monolingual base language file" %}:</strong> <code>{{ match.0.base_file }}</code>
               <br />
@@ -86,7 +99,14 @@
           <th>
             <a href="{{ match.1.get_absolute_url }}">{{ match.1 }}</a>
           </th>
-          <td colspan="2">
+          <td>
+            {% if match.1.category %}
+              {{ match.1.category }}
+            {% else %}
+              {% translate "Project root" %}
+            {% endif %}
+          </td>
+          <td>
             {% if match.0.base_file %}
               <strong>{% translate "Monolingual base language file" %}:</strong> <code>{{ match.0.base_file }}</code>
               <br />
@@ -112,9 +132,13 @@
             {% if match.0.slug %}(<code>{{ match.0.slug }}</code>){% endif %}
           </th>
           <td>
-            <strong>{{ match.1 }}</strong>
+            {% if match.0.category_path %}
+              {{ match.0.category_path|join:"/" }}
+            {% endif %}
           </td>
           <td>
+            <strong>{{ match.1 }}</strong>
+            <br />
             {% if match.0.base_file %}
               <strong>{% translate "Monolingual base language file" %}:</strong> <code>{{ match.0.base_file }}</code>
               <br />

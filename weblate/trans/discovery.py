@@ -26,9 +26,9 @@ from weblate.trans.component_copy import (
     get_inherited_component_fields,
     should_copy_component_field,
 )
-from weblate.trans.defines import COMPONENT_NAME_LENGTH
+from weblate.trans.defines import CATEGORY_DEPTH, COMPONENT_NAME_LENGTH
 from weblate.trans.inherited_settings import apply_create_inheritance_defaults
-from weblate.trans.models import Component
+from weblate.trans.models import Category, Component, Project
 from weblate.trans.tasks import create_component
 from weblate.trans.util import path_separator
 from weblate.utils.change_origin import acting_user_context
@@ -65,6 +65,12 @@ MAX_DETECTED_PRESETS = 50
 MAX_PRESET_EXAMPLES = 8
 
 
+def normalize_category_path(raw: str | None) -> tuple[str, ...]:
+    if raw is None:
+        return ()
+    return tuple(part.strip() for part in raw.split("/") if part.strip())
+
+
 class DiscoveryErrorMatch(TypedDict):
     name: str
     slug: str
@@ -95,6 +101,7 @@ class MutableDiscoveryMatch(TypedDict):
     mask: str
     name: str
     slug: str
+    category_path: tuple[str, ...]
 
 
 class DiscoveryMatch(TypedDict):
@@ -107,6 +114,7 @@ class DiscoveryMatch(TypedDict):
     mask: str
     name: str
     slug: str
+    category_path: tuple[str, ...]
 
 
 class DetectedDiscoveryPresetValues(TypedDict):
@@ -703,6 +711,9 @@ class ComponentDiscovery:
         self.language_match = compile_regex(language_regex)
         self.file_format = file_format
         self.copy_addons = copy_addons
+        self._category_chain_cache: dict[
+            tuple[int | None, tuple[str, ...]], Category
+        ] = {}
 
     def _require_component(self) -> Component:
         if self.component is None:
@@ -843,6 +854,9 @@ class ComponentDiscovery:
         if path and groups.get("language"):
             languages.add(groups["language"])
             files_langs.add((path, groups["language"]))
+        category_path = ()
+        if "category" in self.path_match.groupindex:
+            category_path = normalize_category_path(groups.get("category"))
         return {
             "files": files,
             "languages": languages,
@@ -855,6 +869,7 @@ class ComponentDiscovery:
             "mask": mask,
             "name": name,
             "slug": slugify(name),
+            "category_path": category_path,
         }
 
     def render_discovery_template(self, setting: str, groups: Mapping[str, str]) -> str:
@@ -1313,9 +1328,157 @@ class ComponentDiscovery:
         if "secondary_language" in kwargs and kwargs["secondary_language"] is not None:
             kwargs["secondary_language"] = kwargs["secondary_language"].pk
         if background:
-            create_component.delay(**kwargs, in_task=True)
+            create_component.delay_on_commit(**kwargs, in_task=True)
             return None
         return create_component(**kwargs)
+
+    @staticmethod
+    def _level_identifiers(
+        project: Project,
+        category_id: int | None,
+    ) -> tuple[set[str], set[str]]:
+        slugs: set[str] = set()
+        names: set[str] = set()
+        slugs.update(
+            slug.lower()
+            for slug in project.component_set.filter(
+                category_id=category_id
+            ).values_list("slug", flat=True)
+        )
+        names.update(
+            name.lower()
+            for name in project.component_set.filter(
+                category_id=category_id
+            ).values_list("name", flat=True)
+        )
+        slugs.update(
+            slug.lower()
+            for slug in Category.objects.filter(
+                project=project, category_id=category_id
+            ).values_list("slug", flat=True)
+        )
+        names.update(
+            name.lower()
+            for name in Category.objects.filter(
+                project=project, category_id=category_id
+            ).values_list("name", flat=True)
+        )
+        return slugs, names
+
+    def _validate_category_segments(
+        self, main: Component, segments: tuple[str, ...]
+    ) -> str | None:
+        parent_depth = (
+            # ruff: ignore[private-member-access]
+            0 if main.category is None else main.category._get_parents_depth() + 1
+        )
+        if parent_depth + len(segments) > CATEGORY_DEPTH:
+            return gettext("Category path exceeds the maximum nesting depth.")
+
+        parent = main.category
+        project = main.project
+        for segment in segments:
+            slug = slugify(segment)
+            if not slug:
+                return gettext("Category path contains an invalid segment.")
+            if (
+                len(segment) > COMPONENT_NAME_LENGTH
+                or len(slug) > COMPONENT_NAME_LENGTH
+            ):
+                return gettext("Category path contains a segment that is too long.")
+
+            parent_id = parent.pk if parent else None
+            if parent is None or parent.pk is not None:
+                if project.component_set.filter(
+                    category_id=parent_id, slug=slug
+                ).exists():
+                    return gettext(
+                        'Category path conflicts with an existing component at segment "%(segment)s".'
+                    ) % {"segment": segment}
+                if project.component_set.filter(
+                    category_id=parent_id, name=segment
+                ).exists():
+                    return gettext(
+                        'Category path conflicts with an existing component at segment "%(segment)s".'
+                    ) % {"segment": segment}
+
+            if parent is None or parent.pk is not None:
+                existing = Category.objects.filter(
+                    project=project, category_id=parent_id, slug=slug
+                ).first()
+                if existing is not None:
+                    parent = existing
+                    continue
+
+            if parent is not None and parent.pk is None:
+                ancestor = parent.category
+            else:
+                ancestor = parent
+            parent = Category(
+                name=segment,
+                slug=slug,
+                project=project,
+                category=ancestor,
+            )
+        return None
+
+    def _get_or_create_category_chain(
+        self,
+        main: Component,
+        segments: tuple[str, ...],
+        identifier_cache: dict[int | None, tuple[set[str], set[str]]],
+    ) -> tuple[Category | None, str | None]:
+        cache_key = (main.category_id, segments)
+        cached = self._category_chain_cache.get(cache_key)
+        if cached is not None:
+            return cached, None
+
+        parent = main.category
+        project = main.project
+        for segment in segments:
+            slug = slugify(segment)
+            parent_id = parent.pk if parent else None
+            existing = Category.objects.filter(
+                project=project, category_id=parent_id, slug=slug
+            ).first()
+            if existing is not None:
+                parent = existing
+                continue
+
+            category = Category(
+                name=segment,
+                slug=slug,
+                project=project,
+                category=parent,
+            )
+            try:
+                category.full_clean()
+                category.save()
+            except ValidationError as error:
+                return None, str(error)
+
+            level_slugs, level_names = identifier_cache.setdefault(
+                parent_id, self._level_identifiers(project, parent_id)
+            )
+            level_slugs.add(category.slug.lower())
+            level_names.add(category.name.lower())
+            identifier_cache[category.pk] = (set(), set())
+            parent = category
+
+        if parent is None:
+            return None, None
+        self._category_chain_cache[cache_key] = parent
+        return parent, None
+
+    def get_category_skip_reason(
+        self, main: Component, match: DiscoveryMatch
+    ) -> str | None:
+        if "category" not in self.path_match.groupindex:
+            return None
+        segments = match["category_path"]
+        if not segments:
+            return None
+        return self._validate_category_segments(main, segments)
 
     def cleanup(self, main, processed, preview=False):
         with acting_user_context(self.user):
@@ -1377,56 +1540,122 @@ class ComponentDiscovery:
             if self.limit_exceeded or self.template_error:
                 return created, matched, deleted, skipped
 
-            category_components = main.project.component_set.filter(
-                category=main.category
-            )
             existing_children: dict[str, Component] = {
                 component.filemask: component
                 for component in main.linked_children.all()
             }
-            existing_slugs: set[str] = {
-                slug.lower()
-                for slug in category_components.values_list("slug", flat=True)
-            }
-            existing_names: set[str] = {
-                name.lower()
-                for name in category_components.values_list("name", flat=True)
-            }
+            identifier_cache: dict[int | None, tuple[set[str], set[str]]] = {}
+            # category_id to tuple of (slugs, names)
+            self._category_chain_cache = {}
 
             for match in discovered.values():
-                # Skip invalid matches
-                reason = self.get_skip_reason(match)
-                if reason is not None:
-                    skipped.append((match, reason))
+                skip_reason = self._get_match_skip_reason(main, match)
+                if skip_reason is not None:
+                    skipped.append((match, skip_reason))
                     continue
 
-                try:
-                    found = existing_children[match["mask"]]
-                except KeyError:
-                    # Create new component
-                    try:
-                        component = self.create_component(
-                            main,
-                            match,
-                            background=background,
-                            preview=preview,
-                            existing_slugs=existing_slugs,
-                            existing_names=existing_names,
-                        )
-                    except ValidationError as error:
-                        skipped.append((match, str(error)))
-                    else:
-                        # Correctly created
-                        if component is not None and component.id:
-                            processed.add(component.id)
-                        created.append((match, component))
-                        existing_children[match["mask"]] = component
-                else:
-                    # Component already exists
-                    matched.append((match, found))
-                    processed.add(found.id)
+                error, create_kwargs, level_identifiers = (
+                    self._resolve_match_category_target(
+                        main,
+                        match,
+                        preview=preview,
+                        identifier_cache=identifier_cache,
+                    )
+                )
+                if error is not None:
+                    skipped.append((match, error))
+                    continue
+                existing_slugs, existing_names = level_identifiers
+                self._register_discovery_match(
+                    main,
+                    match,
+                    background=background,
+                    preview=preview,
+                    existing_children=existing_children,
+                    existing_slugs=existing_slugs,
+                    existing_names=existing_names,
+                    create_kwargs=create_kwargs,
+                    processed=processed,
+                    created=created,
+                    matched=matched,
+                    skipped=skipped,
+                )
 
             if remove:
                 deleted = self.cleanup(main, processed, preview)
 
             return created, matched, deleted, skipped
+
+    def _register_discovery_match(
+        self,
+        main: Component,
+        match: DiscoveryMatch,
+        *,
+        background: bool,
+        preview: bool,
+        existing_children: dict[str, Component],
+        existing_slugs: set[str],
+        existing_names: set[str],
+        create_kwargs: dict[str, object],
+        processed: set[int],
+        created: list[tuple[DiscoveryMatch, Component | None]],
+        matched: list[tuple[DiscoveryMatch, Component]],
+        skipped: list[tuple[DiscoveryMatch, str]],
+    ) -> None:
+        try:
+            found = existing_children[match["mask"]]
+        except KeyError:
+            try:
+                component = self.create_component(
+                    main,
+                    match,
+                    background=background,
+                    preview=preview,
+                    existing_slugs=existing_slugs,
+                    existing_names=existing_names,
+                    **create_kwargs,
+                )
+            except ValidationError as error:
+                skipped.append((match, str(error)))
+            else:
+                if component is not None and component.id:
+                    processed.add(component.id)
+                created.append((match, component))
+                existing_children[match["mask"]] = component
+        else:
+            matched.append((match, found))
+            processed.add(found.id)
+
+    def _get_match_skip_reason(
+        self, main: Component, match: DiscoveryMatch
+    ) -> str | None:
+        skip_reason = self.get_skip_reason(match)
+        if skip_reason is not None:
+            return skip_reason
+        return self.get_category_skip_reason(main, match)
+
+    def _resolve_match_category_target(
+        self,
+        main: Component,
+        match: DiscoveryMatch,
+        *,
+        preview: bool,
+        identifier_cache: dict[int | None, tuple[set[str], set[str]]],
+    ) -> tuple[str | None, dict[str, object], tuple[set[str], set[str]]]:
+        target_category_id = main.category_id
+        create_kwargs: dict[str, object] = {}
+        if match["category_path"] and not preview:
+            category, error = self._get_or_create_category_chain(
+                main, match["category_path"], identifier_cache
+            )
+            if error is not None:
+                return error, {}, (set(), set())
+            if category is not None:
+                target_category_id = category.pk
+                create_kwargs["category_id"] = category.pk
+
+        if target_category_id not in identifier_cache:
+            identifier_cache[target_category_id] = self._level_identifiers(
+                main.project, target_category_id
+            )
+        return None, create_kwargs, identifier_cache[target_category_id]
