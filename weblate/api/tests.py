@@ -10377,6 +10377,54 @@ class ProjectAPITest(APIBaseTest):
             b"".join(response.streaming_content)
 
 
+class ProjectWorkspaceChoicesAPITest(APIBaseTest):
+    def test_browsable_form_workspace_choices(self) -> None:
+        usable = Workspace.objects.create(name="Usable workspace")
+        usable.add_owner(self.user)
+        hidden = Workspace.objects.create(name="Hidden workspace")
+        self.user.clear_permissions_cache()
+
+        response = self.do_request("api:project-list", request={"format": "api"})
+        content = response.content.decode()
+        self.assertIn(f'value="{usable.pk}"', content)
+        self.assertNotIn(str(hidden.pk), content)
+        self.assertNotIn(hidden.name, content)
+
+        # Choices are not used for validation of the submitted workspace
+        self.do_request(
+            "api:project-list",
+            method="post",
+            code=403,
+            request={
+                "name": "API project",
+                "slug": "api-project",
+                "web": "https://weblate.org/",
+                "workspace": str(hidden.pk),
+            },
+        )
+
+        response = self.do_request(
+            "api:project-list", request={"format": "api"}, superuser=True
+        )
+        content = response.content.decode()
+        self.assertIn(f'value="{usable.pk}"', content)
+        self.assertIn(f'value="{hidden.pk}"', content)
+
+    def test_browsable_form_workspace_choices_keep_current(self) -> None:
+        current = Workspace.objects.create(name="Current workspace")
+        hidden = Workspace.objects.create(name="Hidden workspace")
+        Project.objects.filter(pk=self.project.pk).update(workspace=current)
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+
+        response = self.do_request(
+            "api:project-detail", self.project_kwargs, request={"format": "api"}
+        )
+        content = response.content.decode()
+        self.assertIn(f'value="{current.pk}"', content)
+        self.assertNotIn(str(hidden.pk), content)
+
+
 class ComponentAPITest(APIBaseTest):
     def test_patch_filemask_scan_limit(self) -> None:
         original_name = self.component.name
