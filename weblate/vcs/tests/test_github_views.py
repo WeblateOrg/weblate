@@ -591,11 +591,37 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
         )
 
     @http_mock.activate
-    def test_setup_connects_personal_installation_for_account_owner(self) -> None:
+    def test_reuse_personal_installation_in_another_workspace(self) -> None:
         repositories = [_repo_entry("octocat/repo1", default_branch="stable")]
-        next_url = "/create/component/#github"
-        install_url = self._start_install(next_url)
-        state = parse_qs(urlparse(install_url).query)["state"][0]
+        original = Workspace.objects.create(name="Original workspace")
+        owner = self.anotheruser
+        original.add_owner(owner)
+        self.workspace.add_owner(owner)
+        self.client.force_login(owner)
+        source = GitHubInstallation.objects.create(
+            workspace=original,
+            installation_id="12345",
+            target_type="User",
+            target_login="octocat",
+        )
+        GitHubInstallation.objects.create(
+            workspace=Workspace.objects.create(name="Unrelated workspace"),
+            installation_id="54321",
+            target_type="User",
+            target_login="other-owner",
+        )
+        next_url = reverse("account-vcs")
+        response = self.client.get(
+            reverse("github-app-install"),
+            {"workspace": str(self.workspace.pk), "next": next_url},
+        )
+        [(login, authorize_url)] = response.context["choices"]
+        self.assertContains(response, login)
+        self.assertEqual(login, "octocat")
+        url = urlparse(authorize_url)
+        self.assertEqual(url.netloc, "github.com")
+        self.assertEqual(url.path, "/login/oauth/authorize")
+        state = parse_qs(url.query)["state"][0]
 
         self._mock_oauth(
             installations=[
@@ -613,10 +639,12 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
         )
         response = self.client.get(
             reverse("github-app-setup"),
-            {"installation_id": "12345", "state": state, "code": "oauth-code"},
+            {"state": state, "code": "oauth-code"},
         )
 
         self.assertRedirects(response, next_url)
+        source.refresh_from_db()
+        self.assertEqual(source.workspace_id, original.pk)
         connected = GitHubInstallation.objects.get(
             installation_id="12345", workspace=self.workspace
         )

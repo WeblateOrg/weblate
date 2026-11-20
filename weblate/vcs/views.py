@@ -60,6 +60,7 @@ from weblate.vcs.github import (
     get_github_app_install_url,
     get_github_app_manifest_new_url,
     get_github_app_settings,
+    get_github_oauth_base,
     get_github_repository_clone_url,
     get_github_repository_identity,
     get_github_repository_import_url,
@@ -340,7 +341,11 @@ def _get_github_app_migration_entries(
 
 
 def _build_install_state(
-    request, next_url: str, hostname: str, workspace: Workspace
+    request,
+    next_url: str,
+    hostname: str,
+    workspace: Workspace,
+    installation_id: str = "",
 ) -> str:
     nonce = request.session.get("github_app_install_nonce")
     if not nonce:
@@ -351,6 +356,7 @@ def _build_install_state(
             "user": request.user.pk,
             "next": next_url,
             "nonce": nonce,
+            "installation_id": installation_id,
             "host": hostname,
             "workspace": str(workspace.pk),
         },
@@ -394,6 +400,7 @@ def _load_install_state(
         "next": next_url,
         "host": normalize_github_app_hostname(hostname) if hostname else "",
         "workspace": str(workspace_id),
+        "installation_id": payload.get("installation_id", ""),
     }
 
 
@@ -805,6 +812,43 @@ def github_app_install(request):
         )
         return redirect(next_url)
 
+    connected = GitHubInstallation.objects.filter(hostname=host, workspace=workspace)
+    accounts = (
+        GitHubInstallation.objects.filter(
+            hostname=host,
+            workspace__in=_installation_workspaces(request.user),
+            enabled=True,
+        )
+        .exclude(installation_id__in=connected.values("installation_id"))
+        .order_by("target_login", "installation_id")
+        .values_list("target_login", "installation_id")
+        .distinct()
+    )
+    choices = []
+    for login, installation_id in accounts:
+        query = urlencode(
+            {
+                "client_id": configs[host].client_id,
+                "state": _build_install_state(
+                    request, next_url, host, workspace, installation_id
+                ),
+                "redirect_uri": get_site_url(reverse("github-app-setup")),
+            }
+        )
+        choices.append(
+            (login, f"{get_github_oauth_base(host)}/login/oauth/authorize?{query}")
+        )
+    if choices:
+        return render(
+            request,
+            "vcs/github_install_account.html",
+            {
+                "choices": choices,
+                "install_url": install_url,
+                "workspace": workspace,
+                **_MENU_CONTEXT,
+            },
+        )
     return redirect(install_url)
 
 
@@ -941,7 +985,10 @@ async def github_app_setup(request):
         )
         return redirect(next_url)
 
-    callback_form = GitHubAppSetupCallbackForm(request.GET)
+    callback_data = request.GET.copy()
+    if state["installation_id"]:
+        callback_data["installation_id"] = state["installation_id"]
+    callback_form = GitHubAppSetupCallbackForm(callback_data)
     if not callback_form.is_valid() and "installation_id" in callback_form.errors:
         messages.error(
             request,
