@@ -3,7 +3,7 @@
 <div class="alert alert-warning">
   <strong>{% translate "Scheduled removal" %}</strong>
   <p>
-    {% blocktranslate with date=billing.libre_cleanup_trial_start|date:"SHORT_DATE_FORMAT" %}Resolve the issues below by {{ date }} to keep Libre hosting for your project.{% endblocktranslate %}
+    {% blocktranslate with date=billing.libre_cleanup_trial_start|date:"SHORT_DATE_FORMAT" %}Resolve the issues below by {{ date }} to keep Libre hosting for your workspace.{% endblocktranslate %}
   </p>
   <p>
     {% translate "Weblate locks existing components for translation when it issues this warning. Project maintainers can unlock them." %}
@@ -11,4 +11,15 @@
   <ul>
     {% for reason in warning.libre_cleanup_reasons %}<li>{{ reason }}</li>{% endfor %}
   </ul>
+  {% with target=billing.libre_cleanup_target %}
+    {% if "no_components" in warning.details.reasons %}
+      {% if billing.ordered_projects %}
+        <a href="{% url 'create-component' %}{% if target != billing.workspace %}?project={{ target.pk }}{% endif %}">{% translate "Add a component to keep Libre hosting" %}</a>
+      {% else %}
+        <a href="{% url 'create-project' %}?workspace={{ billing.workspace_id }}">{% translate "Add a project to get started" %}</a>
+      {% endif %}
+    {% else %}
+      <a href="{{ target.get_absolute_url }}?diagnostic_state=all#diagnostics">{% translate "View affected components" %}</a>
+    {% endif %}
+  {% endwith %}
 </div>

@@ -104,9 +104,9 @@ restricted components must be made public separately. Superusers retain their
 exemption from this access restriction; billing validity and project-slot
 limits still apply.
 
-Existing incompatible projects are not changed automatically. The Libre
-hosting checklist reports non-public projects and restricted components for
-administrator review.
+Existing incompatible projects are not changed automatically. On Hosted Weblate,
+the Libre hosting checklist reports non-public projects and restricted
+components for administrator review.
 
 .. _workspace-settings:
 

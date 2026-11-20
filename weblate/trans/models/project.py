@@ -1509,7 +1509,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return result
 
     @cached_property
-    def billings(self) -> list[Billing] | QuerySet[Billing]:
+    def billings(self) -> list[Billing]:
         if "weblate.billing" not in settings.INSTALLED_APPS or not self.workspace_id:
             return []
         # ruff: ignore[import-outside-top-level]
@@ -1518,7 +1518,15 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         objects = Billing.objects
         if self._state.db is not None:
             objects = objects.db_manager(self._state.db)
-        return objects.filter(workspace_id=self.workspace_id)
+        return list(
+            objects.filter(workspace_id=self.workspace_id).select_related("plan")
+        )
+
+    @property
+    def libre_cleanup_alerts(self) -> tuple[str, ...]:
+        if settings.OFFER_HOSTING and self.billings:
+            return self.billing.libre_cleanup_alerts
+        return ()
 
     @property
     def billing(self) -> Billing:
