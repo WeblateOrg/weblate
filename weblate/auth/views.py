@@ -227,7 +227,19 @@ class TeamUpdateView(UpdateView):
     def handle_remove_user(self, request: AuthenticatedHttpRequest):
         form = UserManageForm(request.POST)
         if form.is_valid():
-            form.cleaned_data["user"].remove_team(request, self.object)
+            user = form.cleaned_data["user"]
+            # Membership changes belong on the management page, which requires
+            # user.edit and refuses to leave a site-wide token with no teams.
+            if user.is_site_api_token_bot:
+                messages.error(
+                    request,
+                    gettext(
+                        "Site-wide API tokens can only be changed from the "
+                        "management interface."
+                    ),
+                )
+            else:
+                user.remove_team(request, self.object)
         else:
             show_form_errors(request, form)
         return HttpResponseRedirect(self.get_success_url())

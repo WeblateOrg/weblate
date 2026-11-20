@@ -997,6 +997,28 @@ class SiteWideTokenTest(FixtureTestCase):
         self.assertIn("At least one team is required", response.content.decode())
         self.assertTrue(token_user.groups.filter(pk=self.monitoring_group.pk).exists())
 
+    def test_team_admin_cannot_remove_site_token(self) -> None:
+        token = self.create_token(teams=[self.monitoring_group])
+        token_user = self.get_token_user(token)
+
+        self.user.groups.clear()
+        self.monitoring_group.admins.add(self.user)
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("user.edit"))
+        self.assertTrue(self.user.has_perm("meta:team.users", self.monitoring_group))
+
+        response = self.client.post(
+            self.monitoring_group.get_absolute_url(),
+            {"remove_user": "1", "user": token_user.username},
+            follow=True,
+        )
+        self.assertContains(
+            response,
+            "Site-wide API tokens can only be changed from the management interface.",
+        )
+        self.assertTrue(token_user.groups.filter(pk=self.monitoring_group.pk).exists())
+        self.assertTrue(Token.objects.filter(key=token).exists())
+
     def test_project_removal_keeps_site_token(self) -> None:
         token = self.create_token()
         token_user = self.get_token_user(token)
