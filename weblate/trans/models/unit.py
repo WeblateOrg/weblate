@@ -2985,6 +2985,18 @@ class Unit(models.Model, LoggerMixin):
     def all_checks_names(self) -> set[str]:
         return set(self._all_checks_names())
 
+    def state_with_enforced_checks(
+        self, state: int, enforced_checks: Collection[str]
+    ) -> int:
+        """Resolve a proposed state against the unit's recorded checks."""
+        if (
+            state >= STATE_TRANSLATED
+            and enforced_checks
+            and not self._all_checks_names().isdisjoint(enforced_checks)
+        ):
+            return STATE_NEEDS_REWRITING
+        return state
+
     def has_check(self, name: str) -> bool:
         return name in self._all_checks_names()
 
@@ -3430,15 +3442,11 @@ class Unit(models.Model, LoggerMixin):
             submitted_target=submitted_target,
         )
 
-        # Enforced checks can revert the state to needs editing (fuzzy)
-        # Use effective enforced checks (inherited)
-        effective_enforced = component.get_effective_setting("enforced_checks")
-        if (
-            self.state >= STATE_TRANSLATED
-            and effective_enforced
-            and self.all_checks_names & set(effective_enforced)
-        ):
-            self.state = self.original_state = STATE_NEEDS_REWRITING
+        enforced_state = self.state_with_enforced_checks(
+            self.state, component.effective_enforced_checks
+        )
+        if enforced_state != self.state:
+            self.state = self.original_state = enforced_state
             self.save(
                 run_checks=False,
                 same_content=True,
@@ -3449,7 +3457,7 @@ class Unit(models.Model, LoggerMixin):
             )
             if self.pending_unit_change is not None:
                 # Update PendingUnitChange if there is one
-                self.pending_unit_change.state = STATE_NEEDS_REWRITING
+                self.pending_unit_change.state = enforced_state
                 # if already saved update in DB else deferred via bulk create
                 if self.pending_unit_change.pk is not None:
                     self.pending_unit_change.save(update_fields=["state"])
