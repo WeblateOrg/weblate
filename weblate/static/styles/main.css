@@ -247,6 +247,31 @@ ul.legend li {
   width: 14px;
 }
 
+.translation-checklist {
+  --checklist-stripe-width: 0.25rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+  gap: 1rem;
+}
+
+.translation-checklist > .card {
+  padding: 1rem;
+  padding-inline-start: calc(1rem + var(--checklist-stripe-width));
+}
+
+.translation-checklist > .card:has(.stretched-link:is(:hover, :focus-visible)) {
+  border-color: var(--bs-link-color);
+}
+
+.translation-checklist .checklist-stripe {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: var(--checklist-stripe-width);
+  height: auto;
+  border-radius: 0;
+}
+
 .filter-marker {
   display: inline-block;
   margin-inline-end: 0.5rem;
@@ -1245,22 +1270,6 @@ th.number {
 .table-autowidth tr td,
 .table-autowidth tr th {
   white-space: nowrap;
-}
-@media (max-width: 660px) {
-  .table-autowidth tr .wrap-cell {
-    white-space: normal;
-  }
-}
-.split-cell span {
-  width: 33%;
-  padding: 0 4px;
-  display: inline-block;
-}
-@media (max-width: 660px) {
-  .split-cell span {
-    width: 100%;
-    padding: 0;
-  }
 }
 
 .table-autowidth tr .full-cell {

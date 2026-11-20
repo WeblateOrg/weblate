@@ -15,6 +15,7 @@ Weblate 2026.12
 .. rubric:: Improvements
 
 * Show commit counts, occurrence totals, file-format evidence, and the last recorded translation change in the relevant :ref:`component diagnostics <alerts>`.
+* Redesigned the :ref:`translation checklist <strings-to-check>` as responsive cards with prominent string counts and actions next to each filter.
 
 * Moved distributed locking to :ref:`PostgreSQL <database-setup>` and enabled concurrent repository reads for downloads, component copies, Kotlin SDK extraction, project backups, and Git status checks.
 
