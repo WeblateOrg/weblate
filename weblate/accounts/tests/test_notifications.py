@@ -55,6 +55,7 @@ from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
+from weblate.screenshots.tasks import check_unused_screenshots
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
     Announcement,
@@ -991,13 +992,39 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
 
     def test_notify_unused_screenshot_links_to_screenshot(self) -> None:
         self.component.project.add_user(self.user, "Administration")
-        with self.captureOnCommitCallbacks(execute=True):
+        with (
+            patch.object(check_unused_screenshots, "apply_async") as enqueue,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             screenshot = Screenshot.objects.create(
                 name="Unassigned screenshot",
                 image="screenshots/test.png",
                 translation=self.component.source_translation,
             )
+            enqueue.assert_not_called()
+        enqueue.assert_called_once_with(args=(self.component.pk,), countdown=300)
+        deadline = screenshot.timestamp + timedelta(minutes=5)
+        with (
+            patch(
+                "django.utils.timezone.now",
+                return_value=deadline - timedelta(seconds=1),
+            ),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            check_unused_screenshots(self.component.pk)
+        self.validate_notifications(0)
+        changes = self.component.change_set.filter(
+            action=ActionEvents.ALERT, details__alert="UnusedScreenshot"
+        )
+        self.assertFalse(changes.exists())
+        with (
+            patch("django.utils.timezone.now", return_value=deadline),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            check_unused_screenshots(self.component.pk)
+            check_unused_screenshots(self.component.pk)
 
+        self.assertEqual(changes.count(), 1)
         self.validate_notifications(1, "[Weblate] New alert on Test/Test")
         self.assertIn(
             f'href="{get_site_url(screenshot.get_absolute_url())}"',

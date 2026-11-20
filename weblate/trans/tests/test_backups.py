@@ -18,7 +18,7 @@ from io import BytesIO, StringIO
 from pathlib import Path
 from shutil import copyfile
 from typing import TYPE_CHECKING, cast
-from unittest.mock import MagicMock, PropertyMock, patch
+from unittest.mock import MagicMock, PropertyMock, call, patch
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
 
 import jsonschema
@@ -5159,24 +5159,32 @@ class BackupsTest(ReusableViewTestCase):
             with self.assertRaises(ValidationError):
                 restore.validate()
 
-    def test_restore_schedules_screenshot_recognition(self) -> None:
-        with open(TEST_SCREENSHOT, "rb") as handle:
-            Screenshot.objects.create(
-                name="Recognized screenshot",
-                translation=self.component.source_translation,
-                image=File(handle, name="recognition.png"),
-                user=self.user,
-            )
+    def test_restore_schedules_screenshot_checks(self) -> None:
+        for name in ("first", "second"):
+            with open(TEST_SCREENSHOT, "rb") as handle:
+                Screenshot.objects.create(
+                    name=name,
+                    translation=self.component.source_translation,
+                    image=File(handle, name=f"{name}.png"),
+                    user=self.user,
+                )
         backup = ProjectBackup()
         backup.backup_project(self.project)
         restore = ProjectBackup(backup.filename)
         restore.validate()
-        with patch("weblate.trans.backups.schedule_ocr") as schedule:
+        with (
+            patch("weblate.trans.backups.schedule_ocr") as schedule,
+            patch("weblate.trans.backups.schedule_unused_screenshot_check") as check,
+        ):
             project = restore.restore("Restored", "restored", self.user)
-        screenshot = Screenshot.objects.get(
-            translation__component__project=project, name="Recognized screenshot"
+        component = project.component_set.get(slug=self.component.slug)
+        screenshot_ids = Screenshot.objects.filter(
+            translation__component=component
+        ).values_list("pk", flat=True)
+        self.assertCountEqual(
+            schedule.call_args_list, [call(pk) for pk in screenshot_ids]
         )
-        schedule.assert_called_once_with(screenshot.pk)
+        check.assert_called_once_with(component.pk)
 
     def test_restore_repairs_screenshot_extensions(self) -> None:
         content = Path(TEST_SCREENSHOT).read_bytes()

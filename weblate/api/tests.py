@@ -11466,6 +11466,11 @@ class ComponentAPITest(APIBaseTest):
         self.assertEqual(request.data["count"], 4)
 
     def test_changes(self) -> None:
+        Screenshot.objects.filter(
+            translation=self.component.source_translation, name="Obrazek"
+        ).update(timestamp=datetime.now(UTC) - timedelta(minutes=5))
+        update_alerts(self.component, {"UnusedScreenshot"})
+
         request = self.do_request("api:component-changes", self.component_kwargs)
         self.assertEqual(request.data["count"], 25)
         latest_change = request.data["results"][0]
