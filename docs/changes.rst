@@ -76,6 +76,7 @@ Weblate 2026.12
 
 * Fixed :ref:`AI translation suggestions <machine-translation>` when a provider omits the outer JSON array for a single translation.
 * Fixed delayed database cursor cleanup in :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` with custom source languages.
+* Retried repository updates that failed because of temporary errors, such as server errors, with increasing delays instead of waiting for the next daily :setting:`AUTO_UPDATE` slot.
 * Preserved punctuation and complete messages in :ref:`project sharing <project-public_sharing>` links.
 * Marked strings listed as ``### Missing:`` placeholders in :ref:`XWiki formats <xwiki-formats>` as untranslated instead of reusing the source value from the comment.
 * Fixed the automatic color theme briefly rendering partially light on page load and not fully following system theme changes on open pages.
