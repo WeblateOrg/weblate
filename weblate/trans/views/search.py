@@ -27,7 +27,13 @@ from weblate.trans.forms import (
     BulkEditForm,
     SearchForm,
 )
-from weblate.trans.models import Category, Component, Project, Translation
+from weblate.trans.models import (
+    Category,
+    Component,
+    Project,
+    Translation,
+    WorkflowSetting,
+)
 from weblate.trans.models.unit import fill_in_source_translation
 from weblate.trans.util import redirect_next, render
 from weblate.utils import messages
@@ -89,6 +95,19 @@ def search_replace(request: AuthenticatedHttpRequest, path):
     return bulk_edit(request, path, data=data)
 
 
+def shared_units_use_custom_sources(project: Project) -> bool:
+    """
+    Check whether any project owning a component listed in the project uses a custom source.
+
+    Shared units follow the source workflow of the project that owns them.
+    """
+    return (
+        WorkflowSetting.objects.filter(project__component__in=project.child_components)
+        .exclude(source_language=None)
+        .exists()
+    )
+
+
 @never_cache
 def search(request: AuthenticatedHttpRequest, path=None):
     """Perform site-wide search on units."""
@@ -116,13 +135,7 @@ def search(request: AuthenticatedHttpRequest, path=None):
     context["include_shared"] = include_shared
     custom_sources = None
     if include_shared:
-        # Shared units follow the source workflow of the project that owns them.
-        owning_projects = Project.objects.filter(
-            component__in=context["project"].child_components
-        ).distinct()
-        custom_sources = any(
-            project.translation_parent_language_ids for project in owning_projects
-        )
+        custom_sources = shared_units_use_custom_sources(context["project"])
 
     search_form = SearchForm(request=request, data=request.GET, obj=obj)
     context["search_form"] = search_form

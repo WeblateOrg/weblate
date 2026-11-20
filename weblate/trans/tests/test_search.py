@@ -43,6 +43,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.templatetags.translations import get_translate_url
 from weblate.trans.tests.test_views import ReusableViewTestCase
+from weblate.trans.views.search import shared_units_use_custom_sources
 from weblate.utils.forms import SearchField
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import (
@@ -1023,6 +1024,31 @@ class SharedComponentSearchTest(ReusableViewTestCase):
         translate_url = reverse("translate", kwargs={"path": path})
         self.assertEqual(links["heading"], f"{translate_url}?q=")
         self.assertNotIn("include_shared", links["Browse"])
+
+    def test_owning_project_workflows_are_read_in_one_query(self) -> None:
+        second_owner = self.create_project(name="Second owner", slug="second-owner")
+        shared = self.create_link_existing(project=second_owner)
+        shared.links.add(self.target)
+        # Cached on the project; the check below then costs a single query.
+        self.assertTrue(self.target.has_shared_components)
+
+        with self.assertNumQueries(1):
+            self.assertFalse(shared_units_use_custom_sources(self.target))
+
+        parent_language = (
+            shared.translation_set.exclude(language=self.owner.language)
+            .exclude(pk=shared.source_translation.pk)
+            .order_by("language__code")[0]
+            .language
+        )
+        with self.captureOnCommitCallbacks(execute=True):
+            WorkflowSetting.objects.create(
+                project=second_owner,
+                language=self.owner.language,
+                source_language=parent_language,
+            )
+        with self.assertNumQueries(1):
+            self.assertTrue(shared_units_use_custom_sources(self.target))
 
     def test_project_search_opts_in_to_shared_components(self) -> None:
         url = reverse("search", kwargs={"path": [self.target.slug]})
