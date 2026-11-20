@@ -166,6 +166,9 @@ in the background when a screenshot is added or replaced. Open the
 still running, the list updates automatically when results are ready. Use
 :guilabel:`Search` to find source strings manually.
 
+Weblate raises an unused screenshot alert if a screenshot still has no strings
+assigned five minutes after upload.
+
 Recognized text is cached and refreshed when the image or recognition software
 changes. Existing screenshots are processed when opened if cached results are
 missing or outdated. Recognition does not assign strings automatically.

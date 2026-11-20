@@ -376,9 +376,8 @@ class UnusedScreenshot(BaseAlert):
             # ruff: ignore[import-outside-top-level]
             from weblate.screenshots.models import Screenshot
 
-            screenshots = Screenshot.objects.filter(
-                translation__component=self.instance.component,
-                units__isnull=True,
+            screenshots = Screenshot.objects.unused_for_component(
+                self.instance.component
             )
             if "unassigned" not in result:
                 result["unassigned"] = screenshots.count()
@@ -404,9 +403,7 @@ class UnusedScreenshot(BaseAlert):
         from weblate.screenshots.models import Screenshot
 
         screenshots = list(
-            Screenshot.objects.filter(
-                translation__component=component, units__isnull=True
-            )
+            Screenshot.objects.unused_for_component(component)
             .order_by("pk")
             .values_list("pk", flat=True)
         )
@@ -417,10 +414,7 @@ class UnusedScreenshot(BaseAlert):
         # ruff: ignore[import-outside-top-level]
         from weblate.screenshots.models import Screenshot
 
-        screenshots = Screenshot.objects.filter(
-            translation__component=component, units__isnull=True
-        )
-        unassigned = screenshots.count()
+        unassigned = Screenshot.objects.unused_for_component(component).count()
         if unassigned:
             return {"unassigned": unassigned}
         return False

@@ -69,7 +69,7 @@ from weblate.formats.ttkit import ZeroCLDRPluralMixin
 from weblate.lang.models import Language, Plural
 from weblate.memory.models import Memory, MemoryDict, MemoryScope
 from weblate.memory.utils import CATEGORY_FILE, CATEGORY_PRIVATE_OFFSET
-from weblate.screenshots.models import Screenshot
+from weblate.screenshots.models import Screenshot, schedule_unused_screenshot_check
 from weblate.screenshots.ocr import schedule_ocr
 from weblate.screenshots.utils import normalize_screenshot_filename
 from weblate.trans import defaults
@@ -2950,6 +2950,8 @@ class ProjectBackup:
             screenshots.append(screenshot)
 
         screenshots = Screenshot.objects.bulk_create(screenshots)
+        if screenshots:
+            schedule_unused_screenshot_check(component.pk)
         for screenshot in screenshots:
             schedule_ocr(screenshot.pk)
             if screenshot.import_data["units"]:

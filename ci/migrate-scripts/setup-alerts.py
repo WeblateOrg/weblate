@@ -6,6 +6,10 @@
 
 from __future__ import annotations
 
+from datetime import timedelta
+
+from django.utils import timezone
+
 from weblate.addons.models import Addon
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
@@ -24,6 +28,11 @@ for name in ("migration-used", "migration-unused"):
     )
     if name == "migration-used":
         screenshot.units.add(unit)
+    else:
+        # The dismissed alert refers to a screenshot past its upload grace period.
+        Screenshot.objects.filter(pk=screenshot.pk).update(
+            timestamp=timezone.now() - timedelta(days=1)
+        )
 
 # Avoid runtime translation/add-on initialization and external repository work.
 Translation.objects.bulk_create(
