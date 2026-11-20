@@ -10,15 +10,15 @@
 # Automatic translation add-on <noreply-addon-autotranslate@weblate.org>, 2026.
 # GitHub webhook <noreply-webhook-github-integration@weblate.org>, 2026.
 # Black Daniel <dantix@users.noreply.hosted.weblate.org>, 2026.
+# RViktor <v1k70rk4@users.noreply.hosted.weblate.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-11-19 18:05-0600\n"
-"PO-Revision-Date: 2026-10-30 05:04+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-11-20 00:48+0000\n"
+"Last-Translator: RViktor <v1k70rk4@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "application/hu/>\n"
 "Language: hu\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.12.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -1786,10 +1786,8 @@ msgstr "Letiltás"
 msgid "Daily"
 msgstr "Napi"
 
-#, fuzzy
-#| msgid "Weekly digest"
 msgid "Weekly"
-msgstr "Heti összegzés"
+msgstr "Hetente"
 
 msgid "Monthly"
 msgstr "Havi"
@@ -2163,10 +2161,8 @@ msgstr ""
 "A szerkesztést igénylő (zavaros) szövegek általában még nem alkalmasak "
 "fordításként való használatra."
 
-#, fuzzy
-#| msgid "Frequency"
 msgid "Update frequency"
-msgstr "Gyakoriság"
+msgstr "Frissítési gyakoriság"
 
 msgid ""
 "How often the add-on should update the POT file when the component is "
@@ -2179,6 +2175,7 @@ msgstr "POT fejléc normalizálása"
 
 msgid "Updates gettext headers and replaces placeholder POT comments."
 msgstr ""
+"Frissíti a gettext fejléceket, és lecseréli a helyőrző POT-megjegyzéseket."
 
 #, fuzzy
 #| msgid "Update PO files to match POT (msgmerge)"
@@ -2236,40 +2233,38 @@ msgstr ""
 msgid "Do not extract comments"
 msgstr "Ne nyerje ki a megjegyzéseket"
 
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Extract all comments"
-msgstr "Összes összetevő böngészése"
+msgstr "Összes megjegyzés kinyerése"
 
 msgid "Extract comments with tag"
-msgstr ""
+msgstr "Címkével ellátott megjegyzések kinyerése"
 
-#, fuzzy
-#| msgid "User comments"
 msgid "Code comments"
-msgstr "Felhasználói megjegyzések"
+msgstr "Kódmegjegyzések"
 
 msgid ""
 "Choose whether xgettext should extract no comments, all comments, or only "
 "comments marked with a specific tag."
 msgstr ""
+"Válassza ki, hogy az xgettext ne nyerjen ki megjegyzést, minden megjegyzést "
+"kinyerjen, vagy csak a megadott címkével megjelölteket."
 
-#, fuzzy
-#| msgid "Comment text"
 msgid "Comment tag"
-msgstr "Megjegyzés szövege"
+msgstr "Megjegyzéscímke"
 
 msgid ""
 "Tag passed to xgettext for comment extraction when using tagged comment mode."
 msgstr ""
+"Az xgettextnek átadott címke a megjegyzések kinyeréséhez címkézett "
+"megjegyzések módja esetén."
 
-#, fuzzy
-#| msgid "System checks"
 msgid "xgettext checks"
-msgstr "Rendszerellenőrzések"
+msgstr "xgettext-ellenőrzések"
 
 msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr ""
+"További xgettext-érvényesítési ellenőrzések, amelyeket a kinyert üzenetekhez "
+"engedélyezni kell."
 
 #, fuzzy
 #| msgid "Additional branch"
@@ -2314,17 +2309,11 @@ msgstr "Ez a név tiltott"
 msgid "An additional keyword is required when using keywords exclusively."
 msgstr ""
 
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Edit source"
 msgid "Input source"
-msgstr "Forrás szerkesztése"
+msgstr "Bemeneti forrás"
 
-#, fuzzy
-#| msgctxt "Number of source characters"
-#| msgid "Source characters"
 msgid "Source file patterns"
-msgstr "Forráskarakterek"
+msgstr "Forrásfájl-minták"
 
 msgid "POTFILES manifest"
 msgstr "POTFILES manifeszt"
@@ -2336,10 +2325,8 @@ msgstr ""
 "Válassza ki, hogy az xgettext a forrásfájlokat glob-minta alapján vagy a "
 "POTFILES/POTFILES.in manifesztből olvassa-e be."
 
-#, fuzzy
-#| msgid "Target language"
 msgid "xgettext language"
-msgstr "Célnyelv"
+msgstr "xgettext nyelv"
 
 #, fuzzy
 #| msgid "Programming language passed to xgettext, for example Python or C."
@@ -2358,17 +2345,15 @@ msgstr ""
 msgid "POTFILES path"
 msgstr "POTFILES elérési útja"
 
-#, fuzzy
-#| msgid ""
-#| "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
-#| "relative to that file."
 msgid ""
 "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
 "relative to the repository root. If present next to the manifest, "
 "POTFILES.skip excludes listed files from extraction."
 msgstr ""
-"A POTFILES vagy a POTFILES.in fájlhoz viszonyított elérési út a tárolóban. A "
-"bejegyzések e fájlhoz viszonyítva kerülnek feloldásra."
+"A POTFILES vagy POTFILES.in fájl tárolóhoz viszonyított elérési útja. A "
+"bejegyzések a tároló gyökeréhez viszonyítva kerülnek feloldásra. Ha a "
+"POTFILES.skip a jegyzékfájl mellett található, a benne felsorolt fájlokat "
+"kihagyja a kinyerésből."
 
 #, fuzzy
 #| msgid "Font file"
@@ -2381,19 +2366,20 @@ msgstr "Érvénytelen szimbolikus hivatkozás a tárolóban."
 msgid "POTFILES path has to point to a file."
 msgstr "POTFILES útvonalnak egy fájlra kell mutatnia."
 
-#, fuzzy
-#| msgid "Repository reset"
 msgid "Meson preset"
-msgstr "Tároló visszaállítva"
+msgstr "Meson előbeállítás"
 
 msgid "GLib"
-msgstr ""
+msgstr "GLib"
 
 msgid ""
 "Built-in xgettext argument preset matching Meson gettext integration. The "
 "GLib preset adds the keyword and format-flag options used by Meson's gettext "
 "helper."
 msgstr ""
+"Beépített xgettext-argumentum előbeállítás, amely megfelel a Meson gettext-"
+"integrációjának. A GLib előbeállítás hozzáadja a Meson gettext-segédje által "
+"használt kulcsszó- és formátumjelző-beállításokat."
 
 msgid ""
 "The Meson add-on expects a Meson gettext directory with meson.build and "
@@ -2416,10 +2402,8 @@ msgstr ""
 "A Django kiegészítő azt várja, hogy az új fordítások sablonjait „django.pot” "
 "vagy „djangojs.pot” néven nevezzék el."
 
-#, fuzzy
-#| msgid "Filters"
 msgid "Filtering"
-msgstr "Szűrők"
+msgstr "Szűrés"
 
 msgctxt "None filtering"
 msgid "None"
@@ -2559,47 +2543,41 @@ msgstr "Az összetevő nevének testreszabása"
 
 msgid "Use Django template syntax. This template must include {{ component }}."
 msgstr ""
+"Használjon Django sablonszintaxist. A sablonnak tartalmaznia kell a "
+"következőt: {{ component }}."
 
 msgid "Define the monolingual base filename"
 msgstr "Az egynyelvű alapfájlnév meghatározása"
 
-#, fuzzy
-#| msgid "Leave empty for bilingual translation files."
 msgid ""
 "Leave empty for bilingual translation files. When set, this template must "
 "include {{ component }}."
-msgstr "Hagyja üresen, ha kétnyelvű fordítási fájlt használ."
+msgstr ""
+"Kétnyelvű fordítási fájlok esetén hagyja üresen. Megadása esetén a sablonnak "
+"tartalmaznia kell a következőt: {{ component }}."
 
 msgid "Define the base file for new translations"
 msgstr "Új fordítások alapfájljának meghatározása"
 
-#, fuzzy
-#| msgid ""
-#| "Filename of file used for creating new translations. For gettext "
-#| "choose .pot file."
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file. This template must include {{ component }}."
 msgstr ""
-"Az új fordítások létrehozásához használt fájl neve; gettext esetén például "
-"a .pot fájl."
+"Az új fordítások létrehozásához használt fájl neve. Gettext esetén válassza "
+"a .pot fájlt. A sablonnak tartalmaznia kell a következőt: {{ component }}."
 
 msgid "Intermediate language file"
 msgstr "Köztes nyelvi fájl"
 
-#, fuzzy
-#| msgid ""
-#| "Filename of intermediate translation file. In most cases this is a "
-#| "translation file provided by developers and is used when creating actual "
-#| "source strings."
 msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
 "source strings. This template must include {{ component }}."
 msgstr ""
 "A köztes fordítási fájl neve. A legtöbb esetben ez egy fejlesztők által "
-"biztosított fordítási fájl, amelyet az eredeti forrásszövegek létrehozásakor "
-"használnak."
+"biztosított fordítási fájl, amelyet a tényleges forrásszövegek "
+"létrehozásakor használnak. A sablonnak tartalmaznia kell a következőt: {{ "
+"component }}."
 
 #, fuzzy
 #| msgid "Duplicated file mask."
@@ -3042,24 +3020,19 @@ msgstr "Automatikusan MO-fájlt generál minden módosított PO-fájlhoz."
 msgid "Update LINGUAS file"
 msgstr "LINGUAS-fájl frissítése"
 
-#, fuzzy
-#| msgid "Updates the LINGUAS file when a new translation is added."
 msgid "Updates the LINGUAS file when a translation is added or removed."
-msgstr "Frissíti a LINGUAS fájlt, amikor új fordítás kerül hozzáadásra."
+msgstr ""
+"Frissíti a LINGUAS fájlt, amikor egy fordítást hozzáadnak vagy eltávolítanak."
 
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
 msgstr "ALL_LINGUAS változó frissítése a „configure” fájlban"
 
-#, fuzzy
-#| msgid ""
-#| "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
-#| "\"configure.ac\" files, when a new translation is added."
 msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a translation is added or removed."
 msgstr ""
-"Frissíti az ALL_LINGUAS változót a „configure”, a „configure.in” vagy a "
-"„configure.ac” fájlokban, ha új fordítást adnak hozzá."
+"Frissíti az ALL_LINGUAS változót a „configure”, „configure.in” vagy „"
+"configure.ac” fájlokban, amikor egy fordítást hozzáadnak vagy eltávolítanak."
 
 msgid "Update PO files to match POT (msgmerge)"
 msgstr "PO-fájlok frissítése a POT-fájlhoz igazítva (msgmerge)"
@@ -3072,28 +3045,19 @@ msgstr ""
 "„Fájlmaszkban” be van állítva), hogy egyezzenek a POT-fájllal (ahogy a "
 "„Sablon az új fordításokhoz” beállításban szerepel)."
 
-#, fuzzy
-#| msgid "Update PO files to match POT (msgmerge)"
 msgid "Update POT file (xgettext)"
-msgstr "PO-fájlok frissítése a POT-fájlhoz igazítva (msgmerge)"
+msgstr "POT-fájl frissítése (xgettext)"
 
 msgid "Updates the gettext template using xgettext on selected source files."
 msgstr ""
 "A kiválasztott forrásfájlokon az xgettext segítségével frissíti a gettext-"
 "sablont."
 
-#, fuzzy
-#| msgid "Update POT file (Django)"
 msgid "Update POT file (Meson)"
-msgstr "POT-fájl frissítése (Django)"
+msgstr "POT-fájl frissítése (Meson)"
 
-#, fuzzy
-#| msgid ""
-#| "Updates the gettext template using xgettext on selected source files."
 msgid "Updates the gettext template using Meson gettext conventions."
-msgstr ""
-"A kiválasztott forrásfájlokon az xgettext segítségével frissíti a gettext-"
-"sablont."
+msgstr "Frissíti a gettext-sablont a Meson gettext konvencióinak használatával."
 
 #, fuzzy
 #| msgid "Update POT file (Django)"
@@ -4962,10 +4926,8 @@ msgstr "Gyakoriság"
 msgid "Choose"
 msgstr "Választás"
 
-#, fuzzy
-#| msgid "Trigger backup"
 msgid "Trigger"
-msgstr "Biztonsági mentés aktiválása"
+msgstr "Kiváltó ok"
 
 #, fuzzy
 #| msgid "Alert triggered"
@@ -5240,7 +5202,7 @@ msgid "Major"
 msgstr ""
 
 msgid "Critical"
-msgstr ""
+msgstr "Kritikus"
 
 msgid "AI: Accuracy"
 msgstr ""
@@ -6047,15 +6009,11 @@ msgstr "C formátum"
 msgid "C format string does not match source."
 msgstr "A C formátumú szöveg nem egyezik a forrással."
 
-#, fuzzy
-#| msgid "Object Pascal format"
 msgid "Objective-C format"
-msgstr "Object Pascal formátum"
+msgstr "Objective-C formátum"
 
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "Objective-C format string does not match source."
-msgstr "A C formátumú szöveg nem egyezik a forrással."
+msgstr "Az Objective-C formátumú szöveg nem egyezik a forrással."
 
 msgid "Perl brace format"
 msgstr "Perl kapcsos zárójeles formátum"
@@ -6610,10 +6568,8 @@ msgid "AsciiDoc file"
 msgstr "AsciiDoc-fájl"
 
 #. Translators: File format name
-#, fuzzy
-#| msgid "Localization guide"
 msgid "WixLocalization file"
-msgstr "Honosítási útmutató"
+msgstr "WixLocalization-fájl"
 
 msgid "gettext PO"
 msgstr "gettext PO"
@@ -6762,10 +6718,8 @@ msgid "XLIFF 1.2 with gettext extensions"
 msgstr "XLIFF 1.2 gettext kiterjesztésekkel"
 
 #. Translators: File format name
-#, fuzzy
-#| msgid "XLIFF 1.2 with gettext extensions"
 msgid "XLIFF 1.2 with Apple extensions"
-msgstr "XLIFF 1.2 gettext kiterjesztésekkel"
+msgstr "XLIFF 1.2 Apple-kiterjesztésekkel"
 
 #. Translators: File format name
 msgid "XLIFF 2.0 translation file"
@@ -10778,10 +10732,8 @@ msgstr "Bejegyzés törlése"
 msgid "Administrative team changes"
 msgstr "Adminisztráció"
 
-#, fuzzy
-#| msgid "Changes"
 msgid "Change"
-msgstr "Változások"
+msgstr "Módosítás"
 
 msgid "View details"
 msgstr "Részletek megtekintése"
@@ -18823,56 +18775,44 @@ msgstr "Tároló tisztítása"
 msgid "A source string was added while processing an uploaded file."
 msgstr "Szöveg hozzáadva a feltöltésben"
 
-#, fuzzy
-#| msgid "String added in the upload"
 msgid "Source string added in the upload"
-msgstr "Szöveg hozzáadva a feltöltésben"
+msgstr "Forrásszöveg hozzáadva a feltöltésben"
 
 #, fuzzy
 #| msgid "String added in the repository"
 msgid "A source string was added while synchronizing from the repository."
 msgstr "Szöveg hozzáadva a tárolóban"
 
-#, fuzzy
-#| msgid "String added in the repository"
 msgid "Source string added in the repository"
-msgstr "Szöveg hozzáadva a tárolóban"
+msgstr "Forrásszöveg hozzáadva a tárolóban"
 
 #, fuzzy
 #| msgid "Projects without components"
 msgid "A project backup was created."
 msgstr "Projektek összetevők nélkül"
 
-#, fuzzy
-#| msgid "Project name"
 msgid "Project backed up"
-msgstr "Projekt neve"
+msgstr "Projekt biztonsági mentése elkészült"
 
 msgid "A project was restored from a backup."
 msgstr ""
 
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project restored"
-msgstr "Projekt eltávolítva"
+msgstr "Projekt visszaállítva"
 
 #, fuzzy
 #| msgid "Component created from scratch"
 msgid "A component was restored from a backup."
 msgstr "Összetevő létrehozva az alapoktól"
 
-#, fuzzy
-#| msgid "Component removed"
 msgid "Component restored"
-msgstr "Összetevő eltávolítva"
+msgstr "Összetevő visszaállítva"
 
 msgid "All selected edits by a user were reverted."
 msgstr ""
 
-#, fuzzy
-#| msgid "User removed"
 msgid "User edit reverted"
-msgstr "Felhasználó eltávolítva"
+msgstr "Felhasználói szerkesztés visszavonva"
 
 #, fuzzy
 #| msgid "Source string changed"
