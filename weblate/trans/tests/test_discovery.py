@@ -29,8 +29,9 @@ from weblate.trans.discovery import (
     get_component_detected_discovery_presets,
     get_detected_discovery_preset_values_key,
     get_detected_discovery_presets_from_results,
+    normalize_category_path,
 )
-from weblate.trans.models import Component
+from weblate.trans.models import Category, Component
 from weblate.trans.tasks import create_component
 from weblate.trans.templatetags.translations import format_last_changes_content
 from weblate.trans.tests.test_models import RepoTestCase
@@ -59,6 +60,12 @@ class RepositoryImportDiscoveryTest(SimpleTestCase):
             )
             self.assertEqual(attached.perform(remove=True), ([], [], [], []))
             self.assertEqual(attached.errors, discovery.errors)
+
+    def test_normalize_category_path(self) -> None:
+        self.assertEqual(normalize_category_path(None), ())
+        self.assertEqual(normalize_category_path(""), ())
+        self.assertEqual(normalize_category_path("///"), ())
+        self.assertEqual(normalize_category_path("players/ /to/"), ("players", "to"))
 
     def test_with_component_retains_discovery_results(self) -> None:
         with (
@@ -140,7 +147,7 @@ class ComponentDiscoveryTest(RepoTestCase):
 
     def test_discovery_job_without_actor_is_rejected(self) -> None:
         match = self.discovery.matched_components["second-po/*.po"]
-        with patch("weblate.trans.discovery.create_component.delay") as delay:
+        with patch("weblate.trans.discovery.create_component.delay_on_commit") as delay:
             self.discovery.create_component(
                 self.component,
                 match,
@@ -213,6 +220,7 @@ class ComponentDiscoveryTest(RepoTestCase):
                     "base_file": "",
                     "new_base": "",
                     "intermediate": "",
+                    "category_path": (),
                 },
                 "po-brokenlink/*.po": {
                     "files": {
@@ -232,6 +240,7 @@ class ComponentDiscoveryTest(RepoTestCase):
                     "base_file": "",
                     "new_base": "",
                     "intermediate": "",
+                    "category_path": (),
                 },
                 "po-link/*.po": {
                     "files": {"po-link/cs.po", "po-link/de.po", "po-link/it.po"},
@@ -247,6 +256,7 @@ class ComponentDiscoveryTest(RepoTestCase):
                     "base_file": "",
                     "new_base": "",
                     "intermediate": "",
+                    "category_path": (),
                 },
                 "po-mono/*.po": {
                     "files": {
@@ -268,6 +278,7 @@ class ComponentDiscoveryTest(RepoTestCase):
                     "base_file": "",
                     "new_base": "",
                     "intermediate": "",
+                    "category_path": (),
                 },
                 "second-po/*.po": {
                     "files": {"second-po/cs.po", "second-po/de.po"},
@@ -282,6 +293,7 @@ class ComponentDiscoveryTest(RepoTestCase):
                     "base_file": "",
                     "new_base": "",
                     "intermediate": "",
+                    "category_path": (),
                 },
             },
         )
@@ -321,6 +333,7 @@ class ComponentDiscoveryTest(RepoTestCase):
                     "base_file": "",
                     "new_base": "",
                     "intermediate": "",
+                    "category_path": (),
                 },
                 "news_*.md": {
                     "files": {
@@ -340,6 +353,7 @@ class ComponentDiscoveryTest(RepoTestCase):
                     "base_file": "",
                     "new_base": "",
                     "intermediate": "",
+                    "category_path": (),
                 },
                 "news_flash_*.md": {
                     "files": {"news_flash_pt_BR.md"},
@@ -351,6 +365,7 @@ class ComponentDiscoveryTest(RepoTestCase):
                     "base_file": "",
                     "new_base": "",
                     "intermediate": "",
+                    "category_path": (),
                 },
             },
         )
@@ -884,7 +899,7 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.component.refresh_from_db()
         match = self.discovery.matched_components["second-po/*.po"]
 
-        with patch("weblate.trans.discovery.create_component.delay") as delay:
+        with patch("weblate.trans.discovery.create_component.delay_on_commit") as delay:
             self.discovery.create_component(
                 self.component,
                 match,
@@ -1058,6 +1073,7 @@ class ComponentDiscoveryTest(RepoTestCase):
                 "base_file": linked_name,
                 "new_base": "",
                 "intermediate": "",
+                "category_path": (),
             }
         )
 
@@ -1120,6 +1136,143 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.assertEqual(len(matched), 0)
         self.assertEqual(len(deleted), 0)
         self.assertEqual(len(skipped), 0)
+
+
+class ComponentDiscoveryCategoryTest(RepoTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.component = self.create_component()
+        self._create_fabric_layout()
+
+    def _create_fabric_layout(self) -> None:
+        root = pathlib.Path(self.component.full_path)
+        source = root / "players/path/to/file.md"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text("# source\n", encoding="utf-8")
+        for lang in ("cs", "de"):
+            translation = root / f"translated/{lang}/players/path/to/file.md"
+            translation.parent.mkdir(parents=True, exist_ok=True)
+            translation.write_text(f"# {lang}\n", encoding="utf-8")
+
+    def _discovery(self) -> ComponentDiscovery:
+        return ComponentDiscovery(
+            self.component,
+            user=get_test_actor(self),
+            file_format="markdown",
+            match=(
+                r"translated/(?P<language>[^/]+)/"
+                r"(?P<category>players/(?:.+/)*)(?P<component>[^/]+)\.md"
+            ),
+            name_template="{{ component }}",
+            base_file_template="{{ category }}{{ component }}.md",
+            language_regex="^[^.]+$",
+        )
+
+    def test_reporter_regex_creates_nested_categories(self) -> None:
+        discovery = self._discovery()
+        match = discovery.matched_components["translated/*/players/path/to/file.md"]
+        self.assertEqual(match["category_path"], ("players", "path", "to"))
+        self.assertEqual(match["base_file"], "players/path/to/file.md")
+
+        category_count = Category.objects.count()
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            created = discovery.perform(preview=True)[0]
+        self.assertEqual(Category.objects.count(), category_count)
+        self.assertEqual(len(created), 1)
+        self.assertEqual(created[0][0]["category_path"], ("players", "path", "to"))
+
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            created = discovery.perform()[0]
+        self.assertEqual(len(created), 1)
+        component = created[0][1]
+        self.assertIsNotNone(component)
+        assert component is not None
+        self.assertEqual(
+            tuple(component.category.get_url_path()),  # type: ignore[union-attr]
+            (self.component.project.slug, "players", "path", "to"),
+        )
+        self.assertEqual(component.slug, "file")
+        self.assertEqual(
+            Category.objects.filter(project=self.component.project).count(), 3
+        )
+
+    def test_depth_overflow_skips_without_creating_categories(self) -> None:
+        root = pathlib.Path(self.component.full_path)
+        deep = root / "translated/en/players/path/to/extra"
+        deep.mkdir(parents=True, exist_ok=True)
+        (deep / "file.md").write_text("# deep\n", encoding="utf-8")
+        (root / "players/path/to/extra/file.md").parent.mkdir(
+            parents=True, exist_ok=True
+        )
+        (root / "players/path/to/extra/file.md").write_text(
+            "# source\n", encoding="utf-8"
+        )
+
+        discovery = self._discovery()
+        category_count = Category.objects.count()
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            created, _matched, _deleted, skipped = discovery.perform()
+        self.assertEqual(len(created), 1)
+        self.assertEqual(len(skipped), 1)
+        self.assertIn("Category path exceeds the maximum nesting depth", skipped[0][1])
+        self.assertEqual(Category.objects.count(), category_count + 3)
+        self.assertFalse(Category.objects.filter(slug="extra").exists())
+
+    def test_same_slug_in_different_categories(self) -> None:
+        root = pathlib.Path(self.component.full_path)
+        for category in (
+            ("players/a/"),
+            ("guides/"),
+        ):
+            source = root / category / "installing.md"
+            source.parent.mkdir(parents=True, exist_ok=True)
+            source.write_text("# source\n", encoding="utf-8")
+            translation = root / "translated" / "de" / category / "installing.md"
+            translation.parent.mkdir(parents=True, exist_ok=True)
+            translation.write_text("# de\n", encoding="utf-8")
+
+        discovery = ComponentDiscovery(
+            self.component,
+            user=get_test_actor(self),
+            file_format="markdown",
+            match=(
+                r"translated/(?P<language>[^/]+)/"
+                r"(?P<category>.+?/)(?P<component>installing)\.md"
+            ),
+            name_template="{{ component }}",
+            base_file_template="{{ category }}{{ component }}.md",
+            language_regex="^[^.]+$",
+        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            created = discovery.perform()[0]
+        self.assertEqual(len(created), 2)
+        slugs = {component.slug for _, component in created if component is not None}
+        self.assertEqual(slugs, {"installing"})
+
+    def test_existing_child_not_moved(self) -> None:
+        discovery = self._discovery()
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            discovery.perform()
+        child = Component.objects.get(
+            linked_component=self.component,
+            filemask="translated/*/players/path/to/file.md",
+        )
+        original_category = child.category_id
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            _, matched, _, _ = discovery.perform()
+        child.refresh_from_db()
+        self.assertEqual(len(matched), 1)
+        self.assertEqual(child.category_id, original_category)
+
+    @patch("weblate.trans.discovery.create_component.delay_on_commit")
+    def test_background_creation_queues_after_commit(
+        self, delay_on_commit: MagicMock
+    ) -> None:
+        discovery = self._discovery()
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            discovery.perform(background=True)
+        delay_on_commit.assert_called_once()
+        self.assertIn("category_id", delay_on_commit.call_args.kwargs)
 
 
 class DetectedDiscoveryPresetTest(SimpleTestCase):
