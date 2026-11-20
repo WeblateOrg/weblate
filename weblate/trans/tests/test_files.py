@@ -26,6 +26,7 @@ from django.db import DatabaseError
 from django.http import StreamingHttpResponse
 from django.test import RequestFactory, SimpleTestCase, override_settings
 from django.urls import reverse
+from lxml import etree
 from openpyxl import load_workbook
 
 from weblate.api.serializers import UploadRequestSerializer
@@ -295,6 +296,42 @@ class ImportBaseTest(ViewTestCase):
                     params,
                     follow=follow,
                 )
+
+
+class PlainXliffRoundTripTest(ImportBaseTest):
+    def test_plain_xliff_round_trip(self) -> None:
+        translation = self.get_translation()
+        source = 'Read <a href="/help">help</a> and <g id="1">tips</g>.'
+        initial = 'Viz <a href="/help">tipy</a> &lt;'
+        target = 'Viz <a href="/help">nápověda</a> & tipy<br>'
+        translation.add_unit(None, "help", source, initial, author=self.user)
+        response = self.client.get(
+            reverse("download", kwargs=self.kw_translation),
+            {"format": "xliff11-plain", "q": "context:help"},
+        )
+        self.assertEqual(response.status_code, 200)
+        root = etree.fromstring(response.content)
+        (source_node,) = root.findall(".//{*}source")
+        (target_node,) = root.findall(".//{*}target")
+        for node, expected in ((source_node, source), (target_node, initial)):
+            self.assertEqual(len(node), 0)
+            self.assertEqual(node.text, expected)
+
+        target_node.text = target
+        response = self.do_import(
+            file=SimpleUploadedFile("edited.xlf", etree.tostring(root)),
+            conflicts="replace-translated",
+        )
+        self.assertRedirects(response, self.translation_url)
+        self.assertEqual(translation.unit_set.get(source=source).target, target)
+        translation.commit_pending("test", self.user)
+        stored, _ = translation.load_store().find_unit("help", source)
+        self.assertEqual(stored.target, target)
+
+
+class PlainXliffComponentRoundTripTest(PlainXliffRoundTripTest):
+    def create_component(self) -> Component:
+        return self.create_xliff(file_format_params={"xliff_placeables": "plain"})
 
 
 class ImportTest(ImportBaseTest):
@@ -2733,6 +2770,13 @@ class DownloadMultiTest(ViewTestCase):
             reverse("download", kwargs=self.kw_component), {"format": "zip:csv"}
         )
         self.assert_zip(response, "test-test-cs.csv")
+
+    def test_component_plain_xliff(self) -> None:
+        response = self.client.get(
+            reverse("download", kwargs=self.kw_component),
+            {"format": "zip:xliff11-plain"},
+        )
+        self.assert_zip(response, "test-test-cs.xlf")
 
     def test_project_mo_skips_incompatible_translations(self) -> None:
         self.create_appstore(project=self.project, name="Metadata")
