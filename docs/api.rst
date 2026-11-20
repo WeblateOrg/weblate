@@ -39,7 +39,7 @@ for public endpoints or when you are signed in using a browser session.
                    Possible values depend on REST framework setup,
                    by default ``json``, ``csv`` and ``api`` are supported. The
                    latter provides a web browser interface for the API.
-    :query page: Returns given page of paginated results (use `next` and `previous` fields in response to automate the navigation).
+    :query page: Page number for endpoints that use numbered pages. See :ref:`api-pagination`.
     :query page_size: Return the given number of items per request.
                       The default is 50 and the maximum is 1000.
                       For the `units` endpoints the default is 100 with
@@ -53,7 +53,7 @@ for public endpoints or when you are signed in using a browser session.
                              header of request
     :resheader Allow: list of allowed HTTP methods on object
     :>json string detail: verbose description of the result (for HTTP status codes other than :http:statuscode:`200`)
-    :>json int count: total item count for object lists
+    :>json int count: total item count, when provided
     :>json string next: next page URL for object lists
     :>json string previous: previous page URL for object lists
     :>json array results: results for object lists
@@ -66,6 +66,75 @@ for public endpoints or when you are signed in using a browser session.
     :status 401: when authentication credentials are invalid or the authentication scheme is unsupported
     :status 403: when access is denied
     :status 429: when throttling is in place
+
+.. _api-pagination:
+
+Navigating paginated results
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Read the items from ``results`` and request the URL in ``next`` until its value
+is ``null``. Use ``previous`` the same way to go back. Follow these URLs as
+returned, including their query parameters.
+
+Weblate plans to switch paginated lists to cursor pagination in 2027.1.
+Clients must handle responses that omit ``count``. Avoid calculating the last
+page or constructing URLs to jump to an arbitrary page number.
+
+.. _api-background-operations:
+
+Migrating to background operations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Weblate 2027.1 will switch the following operations to background tasks.
+In 2026.12, opt in with ``background=true`` and update clients to handle
+:http:statuscode:`202` before upgrading.
+
+* For repository operations on projects, components, and translations, send
+  ``background`` in the request body. See :http:post:`/api/projects/(string:project)/repository/`.
+* For automatic translation and for creating a translation in a component,
+  send ``background`` in the request body.
+* For translation file uploads (POST or PUT), send a multipart ``background``
+  field or use the query parameter with raw uploads.
+* For translation, component, and category deletion, use the query parameter
+  ``?background=true``. Component and category deletion already run in the
+  background and return ``204 No Content`` by default, even while deletion
+  is pending. Translation deletion finishes before returning by default.
+  Poll the returned task URL after a ``202 Accepted`` response.
+  With eager task execution, deletion finishes immediately and returns
+  ``204 No Content`` with no task URL.
+
+A queued response includes ``task_url``. Poll that URL with the same credentials
+until ``completed`` is true, then inspect ``result`` for the operation's outcome.
+For example, a client creating a translation can handle both the queued
+response and the immediate response from an installation using eager tasks:
+
+.. code-block:: python
+
+    import time
+
+    response = session.post(
+        component["translations_url"], json={"language_code": "cs", "background": True}
+    )
+    response.raise_for_status()
+    if response.status_code == 202:
+        task_url = response.json()["task_url"]
+        while True:
+            status = session.get(task_url)
+            status.raise_for_status()
+            task = status.json()
+            if task["completed"]:
+                break
+            time.sleep(1)
+        result = task["result"]
+        if not isinstance(result, dict) or "url" not in result:
+            raise RuntimeError(result)
+        translation_url = result["url"]
+    else:
+        translation_url = response.json()["data"]["url"]
+
+Successful deletion tasks return ``null``. Repository operations return a
+``result`` flag, automatic translation reports ``errors``, and file uploads
+return import counts or an error detail. See :ref:`api-tasks`.
 
 .. _api-tokens:
 
@@ -2065,6 +2134,10 @@ Components
 
     Edit a component by a :http:method:`PATCH` request.
 
+    Changing the component slug or category requires both ``component.edit``
+    on the component and ``project.edit`` on its project. The same permissions
+    apply to :http:method:`PUT` requests.
+
     :param project: Project URL slug
     :type project: string
     :param component: Component URL slug
@@ -2181,6 +2254,8 @@ Components
 .. http:delete:: /api/components/(string:project)/(string:component)/
 
     Deletes a component.
+
+    :query boolean background: Deletion always runs as a task. By default (``false``), the response is ``204 No Content`` even while deletion is pending. Set to ``true`` to receive ``202 Accepted`` and a ``task_url`` for queued work. Eager execution returns ``204 No Content``. See :ref:`api-background-operations`.
 
     :param project: Project URL slug
     :type project: string
@@ -2404,7 +2479,9 @@ Components
     :type component: string
     :<json string language_code: translation language code; see :http:get:`/api/languages/(string:language)/`
     :<json array from_component: optional ordered list of source component references used for automatic translation. Accepts numeric component IDs or full Weblate component paths. For form submissions this field can be provided multiple times.
-    :>json object result: new translation object created
+    :<json boolean background: Queue creation and optional automatic translation (defaults to ``false``). See :ref:`api-background-operations`.
+    :>json object data: New translation for an immediate response
+    :>json string task_url: Task URL for a queued response
 
     **CURL example:**
 
@@ -2413,29 +2490,28 @@ Components
         curl \
             -d language_code=cs \
             -H "Authorization: Token TOKEN" \
-            http://example.com/api/projects/hello/components/
+            http://example.com/api/components/hello/weblate/translations/
 
     **JSON request example:**
 
     .. sourcecode:: http
 
-        POST /api/projects/hello/components/ HTTP/1.1
+        POST /api/components/hello/weblate/translations/ HTTP/1.1
         Host: example.com
         Accept: application/json
         Content-Type: application/json
         Authorization: Token TOKEN
-        Content-Length: 20
 
         {
             "language_code": "cs",
-            "from_component": ["hello/weblate", 123]
+            "from_component": ["hello/source", 123]
         }
 
     **JSON response example:**
 
     .. sourcecode:: http
 
-        HTTP/1.0 200 OK
+        HTTP/1.0 201 Created
         Date: Tue, 12 Apr 2016 09:32:50 GMT
         Server: WSGIServer/0.1 Python/2.7.11+
         Vary: Accept, Accept-Language, Cookie
@@ -2445,38 +2521,40 @@ Components
         Allow: GET, POST, HEAD, OPTIONS
 
         {
-            "failing_checks": 0,
-            "failing_checks_percent": 0,
-            "failing_checks_words": 0,
-            "filename": "po/cs.po",
-            "fuzzy": 0,
-            "fuzzy_percent": 0.0,
-            "fuzzy_words": 0,
-            "have_comment": 0,
-            "have_suggestion": 0,
-            "is_template": false,
-            "is_source": false,
-            "language": {
-                "code": "cs",
-                "direction": "ltr",
-                "population": 1303174280
-                "name": "Czech",
-                "url": "http://example.com/api/languages/cs/",
-                "web_url": "http://example.com/languages/cs/"
-            },
-            "language_code": "cs",
-            "id": 125,
-            "last_author": null,
-            "last_change": null,
-            "share_url": "http://example.com/engage/hello/cs/",
-            "total": 4,
-            "total_words": 15,
-            "translate_url": "http://example.com/translate/hello/weblate/cs/",
-            "translated": 0,
-            "translated_percent": 0.0,
-            "translated_words": 0,
-            "url": "http://example.com/api/translations/hello/weblate/cs/",
-            "web_url": "http://example.com/projects/hello/weblate/cs/"
+            "data": {
+                "failing_checks": 0,
+                "failing_checks_percent": 0,
+                "failing_checks_words": 0,
+                "filename": "po/cs.po",
+                "fuzzy": 0,
+                "fuzzy_percent": 0.0,
+                "fuzzy_words": 0,
+                "have_comment": 0,
+                "have_suggestion": 0,
+                "is_template": false,
+                "is_source": false,
+                "language": {
+                    "code": "cs",
+                    "direction": "ltr",
+                    "population": 1303174280,
+                    "name": "Czech",
+                    "url": "http://example.com/api/languages/cs/",
+                    "web_url": "http://example.com/languages/cs/"
+                },
+                "language_code": "cs",
+                "id": 125,
+                "last_author": null,
+                "last_change": null,
+                "share_url": "http://example.com/engage/hello/cs/",
+                "total": 4,
+                "total_words": 15,
+                "translate_url": "http://example.com/translate/hello/weblate/cs/",
+                "translated": 0,
+                "translated_percent": 0.0,
+                "translated_words": 0,
+                "url": "http://example.com/api/translations/hello/weblate/cs/",
+                "web_url": "http://example.com/projects/hello/weblate/cs/"
+            }
         }
 
 .. http:get:: /api/components/(string:project)/(string:component)/statistics/
@@ -2718,6 +2796,8 @@ Translations
 .. http:delete:: /api/translations/(string:project)/(string:component)/(string:language)/
 
     Deletes a translation.
+
+    :query boolean background: By default (``false``), delete the translation before returning ``204 No Content``. Set to ``true`` to queue deletion and receive ``202 Accepted`` and a ``task_url``. Eager execution returns ``204 No Content``. See :ref:`api-background-operations`.
 
     :param project: Project URL slug
     :type project: string
@@ -3784,6 +3864,7 @@ Component lists
 
     :param slug: Component list slug
     :type slug: string
+    :statuscode 400: The list is the last component list assigned to a team. Remove the assignment or assign another list first.
 
 .. http:get:: /api/component-lists/(str:slug)/components/
 
@@ -4114,9 +4195,11 @@ Categories
 
 .. http:delete:: /api/categories/(int:id)/
 
-   .. versionadded:: 5.0
+    .. versionadded:: 5.0
 
     Delete category.
+
+    :query boolean background: Deletion always runs as a task. By default (``false``), the response is ``204 No Content`` even while deletion is pending. Set to ``true`` to receive ``202 Accepted`` and a ``task_url`` for queued work. Eager execution returns ``204 No Content``. See :ref:`api-background-operations`.
 
     :param id: Category ID
     :type id: int

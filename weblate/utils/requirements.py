@@ -37,7 +37,6 @@ REQUIRES = [
     "django-filter",
     "django-appconf",
     "user-agents",
-    "filelock",
     "rapidfuzz",
     "openpyxl",
     "celery",

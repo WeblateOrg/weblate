@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-13 01:19-0600\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
 "PO-Revision-Date: 2026-10-30 05:07+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1387,6 +1387,18 @@ msgstr ""
 msgid ""
 "This invitation can be accepted only by the e-mail address chosen by the "
 "inviter; it can't be used by your account."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr ""
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
 msgstr ""
 
 msgid ""
@@ -3975,6 +3987,16 @@ msgid ""
 "Remove the component from project teams before moving it to another project."
 msgstr ""
 
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
+
 msgid "Roles"
 msgstr ""
 
@@ -4756,6 +4778,11 @@ msgstr ""
 
 msgid "Billing event"
 msgstr ""
+
+#, fuzzy
+#| msgid "Comments made"
+msgid "Project has no components."
+msgstr "दिए गए कमेंट"
 
 msgid "monthly"
 msgstr ""
@@ -6721,9 +6748,6 @@ msgstr ""
 msgid "Plural type"
 msgstr ""
 
-msgid "Example counts for this plural form."
-msgstr ""
-
 msgid "Singular"
 msgstr ""
 
@@ -7817,6 +7841,11 @@ msgid "Read your e-mail address"
 msgstr "यूज़रनेम या ईमेल"
 
 msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
 msgstr ""
 
 msgid "Image is too big."
@@ -10173,6 +10202,16 @@ msgid ""
 "above or purchase a subscription."
 msgstr ""
 
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+
 msgid "Customer"
 msgstr ""
 
@@ -11728,6 +11767,15 @@ msgstr ""
 
 #. Translators: e-mail subject
 msgid "Recurring payment will be disabled for inactive projects"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Review Libre hosting conditions"
+msgstr "अनुवाद सूचनाएँ"
+
+#, python-format
+msgid "Libre hosting removal warning for %(project)s"
 msgstr ""
 
 msgid "Translation change"
@@ -13670,6 +13718,9 @@ msgid ""
 "maintenance of Weblate itself."
 msgstr ""
 
+msgid "Example counts for this plural form."
+msgstr ""
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
@@ -13703,12 +13754,13 @@ msgstr ""
 msgid "Source code repository"
 msgstr ""
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr ""
-
 msgid "Repository URL copied to clipboard."
 msgstr ""
+
+#, fuzzy
+#| msgid "Comments made"
+msgid "Linked component"
+msgstr "दिए गए कमेंट"
 
 msgid "Repository branch"
 msgstr ""
@@ -14156,6 +14208,11 @@ msgstr ""
 
 msgid "Plurals"
 msgstr ""
+
+#, fuzzy
+#| msgid "Suggestions made"
+msgid "No integer examples found"
+msgstr "दिए गए सुझाव"
 
 msgid "First"
 msgstr ""
@@ -14993,15 +15050,15 @@ msgstr ""
 msgid "Source"
 msgstr ""
 
-#, fuzzy, python-format
-#| msgid "Translations made"
-msgid "Remove duplicate strings from %(language)s (%(filename)s)"
-msgstr "किए गए अनुवाद"
-
 #, fuzzy
 #| msgid "Delete"
 msgid "Remove duplicate strings"
 msgstr "मिटाएँ"
+
+#, fuzzy, python-format
+#| msgid "Translations made"
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "किए गए अनुवाद"
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -15901,10 +15958,6 @@ msgstr "किए गए अनुवाद"
 msgid "Add term to glossary"
 msgstr ""
 
-#, python-format
-msgid "Browse glossary %(name)s"
-msgstr ""
-
 #, fuzzy
 #| msgid "Managed projects"
 msgid "Browse glossary"
@@ -15957,6 +16010,15 @@ msgstr ""
 
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Watched projects"
+msgid "%(filename)s, line %(line)s"
+msgstr "वाच किए गए प्रोजेक्ट"
+
+#, python-format
+msgid "line %(line)s"
 msgstr ""
 
 #, python-format
@@ -17722,13 +17784,13 @@ msgstr "कॉम्पोनेन्ट:{}"
 msgid "Referenced category does not exist."
 msgstr ""
 
-msgid "Component filename does not match its category and slug."
-msgstr ""
-
 #, fuzzy
 #| msgid "Component: {}"
 msgid "Duplicate component slug."
 msgstr "कॉम्पोनेन्ट:{}"
+
+msgid "Component filename does not match its category and slug."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translations made"
@@ -18000,6 +18062,9 @@ msgstr "दिए गए सुझाव"
 msgid "Needs review"
 msgstr ""
 
+msgid "The source and destination checkouts must be different."
+msgstr ""
+
 msgid "This component does not exist or you cannot access it."
 msgstr ""
 
@@ -18025,6 +18090,11 @@ msgstr ""
 #| msgid "New password confirmation"
 msgid "Discovery configuration"
 msgstr "नया कन्फर्मेशन पासवर्ड"
+
+#, fuzzy, python-format
+#| msgid "Translations made"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "किए गए अनुवाद"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -20023,6 +20093,11 @@ msgstr ""
 msgid "Use the secondary language configured in the category or project."
 msgstr ""
 
+#, fuzzy
+#| msgid "You have entered an invalid password."
+msgid "The linked repository path is ambiguous."
+msgstr "आपने एक अस्वीकृत पासवर्ड दिया है।"
+
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
 "admin interface."
@@ -20273,6 +20348,9 @@ msgstr ""
 msgid ""
 "Pushing without a merge request needs write access to the repository. "
 "Configure a push URL with credentials, or use an SSH repository URL."
+msgstr ""
+
+msgid "Version control system cannot be changed to this backend."
 msgstr ""
 
 msgid "The file mask is too complex and took too long to evaluate."
@@ -20848,6 +20926,10 @@ msgstr ""
 msgid "User configured character: {}"
 msgstr ""
 
+#, python-format
+msgid "Changes committed, but could not push the repository: %s"
+msgstr ""
+
 msgid "Repository operation could not be completed because it remained locked."
 msgstr ""
 
@@ -20956,6 +21038,10 @@ msgid "string ID %s"
 msgstr ""
 
 msgid "This language is used for source strings."
+msgstr ""
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
 msgstr ""
 
 msgid "Fix this component to clear its diagnostics."
@@ -21744,6 +21830,16 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr ""
 
+#, fuzzy
+#| msgid "Translations made"
+msgid "Sort languages by"
+msgstr "किए गए अनुवाद"
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "Translation percentage"
+msgstr "किए गए अनुवाद"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr ""
@@ -22110,20 +22206,6 @@ msgstr ""
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
-msgid "Template output exceeds its size limit."
-msgstr ""
-
-msgid "Template rendering failed or exceeded its resource limits."
-msgstr ""
-
-msgid "Oversized template response."
-msgstr ""
-
-#, fuzzy
-#| msgid "Translations made"
-msgid "Invalid template rendering response."
-msgstr "किए गए अनुवाद"
-
 msgid "Could not render template: {}"
 msgstr ""
 
@@ -22132,13 +22214,13 @@ msgid ""
 "instead."
 msgstr ""
 
-msgid "Template value exceeds its size limit."
+msgid "Template context exceeds its size limit."
 msgstr ""
 
 msgid "Template context is nested too deeply."
 msgstr ""
 
-msgid "Template context exceeds its size limit."
+msgid "Unsupported nonfinite template context value."
 msgstr ""
 
 msgid "Unsupported template context key."
@@ -22147,29 +22229,308 @@ msgstr ""
 msgid "Unsupported template context value."
 msgstr ""
 
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "You have entered an invalid password."
+msgid "Template text is not valid UTF-8."
+msgstr "आपने एक अस्वीकृत पासवर्ड दिया है।"
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid ordering"
+msgid "Invalid template syntax."
+msgstr "अस्वीकृत क्रम"
+
+msgid "Undefined template variable."
+msgstr ""
+
+#, fuzzy
+#| msgid "You have entered an invalid password."
+msgid "Text is not valid UTF-8."
+msgstr "आपने एक अस्वीकृत पासवर्ड दिया है।"
+
+msgid "Division by zero is not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many authentication attempts from this location."
+msgid "Numeric value is too large for this operation."
+msgstr "इस जगह से कुछ ज़्यादा ही ऑथेंटिकेशन की कोशिशें हो चुके हैं।"
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "Numeric operation failed."
+msgstr "किए गए अनुवाद"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "Value or argument has an invalid format."
+msgstr "किए गए अनुवाद"
+
+#, fuzzy, python-format
+#| msgid "Translations made"
+msgid "%(operation)s: %(message)s"
+msgstr "किए गए अनुवाद"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
 msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+msgid "Nonfinite numbers are not supported."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Full name"
+msgid "Filter \"%(name)s\""
+msgstr "पूरा नाम"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
 msgstr ""
 
 msgid "Template rendering exceeded its loop limit."
 msgstr ""
 
-msgid "Template intermediate value exceeds its size limit."
+msgid "Attribute access and method calls are not supported."
 msgstr ""
 
-msgid "Template replacement exceeds its size limit."
+msgid "Index exceeds the length limit of 128 characters."
 msgstr ""
 
-msgid "Template padding exceeds its size limit."
+msgid "Translated template literals are not supported."
 msgstr ""
 
-msgid "Template formatting exceeds its size limit."
+#, fuzzy
+#| msgid "Invalid ordering"
+msgid "Invalid filter."
+msgstr "अस्वीकृत क्रम"
+
+msgid "Identity comparisons require None, True, or False."
 msgstr ""
 
-msgid "Template join exceeds its size limit."
+msgid "This condition operator is not supported."
+msgstr ""
+
+msgid "Template output exceeds its size limit."
+msgstr ""
+
+msgid "Loops require a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
+msgstr ""
+
+msgid "Loop value cannot be unpacked into its variables."
+msgstr ""
+
+msgid "This template tag is not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "This template node is not supported."
+msgstr "किए गए अनुवाद"
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
 msgstr ""
 
 #, python-format
 msgid "Undefined variable: \"%s\""
+msgstr ""
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Suggestions made"
+msgid "This filter requires strings."
+msgstr "दिए गए सुझाव"
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "Choices must be a string."
+msgstr "किए गए अनुवाद"
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+msgid "Joining requires string elements."
+msgstr ""
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "Date format must be a string or None."
+msgstr "किए गए अनुवाद"
+
+#, fuzzy
+#| msgid "Screenshots uploaded"
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "अपलोड किए गए स्क्रीनशॉट"
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "Plural suffixes must be a string."
+msgstr "किए गए अनुवाद"
+
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+msgid "Nested template delimiters are not supported."
+msgstr ""
+
+msgid "Unclosed template token."
+msgstr ""
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "Activation e-mail will be sent here."
+msgid "Template tag is empty."
+msgstr "एक्टिवेशन ईमेल को यहाँ भेजा जाएगा।"
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr ""
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, python-format
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr ""
+
+msgid "Unsupported template tag."
+msgstr ""
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
 msgstr ""
 
 #, python-format

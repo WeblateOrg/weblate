@@ -699,6 +699,10 @@ class GitHubAppOAuthError(Exception):
     """Raised when the user-authorization step of the install flow fails."""
 
 
+class GitHubAppInvalidCodeError(GitHubAppOAuthError):
+    """GitHub rejected a code and requires fresh user authorization."""
+
+
 def get_github_oauth_base(hostname: str) -> str:
     """Return the base URL hosting the OAuth ``login/oauth`` endpoints."""
     hostname = normalize_github_app_hostname(hostname)
@@ -725,6 +729,8 @@ async def exchange_github_user_code(config: GitHubAppCredentials, code: str) -> 
     token = payload.get("access_token")
     if not token:
         msg = f"GitHub did not return a user access token: {payload.get('error')}"
+        if payload.get("error") == "bad_verification_code":
+            raise GitHubAppInvalidCodeError(msg)
         raise GitHubAppOAuthError(msg)
     return token
 

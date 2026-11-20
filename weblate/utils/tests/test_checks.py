@@ -478,12 +478,29 @@ class DatabaseSizeCheckTestCase(SimpleTestCase):
 
 
 class DatabaseStatisticsCheckTestCase(SimpleTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.database = Mock(vendor="postgresql")
+        self.database.get_database_version.return_value = (15,)
+        self.enterContext(
+            patch("weblate.utils.apps.connections", {"default": self.database})
+        )
+
+    @patch("weblate.utils.apps.measure_database_latency")
+    def test_unsupported_postgresql(self, latency_mock: Mock) -> None:
+        self.database.get_database_version.return_value = (14,)
+        errors = list(check_database(app_configs=None, databases=None))
+
+        self.assertEqual([error.id for error in errors], ["weblate.E051"])
+        self.assertIn("PostgreSQL 15", errors[0].msg)
+        latency_mock.assert_not_called()
+
     @patch("weblate.utils.apps.measure_database_latency", return_value=1)
     @patch("weblate.utils.apps.get_invalid_database_statistics", return_value=[])
     def test_valid_statistics(self, statistics_mock: Mock, latency_mock: Mock) -> None:
         errors = list(check_database(app_configs=None, databases=None))
 
-        self.assertFalse(any(error.id == "weblate.C047" for error in errors))
+        self.assertEqual(errors, [])
         statistics_mock.assert_called_once_with()
         latency_mock.assert_called_once_with()
 

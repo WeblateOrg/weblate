@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from django.conf import settings
-from django.db.models import Q
+from django.db.models import Prefetch, Q
 from django.utils import timezone
 from django.utils.translation import gettext
 
@@ -16,6 +16,7 @@ from weblate.auth.data import (
     SELECTION_ALL,
     SELECTION_ALL_PROTECTED,
     SELECTION_ALL_PUBLIC,
+    SELECTION_COMPONENT_LIST,
 )
 from weblate.checks.flags import Flags
 from weblate.formats.base import BilingualUpdateMixin
@@ -32,6 +33,7 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
+from weblate.utils.tracing import start_span
 from weblate.workspaces.models import Workspace
 
 from .results import Allowed, ContributorAgreementDenied, Denied
@@ -46,11 +48,13 @@ if TYPE_CHECKING:
     from weblate.checks.models import Check
     from weblate.memory.models import Memory
     from weblate.trans.models import Comment, Suggestion
+    from weblate.trans.models.translation import TranslationQuerySet
 
     from .results import PermissionResult
 
 SPECIALS: dict[str, Callable[[User, str, Model], bool | PermissionResult]] = {}
 UPLOAD_SCOPE_PERMISSIONS = frozenset({"glossary.upload", "upload.perform"})
+UPLOAD_CHECK_BATCH_SIZE = 256
 REPOSITORY_PERMISSIONS = ("vcs.push", "vcs.commit", "vcs.reset", "vcs.update")
 type PermissionObject = (
     Unit
@@ -1131,24 +1135,24 @@ def _has_upload_scope_permission(
 
 def _get_upload_child_translations(
     obj: Component | ProjectLanguage | CategoryLanguage | Category | Project,
-) -> Iterable[Translation]:
-    if isinstance(obj, Component):
-        return obj.translation_set.select_related(
-            "component", "component__project", "language"
-        )
+) -> TranslationQuerySet:
+    translations = Translation.objects.filter(component__locked=False)
     if isinstance(obj, ProjectLanguage | CategoryLanguage):
-        return obj.translation_set
-    if isinstance(obj, Category):
-        return (
-            Translation.objects.filter(_category_translation_filter(obj))
-            .distinct()
-            .select_related("component", "component__project", "language")
+        translations = translations.filter(language_id=obj.language.pk)
+        obj = obj.project if isinstance(obj, ProjectLanguage) else obj.category
+
+    if isinstance(obj, Component):
+        translations = translations.filter(component=obj)
+    elif isinstance(obj, Category):
+        translations = translations.filter(_category_translation_filter(obj))
+    else:
+        linked_components = ComponentLink.objects.filter(project=obj).values(
+            "component_id"
         )
-    return (
-        Translation.objects.filter(Q(component__project=obj) | Q(component__links=obj))
-        .distinct()
-        .select_related("component", "component__project", "language")
-    )
+        translations = translations.filter(
+            Q(component__project=obj) | Q(component_id__in=linked_components)
+        )
+    return translations
 
 
 def _get_user_upload_component_ids(user: User, language_id: int | None) -> set[int]:
@@ -1258,11 +1262,33 @@ def _has_upload_child(
     if not _has_upload_scope(user, obj):
         return False
 
-    for translation in _get_upload_child_translations(obj):
-        _bind_upload_child_scope(obj, translation)
-        if user.has_perm("upload.perform", translation):
-            return True
-    return False
+    # Category inheritance can reach the workspace through any category level.
+    workspaces = Workspace.objects.defer_huge()
+    translations = (
+        _get_upload_child_translations(obj)
+        .order_by("pk")
+        .prefetch(alerts=False)
+        .prefetch_related(
+            Prefetch("component__category__project__workspace", queryset=workspaces),
+            Prefetch(
+                "component__category__category__project__workspace", queryset=workspaces
+            ),
+            Prefetch(
+                "component__category__category__category__project__workspace",
+                queryset=workspaces,
+            ),
+        )
+    )
+    remaining = translations
+    while True:
+        batch = list(remaining[:UPLOAD_CHECK_BATCH_SIZE])
+        for translation in batch:
+            _bind_upload_child_scope(obj, translation)
+            if user.has_perm("upload.perform", translation):
+                return True
+        if len(batch) < UPLOAD_CHECK_BATCH_SIZE:
+            return False
+        remaining = translations.filter(pk__gt=batch[-1].pk)
 
 
 @register_perm("upload.perform")
@@ -1316,7 +1342,8 @@ def check_upload(
             )
         )
 
-    return _has_upload_child(user, obj)
+    with start_span(op="auth.upload_availability"):
+        return _has_upload_child(user, obj)
 
 
 @register_perm("machinery.view")
@@ -1471,7 +1498,9 @@ def check_team_edit_users(
 
     if obj.defining_workspace_id:
         project_scope = Q(workspace_id=obj.defining_workspace_id)
-    elif obj.componentlists.exists():
+    elif (
+        obj.project_selection == SELECTION_COMPONENT_LIST or obj.componentlists.exists()
+    ):
         project_scope = Q(component__componentlist__in=obj.componentlists.all())
     elif obj.components.exists():
         project_scope = Q(component__in=obj.components.all())

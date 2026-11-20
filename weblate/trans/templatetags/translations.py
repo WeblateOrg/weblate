@@ -29,7 +29,7 @@ from weblate.accounts.visibility import (
 )
 from weblate.auth.models import User
 from weblate.checks.models import CHECKS
-from weblate.trans.filter import FILTERS, get_filter_choice
+from weblate.trans.filter import FILTERS
 from weblate.trans.formatting import (
     format_language_string,
     format_source_string,
@@ -553,8 +553,7 @@ def get_unique_row_id(context: Context, obj) -> str:
 
 @register.simple_tag
 def get_filter_name(name: str) -> str:
-    names = dict(get_filter_choice())
-    return names[name]
+    return str(FILTERS.get_filter_name(name))
 
 
 def get_alert_css_class(icon_name: str, css_class: str = "") -> str:

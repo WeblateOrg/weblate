@@ -29,7 +29,7 @@ from weblate.accounts.utils import (
 )
 from weblate.auth.decorators import management_permission_required
 from weblate.utils import messages
-from weblate.utils.lock import WeblateLock
+from weblate.utils.lock import LockScope, WeblateLock
 from weblate.wladmin.forms import SecurityUploadForm
 from weblate.wladmin.models import SecurityFinding, SecurityFindingEvent, SecurityScan
 from weblate.wladmin.security import (
@@ -448,7 +448,7 @@ def security_confirm(request: AuthenticatedHttpRequest) -> HttpResponse:
         token = str(UUID(token))
     except ValueError:
         raise Http404 from None
-    with WeblateLock(scope="security-confirm", key=token, slug=token):
+    with WeblateLock(scope=LockScope.SECURITY_CONFIRM, key=token):
         snapshot = cache.get(f"security-confirm:{token}")
         if snapshot is None or snapshot["actor"] != request.user.pk:
             raise Http404

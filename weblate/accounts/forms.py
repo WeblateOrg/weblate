@@ -1303,7 +1303,7 @@ class UserSearchForm(forms.Form):
             Div(
                 Field("q", template="snippets/user-query-field.html"),
                 Field("sort_by", template="snippets/user-sort-field.html"),
-                css_class="btn-toolbar",
+                css_class="btn-toolbar column-gap-3",
                 role="toolbar",
             ),
         )

@@ -9,12 +9,12 @@ from contextlib import suppress
 from threading import Event
 
 from asgiref.sync import sync_to_async
-from django.test import SimpleTestCase
+from django.test import TestCase
 
 from weblate.machinery.admission import complete_provider_call, machinery_slot
 
 
-class MachineryAdmissionTest(SimpleTestCase):
+class MachineryAdmissionTest(TestCase):
     async def test_cancellation_retains_slot_until_sync_provider_finishes(self) -> None:
         loop = asyncio.get_running_loop()
         started = asyncio.Event()

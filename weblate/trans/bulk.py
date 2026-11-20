@@ -10,13 +10,15 @@ from typing import TYPE_CHECKING
 
 from django.core.exceptions import ValidationError
 from django.db import transaction
-from django.db.models import F
+from django.db.models import F, prefetch_related_objects
 from django.utils.translation import gettext, ngettext
 
 from weblate.checks.flags import Flags, FlagsValidator
+from weblate.checks.tasks import coalesce_propagated_check_refreshes
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autofixes import fix_target
 from weblate.trans.models import Change, Component, Unit
+from weblate.trans.models.component import component_settings_lookups
 from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.models.source import propagate_parent_change, source_operation
 from weblate.trans.validators import (
@@ -142,6 +144,7 @@ class BulkUnitEdit:
     # Target before autofixes, validated and stored like an editor submission
     submitted_target: list[str] | None = None
     state: int | None = None
+    enforced_check: bool = False
     source_flags: str | None = None
     translation_flags: str | None = None
     add_labels: set[int] = field(default_factory=set)
@@ -301,6 +304,7 @@ def plan_bulk_unit(
     user: User | None,
     *,
     target_state: int,
+    enforced_checks: frozenset[str],
     replacement: BulkReplacement,
     add_flags: str | Flags,
     remove_flags: str | Flags,
@@ -336,6 +340,14 @@ def plan_bulk_unit(
                     state = STATE_EMPTY
             elif state == STATE_EMPTY:
                 state = STATE_TRANSLATED
+        if (
+            target == old_target
+            and target_state >= STATE_TRANSLATED
+            and not edit.too_long
+        ):
+            enforced_state = unit.state_with_enforced_checks(state, enforced_checks)
+            edit.enforced_check = enforced_state != state
+            state = enforced_state
         if target != old_target or state != unit.state:
             if target != old_target:
                 edit.target = target
@@ -504,13 +516,29 @@ def bulk_perform(
                 "translation__component_id", flat=True
             )
         )
+    if target_state >= STATE_TRANSLATED:
+        components = list(components)
+        prefetch_related_objects(components, *component_settings_lookups(defer=True))
     preview_count = 0
     changed_ids: set[int] = set()
     changed_sources: set[int] = set()
     processed_count = 0
     if progress is not None:
         progress(0, len(selected_ids), 0)
+    batch_transaction = (
+        coalesce_propagated_check_refreshes
+        if search and preview is None
+        else transaction.atomic
+    )
     for component in components:
+        component_planner = partial(
+            planner,
+            enforced_checks=(
+                frozenset(component.effective_enforced_checks)
+                if target_state >= STATE_TRANSLATED
+                else frozenset()
+            ),
+        )
         component_ids = list(
             Unit.objects.filter(pk__in=selected_ids, translation__component=component)
             .order_by("pk")
@@ -522,7 +550,7 @@ def bulk_perform(
             component.start_batched_checks()
         try:
             for batch_ids in batched(component_ids, BULK_EDIT_PREVIEW_LIMIT):
-                with transaction.atomic(), source_operation(component):
+                with batch_transaction(), source_operation(component):
                     component_units = Unit.objects.filter(
                         pk__in=batch_ids, translation__component=component
                     )
@@ -549,7 +577,7 @@ def bulk_perform(
                         units = units.select_for_update()
                     planned = plan_bulk_units(
                         units.iterator(chunk_size=BULK_EDIT_PREVIEW_LIMIT),
-                        planner,
+                        component_planner,
                         text_edit,
                         user,
                         target_state,
@@ -586,6 +614,9 @@ def bulk_perform(
                                     change_action=ActionEvents.REPLACE
                                     if search
                                     else ActionEvents.BULK_EDIT,
+                                    change_details={"explicit_approval": True}
+                                    if search and target_state == STATE_APPROVED
+                                    else None,
                                     select_for_update=False,
                                     propagation_exclude_ids=selected_ids,
                                 )
@@ -598,12 +629,16 @@ def bulk_perform(
                                 continue
                         else:
                             unit.state = edit.state
+                            if edit.enforced_check:
+                                unit.original_state = unit.state
                             unit.automatically_translated = False
                             changes.append(
                                 unit.generate_change(
                                     user,
                                     user,
-                                    ActionEvents.BULK_EDIT,
+                                    ActionEvents.ENFORCED_CHECK
+                                    if edit.enforced_check
+                                    else ActionEvents.BULK_EDIT,
                                     check_new=False,
                                     save=False,
                                 )
@@ -614,7 +649,7 @@ def bulk_perform(
                         component_changed = True
                     Unit.objects.bulk_update(
                         state_updates,
-                        ["state", "automatically_translated"],
+                        ["state", "original_state", "automatically_translated"],
                         batch_size=500,
                     )
                     Change.objects.bulk_create(changes, batch_size=500)

@@ -19,6 +19,9 @@ limit applies to the UTF-8 CSV content produced during conversion, including
 quoting. These limits also apply to files read from a repository.
 Archives may contain at most 100,000 ZIP entries.
 
+Header values must be within the first 64 columns (A through BL).
+Trailing empty or formatting-only header cells are ignored.
+
 Weblate reads up to :setting:`TRANSLATION_MAX_UNITS` worksheet rows after the
 header. Blank and formatting-only rows within the worksheet's data range count
 toward this read limit. The archive must also fit :setting:`TRANSLATION_MAX_SIZE`

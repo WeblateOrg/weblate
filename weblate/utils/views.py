@@ -11,12 +11,12 @@ import tempfile
 import time
 from contextlib import contextmanager, suppress
 from pathlib import Path
-from time import monotonic
+from shutil import copyfileobj
 
 # pylint: disable-next=unused-import
-from typing import IO, TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, cast
 from uuid import UUID
-from zipfile import ZipFile, ZipInfo
+from zipfile import ZipFile
 
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
@@ -57,7 +57,7 @@ from weblate.vcs.git import LocalRepository
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Generator, Mapping
+    from collections.abc import Generator, Mapping
 
     from django.db.models import Model
     from django.http import HttpRequest, HttpResponseBase, QueryDict
@@ -72,8 +72,14 @@ class UnsupportedPathObjectError(Http404):
     pass
 
 
-REPOSITORY_LOCK_REFRESH_INTERVAL = 300
-DOWNLOAD_COPY_CHUNK_SIZE = 1024 * 1024
+class ComponentSlugMismatch(Http404):
+    def __init__(
+        self, component: Component, project: Project, component_index: int
+    ) -> None:
+        super().__init__()
+        self.component = component
+        self.project = project
+        self.component_index = component_index
 
 
 def key_name(instance):
@@ -368,7 +374,8 @@ def parse_path(
 
     # Component/category structure
     current: Project | Category | Component = project
-    category_args = {"category": None}
+    category_args: dict[str, Project | None] = {"category": None}
+    component_index = 1
     while path:
         slug = path.pop(0)
 
@@ -380,20 +387,28 @@ def parse_path(
                 raise TypeError
             return CategoryLanguage(current, language)
 
-        # Try component first
-        with suppress(Component.DoesNotExist):
-            current = current.component_set.get(slug=slug, **category_args)
+        try:
+            component = current.component_set.get(slug__iexact=slug, **category_args)
+        except (Component.DoesNotExist, Component.MultipleObjectsReturned):
+            component = None
+        if component is not None and component.slug == slug:
+            current = component
             if request is not None:
                 request.user.check_access_component(current)
             break
 
-        # Try category
+        # An exact category wins over a differently cased component.
         with suppress(Category.DoesNotExist):
             current = cast("Project | Category", current).category_set.get(
                 slug=slug, **category_args
             )
-            category_args = {}
+            category_args = {"project": project}
+            component_index += 1
             continue
+
+        if component is not None and request is not None:
+            request.user.check_access_component(component)
+            raise ComponentSlugMismatch(component, project, component_index)
 
         # Nothing more to try
         msg = f"Object {slug} not found in {current}"
@@ -828,22 +843,16 @@ def iter_files(
     filenames: list[str],
     root: str,
     allowed_roots: list[str] | None = None,
-    *,
-    refresh_lock: Callable[[], None] | None = None,
 ) -> Generator[str]:
     prepared_allowed_roots = _get_allowed_roots(root, allowed_roots)
     if not prepared_allowed_roots:
         return
 
     for filename in filenames:
-        if refresh_lock is not None:
-            refresh_lock()
         if not _is_download_path(filename, root, prepared_allowed_roots):
             continue
         if os.path.isdir(filename):
             for current_root, dirs, files in os.walk(filename):
-                if refresh_lock is not None:
-                    refresh_lock()
                 dirs[:] = [
                     name
                     for name in dirs
@@ -868,10 +877,9 @@ def zip_download(
     name: str = "translations",
     extra: dict[str, bytes | str] | None = None,
     allowed_roots: list[str] | None = None,
-    refresh_lock: Callable[[], None] | None = None,
 ) -> FileResponse:
     with zip_download_archive(name) as (response, zipfile):
-        write_zip_files(zipfile, root, filenames, allowed_roots, refresh_lock)
+        write_zip_files(zipfile, root, filenames, allowed_roots)
         if extra:
             for filename, content in extra.items():
                 zipfile.writestr(filename, content)
@@ -905,76 +913,13 @@ def write_zip_files(
     root: str,
     filenames: list[str],
     allowed_roots: list[str] | None = None,
-    refresh_lock: Callable[[], None] | None = None,
 ) -> None:
     """Write validated files into an open ZIP archive."""
-    if refresh_lock is None:
-        refresh_repository_lock = None
-    else:
-        refresh_repository_lock = _periodic_lock_refresher(refresh_lock)
-
-    for filename in iter_files(
-        filenames,
-        root,
-        allowed_roots,
-        refresh_lock=refresh_repository_lock,
-    ):
+    for filename in iter_files(filenames, root, allowed_roots):
         try:
-            archive_path = os.path.relpath(filename, root)
-            if refresh_repository_lock is None:
-                zipfile.write(filename, arcname=archive_path)
-                continue
-            _write_zip_file_with_refresh(
-                zipfile, filename, archive_path, refresh_repository_lock
-            )
+            zipfile.write(filename, arcname=os.path.relpath(filename, root))
         except FileNotFoundError:
             continue
-
-
-def _periodic_lock_refresher(
-    refresh_lock: Callable[[], None],
-) -> Callable[[], None]:
-    """Create a callback which periodically refreshes a lock lease."""
-    refresh_at = monotonic() + REPOSITORY_LOCK_REFRESH_INTERVAL
-
-    def refresh() -> None:
-        nonlocal refresh_at
-        now = monotonic()
-        if now >= refresh_at:
-            refresh_lock()
-            refresh_at = now + REPOSITORY_LOCK_REFRESH_INTERVAL
-
-    return refresh
-
-
-def _copy_file_with_refresh(
-    source: IO[bytes], output: IO[bytes], refresh_lock: Callable[[], None]
-) -> None:
-    """Copy a file while periodically refreshing a lock lease."""
-    while chunk := source.read(DOWNLOAD_COPY_CHUNK_SIZE):
-        output.write(chunk)
-        refresh_lock()
-
-
-def _write_zip_file_with_refresh(
-    zipfile: ZipFile,
-    filename: str,
-    archive_path: str,
-    refresh_lock: Callable[[], None],
-) -> None:
-    """Write a file to a ZIP archive while refreshing a lock lease."""
-    refresh_lock()
-    file_info = ZipInfo.from_file(
-        filename,
-        archive_path,
-        strict_timestamps=getattr(zipfile, "_strict_timestamps", True),
-    )
-    file_info.compress_type = zipfile.compression
-    # TODO: Use compress_level after dropping Python 3.12 support.
-    # ruff: ignore[private-member-access]
-    file_info._compresslevel = zipfile.compresslevel  # type: ignore[attr-defined]
-    with open(filename, "rb") as source, zipfile.open(file_info, "w") as output:
-        _copy_file_with_refresh(source, output, refresh_lock)
 
 
 def repository_lock_timeout_response(error: WeblateLockTimeoutError) -> HttpResponse:
@@ -990,16 +935,14 @@ def repository_lock_timeout_response(error: WeblateLockTimeoutError) -> HttpResp
 def snapshot_file_response(
     filename: str,
     content_type: str,
-    refresh_lock: Callable[[], None],
     *,
     as_attachment: bool = False,
 ) -> FileResponse:
     """Copy a file into a stable disk-backed download response."""
-    refresh_repository_lock = _periodic_lock_refresher(refresh_lock)
     snapshot = tempfile.TemporaryFile()  # ruff: ignore[open-file-with-context-handler]
     try:
         with open(filename, "rb") as source:
-            _copy_file_with_refresh(source, snapshot, refresh_repository_lock)
+            copyfileobj(source, snapshot)
         snapshot.seek(0)
         return FileResponse(
             snapshot,
@@ -1023,13 +966,15 @@ def _download_translation_file_locked(
     translation: Translation, *, head: bool = False
 ) -> tuple[HttpResponseBase, str]:
     repository = translation.component.effective_repo_component.repository
-    with repository.lock:
+    if translation.needs_commit():
         # Force flushing pending units
-        try:
-            translation.commit_pending("download", None)
-        except Exception:
-            report_error("Download commit", project=translation.component.project)
+        with repository.lock:
+            try:
+                translation.commit_pending("download", None)
+            except Exception:
+                report_error("Download commit", project=translation.component.project)
 
+    with repository.lock.read():
         filenames = translation.filenames
         response: HttpResponseBase
 
@@ -1051,7 +996,6 @@ def _download_translation_file_locked(
                 response = snapshot_file_response(
                     filename,
                     content_type,
-                    repository.lock.reacquire,
                 )
         else:
             extension = ".zip"
@@ -1063,7 +1007,6 @@ def _download_translation_file_locked(
                 root,
                 filenames,
                 translation.full_slug.replace("/", "-"),
-                refresh_lock=repository.lock.reacquire,
             )
 
     return response, extension

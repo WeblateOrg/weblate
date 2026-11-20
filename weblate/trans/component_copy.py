@@ -9,6 +9,7 @@ import shutil
 from typing import TYPE_CHECKING, cast
 
 from django.core.exceptions import PermissionDenied, ValidationError
+from django.utils.translation import gettext
 
 from weblate.addons.models import Addon
 from weblate.machinery.base import MachineTranslationError
@@ -105,40 +106,48 @@ def replace_component_checkout(
     component: Component, source_component: Component
 ) -> bool:
     """Replace the destination checkout with a copy of the source checkout."""
-    if not os.path.isdir(source_component.full_path):
-        return False
+    with source_component.repository.lock.read():
+        if not os.path.isdir(source_component.full_path):
+            return False
 
-    source_has_git_checkout = os.path.isdir(
-        os.path.join(source_component.full_path, ".git")
-    )
-    retain_target_git = not component.is_repo_local or not source_has_git_checkout
-    source_metadata_dir = source_component.repository.metadata_dir_name
-    ignored_metadata_dirs = (
-        set() if source_metadata_dir is None else {source_metadata_dir.casefold()}
-    )
-    if retain_target_git:
-        ignored_metadata_dirs.add(".git")
+        if os.path.realpath(component.full_path) == os.path.realpath(
+            source_component.full_path
+        ):
+            raise ValidationError(
+                gettext("The source and destination checkouts must be different.")
+            )
 
-    def ignore_vcs_metadata(_directory: str, names: list[str]) -> set[str]:
-        return {name for name in names if name.casefold() in ignored_metadata_dirs}
-
-    with source_component.repository.lock, component.repository.lock:
-        os.makedirs(component.full_path, exist_ok=True)
-        for entry in os.listdir(component.full_path):
-            if entry == ".git" and retain_target_git:
-                continue
-            target_name = os.path.join(component.full_path, entry)
-            if os.path.isdir(target_name) and not os.path.islink(target_name):
-                shutil.rmtree(target_name)
-            else:
-                os.unlink(target_name)
-        shutil.copytree(
-            source_component.full_path,
-            component.full_path,
-            dirs_exist_ok=True,
-            ignore=ignore_vcs_metadata if retain_target_git else None,
-            symlinks=True,
+        source_has_git_checkout = os.path.isdir(
+            os.path.join(source_component.full_path, ".git")
         )
+        retain_target_git = not component.is_repo_local or not source_has_git_checkout
+        source_metadata_dir = source_component.repository.metadata_dir_name
+        ignored_metadata_dirs = (
+            set() if source_metadata_dir is None else {source_metadata_dir.casefold()}
+        )
+        if retain_target_git:
+            ignored_metadata_dirs.add(".git")
+
+        def ignore_vcs_metadata(_directory: str, names: list[str]) -> set[str]:
+            return {name for name in names if name.casefold() in ignored_metadata_dirs}
+
+        with component.repository.lock:
+            os.makedirs(component.full_path, exist_ok=True)
+            for entry in os.listdir(component.full_path):
+                if entry == ".git" and retain_target_git:
+                    continue
+                target_name = os.path.join(component.full_path, entry)
+                if os.path.isdir(target_name) and not os.path.islink(target_name):
+                    shutil.rmtree(target_name)
+                else:
+                    os.unlink(target_name)
+            shutil.copytree(
+                source_component.full_path,
+                component.full_path,
+                dirs_exist_ok=True,
+                ignore=ignore_vcs_metadata if retain_target_git else None,
+                symlinks=True,
+            )
 
     return True
 

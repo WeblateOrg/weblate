@@ -18,7 +18,7 @@ from io import BytesIO, StringIO
 from pathlib import Path
 from shutil import copyfile
 from typing import TYPE_CHECKING, cast
-from unittest.mock import MagicMock, PropertyMock, patch
+from unittest.mock import MagicMock, PropertyMock, call, patch
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
 
 import jsonschema
@@ -105,6 +105,7 @@ from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import (
     TEST_VCS_ALLOW_SCHEMES,
     RepoTestMixin,
+    can_lock_repository,
     create_test_billing,
     get_test_actor,
     get_test_file,
@@ -2188,32 +2189,47 @@ class BackupsTest(ReusableViewTestCase):
     def test_create_backup_holds_repository_lock_while_archiving(self) -> None:
         backup = ProjectBackup()
         repository = self.component.repository
-        archived = False
 
-        def check_lock(*args, **kwargs) -> None:
-            nonlocal archived
-            self.assertTrue(repository.lock.is_locked)
-            archived = True
+        def maintenance() -> None:
+            self.assertFalse(can_lock_repository(self.component.pk, shared=True))
+
+        lock_class = type(repository.lock)
+        exit_writer = lock_class.__exit__
+
+        def check_handoff(lock, *args) -> None:
+            exit_writer(lock, *args)
+            if lock is repository.lock:
+                self.assertFalse(can_lock_repository(self.component.pk))
+                self.assertTrue(can_lock_repository(self.component.pk, shared=True))
+
+        def archive(*args, **kwargs) -> None:
+            self.assertFalse(can_lock_repository(self.component.pk))
+            self.assertTrue(can_lock_repository(self.component.pk, shared=True))
+            msg = "archive failed"
+            raise OSError(msg)
 
         with (
             ZipFile(BytesIO(), "w") as backupzip,
-            patch.object(backup, "backup_dir", side_effect=check_lock),
+            patch.object(
+                repository, "maintenance", side_effect=maintenance
+            ) as maintain,
+            patch.object(lock_class, "__exit__", check_handoff),
+            patch.object(backup, "backup_dir", side_effect=archive),
+            self.assertRaisesMessage(OSError, "archive failed"),
         ):
             backup.backup_component(backupzip, self.component)
+        maintain.assert_called_once_with()
+        self.assertTrue(can_lock_repository(self.component.pk))
 
-        self.assertTrue(archived)
-
-    def test_backup_dir_refreshes_repository_lock(self) -> None:
+    def test_backup_dir_preserves_compression(self) -> None:
         backup = ProjectBackup()
-        refresh_lock = MagicMock()
 
         with (
             tempfile.TemporaryDirectory() as directory,
             ZipFile(BytesIO(), "w", compression=ZIP_DEFLATED) as backupzip,
-            patch("weblate.trans.backups.monotonic", side_effect=(0, 0, 301, 301)),
         ):
             Path(directory, "file").write_bytes(b"content")
-            backup.backup_dir(backupzip, directory, "vcs/test", refresh_lock)
+            backup.backup_dir(backupzip, directory, "vcs/test")
             file_info = backupzip.getinfo("vcs/test/file")
             self.assertEqual(file_info.compress_type, ZIP_DEFLATED)
             # ruff: ignore[private-member-access]
@@ -2221,8 +2237,6 @@ class BackupsTest(ReusableViewTestCase):
                 file_info._compresslevel,  # type: ignore[attr-defined]
                 backupzip.compresslevel,
             )
-
-        refresh_lock.assert_called_once_with()
 
     def test_backup_omits_nested_vcs_metadata(self) -> None:
         root = Path(self.component.full_path)
@@ -2258,20 +2272,16 @@ class BackupsTest(ReusableViewTestCase):
             (root / "nested" / ".hg" / "store" / "private-history").exists()
         )
 
-    def test_backup_dir_refreshes_repository_lock_for_empty_file(self) -> None:
+    def test_backup_dir_archives_empty_file(self) -> None:
         backup = ProjectBackup()
-        refresh_lock = MagicMock()
 
         with (
             tempfile.TemporaryDirectory() as directory,
             ZipFile(BytesIO(), "w") as backupzip,
-            patch("weblate.trans.backups.monotonic", side_effect=(0, 0, 301)),
         ):
             Path(directory, "empty").touch()
-            backup.backup_dir(backupzip, directory, "vcs/test", refresh_lock)
+            backup.backup_dir(backupzip, directory, "vcs/test")
             self.assertEqual(backupzip.getinfo("vcs/test/empty").file_size, 0)
-
-        refresh_lock.assert_called_once_with()
 
     def test_create_backup_invalid_git_head(self) -> None:
         head_path = Path(self.component.full_path) / ".git/HEAD"
@@ -5149,24 +5159,32 @@ class BackupsTest(ReusableViewTestCase):
             with self.assertRaises(ValidationError):
                 restore.validate()
 
-    def test_restore_schedules_screenshot_recognition(self) -> None:
-        with open(TEST_SCREENSHOT, "rb") as handle:
-            Screenshot.objects.create(
-                name="Recognized screenshot",
-                translation=self.component.source_translation,
-                image=File(handle, name="recognition.png"),
-                user=self.user,
-            )
+    def test_restore_schedules_screenshot_checks(self) -> None:
+        for name in ("first", "second"):
+            with open(TEST_SCREENSHOT, "rb") as handle:
+                Screenshot.objects.create(
+                    name=name,
+                    translation=self.component.source_translation,
+                    image=File(handle, name=f"{name}.png"),
+                    user=self.user,
+                )
         backup = ProjectBackup()
         backup.backup_project(self.project)
         restore = ProjectBackup(backup.filename)
         restore.validate()
-        with patch("weblate.trans.backups.schedule_ocr") as schedule:
+        with (
+            patch("weblate.trans.backups.schedule_ocr") as schedule,
+            patch("weblate.trans.backups.schedule_unused_screenshot_check") as check,
+        ):
             project = restore.restore("Restored", "restored", self.user)
-        screenshot = Screenshot.objects.get(
-            translation__component__project=project, name="Recognized screenshot"
+        component = project.component_set.get(slug=self.component.slug)
+        screenshot_ids = Screenshot.objects.filter(
+            translation__component=component
+        ).values_list("pk", flat=True)
+        self.assertCountEqual(
+            schedule.call_args_list, [call(pk) for pk in screenshot_ids]
         )
-        schedule.assert_called_once_with(screenshot.pk)
+        check.assert_called_once_with(component.pk)
 
     def test_restore_repairs_screenshot_extensions(self) -> None:
         content = Path(TEST_SCREENSHOT).read_bytes()

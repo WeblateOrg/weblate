@@ -239,6 +239,13 @@ STORAGES = {
     },
 }
 
+# Storage for user-uploaded fonts, stored in DATA_DIR/fonts by default
+if fonts_storage_backend := get_env_str("WEBLATE_FONTS_STORAGE_BACKEND"):
+    STORAGES["fonts"] = {
+        "BACKEND": fonts_storage_backend,
+        "OPTIONS": get_env_json("WEBLATE_FONTS_STORAGE_OPTIONS", {}),
+    }
+
 # Make this unique, and don't share it with anybody.
 # You can generate it using weblate-generate-secret-key
 SECRET_KEY = get_env_str("WEBLATE_SECRET_KEY") or Path("/app/data/secret").read_text(

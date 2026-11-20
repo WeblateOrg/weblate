@@ -404,6 +404,7 @@ http_strict_mode = True
 # Autodocs
 autodoc_mock_imports = [
     "django",
+    "psycopg",
     "unidecode",
     "nh3",
     "turbohtml",
@@ -422,8 +423,6 @@ autodoc_mock_imports = [
     "weblate.formats",
     "weblate.trans.templatetags.translations",
     "dateutil",
-    "filelock",
-    "redis_lock",
     "django_redis",
     "lxml",
     "translate",

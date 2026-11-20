@@ -705,6 +705,14 @@ class ChangeScopeTest(ViewTestCase):
 
 
 class ChangeQueriesTest(FixtureTestCase):
+    def test_string_representation_omits_contributor_without_queries(self) -> None:
+        change = Change(project=self.project, user_id=self.user.pk)
+        with self.assertNumQueries(0):
+            self.assertEqual(
+                str(change),
+                f"{change.get_action_display()} at {change.timestamp} on {self.project}",
+            )
+
     def create_history_changes(
         self, action: ActionEvents, *, snapshot: bool = False
     ) -> list[Change]:
@@ -802,7 +810,8 @@ class FeedQueriesTest(FixtureTestCase):
         with self.assertNumQueries(expected_queries), public_profile_render():
             items = list(feed.items(ChangeFeedScope(self.user, obj)))
             for item in items:
-                str(item)
+                feed.item_description(item)
+                feed.item_author_name(item)
 
     def test_project_feed_queries_do_not_scale_with_change_count(self) -> None:
         self.add_feed_changes(1)

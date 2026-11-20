@@ -20,6 +20,22 @@ if TYPE_CHECKING:
 
 XLSX_READ_CHUNK_SIZE = 64 * 1024
 XLSX_TEXT_CHUNK_SIZE = 16 * 1024
+MAX_XLSX_COLUMNS = 64
+
+
+def xlsx_header_width(header: Iterable[object]) -> int:
+    """Limit the width openpyxl will use to pad every subsequent row."""
+    width = 0
+    for column, value in enumerate(header, start=1):
+        if value is None or (isinstance(value, str) and not value):
+            continue
+        if column > MAX_XLSX_COLUMNS:
+            raise TranslationLimitError(
+                gettext("Workbook header exceeds the maximum width of %d columns.")
+                % MAX_XLSX_COLUMNS
+            )
+        width = column
+    return width
 
 
 def validate_xlsx_archive(storefile: str | BinaryIO, max_size: int) -> None:

@@ -2,7 +2,7 @@
 
 <p>{% translate "Weblate CDN add-on could not parse the HTML files." %}</p>
 
-<p>{% translate "The following occurrences were found:" %}</p>
+{% include "trans/alert/occurrence-summary.html" %}
 
 <table class="table table-sm">
   <thead>
@@ -21,6 +21,5 @@
   </tbody>
 </table>
 
-{% include "trans/alert/occurrences-limit.html" %}
 
 {% include "trans/alert/addon-configuration.html" %}

@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-13 01:19-0600\n"
-"PO-Revision-Date: 2026-11-18 18:50+0000\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
+"PO-Revision-Date: 2026-11-20 06:09+0000\n"
 "Last-Translator: Peter Vančo <peva@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -1332,6 +1332,21 @@ msgid ""
 msgstr ""
 "Túto pozvánku môže prijať iba e-mailová adresa vybraná pozývateľom; nemôže "
 "byť použitá vaším účtom."
+
+#, python-brace-format
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr "Váš e-mail už nepatrí k overenému účtu, bol zmenený na {0}."
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
+msgstr ""
+"E-mail vášho účtu už nie je overený a bol odstránený. Na obnovenie hesla "
+"pridajte a overte e-mailovú adresu, potom ju vyberte ako e-mail účtu v "
+"nastaveniach účtu na prijímanie notifikácií."
 
 msgid ""
 "Your e-mail address has been added. You can now select it as your account e-"
@@ -3891,6 +3906,20 @@ msgstr ""
 "Pred presunutím komponentu do iného projektu ho odstráňte z projektových "
 "tímov."
 
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+"Pred odstránením komponentu ho odoberte z jeho tímov. Odstránenie posledného "
+"priradeného komponentu by rozšírilo prístup tímu."
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
+"Pred odstránením zoznamu komponentov ho odoberte z jeho tímov. Odstránenie "
+"posledného priradeného zoznamu komponentov by mohlo rozšíriť prístup tímu."
+
 msgid "Roles"
 msgstr "Role"
 
@@ -4616,6 +4645,9 @@ msgstr "Fakturácia"
 
 msgid "Billing event"
 msgstr "Fakturačná udalosť"
+
+msgid "Project has no components."
+msgstr "Projekt nemá žiadne komponenty."
 
 msgid "monthly"
 msgstr "mesačne"
@@ -5959,7 +5991,8 @@ msgstr "Nepodarilo sa otvoriť archív zošita."
 msgid ""
 "Workbook exceeds the maximum allowed count of %d worksheet rows after the "
 "header."
-msgstr "Zošit prekračuje maximálny povolený počet %d riadkov hárka po hlavičke."
+msgstr ""
+"Zošit prekračuje maximálny povolený počet %d riadkov hárka po hlavičke."
 
 #, python-format
 msgid "Translation file exceeds the maximum allowed size of %d bytes."
@@ -6550,9 +6583,6 @@ msgstr "Vzorec množného čísla"
 
 msgid "Plural type"
 msgstr "Typ množného čísla"
-
-msgid "Example counts for this plural form."
-msgstr "Príkladné počty pre tento tvar množného čísla."
 
 msgid "Singular"
 msgstr "Jednotné číslo"
@@ -7616,6 +7646,13 @@ msgstr "Čítať vašu e-mailovú adresu"
 
 msgid "Read the version of the legal documents you accepted"
 msgstr "Čítať verziu právnych dokumentov, ktoré ste prijali"
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
+msgstr ""
+"Keď sa prepojený súbor zmení, Weblate môže nahradiť snímku obrazovky "
+"obrázkom z repozitára. Na zmenu tejto cesty je potrebný prístup k repozitáru."
 
 msgid "Image is too big."
 msgstr "Obrázok je príliš veľký."
@@ -10116,6 +10153,20 @@ msgstr ""
 "Toto predplatné nie je oprávnené na libre plán, prosím, opravte chyby vyššie "
 "alebo si kúpte predplatné."
 
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+"Vyriešte nižšie uvedené problémy do %(date)s, aby ste si zachovali Libre "
+"hosting pre váš projekt."
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+"Weblate pri vydaní tohto varovania uzamkne existujúce komponenty pre "
+"preklad. Správcovia projektu ich môžu odomknúť."
+
 msgid "Customer"
 msgstr "Zákazník"
 
@@ -11694,6 +11745,13 @@ msgstr ""
 #. Translators: e-mail subject
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr "Opakovaná platba bude deaktivovaná pre neaktívne projekty"
+
+msgid "Review Libre hosting conditions"
+msgstr "Skontrolovať podmienky Libre hostingu"
+
+#, python-format
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "Varovanie pred zrušením Libre hostingu pre %(project)s"
 
 msgid "Translation change"
 msgstr "Zmena prekladu"
@@ -13613,6 +13671,9 @@ msgstr ""
 "Ak by ste chceli prispieť viac, dobrovoľný dar financuje vývoj a údržbu "
 "samotného Weblate."
 
+msgid "Example counts for this plural form."
+msgstr "Príkladné počty pre tento tvar množného čísla."
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
@@ -13647,12 +13708,11 @@ msgstr ""
 msgid "Source code repository"
 msgstr "Repozitár zdrojového kódu"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr "Tento komponent je prepojený s repozitárom %(target)s."
-
 msgid "Repository URL copied to clipboard."
 msgstr "URL repozitára skopírovaná do schránky."
+
+msgid "Linked component"
+msgstr "Prepojený komponent"
 
 msgid "Repository branch"
 msgstr "Vetva repozitára"
@@ -14091,6 +14151,9 @@ msgstr "Množné číslo: %(source_description)s"
 
 msgid "Plurals"
 msgstr "Množné čísla"
+
+msgid "No integer examples found"
+msgstr "Nenašli sa žiadne celočíselné príklady"
 
 msgid "First"
 msgstr "Prvý"
@@ -15041,12 +15104,12 @@ msgstr "Komponent obsahuje niekoľko duplikovaných prekladových reťazcov."
 msgid "Source"
 msgstr "Zdroj"
 
+msgid "Remove duplicate strings"
+msgstr "Odstrániť duplicitné reťazce"
+
 #, python-format
 msgid "Remove duplicate strings from %(language)s (%(filename)s)"
 msgstr "Odstrániť duplicitné reťazce z %(language)s (%(filename)s)"
-
-msgid "Remove duplicate strings"
-msgstr "Odstrániť duplicitné reťazce"
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -16071,10 +16134,6 @@ msgstr "Tento reťazec bol preložený automaticky používateľom %(author)s."
 msgid "Add term to glossary"
 msgstr "Pridať termín do slovníka"
 
-#, python-format
-msgid "Browse glossary %(name)s"
-msgstr "Prehľadať slovník %(name)s"
-
 msgid "Browse glossary"
 msgstr "Prehľadať slovník"
 
@@ -16122,6 +16181,14 @@ msgstr "Naposledy aktualizované"
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
 msgstr "Vek zdrojového reťazca"
+
+#, python-format
+msgid "%(filename)s, line %(line)s"
+msgstr "%(filename)s, riadok %(line)s"
+
+#, python-format
+msgid "line %(line)s"
+msgstr "riadok %(line)s"
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -17708,11 +17775,11 @@ msgstr "Duplicitný názov kontroly."
 msgid "Referenced category does not exist."
 msgstr "Odkazovaná kategória neexistuje."
 
-msgid "Component filename does not match its category and slug."
-msgstr "Názov súboru komponentu nezodpovedá jeho kategórii a slugu."
-
 msgid "Duplicate component slug."
 msgstr "Duplicitný slug komponentu."
+
+msgid "Component filename does not match its category and slug."
+msgstr "Názov súboru komponentu nezodpovedá jeho kategórii a slugu."
 
 msgid "Translation revision has an invalid format."
 msgstr "Revízia prekladu má neplatný formát."
@@ -17837,8 +17904,10 @@ msgid ""
 "%d string will be left unchanged because the edited text would be too long."
 msgid_plural ""
 "%d strings will be left unchanged because the edited text would be too long."
-msgstr[0] "%d reťazec zostane nezmenený, pretože upravený text by bol príliš dlhý."
-msgstr[1] "%d reťazce zostanú nezmenené, pretože upravený text by bol príliš dlhý."
+msgstr[0] ""
+"%d reťazec zostane nezmenený, pretože upravený text by bol príliš dlhý."
+msgstr[1] ""
+"%d reťazce zostanú nezmenené, pretože upravený text by bol príliš dlhý."
 msgstr[2] ""
 "%d reťazcov zostane nezmenených, pretože upravený text by bol príliš dlhý."
 
@@ -17846,8 +17915,10 @@ msgstr[2] ""
 msgid "%d string was left unchanged because the edited text would be too long."
 msgid_plural ""
 "%d strings were left unchanged because the edited text would be too long."
-msgstr[0] "%d reťazec zostal nezmenený, pretože upravený text by bol príliš dlhý."
-msgstr[1] "%d reťazce zostali nezmenené, pretože upravený text by bol príliš dlhý."
+msgstr[0] ""
+"%d reťazec zostal nezmenený, pretože upravený text by bol príliš dlhý."
+msgstr[1] ""
+"%d reťazce zostali nezmenené, pretože upravený text by bol príliš dlhý."
 msgstr[2] ""
 "%d reťazcov zostalo nezmenených, pretože upravený text by bol príliš dlhý."
 
@@ -17970,6 +18041,9 @@ msgstr "Čakajúce návrhy"
 msgid "Needs review"
 msgstr "Vyžaduje kontrolu"
 
+msgid "The source and destination checkouts must be different."
+msgstr "Zdrojová a cieľová pracovná kópia musia byť odlišné."
+
 msgid "This component does not exist or you cannot access it."
 msgstr "Tento komponent neexistuje alebo k nemu nemáte prístup."
 
@@ -17995,6 +18069,10 @@ msgstr "Riešiteľné mnou"
 
 msgid "Discovery configuration"
 msgstr "Konfigurácia objavovania"
+
+#, python-format
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "Nepodarilo sa vykresliť šablónu %(setting)s: %(error)s"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -20059,6 +20137,9 @@ msgstr "Toto nastavenie je zdedené z projektu, ak je ponechané prázdne."
 msgid "Use the secondary language configured in the category or project."
 msgstr "Použiť sekundárny jazyk nakonfigurovaný v kategórii alebo projekte."
 
+msgid "The linked repository path is ambiguous."
+msgstr "Cesta prepojeného repozitára je nejednoznačná."
+
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
 "admin interface."
@@ -20392,6 +20473,9 @@ msgstr ""
 "Odosielanie bez požiadavky na zlúčenie vyžaduje právo na zápis do "
 "repozitára. Nakonfigurujte URL odosielania s povereniami alebo použite URL "
 "repozitára SSH."
+
+msgid "Version control system cannot be changed to this backend."
+msgstr "Systém správy verzií nie je možné zmeniť na tento backend."
 
 msgid "The file mask is too complex and took too long to evaluate."
 msgstr "Maska súboru je príliš zložitá a jej vyhodnotenie trvalo príliš dlho."
@@ -20981,6 +21065,10 @@ msgstr "Em pomlčka"
 msgid "User configured character: {}"
 msgstr "Používateľom nakonfigurovaný znak: {}"
 
+#, python-format
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "Zmeny boli zapísané, ale nepodarilo sa odoslať repozitár: %s"
+
 msgid "Repository operation could not be completed because it remained locked."
 msgstr "Operácia repozitára nemohla byť dokončená, pretože zostal uzamknutý."
 
@@ -21097,6 +21185,10 @@ msgstr "reťazec ID %s"
 
 msgid "This language is used for source strings."
 msgstr "Tento jazyk sa používa pre zdrojové reťazce."
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr "Tento komponent je prepojený s repozitárom %(target)s."
 
 msgid "Fix this component to clear its diagnostics."
 msgstr "Opravte tento komponent na vyčistenie jeho diagnostiky."
@@ -21857,6 +21949,12 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "Vertikálny stĺpcový graf jazykov"
 
+msgid "Sort languages by"
+msgstr "Zoradiť jazyky podľa"
+
+msgid "Translation percentage"
+msgstr "Percento prekladu"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr "Horizontálny stĺpcový graf jazykov"
@@ -22232,18 +22330,6 @@ msgstr "Neplatná uložená hodnota parametra."
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "Parametre musia byť slovníkom párov kľúč-hodnota."
 
-msgid "Template output exceeds its size limit."
-msgstr "Výstup šablóny prekračuje limit veľkosti."
-
-msgid "Template rendering failed or exceeded its resource limits."
-msgstr "Vykreslenie šablóny zlyhalo alebo prekročilo limity zdrojov."
-
-msgid "Oversized template response."
-msgstr "Nadmerne veľká odpoveď šablóny."
-
-msgid "Invalid template rendering response."
-msgstr "Neplatná odpoveď vykreslenia šablóny."
-
 msgid "Could not render template: {}"
 msgstr "Nepodarilo sa renderovať šablónu: {}"
 
@@ -22254,14 +22340,14 @@ msgstr ""
 "Formátové reťazce už nie sú podporované, prosím, namiesto toho použite jazyk "
 "šablóny."
 
-msgid "Template value exceeds its size limit."
-msgstr "Hodnota šablóny prekračuje limit veľkosti."
+msgid "Template context exceeds its size limit."
+msgstr "Kontext šablóny prekračuje limit veľkosti."
 
 msgid "Template context is nested too deeply."
 msgstr "Kontext šablóny je vnorený príliš hlboko."
 
-msgid "Template context exceeds its size limit."
-msgstr "Kontext šablóny prekračuje limit veľkosti."
+msgid "Unsupported nonfinite template context value."
+msgstr "Nepodporovaná nekonečná hodnota kontextu šablóny."
 
 msgid "Unsupported template context key."
 msgstr "Nepodporovaný kľúč kontextu šablóny."
@@ -22269,30 +22355,283 @@ msgstr "Nepodporovaný kľúč kontextu šablóny."
 msgid "Unsupported template context value."
 msgstr "Nepodporovaná hodnota kontextu šablóny."
 
+msgid "Template value exceeds its size limit."
+msgstr "Hodnota šablóny prekračuje limit veľkosti."
+
+msgid "Template text is not valid UTF-8."
+msgstr "Text šablóny nie je platné UTF-8."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr "Značka „%(name)s“"
+
+msgid "Invalid template syntax."
+msgstr "Neplatná syntax šablóny."
+
+msgid "Undefined template variable."
+msgstr "Nedefinovaná premenná šablóny."
+
+msgid "Text is not valid UTF-8."
+msgstr "Text nie je platné UTF-8."
+
+msgid "Division by zero is not supported."
+msgstr "Delenie nulou nie je podporované."
+
+msgid "Numeric value is too large for this operation."
+msgstr "Číselná hodnota je pre túto operáciu príliš veľká."
+
+msgid "Numeric operation failed."
+msgstr "Číselná operácia zlyhala."
+
+msgid "Value or argument has an unsupported type."
+msgstr "Hodnota alebo argument má nepodporovaný typ."
+
+msgid "Value or argument is incomplete or out of range."
+msgstr "Hodnota alebo argument je neúplný alebo mimo rozsahu."
+
+msgid "Value or argument has an invalid format."
+msgstr "Hodnota alebo argument má neplatný formát."
+
+#, python-format
+msgid "%(operation)s: %(message)s"
+msgstr "%(operation)s: %(message)s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr "Riadok %(line)d: %(message)s"
+
 msgid "Template rendering exceeded its time limit."
 msgstr "Vykreslenie šablóny prekročilo časový limit."
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr "Šablóna prekračuje limit %(limit)d operácií."
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr "Šablóna prekračuje kumulatívny limit práce %(limit)d bajtov."
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr "Hodnota šablóny prekračuje limit veľkosti %(limit)d bajtov."
+
+msgid "Template value must be a supported scalar."
+msgstr "Hodnota šablóny musí byť podporovaný skalár."
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr "Celé číslo prekračuje číselný limit 4096 bitov."
+
+msgid "Nonfinite numbers are not supported."
+msgstr "Nekonečné čísla nie sú podporované."
+
+#, python-format
+msgid "Filter \"%(name)s\""
+msgstr "Filter „%(name)s“"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
+msgstr "Šablóna prekračuje limit %(limit)d použití filtra."
 
 msgid "Template rendering exceeded its loop limit."
 msgstr "Vykreslenie šablóny prekročilo limit cyklov."
 
-msgid "Template intermediate value exceeds its size limit."
-msgstr "Medzihodnota šablóny prekračuje limit veľkosti."
+msgid "Attribute access and method calls are not supported."
+msgstr "Prístup k atribútom a volania metód nie sú podporované."
 
-msgid "Template replacement exceeds its size limit."
-msgstr "Náhrada v šablóne prekračuje limit veľkosti."
+msgid "Index exceeds the length limit of 128 characters."
+msgstr "Index prekračuje limit dĺžky 128 znakov."
 
-msgid "Template padding exceeds its size limit."
-msgstr "Zarovnanie v šablóne prekračuje limit veľkosti."
+msgid "Translated template literals are not supported."
+msgstr "Preložené literály šablóny nie sú podporované."
 
-msgid "Template formatting exceeds its size limit."
-msgstr "Formátovanie šablóny prekračuje limit veľkosti."
+msgid "Invalid filter."
+msgstr "Neplatný filter."
 
-msgid "Template join exceeds its size limit."
-msgstr "Spojenie v šablóne prekračuje limit veľkosti."
+msgid "Identity comparisons require None, True, or False."
+msgstr "Porovnania identity vyžadujú None, True alebo False."
+
+msgid "This condition operator is not supported."
+msgstr "Tento operátor podmienky nie je podporovaný."
+
+msgid "Template output exceeds its size limit."
+msgstr "Výstup šablóny prekračuje limit veľkosti."
+
+msgid "Loops require a list, string, dictionary, or dictionary view."
+msgstr "Cykly vyžadujú zoznam, reťazec, slovník alebo zobrazenie slovníka."
+
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
+msgstr "Rozbalenie cyklu vyžaduje zoznam, n-ticu, reťazec alebo slovník."
+
+msgid "Loop value cannot be unpacked into its variables."
+msgstr "Hodnotu cyklu nie je možné rozbaliť do jej premenných."
+
+msgid "This template tag is not supported."
+msgstr "Táto značka šablóny nie je podporovaná."
+
+msgid "This template node is not supported."
+msgstr "Tento uzol šablóny nie je podporovaný."
+
+msgid "Replacement requires string values and arguments."
+msgstr "Nahradenie vyžaduje reťazcové hodnoty a argumenty."
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
+msgstr "Nahradenie prekračuje limit priebežnej veľkosti %(limit)d bajtov."
 
 #, python-format
 msgid "Undefined variable: \"%s\""
 msgstr "Nedefinovaná premenná: \"%s\""
+
+msgid "This filter requires scalar values and arguments."
+msgstr "Tento filter vyžaduje skalárne hodnoty a argumenty."
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr "Priebežná hodnota by prekročila limit veľkosti %(limit)d bajtov."
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr "Číselný vstup prekračuje limit konverzie 1240 znakov."
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr "Desatinné číslo prekračuje limit číselnej konverzie."
+
+msgid "This filter requires strings."
+msgstr "Tento filter vyžaduje reťazce."
+
+msgid "Choices must be a string."
+msgstr "Voľby musia byť reťazec."
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr "Dĺžka vyžaduje zoznam, reťazec, slovník alebo zobrazenie slovníka."
+
+msgid "This filter requires a list, tuple, or string."
+msgstr "Tento filter vyžaduje zoznam, n-ticu alebo reťazec."
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr "Rezanie vyžaduje zoznam, n-ticu alebo reťazec."
+
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr "Argument rezu prekračuje limit dĺžky 128 znakov."
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+"Spájanie vyžaduje iterovateľný objekt a reťazcový oddeľovač s vypnutým "
+"escapovaním."
+
+msgid "Joining requires string elements."
+msgstr "Spájanie vyžaduje reťazcové prvky."
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr "Spojená hodnota by prekročila limit veľkosti %(limit)d bajtov."
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr "Escapovanie sekvencie vyžaduje zoznam, n-ticu alebo reťazec."
+
+msgid "Sequence escaping requires scalar elements."
+msgstr "Escapovanie sekvencie vyžaduje skalárne prvky."
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr "Formátovanie dátumu vyžaduje dátum, čas, reťazec alebo None."
+
+msgid "Date format must be a string or None."
+msgstr "Formát dátumu musí byť reťazec alebo None."
+
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "Porovnanie času vyžaduje dátum, čas, reťazec alebo None."
+
+msgid "Time comparison argument must be a date or None."
+msgstr "Argument porovnania času musí byť dátum alebo None."
+
+msgid "Concatenation requires sequences of the same type."
+msgstr "Zreťazenie vyžaduje sekvencie rovnakého typu."
+
+msgid "Plural suffixes must be a string."
+msgstr "Prípony množného čísla musia byť reťazec."
+
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr "Argument presnosti prekračuje limit dĺžky 128 znakov."
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr "Presnosť formátovania prekračuje limit 1000 miest."
+
+msgid "Format must be a string of at most 128 characters."
+msgstr "Formát musí byť reťazec s dĺžkou najviac 128 znakov."
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+"Formát musí obsahovať jednu podporovanú konverziu bez mapovacích kľúčov "
+"alebo dynamických šírok."
+
+msgid "Nested template delimiters are not supported."
+msgstr "Vnorené oddeľovače šablóny nie sú podporované."
+
+msgid "Unclosed template token."
+msgstr "Neuzavretý token šablóny."
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr "Token šablóny prekračuje limit veľkosti %(limit)d bajtov."
+
+msgid "Template tokens cannot span multiple lines."
+msgstr "Tokeny šablóny nemôžu presahovať viacero riadkov."
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr "Šablóna prekračuje limit spracovania %(limit)d tokenov."
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr "Šablóna prekračuje limit spracovania %(limit)d filtrov."
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr "Šablóna prekračuje limit práce pri spracovaní %(limit)d jednotiek."
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr "Neuzavretá značka šablóny „%(tag)s“."
+
+msgid "Template tag is empty."
+msgstr "Značka šablóny je prázdna."
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr "Podmienka prekračuje limit spracovania %(limit)d výrazov."
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr "Šablóna prekračuje limit vnorenia %(limit)d úrovní."
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr "Neočakávaná uzatváracia značka „%(tag)s“."
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr "Značka „%(tag)s“ vyžaduje nadradenú značku „%(parent)s“."
+
+#, python-format
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "Nepodporovaná značka šablóny „%(tag)s“."
+
+msgid "Unsupported template tag."
+msgstr "Nepodporovaná značka šablóny."
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr "Serializované dáta prekračujú limit vnorenia %(limit)d."
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr "Serializácia prekračuje limit priebežnej veľkosti %(limit)d bajtov."
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
+msgstr "Serializovaná hodnota prekračuje limit veľkosti %(limit)d bajtov."
 
 #, python-format
 msgid ""
@@ -23957,6 +24296,28 @@ msgid "The workspace has been removed."
 msgstr "Pracovný priestor bol odstránený."
 
 #, python-format
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "Prehľadať slovník %(name)s"
+
+#~ msgid "Template rendering failed or exceeded its resource limits."
+#~ msgstr "Vykreslenie šablóny zlyhalo alebo prekročilo limity zdrojov."
+
+#~ msgid "Oversized template response."
+#~ msgstr "Nadmerne veľká odpoveď šablóny."
+
+#~ msgid "Invalid template rendering response."
+#~ msgstr "Neplatná odpoveď vykreslenia šablóny."
+
+#~ msgid "Template replacement exceeds its size limit."
+#~ msgstr "Náhrada v šablóne prekračuje limit veľkosti."
+
+#~ msgid "Template padding exceeds its size limit."
+#~ msgstr "Zarovnanie v šablóne prekračuje limit veľkosti."
+
+#~ msgid "Template formatting exceeds its size limit."
+#~ msgstr "Formátovanie šablóny prekračuje limit veľkosti."
+
+#, python-format
 #~ msgid ""
 #~ "Fedora Messaging publisher service was unavailable; the connection will "
 #~ "be recreated on the next attempt: %(error)s"
@@ -25598,9 +25959,6 @@ msgstr "Pracovný priestor bol odstránený."
 #~ msgid "Renamed project"
 #~ msgstr "Premenovaný projekt"
 
-#~ msgid "Renamed component"
-#~ msgstr "Premenovaná súčasť"
-
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "Nový reťazec na preklad"
@@ -27217,9 +27575,6 @@ msgstr "Pracovný priestor bol odstránený."
 #~| msgid "Repository"
 #~ msgid "Backup pepository"
 #~ msgstr "Repozitár"
-
-#~ msgid "Your languages"
-#~ msgstr "Vaše jazyky"
 
 #~ msgid "Fulltext"
 #~ msgstr "Fulltextové"
@@ -29570,9 +29925,6 @@ msgstr "Pracovný priestor bol odstránený."
 
 #~ msgid "First name"
 #~ msgstr "Krstné meno"
-
-#~ msgid "Username needs to have at least five characters."
-#~ msgstr "Užívateľské meno musí obsahovať aspoň 5 znakov."
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

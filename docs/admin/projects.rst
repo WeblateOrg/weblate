@@ -22,6 +22,10 @@ using categories.
 * Above :ref:`component` there are individual translations, handled automatically by Weblate as translation
   files (which match :ref:`component-filemask` defined in :ref:`component`) appear in the VCS repository.
 
+* Each target language in a project has :ref:`workflow settings <workflow-customization>`
+  for reviews and suggestions. You can also choose a
+  :ref:`custom source language <workflow-source-language>` for that target language.
+
 Weblate supports a wide range of translation formats (both bilingual and
 monolingual ones) supported by Translate Toolkit, see :ref:`formats`.
 
@@ -147,6 +151,8 @@ URL slug
 ++++++++
 
 Project name suitable for URLs.
+
+Project slugs are case-insensitively unique across the instance.
 
 .. _project-web:
 
@@ -574,6 +580,10 @@ Component slug
 ++++++++++++++
 
 Component name suitable for URLs.
+
+The slug is case-insensitively unique among components in the same category or
+at the top level of the same project. Different projects and categories may reuse
+the same component slug.
 
 .. _component-project:
 

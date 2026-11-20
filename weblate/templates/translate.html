@@ -539,6 +539,7 @@
                 <div class="input-group search-group machinery-search">
                   <input type="text"
                          class="form-control"
+                         data-lt-active="false"
                          id="memory-search-input"
                          name="q"
                          placeholder="{% translate "Search translation memory"|force_escape %}">
@@ -936,6 +937,18 @@
               </div>
             {% endif %}
 
+            {% if last_translator %}
+              <div class="list-group-item">
+                <h5>{% translate "Last translator" %}</h5>
+                {% user_display last_translator icon=False resource=unit %}
+              </div>
+            {% endif %}
+            {% if last_approver %}
+              <div class="list-group-item">
+                <h5>{% translate "Last approver" %}</h5>
+                {% user_display last_approver icon=False resource=unit %}
+              </div>
+            {% endif %}
             {% if unit.source_unit.explanation or user_can_edit_source %}
               <div class="list-group-item">
                 <h5>

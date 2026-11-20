@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import time
+from pathlib import Path
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
 from unittest import TestCase
@@ -1918,6 +1919,32 @@ class EditPropagateTest(EditTest):
         )
         return result
 
+    def test_approved_edit_attributes_peer_approval(self) -> None:
+        self.make_manager()
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        unit = self.get_unit()
+        peer = Unit.objects.get(
+            translation__component__slug="second",
+            translation__language_code="cs",
+            source=unit.source,
+        )
+        for item in (unit, peer):
+            item.translate(
+                self.anotheruser, self.target, STATE_APPROVED, propagate=False
+            )
+
+        response = self.edit_unit(
+            self.source, self.second_target, review=str(STATE_APPROVED)
+        )
+        self.assertEqual(response.status_code, 302)
+        for item in (unit, peer):
+            item.refresh_from_db()
+            self.assertEqual(item.target, self.second_target)
+            self.assertEqual(item.state, STATE_APPROVED)
+            editor = self.client.get(item.get_absolute_url())
+            self.assertEqual(editor.context["last_approver"], self.user)
+
     def test_edit_restricted_component(self) -> None:
         self.component.restricted = True
         self.component.save(update_fields=["restricted"])
@@ -2526,14 +2553,22 @@ class ZenViewTest(ReusableViewTestCase):
         self.project.translation_review = True
         self.project.save(update_fields=["translation_review"])
         self.make_manager()
-        suggestion = self.add_zen_suggestion()
         unit = self.get_unit()
+        unit.translate(self.anotheruser, "Previously approved\n", STATE_APPROVED)
+        suggestion, _ = Suggestion.objects.add(
+            unit, ["Replacement\n"], request=None, user=self.anotheruser
+        )
+        assert suggestion is not None
         data = self.post_zen_suggestion(unit, accept_approve=suggestion.pk)
         self.assertEqual(data["state"], "success")
         self.assertEqual(data["mode"], "accept_approve")
         self.assertEqual(data["review"], str(STATE_APPROVED))
         self.assertEqual(data["unit_state_class"], "unit-state-approved")
         self.assertEqual(self.get_unit().state, STATE_APPROVED)
+        self.assertEqual(data["target"], ["Replacement\n"])
+        editor = self.client.get(unit.get_absolute_url())
+        self.assertEqual(editor.context["last_translator"], self.anotheruser)
+        self.assertEqual(editor.context["last_approver"], self.user)
 
     def test_zen_suggestion_accept_edit(self) -> None:
         suggestion = self.add_zen_suggestion()
@@ -3990,6 +4025,54 @@ class EditComplexTest(ReusableViewTestCase):
         # The source unit should be now removed as well
         self.assertFalse(Unit.objects.filter(pk=source_unit.pk).exists())
         self.assertEqual(unit_count - 4, Unit.objects.count())
+
+    def test_remove_last_target_unit_preserves_file_backed_source(self) -> None:
+        component = self.create_po(
+            project=self.project,
+            name="Gettext-template",
+            new_base="po/project.pot",
+            manage_units=True,
+        )
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        source_unit = unit.source_unit
+        source_translation = source_unit.translation
+        self.assertEqual(source_translation.filename, "po/project.pot")
+        source_file = Path(component.full_path) / source_translation.filename
+        source_contents = source_file.read_bytes()
+
+        for sibling in source_unit.unit_set.exclude(pk__in=[unit.pk, source_unit.pk]):
+            response = self.client.post(
+                reverse("delete-unit", kwargs={"unit_id": sibling.pk})
+            )
+            self.assertEqual(response.status_code, 302)
+        self.assertCountEqual(
+            source_unit.unit_set.values_list("pk", flat=True), [source_unit.pk, unit.pk]
+        )
+
+        response = self.client.post(reverse("delete-unit", kwargs={"unit_id": unit.pk}))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(translation.unit_set.filter(id_hash=unit.id_hash).exists())
+        self.assertTrue(source_translation.unit_set.filter(pk=source_unit.pk).exists())
+        self.assertEqual(source_file.read_bytes(), source_contents)
+        self.assertFalse(
+            source_translation.change_set.filter(
+                action=ActionEvents.STRING_REMOVE
+            ).exists()
+        )
+        translation.drop_store_cache()
+        self.assertNotIn(
+            unit.id_hash, {entry.id_hash for entry in translation.store.content_units}
+        )
+
+        component.create_translations_immediate(force=True)
+
+        self.assertTrue(source_translation.unit_set.filter(pk=source_unit.pk).exists())
+        self.assertFalse(translation.unit_set.filter(id_hash=unit.id_hash).exists())
 
     def test_remove_source_unit(self) -> None:
         self.component.manage_units = True

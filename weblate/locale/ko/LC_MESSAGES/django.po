@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-13 01:19-0600\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
 "PO-Revision-Date: 2026-11-18 20:15+0000\n"
 "Last-Translator: Hyeonjeong Lee <hayden@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
@@ -1323,6 +1323,23 @@ msgid ""
 msgstr ""
 "이 초대는 초대자가 지정한 이메일 주소로만 수락할 수 있으며, 현재 계정으로는 "
 "사용할 수 없습니다."
+
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Your e-mail no longer belongs to verified account, it has been changed to "
+#| "{0}."
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr ""
+"이 이메일은 더 이상 인증된 계정에 속하지 않으며, 이미 {0}(으)로 변경되었습니"
+"다."
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
+msgstr ""
 
 msgid ""
 "Your e-mail address has been added. You can now select it as your account e-"
@@ -3959,6 +3976,16 @@ msgid ""
 "Remove the component from project teams before moving it to another project."
 msgstr ""
 
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
+
 msgid "Roles"
 msgstr "역할"
 
@@ -4755,6 +4782,11 @@ msgstr "결제"
 
 msgid "Billing event"
 msgstr "결제 이벤트"
+
+#, fuzzy
+#| msgid "Projects without components"
+msgid "Project has no components."
+msgstr "구성요소가 없는 프로젝트"
 
 msgid "monthly"
 msgstr "매월"
@@ -6724,9 +6756,6 @@ msgstr "복수형 수식"
 msgid "Plural type"
 msgstr "복수형 유형"
 
-msgid "Example counts for this plural form."
-msgstr "이 복수형의 예시 개수입니다."
-
 msgid "Singular"
 msgstr "단수형"
 
@@ -7855,6 +7884,11 @@ msgid "Read your e-mail address"
 msgstr "계정 이메일 주소 사용"
 
 msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
 msgstr ""
 
 msgid "Image is too big."
@@ -10251,6 +10285,16 @@ msgstr ""
 "이 구독은 Libre 플랜에 적합하지 않습니다. 위의 오류를 수정하거나 구독을 구매"
 "하세요."
 
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+
 msgid "Customer"
 msgstr "고객"
 
@@ -11861,6 +11905,16 @@ msgstr ""
 #. Translators: e-mail subject
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr "활동이 없는 프로젝트의 정기 결제는 중단됩니다"
+
+#, fuzzy
+#| msgid "Does not meet Libre hosting conditions."
+msgid "Review Libre hosting conditions"
+msgstr "Libre 호스팅 조건을 충족하지 않습니다."
+
+#, fuzzy, python-format
+#| msgid "Number of entries for %(project)s"
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "%(project)s의 항목 수"
 
 msgid "Translation change"
 msgstr "번역 변경"
@@ -13883,6 +13937,9 @@ msgstr ""
 "추가로 후원해 주시면, 자발적인 기부금은 Weblate 자체의 개발 및 유지보수에 사"
 "용됩니다."
 
+msgid "Example counts for this plural form."
+msgstr "이 복수형의 예시 개수입니다."
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr "최대 문자열 길이는 원문 문자열 또는 플래그에 의해 결정됩니다."
@@ -13916,12 +13973,13 @@ msgstr ""
 msgid "Source code repository"
 msgstr "소스 코드 저장소"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr "이 구성요소는 %(target)s 저장소에 연결되어 있습니다."
-
 msgid "Repository URL copied to clipboard."
 msgstr "저장소 URL이 클립보드에 복사되었습니다."
+
+#, fuzzy
+#| msgid "Renamed component"
+msgid "Linked component"
+msgstr "구성요소 이름 변경됨"
 
 msgid "Repository branch"
 msgstr "저장소 브랜치"
@@ -14364,6 +14422,11 @@ msgstr "복수형: %(source_description)s"
 msgid "Plurals"
 msgstr "복수형"
 
+#, fuzzy
+#| msgid "No strings found!"
+msgid "No integer examples found"
+msgstr "문자열을 찾을 수 없습니다!"
+
 msgid "First"
 msgstr "처음"
 
@@ -14786,8 +14849,8 @@ msgid ""
 "Uploading translations at this level is not supported. Open an individual "
 "translation and upload the file there."
 msgstr ""
-"현재 단계에서는 번역을 업로드할 수 없습니다. 개별 번역을 연 다음 해당 "
-"페이지에서 파일을 업로드하세요."
+"현재 단계에서는 번역을 업로드할 수 없습니다. 개별 번역을 연 다음 해당 페이지"
+"에서 파일을 업로드하세요."
 
 msgid "Revert user edits"
 msgstr "사용자 편집 내용 되돌리기"
@@ -15264,15 +15327,15 @@ msgstr "구성요소에 중복된 번역 문자열이 여러 개 있습니다."
 msgid "Source"
 msgstr "원문"
 
-#, fuzzy, python-format
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove duplicate strings from %(language)s (%(filename)s)"
-msgstr "모든 문자열을 번역 파일에 강제로 기록합니다."
-
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
 msgstr "빈 문자열 제거"
+
+#, fuzzy, python-format
+#| msgid "Forces writing all strings to the translation files."
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "모든 문자열을 번역 파일에 강제로 기록합니다."
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -16220,10 +16283,6 @@ msgstr "이 문자열은 %(author)s에 의해 자동으로 번역되었습니다
 msgid "Add term to glossary"
 msgstr "용어집에 용어 추가"
 
-#, python-format
-msgid "Browse glossary %(name)s"
-msgstr "용어집 %(name)s 보기"
-
 msgid "Browse glossary"
 msgstr "용어집 찾아보기"
 
@@ -16275,6 +16334,15 @@ msgstr "최종 업데이트"
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
 msgstr "원문 문자열 등록 시점"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s, line %(line)s"
+msgstr "%(filename)s, 문자열 %(position)s"
+
+#, python-format
+msgid "line %(line)s"
+msgstr ""
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -16333,9 +16401,9 @@ msgid ""
 "existing translations as needing editing. Renamed keys may require changes "
 "in your application code."
 msgstr ""
-"변경 사항은 이 구성요소의 모든 언어에 적용됩니다. 원문 텍스트를 변경하면 "
-"기존 번역이 편집 필요 상태로 표시됩니다. 키 이름을 변경하면 응용프로그램 "
-"코드를 수정해야 할 수도 있습니다."
+"변경 사항은 이 구성요소의 모든 언어에 적용됩니다. 원문 텍스트를 변경하면 기"
+"존 번역이 편집 필요 상태로 표시됩니다. 키 이름을 변경하면 응용프로그램 코드"
+"를 수정해야 할 수도 있습니다."
 
 #, python-format
 msgid "Add a new variant for \"%(existing)s\""
@@ -17976,13 +18044,13 @@ msgstr "중복된 파일 마스크."
 msgid "Referenced category does not exist."
 msgstr "{filename} ({parameter})이(가) 존재하지 않습니다."
 
-msgid "Component filename does not match its category and slug."
-msgstr ""
-
 #, fuzzy
 #| msgid "Duplicate this component"
 msgid "Duplicate component slug."
 msgstr "이 구성요소 복제"
+
+msgid "Component filename does not match its category and slug."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation reviews are not enabled."
@@ -18269,6 +18337,11 @@ msgid "Needs review"
 msgstr "검토 필요"
 
 #, fuzzy
+#| msgid "The source and target have to be different languages."
+msgid "The source and destination checkouts must be different."
+msgstr "원문과 대상은 다른 언어여야 합니다."
+
+#, fuzzy
 #| msgid "The target does not exist or you cannot access it."
 msgid "This component does not exist or you cannot access it."
 msgstr "타겟이 없거나 접근할 수 없습니다."
@@ -18296,6 +18369,11 @@ msgstr ""
 
 msgid "Discovery configuration"
 msgstr "검색 구성"
+
+#, fuzzy, python-format
+#| msgid "Could not render template: {}"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "템플릿을 렌더링할 수 없습니다: {}"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -20309,6 +20387,11 @@ msgstr "설정을 비워두면 프로젝트의 설정을 따릅니다."
 msgid "Use the secondary language configured in the category or project."
 msgstr "카테고리 또는 프로젝트에 구성된 보조 언어를 사용합니다."
 
+#, fuzzy
+#| msgid "The local repository is up to date."
+msgid "The linked repository path is ambiguous."
+msgstr "로컬 저장소는 이미 최신 상태입니다."
+
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
 "admin interface."
@@ -20597,6 +20680,11 @@ msgid ""
 "Pushing without a merge request needs write access to the repository. "
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
+
+#, fuzzy
+#| msgid "This role cannot be assigned to this team."
+msgid "Version control system cannot be changed to this backend."
+msgstr "이 역할은 이 팀에 할당할 수 없습니다."
 
 #, fuzzy
 #| msgid "The regular expression is too complex and took too long to evaluate."
@@ -21029,9 +21117,9 @@ msgid ""
 "while you were editing it. Reload the editor and review your changes before "
 "saving."
 msgstr ""
-"편집하는 동안 이 문자열의 검토 상태가 %(previous)s 에서 %(current)s (으)로 "
-"변경되었습니다. 편집기를 새로 고침한 후 저장하기 전에 변경 사항을 다시 "
-"확인하세요."
+"편집하는 동안 이 문자열의 검토 상태가 %(previous)s 에서 %(current)s (으)로 변"
+"경되었습니다. 편집기를 새로 고침한 후 저장하기 전에 변경 사항을 다시 확인하세"
+"요."
 
 msgid "Unmark as untranslatable for all languages"
 msgstr "모든 언어에 번역 불가로 표시 해제"
@@ -21195,6 +21283,11 @@ msgstr "전각 대시"
 msgid "User configured character: {}"
 msgstr "사용자 설정 문자: {}"
 
+#, fuzzy, python-format
+#| msgid "Could not push the repository."
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "저장소를 푸시할 수 없습니다."
+
 #, fuzzy
 #| msgid "Automatic translation skipped because the target no longer exists."
 msgid "Repository operation could not be completed because it remained locked."
@@ -21322,6 +21415,10 @@ msgstr "문자열 ID %s"
 
 msgid "This language is used for source strings."
 msgstr "이 언어는 원문 문자열에 사용됩니다."
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr "이 구성요소는 %(target)s 저장소에 연결되어 있습니다."
 
 msgid "Fix this component to clear its diagnostics."
 msgstr "이 구성요소를 수정하면 진단이 해제됩니다."
@@ -22131,6 +22228,16 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "수직 언어 막대 차트"
 
+#, fuzzy
+#| msgid "Your languages"
+msgid "Sort languages by"
+msgstr "당신의 언어"
+
+#, fuzzy
+#| msgid "Translation change"
+msgid "Translation percentage"
+msgstr "번역 변경"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr "수평 언어 막대 차트"
@@ -22522,20 +22629,6 @@ msgstr "잘못된 매개변수!"
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "파일 형식 매개변수는 키-값 쌍의 딕셔너리여야 합니다."
 
-msgid "Template output exceeds its size limit."
-msgstr ""
-
-msgid "Template rendering failed or exceeded its resource limits."
-msgstr ""
-
-msgid "Oversized template response."
-msgstr ""
-
-#, fuzzy
-#| msgid "Invalid translation flag: \"%s\""
-msgid "Invalid template rendering response."
-msgstr "잘못된 번역 플래그: \"%s\""
-
 msgid "Could not render template: {}"
 msgstr "템플릿을 렌더링할 수 없습니다: {}"
 
@@ -22544,7 +22637,7 @@ msgid ""
 "instead."
 msgstr "포맷 문자열은 더 이상 지원되지 않습니다. 템플릿 언어를 사용하세요."
 
-msgid "Template value exceeds its size limit."
+msgid "Template context exceeds its size limit."
 msgstr ""
 
 #, fuzzy
@@ -22552,8 +22645,10 @@ msgstr ""
 msgid "Template context is nested too deeply."
 msgstr "HTML {tag} 태그에 일치하는 종료 태그 {end}가 없습니다."
 
-msgid "Template context exceeds its size limit."
-msgstr ""
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported nonfinite template context value."
+msgstr "지원되지 않는 ITS 규칙 콘텐츠입니다."
 
 #, fuzzy
 #| msgid "Unsupported ITS rule content."
@@ -22565,30 +22660,339 @@ msgstr "지원되지 않는 ITS 규칙 콘텐츠입니다."
 msgid "Unsupported template context value."
 msgstr "지원되지 않는 ITS 규칙 콘텐츠입니다."
 
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Template text is not valid UTF-8."
+msgstr "입력한 토큰이 유효하지 않습니다."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid request."
+msgid "Invalid template syntax."
+msgstr "잘못된 요청."
+
+#, fuzzy
+#| msgid "Undefined variable: \"%s\""
+msgid "Undefined template variable."
+msgstr "정의되지 않은 변수: \"%s\""
+
+#, fuzzy
+#| msgid "The translation is not valid XML."
+msgid "Text is not valid UTF-8."
+msgstr "번역이 유효한 XML이 아닙니다."
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Division by zero is not supported."
+msgstr "선택한 정렬은 지원되지 않습니다."
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Numeric value is too large for this operation."
+msgstr "이 언어의 모든 변경사항 보기"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Numeric operation failed."
+msgstr "저장소 작업 실패"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation reviews are not enabled."
+msgid "Value or argument has an invalid format."
+msgstr "번역 검토가 활성화되어 있지 않습니다."
+
+#, fuzzy, python-format
+#| msgid "%(path)s: %(error)s"
+msgid "%(operation)s: %(message)s"
+msgstr "%(path)s: %(error)s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
 msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nonfinite numbers are not supported."
+msgstr "선택한 정렬은 지원되지 않습니다."
+
+#, fuzzy, python-format
+#| msgid "File names"
+msgid "Filter \"%(name)s\""
+msgstr "파일 이름"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
 msgstr ""
 
 msgid "Template rendering exceeded its loop limit."
 msgstr ""
 
-msgid "Template intermediate value exceeds its size limit."
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Attribute access and method calls are not supported."
+msgstr "선택한 정렬은 지원되지 않습니다."
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Index exceeds the length limit of 128 characters."
+msgstr "사용자 이름은 적어도 5글자 이상이어야 합니다."
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Translated template literals are not supported."
+msgstr "선택한 정렬은 지원되지 않습니다."
+
+#, fuzzy
+#| msgid "Invalid unit."
+msgid "Invalid filter."
+msgstr "잘못된 유닛입니다."
+
+msgid "Identity comparisons require None, True, or False."
 msgstr ""
 
-msgid "Template replacement exceeds its size limit."
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This condition operator is not supported."
+msgstr "선택한 정렬은 지원되지 않습니다."
+
+msgid "Template output exceeds its size limit."
 msgstr ""
 
-msgid "Template padding exceeds its size limit."
+msgid "Loops require a list, string, dictionary, or dictionary view."
 msgstr ""
 
-msgid "Template formatting exceeds its size limit."
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
 msgstr ""
 
-msgid "Template join exceeds its size limit."
+msgid "Loop value cannot be unpacked into its variables."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This template tag is not supported."
+msgstr "선택한 정렬은 지원되지 않습니다."
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This template node is not supported."
+msgstr "감지된 파일 형식은 지원되지 않습니다."
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
 msgstr ""
 
 #, python-format
 msgid "Undefined variable: \"%s\""
 msgstr "정의되지 않은 변수: \"%s\""
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "This field is required."
+msgid "This filter requires strings."
+msgstr "이 필드는 필수입니다."
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Choices must be a string."
+msgstr "자동화 키는 문자열이어야 합니다."
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr "사용자 이름은 적어도 5글자 이상이어야 합니다."
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source string length"
+msgid "Joining requires string elements."
+msgstr "원문 문자열 길이"
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Date format must be a string or None."
+msgstr "자동화 키는 문자열이어야 합니다."
+
+#, fuzzy
+#| msgid "Avoid years that are associated with you."
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "당신과 관련된 해를 피하십시오."
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Plural suffixes must be a string."
+msgstr "자동화 키는 문자열이어야 합니다."
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr "사용자 이름은 적어도 5글자 이상이어야 합니다."
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nested template delimiters are not supported."
+msgstr "선택한 정렬은 지원되지 않습니다."
+
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unclosed template token."
+msgstr "지원되지 않는 ITS 규칙 콘텐츠입니다."
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "The resource is locked."
+msgid "Template tag is empty."
+msgstr "리소스가 잠겼습니다."
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr ""
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "지원되지 않는 ITS 규칙 콘텐츠입니다."
+
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported template tag."
+msgstr "지원되지 않는 ITS 규칙 콘텐츠입니다."
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -24370,6 +24774,15 @@ msgid "The workspace has been removed."
 msgstr "원문이 제거되었습니다."
 
 #, python-format
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "용어집 %(name)s 보기"
+
+#, fuzzy
+#~| msgid "Invalid translation flag: \"%s\""
+#~ msgid "Invalid template rendering response."
+#~ msgstr "잘못된 번역 플래그: \"%s\""
+
+#, python-format
 #~ msgid ""
 #~ "Fedora Messaging publisher service was unavailable; the connection will "
 #~ "be recreated on the next attempt: %(error)s"
@@ -25914,9 +26327,6 @@ msgstr "원문이 제거되었습니다."
 #~ msgid "Renamed project"
 #~ msgstr "프로젝트 이름 변경"
 
-#~ msgid "Renamed component"
-#~ msgstr "구성요소 이름 변경됨"
-
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "번역할 새 문자열"
@@ -27354,9 +27764,6 @@ msgstr "원문이 제거되었습니다."
 #~| msgid "Repository"
 #~ msgid "Backup pepository"
 #~ msgstr "저장소"
-
-#~ msgid "Your languages"
-#~ msgstr "당신의 언어"
 
 #~ msgid "Fulltext"
 #~ msgstr "전체 글자"
@@ -29808,9 +30215,6 @@ msgstr "원문이 제거되었습니다."
 
 #~ msgid "First name"
 #~ msgstr "이름"
-
-#~ msgid "Username needs to have at least five characters."
-#~ msgstr "사용자 이름은 적어도 5글자 이상이어야 합니다."
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."
