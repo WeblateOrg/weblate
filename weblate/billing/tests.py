@@ -273,6 +273,49 @@ class BillingTest(BaseTestCase):
         )
 
     @override_settings(OFFER_HOSTING=True)
+    def test_libre_cleanup_diagnostics_order(self) -> None:
+        self.use_libre_plan()
+        project = self.add_project()
+        component = self.add_component(project, "revision")
+        component.add_alert("RepositoryChanges")
+        component.add_alert("MissingLicense")
+        component.add_alert("ParseError", occurrences=[])
+        component.add_alert("UnusedComponent")
+        self.client.force_login(self.user)
+
+        for obj in (project, self.billing.workspace):
+            url = reverse("js-diagnostics", kwargs={"path": obj.get_url_path()})
+            for hosting, expected in (
+                (
+                    True,
+                    [
+                        "MissingLicense",
+                        "RepositoryChanges",
+                        "ParseError",
+                        "UnusedComponent",
+                    ],
+                ),
+                (
+                    False,
+                    [
+                        "ParseError",
+                        "MissingLicense",
+                        "RepositoryChanges",
+                        "UnusedComponent",
+                    ],
+                ),
+            ):
+                with (
+                    self.subTest(obj=obj, hosting=hosting),
+                    self.settings(OFFER_HOSTING=hosting),
+                ):
+                    response = self.client.get(url)
+                    self.assertEqual(
+                        [group.name for group in response.context["diagnostics"]],
+                        expected,
+                    )
+
+    @override_settings(OFFER_HOSTING=True)
     def test_libre_warning_locks_current_components_once(self) -> None:
         self.use_libre_plan()
         project = self.add_project()
