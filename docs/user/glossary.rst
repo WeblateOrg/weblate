@@ -271,6 +271,10 @@ language files with :ref:`component-language_regex` can reduce the number of
 managed files, but it also means Weblate has no glossary entries to show for
 filtered-out target languages.
 
+If the project owns only glossary components, use :guilabel:`Start new translation`
+in the project's language list to add a language. This uses the glossary
+components' language addition settings and the usual permissions.
+
 Terminology entries are also synchronized. When a source glossary term is marked
 as terminology, Weblate creates missing entries in all glossary languages and
 recreates them if they are removed while the flag is still set.

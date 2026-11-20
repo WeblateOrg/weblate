@@ -5,7 +5,6 @@
 from __future__ import annotations
 
 import csv
-import itertools
 import json
 import operator
 import os
@@ -20,7 +19,7 @@ from pathlib import Path
 from threading import Barrier
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
-from unittest.mock import MagicMock, PropertyMock, patch
+from unittest.mock import MagicMock, PropertyMock, call, patch
 from uuid import uuid4
 
 import yaml
@@ -33,8 +32,15 @@ from django.core.exceptions import PermissionDenied
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.db import DatabaseError, close_old_connections, connection, transaction
+from django.db import (
+    DatabaseError,
+    close_old_connections,
+    connection,
+    router,
+    transaction,
+)
 from django.db.models import Q
+from django.db.models.fields.files import FieldFile
 from django.http import StreamingHttpResponse
 from django.templatetags.static import static
 from django.test import SimpleTestCase, TransactionTestCase
@@ -149,11 +155,14 @@ from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.repository import (
     QueuedRepositoryOperation,
     RepositoryOperationConflictError,
+    acquire_repository_operation,
+    release_repository_operation,
 )
 from weblate.trans.tasks import (
     auto_translate,
     component_after_save,
     execute_repository_operation,
+    perform_commit,
 )
 from weblate.trans.tests.test_views import ReusableComponentTestCase
 from weblate.trans.tests.utils import (
@@ -177,9 +186,10 @@ from weblate.utils.celery import (
 )
 from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.data import data_dir
-from weblate.utils.files import PathMatchBudget
+from weblate.utils.files import PathMatchBudget, remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.pii import mask_email
+from weblate.utils.render import render_repository_template
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -203,6 +213,7 @@ from weblate.utils.version import GIT_VERSION
 from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_SOFT
 from weblate.utils.views import snapshot_file_response
 from weblate.vcs.base import RepositoryError, RepositoryInternalError, RepositoryLock
+from weblate.vcs.git import GitRepository
 from weblate.vcs.github import GitHubInstallation
 from weblate.workspaces.models import Workspace
 
@@ -4762,6 +4773,22 @@ class GroupAPITest(APIBaseTest):
 
 
 class ComponentCopyTest(APITestCase):
+    def test_replace_component_checkout_missing_source(self) -> None:
+        with tempfile.TemporaryDirectory() as target_dir:
+            sentinel = Path(target_dir, "existing")
+            sentinel.touch()
+            source = SimpleNamespace(
+                full_path=Path(target_dir, "missing"),
+                repository=SimpleNamespace(lock=SimpleNamespace(read=nullcontext)),
+            )
+            target = SimpleNamespace(full_path=target_dir)
+            self.assertFalse(
+                replace_component_checkout(
+                    cast("Component", target), cast("Component", source)
+                )
+            )
+            self.assertTrue(sentinel.exists())
+
     def test_replace_component_checkout_protects_non_local_git_metadata(self) -> None:
         with (
             tempfile.TemporaryDirectory() as source_dir,
@@ -4782,7 +4809,9 @@ class ComponentCopyTest(APITestCase):
 
             source_component = SimpleNamespace(
                 full_path=source_dir,
-                repository=SimpleNamespace(lock=nullcontext(), metadata_dir_name=".hg"),
+                repository=SimpleNamespace(
+                    lock=SimpleNamespace(read=nullcontext), metadata_dir_name=".hg"
+                ),
             )
             target_component = SimpleNamespace(
                 full_path=target_dir,
@@ -4821,7 +4850,7 @@ class ComponentCopyTest(APITestCase):
                 source_component = SimpleNamespace(
                     full_path=source_dir,
                     repository=SimpleNamespace(
-                        lock=nullcontext(), metadata_dir_name=".hg"
+                        lock=SimpleNamespace(read=nullcontext), metadata_dir_name=".hg"
                     ),
                 )
                 target_component = SimpleNamespace(
@@ -4856,7 +4885,7 @@ class ComponentCopyTest(APITestCase):
             source = SimpleNamespace(
                 full_path=source_dir,
                 repository=SimpleNamespace(
-                    lock=nullcontext(), metadata_dir_name=".git"
+                    lock=SimpleNamespace(read=nullcontext), metadata_dir_name=".git"
                 ),
             )
             target = SimpleNamespace(
@@ -11208,7 +11237,7 @@ class ComponentAPITest(APIBaseTest):
         component.new_base = component.template
         repository = component.effective_repo_component.repository
         validate = component.check_file_is_valid
-        source_open = open
+        write = zipfile.ZipFile.write
         self.authenticate()
         self.user.groups.clear()
         self.grant_perm_to_user("translation.download", component=component)
@@ -11217,16 +11246,15 @@ class ComponentAPITest(APIBaseTest):
         self.assertFalse(self.user.has_perm("vcs.update", component))
 
         def check_validation(filename):
-            self.assertTrue(repository.lock.is_locked)
+            self.assertTrue(repository.lock.is_read_locked)
             return validate(filename)
 
-        def check_open(*args, **kwargs):
-            self.assertTrue(repository.lock.is_locked)
-            return source_open(*args, **kwargs)
+        def check_write(*args, **kwargs):
+            self.assertTrue(repository.lock.is_read_locked)
+            return write(*args, **kwargs)
 
         for endpoint in ("monolingual-base", "new-template"):
             with self.subTest(endpoint=endpoint):
-                clock = itertools.count(step=301)
                 with (
                     patch(
                         "weblate.api.views.ComponentViewSet.get_object",
@@ -11235,11 +11263,9 @@ class ComponentAPITest(APIBaseTest):
                     patch.object(
                         component, "check_file_is_valid", side_effect=check_validation
                     ) as validation,
-                    patch(
-                        "weblate.utils.views.open", side_effect=check_open, create=True
+                    patch.object(
+                        zipfile.ZipFile, "write", autospec=True, side_effect=check_write
                     ) as reads,
-                    patch.object(repository.lock, "reacquire") as reacquire,
-                    patch("weblate.utils.views.monotonic", side_effect=clock.__next__),
                 ):
                     response = self.do_request(
                         f"api:component-{endpoint}",
@@ -11250,8 +11276,7 @@ class ComponentAPITest(APIBaseTest):
                     )
                 validation.assert_called()
                 reads.assert_called()
-                reacquire.assert_called()
-                self.assertFalse(repository.lock.is_locked)
+                self.assertFalse(repository.lock.is_read_locked)
                 with zipfile.ZipFile(BytesIO(b"".join(response))) as archive:
                     self.assertIn("title.txt", archive.namelist())
 
@@ -11271,11 +11296,11 @@ class ComponentAPITest(APIBaseTest):
         validate = component.check_file_is_valid
 
         def check_validation(path):
-            self.assertTrue(repository.lock.is_locked)
+            self.assertTrue(repository.lock.is_read_locked)
             return validate(path)
 
         def check_snapshot(*args, **kwargs):
-            self.assertTrue(repository.lock.is_locked)
+            self.assertTrue(repository.lock.is_read_locked)
             return snapshot_file_response(*args, **kwargs)
 
         try:
@@ -11306,7 +11331,7 @@ class ComponentAPITest(APIBaseTest):
                         )
                     self.addCleanup(list, response.streaming_content)
                     snapshot.assert_called_once()
-                    self.assertFalse(repository.lock.is_locked)
+                    self.assertFalse(repository.lock.is_read_locked)
                     filename.write_bytes(b"changed checkout")
                     self.assertEqual(b"".join(response.streaming_content), original)
                     self.assertIn("en.po", response["Content-Disposition"])
@@ -11334,7 +11359,7 @@ class ComponentAPITest(APIBaseTest):
                     f"api:component-{endpoint}",
                     {"project__slug": component.project.slug, "slug": component.slug},
                 )
-            self.assertFalse(repository.lock.is_locked)
+            self.assertFalse(repository.lock.is_read_locked)
 
     def test_template_download_repository_locked(self) -> None:
         component = self.component
@@ -11350,7 +11375,7 @@ class ComponentAPITest(APIBaseTest):
                     return_value=component,
                 ),
                 patch.object(
-                    type(component.repository.lock), "__enter__", side_effect=error
+                    type(component.repository.lock), "read", side_effect=error
                 ),
             ):
                 response = self.do_request(
@@ -11810,6 +11835,120 @@ class ComponentAPITest(APIBaseTest):
         )
         self.component.refresh_from_db()
         self.assertEqual(self.component.effective_commit_message, message)
+
+    def test_path_changes_require_project_edit(self) -> None:
+        self.grant_perm_to_user("component.edit", component=self.component)
+        category = Category.objects.create(
+            project=self.project, name="Destination", slug="destination"
+        )
+        category_url = reverse("api:category-detail", kwargs={"pk": category.pk})
+        existing = self.do_request("api:component-detail", self.component_kwargs).data
+        for method, fields in (
+            ("patch", {"slug": "new-path"}),
+            ("patch", {"category": category_url}),
+            ("put", {**existing, "slug": "new-path"}),
+        ):
+            with self.subTest(method=method, fields=fields.keys()):
+                self.do_request(
+                    "api:component-detail",
+                    self.component_kwargs,
+                    method=method,
+                    code=403,
+                    format="json",
+                    request=fields,
+                )
+        self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            format="json",
+            request={"slug": self.component.slug, "category": None, "name": "New name"},
+        )
+        self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            superuser=True,
+            format="json",
+            request={"slug": "new-path", "category": category_url},
+        )
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.slug, "new-path")
+        self.assertEqual(self.component.category_id, category.pk)
+
+    def test_component_path_matches_category_ancestry(self) -> None:
+        top = Category.objects.create(
+            project=self.project, name="Shared category", slug="shared-category"
+        )
+        parent = Category.objects.create(
+            project=self.project, name="Parent", slug="parent"
+        )
+        nested = Category.objects.create(
+            project=self.project,
+            category=parent,
+            name="Shared category",
+            slug=top.slug,
+        )
+        components = [
+            self.create_po(project=self.project, name="Shared", category=category)
+            for category in (top, nested)
+        ]
+        for component in components:
+            with self.subTest(category=component.category):
+                response = self.do_request(
+                    "api:component-detail",
+                    {
+                        "project__slug": self.project.slug,
+                        "slug": "%2F".join(component.get_url_path()[1:]),
+                    },
+                )
+                self.assertEqual(response.data["id"], component.pk)
+
+    def test_component_and_translation_paths_require_exact_slug(self) -> None:
+        for endpoint, kwargs, field in (
+            ("api:component-detail", self.component_kwargs, "slug"),
+            ("api:translation-detail", self.translation_kwargs, "component__slug"),
+        ):
+            with self.subTest(endpoint=endpoint):
+                self.do_request(
+                    endpoint, {**kwargs, field: kwargs[field].upper()}, code=404
+                )
+
+    def test_slug_conflict_at_save_keeps_checkout_and_links(self) -> None:
+        sibling = self.create_po(project=self.project, name="Existing-sibling")
+        linked = self.create_link_existing(
+            name="Linked to original", slug="original-link"
+        )
+        original_slug = self.component.slug
+        original_path = Path(self.component.full_path)
+        sibling_path = Path(sibling.full_path)
+        original_repo = linked.repo
+
+        # Exercise the database guard when pre-save validation missed a conflict.
+        with patch.object(Component, "clean_unique_together"):
+            response = self.do_request(
+                "api:component-detail",
+                self.component_kwargs,
+                method="patch",
+                superuser=True,
+                code=400,
+                format="json",
+                request={"slug": sibling.slug.upper()},
+            )
+        self.assertEqual(
+            [
+                error["detail"]
+                for error in response.data["errors"]
+                if error["attr"] == "slug"
+            ],
+            ["This URL slug is already in use at this level."],
+        )
+        self.assertTrue(original_path.is_dir())
+        self.assertTrue(sibling_path.is_dir())
+        self.component.refresh_from_db()
+        linked.refresh_from_db()
+        self.assertEqual(self.component.slug, original_slug)
+        self.assertEqual(linked.repo, original_repo)
 
     def test_patch_empty_enforced_checks_overrides_inheritance(self) -> None:
         Project.objects.filter(pk=self.project.pk).update(
@@ -13089,6 +13228,38 @@ class ComponentAPITest(APIBaseTest):
             request={"language_code": "fa"},
         )
 
+    def test_create_translation_base_invalid_under_lock(self) -> None:
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.save(update_fields=["new_lang", "new_base"])
+        get_base = Component.get_new_base_filename
+
+        def validate_base(component: Component) -> str | None:
+            if component.repository.lock.is_locked:
+                msg = "Invalid base file"
+                raise DjangoValidationError(msg)
+            return get_base(component)
+
+        with (
+            patch.object(Component, "get_new_base_filename", validate_base),
+            patch.object(
+                self.component.file_format_cls, "add_language"
+            ) as add_language,
+        ):
+            self.do_request(
+                "api:component-translations",
+                self.component_kwargs,
+                method="post",
+                code=400,
+                request={"language_code": "fa"},
+            )
+
+        add_language.assert_not_called()
+        self.assertFalse(
+            self.component.translation_set.filter(language_code="fa").exists()
+        )
+        self.assertFalse((Path(self.component.full_path) / "po/fa.po").exists())
+
     def test_create_translation_team_language_scope(self) -> None:
         self.component.new_lang = "add"
         self.component.new_base = "po/hello.pot"
@@ -14031,6 +14202,85 @@ class ComponentAPITest(APIBaseTest):
         self.assertEqual(len(response.data["results"]), 1)
 
 
+class RepositoryRecoveryAPITest(APIBaseTest):
+    """Synchronous reset and reapply recovers a missing checkout."""
+
+    def checkout_paths(self, endpoint: str) -> list[Path]:
+        if endpoint == "project":
+            components = list(self.project.component_set.all())
+        else:
+            components = [self.component]
+        return [Path(component.full_path) for component in components]
+
+    def reset_keep(self, endpoint: str):
+        return self.do_request(
+            f"api:{endpoint}-repository",
+            getattr(self, f"{endpoint}_kwargs"),
+            method="post",
+            superuser=True,
+            request={"operation": "reset-keep"},
+        )
+
+    def test_recovers_missing_checkout(self) -> None:
+        for endpoint in ("component", "project"):
+            with self.subTest(endpoint=endpoint):
+                paths = self.checkout_paths(endpoint)
+                for path in paths:
+                    remove_tree(path)
+                response = self.reset_keep(endpoint)
+                self.assertIs(response.data["result"], True)
+                for path in paths:
+                    self.assertTrue((path / ".git" / "HEAD").exists())
+
+    def test_followup_is_queued_after_reservation_release(self) -> None:
+        remove_tree(self.component.full_path)
+        reserved: list[bool] = []
+
+        def delay(*args: object, **kwargs: object) -> None:
+            try:
+                acquire_repository_operation(
+                    [self.component.pk], "reset-keep", "followup-check"
+                )
+            except RepositoryOperationConflictError:
+                reserved.append(True)
+            else:
+                release_repository_operation([self.component.pk], "followup-check")
+                reserved.append(False)
+
+        # The test transaction holds on-commit callbacks, run them immediately
+        # as in autocommit mode.
+        with (
+            patch("weblate.trans.tasks.perform_commit.delay", side_effect=delay),
+            patch.object(
+                transaction,
+                "on_commit",
+                side_effect=lambda func, *_args, **_kwargs: func(),
+            ),
+        ):
+            response = self.reset_keep("component")
+        self.assertIs(response.data["result"], True)
+        self.assertEqual(reserved, [False])
+
+    def test_recovery_failure_is_reported(self) -> None:
+        for endpoint in ("component", "project"):
+            with self.subTest(endpoint=endpoint):
+                paths = self.checkout_paths(endpoint)
+                for path in paths:
+                    remove_tree(path)
+                with patch.object(
+                    GitRepository,
+                    "stage_recovery_checkout",
+                    side_effect=RepositoryError(1, "Clone failed"),
+                ):
+                    response = self.reset_keep(endpoint)
+                self.assertIs(response.data["result"], False)
+                self.assertIn("Could not reset", response.data["detail"])
+                for path in paths:
+                    self.assertFalse((path / ".git").exists())
+                # Restore the checkouts for the next endpoint
+                self.reset_keep(endpoint)
+
+
 class LanguageAPITest(APIBaseTest):
     def test_list_languages(self) -> None:
         response = self.client.get(reverse("api:language-list"))
@@ -14112,6 +14362,42 @@ class LanguageAPITest(APIBaseTest):
                 "plural": {"number": 2, "formula": "n != 1"},
             },
         )
+
+    def test_create_requires_language_add_permission(self) -> None:
+        self.grant_perm_to_user("language.edit")
+
+        self.do_request(
+            "api:language-list",
+            method="post",
+            code=403,
+            format="json",
+            request={
+                "code": "new_lang",
+                "name": "New Language",
+                "plural": {"number": 2, "formula": "n != 1"},
+            },
+        )
+        self.assertFalse(Language.objects.filter(code="new_lang").exists())
+
+    def test_create_with_language_add_permission(self) -> None:
+        self.grant_perm_to_user("language.add")
+
+        response = self.do_request(
+            "api:language-list",
+            method="post",
+            code=201,
+            format="json",
+            request={
+                "code": "new_lang",
+                "name": "New Language",
+                "plural": {"number": 2, "formula": "n != 1"},
+            },
+        )
+        self.assertEqual(response.data["code"], "new_lang")
+        language = Language.objects.get(code="new_lang")
+        self.assertEqual(language.name, "New Language")
+        self.assertEqual(language.plural.number, 2)
+        self.assertEqual(language.plural.formula, "n != 1")
 
     def test_create_gettext_variant_code(self) -> None:
         response = self.do_request(
@@ -14297,6 +14583,57 @@ class LanguageAPITest(APIBaseTest):
 
 class TasksAPITest(APIBaseTest):
     task_id = "01234567-89ab-cdef-0123-456789abcdef"
+
+    def test_component_task_exposes_safe_template_diagnostic(self) -> None:
+        Project.objects.filter(pk=self.project.pk).update(
+            access_control=Project.ACCESS_PRIVATE
+        )
+        self.grant_language_download()
+        self.component.refresh_from_db()
+        self.assertFalse(self.user.has_perm("vcs.view", self.component))
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"component_id": self.component.pk},
+            TASK_METADATA_TTL,
+        )
+        for target, setting, expected in (
+            (
+                "weblate.trans.tasks.perform_component_commit",
+                "commit message",
+                "Could not commit pending changes",
+            ),
+            (
+                "weblate.trans.models.Component.push_if_needed",
+                "merge message",
+                "Changes committed, but could not push",
+            ),
+        ):
+            with self.subTest(setting=setting):
+
+                def fail(*args, setting=setting, **kwargs) -> None:
+                    render_repository_template(
+                        "Header\n{% /private/repo %}", setting=setting
+                    )
+
+                with (
+                    patch("weblate.trans.tasks.perform_component_commit"),
+                    patch(target, side_effect=fail),
+                ):
+                    result = perform_commit.run(self.component.pk, "test")
+                task = SimpleNamespace(
+                    id=self.task_id, result=result, state="SUCCESS", ready=lambda: True
+                )
+                with patch("weblate.api.views.AsyncResult", return_value=task):
+                    response = self.do_request(
+                        "api:task-detail",
+                        kwargs={"pk": self.task_id},
+                        authenticated=False,
+                    )
+                message = response.data["result"]["completion_message"]["text"]
+                self.assertIn(expected, message)
+                self.assertIn(f"Could not render {setting} template", message)
+                self.assertIn("Line 2: Unsupported template tag", message)
+                self.assertNotIn("/private/repo", str(response.data))
 
     def tearDown(self) -> None:
         cache.delete(get_task_metadata_key(self.task_id))
@@ -15079,8 +15416,9 @@ class TasksAPITest(APIBaseTest):
     def test_retrieve_sanitizes_repository_completion_message(self) -> None:
         repository_url = "git@internal.example.net:owner/repo.git"
         Component.objects.filter(pk=self.component.pk).update(repo=repository_url)
+        metadata_key = get_task_metadata_key(self.task_id)
         cache.set(
-            get_task_metadata_key(self.task_id),
+            metadata_key,
             {
                 "component_ids": [self.component.id],
                 "task_kind": "repository-operation",
@@ -15103,7 +15441,10 @@ class TasksAPITest(APIBaseTest):
             def ready(self) -> bool:
                 return True
 
-        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+        with (
+            patch("weblate.api.views.AsyncResult", DummyAsyncResult),
+            patch.object(cache, "get", wraps=cache.get) as cache_get,
+        ):
             response = self.do_request(
                 "api:task-detail",
                 kwargs={"pk": self.task_id},
@@ -15111,17 +15452,27 @@ class TasksAPITest(APIBaseTest):
                 code=200,
             )
 
-        self.assertNotIn("internal.example.net", str(response.data))
-        self.assertNotIn(
-            "internal.example.net",
-            " ".join(str(message) for message in get_messages(response.wsgi_request)),
+        self.assertEqual(cache_get.call_args_list.count(call(metadata_key)), 1)
+        self.assertEqual(
+            response.data["result"]["completion_message"]["text"],
+            "Repository operation completed with errors.",
+        )
+        self.assertIn(
+            "Repository operation completed with errors.",
+            [str(message) for message in get_messages(response.wsgi_request)],
         )
 
     def test_retrieve_sanitizes_single_object_task_exception(self) -> None:
         repository_url = "git@internal.example.net:owner/repo.git"
-        Component.objects.filter(pk=self.component.pk).update(repo=repository_url)
+        Project.objects.filter(pk=self.project.pk).update(
+            access_control=Project.ACCESS_PRIVATE
+        )
+        self.grant_language_download()
+        self.component.refresh_from_db()
+        self.assertFalse(self.user.has_perm("vcs.view", self.component))
         translation = self.component.translation_set.get(language_code="cs")
         checkout_path = self.component.full_path
+        metadata_key = get_task_metadata_key(self.task_id)
 
         class DummyAsyncResult:
             def __init__(self, task_id) -> None:
@@ -15139,18 +15490,25 @@ class TasksAPITest(APIBaseTest):
             {"translation_id": translation.pk},
         ):
             with self.subTest(metadata=metadata):
-                cache.set(get_task_metadata_key(self.task_id), metadata, 3600)
-                with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+                cache.set(metadata_key, metadata, TASK_METADATA_TTL)
+                with (
+                    patch("weblate.api.views.AsyncResult", DummyAsyncResult),
+                    patch.object(cache, "get", wraps=cache.get) as cache_get,
+                ):
                     response = self.do_request(
                         "api:task-detail",
                         kwargs={"pk": self.task_id},
+                        authenticated=False,
                         method="get",
                         code=200,
                     )
 
-                self.assertIn("Task could not be completed", response.data["result"])
-                self.assertNotIn("internal.example.net", response.data["result"])
-                self.assertNotIn(checkout_path, response.data["result"])
+                self.assertEqual(cache_get.call_args_list.count(call(metadata_key)), 1)
+                self.assertTrue(response.data["completed"])
+                self.assertEqual(
+                    response.data["result"],
+                    "Task could not be completed. See the task log for details.",
+                )
 
     def test_retrieve_redacts_fork_account_in_exception(self) -> None:
         cache.set(
@@ -15672,6 +16030,24 @@ class TasksAPITest(APIBaseTest):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(list(get_messages(response.wsgi_request)), [])
 
+    def test_retrieve_reads_empty_completed_result_once(self) -> None:
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"component_id": self.component.pk},
+            TASK_METADATA_TTL,
+        )
+        task = MagicMock(id=self.task_id)
+        task.ready.return_value = True
+        result = PropertyMock(return_value=None)
+        type(task).result = result
+
+        with patch("weblate.api.views.AsyncResult", return_value=task):
+            response = self.do_request("api:task-detail", kwargs={"pk": self.task_id})
+
+        self.assertTrue(response.data["completed"])
+        self.assertIsNone(response.data["result"])
+        result.assert_called_once_with()
+
     def test_destroy_denies_cached_user_metadata(self) -> None:
         cache.set(get_task_metadata_key(self.task_id), {"user_id": self.user.id}, 3600)
 
@@ -16151,6 +16527,64 @@ class MemoryAPITest(APIBaseTest):
             compacted.scopes.filter(scope=MemoryScope.SCOPE_PROJECT).exists()
         )
         self.assertTrue(MemoryScope.objects.filter(pk=shared_scope.pk).exists())
+
+    def test_delete_checks_restricted_scope_on_write_database(self) -> None:
+        db_for_read = router.db_for_read
+
+        def route_read(model: type, **hints: object) -> str:
+            # Related managers consult the router for backend features even
+            # when the prefetch queryset already has an explicit alias.
+            if model in {Memory, MemoryScope} and "instance" not in hints:
+                return "memory_db"
+            return db_for_read(model, **hints)
+
+        project = self.component.project
+        project.access_control = Project.ACCESS_PRIVATE
+        project.save(update_fields=["access_control"])
+        project.add_user(self.user, "Memory")
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        memory = self.create_memory(
+            source="Delete with routed memory reads",
+            target="Smazat pri smerovanem cteni pameti",
+            project=project,
+            origin=self.component.full_slug,
+        )
+        restricted_scope = memory.scopes.get(scope=MemoryScope.SCOPE_PROJECT)
+        self.assertEqual(restricted_scope.source_component_id, self.component.pk)
+        global_scope = MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_GLOBAL_FILE,
+        )
+        with patch.object(router, "db_for_read", side_effect=route_read):
+            self.do_request(
+                "api:memory-detail",
+                kwargs={"pk": memory.pk},
+                method="delete",
+                code=403,
+            )
+
+        self.assertSetEqual(
+            set(memory.scopes.values_list("pk", flat=True)),
+            {restricted_scope.pk, global_scope.pk},
+        )
+
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT_FILE,
+            project=project,
+        )
+        with patch.object(router, "db_for_read", side_effect=route_read):
+            self.do_request(
+                "api:memory-detail",
+                kwargs={"pk": memory.pk},
+                method="delete",
+                code=204,
+            )
+
+        self.assertSetEqual(
+            set(memory.scopes.values_list("pk", flat=True)),
+            {restricted_scope.pk, global_scope.pk},
+        )
 
     def test_delete_unattributed_project_memory(self) -> None:
         self.component.project.add_user(self.user, "Administration")
@@ -16788,6 +17222,22 @@ class MemoryAPITest(APIBaseTest):
 
 
 class TranslationAPITest(APIBaseTest):
+    def test_delete_with_broken_template(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            delete_message="{% invalid %}", inherit_delete_message=False
+        )
+        response = self.do_request(
+            "api:translation-detail",
+            self.translation_kwargs,
+            method="delete",
+            superuser=True,
+            code=400,
+        )
+        self.assertIn("Could not render delete message template", str(response.data))
+        self.assertTrue(
+            self.component.translation_set.filter(language_code="cs").exists()
+        )
+
     @override_settings(CELERY_TASK_STORE_EAGER_RESULT=True)
     def test_upload_background(self) -> None:
         self.authenticate()
@@ -18772,6 +19222,32 @@ class TranslationAPITest(APIBaseTest):
 
 
 class UnitAPITest(APIBaseTest):
+    def test_delete_unit_with_broken_commit_template(self) -> None:
+        component = self._create_component(
+            "po-mono",
+            "po-mono/*.po",
+            "po-mono/en.po",
+            project=self.component.project,
+            name="mono",
+        )
+        Component.objects.filter(pk=component.pk).update(
+            commit_message="{% invalid %}", inherit_commit_message=False
+        )
+        unit = Unit.objects.get(
+            translation__component=component,
+            translation__language_code="cs",
+            source="Hello, world!\n",
+        ).source_unit
+        response = self.do_request(
+            "api:unit-detail",
+            {"pk": unit.pk},
+            method="delete",
+            superuser=True,
+            code=400,
+        )
+        self.assertIn("Could not render commit message template", str(response.data))
+        self.assertTrue(Unit.objects.filter(pk=unit.pk).exists())
+
     def test_report_requires_effective_parent_permission(self) -> None:
         unit = self.component.translation_set.get(language_code="cs").unit_set.get(
             source="Hello, world!\n"
@@ -20878,6 +21354,37 @@ class ScreenshotAPITest(APIBaseTest):
         )
         self.assertContains(response, b"PNG")
 
+    def test_download_without_path(self) -> None:
+        # Remote storage backends do not provide local paths
+        with patch.object(
+            FieldFile,
+            "path",
+            new_callable=PropertyMock,
+            side_effect=NotImplementedError,
+        ):
+            response = self.client.get(
+                reverse(
+                    "api:screenshot-file", kwargs={"pk": Screenshot.objects.get().pk}
+                )
+            )
+            assert isinstance(response, StreamingHttpResponse)
+            self.assertEqual(
+                b"".join(response.streaming_content),
+                Path(TEST_SCREENSHOT).read_bytes(),
+            )
+        self.assertEqual(response.status_code, 200)
+
+    def test_download_missing_file(self) -> None:
+        screenshot = Screenshot.objects.get()
+        assert screenshot.image.name is not None
+        screenshot.image.storage.delete(screenshot.image.name)
+
+        response = self.client.get(
+            reverse("api:screenshot-file", kwargs={"pk": screenshot.pk})
+        )
+
+        self.assertEqual(response.status_code, 404)
+
     def test_head_screenshot_file(self) -> None:
         screenshot = Screenshot.objects.get()
         url = reverse("api:screenshot-file", kwargs={"pk": screenshot.pk})
@@ -21150,6 +21657,136 @@ class ScreenshotAPITest(APIBaseTest):
 
         self.assertEqual(hidden_response.data, missing_response.data)
 
+    def test_create_screenshot_repository_path_permission(self) -> None:
+        self.user.groups.clear()
+        self.grant_perm_to_user("screenshot.add", component=self.component)
+        data = {
+            "name": "Linked screenshot",
+            "project_slug": self.project.slug,
+            "component_slug": self.component.slug,
+            "language_code": self.component.source_translation.language.code,
+        }
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            response = self.do_request(
+                "api:screenshot-list",
+                method="post",
+                code=400,
+                request={
+                    **data,
+                    "repository_filename": "docs/example.png",
+                    "image": handle,
+                },
+            )
+        self.assertEqual(response.data["errors"][0]["attr"], "repository_filename")
+        self.assertEqual(
+            response.data["errors"][0]["code"], "repository_access_required"
+        )
+        self.assertFalse(Screenshot.objects.filter(name=data["name"]).exists())
+
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            self.do_request(
+                "api:screenshot-list",
+                method="post",
+                code=201,
+                request={**data, "image": handle},
+            )
+        self.assertEqual(
+            Screenshot.objects.get(name=data["name"]).repository_filename, ""
+        )
+
+    def test_linked_screenshot_requires_repository_owner_access(self) -> None:
+        linked = self.create_link_existing()
+        self.user.groups.clear()
+        self.grant_perm_to_user("screenshot.add", component=linked)
+        self.grant_perm_to_user("vcs.access", component=linked)
+        data = {
+            "name": "Linked screenshot",
+            "project_slug": linked.project.slug,
+            "component_slug": linked.slug,
+            "language_code": linked.source_translation.language.code,
+            "repository_filename": "docs/example.png",
+        }
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            response = self.do_request(
+                "api:screenshot-list",
+                method="post",
+                code=400,
+                request={**data, "image": handle},
+            )
+        self.assertEqual(response.data["errors"][0]["attr"], "repository_filename")
+        self.assertFalse(Screenshot.objects.filter(name=data["name"]).exists())
+
+        self.grant_perm_to_user(
+            "vcs.access", group_name="Repository owner access", component=self.component
+        )
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            self.do_request(
+                "api:screenshot-list",
+                method="post",
+                code=201,
+                request={**data, "image": handle},
+            )
+        screenshot = Screenshot.objects.get(
+            name=data["name"], translation=linked.source_translation
+        )
+        self.assertEqual(screenshot.repository_filename, data["repository_filename"])
+
+    def test_edit_screenshot_repository_path_permission(self) -> None:
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        self.user.groups.clear()
+        self.grant_perm_to_user("screenshot.edit", component=self.component)
+        url_kwargs = {"pk": screenshot.pk}
+        original_path = "docs/example.png"
+        original_image = screenshot.image.name
+
+        for method in ("put", "patch"):
+            with self.subTest(method=method):
+                screenshot.repository_filename = original_path
+                screenshot.save(update_fields=["repository_filename"])
+                response = self.do_request(
+                    "api:screenshot-detail",
+                    url_kwargs,
+                    method=method,
+                    code=400,
+                    request={
+                        "name": "Rejected edit",
+                        "repository_filename": "other.png",
+                    },
+                )
+                self.assertEqual(
+                    response.data["errors"][0]["attr"], "repository_filename"
+                )
+                screenshot.refresh_from_db()
+                self.assertEqual(screenshot.repository_filename, original_path)
+                self.assertEqual(screenshot.image.name, original_image)
+                self.assertEqual(screenshot.name, "Obrazek")
+
+                for extra_data, expected_path in (
+                    ({}, original_path),
+                    ({"repository_filename": original_path}, original_path),
+                    ({"repository_filename": ""}, ""),
+                ):
+                    response = self.do_request(
+                        "api:screenshot-detail",
+                        url_kwargs,
+                        method=method,
+                        request={"name": "Obrazek", **extra_data},
+                    )
+                    self.assertEqual(
+                        response.data["repository_filename"], expected_path
+                    )
+
+        self.grant_perm_to_user("vcs.access", component=self.component)
+        response = self.do_request(
+            "api:screenshot-detail",
+            url_kwargs,
+            method="patch",
+            request={"repository_filename": original_path},
+        )
+        self.assertEqual(response.data["repository_filename"], original_path)
+        screenshot.refresh_from_db()
+        self.assertEqual(screenshot.repository_filename, original_path)
+
     def test_patch_screenshot(self) -> None:
         self.do_request(
             "api:screenshot-detail",
@@ -21230,13 +21867,13 @@ class ScreenshotAPITest(APIBaseTest):
     def test_units(self) -> None:
         self.authenticate(True)
         screenshot = Screenshot.objects.get()
-        unit = self.component.source_translation.unit_set.all()[0]
-        response = self.client.post(
-            reverse("api:screenshot-units", kwargs={"pk": screenshot.pk}),
-            {"unit_id": unit.pk},
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(str(unit.pk), response.data["units"][0])
+        unit = screenshot.translation.unit_set.get(source="Hello, world!\n")
+        url = reverse("api:screenshot-units", kwargs={"pk": screenshot.pk})
+        for _ in range(2):
+            response = self.client.post(url, {"unit_id": unit.pk})
+            self.assertEqual(response.status_code, 200)
+            self.assertIn(str(unit.pk), response.data["units"][0])
+        self.assertEqual(list(screenshot.units.all()), [unit])
         added_changes = Change.objects.filter(
             action=ActionEvents.SCREENSHOT_ADDED,
             screenshot=screenshot,
@@ -21248,7 +21885,7 @@ class ScreenshotAPITest(APIBaseTest):
     def test_units_delete(self) -> None:
         self.authenticate(True)
         screenshot = Screenshot.objects.get()
-        unit = self.component.source_translation.unit_set.all()[0]
+        unit = screenshot.translation.unit_set.get(source="Hello, world!\n")
         self.client.post(
             reverse("api:screenshot-units", kwargs={"pk": screenshot.pk}),
             {"unit_id": unit.pk},
@@ -21260,13 +21897,13 @@ class ScreenshotAPITest(APIBaseTest):
             ),
         )
         self.assertEqual(response.status_code, 404)
-        response = self.client.delete(
-            reverse(
-                "api:screenshot-delete-units",
-                kwargs={"pk": screenshot.pk, "unit_id": unit.pk},
-            ),
+        url = reverse(
+            "api:screenshot-delete-units",
+            kwargs={"pk": screenshot.pk, "unit_id": unit.pk},
         )
-        self.assertEqual(response.status_code, 204)
+        for _ in range(2):
+            response = self.client.delete(url)
+            self.assertEqual(response.status_code, 204)
         self.assertEqual(screenshot.units.all().count(), 0)
         removed_changes = Change.objects.filter(
             action=ActionEvents.SCREENSHOT_REMOVED,
@@ -21944,6 +22581,56 @@ class ChangeAPITest(APIBaseTest):
             response.data["details"], {"change_origin": {"scope": "system"}}
         )
 
+    def test_repository_diagnostic_details_are_redacted(self) -> None:
+        self.authenticate(superuser=True)
+        self.component.add_alert(
+            "RepositoryChanges", commit_count=26, repository_owner_id=self.component.pk
+        )
+        self.component.add_alert(
+            "RepositoryOutdated", commit_count=27, repository_owner_id=self.component.pk
+        )
+        alert = self.component.alert_set.get(name="RepositoryChanges")
+        self.assertTrue(alert.dismiss(self.user))
+        created = self.component.change_set.get(action=ActionEvents.ALERT, alert=alert)
+        outdated = self.component.change_set.get(
+            action=ActionEvents.ALERT, alert__name="RepositoryOutdated"
+        )
+        self.assertIn("fingerprint", outdated.details)
+        dismissed = self.component.change_set.get(
+            action=ActionEvents.ALERT_DISMISSED, alert=alert
+        )
+
+        for endpoint, expected in (
+            (reverse("api:change-list"), (created.pk, outdated.pk, dismissed.pk)),
+            (reverse("api:change-detail", kwargs={"pk": created.pk}), (created.pk,)),
+            (reverse("api:change-detail", kwargs={"pk": outdated.pk}), (outdated.pk,)),
+            (
+                reverse("api:change-detail", kwargs={"pk": dismissed.pk}),
+                (dismissed.pk,),
+            ),
+        ):
+            with self.subTest(endpoint=endpoint):
+                response = self.client.get(endpoint)
+                self.assertEqual(response.status_code, 200, response.data)
+                entries = {
+                    entry["id"]: entry
+                    for entry in response.data.get("results", [response.data])
+                }
+                for change_pk in expected:
+                    self.assertEqual(entries[change_pk]["alert"]["details"], {})
+                    self.assertNotIn("fingerprint", entries[change_pk]["details"])
+                if dismissed.pk in expected:
+                    snapshot = entries[dismissed.pk]["details"]["alert_snapshot"]
+                    self.assertEqual(snapshot["details"], {})
+
+        alert.delete()
+        response = self.client.get(
+            reverse("api:change-detail", kwargs={"pk": dismissed.pk})
+        )
+        self.assertEqual(response.status_code, 200, response.data)
+        self.assertEqual(response.data["alert"]["details"], {})
+        self.assertEqual(response.data["details"]["alert_snapshot"]["details"], {})
+
     def test_alert_metadata(self) -> None:
         self.component.add_alert("BrokenBrowserURL", link="http://a", error="first")
         alert = self.component.alert_set.get(name="BrokenBrowserURL")
@@ -22508,6 +23195,53 @@ class ComponentListAPITest(APIBaseTest):
             superuser=True,
             code=204,
         )
+
+    def test_delete_assigned_component_list(self) -> None:
+        clist = ComponentList.objects.get(slug="name")
+        private_component = self.create_acl()
+        private_project = private_component.project
+        clist.components.set([private_component])
+        team = Group.objects.create(
+            name="Component list administrators",
+            project_selection=SELECTION_COMPONENT_LIST,
+        )
+        team.componentlists.add(clist)
+        team.save()
+        team.roles.add(Role.objects.get(name="Administration"))
+        self.user.groups.add(team)
+        self.grant_perm_to_user("componentlist.edit")
+
+        project_kwargs = {"slug": private_project.slug}
+        self.do_request("api:project-backups", project_kwargs, code=403)
+        response = self.do_request(
+            "api:componentlist-detail", {"slug": clist.slug}, method="delete", code=400
+        )
+        self.assertIn("Remove the component list from its teams", str(response.data))
+        self.assertTrue(team.componentlists.filter(pk=clist.pk).exists())
+        self.do_request("api:project-backups", project_kwargs, code=403)
+
+        remaining = ComponentList.objects.create(name="Remaining", slug="remaining")
+        remaining.components.add(private_component)
+        team.componentlists.add(remaining)
+        self.do_request(
+            "api:componentlist-detail", {"slug": clist.slug}, method="delete", code=204
+        )
+        self.assertCountEqual(team.componentlists.all(), [remaining])
+        self.assertTrue(
+            User.objects.get(pk=self.user.pk).has_perm(
+                "component.edit", private_component
+            )
+        )
+        self.do_request("api:project-backups", project_kwargs, code=403)
+
+        team.componentlists.remove(remaining)
+        self.do_request(
+            "api:componentlist-detail",
+            {"slug": remaining.slug},
+            method="delete",
+            code=204,
+        )
+        self.do_request("api:project-backups", project_kwargs, code=404)
 
     def test_add_component(self) -> None:
         self.do_request(

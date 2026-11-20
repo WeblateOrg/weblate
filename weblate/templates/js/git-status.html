@@ -116,13 +116,13 @@
             <a href="#"
                class="float-end btn btn-primary link-post"
                data-href="{% url "unlock" path=object.get_url_path %}"
-               title="{% translate "Allow changes to the Weblate repository" %}">{% translate "Unlock" %}</a>
+               title="{% translate "Allow changes to the Weblate repository"|force_escape %}">{% translate "Unlock" %}</a>
           {% endif %}
           {% if object.can_lock %}
             <a href="#"
                class="float-end btn btn-primary link-post"
                data-href="{% url "lock" path=object.get_url_path %}"
-               title="{% translate "Prevent any changes in the Weblate repository" %}">{% translate "Lock" %}</a>
+               title="{% translate "Prevent any changes in the Weblate repository"|force_escape %}">{% translate "Lock" %}</a>
           {% endif %}
         {% endif %}
         <h6 class="mb-1 fw-bold">

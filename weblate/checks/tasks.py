@@ -37,6 +37,7 @@ from weblate.utils.change_origin import (
     get_change_origin,
 )
 from weblate.utils.lock import WeblateLockTimeoutError
+from weblate.utils.tasks import update_translation_stats
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator
@@ -190,10 +191,42 @@ class PendingCheckRefresh:
     group_keys: set[tuple[object, ...]] = field(default_factory=set)
     unit_ids: set[int] = field(default_factory=set)
 
+    def add_group(self, group: PropagatedCheckGroup) -> None:
+        key = tuple(group.values())
+        if key not in self.group_keys:
+            self.group_keys.add(key)
+            self.groups.append(group)
+
     def __call__(self) -> None:
         refresh_propagated_checks.delay(
             self.project_id, self.groups, sorted(self.unit_ids)
         )
+
+
+@contextmanager
+def coalesce_propagated_check_refreshes() -> Generator[None]:
+    """Merge refresh callbacks from successful savepoints in a bounded batch."""
+    with transaction.atomic():
+        connection = transaction.get_connection()
+        start = len(connection.run_on_commit)
+        # A failure leaves callback cleanup to the atomic block's rollback.
+        yield  # ruff: ignore[fallible-context-manager]
+        pending: dict[int, PendingCheckRefresh] = {}
+        keep = connection.run_on_commit[:start]
+        for entry in connection.run_on_commit[start:]:
+            callback = entry[1]
+            if not isinstance(callback, PendingCheckRefresh):
+                keep.append(entry)
+                continue
+            batch = pending.setdefault(
+                callback.project_id, PendingCheckRefresh(callback.project_id)
+            )
+            batch.unit_ids.update(callback.unit_ids)
+            for group in callback.groups:
+                batch.add_group(group)
+        connection.run_on_commit = keep
+        for batch in pending.values():
+            transaction.on_commit(batch)
 
 
 def schedule_propagated_checks(
@@ -256,10 +289,7 @@ def schedule_propagated_checks(
                 group["source"] = group["context"] = ""
                 # Target groups are shared by translations with the same plural.
                 group["language_id"] = 0
-            key = tuple(group.values())
-            if key not in pending.group_keys:
-                pending.group_keys.add(key)
-                pending.groups.append(group)
+            pending.add_group(group)
     if (pending.groups or pending.unit_ids) and not any(
         callback is pending for _, callback, _ in connection.run_on_commit
     ):
@@ -353,12 +383,16 @@ def refresh_propagated_checks(
         if project is None:
             return
         with check_boundary_lock(project):
-            _refresh_propagated_checks(project, groups, unit_ids)
+            translation_ids = _refresh_propagated_checks(project, groups, unit_ids)
+    if len(translation_ids) > 1:
+        update_translation_stats.delay_on_commit(
+            translation_ids, update_translations=False
+        )
 
 
 def _refresh_propagated_checks(
     project: Project, groups: list[PropagatedCheckGroup], unit_ids: list[int] | None
-) -> None:
+) -> list[int]:
     project_id = project.pk
     project.log_info("refreshing %d propagated check groups", len(groups))
     translations: dict[int, Translation] = {}
@@ -421,7 +455,8 @@ def _refresh_propagated_checks(
     with transaction.atomic():
         for translation in translations.values():
             translation.require_full_stats_rebuild()
-            translation.invalidate_cache()
+            translation.invalidate_cache(update_stats_parents=len(translations) == 1)
+    return list(translations)
 
 
 def _perform_batched_checks(component: Component, checks: list[str]) -> None:

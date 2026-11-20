@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-13 01:19-0600\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
 "PO-Revision-Date: 2026-11-18 09:37+0000\n"
 "Last-Translator: Watchman89 <watchman89@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
@@ -1358,6 +1358,23 @@ msgstr ""
 "Deze invitatie kan alleen worden geaccepteerd door het e-mailadres dat is "
 "gekozen door degene die uitnodigt; het kan niet door uw account worden "
 "gebruikt."
+
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Your e-mail no longer belongs to verified account, it has been changed to "
+#| "{0}."
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr ""
+"Uw e-mailadres behoort niet meer tot het geverifieerde account. Het is "
+"gewijzigd in {0}."
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
+msgstr ""
 
 msgid ""
 "Your e-mail address has been added. You can now select it as your account e-"
@@ -3962,6 +3979,22 @@ msgstr ""
 "Verwijder het onderdeel vanuit projectteams voordat het verplaatst wordt "
 "naar een ander project."
 
+#, fuzzy
+#| msgid ""
+#| "Remove the component from project teams before moving it to another "
+#| "project."
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+"Verwijder het onderdeel vanuit projectteams voordat het verplaatst wordt "
+"naar een ander project."
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
+
 msgid "Roles"
 msgstr "Rollen"
 
@@ -4705,6 +4738,11 @@ msgstr "Facturatie"
 
 msgid "Billing event"
 msgstr "Facturatie gebeurtenis"
+
+#, fuzzy
+#| msgid "Projects without components"
+msgid "Project has no components."
+msgstr "Project zonder onderdelen"
 
 msgid "monthly"
 msgstr "maandelijks"
@@ -6697,9 +6735,6 @@ msgstr "Meervoudsvorm"
 msgid "Plural type"
 msgstr "Meervoudstype"
 
-msgid "Example counts for this plural form."
-msgstr "Voorbeelden voor dit meervoudsformulier."
-
 msgid "Singular"
 msgstr "Enkelvoud"
 
@@ -7768,6 +7803,11 @@ msgstr "Lees uw e-mailadres"
 
 msgid "Read the version of the legal documents you accepted"
 msgstr "Lees de versie van de juridische documenten die u heeft geaccepteerd"
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
+msgstr ""
 
 msgid "Image is too big."
 msgstr "Afbeelding is te groot."
@@ -10262,6 +10302,16 @@ msgstr ""
 "Dit pakket is niet compatibel met het vrijesoftwarehostingpakket. Los "
 "bovenstaande fouten op of schaf een pakket aan."
 
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+
 msgid "Customer"
 msgstr "Klant"
 
@@ -11866,6 +11916,16 @@ msgstr ""
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr "Herhaalde betaling zal worden uitgeschakeld voor inactieve projecten"
 
+#, fuzzy
+#| msgid "Does not meet Libre hosting conditions."
+msgid "Review Libre hosting conditions"
+msgstr "Voldoet niet aan de voorwaarden voor softwarehosting van Libre."
+
+#, fuzzy, python-format
+#| msgid "Number of entries for %(project)s"
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "Aantal items van %(project)s"
+
 msgid "Translation change"
 msgstr "Vertaalwijziging"
 
@@ -12877,7 +12937,8 @@ msgid "No security findings match these filters."
 msgstr "Geen beveiligingsbevindingen komen overeen met deze filters."
 
 msgid "Remove lookalike e-mail identities and reset selected accounts"
-msgstr "Wis dubbelganger e-mailidentiteiten en zet geselecteerde accounts terug"
+msgstr ""
+"Wis dubbelganger e-mailidentiteiten en zet geselecteerde accounts terug"
 
 msgid "Reset passwords for selected accounts"
 msgstr "Zet wachtwoorden terug voor geselecteerde accounts"
@@ -13789,6 +13850,9 @@ msgstr ""
 "Als u meer zou willen geven, een optionele donatie financiert ontwikkeling "
 "en onderhoud van Weblate zelf."
 
+msgid "Example counts for this plural form."
+msgstr "Voorbeelden voor dit meervoudsformulier."
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
@@ -13824,12 +13888,13 @@ msgstr ""
 msgid "Source code repository"
 msgstr "Broncode-opslagruimte"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr "Dit onderdeel is gekoppeld aan opslagruimte %(target)s."
-
 msgid "Repository URL copied to clipboard."
 msgstr "De URL van de opslagruimte is gekopieerd naar het klembord."
+
+#, fuzzy
+#| msgid "Renamed component"
+msgid "Linked component"
+msgstr "Naam onderdeel gewijzigd"
 
 msgid "Repository branch"
 msgstr "Tak opslagruimte"
@@ -14272,6 +14337,11 @@ msgstr "Meervoud: %(source_description)s"
 msgid "Plurals"
 msgstr "Meervouden"
 
+#, fuzzy
+#| msgid "No strings found!"
+msgid "No integer examples found"
+msgstr "Er zijn geen tekenreeksen gevonden!"
+
 msgid "First"
 msgstr "Eerste"
 
@@ -14527,8 +14597,8 @@ msgid "Community"
 msgstr "Gemeenschap"
 
 #, python-format
-msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr "Vertaal %(object)s met %%23Weblate op %(share_url)s!"
+msgid "Translate %(object)s using #Weblate at %(share_url)s!"
+msgstr "Vertaal %(object)s met #Weblate op %(share_url)s!"
 
 msgid "Share on Bluesky"
 msgstr "Delen op Bluesky"
@@ -15240,12 +15310,12 @@ msgstr "Het onderdeel bevat verschillende dubbele vertaaltekenreeksen."
 msgid "Source"
 msgstr "Bron"
 
+msgid "Remove duplicate strings"
+msgstr "Dubbele tekenreeksen verwijderen"
+
 #, python-format
 msgid "Remove duplicate strings from %(language)s (%(filename)s)"
 msgstr "Verwijder gedupliceerde tekenreeksen uit %(language)s (%(filename)s)"
-
-msgid "Remove duplicate strings"
-msgstr "Dubbele tekenreeksen verwijderen"
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -16270,10 +16340,6 @@ msgstr "Deze tekenreeks is automatisch vertaald door %(author)s."
 msgid "Add term to glossary"
 msgstr "Term toevoegen"
 
-#, python-format
-msgid "Browse glossary %(name)s"
-msgstr "Bladeren door begrippenlijst van %(name)s"
-
 msgid "Browse glossary"
 msgstr "Bladeren door woordenlijst"
 
@@ -16321,6 +16387,15 @@ msgstr "Laatste keer bijgewerkt"
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
 msgstr "Ouderdom van brontekenreeks"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s, line %(line)s"
+msgstr "%(filename)s, tekenreeks %(position)s"
+
+#, python-format
+msgid "line %(line)s"
+msgstr ""
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -17949,12 +18024,12 @@ msgstr "Controlenaam dupliceren."
 msgid "Referenced category does not exist."
 msgstr "Categorie, waarnaar wordt verwezen, bestaat niet."
 
+msgid "Duplicate component slug."
+msgstr "Slug onderdeel dupliceren."
+
 msgid "Component filename does not match its category and slug."
 msgstr ""
 "Bestandsnaam voor het onderdeel komt niet overeen met zijn categorie en slug."
-
-msgid "Duplicate component slug."
-msgstr "Slug onderdeel dupliceren."
 
 msgid "Translation revision has an invalid format."
 msgstr "Vertaalrevisie heeft een ongeldig formaat."
@@ -18224,6 +18299,11 @@ msgstr "Openstaande suggesties"
 msgid "Needs review"
 msgstr "Beoordeling nodig"
 
+#, fuzzy
+#| msgid "The source and target have to be different languages."
+msgid "The source and destination checkouts must be different."
+msgstr "De bron- en doeltaal dienen van elkaar te verschillen."
+
 msgid "This component does not exist or you cannot access it."
 msgstr "Dit onderdeel bestaat niet of u heeft er geen toegang tot."
 
@@ -18249,6 +18329,11 @@ msgstr "Actie door mij"
 
 msgid "Discovery configuration"
 msgstr "Configuratie voor verkennen"
+
+#, fuzzy, python-format
+#| msgid "Could not render template: {}"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "Het sjabloon kan niet worden geladen: {}"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -20355,6 +20440,11 @@ msgid "Use the secondary language configured in the category or project."
 msgstr ""
 "Gebruik de secundaire taal die is geconfigureerd in de categorie of project."
 
+#, fuzzy
+#| msgid "The local repository checkout is missing."
+msgid "The linked repository path is ambiguous."
+msgstr "De lokale checkout van de opslagruimte ontbreekt."
+
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
 "admin interface."
@@ -20676,6 +20766,11 @@ msgstr ""
 "Pushen zonder merge request vereist schrijftoegang tot de opslagruimte. "
 "Configureer een URL voor pushen met inloggegevens, of gebruik een SSH URL "
 "voor de opslagruimte."
+
+#, fuzzy
+#| msgid "This role cannot be assigned to this team."
+msgid "Version control system cannot be changed to this backend."
+msgstr "Deze rol kan niet worden toegewezen aan dit team."
 
 msgid "The file mask is too complex and took too long to evaluate."
 msgstr ""
@@ -21285,6 +21380,11 @@ msgstr "Kastlijntje"
 msgid "User configured character: {}"
 msgstr "Door gebruiker geconfigureerd teken: {}"
 
+#, fuzzy, python-format
+#| msgid "Could not push the repository."
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "Kon de opslagruimte niet pushen."
+
 msgid "Repository operation could not be completed because it remained locked."
 msgstr ""
 "Opslagruimtebewerking kon niet voltooid worden omdat het vergrendeld blijft."
@@ -21400,6 +21500,10 @@ msgstr "tekenreeks-ID %s"
 
 msgid "This language is used for source strings."
 msgstr "Deze taal wordt gebruikt voor brontekenreeksen."
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr "Dit onderdeel is gekoppeld aan opslagruimte %(target)s."
 
 msgid "Fix this component to clear its diagnostics."
 msgstr "Verbeter dit onderdeel om de diagnostiek te laten verdwijnen."
@@ -22164,6 +22268,16 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "Verticale taalgrafiek"
 
+#, fuzzy
+#| msgid "Your languages"
+msgid "Sort languages by"
+msgstr "Uw talen"
+
+#, fuzzy
+#| msgid "Translation change"
+msgid "Translation percentage"
+msgstr "Vertaalwijziging"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr "Horizontale taalgrafiek"
@@ -22543,18 +22657,6 @@ msgstr "Ongeldige opgeslagen optieswaarde."
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "Parameters moeten een woordenboek zijn van paren sleutel-waarde."
 
-msgid "Template output exceeds its size limit."
-msgstr "Sjabloon-uitvoer overschrijd de groottelimiet."
-
-msgid "Template rendering failed or exceeded its resource limits."
-msgstr "Sjabloonrenderen mislukt of overschrijdde de bronlimieten."
-
-msgid "Oversized template response."
-msgstr "Sjabloonreactie te groot."
-
-msgid "Invalid template rendering response."
-msgstr "Ongeldig antwoord tijdens sjabloonrenderen."
-
 msgid "Could not render template: {}"
 msgstr "Het sjabloon kan niet worden geladen: {}"
 
@@ -22565,14 +22667,16 @@ msgstr ""
 "De formaattekenreeksen worden niet langer ondersteund - gebruik in plaats "
 "daarvan de sjabloontaal."
 
-msgid "Template value exceeds its size limit."
-msgstr "Sjabloonwaarde overschrijdt de groottelimiet."
+msgid "Template context exceeds its size limit."
+msgstr "Sjabloon-context overschrijdt de groottelimiet."
 
 msgid "Template context is nested too deeply."
 msgstr "Sjablooncontext is te diep genest."
 
-msgid "Template context exceeds its size limit."
-msgstr "Sjabloon-context overschrijdt de groottelimiet."
+#, fuzzy
+#| msgid "Unsupported template context value."
+msgid "Unsupported nonfinite template context value."
+msgstr "Niet-ondersteunde sjablooncontextwaarde."
 
 msgid "Unsupported template context key."
 msgstr "Niet-ondersteunde sjablooncontext-sleutel."
@@ -22580,30 +22684,351 @@ msgstr "Niet-ondersteunde sjablooncontext-sleutel."
 msgid "Unsupported template context value."
 msgstr "Niet-ondersteunde sjablooncontextwaarde."
 
+msgid "Template value exceeds its size limit."
+msgstr "Sjabloonwaarde overschrijdt de groottelimiet."
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Template text is not valid UTF-8."
+msgstr "Het ingevoerde token is niet geldig."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid target state."
+msgid "Invalid template syntax."
+msgstr "Ongeldige doelstatus."
+
+#, fuzzy
+#| msgid "Undefined variable: \"%s\""
+msgid "Undefined template variable."
+msgstr "Onbepaalde variabele: ‘%s’"
+
+#, fuzzy
+#| msgid "The translation is not valid XML."
+msgid "Text is not valid UTF-8."
+msgstr "De vertaling is geen geldige XML."
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Division by zero is not supported."
+msgstr "De gekozen sortering wordt niet ondersteund."
+
+#, fuzzy
+#| msgid "Select a change for this automation."
+msgid "Numeric value is too large for this operation."
+msgstr "Selecteer een taal voor deze automatisering."
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Numeric operation failed."
+msgstr "Bewerken opslagruimte mislukt"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation revision has an invalid format."
+msgid "Value or argument has an invalid format."
+msgstr "Vertaalrevisie heeft een ongeldig formaat."
+
+#, fuzzy, python-format
+#| msgid "%(path)s: %(error)s"
+msgid "%(operation)s: %(message)s"
+msgstr "%(path)s: %(error)s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
 msgid "Template rendering exceeded its time limit."
 msgstr "Sjabloonrenderen overschrijdde de tijdlimiet."
+
+#, fuzzy, python-format
+#| msgid "Template join exceeds its size limit."
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr "Sjabloon samenvoegen overschrijdt de groottelimiet."
+
+#, fuzzy, python-format
+#| msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr "Vertaalbestand overschrijd de maximale toegestane maat van %d bytes."
+
+#, fuzzy, python-format
+#| msgid "Template value exceeds its size limit."
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr "Sjabloonwaarde overschrijdt de groottelimiet."
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Nonfinite numbers are not supported."
+msgstr "YAML-aliasen en -labels wordt niet ondersteund."
+
+#, fuzzy, python-format
+#| msgid "File names"
+msgid "Filter \"%(name)s\""
+msgstr "Bestandsnamen"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
+msgstr ""
 
 msgid "Template rendering exceeded its loop limit."
 msgstr "Sjabloonrenderen overschrijdde de loop limiet."
 
-msgid "Template intermediate value exceeds its size limit."
-msgstr "Tussentijdse sjabloonwaarde overschrijdt de groottelimiet."
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Attribute access and method calls are not supported."
+msgstr "YAML-aliasen en -labels wordt niet ondersteund."
 
-msgid "Template replacement exceeds its size limit."
-msgstr "Sjabloonvervanging overschrijdt de groottelimiet."
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Index exceeds the length limit of 128 characters."
+msgstr "De gebruikersnaam moet minstens vijf tekens lang zijn."
 
-msgid "Template padding exceeds its size limit."
-msgstr "Sjabloonopvulling overschrijdt de groottelimiet."
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Translated template literals are not supported."
+msgstr "YAML-aliasen en -labels wordt niet ondersteund."
 
-msgid "Template formatting exceeds its size limit."
-msgstr "Sjabloon opmaken overschrijdt de groottelimiet."
+#, fuzzy
+#| msgid "Invalid unit."
+msgid "Invalid filter."
+msgstr "Ongeldige eenheid."
 
-msgid "Template join exceeds its size limit."
-msgstr "Sjabloon samenvoegen overschrijdt de groottelimiet."
+msgid "Identity comparisons require None, True, or False."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This condition operator is not supported."
+msgstr "De gekozen sortering wordt niet ondersteund."
+
+msgid "Template output exceeds its size limit."
+msgstr "Sjabloon-uitvoer overschrijd de groottelimiet."
+
+msgid "Loops require a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
+msgstr ""
+
+msgid "Loop value cannot be unpacked into its variables."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This template tag is not supported."
+msgstr "De gekozen sortering wordt niet ondersteund."
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This template node is not supported."
+msgstr "Het gedetecteerde bestandsformaat wordt niet ondersteund."
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+"Werkboekarchieven overschrijden de maximale uitgevouwen maat van %d bytes."
 
 #, python-format
 msgid "Undefined variable: \"%s\""
 msgstr "Onbepaalde variabele: ‘%s’"
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Template intermediate value exceeds its size limit."
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr "Tussentijdse sjabloonwaarde overschrijdt de groottelimiet."
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "This field is required."
+msgid "This filter requires strings."
+msgstr "Dit veld is verplicht."
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Choices must be a string."
+msgstr "Automatiseringssleutels moeten tekenreeksen zijn."
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr "De gebruikersnaam moet minstens vijf tekens lang zijn."
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source string length"
+msgid "Joining requires string elements."
+msgstr "Lengte van brontekenreeks"
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Date format must be a string or None."
+msgstr "Automatiseringssleutels moeten tekenreeksen zijn."
+
+#, fuzzy
+#| msgid "Trigger scope requires a change with a string."
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "Bereik van activeren vereist een wijziging met een tekenreeks."
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Plural suffixes must be a string."
+msgstr "Automatiseringssleutels moeten tekenreeksen zijn."
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr "De gebruikersnaam moet minstens vijf tekens lang zijn."
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Nested template delimiters are not supported."
+msgstr "YAML-aliasen en -labels wordt niet ondersteund."
+
+#, fuzzy
+#| msgid "Unsupported template context key."
+msgid "Unclosed template token."
+msgstr "Niet-ondersteunde sjablooncontext-sleutel."
+
+#, fuzzy, python-format
+#| msgid "Template join exceeds its size limit."
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr "Sjabloon samenvoegen overschrijdt de groottelimiet."
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Template join exceeds its size limit."
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr "Sjabloon samenvoegen overschrijdt de groottelimiet."
+
+#, fuzzy, python-format
+#| msgid "Template join exceeds its size limit."
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr "Sjabloon samenvoegen overschrijdt de groottelimiet."
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "The report is empty."
+msgid "Template tag is empty."
+msgstr "Het rapport is leeg."
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Template join exceeds its size limit."
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr "Sjabloon samenvoegen overschrijdt de groottelimiet."
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unsupported template context value."
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "Niet-ondersteunde sjablooncontextwaarde."
+
+#, fuzzy
+#| msgid "Unsupported template context value."
+msgid "Unsupported template tag."
+msgstr "Niet-ondersteunde sjablooncontextwaarde."
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr "Vertaalbestand overschrijd de maximale toegestane maat van %d bytes."
+
+#, fuzzy, python-format
+#| msgid "Template value exceeds its size limit."
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
+msgstr "Sjabloonwaarde overschrijdt de groottelimiet."
 
 #, python-format
 msgid ""
@@ -24322,6 +24747,28 @@ msgid "The workspace has been removed."
 msgstr "De werkruimte is verwijderd."
 
 #, python-format
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "Bladeren door begrippenlijst van %(name)s"
+
+#~ msgid "Template rendering failed or exceeded its resource limits."
+#~ msgstr "Sjabloonrenderen mislukt of overschrijdde de bronlimieten."
+
+#~ msgid "Oversized template response."
+#~ msgstr "Sjabloonreactie te groot."
+
+#~ msgid "Invalid template rendering response."
+#~ msgstr "Ongeldig antwoord tijdens sjabloonrenderen."
+
+#~ msgid "Template replacement exceeds its size limit."
+#~ msgstr "Sjabloonvervanging overschrijdt de groottelimiet."
+
+#~ msgid "Template padding exceeds its size limit."
+#~ msgstr "Sjabloonopvulling overschrijdt de groottelimiet."
+
+#~ msgid "Template formatting exceeds its size limit."
+#~ msgstr "Sjabloon opmaken overschrijdt de groottelimiet."
+
+#, python-format
 #~ msgid ""
 #~ "Fedora Messaging publisher service was unavailable; the connection will "
 #~ "be recreated on the next attempt: %(error)s"
@@ -25972,9 +26419,6 @@ msgstr "De werkruimte is verwijderd."
 #~ msgid "Renamed project"
 #~ msgstr "Naam project gewijzigd"
 
-#~ msgid "Renamed component"
-#~ msgstr "Naam onderdeel gewijzigd"
-
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "Nieuwe tekenreeks om te vertalen"
@@ -27496,9 +27940,6 @@ msgstr "De werkruimte is verwijderd."
 #~| msgid "Repository"
 #~ msgid "Backup pepository"
 #~ msgstr "Opslagruimte"
-
-#~ msgid "Your languages"
-#~ msgstr "Uw talen"
 
 #~ msgid "Fulltext"
 #~ msgstr "Volledige tekst"
@@ -30000,9 +30441,6 @@ msgstr "De werkruimte is verwijderd."
 
 #~ msgid "First name"
 #~ msgstr "Voornaam"
-
-#~ msgid "Username needs to have at least five characters."
-#~ msgstr "De gebruikersnaam moet minstens vijf tekens lang zijn."
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

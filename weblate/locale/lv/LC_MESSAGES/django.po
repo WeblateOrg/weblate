@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-13 01:19-0600\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
 "PO-Revision-Date: 2026-11-13 10:38+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1396,6 +1396,18 @@ msgstr ""
 msgid ""
 "This invitation can be accepted only by the e-mail address chosen by the "
 "inviter; it can't be used by your account."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr ""
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
 msgstr ""
 
 msgid ""
@@ -3986,6 +3998,16 @@ msgid ""
 "Remove the component from project teams before moving it to another project."
 msgstr ""
 
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
+
 msgid "Roles"
 msgstr "Lomas"
 
@@ -4790,6 +4812,11 @@ msgstr "Rēķinu plāni"
 #| msgid "Billing"
 msgid "Billing event"
 msgstr "Rēķinu plāni"
+
+#, fuzzy
+#| msgid "Components"
+msgid "Project has no components."
+msgstr "Komponenti"
 
 #, fuzzy
 #| msgid "Monthly"
@@ -6775,9 +6802,6 @@ msgstr ""
 msgid "Plural type"
 msgstr ""
 
-msgid "Example counts for this plural form."
-msgstr ""
-
 msgid "Singular"
 msgstr "Vienskaitlis"
 
@@ -7866,6 +7890,11 @@ msgid "Read your e-mail address"
 msgstr "Izmantot konta e-pastu"
 
 msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
 msgstr ""
 
 msgid "Image is too big."
@@ -10267,6 +10296,16 @@ msgid ""
 "above or purchase a subscription."
 msgstr ""
 
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+
 msgid "Customer"
 msgstr "Klients"
 
@@ -11827,6 +11866,15 @@ msgstr ""
 
 #. Translators: e-mail subject
 msgid "Recurring payment will be disabled for inactive projects"
+msgstr ""
+
+#, fuzzy
+#| msgid "Pending suggestions"
+msgid "Review Libre hosting conditions"
+msgstr "Neapstiprinātie ieteikumi"
+
+#, python-format
+msgid "Libre hosting removal warning for %(project)s"
 msgstr ""
 
 msgid "Translation change"
@@ -13807,6 +13855,9 @@ msgid ""
 "maintenance of Weblate itself."
 msgstr ""
 
+msgid "Example counts for this plural form."
+msgstr ""
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
@@ -13836,12 +13887,13 @@ msgstr ""
 msgid "Source code repository"
 msgstr ""
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr ""
-
 msgid "Repository URL copied to clipboard."
 msgstr ""
+
+#, fuzzy
+#| msgid "Components"
+msgid "Linked component"
+msgstr "Komponenti"
 
 msgid "Repository branch"
 msgstr ""
@@ -14279,6 +14331,11 @@ msgstr ""
 msgid "Plurals"
 msgstr "Daudzskaitļa vārdi"
 
+#, fuzzy
+#| msgid "No suggestions found."
+msgid "No integer examples found"
+msgstr "Nav atrasts neviens ieteikums."
+
 msgid "First"
 msgstr "Pirmā"
 
@@ -14542,7 +14599,7 @@ msgid "Community"
 msgstr "Kopiena"
 
 #, python-format
-msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
+msgid "Translate %(object)s using #Weblate at %(share_url)s!"
 msgstr ""
 
 msgid "Share on Bluesky"
@@ -15125,14 +15182,14 @@ msgstr ""
 msgid "Source"
 msgstr "Avota virkne"
 
-#, fuzzy, python-format
-#| msgid "Remove a string"
-msgid "Remove duplicate strings from %(language)s (%(filename)s)"
-msgstr "Dzēst virkni"
-
 #, fuzzy
 #| msgid "Remove a string"
 msgid "Remove duplicate strings"
+msgstr "Dzēst virkni"
+
+#, fuzzy, python-format
+#| msgid "Remove a string"
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
 msgstr "Dzēst virkni"
 
 msgid ""
@@ -16047,10 +16104,6 @@ msgstr ""
 msgid "Add term to glossary"
 msgstr ""
 
-#, python-format
-msgid "Browse glossary %(name)s"
-msgstr ""
-
 #, fuzzy
 #| msgid "Glossary"
 msgid "Browse glossary"
@@ -16105,6 +16158,14 @@ msgstr ""
 
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
+msgstr ""
+
+#, fuzzy, python-format
+msgid "%(filename)s, line %(line)s"
+msgstr "%(language)s %(project)s"
+
+#, python-format
+msgid "line %(line)s"
 msgstr ""
 
 #, python-format
@@ -17907,13 +17968,13 @@ msgstr ""
 msgid "Referenced category does not exist."
 msgstr ""
 
-msgid "Component filename does not match its category and slug."
-msgstr ""
-
 #, fuzzy
 #| msgid "Components"
 msgid "Duplicate component slug."
 msgstr "Komponenti"
+
+msgid "Component filename does not match its category and slug."
+msgstr ""
 
 #, fuzzy
 #| msgid "Your account has been removed."
@@ -18206,6 +18267,9 @@ msgstr "Veiktie ieteikumi"
 msgid "Needs review"
 msgstr "Pārskats"
 
+msgid "The source and destination checkouts must be different."
+msgstr ""
+
 msgid "This component does not exist or you cannot access it."
 msgstr ""
 
@@ -18231,6 +18295,11 @@ msgstr ""
 #| msgid "Weblate configuration"
 msgid "Discovery configuration"
 msgstr "Weblate iestatīšana"
+
+#, fuzzy, python-format
+#| msgid "Could not parse JSON: %s"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "Nevarēja parsēt JSON: %s"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -20231,6 +20300,12 @@ msgstr ""
 msgid "Use the secondary language configured in the category or project."
 msgstr ""
 
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Manage screenshots"
+msgid "The linked repository path is ambiguous."
+msgstr "Pārvaldīt ekrānšāviņus"
+
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
 "admin interface."
@@ -20482,6 +20557,9 @@ msgstr ""
 msgid ""
 "Pushing without a merge request needs write access to the repository. "
 "Configure a push URL with credentials, or use an SSH repository URL."
+msgstr ""
+
+msgid "Version control system cannot be changed to this backend."
 msgstr ""
 
 msgid "The file mask is too complex and took too long to evaluate."
@@ -21058,6 +21136,10 @@ msgstr ""
 msgid "User configured character: {}"
 msgstr ""
 
+#, python-format
+msgid "Changes committed, but could not push the repository: %s"
+msgstr ""
+
 msgid "Repository operation could not be completed because it remained locked."
 msgstr ""
 
@@ -21180,6 +21262,10 @@ msgid "string ID %s"
 msgstr ""
 
 msgid "This language is used for source strings."
+msgstr ""
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
 msgstr ""
 
 msgid "Fix this component to clear its diagnostics."
@@ -21964,6 +22050,16 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr ""
 
+#, fuzzy
+#| msgid "Secondary languages"
+msgid "Sort languages by"
+msgstr "Papildu valodas"
+
+#, fuzzy
+#| msgid "Translation comment"
+msgid "Translation percentage"
+msgstr "Komentēt tulkojumu"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr ""
@@ -22326,20 +22422,6 @@ msgstr ""
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
-msgid "Template output exceeds its size limit."
-msgstr ""
-
-msgid "Template rendering failed or exceeded its resource limits."
-msgstr ""
-
-msgid "Oversized template response."
-msgstr ""
-
-#, fuzzy
-#| msgid "Component list: %s"
-msgid "Invalid template rendering response."
-msgstr "Komponentu saraksts: %s"
-
 msgid "Could not render template: {}"
 msgstr ""
 
@@ -22348,14 +22430,16 @@ msgid ""
 "instead."
 msgstr ""
 
-msgid "Template value exceeds its size limit."
+msgid "Template context exceeds its size limit."
 msgstr ""
 
 msgid "Template context is nested too deeply."
 msgstr ""
 
-msgid "Template context exceeds its size limit."
-msgstr ""
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported nonfinite template context value."
+msgstr "Neatbalstīts datnes formāts."
 
 #, fuzzy
 #| msgid "Unsupported file format."
@@ -22367,29 +22451,330 @@ msgstr "Neatbalstīts datnes formāts."
 msgid "Unsupported template context value."
 msgstr "Neatbalstīts datnes formāts."
 
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "You have entered an invalid password."
+msgid "Template text is not valid UTF-8."
+msgstr "Jūs esat ievadījuši nepareizu paroli."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid request."
+msgid "Invalid template syntax."
+msgstr "Nederīgs pieprasījums."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Undefined template variable."
+msgstr "Neatbalstīts datnes formāts."
+
+#, fuzzy
+#| msgid "You have entered an invalid password."
+msgid "Text is not valid UTF-8."
+msgstr "Jūs esat ievadījuši nepareizu paroli."
+
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "Division by zero is not supported."
+msgstr "Izvēlētā šķirošana netiek atbalstīta."
+
+#, fuzzy
+#| msgid "You do not have permission to accept suggestions."
+msgid "Numeric value is too large for this operation."
+msgstr "Jums nav atļauts apstiprināt ieteikumus."
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Manage screenshots"
+msgid "Numeric operation failed."
+msgstr "Pārvaldīt ekrānšāviņus"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "Value or argument has an invalid format."
+msgstr "Jūsu konts tika dzēsts."
+
+#, fuzzy, python-format
+#| msgid "Could not parse JSON: %s"
+msgid "%(operation)s: %(message)s"
+msgstr "Nevarēja parsēt JSON: %s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
 msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "Nonfinite numbers are not supported."
+msgstr "Izvēlētā šķirošana netiek atbalstīta."
+
+#, fuzzy, python-format
+#| msgid "File names"
+msgid "Filter \"%(name)s\""
+msgstr "Failu nosaukumi"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
 msgstr ""
 
 msgid "Template rendering exceeded its loop limit."
 msgstr ""
 
-msgid "Template intermediate value exceeds its size limit."
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "Attribute access and method calls are not supported."
+msgstr "Izvēlētā šķirošana netiek atbalstīta."
+
+msgid "Index exceeds the length limit of 128 characters."
 msgstr ""
 
-msgid "Template replacement exceeds its size limit."
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "Translated template literals are not supported."
+msgstr "Izvēlētā šķirošana netiek atbalstīta."
+
+#, fuzzy
+#| msgid "Invalid unit."
+msgid "Invalid filter."
+msgstr "Nederīga vienība."
+
+msgid "Identity comparisons require None, True, or False."
 msgstr ""
 
-msgid "Template padding exceeds its size limit."
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "This condition operator is not supported."
+msgstr "Izvēlētā šķirošana netiek atbalstīta."
+
+msgid "Template output exceeds its size limit."
 msgstr ""
 
-msgid "Template formatting exceeds its size limit."
+msgid "Loops require a list, string, dictionary, or dictionary view."
 msgstr ""
 
-msgid "Template join exceeds its size limit."
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
+msgstr ""
+
+msgid "Loop value cannot be unpacked into its variables."
+msgstr ""
+
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "This template tag is not supported."
+msgstr "Izvēlētā šķirošana netiek atbalstīta."
+
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "This template node is not supported."
+msgstr "Izvēlētā šķirošana netiek atbalstīta."
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
 msgstr ""
 
 #, python-format
 msgid "Undefined variable: \"%s\""
+msgstr ""
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Suggestion voting is disabled."
+msgid "This filter requires strings."
+msgstr "Ieteikumu balsošana ir atspējota."
+
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Choices must be a string."
+msgstr "Automātiskais tulkojums"
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+msgid "Joining requires string elements."
+msgstr ""
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Date format must be a string or None."
+msgstr "Automātiskais tulkojums"
+
+#, fuzzy
+#| msgid "Screenshot image is missing."
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "Trūkst ekrānuzņēmuma attēla."
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Plural suffixes must be a string."
+msgstr "Automātiskais tulkojums"
+
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "Nested template delimiters are not supported."
+msgstr "Izvēlētā šķirošana netiek atbalstīta."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unclosed template token."
+msgstr "Neatbalstīts datnes formāts."
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "Template tag is empty."
+msgstr "Jūsu konts tika dzēsts."
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr ""
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unsupported file format."
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "Neatbalstīts datnes formāts."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template tag."
+msgstr "Neatbalstīts datnes formāts."
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
 msgstr ""
 
 #, python-format
@@ -24087,6 +24472,11 @@ msgstr ""
 #| msgid "Your account has been removed."
 msgid "The workspace has been removed."
 msgstr "Jūsu konts tika dzēsts."
+
+#, fuzzy
+#~| msgid "Component list: %s"
+#~ msgid "Invalid template rendering response."
+#~ msgstr "Komponentu saraksts: %s"
 
 #, fuzzy
 #~| msgid "Component list: %s"

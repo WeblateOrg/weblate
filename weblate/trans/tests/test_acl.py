@@ -44,7 +44,8 @@ from weblate.trans.tasks import (
 from weblate.trans.tests.test_views import FixtureTestCase, RegistrationTestMixin
 from weblate.trans.tests.utils import enable_login_required_settings
 from weblate.utils.pii import mask_email
-from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED
+from weblate.utils.state import STATE_APPROVED, STATE_EMPTY, STATE_TRANSLATED
+from weblate.utils.stats import TranslationStats
 
 if TYPE_CHECKING:
     from weblate.accounts.models import AuditLog
@@ -153,6 +154,10 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
 
         self.assertContains(response, form_url)
         self.assertContains(response, 'id="project-user-groups-modal"')
+        self.assertContains(
+            response,
+            f'data-modal-title="Edit team membership for {self.second_user.username}"',
+        )
         self.assertNotContains(response, f'id="edit_user_{self.second_user.id}"')
         self.assertNotContains(response, "project-membership-team-toggle")
         self.assertNotContains(
@@ -1532,6 +1537,76 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
             Change.objects.get(unit=unit, action=ActionEvents.USER_REVERT).user,
             self.user,
         )
+
+    @override_settings(STATS_LAZY=False)
+    def test_revert_user_edits_batches_follow_up_work(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        sources = ("Hello, world!\n", "Try Weblate at <https://demo.weblate.org/>!\n")
+        for source in sources:
+            self.change_unit("Original\n", source=source, user=self.user)
+            self.change_unit("Edited\n", source=source, user=self.second_user)
+
+        with (
+            patch("weblate.checks.tasks.refresh_propagated_checks.delay") as refresh,
+            patch.object(TranslationStats, "update_parents", autospec=True) as stats,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            result = revert_user_edits_task(
+                target_user_id=self.second_user.pk,
+                acting_user_id=self.user.pk,
+                project_id=self.project.pk,
+            )
+
+        self.assertEqual(result["reverted"], 2)
+        refresh.assert_called_once()
+        project_id, groups, unit_ids = refresh.call_args.args
+        self.assertEqual(project_id, self.project.pk)
+        self.assertEqual(unit_ids, [])
+        self.assertCountEqual(
+            [group["source"] for group in groups if group["check"] == "inconsistent"],
+            sources,
+        )
+        self.assertCountEqual(
+            [group["target"] for group in groups if group["check"] == "reused"],
+            ["Original\n", "Edited\n"],
+        )
+        translation = self.get_translation()
+        self.assertEqual(
+            sum(call.args[0].obj.pk == translation.pk for call in stats.call_args_list),
+            1,
+        )
+        for source in sources:
+            unit = self.get_unit(source=source, translation=translation)
+            self.assertEqual(unit.target, "Original\n")
+            self.assertEqual(
+                unit.change_set.get(action=ActionEvents.USER_REVERT).user, self.user
+            )
+
+    def test_revert_user_edits_records_translation_completion_once(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        translation = self.get_translation()
+        sources = ("Hello, world!\n", "Thank you for using Weblate.")
+        with self.captureOnCommitCallbacks(execute=True):
+            for unit in translation.unit_set.all():
+                unit.translate(self.user, unit.get_source_plurals(), STATE_TRANSLATED)
+        with self.captureOnCommitCallbacks(execute=True):
+            for source in sources:
+                self.change_unit(
+                    "", source=source, user=self.second_user, state=STATE_EMPTY
+                )
+
+        completions = translation.change_set.filter(action=ActionEvents.COMPLETE)
+        before = completions.count()
+        with self.captureOnCommitCallbacks(execute=True):
+            result = revert_user_edits_task(
+                target_user_id=self.second_user.pk,
+                acting_user_id=self.user.pk,
+                project_id=self.project.pk,
+            )
+
+        self.assertEqual(result["reverted"], 2)
+        self.assertEqual(completions.count(), before + 1)
+        self.assertEqual(completions.latest("pk").user, self.user)
 
     def test_revert_user_edits_task_invalid_old_state(self) -> None:
         self.project.add_user(self.user, "Administration")

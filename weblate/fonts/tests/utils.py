@@ -10,10 +10,13 @@ from typing import TYPE_CHECKING
 
 import weblate_fonts
 
-from weblate.fonts.models import FONT_STORAGE, Font
+from weblate.fonts.models import Font
+from weblate.fonts.storage import font_storage
 from weblate.trans.tests.test_views import FixtureComponentTestCase, FixtureTestCase
 
 if TYPE_CHECKING:
+    from importlib.resources.abc import Traversable
+
     from weblate.auth.models import User
     from weblate.trans.models import Project
 
@@ -33,9 +36,9 @@ class FontTestMixin:
     project: Project
     user: User
 
-    def add_font(self) -> Font:
-        with FONT.open("rb") as handle:
-            fontfile = FONT_STORAGE.save(FONT_NAME, handle)
+    def add_font(self, font: Traversable = FONT) -> Font:
+        with font.open("rb") as handle:
+            fontfile = font_storage.save(font.name, handle)
         return Font.objects.create(font=fontfile, project=self.project, user=self.user)
 
 

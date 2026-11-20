@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import os
 import shutil
-from contextlib import contextmanager
+from contextlib import contextmanager, nullcontext
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from functools import partial
@@ -113,7 +113,7 @@ class Publication:
         from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level]
 
         if self.lock is not None:
-            self.lock.reacquire()
+            self.lock.ensure_session()
         with transaction.atomic():
             addon = (
                 Addon.objects.select_for_update().filter(pk=self.instance.pk).first()
@@ -224,8 +224,10 @@ class Publication:
             raise
 
     def finalize(self, build_id: int) -> None:
-        if error := self.finalize_manifest(build_id):
-            self.errors.append(error)
+        # An enclosing transaction can defer this callback past the worker lock.
+        with self.lock if self.lock is not None else nullcontext():
+            if error := self.finalize_manifest(build_id):
+                self.errors.append(error)
 
     def finalize_manifest(self, build_id: int) -> str | None:
         """Publish committed intent; retry safely after crashes or filesystem errors."""
@@ -445,7 +447,6 @@ class Publication:
                     self.translations,
                     MAX_COMPILATION_BYTES,
                     MAX_PREPARATION_BYTES,
-                    renew_lock=self.lock.reacquire if self.lock is not None else None,
                 )
             except (
                 ValueError,

@@ -21,7 +21,13 @@ from django.core.exceptions import (
 from django.core.exceptions import (
     ValidationError as DjangoValidationError,
 )
-from django.db import DatabaseError, IntegrityError, transaction
+from django.db import (
+    DEFAULT_DB_ALIAS,
+    DatabaseError,
+    IntegrityError,
+    router,
+    transaction,
+)
 from django.db.models import Exists, OuterRef, Prefetch, Q
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404
@@ -218,6 +224,7 @@ from weblate.trans.repository import (
     queue_repository_operation,
     reserve_repository_operation,
 )
+from weblate.trans.repository_context import defer_repository_background_tasks
 from weblate.trans.tasks import (
     auto_translate,
     category_removal,
@@ -271,6 +278,7 @@ from weblate.utils.views import (
     snapshot_file_response,
     zip_download,
 )
+from weblate.vcs.base import RepositoryTemplateError
 from weblate.workspaces.models import Workspace
 
 from .renderers import (
@@ -281,6 +289,8 @@ from .renderers import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from django.db.models import Model
     from django.http import HttpResponse
     from django.http.response import HttpResponseBase
@@ -629,6 +639,8 @@ class NotSourceUnit(APIException):
 
 class WeblateExceptionHandler(ExceptionHandler):
     def convert_known_exceptions(self, exc: Exception) -> Exception:
+        if isinstance(exc, RepositoryTemplateError):
+            return ValidationError(str(exc))
         if isinstance(exc, WeblateLockTimeoutError):
             if exc.lock.scope == "repository":
                 return LockedError(
@@ -747,15 +759,12 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
                 filename,
                 [filename],
                 name=component.slug if component else "weblate",
-                refresh_lock=repository.lock.reacquire if repository else None,
             )
         if not os.path.exists(filename) or os.path.islink(filename):
             msg = "File not found"
             raise Http404(msg)
         if repository is not None:
-            return snapshot_file_response(
-                filename, content_type, repository.lock.reacquire, as_attachment=True
-            )
+            return snapshot_file_response(filename, content_type, as_attachment=True)
         return FileResponse(
             open(filename, "rb"),
             content_type=content_type,
@@ -813,21 +822,38 @@ class WeblateViewSet(DownloadViewSet):
             obj, repository_components
         )
 
+        # Reset and reapply may rebuild a missing checkout in its own durable
+        # transaction, which cannot be nested. Run it outside this transaction,
+        # like the queued task does. Without a commit to hook the reservation
+        # release to, hold back follow-up tasks until it is released.
+        in_transaction = operation != "reset-keep"
+        deferred_tasks: list[Callable[[], None]] = []
+        transaction_context = transaction.atomic() if in_transaction else nullcontext()
+        deferral_context = (
+            nullcontext(deferred_tasks)
+            if in_transaction
+            else defer_repository_background_tasks()
+        )
         with (
             reserve_repository_operation(
                 [component.pk for component in repositories],
                 cast("RepositoryOperation", operation),
             ) as release_reservation,
-            transaction.atomic(),
+            transaction_context as _transaction,
+            deferral_context as deferred_tasks,
         ):
-            # Register this before repository operations add their follow-ups.
-            # Django runs on-commit callbacks in registration order, so the
-            # reservation covers the commit but not the follow-up tasks.
-            transaction.on_commit(release_reservation)
+            if in_transaction:
+                # Register this before repository operations add their
+                # follow-ups. Django runs on-commit callbacks in registration
+                # order, so the reservation covers the commit but not the
+                # follow-up tasks.
+                transaction.on_commit(release_reservation)
             if takes_request:
                 result = getattr(obj, method)(*args, request, **kwargs)
             else:
                 result = getattr(obj, method)(*args, user, **kwargs)
+        for publish in deferred_tasks:
+            publish()
         data = {"result": result}
         if selection is not None:
             data.update(self.get_repository_scope_data(user, selection))
@@ -1055,31 +1081,31 @@ class MultipleFieldViewSet(WeblateViewSet):
         queryset = self.filter_queryset(queryset)
         # Generate lookup
         lookup = {}
-        category_path = ""
+        slug = None
         for field in reversed(self.lookup_fields):
             if field not in {"component__slug", "slug"}:
                 lookup[field] = self.kwargs[field]
-            else:
-                category_prefix = field[:-4]
-                was_category = False
-                was_slug = False
-                # Fetch component part for possible category
-                for category in reversed(unquote(self.kwargs[field]).split("/")):
-                    if not was_slug:
-                        # Component filter
-                        lookup[field] = category
-                        was_slug = True
-                    else:
-                        # Strip "slug" from category field
-                        category_path = f"category__{category_path}"
-                        lookup[f"{category_prefix}{category_path}slug"] = category
-                        was_category = True
-                if not was_category:
-                    # No category
-                    lookup[f"{category_prefix}category"] = None
+                continue
 
-        # Lookup the object
-        return get_object_or_404(queryset, **lookup)
+            *categories, slug = unquote(self.kwargs[field]).split("/")
+            lookup[f"{field}__iexact"] = slug
+            prefix = field.removesuffix("slug")
+            for category in reversed(categories):
+                lookup[f"{prefix}category__slug"] = category
+                prefix += "category__"
+            lookup[f"{prefix}category"] = None
+
+        try:
+            obj = get_object_or_404(queryset, **lookup)
+        except (
+            Component.MultipleObjectsReturned,
+            Translation.MultipleObjectsReturned,
+        ) as error:
+            raise Http404 from error
+        component = obj.component if isinstance(obj, Translation) else obj
+        if slug is not None and component.slug != slug:
+            raise Http404
+        return obj
 
 
 class UserFilter(filters.FilterSet):
@@ -3528,7 +3554,7 @@ class ComponentViewSet(
         if not request.user.has_perm("translation.download", obj):
             raise PermissionDenied
 
-        with obj.effective_repo_component.repository.lock:
+        with obj.effective_repo_component.repository.lock.read():
             if not obj.has_template():
                 msg = "No template found!"
                 raise Http404(msg)
@@ -3557,7 +3583,7 @@ class ComponentViewSet(
             msg = "No file found!"
             raise Http404(msg)
 
-        with obj.effective_repo_component.repository.lock:
+        with obj.effective_repo_component.repository.lock.read():
             return self.download_file(
                 obj.get_new_base_filename(), "application/binary", component=obj
             )
@@ -3911,6 +3937,11 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
     permission_classes = (IsAuthenticated,)
     comparer = Comparer()
 
+    @cached_property
+    def write_db_alias(self) -> str:
+        # Keep delete authorization on the same database as the mutation.
+        return router.db_for_write(Memory) or DEFAULT_DB_ALIAS
+
     def get_read_db_alias(self) -> str:
         if "memory_db" in settings.DATABASES:
             return "memory_db"
@@ -3926,13 +3957,14 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         else:
             queryset = Memory.objects.using(alias).visible_to_user(user, alias=alias)
 
-        # Reads can use a dedicated memory_db alias when configured, but delete
-        # object resolution stays on default because memory_db is typically
-        # deployed as a read-only replica.
         return queryset.prefetch_scopes().order_by("id")
 
     def get_queryset(self):
-        alias = "default" if self.action == "destroy" else self.get_read_db_alias()
+        alias = (
+            self.write_db_alias
+            if self.action == "destroy"
+            else self.get_read_db_alias()
+        )
         return self.get_scoped_queryset(alias=alias)
 
     def get_deletable_scope_ids(self, request: Request, instance: Memory) -> list[int]:
@@ -3947,7 +3979,8 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
             if scope.scope in {MemoryScope.SCOPE_PROJECT, MemoryScope.SCOPE_WORKSPACE}
         }
         accessible_project_or_workspace_scope_ids = set(
-            MemoryScope.objects.filter(id__in=component_scoped_ids)
+            MemoryScope.objects.using(self.write_db_alias)
+            .filter(id__in=component_scoped_ids)
             .filter(MemoryQuerySet.get_component_access_query(user))
             .values_list("id", flat=True)
         )
@@ -3981,9 +4014,9 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         instance = self.get_object()
         scope_ids = self.get_deletable_scope_ids(request, instance)
         if scope_ids:
-            Memory.objects.filter(pk=instance.pk).delete_scope(
-                Q(id__in=scope_ids), delete_legacy=False
-            )
+            Memory.objects.using(self.write_db_alias).filter(
+                pk=instance.pk
+            ).delete_scope(Q(id__in=scope_ids), delete_legacy=False)
         else:
             self.permission_denied(request, "Can not delete memory entry")
         return Response(status=HTTP_204_NO_CONTENT)
@@ -4715,8 +4748,13 @@ class LanguageViewSet(viewsets.ModelViewSet):
         return super().update(request, *args, **kwargs)
 
     def create(self, request: Request, *args, **kwargs):
-        """Create a new language."""
-        self.perm_check(request)
+        """
+        Create a new language.
+
+        Requires the site-wide `language.add` permission.
+        """
+        if not request.user.has_perm("language.add"):
+            self.permission_denied(request, "Can not create languages")
         return super().create(request, *args, **kwargs)
 
     def destroy(self, request: Request, *args, **kwargs):
@@ -5331,7 +5369,11 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
     raw_formats = ()
 
     def get_queryset(self):
-        return Screenshot.objects.filter_access(self.request.user).order_by("id")
+        queryset = Screenshot.objects.filter_access(self.request.user).order_by("id")
+        if self.action in {"units", "delete_units", "update", "partial_update"}:
+            # Serialize unit association changes and repository path edits.
+            queryset = queryset.select_for_update(of=("self",))
+        return queryset
 
     @extend_schema(
         description="Download the screenshot image.",
@@ -5356,7 +5398,19 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
     def file(self, request: Request, **kwargs):
         obj = self.get_object()
         if request.method not in {"POST", "PUT"}:
-            return self.download_file(obj.image.path, "application/binary")
+            # Read through the storage API, remote storage backends do not
+            # provide a local path.
+            try:
+                handle = obj.image.open("rb")
+            except FileNotFoundError as error:
+                msg = "File not found"
+                raise Http404(msg) from error
+            return FileResponse(
+                handle,
+                content_type="application/binary",
+                as_attachment=True,
+                filename=os.path.basename(obj.image.name),
+            )
 
         if not request.user.has_perm("screenshot.edit", obj.translation):
             raise PermissionDenied
@@ -5365,8 +5419,11 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
 
         obj.image.save(
-            serializer.validated_data["image"].name, serializer.validated_data["image"]
+            serializer.validated_data["image"].name,
+            serializer.validated_data["image"],
+            save=False,
         )
+        obj.save(update_fields=["image"])
 
         return Response(data={"result": True})
 
@@ -5392,7 +5449,8 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         except Unit.DoesNotExist as error:
             raise not_found_validation_error(field_name, "Unit") from error
 
-        obj.add_unit(unit, user=request.user)
+        if not obj.units.filter(pk=unit.pk).exists():
+            obj.add_unit(unit, user=request.user)
         serializer = ScreenshotSerializer(obj, context={"request": request})
 
         return Response(serializer.data, status=HTTP_200_OK)
@@ -5402,6 +5460,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         methods=["delete"],
     )
     @action(detail=True, methods=["delete"], url_path="units/(?P<unit_id>[0-9]+)")
+    @transaction.atomic
     def delete_units(self, request: Request, pk, unit_id):
         obj = self.get_object()
         if not request.user.has_perm("screenshot.edit", obj.translation):
@@ -5412,7 +5471,8 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         except Unit.DoesNotExist as error:
             msg = "Unit"
             raise not_found_http404(msg) from error
-        obj.remove_unit(unit, user=request.user)
+        if obj.units.filter(pk=unit.pk).exists():
+            obj.remove_unit(unit, user=request.user)
         return Response(status=HTTP_204_NO_CONTENT)
 
     def create(self, request: Request, *args, **kwargs):
@@ -5439,7 +5499,8 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
 
         with transaction.atomic():
             serializer = ScreenshotCreateSerializer(
-                data=request.data, context={"request": request}
+                data=request.data,
+                context={"request": request, "translation": translation},
             )
             serializer.is_valid(raise_exception=True)
             instance = serializer.save(translation=translation, user=user)
@@ -5460,12 +5521,18 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
 
             return Response(serializer.data, status=HTTP_201_CREATED)
 
+    @transaction.atomic
     def update(self, request: Request, *args, **kwargs):
         """Edit full information about screenshot."""
         instance = self.get_object()
         if not request.user.has_perm("screenshot.edit", instance.translation):
             self.permission_denied(request, "Can not edit screenshot.")
-        return super().update(request, *args, **kwargs)
+        serializer = self.get_serializer(
+            instance, data=request.data, partial=kwargs.get("partial", False)
+        )
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
 
     def destroy(self, request: Request, *args, **kwargs):
         """Delete screenshot."""
@@ -5561,6 +5628,15 @@ class ComponentListViewSet(viewsets.ModelViewSet):
         """Delete the component list."""
         self.perm_check(request)
         return super().destroy(request, *args, **kwargs)
+
+    def perform_destroy(self, instance: ComponentList) -> None:
+        try:
+            with transaction.atomic(
+                using=router.db_for_write(ComponentList, instance=instance)
+            ):
+                super().perform_destroy(instance)
+        except DjangoValidationError as error:
+            raise ValidationError(error.messages) from error
 
     @extend_schema(
         description="Associate component with a component list.", methods=["post"]
@@ -6181,8 +6257,10 @@ class TasksViewSet(ViewSet):
     )
     def retrieve(self, request: Request, pk=None):
         task, component, metadata = self.get_task(request, pk)
-        result = sanitize_task_result(task.id, task.result, cast("User", request.user))
-        if task.ready():
+        result = sanitize_task_result(
+            task.id, task.result, cast("User", request.user), metadata=metadata
+        )
+        if task.ready() and isinstance(result, dict):
             store_task_completion_message(request, task, result=result)
         serializer = self.serializer_class(
             {

@@ -14,7 +14,7 @@ from unittest.mock import patch
 from django.conf import settings
 from django.contrib.messages import get_messages
 from django.db import IntegrityError, connection, transaction
-from django.test import SimpleTestCase, TransactionTestCase
+from django.test import SimpleTestCase, TestCase, TransactionTestCase
 
 from weblate.trans.models import Component, Unit
 from weblate.trans.recovery import recover_checkout, reset_with_recovery
@@ -75,25 +75,6 @@ class CheckoutPathTest(SimpleTestCase):
         self.assertEqual(raised.exception.code, "repository_checkout_missing")
         self.assertEqual(raised.exception.diagnoses, [{"code": "checkout_missing"}])
 
-    def test_occupied_checkout_configuration_is_invalid(self) -> None:
-        with TemporaryDirectory() as temporary:
-            checkout = Path(temporary) / "checkout"
-            checkout.write_text("occupied")
-            repository = GitRepository(str(checkout))
-            with self.assertRaises(RepositoryInternalError) as raised:
-                repository.check_config()
-        self.assertEqual(raised.exception.code, "repository_checkout_invalid")
-
-    def test_dangling_git_directory_configuration_is_invalid(self) -> None:
-        with TemporaryDirectory() as temporary:
-            checkout = Path(temporary) / "checkout"
-            checkout.mkdir()
-            (checkout / ".git").symlink_to("missing-metadata", target_is_directory=True)
-            repository = GitRepository(str(checkout))
-            with self.assertRaises(RepositoryInternalError) as raised:
-                repository.check_config()
-        self.assertEqual(raised.exception.code, "repository_checkout_invalid")
-
     def test_recovery_rejects_escaping_path(self) -> None:
         with TemporaryDirectory() as temporary, self.assertRaises(RepositoryError):
             GitRepository.recovery_checkout_path(Path(temporary), "../outside.po")
@@ -148,6 +129,27 @@ class CheckoutPathTest(SimpleTestCase):
                 recover_checkout(component) as reconstructed,
             ):
                 self.assertFalse(reconstructed)
+
+
+class CheckoutConfigurationTest(TestCase):
+    def test_occupied_checkout_configuration_is_invalid(self) -> None:
+        with TemporaryDirectory() as temporary:
+            checkout = Path(temporary) / "checkout"
+            checkout.write_text("occupied")
+            repository = GitRepository(str(checkout))
+            with self.assertRaises(RepositoryInternalError) as raised:
+                repository.check_config()
+        self.assertEqual(raised.exception.code, "repository_checkout_invalid")
+
+    def test_dangling_git_directory_configuration_is_invalid(self) -> None:
+        with TemporaryDirectory() as temporary:
+            checkout = Path(temporary) / "checkout"
+            checkout.mkdir()
+            (checkout / ".git").symlink_to("missing-metadata", target_is_directory=True)
+            repository = GitRepository(str(checkout))
+            with self.assertRaises(RepositoryInternalError) as raised:
+                repository.check_config()
+        self.assertEqual(raised.exception.code, "repository_checkout_invalid")
 
 
 class RepositoryRecoveryTest(ComponentTestCase):

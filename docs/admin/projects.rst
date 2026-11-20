@@ -22,6 +22,10 @@ using categories.
 * Above :ref:`component` there are individual translations, handled automatically by Weblate as translation
   files (which match :ref:`component-filemask` defined in :ref:`component`) appear in the VCS repository.
 
+* Each target language in a project has :ref:`workflow settings <workflow-customization>`
+  for reviews and suggestions. You can also choose a
+  :ref:`custom source language <workflow-source-language>` for that target language.
+
 Weblate supports a wide range of translation formats (both bilingual and
 monolingual ones) supported by Translate Toolkit, see :ref:`formats`.
 
@@ -147,6 +151,8 @@ URL slug
 ++++++++
 
 Project name suitable for URLs.
+
+Project slugs are case-insensitively unique across the instance.
 
 .. _project-web:
 
@@ -574,6 +580,10 @@ Component slug
 ++++++++++++++
 
 Component name suitable for URLs.
+
+The slug is case-insensitively unique among components in the same category or
+at the top level of the same project. Different projects and categories may reuse
+the same component slug.
 
 .. _component-project:
 
@@ -1626,7 +1636,18 @@ work to an 8 MiB budget. These budgets count
 repeated operations even inside conditions that produce no output. A five-second
 deadline provides an additional guard. Exceeding any limit fails the render.
 Errors identify the failed limit or unsupported operation and the relevant filter
-or tag when available. Multiline parsing and evaluation errors also include the source line number.
+or tag when available. Multiline parsing and evaluation errors also include
+the source line number. Validation can quote parts of the submitted template
+to help you find the error. Runtime diagnostics omit raw template fragments
+and context values.
+
+If a saved repository browser or editor link template fails to render, Weblate
+displays the filename without a link. Failed commit, merge, and pull request
+message templates stop the operation with an error. A failure in the
+:ref:`delete message <component-delete_message>` template stops translation
+deletion. Correct the template before retrying the operation.
+Discovery template failures stop component creation and removal. Add-on template
+failures appear in the add-on activity log.
 
 Contexts support scalar substitutions, dictionary lookups such as
 ``{{ stats.translated }}``, and list or string indexing such as

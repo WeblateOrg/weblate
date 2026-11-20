@@ -32,7 +32,7 @@
                  name="passkey-device-name"
                  maxlength="64"
                  data-href="{% url "webauthn-detail" pk="000000" %}"
-                 placeholder="{% translate "Name your security key" %}" />
+                 placeholder="{% translate "Name your security key"|force_escape %}" />
         </div>
         <div id="passkey-register-status-message" role="status"></div>
       </div>

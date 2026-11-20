@@ -214,7 +214,7 @@ class BackupLockTest(SimpleTestCase):
         atomic = MagicMock()
 
         with (
-            patch("weblate.utils.backup.connection", database_connection),
+            patch("weblate.utils.lock.connections", {"default": database_connection}),
             patch("weblate.utils.backup.transaction.atomic", return_value=atomic),
             backup_lock(shared=True),
         ):
@@ -236,7 +236,7 @@ class BackupLockTest(SimpleTestCase):
         atomic = MagicMock()
 
         with (
-            patch("weblate.utils.backup.connection", database_connection),
+            patch("weblate.utils.lock.connections", {"default": database_connection}),
             patch("weblate.utils.backup.transaction.atomic", return_value=atomic),
             self.assertRaisesRegex(RuntimeError, "backup failed"),
             backup_lock(),
@@ -261,7 +261,7 @@ class BackupLockTest(SimpleTestCase):
         atomic = MagicMock()
 
         with (
-            patch("weblate.utils.backup.connection", database_connection),
+            patch("weblate.utils.lock.connections", {"default": database_connection}),
             patch("weblate.utils.backup.transaction.atomic", return_value=atomic),
             self.assertRaisesRegex(WeblateLockTimeoutError, "could not be acquired"),
             backup_lock(timeout=0),

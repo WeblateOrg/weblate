@@ -855,12 +855,43 @@ class TranslationForm(UnitForm):
         else:
             self.fields["review"].widget = forms.HiddenInput()
         if component.is_glossary:
+            self.can_save_explanation = not component.locked and (
+                user_can_edit or user.has_perm("meta:unit.flag", translation)
+            )
+            if not self.can_save_explanation:
+                self.fields["explanation"].widget = forms.Textarea(
+                    attrs={"readonly": True, "dir": "auto"}
+                )
+                if user.has_perm("comment.add", translation):
+                    self.fields["explanation"].help_text = gettext(
+                        "To propose an explanation change, leave a comment."
+                    )
             if unit.is_source:
                 self.fields["explanation"].label = gettext("Source string explanation")
             else:
                 self.fields["explanation"].label = gettext("Translation explanation")
         else:
             self.fields["explanation"].widget = forms.HiddenInput()
+
+    def clean_explanation(self) -> str:
+        explanation = self.cleaned_data["explanation"]
+        if (
+            self.unit.translation.component.is_glossary
+            and "suggest" in self.data
+            and "explanation" in self.data
+            and normalize_newlines(explanation)
+            != normalize_newlines(self.unit.explanation.strip())
+        ):
+            message = gettext(
+                "Suggestions can only change the translation. "
+                "To suggest a translation, restore the original explanation."
+            )
+            if self.can_save_explanation:
+                message += " " + gettext(
+                    "To save the explanation directly, use Save and stay."
+                )
+            raise ValidationError(message)
+        return explanation
 
     def clean(self) -> None:
         super().clean()
@@ -1167,7 +1198,7 @@ class SearchForm(forms.Form):
                     allow_save=True,
                 ),
                 Field("sort_by", template="snippets/sort-field.html"),
-                css_class="btn-toolbar",
+                css_class="btn-toolbar column-gap-3",
                 role="toolbar",
             ),
             ContextDiv(
@@ -1549,7 +1580,7 @@ class AutoForm(forms.Form):
         else:
             try:
                 result = self.components.get_by_path(component)
-            except Component.DoesNotExist as error:
+            except (Component.DoesNotExist, Component.MultipleObjectsReturned) as error:
                 raise ValidationError(gettext("Component not found!")) from error
         if (
             isinstance(self.obj, Component)
@@ -3482,7 +3513,7 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
             linked_component = (
                 Component.objects.get_linked(repo) if repo is not None else None
             )
-        except Component.DoesNotExist:
+        except (Component.DoesNotExist, Component.MultipleObjectsReturned):
             linked_component = None
         if linked_component is not None and self.request.user.has_perm(
             "component.edit", linked_component

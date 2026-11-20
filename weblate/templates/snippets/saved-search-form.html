@@ -10,7 +10,9 @@
     </div>
     <div class="card-body">{% crispy form %}</div>
     <div class="card-footer">
-      <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
+      <input type="submit"
+             class="btn btn-primary"
+             value="{% translate "Save"|force_escape %}" />
     </div>
   </div>
 </form>

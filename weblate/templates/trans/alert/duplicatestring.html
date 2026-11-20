@@ -2,7 +2,7 @@
 
 <p>{% translate "The component contains several duplicated translation strings." %}</p>
 
-<p>{% translate "The following occurrences were found:" %}</p>
+{% include "trans/alert/occurrence-summary.html" %}
 
 <div class="table-responsive">
   <table class="table table-sm">
@@ -38,8 +38,10 @@
               {% if user_can_cleanup_translation %}
                 <button type="button"
                         class="btn btn-danger link-post"
-                        aria-label="{% blocktranslate with language=group.language filename=group.translation.filename %}Remove duplicate strings from {{ language }} ({{ filename }}){% endblocktranslate %}"
-                        data-href="{% url "remove_duplicate_units" path=group.translation.get_url_path %}">{% translate "Remove duplicate strings" %}</button>
+                        data-href="{% url "remove_duplicate_units" path=group.translation.get_url_path %}">
+                  <span aria-hidden="true">{% translate "Remove duplicate strings" %}</span>
+                  <span class="visually-hidden">{% blocktranslate with language=group.language filename=group.translation.filename %}Remove duplicate strings from {{ language }} ({{ filename }}){% endblocktranslate %}</span>
+                </button>
               {% endif %}
             {% endif %}
           </td>
@@ -52,5 +54,3 @@
 <p>
   {% translate "Please fix this by removing duplicated strings with same identifier from the translation files." %}
 </p>
-
-{% include "trans/alert/occurrences-limit.html" %}

@@ -264,6 +264,10 @@ Django REST Framework
        - | :pypi:`Sphinx`
        - Needed for :ref:`addon-weblate.gettext.sphinx`
 
+     * - ``storage``
+       - | :pypi:`django-storages`
+       - :ref:`screenshot-storage`, :ref:`font-storage`
+
      * - ``wllegal``
        - | :pypi:`wllegal`
        - Hosted Weblate integration
@@ -386,9 +390,7 @@ owned by the ``weblate`` user inside the container (UID 1000).
 Database setup for Weblate
 --------------------------
 
-It is recommended to run Weblate with a PostgreSQL database server.
-
-PostgreSQL 13 and higher is supported. PostgreSQL 15 or newer is recommended.
+Weblate requires PostgreSQL 15 or later.
 
 .. seealso::
 
@@ -478,6 +480,14 @@ It is usually a good idea to run Weblate in a separate database, and separate us
 
 Configuring Weblate to use PostgreSQL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Weblate uses PostgreSQL advisory locks to coordinate requests and background workers.
+Connect directly to PostgreSQL or configure your connection pooler for session pooling.
+Long-running repository and provider operations must keep their database session alive
+until they finish.
+
+When upgrading from a release that uses Redis or file-based locks, drain web requests
+and background workers before starting any process running the new release.
 
 The :file:`settings.py` snippet for PostgreSQL:
 
@@ -668,9 +678,16 @@ requests and Git repositories. Define the proxy environment variables in
    os.environ["http_proxy"] = "http://proxy.example.com:8080"
    os.environ["https_proxy"] = "http://proxy.example.com:8080"
 
-Only ``http_proxy`` and ``https_proxy`` are supported. Generic and bypass
-variables such as ``all_proxy`` and ``no_proxy``, operating-system proxy
-configuration, and VCS-specific proxy configuration are not supported.
+Only ``http_proxy`` and ``https_proxy`` are supported, together with
+``no_proxy`` listing hosts that are connected to directly. Generic variables
+such as ``all_proxy``, operating-system proxy configuration, and VCS-specific
+proxy configuration are not supported.
+
+``no_proxy`` is a comma-separated list of host names (also matching their
+subdomains) or IP addresses, optionally with a port, and IP networks in CIDR
+notation; ``*`` bypasses the proxy for all hosts. Internationalized domain names
+match in either their Unicode or ASCII (punycode) form. Hosts reached directly are subject to
+private-address restrictions such as :setting:`VCS_RESTRICT_PRIVATE`.
 
 .. seealso::
 
@@ -723,6 +740,107 @@ function, its local processing, or third-party provider SDKs.
 
 Operator-run crawler-range updates, maintenance scripts, and Sentry deployment
 use separate download paths and are outside these shared-client limits.
+
+.. _screenshot-storage:
+
+Storing screenshots in object storage
++++++++++++++++++++++++++++++++++++++
+
+.. versionadded:: 2026.12
+
+Uploaded :ref:`screenshots` are stored using the Django default file storage,
+which keeps them in :setting:`DATA_DIR` ``/media`` unless configured otherwise.
+To store them in an object storage service such as Amazon S3 or another
+S3-compatible service, Google Cloud Storage, or Azure Blob Storage, install the
+``storage`` optional dependency, which provides :pypi:`django-storages`, and
+configure ``default`` in :setting:`django:STORAGES`:
+
+.. code-block:: python
+
+    STORAGES["default"] = {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "bucket_name": "weblate-media",
+            "file_overwrite": False,
+        },
+    }
+
+The Amazon S3 backend also needs the ``amazon`` optional dependency, Google
+Cloud Storage needs the ``google`` one, and Azure Blob Storage needs
+:pypi:`azure-storage-blob`, which Weblate does not install. See the
+`django-storages documentation <https://django-storages.readthedocs.io/>`_ for
+backend options and how credentials are configured.
+
+Weblate needs the following from the storage:
+
+* Existing files must not be overwritten. Uploaded screenshots keep their file
+  names, and overwriting would make screenshots with the same name replace each
+  other. The Amazon S3 and Google Cloud Storage backends overwrite files by
+  default, so set ``file_overwrite`` to ``False``. Weblate reports a warning in
+  system checks when the storage overwrites files.
+* Use a dedicated bucket or set ``location`` to a dedicated prefix. Weblate
+  periodically removes files in :file:`screenshots/` that do not belong to any
+  screenshot.
+* The bucket does not have to be public. Weblate serves screenshots to users
+  after checking their permissions.
+
+To move existing screenshots, copy the content of :setting:`DATA_DIR`
+``/media`` to the bucket, keeping the :file:`screenshots/` prefix. When
+``location`` is configured, copy the files under that prefix instead. Weblate
+stores relative file names, so no database changes are needed.
+
+:ref:`projectbackup` include screenshots from object storage, but
+:ref:`automated-backup` does not; use the versioning or backup features of the
+storage service instead.
+
+User-uploaded fonts are not affected by this setting, see :ref:`font-storage`.
+
+.. seealso::
+
+   :envvar:`WEBLATE_MEDIA_STORAGE_BACKEND`
+
+.. _font-storage:
+
+Storing fonts in object storage
++++++++++++++++++++++++++++++++
+
+.. versionadded:: 2026.12
+
+Uploaded :ref:`fonts` are stored in :setting:`DATA_DIR` ``/fonts`` unless
+``fonts`` is configured in :setting:`django:STORAGES`. To store them in an
+object storage service, install the ``storage`` optional dependency and
+configure it the same way as :ref:`screenshot-storage`:
+
+.. code-block:: python
+
+    STORAGES["fonts"] = {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "bucket_name": "weblate-fonts",
+            "file_overwrite": False,
+        },
+    }
+
+The storage has the same requirements as the screenshot storage: it must not
+overwrite existing files, and it needs a dedicated bucket or ``location``
+prefix, because Weblate periodically removes files that do not belong to any
+font.
+
+The :ref:`check-max-size` check needs fonts as local files, so Weblate
+downloads each font on first use to :setting:`CACHE_DIR` ``/fonts``. Copies
+that were not used for a day are removed, and downloaded again when needed.
+
+To move existing fonts, copy the content of :setting:`DATA_DIR` ``/fonts`` to
+the bucket, or under the ``location`` prefix when it is configured. Weblate
+stores relative file names, so no database changes are needed.
+
+Neither :ref:`projectbackup` nor :ref:`automated-backup` include fonts from
+object storage; use the versioning or backup features of the storage service
+instead.
+
+.. seealso::
+
+   :envvar:`WEBLATE_FONTS_STORAGE_BACKEND`
 
 .. _configuration:
 

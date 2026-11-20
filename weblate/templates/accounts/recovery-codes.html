@@ -35,7 +35,7 @@
         <button type="button"
                 class="btn btn-primary"
                 data-clipboard-value="{{ recovery_codes_str }}"
-                data-clipboard-message="{% translate "Recovery codes copied to clipboard." %}">
+                data-clipboard-message="{% translate "Recovery codes copied to clipboard."|force_escape %}">
           {% icon "copy.svg" %} {% translate "Copy to clipboard" %}
         </button>
       {% else %}

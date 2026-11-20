@@ -222,7 +222,14 @@ STATICFILES_FINDERS = (
 )
 
 STORAGES = {
-    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    # Storage for user-uploaded media such as screenshots
+    "default": {
+        "BACKEND": get_env_str(
+            "WEBLATE_MEDIA_STORAGE_BACKEND",
+            "django.core.files.storage.FileSystemStorage",
+        ),
+        "OPTIONS": get_env_json("WEBLATE_MEDIA_STORAGE_OPTIONS", {}),
+    },
     "staticfiles": {
         "BACKEND": (
             "django.contrib.staticfiles.storage.StaticFilesStorage"
@@ -231,6 +238,13 @@ STORAGES = {
         )
     },
 }
+
+# Storage for user-uploaded fonts, stored in DATA_DIR/fonts by default
+if fonts_storage_backend := get_env_str("WEBLATE_FONTS_STORAGE_BACKEND"):
+    STORAGES["fonts"] = {
+        "BACKEND": fonts_storage_backend,
+        "OPTIONS": get_env_json("WEBLATE_FONTS_STORAGE_OPTIONS", {}),
+    }
 
 # Make this unique, and don't share it with anybody.
 # You can generate it using weblate-generate-secret-key
@@ -1226,6 +1240,9 @@ TRANSLATION_UPLOAD_MAX_SIZE = get_env_int(
     utils_defaults.DEFAULT_TRANSLATION_UPLOAD_MAX_SIZE,
 )
 TRANSLATION_MAX_SIZE = get_env_int_or_none("WEBLATE_TRANSLATION_MAX_SIZE")
+TRANSLATION_MAX_UNITS = get_env_int(
+    "WEBLATE_TRANSLATION_MAX_UNITS", utils_defaults.DEFAULT_TRANSLATION_MAX_UNITS
+)
 # Maximum allowed uploaded component ZIP file size
 COMPONENT_ZIP_UPLOAD_MAX_SIZE = get_env_int(
     "WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE",

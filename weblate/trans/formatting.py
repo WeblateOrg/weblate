@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import re
+from bisect import bisect_left, bisect_right
 from collections import defaultdict
 from html import escape as html_escape
 from typing import TYPE_CHECKING
@@ -62,6 +63,7 @@ WHITESPACE_CLASSES = {
 }
 NEWLINE_RE = re.compile(r"(\r\n|\r|\n)", re.MULTILINE)
 MULTISPACE_RE = re.compile(r"(  +| $|^ )", re.MULTILINE)
+COMPACT_SPACE_RUN_LENGTH = 8
 ESCAPE_RE = re.compile(r"""['"&<>]""")
 
 SOURCE_LINK = (
@@ -113,7 +115,7 @@ class Formatter:
                 break
         current.insert(insert_at, tag)
 
-    def parse(self) -> None:
+    def parse(self, *, compact_spaces: bool = True) -> None:
         if self.unit:
             self.parse_highlight()
         if self.glossary:
@@ -121,7 +123,7 @@ class Formatter:
         if self.search_match:
             self.parse_search()
         if self.whitespace:
-            self.parse_whitespace()
+            self.parse_whitespace(compact_spaces=compact_spaces and self.diff is None)
         if self.diff:
             self.parse_diff()
 
@@ -141,7 +143,7 @@ class Formatter:
                     self.match,
                     search_field=self.search_field,
                 )
-                formatter.parse()
+                formatter.parse(compact_spaces=False)
                 self.tags[offset].append(f"<del>{formatter.format()}</del>")
             elif op == self.differ.DIFF_INSERT:
                 end = offset + len(data)
@@ -365,7 +367,7 @@ class Formatter:
             self.insert_before_opening_tags(start, start_tag)
             self.insert_before_opening_tags(end, end_tag)
 
-    def parse_whitespace(self) -> None:
+    def parse_whitespace(self, *, compact_spaces: bool) -> None:
         """Highlight whitespaces."""
         value = self.value
 
@@ -373,12 +375,25 @@ class Formatter:
             self.tags[match.start()].append(SPACE_NL_START)
             self.tags[match.end()].insert(0, SPACE_NL_END)
 
+        boundaries = None
         for match in MULTISPACE_RE.finditer(value):
-            self.tags[match.start()].append(SPACE_START)
-            for i in range(match.start() + 1, match.end()):
+            start, end = match.span()
+            if compact_spaces and end - start >= COMPACT_SPACE_RUN_LENGTH:
+                if boundaries is None:
+                    boundaries = sorted(self.tags)
+                # Keep compact spans inside any existing annotations.
+                first = bisect_right(boundaries, start)
+                last = bisect_left(boundaries, end)
+                for stop in (*boundaries[first:last], end):
+                    self.tags[start].append('<span class="hlspace space-run">')
+                    self.tags[stop].insert(0, "</span>")
+                    start = stop
+                continue
+            self.tags[start].append(SPACE_START)
+            for i in range(start + 1, end):
                 self.tags[i].insert(0, SPACE_MIDDLE_1)
                 self.tags[i].append(SPACE_MIDDLE_2)
-            self.tags[match.end()].insert(0, SPACE_END)
+            self.tags[end].insert(0, SPACE_END)
 
         for match in WHITESPACE_RE.finditer(value):
             whitespace = match.group(0)

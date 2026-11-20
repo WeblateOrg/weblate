@@ -66,7 +66,7 @@ scripts = [
 ]
 test = [
   "coverage==7.17.3",
-  "hypothesis==6.170.15",
+  "hypothesis==6.170.17",
   "pytest-cov==7.1.0",
   "pytest-django==4.14.0",
   "pytest-github-actions-annotate-failures==0.4.2",
@@ -78,7 +78,7 @@ test = [
   "standardwebhooks==1.3.0"
 ]
 types = [
-  "boto3-stubs==1.44.2",
+  "boto3-stubs==1.44.7",
   "botocore-stubs==1.43.126",
   "celery-types==0.26.0",
   "django-stubs-ext==6.1.2",
@@ -91,7 +91,7 @@ types = [
   "types-lxml==2026.2.16",
   "types-openpyxl==3.1.5.20261017",
   "types-python-dateutil==2.9.0.20261116",
-  "types-regex==2026.11.15.20261116",
+  "types-regex==2026.11.19.20261119",
   "types-setuptools==84.2.0.20261104"
 ]
 
@@ -145,7 +145,7 @@ dependencies = [
   "cysignals==1.12.6",
   "dateparser==1.5.1",
   "diff-match-patch==20241021",
-  "disposable-email-domains==0.0.293",
+  "disposable-email-domains==0.0.297",
   "django-appconf==1.2.0",
   "django-celery-beat==2.9.0",
   "django-cors-headers==4.9.0",
@@ -160,7 +160,6 @@ dependencies = [
   "docutils==0.21.2",
   "drf-spectacular[sidecar]==0.30.0",
   "drf-standardized-errors[openapi]==0.16.0",
-  "filelock==4.2.12",
   # Pin for translate-toolkit extra
   "fluent.syntax==0.19.0",
   "GitPython==3.2.1",
@@ -201,7 +200,7 @@ dependencies = [
   "qrcode==8.2",
   "rapidfuzz==3.14.6",
   "redis==8.1.0",
-  "regex==2026.11.18",
+  "regex==2026.11.19",
   "requests==2.34.2",
   "ruamel.yaml==0.19.1",
   "sentry-sdk==2.75.0",
@@ -241,12 +240,12 @@ version = "2026.12.dev0"
 
 [project.optional-dependencies]
 all = [
-  "weblate[amazon,gelf,gerrit,google,google-errors,ldap,mercurial,postgres,rollbar,sphinx,zxcvbn]"
+  "weblate[amazon,gelf,gerrit,google,google-errors,ldap,mercurial,postgres,rollbar,sphinx,storage,zxcvbn]"
 ]
 amazon = [
-  "boto3==1.44.3",
-  "botocore==1.44.3",
-  "django-ses==4.9.0"
+  "boto3==1.44.7",
+  "botocore==1.44.7",
+  "django-ses==4.9.1"
 ]
 asgi = [
   "granian==2.8.8"
@@ -285,6 +284,9 @@ saml = [
 ]
 sphinx = [
   "Sphinx==8.2.3"
+]
+storage = [
+  "django-storages==1.14.6"
 ]
 wllegal = [
   "wllegal==2026.6"

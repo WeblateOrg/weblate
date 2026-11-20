@@ -6436,6 +6436,80 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         self.assertEqual(translation[cleaned_source][0]["text"], "Bonjour @@PH7@@!")
         self.assertEqual(label_languages, ["en", "en"])
 
+    def test_translate_sends_source_notes(self) -> None:
+        machine = self.get_machine()
+        unit = make_unit(code="fr", source="New", context="ActionNew")
+        unit.source_unit.note = "Button that creates a new examination type."
+        unit.note = "Stale comment copied into the translation file."
+        typed_unit = cast("Unit", unit)
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            item = json.loads(content)["strings"][0]
+            self.assertEqual(
+                item["notes"], "Button that creates a new examination type."
+            )
+            return json.dumps(["Nouveau"])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = machine.download_multiple_translations(
+                "en", "fr", [("New", typed_unit)]
+            )
+
+        self.assertEqual(translation["New"][0]["text"], "Nouveau")
+
+    def test_translate_falls_back_to_unit_notes(self) -> None:
+        machine = self.get_machine()
+        unit = make_unit(code="fr", source="New", context="ActionNew")
+        unit.note = "Button that creates a new examination type."
+        typed_unit = cast("Unit", unit)
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            item = json.loads(content)["strings"][0]
+            self.assertEqual(
+                item["notes"], "Button that creates a new examination type."
+            )
+            return json.dumps(["Nouveau"])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = machine.download_multiple_translations(
+                "en", "fr", [("New", typed_unit)]
+            )
+
+        self.assertEqual(translation["New"][0]["text"], "Nouveau")
+
+    def test_translate_omits_empty_notes(self) -> None:
+        machine = self.get_machine()
+        unit = make_unit(code="fr", source="New", context="ActionNew")
+        typed_unit = cast("Unit", unit)
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            self.assertNotIn("notes", json.loads(content)["strings"][0])
+            return json.dumps(["Nouveau"])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            machine.download_multiple_translations("en", "fr", [("New", typed_unit)])
+
     def test_translate_uses_neutral_previous_messages_without_czech(self) -> None:
         machine = self.get_machine()
         unit = make_unit(code="fr", source="Hello, world!")
@@ -9170,6 +9244,51 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         self.assertEqual(translation[0][0]["text"], "**Konfigurēt paziņojumus**:")
 
     @http_mock.activate
+    def test_translate_wraps_single_structured_reply(self) -> None:
+        self.mock_response('{"parts": [{"type": "text", "text": "Premier"}]}')
+
+        translation = self.get_machine().download_multiple_translations(
+            "en", "fr", [("One", None)]
+        )
+
+        self.assertEqual(translation["One"][0]["text"], "Premier")
+
+    @http_mock.activate
+    def test_translate_rejects_bare_structured_reply_for_multiple_sources(self) -> None:
+        self.mock_response('{"parts": [{"type": "text", "text": "Premier"}]}')
+
+        with self.assertRaisesMessage(
+            MachineTranslationError, "Mismatching assistant reply."
+        ):
+            self.get_machine().download_multiple_translations(
+                "en", "fr", [("One", None), ("Two", None)]
+            )
+
+    @http_mock.activate
+    def test_translate_rejects_bare_structured_reply_missing_placeholder(self) -> None:
+        self.mock_response('{"parts": [{"type": "text", "text": "Bonjour !"}]}')
+
+        with self.assertRaisesMessage(
+            MachineTranslationError, "Mismatching assistant reply."
+        ):
+            self.assert_translate(
+                "fr", "Hello, %s!", 1, unit_args={"flags": "python-format"}
+            )
+
+    @http_mock.activate
+    def test_translate_rejects_bare_structured_reply_with_metadata(self) -> None:
+        self.mock_response(
+            '{"parts": [{"type": "text", "text": "Premier"}], "diagnostic": "extra"}'
+        )
+
+        with self.assertRaisesMessage(
+            MachineTranslationError, "Mismatching assistant reply."
+        ):
+            self.get_machine().download_multiple_translations(
+                "en", "fr", [("One", None)]
+            )
+
+    @http_mock.activate
     def test_translate_drops_trailing_empty_extra_structured_reply(self) -> None:
         self.mock_response(
             json.dumps(
@@ -10469,6 +10588,37 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
             '["Hallo Welt"]',
         )
 
+    def test_batch_system_prompt_is_cached(self) -> None:
+        machine = self.get_machine()
+
+        payload = machine.get_chat_payload(
+            "claude-haiku-4-5", "system prompt", "source", "", ""
+        )
+
+        self.assertEqual(
+            payload["system"],
+            [
+                {
+                    "type": "text",
+                    "text": "system prompt",
+                    "cache_control": {"type": "ephemeral"},
+                }
+            ],
+        )
+
+    @http_mock.activate
+    def test_single_lookup_skips_prompt_cache(self) -> None:
+        self.mock_response()
+        machine = self.get_machine()
+
+        self.assert_translate(
+            self.SUPPORTED, self.SOURCE_BLANK, self.EXPECTED_LEN, machine=machine
+        )
+
+        payload = load_request_json(http_mock.calls[-1].request)
+        self.assertIsInstance(payload["system"], str)
+        self.assertTrue(machine.prompt_cache)
+
 
 class AnthropicCustomModelTranslationTest(AnthropicTranslationTest):
     CONFIGURATION: ClassVar[SettingsDict] = {
@@ -10588,6 +10738,8 @@ class WeblateTranslationTest(FixtureComponentTestCase):
         for sql in candidate_queries:
             self.assertIn("LIMIT 2", sql)
             self.assertNotIn("OFFSET", sql)
+            self.assertNotIn("WORD_SIMILARITY", sql)
+            self.assertNotIn("%>", sql)
         # Continue through a nonintegral similarity rank shared across pages.
         matches = list(
             machine.get_matching_units(
@@ -10601,7 +10753,7 @@ class WeblateTranslationTest(FixtureComponentTestCase):
     def test_regular_source_query_keeps_indexed_lookup(self) -> None:
         unit = self.get_unit(language="cs")
         machine = WeblateTranslation({})
-        base = machine.get_base_queryset(
+        base, _translations = machine.get_search_querysets(
             self.user,
             unit.translation.component.source_language,
             unit.translation.language,
@@ -11133,7 +11285,7 @@ class ViewsTest(FixtureTestCase):
         self.assertTrue(self.anotheruser.can_access_component(self.component))
         self.assertFalse(self.anotheruser.can_access_component(protected))
         machine = WeblateTranslation({})
-        base = machine.get_base_queryset(
+        base, _translations = machine.get_search_querysets(
             self.user, self.component.source_language, public_unit.translation.language
         )
         self.assertIn(protected_unit.pk, base.values_list("pk", flat=True))
@@ -12267,7 +12419,9 @@ class WeblateTranslationLookupTest(SimpleTestCase):
         third_match.get_absolute_url.return_value = "/third/"
 
         with (
-            patch.object(machine, "get_base_queryset", return_value=MagicMock()),
+            patch.object(
+                machine, "get_search_querysets", return_value=(MagicMock(), MagicMock())
+            ),
             patch.object(
                 machine,
                 "get_matching_units",

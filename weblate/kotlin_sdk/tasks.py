@@ -19,7 +19,7 @@ from weblate.addons.tasks import update_addon_activity_log
 from weblate.kotlin_sdk.models import KotlinSDKCleanup
 from weblate.kotlin_sdk.publication import Publication
 from weblate.utils.celery import app
-from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
+from weblate.utils.lock import LockScope, WeblateLock, WeblateLockTimeoutError
 
 if TYPE_CHECKING:
     from celery import Celery
@@ -107,7 +107,7 @@ def publish_kotlin_sdk(addon_id: int) -> None:
     candidate = Addon.objects.select_related("component").filter(pk=addon_id).first()
     if candidate is None or candidate.component is None:
         return
-    lock = WeblateLock(scope="kotlin-sdk", key=addon_id, slug=str(addon_id))
+    lock = WeblateLock(scope=LockScope.KOTLIN_SDK, key=addon_id)
     with lock:
         with transaction.atomic():
             addon = Addon.objects.select_for_update().filter(pk=addon_id).first()

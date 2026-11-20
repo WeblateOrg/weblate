@@ -166,8 +166,8 @@ def get_hook_components(
     component_vcs: str | None = None,
     exclude_component_vcs: list[str] | None = None,
 ) -> QuerySet[Component]:
-    """Return hook target components matched by repository URL."""
-    components = Component.objects.all()
+    """Return repository owners matched by repository URL."""
+    components = Component.objects.filter(linked_component__isnull=True)
     if project_ids is not None:
         components = components.filter(project_id__in=project_ids)
     if component_vcs is not None:

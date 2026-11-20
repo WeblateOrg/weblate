@@ -61,8 +61,8 @@ from weblate.utils.files import (
     normalize_archive_path,
     remove_tree,
 )
-from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
-from weblate.utils.render import render_template
+from weblate.utils.lock import LockScope, WeblateLock, WeblateLockTimeoutError
+from weblate.utils.render import render_repository_template
 from weblate.utils.requests import (
     JSON_RESPONSE_ERRORS,
     VCS_RESPONSE_SIZE,
@@ -1132,6 +1132,15 @@ class GitRepository(Repository):
                 )
         self.clean_revision_cache()
 
+    def read_needs_recovery(self) -> bool:
+        return super().read_needs_recovery() or (
+            self.is_valid()
+            and (
+                self.get_interrupted_operation() is not None
+                or self.get_current_branch() in TEMPORARY_BRANCHES
+            )
+        )
+
     def recover_lock_session(self) -> list[RepositoryRecoveryEvent]:
         recovery_events = super().recover_lock_session()
         if not self.is_valid():
@@ -1169,7 +1178,17 @@ class GitRepository(Repository):
         )
         return recovery_events
 
+    def _read_checkout(self, args: list[str]) -> str:
+        # A failed reader must leave stale lock cleanup to the exclusive path.
+        output = self._popen(
+            args, cwd=self.path, local=self.local, merge_err=False, retry=False
+        )
+        self.last_output = output
+        return output
+
     def get_current_branch(self) -> str:
+        if self.lock.is_read_locked and not self.lock.is_locked:
+            return self._read_checkout(["branch", "--show-current"]).strip()
         return self.execute(
             ["branch", "--show-current"],
             remote_op="none",
@@ -1563,6 +1582,12 @@ class GitRepository(Repository):
         if filenames is not None:
             cmd.extend(["--untracked-files=all", "--ignored=traditional", "--"])
             cmd.extend(filenames)
+        if not self.lock.is_locked:
+            with self.lock.read():
+                if self.component is None or self.config_is_current():
+                    # Retry under exclusive ownership for normal error handling.
+                    with suppress(RepositoryError):
+                        return bool(self._read_checkout(cmd))
         with self.lock:
             status = self.execute(cmd, remote_op="none", merge_err=False)
         return bool(status)
@@ -2804,8 +2829,10 @@ class GitMergeRequestBase(GitRepository):
         component = self.component
         if component is None:
             raise RepositoryError(0, "Repository operation requires component.")
-        lines = render_template(
-            component.effective_pull_message.strip(), component=component
+        lines = render_repository_template(
+            component.effective_pull_message.strip(),
+            setting="pull request message",
+            component=component,
         ).splitlines()
         return lines[0], "\n".join(lines[1:]).strip()
 
@@ -2978,9 +3005,8 @@ class GitMergeRequestBase(GitRepository):
         self.log(f"HTTP {method} {url}")
         cache_id = self.request_time_cache_key
         lock = WeblateLock(
-            scope="vcs:api:throttle",
+            scope=LockScope.VCS_API_THROTTLE,
             key=vcs_id,
-            slug=vcs_id,
             timeout=3 * max(settings.VCS_API_DELAY, 10),
         )
         try:

@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-13 01:19-0600\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
 "PO-Revision-Date: 2026-10-30 05:05+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1501,6 +1501,23 @@ msgid ""
 msgstr ""
 "Dim ond y cyfeiriad e-bost a ddewiswyd gan y gwahoddwr all dderbyn y "
 "gwahoddiad hwn; ni all eich cyfrif ei ddefnyddio."
+
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Your e-mail no longer belongs to verified account, it has been changed to "
+#| "{0}."
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr ""
+"Nid yw'ch e-bost bellach yn perthyn i gyfrif wedi'i ddilysu, mae wedi'i "
+"newid i {0}."
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
+msgstr ""
 
 msgid ""
 "Your e-mail address has been added. You can now select it as your account e-"
@@ -4469,6 +4486,16 @@ msgid ""
 "Remove the component from project teams before moving it to another project."
 msgstr ""
 
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
+
 msgid "Roles"
 msgstr "Rolau"
 
@@ -5362,6 +5389,11 @@ msgstr "Bilio"
 #| msgid "Billing overview"
 msgid "Billing event"
 msgstr "Trosolwg bilio"
+
+#, fuzzy
+#| msgid "Projects without components"
+msgid "Project has no components."
+msgstr "Prosiectau heb gydrannau"
 
 #, fuzzy
 #| msgid "Monthly"
@@ -7652,9 +7684,6 @@ msgstr "Fformiwla luosog"
 msgid "Plural type"
 msgstr "Math lluosog"
 
-msgid "Example counts for this plural form."
-msgstr "Mae enghraifft yn cyfrif ar gyfer y ffurf luosog hon."
-
 msgid "Singular"
 msgstr "Unigol"
 
@@ -8874,6 +8903,11 @@ msgid "Read your e-mail address"
 msgstr "Defnyddio cyfeiriad e-bost eich cyfrif"
 
 msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
 msgstr ""
 
 msgid "Image is too big."
@@ -11631,6 +11665,16 @@ msgstr ""
 "Nid yw'r tanysgrifiad hwn yn gymwys i'r cynllun libre, trwsiwch y gwallau "
 "uchod neu prynwch danysgrifiad."
 
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+
 #, fuzzy
 #| msgid "Custom"
 msgid "Customer"
@@ -13435,6 +13479,16 @@ msgstr ""
 #| msgid "The account will be disabled after the expiry."
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr "Bydd y cyfrif yn cael ei analluogi ar ôl i'r dyddiad ddod i ben."
+
+#, fuzzy
+#| msgid "Does not meet Libre hosting conditions."
+msgid "Review Libre hosting conditions"
+msgstr "Nid yw'n cwrdd ag amodau gwesteio Libre."
+
+#, fuzzy, python-format
+#| msgid "Number of entries for %(project)s"
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "Nifer y cofnodion ar gyfer %(project)s"
 
 msgid "Translation change"
 msgstr "Newid i gyfieithiad"
@@ -15663,6 +15717,9 @@ msgid ""
 "maintenance of Weblate itself."
 msgstr ""
 
+msgid "Example counts for this plural form."
+msgstr "Mae enghraifft yn cyfrif ar gyfer y ffurf luosog hon."
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
@@ -15698,12 +15755,13 @@ msgstr ""
 msgid "Source code repository"
 msgstr "Ystorfa cod ffynhonnell"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr "Mae'r gydran hon yn gysylltiedig â'r storfa %(target)s."
-
 msgid "Repository URL copied to clipboard."
 msgstr "URL y storfa wedi'i gopïo i'r clipfwrdd."
+
+#, fuzzy
+#| msgid "Renamed component"
+msgid "Linked component"
+msgstr "Ailenwyd cydran"
 
 msgid "Repository branch"
 msgstr "Cangen storfa"
@@ -16184,6 +16242,11 @@ msgstr "Lluosog: %(source_description)s"
 msgid "Plurals"
 msgstr "Lluosog"
 
+#, fuzzy
+#| msgid "No strings found!"
+msgid "No integer examples found"
+msgstr "Heb ganfod llinynnau!"
+
 msgid "First"
 msgstr "Cyntaf"
 
@@ -16482,8 +16545,8 @@ msgid "Community"
 msgstr "Cymuned"
 
 #, python-format
-msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr "Cyfieithwch %(object)s gan ddefnyddio %%23Weblate am %(share_url)s!"
+msgid "Translate %(object)s using #Weblate at %(share_url)s!"
+msgstr "Cyfieithwch %(object)s gan ddefnyddio #Weblate am %(share_url)s!"
 
 #, fuzzy
 #| msgid "Share on X"
@@ -17157,15 +17220,15 @@ msgstr "Mae'r gydran yn cynnwys sawl llinyn cyfieithu dyblyg."
 msgid "Source"
 msgstr "Ffynhonnell"
 
-#, fuzzy, python-format
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove duplicate strings from %(language)s (%(filename)s)"
-msgstr "Yn gorfodi ysgrifennu pob llinyn i'r ffeiliau cyfieithu."
-
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
 msgstr "Dileu llinynnau gwag"
+
+#, fuzzy, python-format
+#| msgid "Forces writing all strings to the translation files."
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Yn gorfodi ysgrifennu pob llinyn i'r ffeiliau cyfieithu."
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -18237,10 +18300,6 @@ msgstr "Cyfieithwyd y llinyn hwn eisoes"
 msgid "Add term to glossary"
 msgstr "Ychwanegu cofnod i'r eirfa"
 
-#, python-format
-msgid "Browse glossary %(name)s"
-msgstr "Pori geirfa %(name)s"
-
 #, fuzzy
 #| msgid "Browse glossary %(name)s"
 msgid "Browse glossary"
@@ -18300,6 +18359,15 @@ msgstr "Diweddarwyd ddiwethaf"
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
 msgstr "Oedran y llinyn ffynhonnell"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s, line %(line)s"
+msgstr "%(filename)s, llinyn %(position)s"
+
+#, python-format
+msgid "line %(line)s"
+msgstr ""
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -20190,13 +20258,13 @@ msgstr "Mwgwd ffeil dyblyg."
 msgid "Referenced category does not exist."
 msgstr "Nid yw {filename} ({parameter}) yn bodoli."
 
-msgid "Component filename does not match its category and slug."
-msgstr ""
-
 #, fuzzy
 #| msgid "Create component"
 msgid "Duplicate component slug."
 msgstr "Creu cydran"
+
+msgid "Component filename does not match its category and slug."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation reviews are not enabled."
@@ -20523,6 +20591,11 @@ msgstr "Pleidleisio dros gynigion"
 msgid "Needs review"
 msgstr "Mae angen gwirio’r ffynhonnell"
 
+#, fuzzy
+#| msgid "The source and target have to be different languages."
+msgid "The source and destination checkouts must be different."
+msgstr "Rhaid i’r ieithoedd ffynhonnell a tharged fod yn wahanol."
+
 msgid "This component does not exist or you cannot access it."
 msgstr ""
 
@@ -20554,6 +20627,11 @@ msgstr ""
 #| msgid "Good configuration"
 msgid "Discovery configuration"
 msgstr "Ffurfweddiad da"
+
+#, fuzzy, python-format
+#| msgid "Could not render template: {}"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "Methu rendro templed: {}"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -22796,6 +22874,11 @@ msgid "Use the secondary language configured in the category or project."
 msgstr "Iaith newydd wedi'i hychwanegu at %(component)s"
 
 #, fuzzy
+#| msgid "This string seems to already exist."
+msgid "The linked repository path is ambiguous."
+msgstr "Mae'n ymddangos bod y llinyn hwn yn bodoli eisoes."
+
+#, fuzzy
 #| msgid ""
 #| "Could not verify SSH host key, please add them in SSH page in the admin "
 #| "interface."
@@ -23094,6 +23177,11 @@ msgid ""
 "Pushing without a merge request needs write access to the repository. "
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
+
+#, fuzzy
+#| msgid "The filename can not be an absolute path."
+msgid "Version control system cannot be changed to this backend."
+msgstr "Nid yw'r enw'r ffeil yn gallu bod yn llwybr absoliwt."
 
 #, fuzzy
 #| msgid "The regular expression can not match an empty string."
@@ -23814,6 +23902,11 @@ msgstr "Em dash"
 msgid "User configured character: {}"
 msgstr "Nod wedi'i ffurfweddu gan ddefnyddiwr: {}"
 
+#, fuzzy, python-format
+#| msgid "Could not push the repository."
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "Wedi methu gwthio'r storfa."
+
 #, fuzzy
 #| msgid "Automatic translation in progress"
 msgid "Repository operation could not be completed because it remained locked."
@@ -23962,6 +24055,10 @@ msgstr "ID llinyn %s"
 
 msgid "This language is used for source strings."
 msgstr "Defnyddir yr iaith hon ar gyfer llinynnau ffynhonnell."
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr "Mae'r gydran hon yn gysylltiedig â'r storfa %(target)s."
 
 #, fuzzy
 #| msgid "Fix this component to clear its alerts."
@@ -24890,6 +24987,16 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "Siart bar ieithoedd fertigol"
 
+#, fuzzy
+#| msgid "Your languages"
+msgid "Sort languages by"
+msgstr "Eich ieithoedd"
+
+#, fuzzy
+#| msgid "Translation change"
+msgid "Translation percentage"
+msgstr "Newid i gyfieithiad"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr "Siart bar ieithoedd llorweddol"
@@ -25292,20 +25399,6 @@ msgstr "Enw gwesteiwr annilys wedi'i roi!"
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
-msgid "Template output exceeds its size limit."
-msgstr ""
-
-msgid "Template rendering failed or exceeded its resource limits."
-msgstr ""
-
-msgid "Oversized template response."
-msgstr ""
-
-#, fuzzy
-#| msgid "Invalid translation flag: \"%s\""
-msgid "Invalid template rendering response."
-msgstr "Baner cyfieithu annilys: \"%s\""
-
 msgid "Could not render template: {}"
 msgstr "Methu rendro templed: {}"
 
@@ -25316,7 +25409,7 @@ msgstr ""
 "Nid yw'r llinynnau fformat yn cael eu cefnogi bellach, defnyddiwch iaith y "
 "templed yn lle hynny."
 
-msgid "Template value exceeds its size limit."
+msgid "Template context exceeds its size limit."
 msgstr ""
 
 #, fuzzy
@@ -25324,8 +25417,10 @@ msgstr ""
 msgid "Template context is nested too deeply."
 msgstr "Mae tag diwedd cyfatebol ar goll yn y tag HTML {tag}: {end}."
 
-msgid "Template context exceeds its size limit."
-msgstr ""
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported nonfinite template context value."
+msgstr "Fformat ffeil heb ei gefnogi."
 
 #, fuzzy
 #| msgid "Unsupported file format."
@@ -25337,30 +25432,333 @@ msgstr "Fformat ffeil heb ei gefnogi."
 msgid "Unsupported template context value."
 msgstr "Fformat ffeil heb ei gefnogi."
 
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Entered token is not valid."
+msgid "Template text is not valid UTF-8."
+msgstr "Nid yw'r cyfieithiad yn XML dilys."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid merge request!"
+msgid "Invalid template syntax."
+msgstr "Cais cyfuno annilys!"
+
+#, fuzzy
+#| msgid "Undefined variable: \"%s\""
+msgid "Undefined template variable."
+msgstr "Newidyn anniffiniedig: \"%s\""
+
+#, fuzzy
+#| msgid "The translation is not valid XML"
+msgid "Text is not valid UTF-8."
+msgstr "Nid yw'r cyfieithiad yn XML dilys"
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Division by zero is not supported."
+msgstr "Dyw'r didoli hwn ddim yn cael ei gefnogi."
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Numeric value is too large for this operation."
+msgstr "Pori pob newid ar gyfer yr iaith hon"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Numeric operation failed."
+msgstr "Methodd gweithrediad y storfa"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation reviews are not enabled."
+msgid "Value or argument has an invalid format."
+msgstr "Nid yw adolygiadau cyfieithu wedi'u galluogi."
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "%(operation)s: %(message)s"
+msgstr "Wedi methu gwthio %(component)s: %(error_text)s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
 msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nonfinite numbers are not supported."
+msgstr "Dyw'r didoli hwn ddim yn cael ei gefnogi."
+
+#, fuzzy, python-format
+#| msgid "File names"
+msgid "Filter \"%(name)s\""
+msgstr "Enwau ffeiliau"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
 msgstr ""
 
 msgid "Template rendering exceeded its loop limit."
 msgstr ""
 
-msgid "Template intermediate value exceeds its size limit."
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Attribute access and method calls are not supported."
+msgstr "Dyw'r didoli hwn ddim yn cael ei gefnogi."
+
+msgid "Index exceeds the length limit of 128 characters."
 msgstr ""
 
-msgid "Template replacement exceeds its size limit."
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Translated template literals are not supported."
+msgstr "Dyw'r didoli hwn ddim yn cael ei gefnogi."
+
+#, fuzzy
+#| msgid "Invalid date!"
+msgid "Invalid filter."
+msgstr "Dyddiad annilys!"
+
+msgid "Identity comparisons require None, True, or False."
 msgstr ""
 
-msgid "Template padding exceeds its size limit."
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This condition operator is not supported."
+msgstr "Dyw'r didoli hwn ddim yn cael ei gefnogi."
+
+msgid "Template output exceeds its size limit."
 msgstr ""
 
-msgid "Template formatting exceeds its size limit."
+msgid "Loops require a list, string, dictionary, or dictionary view."
 msgstr ""
 
-msgid "Template join exceeds its size limit."
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
+msgstr ""
+
+msgid "Loop value cannot be unpacked into its variables."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This template tag is not supported."
+msgstr "Dyw'r didoli hwn ddim yn cael ei gefnogi."
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This template node is not supported."
+msgstr "Nid yw'r fformat ffeil yma'n cael ei gefnogi."
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
 msgstr ""
 
 #, python-format
 msgid "Undefined variable: \"%s\""
 msgstr "Newidyn anniffiniedig: \"%s\""
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "This name is prohibited"
+msgid "This filter requires strings."
+msgstr "Ni chaniateir yr enw hwn"
+
+#, fuzzy
+#| msgid "Automatically translated"
+msgid "Choices must be a string."
+msgstr "Wedi'i gyfieithu'n awtomatig"
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source string length"
+msgid "Joining requires string elements."
+msgstr "Hyd y llinyn ffynhonnell"
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatically translated"
+msgid "Date format must be a string or None."
+msgstr "Wedi'i gyfieithu'n awtomatig"
+
+#, fuzzy
+#| msgid "Avoid years that are associated with you."
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "Osgowch flynyddoedd sy'n gysylltiedig â chithau."
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatically translated"
+msgid "Plural suffixes must be a string."
+msgstr "Wedi'i gyfieithu'n awtomatig"
+
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nested template delimiters are not supported."
+msgstr "Dyw'r didoli hwn ddim yn cael ei gefnogi."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unclosed template token."
+msgstr "Fformat ffeil heb ei gefnogi."
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid ".NET resource file"
+msgid "Template tag is empty."
+msgstr "Ffeil adnoddau .NET"
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr ""
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unsupported file format."
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "Fformat ffeil heb ei gefnogi."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template tag."
+msgstr "Fformat ffeil heb ei gefnogi."
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -27252,6 +27650,15 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Mae ffynhonnell wedi'i dileu."
 
+#, python-format
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "Pori geirfa %(name)s"
+
+#, fuzzy
+#~| msgid "Invalid translation flag: \"%s\""
+#~ msgid "Invalid template rendering response."
+#~ msgstr "Baner cyfieithu annilys: \"%s\""
+
 #, fuzzy
 #~| msgid "Registration almost complete"
 #~ msgid "E-mail verification almost complete"
@@ -28864,9 +29271,6 @@ msgstr "Mae ffynhonnell wedi'i dileu."
 #~ msgid "Renamed project"
 #~ msgstr "Ailenwyd project"
 
-#~ msgid "Renamed component"
-#~ msgstr "Ailenwyd cydran"
-
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "Llinyn newydd i'w gyfieithu"
@@ -29387,6 +29791,3 @@ msgstr "Mae ffynhonnell wedi'i dileu."
 #~| msgid "Access repository"
 #~ msgid "Backup pepository"
 #~ msgstr "Mynediad i'r ystorfa"
-
-#~ msgid "Your languages"
-#~ msgstr "Eich ieithoedd"

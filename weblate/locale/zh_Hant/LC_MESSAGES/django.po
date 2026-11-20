@@ -34,8 +34,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-13 01:19-0600\n"
-"PO-Revision-Date: 2026-11-18 10:02+0000\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
+"PO-Revision-Date: 2026-11-20 08:23+0000\n"
 "Last-Translator: Lee Vincent <leevincent@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hant/>\n"
@@ -225,9 +225,8 @@ msgid ""
 "recommended if you suspect your password was compromised. Disable it to keep "
 "your current API key active after changing your password."
 msgstr ""
-"若您懷疑密碼可能已遭洩漏，建議保持此選項勾選，系統將會在您變更密碼後，自動撤"
-"銷目前的 API 金鑰並產生一組新的。若您希望在變更密碼後繼續沿用目前的金鑰，請取"
-"消勾選。"
+"保持勾選會在變更密碼後撤銷目前的 API 金鑰，並產生新的金鑰。若懷疑密碼已外洩，"
+"建議保持勾選。若要在變更密碼後繼續使用目前的金鑰，請取消勾選。"
 
 msgid "Your password has been changed."
 msgstr "您的密碼已變更。"
@@ -354,39 +353,39 @@ msgid "Add to a team"
 msgstr "新增到團隊"
 
 msgid "Name your authentication app"
-msgstr "為您的身分驗證應用程式命名"
+msgstr "為驗證器應用程式命名"
 
 msgid "Verify the code from the app"
-msgstr "驗證應用程式中的代碼"
+msgstr "驗證器應用程式顯示的驗證碼"
 
 msgid "Discard previously configured authentication apps"
-msgstr "取消先前設定的身分驗證應用程式"
+msgstr "移除先前註冊的驗證器應用程式"
 
 msgid ""
 "All previously configured authentication apps will be discarded upon "
 "verification of the new app."
-msgstr "驗證新應用程式後，所有先前設定的身分驗證應用程式都將被取消。"
+msgstr "新的驗證器應用程式通過驗證後，系統會移除先前註冊的所有驗證器應用程式。"
 
 msgid ""
 "Other two-factor methods (such as WebAuthn and security keys) won't be "
 "affected."
-msgstr "其他雙重要素認證方式（如 WebAuthn 和安全金鑰）不受影響。"
+msgstr "其他雙重要素身分驗證方式 (如 WebAuthn 和安全金鑰) 仍可照常使用。"
 
 msgid "The entered token is not valid."
-msgstr "已輸入的權杖並非有效。"
+msgstr "輸入的驗證碼無效。"
 
 msgid "Recovery token"
-msgstr "復原權杖"
+msgstr "復原碼"
 
 msgid ""
 "Recovery codes can only be used once. Remember to mark used ones as expired."
-msgstr "復原碼只能使用一次。請記得將用過的復原碼標示為已過期。"
+msgstr "每組復原碼只能使用一次。用過後請註記該組復原碼已失效。"
 
 msgid "Enter the code from the app"
-msgstr "輸入應用程式中的代碼"
+msgstr "輸入驗證器應用程式顯示的驗證碼"
 
 msgid "Authentication app"
-msgstr "身分驗證應用程式"
+msgstr "驗證器應用程式"
 
 msgid "Project, category, component, or translation path"
 msgstr "專案、類別、組件或翻譯路徑"
@@ -607,20 +606,20 @@ msgid "Project token for {project} was removed."
 msgstr "已經移除 {project} 的專案權杖。"
 
 msgid "Two-factor authentication recovery codes were generated"
-msgstr "已產生雙重要素驗證復原碼"
+msgstr "已產生雙重要素身分驗證的復原碼"
 
 msgid "Two-factor authentication recovery codes were viewed"
-msgstr "檢視了雙重要素身分驗證代碼"
+msgstr "已檢視雙重要素身分驗證的復原碼"
 
 #. Translators: Audit log entry
 #, python-brace-format
 msgid "Two-factor authentication added: {device}"
-msgstr "新增了雙重要素身分驗證：{device}"
+msgstr "已新增雙重要素身分驗證方式：{device}"
 
 #. Translators: Audit log entry
 #, python-brace-format
 msgid "Two-factor authentication removed: {device}"
-msgstr "移除了雙重要素身分驗證：{device}"
+msgstr "已移除雙重要素身分驗證方式：{device}"
 
 #. Translators: Audit log entry
 #, python-brace-format
@@ -1268,6 +1267,21 @@ msgid ""
 "inviter; it can't be used by your account."
 msgstr "此邀請只能由邀請者指定的電子郵件地址接受，無法透過您的帳號接受。"
 
+#, python-brace-format
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr "您原先的電子郵件地址已不再對應到已驗證的帳號。帳號的電子郵件地址已改為 {0}。"
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
+msgstr ""
+"您原先的帳號電子郵件地址已不再通過驗證，系統已將它移除。請新增並驗證一個電子"
+"郵件地址，以便日後重設密碼。若要接收通知，請到「帳號設定」將這個地址選為帳號"
+"的電子郵件地址。"
+
 msgid ""
 "Your e-mail address has been added. You can now select it as your account e-"
 "mail address in Account settings."
@@ -1284,7 +1298,7 @@ msgid "Use a passkey or security key (WebAuthn)"
 msgstr "使用通行密鑰或安全金鑰 (WebAuthn)"
 
 msgid "Use authentication app (TOTP)"
-msgstr "使用身分驗證應用程式 (TOTP)"
+msgstr "使用驗證器應用程式 (TOTP)"
 
 msgid "Use recovery codes"
 msgstr "使用復原碼"
@@ -1309,11 +1323,11 @@ msgstr "請先確認身分再繼續。"
 
 #, python-format
 msgid "Security key (%s)"
-msgstr "安全金鑰（%s）"
+msgstr "安全金鑰 (%s)"
 
 #, python-format
 msgid "Authentication app (%s)"
-msgstr "驗證應用程式（%s）"
+msgstr "驗證器應用程式 (%s)"
 
 #, python-format
 msgid "%(name)s (#%(id)s)"
@@ -1436,10 +1450,10 @@ msgid "Your settings have been imported."
 msgstr "已匯入您的設定。"
 
 msgid "Could not remove user identity"
-msgstr "無法移除使用者身分"
+msgstr "無法解除此登入方式的連結"
 
 msgid "Add another identity by confirming your e-mail address first."
-msgstr "需要先確認過您的電子郵件位址，才能加入其他身分。"
+msgstr "請先驗證另一個電子郵件地址，新增可用的登入方式。"
 
 msgid "Could not complete registration."
 msgstr "無法完成註冊。"
@@ -1530,28 +1544,28 @@ msgid ""
 msgstr "通知變更連結已無效，請登入以設定通知。"
 
 msgid "The security key was removed."
-msgstr "已經移除安全金鑰。"
+msgstr "已移除安全金鑰。"
 
 #, python-format
 msgid "The security key %s was registered."
-msgstr "已經註冊 %s 安全金鑰。"
+msgstr "已註冊安全金鑰「%s」。"
 
 msgid "The authentication app was removed."
-msgstr "已經移除身分驗證 App。"
+msgstr "已移除驗證器應用程式。"
 
 #, python-format
 msgid "The authentication app %s was registered."
-msgstr "已經註冊 %s 身分驗證 App。"
+msgstr "已註冊驗證器應用程式「%s」。"
 
 msgid ""
 "This authentication app registration is no longer valid. Start a new "
 "registration."
-msgstr "此驗證應用程式的註冊已失效。請開始新的註冊。"
+msgstr "這次的驗證器應用程式註冊已失效。請重新開始註冊。"
 
 msgid ""
 "Too many failed authentication attempts. Please reset your password to "
 "regain access to your account."
-msgstr "驗證失敗的嘗試次數過多。請重設密碼，以重新取得帳號的存取權。"
+msgstr "驗證失敗次數過多。請重設密碼，以取回帳號的存取權。"
 
 msgid "Second factor sign in"
 msgstr "以第二項驗證因素登入"
@@ -2532,7 +2546,8 @@ msgstr "發佈逾時"
 msgid ""
 "How many seconds to allow for sending and the broker delivery "
 "acknowledgement per attempt, after connection setup."
-msgstr "連線建立後，每次嘗試傳送訊息並等候訊息代理伺服器確認送達時，最多等候幾秒。"
+msgstr ""
+"連線建立後，每次嘗試傳送訊息並等候訊息代理伺服器確認送達時，最多等候幾秒。"
 
 msgid "Connection attempts"
 msgstr "連線嘗試"
@@ -3682,6 +3697,20 @@ msgid ""
 "Remove the component from project teams before moving it to another project."
 msgstr "請先從專案團隊中移除這個組件，再將它移至其他專案。"
 
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+"刪除這個組件前，請先從各團隊的指派項目中移除它。刪除某個團隊最後一個指派的組"
+"件，會擴大該團隊的存取範圍。"
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
+"刪除這份組件清單前，請先從各團隊的指派項目中移除它。刪除某個團隊最後一份指派"
+"的組件清單，可能會擴大該團隊的存取範圍。"
+
 msgid "Roles"
 msgstr "角色"
 
@@ -4366,6 +4395,9 @@ msgstr "帳務"
 
 msgid "Billing event"
 msgstr "帳單事件"
+
+msgid "Project has no components."
+msgstr "專案沒有任何組件。"
 
 msgid "monthly"
 msgstr "每月"
@@ -6233,9 +6265,6 @@ msgstr "複數公式"
 msgid "Plural type"
 msgstr "複數類型"
 
-msgid "Example counts for this plural form."
-msgstr "這個複數形式的計數範例。"
-
 msgid "Singular"
 msgstr "單數"
 
@@ -7242,6 +7271,13 @@ msgstr "讀取你的電子郵件地址"
 msgid "Read the version of the legal documents you accepted"
 msgstr "讀取你已接受的法律文件版本"
 
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
+msgstr ""
+"連結的檔案變更時，Weblate 可以用儲存庫中的圖片替換螢幕擷圖。變更這個路徑需要"
+"儲存庫存取權。"
+
 msgid "Image is too big."
 msgstr "影像過大。"
 
@@ -7539,7 +7575,7 @@ msgid "Second factor sign-in"
 msgstr "以第二項驗證因素登入"
 
 msgid "Please complete your sign-in using second factor credential."
-msgstr "請使用第二項驗證因素完成登入。"
+msgstr "請使用第二項驗證因素 (second factor) 完成登入。"
 
 msgid "Other ways to verify your identity"
 msgstr "其他身分驗證方式"
@@ -7980,7 +8016,7 @@ msgid "Set my password"
 msgstr "設定密碼"
 
 msgid "Back to security settings"
-msgstr "返回安全性設定"
+msgstr "返回安全設定"
 
 msgid "Profile settings"
 msgstr "個人檔案設定"
@@ -8101,20 +8137,20 @@ msgid "Not configured"
 msgstr "尚未設定"
 
 msgid "Two-factor authentication"
-msgstr "雙重要素身分驗證"
+msgstr "雙重要素身分驗證（Two-factor authentication，2FA）"
 
 msgid ""
 "Two-factor authentication adds another layer of security to your account by "
 "requiring more than just a password to sign in."
 msgstr ""
-"雙重因素身分驗證藉由在登入時要求密碼外的驗證方式，使您的帳號增加了一層額外的"
-"安全性。"
+"雙重要素身分驗證讓您的帳號多一層保護。登入時，除了輸入密碼，還要用另一種方式"
+"驗證身分。"
 
 msgid "Security keys (WebAuthn)"
-msgstr "安全金鑰 (WebAuthn)"
+msgstr "安全金鑰（WebAuthn）"
 
 msgid "No WebAuthn keys registered yet."
-msgstr "目前沒有註冊 WebAuthn 金鑰。"
+msgstr "尚未註冊 WebAuthn 金鑰。"
 
 #, python-format
 msgid "%(count)s security key registered."
@@ -8128,21 +8164,21 @@ msgid "Remove"
 msgstr "移除"
 
 msgid "Authenticator apps (TOTP)"
-msgstr "身分驗證器應用程式 （TOTP）"
+msgstr "驗證器應用程式（TOTP）"
 
 msgid "No authenticator apps registered yet."
-msgstr "目前沒有註冊身分驗證應用程式。"
+msgstr "尚未註冊驗證器應用程式。"
 
 #, python-format
 msgid "%(count)s authenticator app registered."
 msgid_plural "%(count)s authenticator apps registered."
-msgstr[0] "已註冊 %(count)s 個身分驗證應用程式。"
+msgstr[0] "已註冊 %(count)s 個驗證器應用程式。"
 
 msgid "Register new authenticator app"
-msgstr "註冊新的驗證器 App"
+msgstr "註冊驗證器應用程式"
 
 msgid "Recovery codes"
-msgstr "復原碼"
+msgstr "復原碼（Recovery codes）"
 
 msgid "No recovery codes generated yet."
 msgstr "尚未產生復原碼。"
@@ -8162,7 +8198,7 @@ msgid "Linked sign-in accounts"
 msgstr "已連結的登入帳號"
 
 msgid "Disconnect"
-msgstr "中斷連結"
+msgstr "解除連結"
 
 msgid "No linked sign-in accounts."
 msgstr "尚未連結任何登入帳號。"
@@ -8266,12 +8302,14 @@ msgid "Report suspicious activity"
 msgstr "報告可疑活動"
 
 msgid "Two-factor recovery codes"
-msgstr "雙重要素驗證復原碼"
+msgstr "雙重要素身分驗證的復原碼"
 
 msgid ""
 "Recovery codes can be used to access your account if you lose access to your "
 "device and cannot receive two-factor authentication codes."
-msgstr "如果您無法使用裝置且收不到雙重要素驗證碼，可以使用復原碼存取帳號。"
+msgstr ""
+"如果您無法使用原本的裝置，也無法取得雙重要素身分驗證所需的驗證碼，可以用復原"
+"碼完成登入。"
 
 msgid ""
 "Keep your recovery codes in a safe spot, like in a password manager. These "
@@ -8279,9 +8317,9 @@ msgid ""
 "password and other second factors. If you cannot find these codes when "
 "needed, you will lose access to your account."
 msgstr ""
-"請將復原碼存放在安全位置，例如密碼管理工具。當您遺失密碼和其他第二驗證因素"
-"時，這些復原碼是存取帳號的最後方式。如果需要時找不到這些復原碼，您將無法存取"
-"帳號。"
+"請妥善保管復原碼，例如存放在密碼管理工具中。如果您忘了密碼，也無法使用其他第"
+"二項驗證因素，復原碼是取回帳號存取權的最後手段。需要時若找不到復原碼，您將無"
+"法存取帳號。"
 
 msgid "Recovery codes copied to clipboard."
 msgstr "復原碼已複製到剪貼簿。"
@@ -8295,7 +8333,7 @@ msgid ""
 msgstr "產生新的復原碼後，必須下載或列印這些復原碼。"
 
 msgid "Your old codes will become invalid and won't work anymore."
-msgstr "您的舊代碼則會失效，無法再使用。"
+msgstr "舊的復原碼會失效，無法再使用。"
 
 msgid "Redirecting you to the authentication provider."
 msgstr "正將您重新導向至身分驗證處。"
@@ -8450,10 +8488,10 @@ msgid "Scan the QR code"
 msgstr "掃描 QR 碼"
 
 msgid "You can also enter the secret key manually:"
-msgstr "您也能自行輸入私密金鑰："
+msgstr "您也可以手動輸入設定金鑰 (secret key)："
 
 msgid "Secret key copied to clipboard."
-msgstr "已經將私密金鑰複製至剪貼簿。"
+msgstr "設定金鑰已複製到剪貼簿。"
 
 msgid "Confirm registration"
 msgstr "確認註冊"
@@ -8675,8 +8713,8 @@ msgid ""
 "security key. Your passkey might not be available on a new computer or in a "
 "different browser."
 msgstr ""
-"請使用可存取通行密鑰的裝置，或接上已註冊的安全金鑰。換了電腦或瀏覽器後，通行"
-"密鑰可能無法使用。"
+"請使用可存取通行密鑰 (passkey) 的裝置，或接上已註冊的安全金鑰 (security key)"
+"。換了電腦或瀏覽器後，通行密鑰可能無法使用。"
 
 msgid "Sign in using a passkey or security key"
 msgstr "使用通行密鑰或安全金鑰登入"
@@ -8690,7 +8728,7 @@ msgstr ""
 "該憑證。請再試一次，或改用其他可用的驗證方式。"
 
 msgid "Unfortunately, your browser has no WebAuthn support."
-msgstr "很不幸，您的瀏覽器不支援 WebAuthn。"
+msgstr "您的瀏覽器不支援 WebAuthn。"
 
 msgid "Add-on API"
 msgstr "附加元件 API"
@@ -9487,6 +9525,16 @@ msgid ""
 "This subscription is not eligible to the libre plan, please fix the errors "
 "above or purchase a subscription."
 msgstr "此訂購不合自由軟體方案，請修正上方的錯誤，或是購買正式約期訂購。"
+
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr "請於 %(date)s 前處理下列問題，以保留專案的自由軟體託管服務。"
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr "Weblate 發出這項警告時，會鎖定現有組件，暫停翻譯。專案維護者可以解除鎖定。"
 
 msgid "Customer"
 msgstr "客戶"
@@ -10938,6 +10986,13 @@ msgstr "專案仍可繼續使用，但下一筆款項需要手動付款。"
 #. Translators: e-mail subject
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr "將停用不活躍專案的定期付款"
+
+msgid "Review Libre hosting conditions"
+msgstr "查看自由軟體託管條件"
+
+#, python-format
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "%(project)s 的自由軟體託管可能遭移除"
 
 msgid "Translation change"
 msgstr "翻譯變更"
@@ -12716,6 +12771,9 @@ msgid ""
 msgstr ""
 "如果想進一步支持我們，您可以自由選擇捐款，資助 Weblate 本身的開發與維護。"
 
+msgid "Example counts for this plural form."
+msgstr "這個複數形式的計數範例。"
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr "「最長字串長度」是根據來源字串或旗標判斷的。"
@@ -12746,12 +12804,11 @@ msgstr ""
 msgid "Source code repository"
 msgstr "原始碼儲存庫"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr "此組件已連結至 %(target)s 儲存庫。"
-
 msgid "Repository URL copied to clipboard."
 msgstr "已將儲存庫 URL 複製至剪貼簿。"
+
+msgid "Linked component"
+msgstr "連結的組件"
 
 msgid "Repository branch"
 msgstr "儲存庫分支"
@@ -13173,6 +13230,9 @@ msgstr "複數：%(source_description)s"
 msgid "Plurals"
 msgstr "複數"
 
+msgid "No integer examples found"
+msgstr "找不到整數範例"
+
 msgid "First"
 msgstr "第一頁"
 
@@ -13414,8 +13474,8 @@ msgid "Community"
 msgstr "社群"
 
 #, python-format
-msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr "在 %(share_url)s 使用 %%23Weblate 翻譯 %(object)s 吧！"
+msgid "Translate %(object)s using #Weblate at %(share_url)s!"
+msgstr "在 %(share_url)s 使用 #Weblate 翻譯 %(object)s 吧！"
 
 msgid "Share on Bluesky"
 msgstr "到 Bluesky 分享"
@@ -14028,12 +14088,12 @@ msgstr "該組件包含許多重複的翻譯字串。"
 msgid "Source"
 msgstr "來源"
 
+msgid "Remove duplicate strings"
+msgstr "移除重複字串"
+
 #, python-format
 msgid "Remove duplicate strings from %(language)s (%(filename)s)"
 msgstr "從 %(language)s (%(filename)s) 移除重複字串"
-
-msgid "Remove duplicate strings"
-msgstr "移除重複字串"
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -14926,10 +14986,6 @@ msgstr "這個字串由 %(author)s 執行自動翻譯。"
 msgid "Add term to glossary"
 msgstr "加入字詞至詞彙表"
 
-#, python-format
-msgid "Browse glossary %(name)s"
-msgstr "瀏覽 %(name)s 詞彙表"
-
 msgid "Browse glossary"
 msgstr "瀏覽詞彙表"
 
@@ -14977,6 +15033,14 @@ msgstr "上次更新於"
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
 msgstr "來源字串存在時間"
+
+#, python-format
+msgid "%(filename)s, line %(line)s"
+msgstr "%(filename)s，第 %(line)s 行"
+
+#, python-format
+msgid "line %(line)s"
+msgstr "第 %(line)s 行"
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -16151,10 +16215,10 @@ msgid "Remote repository update failed"
 msgstr "遠端儲存庫更新失敗"
 
 msgid "A component alert was dismissed."
-msgstr "已忽略組件警示。"
+msgstr "已關閉組件警示。"
 
 msgid "Alert dismissed"
-msgstr "警示已忽略"
+msgstr "警示已關閉"
 
 msgid "A component alert was reopened after its context changed."
 msgstr "組件警示在相關情境變更後重新開啟。"
@@ -16469,11 +16533,11 @@ msgstr "檢查名稱重複。"
 msgid "Referenced category does not exist."
 msgstr "參照的分類不存在。"
 
-msgid "Component filename does not match its category and slug."
-msgstr "組件檔案名稱與其分類及代稱不符。"
-
 msgid "Duplicate component slug."
 msgstr "組件代稱重複。"
+
+msgid "Component filename does not match its category and slug."
+msgstr "組件檔案名稱與其分類及代稱不符。"
 
 msgid "Translation revision has an invalid format."
 msgstr "翻譯修訂版本的格式無效。"
@@ -16714,6 +16778,9 @@ msgstr "建議未決"
 msgid "Needs review"
 msgstr "需要檢閱"
 
+msgid "The source and destination checkouts must be different."
+msgstr "來源與目標的儲存庫工作副本必須不同。"
+
 msgid "This component does not exist or you cannot access it."
 msgstr "此組件不存在，或您沒有存取權。"
 
@@ -16737,6 +16804,10 @@ msgstr "可由我處理"
 
 msgid "Discovery configuration"
 msgstr "探索設定"
+
+#, python-format
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "無法處理 %(setting)s 的範本：%(error)s"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -18612,6 +18683,9 @@ msgstr "如果此設定留空，則從專案繼承。"
 msgid "Use the secondary language configured in the category or project."
 msgstr "使用類別或專案中設定的第二語言。"
 
+msgid "The linked repository path is ambiguous."
+msgstr "連結的儲存庫路徑符合多個組件，無法確定連結目標。"
+
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
 "admin interface."
@@ -18871,6 +18945,9 @@ msgid ""
 msgstr ""
 "不使用合併請求進行推送時，需要儲存庫的寫入權限。請設定含認證資訊的推送 URL，"
 "或使用 SSH 儲存庫 URL。"
+
+msgid "Version control system cannot be changed to this backend."
+msgstr "無法將版本控制系統切換至這個後端。"
 
 msgid "The file mask is too complex and took too long to evaluate."
 msgstr "檔案遮罩過於複雜，評估時間過長。"
@@ -19400,6 +19477,10 @@ msgstr "長破折號"
 msgid "User configured character: {}"
 msgstr "使用者自訂字元：{}"
 
+#, python-format
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "變更已提交，但無法推送儲存庫：%s"
+
 msgid "Repository operation could not be completed because it remained locked."
 msgstr "儲存庫操作無法完成，因為儲存庫仍處於鎖定狀態。"
 
@@ -19502,6 +19583,10 @@ msgstr "字串 ID %s"
 
 msgid "This language is used for source strings."
 msgstr "本語言將當作來源字串。"
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr "此組件已連結至 %(target)s 儲存庫。"
 
 msgid "Fix this component to clear its diagnostics."
 msgstr "修復此組件以清除其診斷。"
@@ -20195,6 +20280,12 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "垂直的語言長條圖"
 
+msgid "Sort languages by"
+msgstr "語言排序依據"
+
+msgid "Translation percentage"
+msgstr "已翻譯百分比"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr "水平的語言長條圖"
@@ -20524,18 +20615,6 @@ msgstr "儲存的參數值無效。"
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "參數必須是由鍵值對組成的字典。"
 
-msgid "Template output exceeds its size limit."
-msgstr "範本輸出超過大小上限。"
-
-msgid "Template rendering failed or exceeded its resource limits."
-msgstr "範本處理失敗或超過資源用量上限。"
-
-msgid "Oversized template response."
-msgstr "範本處理的回應太大。"
-
-msgid "Invalid template rendering response."
-msgstr "範本處理的回應無效。"
-
 msgid "Could not render template: {}"
 msgstr "無法處理範本：{}"
 
@@ -20544,14 +20623,14 @@ msgid ""
 "instead."
 msgstr "不再支援格式字串，請改用範本語言。"
 
-msgid "Template value exceeds its size limit."
-msgstr "範本中的值超過大小上限。"
+msgid "Template context exceeds its size limit."
+msgstr "範本的情境資料超過大小上限。"
 
 msgid "Template context is nested too deeply."
 msgstr "範本的情境資料巢狀層級太深。"
 
-msgid "Template context exceeds its size limit."
-msgstr "範本的情境資料超過大小上限。"
+msgid "Unsupported nonfinite template context value."
+msgstr "範本的情境資料不支援非有限數值。"
 
 msgid "Unsupported template context key."
 msgstr "範本的情境資料含有不支援的鍵。"
@@ -20559,30 +20638,279 @@ msgstr "範本的情境資料含有不支援的鍵。"
 msgid "Unsupported template context value."
 msgstr "範本的情境資料含有不支援的值。"
 
+msgid "Template value exceeds its size limit."
+msgstr "範本中的值超過大小上限。"
+
+msgid "Template text is not valid UTF-8."
+msgstr "範本文字不是有效的 UTF-8。"
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr "標籤「%(name)s」"
+
+msgid "Invalid template syntax."
+msgstr "範本語法無效。"
+
+msgid "Undefined template variable."
+msgstr "範本變數尚未定義。"
+
+msgid "Text is not valid UTF-8."
+msgstr "這段文字不是有效的 UTF-8。"
+
+msgid "Division by zero is not supported."
+msgstr "不支援除以零。"
+
+msgid "Numeric value is too large for this operation."
+msgstr "數值太大，無法執行這項運算。"
+
+msgid "Numeric operation failed."
+msgstr "數值運算失敗。"
+
+msgid "Value or argument has an unsupported type."
+msgstr "值或引數的類型不受支援。"
+
+msgid "Value or argument is incomplete or out of range."
+msgstr "值或引數不完整，或超出有效範圍。"
+
+msgid "Value or argument has an invalid format."
+msgstr "值或引數的格式無效。"
+
+#, python-format
+msgid "%(operation)s: %(message)s"
+msgstr "%(operation)s：%(message)s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr "第 %(line)d 行：%(message)s"
+
 msgid "Template rendering exceeded its time limit."
 msgstr "範本處理逾時。"
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr "範本處理的操作次數超過 %(limit)d 次的上限。"
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr "範本的累計處理量超過 %(limit)d 位元組的上限。"
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr "範本中的值超過 %(limit)d 位元組的大小上限。"
+
+msgid "Template value must be a supported scalar."
+msgstr "範本中的值必須是支援的純量。"
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr "整數超過 4096 位元的上限。"
+
+msgid "Nonfinite numbers are not supported."
+msgstr "不支援非有限數值。"
+
+#, python-format
+msgid "Filter \"%(name)s\""
+msgstr "篩選器「%(name)s」"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
+msgstr "範本套用篩選器的次數超過 %(limit)d 次的上限。"
 
 msgid "Template rendering exceeded its loop limit."
 msgstr "範本處理超過迴圈次數上限。"
 
-msgid "Template intermediate value exceeds its size limit."
-msgstr "範本處理過程中的中間值超過大小上限。"
+msgid "Attribute access and method calls are not supported."
+msgstr "不支援存取屬性或呼叫方法。"
 
-msgid "Template replacement exceeds its size limit."
-msgstr "範本文字取代結果超過大小上限。"
+msgid "Index exceeds the length limit of 128 characters."
+msgstr "索引長度超過 128 個字元的上限。"
 
-msgid "Template padding exceeds its size limit."
-msgstr "範本文字填補寬度超過上限。"
+msgid "Translated template literals are not supported."
+msgstr "不支援標記為可翻譯的範本常值。"
 
-msgid "Template formatting exceeds its size limit."
-msgstr "範本的格式化參數超過上限。"
+msgid "Invalid filter."
+msgstr "篩選器無效。"
 
-msgid "Template join exceeds its size limit."
-msgstr "範本文字合併結果超過大小上限。"
+msgid "Identity comparisons require None, True, or False."
+msgstr "判斷兩個物件是否為同一個物件時，至少一個值必須是 None、True 或 False。"
+
+msgid "This condition operator is not supported."
+msgstr "不支援此條件運算子。"
+
+msgid "Template output exceeds its size limit."
+msgstr "範本輸出超過大小上限。"
+
+msgid "Loops require a list, string, dictionary, or dictionary view."
+msgstr "迴圈只接受清單、字串、字典或字典檢視。"
+
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
+msgstr "將迴圈的值拆成多個變數時，必須使用清單、元組、字串或字典。"
+
+msgid "Loop value cannot be unpacked into its variables."
+msgstr "無法將迴圈的值拆到各個變數。"
+
+msgid "This template tag is not supported."
+msgstr "不支援此範本標籤。"
+
+msgid "This template node is not supported."
+msgstr "不支援此範本節點。"
+
+msgid "Replacement requires string values and arguments."
+msgstr "取代操作的值和引數都必須是字串。"
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
+msgstr "取代後的中間結果會超過 %(limit)d 位元組的大小上限。"
 
 #, python-format
 msgid "Undefined variable: \"%s\""
 msgstr "未定義的變數：「%s」"
+
+msgid "This filter requires scalar values and arguments."
+msgstr "此篩選器的值和引數都必須是純量。"
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr "中間值會超過 %(limit)d 位元組的大小上限。"
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr "數值輸入過長，轉換時最多接受 1240 個字元。"
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr "十進位數值超過可轉換的範圍。"
+
+msgid "This filter requires strings."
+msgstr "此篩選器只接受字串。"
+
+msgid "Choices must be a string."
+msgstr "選項必須以字串提供。"
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr "計算長度時，必須使用清單、字串、字典或字典檢視。"
+
+msgid "This filter requires a list, tuple, or string."
+msgstr "此篩選器只接受清單、元組或字串。"
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr "切片操作只接受清單、元組或字串。"
+
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr "切片引數超過 128 個字元的長度上限。"
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr "串接元素時，必須停用自動跳脫，並提供可迭代物件及用作分隔符號的字串。"
+
+msgid "Joining requires string elements."
+msgstr "要串接的元素必須是字串。"
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr "串接後的值會超過 %(limit)d 位元組的大小上限。"
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr "序列跳脫只接受清單、元組或字串。"
+
+msgid "Sequence escaping requires scalar elements."
+msgstr "要進行序列跳脫，元素必須都是純量。"
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr "日期格式化只接受日期、時間、字串或 None。"
+
+msgid "Date format must be a string or None."
+msgstr "日期格式必須是字串或 None。"
+
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "時間比較只接受日期、時間、字串或 None。"
+
+msgid "Time comparison argument must be a date or None."
+msgstr "時間比較的引數必須是日期或 None。"
+
+msgid "Concatenation requires sequences of the same type."
+msgstr "只能串接類型相同的序列。"
+
+msgid "Plural suffixes must be a string."
+msgstr "複數形式的字尾必須以字串提供。"
+
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr "精確度引數超過 128 個字元的長度上限。"
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr "格式化的精確度超過 1000 位的上限。"
+
+msgid "Format must be a string of at most 128 characters."
+msgstr "格式必須是長度不超過 128 個字元的字串。"
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr "格式必須包含一個支援的轉換規格，且不得使用對應表的索引鍵或動態寬度。"
+
+msgid "Nested template delimiters are not supported."
+msgstr "範本分隔符號不得巢狀使用。"
+
+msgid "Unclosed template token."
+msgstr "範本詞元缺少結束分隔符號。"
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr "範本詞元超過 %(limit)d 位元組的大小上限。"
+
+msgid "Template tokens cannot span multiple lines."
+msgstr "範本詞元不能跨行。"
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr "範本的詞元數量超過剖析上限 %(limit)d 個。"
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr "範本的篩選器數量超過剖析上限 %(limit)d 個。"
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr "剖析範本的工作量超過 %(limit)d 個單位的上限。"
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr "範本標籤「%(tag)s」尚未關閉。"
+
+msgid "Template tag is empty."
+msgstr "範本標籤沒有內容。"
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr "條件項目數超過剖析上限 %(limit)d 個。"
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr "範本巢狀層數超過 %(limit)d 層的上限。"
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr "遇到非預期的結束標籤「%(tag)s」。"
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr "標籤「%(tag)s」必須放在「%(parent)s」標籤內。"
+
+#, python-format
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "不支援範本標籤「%(tag)s」。"
+
+msgid "Unsupported template tag."
+msgstr "不支援這個範本標籤。"
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr "序列化資料的巢狀層數超過 %(limit)d 層的上限。"
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr "序列化的中間結果超過 %(limit)d 位元組的大小上限。"
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
+msgstr "序列化後的值超過 %(limit)d 位元組的大小上限。"
 
 #, python-format
 msgid ""
@@ -22130,6 +22458,28 @@ msgid "The workspace has been removed."
 msgstr "工作空間已移除。"
 
 #, python-format
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "瀏覽 %(name)s 詞彙表"
+
+#~ msgid "Template rendering failed or exceeded its resource limits."
+#~ msgstr "範本處理失敗或超過資源用量上限。"
+
+#~ msgid "Oversized template response."
+#~ msgstr "範本處理的回應太大。"
+
+#~ msgid "Invalid template rendering response."
+#~ msgstr "範本處理的回應無效。"
+
+#~ msgid "Template replacement exceeds its size limit."
+#~ msgstr "範本文字取代結果超過大小上限。"
+
+#~ msgid "Template padding exceeds its size limit."
+#~ msgstr "範本文字填補寬度超過上限。"
+
+#~ msgid "Template formatting exceeds its size limit."
+#~ msgstr "範本的格式化參數超過上限。"
+
+#, python-format
 #~ msgid ""
 #~ "Fedora Messaging publisher service was unavailable; the connection will "
 #~ "be recreated on the next attempt: %(error)s"
@@ -23622,9 +23972,6 @@ msgstr "工作空間已移除。"
 #~ msgid "Renamed project"
 #~ msgstr "重新命名了專案"
 
-#~ msgid "Renamed component"
-#~ msgstr "重新命名了組件"
-
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "有新字串可翻譯"
@@ -24992,9 +25339,6 @@ msgstr "工作空間已移除。"
 #~| msgid "Repository"
 #~ msgid "Backup pepository"
 #~ msgstr "儲存庫"
-
-#~ msgid "Your languages"
-#~ msgstr "您的語言"
 
 #~ msgid "Fulltext"
 #~ msgstr "全文"
@@ -27348,9 +27692,6 @@ msgstr "工作空間已移除。"
 
 #~ msgid "First name"
 #~ msgstr "名字"
-
-#~ msgid "Username needs to have at least five characters."
-#~ msgstr "使用者名稱至少要5個字元。"
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

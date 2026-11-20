@@ -77,7 +77,7 @@ services:
       host_ip: 127.0.0.1
 
   database:
-    image: postgres:18.7-alpine@sha256:b6972e1115a4ff8eba5d7f7d19184926d1e16d7d1136ae1e1a7ebf286da0f015
+    image: postgres:18.7-alpine@sha256:ff64c9e3bdf8e2120107d3559de8db314e8305f7e38c5105903c6295876738ff
     volumes:
     - postgres-data:/var/lib/postgresql
     healthcheck:
@@ -87,7 +87,7 @@ services:
       retries: 30
 
   cache:
-    image: valkey/valkey:9.1.3-alpine@sha256:bf09d58e96d6b4524a15396b65b242bbe18beebbcc15a04d8ee75ddac62fae0b
+    image: valkey/valkey:9.2.0-alpine@sha256:c8e2d17498838af5d91e12eb7c11220b3434a7b7131a333e3af52ad5e0b80882
     volumes:
     - valkey-data:/data
     healthcheck:

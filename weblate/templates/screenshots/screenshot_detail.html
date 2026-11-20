@@ -51,7 +51,7 @@
         <h4 class="card-title">{% translate "Assign source strings" %}</h4>
         <ul class="nav nav-pills mb-0"
             role="tablist"
-            aria-label="{% translate "Find source strings" %}">
+            aria-label="{% translate "Find source strings"|force_escape %}">
           <li class="nav-item" role="presentation">
             <button class="nav-link active"
                     id="screenshot-image-text-tab"
@@ -125,11 +125,12 @@
                     <textarea class="textarea form-control"
                               required
                               name="q"
+                              data-lt-active="false"
                               id="search-input"
                               aria-describedby="screenshots-search-help"
                               rows="1"
-                              aria-label="{% translate "Source string search" %}"
-                              placeholder="{% translate "Source string search" %}"></textarea>
+                              aria-label="{% translate "Source string search"|force_escape %}"
+                              placeholder="{% translate "Source string search"|force_escape %}"></textarea>
                   </div>
                   <button data-href="{% url 'screenshot-js-search' pk=object.pk %}"
                           class="btn btn-primary"
@@ -142,7 +143,7 @@
                   {% endblocktranslate %}
                   <a class="doc-link"
                      href="{% documentation 'user/search' 'search-boolean' %}"
-                     title="{% translate "Documentation" %}"
+                     title="{% translate "Documentation"|force_escape %}"
                      target="_blank"
                      rel="noopener">{% icon "info.svg" %}<span class="visually-hidden">{% translate "Search query syntax documentation" %}</span></a>
                 </div>
@@ -180,7 +181,9 @@
         </div>
         <div class="card-body">{% crispy edit_form %}</div>
         <div class="card-footer">
-          <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
+          <input type="submit"
+                 class="btn btn-primary"
+                 value="{% translate "Save"|force_escape %}" />
         </div>
       </div>
     </form>

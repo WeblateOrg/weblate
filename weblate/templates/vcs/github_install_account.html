@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">{% translate "Connect GitHub account" %}</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% blocktranslate %}Connect a GitHub account to {{ workspace }}{% endblocktranslate %}</h4>
+    </div>
+    <div class="card-body">
+      <p>{% translate "Choose an existing installation to give this workspace access to its selected repositories." %}</p>
+      <ul>
+        {% for login, url in choices %}
+          <li>
+            <a href="{{ url }}">{{ login }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+      <a href="{{ install_url }}" class="btn btn-primary">{% translate "Install on another GitHub account" %}</a>
+    </div>
+  </div>
+{% endblock content %}

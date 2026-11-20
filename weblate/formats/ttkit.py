@@ -20,6 +20,7 @@ from io import BytesIO, StringIO
 from pathlib import Path
 from typing import IO, TYPE_CHECKING, Any, ClassVar, TypedDict, cast
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
@@ -85,7 +86,7 @@ from weblate.formats.helpers import (
     CSV_TARGET_PLURAL_FORM,
     format_csv_id_hash,
 )
-from weblate.formats.limits import MAX_TRANSLATION_UNITS, TranslationLimitError
+from weblate.formats.limits import TranslationLimitError
 from weblate.lang.data import FORMULA_WITH_ZERO, ZERO_PLURAL_TYPES
 from weblate.lang.models import Plural
 from weblate.trans.exceptions import is_expected_parse_error
@@ -444,6 +445,13 @@ class TTKitUnit[U: TranslateToolkitUnit, F: "BaseTTKitFormat"](TranslationUnit[U
         self.set_target(target)
         self.set_state(STATE_EMPTY)
 
+    @cached_property
+    def line_number(self) -> int | None:
+        """Return line number from a TTKit unit."""
+        if not self.has_unit() or not self.parent.supports_line_number:
+            return None
+        return self.unit.line_number
+
 
 class KeyValueUnit[U: phpunit | propunit, F: "TTKitFormat"](TTKitUnit[U, F]):
     @cached_property
@@ -487,9 +495,10 @@ class KeyValueUnit[U: phpunit | propunit, F: "TTKitFormat"](TTKitUnit[U, F]):
     def set_target(self, target: str | list[str]) -> None:
         """Set translation unit target."""
         super().set_target(target)
-        # Propagate to value so that serializing of empty values works correctly
+        # Empty targets serialize as the stored source. Use the setter to
+        # invalidate any cached representation of that source.
         if not target:
-            self.unit.value = self.unit.target
+            self.unit.source = self.unit.target
 
 
 class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
@@ -1655,12 +1664,13 @@ class WeblateCSVFile(csvfile):
     def addunit(self, unit: WeblateCSVUnit) -> None:
         if self._parsed_rows is not None:
             self._parsed_rows += 1
-            if self._parsed_rows > MAX_TRANSLATION_UNITS:
+            max_rows = settings.TRANSLATION_MAX_UNITS
+            if self._parsed_rows > max_rows:
                 raise TranslationLimitError(
                     gettext(
                         "CSV file exceeds the maximum allowed count of %d data rows."
                     )
-                    % MAX_TRANSLATION_UNITS
+                    % max_rows
                 )
         super().addunit(unit)
 
@@ -2077,10 +2087,12 @@ class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](
 ):
     loader = pofile  # type: ignore[assignment]
     plural_preference: tuple[int, ...] | None = None
+    parse_version = 1
     supports_plural: bool = True
     supports_descriptions = True
     supports_context = True
     supports_location = True
+    supports_line_number = True
     supports_flags = True
     supports_remove_obsolete_units = True
     additional_states = (STATE_FUZZY,)
@@ -2532,6 +2544,8 @@ class PropertiesBaseFormat[S: propfile, U: propunit, T: PropertiesUnit](
     TTKitFormat[S, U, T]
 ):
     unit_class = PropertiesUnit  # type: ignore[assignment]
+    parse_version = 1
+    supports_line_number = True
 
     def is_valid(self):
         result = super().is_valid()
@@ -2981,11 +2995,13 @@ class CSVFormat(TTKitFormat[WeblateCSVFile, WeblateCSVUnit, CSVUnit]):
     loader = WeblateCSVFile
     unit_class = CSVUnit
     autoload: tuple[str, ...] = ("*.csv",)
+    parse_version = 1
     supports_plural: bool = True
     can_add_plural_units = False
     supports_descriptions: bool = True
     supports_context: bool = True
     supports_location: bool = True
+    supports_line_number = True
     additional_states = (STATE_FUZZY,)
 
     def __init__(
@@ -3104,6 +3120,9 @@ class CSVFormat(TTKitFormat[WeblateCSVFile, WeblateCSVUnit, CSVUnit]):
         ):
             setattr(unit, attr, getattr(first, attr))
         unit.id_hash = format_csv_id_hash(group["import_id_hash"])
+        # The synthetic unit replaces the parsed rows. Keep the first row's
+        # locator for the API, repository links, and nearby strings.
+        unit._line_number = first.line_number  # ruff: ignore[private-member-access]
 
         return unit
 
@@ -3623,6 +3642,20 @@ class XWikiUnit(PropertiesUnit):
     def source(self):
         # Need to decode property encoded string
         return get_string(quote.xwiki_properties_decode(super().source))
+
+    def _is_missing(self) -> bool:
+        # Units listed as "### Missing:" comments are not translated: the
+        # value they carry is the source one, to be displayed in the comment.
+        return self.has_unit() and self.unit.missing
+
+    @cached_property
+    def target(self):
+        if self._is_missing():
+            return ""
+        return super().target
+
+    def is_translated(self):
+        return not self._is_missing() and super().is_translated()
 
 
 class XWikiPropertiesFormat(PropertiesBaseFormat):

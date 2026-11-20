@@ -505,6 +505,12 @@ class AIQualityOperation(AutomationOperation):
         ):
             msg = "AI quality evaluation add-on changed during execution."
             raise ValueError(msg)
+        if errors := result.get("errors"):
+            msg = f"AI quality evaluation failed: {', '.join(errors)}."
+            raise ValueError(msg)
+        if result["skipped"] and result["skipped"] == result.get("rate_limited"):
+            msg = "AI quality evaluation was incomplete because the service is on cooldown."
+            raise ValueError(msg)
         if result["failed"] or result["skipped"]:
             msg = "AI quality evaluation was incomplete."
             raise ValueError(msg)

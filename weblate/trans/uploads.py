@@ -37,7 +37,7 @@ from weblate.utils.change_origin import acting_user_context
 from weblate.utils.data import data_path
 from weblate.utils.errors import report_error
 from weblate.utils.files import get_upload_message, remove_tree
-from weblate.utils.lock import WeblateLock
+from weblate.utils.lock import LockScope, WeblateLock
 
 if TYPE_CHECKING:
     from collections.abc import Generator
@@ -97,9 +97,7 @@ def browser_upload_key(user_id: int) -> str:
 
 
 def browser_upload_lock(user_id: int) -> WeblateLock:
-    return WeblateLock(
-        scope="browser-upload", key=user_id, slug=str(user_id), timeout=10
-    )
+    return WeblateLock(scope=LockScope.BROWSER_UPLOAD, key=user_id, timeout=10)
 
 
 def release_browser_upload(user_id: int, upload_id: str) -> None:

@@ -20,6 +20,7 @@ from django.utils.translation import override
 from weblate.trans import defaults
 from weblate.trans.models import Category, Component, Project
 from weblate.utils.render import (
+    render_repository_template,
     render_template,
     validate_render,
     validate_render_mock,
@@ -33,9 +34,79 @@ from weblate.utils.render_limits import (
     SOURCE_LIMIT,
 )
 from weblate.utils.tests.render_reference import render_reference
+from weblate.vcs.base import RepositoryTemplateError
 
 
 class RenderTest(SimpleTestCase):
+    def test_repository_template_failure(self) -> None:
+        for template in ("{% invalid %}", "x" * (SOURCE_LIMIT + 1)):
+            with self.subTest(template=template[:30]):
+                with self.assertRaises(RepositoryTemplateError) as raised:
+                    render_repository_template(template, setting="commit message")
+                self.assertIsInstance(raised.exception.__cause__, TemplateSyntaxError)
+                self.assertIn("commit message", str(raised.exception))
+                self.assertEqual(
+                    raised.exception.get_stored_error()["code"],
+                    "template_render_failed",
+                )
+
+    def test_repository_template_unexpected_failure(self) -> None:
+        with (
+            patch(
+                "weblate.utils.render.render_template", side_effect=RuntimeError("bug")
+            ),
+            self.assertRaisesMessage(RuntimeError, "bug"),
+        ):
+            render_repository_template("message", setting="commit message")
+
+    def test_validation_shows_source_details_omitted_from_runtime_errors(self) -> None:
+        for source, detail, reason in (
+            ("{% /private/tree %}", "/private/tree", "Unsupported template tag"),
+            (
+                '{{ "https://user:dummy@example.invalid/" ? }}',
+                "https://user:dummy@example.invalid/",  # kingfisher:ignore
+                "Invalid template syntax",
+            ),
+            ("{{ value|private_filter }}", "private_filter", "Invalid filter"),
+            (
+                "{{ private_variable }}",
+                "private_variable",
+                "Undefined template variable",
+            ),
+        ):
+            with self.subTest(reason=reason):
+                template = f"heading\n{source}"
+                with self.assertRaisesMessage(ValidationError, detail) as validation:
+                    validate_render(template)
+                self.assertIn("Line 2:", str(validation.exception))
+                with self.assertRaises(RepositoryTemplateError) as raised:
+                    render_repository_template(template, setting="commit message")
+                diagnostic = raised.exception.get_stored_error()["params"]["error"]
+                self.assertIn(f"Line 2: {reason}", diagnostic)
+                self.assertNotIn(detail, diagnostic)
+
+    def test_unclassified_template_error_omits_raw_diagnostic(self) -> None:
+        error = TemplateSyntaxError("Private backend diagnostic")
+        with (
+            patch("weblate.utils.render.render_template", side_effect=error),
+            self.assertRaises(RepositoryTemplateError) as raised,
+        ):
+            render_repository_template("message", setting="commit message")
+        self.assertIn("Template rendering failed", str(raised.exception))
+        self.assertNotIn(str(error), str(raised.exception))
+        self.assertIs(raised.exception.__cause__, error)
+
+    def test_repository_template_stores_english_diagnostic(self) -> None:
+        with (
+            override("cs"),
+            self.assertRaisesMessage(
+                RepositoryTemplateError, "Template value exceeds its size limit."
+            ),
+        ):
+            render_repository_template(
+                "x" * (SOURCE_LIMIT + 1), setting="commit message"
+            )
+
     def test_component_full_name(self) -> None:
         project = Project(name="Project", slug="project")
         component = Component(

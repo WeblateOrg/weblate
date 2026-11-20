@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-13 01:19-0600\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
 "PO-Revision-Date: 2026-11-13 08:11+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1356,6 +1356,21 @@ msgid ""
 msgstr ""
 "Tuto pozvánku lze přijmout pouze z e-mailové adresy vybrané tvůrcem "
 "pozvánky; nemůže být použita vaším účtem."
+
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Your e-mail no longer belongs to verified account, it has been changed to "
+#| "{0}."
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr "Váš e-mail už není ověřený, byl změněn na {0}."
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
+msgstr ""
 
 msgid ""
 "Your e-mail address has been added. You can now select it as your account e-"
@@ -3917,6 +3932,22 @@ msgstr ""
 "Před přesunutím komponenty do jiného projektu ji nejprve odeberte z "
 "projektových týmů."
 
+#, fuzzy
+#| msgid ""
+#| "Remove the component from project teams before moving it to another "
+#| "project."
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+"Před přesunutím komponenty do jiného projektu ji nejprve odeberte z "
+"projektových týmů."
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
+
 msgid "Roles"
 msgstr "Role"
 
@@ -4713,6 +4744,11 @@ msgstr "Fakturace"
 
 msgid "Billing event"
 msgstr "Fakturační událost"
+
+#, fuzzy
+#| msgid "Projects without components"
+msgid "Project has no components."
+msgstr "Projekty bez součástí"
 
 msgid "monthly"
 msgstr "měsíčně"
@@ -6652,9 +6688,6 @@ msgstr "Vzorec množného čísla"
 msgid "Plural type"
 msgstr "Druh množného čísla"
 
-msgid "Example counts for this plural form."
-msgstr "Příklady počtů pro toto množné číslo."
-
 msgid "Singular"
 msgstr "Jednotné číslo"
 
@@ -7799,6 +7832,11 @@ msgid "Read your e-mail address"
 msgstr "Použít e-mailovou adresu profilu"
 
 msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
 msgstr ""
 
 msgid "Image is too big."
@@ -10346,6 +10384,16 @@ msgstr ""
 "Toto předplatné nesplňuje podmínky hostování zdarma. Prosím opravte výše "
 "uvedené chyby nebo si předplatné zakupte."
 
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+
 msgid "Customer"
 msgstr "Zákazník"
 
@@ -11998,6 +12046,16 @@ msgstr ""
 #. Translators: e-mail subject
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr "Opakované platby budou zrušeny u neaktivních projektů"
+
+#, fuzzy
+#| msgid "Does not meet Libre hosting conditions."
+msgid "Review Libre hosting conditions"
+msgstr "Nesplňuje podmínky pro svobodné hostování."
+
+#, fuzzy, python-format
+#| msgid "Number of entries for %(project)s"
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "Počet položek pro %(project)s"
 
 msgid "Translation change"
 msgstr "Změna v překladu"
@@ -14033,6 +14091,9 @@ msgstr ""
 "Pokud byste chtěli přispět vyšší částkou, můžete prostřednictvím "
 "dobrovolného příspěvku podpořit vývoj a údržbu samotného Weblate."
 
+msgid "Example counts for this plural form."
+msgstr "Příklady počtů pro toto množné číslo."
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr "Maximální délka řetězce je určena ze zdrojového řetězce nebo příznaků."
@@ -14066,12 +14127,13 @@ msgstr ""
 msgid "Source code repository"
 msgstr "Repozitář se zdrojovými kódy"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr "Repozitář pro tuto součást je propojen s %(target)s."
-
 msgid "Repository URL copied to clipboard."
 msgstr "Adresa URL repozitáře zkopírována do schránky."
+
+#, fuzzy
+#| msgid "Renamed component"
+msgid "Linked component"
+msgstr "Přejmenována součást"
 
 msgid "Repository branch"
 msgstr "Větev repozitáře"
@@ -14519,6 +14581,11 @@ msgstr "Tvar množného čísla: %(source_description)s"
 msgid "Plurals"
 msgstr "Množná čísla"
 
+#, fuzzy
+#| msgid "No strings found!"
+msgid "No integer examples found"
+msgstr "Nebyly nalezeny žádné řetězce!"
+
 msgid "First"
 msgstr "První"
 
@@ -14778,8 +14845,8 @@ msgid "Community"
 msgstr "Komunita"
 
 #, python-format
-msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr "Překládejte %(object)s pomocí %%23Weblate na %(share_url)s!"
+msgid "Translate %(object)s using #Weblate at %(share_url)s!"
+msgstr "Překládejte %(object)s pomocí #Weblate na %(share_url)s!"
 
 msgid "Share on Bluesky"
 msgstr "Sdílet na Bluesky"
@@ -15456,12 +15523,12 @@ msgstr "Součást obsahuje několik duplicitních překladových řetězců."
 msgid "Source"
 msgstr "Zdroj"
 
+msgid "Remove duplicate strings"
+msgstr "Odstranit duplicitní řetězce"
+
 #, python-format
 msgid "Remove duplicate strings from %(language)s (%(filename)s)"
 msgstr "Odstranit duplicitní řetězce z %(language)s (%(filename)s)"
-
-msgid "Remove duplicate strings"
-msgstr "Odstranit duplicitní řetězce"
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -16487,10 +16554,6 @@ msgstr "Tento řetězec byl automaticky přeložen nástrojem %(author)s."
 msgid "Add term to glossary"
 msgstr "Přidat slovo do glosáře"
 
-#, python-format
-msgid "Browse glossary %(name)s"
-msgstr "Procházet glosář %(name)s"
-
 msgid "Browse glossary"
 msgstr "Procházet glosář"
 
@@ -16540,6 +16603,15 @@ msgstr "Naposledy aktualizováno"
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
 msgstr "Stáří zdrojového řetězce"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s, line %(line)s"
+msgstr "%(filename)s, řetězec %(position)s"
+
+#, python-format
+msgid "line %(line)s"
+msgstr ""
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -18144,11 +18216,11 @@ msgstr "Název kontroly se opakuje."
 msgid "Referenced category does not exist."
 msgstr "Uvedená kategorie neexistuje."
 
-msgid "Component filename does not match its category and slug."
-msgstr "Název souboru komponenty neodpovídá její kategorii a slugu."
-
 msgid "Duplicate component slug."
 msgstr "Duplicitní slug komponenty."
+
+msgid "Component filename does not match its category and slug."
+msgstr "Název souboru komponenty neodpovídá její kategorii a slugu."
 
 #, fuzzy
 #| msgid "Translation reviews are not enabled."
@@ -18414,6 +18486,11 @@ msgid "Needs review"
 msgstr "Vyžaduje kontrolu"
 
 #, fuzzy
+#| msgid "The source and target have to be different languages."
+msgid "The source and destination checkouts must be different."
+msgstr "Zdroj a cíl musí být odlišné jazyky."
+
+#, fuzzy
 #| msgid "The target does not exist or you cannot access it."
 msgid "This component does not exist or you cannot access it."
 msgstr "Cíl neexistuje nebo k němu nemáte přístup."
@@ -18440,6 +18517,11 @@ msgstr "Můžu to provést já"
 
 msgid "Discovery configuration"
 msgstr "Nastavení objevování"
+
+#, fuzzy, python-format
+#| msgid "Could not render template: {}"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "Šablonu se nepodařilo vykreslit: {0}"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -20548,6 +20630,11 @@ msgstr "Toto nastavení se dědí z projektu, pokud je prázdné."
 msgid "Use the secondary language configured in the category or project."
 msgstr "Použijte sekundární jazyk nastavený v dané kategorii nebo projektu."
 
+#, fuzzy
+#| msgid "The project repository directory already exists."
+msgid "The linked repository path is ambiguous."
+msgstr "Adresář repozitáře projektu již existuje."
+
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
 "admin interface."
@@ -20874,6 +20961,11 @@ msgstr ""
 "Odesílání bez žádosti o sloučení vyžaduje oprávnění k zápisu do repozitáře. "
 "Nastavte adresu URL pro odesílání s přihlašovacími údaji nebo použijte "
 "adresu URL repozitáře přes SSH."
+
+#, fuzzy
+#| msgid "This role cannot be assigned to this team."
+msgid "Version control system cannot be changed to this backend."
+msgstr "Tuto roli nelze přiřadit tomuto týmu."
 
 #, fuzzy
 #| msgid ""
@@ -21515,6 +21607,11 @@ msgstr "Dlouhá pomlčka"
 msgid "User configured character: {}"
 msgstr "Uživatelem zadaný znak: {}"
 
+#, fuzzy, python-format
+#| msgid "Could not push the repository."
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "Nepodařilo se odeslat repozitář."
+
 msgid "Repository operation could not be completed because it remained locked."
 msgstr "Operaci repozitáře nebylo možné dokončit, protože zůstala zamčená."
 
@@ -21634,6 +21731,10 @@ msgstr "Identifikátor řetězce %s"
 
 msgid "This language is used for source strings."
 msgstr "Tento jazyk je používán pro zdrojové řetězce."
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr "Repozitář pro tuto součást je propojen s %(target)s."
 
 msgid "Fix this component to clear its diagnostics."
 msgstr "Opravte tuto součást pro vyčištění její diagnostiky."
@@ -22439,6 +22540,16 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "Vertikální sloupcový graf jazyků"
 
+#, fuzzy
+#| msgid "Your languages"
+msgid "Sort languages by"
+msgstr "Vaše jazyky"
+
+#, fuzzy
+#| msgid "Translation change"
+msgid "Translation percentage"
+msgstr "Změna v překladu"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr "Horizontální sloupcový graf jazyků"
@@ -22813,22 +22924,6 @@ msgstr "Chybné parametry!"
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "Parametry musí být slovníkem dvojic klíč–hodnota."
 
-msgid "Template output exceeds its size limit."
-msgstr ""
-
-#, fuzzy
-#| msgid "CEL validation or evaluation failed or exceeded its resource limit."
-msgid "Template rendering failed or exceeded its resource limits."
-msgstr "Validace nebo vyhodnocení CEL selhalo nebo překročilo limit zdrojů."
-
-msgid "Oversized template response."
-msgstr ""
-
-#, fuzzy
-#| msgid "Invalid translation flag: \"%s\""
-msgid "Invalid template rendering response."
-msgstr "Chybná příznak pro překlad: „%s“"
-
 msgid "Could not render template: {}"
 msgstr "Šablonu se nepodařilo vykreslit: {0}"
 
@@ -22839,7 +22934,7 @@ msgstr ""
 "Formátovací řetězce již nejsou podporovány, prosím použijte místo toho "
 "šablony."
 
-msgid "Template value exceeds its size limit."
+msgid "Template context exceeds its size limit."
 msgstr ""
 
 #, fuzzy
@@ -22847,8 +22942,10 @@ msgstr ""
 msgid "Template context is nested too deeply."
 msgstr "Značka HTML {tag} má chybějící uzavírací značku: {end}."
 
-msgid "Template context exceeds its size limit."
-msgstr ""
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported nonfinite template context value."
+msgstr "Nepodporovaný obsah pravidla ITS."
 
 #, fuzzy
 #| msgid "Unsupported ITS rule content."
@@ -22860,30 +22957,339 @@ msgstr "Nepodporovaný obsah pravidla ITS."
 msgid "Unsupported template context value."
 msgstr "Nepodporovaný obsah pravidla ITS."
 
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Template text is not valid UTF-8."
+msgstr "Zadaný token je neplatný."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid request."
+msgid "Invalid template syntax."
+msgstr "Neplatný požadavek."
+
+#, fuzzy
+#| msgid "Undefined variable: \"%s\""
+msgid "Undefined template variable."
+msgstr "Nedefinovaná proměnná: \"%s\""
+
+#, fuzzy
+#| msgid "The translation is not valid XML."
+msgid "Text is not valid UTF-8."
+msgstr "Tento překlad není platné XML."
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Division by zero is not supported."
+msgstr "Zvolené řazení není podporované."
+
+#, fuzzy
+#| msgid "Select a change for this automation."
+msgid "Numeric value is too large for this operation."
+msgstr "Vyberte změnu pro tuto automatizaci."
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Numeric operation failed."
+msgstr "Operace na repozitáři selhala"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation reviews are not enabled."
+msgid "Value or argument has an invalid format."
+msgstr "Kontroly překladů nejsou povoleny."
+
+#, fuzzy, python-format
+#| msgid "%(path)s: %(error)s"
+msgid "%(operation)s: %(message)s"
+msgstr "%(path)s: %(error)s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
 msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Nonfinite numbers are not supported."
+msgstr "Aliasy a značky YAML nejsou podporovány."
+
+#, fuzzy, python-format
+#| msgid "File names"
+msgid "Filter \"%(name)s\""
+msgstr "Názvy souboru"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
 msgstr ""
 
 msgid "Template rendering exceeded its loop limit."
 msgstr ""
 
-msgid "Template intermediate value exceeds its size limit."
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Attribute access and method calls are not supported."
+msgstr "Aliasy a značky YAML nejsou podporovány."
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Index exceeds the length limit of 128 characters."
+msgstr "Uživatelské jméno musí být alespoň pět znaků dlouhé."
+
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Translated template literals are not supported."
+msgstr "Aliasy a značky YAML nejsou podporovány."
+
+#, fuzzy
+#| msgid "Invalid unit."
+msgid "Invalid filter."
+msgstr "Neplatná jednotka."
+
+msgid "Identity comparisons require None, True, or False."
 msgstr ""
 
-msgid "Template replacement exceeds its size limit."
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This condition operator is not supported."
+msgstr "Zvolené řazení není podporované."
+
+msgid "Template output exceeds its size limit."
 msgstr ""
 
-msgid "Template padding exceeds its size limit."
+msgid "Loops require a list, string, dictionary, or dictionary view."
 msgstr ""
 
-msgid "Template formatting exceeds its size limit."
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
 msgstr ""
 
-msgid "Template join exceeds its size limit."
+msgid "Loop value cannot be unpacked into its variables."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This template tag is not supported."
+msgstr "Zvolené řazení není podporované."
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This template node is not supported."
+msgstr "Zjištěný formát souboru není podporován."
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
 msgstr ""
 
 #, python-format
 msgid "Undefined variable: \"%s\""
 msgstr "Nedefinovaná proměnná: \"%s\""
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "This field is required."
+msgid "This filter requires strings."
+msgstr "Toto pole je vyžadováno."
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Choices must be a string."
+msgstr "Automatizační klíče musí být řetězce."
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr "Uživatelské jméno musí být alespoň pět znaků dlouhé."
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source string length"
+msgid "Joining requires string elements."
+msgstr "Délka zdrojového řetězce"
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Date format must be a string or None."
+msgstr "Automatizační klíče musí být řetězce."
+
+#, fuzzy
+#| msgid "%(path)s: trigger scope requires only change triggers."
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "%(path)s: rozsah spouštěče vyžaduje pouze spouštěče změn."
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Plural suffixes must be a string."
+msgstr "Automatizační klíče musí být řetězce."
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr "Uživatelské jméno musí být alespoň pět znaků dlouhé."
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Nested template delimiters are not supported."
+msgstr "Aliasy a značky YAML nejsou podporovány."
+
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unclosed template token."
+msgstr "Nepodporovaný obsah pravidla ITS."
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "The resource is locked."
+msgid "Template tag is empty."
+msgstr "Zdroj je uzamčen."
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr ""
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "Nepodporovaný obsah pravidla ITS."
+
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported template tag."
+msgstr "Nepodporovaný obsah pravidla ITS."
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -24666,6 +25072,20 @@ msgid "The workspace has been removed."
 msgstr "Pracovní prostor byl odstraněn."
 
 #, python-format
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "Procházet glosář %(name)s"
+
+#, fuzzy
+#~| msgid "CEL validation or evaluation failed or exceeded its resource limit."
+#~ msgid "Template rendering failed or exceeded its resource limits."
+#~ msgstr "Validace nebo vyhodnocení CEL selhalo nebo překročilo limit zdrojů."
+
+#, fuzzy
+#~| msgid "Invalid translation flag: \"%s\""
+#~ msgid "Invalid template rendering response."
+#~ msgstr "Chybná příznak pro překlad: „%s“"
+
+#, python-format
 #~ msgid ""
 #~ "Fedora Messaging publisher service was unavailable; the connection will "
 #~ "be recreated on the next attempt: %(error)s"
@@ -26284,9 +26704,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgid "Renamed project"
 #~ msgstr "Přejmenován projekt"
 
-#~ msgid "Renamed component"
-#~ msgstr "Přejmenována součást"
-
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "Nový řetězec k překladu"
@@ -27774,9 +28191,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~| msgid "Repository"
 #~ msgid "Backup pepository"
 #~ msgstr "Repozitář"
-
-#~ msgid "Your languages"
-#~ msgstr "Vaše jazyky"
 
 #~ msgid "Fulltext"
 #~ msgstr "Fulltextové"
@@ -30268,9 +30682,6 @@ msgstr "Pracovní prostor byl odstraněn."
 
 #~ msgid "First name"
 #~ msgstr "Křestní jméno"
-
-#~ msgid "Username needs to have at least five characters."
-#~ msgstr "Uživatelské jméno musí být alespoň pět znaků dlouhé."
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

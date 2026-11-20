@@ -14,13 +14,13 @@ from tempfile import TemporaryDirectory
 from unittest import skipUnless
 from unittest.mock import patch
 
-from django.test import SimpleTestCase, override_settings
+from django.test import TestCase, override_settings
 
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.mercurial import HgRepository
 
 
-class MercurialSubrepositoryTest(SimpleTestCase):
+class MercurialSubrepositoryTest(TestCase):
     def test_all_commands_disable_subrepositories(self) -> None:
         with TemporaryDirectory() as directory:
             repository = HgRepository(directory, local=True)

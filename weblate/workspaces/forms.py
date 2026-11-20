@@ -60,6 +60,7 @@ class WorkspaceSearchForm(forms.Form):
             attrs={
                 "class": "form-control",
                 "placeholder": gettext_lazy("Search workspaces"),
+                "data-lt-active": "false",
             }
         ),
     )

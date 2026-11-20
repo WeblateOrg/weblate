@@ -71,8 +71,8 @@
             name="refresh"
             value="1"
             class="btn btn-outline-primary"
-            title="{% translate 'Refresh results' %}"
-            aria-label="{% translate 'Refresh results' %}"
+            title="{% translate 'Refresh results'|force_escape %}"
+            aria-label="{% translate 'Refresh results'|force_escape %}"
             aria-describedby="search-cache-help">{% icon "refresh.svg" %}</button>
   {% endif %}
 </div>

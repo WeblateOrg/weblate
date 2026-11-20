@@ -6,17 +6,20 @@
 
 from __future__ import annotations
 
+import re
 from io import BytesIO
 from math import ceil
 from types import SimpleNamespace
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any, ClassVar, cast
 from unittest.mock import patch
+from urllib.parse import parse_qs, urlsplit
 
 from django.db import connection
 from django.http import HttpResponse
 from django.test import RequestFactory, SimpleTestCase, override_settings
 from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
+from lxml import html
 from PIL import Image
 
 from weblate.fonts.render import (
@@ -24,6 +27,7 @@ from weblate.fonts.render import (
     measure_line,
     rendering_lock,
 )
+from weblate.lang.models import Language
 from weblate.trans.checklists import TranslationChecklistMixin
 from weblate.trans.filter import FILTERS
 from weblate.trans.models import (
@@ -812,6 +816,32 @@ class PublicSharingTest(FixtureTestCase):
         response = self.client.get(self.project.get_absolute_url())
         self.assertContains(response, ">Community<")
 
+    @override_settings(ENABLE_SHARING=True)
+    def test_community_menu_encodes_share_messages(self) -> None:
+        self.set_project_access(Project.ACCESS_PUBLIC, public_sharing=False)
+        self.project.name = "R&D #1"
+        self.project.save(update_fields=["name"])
+        self.user.profile.fediverse = "https://social.example/@test"
+        self.user.profile.save(update_fields=["fediverse"])
+
+        response = self.client.get(self.project.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+        page = html.fromstring(response.content)
+        expected = f"Translate R&D #1 using #Weblate at {self.project.get_share_url()}!"
+        for label, hostname in (
+            ("Share on Bluesky", "bsky.app"),
+            ("Share on Fediverse", "social.example"),
+            ("Share on X", "x.com"),
+        ):
+            with self.subTest(label=label):
+                (href,) = page.xpath(
+                    "//a[normalize-space(.)=$label]/@href", label=label
+                )
+                url = urlsplit(href)
+                self.assertEqual(url.hostname, hostname)
+                self.assertEqual(parse_qs(url.query), {"text": [expected]})
+                self.assertEqual(url.fragment, "")
+
 
 class WidgetsMeta(type):
     def __new__(mcs, name: str, bases: tuple[type], attrs: dict[str, Any]):
@@ -1309,3 +1339,83 @@ class WidgetsCapitalizeTest(FixtureTestCase):
             {"capitalize": "1"},
         )
         self.assertContains(response, ">Translated<")
+
+
+class WidgetsSortByPercentTest(FixtureTestCase):
+    # Alphabetical order and percentage order differ, and German and Italian
+    # tie, so the tie-break can be checked too.
+    PERCENTS: ClassVar[dict[str, float]] = {
+        "ja": 100.0,
+        "cs": 25.0,
+        "it": 50.0,
+        "de": 50.0,
+    }
+
+    def get_fake_stats(self) -> list[SimpleNamespace]:
+        return [
+            SimpleNamespace(
+                language=Language.objects.get(code=code),
+                translated=int(percent),
+                translated_percent=percent,
+            )
+            for code, percent in self.PERCENTS.items()
+        ]
+
+    def get_codes(self, widget_name: str, params: dict[str, str]) -> list[str]:
+        widget = WIDGETS[widget_name](self.project, "auto")
+        assert isinstance(widget, MultiLanguageWidget)
+        request = RequestFactory().get("/", params)
+        with patch.object(
+            type(widget), "get_language_stats", return_value=self.get_fake_stats()
+        ):
+            return [
+                stats.language.code
+                for stats in widget.get_sorted_language_stats(request)
+            ]
+
+    def test_default_order_is_alphabetical(self) -> None:
+        for widget_name in ("multi", "horizontal", "matrix"):
+            with self.subTest(widget=widget_name):
+                self.assertEqual(
+                    self.get_codes(widget_name, {}), ["cs", "de", "it", "ja"]
+                )
+
+    def test_sort_by_percent(self) -> None:
+        # Highest first; German and Italian tie and stay alphabetical.
+        for widget_name in ("multi", "horizontal", "matrix"):
+            with self.subTest(widget=widget_name):
+                self.assertEqual(
+                    self.get_codes(widget_name, {"sort": "percent"}),
+                    ["ja", "de", "it", "cs"],
+                )
+
+    def test_sort_by_name_and_unknown_value(self) -> None:
+        # The explicit default and values the widget doesn't know keep
+        # the alphabetical order.
+        for value in ("name", "unknown"):
+            with self.subTest(sort=value):
+                self.assertEqual(
+                    self.get_codes("multi", {"sort": value}), ["cs", "de", "it", "ja"]
+                )
+
+    def test_sort_by_percent_rendered(self) -> None:
+        with patch.object(
+            MultiLanguageWidget,
+            "get_language_stats",
+            return_value=self.get_fake_stats(),
+        ):
+            response = self.client.get(
+                reverse(
+                    "widget-image",
+                    kwargs={
+                        "path": self.project.get_url_path(),
+                        "widget": "multi",
+                        "color": "auto",
+                        "extension": "svg",
+                    },
+                ),
+                {"sort": "percent"},
+            )
+        self.assertEqual(response.status_code, 200)
+        names = re.findall(r'id="text\d+">([^<]+)</text>', response.content.decode())
+        self.assertEqual(names, ["Japanese", "German", "Italian", "Czech"])

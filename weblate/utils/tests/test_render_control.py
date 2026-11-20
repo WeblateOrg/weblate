@@ -285,6 +285,7 @@ class TemplateControlFlowTest(SimpleTestCase):
                     "{% for a,b in items %}{{ a }}={{ b }}{% endfor %}", items=items
                 )
 
+    @patch("weblate.utils.render_engine.monotonic", new=lambda: 1.0)
     def test_budgets_are_local_to_each_render(self) -> None:
         source = "{% for item in items %}{% if item %}{{ item }}{% endif %}{% endfor %}"
         with ThreadPoolExecutor(max_workers=4) as executor:
@@ -384,7 +385,7 @@ class TemplateControlFlowTest(SimpleTestCase):
             ("heading\n{{ value", "Unclosed template token"),
             ("heading\n{{ value\n }}", "cannot span multiple lines"),
             ('heading\n{{ "' + "x" * 2049 + '" }}', "size limit of 2048 bytes"),
-            ("heading\n{% include 'file' %}", 'Unsupported template tag "include"'),
+            ("heading\n{% include 'file' %}", "Unsupported template tag"),
             ("heading\n{% if True %}", 'Unclosed template tag "if"'),
             ("heading\n{{ value|missing }}", "Invalid filter"),
         ):

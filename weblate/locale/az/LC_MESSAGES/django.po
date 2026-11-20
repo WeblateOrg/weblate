@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-13 01:19-0600\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
 "PO-Revision-Date: 2026-10-30 05:04+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1471,6 +1471,22 @@ msgstr "Qeydiyyatınızı yalnız giriş zamanı təsdiqləyə bilərsiniz."
 msgid ""
 "This invitation can be accepted only by the e-mail address chosen by the "
 "inviter; it can't be used by your account."
+msgstr ""
+
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Your e-mail no longer belongs to verified account, it has been changed to "
+#| "{0}."
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr ""
+"E-mailiniz artıq təsdiqlənmiş hesaba aid deyil, {0} olaraq dəyişdirildi."
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
 msgstr ""
 
 msgid ""
@@ -4554,6 +4570,16 @@ msgid ""
 "Remove the component from project teams before moving it to another project."
 msgstr ""
 
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
+
 msgid "Roles"
 msgstr ""
 
@@ -5473,6 +5499,11 @@ msgstr "Fakturalandırma"
 #| msgid "Source strings review"
 msgid "Billing event"
 msgstr "Qaynaq sətirləri gözdən keçirmək"
+
+#, fuzzy
+#| msgid "Subproject"
+msgid "Project has no components."
+msgstr "Alt layihə"
 
 #, fuzzy
 #| msgid "Monthly"
@@ -7880,9 +7911,6 @@ msgstr "Cəm forması %d"
 msgid "Plural type"
 msgstr "Cəm tipi"
 
-msgid "Example counts for this plural form."
-msgstr ""
-
 msgid "Singular"
 msgstr "Tək"
 
@@ -9106,6 +9134,11 @@ msgid "Read your e-mail address"
 msgstr "Hesab e-poçtunu istifadə et"
 
 msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
 msgstr ""
 
 msgid "Image is too big."
@@ -11946,6 +11979,16 @@ msgid ""
 "above or purchase a subscription."
 msgstr ""
 
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+
 #, fuzzy
 #| msgid "Custom"
 msgid "Customer"
@@ -13787,6 +13830,16 @@ msgstr ""
 #. Translators: e-mail subject
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr ""
+
+#, fuzzy
+#| msgid "Review source strings in %s"
+msgid "Review Libre hosting conditions"
+msgstr "%s içindəki qaynaq ssətirləri gözdən keçir"
+
+#, fuzzy, python-format
+#| msgid "%(language)s dictionary for %(project)s"
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "%(project)s üçün %(language)s lüğəti"
 
 #, fuzzy
 #| msgid "Translation change:"
@@ -16148,6 +16201,9 @@ msgid ""
 "maintenance of Weblate itself."
 msgstr ""
 
+msgid "Example counts for this plural form."
+msgstr ""
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
@@ -16183,14 +16239,15 @@ msgstr ""
 msgid "Source code repository"
 msgstr "Qaynaq kod deposu"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr ""
-
 #, fuzzy
 #| msgid "Git maintenance"
 msgid "Repository URL copied to clipboard."
 msgstr "Depo əməliyyatı"
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Linked component"
+msgstr "Digər Komponentlər"
 
 #, fuzzy
 #| msgid "Git maintenance"
@@ -16763,6 +16820,11 @@ msgstr "Abunəliklər"
 msgid "Plurals"
 msgstr "Çox"
 
+#, fuzzy
+#| msgid "No words found!"
+msgid "No integer examples found"
+msgstr "Heç bir söz tapılmadı!"
+
 msgid "First"
 msgstr "İlk"
 
@@ -17084,10 +17146,10 @@ msgid "Community"
 msgstr "İşlə"
 
 #, python-format
-msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
+msgid "Translate %(object)s using #Weblate at %(share_url)s!"
 msgstr ""
-"%(share_url)s adresində %%23Weblate istifadə edərək %(object)s dilinə "
-"tərcümə edin!"
+"%(share_url)s adresində #Weblate istifadə edərək %(object)s dilinə tərcümə "
+"edin!"
 
 #, fuzzy
 #| msgid "Share on Facebook!"
@@ -17757,15 +17819,15 @@ msgstr "Tərcümə yenilənmələri üçün alt layihənin kilidlənib kilidlən
 msgid "Source"
 msgstr "Qaynaq"
 
-#, fuzzy, python-format
-#| msgid "Commit pending changes"
-msgid "Remove duplicate strings from %(language)s (%(filename)s)"
-msgstr "Gözləyən dəyişiklikləri işlə"
-
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
 msgstr "Boş sətirləri çıxarın"
+
+#, fuzzy, python-format
+#| msgid "Commit pending changes"
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Gözləyən dəyişiklikləri işlə"
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -18855,11 +18917,6 @@ msgstr "Bu mesajın bu layihədə birdən çox tərcüməsi vardır"
 msgid "Add term to glossary"
 msgstr "Terminoloji lüğəti import et"
 
-#, fuzzy, python-format
-#| msgid "Browse all glossary changes"
-msgid "Browse glossary %(name)s"
-msgstr "Bütün termin dəyişikliklərinə göz at"
-
 #, fuzzy
 #| msgid "Browse all glossary changes"
 msgid "Browse glossary"
@@ -18933,6 +18990,15 @@ msgstr "Başlanğıc tarixi"
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
 msgstr "Qaynaq sətir yaşı"
+
+#, fuzzy, python-format
+#| msgid "New translation in %(translation)s"
+msgid "%(filename)s, line %(line)s"
+msgstr "%(translation)s içində yeni tərcümə"
+
+#, python-format
+msgid "line %(line)s"
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "New translation in %(translation)s"
@@ -20989,13 +21055,13 @@ msgstr "Tərcümələriniz"
 msgid "Referenced category does not exist."
 msgstr "Tərcümə hal-hazırda kilidlidir."
 
-msgid "Component filename does not match its category and slug."
-msgstr ""
-
 #, fuzzy
 #| msgid "Other components"
 msgid "Duplicate component slug."
 msgstr "Digər Komponentlər"
+
+msgid "Component filename does not match its category and slug."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation reverted"
@@ -21320,6 +21386,11 @@ msgstr "Təklif səsverməsi"
 msgid "Needs review"
 msgstr "gözdən keçir"
 
+#, fuzzy
+#| msgid "All repositories were updated."
+msgid "The source and destination checkouts must be different."
+msgstr "Bütün hovuzlar yeniləndi."
+
 msgid "This component does not exist or you cannot access it."
 msgstr ""
 
@@ -21365,6 +21436,11 @@ msgstr ""
 #| msgid "Good configuration"
 msgid "Discovery configuration"
 msgstr "Yaxşı konfiqurasiya"
+
+#, fuzzy, python-format
+#| msgid "Failed to add comment!"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "Şərh yazma uğursuz oldu!"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -23799,6 +23875,11 @@ msgid "Use the secondary language configured in the category or project."
 msgstr "%(translation)s içində yeni dil istəyi"
 
 #, fuzzy
+#| msgid "All repositories were updated."
+msgid "The linked repository path is ambiguous."
+msgstr "Bütün hovuzlar yeniləndi."
+
+#, fuzzy
 #| msgid ""
 #| "Failed to verify SSH host key, please add them in SSH page in the admin "
 #| "interface."
@@ -24101,6 +24182,11 @@ msgid ""
 "Pushing without a merge request needs write access to the repository. "
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
+
+#, fuzzy
+#| msgid "Format of translation base file could not be recognized."
+msgid "Version control system cannot be changed to this backend."
+msgstr "Tərcümə baza faylının formatı tanınmadı."
 
 #, fuzzy
 #| msgid "Revert to this translation"
@@ -24820,6 +24906,11 @@ msgstr ""
 msgid "User configured character: {}"
 msgstr "Tab simvolu əlavə et"
 
+#, fuzzy, python-format
+#| msgid "Failed to get host key: %s"
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "Host açarını alma uğursuz oldu: %s"
+
 #, fuzzy
 #| msgid "Automatic translation"
 msgid "Repository operation could not be completed because it remained locked."
@@ -24955,6 +25046,10 @@ msgstr "unit ID %s"
 #| msgid "This translation is currently locked for updates!"
 msgid "This language is used for source strings."
 msgstr "Bu tərcümə hal-hazırda yenilənmələr üçün kilitlidir!"
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation is currently not locked."
@@ -25918,6 +26013,16 @@ msgid "Vertical language bar chart"
 msgstr ""
 
 #, fuzzy
+#| msgid "Your languages"
+msgid "Sort languages by"
+msgstr "Sizin dilləriniz"
+
+#, fuzzy
+#| msgid "Translation change:"
+msgid "Translation percentage"
+msgstr "Tərcümə dəyişikliyi:"
+
+#, fuzzy
 #| msgid "Browse changes"
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
@@ -26325,20 +26430,6 @@ msgstr "Uğursuz birləşdirmə sorğusu!"
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
-msgid "Template output exceeds its size limit."
-msgstr ""
-
-msgid "Template rendering failed or exceeded its resource limits."
-msgstr ""
-
-msgid "Oversized template response."
-msgstr ""
-
-#, fuzzy
-#| msgid "Invalid check flag: \"%s\""
-msgid "Invalid template rendering response."
-msgstr "Etibarsız yoxlama işarəsi: \"%s\""
-
 #, fuzzy
 #| msgid "Failed to add comment!"
 msgid "Could not render template: {}"
@@ -26354,7 +26445,7 @@ msgstr ""
 "Bu obyekti burdan dəyişdirməyin, bunun yerinə Weblate interfeysini istifadə "
 "edin."
 
-msgid "Template value exceeds its size limit."
+msgid "Template context exceeds its size limit."
 msgstr ""
 
 #, fuzzy
@@ -26362,8 +26453,10 @@ msgstr ""
 msgid "Template context is nested too deeply."
 msgstr "Avtomatik tərcümə"
 
-msgid "Template context exceeds its size limit."
-msgstr ""
+#, fuzzy
+#| msgid "Support Weblate at {0}"
+msgid "Unsupported nonfinite template context value."
+msgstr "{0} adresində Weblate-i Dəstəklə"
 
 #, fuzzy
 #| msgid "Support Weblate at {0}"
@@ -26375,29 +26468,331 @@ msgstr "{0} adresində Weblate-i Dəstəklə"
 msgid "Unsupported template context value."
 msgstr "{0} adresində Weblate-i Dəstəklə"
 
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "Template text is not valid UTF-8."
+msgstr "Tərcümə artıq sizin üçün kilidlidir."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid merge request!"
+msgid "Invalid template syntax."
+msgstr "Uğursuz birləşdirmə sorğusu!"
+
+#, fuzzy
+#| msgid "Support Weblate at {0}"
+msgid "Undefined template variable."
+msgstr "{0} adresində Weblate-i Dəstəklə"
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "Text is not valid UTF-8."
+msgstr "Tərcümə artıq sizin üçün kilidlidir."
+
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "Division by zero is not supported."
+msgstr "Seçilmiş çeşidləmə dəstəklənmir."
+
+#, fuzzy
+#| msgid "Browse all changes for user"
+msgid "Numeric value is too large for this operation."
+msgstr "İstifadəçi üçün bütün dəyişikliklərə baxın"
+
+#, fuzzy
+#| msgid "Repository operation"
+msgid "Numeric operation failed."
+msgstr "Repozitor prosesi"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation reverted"
+msgid "Value or argument has an invalid format."
+msgstr "Tərcümə geri alındı"
+
+#, fuzzy, python-format
+#| msgid "Error in parameter %(field)s: %(error)s"
+msgid "%(operation)s: %(message)s"
+msgstr "%(field)s parametrində Xəta: %(error)s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
 msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "Nonfinite numbers are not supported."
+msgstr "Seçilmiş çeşidləmə dəstəklənmir."
+
+#, fuzzy, python-format
+#| msgid "Full name"
+msgid "Filter \"%(name)s\""
+msgstr "Tam adınız"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
 msgstr ""
 
 msgid "Template rendering exceeded its loop limit."
 msgstr ""
 
-msgid "Template intermediate value exceeds its size limit."
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "Attribute access and method calls are not supported."
+msgstr "Seçilmiş çeşidləmə dəstəklənmir."
+
+msgid "Index exceeds the length limit of 128 characters."
 msgstr ""
 
-msgid "Template replacement exceeds its size limit."
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "Translated template literals are not supported."
+msgstr "Seçilmiş çeşidləmə dəstəklənmir."
+
+#, fuzzy
+#| msgid "Invalid image!"
+msgid "Invalid filter."
+msgstr "Səhv şəkil!"
+
+msgid "Identity comparisons require None, True, or False."
 msgstr ""
 
-msgid "Template padding exceeds its size limit."
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "This condition operator is not supported."
+msgstr "Seçilmiş çeşidləmə dəstəklənmir."
+
+msgid "Template output exceeds its size limit."
 msgstr ""
 
-msgid "Template formatting exceeds its size limit."
+msgid "Loops require a list, string, dictionary, or dictionary view."
 msgstr ""
 
-msgid "Template join exceeds its size limit."
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
+msgstr ""
+
+msgid "Loop value cannot be unpacked into its variables."
+msgstr ""
+
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "This template tag is not supported."
+msgstr "Seçilmiş çeşidləmə dəstəklənmir."
+
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "This template node is not supported."
+msgstr "Seçilmiş çeşidləmə dəstəklənmir."
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
 msgstr ""
 
 #, python-format
 msgid "Undefined variable: \"%s\""
+msgstr ""
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "This field is required."
+msgid "This filter requires strings."
+msgstr "Bu sahə vacibdir."
+
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Choices must be a string."
+msgstr "Avtomatik tərcümə"
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source string:"
+msgid "Joining requires string elements."
+msgstr "Qaynaq sətir:"
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Date format must be a string or None."
+msgstr "Avtomatik tərcümə"
+
+#, fuzzy
+#| msgid "Currently associated:"
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "Cari əlaqələnmişlər:"
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Plural suffixes must be a string."
+msgstr "Avtomatik tərcümə"
+
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "Nested template delimiters are not supported."
+msgstr "Seçilmiş çeşidləmə dəstəklənmir."
+
+#, fuzzy
+#| msgid "Support Weblate at {0}"
+msgid "Unclosed template token."
+msgstr "{0} adresində Weblate-i Dəstəklə"
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "Download source file"
+msgid "Template tag is empty."
+msgstr "Qaynaq faylı endir"
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr ""
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Support Weblate at {0}"
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "{0} adresində Weblate-i Dəstəklə"
+
+#, fuzzy
+#| msgid "Support Weblate at {0}"
+msgid "Unsupported template tag."
+msgstr "{0} adresində Weblate-i Dəstəklə"
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
 msgstr ""
 
 #, python-format
@@ -28332,6 +28727,16 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Hesabınız silindi."
 
+#, fuzzy, python-format
+#~| msgid "Browse all glossary changes"
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "Bütün termin dəyişikliklərinə göz at"
+
+#, fuzzy
+#~| msgid "Invalid check flag: \"%s\""
+#~ msgid "Invalid template rendering response."
+#~ msgstr "Etibarsız yoxlama işarəsi: \"%s\""
+
 #, fuzzy
 #~| msgid "Registration almost complete"
 #~ msgid "E-mail verification almost complete"
@@ -29516,11 +29921,6 @@ msgstr "Hesabınız silindi."
 #~| msgid "Whole project"
 #~ msgid "Renamed project"
 #~ msgstr "Bütün layihələrdə"
-
-#, fuzzy
-#~| msgid "Other components"
-#~ msgid "Renamed component"
-#~ msgstr "Digər Komponentlər"
 
 #, fuzzy
 #~| msgid "Strings to translate"
@@ -30798,9 +31198,6 @@ msgstr "Hesabınız silindi."
 #~ msgid "Dictionaries"
 #~ msgstr "Lüğətlər"
 
-#~ msgid "Review source strings in %s"
-#~ msgstr "%s içindəki qaynaq ssətirləri gözdən keçir"
-
 #, fuzzy
 #~| msgid "Message has comments"
 #~ msgid "Message needs edit"
@@ -30843,9 +31240,6 @@ msgstr "Hesabınız silindi."
 #~| msgid "Reports"
 #~ msgid "Backup pepository"
 #~ msgstr "Hesabatlar"
-
-#~ msgid "Your languages"
-#~ msgstr "Sizin dilləriniz"
 
 #~ msgid "Fulltext"
 #~ msgstr "Tam mətn"

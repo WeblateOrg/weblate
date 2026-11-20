@@ -23,6 +23,102 @@ class SuggestionsTest(ReusableViewTestCase):
     def add_suggestion_2(self):
         return self.edit_unit("Hello, world!\n", "Ahoj svete!\n", suggest="yes")
 
+    def test_glossary_suggestion_preserves_explanation_draft(self) -> None:
+        self.component.is_glossary = True
+        self.component.save(update_fields=["is_glossary"])
+        self.make_manager()
+        unit = self.change_unit("Ahoj!\n")
+        unit.update_explanation("Greeting", self.user)
+
+        for target, explanation in [
+            (unit.target, "Informal greeting"),
+            ("Nazdar!\n", "Informal greeting"),
+            ("Nazdar!\n", ""),
+        ]:
+            with self.subTest(target=target, explanation=explanation):
+                response = self.edit_unit(
+                    unit.source, target, explanation=explanation, suggest="yes"
+                )
+                self.assertContains(
+                    response, "Suggestions can only change the translation."
+                )
+                self.assertContains(response, "To save the explanation directly")
+                form = response.context["form"]
+                self.assertIn("explanation", form.errors)
+                self.assertEqual(form["explanation"].value(), explanation)
+                self.assertEqual(form.data["target_0"], target)
+                unit.refresh_from_db()
+                self.assertEqual(unit.target, "Ahoj!\n")
+                self.assertEqual(unit.explanation, "Greeting")
+                self.assertFalse(unit.suggestion_set.exists())
+
+        self.edit_unit(
+            unit.source,
+            "Nazdar!\n",
+            explanation="Informal greeting",
+            **{"save-stay": "yes"},
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Nazdar!\n")
+        self.assertEqual(unit.explanation, "Informal greeting")
+
+    def test_glossary_source_explanation_suggestion(self) -> None:
+        self.component.is_glossary = True
+        self.component.save(update_fields=["is_glossary"])
+        unit = self.get_unit(language="en")
+        response = self.edit_unit(
+            unit.source,
+            unit.target,
+            language="en",
+            explanation="A greeting",
+            suggest="yes",
+        )
+        self.assertContains(response, "Suggestions can only change the translation.")
+        unit.refresh_from_db()
+        self.assertEqual(unit.explanation, "")
+        self.assertFalse(unit.suggestion_set.exists())
+
+    def test_glossary_translation_only_suggestion(self) -> None:
+        self.component.is_glossary = True
+        self.component.save(update_fields=["is_glossary"])
+        unit = self.get_unit()
+        unit.update_explanation("First line\nSecond line", self.user)
+        self.edit_unit(
+            unit.source,
+            "Ahoj!\n",
+            explanation="First line\r\nSecond line",
+            suggest="yes",
+        )
+        self.edit_unit(unit.source, "Nazdar!\n", suggest="yes")
+        self.assertCountEqual(
+            unit.suggestion_set.values_list("target", flat=True),
+            ["Ahoj!\n", "Nazdar!\n"],
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.explanation, "First line\nSecond line")
+
+    def test_glossary_suggest_only_explanation(self) -> None:
+        self.component.is_glossary = True
+        self.component.save(update_fields=["is_glossary"])
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=self.translation.language,
+            enable_suggestions=True,
+            restrict_direct_editing=True,
+        )
+        unit = self.get_unit()
+        response = self.client.get(unit.get_absolute_url(), follow=True)
+        self.assertIn("readonly", response.context["form"]["explanation"].as_widget())
+        self.assertContains(
+            response, "To propose an explanation change, leave a comment."
+        )
+        response = self.edit_unit(
+            unit.source, "Ahoj!\n", explanation="Greeting", suggest="yes"
+        )
+        self.assertContains(response, "Suggestions can only change the translation.")
+        self.assertNotContains(response, "To save the explanation directly")
+        self.assertFalse(unit.suggestion_set.exists())
+
     def test_add(self) -> None:
         translate_url = reverse("translate", kwargs=self.kw_translation)
         # Try empty suggestion (should not be added)

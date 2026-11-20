@@ -82,8 +82,8 @@
                 type="button"
                 class="btn btn-link btn-xs float-end"
                 data-clipboard-value=""
-                data-clipboard-message="{% translate "Embed code copied to clipboard." %}"
-                title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                data-clipboard-message="{% translate "Embed code copied to clipboard."|force_escape %}"
+                title="{% translate "Copy to clipboard"|force_escape %}">{% icon "copy.svg" %}</button>
         <p id="embed-code-label" class="fw-bold fs-4">{% translate "Embed Code" %}</p>
         <textarea id="embed-code" aria-labelledby="embed-code-label" class="code-example form-control" rows="3" readonly>
         </textarea>

@@ -18,11 +18,11 @@
     {% if debug %}
       {% if path_object %}
         <a href="{% url 'changes' path=path_object.get_url_path %}{% querystring query_params digest=1 %}"
-           title="{% translate "View notification" %}"
+           title="{% translate "View notification"|force_escape %}"
            class="btn btn-link">{% icon "bell.svg" %}</a>
       {% else %}
         <a href="{% url 'changes' %}{% querystring query_params digest=1 %}"
-           title="{% translate "View notification" %}"
+           title="{% translate "View notification"|force_escape %}"
            class="btn btn-link">{% icon "bell.svg" %}</a>
       {% endif %}
     {% endif %}
@@ -30,16 +30,16 @@
     {% if user_can_download_changes %}
       {% if path_object %}
         <a href="{% url 'changes-csv' path=path_object.get_url_path %}{% querystring query_params %}"
-           title="{% translate "Download latest changes as CSV" %}"
+           title="{% translate "Download latest changes as CSV"|force_escape %}"
            class="btn btn-link">{% icon "download.svg" %}</a>
       {% else %}
         <a href="{% url 'changes-csv' %}{% querystring query_params %}"
-           title="{% translate "Download latest changes as CSV" %}"
+           title="{% translate "Download latest changes as CSV"|force_escape %}"
            class="btn btn-link">{% icon "download.svg" %}</a>
       {% endif %}
     {% endif %}
     <a href="{{ changes_rss }}{% querystring query_params %}"
-       title="{% translate "Follow using RSS" %}"
+       title="{% translate "Follow using RSS"|force_escape %}"
        class="btn btn-link">{% icon "rss.svg" %}</a>
   </div>
 {% endblock breadcrumbs %}
@@ -70,7 +70,9 @@
       </div>
       <div class="card-body">{{ form|crispy }}</div>
       <div class="card-footer">
-        <input type="submit" value="{% translate "Search" %}" class="btn btn-primary" />
+        <input type="submit"
+               value="{% translate "Search"|force_escape %}"
+               class="btn btn-primary" />
       </div>
     </div>
   </form>

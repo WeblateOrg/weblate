@@ -97,9 +97,12 @@ class GenerateFileAddon(
                     "stats": translation.stats.get_data(),
                 }
             )
-        content = render_template(
-            configuration["template"], component=component, translations=translations
-        )
+        with override("en"):
+            content = render_template(
+                configuration["template"],
+                component=component,
+                translations=translations,
+            )
         self.write_repo_file(filename, content)
         return filename
 
@@ -165,7 +168,10 @@ class GenerateFileAddon(
         filename = self.render_repo_filename(configuration["filename"], translation)
         if not filename:
             return AddonEventOutcome.error(AddonActivityLogReason.INVALID_OUTPUT)
-        content = render_template(configuration["template"], translation=translation)
+        with override("en"):
+            content = render_template(
+                configuration["template"], translation=translation
+            )
         self.write_repo_file(filename, content)
         # For pre_commit hook
         translation.addon_commit_files.append(filename)

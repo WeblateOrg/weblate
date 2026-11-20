@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-13 01:19-0600\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
 "PO-Revision-Date: 2026-10-16 04:34+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1537,6 +1537,18 @@ msgstr ""
 msgid ""
 "This invitation can be accepted only by the e-mail address chosen by the "
 "inviter; it can't be used by your account."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr ""
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
 msgstr ""
 
 msgid ""
@@ -4526,6 +4538,16 @@ msgid ""
 "Remove the component from project teams before moving it to another project."
 msgstr ""
 
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
+
 msgid "Roles"
 msgstr ""
 
@@ -5441,6 +5463,11 @@ msgstr ""
 #| msgid "Translation"
 msgid "Billing event"
 msgstr "Övversäzong"
+
+#, fuzzy
+#| msgid "Subproject"
+msgid "Project has no components."
+msgstr "Ongerprojäk"
 
 msgid "monthly"
 msgstr ""
@@ -7704,9 +7731,6 @@ msgstr ""
 msgid "Plural type"
 msgstr ""
 
-msgid "Example counts for this plural form."
-msgstr ""
-
 msgid "Singular"
 msgstr ""
 
@@ -8920,6 +8944,11 @@ msgid "Read your e-mail address"
 msgstr "En Adräß för de e-mail hengerlääje"
 
 msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
 msgstr ""
 
 msgid "Image is too big."
@@ -11615,6 +11644,16 @@ msgid ""
 "above or purchase a subscription."
 msgstr ""
 
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+
 #, fuzzy
 #| msgid "Search"
 msgid "Customer"
@@ -13371,6 +13410,16 @@ msgstr ""
 #. Translators: e-mail subject
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr ""
+
+#, fuzzy
+#| msgid "Checks overview"
+msgid "Review Libre hosting conditions"
+msgstr "Övverblegg övver de Pröövonge"
+
+#, fuzzy, python-format
+#| msgid "Comment"
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "Aanmärkong"
 
 #, fuzzy
 #| msgid "Used languages"
@@ -15630,6 +15679,9 @@ msgid ""
 "maintenance of Weblate itself."
 msgstr ""
 
+msgid "Example counts for this plural form."
+msgstr ""
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
@@ -15663,14 +15715,15 @@ msgstr ""
 msgid "Source code repository"
 msgstr ""
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr ""
-
 #, fuzzy
 #| msgid "Revert to this translation"
 msgid "Repository URL copied to clipboard."
 msgstr "Jangk retuhr_op di Övversäzong"
+
+#, fuzzy
+#| msgid "Comment"
+msgid "Linked component"
+msgstr "Aanmärkong"
 
 msgid "Repository branch"
 msgstr ""
@@ -16216,6 +16269,11 @@ msgstr "Ding Övversäzonge"
 msgid "Plurals"
 msgstr ""
 
+#, fuzzy
+#| msgid "No words found!"
+msgid "No integer examples found"
+msgstr "Kein Wööter jefonge!"
+
 msgid "First"
 msgstr "Eezde"
 
@@ -16527,7 +16585,7 @@ msgid "Community"
 msgstr "Aanmärkong"
 
 #, python-format
-msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
+msgid "Translate %(object)s using #Weblate at %(share_url)s!"
 msgstr ""
 
 #, fuzzy
@@ -17167,15 +17225,15 @@ msgstr ""
 msgid "Source"
 msgstr "Quäll"
 
-#, fuzzy, python-format
-#| msgid "Browse changes"
-msgid "Remove duplicate strings from %(language)s (%(filename)s)"
-msgstr "Änderonge dorschbläddere"
-
 #, fuzzy
 #| msgid "Checks overview"
 msgid "Remove duplicate strings"
 msgstr "Övverblegg övver de Pröövonge"
+
+#, fuzzy, python-format
+#| msgid "Browse changes"
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Änderonge dorschbläddere"
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -18227,11 +18285,6 @@ msgstr "Täxschtöcke zom övversäze"
 msgid "Add term to glossary"
 msgstr "Donn en Wööterleß empoteere"
 
-#, fuzzy, python-format
-#| msgid "Browse changes"
-msgid "Browse glossary %(name)s"
-msgstr "Änderonge dorschbläddere"
-
 #, fuzzy
 #| msgid "Browse changes"
 msgid "Browse glossary"
@@ -18298,6 +18351,15 @@ msgstr "Änderonge dorschbläddere"
 
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Comment"
+msgid "%(filename)s, line %(line)s"
+msgstr "Aanmärkong"
+
+#, python-format
+msgid "line %(line)s"
 msgstr ""
 
 #, python-format
@@ -20282,13 +20344,13 @@ msgstr "Ding Övversäzonge"
 msgid "Referenced category does not exist."
 msgstr "Övversäzonge jemaat"
 
-msgid "Component filename does not match its category and slug."
-msgstr ""
-
 #, fuzzy
 #| msgid "Comment"
 msgid "Duplicate component slug."
 msgstr "Aanmärkong"
+
+msgid "Component filename does not match its category and slug."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translations made"
@@ -20607,6 +20669,11 @@ msgstr "Vörschääsch jemaat"
 msgid "Needs review"
 msgstr "Övverblegg övver de Pröövonge"
 
+#, fuzzy
+#| msgid "Translation"
+msgid "The source and destination checkouts must be different."
+msgstr "Övversäzong"
+
 msgid "This component does not exist or you cannot access it."
 msgstr ""
 
@@ -20636,6 +20703,11 @@ msgstr ""
 #| msgid "Your translations"
 msgid "Discovery configuration"
 msgstr "Ding Övversäzonge"
+
+#, fuzzy, python-format
+#| msgid "Register email"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "En Adräß för de e-mail hengerlääje"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -22947,6 +23019,11 @@ msgstr ""
 msgid "Use the secondary language configured in the category or project."
 msgstr "Ding Zweitschprohche"
 
+#, fuzzy
+#| msgid "Translation"
+msgid "The linked repository path is ambiguous."
+msgstr "Övversäzong"
+
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
 "admin interface."
@@ -23222,6 +23299,11 @@ msgid ""
 "Pushing without a merge request needs write access to the repository. "
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "Version control system cannot be changed to this backend."
+msgstr "Övversäzonge jemaat"
 
 #, fuzzy
 #| msgid "Revert to this translation"
@@ -23907,6 +23989,11 @@ msgstr ""
 msgid "User configured character: {}"
 msgstr ""
 
+#, fuzzy, python-format
+#| msgid "Your translations"
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "Ding Övversäzonge"
+
 #, fuzzy
 #| msgid "No matching strings found!"
 msgid "Repository operation could not be completed because it remained locked."
@@ -24043,6 +24130,10 @@ msgstr ""
 #| msgid "Translations made"
 msgid "This language is used for source strings."
 msgstr "Övversäzonge jemaat"
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translations made"
@@ -24966,6 +25057,16 @@ msgid "Vertical language bar chart"
 msgstr ""
 
 #, fuzzy
+#| msgid "Secondary languages"
+msgid "Sort languages by"
+msgstr "Ding Zweitschprohche"
+
+#, fuzzy
+#| msgid "Used languages"
+msgid "Translation percentage"
+msgstr "Jebuch Schprohche"
+
+#, fuzzy
 #| msgid "Browse changes"
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
@@ -25368,20 +25469,6 @@ msgstr "De Songhai-Schprohche"
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
-msgid "Template output exceeds its size limit."
-msgstr ""
-
-msgid "Template rendering failed or exceeded its resource limits."
-msgstr ""
-
-msgid "Oversized template response."
-msgstr ""
-
-#, fuzzy
-#| msgid "Translation"
-msgid "Invalid template rendering response."
-msgstr "Övversäzong"
-
 #, fuzzy
 #| msgid "Register email"
 msgid "Could not render template: {}"
@@ -25392,7 +25479,7 @@ msgid ""
 "instead."
 msgstr ""
 
-msgid "Template value exceeds its size limit."
+msgid "Template context exceeds its size limit."
 msgstr ""
 
 #, fuzzy
@@ -25400,8 +25487,10 @@ msgstr ""
 msgid "Template context is nested too deeply."
 msgstr "Der Projäknahme"
 
-msgid "Template context exceeds its size limit."
-msgstr ""
+#, fuzzy
+#| msgid "About Weblate"
+msgid "Unsupported nonfinite template context value."
+msgstr "Övver Weblate"
 
 #, fuzzy
 #| msgid "About Weblate"
@@ -25413,29 +25502,331 @@ msgstr "Övver Weblate"
 msgid "Unsupported template context value."
 msgstr "Övver Weblate"
 
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your translations"
+msgid "Template text is not valid UTF-8."
+msgstr "Ding Övversäzonge"
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Songhai languages"
+msgid "Invalid template syntax."
+msgstr "De Songhai-Schprohche"
+
+#, fuzzy
+#| msgid "About Weblate"
+msgid "Undefined template variable."
+msgstr "Övver Weblate"
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "Text is not valid UTF-8."
+msgstr "Övversäzonge jemaat"
+
+#, fuzzy
+#| msgid "Translation"
+msgid "Division by zero is not supported."
+msgstr "Övversäzong"
+
+#, fuzzy
+#| msgid "Browse changes"
+msgid "Numeric value is too large for this operation."
+msgstr "Änderonge dorschbläddere"
+
+#, fuzzy
+#| msgid "Revert to this translation"
+msgid "Numeric operation failed."
+msgstr "Jangk retuhr_op di Övversäzong"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "Value or argument has an invalid format."
+msgstr "Övversäzonge jemaat"
+
+#, fuzzy, python-format
+#| msgid "Your translations"
+msgid "%(operation)s: %(message)s"
+msgstr "Ding Övversäzonge"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
 msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation"
+msgid "Nonfinite numbers are not supported."
+msgstr "Övversäzong"
+
+#, fuzzy, python-format
+#| msgid "Full name"
+msgid "Filter \"%(name)s\""
+msgstr "Der kumplätte Nahme"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
 msgstr ""
 
 msgid "Template rendering exceeded its loop limit."
 msgstr ""
 
-msgid "Template intermediate value exceeds its size limit."
+#, fuzzy
+#| msgid "Translation"
+msgid "Attribute access and method calls are not supported."
+msgstr "Övversäzong"
+
+msgid "Index exceeds the length limit of 128 characters."
 msgstr ""
 
-msgid "Template replacement exceeds its size limit."
+#, fuzzy
+#| msgid "Translation"
+msgid "Translated template literals are not supported."
+msgstr "Övversäzong"
+
+#, fuzzy
+#| msgid "Songhai languages"
+msgid "Invalid filter."
+msgstr "De Songhai-Schprohche"
+
+msgid "Identity comparisons require None, True, or False."
 msgstr ""
 
-msgid "Template padding exceeds its size limit."
+#, fuzzy
+#| msgid "Translation"
+msgid "This condition operator is not supported."
+msgstr "Övversäzong"
+
+msgid "Template output exceeds its size limit."
 msgstr ""
 
-msgid "Template formatting exceeds its size limit."
+msgid "Loops require a list, string, dictionary, or dictionary view."
 msgstr ""
 
-msgid "Template join exceeds its size limit."
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
+msgstr ""
+
+msgid "Loop value cannot be unpacked into its variables."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation"
+msgid "This template tag is not supported."
+msgstr "Övversäzong"
+
+#, fuzzy
+#| msgid "Translation"
+msgid "This template node is not supported."
+msgstr "Övversäzong"
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
 msgstr ""
 
 #, python-format
 msgid "Undefined variable: \"%s\""
+msgstr ""
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "User with this email address was not found."
+msgid "This filter requires strings."
+msgstr "Ene Metmaacher met heh dä e-mail-Addräß wohr nit ze fenge."
+
+#, fuzzy
+#| msgid "No matching strings found!"
+msgid "Choices must be a string."
+msgstr "Mer han kein zopaß Täxschtöker jefonge!"
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+#, fuzzy
+#| msgid "Fuzzy strings"
+msgid "Joining requires string elements."
+msgstr "Övverhollte Täxschtöckscher"
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "No matching strings found!"
+msgid "Date format must be a string or None."
+msgstr "Mer han kein zopaß Täxschtöker jefonge!"
+
+#, fuzzy
+#| msgid "Fuzzy strings"
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "Övverhollte Täxschtöckscher"
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "No matching strings found!"
+msgid "Plural suffixes must be a string."
+msgstr "Mer han kein zopaß Täxschtöker jefonge!"
+
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation"
+msgid "Nested template delimiters are not supported."
+msgstr "Övversäzong"
+
+#, fuzzy
+#| msgid "About Weblate"
+msgid "Unclosed template token."
+msgstr "Övver Weblate"
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "Template tag is empty."
+msgstr "Övversäzonge jemaat"
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr ""
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "About Weblate"
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "Övver Weblate"
+
+#, fuzzy
+#| msgid "About Weblate"
+msgid "Unsupported template tag."
+msgstr "Övver Weblate"
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
 msgstr ""
 
 #, python-format
@@ -27276,6 +27667,16 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Dinge Zohjang es jäz fott."
 
+#, fuzzy, python-format
+#~| msgid "Browse changes"
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "Änderonge dorschbläddere"
+
+#, fuzzy
+#~| msgid "Translation"
+#~ msgid "Invalid template rendering response."
+#~ msgstr "Övversäzong"
+
 #, fuzzy
 #~| msgid "Translations made"
 #~ msgid "E-mail verification almost complete"
@@ -27958,11 +28359,6 @@ msgstr "Dinge Zohjang es jäz fott."
 #~| msgid "Subscribed projects"
 #~ msgid "Renamed project"
 #~ msgstr "Projäkte em Abbonnemang"
-
-#, fuzzy
-#~| msgid "Comment"
-#~ msgid "Renamed component"
-#~ msgstr "Aanmärkong"
 
 #, fuzzy
 #~| msgid "Strings to translate"
@@ -28662,11 +29058,6 @@ msgstr "Dinge Zohjang es jäz fott."
 #~| msgid "Translated strings"
 #~ msgid "Backup pepository"
 #~ msgstr "Övversaz Täxschtöckscher"
-
-#, fuzzy
-#~| msgid "Secondary languages"
-#~ msgid "Your languages"
-#~ msgstr "Ding Zweitschprohche"
 
 #, fuzzy
 #~| msgid "Changes"

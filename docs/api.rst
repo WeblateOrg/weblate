@@ -944,6 +944,8 @@ Languages
 
     Creates a new language.
 
+    Requires the site-wide ``language.add`` permission.
+
     :param code: Language name
     :type code: string
     :param name: Language name
@@ -2063,6 +2065,10 @@ Components
 
     Edit a component by a :http:method:`PATCH` request.
 
+    Changing the component slug or category requires both ``component.edit``
+    on the component and ``project.edit`` on its project. The same permissions
+    apply to :http:method:`PUT` requests.
+
     :param project: Project URL slug
     :type project: string
     :param component: Component URL slug
@@ -3106,6 +3112,7 @@ and XLIFF.
     :>json boolean translated: whether the unit is translated
     :>json boolean approved: whether the translation is approved
     :>json int position: unit position in translation file
+    :>json int line_number: read-only line in the translation file, or null when the format does not provide one
     :>json boolean has_suggestion: whether the unit has suggestions
     :>json boolean has_comment: whether the unit has comments
     :>json boolean has_failing_check: whether the unit has failing checks
@@ -3513,6 +3520,9 @@ Screenshots
 
     Creates a new screenshot.
 
+    Setting a repository path requires access to the component that owns the
+    repository and ``vcs.access`` on it, in addition to ``screenshot.add``.
+
     :form file image: Uploaded file
     :form string name: Screenshot name
     :form string project_slug: Project slug
@@ -3529,6 +3539,10 @@ Screenshots
 
     Edit partial information about screenshot.
 
+    Setting a different nonempty ``repository_filename`` requires ``vcs.access``
+    on the component that owns the repository. With ``screenshot.edit``, you
+    can also omit the path, submit the current value, or clear it with an empty string.
+
     :param id: Screenshot ID
     :type id: int
     :>json string name: name of a screenshot
@@ -3540,6 +3554,9 @@ Screenshots
 .. http:put:: /api/screenshots/(int:id)/
 
     Edit full information about screenshot.
+
+    The same repository path permissions apply as for
+    :http:patch:`/api/screenshots/(int:id)/`.
 
     :param id: Screenshot ID
     :type id: int
@@ -3771,6 +3788,7 @@ Component lists
 
     :param slug: Component list slug
     :type slug: string
+    :statuscode 400: The list is the last component list assigned to a team. Remove the assignment or assign another list first.
 
 .. http:get:: /api/component-lists/(str:slug)/components/
 
@@ -4181,7 +4199,8 @@ The generic hook endpoints return diagnostics intended to help configure
 repository notifications. The ``match_status`` object contains:
 
 ``repository_matches``
-    Number of components whose repository URL matches the payload.
+    Number of repository-owning components whose repository URL matches the
+    payload.
 ``branch_matches``
     Number of repository matches whose configured branch matches the payload.
     For events without a branch, every repository match is counted as a branch

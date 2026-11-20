@@ -55,22 +55,22 @@
           <li>
             <a class="dropdown-item"
                href="{% url 'download' path=object.get_url_path %}?format=zip"
-               title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translation files as ZIP file{% endblocktranslate %}</a>
+               title="{% translate "Download for offline translation."|force_escape %}">{% blocktranslate %}Download translation files as ZIP file{% endblocktranslate %}</a>
           </li>
           <li>
             <a class="dropdown-item"
                href="{% url 'download' path=object.get_url_path %}?format=zip:csv"
-               title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as CSV in a ZIP file{% endblocktranslate %}</a>
+               title="{% translate "Download for offline translation."|force_escape %}">{% blocktranslate %}Download translations as CSV in a ZIP file{% endblocktranslate %}</a>
           </li>
           <li>
             <a class="dropdown-item"
                href="{% url 'download' path=object.get_url_path %}?format=zip:xliff11"
-               title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as XLIFF 1.1 in a ZIP file{% endblocktranslate %}</a>
+               title="{% translate "Download for offline translation."|force_escape %}">{% blocktranslate %}Download translations as XLIFF 1.1 in a ZIP file{% endblocktranslate %}</a>
           </li>
           <li>
             <a class="dropdown-item"
                href="{% url 'download' path=object.get_url_path %}?format=zip:xlsx"
-               title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as XLSX in a ZIP file{% endblocktranslate %}</a>
+               title="{% translate "Download for offline translation."|force_escape %}">{% blocktranslate %}Download translations as XLSX in a ZIP file{% endblocktranslate %}</a>
           </li>
         {% endif %}
         <li>
@@ -233,7 +233,9 @@
             </div>
             <div class="card-body">{% crispy bulk_state_form %}</div>
             <div class="card-footer">
-              <input type="submit" value="{% translate "Apply" %}" class="btn btn-primary" />
+              <input type="submit"
+                     value="{% translate "Apply"|force_escape %}"
+                     class="btn btn-primary" />
             </div>
           </div>
         </form>
@@ -266,7 +268,7 @@
               <div class="card-footer">
                 <input type="submit"
                        class="btn btn-danger"
-                       value="{% translate "I understand the consequences, delete this workspace" %}">
+                       value="{% translate "I understand the consequences, delete this workspace"|force_escape %}">
               </div>
             </div>
           </form>

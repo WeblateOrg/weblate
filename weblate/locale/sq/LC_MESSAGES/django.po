@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-13 01:19-0600\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
 "PO-Revision-Date: 2026-11-13 10:37+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -1337,6 +1337,23 @@ msgid ""
 msgstr ""
 "Kjo ftesë mund të pranohet vetëm nga adresa email e zgjedhur nga ftuesi; "
 "s’mund të përdoret nga llogaria juaj."
+
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Your e-mail no longer belongs to verified account, it has been changed to "
+#| "{0}."
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr ""
+"Email-i juaj s’i përket më një llogarie të verifikuar, është ndryshuar në "
+"{0}."
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
+msgstr ""
 
 msgid ""
 "Your e-mail address has been added. You can now select it as your account e-"
@@ -3868,6 +3885,16 @@ msgid ""
 "Remove the component from project teams before moving it to another project."
 msgstr ""
 
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
+
 msgid "Roles"
 msgstr "Role"
 
@@ -4580,6 +4607,11 @@ msgstr "Faturim"
 
 msgid "Billing event"
 msgstr "Akt faturimi"
+
+#, fuzzy
+#| msgid "Projects without components"
+msgid "Project has no components."
+msgstr "Projekte pa përbërës"
 
 msgid "monthly"
 msgstr "një herë në muaj"
@@ -6519,9 +6551,6 @@ msgstr "Formulë shumësi"
 msgid "Plural type"
 msgstr "Lloj shumësi"
 
-msgid "Example counts for this plural form."
-msgstr "Shembuj numërimi për këtë formë shumësi."
-
 msgid "Singular"
 msgstr "Njëjës"
 
@@ -7570,6 +7599,11 @@ msgid "Read your e-mail address"
 msgstr "Adresë email e pavlefshme: {}"
 
 msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
 msgstr ""
 
 msgid "Image is too big."
@@ -9973,6 +10007,16 @@ msgstr ""
 "Ky pajtim s’kualifikohet për planin falas, ju lutemi, ndreqni gabimet më "
 "sipër ose blini një pajtim."
 
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+
 msgid "Customer"
 msgstr "Klient"
 
@@ -11503,6 +11547,16 @@ msgstr ""
 #. Translators: e-mail subject
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr "Pagesa e përsëritshme do të çaktivizohet për projekte joaktivë"
+
+#, fuzzy
+#| msgid "Does not meet Libre hosting conditions."
+msgid "Review Libre hosting conditions"
+msgstr "Nuk plotëson kushtet për strehim projekti Libre."
+
+#, fuzzy, python-format
+#| msgid "Number of entries for %(project)s"
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "Numër zërash për %(project)s"
 
 msgid "Translation change"
 msgstr "Ndryshim përkthimi"
@@ -13351,6 +13405,9 @@ msgid ""
 "maintenance of Weblate itself."
 msgstr ""
 
+msgid "Example counts for this plural form."
+msgstr "Shembuj numërimi për këtë formë shumësi."
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
@@ -13387,12 +13444,13 @@ msgstr ""
 msgid "Source code repository"
 msgstr "Depo kodi burim"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr "Ky përbërës është lidhur me depon %(target)s."
-
 msgid "Repository URL copied to clipboard."
 msgstr "URL-ja e depos u kopjua në të papastër."
+
+#, fuzzy
+#| msgid "Renamed component"
+msgid "Linked component"
+msgstr "U riemërtua përbërës"
 
 msgid "Repository branch"
 msgstr "Degë depoje"
@@ -13827,6 +13885,11 @@ msgstr "Shumës: %(source_description)s"
 msgid "Plurals"
 msgstr "Shumësa"
 
+#, fuzzy
+#| msgid "No strings found!"
+msgid "No integer examples found"
+msgstr "S’u gjetën vargje!"
+
 msgid "First"
 msgstr "I pari"
 
@@ -14081,8 +14144,8 @@ msgid "Community"
 msgstr "Bashkësi"
 
 #, python-format
-msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr "Përktheni %(object)s duke përdorur %%23Weblate te %(share_url)s!"
+msgid "Translate %(object)s using #Weblate at %(share_url)s!"
+msgstr "Përktheni %(object)s duke përdorur #Weblate te %(share_url)s!"
 
 msgid "Share on Bluesky"
 msgstr "Ndajeni me të tjerë në Bluesky"
@@ -14706,12 +14769,12 @@ msgstr "Përbërësi përmban disa vargje përkthimi të përsëdytura."
 msgid "Source"
 msgstr "Burim"
 
+msgid "Remove duplicate strings"
+msgstr "Hiq vargje të përsëdytur"
+
 #, python-format
 msgid "Remove duplicate strings from %(language)s (%(filename)s)"
 msgstr "Hiq vargje të përsëdytur nga %(language)s (%(filename)s)"
-
-msgid "Remove duplicate strings"
-msgstr "Hiq vargje të përsëdytur"
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -15673,10 +15736,6 @@ msgstr "Ky varg qe përkthyer automatikisht nga %(author)s."
 msgid "Add term to glossary"
 msgstr "Shtoni termin në fjalorth"
 
-#, python-format
-msgid "Browse glossary %(name)s"
-msgstr "Shfletoni fjalorthin %(name)s"
-
 msgid "Browse glossary"
 msgstr "Shfletoni fjalorthin"
 
@@ -15724,6 +15783,15 @@ msgstr "Përditësuar së fundi më"
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
 msgstr "Moshë vargu burim"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s, line %(line)s"
+msgstr "%(filename)s, vargu %(position)s"
+
+#, python-format
+msgid "line %(line)s"
+msgstr ""
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -17217,11 +17285,11 @@ msgstr ""
 msgid "Referenced category does not exist."
 msgstr "s’duket se ekziston"
 
-msgid "Component filename does not match its category and slug."
-msgstr ""
-
 msgid "Duplicate component slug."
 msgstr "Përsëdyteni këtë përbërës"
+
+msgid "Component filename does not match its category and slug."
+msgstr ""
 
 msgid "Translation revision has an invalid format."
 msgstr "Rishikimi i përkthimit ka një format të pavlefshëm."
@@ -17464,6 +17532,11 @@ msgstr "Sugjerime pezull"
 msgid "Needs review"
 msgstr "Lyp shqyrtim"
 
+#, fuzzy
+#| msgid "The source and target have to be different languages."
+msgid "The source and destination checkouts must be different."
+msgstr "Burimi dhe synimi duhet të jenë në gjuhë të ndryshme."
+
 msgid "This component does not exist or you cannot access it."
 msgstr ""
 
@@ -17488,6 +17561,11 @@ msgstr ""
 
 msgid "Discovery configuration"
 msgstr "Formësim Zbulimi"
+
+#, fuzzy, python-format
+#| msgid "Could not render template: {}"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "S’u vizatua gjedhe: {}"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -19494,6 +19572,11 @@ msgstr "Në u lëntë e zbrazët, ky rregullim trashëgohet prej projektit."
 msgid "Use the secondary language configured in the category or project."
 msgstr "Përdor gjuhë dytësore të formësuar te kategoria apo projekti."
 
+#, fuzzy
+#| msgid "The local repository checkout is missing."
+msgid "The linked repository path is ambiguous."
+msgstr "Administrim i depos vendore VCS"
+
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
 "admin interface."
@@ -19811,6 +19894,11 @@ msgid ""
 "Pushing without a merge request needs write access to the repository. "
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
+
+#, fuzzy
+#| msgid "This role cannot be assigned to this team."
+msgid "Version control system cannot be changed to this backend."
+msgstr "Ky rol s’mund t’i caktohet këtij ekipi."
 
 msgid "The file mask is too complex and took too long to evaluate."
 msgstr ""
@@ -20390,6 +20478,11 @@ msgstr "Vijë ndarëse “em dash”"
 msgid "User configured character: {}"
 msgstr "Shenjë e formësuar nga përdoruesi: {}"
 
+#, fuzzy, python-format
+#| msgid "Could not push the repository."
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "S’u krye dot push te depoja."
+
 msgid "Repository operation could not be completed because it remained locked."
 msgstr "U anashkalua përkthim i automatizuar, ngaqë objektivi s’ekziston më."
 
@@ -20497,6 +20590,10 @@ msgstr "ID vargu %s"
 
 msgid "This language is used for source strings."
 msgstr "Kjo gjuhë përdoret për vargje burim."
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr "Ky përbërës është lidhur me depon %(target)s."
 
 msgid "Fix this component to clear its diagnostics."
 msgstr "Që të spastrohen diagnostikimet për të, ndreqeni këtë përbërës."
@@ -21257,6 +21354,16 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "Grafik vertikal shtylle gjuhësh"
 
+#, fuzzy
+#| msgid "Weblate languages"
+msgid "Sort languages by"
+msgstr "Gjuhët e Weblate"
+
+#, fuzzy
+#| msgid "Translation change"
+msgid "Translation percentage"
+msgstr "Ndryshim përkthimi"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr "Grafik horizontal shtylle gjuhësh"
@@ -21598,20 +21705,6 @@ msgstr "Parametër i pavlefshëm"
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "Parametrat duhet të jenë një fjalorth dyshesh zë-vlerë."
 
-msgid "Template output exceeds its size limit."
-msgstr ""
-
-msgid "Template rendering failed or exceeded its resource limits."
-msgstr ""
-
-msgid "Oversized template response."
-msgstr ""
-
-#, fuzzy
-#| msgid "Invalid eTranslation domains response"
-msgid "Invalid template rendering response."
-msgstr "Përgjigje e pavlefshme shërbyesi"
-
 msgid "Could not render template: {}"
 msgstr "S’u vizatua gjedhe: {}"
 
@@ -21622,7 +21715,7 @@ msgstr ""
 "Vargjet e formatit s’mbulohen më, ju lutemi, në vend të tyre përdorni gjuhë "
 "gjedhesh."
 
-msgid "Template value exceeds its size limit."
+msgid "Template context exceeds its size limit."
 msgstr ""
 
 #, fuzzy
@@ -21630,8 +21723,10 @@ msgstr ""
 msgid "Template context is nested too deeply."
 msgstr "Kartela e përzgjedhur është shumë e madhe"
 
-msgid "Template context exceeds its size limit."
-msgstr ""
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported nonfinite template context value."
+msgstr "Lloj i pambuluar figure: %s"
 
 #, fuzzy
 #| msgid "Unsupported image type: %s"
@@ -21643,30 +21738,333 @@ msgstr "Lloj i pambuluar figure: %s"
 msgid "Unsupported template context value."
 msgstr "Lloj i pambuluar figure: %s"
 
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Template text is not valid UTF-8."
+msgstr "Token-i dhënë s’është i vlefshëm."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid target state."
+msgid "Invalid template syntax."
+msgstr "Të dhëna të pavlefshme. Gjendje e panjohur."
+
+#, fuzzy
+#| msgid "Undefined variable: \"%s\""
+msgid "Undefined template variable."
+msgstr "Ndryshore e papërcaktuar: “%s”"
+
+#, fuzzy
+#| msgid "The translation is not valid XML."
+msgid "Text is not valid UTF-8."
+msgstr "Përkthimi s’është XML e vlefshme."
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Division by zero is not supported."
+msgstr "Renditja e zgjedhur nuk mbulohet."
+
+#, fuzzy
+#| msgid "Select a change for this automation."
+msgid "Numeric value is too large for this operation."
+msgstr "Ndryshoni emër automatizimi"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Numeric operation failed."
+msgstr "Dështoi veprim depoje"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation revision has an invalid format."
+msgid "Value or argument has an invalid format."
+msgstr "Rishikimi i përkthimit ka një format të pavlefshëm."
+
+#, fuzzy, python-format
+#| msgid "%(path)s: %(error)s"
+msgid "%(operation)s: %(message)s"
+msgstr "%(path)s: %(error)s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
 msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Nonfinite numbers are not supported."
+msgstr "Renditja e zgjedhur nuk mbulohet."
+
+#, fuzzy, python-format
+#| msgid "File names"
+msgid "Filter \"%(name)s\""
+msgstr "Emra kartelash"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
 msgstr ""
 
 msgid "Template rendering exceeded its loop limit."
 msgstr ""
 
-msgid "Template intermediate value exceeds its size limit."
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Attribute access and method calls are not supported."
+msgstr "Renditja e zgjedhur nuk mbulohet."
+
+msgid "Index exceeds the length limit of 128 characters."
 msgstr ""
 
-msgid "Template replacement exceeds its size limit."
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Translated template literals are not supported."
+msgstr "Renditja e zgjedhur nuk mbulohet."
+
+#, fuzzy
+#| msgid "Invalid unit."
+msgid "Invalid filter."
+msgstr "Njësi e pavlefshme."
+
+msgid "Identity comparisons require None, True, or False."
 msgstr ""
 
-msgid "Template padding exceeds its size limit."
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This condition operator is not supported."
+msgstr "Renditja e zgjedhur nuk mbulohet."
+
+msgid "Template output exceeds its size limit."
 msgstr ""
 
-msgid "Template formatting exceeds its size limit."
+msgid "Loops require a list, string, dictionary, or dictionary view."
 msgstr ""
 
-msgid "Template join exceeds its size limit."
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
+msgstr ""
+
+msgid "Loop value cannot be unpacked into its variables."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This template tag is not supported."
+msgstr "Renditja e zgjedhur nuk mbulohet."
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This template node is not supported."
+msgstr "Formati i kartelës i pikasur nuk mbulohet."
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
 msgstr ""
 
 #, python-format
 msgid "Undefined variable: \"%s\""
 msgstr "Ndryshore e papërcaktuar: “%s”"
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "This field is required."
+msgid "This filter requires strings."
+msgstr "Kjo fushë është e domosdoshme."
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Choices must be a string."
+msgstr "Automatizimi duhet të përmbajë një hap “rrënjë”"
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source string length"
+msgid "Joining requires string elements."
+msgstr "Gjatësi vargu burim"
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Date format must be a string or None."
+msgstr "Automatizimi duhet të përmbajë një hap “rrënjë”"
+
+#, fuzzy
+#| msgid "Trigger scope requires a change with a string."
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "Shmangni vite që kanë lidhje me ju."
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Plural suffixes must be a string."
+msgstr "Automatizimi duhet të përmbajë një hap “rrënjë”"
+
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Nested template delimiters are not supported."
+msgstr "Renditja e zgjedhur nuk mbulohet."
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unclosed template token."
+msgstr "Lloj i pambuluar figure: %s"
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "The report is empty."
+msgid "Template tag is empty."
+msgstr "Raportimi është i zbrazët."
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr ""
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "Lloj i pambuluar figure: %s"
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported template tag."
+msgstr "Lloj i pambuluar figure: %s"
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -23240,6 +23638,15 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Hapësira e punës u hoq."
 
+#, python-format
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "Shfletoni fjalorthin %(name)s"
+
+#, fuzzy
+#~| msgid "Invalid eTranslation domains response"
+#~ msgid "Invalid template rendering response."
+#~ msgstr "Përgjigje e pavlefshme shërbyesi"
+
 #, fuzzy
 #~| msgid "Registration almost complete"
 #~ msgid "E-mail verification almost complete"
@@ -24801,9 +25208,6 @@ msgstr "Hapësira e punës u hoq."
 #~ msgid "Renamed project"
 #~ msgstr "U riemërtua projekt"
 
-#~ msgid "Renamed component"
-#~ msgstr "U riemërtua përbërës"
-
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "Varg i ri për përkthim"
@@ -26126,11 +26530,6 @@ msgstr "Hapësira e punës u hoq."
 #~| msgid "Repository"
 #~ msgid "Backup pepository"
 #~ msgstr "Depozita"
-
-#, fuzzy
-#~| msgid "Weblate languages"
-#~ msgid "Your languages"
-#~ msgstr "Gjuhët e Weblate"
 
 #, fuzzy
 #~| msgid "translate"

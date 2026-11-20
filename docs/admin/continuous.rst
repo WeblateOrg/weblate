@@ -103,9 +103,11 @@ triggered, see :ref:`addons`.
 Matching webhook targets
 ++++++++++++++++++++++++
 
-Forge webhooks update components whose :ref:`component-repo` exactly matches a
-repository URL from the payload (HTTPS or SSH as reported by the forge, plus
-common variants such as a trailing slash).
+Forge webhooks match repository-owning components whose :ref:`component-repo`
+exactly matches a repository URL from the payload (HTTPS or SSH as reported by
+the forge, plus common variants such as a trailing slash). Components that
+share a repository through :ref:`internal-urls` are refreshed as part of the
+owner's update and are excluded from webhook matching and diagnostic counts.
 Webhook deliveries containing more than 64 repository URLs are rejected before
 matching components.
 
@@ -385,8 +387,9 @@ inspect and remove them manually after verifying recovery. Reconstruction cannot
 restore lost Git history or files and metadata that Weblate does not store.
 
 Recovery is explicit: background updates do not automatically rebuild checkouts.
-If a checkout is unexpectedly missing, first verify that the data volume is
-available to the worker performing recovery.
+Use :wladmin:`recovergit` with ``--all`` to queue recovery for all missing
+checkouts at once, for example at container startup. If a checkout is unexpectedly missing, first
+verify that the data volume is available to the worker performing recovery.
 Damaged Git metadata in an existing :file:`.git` directory requires manual
 inspection and repair by an instance administrator.
 

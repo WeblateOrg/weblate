@@ -16,7 +16,8 @@ from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
 from unittest.mock import Mock, patch
 
-from django.test import SimpleTestCase, override_settings
+from django.db import connections
+from django.test import SimpleTestCase, TestCase, override_settings
 
 from weblate.automation.context import automation_origin
 from weblate.utils.celery import (
@@ -148,7 +149,7 @@ class TaskOriginTest(SimpleTestCase):
         self.assertIsNone(automation_origin.get())
 
 
-class TaskMetadataTest(SimpleTestCase):
+class TaskMetadataTest(TestCase):
     task_id = "01234567-89ab-cdef-0123-456789abcdef"
 
     def tearDown(self) -> None:
@@ -199,13 +200,12 @@ class TaskMetadataTest(SimpleTestCase):
             translation_id=4,
             task_kind="repository-operation",
         )
-        # SimpleTestCase rejects database queries, including repository lookups.
         for result in (
             None,
             {"progress": 42},
             {"completion_message": {"text": None}},
         ):
-            with self.subTest(result=result):
+            with self.subTest(result=result), self.assertNumQueries(0):
                 self.assertIs(sanitize_task_result(self.task_id, result), result)
 
     def test_automatic_translation_errors_without_provenance(self) -> None:
@@ -273,9 +273,13 @@ class TaskMetadataTest(SimpleTestCase):
                     second_read.set()
                 return snapshot
 
-            def second_update() -> None:
-                second_started.set()
-                updates[1]()
+            def update(index: int) -> None:
+                try:
+                    if index == 1:
+                        second_started.set()
+                    updates[index]()
+                finally:
+                    connections.close_all()
 
             with (
                 ThreadPoolExecutor(max_workers=2) as executor,
@@ -283,10 +287,10 @@ class TaskMetadataTest(SimpleTestCase):
                     "weblate.utils.celery.get_task_metadata", side_effect=read_snapshot
                 ),
             ):
-                first = executor.submit(updates[0])
+                first = executor.submit(update, 0)
                 try:
                     self.assertTrue(first_read.wait(5))
-                    second = executor.submit(second_update)
+                    second = executor.submit(update, 1)
                     self.assertTrue(second_started.wait(5))
                     # The second writer must wait before reading a stale snapshot.
                     self.assertFalse(second_read.wait(0.2))

@@ -14,6 +14,7 @@ from weblate.api.spectacular import (
     get_drf_standardized_errors_settings,
     get_spectacular_settings,
 )
+from weblate.utils.defaults import DEFAULT_TRANSLATION_MAX_UNITS
 
 # Title of site to use
 SITE_TITLE = "Weblate"
@@ -705,6 +706,9 @@ TRANSLATION_UPLOAD_MAX_SIZE = 50000000
 # Maximum size of translation files before parsing, including repository files.
 # None follows TRANSLATION_UPLOAD_MAX_SIZE.
 TRANSLATION_MAX_SIZE = None
+
+# Shared count limit for translation strings, CSV and XLSX rows, and memory imports.
+TRANSLATION_MAX_UNITS = DEFAULT_TRANSLATION_MAX_UNITS
 # Maximum allowed uploaded component ZIP file size
 COMPONENT_ZIP_UPLOAD_MAX_SIZE = 50000000
 # Maximum allowed uploaded project backup ZIP file size

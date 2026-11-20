@@ -205,7 +205,7 @@ def _write_repository_download_files(
     translations: Iterable[Translation],
     auxiliary_permissions: dict[tuple[int, str], bool],
 ) -> None:
-    with repo_component.repository.lock:
+    with repo_component.repository.lock.read():
         filenames: set[str] = set()
         components: set[int] = set()
         component_roots: set[str] = set()
@@ -243,7 +243,6 @@ def _write_repository_download_files(
             data_dir("vcs"),
             sorted(filenames),
             allowed_roots=sorted(component_roots),
-            refresh_lock=repo_component.repository.lock.reacquire,
         )
 
 

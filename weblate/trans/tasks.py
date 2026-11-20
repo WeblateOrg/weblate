@@ -25,10 +25,19 @@ from django.contrib.messages.storage.cookie import CookieStorage
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.db import IntegrityError, transaction
-from django.db.models import Exists, F, OuterRef, Prefetch, Q
+from django.db.models import (
+    DateTimeField,
+    Exists,
+    ExpressionWrapper,
+    F,
+    OuterRef,
+    Prefetch,
+    Q,
+    Value,
+)
 from django.utils import timezone
 from django.utils.timezone import make_aware
-from django.utils.translation import gettext, ngettext, override
+from django.utils.translation import gettext, gettext_noop, ngettext, override
 from translate.storage.base import ParseError as TranslateParseError
 
 from weblate.accounts.utils import remove_user
@@ -93,7 +102,7 @@ from weblate.utils.change_origin import (
     get_change_origin,
 )
 from weblate.utils.data import data_dir
-from weblate.utils.errors import report_error
+from weblate.utils.errors import log_handled_exception, report_error
 from weblate.utils.files import MANAGED_VCS_METADATA_DIRS, remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED
@@ -105,7 +114,7 @@ from weblate.utils.task_log import (
     record_task_failure,
     store_task_failure_dependencies,
 )
-from weblate.vcs.base import RepositoryError
+from weblate.vcs.base import RepositoryError, RepositoryTemplateError
 
 COMPONENT_MEMORY_CLEANUP_BATCH_SIZE = 1000
 LEGACY_REPOSITORY_LOCK_MAX_RETRIES = 3
@@ -116,6 +125,7 @@ if TYPE_CHECKING:
     from celery import Celery, Task
 
     from weblate.trans.models.change import RevertUserEditsResult
+    from weblate.trans.models.component import ComponentQuerySet
     from weblate.workspaces.models import Workspace
 
 
@@ -309,8 +319,9 @@ def perform_commit(
     user_id: int | None = None,
     force_scan: bool = False,
     previous_head: str | None = None,
-) -> None:
+) -> dict | None:
     component = Component.objects.get(pk=pk)
+    failure_message = gettext_noop("Could not commit pending changes: %s")
     try:
         user = User.objects.get(pk=user_id) if user_id else None
         with (
@@ -326,15 +337,34 @@ def perform_commit(
                 force_scan=force_scan,
                 previous_head=previous_head,
             )
+        failure_message = gettext_noop(
+            "Changes committed, but could not push the repository: %s"
+        )
         component.push_if_needed()
     except (RepositoryOperationConflictError, WeblateLockTimeoutError):
         if commit_retries_exhausted():
             schedule_deferred_commit(component)
         raise
+    except RepositoryTemplateError as error:
+        log_handled_exception("Repository operation template rendering failed")
+        component.log_warning(failure_message, error)
+        if current_task and current_task.request.id:
+            record_task_failure(current_task.request.id, error)
+        component.delete_commit_task(require_match=True)
+        with override(user.profile.language if user else "en"):
+            completion_text = gettext(failure_message) % error.get_message(gettext)
+        return {
+            "result": False,
+            "completion_message": {
+                "level": "error",
+                "text": completion_text,
+            },
+        }
     except Exception:
         component.delete_commit_task(require_match=True)
         raise
     schedule_deferred_commit(component)
+    return None
 
 
 @app.task(bind=True, trail=False, max_retries=None)
@@ -1070,11 +1100,40 @@ def update_remotes() -> None:
     components = (
         Component.objects.with_repo()
         .annotate(hourmod=F("id") % 24)
-        .filter(hourmod=now.hour)
+        .filter(
+            Q(hourmod=now.hour)
+            | Q(pk__in=get_failed_update_retry_components(now).values("pk"))
+        )
     )
     component_ids = components.values_list("pk", flat=True)
     for component_id in component_ids.iterator(chunk_size=100):
         perform_update.delay("Component", component_id, auto=True)
+
+
+def get_failed_update_retry_components(now: datetime) -> ComponentQuerySet:
+    """
+    Select components with a failed repository update that are due for a retry.
+
+    Without this, a component whose update failed is retried only in its daily
+    slot, so a single temporary error can leave it locked for up to a day.
+
+    Only failures diagnosed as temporary are retried early. Retrying errors
+    such as rejected credentials or a missing repository cannot help.
+
+    The wait before the next attempt equals how long the update had been failing
+    at the last attempt, so the delay roughly doubles with every failed attempt
+    (after about 1, 2, 4, 8, and 16 hours given the hourly schedule) until the
+    daily update takes over. The alert timestamp marks the first failure, and
+    every further failure refreshes its updated timestamp.
+    """
+    failing_for = F("alert__updated") - F("alert__timestamp")
+    return Component.objects.with_repo().filter(
+        alert__name="UpdateFailure",
+        alert__details__diagnoses__contains=[{"code": "temporary_failure"}],
+        alert__updated__lte=ExpressionWrapper(
+            Value(now) - failing_for, output_field=DateTimeField()
+        ),
+    )
 
 
 @app.task(trail=False)
@@ -1110,8 +1169,7 @@ def _is_project_or_category_path(parts: tuple[str, ...]) -> bool:
     for parent in reversed(categories[:-1]):
         kwargs[f"{prefix}category__slug"] = parent
         prefix = f"category__{prefix}"
-    if not kwargs:
-        kwargs["category"] = None
+    kwargs[f"{prefix}category"] = None
 
     return Category.objects.filter(
         slug__iexact=category, project__slug__iexact=project, **kwargs
@@ -1130,16 +1188,19 @@ def _get_component_by_vcs_path(parts: tuple[str, ...]) -> Component | None:
 class _StaleRepositoryLookup:
     containers: set[tuple[str, ...]]
     components: dict[tuple[str, ...], list[bool]]
+    ambiguous_project: bool = False
 
     @classmethod
     def load(cls, project_slug: str) -> _StaleRepositoryLookup:
         project_ids = list(
             Project.objects.filter(slug__iexact=project_slug).values_list(
                 "pk", flat=True
-            )
+            )[:2]
         )
         if not project_ids:
             return cls(set(), {})
+        if len(project_ids) > 1:
+            return cls(set(), {}, ambiguous_project=True)
 
         categories = {
             pk: (slug, parent_id)
@@ -1156,8 +1217,9 @@ class _StaleRepositoryLookup:
             return tuple(reversed(slugs))
 
         containers: set[tuple[str, ...]] = {()}
-        for pk in categories:
-            containers.update(cls.matching_paths(category_path(pk)))
+        containers.update(
+            cls.path_key((project_slug, *category_path(pk))) for pk in categories
+        )
 
         components: dict[tuple[str, ...], list[bool]] = {}
         for slug, category_id, is_link in (
@@ -1165,16 +1227,9 @@ class _StaleRepositoryLookup:
             .annotate(is_link=Q(repo__startswith="weblate://"))
             .values_list("slug", "category_id", "is_link")
         ):
-            for path in cls.matching_paths((*category_path(category_id), slug)):
-                components.setdefault(path, []).append(is_link)
+            path = cls.path_key((project_slug, *category_path(category_id), slug))
+            components.setdefault(path, []).append(is_link)
         return cls(containers, components)
-
-    @staticmethod
-    def matching_paths(parts: tuple[str, ...]) -> list[tuple[str, ...]]:
-        # Match the existing path filters: the leaf is case insensitive, parents
-        # are exact, and only paths without parents require a top-level object.
-        normalized = (*parts[:-1], parts[-1].upper())
-        return [normalized[index:] for index in range(max(1, len(parts) - 1))]
 
     @staticmethod
     def path_key(parts: tuple[str, ...]) -> tuple[str, ...]:
@@ -1195,7 +1250,11 @@ class _StaleRepositoryLookup:
 def _remove_empty_stale_repo(root: Path, parts: tuple[str, ...]) -> bool:
     if _is_project_or_category_path(parts):
         return False
-    component = _get_component_by_vcs_path(parts)
+    try:
+        component = _get_component_by_vcs_path(parts)
+    except Component.MultipleObjectsReturned:
+        LOGGER.warning("Skipping ambiguous VCS path: %s", root)
+        return False
     if component is not None and not component.is_repo_link:
         return False
     LOGGER.info("removing stale VCS path (not found): %s", root)
@@ -1209,65 +1268,23 @@ def _cleanup_stale_repos(
     yesterday: float,
     lookup: _StaleRepositoryLookup | None,
 ) -> bool:
+    if lookup is not None and lookup.ambiguous_project:
+        LOGGER.warning("Skipping ambiguous VCS path: %s", root)
+        return False
     root_is_known_container = lookup is None or lookup.is_container(
         root.relative_to(vcs_root).parts
     )
 
     empty_dir = True
     for path in root.glob("*"):
-        if not path.is_dir():
-            empty_dir = False
-            # Possibly a lock file
-            continue
         if (
-            root_is_known_container
-            and path.name.casefold() in MANAGED_VCS_METADATA_DIRS
+            not path.is_dir()
+            or (
+                root_is_known_container
+                and path.name.casefold() in MANAGED_VCS_METADATA_DIRS
+            )
+            or not _cleanup_stale_repo_child(path, vcs_root, yesterday, lookup)
         ):
-            empty_dir = False
-            continue
-
-        git_dir = path / ".git"
-        mercurial_dir = path / ".hg"
-        relative_parts = path.relative_to(vcs_root).parts
-        path_lookup = lookup
-        if path_lookup is None:
-            path_lookup = _StaleRepositoryLookup.load(relative_parts[0])
-
-        if path_lookup.is_container(relative_parts):
-            # Project/category dir, regardless of stale VCS metadata.
-            if not _cleanup_stale_repos(path, vcs_root, yesterday, path_lookup):
-                empty_dir = False
-            continue
-
-        is_link = path_lookup.component_is_link(relative_parts)
-        if is_link is False:
-            empty_dir = False
-            continue
-
-        if not git_dir.exists() and not mercurial_dir.exists():
-            # Possible project/category dir not present in the database.
-            if not _cleanup_stale_repos(path, vcs_root, yesterday, path_lookup):
-                empty_dir = False
-            continue
-
-        # Skip recently modified paths
-        if path.stat().st_mtime > yesterday:
-            empty_dir = False
-            continue
-
-        # The lookup is a snapshot. Recheck deletion candidates in case a project,
-        # category, or component was created or changed while traversing the tree.
-        if _is_project_or_category_path(relative_parts):
-            empty_dir = False
-            continue
-        component = _get_component_by_vcs_path(relative_parts)
-        if component is None:
-            LOGGER.info("removing stale VCS path (not found): %s", path)
-            remove_tree(path)
-        elif component.is_repo_link:
-            LOGGER.info("removing stale VCS path (uses link): %s", path)
-            remove_tree(path)
-        else:
             empty_dir = False
 
     if empty_dir and root != vcs_root:
@@ -1275,6 +1292,43 @@ def _cleanup_stale_repos(
             return False
         return _remove_empty_stale_repo(root, root.relative_to(vcs_root).parts)
     return empty_dir
+
+
+def _cleanup_stale_repo_child(
+    path: Path, vcs_root: Path, yesterday: float, lookup: _StaleRepositoryLookup | None
+) -> bool:
+    parts = path.relative_to(vcs_root).parts
+    if lookup is None:
+        lookup = _StaleRepositoryLookup.load(parts[0])
+    if lookup.ambiguous_project:
+        LOGGER.warning("Skipping ambiguous VCS path: %s", path)
+        return False
+
+    try:
+        is_link = lookup.component_is_link(parts)
+        if lookup.is_container(parts):
+            return _cleanup_stale_repos(path, vcs_root, yesterday, lookup)
+        if is_link is False:
+            return False
+        if not ((path / ".git").exists() or (path / ".hg").exists()):
+            return _cleanup_stale_repos(path, vcs_root, yesterday, lookup)
+        return path.stat().st_mtime <= yesterday and _remove_stale_checkout(path, parts)
+    except Component.MultipleObjectsReturned:
+        LOGGER.warning("Skipping ambiguous VCS path: %s", path)
+        return False
+
+
+def _remove_stale_checkout(path: Path, parts: tuple[str, ...]) -> bool:
+    # The lookup is a snapshot. Recheck deletion candidates against live data.
+    if _is_project_or_category_path(parts):
+        return False
+    component = _get_component_by_vcs_path(parts)
+    if component is not None and not component.is_repo_link:
+        return False
+    reason = "not found" if component is None else "uses link"
+    LOGGER.info("removing stale VCS path (%s): %s", reason, path)
+    remove_tree(path)
+    return True
 
 
 @app.task(trail=False)
@@ -1302,12 +1356,20 @@ def repository_alerts(threshold: int = settings.REPOSITORY_ALERT_THRESHOLD) -> N
 
 
 def update_repository_alerts(component: Component, threshold: int) -> None:
-    if component.repository.count_missing() > threshold:
-        component.add_alert("RepositoryOutdated")
+    missing = component.repository.count_missing()
+    if missing > threshold:
+        component.add_alert(
+            "RepositoryOutdated", commit_count=missing, repository_owner_id=component.pk
+        )
     else:
         component.delete_alert("RepositoryOutdated")
-    if component.repository.count_outgoing() > threshold:
-        component.add_alert("RepositoryChanges")
+    outgoing = component.repository.count_outgoing()
+    if outgoing > threshold:
+        component.add_alert(
+            "RepositoryChanges",
+            commit_count=len(component.repository.get_tracked_outgoing_revisions()),
+            repository_owner_id=component.pk,
+        )
     else:
         component.delete_alert("RepositoryChanges")
 

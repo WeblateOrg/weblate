@@ -23,6 +23,7 @@ from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
 from django.db import close_old_connections, connection
 from django.db.models import F
+from django.template import TemplateSyntaxError
 from django.test import SimpleTestCase, TransactionTestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.utils import timezone
@@ -30,9 +31,11 @@ from translate.storage.base import ParseError
 
 from weblate.auth.models import setup_project_groups
 from weblate.checks.models import Check
+from weblate.formats.ttkit import PoFormat
 from weblate.formats.txt import AppStoreFormat, MultiparserError
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
+from weblate.trans.component_copy import replace_component_checkout
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.file_format_params import get_default_params_for_file_format
 from weblate.trans.models import (
@@ -59,7 +62,9 @@ from weblate.trans.tests.test_views import (
 from weblate.trans.tests.utils import (
     TEST_VCS_ALLOW_SCHEMES,
     RepoTestMixin,
+    can_lock_repository,
     create_test_user,
+    get_optional_path,
     get_test_actor,
 )
 from weblate.trans.util import join_plural
@@ -79,6 +84,7 @@ from weblate.vcs.base import (
     RepositoryError,
     RepositoryRecoveryEvent,
     RepositoryRedirectError,
+    RepositoryTemplateError,
 )
 from weblate.vcs.git import GitMergeRequestBase, GitRepository
 from weblate.vcs.github import GitHubInstallation
@@ -100,6 +106,29 @@ remote: Host key verification failed.
 
 class ComponentTest(RepoTestCase):
     """Component object testing."""
+
+    def test_checkout_copy_shares_only_source(self) -> None:
+        source = self.create_component()
+        target = self.create_po(name="copy-target", project=source.project)
+
+        def copy(*args, **kwargs) -> None:
+            self.assertTrue(can_lock_repository(source.pk, shared=True))
+            self.assertFalse(can_lock_repository(source.pk))
+            self.assertFalse(can_lock_repository(target.pk, shared=True))
+
+        with patch(
+            "weblate.trans.component_copy.shutil.copytree", side_effect=copy
+        ) as copytree:
+            self.assertTrue(replace_component_checkout(target, source))
+        copytree.assert_called_once()
+        self.assertTrue(can_lock_repository(target.pk))
+        self.assertTrue(can_lock_repository(source.pk))
+
+    def test_checkout_copy_rejects_same_path(self) -> None:
+        component = self.create_component()
+        with self.assertRaises(ValidationError):
+            replace_component_checkout(component, component)
+        self.assertTrue(pathlib.Path(component.full_path, ".git").is_dir())
 
     def test_ensure_local_repository_skips_remote_and_linked_repositories(self) -> None:
         for vcs, repo in (
@@ -676,6 +705,17 @@ class ComponentTest(RepoTestCase):
         component = self.create_appstore()
         translation = component.source_translation
         with patch.object(AppStoreFormat, "parse_version", 0):
+            translation.store_hash()
+
+        translation.refresh_from_db()
+        self.assertTrue(translation.check_sync())
+        translation.refresh_from_db()
+        self.assertTrue(translation.revision.split(",", maxsplit=1)[0].endswith(":1"))
+
+    def test_po_parse_version(self) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        with patch.object(PoFormat, "parse_version", 0):
             translation.store_hash()
 
         translation.refresh_from_db()
@@ -1488,7 +1528,10 @@ class ComponentChangeTest(RepoTestCase):
         current_revision = component.repository.last_revision
         self.assertNotEqual(initial_revision, current_revision)
         self.assertEqual(component.local_revision, current_revision)
-        self.assertEqual(component.processed_revision, current_revision)
+        expected_processed = current_revision
+        if version := component.file_format_cls.parse_version:
+            expected_processed = f"{current_revision}:{version}"
+        self.assertEqual(component.processed_revision, expected_processed)
 
     def test_changed_setup_preserves_check_settings(self) -> None:
         component = self.create_component()
@@ -3091,6 +3134,39 @@ class FileSyncPendingUnitOptimizationTest(ComponentTestCase):
         self.assertEqual(unit.details["disk_state"], disk_state)
 
 
+class AddNewLanguageTest(ComponentTestCase):
+    def create_component(self) -> Component:
+        return self.create_po_new_base(new_lang="add")
+
+    def test_add_language_validates_and_uses_base_under_lock(self) -> None:
+        language = Language.objects.get(code="fa")
+        get_base = self.component.get_new_base_filename
+        add_language = self.component.file_format_cls.add_language
+        base_lock_states: list[bool] = []
+
+        def get_locked_base() -> str | None:
+            base_lock_states.append(self.component.repository.lock.is_locked)
+            return get_base()
+
+        def add_from_base(*args, **kwargs) -> None:
+            self.assertTrue(base_lock_states[-1])
+            self.assertTrue(self.component.repository.lock.is_locked)
+            add_language(*args, **kwargs)
+
+        with (
+            patch.object(self.component, "get_new_base_filename", get_locked_base),
+            patch.object(
+                self.component.file_format_cls,
+                "add_language",
+                side_effect=add_from_base,
+            ) as add,
+        ):
+            translation = self.component.add_new_language(language, self.get_request())
+
+        add.assert_called_once()
+        self.assertIsNotNone(translation)
+
+
 class ExistingIntermediateLanguageFileTest(ComponentTestCase):
     def create_component(self) -> Component:
         return self.create_po_mono(new_lang="add")
@@ -3981,6 +4057,37 @@ class ResetDiscardRevisionTest(ComponentTestCase):
 
 
 class TranslationRemoveRevisionTest(ComponentTestCase):
+    def test_remove_reuses_prepared_message(self) -> None:
+        translation = self.component.translation_set.get(language_code="de")
+        message = translation.get_commit_message(
+            self.user.get_author_name(), self.component.effective_delete_message
+        )
+        with patch.object(
+            translation,
+            "get_commit_message",
+            side_effect=RepositoryTemplateError("delete message", "Changed context"),
+        ):
+            translation.remove(self.user, commit_message=message)
+        self.assertFalse(Translation.objects.filter(pk=translation.pk).exists())
+        self.assertEqual(
+            message.strip(),
+            self.component.repository.get_revision_info(
+                self.component.repository.get_last_revision()
+            )["message"].strip(),
+        )
+
+    def test_invalid_delete_message_preserves_translation(self) -> None:
+        translation = self.component.translation_set.get(language_code="de")
+        self.component.delete_message = "{% invalid %}"
+        self.component.inherit_delete_message = False
+        head = self.component.repository.last_revision
+        filename = get_optional_path(translation.get_filename())
+        with self.assertRaises(RepositoryTemplateError):
+            translation.remove(self.user)
+        self.assertTrue(Translation.objects.filter(pk=translation.pk).exists())
+        self.assertTrue(filename.exists())
+        self.assertEqual(self.component.repository.last_revision, head)
+
     def test_remove_updates_stored_local_revision(self) -> None:
         translation = self.component.translation_set.get(language_code="de")
         self.component.store_local_revision()
@@ -4026,6 +4133,21 @@ class LastCommitLookupTest(ComponentTestCase):
 
 
 class UpdateBranchRevisionTest(ComponentTestCase):
+    def test_invalid_merge_message_does_not_start_or_abort_merge(self) -> None:
+        self.component.merge_message = "{% invalid %}"
+        self.component.inherit_merge_message = False
+        with (
+            override_settings(DEBUG=True),
+            patch.object(self.component.repository, "merge") as merge,
+            patch("weblate.utils.errors.record_error") as report,
+        ):
+            self.assertIsNone(
+                self.component.update_branch(method="merge", raise_update_errors=False)
+            )
+        merge.assert_not_called()
+        report.assert_not_called()
+        self.assertTrue(self.component.alert_set.filter(name="MergeFailure").exists())
+
     def test_update_branch_treats_stale_local_revision_as_update(self) -> None:
         current_head = self.component.repository.last_revision
         self.component.local_revision = ""
@@ -4592,6 +4714,32 @@ class ComponentJSONKeyFilterTest(ComponentKeyFilterTest):
 
 
 class ComponentRepoWebTestCase(FixtureTestCase):
+    def test_invalid_template_omits_link(self) -> None:
+        for template in ("{% invalid %}", "{{ filename|invalid }}"):
+            with self.subTest(template=template):
+                self.component.repoweb = template
+                self.assertIsNone(self.get_url())
+
+    def test_render_limit_omits_link(self) -> None:
+        self.component.repoweb = "https://example.com/{{ filename }}"
+        with patch(
+            "weblate.trans.models.component.render_template",
+            side_effect=TemplateSyntaxError("Template output exceeds its size limit."),
+        ) as render:
+            self.assertIsNone(self.get_url())
+        render.assert_called_once()
+
+    def test_unexpected_render_failure_propagates(self) -> None:
+        self.component.repoweb = "https://example.com/{{ filename }}"
+        with (
+            patch(
+                "weblate.trans.models.component.render_template",
+                side_effect=RuntimeError("bug"),
+            ),
+            self.assertRaisesMessage(RuntimeError, "bug"),
+        ):
+            self.get_url()
+
     def get_url(self) -> str | None:
         return self.component.get_repoweb_link("test.py", "42", user=self.user)
 

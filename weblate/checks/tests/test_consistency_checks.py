@@ -30,6 +30,7 @@ from weblate.checks.consistency import (
 from weblate.checks.models import CHECKS, Check
 from weblate.checks.tasks import (
     _get_propagated_check_units,
+    coalesce_propagated_check_refreshes,
     refresh_propagated_checks,
     schedule_propagated_checks,
 )
@@ -54,6 +55,8 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
+from weblate.utils.stats import TranslationStats
+from weblate.utils.tasks import update_translation_stats
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -782,6 +785,35 @@ class ConsistencyCheckTest(ConsistencyUnitsMixin, ReusableComponentTestCase):
             Check.objects.filter(unit__in=[first, edited], name="reused").count(), 2
         )
 
+    def test_propagated_checks_batch_parent_stats(self) -> None:
+        first = self.add_unit(self.translation_1, "one", "One", "Shared")
+        second = self.add_unit(self.translation_2, "two", "Two", "Shared")
+        translation_ids = {
+            first.translation_id,
+            second.translation_id,
+            first.source_unit.translation_id,
+            second.source_unit.translation_id,
+        }
+        with (
+            patch.object(update_translation_stats, "delay") as delay,
+            patch.object(TranslationStats, "update_parents") as update_parents,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            refresh_propagated_checks(
+                self.component.project_id, [], [first.pk, second.pk]
+            )
+        update_parents.assert_not_called()
+        delay.assert_called_once()
+        self.assertEqual(set(delay.call_args.args[0]), translation_ids)
+        self.assertEqual(delay.call_args.kwargs, {"update_translations": False})
+
+        with patch("weblate.utils.stats.update_stats_objects") as update_stats:
+            update_translation_stats(*delay.call_args.args, **delay.call_args.kwargs)
+        update_stats.assert_called_once()
+        parent_keys = [stats.cache_key for stats in update_stats.call_args.args[0]]
+        self.assertEqual(len(parent_keys), len(set(parent_keys)))
+        self.assertIn(self.component.project.stats.cache_key, parent_keys)
+
     def test_repeated_refresh_repairs_source_checks(self) -> None:
         first = self.add_unit(self.translation_1, "one", "One", "Shared")
         second = self.add_unit(self.translation_1, "two", "Two", "Shared")
@@ -812,6 +844,31 @@ class ConsistencyCheckTest(ConsistencyUnitsMixin, ReusableComponentTestCase):
         self.assertEqual(
             [group["target"] for group in delay.call_args.args[1]], ["Shared"]
         )
+
+    def test_merged_propagated_checks_discard_rolled_back_savepoint(self) -> None:
+        unit = self.add_unit(self.translation_1, "one", "One", "Shared")
+        with (
+            patch("weblate.checks.tasks.refresh_propagated_checks.delay") as delay,
+            self.captureOnCommitCallbacks(execute=True),
+            coalesce_propagated_check_refreshes(),
+        ):
+            with transaction.atomic():
+                schedule_propagated_checks(unit, {"inconsistent"})
+            with transaction.atomic():
+                unit.target = "Rolled back"
+                schedule_propagated_checks(unit, {"reused"}, refresh_unit=True)
+                transaction.set_rollback(True)
+            with transaction.atomic():
+                unit.target = "Committed"
+                schedule_propagated_checks(unit, {"reused"})
+
+        delay.assert_called_once()
+        _, groups, unit_ids = delay.call_args.args
+        self.assertCountEqual(
+            [(group["check"], group["target"]) for group in groups],
+            [("inconsistent", ""), ("reused", "Shared"), ("reused", "Committed")],
+        )
+        self.assertEqual(unit_ids, [])
 
     def test_propagated_checks_use_latest_state(self) -> None:
         first = self.add_unit(self.translation_1, "one", "One", "Shared")

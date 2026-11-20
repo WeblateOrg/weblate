@@ -8,6 +8,7 @@ import logging
 import warnings
 from copy import deepcopy
 from datetime import date, datetime, timedelta
+from itertools import batched
 from typing import TYPE_CHECKING, Any, ClassVar, Self, TypedDict, cast, overload
 from uuid import uuid5
 
@@ -71,6 +72,7 @@ LOGGER = logging.getLogger("weblate.change")
 
 CHANGE_PROJECT_LOOKUP_KEY = "change:project-lookup"
 MAX_EXACT_DISTANCE_PAIRS = 1_000_000
+REVERT_USER_EDITS_BATCH_SIZE = 25
 
 PREFETCH_FIELDS = (
     "user",
@@ -633,6 +635,8 @@ class ChangeManager(models.Manager["Change"]):
         project: Project | None = None,
         request=None,
     ) -> RevertUserEditsResult:
+        from weblate.checks.tasks import coalesce_propagated_check_refreshes  # ruff: ignore[import-outside-top-level]
+
         base = self.filter(
             user=target_user,
             unit__isnull=False,
@@ -645,19 +649,25 @@ class ChangeManager(models.Manager["Change"]):
         attempted = 0
         skipped_failed = 0
         total = base.values("unit_id").distinct().count()
-        for change in self.latest_revertable_changes(
-            target_user, project=project
-        ).iterator(chunk_size=100):
-            attempted += 1
-            if change.revert_user_edits(
-                acting_user,
-                change_action=ActionEvents.USER_REVERT,
-                request=request,
-                change_details={"username": target_user.username},
-            ):
-                reverted += 1
-            else:
-                skipped_failed += 1
+        changes = self.latest_revertable_changes(target_user, project=project).iterator(
+            chunk_size=100
+        )
+        # Keep row locks and deferred refresh payloads bounded during large reverts.
+        for batch in batched(changes, REVERT_USER_EDITS_BATCH_SIZE):
+            translations: dict[int, Translation] = {}
+            with coalesce_propagated_check_refreshes():
+                for change in batch:
+                    attempted += 1
+                    if change.revert_user_edits(
+                        acting_user,
+                        change_action=ActionEvents.USER_REVERT,
+                        request=request,
+                        change_details={"username": target_user.username},
+                        translations=translations,
+                    ):
+                        reverted += 1
+                    else:
+                        skipped_failed += 1
 
         skipped_newer = total - attempted
         return {
@@ -854,17 +864,6 @@ class Change(BackupAuthorshipMixin, UserDisplayMixin):
         verbose_name_plural = "history events"
 
     def __str__(self) -> str:
-        if self.user:
-            # Translators: condensed rendering of a change action in history
-            return gettext("%(action)s at %(time)s on %(translation)s by %(user)s") % {
-                "action": self.get_action_display(),
-                "time": self.timestamp,
-                "translation": self.translation
-                or self.component
-                or self.project
-                or self.workspace,
-                "user": self.get_user_display(False),
-            }
         # Translators: condensed rendering of a change action in history
         return gettext("%(action)s at %(time)s on %(translation)s") % {
             "action": self.get_action_display(),
@@ -1190,6 +1189,7 @@ class Change(BackupAuthorshipMixin, UserDisplayMixin):
         author: User | None = None,
         request=None,
         change_details: dict[str, str] | None = None,
+        translations: dict[int, Translation] | None = None,
     ) -> bool:
         if self.unit is None or self.action not in ACTIONS_REVERTABLE:
             return False
@@ -1200,6 +1200,12 @@ class Change(BackupAuthorshipMixin, UserDisplayMixin):
         if revert_target is None:
             return False
 
+        # Reuse the pending cache invalidation for edits to the same translation.
+        if translations is not None:
+            if locked_unit.translation_id in translations:
+                locked_unit.translation = translations[locked_unit.translation_id]
+            else:
+                translations[locked_unit.translation_id] = locked_unit.translation
         target, state = revert_target
         return locked_unit.translate(
             user,

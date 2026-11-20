@@ -738,6 +738,7 @@ class FormatFeatureDocumentationTest(SimpleTestCase):
         "supports_explanation",
         "supports_context",
         "supports_location",
+        "supports_line_number",
         "supports_flags",
         "additional_states",
         "supports_read_only",
@@ -1709,6 +1710,25 @@ class PoFormatPreviousSourceTest(SimpleTestCase):
 
         self.assertEqual(unit.previous_source, "")
         self.assertNotIn("#|", str(unit.unit))
+
+
+class LineNumberTest(SimpleTestCase):
+    def test_line_number(self) -> None:
+        storage = PoFormat(TEST_PO)
+        self.assertEqual(storage.content_units[0].line_number, 16)
+
+    def test_line_number_unsupported_format(self) -> None:
+        storage: TranslationFormat = JSONFormat(TEST_JSON)
+        self.assertIsNone(storage.content_units[0].line_number)
+
+
+class LineNumberSupportTest(SimpleTestCase):
+    def test_format_support_flag(self) -> None:
+        for format_class in (PoFormat, PoMonoFormat, PropertiesFormat, CSVFormat):
+            with self.subTest(format_class=format_class):
+                self.assertTrue(format_class.supports_line_number)
+        self.assertFalse(JSONFormat.supports_line_number)
+        self.assertFalse(XlsxFormat.supports_line_number)
 
 
 class ContributorCommentsTest(SimpleTestCase):
@@ -3440,6 +3460,9 @@ class CSVFormatTest(BaseFormatTest):
         self.assertEqual(units[0].context, "ctx")
         self.assertEqual(units[0].import_id_hash, -123)
         self.assertEqual(units[0].target_plural_forms, (0, 1, 2))
+        # Header is line 1, so the first physical plural row is line 2.
+        self.assertEqual(units[0].line_number, 2)
+        self.assertEqual(units[0].unit.plural_rows[0].line_number, 2)
 
         units[0].set_target(["jeden soubor", "%(count)s soubory", "%(count)s souboru"])
         units[0].set_state(STATE_FUZZY)
@@ -4095,12 +4118,15 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
     EXT = "xml"
     MASK = "xml/XWikiSource.*.xml"
     EXPECTED_PATH = "xml/XWikiSource.cs.xml"
-    FIND = "administration.section.users.disableUser.done"
-    FIND_CONTEXT = "administration.section.users.disableUser.done"
-    FIND_MATCH = "User account disabled"
+    FIND = "administration.section.users.disableUser.failed"
+    FIND_CONTEXT = "administration.section.users.disableUser.failed"
+    FIND_MATCH = "Erreur lors de la désactivation du compte."
     MATCH = "\n"
     NEW_UNIT_MATCH = b"\nkey=Source string\n"
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
+    # Edit a translated unit: the first one is a "### Missing:" placeholder,
+    # which is not translated anymore (see test_missing_unit_is_untranslated).
+    EDIT_OFFSET = 1
 
     def test_get_language_filename(self) -> None:
         self.assertEqual(
@@ -4109,6 +4135,25 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
             ),
             self.EXPECTED_PATH,
         )
+
+    def test_missing_unit_is_untranslated(self) -> None:
+        storage = self.parse_file(self.FILE)
+        # The unit is only present as a "### Missing:" comment in the
+        # translation file, so it must not be treated as translated even
+        # though the comment carries the source value.
+        unit, add = storage.find_unit(
+            "administration.section.users.disableUser.done",
+            "User account disabled",
+        )
+        self.assertFalse(add)
+        self.assertIsNotNone(unit)
+        self.assertEqual(unit.target, "")
+        self.assertFalse(unit.is_translated())
+
+        # Translating the unit clears the missing marker.
+        unit.set_target("Compte utilisateur désactivé")
+        self.assertEqual(unit.target, "Compte utilisateur désactivé")
+        self.assertTrue(unit.is_translated())
 
     def _test_save(self, edit=False) -> None:
         self.maxDiff = None

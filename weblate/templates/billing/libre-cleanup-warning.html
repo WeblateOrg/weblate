@@ -1,0 +1,14 @@
+{% load i18n %}
+
+<div class="alert alert-warning">
+  <strong>{% translate "Scheduled removal" %}</strong>
+  <p>
+    {% blocktranslate with date=billing.libre_cleanup_trial_start|date:"SHORT_DATE_FORMAT" %}Resolve the issues below by {{ date }} to keep Libre hosting for your project.{% endblocktranslate %}
+  </p>
+  <p>
+    {% translate "Weblate locks existing components for translation when it issues this warning. Project maintainers can unlock them." %}
+  </p>
+  <ul>
+    {% for reason in warning.libre_cleanup_reasons %}<li>{{ reason }}</li>{% endfor %}
+  </ul>
+</div>

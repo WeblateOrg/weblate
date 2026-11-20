@@ -19,7 +19,6 @@ from django.test import Client
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django_otp.plugins.otp_totp.models import TOTPDevice
-from filelock import FileLock
 
 from weblate.accounts.utils import SESSION_SENSITIVE_FACTOR_GRANT
 from weblate.auth.data import SELECTION_ALL
@@ -50,7 +49,7 @@ from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import create_test_billing
 from weblate.utils.change_origin import acting_user_context
-from weblate.utils.lock import WeblateLockTimeoutError
+from weblate.utils.lock import AdvisoryLock, WeblateLockTimeoutError
 from weblate.utils.render import (
     validate_render_addon,
     validate_render_commit,
@@ -2424,26 +2423,30 @@ class SettingsTest(ReusableViewTestCase):
                 return original_clean(instance)
 
         with (
-            patch("weblate.utils.lock.is_redis_cache", return_value=False),
             patch.object(
                 Component,
                 "clean",
                 autospec=True,
                 side_effect=clean_with_fresh_repository_lock,
             ),
-            patch.object(FileLock, "acquire", autospec=True) as acquire,
-            patch.object(FileLock, "release", autospec=True) as release,
+            patch.object(
+                AdvisoryLock,
+                "_execute",
+                autospec=True,
+                # ruff: ignore[private-member-access]
+                side_effect=AdvisoryLock._execute,
+            ) as acquire,
         ):
             response = self.client.post(url, data)
 
         self.assertRedirects(response, url, fetch_redirect_response=False)
-        acquire.assert_called_once()
         self.assertEqual(
-            sum(
-                call.kwargs.get("force", False) is False
-                for call in release.call_args_list
-            ),
-            1,
+            [
+                call.args[1]
+                for call in acquire.call_args_list
+                if call.args[0].scope == "repository"
+            ],
+            ["try_advisory_lock", "advisory_unlock"],
         )
 
     def test_linked_component_reuses_repository_lock_during_setup_commit(self) -> None:
@@ -2472,13 +2475,17 @@ class SettingsTest(ReusableViewTestCase):
 
         with (
             override_settings(CELERY_TASK_ALWAYS_EAGER=False),
-            patch("weblate.utils.lock.is_redis_cache", return_value=False),
             patch.object(Component, "queue_background_task", autospec=True),
             patch.object(
                 Translation, "_commit_pending", autospec=True, return_value=False
             ) as commit_pending,
-            patch.object(FileLock, "acquire", autospec=True) as acquire,
-            patch.object(FileLock, "release", autospec=True) as release,
+            patch.object(
+                AdvisoryLock,
+                "_execute",
+                autospec=True,
+                # ruff: ignore[private-member-access]
+                side_effect=AdvisoryLock._execute,
+            ) as acquire,
             linked_component.locked_for_update() as locked_component,
         ):
             locked_component.repo = new_target.get_repo_link_url()
@@ -2486,13 +2493,13 @@ class SettingsTest(ReusableViewTestCase):
             locked_component.save()
 
         commit_pending.assert_called_once()
-        acquire.assert_called_once()
         self.assertEqual(
-            sum(
-                call.kwargs.get("force", False) is False
-                for call in release.call_args_list
-            ),
-            1,
+            [
+                call.args[1]
+                for call in acquire.call_args_list
+                if call.args[0].scope == "repository"
+            ],
+            ["try_advisory_lock", "advisory_unlock"],
         )
 
     def test_linked_component_repository_settings_show_effective_values(self) -> None:

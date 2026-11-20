@@ -27,7 +27,7 @@
   {% if object.get_widgets_url %}
     <a class="ms-auto float-end" href="{{ object.get_widgets_url }}">
       <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1"
-           alt="{% translate "Translation status widgets" %}" />
+           alt="{% translate "Translation status widgets"|force_escape %}" />
     </a>
   {% endif %}
 {% endblock breadcrumbs %}
@@ -56,12 +56,12 @@
   <div class="btn-group float-end btn-group-settings" role="group">
     <a href="{% url 'zen' path=object.get_url_path %}{% querystring query_params offset=offset %}"
        data-params="{{ search_url }}"
-       title="{% translate "Open in Zen mode" %}"
+       title="{% translate "Open in Zen mode"|force_escape %}"
        class="btn btn-link">{% icon "flash.svg" %} {% translate "Zen" %}</a>
 
     <a href="{% url 'profile' %}#preferences"
        class="btn btn-link"
-       title="{% translate "Configure editor" %}">{% icon "settings.svg" %}</a>
+       title="{% translate "Configure editor"|force_escape %}">{% icon "settings.svg" %}</a>
   </div>
 
   {% with variants=unit.variants %}
@@ -88,8 +88,8 @@
               <a class="btn btn-link btn-xs float-end"
                  href="{{ site_url }}{{ unit.get_absolute_url }}"
                  data-clipboard-value="{{ site_url }}{{ unit.get_absolute_url }}"
-                 data-clipboard-message="{% translate "Permalink copied to clipboard." %}"
-                 title="{% translate "Copy permalink" %}">{% icon "link.svg" %}</a>
+                 data-clipboard-message="{% translate "Permalink copied to clipboard."|force_escape %}"
+                 title="{% translate "Copy permalink"|force_escape %}">{% icon "link.svg" %}</a>
               <h4 class="card-title">
                 {% if unit.translation.component.is_glossary %}
                   {% if "forbidden" in unit.all_flags %}
@@ -198,7 +198,7 @@
                         <span class="badge text-bg-secondary">{% translate "The source string needs review." %}</span>
                       {% endif %}
                       {% if unit.translation.component.project.source_review and unit.effective_source_unit %}
-                        <a title="{% translate "Report issue with the source string" %}"
+                        <a title="{% translate "Report issue with the source string"|force_escape %}"
                            href="#"
                            class="btn btn-link btn-xs bug-comment">{% icon "bug.svg" %}</a>
                       {% endif %}
@@ -293,7 +293,7 @@
                 </button>
 
                 {% if unit.translation.enable_suggestions %}
-                  <button class="btn btn-warning btn-spaced" type="submit" name="suggest" {% if project_locked or not user_can_suggest or unit.readonly %}disabled="disabled"{% endif %} {% if not user_can_suggest %} title="{% if user_can_suggest.reason %}{{ user_can_suggest.reason }}{% else %}{% translate "You do not have permission to add suggestions." %}{% endif %}" {% elif project_locked %} title="{% translate "This translation is currently locked." %}" {% elif unit.readonly %} title="{% translate "Read-only" %}" {% endif %}>
+                  <button class="btn btn-warning btn-spaced" type="submit" name="suggest" {% if project_locked or not user_can_suggest or unit.readonly %}disabled="disabled"{% endif %} {% if not user_can_suggest %} title="{% if user_can_suggest.reason %}{{ user_can_suggest.reason }}{% else %}{% translate "You do not have permission to add suggestions."|force_escape %}{% endif %}" {% elif project_locked %} title="{% translate "This translation is currently locked."|force_escape %}" {% elif unit.readonly %} title="{% translate "Read-only"|force_escape %}" {% endif %}>
                     {% translate "Suggest" %}
                   </button>
                 {% endif %}
@@ -318,7 +318,7 @@
                data-bs-toggle="tab"
                id="toggle-nearby"
                href="#"
-               title="{% translate "Messages placed around this one" %}">{% translate "Nearby strings" %} <span class="badge text-bg-secondary">{{ nearby|length }}</span></a>
+               title="{% translate "Messages placed around this one"|force_escape %}">{% translate "Nearby strings" %} <span class="badge text-bg-secondary">{{ nearby|length }}</span></a>
           </li>
           {% if nearby_keys %}
             <li class="nav-item">
@@ -327,7 +327,7 @@
                  data-bs-toggle="tab"
                  id="toggle-keys"
                  href="#"
-                 title="{% translate "Strings with similar keys" %}">{% translate "Similar keys" %} <span class="badge text-bg-secondary">{{ nearby_keys|length }}</span></a>
+                 title="{% translate "Strings with similar keys"|force_escape %}">{% translate "Similar keys" %} <span class="badge text-bg-secondary">{{ nearby_keys|length }}</span></a>
             </li>
           {% endif %}
           {% if variants|length > 1 %}
@@ -337,7 +337,7 @@
                  data-bs-toggle="tab"
                  id="toggle-variants"
                  href="#"
-                 title="{% translate "Variants of the string" %}">{% translate "Variants" %} <span class="badge text-bg-secondary">{{ variants|length }}</span></a>
+                 title="{% translate "Variants of the string"|force_escape %}">{% translate "Variants" %} <span class="badge text-bg-secondary">{{ variants|length }}</span></a>
             </li>
           {% endif %}
           {% if unit.suggestions %}
@@ -377,7 +377,7 @@
                  id="toggle-machinery"
                  data-load="machinery"
                  href="#"
-                 title="{% translate "Computer-aided translation suggestions" %}">{% translate "Automatic suggestions" %}</a>
+                 title="{% translate "Computer-aided translation suggestions"|force_escape %}">{% translate "Automatic suggestions" %}</a>
             </li>
           {% endif %}
           <li class="nav-item">
@@ -387,7 +387,7 @@
                id="toggle-translations"
                data-href="{% url 'js-unit-translations' unit_id=unit.id %}"
                href="#"
-               title="{% translate "Translations of this string in the other languages" %}">{% translate "Other languages" %} <span class="badge text-bg-secondary">{{ other_languages_count }}</span> </a>
+               title="{% translate "Translations of this string in the other languages"|force_escape %}">{% translate "Other languages" %} <span class="badge text-bg-secondary">{{ other_languages_count }}</span> </a>
           </li>
           <li class="nav-item">
             <a class="nav-link"
@@ -395,7 +395,7 @@
                data-bs-toggle="tab"
                id="toggle-history"
                href="#"
-               title="{% translate "List of recent changes done in Weblate" %}">{% translate "History" %}</a>
+               title="{% translate "List of recent changes done in Weblate"|force_escape %}">{% translate "History" %}</a>
           </li>
         </ul>
 
@@ -507,11 +507,11 @@
                 {% if user_can_translate and others.allow_merge %}
                   {% if object.component.allow_translation_propagation %}
                     <input type="submit"
-                           value="{% translate "Apply selected translation to all propagated strings" %}"
+                           value="{% translate "Apply selected translation to all propagated strings"|force_escape %}"
                            class="btn btn-primary" />
                   {% else %}
                     <input type="submit"
-                           value="{% translate "Apply selected translation to current string" %}"
+                           value="{% translate "Apply selected translation to current string"|force_escape %}"
                            class="btn btn-primary" />
                   {% endif %}
                 {% endif %}
@@ -539,9 +539,10 @@
                 <div class="input-group search-group machinery-search">
                   <input type="text"
                          class="form-control"
+                         data-lt-active="false"
                          id="memory-search-input"
                          name="q"
-                         placeholder="{% translate "Search translation memory" %}">
+                         placeholder="{% translate "Search translation memory"|force_escape %}">
                   <button type="submit" class="btn btn-primary">{% translate "Search" %}</button>
                 </div>
               </form>
@@ -556,22 +557,22 @@
                 <div class="btn-float">
                   <button type="button"
                           class="btn btn-link green js-copy-machinery"
-                          title="{% translate "Clone to translation" %}"
-                          aria-label="{% translate "Clone to translation" %}">{% icon "clone.svg" %}</button>
+                          title="{% translate "Clone to translation"|force_escape %}"
+                          aria-label="{% translate "Clone to translation"|force_escape %}">{% icon "clone.svg" %}</button>
                   <button type="button"
                           class="btn btn-link green js-copy-save-machinery"
-                          title="{% translate "Accept" %}"
-                          aria-label="{% translate "Accept" %}">{% icon "check.svg" %}</button>
+                          title="{% translate "Accept"|force_escape %}"
+                          aria-label="{% translate "Accept"|force_escape %}">{% icon "check.svg" %}</button>
                   <button type="button"
                           class="btn btn-link green js-copy-approve-save-machinery"
-                          title="{% translate "Accept and approve" %}"
-                          aria-label="{% translate "Accept and approve" %}">{% icon "check-all.svg" %}</button>
+                          title="{% translate "Accept and approve"|force_escape %}"
+                          aria-label="{% translate "Accept and approve"|force_escape %}">{% icon "check-all.svg" %}</button>
                   <button type="button"
                           class="btn btn-link red js-delete-machinery"
                           data-bs-toggle="modal"
                           data-bs-target="#delete-url-modal"
-                          title="{% translate "Delete entry" %}"
-                          aria-label="{% translate "Delete entry" %}">{% icon "delete.svg" %}</button>
+                          title="{% translate "Delete entry"|force_escape %}"
+                          aria-label="{% translate "Delete entry"|force_escape %}">{% icon "delete.svg" %}</button>
                 </div>
               </template>
               <template id="machinery-row">
@@ -615,13 +616,13 @@
                         <button type="button"
                                 class="btn-close"
                                 data-bs-dismiss="modal"
-                                aria-label="{% translate "Close" %}"></button>
+                                aria-label="{% translate "Close"|force_escape %}"></button>
                       </div>
                       <div class="modal-body"></div>
                       <div class="modal-footer">
                         <input type="submit"
                                class="btn btn-danger"
-                               value="{% translate "Remove selected translation memory entries" %}" />
+                               value="{% translate "Remove selected translation memory entries"|force_escape %}" />
                       </div>
                     </div>
                     <!-- /.modal-content -->
@@ -660,7 +661,9 @@
                       {{ comment_form|crispy }}
                     </div>
                     <div class="card-footer">
-                      <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+                      <input type="submit"
+                             value="{% translate "Save"|force_escape %}"
+                             class="btn btn-primary" />
                     </div>
                   </div>
                 </form>
@@ -735,7 +738,7 @@
                             {% translate "For all languages" %}
                           </label>
                           <span class="info-tooltip"
-                                title="{% translate 'Selecting this option will set the corresponding ignore flag.' %}">{% icon "info.svg" %}</span>
+                                title="{% translate 'Selecting this option will set the corresponding ignore flag.'|force_escape %}">{% icon "info.svg" %}</span>
                         {% endif %}
                       {% endif %}
                       <a href="{% url 'js-ignore-check' check_id=check.id %}?revert=1"
@@ -848,8 +851,9 @@
                         <th>{{ unit.effective_source_language }}</th>
                         <th>{{ unit.translation.language }}</th>
                       {% endif %}
-                      <th class="glossary-badge-cell" aria-label="{% translate 'Glossary' %}"></th>
-                      <th aria-label="{% translate 'Actions' %}"></th>
+                      <th class="glossary-badge-cell"
+                          aria-label="{% translate 'Glossary'|force_escape %}"></th>
+                      <th aria-label="{% translate 'Actions'|force_escape %}"></th>
                     </tr>
                   </thead>
                   <tbody id="glossary-terms">
@@ -868,7 +872,6 @@
                   {% if glossaries %}
                     {% for glossary in glossaries %}
                       <a class="btn btn-link green"
-                         title="{% blocktranslate with name=glossary.component.name %}Browse glossary {{ name }}{% endblocktranslate %}"
                          href="{% url 'search' glossary.get_url_path %}">{% icon "folder-search-outline.svg" %} {% translate "Browse glossary" %}
                         {% include "snippets/glossary-badge.html" with glossary=glossary %}
                       </a>
@@ -996,7 +999,7 @@
                        href="#"
                        data-bs-toggle="modal"
                        id="edit-flags"
-                       aria-label="{% translate 'Edit flags' %}"
+                       aria-label="{% translate 'Edit flags'|force_escape %}"
                        data-bs-target="#flags-edit-form">{% icon "pencil.svg" %}</a>
                   {% endif %}
                   {% translate "Flags" %}
@@ -1034,9 +1037,9 @@
                       <div class="mb-3">
                         <h5>{% translate "Unit identifier" %}</h5>
                         <span class="text-muted"
-                              title="{% translate "Unit identifier" %}"
+                              title="{% translate "Unit identifier"|force_escape %}"
                               data-clipboard-value="{{ unit.id }}"
-                              data-clipboard-message="{% translate "Unit identifier copied to clipboard." %}">{{ unit.id }}</span>
+                              data-clipboard-message="{% translate "Unit identifier copied to clipboard."|force_escape %}">{{ unit.id }}</span>
                       </div>
                       <div class="mb-3">
                         {# Translators: Label for timestamp when the string was first imported into Weblate. #}
@@ -1053,21 +1056,27 @@
                         <h5>{% translate "Source string age" %}</h5>
                         {{ unit.source_unit.timestamp|naturaltime }}
                       </div>
-                      {% if unit.position %}
+                      {% if unit.line_number or unit.position %}
                         <div>
                           <h5>
                             {% translate "Translation file" %}
                             <span class="badge bg-secondary">{{ unit.translation.component.get_file_format_display }}</span>
                           </h5>
                           <span>
-                            {% if unit.translation.filename %}
+                            {% if unit.line_number %}
+                              {% if unit.translation.filename %}
+                                <span class="wrap-text">{% blocktranslate with filename=translation_file_link line=unit.line_number %}{{ filename }}, line {{ line }}{% endblocktranslate %}</span>
+                              {% else %}
+                                <span class="wrap-text">{% blocktranslate with line=unit.line_number %}line {{ line }}{% endblocktranslate %}</span>
+                              {% endif %}
+                            {% elif unit.translation.filename %}
                               <span class="wrap-text">{% blocktranslate with filename=translation_file_link position=unit.position %}{{ filename }}, string {{ position }}{% endblocktranslate %}</span>
                             {% else %}
                               <span class="wrap-text">{% blocktranslate with position=unit.position %}string {{ position }}{% endblocktranslate %}</span>
                             {% endif %}
                             {% if unit.has_pending_changes %}
                               <span class="badge text-bg-secondary"
-                                    title="{% translate "Pending changes not yet committed to the Weblate repository" %}">{% translate "pending" %}</span>
+                                    title="{% translate "Pending changes not yet committed to the Weblate repository"|force_escape %}">{% translate "pending" %}</span>
                             {% endif %}
                           </span>
                         </div>
@@ -1104,7 +1113,7 @@
               <button type="button"
                       class="btn-close"
                       data-bs-dismiss="modal"
-                      aria-label="{% translate 'Close' %}"></button>
+                      aria-label="{% translate 'Close'|force_escape %}"></button>
             </div>
             <div class="modal-body">
               {% crispy flags_form %}
@@ -1181,11 +1190,13 @@
               <button type="button"
                       class="btn-close"
                       data-bs-dismiss="modal"
-                      aria-label="{% translate "Close" %}"></button>
+                      aria-label="{% translate "Close"|force_escape %}"></button>
             </div>
             <div class="modal-body">{% crispy context_form %}</div>
             <div class="modal-footer">
-              <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
+              <input type="submit"
+                     class="btn btn-primary"
+                     value="{% translate "Save"|force_escape %}" />
             </div>
           </div>
           <!-- /.modal-content -->
@@ -1212,7 +1223,7 @@
               <button type="button"
                       class="btn-close"
                       data-bs-dismiss="modal"
-                      aria-label="{% translate 'Close' %}"></button>
+                      aria-label="{% translate 'Close'|force_escape %}"></button>
             </div>
             <div class="modal-body">
               <p>{% translate "Changes apply to all languages in this component. Changing source text marks existing translations as needing editing. Renamed keys may require changes in your application code." %}</p>
@@ -1241,11 +1252,13 @@
               <button type="button"
                       class="btn-close"
                       data-bs-dismiss="modal"
-                      aria-label="{% translate "Close" %}"></button>
+                      aria-label="{% translate "Close"|force_escape %}"></button>
             </div>
             <div class="modal-body">{{ new_unit_form|crispy }}</div>
             <div class="modal-footer">
-              <input type="submit" class="btn btn-primary" value="{% translate "Add" %}" />
+              <input type="submit"
+                     class="btn btn-primary"
+                     value="{% translate "Add"|force_escape %}" />
             </div>
           </div>
           <!-- /.modal-content -->
@@ -1270,7 +1283,7 @@
             <button type="button"
                     class="btn-close"
                     data-bs-dismiss="modal"
-                    aria-label="{% translate 'Close' %}"></button>
+                    aria-label="{% translate 'Close'|force_escape %}"></button>
           </div>
           <div class="modal-body">
             <p role="status" id="screenshot-picker-status"></p>
@@ -1300,7 +1313,7 @@
               <button type="button"
                       class="btn-close"
                       data-bs-dismiss="modal"
-                      aria-label="{% translate "Close" %}"></button>
+                      aria-label="{% translate "Close"|force_escape %}"></button>
             </div>
             <div class="modal-body">
               <div id="screenshot-form-container">{% crispy screenshot_form %}</div>
@@ -1308,7 +1321,9 @@
               <input type="hidden" name="next" value="{{ this_unit_url }}" />
             </div>
             <div class="modal-footer">
-              <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
+              <input type="submit"
+                     class="btn btn-primary"
+                     value="{% translate "Save"|force_escape %}" />
             </div>
           </div>
           <!-- /.modal-content -->
@@ -1332,11 +1347,13 @@
               <button type="button"
                       class="btn-close"
                       data-bs-dismiss="modal"
-                      aria-label="{% translate "Close" %}"></button>
+                      aria-label="{% translate "Close"|force_escape %}"></button>
             </div>
             <div class="modal-body">{{ addterm_form|crispy }}</div>
             <div class="modal-footer">
-              <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
+              <input type="submit"
+                     class="btn btn-primary"
+                     value="{% translate "Save"|force_escape %}" />
             </div>
           </div>
           <!-- /.modal-content -->

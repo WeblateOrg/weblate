@@ -591,11 +591,37 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
         )
 
     @http_mock.activate
-    def test_setup_connects_personal_installation_for_account_owner(self) -> None:
+    def test_reuse_personal_installation_in_another_workspace(self) -> None:
         repositories = [_repo_entry("octocat/repo1", default_branch="stable")]
-        next_url = "/create/component/#github"
-        install_url = self._start_install(next_url)
-        state = parse_qs(urlparse(install_url).query)["state"][0]
+        original = Workspace.objects.create(name="Original workspace")
+        owner = self.anotheruser
+        original.add_owner(owner)
+        self.workspace.add_owner(owner)
+        self.client.force_login(owner)
+        source = GitHubInstallation.objects.create(
+            workspace=original,
+            installation_id="12345",
+            target_type="User",
+            target_login="octocat",
+        )
+        GitHubInstallation.objects.create(
+            workspace=Workspace.objects.create(name="Unrelated workspace"),
+            installation_id="54321",
+            target_type="User",
+            target_login="other-owner",
+        )
+        next_url = reverse("account-vcs")
+        response = self.client.get(
+            reverse("github-app-install"),
+            {"workspace": str(self.workspace.pk), "next": next_url},
+        )
+        [(login, authorize_url)] = response.context["choices"]
+        self.assertContains(response, login)
+        self.assertEqual(login, "octocat")
+        url = urlparse(authorize_url)
+        self.assertEqual(url.netloc, "github.com")
+        self.assertEqual(url.path, "/login/oauth/authorize")
+        state = parse_qs(url.query)["state"][0]
 
         self._mock_oauth(
             installations=[
@@ -613,10 +639,12 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
         )
         response = self.client.get(
             reverse("github-app-setup"),
-            {"installation_id": "12345", "state": state, "code": "oauth-code"},
+            {"state": state, "code": "oauth-code"},
         )
 
         self.assertRedirects(response, next_url)
+        source.refresh_from_db()
+        self.assertEqual(source.workspace_id, original.pk)
         connected = GitHubInstallation.objects.get(
             installation_id="12345", workspace=self.workspace
         )
@@ -827,6 +855,116 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
         ]
         self.assertEqual(response_messages, ["Connected GitHub account updated."])
 
+    @http_mock.activate
+    def test_setup_update_recovers_unlinked_installation(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="git", repo="git@github.com:test-org/repo1.git"
+        )
+        url = f"{reverse('github-app-setup')}?setup_action=update&installation_id=12345"
+        response = self.client.get(url)
+        self.assertContains(response, "Authorize on GitHub")
+        response = self.client.post(
+            url, {"workspace": self.workspace.pk, "host": "github.com"}
+        )
+        authorize = urlparse(response["Location"])
+        self.assertEqual(
+            (authorize.netloc, authorize.path), ("github.com", "/login/oauth/authorize")
+        )
+        self.assertFalse(GitHubInstallation.objects.exists())
+        self._mock_oauth()
+        repositories = self._mock_setup_api()
+        response = self.client.get(
+            reverse("github-app-setup"),
+            {
+                "state": parse_qs(authorize.query)["state"][0],
+                "code": "fresh-code",
+            },
+        )
+        self.assertRedirects(
+            response,
+            f"{reverse('github-app-repositories')}?workspace={self.workspace.pk}",
+        )
+        connected = GitHubInstallation.objects.get(
+            workspace=self.workspace, installation_id="12345"
+        )
+        self.assertEqual(connected.repositories, repositories)
+        migration = self.client.get(
+            reverse("github-app-migration", kwargs={"workspace_id": self.workspace.pk})
+        )
+        self.assertIn(
+            self.component,
+            [entry["component"] for entry in migration.context["available_entries"]],
+        )
+
+    @http_mock.activate
+    def test_setup_recovery_limits_workspace_and_host_choices(self) -> None:
+        self.client.force_login(self.anotheruser)
+        self.workspace.add_owner(self.anotheruser)
+        other = Workspace.objects.create(name="Inaccessible workspace")
+        self._make_credentials("github.example.com", client_id="enterprise-client")
+        url = f"{reverse('github-app-setup')}?setup_action=update&installation_id=12345"
+        response = self.client.get(url)
+        self.assertNotContains(response, other.name)
+        for workspace, host, field in (
+            (other.pk, "github.example.com", "workspace"),
+            (self.workspace.pk, "unknown.example.com", "host"),
+        ):
+            response = self.client.post(url, {"workspace": workspace, "host": host})
+            self.assertIn(field, response.context["form"].errors)
+        response = self.client.post(
+            url, {"workspace": self.workspace.pk, "host": "github.example.com"}
+        )
+        authorize = urlparse(response["Location"])
+        self.assertEqual(authorize.netloc, "github.example.com")
+        params = parse_qs(authorize.query)
+        self.assertEqual(params["client_id"], ["enterprise-client"])
+        self.assertEqual(
+            params["redirect_uri"], [get_site_url(reverse("github-app-setup"))]
+        )
+        self._mock_oauth(hostname="github.example.com", managed_installation_ids=())
+        response = self.client.get(
+            reverse("github-app-setup"),
+            {"state": params["state"][0], "code": "oauth-code"},
+        )
+        self.assertRedirects(
+            response,
+            f"{reverse('github-app-repositories')}?workspace={self.workspace.pk}",
+        )
+        self.assertFalse(GitHubInstallation.objects.exists())
+
+    @http_mock.activate
+    def test_setup_recovery_rechecks_workspace_permission(self) -> None:
+        owner = self.anotheruser
+        self.workspace.add_owner(owner)
+        self.client.force_login(owner)
+        url = f"{reverse('github-app-setup')}?setup_action=update&installation_id=12345"
+        response = self.client.post(
+            url, {"workspace": self.workspace.pk, "host": "github.com"}
+        )
+        state = parse_qs(urlparse(response["Location"]).query)["state"][0]
+        owner.remove_team(None, self.workspace.get_owners_group())
+        response = self.client.get(
+            reverse("github-app-setup"), {"state": state, "code": "oauth-code"}
+        )
+        self.assertEqual(response.status_code, 403)
+        self.assertFalse(http_mock.calls)
+        self.assertFalse(GitHubInstallation.objects.exists())
+
+    def test_setup_update_rejects_tampered_state(self) -> None:
+        response = self.client.get(
+            reverse("github-app-setup"),
+            {
+                "setup_action": "update",
+                "state": "tampered",
+                "installation_id": "12345",
+            },
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(
+            "installation link is no longer valid",
+            str(next(iter(get_messages(response.wsgi_request)))),
+        )
+
     def test_setup_update_rejects_inaccessible_installation_without_state(self) -> None:
         self.user.is_superuser = False
         self.user.save(update_fields=["is_superuser"])
@@ -1025,23 +1163,34 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
         )
 
     @http_mock.activate
-    def test_setup_rejects_when_code_exchange_fails(self) -> None:
-        install_url = self._start_install("/create/component/#github")
-        state = parse_qs(urlparse(install_url).query)["state"][0]
-
+    def test_setup_reauthorizes_after_rejected_code(self) -> None:
+        next_url = "/create/component/#github"
+        state = parse_qs(urlparse(self._start_install(next_url)).query)["state"][0]
+        params = {"installation_id": "12345", "state": state, "code": "stale-code"}
         http_mock.register(
             "POST",
             "https://github.com/login/oauth/access_token",
             json={"error": "bad_verification_code"},
         )
-        response = self.client.get(
-            reverse("github-app-setup"),
-            {"installation_id": "12345", "state": state, "code": "stale-code"},
-        )
+        for _ in range(2):
+            response = self.client.get(reverse("github-app-setup"), params)
+            self.assertContains(response, "Authorize again")
+            self.assertFalse(GitHubInstallation.objects.exists())
+            url = urlparse(response.context["authorize_url"])
+            self.assertEqual(
+                (url.netloc, url.path), ("github.com", "/login/oauth/authorize")
+            )
+            params = {"state": parse_qs(url.query)["state"][0], "code": "another-code"}
 
-        self.assertEqual(response.status_code, 302)
-        self.assertFalse(
-            GitHubInstallation.objects.filter(installation_id="12345").exists()
+        http_mock.unregister("POST", "https://github.com/login/oauth/access_token")
+        self._mock_oauth()
+        self._mock_setup_api()
+        response = self.client.get(reverse("github-app-setup"), params)
+        self.assertRedirects(response, next_url)
+        self.assertTrue(
+            GitHubInstallation.objects.filter(
+                workspace=self.workspace, installation_id="12345"
+            ).exists()
         )
 
     def test_repository_list_uses_workspace_scope(self) -> None:

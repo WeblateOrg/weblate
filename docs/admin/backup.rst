@@ -511,6 +511,13 @@ Stored in :setting:`DATA_DIR` ``/media``.
 
 You should back up all user uploaded files (e.g. :ref:`screenshots`).
 
+Screenshots stored in object storage are not in this directory, see
+:ref:`screenshot-storage`.
+
+Uploaded fonts are stored in :setting:`DATA_DIR` ``/fonts`` unless they are
+stored in object storage, see :ref:`font-storage`. Fonts in object storage are
+not included in Weblate backups; back them up with the storage service.
+
 Celery tasks
 ++++++++++++
 

@@ -112,6 +112,34 @@ repos:
     files: ^weblate/.*templates/.*\.html$
     entry: \bbtn-secondary\b
     language: pygrep
+  - id: html-attribute-translation
+    name: use force_escape for literal attribute translations
+    files: ^weblate/.*templates/.*\.html$
+    language: pygrep
+    args: [--multiline]
+    # Skip complete Django tokens so inner quotes do not end the attribute.
+    entry: >-
+      (?xs)
+      \s(?:title|placeholder|alt|value|data-[\w-]+|
+          aria-(?:braillelabel|brailleroledescription|description|label|placeholder|roledescription|valuetext))
+      \s*=\s*(?P<quote>["'])
+      (?:\{%(?:(?!%\}).)*%\}|\{\{(?:(?!\}\}).)*\}\}|
+         \{\#(?:(?!\#\}).)*\#\}|(?!(?P=quote)|\{[%{\#]|[<>]).)*?
+      \{%\s*translate\s+
+      (?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')
+      (?!\|force_escape(?=\s|%\}))
+  - id: html-attribute-blocktranslate
+    name: keep blocktranslate outside HTML attributes
+    files: ^weblate/.*templates/.*\.html$
+    language: pygrep
+    args: [--multiline]
+    # Skip complete Django tokens so inner quotes do not end the attribute.
+    entry: >-
+      (?xs)
+      \s[A-Za-z_:][\w:.-]*\s*=\s*(?P<quote>["'])
+      (?:\{%(?:(?!%\}).)*%\}|\{\{(?:(?!\}\}).)*\}\}|
+         \{\#(?:(?!\#\}).)*\#\}|(?!(?P=quote)|\{[%{\#]|[<>]).)*?
+      \{%\s*blocktranslate\b
   - id: rst-heading-length
     name: rst heading adornment matches title length
     entry: python scripts/check-rst-headings.py

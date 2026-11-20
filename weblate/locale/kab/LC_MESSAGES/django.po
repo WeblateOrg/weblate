@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-13 01:19-0600\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
 "PO-Revision-Date: 2026-11-06 05:51+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -1480,6 +1480,23 @@ msgstr "Ur tezmireḍ ara ad tsentemeḍ ajerred-ik ticki teqqneḍ."
 msgid ""
 "This invitation can be accepted only by the e-mail address chosen by the "
 "inviter; it can't be used by your account."
+msgstr ""
+
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Your e-mail no longer belongs to verified account, it has been changed to "
+#| "{0}."
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr ""
+"Tansa-ik imayl ur tezgi tcudd ɣer umiḍan yettwasentmen, tura tettumselsi s "
+"{0}."
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
 msgstr ""
 
 msgid ""
@@ -4425,6 +4442,16 @@ msgid ""
 "Remove the component from project teams before moving it to another project."
 msgstr ""
 
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
+
 msgid "Roles"
 msgstr "Timlilin n iseqdacen"
 
@@ -5310,6 +5337,11 @@ msgstr "After"
 #| msgid "Billing overview"
 msgid "Billing event"
 msgstr "Taskant n tfaturin"
+
+#, fuzzy
+#| msgid "Projects without components"
+msgid "Project has no components."
+msgstr "Isenfaṛen war isuddisen"
 
 #, fuzzy
 #| msgid "Monthly"
@@ -7557,9 +7589,6 @@ msgstr "Talɣa n usget"
 msgid "Plural type"
 msgstr "Anaw n usget"
 
-msgid "Example counts for this plural form."
-msgstr ""
-
 msgid "Singular"
 msgstr "Asuf"
 
@@ -8783,6 +8812,11 @@ msgid "Read your e-mail address"
 msgstr "Seqdec tansa imayl n umiḍan"
 
 msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
 msgstr ""
 
 msgid "Image is too big."
@@ -11485,6 +11519,16 @@ msgid ""
 "above or purchase a subscription."
 msgstr ""
 
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+
 #, fuzzy
 #| msgid "Custom"
 msgid "Customer"
@@ -13316,6 +13360,16 @@ msgstr ""
 #. Translators: e-mail subject
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr ""
+
+#, fuzzy
+#| msgid "Review source strings in %s"
+msgid "Review Libre hosting conditions"
+msgstr "Iɣbula n izriren deg %s"
+
+#, fuzzy, python-format
+#| msgid "Number of entries for %(project)s"
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "Amḍan n yinekcam i %(project)s"
 
 msgid "Translation change"
 msgstr "Abeddel n tsuqilt"
@@ -15552,6 +15606,9 @@ msgid ""
 "maintenance of Weblate itself."
 msgstr ""
 
+msgid "Example counts for this plural form."
+msgstr ""
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
@@ -15583,14 +15640,15 @@ msgstr ""
 msgid "Source code repository"
 msgstr "Akufi n tengalt aɣbalu"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr ""
-
 #, fuzzy
 #| msgid "Repository operation"
 msgid "Repository URL copied to clipboard."
 msgstr "Tamhelt n ukufi"
+
+#, fuzzy
+#| msgid "Renamed component"
+msgid "Linked component"
+msgstr "Asuddis ibeddlen isem"
 
 msgid "Repository branch"
 msgstr "Taseṭṭa n ukufi"
@@ -16088,6 +16146,11 @@ msgstr "Asget: %(source_description)s"
 msgid "Plurals"
 msgstr "Asget"
 
+#, fuzzy
+#| msgid "No words found!"
+msgid "No integer examples found"
+msgstr "Ur ttwafen ara wawalen!"
+
 msgid "First"
 msgstr "Amezwaru"
 
@@ -16376,8 +16439,8 @@ msgid "Community"
 msgstr "Tamɣiwant"
 
 #, python-format
-msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr "Suqel %(object)s s useqdec n %%23Weblate deg %(share_url)s!"
+msgid "Translate %(object)s using #Weblate at %(share_url)s!"
+msgstr "Suqel %(object)s s useqdec n #Weblate deg %(share_url)s!"
 
 msgid "Share on Bluesky"
 msgstr "Zuzer-it ɣef Bluesky"
@@ -17025,15 +17088,15 @@ msgstr "Asuddis igber ddeqs n tsuqilin yellan yakan."
 msgid "Source"
 msgstr "Aɣbalu"
 
-#, fuzzy, python-format
-#| msgid "Reset all changes in the local repository"
-msgid "Remove duplicate strings from %(language)s (%(filename)s)"
-msgstr "Ales awennez n yibeddilen meṛṛa deg ukufi adigan"
-
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
 msgstr "Ad yekkes izriren ilmawen"
+
+#, fuzzy, python-format
+#| msgid "Reset all changes in the local repository"
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Ales awennez n yibeddilen meṛṛa deg ukufi adigan"
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -18066,11 +18129,6 @@ msgstr "Azrir-a yettwasuqel yakan"
 msgid "Add term to glossary"
 msgstr "Rnu awal ɣer umawal"
 
-#, fuzzy, python-format
-#| msgid "Browse all glossary changes"
-msgid "Browse glossary %(name)s"
-msgstr "Snirem akk asnifel n umawal"
-
 #, fuzzy
 #| msgid "Browse all glossary changes"
 msgid "Browse glossary"
@@ -18138,6 +18196,15 @@ msgstr "azemz n tagara"
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
 msgstr "Awtay n uzrir aneggaru"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s, line %(line)s"
+msgstr "%(filename)s, azrir %(position)s"
+
+#, python-format
+msgid "line %(line)s"
+msgstr ""
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -20089,13 +20156,13 @@ msgstr "Tagelmust n ufaylu tesleg."
 msgid "Referenced category does not exist."
 msgstr "{filename} ({parameter}) ulac-it."
 
-msgid "Component filename does not match its category and slug."
-msgstr ""
-
 #, fuzzy
 #| msgid "Create component"
 msgid "Duplicate component slug."
 msgstr "Rnu asuddis"
+
+msgid "Component filename does not match its category and slug."
+msgstr ""
 
 #, fuzzy
 #| msgid "This translation is locked."
@@ -20413,6 +20480,11 @@ msgstr "Isumar yettwagen"
 msgid "Needs review"
 msgstr "Aɣbalu ilaq ad tettwasenqed"
 
+#, fuzzy
+#| msgid "The local repository is up to date."
+msgid "The source and destination checkouts must be different."
+msgstr "Akufi adigan yettwalqem."
+
 msgid "This component does not exist or you cannot access it."
 msgstr ""
 
@@ -20444,6 +20516,11 @@ msgstr ""
 #| msgid "Good configuration"
 msgid "Discovery configuration"
 msgstr "Yir tawila telha"
+
+#, fuzzy, python-format
+#| msgid "Could not send test e-mail: %s"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "Ur izmir ara ad yazen imayl n usekyed: %s"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -22714,6 +22791,11 @@ msgstr ""
 msgid "Use the secondary language configured in the category or project."
 msgstr "Tutlayt tamaynut tettwarna ɣer %(component)s"
 
+#, fuzzy
+#| msgid "The local repository is up to date."
+msgid "The linked repository path is ambiguous."
+msgstr "Akufi adigan yettwalqem."
+
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
 "admin interface."
@@ -22980,6 +23062,11 @@ msgid ""
 "Pushing without a merge request needs write access to the repository. "
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
+
+#, fuzzy
+#| msgid "The translation base language can not be edited."
+msgid "Version control system cannot be changed to this backend."
+msgstr "Tasuqilt deg tutlayt tamezwarut ur tettwaẓrag ara."
 
 #, fuzzy
 #| msgid "The regular expression can not match an empty string."
@@ -23659,6 +23746,11 @@ msgstr ""
 msgid "User configured character: {}"
 msgstr ""
 
+#, fuzzy, python-format
+#| msgid "Could not push the repository."
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "Ur izmir ara ad idegger akufi."
+
 #, fuzzy
 #| msgid "Automatic translation in progress"
 msgid "Repository operation could not be completed because it remained locked."
@@ -23796,6 +23888,10 @@ msgstr "Asulay n uzegrir %s"
 #| msgid "This translation is used for source strings."
 msgid "This language is used for source strings."
 msgstr "Tasuqilt-atettwaseqdec i yizrien iɣbula."
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr ""
 
 #, fuzzy
 #| msgid "This translation is currently locked."
@@ -24708,6 +24804,16 @@ msgid "Vertical language bar chart"
 msgstr ""
 
 #, fuzzy
+#| msgid "Your languages"
+msgid "Sort languages by"
+msgstr "Tutlayin-ik"
+
+#, fuzzy
+#| msgid "Translation change"
+msgid "Translation percentage"
+msgstr "Abeddel n tsuqilt"
+
+#, fuzzy
 #| msgid "Browse all language changes"
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
@@ -25098,20 +25204,6 @@ msgstr "Isem n usenneftaɣ mačči d amɣetu!"
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
-msgid "Template output exceeds its size limit."
-msgstr ""
-
-msgid "Template rendering failed or exceeded its resource limits."
-msgstr ""
-
-msgid "Oversized template response."
-msgstr ""
-
-#, fuzzy
-#| msgid "Invalid translation flag: \"%s\""
-msgid "Invalid template rendering response."
-msgstr "Yir tacredt n tsuqilt: \"%s\""
-
 #, fuzzy
 #| msgid "Could not send test e-mail: %s"
 msgid "Could not render template: {}"
@@ -25122,7 +25214,7 @@ msgid ""
 "instead."
 msgstr ""
 
-msgid "Template value exceeds its size limit."
+msgid "Template context exceeds its size limit."
 msgstr ""
 
 #, fuzzy
@@ -25130,8 +25222,10 @@ msgstr ""
 msgid "Template context is nested too deeply."
 msgstr "Tikci n tebdart n usuddis tawurmant"
 
-msgid "Template context exceeds its size limit."
-msgstr ""
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported nonfinite template context value."
+msgstr "Amasal n ufaylu ur ittusefrak ara."
 
 #, fuzzy
 #| msgid "Unsupported file format."
@@ -25143,29 +25237,331 @@ msgstr "Amasal n ufaylu ur ittusefrak ara."
 msgid "Unsupported template context value."
 msgstr "Amasal n ufaylu ur ittusefrak ara."
 
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Template text is not valid UTF-8."
+msgstr "Tiddest i tsekcmeḍ mačči d tameɣtut."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid image!"
+msgid "Invalid template syntax."
+msgstr "Yir tugna!"
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Undefined template variable."
+msgstr "Amasal n ufaylu ur ittusefrak ara."
+
+#, fuzzy
+#| msgid "The translation is not valid XML"
+msgid "Text is not valid UTF-8."
+msgstr "Tasuqilt-a mačči d XML ameɣtu"
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "Division by zero is not supported."
+msgstr "Amasal n ufaylu yettwafen ur yettwasefrak ara."
+
+#, fuzzy
+#| msgid "Browse all changes for user"
+msgid "Numeric value is too large for this operation."
+msgstr "Snirem akk ibeddilen n useqdac"
+
+#, fuzzy
+#| msgid "Repository operation"
+msgid "Numeric operation failed."
+msgstr "Tamhelt n ukufi"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "This translation is locked."
+msgid "Value or argument has an invalid format."
+msgstr "Tasuqilt-a temdel."
+
+#, fuzzy, python-format
+#| msgid "%(email)s: %(error)s"
+msgid "%(operation)s: %(message)s"
+msgstr "%(email)s: %(error)s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
 msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "Nonfinite numbers are not supported."
+msgstr "Amasal n ufaylu yettwafen ur yettwasefrak ara."
+
+#, fuzzy, python-format
+#| msgid "File names"
+msgid "Filter \"%(name)s\""
+msgstr "Iswamen n ifuyla"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
 msgstr ""
 
 msgid "Template rendering exceeded its loop limit."
 msgstr ""
 
-msgid "Template intermediate value exceeds its size limit."
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "Attribute access and method calls are not supported."
+msgstr "Amasal n ufaylu yettwafen ur yettwasefrak ara."
+
+msgid "Index exceeds the length limit of 128 characters."
 msgstr ""
 
-msgid "Template replacement exceeds its size limit."
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "Translated template literals are not supported."
+msgstr "Amasal n ufaylu yettwafen ur yettwasefrak ara."
+
+#, fuzzy
+#| msgid "Invalid image!"
+msgid "Invalid filter."
+msgstr "Yir tugna!"
+
+msgid "Identity comparisons require None, True, or False."
 msgstr ""
 
-msgid "Template padding exceeds its size limit."
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This condition operator is not supported."
+msgstr "Amasal n ufaylu yettwafen ur yettwasefrak ara."
+
+msgid "Template output exceeds its size limit."
 msgstr ""
 
-msgid "Template formatting exceeds its size limit."
+msgid "Loops require a list, string, dictionary, or dictionary view."
 msgstr ""
 
-msgid "Template join exceeds its size limit."
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
+msgstr ""
+
+msgid "Loop value cannot be unpacked into its variables."
+msgstr ""
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This template tag is not supported."
+msgstr "Amasal n ufaylu yettwafen ur yettwasefrak ara."
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This template node is not supported."
+msgstr "Amasal n ufaylu yettwafen ur yettwasefrak ara."
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
 msgstr ""
 
 #, python-format
 msgid "Undefined variable: \"%s\""
+msgstr ""
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "This add-on executes a script."
+msgid "This filter requires strings."
+msgstr "Azegrir-a ad isenker askript."
+
+#, fuzzy
+#| msgid "Automatically translated strings"
+msgid "Choices must be a string."
+msgstr "Izriren yettwasuqlen s wudem awurman"
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source string comment"
+msgid "Joining requires string elements."
+msgstr "Azrir aɣbalu"
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatically translated strings"
+msgid "Date format must be a string or None."
+msgstr "Izriren yettwasuqlen s wudem awurman"
+
+#, fuzzy
+#| msgid "Avoid years that are associated with you."
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "Zgel iseggasen icudden ɣur-k."
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatically translated strings"
+msgid "Plural suffixes must be a string."
+msgstr "Izriren yettwasuqlen s wudem awurman"
+
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "Nested template delimiters are not supported."
+msgstr "Amasal n ufaylu yettwafen ur yettwasefrak ara."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unclosed template token."
+msgstr "Amasal n ufaylu ur ittusefrak ara."
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid ".NET resource file"
+msgid "Template tag is empty."
+msgstr "Afaylu aɣbalu .Net"
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr ""
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unsupported file format."
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "Amasal n ufaylu ur ittusefrak ara."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template tag."
+msgstr "Amasal n ufaylu ur ittusefrak ara."
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
 msgstr ""
 
 #, python-format
@@ -27034,6 +27430,16 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Aɣbalu yettwakkes."
 
+#, fuzzy, python-format
+#~| msgid "Browse all glossary changes"
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "Snirem akk asnifel n umawal"
+
+#, fuzzy
+#~| msgid "Invalid translation flag: \"%s\""
+#~ msgid "Invalid template rendering response."
+#~ msgstr "Yir tacredt n tsuqilt: \"%s\""
+
 #, fuzzy
 #~| msgid "Registration almost complete"
 #~ msgid "E-mail verification almost complete"
@@ -28383,9 +28789,6 @@ msgstr "Aɣbalu yettwakkes."
 #~ msgid "Renamed project"
 #~ msgstr "Asuddis ibeddlen isem"
 
-#~ msgid "Renamed component"
-#~ msgstr "Asuddis ibeddlen isem"
-
 #, fuzzy
 #~| msgid "New string to translate"
 #~ msgctxt "Name of event in the history"
@@ -29512,9 +29915,6 @@ msgstr "Aɣbalu yettwakkes."
 #~ msgid "linked"
 #~ msgstr "Aseɣwen"
 
-#~ msgid "Review source strings in %s"
-#~ msgstr "Iɣbula n izriren deg %s"
-
 #~ msgid "See other plans"
 #~ msgstr "Wali iɣawasen-nniḍen"
 
@@ -29522,9 +29922,6 @@ msgstr "Aɣbalu yettwakkes."
 #~| msgid "Repository"
 #~ msgid "Backup pepository"
 #~ msgstr "Akufi"
-
-#~ msgid "Your languages"
-#~ msgstr "Tutlayin-ik"
 
 #, fuzzy
 #~| msgctxt "Changes by user"
