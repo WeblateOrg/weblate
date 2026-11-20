@@ -128,7 +128,7 @@ RUN rm -f /etc/apt/sources.list.d/pgdg.list \
     && printf '%s\n' 'Package: postgresql*' 'Pin: release o=Ubuntu' 'Pin-Priority: 1001' \
         > /etc/apt/preferences.d/oss-scanner-postgresql \
     && apt-get update --error-on=any \
-    && apt-get install -y --no-install-recommends --allow-downgrades postgresql-18 valkey-server \
+    && apt-get install -y --no-install-recommends --allow-downgrades postgresql-19 valkey-server \
     && rm -rf /var/lib/apt/lists/*
 
 # Keep prepared files outside the base image's /app/data and /app/cache volumes.
