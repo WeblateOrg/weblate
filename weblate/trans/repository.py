@@ -147,8 +147,11 @@ def _get_active_reservation(component_id: int) -> RepositoryOperationReservation
     if cache.get(get_repository_operation_scope_key(task_id)) is None:
         # The task scope has the shortest TTL of the whole reservation, so
         # once it expires the task is gone, even when it died before
-        # shortening the reservation of every repository.
-        if cache.get(key) == reservation:
+        # shortening the reservation of every repository. The cache has no
+        # compare-and-delete, so only the caller winning the cleanup claim
+        # removes the stale reservation; no other caller deletes this key
+        # and a newer reservation cannot be removed by mistake.
+        if cache.add(f"{key}-stale-{task_id}", True, REPOSITORY_OPERATION_RUNNING_TTL):
             cache.delete(key)
         return None
     return cast("RepositoryOperationReservation", reservation)
