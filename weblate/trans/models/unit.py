@@ -2462,6 +2462,7 @@ class Unit(models.Model, LoggerMixin):
         request=None,
         *,
         exclude_ids: Collection[int] = (),
+        explicit_approval: bool = False,
         submitted_target: list[str] | None = None,
     ) -> bool:
         """
@@ -2550,8 +2551,11 @@ class Unit(models.Model, LoggerMixin):
             changes = [
                 unit.post_save(
                     user,
-                    user,
+                    author or user,
                     change_action=ActionEvents.PROPAGATED_EDIT,
+                    change_details={"explicit_approval": True}
+                    if explicit_approval and unit.approved
+                    else None,
                     check_new=False,
                     save=False,
                 )
@@ -2605,6 +2609,8 @@ class Unit(models.Model, LoggerMixin):
                 author=author,
                 request=request,
                 exclude_ids=propagation_exclude_ids,
+                explicit_approval=change_details is not None
+                and change_details.get("explicit_approval") is True,
                 submitted_target=submitted_target,
             )
 

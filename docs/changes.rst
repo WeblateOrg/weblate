@@ -15,6 +15,8 @@ Weblate 2026.12
 .. rubric:: Improvements
 
 * Added a choice to :ref:`connect an existing GitHub App installation to another workspace <code-hosting-github-app-connect>`.
+* Show the last translator and approver in the :ref:`translation editor <source-context>`.
+
 * Show commit counts, occurrence totals, file-format evidence, and the last recorded translation change in the relevant :ref:`component diagnostics <alerts>`.
 * Redesigned the :ref:`translation checklist <strings-to-check>` as responsive cards with prominent string counts and actions next to each filter.
 * Grouped :ref:`quick downloads <download>` into cards with format links and string, word, and character counts.

@@ -937,6 +937,18 @@
               </div>
             {% endif %}
 
+            {% if last_translator %}
+              <div class="list-group-item">
+                <h5>{% translate "Last translator" %}</h5>
+                {% user_display last_translator icon=False resource=unit %}
+              </div>
+            {% endif %}
+            {% if last_approver %}
+              <div class="list-group-item">
+                <h5>{% translate "Last approver" %}</h5>
+                {% user_display last_approver icon=False resource=unit %}
+              </div>
+            {% endif %}
             {% if unit.source_unit.explanation or user_can_edit_source %}
               <div class="list-group-item">
                 <h5>
