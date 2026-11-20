@@ -10410,6 +10410,23 @@ class ProjectWorkspaceChoicesAPITest(APIBaseTest):
         self.assertIn(f'value="{usable.pk}"', content)
         self.assertIn(f'value="{hidden.pk}"', content)
 
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_browsable_form_workspace_choices_billing(self) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.billing.models import Billing
+
+        valid = create_test_billing(self.user)
+        invalid = Billing.objects.create(plan=valid.plan)
+        invalid.workspace.add_owner(self.user)
+        invalid.in_limits = False
+        invalid.save(update_fields=["in_limits"])
+        self.user.clear_permissions_cache()
+
+        response = self.do_request("api:project-list", request={"format": "api"})
+        content = response.content.decode()
+        self.assertIn(f'value="{valid.workspace_id}"', content)
+        self.assertNotIn(str(invalid.workspace_id), content)
+
     def test_browsable_form_workspace_choices_keep_current(self) -> None:
         current = Workspace.objects.create(name="Current workspace")
         hidden = Workspace.objects.create(name="Hidden workspace")

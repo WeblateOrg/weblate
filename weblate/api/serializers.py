@@ -17,7 +17,7 @@ from django import forms
 from django.conf import settings
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db import IntegrityError, models, transaction
-from django.db.models import Model, Q, TextChoices
+from django.db.models import Model, Q, QuerySet, TextChoices
 from django.utils.translation import gettext_lazy
 from drf_spectacular.extensions import (
     OpenApiSerializerFieldExtension,
@@ -1806,20 +1806,37 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
             raise serializers.ValidationError(error.message_dict) from error
 
 
+def get_project_create_workspaces(user: User) -> QuerySet[Workspace]:
+    """Return workspaces where the user can add a project within billing limits."""
+    workspaces = user.workspaces_with_perm("workspace.add_project")
+    if "weblate.billing" in settings.INSTALLED_APPS:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.billing.models import Billing
+
+        valid_billing_workspaces = Billing.objects.for_user_within_limits(user).values(
+            "workspace"
+        )
+        workspaces = workspaces.filter(
+            Q(billing__isnull=True) | Q(pk__in=valid_billing_workspaces)
+        )
+    return workspaces
+
+
 class ProjectWorkspaceField(serializers.PrimaryKeyRelatedField):
     """
     Project workspace relation.
 
     Validation is performed by the project views, only the choices offered by
     the browsable API form are limited to workspaces the user can add projects
-    to, so the form does not list workspaces the user is not able to view.
+    to within billing limits, so the form does not list workspaces the user is
+    not able to view or use.
     """
 
     def get_choices(self, cutoff: int | None = None) -> dict[Any, str]:
         request = self.context.get("request")
         if request is None:
             return {}
-        queryset = request.user.workspaces_with_perm("workspace.add_project")
+        queryset = get_project_create_workspaces(request.user)
         instance = getattr(self.parent, "instance", None)
         if isinstance(instance, Project) and instance.workspace_id is not None:
             # Keep the current workspace selectable, the project is accessible

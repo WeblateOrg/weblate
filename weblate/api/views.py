@@ -162,6 +162,7 @@ from weblate.api.serializers import (
     UserUpdateRequestSerializer,
     WorkflowSettingSerializer,
     check_session_sensitive_verification,
+    get_project_create_workspaces,
     get_reverse_kwargs,
 )
 from weblate.auth.audit import audit_team_changes, log_team_changes
@@ -2604,19 +2605,7 @@ class ProjectViewSet(
             return Response(WorkflowSettingSerializer(instance).data)
 
     def get_create_workspaces(self, request: Request):
-        user = get_request_user(request)
-        workspaces = user.workspaces_with_perm("workspace.add_project")
-        if "weblate.billing" in settings.INSTALLED_APPS:
-            # ruff: ignore[import-outside-top-level]
-            from weblate.billing.models import Billing
-
-            valid_billing_workspaces = Billing.objects.for_user_within_limits(
-                user
-            ).values("workspace")
-            workspaces = workspaces.filter(
-                Q(billing__isnull=True) | Q(pk__in=valid_billing_workspaces)
-            )
-        return workspaces
+        return get_project_create_workspaces(get_request_user(request))
 
     def get_queryset(self):
         return self.request.user.allowed_projects.prefetch_related(
