@@ -2449,6 +2449,9 @@ class Translation(
                     split_plural(unit2.target),
                     state,
                     change_action=ActionEvents.UPLOAD,
+                    change_details={"explicit_approval": True}
+                    if state == STATE_APPROVED
+                    else None,
                     propagate=propagate,
                     author=author,
                     request=request,

@@ -430,6 +430,10 @@ Translation context
 
 This contextual description provides related info about the current string.
 
+Last translator and last approver
+    If you can view contributor identities, :guilabel:`String information` shows
+    who last changed the translation text. For approved strings, it also shows
+    who approved the current translation when the reviewer is known.
 String attributes
     Things like message ID, context (``msgctxt``) or location in source code.
 Translation file

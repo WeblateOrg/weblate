@@ -1919,6 +1919,32 @@ class EditPropagateTest(EditTest):
         )
         return result
 
+    def test_approved_edit_attributes_peer_approval(self) -> None:
+        self.make_manager()
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        unit = self.get_unit()
+        peer = Unit.objects.get(
+            translation__component__slug="second",
+            translation__language_code="cs",
+            source=unit.source,
+        )
+        for item in (unit, peer):
+            item.translate(
+                self.anotheruser, self.target, STATE_APPROVED, propagate=False
+            )
+
+        response = self.edit_unit(
+            self.source, self.second_target, review=str(STATE_APPROVED)
+        )
+        self.assertEqual(response.status_code, 302)
+        for item in (unit, peer):
+            item.refresh_from_db()
+            self.assertEqual(item.target, self.second_target)
+            self.assertEqual(item.state, STATE_APPROVED)
+            editor = self.client.get(item.get_absolute_url())
+            self.assertEqual(editor.context["last_approver"], self.user)
+
     def test_edit_restricted_component(self) -> None:
         self.component.restricted = True
         self.component.save(update_fields=["restricted"])
@@ -2527,14 +2553,22 @@ class ZenViewTest(ReusableViewTestCase):
         self.project.translation_review = True
         self.project.save(update_fields=["translation_review"])
         self.make_manager()
-        suggestion = self.add_zen_suggestion()
         unit = self.get_unit()
+        unit.translate(self.anotheruser, "Previously approved\n", STATE_APPROVED)
+        suggestion, _ = Suggestion.objects.add(
+            unit, ["Replacement\n"], request=None, user=self.anotheruser
+        )
+        assert suggestion is not None
         data = self.post_zen_suggestion(unit, accept_approve=suggestion.pk)
         self.assertEqual(data["state"], "success")
         self.assertEqual(data["mode"], "accept_approve")
         self.assertEqual(data["review"], str(STATE_APPROVED))
         self.assertEqual(data["unit_state_class"], "unit-state-approved")
         self.assertEqual(self.get_unit().state, STATE_APPROVED)
+        self.assertEqual(data["target"], ["Replacement\n"])
+        editor = self.client.get(unit.get_absolute_url())
+        self.assertEqual(editor.context["last_translator"], self.anotheruser)
+        self.assertEqual(editor.context["last_approver"], self.user)
 
     def test_zen_suggestion_accept_edit(self) -> None:
         suggestion = self.add_zen_suggestion()

@@ -6782,7 +6782,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if (
             settings.OFFER_HOSTING
             and self.project.billings
-            and self.project.billing.plan.price == 0
+            and self.project.billing.is_libre
         ):
             for component in self.project.child_components:
                 update_alerts(component, {"NoLibreConditions"})

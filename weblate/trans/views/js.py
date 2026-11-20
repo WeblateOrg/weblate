@@ -65,12 +65,15 @@ def diagnostics(request: AuthenticatedHttpRequest, path):
     if isinstance(obj, Project):
         components = obj.component_set.filter_access(request.user)
         show_projects = False
+        libre_cleanup_alerts = obj.libre_cleanup_alerts
     else:
         projects = request.user.allowed_projects.filter(workspace=obj)
         components = Component.objects.filter(project__in=projects).filter_access(
             request.user
         )
         show_projects = True
+        billing = obj.billing_or_none if settings.OFFER_HOSTING else None
+        libre_cleanup_alerts = billing.libre_cleanup_alerts if billing else ()
 
     return render(
         request,
@@ -78,6 +81,7 @@ def diagnostics(request: AuthenticatedHttpRequest, path):
         {
             "object": obj,
             "show_projects": show_projects,
+            "libre_cleanup_alerts": libre_cleanup_alerts,
             **get_diagnostics_context(request.GET, request.user, components),
         },
     )

@@ -5044,7 +5044,14 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         # Handle translate
         if do_translate:
             try:
-                unit.translate(user, new_target, new_state)
+                unit.translate(
+                    user,
+                    new_target,
+                    new_state,
+                    change_details={"explicit_approval": True}
+                    if new_state == STATE_APPROVED
+                    else None,
+                )
             except TranslationTextTooLongError as error:
                 # The limit can change after validating the serializer, for
                 # example by the submitted extra_flags.

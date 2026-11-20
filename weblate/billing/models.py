@@ -35,7 +35,7 @@ from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.auth.bots import InternalBot
 from weblate.auth.models import User
-from weblate.billing.defines import LIBRE_WARNING_PERIOD
+from weblate.billing.defines import LIBRE_CLEANUP_ALERTS, LIBRE_WARNING_PERIOD
 from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.alerts.registry import get_alert_class
 from weblate.trans.models import (
@@ -59,6 +59,7 @@ if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
     from weblate.vcs.base import CommitInfo
+    from weblate.workspaces.models import Workspace
 
 
 class LibreCheck:
@@ -512,6 +513,15 @@ class Billing(models.Model):
         return reverse("billing-detail", kwargs={"pk": self.pk})
 
     @property
+    def libre_cleanup_alerts(self) -> tuple[str, ...]:
+        return LIBRE_CLEANUP_ALERTS if self.is_libre else ()
+
+    @cached_property
+    def libre_cleanup_target(self) -> Project | Workspace:
+        projects = list(self.ordered_projects[:2])
+        return projects[0] if len(projects) == 1 else self.workspace
+
+    @property
     def libre_cleanup_trial_start(self) -> datetime | None:
         if self.libre_cleanup_warned_at:
             return self.libre_cleanup_warned_at + LIBRE_WARNING_PERIOD
@@ -719,8 +729,12 @@ class Billing(models.Model):
         return self.state == Billing.STATE_TERMINATED
 
     @property
+    def is_libre(self) -> bool:
+        return settings.OFFER_HOSTING and self.plan.is_free
+
+    @property
     def is_libre_trial(self) -> bool:
-        return self.is_trial and self.plan.price == 0
+        return self.is_trial and self.is_libre
 
     @property
     def can_terminate(self) -> bool:
@@ -1464,7 +1478,7 @@ class BillingLog(models.Model):
     @property
     def libre_cleanup_reasons(self) -> list[StrOrPromise]:
         return [
-            gettext_lazy("Project has no components.")
+            gettext_lazy("Workspace has no components.")
             if reason == "no_components"
             else get_alert_class(reason).verbose
             for reason in self.details["reasons"]

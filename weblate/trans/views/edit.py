@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
-from django.db.models import Case, IntegerField, Q, Value, When
+from django.db.models import Case, F, IntegerField, Q, Value, When
 from django.db.models.functions import MD5, Lower
 from django.http import (
     HttpResponse,
@@ -29,12 +29,13 @@ from django.utils.html import format_html
 from django.utils.translation import gettext, gettext_lazy, ngettext
 from django.views.decorators.http import require_POST
 
+from weblate.accounts.visibility import can_view_contributor
 from weblate.auth.results import PermissionResult
 from weblate.checks.models import CHECKS, get_display_checks
 from weblate.glossary.forms import TermForm
 from weblate.glossary.models import fetch_glossary_terms, get_glossary_terms
 from weblate.screenshots.forms import ScreenshotForm
-from weblate.trans.actions import ActionEvents
+from weblate.trans.actions import ACTIONS_EDIT_TARGET, ACTIONS_FILE_TARGET, ActionEvents
 from weblate.trans.exceptions import (
     FileParseError,
     SuggestionSimilarToTranslationError,
@@ -71,7 +72,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.models.unit import fill_in_source_translation
 from weblate.trans.tasks import auto_translate
-from weblate.trans.util import redirect_next, render
+from weblate.trans.util import PLURAL_SEPARATOR, redirect_next, render
 from weblate.trans.validators import (
     SUGGESTION_REJECTION_REASON_LENGTH,
     TranslationTextTooLongError,
@@ -984,6 +985,9 @@ def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:
             user,
             form.cleaned_data["target"],
             form.cleaned_data["state"],
+            change_details={"explicit_approval": True}
+            if form.cleaned_data["state"] == STATE_APPROVED
+            else None,
             request=request,
             add_alternative=add_alternative,
             expected_source_hash=form.cleaned_data["contentsum"],
@@ -1442,6 +1446,66 @@ def get_translate_unit(
     return TranslateUnitResult(search_result, num_results, offset, unit)
 
 
+def get_editor_contributors(
+    unit: Unit, viewer: User
+) -> tuple[User | None, User | None]:
+    if not can_view_contributor(viewer, unit):
+        return None, None
+
+    target_actions = ACTIONS_EDIT_TARGET | ACTIONS_FILE_TARGET
+    if unit.is_source:
+        target_actions.add(ActionEvents.SOURCE_CHANGE)
+    history = unit.change_set.order_by("-timestamp", "-pk")
+    edited = Q(action__in=target_actions) & ~Q(old=F("target"))
+    # NEW_UNIT snapshots the initial target in both old and target.
+    created_with_text = Q(action=ActionEvents.NEW_UNIT) & ~Q(
+        target__regex=rf"^({PLURAL_SEPARATOR})*$"
+    )
+    edit = (
+        history.filter(edited | created_with_text)
+        .select_related("author")
+        .only("unit_id", "author")
+        .first()
+    )
+    translator = edit.author if edit else None
+    if not unit.approved:
+        return translator, None
+
+    # The latest target or state transition bounds the current approval,
+    # even when a file import restores previously approved text.
+    state_actions = target_actions | {
+        ActionEvents.SOURCE_CHANGE,
+        ActionEvents.ENFORCED_CHECK,
+    }
+    changed_state = Q(
+        action__in=state_actions, details__has_keys=["state", "old_state"]
+    ) & ~Q(details__state=F("details__old_state"))
+    legacy_approval = Q(action=ActionEvents.APPROVE) & ~Q(details__has_key="old_state")
+    revision = (
+        history.filter(edited | changed_state | legacy_approval | created_with_text)
+        .select_related("user")
+        .only("unit_id", "user", "action", "details", "target")
+        .first()
+    )
+    if (
+        revision is None
+        or revision.target != unit.target
+        or revision.action not in ACTIONS_EDIT_TARGET
+    ):
+        return translator, None
+
+    if revision.action == ActionEvents.APPROVE or (
+        revision.details.get("state") == STATE_APPROVED
+        and (
+            revision.action == ActionEvents.NEW_UNIT
+            or revision.details.get("old_state", STATE_APPROVED) != STATE_APPROVED
+            or revision.details.get("explicit_approval") is True
+        )
+    ):
+        return translator, revision.user
+    return translator, None
+
+
 @transaction.atomic
 def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpResponse:
     """Translate, suggest and search view."""
@@ -1529,8 +1593,8 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
             glossaries=get_addterm_glossaries(addable_glossary_ids),
             filter_permissions=False,
         )
-    other_languages_count = max(unit.source_unit.unit_set.count() - 1, 0)
     prepare_glossary_terms([unit], project, full=True)
+    last_translator, last_approver = get_editor_contributors(unit, user)
 
     return render(
         request,
@@ -1550,6 +1614,8 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
             "project": project,
             "component": obj.component if isinstance(obj, Translation) else None,
             "unit": unit,
+            "last_translator": last_translator,
+            "last_approver": last_approver,
             "nearby": unit.nearby(user.profile.nearby_strings),
             "nearby_keys": unit.nearby_keys(user.profile.nearby_strings),
             "can_go_next_section": offset + user.profile.nearby_strings <= num_results,
@@ -1583,7 +1649,7 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
             "glossaries": glossaries,
             "addterm_form": addterm_form,
             "last_changes": unit.change_set.prefetch().recent(skip_preload="unit"),
-            "other_languages_count": other_languages_count,
+            "other_languages_count": max(unit.source_unit.unit_set.count() - 1, 0),
             "screenshots": (unit.source_unit.screenshots.all() | unit.screenshots.all())
             .distinct()
             .order(),
