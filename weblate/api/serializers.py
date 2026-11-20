@@ -17,7 +17,7 @@ from django import forms
 from django.conf import settings
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db import IntegrityError, models, transaction
-from django.db.models import Model, TextChoices
+from django.db.models import Model, Q, TextChoices
 from django.utils.translation import gettext_lazy
 from drf_spectacular.extensions import (
     OpenApiSerializerFieldExtension,
@@ -1806,8 +1806,35 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
             raise serializers.ValidationError(error.message_dict) from error
 
 
+class ProjectWorkspaceField(serializers.PrimaryKeyRelatedField):
+    """
+    Project workspace relation.
+
+    Validation is performed by the project views, only the choices offered by
+    the browsable API form are limited to workspaces the user can add projects
+    to, so the form does not list workspaces the user is not able to view.
+    """
+
+    def get_choices(self, cutoff: int | None = None) -> dict[Any, str]:
+        request = self.context.get("request")
+        if request is None:
+            return {}
+        queryset = request.user.workspaces_with_perm("workspace.add_project")
+        instance = getattr(self.parent, "instance", None)
+        if isinstance(instance, Project) and instance.workspace_id is not None:
+            # Keep the current workspace selectable, the project is accessible
+            queryset = Workspace.objects.filter(
+                Q(pk__in=queryset.values("pk")) | Q(pk=instance.workspace_id)
+            ).order()
+        if cutoff is not None:
+            queryset = queryset[:cutoff]
+        return {
+            self.to_representation(item): self.display_value(item) for item in queryset
+        }
+
+
 class ProjectSerializer(serializers.ModelSerializer[Project]):
-    workspace = serializers.PrimaryKeyRelatedField(
+    workspace = ProjectWorkspaceField(
         queryset=Workspace.objects.all(), required=False, allow_null=True
     )
     effective_license = serializers.SerializerMethodField()
