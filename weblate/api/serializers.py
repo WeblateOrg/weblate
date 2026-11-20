@@ -3382,7 +3382,11 @@ class UploadResultSerializer(BooleanResultSerializer):
     count = serializers.IntegerField()
 
 
-class TranslationCreateSerializer(ReadOnlySerializer):
+class BackgroundRequestSerializer(ReadOnlySerializer):
+    background = serializers.BooleanField(required=False, default=False)
+
+
+class TranslationCreateSerializer(BackgroundRequestSerializer):
     language_code = serializers.CharField()
     from_component = ComponentReferenceListField(required=False)
 

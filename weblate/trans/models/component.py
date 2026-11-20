@@ -2168,7 +2168,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     def store_background_task(self, task=None) -> None:
         if task is None:
-            if not current_task:
+            # Inline scans can belong to a task with its own polling scope.
+            if not current_task or not getattr(
+                current_task, "track_as_component_task", True
+            ):
                 return
             task = current_task.request
         cache.set(self.update_key, task.id, BACKGROUND_TASK_TTL)
