@@ -40,6 +40,7 @@ from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 from django.utils.text import format_lazy, normalize_newlines, slugify
 from django.utils.translation import get_language, gettext, gettext_lazy
+from translate.storage.html import htmlfile
 from translation_finder import DiscoveryResult, discover
 
 from weblate.accounts.models import AuditLog
@@ -135,7 +136,10 @@ from weblate.utils.forms import (
     WeblateDateInput,
 )
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
-from weblate.utils.html import format_html_join_comma
+from weblate.utils.html import (
+    editable_html_attributes,
+    format_html_join_comma,
+)
 from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.state import (
     FUZZY_STATES,
@@ -530,6 +534,34 @@ class PluralTextarea(forms.Textarea):
 
         return result
 
+    @staticmethod
+    def get_placeables(
+        plurals: Sequence[str], unit: Unit
+    ) -> tuple[str, dict[str, str]]:
+        placeables_set: set[str] = set()
+        html_policies = {}
+        for text in plurals:
+            tags = {}
+            for highlight in highlight_string(text, unit):
+                if tag := highlight.html_tag:
+                    tags[tag.name] = editable_html_attributes(tag.name)
+                else:
+                    placeables_set.add(highlight.text)
+            html_policies[text] = (
+                json.dumps(
+                    {
+                        "tags": tags,
+                        "metadata": htmlfile.TRANSLATABLE_METADATA
+                        if "meta" in tags
+                        else [],
+                    }
+                )
+                if tags
+                else ""
+            )
+        literals = sorted(placeables_set, key=len, reverse=True)
+        return "|".join(map(re.escape, literals)), html_policies
+
     def render(self, name, value, attrs=None, renderer=None, **kwargs):
         """Render all textareas with correct plural labels."""
         unit = self.unit if isinstance(value, list) else value
@@ -552,12 +584,7 @@ class PluralTextarea(forms.Textarea):
                 lang_label,
             )
         plural = translation.plural
-        placeables_set: set[str] = set()
-        for text in plurals:
-            placeables_set.update(
-                highlight.text for highlight in highlight_string(text, unit)
-            )
-        placeables = list(placeables_set)
+        placeables, html_policies = self.get_placeables(plurals, unit)
         show_plural_labels = len(values) > 1 and not translation.component.is_multivalue
 
         # Need to add extra class
@@ -569,7 +596,7 @@ class PluralTextarea(forms.Textarea):
         attrs["rows"] = 3
         attrs["data-max"] = unit.get_max_length()
         attrs["data-mode"] = unit.edit_mode
-        attrs["data-placeables"] = "|".join(re.escape(pl) for pl in placeables if pl)
+        attrs["data-placeables"] = placeables
         if unit.readonly and not self.edit_source:
             attrs["readonly"] = 1
 
@@ -584,6 +611,8 @@ class PluralTextarea(forms.Textarea):
             fieldid = f"{base_id}_{idx}"
             attrs["id"] = fieldid
             source = plurals[1] if idx and len(plurals) > 1 else plurals[0]
+
+            attrs["data-html-placeables"] = html_policies[source]
 
             # Render textare
             textarea = super().render(fieldname, val, attrs, renderer, **kwargs)

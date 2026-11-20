@@ -33,6 +33,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.trans.models import Component, Unit
     from weblate.trans.models.unit import UnitQuerySet
+    from weblate.utils.html import HTMLTag
 
     from .flags import Flags
     from .models import Check
@@ -55,6 +56,8 @@ class Highlight:
     role: str | None = None
     translatable: bool = False
     forbidden_text: tuple[str, ...] = ()
+    # Fixed portions of an HTML tag share one editor insertion action.
+    html_tag: HTMLTag | None = None
 
 
 class MissingExtraDict(TypedDict, total=False):

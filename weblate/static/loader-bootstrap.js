@@ -712,6 +712,77 @@ Prism.util.encode = function encode(tokens) {
   return tokens.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 };
 
+// Prism has already located real tags in the current target, including HTML
+// embedded in Markdown. Preserve its nested tokens (entities, format arguments,
+// and whitespace) when marking the fixed portions of each tag.
+function highlightHtmlPlaceables(output, policy) {
+  for (const name of output.querySelectorAll(".token.tag > .token.tag")) {
+    const tag = name.parentElement;
+    const tagName = name.textContent.replace(/^<\/?/, "").toLowerCase();
+    if (!Array.isArray(policy.tags[tagName]) || tag.closest(".token.code")) {
+      continue;
+    }
+
+    const attributes = new Map();
+    for (const value of tag.querySelectorAll(":scope > .attr-value")) {
+      const key = value.previousElementSibling?.textContent.toLowerCase();
+      attributes.set(key, value);
+    }
+    let editable = policy.tags[tagName];
+    if (tagName === "meta") {
+      const metadata = (key) =>
+        attributes
+          .get(key)
+          ?.textContent.replace(/^=\s*["']?|["']$/g, "")
+          .toLowerCase();
+      if (policy.metadata.includes(metadata("name") || metadata("property"))) {
+        editable = ["content"];
+      }
+    }
+    const values = new Set(
+      editable.map((key) => attributes.get(key)).filter(Boolean),
+    );
+    if (!values.size) {
+      tag.classList.add("placeable");
+      continue;
+    }
+
+    const parts = document.createDocumentFragment();
+    let fixed;
+    const appendFixed = (node) => {
+      if (!fixed) {
+        fixed = document.createElement("span");
+        fixed.className = "token placeable";
+        parts.append(fixed);
+      }
+      fixed.append(node);
+    };
+    for (const child of [...tag.childNodes]) {
+      if (!values.has(child)) {
+        appendFixed(child);
+        continue;
+      }
+      // Prism tokenizes the equals sign and surrounding quotes as punctuation.
+      const quoted = /^=\s*["']/.test(child.textContent);
+      let inValue = !quoted;
+      for (const item of [...child.childNodes]) {
+        if (item.classList?.contains("punctuation")) {
+          appendFixed(item);
+          if (quoted && /^["']$/.test(item.textContent)) {
+            inValue = !inValue;
+          }
+        } else if (inValue) {
+          fixed = null;
+          parts.append(item);
+        } else {
+          appendFixed(item);
+        }
+      }
+    }
+    tag.replaceChildren(parts);
+  }
+}
+
 function initHighlight(root) {
   if (typeof ResizeObserver === "undefined") {
     return;
@@ -793,6 +864,7 @@ function initHighlight(root) {
 
     const mode = editor.getAttribute("data-mode");
     const isTranslationEditor = editor.classList.contains("translation-editor");
+    const htmlPolicy = JSON.parse(editor.dataset.htmlPlaceables || "null");
 
     /* Create wrapper element */
     const wrapper = document.createElement("div");
@@ -914,6 +986,9 @@ function initHighlight(root) {
           extension[key] = Prism.util.clone(languageMode[key]);
         }
       }
+      if (htmlPolicy && !extension.tag) {
+        extension.tag = Prism.util.clone(Prism.languages.markup.tag);
+      }
       injectNestedTokens(extension, new Set());
       return extension;
     };
@@ -934,6 +1009,9 @@ function initHighlight(root) {
       }
       languageMode ??= getLanguageMode();
       highlight.innerHTML = Prism.highlight(editor.value, languageMode, mode);
+      if (htmlPolicy) {
+        highlightHtmlPlaceables(highlight, htmlPolicy);
+      }
       if (wasPlain) {
         highlight.scrollTop = editor.scrollTop;
         highlight.scrollLeft = editor.scrollLeft;

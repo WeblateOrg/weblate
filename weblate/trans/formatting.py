@@ -241,8 +241,28 @@ class Formatter:
 
         highlights = highlight_string(self.value, self.unit)
         cleaned_value = list(self.value)
+        tag_end = 0
         for highlight in highlights:
-            self.tags[highlight.start].append(format_html(HLCHECK, highlight.text))
+            if tag := highlight.html_tag:
+                start, end = tag.start, tag.end
+                if start >= tag_end:
+                    self.tags[start].append(
+                        format_html(
+                            '<span class="hlcheck html-insertion" data-value="{}">'
+                            '<span class="highlight-number"></span>',
+                            self.value[start:end],
+                        )
+                    )
+                    self.tags[end].insert(0, "</span>")
+                    tag_end = end
+                opening = '<span class="token placeable">'
+            elif highlight.start < tag_end:
+                # Keep embedded format placeholders visible under the single
+                # insertion action for the entire tag.
+                opening = '<span class="token placeable">'
+            else:
+                opening = format_html(HLCHECK, highlight.text)
+            self.tags[highlight.start].append(opening)
             self.tags[highlight.end].insert(0, "</span>")
             cleaned_value[highlight.start : highlight.end] = [" "] * (
                 highlight.end - highlight.start

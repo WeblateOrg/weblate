@@ -372,6 +372,17 @@ class HtmlTestCase(SimpleTestCase):
     def test_auto_safe_html_malformed_tag(self) -> None:
         self.assertFalse(is_auto_safe_html_source("<a href=", Flags()))
 
+    def test_auto_safe_html_stops_at_first_uncovered_start(self) -> None:
+        source = '<br title="See <b>"><incomplete <br>'
+        with patch(
+            "weblate.utils.html.AUTO_SAFE_HTML_SEGMENT", wraps=AUTO_SAFE_HTML_SEGMENT
+        ) as pattern:
+            self.assertFalse(is_auto_safe_html_source(source, Flags()))
+        self.assertEqual(
+            [call.args[1] for call in pattern.match.call_args_list],
+            [0, source.index("<incomplete")],
+        )
+
     def test_auto_safe_html_unmatched_tag_text(self) -> None:
         self.assertFalse(is_auto_safe_html_source("Press <b to continue", Flags()))
 

@@ -14,6 +14,8 @@ Weblate 2026.12
 
 .. rubric:: Improvements
 
+* Highlight :ref:`HTML tags <check-safe-html>` in the translation editor so translators can insert a complete tag with one click and edit attribute values while the surrounding markup stays highlighted.
+
 * Added a choice to :ref:`connect an existing GitHub App installation to another workspace <code-hosting-github-app-connect>`.
 * Show commit counts, occurrence totals, file-format evidence, and the last recorded translation change in the relevant :ref:`component diagnostics <alerts>`.
 * Redesigned the :ref:`translation checklist <strings-to-check>` as responsive cards with prominent string counts and actions next to each filter.

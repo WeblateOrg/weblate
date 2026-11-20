@@ -1513,6 +1513,20 @@ class MachineTranslationCleanupTest(SimpleTestCase):
             "<b>\n",
         )
 
+    def test_html_attributes_can_be_translated(self) -> None:
+        source = '<img src="save.svg" alt="Save {0}" title=File>'
+        unit = make_unit(code="cs", source=source, flags="safe-html,java-format")
+        machine = DummyTranslation({})
+        text, replacements = machine.cleanup_text(source, unit)
+        self.assertCountEqual(
+            replacements.values(), ['<img src="save.svg" alt="', "{0}", '" title=', ">"]
+        )
+        translated = text.replace("Save", "Uložit").replace("File", "Soubor")
+        self.assertEqual(
+            machine.uncleanup_text(replacements, translated),
+            '<img src="save.svg" alt="Uložit {0}" title=Soubor>',
+        )
+
     def test_rst_reference_remains_placeholder(self) -> None:
         machine_translation = DummyTranslation({})
         unit = make_unit(
