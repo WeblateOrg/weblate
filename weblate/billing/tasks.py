@@ -21,9 +21,13 @@ from weblate.accounts.notifications import (
 )
 from weblate.accounts.tasks import queue_mails
 from weblate.auth.bots import InternalBot
-from weblate.billing.defines import LIBRE_CLEANUP_TRIAL_PERIOD, LIBRE_PROBLEM_PERIOD
+from weblate.billing.defines import (
+    LIBRE_CLEANUP_ALERTS,
+    LIBRE_CLEANUP_TRIAL_PERIOD,
+    LIBRE_PROBLEM_PERIOD,
+)
 from weblate.billing.models import Billing, BillingEvent
-from weblate.trans.models import Alert, Project
+from weblate.trans.models import Alert, Component, Project
 from weblate.trans.tasks import create_project_backup, project_removal
 from weblate.utils.celery import app
 from weblate.utils.change_origin import acting_user_context
@@ -201,29 +205,27 @@ def inactive_recurring_check() -> None:
             notify_inactive_recurring(bill, status)
 
 
-LIBRE_CLEANUP_ALERTS = (
-    "MissingLicense",
-    "NoLibreConditions",
-    "UpdateFailure",
-    "PushFailure",
-    "MergeFailure",
-    "RepositoryOperationFailure",
-    "RepositoryOutdated",
-    "RepositoryChanges",
-)
-
-
-def check_libre_project(bill: Billing, project: Project, now: datetime) -> None:
+def check_libre_billing(bill: Billing, now: datetime) -> None:
+    # Hosted Weblate's Libre plan allows one project. Cleanup follows the billing
+    # even when a different plan allows several projects in its workspace.
     # The oldest surviving instance of each alert is enough to establish continuity.
     problems = dict(
-        Alert.objects.filter(component__project=project, name__in=LIBRE_CLEANUP_ALERTS)
+        Alert.objects.filter(
+            component__project__workspace_id=bill.workspace_id,
+            name__in=LIBRE_CLEANUP_ALERTS,
+        )
         .order_by()
         .values("name")
         .annotate(oldest=Min("timestamp"))
         .values_list("name", "oldest")
     )
     empty_since = None
-    if not problems and not project.component_set.exists():
+    if (
+        not problems
+        and not Component.objects.filter(
+            project__workspace_id=bill.workspace_id
+        ).exists()
+    ):
         empty_since = bill.libre_cleanup_empty_since or now
         problems["no_components"] = empty_since
     if empty_since != bill.libre_cleanup_empty_since:
@@ -269,13 +271,15 @@ def check_libre_project(bill: Billing, project: Project, now: datetime) -> None:
     bill.save(update_fields=["libre_cleanup_warned_at"], skip_limits=True)
     alerts_bot = InternalBot.ALERTS.get_user()
     with acting_user_context(alerts_bot):
-        project.do_lock(user=alerts_bot)
+        for project in bill.ordered_projects:
+            project.do_lock(user=alerts_bot)
     warning = bill.billinglog_set.create(
         event=BillingEvent.LIBRE_CLEANUP_WARNING,
         user=alerts_bot,
         timestamp=now,
         details={"reasons": reasons},
     )
+    target = bill.libre_cleanup_target
     messages = []
     for user in bill.get_notify_users():
         messages.extend(
@@ -283,7 +287,11 @@ def check_libre_project(bill: Billing, project: Project, now: datetime) -> None:
                 user.profile.language,
                 [user.email],
                 "billing_libre_cleanup",
-                context={"billing": bill, "project": project, "warning": warning},
+                context={
+                    "billing": bill,
+                    "project": target if isinstance(target, Project) else None,
+                    "warning": warning,
+                },
                 user=user,
             )
         )
@@ -292,37 +300,35 @@ def check_libre_project(bill: Billing, project: Project, now: datetime) -> None:
 
 @app.task(trail=False)
 def libre_cleanup_check() -> None:
-    eligible = Q(
-        state=Billing.STATE_ACTIVE,
-        plan__slug="libre",
-        plan__price=0,
-        plan__yearly_price=0,
-        removal=None,
-    )
-    tracked = Q(libre_cleanup_empty_since__isnull=False) | Q(
+    criteria = Q(libre_cleanup_empty_since__isnull=False) | Q(
         libre_cleanup_warned_at__isnull=False
     )
-    candidates = Billing.objects.filter(
-        tracked | eligible if settings.OFFER_HOSTING else tracked
-    )
+    if settings.OFFER_HOSTING:
+        criteria |= Q(
+            state=Billing.STATE_ACTIVE,
+            plan__price=0,
+            plan__yearly_price=0,
+            removal=None,
+        )
+    candidates = Billing.objects.filter(criteria)
     for pk in candidates.values_list("pk", flat=True).iterator():
         with transaction.atomic():
             bill = (
                 Billing.objects.select_for_update(of=("self",))
-                .annotate(eligible=eligible)
+                .select_related("plan")
                 .filter(pk=pk)
                 .first()
             )
             if bill is None:
                 continue
-            if settings.OFFER_HOSTING and bill.eligible:
-                projects = list(
-                    Project.objects.filter(workspace_id=bill.workspace_id)[:2]
-                )
-                if len(projects) == 1:
-                    check_libre_project(bill, projects[0], timezone.now())
-                    continue
-            bill.reset_libre_cleanup()
+            if (
+                bill.is_libre
+                and bill.state == Billing.STATE_ACTIVE
+                and bill.removal is None
+            ):
+                check_libre_billing(bill, timezone.now())
+            else:
+                bill.reset_libre_cleanup()
 
 
 @app.task(trail=False)

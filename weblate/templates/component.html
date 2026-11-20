@@ -244,6 +244,9 @@
               {% documentation_icon alert right=True %}
               {{ alert }}
               <span class="badge {{ alert.severity_class }}">{{ alert.get_severity_display }}</span>
+              {% if alert.name in object.project.libre_cleanup_alerts %}
+                <span class="badge text-bg-warning">{% translate "May affect Libre hosting" %}</span>
+              {% endif %}
               {% if alert.is_dismissed %}
                 <span class="badge text-bg-secondary">{% translate "dismissed" %}</span>
               {% endif %}
