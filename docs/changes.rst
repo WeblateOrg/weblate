@@ -40,6 +40,7 @@ Weblate 2026.12
 * Batched daily statistics collection to reduce database queries and bound memory use on large sites with cached statistics.
 * Added :envvar:`WEBLATE_SECRET_KEY` support to configure Docker's Django secret key directly or from a mounted secret file.
 * Reduced database loading when polling :ref:`background tasks <api-tasks>` spanning many components.
+* Outbound requests and Git repositories now honor ``no_proxy`` with the :ref:`HTTP proxy <http-proxy>`.
 * Sped up importing translation files by locking :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` once per file instead of once per string.
 * Listed :ref:`saved-searches` first in the search filters and truncated long saved queries.
 * Show :ref:`linked components <internal-urls>` in repository details and label suggestion counts on wider screens in :ref:`zen-mode`.
