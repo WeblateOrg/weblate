@@ -18,6 +18,7 @@ Weblate 2026.12
 * Added :envvar:`WEBLATE_SECRET_KEY` support to configure Docker's Django secret key directly or from a mounted secret file.
 * Reduced database loading when polling :ref:`background tasks <api-tasks>` spanning many components.
 * Listed :ref:`saved-searches` first in the search filters and truncated long saved queries.
+* Highlighted individual search terms in the searched fields when :ref:`searching for strings <search-strings>`.
 
 .. rubric:: Security fixes
 

@@ -21,6 +21,7 @@ from weblate.trans.specialchars import get_display_char
 from weblate.trans.util import split_plural
 from weblate.utils.diff import Differ
 from weblate.utils.html import format_html_join_comma, list_to_tuples
+from weblate.utils.search import SearchHighlight, parse_highlight
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage, WorkspaceLanguage
 from weblate.workspaces.models import Workspace
 
@@ -31,6 +32,7 @@ if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import User
+    from weblate.utils.search import SearchHighlightField
     from weblate.utils.stats import GhostStats
 
 SPACE_START = '<span class="hlspace"><span class="space-space">'
@@ -77,9 +79,11 @@ class Formatter:
         unit,
         glossary,
         diff,
-        search_match,
+        search_match: SearchHighlight | str | None,
         match,
+        *,
         whitespace: bool = True,
+        search_field: SearchHighlightField | None = None,
     ) -> None:
         # Inputs
         self.idx = idx
@@ -87,7 +91,12 @@ class Formatter:
         self.unit = unit
         self.glossary = glossary
         self.diff = diff
-        self.search_match = search_match
+        self.search_match = (
+            parse_highlight(search_match)
+            if isinstance(search_match, str)
+            else search_match
+        )
+        self.search_field = search_field
         self.match = match
         # Tags output
         self.tags: dict[int, list[str]] = defaultdict(list)
@@ -130,6 +139,7 @@ class Formatter:
                     None,
                     self.search_match,
                     self.match,
+                    search_field=self.search_field,
                 )
                 formatter.parse()
                 self.tags[offset].append(f"<del>{formatter.format()}</del>")
@@ -349,11 +359,11 @@ class Formatter:
         start_tag = format_html('<span class="{}">', tag)
         end_tag = "</span>"
 
-        for match in re.finditer(
-            re.escape(self.search_match), self.value, flags=re.IGNORECASE
-        ):
-            self.insert_before_opening_tags(match.start(), start_tag)
-            self.insert_before_opening_tags(match.end(), end_tag)
+        if self.search_match is None:
+            return
+        for start, end in self.search_match.finditer(self.value, self.search_field):
+            self.insert_before_opening_tags(start, start_tag)
+            self.insert_before_opening_tags(end, end_tag)
 
     def parse_whitespace(self) -> None:
         """Highlight whitespaces."""
@@ -468,7 +478,7 @@ def format_unit_target(
     *,
     value: str | None = None,
     diff=None,
-    search_match: str | None = None,
+    search_match: SearchHighlight | str | None = None,
     match: str = "search",
     simple: bool = False,
     wrap: bool = False,
@@ -481,6 +491,7 @@ def format_unit_target(
         unit=unit,
         diff=diff,
         search_match=search_match,
+        search_field="target",
         match=match,
         simple=simple,
         wrap=wrap,
@@ -526,7 +537,7 @@ def format_unit_source(
     language: Language | None = None,
     plural: Plural | None = None,
     diff=None,
-    search_match: str | None = None,
+    search_match: SearchHighlight | str | None = None,
     match: str = "search",
     simple: bool = False,
     glossary=None,
@@ -554,6 +565,7 @@ def format_unit_source(
         unit=unit,
         diff=diff,
         search_match=search_match,
+        search_field="source",
         match=match,
         simple=simple,
         glossary=glossary,
@@ -566,7 +578,8 @@ def format_source_string(
     value: str,
     unit,
     *,
-    search_match: str | None = None,
+    search_match: SearchHighlight | str | None = None,
+    search_field: SearchHighlightField | None = "source",
     match: str = "search",
     simple: bool = False,
     glossary=None,
@@ -579,6 +592,7 @@ def format_source_string(
         language=unit.translation.component.source_language,
         plural=unit.translation.plural,
         search_match=search_match,
+        search_field=search_field,
         match=match,
         simple=simple,
         wrap=wrap,
@@ -601,13 +615,14 @@ def format_language_string(
     )
 
 
-def format_translation(
+def format_translation(  # ruff: ignore[too-many-arguments]
     plurals: list[str],
     language=None,
     *,
     plural=None,
     diff=None,
-    search_match: str | None = None,
+    search_match: SearchHighlight | str | None = None,
+    search_field: SearchHighlightField | None = None,
     simple: bool = False,
     wrap: bool = False,
     unit=None,
@@ -629,13 +644,25 @@ def format_translation(
         while len(diff) < len(plurals):
             diff.append(diff[0])
 
+    # Parse the search query once for all plurals
+    if isinstance(search_match, str):
+        search_match = parse_highlight(search_match)
+
     # We will collect part for each plural
     parts = []
     has_content = False
 
     for idx, text in enumerate(plurals):
         formatter = Formatter(
-            idx, text, unit, glossary, diff, search_match, match, whitespace=whitespace
+            idx,
+            text,
+            unit,
+            glossary,
+            diff,
+            search_match,
+            match,
+            whitespace=whitespace,
+            search_field=search_field,
         )
         formatter.parse()
 

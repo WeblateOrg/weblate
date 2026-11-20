@@ -140,7 +140,7 @@
                   <!-- editing template -->
                   <div class="form-group">
                     <label>{{ unit.translation.component.context_label }}</label>
-                    {% format_source_string unit.context unit search_match=search_query wrap=True %}
+                    {% format_source_string unit.context unit search_match=search_query search_field="context" wrap=True %}
                   </div>
                 {% endif %}
                 {% if unit.translation.component.intermediate %}
@@ -184,7 +184,7 @@
                       {% if unit.context %}
                         <div class="float-end">
                           <label>{{ unit.translation.component.context_label }}</label>
-                          {% format_source_string unit.context unit simple=True wrap=True search_match=search_query whitespace=False %}
+                          {% format_source_string unit.context unit simple=True wrap=True search_match=search_query search_field="context" whitespace=False %}
                         </div>
                       {% endif %}
                       {% if unit.missing_source_snapshot %}
@@ -957,7 +957,7 @@
             {% if unit.context %}
               <div class="list-group-item">
                 <h5>{{ unit.translation.component.context_label }}</h5>
-                {% format_source_string unit.context unit search_match=search_query simple=True wrap=True %}
+                {% format_source_string unit.context unit search_match=search_query search_field="context" simple=True wrap=True %}
               </div>
             {% endif %}
             {% if unit.note %}

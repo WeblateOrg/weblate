@@ -9,7 +9,7 @@ from unittest.mock import patch
 
 from django.db import connection
 from django.db.models import Count, Exists, F, OuterRef, Q, Sum
-from django.test import TestCase
+from django.test import SimpleTestCase, TestCase
 from django.test.utils import CaptureQueriesContext
 from django.utils.timezone import get_current_timezone
 from pyparsing import ParserElement
@@ -34,9 +34,11 @@ from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.search import (
     MAX_SEARCH_QUERY_LENGTH,
     MAX_SEARCH_QUERY_TERMS,
+    SearchHighlightField,
     SearchQueryError,
     UnitTermExpr,
     build_parser,
+    parse_highlight,
     parse_query,
     parse_string,
     parser_to_query,
@@ -1465,3 +1467,84 @@ class SearchTest(ViewTestCase, SearchTestCase):
             exists=True,
             project=self.project,
         )
+
+
+class SearchHighlightTest(SimpleTestCase):
+    def assert_highlight(
+        self,
+        query: str,
+        value: str,
+        expected: list[str],
+        field: SearchHighlightField | None = None,
+    ) -> None:
+        highlight = parse_highlight(query)
+        self.assertIsNotNone(highlight)
+        assert highlight is not None
+        self.assertEqual(
+            [value[start:end] for start, end in highlight.finditer(value, field)],
+            expected,
+        )
+
+    def test_words(self) -> None:
+        self.assert_highlight(
+            "hello world", "Hello, world! Hello", ["Hello", "world", "Hello"]
+        )
+
+    def test_phrase(self) -> None:
+        self.assert_highlight('"hello world"', "Hello world, world", ["Hello world"])
+
+    def test_bare_terms_all_fields(self) -> None:
+        for field in ("source", "target", "context"):
+            with self.subTest(field=field):
+                self.assert_highlight("hello", "Hello", ["Hello"], field)
+
+    def test_field_specific(self) -> None:
+        self.assert_highlight("source:hello", "Hello", ["Hello"], "source")
+        self.assert_highlight("source:hello", "Hello", [], "target")
+        self.assert_highlight("target:hello", "Hello", ["Hello"], "target")
+        self.assert_highlight("key:hello", "hello", ["hello"], "context")
+        self.assert_highlight("key:hello", "hello", [], "source")
+
+    def test_unknown_field_uses_all(self) -> None:
+        self.assert_highlight(
+            "source:hello target:world", "Hello world", ["Hello", "world"]
+        )
+
+    def test_exact(self) -> None:
+        self.assert_highlight('source:="Hello"', "Hello", ["Hello"], "source")
+        self.assert_highlight('source:="Hello"', "Hello world", [], "source")
+        self.assert_highlight('source:="Hello"', "hello", [], "source")
+
+    def test_regex(self) -> None:
+        self.assert_highlight('source:r"^H.l+o"', "Hello hello", ["Hello"], "source")
+        self.assert_highlight('r"(?i)w.rld"', "World", ["World"])
+        self.assert_highlight('r"w.rld"', "World", [])
+
+    def test_regex_unsupported(self) -> None:
+        # Valid in PostgreSQL, not understood by Python
+        self.assertIsNone(parse_highlight(r'r"\yword\y"'))
+        # Word boundaries are supported by both
+        self.assert_highlight(r'r"\mword\M"', "words word", ["word"])
+
+    def test_overlapping(self) -> None:
+        self.assert_highlight("hello llo, 'o, w'", "Hello, world", ["Hello, w"])
+
+    def test_negated(self) -> None:
+        self.assertIsNone(parse_highlight("NOT hello"))
+        self.assert_highlight("hello AND NOT world", "Hello world", ["Hello"])
+        self.assert_highlight("NOT NOT hello", "Hello", ["Hello"])
+        self.assert_highlight("NOT (hello OR NOT world)", "Hello world", ["world"])
+
+    def test_or(self) -> None:
+        self.assert_highlight("hello OR world", "Hello world", ["Hello", "world"])
+
+    def test_non_text(self) -> None:
+        self.assertIsNone(parse_highlight("state:<translated"))
+        self.assertIsNone(parse_highlight("has:comment"))
+        self.assert_highlight(
+            "state:<translated hello", "Hello world", ["Hello"], "source"
+        )
+
+    def test_invalid(self) -> None:
+        self.assertIsNone(parse_highlight(""))
+        self.assertIsNone(parse_highlight("(hello"))
