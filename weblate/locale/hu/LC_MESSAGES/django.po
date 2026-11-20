@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-13 01:19-0600\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
 "PO-Revision-Date: 2026-10-30 05:04+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -1393,6 +1393,23 @@ msgid ""
 msgstr ""
 "Ez a meghívó csak a meghívó által választott e-mail címmel fogadható el; nem "
 "használható az Ön fiókjával."
+
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Your e-mail no longer belongs to verified account, it has been changed to "
+#| "{0}."
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr ""
+"Az e-mail-címe többé már nem tartozik ellenőrzött fiókhoz. Meg lett "
+"változtatva erre: {0}."
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
+msgstr ""
 
 msgid ""
 "Your e-mail address has been added. You can now select it as your account e-"
@@ -4292,6 +4309,16 @@ msgid ""
 "Remove the component from project teams before moving it to another project."
 msgstr ""
 
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
+
 msgid "Roles"
 msgstr "Szerepkörök"
 
@@ -5138,6 +5165,11 @@ msgstr "Számlázás"
 
 msgid "Billing event"
 msgstr "Számlázási esemény"
+
+#, fuzzy
+#| msgid "Projects without components"
+msgid "Project has no components."
+msgstr "Projektek összetevők nélkül"
 
 #, fuzzy
 #| msgid "Monthly"
@@ -7244,9 +7276,6 @@ msgstr "Többes szám képlet"
 msgid "Plural type"
 msgstr "Többes szám típusa"
 
-msgid "Example counts for this plural form."
-msgstr "Példaszámok erre a többes számú alakra."
-
 msgid "Singular"
 msgstr "Egyes szám"
 
@@ -8447,6 +8476,11 @@ msgid "Read your e-mail address"
 msgstr "Fiók e-mail-címének használata"
 
 msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
 msgstr ""
 
 msgid "Image is too big."
@@ -11035,6 +11069,16 @@ msgstr ""
 "Ez az előfizetés nem megfelelő a szabad szoftveres csomaghoz. Javítsa a "
 "fenti hibákat vagy vásároljon előfizetést."
 
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+
 #, fuzzy
 #| msgid "Custom"
 msgid "Customer"
@@ -12733,6 +12777,16 @@ msgstr ""
 #| msgid "The account will be disabled after the expiry."
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr "A fiók a lejárat után, le lesz tiltva."
+
+#, fuzzy
+#| msgid "Does not meet Libre hosting conditions."
+msgid "Review Libre hosting conditions"
+msgstr "Nem teljesíti a szabad szoftveres tárhelyszolgáltatás feltételeit."
+
+#, fuzzy, python-format
+#| msgid "Number of entries for %(project)s"
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "%(project)s bejegyzések száma"
 
 msgid "Translation change"
 msgstr "Fordítási változtatás"
@@ -14893,6 +14947,9 @@ msgid ""
 "maintenance of Weblate itself."
 msgstr ""
 
+msgid "Example counts for this plural form."
+msgstr "Példaszámok erre a többes számú alakra."
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
@@ -14929,12 +14986,13 @@ msgstr ""
 msgid "Source code repository"
 msgstr "Forráskód tároló"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr "Ez az összetevő össze van kapcsolva a(z) %(target)s tárolóval."
-
 msgid "Repository URL copied to clipboard."
 msgstr "A tároló URL a vágólapra másolva."
+
+#, fuzzy
+#| msgid "Renamed component"
+msgid "Linked component"
+msgstr "Összetevő átnevezve"
 
 msgid "Repository branch"
 msgstr "Tároló ág"
@@ -15394,6 +15452,11 @@ msgstr "Többes szám: %(source_description)s"
 
 msgid "Plurals"
 msgstr "Többes számok"
+
+#, fuzzy
+#| msgid "No strings found!"
+msgid "No integer examples found"
+msgstr "Nem találhatók szövegek!"
 
 msgid "First"
 msgstr "Első"
@@ -16344,15 +16407,15 @@ msgstr "Az összetevő több kettőzött fordítási szöveget tartalmaz."
 msgid "Source"
 msgstr "Forrás"
 
-#, fuzzy, python-format
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove duplicate strings from %(language)s (%(filename)s)"
-msgstr "Az összes szöveg kényszerített írása a fordítási fájlokba."
-
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
 msgstr "Üres szövegek eltávolítása"
+
+#, fuzzy, python-format
+#| msgid "Forces writing all strings to the translation files."
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Az összes szöveg kényszerített írása a fordítási fájlokba."
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -17376,10 +17439,6 @@ msgstr "Ezt a szöveget %(author)s automatikusan fordította le."
 msgid "Add term to glossary"
 msgstr "Kifejezés hozzáadása a szójegyzékhez"
 
-#, python-format
-msgid "Browse glossary %(name)s"
-msgstr "%(name)s szójegyzék böngészése"
-
 #, fuzzy
 #| msgid "Browse glossary %(name)s"
 msgid "Browse glossary"
@@ -17435,6 +17494,15 @@ msgstr "Utoljára frissítve"
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
 msgstr "Forrásszöveg kora"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s, line %(line)s"
+msgstr "%(filename)s, %(position)s. szöveg"
+
+#, python-format
+msgid "line %(line)s"
+msgstr ""
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -19281,13 +19349,13 @@ msgstr "Kettőzött fájlmaszk."
 msgid "Referenced category does not exist."
 msgstr "A(z) {filename} ({parameter}) nem létezik."
 
-msgid "Component filename does not match its category and slug."
-msgstr ""
-
 #, fuzzy
 #| msgid "Duplicate this component"
 msgid "Duplicate component slug."
 msgstr "Az összetevő kettőzése"
+
+msgid "Component filename does not match its category and slug."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation reviews are not enabled."
@@ -19603,6 +19671,11 @@ msgstr "Javaslatok szavazása"
 msgid "Needs review"
 msgstr "A forrás felülvizsgálatot igényel"
 
+#, fuzzy
+#| msgid "The source and target have to be different languages."
+msgid "The source and destination checkouts must be different."
+msgstr "A forrásnak és a célnak különböző nyelveknek kell lenniük."
+
 msgid "This component does not exist or you cannot access it."
 msgstr ""
 
@@ -19634,6 +19707,11 @@ msgstr ""
 #| msgid "Good configuration"
 msgid "Discovery configuration"
 msgstr "Helyes beállítás"
+
+#, fuzzy, python-format
+#| msgid "Could not render template: {}"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "Nem sikerült a sablon megjelenítése: {}"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -21853,6 +21931,11 @@ msgid "Use the secondary language configured in the category or project."
 msgstr "A projektben vagy összetevőben meghatározott másodlagos nyelv"
 
 #, fuzzy
+#| msgid "The local repository is up to date."
+msgid "The linked repository path is ambiguous."
+msgstr "A helyi tároló naprakész."
+
+#, fuzzy
 #| msgid ""
 #| "Could not verify SSH host key, please add them in SSH page in the admin "
 #| "interface."
@@ -22162,6 +22245,11 @@ msgid ""
 "Pushing without a merge request needs write access to the repository. "
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
+
+#, fuzzy
+#| msgid "The filename can not be an absolute path."
+msgid "Version control system cannot be changed to this backend."
+msgstr "A fájlnév nem lehet abszolút elérési út."
 
 #, fuzzy
 #| msgid "The regular expression can not match an empty string."
@@ -22844,6 +22932,11 @@ msgstr "Kvirtmínusz"
 msgid "User configured character: {}"
 msgstr "Felhasználó által beállított karakter: {}"
 
+#, fuzzy, python-format
+#| msgid "Could not push the repository."
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "Nem sikerült felküldeni a tárolót."
+
 #, fuzzy
 #| msgid "Automatic translation in progress"
 msgid "Repository operation could not be completed because it remained locked."
@@ -22981,6 +23074,10 @@ msgstr "%s szövegazonosító"
 
 msgid "This language is used for source strings."
 msgstr "Ez a nyelv forrásszövegeknél van használva."
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr "Ez az összetevő össze van kapcsolva a(z) %(target)s tárolóval."
 
 #, fuzzy
 #| msgid "Fix this component to clear its alerts."
@@ -23865,6 +23962,16 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "Függőleges nyelvi oszlopdiagram"
 
+#, fuzzy
+#| msgid "Your languages"
+msgid "Sort languages by"
+msgstr "Saját nyelvek"
+
+#, fuzzy
+#| msgid "Translation change"
+msgid "Translation percentage"
+msgstr "Fordítási változtatás"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr "Vízszintes nyelvi oszlopdiagram"
@@ -24252,20 +24359,6 @@ msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 "A fájlformátum-paramétereknek kulcs-érték párok szótárának kell lenniük."
 
-msgid "Template output exceeds its size limit."
-msgstr ""
-
-msgid "Template rendering failed or exceeded its resource limits."
-msgstr ""
-
-msgid "Oversized template response."
-msgstr ""
-
-#, fuzzy
-#| msgid "Invalid translation flag: \"%s\""
-msgid "Invalid template rendering response."
-msgstr "Érvénytelen fordítási jelző: „%s”"
-
 msgid "Could not render template: {}"
 msgstr "Nem sikerült a sablon megjelenítése: {}"
 
@@ -24276,7 +24369,7 @@ msgstr ""
 "A formátumszövegek többé már nem támogatottak, használja a sablonnyelvet "
 "helyette."
 
-msgid "Template value exceeds its size limit."
+msgid "Template context exceeds its size limit."
 msgstr ""
 
 #, fuzzy
@@ -24284,8 +24377,10 @@ msgstr ""
 msgid "Template context is nested too deeply."
 msgstr "A HTML {tag} címkéből hiányzik az illeszkedő záró címke: {end}."
 
-msgid "Template context exceeds its size limit."
-msgstr ""
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported nonfinite template context value."
+msgstr "Nem támogatott fájlformátum."
 
 #, fuzzy
 #| msgid "Unsupported file format."
@@ -24297,30 +24392,333 @@ msgstr "Nem támogatott fájlformátum."
 msgid "Unsupported template context value."
 msgstr "Nem támogatott fájlformátum."
 
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Template text is not valid UTF-8."
+msgstr "A megadott token nem érvényes."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid request."
+msgid "Invalid template syntax."
+msgstr "Érvénytelen kérés."
+
+#, fuzzy
+#| msgid "Undefined variable: \"%s\""
+msgid "Undefined template variable."
+msgstr "Meghatározatlan változó: „%s”"
+
+#, fuzzy
+#| msgid "The translation is not valid XML."
+msgid "Text is not valid UTF-8."
+msgstr "A fordítás nem érvényes XML."
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Division by zero is not supported."
+msgstr "A választott rendezés nem támogatott."
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Numeric value is too large for this operation."
+msgstr "A nyelv összes változtatásának böngészése"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Numeric operation failed."
+msgstr "A tárolóművelet sikertelen"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation reviews are not enabled."
+msgid "Value or argument has an invalid format."
+msgstr "A fordítás felülvizsgálatai nincsenek engedélyezve."
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "%(operation)s: %(message)s"
+msgstr "Nem sikerült felküldeni a(z) %(component)s összetevőt: %(error_text)s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
 msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nonfinite numbers are not supported."
+msgstr "A választott rendezés nem támogatott."
+
+#, fuzzy, python-format
+#| msgid "File names"
+msgid "Filter \"%(name)s\""
+msgstr "Fájlnevek"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
 msgstr ""
 
 msgid "Template rendering exceeded its loop limit."
 msgstr ""
 
-msgid "Template intermediate value exceeds its size limit."
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Attribute access and method calls are not supported."
+msgstr "A választott rendezés nem támogatott."
+
+msgid "Index exceeds the length limit of 128 characters."
 msgstr ""
 
-msgid "Template replacement exceeds its size limit."
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Translated template literals are not supported."
+msgstr "A választott rendezés nem támogatott."
+
+#, fuzzy
+#| msgid "Invalid unit."
+msgid "Invalid filter."
+msgstr "Érvénytelen egység."
+
+msgid "Identity comparisons require None, True, or False."
 msgstr ""
 
-msgid "Template padding exceeds its size limit."
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This condition operator is not supported."
+msgstr "A választott rendezés nem támogatott."
+
+msgid "Template output exceeds its size limit."
 msgstr ""
 
-msgid "Template formatting exceeds its size limit."
+msgid "Loops require a list, string, dictionary, or dictionary view."
 msgstr ""
 
-msgid "Template join exceeds its size limit."
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
+msgstr ""
+
+msgid "Loop value cannot be unpacked into its variables."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This template tag is not supported."
+msgstr "A választott rendezés nem támogatott."
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This template node is not supported."
+msgstr "Az észlelt fájlformátum nem támogatott."
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
 msgstr ""
 
 #, python-format
 msgid "Undefined variable: \"%s\""
 msgstr "Meghatározatlan változó: „%s”"
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "This name is prohibited"
+msgid "This filter requires strings."
+msgstr "Ez a név tiltott"
+
+#, fuzzy
+#| msgid "Automatically translated strings"
+msgid "Choices must be a string."
+msgstr "Automatikusan lefordított szövegek"
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source string length"
+msgid "Joining requires string elements."
+msgstr "Forrásszöveg hossza"
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatically translated strings"
+msgid "Date format must be a string or None."
+msgstr "Automatikusan lefordított szövegek"
+
+#, fuzzy
+#| msgid "Avoid years that are associated with you."
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "Kerülje azokat az éveket, amelyek Önhöz köthetők."
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatically translated strings"
+msgid "Plural suffixes must be a string."
+msgstr "Automatikusan lefordított szövegek"
+
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nested template delimiters are not supported."
+msgstr "A választott rendezés nem támogatott."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unclosed template token."
+msgstr "Nem támogatott fájlformátum."
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid ".NET resource file"
+msgid "Template tag is empty."
+msgstr ".Net erőforrásfájl"
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr ""
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unsupported file format."
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "Nem támogatott fájlformátum."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template tag."
+msgstr "Nem támogatott fájlformátum."
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid ""
@@ -26191,6 +26589,15 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "A forrás el lett távolítva."
 
+#, python-format
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "%(name)s szójegyzék böngészése"
+
+#, fuzzy
+#~| msgid "Invalid translation flag: \"%s\""
+#~ msgid "Invalid template rendering response."
+#~ msgstr "Érvénytelen fordítási jelző: „%s”"
+
 #, fuzzy
 #~| msgid "Registration almost complete"
 #~ msgid "E-mail verification almost complete"
@@ -27802,9 +28209,6 @@ msgstr "A forrás el lett távolítva."
 #~ msgid "Renamed project"
 #~ msgstr "Projekt átnevezve"
 
-#~ msgid "Renamed component"
-#~ msgstr "Összetevő átnevezve"
-
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "Új lefordítandó szöveg"
@@ -29256,9 +29660,6 @@ msgstr "A forrás el lett távolítva."
 #~| msgid "Repository"
 #~ msgid "Backup pepository"
 #~ msgstr "Tároló"
-
-#~ msgid "Your languages"
-#~ msgstr "Saját nyelvek"
 
 #~ msgid "Fulltext"
 #~ msgstr "Szabad-szavas"
