@@ -4,15 +4,25 @@
 
 from __future__ import annotations
 
+import os
 from importlib import import_module
+from pathlib import Path
 
 from django.apps import apps
+from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.core.files import File
+from django.core.files.storage import InMemoryStorage
+from django.test import SimpleTestCase
+from django.test.utils import override_settings
 
-from weblate.fonts.models import FONT_STORAGE, Font, FontGroup, FontOverride
+from weblate.fonts.apps import check_font_storage
+from weblate.fonts.models import Font, FontGroup, FontOverride
+from weblate.fonts.storage import font_storage
 from weblate.fonts.tasks import cleanup_font_files
-from weblate.fonts.tests.utils import FontComponentTestCase
+from weblate.fonts.tests.utils import FONT, FONT_BOLD, FontComponentTestCase
 from weblate.trans.models import Project
+from weblate.utils.data import data_dir
 
 
 class FontModelTest(FontComponentTestCase):
@@ -25,7 +35,7 @@ class FontModelTest(FontComponentTestCase):
         result = 0
         excluded = {".uuid"}
         try:
-            files = FONT_STORAGE.listdir(".")[1]
+            files = font_storage.listdir("")[1]
         except FileNotFoundError:
             files = []
         for name in files:
@@ -44,6 +54,23 @@ class FontModelTest(FontComponentTestCase):
         self.assert_font_files(1)
         cleanup_font_files()
         self.assert_font_files(0)
+
+    def test_replace(self) -> None:
+        font = self.add_font()
+        name = font.font.name
+        assert name is not None
+        original_path = font.get_local_path()
+        # Replace the content under the same name, as storage that overwrites
+        # files does
+        font_storage.delete(name)
+        with FONT_BOLD.open("rb") as handle:
+            font.font.save(name, File(handle))
+        self.assertEqual(font.font.name, name)
+        # The local copy follows the replaced font file
+        self.assertNotEqual(font.get_local_path(), original_path)
+        self.assertEqual(
+            Path(font.get_local_path()).read_bytes(), FONT_BOLD.read_bytes()
+        )
 
     def test_override_project_scope(self) -> None:
         local_font = self.add_font()
@@ -94,3 +121,77 @@ class FontModelTest(FontComponentTestCase):
         migration.remove_cross_project_font_overrides(apps, None)
 
         self.assertFalse(FontOverride.objects.filter(pk=override.pk).exists())
+
+
+@override_settings(
+    STORAGES={
+        **settings.STORAGES,
+        "fonts": {"BACKEND": "django.core.files.storage.InMemoryStorage"},
+    }
+)
+class FontStorageTest(FontComponentTestCase):
+    def test_storage(self) -> None:
+        font = self.add_font()
+        self.assertIsInstance(font.font.storage, InMemoryStorage)
+        self.assertEqual(Path(font.get_local_path()).read_bytes(), FONT.read_bytes())
+
+    def test_cleanup(self) -> None:
+        with FONT.open("rb") as handle:
+            name = font_storage.save("stale.ttf", handle)
+        cleanup_font_files()
+        self.assertFalse(font_storage.exists(name))
+
+    def test_local_copy_cleanup(self) -> None:
+        font = self.add_font()
+        old_copy = Path(font.get_local_path())
+        # Using a copy keeps its modification time, which the renderer caches by
+        mtime = old_copy.stat().st_mtime_ns
+        os.utime(old_copy, ns=(0, mtime))
+        self.assertEqual(font.get_local_path(), str(old_copy))
+        self.assertEqual(old_copy.stat().st_mtime_ns, mtime)
+        self.assertGreater(old_copy.stat().st_atime, 0)
+        # A copy that is still in use survives a replacement
+        font.save()
+        new_copy = Path(font.get_local_path())
+        self.assertNotEqual(old_copy, new_copy)
+        self.assertTrue(old_copy.exists())
+        # An unused copy is removed once the font is replaced again
+        os.utime(old_copy, (0, 0))
+        font.save()
+        newest_copy = Path(font.get_local_path())
+        self.assertFalse(old_copy.exists())
+        self.assertTrue(new_copy.exists())
+        # The cleanup removes copies that were not used for a day
+        os.utime(new_copy, (0, 0))
+        cleanup_font_files()
+        self.assertFalse(new_copy.exists())
+        self.assertTrue(newest_copy.exists())
+
+
+class FontStorageCheckTest(SimpleTestCase):
+    def check_storage(self, options: dict[str, object]) -> list[str]:
+        with override_settings(
+            STORAGES={
+                **settings.STORAGES,
+                "fonts": {
+                    "BACKEND": "storages.backends.s3.S3Storage",
+                    "OPTIONS": {"bucket_name": "weblate", **options},
+                },
+            }
+        ):
+            return [
+                message.id or ""
+                for message in check_font_storage(app_configs=None, databases=None)
+            ]
+
+    def test_default(self) -> None:
+        self.assertEqual(list(check_font_storage(app_configs=None, databases=None)), [])
+        # Existing installations keep fonts in DATA_DIR
+        self.assertEqual(
+            font_storage.path("font.ttf"), str(Path(data_dir("fonts"), "font.ttf"))
+        )
+
+    def test_overwrite(self) -> None:
+        # django-storages overwrites files by default
+        self.assertEqual(self.check_storage({}), ["weblate.W054"])
+        self.assertEqual(self.check_storage({"file_overwrite": False}), [])

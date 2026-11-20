@@ -137,3 +137,24 @@ class DockerMediaStorageTest(SimpleTestCase):
                 "OPTIONS": {"bucket_name": "weblate-media"},
             },
         )
+
+    @patch.dict(
+        os.environ,
+        {
+            "WEBLATE_SITE_DOMAIN": "example.com",
+            "WEBLATE_DATABASES": "0",
+            "WEBLATE_SECRET_KEY": "environment-secret",
+            "WEBLATE_FONTS_STORAGE_BACKEND": "storages.backends.s3.S3Storage",
+            "WEBLATE_FONTS_STORAGE_OPTIONS": '{"bucket_name": "weblate-fonts"}',
+        },
+        clear=True,
+    )
+    def test_fonts_environment(self) -> None:
+        configuration = run_module("weblate.settings_docker")
+        self.assertEqual(
+            configuration["STORAGES"]["fonts"],
+            {
+                "BACKEND": "storages.backends.s3.S3Storage",
+                "OPTIONS": {"bucket_name": "weblate-fonts"},
+            },
+        )
