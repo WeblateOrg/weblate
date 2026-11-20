@@ -1135,9 +1135,11 @@ class RepositoryOperationQueueTest(ViewTestCase):
         third = self.create_po(project=self.project, name="Third")
         component_ids = [self.component.pk, second.pk, third.pk]
         keys = [get_repository_operation_key(pk) for pk in component_ids]
-        self.addCleanup(cache.delete_many, keys)
+        other_scope = get_repository_operation_scope_key("other-task")
+        self.addCleanup(cache.delete_many, [*keys, other_scope])
         reservation = {"operation": "pull", "task_id": "task-id"}
         cache.set(keys[0], reservation)
+        cache.set(other_scope, [second.pk])
         cache.set(keys[1], {"operation": "push", "task_id": "other-task"})
         cache.set(keys[2], reservation)
 
@@ -1254,6 +1256,62 @@ class RepositoryOperationQueueTest(ViewTestCase):
         self.addCleanup(
             release_repository_operation, [self.component.pk], requeued.task_id
         )
+
+        self.assertFalse(requeued.reused)
+        self.assertNotEqual(requeued.task_id, queued.task_id)
+
+    def test_worker_killed_while_claiming_does_not_block_operations(self) -> None:
+        class WorkerKilledError(BaseException):
+            pass
+
+        second = self.create_po(project=self.project, name="Second")
+        component_ids = [self.component.pk, second.pk]
+        with patch(
+            "weblate.trans.tasks.perform_repository_operation.apply_async"
+        ) as apply_async:
+            queued = queue_repository_operation(self.project, "reset", self.user)
+        self.addCleanup(delete_task_metadata, queued.task_id)
+        self.addCleanup(
+            cache.delete_many,
+            [
+                key
+                for component_id in component_ids
+                for key in (
+                    get_repository_operation_key(component_id),
+                    get_repository_operation_update_key(component_id),
+                )
+            ],
+        )
+
+        # The worker is killed after claiming the first repository, before
+        # it gets to the second one.
+        touch = cache.touch
+        reservation_keys = {get_repository_operation_key(pk) for pk in component_ids}
+        claimed: list[str] = []
+
+        def claim(key: str, timeout: int) -> bool:
+            if key in reservation_keys:
+                if claimed:
+                    raise WorkerKilledError
+                claimed.append(key)
+            return touch(key, timeout)
+
+        with (
+            patch.object(cache, "touch", side_effect=claim),
+            self.assertRaises(WorkerKilledError),
+        ):
+            perform_repository_operation.apply(
+                kwargs=apply_async.call_args.kwargs["kwargs"], task_id=queued.task_id
+            )
+        self.assertEqual(claimed, [get_repository_operation_key(self.component.pk)])
+
+        with (
+            self.advance_cache_clock(REPOSITORY_OPERATION_RUNNING_TTL + 1),
+            patch("weblate.trans.tasks.perform_repository_operation.apply_async"),
+        ):
+            requeued = queue_repository_operation(self.project, "reset", self.user)
+        self.addCleanup(delete_task_metadata, requeued.task_id)
+        self.addCleanup(release_repository_operation, component_ids, requeued.task_id)
 
         self.assertFalse(requeued.reused)
         self.assertNotEqual(requeued.task_id, queued.task_id)
