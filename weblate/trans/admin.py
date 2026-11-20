@@ -79,10 +79,8 @@ class RepoAdminMixin:
         self.message_user(request, f"Updated checks for {len(units):d} units.")
 
 
-class SensitiveFieldsAdmin(WeblateModelAdmin):
-    """Require recent credential verification for changing listed fields."""
-
-    sensitive_fields: frozenset[str] = frozenset()
+class TeamScopeDeletionAdmin(WeblateModelAdmin):
+    """Display team scope validation errors from deletion."""
 
     def delete_view(self, request, object_id, extra_context=None):
         try:
@@ -94,7 +92,7 @@ class SensitiveFieldsAdmin(WeblateModelAdmin):
     def changelist_view(self, request, extra_context=None):
         if (
             request.method != "POST"
-            or request.POST.get("action") != "delete_selected"
+            or "delete_selected" not in request.POST.getlist("action")
             or not request.POST.get("post")
         ):
             return super().changelist_view(request, extra_context)
@@ -104,6 +102,12 @@ class SensitiveFieldsAdmin(WeblateModelAdmin):
         except ValidationError as error:
             self.message_user(request, " ".join(error.messages), level=messages.ERROR)
             return redirect(request.path)
+
+
+class SensitiveFieldsAdmin(TeamScopeDeletionAdmin):
+    """Require recent credential verification for changing listed fields."""
+
+    sensitive_fields: frozenset[str] = frozenset()
 
     def changes_sensitive_fields(self, request, object_id: str | None) -> bool:
         obj = self.get_object(request, unquote(object_id)) if object_id else None
@@ -301,7 +305,7 @@ class AutoComponentListAdmin(admin.TabularInline):
 
 
 @admin.register(ComponentList)
-class ComponentListAdmin(WeblateModelAdmin):
+class ComponentListAdmin(TeamScopeDeletionAdmin):
     search_fields = ("name", "slug")
     list_display = ("name", "show_dashboard")
     list_filter = ("show_dashboard",)

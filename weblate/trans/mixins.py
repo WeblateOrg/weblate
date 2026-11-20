@@ -173,7 +173,9 @@ class PathMixin(LoggerMixin, URLMixin):
         if "full_path" in self.__dict__:
             del self.__dict__["full_path"]
 
-    def check_rename(self, old, validate=False) -> bool:
+    def check_rename(
+        self, old, validate=False, *, moved_paths: list[tuple[str, str]] | None = None
+    ) -> bool:
         """Detect slug changes and possibly renames underlying directory."""
         # No moving for links
         if getattr(self, "is_repo_link", False) or getattr(old, "is_repo_link", False):
@@ -223,6 +225,8 @@ class PathMixin(LoggerMixin, URLMixin):
                         old_path,
                         sensitive=True,
                     )
+                if moved_paths is not None:
+                    moved_paths.append((old_path, new_path))
             return True
         return False
 
@@ -261,19 +265,23 @@ class ComponentCategoryMixin:
     def _clean_unique_together(
         self: _HasComponentCategoryAttrs, field: str, msg: str, lookup: str
     ) -> None:
+        is_component = self.__class__.__name__ == "Component"
+        component_field = "slug__iexact" if is_component and field == "slug" else field
         if self.category:
-            matching_components = self.category.component_set.filter(**{field: lookup})
+            matching_components = self.category.component_set.filter(
+                **{component_field: lookup}
+            )
             matching_categories = self.category.category_set.filter(**{field: lookup})
         else:
             matching_components = self.project.component_set.filter(
-                category=None, **{field: lookup}
+                category=None, **{component_field: lookup}
             )
             matching_categories = self.project.category_set.filter(
                 category=None, **{field: lookup}
             )
 
         if self.id:
-            if self.__class__.__name__ == "Component":
+            if is_component:
                 matching_components = matching_components.exclude(pk=self.id)
             else:
                 matching_categories = matching_categories.exclude(pk=self.id)

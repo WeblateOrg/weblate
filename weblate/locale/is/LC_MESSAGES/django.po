@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-13 01:19-0600\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
 "PO-Revision-Date: 2026-10-30 05:05+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -1452,6 +1452,23 @@ msgstr "Þú getur einungis staðfest skráningu þína þegar þú ert skráðu
 msgid ""
 "This invitation can be accepted only by the e-mail address chosen by the "
 "inviter; it can't be used by your account."
+msgstr ""
+
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Your e-mail no longer belongs to verified account, it has been changed to "
+#| "{0}."
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr ""
+"Tölvupóstfang þitt tilheyrir ekki lengur staðfestum reikningi, því hefur "
+"verið breytt í {0}."
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
 msgstr ""
 
 msgid ""
@@ -4302,6 +4319,16 @@ msgid ""
 "Remove the component from project teams before moving it to another project."
 msgstr ""
 
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
+
 msgid "Roles"
 msgstr "Hlutverk"
 
@@ -5146,6 +5173,11 @@ msgstr "Greiðslur"
 #| msgid "Billing overview"
 msgid "Billing event"
 msgstr "Greiðsluyfirlit"
+
+#, fuzzy
+#| msgid "Projects without components"
+msgid "Project has no components."
+msgstr "Verkefni án þýðingarhluta"
 
 #, fuzzy
 #| msgid "Monthly"
@@ -7151,9 +7183,6 @@ msgstr "Formúla fyrir fleirtölu"
 msgid "Plural type"
 msgstr "Gerð fleirtölu"
 
-msgid "Example counts for this plural form."
-msgstr "Dæmi um talningu á þessu fleirtöluformi."
-
 msgid "Singular"
 msgstr "Eintala"
 
@@ -8325,6 +8354,11 @@ msgid "Read your e-mail address"
 msgstr "Nota tölvupóstfang notandans"
 
 msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
 msgstr ""
 
 msgid "Image is too big."
@@ -10849,6 +10883,16 @@ msgid ""
 "above or purchase a subscription."
 msgstr ""
 
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+
 #, fuzzy
 #| msgid "Custom"
 msgid "Customer"
@@ -12463,6 +12507,16 @@ msgstr ""
 #. Translators: e-mail subject
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr ""
+
+#, fuzzy
+#| msgid "Does not meet Libre hosting conditions."
+msgid "Review Libre hosting conditions"
+msgstr "Uppfyllir ekki skilyrði fyrir frjálsa hýsingu."
+
+#, fuzzy, python-format
+#| msgid "Number of entries for %(project)s"
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "Fjöldi færslna í %(project)s"
 
 msgid "Translation change"
 msgstr "Breyting á þýðingu"
@@ -14518,6 +14572,9 @@ msgid ""
 "maintenance of Weblate itself."
 msgstr ""
 
+msgid "Example counts for this plural form."
+msgstr "Dæmi um talningu á þessu fleirtöluformi."
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
@@ -14551,12 +14608,13 @@ msgstr ""
 msgid "Source code repository"
 msgstr "Gagnasafn með grunnkóða"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr "Þessi þýðingarhluti er tengdur við %(target)s safnið."
-
 msgid "Repository URL copied to clipboard."
 msgstr "URL-slóð gagnasafns afrituð á klippispjaldið."
+
+#, fuzzy
+#| msgid "Renamed component"
+msgid "Linked component"
+msgstr "Endurnefndi þýðingarhluta"
 
 msgid "Repository branch"
 msgstr "Grein gagnasafns"
@@ -14998,6 +15056,11 @@ msgstr "Fleirtala: %(source_description)s"
 
 msgid "Plurals"
 msgstr "Fleirtölur"
+
+#, fuzzy
+#| msgid "No strings found!"
+msgid "No integer examples found"
+msgstr "Engir strengir fundust!"
 
 msgid "First"
 msgstr "Fyrsta"
@@ -15880,15 +15943,15 @@ msgstr ""
 msgid "Source"
 msgstr "Frumtexti"
 
-#, fuzzy, python-format
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove duplicate strings from %(language)s (%(filename)s)"
-msgstr "Þvingar ritun allra strengja inn í þýðingaskrárnar."
-
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
 msgstr "Fjarlægja auða strengi"
+
+#, fuzzy, python-format
+#| msgid "Forces writing all strings to the translation files."
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Þvingar ritun allra strengja inn í þýðingaskrárnar."
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -16836,10 +16899,6 @@ msgstr "Þessi strengur hefur verið þýddur áður."
 msgid "Add term to glossary"
 msgstr "Bæta hugtaki í orðasafn"
 
-#, python-format
-msgid "Browse glossary %(name)s"
-msgstr "Skoða orðasafnið %(name)s"
-
 #, fuzzy
 #| msgid "Browse glossary %(name)s"
 msgid "Browse glossary"
@@ -16895,6 +16954,15 @@ msgstr "Síðast uppfært"
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
 msgstr "Aldur upprunastrengs"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s, line %(line)s"
+msgstr "%(filename)s, strengur %(position)s"
+
+#, python-format
+msgid "line %(line)s"
+msgstr ""
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -18724,13 +18792,13 @@ msgstr "Tvítekin skráasía."
 msgid "Referenced category does not exist."
 msgstr "{filename} ({parameter}) er ekki til."
 
-msgid "Component filename does not match its category and slug."
-msgstr ""
-
 #, fuzzy
 #| msgid "Duplicate this component"
 msgid "Duplicate component slug."
 msgstr "Tvítaka þennan þýðingarhluta"
+
+msgid "Component filename does not match its category and slug."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation reviews are not enabled."
@@ -19044,6 +19112,11 @@ msgstr "Kosið um tillögu"
 msgid "Needs review"
 msgstr "Frumtexti þarfnast yfirferðar"
 
+#, fuzzy
+#| msgid "The source and target have to be different languages."
+msgid "The source and destination checkouts must be different."
+msgstr "Uppruna- og markstrengir verða að vera mismunandi tungumál."
+
 msgid "This component does not exist or you cannot access it."
 msgstr ""
 
@@ -19071,6 +19144,11 @@ msgstr ""
 #| msgid "Good configuration"
 msgid "Discovery configuration"
 msgstr "Uppsetning í lagi"
+
+#, fuzzy, python-format
+#| msgid "Could not render template: {}"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "Gat ekki myndgert sniðskrá: {}"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -21179,6 +21257,11 @@ msgstr "Þessi stilling erfist frá verkefninu ef þetta er skilið eftir autt."
 msgid "Use the secondary language configured in the category or project."
 msgstr "Aukatungumál skráð í verkefni eða þýðingarhluta"
 
+#, fuzzy
+#| msgid "The local repository is up to date."
+msgid "The linked repository path is ambiguous."
+msgstr "Staðvært gagnasafn er uppfært."
+
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
 "admin interface."
@@ -21442,6 +21525,11 @@ msgid ""
 "Pushing without a merge request needs write access to the repository. "
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
+
+#, fuzzy
+#| msgid "The filename can not be an absolute path."
+msgid "Version control system cannot be changed to this backend."
+msgstr "Skráarheitið má ekki vera algild slóð."
 
 msgid "The file mask is too complex and took too long to evaluate."
 msgstr ""
@@ -22091,6 +22179,11 @@ msgstr "Langt bandstrik (em dash)"
 msgid "User configured character: {}"
 msgstr "Stafur skilgreindur af notanda: {}"
 
+#, fuzzy, python-format
+#| msgid "Could not push the repository."
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "Ekki tókst að ýta inn gagnasafnið."
+
 #, fuzzy
 #| msgid "Automatic translation in progress"
 msgid "Repository operation could not be completed because it remained locked."
@@ -22227,6 +22320,10 @@ msgstr "ID-strengs %s"
 
 msgid "This language is used for source strings."
 msgstr "Þetta tungumál er notað fyrir upprunalega strengi."
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr "Þessi þýðingarhluti er tengdur við %(target)s safnið."
 
 #, fuzzy
 #| msgid "This component is currently locked."
@@ -23102,6 +23199,16 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "Lóðrétt graf með tungumálastikum"
 
+#, fuzzy
+#| msgid "Source language"
+msgid "Sort languages by"
+msgstr "Upprunatungumál"
+
+#, fuzzy
+#| msgid "Translation change"
+msgid "Translation percentage"
+msgstr "Breyting á þýðingu"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr "Lárétt graf með tungumálastikum"
@@ -23482,20 +23589,6 @@ msgstr "Ógild viðföng!"
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
-msgid "Template output exceeds its size limit."
-msgstr ""
-
-msgid "Template rendering failed or exceeded its resource limits."
-msgstr ""
-
-msgid "Oversized template response."
-msgstr ""
-
-#, fuzzy
-#| msgid "Invalid translation flag: \"%s\""
-msgid "Invalid template rendering response."
-msgstr "Ógilt þýðingaflagg: \"%s\""
-
 msgid "Could not render template: {}"
 msgstr "Gat ekki myndgert sniðskrá: {}"
 
@@ -23504,14 +23597,16 @@ msgid ""
 "instead."
 msgstr ""
 
-msgid "Template value exceeds its size limit."
+msgid "Template context exceeds its size limit."
 msgstr ""
 
 msgid "Template context is nested too deeply."
 msgstr ""
 
-msgid "Template context exceeds its size limit."
-msgstr ""
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported nonfinite template context value."
+msgstr "Óstutt skráasnið."
 
 #, fuzzy
 #| msgid "Unsupported file format."
@@ -23523,30 +23618,333 @@ msgstr "Óstutt skráasnið."
 msgid "Unsupported template context value."
 msgstr "Óstutt skráasnið."
 
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Template text is not valid UTF-8."
+msgstr "Teiknið sem þú settir inn er ógilt."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid merge request!"
+msgid "Invalid template syntax."
+msgstr "Ógild sameiningarbeiðni!"
+
+#, fuzzy
+#| msgid "Undefined variable: \"%s\""
+msgid "Undefined template variable."
+msgstr "Óskilgreind breyta: \"%s\""
+
+#, fuzzy
+#| msgid "The translation is not valid XML."
+msgid "Text is not valid UTF-8."
+msgstr "Þýðingin er ekki gilt XML."
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Division by zero is not supported."
+msgstr "Ekki er stuðningur við valda röðun."
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Numeric value is too large for this operation."
+msgstr "Skoða allar breytingar fyrir þetta tungumál"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Numeric operation failed."
+msgstr "Gagnasafnsaðgerð mistókst"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation reviews are not enabled."
+msgid "Value or argument has an invalid format."
+msgstr "Yfirferð þýðinga er ekki virk."
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "%(operation)s: %(message)s"
+msgstr "Mistókst að ýta %(component)s: %(error_text)s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
 msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nonfinite numbers are not supported."
+msgstr "Ekki er stuðningur við valda röðun."
+
+#, fuzzy, python-format
+#| msgid "File names"
+msgid "Filter \"%(name)s\""
+msgstr "Skráaheiti"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
 msgstr ""
 
 msgid "Template rendering exceeded its loop limit."
 msgstr ""
 
-msgid "Template intermediate value exceeds its size limit."
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Attribute access and method calls are not supported."
+msgstr "Ekki er stuðningur við valda röðun."
+
+msgid "Index exceeds the length limit of 128 characters."
 msgstr ""
 
-msgid "Template replacement exceeds its size limit."
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Translated template literals are not supported."
+msgstr "Ekki er stuðningur við valda röðun."
+
+#, fuzzy
+#| msgid "Invalid date!"
+msgid "Invalid filter."
+msgstr "Ógild dagsetning!"
+
+msgid "Identity comparisons require None, True, or False."
 msgstr ""
 
-msgid "Template padding exceeds its size limit."
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This condition operator is not supported."
+msgstr "Ekki er stuðningur við valda röðun."
+
+msgid "Template output exceeds its size limit."
 msgstr ""
 
-msgid "Template formatting exceeds its size limit."
+msgid "Loops require a list, string, dictionary, or dictionary view."
 msgstr ""
 
-msgid "Template join exceeds its size limit."
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
+msgstr ""
+
+msgid "Loop value cannot be unpacked into its variables."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This template tag is not supported."
+msgstr "Ekki er stuðningur við valda röðun."
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This template node is not supported."
+msgstr "Ekki er stuðningur við skráasniðið sem fannst."
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
 msgstr ""
 
 #, python-format
 msgid "Undefined variable: \"%s\""
 msgstr "Óskilgreind breyta: \"%s\""
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "This name is prohibited"
+msgid "This filter requires strings."
+msgstr "Þetta nafn er bannað"
+
+#, fuzzy
+#| msgid "Automatically translated"
+msgid "Choices must be a string."
+msgstr "Sjálfvirk þýðing"
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source string length"
+msgid "Joining requires string elements."
+msgstr "Lengd upprunastrengs"
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatically translated"
+msgid "Date format must be a string or None."
+msgstr "Sjálfvirk þýðing"
+
+#, fuzzy
+#| msgid "Avoid years that are associated with you."
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "Forðastu ártöl sem tengjast þér."
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatically translated"
+msgid "Plural suffixes must be a string."
+msgstr "Sjálfvirk þýðing"
+
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nested template delimiters are not supported."
+msgstr "Ekki er stuðningur við valda röðun."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unclosed template token."
+msgstr "Óstutt skráasnið."
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid ".NET resource file"
+msgid "Template tag is empty."
+msgstr ".NET-tilfangaskrá"
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr ""
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unsupported file format."
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "Óstutt skráasnið."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template tag."
+msgstr "Óstutt skráasnið."
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -25374,6 +25772,15 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Frummyndin hefur verið fjarlægð."
 
+#, python-format
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "Skoða orðasafnið %(name)s"
+
+#, fuzzy
+#~| msgid "Invalid translation flag: \"%s\""
+#~ msgid "Invalid template rendering response."
+#~ msgstr "Ógilt þýðingaflagg: \"%s\""
+
 #, fuzzy
 #~| msgid "Registration almost complete"
 #~ msgid "E-mail verification almost complete"
@@ -26630,9 +27037,6 @@ msgstr "Frummyndin hefur verið fjarlægð."
 
 #~ msgid "Renamed project"
 #~ msgstr "Endurnefndi verkefni"
-
-#~ msgid "Renamed component"
-#~ msgstr "Endurnefndi þýðingarhluta"
 
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"

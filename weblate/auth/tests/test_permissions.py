@@ -143,6 +143,37 @@ class PermissionsTest(FixtureComponentTestCase):
         self.assertFalse(self.user.can_access_project(destination))
         self.assertFalse(self.user.has_perm("component.edit", self.component))
 
+    def test_empty_component_list_selection_ignores_stale_project_links(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        team = Group.objects.create(
+            name="Empty component list scope",
+            project_selection=SELECTION_COMPONENT_LIST,
+        )
+        team.roles.add(Role.objects.get(name="Administration"))
+        team.projects.add(self.project)
+        team.admins.add(self.user)
+        self.user.groups.add(team)
+        self.user.clear_permissions_cache()
+
+        self.assertFalse(self.user.can_access_project(self.project))
+        self.assertFalse(self.user.can_access_component(self.component))
+        self.assertFalse(self.user.has_perm("project.edit", self.project))
+        for explicit in (False, True):
+            self.assertNotIn(
+                self.project, self.user.projects_with_perm("project.edit", explicit)
+            )
+        self.assertFalse(
+            User.objects.all_admins(self.project).filter(pk=self.user.pk).exists()
+        )
+
+        team.components.add(self.component)
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+
+        UserBlock.objects.create(user=self.user, project=self.project)
+        self.assertTrue(self.user.has_perm("meta:team.users", team))
+
     def test_admin_perm(self) -> None:
         self.assertTrue(self.superuser.has_perm("upload.authorship", self.project))
         self.assertTrue(self.admin.has_perm("upload.authorship", self.project))

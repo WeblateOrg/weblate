@@ -1549,7 +1549,7 @@ class AutoForm(forms.Form):
         else:
             try:
                 result = self.components.get_by_path(component)
-            except Component.DoesNotExist as error:
+            except (Component.DoesNotExist, Component.MultipleObjectsReturned) as error:
                 raise ValidationError(gettext("Component not found!")) from error
         if (
             isinstance(self.obj, Component)
@@ -3482,7 +3482,7 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
             linked_component = (
                 Component.objects.get_linked(repo) if repo is not None else None
             )
-        except Component.DoesNotExist:
+        except (Component.DoesNotExist, Component.MultipleObjectsReturned):
             linked_component = None
         if linked_component is not None and self.request.user.has_perm(
             "component.edit", linked_component

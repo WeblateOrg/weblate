@@ -14,6 +14,7 @@ from django.db.models import F, prefetch_related_objects
 from django.utils.translation import gettext, ngettext
 
 from weblate.checks.flags import Flags, FlagsValidator
+from weblate.checks.tasks import coalesce_propagated_check_refreshes
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autofixes import fix_target
 from weblate.trans.models import Change, Component, Unit
@@ -524,6 +525,11 @@ def bulk_perform(
     processed_count = 0
     if progress is not None:
         progress(0, len(selected_ids), 0)
+    batch_transaction = (
+        coalesce_propagated_check_refreshes
+        if search and preview is None
+        else transaction.atomic
+    )
     for component in components:
         component_planner = partial(
             planner,
@@ -544,7 +550,7 @@ def bulk_perform(
             component.start_batched_checks()
         try:
             for batch_ids in batched(component_ids, BULK_EDIT_PREVIEW_LIMIT):
-                with transaction.atomic(), source_operation(component):
+                with batch_transaction(), source_operation(component):
                     component_units = Unit.objects.filter(
                         pk__in=batch_ids, translation__component=component
                     )

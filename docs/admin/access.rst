@@ -664,6 +664,11 @@ the following rules:
   granted for all the projects these components are in. :guilabel:`Components`
   and :guilabel:`Projects` are ignored.
 
+  Weblate blocks deleting the last component list assigned to a team. Remove
+  the assignment after reviewing the team's roles and membership, or assign
+  another list that will remain. A team with :guilabel:`From component list`
+  selected and no assigned lists grants no project or component access.
+
   Using huge component lists might have a performance impact, please consider
   giving access via projects instead.
 

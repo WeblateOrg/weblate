@@ -1536,6 +1536,31 @@ class TasksTest(ReusableComponentTestCase):
         self.assertTrue(recent.is_dir())
         self.assertTrue(Path(self.component.full_path).is_dir())
 
+    def test_cleanup_stale_repos_preserves_ambiguous_paths(self) -> None:
+        project_path = Path(self.project.full_path)
+        old_timestamp = time.time() - 2 * 86400
+        for name in ("ambiguous-snapshot", "ambiguous-recheck", "unrelated"):
+            path = project_path / name
+            (path / ".git").mkdir(parents=True)
+            os.utime(path, (old_timestamp, old_timestamp))
+        lookup = _StaleRepositoryLookup({()}, {("AMBIGUOUS-SNAPSHOT",): [False, True]})
+
+        def find_component(parts: tuple[str, ...]) -> None:
+            if parts[-1] == "ambiguous-recheck":
+                raise Component.MultipleObjectsReturned
+
+        with (
+            patch.object(_StaleRepositoryLookup, "load", return_value=lookup),
+            patch(
+                "weblate.trans.tasks._get_component_by_vcs_path",
+                side_effect=find_component,
+            ),
+        ):
+            self.assertFalse(cleanup_stale_repos(project_path))
+        self.assertTrue((project_path / "ambiguous-snapshot").is_dir())
+        self.assertTrue((project_path / "ambiguous-recheck").is_dir())
+        self.assertFalse((project_path / "unrelated").exists())
+
     def test_cleanup_stale_repos_rechecks_link_status(self) -> None:
         linked = self.create_po(project=self.project, name="linked", vcs="local")
         Component.objects.filter(pk=linked.pk).update(

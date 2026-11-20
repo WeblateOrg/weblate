@@ -224,6 +224,7 @@ from weblate.trans.repository import (
     queue_repository_operation,
     reserve_repository_operation,
 )
+from weblate.trans.repository_context import defer_repository_background_tasks
 from weblate.trans.tasks import (
     auto_translate,
     category_removal,
@@ -288,6 +289,8 @@ from .renderers import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from django.db.models import Model
     from django.http import HttpResponse
     from django.http.response import HttpResponseBase
@@ -819,21 +822,38 @@ class WeblateViewSet(DownloadViewSet):
             obj, repository_components
         )
 
+        # Reset and reapply may rebuild a missing checkout in its own durable
+        # transaction, which cannot be nested. Run it outside this transaction,
+        # like the queued task does. Without a commit to hook the reservation
+        # release to, hold back follow-up tasks until it is released.
+        in_transaction = operation != "reset-keep"
+        deferred_tasks: list[Callable[[], None]] = []
+        transaction_context = transaction.atomic() if in_transaction else nullcontext()
+        deferral_context = (
+            nullcontext(deferred_tasks)
+            if in_transaction
+            else defer_repository_background_tasks()
+        )
         with (
             reserve_repository_operation(
                 [component.pk for component in repositories],
                 cast("RepositoryOperation", operation),
             ) as release_reservation,
-            transaction.atomic(),
+            transaction_context as _transaction,
+            deferral_context as deferred_tasks,
         ):
-            # Register this before repository operations add their follow-ups.
-            # Django runs on-commit callbacks in registration order, so the
-            # reservation covers the commit but not the follow-up tasks.
-            transaction.on_commit(release_reservation)
+            if in_transaction:
+                # Register this before repository operations add their
+                # follow-ups. Django runs on-commit callbacks in registration
+                # order, so the reservation covers the commit but not the
+                # follow-up tasks.
+                transaction.on_commit(release_reservation)
             if takes_request:
                 result = getattr(obj, method)(*args, request, **kwargs)
             else:
                 result = getattr(obj, method)(*args, user, **kwargs)
+        for publish in deferred_tasks:
+            publish()
         data = {"result": result}
         if selection is not None:
             data.update(self.get_repository_scope_data(user, selection))
@@ -1061,31 +1081,31 @@ class MultipleFieldViewSet(WeblateViewSet):
         queryset = self.filter_queryset(queryset)
         # Generate lookup
         lookup = {}
-        category_path = ""
+        slug = None
         for field in reversed(self.lookup_fields):
             if field not in {"component__slug", "slug"}:
                 lookup[field] = self.kwargs[field]
-            else:
-                category_prefix = field[:-4]
-                was_category = False
-                was_slug = False
-                # Fetch component part for possible category
-                for category in reversed(unquote(self.kwargs[field]).split("/")):
-                    if not was_slug:
-                        # Component filter
-                        lookup[field] = category
-                        was_slug = True
-                    else:
-                        # Strip "slug" from category field
-                        category_path = f"category__{category_path}"
-                        lookup[f"{category_prefix}{category_path}slug"] = category
-                        was_category = True
-                if not was_category:
-                    # No category
-                    lookup[f"{category_prefix}category"] = None
+                continue
 
-        # Lookup the object
-        return get_object_or_404(queryset, **lookup)
+            *categories, slug = unquote(self.kwargs[field]).split("/")
+            lookup[f"{field}__iexact"] = slug
+            prefix = field.removesuffix("slug")
+            for category in reversed(categories):
+                lookup[f"{prefix}category__slug"] = category
+                prefix += "category__"
+            lookup[f"{prefix}category"] = None
+
+        try:
+            obj = get_object_or_404(queryset, **lookup)
+        except (
+            Component.MultipleObjectsReturned,
+            Translation.MultipleObjectsReturned,
+        ) as error:
+            raise Http404 from error
+        component = obj.component if isinstance(obj, Translation) else obj
+        if slug is not None and component.slug != slug:
+            raise Http404
+        return obj
 
 
 class UserFilter(filters.FilterSet):
@@ -5608,6 +5628,15 @@ class ComponentListViewSet(viewsets.ModelViewSet):
         """Delete the component list."""
         self.perm_check(request)
         return super().destroy(request, *args, **kwargs)
+
+    def perform_destroy(self, instance: ComponentList) -> None:
+        try:
+            with transaction.atomic(
+                using=router.db_for_write(ComponentList, instance=instance)
+            ):
+                super().perform_destroy(instance)
+        except DjangoValidationError as error:
+            raise ValidationError(error.messages) from error
 
     @extend_schema(
         description="Associate component with a component list.", methods=["post"]

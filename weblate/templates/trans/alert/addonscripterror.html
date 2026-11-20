@@ -2,7 +2,7 @@
 
 <p>{% translate "Weblate could not execute script add-on." %}</p>
 
-<p>{% translate "The following occurrences were found:" %}</p>
+{% include "trans/alert/occurrence-summary.html" %}
 
 <table class="table table-sm">
   <thead>
@@ -28,6 +28,5 @@
   </tbody>
 </table>
 
-{% include "trans/alert/occurrences-limit.html" %}
 
 {% include "trans/alert/addon-configuration.html" %}

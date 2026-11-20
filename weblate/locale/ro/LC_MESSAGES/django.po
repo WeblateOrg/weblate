@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-13 01:19-0600\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
 "PO-Revision-Date: 2026-10-30 05:04+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -1505,6 +1505,22 @@ msgstr "Îți poți confirma înregistrarea doar dacă ești conectat."
 msgid ""
 "This invitation can be accepted only by the e-mail address chosen by the "
 "inviter; it can't be used by your account."
+msgstr ""
+
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Your e-mail no longer belongs to verified account, it has been changed to "
+#| "{0}."
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr ""
+"E-mailul tău nu mai aparține contului verificat, a fost schimbat în {0}."
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
 msgstr ""
 
 msgid ""
@@ -4464,6 +4480,16 @@ msgid ""
 "Remove the component from project teams before moving it to another project."
 msgstr ""
 
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
+
 msgid "Roles"
 msgstr "Roluri"
 
@@ -5361,6 +5387,11 @@ msgstr "Facturare"
 #| msgid "Billing overview"
 msgid "Billing event"
 msgstr "Prezentare generală facturare"
+
+#, fuzzy
+#| msgid "Projects without components"
+msgid "Project has no components."
+msgstr "Proiecte fără componente"
 
 #, fuzzy
 #| msgid "Monthly"
@@ -7648,9 +7679,6 @@ msgstr "Formulă plural"
 msgid "Plural type"
 msgstr "Tip plural"
 
-msgid "Example counts for this plural form."
-msgstr "Număr de exemple pentru această formă de plural."
-
 msgid "Singular"
 msgstr "Singular"
 
@@ -8882,6 +8910,11 @@ msgid "Read your e-mail address"
 msgstr "Folosește adresa de e-mail a contului"
 
 msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
 msgstr ""
 
 msgid "Image is too big."
@@ -11615,6 +11648,16 @@ msgstr ""
 "Acest abonament nu este eligibil pentru planul libre, te rugăm să remediezi "
 "erorile de mai sus sau să achiziționezi un abonament."
 
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+
 #, fuzzy
 #| msgid "Custom"
 msgid "Customer"
@@ -13386,6 +13429,16 @@ msgstr ""
 #. Translators: e-mail subject
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr ""
+
+#, fuzzy
+#| msgid "Does not meet Libre hosting conditions."
+msgid "Review Libre hosting conditions"
+msgstr "Nu îndeplinește condițiile de găzduire Libre."
+
+#, fuzzy, python-format
+#| msgid "Number of entries for %(project)s"
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "Număr de intrări pentru %(project)s"
 
 msgid "Translation change"
 msgstr "Schimbare traducere"
@@ -15588,6 +15641,9 @@ msgid ""
 "maintenance of Weblate itself."
 msgstr ""
 
+msgid "Example counts for this plural form."
+msgstr "Număr de exemple pentru această formă de plural."
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
@@ -15618,12 +15674,13 @@ msgstr ""
 msgid "Source code repository"
 msgstr "Depozitar cod sursă"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr "Această componentă este legată de depozitarul %(target)s."
-
 msgid "Repository URL copied to clipboard."
 msgstr "URL-ul depozitarului a fost copiat în clipboard."
+
+#, fuzzy
+#| msgid "Renamed component"
+msgid "Linked component"
+msgstr "Componentă redenumită"
 
 msgid "Repository branch"
 msgstr "Ramură depozitar"
@@ -16101,6 +16158,11 @@ msgstr "Plural: %(source_description)s"
 
 msgid "Plurals"
 msgstr "Pluraluri"
+
+#, fuzzy
+#| msgid "No strings found!"
+msgid "No integer examples found"
+msgstr "Nu s-au găsit șiruri!"
 
 msgid "First"
 msgstr "Prima"
@@ -17063,15 +17125,15 @@ msgstr "Componenta conține mai multe șiruri de traducere duplicate."
 msgid "Source"
 msgstr "Sursă"
 
-#, fuzzy, python-format
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove duplicate strings from %(language)s (%(filename)s)"
-msgstr "Forțează scrierea tuturor traducerilor în fișierele de traducere."
-
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
 msgstr "Elimină șiruri goale"
+
+#, fuzzy, python-format
+#| msgid "Forces writing all strings to the translation files."
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Forțează scrierea tuturor traducerilor în fișierele de traducere."
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -18114,10 +18176,6 @@ msgstr "Acest șir a fost tradus în trecut"
 msgid "Add term to glossary"
 msgstr "Adaugă termen la glosar"
 
-#, python-format
-msgid "Browse glossary %(name)s"
-msgstr "Răsfoiește glosarul %(name)s"
-
 #, fuzzy
 #| msgid "Browse glossary %(name)s"
 msgid "Browse glossary"
@@ -18177,6 +18235,15 @@ msgstr "Ultima actualizare"
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
 msgstr "Vechime șir sursă"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s, line %(line)s"
+msgstr "%(filename)s, șir %(position)s"
+
+#, python-format
+msgid "line %(line)s"
+msgstr ""
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -20078,13 +20145,13 @@ msgstr "Mască de fișier duplicată."
 msgid "Referenced category does not exist."
 msgstr "Fișierul nu există."
 
-msgid "Component filename does not match its category and slug."
-msgstr ""
-
 #, fuzzy
 #| msgid "Create component"
 msgid "Duplicate component slug."
 msgstr "Creează componentă"
+
+msgid "Component filename does not match its category and slug."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation reviews are not enabled."
@@ -20416,6 +20483,11 @@ msgstr "Votare sugestie"
 msgid "Needs review"
 msgstr "Sursa trebuie revizuită"
 
+#, fuzzy
+#| msgid "The source and target have to be different languages."
+msgid "The source and destination checkouts must be different."
+msgstr "Sursa și ținta trebuie să fie limbi diferite."
+
 msgid "This component does not exist or you cannot access it."
 msgstr ""
 
@@ -20449,6 +20521,11 @@ msgstr ""
 #| msgid "Good configuration"
 msgid "Discovery configuration"
 msgstr "Configurație bună"
+
+#, fuzzy, python-format
+#| msgid "Could not render template: {}"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "Nu s-a putut reda șablonul: {}"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -22748,6 +22825,11 @@ msgid "Use the secondary language configured in the category or project."
 msgstr "Limbă nouă adăugată la %(component)s"
 
 #, fuzzy
+#| msgid "This string seems to already exist."
+msgid "The linked repository path is ambiguous."
+msgstr "Acest șir pare să existe deja."
+
+#, fuzzy
 #| msgid ""
 #| "Could not verify SSH host key, please add them in SSH page in the admin "
 #| "interface."
@@ -23038,6 +23120,11 @@ msgid ""
 "Pushing without a merge request needs write access to the repository. "
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
+
+#, fuzzy
+#| msgid "The filename can not be an absolute path."
+msgid "Version control system cannot be changed to this backend."
+msgstr "Numele fișierului nu poate fi o cale absolută."
 
 #, fuzzy
 #| msgid "The regular expression can not match an empty string."
@@ -23743,6 +23830,11 @@ msgstr "Linie em"
 msgid "User configured character: {}"
 msgstr "Caracter configurat de utilizator: {}"
 
+#, fuzzy, python-format
+#| msgid "Could not push the repository."
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "Nu a fost posibilă încărcarea depozitarului."
+
 #, fuzzy
 #| msgid "Automatic translation in progress"
 msgid "Repository operation could not be completed because it remained locked."
@@ -23882,6 +23974,10 @@ msgstr "ID șir %s"
 
 msgid "This language is used for source strings."
 msgstr "Această limbă este folosită pentru șiruri sursă."
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr "Această componentă este legată de depozitarul %(target)s."
 
 #, fuzzy
 #| msgid "Fix this component to clear its alerts."
@@ -24808,6 +24904,16 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "Diagramă verticală cu bare de limbă"
 
+#, fuzzy
+#| msgid "Secondary languages"
+msgid "Sort languages by"
+msgstr "Limbi secundare"
+
+#, fuzzy
+#| msgid "Translation change"
+msgid "Translation percentage"
+msgstr "Schimbare traducere"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr "Diagramă orizontală de bară lingvistică"
@@ -25200,20 +25306,6 @@ msgstr "Parametrii nevalabili!"
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
-msgid "Template output exceeds its size limit."
-msgstr ""
-
-msgid "Template rendering failed or exceeded its resource limits."
-msgstr ""
-
-msgid "Oversized template response."
-msgstr ""
-
-#, fuzzy
-#| msgid "Invalid translation flag: \"%s\""
-msgid "Invalid template rendering response."
-msgstr "Indicator de traducere nevalid: „%s”"
-
 msgid "Could not render template: {}"
 msgstr "Nu s-a putut reda șablonul: {}"
 
@@ -25224,7 +25316,7 @@ msgstr ""
 "Șirurile de formate nu mai sunt acceptate, te rugăm să utilizezi în schimb "
 "limbajul din șablon."
 
-msgid "Template value exceeds its size limit."
+msgid "Template context exceeds its size limit."
 msgstr ""
 
 #, fuzzy
@@ -25234,8 +25326,10 @@ msgstr ""
 "Etichetei HTML {tag} îi lipsește o etichetă de final care să se potrivească: "
 "{end}."
 
-msgid "Template context exceeds its size limit."
-msgstr ""
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported nonfinite template context value."
+msgstr "Format de fișier neacceptat."
 
 #, fuzzy
 #| msgid "Unsupported file format."
@@ -25247,30 +25341,333 @@ msgstr "Format de fișier neacceptat."
 msgid "Unsupported template context value."
 msgstr "Format de fișier neacceptat."
 
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Template text is not valid UTF-8."
+msgstr "Jetonul introdus nu este valid."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid merge request!"
+msgid "Invalid template syntax."
+msgstr "Cerere de îmbinare nevalidă!"
+
+#, fuzzy
+#| msgid "Undefined variable: \"%s\""
+msgid "Undefined template variable."
+msgstr "Variabilă nedefinită: „%s”"
+
+#, fuzzy
+#| msgid "The translation is not valid XML"
+msgid "Text is not valid UTF-8."
+msgstr "Traducerea nu este validă XML"
+
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "Division by zero is not supported."
+msgstr "Sortarea aleasă nu este suportată."
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Numeric value is too large for this operation."
+msgstr "Răsfoiește toate modificările pentru această limbă"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Numeric operation failed."
+msgstr "Operațiunea depozitarului a eșuat"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation reviews are not enabled."
+msgid "Value or argument has an invalid format."
+msgstr "Recenziile traducerilor nu sunt activate."
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "%(operation)s: %(message)s"
+msgstr "Nu s-a reușit încărcarea %(component)s: %(error_text)s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
 msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "Nonfinite numbers are not supported."
+msgstr "Sortarea aleasă nu este suportată."
+
+#, fuzzy, python-format
+#| msgid "File names"
+msgid "Filter \"%(name)s\""
+msgstr "Nume fișiere"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
 msgstr ""
 
 msgid "Template rendering exceeded its loop limit."
 msgstr ""
 
-msgid "Template intermediate value exceeds its size limit."
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "Attribute access and method calls are not supported."
+msgstr "Sortarea aleasă nu este suportată."
+
+msgid "Index exceeds the length limit of 128 characters."
 msgstr ""
 
-msgid "Template replacement exceeds its size limit."
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "Translated template literals are not supported."
+msgstr "Sortarea aleasă nu este suportată."
+
+#, fuzzy
+#| msgid "Invalid image!"
+msgid "Invalid filter."
+msgstr "Imagine nevalidă!"
+
+msgid "Identity comparisons require None, True, or False."
 msgstr ""
 
-msgid "Template padding exceeds its size limit."
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "This condition operator is not supported."
+msgstr "Sortarea aleasă nu este suportată."
+
+msgid "Template output exceeds its size limit."
 msgstr ""
 
-msgid "Template formatting exceeds its size limit."
+msgid "Loops require a list, string, dictionary, or dictionary view."
 msgstr ""
 
-msgid "Template join exceeds its size limit."
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
+msgstr ""
+
+msgid "Loop value cannot be unpacked into its variables."
+msgstr ""
+
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "This template tag is not supported."
+msgstr "Sortarea aleasă nu este suportată."
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This template node is not supported."
+msgstr "Formatul de fișier detectat nu este acceptat."
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
 msgstr ""
 
 #, python-format
 msgid "Undefined variable: \"%s\""
 msgstr "Variabilă nedefinită: „%s”"
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "This name is prohibited"
+msgid "This filter requires strings."
+msgstr "Acest nume este interzis"
+
+#, fuzzy
+#| msgid "Automatically translated"
+msgid "Choices must be a string."
+msgstr "Tradus automat"
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source string length"
+msgid "Joining requires string elements."
+msgstr "Lungime șir sursă"
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatically translated"
+msgid "Date format must be a string or None."
+msgstr "Tradus automat"
+
+#, fuzzy
+#| msgid "Avoid years that are associated with you."
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "Evită anii care îți sunt asociați."
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatically translated"
+msgid "Plural suffixes must be a string."
+msgstr "Tradus automat"
+
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "Nested template delimiters are not supported."
+msgstr "Sortarea aleasă nu este suportată."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unclosed template token."
+msgstr "Format de fișier neacceptat."
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid ".NET resource file"
+msgid "Template tag is empty."
+msgstr "Fișier de resurse .NET"
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr ""
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unsupported file format."
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "Format de fișier neacceptat."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template tag."
+msgstr "Format de fișier neacceptat."
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -27168,6 +27565,15 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Sursa a fost eliminată."
 
+#, python-format
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "Răsfoiește glosarul %(name)s"
+
+#, fuzzy
+#~| msgid "Invalid translation flag: \"%s\""
+#~ msgid "Invalid template rendering response."
+#~ msgstr "Indicator de traducere nevalid: „%s”"
+
 #, fuzzy
 #~| msgid "Registration almost complete"
 #~ msgid "E-mail verification almost complete"
@@ -28663,9 +29069,6 @@ msgstr "Sursa a fost eliminată."
 #~ msgid "Renamed project"
 #~ msgstr "Proiect redenumit"
 
-#~ msgid "Renamed component"
-#~ msgstr "Componentă redenumită"
-
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "Șir nou de tradus"
@@ -29628,11 +30031,6 @@ msgstr "Sursa a fost eliminată."
 #~| msgid "Git repository"
 #~ msgid "Backup pepository"
 #~ msgstr "Repository Git"
-
-#, fuzzy
-#~| msgid "Secondary languages"
-#~ msgid "Your languages"
-#~ msgstr "Limbi secundare"
 
 #~ msgid "Fulltext"
 #~ msgstr "Tot textul"

@@ -8,7 +8,7 @@ import os
 import re
 import time
 from collections import defaultdict
-from contextlib import contextmanager, nullcontext, suppress
+from contextlib import ExitStack, contextmanager, nullcontext, suppress
 from copy import deepcopy
 from dataclasses import dataclass
 from functools import partial
@@ -37,9 +37,9 @@ from django.core.exceptions import (
     ValidationError,
 )
 from django.core.validators import MaxValueValidator, URLValidator
-from django.db import IntegrityError, models, transaction
+from django.db import IntegrityError, models, router, transaction
 from django.db.models import F, Q, Value
-from django.db.models.functions import MD5
+from django.db.models.functions import MD5, Upper
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from django.template import TemplateSyntaxError
@@ -461,7 +461,9 @@ class ComponentQuerySet(models.QuerySet["Component", "Component"]):
     def defer_huge(self):
         return self.defer(*HUGE_INHERITABLE_SETTINGS)
 
-    def filter_by_path(self, path: str) -> ComponentQuerySet:
+    def filter_by_path(
+        self, path: str, *, exact_depth: bool = False
+    ) -> ComponentQuerySet:
         try:
             project, *categories, component = path.split("/")
         except ValueError as error:
@@ -471,14 +473,14 @@ class ComponentQuerySet(models.QuerySet["Component", "Component"]):
         for category in reversed(categories):
             kwargs[f"{prefix}category__slug"] = category
             prefix = f"category__{prefix}"
-        if not kwargs:
-            kwargs["category"] = None
+        if exact_depth or not kwargs:
+            kwargs[f"{prefix}category"] = None
         return self.filter(
             slug__iexact=component, project__slug__iexact=project, **kwargs
         )
 
     def get_by_path(self, path: str) -> Component:
-        return self.filter_by_path(path).get()
+        return self.filter_by_path(path, exact_depth=True).get()
 
     def get_linked(self, val):
         """Return component for linked repo."""
@@ -1226,8 +1228,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
         ]
         constraints = [  # ruff: ignore[mutable-class-default]
             models.UniqueConstraint(
-                name="component_slug_unique",
-                fields=["project", "category", "slug"],
+                "project",
+                "category",
+                Upper("slug"),
+                name="component_slug_ci_unique",
                 nulls_distinct=False,
             ),
             models.UniqueConstraint(
@@ -1312,8 +1316,35 @@ class Component(  # ruff: ignore[too-many-public-methods]
         else:
             self._save(*args, **kwargs)
 
-    def _save(  # ruff: ignore[complex-structure, too-many-locals, too-many-statements]
-        self, *args, **kwargs
+    def _save(self, *args, **kwargs) -> None:
+        with ExitStack() as stack:
+            self._save_component(stack, *args, **kwargs)
+
+    @contextmanager
+    def _atomic_path_change(
+        self, using: str, moved_paths: list[tuple[str, str]]
+    ) -> Generator[None]:
+        committed = False
+
+        def mark_committed() -> None:
+            nonlocal committed
+            committed = True
+
+        try:
+            with transaction.atomic(using=using):
+                transaction.on_commit(mark_committed, using=using)
+                yield
+        except Exception:
+            if not committed:
+                for old_path, new_path in moved_paths:
+                    if not os.path.lexists(old_path) and os.path.exists(new_path):
+                        os.rename(new_path, old_path)
+                self.invalidate_path_cache()
+                self.drop_repository_cache()
+            raise
+
+    def _save_component(  # ruff: ignore[complex-structure, too-many-locals, too-many-statements]
+        self, stack: ExitStack, *args, **kwargs
     ) -> None:
         """
         Save wrapper.
@@ -1364,6 +1395,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
         old_full_slug = None
         old_source_project_id = None
         old_workspace_id = None
+        path_changed = False
+        moved_paths: list[tuple[str, str]] = []
 
         if self.id:
             old = Component.objects.get(pk=self.pk)
@@ -1438,18 +1471,22 @@ class Component(  # ruff: ignore[too-many-public-methods]
             ) or (restricted_changed and (old.is_glossary or self.is_glossary))
 
             changed_variant = old.variant_regex != self.variant_regex
-            # Generate change entries for changes
+            path_changed = any(
+                should_track_field(self, field, update_fields)
+                and getattr(old, attribute) != getattr(self, attribute)
+                for field, attribute in (
+                    ("slug", "slug"),
+                    ("project", "project_id"),
+                    ("category", "category_id"),
+                )
+            )
+            if path_changed:
+                using = kwargs.get("using") or router.db_for_write(
+                    type(self), instance=self
+                )
+                stack.enter_context(self._atomic_path_change(using, moved_paths))
             self.generate_changes(old, update_fields=update_fields)
-            # Detect slug changes and rename Git repo
-            was_renamed = self.check_rename(old)
-            # Rename linked repos
-            if (
-                old.slug != self.slug
-                or old.project != self.project
-                or old.category != self.category
-            ):
-                old.component_set.update(repo=self.get_repo_link_url())
-            if changed_git or was_renamed:
+            if changed_git and not path_changed:
                 self.drop_repository_cache()
 
             changed_enforced_checks = (
@@ -1519,6 +1556,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     exclusive=True,
                 )
             super().save(*args, **kwargs)
+            if path_changed:
+                self.check_rename(old, moved_paths=moved_paths)
+                self.drop_repository_cache()
+                old.component_set.update(repo=self.get_repo_link_url())
             if boundary_changed:
                 from weblate.trans.propagation import refresh_propagation_checks  # ruff: ignore[import-outside-top-level]
 
@@ -2685,7 +2726,12 @@ class Component(  # ruff: ignore[too-many-public-methods]
         cached_path = self.__dict__.get("full_path")
         cached_repository = self.__dict__.get("repository")
 
-        self.linked_component = Component.objects.get_linked(self.repo)
+        try:
+            self.linked_component = Component.objects.get_linked(self.repo)
+        except Component.MultipleObjectsReturned as error:
+            raise ValidationError(
+                {"repo": gettext("The linked repository path is ambiguous.")}
+            ) from error
         current_path = self._get_path()
 
         if cached_path is not None and cached_path != current_path:
@@ -5717,7 +5763,11 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if self.is_repo_link:
             try:
                 repo = Component.objects.get_linked(self.repo)
-            except (Component.DoesNotExist, ValueError) as error:
+            except (
+                Component.DoesNotExist,
+                Component.MultipleObjectsReturned,
+                ValueError,
+            ) as error:
                 raise ValidationError(
                     {
                         "repo": gettext(
@@ -7226,8 +7276,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
             )
             return None
 
-        base_filename = self.get_new_base_filename()
-
         filename = file_format.get_language_filename(self.filemask, code)
         fullname = os.path.join(self.full_path, filename)
 
@@ -7237,6 +7285,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 self.commit_pending("add language", None)
 
             try:
+                # An update may have replaced the base while we waited for the lock.
+                base_filename = self.get_new_base_filename()
                 self.check_file_is_valid(fullname)
             except ValidationError:
                 fail_message(gettext("Could not add new translation file."))

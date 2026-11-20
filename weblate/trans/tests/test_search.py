@@ -1612,6 +1612,55 @@ class BulkEditTest(ReusableViewTestCase):
         other_unit.refresh_from_db()
         self.assertEqual((self.unit.target, other_unit.target), ("aa\n", "b\n"))
 
+    def test_replacement_batches_propagated_check_refreshes(self) -> None:
+        peer = self.create_po(
+            project=self.project, slug="replace-peer", name="Replace peer"
+        )
+        peer_translation = peer.translation_set.get(language_code="cs")
+        sources = ("Hello, world!\n", "Try Weblate at <https://demo.weblate.org/>!\n")
+        units = [self.get_unit(source=source) for source in sources]
+        peers = [
+            self.get_unit(source=source, translation=peer_translation)
+            for source in sources
+        ]
+        for unit in units + peers:
+            unit.translate(self.user, "Before\n", STATE_TRANSLATED, propagate=False)
+
+        with (
+            patch("weblate.checks.tasks.refresh_propagated_checks.delay") as refresh,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            updated = bulk_perform(
+                self.user,
+                Unit.objects.filter(pk__in=[unit.pk for unit in units]),
+                query="",
+                target_state=-1,
+                add_flags="",
+                remove_flags="",
+                add_labels=self.project.label_set.none(),
+                remove_labels=self.project.label_set.none(),
+                project=self.project,
+                search="Before",
+                replacement="After",
+            )
+
+        self.assertEqual(updated, 2)
+        refresh.assert_called_once()
+        project_id, groups, unit_ids = refresh.call_args.args
+        self.assertEqual(project_id, self.project.pk)
+        self.assertCountEqual(unit_ids, [unit.pk for unit in peers])
+        self.assertCountEqual(
+            [
+                group["target"]
+                for group in groups
+                if group["component_id"] == peer.pk and group["check"] == "reused"
+            ],
+            ["Before\n", "After\n"],
+        )
+        for unit in units + peers:
+            unit.refresh_from_db()
+            self.assertEqual(unit.target, "After\n")
+
     @override_settings(AUTOFIX_LIST=[])
     def test_regex_replacement_with_state_and_flags(self) -> None:
         response = self.client.post(

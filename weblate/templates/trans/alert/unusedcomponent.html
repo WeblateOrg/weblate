@@ -4,4 +4,12 @@
   {% blocktranslate count count=analysis.days %}The component has not received any translation within {{ count }} day.{% plural %}The component has not received any translation within {{ count }} days.{% endblocktranslate %}
 </p>
 
+{% if analysis.last_translation_change %}
+  <p>
+    {% blocktranslate with date=analysis.last_translation_change|date:"DATE_FORMAT" %}Most recent recorded translation change was on {{ date }}.{% endblocktranslate %}
+  </p>
+{% elif "last_translation_change" in details %}
+  <p>{% translate "No translation changes have been recorded." %}</p>
+{% endif %}
+
 <p>{% translate "Please consider removing the component if it is no longer useful." %}</p>
