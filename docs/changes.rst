@@ -17,6 +17,8 @@ Weblate 2026.12
 * Added staged :ref:`libre-hosting-cleanup` with advance notice and a 30-day trial.
 * Added :ref:`background task tracking <api-background-operations>` for creating translations and deleting translations, components, and categories through the API.
 * Added staged :ref:`libre-hosting-cleanup` on Hosted Weblate with advance notice and a 30-day trial.
+* :ref:`addon-weblate.discovery.discovery` supports a ``category`` named group in the match expression to create categories for newly discovered components.
+
 
 .. rubric:: Improvements
 
@@ -165,6 +167,7 @@ Weblate 2026.12
 * Removed the browsable :ref:`REST API <api>` renderer and its HTML forms. Browse the API documentation at ``/api/docs/``.
 
 * Restricted :ref:`configurable templates <markup>` to documented operations with parsing, allocation, and cumulative work limits.
+* The ``category`` named group in the :ref:`component discovery <addon-weblate.discovery.discovery>` match expression is now reserved for assigning categories. Existing configurations that used it only for templates will create categories for newly discovered components. Rename the group to keep the previous behavior.
 
 .. rubric:: Upcoming compatibility changes in 2027.1
 
