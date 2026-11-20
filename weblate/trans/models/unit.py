@@ -669,7 +669,9 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
             )
         return result
 
-    def order_by_request(self, form_data, obj) -> UnitQuerySet:
+    def order_by_request(
+        self, form_data, obj, *, custom_sources: bool | None = None
+    ) -> UnitQuerySet:
         sort_list_request = form_data.get("sort_by", "").split(",")
         available_sort_choices = [
             "priority",
@@ -728,7 +730,7 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
                 sort_list = ["-priority", "position"]
         queryset = self
         if "source" in sort_list or "-source" in sort_list:
-            queryset = self.with_source_ordering(obj)
+            queryset = self.with_source_ordering(obj, custom_sources=custom_sources)
             sort_list = [
                 choice.replace("source", "sort_source")
                 if choice in {"source", "-source"}
@@ -741,14 +743,15 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
             )
         return queryset.order_by(*sort_list)
 
-    def with_source_ordering(self, obj):
-        project = obj if isinstance(obj, Project) else getattr(obj, "project", None)
-        if project is None and hasattr(obj, "component"):
-            project = obj.component.project
-        source = self.effective_source_expression(
-            custom_sources=project is None
-            or bool(project.translation_parent_language_ids)
-        )
+    def with_source_ordering(self, obj, *, custom_sources: bool | None = None):
+        if custom_sources is None:
+            project = obj if isinstance(obj, Project) else getattr(obj, "project", None)
+            if project is None and hasattr(obj, "component"):
+                project = obj.component.project
+            custom_sources = project is None or bool(
+                project.translation_parent_language_ids
+            )
+        source = self.effective_source_expression(custom_sources=custom_sources)
         return self.alias(sort_source=source)
 
     def order_by_count(self, choice: str, count_filter) -> UnitQuerySet:

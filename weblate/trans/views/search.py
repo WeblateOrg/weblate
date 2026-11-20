@@ -27,7 +27,13 @@ from weblate.trans.forms import (
     BulkEditForm,
     SearchForm,
 )
-from weblate.trans.models import Category, Component, Project, Translation
+from weblate.trans.models import (
+    Category,
+    Component,
+    Project,
+    Translation,
+    WorkflowSetting,
+)
 from weblate.trans.models.unit import fill_in_source_translation
 from weblate.trans.util import redirect_next, render
 from weblate.utils import messages
@@ -89,10 +95,25 @@ def search_replace(request: AuthenticatedHttpRequest, path):
     return bulk_edit(request, path, data=data)
 
 
+def shared_units_use_custom_sources(project: Project) -> bool:
+    """
+    Check whether any project owning a component listed in the project uses a custom source.
+
+    Shared units follow the source workflow of the project that owns them.
+    """
+    return (
+        WorkflowSetting.objects.filter(project__component__in=project.child_components)
+        .exclude(source_language=None)
+        .exists()
+    )
+
+
 @never_cache
 def search(request: AuthenticatedHttpRequest, path=None):
     """Perform site-wide search on units."""
     is_ratelimited = not check_rate_limit("search", request)
+    # Statistics links opt in to strings from components shared into the project.
+    include_shared = request.GET.get("include_shared") == "1"
     obj, unit_set, context = parse_path_units(
         request,
         path,
@@ -108,7 +129,13 @@ def search(request: AuthenticatedHttpRequest, path=None):
             Language,
             None,
         ),
+        include_shared=include_shared,
     )
+    include_shared = include_shared and isinstance(obj, (Project, ProjectLanguage))
+    context["include_shared"] = include_shared
+    custom_sources = None
+    if include_shared:
+        custom_sources = shared_units_use_custom_sources(context["project"])
 
     search_form = SearchForm(request=request, data=request.GET, obj=obj)
     context["search_form"] = search_form
@@ -130,8 +157,11 @@ def search(request: AuthenticatedHttpRequest, path=None):
             search_form.cleaned_data.get("q", ""),
             project=context.get("project"),
             user=request.user,
+            custom_sources=custom_sources,
         )
-        ordered_units = search_units.order_by_request(search_form.cleaned_data, obj)
+        ordered_units = search_units.order_by_request(
+            search_form.cleaned_data, obj, custom_sources=custom_sources
+        )
         units = get_paginator(request, ordered_units)
         total_strings = units.paginator.count
         total_words = None
@@ -142,6 +172,9 @@ def search(request: AuthenticatedHttpRequest, path=None):
 
         # Make sure source translation is available
         fill_in_source_translation(units)
+        query_params = QueryDict(search_form.urlencode(), mutable=True)
+        if include_shared:
+            query_params["include_shared"] = "1"
         # Rebuild context from scratch here to get new form
         context.update(
             {
@@ -152,21 +185,23 @@ def search(request: AuthenticatedHttpRequest, path=None):
                 "title": gettext("Search for %s") % search_form.cleaned_data["q"]
                 if search_form.cleaned_data["q"]
                 else gettext("All strings"),
-                "query_params": QueryDict(search_form.urlencode()),
+                "query_params": query_params,
                 "search_query": search_form.cleaned_data["q"],
                 "sort_query": search_form.sort_query,
                 "total_strings": total_strings,
                 "total_words": total_words,
             }
         )
-        if isinstance(
+        # The editor and bulk edit only cover the project's own components, so
+        # they are not offered for a list that includes shared ones.
+        if not include_shared and isinstance(
             obj, (Translation, ProjectLanguage, CategoryLanguage, WorkspaceLanguage)
         ):
             context["translate_url"] = (
                 f"{reverse('translate', kwargs={'path': obj.get_url_path()})}"
                 f"?{search_form.urlencode()}"
             )
-        if isinstance(obj, BULK_EDIT_TYPES):
+        if not include_shared and isinstance(obj, BULK_EDIT_TYPES):
             bulk_state_form = optional_form(
                 BulkEditForm,
                 request.user,

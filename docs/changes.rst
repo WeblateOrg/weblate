@@ -71,6 +71,7 @@ Weblate 2026.12
 * Fixed :ref:`connecting GitHub App installations <code-hosting-github-app-connect>` after repository access updates or a rejected authorization code.
 
 * Preserved source strings backed by a file when :ref:`removing their last translation <component-manage_units>`.
+* Listed strings from :ref:`shared components <component-links>` when following project language statistics links that count them.
 * Enabled adding languages from the project language list in :ref:`glossary-only projects <glossary-language-sync>`.
 * Preserved special characters in e-mail subjects for :ref:`notifications`.
 * Handled invalid configured :ref:`templates <markup>` without unhandled server errors, preserving editor access and reporting failed repository and add-on operations.

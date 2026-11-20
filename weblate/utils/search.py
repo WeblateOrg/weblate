@@ -731,9 +731,17 @@ class UnitTermExpr(BaseTermExpr):
         return self.build_field_query("language", text)
 
     @staticmethod
-    def effective_source_query(canonical: Q, parent: Q, context: dict) -> Q:
+    def uses_custom_sources(context: dict) -> bool:
+        """Whether units in the search can have a custom translation source."""
+        custom_sources = context.get("custom_sources")
+        if custom_sources is not None:
+            return custom_sources
         project = context.get("project")
-        if project is not None and not project.translation_parent_language_ids:
+        return project is None or bool(project.translation_parent_language_ids)
+
+    @classmethod
+    def effective_source_query(cls, canonical: Q, parent: Q, context: dict) -> Q:
+        if not cls.uses_custom_sources(context):
             return canonical
         return (
             Q(
@@ -765,8 +773,7 @@ class UnitTermExpr(BaseTermExpr):
         author: bool = False,
     ) -> Q:
         relations = ["source_unit"]
-        project = context.get("project")
-        if project is None or project.translation_parent_language_ids:
+        if self.uses_custom_sources(context):
             relations.append("translation_parent")
         result = Q()
         for relation in relations:

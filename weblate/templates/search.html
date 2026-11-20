@@ -44,6 +44,7 @@
   {% if show_results %}
     <form method="get" class="result-page-form">
       {% crispy search_form %}
+      {% if include_shared %}<input type="hidden" name="include_shared" value="1" />{% endif %}
     </form>
     {% if translate_url %}
       <a class="btn btn-primary" href="{{ translate_url }}">{% translate "Translate" %}</a>
@@ -100,6 +101,7 @@
   {% else %}
     <form method="get" class="result-page-form">
       {% include "snippets/search-form.html" %}
+      {% if include_shared %}<input type="hidden" name="include_shared" value="1" />{% endif %}
     </form>
   {% endif %}
 
