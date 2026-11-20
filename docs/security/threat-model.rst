@@ -970,7 +970,7 @@ Security properties Weblate provides
        destination's access policy. *(maintainer)*
    * - Self-service trial creation grants only the designated commercial trial
        plan or the Libre setup plan. *(maintainer)*
-     - The deployment offers self-service hosting trials.
+     - A user requests a self-service trial on Hosted Weblate.
      - An authenticated user can select another public, private, or internal
        billing plan when creating a trial.
      - Security-critical when this bypasses paid service limits.

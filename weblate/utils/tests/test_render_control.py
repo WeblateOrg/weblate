@@ -285,6 +285,7 @@ class TemplateControlFlowTest(SimpleTestCase):
                     "{% for a,b in items %}{{ a }}={{ b }}{% endfor %}", items=items
                 )
 
+    @patch("weblate.utils.render_engine.monotonic", new=lambda: 1.0)
     def test_budgets_are_local_to_each_render(self) -> None:
         source = "{% for item in items %}{% if item %}{{ item }}{% endif %}{% endfor %}"
         with ThreadPoolExecutor(max_workers=4) as executor:

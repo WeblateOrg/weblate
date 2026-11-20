@@ -25,7 +25,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import connection, transaction
 from django.db.migrations.loader import MigrationLoader
 from django.http import StreamingHttpResponse
-from django.test import Client, SimpleTestCase
+from django.test import Client, SimpleTestCase, TestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone
@@ -335,7 +335,7 @@ class ScreenshotExtensionMigrationTest(FixtureTestCase):
             self.assertEqual(image.read(), Path(TEST_SCREENSHOT).read_bytes())
 
 
-class TesseractDataTest(SimpleTestCase):
+class TesseractDataTest(TestCase):
     def test_norwegian_ocr_language(self) -> None:
         with (
             patch("tesserocr.PyTessBaseAPI") as api,

@@ -4118,12 +4118,15 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
     EXT = "xml"
     MASK = "xml/XWikiSource.*.xml"
     EXPECTED_PATH = "xml/XWikiSource.cs.xml"
-    FIND = "administration.section.users.disableUser.done"
-    FIND_CONTEXT = "administration.section.users.disableUser.done"
-    FIND_MATCH = "User account disabled"
+    FIND = "administration.section.users.disableUser.failed"
+    FIND_CONTEXT = "administration.section.users.disableUser.failed"
+    FIND_MATCH = "Erreur lors de la désactivation du compte."
     MATCH = "\n"
     NEW_UNIT_MATCH = b"\nkey=Source string\n"
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
+    # Edit a translated unit: the first one is a "### Missing:" placeholder,
+    # which is not translated anymore (see test_missing_unit_is_untranslated).
+    EDIT_OFFSET = 1
 
     def test_get_language_filename(self) -> None:
         self.assertEqual(
@@ -4132,6 +4135,25 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
             ),
             self.EXPECTED_PATH,
         )
+
+    def test_missing_unit_is_untranslated(self) -> None:
+        storage = self.parse_file(self.FILE)
+        # The unit is only present as a "### Missing:" comment in the
+        # translation file, so it must not be treated as translated even
+        # though the comment carries the source value.
+        unit, add = storage.find_unit(
+            "administration.section.users.disableUser.done",
+            "User account disabled",
+        )
+        self.assertFalse(add)
+        self.assertIsNotNone(unit)
+        self.assertEqual(unit.target, "")
+        self.assertFalse(unit.is_translated())
+
+        # Translating the unit clears the missing marker.
+        unit.set_target("Compte utilisateur désactivé")
+        self.assertEqual(unit.target, "Compte utilisateur désactivé")
+        self.assertTrue(unit.is_translated())
 
     def _test_save(self, edit=False) -> None:
         self.maxDiff = None

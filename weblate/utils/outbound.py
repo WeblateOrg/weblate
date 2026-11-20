@@ -45,12 +45,70 @@ _NON_PUBLIC_SPECIAL_USE_PREFIXES: tuple[
 )
 
 
+DEFAULT_PORTS = {"http": 80, "https": 443}
+
+
 def get_environment_proxy(url: str) -> str | None:
-    """Return the per-protocol environment proxy configured for a URL."""
-    scheme = urlparse(url).scheme
-    if scheme not in {"http", "https"}:
+    """Return the per-protocol environment proxy for a URL unless no_proxy excludes its host."""
+    parsed = urlparse(url)
+    if parsed.scheme not in DEFAULT_PORTS:
         return None
-    return getproxies_environment().get(scheme)
+    proxies = getproxies_environment()
+    try:
+        # HTTPX2 drops default ports from URLs, so compare against the effective port
+        port = parsed.port or DEFAULT_PORTS[parsed.scheme]
+    except ValueError:
+        # Invalid port, leave rejecting the URL to its validation
+        return proxies.get(parsed.scheme)
+    if _matches_no_proxy(parsed.hostname or "", port, proxies.get("no", "")):
+        return None
+    return proxies.get(parsed.scheme)
+
+
+def _matches_no_proxy(host: str, port: int, no_proxy: str) -> bool:
+    host = host.rstrip(".")
+    address = _parse_ip(host)
+    if address is None:
+        host = _ascii_hostname(host)
+    for item in no_proxy.lower().split(","):
+        entry = item.strip()
+        if entry == "*":
+            return True
+        # Bare IP addresses and networks, checked first as IPv6 ones contain colons
+        try:
+            network = ipaddress.ip_network(entry, strict=False)
+        except ValueError:
+            pass
+        else:
+            if address is not None and address in network:
+                return True
+            continue
+        try:
+            parsed = urlparse(f"//{entry}")
+            entry_port = parsed.port
+        except ValueError:
+            # Skip malformed entries, such as an unclosed IPv6 bracket
+            continue
+        if not parsed.hostname or entry_port not in {None, port}:
+            continue
+        entry_host = parsed.hostname.strip(".")
+        if address is not None:
+            if _parse_ip(entry_host) == address:
+                return True
+            continue
+        entry_host = _ascii_hostname(entry_host)
+        if host == entry_host or host.endswith(f".{entry_host}"):
+            return True
+    return False
+
+
+def _ascii_hostname(hostname: str) -> str:
+    """Convert an internationalized domain name to its ASCII form for comparison."""
+    try:
+        # UTS #46 maps full-width dots to "." and keeps a trailing one
+        return idna_encode(hostname, uts46=True).decode("ascii").rstrip(".")
+    except (IDNAError, UnicodeError):
+        return hostname.lower()
 
 
 def _parse_ip(value: str) -> ipaddress.IPv4Address | ipaddress.IPv6Address | None:

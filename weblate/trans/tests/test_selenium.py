@@ -2413,12 +2413,26 @@ class SeleniumTests(
 
         def assert_compact_refresh() -> None:
             original_size = self.driver.get_window_size()
+            query_input = self.driver.find_element(
+                By.CSS_SELECTOR, '.query-field .editor-wrap textarea[name="q"]'
+            )
+            self.assertEqual(query_input.get_dom_attribute("data-lt-active"), "false")
+            editor = self.driver.find_element(By.CSS_SELECTOR, ".translation-editor")
+            self.assertIsNone(editor.get_dom_attribute("data-lt-active"))
             for width in (1280, 768, 480):
                 self.driver.set_window_size(width, 900)
                 refresh = self.driver.find_element(
                     By.CSS_SELECTOR, '.query-field button[name="refresh"]'
                 )
-                query_input = self.driver.find_element(By.CSS_SELECTOR, '[name="q"]')
+                if width == 1280:
+                    group = self.driver.find_element(By.CSS_SELECTOR, ".query-field")
+                    self.assertGreater(group.rect["width"], 400)
+                self.assertAlmostEqual(
+                    query_input.rect["x"] + query_input.rect["width"],
+                    refresh.rect["x"],
+                    delta=2,
+                )
+                self.assertLessEqual(refresh.rect["x"] + refresh.rect["width"], width)
                 self.assertEqual(refresh.get_attribute("aria-label"), "Refresh results")
                 self.assertAlmostEqual(
                     refresh.rect["y"], query_input.rect["y"], delta=1
@@ -5980,7 +5994,6 @@ class SeleniumTests(
         self.assert_text_contains("#upload", "File upload mode")
         self.screenshot("file-import-methods.png")
         self.click("Customize download")
-        self.click("Files")
         self.screenshot("file-download.png")
         self.click("Operations")
         self.click("Batch automatic translation")

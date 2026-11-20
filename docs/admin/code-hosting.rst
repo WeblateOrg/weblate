@@ -325,15 +325,29 @@ the user's organization role and the organization's GitHub App installation
 restrictions. On GitHub.com, public apps can be installed on other accounts;
 private apps can only be installed on the account that owns the app.
 
+.. _code-hosting-github-app-connect:
+
 Connecting a workspace
 ^^^^^^^^^^^^^^^^^^^^^^
 
 Connected GitHub accounts are bound to a Weblate :ref:`workspace <workspaces>`.
-A user with project administration rights for any project in a workspace can
-connect a GitHub account on that workspace. After connecting, every project in
-the workspace can import components from repositories the GitHub App
-installation has access to. For organization accounts, Weblate verifies that
+Connecting a GitHub account requires ``workspace.edit`` on the destination
+workspace or the site-wide ``management.use`` permission.
+After connecting, every project in the workspace can import components from
+repositories the GitHub App installation has access to. For organization
+accounts, Weblate verifies that
 the install-time GitHub user can administer the organization installation.
+
+To reuse an installation from another workspace you manage, select
+:guilabel:`Connect GitHub account` for the destination workspace and choose the
+existing account. Authorize Weblate on GitHub to confirm that you administer
+the installation. Both workspaces can then use all repositories selected for
+that installation on GitHub.
+
+If GitHub returns you to Weblate after updating an installation that is not yet
+connected, select the workspace and GitHub host, then choose :guilabel:`Authorize
+on GitHub`. If GitHub rejects the authorization code, choose :guilabel:`Authorize
+again` to finish connecting the same installation.
 
 Projects that are not in a workspace cannot connect a GitHub account through
 the GitHub App.

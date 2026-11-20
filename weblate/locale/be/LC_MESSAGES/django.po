@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-13 01:19-0600\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
 "PO-Revision-Date: 2026-10-30 05:04+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1459,6 +1459,23 @@ msgstr "Вы можаце пацвердзіць рэгістрацыю толь
 msgid ""
 "This invitation can be accepted only by the e-mail address chosen by the "
 "inviter; it can't be used by your account."
+msgstr ""
+
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Your e-mail no longer belongs to verified account, it has been changed to "
+#| "{0}."
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr ""
+"Ваш адрас электроннай пошты больш не належыць праверанаму ўліковаму запісу, "
+"ён быў зменены на {0}."
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
 msgstr ""
 
 msgid ""
@@ -4367,6 +4384,16 @@ msgid ""
 "Remove the component from project teams before moving it to another project."
 msgstr ""
 
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
+
 msgid "Roles"
 msgstr "Ролі"
 
@@ -5208,6 +5235,11 @@ msgstr "Аплата"
 #| msgid "Billing overview"
 msgid "Billing event"
 msgstr "Агляд аплаты"
+
+#, fuzzy
+#| msgid "Projects without components"
+msgid "Project has no components."
+msgstr "Праекты без кампанентаў"
 
 #, fuzzy
 #| msgid "Monthly"
@@ -7251,9 +7283,6 @@ msgstr "Формула множнага ліку"
 msgid "Plural type"
 msgstr "Тып множнага ліку"
 
-msgid "Example counts for this plural form."
-msgstr "Прыклады лікаў для гэтай формы множнага ліку."
-
 msgid "Singular"
 msgstr "Адзіночны лік"
 
@@ -8424,6 +8453,11 @@ msgid "Read your e-mail address"
 msgstr "Адрас электроннай пошты ўліковага запісу"
 
 msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
 msgstr ""
 
 msgid "Image is too big."
@@ -11001,6 +11035,16 @@ msgstr ""
 "Гэтая падпіска не распаўсюджваецца на тарыфны план для свабодных праектаў. "
 "Выправіце пазначаныя вышэй памылкі або купіце падпіску."
 
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+
 #, fuzzy
 #| msgid "Custom"
 msgid "Customer"
@@ -12705,6 +12749,17 @@ msgstr ""
 #. Translators: e-mail subject
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr ""
+
+#, fuzzy
+#| msgid "Does not meet Libre hosting conditions."
+msgid "Review Libre hosting conditions"
+msgstr ""
+"Не адпавядае ўмовам размяшчэння для свабоднага праграмнага забеспячэння."
+
+#, fuzzy, python-format
+#| msgid "Number of entries for %(project)s"
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "Колькасць запісаў для %(project)s"
 
 msgid "Translation change"
 msgstr "Змена перакладу"
@@ -14860,6 +14915,9 @@ msgid ""
 "maintenance of Weblate itself."
 msgstr ""
 
+msgid "Example counts for this plural form."
+msgstr "Прыклады лікаў для гэтай формы множнага ліку."
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
@@ -14889,12 +14947,13 @@ msgstr ""
 msgid "Source code repository"
 msgstr "Рэпазіторый зыходнага кода"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr "Гэты кампанент звязаны з рэпазіторыям %(target)s."
-
 msgid "Repository URL copied to clipboard."
 msgstr "URL-адрас рэпазіторыя скапіяваны ў буфер абмену."
+
+#, fuzzy
+#| msgid "Renamed component"
+msgid "Linked component"
+msgstr "Назва кампанента змененая"
 
 msgid "Repository branch"
 msgstr "Галіна рэпазіторыя"
@@ -15340,6 +15399,11 @@ msgstr "Множны лік: %(source_description)s"
 
 msgid "Plurals"
 msgstr "Множны лік"
+
+#, fuzzy
+#| msgid "No strings found!"
+msgid "No integer examples found"
+msgstr "Ніводнага радка не знойдзена!"
 
 msgid "First"
 msgstr "Першы"
@@ -16249,15 +16313,15 @@ msgstr "Кампанент змяшчае некалькі дубляваных 
 msgid "Source"
 msgstr "Зыходны тэкст"
 
-#, fuzzy, python-format
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove duplicate strings from %(language)s (%(filename)s)"
-msgstr "Прымусовы запіс усіх радкоў у файлы перакладу."
-
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
 msgstr "Выдаліце пустыя радкі"
+
+#, fuzzy, python-format
+#| msgid "Forces writing all strings to the translation files."
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Прымусовы запіс усіх радкоў у файлы перакладу."
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -17249,10 +17313,6 @@ msgstr "Гэты радок перакладаўся раней."
 msgid "Add term to glossary"
 msgstr "Дадаць тэрмін у гласарый"
 
-#, python-format
-msgid "Browse glossary %(name)s"
-msgstr "Праглядзець гласарый %(name)s"
-
 #, fuzzy
 #| msgid "Browse glossary %(name)s"
 msgid "Browse glossary"
@@ -17308,6 +17368,15 @@ msgstr "Апошняе абнаўленне"
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
 msgstr "Зыходны радок дададзены"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s, line %(line)s"
+msgstr "%(filename)s, радок %(position)s"
+
+#, python-format
+msgid "line %(line)s"
+msgstr ""
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -19151,13 +19220,13 @@ msgstr "Паўторная маска файлаў."
 msgid "Referenced category does not exist."
 msgstr "{filename} ({parameter}) не існуе."
 
-msgid "Component filename does not match its category and slug."
-msgstr ""
-
 #, fuzzy
 #| msgid "Duplicate this component"
 msgid "Duplicate component slug."
 msgstr "Прадубліраваць гэты кампанент"
+
+msgid "Component filename does not match its category and slug."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation reverted"
@@ -19471,6 +19540,11 @@ msgstr "Галасаванне за прапановы"
 msgid "Needs review"
 msgstr "Патрабуе перагляду"
 
+#, fuzzy
+#| msgid "The source and target have to be different languages."
+msgid "The source and destination checkouts must be different."
+msgstr "Мова зыходных радкоў і мова мэтавага перакладу павінны быць рознымі."
+
 msgid "This component does not exist or you cannot access it."
 msgstr ""
 
@@ -19504,6 +19578,11 @@ msgstr ""
 #| msgid "Good configuration"
 msgid "Discovery configuration"
 msgstr "Добрая канфігурацыя"
+
+#, fuzzy, python-format
+#| msgid "Could not render template: {}"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "Не ўдалося адлюстраваць шаблон: {}"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -21714,6 +21793,11 @@ msgid "Use the secondary language configured in the category or project."
 msgstr "Дапаможная мова, вызначаная ў праекце або кампаненце"
 
 #, fuzzy
+#| msgid "The local repository is up to date."
+msgid "The linked repository path is ambiguous."
+msgstr "Лакальны рэпазіторый абноўлены."
+
+#, fuzzy
 #| msgid ""
 #| "Could not verify SSH host key, please add them in SSH page in the admin "
 #| "interface."
@@ -21994,6 +22078,11 @@ msgid ""
 "Pushing without a merge request needs write access to the repository. "
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
+
+#, fuzzy
+#| msgid "The filename can not be an absolute path."
+msgid "Version control system cannot be changed to this backend."
+msgstr "Назва файла не можа быць абсалютным шляхам."
 
 #, fuzzy
 #| msgid "The regular expression can not match an empty string."
@@ -22665,6 +22754,11 @@ msgstr "Працяжнік"
 msgid "User configured character: {}"
 msgstr "Карыстальніцкі сімвал: {}"
 
+#, fuzzy, python-format
+#| msgid "Could not push the repository."
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "Не атрымалася адправіць рэпазіторый."
+
 #, fuzzy
 #| msgid "Automatic translation in progress"
 msgid "Repository operation could not be completed because it remained locked."
@@ -22804,6 +22898,10 @@ msgstr "ID радка %s"
 
 msgid "This language is used for source strings."
 msgstr "Гэтая мова выкарыстоўваецца для зыходных радкоў."
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr "Гэты кампанент звязаны з рэпазіторыям %(target)s."
 
 #, fuzzy
 #| msgid "Fix this component to clear its alerts."
@@ -23687,6 +23785,16 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "Вертыкальная дыяграма для моў"
 
+#, fuzzy
+#| msgid "Your languages"
+msgid "Sort languages by"
+msgstr "Вашыя мовы"
+
+#, fuzzy
+#| msgid "Translation change"
+msgid "Translation percentage"
+msgstr "Змена перакладу"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr "Гарызантальная дыяграма для моў"
@@ -24078,20 +24186,6 @@ msgstr "Хібныя параметры!"
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
-msgid "Template output exceeds its size limit."
-msgstr ""
-
-msgid "Template rendering failed or exceeded its resource limits."
-msgstr ""
-
-msgid "Oversized template response."
-msgstr ""
-
-#, fuzzy
-#| msgid "Invalid translation flag: \"%s\""
-msgid "Invalid template rendering response."
-msgstr "Хібная адзнака перакладу: \"%s\""
-
 msgid "Could not render template: {}"
 msgstr "Не ўдалося адлюстраваць шаблон: {}"
 
@@ -24100,7 +24194,7 @@ msgid ""
 "instead."
 msgstr "Радкі фармату больш не падтрымліваюцца, выкарыстоўвайце мову шаблонаў."
 
-msgid "Template value exceeds its size limit."
+msgid "Template context exceeds its size limit."
 msgstr ""
 
 #, fuzzy
@@ -24108,8 +24202,10 @@ msgstr ""
 msgid "Template context is nested too deeply."
 msgstr "Аўтаматычнае прызначэнне спіса кампанентаў"
 
-msgid "Template context exceeds its size limit."
-msgstr ""
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported nonfinite template context value."
+msgstr "Фармат файла не падтрымліваецца."
 
 #, fuzzy
 #| msgid "Unsupported file format."
@@ -24121,30 +24217,339 @@ msgstr "Фармат файла не падтрымліваецца."
 msgid "Unsupported template context value."
 msgstr "Фармат файла не падтрымліваецца."
 
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Template text is not valid UTF-8."
+msgstr "Уведзены токен несапраўдны."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid merge request!"
+msgid "Invalid template syntax."
+msgstr "Хібны запыт на аб’яднанне!"
+
+#, fuzzy
+#| msgid "Undefined variable: \"%s\""
+msgid "Undefined template variable."
+msgstr "Нявызначаная зменная: \"%s\""
+
+#, fuzzy
+#| msgid "The translation is not valid XML."
+msgid "Text is not valid UTF-8."
+msgstr "Пераклад не з'яўляецца правільным XML."
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Division by zero is not supported."
+msgstr "Выбранае сартаванне не падтрымліваецца."
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Numeric value is too large for this operation."
+msgstr "Прагляд усіх змен для гэтай мовы"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Numeric operation failed."
+msgstr "Не ўдалося выканаць аперацыю ў рэпазіторыі"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation reverted"
+msgid "Value or argument has an invalid format."
+msgstr "Пераклад вернуты"
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "%(operation)s: %(message)s"
+msgstr "Не ўдалося выканаць запіс %(component)s: %(error_text)s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
 msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nonfinite numbers are not supported."
+msgstr "Выбранае сартаванне не падтрымліваецца."
+
+#, fuzzy, python-format
+#| msgid "File names"
+msgid "Filter \"%(name)s\""
+msgstr "Назва файла"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
 msgstr ""
 
 msgid "Template rendering exceeded its loop limit."
 msgstr ""
 
-msgid "Template intermediate value exceeds its size limit."
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Attribute access and method calls are not supported."
+msgstr "Выбранае сартаванне не падтрымліваецца."
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Index exceeds the length limit of 128 characters."
+msgstr "Імя карыстальніка мусіць мець даўжыню мінімум пяць знакаў."
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Translated template literals are not supported."
+msgstr "Выбранае сартаванне не падтрымліваецца."
+
+#, fuzzy
+#| msgid "Invalid date!"
+msgid "Invalid filter."
+msgstr "Няправільная дата!"
+
+msgid "Identity comparisons require None, True, or False."
 msgstr ""
 
-msgid "Template replacement exceeds its size limit."
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This condition operator is not supported."
+msgstr "Выбранае сартаванне не падтрымліваецца."
+
+msgid "Template output exceeds its size limit."
 msgstr ""
 
-msgid "Template padding exceeds its size limit."
+msgid "Loops require a list, string, dictionary, or dictionary view."
 msgstr ""
 
-msgid "Template formatting exceeds its size limit."
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
 msgstr ""
 
-msgid "Template join exceeds its size limit."
+msgid "Loop value cannot be unpacked into its variables."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This template tag is not supported."
+msgstr "Выбранае сартаванне не падтрымліваецца."
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This template node is not supported."
+msgstr "Выяўлены фармат файлаў не падтрымліваецца."
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
 msgstr ""
 
 #, python-format
 msgid "Undefined variable: \"%s\""
 msgstr "Нявызначаная зменная: \"%s\""
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "This name is prohibited"
+msgid "This filter requires strings."
+msgstr "Гэтая назва забаронена"
+
+#, fuzzy
+#| msgid "Automatically translated"
+msgid "Choices must be a string."
+msgstr "Аўтаматычны пераклад"
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr "Імя карыстальніка мусіць мець даўжыню мінімум пяць знакаў."
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source string length"
+msgid "Joining requires string elements."
+msgstr "Даўжыня зыходнага радка"
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatically translated"
+msgid "Date format must be a string or None."
+msgstr "Аўтаматычны пераклад"
+
+#, fuzzy
+#| msgid "Avoid years that are associated with you."
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "Пазбягайце гадоў, што звязаныя з вамі."
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatically translated"
+msgid "Plural suffixes must be a string."
+msgstr "Аўтаматычны пераклад"
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr "Імя карыстальніка мусіць мець даўжыню мінімум пяць знакаў."
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nested template delimiters are not supported."
+msgstr "Выбранае сартаванне не падтрымліваецца."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unclosed template token."
+msgstr "Фармат файла не падтрымліваецца."
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid ".NET resource file"
+msgid "Template tag is empty."
+msgstr "Файл рэсурсаў .Net"
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr ""
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unsupported file format."
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "Фармат файла не падтрымліваецца."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template tag."
+msgstr "Фармат файла не падтрымліваецца."
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -26003,6 +26408,15 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Крыніца была выдалена."
 
+#, python-format
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "Праглядзець гласарый %(name)s"
+
+#, fuzzy
+#~| msgid "Invalid translation flag: \"%s\""
+#~ msgid "Invalid template rendering response."
+#~ msgstr "Хібная адзнака перакладу: \"%s\""
+
 #, fuzzy
 #~| msgid "Registration almost complete"
 #~ msgid "E-mail verification almost complete"
@@ -27374,9 +27788,6 @@ msgstr "Крыніца была выдалена."
 
 #~ msgid "Renamed project"
 #~ msgstr "Назва праекта змененая"
-
-#~ msgid "Renamed component"
-#~ msgstr "Назва кампанента змененая"
 
 #, fuzzy
 #~| msgid "New string to translate"
@@ -28848,9 +29259,6 @@ msgstr "Крыніца была выдалена."
 #~| msgid "Repository"
 #~ msgid "Backup pepository"
 #~ msgstr "Рэпазіторый"
-
-#~ msgid "Your languages"
-#~ msgstr "Вашыя мовы"
 
 #~ msgid "Fulltext"
 #~ msgstr "Паўнатэкставы"
@@ -31337,9 +31745,6 @@ msgstr "Крыніца была выдалена."
 
 #~ msgid "First name"
 #~ msgstr "Імя"
-
-#~ msgid "Username needs to have at least five characters."
-#~ msgstr "Імя карыстальніка мусіць мець даўжыню мінімум пяць знакаў."
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

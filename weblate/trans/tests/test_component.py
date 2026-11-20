@@ -35,6 +35,7 @@ from weblate.formats.ttkit import PoFormat
 from weblate.formats.txt import AppStoreFormat, MultiparserError
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
+from weblate.trans.component_copy import replace_component_checkout
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.file_format_params import get_default_params_for_file_format
 from weblate.trans.models import (
@@ -61,6 +62,7 @@ from weblate.trans.tests.test_views import (
 from weblate.trans.tests.utils import (
     TEST_VCS_ALLOW_SCHEMES,
     RepoTestMixin,
+    can_lock_repository,
     create_test_user,
     get_optional_path,
     get_test_actor,
@@ -104,6 +106,29 @@ remote: Host key verification failed.
 
 class ComponentTest(RepoTestCase):
     """Component object testing."""
+
+    def test_checkout_copy_shares_only_source(self) -> None:
+        source = self.create_component()
+        target = self.create_po(name="copy-target", project=source.project)
+
+        def copy(*args, **kwargs) -> None:
+            self.assertTrue(can_lock_repository(source.pk, shared=True))
+            self.assertFalse(can_lock_repository(source.pk))
+            self.assertFalse(can_lock_repository(target.pk, shared=True))
+
+        with patch(
+            "weblate.trans.component_copy.shutil.copytree", side_effect=copy
+        ) as copytree:
+            self.assertTrue(replace_component_checkout(target, source))
+        copytree.assert_called_once()
+        self.assertTrue(can_lock_repository(target.pk))
+        self.assertTrue(can_lock_repository(source.pk))
+
+    def test_checkout_copy_rejects_same_path(self) -> None:
+        component = self.create_component()
+        with self.assertRaises(ValidationError):
+            replace_component_checkout(component, component)
+        self.assertTrue(pathlib.Path(component.full_path, ".git").is_dir())
 
     def test_ensure_local_repository_skips_remote_and_linked_repositories(self) -> None:
         for vcs, repo in (
@@ -3107,6 +3132,39 @@ class FileSyncPendingUnitOptimizationTest(ComponentTestCase):
 
         unit.refresh_from_db()
         self.assertEqual(unit.details["disk_state"], disk_state)
+
+
+class AddNewLanguageTest(ComponentTestCase):
+    def create_component(self) -> Component:
+        return self.create_po_new_base(new_lang="add")
+
+    def test_add_language_validates_and_uses_base_under_lock(self) -> None:
+        language = Language.objects.get(code="fa")
+        get_base = self.component.get_new_base_filename
+        add_language = self.component.file_format_cls.add_language
+        base_lock_states: list[bool] = []
+
+        def get_locked_base() -> str | None:
+            base_lock_states.append(self.component.repository.lock.is_locked)
+            return get_base()
+
+        def add_from_base(*args, **kwargs) -> None:
+            self.assertTrue(base_lock_states[-1])
+            self.assertTrue(self.component.repository.lock.is_locked)
+            add_language(*args, **kwargs)
+
+        with (
+            patch.object(self.component, "get_new_base_filename", get_locked_base),
+            patch.object(
+                self.component.file_format_cls,
+                "add_language",
+                side_effect=add_from_base,
+            ) as add,
+        ):
+            translation = self.component.add_new_language(language, self.get_request())
+
+        add.assert_called_once()
+        self.assertIsNotNone(translation)
 
 
 class ExistingIntermediateLanguageFileTest(ComponentTestCase):

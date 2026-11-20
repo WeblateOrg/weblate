@@ -8,10 +8,19 @@ Weblate 2026.12
 * Added :ref:`site-wide API tokens <site-api-tokens>` in the management interface for instance-level automation such as :http:get:`/api/metrics/` scraping. Unavailable on Hosted Weblate.
 * Added an option to sort languages by translation percentage in language bar chart widgets.
 * Added support for :ref:`storing screenshots in object storage <screenshot-storage>` such as Amazon S3 or Google Cloud Storage, configurable in Docker using :envvar:`WEBLATE_MEDIA_STORAGE_BACKEND`.
+* Added support for :ref:`storing fonts in object storage <font-storage>`, configurable in Docker using :envvar:`WEBLATE_FONTS_STORAGE_BACKEND`.
 * Added :wladmin:`recovergit` to rebuild missing repository checkouts.
 * :ref:`format-line-number` in the translation file is now stored in the unit for supported formats; when available, the line number is used for repository links and :guilabel:`Nearby strings`.
+* Added staged :ref:`libre-hosting-cleanup` on Hosted Weblate with advance notice and a 30-day trial.
 
 .. rubric:: Improvements
+
+* Added a choice to :ref:`connect an existing GitHub App installation to another workspace <code-hosting-github-app-connect>`.
+* Show commit counts, occurrence totals, file-format evidence, and the last recorded translation change in the relevant :ref:`component diagnostics <alerts>`.
+* Redesigned the :ref:`translation checklist <strings-to-check>` as responsive cards with prominent string counts and actions next to each filter.
+* Grouped :ref:`quick downloads <download>` into cards with format links and string, word, and character counts.
+
+* Moved distributed locking to :ref:`PostgreSQL <database-setup>` and enabled concurrent repository reads for downloads, component copies, Kotlin SDK extraction, project backups, and Git status checks.
 
 * Added failure reasons to :ref:`AI quality evaluation <addon-weblate.ai.quality>` and its :ref:`automation action <automation-action-weblate.ai_quality>`.
 * Enabled Anthropic prompt caching for :ref:`automatic translation <machine-translation>`, so the system prompt is read from cache between batch requests instead of being billed in full on every request.
@@ -25,10 +34,14 @@ Weblate 2026.12
 * Sped up :ref:`quality checks <checks>` by skipping format and markup extraction for strings without relevant syntax.
 
 * Improved database query performance for project language :ref:`statistics <stats>`.
+* Sped up project and component overviews when checking :ref:`translation upload <upload>` availability.
 * Batched shared :ref:`statistics <stats>` updates after refreshing propagated quality checks.
+* Batched :ref:`quality check <checks>` refreshes and :ref:`statistics <stats>` updates when reverting a user's edits.
+* Batched propagated :ref:`quality check <checks>` refreshes during :ref:`bulk search and replace <bulk-edit>`.
 * Batched daily statistics collection to reduce database queries and bound memory use on large sites with cached statistics.
 * Added :envvar:`WEBLATE_SECRET_KEY` support to configure Docker's Django secret key directly or from a mounted secret file.
 * Reduced database loading when polling :ref:`background tasks <api-tasks>` spanning many components.
+* Outbound requests and Git repositories now honor ``no_proxy`` with the :ref:`HTTP proxy <http-proxy>`.
 * Sped up importing translation files by locking :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` once per file instead of once per string.
 * Listed :ref:`saved-searches` first in the search filters and truncated long saved queries.
 * Show :ref:`linked components <internal-urls>` in repository details and label suggestion counts on wider screens in :ref:`zen-mode`.
@@ -36,9 +49,11 @@ Weblate 2026.12
 
 .. rubric:: Security fixes
 
+* Required project management permission to change a component URL through the API and prevented :ref:`case-insensitive slug conflicts <component-slug>` from blocking repository cleanup.
 * Required the site-wide ``language.add`` permission to :http:post:`create a language through the REST API </api/languages/>`.
 * Checked :ref:`translation memory deletion permissions <api-memory>` on the primary database to protect entries from restricted components when replicas lag.
 * Prevented deleting a component from expanding a :ref:`component-limited team <access-control>` to project-wide access.
+* Prevented deleting the last component list assigned to a :ref:`team <perm-check>` from widening its access.
 * Redacted machine translation API keys, GitHub App credentials, authentication headers, and credentials in URLs from :ref:`Sentry error reports <collecting-errors>` and performance traces.
 * Prevented component API requests from switching between incompatible VCS backends or creating integration-managed components outside their provider import flow.
 * Prevented component creation from writing translation templates outside its repository.
@@ -51,13 +66,22 @@ Weblate 2026.12
 
 .. rubric:: Bug fixes
 
+* Applied :ref:`enforced checks <enforcing-checks>` when changing a string's state through :ref:`bulk editing <bulk-edit>`.
+* Preserved draft edits and explained how to save them when submitting a :ref:`suggestion <suggestions>` with changes to a glossary explanation.
+* Preserved the :ref:`category hierarchy <category>` on project and category language overviews.
+* Fixed :ref:`connecting GitHub App installations <code-hosting-github-app-connect>` after repository access updates or a rejected authorization code.
+
+* Preserved source strings backed by a file when :ref:`removing their last translation <component-manage_units>`.
 * Enabled adding languages from the project language list in :ref:`glossary-only projects <glossary-language-sync>`.
 * Preserved special characters in e-mail subjects for :ref:`notifications`.
 * Handled invalid configured :ref:`templates <markup>` without unhandled server errors, preserving editor access and reporting failed repository and add-on operations.
 
 * Fixed :ref:`AI translation suggestions <machine-translation>` when a provider omits the outer JSON array for a single translation.
 * Fixed delayed database cursor cleanup in :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` with custom source languages.
+* Retried repository updates that failed because of temporary errors, such as server errors, with increasing delays instead of waiting for the next daily :setting:`AUTO_UPDATE` slot.
 * Preserved punctuation and complete messages in :ref:`project sharing <project-public_sharing>` links.
+* Marked strings listed as ``### Missing:`` placeholders in :ref:`XWiki formats <xwiki-formats>` as untranslated instead of reusing the source value from the comment.
+* Fixed the automatic color theme briefly rendering partially light on page load and not fully following system theme changes on open pages.
 
 .. rubric:: Compatibility
 
@@ -66,6 +90,15 @@ Weblate 2026.12
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+If your database server runs PostgreSQL 14 or earlier, upgrade it to
+:ref:`PostgreSQL 15 or later <database-setup>` before upgrading Weblate.
+For Docker deployments, see :ref:`docker-postgres-upgrade`.
+
+The upgrade checks for :ref:`project <project-slug>` and
+:ref:`component <component-slug>` slugs that differ only in case. If the
+migration lists conflicts, rename the listed projects or components through
+Weblate on the previous release, then retry the upgrade.
 
 If you copied or customized ``SOCIAL_AUTH_PIPELINE`` in :file:`settings.py`, move
 ``weblate.accounts.pipeline.handle_invite`` immediately after

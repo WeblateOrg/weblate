@@ -1,0 +1,16 @@
+{% load humanize i18n %}
+
+<div class="d-flex align-items-center flex-wrap column-gap-4 row-gap-2">
+  <span class="fs-5 fw-semibold">
+    <span class="visually-hidden">{% translate "Strings" %}</span>
+    {{ count|intcomma }}
+  </span>
+  <div class="small text-body-secondary lh-sm">
+    <div>
+      {% blocktranslate count counter=words with number=words|intcomma %}{{ number }} word{% plural %}{{ number }} words{% endblocktranslate %}
+    </div>
+    <div>
+      {% blocktranslate count counter=characters with number=characters|intcomma %}{{ number }} character{% plural %}{{ number }} characters{% endblocktranslate %}
+    </div>
+  </div>
+</div>

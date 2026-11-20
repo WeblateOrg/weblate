@@ -4,7 +4,7 @@
 
 <p>{% translate "Remove the glossary language if it is no longer needed, or add matching translations to regular components if the glossary should be used." %}</p>
 
-<p>{% translate "The following occurrences were found:" %}</p>
+{% include "trans/alert/occurrence-summary.html" %}
 
 <table class="table table-sm">
   <thead>
@@ -31,5 +31,3 @@
     {% endfor %}
   </tbody>
 </table>
-
-{% include "trans/alert/occurrences-limit.html" %}

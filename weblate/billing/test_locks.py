@@ -12,12 +12,13 @@ from time import monotonic, sleep
 from typing import TYPE_CHECKING
 from unittest.mock import patch
 
-from django.db import OperationalError, connection, transaction
+from django.db import OperationalError, connection, connections, transaction
 from django.test import TransactionTestCase
 from django.utils import timezone
 
 from weblate.billing.models import Billing, BillingEvent, BillingLog, Plan
 from weblate.billing.tasks import inactive_recurring_check, schedule_removal
+from weblate.trans.models import Project
 from weblate.trans.tests.utils import (
     clear_users_cache,
     create_test_billing,
@@ -57,6 +58,29 @@ class BillingLockTest(TransactionTestCase):
                     return
             sleep(0.01)
         self.fail("The scheduler did not wait for the billing lock")
+
+    def test_failed_move_rolls_back_on_billing_database(self) -> None:
+        project = Project.objects.create(name="Move", slug="move")
+        self.billing.add_project(project)
+        target = Billing.objects.create(plan=self.billing.plan)
+        alias = "billing_move"
+        other_connection = connection.copy(alias=alias)
+        connections[alias] = other_connection
+        self.addCleanup(connections.__delitem__, alias)
+        self.addCleanup(other_connection.close)
+        project = Project.objects.using(alias).get(pk=project.pk)
+        target = Billing.objects.using(alias).get(pk=target.pk)
+        with (
+            patch("weblate.utils.tasks.update_workspace_stats.delay") as update_stats,
+            patch.object(
+                target, "reset_libre_cleanup", side_effect=RuntimeError("cancel move")
+            ),
+            self.assertRaisesMessage(RuntimeError, "cancel move"),
+        ):
+            target.transfer_project(project)
+        project.refresh_from_db(using=alias)
+        self.assertEqual(project.workspace_id, self.billing.workspace_id)
+        update_stats.assert_not_called()
 
     def test_recurring_check_does_not_lock_shared_plan(self) -> None:
         Billing.objects.filter(pk=self.billing.pk).update(

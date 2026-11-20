@@ -702,19 +702,20 @@ function autosizeTextarea(el) {
   resize();
 }
 
+Prism.util.encode = function encode(tokens) {
+  if (tokens instanceof Prism.Token) {
+    return new Prism.Token(tokens.type, encode(tokens.content), tokens.alias);
+  }
+  if (Array.isArray(tokens)) {
+    return tokens.map(encode);
+  }
+  return tokens.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+};
+
 function initHighlight(root) {
   if (typeof ResizeObserver === "undefined") {
     return;
   }
-  Prism.util.encode = function encode(tokens) {
-    if (tokens instanceof Prism.Token) {
-      return new Prism.Token(tokens.type, encode(tokens.content), tokens.alias);
-    }
-    if (Array.isArray(tokens)) {
-      return tokens.map(encode);
-    }
-    return tokens.replace(/&/g, "&amp;").replace(/</g, "&lt;");
-  };
   root.querySelectorAll("textarea[name='q']").forEach((input) => {
     const parent = input.parentElement;
     if (parent.classList.contains("editor-wrap")) {
@@ -1010,17 +1011,6 @@ onReady(() => {
   adjustColspan();
   window.addEventListener("resize", adjustColspan);
   document.addEventListener("shown.bs.tab", adjustColspan);
-
-  /* Color theme management */
-  const theme = document.documentElement.getAttribute("data-bs-theme");
-  if (!theme || theme === "auto") {
-    document.documentElement.setAttribute(
-      "data-bs-theme",
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light",
-    );
-  }
 
   /* AJAX loading of tabs/pills */
   const loadTabContent = async (target, content) => {

@@ -79,6 +79,7 @@ class QueryField(forms.CharField):
         kwargs["max_length"] = MAX_SEARCH_QUERY_LENGTH
         self.parser = parser
         super().__init__(**kwargs)
+        self.widget.attrs["data-lt-active"] = "false"
 
     def clean(self, value):
         # ruff: ignore[import-outside-top-level]

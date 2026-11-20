@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import json
 import os
+from collections.abc import Generator
 from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
 from io import BytesIO
@@ -41,7 +42,7 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Category, Change, Component, Translation, Unit
 from weblate.trans.tests.test_views import ReusableViewTestCase
-from weblate.trans.tests.utils import RepoTestMixin, get_test_actor
+from weblate.trans.tests.utils import RepoTestMixin, can_lock_repository, get_test_actor
 from weblate.utils.change_origin import acting_user_context
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
@@ -211,11 +212,11 @@ class RegistrationConcurrencyTest(RepoTestMixin, TransactionTestCase):
         super().setUp()
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
-    def test_worker_renews_publication_lock(self) -> None:
+    def test_worker_holds_publication_lock(self) -> None:
         from arsc_writer import generate  # ruff: ignore[import-outside-top-level]
 
         from weblate.kotlin_sdk.tasks import publish_kotlin_sdk  # ruff: ignore[import-outside-top-level]
-        from weblate.utils.lock import WeblateLock  # ruff: ignore[import-outside-top-level]
+        from weblate.utils.lock import LockScope, WeblateLock  # ruff: ignore[import-outside-top-level]
 
         addon = KotlinSDKAddon.create(
             acting_user=get_test_actor(self),
@@ -234,24 +235,18 @@ class RegistrationConcurrencyTest(RepoTestMixin, TransactionTestCase):
             locale: (locale, {("strings", "hello"): Text("Hello")})
             for locale in ("de", "fr")
         }
-        renewed: list[WeblateLock] = []
-        compiled: list[int] = []
-        original_reacquire = WeblateLock.reacquire
-
-        def renew(lock: WeblateLock) -> None:
-            self.assertTrue(lock.is_locked)
-            original_reacquire(lock)
-            renewed.append(lock)
+        lock = WeblateLock(scope=LockScope.KOTLIN_SDK, key=addon.instance.pk)
+        compiled = []
 
         def compile_locale(
             resources: ResourceTable, *, package: str, locale: str
         ) -> bytes:
-            self.assertGreater(len(renewed), compiled[-1] if compiled else 0)
-            compiled.append(len(renewed))
+            self.assertTrue(lock.is_locked)
+            compiled.append(locale)
             return generate(resources, package=package, locale=locale)
 
         with (
-            patch.object(WeblateLock, "reacquire", autospec=True, side_effect=renew),
+            patch("weblate.kotlin_sdk.tasks.WeblateLock", return_value=lock),
             patch.object(Publication, "translations", return_value=locales(snapshot)),
             patch(
                 "weblate.kotlin_sdk.preparation.generate", side_effect=compile_locale
@@ -259,9 +254,7 @@ class RegistrationConcurrencyTest(RepoTestMixin, TransactionTestCase):
         ):
             publish_kotlin_sdk.run(addon.instance.pk)
         self.assertEqual(len(compiled), 2)
-        self.assertGreater(len(renewed), compiled[-1])
-        self.assertTrue(all(lock is renewed[0] for lock in renewed))
-        self.assertFalse(renewed[0].is_locked)
+        self.assertFalse(lock.is_locked)
         build.refresh_from_db()
         self.assertEqual(build.status, "published")
 
@@ -270,7 +263,7 @@ class RegistrationConcurrencyTest(RepoTestMixin, TransactionTestCase):
         from celery.exceptions import Retry  # ruff: ignore[import-outside-top-level]
 
         from weblate.kotlin_sdk.tasks import publish_kotlin_sdk  # ruff: ignore[import-outside-top-level]
-        from weblate.utils.lock import WeblateLock  # ruff: ignore[import-outside-top-level]
+        from weblate.utils.lock import LockScope, WeblateLock  # ruff: ignore[import-outside-top-level]
 
         addon = KotlinSDKAddon.create(
             acting_user=get_test_actor(self),
@@ -286,7 +279,7 @@ class RegistrationConcurrencyTest(RepoTestMixin, TransactionTestCase):
                 connections.close_all()
 
         with (
-            WeblateLock(scope="kotlin-sdk", key=addon.instance.pk, slug="test"),
+            WeblateLock(scope=LockScope.KOTLIN_SDK, key=addon.instance.pk),
             patch.object(publish_kotlin_sdk, "retry", side_effect=Retry) as retry,
             patch.object(Publication, "publish") as publish,
             ThreadPoolExecutor(max_workers=1) as executor,
@@ -1721,6 +1714,47 @@ class KotlinSDKTest(ReusableViewTestCase):
         build.refresh_from_db()
         self.assertEqual(build.status, "published", build.error)
         self.assertTrue(build.artifacts.exists())
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    def test_locale_reader_lifetime(self) -> None:
+        addon = self.install()
+        component = self.component
+        temp_dir = component.repository.get_repo_temp_dir(create=False)
+        assert temp_dir is not None
+        if temp_dir.exists():
+            temp_dir.rmdir()
+        component.drop_template_store_cache()
+        language: str | None = None
+        for close_normally in (True, False):
+            for snapshot in addon.translations():
+                entries = iter(snapshot.values.entries)
+                if next(entries, None) is not None:
+                    language = snapshot.language
+                    break
+            else:
+                self.fail("Expected a translated resource")
+            assert isinstance(entries, Generator)
+            try:
+                self.assertTrue(can_lock_repository(component.pk, shared=True))
+                self.assertFalse(can_lock_repository(component.pk))
+                self.assertFalse(temp_dir.exists())
+                if not close_normally:
+                    with self.assertRaisesMessage(ValueError, "stop reading"):
+                        entries.throw(ValueError("stop reading"))
+            finally:
+                entries.close()
+            self.assertTrue(can_lock_repository(component.pk))
+        assert language is not None
+        with component.repository.lock:
+            translation = component.translation_set.get(language__code=language)
+            store = translation.load_store()
+            self.assertIsInstance(store, AndroidFormat)
+            output_path = Path(component.full_path, "test-atomic-save")
+            self.addCleanup(output_path.unlink, missing_ok=True)
+            store.storefile = str(output_path)
+            store.save()
+            self.assertTrue(output_path.is_file())
+        self.assertTrue(temp_dir.is_dir())
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
     def test_locale_streaming(self) -> None:

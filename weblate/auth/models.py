@@ -462,6 +462,42 @@ def prevent_project_team_scope_escalation(
     )
 
 
+@receiver(pre_delete, sender=ComponentList)
+def prevent_component_list_team_scope_escalation(
+    sender: type[ComponentList],
+    instance: ComponentList,
+    using: str,
+    origin: ComponentList | models.QuerySet[ComponentList] | None = None,
+    **kwargs: object,
+) -> None:
+    """Reject deletions that would leave a team without an assigned list."""
+    if origin is not None and not _first_deleted_instance(instance, origin):
+        return
+    list_ids = {instance.pk} if origin is None else _deletion_origin_ids(origin)
+    assignments = Group.componentlists.through.objects.using(using)
+    assigned_teams = assignments.filter(componentlist_id__in=list_ids).values(
+        "group_id"
+    )
+    affected = Group.objects.using(using).filter(pk__in=assigned_teams)
+
+    # Concurrent deletions of different lists must check the same team in turn.
+    locked_ids = list(
+        affected.order_by("pk")
+        .select_for_update(no_key=True)
+        .values_list("pk", flat=True)
+    )
+    remaining_teams = assignments.exclude(componentlist_id__in=list_ids).values(
+        "group_id"
+    )
+    if affected.filter(pk__in=locked_ids).exclude(pk__in=remaining_teams).exists():
+        raise ValidationError(
+            gettext(
+                "Remove the component list from its teams before deleting it. "
+                "Deleting the last assigned component list could expand a team's access."
+            )
+        )
+
+
 def _add_component_permissions(
     membership: CachedPermissionMembership,
     values: set[tuple[int, int]],
@@ -922,6 +958,7 @@ class UserQuerySet(models.QuerySet["User", "User"]):
                     Q(group__defining_project__isnull=True)
                     | Q(group__defining_project=project)
                 )
+                .exclude(group__project_selection=SELECTION_COMPONENT_LIST)
             )
             .filter(Q(is_superuser=True) | ~Exists(active_blocks))
             .distinct()
@@ -1828,10 +1865,11 @@ class User(AbstractBaseUser):
                         )
                     continue
 
-                # Component list specific permissions
-                # Even if componentlist_values is empty, having a componentlist assignment
-                # means we need to stop processing here.
-                if membership.has_componentlists:
+                # An empty list selection must not use stale derived project links.
+                if (
+                    membership.has_componentlists
+                    or membership.project_selection == SELECTION_COMPONENT_LIST
+                ):
                     _add_component_permissions(
                         membership,
                         membership.componentlist_component_values,
@@ -1968,6 +2006,7 @@ class User(AbstractBaseUser):
             & Q(group__roles__permissions__codename=perm)
             & Q(group__components__isnull=True)
             & Q(group__componentlists__isnull=True)
+            & ~Q(group__project_selection=SELECTION_COMPONENT_LIST)
             & Q(group__defining_workspace__isnull=True)
             & (
                 Q(group__defining_project__isnull=True)

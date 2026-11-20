@@ -12,7 +12,7 @@ from runpy import run_path
 from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
-from django.db import connection
+from django.db import NotSupportedError, connection
 from django.db.migrations.executor import MigrationExecutor
 from django.test import SimpleTestCase, TransactionTestCase
 
@@ -39,6 +39,22 @@ class JSONSortKeysMigrationTest(SimpleTestCase):
             [{"json_sort_keys": "none"}, {"json_sort_keys": "none"}],
         )
         manager.bulk_update.assert_called_once_with(components, ["file_format_params"])
+
+
+class CaseInsensitiveSlugsMigrationTest(SimpleTestCase):
+    def test_checks_postgresql_version_before_touching_slugs(self) -> None:
+        migration = import_module(
+            "weblate.trans.migrations.0124_case_insensitive_slugs"
+        )
+        apps = Mock()
+        editor = Mock()
+        editor.connection.get_database_version.return_value = (14,)
+        with self.assertRaisesMessage(
+            NotSupportedError, "Weblate requires PostgreSQL 15"
+        ):
+            migration.Migration.operations[0].code(apps, editor)
+        apps.get_model.assert_not_called()
+        editor.execute.assert_not_called()
 
 
 class ContributorCommentsMigrationTest(TransactionTestCase):

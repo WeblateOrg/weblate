@@ -8,7 +8,7 @@ import os
 import re
 import time
 from collections import defaultdict
-from contextlib import contextmanager, nullcontext, suppress
+from contextlib import ExitStack, contextmanager, nullcontext, suppress
 from copy import deepcopy
 from dataclasses import dataclass
 from functools import partial
@@ -37,9 +37,9 @@ from django.core.exceptions import (
     ValidationError,
 )
 from django.core.validators import MaxValueValidator, URLValidator
-from django.db import IntegrityError, models, transaction
+from django.db import IntegrityError, models, router, transaction
 from django.db.models import F, Q, Value
-from django.db.models.functions import MD5
+from django.db.models.functions import MD5, Upper
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from django.template import TemplateSyntaxError
@@ -72,6 +72,7 @@ from weblate.trans.alerts.registry import (
 )
 from weblate.trans.defines import (
     BRANCH_LENGTH,
+    CATEGORY_DEPTH,
     COMPONENT_NAME_LENGTH,
     FILENAME_LENGTH,
     PROJECT_NAME_LENGTH,
@@ -168,7 +169,7 @@ from weblate.utils.licenses import (
     get_license_url,
     is_libre,
 )
-from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
+from weblate.utils.lock import LockScope, WeblateLock, WeblateLockTimeoutError
 from weblate.utils.random import get_random_identifier
 from weblate.utils.regex import (
     compile_regex,
@@ -375,6 +376,40 @@ class FileMaskTimeoutError(TimeoutError):
     """A component file mask took too long to match a path."""
 
 
+def component_settings_lookups(*, defer: bool) -> list[str | models.Prefetch]:
+    """Return the prefetch lookups needed to resolve inherited settings."""
+    categories = [
+        "__".join(["category"] * depth) for depth in range(1, CATEGORY_DEPTH + 1)
+    ]
+    lookups: list[str | models.Prefetch]
+    if defer:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Category, Project
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.workspaces.models import Workspace
+
+        lookups = [models.Prefetch("project", queryset=Project.objects.defer_huge())]
+        for category in categories:
+            lookups.extend(
+                (
+                    models.Prefetch(category, queryset=Category.objects.defer_huge()),
+                    models.Prefetch(
+                        f"{category}__project", queryset=Project.objects.defer_huge()
+                    ),
+                )
+            )
+        lookups.append(
+            models.Prefetch(
+                "project__workspace", queryset=Workspace.objects.defer_huge()
+            )
+        )
+    else:
+        lookups = ["project__workspace"]
+    lookups.extend(f"{category}__project__workspace" for category in categories)
+    return lookups
+
+
 class ComponentQuerySet(models.QuerySet["Component", "Component"]):
     # pylint: disable-next=arguments-differ
     def select_for_update(self) -> ComponentQuerySet:  # type: ignore[override]
@@ -387,19 +422,11 @@ class ComponentQuerySet(models.QuerySet["Component", "Component"]):
     def prefetch(self, alerts: bool = True, defer: bool = True):
         result = self
         linked_component: str | models.Prefetch
-        project: str | models.Prefetch
-        category: str | models.Prefetch
-        category_project: str | models.Prefetch
-        parent_category: str | models.Prefetch
-        parent_category_project: str | models.Prefetch
-        grandparent_category: str | models.Prefetch
-        grandparent_category_project: str | models.Prefetch
         linked_component_project: str | models.Prefetch
-        project_workspace: str | models.Prefetch
         linked_component_project_workspace: str | models.Prefetch
         if defer:
             # ruff: ignore[import-outside-top-level]
-            from weblate.trans.models import Category, Project
+            from weblate.trans.models import Project
 
             # ruff: ignore[import-outside-top-level]
             from weblate.workspaces.models import Workspace
@@ -408,32 +435,8 @@ class ComponentQuerySet(models.QuerySet["Component", "Component"]):
             linked_component = models.Prefetch(
                 "linked_component", queryset=Component.objects.defer_huge()
             )
-            project = models.Prefetch("project", queryset=Project.objects.defer_huge())
-            category = models.Prefetch(
-                "category", queryset=Category.objects.defer_huge()
-            )
-            category_project = models.Prefetch(
-                "category__project", queryset=Project.objects.defer_huge()
-            )
-            parent_category = models.Prefetch(
-                "category__category", queryset=Category.objects.defer_huge()
-            )
-            parent_category_project = models.Prefetch(
-                "category__category__project", queryset=Project.objects.defer_huge()
-            )
-            grandparent_category = models.Prefetch(
-                "category__category__category",
-                queryset=Category.objects.defer_huge(),
-            )
-            grandparent_category_project = models.Prefetch(
-                "category__category__category__project",
-                queryset=Project.objects.defer_huge(),
-            )
             linked_component_project = models.Prefetch(
                 "linked_component__project", queryset=Project.objects.defer_huge()
-            )
-            project_workspace = models.Prefetch(
-                "project__workspace", queryset=Workspace.objects.defer_huge()
             )
             linked_component_project_workspace = models.Prefetch(
                 "linked_component__project__workspace",
@@ -441,15 +444,7 @@ class ComponentQuerySet(models.QuerySet["Component", "Component"]):
             )
         else:
             linked_component = "linked_component"
-            project = "project"
-            category = "category"
-            category_project = "category__project"
-            parent_category = "category__category"
-            parent_category_project = "category__category__project"
-            grandparent_category = "category__category__category"
-            grandparent_category_project = "category__category__category__project"
             linked_component_project = "linked_component__project"
-            project_workspace = "project__workspace"
             linked_component_project_workspace = "linked_component__project__workspace"
         if alerts:
             result = result.prefetch_related(
@@ -457,26 +452,18 @@ class ComponentQuerySet(models.QuerySet["Component", "Component"]):
             )
 
         return result.prefetch_related(
-            project,
-            category,
-            category_project,
-            parent_category,
-            parent_category_project,
-            grandparent_category,
-            grandparent_category_project,
+            *component_settings_lookups(defer=defer),
             linked_component,
             linked_component_project,
-            project_workspace,
             linked_component_project_workspace,
-            "category__project__workspace",
-            "category__category__project__workspace",
-            "category__category__category__project__workspace",
         )
 
     def defer_huge(self):
         return self.defer(*HUGE_INHERITABLE_SETTINGS)
 
-    def filter_by_path(self, path: str) -> ComponentQuerySet:
+    def filter_by_path(
+        self, path: str, *, exact_depth: bool = False
+    ) -> ComponentQuerySet:
         try:
             project, *categories, component = path.split("/")
         except ValueError as error:
@@ -486,14 +473,14 @@ class ComponentQuerySet(models.QuerySet["Component", "Component"]):
         for category in reversed(categories):
             kwargs[f"{prefix}category__slug"] = category
             prefix = f"category__{prefix}"
-        if not kwargs:
-            kwargs["category"] = None
+        if exact_depth or not kwargs:
+            kwargs[f"{prefix}category"] = None
         return self.filter(
             slug__iexact=component, project__slug__iexact=project, **kwargs
         )
 
     def get_by_path(self, path: str) -> Component:
-        return self.filter_by_path(path).get()
+        return self.filter_by_path(path, exact_depth=True).get()
 
     def get_linked(self, val):
         """Return component for linked repo."""
@@ -1241,8 +1228,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
         ]
         constraints = [  # ruff: ignore[mutable-class-default]
             models.UniqueConstraint(
-                name="component_slug_unique",
-                fields=["project", "category", "slug"],
+                "project",
+                "category",
+                Upper("slug"),
+                name="component_slug_ci_unique",
                 nulls_distinct=False,
             ),
             models.UniqueConstraint(
@@ -1327,8 +1316,35 @@ class Component(  # ruff: ignore[too-many-public-methods]
         else:
             self._save(*args, **kwargs)
 
-    def _save(  # ruff: ignore[complex-structure, too-many-locals, too-many-statements]
-        self, *args, **kwargs
+    def _save(self, *args, **kwargs) -> None:
+        with ExitStack() as stack:
+            self._save_component(stack, *args, **kwargs)
+
+    @contextmanager
+    def _atomic_path_change(
+        self, using: str, moved_paths: list[tuple[str, str]]
+    ) -> Generator[None]:
+        committed = False
+
+        def mark_committed() -> None:
+            nonlocal committed
+            committed = True
+
+        try:
+            with transaction.atomic(using=using):
+                transaction.on_commit(mark_committed, using=using)
+                yield
+        except Exception:
+            if not committed:
+                for old_path, new_path in moved_paths:
+                    if not os.path.lexists(old_path) and os.path.exists(new_path):
+                        os.rename(new_path, old_path)
+                self.invalidate_path_cache()
+                self.drop_repository_cache()
+            raise
+
+    def _save_component(  # ruff: ignore[complex-structure, too-many-locals, too-many-statements]
+        self, stack: ExitStack, *args, **kwargs
     ) -> None:
         """
         Save wrapper.
@@ -1379,6 +1395,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
         old_full_slug = None
         old_source_project_id = None
         old_workspace_id = None
+        path_changed = False
+        moved_paths: list[tuple[str, str]] = []
 
         if self.id:
             old = Component.objects.get(pk=self.pk)
@@ -1453,18 +1471,22 @@ class Component(  # ruff: ignore[too-many-public-methods]
             ) or (restricted_changed and (old.is_glossary or self.is_glossary))
 
             changed_variant = old.variant_regex != self.variant_regex
-            # Generate change entries for changes
+            path_changed = any(
+                should_track_field(self, field, update_fields)
+                and getattr(old, attribute) != getattr(self, attribute)
+                for field, attribute in (
+                    ("slug", "slug"),
+                    ("project", "project_id"),
+                    ("category", "category_id"),
+                )
+            )
+            if path_changed:
+                using = kwargs.get("using") or router.db_for_write(
+                    type(self), instance=self
+                )
+                stack.enter_context(self._atomic_path_change(using, moved_paths))
             self.generate_changes(old, update_fields=update_fields)
-            # Detect slug changes and rename Git repo
-            was_renamed = self.check_rename(old)
-            # Rename linked repos
-            if (
-                old.slug != self.slug
-                or old.project != self.project
-                or old.category != self.category
-            ):
-                old.component_set.update(repo=self.get_repo_link_url())
-            if changed_git or was_renamed:
+            if changed_git and not path_changed:
                 self.drop_repository_cache()
 
             changed_enforced_checks = (
@@ -1534,6 +1556,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     exclusive=True,
                 )
             super().save(*args, **kwargs)
+            if path_changed:
+                self.check_rename(old, moved_paths=moved_paths)
+                self.drop_repository_cache()
+                old.component_set.update(repo=self.get_repo_link_url())
             if boundary_changed:
                 from weblate.trans.propagation import refresh_propagation_checks  # ruff: ignore[import-outside-top-level]
 
@@ -2102,9 +2128,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # Serializes component-wide creation/import operations. Existing string
         # updates should rely on row locks, and check refreshes use checks_lock.
         return WeblateLock(
-            scope="component:update",
+            scope=LockScope.COMPONENT_UPDATE,
             key=self.pk,
-            slug=self.slug,
             timeout=5,
             origin=self.full_slug,
         )
@@ -2112,9 +2137,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
     @cached_property
     def checks_lock(self):
         return WeblateLock(
-            scope="component:checks",
+            scope=LockScope.COMPONENT_CHECKS,
             key=self.pk,
-            slug=self.slug,
             timeout=5,
             origin=self.full_slug,
         )
@@ -2702,7 +2726,12 @@ class Component(  # ruff: ignore[too-many-public-methods]
         cached_path = self.__dict__.get("full_path")
         cached_repository = self.__dict__.get("repository")
 
-        self.linked_component = Component.objects.get_linked(self.repo)
+        try:
+            self.linked_component = Component.objects.get_linked(self.repo)
+        except Component.MultipleObjectsReturned as error:
+            raise ValidationError(
+                {"repo": gettext("The linked repository path is ambiguous.")}
+            ) from error
         current_path = self._get_path()
 
         if cached_path is not None and cached_path != current_path:
@@ -4399,7 +4428,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # Commit pending changes
         with self.track_local_head_change():
             for translation in translations:
-                self.repository.lock.reacquire()
                 component = translation.component
                 if component.pk in skipped:
                     # We already failed at this component
@@ -5282,15 +5310,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 raise InvalidTemplateError(info=str(exc)) from exc
         self._template_check_done = True
 
-    def refresh_lock(self) -> None:
-        """Refresh the lock to avoid expiry in long operations."""
-        if self.linked_component and self.linked_component.lock.is_locked:
-            self.linked_component.lock.reacquire()
-        if self.repository.lock.is_locked:
-            self.repository.lock.reacquire()
-        if self.lock.is_locked:
-            self.lock.reacquire()
-
     @source_operation_method
     def _create_translations(  # ruff: ignore[complex-structure, too-many-statements]
         self,
@@ -5368,8 +5387,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 c.translation_set.count() for c in self.linked_children
             )
         for pos, path in enumerate(matches):
-            self.refresh_lock()
-
             if not self._sources_prefetched and path != source_file:
                 self.preload_sources()
             with transaction.atomic():
@@ -5746,7 +5763,11 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if self.is_repo_link:
             try:
                 repo = Component.objects.get_linked(self.repo)
-            except (Component.DoesNotExist, ValueError) as error:
+            except (
+                Component.DoesNotExist,
+                Component.MultipleObjectsReturned,
+                ValueError,
+            ) as error:
                 raise ValidationError(
                     {
                         "repo": gettext(
@@ -6758,7 +6779,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if (
             settings.OFFER_HOSTING
             and self.project.billings
-            and self.project.billing.plan.price == 0
+            and self.project.billing.is_libre
         ):
             for component in self.project.child_components:
                 update_alerts(component, {"NoLibreConditions"})
@@ -6911,7 +6932,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             language_code=self.source_language.code,
             source_language=self.source_language.code,
             file_format_params=self.file_format_params,
-            repo_temp_dir=self.repository.get_repo_temp_dir(),
+            repo_temp_dir=self.repository.get_repo_temp_dir(create=False),
             file_validator=self.check_file_is_valid,
         )
         store.check_valid()
@@ -6939,7 +6960,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 source_language=self.source_language.code,
                 is_template=True,
                 file_format_params=self.file_format_params,
-                repo_temp_dir=self.repository.get_repo_temp_dir(),
+                repo_temp_dir=self.repository.get_repo_temp_dir(create=False),
                 file_validator=self.check_file_is_valid,
             )
             store.check_valid()
@@ -7255,8 +7276,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
             )
             return None
 
-        base_filename = self.get_new_base_filename()
-
         filename = file_format.get_language_filename(self.filemask, code)
         fullname = os.path.join(self.full_path, filename)
 
@@ -7266,6 +7285,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 self.commit_pending("add language", None)
 
             try:
+                # An update may have replaced the base while we waited for the lock.
+                base_filename = self.get_new_base_filename()
                 self.check_file_is_valid(fullname)
             except ValidationError:
                 fail_message(gettext("Could not add new translation file."))

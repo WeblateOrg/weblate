@@ -71,7 +71,7 @@ def get_accessible_repository_link(user: User, repo: str | None) -> Component | 
 
     try:
         component = Component.objects.filter_access(user).get_linked(repo)
-    except (Component.DoesNotExist, ValueError):
+    except (Component.DoesNotExist, Component.MultipleObjectsReturned, ValueError):
         return None
     if component is None or (
         not user.is_superuser and not check_enforced_2fa(user, component.project)
