@@ -14,6 +14,7 @@ from django.db.models import Value
 from django.db.models.functions import MD5
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.dateparse import parse_datetime
 from django.utils.translation import gettext_lazy
 from weblate_language_data.ambiguous import AMBIGUOUS
 
@@ -38,6 +39,7 @@ if TYPE_CHECKING:
     from collections.abc import Callable
 
     from weblate.auth.models import User
+    from weblate.trans.models.alert import Alert
     from weblate.trans.models.component import Component
     from weblate.trans.models.translation import Translation
 
@@ -122,10 +124,18 @@ class MissingLicense(BaseAlert):
 class FileFormatConfigurationAlert(BaseAlert):
     dismissible = True
 
+    def __init__(self, instance: Alert, **_details: str | int | None) -> None:
+        super().__init__(instance)
+
     @classmethod
     def get_dismissal_context(cls, component: Component, details: dict) -> dict:
         return {
-            "details": details,
+            "details": {
+                key: value
+                for key, value in details.items()
+                if key
+                not in {"example_filename", "sampled_template", "matching_sample_count"}
+            },
             "file_format": component.file_format,
             "file_format_params": component.file_format_params,
             "template": component.template,
@@ -170,9 +180,9 @@ class MonolingualTranslation(FileFormatConfigurationAlert):
         target_space = allunits.filter(
             state__gte=STATE_TRANSLATED, target__contains=" "
         )
-        return (
-            allunits.count() > 3 and not source_space.exists() and target_space.exists()
-        )
+        if allunits.count() > 3 and not source_space.exists() and target_space.exists():
+            return {"example_filename": translation.filename}
+        return False
 
 
 @register
@@ -210,10 +220,13 @@ class BilingualPOConfiguredAsMonolingual(FileFormatConfigurationAlert):
         if len(contexts) < MIN_LIKELY_BILINGUAL_PO_UNITS:
             return False
 
-        return (
-            sum(1 for context in contexts if _looks_like_source_text(context))
-            >= MIN_LIKELY_BILINGUAL_PO_UNITS
-        )
+        matching_count = sum(_looks_like_source_text(context) for context in contexts)
+        if matching_count >= MIN_LIKELY_BILINGUAL_PO_UNITS:
+            return {
+                "sampled_template": component.template,
+                "matching_sample_count": matching_count,
+            }
+        return False
 
 
 @register
@@ -492,12 +505,30 @@ class UnusedComponent(BaseAlert):
     dismissible = True
     doc_page = "devel/community"
 
+    def __init__(self, instance: Alert, **_details: str | None) -> None:
+        super().__init__(instance)
+
     @classmethod
     def get_dismissal_context(cls, _component: Component, details: dict) -> dict:
-        return {"details": details, "days": settings.UNUSED_ALERT_DAYS}
+        return {
+            "details": {
+                key: value
+                for key, value in details.items()
+                if key != "last_translation_change"
+            },
+            "days": settings.UNUSED_ALERT_DAYS,
+        }
 
     def get_analysis(self) -> dict[str, Any]:
-        return {"days": settings.UNUSED_ALERT_DAYS}
+        last_translation_change = self.instance.details.get("last_translation_change")
+        return {
+            "days": settings.UNUSED_ALERT_DAYS,
+            "last_translation_change": (
+                parse_datetime(last_translation_change)
+                if last_translation_change
+                else None
+            ),
+        }
 
     @staticmethod
     def check_component(component: Component) -> bool | dict | None:
@@ -510,9 +541,13 @@ class UnusedComponent(BaseAlert):
         last_changed = component.stats.last_changed
         cutoff = timezone.now() - timedelta(days=settings.UNUSED_ALERT_DAYS)
         if last_changed is not None:
-            return last_changed < cutoff
+            if last_changed < cutoff:
+                return {"last_translation_change": last_changed.isoformat()}
+            return False
         oldest_change = component.change_set.order_by("timestamp").first()
-        return oldest_change is None or oldest_change.timestamp < cutoff
+        if oldest_change is None or oldest_change.timestamp < cutoff:
+            return {"last_translation_change": None}
+        return False
 
 
 @register

@@ -276,6 +276,14 @@ Execution can be delayed by queued tasks or repository operations. Restarting
 Celery does not change the assigned hour. This setting does not provide a
 configurable update time window.
 
+When a repository update fails because of a temporary problem, such as a
+timeout or an HTTP 500, 502, 503, or 504 server error, Weblate retries it
+before the next assigned hour. The delay before each retry equals how long the
+update has been failing, so retries happen after about 1, 2, 4, 8, and 16 hours
+until the daily update takes over. A successful update stops the retries. Other
+failures, such as rejected credentials or a missing repository, are not retried
+early because a retry cannot fix them.
+
 .. hint::
 
     Useful if you are not using :ref:`hooks` to update Weblate repositories automatically.
@@ -499,7 +507,7 @@ The following subdirectories usually exist:
 :file:`ssh`
    Generated helper files used for VCS access.
 :file:`fonts`
-   :program:`font-config` cache for :ref:`fonts`.
+   Local copies of uploaded :ref:`fonts` used for rendering.
 :file:`avatar`
    Cached user avatars, see :ref:`avatars`.
 :file:`static`
@@ -665,7 +673,8 @@ The following subdirectories usually exist:
 :file:`backups`
     Daily backup data. Please check :ref:`backup-dumps` for details.
 :file:`fonts`:
-    User-uploaded fonts, see :ref:`fonts`.
+    User-uploaded fonts, see :ref:`fonts`. They can be stored elsewhere, see
+    :ref:`font-storage`.
 :file:`cache`
     Various caches. Can be placed elsewhere using :setting:`CACHE_DIR`.
 

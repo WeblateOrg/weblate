@@ -155,6 +155,8 @@ from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.repository import (
     QueuedRepositoryOperation,
     RepositoryOperationConflictError,
+    acquire_repository_operation,
+    release_repository_operation,
 )
 from weblate.trans.tasks import (
     auto_translate,
@@ -184,7 +186,7 @@ from weblate.utils.celery import (
 )
 from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.data import data_dir
-from weblate.utils.files import PathMatchBudget
+from weblate.utils.files import PathMatchBudget, remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.pii import mask_email
 from weblate.utils.render import render_repository_template
@@ -211,6 +213,7 @@ from weblate.utils.version import GIT_VERSION
 from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_SOFT
 from weblate.utils.views import snapshot_file_response
 from weblate.vcs.base import RepositoryError, RepositoryInternalError, RepositoryLock
+from weblate.vcs.git import GitRepository
 from weblate.vcs.github import GitHubInstallation
 from weblate.workspaces.models import Workspace
 
@@ -13225,6 +13228,38 @@ class ComponentAPITest(APIBaseTest):
             request={"language_code": "fa"},
         )
 
+    def test_create_translation_base_invalid_under_lock(self) -> None:
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.save(update_fields=["new_lang", "new_base"])
+        get_base = Component.get_new_base_filename
+
+        def validate_base(component: Component) -> str | None:
+            if component.repository.lock.is_locked:
+                msg = "Invalid base file"
+                raise DjangoValidationError(msg)
+            return get_base(component)
+
+        with (
+            patch.object(Component, "get_new_base_filename", validate_base),
+            patch.object(
+                self.component.file_format_cls, "add_language"
+            ) as add_language,
+        ):
+            self.do_request(
+                "api:component-translations",
+                self.component_kwargs,
+                method="post",
+                code=400,
+                request={"language_code": "fa"},
+            )
+
+        add_language.assert_not_called()
+        self.assertFalse(
+            self.component.translation_set.filter(language_code="fa").exists()
+        )
+        self.assertFalse((Path(self.component.full_path) / "po/fa.po").exists())
+
     def test_create_translation_team_language_scope(self) -> None:
         self.component.new_lang = "add"
         self.component.new_base = "po/hello.pot"
@@ -14165,6 +14200,85 @@ class ComponentAPITest(APIBaseTest):
             code=200,
         )
         self.assertEqual(len(response.data["results"]), 1)
+
+
+class RepositoryRecoveryAPITest(APIBaseTest):
+    """Synchronous reset and reapply recovers a missing checkout."""
+
+    def checkout_paths(self, endpoint: str) -> list[Path]:
+        if endpoint == "project":
+            components = list(self.project.component_set.all())
+        else:
+            components = [self.component]
+        return [Path(component.full_path) for component in components]
+
+    def reset_keep(self, endpoint: str):
+        return self.do_request(
+            f"api:{endpoint}-repository",
+            getattr(self, f"{endpoint}_kwargs"),
+            method="post",
+            superuser=True,
+            request={"operation": "reset-keep"},
+        )
+
+    def test_recovers_missing_checkout(self) -> None:
+        for endpoint in ("component", "project"):
+            with self.subTest(endpoint=endpoint):
+                paths = self.checkout_paths(endpoint)
+                for path in paths:
+                    remove_tree(path)
+                response = self.reset_keep(endpoint)
+                self.assertIs(response.data["result"], True)
+                for path in paths:
+                    self.assertTrue((path / ".git" / "HEAD").exists())
+
+    def test_followup_is_queued_after_reservation_release(self) -> None:
+        remove_tree(self.component.full_path)
+        reserved: list[bool] = []
+
+        def delay(*args: object, **kwargs: object) -> None:
+            try:
+                acquire_repository_operation(
+                    [self.component.pk], "reset-keep", "followup-check"
+                )
+            except RepositoryOperationConflictError:
+                reserved.append(True)
+            else:
+                release_repository_operation([self.component.pk], "followup-check")
+                reserved.append(False)
+
+        # The test transaction holds on-commit callbacks, run them immediately
+        # as in autocommit mode.
+        with (
+            patch("weblate.trans.tasks.perform_commit.delay", side_effect=delay),
+            patch.object(
+                transaction,
+                "on_commit",
+                side_effect=lambda func, *_args, **_kwargs: func(),
+            ),
+        ):
+            response = self.reset_keep("component")
+        self.assertIs(response.data["result"], True)
+        self.assertEqual(reserved, [False])
+
+    def test_recovery_failure_is_reported(self) -> None:
+        for endpoint in ("component", "project"):
+            with self.subTest(endpoint=endpoint):
+                paths = self.checkout_paths(endpoint)
+                for path in paths:
+                    remove_tree(path)
+                with patch.object(
+                    GitRepository,
+                    "stage_recovery_checkout",
+                    side_effect=RepositoryError(1, "Clone failed"),
+                ):
+                    response = self.reset_keep(endpoint)
+                self.assertIs(response.data["result"], False)
+                self.assertIn("Could not reset", response.data["detail"])
+                for path in paths:
+                    self.assertFalse((path / ".git").exists())
+                # Restore the checkouts for the next endpoint
+                self.reset_keep(endpoint)
 
 
 class LanguageAPITest(APIBaseTest):
@@ -22466,6 +22580,56 @@ class ChangeAPITest(APIBaseTest):
         self.assertEqual(
             response.data["details"], {"change_origin": {"scope": "system"}}
         )
+
+    def test_repository_diagnostic_details_are_redacted(self) -> None:
+        self.authenticate(superuser=True)
+        self.component.add_alert(
+            "RepositoryChanges", commit_count=26, repository_owner_id=self.component.pk
+        )
+        self.component.add_alert(
+            "RepositoryOutdated", commit_count=27, repository_owner_id=self.component.pk
+        )
+        alert = self.component.alert_set.get(name="RepositoryChanges")
+        self.assertTrue(alert.dismiss(self.user))
+        created = self.component.change_set.get(action=ActionEvents.ALERT, alert=alert)
+        outdated = self.component.change_set.get(
+            action=ActionEvents.ALERT, alert__name="RepositoryOutdated"
+        )
+        self.assertIn("fingerprint", outdated.details)
+        dismissed = self.component.change_set.get(
+            action=ActionEvents.ALERT_DISMISSED, alert=alert
+        )
+
+        for endpoint, expected in (
+            (reverse("api:change-list"), (created.pk, outdated.pk, dismissed.pk)),
+            (reverse("api:change-detail", kwargs={"pk": created.pk}), (created.pk,)),
+            (reverse("api:change-detail", kwargs={"pk": outdated.pk}), (outdated.pk,)),
+            (
+                reverse("api:change-detail", kwargs={"pk": dismissed.pk}),
+                (dismissed.pk,),
+            ),
+        ):
+            with self.subTest(endpoint=endpoint):
+                response = self.client.get(endpoint)
+                self.assertEqual(response.status_code, 200, response.data)
+                entries = {
+                    entry["id"]: entry
+                    for entry in response.data.get("results", [response.data])
+                }
+                for change_pk in expected:
+                    self.assertEqual(entries[change_pk]["alert"]["details"], {})
+                    self.assertNotIn("fingerprint", entries[change_pk]["details"])
+                if dismissed.pk in expected:
+                    snapshot = entries[dismissed.pk]["details"]["alert_snapshot"]
+                    self.assertEqual(snapshot["details"], {})
+
+        alert.delete()
+        response = self.client.get(
+            reverse("api:change-detail", kwargs={"pk": dismissed.pk})
+        )
+        self.assertEqual(response.status_code, 200, response.data)
+        self.assertEqual(response.data["alert"]["details"], {})
+        self.assertEqual(response.data["details"]["alert_snapshot"]["details"], {})
 
     def test_alert_metadata(self) -> None:
         self.component.add_alert("BrokenBrowserURL", link="http://a", error="first")

@@ -472,6 +472,7 @@ class Translation(
         self.addon_commit_files: list[str] = []
         self.reason = ""
         self._invalidate_scheduled = False
+        self._completion_recorded = False
         self._suppress_cache_invalidation_depth = 0
         self._stats_delta_requires_full_rebuild = False
         self.update_changes: list[Change] = []
@@ -3066,6 +3067,7 @@ class Translation(
 
     def _invalidate_trigger(self, *, update_stats_parents: bool) -> None:
         self._invalidate_scheduled = False
+        self._completion_recorded = False
         self.stats.update_stats(update_parents=update_stats_parents)
         self.component.invalidate_glossary_cache()
         # Delete UnusedComponent alert as the translation has just
@@ -3108,6 +3110,8 @@ class Translation(
     def detect_completed_translation(
         self, change: Change, old_translated: int, *, user: User | None
     ) -> None:
+        if self._completion_recorded:
+            return
         translated = self.stats.translated
         if old_translated < translated and translated == self.stats.all:
             self.change_set.create(
@@ -3115,6 +3119,7 @@ class Translation(
                 user=user,
                 author=change.author,
             )
+            self._completion_recorded = True
 
             # check if component is fully translated
             component = self.component

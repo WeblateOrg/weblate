@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-13 01:19-0600\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
 "PO-Revision-Date: 2026-10-30 05:04+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -1469,6 +1469,21 @@ msgstr "Можете потврдити регистрацију само док
 msgid ""
 "This invitation can be accepted only by the e-mail address chosen by the "
 "inviter; it can't be used by your account."
+msgstr ""
+
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Your e-mail no longer belongs to verified account, it has been changed to "
+#| "{0}."
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr "Ваша е-адреса не припада овереном налогу. Промењена је у {0}."
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
 msgstr ""
 
 msgid ""
@@ -4397,6 +4412,16 @@ msgid ""
 "Remove the component from project teams before moving it to another project."
 msgstr ""
 
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
+
 msgid "Roles"
 msgstr "Улоге"
 
@@ -5252,6 +5277,11 @@ msgstr "Наплата"
 #| msgid "Billing overview"
 msgid "Billing event"
 msgstr "Преглед наплате"
+
+#, fuzzy
+#| msgid "Projects without components"
+msgid "Project has no components."
+msgstr "Пројекти без компоненти"
 
 #, fuzzy
 #| msgid "Monthly"
@@ -7470,9 +7500,6 @@ msgstr "Формула множине"
 msgid "Plural type"
 msgstr "Тип множине"
 
-msgid "Example counts for this plural form."
-msgstr "Пример бројева за ову множинску форму."
-
 msgid "Singular"
 msgstr "Једнина"
 
@@ -8678,6 +8705,11 @@ msgid "Read your e-mail address"
 msgstr "Користи е-пошту налога"
 
 msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
 msgstr ""
 
 msgid "Image is too big."
@@ -11343,6 +11375,16 @@ msgstr ""
 "Ова претплата није подобна за либре план, молимо исправите грешке изнад или "
 "купите претплату."
 
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+
 #, fuzzy
 #| msgid "Custom"
 msgid "Customer"
@@ -13070,6 +13112,16 @@ msgstr ""
 #. Translators: e-mail subject
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr ""
+
+#, fuzzy
+#| msgid "Does not meet Libre hosting conditions."
+msgid "Review Libre hosting conditions"
+msgstr "Не испуњава услове Libre хостинга."
+
+#, fuzzy, python-format
+#| msgid "Number of entries for %(project)s"
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "Број уноса за %(project)s"
 
 msgid "Translation change"
 msgstr "Измена превода"
@@ -15237,6 +15289,9 @@ msgid ""
 "maintenance of Weblate itself."
 msgstr ""
 
+msgid "Example counts for this plural form."
+msgstr "Пример бројева за ову множинску форму."
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr "Максимална дужина ниске се одређује из изворне ниске или заставица."
@@ -15270,12 +15325,13 @@ msgstr ""
 msgid "Source code repository"
 msgstr "Складиште изворног кода"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr "Ова компонента је везана за %(target)s складиште."
-
 msgid "Repository URL copied to clipboard."
 msgstr "URL складишта копиран у клипборд."
+
+#, fuzzy
+#| msgid "Renamed component"
+msgid "Linked component"
+msgstr "Преименована компонента"
 
 msgid "Repository branch"
 msgstr "Грана складишта"
@@ -15742,6 +15798,11 @@ msgstr "Множина: %(source_description)s"
 
 msgid "Plurals"
 msgstr "Множине"
+
+#, fuzzy
+#| msgid "No strings found!"
+msgid "No integer examples found"
+msgstr "Нема пронађених ниски!"
 
 msgid "First"
 msgstr "Први"
@@ -16704,15 +16765,15 @@ msgstr "Компонента садржи неколико дуплираних 
 msgid "Source"
 msgstr "Извор"
 
-#, fuzzy, python-format
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove duplicate strings from %(language)s (%(filename)s)"
-msgstr "Присиљавање писања свих низова у фајлове превода."
-
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
 msgstr "Уклони празне ниске"
+
+#, fuzzy, python-format
+#| msgid "Forces writing all strings to the translation files."
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Присиљавање писања свих низова у фајлове превода."
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -17718,10 +17779,6 @@ msgstr "Ова ниска је раније била преведена"
 msgid "Add term to glossary"
 msgstr "Додај појам у појмовник"
 
-#, python-format
-msgid "Browse glossary %(name)s"
-msgstr "Прегледај глосар %(name)s"
-
 #, fuzzy
 #| msgid "Browse glossary %(name)s"
 msgid "Browse glossary"
@@ -17777,6 +17834,15 @@ msgstr "Последње ажурирано"
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
 msgstr "Старост изворне ниске"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s, line %(line)s"
+msgstr "%(filename)s, ниска %(position)s"
+
+#, python-format
+msgid "line %(line)s"
+msgstr ""
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -19653,13 +19719,13 @@ msgstr "Дуплирана фајл маска."
 msgid "Referenced category does not exist."
 msgstr "{filename} ({parameter}) не постоји."
 
-msgid "Component filename does not match its category and slug."
-msgstr ""
-
 #, fuzzy
 #| msgid "Duplicate this component"
 msgid "Duplicate component slug."
 msgstr "Дуплирајте ову компоненту"
+
+msgid "Component filename does not match its category and slug."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation reviews are not enabled."
@@ -19983,6 +20049,11 @@ msgstr "Гласање за предлоге"
 msgid "Needs review"
 msgstr "Потребна је овера"
 
+#, fuzzy
+#| msgid "The source and target have to be different languages."
+msgid "The source and destination checkouts must be different."
+msgstr "Изворни и циљни морају бити различити језици."
+
 msgid "This component does not exist or you cannot access it."
 msgstr ""
 
@@ -20012,6 +20083,11 @@ msgstr ""
 #| msgid "Good configuration"
 msgid "Discovery configuration"
 msgstr "Добра конфигурација"
+
+#, fuzzy, python-format
+#| msgid "Could not render template: {}"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "Нисмо могли рендеровати шаблон: {}"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -22223,6 +22299,11 @@ msgid "Use the secondary language configured in the category or project."
 msgstr "Нови језик додат у %(component)s"
 
 #, fuzzy
+#| msgid "The local repository is up to date."
+msgid "The linked repository path is ambiguous."
+msgstr "Локално складиште је ажурирано."
+
+#, fuzzy
 #| msgid ""
 #| "Could not verify SSH host key, please add them in SSH page in the admin "
 #| "interface."
@@ -22511,6 +22592,11 @@ msgid ""
 "Pushing without a merge request needs write access to the repository. "
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
+
+#, fuzzy
+#| msgid "The filename can not be an absolute path."
+msgid "Version control system cannot be changed to this backend."
+msgstr "Име фајла не може бити апсолутна путања."
 
 #, fuzzy
 #| msgid "The regular expression can not match an empty string."
@@ -23181,6 +23267,11 @@ msgstr "Дуга црта"
 msgid "User configured character: {}"
 msgstr "Кориснички конфигурисан карактер: {}"
 
+#, fuzzy, python-format
+#| msgid "Could not push the repository."
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "Није могуће послати складиште."
+
 #, fuzzy
 #| msgid "Automatic translation in progress"
 msgid "Repository operation could not be completed because it remained locked."
@@ -23320,6 +23411,10 @@ msgstr "ИД ниске %s"
 
 msgid "This language is used for source strings."
 msgstr "Овај језик се користи за изворне ниске."
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr "Ова компонента је везана за %(target)s складиште."
 
 #, fuzzy
 #| msgid "Fix this component to clear its alerts."
@@ -24211,6 +24306,16 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "Усправан график траке језика"
 
+#, fuzzy
+#| msgid "Your languages"
+msgid "Sort languages by"
+msgstr "Ваши језици"
+
+#, fuzzy
+#| msgid "Translation change"
+msgid "Translation percentage"
+msgstr "Измена превода"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr "Положен график траке језика"
@@ -24602,20 +24707,6 @@ msgstr "Неисправни параметри!"
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
-msgid "Template output exceeds its size limit."
-msgstr ""
-
-msgid "Template rendering failed or exceeded its resource limits."
-msgstr ""
-
-msgid "Oversized template response."
-msgstr ""
-
-#, fuzzy
-#| msgid "Invalid translation flag: \"%s\""
-msgid "Invalid template rendering response."
-msgstr "Неважећа заставица превода: \"%s\""
-
 msgid "Could not render template: {}"
 msgstr "Нисмо могли рендеровати шаблон: {}"
 
@@ -24626,7 +24717,7 @@ msgstr ""
 "Формат стрингова више није подржан, молимо вас да користите језик шаблона "
 "уместо тога."
 
-msgid "Template value exceeds its size limit."
+msgid "Template context exceeds its size limit."
 msgstr ""
 
 #, fuzzy
@@ -24634,8 +24725,10 @@ msgstr ""
 msgid "Template context is nested too deeply."
 msgstr "HTML {tag} ознака недостаје одговарајућа крајња ознака: {end}."
 
-msgid "Template context exceeds its size limit."
-msgstr ""
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported nonfinite template context value."
+msgstr "Неподржан формат фајла."
 
 #, fuzzy
 #| msgid "Unsupported file format."
@@ -24647,30 +24740,333 @@ msgstr "Неподржан формат фајла."
 msgid "Unsupported template context value."
 msgstr "Неподржан формат фајла."
 
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Template text is not valid UTF-8."
+msgstr "Унети токен није исправан."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid merge request!"
+msgid "Invalid template syntax."
+msgstr "Неважећи захтев за спајање!"
+
+#, fuzzy
+#| msgid "Undefined variable: \"%s\""
+msgid "Undefined template variable."
+msgstr "Неодређена променљива: „%s“"
+
+#, fuzzy
+#| msgid "The translation is not valid XML"
+msgid "Text is not valid UTF-8."
+msgstr "Превод није исправан ИксМЛ"
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Division by zero is not supported."
+msgstr "Изабрани распоред није подржан."
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Numeric value is too large for this operation."
+msgstr "Прегледајте све промене за овај језик"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Numeric operation failed."
+msgstr "Операција складишта није успела"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation reviews are not enabled."
+msgid "Value or argument has an invalid format."
+msgstr "Прегледи превода нису омогућени."
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "%(operation)s: %(message)s"
+msgstr "Нисмо могли да пошаљемо %(component)s: %(error_text)s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
 msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nonfinite numbers are not supported."
+msgstr "Изабрани распоред није подржан."
+
+#, fuzzy, python-format
+#| msgid "File names"
+msgid "Filter \"%(name)s\""
+msgstr "Имена фајлова"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
 msgstr ""
 
 msgid "Template rendering exceeded its loop limit."
 msgstr ""
 
-msgid "Template intermediate value exceeds its size limit."
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Attribute access and method calls are not supported."
+msgstr "Изабрани распоред није подржан."
+
+msgid "Index exceeds the length limit of 128 characters."
 msgstr ""
 
-msgid "Template replacement exceeds its size limit."
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Translated template literals are not supported."
+msgstr "Изабрани распоред није подржан."
+
+#, fuzzy
+#| msgid "Invalid date!"
+msgid "Invalid filter."
+msgstr "Неважећи датум!"
+
+msgid "Identity comparisons require None, True, or False."
 msgstr ""
 
-msgid "Template padding exceeds its size limit."
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This condition operator is not supported."
+msgstr "Изабрани распоред није подржан."
+
+msgid "Template output exceeds its size limit."
 msgstr ""
 
-msgid "Template formatting exceeds its size limit."
+msgid "Loops require a list, string, dictionary, or dictionary view."
 msgstr ""
 
-msgid "Template join exceeds its size limit."
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
+msgstr ""
+
+msgid "Loop value cannot be unpacked into its variables."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This template tag is not supported."
+msgstr "Изабрани распоред није подржан."
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This template node is not supported."
+msgstr "Откривени формат фајла није подржан."
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
 msgstr ""
 
 #, python-format
 msgid "Undefined variable: \"%s\""
 msgstr "Неодређена променљива: „%s“"
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "This name is prohibited"
+msgid "This filter requires strings."
+msgstr "Овај назив је забрањен"
+
+#, fuzzy
+#| msgid "Automatically translated"
+msgid "Choices must be a string."
+msgstr "Аутоматски преведено"
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source string length"
+msgid "Joining requires string elements."
+msgstr "Дужина изворне ниске"
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatically translated"
+msgid "Date format must be a string or None."
+msgstr "Аутоматски преведено"
+
+#, fuzzy
+#| msgid "Avoid years that are associated with you."
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "Избегавајте године које су повезане са вама."
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatically translated"
+msgid "Plural suffixes must be a string."
+msgstr "Аутоматски преведено"
+
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nested template delimiters are not supported."
+msgstr "Изабрани распоред није подржан."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unclosed template token."
+msgstr "Неподржан формат фајла."
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid ".NET resource file"
+msgid "Template tag is empty."
+msgstr ".NET ресурсна датотека"
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr ""
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unsupported file format."
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "Неподржан формат фајла."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template tag."
+msgstr "Неподржан формат фајла."
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -26547,6 +26943,15 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Извор је уклоњен."
 
+#, python-format
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "Прегледај глосар %(name)s"
+
+#, fuzzy
+#~| msgid "Invalid translation flag: \"%s\""
+#~ msgid "Invalid template rendering response."
+#~ msgstr "Неважећа заставица превода: \"%s\""
+
 #, fuzzy
 #~| msgid "Registration almost complete"
 #~ msgid "E-mail verification almost complete"
@@ -28043,9 +28448,6 @@ msgstr "Извор је уклоњен."
 #~ msgid "Renamed project"
 #~ msgstr "Преименован пројекат"
 
-#~ msgid "Renamed component"
-#~ msgstr "Преименована компонента"
-
 #, fuzzy
 #~| msgid "New string to translate"
 #~| msgid_plural "New strings to translate"
@@ -29088,9 +29490,6 @@ msgstr "Извор је уклоњен."
 #~| msgid "Repository"
 #~ msgid "Backup pepository"
 #~ msgstr "Складиште"
-
-#~ msgid "Your languages"
-#~ msgstr "Ваши језици"
 
 #~ msgid "Fulltext"
 #~ msgstr "Пун текст"

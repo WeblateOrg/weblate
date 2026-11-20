@@ -224,6 +224,7 @@ from weblate.trans.repository import (
     queue_repository_operation,
     reserve_repository_operation,
 )
+from weblate.trans.repository_context import defer_repository_background_tasks
 from weblate.trans.tasks import (
     auto_translate,
     category_removal,
@@ -288,6 +289,8 @@ from .renderers import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from django.db.models import Model
     from django.http import HttpResponse
     from django.http.response import HttpResponseBase
@@ -819,21 +822,38 @@ class WeblateViewSet(DownloadViewSet):
             obj, repository_components
         )
 
+        # Reset and reapply may rebuild a missing checkout in its own durable
+        # transaction, which cannot be nested. Run it outside this transaction,
+        # like the queued task does. Without a commit to hook the reservation
+        # release to, hold back follow-up tasks until it is released.
+        in_transaction = operation != "reset-keep"
+        deferred_tasks: list[Callable[[], None]] = []
+        transaction_context = transaction.atomic() if in_transaction else nullcontext()
+        deferral_context = (
+            nullcontext(deferred_tasks)
+            if in_transaction
+            else defer_repository_background_tasks()
+        )
         with (
             reserve_repository_operation(
                 [component.pk for component in repositories],
                 cast("RepositoryOperation", operation),
             ) as release_reservation,
-            transaction.atomic(),
+            transaction_context as _transaction,
+            deferral_context as deferred_tasks,
         ):
-            # Register this before repository operations add their follow-ups.
-            # Django runs on-commit callbacks in registration order, so the
-            # reservation covers the commit but not the follow-up tasks.
-            transaction.on_commit(release_reservation)
+            if in_transaction:
+                # Register this before repository operations add their
+                # follow-ups. Django runs on-commit callbacks in registration
+                # order, so the reservation covers the commit but not the
+                # follow-up tasks.
+                transaction.on_commit(release_reservation)
             if takes_request:
                 result = getattr(obj, method)(*args, request, **kwargs)
             else:
                 result = getattr(obj, method)(*args, user, **kwargs)
+        for publish in deferred_tasks:
+            publish()
         data = {"result": result}
         if selection is not None:
             data.update(self.get_repository_scope_data(user, selection))

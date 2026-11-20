@@ -64,6 +64,10 @@ from weblate.lang.models import Language, Plural, validate_language_code
 from weblate.memory.models import Memory, MemoryScope
 from weblate.screenshots.models import Screenshot, can_set_screenshot_repository_path
 from weblate.trans.actions import ActionEvents
+from weblate.trans.alerts.vcs import (
+    REPOSITORY_DIVERGENCE_ALERTS,
+    REPOSITORY_DIVERGENCE_DETAILS,
+)
 from weblate.trans.component_copy import (
     get_inherited_component_fields,
     should_copy_component_field,
@@ -4677,7 +4681,13 @@ def filter_alert_details(
     user: User | None,
     visible_ids: set[int] | None = None,
 ) -> dict[str, Any]:
-    """Keep cross-component alert references within the requester's view scope."""
+    """Keep sensitive alert details within the requester's view scope."""
+    if name in REPOSITORY_DIVERGENCE_ALERTS:
+        return {
+            key: value
+            for key, value in details.items()
+            if key not in REPOSITORY_DIVERGENCE_DETAILS
+        }
     if name != "ConflictingRepositorySetup":
         return details
 
@@ -4928,15 +4938,16 @@ class ChangeSerializer(RemovableSerializer[Change]):
         if not self.can_view_alert_details():
             data["details"] = {}
             data["dismissal_reason"] = ""
-        elif data.get("name") == "ConflictingRepositorySetup" and isinstance(
-            data.get("details"), dict
-        ):
+        elif isinstance(data.get("details"), dict):
             request = self.context.get("request")
+            name = data["name"]
             data["details"] = filter_alert_details(
-                data["name"],
+                name,
                 data["details"],
                 getattr(request, "user", None),
-                self.get_visible_conflict_ids(change),
+                self.get_visible_conflict_ids(change)
+                if name == "ConflictingRepositorySetup"
+                else None,
             )
         return data
 
@@ -4980,7 +4991,10 @@ class ChangeSerializer(RemovableSerializer[Change]):
                 if instance.alert_id is not None
                 else details.get("alert")
             )
-            if alert_name == "ConflictingRepositorySetup":
+            if (
+                alert_name == "ConflictingRepositorySetup"
+                or alert_name in REPOSITORY_DIVERGENCE_ALERTS
+            ):
                 details = deepcopy(details)
                 data["details"] = details
                 details.pop("fingerprint", None)
@@ -4993,7 +5007,9 @@ class ChangeSerializer(RemovableSerializer[Change]):
                         alert_name,
                         snapshot["details"],
                         getattr(request, "user", None),
-                        self.get_visible_conflict_ids(instance),
+                        self.get_visible_conflict_ids(instance)
+                        if alert_name == "ConflictingRepositorySetup"
+                        else None,
                     )
         if self.can_view_alert_details():
             return data

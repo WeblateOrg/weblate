@@ -37,9 +37,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-13 01:19-0600\n"
-"PO-Revision-Date: 2026-11-19 10:23+0000\n"
-"Last-Translator: DELVANI <delvani@users.noreply.hosted.weblate.org>\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
+"PO-Revision-Date: 2026-11-20 00:48+0000\n"
+"Last-Translator: Kaya Abe <kaya.abe@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -633,7 +633,8 @@ msgstr ""
 
 #, python-brace-format
 msgid "Team administrator access to {team} was removed by {username}."
-msgstr "O acesso de administrador da equipe {team} foi removido por {username}."
+msgstr ""
+"O acesso de administrador da equipe {team} foi removido por {username}."
 
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
@@ -1370,6 +1371,23 @@ msgid ""
 msgstr ""
 "Este convite só pode ser aceito pelo endereço de e-mail escolhido por quem o "
 "enviou; ele não pode ser usado pela sua conta."
+
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Your e-mail no longer belongs to verified account, it has been changed to "
+#| "{0}."
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr ""
+"Seu e-mail não pertence mais a uma conta verificada, ele foi alterado para "
+"{0}."
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
+msgstr ""
 
 msgid ""
 "Your e-mail address has been added. You can now select it as your account e-"
@@ -3974,6 +3992,22 @@ msgstr ""
 "Remover o componente das equipes de projeto antes de movê-lo para outro "
 "projeto."
 
+#, fuzzy
+#| msgid ""
+#| "Remove the component from project teams before moving it to another "
+#| "project."
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+"Remover o componente das equipes de projeto antes de movê-lo para outro "
+"projeto."
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
+
 msgid "Roles"
 msgstr "Funções"
 
@@ -4709,6 +4743,11 @@ msgstr "Cobrança"
 
 msgid "Billing event"
 msgstr "Evento de cobrança"
+
+#, fuzzy
+#| msgid "Projects without components"
+msgid "Project has no components."
+msgstr "Projetos sem componentes"
 
 msgid "monthly"
 msgstr "mensal"
@@ -6658,9 +6697,6 @@ msgstr "Fórmula de plural"
 msgid "Plural type"
 msgstr "Tipo de plural"
 
-msgid "Example counts for this plural form."
-msgstr "O exemplo conta para esta forma plural."
-
 msgid "Singular"
 msgstr "Singular"
 
@@ -7744,6 +7780,11 @@ msgstr "Leia seu endereço de e-mail"
 
 msgid "Read the version of the legal documents you accepted"
 msgstr "Leia a versão dos documentos legais que você aceitou"
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
+msgstr ""
 
 msgid "Image is too big."
 msgstr "Imagem é grande demais."
@@ -9501,7 +9542,8 @@ msgid "Install on the component owning the repository."
 msgstr "Instale no componente que possui o repositório."
 
 msgid "The component owning this repository is not available to you."
-msgstr "O componente que contém este repositório não está disponível para você."
+msgstr ""
+"O componente que contém este repositório não está disponível para você."
 
 msgid "Open repository add-ons"
 msgstr "Abrir complementos de repositório"
@@ -10243,6 +10285,16 @@ msgid ""
 msgstr ""
 "Esta assinatura não é elegível para o plano livre. Corrija os erros acima ou "
 "compre uma assinatura."
+
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
 
 msgid "Customer"
 msgstr "Cliente"
@@ -11034,39 +11086,42 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Seja um apoiador do Weblate"
 
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid "Some repository operations require additional permissions"
-msgstr ""
-"Não foi possível bloquear o repositório, outra operação está em andamento."
+msgstr "Algumas operações do repositório exigem permissões adicionais"
 
 msgid ""
 "Repository operations require permission on the component that owns the "
 "shared repository."
 msgstr ""
+"As operações de repositório exigem permissão no componente que é "
+"proprietário do repositório compartilhado."
 
-#, fuzzy
-#| msgid "Created component"
 msgid "Affected components:"
-msgstr "Componente criado"
+msgstr "Componentes afetados:"
 
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid "You need the following permissions on the repository-owning component:"
-msgstr "Você não tem permissões para acessar este componente."
+msgstr ""
+"Você precisa das seguintes permissões no componente proprietário do "
+"repositório:"
 
 msgid ""
 "You need the following permissions on the repository-owning component, which "
 "you cannot access:"
 msgstr ""
+"Você precisa das seguintes permissões no componente proprietário do "
+"repositório, às quais você não tem acesso:"
 
 msgid "Ask an administrator of the owning project to grant these permissions."
 msgstr ""
+"Solicite a um administrador do projeto proprietário que conceda essas "
+"permissões."
 
 msgid ""
 "Ask your project administrator to coordinate access with the repository "
 "owner."
 msgstr ""
+"Solicite ao administrador do seu projeto para coordenar o acesso com o "
+"proprietário do repositório."
 
 msgid "Repository status"
 msgstr "Status do repositório"
@@ -11089,10 +11144,8 @@ msgid_plural "%(errors_count)s skipped because of errors"
 msgstr[0] "%(errors_count)s ignorados devido a erro"
 msgstr[1] "%(errors_count)s ignorados devido a erros"
 
-#, fuzzy
-#| msgid "Force writing all translations to the Weblate repository"
 msgid "Write pending Weblate translations to the repository."
-msgstr "Forçar a escrever todas as traduções para o repositório Weblate"
+msgstr "Escrever traduções pendentes do Weblate no repositório."
 
 #, python-format
 msgid "%(count)s outgoing commit"
@@ -11108,6 +11161,8 @@ msgstr[1] "(%(count)s itens ausentes no ramo de envio)"
 
 msgid "Pushing is disabled because no repository push URL is configured."
 msgstr ""
+"O envio de dados está desativado porque nenhum URL de envio para o "
+"repositório foi configurado."
 
 #, python-format
 msgid "%(count)s missing commit"
@@ -11115,10 +11170,9 @@ msgid_plural "%(count)s missing commits"
 msgstr[0] "%(count)s commit ausente"
 msgstr[1] "%(count)s commits ausentes"
 
-#, fuzzy
-#| msgid "Allow changes to the Weblate repository"
 msgid "Pull upstream changes into the Weblate repository."
-msgstr "Permitir alterações no repositório Weblate"
+msgstr ""
+"Incorporar as alterações do repositório upstream no repositório Weblate."
 
 msgid "Allow changes to the Weblate repository"
 msgstr "Permitir alterações no repositório Weblate"
@@ -11154,80 +11208,58 @@ msgstr "As traduções do Weblate estão desbloqueadas"
 msgid "Weblate translations are locked"
 msgstr "As traduções do Weblate estão bloqueadas"
 
-#, fuzzy
-#| msgid "Browse all translation changes"
 msgid "Lock to pause translation changes."
-msgstr "Visualizar todas as alterações dessa tradução"
+msgstr "Bloquear para pausar as alterações de tradução."
 
-#, fuzzy
-#| msgid "Choose translation files to import"
 msgid "Choose which translations to keep"
-msgstr "Escolha os arquivos de tradução para importar"
+msgstr "Escolha quais traduções manter"
 
 #. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
-#, fuzzy
-#| msgid "Discard flag"
 msgid "Discard local changes"
-msgstr "Descartar marcador"
+msgstr "Descartar alterações locais"
 
 msgid "Use when:"
-msgstr ""
+msgstr "Utilizar quando:"
 
-#, fuzzy
-#| msgid "The translation will be updated in the background."
 msgid "Upstream has the translations you want to keep."
-msgstr "A tradução será atualizada em segundo plano."
+msgstr "O upstream possui as traduções que você deseja manter."
 
-#, fuzzy
-#| msgid "Result"
 msgid "Result:"
-msgstr "Resultado"
+msgstr "Resultado:"
 
-#, fuzzy
-#| msgid "Reset repository to upstream"
 msgid "Reset the configured branch to upstream."
-msgstr "Redefinir repositório para o upstream"
+msgstr "Redefinir o ramo configurado para o upstream."
 
-#, fuzzy
-#| msgid "Data exports"
 msgid "Data loss:"
-msgstr "Exportações de dados"
+msgstr "Perda de dados:"
 
-#, fuzzy
-#| msgid ""
-#| "A request for a new translation has been sent to the project's "
-#| "maintainers."
 msgid "Local commits and pending translation changes are discarded."
-msgstr ""
-"Um pedido por uma nova tradução foi enviado aos mantenedores do projeto."
+msgstr "As alterações locais e as traduções pendentes são descartadas."
 
 #. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
-#, fuzzy
-#| msgid "Reset and reapply"
 msgid "Reset and reapply translations"
-msgstr "Redefinir e reaplicar"
+msgstr "Redefinir e reaplicar traduções"
 
-#, fuzzy
-#| msgid ""
-#| "A request for a new translation has been sent to the project's "
-#| "maintainers."
 msgid ""
 "Weblate has the translations you want to keep, or its checkout is missing."
 msgstr ""
-"Um pedido por uma nova tradução foi enviado aos mantenedores do projeto."
+"O Weblate possui as traduções que você deseja manter, ou sua extração está "
+"indisponível."
 
-#, fuzzy
-#| msgid "Use these operations with caution, they can lead to data loss."
 msgid ""
 "Reset the configured branch to upstream, then write Weblate translations "
 "again."
 msgstr ""
-"Use essas operações com cuidado, pois elas podem levar à perda de dados."
+"Redefina o ramo configurado para o upstream e, em seguida, escreva as "
+"traduções do Weblate novamente."
 
 msgid ""
 "Supported Git checkouts can be rebuilt if missing; damaged Git metadata "
 "needs administrator repair."
 msgstr ""
+"Os checkouts do Git suportados podem ser reconstruídos caso estejam "
+"faltando; metadados do Git danificados precisam ser reparados pelo "
+"administrador."
 
 #, fuzzy
 #| msgid "Translation files"
@@ -11901,6 +11933,16 @@ msgstr ""
 #| msgid "The account will be disabled after the expiry."
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr "A conta será desativada após a expiração."
+
+#, fuzzy
+#| msgid "Does not meet Libre hosting conditions."
+msgid "Review Libre hosting conditions"
+msgstr "Não atende às condições de hospedagem Livre."
+
+#, fuzzy, python-format
+#| msgid "Number of entries for %(project)s"
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "Quantidade de entradas em %(project)s"
 
 msgid "Translation change"
 msgstr "Alteração na tradução"
@@ -14036,6 +14078,9 @@ msgid ""
 "maintenance of Weblate itself."
 msgstr ""
 
+msgid "Example counts for this plural form."
+msgstr "O exemplo conta para esta forma plural."
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
@@ -14071,12 +14116,13 @@ msgstr ""
 msgid "Source code repository"
 msgstr "Repositório do código-fonte"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr "Esse componente está vinculado ao repositório %(target)s."
-
 msgid "Repository URL copied to clipboard."
 msgstr "URL do repositório copiado para a área de transferência."
+
+#, fuzzy
+#| msgid "Renamed component"
+msgid "Linked component"
+msgstr "Componente renomeado"
 
 msgid "Repository branch"
 msgstr "Ramo do repositório"
@@ -14531,6 +14577,11 @@ msgstr "Plural: %(source_description)s"
 
 msgid "Plurals"
 msgstr "Plurais"
+
+#, fuzzy
+#| msgid "No strings found!"
+msgid "No integer examples found"
+msgstr "Nenhum texto encontrado!"
 
 msgid "First"
 msgstr "Primeiro"
@@ -15490,15 +15541,15 @@ msgstr "O componente contém vários textos de tradução duplicados."
 msgid "Source"
 msgstr "Fonte"
 
-#, fuzzy, python-format
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove duplicate strings from %(language)s (%(filename)s)"
-msgstr "Força a escrita de todos os textos nos arquivos de tradução."
-
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
 msgstr "Remover textos vazios"
+
+#, fuzzy, python-format
+#| msgid "Forces writing all strings to the translation files."
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Força a escrita de todos os textos nos arquivos de tradução."
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -16526,10 +16577,6 @@ msgstr "Este texto foi traduzido automaticamente por %(author)s."
 msgid "Add term to glossary"
 msgstr "Adicionar termo ao glossário"
 
-#, python-format
-msgid "Browse glossary %(name)s"
-msgstr "Acessar o glossário %(name)s"
-
 #, fuzzy
 #| msgid "Browse glossary %(name)s"
 msgid "Browse glossary"
@@ -16585,6 +16632,15 @@ msgstr "Ultima atualização"
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
 msgstr "Idade do texto fonte"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s, line %(line)s"
+msgstr "%(filename)s, texto %(position)s"
+
+#, python-format
+msgid "line %(line)s"
+msgstr ""
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -18431,13 +18487,13 @@ msgstr "Máscara de arquivo duplicada."
 msgid "Referenced category does not exist."
 msgstr "{filename} ({parameter}) não existe."
 
-msgid "Component filename does not match its category and slug."
-msgstr ""
-
 #, fuzzy
 #| msgid "Duplicate this component"
 msgid "Duplicate component slug."
 msgstr "Duplicar este componente"
+
+msgid "Component filename does not match its category and slug."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation reviews are not enabled."
@@ -18754,6 +18810,11 @@ msgid "Needs review"
 msgstr "Necessita revisão"
 
 #, fuzzy
+#| msgid "The source and target have to be different languages."
+msgid "The source and destination checkouts must be different."
+msgstr "A fonte e o destino devem ser idiomas diferentes."
+
+#, fuzzy
 #| msgid "The target does not exist or you cannot access it."
 msgid "This component does not exist or you cannot access it."
 msgstr "O destino não existe ou você não consegue acessá-lo."
@@ -18782,6 +18843,11 @@ msgstr ""
 
 msgid "Discovery configuration"
 msgstr "Configuração de descoberta"
+
+#, fuzzy, python-format
+#| msgid "Could not render template: {}"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "Não foi possível renderizar o modelo: {}"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -20976,6 +21042,11 @@ msgid "Use the secondary language configured in the category or project."
 msgstr "Idioma secundário definido no projeto ou componente"
 
 #, fuzzy
+#| msgid "The local repository is up to date."
+msgid "The linked repository path is ambiguous."
+msgstr "O repositório local está atualizado."
+
+#, fuzzy
 #| msgid ""
 #| "Could not verify SSH host key, please add them in SSH page in the admin "
 #| "interface."
@@ -21282,6 +21353,11 @@ msgid ""
 "Pushing without a merge request needs write access to the repository. "
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
+
+#, fuzzy
+#| msgid "This role cannot be assigned to this team."
+msgid "Version control system cannot be changed to this backend."
+msgstr "Esta função não pode ser atribuída a esta equipe."
 
 #, fuzzy
 #| msgid "The regular expression is too complex and took too long to evaluate."
@@ -21957,6 +22033,11 @@ msgstr "Travessão"
 msgid "User configured character: {}"
 msgstr "Caractere configurado pelo usuário: {}"
 
+#, fuzzy, python-format
+#| msgid "Could not push the repository."
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "Não foi possível enviar para o repositório."
+
 #, fuzzy
 #| msgid "Automatic translation in progress"
 msgid "Repository operation could not be completed because it remained locked."
@@ -22094,6 +22175,10 @@ msgstr "ID do texto %s"
 
 msgid "This language is used for source strings."
 msgstr "Esse idioma é usado para textos fonte."
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr "Esse componente está vinculado ao repositório %(target)s."
 
 #, fuzzy
 #| msgid "Fix this component to clear its alerts."
@@ -22996,6 +23081,16 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "Gráfico de idiomas com barras verticais"
 
+#, fuzzy
+#| msgid "Your languages"
+msgid "Sort languages by"
+msgstr "Seus idiomas"
+
+#, fuzzy
+#| msgid "Translation change"
+msgid "Translation percentage"
+msgstr "Alteração na tradução"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr "Gráfico de idiomas com barras horizontais"
@@ -23383,22 +23478,6 @@ msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 "Parâmetros do formato de arquivo deve ser um dicionário de pares chave-valor."
 
-msgid "Template output exceeds its size limit."
-msgstr ""
-
-#, fuzzy
-#| msgid "CEL validation or evaluation failed or exceeded its resource limit."
-msgid "Template rendering failed or exceeded its resource limits."
-msgstr "A validação ou avaliação CEL falhou ou excedeu seu limite de recursos."
-
-msgid "Oversized template response."
-msgstr ""
-
-#, fuzzy
-#| msgid "Invalid eTranslation domains response"
-msgid "Invalid template rendering response."
-msgstr "Resposta de domínios do eTranslation inválida"
-
 msgid "Could not render template: {}"
 msgstr "Não foi possível renderizar o modelo: {}"
 
@@ -23407,7 +23486,7 @@ msgid ""
 "instead."
 msgstr "Não há mais suporte aos textos de formato, use o idioma modelo."
 
-msgid "Template value exceeds its size limit."
+msgid "Template context exceeds its size limit."
 msgstr ""
 
 #, fuzzy
@@ -23415,8 +23494,10 @@ msgstr ""
 msgid "Template context is nested too deeply."
 msgstr "A tag HTML {tag} está aninhada muito profundamente."
 
-msgid "Template context exceeds its size limit."
-msgstr ""
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported nonfinite template context value."
+msgstr "Conteúdo de regra ITS não suportado."
 
 #, fuzzy
 #| msgid "Unsupported ITS rule content."
@@ -23428,30 +23509,346 @@ msgstr "Conteúdo de regra ITS não suportado."
 msgid "Unsupported template context value."
 msgstr "Conteúdo de regra ITS não suportado."
 
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Template text is not valid UTF-8."
+msgstr "O token inserido não é válido."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid request."
+msgid "Invalid template syntax."
+msgstr "Solicitação inválida."
+
+#, fuzzy
+#| msgid "Undefined variable: \"%s\""
+msgid "Undefined template variable."
+msgstr "Variável indefinida: \"%s\""
+
+#, fuzzy
+#| msgid "The translation is not valid XML."
+msgid "Text is not valid UTF-8."
+msgstr "A tradução não é um XML válido."
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Division by zero is not supported."
+msgstr "A classificação escolhida não é compatível."
+
+#, fuzzy
+#| msgid "Select a change for this automation."
+msgid "Numeric value is too large for this operation."
+msgstr "Selecione uma alteração para esta automação."
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Numeric operation failed."
+msgstr "Operação do repositório falhou"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation reviews are not enabled."
+msgid "Value or argument has an invalid format."
+msgstr "As revisões de tradução não estão habilitadas."
+
+#, fuzzy, python-format
+#| msgid "%(path)s: %(error)s"
+msgid "%(operation)s: %(message)s"
+msgstr "%(path)s: %(error)s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
 msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr "O arquivo de tradução excede o tamanho máximo permitido de %d bytes."
+
+#, fuzzy, python-format
+#| msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr "O arquivo de tradução excede o tamanho máximo permitido de %d bytes."
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Nonfinite numbers are not supported."
+msgstr "Não há suporte para aliases e tags YAML."
+
+#, fuzzy, python-format
+#| msgid "File names"
+msgid "Filter \"%(name)s\""
+msgstr "Nomes de arquivo"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
 msgstr ""
 
 msgid "Template rendering exceeded its loop limit."
 msgstr ""
 
-msgid "Template intermediate value exceeds its size limit."
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Attribute access and method calls are not supported."
+msgstr "Não há suporte para aliases e tags YAML."
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Index exceeds the length limit of 128 characters."
+msgstr "O nome do usuário deve ter pelo menos 5 caracteres."
+
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Translated template literals are not supported."
+msgstr "Não há suporte para aliases e tags YAML."
+
+#, fuzzy
+#| msgid "Invalid unit."
+msgid "Invalid filter."
+msgstr "Unidade inválida."
+
+msgid "Identity comparisons require None, True, or False."
 msgstr ""
 
-msgid "Template replacement exceeds its size limit."
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This condition operator is not supported."
+msgstr "A classificação escolhida não é compatível."
+
+msgid "Template output exceeds its size limit."
 msgstr ""
 
-msgid "Template padding exceeds its size limit."
+msgid "Loops require a list, string, dictionary, or dictionary view."
 msgstr ""
 
-msgid "Template formatting exceeds its size limit."
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
 msgstr ""
 
-msgid "Template join exceeds its size limit."
+msgid "Loop value cannot be unpacked into its variables."
 msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This template tag is not supported."
+msgstr "A classificação escolhida não é compatível."
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This template node is not supported."
+msgstr "Não há suporte ao formato do arquivo detectado."
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+"O arquivo da pasta de trabalho excede o tamanho máximo expandido de %d bytes."
 
 #, python-format
 msgid "Undefined variable: \"%s\""
 msgstr "Variável indefinida: \"%s\""
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "This field is required."
+msgid "This filter requires strings."
+msgstr "Este campo é obrigatório."
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Choices must be a string."
+msgstr "As chaves de automação devem ser textos."
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr "O nome do usuário deve ter pelo menos 5 caracteres."
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source string length"
+msgid "Joining requires string elements."
+msgstr "Tamanho do texto fonte"
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Date format must be a string or None."
+msgstr "As chaves de automação devem ser textos."
+
+#, fuzzy
+#| msgid "Trigger scope requires a change with a string."
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "O escopo do acionamento requer uma alteração com um texto."
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Plural suffixes must be a string."
+msgstr "As chaves de automação devem ser textos."
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr "O nome do usuário deve ter pelo menos 5 caracteres."
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Nested template delimiters are not supported."
+msgstr "Não há suporte para aliases e tags YAML."
+
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unclosed template token."
+msgstr "Conteúdo de regra ITS não suportado."
+
+#, fuzzy, python-format
+#| msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr "O arquivo de tradução excede o tamanho máximo permitido de %d bytes."
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "The resource is locked."
+msgid "Template tag is empty."
+msgstr "O recurso está bloqueado."
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr ""
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "Conteúdo de regra ITS não suportado."
+
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported template tag."
+msgstr "Conteúdo de regra ITS não suportado."
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr "O arquivo de tradução excede o tamanho máximo permitido de %d bytes."
+
+#, fuzzy, python-format
+#| msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
+msgstr "O arquivo de tradução excede o tamanho máximo permitido de %d bytes."
 
 #, python-format
 msgid ""
@@ -25317,6 +25714,21 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "A fonte foi removida."
 
+#, python-format
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "Acessar o glossário %(name)s"
+
+#, fuzzy
+#~| msgid "CEL validation or evaluation failed or exceeded its resource limit."
+#~ msgid "Template rendering failed or exceeded its resource limits."
+#~ msgstr ""
+#~ "A validação ou avaliação CEL falhou ou excedeu seu limite de recursos."
+
+#, fuzzy
+#~| msgid "Invalid eTranslation domains response"
+#~ msgid "Invalid template rendering response."
+#~ msgstr "Resposta de domínios do eTranslation inválida"
+
 #, fuzzy
 #~| msgid "Registration almost complete"
 #~ msgid "E-mail verification almost complete"
@@ -26929,9 +27341,6 @@ msgstr "A fonte foi removida."
 #~ msgid "Renamed project"
 #~ msgstr "Projeto renomeado"
 
-#~ msgid "Renamed component"
-#~ msgstr "Componente renomeado"
-
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "Novo texto para ser traduzido"
@@ -28423,9 +28832,6 @@ msgstr "A fonte foi removida."
 
 #~ msgid "Backup pepository"
 #~ msgstr "Repositório de backup"
-
-#~ msgid "Your languages"
-#~ msgstr "Seus idiomas"
 
 #~ msgid "Fulltext"
 #~ msgstr "Texto completo"
@@ -30896,9 +31302,6 @@ msgstr "A fonte foi removida."
 
 #~ msgid "First name"
 #~ msgstr "Primeiro nome"
-
-#~ msgid "Username needs to have at least five characters."
-#~ msgstr "O nome do usuário deve ter pelo menos 5 caracteres."
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

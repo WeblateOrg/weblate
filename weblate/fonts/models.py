@@ -2,23 +2,23 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from pathlib import PurePosixPath
 from typing import ClassVar
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.core.files.storage import FileSystemStorage
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy
 
+from weblate.fonts.storage import get_cached_font, get_font_storage
 from weblate.fonts.utils import get_font_name
 from weblate.fonts.validators import validate_font
 from weblate.lang.models import Language
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models import Project
-from weblate.utils.data import data_dir
-
-FONT_STORAGE = FileSystemStorage(location=data_dir("fonts"))
 
 
 class Font(models.Model, UserDisplayMixin):
@@ -34,11 +34,13 @@ class Font(models.Model, UserDisplayMixin):
     font = models.FileField(
         verbose_name=gettext_lazy("Font file"),
         validators=[validate_font],
-        storage=FONT_STORAGE,
+        storage=get_font_storage,
         help_text=gettext_lazy("OpenType and TrueType fonts are supported."),
     )
     project = models.ForeignKey(Project, on_delete=models.deletion.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
+    # Changes with the font file, used to name its local copy for rendering
+    updated = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         null=True,
@@ -88,6 +90,14 @@ class Font(models.Model, UserDisplayMixin):
         # Try to parse file only if it passed validation
         if self.font and "font" not in self.field_errors and not self.family:
             self.family, self.style = get_font_name(self.font)
+
+    def get_local_path(self) -> str:
+        """Return a local copy of the font file for rendering."""
+        # The name changes whenever the font file is replaced
+        suffix = PurePosixPath(self.font.name or "").suffix.lower()
+        return get_cached_font(
+            self.font, self.pk, f"{self.updated:%Y%m%d%H%M%S%f}{suffix}"
+        )
 
     def get_usage(self):
         related = FontGroup.objects.filter(

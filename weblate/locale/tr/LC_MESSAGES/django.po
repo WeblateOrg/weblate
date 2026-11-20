@@ -31,7 +31,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-13 01:19-0600\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
 "PO-Revision-Date: 2026-11-18 18:50+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
@@ -1351,6 +1351,23 @@ msgstr ""
 "Bu davet yalnızca davet eden tarafından belirtilmiş e-posta adresi "
 "tarafından kabul edilebilir. Hesabınız tarafından kullanılamaz."
 
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Your e-mail no longer belongs to verified account, it has been changed to "
+#| "{0}."
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr ""
+"E-posta adresiniz artık doğrulanmış hesaba ait değil, {0} olarak "
+"değiştirildi."
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
+msgstr ""
+
 msgid ""
 "Your e-mail address has been added. You can now select it as your account e-"
 "mail address in Account settings."
@@ -2420,9 +2437,9 @@ msgid ""
 msgstr ""
 "Çeviri dosyalarının doğrudan eşleştirilmesi için boş bırakın. "
 "Ayarlandığında, keşif tek dilli temel veya yeni temel dosyayla eşleşir ve bu "
-"kalıbı dosya maskesi olarak kullanır. Bir dil genel arama karakteri ve {{ "
-"component }} ekleyin, örneğin locale/*/{{ component }}.po veya docs/{{ "
-"component }}_*.md."
+"kalıbı dosya maskesi olarak kullanır. Bir dil genel arama karakteri ve "
+"{{ component }} ekleyin, örneğin locale/*/{{ component }}.po veya docs/"
+"{{ component }}_*.md."
 
 msgid "Language filter"
 msgstr "Dil süzgeci"
@@ -2901,7 +2918,8 @@ msgid "ITS locating rules require a pattern."
 msgstr "ITS konum belirleme kuralları için bir model gerekir."
 
 msgid "ITS locating rules require a target or a document rule."
-msgstr "ITS konum belirleme kuralları için bir hedef veya belge kuralı gerekir."
+msgstr ""
+"ITS konum belirleme kuralları için bir hedef veya belge kuralı gerekir."
 
 msgid "ITS document rules require a target."
 msgstr "ITS belge kuralları için bir hedef gerekir."
@@ -3910,7 +3928,23 @@ msgstr "Bu role verilecek izinleri seçin."
 
 msgid ""
 "Remove the component from project teams before moving it to another project."
-msgstr "Bileşeni başka bir projeye taşımadan önce proje takımlarından kaldırın."
+msgstr ""
+"Bileşeni başka bir projeye taşımadan önce proje takımlarından kaldırın."
+
+#, fuzzy
+#| msgid ""
+#| "Remove the component from project teams before moving it to another "
+#| "project."
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+"Bileşeni başka bir projeye taşımadan önce proje takımlarından kaldırın."
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
 
 msgid "Roles"
 msgstr "Roller"
@@ -3943,7 +3977,8 @@ msgid "Components"
 msgstr "Bileşenler"
 
 msgid "Empty selection grants access to all components in project scope."
-msgstr "Boş bırakıldığında, proje kapsamındaki tüm bileşenlere erişim sağlanır."
+msgstr ""
+"Boş bırakıldığında, proje kapsamındaki tüm bileşenlere erişim sağlanır."
 
 msgid "Component lists"
 msgstr "Bileşen listeleri"
@@ -4293,8 +4328,8 @@ msgstr "Otomasyon tanımları 64 KiB boyutundan büyük olamaz."
 #, python-format
 msgid "%(path)s: Unknown change event “%(event)s”. Valid events: %(choices)s"
 msgstr ""
-"%(path)s: “%(event)s” değişiklik etkinliği bilinmiyor. Geçerli etkinlikler: %"
-"(choices)s"
+"%(path)s: “%(event)s” değişiklik etkinliği bilinmiyor. Geçerli etkinlikler: "
+"%(choices)s"
 
 msgid "YAML aliases and tags are not supported."
 msgstr "YAML takma adları ve etiketleri desteklenmez."
@@ -4631,6 +4666,11 @@ msgstr "Faturalama"
 
 msgid "Billing event"
 msgstr "Fatura etkinliği"
+
+#, fuzzy
+#| msgid "Projects without components"
+msgid "Project has no components."
+msgstr "Bileşensiz projeler"
 
 msgid "monthly"
 msgstr "aylık"
@@ -5763,7 +5803,8 @@ msgstr "Üç nokta"
 msgid ""
 "The string uses three dots {dots} instead of an ellipsis character "
 "{ellipsis}."
-msgstr "Dizgede, üç nokta karakteri {ellipsis} yerine üç ayrı nokta {dots} var."
+msgstr ""
+"Dizgede, üç nokta karakteri {ellipsis} yerine üç ayrı nokta {dots} var."
 
 msgid "Source string length"
 msgstr "Kaynak dizge uzunluğu"
@@ -6573,9 +6614,6 @@ msgstr "Çoğul formülü"
 msgid "Plural type"
 msgstr "Çoğul türü"
 
-msgid "Example counts for this plural form."
-msgstr "Bu çoğul biçimin örnek sayıları."
-
 msgid "Singular"
 msgstr "Tekil"
 
@@ -6597,7 +6635,8 @@ msgid "I agree with the General Terms and Conditions document"
 msgstr "Genel hüküm ve koşullar belgesini kabul ediyorum"
 
 msgid "I agree with the General Terms and Conditions and the Privacy Policy"
-msgstr "Genel hüküm ve koşullar ile Gizlilik ilkesi içeriklerini kabul ediyorum"
+msgstr ""
+"Genel hüküm ve koşullar ile Gizlilik ilkesi içeriklerini kabul ediyorum"
 
 msgid ""
 "We have updated our legal documents; please read them and confirm that you "
@@ -6611,7 +6650,8 @@ msgstr "Yasal"
 
 msgid ""
 "You have to agree to the General Terms and Conditions and the Privacy Policy"
-msgstr "Genel hüküm ve koşullar ile Gizlilik ilkesi belgeleri kabul etmelisiniz"
+msgstr ""
+"Genel hüküm ve koşullar ile Gizlilik ilkesi belgeleri kabul etmelisiniz"
 
 msgid "You have to agree to the General Terms and Conditions"
 msgstr "Genel hüküm ve koşullar belgesini kabul etmelisiniz"
@@ -6621,8 +6661,8 @@ msgid ""
 "Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a> "
 "and the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
 msgstr ""
-"Lütfen <a href=\"%(terms_url)s\">Genel hüküm ve koşullar</a> ile <a href=\"%"
-"(privacy_url)s\">Gizlilik ilkesi</a> belgelerini okuyun."
+"Lütfen <a href=\"%(terms_url)s\">Genel hüküm ve koşullar</a> ile <a "
+"href=\"%(privacy_url)s\">Gizlilik ilkesi</a> belgelerini okuyun."
 
 #, python-format
 msgid ""
@@ -6636,8 +6676,8 @@ msgid ""
 "Please read the General Terms and Conditions below as well as the <a "
 "href=\"%(privacy_url)s\">Privacy Policy</a>."
 msgstr ""
-"Lütfen aşağıdaki Genel hüküm ve koşullar belgesinin yanı sıra <a href=\"%"
-"(privacy_url)s\">Gizlilik ilkesi</a> belgesini okuyun."
+"Lütfen aşağıdaki Genel hüküm ve koşullar belgesinin yanı sıra <a "
+"href=\"%(privacy_url)s\">Gizlilik ilkesi</a> belgesini okuyun."
 
 msgid "Please read the General Terms and Conditions below."
 msgstr "Lütfen aşağıdaki Genel hüküm ve koşullar belgesini okuyun."
@@ -7644,6 +7684,11 @@ msgstr "E-posta adresinizi okuyun"
 msgid "Read the version of the legal documents you accepted"
 msgstr "Kabul ettiğiniz yasal belgelerin sürümlerini okuyun"
 
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
+msgstr ""
+
 msgid "Image is too big."
 msgstr "Görsel çok büyük."
 
@@ -8545,7 +8590,8 @@ msgstr "Avatarlar, %(avatar_url_prefix)s tarafından sağlanmaktadır."
 msgid ""
 "Send a request to the project you want to translate to add a missing "
 "language."
-msgstr "Eksik bir dil eklemek için çevirmek istediğiniz projeye istek gönderin."
+msgstr ""
+"Eksik bir dil eklemek için çevirmek istediğiniz projeye istek gönderin."
 
 msgid "Your saved searches are offered in the search filters everywhere."
 msgstr "Kaydedilmiş aramalarınız her yerde arama süzgeçlerinde sunulur."
@@ -9327,7 +9373,8 @@ msgstr "Tehlikeli bölge"
 
 msgid ""
 "Uninstalling the add-on stops it from running and removes its configuration."
-msgstr "Eklentiyi kaldırmak, çalışmasını durdurur ve yapılandırmasını kaldırır."
+msgstr ""
+"Eklentiyi kaldırmak, çalışmasını durdurur ve yapılandırmasını kaldırır."
 
 msgid "Uninstall"
 msgstr "Kaldır"
@@ -9516,7 +9563,8 @@ msgstr ""
 "bağlantısını yapılandırın ve yayınlanacak etkinlikleri seçin."
 
 msgid "Configure your consumer to subscribe to Weblate message topics:"
-msgstr "Müşterinizi Weblate ileti konularına abone olacak şekilde yapılandırın:"
+msgstr ""
+"Müşterinizi Weblate ileti konularına abone olacak şekilde yapılandırın:"
 
 msgid ""
 "Topics include only the path segments available for the event. If you "
@@ -10093,6 +10141,16 @@ msgid ""
 msgstr ""
 "Bu abonelik, Libre tarifesine uygun değil. Lütfen yukarıdaki hataları "
 "düzeltin ya da bir abonelik satın alın."
+
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
 
 msgid "Customer"
 msgstr "Müşteri"
@@ -10897,7 +10955,8 @@ msgstr "Depo sahibi bileşende şu izinlerinizin olması gerekiyor:"
 msgid ""
 "You need the following permissions on the repository-owning component, which "
 "you cannot access:"
-msgstr "Erişemediğiniz depo sahibi bileşende şu izinlerinizin olması gerekiyor:"
+msgstr ""
+"Erişemediğiniz depo sahibi bileşende şu izinlerinizin olması gerekiyor:"
 
 msgid "Ask an administrator of the owning project to grant these permissions."
 msgstr "Projenin sahibi olan bir yöneticiden bu izinleri vermesini isteyin."
@@ -11604,8 +11663,8 @@ msgid ""
 "If your Libre hosting is not approved for it, all projects within this "
 "billing plan will be removed on %(date)s."
 msgstr ""
-"Libre barındırmanız onaylanmazsa, bu fatura tarifesindeki tüm projeler %"
-"(date)s tarihinde silinecek."
+"Libre barındırmanız onaylanmazsa, bu fatura tarifesindeki tüm projeler "
+"%(date)s tarihinde silinecek."
 
 #. Translators: e-mail subject
 msgid "Your translation project was removed"
@@ -11666,6 +11725,16 @@ msgstr ""
 #. Translators: e-mail subject
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr "Etkin olmayan projeler için yinelenen ödeme sonlandırılacak"
+
+#, fuzzy
+#| msgid "Does not meet Libre hosting conditions."
+msgid "Review Libre hosting conditions"
+msgstr "Özgür barındırma koşullarını karşılamıyor."
+
+#, fuzzy, python-format
+#| msgid "Number of entries for %(project)s"
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "%(project)s kayıt sayısı"
 
 msgid "Translation change"
 msgstr "Çeviri değişimi"
@@ -13576,6 +13645,9 @@ msgstr ""
 "Daha fazlasını vermek isterseniz, isteğe bağlı bir bağış Weblate "
 "geliştirilme ve bakım çalıştırmalarına mali kaynak sağlar."
 
+msgid "Example counts for this plural form."
+msgstr "Bu çoğul biçimin örnek sayıları."
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
@@ -13610,12 +13682,13 @@ msgstr ""
 msgid "Source code repository"
 msgstr "Kaynak kod deposu"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr "Bu bileşen %(target)s deposuna bağlandı."
-
 msgid "Repository URL copied to clipboard."
 msgstr "Depo adresi panoya kopyalandı."
+
+#, fuzzy
+#| msgid "Renamed component"
+msgid "Linked component"
+msgstr "Bileşen yeniden adlandırıldı"
 
 msgid "Repository branch"
 msgstr "Depo dalı"
@@ -14057,6 +14130,11 @@ msgstr "Çoğul: %(source_description)s"
 msgid "Plurals"
 msgstr "Çoğul biçimler"
 
+#, fuzzy
+#| msgid "No strings found!"
+msgid "No integer examples found"
+msgstr "Herhangi bir dizge bulunamadı!"
+
 msgid "First"
 msgstr "İlk"
 
@@ -14287,32 +14365,31 @@ msgid ""
 "<a href=\"%(url)s\">Organize the project</a> to change its URL slug, move "
 "it, or remove it."
 msgstr ""
-"Adres son ekini değiştirmek, taşımak ya da kaldırmak için <a href=\"%(url)"
-"s\">Projeyi düzenleyin</a>."
+"Adres son ekini değiştirmek, taşımak ya da kaldırmak için <a "
+"href=\"%(url)s\">Projeyi düzenleyin</a>."
 
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Organize the component</a> to change its URL slug, move "
 "or remove it."
 msgstr ""
-"Adres son ekini değiştirmek, taşımak ya da kaldırmak için <a href=\"%(url)"
-"s\">Bileşeni düzenleyin</a>."
+"Adres son ekini değiştirmek, taşımak ya da kaldırmak için <a "
+"href=\"%(url)s\">Bileşeni düzenleyin</a>."
 
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Organize the category</a> to change its URL slug, move "
 "or remove it."
 msgstr ""
-"Adres son ekini değiştirmek, taşımak ya da kaldırmak için <a href=\"%(url)"
-"s\">Kategoriyi düzenleyin</a>."
+"Adres son ekini değiştirmek, taşımak ya da kaldırmak için <a "
+"href=\"%(url)s\">Kategoriyi düzenleyin</a>."
 
 msgid "Community"
 msgstr "Topluluk"
 
 #, python-format
 msgid "Translate %(object)s using #Weblate at %(share_url)s!"
-msgstr ""
-"#Weblate ile %(share_url)s adresinden %(object)s çevirisine katılın!"
+msgstr "#Weblate ile %(share_url)s adresinden %(object)s çevirisine katılın!"
 
 msgid "Share on Bluesky"
 msgstr "Bluesky ile paylaş"
@@ -14499,7 +14576,8 @@ msgstr "Kullanıcı yorumlarını sil"
 
 #, python-format
 msgid "Delete all comments from <b>%(user)s</b> across all projects."
-msgstr "Tüm projelerde <b>%(user)s</b> tarafından yapılmış tüm yorumları siler."
+msgstr ""
+"Tüm projelerde <b>%(user)s</b> tarafından yapılmış tüm yorumları siler."
 
 #, python-format
 msgid "Delete all comments from <b>%(user)s</b> in this project."
@@ -15007,12 +15085,12 @@ msgstr "Bileşende, birkaç yinelenen çeviri dizgesi var."
 msgid "Source"
 msgstr "Kaynak"
 
+msgid "Remove duplicate strings"
+msgstr "Çift dizgeleri kaldırın"
+
 #, python-format
 msgid "Remove duplicate strings from %(language)s (%(filename)s)"
 msgstr "%(language)s (%(filename)s) içindeki çift dizgeleri kaldırın"
-
-msgid "Remove duplicate strings"
-msgstr "Çift dizgeleri kaldırın"
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -15226,8 +15304,8 @@ msgid ""
 "as a glossary’ to keep it as an ordinary restricted component."
 msgstr ""
 "Bu sözlüğü proje genelinde kullanmak için kısıtlanmış erişimi kaldırın veya "
-"sıradan bir kısıtlanmış bileşen olarak tutmak için ‘Sözlük olarak kullanılsın"
-"’ seçeneğini kapatın."
+"sıradan bir kısıtlanmış bileşen olarak tutmak için ‘Sözlük olarak "
+"kullanılsın’ seçeneğini kapatın."
 
 msgid "Version control system"
 msgstr "Sürüm denetimi sistemi"
@@ -15788,7 +15866,8 @@ msgid "Edit source"
 msgstr "Kaynağı düzenle"
 
 msgid "Learn more about pushing changes from Weblate."
-msgstr "Değişiklikleri Weblate üzerinden itmek ile ilgili ayrıntılı bilgi alın."
+msgstr ""
+"Değişiklikleri Weblate üzerinden itmek ile ilgili ayrıntılı bilgi alın."
 
 msgid "Open in Zen mode"
 msgstr "Zen kipinde aç"
@@ -16008,10 +16087,6 @@ msgstr "Bu dizge %(author)s tarafından kendiliğinden çevrilmiş."
 msgid "Add term to glossary"
 msgstr "Sözlüğe terim ekle"
 
-#, python-format
-msgid "Browse glossary %(name)s"
-msgstr "Sözlüğe göz at: %(name)s"
-
 msgid "Browse glossary"
 msgstr "Sözlüğe göz at"
 
@@ -16059,6 +16134,15 @@ msgstr "Son güncellenme"
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
 msgstr "Kaynak dizgenin yaşı"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s, line %(line)s"
+msgstr "%(filename)s, dizge %(position)s"
+
+#, python-format
+msgid "line %(line)s"
+msgstr ""
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -16288,8 +16372,8 @@ msgstr ""
 msgid ""
 "The GitHub App needs repository access for these accounts: %(accounts)s."
 msgstr ""
-"GitHub uygulaması bu hesaplar için depo erişimine gerek duyuyor: %(accounts)"
-"s."
+"GitHub uygulaması bu hesaplar için depo erişimine gerek duyuyor: "
+"%(accounts)s."
 
 msgid "Connected GitHub accounts:"
 msgstr "Bağlı GitHub hesapları:"
@@ -16358,7 +16442,8 @@ msgstr ""
 "göndermek reddedilir."
 
 msgid "GitHub hosts that already have a Weblate GitHub App registered:"
-msgstr "Zaten kaydedilmiş bir Weblate GitHub uygulaması olan GitHub sunucuları:"
+msgstr ""
+"Zaten kaydedilmiş bir Weblate GitHub uygulaması olan GitHub sunucuları:"
 
 msgid "Subscribed events"
 msgstr "Abone olunmuş etkinlikler"
@@ -17644,11 +17729,11 @@ msgstr "Çift denetim adı."
 msgid "Referenced category does not exist."
 msgstr "Başvurulan kategori bulunamadı."
 
-msgid "Component filename does not match its category and slug."
-msgstr "Bileşen dosya adı ile kategorisi ve adres son eki eşleşmiyor."
-
 msgid "Duplicate component slug."
 msgstr "Çift bileşen adres son eki."
+
+msgid "Component filename does not match its category and slug."
+msgstr "Bileşen dosya adı ile kategorisi ve adres son eki eşleşmiyor."
 
 msgid "Translation revision has an invalid format."
 msgstr "Çeviri sürümünün biçimi geçersiz."
@@ -17773,8 +17858,10 @@ msgid ""
 "%d string will be left unchanged because the edited text would be too long."
 msgid_plural ""
 "%d strings will be left unchanged because the edited text would be too long."
-msgstr[0] "Düzenlenen yazı çok uzun olacağından %d dizge değişmeden bırakılacak."
-msgstr[1] "Düzenlenen yazı çok uzun olacağından %d dizge değişmeden bırakılacak."
+msgstr[0] ""
+"Düzenlenen yazı çok uzun olacağından %d dizge değişmeden bırakılacak."
+msgstr[1] ""
+"Düzenlenen yazı çok uzun olacağından %d dizge değişmeden bırakılacak."
 
 #, python-format
 msgid "%d string was left unchanged because the edited text would be too long."
@@ -17902,6 +17989,11 @@ msgstr "Bekleyen öneriler"
 msgid "Needs review"
 msgstr "Onaylanması gereken"
 
+#, fuzzy
+#| msgid "The source and target have to be different languages."
+msgid "The source and destination checkouts must be different."
+msgstr "Kaynak ve hedef farklı diller olmak zorundadır."
+
 msgid "This component does not exist or you cannot access it."
 msgstr "Bu bileşen bulunamadı veya ona erişme izniniz yok."
 
@@ -17926,6 +18018,11 @@ msgstr "Benim işlem yapabileceklerim"
 
 msgid "Discovery configuration"
 msgstr "Keşif yapılandırması"
+
+#, fuzzy, python-format
+#| msgid "Could not render template: {}"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "Kalıp görselleştirmesi oluşturulamadı: {}"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -17964,8 +18061,8 @@ msgid ""
 "Multiple base or new base files render to the same file mask %(mask)s "
 "(%(existing)s and %(new)s)."
 msgstr ""
-"Birden fazla temel veya yeni temel dosya, aynı dosya maskesine (%(mask)s (%"
-"(existing)s ve %(new)s) görselleştirilir."
+"Birden fazla temel veya yeni temel dosya, aynı dosya maskesine (%(mask)s "
+"(%(existing)s ve %(new)s) görselleştirilir."
 
 msgid "File mask matches the main component."
 msgstr "Dosya maskesi ana bileşenle eşleşiyor."
@@ -18188,8 +18285,8 @@ msgid ""
 "Controls encoding names in the XML declaration, for example \"UTF-8\" or "
 "\"utf-8\"."
 msgstr ""
-"XML bildirimindeki adların kodlamasını belirler. Örnek: \"UTF-8\" veya \"utf-"
-"8\"."
+"XML bildirimindeki adların kodlamasını belirler. Örnek: \"UTF-8\" veya "
+"\"utf-8\"."
 
 msgid "XML final newline"
 msgstr "XML son yeni satır"
@@ -19426,7 +19523,8 @@ msgstr "Dil kodu biçemi devralınsın"
 
 msgid ""
 "Use the language code style configured in the parent category or project."
-msgstr "Üst kategoride veya projede yapılandırılmış dil kodu biçemi kullanılır."
+msgstr ""
+"Üst kategoride veya projede yapılandırılmış dil kodu biçemi kullanılır."
 
 msgid "Secondary language"
 msgstr "İkincil dil"
@@ -19606,7 +19704,8 @@ msgstr "Depodaki çeviri dosyalarından içe aktarıldı."
 
 msgctxt "Change origin tooltip"
 msgid "Created by Weblate without a recorded initiating request."
-msgstr "Weblate tarafından kaydedilmiş bir başlatma isteği olmadan oluşturuldu."
+msgstr ""
+"Weblate tarafından kaydedilmiş bir başlatma isteği olmadan oluşturuldu."
 
 msgid "Source needs review"
 msgstr "Kaynağın onaylanması gerekli"
@@ -19999,6 +20098,11 @@ msgstr "Boş bırakılırsa projedeki ayar kullanılır."
 msgid "Use the secondary language configured in the category or project."
 msgstr "Kategoride veya projede yapılandırılmış ikincil dil kullanılır."
 
+#, fuzzy
+#| msgid "The local repository checkout is missing."
+msgid "The linked repository path is ambiguous."
+msgstr "Yerel depo çıkışı eksik."
+
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
 "admin interface."
@@ -20313,6 +20417,11 @@ msgstr ""
 "doğrulama bilgileri ile bir itme adresi yapılandırın veya bir SSH depo "
 "adresi kullanın."
 
+#, fuzzy
+#| msgid "This role cannot be assigned to this team."
+msgid "Version control system cannot be changed to this backend."
+msgstr "Bu rol bu takıma atanamaz."
+
 msgid "The file mask is too complex and took too long to evaluate."
 msgstr "Dosya maskesi çok karmaşık ve değerlendirilmesi çok uzun sürüyor."
 
@@ -20535,7 +20644,8 @@ msgstr ""
 "gereken katılımcı lisans anlaşması."
 
 msgid "Use the contributor license agreement configured in the workspace."
-msgstr "Çalışma alanında yapılandırılmış katılımcı lisans anlaşması kullanılır."
+msgstr ""
+"Çalışma alanında yapılandırılmış katılımcı lisans anlaşması kullanılır."
 
 msgid "Use the adding new translations setting configured in the workspace."
 msgstr ""
@@ -20576,7 +20686,8 @@ msgstr ""
 "iletisi kullanılır."
 
 msgid "Use the merge request message configured in the workspace."
-msgstr "Çalışma alanında yapılandırılmış birleştirme isteği iletisi kullanılır."
+msgstr ""
+"Çalışma alanında yapılandırılmış birleştirme isteği iletisi kullanılır."
 
 msgid "Translation service slugs conflict with the new workspace."
 msgstr "Çeviri hizmeti adres son eki yeni çalışma alanıyla çakışıyor."
@@ -20584,7 +20695,8 @@ msgstr "Çeviri hizmeti adres son eki yeni çalışma alanıyla çakışıyor."
 msgid ""
 "Shared translation memory can not be enabled while the project has "
 "restricted components."
-msgstr "Projenin kısıtlı bileşenleri varken paylaşılan çeviri belleği açılamaz."
+msgstr ""
+"Projenin kısıtlı bileşenleri varken paylaşılan çeviri belleği açılamaz."
 
 msgid ""
 "Translations marked as needing editing are not written to the translation "
@@ -20744,8 +20856,8 @@ msgid ""
 "while you were editing it. Reload the editor and review your changes before "
 "saving."
 msgstr ""
-"Bu dizgenin onaylanma durumu, siz onu düzenlerken %(previous)s iken %"
-"(current)s olarak değişti. Düzenleyiciyi yeniden yükleyin ve kaydetmeden "
+"Bu dizgenin onaylanma durumu, siz onu düzenlerken %(previous)s iken "
+"%(current)s olarak değişti. Düzenleyiciyi yeniden yükleyin ve kaydetmeden "
 "önce değişikliklerinizi gözden geçirin."
 
 msgid "Unmark as untranslatable for all languages"
@@ -20887,6 +20999,11 @@ msgstr "Uzun tire"
 msgid "User configured character: {}"
 msgstr "Kullanıcının yapılandırdığı karakter: {}"
 
+#, fuzzy, python-format
+#| msgid "Could not push the repository."
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "Depo itilemedi."
+
 msgid "Repository operation could not be completed because it remained locked."
 msgstr "Depo işlemi kilitli kaldığından tamamlanamadı."
 
@@ -20997,6 +21114,10 @@ msgstr "dizge kimliği %s"
 
 msgid "This language is used for source strings."
 msgstr "Bu dil kaynak dizgeler için kullanılır."
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr "Bu bileşen %(target)s deposuna bağlandı."
 
 msgid "Fix this component to clear its diagnostics."
 msgstr "Tanılamalarını temizlemek için bu bileşeni düzeltin."
@@ -21335,8 +21456,10 @@ msgstr[1] ""
 #, python-format
 msgid "Accepting %(count)d suggestion from %(user)s in progress."
 msgid_plural "Accepting %(count)d suggestions from %(user)s in progress."
-msgstr[0] "%(user)s kullanıcısının %(count)d önerisinin kabul edilmesi sürüyor."
-msgstr[1] "%(user)s kullanıcısının %(count)d önerisinin kabul edilmesi sürüyor."
+msgstr[0] ""
+"%(user)s kullanıcısının %(count)d önerisinin kabul edilmesi sürüyor."
+msgstr[1] ""
+"%(user)s kullanıcısının %(count)d önerisinin kabul edilmesi sürüyor."
 
 #, python-format
 msgctxt "Changes of string in a translation"
@@ -21745,6 +21868,16 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "Dikey dil çubuğu çizelgesi"
 
+#, fuzzy
+#| msgid "Your languages"
+msgid "Sort languages by"
+msgstr "Dilinizdekiler"
+
+#, fuzzy
+#| msgid "Translation change"
+msgid "Translation percentage"
+msgstr "Çeviri değişimi"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr "Yatay dil çubuğu çizelgesi"
@@ -21869,7 +22002,8 @@ msgstr ""
 "dizgelere bakın."
 
 msgid "Explore a string’s history to see how its translation has changed."
-msgstr "Çevirisinin nasıl değiştiğini görmek için bir dizgenin geçmişine bakın."
+msgstr ""
+"Çevirisinin nasıl değiştiğini görmek için bir dizgenin geçmişine bakın."
 
 msgid ""
 "Leave a comment on a source string to ask for context that can help every "
@@ -21952,7 +22086,8 @@ msgid "Automatic translation is waiting for another operation to finish."
 msgstr "Kendiliğinden çeviri başka bir işlemin bitmesini bekliyor."
 
 msgid "Automatic translation failed. See the task log for details."
-msgstr "Kendiliğinden çeviri yapılamadı. Ayrıntılar için görev günlüğüne bakın."
+msgstr ""
+"Kendiliğinden çeviri yapılamadı. Ayrıntılar için görev günlüğüne bakın."
 
 msgid "Task could not be completed. See the task log for details."
 msgstr "Görev tamamlanamadı. Ayrıntılar için görev günlüğüne bakın."
@@ -22117,18 +22252,6 @@ msgstr "Depolanmış parametre değeri geçersiz."
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "Parametreler bir anahtar-değer çiftleri sözlüğü olmalıdır."
 
-msgid "Template output exceeds its size limit."
-msgstr "Kalıp çıktısı boyut sınırını aşıyor."
-
-msgid "Template rendering failed or exceeded its resource limits."
-msgstr "Kalıp oluşturulamadı veya kaynak sınırlarını aştı."
-
-msgid "Oversized template response."
-msgstr "Kalıp yanıtı boyutu aştı."
-
-msgid "Invalid template rendering response."
-msgstr "Kalıp oluşturma yanıtı geçersiz."
-
 msgid "Could not render template: {}"
 msgstr "Kalıp görselleştirmesi oluşturulamadı: {}"
 
@@ -22139,14 +22262,16 @@ msgstr ""
 "Biçim dizgeleri artık desteklenmiyor. Lütfen bunun yerine kalıp dilini "
 "kullanın."
 
-msgid "Template value exceeds its size limit."
-msgstr "Kalıp değeri boyut sınırını aşıyor."
+msgid "Template context exceeds its size limit."
+msgstr "Kalıp bağlamı boyut sınırını aşıyor."
 
 msgid "Template context is nested too deeply."
 msgstr "Kalıp bağlamı alt alta çok derin."
 
-msgid "Template context exceeds its size limit."
-msgstr "Kalıp bağlamı boyut sınırını aşıyor."
+#, fuzzy
+#| msgid "Unsupported template context value."
+msgid "Unsupported nonfinite template context value."
+msgstr "Kalıp bağlamı değeri desteklenmiyor."
 
 msgid "Unsupported template context key."
 msgstr "Kalıp bağlamı anahtarı desteklenmiyor."
@@ -22154,30 +22279,350 @@ msgstr "Kalıp bağlamı anahtarı desteklenmiyor."
 msgid "Unsupported template context value."
 msgstr "Kalıp bağlamı değeri desteklenmiyor."
 
+msgid "Template value exceeds its size limit."
+msgstr "Kalıp değeri boyut sınırını aşıyor."
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Template text is not valid UTF-8."
+msgstr "Yazılan kod geçersiz."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid target state."
+msgid "Invalid template syntax."
+msgstr "Hedef durumu geçersiz."
+
+#, fuzzy
+#| msgid "Undefined variable: \"%s\""
+msgid "Undefined template variable."
+msgstr "Değişken tanımlanmamış: \"%s\""
+
+#, fuzzy
+#| msgid "The translation is not valid XML."
+msgid "Text is not valid UTF-8."
+msgstr "Çeviri geçerli bir XML kodu değil."
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Division by zero is not supported."
+msgstr "Seçilmiş sıralama desteklenmiyor."
+
+#, fuzzy
+#| msgid "Select a change for this automation."
+msgid "Numeric value is too large for this operation."
+msgstr "Bu otomasyon için bir değişiklik seçin."
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Numeric operation failed."
+msgstr "Depo işlemi tamamlanamadı"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation revision has an invalid format."
+msgid "Value or argument has an invalid format."
+msgstr "Çeviri sürümünün biçimi geçersiz."
+
+#, fuzzy, python-format
+#| msgid "%(path)s: %(error)s"
+msgid "%(operation)s: %(message)s"
+msgstr "%(path)s: %(error)s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
 msgid "Template rendering exceeded its time limit."
 msgstr "Kalıp oluşturma zaman sınırı aşıldı."
+
+#, fuzzy, python-format
+#| msgid "Template join exceeds its size limit."
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr "Kalıp birleştirmesi boyut sınırını aşıyor."
+
+#, fuzzy, python-format
+#| msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr "Çeviri dosyası izin verilen en fazla %d bayt boyutunu aşıyor."
+
+#, fuzzy, python-format
+#| msgid "Template value exceeds its size limit."
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr "Kalıp değeri boyut sınırını aşıyor."
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Nonfinite numbers are not supported."
+msgstr "YAML takma adları ve etiketleri desteklenmez."
+
+#, fuzzy, python-format
+#| msgid "File names"
+msgid "Filter \"%(name)s\""
+msgstr "Dosya adları"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
+msgstr ""
 
 msgid "Template rendering exceeded its loop limit."
 msgstr "Kalıp oluşturma döngü sınırı aşıldı."
 
-msgid "Template intermediate value exceeds its size limit."
-msgstr "Kalıp ara değeri boyut sınırını aşıyor."
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Attribute access and method calls are not supported."
+msgstr "YAML takma adları ve etiketleri desteklenmez."
 
-msgid "Template replacement exceeds its size limit."
-msgstr "Kalıp değişimi boyut sınırını aşıyor."
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Index exceeds the length limit of 128 characters."
+msgstr "Kullanıcı adının en az altı karakter olması gerekir."
 
-msgid "Template padding exceeds its size limit."
-msgstr "Kalıp dolgusu boyut sınırını aşıyor."
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Translated template literals are not supported."
+msgstr "YAML takma adları ve etiketleri desteklenmez."
 
-msgid "Template formatting exceeds its size limit."
-msgstr "Kalıp biçimlendirmesi boyut sınırını aşıyor."
+#, fuzzy
+#| msgid "Invalid unit."
+msgid "Invalid filter."
+msgstr "Birim geçersiz."
 
-msgid "Template join exceeds its size limit."
-msgstr "Kalıp birleştirmesi boyut sınırını aşıyor."
+msgid "Identity comparisons require None, True, or False."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This condition operator is not supported."
+msgstr "Seçilmiş sıralama desteklenmiyor."
+
+msgid "Template output exceeds its size limit."
+msgstr "Kalıp çıktısı boyut sınırını aşıyor."
+
+msgid "Loops require a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
+msgstr ""
+
+msgid "Loop value cannot be unpacked into its variables."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This template tag is not supported."
+msgstr "Seçilmiş sıralama desteklenmiyor."
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This template node is not supported."
+msgstr "Algılanan dosya biçimi desteklenmiyor."
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
+msgstr "Çalışma kitabı arşivi, %d bay en fazla genişletilmiş boyutu aşıyor."
 
 #, python-format
 msgid "Undefined variable: \"%s\""
 msgstr "Değişken tanımlanmamış: \"%s\""
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Template intermediate value exceeds its size limit."
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr "Kalıp ara değeri boyut sınırını aşıyor."
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "This field is required."
+msgid "This filter requires strings."
+msgstr "Bu alanın doldurulması zorunludur."
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Choices must be a string."
+msgstr "Otomasyon anahtarları dizgeler olmalıdır."
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr "Kullanıcı adının en az altı karakter olması gerekir."
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source string length"
+msgid "Joining requires string elements."
+msgstr "Kaynak dizge uzunluğu"
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Date format must be a string or None."
+msgstr "Otomasyon anahtarları dizgeler olmalıdır."
+
+#, fuzzy
+#| msgid "Trigger scope requires a change with a string."
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "Tetikleyici kapsamında, bir dizge ile bir değişiklik olmalıdır."
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Plural suffixes must be a string."
+msgstr "Otomasyon anahtarları dizgeler olmalıdır."
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr "Kullanıcı adının en az altı karakter olması gerekir."
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Nested template delimiters are not supported."
+msgstr "YAML takma adları ve etiketleri desteklenmez."
+
+#, fuzzy
+#| msgid "Unsupported template context key."
+msgid "Unclosed template token."
+msgstr "Kalıp bağlamı anahtarı desteklenmiyor."
+
+#, fuzzy, python-format
+#| msgid "Template join exceeds its size limit."
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr "Kalıp birleştirmesi boyut sınırını aşıyor."
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Template join exceeds its size limit."
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr "Kalıp birleştirmesi boyut sınırını aşıyor."
+
+#, fuzzy, python-format
+#| msgid "Template join exceeds its size limit."
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr "Kalıp birleştirmesi boyut sınırını aşıyor."
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "The report is empty."
+msgid "Template tag is empty."
+msgstr "Rapor boş."
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Template join exceeds its size limit."
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr "Kalıp birleştirmesi boyut sınırını aşıyor."
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unsupported template context value."
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "Kalıp bağlamı değeri desteklenmiyor."
+
+#, fuzzy
+#| msgid "Unsupported template context value."
+msgid "Unsupported template tag."
+msgstr "Kalıp bağlamı değeri desteklenmiyor."
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr "Çeviri dosyası izin verilen en fazla %d bayt boyutunu aşıyor."
+
+#, fuzzy, python-format
+#| msgid "Template value exceeds its size limit."
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
+msgstr "Kalıp değeri boyut sınırını aşıyor."
 
 #, python-format
 msgid ""
@@ -22528,54 +22973,54 @@ msgid ""
 "%(service)s API request failed while creating a pull request: %(status)s "
 "Please retry later."
 msgstr ""
-"Bir çekme isteği oluşturulurken %(service)s API isteği yapılamadı: %(status)"
-"s Lütfen bir süre sonra yeniden deneyin."
+"Bir çekme isteği oluşturulurken %(service)s API isteği yapılamadı: "
+"%(status)s Lütfen bir süre sonra yeniden deneyin."
 
 #, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request (%(status)s): "
 "%(error)s"
 msgstr ""
-"Bir çekme isteği oluşturulurken %(service)s API isteği yapılamadı (%(status)"
-"s): %(error)s"
+"Bir çekme isteği oluşturulurken %(service)s API isteği yapılamadı "
+"(%(status)s): %(error)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
-"Bir çekme isteği oluşturulurken %(service)s API isteği yapılamadı (%(status)"
-"s): %(error)s Lütfen bir süre sonra yeniden deneyin."
+"Bir çekme isteği oluşturulurken %(service)s API isteği yapılamadı "
+"(%(status)s): %(error)s Lütfen bir süre sonra yeniden deneyin."
 
 #, python-format
 msgid "%(service)s API request failed while merging a pull request: %(status)s"
 msgstr ""
-"Bir çekme isteği birleştirilirken %(service)s API isteği yapılamadı: %"
-"(status)s"
+"Bir çekme isteği birleştirilirken %(service)s API isteği yapılamadı: "
+"%(status)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request: %(status)s "
 "Please retry later."
 msgstr ""
-"Bir çekme isteği birleştirilirken %(service)s API isteği yapılamadı: %"
-"(status)s Lütfen bir süre sonra yeniden deneyin."
+"Bir çekme isteği birleştirilirken %(service)s API isteği yapılamadı: "
+"%(status)s Lütfen bir süre sonra yeniden deneyin."
 
 #, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s"
 msgstr ""
-"Bir çekme isteği birleştirilirken %(service)s API isteği yapılamadı (%"
-"(status)s): %(error)s"
+"Bir çekme isteği birleştirilirken %(service)s API isteği yapılamadı "
+"(%(status)s): %(error)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
-"Bir çekme isteği birleştirilirken %(service)s API isteği yapılamadı (%"
-"(status)s): %(error)s Lütfen bir süre sonra yeniden deneyin."
+"Bir çekme isteği birleştirilirken %(service)s API isteği yapılamadı "
+"(%(status)s): %(error)s Lütfen bir süre sonra yeniden deneyin."
 
 msgid "GitHub App repositories must be imported with a branch."
 msgstr "GitHub uygulama depoları bir dal ile içe aktarılmalıdır."
@@ -22620,32 +23065,32 @@ msgstr ""
 msgid ""
 "%(service)s API request failed while customizing a pull request: %(status)s"
 msgstr ""
-"Bir çekme isteği özelleştirilirken %(service)s API isteği yapılamadı: %"
-"(status)s"
+"Bir çekme isteği özelleştirilirken %(service)s API isteği yapılamadı: "
+"%(status)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while customizing a pull request: %(status)s "
 "Please retry later."
 msgstr ""
-"Bir çekme isteği özelleştirilirken %(service)s API isteği yapılamadı: %"
-"(status)s Lütfen bir süre sonra yeniden deneyin."
+"Bir çekme isteği özelleştirilirken %(service)s API isteği yapılamadı: "
+"%(status)s Lütfen bir süre sonra yeniden deneyin."
 
 #, python-format
 msgid ""
 "%(service)s API request failed while customizing a pull request "
 "(%(status)s): %(error)s"
 msgstr ""
-"Bir çekme isteği özelleştirilirken %(service)s API isteği yapılamadı (%"
-"(status)s): %(error)s"
+"Bir çekme isteği özelleştirilirken %(service)s API isteği yapılamadı "
+"(%(status)s): %(error)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while customizing a pull request "
 "(%(status)s): %(error)s Please retry later."
 msgstr ""
-"Bir çekme isteği özelleştirilirken %(service)s API isteği yapılamadı (%"
-"(status)s): %(error)s Lütfen bir süre sonra yeniden deneyin."
+"Bir çekme isteği özelleştirilirken %(service)s API isteği yapılamadı "
+"(%(status)s): %(error)s Lütfen bir süre sonra yeniden deneyin."
 
 #, python-format
 msgid "GitHub did not assign the requested users: %(assignees)s"
@@ -22969,7 +23414,8 @@ msgstr "GitHub uygulama bileşenleri için bir GitHub HTTPS depo adresi gerekir.
 msgid ""
 "Repository is not available from a connected GitHub account for this "
 "workspace."
-msgstr "Depo, bu çalışma alanı için bağlı bir GitHub hesabından kullanılamıyor."
+msgstr ""
+"Depo, bu çalışma alanı için bağlı bir GitHub hesabından kullanılamıyor."
 
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr "Bu işlem değişiklikleri Mercurial yukarı akış deposuna iter."
@@ -23849,6 +24295,28 @@ msgstr "Çalışma alanı kullanıldığı için kaldırılamaz."
 
 msgid "The workspace has been removed."
 msgstr "Çalışma alanı kaldırıldı."
+
+#, python-format
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "Sözlüğe göz at: %(name)s"
+
+#~ msgid "Template rendering failed or exceeded its resource limits."
+#~ msgstr "Kalıp oluşturulamadı veya kaynak sınırlarını aştı."
+
+#~ msgid "Oversized template response."
+#~ msgstr "Kalıp yanıtı boyutu aştı."
+
+#~ msgid "Invalid template rendering response."
+#~ msgstr "Kalıp oluşturma yanıtı geçersiz."
+
+#~ msgid "Template replacement exceeds its size limit."
+#~ msgstr "Kalıp değişimi boyut sınırını aşıyor."
+
+#~ msgid "Template padding exceeds its size limit."
+#~ msgstr "Kalıp dolgusu boyut sınırını aşıyor."
+
+#~ msgid "Template formatting exceeds its size limit."
+#~ msgstr "Kalıp biçimlendirmesi boyut sınırını aşıyor."
 
 #, python-format
 #~ msgid ""
@@ -25447,9 +25915,6 @@ msgstr "Çalışma alanı kaldırıldı."
 #~ msgid "Renamed project"
 #~ msgstr "Proje yeniden adlandırıldı"
 
-#~ msgid "Renamed component"
-#~ msgstr "Bileşen yeniden adlandırıldı"
-
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "Çevrilecek yeni dizge eklendi"
@@ -26927,9 +27392,6 @@ msgstr "Çalışma alanı kaldırıldı."
 
 #~ msgid "Backup pepository"
 #~ msgstr "Yedek depo"
-
-#~ msgid "Your languages"
-#~ msgstr "Dilinizdekiler"
 
 #~ msgid "Fulltext"
 #~ msgstr "Tam metin"
@@ -29428,9 +29890,6 @@ msgstr "Çalışma alanı kaldırıldı."
 
 #~ msgid "First name"
 #~ msgstr "Ad"
-
-#~ msgid "Username needs to have at least five characters."
-#~ msgstr "Kullanıcı adının en az altı karakter olması gerekir."
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

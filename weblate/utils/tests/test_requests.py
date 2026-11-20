@@ -19,6 +19,7 @@ from weblate.utils.outbound import get_environment_proxy
 from weblate.utils.requests import (
     PEER_IP_RESPONSE_ATTR,
     _get_response_peer_ip,
+    _prepare_outbound_request,
     _validate_response_peer,
     async_fetch_url,
     async_fetch_validated_url,
@@ -58,7 +59,6 @@ class FetchURLTest(SimpleTestCase):
                 "https_proxy": "http://https-proxy.example:8080",
                 "all_proxy": "http://generic-proxy.example:8080",
                 "ftp_proxy": "http://ftp-proxy.example:8080",
-                "no_proxy": "*",
             },
             clear=True,
         ):
@@ -71,6 +71,70 @@ class FetchURLTest(SimpleTestCase):
                 "http://https-proxy.example:8080",
             )
             self.assertIsNone(get_environment_proxy("ftp://example.com/source"))
+
+    def test_environment_proxy_honors_no_proxy(self) -> None:
+        cases = (
+            (".example.com", "https://api.example.com/x", True),
+            ("example.com", "https://wwwexample.com/x", False),
+            ("Plain.Host", "https://plain.host:8443/x", True),
+            ("port.host:8443", "https://user@port.host:8443/x", True),
+            ("port.host:8443", "https://port.host/x", False),
+            ("example.test:443", "https://example.test/x", True),
+            ("::1", "https://[::1]:8080/x", True),
+            ("2001:db8::1", "https://[2001:db8::1:2]/x", False),
+            ("2001:db8::1", "https://[2001:db8:0:0:0:0:0:1]/x", True),
+            ("[2001:db8::1]:443", "https://[2001:db8::1]/x", True),
+            ("10.0.0.0/8", "https://10.1.2.3/x", True),
+            ("10.0.0.0/8", "https://11.1.2.3/x", False),
+            ("*", "https://other.org/x", True),
+            ("xn--fa-hia.example", "https://faß.example/x", True),
+            ("faß.example", "https://xn--fa-hia.example/x", True),
+            ("example", "https://faß.example/x", True),
+            ("fass.example", "https://faß.example/x", False),
+            ("example.test", "https://example.test\u3002/x", True),
+            ("example.test\u3002", "https://example.test/x", True),
+        )
+        for no_proxy, url, bypassed in cases:
+            with (
+                self.subTest(no_proxy=no_proxy, url=url),
+                patch.dict(
+                    os.environ,
+                    {
+                        "https_proxy": "http://https-proxy.example:8080",
+                        "no_proxy": no_proxy,
+                    },
+                    clear=True,
+                ),
+            ):
+                self.assertEqual(
+                    get_environment_proxy(url),
+                    None if bypassed else "http://https-proxy.example:8080",
+                )
+
+    def test_outbound_request_honors_no_proxy_default_port(self) -> None:
+        # HTTPX2 normalizes https://example.test:443/ to https://example.test/
+        request = httpx2.Request("GET", "https://example.test:443/source")
+        with patch.dict(
+            os.environ,
+            {
+                "https_proxy": "http://https-proxy.example:8080",
+                "no_proxy": "example.test:443",
+            },
+            clear=True,
+        ):
+            self.assertIsNone(_prepare_outbound_request(request).proxy)
+
+    def test_environment_proxy_skips_malformed_no_proxy(self) -> None:
+        for proxy in ("http://https-proxy.example:8080", None):
+            environ = {"no_proxy": "[::1,example.com"}
+            if proxy:
+                environ["https_proxy"] = proxy
+            with (
+                self.subTest(proxy=proxy),
+                patch.dict(os.environ, environ, clear=True),
+            ):
+                self.assertEqual(get_environment_proxy("https://other.org/x"), proxy)
+                self.assertIsNone(get_environment_proxy("https://example.com/x"))
 
     def test_environment_proxy_does_not_use_all_proxy(self) -> None:
         with patch.dict(

@@ -65,52 +65,27 @@
       {% translate "Strings status" %}
     </h4>
   </div>
-  <table class="table table-autowidth table-listing table-striped">
-    <thead>
-      <tr>
-        <th class="number split-cell wrap-cell">
-          <span>{% translate "Strings" %}</span>
-          <span>{% translate "Words" %}</span>
-          <span>{% translate "Characters" %}</span>
-        </th>
-      </tr>
-    </thead>
+  <ul class="card-body action-card-grid translation-checklist list-unstyled mb-0">
     {% for query, name, count, color, words, characters in object.list_translation_checks %}
       {# Counts that include shared components link to the search, the only view covering them. #}
-      <tr data-href="{% if stats_include_shared %}{{ browse_url }}?include_shared=1&amp;q={{ query }}{% else %}{{ translate_url }}?q={{ query }}{% endif %}"
-          class="clickable-row">
-        <th class="number split-cell wrap-cell">
-          <span>{{ count|intcomma }}</span>
-          <span>{{ words|intcomma }}</span>
-          <span>{{ characters|intcomma }}</span>
-        </th>
-        <td class="legend align-middle">
-          {% if name != "all" %}
-            <div class="progress"
-                 role="progressbar"
-                 aria-valuenow="100"
-                 aria-valuemin="0"
-                 aria-valuemax="100"
-                 aria-label="{{ name }}"
-                 aria-labelledby="check-label-{{ forloop.counter }}">
-              {% if color %}
-                <div class="progress-bar{% if color != "primary" %} progress-bar-{{ color }}{% endif %}"
-                     style="width: 100%"></div>
-              {% endif %}
-            </div>
-          {% endif %}
-        </td>
-        <td class="full-cell">
-          <a href="{% if stats_include_shared %}{{ browse_url }}?include_shared=1&amp;q={{ query }}{% else %}{{ translate_url }}?q={{ query }}{% endif %}"
-             id="check-label-{{ forloop.counter }}">{{ name }}</a>
-        </td>
-        <td class="wrap-cell">
-          <a class="btn-inline"
-             href="{{ browse_url }}?{% if stats_include_shared %}include_shared=1&amp;{% endif %}q={{ query }}">{% translate "Browse" %}</a>
-          <a class="btn-inline" href="{{ edit_url }}?q={{ query }}">{% translate "Translate" %}</a>
-          <a class="btn-inline" href="{{ zen_url }}?q={{ query }}">{% translate "Zen" %}</a>
-        </td>
-      </tr>
+      {% with filter_query=query|urlencode %}
+        <li class="card mb-0 overflow-hidden overflow-wrap">
+          <span class="progress checklist-stripe" aria-hidden="true">
+            {% if color %}
+              <span class="progress-bar flex-fill{% if color != "primary" %} progress-bar-{{ color }}{% endif %}"></span>
+            {% endif %}
+          </span>
+          <h5 class="fs-6 fw-semibold">
+            <a class="stretched-link" href="{{ translate_url }}?{% if stats_include_shared %}include_shared=1&amp;{% endif %}q={{ filter_query }}">{{ name }}</a>
+          </h5>
+          {% include "snippets/string-counts.html" with count=count words=words characters=characters only %}
+          <div class="d-flex flex-wrap gap-3 mt-auto pt-2 fw-semibold">
+            <a class="z-2" href="{{ browse_url }}?{% if stats_include_shared %}include_shared=1&amp;{% endif %}q={{ filter_query }}">{% translate "Browse" %}</a>
+            <a class="z-2" href="{{ edit_url }}?{% if stats_include_shared %}include_shared=1&amp;{% endif %}q={{ filter_query }}">{% translate "Translate" %}</a>
+            <a class="z-2" href="{{ zen_url }}?{% if stats_include_shared %}include_shared=1&amp;{% endif %}q={{ filter_query }}">{% translate "Zen" %}</a>
+          </div>
+        </li>
+      {% endwith %}
     {% endfor %}
-  </table>
+  </ul>
 </div>

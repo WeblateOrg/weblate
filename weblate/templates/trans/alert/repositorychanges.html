@@ -1,5 +1,10 @@
 {% load i18n %}
 
 <p>
-  {% translate "The VCS repository has many changes compared to the upstream. Please merge the changes manually or set up push to automate this." %}
+  {% if commit_count != None %}
+    {% blocktranslate count count=commit_count %}The repository has {{ count }} outgoing commit compared to the tracked upstream branch.{% plural %}The repository has {{ count }} outgoing commits compared to the tracked upstream branch.{% endblocktranslate %}
+    {% translate "Please merge the changes manually or set up push to automate this." %}
+  {% else %}
+    {% translate "The VCS repository has many changes compared to the upstream. Please merge the changes manually or set up push to automate this." %}
+  {% endif %}
 </p>
