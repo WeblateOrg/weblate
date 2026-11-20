@@ -11,6 +11,7 @@ import tempfile
 from typing import TYPE_CHECKING, cast
 from unittest.mock import MagicMock, call, patch
 
+from django.core.exceptions import ValidationError
 from django.template.loader import render_to_string
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
@@ -1263,6 +1264,54 @@ class ComponentDiscoveryCategoryTest(RepoTestCase):
         child.refresh_from_db()
         self.assertEqual(len(matched), 1)
         self.assertEqual(child.category_id, original_category)
+
+    def test_existing_child_does_not_create_categories(self) -> None:
+        legacy_discovery = ComponentDiscovery(
+            self.component,
+            user=get_test_actor(self),
+            file_format="markdown",
+            match=(
+                r"translated/(?P<language>[^/]+)/"
+                r"(?P<path>players/(?:.+/)*)(?P<component>[^/]+)\.md"
+            ),
+            name_template="{{ component }}",
+            base_file_template="{{ path }}{{ component }}.md",
+            language_regex="^[^.]+$",
+        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            created = legacy_discovery.perform()[0]
+        self.assertEqual(len(created), 1)
+        child = created[0][1]
+        assert child is not None
+        self.assertEqual(child.category_id, self.component.category_id)
+
+        category_count = Category.objects.count()
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            created, matched, _deleted, skipped = self._discovery().perform()
+
+        self.assertEqual(created, [])
+        self.assertEqual(skipped, [])
+        self.assertEqual(len(matched), 1)
+        self.assertEqual(matched[0][1], child)
+        self.assertEqual(Category.objects.count(), category_count)
+
+    def test_failed_component_creation_does_not_create_categories(self) -> None:
+        discovery = self._discovery()
+        category_count = Category.objects.count()
+
+        with (
+            patch.object(
+                discovery,
+                "create_component",
+                side_effect=ValidationError("Invalid component"),
+            ),
+            override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
+        ):
+            created, _matched, _deleted, skipped = discovery.perform()
+
+        self.assertEqual(created, [])
+        self.assertEqual(len(skipped), 1)
+        self.assertEqual(Category.objects.count(), category_count)
 
     @patch("weblate.trans.discovery.create_component.delay_on_commit")
     def test_background_creation_queues_after_commit(

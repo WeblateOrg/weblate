@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, NotRequired, Required, TypedDict, cast
 
 from django.core.exceptions import ValidationError
+from django.db import transaction
 from django.template import TemplateSyntaxError
 from django.utils.functional import cached_property
 from django.utils.text import slugify
@@ -1427,11 +1428,11 @@ class ComponentDiscovery:
         main: Component,
         segments: tuple[str, ...],
         identifier_cache: dict[int | None, tuple[set[str], set[str]]],
-    ) -> tuple[Category | None, str | None]:
+    ) -> Category | None:
         cache_key = (main.category_id, segments)
         cached = self._category_chain_cache.get(cache_key)
         if cached is not None:
-            return cached, None
+            return cached
 
         parent = main.category
         project = main.project
@@ -1451,11 +1452,8 @@ class ComponentDiscovery:
                 project=project,
                 category=parent,
             )
-            try:
-                category.full_clean()
-                category.save()
-            except ValidationError as error:
-                return None, str(error)
+            category.full_clean()
+            category.save()
 
             level_slugs, level_names = identifier_cache.setdefault(
                 parent_id, self._level_identifiers(project, parent_id)
@@ -1466,9 +1464,9 @@ class ComponentDiscovery:
             parent = category
 
         if parent is None:
-            return None, None
+            return None
         self._category_chain_cache[cache_key] = parent
-        return parent, None
+        return parent
 
     def get_category_skip_reason(
         self, main: Component, match: DiscoveryMatch
@@ -1549,90 +1547,57 @@ class ComponentDiscovery:
             self._category_chain_cache = {}
 
             for match in discovered.values():
-                skip_reason = self._get_match_skip_reason(main, match)
+                skip_reason = self.get_skip_reason(match)
                 if skip_reason is not None:
                     skipped.append((match, skip_reason))
                     continue
 
-                error, create_kwargs, level_identifiers = (
-                    self._resolve_match_category_target(
-                        main,
-                        match,
-                        preview=preview,
-                        identifier_cache=identifier_cache,
-                    )
-                )
-                if error is not None:
-                    skipped.append((match, error))
+                found = existing_children.get(match["mask"])
+                if found is not None:
+                    matched.append((match, found))
+                    processed.add(found.id)
                     continue
-                existing_slugs, existing_names = level_identifiers
-                self._register_discovery_match(
-                    main,
-                    match,
-                    background=background,
-                    preview=preview,
-                    existing_children=existing_children,
-                    existing_slugs=existing_slugs,
-                    existing_names=existing_names,
-                    create_kwargs=create_kwargs,
-                    processed=processed,
-                    created=created,
-                    matched=matched,
-                    skipped=skipped,
-                )
+
+                skip_reason = self.get_category_skip_reason(main, match)
+                if skip_reason is not None:
+                    skipped.append((match, skip_reason))
+                    continue
+
+                try:
+                    with transaction.atomic():
+                        create_kwargs, level_identifiers = (
+                            self._resolve_match_category_target(
+                                main,
+                                match,
+                                preview=preview,
+                                identifier_cache=identifier_cache,
+                            )
+                        )
+                        existing_slugs, existing_names = level_identifiers
+                        component = self.create_component(
+                            main,
+                            match,
+                            background=background,
+                            preview=preview,
+                            existing_slugs=existing_slugs,
+                            existing_names=existing_names,
+                            **create_kwargs,
+                        )
+                except ValidationError as error:
+                    # Discard category objects cached during the rolled-back
+                    # transaction.
+                    identifier_cache.clear()
+                    self._category_chain_cache.clear()
+                    skipped.append((match, str(error)))
+                else:
+                    if component is not None and component.id:
+                        processed.add(component.id)
+                    created.append((match, component))
 
             if remove:
                 deleted = self.cleanup(main, processed, preview)
 
             return created, matched, deleted, skipped
-
-    def _register_discovery_match(
-        self,
-        main: Component,
-        match: DiscoveryMatch,
-        *,
-        background: bool,
-        preview: bool,
-        existing_children: dict[str, Component],
-        existing_slugs: set[str],
-        existing_names: set[str],
-        create_kwargs: dict[str, object],
-        processed: set[int],
-        created: list[tuple[DiscoveryMatch, Component | None]],
-        matched: list[tuple[DiscoveryMatch, Component]],
-        skipped: list[tuple[DiscoveryMatch, str]],
-    ) -> None:
-        try:
-            found = existing_children[match["mask"]]
-        except KeyError:
-            try:
-                component = self.create_component(
-                    main,
-                    match,
-                    background=background,
-                    preview=preview,
-                    existing_slugs=existing_slugs,
-                    existing_names=existing_names,
-                    **create_kwargs,
-                )
-            except ValidationError as error:
-                skipped.append((match, str(error)))
-            else:
-                if component is not None and component.id:
-                    processed.add(component.id)
-                created.append((match, component))
-                existing_children[match["mask"]] = component
-        else:
-            matched.append((match, found))
-            processed.add(found.id)
-
-    def _get_match_skip_reason(
-        self, main: Component, match: DiscoveryMatch
-    ) -> str | None:
-        skip_reason = self.get_skip_reason(match)
-        if skip_reason is not None:
-            return skip_reason
-        return self.get_category_skip_reason(main, match)
 
     def _resolve_match_category_target(
         self,
@@ -1641,15 +1606,13 @@ class ComponentDiscovery:
         *,
         preview: bool,
         identifier_cache: dict[int | None, tuple[set[str], set[str]]],
-    ) -> tuple[str | None, dict[str, object], tuple[set[str], set[str]]]:
+    ) -> tuple[dict[str, object], tuple[set[str], set[str]]]:
         target_category_id = main.category_id
         create_kwargs: dict[str, object] = {}
         if match["category_path"] and not preview:
-            category, error = self._get_or_create_category_chain(
+            category = self._get_or_create_category_chain(
                 main, match["category_path"], identifier_cache
             )
-            if error is not None:
-                return error, {}, (set(), set())
             if category is not None:
                 target_category_id = category.pk
                 create_kwargs["category_id"] = category.pk
@@ -1658,4 +1621,4 @@ class ComponentDiscovery:
             identifier_cache[target_category_id] = self._level_identifiers(
                 main.project, target_category_id
             )
-        return None, create_kwargs, identifier_cache[target_category_id]
+        return create_kwargs, identifier_cache[target_category_id]
