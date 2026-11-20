@@ -58,7 +58,20 @@
             loadingNext.style.display = "none";
 
             const tfoot = document.querySelector(".zen tfoot");
-            tfoot?.insertAdjacentHTML("beforebegin", data);
+            if (!tfoot) {
+              return;
+            }
+            const previous = tfoot.previousElementSibling;
+            tfoot.insertAdjacentHTML("beforebegin", data);
+            for (
+              let row = tfoot.previousElementSibling;
+              row && row !== previous;
+              row = row.previousElementSibling
+            ) {
+              if (row.matches(".zen-unit")) {
+                WLT.Editor.initHighlightControls(row);
+              }
+            }
 
             this.init();
             initHighlight(document);
@@ -545,6 +558,7 @@
         }
 
         container.innerHTML = data.suggestions_html;
+        WLT.Editor.initHighlightControls(unit);
         initHighlight(container);
 
         for (const input of container.querySelectorAll(

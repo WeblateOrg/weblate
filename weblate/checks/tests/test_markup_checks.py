@@ -39,7 +39,7 @@ from weblate.checks.markup import (
 )
 from weblate.checks.tests.test_checks import CheckTestCase
 from weblate.trans.tests.factories import make_check, make_unit
-from weblate.utils.html import MarkdownSyntax
+from weblate.utils.html import HTMLTag, MarkdownSyntax
 from weblate.utils.regex import regex_finditer
 
 if TYPE_CHECKING:
@@ -814,6 +814,72 @@ class SafeHTMLCheckTest(CheckTestCase):
         self.test_failure_1 = (safe, '<a href="javascript:foo()">link</a>', "safe-html")
         self.test_failure_2 = (safe, '<a href="#" onclick="x()">link</a>', "safe-html")
         self.test_failure_3 = (safe, '<iframe src="xxx"></iframe>', "safe-html")
+
+    def test_html_highlight_deadline(self) -> None:
+        source = "<br><sup>1</sup>"
+        unit = make_unit(flags="safe-html", source=source)
+        with patch("weblate.utils.regex.REGEX_TIMEOUT", 0):
+            self.assertEqual(list(self.check.check_highlight(source, unit)), [])
+
+    def test_html_highlight_discards_partial_scan(self) -> None:
+        def partial_tags() -> Iterator[HTMLTag]:
+            yield HTMLTag(0, 4, "br", False, True, ())
+            raise TimeoutError
+
+        source = "<br><br>"
+        unit = make_unit(flags="safe-html", source=source)
+        with patch("weblate.checks.markup.iter_html_tags", return_value=partial_tags()):
+            self.assertEqual(list(self.check.check_highlight(source, unit)), [])
+
+    def test_html_tag_highlights(self) -> None:
+        for flags, source, expected in (
+            (
+                "safe-html",
+                "<br><br/><sup><b>1</b></sup>",
+                ["<br>", "<br/>", "<sup>", "<b>", "</b>", "</sup>"],
+            ),
+            ("auto-safe-html", "Line<br>break", ["<br>"]),
+            ("auto-safe-html", "<Component prop={value}><br>", []),
+            ("ignore-safe-html,safe-html", "<br>", []),
+            ("", "<br>", []),
+            ("safe-html", "&lt;br&gt; <img alt='incomplete>", []),
+            ("safe-html,md-text", "Example `<br>` then <br>", ["<br>"]),
+            (
+                "safe-html",
+                '<img\nalt="a > b" src="ok">',
+                ['<img\nalt="', '" src="ok">'],
+            ),
+            (
+                "safe-html",
+                '<html lang="cs"><a lang="cs">',
+                ['<html lang="', '">', '<a lang="cs">'],
+            ),
+            (
+                "safe-html",
+                '<meta content=Hello property="og:title">',
+                ["<meta content=", ' property="og:title">'],
+            ),
+            (
+                "safe-html",
+                "<meta name=charset content=utf-8>",
+                ["<meta name=charset content=utf-8>"],
+            ),
+        ):
+            with self.subTest(flags=flags, source=source):
+                unit = make_unit(None, flags, self.default_lang, source=source)
+                spans = list(self.check.check_highlight(source, unit))
+                self.assertEqual([span.text for span in spans], expected)
+                for span in spans:
+                    self.assertEqual(source[span.start : span.end], span.text)
+        source = "<sup><b>1</b></sup>"
+        unit = make_unit(None, "safe-html", self.default_lang, source=source)
+        outer, inner, close_inner, close_outer = self.check.check_highlight(
+            source, unit
+        )
+        self.assertIsNotNone(outer.group)
+        self.assertEqual(outer.group, close_outer.group)
+        self.assertEqual(inner.group, close_inner.group)
+        self.assertNotEqual(inner.group, outer.group)
 
     def test_markdown(self) -> None:
         self.do_test(

@@ -29,6 +29,11 @@ BBCODE_TAG_RE = re.compile(
 
 
 def _get_markup_tag(highlight: Highlight) -> tuple[str, bool, bool] | None:
+    if tag := highlight.html_tag:
+        # Pair the last fixed fragment of an opening tag with its closing tag.
+        if highlight.end == tag.end:
+            return tag.name, tag.closing, tag.standalone
+        return None
     for regexp in (MARKUP_TAG_RE, BBCODE_TAG_RE):
         match = regexp.match(highlight.text)
         if match is None:
