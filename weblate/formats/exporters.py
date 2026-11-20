@@ -124,6 +124,7 @@ class XMLExporter(XMLFilterMixin, BaseExporter):
 
 class PoXliffExporter(XMLExporter):
     identity_safe = True
+    use_rich_strings = True
     name = "xliff"
     content_type = "application/x-xliff+xml"
     extension = "xlf"
@@ -144,6 +145,8 @@ class PoXliffExporter(XMLExporter):
 
     def build_unit(self, unit):
         output = cast("PoXliffUnit", super().build_unit(unit))
+        if not self.use_rich_strings:
+            return output
         try:
             converted_source = xliff_string_to_rich(unit.get_source_plurals())
             converted_target = xliff_string_to_rich(unit.get_target_plurals())
@@ -162,6 +165,13 @@ class XliffExporter(PoXliffExporter):
     set_id = True
     verbose = gettext_lazy("XLIFF 1.1")
     storage_class = xlifffile
+
+
+class PlainXliffExporter(XliffExporter):
+    identity_safe = True
+    name = "xliff11-plain"
+    verbose = gettext_lazy("XLIFF 1.1 (plain text)")
+    use_rich_strings = False
 
 
 class TBXExporter(XMLExporter):

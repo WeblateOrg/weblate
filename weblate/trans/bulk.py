@@ -614,6 +614,9 @@ def bulk_perform(
                                     change_action=ActionEvents.REPLACE
                                     if search
                                     else ActionEvents.BULK_EDIT,
+                                    change_details={"explicit_approval": True}
+                                    if search and target_state == STATE_APPROVED
+                                    else None,
                                     select_for_update=False,
                                     propagation_exclude_ids=selected_ids,
                                 )

@@ -162,7 +162,8 @@ class SourceEditTest(ReusableViewTestCase):
         self.assertEqual(source.source, "Updated source")
 
     def test_dialog(self) -> None:
-        source = self.source_unit()
+        translation = self.change_unit("Existing translation", user=self.anotheruser)
+        source = translation.source_unit
         response = self.client.get(source.get_absolute_url())
         self.assertContains(response, "source-edit-modal")
         response = self.client.post(
@@ -175,6 +176,10 @@ class SourceEditTest(ReusableViewTestCase):
             },
         )
         self.assertEqual(response.status_code, 302, response.content)
+        for unit, author in ((source, self.user), (translation, self.anotheruser)):
+            unit.refresh_from_db()
+            editor = self.client.get(unit.get_absolute_url())
+            self.assertEqual(editor.context["last_translator"], author)
 
     def test_dialog_keeps_oversized_source_with_crlf(self) -> None:
         oversized = "B" * MAX_NEW_TEXT_LENGTH + "\r\nB\r\n"

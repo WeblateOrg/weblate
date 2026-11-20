@@ -56,6 +56,7 @@ from selenium.webdriver.support.expected_conditions import (
 )
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
+from weblate.accounts.avatar import get_fallback_avatar
 from weblate.auth.audit import record_team_event
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import AutoGroup, Group, Role, User
@@ -438,6 +439,12 @@ class SeleniumTests(
 
     @classmethod
     def setUpClass(cls) -> None:
+        def local_avatar(_email: str, _username: str, size: int) -> bytes:
+            return get_fallback_avatar(size)
+
+        cls.enterClassContext(
+            patch("weblate.accounts.avatar.download_avatar_image", new=local_avatar)
+        )
         # Screenshots storage
         if not os.path.exists(cls.image_path):
             os.makedirs(cls.image_path)

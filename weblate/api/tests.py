@@ -19061,6 +19061,10 @@ class TranslationAPITest(APIBaseTest):
             code=200,
         )
         self.assertEqual(response.data["state"], STATE_APPROVED)
+        unit = Unit.objects.get(pk=response.data["id"])
+        self.client.force_login(self.user)
+        editor = self.client.get(unit.get_absolute_url())
+        self.assertEqual(editor.context["last_approver"], self.user)
 
     def test_add_bilingual_source(self) -> None:
         self.component.manage_units = True
@@ -19843,6 +19847,34 @@ class UnitAPITest(APIBaseTest):
             request={"state": "20", "target": "Test translation"},
         )
         self.assertTrue(Unit.objects.get(pk=unit.pk).approved)
+
+    def test_approved_patch_attributes_propagated_approval(self) -> None:
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        peer_component = self.create_po(project=self.project, name="approval-peer")
+        unit = self.get_unit()
+        peer = self.get_unit(
+            translation=peer_component.translation_set.get(language_code="cs")
+        )
+        previous = User.objects.create_user("previous-reviewer")
+        for item in (unit, peer):
+            item.translate(previous, "Previous text\n", STATE_APPROVED, propagate=False)
+
+        self.do_request(
+            "api:unit-detail",
+            {"pk": unit.pk},
+            method="patch",
+            superuser=True,
+            format="json",
+            request={"target": ["Reviewed replacement\n"], "state": STATE_APPROVED},
+        )
+        self.client.force_login(self.user)
+        for item in (unit, peer):
+            item.refresh_from_db()
+            self.assertEqual(item.target, "Reviewed replacement\n")
+            self.assertEqual(item.state, STATE_APPROVED)
+            editor = self.client.get(item.get_absolute_url())
+            self.assertEqual(editor.context["last_approver"], self.user)
 
     def test_unit_state_rejected(self) -> None:
         """Test that STATE_NEEDS_CHECKING and STATE_NEEDS_REWRITING cannot be set manually via API."""

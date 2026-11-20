@@ -210,7 +210,7 @@ class BillingTest(BaseTestCase):
     @override_settings(OFFER_HOSTING=True)
     def test_empty_libre_cleanup_lifecycle(self) -> None:
         self.use_libre_plan()
-        self.add_project()
+        project = self.add_project()
         start = timezone.now()
 
         def run(day: int) -> None:
@@ -233,7 +233,11 @@ class BillingTest(BaseTestCase):
         )
         self.assertEqual(self.billing.state, Billing.STATE_ACTIVE)
         self.assertEqual(len(mail.outbox), 1)
-        self.assertIn("Project has no components", mail.outbox[0].body)
+        self.assertIn("Workspace has no components", mail.outbox[0].body)
+        self.assertIn(
+            f"{reverse('create-component')}?project={project.pk}", mail.outbox[0].body
+        )
+        self.assertNotIn("#diagnostics", mail.outbox[0].body)
         run(120)
         self.assertEqual(self.billing.state, Billing.STATE_TRIAL)
         self.assertEqual(self.billing.expiry, start + timedelta(days=150))
@@ -247,6 +251,26 @@ class BillingTest(BaseTestCase):
         ):
             self.billing.check_limits()
         self.assertIsNotNone(self.billing.removal)
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_libre_cleanup_badge_identifies_affected_component(self) -> None:
+        self.use_libre_plan()
+        project = self.add_project()
+        component = self.add_component(project, "revision")
+        other = self.add_component(project, "other")
+        component.add_alert("RepositoryChanges")
+        other.add_alert("UnusedComponent")
+        self.client.force_login(self.user)
+        diagnostics = reverse("js-diagnostics", kwargs={"path": project.get_url_path()})
+        response = self.client.get(diagnostics)
+        self.assertContains(response, "May affect Libre hosting", count=1)
+        [marked_group] = html.fromstring(response.content).xpath(
+            "//div[contains(@class, 'card-header')][span[.='May affect Libre hosting']]/.."
+        )
+        self.assertEqual(
+            marked_group.xpath(".//li/a/@href"),
+            [f"{component.get_absolute_url()}?alerts=1#alerts"],
+        )
 
     @override_settings(OFFER_HOSTING=True)
     def test_libre_warning_locks_current_components_once(self) -> None:
@@ -279,6 +303,60 @@ class BillingTest(BaseTestCase):
         component.refresh_from_db()
         self.assertFalse(component.locked)
         self.assertTrue(translator.has_perm("unit.edit", component))
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_libre_cleanup_across_projects(self) -> None:
+        self.use_libre_plan()
+        affected = self.add_component(self.add_project(), "revision")
+        healthy = self.add_component(self.add_project(), "other")
+        now = timezone.now()
+        self.set_alert_timestamp(
+            affected, "RepositoryChanges", now - timedelta(days=90)
+        )
+        with self.captureOnCommitCallbacks(execute=True):
+            libre_cleanup_check()
+        self.refresh_from_db()
+        self.assertIsNotNone(self.billing.libre_cleanup_warned_at)
+        for component in (affected, healthy):
+            component.refresh_from_db()
+            self.assertTrue(component.locked)
+
+        workspace = self.billing.workspace
+        diagnostics_url = (
+            f"{workspace.get_absolute_url()}?diagnostic_state=all#diagnostics"
+        )
+        self.assertIn(diagnostics_url, mail.outbox[0].body)
+        self.client.force_login(self.user)
+        self.assertContains(
+            self.client.get(self.billing.get_absolute_url()), diagnostics_url
+        )
+        response = self.client.get(
+            reverse("js-diagnostics", kwargs={"path": workspace.get_url_path()}),
+            {"diagnostic_state": "all"},
+        )
+        self.assertContains(response, "May affect Libre hosting")
+        self.assertContains(response, f"{affected.get_absolute_url()}?alerts=1#alerts")
+        self.assertNotContains(
+            response, f"{healthy.get_absolute_url()}?alerts=1#alerts"
+        )
+        with patch(
+            "weblate.billing.tasks.timezone.now", return_value=now + timedelta(days=31)
+        ):
+            libre_cleanup_check()
+        self.refresh_from_db()
+        self.assertEqual(self.billing.state, Billing.STATE_TRIAL)
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_libre_cleanup_without_projects(self) -> None:
+        self.use_libre_plan()
+        self.billing.libre_cleanup_empty_since = timezone.now() - timedelta(days=90)
+        self.billing.save(update_fields=["libre_cleanup_empty_since"], skip_limits=True)
+        with self.captureOnCommitCallbacks(execute=True):
+            libre_cleanup_check()
+        self.assertIn(
+            f"{reverse('create-project')}?workspace={self.billing.workspace_id}",
+            mail.outbox[0].body,
+        )
 
     @override_settings(OFFER_HOSTING=True)
     def test_libre_cleanup_replaced_diagnostic(self) -> None:
@@ -318,14 +396,24 @@ class BillingTest(BaseTestCase):
         libre_cleanup_check()
         self.refresh_from_db()
         self.assertIsNone(self.billing.libre_cleanup_empty_since)
-        self.use_libre_plan()
+        self.assertFalse(project.libre_cleanup_alerts)
+        self.plan.price = 0
+        self.plan.save(update_fields=["price"])
+        libre_cleanup_check()
+        self.refresh_from_db()
+        self.assertIsNone(self.billing.libre_cleanup_empty_since)
+        self.assertFalse(Project.objects.get(pk=project.pk).libre_cleanup_alerts)
+        # A free plan qualifies regardless of its slug.
+        self.plan.yearly_price = 0
+        self.plan.save(update_fields=["yearly_price"])
         libre_cleanup_check()
         self.refresh_from_db()
         self.assertIsNotNone(self.billing.libre_cleanup_empty_since)
         self.add_project()
         libre_cleanup_check()
         self.refresh_from_db()
-        self.assertIsNone(self.billing.libre_cleanup_empty_since)
+        self.assertIsNotNone(self.billing.libre_cleanup_empty_since)
+        self.assertTrue(Project.objects.get(pk=project.pk).libre_cleanup_alerts)
         other = Billing.objects.create(plan=self.plan)
         now = timezone.now()
         Billing.objects.filter(pk__in=[other.pk, self.billing.pk]).update(
@@ -1399,7 +1487,7 @@ class BillingTest(BaseTestCase):
 
         with patch.object(Billing.objects, "db_manager") as db_manager:
             manager = db_manager.return_value
-            manager.filter.return_value = ["billing"]
+            manager.filter.return_value.select_related.return_value = ["billing"]
 
             self.assertEqual(project.billings, ["billing"])
 
@@ -3184,9 +3272,23 @@ class HostingTest(RepoTestCase):
         self.assertFalse(billing.libre_request_pending)
         component.add_alert("RepositoryChanges")
         component.alert_set.filter(name="RepositoryChanges").update(
-            timestamp=timezone.now() - timedelta(days=100)
+            timestamp=timezone.now() - timedelta(days=100), dismissed_at=timezone.now()
         )
-        libre_cleanup_check()
+        response = self.client.get(component.get_absolute_url(), {"alerts": "1"})
+        self.assertContains(response, "May affect Libre hosting")
+        diagnostics_url = (
+            f"{component.project.get_absolute_url()}?diagnostic_state=all#diagnostics"
+        )
+        with self.captureOnCommitCallbacks(execute=True):
+            libre_cleanup_check()
+        self.assertIn(diagnostics_url, mail.outbox[-1].body)
+        response = self.client.get(
+            reverse(
+                "js-diagnostics", kwargs={"path": component.project.get_url_path()}
+            ),
+            {"diagnostic_state": "all"},
+        )
+        self.assertContains(response, "May affect Libre hosting")
         for url in (
             component.project.get_absolute_url(),
             billing.get_absolute_url(),
@@ -3194,6 +3296,7 @@ class HostingTest(RepoTestCase):
             response = self.client.get(url)
             self.assertContains(response, "Scheduled removal")
             self.assertContains(response, "Repository has changes.")
+            self.assertContains(response, f'href="{diagnostics_url}"')
         response = self.client.get(reverse("manage-alerts"))
         self.assertContains(response, "Scheduled removal")
         self.assertContains(

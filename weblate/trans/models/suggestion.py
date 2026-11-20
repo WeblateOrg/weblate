@@ -32,7 +32,7 @@ from weblate.trans.validators import (
 from weblate.utils import messages
 from weblate.utils.antispam import report_spam
 from weblate.utils.request import get_ip_address, get_user_agent_raw
-from weblate.utils.state import STATE_TRANSLATED, StringState
+from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED, StringState
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, User
@@ -233,6 +233,9 @@ class Suggestion(BackupAuthorshipMixin, UserDisplayMixin):
                         state,
                         author=claimed_author or author,
                         change_action=ActionEvents.ACCEPT,
+                        change_details={"explicit_approval": True}
+                        if state == STATE_APPROVED
+                        else None,
                     )
 
             # Delete the suggestion

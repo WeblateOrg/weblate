@@ -26,6 +26,7 @@ from django.db import DatabaseError
 from django.http import StreamingHttpResponse
 from django.test import RequestFactory, SimpleTestCase, override_settings
 from django.urls import reverse
+from lxml import etree
 from openpyxl import load_workbook
 
 from weblate.api.serializers import UploadRequestSerializer
@@ -63,6 +64,7 @@ from weblate.trans.validators import (
     MAX_NEW_TEXT_LENGTH,
     get_translation_text_max_length,
 )
+from weblate.trans.views.edit import get_editor_contributors
 from weblate.trans.views.files import (
     _get_download_commit_repositories,
     can_download_workspace,
@@ -72,7 +74,7 @@ from weblate.trans.views.files import (
 from weblate.utils.change_origin import change_origin_context, get_change_origin
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLockTimeoutError
-from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
+from weblate.utils.state import STATE_APPROVED, STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.views import download_translation_file, write_zip_files
 from weblate.workspaces.models import Workspace
 
@@ -295,6 +297,42 @@ class ImportBaseTest(ViewTestCase):
                     params,
                     follow=follow,
                 )
+
+
+class PlainXliffRoundTripTest(ImportBaseTest):
+    def test_plain_xliff_round_trip(self) -> None:
+        translation = self.get_translation()
+        source = 'Read <a href="/help">help</a> and <g id="1">tips</g>.'
+        initial = 'Viz <a href="/help">tipy</a> &lt;'
+        target = 'Viz <a href="/help">nápověda</a> & tipy<br>'
+        translation.add_unit(None, "help", source, initial, author=self.user)
+        response = self.client.get(
+            reverse("download", kwargs=self.kw_translation),
+            {"format": "xliff11-plain", "q": "context:help"},
+        )
+        self.assertEqual(response.status_code, 200)
+        root = etree.fromstring(response.content)
+        (source_node,) = root.findall(".//{*}source")
+        (target_node,) = root.findall(".//{*}target")
+        for node, expected in ((source_node, source), (target_node, initial)):
+            self.assertEqual(len(node), 0)
+            self.assertEqual(node.text, expected)
+
+        target_node.text = target
+        response = self.do_import(
+            file=SimpleUploadedFile("edited.xlf", etree.tostring(root)),
+            conflicts="replace-translated",
+        )
+        self.assertRedirects(response, self.translation_url)
+        self.assertEqual(translation.unit_set.get(source=source).target, target)
+        translation.commit_pending("test", self.user)
+        stored, _ = translation.load_store().find_unit("help", source)
+        self.assertEqual(stored.target, target)
+
+
+class PlainXliffComponentRoundTripTest(PlainXliffRoundTripTest):
+    def create_component(self) -> Component:
+        return self.create_xliff(file_format_params={"xliff_placeables": "plain"})
 
 
 class ImportTest(ImportBaseTest):
@@ -1353,6 +1391,74 @@ class XliffImportTest(ImportTest):
     test_file = TEST_XLIFF
 
 
+class ApprovedUploadAttributionTest(ImportBaseTest):
+    def test_reviewed_replacement(self) -> None:
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        peer = self.create_po(project=self.project, name="reviewed-peer")
+        other = self.create_po(project=self.project, name="unreviewed-peer")
+        unit = self.get_unit()
+        peer_unit = self.get_unit(
+            translation=peer.translation_set.get(language_code="cs")
+        )
+        other_unit = self.get_unit(
+            translation=other.translation_set.get(language_code="cs")
+        )
+        for item in (unit, peer_unit):
+            item.translate(
+                self.user, "Previously approved", STATE_APPROVED, propagate=False
+            )
+
+        uploader = self.anotheruser
+        editors = Group.objects.create(
+            name="Upload editors", language_selection=SELECTION_ALL
+        )
+        editors.roles.add(Role.objects.get(name="Translate"))
+        editors.projects.add(self.project)
+        reviewers = Group.objects.create(
+            name="Upload reviewers", language_selection=SELECTION_ALL
+        )
+        reviewers.roles.add(Role.objects.get(name="Review strings"))
+        reviewers.components.add(self.component, peer)
+        uploader.groups.add(editors, reviewers)
+        uploader.clear_permissions_cache()
+        self.assertFalse(uploader.has_perm("unit.review", other_unit))
+
+        with open(TEST_PO, "rb") as handle:
+            unit.translation.handle_upload(
+                self.get_request(uploader),
+                handle,
+                "replace-approved",
+                method="approve",
+                author=self.user,
+            )
+
+        for item, action, reviewer in (
+            (unit, ActionEvents.UPLOAD, uploader),
+            (peer_unit, ActionEvents.PROPAGATED_EDIT, uploader),
+            (other_unit, ActionEvents.PROPAGATED_EDIT, None),
+        ):
+            with self.subTest(component=item.translation.component):
+                item.refresh_from_db()
+                self.assertEqual(item.target, TRANSLATION_PO)
+                self.assertEqual(
+                    item.state, STATE_APPROVED if reviewer else STATE_TRANSLATED
+                )
+                change = item.change_set.filter(action=action).latest("pk")
+                self.assertEqual(
+                    change.details.get("explicit_approval", False), reviewer is not None
+                )
+                self.assertEqual(
+                    get_editor_contributors(item, self.user), (self.user, reviewer)
+                )
+
+        # Older approved-to-approved uploads did not record review intent.
+        upload = unit.change_set.filter(action=ActionEvents.UPLOAD).latest("pk")
+        del upload.details["explicit_approval"]
+        upload.save(update_fields=["details"])
+        self.assertEqual(get_editor_contributors(unit, self.user), (self.user, None))
+
+
 class ImportFuzzyTest(ImportBaseTest):
     """Testing of fuzzy file imports."""
 
@@ -1390,6 +1496,17 @@ class ImportFuzzyTest(ImportBaseTest):
         self.assertEqual(translation.stats.translated, 1)
         self.assertEqual(translation.stats.fuzzy, 0)
         self.assertEqual(translation.stats.all, 4)
+
+    def test_approve_upload_preserves_fuzzy_result(self) -> None:
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        response = self.do_import(method="approve", fuzzy="process")
+        self.assertRedirects(response, self.translation_url)
+        unit = self.get_unit(source="Thank you for using Weblate.")
+        self.assertTrue(unit.fuzzy)
+        change = unit.change_set.filter(action=ActionEvents.UPLOAD).latest("pk")
+        self.assertNotIn("explicit_approval", change.details)
+        self.assertEqual(get_editor_contributors(unit, self.user), (self.user, None))
 
     def test_import_review(self) -> None:
         """Test importing as approved."""
@@ -2733,6 +2850,13 @@ class DownloadMultiTest(ViewTestCase):
             reverse("download", kwargs=self.kw_component), {"format": "zip:csv"}
         )
         self.assert_zip(response, "test-test-cs.csv")
+
+    def test_component_plain_xliff(self) -> None:
+        response = self.client.get(
+            reverse("download", kwargs=self.kw_component),
+            {"format": "zip:xliff11-plain"},
+        )
+        self.assert_zip(response, "test-test-cs.xlf")
 
     def test_project_mo_skips_incompatible_translations(self) -> None:
         self.create_appstore(project=self.project, name="Metadata")

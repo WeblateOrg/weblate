@@ -189,6 +189,57 @@ class XlsxLimitsTest(SimpleTestCase):
             storage = XlsxFormat(NamedBytesIO("test.xlsx", content))
         self.assertEqual(len(storage.content_units), 2)
 
+    def test_header_width_ignores_trailing_formatting_and_preserves_gaps(self) -> None:
+        workbook = Workbook()
+        sheet = workbook.active
+        if sheet is None:
+            self.fail("Expected active worksheet")
+        sheet["A1"] = "source"
+        sheet["BL1"] = "target"
+        sheet["BM1"].number_format = "@"
+        sheet["A2"] = "Hello"
+        sheet["BL2"] = "Hola"
+        output = BytesIO()
+        workbook.save(output)
+        workbook.close()
+
+        storage = XlsxFormat(NamedBytesIO("test.xlsx", output.getvalue()))
+        self.assertEqual(
+            [(unit.source, unit.target) for unit in storage.content_units],
+            [("Hello", "Hola")],
+        )
+
+    def test_header_width_rejected_before_data_iteration(self) -> None:
+        content = make_workbook([["source", *([None] * 63), "target"]])
+        workbook = load_workbook(BytesIO(content), read_only=True)
+        sheet = workbook.active
+        if sheet is None:
+            self.fail("Expected active worksheet")
+        with (
+            patch("openpyxl.load_workbook", return_value=workbook),
+            patch.object(sheet, "iter_rows", wraps=sheet.iter_rows) as iter_rows,
+            self.assertRaisesRegex(TranslationLimitError, "64 columns"),
+        ):
+            XlsxFormat(NamedBytesIO("test.xlsx", content))
+        iter_rows.assert_called_once()
+
+    def test_empty_header(self) -> None:
+        with self.assertRaisesRegex(ParseError, "header row is empty"):
+            XlsxFormat(NamedBytesIO("test.xlsx", make_workbook([])))
+
+    def test_formatting_only_header(self) -> None:
+        workbook = Workbook()
+        sheet = workbook.active
+        if sheet is None:
+            self.fail("Expected active worksheet")
+        sheet["A1"].number_format = "@"
+        sheet.append(["Hello", "Hola"])
+        output = BytesIO()
+        workbook.save(output)
+        workbook.close()
+        with self.assertRaisesRegex(ParseError, "header row is empty"):
+            XlsxFormat(NamedBytesIO("test.xlsx", output.getvalue()))
+
     def test_streaming_row_limit_rejects_excess_rows(self) -> None:
         content = make_workbook(
             [["source", "target"], ["one", "uno"], ["two", "dos"], ["three", "tres"]]
