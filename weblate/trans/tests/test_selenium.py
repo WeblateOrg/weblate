@@ -5980,7 +5980,6 @@ class SeleniumTests(
         self.assert_text_contains("#upload", "File upload mode")
         self.screenshot("file-import-methods.png")
         self.click("Customize download")
-        self.click("Files")
         self.screenshot("file-download.png")
         self.click("Operations")
         self.click("Batch automatic translation")

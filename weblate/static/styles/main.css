@@ -247,11 +247,21 @@ ul.legend li {
   width: 14px;
 }
 
+.action-card-grid {
+  display: grid;
+  grid-template-columns: repeat(
+      var(--card-grid-repeat, auto-fill),
+      minmax(min(100%, 20rem), 1fr)
+    );
+  gap: 1rem;
+}
+
+.quick-downloads {
+  --card-grid-repeat: auto-fit;
+}
+
 .translation-checklist {
   --checklist-stripe-width: 0.25rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
-  gap: 1rem;
 }
 
 .translation-checklist > .card {
@@ -259,7 +269,7 @@ ul.legend li {
   padding-inline-start: calc(1rem + var(--checklist-stripe-width));
 }
 
-.translation-checklist > .card:has(.stretched-link:is(:hover, :focus-visible)) {
+.action-card-grid > .card:has(.stretched-link:is(:hover, :focus-visible)) {
   border-color: var(--bs-link-color);
 }
 
@@ -690,14 +700,6 @@ th:hover .sort-icon {
   .bignumbers {
     padding: 3em 1em;
   }
-}
-
-.btn-inline {
-  font-weight: 600;
-  padding: 0 20px;
-}
-.formats .btn-inline {
-  padding: 0;
 }
 
 .btn-desc p {

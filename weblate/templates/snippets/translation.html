@@ -64,7 +64,7 @@
       {% translate "Strings status" %}
     </h4>
   </div>
-  <ul class="card-body translation-checklist list-unstyled mb-0">
+  <ul class="card-body action-card-grid translation-checklist list-unstyled mb-0">
     {% for query, name, count, color, words, characters in object.list_translation_checks %}
       {% with filter_query=query|urlencode %}
         <li class="card mb-0 overflow-hidden overflow-wrap">
@@ -76,20 +76,7 @@
           <h5 class="fs-6 fw-semibold">
             <a class="stretched-link" href="{{ translate_url }}?q={{ filter_query }}">{{ name }}</a>
           </h5>
-          <div class="d-flex align-items-center flex-wrap column-gap-4 row-gap-2">
-            <span class="fs-5 fw-semibold">
-              <span class="visually-hidden">{% translate "Strings" %}</span>
-              {{ count|intcomma }}
-            </span>
-            <div class="small text-body-secondary lh-sm">
-              <div>
-                {% blocktranslate count counter=words with number=words|intcomma %}{{ number }} word{% plural %}{{ number }} words{% endblocktranslate %}
-              </div>
-              <div>
-                {% blocktranslate count counter=characters with number=characters|intcomma %}{{ number }} character{% plural %}{{ number }} characters{% endblocktranslate %}
-              </div>
-            </div>
-          </div>
+          {% include "snippets/string-counts.html" with count=count words=words characters=characters only %}
           <div class="d-flex flex-wrap gap-3 mt-auto pt-2 fw-semibold">
             <a class="z-2" href="{{ browse_url }}?q={{ filter_query }}">{% translate "Browse" %}</a>
             <a class="z-2" href="{{ edit_url }}?q={{ filter_query }}">{% translate "Translate" %}</a>
