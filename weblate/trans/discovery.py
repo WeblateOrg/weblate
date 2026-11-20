@@ -1563,6 +1563,11 @@ class ComponentDiscovery:
                     skipped.append((match, skip_reason))
                     continue
 
+                identifier_snapshot = {
+                    category_id: (set(slugs), set(names))
+                    for category_id, (slugs, names) in identifier_cache.items()
+                }
+                chain_snapshot = dict(self._category_chain_cache)
                 try:
                     with transaction.atomic():
                         create_kwargs, level_identifiers = (
@@ -1584,10 +1589,13 @@ class ComponentDiscovery:
                             **create_kwargs,
                         )
                 except ValidationError as error:
-                    # Discard category objects cached during the rolled-back
-                    # transaction.
+                    # Restore caches to the state from before this match so
+                    # rolled-back category objects and reservations are
+                    # discarded, while slug/name reservations for already
+                    # queued background creates are kept.
                     identifier_cache.clear()
-                    self._category_chain_cache.clear()
+                    identifier_cache.update(identifier_snapshot)
+                    self._category_chain_cache = chain_snapshot
                     skipped.append((match, str(error)))
                 else:
                     if component is not None and component.id:

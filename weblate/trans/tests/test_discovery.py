@@ -1323,6 +1323,63 @@ class ComponentDiscoveryCategoryTest(RepoTestCase):
         delay_on_commit.assert_called_once()
         self.assertIn("category_id", delay_on_commit.call_args.kwargs)
 
+    @patch("weblate.trans.discovery.create_component.delay_on_commit")
+    def test_background_validation_error_keeps_queued_slug_reservations(
+        self, delay_on_commit: MagicMock
+    ) -> None:
+        root = pathlib.Path(self.component.full_path)
+        for name in ("other", "extra"):
+            source = root / "players/path/to" / f"{name}.md"
+            source.parent.mkdir(parents=True, exist_ok=True)
+            source.write_text("# source\n", encoding="utf-8")
+            translation = root / "translated/de/players/path/to" / f"{name}.md"
+            translation.parent.mkdir(parents=True, exist_ok=True)
+            translation.write_text("# de\n", encoding="utf-8")
+
+        discovery = ComponentDiscovery(
+            self.component,
+            user=get_test_actor(self),
+            file_format="markdown",
+            match=(
+                r"translated/(?P<language>[^/]+)/"
+                r"(?P<category>players/(?:.+/)*)(?P<component>[^/]+)\.md"
+            ),
+            name_template="shared",
+            base_file_template="{{ category }}{{ component }}.md",
+            language_regex="^[^.]+$",
+        )
+        original_create = discovery.create_component
+        create_calls = 0
+
+        def create_and_fail_second(*args: object, **kwargs: object) -> Component | None:
+            nonlocal create_calls
+            create_calls += 1
+            if create_calls == 2:
+                msg = "Invalid component"
+                raise ValidationError(msg)
+            return original_create(*args, **kwargs)
+
+        with (
+            patch.object(
+                discovery, "create_component", side_effect=create_and_fail_second
+            ),
+            override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
+        ):
+            created, _matched, _deleted, skipped = discovery.perform(background=True)
+
+        self.assertEqual(create_calls, 3)
+        self.assertEqual(len(created), 2)
+        self.assertEqual(len(skipped), 1)
+        queued = [
+            (call.kwargs["category_id"], call.kwargs["slug"])
+            for call in delay_on_commit.call_args_list
+        ]
+        self.assertEqual(len(queued), 2)
+        self.assertEqual(len(set(queued)), 2)
+        self.assertEqual(
+            {slug for _category_id, slug in queued}, {"shared", "shared-1"}
+        )
+
 
 class DetectedDiscoveryPresetTest(SimpleTestCase):
     @staticmethod
