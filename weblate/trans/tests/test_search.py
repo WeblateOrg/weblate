@@ -1031,6 +1031,56 @@ class SharedComponentSearchTest(ReusableViewTestCase):
         response = self.client.get(self.search_url, {**params, "page": "2"})
         self.assertContains(response, "shared-read-only-term")
 
+    def test_shared_string_uses_owning_project_source_workflow(self) -> None:
+        # Only the owning project uses a custom source language.
+        parent_language = self.glossary.translation_set.exclude(
+            pk__in=[self.owner.pk, self.glossary.source_translation.pk]
+        ).order_by("language__code")[0]
+        with self.captureOnCommitCallbacks(execute=True):
+            WorkflowSetting.objects.create(
+                project=self.project,
+                language=self.owner.language,
+                source_language=parent_language.language,
+            )
+        self.assertFalse(self.target.translation_parent_language_ids)
+        parent = parent_language.unit_set.get(source="shared-editable-term")
+        parent.translate(self.user, "shared-z-parent-text", STATE_TRANSLATED)
+        Comment.objects.create(
+            unit=parent, comment="shared-parent-note", user=self.user
+        )
+        unit = self.owner.unit_set.get(source="shared-editable-term")
+        self.assertEqual(unit.translation_parent_id, parent.pk)
+
+        for q, expected in (
+            ("source:shared-z-parent-text", True),
+            ("source:shared-editable-term", False),
+            ("source_comment:shared-parent-note", True),
+        ):
+            with self.subTest(q=q):
+                response = self.client.get(
+                    self.search_url, {"q": q, "include_shared": "1"}
+                )
+                self.assertEqual(
+                    unit in response.context["page_obj"].object_list, expected
+                )
+
+        # The owning project already searches it by the parent text.
+        response = self.client.get(
+            reverse("search", kwargs={"path": [self.project.slug, "-", "cs"]}),
+            {"q": "source:shared-z-parent-text"},
+        )
+        self.assertIn(unit, response.context["page_obj"].object_list)
+
+        # The parent text sorts after the read-only term, the canonical source before it.
+        response = self.client.get(
+            self.search_url,
+            {"q": "", "include_shared": "1", "sort_by": "source"},
+        )
+        self.assertEqual(
+            [item.pk for item in response.context["page_obj"].object_list],
+            [self.owner.unit_set.get(source="shared-read-only-term").pk, unit.pk],
+        )
+
     def test_page_actions_hidden_when_including_shared(self) -> None:
         self.user.is_superuser = True
         self.user.save(update_fields=["is_superuser"])

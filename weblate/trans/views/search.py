@@ -114,6 +114,15 @@ def search(request: AuthenticatedHttpRequest, path=None):
     )
     include_shared = include_shared and isinstance(obj, (Project, ProjectLanguage))
     context["include_shared"] = include_shared
+    custom_sources = None
+    if include_shared:
+        # Shared units follow the source workflow of the project that owns them.
+        owning_projects = Project.objects.filter(
+            component__in=context["project"].child_components
+        ).distinct()
+        custom_sources = any(
+            project.translation_parent_language_ids for project in owning_projects
+        )
 
     search_form = SearchForm(request=request, data=request.GET, obj=obj)
     context["search_form"] = search_form
@@ -135,8 +144,11 @@ def search(request: AuthenticatedHttpRequest, path=None):
             search_form.cleaned_data.get("q", ""),
             project=context.get("project"),
             user=request.user,
+            custom_sources=custom_sources,
         )
-        ordered_units = search_units.order_by_request(search_form.cleaned_data, obj)
+        ordered_units = search_units.order_by_request(
+            search_form.cleaned_data, obj, custom_sources=custom_sources
+        )
         units = get_paginator(request, ordered_units)
         total_strings = units.paginator.count
         total_words = None
