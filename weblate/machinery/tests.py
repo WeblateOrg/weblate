@@ -9614,6 +9614,72 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
 
 class OpenAILLMContextTest(FixtureComponentTestCase):
+    def test_project_example_source_plurals_preserve_cpp_escaped_count_literals(
+        self,
+    ) -> None:
+        method_name = "_get_project_example_source_plurals"
+        get_source_plurals = getattr(OpenAITranslation, method_name)
+        for flag in ("cpp-format", "c++-format"):
+            for escaped_name in ("{{count}}", "{{number}}", "{{num}}", "{{n}}"):
+                for field in ("{}", "{:d}", "{0}", "{0:d}"):
+                    with self.subTest(
+                        flag=flag, escaped_name=escaped_name, field=field
+                    ):
+                        singular = f"Use {escaped_name} for {field} item"
+                        plural = f"Use {escaped_name} for {field} items"
+                        unit = make_unit(
+                            code="ar",
+                            flags=flag,
+                            source=[singular, plural],
+                            target=["target"] * 6,
+                        )
+                        self.assertEqual(
+                            get_source_plurals(unit, "en"),
+                            [plural, singular, plural, plural, plural, plural],
+                        )
+
+    def test_project_example_source_plurals_preserve_cpp_numeric_fields_and_neutral_literals(
+        self,
+    ) -> None:
+        method_name = "_get_project_example_source_plurals"
+        get_source_plurals = getattr(OpenAITranslation, method_name)
+        for flag in ("cpp-format", "c++-format"):
+            for literal in ("plain text", "{{}}", "{{label}}"):
+                for field in ("{}", "{:d}", "{0}", "{0:d}"):
+                    with self.subTest(flag=flag, literal=literal, field=field):
+                        singular = f"Use {literal} for {field} item"
+                        plural = f"Use {literal} for {field} items"
+                        unit = make_unit(
+                            code="ar",
+                            flags=flag,
+                            source=[singular, plural],
+                            target=["target"] * 6,
+                        )
+                        self.assertEqual(
+                            get_source_plurals(unit, "en"),
+                            [plural, singular, plural, plural, plural, plural],
+                        )
+
+    def test_project_example_source_plurals_interpolate_python_named_counts(
+        self,
+    ) -> None:
+        method_name = "_get_project_example_source_plurals"
+        get_source_plurals = getattr(OpenAITranslation, method_name)
+        for placeholder in ("{count}", "{number}", "{num}", "{n}"):
+            with self.subTest(placeholder=placeholder):
+                singular = f"{placeholder} item"
+                plural = f"{placeholder} items"
+                unit = make_unit(
+                    code="ar",
+                    flags="python-brace-format",
+                    source=[singular, plural],
+                    target=["target"] * 6,
+                )
+                self.assertEqual(
+                    get_source_plurals(unit, "en"),
+                    ["0 items", singular, "2 items", plural, plural, plural],
+                )
+
     def test_project_examples_do_not_pair_independent_alternatives(self) -> None:
         unit = self.get_unit(language="cs")
         candidates = unit.translation.unit_set.exclude(pk=unit.pk)
