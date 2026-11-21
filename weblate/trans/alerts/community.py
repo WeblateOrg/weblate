@@ -15,10 +15,12 @@ from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy
 
+from weblate.accounts.data import NotificationFrequency
 from weblate.addons.models import ADDONS
 from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertCategory, AlertSeverity, BaseAlert
 from weblate.trans.alerts.registry import register
+from weblate.trans.alerts.vcs import MergeFailure
 from weblate.utils.docs import get_doc_url
 
 if TYPE_CHECKING:
@@ -199,6 +201,55 @@ class MissingPushURL(ChecklistAlert):
     @classmethod
     def get_doc_url(cls, _component: Component, user: User | None = None) -> str:
         return get_doc_url("admin/continuous", "push-changes", user=user)
+
+
+@register
+class MissingRepositoryErrorNotifications(ChecklistAlert):
+    verbose = gettext_lazy(
+        "Nobody who can resolve repository errors receives notifications about "
+        "them. Subscribe a maintainer to repository failure notifications."
+    )
+
+    @classmethod
+    def is_relevant(cls, component: Component) -> bool:
+        # Repository errors of linked components are reported on the main one
+        return not component.is_repo_link
+
+    @classmethod
+    def is_passing(cls, component: Component) -> bool:
+        # Notifications import models, which import the alert registry.
+        from weblate.accounts.notifications import (  # ruff: ignore[import-outside-top-level]
+            MergeFailureNotification,
+            NewAlertNotificaton,
+        )
+
+        for handler_class in (NewAlertNotificaton, MergeFailureNotification):
+            handler = handler_class([])
+            last_user_id = None
+            for subscription in handler.get_scope_subscriptions(
+                None, component.project, component, None, None
+            ):
+                # Only the highest priority subscription of each user applies
+                if subscription.user_id == last_user_id:
+                    continue
+                last_user_id = subscription.user_id
+                if (
+                    subscription.frequency != NotificationFrequency.FREQ_NONE
+                    and handler.can_access_target(
+                        subscription.user, component.project, component
+                    )
+                    and MergeFailure.can_user_act_for(subscription.user, component, {})
+                ):
+                    return True
+        return False
+
+    @classmethod
+    def get_url(cls, component: Component) -> str:
+        return f"{reverse('profile')}?notify_component={component.pk}#notifications"
+
+    @classmethod
+    def get_doc_url(cls, _component: Component, user: User | None = None) -> str:
+        return get_doc_url("user/profile", "notifications", user=user)
 
 
 @register
