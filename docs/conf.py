@@ -426,6 +426,7 @@ autodoc_mock_imports = [
     "django_redis",
     "lxml",
     "translate",
+    "requests",
     "siphashc",
     "git",
     "PIL",
