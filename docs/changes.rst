@@ -73,6 +73,7 @@ Weblate 2026.12
 
 .. rubric:: Bug fixes
 
+* Fixed a false review-state conflict when saving your own edit again after using the browser's Back button in the translation editor.
 * Applied :ref:`enforced checks <enforcing-checks>` when changing a string's state through :ref:`bulk editing <bulk-edit>`.
 * Preserved draft edits and explained how to save them when submitting a :ref:`suggestion <suggestions>` with changes to a glossary explanation.
 * Preserved the :ref:`category hierarchy <category>` on project and category language overviews.

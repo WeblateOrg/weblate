@@ -569,31 +569,37 @@ class ReviewStateTest(ReusableViewTestCase):
         }
 
     def test_state_conflict_preserves_draft(self) -> None:
-        for actor in (self.user, self.anotheruser):
-            with self.subTest(actor=actor.username):
-                self.change_unit("Nazdar svete!\n", state=STATE_NEEDS_REWRITING)
-                self.change_unit("Nazdar svete!\n", state=STATE_TRANSLATED, user=actor)
-                change_count = Change.objects.filter(unit=self.unit).count()
-                for _attempt in range(2):
-                    response = self.client.post(self.url, self.data)
-                    self.assertContains(
-                        response,
-                        "The review state of this string has changed from "
-                        "Needs editing (Needs rewriting) to Translated",
-                    )
-                    self.assertNotContains(
-                        response, "This review state is not available"
-                    )
-                    self.assertNotContains(response, "Select a valid choice")
-                    self.assertContains(response, self.data["target_0"])
-                    self.assertContains(response, 'name="initial_state" value="11"')
-                    self.assertContains(response, 'data-unsaved="true"')
-                self.unit.refresh_from_db()
-                self.assertEqual(self.unit.target, "Nazdar svete!\n")
-                self.assertEqual(self.unit.state, STATE_TRANSLATED)
-                self.assertEqual(
-                    Change.objects.filter(unit=self.unit).count(), change_count
-                )
+        """Another user changed the state: the stale form is rejected."""
+        self.change_unit("Nazdar svete!\n", state=STATE_NEEDS_REWRITING)
+        self.change_unit(
+            "Nazdar svete!\n", state=STATE_TRANSLATED, user=self.anotheruser
+        )
+        change_count = Change.objects.filter(unit=self.unit).count()
+        for _attempt in range(2):
+            response = self.client.post(self.url, self.data)
+            self.assertContains(
+                response,
+                "The review state of this string has changed from "
+                "Needs editing (Needs rewriting) to Translated",
+            )
+            self.assertNotContains(response, "This review state is not available")
+            self.assertNotContains(response, "Select a valid choice")
+            self.assertContains(response, self.data["target_0"])
+            self.assertContains(response, 'name="initial_state" value="11"')
+            self.assertContains(response, 'data-unsaved="true"')
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.target, "Nazdar svete!\n")
+        self.assertEqual(self.unit.state, STATE_TRANSLATED)
+        self.assertEqual(Change.objects.filter(unit=self.unit).count(), change_count)
+
+    def test_state_conflict_same_author_allowed(self) -> None:
+        """Same user changed the state (browser Back): the stale form is accepted."""
+        self.change_unit("Nazdar svete!\n", state=STATE_NEEDS_REWRITING)
+        self.change_unit("Nazdar svete!\n", state=STATE_TRANSLATED, user=self.user)
+        response = self.client.post(self.url, self.data)
+        self.assertEqual(response.status_code, 302)
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.target, self.data["target_0"])
 
     def test_conflict_with_still_available_choice(self) -> None:
         self.change_unit("Nazdar svete!\n", state=STATE_NEEDS_CHECKING)
