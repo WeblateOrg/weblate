@@ -1736,6 +1736,33 @@ class RSTSyntaxCheckTest(CheckTestCase):
             ),
         )
 
+    def test_literal_block_marker(self) -> None:
+        # Sphinx extracts the paragraph without the literal block that follows
+        self.do_test(
+            False,
+            (
+                "The manifest looks like this::",
+                "Le manifeste ressemble à ceci ::",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "The manifest looks like this::",
+                "Le ``manifeste ressemble à ceci ::",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "The manifest looks like this:",
+                "Le manifeste ressemble à ceci ::",
+                "rst-text",
+            ),
+        )
+
     def test_admindocs_tags(self) -> None:
         # admindocs registers own parsers which fail without specific settings
         self.assertTrue(docutils_is_available)

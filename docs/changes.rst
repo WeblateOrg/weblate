@@ -89,6 +89,7 @@ Weblate 2026.12
 * Preserved punctuation and complete messages in :ref:`project sharing <project-public_sharing>` links.
 * Marked strings listed as ``### Missing:`` placeholders in :ref:`XWiki formats <xwiki-formats>` as untranslated instead of reusing the source value from the comment.
 * Fixed the automatic color theme briefly rendering partially light on page load and not fully following system theme changes on open pages.
+* Stopped the :ref:`check-rst-syntax` check from reporting errors already present in the source string, such as a trailing ``::`` whose literal block is outside the extracted message.
 
 .. rubric:: Compatibility
 
