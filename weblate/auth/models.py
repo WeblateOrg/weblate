@@ -1355,6 +1355,22 @@ class User(AbstractBaseUser):
     def is_internal(self):
         return self.is_anonymous or (self.is_bot and ":" in self.username)
 
+    @cached_property
+    def is_site_api_token_bot(self) -> bool:
+        """Return whether this user is a site-wide API token bot."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.accounts.utils import (
+            BOT_NOREPLY_EMAIL_SUFFIX,
+            SITE_API_TOKEN_USERNAME_PREFIX,
+        )
+
+        return bool(
+            self.is_bot
+            and self.username.startswith(SITE_API_TOKEN_USERNAME_PREFIX)
+            and self.email
+            and self.email.endswith(BOT_NOREPLY_EMAIL_SUFFIX)
+        )
+
     def is_verified(self) -> bool:
         # django_otp overrides this method in OTPMiddleware
         return False

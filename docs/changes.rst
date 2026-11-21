@@ -5,6 +5,7 @@ Weblate 2026.12
 
 .. rubric:: New features
 
+* Added :ref:`site-wide API tokens <site-api-tokens>` in the management interface for instance-level automation such as :http:get:`/api/metrics/` scraping. Unavailable on Hosted Weblate.
 * Added a :ref:`plain-text XLIFF download <download>` for editing markup in external translation tools.
 * Added an option to sort languages by translation percentage in language bar chart widgets.
 * Added support for :ref:`storing screenshots in object storage <screenshot-storage>` such as Amazon S3 or Google Cloud Storage, configurable in Docker using :envvar:`WEBLATE_MEDIA_STORAGE_BACKEND`.

@@ -11,12 +11,16 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.trans.forms import (
-    FieldDocsMixin,
     SelectChecksField,
     SelectChecksWidget,
     setup_message_setting_site_defaults,
 )
-from weblate.utils.forms import ContextDiv, SearchableSelect, SortedSelect
+from weblate.utils.forms import (
+    ContextDiv,
+    FieldDocsMixin,
+    SearchableSelect,
+    SortedSelect,
+)
 from weblate.workspaces.models import Workspace
 
 

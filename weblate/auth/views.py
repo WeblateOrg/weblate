@@ -16,6 +16,7 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import gettext
 from django.views.generic import DetailView, UpdateView
 
+from weblate.accounts.forms import UserManageForm
 from weblate.accounts.models import TeamAuditLog
 from weblate.accounts.utils import (
     has_recent_sensitive_verification,
@@ -35,7 +36,7 @@ from weblate.auth.models import (
     User,
 )
 from weblate.auth.utils import prefetch_membership_limit_languages
-from weblate.trans.forms import UserAddTeamForm, UserManageForm
+from weblate.trans.forms import UserAddTeamForm
 from weblate.trans.util import redirect_next, redirect_param
 from weblate.utils import messages
 from weblate.utils.views import get_paginator, show_form_errors
@@ -226,7 +227,19 @@ class TeamUpdateView(UpdateView):
     def handle_remove_user(self, request: AuthenticatedHttpRequest):
         form = UserManageForm(request.POST)
         if form.is_valid():
-            form.cleaned_data["user"].remove_team(request, self.object)
+            user = form.cleaned_data["user"]
+            # Membership changes belong on the management page, which requires
+            # user.edit and refuses to leave a site-wide token with no teams.
+            if user.is_site_api_token_bot:
+                messages.error(
+                    request,
+                    gettext(
+                        "Site-wide API tokens can only be changed from the "
+                        "management interface."
+                    ),
+                )
+            else:
+                user.remove_team(request, self.object)
         else:
             show_form_errors(request, form)
         return HttpResponseRedirect(self.get_success_url())

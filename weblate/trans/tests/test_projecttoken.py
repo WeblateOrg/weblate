@@ -20,6 +20,7 @@ from weblate.accounts.utils import (
 from weblate.auth.models import User, setup_project_groups
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
+from weblate.trans.defines import USERNAME_LENGTH
 from weblate.trans.models import Project
 from weblate.trans.tasks import project_removal
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -35,7 +36,11 @@ class ProjectTokenTest(FixtureTestCase):
         self.access_url = f"{reverse('manage-access', kwargs=self.kw_project)}#api"
 
     def create_token(
-        self, date_expires: str = "2999-12-31", project: Project | None = None
+        self,
+        date_expires: str = "2999-12-31",
+        project: Project | None = None,
+        *,
+        full_name: str = "Test Token",
     ):
         project = project or self.project
         self.make_manager()
@@ -43,7 +48,7 @@ class ProjectTokenTest(FixtureTestCase):
             project.add_user(self.user, "Administration")
         response = self.client.post(
             reverse("create-project-token", kwargs={"project": project.slug}),
-            {"full_name": "Test Token", "date_expires": date_expires},
+            {"full_name": full_name, "date_expires": date_expires},
             follow=True,
         )
         self.assertContains(response, 'data-clipboard-message="Token copied')
@@ -103,6 +108,15 @@ class ProjectTokenTest(FixtureTestCase):
             list(token_user.groups.values_list("name", "defining_project__slug")),
             [("Administration", self.project.slug)],
         )
+
+    def test_create_token_long_name_truncates_username(self) -> None:
+        long_name = "a" * 150
+        token = self.create_token(full_name=long_name)
+        token_user = self.get_token_user(token)
+
+        self.assertEqual(token_user.full_name, long_name)
+        self.assertLessEqual(len(token_user.username), USERNAME_LENGTH)
+        self.assertTrue(token_user.username.startswith(f"bot-{self.project.slug}-"))
 
     def test_create_token_requires_recent_second_factor(self) -> None:
         self.make_manager()
