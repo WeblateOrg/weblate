@@ -600,6 +600,7 @@ class ReviewStateTest(ReusableViewTestCase):
         self.assertEqual(response.status_code, 302)
         self.unit.refresh_from_db()
         self.assertEqual(self.unit.target, self.data["target_0"])
+        self.assertEqual(self.unit.state, STATE_TRANSLATED)
 
     def test_conflict_with_still_available_choice(self) -> None:
         self.change_unit("Nazdar svete!\n", state=STATE_NEEDS_CHECKING)

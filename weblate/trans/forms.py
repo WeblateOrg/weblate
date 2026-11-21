@@ -940,7 +940,7 @@ class TranslationForm(UnitForm):
             # from a browser-cached form.
             last_author = unit.get_last_content_change()[0]
             if last_author == self.user:
-                self.cleaned_data["initial_state"] = None
+                self.cleaned_data["initial_state"] = unit.state
             else:
                 unit.validate_review_state(initial_state)
 
