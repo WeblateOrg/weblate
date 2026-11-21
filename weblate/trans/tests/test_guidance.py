@@ -20,6 +20,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 
+from weblate.accounts.data import NotificationFrequency, NotificationScope
 from weblate.addons.gettext import XgettextAddon
 from weblate.screenshots.models import Screenshot
 from weblate.screenshots.tasks import check_unused_screenshots
@@ -28,6 +29,7 @@ from weblate.trans.alerts.community import (
     AddonRecommendationAlert,
     ChecklistAlert,
     MissingPushURL,
+    MissingRepositoryErrorNotifications,
     MissingRepositoryHook,
     MissingSafeHTMLFlag,
     MissingScreenshots,
@@ -338,6 +340,59 @@ class ExtractorGuidanceAlertTest(ReusableViewTestCase):
                 UnusedScreenshot.__name__,
                 MissingScreenshots.__name__,
             ],
+        )
+
+    def assert_repository_error_notifications_alert(self, expected: bool) -> None:
+        alert_name = MissingRepositoryErrorNotifications.__name__
+        update_alerts(self.component, {alert_name})
+        self.assertEqual(
+            self.component.alert_set.filter(name=alert_name).exists(), expected
+        )
+
+    def test_repository_error_notifications_missing_without_maintainer(
+        self,
+    ) -> None:
+        # The default administered-projects subscription does not reach anybody
+        self.assert_repository_error_notifications_alert(True)
+
+    def test_repository_error_notifications_reach_maintainer(self) -> None:
+        self.make_manager()
+        self.assert_repository_error_notifications_alert(False)
+
+    def test_repository_error_notifications_muted_component(self) -> None:
+        self.make_manager()
+        for notification in ("NewAlertNotificaton", "MergeFailureNotification"):
+            self.user.subscription_set.create(
+                notification=notification,
+                scope=NotificationScope.SCOPE_COMPONENT,
+                component=self.component,
+                frequency=NotificationFrequency.FREQ_NONE,
+            )
+        self.assert_repository_error_notifications_alert(True)
+
+    def test_repository_error_notifications_need_permission(self) -> None:
+        self.user.subscription_set.create(
+            notification="MergeFailureNotification",
+            scope=NotificationScope.SCOPE_ALL,
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        self.assert_repository_error_notifications_alert(True)
+
+        self.project.add_user(self.user, "Administration")
+        self.assert_repository_error_notifications_alert(False)
+
+    def test_repository_error_notifications_ignored_for_linked_component(
+        self,
+    ) -> None:
+        linked = self.create_link_existing()
+        alert_name = MissingRepositoryErrorNotifications.__name__
+        update_alerts(linked, {alert_name})
+        self.assertFalse(linked.alert_set.filter(name=alert_name).exists())
+
+    def test_repository_error_notifications_configure_url(self) -> None:
+        self.assertEqual(
+            MissingRepositoryErrorNotifications.get_url(self.component),
+            f"{reverse('profile')}?notify_component={self.component.pk}#notifications",
         )
 
     def test_guidance_alert_removed_when_passing(self) -> None:
