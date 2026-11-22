@@ -122,7 +122,8 @@ in the warning or its e-mail to see diagnostics, including dismissed ones. For
 subscriptions covering several projects, this link opens workspace diagnostics.
 In workspace and project diagnostics and on each component's alerts tab, the
 :guilabel:`May affect Libre hosting` badge identifies issues that can trigger
-a warning if they persist. Weblate locks all existing components in the
+a warning if they persist. Workspace and project diagnostics list these issues
+first. Weblate locks all existing components in the
 workspace for translation when it issues the warning. Maintainers can unlock
 them at any time, including after the warning clears or the trial starts.
 

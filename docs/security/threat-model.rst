@@ -1079,10 +1079,11 @@ without merging or parsing translation files. Attribution and authenticity are
 weaker than for an authenticated user or token. *(maintainer)*
 
 User-requested background work is authorized when Weblate accepts and queues
-the request. Background tasks do not always verify the initiating user's
-permissions again when they execute. Later changes to the user's account,
-permissions, or team memberships therefore do not reliably prevent
-already-authorized work from completing. *(maintainer)*
+the request. The request handler checks the action and its scope before
+dispatch. Trusted workers execute that authorized scope without repeating
+request-level permission checks unless the operation explicitly requires it.
+Later changes to the user's account, permissions, or team memberships do not
+reliably prevent already-authorized work from completing. *(maintainer)*
 
 Weblate is not a sandbox for malicious administrators, malicious local
 operators, third-party add-ons, custom deployment code, VCS clients, or backup

@@ -2039,6 +2039,13 @@ paths:
       summary: Delete a category.
       parameters:
       - in: query
+        name: background
+        schema:
+          type: boolean
+        description: Deletion always runs as a task. The default (false) returns 204
+          No Content even while deletion is pending. Set to true to receive 202 Accepted
+          and a task_url for queued work. Eager execution returns 204 No Content.
+      - in: query
         name: delete_memory
         schema:
           type: boolean
@@ -2188,6 +2195,12 @@ paths:
                       detail: A server error occurred.
                       attr: null
           description: An unexpected server error occurred.
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduledOperation'
+          description: The request was accepted for asynchronous processing.
         '204':
           description: No response body
       requestBody:
@@ -5486,6 +5499,13 @@ paths:
       summary: Delete a component.
       parameters:
       - in: query
+        name: background
+        schema:
+          type: boolean
+        description: Deletion always runs as a task. The default (false) returns 204
+          No Content even while deletion is pending. Set to true to receive 202 Accepted
+          and a task_url for queued work. Eager execution returns 204 No Content.
+      - in: query
         name: delete_memory
         schema:
           type: boolean
@@ -5643,6 +5663,12 @@ paths:
                       detail: A server error occurred.
                       attr: null
           description: An unexpected server error occurred.
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduledOperation'
+          description: The request was accepted for asynchronous processing.
         '204':
           description: No response body
       requestBody:
@@ -9447,6 +9473,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/ComponentTranslationResponse'
           description: The resource was created.
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduledOperation'
+          description: The request was accepted for asynchronous processing.
   /api/groups/:
     get:
       operationId: api_groups_list
@@ -28169,6 +28201,13 @@ paths:
       operationId: api_translations_destroy
       summary: Delete a translation.
       parameters:
+      - in: query
+        name: background
+        schema:
+          type: boolean
+        description: By default (false), delete the translation before returning 204
+          No Content. Set to true to queue deletion and receive 202 Accepted and a
+          task_url. Eager execution returns 204 No Content.
       - in: path
         name: component__project__slug
         schema:
@@ -28313,6 +28352,12 @@ paths:
                       detail: A server error occurred.
                       attr: null
           description: An unexpected server error occurred.
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduledOperation'
+          description: The request was accepted for asynchronous processing.
         '204':
           description: No response body
   /api/translations/{component__project__slug}/{component__slug}/{language__code}/announcements/:
@@ -42799,6 +42844,17 @@ components:
       - id
       - name
       - query
+    ScheduledOperation:
+      type: object
+      properties:
+        detail:
+          type: string
+        task_url:
+          type: string
+          format: uri
+      required:
+      - detail
+      - task_url
     ScopedReportCreate:
       type: object
       description: |-
@@ -43419,6 +43475,9 @@ components:
     TranslationCreate:
       type: object
       properties:
+        background:
+          type: boolean
+          default: false
         language_code:
           type: string
         from_component:

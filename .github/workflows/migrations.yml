@@ -32,7 +32,7 @@ jobs:
       UV_FROZEN: '1'
     services:
       database:
-        image: postgres:18.7-alpine@sha256:ff64c9e3bdf8e2120107d3559de8db314e8305f7e38c5105903c6295876738ff
+        image: postgres:18.7-alpine@sha256:0115267ab5a509022df9319c77be365cef335adb71556c75f60f5360ee247e71
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: weblate
@@ -50,11 +50,11 @@ jobs:
         persist-credentials: false
     - name: Install apt dependencies
       uses: $/.github/actions/apt-install
-    - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+    - uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
       with:
         enable-cache: false
         cache-local-path: ${{ runner.temp }}/weblate-uv-cache
-        version: 0.13.8
+        version: 0.13.9
     - name: Set up Python
       id: setup_python
       uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0

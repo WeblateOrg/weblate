@@ -12,11 +12,16 @@ Weblate 2026.12
 * Added support for :ref:`storing fonts in object storage <font-storage>`, configurable in Docker using :envvar:`WEBLATE_FONTS_STORAGE_BACKEND`.
 * Added :wladmin:`recovergit` to rebuild missing repository checkouts.
 * :ref:`format-line-number` in the translation file is now stored in the unit for supported formats; when available, the line number is used for repository links and :guilabel:`Nearby strings`.
+* Added staged :ref:`libre-hosting-cleanup` with advance notice and a 30-day trial.
+* Added :ref:`background task tracking <api-background-operations>` for creating translations and deleting translations, components, and categories through the API.
 * Added staged :ref:`libre-hosting-cleanup` on Hosted Weblate with advance notice and a 30-day trial.
 
 .. rubric:: Improvements
 
 * Added a choice to :ref:`connect an existing GitHub App installation to another workspace <code-hosting-github-app-connect>`.
+* Allow five minutes to assign strings to newly uploaded :ref:`screenshots` before raising an unused screenshot alert.
+* Show the last translator and approver in the :ref:`translation editor <source-context>`.
+
 * Show commit counts, occurrence totals, file-format evidence, and the last recorded translation change in the relevant :ref:`component diagnostics <alerts>`.
 * Redesigned the :ref:`translation checklist <strings-to-check>` as responsive cards with prominent string counts and actions next to each filter.
 * Grouped :ref:`quick downloads <download>` into cards with format links and string, word, and character counts.
@@ -26,6 +31,7 @@ Weblate 2026.12
 * Added failure reasons to :ref:`AI quality evaluation <addon-weblate.ai.quality>` and its :ref:`automation action <automation-action-weblate.ai_quality>`.
 * Enabled Anthropic prompt caching for :ref:`automatic translation <machine-translation>`, so the system prompt is read from cache between batch requests instead of being billed in full on every request.
 * Raised the shared limit for translation strings, CSV and XLSX rows, and translation-memory entries to 200,000. Configure it with :setting:`TRANSLATION_MAX_UNITS`.
+* Limited :ref:`XLSX translation headers <xlsx>` to the first 64 columns to bound processing of sparse worksheets.
 
 * Show inclusive ranges and representative counts in :ref:`plural form examples <plurals>`.
 * Pass developer comments from the source file to :ref:`LLM-based machine translation <llm-translation-context>`, so short strings such as button labels can be translated in context.
@@ -64,6 +70,7 @@ Weblate 2026.12
 * Restricted :ref:`webhook matching <hooks-target-matching>` to repository owners, preventing generic deliveries from triggering GitHub App updates through linked components.
 * Required repository access to set a path for a :ref:`repository-linked screenshot <screenshots>`.
 * Kept backend errors out of :ref:`task status results <api-tasks>` when cached task metadata is removed during a request.
+* Prevented workspace disclosure in the :ref:`browsable REST API <api>` by using text inputs for single related objects. Large single-choice fields also use text inputs.
 
 .. rubric:: Bug fixes
 
@@ -87,6 +94,11 @@ Weblate 2026.12
 .. rubric:: Compatibility
 
 * Restricted :ref:`configurable templates <markup>` to documented operations with parsing, allocation, and cumulative work limits.
+
+.. rubric:: Upcoming compatibility changes in 2027.1
+
+* Update API clients to :ref:`request background processing and follow task URLs <api-background-operations>` for repository operations, automatic translation, uploads, translation creation, and translation, component, and category deletion.
+* Review API list consumers for :ref:`cursor pagination <api-pagination>`. Handle an absent ``count`` and follow ``next`` and ``previous`` URLs as returned, without depending on their structure.
 
 .. rubric:: Upgrading
 

@@ -699,6 +699,30 @@ ACTIONS_REVERTABLE = {
     ActionEvents.USER_REVERT,
 }
 
+ACTIONS_FILE_TARGET = {
+    ActionEvents.NEW_UNIT_REPO,
+    ActionEvents.NEW_UNIT_UPLOAD,
+    ActionEvents.STRING_REPO_UPDATE,
+    ActionEvents.STRING_UPLOAD_UPDATE,
+}
+# These actions record the translation in old and target. Other actions
+# use the same columns for suggestions, explanations or source text.
+ACTIONS_EDIT_TARGET = {
+    ActionEvents.NEW_UNIT,
+    ActionEvents.NEW,
+    ActionEvents.CHANGE,
+    ActionEvents.ACCEPT,
+    ActionEvents.APPROVE,
+    ActionEvents.AUTO,
+    ActionEvents.BULK_EDIT,
+    ActionEvents.MARKED_EDIT,
+    ActionEvents.PROPAGATED_EDIT,
+    ActionEvents.REPLACE,
+    ActionEvents.REVERT,
+    ActionEvents.UPLOAD,
+    ActionEvents.USER_REVERT,
+}
+
 # Content changes considered when looking for last author
 ACTIONS_CONTENT = {
     ActionEvents.CHANGE,

@@ -8,7 +8,7 @@ from __future__ import annotations
 import os.path
 from collections import Counter
 from collections.abc import Mapping
-from contextlib import nullcontext, suppress
+from contextlib import nullcontext
 from typing import TYPE_CHECKING, TypedDict, cast
 from urllib.parse import unquote
 
@@ -98,6 +98,7 @@ from weblate.api.serializers import (
     AutoTranslateBackgroundSerializer,
     AutoTranslateRequestSerializer,
     AutoTranslateResponseSerializer,
+    BackgroundRequestSerializer,
     BackupSerializer,
     BasicUserSerializer,
     BilingualSourceUnitSerializer,
@@ -163,6 +164,11 @@ from weblate.api.serializers import (
     WorkflowSettingSerializer,
     check_session_sensitive_verification,
     get_reverse_kwargs,
+)
+from weblate.api.tasks import (
+    create_component_translation,
+    create_translation,
+    remove_translation,
 )
 from weblate.auth.audit import audit_team_changes, log_team_changes
 from weblate.auth.models import Group, Role, TeamMembership, User
@@ -326,6 +332,27 @@ REPORT_TASK_RESPONSE_SERIALIZER = inline_serializer(
         "task_url": serializers.URLField(),
     },
 )
+
+DELETION_TRACKING_PARAMETER = OpenApiParameter(
+    "background",
+    OpenApiTypes.BOOL,
+    OpenApiParameter.QUERY,
+    description=(
+        "Deletion always runs as a task. The default (false) returns 204 No Content "
+        "even while deletion is pending. Set to true to receive 202 Accepted and "
+        "a task_url for queued work. Eager execution returns 204 No Content."
+    ),
+)
+
+SCHEDULED_OPERATION_SERIALIZER = inline_serializer(
+    "ScheduledOperation",
+    fields={"detail": serializers.CharField(), "task_url": serializers.URLField()},
+)
+
+REMOVAL_RESPONSES = {
+    HTTP_202_ACCEPTED: SCHEDULED_OPERATION_SERIALIZER,
+    HTTP_204_NO_CONTENT: None,
+}
 
 REPORT_LIST_FILTER_PARAMETERS = [
     OpenApiParameter(
@@ -1193,6 +1220,32 @@ class MemoryLookupMatchData(TypedDict):
 class MemoryLookupResultData(TypedDict):
     query: str
     match: MemoryLookupMatchData | None
+
+
+def background_requested(request: Request) -> bool:
+    serializer = BackgroundRequestSerializer(data=request.query_params)
+    serializer.is_valid(raise_exception=True)
+    return serializer.validated_data["background"]
+
+
+def scheduled_operation_response(
+    request: Request, task: AsyncResult, detail: str
+) -> Response:
+    store_task_metadata(
+        task.id,
+        user_id=request.user.pk,
+        task_kind="resource-operation",
+        cancellable=False,
+    )
+    return Response(
+        {
+            "detail": detail,
+            "task_url": reverse(
+                "api:task-detail", kwargs={"pk": task.id}, request=request
+            ),
+        },
+        status=HTTP_202_ACCEPTED,
+    )
 
 
 def get_delete_memory_option(request: Request) -> bool:
@@ -3428,7 +3481,9 @@ class ProjectViewSet(
     partial_update=extend_schema(description="Edit a component by a PATCH request."),
     destroy=extend_schema(
         description="Delete a component.",
+        responses=REMOVAL_RESPONSES,
         parameters=[
+            DELETION_TRACKING_PARAMETER,
             OpenApiParameter(
                 "delete_memory",
                 type=OpenApiTypes.BOOL,
@@ -3437,7 +3492,7 @@ class ProjectViewSet(
                     "Also delete project, workspace, and shared translation memory "
                     "created from the component."
                 ),
-            )
+            ),
         ],
         request=inline_serializer(
             name="ComponentDeleteRequest",
@@ -3599,26 +3654,30 @@ class ComponentViewSet(
         request=TranslationCreateSerializer,
         responses={
             HTTP_201_CREATED: COMPONENT_TRANSLATION_RESPONSE_SERIALIZER,
+            HTTP_202_ACCEPTED: SCHEDULED_OPERATION_SERIALIZER,
         },
     )
     @action(detail=True, methods=["get", "post"])
-    # ruff: ignore[complex-structure]
     def translations(self, request: Request, **kwargs):
         obj = self.get_object()
 
         if request.method == "POST":
             if not request.user.has_perm("translation.add", obj):
                 self.permission_denied(request, "Can not create translation")
-            serializer = TranslationCreateSerializer(
+            input_serializer = TranslationCreateSerializer(
                 data=request.data,
                 context={"request": request, "component": obj},
             )
-            serializer.is_valid(raise_exception=True)
+            input_serializer.is_valid(raise_exception=True)
 
-            language_code = serializer.validated_data["language_code"]
-            source_components = serializer.validated_data["from_component"]
+            language_code = input_serializer.validated_data["language_code"]
+            source_components = input_serializer.validated_data["from_component"]
 
-            if not obj.can_add_new_language(request.user):
+            background = (
+                input_serializer.validated_data["background"]
+                and not settings.CELERY_TASK_ALWAYS_EAGER
+            )
+            if not obj.can_add_new_language(request.user, fast=background):
                 self.permission_denied(request, message=obj.new_lang_error_message)
             if source_components and not request.user.has_perm("translation.auto", obj):
                 self.permission_denied(request, "Can not auto translate")
@@ -3649,12 +3708,14 @@ class ComponentViewSet(
                         creation_permission, "reason", "Can not create translation"
                     ),
                 )
-            if not obj.can_add_new_language(request.user, language=language):
+            if not obj.can_add_new_language(
+                request.user, fast=background, language=language
+            ):
                 self.permission_denied(request, message=obj.new_lang_error_message)
 
             if source_components:
                 auto_permission = check_auto_translate_permission(
-                    request.user,
+                    get_request_user(request),
                     Translation(component=obj, language=language),
                     "translate",
                 )
@@ -3664,35 +3725,18 @@ class ComponentViewSet(
                         getattr(auto_permission, "reason", "Can not auto translate"),
                     )
 
-            translation = obj.add_new_language(language, request)
-            if translation is None:
-                storage = get_messages(request)
-                if storage:
-                    message = "\n".join(m.message for m in storage)
-                else:
-                    message = f"Could not add {language_code!r}!"
-                raise ValidationError({"language_code": message})
-
-            if source_components:
-                auto = AutoTranslate(
-                    user=get_request_user(request),
-                    translation=translation,
-                    q="state:<translated",
-                    mode="translate",
+            source_ids = [component.pk for component in source_components]
+            if background:
+                task = create_translation.delay(
+                    obj.pk, request.user.pk, language.pk, source_ids
                 )
-                message = auto.perform(
-                    auto_source="others",
-                    source_component_ids=[
-                        component.pk for component in source_components
-                    ],
-                    engines=[],
-                    threshold=0,
+                return scheduled_operation_response(
+                    request, task, "Translation creation scheduled."
                 )
-                if auto.failure_message is not None:
-                    with suppress(Exception):
-                        translation.remove(request.user)
-                    raise ValidationError({"from_component": message})
 
+            translation = create_component_translation(
+                obj, language, cast("AuthenticatedHttpRequest", request), source_ids
+            )
             serializer = TranslationSerializer(
                 translation, context={"request": request}, remove_fields=("component",)
             )
@@ -3800,9 +3844,16 @@ class ComponentViewSet(
             validate_component_removal(instance.pk)
         except DjangoValidationError as error:
             raise ValidationError(error.messages) from error
-        component_removal.delay(
-            instance.pk, request.user.pk, get_delete_memory_option(request)
+        background = background_requested(request)
+        task = component_removal.delay(
+            instance.pk,
+            request.user.pk,
+            get_delete_memory_option(request),
         )
+        if background and not settings.CELERY_TASK_ALWAYS_EAGER:
+            return scheduled_operation_response(
+                request, task, "Component deletion scheduled."
+            )
         return Response(status=HTTP_204_NO_CONTENT)
 
     def add_link(self, request: Request, instance: Component):
@@ -4700,11 +4751,31 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
             status=HTTP_202_ACCEPTED,
         )
 
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "background",
+                OpenApiTypes.BOOL,
+                OpenApiParameter.QUERY,
+                description=(
+                    "By default (false), delete the translation before returning "
+                    "204 No Content. Set to true to queue deletion and receive "
+                    "202 Accepted and a task_url. Eager execution returns 204 No Content."
+                ),
+            )
+        ],
+        responses=REMOVAL_RESPONSES,
+    )
     def destroy(self, request: Request, *args, **kwargs):
         """Delete a translation."""
         instance = self.get_object()
         if not request.user.has_perm("translation.delete", instance):
             self.permission_denied(request, "Can not delete translation")
+        if background_requested(request) and not settings.CELERY_TASK_ALWAYS_EAGER:
+            task = remove_translation.delay(instance.pk, request.user.pk)
+            return scheduled_operation_response(
+                request, task, "Translation deletion scheduled."
+            )
         instance.remove(request.user)
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -4973,7 +5044,14 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         # Handle translate
         if do_translate:
             try:
-                unit.translate(user, new_target, new_state)
+                unit.translate(
+                    user,
+                    new_target,
+                    new_state,
+                    change_details={"explicit_approval": True}
+                    if new_state == STATE_APPROVED
+                    else None,
+                )
             except TranslationTextTooLongError as error:
                 # The limit can change after validating the serializer, for
                 # example by the submitted extra_flags.
@@ -5707,7 +5785,9 @@ class ComponentListViewSet(viewsets.ModelViewSet):
     ),
     destroy=extend_schema(
         description="Delete a category.",
+        responses=REMOVAL_RESPONSES,
         parameters=[
+            DELETION_TRACKING_PARAMETER,
             OpenApiParameter(
                 "delete_memory",
                 type=OpenApiTypes.BOOL,
@@ -5716,7 +5796,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
                     "Also delete project, workspace, and shared translation memory "
                     "created from components in the category."
                 ),
-            )
+            ),
         ],
         request=inline_serializer(
             name="CategoryDeleteRequest",
@@ -5756,9 +5836,16 @@ class CategoryViewSet(viewsets.ModelViewSet, ReportsMixin, AnnouncementsMixin):
             validate_category_removal(instance)
         except DjangoValidationError as error:
             raise ValidationError(error.messages) from error
-        category_removal.delay(
-            instance.pk, request.user.pk, get_delete_memory_option(request)
+        background = background_requested(request)
+        task = category_removal.delay(
+            instance.pk,
+            request.user.pk,
+            get_delete_memory_option(request),
         )
+        if background and not settings.CELERY_TASK_ALWAYS_EAGER:
+            return scheduled_operation_response(
+                request, task, "Category deletion scheduled."
+            )
         return Response(status=HTTP_204_NO_CONTENT)
 
     def perform_create(self, serializer) -> None:

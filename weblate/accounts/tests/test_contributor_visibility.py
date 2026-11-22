@@ -79,8 +79,10 @@ from weblate.trans.models import (
 from weblate.trans.source_snapshot import SourceSnapshot
 from weblate.trans.templatetags.translations import format_last_changes_content
 from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.views.edit import get_editor_contributors
 from weblate.trans.views.files import get_auxiliary_download_permissions
-from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.stats import ProjectLanguage
 from weblate.utils.views import download_translation_file
 from weblate.workspaces.models import Workspace
 
@@ -574,6 +576,212 @@ class ContributorVisibilityTest(FixtureTestCase):
             response = self.client.get(url, {"q": f"changed_by:{self.author.username}"})
             self.assertEqual(response.status_code, 200)
             self.assertEqual(response.json()["count"], 0)
+
+    def test_editor_contributor_history(self) -> None:
+        unit = self.get_unit()
+        unit.translate(
+            self.user,
+            "Accepted suggestion",
+            STATE_TRANSLATED,
+            author=self.author,
+            change_action=ActionEvents.ACCEPT,
+        )
+        self.assertTrue(can_view_contributor(self.user, unit))
+        with self.assertNumQueries(1):
+            self.assertEqual(
+                get_editor_contributors(unit, self.user), (self.author, None)
+            )
+
+        unit.translate(self.user, unit.target, STATE_APPROVED)
+        for _ in range(20):
+            unit.change_set.create(
+                user=self.user,
+                action=ActionEvents.SUGGESTION,
+                target="Another suggestion",
+            )
+        with self.assertNumQueries(2):
+            self.assertEqual(
+                get_editor_contributors(unit, self.user), (self.author, self.user)
+            )
+
+        unit.translate(self.user, "Revised text", STATE_TRANSLATED)
+        self.assertEqual(get_editor_contributors(unit, self.user), (self.user, None))
+        unit.translate(
+            self.author,
+            unit.target,
+            STATE_APPROVED,
+            change_action=ActionEvents.BULK_EDIT,
+        )
+        self.assertEqual(
+            get_editor_contributors(unit, self.user), (self.user, self.author)
+        )
+
+        unit.change_set.create(
+            action=ActionEvents.BULK_EDIT,
+            user=self.user,
+            author=self.user,
+            old=unit.target,
+            target=unit.target,
+            details={"old_state": STATE_APPROVED, "state": STATE_APPROVED},
+        )
+        self.assertEqual(
+            get_editor_contributors(unit, self.user), (self.user, self.author)
+        )
+
+        # Reimport the same approved text after removing approval. The old
+        # reviewer cannot be credited for the imported approval.
+        unit.translate(self.user, unit.target, STATE_TRANSLATED)
+        unit.translate(
+            self.user,
+            unit.target,
+            STATE_APPROVED,
+            change_action=ActionEvents.STRING_REPO_UPDATE,
+        )
+        unit.change_set.update(timestamp=timezone.now())
+        self.assertEqual(get_editor_contributors(unit, self.user), (self.user, None))
+
+        unit.translate(
+            self.user,
+            "Imported revision",
+            STATE_APPROVED,
+            author=self.author,
+            change_action=ActionEvents.STRING_UPLOAD_UPDATE,
+        )
+        self.assertEqual(get_editor_contributors(unit, self.user), (self.author, None))
+
+    def test_editor_initial_translator(self) -> None:
+        for source, target, expected in (
+            ("Initially translated", "Initial text", self.author),
+            ("Initially empty", "", None),
+            (["One", "Several"], ["", "", ""], None),
+        ):
+            with self.subTest(source=source):
+                unit = self.translation.add_unit(
+                    None, "", source, target, author=self.author
+                )
+                assert unit is not None
+                self.assertEqual(
+                    get_editor_contributors(unit, self.user), (expected, None)
+                )
+
+    def test_editor_bulk_replacement_approval(self) -> None:
+        unit = self.get_unit()
+        peer = self.create_po(name="replacement-peer", project=self.project)
+        peer_unit = self.get_unit(
+            translation=peer.translation_set.get(language=self.translation.language)
+        )
+        for item in (unit, peer_unit):
+            item.translate(self.author, "Old text", STATE_APPROVED, propagate=False)
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        editors = Group.objects.create(
+            name="Bulk editors", language_selection=SELECTION_ALL
+        )
+        editors.roles.add(
+            Role.objects.get(name="Bulk editing"), Role.objects.get(name="Translate")
+        )
+        editors.projects.add(self.project)
+        reviewers = Group.objects.create(
+            name="Replacement reviewers", language_selection=SELECTION_ALL
+        )
+        reviewers.roles.add(Role.objects.get(name="Review strings"))
+        reviewers.components.add(self.component, peer)
+        self.author.groups.add(editors, reviewers)
+        self.author.clear_permissions_cache()
+        for search, replacement, state, approver, peer_review in (
+            ("Old", "Reviewed", STATE_APPROVED, self.author, True),
+            ("Reviewed", "Changed", -1, None, True),
+            ("Changed", "Final", STATE_APPROVED, self.author, False),
+        ):
+            with self.subTest(state=state, peer_review=peer_review):
+                if not peer_review:
+                    peer_unit.translate(
+                        self.author, peer_unit.target, STATE_TRANSLATED, propagate=False
+                    )
+                    reviewers.components.remove(peer)
+                    self.author.clear_permissions_cache()
+                    self.assertFalse(self.author.has_perm("unit.review", peer_unit))
+                count = bulk_perform(
+                    self.author,
+                    Unit.objects.filter(pk=unit.pk),
+                    query="",
+                    search=search,
+                    replacement=replacement,
+                    target_state=state,
+                    add_flags="",
+                    remove_flags="",
+                    add_labels=self.project.label_set.none(),
+                    remove_labels=self.project.label_set.none(),
+                    project=self.project,
+                )
+                self.assertEqual(count, 1)
+                unit.refresh_from_db()
+                self.assertEqual(unit.state, STATE_APPROVED)
+                self.assertEqual(
+                    get_editor_contributors(unit, self.user), (self.author, approver)
+                )
+                peer_unit.refresh_from_db()
+                self.assertEqual(peer_unit.target, unit.target)
+                self.assertEqual(
+                    peer_unit.state, STATE_APPROVED if peer_review else STATE_TRANSLATED
+                )
+                self.assertEqual(
+                    get_editor_contributors(peer_unit, self.user),
+                    (self.author, approver if peer_unit.approved else None),
+                )
+                change = peer_unit.change_set.filter(
+                    action=ActionEvents.PROPAGATED_EDIT
+                ).latest("pk")
+                self.assertEqual(
+                    change.details.get("explicit_approval", False),
+                    peer_unit.approved and approver is not None,
+                )
+
+    def test_editor_contributor_rows(self) -> None:
+        unit = self.get_unit()
+        unit.translate(self.author, "Reviewed text", STATE_APPROVED)
+        other = self.create_po(name="other-editor", project=self.project)
+        hidden_unit = self.get_unit(
+            translation=other.translation_set.get(language=self.translation.language)
+        )
+        hidden_unit.translate(
+            self.author, "Other reviewed text", STATE_APPROVED, propagate=False
+        )
+
+        self.hide_authors()
+        role = Role.objects.create(name="Editor contributor visibility")
+        role.permissions.add(
+            Permission.objects.get(codename="contribution.view_author")
+        )
+        group = Group.objects.create(
+            name="Editor contributor viewers", language_selection=SELECTION_ALL
+        )
+        group.roles.add(role)
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        permission = Permission.objects.get(codename="user.profile")
+        for role in Role.objects.filter(permissions=permission):
+            role.permissions.remove(permission)
+        self.user.clear_permissions_cache()
+        self.client.force_login(self.user)
+        url = ProjectLanguage(
+            self.project, self.translation.language
+        ).get_translate_url()
+        response = self.client.get(url, {"q": f"id:{unit.pk}"})
+        self.assertContains(response, "Last translator")
+        self.assertContains(response, "Last approver")
+        self.assertContains(response, self.author.username)
+        self.assertNotContains(response, self.author.get_absolute_url())
+
+        self.assertFalse(can_view_contributor(self.user, hidden_unit))
+        with self.assertNumQueries(0):
+            self.assertEqual(
+                get_editor_contributors(hidden_unit, self.user), (None, None)
+            )
+        response = self.client.get(url, {"q": f"id:{hidden_unit.pk}"})
+        self.assertNotContains(response, "Last translator")
+        self.assertNotContains(response, "Last approver")
+        self.assertNotContains(response, self.author.username)
 
     def test_automatic_translation_editor_attribution(self) -> None:
         unit = self.translation.unit_set.get(source="Hello, world!\n")
