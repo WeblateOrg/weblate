@@ -2094,19 +2094,25 @@ class User(AbstractBaseUser):
 
     @transaction.atomic
     def remove_team(
-        self, request: AuthenticatedHttpRequest | None, team: Group
+        self,
+        request: AuthenticatedHttpRequest | None,
+        team: Group,
+        *,
+        actor: User | None = None,
     ) -> None:
         from weblate.auth.audit import audit_actor, audit_team_changes  # ruff: ignore[import-outside-top-level]
 
-        actor = audit_actor(request)
+        resolved_actor = audit_actor(request, actor)
         if not self.team_memberships.filter(group=team).exists():
             return
-        if actor is None:
+        if resolved_actor is None:
             self.groups.remove(team)
         else:
-            with audit_team_changes(team, actor, request):
+            with audit_team_changes(team, resolved_actor, request):
                 self.groups.remove(team)
-        self._audit_team_change(request, team, activity="team-remove")
+        self._audit_team_change(
+            request, team, activity="team-remove", actor=resolved_actor
+        )
 
     def store_audit_state(
         self,

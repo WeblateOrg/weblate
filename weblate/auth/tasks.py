@@ -13,6 +13,7 @@ from django.conf import settings
 from django.utils import timezone
 
 from weblate.accounts.utils import delete_api_tokens, remove_user
+from weblate.auth.bots import InternalBot
 from weblate.auth.models import Invitation, User
 from weblate.utils.celery import app
 from weblate.utils.errors import report_error
@@ -26,8 +27,16 @@ LOGGER = logging.getLogger(__name__)
 def _disable_expired_user(user: User) -> None:
     if user.is_site_api_token_bot:
         # Revoke the key before remove_user commits pending edits.
+        # Membership audit uses the team-assignment bot. Pending commits
+        # inside remove_user stay on the commit bot.
         delete_api_tokens(user)
-        remove_user(user, None, activity="token-removed", method="site")
+        remove_user(
+            user,
+            None,
+            activity="token-removed",
+            method="site",
+            actor=InternalBot.TEAM_ASSIGNMENT.get_user(),
+        )
         return
     # Use save() to create audit log entry
     user.is_active = False

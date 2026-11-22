@@ -311,10 +311,12 @@ def remove_user(
     request: AuthenticatedHttpRequest | None,
     *,
     activity: str = "removed",
+    actor: User | None = None,
     **params,
 ) -> None:
     """Remove user account."""
-    # Send signal (to commit any pending changes)
+    # Send signal (to commit any pending changes). This stays outside the
+    # membership actor so pending commits keep the commit bot.
     user_pre_delete.send(instance=user, sender=user.__class__)
 
     # Store activity log and notify
@@ -327,7 +329,7 @@ def remove_user(
     for team in user.groups.select_related(
         "defining_project", "defining_workspace"
     ).order_by("defining_project_id", "pk"):
-        user.remove_team(request, team)
+        user.remove_team(request, team, actor=actor)
 
     # Remove any email validation codes
     invalidate_reset_codes(user)

@@ -18,10 +18,12 @@ from django.utils import timezone
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from rest_framework.authtoken.models import Token
 
+from weblate.accounts.models import TeamAuditLog
 from weblate.accounts.utils import (
     SESSION_SECOND_FACTOR_TIMESTAMP,
     SESSION_SENSITIVE_FACTOR_GRANT,
 )
+from weblate.auth.bots import InternalBot
 from weblate.auth.models import Group, Permission, Role, User, setup_project_groups
 from weblate.auth.tasks import disable_expired
 from weblate.lang.models import Language
@@ -388,10 +390,13 @@ class SiteWideTokenTest(FixtureTestCase):
         token = self.create_token()
         token_user = self.get_token_user(token)
         self.assertTrue(token_user.groups.exists())
+        original_username = token_user.username
+        team_ids = list(token_user.groups.order_by("pk").values_list("pk", flat=True))
 
         token_user.date_expires = timezone.now() - timedelta(hours=1)
         token_user.save(update_fields=["date_expires"])
 
+        # Scheduled invocation: no request and no acting user.
         disable_expired()
         token_user.refresh_from_db()
 
@@ -403,6 +408,23 @@ class SiteWideTokenTest(FixtureTestCase):
         )
         audit = token_user.auditlog_set.get(activity="token-removed")
         self.assertEqual(audit.params.get("method"), "site")
+        self.assertNotIn("username", audit.params)
+
+        bot = InternalBot.TEAM_ASSIGNMENT.get_user()
+        membership_audits = token_user.auditlog_set.filter(
+            activity="sitewide-team-remove"
+        )
+        self.assertEqual(membership_audits.count(), len(team_ids))
+        self.assertEqual(
+            {entry.params["username"] for entry in membership_audits},
+            {bot.username},
+        )
+        entries = TeamAuditLog.objects.filter(
+            event=TeamAuditLog.Event.MEMBER_REMOVED,
+            details__username=original_username,
+        )
+        self.assertCountEqual(entries.values_list("team_id", flat=True), team_ids)
+        self.assertEqual(set(entries.values_list("actor_id", flat=True)), {bot.pk})
 
         response = self.token_api_client().get(
             reverse("api:metrics"),
