@@ -1572,6 +1572,22 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 ).update(category_id=self.category_id)
             if location_changed:
                 self.generate_changes(old, update_fields=update_fields)
+            if (
+                project_changed
+                and old_workspace_id is not None
+                and old_workspace_id != self.project.workspace_id
+                and "weblate.billing" in settings.INSTALLED_APPS
+            ):
+                from weblate.billing.models import (  # ruff: ignore[import-outside-top-level]
+                    Billing,
+                    schedule_libre_warning_refresh,
+                )
+
+                schedule_libre_warning_refresh(
+                    Billing.objects.using(self._state.db).filter(
+                        workspace_id=old_workspace_id
+                    )
+                )
             if path_changed:
                 self.check_rename(old, moved_paths=moved_paths)
                 self.drop_repository_cache()

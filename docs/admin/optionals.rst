@@ -128,8 +128,9 @@ workspace for translation when it issues the warning. Maintainers can unlock
 them at any time, including after the warning clears or the trial starts.
 
 Fix the listed issues within 30 days to keep active Libre hosting. Moving the
-project to another billing resets the warning. If a listed issue persists, the
-subscription enters a 30-day Libre trial. Fix the Libre hosting checklist and
+project to another billing resets the warning. Once Weblate records the last
+qualifying issue as resolved, refresh the page to see the warning clear.
+If a listed issue persists, the subscription enters a 30-day Libre trial. Fix the Libre hosting checklist and
 request approval again from the billing page. An expired trial follows the usual removal grace period
 and backup process.
 
