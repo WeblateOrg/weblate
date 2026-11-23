@@ -225,7 +225,7 @@ class ImportProject(CreateProject):
                 self.projectbackup = ProjectBackup(request.session["import_project"])
                 # The backup is already validated at this point,
                 # but we need to load the info.
-                self.projectbackup.validate()
+                self.projectbackup.validate(preview=True)
         else:
             request.session.pop("import_project", None)
             request.session.pop("import_workspace", None)
@@ -280,6 +280,7 @@ class ImportProject(CreateProject):
             project_slug=form.cleaned_data["slug"],
             user_id=self.request.user.id,
             filename=self.projectbackup.filename,
+            duplicate_scope=form.cleaned_data.get("duplicate_scope", ""),
             billing_id=billing.pk if billing else None,
             workspace_id=str(workspace.pk) if workspace else None,
         )

@@ -732,7 +732,13 @@ import_projectbackup
 
 Imports :ref:`projectbackup`.
 
-The supplied account is the importing actor. Matching other users directly
+Use ``--skip-duplicate-translations`` to keep the first target file in scan
+order when several files resolve to one destination language. Source-language
+collisions and ambiguous target scan order still block import. See
+:ref:`projectbackup` for how to correct these conflicts and which data is
+omitted when skipping a target.
+
+The supplied account is the importing actor. Matching other human users directly
 requires a superuser account; ordinary accounts use the invitation and
 authorship-consent flow described in :ref:`projectbackup`. Unmapped usernames
 and pending invitations are reported as warnings.
