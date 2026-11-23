@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import logging
 import warnings
+from contextlib import contextmanager
 from copy import deepcopy
 from datetime import date, datetime, timedelta
 from itertools import batched
@@ -14,7 +15,7 @@ from uuid import uuid5
 
 from django.conf import settings
 from django.core.cache import cache
-from django.db import models, transaction
+from django.db import connections, models, router, transaction
 from django.db.models import Count, Exists, F, OuterRef, Q, Subquery
 from django.db.models.functions import Coalesce
 from django.db.models.signals import post_save
@@ -57,7 +58,7 @@ from weblate.utils.task_log import get_log_user_label
 from weblate.utils.tracing import start_span
 
 if TYPE_CHECKING:
-    from collections.abc import Collection, Iterable
+    from collections.abc import Collection, Generator, Iterable
     from uuid import UUID
 
     from django.contrib.auth.models import AnonymousUser
@@ -122,6 +123,54 @@ def dt_as_day_range(dt: datetime | date) -> tuple[datetime, datetime]:
         dt.replace(hour=0, minute=0, second=0, microsecond=0),
         dt.replace(hour=23, minute=59, second=59, microsecond=999999),
     )
+
+
+@contextmanager
+def lock_change_projects(
+    changes: Collection[Change], using: str
+) -> Generator[None, None, None]:
+    """Keep the owning component or category's project stable during history writes."""
+    component_ids = {
+        change.component_id for change in changes if change.component_id is not None
+    }
+    category_ids = {
+        change.category_id
+        for change in changes
+        if change.component_id is None and change.category_id is not None
+    }
+    if not component_ids and not category_ids:
+        yield
+        return
+
+    with transaction.atomic(using=using, savepoint=False):
+        # Component moves take FOR UPDATE. KEY SHARE allows concurrent history
+        # writers and ordinary updates to the component's non-key fields.
+        with connections[using].cursor() as cursor:
+            category_projects = {}
+            if category_ids:
+                cursor.execute(
+                    "SELECT id, project_id FROM trans_category "
+                    "WHERE id = ANY(%s) ORDER BY id FOR SHARE",
+                    [sorted(category_ids)],
+                )
+                category_projects = dict(cursor.fetchall())
+            locations = {}
+            if component_ids:
+                cursor.execute(
+                    "SELECT id, project_id, category_id FROM trans_component "
+                    "WHERE id = ANY(%s) ORDER BY id FOR KEY SHARE",
+                    [sorted(component_ids)],
+                )
+                locations = {
+                    pk: (project, category) for pk, project, category in cursor
+                }
+        for change in changes:
+            if change.component_id is None and change.category_id in category_projects:
+                change.project_id = category_projects[change.category_id]
+            if change.component_id not in locations:
+                continue
+            change.project_id, change.category_id = locations[change.component_id]
+        yield
 
 
 class ChangeQuerySet(models.QuerySet["Change", "Change"]):
@@ -328,14 +377,16 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
             change.fixup_references()
             change.check_user()
 
-        changes: list[Change] = super().bulk_create(  # type: ignore[assignment]
-            objs,  # type: ignore[arg-type]
-            batch_size=batch_size,
-            ignore_conflicts=ignore_conflicts,
-            update_conflicts=update_conflicts,
-            update_fields=update_fields,
-            unique_fields=unique_fields,
-        )
+        self._for_write = True
+        with lock_change_projects(objs, self.db):
+            changes: list[Change] = super().bulk_create(  # type: ignore[assignment]
+                objs,  # type: ignore[arg-type]
+                batch_size=batch_size,
+                ignore_conflicts=ignore_conflicts,
+                update_conflicts=update_conflicts,
+                update_fields=update_fields,
+                unique_fields=unique_fields,
+            )
 
         # Dispatch notifications
         dispatch_changes_notifications(changes)
@@ -900,7 +951,9 @@ class Change(BackupAuthorshipMixin, UserDisplayMixin):
         self.fixup_references()
         self.check_user()
 
-        super().save(*args, **kwargs)
+        using = kwargs.get("using") or router.db_for_write(type(self), instance=self)
+        with lock_change_projects([self], using):
+            super().save(*args, **kwargs)
 
         if self.is_last_content_change_storable():
             translation = cast("Translation", self.translation)
@@ -1040,6 +1093,8 @@ class Change(BackupAuthorshipMixin, UserDisplayMixin):
         if self.component:
             self.project = self.component.project
             self.category = self.component.category
+        elif self.category:
+            self.project = self.category.project
         if self.project:
             self.workspace = self.project.workspace
         if (self.user is None or not self.user.is_authenticated) and (

@@ -1391,6 +1391,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         update_tm = False
         restricted_changed = False
         project_changed = False
+        location_changed = False
         glossary_settings_changed = False
         old_full_slug = None
         old_source_project_id = None
@@ -1462,8 +1463,12 @@ class Component(  # ruff: ignore[too-many-public-methods]
             restricted_changed = restricted_changed and (
                 update_fields is None or "restricted" in update_fields
             )
-            project_changed = old.project_id != self.project_id and (
-                update_fields is None or "project" in update_fields
+            project_changed = old.project_id != self.project_id and should_track_field(
+                self, "project", update_fields
+            )
+            location_changed = project_changed or (
+                old.category_id != self.category_id
+                and should_track_field(self, "category", update_fields)
             )
             glossary_settings_changed = (
                 glossary_settings_changed
@@ -1471,21 +1476,17 @@ class Component(  # ruff: ignore[too-many-public-methods]
             ) or (restricted_changed and (old.is_glossary or self.is_glossary))
 
             changed_variant = old.variant_regex != self.variant_regex
-            path_changed = any(
-                should_track_field(self, field, update_fields)
-                and getattr(old, attribute) != getattr(self, attribute)
-                for field, attribute in (
-                    ("slug", "slug"),
-                    ("project", "project_id"),
-                    ("category", "category_id"),
-                )
+            path_changed = location_changed or (
+                old.slug != self.slug
+                and should_track_field(self, "slug", update_fields)
             )
             if path_changed:
                 using = kwargs.get("using") or router.db_for_write(
                     type(self), instance=self
                 )
                 stack.enter_context(self._atomic_path_change(using, moved_paths))
-            self.generate_changes(old, update_fields=update_fields)
+            if not location_changed:
+                self.generate_changes(old, update_fields=update_fields)
             if changed_git and not path_changed:
                 self.drop_repository_cache()
 
@@ -1555,7 +1556,22 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     },
                     exclusive=True,
                 )
+            if location_changed:
+                # Serialize the move with history writers holding FOR KEY SHARE.
+                Component.objects.using(using).select_for_update().values_list(
+                    "pk", flat=True
+                ).get(pk=self.pk)
             super().save(*args, **kwargs)
+            if project_changed:
+                history = Change.objects.using(using).filter(component=self)
+                history.exclude(project_id=self.project_id).update(
+                    project_id=self.project_id
+                )
+                history.filter(category__isnull=False).exclude(
+                    category__project_id=self.project_id
+                ).update(category_id=self.category_id)
+            if location_changed:
+                self.generate_changes(old, update_fields=update_fields)
             if path_changed:
                 self.check_rename(old, moved_paths=moved_paths)
                 self.drop_repository_cache()

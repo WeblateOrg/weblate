@@ -22231,6 +22231,39 @@ class ScreenshotAPITest(APIBaseTest):
 
 
 class ChangeAPITest(APIBaseTest):
+    def test_moved_component_history_follows_project(self) -> None:
+        destination = self.create_project(
+            name="Destination",
+            slug="destination",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        change = self.component.change_set.create(
+            action=ActionEvents.CHANGE, target="Earlier edit", user=self.user
+        )
+        global_url = reverse("api:change-list")
+        old_url = reverse("api:project-changes", kwargs=self.project_kwargs)
+        new_url = reverse("api:project-changes", kwargs={"slug": destination.slug})
+
+        def contains_change(url: str) -> bool:
+            response = self.client.get(url, {"component": self.component.pk})
+            self.assertEqual(response.status_code, 200, response.data)
+            return change.pk in {entry["id"] for entry in response.data["results"]}
+
+        self.assertTrue(contains_change(global_url))
+        with acting_user_context(self.user):
+            self.component.project = destination
+            self.component.save(update_fields=["project_id"])
+
+        for authenticated in (False, True):
+            if authenticated:
+                self.authenticate()
+            with self.subTest(authenticated=authenticated):
+                self.assertFalse(contains_change(global_url))
+                self.assertFalse(contains_change(old_url))
+        destination.add_user(self.user, "Administration")
+        self.assertTrue(contains_change(new_url))
+        self.assertTrue(contains_change(global_url))
+
     def test_invitation_email_masked_in_history(self) -> None:
         email = "victim.person@corp.example"
         change = self.project.change_set.create(
