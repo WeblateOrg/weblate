@@ -137,6 +137,7 @@ class CommitInfo(TypedDict):
 
 type RemoteOperation = Literal["none", "pull", "push"]
 type RepositoryDiagnosisCode = Literal[
+    "azure_devops_ssh_key_expired",
     "checkout_missing",
     "checkout_invalid",
     "branch_behind",
@@ -461,6 +462,9 @@ REPOSITORY_TEMPORARY_MESSAGES = (
 REPOSITORY_TEMPORARY_HTTP_ERROR_RE = re.compile(
     r"returned error: (?:500|502|503|504)\b"
 )
+AZURE_DEVOPS_SSH_KEY_EXPIRED_MESSAGE = (
+    "Authentication failed: your SSH key has expired. To restore access, visit "
+)
 GITHUB_FORKING_DISABLED_MESSAGE = "The repository exists, but forking is disabled."
 REPOSITORY_PERMISSION_MESSAGES = (
     "denied to",
@@ -776,6 +780,8 @@ def get_repository_error_diagnoses(error: str) -> list[RepositoryDiagnosis]:
         diagnoses.append({"code": "ssh_host_key_unverified"})
     if any(message in error for message in REPOSITORY_NOT_FOUND_MESSAGES):
         diagnoses.append({"code": "repository_not_found"})
+    if AZURE_DEVOPS_SSH_KEY_EXPIRED_MESSAGE in error:
+        diagnoses.append({"code": "azure_devops_ssh_key_expired"})
     if GITHUB_FORKING_DISABLED_MESSAGE in error:
         diagnoses.append({"code": "github_forking_disabled"})
     if any(message in error for message in REPOSITORY_PERMISSION_MESSAGES):
