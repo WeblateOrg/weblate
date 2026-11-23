@@ -1294,7 +1294,7 @@ Viewing the personal API key and changing credentials, access permissions, or
 account status requires credential verification from the last 10 minutes in a
 browser session. This includes managing project members and tokens, teams,
 roles, user accounts, and project and component visibility.
-Reading or changing a :ref:`translation service installation <machine-translation-setup>`
+Opening a :ref:`translation service installation <machine-translation-setup>`
 or changing its exclusions also requires recent verification.
 Weblate prompts for a second factor when one is configured. Otherwise, enter your current password,
 verify through a configured Django authentication backend, or sign in again through
