@@ -1742,7 +1742,7 @@ class RSTSyntaxCheckTest(CheckTestCase):
             False,
             (
                 "The manifest looks like this::",
-                "Le manifeste ressemble à ceci ::",
+                "Le manifeste est le suivant ::",
                 "rst-text",
             ),
         )
@@ -1750,7 +1750,7 @@ class RSTSyntaxCheckTest(CheckTestCase):
             True,
             (
                 "The manifest looks like this::",
-                "Le ``manifeste ressemble à ceci ::",
+                "Le ``manifeste est le suivant ::",
                 "rst-text",
             ),
         )
@@ -1758,7 +1758,7 @@ class RSTSyntaxCheckTest(CheckTestCase):
             True,
             (
                 "The manifest looks like this:",
-                "Le manifeste ressemble à ceci ::",
+                "Le manifeste est le suivant ::",
                 "rst-text",
             ),
         )
