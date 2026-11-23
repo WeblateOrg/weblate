@@ -238,19 +238,13 @@ repos:
   - id: dclint
     files: ^.*/(docker-)?compose(-.*)?\.ya?ml$
 - repo: https://github.com/mongodb/kingfisher
-  rev: v2.19.1
+  rev: v2.20.0
   hooks:
-  - id: kingfisher-auto
-    args:
-    # Dedicated credential fixtures cannot contain inline ignore comments.
-    - --exclude
-    - weblate/trans/tests/data/googlev3.json
-    - --exclude
-    - weblate/trans/tests/data/saml.key
-    - --exclude
-    - docs/
+  - id: kingfisher-auto-files
+    # Documentation contains examples; dedicated credential fixtures cannot use inline ignores.
+    exclude: ^(?:docs/|weblate/trans/tests/data/(?:googlev3\.json|saml\.key)$)
     env:
-      KINGFISHER_VERSION: v2.19.1
+      KINGFISHER_VERSION: v2.20.0
 - repo: https://github.com/rvben/rumdl-pre-commit
   rev: v0.3.5
   hooks:
@@ -265,4 +259,4 @@ ci:
   autoupdate_schedule: quarterly
   skip:
   - reuse
-  - kingfisher-auto
+  - kingfisher-auto-files
