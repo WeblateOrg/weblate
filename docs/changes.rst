@@ -21,6 +21,7 @@ Weblate 2026.12
 * Allow five minutes to assign strings to newly uploaded :ref:`screenshots` before raising an unused screenshot alert.
 * Show the last translator and approver in the :ref:`translation editor <source-context>`.
 
+* Link to SSH key replacement instructions in :ref:`component diagnostics <alerts>` when Azure DevOps reports an expired key.
 * Show commit counts, occurrence totals, file-format evidence, and the last recorded translation change in the relevant :ref:`component diagnostics <alerts>`.
 * Redesigned the :ref:`translation checklist <strings-to-check>` as responsive cards with prominent string counts and actions next to each filter.
 * Grouped :ref:`quick downloads <download>` into cards with format links and string, word, and character counts.

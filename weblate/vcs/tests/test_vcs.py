@@ -376,6 +376,13 @@ class RepositoryTest(TestCase):
         cases = (
             ("The requested URL returned error: 301", "repository_redirect"),
             ("fatal: terminal prompts disabled", "missing_credentials"),
+            (
+                (
+                    "remote: Authentication failed: your SSH key has expired. To restore "
+                    "access, visit https://aka.ms/ado-ssh-public-key-expired for guidance."
+                ),
+                "azure_devops_ssh_key_expired",
+            ),
             ("rejected: fetch first", "branch_behind"),
             ("Repository not found.", "repository_not_found"),
             ("push denied to user", "repository_permission"),

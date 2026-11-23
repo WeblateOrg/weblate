@@ -1321,6 +1321,35 @@ class AlertTest(ReusableViewTestCase):
 
                 alert.delete()
 
+    def test_azure_devops_expired_key_guidance(self) -> None:
+        remote_url = "https://example.com/private-guidance"
+        error = RepositoryError(
+            128,
+            "remote: Authentication failed: your SSH key has expired. To restore "
+            f"access, visit {remote_url} for guidance.\n"
+            "remote: Public key authentication failed.",
+        )
+        details = self.component.get_repository_alert_details(error)
+        self.assertIn({"code": "azure_devops_ssh_key_expired"}, details["diagnoses"])
+        self.assertIn("visit ... for guidance.", details["error"])
+        self.component.add_alert("PushFailure", **details)
+        self.component.add_alert("UpdateFailure", error=details["error"], diagnoses=[])
+        for name in ("PushFailure", "UpdateFailure"):
+            with self.subTest(name=name):
+                alert = self.component.alert_set.get(name=name)
+                rendered = alert.render(self.user)
+                self.assertIn(
+                    'href="https://aka.ms/ado-ssh-public-key-expired"', rendered
+                )
+                self.assertNotIn(remote_url, rendered)
+
+    def test_generic_public_key_failure_has_no_azure_guidance(self) -> None:
+        self.component.add_alert(
+            "UpdateFailure", error="remote: Public key authentication failed."
+        )
+        alert = self.component.alert_set.get(name="UpdateFailure")
+        self.assertNotIn("ado-ssh-public-key-expired", alert.render(self.user))
+
     def test_repository_failures_keep_operation_documentation(self) -> None:
         expected = {
             "MergeFailure": get_doc_url("faq", "merge", user=self.user),

@@ -19,6 +19,7 @@ from weblate.trans.alerts.base import (
 from weblate.trans.alerts.registry import register
 from weblate.utils.docs import get_doc_url
 from weblate.vcs.base import (
+    AZURE_DEVOPS_SSH_KEY_EXPIRED_MESSAGE,
     GITHUB_FORKING_DISABLED_MESSAGE,
     RepositoryDiagnosis,
     RepositoryDiagnosisCode,
@@ -282,6 +283,10 @@ class RepositoryErrorAlert(ErrorAlert):
             "checkout_missing": checkout_missing,
             "checkout_invalid": checkout_invalid,
             "redirect": self.has_diagnosis("repository_redirect"),
+            "azure_devops_ssh_key_expired": (
+                self.has_diagnosis("azure_devops_ssh_key_expired")
+                or AZURE_DEVOPS_SSH_KEY_EXPIRED_MESSAGE in self.error
+            ),
             "git_lfs_missing_objects": self.has_diagnosis("git_lfs_missing_objects"),
             "repository_url_failure": self.is_repository_url_error,
             "repository_url_backend_unsupported": (
