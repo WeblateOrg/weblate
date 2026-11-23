@@ -406,6 +406,18 @@ class AuthenticationAPITest(APITestCase):
         super().setUpTestData()
         cls.user = User.objects.create_user("apiauth", "apiauth@example.org", "x")
 
+    def test_api_root_lists_resource_urls(self) -> None:
+        response = self.client.get(reverse("api:api-root"))
+        self.assertEqual(response.status_code, 200)
+        for resource in ("projects", "components", "translations", "languages"):
+            with self.subTest(resource=resource):
+                self.assertEqual(
+                    response.data[resource],
+                    response.wsgi_request.build_absolute_uri(
+                        reverse(f"api:{resource.removesuffix('s')}-list")
+                    ),
+                )
+
     def test_unsupported_scheme(self) -> None:
         for signed_in in (False, True):
             if signed_in:
@@ -7072,6 +7084,7 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertFalse(component.manage_units)
         self.assertFalse(response.data["manage_units"])
+        self.assertEqual(response["Location"], response.data["url"])
         self.assertEqual(response.data["push"], "https://github.com/example/push.git")
         response = self.do_request(
             "api:project-components",
@@ -17813,12 +17826,13 @@ class TranslationAPITest(APIBaseTest):
             code=200,
         )
         self.assertContains(response, "Project-Id-Version: Weblate Hello World 2016")
-        self.do_request(
+        cached = self.do_request(
             "api:translation-file",
             kwargs=self.translation_kwargs,
             headers={"If-Modified-Since": response["Last-Modified"]},
             code=304,
         )
+        self.assertEqual(cached.content, b"")
 
     def test_download_args(self) -> None:
         response = self.do_request(
