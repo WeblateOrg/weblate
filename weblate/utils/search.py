@@ -8,6 +8,7 @@ import threading
 import warnings
 from collections import defaultdict
 from dataclasses import dataclass
+from dataclasses import field as dataclass_field
 from datetime import datetime
 from functools import lru_cache
 from ipaddress import ip_address
@@ -1517,13 +1518,23 @@ class SearchHighlight:
     """Patterns to highlight, derived from the positive terms of a search query."""
 
     patterns: dict[SearchHighlightField, tuple[regex.Pattern, ...]]
+    user_regexes: frozenset[regex.Pattern] = frozenset()
+    disabled: set[regex.Pattern] = dataclass_field(
+        default_factory=set, compare=False, repr=False
+    )
 
     def get_patterns(
         self, field: SearchHighlightField | None = None
     ) -> tuple[regex.Pattern, ...]:
         if field is not None:
-            return self.patterns.get(field, ())
-        return tuple(dict.fromkeys(chain.from_iterable(self.patterns.values())))
+            patterns = self.patterns.get(field, ())
+        else:
+            patterns = tuple(dict.fromkeys(chain.from_iterable(self.patterns.values())))
+        if self.disabled:
+            return tuple(
+                pattern for pattern in patterns if pattern not in self.disabled
+            )
+        return patterns
 
     def finditer(
         self, value: str, field: SearchHighlightField | None = None
@@ -1538,6 +1549,8 @@ class SearchHighlight:
                     if match.end() > match.start()
                 )
             except TimeoutError:
+                self.disabled.update(self.user_regexes)
+                self.disabled.add(pattern)
                 continue
 
         merged: list[tuple[int, int]] = []
@@ -1554,7 +1567,7 @@ def compile_highlight_pattern(term: BaseTermExpr) -> regex.Pattern | None:
     match = term.match
     if isinstance(match, RegexExpr):
         expr = match.expr
-        flags = regex.VERSION0
+        flags = regex.VERSION0 | regex.DOTALL
         if expr.startswith("(?i)"):
             expr = expr.removeprefix("(?i)")
             flags |= regex.IGNORECASE
@@ -1574,6 +1587,7 @@ def compile_highlight_pattern(term: BaseTermExpr) -> regex.Pattern | None:
 def collect_highlight_terms(
     obj: ParseResults | BaseTermExpr,
     patterns: dict[SearchHighlightField, list[regex.Pattern]],
+    user_regexes: set[regex.Pattern],
     *,
     negated: bool = False,
 ) -> None:
@@ -1582,6 +1596,8 @@ def collect_highlight_terms(
             return
         pattern = compile_highlight_pattern(obj)
         if pattern is not None:
+            if isinstance(obj.match, RegexExpr):
+                user_regexes.add(pattern)
             for field in HIGHLIGHT_FIELDS[obj.field]:
                 patterns[field].append(pattern)
         return
@@ -1589,7 +1605,9 @@ def collect_highlight_terms(
     is_not = any(isinstance(item, str) and item.upper() == "NOT" for item in obj)
     for item in obj:
         if isinstance(item, (BaseTermExpr, ParseResults)):
-            collect_highlight_terms(item, patterns, negated=negated ^ is_not)
+            collect_highlight_terms(
+                item, patterns, user_regexes, negated=negated ^ is_not
+            )
 
 
 @lru_cache(maxsize=128)
@@ -1602,11 +1620,13 @@ def parse_highlight(text: str) -> SearchHighlight | None:
     except SearchQueryError:
         return None
     patterns: dict[SearchHighlightField, list[regex.Pattern]] = defaultdict(list)
-    collect_highlight_terms(parsed, patterns)
+    user_regexes: set[regex.Pattern] = set()
+    collect_highlight_terms(parsed, patterns, user_regexes)
     if not patterns:
         return None
     return SearchHighlight(
-        {field: tuple(field_patterns) for field, field_patterns in patterns.items()}
+        {field: tuple(field_patterns) for field, field_patterns in patterns.items()},
+        frozenset(user_regexes),
     )
 
 

@@ -1548,3 +1548,18 @@ class SearchHighlightTest(SimpleTestCase):
     def test_invalid(self) -> None:
         self.assertIsNone(parse_highlight(""))
         self.assertIsNone(parse_highlight("(hello"))
+
+    def test_regex_dot_matches_newline(self) -> None:
+        self.assert_highlight('r"o.w"', "Hello\nworld", ["o\nw"])
+
+    def test_regex_timeout_disables_regexes(self) -> None:
+        highlight = parse_highlight('hello OR r"(a|aa)+$" OR r"b"')
+        assert highlight is not None
+        value = f"hello {'a' * 64}b"
+        with patch("weblate.utils.search.REGEX_TIMEOUT", 0.001):
+            spans = highlight.finditer(value)
+        self.assertEqual([value[start:end] for start, end in spans], ["hello", "b"])
+        self.assertEqual(highlight.disabled, set(highlight.user_regexes))
+        self.assertEqual(
+            [value[start:end] for start, end in highlight.finditer(value)], ["hello"]
+        )
