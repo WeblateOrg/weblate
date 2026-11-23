@@ -40,6 +40,7 @@ Several file formats are available via the :guilabel:`Files` ↓
 * gettext PO (``po``)
 * XLIFF 1.1 with gettext extensions (``xliff``)
 * XLIFF 1.1 (``xliff11``)
+* XLIFF 1.1 (plain text) (``xliff11-plain``)
 * TermBase eXchange (``tbx``)
 * Translation Memory eXchange (``tmx``)
 * gettext MO (only available when translation is using gettext PO) (``mo``)
@@ -49,6 +50,13 @@ Several file formats are available via the :guilabel:`Files` ↓
 * JSON nested structure file (only available for monolingual translations) (``json-nested``)
 * Android String Resource (only available for monolingual translations) (``aresource``)
 * iOS strings (only available for monolingual translations) (``strings``)
+
+Choose :guilabel:`XLIFF 1.1 (plain text)` to edit markup as text in another
+translation tool. For example, a link such as ``<a href="/">Home</a>`` appears
+as editable text in the tool. Keep the tags when translating, then upload the
+edited ``.xlf`` file to your gettext PO or plain-text XLIFF component.
+For XLIFF components configured to support placeables, choose :guilabel:`XLIFF 1.1`
+to preserve inline elements when uploading the edited file.
 
 Android String Resource exports preserve valid resource names. Empty keys and
 keys that are not valid Android resource names are replaced with identifiers

@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import os
 import shutil
+from datetime import timedelta
 from pathlib import Path
 from typing import TYPE_CHECKING
 from unittest.mock import Mock, patch
@@ -21,6 +22,7 @@ from django.utils.functional import cached_property
 
 from weblate.addons.gettext import XgettextAddon
 from weblate.screenshots.models import Screenshot
+from weblate.screenshots.tasks import check_unused_screenshots
 from weblate.trans.alerts.base import AlertSeverity, BaseAlert
 from weblate.trans.alerts.community import (
     AddonRecommendationAlert,
@@ -623,12 +625,37 @@ class ExtractorGuidanceAlertTest(ReusableViewTestCase):
 
         self.assertTrue(self.component.alert_set.filter(name=alert_name).exists())
 
-    def test_unassigned_screenshot_uses_separate_warning(self) -> None:
+    def create_old_screenshot(self, name: str) -> Screenshot:
         screenshot = Screenshot.objects.create(
-            name="Unassigned screenshot",
+            name=name,
             image="screenshots/test.png",
             translation=self.component.source_translation,
         )
+        Screenshot.objects.filter(pk=screenshot.pk).update(
+            timestamp=timezone.now() - timedelta(minutes=5)
+        )
+        update_alerts(self.component, {UnusedScreenshot.__name__})
+        return screenshot
+
+    def test_delayed_check_skips_linked_and_deleted_screenshots(self) -> None:
+        translation = self.component.source_translation
+        linked = Screenshot.objects.create(name="Linked", translation=translation)
+        deleted = Screenshot.objects.create(name="Deleted", translation=translation)
+        linked.units.add(self.get_unit(translation=translation))
+        deleted.delete()
+
+        with patch(
+            "django.utils.timezone.now",
+            return_value=timezone.now() + timedelta(minutes=5),
+        ):
+            check_unused_screenshots(self.component.pk)
+
+        self.assertFalse(
+            self.component.alert_set.filter(name="UnusedScreenshot").exists()
+        )
+
+    def test_unassigned_screenshot_uses_separate_warning(self) -> None:
+        screenshot = self.create_old_screenshot("Unassigned screenshot")
 
         self.assertTrue(
             self.component.alert_set.filter(name=UnusedScreenshot.__name__).exists()
@@ -642,53 +669,47 @@ class ExtractorGuidanceAlertTest(ReusableViewTestCase):
         self.assertContains(response, "One screenshot has no string assigned to it.")
         self.assertContains(response, f'href="{screenshot.get_absolute_url()}"')
 
-        screenshot.units.add(self.component.source_translation.unit_set.first())
+        unit = self.get_unit(translation=self.component.source_translation)
+        screenshot.units.add(unit)
 
         self.assertFalse(
             self.component.alert_set.filter(name=UnusedScreenshot.__name__).exists()
         )
 
+        screenshot.units.remove(unit)
+        self.assertTrue(self.component.alert_set.filter(name=unused.name).exists())
+
     def test_unassigned_screenshot_legacy_alert_links_to_screenshot(self) -> None:
-        screenshot = Screenshot.objects.create(
-            name="Unassigned screenshot",
-            image="screenshots/test.png",
-            translation=self.component.source_translation,
-        )
+        screenshot = self.create_old_screenshot("Unassigned screenshot")
         alert = self.component.alert_set.get(name=UnusedScreenshot.__name__)
         alert.details = {"unassigned": 1}
         alert.save(update_fields=["details"])
 
+        Screenshot.objects.create(
+            name="Fresh", translation=self.component.source_translation
+        )
         response = self.client.get(self.component.get_absolute_url())
 
         self.assertContains(response, f'href="{screenshot.get_absolute_url()}"')
 
     def test_unassigned_screenshot_keeps_legacy_dismissal(self) -> None:
-        Screenshot.objects.create(
-            name="Unassigned screenshot",
-            image="screenshots/test.png",
-            translation=self.component.source_translation,
-        )
+        self.create_old_screenshot("Unassigned screenshot")
         alert = self.component.alert_set.get(name=UnusedScreenshot.__name__)
         alert.details = {"unassigned": 1}
         alert.save(update_fields=["details"])
         self.assertTrue(alert.dismiss(self.user))
 
+        Screenshot.objects.create(
+            name="Fresh", translation=self.component.source_translation
+        )
         update_alerts(self.component, {UnusedScreenshot.__name__})
         alert.refresh_from_db()
 
         self.assertTrue(alert.is_dismissed)
 
     def test_multiple_unassigned_screenshots_link_to_filtered_list(self) -> None:
-        Screenshot.objects.create(
-            name="First unassigned screenshot",
-            image="screenshots/test.png",
-            translation=self.component.source_translation,
-        )
-        Screenshot.objects.create(
-            name="Second unassigned screenshot",
-            image="screenshots/test-2.png",
-            translation=self.component.source_translation,
-        )
+        self.create_old_screenshot("First unassigned screenshot")
+        self.create_old_screenshot("Second unassigned screenshot")
         alert = self.component.alert_set.get(name=UnusedScreenshot.__name__)
 
         response = self.client.get(self.component.get_absolute_url())

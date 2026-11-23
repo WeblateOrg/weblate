@@ -16,12 +16,21 @@ from PIL import Image
 from weblate.logger import LOGGER
 from weblate.screenshots.models import Screenshot, ScreenshotOCR
 from weblate.screenshots.ocr import get_ocr_signature, get_tesseract, ocr_get_lines
+from weblate.trans.alerts.registry import update_alerts
+from weblate.trans.models import Component
 from weblate.utils.celery import app
 from weblate.utils.validators import PIL_FORMATS
 
 if TYPE_CHECKING:
     from celery import Celery
     from django.core.files.storage import Storage
+
+
+@app.task(trail=False)
+def check_unused_screenshots(component_id: int) -> None:
+    component = Component.objects.filter(pk=component_id).first()
+    if component is not None:
+        update_alerts(component, {"UnusedScreenshot"})
 
 
 @app.task(trail=False, soft_time_limit=290, time_limit=300)

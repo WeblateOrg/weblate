@@ -64,6 +64,7 @@ class FormatsConf(AppConf):
         "weblate.formats.exporters.PoExporter",
         "weblate.formats.exporters.PoXliffExporter",
         "weblate.formats.exporters.XliffExporter",
+        "weblate.formats.exporters.PlainXliffExporter",
         "weblate.formats.exporters.TBXExporter",
         "weblate.formats.exporters.TMXExporter",
         "weblate.formats.exporters.MoExporter",

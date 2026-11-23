@@ -496,8 +496,8 @@ def perform_repository_operation(
             release_repository_operation(component_ids, task_id)
 
 
-class RepositoryOperationRequest(AuthenticatedHttpRequest):
-    """Request carrying the context expected by repository operations."""
+class BackgroundTaskRequest(AuthenticatedHttpRequest):
+    """Request carrying the user and messages for background operations."""
 
     def __init__(self, user: User) -> None:
         super().__init__()
@@ -558,7 +558,7 @@ def execute_repository_operation(
                     )
                     # Repository methods use request messages for actionable VCS
                     # failures. Give each operation fresh in-memory storage.
-                    request = RepositoryOperationRequest(user)
+                    request = BackgroundTaskRequest(user)
                     method_name, args, kwargs = get_operation_call(operation)
                     method = getattr(component, method_name)
                     try:

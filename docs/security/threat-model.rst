@@ -942,7 +942,7 @@ Security properties Weblate provides
        destination's access policy. *(maintainer)*
    * - Self-service trial creation grants only the designated commercial trial
        plan or the Libre setup plan. *(maintainer)*
-     - The deployment offers self-service hosting trials.
+     - A user requests a self-service trial on Hosted Weblate.
      - An authenticated user can select another public, private, or internal
        billing plan when creating a trial.
      - Security-critical when this bypasses paid service limits.
@@ -1051,10 +1051,11 @@ without merging or parsing translation files. Attribution and authenticity are
 weaker than for an authenticated user or token. *(maintainer)*
 
 User-requested background work is authorized when Weblate accepts and queues
-the request. Background tasks do not always verify the initiating user's
-permissions again when they execute. Later changes to the user's account,
-permissions, or team memberships therefore do not reliably prevent
-already-authorized work from completing. *(maintainer)*
+the request. The request handler checks the action and its scope before
+dispatch. Trusted workers execute that authorized scope without repeating
+request-level permission checks unless the operation explicitly requires it.
+Later changes to the user's account, permissions, or team memberships do not
+reliably prevent already-authorized work from completing. *(maintainer)*
 
 Weblate is not a sandbox for malicious administrators, malicious local
 operators, third-party add-ons, custom deployment code, VCS clients, or backup

@@ -110,7 +110,7 @@ def report_error(
 ) -> None:
     """Report an active or explicitly supplied exception."""
     # pylint: disable-next=unused-variable
-    __traceback_hide__ = True  # ruff: ignore[unused-variable]
+    __traceback_hide__ = True
     error = exception if exception is not None else sys.exc_info()[1]
     if error is None:
         msg = f"report_error called without an exception: {cause}"

@@ -105,10 +105,11 @@ Lastly, the `Django admin interface` provides an `Invoice` option for logging yo
 Libre hosting cleanup
 +++++++++++++++++++++
 
-On installations that offer hosting, Weblate checks active, free ``libre``
-subscriptions covering a single project each day. After 90 days with no
-components, a missing license, or an unmet Libre hosting condition, Weblate
-warns the workspace billing contacts by e-mail. Persistent repository update,
+Hosted Weblate checks active subscriptions with zero monthly and yearly prices each day.
+Cleanup covers all projects in the workspace.
+Weblate warns the workspace billing contacts by e-mail after 90 days with no
+components anywhere in the workspace, a missing license, or an unmet Libre
+hosting condition. Persistent repository update,
 push, merge, or recovery failures also qualify, as do outstanding upstream
 or outgoing changes reported by the repository diagnostics. Dismissing a
 diagnostic leaves the underlying issue eligible. A repository can be quiet
@@ -116,14 +117,20 @@ and still be in sync.
 
 The management alerts page lists projects scheduled for removal. The
 :guilabel:`Scheduled removal` warning on the project and billing pages lists
-the issues and the date by which to resolve them. Weblate locks existing
-components for translation when it issues the warning. Maintainers can unlock
+the issues and the date by which to resolve them. Follow :guilabel:`View affected components`
+in the warning or its e-mail to see diagnostics, including dismissed ones. For
+subscriptions covering several projects, this link opens workspace diagnostics.
+In workspace and project diagnostics and on each component's alerts tab, the
+:guilabel:`May affect Libre hosting` badge identifies issues that can trigger
+a warning if they persist. Workspace and project diagnostics list these issues
+first. Weblate locks all existing components in the
+workspace for translation when it issues the warning. Maintainers can unlock
 them at any time, including after the warning clears or the trial starts.
 
 Fix the listed issues within 30 days to keep active Libre hosting. Moving the
 project to another billing resets the warning. If a listed issue persists, the
-project enters a 30-day Libre trial. Fix the Libre hosting checklist and request approval again
-from the billing page. An expired trial follows the usual removal grace period
+subscription enters a 30-day Libre trial. Fix the Libre hosting checklist and
+request approval again from the billing page. An expired trial follows the usual removal grace period
 and backup process.
 
 Externally managed payments

@@ -41,7 +41,7 @@ from django.db import (
 )
 from django.db.models import Q
 from django.db.models.fields.files import FieldFile
-from django.http import StreamingHttpResponse
+from django.http import QueryDict, StreamingHttpResponse
 from django.templatetags.static import static
 from django.test import SimpleTestCase, TransactionTestCase
 from django.test.client import BOUNDARY, MULTIPART_CONTENT, encode_multipart
@@ -49,6 +49,8 @@ from django.test.utils import CaptureQueriesContext, modify_settings, override_s
 from django.urls import Resolver404, resolve, reverse
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from drf_spectacular.validation import validate_schema
+from lxml.html import fromstring
+from rest_framework import serializers
 from rest_framework.request import Request
 from rest_framework.test import APIClient, APIRequestFactory, APITestCase
 from weblate_language_data.languages import LANGUAGES
@@ -79,7 +81,7 @@ from weblate.api.docs import (
     document_all_static_vcs_choices,
 )
 from weblate.api.parsers import TranslationFileMultiPartParser
-from weblate.api.renderers import AutoCSVRenderer
+from weblate.api.renderers import AutoCSVRenderer, WeblateHTMLFormRenderer
 from weblate.api.serializers import (
     CategorySerializer,
     ChangeSerializer,
@@ -90,6 +92,7 @@ from weblate.api.serializers import (
     ProjectSerializer,
     RepoOperations,
 )
+from weblate.api.tasks import create_translation, remove_translation
 from weblate.api.views import MemoryFilter, MemoryViewSet, ProjectViewSet, TasksViewSet
 from weblate.auth.data import (
     ROLES,
@@ -229,6 +232,50 @@ TEST_DOC = get_test_file("cs.html")
 TEST_ZIP = get_test_file("translations.zip")
 TEST_BADPLURALS = get_test_file("cs-badplurals.po")
 TEST_SCREENSHOT = get_test_file("screenshot.png")
+
+
+class BrowsableAPIFormTest(SimpleTestCase):
+    def test_nested_relations_do_not_load_choices(self) -> None:
+        class RelationsSerializer(serializers.Serializer):
+            pk = serializers.PrimaryKeyRelatedField(queryset=Language.objects.all())
+            code = serializers.SlugRelatedField(
+                queryset=Language.objects.all(), slug_field="code"
+            )
+            url = serializers.HyperlinkedRelatedField(
+                queryset=Language.objects.all(), view_name="api:language-detail"
+            )
+
+        class FormSerializer(serializers.Serializer):
+            language = RelationsSerializer()
+
+        with patch.object(
+            serializers.RelatedField, "get_choices", side_effect=AssertionError
+        ):
+            form = fromstring(WeblateHTMLFormRenderer().render(FormSerializer().data))
+        self.assertEqual(
+            form.xpath('//input[@type="text"]/@name'),
+            ["language.pk", "language.code", "language.url"],
+        )
+
+    def test_choice_controls(self) -> None:
+        choices = [(str(i), f"Option {i}") for i in range(100)]
+        grouped_choices = [("Group", choices), ("Other", [("100", "Last option")])]
+
+        class FormSerializer(serializers.Serializer):
+            small = serializers.ChoiceField(choices=choices)
+            large = serializers.ChoiceField(choices=grouped_choices)
+            multiple = serializers.MultipleChoiceField(choices=grouped_choices)
+
+        data = QueryDict("small=99&large=100&multiple=1&multiple=2")
+        serializer = FormSerializer(data=data)
+        self.assertTrue(serializer.is_valid(), serializer.errors)
+        self.assertEqual(set(serializer.validated_data["multiple"]), {"1", "2"})
+        form = fromstring(WeblateHTMLFormRenderer().render(serializer.data))
+        self.assertEqual(
+            form.xpath('//select[@name="small"]/option[@selected]/@value'), ["99"]
+        )
+        self.assertEqual(form.xpath('//input[@name="large"]/@value'), ["100"])
+        self.assertTrue(form.xpath('//select[@name="multiple" and @multiple]'))
 
 
 class CSVRendererTest(SimpleTestCase):
@@ -5278,6 +5325,29 @@ class ProjectCreationConcurrencyTest(TransactionTestCase):
                     Project.objects.filter(workspace_id=self.workspace_id).count(), 3
                 )
                 Project.objects.filter(slug__startswith="race-project-").delete()
+
+
+class ProjectBrowsableAPIFormTest(APIBaseTest):
+    def test_workspace_and_language_inputs(self) -> None:
+        hidden = Workspace.objects.create(name="Unrelated workspace")
+        response = self.do_request("api:project-list", request={"format": "api"})
+        self.assertNotContains(response, hidden.name)
+        self.assertNotContains(response, str(hidden.pk))
+        form = fromstring(response.content)
+        for name in ("workspace", "secondary_language"):
+            self.assertTrue(
+                form.xpath('//input[@type="text" and @name=$name]', name=name)
+            )
+
+        current = Workspace.objects.create(name="Project workspace")
+        Project.objects.filter(pk=self.project.pk).update(workspace=current)
+        response = self.do_request(
+            "api:project-detail", self.project_kwargs, request={"format": "api"}
+        )
+        self.assertEqual(
+            fromstring(response.content).xpath('//input[@name="workspace"]/@value'),
+            [str(current.pk)],
+        )
 
 
 class ProjectAPITest(APIBaseTest):
@@ -11466,6 +11536,11 @@ class ComponentAPITest(APIBaseTest):
         self.assertEqual(request.data["count"], 4)
 
     def test_changes(self) -> None:
+        Screenshot.objects.filter(
+            translation=self.component.source_translation, name="Obrazek"
+        ).update(timestamp=datetime.now(UTC) - timedelta(minutes=5))
+        update_alerts(self.component, {"UnusedScreenshot"})
+
         request = self.do_request("api:component-changes", self.component_kwargs)
         self.assertEqual(request.data["count"], 25)
         latest_change = request.data["results"][0]
@@ -12523,6 +12598,28 @@ class ComponentAPITest(APIBaseTest):
         )
         self.assertFalse(Component.objects.filter(pk=self.component.pk).exists())
 
+    def test_component_delete_background(self) -> None:
+        task_id = str(uuid4())
+        self.addCleanup(cache.delete, get_task_metadata_key(task_id))
+        url = reverse("api:component-detail", kwargs=self.component_kwargs)
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch(
+                "weblate.api.views.component_removal.delay",
+                return_value=SimpleNamespace(id=task_id),
+            ) as delay,
+        ):
+            response = self.do_request(
+                url + "?background=true&delete_memory=true",
+                method="delete",
+                code=202,
+                superuser=True,
+            )
+        delay.assert_called_once_with(self.component.pk, self.user.pk, True)
+        self.assertEqual(
+            response.data["task_url"], f"http://example.com/api/tasks/{task_id}/"
+        )
+
     def test_delete_component_memory_option_in_body(self) -> None:
         with patch("weblate.api.views.component_removal.delay") as mocked_removal:
             self.do_request(
@@ -13228,6 +13325,114 @@ class ComponentAPITest(APIBaseTest):
             request={"language_code": "fa"},
         )
 
+    def test_create_translation_background(self) -> None:
+        target = self.create_po_new_base(name="target", project=self.project)
+        linked = self.create_link_existing(
+            repo=target.get_repo_link_url(), restricted=True
+        )
+        source = self.create_po_new_base(name="source", project=self.project)
+        language = Language.objects.get(code="fa")
+        translation = source.add_new_language(language, None)
+        assert translation is not None
+        translation.unit_set.get(source="Hello, world!\n").translate(
+            self.user, "Hello from source!\n", STATE_TRANSLATED
+        )
+        task_id = str(uuid4())
+        self.addCleanup(cache.delete, get_task_metadata_key(task_id))
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch.object(
+                create_translation, "delay", return_value=SimpleNamespace(id=task_id)
+            ) as delay,
+        ):
+            response = self.do_request(
+                "api:component-translations",
+                {"project__slug": self.project.slug, "slug": target.slug},
+                method="post",
+                format="json",
+                superuser=True,
+                code=202,
+                request={
+                    "background": True,
+                    "language_code": language.code,
+                    "from_component": [source.full_slug],
+                },
+            )
+        delay.assert_called_once_with(target.pk, self.user.pk, language.pk, [source.pk])
+        self.assertFalse(target.translation_set.filter(language=language).exists())
+        with patch.object(
+            type(app),
+            "backend",
+            new_callable=PropertyMock,
+            return_value=CacheBackend(app=app, backend="memory"),
+        ):
+            result = create_translation.apply(
+                args=delay.call_args.args, task_id=task_id
+            ).get()
+        created = target.translation_set.get(language=language)
+        self.assertEqual(
+            created.unit_set.get(source="Hello, world!\n").target,
+            "Hello from source!\n",
+        )
+        self.assertEqual(self.do_request(result["url"]).data["id"], created.pk)
+        # Scanning this restricted child must preserve the initiating user's access
+        # to the task URL even though they cannot access the child itself.
+        self.assertFalse(self.user.can_access_component(linked))
+        with patch(
+            "weblate.api.views.AsyncResult",
+            return_value=MagicMock(id=task_id, result=result, state="SUCCESS"),
+        ):
+            status = self.do_request(response.data["task_url"]).data
+            other = User.objects.create_superuser(
+                "other-task-reader", "other@example.org", "test"
+            )
+            self.client.credentials(HTTP_AUTHORIZATION=f"Token {other.auth_token.key}")
+            self.assertEqual(
+                self.client.get(response.data["task_url"]).status_code, 404
+            )
+        self.assertTrue(status["completed"])
+        self.assertFalse(status["cancellable"])
+        self.assertEqual(status["result"], result)
+
+    def test_create_translation_background_invalid(self) -> None:
+        self.component.new_base = "po/hello.pot"
+        self.component.save(update_fields=["new_base"])
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch.object(create_translation, "delay") as delay,
+        ):
+            for data in [
+                {"background": "invalid", "language_code": "fa"},
+                {"background": True, "language_code": "cs"},
+            ]:
+                with self.subTest(data=data):
+                    self.do_request(
+                        "api:component-translations",
+                        self.component_kwargs,
+                        method="post",
+                        code=400,
+                        superuser=True,
+                        request=data,
+                        format="json",
+                    )
+            delay.assert_not_called()
+
+    def test_create_translation_background_eager(self) -> None:
+        target = self.create_po_new_base(name="target", project=self.project)
+        response = self.do_request(
+            "api:component-translations",
+            {"project__slug": self.project.slug, "slug": target.slug},
+            method="post",
+            superuser=True,
+            format="json",
+            code=201,
+            request={"background": True, "language_code": "fa"},
+        )
+        self.assertEqual(
+            response.data["data"]["id"],
+            target.translation_set.get(language__code="fa").pk,
+        )
+
     def test_create_translation_base_invalid_under_lock(self) -> None:
         self.component.new_lang = "add"
         self.component.new_base = "po/hello.pot"
@@ -13759,11 +13964,48 @@ class ComponentAPITest(APIBaseTest):
                 {
                     "attr": "from_component",
                     "code": "invalid",
-                    "detail": "Automatic translation failed: Component not found.",
+                    "detail": "Automatic translation failed.",
                 }
             ],
         )
         self.assertFalse(target.translation_set.filter(language_code="fa").exists())
+
+    def test_creation_task_cleans_up_after_source_stops_sharing(self) -> None:
+        target = self.create_po_new_base(name="target", project=self.project)
+        source_project = self.create_project(
+            name="Source", slug="source", contribute_shared_tm=True
+        )
+        source = self.create_po_new_base(name="source", project=source_project)
+        language = Language.objects.get(code="fa")
+        self.assertIsNotNone(source.add_new_language(language, None))
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch.object(
+                create_translation,
+                "delay",
+                return_value=SimpleNamespace(id=str(uuid4())),
+            ) as delay,
+        ):
+            self.do_request(
+                "api:component-translations",
+                {"project__slug": self.project.slug, "slug": target.slug},
+                method="post",
+                code=202,
+                superuser=True,
+                format="json",
+                request={
+                    "language_code": "fa",
+                    "background": True,
+                    "from_component": [source.pk],
+                },
+            )
+        self.addCleanup(cache.delete, get_task_metadata_key(delay.return_value.id))
+        source_project.contribute_shared_tm = False
+        source_project.save(update_fields=["contribute_shared_tm"])
+        with self.assertRaises(PermissionDenied):
+            create_translation(*delay.call_args.args)
+        self.assertFalse(target.translation_set.filter(language=language).exists())
+        self.assertFalse((Path(target.full_path) / "po/fa.po").exists())
 
     def test_create_translation_invalid_language_code(self) -> None:
         self.component.new_lang = "add"
@@ -17222,6 +17464,48 @@ class MemoryAPITest(APIBaseTest):
 
 
 class TranslationAPITest(APIBaseTest):
+    def test_delete_background(self) -> None:
+        translation = self.component.translation_set.get(language__code="cs")
+        task_id = str(uuid4())
+        self.addCleanup(cache.delete, get_task_metadata_key(task_id))
+        url = reverse("api:translation-detail", kwargs=self.translation_kwargs)
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch.object(
+                remove_translation, "delay", return_value=SimpleNamespace(id=task_id)
+            ) as delay,
+        ):
+            self.do_request(url + "?background=true", method="delete", code=403)
+            self.do_request(
+                url + "?background=invalid", method="delete", code=400, superuser=True
+            )
+            delay.assert_not_called()
+            response = self.do_request(
+                url + "?background=true", method="delete", code=202, superuser=True
+            )
+        delay.assert_called_once_with(translation.pk, self.user.pk)
+        self.assertTrue(Translation.objects.filter(pk=translation.pk).exists())
+        self.authenticate(superuser=False)
+        remove_translation(*delay.call_args.args)
+        change = self.component.change_set.get(
+            action=ActionEvents.REMOVE_TRANSLATION, target=translation.filename
+        )
+        self.assertEqual(change.user, self.user)
+        self.assertFalse(Translation.objects.filter(pk=translation.pk).exists())
+        with patch(
+            "weblate.api.views.AsyncResult",
+            return_value=MagicMock(id=task_id, result=None, state="SUCCESS"),
+        ):
+            status = self.do_request(response.data["task_url"]).data
+            other = User.objects.create_user("other-task-reader")
+            self.client.credentials(HTTP_AUTHORIZATION=f"Token {other.auth_token.key}")
+            self.assertEqual(
+                self.client.get(response.data["task_url"]).status_code, 404
+            )
+        self.assertTrue(status["completed"])
+        self.assertIsNone(status["result"])
+        self.assertFalse(status["cancellable"])
+
     def test_delete_with_broken_template(self) -> None:
         Component.objects.filter(pk=self.component.pk).update(
             delete_message="{% invalid %}", inherit_delete_message=False
@@ -19056,6 +19340,10 @@ class TranslationAPITest(APIBaseTest):
             code=200,
         )
         self.assertEqual(response.data["state"], STATE_APPROVED)
+        unit = Unit.objects.get(pk=response.data["id"])
+        self.client.force_login(self.user)
+        editor = self.client.get(unit.get_absolute_url())
+        self.assertEqual(editor.context["last_approver"], self.user)
 
     def test_add_bilingual_source(self) -> None:
         self.component.manage_units = True
@@ -19838,6 +20126,34 @@ class UnitAPITest(APIBaseTest):
             request={"state": "20", "target": "Test translation"},
         )
         self.assertTrue(Unit.objects.get(pk=unit.pk).approved)
+
+    def test_approved_patch_attributes_propagated_approval(self) -> None:
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        peer_component = self.create_po(project=self.project, name="approval-peer")
+        unit = self.get_unit()
+        peer = self.get_unit(
+            translation=peer_component.translation_set.get(language_code="cs")
+        )
+        previous = User.objects.create_user("previous-reviewer")
+        for item in (unit, peer):
+            item.translate(previous, "Previous text\n", STATE_APPROVED, propagate=False)
+
+        self.do_request(
+            "api:unit-detail",
+            {"pk": unit.pk},
+            method="patch",
+            superuser=True,
+            format="json",
+            request={"target": ["Reviewed replacement\n"], "state": STATE_APPROVED},
+        )
+        self.client.force_login(self.user)
+        for item in (unit, peer):
+            item.refresh_from_db()
+            self.assertEqual(item.target, "Reviewed replacement\n")
+            self.assertEqual(item.state, STATE_APPROVED)
+            editor = self.client.get(item.get_absolute_url())
+            self.assertEqual(editor.context["last_approver"], self.user)
 
     def test_unit_state_rejected(self) -> None:
         """Test that STATE_NEEDS_CHECKING and STATE_NEEDS_REWRITING cannot be set manually via API."""
@@ -24370,6 +24686,29 @@ class CategoryAPITest(APIBaseTest):
         )
         response = self.list_categories()
         self.assertEqual(response.data["count"], 0)
+
+    def test_category_delete_background(self) -> None:
+        category = self.api_create_category().data
+        task_id = str(uuid4())
+        self.addCleanup(cache.delete, get_task_metadata_key(task_id))
+        url = category["url"]
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch(
+                "weblate.api.views.category_removal.delay",
+                return_value=SimpleNamespace(id=task_id),
+            ) as delay,
+        ):
+            response = self.do_request(
+                url + "?background=true&delete_memory=true",
+                method="delete",
+                code=202,
+                superuser=True,
+            )
+        delay.assert_called_once_with(category["id"], self.user.pk, True)
+        self.assertEqual(
+            response.data["task_url"], f"http://example.com/api/tasks/{task_id}/"
+        )
 
     def test_delete_category_with_last_team_component(self) -> None:
         response = self.api_create_category()
