@@ -1134,7 +1134,8 @@ You can either define which project or component to process (for example
 
 This is useful when :setting:`DATA_DIR` is on storage that can be lost, such as
 a node-local disk in Kubernetes. Run it after the data volume is mounted and
-migrations are applied, for example at container startup. Make sure the data
+migrations are applied, for example at container startup. The Docker container
+does this when :envvar:`WEBLATE_RECOVER_GIT` is set. Make sure the data
 volume is actually mounted first; otherwise, recovery clones the repositories
 into the wrong place.
 
