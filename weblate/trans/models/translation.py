@@ -18,6 +18,7 @@ from typing import (
     BinaryIO,
     Literal,
     NotRequired,
+    Self,
     TypedDict,
     cast,
     overload,
@@ -143,6 +144,7 @@ if TYPE_CHECKING:
     from weblate.utils.state import (
         StringState,
     )
+    from weblate.workspaces.models import Workspace
 
     from .component import Component
     from .project import Project
@@ -367,6 +369,13 @@ class TranslationQuerySet(models.QuerySet["Translation", "Translation"]):
 
     def prefetch_plurals(self):
         return self.prefetch_related("language__plural_set")
+
+    def for_workspace(self, workspace: Workspace) -> Self:
+        """Select translations owned by or linked into the workspace."""
+        return self.filter(
+            Q(component__project__workspace=workspace)
+            | Q(component__links__workspace=workspace)
+        )
 
     def filter_access(self, user: User):
         """Filter translations by visibility, not by an action permission."""

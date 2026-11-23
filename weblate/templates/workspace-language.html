@@ -33,7 +33,9 @@
       {% include "snippets/list-objects.html" with objects=translations name_source="translation" label=_("Component") %}
       {% include "paginator.html" with page_obj=translations %}
     </div>
-    <div class="tab-pane" id="information">{% show_info workspace=workspace stats=object.stats %}</div>
+    <div class="tab-pane" id="information">
+      {% show_info workspace=workspace contributor_scope=object stats=object.stats %}
+    </div>
     <div class="tab-pane" id="search">
       <form action="{% url 'search' path=object.get_url_path %}" method="get">
         {% include "snippets/search-form.html" %}

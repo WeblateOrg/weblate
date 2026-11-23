@@ -1707,10 +1707,7 @@ class WorkspaceLanguage(BaseURLMixin, TranslationChecklistMixin):
     def get_translation_set_access(self, user: User) -> TranslationQuerySet:
         return (
             self.language.translation_set.filter_access(user)
-            .filter(
-                Q(component__project__workspace=self.workspace)
-                | Q(component__links__workspace=self.workspace)
-            )
+            .for_workspace(self.workspace)
             .distinct()
             .order_by(
                 "component__project__name",
