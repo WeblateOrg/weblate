@@ -292,6 +292,14 @@ if [ "$case_insensitive_slugs_migrate" -eq 0 ]; then
     check
 fi
 
+# Exercise component history ownership on the previous release schema.
+semver_compare "2026.11" "<=" "$1" && semver_compare "$1" "<" "2026.12"
+change_projects_migrate=$?
+if [ "$change_projects_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-change-projects.py"
+    check
+fi
+
 git reset --hard
 check
 git checkout "$HEAD_COMMIT"
@@ -324,6 +332,10 @@ if [ "$case_insensitive_slugs_migrate" -eq 0 ]; then
 fi
 run_coverage ./manage.py migrate
 check
+if [ "$change_projects_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-change-projects.py"
+    check
+fi
 if [ "$case_insensitive_slugs_migrate" -eq 0 ]; then
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-case-insensitive-slugs.py"
     check

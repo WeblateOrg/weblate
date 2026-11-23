@@ -61,6 +61,7 @@ Weblate 2026.12
 * Required recent browser verification to view or change :ref:`translation service configurations <machine-translation-setup>` or change exclusions.
 * Removed internal filesystem paths and raw command output from gettext and script :ref:`add-on alerts <alerts>`.
 * Redacted remote source URLs from :ref:`JavaScript localization CDN <addon-weblate.cdn.cdnjs>` alerts and activity logs, including existing records.
+* Applied the destination project’s :ref:`access controls <access-control>` to component history after a move, and linked new category rename and move events to their category.
 
 * Required project management permission to change a component URL through the API and prevented :ref:`case-insensitive slug conflicts <component-slug>` from blocking repository cleanup.
 * Required the site-wide ``language.add`` permission to :http:post:`create a language through the REST API </api/languages/>`.
