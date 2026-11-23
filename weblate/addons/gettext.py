@@ -21,7 +21,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy, override
 
-from weblate.addons.base import BaseAddon, UpdateBaseAddon
+from weblate.addons.base import BaseAddon, UpdateBaseAddon, process_failure_message
 from weblate.addons.events import (
     AddonActivityLogReason,
     AddonEvent,
@@ -48,7 +48,6 @@ from weblate.trans.file_format_params import GettextReportMsgidBugsTo
 from weblate.utils.change_origin import get_acting_user
 from weblate.utils.commands import find_runtime_command, get_clean_env
 from weblate.utils.errors import report_error
-from weblate.utils.files import cleanup_error_message
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 from weblate.vcs.base import RepositoryError
@@ -453,7 +452,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
                 {
                     "addon": self.name,
                     "command": "msgmerge",
-                    "output": template or "<missing>",
+                    "output": component.new_base or "<missing>",
                     "error": "Template for new translations not found",
                 }
             )
@@ -483,9 +482,9 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
                 self.alerts.append(
                     {
                         "addon": self.name,
-                        "command": error.cmd,
-                        "output": str(error.output),
-                        "error": str(error),
+                        "command": "msgmerge",
+                        "output": translation.filename,
+                        "error": "Could not update translation",
                     }
                 )
                 component.log_info("%s addon failed: %s", self.name, error)
@@ -810,8 +809,7 @@ class ExtractPotBaseAddon(UpdateBaseAddon, GettextBaseAddon):
             self.alerts.append(
                 {
                     "addon": self.name,
-                    "command": " ".join(cmd),
-                    "output": cleanup_error_message(output),
+                    "command": Path(cmd[0]).name,
                     "error": f"Command timed out after {self.PROCESS_TIMEOUT} seconds",
                 }
             )
@@ -825,9 +823,8 @@ class ExtractPotBaseAddon(UpdateBaseAddon, GettextBaseAddon):
             self.alerts.append(
                 {
                     "addon": self.name,
-                    "command": " ".join(cmd),
-                    "output": cleanup_error_message(output),
-                    "error": str(err),
+                    "command": Path(cmd[0]).name,
+                    "error": process_failure_message(err),
                 }
             )
             report_error("Add-on script error", project=component.project)
@@ -1184,7 +1181,6 @@ class XgettextAddon(ExtractPotBaseAddon):
                     {
                         "addon": self.name,
                         "command": "xgettext",
-                        "output": line,
                         "error": "POTFILES entries must be relative paths",
                     }
                 )
@@ -1242,7 +1238,7 @@ class XgettextAddon(ExtractPotBaseAddon):
                 {
                     "addon": self.name,
                     "command": "xgettext",
-                    "output": os.fspath(manifest),
+                    "output": manifest.name,
                     "error": "POTFILES manifest points outside repository",
                 }
             )
@@ -1284,7 +1280,7 @@ class XgettextAddon(ExtractPotBaseAddon):
                 {
                     "addon": self.name,
                     "command": "xgettext",
-                    "output": os.fspath(skip_manifest),
+                    "output": skip_manifest.name,
                     "error": "POTFILES.skip manifest points outside repository",
                 }
             )
@@ -1465,7 +1461,9 @@ class XgettextAddon(ExtractPotBaseAddon):
                     "addon": self.name,
                     "command": "xgettext",
                     "output": "",
-                    "error": str(error),
+                    "error": str(error)
+                    if isinstance(error, ValidationError)
+                    else "Could not read ITS data directories",
                 }
             )
             return False

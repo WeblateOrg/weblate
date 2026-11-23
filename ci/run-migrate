@@ -249,6 +249,8 @@ cdn_alert_redaction_migrate=$?
 if [ "$cdn_alert_redaction_migrate" -eq 0 ]; then
     ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-cdn-alert-redaction.py"
     check
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-process-alert-redaction.py"
+    check
 fi
 
 # Seed vulnerable automatic translation snapshots before upgrading.
@@ -443,6 +445,8 @@ if [ "$automation_audit_redaction_migrate" -eq 0 ]; then
 fi
 if [ "$cdn_alert_redaction_migrate" -eq 0 ]; then
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-cdn-alert-redaction.py"
+    check
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-process-alert-redaction.py"
     check
 fi
 
