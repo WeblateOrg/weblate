@@ -23,6 +23,7 @@ from rest_framework.test import APIClient
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.utils import allow_git_file_transport
 from weblate.utils.data import data_dir
 from weblate.utils.tests import http_mock
 from weblate.utils.tests.network import mock_dns
@@ -73,6 +74,7 @@ class TestGitHubAppHooks(ViewTestCase):
 
     def setUp(self) -> None:
         super().setUp()
+        self.enterContext(allow_git_file_transport())
         self.enterContext(
             mock_dns("api.github.com", "github.com", "github.example.com")
         )
@@ -765,6 +767,7 @@ class RefreshGitHubRepositoriesTest(ViewTestCase):
 
     def setUp(self) -> None:
         super().setUp()
+        self.enterContext(allow_git_file_transport())
         self.enterContext(
             mock_dns("api.github.com", "github.com", "github.example.com")
         )

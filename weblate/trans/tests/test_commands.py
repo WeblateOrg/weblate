@@ -405,7 +405,6 @@ class ImportProjectTest(RepoTestCase):
             translation.parent.mkdir()
             translation.write_text('msgid ""\nmsgstr ""\n', encoding="utf-8")
             with repository.lock:
-                repository.set_committer("Test", "test@example.com")
                 repository.commit(
                     "Add component",
                     "Test <test@example.com>",

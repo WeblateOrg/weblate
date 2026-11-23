@@ -321,19 +321,29 @@ def _get_git_probe_headers(
     return headers
 
 
-def _with_git_http_proxy(
+def git_protocol_config() -> Iterator[tuple[str, str]]:
+    """Yield Git's transport policy from the active Weblate settings."""
+    for protocol in ("file", "git", "http", "https", "ssh"):
+        yield (
+            f"protocol.{protocol}.allow",
+            "always" if protocol in settings.VCS_ALLOW_SCHEMES else "never",
+        )
+
+
+def with_git_config(
     environment: dict[str, str] | None,
-    proxy: str,
+    *entries: tuple[str, str],
 ) -> dict[str, str]:
-    """Configure Git's proxy without exposing it in command arguments."""
+    """Append command-specific Git configuration to a copy of the environment."""
     result = dict(environment or {})
     try:
         index = int(result.get("GIT_CONFIG_COUNT", "0"))
     except ValueError:
         index = 0
-    result["GIT_CONFIG_COUNT"] = str(index + 1)
-    result[f"GIT_CONFIG_KEY_{index}"] = "http.proxy"
-    result[f"GIT_CONFIG_VALUE_{index}"] = proxy
+    for position, (key, value) in enumerate(entries, start=index):
+        result[f"GIT_CONFIG_KEY_{position}"] = key
+        result[f"GIT_CONFIG_VALUE_{position}"] = value
+    result["GIT_CONFIG_COUNT"] = str(index + len(entries))
     return result
 
 
@@ -639,10 +649,6 @@ class GitRepository(Repository):
                 component.branch,
                 fast=not component.id,
             )
-        staged.set_committer(
-            settings.DEFAULT_COMMITER_NAME, settings.DEFAULT_COMMITER_EMAIL
-        )
-        staged.check_config()
         if component.is_repo_local and original.is_dir():
             self.preserve_recovery_working_files(original, staged_path)
             staged.commit("Recovered local repository files")
@@ -704,8 +710,19 @@ class GitRepository(Repository):
         *,
         cwd: str | None = None,
     ) -> dict[str, str]:
-        """Generate a Git environment without unsupported LFS transfers."""
-        git_environment = dict(environment or {})
+        """Apply the current Weblate settings to managed Git commands."""
+        git_environment = with_git_config(
+            environment,
+            *git_protocol_config(),
+            ("user.name", settings.DEFAULT_COMMITER_NAME),
+            ("user.email", settings.DEFAULT_COMMITER_EMAIL),
+            ("committer.name", settings.DEFAULT_COMMITER_NAME),
+            ("committer.email", settings.DEFAULT_COMMITER_EMAIL),
+            # Weblate schedules repository maintenance under its own lock.
+            ("maintenance.auto", "0"),
+            ("gc.auto", "0"),
+            ("push.default", "current"),
+        )
         git_environment.update(
             {
                 "GIT_LFS_SKIP_PUSH": "1",
@@ -733,40 +750,28 @@ class GitRepository(Repository):
             return args, environment
 
         if target.scheme in {"http", "https"}:
-            proxy = target.proxy_url
-            if proxy is not None:
-                environment = _with_git_http_proxy(
-                    environment,
-                    proxy,
-                )
-                connection_options: list[str] = []
-            else:
-                connection_options = ["-c", "http.proxy="]
-                if target.requires_pinning:
-                    try:
-                        ip_address(target.hostname)
-                    except ValueError:
-                        resolve_hostname = idna_encode(
-                            target.hostname, uts46=True
-                        ).decode("ascii")
-                        addresses = ",".join(
-                            f"[{address}]" if ":" in address else address
-                            for address in target.addresses
+            config = [
+                ("http.proxy", target.proxy_url or ""),
+                ("http.followRedirects", "false"),
+            ]
+            if target.proxy_url is None and target.requires_pinning:
+                try:
+                    ip_address(target.hostname)
+                except ValueError:
+                    resolve_hostname = idna_encode(target.hostname, uts46=True).decode(
+                        "ascii"
+                    )
+                    addresses = ",".join(
+                        f"[{address}]" if ":" in address else address
+                        for address in target.addresses
+                    )
+                    config.append(
+                        (
+                            "http.curloptResolve",
+                            f"{resolve_hostname}:{target.port}:{addresses}",
                         )
-                        connection_options = [
-                            *connection_options,
-                            "-c",
-                            f"http.curloptResolve={resolve_hostname}:{target.port}:{addresses}",
-                        ]
-            return (
-                [
-                    *connection_options,
-                    "-c",
-                    "http.followRedirects=false",
-                    *args,
-                ],
-                environment,
-            )
+                    )
+            return args, with_git_config(environment, *config)
 
         if target.scheme == "ssh" and target.requires_pinning:
             pinned_environment = dict(environment or {})
@@ -1037,30 +1042,53 @@ class GitRepository(Repository):
                 if value is not None:
                     config.set(section, key, value)
 
-    def config_update(self, *updates: tuple[str, str, str | None]) -> None:
+    def _checked_config_path(self) -> Path:
+        filename = Path(self.path) / ".git" / "config"
+        try:
+            metadata_mode = filename.parent.stat().st_mode
+        except (FileNotFoundError, NotADirectoryError) as error:
+            missing = self.checkout_is_missing()
+            raise RepositoryInternalError(
+                1,
+                "repository_checkout_missing"
+                if missing
+                else "repository_checkout_invalid",
+                diagnoses=[
+                    {"code": "checkout_missing" if missing else "checkout_invalid"}
+                ],
+            ) from error
+        except OSError as error:
+            raise RepositoryError(1, str(error)) from error
+        if not stat.S_ISDIR(metadata_mode):
+            raise RepositoryInternalError(
+                1,
+                "repository_checkout_invalid",
+                diagnoses=[{"code": "checkout_invalid"}],
+            )
+        return filename
+
+    def check_config(self) -> None:
+        """Validate the checkout and recreate a missing Git configuration."""
         with self.lock:
-            filename = Path(self.path) / ".git" / "config"
+            filename = self._checked_config_path()
             try:
-                metadata_mode = filename.parent.stat().st_mode
-            except (FileNotFoundError, NotADirectoryError) as error:
-                missing = self.checkout_is_missing()
-                raise RepositoryInternalError(
-                    1,
-                    "repository_checkout_missing"
-                    if missing
-                    else "repository_checkout_invalid",
-                    diagnoses=[
-                        {"code": "checkout_missing" if missing else "checkout_invalid"}
-                    ],
-                ) from error
+                mode = filename.lstat().st_mode
+            except FileNotFoundError:
+                # Recreate the checkout config without persisting runtime policy.
+                self.config_update(("core", "bare", "false"))
+                return
             except OSError as error:
                 raise RepositoryError(1, str(error)) from error
-            if not stat.S_ISDIR(metadata_mode):
+            if not (stat.S_ISREG(mode) or stat.S_ISLNK(mode)):
                 raise RepositoryInternalError(
                     1,
                     "repository_checkout_invalid",
                     diagnoses=[{"code": "checkout_invalid"}],
                 )
+
+    def config_update(self, *updates: tuple[str, str, str | None]) -> None:
+        with self.lock:
+            filename = self._checked_config_path()
             try:
                 self.git_config_update(filename, *updates)
             except OSError as error:
@@ -1081,14 +1109,6 @@ class GitRepository(Repository):
                         ],
                     ) from error
                 raise RepositoryError(1, str(error)) from error
-
-    def check_config(self) -> None:
-        """Check VCS configuration."""
-        self.config_update(
-            ("push", "default", "current"),
-            ("maintenance", "auto", "0"),
-            ("gc", "auto", "0"),
-        )
 
     def get_interrupted_operation(self) -> str | None:
         if self.has_git_file("rebase-apply") or self.has_git_file("rebase-merge"):
@@ -1214,20 +1234,10 @@ class GitRepository(Repository):
             yield "--depth"
             yield str(settings.VCS_CLONE_DEPTH)
 
-    def _get_auth_args(self, repo: str) -> Iterator[str]:
-        if repo.startswith("https://"):
-            parsed = urlparse(repo)
-            if parsed.password:
-                # proactive HTTP authentication
-                yield "-c"
-                yield "http.proactiveAuth=auto"
-
-    def get_auth_args(self) -> list[str]:
-        if self.component:
-            return list(self._get_auth_args(self.component.repo))
-        return []
-
     def _get_auth_environment(self, repo: str) -> dict[str, str]:
+        if repo.startswith("https://") and urlparse(repo).password:
+            # Use URL credentials on the first HTTP request.
+            return with_git_config(None, ("http.proactiveAuth", "auto"))
         return {}
 
     def get_auth_environment(self) -> dict[str, str]:
@@ -1277,7 +1287,6 @@ class GitRepository(Repository):
         refspec = f"+refs/heads/{branch}:refs/remotes/origin/{branch}"
         self.execute(
             [
-                *self._get_auth_args(remote_url),
                 "fetch",
                 f"--deepen={self.remote_compatibility_deepen}",
                 "--no-tags",
@@ -1311,7 +1320,6 @@ class GitRepository(Repository):
             try:
                 self.execute(
                     [
-                        *self._get_auth_args(pull_url),
                         "fetch",
                         "--no-tags",
                         "--",
@@ -1369,7 +1377,6 @@ class GitRepository(Repository):
         branch = self.validate_branch_name(branch)
         args, environment = self.prepare_remote_command(
             [
-                *self._get_auth_args(source),
                 "clone",
                 *self.get_depth(),
                 "--no-tags",
@@ -1402,10 +1409,6 @@ class GitRepository(Repository):
             needs_lock=False,
             merge_err=False,
         ).strip()
-
-    def set_committer(self, name, mail) -> None:
-        """Configure committer name."""
-        self.config_update(("user", "name", name), ("user", "email", mail))
 
     def clear_interrupted_operation(self) -> None:
         """Clear interrupted Git operation metadata before a hard reset."""
@@ -1815,51 +1818,28 @@ class GitRepository(Repository):
         """Perform global settings."""
         home = data_path("home")
         merge_driver = cls.get_merge_driver("po")
-        # Sync protocol configuration with settings
-        updates: list[tuple[str, str, str]] = [
-            (
-                f'protocol "{protocol}"',
-                "allow",
-                "always" if protocol in settings.VCS_ALLOW_SCHEMES else "never",
-            )
-            for protocol in ("file", "git", "http", "https", "ssh")
-        ]
-        updates.extend(
-            (
-                # Default committer
-                ("user", "email", settings.DEFAULT_COMMITER_EMAIL),
-                ("user", "name", settings.DEFAULT_COMMITER_NAME),
-                # Weblate schedules repository maintenance under its own lock.
-                ("maintenance", "auto", "0"),
-                ("gc", "auto", "0"),
-            )
-        )
-        # Merge driver
         if merge_driver is not None:
-            updates.extend(
-                (
-                    (
-                        'merge "weblate-merge-gettext-po"',
-                        "name",
-                        "Weblate merge driver for gettext PO files",
-                    ),
-                    (
-                        'merge "weblate-merge-gettext-po"',
-                        "driver",
-                        f"{merge_driver} %O %A %B %P",
-                    ),
-                )
-            )
-
-        filename = home / ".gitconfig"
-        attempts = 0
-        while attempts < 5:
-            try:
-                cls.git_config_update(filename, *updates)
-                break
-            except OSError:
-                attempts += 1
-                sleep(attempts * 0.1)
+            filename = home / ".gitconfig"
+            attempts = 0
+            while attempts < 5:
+                try:
+                    cls.git_config_update(
+                        filename,
+                        (
+                            'merge "weblate-merge-gettext-po"',
+                            "name",
+                            "Weblate merge driver for gettext PO files",
+                        ),
+                        (
+                            'merge "weblate-merge-gettext-po"',
+                            "driver",
+                            f"{merge_driver} %O %A %B %P",
+                        ),
+                    )
+                    break
+                except OSError:
+                    attempts += 1
+                    sleep(attempts * 0.1)
 
         # Use it for *.po by default
         configfile = home / ".config" / "git" / "attributes"
@@ -1891,7 +1871,7 @@ class GitRepository(Repository):
             # Prune remote branches, this can fail if repository is unreachable
             with suppress(RepositoryCommandError):
                 self.execute(
-                    [*self.get_auth_args(), "remote", "prune", "origin"],
+                    ["remote", "prune", "origin"],
                     remote_op="pull",
                     environment=auth_environment,
                 )
@@ -1917,7 +1897,7 @@ class GitRepository(Repository):
     def list_remote_branches(self, *, timeout: float = 3600) -> list[str]:
         """Return a list of remote branch names by querying the remote repository using 'git ls-remote --heads origin'."""
         branches = self.execute(
-            [*self.get_auth_args(), "ls-remote", "--heads", "origin"],
+            ["ls-remote", "--heads", "origin"],
             remote_op="pull",
             needs_lock=False,
             environment=self.get_auth_environment(),
@@ -1940,7 +1920,7 @@ class GitRepository(Repository):
         refspec = f"+refs/heads/{branch}:refs/remotes/origin/{branch}"
         # Update existing branch only, not changing depth
         self.execute(
-            [*self.get_auth_args(), "fetch", "--no-tags", "origin", refspec],
+            ["fetch", "--no-tags", "origin", refspec],
             remote_op="pull",
             environment=self.get_auth_environment(),
         )
@@ -1970,7 +1950,6 @@ class GitRepository(Repository):
         )
         self.execute(
             [
-                *self.get_auth_args(),
                 *self.get_push_command(force=force),
                 "origin",
                 refspec,
@@ -1983,7 +1962,7 @@ class GitRepository(Repository):
 
     def unshallow(self) -> None:
         self.execute(
-            [*self.get_auth_args(), "fetch", "--unshallow"],
+            ["fetch", "--unshallow"],
             remote_op="pull",
             environment=self.get_auth_environment(),
         )

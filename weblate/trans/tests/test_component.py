@@ -2283,7 +2283,9 @@ class ComponentValidationTest(RepoTestCase):
             path, branch=GitRepository.default_branch, local=True
         )
         with repository.lock:
-            repository.set_committer("Test", "test@example.net")
+            repository.config_update(
+                ("user", "name", "Test"), ("user", "email", "test@example.net")
+            )
             pathlib.Path(path, "README.md").write_text("Unrelated\n", encoding="utf-8")
             repository.commit(
                 "Initial commit",
@@ -2629,7 +2631,6 @@ class ComponentPushOnUpdateTest(RepoTestCase):
                     "Upstream\n", encoding="utf-8"
                 )
             with repository.lock:
-                repository.set_committer("Test", "test@example.com")
                 repository.commit(
                     "Upstream", "Test <test@example.com>", timezone.now(), [filename]
                 )
