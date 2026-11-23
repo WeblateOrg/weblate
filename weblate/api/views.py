@@ -51,7 +51,6 @@ from drf_spectacular.utils import (
 from drf_standardized_errors.handler import ExceptionHandler
 from drf_standardized_errors.openapi_serializers import ErrorResponse403Serializer
 from rest_framework import parsers, serializers, viewsets
-from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import action
 from rest_framework.exceptions import APIException, Throttled, ValidationError
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
@@ -87,6 +86,7 @@ from weblate.accounts.visibility import (
 )
 from weblate.addons.models import Addon
 from weblate.api.metrics import get_server_metrics_data, get_server_openmetrics_data
+from weblate.api.mixins import SensitiveSessionVerificationMixin
 from weblate.api.pagination import LargePagination
 from weblate.api.parsers import TranslationFileMultiPartParser
 from weblate.api.serializers import (
@@ -162,7 +162,6 @@ from weblate.api.serializers import (
     UserStatisticsSerializer,
     UserUpdateRequestSerializer,
     WorkflowSettingSerializer,
-    check_session_sensitive_verification,
     get_reverse_kwargs,
 )
 from weblate.api.tasks import (
@@ -1272,26 +1271,6 @@ def get_delete_memory_option(request: Request) -> bool:
     return body_value if body_value is not None else query_value or False
 
 
-class SensitiveSessionMutationMixin(APIView):
-    """Step up session authentication for credential and access mutations."""
-
-    sensitive_actions: frozenset[str] = frozenset()
-    action: str
-
-    def requires_sensitive_verification(self, request: Request) -> bool:
-        return self.action in self.sensitive_actions
-
-    def check_sensitive_verification(self, request: Request) -> None:
-        check_session_sensitive_verification(request)
-
-    def initial(self, request: Request, *args, **kwargs) -> None:
-        super().initial(request, *args, **kwargs)
-        if isinstance(
-            request.successful_authenticator, SessionAuthentication
-        ) and self.requires_sensitive_verification(request):
-            self.check_sensitive_verification(request)
-
-
 @extend_schema_view(
     list=extend_schema(
         description=(
@@ -1370,7 +1349,7 @@ class SensitiveSessionMutationMixin(APIView):
         description="Change the user parameters.",
     ),
 )
-class UserViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
+class UserViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
     """Users API."""
 
     request: AuthenticatedRequest  # type: ignore[assignment]
@@ -1800,7 +1779,7 @@ class UserViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
     retrieve=extend_schema(description="Return information about a group."),
     partial_update=extend_schema(description="Change the group parameters."),
 )
-class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
+class GroupViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
     """Groups API."""
 
     request: AuthenticatedRequest  # type: ignore[assignment]
@@ -2255,7 +2234,7 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
     retrieve=extend_schema(description="Return information about a role."),
     partial_update=extend_schema(description="Change the role parameters."),
 )
-class RoleViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
+class RoleViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
     """Roles API."""
 
     request: AuthenticatedRequest  # type: ignore[assignment]
@@ -2547,7 +2526,7 @@ class AnnouncementsMixin(APIViewSetMixin):
     ),
 )
 class ProjectViewSet(
-    SensitiveSessionMutationMixin,
+    SensitiveSessionVerificationMixin,
     WeblateViewSet,
     UpdateModelMixin,
     CreateModelMixin,
@@ -3280,13 +3259,21 @@ class ProjectViewSet(
     @extend_schema(
         methods=["get"],
         responses=InstallationSerializer(many=True),
-        description="List project translation service installations.",
+        description=(
+            "List project translation service installations.\n\n"
+            "Browser sessions require recent credential verification. "
+            "An expired or missing verification returns HTTP 403."
+        ),
     )
     @extend_schema(
         methods=["post"],
         request=InstallationSerializer,
         responses={HTTP_201_CREATED: InstallationSerializer},
-        description="Create a project translation service installation.",
+        description=(
+            "Create a project translation service installation.\n\n"
+            "Browser sessions require recent credential verification. "
+            "An expired or missing verification returns HTTP 403."
+        ),
     )
     @action(
         detail=True,
@@ -3303,6 +3290,7 @@ class ProjectViewSet(
                 request, "Can not retrieve/edit translation services configuration"
             )
 
+        self.check_sensitive_verification(request)
         if request.method == "POST":
             data = request.data.copy()
             data["project"] = project.pk

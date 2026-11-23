@@ -12,6 +12,7 @@ from django.db.models import Q
 from rest_framework import serializers, viewsets
 from rest_framework.exceptions import PermissionDenied
 
+from weblate.api.mixins import SensitiveSessionVerificationMixin
 from weblate.machinery.models import (
     MachineryExclusion,
     MachineryInstallation,
@@ -178,7 +179,17 @@ class InstallationSerializer(serializers.ModelSerializer):
         return attrs
 
 
-class InstallationViewSet(viewsets.ModelViewSet):
+class InstallationViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
+    """
+    Manage translation service installations.
+
+    Browser sessions require recent credential verification to read or change
+    installations. An expired or missing verification returns HTTP 403.
+    """
+
+    sensitive_actions = frozenset(
+        {"list", "retrieve", "create", "update", "partial_update", "destroy"}
+    )
     serializer_class = InstallationSerializer
     queryset = MachineryInstallation.objects.all()
 
@@ -241,7 +252,15 @@ class ExclusionSerializer(serializers.ModelSerializer):
         return attrs
 
 
-class ExclusionViewSet(viewsets.ModelViewSet):
+class ExclusionViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
+    """
+    Manage translation service exclusions.
+
+    Browser sessions require recent credential verification to change exclusions.
+    An expired or missing verification on a write returns HTTP 403.
+    """
+
+    sensitive_actions = frozenset({"create", "update", "partial_update", "destroy"})
     serializer_class = ExclusionSerializer
     queryset = MachineryExclusion.objects.all()
 
