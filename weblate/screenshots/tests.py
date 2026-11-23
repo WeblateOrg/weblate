@@ -2610,7 +2610,6 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
 
         copyfile(TEST_SCREENSHOT, os.path.join(repository.path, "test-update.png"))
         with repository.lock:
-            repository.set_committer("Second Bar", "second@example.net")
             filenames = ["test-update.png"]
             repository.commit(
                 "Test commit", "Foo Bar <foo@bar.com>", timezone.now(), filenames
@@ -2723,7 +2722,6 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
 
         copyfile(TEST_SCREENSHOT, os.path.join(repository.path, "test-update.png"))
         with repository.lock:
-            repository.set_committer("Second Bar", "second@example.net")
             repository.commit(
                 "Test commit",
                 "Foo Bar <foo@bar.com>",
@@ -2750,7 +2748,6 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
 
         copyfile(TEST_SCREENSHOT, os.path.join(repository.path, "test.png"))
         with repository.lock:
-            repository.set_committer("Second Bar", "second@example.net")
             filenames = ["test.png"]
             repository.commit(
                 "Test commit", "Foo Bar <foo@bar.com>", timezone.now(), filenames
@@ -2831,7 +2828,6 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
 
         copyfile(TEST_SCREENSHOT, os.path.join(repository.path, "test.png"))
         with repository.lock:
-            repository.set_committer("Second Bar", "second@example.net")
             repository.commit(
                 "Test commit", "Foo Bar <foo@bar.com>", timezone.now(), ["test.png"]
             )

@@ -9,7 +9,7 @@ import logging
 import secrets
 import uuid
 from collections import defaultdict
-from typing import TYPE_CHECKING, TypedDict
+from typing import TYPE_CHECKING, Literal, NotRequired, TypedDict
 from urllib.parse import urlencode
 
 from asgiref.sync import sync_to_async
@@ -18,6 +18,7 @@ from django.contrib.auth.decorators import login_required
 from django.core import signing
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.signing import BadSignature, SignatureExpired
+from django.db.models.functions import Lower
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import aget_object_or_404, get_object_or_404, redirect, render
 from django.urls import reverse
@@ -79,9 +80,11 @@ from weblate.vcs.permissions import (
     user_can_install_github_app_in_workspace,
 )
 from weblate.wladmin.views import MENU
-from weblate.workspaces.models import Workspace
+from weblate.workspaces.models import WORKSPACE_OWNERS_GROUP, Workspace
 
 if TYPE_CHECKING:
+    from django.forms.boundfield import BoundWidget
+
     from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.auth.results import PermissionResult
 
@@ -94,11 +97,14 @@ _GITHUB_APP_REGISTER_SALT = "weblate.vcs.github.register"
 _GITHUB_APP_REGISTER_MAX_AGE = 60 * 60
 
 
+type MigrationStatus = Literal["ready", "access-needed", "using-app"]
+
+
 class GitHubAppMigrationEntry(TypedDict):
     component: Component
-    hostname: str
     full_name: str
-    canonical_url: str
+    status: MigrationStatus
+    checkbox: NotRequired[BoundWidget]
 
 
 def _installation_workspaces(user):
@@ -321,7 +327,7 @@ def _get_github_app_migration_entries(
     components = (
         Component.objects.filter(
             project__workspace=workspace,
-            vcs__in=GITHUB_APP_MIGRATABLE_VCS,
+            vcs__in=GITHUB_APP_MIGRATABLE_VCS | {"github-app"},
         )
         .prefetch(alerts=False)
         .order_by("project__name", "name", "pk")
@@ -330,15 +336,23 @@ def _get_github_app_migration_entries(
         if not user.has_perm("component.edit", component):
             continue
         identity = get_github_repository_identity(component.repo)
-        if identity is None or identity[0] not in configured_hosts:
+        if identity is None:
             continue
         hostname, full_name = identity
+        status: MigrationStatus
+        if component.vcs == "github-app":
+            status = "using-app"
+        elif hostname not in configured_hosts:
+            continue
+        elif (hostname, full_name.casefold()) in repositories:
+            status = "ready"
+        else:
+            status = "access-needed"
         entries.append(
             {
                 "component": component,
-                "hostname": hostname,
                 "full_name": full_name,
-                "canonical_url": repositories.get((hostname, full_name.casefold()), ""),
+                "status": status,
             }
         )
     return entries, repositories, installations
@@ -536,7 +550,9 @@ class UserVCSIntegrationListView(View):
         selected_workspace = None
         workspace_id = request.GET.get("workspace", "").strip()
         if workspace_id:
-            selected_workspace = _get_managed_workspace(request.user, workspace_id)
+            if request.user.has_perm("management.use"):
+                workspace_queryset = Workspace.objects.all()
+            selected_workspace = _get_workspace(workspace_queryset, workspace_id)
             workspaces = [selected_workspace]
         else:
             workspaces = list(workspace_queryset)
@@ -596,6 +612,7 @@ class UserVCSIntegrationListView(View):
             "vcs/account_integrations.html",
             {
                 "apps": apps,
+                "bread_image": "project.svg" if selected_workspace else "account.svg",
                 "managed_workspaces": workspaces,
                 "next_url": request.get_full_path(),
                 "selected_workspace": selected_workspace,
@@ -627,6 +644,7 @@ class GitHubInstallationDetailView(View):
             "vcs/github_installation_detail.html",
             {
                 "installation": installation,
+                "bread_image": "project.svg",
                 "repositories": repositories,
                 "github_app_install_url": _get_install_link(
                     request,
@@ -634,7 +652,6 @@ class GitHubInstallationDetailView(View):
                     installation.workspace,
                 ),
                 "app_configured": app_configured,
-                **_MENU_CONTEXT,
             },
         )
 
@@ -798,7 +815,6 @@ def github_app_install(request):
                 "install_choices": _get_install_choices(next_url, workspace),
                 "next_url": next_url,
                 "workspace": workspace,
-                **_MENU_CONTEXT,
             },
         )
     else:
@@ -824,28 +840,41 @@ def github_app_install(request):
             enabled=True,
         )
         .exclude(installation_id__in=connected.values("installation_id"))
-        .order_by("target_login", "installation_id")
-        .values_list("target_login", "installation_id")
-        .distinct()
+        .order_by(Lower("target_login"), "installation_id", "pk")
     )
-    choices = [
-        (
-            login,
-            _get_authorize_url(
-                request, configs[host], workspace, next_url, installation_id
-            ),
+    owned_installation_ids = None
+    if request.user.has_perm("management.use"):
+        owned_workspaces = request.user.groups.filter(name=WORKSPACE_OWNERS_GROUP)
+        owned_installation_ids = set(
+            accounts.filter(
+                workspace_id__in=owned_workspaces.values("defining_workspace_id")
+            ).values_list("installation_id", flat=True)
         )
-        for login, installation_id in accounts
-    ]
-    if choices:
+    choices = []
+    other_choices = []
+    seen = set()
+    for login, installation_id in accounts.values_list(
+        "target_login", "installation_id"
+    ):
+        if installation_id in seen:
+            continue
+        seen.add(installation_id)
+        url = _get_authorize_url(
+            request, configs[host], workspace, next_url, installation_id
+        )
+        if owned_installation_ids is None or installation_id in owned_installation_ids:
+            choices.append((login, url))
+        else:
+            other_choices.append((login, url))
+    if choices or other_choices:
         return render(
             request,
             "vcs/github_install_account.html",
             {
                 "choices": choices,
+                "other_choices": other_choices,
                 "install_url": install_url,
                 "workspace": workspace,
-                **_MENU_CONTEXT,
             },
         )
     return redirect(install_url)
@@ -1194,17 +1223,13 @@ def github_app_migration(request, workspace_id):
     entries, repositories, installations = _get_github_app_migration_entries(
         request.user, workspace
     )
-    available_entries = [entry for entry in entries if entry["canonical_url"]]
-    unavailable_entries = [entry for entry in entries if not entry["canonical_url"]]
+    available_entries = [entry for entry in entries if entry["status"] == "ready"]
+    unavailable_entries = [
+        entry for entry in entries if entry["status"] == "access-needed"
+    ]
     entries_by_id = {str(entry["component"].pk): entry for entry in available_entries}
     component_choices = [
-        (
-            component_id,
-            (
-                f"{entry['component'].project.name} / "
-                f"{entry['component'].name} ({entry['full_name']})"
-            ),
-        )
+        (component_id, entry["component"].full_slug)
         for component_id, entry in entries_by_id.items()
     ]
     form = GitHubAppMigrationForm(
@@ -1292,8 +1317,10 @@ def github_app_migration(request, workspace_id):
             )
         return redirect("github-app-migration", workspace_id=workspace.pk)
 
+    for checkbox in form["components"]:
+        entries_by_id[checkbox.data["value"]]["checkbox"] = checkbox
     required_accounts = sorted(
-        {entry["full_name"].split("/", 1)[0] for entry in entries},
+        {entry["full_name"].split("/", 1)[0] for entry in unavailable_entries},
         key=str.casefold,
     )
     return render(
@@ -1302,14 +1329,13 @@ def github_app_migration(request, workspace_id):
         {
             "workspace": workspace,
             "entries": entries,
+            "bread_image": "project.svg",
             "available_entries": available_entries,
             "unavailable_entries": unavailable_entries,
             "installations": installations,
-            "manageable_installations": {
-                installation.pk
-                for installation in installations
-                if _user_can_manage_installation(request.user, installation)
-            },
+            "can_manage_installations": _user_can_install_in_workspace(
+                request.user, workspace
+            ),
             "required_accounts": required_accounts,
             "form": form,
             "next_url": request.get_full_path(),
@@ -1340,10 +1366,8 @@ def github_app_repository_list(request):
                 raise PermissionDenied
         except (Project.DoesNotExist, ValueError) as error:
             raise PermissionDenied from error
-        if selected_project.workspace_id is None:
-            selected_project_without_workspace = True
-        else:
-            selected_workspace = selected_project.workspace
+        selected_workspace = selected_project.workspace
+        selected_project_without_workspace = selected_workspace is None
 
     category_id = request.GET.get("category", "").strip()
     configured_hosts = set(get_github_app_configurations())
@@ -1397,8 +1421,12 @@ def github_app_repository_list(request):
             "selected_project": selected_project,
             "next_url": request.get_full_path(),
             "github_app_configured": github_app_is_configured(),
-            "github_app_install_url": _get_install_link(
-                request, request.get_full_path(), selected_workspace
+            "github_app_install_url": (
+                None
+                if selected_project_without_workspace
+                else _get_install_link(
+                    request, request.get_full_path(), selected_workspace
+                )
             ),
         },
     )

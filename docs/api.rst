@@ -1815,6 +1815,13 @@ Projects
     configuration can contain credentials and is returned only to users who
     can edit the installation's scope.
 
+    Browser sessions require :ref:`recent credential verification <2fa>` to read
+    or change installations through either the project or site-wide API, and to
+    change exclusions. If a request returns HTTP 403 with
+    ``Recent credential verification required.``, open the translation service's
+    configuration in the same browser, confirm your identity, and retry the
+    request. API token clients continue to use their token.
+
     :param project: Project URL slug
     :type project: string
     :>json array installations: Project installations.

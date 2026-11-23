@@ -830,6 +830,8 @@ Security properties Weblate provides
        changes to authentication credentials, access permissions, project
        and component visibility, account status, and bulk user-contribution
        cleanup require recent credential verification for browser sessions.
+       Reading full translation service configurations and changing installations
+       or exclusions also require recent verification for browser sessions.
        Accounts with 2FA use a second factor; other accounts confirm their password or an existing
        sign-in provider. API tokens remain separate credentials. *(documented)* (source:
        :doc:`/admin/auth`, :setting:`ENABLE_HTTPS`)

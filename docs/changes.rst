@@ -17,10 +17,13 @@ Weblate 2026.12
 
 .. rubric:: Improvements
 
+* Select components directly in the :ref:`GitHub App migration table <code-hosting-github-app-migrate>` and return to them after migration.
+
 * Added a choice to :ref:`connect an existing GitHub App installation to another workspace <code-hosting-github-app-connect>`.
 * Allow five minutes to assign strings to newly uploaded :ref:`screenshots` before raising an unused screenshot alert.
 * Show the last translator and approver in the :ref:`translation editor <source-context>`.
 
+* Link to SSH key replacement instructions in :ref:`component diagnostics <alerts>` when Azure DevOps reports an expired key.
 * Show commit counts, occurrence totals, file-format evidence, and the last recorded translation change in the relevant :ref:`component diagnostics <alerts>`.
 * Redesigned the :ref:`translation checklist <strings-to-check>` as responsive cards with prominent string counts and actions next to each filter.
 * Grouped :ref:`quick downloads <download>` into cards with format links and string, word, and character counts.
@@ -55,8 +58,10 @@ Weblate 2026.12
 
 .. rubric:: Security fixes
 
+* Required recent browser verification to view or change :ref:`translation service configurations <machine-translation-setup>` or change exclusions.
 * Removed internal filesystem paths and raw command output from gettext and script :ref:`add-on alerts <alerts>`.
 * Redacted remote source URLs from :ref:`JavaScript localization CDN <addon-weblate.cdn.cdnjs>` alerts and activity logs, including existing records.
+* Applied the destination project’s :ref:`access controls <access-control>` to component history after a move, and linked new category rename and move events to their category.
 
 * Required project management permission to change a component URL through the API and prevented :ref:`case-insensitive slug conflicts <component-slug>` from blocking repository cleanup.
 * Required the site-wide ``language.add`` permission to :http:post:`create a language through the REST API </api/languages/>`.
@@ -77,6 +82,7 @@ Weblate 2026.12
 .. rubric:: Bug fixes
 
 * Limited repository automation :ref:`alerts <alerts>` to components that own a remote repository and skipped screenshot coverage guidance for glossaries.
+* Applied changes to :setting:`VCS_ALLOW_SCHEMES` and the :setting:`default Git committer <DEFAULT_COMMITER_NAME>` after restarting Weblate, including for existing repositories.
 * Applied :ref:`enforced checks <enforcing-checks>` when changing a string's state through :ref:`bulk editing <bulk-edit>`.
 * Preserved draft edits and explained how to save them when submitting a :ref:`suggestion <suggestions>` with changes to a glossary explanation.
 * Preserved the :ref:`category hierarchy <category>` on project and category language overviews.

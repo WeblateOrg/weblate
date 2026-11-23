@@ -69,6 +69,10 @@ from weblate.accounts.notifications import (
 )
 from weblate.accounts.tasks import cleanup_inaccessible_subscriptions
 from weblate.accounts.tests.visibility import VisibilityPermissions
+from weblate.accounts.utils import (
+    FIRST_FACTOR_VERIFY_SECONDS,
+    SESSION_SENSITIVE_FACTOR_GRANT,
+)
 from weblate.addons.autotranslate import AutoTranslateAddon
 from weblate.addons.base import build_addon_change_details
 from weblate.addons.cdn import CDNJSAddon
@@ -5348,6 +5352,90 @@ class ProjectBrowsableAPIFormTest(APIBaseTest):
             fromstring(response.content).xpath('//input[@name="workspace"]/@value'),
             [str(current.pk)],
         )
+
+
+class MachinerySessionAPITest(APIBaseTest):
+    def test_machinery_session_verification(self) -> None:
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.client.force_login(self.user)
+        installation = MachineryInstallation.objects.create(
+            project=self.project,
+            engine="deepl",
+            configuration={"key": "saved-secret"},
+        )
+        inherited = MachineryInstallation.objects.create(engine="deepl")
+        exclusion = MachineryExclusion.objects.create(
+            project=self.project, installation=inherited
+        )
+        collection = reverse("api:machinery-installation-list")
+        detail = reverse("api:machinery-installation-detail", args=[installation.pk])
+        nested = reverse("api:project-machinery-settings", kwargs=self.project_kwargs)
+        exclusions = reverse("api:machinery-exclusion-list")
+        exclusion_detail = reverse(
+            "api:machinery-exclusion-detail", args=[exclusion.pk]
+        )
+        response = self.client.get(detail)
+        self.assertContains(
+            response, "Recent credential verification required.", status_code=403
+        )
+        verified = self.client.post(
+            reverse("first-factor-verify"),
+            {"password": "x", "target": "sensitive", "next": detail},
+        )
+        self.assertRedirects(verified, detail, fetch_redirect_response=False)
+        self.assertContains(self.client.get(detail), "saved-secret")
+        self.assertContains(self.client.get(collection), "saved-secret")
+        self.assertContains(self.client.get(nested), "saved-secret")
+        self.assertEqual(self.client.patch(detail, {"enabled": False}).status_code, 200)
+        self.assertEqual(
+            self.client.get(
+                reverse("api:machinery-installation-detail", args=[inherited.pk])
+            ).status_code,
+            404,
+        )
+
+        session = self.client.session
+        session[SESSION_SENSITIVE_FACTOR_GRANT]["time"] -= (
+            FIRST_FACTOR_VERIFY_SECONDS + 1
+        )
+        session.save()
+        with patch("weblate.machinery.api.validate_service_configuration") as validate:
+            for url, methods in (
+                (collection, ("get", "post")),
+                (detail, ("get", "put", "patch", "delete")),
+                (nested, ("get", "post")),
+                (exclusions, ("post",)),
+                (exclusion_detail, ("put", "patch", "delete")),
+            ):
+                for method in methods:
+                    with self.subTest(url=url, method=method):
+                        response = getattr(self.client, method)(url)
+                        self.assertContains(
+                            response,
+                            "Recent credential verification required.",
+                            status_code=403,
+                        )
+                        self.assertNotContains(
+                            response, "saved-secret", status_code=403
+                        )
+            response = self.client.post(
+                nested,
+                {"engine": "deepl", "configuration": {"key": "new-key"}},
+                format="json",
+            )
+            self.assertEqual(response.status_code, 403)
+            validate.assert_not_called()
+        self.assertEqual(
+            MachineryInstallation.objects.filter(
+                project=self.project, engine="deepl"
+            ).count(),
+            1,
+        )
+        installation.refresh_from_db()
+        self.assertFalse(installation.enabled)
+        self.assertEqual(installation.configuration, {"key": "saved-secret"})
+        self.assertEqual(self.client.get(exclusions).status_code, 200)
+        self.assertEqual(self.client.get(exclusion_detail).status_code, 200)
 
 
 class ProjectAPITest(APIBaseTest):
@@ -22237,6 +22325,39 @@ class ScreenshotAPITest(APIBaseTest):
 
 
 class ChangeAPITest(APIBaseTest):
+    def test_moved_component_history_follows_project(self) -> None:
+        destination = self.create_project(
+            name="Destination",
+            slug="destination",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        change = self.component.change_set.create(
+            action=ActionEvents.CHANGE, target="Earlier edit", user=self.user
+        )
+        global_url = reverse("api:change-list")
+        old_url = reverse("api:project-changes", kwargs=self.project_kwargs)
+        new_url = reverse("api:project-changes", kwargs={"slug": destination.slug})
+
+        def contains_change(url: str) -> bool:
+            response = self.client.get(url, {"component": self.component.pk})
+            self.assertEqual(response.status_code, 200, response.data)
+            return change.pk in {entry["id"] for entry in response.data["results"]}
+
+        self.assertTrue(contains_change(global_url))
+        with acting_user_context(self.user):
+            self.component.project = destination
+            self.component.save(update_fields=["project_id"])
+
+        for authenticated in (False, True):
+            if authenticated:
+                self.authenticate()
+            with self.subTest(authenticated=authenticated):
+                self.assertFalse(contains_change(global_url))
+                self.assertFalse(contains_change(old_url))
+        destination.add_user(self.user, "Administration")
+        self.assertTrue(contains_change(new_url))
+        self.assertTrue(contains_change(global_url))
+
     def test_invitation_email_masked_in_history(self) -> None:
         email = "victim.person@corp.example"
         change = self.project.change_set.create(
