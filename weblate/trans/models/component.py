@@ -3292,9 +3292,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
             self.repository.configure_remote(
                 self.repo, self.push, self.branch, fast=not self.id
             )
-            self.repository.set_committer(
-                settings.DEFAULT_COMMITER_NAME, settings.DEFAULT_COMMITER_EMAIL
-            )
 
             if pull:
                 self.update_remote_branch(validate)

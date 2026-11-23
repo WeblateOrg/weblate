@@ -73,6 +73,7 @@ Weblate 2026.12
 
 .. rubric:: Bug fixes
 
+* Applied changes to :setting:`VCS_ALLOW_SCHEMES` and the :setting:`default Git committer <DEFAULT_COMMITER_NAME>` after restarting Weblate, including for existing repositories.
 * Applied :ref:`enforced checks <enforcing-checks>` when changing a string's state through :ref:`bulk editing <bulk-edit>`.
 * Preserved draft edits and explained how to save them when submitting a :ref:`suggestion <suggestions>` with changes to a glossary explanation.
 * Preserved the :ref:`category hierarchy <category>` on project and category language overviews.

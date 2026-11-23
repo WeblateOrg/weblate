@@ -1638,10 +1638,6 @@ class Repository:
         """Return VCS program version."""
         return cls._popen(["--version"], merge_err=False)
 
-    def set_committer(self, name: str, mail: str) -> None:
-        """Configure committer name."""
-        raise NotImplementedError
-
     def commit(
         self,
         message: str,

@@ -126,7 +126,7 @@ def _assert_no_github_app_auth_args(testcase: TestCase, args: list[str]) -> None
 def _assert_github_app_auth_environment(
     testcase: TestCase, environment: dict[str, str]
 ) -> None:
-    testcase.assertEqual(environment["GIT_CONFIG_COUNT"], "1")
+    testcase.assertNotIn("http.proactiveAuth", environment.values())
     testcase.assertEqual(environment["GIT_CONFIG_KEY_0"], "http.extraHeader")
     testcase.assertEqual(
         b64decode(
@@ -456,10 +456,8 @@ class TestGitHubInstallationManager(TestCase):
         )
         repository = self._make_app_repository()
 
-        args = repository.get_auth_args()
         environment = repository.get_auth_environment()
 
-        _assert_no_github_app_auth_args(self, args)
         _assert_github_app_auth_environment(self, environment)
         self.assertEqual(len(http_mock.calls), 1)
         self.assertEqual(

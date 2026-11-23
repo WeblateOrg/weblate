@@ -12184,7 +12184,6 @@ class TargetChangeAddonTest(ComponentTestCase):
                 updated_json_content, encoding="utf-8"
             )
             with repo.lock:
-                repo.set_committer("Toast", "toast@example.net")
                 repo.commit(
                     "Simulate commit directly into remote repo",
                     "Toast <test@example.net>",

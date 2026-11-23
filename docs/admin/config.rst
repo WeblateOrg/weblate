@@ -839,6 +839,10 @@ This identifies Weblate as the committer, separately from the translator recorde
 as the author. To make translators' author e-mail addresses private by default,
 set :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` to ``False``.
 
+For Git, Weblate applies this address to new commits in all checkouts after
+you restart its services. It takes precedence over the checkout's committer
+configuration.
+
 .. seealso::
 
    :setting:`DEFAULT_COMMITER_NAME`
@@ -853,6 +857,10 @@ Committer name, defaulting to ``Weblate``.
 This identifies Weblate as the committer, separately from the translator recorded
 as the author. To make translators' author names private by default, set
 :setting:`PRIVATE_COMMIT_NAME_OPT_IN` to ``False``.
+
+For Git, Weblate applies this name to new commits in all checkouts after you
+restart its services. It takes precedence over the checkout's committer
+configuration.
 
 .. seealso::
 
@@ -3239,6 +3247,9 @@ VCS_ALLOW_SCHEMES
 
 A set of URL schemes to allow when configuring VCS URL. Only ``https`` and
 ``ssh`` are allowed by default.
+
+Weblate also applies this setting when launching Git. Restart the Weblate
+services after changing it.
 
 The ``file`` scheme and bare filesystem paths are disabled for security reasons
 because they could allow component editors to access repositories on the server
