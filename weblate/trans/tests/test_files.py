@@ -954,7 +954,7 @@ class LanguageUploadValidationTest(ImportBaseTest):
         assert path is not None
         filename = Path(path)
         content = filename.read_bytes()
-        targets = list(translation.unit_set.values_list("target", flat=True))
+        targets = list(translation.unit_set.order_by("pk").values_list("pk", "target"))
         changes = translation.change_set.count()
         for method in ("translate", "approve", "fuzzy", "suggest", "add", "replace"):
             with (
@@ -975,7 +975,8 @@ class LanguageUploadValidationTest(ImportBaseTest):
             component_commit.assert_not_called()
             self.assertEqual(filename.read_bytes(), content)
             self.assertEqual(
-                list(translation.unit_set.values_list("target", flat=True)), targets
+                list(translation.unit_set.order_by("pk").values_list("pk", "target")),
+                targets,
             )
             self.assertEqual(translation.change_set.count(), changes)
 
