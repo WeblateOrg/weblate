@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import datetime as dt
 from itertools import zip_longest
-from typing import TYPE_CHECKING, TypedDict, cast
+from typing import TYPE_CHECKING, ClassVar, TypedDict, cast
 
 from django.db import models, transaction
 from django.db.models import Count, Q
@@ -122,6 +122,49 @@ def get_user_change_metric_expressions() -> dict[str, Count]:
             ),
         ),
     }
+
+
+class ContributorCount(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    translation = models.ForeignKey(
+        Translation, on_delete=models.CASCADE, db_index=False
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    contributions = models.PositiveBigIntegerField()
+    edits = models.PositiveBigIntegerField()
+
+    class Meta:
+        constraints: ClassVar = [
+            models.UniqueConstraint(
+                fields=("translation", "user"), name="metrics_contributor_scope_unique"
+            ),
+            models.CheckConstraint(
+                condition=Q(edits__lte=models.F("contributions")),
+                name="metrics_contributor_edits_valid",
+            ),
+        ]
+        indexes: ClassVar = [
+            models.Index(
+                fields=("translation", "-edits", "user"),
+                name="metrics_contributor_rank_idx",
+            )
+        ]
+
+    def __str__(self) -> str:
+        return f"{self.translation_id}/{self.user_id}: {self.edits}"
+
+
+class ContributorCollection(models.Model):
+    collection_date = models.DateField()
+    cursor = models.BigIntegerField(default=0)
+    last_completed = models.DateField(null=True)
+
+    def __str__(self) -> str:
+        return f"Contributor rankings ({self.collection_date})"
+
+    @classmethod
+    def is_ready(cls) -> bool:
+        return cls.objects.filter(pk=1, last_completed__isnull=False).exists()
 
 
 def serialize_metric_data(data: dict) -> tuple[int, list[int] | None]:
@@ -494,10 +537,16 @@ class MetricManager(models.Manager["Metric"]):
 
         self.store_batch(metrics)
 
-    def collect_batch(self, objects: Sequence[MetricObject], date: dt.date) -> None:
+    def collect_batch(
+        self,
+        objects: Sequence[MetricObject],
+        date: dt.date,
+        *,
+        refresh_contributors: bool = False,
+    ) -> None:
         from weblate.metrics.collection import collect_batch  # ruff: ignore[import-outside-top-level]
 
-        collect_batch(self, objects, date)
+        collect_batch(self, objects, date, refresh_contributors=refresh_contributors)
 
     def store_batch(self, metrics: list[Metric]) -> None:
         """Insert a bounded batch and fill incomplete rows without overwriting counters."""

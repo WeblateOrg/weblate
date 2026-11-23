@@ -9,7 +9,7 @@ from __future__ import annotations
 from types import SimpleNamespace
 from typing import TYPE_CHECKING
 from unittest.mock import patch
-from urllib.parse import parse_qs, urlsplit
+from urllib.parse import urlsplit
 
 from django.contrib.auth.models import AnonymousUser
 from django.db import connection
@@ -40,7 +40,7 @@ from weblate.accounts.visibility import (
 from weblate.auth.models import Group, Permission, Role, User, get_anonymous
 from weblate.trans.actions import ActionEvents
 from weblate.trans.feeds import BaseFeed, ChangesFeed
-from weblate.trans.models import Announcement, Change
+from weblate.trans.models import Announcement, Change, ComponentList
 from weblate.trans.templatetags.translations import (
     format_commit_author,
     format_last_changes_content,
@@ -249,7 +249,8 @@ class UserDisplayTest(FixtureTestCase):
             "stats=project.stats metrics=project|metrics %}"
         )
         for component in (None, self.component):
-            scope = component.full_slug if component else self.project.slug
+            scope = component or self.project
+            url = reverse("contributor_list", kwargs={"path": scope.get_url_path()})
             for mode in ("all", "scoped", "disabled"):
                 for permission in (None, "user.view", "user.edit"):
                     with (
@@ -274,18 +275,10 @@ class UserDisplayTest(FixtureTestCase):
                                 }
                             )
                         )
-                        queries = [
-                            parse_qs(url.query)["q"][0].strip()
-                            for href in fromstring(rendered).xpath(".//@href")
-                            if (url := urlsplit(href)).path == reverse("user_list")
-                            and url.query
-                        ]
-                        expected = (
-                            [f"contributes:{scope}"]
-                            if permission or mode in {"all", "scoped"}
-                            else []
+                        self.assertEqual(
+                            url in fromstring(rendered).xpath(".//@href"),
+                            bool(permission) or mode in {"all", "scoped"},
                         )
-                        self.assertEqual(queries, expected)
 
     def test_information_panel_browse_all_users(self) -> None:
         Profile.objects.filter(user=self.target).update(translated=1)
@@ -326,6 +319,23 @@ class UserDisplayTest(FixtureTestCase):
                         reverse("user_list") in fromstring(rendered).xpath(".//@href"),
                         bool(permission) or mode == "all",
                     )
+
+    def test_component_list_contributor_link_requires_directory_access(self) -> None:
+        component_list = ComponentList.objects.create(name="UI test", slug="ui-test")
+        template = Template(
+            "{% load translations metrics %}"
+            "{% show_info componentlist=component_list "
+            "stats=component_list.stats metrics=component_list|metrics %}"
+        )
+        for mode in ("all", "scoped", "disabled"):
+            with self.subTest(mode=mode), VisibilityPermissions(directory=mode):
+                rendered = template.render(
+                    Context({"user": self.user, "component_list": component_list})
+                )
+                self.assertEqual(
+                    reverse("user_list") in fromstring(rendered).xpath(".//@href"),
+                    mode == "all",
+                )
 
     @VisibilityPermissions(profile="admins")
     def test_mentions_and_preview(self) -> None:

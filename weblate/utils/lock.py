@@ -39,6 +39,7 @@ class LockScope(IntegerChoices):
     TASK_METADATA = 14, "task-metadata"
     SECURITY_CONFIRM = 15, "security-confirm"
     NOTIFY_RESERVATION = 16, "notify-reservation"
+    CONTRIBUTOR_METRICS = 17, "contributor-metrics"
 
 
 class LockInfo(Protocol):
