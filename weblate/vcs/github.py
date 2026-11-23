@@ -72,7 +72,6 @@ GITHUB_APP_MANIFEST_PERMISSIONS: dict[str, str] = {
     "metadata": "read",
     "organization_administration": "read",
     "pull_requests": "write",
-    "workflows": "write",
 }
 GITHUB_APP_MANIFEST_EVENTS: tuple[str, ...] = (
     "installation_target",

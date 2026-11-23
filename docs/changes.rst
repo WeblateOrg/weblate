@@ -48,6 +48,7 @@ Weblate 2026.12
 * The :ref:`C# format <check-c-sharp-format>` check now also recognizes named placeholders used by C# string interpolation, such as ``There are {count} apples``, including member access (``{user.Name}``) and alignment/format components, while treating doubled braces (``{{``/``}}``) as escapes.
 * Highlight :ref:`HTML tags <check-safe-html>` in the translation editor so translators can insert a complete tag with one click and edit quoted attribute values while the surrounding markup stays highlighted.
 
+* Removed the Workflows permission from :ref:`new GitHub App registrations <code-hosting-github-app-register>`.
 * Added a choice to :ref:`connect an existing GitHub App installation to another workspace <code-hosting-github-app-connect>`.
 * Allow five minutes to assign strings to newly uploaded :ref:`screenshots` before raising an unused screenshot alert.
 * Show the last translator and approver in the :ref:`translation editor <source-context>`.
