@@ -855,7 +855,7 @@ class ComponentDiscovery:
         if path and groups.get("language"):
             languages.add(groups["language"])
             files_langs.add((path, groups["language"]))
-        category_path = ()
+        category_path: tuple[str, ...] = ()
         if "category" in self.path_match.groupindex:
             category_path = normalize_category_path(groups.get("category"))
         return {
@@ -1341,29 +1341,25 @@ class ComponentDiscovery:
     ) -> tuple[set[str], set[str]]:
         slugs: set[str] = set()
         names: set[str] = set()
+        if category_id is None:
+            component_qs = project.component_set.filter(category=None)
+            category_qs = Category.objects.filter(project=project, category=None)
+        else:
+            component_qs = project.component_set.filter(category_id=category_id)
+            category_qs = Category.objects.filter(
+                project=project, category_id=category_id
+            )
         slugs.update(
-            slug.lower()
-            for slug in project.component_set.filter(
-                category_id=category_id
-            ).values_list("slug", flat=True)
+            slug.lower() for slug in component_qs.values_list("slug", flat=True)
         )
         names.update(
-            name.lower()
-            for name in project.component_set.filter(
-                category_id=category_id
-            ).values_list("name", flat=True)
+            name.lower() for name in component_qs.values_list("name", flat=True)
         )
         slugs.update(
-            slug.lower()
-            for slug in Category.objects.filter(
-                project=project, category_id=category_id
-            ).values_list("slug", flat=True)
+            slug.lower() for slug in category_qs.values_list("slug", flat=True)
         )
         names.update(
-            name.lower()
-            for name in Category.objects.filter(
-                project=project, category_id=category_id
-            ).values_list("name", flat=True)
+            name.lower() for name in category_qs.values_list("name", flat=True)
         )
         return slugs, names
 
@@ -1389,24 +1385,19 @@ class ComponentDiscovery:
             ):
                 return gettext("Category path contains a segment that is too long.")
 
-            parent_id = parent.pk if parent else None
             if parent is None or parent.pk is not None:
-                if project.component_set.filter(
-                    category_id=parent_id, slug=slug
-                ).exists():
+                if project.component_set.filter(category=parent, slug=slug).exists():
                     return gettext(
                         'Category path conflicts with an existing component at segment "%(segment)s".'
                     ) % {"segment": segment}
-                if project.component_set.filter(
-                    category_id=parent_id, name=segment
-                ).exists():
+                if project.component_set.filter(category=parent, name=segment).exists():
                     return gettext(
                         'Category path conflicts with an existing component at segment "%(segment)s".'
                     ) % {"segment": segment}
 
             if parent is None or parent.pk is not None:
                 existing = Category.objects.filter(
-                    project=project, category_id=parent_id, slug=slug
+                    project=project, category=parent, slug=slug
                 ).first()
                 if existing is not None:
                     parent = existing
@@ -1441,7 +1432,7 @@ class ComponentDiscovery:
             slug = slugify(segment)
             parent_id = parent.pk if parent else None
             existing = Category.objects.filter(
-                project=project, category_id=parent_id, slug=slug
+                project=project, category=parent, slug=slug
             ).first()
             if existing is not None:
                 parent = existing
