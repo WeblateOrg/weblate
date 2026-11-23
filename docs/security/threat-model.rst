@@ -257,9 +257,12 @@ repository state, background tasks, outbound requests, and rendered UI.
        Usernames in an ordinary user's backup are identity claims: other local
        accounts receive membership invitations and remain anonymous authors
        until informed acceptance. Superuser imports are trusted to map accounts
-       directly. Consent can update covered database authorship, including
-       history created before acceptance and changes propagated to other projects;
-       it does not rewrite actors, existing repository commits, or exported
+       directly. Any importer can attribute historical content to recognized
+       internal bots reconstructed from local definitions. This grants no team
+       access. The importer remains the restore actor. Consent can update covered
+       database authorship, including history created before acceptance and
+       changes propagated to other projects; it does not rewrite actors,
+       existing repository commits, or exported
        copies. *(maintainer)*
 
 Reachability preconditions:

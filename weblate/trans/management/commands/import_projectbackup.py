@@ -26,6 +26,11 @@ class Command(BaseCommand):
         parser.add_argument("project_name", help="Project name")
         parser.add_argument("project_slug", help="Project slug")
         parser.add_argument("username", help="Username doing import")
+        parser.add_argument(
+            "--skip-duplicate-translations",
+            action="store_true",
+            help="Keep the first target file in scan order when translations resolve to the same language.",
+        )
         parser.add_argument("filename", help="Path to project backup")
 
     # pylint: disable-next=arguments-differ
@@ -41,9 +46,12 @@ class Command(BaseCommand):
         restore = ProjectBackup(filename)
 
         try:
-            restore.validate()
+            restore.validate(preview=bool(options["skip_duplicate_translations"]))
             restore.restore(
-                project_name=project_name, project_slug=project_slug, user=user
+                project_name=project_name,
+                project_slug=project_slug,
+                user=user,
+                duplicate_scope=restore.duplicate_scope,
             )
         except ValidationError as error:
             raise CommandError("\n".join(format_backup_error(error))) from error

@@ -6,15 +6,16 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
 import stat
 import warnings
-from collections import defaultdict
+from collections import Counter, defaultdict
 from contextlib import ExitStack
 from datetime import datetime
-from functools import partial
+from functools import cached_property, partial
 from io import BytesIO
 from itertools import batched
 from operator import itemgetter
@@ -48,7 +49,7 @@ from packaging.version import InvalidVersion, Version
 from weblate_schemas import load_schema, validate_schema
 
 from weblate.auth.audit import audit_team_changes
-from weblate.auth.bots import InternalBot
+from weblate.auth.bots import InternalBot, internal_bot_names
 from weblate.auth.invitations import create_team_invitation
 from weblate.auth.models import (
     AutoGroup,
@@ -121,7 +122,7 @@ from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.params import VCS_PARAMS
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Mapping
+    from collections.abc import Callable, Mapping, Sequence
 
     from django.core.files.storage import Storage
 
@@ -310,6 +311,22 @@ def format_backup_error(error: Exception) -> list[str]:
     ]
 
 
+class SkippedTranslation(TypedDict):
+    component: str
+    language: str
+    code: str
+    filename: str
+    kept_code: str
+    kept_filename: str
+    units: int
+    comments: int
+    checks: int
+    votes: int
+    suggestions: int
+    pending: int
+    screenshots: int
+
+
 class ProjectBackup:
     COMPONENTS_PREFIX = "components/"
     VCS_PREFIX = "vcs/"
@@ -345,12 +362,15 @@ class ProjectBackup:
         self.author_claims: dict[str, BackupAuthorClaim] = {}
         self.author_claims_by_user: dict[int, BackupAuthorClaim] = {}
         self.unmapped_usernames: set[str] = set()
+        self.conflicting_bot_names: set[str] = set()
         self.pending_usernames: set[str] = set()
         self.components_cache: dict[str, Component] = {}
         self.categories_cache: dict[str, Category] = {}
         self.roles_cache: dict[str, Role] = {}
         self.components_made_public: list[str] = []
         self.public_only_restore = False
+        self.duplicate_errors: list[str] = []
+        self.duplicate_targets: dict[str, dict[int, SkippedTranslation]] = {}
         self.skipped_components: list[str] = []
         self.renamed_teams: list[tuple[str, str]] = []
         self.skipped_parameters: list[tuple[str, str, str, bool]] = []
@@ -363,6 +383,7 @@ class ProjectBackup:
         self.component_slugs_by_length: list[str] = []
         self.component_repo_links: set[str] = set()
         self.component_vcs: dict[str, type[Repository] | None] = {}
+        self.repositories_with_worktree_files: set[str] = set()
         self.restored_repositories: set[str] = set()
         self.label_names: set[str] = set()
         self.name_siblings: set[tuple[str, str]] = set()
@@ -1552,8 +1573,8 @@ class ProjectBackup:
             self.component_repo_links.add(full_slug)
 
         translation_ids: set[int] = set()
-        translation_languages: dict[int, str] = {}
-        language_sources: dict[str, str] = {}
+        resolved_languages: dict[int, Language] = {}
+        language_sources: dict[str, list[dict]] = defaultdict(list)
         source_translation_ids: list[int] = []
         for index, item in enumerate(data["translations"]):
             item_path = f"{path}.translations[{index}]"
@@ -1579,7 +1600,9 @@ class ProjectBackup:
                     raise ValidationError(
                         {f"{item_path}.filename": error.messages}
                     ) from error
-            self.validate_model_data(Plural, item["plural"], f"{item_path}.plural")
+            self.validate_model_data(
+                Plural, item["plural"], f"{item_path}.plural", model_clean=True
+            )
             language = self.validate_language(
                 item["language_code"], f"{item_path}.language_code", file_code=True
             )
@@ -1587,18 +1610,18 @@ class ProjectBackup:
                 raise ValidationError(
                     {f"{item_path}.id": [gettext("Duplicate translation identifier.")]}
                 )
-            if previous_code := language_sources.get(language.code):
-                values = [previous_code, item["language_code"]]
-                msg = (
-                    "Several languages from backup map to single language on this "
-                    f"server {values} -> {language.code}"
-                )
-                raise ValueError(msg)
             translation_ids.add(item["id"])
-            translation_languages[item["id"]] = language.code
-            language_sources[language.code] = item["language_code"]
+            resolved_languages[item["id"]] = language
+            language_sources[language.code].append(item)
             if language.code == source_language.code:
                 source_translation_ids.append(item["id"])
+        if len(source_translation_ids) > 1:
+            # Collect conflicts in subsequent components before rejecting the
+            # archive. Unit references cannot be validated without a unique source.
+            self.record_language_collisions(
+                component_object, filename, language_sources, data
+            )
+            return
         if len(source_translation_ids) != 1:
             raise ValidationError(
                 {
@@ -1808,6 +1831,132 @@ class ProjectBackup:
                         }
                     )
 
+        self.record_language_collisions(
+            component_object, filename, language_sources, data
+        )
+        skipped = self.duplicate_targets.get(filename, {})
+        for index, item in enumerate(data["translations"]):
+            if item["id"] in skipped:
+                continue
+            plural = item["plural"]
+            if plural["source"] in {
+                Plural.SOURCE_CLDR,
+                Plural.SOURCE_ANDROID,
+                Plural.SOURCE_QT,
+            }:
+                language = resolved_languages[item["id"]]
+                self.find_managed_plural(
+                    language,
+                    plural,
+                    f"{filename}.translations[{index}] ({item['filename']})",
+                )
+
+    def record_language_collisions(
+        self,
+        component: Component,
+        filename: str,
+        groups: dict[str, list[dict]],
+        data: dict,
+    ) -> None:
+        duplicates = {code: rows for code, rows in groups.items() if len(rows) > 1}
+        if not duplicates:
+            return
+        counts: dict[int, Counter[str]] = defaultdict(Counter)
+        for unit in data["units"]:
+            count = counts[unit["translation_id"]]
+            count["units"] += 1
+            count["comments"] += len(unit["comments"])
+            count["suggestions"] += len(unit["suggestions"])
+            count["votes"] += sum(
+                len(suggestion["votes"]) for suggestion in unit["suggestions"]
+            )
+            count["checks"] += len(unit["checks"])
+            if "pending_unit_changes" not in data and unit.get("pending"):
+                count["pending_unit_changes"] += 1
+        for key in ("pending_unit_changes", "screenshots"):
+            for item in data.get(key, []):
+                counts[item["translation_id"]][key] += 1
+        skipped: dict[int, SkippedTranslation] = {}
+        self.duplicate_targets[filename] = skipped
+        component_slug = self.get_component_backup_slug(data["component"])
+        for language, rows in duplicates.items():
+            # Target paths in a full file mask scan are sorted lexicographically.
+            ordered = sorted(rows, key=itemgetter("filename"))
+            paths = {item["filename"] for item in rows}
+            if language == component.source_language.code:
+                problem = gettext(
+                    "Multiple files resolve to the source language %(language)s."
+                )
+            elif (
+                len(paths) != len(rows)
+                or "" in paths
+                or any(
+                    component.get_lang_code(item["filename"]) != item["language_code"]
+                    for item in rows
+                )
+            ):
+                problem = gettext(
+                    "Cannot determine which file the component will scan first for %(language)s."
+                )
+            else:
+                problem = ""
+            if problem:
+                files = ", ".join(
+                    f"{row['language_code']} ({row['filename']})" for row in ordered
+                )
+                self.duplicate_errors.append(
+                    f"{component_slug}: {problem % {'language': language}} {files}"
+                )
+                continue
+            keep = ordered[0]
+            for item in ordered[1:]:
+                count = counts[item["id"]]
+                skipped[item["id"]] = SkippedTranslation(
+                    component=component_slug,
+                    language=language,
+                    code=item["language_code"],
+                    filename=item["filename"],
+                    kept_code=keep["language_code"],
+                    kept_filename=keep["filename"],
+                    units=count["units"],
+                    comments=count["comments"],
+                    suggestions=count["suggestions"],
+                    checks=count["checks"],
+                    votes=count["votes"],
+                    pending=count["pending_unit_changes"],
+                    screenshots=count["screenshots"],
+                )
+
+    @property
+    def skipped_translations(self) -> list[SkippedTranslation]:
+        return [
+            item
+            for targets in self.duplicate_targets.values()
+            for item in targets.values()
+        ]
+
+    @property
+    def duplicate_scope(self) -> str:
+        """Bind approval to the exact omissions displayed in the preview."""
+        if not self.duplicate_targets:
+            return ""
+        records = sorted(
+            self.skipped_translations, key=itemgetter("component", "filename")
+        )
+        return hashlib.sha256(json.dumps(records, sort_keys=True).encode()).hexdigest()
+
+    def duplicate_warnings(self) -> list[str]:
+        return [
+            gettext(
+                "%(component)s: %(kept_code)s (%(kept_filename)s) and %(code)s (%(filename)s) "
+                "resolve to %(language)s. Keeping %(kept_filename)s omits %(filename)s from Weblate "
+                "(units: %(units)d, comments: %(comments)d, suggestions: %(suggestions)d, "
+                "votes: %(votes)d, checks: %(checks)d, pending edits: %(pending)d, screenshots: %(screenshots)d)."
+            )
+            % item
+            for item in self.skipped_translations
+        ]
+
     def validate_team_references(self, *, validate_roles: bool) -> None:
         if validate_roles:
             roles = {role.name for role in Role.objects.all()}
@@ -1928,6 +2077,17 @@ class ProjectBackup:
             if changes is None:
                 msg = "Need a restore changes list."
                 raise TypeError(msg)
+            if skipped := self.duplicate_targets.get(filename):
+                data["translations"] = [
+                    item for item in data["translations"] if item["id"] not in skipped
+                ]
+                for key in ("units", "pending_unit_changes", "screenshots"):
+                    if key in data:
+                        data[key] = [
+                            item
+                            for item in data[key]
+                            if item["translation_id"] not in skipped
+                        ]
             return self.restore_component(zipfile, data, actor, changes)
         return True
 
@@ -2019,7 +2179,7 @@ class ProjectBackup:
                 do_restore=False,
             )
 
-    def validate(self) -> None:
+    def validate(self, *, preview: bool = False) -> None:
         input_file = self.filename or self.fileio
         if input_file is None:
             msg = "Can not validate None file."
@@ -2027,6 +2187,15 @@ class ProjectBackup:
         self.validated = False
         with ZipFile(input_file, "r") as zipfile:
             self.validate_archive(zipfile)
+            if self.duplicate_targets and not preview:
+                raise ValidationError(
+                    [
+                        gettext(
+                            "Multiple backup languages resolve to one destination language. Check SIMPLIFY_LANGUAGES."
+                        ),
+                        *self.duplicate_warnings(),
+                    ]
+                )
         self.validated = True
 
     def validate_archive(
@@ -2038,6 +2207,8 @@ class ProjectBackup:
         validate_roles: bool = False,
     ) -> None:
         """Validate and cache all restore input before any state is changed."""
+        self.duplicate_errors.clear()
+        self.duplicate_targets.clear()
         self.component_data.clear()
         self.skipped_parameters.clear()
         self.memory_data.clear()
@@ -2060,6 +2231,16 @@ class ProjectBackup:
         )
         self.load_memory(zipfile)
         self.load_components(zipfile)
+        if self.duplicate_errors:
+            raise ValidationError(
+                [
+                    gettext(
+                        "Check the destination language definitions and SIMPLIFY_LANGUAGES."
+                    ),
+                    *self.duplicate_errors,
+                    *self.duplicate_warnings(),
+                ]
+            )
         self.component_slugs_by_length = sorted(
             self.component_full_slugs, key=len, reverse=True
         )
@@ -2095,11 +2276,31 @@ class ProjectBackup:
             self.unmapped_usernames.add(username)
         return user
 
+    @cached_property
+    def bot_names(self) -> dict[str, str]:
+        return internal_bot_names()
+
     def restore_user(self, username: str | None) -> User:
         if self.restore_actor is None:
             msg = "Need a restore actor."
             raise TypeError(msg)
         if not username:
+            return get_anonymous()
+        if username in self.bot_names:
+            if username not in self.user_cache:
+                scope, name = username.split(":", 1)
+                self.user_cache[username] = User.objects.get_or_create_bot(
+                    scope=scope, name=name, verbose=self.bot_names[username]
+                )
+            user = self.user_cache[username]
+            if (
+                user.username == username
+                and user.is_bot
+                and not user.is_active
+                and not user.has_usable_password()
+            ):
+                return user
+            self.conflicting_bot_names.add(username)
             return get_anonymous()
         user = self.lookup_backup_user(username)
         if (
@@ -2167,7 +2368,7 @@ class ProjectBackup:
     def restore_team_members(
         self,
         group: Group,
-        members: list[str | dict[str, Any]],
+        members: Sequence[str | dict[str, Any]],
         *,
         admins: list[str] | None = None,
     ) -> None:
@@ -2182,8 +2383,10 @@ class ProjectBackup:
             records: dict[str, str | dict[str, Any]] = {}
             for member in members:
                 username = member if isinstance(member, str) else member["username"]
+                if username in self.bot_names:
+                    continue
                 user = self.lookup_backup_user(username)
-                if user.is_anonymous:
+                if user.is_anonymous or user.username in self.bot_names:
                     continue
                 username = user.username
                 self.user_cache[username] = user
@@ -2204,8 +2407,10 @@ class ProjectBackup:
                 records[username] = member
             admin_names = set()
             for username in admins:
+                if username in self.bot_names:
+                    continue
                 user = self.lookup_backup_user(username)
-                if not user.is_anonymous:
+                if not user.is_anonymous and user.username not in self.bot_names:
                     self.user_cache[user.username] = user
                     admin_names.add(user.username)
                     records.setdefault(user.username, user.username)
@@ -2406,6 +2611,14 @@ class ProjectBackup:
                 % {"username": username}
                 for username in sorted(self.pending_usernames)
             ]
+            + [
+                gettext(
+                    "Authorship for %(username)s was skipped because the local account conflicts with the internal bot definition."
+                )
+                % {"username": name}
+                for name in sorted(self.conflicting_bot_names)
+            ]
+            + self.duplicate_warnings()
             + get_team_rename_warnings(self.renamed_teams)
             + [
                 (
@@ -2795,6 +3008,26 @@ class ProjectBackup:
             )
 
     @staticmethod
+    def find_managed_plural(language: Language, data: dict, path: str) -> Plural:
+        local = language.plural_set.all() if language.pk else Plural.objects.none()
+        if exact := local.filter(**data).first():
+            return exact
+        rule = local.find_by_preference(language, (data["source"],))
+        if rule is not None and (
+            rule.language_id == language.pk
+            or all(getattr(rule, key) == value for key, value in data.items())
+        ):
+            return rule
+        raise ValidationError(
+            {
+                path: gettext(
+                    "No compatible plural rule for language %(language)s and plural source %(source)s."
+                )
+                % {"language": language.code, "source": data["source"]}
+            }
+        )
+
+    @staticmethod
     def restore_plural(language: Language, data: dict[str, Any]) -> Plural:
         if data["source"] == Plural.SOURCE_CLDR_ZERO:
             # Generate current rules rather than resurrect a formula
@@ -2807,7 +3040,8 @@ class ProjectBackup:
             return language.plural
         if data["source"] in {Plural.SOURCE_MANUAL, Plural.SOURCE_GETTEXT}:
             return language.plural_set.create(**data)
-        return language.plural_set.filter(source=data["source"])[0]
+        rule = ProjectBackup.find_managed_plural(language, data, language.code)
+        return rule.for_language(language)
 
     def restore_component(
         self, zipfile: ZipFile, data: dict, actor: User, changes: list[Change]
@@ -2818,6 +3052,39 @@ class ProjectBackup:
             raise TypeError
         with source_project_gate([self.project.pk], exclusive=True):
             return self._restore_component(zipfile, data, actor, changes)
+
+    def check_retained_files(self, component: Component, original_slug: str) -> None:
+        # Confirm the preview against the restored checkout, including project
+        # aliases, language filters and files absent from the translation table.
+        filename = f"{self.COMPONENTS_PREFIX}{original_slug}.json"
+        if not (targets := self.duplicate_targets.get(filename)):
+            return
+        owner = component.effective_repo_component
+        if (
+            owner.project_id == component.project_id
+            and self.full_slug_without_project(owner)
+            not in self.repositories_with_worktree_files
+        ):
+            # A data-only backup has no checkout against which to verify the preview.
+            return
+        expected = {
+            item["language"]: item["kept_filename"] for item in targets.values()
+        }
+
+        actual: dict[str, str] = {}
+        for path in component.get_mask_matches(raise_on_timeout=True):
+            code = component.get_language_alias(component.get_lang_code(path))
+            resolved = Language.objects.auto_get_or_create(code, create=False)
+            if resolved.code in expected:
+                actual.setdefault(resolved.code, path)
+        if actual != expected:
+            raise ValidationError(
+                {
+                    original_slug: gettext(
+                        "Repository scan order does not match the duplicate translations in the preview."
+                    )
+                }
+            )
 
     def _restore_component(
         self,
@@ -2876,6 +3143,8 @@ class ProjectBackup:
         # Use bulk create to avoid triggering save() and any post_save signals
         component = Component.objects.bulk_create([component])[0]
 
+        self.check_retained_files(component, original_slug)
+
         # Create translations
         translations = []
         source_translation_id = -1
@@ -2886,7 +3155,7 @@ class ProjectBackup:
                 component=component,
                 filename=item["filename"],
                 language_code=item["language_code"],
-                language=self.import_language(item["language_code"]),
+                language=language,
                 plural=plural,
                 revision=item["revision"],
             )
@@ -3029,6 +3298,8 @@ class ProjectBackup:
         billing: Billing | None = None,
         workspace: Workspace | None = None,
         progress_callback: Callable[[int, int], None] | None = None,
+        *,
+        duplicate_scope: str = "",
     ) -> Project:
         if not self.filename:
             msg = "Need a filename string."
@@ -3041,6 +3312,7 @@ class ProjectBackup:
         self.user_cache.clear()
         self.author_claims.clear()
         self.author_claims_by_user.clear()
+        self.conflicting_bot_names.clear()
         self.pending_usernames.clear()
         self.unmapped_usernames.clear()
         self.components_made_public.clear()
@@ -3054,6 +3326,7 @@ class ProjectBackup:
         self.components_cache.clear()
         self.categories_cache.clear()
         self.restored_repositories.clear()
+        self.repositories_with_worktree_files.clear()
         project_path = Path(Project(name=project_name, slug=project_slug).full_path)
         if project_path.exists():
             raise ValidationError(
@@ -3067,6 +3340,13 @@ class ProjectBackup:
                 target_project_slug=project_slug,
                 validate_roles=True,
             )
+            if self.duplicate_scope != duplicate_scope:
+                raise ValidationError(
+                    [
+                        gettext("Review the duplicate translations before importing."),
+                        *self.duplicate_warnings(),
+                    ]
+                )
             project_path_created = False
             try:
                 project_path.mkdir(parents=True, exist_ok=False)
@@ -3181,10 +3461,19 @@ class ProjectBackup:
             member_name=vcs_member_name,
         ):
             extract_zip_member(zipfile, info, targetpath)
-            component = self.get_vcs_component(vcs_member_name(info))
+            path = vcs_member_name(info)
+            component = self.get_vcs_component(path)
             if component is not None:
                 extracted_repositories.add(component)
-            if vcs_member_name(info).endswith(".git/packed-refs"):
+                backend = self.component_vcs[component]
+                root_entry = path.removeprefix(f"{component}/").partition("/")[0]
+                if not (
+                    backend
+                    and backend.metadata_dir_name
+                    and root_entry.casefold() == backend.metadata_dir_name.casefold()
+                ):
+                    self.repositories_with_worktree_files.add(component)
+            if path.endswith(".git/packed-refs"):
                 git_refs_dir = targetpath.parent / "refs"
                 git_refs_dir.mkdir(parents=True, exist_ok=True)
 

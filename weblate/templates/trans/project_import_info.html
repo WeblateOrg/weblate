@@ -17,3 +17,13 @@
     </ul>
   </div>
 {% endif %}
+
+{% if projectbackup.skipped_translations %}
+  <div class="alert alert-warning" role="alert">
+    <p><strong>{% translate "Conflicting translation files" %}</strong></p>
+    <p>{% translate "Multiple backup languages resolve to one destination language. Check the destination languages and SIMPLIFY_LANGUAGES to preserve every translation." %}</p>
+    <ul>
+      {% for warning in projectbackup.duplicate_warnings %}<li>{{ warning }}</li>{% endfor %}
+    </ul>
+  </div>
+{% endif %}

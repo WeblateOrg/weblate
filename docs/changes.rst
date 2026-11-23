@@ -22,6 +22,7 @@ Weblate 2026.12
 * Reduced :ref:`Sentry trace sampling <sentry-integration>` for routine requests and statistics updates.
 
 * Select components directly in the :ref:`GitHub App migration table <code-hosting-github-app-migrate>` and return to them after migration.
+* Restoring a :ref:`projectbackup` preserves automated translation authors and can inherit regional plural rules. Importers can skip duplicate target translations and their Weblate data while keeping the archived repository files.
 
 * Added a choice to :ref:`connect an existing GitHub App installation to another workspace <code-hosting-github-app-connect>`.
 * Allow five minutes to assign strings to newly uploaded :ref:`screenshots` before raising an unused screenshot alert.
