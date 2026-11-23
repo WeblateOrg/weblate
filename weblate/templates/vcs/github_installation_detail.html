@@ -3,12 +3,7 @@
 {% load i18n %}
 
 {% block breadcrumbs %}
-  <li class="breadcrumb-item">
-    <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
-  </li>
-  <li class="breadcrumb-item">
-    <a href="{% url 'manage-github-accounts' %}">{% translate "Code-hosting connections" %}</a>
-  </li>
+  {% include "vcs/workspace_breadcrumbs.html" with workspace=installation.workspace only %}
   <li class="breadcrumb-item">{{ installation.target_login }}</li>
 {% endblock breadcrumbs %}
 
