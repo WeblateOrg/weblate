@@ -38,7 +38,7 @@ from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.commands import get_clean_env
 from weblate.utils.docs import DocVersionsMixin
 from weblate.utils.errors import report_error
-from weblate.utils.files import cleanup_error_message, get_repo_temp_dir
+from weblate.utils.files import get_repo_temp_dir
 from weblate.utils.formatting import format_json
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.render import render_template
@@ -156,6 +156,13 @@ def get_change_event_filter(
     if "events" in configuration:
         return CHANGE_EVENT_FILTER_CUSTOM
     return CHANGE_EVENT_FILTER_CONTENT
+
+
+def process_failure_message(error: OSError | subprocess.CalledProcessError) -> str:
+    """Describe a subprocess failure without copying its command or diagnostics."""
+    if isinstance(error, subprocess.CalledProcessError):
+        return f"Command exited with status {error.returncode}"
+    return "Could not execute command"
 
 
 class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
@@ -913,9 +920,8 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             self.alerts.append(
                 {
                     "addon": self.name,
-                    "command": " ".join(cmd),
-                    "output": cleanup_error_message(output),
-                    "error": str(err),
+                    "command": self.name,
+                    "error": process_failure_message(err),
                 }
             )
             report_error("Add-on script error", project=component.project)

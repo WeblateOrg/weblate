@@ -710,7 +710,6 @@ class GitCloneShallowTest(GitCloneTest):
             encoding="utf-8",
         )
         with self.component.repository.lock:
-            self.component.repository.set_committer("Test", "test@example.com")
             self.component.repository.commit("Test export change", files=[filename])
         return self.component.repository.execute(
             ["rev-parse", "HEAD"],

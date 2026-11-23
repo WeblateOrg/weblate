@@ -39,7 +39,7 @@ from weblate.trans.hooks.repository import (
 from weblate.utils.errors import report_error
 from weblate.utils.requests import VCS_RESPONSE_SIZE, async_fetch_validated_url
 from weblate.vcs.base import RepositoryInternalError, RepositoryRedirectError
-from weblate.vcs.git import GithubRepository
+from weblate.vcs.git import GithubRepository, with_git_config
 from weblate.vcs.models import Installation, InstallationProvider
 
 if TYPE_CHECKING:
@@ -411,11 +411,9 @@ def get_github_git_auth_environment(username: str, token: str) -> dict[str, str]
     Use Git's environment-backed config instead of ``git -c`` so installation
     tokens are not exposed in process arguments or VCS breadcrumbs.
     """
-    return {
-        "GIT_CONFIG_COUNT": "1",
-        "GIT_CONFIG_KEY_0": "http.extraHeader",
-        "GIT_CONFIG_VALUE_0": get_github_basic_auth_header(username, token),
-    }
+    return with_git_config(
+        None, ("http.extraHeader", get_github_basic_auth_header(username, token))
+    )
 
 
 def get_github_api_base(hostname: str) -> str:
@@ -1523,11 +1521,9 @@ class GithubAppRepository(GithubRepository):
         if app_creds is None:
             raise RepositoryInternalError(0, "github_app_installation_missing")
 
-        environment = super()._get_auth_environment(repo)
-        environment.update(
-            get_github_git_auth_environment(app_creds["username"], app_creds["token"])
+        return get_github_git_auth_environment(
+            app_creds["username"], app_creds["token"]
         )
-        return environment
 
     def get_auth_environment(self) -> dict[str, str]:
         if self.component is None:

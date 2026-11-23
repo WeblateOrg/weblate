@@ -11,12 +11,17 @@ from weblate.trans.models import Alert
 alerts = Alert.objects.filter(component_id=1, details__migration_test=True)
 assert alerts.count() == 19, "Migration test alerts were lost"
 for alert in alerts:
+    occurrence = {
+        "addon": "weblate.gettext.msgmerge",
+        "addon_id": "123",
+        "error": "failure",
+    }
+    if alert.name == "MsgmergeAddonError":
+        occurrence.update(command="msgmerge", output="", error="Command failed")
     assert alert.details == {
         "migration_test": True,
         "error": "migration failure",
-        "occurrences": [
-            {"addon": "weblate.gettext.msgmerge", "addon_id": "123", "error": "failure"}
-        ],
+        "occurrences": [occurrence],
     }, f"Alert details changed: {alert.name}"
     assert alert.dismissed_by_id is None
     assert not alert.dismissal_reason

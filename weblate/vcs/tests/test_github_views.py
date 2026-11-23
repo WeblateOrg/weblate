@@ -12,6 +12,7 @@ from unittest.mock import patch
 from urllib.parse import parse_qs, urlencode, urlparse
 
 from asgiref.sync import async_to_sync
+from bs4 import BeautifulSoup
 from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
@@ -87,6 +88,14 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
         self.project.save(update_fields=["workspace"])
 
         self._make_credentials()
+
+    def assert_workspace_breadcrumbs(self, response, *, connections_page=False) -> None:
+        document = BeautifulSoup(response.content, "html.parser")
+        links = [link["href"] for link in document.select(".breadcrumb a")]
+        expected = [self.workspace.get_absolute_url()]
+        if not connections_page:
+            expected.append(f"{reverse('account-vcs')}?workspace={self.workspace.pk}")
+        self.assertEqual(links, expected)
 
     def _make_credentials(
         self, hostname: str = "github.com", **overrides
@@ -466,6 +475,7 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
             reverse("account-vcs"), {"workspace": str(self.workspace.pk)}
         )
 
+        self.assert_workspace_breadcrumbs(response, connections_page=True)
         self.assertEqual(response.context["selected_workspace"], self.workspace)
         self.assertContains(response, "test-org")
         self.assertContains(response, self.workspace.name)
@@ -527,6 +537,7 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
         )
 
         self.assertEqual(response.status_code, 200)
+        self.assert_workspace_breadcrumbs(response)
         self.assertContains(response, "github.com")
         self.assertContains(response, "github.example.com")
 
@@ -590,6 +601,42 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
             ],
         )
 
+    def test_site_manager_existing_installation_groups(self) -> None:
+        owned = Workspace.objects.create(name="Owned workspace")
+        other = Workspace.objects.create(name="Other workspace")
+        for workspace, login, installation_id in (
+            (other, "Alpha", "1"),
+            (other, "zulu", "2"),
+            (owned, "zulu", "2"),
+            (owned, "Bravo", "3"),
+            (owned, "already-connected", "4"),
+            (self.workspace, "already-connected", "4"),
+        ):
+            GitHubInstallation.objects.create(
+                workspace=workspace, target_login=login, installation_id=installation_id
+            )
+
+        url = reverse("github-app-install")
+        query = {"workspace": str(self.workspace.pk)}
+        response = self.client.get(url, query)
+        self.assertContains(response, "Other accounts (3)")
+        self.assertEqual(response.context["choices"], [])
+
+        owned.add_owner(self.user)
+        response = self.client.get(url, query)
+        self.assertEqual(
+            [login for login, _ in response.context["choices"]], ["Bravo", "zulu"]
+        )
+        document = BeautifulSoup(response.content, "html.parser")
+        self.assertEqual(
+            [
+                a.get_text(strip=True)
+                for a in document.select("details:not([open]) li a")
+            ],
+            ["Alpha"],
+        )
+        self.assertNotContains(response, "already-connected")
+
     @http_mock.activate
     def test_reuse_personal_installation_in_another_workspace(self) -> None:
         repositories = [_repo_entry("octocat/repo1", default_branch="stable")]
@@ -615,6 +662,9 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
             reverse("github-app-install"),
             {"workspace": str(self.workspace.pk), "next": next_url},
         )
+        self.assert_workspace_breadcrumbs(response)
+        self.assertNotContains(response, "other-owner")
+        self.assertNotContains(response, "Other accounts (")
         [(login, authorize_url)] = response.context["choices"]
         self.assertContains(response, login)
         self.assertEqual(login, "octocat")
@@ -1223,8 +1273,35 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
 
         response = self.client.get(reverse("github-app-repositories"))
 
+        self.assert_workspace_breadcrumbs(response)
         self.assertContains(response, "test-org/repo1")
         self.assertNotContains(response, "other-org/repo2")
+
+    def test_repository_list_for_project_without_workspace(self) -> None:
+        user = self.anotheruser
+        self.workspace.add_owner(user)
+        self.project.add_user(user, "Administration")
+        Project.objects.filter(pk=self.project.pk).update(workspace=None)
+        GitHubInstallation.objects.create(
+            workspace=self.workspace,
+            installation_id="12345",
+            target_login="test-org",
+            repositories=[_repo_entry("test-org/repo1")],
+        )
+        self.client.force_login(user)
+
+        response = self.client.get(
+            reverse("github-app-repositories"), {"project": self.project.pk}
+        )
+
+        self.assertContains(response, "Select a project with a workspace")
+        self.assertNotContains(response, reverse("github-app-install"))
+        self.assertNotContains(response, "test-org/repo1")
+        document = BeautifulSoup(response.content, "html.parser")
+        self.assertEqual(
+            [link["href"] for link in document.select(".breadcrumb a")],
+            [reverse("create-component")],
+        )
 
     def test_repository_list_hides_hosts_without_credentials(self) -> None:
         GitHubInstallation.objects.create(
@@ -1380,6 +1457,11 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
             reverse("manage-github-account-detail", kwargs={"pk": installation.pk})
         )
 
+        self.assert_workspace_breadcrumbs(response)
+        connections = self.client.get(
+            reverse("account-vcs"), {"workspace": str(self.workspace.pk)}
+        )
+        self.assert_workspace_breadcrumbs(connections, connections_page=True)
         import_path = _import_url(installation, repo)
         self.assertContains(response, import_path)
         response = self.client.get(import_path)
@@ -1781,6 +1863,45 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
         self.assertEqual(install_query["workspace"], [str(self.workspace.pk)])
         self.assertEqual(install_query["next"], [url])
 
+    def test_migration_table_mixes_component_states(self) -> None:
+        blocked = self.create_po(project=self.project, name="Blocked")
+        configured = self.create_po(project=self.project, name="Configured")
+        Component.objects.filter(pk=blocked.pk).update(
+            repo="https://github.com/missing/repo.git"
+        )
+        Component.objects.filter(pk=configured.pk).update(
+            vcs="github-app", repo="https://github.com/configured/repo.git"
+        )
+        Component.objects.filter(pk=self.component.pk).update(
+            repo="https://github.com/ready/repo.git"
+        )
+        GitHubInstallation.objects.create(
+            workspace=self.workspace,
+            installation_id="12345",
+            target_login="ready",
+            repositories=[_repo_entry("ready/repo")],
+        )
+        response = self.client.get(
+            reverse("github-app-migration", args=[self.workspace.pk])
+        )
+        document = BeautifulSoup(response.content, "html.parser")
+        rows = document.select("form table tbody tr")
+        self.assertEqual(len(rows), 3)
+        for component, status in (
+            (self.component, "Ready"),
+            (blocked, "Repository access needed"),
+            (configured, "Using GitHub App"),
+        ):
+            [row] = [
+                row for row in rows if row.find("a", href=component.get_absolute_url())
+            ]
+            self.assertIn(status, row.get_text())
+            self.assertEqual(
+                bool(row.select('input[name="components"]')),
+                component == self.component,
+            )
+        self.assertEqual(response.context["required_accounts"], ["missing"])
+
     def test_migration_category_paths(self) -> None:
         parent = None
         categories = []
@@ -1839,9 +1960,26 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
             "github-app-migration", kwargs={"workspace_id": self.workspace.pk}
         )
 
-        response = self.client.post(url, {"components": [str(self.component.pk)]})
-
-        self.assertRedirects(response, url, fetch_redirect_response=False)
+        response = self.client.post(url)
+        self.assertContains(response, "Select at least one component to migrate.")
+        self.assert_workspace_breadcrumbs(response)
+        document = BeautifulSoup(response.content, "html.parser")
+        [checkbox] = document.select('table input[name="components"]')
+        self.assertFalse(checkbox.has_attr("checked"))
+        self.assertEqual(checkbox["value"], str(self.component.pk))
+        [label] = document.find_all("label", attrs={"for": checkbox["id"]})
+        self.assertIn(self.component.full_slug, label.get_text())
+        response = self.client.post(
+            url, {"components": [str(self.component.pk)]}, follow=True
+        )
+        self.assertRedirects(response, url)
+        for page in (response, self.client.get(url)):
+            self.assertContains(page, "Using GitHub App")
+            self.assertContains(page, f'href="{self.component.get_absolute_url()}"')
+            self.assertNotContains(page, "Migrate selected components")
+            self.assertNotContains(page, "The GitHub App needs repository access")
+        repeated = self.client.post(url, {"components": [str(self.component.pk)]})
+        self.assertContains(repeated, "Select a valid choice")
         self.component.refresh_from_db()
         self.assertEqual(self.component.vcs, "github-app")
         self.assertEqual(self.component.repo, repository["clone_url"])

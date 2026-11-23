@@ -98,6 +98,7 @@ from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import (
     RepoTestMixin,
     TempDirMixin,
+    allow_git_file_transport,
     clear_users_cache,
     create_another_user,
     create_test_billing,
@@ -507,6 +508,7 @@ class SeleniumTests(
 
     def setUp(self) -> None:
         super().setUp()
+        self.enterContext(allow_git_file_transport())
         # TransactionTestCase replaces users between tests; cached prototypes
         # must refer to the current database before the live server handles requests.
         clear_users_cache()

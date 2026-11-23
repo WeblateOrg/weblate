@@ -243,6 +243,16 @@ if [ "$automation_audit_redaction_migrate" -eq 0 ]; then
     check
 fi
 
+# Exercise releases with alert dismissal snapshots and CDN activity logs.
+semver_compare "2026.10" "<=" "$1" && semver_compare "$1" "<" "2026.12"
+cdn_alert_redaction_migrate=$?
+if [ "$cdn_alert_redaction_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-cdn-alert-redaction.py"
+    check
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-process-alert-redaction.py"
+    check
+fi
+
 # Seed vulnerable automatic translation snapshots before upgrading.
 semver_compare "5.10" "<=" "$1" && semver_compare "$1" "<" "2026.11"
 autotranslate_audit_redaction_migrate=$?
@@ -433,6 +443,13 @@ if [ "$automation_audit_redaction_migrate" -eq 0 ]; then
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-automation-audit-redaction.py"
     check
 fi
+if [ "$cdn_alert_redaction_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-cdn-alert-redaction.py"
+    check
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-process-alert-redaction.py"
+    check
+fi
+
 if [ "$autotranslate_audit_redaction_migrate" -eq 0 ]; then
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-autotranslate-audit-redaction.py"
     check
