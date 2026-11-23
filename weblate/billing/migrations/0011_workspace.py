@@ -71,6 +71,9 @@ def migrate_billing_workspaces(
             pk__in=[project.pk for project in projects]
         ).update(workspace=workspace)
 
+    # Flush deferred foreign key checks before AlterField rebuilds the constraint.
+    schema_editor.connection.check_constraints()
+
 
 class Migration(migrations.Migration):
     dependencies = [

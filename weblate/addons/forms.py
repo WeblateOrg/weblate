@@ -31,6 +31,7 @@ from weblate.addons.defaults import (
     DEFAULT_FEDORA_MESSAGING_RETRY_DELAY,
 )
 from weblate.addons.gettext_rules import resolve_data_dirs, validate_data_dirs
+from weblate.addons.utils import is_remote_cdn_source
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.actions import ActionEvents
 from weblate.trans.discovery import (
@@ -1712,7 +1713,7 @@ class CDNJSForm(BaseAddonForm[dict[str, object], "CDNJSAddon"]):
             if not filename:
                 continue
             try:
-                if filename.startswith(("http://", "https://")):
+                if is_remote_cdn_source(filename):
                     validate_restricted_asset_url(filename)
                 else:
                     validate_filename(filename)

@@ -12,6 +12,10 @@ if TYPE_CHECKING:
     from weblate.addons.events import AddonEvent
 
 
+def is_remote_cdn_source(filename: str) -> bool:
+    return filename.lower().startswith(("http://", "https://"))
+
+
 def adjust_addon_events(
     apps: StateApps,
     schema_editor: BaseDatabaseSchemaEditor,

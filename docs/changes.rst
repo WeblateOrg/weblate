@@ -55,6 +55,8 @@ Weblate 2026.12
 
 .. rubric:: Security fixes
 
+* Redacted remote source URLs from :ref:`JavaScript localization CDN <addon-weblate.cdn.cdnjs>` alerts and activity logs, including existing records.
+
 * Required project management permission to change a component URL through the API and prevented :ref:`case-insensitive slug conflicts <component-slug>` from blocking repository cleanup.
 * Required the site-wide ``language.add`` permission to :http:post:`create a language through the REST API </api/languages/>`.
 * Checked :ref:`translation memory deletion permissions <api-memory>` on the primary database to protect entries from restricted components when replicas lag.
