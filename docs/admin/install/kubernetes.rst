@@ -227,7 +227,9 @@ You can avoid SSH completely by using HTTPS repository URLs with credentials
 stored in Weblate, such as the :ref:`GitHub App
 <code-hosting-github-app-register>`.
 
-Otherwise, store the key pair and :file:`known_hosts` in a Kubernetes Secret:
+Otherwise, store the key pairs and :file:`known_hosts` in a Kubernetes Secret.
+Include :file:`id_rsa` and :file:`id_rsa.pub` too if your code hosting site
+uses the RSA key:
 
 .. code-block:: shell
 
@@ -235,9 +237,6 @@ Otherwise, store the key pair and :file:`known_hosts` in a Kubernetes Secret:
       --from-file=id_ed25519 \
       --from-file=id_ed25519.pub \
       --from-file=known_hosts
-
-If your code hosting site uses the RSA key, add :file:`id_rsa` and
-:file:`id_rsa.pub` the same way.
 
 Copy them into the data volume with an init container, so the files are owned
 by Weblate and have the permissions SSH requires:
@@ -258,9 +257,8 @@ by Weblate and have the permissions SSH requires:
          - -c
          - >-
            mkdir -p /app/data/ssh &&
-           install -m 600 /ssh-key/id_ed25519 /app/data/ssh/id_ed25519 &&
-           install -m 644 /ssh-key/id_ed25519.pub /app/data/ssh/id_ed25519.pub &&
-           install -m 644 /ssh-key/known_hosts /app/data/ssh/known_hosts
+           install -m 600 /ssh-key/* /app/data/ssh/ &&
+           chmod 644 /app/data/ssh/*.pub /app/data/ssh/known_hosts
        volumeMounts:
          - name: weblate-data
            mountPath: /app/data
