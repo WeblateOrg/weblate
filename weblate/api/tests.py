@@ -6179,8 +6179,14 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(request.data["count"], 2)
 
     def test_changes(self) -> None:
-        request = self.do_request("api:project-changes", self.project_kwargs)
-        self.assertEqual(request.data["count"], 35)
+        project = Project.objects.create(name="Other", slug="other")
+        change = project.change_set.create(
+            action=ActionEvents.CREATE_PROJECT, user=self.user
+        )
+
+        response = self.do_request("api:project-changes", {"slug": project.slug})
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["id"], change.pk)
 
     def test_changes_with_multi_alert(self) -> None:
         translation = self.component.translation_set.get(language__code="cs")
@@ -22785,18 +22791,27 @@ class ChangeAPITest(APIBaseTest):
                 )
 
     def test_list_changes(self) -> None:
-        response = self.client.get(reverse("api:change-list"))
-        self.assertEqual(response.data["count"], 35)
+        url = reverse("api:change-list")
+        initial_count = self.client.get(url).data["count"]
+        change = self.component.change_set.create(
+            action=ActionEvents.HOOK, user=self.user
+        )
+
+        response = self.client.get(url)
+        self.assertEqual(response.data["count"], initial_count + 1)
+        self.assertIn(change.pk, [entry["id"] for entry in response.data["results"]])
 
     def test_filter_changes_after(self) -> None:
         """Filter changes since timestamp."""
-        latest_change = Change.objects.order().last()
-        assert latest_change is not None
-        start = latest_change.timestamp
-        response = self.client.get(
-            reverse("api:change-list"), {"timestamp_after": start.isoformat()}
+        change = self.component.change_set.create(
+            action=ActionEvents.HOOK, user=self.user
         )
-        self.assertEqual(response.data["count"], 35)
+        response = self.client.get(
+            reverse("api:change-list"),
+            {"timestamp_after": change.timestamp.isoformat()},
+        )
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["id"], change.pk)
 
     def test_filter_changes_before(self) -> None:
         """Filter changes prior to timestamp."""

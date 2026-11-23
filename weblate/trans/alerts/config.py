@@ -602,7 +602,7 @@ class GlossaryStringManagementDisabled(BaseAlert):
         result = super().get_context(user)
         component = self.instance.component
         result.update(
-            local_glossary=component.repo == "local:",
+            local_glossary=component.effective_repo_component.is_repo_local,
             can_configure=self.can_user_act(user, component),
             configure_url=self.get_url(component),
         )
@@ -620,7 +620,7 @@ class GlossaryStringManagementDisabled(BaseAlert):
     def check_component(component: Component) -> bool:
         if not component.is_glossary or component.manage_units:
             return False
-        if component.repo == "local:":
+        if component.effective_repo_component.is_repo_local:
             return True
         return any(
             "terminology" in source.all_flags
