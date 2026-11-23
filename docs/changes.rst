@@ -55,6 +55,7 @@ Weblate 2026.12
 
 .. rubric:: Security fixes
 
+* Removed internal filesystem paths and raw command output from gettext and script :ref:`add-on alerts <alerts>`.
 * Redacted remote source URLs from :ref:`JavaScript localization CDN <addon-weblate.cdn.cdnjs>` alerts and activity logs, including existing records.
 
 * Required project management permission to change a component URL through the API and prevented :ref:`case-insensitive slug conflicts <component-slug>` from blocking repository cleanup.

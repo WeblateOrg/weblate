@@ -66,6 +66,7 @@ from weblate.addons.forms import (
     XgettextExtractPotForm,
 )
 from weblate.auth.models import Group, Permission, Role, User
+from weblate.formats.base import UpdateError
 from weblate.lang.models import Language
 from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
 from weblate.trans.component_copy import copy_component_addons
@@ -1799,6 +1800,40 @@ class GettextAddonTest(ReusableViewTestCase):
         ][0]
         self.assertEqual(occurrence["addon"], addon.name)
         self.assertEqual(occurrence["addon_id"], str(addon.instance.pk))
+
+    def test_msgmerge_alert_uses_relative_template_path(self) -> None:
+        addon = MsgmergeAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
+        self.component.new_base = "po/missing.pot"
+        addon.update_translations(self.component, "", [])
+        occurrence = self.component.alert_set.get(name="MsgmergeAddonError").details[
+            "occurrences"
+        ][0]
+        self.assertEqual(occurrence["output"], "po/missing.pot")
+
+    def test_msgmerge_failure_omits_command_and_output(self) -> None:
+        addon = MsgmergeAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
+        with patch.object(
+            self.component.file_format_cls,
+            "update_bilingual",
+            side_effect=UpdateError(
+                "msgmerge /private/command-path", "/private/output-path"
+            ),
+        ):
+            addon.update_translations(self.component, "", [])
+        alert = self.component.alert_set.get(name="MsgmergeAddonError")
+        self.assertNotIn("/private/", str(alert.details))
+        change = Change.objects.get(alert=alert, action=ActionEvents.ALERT)
+        for url in (
+            self.component.get_absolute_url(),
+            reverse("api:change-detail", kwargs={"pk": change.pk}),
+        ):
+            response = self.client.get(url)
+            self.assertContains(response, "Could not update translation")
+            self.assertNotContains(response, "/private/")
 
     def test_gettext_mo(self) -> None:
         translation = self.get_translation()
@@ -5721,11 +5756,17 @@ msgstr ""
         with patch(
             "weblate.addons.gettext.subprocess.check_output",
             side_effect=subprocess.TimeoutExpired(
-                ["xgettext"], timeout=addon.PROCESS_TIMEOUT
+                ["/private/bin/xgettext"],
+                timeout=addon.PROCESS_TIMEOUT,
+                output=b"/private/temp/input",
             ),
         ):
-            output = addon.run_process(self.component, ["xgettext"])
+            output = addon.run_process(
+                self.component, ["/private/bin/xgettext", "/private/temp/input"]
+            )
 
+        self.assertNotIn("/private", str(addon.alerts))
+        self.assertEqual(addon.alerts[0]["command"], "xgettext")
         self.assertIsNone(output)
         self.assertEqual(len(addon.alerts), 1)
         self.assertIn("timed out", addon.alerts[0]["error"].lower())
@@ -8496,6 +8537,24 @@ class DiscoveryTest(ReusableViewTestCase):
 
 
 class ScriptsTest(TestAddonMixin, ComponentTestCase):
+    def test_failed_script_alert_omits_process_details(self) -> None:
+        addon = ExamplePreAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
+        with patch(
+            "weblate.addons.base.subprocess.check_output",
+            side_effect=subprocess.CalledProcessError(
+                7, ["/private/bin/script"], output="/private/data"
+            ),
+        ):
+            addon.pre_commit(self.get_translation(), "", True)
+        alert = self.component.alert_set.get(name="AddonScriptError")
+        self.assertEqual(
+            alert.details["occurrences"][0]["error"], "Command exited with status 7"
+        )
+        self.assertNotIn("/private", str(alert.details))
+        self.assertNotIn(self.component.full_path, str(alert.details))
+
     def test_example_pre(self) -> None:
         self.assertTrue(ExamplePreAddon.can_install(component=self.component))
         translation = self.get_translation()
