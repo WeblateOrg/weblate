@@ -1013,7 +1013,7 @@ glosář [glossary]">glossary</span>
         indentation = " " * 40
         value = f"{indentation}<tag>   text\u00a0end\n{' ' * 8}next"
         content = format_translation(
-            [value], self.component.source_language, search_match="   <tag>"
+            [value], self.component.source_language, search_match='"   <tag>"'
         )["items"][0]["content"]
         markup = fromstring(f"<div>{content}</div>")
         self.assertEqual(markup.text_content(), value)
