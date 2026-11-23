@@ -179,8 +179,9 @@ missing checkout fail, and with :ref:`component-auto_lock_error` they get
 locked. :wladmin:`recovergit` rebuilds the checkouts by queuing
 :ref:`manage-vcs-reset-reapply` for every Git component with a missing
 checkout. Translations that were not pushed yet are committed again on top of
-the upstream repository, with new commit dates. Components without a remote
-repository might need files restored from a backup.
+the upstream repository, with new commit dates. If a file can't be recreated,
+recovery reports an error and the file has to be restored from a backup; the
+translations are kept in the database.
 
 To recover automatically whenever the pod starts, set
 :envvar:`WEBLATE_RECOVER_GIT`:
@@ -234,6 +235,9 @@ Otherwise, store the key pair and :file:`known_hosts` in a Kubernetes Secret:
       --from-file=id_ed25519 \
       --from-file=id_ed25519.pub \
       --from-file=known_hosts
+
+If your code hosting site uses the RSA key, add :file:`id_rsa` and
+:file:`id_rsa.pub` the same way.
 
 Copy them into the data volume with an init container, so the files are owned
 by Weblate and have the permissions SSH requires:
