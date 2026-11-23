@@ -686,12 +686,13 @@ class ImportDemoTestCase(TestCase):
         output = StringIO()
         for delete in (False, True):
             with self.subTest(delete=delete):
-                call_command(
-                    "import_demo",
-                    stdout=output,
-                    user=get_test_actor(self).username,
-                    delete=delete,
-                )
+                with self.captureOnCommitCallbacks(execute=True):
+                    call_command(
+                        "import_demo",
+                        stdout=output,
+                        user=get_test_actor(self).username,
+                        delete=delete,
+                    )
                 self.assertEqual(Component.objects.count(), 5)
         self.assertEqual(output.getvalue(), "")
 

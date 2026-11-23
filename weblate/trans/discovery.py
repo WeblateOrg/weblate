@@ -1329,6 +1329,7 @@ class ComponentDiscovery:
         if "secondary_language" in kwargs and kwargs["secondary_language"] is not None:
             kwargs["secondary_language"] = kwargs["secondary_language"].pk
         if background:
+            # delay on commit so component is created after categories it depends on are committed
             create_component.delay_on_commit(**kwargs, in_task=True)
             return None
         return create_component(**kwargs)
