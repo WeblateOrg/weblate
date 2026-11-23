@@ -2198,9 +2198,9 @@ def auth_redirect_state(request: AuthenticatedHttpRequest):
     )
 
 
-def log_handled_auth_failure(
+def get_auth_failure_log_details(
     request: AuthenticatedHttpRequest, backend: str, error: Exception
-) -> None:
+) -> list[str]:
     action = "activation"
     if request.session.get("password_reset"):
         action = "reset"
@@ -2213,7 +2213,16 @@ def log_handled_auth_failure(
         details.extend(
             [f"code={error.code}", f"source={error.source}", f"stage={error.stage}"]
         )
-    log_handled_exception("Handled auth failure", extra_log=", ".join(details))
+    return details
+
+
+def log_handled_auth_failure(
+    request: AuthenticatedHttpRequest, backend: str, error: Exception
+) -> None:
+    log_handled_exception(
+        "Handled auth failure",
+        extra_log=", ".join(get_auth_failure_log_details(request, backend, error)),
+    )
 
 
 def get_registration_error_policy(
@@ -2371,7 +2380,13 @@ def handle_auth_error(
 ):
     policy = get_auth_error_policy(request, backend, error)
     if policy.reportable:
-        report_error(policy.cause)
+        details = get_auth_failure_log_details(request, backend, error)
+        if isinstance(error, SocialAuthBaseException):
+            if error.status_code is not None:
+                details.append(f"status_code={error.status_code}")
+            if error.__cause__ is not None:
+                details.append(f"cause={type(error.__cause__).__name__}")
+        report_error(policy.cause, extra_log=", ".join(details))
     else:
         log_handled_auth_failure(request, backend, error)
     if policy.handled:
