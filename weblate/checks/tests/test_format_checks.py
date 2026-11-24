@@ -1233,6 +1233,15 @@ class CSharpFormatCheckTest(CheckTestCase):
             )
         )
 
+    def test_whitespace_around_alignment(self) -> None:
+        for placeholder in ("{0 }", "{0 :N0}", "{0 ,5}", "{count }", "{count , -5:D3}"):
+            with self.subTest(placeholder=placeholder):
+                self.assertTrue(
+                    self.check.check_format(
+                        placeholder, "plain text", False, make_unit()
+                    )
+                )
+
     def test_named_expression_out_of_scope(self) -> None:
         for source, target in (
             ("{count - 1}", "{number - 1}"),

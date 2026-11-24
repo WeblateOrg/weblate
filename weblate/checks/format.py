@@ -271,6 +271,7 @@ C_SHARP_MATCH = re.compile(
             |[a-zA-Z_][a-zA-Z0-9_]*     # or interpolated identifier
             (?:\.[a-zA-Z_][a-zA-Z0-9_]*)*  # with member access
         )
+        \s*                             # optional space after argument
         (?P<width>
             ,\s*-?\d+\s*                # comma and signed alignment width
         )?
