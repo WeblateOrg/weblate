@@ -1942,6 +1942,8 @@ To disable this behavior, remove ``mail_admins`` from the
 :setting:`django:LOGGING` in Weblate settings, or disable
 :envvar:`WEBLATE_ADMIN_NOTIFY_ERROR` in the Docker environment.
 
+.. _sentry-integration:
+
 Sentry
 ++++++
 
@@ -1955,6 +1957,15 @@ it, it's enough to set :setting:`SENTRY_DSN` in the :file:`settings.py`:
 Sentry can be also used to monitor performance of Weblate by collecting traces
 and profiles for defined percentage of operations. This can be configured using
 :setting:`SENTRY_TRACES_SAMPLE_RATE` and :setting:`SENTRY_PROFILES_SAMPLE_RATE`.
+
+Weblate's default sampler uses one-tenth of :setting:`SENTRY_TRACES_SAMPLE_RATE`
+for widget images and their redirects, avatars, JavaScript localization
+catalogs, flags, and proof-of-work verification. It uses one-quarter of the
+rate for standalone translation statistics parent updates. Other operations
+use the configured rate, and distributed traces inherit the parent's sampling
+decision. Exception reporting uses its own sampling settings. An existing
+``traces_sampler`` in ``SENTRY_EXTRA_ARGS`` takes precedence over Weblate's
+default sampler.
 
 Weblate redacts known credential fields, authentication headers, and sensitive
 URL query parameters from error reports and transaction events, including

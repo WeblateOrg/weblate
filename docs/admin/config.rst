@@ -2876,7 +2876,8 @@ Allow Sentry to collect certain personally identifiable information. Turned off 
 SENTRY_TRACES_SAMPLE_RATE
 -------------------------
 
-Configure sampling rate for profiling monitoring. Set to 1 to trace all events, 0 (the default) disables tracing.
+Configure the base sampling rate for :ref:`Sentry traces <sentry-integration>`.
+Set to ``0`` (the default) to disable sampling for new traces.
 
 .. seealso::
 
