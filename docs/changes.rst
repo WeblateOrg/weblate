@@ -25,6 +25,8 @@ Weblate 2026.12
 * Reduced check contention and component settings update time with :ref:`workspace-propagation-scope`.
 
 * The :ref:`addon-weblate.gettext.django` add-on can exclude source directories when generating a POT file.
+* Improved :ref:`merge conflict guidance <merge>` in component diagnostics and documented pull request recovery.
+
 * Include the authentication backend, failure stage, and available diagnostic details in server logs for failed sign-ins.
 * Reduced :ref:`Sentry trace sampling <sentry-integration>` for routine requests and statistics updates.
 * Upgraded the :ref:`Sentry integration <sentry-integration>` to Python SDK 3 with streamed spans and trace-linked profiling.
