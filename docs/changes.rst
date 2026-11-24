@@ -20,6 +20,7 @@ Weblate 2026.12
 
 * Include the authentication backend, failure stage, and available diagnostic details in server logs for failed sign-ins.
 * Reduced :ref:`Sentry trace sampling <sentry-integration>` for routine requests and statistics updates.
+* Upgraded the :ref:`Sentry integration <sentry-integration>` to Python SDK 3 with streamed spans and trace-linked profiling.
 
 * Select components directly in the :ref:`GitHub App migration table <code-hosting-github-app-migrate>` and return to them after migration.
 

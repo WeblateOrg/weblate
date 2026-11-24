@@ -19,7 +19,6 @@ from sentry_sdk.integrations.httpx2 import Httpx2Integration
 from sentry_sdk.transport import Transport
 
 from weblate.machinery.google import GoogleTranslation
-from weblate.machinery.yandex import YandexTranslation
 from weblate.utils import errors
 from weblate.vcs.git import GitRepository
 from weblate.vcs.github import (
@@ -32,8 +31,8 @@ from weblate.vcs.github import (
 from weblate.vcs.tests.utils import generate_private_key
 
 if TYPE_CHECKING:
-    from sentry_sdk._types import Event, Hint
     from sentry_sdk.envelope import Envelope
+    from sentry_sdk.types import Event, Hint, SpanJSON
 
 
 def raise_broken_error() -> None:
@@ -457,6 +456,10 @@ class SentryBeforeSendTest(SimpleTestCase):
         values = event["exception"]["values"]
         self.assertEqual(values[0]["value"], "original filesystem error")
         self.assertEqual(values[-1]["type"], "RecursionError")
+        self.assertEqual(
+            values[0]["mechanism"]["parent_id"],
+            values[1]["mechanism"]["exception_id"],
+        )
         self.assertEqual(event["tags"]["celery_task_id"], "upload-task")
         self.assertEqual(
             cast("dict[str, str]", event["extra"]["celery-job"])["task_name"],
@@ -475,7 +478,10 @@ class SentryBeforeSendTest(SimpleTestCase):
                     "values": [
                         {
                             "value": "x" * 400_000,
-                            "mechanism": {"exception_id": index},
+                            "mechanism": {
+                                "exception_id": index,
+                                "is_exception_group": index == 0,
+                            },
                         }
                         for index in range(3)
                     ]
@@ -503,7 +509,7 @@ class SentryBeforeSendTest(SimpleTestCase):
 
     @override_settings(SENTRY_DSN="https://public@example.com/1")
     def test_init_sentry_wraps_configured_callback(self) -> None:
-        for option in ("before_send", "before_send_transaction"):
+        for option in ("before_send", "before_send_check_in"):
             with self.subTest(option=option):
                 callback = MagicMock(return_value=None)
                 sentry_sdk = MagicMock()
@@ -517,6 +523,90 @@ class SentryBeforeSendTest(SimpleTestCase):
                 before_send = sentry_sdk.init.call_args.kwargs[option]
                 self.assertIsNone(before_send({}, {}))
                 callback.assert_called_once_with({}, {})
+
+    @override_settings(SENTRY_DSN="https://public@example.com/1")
+    def test_init_sentry_rejects_removed_options(self) -> None:
+        for option, replacement in (
+            ("before_send_transaction", "before_send_span"),
+            ("event_scrubber", "data_collection"),
+        ):
+            with (
+                self.subTest(option=option),
+                override_settings(SENTRY_EXTRA_ARGS={option: MagicMock()}),
+                self.assertRaisesMessage(
+                    errors.ImproperlyConfigured, f"Use {replacement}"
+                ),
+            ):
+                errors.init_sentry()
+
+    def test_span_redaction_runs_after_the_operator_callback(self) -> None:
+        token = str(uuid4())
+        original = cast("SpanJSON", {"name": "test", "attributes": {"safe": 42}})
+        modified = cast(
+            "SpanJSON",
+            {
+                "name": f"/accounts/invitation/{token}/",
+                "attributes": {
+                    "http.request.header.authorization": ["synthetic-header-secret"],
+                    "url.full": f"https://example.com/hooks/integrations/{token}/?key=synthetic-key",
+                    "url.path": f"/machinery/etranslation/callback/{token}/",
+                    "process.command_args": ["synthetic-command-secret"],
+                    "safe": 42,
+                },
+            },
+        )
+        callback = MagicMock(return_value=modified)
+        result = errors.SentryBeforeSendSpan(errors.SentryRedactor(), callback)(
+            original, {}
+        )
+        self.assertEqual(result["name"], "/accounts/invitation/[Filtered]/")
+        self.assertEqual(
+            result["attributes"],
+            {
+                "http.request.header.authorization": ["[Filtered]"],
+                "url.full": "https://example.com/hooks/integrations/[Filtered]/?key=[Filtered]",
+                "url.path": "/machinery/etranslation/callback/[Filtered]/",
+                "safe": 42,
+            },
+        )
+
+    def test_span_redaction_does_not_fall_back_to_unscrubbed_attributes(self) -> None:
+        def fail(span: SpanJSON, _hint: Hint) -> SpanJSON:
+            span["name"] = "callback failure"
+            raise ValueError
+
+        for callback in (
+            MagicMock(return_value=None),
+            MagicMock(return_value={"name": None}),
+            fail,
+        ):
+            with self.subTest(callback=callback):
+                span = cast(
+                    "SpanJSON",
+                    {"name": "test", "attributes": {"authorization": "secret"}},
+                )
+                result = errors.SentryBeforeSendSpan(errors.SentryRedactor(), callback)(
+                    span, {}
+                )
+                self.assertEqual(result["name"], "test")
+                self.assertEqual(result["attributes"], {"authorization": "[Filtered]"})
+
+    @override_settings(
+        SENTRY_SEND_PII=False,
+        SENTRY_EXTRA_ARGS={
+            "data_collection": {"frame_context_lines": 0},
+            "profile_session_sample_rate": 0.25,
+            "profile_lifecycle": "manual",
+        },
+    )
+    def test_init_sentry_preserves_sdk_3_options(self) -> None:
+        with patch("weblate.utils.errors.get_sentry_sdk") as get_sentry_sdk:
+            errors.init_sentry()
+        options = get_sentry_sdk.return_value.init.call_args.kwargs
+        self.assertEqual(options["profile_session_sample_rate"], 0.25)
+        self.assertEqual(options["profile_lifecycle"], "manual")
+        self.assertEqual(options["data_collection"]["frame_context_lines"], 0)
+        self.assertFalse(options["data_collection"]["user_info"])
 
 
 @override_settings(SENTRY_TRACES_SAMPLE_RATE=0.2, URL_PREFIX="", FORCE_SCRIPT_NAME=None)
@@ -651,13 +741,17 @@ class SentryTraceSamplingTest(SimpleTestCase):
 
 
 class SentryScrubberTest(SimpleTestCase):
-    def create_client(self, events: list[Event]) -> Client:
+    def create_client(
+        self, events: list[Event], spans: list[bytes] | None = None
+    ) -> Client:
         class CollectingTransport(Transport):
             def capture_envelope(self, envelope: Envelope) -> None:
                 for item in envelope.items:
-                    event = item.get_event() or item.get_transaction_event()
+                    event = item.get_event()
                     if event is not None:
                         events.append(event)
+                    if spans is not None and item.type == "span":
+                        spans.append(item.get_bytes())
 
         mocked_sdk = MagicMock()
         with (
@@ -668,9 +762,9 @@ class SentryScrubberTest(SimpleTestCase):
         options = mocked_sdk.init.call_args.kwargs
         client = Client(
             dsn="https://public@example.com/1",
-            event_scrubber=options["event_scrubber"],
+            data_collection=options["data_collection"],
             before_send=options["before_send"],
-            before_send_transaction=options["before_send_transaction"],
+            before_send_span=options["before_send_span"],
             default_integrations=False,
             auto_enabling_integrations=False,
             integrations=[Httpx2Integration()],
@@ -803,9 +897,9 @@ class SentryScrubberTest(SimpleTestCase):
 
     def test_query_credentials_are_scrubbed_after_http_capture(self) -> None:
         events: list[Event] = []
+        spans: list[bytes] = []
         sentry_sdk = errors.get_sentry_sdk()
         secret = "synthetic-yandex-credential"
-        provider = YandexTranslation({"key": secret, "_installation_id": 123})
 
         def handle_request(request: httpx2.Request) -> httpx2.Response:
             return httpx2.Response(
@@ -813,35 +907,30 @@ class SentryScrubberTest(SimpleTestCase):
             )
 
         async def capture_failure() -> None:
-            try:
-                await provider.arequest(
-                    "get", "https://example.com/", params={"key": secret, "lang": "en"}
+            async with httpx2.AsyncClient(
+                transport=httpx2.MockTransport(handle_request)
+            ) as http_client:
+                response = await http_client.get(
+                    "https://example.com/", params={"key": secret, "lang": "en"}
                 )
-            except httpx2.HTTPStatusError as error:
-                sentry_sdk.capture_exception(error)
+                try:
+                    response.raise_for_status()
+                except httpx2.HTTPStatusError as error:
+                    sentry_sdk.capture_exception(error)
 
-        client = self.create_client(events)
-        with (
-            sentry_sdk.isolation_scope() as scope,
-            patch(
-                "weblate.machinery.base.get_site_url",
-                return_value="https://example.com/",
-            ),
-            patch(
-                "weblate.utils.requests._TEST_TRANSPORT.transport",
-                httpx2.MockTransport(handle_request),
-            ),
-        ):
+        client = self.create_client(events, spans)
+        with sentry_sdk.isolation_scope() as scope:
             scope.set_client(client)
-            with sentry_sdk.start_transaction(name="machinery request", op="test"):
+            with sentry_sdk.start_span(name="machinery request", parent_span=None):
                 run(capture_failure())
-            self.assertEqual(len(events), 2)
+            client.flush()
+            self.assertEqual(len(events), 1)
             self.assertNotIn(secret, json.dumps(events))
+            captured_spans = b"".join(spans)
+            self.assertNotIn(secret.encode(), captured_spans)
+            self.assertIn(b"machinery request", captured_spans)
+            self.assertIn(b"key=[Filtered]&lang=en", captured_spans)
             error_event = events[0]
-            transaction = events[1]
-            self.assertEqual(transaction["type"], "transaction")
-            self.assertTrue(transaction["spans"])
-            self.assertIn("key=[Filtered]&lang=en", json.dumps(transaction))
             self.assertIn("key=[Filtered]&lang=en", json.dumps(error_event))
             self.assertTrue(
                 cast("dict[str, object]", error_event["breadcrumbs"])["values"]
@@ -854,25 +943,17 @@ class SentryScrubberTest(SimpleTestCase):
     def test_init_sentry_scrubs_passphrases_recursively(self) -> None:
         sentry_sdk = MagicMock()
 
-        class ConfiguredScrubber:
-            def __init__(self) -> None:
-                self.called = False
-
-            def scrub_event(self, event: Event) -> None:
-                self.called = True
-                event["extra"] = {"BORG_PASSPHRASE": "custom-secret"}
-
-        configured_scrubber = ConfiguredScrubber()
+        def add_extra(event: Event, _hint: Hint) -> Event:
+            event["extra"] = {"BORG_PASSPHRASE": "custom-secret"}
+            return event
 
         with (
-            override_settings(
-                SENTRY_EXTRA_ARGS={"event_scrubber": configured_scrubber}
-            ),
+            override_settings(SENTRY_EXTRA_ARGS={"before_send": add_extra}),
             patch("weblate.utils.errors.get_sentry_sdk", return_value=sentry_sdk),
         ):
             errors.init_sentry()
 
-        scrubber = sentry_sdk.init.call_args.kwargs["event_scrubber"]
+        scrubber = sentry_sdk.init.call_args.kwargs["before_send"]
         borg_environment = {
             "BORG_PASSPHRASE": "borg-secret",
             "BORG_NEW_PASSPHRASE": "new-borg-secret",
@@ -887,7 +968,7 @@ class SentryScrubberTest(SimpleTestCase):
             "threads": {"values": [{"stacktrace": {"frames": [{"vars": frame_vars}]}}]}
         }
 
-        scrubber.scrub_event(event)
+        scrubber(event, {})
 
         self.assertNotEqual(frame_vars["password"], "default-secret")
         self.assertNotEqual(frame_vars["passphrase"], "direct-secret")
@@ -895,4 +976,3 @@ class SentryScrubberTest(SimpleTestCase):
         self.assertNotEqual(borg_environment["BORG_NEW_PASSPHRASE"], "new-borg-secret")
         self.assertEqual(borg_environment["SAFE"], "visible")
         self.assertNotEqual(event["extra"]["BORG_PASSPHRASE"], "custom-secret")
-        self.assertTrue(configured_scrubber.called)

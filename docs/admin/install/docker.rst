@@ -2669,6 +2669,8 @@ To enable support for Sentry, set following:
 .. envvar:: SENTRY_PROFILES_SAMPLE_RATE
 
    Configures :setting:`SENTRY_PROFILES_SAMPLE_RATE`.
+   The default ``1`` profiles sampled traces. Fractional values select
+   profiler sessions when the SDK initializes.
 
    **Example:**
 
