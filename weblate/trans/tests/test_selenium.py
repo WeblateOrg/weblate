@@ -68,7 +68,7 @@ from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.dummy import DummyTranslation
 from weblate.machinery.models import MachineryExclusion, MachineryInstallation
 from weblate.machinery.weblatetm import WeblateTranslation
-from weblate.memory.machine import WeblateMemory
+from weblate.memory.machine import CONTEXT_MATCH_QUALITY, WeblateMemory
 from weblate.memory.models import Memory
 from weblate.metrics.models import Metric
 from weblate.metrics.wrapper import MetricsWrapper
@@ -334,6 +334,47 @@ class SeleniumOriginsTranslation(DummyTranslation):
             "source": text,
             "show_quality": True,
             "origin": "Component 2",
+        }
+
+
+class SeleniumContextMatchTranslation(DummyTranslation):
+    """Dummy machine translation scoring as the memory does for a context match."""
+
+    name = "Selenium Context Match"
+
+    def download_translations(
+        self,
+        source_language,
+        target_language,
+        text: str,
+        unit,
+        user,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> DownloadTranslations:
+        _ = (source_language, target_language, unit, user, threshold)
+        yield {
+            "text": "source match target",
+            "quality": 100,
+            "service": self.name,
+            "source": text,
+            "show_quality": True,
+            "origin": "Component source",
+        }
+        yield {
+            "text": "context match target",
+            "quality": CONTEXT_MATCH_QUALITY,
+            "service": self.name,
+            "source": text,
+            "show_quality": True,
+            "origin": "Component context",
+        }
+        # Without an origin, the score is shown with the service name
+        yield {
+            "text": "context match target",
+            "quality": CONTEXT_MATCH_QUALITY,
+            "service": self.name,
+            "source": text,
+            "show_quality": True,
         }
 
 
@@ -4287,6 +4328,43 @@ class SeleniumTests(
             [
                 "Component 5 (75%)",
                 "Component 6 (70%)",
+            ],
+        )
+
+    @reuse_demo_fixture
+    @override_settings(
+        WEBLATE_MACHINERY=(
+            "weblate.trans.tests.test_selenium.SeleniumContextMatchTranslation",
+        )
+    )
+    def test_machinery_context_match(self) -> None:
+        """A context match is listed first and shown as 100%, not above it."""
+        self.open_machinery_unit(SeleniumContextMatchTranslation.get_identifier())
+        self.wait_for_machinery_rows(2)
+
+        rows = self.driver.find_elements(
+            By.CSS_SELECTOR, "#machinery-translations .machinery-row"
+        )
+        self.assertEqual(
+            [
+                [
+                    element.text
+                    for element in row.find_elements(
+                        By.CSS_SELECTOR,
+                        ".machinery-service-name, div.machinery-origin-detail",
+                    )
+                ]
+                for row in rows
+            ],
+            [
+                [
+                    f"{SeleniumContextMatchTranslation.name} (100% · Context match)",
+                    "Component context (100% · Context match)",
+                ],
+                [
+                    SeleniumContextMatchTranslation.name,
+                    "Component source (100%)",
+                ],
             ],
         )
 
