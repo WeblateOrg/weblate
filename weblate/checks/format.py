@@ -272,9 +272,7 @@ C_SHARP_MATCH = re.compile(
             (?:\.[a-zA-Z_][a-zA-Z0-9_]*)*  # with member access
         )
         (?P<width>
-            [-,?\s]+                    # flags
-            (?:\d+)?                    # width
-            (?:\.\d+)?                  # precision
+            ,\s*-?\d+\s*                # comma and signed alignment width
         )?
         (?P<format>
             :                           # ':' identifier

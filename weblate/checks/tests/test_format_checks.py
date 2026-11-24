@@ -1233,6 +1233,25 @@ class CSharpFormatCheckTest(CheckTestCase):
             )
         )
 
+    def test_named_expression_out_of_scope(self) -> None:
+        for source, target in (
+            ("{count - 1}", "{number - 1}"),
+            ("{count ? 1:0}", "{number ? 1:0}"),
+            ("{count + 1}", "{number + 1}"),
+        ):
+            with self.subTest(source=source):
+                self.assertFalse(
+                    self.check.check_format(source, target, False, make_unit())
+                )
+
+    def test_named_negative_alignment(self) -> None:
+        self.assertEqual(
+            self.check.check_format(
+                "{count,-5:D3}", "{number,-5:D3}", False, make_unit()
+            ),
+            {"missing": ["count"], "extra": ["number"]},
+        )
+
     def test_named_format_indexer_out_of_scope(self) -> None:
         # Indexer/method-call interpolation is not matched: the check stays
         # silent there rather than comparing a guessed placeholder.
