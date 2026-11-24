@@ -1132,14 +1132,20 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             return Flags(workspace.check_flags, self.check_flags)
         return Flags(self.check_flags)
 
-    @property
-    def propagation_checks_lock(self) -> WeblateLock:
-        from weblate.trans.propagation import workspace_propagation  # ruff: ignore[import-outside-top-level]
+    def propagation_checks_lock(self, component_name: str | None = None) -> WeblateLock:
+        from weblate.trans.propagation import get_propagation_scope  # ruff: ignore[import-outside-top-level]
 
-        if workspace_propagation(self):
+        scope = get_propagation_scope(self)
+        if scope != "project":
+            key = str(self.workspace_id)
+            if scope == "component_name":
+                if component_name is None:
+                    msg = "Component name required for propagation check lock"
+                    raise ValueError(msg)
+                key = f"{key}:{component_name}"
             return WeblateLock(
                 scope=LockScope.WORKSPACE_CHECKS,
-                key=str(self.workspace_id),
+                key=key,
                 timeout=PROJECT_CHECKS_LOCK_TIMEOUT,
                 origin=self.full_slug,
             )

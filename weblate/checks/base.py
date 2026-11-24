@@ -476,7 +476,7 @@ class BatchCheckMixin(BaseCheck):
         if self.check_id in {"inconsistent", "reused"}:
             with check_component_session_read_lock(component):
                 boundary_lock = (
-                    check_boundary_lock(component.project)
+                    check_boundary_lock(component.project, component.name)
                     if component.allow_translation_propagation
                     else nullcontext()
                 )
@@ -488,7 +488,7 @@ class BatchCheckMixin(BaseCheck):
             return
 
         lock = (
-            check_boundary_lock(component.project)
+            check_boundary_lock(component.project, component.name)
             if self.batch_project_wide and component.allow_translation_propagation
             else nullcontext()
         )

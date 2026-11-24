@@ -20,6 +20,7 @@ Weblate 2026.12
 .. rubric:: Improvements
 
 * Switched :ref:`comment Markdown rendering <user-comments>` to markdown-it-py. Raw HTML tags appear as text, and links and images with disallowed destinations show only their labels.
+* Reduced check contention and component settings update time with :ref:`workspace-propagation-scope`.
 
 * The :ref:`addon-weblate.gettext.django` add-on can exclude source directories when generating a POT file.
 * Include the authentication backend, failure stage, and available diagnostic details in server logs for failed sign-ins.

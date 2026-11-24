@@ -404,16 +404,58 @@ def refresh_propagated_checks(
         )
         if project is None:
             return
-        with check_boundary_lock(project):
-            translation_ids = _refresh_propagated_checks(project, groups, unit_ids)
-    if len(translation_ids) > 1:
+        named_scope = get_propagation_scope(project) == "component_name"
+        if named_scope:
+            translation_ids = _refresh_checks_by_component_name(
+                project, groups, unit_ids or []
+            )
+        else:
+            with check_boundary_lock(project):
+                translation_ids = _refresh_propagated_checks(project, groups, unit_ids)
+    if translation_ids and (named_scope or len(translation_ids) > 1):
         update_translation_stats.delay_on_commit(
             translation_ids, update_translations=False
         )
 
 
+def _refresh_checks_by_component_name(
+    project: Project, groups: list[PropagatedCheckGroup], unit_ids: list[int]
+) -> list[int]:
+    component_ids = {group["component_id"] for group in groups}
+    unit_components = dict(
+        Unit.objects.filter(
+            pk__in=unit_ids, translation__component__project=project
+        ).values_list("pk", "translation__component_id")
+    )
+    names = dict(
+        Component.objects.filter(
+            project=project, pk__in=component_ids.union(unit_components.values())
+        ).values_list("pk", "name")
+    )
+    batches: dict[str, tuple[list[PropagatedCheckGroup], list[int]]] = {}
+    for group in groups:
+        if (name := names.get(group["component_id"])) is not None:
+            batches.setdefault(name, ([], []))[0].append(group)
+    for unit_id, component_id in unit_components.items():
+        if (name := names.get(component_id)) is not None:
+            batches.setdefault(name, ([], []))[1].append(unit_id)
+    translation_ids: set[int] = set()
+    for name, (batch_groups, batch_units) in batches.items():
+        with check_boundary_lock(project, name):
+            translation_ids.update(
+                _refresh_propagated_checks(
+                    project, batch_groups, batch_units, update_stats_parents=False
+                )
+            )
+    return sorted(translation_ids)
+
+
 def _refresh_propagated_checks(
-    project: Project, groups: list[PropagatedCheckGroup], unit_ids: list[int] | None
+    project: Project,
+    groups: list[PropagatedCheckGroup],
+    unit_ids: list[int] | None,
+    *,
+    update_stats_parents: bool = True,
 ) -> list[int]:
     project_id = project.pk
     project.log_info("refreshing %d propagated check groups", len(groups))
@@ -477,7 +519,9 @@ def _refresh_propagated_checks(
     with transaction.atomic():
         for translation in translations.values():
             translation.require_full_stats_rebuild()
-            translation.invalidate_cache(update_stats_parents=len(translations) == 1)
+            translation.invalidate_cache(
+                update_stats_parents=update_stats_parents and len(translations) == 1
+            )
     return list(translations)
 
 
@@ -542,7 +586,7 @@ def finalize_component_checks(
         except Component.DoesNotExist:
             return
         boundary_lock = (
-            check_boundary_lock(component.project)
+            check_boundary_lock(component.project, component.name)
             if component.allow_translation_propagation
             and (unit_ids or any(CHECKS[name].batch_project_wide for name in checks))
             else nullcontext()
