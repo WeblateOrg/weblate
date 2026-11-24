@@ -196,6 +196,7 @@ from weblate.utils.data import data_dir
 from weblate.utils.files import PathMatchBudget, remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.pii import mask_email
+from weblate.utils.ratelimit import RateLimitHttpRequest
 from weblate.utils.render import render_repository_template
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -17673,19 +17674,40 @@ class TranslationAPITest(APIBaseTest):
         )
         self.assertEqual(response.status_code, 202)
 
-    def test_upload_rate_limit(self) -> None:
+    @override_settings(
+        API_RATELIMIT_USER="2/hour",
+        API_RATELIMIT_USER_OVERRIDES={},
+        API_RATELIMIT_IP_OVERRIDES={},
+        RATELIMIT_UPLOAD_ATTEMPTS=1,
+        CACHES={
+            "default": {
+                "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+                "LOCATION": "api-upload-rate-limit",
+            }
+        },
+    )
+    def test_upload_uses_general_api_rate_limit(self) -> None:
+        cache.clear()
         self.authenticate()
-        with (
-            patch("weblate.api.views.check_rate_limit", return_value=False),
-            patch("weblate.api.views.queue_translation_upload") as queue,
-            open(TEST_PO, "rb") as handle,
-        ):
-            response = self.client.post(
-                reverse("api:translation-file", kwargs=self.translation_kwargs),
-                {"file": handle, "background": True},
-            )
+        browser_limiter = RateLimitHttpRequest("upload", user=self.user)
+        self.assertFalse(browser_limiter.is_limit_exceeded()[0])
+        self.assertTrue(browser_limiter.is_limit_exceeded()[0])
+
+        url = reverse("api:translation-file", kwargs=self.translation_kwargs)
+        with open(TEST_PO, "rb") as handle:
+            response = self.client.post(url, {"file": handle})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["X-RateLimit-Remaining"], "1")
+
+        with open(TEST_PO, "rb") as handle:
+            response = self.client.put(url, {"file": handle, "background": True})
+        self.assertEqual(response.status_code, 202)
+        self.assertEqual(response["X-RateLimit-Remaining"], "0")
+
+        with open(TEST_PO, "rb") as handle:
+            response = self.client.post(url, {"file": handle})
         self.assertEqual(response.status_code, 429)
-        queue.assert_not_called()
+        self.assertGreater(int(response["Retry-After"]), 0)
 
     def test_upload_task_is_private(self) -> None:
         from weblate.utils.celery import store_task_metadata  # ruff: ignore[import-outside-top-level]

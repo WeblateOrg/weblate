@@ -2960,10 +2960,9 @@ Translations
     Switch clients to background processing before upgrading to 2027.1. That
     release will remove the ``background`` option and synchronous processing.
 
-    Suggestion uploads accept at most 20,000 content strings. Browser and API
-    uploads share :setting:`RATELIMIT_UPLOAD_ATTEMPTS`; exceeding it returns
-    ``429 Too Many Requests``. API uploads have no per-user outstanding-task
-    restriction. Existing byte and general string-count limits still apply.
+    Suggestion uploads accept at most 20,000 content strings. API uploads have
+    no per-user outstanding-task restriction. Existing byte and general
+    string-count limits still apply.
 
     **CURL example:**
 

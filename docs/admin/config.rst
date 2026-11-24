@@ -2469,11 +2469,11 @@ to 60.
 RATELIMIT_UPLOAD_ATTEMPTS
 -------------------------
 
-Maximum translation and translation-memory upload attempts per user during
-:setting:`RATELIMIT_UPLOAD_WINDOW`. Defaults to 10. Browser and API uploads share
-this budget with browser translation-memory uploads, including synchronous and
-background API translation uploads. Superusers are exempt. Uploads rejected
-before the upload permission check do not count.
+Maximum translation and translation-memory upload attempts per user through the
+web interface during :setting:`RATELIMIT_UPLOAD_WINDOW`. Defaults to 10.
+Superusers are exempt. Uploads rejected before the upload permission check do
+not count.
+REST translation uploads count toward :ref:`api-rate`.
 
 .. setting:: RATELIMIT_UPLOAD_WINDOW
 
