@@ -523,6 +523,13 @@ def _category_for_check_flag(name: str, *, has_value: bool) -> StrOrPromise:
     return FLAG_CATEGORY_OTHER
 
 
+if "cpp-format" in PLAIN_FLAGS:
+    PLAIN_FLAGS["c++-format"] = PLAIN_FLAGS["cpp-format"]
+    _FLAG_CATEGORIES["c++-format"] = _category_for_check_flag(
+        "cpp-format", has_value=False
+    )
+
+
 def _flag_choice(
     name: str,
     label: StrOrPromise,

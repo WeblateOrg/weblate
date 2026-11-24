@@ -13,6 +13,7 @@ Weblate 2026.12
 * Added :wladmin:`recovergit` to rebuild missing repository checkouts, which can run on Docker container startup using :envvar:`WEBLATE_RECOVER_GIT`.
 * Expanded the :doc:`Kubernetes installation guide </admin/install/kubernetes>`.
 * :ref:`format-line-number` in the translation file is now stored in the unit for supported formats; when available, the line number is used for repository links and :guilabel:`Nearby strings`.
+* Added :ref:`check-cpp-format` quality check for C++ ``std::format`` strings.
 * Added staged :ref:`libre-hosting-cleanup` with advance notice and a 30-day trial.
 * Added :ref:`background task tracking <api-background-operations>` for creating translations and deleting translations, components, and categories through the API.
 * Added staged :ref:`libre-hosting-cleanup` on Hosted Weblate with advance notice and a 30-day trial.

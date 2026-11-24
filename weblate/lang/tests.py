@@ -24,6 +24,7 @@ from weblate_language_data.languages import LANGUAGES
 from weblate_language_data.plurals import CLDRPLURALS, EXTRAPLURALS, QTPLURALS
 from weblate_language_data.population import POPULATION
 
+from weblate.checks.models import CHECKS
 from weblate.lang import data
 from weblate.lang.models import (
     PLURAL_COUNT_MAX,
@@ -33,6 +34,7 @@ from weblate.lang.models import (
     get_plural_type,
 )
 from weblate.trans.models import Component, Project, Translation, Unit, WorkflowSetting
+from weblate.trans.tests.factories import make_unit
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.test_views import (
     FixtureComponentTestCase,
@@ -1076,6 +1078,91 @@ class PluralTest(BaseTestCase):
 
 
 class PluralMapperTestCase(FixtureComponentTestCase):
+    def test_cpp_plural_mapping_preserves_escaped_count_literals(self) -> None:
+        for flag in ("cpp-format", "c++-format"):
+            for escaped_name in ("{{count}}", "{{number}}", "{{num}}", "{{n}}"):
+                for field in ("{}", "{:d}", "{0}", "{0:d}"):
+                    with self.subTest(
+                        flag=flag, escaped_name=escaped_name, field=field
+                    ):
+                        singular = f"Use {escaped_name} for {field} item"
+                        plural = f"Use {escaped_name} for {field} items"
+                        sources = [singular, plural]
+                        unit = make_unit(
+                            code="ar",
+                            flags=flag,
+                            source=sources,
+                            target=["target"] * 6,
+                        )
+                        mapper = PluralMapper(
+                            unit.translation.component.source_language.plural,
+                            unit.translation.plural,
+                        )
+                        mapper.map_units([unit], None)
+                        with self.subTest(result="mapping"):
+                            self.assertEqual(
+                                unit.plural_map,
+                                [plural, singular, plural, plural, plural, plural],
+                            )
+                        with self.subTest(result="cpp_format"):
+                            self.assertFalse(
+                                CHECKS["cpp_format"].check_target(
+                                    sources, unit.plural_map, unit
+                                )
+                            )
+
+    def test_cpp_plural_mapping_preserves_numeric_fields_and_neutral_literals(
+        self,
+    ) -> None:
+        for flag in ("cpp-format", "c++-format"):
+            for literal in ("plain text", "{{}}", "{{label}}"):
+                for field in ("{}", "{:d}", "{0}", "{0:d}"):
+                    with self.subTest(flag=flag, literal=literal, field=field):
+                        singular = f"Use {literal} for {field} item"
+                        plural = f"Use {literal} for {field} items"
+                        sources = [singular, plural]
+                        unit = make_unit(
+                            code="ar",
+                            flags=flag,
+                            source=sources,
+                            target=["target"] * 6,
+                        )
+                        mapper = PluralMapper(
+                            unit.translation.component.source_language.plural,
+                            unit.translation.plural,
+                        )
+                        mapper.map_units([unit], None)
+                        self.assertEqual(
+                            unit.plural_map,
+                            [plural, singular, plural, plural, plural, plural],
+                        )
+                        self.assertFalse(
+                            CHECKS["cpp_format"].check_target(
+                                sources, unit.plural_map, unit
+                            )
+                        )
+
+    def test_python_plural_mapping_interpolates_named_counts(self) -> None:
+        for placeholder in ("{count}", "{number}", "{num}", "{n}"):
+            with self.subTest(placeholder=placeholder):
+                singular = f"{placeholder} item"
+                plural = f"{placeholder} items"
+                unit = make_unit(
+                    code="ar",
+                    flags="python-brace-format",
+                    source=[singular, plural],
+                    target=["target"] * 6,
+                )
+                mapper = PluralMapper(
+                    unit.translation.component.source_language.plural,
+                    unit.translation.plural,
+                )
+                mapper.map_units([unit], None)
+                self.assertEqual(
+                    unit.plural_map,
+                    ["0 items", singular, "2 items", plural, plural, plural],
+                )
+
     def test_english_extended_plurals(self) -> None:
         english = Language.objects.get(code="en")
         unit = Unit.objects.get(

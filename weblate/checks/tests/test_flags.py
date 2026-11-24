@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+from runpy import run_path
 from time import monotonic
 
 from django.core.exceptions import ValidationError
@@ -11,6 +13,7 @@ from django.test import SimpleTestCase
 from django.utils.translation import override
 from lxml import etree
 
+from weblate.checks.defaults import DEFAULT_CHECK_LIST
 from weblate.checks.flags import (
     TYPED_FLAGS,
     TYPED_FLAGS_ARGS,
@@ -19,9 +22,11 @@ from weblate.checks.flags import (
     get_auto_flag_names,
     get_flag_choices,
 )
+from weblate.checks.format import CppFormatCheck
 from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.ttkit import PoFormat
 from weblate.trans.defines import VARIANT_KEY_LENGTH
+from weblate.trans.tests.factories import make_unit
 
 PO_HEADER = r"""
 msgid ""
@@ -182,6 +187,33 @@ class FlagTest(SimpleTestCase):
         with self.assertRaises(ValidationError):
             Flags("invalid-check-name:1").validate()
         Flags("ignore-max-length").validate()
+
+    def test_validate_cpp_format(self) -> None:
+        for flag in ("cpp-format", "c++-format"):
+            with self.subTest(flag=flag):
+                FlagsValidator(flag).validate()
+
+    def test_validate_invalid_cpp_format(self) -> None:
+        for flag in ("cpp-format:1", "c++-format:1", "unknown-cpp-format"):
+            with self.subTest(flag=flag), self.assertRaises(ValidationError):
+                FlagsValidator(flag).validate()
+
+    def test_cpp_format_alias_activates_check(self) -> None:
+        check = CppFormatCheck()
+        source = "{} -> {}"
+        target = "{} -} {}"
+        for flag in ("cpp-format", "c++-format"):
+            with self.subTest(flag=flag):
+                flags = FlagsValidator(flag)
+                flags.validate()
+                unit = make_unit(flags=flags, source=source, target=target)
+                self.assertFalse(check.should_skip(unit))
+                self.assertTrue(check.check_target([source], [target], unit))
+        self.assertFalse(
+            check.check_target(
+                [source], [target], make_unit(source=source, target=target)
+            )
+        )
 
     def test_typed(self) -> None:
         self.assertEqual(TYPED_FLAGS.keys(), TYPED_FLAGS_ARGS.keys())
@@ -400,3 +432,45 @@ class FlagTest(SimpleTestCase):
 
         self.assertIsNot(en_choices, cs_choices)
         self.assertIs(en_choices, en_choices_again)
+
+    def test_cpp_format_alias_shares_catalog_metadata(self) -> None:
+        for check_list in (
+            DEFAULT_CHECK_LIST,
+            ("weblate.checks.format.CppFormatCheck",),
+        ):
+            with (
+                self.subTest(check_list=check_list),
+                self.settings(CHECK_LIST=check_list),
+                override("en"),
+            ):
+                flags_module = run_path(str(Path(__file__).parents[1] / "flags.py"))
+                entries = [
+                    entry
+                    for entry in flags_module["get_flag_choices"]()
+                    if entry["name"] in {"cpp-format", "c++-format"}
+                ]
+                self.assertCountEqual(
+                    [entry["name"] for entry in entries],
+                    ["cpp-format", "c++-format"],
+                )
+                self.assertEqual(entries[0]["label"], entries[1]["label"])
+                for entry in entries:
+                    with self.subTest(flag=entry["name"]):
+                        flags_module["FlagsValidator"](entry["name"]).validate()
+                        self.assertFalse(entry["has_value"])
+                        self.assertEqual(entry["category"], "Format")
+
+    def test_cpp_format_flags_absent_without_cpp_check(self) -> None:
+        for check_list in ((), ("weblate.checks.format.PythonBraceFormatCheck",)):
+            with (
+                self.subTest(check_list=check_list),
+                self.settings(CHECK_LIST=check_list),
+                override("en"),
+            ):
+                flags_module = run_path(str(Path(__file__).parents[1] / "flags.py"))
+                names = {entry["name"] for entry in flags_module["get_flag_choices"]()}
+                for flag in ("cpp-format", "c++-format"):
+                    with self.subTest(flag=flag):
+                        self.assertNotIn(flag, names)
+                        with self.assertRaises(ValidationError):
+                            flags_module["FlagsValidator"](flag).validate()

@@ -42,6 +42,7 @@ DEFAULT_CHECK_LIST: tuple[str, ...] = (
     "weblate.checks.format.ObjectPascalFormatCheck",
     "weblate.checks.format.SchemeFormatCheck",
     "weblate.checks.format.CSharpFormatCheck",
+    "weblate.checks.format.CppFormatCheck",
     "weblate.checks.format.LaravelFormatCheck",
     "weblate.checks.format.JavaFormatCheck",
     "weblate.checks.format.JavaMessageFormatCheck",

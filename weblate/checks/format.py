@@ -260,6 +260,42 @@ def iter_python_brace_matches(string: str) -> Iterable[re.Match[str]]:
             consumed = end
 
 
+CPP_FORMAT_MATCH = re.compile(
+    r"""
+    }(})|                       # escaped }
+    {({)|                       # escaped {
+    {(                          # initial {
+        [0-9]*                  # argument index
+        (?::                    # format specification
+            (?:[^{}]|{[0-9]*})* # nested width or precision
+        )?
+    )}                          # trailing }
+    """,
+    re.VERBOSE,
+)
+
+CPP_FORMAT_INDEX = re.compile(r"(^|{)([0-9]*)")
+CPP_CHRONO_SPEC = re.compile(
+    r"((?:[^{}][<^>]|[<^>])?(?:[1-9][0-9]*|{[0-9]+})?"
+    r"(?:\.(?:[0-9]+|{[0-9]+}))?L?)(%[^{}]*)",
+    re.DOTALL,
+)
+CPP_CHRONO_CONVERSION = re.compile(
+    r"%(?:[aAbBcCdDeFgGhHIjmMnprRStTuUVwWxXyYzZqQ%]|E[cCxXyYz]|O[deHImMSuUVwWyz])"
+)
+
+
+def normalize_cpp_chrono_spec(spec: str) -> str:
+    """Retain the prefix and conversion multiset of a chrono specification."""
+    match = CPP_CHRONO_SPEC.fullmatch(spec)
+    if match is None:
+        return spec
+    prefix, chrono = match.groups()
+    if "%" in CPP_CHRONO_CONVERSION.sub("", chrono):
+        return spec
+    return prefix + "".join(sorted(CPP_CHRONO_CONVERSION.findall(chrono)))
+
+
 PERL_BRACE_MATCH = re.compile(r"({([a-zA-Z0-9_]+)})")
 
 C_SHARP_MATCH = re.compile(
@@ -385,6 +421,10 @@ def python_format_is_position_based(string: str) -> bool:
     return "(" not in string and string not in {"{", "}"}
 
 
+def cpp_format_is_position_based(string: str) -> bool:
+    return not string or string.startswith(":")
+
+
 # ruff: ignore[reimplemented-operator]
 def name_format_is_position_based(string: str) -> bool:
     return not string
@@ -450,6 +490,16 @@ FLAG_RULES: dict[
     "python-brace-format": (
         PYTHON_BRACE_MATCH,
         name_format_is_position_based,
+        extract_string_python_brace,
+    ),
+    "cpp-format": (
+        CPP_FORMAT_MATCH,
+        cpp_format_is_position_based,
+        extract_string_python_brace,
+    ),
+    "c++-format": (
+        CPP_FORMAT_MATCH,
+        cpp_format_is_position_based,
         extract_string_python_brace,
     ),
     "scheme-format": (
@@ -874,7 +924,9 @@ class PythonBraceFormatCheck(BaseFormatCheck):
     name = gettext_lazy("Python brace format")
     description = gettext_lazy("Python brace format string does not match source.")
     regexp = PYTHON_BRACE_MATCH
-    plural_parameter_regexp = re.compile(r"\{(?:count|number|num|n)\}")
+    plural_parameter_regexp: re.Pattern[str] | None = re.compile(
+        r"\{(?:count|number|num|n)\}"
+    )
     normalize_remove: ClassVar[set[str]] = {"{", "}"}
 
     def may_have_matches(self, text: str) -> bool:
@@ -925,6 +977,63 @@ class PythonBraceFormatCheck(BaseFormatCheck):
                 result = {"missing": [], "extra": add_extra}
 
         return result
+
+
+class CppFormatCheck(PythonBraceFormatCheck):
+    """Check for C++ std::format string."""
+
+    check_id = "cpp_format"
+    name = gettext_lazy("C++ format")
+    description = gettext_lazy("C++ format string does not match source.")
+    regexp = CPP_FORMAT_MATCH
+    plural_parameter_regexp = None
+    extra_enable_strings = ("c++-format",)
+    version_added = "2026.12"
+
+    def iter_matches(self, string: str) -> Iterable[re.Match[str]]:
+        return CPP_FORMAT_MATCH.finditer(string)
+
+    def normalize(self, matches: list[str]) -> list[str]:
+        """Assign effective indices in outer-field then nested-field order."""
+        next_index = 0
+        indexing: set[bool] = set()
+
+        def normalize_index(match: re.Match[str]) -> str:
+            nonlocal next_index
+            index = match[2]
+            indexing.add(bool(index))
+            if index:
+                return match[0]
+            result = f"{match[1]}{next_index}"
+            next_index += 1
+            return result
+
+        normalized = []
+        for field in super().normalize(matches):
+            field = CPP_FORMAT_INDEX.sub(normalize_index, field)
+            index, separator, spec = field.partition(":")
+            normalized.append(index + separator + normalize_cpp_chrono_spec(spec))
+        if len(indexing) > 1:
+            msg = "Cannot mix automatic and explicit C++ argument indices."
+            raise ValueError(msg)
+        return normalized
+
+    def _check_format(
+        self, source: str, target: str, ignore_missing: bool, unit: Unit
+    ) -> Literal[False] | MissingExtraDict:
+        try:
+            return super()._check_format(source, target, ignore_missing, unit)
+        except ValueError:
+            return {
+                "missing": [],
+                "extra": [],
+                "errors": [
+                    gettext("Cannot mix automatic and explicit C++ argument indices.")
+                ],
+            }
+
+    def is_position_based(self, string: str) -> bool:
+        return cpp_format_is_position_based(string)
 
 
 class CSharpFormatCheck(BaseFormatCheck):

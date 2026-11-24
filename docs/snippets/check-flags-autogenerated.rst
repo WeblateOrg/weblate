@@ -80,6 +80,10 @@
     Enables the :ref:`check-c-sharp-format` quality check.
 ``csharp-format``
     Enables the :ref:`check-c-sharp-format` quality check.
+``cpp-format``
+    Enables the :ref:`check-cpp-format` quality check.
+``c++-format``
+    Enables the :ref:`check-cpp-format` quality check.
 ``es-format``
     Enables the :ref:`check-es-format` quality check.
 ``i18next-interpolation``
@@ -204,6 +208,8 @@
     Skip the :ref:`check-c-format` quality check.
 ``ignore-c-sharp-format``
     Skip the :ref:`check-c-sharp-format` quality check.
+``ignore-cpp-format``
+    Skip the :ref:`check-cpp-format` quality check.
 ``ignore-es-format``
     Skip the :ref:`check-es-format` quality check.
 ``ignore-i18next-interpolation``
