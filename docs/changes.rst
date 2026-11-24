@@ -51,6 +51,7 @@ Weblate 2026.12
 * Batched shared :ref:`statistics <stats>` updates after refreshing propagated quality checks.
 * Batched :ref:`quality check <checks>` refreshes and :ref:`statistics <stats>` updates when reverting a user's edits.
 * Batched propagated :ref:`quality check <checks>` refreshes during :ref:`bulk search and replace <bulk-edit>`.
+* Batched propagated quality checks for :ref:`translation uploads <upload>`, :ref:`enforced check updates <enforcing-checks>`, and the :ref:`prefill <addon-weblate.generate.prefill>`, :ref:`fill read-only <addon-weblate.generate.fill_read_only>`, and :ref:`pseudolocale <addon-weblate.generate.pseudolocale>` add-ons.
 * Batched daily statistics collection to reduce database queries and bound memory use on large sites with cached statistics.
 * Added :envvar:`WEBLATE_SECRET_KEY` support to configure Docker's Django secret key directly or from a mounted secret file.
 * Reduced database loading when polling :ref:`background tasks <api-tasks>` spanning many components.

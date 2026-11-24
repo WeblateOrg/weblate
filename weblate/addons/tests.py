@@ -6146,6 +6146,71 @@ msgstr ""
                     self.assertIn(text, sources)
         self.assertFalse(PendingUnitChange.objects.exists())
 
+    @patch("weblate.checks.tasks.PROPAGATED_CHECK_REFRESH_BATCH_SIZE", 2)
+    def test_prefill_batches_propagated_refreshes(self) -> None:
+        translation = self.get_translation()
+        units = [
+            self.get_unit(source=source, translation=translation)
+            for source in (
+                "Hello, world!\n",
+                "Try Weblate at <https://demo.weblate.org/>!\n",
+                "Thank you for using Weblate.",
+            )
+        ]
+        target_units = Unit.objects.filter(
+            translation__component=self.component
+        ).exclude(translation__language=self.component.source_language)
+        target_units.exclude(pk__in=[unit.pk for unit in units]).update(
+            state=STATE_NEEDS_REWRITING
+        )
+        target_units.filter(pk__in=[unit.pk for unit in units]).update(
+            state=STATE_EMPTY, target=""
+        )
+        addon = PrefillAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
+
+        with (
+            patch("weblate.checks.tasks.refresh_propagated_checks.delay") as delay,
+            patch.object(self.component, "commit_pending") as commit,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            handle_addon_event(
+                AddonEvent.EVENT_COMPONENT_UPDATE,
+                "component_update",
+                (self.component,),
+                component=self.component,
+                addon_queryset=[addon.instance],
+            )
+            delay.assert_not_called()
+
+        commit.assert_called_once_with("add-on", None)
+        self.assertEqual(delay.call_count, 2)
+        sources_by_batch = []
+        for call in delay.call_args_list:
+            project_id, groups, unit_ids = call.args
+            self.assertEqual(project_id, self.component.project_id)
+            self.assertEqual(unit_ids, [])
+            sources_by_batch.append(
+                [
+                    group["source"]
+                    for group in groups
+                    if group["check"] == "inconsistent"
+                ]
+            )
+        self.assertEqual(list(map(len, sources_by_batch)), [2, 1])
+        self.assertCountEqual(
+            [source for batch in sources_by_batch for source in batch],
+            [unit.source for unit in units],
+        )
+        for unit in units:
+            unit.refresh_from_db()
+            self.assertEqual(unit.target, unit.source)
+            self.assertEqual(unit.state, STATE_NEEDS_REWRITING)
+            self.assertEqual(
+                unit.change_set.get(action=ActionEvents.AUTO).user, addon.user
+            )
+
     def test_read_only(self) -> None:
         self.assertTrue(FillReadOnlyAddon.can_install(component=self.component))
         with self.captureOnCommitCallbacks(execute=True):

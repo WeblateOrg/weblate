@@ -2384,6 +2384,11 @@ class Translation(
 
         Needed for template based translations to add new strings.
         """
+        from weblate.checks.tasks import (  # ruff: ignore[import-outside-top-level]
+            PROPAGATED_CHECK_REFRESH_BATCH_SIZE,
+            coalesce_pending_propagated_check_refreshes,
+        )
+
         skipped = 0
         accepted = 0
         add_fuzzy = method == "fuzzy"
@@ -2413,53 +2418,56 @@ class Translation(
             self.unit_set.prefetch_all_checks().prefetch_source().select_for_update()
         )
 
-        for index, (set_fuzzy, unit2) in enumerate(store2.iterate_merge(fuzzy)):
-            if progress is not None and index % 100 == 0:
-                progress(index, total)
-            try:
-                unit = unit_set.get_unit(unit2)
-            except Unit.DoesNotExist:
-                self.log_upload_not_found(not_found_log, unit2)
-                continue
+        edits = enumerate(store2.iterate_merge(fuzzy))
+        for batch in batched(edits, PROPAGATED_CHECK_REFRESH_BATCH_SIZE):
+            with coalesce_pending_propagated_check_refreshes():
+                for index, (set_fuzzy, unit2) in batch:
+                    if progress is not None and index % 100 == 0:
+                        progress(index, total)
+                    try:
+                        unit = unit_set.get_unit(unit2)
+                    except Unit.DoesNotExist:
+                        self.log_upload_not_found(not_found_log, unit2)
+                        continue
 
-            state = STATE_TRANSLATED
-            if add_fuzzy or set_fuzzy:
-                state = STATE_FUZZY
-            elif add_approve:
-                state = STATE_APPROVED
+                    state = STATE_TRANSLATED
+                    if add_fuzzy or set_fuzzy:
+                        state = STATE_FUZZY
+                    elif add_approve:
+                        state = STATE_APPROVED
 
-            if (
-                (unit.translated and not conflicts)
-                or (unit.approved and conflicts != "replace-approved")
-                or unit.readonly
-                or (not request.user.has_perm("unit.edit", unit))
-                or (unit.target == unit2.target and unit.state == state)
-            ):
-                skipped += 1
-                continue
+                    if (
+                        (unit.translated and not conflicts)
+                        or (unit.approved and conflicts != "replace-approved")
+                        or unit.readonly
+                        or (not request.user.has_perm("unit.edit", unit))
+                        or (unit.target == unit2.target and unit.state == state)
+                    ):
+                        skipped += 1
+                        continue
 
-            accepted += 1
+                    accepted += 1
 
-            # Ensure deferred changes accumulate on this Translation instance
-            unit.translation = self
-            unit.is_batch_update = True
-            try:
-                unit.translate(
-                    request.user,
-                    split_plural(unit2.target),
-                    state,
-                    change_action=ActionEvents.UPLOAD,
-                    change_details={"explicit_approval": True}
-                    if state == STATE_APPROVED
-                    else None,
-                    propagate=propagate,
-                    author=author,
-                    request=request,
-                    select_for_update=False,
-                )
-            except TranslationTextTooLongError as error:
-                # The transaction in handle_upload discards already merged units.
-                raise self.get_upload_text_length_error(unit2) from error
+                    # Ensure deferred changes accumulate on this Translation instance
+                    unit.translation = self
+                    unit.is_batch_update = True
+                    try:
+                        unit.translate(
+                            request.user,
+                            split_plural(unit2.target),
+                            state,
+                            change_action=ActionEvents.UPLOAD,
+                            change_details={"explicit_approval": True}
+                            if state == STATE_APPROVED
+                            else None,
+                            propagate=propagate,
+                            author=author,
+                            request=request,
+                            select_for_update=False,
+                        )
+                    except TranslationTextTooLongError as error:
+                        # The transaction in handle_upload discards already merged units.
+                        raise self.get_upload_text_length_error(unit2) from error
 
         if accepted > 0:
             self.store_update_changes()
