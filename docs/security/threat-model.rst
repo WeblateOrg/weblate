@@ -637,7 +637,9 @@ Size and rate assumptions:
 * Translation uploads require an authenticated actor, regardless of permissions
   assigned to the Guests team, and retain byte and content-string limits in
   synchronous and background processing. Suggestion uploads have a tighter
-  string-count limit, and browser and API uploads share a per-user rate budget.
+  string-count limit. In the web interface, translation uploads and
+  translation-memory imports share a per-user upload budget. REST translation
+  uploads count toward :ref:`api-rate`.
   Background upload files are private temporary data shared between web and
   worker processes; workers recheck the initiating user's access before applying
   them.

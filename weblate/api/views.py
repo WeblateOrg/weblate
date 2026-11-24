@@ -53,7 +53,7 @@ from drf_standardized_errors.handler import ExceptionHandler
 from drf_standardized_errors.openapi_serializers import ErrorResponse403Serializer
 from rest_framework import parsers, serializers, viewsets
 from rest_framework.decorators import action
-from rest_framework.exceptions import APIException, Throttled, ValidationError
+from rest_framework.exceptions import APIException, ValidationError
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -266,7 +266,6 @@ from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.messages import store_task_completion_message
-from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.search import SearchQueryError, parse_query
 from weblate.utils.similarity import Comparer
 from weblate.utils.state import (
@@ -4498,7 +4497,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
             "takes precedence over the query parameter.\n\n"
             "A synchronous upload returns import counts. For a queued upload, "
             "poll `task_url` and inspect its result for import counts or an error "
-            "description. Upload throttling is shared with browser uploads."
+            "description."
         ),
         methods=["post", "put"],
         request={
@@ -4573,9 +4572,6 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
                     else "Insufficient privileges for uploading."
                 ),
             )
-
-        if not check_rate_limit("upload", cast("AuthenticatedHttpRequest", request)):
-            raise Throttled(detail="Too many uploads, please try again later.")
 
         if not isinstance(request.data, Mapping):
             msg = "Expected form data."
