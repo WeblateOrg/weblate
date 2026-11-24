@@ -453,6 +453,12 @@ class UserEditForm(forms.ModelForm):
             "date_expires": WeblateDateInput(),
         }
 
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        for name in self.instance.protected_account_fields:
+            if name in self.fields:
+                self.fields[name].disabled = True
+
 
 class BaseTeamForm(forms.ModelForm):
     all_languages = forms.BooleanField(

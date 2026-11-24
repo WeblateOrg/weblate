@@ -1166,9 +1166,10 @@ Known misuse patterns
   permits changing site-wide team scope and granting team members access to
   private projects the manager cannot access directly, while ``user.edit``
   permits changing team memberships and superuser status for editable accounts,
-  including the caller's own account. Delegate permissions through project or
-  workspace teams for limited scopes. *(documented)* (source:
-  :doc:`/admin/access`)
+  including the caller's own account for human users. Bot account mutations
+  through the user API require another authorized actor. Delegate permissions
+  through project or workspace teams for limited scopes. *(documented)* (source:
+  :doc:`/admin/access`, :ref:`api-users`)
 * Sending sensitive source strings or private customer content to machine
   translation providers without treating the provider as a data recipient. This
   is unsafe because Weblate must transmit content to the configured service, and
