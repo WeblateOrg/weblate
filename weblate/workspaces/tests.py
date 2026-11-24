@@ -4,10 +4,12 @@
 
 from __future__ import annotations
 
+import json
 from typing import TYPE_CHECKING
 from unittest.mock import PropertyMock, patch
 
 from asgiref.sync import async_to_sync
+from django.conf import settings
 from django.contrib.admin.sites import AdminSite
 from django.core.exceptions import ValidationError
 from django.http import Http404
@@ -21,10 +23,18 @@ from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import Group, User, get_anonymous
 from weblate.billing.models import Billing, BillingQuerySet
 from weblate.lang.models import Language
+from weblate.machinery.models import MachineryInstallation
 from weblate.memory.models import Memory, MemoryScope
 from weblate.trans.actions import ActionEvents
 from weblate.trans.formatting import get_breadcrumbs
-from weblate.trans.models import Change, ComponentLink, Project, Suggestion
+from weblate.trans.models import (
+    Change,
+    ComponentLink,
+    Project,
+    Suggestion,
+    Unit,
+    WorkflowSetting,
+)
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.test_views import (
     FixtureComponentTestCase,
@@ -39,7 +49,7 @@ from weblate.trans.tests.utils import (
 from weblate.utils.change_origin import acting_user_context
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED
-from weblate.utils.stats import WorkspaceLanguage
+from weblate.utils.stats import ProjectLanguage, WorkspaceLanguage
 from weblate.utils.tests import http_mock
 from weblate.utils.views import (
     UnsupportedPathObjectError,
@@ -1297,7 +1307,8 @@ class WorkspaceLanguageTest(FixtureComponentTestCase):
                 self.assertEqual(response.context["object"].workspace, self.workspace)
                 self.assertContains(response, self.scope.get_translate_url())
                 if mode == "translate":
-                    self.assertEqual(response.context["project"], self.project)
+                    self.assertIsNone(response.context["project"])
+                    self.assertEqual(response.context["unit_project"], self.project)
                     self.assertTrue(
                         response.context["next_unit_url"].startswith(
                             self.scope.get_translate_url()
@@ -1409,12 +1420,228 @@ class WorkspaceLanguageEditorTest(ReusableViewTestCase):
             unit = response.context["unit"]
             seen.add(unit.pk)
             self.assertEqual(
-                response.context["project"], unit.translation.component.project
+                response.context["unit_project"], unit.translation.component.project
             )
             self.assertTrue(response.context["next_unit_url"].startswith(url))
         self.assertEqual(seen, expected_ids)
         response = self.client.get(url, {"offset": len(expected_ids) + 1})
         self.assertRedirects(response, self.scope.get_absolute_url())
+
+    def test_project_entry_uses_unit_owner_for_editor_features(self) -> None:
+        unit = self.second_translation.unit_set.get(source=self.get_unit().source)
+        navigation = ProjectLanguage(self.project, self.translation.language)
+        units = Unit.objects.filter(pk=unit.pk).prefetch()
+
+        with override_settings(
+            WEBLATE_MACHINERY=(
+                *settings.WEBLATE_MACHINERY,
+                "weblate.machinery.dummy.DummyTranslation",
+            )
+        ):
+            navigation_service = MachineryInstallation.objects.create(
+                project=self.project, engine="dummy"
+            )
+            owner_service = MachineryInstallation.objects.create(
+                project=self.second_project, engine="dummy"
+            )
+            with patch(
+                "weblate.trans.views.edit.parse_path_units",
+                return_value=(navigation, units, {"project": self.project}),
+            ):
+                response = self.client.get(navigation.get_translate_url())
+
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.context["project"], self.project)
+            self.assertEqual(response.context["unit_project"], self.second_project)
+            services = json.loads(response.context["machinery_services"])
+            self.assertIn(owner_service.selector, services)
+            self.assertNotIn(navigation_service.selector, services)
+            response = self.client.post(
+                reverse(
+                    "js-translate",
+                    kwargs={"unit_id": unit.pk, "service": owner_service.selector},
+                )
+            )
+            self.assertContains(response, "Ahoj")
+
+    def test_project_entry_matches_glossaries_for_each_owner_in_zen(self) -> None:
+        self.create_po(
+            name="owner-glossary", project=self.second_project, is_glossary=True
+        )
+        canonical = self.get_unit()
+        child = self.second_translation.unit_set.get(source=canonical.source)
+        navigation = ProjectLanguage(self.project, self.translation.language)
+        units = Unit.objects.filter(pk__in=[canonical.pk, child.pk]).prefetch()
+
+        with (
+            patch(
+                "weblate.trans.views.edit.parse_path_units",
+                return_value=(navigation, units, {"project": self.project}),
+            ),
+            patch("weblate.trans.views.edit.fetch_glossary_terms") as fetch_terms,
+        ):
+            response = self.client.get(
+                reverse("zen", kwargs={"path": navigation.get_url_path()})
+            )
+
+        self.assertEqual(response.status_code, 200)
+        fetch_terms.assert_called_once_with([child], full=False)
+
+    def test_editor_filters_glossary_terms_by_owner(self) -> None:
+        glossary = self.create_po(
+            name="owner-glossary", project=self.second_project, is_glossary=True
+        )
+        canonical = self.get_unit()
+        child = self.second_translation.unit_set.get(source=canonical.source)
+        glossary.source_translation.unit_set.filter(source=canonical.source).update(
+            source="Owner term", state=STATE_TRANSLATED
+        )
+        glossary.invalidate_glossary_cache()
+        Unit.objects.filter(pk__in=[canonical.pk, child.pk]).update(
+            source="An Owner term here"
+        )
+        navigation = ProjectLanguage(self.project, self.translation.language)
+        units = Unit.objects.filter(pk__in=[canonical.pk, child.pk]).prefetch()
+
+        for scope in (units.filter(pk=child.pk), units):
+            with self.assertNumQueries(5):
+                matching_ids = list(
+                    scope.search("has:glossary", glossary_scope=scope).values_list(
+                        "pk", flat=True
+                    )
+                )
+            self.assertEqual(matching_ids, [child.pk])
+
+        with patch(
+            "weblate.trans.views.edit.parse_path_units",
+            return_value=(navigation, units, {"project": self.project}),
+        ):
+            response = self.client.get(
+                navigation.get_translate_url(), {"q": "has:glossary"}
+            )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["unit"], child)
+        self.assertEqual(response.context["filter_count"], 1)
+
+        response = self.client.get(
+            self.scope.get_translate_url(),
+            {"q": f"has:glossary AND (id:{canonical.pk} OR id:{child.pk})"},
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["unit"], child)
+        self.assertEqual(response.context["filter_count"], 1)
+
+        ComponentLink.objects.create(component=glossary, project=self.project)
+        with self.assertNumQueries(5):
+            shared_matching_ids = set(
+                units.search("has:glossary", glossary_scope=units).values_list(
+                    "pk", flat=True
+                )
+            )
+        self.assertEqual(shared_matching_ids, {canonical.pk, child.pk})
+
+    def test_project_entry_searches_and_orders_effective_sources(self) -> None:
+        canonical = self.get_unit()
+        child = self.second_translation.unit_set.get(source=canonical.source)
+        parent = self.second_component.translation_set.get(
+            language__code="de"
+        ).unit_set.get(source=canonical.source)
+        WorkflowSetting.objects.create(
+            project=self.second_project,
+            language=child.translation.language,
+            source_language=parent.translation.language,
+        )
+        Unit.objects.filter(pk=canonical.pk).update(source="Editor middle")
+        Unit.objects.filter(pk=parent.pk).update(target="Editor first")
+        Unit.objects.filter(pk=child.pk).update(
+            source="Editor last", translation_parent=parent
+        )
+        navigation = ProjectLanguage(self.project, self.translation.language)
+        units = Unit.objects.filter(pk__in=[canonical.pk, child.pk]).prefetch()
+
+        with patch(
+            "weblate.trans.views.edit.parse_path_units",
+            return_value=(navigation, units, {"project": self.project}),
+        ):
+            url = navigation.get_translate_url()
+            response = self.client.get(url, {"q": 'source:="Editor first"'})
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.context["unit"], child)
+            self.assertEqual(
+                response.context["unit"].effective_source_language.code, "de"
+            )
+            response = self.client.get(url, {"q": "source:Editor", "sort_by": "source"})
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.context["unit"], child)
+            response = self.client.get(
+                reverse("zen", kwargs={"path": navigation.get_url_path()}),
+                {"q": "source:Editor", "sort_by": "-source", "offset": "1"},
+            )
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(
+                [item["unit"] for item in response.context["unitdata"]],
+                [canonical, child],
+            )
+
+    def test_merge_keeps_workspace_scope(self) -> None:
+        unit = self.second_translation.unit_set.get(source=self.get_unit().source)
+        peer_component = self.create_po(name="merge-peer", project=self.second_project)
+        peer = peer_component.translation_set.get(
+            language=self.translation.language
+        ).unit_set.get(source=unit.source)
+        peer_target = "Merged workspace translation\n"
+        Unit.objects.filter(pk=peer.pk).update(
+            target=peer_target, state=STATE_TRANSLATED
+        )
+        query = f"id:{unit.pk} OR id:{self.get_unit().pk}"
+        url = self.scope.get_translate_url()
+        response = self.client.get(url, {"q": query})
+        self.assertEqual(response.status_code, 200)
+        if response.context["unit"] != unit:
+            response = self.client.get(response.context["next_unit_url"])
+        self.assertEqual(response.context["unit"], unit)
+        expected_redirect = response.context["next_unit_url"]
+        (action,) = html.fromstring(response.content).xpath(
+            '//div[@id="others"]/form/@action'
+        )
+        self.assertTrue(action.startswith(response.context["this_unit_url"]))
+        response = self.client.post(action, {"merge": peer.pk})
+        self.assertRedirects(response, expected_redirect, fetch_redirect_response=False)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, peer_target)
+
+    def test_full_editor_save_retains_workspace_snapshot(self) -> None:
+        unit = self.second_translation.unit_set.get(source=self.get_unit().source)
+        url = self.scope.get_translate_url()
+        response = self.client.get(
+            url,
+            {"q": f"id:{unit.pk} OR id:{self.get_unit().pk}", "sort_by": "component"},
+        )
+        self.assertEqual(response.status_code, 200)
+        if response.context["unit"] != unit:
+            response = self.client.get(response.context["next_unit_url"])
+        self.assertEqual(response.context["unit"], unit)
+        action = response.context["this_unit_url"]
+        key = f"search_{self.scope.cache_key}_{response.context['search_url']}"
+        snapshot = self.client.session[key]["ids"]
+        response = self.client.post(
+            action,
+            {
+                "unit_id": unit.pk,
+                "checksum": unit.checksum,
+                "contentsum": hash_to_checksum(unit.edit_content_hash),
+                "translationsum": hash_to_checksum(unit.get_target_hash()),
+                "initial_state": str(unit.state),
+                "target_0": "Workspace translation\n",
+                "review": str(STATE_TRANSLATED),
+                "save-stay": "1",
+            },
+        )
+        self.assertRedirects(response, action, fetch_redirect_response=False)
+        self.assertEqual(self.client.session[key]["ids"], snapshot)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Workspace translation\n")
 
     def test_zen_load_and_refresh_preserve_cross_project_scope(self) -> None:
         url = reverse("zen", kwargs={"path": self.scope.get_url_path()})
