@@ -519,6 +519,137 @@ class SentryBeforeSendTest(SimpleTestCase):
                 callback.assert_called_once_with({}, {})
 
 
+@override_settings(SENTRY_TRACES_SAMPLE_RATE=0.2, URL_PREFIX="", FORCE_SCRIPT_NAME=None)
+class SentryTraceSamplingTest(SimpleTestCase):
+    def test_wsgi_request_rates(self) -> None:
+        for path, multiplier in (
+            ("/-/pow/verify/", 0.1),
+            ("/js/i18n/", 0.1),
+            ("/js/flags/", 0.1),
+            ("/avatar/32/user.png", 0.1),
+            ("/widget/project/category/component/en/badge-white.svg", 0.1),
+            ("/widgets/project/-/widget-white.svg", 0.1),
+            ("/widgets/project/en/component/widget-white.png", 0.1),
+            ("/widgets/project/component/", 1),
+            ("/widgets/project/en/widget-white.jpg", 1),
+            ("/translate/project/component/en/", 1),
+            ("/zen/project/component/en/", 1),
+            ("/projects/project/", 1),
+            ("/api/units/42/", 1),
+            ("/js/translate/service/42/", 1),
+            ("/-/pow/check/", 1),
+        ):
+            with self.subTest(path=path):
+                self.assertAlmostEqual(
+                    errors.sample_sentry_traces({"wsgi_environ": {"PATH_INFO": path}}),
+                    0.2 * multiplier,
+                )
+
+    @override_settings(URL_PREFIX="/weblate/")
+    def test_url_prefix(self) -> None:
+        for context in (
+            {
+                "wsgi_environ": {
+                    "PATH_INFO": "/weblate/js/flags/",
+                    "SCRIPT_NAME": "/app",
+                }
+            },
+            {
+                "asgi_scope": {
+                    "type": "http",
+                    "path": "/app/weblate/js/flags/",
+                    "root_path": "/app",
+                }
+            },
+            {"asgi_scope": {"type": "http", "path": "/weblate/js/flags/"}},
+        ):
+            with self.subTest(context=context):
+                self.assertAlmostEqual(errors.sample_sentry_traces(context), 0.02)
+        self.assertEqual(
+            errors.sample_sentry_traces({"wsgi_environ": {"PATH_INFO": "/js/flags/"}}),
+            0.2,
+        )
+
+    def test_celery_task_rates(self) -> None:
+        self.assertEqual(
+            errors.sample_sentry_traces(
+                {
+                    "celery_job": {
+                        "task": "weblate.utils.tasks.update_translation_stats_parents"
+                    }
+                }
+            ),
+            0.05,
+        )
+        self.assertEqual(
+            errors.sample_sentry_traces(
+                {
+                    "celery_job": {
+                        "task": "weblate.checks.tasks.refresh_propagated_checks"
+                    }
+                }
+            ),
+            0.2,
+        )
+        self.assertEqual(errors.sample_sentry_traces({}), 0.2)
+
+    def test_inherited_sampling_decisions(self) -> None:
+        for parent_sampled in (True, False):
+            with self.subTest(parent_sampled=parent_sampled):
+                self.assertIs(
+                    errors.sample_sentry_traces(
+                        {
+                            "wsgi_environ": {"PATH_INFO": "/-/pow/verify/"},
+                            "parent_sampled": parent_sampled,
+                        }
+                    ),
+                    parent_sampled,
+                )
+
+    @override_settings(SENTRY_TRACES_SAMPLE_RATE=0)
+    def test_zero_rate_for_standalone_requests(self) -> None:
+        self.assertEqual(
+            errors.sample_sentry_traces(
+                {"asgi_scope": {"type": "http", "path": "/-/pow/verify/"}}
+            ),
+            0,
+        )
+
+    @override_settings(SENTRY_EXTRA_ARGS={})
+    def test_init_sentry_uses_default_sampler(self) -> None:
+        with patch("weblate.utils.errors.get_sentry_sdk") as get_sentry_sdk:
+            errors.init_sentry()
+        self.assertIs(
+            get_sentry_sdk.return_value.init.call_args.kwargs["traces_sampler"],
+            errors.sample_sentry_traces,
+        )
+
+    @override_settings(SENTRY_EXTRA_ARGS={})
+    def test_init_sentry_omits_default_sampler_at_disabled_rates(self) -> None:
+        for rate in (0, None):
+            with (
+                self.subTest(rate=rate),
+                override_settings(SENTRY_TRACES_SAMPLE_RATE=rate),
+                patch("weblate.utils.errors.get_sentry_sdk") as get_sentry_sdk,
+            ):
+                errors.init_sentry()
+                options = get_sentry_sdk.return_value.init.call_args.kwargs
+                self.assertNotIn("traces_sampler", options)
+                self.assertEqual(options["traces_sample_rate"], rate)
+
+    def test_init_sentry_preserves_configured_sampler(self) -> None:
+        sampler = MagicMock()
+        with (
+            override_settings(SENTRY_EXTRA_ARGS={"traces_sampler": sampler}),
+            patch("weblate.utils.errors.get_sentry_sdk") as get_sentry_sdk,
+        ):
+            errors.init_sentry()
+        self.assertIs(
+            get_sentry_sdk.return_value.init.call_args.kwargs["traces_sampler"],
+            sampler,
+        )
+
+
 class SentryScrubberTest(SimpleTestCase):
     def create_client(self, events: list[Event]) -> Client:
         class CollectingTransport(Transport):

@@ -59,6 +59,11 @@ SENTRY_URL_USERINFO = re.compile(
     r"(?<![a-z0-9+.-])(?P<scheme>[a-z][a-z0-9+.-]*://)[^/\s?#\"<>]*@",
     re.IGNORECASE,
 )
+SENTRY_ROUTINE_TRACE_PATHS = frozenset({"/-/pow/verify/", "/js/i18n/", "/js/flags/"})
+SENTRY_WIDGET_IMAGE_PATH = re.compile(
+    r"/(?:widget/(?:[^/]+/)+|widgets/(?:[^/]+/){2,3})[^/-]+-[^/-]+\.(?:png|svg)"
+)
+SENTRY_AVATAR_PATH = re.compile(r"/avatar/[0-9]+/[^/]+\.png")
 
 LOGGER = logging.getLogger(ERROR_LOGGER)
 _STATE: dict[str, Any] = {
@@ -386,6 +391,43 @@ def celery_base_data_hook(request: AuthenticatedHttpRequest, data) -> None:
     data["framework"] = "celery"
 
 
+def sample_sentry_traces(sampling_context: dict[str, Any]) -> float | bool:
+    """Sample routine requests and standalone statistics tasks at reduced rates."""
+    parent_sampled = sampling_context.get("parent_sampled")
+    if isinstance(parent_sampled, bool):
+        return parent_sampled
+
+    sample_rate = settings.SENTRY_TRACES_SAMPLE_RATE
+    celery_job = sampling_context.get("celery_job", {})
+    if celery_job.get("task") == "weblate.utils.tasks.update_translation_stats_parents":
+        return sample_rate * 0.25
+
+    wsgi_environ = sampling_context.get("wsgi_environ", {})
+    asgi_scope = sampling_context.get("asgi_scope", {})
+    path = wsgi_environ.get("PATH_INFO", "")
+    if asgi_scope.get("type") == "http":
+        path = asgi_scope.get("path", "")
+        root_path = settings.FORCE_SCRIPT_NAME or asgi_scope.get("root_path") or ""
+        root_path = root_path.rstrip("/")
+        if root_path and path.startswith(f"{root_path}/"):
+            path = path[len(root_path) :]
+
+    url_prefix = settings.URL_PREFIX.strip("/")
+    if url_prefix:
+        prefix = f"/{url_prefix}"
+        if not path.startswith(f"{prefix}/"):
+            return sample_rate
+        path = path[len(prefix) :]
+
+    if (
+        path in SENTRY_ROUTINE_TRACE_PATHS
+        or SENTRY_WIDGET_IMAGE_PATH.fullmatch(path)
+        or SENTRY_AVATAR_PATH.fullmatch(path)
+    ):
+        return sample_rate * 0.1
+    return sample_rate
+
+
 def init_sentry() -> None:
     sentry_sdk = get_sentry_sdk()
     # ruff: ignore[import-outside-top-level]
@@ -423,6 +465,9 @@ def init_sentry() -> None:
         RedisIntegration(),
     ]
     sentry_extra_args = dict(settings.SENTRY_EXTRA_ARGS)
+    traces_sample_rate = settings.SENTRY_TRACES_SAMPLE_RATE
+    if traces_sample_rate:
+        sentry_extra_args.setdefault("traces_sampler", sample_sentry_traces)
     sentry_extra_args["before_send"] = SentryBeforeSend(
         sentry_extra_args.get("before_send")
     )
@@ -448,7 +493,7 @@ def init_sentry() -> None:
         send_default_pii=settings.SENTRY_SEND_PII,
         release=weblate.utils.version.GIT_REVISION or weblate.utils.version.TAG_NAME,
         environment=settings.SENTRY_ENVIRONMENT,
-        traces_sample_rate=settings.SENTRY_TRACES_SAMPLE_RATE,
+        traces_sample_rate=traces_sample_rate,
         profiles_sample_rate=settings.SENTRY_PROFILES_SAMPLE_RATE,
         in_app_include=[
             "weblate",
