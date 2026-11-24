@@ -6,9 +6,11 @@
 
 from __future__ import annotations
 
+import os
 import time
 from contextlib import AbstractContextManager, ExitStack
 from typing import Never
+from unittest import skipUnless
 from unittest.mock import Mock, patch
 
 from django.contrib.messages import get_messages
@@ -1333,6 +1335,64 @@ class RepositoryOperationQueueTest(ViewTestCase):
         acquire_repository_operation([self.component.pk], "reset", "task-id")
         self.addCleanup(release_repository_operation, [self.component.pk], "task-id")
         self.assertEqual(cache.get(key), {"operation": "reset", "task_id": "task-id"})
+
+    def assert_stale_cleanup_keeps_replacement(self) -> None:
+        key = get_repository_operation_key(self.component.pk)
+        acquire_repository_operation([self.component.pk], "reset", "finished-task")
+
+        # The task finishes and another one reserves the component while a
+        # concurrent caller is still checking the original reservation.
+        get = cache.get
+        finished_scope_key = get_repository_operation_scope_key("finished-task")
+        raced: list[bool] = []
+
+        def racing_get(
+            name: str, default: object = None, version: int | None = None
+        ) -> object:
+            if name == finished_scope_key and not raced:
+                raced.append(True)
+                release_repository_operation([self.component.pk], "finished-task")
+                acquire_repository_operation(
+                    [self.component.pk], "reset", "replacement-task"
+                )
+            return get(name, default, version)
+
+        # The cache can be overridden for the test, so clean up right away.
+        try:
+            with (
+                patch.object(cache, "get", side_effect=racing_get),
+                self.assertRaises(RepositoryOperationConflictError) as error,
+            ):
+                acquire_repository_operation([self.component.pk], "reset", "task-id")
+
+            self.assertEqual(raced, [True])
+            self.assertEqual(error.exception.task_id, "replacement-task")
+            self.assertEqual(
+                cache.get(key), {"operation": "reset", "task_id": "replacement-task"}
+            )
+        finally:
+            cache.delete(f"{key}-stale-finished-task")
+            for task_id in ("finished-task", "replacement-task", "task-id"):
+                release_repository_operation([self.component.pk], task_id)
+
+    def test_stale_cleanup_keeps_replacement_reservation(self) -> None:
+        self.assert_stale_cleanup_keeps_replacement()
+
+    @skipUnless("CI_REDIS_HOST" in os.environ, "Redis is not configured")
+    def test_stale_cleanup_keeps_replacement_reservation_redis(self) -> None:
+        location = (
+            f"redis://{os.environ['CI_REDIS_HOST']}:"
+            f"{os.environ.get('CI_REDIS_PORT', '6379')}/1"
+        )
+        with override_settings(
+            CACHES={
+                "default": {
+                    "BACKEND": "django_redis.cache.RedisCache",
+                    "LOCATION": location,
+                }
+            }
+        ):
+            self.assert_stale_cleanup_keeps_replacement()
 
     def test_dead_process_does_not_block_operations(self) -> None:
         # The process holding the reservation is killed in the middle of the
