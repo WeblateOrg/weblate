@@ -2987,6 +2987,15 @@ wheels = [
 ]
 
 [[package]]
+name = "linkify-it-py"
+version = "2.2.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/45/98/7a1a5f31fd5c7ba93e963b168e244b8e3dd705b3d2a718e3c3307583bf57/linkify_it_py-2.2.0.tar.gz", hash = "sha256:907acd2d17ac1fbb9ddb62c8957ccbd6158cac602231a15c3b0cd1e215f03cee", size = 32939, upload-time = "2026-08-29T07:07:08.305Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/13/d4/1152d1c7ab42d8b908be64fd200ddc870dc9d4925e951198702084aa1a7d/linkify_it_py-2.2.0-py3-none-any.whl", hash = "sha256:3adc40eb5af300b2605fcfdb968c24e1d780a90f1f2221af7c15e5111e94d443", size = 21971, upload-time = "2026-08-29T07:07:07.164Z" },
+]
+
+[[package]]
 name = "logging-gelf"
 version = "0.0.32"
 source = { registry = "https://pypi.org/simple" }
@@ -3116,6 +3125,11 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/16/fc/cee2c45553c9a9bf77d8b0c391560c556d7ed756b1f0bb35eb5d48db09ea/markdown_it_py-4.3.0.tar.gz", hash = "sha256:91a58fa5b72c71a40cf7177250fd767480d7a2bb3ac426ccfb76fb90305fdaaa", size = 242701, upload-time = "2026-11-10T16:18:30.467Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/c9/31/5f0ac2f1a1c67423c995c731a11cd4ad05d081a2be969d74f868bdb9cc70/markdown_it_py-4.3.0-py3-none-any.whl", hash = "sha256:7aa1511a46c39138de78d9eba92ce47e63124d8003fc98b3a351909e04239efa", size = 96951, upload-time = "2026-11-10T16:18:28.975Z" },
+]
+
+[package.optional-dependencies]
+linkify = [
+    { name = "linkify-it-py" },
 ]
 
 [[package]]
@@ -6233,9 +6247,10 @@ dependencies = [
     { name = "iniparse" },
     { name = "jsonschema" },
     { name = "kombu", extra = ["redis"] },
+    { name = "linkify-it-py" },
     { name = "lxml" },
+    { name = "markdown-it-py", extra = ["linkify"] },
     { name = "matplotlib" },
-    { name = "mistletoe" },
     { name = "msgpack" },
     { name = "nh3" },
     { name = "openpyxl" },
@@ -6549,11 +6564,12 @@ requires-dist = [
     { name = "iniparse", specifier = "==0.5.3" },
     { name = "jsonschema", specifier = "==4.26.0" },
     { name = "kombu", extras = ["redis"], specifier = "==5.7.0" },
+    { name = "linkify-it-py", specifier = "==2.2.0" },
     { name = "logging-gelf", marker = "extra == 'gelf'", specifier = "==0.0.32" },
     { name = "lxml", specifier = "==6.1.3" },
+    { name = "markdown-it-py", extras = ["linkify"], specifier = "==4.3.0" },
     { name = "matplotlib", specifier = "==3.11.2" },
     { name = "mercurial", marker = "extra == 'mercurial'", specifier = "==7.2.4" },
-    { name = "mistletoe", specifier = "==1.6.0" },
     { name = "msgpack", specifier = "==1.2.1" },
     { name = "nh3", specifier = "==0.3.8" },
     { name = "openpyxl", specifier = "==3.1.5" },
