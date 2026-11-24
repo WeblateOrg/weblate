@@ -42,6 +42,7 @@ class JSViewsTest(FixtureTestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, "<script>")
+        self.assertContains(response, "&lt;script&gt;alert(1)&lt;/script&gt;")
 
     def test_markdown_preview_get(self) -> None:
         response = self.client.get(reverse("js-markdown-preview"))
