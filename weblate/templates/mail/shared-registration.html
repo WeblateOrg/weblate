@@ -23,6 +23,8 @@
     <a class="button" href="{{ url }}">{% translate "Confirm account removal" %}</a>
   {% elif action == "invite" %}
     <a class="button" href="{{ url }}">{% translate "Confirm invitation" %}</a>
+  {% elif action == "verify-email" %}
+    <a class="button" href="{{ url }}">{% translate "Verify e-mail address" %}</a>
   {% else %}
     <a class="button" href="{{ url }}">{% translate "Confirm registration" %}</a>
   {% endif %}
@@ -30,6 +32,12 @@
 
 {% if contact_form != "disabled" %}
   <p>
-    <a href="{% url 'contact' %}?t=reg">{% blocktranslate %}If there is a problem with your registration, please contact us.{% endblocktranslate %}</a>
+    <a href="{% url 'contact' %}?t=reg">
+      {% if action == "verify-email" %}
+        {% translate "If there is a problem verifying your e-mail address, please contact us." %}
+      {% else %}
+        {% blocktranslate %}If there is a problem with your registration, please contact us.{% endblocktranslate %}
+      {% endif %}
+    </a>
   </p>
 {% endif %}

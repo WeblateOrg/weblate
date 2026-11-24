@@ -263,7 +263,8 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
                     projects,
                     stats=True,
                     sort_by=request.GET.get("sort_by"),
-                )
+                ),
+                user=request.user,
             ),
             "language_stats": sort_unicode(
                 [stat.obj for stat in workspace.stats.get_language_stats()],

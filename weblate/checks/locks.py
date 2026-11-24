@@ -7,17 +7,43 @@
 from __future__ import annotations
 
 from contextlib import ExitStack, contextmanager
+from contextvars import ContextVar
 from typing import TYPE_CHECKING
 
 from django.db import connection, transaction
 
 from weblate.trans.propagation import get_propagation_scope
+from weblate.utils.lock import AdvisoryLock
 
 if TYPE_CHECKING:
     from collections.abc import Generator
     from uuid import UUID
 
     from weblate.trans.models import Component, Project
+    from weblate.utils.lock import WeblateLock
+
+
+_boundary_locks: ContextVar[dict[str, WeblateLock] | None] = ContextVar(
+    "check_boundary_locks", default=None
+)
+
+_component_read_locks: ContextVar[tuple[tuple[Component, bool], ...]] = ContextVar(
+    "check_component_read_locks", default=()
+)
+
+
+@contextmanager
+def check_boundary_lock(project: Project) -> Generator[None, None, None]:
+    """Reuse boundary locks across model instances and eager task callbacks."""
+    lock = project.propagation_checks_lock
+    active = _boundary_locks.get() or {}
+    lock = active.get(lock.name, lock)
+    with lock:
+        token = _boundary_locks.set({**active, lock.name: lock})
+        try:
+            yield
+        finally:
+            _boundary_locks.reset(token)
 
 
 def lock_check_workspaces(workspace_ids: set[UUID], *, exclusive: bool) -> None:
@@ -25,14 +51,12 @@ def lock_check_workspaces(workspace_ids: set[UUID], *, exclusive: bool) -> None:
     if not connection.in_atomic_block:
         msg = "Check workspace locks require a database transaction"
         raise RuntimeError(msg)
-    statement = (
-        "SELECT pg_advisory_xact_lock(hashtextextended(%s, 0))"
-        if exclusive
-        else "SELECT pg_advisory_xact_lock_shared(hashtextextended(%s, 0))"
-    )
-    with connection.cursor() as cursor:
-        for workspace_id in sorted(workspace_ids):
-            cursor.execute(statement, [f"weblate-workspace-checks:{workspace_id}"])
+    for workspace_id in sorted(workspace_ids):
+        AdvisoryLock(
+            f"weblate-workspace-checks:{workspace_id}",
+            scope="workspace:checks",
+            shared=not exclusive,
+        ).acquire_transaction()
 
 
 def lock_check_projects(
@@ -45,11 +69,6 @@ def lock_check_projects(
     from weblate.trans.models import Project  # ruff: ignore[import-outside-top-level]
 
     projects = Project.objects.filter(pk__in=project_ids)
-    statement = (
-        "SELECT pg_advisory_xact_lock(hashtextextended(%s, 0))"
-        if exclusive
-        else "SELECT pg_advisory_xact_lock_shared(hashtextextended(%s, 0))"
-    )
     while True:
         membership = dict(projects.values_list("pk", "workspace_id"))
         with transaction.atomic():
@@ -58,9 +77,12 @@ def lock_check_projects(
                 | (workspace_ids or set()),
                 exclusive=exclusive,
             )
-            with connection.cursor() as cursor:
-                for project_id in sorted(project_ids):
-                    cursor.execute(statement, [f"weblate-checks:{project_id}"])
+            for project_id in sorted(project_ids):
+                AdvisoryLock(
+                    f"weblate-checks:{project_id}",
+                    scope="project:checks",
+                    shared=not exclusive,
+                ).acquire_transaction()
             if membership == dict(projects.values_list("pk", "workspace_id")):
                 return
             # A move committed while we waited. Release the previous locks and
@@ -84,11 +106,7 @@ def check_project_session_read_lock(project_id: int) -> Generator[None, None, No
             keys.insert(0, f"weblate-workspace-checks:{workspace_id}")
         with ExitStack() as stack:
             for key in keys:
-                with connection.cursor() as cursor:
-                    cursor.execute(
-                        "SELECT pg_advisory_lock_shared(hashtextextended(%s, 0))", [key]
-                    )
-                stack.callback(_unlock_check_session, key)
+                stack.enter_context(AdvisoryLock(key, scope="checks", shared=True))
             if (
                 workspace_id
                 != Project.objects.filter(pk=project_id)
@@ -98,13 +116,6 @@ def check_project_session_read_lock(project_id: int) -> Generator[None, None, No
                 continue
             yield
             return
-
-
-def _unlock_check_session(key: str) -> None:
-    with connection.cursor() as cursor:
-        cursor.execute(
-            "SELECT pg_advisory_unlock_shared(hashtextextended(%s, 0))", [key]
-        )
 
 
 def _project_check_boundary(project: Project) -> tuple[int, UUID | None, str, int]:
@@ -131,7 +142,27 @@ def _refresh_check_component(component: Component, current: Component) -> None:
 
 @contextmanager
 def check_project_read_lock(component: Component) -> Generator[bool, None, None]:
-    """Refresh component access after waiting for a boundary transition."""
+    """
+    Refresh component access after waiting for a boundary transition.
+
+    Nested calls for the same component instance reuse the outer lock.
+    """
+    active = _component_read_locks.get()
+    for locked_component, changed in active:
+        if locked_component is component:
+            yield changed
+            return
+
+    with _check_project_read_lock(component) as changed:
+        token = _component_read_locks.set((*active, (component, changed)))
+        try:
+            yield changed
+        finally:
+            _component_read_locks.reset(token)
+
+
+@contextmanager
+def _check_project_read_lock(component: Component) -> Generator[bool, None, None]:
     from weblate.trans.models import Component, Project  # ruff: ignore[import-outside-top-level]
 
     with transaction.atomic():

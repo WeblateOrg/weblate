@@ -92,7 +92,7 @@ project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "2026.11"
+release = "2026.12"
 
 # -- General configuration ---------------------------------------------------
 
@@ -323,6 +323,7 @@ nitpick_ignore = [
     ("py:class", "Form"),
     # Autodoc renders these type annotations from wlc signatures, but their
     # reference targets are not available in the configured inventories.
+    ("py:class", "HttpRequest"),
     ("py:class", "Path"),
     ("py:class", "JSONValue"),
     ("py:class", "RequestParams"),
@@ -333,6 +334,7 @@ nitpick_ignore = [
     ("py:class", "collections.abc.Iterator"),
     ("py:class", "collections.abc.Mapping"),
     ("py:class", "requests.models.Response"),
+    ("py:class", "requests.Response"),
     ("py:class", "wlc.base.LazyObject"),
 ]
 
@@ -403,6 +405,7 @@ http_strict_mode = True
 # Autodocs
 autodoc_mock_imports = [
     "django",
+    "psycopg",
     "unidecode",
     "nh3",
     "turbohtml",
@@ -421,11 +424,10 @@ autodoc_mock_imports = [
     "weblate.formats",
     "weblate.trans.templatetags.translations",
     "dateutil",
-    "filelock",
-    "redis_lock",
     "django_redis",
     "lxml",
     "translate",
+    "requests",
     "siphashc",
     "git",
     "PIL",
@@ -436,6 +438,7 @@ autodoc_mock_imports = [
     "weblate.lang.models",
     "weblate.vcs.git",
     "weblate.utils.files",
+    "weblate.utils.html",
     "weblate.utils.validators",
     "django_otp",
     "django_otp_webauthn",

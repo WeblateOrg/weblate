@@ -12,6 +12,10 @@
     actions: "action",
   };
   const WORKFLOW_KEYS = ["version", "triggers", "conditions", "actions"];
+  /* The path segments definition.py counts towards the eight-level limit. */
+  const DEPTH_KEYS = ["conditions", "sequence", "choose", "default"];
+  const MAX_DEPTH = 8;
+  const MAX_NODES = 100;
   const RESULT_SCOPE = /^result:[a-z][a-z0-9_]{0,63}$/;
 
   const isPlainObject = (value) =>
@@ -48,14 +52,39 @@
     const lists = new Map(
       SECTIONS.map((section) => [
         section,
-        editor.querySelector(`[data-automation-list='${section}']`),
+        editor.querySelector(
+          `[data-automation-root='${section}'] > [data-automation-list]`,
+        ),
       ]),
     );
-    if (Array.from(lists.values()).some((list) => list === null)) {
+    if (Array.from(lists.values()).some((list) => list == null)) {
       return;
     }
 
     let counter = 0;
+
+    function slotsOf(node) {
+      return Array.from(node.querySelectorAll("[data-automation-slot]")).filter(
+        (slot) => slot.closest("[data-automation-instance]") === node,
+      );
+    }
+
+    function slotList(slot) {
+      return slot.querySelector(":scope > [data-automation-list]");
+    }
+
+    function slotDepth(slot) {
+      let depth = 0;
+      let current = slot;
+      while (current !== null) {
+        if (DEPTH_KEYS.includes(current.dataset.automationSlot)) {
+          depth += 1;
+        }
+        current =
+          current.parentElement?.closest("[data-automation-slot]") ?? null;
+      }
+      return depth;
+    }
 
     function rewriteIdentifiers(root, prefix) {
       const renamed = new Map();
@@ -177,36 +206,69 @@
       return option;
     }
 
-    function refreshResultScopes() {
-      const seen = [];
-      for (const node of lists.get("actions").children) {
-        const controls = nodeControls(node);
-        const select = controls.find(
-          (element) =>
-            element.dataset.workflowKey === "scope" &&
-            element.dataset.automationResultScope,
-        );
-        if (select !== undefined) {
-          const current = select.value;
-          for (const option of Array.from(select.options)) {
-            if (RESULT_SCOPE.test(option.value)) {
-              option.remove();
-            }
-          }
-          const offered = seen.map((id) => `result:${id}`);
-          if (RESULT_SCOPE.test(current) && !offered.includes(current)) {
-            offered.push(current);
-          }
-          select.append(...offered.map(resultScopeOption));
-          select.value = current;
+    function offerResultScopes(controls, visible) {
+      const select = controls.find(
+        (element) =>
+          element.dataset.workflowKey === "scope" &&
+          element.dataset.automationResultScope,
+      );
+      if (select === undefined) {
+        return;
+      }
+      const current = select.value;
+      for (const option of Array.from(select.options)) {
+        if (RESULT_SCOPE.test(option.value)) {
+          option.remove();
         }
+      }
+      const offered = [];
+      for (const id of visible) {
+        const scope = `result:${id}`;
+        if (!offered.includes(scope)) {
+          offered.push(scope);
+        }
+      }
+      if (RESULT_SCOPE.test(current) && !offered.includes(current)) {
+        offered.push(current);
+      }
+      select.append(...offered.map(resultScopeOption));
+      select.value = current;
+    }
+
+    function applyResultScopes(list, seen, isolated = false) {
+      const produced = [];
+      for (const node of list.children) {
+        const visible = isolated ? seen : [...seen, ...produced];
+        const controls = nodeControls(node);
+        offerResultScopes(controls, visible);
+        const own = [];
         const id = controls
           .find((element) => element.dataset.workflowKey === "id")
           ?.value.trim();
-        if (id && RESULT_SCOPE.test(`result:${id}`) && !seen.includes(id)) {
-          seen.push(id);
+        if (id && RESULT_SCOPE.test(`result:${id}`)) {
+          own.push(id);
         }
+        const nested = [];
+        for (const slot of slotsOf(node)) {
+          const kind = slot.dataset.automationSlotKind;
+          if (kind === "condition") {
+            continue;
+          }
+          nested.push(
+            ...applyResultScopes(
+              slotList(slot),
+              [...visible, ...own],
+              kind === "branch",
+            ),
+          );
+        }
+        produced.push(...own, ...nested);
       }
+      return produced;
+    }
+
+    function refreshResultScopes() {
+      applyResultScopes(lists.get("actions"), []);
     }
 
     /* Enhanced selects hide the original control, so focus their own input. */
@@ -304,6 +366,9 @@
           return null;
         }
       }
+      for (const slot of slotsOf(node)) {
+        rendered.get("").add(slot.dataset.automationSlot);
+      }
       const extra = {};
       for (const [key, value] of Object.entries(data)) {
         const group = rendered.get(key);
@@ -347,7 +412,34 @@
           result[entry.key] = value;
         }
       }
+      for (const slot of slotsOf(node)) {
+        const key = slot.dataset.automationSlot;
+        const children = readSlot(slot);
+        if (children.length > 0 || key !== "default") {
+          result[key] = children;
+        }
+      }
       return result;
+    }
+
+    function readSlot(slot) {
+      return Array.from(slotList(slot).children, serializeNode);
+    }
+
+    function fillSlot(slot, items) {
+      const list = slotList(slot);
+      const kind = slot.dataset.automationSlotKind;
+      const nodes = [];
+      for (const item of items) {
+        const childKind = nodeKind(item, kind);
+        const child = childKind === null ? null : createNode(childKind, item);
+        if (child === null) {
+          return false;
+        }
+        nodes.push(child);
+      }
+      list.replaceChildren(...nodes);
+      return true;
     }
 
     function createNode(kind, data, fresh = false) {
@@ -369,6 +461,15 @@
         return null;
       }
       node.dataset.automationExtra = JSON.stringify(extra);
+      for (const slot of slotsOf(node)) {
+        const items = data[slot.dataset.automationSlot];
+        if (items !== undefined && !Array.isArray(items)) {
+          return null;
+        }
+        if (!fillSlot(slot, items ?? [])) {
+          return null;
+        }
+      }
       if (fields.childElementCount === 0) {
         fields.remove();
       }
@@ -378,6 +479,9 @@
     function nodeKind(item, discriminator) {
       if (!isPlainObject(item)) {
         return null;
+      }
+      if (discriminator === "branch") {
+        return "branch";
       }
       if (discriminator === "action") {
         if (typeof item.action === "string") {
@@ -433,6 +537,7 @@
         }
       }
       refreshResultScopes();
+      refreshGuards();
       return true;
     }
 
@@ -458,6 +563,64 @@
         return value === undefined || value === null ? {} : value;
       } catch {
         return undefined;
+      }
+    }
+
+    function countedNodes() {
+      return Array.from(
+        nodePane.querySelectorAll("[data-automation-instance]"),
+      ).filter((node) => {
+        const kind = node.dataset.automationInstance;
+        return (
+          kind === "branch" ||
+          kind.startsWith("condition:") ||
+          kind.startsWith("action:")
+        );
+      }).length;
+    }
+
+    function indentOf(slot) {
+      let indent = 0;
+      let current = slot;
+      while (current !== null) {
+        if (current.closest("[data-automation-instance]") !== null) {
+          indent += 1;
+        }
+        current =
+          current.parentElement?.closest("[data-automation-slot]") ?? null;
+      }
+      return indent;
+    }
+
+    function refreshGuards() {
+      const full = countedNodes() >= MAX_NODES;
+      for (const slot of nodePane.querySelectorAll("[data-automation-slot]")) {
+        const depth = slotDepth(slot);
+        slot.dataset.automationIndent = String(Math.min(indentOf(slot), 4));
+        const button = slotAddButton(slot);
+        if (button === null) {
+          continue;
+        }
+        const parent = slot.closest("[data-automation-instance]");
+        const notFilled =
+          parent?.dataset.automationInstance === "condition:not" &&
+          slotList(slot).childElementCount >= 1;
+        const tooDeep = depth > MAX_DEPTH;
+        const blocked = full || notFilled || tooDeep;
+        button.disabled = blocked;
+        const picker = slotPicker(slot);
+        if (picker !== null) {
+          picker.disabled = blocked;
+        }
+        let reason = "";
+        if (notFilled) {
+          reason = gettext("Not takes exactly one condition.");
+        } else if (tooDeep) {
+          reason = gettext("Automations can nest eight levels deep.");
+        } else if (full) {
+          reason = gettext("Automations can hold one hundred nodes.");
+        }
+        button.title = reason;
       }
     }
 
@@ -512,7 +675,7 @@
       } else if (!buildTree(workflow)) {
         showAlert(
           gettext(
-            "This workflow uses parts the editor does not handle yet, such as nested conditions or branches. Edit it as YAML.",
+            "This workflow has something the editor cannot show, such as an unknown action or a setting that is no longer available. Edit it as YAML.",
           ),
         );
       } else {
@@ -532,28 +695,46 @@
       });
     }
 
+    function chromeButton(node, selector) {
+      return Array.from(node.querySelectorAll(selector)).find(
+        (element) => element.closest("[data-automation-instance]") === node,
+      );
+    }
+
+    function slotPicker(slot) {
+      return slot.querySelector(
+        ":scope > [data-automation-slot-controls] > [data-automation-picker]",
+      );
+    }
+
+    function slotAddButton(slot) {
+      return slot.querySelector(
+        ":scope > [data-automation-slot-controls] > [data-automation-add]",
+      );
+    }
+
     editor.addEventListener("click", (event) => {
       const add = event.target.closest("[data-automation-add]");
       if (add !== null) {
-        const section = add.dataset.automationAdd;
-        const picker = editor.querySelector(
-          `[data-automation-picker='${section}']`,
-        );
-        const node = createNode(picker.value, {}, true);
+        const slot = add.closest("[data-automation-slot]");
+        const picker = slotPicker(slot);
+        const kind = picker === null ? "branch" : picker.value;
+        const label =
+          picker === null
+            ? add.textContent.trim()
+            : picker.options[picker.selectedIndex].textContent.trim();
+        const node = createNode(kind, {}, true);
         if (node === null) {
           return;
         }
-        lists.get(section).append(node);
+        slotList(slot).append(node);
         notifyAdded(node);
         refreshResultScopes();
-        announce(
-          interpolate(gettext("Added %s."), [
-            picker.options[picker.selectedIndex].textContent.trim(),
-          ]),
-        );
+        refreshGuards();
+        announce(interpolate(gettext("Added %s."), [label]));
         const control = node.querySelector("input, select, textarea");
         if (control === null) {
-          node.querySelector("[data-automation-move]").focus();
+          chromeButton(node, "[data-automation-move]").focus();
         } else {
           focusControl(control);
         }
@@ -562,18 +743,22 @@
       const remove = event.target.closest("[data-automation-remove]");
       if (remove !== null) {
         const node = remove.closest("[data-automation-instance]");
-        const label = node.querySelector(
+        const label = chromeButton(
+          node,
           "[data-automation-legend]",
         ).textContent;
+        const slot = node.closest("[data-automation-slot]");
         const neighbor = node.nextElementSibling ?? node.previousElementSibling;
-        const target =
-          neighbor?.querySelector("[data-automation-move]") ??
-          editor.querySelector(
-            `[data-automation-add='${node.parentElement.dataset.automationList}']`,
-          );
-        target.focus();
+        const parent = slot.closest("[data-automation-instance]");
         node.remove();
         refreshResultScopes();
+        refreshGuards();
+        const target = [
+          neighbor && chromeButton(neighbor, "[data-automation-move]"),
+          slotAddButton(slot),
+          parent && chromeButton(parent, "[data-automation-move]"),
+        ].find((element) => element != null && !element.disabled);
+        target?.focus();
         announce(interpolate(gettext("Removed %s."), [label]));
         return;
       }
@@ -592,8 +777,10 @@
           sibling.after(node);
         }
         refreshResultScopes();
-        const selector = `[data-automation-move='${move.dataset.automationMove}']`;
-        node.querySelector(selector).focus();
+        chromeButton(
+          node,
+          `[data-automation-move='${move.dataset.automationMove}']`,
+        ).focus();
         announce(
           interpolate(gettext("Moved %s."), [
             node.querySelector("[data-automation-legend]").textContent,
@@ -607,6 +794,48 @@
         refreshResultScopes();
       }
     });
+
+    function missingComponentQuery() {
+      for (const node of nodePane.querySelectorAll(
+        "[data-automation-instance]",
+      )) {
+        const controls = nodeControls(node);
+        const control = controls.find(
+          (element) => element.dataset.workflowComponentRequired === "1",
+        );
+        if (control === undefined || control.value.trim() !== "") {
+          continue;
+        }
+        const scope = controls.find(
+          (element) => element.dataset.workflowKey === "scope",
+        )?.value;
+        if (scope === undefined || scope === "" || scope === "component") {
+          return control;
+        }
+      }
+      return null;
+    }
+
+    for (const control of form.querySelectorAll(
+      'input[type="submit"], button[type="submit"]',
+    )) {
+      control.addEventListener("click", (event) => {
+        if (nodePane.hidden) {
+          return;
+        }
+        const missing = missingComponentQuery();
+        if (missing === null) {
+          return;
+        }
+        event.preventDefault();
+        showAlert(
+          gettext(
+            "An action running on the whole component needs a query. Enter one or pick another scope.",
+          ),
+        );
+        focusControl(missing);
+      });
+    }
 
     form.addEventListener("submit", () => {
       if (!nodePane.hidden) {

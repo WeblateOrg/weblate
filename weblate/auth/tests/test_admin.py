@@ -7,12 +7,16 @@ from __future__ import annotations
 from types import SimpleNamespace
 
 from django.conf import settings
+from django.contrib import admin
 from django.contrib.admin.sites import AdminSite
 from django.core.exceptions import PermissionDenied
 from django.test import RequestFactory, TestCase
 
-from weblate.auth.admin import WeblateUserAdmin
-from weblate.auth.models import Group, User
+from weblate.accounts.models import TeamAuditLog
+from weblate.auth.admin import WeblateGroupAdmin, WeblateUserAdmin
+from weblate.auth.models import Group, TeamMembership, User
+from weblate.lang.models import Language
+from weblate.workspaces.models import Workspace
 
 
 class WeblateUserAdminTest(TestCase):
@@ -27,6 +31,67 @@ class WeblateUserAdminTest(TestCase):
         self.users_group = Group.objects.get(name="Users")
         self.viewers_group = Group.objects.get(name="Viewers")
         self.target.groups.set([self.users_group])
+
+    def test_group_display_uses_prefetch(self) -> None:
+        request = self.factory.get("/")
+        request.user = self.actor
+        with self.assertNumQueries(2):
+            users = list(self.user_admin.get_queryset(request).order_by("pk"))
+            names = {user.pk: self.user_admin.user_groups(user) for user in users}
+        self.assertEqual(names[self.target.pk], self.users_group.name)
+        self.target.groups.add(self.viewers_group)
+        with self.assertNumQueries(2):
+            users = list(self.user_admin.get_queryset(request).order_by("pk"))
+            names = {user.pk: self.user_admin.user_groups(user) for user in users}
+        self.assertIn(self.viewers_group.name, names[self.target.pk])
+
+    def test_search_defining_workspace(self) -> None:
+        workspace = Workspace.objects.create(name="Distinct workspace")
+        group = Group.objects.create(
+            name="Scoped translators", defining_workspace=workspace
+        )
+        self.target.groups.add(group)
+        request = self.factory.get("/")
+        request.user = self.actor
+        for term in (workspace.name, group.name):
+            with self.subTest(term=term):
+                queryset, duplicates = self.user_admin.get_search_results(
+                    request, self.user_admin.get_queryset(request), term
+                )
+                if duplicates:
+                    queryset = queryset.distinct()
+                self.assertEqual(list(queryset), [self.target])
+        group_admin = WeblateGroupAdmin(Group, self.site)
+        for term in (workspace.name,):
+            queryset, _duplicates = group_admin.get_search_results(
+                request, group_admin.get_queryset(request), term
+            )
+            self.assertCountEqual(queryset, workspace.defined_groups.all())
+
+    def test_team_admin_preserves_autocomplete_selection(self) -> None:
+        group = Group.objects.create(name="Autocomplete team")
+        group.admins.add(self.target)
+        request = self.factory.get("/")
+        request.user = self.actor
+        group_admin = WeblateGroupAdmin(Group, admin.site)
+        form_class = group_admin.get_form(request, obj=group)
+        form = form_class(instance=group)
+        # Initial rendering includes existing selections without enumerating users.
+        html = str(form["admins"])
+        self.assertIn(f'value="{self.target.pk}" selected', html)
+        self.assertNotIn(f'<option value="{self.actor.pk}"', html)
+        form = form_class(
+            data={
+                "name": group.name,
+                "project_selection": group.project_selection,
+                "language_selection": group.language_selection,
+                "admins": [self.target.pk, self.actor.pk],
+            },
+            instance=group,
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        form.save()
+        self.assertCountEqual(group.admins.all(), [self.target, self.actor])
 
     def test_protected_user_permissions(self) -> None:
         request = self.factory.post("/")
@@ -113,6 +178,37 @@ class WeblateUserAdminTest(TestCase):
             audit = self.target.auditlog_set.get(activity=activity)
             self.assertEqual(audit.params["username"], self.actor.username)
             self.assertIsNone(audit.address)
+
+    def test_new_user_inline_memberships_are_audited(self) -> None:
+        request = self.factory.post("/")
+        request.user = self.actor
+        team = Group.objects.create(name="Explicit inline membership")
+        for limited in (False, True):
+            with self.subTest(limited=limited):
+                target = User(username=f"created-{limited}", is_superuser=True)
+                form = SimpleNamespace(instance=target, save_m2m=lambda: None)
+                self.user_admin.save_model(request, target, form, change=False)
+                membership = TeamMembership.objects.create(user=target, group=team)
+                if limited:
+                    membership.limit_languages.add(Language.objects.get(code="cs"))
+                self.user_admin.save_related(request, form, [], change=False)
+                entry = TeamAuditLog.objects.get(
+                    team=team,
+                    event=TeamAuditLog.Event.MEMBER_ADDED,
+                    details__username=target.username,
+                )
+                self.assertEqual(entry.actor, self.actor)
+                if limited:
+                    limits = TeamAuditLog.objects.get(
+                        team=team,
+                        event=TeamAuditLog.Event.MEMBER_CHANGED,
+                        details__username=target.username,
+                    )
+                    self.assertEqual(limits.details["limit_languages"], ["cs"])
+                target.auditlog_set.get(
+                    activity="sitewide-team-add", params__team=team.name
+                )
+                target.auditlog_set.get(activity="superuser-granted")
 
     def test_save_related_keeps_audit_state_per_form(self) -> None:
         second_actor = User.objects.create_user("admin-2", "admin-2@example.com", "x")

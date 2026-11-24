@@ -25,10 +25,10 @@ from django.db.models.fields.json import KT
 from django.db.models.functions import Now
 from django.utils import timezone
 
+from weblate.trans.models.backup import BackupAuthorshipMixin, apply_backup_authorship
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_APPROVED,
-    STATE_READONLY,
     StringState,
 )
 from weblate.utils.version import GIT_VERSION
@@ -408,7 +408,7 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
         return counts
 
 
-class PendingUnitChange(models.Model):
+class PendingUnitChange(BackupAuthorshipMixin):
     """Stores actual change data that needs to be committed to a repository."""
 
     unit = models.ForeignKey(
@@ -487,6 +487,7 @@ class PendingUnitChange(models.Model):
         if timestamp is not None:
             kwargs["timestamp"] = timestamp
 
+        apply_backup_authorship(kwargs)
         pending = cls(**kwargs)
         if user_id is not None:
             pending.metadata["actor_id"] = user_id
@@ -537,13 +538,7 @@ class PendingUnitChange(models.Model):
         if explanation is None:
             explanation = unit.explanation
         if state is None:
-            # Dependency blocking is an editor restriction, not a file state.
-            state = (
-                unit.original_state
-                if unit.state == STATE_READONLY
-                and unit.details.get("translation_parent", {}).get("blocked")
-                else unit.state
-            )
+            state = unit.file_state
         if source_unit_explanation is None:
             source_unit_explanation = unit.source_unit.explanation
         if author is None and author_id is None:

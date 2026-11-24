@@ -8,9 +8,16 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from django.conf import settings
-from django.db.models import Q
+from django.db.models import Prefetch, Q
+from django.utils import timezone
 from django.utils.translation import gettext
 
+from weblate.auth.data import (
+    SELECTION_ALL,
+    SELECTION_ALL_PROTECTED,
+    SELECTION_ALL_PUBLIC,
+    SELECTION_COMPONENT_LIST,
+)
 from weblate.checks.flags import Flags
 from weblate.formats.base import BilingualUpdateMixin
 from weblate.lang.models import Language
@@ -26,9 +33,10 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
+from weblate.utils.tracing import start_span
 from weblate.workspaces.models import Workspace
 
-from .results import Allowed, Denied
+from .results import Allowed, ContributorAgreementDenied, Denied
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
@@ -40,11 +48,13 @@ if TYPE_CHECKING:
     from weblate.checks.models import Check
     from weblate.memory.models import Memory
     from weblate.trans.models import Comment, Suggestion
+    from weblate.trans.models.translation import TranslationQuerySet
 
     from .results import PermissionResult
 
 SPECIALS: dict[str, Callable[[User, str, Model], bool | PermissionResult]] = {}
 UPLOAD_SCOPE_PERMISSIONS = frozenset({"glossary.upload", "upload.perform"})
+UPLOAD_CHECK_BATCH_SIZE = 256
 REPOSITORY_PERMISSIONS = ("vcs.push", "vcs.commit", "vcs.reset", "vcs.update")
 type PermissionObject = (
     Unit
@@ -319,12 +329,15 @@ def check_permission(
             )
         )
     if isinstance(obj, (ProjectLanguage, CategoryLanguage)):
-        return _check_language_scope_permission(
-            user,
-            permission,
-            obj,
-            allow_limited_without_language=allow_limited_without_language,
-        )
+        if permission == "project.edit":
+            obj = obj.project
+        else:
+            return _check_language_scope_permission(
+                user,
+                permission,
+                obj,
+                allow_limited_without_language=allow_limited_without_language,
+            )
     if isinstance(obj, Category):
         obj = obj.project
     if isinstance(obj, Workspace):
@@ -968,8 +981,26 @@ def check_unit_add(
 
 @register_perm("translation.add")
 def check_translation_add(
-    user: User, permission: str, obj: Component | Project
+    user: User, permission: str, obj: Component | Project | Translation
 ) -> bool | PermissionResult:
+    if isinstance(obj, Translation):
+        component = obj.component
+        component_permission = check_translation_add(user, permission, component)
+        if not component_permission:
+            return component_permission
+        if not check_permission(user, permission, obj):
+            return False
+        if (
+            not user.is_bot
+            and component.effective_agreement
+            and not ContributorAgreement.objects.has_agreed(user, component)
+        ):
+            return ContributorAgreementDenied(
+                gettext(
+                    "Contributing to this translation requires agreeing to its contributor license agreement."
+                )
+            )
+        return True
     if (
         isinstance(obj, Component)
         and obj.effective_new_lang == "none"
@@ -1073,14 +1104,6 @@ def _category_component_filter(category: Category) -> Q:
     )
 
 
-def _category_translation_component_filter(category: Category) -> Q:
-    return (
-        Q(component__category=category)
-        | Q(component__category__category=category)
-        | Q(component__category__category__category=category)
-    )
-
-
 def _category_link_filter(category: Category) -> Q:
     return (
         Q(category=category)
@@ -1090,12 +1113,7 @@ def _category_link_filter(category: Category) -> Q:
 
 
 def _category_translation_filter(category: Category) -> Q:
-    shared_component_ids = ComponentLink.objects.filter(
-        _category_link_filter(category)
-    ).values("component_id")
-    return _category_translation_component_filter(category) | Q(
-        component_id__in=shared_component_ids
-    )
+    return Q(component_id__in=category.get_component_ids_with_links())
 
 
 def _has_upload_scope_permission(
@@ -1117,24 +1135,24 @@ def _has_upload_scope_permission(
 
 def _get_upload_child_translations(
     obj: Component | ProjectLanguage | CategoryLanguage | Category | Project,
-) -> Iterable[Translation]:
-    if isinstance(obj, Component):
-        return obj.translation_set.select_related(
-            "component", "component__project", "language"
-        )
+) -> TranslationQuerySet:
+    translations = Translation.objects.filter(component__locked=False)
     if isinstance(obj, ProjectLanguage | CategoryLanguage):
-        return obj.translation_set
-    if isinstance(obj, Category):
-        return (
-            Translation.objects.filter(_category_translation_filter(obj))
-            .distinct()
-            .select_related("component", "component__project", "language")
+        translations = translations.filter(language_id=obj.language.pk)
+        obj = obj.project if isinstance(obj, ProjectLanguage) else obj.category
+
+    if isinstance(obj, Component):
+        translations = translations.filter(component=obj)
+    elif isinstance(obj, Category):
+        translations = translations.filter(_category_translation_filter(obj))
+    else:
+        linked_components = ComponentLink.objects.filter(project=obj).values(
+            "component_id"
         )
-    return (
-        Translation.objects.filter(Q(component__project=obj) | Q(component__links=obj))
-        .distinct()
-        .select_related("component", "component__project", "language")
-    )
+        translations = translations.filter(
+            Q(component__project=obj) | Q(component_id__in=linked_components)
+        )
+    return translations
 
 
 def _get_user_upload_component_ids(user: User, language_id: int | None) -> set[int]:
@@ -1244,11 +1262,33 @@ def _has_upload_child(
     if not _has_upload_scope(user, obj):
         return False
 
-    for translation in _get_upload_child_translations(obj):
-        _bind_upload_child_scope(obj, translation)
-        if user.has_perm("upload.perform", translation):
-            return True
-    return False
+    # Category inheritance can reach the workspace through any category level.
+    workspaces = Workspace.objects.defer_huge()
+    translations = (
+        _get_upload_child_translations(obj)
+        .order_by("pk")
+        .prefetch(alerts=False)
+        .prefetch_related(
+            Prefetch("component__category__project__workspace", queryset=workspaces),
+            Prefetch(
+                "component__category__category__project__workspace", queryset=workspaces
+            ),
+            Prefetch(
+                "component__category__category__category__project__workspace",
+                queryset=workspaces,
+            ),
+        )
+    )
+    remaining = translations
+    while True:
+        batch = list(remaining[:UPLOAD_CHECK_BATCH_SIZE])
+        for translation in batch:
+            _bind_upload_child_scope(obj, translation)
+            if user.has_perm("upload.perform", translation):
+                return True
+        if len(batch) < UPLOAD_CHECK_BATCH_SIZE:
+            return False
+        remaining = translations.filter(pk__gt=batch[-1].pk)
 
 
 @register_perm("upload.perform")
@@ -1268,6 +1308,8 @@ def check_upload(
     The actual check for the method is implemented in
     weblate.trans.util.check_upload_method_permissions.
     """
+    if not user.is_authenticated:
+        return Denied(gettext("You need to log in to upload translations."))
     if isinstance(obj, Translation):
         # Source upload
         if obj.is_source and not user.has_perm("source.edit", obj):
@@ -1300,7 +1342,8 @@ def check_upload(
             )
         )
 
-    return _has_upload_child(user, obj)
+    with start_span(op="auth.upload_availability"):
+        return _has_upload_child(user, obj)
 
 
 @register_perm("machinery.view")
@@ -1327,13 +1370,23 @@ def check_machinery(
 
 @register_perm("translation.delete")
 def check_translation_delete(
-    user: User, permission: str, obj: Translation | CategoryLanguage | ProjectLanguage
+    user: User,
+    permission: str,
+    obj: Translation | CategoryLanguage | ProjectLanguage | Component,
 ) -> bool | PermissionResult:
     if (
         isinstance(obj, (Translation, CategoryLanguage, ProjectLanguage))
         and obj.is_source
     ):
         return False
+    if isinstance(obj, Translation):
+        locked = obj.component.locked
+    elif isinstance(obj, (CategoryLanguage, ProjectLanguage)):
+        locked = obj.action_translation_set.filter(component__locked=True).exists()
+    else:
+        locked = obj.locked
+    if locked:
+        return Denied(gettext("This component is currently locked."))
     return check_permission(user, permission, obj)
 
 
@@ -1353,6 +1406,17 @@ def check_possibly_global(
     ):
         return False
     return check_permission(user, permission, obj)
+
+
+@register_perm("meta:vcs.view")
+def check_repository_view(user: User, permission: str, obj: Component) -> bool:
+    """Require access to the source of linked repository information."""
+    if not check_permission(user, "vcs.view", obj):
+        return False
+    source = obj.linked_component
+    return source is None or (
+        user.can_access_component(source) and check_permission(user, "vcs.view", source)
+    )
 
 
 @register_perm("meta:vcs.status")
@@ -1423,11 +1487,41 @@ def check_team_edit_users(
     user: User, permission: str, obj: Group | Project | Workspace
 ) -> bool | PermissionResult:
     # ruff: ignore[import-outside-top-level]
-    from weblate.auth.models import Group
+    from weblate.auth.models import Group, UserBlock
 
-    return check_team_edit(user, permission, obj) or (
-        isinstance(obj, Group) and obj.pk in user.administered_group_ids
+    if check_team_edit(user, permission, obj):
+        return True
+    if not isinstance(obj, Group) or obj.pk not in user.administered_group_ids:
+        return False
+    if obj.enforced_2fa and not (user.is_bot or user.profile.has_2fa):
+        return False
+
+    if obj.defining_workspace_id:
+        project_scope = Q(workspace_id=obj.defining_workspace_id)
+    elif (
+        obj.project_selection == SELECTION_COMPONENT_LIST or obj.componentlists.exists()
+    ):
+        project_scope = Q(component__componentlist__in=obj.componentlists.all())
+    elif obj.components.exists():
+        project_scope = Q(component__in=obj.components.all())
+    elif obj.defining_project_id:
+        project_scope = Q(pk=obj.defining_project_id)
+    elif obj.project_selection == SELECTION_ALL:
+        project_scope = Q()
+    elif obj.project_selection == SELECTION_ALL_PUBLIC:
+        project_scope = Q(access_control=Project.ACCESS_PUBLIC)
+    elif obj.project_selection == SELECTION_ALL_PROTECTED:
+        project_scope = Q(access_control=Project.ACCESS_PROTECTED)
+    else:
+        project_scope = Q(pk__in=obj.projects.values("pk"))
+
+    active_blocks = UserBlock.objects.filter(user=user).filter(
+        Q(expiry__isnull=True) | Q(expiry__gt=timezone.now())
     )
+    restrictions = Q(pk__in=active_blocks.values("project_id"))
+    if not user.is_bot and not user.profile.has_2fa:
+        restrictions |= Q(enforced_2fa=True)
+    return not Project.objects.filter(project_scope).filter(restrictions).exists()
 
 
 @register_perm("meta:billing.view")

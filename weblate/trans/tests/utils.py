@@ -14,6 +14,7 @@ from tarfile import TarFile
 from tempfile import mkdtemp
 from typing import TYPE_CHECKING
 from unittest import TestCase
+from unittest.mock import patch
 
 import social_core.backends.utils
 from celery.contrib.testing.tasks import ping  # type: ignore[import-untyped]
@@ -37,7 +38,8 @@ from weblate.trans.models import Category, Component, Project
 from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
-from weblate.vcs.git import GitRepository
+from weblate.utils.lock import LockScope
+from weblate.vcs.git import GitRepository, git_protocol_config
 from weblate.vcs.models import VCS_REGISTRY
 
 if TYPE_CHECKING:
@@ -52,6 +54,22 @@ TESTPASSWORD = make_password("testpassword")
 
 TEST_REPOSITORY_HOST = "vcs-fixture.invalid"
 TEST_VCS_ALLOW_SCHEMES = frozenset({"file", "https", "ssh"})
+
+
+def can_lock_repository(component_id: int, *, shared: bool = False) -> bool:
+    """Probe from a separate session. Autocommit releases the lock after the query."""
+    other = connection.copy()
+    try:
+        with other.cursor() as cursor:
+            statement = (
+                "SELECT pg_try_advisory_xact_lock_shared(%s, %s)"
+                if shared
+                else "SELECT pg_try_advisory_xact_lock(%s, %s)"
+            )
+            cursor.execute(statement, [LockScope.REPOSITORY.value, component_id])
+            return cursor.fetchone()[0]
+    finally:
+        other.close()
 
 
 def fixup_languages_seq() -> None:
@@ -137,12 +155,25 @@ def create_another_user(suffix: str = "") -> User:
     )
 
 
+@contextmanager
+def allow_git_file_transport() -> Generator[None, None, None]:
+    """Allow Git fixture rewrites to file URLs without changing URL validation."""
+
+    def fixture_protocol_config() -> Generator[tuple[str, str], None, None]:
+        for key, value in git_protocol_config():
+            yield key, "always" if key == "protocol.file.allow" else value
+
+    with patch("weblate.vcs.git.git_protocol_config", fixture_protocol_config):
+        yield
+
+
 class RepoTestMixin:
     """Mixin for testing with test repositories."""
 
     # ruff: ignore[mutable-class-default]
     updated_base_repos: set[str] = set()
     CREATE_GLOSSARIES: bool = False
+    _git_file_transport_enabled: bool = False
 
     local_repo_path = "local:"
 
@@ -279,9 +310,11 @@ class RepoTestMixin:
         url = f"https://{TEST_REPOSITORY_HOST}/{digest}"
         config = Path(data_dir("home"), ".gitconfig")
         config.parent.mkdir(parents=True, exist_ok=True)
+        if isinstance(self, TestCase) and not self._git_file_transport_enabled:
+            self.enterContext(allow_git_file_transport())
+            self._git_file_transport_enabled = True
         GitRepository.git_config_update(
             config,
-            ('protocol "file"', "allow", "always"),
             (f'url "{resolved.as_uri()}"', "insteadOf", url),
         )
         return url

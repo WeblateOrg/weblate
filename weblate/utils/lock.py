@@ -4,24 +4,42 @@
 
 from __future__ import annotations
 
-import os
+import hashlib
 import threading
-from typing import TYPE_CHECKING, Protocol, cast
-from urllib.parse import quote
+from time import monotonic, sleep
+from typing import TYPE_CHECKING, Protocol
 
-from django.core.cache import cache
-from filelock import FileLock, Timeout
+from django.db import DEFAULT_DB_ALIAS, connections
+from django.db.models import IntegerChoices
+from psycopg.pq import TransactionStatus
 
-from weblate.utils.cache import is_redis_cache
-from weblate.utils.data import data_dir
 from weblate.utils.errors import add_breadcrumb
 from weblate.utils.tracing import start_span
 
 if TYPE_CHECKING:
     from types import TracebackType
 
-    from django_redis.cache import RedisCache
-    from redis.lock import Lock as RedisLock
+
+class LockScope(IntegerChoices):
+    """Stable PostgreSQL namespaces. Values must never be reassigned."""
+
+    REPOSITORY = 1, "repository"
+    COMPONENT_UPDATE = 2, "component:update"
+    COMPONENT_CHECKS = 3, "component:checks"
+    PROJECT_CHECKS = 4, "project:checks"
+    WORKSPACE_CHECKS = 5, "workspace:checks"
+    STATS_UPDATE = 6, "stats:update"
+    VCS_SETUP = 7, "vcs:setup"
+    VCS_API_THROTTLE = 8, "vcs:api:throttle"
+    SCREENSHOTS_TESSERACT_DOWNLOAD = 9, "screenshots:tesseract:download"
+    MACHINERY_REQUEST = 10, "machinery-request"
+    AI_EVALUATION = 11, "ai-evaluation"
+    KOTLIN_SDK = 12, "kotlin-sdk"
+    BROWSER_UPLOAD = 13, "browser-upload"
+    TASK_METADATA = 14, "task-metadata"
+    SECURITY_CONFIRM = 15, "security-confirm"
+    NOTIFY_RESERVATION = 16, "notify-reservation"
+    CONTRIBUTOR_METRICS = 17, "contributor-metrics"
 
 
 class LockInfo(Protocol):
@@ -51,141 +69,111 @@ class WeblateLockNotLockedError(WeblateLockError):
     """Weblate lock not locked on release."""
 
 
-class WeblateLock:
-    """Wrapper around Redis or file based lock."""
-
-    _cache_template = "lock:{scope}:{key}"
-    _redis_lock: RedisLock
-    _file_lock: FileLock
-
-    _redis_expiry_timeout = 3600
+class AdvisoryLock:
+    """A PostgreSQL lock with either a lexical or transaction lifetime."""
 
     def __init__(
         self,
+        key: int | str | tuple[int, int],
         *,
-        lock_path: str | None = None,
         scope: str,
-        key: int | str,
-        slug: str,
-        file_template: str = "{scope}-{key}.lock",
-        timeout: int = 1,
-        expiry_timeout: int = 3600,
+        shared: bool = False,
+        timeout: float | None = None,
         origin: str | None = None,
+        using: str = DEFAULT_DB_ALIAS,
     ) -> None:
+        self.scope = scope
+        self.origin = origin
+        self.name = f"postgresql:{scope}:{key}"
+        self._using = using
         self._timeout = timeout
-        self._lock_path = lock_path or data_dir("locks")
-        self._scope = scope
-        self._key = key
-        self._slug = slug
-        self._origin = origin
-        self._using_redis = is_redis_cache()
+        self._shared = shared
         self._local = threading.local()
-        self._local.depth = 0
-        self._redis_expiry_timeout = expiry_timeout
-        if self._using_redis:
-            # Prefer Redis locking as it works distributed
-            self._name = self._format_template(self._cache_template)
-            self._redis_lock = cast("RedisCache", cache).lock(
-                key=self._name,
-                blocking=True,
-                timeout=self._redis_expiry_timeout,
-                blocking_timeout=self._timeout,
-                thread_local=True,
-            )
+        self._key = key
+        self._params: list[int] | list[str]
+        if isinstance(key, tuple):
+            self._arguments = "%s, %s"
+            self._params = list(key)
+        elif isinstance(key, str):
+            # Existing check and translation guards use PostgreSQL's text hash.
+            self._arguments = "hashtextextended(%s, 0)"
+            self._params = [key]
         else:
-            # Fall back to file based locking
-            os.makedirs(self._lock_path, exist_ok=True)
-            self._name = os.path.join(
-                self._lock_path, self._format_template(file_template, escape=True)
-            )
-            self._file_lock = FileLock(
-                self._name,
-                timeout=self._timeout,
-            )
+            self._arguments = "%s"
+            self._params = [key]
 
-    @property
-    def scope(self) -> str:
-        return self._scope
-
-    @property
-    def origin(self) -> str | None:
-        return self._origin
-
-    @property
-    def name(self) -> str:
-        return self._name
-
-    def _format_template(self, template: str, *, escape: bool = False) -> str:
-        if escape:
-            values = {
-                "scope": self._escape_file_component(self._scope),
-                "key": self._escape_file_component(self._key),
-                "slug": self._escape_file_component(self._slug),
-            }
-        else:
-            values = {
-                "scope": str(self._scope),
-                "key": str(self._key),
-                "slug": str(self._slug),
-            }
-        return template.format(**values)
-
-    @staticmethod
-    def _escape_file_component(value: int | str) -> str:
-        return quote(str(value), safe="._-")
-
-    def get_error_message(self) -> str:
-        if self.origin:
-            return f"Lock on {self._name} ({self.origin} / {self.scope}) could not be acquired in {self._timeout}s"
-        return f"Lock on {self._name} could not be acquired in {self._timeout}s"
-
-    def reacquire(self) -> None:
-        """
-        Refresh the lock.
-
-        This is needed with Redis as the lock is expiring to avoid it stay infinitely.
-        """
-        self.add_breadcrumb("reacquire")
-        if self._using_redis:
-            self._redis_lock.reacquire()
-
-    def _enter_redis(self) -> None:
-        # Make the lock reentrant
-        if self._redis_lock.owned():
-            # Extend lock if already owned (nested with statements)
-            lock_result = self._redis_lock.reacquire()
-        else:
-            lock_result = self._redis_lock.acquire()
-
-        if not lock_result:
-            self.add_breadcrumb("timeout")
-            raise WeblateLockTimeoutError(self.get_error_message(), lock=self)
-
-    def _enter_file(self) -> None:
-        # Fall back to file based locking
-        try:
-            self._file_lock.acquire()
-        except Timeout as error:
-            self.add_breadcrumb("timeout")
-            raise WeblateLockTimeoutError(
-                self.get_error_message(), lock=self
-            ) from error
-
-    def add_breadcrumb(self, operation: str) -> None:
-        add_breadcrumb(
-            category="lock", message=f"{operation} {self._name} ({self._local.depth})"
+    def shared_reader(self) -> AdvisoryLock:
+        return AdvisoryLock(
+            self._key,
+            scope=self.scope,
+            origin=self.origin,
+            using=self._using,
+            timeout=self._timeout,
+            shared=True,
         )
 
+    def _execute(self, operation: str) -> bool:
+        suffix = "_shared" if self._shared else ""
+        with connections[self._using].cursor() as cursor:
+            cursor.execute(
+                f"SELECT pg_{operation}{suffix}({self._arguments})", self._params
+            )
+            return bool(cursor.fetchone()[0])
+
+    def _acquire(self, operation: str) -> None:
+        with start_span(op="lock.wait", name=self.name):
+            if self._timeout is None:
+                self._execute(operation)
+            else:
+                deadline = monotonic() + self._timeout
+                while not self._execute(f"try_{operation}"):
+                    remaining = deadline - monotonic()
+                    if remaining <= 0:
+                        message = f"Lock on {self.name} could not be acquired in {self._timeout}s"
+                        raise WeblateLockTimeoutError(message, lock=self)
+                    sleep(min(0.1, remaining))
+        add_breadcrumb(category="lock", message=f"acquire {self.name}")
+
+    def acquire_transaction(self) -> None:
+        if not connections[self._using].in_atomic_block:
+            msg = "Transaction advisory locks require a database transaction"
+            raise RuntimeError(msg)
+        self._acquire("advisory_xact_lock")
+
+    def ensure_session(self) -> None:
+        session = self._local.session
+        if session is not connections[self._using].connection or session.closed:
+            msg = f"Lost session holding {self.name}"
+            raise WeblateLockNotLockedError(msg, lock=self)
+
+    @property
+    def is_locked(self) -> bool:
+        if getattr(self._local, "depth", 0) == 0:
+            return False
+        self.ensure_session()
+        return True
+
     def __enter__(self) -> None:
-        self.add_breadcrumb("enter")
-        if not self.is_locked:
-            self.add_breadcrumb("acquire")
-            with start_span(op="lock.wait", name=self._name):
-                if self._using_redis:
-                    self._enter_redis()
-                else:
-                    self._enter_file()
-        self._local.depth += 1
+        if self.is_locked:
+            self._local.depth += 1
+            return
+        self._acquire("advisory_lock")
+        self._local.session = connections[self._using].connection
+        self._local.depth = 1
+
+    def _unlock(self) -> None:
+        database = connections[self._using]
+        session = self._local.session
+        self.ensure_session()
+        if (
+            database.needs_rollback
+            or session.info.transaction_status == TransactionStatus.INERROR
+        ):
+            msg = f"Failed transaction while holding {self.name}"
+            raise WeblateLockError(msg, lock=self)
+        if not self._execute("advisory_unlock"):
+            msg = f"Session no longer holds {self.name}"
+            raise WeblateLockNotLockedError(msg, lock=self)
 
     def __exit__(
         self,
@@ -193,21 +181,44 @@ class WeblateLock:
         exc_value: BaseException | None,
         traceback: TracebackType | None,
     ) -> None:
-        if not self.is_locked:
-            msg = f"Lock on {self._name} was not held on release"
+        if getattr(self._local, "depth", 0) == 0:
+            msg = f"Lock on {self.name} was not held on release"
             raise WeblateLockNotLockedError(msg, lock=self)
-
-        self.add_breadcrumb("exit")
         self._local.depth -= 1
+        if self._local.depth:
+            return
+        database = connections[self._using]
+        session = self._local.session
+        try:
+            self._unlock()
+        except BaseException:
+            if database.connection is session:
+                # Discard the physical session even when Django uses a pool.
+                session.close()
+                database.close()
+            if exc_value is None:
+                raise
+        finally:
+            del self._local.session
+            add_breadcrumb(category="lock", message=f"release {self.name}")
 
-        # Release underlying lock
-        if self._local.depth == 0:
-            self.add_breadcrumb("release")
-            if self._using_redis:
-                self._redis_lock.release()
-            else:
-                self._file_lock.release()
 
-    @property
-    def is_locked(self) -> bool:
-        return self._local.depth > 0
+class WeblateLock(AdvisoryLock):
+    def __init__(
+        self,
+        *,
+        scope: LockScope,
+        key: int | str,
+        timeout: float = 1,
+        origin: str | None = None,
+        shared: bool = False,
+    ) -> None:
+        identity: int | tuple[int, int]
+        if isinstance(key, int) and -(2**31) <= key < 2**31:
+            identity = (scope.value, key)
+        else:
+            digest = hashlib.blake2b(f"{scope.value}:{key}".encode(), digest_size=8)
+            identity = int.from_bytes(digest.digest(), signed=True)
+        super().__init__(
+            identity, scope=scope.label, timeout=timeout, origin=origin, shared=shared
+        )

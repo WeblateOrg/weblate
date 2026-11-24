@@ -13,7 +13,7 @@ import os.path
 import re
 import signal
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
-from contextlib import contextmanager, suppress
+from contextlib import ExitStack, contextmanager, suppress
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
@@ -47,7 +47,7 @@ from weblate.utils.files import (
     is_unsafe_path,
     remove_tree,
 )
-from weblate.utils.lock import WeblateLock
+from weblate.utils.lock import LockScope, WeblateLock
 from weblate.utils.outbound import get_environment_proxy
 from weblate.vcs.ssh import SSH_WRAPPER
 
@@ -137,6 +137,7 @@ class CommitInfo(TypedDict):
 
 type RemoteOperation = Literal["none", "pull", "push"]
 type RepositoryDiagnosisCode = Literal[
+    "azure_devops_ssh_key_expired",
     "checkout_missing",
     "checkout_invalid",
     "branch_behind",
@@ -156,6 +157,7 @@ type RepositoryDiagnosisCode = Literal[
     "temporary_failure",
 ]
 type RepositoryErrorCode = Literal[
+    "template_render_failed",
     "repository_checkout_missing",
     "repository_checkout_invalid",
     "api_error",
@@ -178,6 +180,11 @@ type RepositoryErrorCode = Literal[
     "gitlab_project_failed_unknown",
     "pull_request_listing_failed",
     "pull_request_listing_failed_retry",
+    "pull_request_update_failed",
+    "pull_request_update_failed_retry",
+    "pull_request_update_failed_with_error",
+    "pull_request_update_failed_with_error_retry",
+    "pull_request_assignees_ignored",
     "repository_fork_failed",
     "repository_fork_not_found",
     "repository_fork_failed_retry",
@@ -241,6 +248,9 @@ class RepositoryAlertDetails(TypedDict):
 
 
 REPOSITORY_ERROR_MESSAGES: dict[RepositoryErrorCode, str] = {
+    "template_render_failed": gettext_noop(
+        "Could not render %(setting)s template: %(error)s"
+    ),
     "repository_checkout_missing": gettext_noop(
         "The local repository checkout is missing."
     ),
@@ -302,6 +312,21 @@ REPOSITORY_ERROR_MESSAGES: dict[RepositoryErrorCode, str] = {
     ),
     "pull_request_listing_failed_retry": gettext_noop(
         "Pull request listing failed: %(error)s Please retry later."
+    ),
+    "pull_request_update_failed": gettext_noop(
+        "%(service)s API request failed while customizing a pull request: %(status)s"
+    ),
+    "pull_request_update_failed_retry": gettext_noop(
+        "%(service)s API request failed while customizing a pull request: %(status)s Please retry later."
+    ),
+    "pull_request_update_failed_with_error": gettext_noop(
+        "%(service)s API request failed while customizing a pull request (%(status)s): %(error)s"
+    ),
+    "pull_request_update_failed_with_error_retry": gettext_noop(
+        "%(service)s API request failed while customizing a pull request (%(status)s): %(error)s Please retry later."
+    ),
+    "pull_request_assignees_ignored": gettext_noop(
+        "GitHub did not assign the requested users: %(assignees)s"
     ),
     "repository_fork_failed": gettext_noop("Could not fork repository at %(hostname)s"),
     "repository_fork_failed_retry": gettext_noop(
@@ -432,6 +457,14 @@ REPOSITORY_TEMPORARY_MESSAGES = (
     "Too many retries",
     "Connection timed out",
 )
+# HTTP server errors which are likely to go away on their own. Other 5xx
+# statuses, such as 501 or 505, point to a problem retrying does not fix.
+REPOSITORY_TEMPORARY_HTTP_ERROR_RE = re.compile(
+    r"returned error: (?:500|502|503|504)\b"
+)
+AZURE_DEVOPS_SSH_KEY_EXPIRED_MESSAGE = (
+    "Authentication failed: your SSH key has expired. To restore access, visit "
+)
 GITHUB_FORKING_DISABLED_MESSAGE = "The repository exists, but forking is disabled."
 REPOSITORY_PERMISSION_MESSAGES = (
     "denied to",
@@ -468,6 +501,7 @@ class RepositoryLock:
     def __init__(self, repository: Repository, lock: WeblateLock) -> None:
         self.repository = repository
         self._lock = lock
+        self._read_lock = lock.shared_reader()
         self._recovery_pending = False
         self._recovering = False
         self._skip_recovery = RepositoryLockSkipState()
@@ -478,6 +512,7 @@ class RepositoryLock:
 
     def replace_lock(self, lock: Self) -> None:
         self._lock = lock._lock
+        self._read_lock = lock._read_lock
         self._recovery_pending = lock._recovery_pending
         self._recovering = lock._recovering
         self._skip_recovery = lock._skip_recovery
@@ -511,6 +546,38 @@ class RepositoryLock:
         self._lock.__exit__(exc_type, exc_value, traceback)
         if not self._lock.is_locked:
             self._reset_recovery_state()
+
+    @contextmanager
+    def read(self) -> Generator[None]:
+        if self._lock.is_locked or self.repository.exclusive_read_recovery:
+            with self:
+                yield
+            return
+        with self._read_lock:
+            try:
+                recover = self.repository.read_needs_recovery()
+            except (OSError, RepositoryError):
+                # Run the normal recovery and error reporting under the writer lock.
+                recover = True
+            if not recover:
+                yield
+                return
+        # Downgrade on the same session so a writer cannot intervene after recovery.
+        with ExitStack() as reader:
+            with self:
+                self.hold_read_after_write(reader)
+            yield
+
+    def hold_read_after_write(self, reader: ExitStack) -> None:
+        """Keep the checkout stable in reader after the enclosing writer exits."""
+        if not self._lock.is_locked:
+            msg = "Downgrading a repository lock requires exclusive ownership"
+            raise RuntimeError(msg)
+        reader.enter_context(self._read_lock)
+
+    @property
+    def is_read_locked(self) -> bool:
+        return self._lock.is_locked or self._read_lock.is_locked
 
     def begin_recovery(self) -> bool:
         if not self.is_locked or self._recovering or not self._recovery_pending:
@@ -615,6 +682,15 @@ def format_stored_repository_error(
     return structured.get_message(translator)
 
 
+class RepositoryTemplateError(RepositoryInternalError):
+    """A configured message could not be rendered; no fallback is safe."""
+
+    def __init__(self, setting: str, error: str) -> None:
+        super().__init__(
+            0, "template_render_failed", params={"setting": setting, "error": error}
+        )
+
+
 class RepositoryCommandError(RepositoryError):
     """Error raised by the underlying VCS command."""
 
@@ -704,6 +780,8 @@ def get_repository_error_diagnoses(error: str) -> list[RepositoryDiagnosis]:
         diagnoses.append({"code": "ssh_host_key_unverified"})
     if any(message in error for message in REPOSITORY_NOT_FOUND_MESSAGES):
         diagnoses.append({"code": "repository_not_found"})
+    if AZURE_DEVOPS_SSH_KEY_EXPIRED_MESSAGE in error:
+        diagnoses.append({"code": "azure_devops_ssh_key_expired"})
     if GITHUB_FORKING_DISABLED_MESSAGE in error:
         diagnoses.append({"code": "github_forking_disabled"})
     if any(message in error for message in REPOSITORY_PERMISSION_MESSAGES):
@@ -712,7 +790,9 @@ def get_repository_error_diagnoses(error: str) -> list[RepositoryDiagnosis]:
         diagnoses.append({"code": "gerrit_permission"})
     if "lfs objects are missing" in normalized:
         diagnoses.append({"code": "git_lfs_missing_objects"})
-    if any(message in error for message in REPOSITORY_TEMPORARY_MESSAGES):
+    if any(
+        message in error for message in REPOSITORY_TEMPORARY_MESSAGES
+    ) or REPOSITORY_TEMPORARY_HTTP_ERROR_RE.search(error):
         diagnoses.append({"code": "temporary_failure"})
 
     return diagnoses
@@ -748,6 +828,7 @@ class Repository:
     """Basic repository object."""
 
     _cmd: ClassVar[str] = "false"
+    _cmd_options: ClassVar[tuple[str, ...]] = ()
     _cmd_last_revision: ClassVar[list[str]]
     _cmd_last_remote_revision: ClassVar[list[str]]
     _cmd_status: ClassVar[list[str]] = ["status"]
@@ -812,9 +893,8 @@ class Repository:
         self.last_output = ""
         base_path = self.path.rstrip("/").rstrip("\\")
         lock = WeblateLock(
-            scope="repository",
+            scope=LockScope.REPOSITORY,
             key=get_repository_lock_key(base_path, component),
-            slug=os.path.basename(base_path),
             timeout=120,
             origin=component.full_slug if component else base_path,
         )
@@ -855,17 +935,22 @@ class Repository:
     def log(cls, message: str, level: int = logging.DEBUG) -> None:
         return LOGGER.log(level, "%s: %s", cls._cmd, message)
 
+    def config_is_current(self) -> bool:
+        if not self._config_updated and self.component is not None:
+            key = get_config_check_cache_key(self.component.pk)
+            self._config_updated = cache.get(key) is not None
+        return self._config_updated
+
     def ensure_config_updated(self) -> None:
         """Ensure the configuration is periodically checked."""
-        if self._config_updated:
+        if self.config_is_current():
             return
         if self.component is None:
             msg = "Component not set!"
             raise TypeError(msg)
         cache_key = get_config_check_cache_key(self.component.pk)
-        if cache.get(cache_key) is None:
-            self.check_config()
-            cache.set(cache_key, True, 86400)
+        self.check_config()
+        cache.set(cache_key, True, 86400)
         self._config_updated = True
 
     def check_config(self) -> None:
@@ -995,7 +1080,7 @@ class Repository:
         """Execute the command using popen."""
         if args is None:
             raise RepositoryError(0, "Not supported functionality")
-        cmd = args if fullcmd else [cls._cmd, *args]
+        cmd = args if fullcmd else [cls._cmd, *cls._cmd_options, *args]
         text_cmd = " ".join(cmd)
         # These are mutually exclusive, gevent actually checks
         # for their presence, not a value.
@@ -1088,6 +1173,12 @@ class Repository:
     # ruff: ignore[unused-static-method-argument]
     def should_retry_popen(errormessage: str, *, cwd: str | None = None) -> bool:
         return False
+
+    exclusive_read_recovery = False
+
+    def read_needs_recovery(self) -> bool:
+        temp_dir = self.get_repo_temp_dir(create=False)
+        return temp_dir is not None and temp_dir.is_dir() and any(temp_dir.iterdir())
 
     def recover_lock_session(self) -> list[RepositoryRecoveryEvent]:
         self.cleanup_repo_temp_dir()
@@ -1552,10 +1643,6 @@ class Repository:
     def _get_version(cls) -> str:
         """Return VCS program version."""
         return cls._popen(["--version"], merge_err=False)
-
-    def set_committer(self, name: str, mail: str) -> None:
-        """Configure committer name."""
-        raise NotImplementedError
 
     def commit(
         self,

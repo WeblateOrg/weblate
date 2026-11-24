@@ -1218,7 +1218,7 @@ class ModelTest(FixtureComponentTestCase):
         self.assertFalse(
             User.objects.all_admins(self.project).filter(pk=self.user.pk).exists()
         )
-        self.assertTrue(
+        self.assertFalse(
             User.objects.all_admins(self.project).filter(pk=unlimited.pk).exists()
         )
 

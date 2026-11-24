@@ -8,12 +8,15 @@ from __future__ import annotations
 
 import os.path
 import re
+import shutil
+import stat
 from configparser import RawConfigParser
 from pathlib import Path
 from shutil import which
 from typing import TYPE_CHECKING, ClassVar, cast
 
-from django.utils.translation import gettext_lazy
+from django.conf import settings
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.auth.utils import format_address
 from weblate.vcs.base import Repository, RepositoryError, RepositoryValidationError
@@ -25,7 +28,7 @@ if TYPE_CHECKING:
 
     from django_stubs_ext import StrOrPromise
 
-    from weblate.vcs.base import RawCommitInfo, RemoteOperation
+    from weblate.vcs.base import RawCommitInfo, RemoteOperation, RepositoryRecoveryEvent
 
 
 VERSION_RE = re.compile(r".*\(version ([^)]*)\).*")
@@ -46,6 +49,7 @@ class HgRepository(Repository):
     BACKUP_STORE_DIRS: ClassVar[frozenset[str]] = frozenset({"data", "dh", "meta"})
 
     _cmd: ClassVar[str] = "rhg" if which("rhg") is not None else "hg"
+    _cmd_options: ClassVar[tuple[str, ...]] = ("--config", "subrepos.allowed=false")
     _cmd_last_revision: ClassVar[list[str]] = [
         "log",
         "--limit",
@@ -62,7 +66,7 @@ class HgRepository(Repository):
         "--branch",
         ".",
     ]
-    _cmd_list_changed_files: ClassVar[list[str]] = ["status", "--rev"]
+    _cmd_list_changed_files: ClassVar[list[str]] = ["status"]
     name: ClassVar[StrOrPromise] = "Mercurial"
     push_label: ClassVar[StrOrPromise] = gettext_lazy(
         "This will push changes to the upstream Mercurial repository."
@@ -83,6 +87,54 @@ class HgRepository(Repository):
     def is_valid(self) -> bool:
         """Check whether this is a valid repository."""
         return os.path.exists(os.path.join(self.path, ".hg", "requires"))
+
+    def cleanup_nested_metadata(self) -> None:
+        """Remove nested VCS metadata without following checkout symlinks."""
+        if not self.lock.is_locked:
+            msg = "Repository operation without lock held!"
+            raise RuntimeError(msg)
+        try:
+            metadata = os.stat(os.path.join(self.path, ".hg"), follow_symlinks=False)
+        except (FileNotFoundError, NotADirectoryError):
+            return
+        if not stat.S_ISDIR(metadata.st_mode):
+            return
+
+        def raise_walk_error(error: OSError) -> None:
+            raise error
+
+        for folder, directories, filenames, directory_fd in os.fwalk(
+            self.path, follow_symlinks=False, onerror=raise_walk_error
+        ):
+            for name in directories.copy():
+                if name.casefold() not in {".hg", ".git"}:
+                    continue
+                directories.remove(name)
+                if folder == self.path and name == ".hg":
+                    continue
+                info = os.stat(name, dir_fd=directory_fd, follow_symlinks=False)
+                if stat.S_ISDIR(info.st_mode):
+                    shutil.rmtree(name, dir_fd=directory_fd)
+                else:
+                    os.unlink(name, dir_fd=directory_fd)
+            for name in filenames:
+                if name.casefold() in {".hg", ".git"} and not (
+                    folder == self.path and name == ".hg"
+                ):
+                    os.unlink(name, dir_fd=directory_fd)
+
+    # Recovery removes nested VCS metadata throughout the checkout.
+    exclusive_read_recovery = True
+
+    def recover_lock_session(self) -> list[RepositoryRecoveryEvent]:
+        events = super().recover_lock_session()
+        try:
+            self.cleanup_nested_metadata()
+        except OSError as error:
+            raise RepositoryError(
+                1, gettext("Could not remove nested repository metadata.")
+            ) from error
+        return events
 
     @classmethod
     def is_safe_backup_metadata_path(cls, parts: tuple[str, ...]) -> bool:
@@ -280,7 +332,7 @@ class HgRepository(Repository):
         {desc}
         """
         text = self.execute(
-            ["log", "--limit", "1", "--template", template, "--rev", revision],
+            ["log", "--limit", "1", "--template", template, f"--rev={revision}"],
             remote_op="none",
             needs_lock=False,
             merge_err=False,
@@ -314,7 +366,7 @@ class HgRepository(Repository):
     def log_revisions(self, refspec: str) -> list[str]:
         """Return revision log for given refspec."""
         return self.execute(
-            ["log", "--template", "{node}\n", "--rev", refspec],
+            ["log", "--template", "{node}\n", f"--rev={refspec}"],
             remote_op=self.get_revset_remote_op(refspec),
             needs_lock=False,
             merge_err=False,
@@ -355,12 +407,12 @@ class HgRepository(Repository):
         """Create new revision."""
         if files == []:
             return False
-        # Build the commit command
-        cmd = ["commit", "--message", message]
+        # Mercurial scans global options before parsing command option values.
+        cmd = ["commit", f"--message={message}"]
         if author is not None:
-            cmd.extend(["--user", author])
+            cmd.append(f"--user={author}")
         if timestamp is not None:
-            cmd.extend(["--date", timestamp.ctime()])
+            cmd.append(f"--date={timestamp.ctime()}")
 
         # Add files one by one, this has to deal with
         # removed, untracked and non existing files
@@ -425,6 +477,9 @@ class HgRepository(Repository):
             updates.append(("paths", "default-push", push_url))
 
         self.set_config_values(*updates)
+        self.set_committer(
+            settings.DEFAULT_COMMITER_NAME, settings.DEFAULT_COMMITER_EMAIL
+        )
 
         self.branch = branch
 
@@ -468,7 +523,7 @@ class HgRepository(Repository):
     def get_file(self, path: str, revision: str) -> str:
         """Return content of file at given revision."""
         return self.execute(
-            ["cat", "--rev", revision, "--", path],
+            ["cat", f"--rev={revision}", "--", path],
             remote_op="none",
             needs_lock=False,
             merge_err=False,
@@ -495,7 +550,13 @@ class HgRepository(Repository):
 
     def list_changed_files(self, refspec: str) -> list[str]:
         try:
-            return super().list_changed_files(refspec)
+            lines = self.execute(
+                [*self._cmd_list_changed_files, f"--rev={refspec}"],
+                remote_op="none",
+                needs_lock=False,
+                merge_err=False,
+            ).splitlines()
+            return list(self.parse_changed_files(lines))
         except RepositoryError as error:
             if error.retcode == 255:
                 # Empty revision set
@@ -514,7 +575,7 @@ class HgRepository(Repository):
 
     def show(self, revision: str) -> str:
         return self.execute(
-            ["diff", "--change", revision],
+            ["diff", f"--change={revision}"],
             remote_op="none",
             needs_lock=False,
             merge_err=False,

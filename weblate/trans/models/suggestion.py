@@ -23,12 +23,16 @@ from weblate.trans.exceptions import (
     SuggestionTooLongError,
 )
 from weblate.trans.mixins import UserDisplayMixin
+from weblate.trans.models.backup import BackupAuthorshipMixin, backup_author_context
 from weblate.trans.util import join_plural, split_plural
-from weblate.trans.validators import get_translation_text_max_length
+from weblate.trans.validators import (
+    TranslationTextTooLongError,
+    get_translation_text_max_length,
+)
 from weblate.utils import messages
 from weblate.utils.antispam import report_spam
 from weblate.utils.request import get_ip_address, get_user_agent_raw
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED, StringState
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, User
@@ -152,7 +156,7 @@ class SuggestionQuerySet(models.QuerySet["Suggestion", "Suggestion"]):
         )
 
 
-class Suggestion(models.Model, UserDisplayMixin):
+class Suggestion(BackupAuthorshipMixin, UserDisplayMixin):
     unit = models.ForeignKey("trans.Unit", on_delete=models.deletion.CASCADE)
     target = models.TextField()
     user = models.ForeignKey(
@@ -196,28 +200,46 @@ class Suggestion(models.Model, UserDisplayMixin):
         self,
         request: AuthenticatedHttpRequest,
         permission: str = "suggestion.accept",
-        state=STATE_TRANSLATED,
+        state: StringState = STATE_TRANSLATED,
     ) -> None:
-        if not request.user.has_perm(permission, self.unit):
-            messages.error(request, gettext("Could not accept suggestion!"))
-            return
+        from weblate.trans.models.source import source_operation  # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.unit import Unit  # ruff: ignore[import-outside-top-level]
 
-        # Skip if there is no change
-        if self.unit.target != self.target or self.unit.state < STATE_TRANSLATED:
-            if self.user and not self.user.is_anonymous:
-                author = self.user
-            else:
-                author = request.user
-            self.unit.translate(
-                request.user,
-                split_plural(self.target),
-                state,
-                author=author,
-                change_action=ActionEvents.ACCEPT,
-            )
+        with source_operation(self.unit.translation.component):
+            self.unit = Unit.objects.select_for_update().get(pk=self.unit_id)
+            # Keep the vote and suggestion pending when automatic acceptance
+            # encounters a string that became read-only.
+            if permission == "suggestion.vote" and self.unit.readonly:
+                return
+            if not request.user.has_perm(permission, self.unit):
+                messages.error(request, gettext("Could not accept suggestion!"))
+                return
 
-        # Delete the suggestion
-        self.delete()
+            # Skip if there is no change
+            if self.unit.target != self.target or self.unit.state < STATE_TRANSLATED:
+                if self.user and not self.user.is_anonymous:
+                    author = self.user
+                else:
+                    author = request.user
+                with backup_author_context(
+                    self.backup_author_claim_id
+                    if self.user is None or self.user.is_anonymous
+                    else None,
+                    self.unit.translation.component.project_id,
+                ) as claimed_author:
+                    self.unit.translate(
+                        request.user,
+                        split_plural(self.target),
+                        state,
+                        author=claimed_author or author,
+                        change_action=ActionEvents.ACCEPT,
+                        change_details={"explicit_approval": True}
+                        if state == STATE_APPROVED
+                        else None,
+                    )
+
+            # Delete the suggestion
+            self.delete()
 
     def delete_log(
         self,
@@ -270,7 +292,15 @@ class Suggestion(models.Model, UserDisplayMixin):
         # Automatic accepting
         required_votes = self.unit.translation.suggestion_autoaccept
         if required_votes and self.get_num_votes(override=True) >= required_votes:
-            self.accept(request, "suggestion.vote")
+            try:
+                self.accept(request, "suggestion.vote")
+            except TranslationTextTooLongError as error:
+                # The suggestion stays available for manual review
+                messages.warning(
+                    request,
+                    gettext("The suggestion could not be accepted automatically: %s")
+                    % error.messages[0],
+                )
 
     def get_checks(self):
         # Build fake unit to run checks

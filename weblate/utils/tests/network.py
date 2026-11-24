@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING
 from unittest.mock import patch
 
 if TYPE_CHECKING:
-    from collections.abc import Generator
+    from collections.abc import Generator, Sequence
 
 
 type AddressInfo = tuple[
@@ -31,7 +31,7 @@ def mock_dns(*hosts: str) -> Generator[None, None, None]:
 
     def getaddrinfo(
         host: str, port: str | int | None, *args: int, **kwargs: int
-    ) -> list[AddressInfo]:
+    ) -> Sequence[AddressInfo]:
         if host in hosts:
             return [
                 (

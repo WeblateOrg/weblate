@@ -41,6 +41,15 @@ def update_components(matching: ComponentQuerySet) -> None:
     for component in (
         matching.filter(vcs__in=VCS_REGISTRY.git_based)
         .exclude(repo__startswith="weblate:/")
+        .prefetch_related(
+            "project",
+            "category",
+            "category__project",
+            "category__category",
+            "category__category__project",
+            "category__category__category",
+            "category__category__category__project",
+        )
         .iterator(chunk_size=100)
     ):
         new_url = get_export_url(component)
@@ -63,14 +72,4 @@ def update_project_git_export(sender, instance, **kwargs) -> None:
 
 def update_all_components() -> None:
     """Update git export URL for all components."""
-    update_components(
-        Component.objects.prefetch_related(
-            "project",
-            "category",
-            "category__project",
-            "category__category",
-            "category__category__project",
-            "category__category__category",
-            "category__category__category__project",
-        )
-    )
+    update_components(Component.objects.all())

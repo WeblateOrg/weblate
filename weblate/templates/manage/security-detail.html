@@ -1,0 +1,54 @@
+{% extends "manage/security-base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header"><h1 class="card-title">{% blocktranslate with username=finding.user.username %}Security finding for {{ username }}{% endblocktranslate %}</h1></div>
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">{% translate "CSV row" %}</th>
+            <th scope="col">{% translate "Identifier" %}</th>
+            <th scope="col">{% translate "Matching method" %}</th>
+          </tr>
+        </thead>
+        <tbody>{% for match in page %}<tr><td>{{ match.row }}</td><td>{{ match.identifier }}</td><td>{{ match.method }}</td></tr>{% empty %}<tr><td colspan="3">{% translate "No matching row details." %}</td></tr>{% endfor %}</tbody>
+      </table>
+      <p>{% blocktranslate with number=page.number total=page.paginator.num_pages %}Page {{ number }} of {{ total }}{% endblocktranslate %}</p>
+      {% if page.has_previous %}
+        <a class="btn btn-default"
+           href="?{{ query }}&amp;page={{ page.previous_page_number }}">{% translate "Previous" %}</a>
+      {% endif %}
+      {% if page.has_next %}
+        <a class="btn btn-default"
+           href="?{{ query }}&amp;page={{ page.next_page_number }}">{% translate "Next" %}</a>
+      {% endif %}
+
+      <h2>{% translate "Detected in reports" %}</h2>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">{% translate "Report" %}</th>
+              <th scope="col">{% translate "Administrator" %}</th>
+            </tr>
+          </thead>
+          <tbody>{% for event in reports_page %}<tr><td><a href="{{ event.scan.get_absolute_url }}">{{ event.scan.created }}</a></td><td>{% if event.actor %}{{ event.actor.username }}{% else %}{% translate "Deleted administrator" %}{% endif %}</td></tr>{% empty %}<tr><td colspan="2">{% translate "No validation reports for this finding." %}</td></tr>{% endfor %}</tbody>
+        </table>
+      </div>
+      {% if reports_page.has_other_pages %}
+        <p>{% blocktranslate with number=reports_page.number total=reports_page.paginator.num_pages %}Reports page {{ number }} of {{ total }}{% endblocktranslate %}</p>
+        {% if reports_page.has_previous %}
+          <a class="btn btn-default"
+             href="?{{ reports_query }}&amp;reports_page={{ reports_page.previous_page_number }}">{% translate "Previous reports" %}</a>
+        {% endif %}
+        {% if reports_page.has_next %}
+          <a class="btn btn-default"
+             href="?{{ reports_query }}&amp;reports_page={{ reports_page.next_page_number }}">{% translate "Next reports" %}</a>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+{% endblock content %}

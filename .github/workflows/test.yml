@@ -50,7 +50,7 @@ jobs:
       PYTHONUNBUFFERED: 1
     services:
       database:
-        image: postgres:18.6-alpine@sha256:10a5c69a83035ab5239f5620d708520e8b28f5aa1f2b20143e6024532edadfb5
+        image: postgres:19.0-alpine@sha256:cac45fb483caee3668946088a1c0532db89d5285c28dbfeac889b4068296e06f
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: weblate
@@ -62,7 +62,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       cache:
-        image: valkey/valkey:9.1.3-alpine@sha256:bf09d58e96d6b4524a15396b65b242bbe18beebbcc15a04d8ee75ddac62fae0b
+        image: valkey/valkey:9.2.0-alpine@sha256:c8e2d17498838af5d91e12eb7c11220b3434a7b7131a333e3af52ad5e0b80882
         ports:
         - 6379:6379
         options: >-
@@ -84,15 +84,29 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         allow-prereleases: true
-    - uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
+    - uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
       with:
-        save-cache: ${{ github.ref == 'refs/heads/main' }}
-        cache-suffix: ${{ steps.setup_python.outputs.python-version }}
-        version: 0.13.5
+        enable-cache: false
+        cache-local-path: ${{ runner.temp }}/weblate-uv-cache
+        version: 0.13.9
     - name: Install apt dependencies
-      run: sudo ./ci/apt-install
+      uses: $/.github/actions/apt-install
+      with:
+        save-cache: ${{ matrix.python-version == '3.14' && matrix.requirements == 'latest' }}
+    - name: Restore Python dependencies
+      id: python-cache
+      uses: $/.github/actions/python-cache-restore
+      with:
+        python-version: ${{ steps.setup_python.outputs.python-version }}
     - name: Install Python dependencies
       run: ./ci/pip-install ${{ matrix.requirements }}
+    - name: Save Python dependencies
+      if: matrix.requirements == 'latest'
+      uses: $/.github/actions/python-cache-save
+      with:
+        primary-key: ${{ steps.python-cache.outputs.primary-key }}
+        exact-hit: ${{ steps.python-cache.outputs.exact-hit }}
+        cache-directory: ${{ steps.python-cache.outputs.cache-directory }}
     - name: Used versions
       run: |
         source .venv/bin/activate

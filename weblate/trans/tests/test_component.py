@@ -10,18 +10,22 @@ import os
 import pathlib
 import shutil
 from concurrent.futures import ThreadPoolExecutor
+from queue import Empty, Queue
 from tempfile import TemporaryDirectory
 from threading import Event
+from time import monotonic, sleep
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
 from unittest.mock import Mock, call, patch
 
+import regex
 from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
-from django.db import close_old_connections, connection
+from django.db import close_old_connections, connection, transaction
 from django.db.models import F
+from django.template import TemplateSyntaxError
 from django.test import SimpleTestCase, TransactionTestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.utils import timezone
@@ -29,9 +33,11 @@ from translate.storage.base import ParseError
 
 from weblate.auth.models import setup_project_groups
 from weblate.checks.models import Check
+from weblate.formats.ttkit import PoFormat
 from weblate.formats.txt import AppStoreFormat, MultiparserError
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
+from weblate.trans.component_copy import replace_component_checkout
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.file_format_params import get_default_params_for_file_format
 from weblate.trans.models import (
@@ -44,7 +50,7 @@ from weblate.trans.models import (
     Unit,
     WorkflowSetting,
 )
-from weblate.trans.models.component import prefetch_tasks
+from weblate.trans.models.component import FileMaskTimeoutError, prefetch_tasks
 from weblate.trans.repository_context import (
     RepositoryFollowupLockError,
     inline_repository_followups,
@@ -58,12 +64,14 @@ from weblate.trans.tests.test_views import (
 from weblate.trans.tests.utils import (
     TEST_VCS_ALLOW_SCHEMES,
     RepoTestMixin,
+    can_lock_repository,
     create_test_user,
+    get_optional_path,
     get_test_actor,
 )
 from weblate.trans.util import join_plural
 from weblate.utils.change_origin import acting_user_context, get_acting_user
-from weblate.utils.files import remove_tree
+from weblate.utils.files import PathMatchBudget, remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -78,6 +86,7 @@ from weblate.vcs.base import (
     RepositoryError,
     RepositoryRecoveryEvent,
     RepositoryRedirectError,
+    RepositoryTemplateError,
 )
 from weblate.vcs.git import GitMergeRequestBase, GitRepository
 from weblate.vcs.github import GitHubInstallation
@@ -99,6 +108,39 @@ remote: Host key verification failed.
 
 class ComponentTest(RepoTestCase):
     """Component object testing."""
+
+    def test_checkout_copy_shares_only_source(self) -> None:
+        source = self.create_component()
+        target = self.create_po(name="copy-target", project=source.project)
+
+        def copy(*args, **kwargs) -> None:
+            self.assertTrue(can_lock_repository(source.pk, shared=True))
+            self.assertFalse(can_lock_repository(source.pk))
+            self.assertFalse(can_lock_repository(target.pk, shared=True))
+
+        with patch(
+            "weblate.trans.component_copy.shutil.copytree", side_effect=copy
+        ) as copytree:
+            self.assertTrue(replace_component_checkout(target, source))
+        copytree.assert_called_once()
+        self.assertTrue(can_lock_repository(target.pk))
+        self.assertTrue(can_lock_repository(source.pk))
+
+    def test_checkout_copy_rejects_same_path(self) -> None:
+        component = self.create_component()
+        with self.assertRaises(ValidationError):
+            replace_component_checkout(component, component)
+        self.assertTrue(pathlib.Path(component.full_path, ".git").is_dir())
+
+    def test_ensure_local_repository_skips_remote_and_linked_repositories(self) -> None:
+        for vcs, repo in (
+            ("git", "https://example.com/repository.git"),
+            ("local", "weblate://project/source"),
+        ):
+            with self.subTest(vcs=vcs, repo=repo):
+                component = Component(vcs=vcs, repo=repo)
+                component.ensure_local_repository()
+                self.assertNotIn("repository", component.__dict__)
 
     def test_commit_pending_without_changes_does_not_fetch_bot(self) -> None:
         component = self.create_component()
@@ -672,6 +714,17 @@ class ComponentTest(RepoTestCase):
         translation.refresh_from_db()
         self.assertTrue(translation.revision.split(",", maxsplit=1)[0].endswith(":1"))
 
+    def test_po_parse_version(self) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        with patch.object(PoFormat, "parse_version", 0):
+            translation.store_hash()
+
+        translation.refresh_from_db()
+        self.assertTrue(translation.check_sync())
+        translation.refresh_from_db()
+        self.assertTrue(translation.revision.split(",", maxsplit=1)[0].endswith(":1"))
+
     def test_create_po_pot(self) -> None:
         component = self._create_component("po", "po/*.po", new_base="po/project.pot")
         self.verify_component(component, 4, "cs", 4)
@@ -1117,7 +1170,8 @@ class ComponentTest(RepoTestCase):
 
     def test_update_checks(self) -> None:
         """Setting of check_flags changes checks for related units."""
-        component = self.create_component()
+        with self.captureOnCommitCallbacks(execute=True):
+            component = self.create_component()
         self.assertEqual(Check.objects.count(), 3)
         check = Check.objects.filter(name="same")[0]
         component.check_flags = f"ignore-{check.name}"
@@ -1127,7 +1181,8 @@ class ComponentTest(RepoTestCase):
 
     def test_category_update_checks(self) -> None:
         """Moving to category changes checks inherited by related units."""
-        component = self.create_component()
+        with self.captureOnCommitCallbacks(execute=True):
+            component = self.create_component()
         self.assertEqual(Check.objects.count(), 3)
         check = Check.objects.filter(name="same")[0]
         category = component.project.category_set.create(
@@ -1475,7 +1530,10 @@ class ComponentChangeTest(RepoTestCase):
         current_revision = component.repository.last_revision
         self.assertNotEqual(initial_revision, current_revision)
         self.assertEqual(component.local_revision, current_revision)
-        self.assertEqual(component.processed_revision, current_revision)
+        expected_processed = current_revision
+        if version := component.file_format_cls.parse_version:
+            expected_processed = f"{current_revision}:{version}"
+        self.assertEqual(component.processed_revision, expected_processed)
 
     def test_changed_setup_preserves_check_settings(self) -> None:
         component = self.create_component()
@@ -1783,6 +1841,122 @@ class ComponentResetTransactionTest(RepoTestMixin, TransactionTestCase):
         self.assertNotIn("disk_state", unit.details)
 
 
+class ComponentHistoryMoveTest(RepoTestMixin, TransactionTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.clone_test_repos()
+        self.component = self.create_component()
+        self.destination = self.create_project(name="Destination", slug="destination")
+
+    def test_move_and_stale_history_writes(self) -> None:
+        actor = get_test_actor(self)
+        original = self.component.project
+        self.component.category = self.create_category(original)
+        with self.fixture_actor_context():
+            self.component.save(update_fields=["category"])
+        destination_category = self.create_category(self.destination)
+        stale = Component.objects.select_related("project", "category").get(
+            pk=self.component.pk
+        )
+        earlier = stale.change_set.create(action=ActionEvents.LOCK, user=actor)
+        writer_pid: Queue[int] = Queue()
+
+        def write_history() -> int:
+            try:
+                pending = Change(component=stale, action=ActionEvents.LOCK, user=actor)
+                with connection.cursor() as cursor:
+                    cursor.execute("SELECT pg_backend_pid()")
+                    writer_pid.put(cursor.fetchone()[0])
+                pending.save()
+                return pending.pk
+            finally:
+                connection.close()
+
+        with ThreadPoolExecutor(max_workers=1) as executor:
+            with transaction.atomic(), acting_user_context(actor):
+                self.component.project = self.destination
+                self.component.category = destination_category
+                self.component.save(update_fields=["project", "category"])
+                future = executor.submit(write_history)
+                try:
+                    pid = writer_pid.get(timeout=5)
+                except Empty:
+                    if future.done():
+                        future.result()
+                    self.fail("The history writer did not publish its backend PID")
+                deadline = monotonic() + 5
+                with connection.cursor() as cursor:
+                    while monotonic() < deadline:
+                        if future.done():
+                            future.result()
+                            self.fail(
+                                "The history writer finished before the move committed"
+                            )
+                        cursor.execute(
+                            "SELECT pg_backend_pid() = ANY(pg_blocking_pids(%s))", [pid]
+                        )
+                        if cursor.fetchone()[0]:
+                            break
+                        sleep(0.01)
+                    else:
+                        self.fail("The history writer did not wait for the move")
+            concurrent_id = future.result(timeout=10)
+        bulk = Change(component=stale, action=ActionEvents.LOCK, user=actor)
+        Change.objects.bulk_create([bulk])
+        original.delete()
+        self.assertCountEqual(
+            self.destination.change_set.filter(
+                pk__in=[earlier.pk, concurrent_id, bulk.pk],
+                category=destination_category,
+            ).values_list("pk", flat=True),
+            [earlier.pk, concurrent_id, bulk.pk],
+        )
+
+    def test_history_after_category_move_within_project(self) -> None:
+        actor = get_test_actor(self)
+        category = self.create_category(self.component.project)
+        for destination in (category, None):
+            with self.subTest(destination=destination), acting_user_context(actor):
+                stale = Component.objects.select_related("project", "category").get(
+                    pk=self.component.pk
+                )
+                self.component.category = destination
+                self.component.save(update_fields=["category"])
+                move = self.component.change_set.get(
+                    action=ActionEvents.MOVE_COMPONENT,
+                    old=stale.category.slug if stale.category else "",
+                    target=destination.slug if destination else "",
+                )
+                single = stale.change_set.create(action=ActionEvents.LOCK, user=actor)
+                bulk = Change(component=stale, action=ActionEvents.LOCK, user=actor)
+                Change.objects.bulk_create([bulk])
+                self.assertCountEqual(
+                    self.component.change_set.filter(
+                        pk__in=[move.pk, single.pk, bulk.pk], category=destination
+                    ).values_list("pk", flat=True),
+                    [move.pk, single.pk, bulk.pk],
+                )
+
+    def test_failed_move_rolls_back_history(self) -> None:
+        original_id = self.component.project_id
+        change = self.component.change_set.create(
+            action=ActionEvents.LOCK, user=get_test_actor(self)
+        )
+        self.component.project = self.destination
+        with (
+            self.fixture_actor_context(),
+            patch.object(
+                Component, "check_rename", side_effect=RuntimeError("rename failed")
+            ),
+            self.assertRaisesMessage(RuntimeError, "rename failed"),
+        ):
+            self.component.save(update_fields=["project"])
+        self.component.refresh_from_db()
+        change.refresh_from_db()
+        self.assertEqual(self.component.project_id, original_id)
+        self.assertEqual(change.project_id, original_id)
+
+
 class ComponentAlertConcurrencyTest(RepoTestMixin, TransactionTestCase):
     def setUp(self) -> None:
         self.clone_test_repos()
@@ -1953,6 +2127,103 @@ class ComponentValidationTest(RepoTestCase):
             ValidationError, "File mask does not contain * as a language placeholder!"
         ):
             self.component.full_clean()
+
+    def test_filemask_timeout(self) -> None:
+        with (
+            patch.object(
+                self.component, "_match_filemask", side_effect=FileMaskTimeoutError
+            ),
+            self.assertRaisesMessage(
+                ValidationError,
+                "The file mask is too complex and took too long to evaluate.",
+            ),
+        ):
+            self.component.full_clean()
+
+    def test_filemask_traversal_limit(self) -> None:
+        with (
+            patch(
+                "weblate.trans.models.component.PathMatchBudget",
+                return_value=PathMatchBudget(max_work=0),
+            ),
+            self.assertRaisesMessage(
+                ValidationError,
+                "The file mask is too complex and took too long to evaluate.",
+            ) as raised,
+        ):
+            self.component.full_clean()
+        self.assertIn("filemask", raised.exception.message_dict)
+
+    def test_filemask_traversal_limit_during_scan(self) -> None:
+        with (
+            patch(
+                "weblate.trans.models.component.PathMatchBudget",
+                side_effect=lambda: PathMatchBudget(max_work=0),
+            ),
+            patch("weblate.trans.models.component.report_error") as report_error,
+        ):
+            with self.assertRaises(FileMaskTimeoutError):
+                self.component.get_mask_matches()
+            with self.assertRaises(FileMaskTimeoutError):
+                self.component.get_mask_matches(raise_on_timeout=True)
+        report_error.assert_called_once()
+
+    def test_filemask_deadline_during_match_processing(self) -> None:
+        def get_lang_code(path: str) -> str:
+            self.assertEqual(path, "po/cs.po")
+            clock.return_value = 11
+            return "cs"
+
+        with (
+            patch("weblate.utils.files.monotonic", return_value=0) as clock,
+            patch(
+                "weblate.trans.models.component.PathMatchBudget",
+                return_value=PathMatchBudget(deadline=10),
+            ),
+            patch(
+                "weblate.trans.models.component.bounded_glob",
+                return_value=[os.path.join(self.component.full_path, "po/cs.po")],
+            ),
+            patch.object(self.component, "get_lang_code", side_effect=get_lang_code),
+            self.assertRaisesMessage(FileMaskTimeoutError, "deadline"),
+        ):
+            self.component.get_mask_matches(raise_on_timeout=True)
+
+    def test_filemask_match_timeout(self) -> None:
+        with (
+            patch(
+                "weblate.trans.models.component.regex_match", side_effect=TimeoutError
+            ),
+            self.assertRaises(FileMaskTimeoutError),
+        ):
+            self.component.get_lang_code("po/cs.po", validate=True)
+
+    def test_filemask_timeout_during_scan(self) -> None:
+        with (
+            patch(
+                "weblate.trans.models.component.bounded_glob",
+                return_value=[os.path.join(self.component.full_path, "po/cs.po")],
+            ),
+            patch.object(
+                self.component, "get_lang_code", side_effect=FileMaskTimeoutError
+            ),
+            patch("weblate.trans.models.component.report_error") as report_error,
+        ):
+            with self.assertRaises(FileMaskTimeoutError):
+                self.component.get_mask_matches()
+            with self.assertRaises(FileMaskTimeoutError):
+                self.component.get_mask_matches(raise_on_timeout=True)
+        report_error.assert_called_once()
+
+    def test_filemask_timeout_during_changed_file_check(self) -> None:
+        with (
+            patch.object(
+                self.component, "_match_filemask", side_effect=FileMaskTimeoutError
+            ),
+            patch("weblate.trans.models.component.report_error") as report_error,
+        ):
+            self.assertTrue(self.component.uses_changed_files(["other.po"]))
+        report_error.assert_called_once()
 
     def test_screenshot_filemask(self) -> None:
         """Invalid screenshot filemask."""
@@ -2130,7 +2401,9 @@ class ComponentValidationTest(RepoTestCase):
             path, branch=GitRepository.default_branch, local=True
         )
         with repository.lock:
-            repository.set_committer("Test", "test@example.net")
+            repository.config_update(
+                ("user", "name", "Test"), ("user", "email", "test@example.net")
+            )
             pathlib.Path(path, "README.md").write_text("Unrelated\n", encoding="utf-8")
             repository.commit(
                 "Initial commit",
@@ -2300,6 +2573,7 @@ class ComponentValidationTest(RepoTestCase):
 
     def test_validation_language_re_timeout(self) -> None:
         with (
+            patch.object(self.component, "get_lang_code", return_value="cs"),
             patch(
                 "weblate.trans.models.component.regex_match",
                 side_effect=TimeoutError,
@@ -2419,6 +2693,7 @@ class ComponentValidationTest(RepoTestCase):
     def test_lang_code_double(self) -> None:
         component = Component(project=Project())
         component.filemask = "path/*/resources/MessagesBundle_*.properties"
+        self.assertIsInstance(component.filemask_re, regex.Pattern)
         self.assertEqual(
             component.get_lang_code(
                 "path/pt/resources/MessagesBundle_pt_BR.properties"
@@ -2474,7 +2749,6 @@ class ComponentPushOnUpdateTest(RepoTestCase):
                     "Upstream\n", encoding="utf-8"
                 )
             with repository.lock:
-                repository.set_committer("Test", "test@example.com")
                 repository.commit(
                     "Upstream", "Test <test@example.com>", timezone.now(), [filename]
                 )
@@ -2603,6 +2877,29 @@ class ComponentErrorTest(RepoTestCase):
         self.assertEqual(change.user.username, "weblate:push")
         self.assertTrue(change.user.is_bot)
         self.assertEqual(change.user.full_name, "Background push")
+
+    def test_push_exposes_acting_user_to_repository(self) -> None:
+        user = create_test_user()
+        request = SimpleNamespace(user=user)
+        previous_acting_user = get_acting_user()
+        acting_users = []
+
+        def push_repo(*_args, **_kwargs):
+            acting_users.append(get_acting_user())
+            return True
+
+        with (
+            patch.object(self.component, "can_push", return_value=True),
+            patch.object(self.component, "repo_needs_push", return_value=True),
+            patch.object(self.component, "push_repo", side_effect=push_repo),
+        ):
+            result = self.component.do_push(
+                request, force_commit=False, do_update=False
+            )
+
+        self.assertTrue(result)
+        self.assertEqual(acting_users, [user])
+        self.assertEqual(get_acting_user(), previous_acting_user)
 
     def test_failed_reset(self) -> None:
         # Corrupt Git database so that reset fails
@@ -2954,6 +3251,39 @@ class FileSyncPendingUnitOptimizationTest(ComponentTestCase):
 
         unit.refresh_from_db()
         self.assertEqual(unit.details["disk_state"], disk_state)
+
+
+class AddNewLanguageTest(ComponentTestCase):
+    def create_component(self) -> Component:
+        return self.create_po_new_base(new_lang="add")
+
+    def test_add_language_validates_and_uses_base_under_lock(self) -> None:
+        language = Language.objects.get(code="fa")
+        get_base = self.component.get_new_base_filename
+        add_language = self.component.file_format_cls.add_language
+        base_lock_states: list[bool] = []
+
+        def get_locked_base() -> str | None:
+            base_lock_states.append(self.component.repository.lock.is_locked)
+            return get_base()
+
+        def add_from_base(*args, **kwargs) -> None:
+            self.assertTrue(base_lock_states[-1])
+            self.assertTrue(self.component.repository.lock.is_locked)
+            add_language(*args, **kwargs)
+
+        with (
+            patch.object(self.component, "get_new_base_filename", get_locked_base),
+            patch.object(
+                self.component.file_format_cls,
+                "add_language",
+                side_effect=add_from_base,
+            ) as add,
+        ):
+            translation = self.component.add_new_language(language, self.get_request())
+
+        add.assert_called_once()
+        self.assertIsNotNone(translation)
 
 
 class ExistingIntermediateLanguageFileTest(ComponentTestCase):
@@ -3846,6 +4176,37 @@ class ResetDiscardRevisionTest(ComponentTestCase):
 
 
 class TranslationRemoveRevisionTest(ComponentTestCase):
+    def test_remove_reuses_prepared_message(self) -> None:
+        translation = self.component.translation_set.get(language_code="de")
+        message = translation.get_commit_message(
+            self.user.get_author_name(), self.component.effective_delete_message
+        )
+        with patch.object(
+            translation,
+            "get_commit_message",
+            side_effect=RepositoryTemplateError("delete message", "Changed context"),
+        ):
+            translation.remove(self.user, commit_message=message)
+        self.assertFalse(Translation.objects.filter(pk=translation.pk).exists())
+        self.assertEqual(
+            message.strip(),
+            self.component.repository.get_revision_info(
+                self.component.repository.get_last_revision()
+            )["message"].strip(),
+        )
+
+    def test_invalid_delete_message_preserves_translation(self) -> None:
+        translation = self.component.translation_set.get(language_code="de")
+        self.component.delete_message = "{% invalid %}"
+        self.component.inherit_delete_message = False
+        head = self.component.repository.last_revision
+        filename = get_optional_path(translation.get_filename())
+        with self.assertRaises(RepositoryTemplateError):
+            translation.remove(self.user)
+        self.assertTrue(Translation.objects.filter(pk=translation.pk).exists())
+        self.assertTrue(filename.exists())
+        self.assertEqual(self.component.repository.last_revision, head)
+
     def test_remove_updates_stored_local_revision(self) -> None:
         translation = self.component.translation_set.get(language_code="de")
         self.component.store_local_revision()
@@ -3891,6 +4252,21 @@ class LastCommitLookupTest(ComponentTestCase):
 
 
 class UpdateBranchRevisionTest(ComponentTestCase):
+    def test_invalid_merge_message_does_not_start_or_abort_merge(self) -> None:
+        self.component.merge_message = "{% invalid %}"
+        self.component.inherit_merge_message = False
+        with (
+            override_settings(DEBUG=True),
+            patch.object(self.component.repository, "merge") as merge,
+            patch("weblate.utils.errors.record_error") as report,
+        ):
+            self.assertIsNone(
+                self.component.update_branch(method="merge", raise_update_errors=False)
+            )
+        merge.assert_not_called()
+        report.assert_not_called()
+        self.assertTrue(self.component.alert_set.filter(name="MergeFailure").exists())
+
     def test_update_branch_treats_stale_local_revision_as_update(self) -> None:
         current_head = self.component.repository.last_revision
         self.component.local_revision = ""
@@ -4457,6 +4833,32 @@ class ComponentJSONKeyFilterTest(ComponentKeyFilterTest):
 
 
 class ComponentRepoWebTestCase(FixtureTestCase):
+    def test_invalid_template_omits_link(self) -> None:
+        for template in ("{% invalid %}", "{{ filename|invalid }}"):
+            with self.subTest(template=template):
+                self.component.repoweb = template
+                self.assertIsNone(self.get_url())
+
+    def test_render_limit_omits_link(self) -> None:
+        self.component.repoweb = "https://example.com/{{ filename }}"
+        with patch(
+            "weblate.trans.models.component.render_template",
+            side_effect=TemplateSyntaxError("Template output exceeds its size limit."),
+        ) as render:
+            self.assertIsNone(self.get_url())
+        render.assert_called_once()
+
+    def test_unexpected_render_failure_propagates(self) -> None:
+        self.component.repoweb = "https://example.com/{{ filename }}"
+        with (
+            patch(
+                "weblate.trans.models.component.render_template",
+                side_effect=RuntimeError("bug"),
+            ),
+            self.assertRaisesMessage(RuntimeError, "bug"),
+        ):
+            self.get_url()
+
     def get_url(self) -> str | None:
         return self.component.get_repoweb_link("test.py", "42", user=self.user)
 

@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.db.models import Count, Exists, OuterRef, Q
 from django.http import Http404, JsonResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
@@ -30,11 +30,14 @@ from weblate.memory.utils import (
 from weblate.metrics.models import Metric
 from weblate.trans.models import Component, Project
 from weblate.utils import messages
+from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.views import ErrorFormView, parse_path
 from weblate.wladmin.views import MENU
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
+    from django.http import HttpRequest
+
     from weblate.auth.models import AuthenticatedHttpRequest, User
 
 
@@ -279,11 +282,20 @@ class UploadView(MemoryFormView):
     form_class = UploadForm
     request: AuthenticatedHttpRequest
 
-    def form_valid(self, form):
+    def post(self, request: HttpRequest, *args, **kwargs):
+        request = cast("AuthenticatedHttpRequest", request)
         if "workspace" in self.objects or not check_perm(
-            self.request.user, "memory.edit", self.objects
+            request.user, "memory.edit", self.objects
         ):
             raise PermissionDenied
+        if not check_rate_limit("upload", request):
+            messages.error(
+                request, gettext("Too many uploads, please try again later.")
+            )
+            return redirect(self.get_success_url())
+        return super().post(request, *args, **kwargs)
+
+    def form_valid(self, form):
         upload_objects = cast("UploadObjectsDict", self.objects)
         try:
             count = Memory.objects.import_file(

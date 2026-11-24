@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import json
+from datetime import timedelta
 from time import sleep
 from types import SimpleNamespace
 from typing import TYPE_CHECKING
@@ -27,6 +28,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from jsonschema import validate
+from jwt.exceptions import InvalidAlgorithmError
 from rest_framework.authtoken.models import Token
 from social_core.exceptions import (
     AuthAssociationError,
@@ -41,20 +43,30 @@ from social_core.exceptions import (
 )
 from weblate_schemas import load_schema
 
-from weblate.accounts.forms import ProfileForm, UserSettingsForm
-from weblate.accounts.models import Profile, Subscription
+from weblate.accounts.forms import (
+    CommitForm,
+    GroupAddForm,
+    ProfileForm,
+    UserSettingsForm,
+)
+from weblate.accounts.models import Profile, Subscription, VerifiedEmail
 from weblate.accounts.notifications import (
     NOTIFICATIONS,
     NotificationFrequency,
     NotificationScope,
 )
-from weblate.accounts.views import auth_token_error_message, log_handled_auth_failure
-from weblate.auth.models import Group, Permission, Role, User
+from weblate.accounts.tests.visibility import VisibilityPermissions
+from weblate.accounts.views import (
+    auth_token_error_message,
+    log_handled_auth_failure,
+    team_search,
+)
+from weblate.auth.models import Group, Permission, Role, User, UserBlock
 from weblate.billing.defines import TRIAL_PLAN_SLUG
 from weblate.billing.models import Billing, Plan
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Category, SavedSearch
+from weblate.trans.models import Category, Change, SavedSearch, Translation
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import (
@@ -63,6 +75,8 @@ from weblate.trans.tests.utils import (
     social_core_override_settings,
 )
 from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
+from weblate.utils.docs import get_doc_url
+from weblate.utils.errors import ERROR_LOGGER
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.zammad import ZammadError
@@ -96,6 +110,13 @@ class ViewTest(RepoTestCase):
         user.email = "noreply@example.com"
         user.save()
         return user
+
+    def confirm_sensitive_password(self) -> None:
+        response = self.client.post(
+            reverse("first-factor-verify"),
+            {"target": "sensitive", "password": "testpassword"},
+        )
+        self.assertEqual(response.status_code, 302)
 
     @staticmethod
     def get_backend(name: str = "github") -> mock.Mock:
@@ -349,12 +370,14 @@ class ViewTest(RepoTestCase):
         for mode in ("authenticated", "admins"):
             with (
                 self.subTest(mode=mode),
-                override_settings(USER_PROFILE_VISIBILITY=mode),
+                VisibilityPermissions(profile=mode),
             ):
                 self.client.logout()
                 for url in urls:
                     with self.subTest(url=url):
-                        self.assertEqual(self.client.get(url).status_code, 404)
+                        response = self.client.get(url)
+                        self.assertEqual(response.status_code, 404)
+                        self.assertIn("no-store", response["Cache-Control"])
                 self.client.force_login(viewer)
                 with mock.patch(
                     "weblate.accounts.views.get_avatar_image", return_value=b"avatar"
@@ -380,7 +403,7 @@ class ViewTest(RepoTestCase):
                 viewer.is_superuser = False
                 viewer.save()
 
-    @override_settings(USER_PROFILE_VISIBILITY="admins")
+    @VisibilityPermissions(profile="admins")
     def test_restricted_notification_diagnostics(self) -> None:
         viewer = self.get_user()
         target = User.objects.create_user(
@@ -406,7 +429,7 @@ class ViewTest(RepoTestCase):
         for mode in ("scoped", "disabled"):
             with (
                 self.subTest(mode=mode),
-                override_settings(USER_DIRECTORY_VISIBILITY=mode),
+                VisibilityPermissions(directory=mode),
             ):
                 for query in (
                     "",
@@ -899,6 +922,48 @@ class ViewTest(RepoTestCase):
             reportable=True,
         )
 
+    def test_social_complete_logs_oidc_signature_error(self) -> None:
+        path = reverse("social:complete", args=("oidc",))
+        for cause in (None, InvalidAlgorithmError("private-jwt-error")):
+            with self.subTest(has_cause=cause is not None):
+                error = AuthResponseError(
+                    self.get_backend("oidc"),
+                    "private-provider-detail",
+                    code="invalid_signature",
+                    stage="token_validation",
+                )
+                error.__cause__ = cause
+                with (
+                    mock.patch("weblate.accounts.views.complete", side_effect=error),
+                    self.assertLogs(ERROR_LOGGER, level="WARNING") as logged,
+                ):
+                    response = self.client.get(
+                        path, {"code": "private-authorization-code"}, follow=True
+                    )
+
+                self.assertRedirects(response, reverse("login"))
+                self.assertContains(
+                    response,
+                    "Authentication could not be completed. Please contact the administrator.",
+                )
+                details = (
+                    f"backend=oidc, action=activation, path={path}, "
+                    "code=invalid_signature, source=provider_response, stage=token_validation"
+                )
+                if cause is not None:
+                    details += ", cause=InvalidAlgorithmError"
+                self.assertIn(
+                    f"Could not authenticate: AuthResponseError: {details}",
+                    [record.getMessage() for record in logged.records],
+                )
+                for private_value in (
+                    "private-jwt-error",
+                    "private-provider-detail",
+                    "private-authorization-code",
+                ):
+                    self.assertNotIn(private_value, "\n".join(logged.output))
+                    self.assertNotContains(response, private_value)
+
     def test_auth_token_error_guidance(self) -> None:
         for code, text in (
             (
@@ -979,7 +1044,13 @@ class ViewTest(RepoTestCase):
                     [str(message) for message in get_messages(response.wsgi_request)],
                     [auth_token_error_message(error)],
                 )
-                report.assert_called_once_with("Could not authenticate")
+                report.assert_called_once_with(
+                    "Could not authenticate",
+                    extra_log=(
+                        "backend=github, action=activation, path=/accounts/complete/github/, "
+                        "code=nonce_mismatch, source=provider_response, stage=token_validation"
+                    ),
+                )
                 handled.assert_not_called()
                 self.assertEqual(self.client.session["token_error_test"], "preserved")
                 if authenticated:
@@ -1016,11 +1087,22 @@ class ViewTest(RepoTestCase):
         )
 
     def test_social_complete_reports_provider_http_error(self) -> None:
-        self.assert_social_complete_result(
-            AuthProviderError(self.get_backend(), status_code=401),
-            expected_text="Authentication could not be completed. Please contact the administrator.",
-            reportable=True,
+        error = AuthProviderError(
+            self.get_backend(), stage="token_exchange", status_code=401
         )
+        with (
+            mock.patch("weblate.accounts.views.complete", side_effect=error),
+            self.assertLogs(ERROR_LOGGER, level="WARNING") as logged,
+        ):
+            response = self.client.get(
+                reverse("social:complete", args=("github",)), follow=True
+            )
+        self.assertRedirects(response, reverse("login"))
+        self.assertContains(
+            response,
+            "Authentication could not be completed. Please contact the administrator.",
+        )
+        self.assertIn("stage=token_exchange, status_code=401", "\n".join(logged.output))
 
     def test_social_complete_reports_transient_provider_errors(self) -> None:
         for code in ("connection_failed", "timeout", "rate_limited", "unavailable"):
@@ -1089,12 +1171,39 @@ class ViewTest(RepoTestCase):
     def test_login_ratelimit_login(self) -> None:
         self.test_login_ratelimit(True)
 
+    @override_settings(RATELIMIT_ATTEMPTS=5, AUTH_LOCK_ATTEMPTS=10)
+    def test_successful_login_does_not_clear_other_failures(self) -> None:
+        self.get_user()
+        User.objects.create_user(username="ownuser", password="ownpassword")
+        login_url = reverse("login")
+        for _index in range(4):
+            response = self.client.post(
+                login_url, {"username": "testuser", "password": "invalid"}
+            )
+            self.assertContains(response, "Please enter the correct username")
+
+        response = self.client.post(
+            login_url, {"username": "ownuser", "password": "ownpassword"}
+        )
+        self.assertEqual(response.status_code, 302)
+        self.client.logout()
+
+        response = self.client.post(
+            login_url, {"username": "testuser", "password": "invalid"}
+        )
+        self.assertContains(response, "Please enter the correct username")
+        response = self.client.post(
+            login_url, {"username": "testuser", "password": "invalid"}
+        )
+        self.assertContains(response, "Too many authentication attempts")
+
     def test_password(self) -> None:
         # Create user
         user = self.get_user()
         old_token = user.auth_token.key
         # Login
         self.client.login(username="testuser", password="testpassword")
+        self.confirm_sensitive_password()
         # Change without data
         response = self.client.post(reverse("password"))
         self.assertContains(response, "This field is required.")
@@ -1132,6 +1241,7 @@ class ViewTest(RepoTestCase):
         old_token = user.auth_token.key
 
         self.client.login(username="testuser", password="testpassword")
+        self.confirm_sensitive_password()
         response = self.client.post(
             reverse("password"),
             {
@@ -1151,6 +1261,7 @@ class ViewTest(RepoTestCase):
         user = self.get_user()
         # Login
         self.client.login(username="testuser", password="testpassword")
+        self.confirm_sensitive_password()
 
         # API key reset with GET should fail
         response = self.client.get(reverse("reset-api-key"))
@@ -1242,6 +1353,17 @@ class ProfileTest(FixtureTestCase):
         account = content.split('id="account"', 1)[1].split('id="profile"', 1)[0]
         security = content.split('id="security"', 1)[1].split('id="api"', 1)[0]
         developer = content.split('id="api"', 1)[1].split('id="teams"', 1)[0]
+        for field, anchor in (
+            ("commit_name", "private-version-control-identities"),
+            ("commit_email", "private-version-control-identities"),
+            ("public_email", "public-profile-and-avatars"),
+        ):
+            field_html = content.split(f'id="div_id_{field}"', 1)[1].split(
+                "</label>", 1
+            )[0]
+            self.assertIn(
+                get_doc_url("admin/privacy", anchor, user=self.user), field_html
+            )
         self.assertIn("Personal information", account)
         self.assertIn("Version control identity", account)
         self.assertIn("Commit e-mail", account)
@@ -1273,6 +1395,47 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(self.user.full_name, "Updated name")
         self.assertEqual(self.user.profile.theme, original_theme)
         self.assertEqual(self.user.profile.website, "")
+
+    @override_settings(
+        PRIVATE_COMMIT_EMAIL_OPT_IN=True,
+        PRIVATE_COMMIT_EMAIL_TEMPLATE="user-{user_id}@users.noreply.example.com",
+    )
+    def test_profile_preserves_legacy_private_email(self) -> None:
+        with override_settings(
+            PRIVATE_COMMIT_EMAIL_TEMPLATE="{username}@users.noreply.example.com"
+        ):
+            email = self.user.profile.get_site_commit_email()
+            form = CommitForm(
+                {
+                    "commit_email": email,
+                    "commit_name": Profile.CommitNameChoices.DEFAULT,
+                },
+                instance=self.user.profile,
+            )
+            self.assertTrue(form.is_valid(), form.errors)
+            form.save()
+
+        response = self.client.get(reverse("profile"))
+        self.assertContains(
+            response, f'<option value="{email}" selected>{email}</option>', html=True
+        )
+        response = self.client.post(
+            reverse("profile"),
+            {
+                "activetab": "#account",
+                "username": self.user.username,
+                "full_name": "Updated name",
+                "email": self.user.email,
+                "commit_email": email,
+                "commit_name": Profile.CommitNameChoices.DEFAULT,
+            },
+        )
+        self.assertRedirects(response, f"{reverse('profile')}#account")
+        self.user.refresh_from_db()
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.full_name, "Updated name")
+        self.assertEqual(self.user.profile.commit_email, email)
+        self.assertEqual(self.user.profile.get_commit_email(), email)
 
     def test_profile_ignores_other_tabs_on_public_profile_save(self) -> None:
         original_name = self.user.full_name
@@ -1902,6 +2065,141 @@ class ProfileTest(FixtureTestCase):
             rule["frequency"],
         )
 
+    def test_import_userdata_commit_emails(self) -> None:
+        email = "previous@users.noreply.example.com"
+        for opt_in in (True, False):
+            for template in ("user-{user_id}@users.noreply.example.com", ""):
+                with override_settings(
+                    PRIVATE_COMMIT_EMAIL_OPT_IN=opt_in,
+                    PRIVATE_COMMIT_EMAIL_TEMPLATE=template,
+                ):
+                    current_email = self.user.profile.get_site_commit_email()
+                    for imported in (
+                        email,
+                        self.user.email,
+                        current_email,
+                        "other-user@users.noreply.example.com",
+                        "",
+                    ):
+                        with self.subTest(
+                            opt_in=opt_in, template=template, imported=imported
+                        ):
+                            self.user.profile.commit_email = email
+                            self.user.profile.language = "en"
+                            self.user.profile.save(
+                                update_fields=["commit_email", "language"]
+                            )
+                            data = self.user.profile.dump_data()
+                            data["profile"]["commit_email"] = imported
+                            reset_rate_limit("userdata", user=self.user)
+                            response = self.client.post(
+                                reverse("import-userdata"),
+                                {
+                                    "file": SimpleUploadedFile(
+                                        "user.json",
+                                        json.dumps(
+                                            data, cls=DjangoJSONEncoder
+                                        ).encode(),
+                                    ),
+                                    "commit_identity": "on",
+                                },
+                                follow=True,
+                            )
+                            imported_messages = [
+                                str(message)
+                                for message in get_messages(response.wsgi_request)
+                            ]
+                            expected = imported
+                            if imported == "other-user@users.noreply.example.com":
+                                expected = current_email or email
+                            if (
+                                not current_email
+                                and imported == "other-user@users.noreply.example.com"
+                            ):
+                                self.assertIn(
+                                    "Some settings could not be imported: Commit e-mail",
+                                    imported_messages,
+                                )
+                            else:
+                                self.assertIn(
+                                    "Your settings have been imported.",
+                                    imported_messages,
+                                )
+                            self.user.profile.refresh_from_db()
+                            self.assertEqual(self.user.profile.commit_email, expected)
+                            if imported and current_email:
+                                self.assertEqual(
+                                    self.user.profile.get_commit_email(), expected
+                                )
+
+    @override_settings(REGISTRATION_ALLOW_DISPOSABLE_EMAILS=False)
+    def test_import_userdata_email_validation(self) -> None:
+        social = self.user.social_auth.create(
+            provider="email", uid="import-test", id_key="email"
+        )
+        self.user.profile.language = "en"
+        self.user.profile.save(update_fields=["language"])
+        for email, pattern in (
+            ("imported@outside.example", r"^.*@example\.org$"),
+            ("imported@disposablemails.com", ".*"),
+        ):
+            VerifiedEmail.objects.create(social=social, email=email)
+            with (
+                self.subTest(email=email),
+                override_settings(REGISTRATION_EMAIL_MATCH=pattern),
+            ):
+                data = self.user.profile.dump_data()
+                data["profile"].update(commit_email=email, public_email=email)
+                response = self.client.post(
+                    reverse("import-userdata"),
+                    {
+                        "file": SimpleUploadedFile(
+                            "user.json",
+                            json.dumps(data, cls=DjangoJSONEncoder).encode(),
+                        ),
+                        "commit_identity": "on",
+                    },
+                    follow=True,
+                )
+                imported_messages = [
+                    str(message) for message in get_messages(response.wsgi_request)
+                ]
+                self.assertIn(
+                    "Some settings could not be imported: Public e-mail, Commit e-mail",
+                    imported_messages,
+                )
+                self.user.profile.refresh_from_db()
+                self.assertEqual(self.user.profile.commit_email, "")
+                self.assertEqual(self.user.profile.public_email, "")
+
+    @override_settings(
+        REGISTRATION_EMAIL_MATCH=r"^.*@example\.org$",
+        PRIVATE_COMMIT_EMAIL_TEMPLATE="private@outside.example",
+    )
+    def test_import_userdata_rejects_disallowed_private_email_fallback(self) -> None:
+        self.user.profile.language = "en"
+        self.user.profile.save(update_fields=["language"])
+        data = self.user.profile.dump_data()
+        data["profile"]["commit_email"] = "other@another.example"
+        response = self.client.post(
+            reverse("import-userdata"),
+            {
+                "file": SimpleUploadedFile(
+                    "user.json", json.dumps(data, cls=DjangoJSONEncoder).encode()
+                ),
+                "commit_identity": "on",
+            },
+            follow=True,
+        )
+        imported_messages = [
+            str(message) for message in get_messages(response.wsgi_request)
+        ]
+        self.assertIn(
+            "Some settings could not be imported: Commit e-mail", imported_messages
+        )
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.commit_email, "")
+
     def test_subscription(self) -> None:
         # Get profile page
         response = self.client.get(reverse("profile"))
@@ -1986,13 +2284,7 @@ class ProfileTest(FixtureTestCase):
             ),
         ]
 
-        with (
-            mock.patch(
-                "weblate.accounts.models.cleanup_inaccessible_subscriptions.delay"
-            ),
-            self.captureOnCommitCallbacks(execute=True),
-        ):
-            self.project.remove_user(self.user)
+        self.project.remove_user(self.user)
         self.user.clear_permissions_cache()
 
         self.assertFalse(self.user.allowed_projects.filter(pk=self.project.pk).exists())
@@ -2165,6 +2457,168 @@ class EditUserTest(FixtureTestCase):
         super().setUp()
         self.user.is_superuser = True
         self.user.save()
+
+    def test_team_choices_are_loaded_on_demand(self) -> None:
+        groups = [
+            Group.objects.create(name=f"Large site team {index:02}")
+            for index in range(30)
+        ]
+        with self.assertNumQueries(1):
+            form = GroupAddForm()
+            self.assertNotIn(groups[0].name, str(form["add_group"]))
+        with self.assertNumQueries(2):
+            form = GroupAddForm(
+                {"add_group": groups[0].pk, "limit_languages": ["invalid"]}
+            )
+        self.assertFalse(form.is_valid())
+        with self.assertNumQueries(0):
+            self.assertIn(groups[0].name, str(form["add_group"]))
+            self.assertNotIn(groups[1].name, str(form["add_group"]))
+        self.assertEqual(form.cleaned_data["add_group"], groups[0])
+        for value in ("invalid", "9" * 100, str(groups[-1].pk + 1000)):
+            form = GroupAddForm({"add_group": value})
+            self.assertFalse(form.is_valid())
+            self.assertNotIn(groups[0].name, str(form["add_group"]))
+        response = self.client.get(self.user.get_absolute_url())
+        self.assertNotContains(response, groups[1].name)
+
+    def test_team_search(self) -> None:
+        workspace = Workspace.objects.create(name="Lookup workspace")
+        groups = [
+            Group.objects.create(
+                name=f"Lookup {index:02}", defining_workspace=workspace
+            )
+            for index in range(30)
+        ]
+        url = reverse("team-search")
+        self.assertEqual(url, "/js/teams/")
+        response = self.client.get(url, {"q": workspace.name})
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data["more"])
+        self.assertEqual(len(data["results"]), 25)
+        self.assertEqual(
+            data["results"][0], {"id": groups[0].pk, "text": groups[0].long_name()}
+        )
+        data = self.client.get(url, {"q": workspace.name, "page": "2"}).json()
+        self.assertFalse(data["more"])
+        self.assertEqual(
+            [item["id"] for item in data["results"]],
+            [group.pk for group in groups[25:]]
+            + list(
+                workspace.defined_groups.exclude(pk__in=[group.pk for group in groups])
+                .order()
+                .values_list("pk", flat=True)
+            ),
+        )
+        for page in ("invalid", "0", "-1", "10001"):
+            self.assertEqual(self.client.get(url, {"page": page}).status_code, 400)
+        self.assertEqual(self.client.post(url).status_code, 405)
+        self.user.is_superuser = False
+        self.user.save(update_fields=["is_superuser"])
+        self.assertEqual(self.client.get(url).status_code, 403)
+        self.client.logout()
+        self.assertEqual(self.client.get(url).status_code, 403)
+
+    def test_team_search_query_count(self) -> None:
+        workspace = Workspace.objects.create(name="Query workspace")
+        for index in range(3):
+            Group.objects.create(
+                name=f"Query team {index}", defining_workspace=workspace
+            )
+        request = self.get_request()
+        request.GET = {"q": workspace.name}
+        # Warm permission caches before measuring relation loading.
+        request.user.has_perm("management.use")
+        request.user.has_perm("user.edit")
+        with self.assertNumQueries(1):
+            response = team_search(request)
+        self.assertEqual(
+            len(json.loads(response.content)["results"]),
+            workspace.defined_groups.count(),
+        )
+
+    def test_recent_contributions_are_distinct_and_limited(self) -> None:
+        source = self.component.source_translation
+        languages = Language.objects.exclude(
+            pk__in=self.component.translation_set.values("language_id")
+        ).order_by("code")[:13]
+        translations = Translation.objects.bulk_create(
+            [
+                Translation(
+                    component=self.component,
+                    language=language,
+                    plural=source.plural,
+                    language_code=language.code,
+                    filename=f"preview-{language.code}.po",
+                )
+                for language in languages
+            ]
+        )
+        now = timezone.now()
+        for index, translation in enumerate(translations):
+            change = Change.objects.create(
+                translation=translation,
+                component=self.component,
+                project=self.project,
+                user=self.user,
+                author=self.user,
+                action=ActionEvents.USER_REVERT,
+                details={"username": self.user.username, "email": self.user.email},
+            )
+            Change.objects.filter(pk=change.pk).update(
+                timestamp=now - timedelta(hours=index)
+            )
+        # Many changes on one translation must not crowd out distinct results.
+        for _index in range(12):
+            Change.objects.create(
+                translation=translations[0],
+                component=self.component,
+                project=self.project,
+                user=self.user,
+                author=self.user,
+                action=ActionEvents.USER_REVERT,
+                details={"username": self.user.username, "email": self.user.email},
+            )
+        # An old contribution is excluded even when its translation ID is small.
+        old = Change.objects.create(
+            translation=source,
+            component=self.component,
+            project=self.project,
+            user=self.user,
+            author=self.user,
+            action=ActionEvents.USER_REVERT,
+            details={"username": self.user.username, "email": self.user.email},
+        )
+        Change.objects.filter(pk=old.pk).update(timestamp=now - timedelta(days=91))
+        response = self.client.get(self.user.get_absolute_url())
+        selected = response.context["page_user_translations"]
+        self.assertCountEqual(
+            [translation.pk for translation in selected],
+            [translation.pk for translation in translations[:10]],
+        )
+        # With a tied latest timestamp, the translation ID determines selection.
+        Change.objects.filter(translation__in=translations).update(timestamp=now)
+        response = self.client.get(self.user.get_absolute_url())
+        self.assertCountEqual(
+            [
+                translation.pk
+                for translation in response.context["page_user_translations"]
+            ],
+            sorted(translation.pk for translation in translations)[:10],
+        )
+
+    def test_profile_blocks_load_related_objects(self) -> None:
+        UserBlock.objects.create(user=self.user, project=self.project)
+        response = self.client.get(self.user.get_absolute_url())
+        blocks = list(response.context["page_user_blocks"])
+        with self.assertNumQueries(0):
+            self.assertEqual(
+                [block.project.name for block in blocks], [self.project.name]
+            )
+            self.assertEqual(
+                [block.user.username for block in blocks], [self.user.username]
+            )
 
     def test_edit(self) -> None:
         # Change user as superuser

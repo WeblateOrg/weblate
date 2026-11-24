@@ -12,6 +12,9 @@ from django.http import HttpResponse, HttpResponseBase
 from django.http.request import HttpRequest
 from django.test import RequestFactory
 from django.test.utils import override_settings
+from django.urls import resolve, reverse
+from social_core.backends.auth0 import Auth0OAuth2
+from social_core.backends.github import GithubOAuth2
 
 from weblate.middleware import CSPBuilder, ProxyMiddleware
 
@@ -97,6 +100,50 @@ class ProxyTest(TestCase):
 class CSPBuilderTest(TestCase):
     def setUp(self) -> None:
         self.factory = RequestFactory()
+
+    @override_settings(CSP_FORM_SRC=["downstream-idp.example"])
+    def test_authentication_pages_allow_provider_form_redirects(self) -> None:
+        with (
+            patch("weblate.middleware.load_strategy"),
+            patch(
+                "weblate.middleware.get_auth_backends",
+                return_value={"auth0": Auth0OAuth2, "github": GithubOAuth2},
+            ),
+            patch("weblate.middleware.cache.get", return_value=None),
+            patch("weblate.middleware.cache.set"),
+            patch.object(
+                Auth0OAuth2,
+                "authorization_url",
+                return_value="https://auth.example/authorize",
+            ),
+            patch.object(
+                GithubOAuth2,
+                "authorization_url",
+                return_value="https://github.com/login/oauth/authorize",
+            ),
+        ):
+            for view_name, args in (
+                ("first-factor-verify", ()),
+                ("login", ()),
+                ("profile", ()),
+                ("register", ()),
+                ("social:begin", ("github",)),
+                ("password", ()),
+            ):
+                with self.subTest(view_name=view_name):
+                    request = self.factory.get(reverse(view_name, args=args))
+                    request.resolver_match = resolve(request.path)
+                    builder = CSPBuilder(request, HttpResponse())
+                    sources = builder.directives["form-action"]
+
+                    self.assertIn("'self'", sources)
+                    self.assertIn("downstream-idp.example", sources)
+                    if view_name == "password":
+                        self.assertNotIn("auth.example", sources)
+                        self.assertNotIn("github.com", sources)
+                    else:
+                        self.assertIn("auth.example", sources)
+                        self.assertIn("github.com", sources)
 
     @override_settings(
         SENTRY_DSN="https://public@o123.ingest.sentry.io/456",

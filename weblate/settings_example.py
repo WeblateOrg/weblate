@@ -14,6 +14,7 @@ from weblate.api.spectacular import (
     get_drf_standardized_errors_settings,
     get_spectacular_settings,
 )
+from weblate.utils.defaults import DEFAULT_TRANSLATION_MAX_UNITS
 
 # Title of site to use
 SITE_TITLE = "Weblate"
@@ -294,6 +295,7 @@ SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.social_auth.social_uid",
     "social_core.pipeline.social_auth.auth_allowed",
     "social_core.pipeline.social_auth.social_user",
+    "weblate.accounts.pipeline.verify_first_factor_sso",
     "weblate.accounts.pipeline.store_params",
     "weblate.accounts.pipeline.verify_open",
     "social_core.pipeline.user.get_username",
@@ -302,16 +304,17 @@ SOCIAL_AUTH_PIPELINE = (
     "weblate.accounts.pipeline.revoke_mail_code",
     "weblate.accounts.pipeline.ensure_valid",
     "weblate.accounts.pipeline.remove_account",
-    "social_core.pipeline.social_auth.associate_by_email",
+    "weblate.accounts.pipeline.associate_by_email",
+    "weblate.accounts.pipeline.verify_recent_second_factor",
     "weblate.accounts.pipeline.reauthenticate",
     "weblate.accounts.pipeline.verify_username",
     "social_core.pipeline.user.create_user",
     "social_core.pipeline.social_auth.associate_user",
-    "weblate.accounts.pipeline.handle_invite",
     "social_core.pipeline.social_auth.load_extra_data",
     "weblate.accounts.pipeline.second_factor",
     "weblate.accounts.pipeline.user_full_name",
     "weblate.accounts.pipeline.store_email",
+    "weblate.accounts.pipeline.handle_invite",
     "weblate.accounts.pipeline.notify_connect",
     "weblate.accounts.pipeline.password_reset",
     "social_core.pipeline.user.sync_groups",
@@ -412,12 +415,26 @@ REGISTRATION_ALLOW_DISPOSABLE_EMAILS = False
 REQUIRE_LOGIN = False
 
 # Middleware
+
+# Optional anonymous proof of work; see BOT_PROTECTION_ENABLED documentation.
+BOT_PROTECTION_ENABLED = False
+BOT_PROTECTION_DIFFICULTY = 4
+BOT_PROTECTION_CHALLENGE_AGE = 300
+BOT_PROTECTION_COOKIE_AGE = 3600
+BOT_PROTECTION_CACHE_ALIAS = "default"
+BOT_PROTECTION_EXEMPT_PATHS = []
+BOT_PROTECTION_CRAWLER_RULES = {}
+BOT_PROTECTION_UNWANTED_AGENTS = []
+BOT_PROTECTION_UNWANTED_ACTION = "challenge"
+BOT_PROTECTION_CRAWLER_FILE = ""
+
 MIDDLEWARE = [
     "weblate.middleware.RedirectMiddleware",
     "weblate.middleware.ProxyMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "weblate.utils.bot_protection.BotProtectionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "weblate.accounts.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -686,6 +703,12 @@ SESSION_COOKIE_SAMESITE = "Lax"
 DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
 # Maximum allowed uploaded translation file size
 TRANSLATION_UPLOAD_MAX_SIZE = 50000000
+# Maximum size of translation files before parsing, including repository files.
+# None follows TRANSLATION_UPLOAD_MAX_SIZE.
+TRANSLATION_MAX_SIZE = None
+
+# Shared count limit for translation strings, CSV and XLSX rows, and memory imports.
+TRANSLATION_MAX_UNITS = DEFAULT_TRANSLATION_MAX_UNITS
 # Maximum allowed uploaded component ZIP file size
 COMPONENT_ZIP_UPLOAD_MAX_SIZE = 50000000
 # Maximum allowed uploaded project backup ZIP file size
@@ -981,6 +1004,7 @@ CELERY_WORKER_PREFETCH_MULTIPLIER = 1
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 CELERY_TASK_ROUTES = {
     "weblate.trans.tasks.auto_translate*": {"queue": "translate"},
+    "weblate.trans.tasks.bulk_edit_task": {"queue": "translate"},
     "weblate.accounts.tasks.notify_*": {"queue": "notify"},
     "weblate.accounts.tasks.send_mails": {"queue": "notify"},
     "weblate.addons.tasks.addon_change": {"queue": "notify"},

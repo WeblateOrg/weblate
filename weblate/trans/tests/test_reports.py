@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from datetime import UTC, datetime, timedelta
 from decimal import Decimal
 from unittest.mock import patch
@@ -11,6 +13,7 @@ from django.utils import timezone
 
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.memory.models import Memory, MemoryScope
+from weblate.trans.actions import ActionEvents
 from weblate.trans.forms import (
     MIN_COST_ESTIMATE_TM_THRESHOLD,
     CountsReportsForm,
@@ -19,6 +22,7 @@ from weblate.trans.forms import (
 from weblate.trans.models import (
     Category,
     Change,
+    Comment,
     PendingUnitChange,
     Project,
     Report,
@@ -30,6 +34,7 @@ from weblate.trans.models.component import ComponentLink
 from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import TESTPASSWORD
 from weblate.trans.views.reports import (
+    collect_report_data,
     generate_cost_estimate,
     generate_counts,
     generate_credits,
@@ -247,7 +252,7 @@ class ReportsTest(BaseReportsTest):
             slug="linked-report-project",
         )
         category = self.create_category(project=project)
-        ComponentLink.objects.create(
+        link = ComponentLink.objects.create(
             component=self.component,
             project=project,
             category=category,
@@ -269,6 +274,49 @@ class ReportsTest(BaseReportsTest):
         self.assertEqual(credit_data, [])
         self.assertEqual(costs["total"]["count"], 0)
         self.assertEqual(len(language_choices), 1)
+
+        child = self.create_category(project=project, category=category)
+        parameters = {
+            "start": (timezone.now() - timedelta(days=1)).isoformat(),
+            "end": (timezone.now() + timedelta(days=1)).isoformat(),
+            "own_data": False,
+        }
+        for linked_category in (category, child):
+            link.category = linked_category
+            link.save(update_fields=["category"])
+            for mode in (
+                CountsReportsForm.COUNTING_MODE_UNIQUE,
+                CountsReportsForm.COUNTING_MODE_ALL,
+            ):
+                with self.subTest(category=linked_category.pk, counting_mode=mode):
+                    self.assertEqual(
+                        collect_report_data(
+                            Report.Kind.CONTRIBUTOR_STATS,
+                            {**parameters, "counting_mode": mode},
+                            self.user,
+                            category,
+                        ),
+                        [],
+                    )
+
+        owned = self.create_po(project=project, category=child)
+        translation = owned.translation_set.get(language__code="cs")
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n", translation=translation)
+        category = Category.objects.get(pk=category.pk)
+        for mode in (
+            CountsReportsForm.COUNTING_MODE_UNIQUE,
+            CountsReportsForm.COUNTING_MODE_ALL,
+        ):
+            with self.subTest(counting_mode=mode):
+                self.assertEqual(
+                    collect_report_data(
+                        Report.Kind.CONTRIBUTOR_STATS,
+                        {**parameters, "counting_mode": mode},
+                        self.user,
+                        category,
+                    ),
+                    self.counts_data,
+                )
 
     def test_counts_one(self) -> None:
         self.add_change()
@@ -292,6 +340,25 @@ class ReportsTest(BaseReportsTest):
             component=self.component,
         )
         self.assertEqual(data, self.counts_data)
+
+    def test_counts_large_history_distance(self) -> None:
+        Change.objects.all().delete()
+        Change.objects.create(
+            unit=self.get_unit("Hello, world!\n"),
+            user=self.user,
+            author=self.user,
+            action=ActionEvents.CHANGE,
+            old="a" * 100_000,
+            target="b" * 100_000,
+        )
+        with patch(
+            "weblate.trans.models.change.DamerauLevenshtein.distance",
+            side_effect=AssertionError("Unbounded exact distance calculation"),
+        ):
+            data = self.generate_count_data()
+        self.assertEqual(len(data), 1)
+        self.assertEqual(data[0]["edits"], 100_000)
+        self.assertEqual(data[0]["edits_edit"], 100_000)
 
     def test_counts_include_child_category_components(self) -> None:
         parent = self.move_component_to_child_category()
@@ -382,6 +449,49 @@ class ReportsTest(BaseReportsTest):
         self.assertEqual(data[self.user.email]["count_edit"], 1)
         self.assertEqual(data[user.email]["count"], 1)
         self.assertEqual(data[user.email]["count_edit"], 1)
+
+    def test_cost_author_filters_use_report_authorization(self) -> None:
+        self.user.is_superuser = False
+        self.user.save(update_fields=["is_superuser"])
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.project.add_user(self.user, "Administration")
+        permission = Permission.objects.get(codename="contribution.view_author")
+        for role in Role.objects.filter(permissions=permission):
+            role.permissions.remove(permission)
+        self.user.clear_permissions_cache()
+        unit = self.get_unit("Thank you for using Weblate.")
+        self.assertTrue(self.user.has_perm("reports.view", self.component))
+        self.assertFalse(
+            self.user.has_perm("contribution.view_author", unit.translation)
+        )
+        Change.objects.create(
+            unit=unit,
+            user=self.user,
+            author=self.user,
+            action=ActionEvents.CHANGE,
+            target="Report edit",
+        )
+        Suggestion.objects.create(unit=unit, user=self.user, target="Report suggestion")
+        Comment.objects.create(unit=unit, user=self.user, comment="Report comment")
+        Comment.objects.create(
+            unit=unit.source_unit, user=self.user, comment="Source comment"
+        )
+        for field in (
+            "changed_by",
+            "suggestion_author",
+            "comment_author",
+            "source_comment_author",
+        ):
+            query = f"id:{unit.pk} {field}:{self.user.username}"
+            with self.subTest(field=field):
+                self.assertFalse(
+                    Unit.objects.filter(pk=unit.pk)
+                    .search(query, user=self.user)
+                    .exists()
+                )
+                data = self.generate_cost_data(q=query)
+                self.assertEqual(sum(bucket["count"] for bucket in data["buckets"]), 1)
 
     def test_cost_estimate_exact_memory(self) -> None:
         unit = self.get_unit("Thank you for using Weblate.")

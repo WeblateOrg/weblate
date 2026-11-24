@@ -13,6 +13,7 @@ from typing import TYPE_CHECKING, TypedDict
 
 import httpx2
 import jsonschema.exceptions
+from asgiref.sync import async_to_sync
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.template.loader import render_to_string
@@ -25,13 +26,15 @@ from weblate.addons.base import ChangeBaseAddon
 from weblate.addons.forms import BaseWebhooksAddonForm, WebhooksAddonForm
 from weblate.trans.util import split_plural
 from weblate.utils.const import WEBHOOKS_SECRET_PREFIX
-from weblate.utils.requests import open_validated_url
+from weblate.utils.requests import async_open_validated_url
 from weblate.utils.site import get_site_url
 from weblate.utils.views import key_name
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
     from datetime import datetime
+
+    from django.http import HttpRequest
 
     from weblate.addons.models import AddonActivityLog
     from weblate.auth.models import User
@@ -66,7 +69,7 @@ class MessageNotDeliveredError(Exception):
     """Exception raised when a message could not be delivered."""
 
 
-def read_webhook_response(response: httpx2.Response) -> WebhookResponse:
+async def read_webhook_response(response: httpx2.Response) -> WebhookResponse:
     """Read a webhook response within the fixed activity-log limits."""
     header_size = sum(
         len(name) + len(value) + 4 for name, value in response.headers.raw
@@ -84,7 +87,7 @@ def read_webhook_response(response: httpx2.Response) -> WebhookResponse:
         raise MessageNotDeliveredError(msg)
 
     content = bytearray()
-    for chunk in response.iter_bytes():
+    async for chunk in response.aiter_bytes():
         if len(content) + len(chunk) > MAX_WEBHOOK_RESPONSE_BODY:
             msg = "Unable to deliver webhook: response body exceeds 1 MiB."
             raise MessageNotDeliveredError(msg)
@@ -103,6 +106,30 @@ def read_webhook_response(response: httpx2.Response) -> WebhookResponse:
     }
 
 
+async def send_webhook(
+    url: str, headers: dict, payload: PayloadType
+) -> WebhookResponse:
+    request_headers = httpx2.Headers(headers)
+    request_headers["Accept-Encoding"] = "identity"
+    try:
+        async with async_open_validated_url(
+            method="post",
+            url=url,
+            json=payload,
+            headers=request_headers,
+            timeout=15,
+            raise_for_status=False,
+            allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
+            private_allowlist=settings.WEBHOOK_PRIVATE_ALLOWLIST,
+        ) as response:
+            return await read_webhook_response(response)
+    except ValidationError as error:
+        raise MessageNotDeliveredError("; ".join(error.messages)) from error
+    except httpx2.TransportError as error:
+        msg = "Unable to deliver webhook: could not connect to the remote server."
+        raise MessageNotDeliveredError(msg) from error
+
+
 class JSONWebhookBaseAddon(ChangeBaseAddon):
     icon = "webhook.svg"
     multiple = True
@@ -114,33 +141,24 @@ class JSONWebhookBaseAddon(ChangeBaseAddon):
         return {}
 
     def render_activity_log(self, activity: AddonActivityLog) -> str:
+        result = activity.details.get("result")
+        if not isinstance(result, dict) or any(
+            not isinstance(part := result.get(key), dict)
+            or not isinstance(part.get("headers"), dict)
+            for key in ("request", "response")
+        ):
+            return super().render_activity_log(activity)
         return render_to_string(
             "addons/webhook_log.html",
-            {"activity": activity, "details": activity.details.get("result")},
+            {"activity": activity, "details": result},
         )
 
     def send_message(
         self, change: Change, headers: dict, payload: PayloadType
     ) -> WebhookResponse:
-        request_headers = httpx2.Headers(headers)
-        request_headers["Accept-Encoding"] = "identity"
-        try:
-            with open_validated_url(
-                method="post",
-                url=self.instance.configuration["webhook_url"],
-                json=payload,
-                headers=request_headers,
-                timeout=15,
-                raise_for_status=False,
-                allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
-                private_allowlist=settings.WEBHOOK_PRIVATE_ALLOWLIST,
-            ) as response:
-                return read_webhook_response(response)
-        except ValidationError as error:
-            raise MessageNotDeliveredError("; ".join(error.messages)) from error
-        except httpx2.TransportError as error:
-            msg = "Unable to deliver webhook: could not connect to the remote server."
-            raise MessageNotDeliveredError(msg) from error
+        return async_to_sync(send_webhook)(
+            self.instance.configuration["webhook_url"], headers, payload
+        )
 
     def change_event(
         self, change: Change, activity_log_id: int | None = None
@@ -178,7 +196,9 @@ class WebhookAddon(JSONWebhookBaseAddon):
 
     settings_form = WebhooksAddonForm
 
-    def get_integration_instructions(self, user: User) -> str:
+    def get_integration_instructions(
+        self, user: User, request: HttpRequest | None = None
+    ) -> str:
         return render_to_string(
             "addons/webhook_integration.html", {"addon": self, "user": user}
         )
@@ -291,7 +311,9 @@ class SlackWebhookAddon(JSONWebhookBaseAddon):
     settings_form = BaseWebhooksAddonForm
     version_added = "5.12"
 
-    def get_integration_instructions(self, user: User) -> str:
+    def get_integration_instructions(
+        self, user: User, request: HttpRequest | None = None
+    ) -> str:
         return render_to_string(
             "addons/slack_integration.html", {"addon": self, "user": user}
         )
@@ -314,7 +336,8 @@ class SlackWebhookAddon(JSONWebhookBaseAddon):
                     "type": "section",
                     "text": {
                         "type": "plain_text",
-                        "text": str(change.get_details_display()) or "No details",
+                        "text": str(change.get_details_display(trusted=True))
+                        or "No details",
                     },
                     "accessory": {
                         "type": "button",

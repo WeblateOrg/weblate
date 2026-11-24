@@ -3,7 +3,8 @@
 {% load i18n %}
 
 {% block breadcrumbs %}
-  <li class="breadcrumb-item">{% translate "Connect GitHub account" %}</li>
+  {% include "vcs/workspace_breadcrumbs.html" with workspace=workspace only %}
+  <li class="breadcrumb-item">{% translate "Choose GitHub host" %}</li>
 {% endblock breadcrumbs %}
 
 {% block content %}

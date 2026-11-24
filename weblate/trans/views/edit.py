@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
-from django.db.models import Case, IntegerField, Q, Value, When
+from django.db.models import Case, F, IntegerField, Q, Value, When
 from django.db.models.functions import MD5, Lower
 from django.http import (
     HttpResponse,
@@ -29,12 +29,13 @@ from django.utils.html import format_html
 from django.utils.translation import gettext, gettext_lazy, ngettext
 from django.views.decorators.http import require_POST
 
+from weblate.accounts.visibility import can_view_contributor
 from weblate.auth.results import PermissionResult
 from weblate.checks.models import CHECKS, get_display_checks
 from weblate.glossary.forms import TermForm
 from weblate.glossary.models import fetch_glossary_terms, get_glossary_terms
 from weblate.screenshots.forms import ScreenshotForm
-from weblate.trans.actions import ActionEvents
+from weblate.trans.actions import ACTIONS_EDIT_TARGET, ACTIONS_FILE_TARGET, ActionEvents
 from weblate.trans.exceptions import (
     FileParseError,
     SuggestionSimilarToTranslationError,
@@ -71,23 +72,33 @@ from weblate.trans.models import (
 )
 from weblate.trans.models.unit import fill_in_source_translation
 from weblate.trans.tasks import auto_translate
-from weblate.trans.util import redirect_next, render
-from weblate.trans.validators import SUGGESTION_REJECTION_REASON_LENGTH
+from weblate.trans.util import PLURAL_SEPARATOR, redirect_next, render
+from weblate.trans.validators import (
+    SUGGESTION_REJECTION_REASON_LENGTH,
+    TranslationTextTooLongError,
+)
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
 from weblate.utils.celery import sanitize_task_result, store_task_metadata
+from weblate.utils.errors import log_handled_exception
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.messages import get_message_kind
-from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
+from weblate.utils.ratelimit import (
+    check_rate_limit,
+    revert_rate_limit,
+    session_ratelimit_post,
+)
 from weblate.utils.state import (
     STATE_APPROVED,
+    STATE_READONLY,
     STATE_TRANSLATED,
 )
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage, WorkspaceLanguage
 from weblate.utils.tracing import start_span
 from weblate.utils.views import parse_path, parse_path_units, show_form_errors
+from weblate.vcs.base import RepositoryTemplateError
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -246,11 +257,11 @@ def get_other_units(user: User, unit: Unit):
 
         units = (
             Unit.objects.filter_access(user)
-            .with_effective_source(custom_sources=custom_sources, select=False)
             .filter(
                 translation__component__project=component.project,
                 translation__language=translation.language,
             )
+            .with_effective_source(custom_sources=custom_sources, select=False)
             .filter(matches)
             .alias(
                 matches_current=Case(
@@ -515,7 +526,7 @@ class SearchNavigation:
     def get_ordered_units(self):
         """Perform the ordered search."""
         return self.unit_set.search(
-            self.query_string, project=self.project
+            self.query_string, project=self.project, user=self.request.user
         ).order_by_request(self.cleaned_data, self.base)
 
     def get_ordered_unit_ids(self) -> list[int]:
@@ -974,6 +985,9 @@ def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:
             user,
             form.cleaned_data["target"],
             form.cleaned_data["state"],
+            change_details={"explicit_approval": True}
+            if form.cleaned_data["state"] == STATE_APPROVED
+            else None,
             request=request,
             add_alternative=add_alternative,
             expected_source_hash=form.cleaned_data["contentsum"],
@@ -1080,52 +1094,71 @@ def handle_translate(
     return HttpResponseRedirect(this_unit_url)
 
 
-def handle_merge(unit, request: AuthenticatedHttpRequest, next_unit_url):
-    """Handle unit merging."""
-    mergeform = MergeForm(request.user, unit, request.POST)
-    if not mergeform.is_valid():
-        show_form_errors(request, mergeform)
-        return None
+def handle_merge(
+    unit: Unit, request: AuthenticatedHttpRequest, next_unit_url: str
+) -> HttpResponseRedirect | None:
+    """Handle unit merging against the current, locked destination."""
+    from weblate.trans.models.source import source_operation  # ruff: ignore[import-outside-top-level]
 
-    merged = mergeform.cleaned_data["merge_unit"]
+    with source_operation(unit.translation.component):
+        unit = get_object_or_404(Unit.objects.select_for_update(), pk=unit.pk)
+        mergeform = MergeForm(request.user, unit, request.POST)
+        if not mergeform.is_valid():
+            show_form_errors(request, mergeform)
+            return None
 
-    edit_permission = request.user.has_perm("unit.edit", unit)
-    if not edit_permission:
-        show_unit_edit_denied(request, edit_permission)
-        return None
+        merged = mergeform.cleaned_data["merge_unit"]
 
-    # Store unit
-    state = merged.state
-    if state == STATE_APPROVED and (
-        not unit.translation.enable_review
-        or not request.user.has_perm("unit.review", unit)
-    ):
-        state = STATE_TRANSLATED
-    unit.translate(request.user, merged.get_target_plurals(), state)
-    # Redirect to next entry
-    return HttpResponseRedirect(next_unit_url)
+        edit_permission = request.user.has_perm("unit.edit", unit)
+        if not edit_permission:
+            show_unit_edit_denied(request, edit_permission)
+            return None
+
+        # Store unit
+        state = merged.state
+        if state == STATE_READONLY or (
+            state == STATE_APPROVED
+            and (
+                not unit.translation.enable_review
+                or not request.user.has_perm("unit.review", unit)
+            )
+        ):
+            state = STATE_TRANSLATED
+        try:
+            unit.translate(request.user, merged.get_target_plurals(), state)
+        except TranslationTextTooLongError as error:
+            messages.error(request, error.messages[0])
+            return None
+        # Redirect to next entry
+        return HttpResponseRedirect(next_unit_url)
 
 
-def handle_revert(unit, request: AuthenticatedHttpRequest, next_unit_url):
-    revertform = RevertForm(unit, request.POST)
-    if not revertform.is_valid():
-        show_form_errors(request, revertform)
-        return None
+def handle_revert(
+    unit: Unit, request: AuthenticatedHttpRequest, next_unit_url: str
+) -> HttpResponseRedirect | None:
+    from weblate.trans.models.source import source_operation  # ruff: ignore[import-outside-top-level]
 
-    change = revertform.cleaned_data["revert_change"]
+    with source_operation(unit.translation.component):
+        unit = get_object_or_404(Unit.objects.select_for_update(), pk=unit.pk)
+        revertform = RevertForm(unit, request.POST)
+        if not revertform.is_valid():
+            show_form_errors(request, revertform)
+            return None
 
-    edit_permission = request.user.has_perm("unit.edit", unit)
-    if not edit_permission:
-        show_unit_edit_denied(request, edit_permission)
-        return None
+        change = revertform.cleaned_data["revert_change"]
 
-    if not change.revert(
-        request.user, change_action=ActionEvents.REVERT, request=request
-    ):
-        messages.error(request, gettext("Could not revert the selected change."))
-        return None
-    # Redirect to next entry
-    return HttpResponseRedirect(next_unit_url)
+        edit_permission = request.user.has_perm("unit.edit", unit)
+        if not edit_permission:
+            show_unit_edit_denied(request, edit_permission)
+            return None
+
+        if not change.revert(
+            request.user, change_action=ActionEvents.REVERT, request=request
+        ):
+            messages.error(request, gettext("Could not revert the selected change."))
+            return None
+        # Redirect to next entry
+        return HttpResponseRedirect(next_unit_url)
 
 
 def check_suggest_permissions(
@@ -1196,10 +1229,14 @@ def perform_suggestion_action(
 
     # Perform operation
     if mode in {"accept", "accept_edit", "accept_approve"}:
-        suggestion.accept(
-            request,
-            state=STATE_APPROVED if mode == "accept_approve" else STATE_TRANSLATED,
-        )
+        try:
+            suggestion.accept(
+                request,
+                state=STATE_APPROVED if mode == "accept_approve" else STATE_TRANSLATED,
+            )
+        except TranslationTextTooLongError as error:
+            messages.error(request, error.messages[0])
+            return None
     elif mode in {"delete", "spam"}:
         rejection_reason = request.POST.get("rejection", "")
         if len(rejection_reason) > SUGGESTION_REJECTION_REASON_LENGTH:
@@ -1409,6 +1446,66 @@ def get_translate_unit(
     return TranslateUnitResult(search_result, num_results, offset, unit)
 
 
+def get_editor_contributors(
+    unit: Unit, viewer: User
+) -> tuple[User | None, User | None]:
+    if not can_view_contributor(viewer, unit):
+        return None, None
+
+    target_actions = ACTIONS_EDIT_TARGET | ACTIONS_FILE_TARGET
+    if unit.is_source:
+        target_actions.add(ActionEvents.SOURCE_CHANGE)
+    history = unit.change_set.order_by("-timestamp", "-pk")
+    edited = Q(action__in=target_actions) & ~Q(old=F("target"))
+    # NEW_UNIT snapshots the initial target in both old and target.
+    created_with_text = Q(action=ActionEvents.NEW_UNIT) & ~Q(
+        target__regex=rf"^({PLURAL_SEPARATOR})*$"
+    )
+    edit = (
+        history.filter(edited | created_with_text)
+        .select_related("author")
+        .only("unit_id", "author")
+        .first()
+    )
+    translator = edit.author if edit else None
+    if not unit.approved:
+        return translator, None
+
+    # The latest target or state transition bounds the current approval,
+    # even when a file import restores previously approved text.
+    state_actions = target_actions | {
+        ActionEvents.SOURCE_CHANGE,
+        ActionEvents.ENFORCED_CHECK,
+    }
+    changed_state = Q(
+        action__in=state_actions, details__has_keys=["state", "old_state"]
+    ) & ~Q(details__state=F("details__old_state"))
+    legacy_approval = Q(action=ActionEvents.APPROVE) & ~Q(details__has_key="old_state")
+    revision = (
+        history.filter(edited | changed_state | legacy_approval | created_with_text)
+        .select_related("user")
+        .only("unit_id", "user", "action", "details", "target")
+        .first()
+    )
+    if (
+        revision is None
+        or revision.target != unit.target
+        or revision.action not in ACTIONS_EDIT_TARGET
+    ):
+        return translator, None
+
+    if revision.action == ActionEvents.APPROVE or (
+        revision.details.get("state") == STATE_APPROVED
+        and (
+            revision.action == ActionEvents.NEW_UNIT
+            or revision.details.get("old_state", STATE_APPROVED) != STATE_APPROVED
+            or revision.details.get("explicit_approval") is True
+        )
+    ):
+        return translator, revision.user
+    return translator, None
+
+
 @transaction.atomic
 def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpResponse:
     """Translate, suggest and search view."""
@@ -1496,8 +1593,8 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
             glossaries=get_addterm_glossaries(addable_glossary_ids),
             filter_permissions=False,
         )
-    other_languages_count = max(unit.source_unit.unit_set.count() - 1, 0)
     prepare_glossary_terms([unit], project, full=True)
+    last_translator, last_approver = get_editor_contributors(unit, user)
 
     return render(
         request,
@@ -1517,6 +1614,8 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
             "project": project,
             "component": obj.component if isinstance(obj, Translation) else None,
             "unit": unit,
+            "last_translator": last_translator,
+            "last_approver": last_approver,
             "nearby": unit.nearby(user.profile.nearby_strings),
             "nearby_keys": unit.nearby_keys(user.profile.nearby_strings),
             "can_go_next_section": offset + user.profile.nearby_strings <= num_results,
@@ -1550,7 +1649,7 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
             "glossaries": glossaries,
             "addterm_form": addterm_form,
             "last_changes": unit.change_set.prefetch().recent(skip_preload="unit"),
-            "other_languages_count": other_languages_count,
+            "other_languages_count": max(unit.source_unit.unit_set.count() - 1, 0),
             "screenshots": (unit.source_unit.screenshots.all() | unit.screenshots.all())
             .distinct()
             .order(),
@@ -1566,10 +1665,7 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
             "translation_file_link": lambda: try_linkify_filename(
                 unit.translation.filename,
                 unit.translation.filename,
-                # '1' as a placeholder, because `get_repoweb_link` can't currently
-                # generate links without line specified. Although it's ok to use
-                # '' or '0' on GitHub or GitLab, let's play it safe for now.
-                "1",
+                str(unit.line_number) if unit.line_number is not None else "1",
                 unit,
                 user,
                 is_translation=True,
@@ -1960,6 +2056,20 @@ def load_zen(request: AuthenticatedHttpRequest, path):
 @transaction.atomic
 def save_zen(request: AuthenticatedHttpRequest, path):
     """Save handler for zen mode."""
+    if not check_rate_limit("translate", request):
+        messages.error(
+            request,
+            gettext(
+                "Your request was rejected because you have performed too many operations recently."
+            )
+            + " "
+            + gettext("Please try again later."),
+        )
+        zen_messages, state = collect_zen_messages(request)
+        return JsonResponse(
+            {"messages": zen_messages, "state": state, "translationsum": ""}
+        )
+
     obj, unit_set, _context = parse_path_units(
         request,
         path,
@@ -2218,6 +2328,13 @@ def delete_unit(request: AuthenticatedHttpRequest, unit_id):
         unit.translation.delete_unit(request, unit)
     except WeblateLockTimeoutError:
         messages.error(request, DELETE_UNIT_LOCKED_MESSAGE)
+        return redirect(unit)
+    except RepositoryTemplateError as error:
+        log_handled_exception("Could not remove the string")
+        messages.error(
+            request,
+            gettext("Could not remove the string: %s") % error.get_message(gettext),
+        )
         return redirect(unit)
     except FileParseError as error:
         unit.translation.component.update_import_alerts(delete=False)

@@ -1,11 +1,9 @@
 {% extends "base.html" %}
 
-{% load i18n %}
+{% load i18n translations %}
 
 {% block breadcrumbs %}
-  <li class="breadcrumb-item">
-    <a href="{% url 'account-vcs' %}?workspace={{ workspace.pk }}">{% translate "Code-hosting integrations" %}</a>
-  </li>
+  {% include "vcs/workspace_breadcrumbs.html" with workspace=workspace only %}
   <li class="breadcrumb-item">{% translate "Migrate to GitHub App" %}</li>
 {% endblock breadcrumbs %}
 
@@ -42,7 +40,7 @@
           {% for installation in installations %}
             <li class="list-inline-item mb-2">
               <span class="badge text-bg-secondary">{{ installation.target_login }} ({{ installation.hostname }})</span>
-              {% if installation.pk in manageable_installations %}
+              {% if can_manage_installations %}
                 <form method="post"
                       action="{% url 'manage-github-account-refresh' installation.pk %}"
                       class="d-inline">
@@ -55,24 +53,6 @@
             </li>
           {% endfor %}
         </ul>
-      {% endif %}
-
-      {% if available_entries %}
-        <form method="post">
-          {% csrf_token %}
-          {{ form.non_field_errors }}
-          {{ form.components.errors }}
-          <fieldset>
-            <legend class="h5">{{ form.components.label }}</legend>
-            {% for checkbox in form.components %}
-              <div class="form-check mb-2">
-                {{ checkbox.tag }}
-                <label class="form-check-label" for="{{ checkbox.id_for_label }}">{{ checkbox.choice_label }}</label>
-              </div>
-            {% endfor %}
-          </fieldset>
-          <button type="submit" class="btn btn-primary">{% translate "Migrate selected components" %}</button>
-        </form>
       {% endif %}
 
       {% if unavailable_entries %}
@@ -89,34 +69,59 @@
         </div>
       {% endif %}
 
+      {{ form.non_field_errors }}
+      {{ form.components.errors }}
       {% if entries %}
-        <h5>{% translate "Migration status" %}</h5>
-        <div class="table-responsive">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>{% translate "Component" %}</th>
-                <th>{% translate "Repository" %}</th>
-                <th>{% translate "Status" %}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for entry in entries %}
+        <form method="post"
+              aria-label="{{ form.components.label }}"
+              {% if form.components.errors %}aria-describedby="{{ form.components.auto_id }}_error"{% endif %}>
+          {% csrf_token %}
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <caption class="caption-top">{% translate "Migration status" %}</caption>
+              <thead>
                 <tr>
-                  <td>{{ entry.component.project.name }} / {{ entry.component.name }}</td>
-                  <td>{{ entry.full_name }}</td>
-                  <td>
-                    {% if entry.canonical_url %}
-                      <span class="badge text-bg-success">{% translate "Ready" %}</span>
-                    {% else %}
-                      <span class="badge text-bg-warning">{% translate "Repository access needed" %}</span>
-                    {% endif %}
-                  </td>
+                  {% if available_entries %}
+                    <th scope="col">{% translate "Select" %}</th>
+                  {% endif %}
+                  <th scope="col">{% translate "Component" %}</th>
+                  <th scope="col">{% translate "Repository" %}</th>
+                  <th scope="col">{% translate "Status" %}</th>
                 </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {% for entry in entries %}
+                  <tr>
+                    {% if available_entries %}
+                      <td>
+                        {% if entry.status == "ready" %}
+                          {{ entry.checkbox.tag }}
+                          <label class="visually-hidden" for="{{ entry.checkbox.id_for_label }}">
+                            {% blocktranslate with component=entry.checkbox.choice_label %}Select {{ component }}{% endblocktranslate %}
+                          </label>
+                        {% endif %}
+                      </td>
+                    {% endif %}
+                    <td>{% path_object_links entry.component flags=False %}</td>
+                    <td>{{ entry.full_name }}</td>
+                    <td>
+                      {% if entry.status == "using-app" %}
+                        <span class="badge text-bg-secondary">{% translate "Using GitHub App" %}</span>
+                      {% elif entry.status == "ready" %}
+                        <span class="badge text-bg-success">{% translate "Ready" %}</span>
+                      {% else %}
+                        <span class="badge text-bg-warning">{% translate "Repository access needed" %}</span>
+                      {% endif %}
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% if available_entries %}
+            <button type="submit" class="btn btn-primary">{% translate "Migrate selected components" %}</button>
+          {% endif %}
+        </form>
       {% else %}
         <p class="text-body-secondary">{% translate "There are no GitHub components in this workspace that can be migrated." %}</p>
       {% endif %}

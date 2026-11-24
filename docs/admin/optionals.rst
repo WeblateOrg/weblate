@@ -100,6 +100,73 @@ If you wish to assign a billing plan to an existing project, this can also be do
 
 Lastly, the `Django admin interface` provides an `Invoice` option for logging your customer payments.
 
+.. _libre-hosting-cleanup:
+
+Libre hosting cleanup
++++++++++++++++++++++
+
+Hosted Weblate checks active subscriptions with zero monthly and yearly prices each day.
+Cleanup covers all projects in the workspace.
+Weblate warns the workspace billing contacts by e-mail after 90 days with no
+components anywhere in the workspace, a missing license, or an unmet Libre
+hosting condition. Persistent repository update,
+push, merge, or recovery failures also qualify, as do outstanding upstream
+or outgoing changes reported by the repository diagnostics. Dismissing a
+diagnostic leaves the underlying issue eligible. A repository can be quiet
+and still be in sync.
+
+The management alerts page lists projects scheduled for removal. The
+:guilabel:`Scheduled removal` warning on the project and billing pages lists
+the issues and the date by which to resolve them. Follow :guilabel:`View affected components`
+in the warning or its e-mail to see diagnostics, including dismissed ones. For
+subscriptions covering several projects, this link opens workspace diagnostics.
+In workspace and project diagnostics and on each component's alerts tab, the
+:guilabel:`May affect Libre hosting` badge identifies issues that can trigger
+a warning if they persist. Workspace and project diagnostics list these issues
+first. Weblate locks all existing components in the
+workspace for translation when it issues the warning. Maintainers can unlock
+them at any time, including after the warning clears or the trial starts.
+
+Fix the listed issues within 30 days to keep active Libre hosting. Moving the
+project to another billing resets the warning. Once Weblate records the last
+qualifying issue as resolved, refresh the page to see the warning clear.
+If a listed issue persists, the subscription enters a 30-day Libre trial. Fix the Libre hosting checklist and
+request approval again from the billing page. An expired trial follows the usual removal grace period
+and backup process.
+
+Externally managed payments
++++++++++++++++++++++++++++
+
+Billing records use local invoices to determine paid validity by default.
+An integration can explicitly set ``Billing.payment_mode`` to
+``Billing.PaymentMode.EXTERNAL`` and supply an aware datetime in
+``external_paid_until``. In this mode, local invoices remain available as
+history but do not establish paid validity. An unset timestamp grants no paid
+validity. Free plans and trials retain their existing behavior.
+
+The timestamp can be extended, shortened, or cleared. Normal model saves
+recalculate the paid status; bulk database updates bypass this calculation.
+Payment validity includes ``BILLING_GRACE_PERIOD``, while
+``check_payment_status(now=True)`` checks validity without that grace period.
+Expired external billings use the existing unpaid notification and removal
+schedule. Restoring validity for an active external billing cancels scheduled
+removal, including removal work already queued before renewal.
+
+Changing payment mode does not change the plan, workspace, or billing lifecycle
+state. Switching back to ``Billing.PaymentMode.LOCAL`` uses local invoices again
+and ignores the retained external timestamp. These integration fields are not
+exposed in forms or REST APIs.
+
+Merging billings is supported only when both use local payment mode. A merge
+involving an externally managed billing is rejected without changing either
+billing. External entitlement transfers require coordination by the integration.
+
+Integrations must manage authentication, update ordering, and atomic entitlement
+updates. They must explicitly activate trials or reactivate terminated billings
+when appropriate, and exclude externally managed billings from local checkout
+and recurring payment processing. Local recurring payment inactivity assessment
+does not apply to externally managed billings.
+
 Usage
 +++++
 
@@ -150,8 +217,9 @@ or :setting:`PRIVACY_URL` to use externally hosted documents. Configured URLs
 take priority in the footer, sign-in pages, legal pages, and confirmation page.
 The default terms and privacy templates link to the configured URL instead of
 showing their placeholder text. Without a configured URL, Weblate links to a
-visible internal legal page. When no terms link is available, the confirmation
-page embeds :file:`legal/documents/tos.html`.
+visible internal legal page. Without :setting:`LEGAL_URL`, the confirmation
+page embeds :file:`legal/documents/tos.html`. The privacy policy remains linked
+when an external URL or a visible internal page is available.
 
 On changing the terms of service or privacy policy, adjust
 :setting:`LEGAL_TOS_DATE` when users should be forced to agree with the updated
@@ -183,7 +251,7 @@ Installation
     # Social auth pipeline to confirm TOS upon registration/subsequent sign in
     SOCIAL_AUTH_PIPELINE = list(SOCIAL_AUTH_PIPELINE)
     SOCIAL_AUTH_PIPELINE.insert(
-        SOCIAL_AUTH_PIPELINE.index("weblate.accounts.pipeline.second_factor") + 1,
+        SOCIAL_AUTH_PIPELINE.index("weblate.accounts.pipeline.handle_invite") + 1,
         "weblate.legal.pipeline.tos_confirm",
     )
 
@@ -192,9 +260,10 @@ Installation
         "weblate.legal.middleware.RequireTOSMiddleware",
     ]
 
-Insert terms confirmation after two-factor authentication and before team
-synchronization so that logins awaiting terms acceptance do not change team
-memberships.
+Insert terms confirmation after e-mail verification synchronization and invitation
+handling, and before team synchronization. Invitation grants are applied before
+terms confirmation; synchronization of external team memberships waits until
+terms are accepted.
 
 2. Run the database migration to optionally install additional database structures for the module:
 
@@ -442,6 +511,8 @@ The following operations are subject to rate limiting:
 | Second-factor authentication       | ``SECOND_FACTOR``      | 5                | 300              | 600            |
 +------------------------------------+------------------------+------------------+------------------+----------------+
 | Sitewide search                    | ``SEARCH``             | 6                | 60               | 60             |
++------------------------------------+------------------------+------------------+------------------+----------------+
+| Screenshot image text suggestions  | ``OCR``                | 6                | 60               | 60             |
 +------------------------------------+------------------------+------------------+------------------+----------------+
 | Translating                        | ``TRANSLATE``          | 30               | 60               | 600            |
 +------------------------------------+------------------------+------------------+------------------+----------------+

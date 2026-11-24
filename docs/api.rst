@@ -39,7 +39,7 @@ for public endpoints or when you are signed in using a browser session.
                    Possible values depend on REST framework setup,
                    by default ``json``, ``csv`` and ``api`` are supported. The
                    latter provides a web browser interface for the API.
-    :query page: Returns given page of paginated results (use `next` and `previous` fields in response to automate the navigation).
+    :query page: Page number for endpoints that use numbered pages. See :ref:`api-pagination`.
     :query page_size: Return the given number of items per request.
                       The default is 50 and the maximum is 1000.
                       For the `units` endpoints the default is 100 with
@@ -53,7 +53,7 @@ for public endpoints or when you are signed in using a browser session.
                              header of request
     :resheader Allow: list of allowed HTTP methods on object
     :>json string detail: verbose description of the result (for HTTP status codes other than :http:statuscode:`200`)
-    :>json int count: total item count for object lists
+    :>json int count: total item count, when provided
     :>json string next: next page URL for object lists
     :>json string previous: previous page URL for object lists
     :>json array results: results for object lists
@@ -66,6 +66,75 @@ for public endpoints or when you are signed in using a browser session.
     :status 401: when authentication credentials are invalid or the authentication scheme is unsupported
     :status 403: when access is denied
     :status 429: when throttling is in place
+
+.. _api-pagination:
+
+Navigating paginated results
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Read the items from ``results`` and request the URL in ``next`` until its value
+is ``null``. Use ``previous`` the same way to go back. Follow these URLs as
+returned, including their query parameters.
+
+Weblate plans to switch paginated lists to cursor pagination in 2027.1.
+Clients must handle responses that omit ``count``. Avoid calculating the last
+page or constructing URLs to jump to an arbitrary page number.
+
+.. _api-background-operations:
+
+Migrating to background operations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Weblate 2027.1 will switch the following operations to background tasks.
+In 2026.12, opt in with ``background=true`` and update clients to handle
+:http:statuscode:`202` before upgrading.
+
+* For repository operations on projects, components, and translations, send
+  ``background`` in the request body. See :http:post:`/api/projects/(string:project)/repository/`.
+* For automatic translation and for creating a translation in a component,
+  send ``background`` in the request body.
+* For translation file uploads (POST or PUT), send a multipart ``background``
+  field or use the query parameter with raw uploads.
+* For translation, component, and category deletion, use the query parameter
+  ``?background=true``. Component and category deletion already run in the
+  background and return ``204 No Content`` by default, even while deletion
+  is pending. Translation deletion finishes before returning by default.
+  Poll the returned task URL after a ``202 Accepted`` response.
+  With eager task execution, deletion finishes immediately and returns
+  ``204 No Content`` with no task URL.
+
+A queued response includes ``task_url``. Poll that URL with the same credentials
+until ``completed`` is true, then inspect ``result`` for the operation's outcome.
+For example, a client creating a translation can handle both the queued
+response and the immediate response from an installation using eager tasks:
+
+.. code-block:: python
+
+    import time
+
+    response = session.post(
+        component["translations_url"], json={"language_code": "cs", "background": True}
+    )
+    response.raise_for_status()
+    if response.status_code == 202:
+        task_url = response.json()["task_url"]
+        while True:
+            status = session.get(task_url)
+            status.raise_for_status()
+            task = status.json()
+            if task["completed"]:
+                break
+            time.sleep(1)
+        result = task["result"]
+        if not isinstance(result, dict) or "url" not in result:
+            raise RuntimeError(result)
+        translation_url = result["url"]
+    else:
+        translation_url = response.json()["data"]["url"]
+
+Successful deletion tasks return ``null``. Repository operations return a
+``result`` flag, automatic translation reports ``errors``, and file uploads
+return import counts or an error detail. See :ref:`api-tasks`.
 
 .. _api-tokens:
 
@@ -279,7 +348,8 @@ API Entry Point
 
 .. http:get:: /api/
 
-    The API root entry point.
+    Returns a map of resource names to their list URLs. The keys depend on
+    which resources provide list endpoints.
 
     **Example request:**
 
@@ -287,21 +357,15 @@ API Entry Point
 
           GET /api/ HTTP/1.1
           Host: example.com
-          Accept: application/json, text/javascript
+          Accept: application/json
           Authorization: Token YOUR-TOKEN
 
     **Example response:**
 
     .. code-block:: http
 
-        HTTP/1.0 200 OK
-        Date: Fri, 25 Mar 2016 09:46:12 GMT
-        Server: WSGIServer/0.1 Python/2.7.11+
-        Vary: Accept, Accept-Language, Cookie
-        X-Frame-Options: SAMEORIGIN
+        HTTP/1.1 200 OK
         Content-Type: application/json
-        Content-Language: en
-        Allow: GET, HEAD, OPTIONS
 
         {
             "projects":"http://example.com/api/projects/",
@@ -327,22 +391,22 @@ Users
     username, and full name of matching non-bot users. Users with either
     permission can list all users and receive detailed information.
 
-    :setting:`USER_DIRECTORY_VISIBILITY` can restrict discovery to accessible
-    resources. In ``scoped`` and ``disabled`` modes, ordinary users must supply
-    a resource-bounded ``q`` query or an accessible ``unit`` context to discover
-    other users. Generic filters cannot expand that scope; blocked searches
-    return no results. Self access and global administrative access remain
-    available. Basic contributor discovery is independent of
-    :setting:`USER_PROFILE_VISIBILITY`.
+    Without ``user.browse``, discovery requires a resource-bounded ``q`` query
+    or accessible ``unit`` context. Generic filters cannot expand that scope.
+    Scoped REST discovery does not require ``user.search`` or ``user.profile``.
+    Self and administrative access remain available. See :doc:`admin/privacy`.
 
     :query string q: User search query, such as ``contributes:project`` or ``contributes:project/component``. Every matching Boolean branch must have a positive resource scope in restricted directory modes.
-    :query int unit: Rank contributors to this string first. In restricted directory modes, results are limited to contributors to its translation.
+    :query int unit: Rank contributors to this string first. Requires contributor identity access to the string, independently of directory privileges. In restricted directory modes, results are limited to contributors to its translation.
     :query string username: Username prefix to search for. At least two characters after trimming surrounding whitespace are required for users without the global ``user.view`` or ``user.edit`` permission.
     :query int id: User ID to search for
     :query string email: Email to search for (case-insensitive, exact match). Requires ``user.view`` or ``user.edit`` permission; the parameter is ignored for unprivileged users.
 
     Username searches by users without the global ``user.view`` or ``user.edit``
     permission exclude bot accounts other than the caller's own account.
+    This restriction does not apply to direct lookups by exact username;
+    bot accounts follow the profile access rules at
+    :http:get:`/api/users/(str:username)/`.
 
     .. seealso::
 
@@ -370,7 +434,7 @@ Users
 
 .. http:get:: /api/users/(str:username)/
 
-    Access follows :setting:`USER_PROFILE_VISIBILITY`. Restricted profiles
+    Access follows the global ``user.profile`` permission. Restricted profiles
     return HTTP 404; self access and global administrative access are retained.
 
     Returns information about users.
@@ -546,7 +610,7 @@ Users
 
     :param username: User's username
     :type username: string
-    :>json array translations: link to translations; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/`
+    :>json array results: translations on this page; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/`
 
 .. http:get:: /api/users/(str:username)/notifications/
 
@@ -873,6 +937,8 @@ Roles
     :type id: int
     :>json string name: Role name
     :>json array permissions: list of codenames of permissions
+    :>json boolean is_builtin: whether this is a built-in role (read-only)
+    :>json boolean is_customized: whether a built-in role differs from current defaults (read-only)
 
     **Example JSON data:**
 
@@ -889,7 +955,7 @@ Roles
 
 .. http:put:: /api/roles/(int:id)/
 
-    Changes the role parameters.
+    Changes the role parameters. Built-in role names cannot be changed.
 
     :param id: Role's ID
     :type id: int
@@ -898,7 +964,7 @@ Roles
 
 .. http:patch:: /api/roles/(int:id)/
 
-    Changes the role parameters.
+    Changes the role parameters. Built-in role names cannot be changed.
 
     When supplied, ``permissions`` replaces the role's complete permission set.
     Omit it to keep the existing permissions unchanged, or pass an empty list to
@@ -911,7 +977,17 @@ Roles
 
 .. http:delete:: /api/roles/(int:id)/
 
-    Deletes the role.
+    Deletes a custom role. Built-in roles cannot be deleted.
+
+    :param id: Role's ID
+    :type id: int
+
+
+.. http:post:: /api/roles/(int:id)/reset/
+
+    Resets a built-in role to current upstream permission defaults and returns
+    the updated role. Requires the same role-management permission as editing.
+    Custom roles cannot be reset.
 
     :param id: Role's ID
     :type id: int
@@ -932,6 +1008,8 @@ Languages
 
     Creates a new language.
 
+    Requires the site-wide ``language.add`` permission.
+
     :param code: Language name
     :type code: string
     :param name: Language name
@@ -951,7 +1029,7 @@ Languages
     :type language: string
     :>json string code: Language code
     :>json string direction: Text direction
-    :<json int population: Number of speakers
+    :>json int population: Number of speakers
     :>json object plural: Object of language plural information
     :>json array aliases: Array of aliases for language
 
@@ -1446,8 +1524,11 @@ Projects
     :form file docfile: Document to translate
     :form string from_component: Optional source component reference used to duplicate the new component. Accepts either a numeric component ID or a full Weblate component path. When provided, the new component inherits the source component configuration and translations into a new local repository. Repository fields such as ``repo``, ``vcs``, ``branch``, ``push``, and ``push_branch`` can not be combined with this option.
     :form boolean disable_autoshare: Disables automatic repository sharing via :ref:`internal-urls`.
-    :<json object: Component parameters, see :http:get:`/api/components/(string:project)/(string:component)/`
-    :>json object result: Created component object; see :http:get:`/api/components/(string:project)/(string:component)/`
+    :resheader Location: URL of the created component.
+    :statuscode 201: The response body is the created component object.
+
+    See :http:get:`/api/components/(string:project)/(string:component)/` for
+    component settings.
 
     JSON can not be used when uploading the files using the ``zipfile`` and
     ``docfile`` parameters. The data has to be uploaded as
@@ -1538,13 +1619,9 @@ Projects
 
     .. sourcecode:: http
 
-        HTTP/1.0 200 OK
-        Date: Tue, 12 Apr 2016 09:32:50 GMT
-        Server: WSGIServer/0.1 Python/2.7.11+
-        Vary: Accept, Accept-Language, Cookie
-        X-Frame-Options: SAMEORIGIN
+        HTTP/1.1 201 Created
+        Location: https://example.com/api/components/hello/weblate/
         Content-Type: application/json
-        Content-Language: en
         Allow: GET, POST, HEAD, OPTIONS
 
         {
@@ -1585,11 +1662,10 @@ Projects
 
 .. http:get:: /api/projects/(string:project)/languages/
 
-    Returns paginated statistics for all languages within a project.
+    Returns an array of statistics objects for all languages within a project.
 
     :param project: Project URL slug
     :type project: string
-    :>json array results: array of translation statistics objects
     :>json string language: language name
     :>json string code: language code
     :>json int total: total number of strings
@@ -1731,6 +1807,13 @@ Projects
     ``slug``, ``configuration``, ``enabled`` state, and scope fields. The
     configuration can contain credentials and is returned only to users who
     can edit the installation's scope.
+
+    Browser sessions require :ref:`recent credential verification <2fa>` to read
+    or change installations through either the project or site-wide API, and to
+    change exclusions. If a request returns HTTP 403 with
+    ``Recent credential verification required.``, open the translation service's
+    configuration in the same browser, confirm your identity, and retry the
+    request. API token clients continue to use their token.
 
     :param project: Project URL slug
     :type project: string
@@ -1896,7 +1979,8 @@ Projects
     :param project: Project URL slug
     :type project: string
     :>json string detail: Result message
-    :>json string url: URL to list backups
+    :>json string task_url: URL to check backup creation progress
+    :statuscode 202: Backup creation was scheduled.
 
 .. http:get:: /api/projects/(string:project)/backups/(string:backup)/
 
@@ -2051,6 +2135,10 @@ Components
 
     Edit a component by a :http:method:`PATCH` request.
 
+    Changing the component slug or category requires both ``component.edit``
+    on the component and ``project.edit`` on its project. The same permissions
+    apply to :http:method:`PUT` requests.
+
     :param project: Project URL slug
     :type project: string
     :param component: Component URL slug
@@ -2167,6 +2255,8 @@ Components
 .. http:delete:: /api/components/(string:project)/(string:component)/
 
     Deletes a component.
+
+    :query boolean background: Deletion always runs as a task. By default (``false``), the response is ``204 No Content`` even while deletion is pending. Set to ``true`` to receive ``202 Accepted`` and a ``task_url`` for queued work. Eager execution returns ``204 No Content``. See :ref:`api-background-operations`.
 
     :param project: Project URL slug
     :type project: string
@@ -2390,7 +2480,9 @@ Components
     :type component: string
     :<json string language_code: translation language code; see :http:get:`/api/languages/(string:language)/`
     :<json array from_component: optional ordered list of source component references used for automatic translation. Accepts numeric component IDs or full Weblate component paths. For form submissions this field can be provided multiple times.
-    :>json object result: new translation object created
+    :<json boolean background: Queue creation and optional automatic translation (defaults to ``false``). See :ref:`api-background-operations`.
+    :>json object data: New translation for an immediate response
+    :>json string task_url: Task URL for a queued response
 
     **CURL example:**
 
@@ -2399,29 +2491,28 @@ Components
         curl \
             -d language_code=cs \
             -H "Authorization: Token TOKEN" \
-            http://example.com/api/projects/hello/components/
+            http://example.com/api/components/hello/weblate/translations/
 
     **JSON request example:**
 
     .. sourcecode:: http
 
-        POST /api/projects/hello/components/ HTTP/1.1
+        POST /api/components/hello/weblate/translations/ HTTP/1.1
         Host: example.com
         Accept: application/json
         Content-Type: application/json
         Authorization: Token TOKEN
-        Content-Length: 20
 
         {
             "language_code": "cs",
-            "from_component": ["hello/weblate", 123]
+            "from_component": ["hello/source", 123]
         }
 
     **JSON response example:**
 
     .. sourcecode:: http
 
-        HTTP/1.0 200 OK
+        HTTP/1.0 201 Created
         Date: Tue, 12 Apr 2016 09:32:50 GMT
         Server: WSGIServer/0.1 Python/2.7.11+
         Vary: Accept, Accept-Language, Cookie
@@ -2431,38 +2522,40 @@ Components
         Allow: GET, POST, HEAD, OPTIONS
 
         {
-            "failing_checks": 0,
-            "failing_checks_percent": 0,
-            "failing_checks_words": 0,
-            "filename": "po/cs.po",
-            "fuzzy": 0,
-            "fuzzy_percent": 0.0,
-            "fuzzy_words": 0,
-            "have_comment": 0,
-            "have_suggestion": 0,
-            "is_template": false,
-            "is_source": false,
-            "language": {
-                "code": "cs",
-                "direction": "ltr",
-                "population": 1303174280
-                "name": "Czech",
-                "url": "http://example.com/api/languages/cs/",
-                "web_url": "http://example.com/languages/cs/"
-            },
-            "language_code": "cs",
-            "id": 125,
-            "last_author": null,
-            "last_change": null,
-            "share_url": "http://example.com/engage/hello/cs/",
-            "total": 4,
-            "total_words": 15,
-            "translate_url": "http://example.com/translate/hello/weblate/cs/",
-            "translated": 0,
-            "translated_percent": 0.0,
-            "translated_words": 0,
-            "url": "http://example.com/api/translations/hello/weblate/cs/",
-            "web_url": "http://example.com/projects/hello/weblate/cs/"
+            "data": {
+                "failing_checks": 0,
+                "failing_checks_percent": 0,
+                "failing_checks_words": 0,
+                "filename": "po/cs.po",
+                "fuzzy": 0,
+                "fuzzy_percent": 0.0,
+                "fuzzy_words": 0,
+                "have_comment": 0,
+                "have_suggestion": 0,
+                "is_template": false,
+                "is_source": false,
+                "language": {
+                    "code": "cs",
+                    "direction": "ltr",
+                    "population": 1303174280,
+                    "name": "Czech",
+                    "url": "http://example.com/api/languages/cs/",
+                    "web_url": "http://example.com/languages/cs/"
+                },
+                "language_code": "cs",
+                "id": 125,
+                "last_author": null,
+                "last_change": null,
+                "share_url": "http://example.com/engage/hello/cs/",
+                "total": 4,
+                "total_words": 15,
+                "translate_url": "http://example.com/translate/hello/weblate/cs/",
+                "translated": 0,
+                "translated_percent": 0.0,
+                "translated_words": 0,
+                "url": "http://example.com/api/translations/hello/weblate/cs/",
+                "web_url": "http://example.com/projects/hello/weblate/cs/"
+            }
         }
 
 .. http:get:: /api/components/(string:project)/(string:component)/statistics/
@@ -2491,7 +2584,7 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
-    :>json array projects: associated projects; see :http:get:`/api/projects/(string:project)/`
+    :>json array results: associated projects on this page; see :http:get:`/api/projects/(string:project)/`
 
 .. http:post:: /api/components/(string:project)/(string:component)/links/
 
@@ -2705,6 +2798,8 @@ Translations
 
     Deletes a translation.
 
+    :query boolean background: By default (``false``), delete the translation before returning ``204 No Content``. Set to ``true`` to queue deletion and receive ``202 Accepted`` and a ``task_url``. Eager execution returns ``204 No Content``. See :ref:`api-background-operations`.
+
     :param project: Project URL slug
     :type project: string
     :param component: Component URL slug
@@ -2756,7 +2851,7 @@ Translations
     :<json array source: *Bilingual translations:* Source strings (use single string if not creating plural)
     :<json array target: *Bilingual translations:* Target strings (use single string if not creating plural)
     :<json int state: String state; see :http:get:`/api/units/(int:id)/`
-    :>json object unit: newly created unit; see :http:get:`/api/units/(int:id)/`
+    :statuscode 200: Returns the newly created unit in the format documented at :http:get:`/api/units/(int:id)/`.
 
     Creating a unit in the approved state requires permission to review strings.
 
@@ -2816,8 +2911,9 @@ Translations
         parameter differs and without such parameter you get translation file
         as stored in VCS.
 
-    :resheader Last-Modified: Timestamp of last change to this file.
-    :reqheader If-Modified-Since: Skips response if the file has not been modified since that time.
+    :resheader Last-Modified: Last modification time as an HTTP date.
+    :reqheader If-Modified-Since: Returns 304 if the translation is unchanged since this HTTP date.
+    :statuscode 304: The translation is unchanged. The response has no body.
 
     :query format: File format to use; if not specified no format conversion happens; see :ref:`download` for supported formats
     :query string q: Filter downloaded strings, see :ref:`search`, only applicable when conversion is in place (``format`` is specified).
@@ -2840,12 +2936,33 @@ Translations
     :param language: Translation language code
     :type language: string
     :form boolean ignore_language: Ignore a mismatch between the declared file language and the translation language (defaults to ``false``), see :ref:`upload-ignore_language`
+    :form boolean background: Process the upload in the background (defaults to ``false``). This temporary field will be removed in 2027.1, when only background processing will be supported.
     :form string conflicts: How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-approved``), see :ref:`upload-conflicts`
     :form file file: Uploaded file or file content sent as a form field without a filename
     :form string author_email: Author e-mail
     :form string author_name: Author name
     :form string method: Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, ``replace``, ``source``, ``add``), see :ref:`upload-method`
     :form string fuzzy: Fuzzy (marked for edit) strings processing (*empty*, ``process``, ``approve``)
+
+    With ``background=true``, returns ``202 Accepted`` with ``detail`` and
+    ``task_url``. Poll :http:get:`/api/tasks/(str:uuid)/` for completion. Its
+    ``result`` contains the usual ``not_found``, ``skipped``, ``accepted``,
+    ``total``, ``result``, and ``count`` fields on success, or ``detail`` on
+    failure. File parsing and import errors are reported by the task.
+    Results also include ``upload_warnings`` and a ``completion_message``.
+
+    The same behavior is available with ``PUT``. For a raw file body, send
+    :mimetype:`application/octet-stream` and include a filename in
+    :http:header:`Content-Disposition`. Supply
+    ``background=true`` as a query parameter. A multipart ``background`` field
+    takes precedence over the query parameter.
+
+    Switch clients to background processing before upgrading to 2027.1. That
+    release will remove the ``background`` option and synchronous processing.
+
+    Suggestion uploads accept at most 20,000 content strings. API uploads have
+    no per-user outstanding-task restriction. Existing byte and general
+    string-count limits still apply.
 
     **CURL example:**
 
@@ -3000,6 +3117,9 @@ Memory
 .. http:post:: /api/memory/lookup/
 
     Looks up translation memory matches for the provided source strings.
+    Returns an array in input order. Each entry contains the source string in
+    ``query`` and the best match in ``match``. If no match was found, ``match`` is
+    ``null``.
 
     :query source_language: Source language code
     :type source_language: string
@@ -3010,7 +3130,6 @@ Memory
     :query exact: Return exact matches only and skip fuzzy matching (optional)
     :type exact: boolean
     :<json array strings: List of source strings to look up
-    :>json array results: Ordered lookup results with the best match for each query or ``null`` when no match was found
 
 .. http:delete:: /api/memory/(int:memory_object_id)/
 
@@ -3074,6 +3193,7 @@ and XLIFF.
     :>json boolean translated: whether the unit is translated
     :>json boolean approved: whether the translation is approved
     :>json int position: unit position in translation file
+    :>json int line_number: read-only line in the translation file, or null when the format does not provide one
     :>json boolean has_suggestion: whether the unit has suggestions
     :>json boolean has_comment: whether the unit has comments
     :>json boolean has_failing_check: whether the unit has failing checks
@@ -3387,6 +3507,7 @@ Changes
 
     When an IP address is recorded for an anonymous change, the ``ip_address``
     attribute in ``details`` is included only for superusers.
+    Invitation e-mail addresses in ``details`` are masked for all users.
 
     New changes include a ``change_origin`` object in ``details``, for example
     ``{"change_origin": {"scope": "api"}}``. The scope is ``ui`` for browser sessions,
@@ -3480,6 +3601,9 @@ Screenshots
 
     Creates a new screenshot.
 
+    Setting a repository path requires access to the component that owns the
+    repository and ``vcs.access`` on it, in addition to ``screenshot.add``.
+
     :form file image: Uploaded file
     :form string name: Screenshot name
     :form string project_slug: Project slug
@@ -3496,6 +3620,10 @@ Screenshots
 
     Edit partial information about screenshot.
 
+    Setting a different nonempty ``repository_filename`` requires ``vcs.access``
+    on the component that owns the repository. With ``screenshot.edit``, you
+    can also omit the path, submit the current value, or clear it with an empty string.
+
     :param id: Screenshot ID
     :type id: int
     :>json string name: name of a screenshot
@@ -3507,6 +3635,9 @@ Screenshots
 .. http:put:: /api/screenshots/(int:id)/
 
     Edit full information about screenshot.
+
+    The same repository path permissions apply as for
+    :http:patch:`/api/screenshots/(int:id)/`.
 
     :param id: Screenshot ID
     :type id: int
@@ -3614,14 +3745,20 @@ Add-ons
     contain an :file:`its/` subdirectory. See
     :ref:`addon-weblate.gettext.xgettext` for supported formats and validation.
 
-    :param string project_slug: Project slug
-    :param string component_slug: Component slug
+    :param string project: Project slug
+    :param string component: Component slug
     :<json string name: name of an add-on
     :<json object configuration: Optional add-on configuration
 
 .. http:patch:: /api/addons/(int:id)/
 
     Edit partial information about add-on.
+
+    :ref:`Fedora Messaging <addon-weblate.fedora_messaging.publish>` accepts
+    ``connection_timeout`` in ``configuration`` (1–60 seconds, default 5).
+    It bounds setup per attempt, separately from ``publish_timeout`` for
+    sending and acknowledgement. Managing this site-wide add-on requires
+    site-wide add-on management permission.
 
     :param id: Add-on ID
     :type id: int
@@ -3732,6 +3869,7 @@ Component lists
 
     :param slug: Component list slug
     :type slug: string
+    :statuscode 400: The list is the last component list assigned to a team. Remove the assignment or assign another list first.
 
 .. http:get:: /api/component-lists/(str:slug)/components/
 
@@ -3741,7 +3879,6 @@ Component lists
 
     :param slug: Component list slug
     :type slug: string
-    :form string component_id: Component ID
     :>json array results: array of component objects; see :http:get:`/api/components/(string:project)/(string:component)/`
 
 .. http:post:: /api/component-lists/(str:slug)/components/
@@ -3921,6 +4058,18 @@ Statistics
 Metrics
 +++++++
 
+.. http:get:: /api/activity/
+
+    Returns global daily activity and up to ten recently active projects visible
+    to the authenticated user. Authentication is required.
+
+    ``daily_activity`` contains 52 daily translation-change counts, oldest first,
+    ending today. ``projects`` contains project statistics with positive
+    ``recent_changes`` and a non-null ``last_change``, ordered by newest change
+    first, with project ID breaking ties. Fewer than ten projects can be returned.
+    The global totals retain the same instance-wide scope as the former
+    ``/activity/month.json`` endpoint, which has been removed.
+
 .. http:get:: /api/metrics/
 
     Returns server metrics.
@@ -3946,12 +4095,27 @@ Metrics
     :>json int configuration_errors: Number of configuration errors
     :>json int suggestions: Number of pending suggestions
     :>json object celery_queues: Lengths of Celery queues, see :ref:`celery`
+    :>json object bot_protection: Best-effort hourly bot protection counts, or null when disabled or unavailable
     :>json string name: Configured server name
     :>json string version: Running Weblate version, included when :setting:`VERSION_DISPLAY` is ``show`` or ``soft``
 
     In OpenMetrics format, the version is exposed as ``weblate_info{version="..."} 1``
     when :setting:`VERSION_DISPLAY` is ``show`` or ``soft``. All metrics are
     exposed as gauges.
+
+    ``bot_protection`` contains ``current_hour`` and ``previous_24_hours``
+    objects. The latter covers the previous 24 completed hours, excluding the
+    current hour. Each contains integer counts for ``issued``, ``pow_required``, ``success``,
+    ``expired_challenge``, ``invalid_solution``, ``replayed_challenge``,
+    ``csrf_failed``, and ``verification_unavailable``. Hours are UTC-aligned;
+    counts can be lost through cache eviction or outages. The ``pow_required``
+    count covers requests rejected without issuing a challenge because of their
+    method or Accept header. It excludes explicit ``bot_denied`` policy denials
+    and exempt requests, and counts requests rather than unique clients.
+
+    CSV responses flatten these objects into columns. OpenMetrics exposes
+    ``bot_protection_events`` gauges with ``window`` and ``event`` labels,
+    omitting these samples when protection is disabled or counters are unavailable.
 
 Project metrics expose translation statistics for each visible component and
 language at :http:get:`/api/projects/(string:project)/metrics/`. They include
@@ -4021,7 +4185,8 @@ Categories
 
     :param id: Category ID
     :type id: int
-    :>json object configuration: Optional category configuration
+
+    See :http:get:`/api/categories/(int:id)/` for category attributes.
 
 .. http:put:: /api/categories/(int:id)/
 
@@ -4031,13 +4196,16 @@ Categories
 
     :param id: Category ID
     :type id: int
-    :>json object configuration: Optional category configuration
+
+    See :http:get:`/api/categories/(int:id)/` for category attributes.
 
 .. http:delete:: /api/categories/(int:id)/
 
-   .. versionadded:: 5.0
+    .. versionadded:: 5.0
 
     Delete category.
+
+    :query boolean background: Deletion always runs as a task. By default (``false``), the response is ``204 No Content`` even while deletion is pending. Set to ``true`` to receive ``202 Accepted`` and a ``task_url`` for queued work. Eager execution returns ``204 No Content``. See :ref:`api-background-operations`.
 
     :param id: Category ID
     :type id: int
@@ -4115,7 +4283,8 @@ The generic hook endpoints return diagnostics intended to help configure
 repository notifications. The ``match_status`` object contains:
 
 ``repository_matches``
-    Number of components whose repository URL matches the payload.
+    Number of repository-owning components whose repository URL matches the
+    payload.
 ``branch_matches``
     Number of repository matches whose configured branch matches the payload.
     For events without a branch, every repository match is counted as a branch

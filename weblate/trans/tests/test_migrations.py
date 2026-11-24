@@ -12,7 +12,7 @@ from runpy import run_path
 from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
-from django.db import connection
+from django.db import NotSupportedError, connection
 from django.db.migrations.executor import MigrationExecutor
 from django.test import SimpleTestCase, TransactionTestCase
 
@@ -41,6 +41,22 @@ class JSONSortKeysMigrationTest(SimpleTestCase):
         manager.bulk_update.assert_called_once_with(components, ["file_format_params"])
 
 
+class CaseInsensitiveSlugsMigrationTest(SimpleTestCase):
+    def test_checks_postgresql_version_before_touching_slugs(self) -> None:
+        migration = import_module(
+            "weblate.trans.migrations.0124_case_insensitive_slugs"
+        )
+        apps = Mock()
+        editor = Mock()
+        editor.connection.get_database_version.return_value = (14,)
+        with self.assertRaisesMessage(
+            NotSupportedError, "Weblate requires PostgreSQL 15"
+        ):
+            migration.Migration.operations[0].code(apps, editor)
+        apps.get_model.assert_not_called()
+        editor.execute.assert_not_called()
+
+
 class ContributorCommentsMigrationTest(TransactionTestCase):
     def test_scoped(self) -> None:
         self.check_upgrade(sitewide=False)
@@ -67,5 +83,22 @@ class ContributorCommentsMigrationTest(TransactionTestCase):
             executor = MigrationExecutor(connection)
             executor.migrate(latest)
             run_path(str(scripts / "assert-contributor-comments.py"))
+        finally:
+            MigrationExecutor(connection).migrate(latest)
+
+
+class GitHubAppPushMigrationTest(TransactionTestCase):
+    def test_cleanup_existing_push_settings(self) -> None:
+        executor = MigrationExecutor(connection)
+        latest = executor.loader.graph.leaf_nodes()
+        old = [("trans", "0120_change_addon_redact_autotranslate_component")]
+        scripts = Path(__file__).resolve().parents[3] / "ci" / "migrate-scripts"
+        try:
+            executor.migrate(old)
+            historical_apps = executor.loader.project_state(old).apps
+            with patch("django.apps.apps", historical_apps):
+                run_path(str(scripts / "setup-github-app-push.py"))
+            MigrationExecutor(connection).migrate(latest)
+            run_path(str(scripts / "assert-github-app-push.py"))
         finally:
             MigrationExecutor(connection).migrate(latest)

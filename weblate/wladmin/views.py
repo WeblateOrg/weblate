@@ -32,7 +32,12 @@ from django.views.generic import ListView
 from django.views.generic.edit import CreateView, FormMixin
 
 from weblate.accounts.forms import AdminUserSearchForm, ContactForm
+from weblate.accounts.utils import (
+    has_recent_sensitive_verification,
+    sensitive_verification_redirect,
+)
 from weblate.accounts.views import UserList, get_initial_contact
+from weblate.auth.audit import audit_team_changes
 from weblate.auth.decorators import (
     management_access,
     management_permission_required,
@@ -63,6 +68,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.util import redirect_param
 from weblate.utils import messages
+from weblate.utils.bot_protection import option, verification_stats
 from weblate.utils.cache import measure_cache_latency
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
@@ -107,6 +113,8 @@ from weblate.wladmin.middleware import (
 from weblate.wladmin.models import (
     BackupService,
     ConfigurationError,
+    SecurityFinding,
+    SecurityScan,
     SupportStatus,
     get_support_url,
 )
@@ -731,6 +739,10 @@ def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
         "database_size": database_size,
         "database_disk_usage": database_disk_usage,
         "memory_migration_status": get_memory_migration_status(),
+        "bot_protection_enabled": option("ENABLED", False),
+        "bot_protection_stats": verification_stats()
+        if option("ENABLED", False)
+        else None,
     }
 
     return render(request, "manage/performance.html", context)
@@ -818,6 +830,11 @@ def alerts(request: AuthenticatedHttpRequest) -> HttpResponse:
         "menu_page": "alerts",
     }
 
+    if "weblate.billing" in settings.INSTALLED_APPS:
+        context["cleanup_warnings"] = Project.objects.filter(
+            workspace__billing__libre_cleanup_warned_at__isnull=False
+        ).order()
+
     return render(request, "manage/alerts.html", context)
 
 
@@ -846,6 +863,8 @@ class AdminUserList(UserList):
             request.user.has_perm("user.view") or request.user.has_perm("user.edit")
         ):
             raise PermissionDenied
+        if not has_recent_sensitive_verification(request):
+            return sensitive_verification_redirect(request, request.get_full_path())
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request: AuthenticatedHttpRequest, **kwargs) -> HttpResponse:
@@ -889,6 +908,17 @@ class AdminUserList(UserList):
 
         result["menu_items"] = MENU
         result["menu_page"] = "users"
+        result["security_report_available"] = can_edit_users and (
+            SecurityFinding.objects.exists()
+            or SecurityScan.objects.filter(operation="validate", total__gt=0)
+            .exclude(state="configuring")
+            .exists()
+        )
+        result["security_findings_open"] = (
+            SecurityFinding.objects.filter(status="open").count()
+            if can_edit_users
+            else 0
+        )
         result["can_edit_users"] = can_edit_users
         result["invite_form"] = invite_form
         result["bulk_invite_form"] = bulk_invite_form
@@ -917,7 +947,7 @@ def users_check(request: AuthenticatedHttpRequest) -> HttpResponse:
         parser = cast(
             "Literal['user', 'superuser']", getattr(form.fields["q"], "parser", "user")
         )
-        user_list = User.objects.search(query, parser=parser)[:2]
+        user_list = User.objects.search(query, parser=parser, user=request.user)[:2]
         if user_list.count() != 1:
             return redirect_param("manage-users", f"?q={quote(form.cleaned_data['q'])}")
         return redirect(user_list[0])
@@ -993,7 +1023,7 @@ def billing(request: AuthenticatedHttpRequest) -> HttpResponse:
             if (
                 current.plan
                 and current.plan.price == 0
-                and current.payment.get("libre_request")
+                and current.libre_request_pending
             ):
                 pending.append(current)
             trial.append(current)
@@ -1024,6 +1054,8 @@ def billing(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 @method_decorator(management_access, name="dispatch")
 class TeamListView(FormMixin, ListView):
+    request: AuthenticatedHttpRequest
+
     template_name = "manage/teams.html"
     paginate_by = 50
     model = Group
@@ -1043,7 +1075,7 @@ class TeamListView(FormMixin, ListView):
         return (
             cast("GroupQuerySet", super().get_queryset())
             .prefetch_related("languages", "projects", "components")
-            .filter(defining_project=None)
+            .filter(defining_project=None, defining_workspace=None)
             .annotate(Count("user"), Count("autogroup"))
             .order()
         )
@@ -1059,13 +1091,16 @@ class TeamListView(FormMixin, ListView):
         return reverse("manage-teams")
 
     def post(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> HttpResponse:
+        if not has_recent_sensitive_verification(request):
+            return sensitive_verification_redirect(request, request.path)
         form = self.get_form()
         if form.is_valid():
             return self.form_valid(form)
         return self.form_invalid(form)
 
     def form_valid(self, form: SitewideTeamForm) -> HttpResponse:
-        form.save()
+        with audit_team_changes(form.instance, self.request.user, self.request):
+            form.save()
         return super().form_valid(form)
 
 

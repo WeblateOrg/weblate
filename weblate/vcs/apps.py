@@ -15,7 +15,7 @@ from django.db.models.signals import post_migrate
 
 from weblate.utils.checks import weblate_check
 from weblate.utils.data import data_dir
-from weblate.utils.lock import WeblateLock
+from weblate.utils.lock import LockScope, WeblateLock
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import GitRepository, SubversionRepository
 from weblate.vcs.gpg import get_gpg_errors, get_gpg_public_key
@@ -161,9 +161,8 @@ class VCSConfig(AppConfig):
         # We need to do this behind lock to avoid errors when servers
         # start in parallel
         lockfile = WeblateLock(
-            scope="vcs:setup",
+            scope=LockScope.VCS_SETUP,
             key=0,
-            slug="",
             timeout=120,
         )
         with lockfile:

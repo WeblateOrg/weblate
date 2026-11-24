@@ -13,6 +13,12 @@ For application-developer workflows and broader product integration guidance, us
 ## Code expectations
 
 - Follow existing Django patterns and project conventions.
+- Avoid per-object database queries in API serializers and admin list displays,
+  including queries hidden in computed model properties. Load related data with
+  `select_related()` or `prefetch_related()` in every applicable queryset path,
+  and consume the prefetched relations without issuing fresh queries such as
+  `values_list()` calls. Add focused query-count regression tests when exposing
+  relation-dependent computed fields in lists.
 - Prefer the repository's configured Ruff-based formatting and linting rules.
 - Use human-readable Ruff rule names in overrides, such as
   `# ruff: ignore[assert]`; do not use or rewrite them to cryptic codes such as
@@ -64,6 +70,9 @@ For application-developer workflows and broader product integration guidance, us
   pytest treats as an error. This is temporary soft enforcement in production,
   not permission to omit the actor. Do not suppress the warning to hide missing
   actors in tests; supply the correct user instead.
+- Authorize user-requested work and its scope before queueing it. Pass the actor
+  and authorized scope to the worker. See `docs/security/threat-model.rst` for
+  the trust boundary and operation-specific exceptions.
 - Weblate does not maintain compatibility for queued Celery task messages across
   upgrades. Task signatures and payloads may change without legacy argument
   adapters. Do not flag incompatibility with messages published by an older
@@ -119,9 +128,29 @@ For application-developer workflows and broader product integration guidance, us
 
 ## Weblate-specific guardrails
 
+- Changes to built-in role permission defaults in `weblate/auth/data.py` require
+  a data migration. Run `./manage.py generate_role_migration`, review and format
+  the generated migration, and verify `./manage.py generate_role_migration --check`.
+  Keep old and new permission sets and required permission labels frozen in each
+  migration; never import runtime role definitions or model helpers into it.
+  Preserve existing snapshots so upgrades through skipped releases merge each
+  change in order. Use historical models and the migration database alias.
+  The post-migration hook must only create missing roles, never overwrite
+  permissions of existing roles. Built-in role names are persistent identifiers.
+  Upstream renames require an explicit migration preserving role IDs, team
+  assignments, and local permission differences. Map the old baseline to the
+  new name before merging and freeze the renamed defaults for future generation;
+  a generated remove/add migration does not preserve role identity.
 - Be careful with repository, webhook, and file-handling code; validate inputs
   and avoid introducing path traversal, command injection, or script injection
   risks.
+- Create and update repository files atomically using existing interfaces:
+  `TranslationFormat.save_atomic()` for format writers and
+  `BaseAddon.write_repo_file()` for add-ons. Stage external-tool output before
+  installation; never truncate or copy over repository files in place. Preserve
+  repository locks, path validation, and existing file permissions, including
+  executable bits. See the atomic repository writes guidance in
+  `docs/contributing/code.rst`.
 - Handle VCS operations defensively and surface failures cleanly.
 - Mock external VCS operations and API calls in tests.
 - Review `docs/security/threat-model.rst` when changing public endpoints,
@@ -184,6 +213,14 @@ For application-developer workflows and broader product integration guidance, us
   the commands below. Run `./scripts/devcontainer doctor` to diagnose setup,
   and `./scripts/devcontainer bootstrap` after dependency changes. The test
   environment uses PostgreSQL and Valkey; it does not start application workers.
+- Use `./scripts/devcontainer verify` for full lint, typing, documentation, and
+  frontend verification, or repeat `--check lint`, `--check types`, `--check docs`,
+  and `--check frontend` to select groups. This requires an already prepared
+  environment and does not synchronize dependencies. Hooks can apply fixes.
+- Use `./scripts/devcontainer migration-test VERSION` for populated historical
+  upgrade verification. It snapshots current edits into a disposable clone and
+  uses a separate database; do not run `ci/run-migrate` directly in a working
+  checkout because it changes Git checkouts and resets the database.
 - Install the development dependencies first using
   `uv sync --all-extras --dev`.
 - After syncing, prefer `uv run ...` for subsequent commands so they use the

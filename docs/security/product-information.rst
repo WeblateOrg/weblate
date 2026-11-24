@@ -29,8 +29,10 @@ Subscribers can contact Weblate Care at care@weblate.org as documented in
 Security
 --------
 
-Report security issues using private channels documented in
-:doc:`/security/issues`. The primary security contact is security@weblate.org.
+Report low and medium severity security issues publicly on GitHub. Report high
+and critical severity vulnerabilities through the private channels documented
+in :doc:`/security/issues`. If you are unsure of the severity, you may start
+privately. The primary security contact is security@weblate.org.
 
 Releases and distribution
 -------------------------

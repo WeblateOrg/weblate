@@ -434,6 +434,9 @@ The user browsing has similar search abilities:
 ``change_action:TEXT``
    Same as in :ref:`search-strings`.
 
+The contribution, language, change time, and change action filters only match
+history you are allowed to view.
+
 Additional lookups are available in the :ref:`management-interface`:
 
 ``is:bot``

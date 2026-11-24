@@ -323,8 +323,16 @@ names and their submitted IDs alongside translated text. Do not treat the
 uploaded resource mapping as confidential; enable publication only when this
 disclosure is intended. Registration and status API access remains permission-controlled.
 
+Installation offers to install :ref:`addon-weblate.cdn.files` by default so the
+SDK can also consume the original Android XML files. Existing Translation files
+CDN installations are reused. For existing Kotlin SDK installations, use
+:guilabel:`Install Translation files CDN` on the configuration page, then return
+to copy the updated Gradle configuration. Original files are also published
+publicly, including those from private components.
+
 Copy the Gradle plugin configuration from the add-on configuration page. It
-includes the Weblate server URL, public CDN URL, project slug, and component
+includes the Weblate server URL, separate ``translationFiles`` and ``kotlinSdk``
+public CDN URLs, project slug, and component
 path (with any category path URL-encoded). Replace the placeholder with a
 project-scoped API token whose permissions allow editing the component. Project
 administrators can create one in the project's :guilabel:`API access` tab; see
@@ -775,7 +783,9 @@ Fedora Messaging
                 +-------------------------+-----------------------------+--------------------------------------------------------------------------------------------------------------------------------------+
                 | **Timeouts and retries**                                                                                                                                                                     |
                 +-------------------------+-----------------------------+--------------------------------------------------------------------------------------------------------------------------------------+
-                | ``publish_timeout``     | Publish timeout             | How many seconds to wait for the broker delivery acknowledgement.                                                                    |
+                | ``connection_timeout``  | Connection timeout          | How many seconds to allow for connection and channel setup per attempt.                                                              |
+                +-------------------------+-----------------------------+--------------------------------------------------------------------------------------------------------------------------------------+
+                | ``publish_timeout``     | Publish timeout             | How many seconds to allow for sending and the broker delivery acknowledgement per attempt, after connection setup.                   |
                 +-------------------------+-----------------------------+--------------------------------------------------------------------------------------------------------------------------------------+
                 | ``connection_attempts`` | Connection attempts         | How many times to try connecting to the broker.                                                                                      |
                 +-------------------------+-----------------------------+--------------------------------------------------------------------------------------------------------------------------------------+
@@ -805,6 +815,35 @@ Sends notifications to a Fedora Messaging compatible AMQP exchange.
 
 Fedora Messaging is AMQP-based publisher for all changes happening in Weblate.
 You can hook additional services on changes happening in Weblate using this.
+
+Configure the broker with a plain ``amqp://`` or ``amqps://`` URL, including
+its virtual host. URL query strings and fragments are not supported. Use the
+add-on's connection attempts, retry delay, and timeout fields instead.
+Each connection attempt has separate connection and publish timeouts. The
+connection timeout covers DNS resolution, TCP and TLS connection establishment,
+AMQP authentication, channel opening, and publisher-confirm negotiation. The
+publish timeout starts when the connection is ready and covers sending the
+message and waiting for broker confirmation. Both timeouts default to five
+seconds. Previously, the publish timeout covered the entire operation.
+
+Each configured retry receives fresh timeout budgets, with the retry delay
+between attempts. The maximum socket-operation and retry-delay time is
+``connection_attempts * (connection_timeout + publish_timeout) +
+(connection_attempts - 1) * retry_delay``.
+
+Publishing resolves DNS when opening a connection and reuses the
+existing connection without further DNS lookups. Resolved addresses and the
+connected peer are checked against the configured private-network restrictions.
+Synchronous DNS resolution cannot be interrupted by the connection timeout and
+can exceed it when the system resolver is slow or unavailable. Rejected
+messages are not retried.
+
+Weblate reuses a publisher connection in each worker process, with AMQP
+heartbeats disabled. A stale connection detected before sending is replaced
+once within the same connection timeout, even with only one configured
+attempt. Other failed connections are discarded and recreated on the next
+configured attempt. A write failure or lost broker confirmation can cause
+duplicate delivery; consumers can identify retries by their unchanged message ID.
 
 Message topic
 ~~~~~~~~~~~~~

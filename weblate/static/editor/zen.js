@@ -304,15 +304,20 @@
         return response.json();
       })
       .then((data) => {
+        for (const val of data.messages) {
+          addAlert(val.text, val.kind);
+        }
+
+        if (data.unit_state_class === undefined) {
+          statusdiv._lastPayload = undefined;
+          row.classList.remove("translation-saved");
+          return;
+        }
         statusdiv.setAttribute(
           "class",
           `unit-state-cell ${data.unit_state_class}`,
         );
         statusdiv.setAttribute("title", data.unit_state_title);
-
-        for (const val of data.messages) {
-          addAlert(val.text, val.kind);
-        }
 
         if (data.translationsum === "") {
           row.classList.remove("translation-saved");
@@ -576,9 +581,10 @@
       ngettext("%s suggestion", "%s suggestions", count),
       [count],
     );
-    indicator.title = text;
     indicator.querySelector(".zen-suggestions-count").textContent = count;
-    indicator.querySelector(".zen-suggestions-label").textContent = text;
+    for (const label of indicator.querySelectorAll(".zen-suggestions-label")) {
+      label.textContent = text;
+    }
   }
 
   /* Resync a Zen row from the JSON payload of the zen unit endpoints */

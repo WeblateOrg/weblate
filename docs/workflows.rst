@@ -10,10 +10,12 @@ It is up to you to decide how many of Weblate features you want to make use of.
 The following is not a complete list of ways to configure Weblate.
 You can base other workflows on the examples listed here.
 
+.. index:: ! workflow settings
+
 .. _workflow-customization:
 
-Workflow customization
-----------------------
+Per-language workflow settings
+------------------------------
 
 In addition to configuration at :ref:`project` and :ref:`component` (as
 :ref:`project-translation_review`, :ref:`component-enable_suggestions`,
@@ -23,7 +25,10 @@ customized per language.
 
 Site-wide workflow customization can be done while :ref:`changing-languages`.
 
-Per-project customization can be done on each language page of the project.
+To change workflow settings for one language in a project, open the target
+language's page in the project, choose :guilabel:`Settings`, and enable
+:guilabel:`Customize translation workflow for this language in this project`.
+This requires permission to edit project settings.
 
 Review and suggestion settings can be overridden, the only limitation is that
 :ref:`project-translation_review` needs to be turned on and can only be
@@ -40,10 +45,14 @@ The first existing setting applies:
    Please be careful when using site-wide override as that applies to all
    projects (unless they have own overrides for a given language).
 
+.. index:: ! custom source language
+
 .. _workflow-source-language:
 
 Custom source language
 ++++++++++++++++++++++
+
+.. versionadded:: 2026.10
 
 Select :guilabel:`Source language` in a project's language workflow settings to
 translate from another language in the same project. For example, you can
@@ -489,6 +498,11 @@ quality filter used for repository commits.
 The component's :guilabel:`Diagnostics` recommends the add-on when an LLM service
 is configured. If the selected service becomes unavailable, an error diagnostic
 links maintainers to the installed add-on's configuration.
+
+The add-on activity log shows failure reasons and counts the translation units
+in failed batches. If the service fails before any batch starts, the activity
+shows an error with zero failed units. The Weblate system log records details
+for each failure, such as the HTTP status returned by the service.
 
 .. _translation-reuse-workflow:
 

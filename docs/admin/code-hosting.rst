@@ -300,6 +300,17 @@ manifest with the correct permissions, events, and webhook URL pre-filled:
    database. The :guilabel:`Connect GitHub account` button is available
    immediately afterwards.
 
+GitHub App manifest-code exchanges, OAuth exchanges, and API requests follow
+:setting:`VCS_RESTRICT_PRIVATE`, including redirects and pagination URLs. The
+initial manifest submission goes directly from your browser to GitHub and is
+outside this server-side policy.
+
+For a GitHub Enterprise host on a private network, add its hostname to
+:setting:`VCS_PRIVATE_ALLOWLIST` or :setting:`VCS_ALLOW_HOSTS` before registering
+the App. The same exemption is needed for repository access. If
+:setting:`VCS_ALLOW_HOSTS` is non-empty, it must also include the Enterprise
+hostname; :setting:`VCS_PRIVATE_ALLOWLIST` does not bypass that host filter.
+
 The manifest requests the permissions and event subscriptions Weblate needs
 (``Contents`` and ``Pull requests`` read/write, ``Metadata`` read-only,
 ``Organization administration`` read-only, ``Workflows`` read/write, and the
@@ -314,15 +325,30 @@ the user's organization role and the organization's GitHub App installation
 restrictions. On GitHub.com, public apps can be installed on other accounts;
 private apps can only be installed on the account that owns the app.
 
+.. _code-hosting-github-app-connect:
+
 Connecting a workspace
 ^^^^^^^^^^^^^^^^^^^^^^
 
 Connected GitHub accounts are bound to a Weblate :ref:`workspace <workspaces>`.
-A user with project administration rights for any project in a workspace can
-connect a GitHub account on that workspace. After connecting, every project in
-the workspace can import components from repositories the GitHub App
-installation has access to. For organization accounts, Weblate verifies that
+Connecting a GitHub account requires ``workspace.edit`` on the destination
+workspace or the site-wide ``management.use`` permission.
+After connecting, every project in the workspace can import components from
+repositories the GitHub App installation has access to. For organization
+accounts, Weblate verifies that
 the install-time GitHub user can administer the organization installation.
+
+To reuse an installation from another workspace you manage, select
+:guilabel:`Connect GitHub account` for the destination workspace and choose the
+existing account. Authorize Weblate on GitHub to confirm that you administer
+the installation. Both workspaces can then use all repositories selected for
+that installation on GitHub. Site-wide managers see accounts from workspaces
+they explicitly own first. Expand :guilabel:`Other accounts` to see the rest.
+
+If GitHub returns you to Weblate after updating an installation that is not yet
+connected, select the workspace and GitHub host, then choose :guilabel:`Authorize
+on GitHub`. If GitHub rejects the authorization code, choose :guilabel:`Authorize
+again` to finish connecting the same installation.
 
 Projects that are not in a workspace cannot connect a GitHub account through
 the GitHub App.
@@ -353,11 +379,14 @@ the :guilabel:`Migrate to GitHub App` link from the diagnostic to review all
 eligible components in the workspace.
 
 Connect or update the GitHub account for the workspace, grant the App access
-to the listed repositories, and select the components to migrate. Weblate
+to the listed repositories, and select the :guilabel:`Ready` components in the
+migration table. Choose :guilabel:`Migrate selected components`. Weblate
 changes the selected components to the
 :guilabel:`GitHub (via Weblate GitHub app)` VCS backend, replaces their
 repository addresses with canonical HTTPS clone URLs, and removes separate
 push URLs because the App authenticates pushes to the source repository.
+Components using the App stay in the table. Follow a component link to return
+to its overview.
 
 .. _code-hosting-github-app-webhook:
 
@@ -426,6 +455,17 @@ GitHub.com, use
 ``api.github.com`` as the API host. The token must allow Weblate to read and
 write repository contents and create pull requests. If Weblate should fork
 private repositories, the token might also need administration access.
+
+Use :ref:`component-vcs_params` to add labels or an assignee to pull requests.
+Weblate can also assign the GitHub account linked to the user who started the
+push. This dynamic assignee is only added to newly created pull requests, and is
+skipped when the push has no acting user or that user has no GitHub account
+linked to Weblate. GitHub ignores assignees without access to the repository,
+including the acting user, and Weblate reports them as a component alert.
+When Weblate pushes to an already open pull request, it adds only the configured
+labels and assignee that are missing. Applying labels and assignees requires
+permission to write pull requests; failures are reported as component alerts
+without failing a push which already succeeded.
 
 If creating a pull request fails with ``404 Not Found``, GitHub can be refusing
 API access even when the repository is readable. Weblate checks the repository's

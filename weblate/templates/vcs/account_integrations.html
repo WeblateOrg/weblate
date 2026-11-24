@@ -3,15 +3,14 @@
 {% load i18n %}
 
 {% block breadcrumbs %}
-  <li class="breadcrumb-item">
-    <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>
-  </li>
   {% if selected_workspace %}
+    {% include "vcs/workspace_breadcrumbs.html" with workspace=selected_workspace current=True only %}
+  {% else %}
     <li class="breadcrumb-item">
-      <a href="{{ selected_workspace.get_absolute_url }}">{{ selected_workspace }}</a>
+      <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>
     </li>
+    <li class="breadcrumb-item">{% translate "Code-hosting connections" %}</li>
   {% endif %}
-  <li class="breadcrumb-item">{% translate "Code-hosting connections" %}</li>
 {% endblock breadcrumbs %}
 
 {% block content %}

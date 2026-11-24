@@ -40,8 +40,17 @@ if TYPE_CHECKING:
         ("properties", "# Note\nold=Value\nkeep=Other\n", "new"),
         ("gwt", "# Note\nold=Values\nold[one]=Value\n", "new"),
         ("php", '<?php\n// Note\n$old = "Value";\n', "$new"),
+        ("php", '<?php\n$old = "Value";\n', '$lang["it\'s"]'),
+        ("php", '<?php\n$old = "Value";\n', "$lang['say \"hi\"']"),
+        ("php", '<?php\n$old = "Value";\n', "$lang['group']['title']"),
+        ("php", '<?php\n$old = "Value";\n', "$lang[42]"),
+        ("properties", "old=Value\n", r"new\ key"),
+        ("properties", "old=Value\n", r"new\=key"),
+        ("gwt", "old=Values\nold[one]=Value\n", "new.title"),
         ("dtd", '<!-- Note -->\n<!ENTITY old "Value">\n', "new"),
+        ("dtd", '<!ENTITY old "Value">\n', "new.title-name"),
         ("fluent", "# Note\nold = Value\n", "new"),
+        ("fluent", "-old = Value\n", "-new"),
         (
             "aresource",
             '<resources><string name="old">Value</string></resources>',
@@ -51,6 +60,11 @@ if TYPE_CHECKING:
             "resx",
             '<root><data name="old"><value>Value</value><comment>Note</comment></data></root>',
             "new",
+        ),
+        (
+            "resx",
+            '<root><data name="old"><value>Value</value></data></root>',
+            "new\nkey",
         ),
     ],
 )
@@ -68,6 +82,104 @@ def test_key_roundtrip(format_id: str, content: str, new_key: str) -> None:
     edited = find_identity(reloaded, {"source": unit.source, "context": new_key})
     assert edited.target == target
     assert edited.notes == notes
+
+
+@pytest.mark.parametrize(
+    ("format_id", "content", "key"),
+    [
+        ("php", '<?php\n$old = "Value";\n', "$old; $other"),
+        ("php", '<?php\n$old = "Value";\n', "$old[1 + 2]"),
+        ("php", '<?php\n$old = "Value";\n', '$old["$variable"]'),
+        ("properties", "old=Value\n", "new\nother=value"),
+        ("properties", "old=Value\n", "#comment"),
+        ("properties", "old=Value\n", "new=value"),
+        ("properties", "old=Value\n", "new key"),
+        ("gwt", "old=Value\n", "new\rother=value"),
+        ("dtd", '<!ENTITY old "Value">\n', 'new "value"'),
+        ("dtd", '<!ENTITY old "Value">\n', "new>other"),
+        (
+            "aresource",
+            '<resources><string name="old">Value</string></resources>',
+            "new key",
+        ),
+        ("fluent", "old = Value\n", "new key"),
+        (
+            "resx",
+            '<root><data name="old"><value>Value</value></data></root>',
+            "new\x00key",
+        ),
+    ],
+)
+def test_key_validation_precedes_mutation(
+    format_id: str, content: str, key: str
+) -> None:
+    cls = FILE_FORMATS[format_id]
+    store = cls(BytesIO(content.encode()), is_template=True)
+    raw = next(iter(store.all_store_units))
+    unit = store.get_unit_class(store.file_format_params)(store, raw, raw)
+    original = store.serialize(store.store)
+
+    with pytest.raises(ValidationError, match="cannot be represented"):
+        cls.validate_context(key)
+    with pytest.raises(ValidationError, match="cannot be represented"):
+        edit_identity(store, unit, {"source": unit.source, "context": key})
+
+    assert store.serialize(store.store) == original
+
+
+@pytest.mark.parametrize("key", ["title", "nested'[]->'new", "42"])
+def test_laravel_new_keys_roundtrip(key: str) -> None:
+    cls = FILE_FORMATS["laravel"]
+    store = cls(BytesIO(b"<?php\nreturn [];\n"), is_template=True)
+    cls.validate_context(key)
+    store.validate_new_context(key)
+    unit = store.new_unit(key, "Value")
+    reloaded = cls(BytesIO(store.serialize(store.store)), is_template=True)
+    assert (
+        find_identity(reloaded, {"source": unit.source, "context": key}).target
+        == "Value"
+    )
+
+
+def test_properties_validation_uses_file_encoding() -> None:
+    cls = FILE_FORMATS["properties"]
+    utf8 = cls(
+        BytesIO(b"old=Value\n"),
+        is_template=True,
+        file_format_params={"properties_encoding": "utf-8"},
+    )
+    utf8.validate_new_context("title_Ω")
+    utf8.new_unit("title_Ω", "Value")
+    assert "title_Ω" in utf8.serialize(utf8.store).decode("utf-8")
+
+    latin1 = cls(
+        BytesIO(b"old=Value\n"),
+        is_template=True,
+        file_format_params={"properties_encoding": "iso-8859-1"},
+    )
+    with pytest.raises(ValidationError, match="cannot be represented"):
+        latin1.validate_new_context("title_Ω")
+
+
+def test_strings_validation_uses_quoted_dialect() -> None:
+    cls = FILE_FORMATS["strings"]
+    store = cls(
+        BytesIO(b'"old" = "Value";\n'),
+        is_template=True,
+        file_format_params={"strings_encoding": "utf-8"},
+    )
+    key = "a=b with spaces"
+    cls.validate_context(key)
+    store.validate_new_context(key)
+    store.new_unit(key, "Value")
+    reloaded = cls(
+        BytesIO(store.serialize(store.store)),
+        is_template=True,
+        file_format_params={"strings_encoding": "utf-8"},
+    )
+    assert (
+        find_identity(reloaded, {"source": "Value", "context": key}).target == "Value"
+    )
 
 
 @pytest.mark.parametrize(

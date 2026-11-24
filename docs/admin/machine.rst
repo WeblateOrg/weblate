@@ -22,6 +22,10 @@ administrators can configure them for a project:
    them how you want. Third-party services can receive source strings,
    translations, and related context from Weblate.
 
+Responses fetched through Weblate's shared HTTP client are limited to 1 MiB
+of decoded data, including service validation and language discovery. Larger
+responses fail as download errors. See :ref:`outbound-http-limits`.
+
 The services translate from the source language as configured at
 :ref:`component`, see :ref:`component-source_language`.
 
@@ -37,6 +41,10 @@ services link to their owning scope when you have permission to manage them.
 The listing summarizes basic configuration such as the model, source-language
 selection, and region, together with the installation ID and slug. Credentials,
 API URLs, and free-form prompts are excluded from these summaries.
+
+Opening a service’s configuration or changing an installation or exclusion in a
+browser requires :ref:`recent credential verification <2fa>`. If verification
+expires while editing, confirm your identity, then submit the change again.
 
 A :guilabel:`Rate limited` badge indicates that Weblate has temporarily paused
 requests after a provider error. The default cooldown is 30 minutes, but its
@@ -135,9 +143,10 @@ LLM translation context
 
 LLM-based translation services receive additional context about each
 translated string, when available. This includes the string context or
-monolingual key, additional explanation, configured secondary-language
-translation, plural information, failing quality checks, and placeholder
-contents. Matching glossary entries are passed with their explanations and
+monolingual key, additional explanation, developer comments from the source
+file (such as a RESX ``<comment>`` or a gettext ``#.`` comment), configured
+secondary-language translation, plural information, failing quality checks,
+and placeholder contents. Matching glossary entries are passed with their explanations and
 selected flags, so duplicate glossary terms can be disambiguated.
 
 You can add target-language-specific instructions in

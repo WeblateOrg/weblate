@@ -312,6 +312,17 @@ class Environment:
             self.call("logs", "--no-color", "--tail", "300", *self.services)
         return status
 
+    def verification(self, command: str, arguments: list[str]) -> int:
+        if command == "migration-test":
+            # The host migration runner uses Environment; defer to avoid a cycle.
+            from migration import migration_test  # ruff: ignore[import-outside-top-level]
+
+            return migration_test(self.root, arguments[0])
+        self.profile = "tests"
+        return self.execute(
+            ["uv", "run", "--no-sync", "python", ".devcontainer/verify.py", *arguments]
+        )
+
     def doctor(self, arguments: list[str]) -> int:
         if arguments == ["--browser"]:
             self.profile = "tests"
@@ -348,6 +359,8 @@ def dispatch(
         )
     if command == "application-test":
         return env.application_test()
+    if command in {"verify", "migration-test"}:
+        return env.verification(command, arguments)
     if command == "browser-test":
         env.profile = "tests"
         return (
@@ -377,10 +390,8 @@ def dispatch(
         )
     if command == "bootstrap":
         return env.up() if env.profile == "app" else env.bootstrap()
-    if command == "build":
-        return env.call("build", *services)
-    if command == "stop":
-        return env.call("stop", *services)
+    if command in {"build", "stop"}:
+        return env.call(command, *services)
     if command == "destroy":
         return env.destroy(all_profiles=all_profiles)
     if command == "logs":
@@ -410,6 +421,49 @@ def dispatch(
     return env.call(*arguments)
 
 
+def command_arguments(
+    parser: argparse.ArgumentParser, command: str, arguments: list[str]
+) -> list[str]:
+    if command == "destroy":
+        if arguments != ["--yes"]:
+            parser.error(
+                "destroy requires --yes and removes the selected environment's volumes"
+            )
+    elif command in {"exec", "compose"}:
+        if not arguments:
+            parser.error("a command is required after --")
+    elif command == "urls":
+        if arguments not in ([], ["--json"]):
+            parser.error("urls only accepts --json")
+    elif command == "doctor":
+        if arguments not in ([], ["--browser"]):
+            parser.error("doctor only accepts --browser")
+    elif command == "browser-test":
+        browser_parser = argparse.ArgumentParser(prog="browser-test")
+        browser_parser.add_argument("--target", action="append")
+        browser_args, pytest_args = browser_parser.parse_known_args(arguments)
+        arguments = [
+            *(browser_args.target or ["weblate/trans/tests/test_selenium.py"]),
+            *pytest_args,
+        ]
+    elif command == "verify":
+        verify_parser = argparse.ArgumentParser(prog="verify")
+        verify_parser.add_argument(
+            "--check", choices=["lint", "types", "docs", "frontend"], action="append"
+        )
+        verify_parser.parse_args(arguments)
+    elif command == "migration-test":
+        if len(arguments) != 1 or not re.fullmatch(
+            r"[0-9]+(?:\.[0-9]+)+", arguments[0]
+        ):
+            parser.error(
+                "migration-test requires one release version, for example 5.10"
+            )
+    elif command not in {"logs", "check", "compilemessages", "test"} and arguments:
+        parser.error("unexpected arguments")
+    return arguments
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--rundev", action="store_true", help=argparse.SUPPRESS)
@@ -432,6 +486,8 @@ def main() -> int:
         "test",
         "browser-test",
         "application-test",
+        "verify",
+        "migration-test",
         "bootstrap",
         "build",
         "stop",
@@ -452,30 +508,7 @@ def main() -> int:
         args.command = "compose"
     if args.all and args.command not in {"stop", "logs", "destroy"}:
         parser.error("--all only applies to stop, logs, and destroy")
-    if args.command == "destroy":
-        if arguments != ["--yes"]:
-            parser.error(
-                "destroy requires --yes and removes the selected environment's volumes"
-            )
-    elif args.command in {"exec", "compose"}:
-        if not arguments:
-            parser.error("a command is required after --")
-    elif args.command == "urls":
-        if arguments not in ([], ["--json"]):
-            parser.error("urls only accepts --json")
-    elif args.command == "doctor":
-        if arguments not in ([], ["--browser"]):
-            parser.error("doctor only accepts --browser")
-    elif args.command == "browser-test":
-        browser_parser = argparse.ArgumentParser(prog="browser-test")
-        browser_parser.add_argument("--target", action="append")
-        browser_args, pytest_args = browser_parser.parse_known_args(arguments)
-        arguments = [
-            *(browser_args.target or ["weblate/trans/tests/test_selenium.py"]),
-            *pytest_args,
-        ]
-    elif args.command not in {"logs", "check", "compilemessages", "test"} and arguments:
-        parser.error("unexpected arguments")
+    arguments = command_arguments(parser, args.command, arguments)
     root = Path(__file__).resolve().parent.parent
     initialize(root)
     if args.command == "initialize":
@@ -489,7 +522,9 @@ def main() -> int:
 if __name__ == "__main__":
     try:
         sys.exit(main())
-    except (OSError, ValueError, subprocess.CalledProcessError) as error:
+    except KeyboardInterrupt:
+        sys.exit(130)
+    except (OSError, ValueError, RuntimeError, subprocess.CalledProcessError) as error:
         print(f"Development environment failed: {error}", file=sys.stderr)
         sys.exit(
             error.returncode if isinstance(error, subprocess.CalledProcessError) else 1

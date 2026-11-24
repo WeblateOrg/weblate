@@ -101,11 +101,11 @@
           <input type="submit"
                  class="btn btn-primary"
                  name="toggle"
-                 value="{% if service.enabled %}{% translate "Turn off" %}{% else %}{% translate "Turn on" %}{% endif %}" />
+                 value="{% if service.enabled %}{% translate "Turn off"|force_escape %}{% else %}{% translate "Turn on"|force_escape %}{% endif %}" />
           <input type="submit"
                  class="btn btn-primary"
                  name="trigger"
-                 value="{% translate "Perform backup" %}" />
+                 value="{% translate "Perform backup"|force_escape %}" />
           <button type="button"
                   class="btn btn-danger"
                   data-bs-toggle="modal"
@@ -129,7 +129,7 @@
               <button type="button"
                       class="btn-close"
                       data-bs-dismiss="modal"
-                      aria-label="{% translate "Close" %}"></button>
+                      aria-label="{% translate "Close"|force_escape %}"></button>
             </div>
             <div class="modal-body">
               <p>
@@ -143,7 +143,7 @@
               <input type="submit"
                      class="btn btn-danger"
                      name="remove"
-                     value="{% translate "Delete" %}" />
+                     value="{% translate "Delete"|force_escape %}" />
             </div>
           </div>
           <!-- /.modal-content -->
@@ -193,7 +193,7 @@
         <input type="submit"
                id="generate-ssh-button"
                class="btn btn-primary"
-               value="{% translate "Add" %}" />
+               value="{% translate "Add"|force_escape %}" />
       </div>
     </div>
   </form>

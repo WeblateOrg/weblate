@@ -22,6 +22,7 @@ from django.template.loader import render_to_string
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 from django.utils import timezone
+from django.utils.html import escape
 
 from weblate.accounts.models import AuditLog, Profile, Subscription, WeblateAccountsConf
 from weblate.accounts.notifications import (
@@ -30,6 +31,7 @@ from weblate.accounts.notifications import (
     SUBSCRIPTION_CACHE_SIZE,
     LastAuthorCommentNotificaton,
     MergeFailureNotification,
+    NewComponentNotificaton,
     Notification,
     NotificationFrequency,
     NotificationScope,
@@ -53,9 +55,11 @@ from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
+from weblate.screenshots.tasks import check_unused_screenshots
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
     Announcement,
+    Category,
     Change,
     Comment,
     Project,
@@ -366,6 +370,36 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
 
         # Check mail
         self.validate_notifications(2, "[Weblate] Repository failure in Test/Test")
+
+    def test_notification_category_navigation(self) -> None:
+        parent = None
+        categories = []
+        for index in range(3):
+            parent = Category.objects.create(
+                name=f"Mail category {index}",
+                slug=f"mail-{index}",
+                project=self.project,
+                category=parent,
+            )
+            categories.append(parent)
+        self.component.category = parent
+        self.component.save(update_fields=["category"])
+        change = self.component.change_set.create(
+            action=ActionEvents.MERGE,
+            user=self.user,
+        )
+        change = Change.objects.prefetch_for_render().get(pk=change.pk)
+        change.fill_in_prefetched()
+        notification = RepositoryNotification([])
+        context = notification.get_context(change)
+        content = notification.render_template(".html", context)
+        for category in categories:
+            self.assertIn(
+                f'href="{get_site_url(category.get_absolute_url())}"', content
+            )
+            self.assertIn(escape(category.name), content)
+        with self.assertNumQueries(0):
+            notification.render_template(".html", context)
 
     def test_notify_repository(self) -> None:
         change = self.create_with_callbacks(
@@ -959,13 +993,39 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
 
     def test_notify_unused_screenshot_links_to_screenshot(self) -> None:
         self.component.project.add_user(self.user, "Administration")
-        with self.captureOnCommitCallbacks(execute=True):
+        with (
+            patch.object(check_unused_screenshots, "apply_async") as enqueue,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             screenshot = Screenshot.objects.create(
                 name="Unassigned screenshot",
                 image="screenshots/test.png",
                 translation=self.component.source_translation,
             )
+            enqueue.assert_not_called()
+        enqueue.assert_called_once_with(args=(self.component.pk,), countdown=300)
+        deadline = screenshot.timestamp + timedelta(minutes=5)
+        with (
+            patch(
+                "django.utils.timezone.now",
+                return_value=deadline - timedelta(seconds=1),
+            ),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            check_unused_screenshots(self.component.pk)
+        self.validate_notifications(0)
+        changes = self.component.change_set.filter(
+            action=ActionEvents.ALERT, details__alert="UnusedScreenshot"
+        )
+        self.assertFalse(changes.exists())
+        with (
+            patch("django.utils.timezone.now", return_value=deadline),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            check_unused_screenshots(self.component.pk)
+            check_unused_screenshots(self.component.pk)
 
+        self.assertEqual(changes.count(), 1)
         self.validate_notifications(1, "[Weblate] New alert on Test/Test")
         self.assertIn(
             f'href="{get_site_url(screenshot.get_absolute_url())}"',
@@ -2111,6 +2171,39 @@ class SubscriptionTest(FixtureComponentTestCase):
         # the specific merge-failure notification.
         self.component.project.add_user(self.user, "Administration")
         self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_INSTANT)), 0)
+
+
+class NotificationSubjectTest(SimpleTestCase):
+    @override_settings(
+        SITE_TITLE='Ateliér & <Studio>\r\n"News" &amp;',
+        EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend",
+    )
+    def test_included_subject_is_plain_text_and_html_title_is_escaped(self) -> None:
+        outgoing = get_notification_emails(
+            "en", ["recipient@example.com"], "reset-nonexisting"
+        )
+        subject = 'Password reset on Ateliér & <Studio> "News" &amp;'
+        self.assertEqual(outgoing[0]["subject"], subject)
+        self.assertIn(f"<title>{escape(subject)}</title>", outgoing[0]["body"])
+
+        send_mails(outgoing)
+        serialized = mail.outbox[0].message(policy=policy.SMTP).as_bytes()
+        message = BytesParser(policy=policy.default).parsebytes(serialized)
+        self.assertEqual(message["Subject"], settings.EMAIL_SUBJECT_PREFIX + subject)
+
+    def test_immediate_and_digest_subjects_are_plain_text(self) -> None:
+        notification = NewComponentNotificaton([])
+        name = 'Ateliér & <Studio> "News" &amp;'
+        context = {"component": name, "notification_name": name}
+
+        self.assertEqual(
+            notification.render_template("_subject.txt", context),
+            f"New translation component {name}",
+        )
+        self.assertEqual(
+            notification.render_template("_subject.txt", context, digest=True),
+            f"Digest: {name}",
+        )
 
 
 class SendMailsTest(SimpleTestCase):

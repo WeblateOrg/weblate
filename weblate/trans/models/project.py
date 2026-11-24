@@ -13,8 +13,8 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import IntegrityError, models, router, transaction
-from django.db.models import F, Q, QuerySet, Value
-from django.db.models.functions import Replace
+from django.db.models import Exists, F, Q, QuerySet, Value
+from django.db.models.functions import Replace, Upper
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
@@ -49,7 +49,7 @@ from weblate.utils.change_origin import (
 )
 from weblate.utils.files import remove_tree
 from weblate.utils.licenses import get_license_choices
-from weblate.utils.lock import WeblateLock
+from weblate.utils.lock import LockScope, WeblateLock
 from weblate.utils.render import (
     validate_render_addon,
     validate_render_commit,
@@ -75,9 +75,11 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, Group, User
     from weblate.billing.models import Billing
     from weblate.machinery.types import SettingsDict
-    from weblate.trans.models import Alert, Category
+    from weblate.trans.models import Category
+    from weblate.trans.models.alert import AlertQuerySet
     from weblate.trans.models.component import Component, ComponentQuerySet
     from weblate.trans.models.label import Label
+    from weblate.utils.stats import GhostProjectLanguageStats
     from weblate.workspaces.models import Workspace
 
 
@@ -112,7 +114,8 @@ class ProjectLanguageFactory(UserDict):
         return [self[language] for language in self._project.languages]
 
     def preload_workflow_settings(
-        self, instances: Iterable[ProjectLanguage] | None = None
+        self,
+        instances: Iterable[ProjectLanguage | GhostProjectLanguageStats] | None = None,
     ) -> None:
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models.workflow import WorkflowSetting
@@ -147,6 +150,18 @@ class ProjectLanguageFactory(UserDict):
         # Indicate that there is no setting
         for instance in pending.values():
             instance.__dict__["workflow_settings"] = None
+
+    def ensure_workflow_settings(
+        self, instances: Iterable[ProjectLanguage | GhostProjectLanguageStats]
+    ) -> None:
+        """Load workflows that have not been resolved for these instances."""
+        pending = [
+            instance
+            for instance in instances
+            if "workflow_settings" not in instance.__dict__
+        ]
+        if pending:
+            self.preload_workflow_settings(pending)
 
 
 class ProjectQuerySet(QuerySet["Project", "Project"]):
@@ -210,7 +225,9 @@ class ProjectQuerySet(QuerySet["Project", "Project"]):
         return self
 
 
-def prefetch_project_flags(projects: Iterable[Project]) -> Iterable[Project]:
+def prefetch_project_flags(
+    projects: Iterable[Project], user: User | None = None
+) -> Iterable[Project]:
     id_lookup = {project.id: project for project in projects}
     if id_lookup:
         queryset = Project.objects.filter(id__in=id_lookup)
@@ -218,16 +235,24 @@ def prefetch_project_flags(projects: Iterable[Project]) -> Iterable[Project]:
         for project in projects:
             project.__dict__["locked"] = False
             project.__dict__["has_alerts"] = False
-        # Indicate alerts
+        # Indicate only diagnostics visible to the viewer, before aggregation.
+        from weblate.trans.models.alert import Alert  # ruff: ignore[import-outside-top-level]
+
+        alerts = Alert.objects.filter(
+            dismissed_at__isnull=True, severity__gte=AlertSeverity.ERROR
+        )
+        if user is not None:
+            alerts = alerts.filter_visible_conflicts(user)
+            for project in projects:
+                project.__dict__["visible_has_alerts"] = False
         for project_id in (
-            queryset.filter(
-                component__alert__dismissed_at__isnull=True,
-                component__alert__severity__gte=AlertSeverity.ERROR,
-            )
+            queryset.filter(component__alert__in=alerts)
             .values_list("id", flat=True)
             .distinct()
         ):
             id_lookup[project_id].__dict__["has_alerts"] = True
+            if user is not None:
+                id_lookup[project_id].__dict__["visible_has_alerts"] = True
         # Indicate projects where all components are locked. Projects without
         # components are not locked.
         for project_id in (
@@ -329,14 +354,14 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     )
     use_workspace_tm = models.BooleanField(
         verbose_name=gettext_lazy("Use workspace translation memory"),
-        default=False,
+        default=settings.DEFAULT_WORKSPACE_TM,
         help_text=gettext_lazy(
             "Uses the pool of shared translations between projects in the workspace."
         ),
     )
     contribute_workspace_tm = models.BooleanField(
         verbose_name=gettext_lazy("Contribute to workspace translation memory"),
-        default=False,
+        default=settings.DEFAULT_WORKSPACE_TM,
         help_text=gettext_lazy(
             "Contributes translations to the pool shared between projects in the workspace."
         ),
@@ -624,6 +649,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     # Workspace loaded with this instance; used to detect workspace changes.
     billing_original_workspace_id: UUID | Deferred | None
     # Old workspace captured by pre_save for one post_save billing recalculation.
+    billing_workspace_changed: bool
     billing_previous_workspace_id: UUID | None
     _all_glossaries_cache: tuple[int, list[Component]] | None = None
     _glossaries_cache: tuple[int, list[Component]] | None = None
@@ -634,6 +660,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         app_label = "trans"
         verbose_name = "Project"
         verbose_name_plural = "Projects"
+        constraints = [  # ruff: ignore[mutable-class-default]
+            models.UniqueConstraint(Upper("slug"), name="project_slug_ci_unique"),
+        ]
 
     def __str__(self) -> str:
         return self.name
@@ -664,7 +693,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             self.billing_original_workspace_id,
         )
         original_state = (self.pk, self._state.adding, self._state.db)
-        renamed_paths: tuple[str, str] | None = None
+        moved_paths: list[tuple[str, str]] = []
         created_paths: list[str] = []
         committed = False
 
@@ -694,16 +723,16 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                     capture_change_origin(mark_committed), using=using
                 )
                 old = Project.objects.using(using).get(pk=self.pk) if self.pk else None
-                renamed_paths = self._get_rename_paths(old) if old is not None else None
-                self._save_project_with_checks(old, created_paths, *args, **kwargs)
+                self._save_project_with_checks(
+                    old, created_paths, moved_paths, *args, **kwargs
+                )
         except Exception:
             if committed:
                 raise
             try:
                 for path in created_paths:
                     remove_tree(path, ignore_errors=True)
-                if renamed_paths is not None:
-                    old_path, new_path = renamed_paths
+                for old_path, new_path in moved_paths:
                     if not os.path.lexists(old_path) and os.path.exists(new_path):
                         os.rename(new_path, old_path)
             finally:
@@ -746,7 +775,12 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         validate_internal_installations_for_project(self)
 
     def _save_project_with_checks(
-        self, old: Project | None, created_paths: list[str], *args, **kwargs
+        self,
+        old: Project | None,
+        created_paths: list[str],
+        moved_paths: list[tuple[str, str]],
+        *args,
+        **kwargs,
     ) -> None:
         update_fields = kwargs.get("update_fields")
         boundary_changed = old is not None and any(
@@ -759,7 +793,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             for field in ("workspace_id", "access_control")
         )
         if not boundary_changed or old is None:
-            self._save_project(old, created_paths, *args, **kwargs)
+            self._save_project(old, created_paths, moved_paths, *args, **kwargs)
             return
 
         from weblate.checks.locks import lock_check_projects  # ruff: ignore[import-outside-top-level]
@@ -785,11 +819,16 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 }
             ).values_list("pk", flat=True)
         )
-        self._save_project(old, created_paths, *args, **kwargs)
+        self._save_project(old, created_paths, moved_paths, *args, **kwargs)
         refresh_propagation_checks(affected)
 
     def _save_project(
-        self, old: Project | None, created_paths: list[str], *args, **kwargs
+        self,
+        old: Project | None,
+        created_paths: list[str],
+        moved_paths: list[tuple[str, str]],
+        *args,
+        **kwargs,
     ) -> None:
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.tasks import component_alerts
@@ -822,16 +861,6 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 update_fields = update_fields_set
             # Generate change entries for changes
             self.generate_changes(old, update_fields=update_fields)
-            # Detect slug changes and rename directory
-            self.check_rename(old)
-            # Rename linked repos
-            if old.slug != self.slug:
-                for component in old.component_set.iterator():
-                    new_component = self.component_set.get(pk=component.pk)
-                    new_component.project = self
-                    component.linked_children.update(
-                        repo=new_component.get_repo_link_url()
-                    )
             update_tm = (
                 self.contribute_shared_tm and not old.contribute_shared_tm
             ) or (
@@ -839,9 +868,20 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 and not old_effective_contribute_workspace_tm
             )
 
-        self._create_path_for_save(created_paths)
+        slug_changed = (
+            old is not None
+            and should_track_field(self, "slug", update_fields)
+            and old.slug != self.slug
+        )
+        if not slug_changed:
+            self._create_path_for_save(created_paths)
 
         super().save(*args, **kwargs)
+
+        if slug_changed:
+            self.check_rename(old, moved_paths=moved_paths)
+            self._update_component_repository_links()
+            self._create_path_for_save(created_paths)
 
         if old is not None:
             if (
@@ -905,11 +945,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         if self.create_path():
             created_paths.append(self.full_path)
 
-    def _get_rename_paths(self, old: Project) -> tuple[str, str] | None:
-        old_path, new_path = old.full_path, self._get_path()
-        if old_path != new_path and os.path.exists(old_path):
-            return old_path, new_path
-        return None
+    def _update_component_repository_links(self) -> None:
+        for component in self.component_set.iterator():
+            component.linked_children.update(repo=component.get_repo_link_url())
 
     @property
     def effective_use_workspace_tm(self) -> bool:
@@ -1002,6 +1040,32 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         for component in self.component_set.iterator():
             update_enforced_checks.delay_on_commit(component.pk)
 
+    def validate_slug_unique(self) -> None:
+        if (
+            self.slug
+            and Project.objects.filter(slug__iexact=self.slug)
+            .exclude(pk=self.pk)
+            .exists()
+        ):
+            raise ValidationError(
+                {"slug": self.unique_error_message(Project, ("slug",))}
+            )
+
+    def validate_unique(self, exclude: Collection[str] | None = None) -> None:
+        excluded = set(exclude or ())
+        errors: dict[str, list[ValidationError]] = {}
+        try:
+            super().validate_unique(exclude=excluded | {"slug"})
+        except ValidationError as error:
+            error.update_error_dict(errors)
+        if "slug" not in excluded:
+            try:
+                self.validate_slug_unique()
+            except ValidationError as error:
+                error.update_error_dict(errors)
+        if errors:
+            raise ValidationError(errors)
+
     def clean(self) -> None:
         super().clean()
         if (
@@ -1074,9 +1138,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
         if workspace_propagation(self):
             return WeblateLock(
-                scope="workspace:checks",
+                scope=LockScope.WORKSPACE_CHECKS,
                 key=str(self.workspace_id),
-                slug=str(self.workspace_id),
                 timeout=PROJECT_CHECKS_LOCK_TIMEOUT,
                 origin=self.full_slug,
             )
@@ -1085,9 +1148,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     @cached_property
     def checks_lock(self):
         return WeblateLock(
-            scope="project:checks",
+            scope=LockScope.PROJECT_CHECKS,
             key=self.pk,
-            slug=self.slug,
             timeout=PROJECT_CHECKS_LOCK_TIMEOUT,
             origin=self.full_slug,
         )
@@ -1447,7 +1509,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return result
 
     @cached_property
-    def billings(self) -> list[Billing] | QuerySet[Billing]:
+    def billings(self) -> list[Billing]:
         if "weblate.billing" not in settings.INSTALLED_APPS or not self.workspace_id:
             return []
         # ruff: ignore[import-outside-top-level]
@@ -1456,7 +1518,15 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         objects = Billing.objects
         if self._state.db is not None:
             objects = objects.db_manager(self._state.db)
-        return objects.filter(workspace_id=self.workspace_id)
+        return list(
+            objects.filter(workspace_id=self.workspace_id).select_related("plan")
+        )
+
+    @property
+    def libre_cleanup_alerts(self) -> tuple[str, ...]:
+        if settings.OFFER_HOSTING and self.billings:
+            return self.billing.libre_cleanup_alerts
+        return ()
 
     @property
     def billing(self) -> Billing:
@@ -1490,7 +1560,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             )
 
     @cached_property
-    def all_active_alerts(self) -> QuerySet[Alert]:
+    def all_active_alerts(self) -> AlertQuerySet:
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models import Alert
 
@@ -1501,7 +1571,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return result
 
     @cached_property
-    def all_problem_alerts(self) -> QuerySet[Alert]:
+    def all_problem_alerts(self) -> AlertQuerySet:
         return self.all_active_alerts.filter(severity__gte=AlertSeverity.ERROR)
 
     @cached_property
@@ -1779,11 +1849,20 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return self.translation_review or self.source_review
 
     @transaction.atomic
-    def do_lock(self, user: User, lock: bool = True, auto: bool = False) -> None:
+    def do_lock(
+        self,
+        user: User,
+        lock: bool = True,
+        auto: bool = False,
+        *,
+        components: ComponentQuerySet | None = None,
+    ) -> None:
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models.change import Change
 
-        actionable = self.component_set.exclude(locked=lock)
+        actionable = (
+            components if components is not None else self.component_set
+        ).exclude(locked=lock)
         changes = [
             component.get_lock_change(user=user, lock=lock, auto=auto)
             for component in actionable
@@ -1831,7 +1910,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     def components_user_can_add_new_language(self, user: User) -> ComponentQuerySet:
         """Return owned components available for language creation or requests."""
-        filter_ = Q(is_glossary=True)
+        # In mixed projects, regular components drive glossary language sync.
+        regular_components = self.component_set.filter(is_glossary=False)
+        filter_ = Q(is_glossary=True) & Q(Exists(regular_components))
         check_effective_new_lang = not user.has_perm("project.edit", self)
         if check_effective_new_lang:
             filter_ |= get_disabled_component_new_language_filter()
@@ -1878,7 +1959,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         )
         data["contribute_workspace_tm"] = data.get(
             "use_workspace_tm",
-            defaults.use_workspace_tm if defaults is not None else False,
+            defaults.use_workspace_tm
+            if defaults is not None
+            else settings.DEFAULT_WORKSPACE_TM,
         )
 
     def get_access_control_license(

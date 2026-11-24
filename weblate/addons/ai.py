@@ -9,7 +9,7 @@ from dataclasses import dataclass
 from datetime import date, datetime, timedelta
 from itertools import batched, groupby
 from operator import attrgetter
-from typing import TYPE_CHECKING, ClassVar, TypedDict, cast
+from typing import TYPE_CHECKING, ClassVar, NotRequired, TypedDict, cast
 
 import httpx2
 from django import forms
@@ -24,7 +24,8 @@ from weblate.addons.events import AddonActivityLogReason, AddonEvent, AddonEvent
 from weblate.addons.forms import BaseAddonForm
 from weblate.checks.ai import AI_CHECKS, evaluation_fingerprint
 from weblate.checks.models import CHECKS
-from weblate.machinery.base import MachineTranslationError
+from weblate.machinery.base import MachineryRateLimitError, MachineTranslationError
+from weblate.machinery.evaluation import EvaluationResponseError
 from weblate.machinery.llm import BaseLLMTranslation
 from weblate.machinery.models import (
     MACHINERY,
@@ -34,8 +35,9 @@ from weblate.machinery.models import (
 from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
 from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.models import Unit
+from weblate.utils.errors import report_message
 from weblate.utils.forms import QueryField
-from weblate.utils.lock import WeblateLock
+from weblate.utils.lock import LockScope, WeblateLock
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
@@ -69,6 +71,18 @@ class AIEvaluationConfiguration(TypedDict, total=False):
     interval: str
     on_change: bool
     on_update: bool
+
+
+class AIEvaluationResult(TypedDict):
+    evaluated: int
+    failed: int
+    skipped: int
+    errors: NotRequired[list[str]]
+    rate_limited: NotRequired[int]
+
+
+class EvaluationServiceUnavailableError(MachineTranslationError):
+    """The configured evaluation service could not be resolved."""
 
 
 class AIEvaluationForm(BaseAddonForm[AIEvaluationConfiguration, "AIEvaluationAddon"]):
@@ -364,7 +378,7 @@ def evaluation_units(
         Unit.objects.filter(translation__component=component)
         .exclude(source_unit_id=F("pk"))
         .exclude(source_unit_id__isnull=True)
-        .search(configuration["q"])
+        .search(configuration["q"], enforce_contributor_permissions=False)
     )
 
 
@@ -495,6 +509,62 @@ def store_evaluation_batch(
     return True
 
 
+def get_evaluation_service(project: Project, service_key: str) -> BaseLLMTranslation:
+    configured = project.get_machinery_settings()
+    message = "The configured evaluation service is unavailable."
+    try:
+        installation = resolve_installation(service_key, project)
+    except ValueError as error:
+        raise EvaluationServiceUnavailableError(message) from error
+    if installation.selector not in available_evaluation_services(configured):
+        raise EvaluationServiceUnavailableError(message)
+    service_class = cast("type[BaseLLMTranslation]", MACHINERY[installation.engine])
+    return service_class(configured[installation.selector])
+
+
+def evaluation_error_summary(error: Exception, status: int | None) -> str:
+    if isinstance(error, EvaluationServiceUnavailableError):
+        return "Evaluation service unavailable"
+    if isinstance(error, EvaluationResponseError):
+        return "Invalid evaluation response"
+    if isinstance(error, MachineryRateLimitError) or status in {429, 456}:
+        return "Service rate limit or quota exceeded"
+    if status is not None:
+        return "Service returned an HTTP error"
+    if isinstance(error, httpx2.TimeoutException):
+        return "Evaluation request timed out"
+    if isinstance(error, httpx2.HTTPError):
+        return "Evaluation request failed"
+    return "Evaluation service failed"
+
+
+def log_evaluation_error(
+    component: Component,
+    error: Exception,
+    *,
+    service: BaseLLMTranslation | None = None,
+    batch_size: int | None = None,
+) -> str:
+    """Log safe diagnostic details and return the short activity summary."""
+    response = getattr(error, "response", None)
+    status = response.status_code if isinstance(response, httpx2.Response) else None
+    summary = evaluation_error_summary(error, status)
+    detail = str(error) if isinstance(error, EvaluationResponseError) else summary
+    context = f"AI quality evaluation for {component.full_slug}"
+    if batch_size is not None:
+        context += f" (batch size {batch_size})"
+    if service is not None:
+        context += f" using {service.mtid}"
+    message = f"{context}: {detail} ({type(error).__name__})"
+    if status is not None:
+        message += f" [HTTP {status}]"
+    if service is None:
+        report_message(message, skip_error_reporting=True)
+    else:
+        service.log_handled_error(message, include_exception=False)
+    return summary
+
+
 def evaluate_component(
     addon: AIEvaluationAddon,
     component: Component,
@@ -504,13 +574,11 @@ def evaluate_component(
     scheduled: bool,
     evaluated_unit_ids: set[int] | None = None,
     evaluated_unit_snapshots: dict[int, EvaluatedUnitSnapshot] | None = None,
-) -> dict[str, int]:
+) -> AIEvaluationResult:
     from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level]
 
-    result = {"evaluated": 0, "failed": 0, "skipped": 0}
-    lock = WeblateLock(
-        scope="ai-evaluation", key=component.pk, slug=component.full_slug
-    )
+    result: AIEvaluationResult = {"evaluated": 0, "failed": 0, "skipped": 0}
+    lock = WeblateLock(scope=LockScope.AI_EVALUATION, key=component.pk)
     with lock:
         component.drop_addons_cache()
         effective = effective_evaluator(component)
@@ -524,24 +592,18 @@ def evaluate_component(
         addon = AIEvaluationAddon(effective)
         if scheduled and not addon.is_schedule_due(component):
             return result
-        service_key = configuration["service"]
-        configured = component.project.get_machinery_settings()
-        update_alerts(component, {addon.alert})
         try:
-            installation = resolve_installation(service_key, component.project)
-        except ValueError as error:
-            msg = "The configured evaluation service is unavailable."
-            raise MachineTranslationError(msg) from error
-        if installation.selector not in available_evaluation_services(configured):
-            msg = "The configured evaluation service is unavailable."
-            raise MachineTranslationError(msg)
-        service_class = cast("type[BaseLLMTranslation]", MACHINERY[installation.engine])
-        service = service_class(configured[installation.selector])
+            update_alerts(component, {addon.alert})
+            service = get_evaluation_service(
+                component.project, configuration["service"]
+            )
+        except (MachineTranslationError, httpx2.HTTPError) as error:
+            result["errors"] = [log_evaluation_error(component, error)]
+            return result
         units = evaluation_units(component, configuration)
         if unit_ids is not None:
             units = units.filter(pk__in=unit_ids)
         for batch in evaluation_batches(units, service.batch_size):
-            lock.reacquire()
             # Stop a queued sweep when its installation changes or disappears.
             if not Addon.objects.filter(
                 pk=effective.pk, configuration=effective.configuration
@@ -550,6 +612,7 @@ def evaluate_component(
                 break
             if service.is_rate_limited():
                 result["skipped"] += len(batch)
+                result["rate_limited"] = result.get("rate_limited", 0) + len(batch)
                 continue
             snapshots = {
                 item.pk: evaluation_snapshot(item)
@@ -559,9 +622,13 @@ def evaluate_component(
             try:
                 issues = service.evaluate_batch(batch)
             except (MachineTranslationError, httpx2.HTTPError) as error:
-                # Do not persist provider response bodies or credentials in activity logs.
-                if service.is_rate_limit_error(error):
-                    service.set_rate_limit()
+                service.apply_rate_limit(error)
+                summary = log_evaluation_error(
+                    component, error, service=service, batch_size=len(batch)
+                )
+                errors = result.setdefault("errors", [])
+                if summary not in errors:
+                    errors.append(summary)
                 result["failed"] += len(batch)
                 continue
             if store_evaluation_batch(addon, batch, issues, configuration, snapshots):

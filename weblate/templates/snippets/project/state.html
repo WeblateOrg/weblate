@@ -7,6 +7,15 @@
 
 {% perm 'meta:billing.view' object as user_can_view_billing %}
 
+{% perm 'project.edit' object as user_can_edit_project %}
+{% if user_can_view_billing or user_can_edit_project %}
+  {% for billing in object.billings %}
+    {% if billing.libre_cleanup_warned_at %}
+      {% include "billing/libre-cleanup-warning.html" with warning=billing.libre_cleanup_warning %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
 {% if object.is_libre_trial %}
   {% include "snippets/project/billing-libre-trial.html" %}
 {% elif object.is_trial and user_can_view_billing %}

@@ -36,23 +36,14 @@ class _PartsDifference:
     ) -> None:
         # We don't expect any duplicate part names since that should raise a
         # syntax error in the translation toolkit.
+        source_names = {part.name for part in source_parts}
+        target_names = {part.name for part in target_parts}
         self._missing = [
-            part.name
-            for part in source_parts
-            if not self._has_matching_part(target_parts, part)
+            part.name for part in source_parts if part.name not in target_names
         ]
         self._extra = [
-            part.name
-            for part in target_parts
-            if not self._has_matching_part(source_parts, part)
+            part.name for part in target_parts if part.name not in source_names
         ]
-
-    @staticmethod
-    def _has_matching_part(
-        part_list: list[FluentPart],
-        find_part: FluentPart,
-    ) -> bool:
-        return any(part.name == find_part.name for part in part_list)
 
     def __bool__(self) -> bool:
         return bool(self._missing or self._extra)

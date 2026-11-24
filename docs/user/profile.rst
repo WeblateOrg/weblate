@@ -197,6 +197,11 @@ You can toggle notifications for watched projects and administered projects and 
 can be further tweaked (or muted) per project and component. Visit the component
 overview page and select appropriate choice from the :guilabel:`Watching` menu.
 
+Project and component notification subscriptions are automatically removed when
+you lose access to their targets. Cleanup runs hourly for a different group of
+users, checking every user once daily. Subscriptions are retained during temporary
+project blocks or while two-factor authentication requirements are unmet.
+
 In case :guilabel:`Automatically watch projects on contribution` is enabled you
 will automatically start watching projects upon contributing to them. The
 default value depends on :setting:`DEFAULT_AUTO_WATCH`.
@@ -251,6 +256,42 @@ commit identity. You can verify another e-mail address here. The account
 management section at the bottom lets you export your user data (see
 :ref:`schema-userdata`), import settings, or remove your account.
 
+When you add an e-mail address, verification instructions are sent to the new
+address; access to your old mailbox is not required. Open the verification link
+while signed in to the account where you requested it, then follow the
+confirmation steps. You may be asked for your current password.
+Adding an address does not change your account e-mail address. After verification,
+you can select the new address in the :guilabel:`Account` tab.
+
+When a connected service provides e-mail verification data during sign-in,
+Weblate refreshes the addresses verified by that service. Missing e-mail claims
+leave the stored addresses unchanged; an explicitly empty verified-address list
+removes that service's stored addresses. If your account e-mail loses its last
+verification, Weblate selects another available, verified address or clears
+the account e-mail if none is available. You can still sign in through the
+connected service. Add and verify an address to restore password recovery,
+then select it as your account e-mail to receive notifications. Verified
+secondary addresses can also be used for password recovery.
+Pending confirmation links for removed addresses are invalidated. An address
+still verified by another connected identity remains available.
+
+If you changed your service's e-mail addresses before upgrading Weblate,
+check your :guilabel:`Account` settings and replace any retired account e-mail.
+Previously removed addresses cannot always be identified automatically.
+
+If the new address already belongs to another account, that mailbox
+receives guidance on recovering access instead of a verification link. Sign out
+before recovering the other account.
+Contact support, when available, for help moving an address between accounts.
+The browser displays the same confirmation page in both cases to avoid
+disclosing whether an account exists.
+
+Changing or resetting your password invalidates pending e-mail additions.
+Request a new verification link to continue adding an address.
+
+Account e-mail addresses match without regard to ASCII letter case. Non-ASCII
+characters must match exactly when signing in or resetting a password.
+
 You can import settings from a user data file on the :guilabel:`Account` tab.
 Compatible language, editor, dashboard, watched-project, and public-profile
 settings replace the corresponding settings on this server. Unavailable values
@@ -263,6 +304,11 @@ a saved search with the same name is replaced.
 
 General notification settings and commit identity choices can be imported
 separately by selecting the corresponding options. Both are off by default.
+An imported commit e-mail unknown to this account is replaced with the current
+site's generated private address. If private addresses are disabled, the unknown
+address is skipped and your existing choice is preserved.
+Imported public e-mail addresses must be known to the current account. Both
+public and commit e-mail addresses must pass the current site's e-mail validation.
 Project- and component-specific and one-time notification rules are included
 in the export but not imported.
 
@@ -274,6 +320,10 @@ that using a different e-mail can disconnect your contributions on other servers
 Administrators can make private identities the default by setting
 :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` and :setting:`PRIVATE_COMMIT_NAME_OPT_IN`
 to ``False``. Your explicit choices override these defaults.
+
+.. seealso::
+
+   :doc:`/admin/privacy`
 
 Changes to these settings affect future commits. Names and e-mail addresses
 already recorded in repository history remain unchanged.
@@ -306,6 +356,10 @@ should use common profile paths, such as ``/username``, ``/@username``,
 
 Avatar can be shown for each user (depending on :setting:`ENABLE_AVATARS`).
 These images are obtained using https://gravatar.com/.
+
+.. seealso::
+
+   :doc:`/admin/privacy`
 
 .. _profile-security:
 

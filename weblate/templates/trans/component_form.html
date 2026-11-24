@@ -13,7 +13,7 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
-  {% if not projects %}
+  {% if not projects and not form.fields.project.queryset %}
     {% translate "You do not have permission to create components in any projects." as msg %}
     {% show_message "warning" msg %}
 
@@ -44,7 +44,7 @@
         </div>
         <div class="card-footer">
           <input type="submit"
-                 value="{% if stage != "create" %}{% translate "Continue" %}{% else %}{% translate "Save" %}{% endif %}"
+                 value="{% if stage != "create" %}{% translate "Continue"|force_escape %}{% else %}{% translate "Save"|force_escape %}{% endif %}"
                  class="btn btn-primary" />
         </div>
       </div>

@@ -15,9 +15,10 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-22 19:01-0500\n"
-"PO-Revision-Date: 2026-10-23 04:03+0000\n"
-"Last-Translator: Priit Jõerüüt <jrthwlate@users.noreply.hosted.weblate.org>\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
+"PO-Revision-Date: 2026-11-13 08:11+0000\n"
+"Last-Translator: GitHub webhook <noreply-webhook-github-"
+"integration@weblate.org>\n"
 "Language-Team: Estonian <https://hosted.weblate.org/projects/weblate/"
 "application/et/>\n"
 "Language: et\n"
@@ -25,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.12.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -440,6 +441,16 @@ msgstr "Teavituste seadistused"
 msgid "Saved search"
 msgstr "Otsi"
 
+msgid ""
+"A lookalike e-mail identity was removed, the password was disabled, and API "
+"tokens were revoked."
+msgstr ""
+
+msgid ""
+"Password disabled as reported leaked credential matched the password; API "
+"tokens revoked."
+msgstr ""
+
 #. Translators: Audit log entry
 msgid "Password changed."
 msgstr "Salasõna on muudetud."
@@ -616,7 +627,16 @@ msgstr "{username} lisas kasutaja meeskonda: {team}."
 msgid "User access to the {team} team was changed by {username}."
 msgstr "{username} lisas kasutaja meeskonda: {team}."
 
-#. Translators: Audit log entry
+#, fuzzy, python-brace-format
+#| msgid "User was added to the {team} team by {username}."
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr "{username} lisas kasutaja meeskonda: {team}."
+
+#, fuzzy, python-brace-format
+#| msgid "User was added to the {team} team by {username}."
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr "{username} lisas kasutaja meeskonda: {team}."
+
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr ""
@@ -682,6 +702,23 @@ msgstr "{username} saatis kutse projekti {project}."
 msgid "Password configured."
 msgstr "Salasõna on seadistatud."
 
+#, fuzzy
+#| msgid ""
+#| "If it was you, please use a password reset to regain access to your "
+#| "account."
+msgid ""
+"Reset your password to restore password access and review your account "
+"activity."
+msgstr ""
+"Kui see olid sina, siis kasuta oma kontole juurdepääsu taastamiseks salasõna "
+"lähtestamist."
+
+msgid ""
+"Reset your password to restore password access. Choose a unique password and "
+"review your account activity. The report didn't disclose the source of the "
+"leak."
+msgstr ""
+
 msgid "To restore access to your account, please reset your password."
 msgstr "Oma kontole juurdepääsu taastamiseks palun lähtesta oma salasõna."
 
@@ -728,6 +765,43 @@ msgstr "varamu ülene"
 msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr ""
+
+#, fuzzy
+#| msgid "repository wide"
+msgid "Site-wide"
+msgstr "varamu ülene"
+
+msgid "Workspace"
+msgstr ""
+
+#, fuzzy
+#| msgid "Backup repository"
+msgid "Team created"
+msgstr "Varundus varamu"
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Team changed"
+msgstr "Viimased muudatused"
+
+msgid "Team deleted"
+msgstr ""
+
+#, fuzzy
+#| msgid "Full name"
+msgid "Team member added"
+msgstr "Täisnimi"
+
+#, fuzzy
+#| msgid "User profile"
+msgid "Team member removed"
+msgstr "Kasutajaprofiil"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "Team member access changed"
+msgstr "Litsents on muutunud"
 
 msgid "Account activity"
 msgstr "Kasutajakonto tegevused"
@@ -1052,6 +1126,11 @@ msgid ""
 "a translation."
 msgstr ""
 
+#, fuzzy
+#| msgid "Contributor stats"
+msgid "Contributor"
+msgstr "Panustaja statistika"
+
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "Varamus tehti toiming"
@@ -1318,6 +1397,27 @@ msgid ""
 "inviter; it can't be used by your account."
 msgstr ""
 
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Your e-mail no longer belongs to verified account, it has been changed to "
+#| "{0}."
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr ""
+"Sinu e-kirja aadress ei kuulu enam tõendatud kontole, nüüdsest on see {0}."
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
+msgstr ""
+
+msgid ""
+"Your e-mail address has been added. You can now select it as your account e-"
+"mail address in Account settings."
+msgstr ""
+
 #, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
@@ -1347,6 +1447,14 @@ msgstr "Hele"
 msgctxt "Theme selection"
 msgid "Dark"
 msgstr "Tume"
+
+msgid "Please confirm your identity using a second factor before proceeding."
+msgstr ""
+
+#, fuzzy
+#| msgid "Please read our Terms of Service before registering."
+msgid "Please confirm your identity before proceeding."
+msgstr "Enne registreerumist palume lugeda Teenusetingimusi."
 
 #, python-format
 msgid "Security key (%s)"
@@ -1465,17 +1573,19 @@ msgstr "Logi sisse"
 msgid "Signed out"
 msgstr "Logiti välja"
 
-msgid "Verify new e-mail address"
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Add and verify e-mail address"
 msgstr "Kinnita oma uus e-posti aadress"
-
-msgid "Please confirm your identity using a second factor before proceeding."
-msgstr ""
 
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "Salasõna ei saa muuta, e-kirjaga autentimine on lülitatud välja."
 
 msgid "Change password"
 msgstr "Vaheta salasõna"
+
+msgid "Set password"
+msgstr "Sisesta salasõna"
 
 msgid "Password reset has been already completed."
 msgstr "Salasõna on juba muudetud."
@@ -1683,6 +1793,10 @@ msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
 msgstr ""
+
+#, python-format
+msgid "Error: %s"
+msgstr "Viga: %s"
 
 msgid "enabled"
 msgstr ""
@@ -1893,12 +2007,6 @@ msgid ""
 msgstr ""
 
 #, python-format
-msgid ""
-"Fedora Messaging publisher service was unavailable; the connection will be "
-"recreated on the next attempt: %(error)s"
-msgstr ""
-
-#, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
 msgstr ""
 
@@ -1915,7 +2023,7 @@ msgstr ""
 msgid "configured"
 msgstr "Seadista"
 
-msgid "Could not reset Fedora Messaging publisher service."
+msgid "The SSL certificates have to be provided for SSL connection."
 msgstr ""
 
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
@@ -1925,10 +2033,6 @@ msgid "Client SSL key must be an unencrypted PEM encoded private key."
 msgstr ""
 
 msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
-msgstr ""
-
-#, python-format
-msgid "Fedora Messaging broker URL is invalid: %(error)s"
 msgstr ""
 
 #, python-format
@@ -1972,7 +2076,7 @@ msgstr ""
 msgid "Bulk edit"
 msgstr "Hulgimuutmine"
 
-msgid "Bulk edit flags, labels, or states of strings."
+msgid "Bulk edit text, flags, labels, or states of strings."
 msgstr ""
 
 #, fuzzy
@@ -2118,6 +2222,24 @@ msgid ""
 "specified above is recognized."
 msgstr ""
 
+#, fuzzy
+#| msgid "Component wide notifications"
+msgid "Comment extraction"
+msgstr "Osisekohased teavitused"
+
+#, fuzzy
+#| msgid "Password"
+msgid "Keywords"
+msgstr "Parool"
+
+msgid "Checks and ITS data"
+msgstr ""
+
+#, fuzzy
+#| msgid "Overview"
+msgid "Update behavior"
+msgstr "Ülevaade"
+
 msgid "This field is required."
 msgstr "See väli on kohustuslik."
 
@@ -2166,6 +2288,11 @@ msgid ""
 "relative to the repository root. If present next to the manifest, "
 "POTFILES.skip excludes listed files from extraction."
 msgstr ""
+
+#, fuzzy
+#| msgid "Documentation"
+msgid "Input files"
+msgstr "Dokumentatsioon"
 
 msgid "Invalid symbolic link in a repository."
 msgstr ""
@@ -2404,6 +2531,22 @@ msgstr "Kui faile pole olemas, siis eemalda ka osised"
 msgid "I confirm the above matches look correct"
 msgstr "Kinnitan, et eespool kuvatud otsingutulemused tunduvad olema õiged"
 
+#, fuzzy
+#| msgid "Full name"
+msgid "File matching"
+msgstr "Täisnimi"
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Component source language"
+msgid "Component naming and file templates"
+msgstr "Osise lähtekeel"
+
+#, fuzzy
+#| msgid "Component list"
+msgid "Component lifecycle"
+msgstr "Komponentide nimekiri"
+
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
 msgstr ""
@@ -2597,6 +2740,22 @@ msgstr ""
 msgid "Include read-only strings"
 msgstr "Tõlgitud"
 
+#, fuzzy
+#| msgid "Source language"
+msgid "Source and target"
+msgstr "Lähtekeel"
+
+msgid "Prepended text"
+msgstr ""
+
+msgid "Appended text"
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Text expansion"
+msgstr "Lähtelausendid"
+
 msgid "The source and target have to be different languages."
 msgstr ""
 
@@ -2677,10 +2836,20 @@ msgid ""
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
 
+#, fuzzy
+#| msgid "Creation timestamp"
+msgid "Connection timeout"
+msgstr "Loomise ajatempel"
+
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr ""
+
 msgid "Publish timeout"
 msgstr ""
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
 msgstr ""
 
 msgid "Connection attempts"
@@ -2696,15 +2865,28 @@ msgid "How many seconds to wait between connection attempts."
 msgstr ""
 
 #, fuzzy
+#| msgid "Suggested translations"
+msgid "Broker connection"
+msgstr "Soovitatud tõlked"
+
+msgid "Timeouts and retries"
+msgstr ""
+
+msgid "TLS credentials"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project selection"
+msgid "Event selection"
+msgstr "Projekti valik"
+
+#, fuzzy
 #| msgid "Special characters"
 msgid "Topic prefix can contain only ASCII characters."
 msgstr "Erimärgid"
 
 #, python-format
 msgid "Topic prefix must not exceed %(limit)d characters."
-msgstr ""
-
-msgid "The SSL certificates have to be provided for SSL connection."
 msgstr ""
 
 msgid "The SSL certificates are not used without a SSL connection."
@@ -2922,6 +3104,13 @@ msgid "This add-on is already installed on this component."
 msgstr "Seda lisamoodulit saab paigaldada vaid osisele."
 
 #, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr ""
+"Seda lisamoodulit rakendatakse kõigile osistele, mis seda varamut jagavad."
+
+#, fuzzy
 #| msgid "This add-on has no settings."
 msgid "This add-on cannot be triggered manually."
 msgstr "Sellel lisamoodulil pole seadistusi."
@@ -2985,6 +3174,11 @@ msgstr "Projekt"
 msgctxt "Add-on scope"
 msgid "Site"
 msgstr ""
+
+#, fuzzy
+#| msgid "Component lists"
+msgid "a component you cannot access"
+msgstr "Osiste loendid"
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -3292,6 +3486,11 @@ msgstr ""
 msgid "Your suggestion already exists!"
 msgstr ""
 
+#, fuzzy
+#| msgid "Language filter"
+msgid "Search query"
+msgstr "Keelte filter"
+
 msgid "Inherit enforced checks from the parent category, project or workspace."
 msgstr ""
 
@@ -3394,6 +3593,26 @@ msgstr "Kasutaja"
 msgid "Language"
 msgstr "Keel"
 
+msgid ""
+"Contributor identities are exposed by View contributor identities, Download "
+"changes, Manage reports, and access-management permissions. Permissions from "
+"all assigned roles are additive."
+msgstr ""
+
+msgid "Built-in"
+msgstr ""
+
+#, fuzzy
+#| msgid "Customer"
+msgid "Customized"
+msgstr "Klient"
+
+msgid "Reset built-in roles to defaults"
+msgstr ""
+
+msgid "Built-in role permissions reset."
+msgstr ""
+
 msgid "Personal info"
 msgstr "Isiklik info"
 
@@ -3414,6 +3633,12 @@ msgstr ""
 
 msgid "This is not used when a component is selected."
 msgstr ""
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "Contributor agreement"
+msgid "View contributor identities"
+msgstr "Toetaja nõusolek"
 
 #. Translators: Permission name
 msgid "Download changes"
@@ -3645,6 +3870,24 @@ msgid "Manage workspace access"
 msgstr "Halda ligipääsu projektile"
 
 #. Translators: Permission name
+#, fuzzy
+#| msgid "Browse all users"
+msgid "Browse users"
+msgstr "Sirvi kõiki kasutajaid"
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "Only chosen users can contribute."
+msgid "Search resource contributors"
+msgstr "Panustada saavad ainult valitud kasutajad."
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "User profile"
+msgid "View user profiles"
+msgstr "Kasutajaprofiil"
+
+#. Translators: Permission name
 msgid "Use management interface"
 msgstr "Kasuta haldusliidest"
 
@@ -3731,6 +3974,18 @@ msgstr "Halda makseid"
 #| msgid "Installed addons"
 msgid "Manage site-wide add-ons"
 msgstr "Lisatud laiendused"
+
+#, fuzzy
+#| msgid "Discover Weblate"
+msgctxt "Access-control role"
+msgid "Discover users"
+msgstr "Tutvu Weblate veebirakendusega"
+
+#, fuzzy
+#| msgid "User profile"
+msgctxt "Access-control role"
+msgid "View user profiles"
+msgstr "Kasutajaprofiil"
 
 msgctxt "Access-control role"
 msgid "Administration"
@@ -3952,6 +4207,20 @@ msgstr "Nimi"
 
 msgid "Choose permissions granted to this role."
 msgstr "Vali sellele rollile antavad õigused."
+
+msgid ""
+"Remove the component from project teams before moving it to another project."
+msgstr ""
+
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
 
 msgid "Roles"
 msgstr "Rollid"
@@ -4273,6 +4542,11 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "You do not have permission to access this component."
+msgid "You need to log in to upload translations."
+msgstr "Sinul puuduvad õigused ligipääsuks sellele osisele."
+
+#, fuzzy
 #| msgid "This translation does not yet exist."
 msgid "The file format does not support updating source strings."
 msgstr "Seda tõlget pole veel olemas."
@@ -4292,6 +4566,9 @@ msgid ""
 "access; otherwise, you would lock yourself out."
 msgstr ""
 
+msgid "Blocked users cannot be granted project administration rights."
+msgstr ""
+
 #, python-format
 msgid ""
 "Team %(name)s was renamed to %(new_name)s because its name was already in "
@@ -4309,6 +4586,16 @@ msgstr ""
 msgid "Project tokens can not be assigned to teams here."
 msgstr ""
 
+#, fuzzy
+#| msgid "Check details"
+msgid "Team audit log"
+msgstr "Kontrolli üksikasjad"
+
+#, fuzzy
+#| msgid "Team administrator"
+msgid "Team audit entry"
+msgstr "Tiimi haldaja"
+
 msgid "Cannot remove built-in team!"
 msgstr "Automaatselt kaasatud tiimi ei saa eemaldada!"
 
@@ -4316,6 +4603,14 @@ msgstr "Automaatselt kaasatud tiimi ei saa eemaldada!"
 #| msgid "Activation e-mail will be sent here."
 msgid "User invitation was removed."
 msgstr "Aktiveerimis e-kiri saadetakse siia."
+
+#, fuzzy
+#| msgid "Activation e-mail will be sent here."
+msgid "This invitation was already accepted or removed."
+msgstr "Aktiveerimis e-kiri saadetakse siia."
+
+msgid "Remove the project block before accepting this invitation."
+msgstr ""
 
 #, python-format
 msgid "Accepted invitation to the %s team."
@@ -4447,6 +4742,199 @@ msgstr ""
 msgid "Preview without changes"
 msgstr "Viimased muudatused"
 
+#, fuzzy
+#| msgid "Changed license"
+msgid "Change events"
+msgstr "Muudetud litsents"
+
+#, fuzzy
+#| msgid "User has been invited to this project."
+msgid "The workflow runs for each of the selected events."
+msgstr "Kasutaja on kutsutud liituma selle projektiga."
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "CEL expression"
+msgstr "Regulaaravaldis"
+
+msgid "The expression has to evaluate to a boolean."
+msgstr ""
+
+#, fuzzy
+#| msgid "Category"
+msgid "Category path"
+msgstr "Kategooria"
+
+msgid "Slash-separated category path inside the project."
+msgstr ""
+
+msgid "Language code"
+msgstr ""
+
+#, fuzzy
+#| msgid "Changed license"
+msgid "Change event"
+msgstr "Muudetud litsents"
+
+#, fuzzy
+#| msgid "Translated"
+msgid "String state"
+msgstr "Tõlgitud"
+
+#, fuzzy
+#| msgid "Actions"
+msgid "Action ID"
+msgstr "Tegevused"
+
+msgid "Optional identifier so that later actions can use its results."
+msgstr ""
+
+#, fuzzy
+#| msgid "Move component"
+msgid "Whole component"
+msgstr "Teisalda osis"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Strings were changed"
+msgid "String affected by the change"
+msgstr "Tõlketekstid muutusid"
+
+#, fuzzy
+#| msgid "Translated"
+msgid "String scope"
+msgstr "Tõlgitud"
+
+#, fuzzy
+#| msgid "Default component list"
+msgid "Default (whole component)"
+msgstr "Vaikimisi komponentide nimekiri"
+
+#, fuzzy
+#| msgid "New string"
+msgid "Select strings"
+msgstr "Uus lausend"
+
+msgid "Use the effective AI quality add-on"
+msgstr ""
+
+#, fuzzy
+#| msgid "Bulk edit"
+msgid "Bulk editing"
+msgstr "Hulgimuutmine"
+
+#, fuzzy
+#| msgid "Component name"
+msgid "Component update"
+msgstr "Osise nimi"
+
+#, fuzzy
+#| msgid "Past due date"
+msgid "Repository update"
+msgstr "Hilinenud tähtaeg"
+
+#, fuzzy
+#| msgid "Repository failure"
+msgid "Repository commit"
+msgstr "Varamu viga"
+
+#, fuzzy
+#| msgid "Repository failure"
+msgid "Repository push"
+msgstr "Varamu viga"
+
+msgid "Manual run"
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Expression"
+msgstr "Regulaaravaldis"
+
+#, fuzzy
+#| msgid "Component name"
+msgid "Component category"
+msgstr "Osise nimi"
+
+#, fuzzy
+#| msgid "Translated"
+msgid "Matching strings"
+msgstr "Tõlgitud"
+
+msgid "All of"
+msgstr ""
+
+msgid "Any of"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Short name of month"
+#| msgid "Nov"
+msgid "Not"
+msgstr "Nov"
+
+#, fuzzy
+#| msgid "Frequency"
+msgid "Sequence"
+msgstr "Sagedus"
+
+msgid "Choose"
+msgstr "Vali"
+
+msgid "Trigger"
+msgstr ""
+
+#, fuzzy
+#| msgid "Add new string"
+msgid "Add trigger"
+msgstr "Lisa uus lausend"
+
+#, fuzzy
+#| msgid "Configuration errors"
+msgid "Condition"
+msgstr "Seadistuste tõrked"
+
+#, fuzzy
+#| msgid "Add team"
+msgid "Add condition"
+msgstr "Lisa tiim"
+
+msgid "Action"
+msgstr ""
+
+#, fuzzy
+#| msgid "Add team"
+msgid "Add action"
+msgstr "Lisa tiim"
+
+#, fuzzy
+#| msgid "Configuration errors"
+msgid "Conditions"
+msgstr "Seadistuste tõrked"
+
+msgid "Actions"
+msgstr "Tegevused"
+
+msgid "Branches"
+msgstr ""
+
+#, fuzzy
+#| msgid "Additional message"
+msgid "Add branch"
+msgstr "Lisatekst"
+
+#, fuzzy
+#| msgctxt "Plural form description"
+#| msgid "Other"
+msgid "Otherwise"
+msgstr "Teine"
+
+msgid "Add action to run otherwise"
+msgstr ""
+
+msgid "Branch"
+msgstr ""
+
 msgid "Additional message"
 msgstr "Lisatekst"
 
@@ -4469,9 +4957,6 @@ msgid ""
 msgstr ""
 
 msgid "No valid billing found or limit exceeded."
-msgstr ""
-
-msgid "Workspace"
 msgstr ""
 
 #, fuzzy
@@ -4579,6 +5064,9 @@ msgid_plural "Contains %d components"
 msgstr[0] "Koosneb ühest osisest"
 msgstr[1] "Sisaldab %d osist"
 
+msgid "Restricted components are not allowed by this billing plan."
+msgstr ""
+
 msgid "Missing license"
 msgstr "Puuduv litsents"
 
@@ -4592,6 +5080,11 @@ msgstr "Arveldamine"
 #| msgid "Billing overview"
 msgid "Billing event"
 msgstr "Arvelduse ülevaade"
+
+#, fuzzy
+#| msgid "Return to the component"
+msgid "Project has no components."
+msgstr "Tagasi osise juurde"
 
 #, fuzzy
 #| msgid "Monthly"
@@ -4653,6 +5146,9 @@ msgstr ""
 
 msgid "To terminate billing you have to remove all projects first."
 msgstr "Arveldamise lõpetamiseks pead esmalt kõik projektid eemaldama."
+
+msgid "Externally managed billings cannot be merged."
+msgstr ""
 
 #, fuzzy
 #| msgid "Cannot change this on a built-in team."
@@ -4903,9 +5399,13 @@ msgstr "Mõned mitmuse vormid on tõlgitud identselt."
 msgid "Inconsistent"
 msgstr "Tõlge pole kooskõlas"
 
+#, fuzzy
+#| msgid ""
+#| "This string has more than one translation in this project or is "
+#| "untranslated in some components."
 msgid ""
-"This string has more than one translation in this project or is untranslated "
-"in some components."
+"This string has more than one translation in its propagation group or is "
+"untranslated in some components."
 msgstr ""
 "Sellel lähtelausendil on antud projektid enam, kui üks tõlge või ta on mõnes "
 "osises tõlkimata."
@@ -5161,6 +5661,10 @@ msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr ""
 
 #, python-brace-format
+msgid "The HTML {tag} tag is nested too deeply."
+msgstr ""
+
+#, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
 "end with {semicolon}. If you do not want a character reference, use "
@@ -5351,6 +5855,17 @@ msgstr "Soovitatud tõlked"
 
 msgid "Fluent syntax error in the translation."
 msgstr "Fluenti süntaksiviga tõlkes."
+
+msgid "The Fluent value could not be checked because it is too complex."
+msgstr ""
+
+msgid "the value is too complex or nested too deeply"
+msgstr ""
+
+#, fuzzy
+#| msgid "Your billing plan has exceeded its limits."
+msgid "Format matching exceeded its time limit."
+msgstr "Sinu arvelduskava teenusemahud on ületatud."
 
 #, fuzzy
 #| msgid "Following format strings are missing: %s"
@@ -5642,6 +6157,9 @@ msgstr "Markdown-vorminduse süntaks"
 msgid "Markdown syntax does not match source."
 msgstr "Markdown-vorminduse süntaks ei vasta lähtelausenditele."
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr ""
+
 #, fuzzy
 #| msgid "The translation does not contain an URL."
 msgid "The translation does not contain a URL."
@@ -5822,6 +6340,11 @@ msgstr "Uue parooli kinnitus"
 msgid "Your translation is foo"
 msgstr "Tõlgete teated"
 
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
+msgstr ""
+
 msgid "Font style"
 msgstr ""
 
@@ -5994,6 +6517,25 @@ msgstr "Tõlgitud"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
+#, fuzzy
+#| msgid "Could not update the repository."
+msgid "Could not open the workbook archive."
+msgstr "Ei saa uuendada varamut."
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr ""
+
 msgid "Multivalue CSV file"
 msgstr ""
 
@@ -6039,6 +6581,10 @@ msgid "Invalid id_hash metadata in CSV file: %s"
 msgstr "Vigane tõlketunnus: „%s“"
 
 msgid "Plural form metadata in CSV file requires id_hash."
+msgstr ""
+
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
 msgstr ""
 
 #. Translators: File format name
@@ -6302,6 +6848,13 @@ msgstr "App Store'i metaandmete failid"
 msgid "File validation is required for directory-based formats."
 msgstr ""
 
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr ""
+
+msgid "Converted workbook content exceeds the configured size limit."
+msgstr ""
+
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
@@ -6364,6 +6917,16 @@ msgid ""
 "either this limit or the maximum age is reached."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation key"
+msgid "Install Translation files CDN"
+msgstr "Tõlke võti"
+
+msgid ""
+"Publishes original translation files publicly, including files from private "
+"components."
+msgstr ""
+
 msgid "Kotlin SDK CDN"
 msgstr ""
 
@@ -6371,6 +6934,11 @@ msgid ""
 "Publishes Android string and plural resources for registered Kotlin SDK "
 "builds."
 msgstr ""
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "Translation files CDN cannot be installed on this component."
+msgstr "Seda lisamoodulit saab paigaldada vaid osisele."
 
 msgid "Weblate languages"
 msgstr ""
@@ -6429,9 +6997,6 @@ msgstr "Keelte piirang"
 #| msgid "Used languages"
 msgid "Enter a valid language code."
 msgstr "Kasutatud keeled"
-
-msgid "Language code"
-msgstr ""
 
 msgid "Language name"
 msgstr ""
@@ -6607,9 +7172,6 @@ msgid "Plural formula"
 msgstr ""
 
 msgid "Plural type"
-msgstr ""
-
-msgid "Example counts for this plural form."
 msgstr ""
 
 msgid "Singular"
@@ -6923,6 +7485,9 @@ msgstr ""
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
 msgstr "Sinu keeled"
+
+msgid "disabled"
+msgstr ""
 
 msgid ""
 "Project-level machine translation cannot use internal or non-public "
@@ -7535,6 +8100,21 @@ msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "Projekti või osise teisene keel"
 
+#, fuzzy
+#| msgid "repository wide"
+msgid "Rate limit reset."
+msgstr "varamu ülene"
+
+#, fuzzy
+#| msgid "This translation is locked."
+msgid "Too many translation requests."
+msgstr "See tõlge on lukustatud."
+
+#, fuzzy
+#| msgid "Too many authentication attempts from this location."
+msgid "Too many concurrent translation requests for this service."
+msgstr "Liiga palju autentimiskatseid sellest asukohast."
+
 msgid "File"
 msgstr "Fail"
 
@@ -7682,6 +8262,11 @@ msgid ""
 "and will be rebuilt in the background."
 msgstr "Peale kirjete kustutamist luuakse tõlkemälu taustal uuesti."
 
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "Too many uploads, please try again later."
+msgstr "Liiga palu sõnumeid on saadetud, palun proovi hiljem uuesti."
+
 #, fuzzy, python-format
 #| msgid "Confirm deleting all translation memory entries"
 msgid "Processed %(count)d active translation memory entry."
@@ -7764,6 +8349,11 @@ msgid "Read your e-mail address"
 msgstr "Kasuta oma kontoga seotud e-posti aadressi"
 
 msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
 msgstr ""
 
 msgid "Image is too big."
@@ -7894,9 +8484,22 @@ msgstr[1] "%(count)s ootel ettepanekut"
 msgid "No new matching source strings found."
 msgstr "Ei leidu ühtegi vastavat lähte-lausendit."
 
+msgid "Only some matching strings are shown. Search for more strings manually."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "Too many image text searches. Please try again later."
+msgstr "Liiga palu sõnumeid on saadetud, palun proovi hiljem uuesti."
+
 #, fuzzy
 #| msgid "Could not open a ticket, please try again later."
-msgid "OCR data could not be downloaded. Please try again later."
+msgid "Text recognition data could not be downloaded. Please try again later."
+msgstr "Veateate avamine ei õnnestunud, palun proovi hiljem uuesti."
+
+#, fuzzy
+#| msgid "Could not open a ticket, please try again later."
+msgid "Could not find strings in the image. Please try again."
 msgstr "Veateate avamine ei õnnestunud, palun proovi hiljem uuesti."
 
 #, fuzzy
@@ -8135,8 +8738,19 @@ msgstr ""
 msgid "Your profile"
 msgstr "Sinu profiil"
 
+#, fuzzy
+#| msgid "Enter a valid e-mail address."
+msgid "Confirm adding e-mail address"
+msgstr "Palun sisesta kehtiv e-posti aadress."
+
 msgid "Confirm adding user identity"
 msgstr "Kinnita kasutaja identiteedi lisamine"
+
+#, python-format
+msgid ""
+"Confirm adding %(uid)s to your existing Weblate account by entering your "
+"current password."
+msgstr ""
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #, python-format
@@ -8146,6 +8760,11 @@ msgid ""
 msgstr ""
 "Peale selle kinnitamist, on sul võimalik end Weblate-le tõendada kasutades "
 "%(backend_verbose)s (%(uid)s)."
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Add e-mail address"
+msgstr "Kinnita oma uus e-posti aadress"
 
 msgid "Confirm"
 msgstr "Kinnita"
@@ -8260,16 +8879,16 @@ msgstr ""
 msgid "Registration"
 msgstr "Registreerimine"
 
+#, fuzzy
+#| msgid "Your e-mail"
+msgid "Check your e-mail"
+msgstr "Sinu e-posti aadress"
+
 msgid "Password reset almost complete"
 msgstr "Salasõna lähtestamine on peaaegu tehtud"
 
 msgid "Account removal almost complete"
 msgstr "Kasutajakonto eemaldamine on peaaegu tehtud"
-
-#, fuzzy
-#| msgid "Registration almost complete"
-msgid "E-mail verification almost complete"
-msgstr "Registreerimine on peaaegu tehtud"
 
 msgid "Registration almost complete"
 msgstr "Registreerimine on peaaegu tehtud"
@@ -8285,16 +8904,11 @@ msgstr ""
 "Oma kasutajakonto eemaldamiseks klõpsa kinnituslinki, mille saatsime sulle e-"
 "kirjaga."
 
-#, fuzzy
-#| msgid ""
-#| "Click the confirmation link sent to your e-mail inbox and start using "
-#| "your account."
 msgid ""
-"Click the confirmation link sent to your e-mail inbox to verify the address "
-"for your account."
+"Check your e-mail for instructions. If this address is already associated "
+"with an account, you may receive account recovery guidance instead of a "
+"verification link."
 msgstr ""
-"Oma kasutajakonto loomise kinnitamiseks klõpsa linki, mille saatsime sulle e-"
-"kirjaga."
 
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
@@ -8307,6 +8921,16 @@ msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr ""
 "Kui sa oma tavalisest sisendpostkastist seda e-kirja ei leia, siis palun "
 "vaata spämmi postkasti."
+
+#, fuzzy, python-format
+#| msgid "The confirmation link will expire after %(count)s hour."
+#| msgid_plural "The confirmation link will expire after %(count)s hours."
+msgid ""
+"If you receive a verification link, it will expire after %(count)s hour."
+msgid_plural ""
+"If you receive a verification link, it will expire after %(count)s hours."
+msgstr[0] "Kinnituslink aegub %(count)s tunni pärast."
+msgstr[1] "Kinnituslink aegub %(count)s tunni pärast."
 
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
@@ -8328,6 +8952,17 @@ msgid "Register again if the confirmation link expires."
 msgstr "Kui kinnituslink aegub, siis palun registreeru uuesti."
 
 msgid ""
+"If you receive a verification link, open it while signed in to this account "
+"and follow the confirmation steps. You may be asked for your current "
+"password."
+msgstr ""
+
+#, fuzzy
+#| msgid "Edit component settings"
+msgid "Back to account settings"
+msgstr "Muuda osiste seadistusi"
+
+msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
@@ -8347,15 +8982,49 @@ msgstr ""
 msgid "Please fix errors in the form."
 msgstr "Palun paranda vormil leiduvad vead."
 
+msgid ""
+"Verification instructions will be sent to the new e-mail address. You do not "
+"need access to your old mailbox."
+msgstr ""
+
+msgid ""
+"Adding an address does not change your account e-mail address. After "
+"verification, you can select the new address in Account settings."
+msgstr ""
+
 #, fuzzy
 #| msgid "Username or email"
 msgid "Send verification e-mail"
 msgstr "Kasutajanimi või e-post"
 
 #, fuzzy
-#| msgid "Edit component settings"
-msgid "Back to account settings"
-msgstr "Muuda osiste seadistusi"
+#| msgid "Confirm adding user identity"
+msgid "Confirm your identity"
+msgstr "Kinnita kasutaja identiteedi lisamine"
+
+msgid "Confirm your existing sign-in method before continuing."
+msgstr ""
+
+msgid ""
+"Confirm your existing sign-in method before registering your first second "
+"factor."
+msgstr ""
+
+msgid "Sign in again using a connected provider:"
+msgstr ""
+
+msgid ""
+"Your previous e-mail verification has expired. Reset your password to "
+"continue."
+msgstr ""
+
+msgid "Sign out and reset password by e-mail"
+msgstr ""
+
+msgid ""
+"No sign-in method is available to confirm your identity. Contact an "
+"administrator to recover access."
+msgstr ""
 
 msgid "Trial subscriptions"
 msgstr "Katseline tellimus"
@@ -8574,6 +9243,9 @@ msgstr ""
 msgid "Change my password"
 msgstr "Muuda minu salasõna"
 
+msgid "Set my password"
+msgstr "Sea minu salasõna"
+
 #, fuzzy
 #| msgid "Edit component settings"
 msgid "Back to security settings"
@@ -8619,11 +9291,6 @@ msgstr "Tegevused"
 
 msgid "The e-mail address can be chosen from verified addresses only."
 msgstr "E-postiaadressi saad valida vaid kinnitatud aadresside seast."
-
-#, fuzzy
-#| msgid "Verify new e-mail address"
-msgid "Add and verify e-mail address"
-msgstr "Kinnita oma uus e-posti aadress"
 
 msgid "Save"
 msgstr "Salvesta"
@@ -8723,9 +9390,6 @@ msgstr "Seadista"
 msgid "Not configured"
 msgstr "Seadista"
 
-msgid "Set password"
-msgstr "Sisesta salasõna"
-
 msgid "Two-factor authentication"
 msgstr "Kaksikautentimine"
 
@@ -8823,6 +9487,9 @@ msgstr "Näita API-võtit või peida ta"
 
 msgid "API key copied to clipboard."
 msgstr "API-võti on kopeeritud lõikelauale."
+
+msgid "Verify your identity to view your API key"
+msgstr ""
 
 msgid "API root URL:"
 msgstr "API juurkausta võrguaadress:"
@@ -9020,9 +9687,6 @@ msgid ""
 msgstr ""
 "Unustasid oma salasõna? Sisesta alla oma e-kirja aadress ning me saadame "
 "sulle juhised uue salasõna seadmiseks."
-
-msgid "Set my password"
-msgstr "Sea minu salasõna"
 
 msgid "Reset my password"
 msgstr "Lähtesta mu salasõna"
@@ -9440,6 +10104,9 @@ msgstr "Pole saadaval"
 msgid "No components found."
 msgstr "Osiste loendist"
 
+msgid "Integration instructions"
+msgstr "Lõimingute juhendid"
+
 msgid "Configure add-on"
 msgstr "Seadista lisamoodul"
 
@@ -9530,6 +10197,27 @@ msgstr "Seda lisamoodulit saad paigaldada vaid osise-kohaselt."
 msgid "Install"
 msgstr "Paigalda"
 
+#, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid "Install on the component owning the repository."
+msgstr ""
+"Seda lisamoodulit rakendatakse kõigile osistele, mis seda varamut jagavad."
+
+#, fuzzy
+#| msgid "This component is currently locked."
+msgid "The component owning this repository is not available to you."
+msgstr "See osis on hetkel lukustatud."
+
+#, fuzzy
+#| msgid "repository wide"
+msgid "Open repository add-ons"
+msgstr "varamu ülene"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Unavailable"
+msgstr "Pole saadaval"
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -9563,8 +10251,50 @@ msgstr "Eelmine"
 msgid "Next"
 msgstr "Järgmine"
 
-msgid "Integration instructions"
-msgstr "Lõimingute juhendid"
+msgid "Workflow editing mode"
+msgstr ""
+
+#, fuzzy
+#| msgid "Edit"
+msgid "Editor"
+msgstr "Muuda"
+
+msgid "YAML"
+msgstr ""
+
+msgid ""
+"Both modes edit the same workflow, and switching between them keeps unsaved "
+"changes."
+msgstr ""
+
+msgid "Triggers"
+msgstr ""
+
+msgid ""
+"Events starting the workflow. Without any trigger it can only be run "
+"manually."
+msgstr ""
+
+#, fuzzy
+#| msgid "Lock component, preventing translations"
+msgid "All conditions have to pass before any action runs."
+msgstr "Lukusta osis ja takista sellega tõlkimist"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Operation was performed in the repository"
+msgid "Operations performed in this order once the conditions pass."
+msgstr "Varamus tehti toiming"
+
+#, fuzzy
+#| msgid "Move"
+msgid "Move up"
+msgstr "Teisalda"
+
+#, fuzzy
+#| msgid "Move"
+msgid "Move down"
+msgstr "Teisalda"
 
 msgid "Published translation files are available from the CDN base URL:"
 msgstr ""
@@ -9634,6 +10364,24 @@ msgid "No matching components were found!"
 msgstr "Ühelegi osisele ei leitud vastet!"
 
 msgid ""
+"Configure the AMQP broker connection below, including any TLS certificates "
+"required by your broker, and select the events to publish."
+msgstr ""
+
+msgid "Configure your consumer to subscribe to Weblate message topics:"
+msgstr ""
+
+msgid ""
+"Topics include only the path segments available for the event. If you "
+"configure a topic prefix, it is prepended with a dot separator."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for topic examples, the message schema, and "
+"consumer configuration."
+msgstr ""
+
+msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
 msgstr ""
@@ -9676,6 +10424,17 @@ msgstr "Projekti URL-i saba"
 msgid ""
 "See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
 "library setup."
+msgstr ""
+
+msgid ""
+"Install Translation files CDN to let the SDK download original XML "
+"translation files. These files are published publicly, including files from "
+"private components."
+msgstr ""
+
+msgid ""
+"After installation, return to this page to copy the updated Gradle "
+"configuration."
 msgstr ""
 
 msgid "Configure the Kotlin SDK Gradle plugin with these values:"
@@ -9789,6 +10548,19 @@ msgstr "Lausendid luuakse järgneva mustri alusel:"
 msgid "Source string"
 msgstr "Lähtelausend"
 
+#, python-format
+msgid ""
+"Create an <a href=\"%(url)s\">incoming webhook in Slack</a> for the channel "
+"that should receive notifications."
+msgstr ""
+
+msgid ""
+"Enter the webhook URL below and select the events to send to the channel."
+msgstr ""
+
+msgid "See the add-on documentation for more information."
+msgstr ""
+
 msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr ""
@@ -9797,6 +10569,22 @@ msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
 "author\" or \"Per author and language\" is selected, or the commit message "
 "is customized to include it."
+msgstr ""
+
+msgid ""
+"Configure your service to receive JSON POST requests, enter its URL below, "
+"and select the events to send."
+msgstr ""
+
+msgid ""
+"To verify request signatures, configure the same Standard Webhooks secret in "
+"Weblate and your receiver. Requests are signed only when a secret is "
+"configured."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for the message payload and signature "
+"verification."
 msgstr ""
 
 msgid "HTTP Response"
@@ -9814,6 +10602,45 @@ msgstr "Vastuse sisu"
 msgid "Request payload"
 msgstr "Päringu sisuosa"
 
+msgid ""
+"Reset these built-in roles to the current default permissions? This discards "
+"their customizations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Permissions"
+msgid "Reset permissions"
+msgstr "Õigused"
+
+msgid "Cancel"
+msgstr "Katkesta"
+
+msgid "Actor"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete entry"
+msgid "Deleted user"
+msgstr "Kustuta kirje"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Administrative team changes"
+msgstr "Haldamine"
+
+msgid "Change"
+msgstr "Muuda"
+
+#, fuzzy
+#| msgid "Check details"
+msgid "View details"
+msgstr "Kontrolli üksikasjad"
+
+#, fuzzy
+#| msgid "No invoices found."
+msgid "No team audit entries found."
+msgstr "Arveid ei leitud."
+
 msgid "Settings"
 msgstr "Seadistused"
 
@@ -9822,6 +10649,15 @@ msgstr "Automaatsed määramised"
 
 msgid "Access control"
 msgstr "Ligipääsuhaldus"
+
+#, fuzzy
+#| msgid ""
+#| "Automatically add newly created users to this team based on their e-mail "
+#| "address."
+msgid ""
+"Automatically invite newly created users to this team based on their e-mail "
+"address. Users join only after accepting the invitation."
+msgstr "Lisa äsjaloodud kasutajad sellesse tiimi nende e-postiaadressi alusel."
 
 msgid ""
 "Automatically add newly created users to this team based on their e-mail "
@@ -9866,6 +10702,11 @@ msgstr "Sellega eemaldad kasutaja <b>%(user)s</b> sellest projektist."
 msgid "Add"
 msgstr "Lisa"
 
+#, fuzzy
+#| msgid "Default component list"
+msgid "Moved component"
+msgstr "Vaikimisi komponentide nimekiri"
+
 msgid "All components"
 msgstr "Kõik osised"
 
@@ -9890,6 +10731,11 @@ msgstr "Korralda jälgitavaid projekte"
 #, fuzzy
 #| msgid "Spaces"
 msgid "My workspaces"
+msgstr "Tühikud"
+
+#, fuzzy
+#| msgid "Spaces"
+msgid "Workspaces"
 msgstr "Tühikud"
 
 msgid "Manage translated languages"
@@ -10087,6 +10933,16 @@ msgid ""
 "above or purchase a subscription."
 msgstr ""
 
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+
 msgid "Customer"
 msgstr "Klient"
 
@@ -10108,9 +10964,6 @@ msgstr "Vaata"
 #| msgid "Check details"
 msgid "Event details"
 msgstr "Kontrolli üksikasjad"
-
-msgid "Actions"
-msgstr "Tegevused"
 
 msgid "Download"
 msgstr "Laadi alla"
@@ -10218,6 +11071,132 @@ msgstr ""
 msgid "Check your billing status"
 msgstr "Vaata oma arvelduste olekut"
 
+msgid "Checking your browser"
+msgstr ""
+
+msgid ""
+"Your browser will calculate a short proof of work to protect this site "
+"against automated scraping."
+msgstr ""
+
+#, fuzzy
+#| msgid "Loading…"
+msgid "Working…"
+msgstr "Laadimine…"
+
+msgid ""
+"Verification failed. Enable JavaScript, workers, and cookies, then retry. "
+"You can also sign in."
+msgstr ""
+
+msgid "The challenge expired. Retry to start a new challenge."
+msgstr ""
+
+msgid "This challenge was already used. Retry to start a new challenge."
+msgstr ""
+
+msgid "Browser verification was unsuccessful. Please retry."
+msgstr ""
+
+msgid "Browser verification could not be confirmed. Enable cookies and retry."
+msgstr ""
+
+#, fuzzy
+#| msgid "The authentication provider could not be reached."
+msgid ""
+"The verification service is temporarily unavailable. Please retry later."
+msgstr "Autentimise teenusepakkuja polnud leitav."
+
+msgid "Verification cookies could not be confirmed. Enable cookies and retry."
+msgstr ""
+
+msgid "JavaScript is required for anonymous access. You can sign in instead."
+msgstr ""
+
+msgid "Retry"
+msgstr ""
+
+msgid "Did you know?"
+msgstr ""
+
+msgid "Review and confirm the bulk edit changes."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "%(count)s suggestion"
+#| msgid_plural "%(count)s suggestions"
+msgid "%(counter)s string would change."
+msgid_plural "%(counter)s strings would change."
+msgstr[0] "%(count)s soovitus"
+msgstr[1] "%(count)s soovitust"
+
+msgid ""
+"Showing the first 250 changes. Only selected displayed strings will be "
+"processed unless you choose to apply all matching strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Overview"
+msgid "Update preview"
+msgstr "Ülevaade"
+
+#, python-format
+msgid "Apply all matching strings (%(total)s)"
+msgstr ""
+
+msgid ""
+"Applies to all current matches, including those not displayed. The query and "
+"permissions are checked again when applying changes."
+msgstr ""
+
+msgid "Select"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Label on engage page"
+#| msgid "String"
+#| msgid_plural "Strings"
+msgid "String"
+msgstr "Lausend"
+
+msgid "Changes"
+msgstr "Muudatused"
+
+msgid "State"
+msgstr "Olek"
+
+msgid "Before"
+msgstr ""
+
+msgid "After"
+msgstr ""
+
+msgid "Empty"
+msgstr ""
+
+#, fuzzy
+#| msgid "Browse all languages"
+msgid "Source flags (all languages)"
+msgstr "Lehitse kõiki keeli"
+
+#, fuzzy
+#| msgid "Translation key"
+msgid "Translation flags"
+msgstr "Tõlke võti"
+
+#, fuzzy
+#| msgid "All languages"
+msgid "Add label (all languages)"
+msgstr "Kõik keeled"
+
+#, fuzzy
+#| msgid "Browse all languages"
+msgid "Remove label (all languages)"
+msgstr "Lehitse kõiki keeli"
+
+msgid "Apply"
+msgstr "Rakenda"
+
 msgid "Insights"
 msgstr "Sissevaated"
 
@@ -10238,9 +11217,6 @@ msgstr ""
 msgid "Operations"
 msgstr "Tõlked"
 
-msgid "Search and replace"
-msgstr "Leia ja asenda"
-
 #, fuzzy
 #| msgid "Default component list"
 msgid "Post announcement"
@@ -10255,14 +11231,6 @@ msgstr "Tõlke võti"
 #| msgid "Browse all changes for user"
 msgid "Browse all changes for this language"
 msgstr "Sirvi kõiki muudatusi kasutajale"
-
-#, fuzzy
-#| msgid "Recent changes"
-msgid "Review changes"
-msgstr "Viimased muudatused"
-
-msgid "Apply"
-msgstr "Rakenda"
 
 #, fuzzy
 #| msgid "Browse all component changes"
@@ -11148,9 +12116,6 @@ msgstr "Arvelduse ülevaade"
 msgid "Shortcut"
 msgstr ""
 
-msgid "Action"
-msgstr ""
-
 msgid "Open available keyboard shortcuts."
 msgstr ""
 
@@ -11297,6 +12262,9 @@ msgstr "Lahenda"
 msgid "Mark as spam"
 msgstr "Märgi spämmiks"
 
+msgid "Service is no longer available"
+msgstr "Teenus pole enam saadaval"
+
 msgid "This service is installed site wide."
 msgstr ""
 
@@ -11316,26 +12284,20 @@ msgid "workspace"
 msgstr "Tühikud"
 
 #, fuzzy
+#| msgid "Languages limit"
+msgid "Rate limited"
+msgstr "Keelte piirang"
+
+#, fuzzy
 #| msgid "This e-mail address is not allowed."
 msgid "This service is disabled."
 msgstr "See e-posti aadress ei ole lubatud."
-
-msgid "disabled"
-msgstr ""
-
-msgid "Service is no longer available"
-msgstr "Teenus pole enam saadaval"
 
 msgid "ID"
 msgstr ""
 
 msgid "Slug"
 msgstr "Võrguaadressi lõputunnus"
-
-#, fuzzy
-#| msgid "Translation notifications"
-msgid "Installation slug (optional)"
-msgstr "Tõlgete teated"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -11344,37 +12306,156 @@ msgid ""
 msgstr ""
 
 #, fuzzy
-#| msgid "Cleanup translation files"
-msgid "Configured translation services"
-msgstr "Tõlkefailide korrastamine"
+#| msgid "Hosted service"
+msgid "Inherited service"
+msgstr "Majutatud teenus"
 
 #, fuzzy
-#| msgid "Adding strings is disabled in the component configuration."
-msgid "Stop using this installation without removing its configuration."
-msgstr "Lausendite lisamine on osise seadistustes keelatud."
+#| msgid "The add-on can only be installed on the component."
+msgid "This service is managed at its installation scope."
+msgstr "Seda lisamoodulit saab paigaldada vaid osisele."
+
+#, fuzzy
+#| msgid "Use this translation"
+msgid "Manage this installation"
+msgstr "Kasuta seda tõlget"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Installation slug (optional)"
+msgstr "Tõlgete teated"
+
+#, fuzzy
+#| msgid "This add-on has no settings."
+msgid "This service has no settings."
+msgstr "Sellel lisamoodulil pole seadistusi."
+
+#, fuzzy
+#| msgid "Use automatic suggestions"
+msgid "Use in automations"
+msgstr "Kasuta automaatseid soovitusi"
+
+msgid ""
+"Select this installation in the engines setting of an automatic translation "
+"action using its numeric ID:"
+msgstr ""
+
+msgid "You can also select it using its slug:"
+msgstr ""
+
+msgid ""
+"The numeric ID always selects this installation. The slug selects the "
+"installation currently using that name in the project."
+msgstr ""
+
+msgid ""
+"Set an installation slug above to give this service a readable name in your "
+"automations."
+msgstr ""
+
+msgid "Rate limit"
+msgstr "Päringute piir"
+
+msgid ""
+"Requests to this service are temporarily paused after a provider error. "
+"Resetting the rate limit allows Weblate to try again; it does not reset the "
+"provider’s quota."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not push the repository."
+msgid "Reset rate limit"
+msgstr "Ei saa panustada varamusse."
+
+#, fuzzy
+#| msgid "This component is currently locked."
+msgid "The rate limit can be reset at the service’s installation scope."
+msgstr "See osis on hetkel lukustatud."
+
+#, fuzzy
+#| msgid "Access control"
+msgid "Service control"
+msgstr "Ligipääsuhaldus"
+
+#, fuzzy
+#| msgctxt "Label on engage page"
+#| msgid "GitHub star"
+#| msgid_plural "GitHub stars"
+msgid "Disable installation"
+msgstr "GitHubi täht"
+
+msgid ""
+"Stop using this installation here and in scopes inheriting it. Its settings "
+"are kept so you can enable it again later."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this workspace and its projects. "
+"Other installations of this service remain available."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this project. Other installations "
+"of this service and its use in other projects are unaffected."
+msgstr ""
 
 msgid "Disable"
 msgstr ""
 
-msgid "Stop using this inherited installation here."
+#, fuzzy
+#| msgid "Translated"
+msgid "Enable installation"
+msgstr "Tõlgitud"
+
+msgid ""
+"Resume using this installation with its saved settings here and in scopes "
+"inheriting it. Existing exclusions still apply."
+msgstr ""
+
+msgid ""
+"Remove the local exclusion for this installation. It can provide suggestions "
+"here when it is enabled at its installation scope and is not excluded "
+"upstream. Other excluded installations remain excluded."
 msgstr ""
 
 msgid "Enable"
 msgstr "Võta kasutusele"
 
-#, fuzzy
-#| msgid "Remove this notification setting"
-msgid "Remove this installation and its configuration."
-msgstr "Eemalda see teavituste seadistus"
+msgid ""
+"This installation is disabled at its installation scope or excluded by an "
+"upstream scope."
+msgstr ""
 
-msgid "Exclude all inherited installations of this service"
+#, fuzzy
+#| msgid "Authentication"
+msgid "Exclude inherited service"
+msgstr "Tõendamine"
+
+msgid ""
+"Stop using all site-wide installations of this service in this workspace and "
+"its projects, including installations added later. Installations configured "
+"directly in this workspace or its projects remain available."
+msgstr ""
+
+msgid ""
+"Stop using all inherited installations of this service in this project, "
+"including installations added later. Installations configured directly in "
+"this project and use in other projects are unaffected."
 msgstr ""
 
 msgid "Exclude"
 msgstr ""
 
-msgid "Configure"
-msgstr "Seadista"
+msgid ""
+"Removing this installation stops it from being used here and in scopes "
+"inheriting it, and deletes its saved settings. You will need to install and "
+"configure it again to use it later."
+msgstr ""
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Configured translation services"
+msgstr "Tõlkefailide korrastamine"
 
 #, fuzzy
 #| msgid "There are no addons currently installed."
@@ -11405,6 +12486,16 @@ msgstr "Ei leidnud malli faili."
 msgid ""
 "Some services will ask for additional configuration during installation."
 msgstr "Mõned laiendused küsivad täiendavaid seadistusi paigalduse vältel."
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "Translation service errors"
+msgstr "Tõlke litsents"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "No translation service errors available."
+msgstr "Tõlgete teated"
 
 #, fuzzy, python-format
 #| msgid "There has been a change in your account at %(site_title)s:"
@@ -11592,6 +12683,18 @@ msgid "Recurring payment will be disabled for inactive projects"
 msgstr ""
 
 #, fuzzy
+#| msgid "Does not meet Libre hosting conditions."
+msgid "Review Libre hosting conditions"
+msgstr ""
+"See projekt ei vasta avatud lähtekoodiga tarkvara tasuta tõlketeenuse "
+"tingimustele."
+
+#, fuzzy, python-format
+#| msgid "Number of entries for %(project)s"
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "Sisestuste arv projektis %(project)s"
+
+#, fuzzy
 #| msgid "Translated languages"
 msgid "Translation change"
 msgstr "Tõlgitud keeled"
@@ -11658,6 +12761,37 @@ msgstr "%(component)s osise lukustus eemaldati"
 msgid "Digest: %(notification_name)s"
 msgstr ""
 
+#, python-format
+msgid ""
+"Somebody requested to add this e-mail address to another account at "
+"%(site_title)s. This address is already associated with an account and "
+"cannot be added to another."
+msgstr ""
+
+msgid ""
+"If you intended to access the existing account, sign out and use password "
+"recovery. The button below opens the password reset form; it does not reset "
+"your password."
+msgstr ""
+
+#, fuzzy
+#| msgid "Confirm password reset"
+msgid "Open password recovery"
+msgstr "Kinnita salasõna lähtestamine"
+
+msgid "Contact support for help moving this address between accounts."
+msgstr ""
+
+msgid ""
+"If you did not request this, you can ignore this e-mail. Your account has "
+"not been changed."
+msgstr ""
+
+#. Translators: e-mail subject
+#, python-format
+msgid "E-mail address already associated with an account on %(site_title)s"
+msgstr ""
+
 #, fuzzy
 #| msgid "Administration"
 msgid "View invitation"
@@ -11668,6 +12802,10 @@ msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
 msgstr[0] ""
 msgstr[1] ""
+
+#, python-format
+msgid "Automatic team assignment: invitation to join %(team_name)s"
+msgstr ""
 
 #. Translators: e-mail subject
 #, python-format
@@ -11920,6 +13058,11 @@ msgstr "Konto eemaldamine"
 msgid "Confirm invitation"
 msgstr "Haldamine"
 
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Verify e-mail address"
+msgstr "Kinnita oma uus e-posti aadress"
+
 msgid ""
 "Note: This notification has been truncated as there were over 100 entries."
 msgstr ""
@@ -11991,6 +13134,17 @@ msgstr ""
 #| msgid "Translation memory"
 msgid "Translation activity summary"
 msgstr "Tõlkemälu"
+
+#, fuzzy, python-format
+#| msgid "Activity on your account at %(site_title)s"
+msgid "Verify this e-mail address for your account at %(site_title)s."
+msgstr "Tegevused sinu kasutajakontol %(site_title)s saidis"
+
+#. Translators: e-mail subject
+#, fuzzy, python-format
+#| msgid "Verify new e-mail address"
+msgid "Verify your e-mail address on %(site_title)s"
+msgstr "Kinnita oma uus e-posti aadress"
 
 #, fuzzy
 #| msgid "Component lists"
@@ -12212,6 +13366,68 @@ msgstr "Osiste tuvastamine"
 msgid "Performance report"
 msgstr ""
 
+#, fuzzy
+#| msgid "Suggested translations"
+msgid "Bot protection"
+msgstr "Soovitatud tõlked"
+
+msgid ""
+"Issued challenges, requests requiring proof of work, and verification "
+"outcomes in hourly buckets. Counts are best-effort and can be lost during "
+"cache outages or eviction."
+msgstr ""
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Counters are unavailable."
+msgstr "Pole saadaval"
+
+msgid "Outcome"
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Current hour"
+msgstr "Praegune salasõna"
+
+#, fuzzy
+#| msgid "No recovery codes generated yet."
+msgid "Previous 24 completed hours"
+msgstr "Taastekoode pole veel genereeritud."
+
+#, fuzzy
+#| msgid "Suggested change"
+msgid "Issued challenges"
+msgstr "Muudatusettepanek"
+
+msgid "Requests requiring proof of work"
+msgstr ""
+
+msgid "Expired challenge"
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid unit."
+msgid "Invalid solution"
+msgstr "Vigane ühik."
+
+#, fuzzy
+#| msgctxt "Label on donate page"
+#| msgid "Recent change"
+#| msgid_plural "Recent changes"
+msgid "Replayed challenge"
+msgstr "Hiljutine muudatus"
+
+#, fuzzy
+#| msgid "Translation key"
+msgid "CSRF failure"
+msgstr "Tõlke võti"
+
+#, fuzzy
+#| msgid "Service is no longer available"
+msgid "Service unavailable"
+msgstr "Teenus pole enam saadaval"
+
 msgid "Last occurrence"
 msgstr ""
 
@@ -12399,6 +13615,335 @@ msgstr "Järgmistele osistele leidusid olemasolevad vasted"
 msgid "This repository is linked to:"
 msgstr ""
 
+#, fuzzy
+#| msgid "Administration"
+msgid "Confirm security action"
+msgstr "Haldamine"
+
+#, python-format
+msgid "Selected %(count)s findings affecting %(accounts)s accounts."
+msgstr ""
+
+msgid ""
+"Disable the matching passwords, invalidate signed-in sessions, and revoke "
+"all API tokens. Users with an e-mail address will be notified. Single sign-"
+"on and two-factor settings are preserved. Accounts whose passwords have "
+"changed will be skipped."
+msgstr ""
+
+msgid ""
+"Remove the selected lookalike verified e-mail addresses and associated sign-"
+"in identities, disable account passwords, invalidate sessions, and revoke "
+"API tokens. Account owners will be notified at their primary e-mail address."
+msgstr ""
+
+msgid ""
+"Dismiss the selected findings without changing credentials or notifying "
+"users. A new report confirming the same exposure can reopen them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Reset my password"
+msgid "Reset passwords"
+msgstr "Lähtesta mu salasõna"
+
+#, fuzzy
+#| msgid "Remove connected account?"
+msgid "Remove identities and reset accounts"
+msgstr "Kas eemaldad ühendatud kasutajakonto?"
+
+#, fuzzy
+#| msgid "Dismiss failing check"
+msgid "Dismiss findings"
+msgstr "Ära arvesta seda loogilist kontrolli"
+
+#, python-format
+msgid "Security finding for %(username)s"
+msgstr ""
+
+msgid "CSV row"
+msgstr ""
+
+#, fuzzy
+#| msgid "User agent"
+msgid "Identifier"
+msgstr "Kasutajarakendus"
+
+#, fuzzy
+#| msgid "Mismatching line breaks"
+msgid "Matching method"
+msgstr "Reavahetused ei klapi"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "No matching row details."
+msgstr "Pole saadaval"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Page %(number)s of %(total)s"
+msgstr "%(total)s on kasutatud %(used)s"
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Manage repository"
+msgid "Detected in reports"
+msgstr "Korralda varamut"
+
+#, fuzzy
+#| msgid "Administrators"
+msgid "Administrator"
+msgstr "Administraatorid"
+
+#, fuzzy
+#| msgid "Team administrator"
+msgid "Deleted administrator"
+msgstr "Tiimi haldaja"
+
+msgid "No validation reports for this finding."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Reports page %(number)s of %(total)s"
+msgstr "%(total)s on kasutatud %(used)s"
+
+#, fuzzy
+#| msgid "No recovery codes generated yet."
+msgid "Previous reports"
+msgstr "Taastekoode pole veel genereeritud."
+
+#, fuzzy
+#| msgid "Data exports"
+msgid "Next reports"
+msgstr "Andmete väljastused"
+
+#, fuzzy
+#| msgid "Edit component settings"
+msgid "Account security findings"
+msgstr "Muuda osiste seadistusi"
+
+#, fuzzy
+#| msgid "Translation reports"
+msgid "Validation reports"
+msgstr "Tõlkearuanded"
+
+msgid "Filename"
+msgstr "Failinimi"
+
+#, fuzzy
+#| msgid "Project name"
+msgid "Not recorded"
+msgstr "Projekti nimi"
+
+msgid "Submitted by"
+msgstr ""
+
+msgid "Processing summary"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password reset almost complete"
+msgid "Password validation completed."
+msgstr "Salasõna lähtestamine on peaaegu tehtud"
+
+msgid "Legacy e-mail identity check completed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Activation completed."
+msgid "Security action completed."
+msgstr "Aktiveerimine sai valmis."
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Processing failed."
+msgstr "Lähtelausendid"
+
+msgid "Processing is not complete. Findings may still be added."
+msgstr ""
+
+#, fuzzy
+#| msgid "Progress"
+msgid "View progress"
+msgstr "Edenemine"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Processed %(processed)s of %(total)s entries."
+msgstr "%(total)s on kasutatud %(used)s"
+
+#, fuzzy
+#| msgid "Fluent type"
+msgid "Finding type"
+msgstr "Fluenti tüüp"
+
+#, fuzzy
+#| msgid "Translated"
+msgid "Filter"
+msgstr "Tõlgitud"
+
+#, fuzzy
+#| msgid "source strings"
+msgid "Actions apply only to checked findings on this page."
+msgstr "Lähte lausendid"
+
+#, fuzzy
+#| msgid "source strings"
+msgid "Select all on this page"
+msgstr "Lähte lausendid"
+
+#, fuzzy
+#| msgid "Project selection"
+msgid "Clear selection"
+msgstr "Projekti valik"
+
+#, fuzzy
+#| msgid "Pending"
+msgid "Finding"
+msgstr "Ootel"
+
+#, python-format
+msgid "Select finding for %(username)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "Active"
+msgid "Inactive"
+msgstr "Aktiivne"
+
+#, fuzzy
+#| msgctxt "Short name of month"
+#| msgid "Nov"
+msgid "Bot"
+msgstr "Nov"
+
+msgid "No e-mail address: notification unavailable"
+msgstr ""
+
+#, fuzzy
+#| msgid "Date joined"
+msgid "Date joined:"
+msgstr "Liitumise kuupäev"
+
+#, fuzzy
+#| msgid "Last sign in"
+msgid "Last sign-in:"
+msgstr "Viimane sisselogimine"
+
+#, python-format
+msgid "Row %(row)s: %(identifier)s (%(method)s)"
+msgstr ""
+
+#, python-format
+msgid "View details (%(count)s match)"
+msgid_plural "View details (%(count)s matches)"
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy
+#| msgid "Protected"
+msgid "First detected:"
+msgstr "Kaitstud"
+
+#, fuzzy
+#| msgid "Past due date"
+msgid "Last detected:"
+msgstr "Hilinenud tähtaeg"
+
+msgid "No security findings match these filters."
+msgstr ""
+
+msgid "Remove lookalike e-mail identities and reset selected accounts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Reset passwords for selected accounts"
+msgstr "Kustuta kasutajakonto"
+
+msgid "Dismiss selected findings"
+msgstr ""
+
+msgid ""
+"Dismissing findings marks them as reviewed without changing passwords or "
+"notifying users."
+msgstr ""
+
+#, fuzzy
+#| msgid "Edit component settings"
+msgid "Account security operation"
+msgstr "Muuda osiste seadistusi"
+
+msgid "Processing progress"
+msgstr ""
+
+#, fuzzy
+#| msgid "repository wide"
+msgid "Refresh progress"
+msgstr "varamu ülene"
+
+msgid ""
+"Review previous credential validation reports, including reports with no "
+"matching passwords."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Upload report"
+msgstr "Lisa kuvatõmmis"
+
+msgid "Processed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translated"
+msgid "Matching rows"
+msgstr "Tõlgitud"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Affected accounts"
+msgstr "Kustuta kasutajakonto"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "%(processed)s of %(total)s"
+msgstr "%(total)s on kasutatud %(used)s"
+
+#, fuzzy
+#| msgid "Translation reports"
+msgid "No validation reports yet."
+msgstr "Tõlkearuanded"
+
+msgid ""
+"Upload a CSV containing usernames or e-mail addresses and passwords. "
+"Passwords are checked in the background and never displayed in the report."
+msgstr ""
+
+msgid ""
+"Reports must use UTF-8 and contain at most 50,000 rows and 10 MiB. Leave the "
+"delimiter and column numbers blank for automatic detection."
+msgstr ""
+
+msgid ""
+"The uploaded file is available for one hour. Adjust the CSV settings below "
+"to try again."
+msgstr ""
+
+msgid "CSV format (detected automatically)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Disable password"
+msgid "Validate passwords"
+msgstr "Keela salasõna kasutamine"
+
+#, fuzzy
+#| msgid "Disable password"
+msgid "Validate leaked passwords"
+msgstr "Keela salasõna kasutamine"
+
 msgid "Activate support package"
 msgstr ""
 
@@ -12546,9 +14091,18 @@ msgid "Check user access"
 msgstr "Kontrolli kasutaja ligipääsu"
 
 #, fuzzy
-#| msgid "Spaces"
-msgid "Workspaces"
-msgstr "Tühikud"
+#| msgid "Account activity"
+msgid "Account security"
+msgstr "Kasutajakonto tegevused"
+
+#, python-format
+msgid "Security report (%(security_findings_open)s open findings)"
+msgstr ""
+
+msgid ""
+"Validate a CSV report of leaked credentials against current account "
+"passwords."
+msgstr ""
 
 msgid "Add workspace"
 msgstr ""
@@ -12583,9 +14137,6 @@ msgstr "Maatriks"
 #| msgid "Translated languages"
 msgid "Displayed languages"
 msgstr "Tõlgitud keeled"
-
-msgid "Choose"
-msgstr "Vali"
 
 #, fuzzy
 #| msgid "Translation key"
@@ -12677,6 +14228,9 @@ msgstr "Puudub"
 #. Translators: Shared translation memory is disabled
 msgid "off"
 msgstr ""
+
+msgid "Configure"
+msgstr "Seadista"
 
 #, fuzzy
 #| msgid "Translation key"
@@ -12903,22 +14457,6 @@ msgstr "Soovitatud tõlked"
 msgid "Donate to Weblate development"
 msgstr "Anneta Weblate'ile"
 
-msgid "Please review and confirm the search and replace results."
-msgstr ""
-
-msgid ""
-"Showing and replacing only the first 250 matches. Perform the replacement "
-"again to replace more."
-msgstr ""
-
-#, fuzzy
-#| msgid "Overview"
-msgid "Update preview"
-msgstr "Ülevaade"
-
-msgid "Replace"
-msgstr "Asenda"
-
 #, fuzzy
 #| msgid "Generated strings"
 msgid "Generated by"
@@ -12962,6 +14500,24 @@ msgstr ""
 msgid "Assign source strings"
 msgstr ""
 
+#, fuzzy
+#| msgid "source strings"
+msgid "Find source strings"
+msgstr "Lähte lausendid"
+
+#, fuzzy
+#| msgid "Image"
+msgid "Image text"
+msgstr "Pilt"
+
+msgid "Suggests source strings by recognizing text in this screenshot."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Add selected"
+msgstr "Lisa kuvatõmmis"
+
 msgid "Source string search"
 msgstr ""
 
@@ -12974,19 +14530,6 @@ msgstr ""
 #| msgid "Authentication"
 msgid "Search query syntax documentation"
 msgstr "Autentimine"
-
-msgid "Suggests source strings by recognizing text in this screenshot."
-msgstr ""
-
-#, fuzzy
-#| msgid "Include strings needing editing"
-msgid "Find strings in image"
-msgstr "Kaasa tähelepanu vajavad lausendid"
-
-#, fuzzy
-#| msgid "Add screenshot"
-msgid "Add selected"
-msgstr "Lisa kuvatõmmis"
 
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr ""
@@ -13208,7 +14751,7 @@ msgstr "Lähte lausendid"
 msgid "Select string for bulk edit"
 msgstr ""
 
-msgid "You can change the state of all strings matching given type at once."
+msgid "Choose which strings to edit and the changes to apply."
 msgstr ""
 
 msgid "The operation is applied to the strings selected in the list above."
@@ -13250,11 +14793,6 @@ msgid "Configure translation quality filter"
 msgstr "Tõlke võti"
 
 #, fuzzy
-#| msgid "Check details"
-msgid "View details"
-msgstr "Kontrolli üksikasjad"
-
-#, fuzzy
 #| msgid "Contributor agreement"
 msgid "View contributor license agreement"
 msgstr "Toetaja nõusolek"
@@ -13274,11 +14812,6 @@ msgid_plural ""
 "The translation was automatically locked due to the following alerts:"
 msgstr[0] "Selle projekti tõlked lukustati automaatselt järgmisel põhjusel:"
 msgstr[1] "Selle projekti tõlked lukustati automaatselt järgmistel põhjustel:"
-
-#, fuzzy
-#| msgid "Translated"
-msgid "Filter"
-msgstr "Tõlgitud"
 
 #, fuzzy
 #| msgid "Language filter"
@@ -13339,15 +14872,15 @@ msgid ""
 "maintenance of Weblate itself."
 msgstr ""
 
+msgid "Example counts for this plural form."
+msgstr ""
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
 
 msgid "Clone to translation"
 msgstr "Klooni tõlkeks"
-
-msgid "Select"
-msgstr ""
 
 #, fuzzy
 #| msgid "Translated"
@@ -13373,12 +14906,13 @@ msgstr ""
 msgid "Source code repository"
 msgstr "Lähtekoodi varamu"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr ""
-
 msgid "Repository URL copied to clipboard."
 msgstr "Kopeerisin varamu aadressi lõikelauale."
+
+#, fuzzy
+#| msgid "Default component list"
+msgid "Linked component"
+msgstr "Vaikimisi komponentide nimekiri"
 
 msgid "Repository branch"
 msgstr "Koodivaramu haru"
@@ -13396,7 +14930,6 @@ msgstr "Kopeerisin varamu aadressi lõikelauale."
 msgid "Last remote commit"
 msgstr ""
 
-#. Translators: For example: "nijel authored five days ago"
 #, python-format
 msgid "%(author)s authored %(date)s"
 msgstr ""
@@ -13665,6 +15198,19 @@ msgstr "Tõlked"
 
 #, python-format
 msgid ""
+"An automatic team assignment rule invited you to collaborate on "
+"%(project_name)s and join the %(team_name)s team. You will join only if you "
+"accept this invitation."
+msgstr ""
+
+#, python-format
+msgid ""
+"An automatic team assignment rule invited you to join the %(team_name)s team "
+"in %(workspace_name)s. You will join only if you accept this invitation."
+msgstr ""
+
+#, python-format
+msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
 "on %(project_name)s and join the %(team_name)s team."
 msgstr ""
@@ -13673,6 +15219,19 @@ msgstr ""
 msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to join the "
 "%(team_name)s team."
+msgstr ""
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr ""
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
 msgstr ""
 
 #, python-format
@@ -13712,6 +15271,11 @@ msgstr "Blokeeri kasutaja"
 #| msgid "Translated"
 msgid "View notification"
 msgstr "Tõlgitud"
+
+#, fuzzy
+#| msgid "All languages"
+msgid "View full change"
+msgstr "Kõik keeled"
 
 msgid "No matching activity found."
 msgstr ""
@@ -13844,6 +15408,11 @@ msgstr "Mitmus: %(source_description)s"
 msgid "Plurals"
 msgstr "Mitmused"
 
+#, fuzzy
+#| msgid "No matching checks found!"
+msgid "No integer examples found"
+msgstr "Vastavaid kontrolle ei leitud!"
+
 msgid "First"
 msgstr "Esimene"
 
@@ -13909,11 +15478,6 @@ msgstr "Tõlgitud"
 #, fuzzy
 #| msgid "Translated"
 msgid "Location strings"
-msgstr "Tõlgitud"
-
-#, fuzzy
-#| msgid "Translated"
-msgid "String state"
 msgstr "Tõlgitud"
 
 #. Translators: String pending for flushing to VCS.
@@ -14120,11 +15684,6 @@ msgstr "Tõlgete teated"
 msgid "Saved search name"
 msgstr "Kasutajanimi"
 
-#, fuzzy
-#| msgid "Language filter"
-msgid "Search query"
-msgstr "Keelte filter"
-
 msgid "No saved searches yet."
 msgstr ""
 
@@ -14152,8 +15711,8 @@ msgid "Community"
 msgstr "Panusta"
 
 #, python-format
-msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr "Tõlgitud %(object)s kasutades %%23Weblate aadressil %(share_url)s!"
+msgid "Translate %(object)s using #Weblate at %(share_url)s!"
+msgstr "Tõlgitud %(object)s kasutades #Weblate aadressil %(share_url)s!"
 
 #, fuzzy
 #| msgid "Share on Facebook"
@@ -14403,6 +15962,11 @@ msgstr ""
 msgid "You are about to continue removing your Weblate account."
 msgstr ""
 
+msgid ""
+"You are about to continue adding this e-mail address to your existing "
+"Weblate account."
+msgstr ""
+
 msgid "You are about to accept an invitation and create a Weblate account."
 msgstr ""
 
@@ -14427,6 +15991,11 @@ msgstr "Kinnita salasõna lähtestamine"
 #| msgid "Account removal"
 msgid "Continue account removal"
 msgstr "Konto eemaldamine"
+
+#, fuzzy
+#| msgid "Human verification"
+msgid "Continue e-mail verification"
+msgstr "Verifitseerimine inimese poolt"
 
 #, fuzzy
 #| msgid "Administration"
@@ -14524,9 +16093,6 @@ msgstr "Weblate ei saa panustada muudatusi ülesvoo-varamusse."
 #| msgid_plural "Could not parse %d matched files."
 msgid "Weblate CDN add-on could not parse the HTML files."
 msgstr "Ei õnnestunud töödelda ühte sobivat faili."
-
-msgid "Filename"
-msgstr "Failinimi"
 
 msgid ""
 "The local repository checkout or its Git directory is missing. Repeated "
@@ -14795,15 +16361,15 @@ msgstr ""
 msgid "Source"
 msgstr "Lähtetekst"
 
-#, fuzzy, python-format
-#| msgid "Reset all changes in the local repository"
-msgid "Remove duplicate strings from %(language)s (%(filename)s)"
-msgstr "Lähtesta kõik muudatused kohalikus varamu"
-
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
 msgstr "Eemalda tühjad tekstid"
+
+#, fuzzy, python-format
+#| msgid "Reset all changes in the local repository"
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Lähtesta kõik muudatused kohalikus varamu"
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -14946,6 +16512,16 @@ msgid ""
 "translations."
 msgstr ""
 
+msgid ""
+"Weblate pushed the changes and created the pull request, but could not apply "
+"the configured labels or assignees."
+msgstr ""
+
+msgid ""
+"Check that the labels and assignees exist and that Weblate can write pull "
+"requests, or remove the customization from the version control parameters."
+msgstr ""
+
 msgid "Weblate could not push changes to the upstream repository."
 msgstr "Weblate ei saa panustada muudatusi ülesvoo-varamusse."
 
@@ -15079,8 +16655,10 @@ msgstr ""
 msgid "Go"
 msgstr "Hea"
 
-msgid "Changes"
-msgstr "Muudatused"
+#, fuzzy
+#| msgid "Check details"
+msgid "Change details"
+msgstr "Kontrolli üksikasju"
 
 msgid "Download latest changes as CSV"
 msgstr ""
@@ -15159,9 +16737,6 @@ msgid ""
 "translation component."
 msgstr ""
 
-msgid "Retry"
-msgstr ""
-
 msgid ""
 "The new component will be created for the selected branch with the exact "
 "same configuration as the existing one."
@@ -15197,9 +16772,6 @@ msgstr ""
 #| msgid "Default component list"
 msgid "Add or configure account"
 msgstr "Vaikimisi komponentide nimekiri"
-
-msgid "Branch"
-msgstr ""
 
 #, fuzzy
 #| msgid "Recent changes"
@@ -15490,6 +17062,15 @@ msgstr ""
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr ""
 
+msgid "Public access on import"
+msgstr ""
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
+
 #, fuzzy
 #| msgid "Repository URL copied to clipboard."
 msgid "Token copied to clipboard."
@@ -15515,9 +17096,6 @@ msgstr ""
 #| msgid "Edit source"
 msgid "Edit source"
 msgstr "Muuda lähtelausendeid"
-
-msgid "Cancel"
-msgstr "Katkesta"
 
 msgid "Learn more about pushing changes from Weblate."
 msgstr ""
@@ -15802,10 +17380,6 @@ msgstr "Erinevad tõlketekstid on tõlgitud identselt."
 msgid "Add term to glossary"
 msgstr ""
 
-#, python-format
-msgid "Browse glossary %(name)s"
-msgstr "Sirvi %(name)s sõnastikke"
-
 #, fuzzy
 #| msgid "Browse glossary %(name)s"
 msgid "Browse glossary"
@@ -15870,6 +17444,15 @@ msgstr "Hilinenud tähtaeg"
 
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "%(language)s glossary for %(project)s"
+msgid "%(filename)s, line %(line)s"
+msgstr "%(project)s projekti sõnastik %(language)s keeles"
+
+#, python-format
+msgid "line %(line)s"
 msgstr ""
 
 #, python-format
@@ -15964,6 +17547,11 @@ msgstr ""
 #| msgid "Download"
 msgid "Quick downloads"
 msgstr "Laadi alla"
+
+msgid ""
+"Original files can contain contributor identities and require additional "
+"permission. Use a generated export below for offline translation."
+msgstr ""
 
 msgid "File in original format as translated in the repository"
 msgstr ""
@@ -16260,11 +17848,6 @@ msgstr "Hilinenud tähtaeg"
 #| msgid "repository wide"
 msgid "Available Repositories"
 msgstr "varamu ülene"
-
-#, fuzzy
-#| msgid "Not available"
-msgid "Unavailable"
-msgstr "Pole saadaval"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -16873,11 +18456,6 @@ msgstr "Osise nimi"
 #| msgid "User has been invited to this project."
 msgid "A component was moved within a project."
 msgstr "Kasutaja on kutsutud liituma selle projektiga."
-
-#, fuzzy
-#| msgid "Default component list"
-msgid "Moved component"
-msgstr "Vaikimisi komponentide nimekiri"
 
 #, fuzzy
 #| msgctxt "Notification name"
@@ -17654,6 +19232,12 @@ msgid "Could not merge the pull request automatically."
 msgstr "Ei saa ühitada varamuid."
 
 #. Translators: Name of an alert
+#, fuzzy
+#| msgid "Could not merge the repository."
+msgid "Could not customize the pull request."
+msgstr "Ei saa ühitada varamuid."
+
+#. Translators: Name of an alert
 msgid "Repository outdated."
 msgstr ""
 
@@ -17681,6 +19265,19 @@ msgstr ""
 msgid "Trailing and leading whitespace"
 msgstr ""
 
+#, fuzzy
+#| msgid "Suggested translations"
+msgid "Automatic translation completed with errors, no strings were updated."
+msgstr "Soovitatud tõlked"
+
+#, fuzzy, python-format
+#| msgid "Suggested translations"
+msgid "Automatic translation completed with errors, %d string was updated."
+msgid_plural ""
+"Automatic translation completed with errors, %d strings were updated."
+msgstr[0] "Soovitatud tõlked"
+msgstr[1] "Soovitatud tõlked"
+
 msgid "Automatic translation completed, no strings were updated."
 msgstr ""
 
@@ -17689,6 +19286,12 @@ msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] ""
 msgstr[1] ""
+
+#, fuzzy
+#| msgid "Suggested translations"
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr "Soovitatud tõlked"
 
 #, python-format
 msgid ""
@@ -17701,6 +19304,17 @@ msgid ""
 "Plural forms in some source components do not match the target translation. "
 "Automatic translation skipped pluralized strings and processed only single-"
 "form strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Suggested translations"
+msgid ""
+"Automatic translation lost its database connection. Please try again later."
+msgstr "Soovitatud tõlked"
+
+msgid ""
+"Automatic translation is already running for this translation. Please try "
+"again later."
 msgstr ""
 
 #, fuzzy, python-format
@@ -17761,6 +19375,14 @@ msgstr "Topelttõlge."
 msgid "Screenshot image is missing."
 msgstr "Kuvatõmmised"
 
+msgid "Revision must be a complete hexadecimal object ID."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not update repository: %s"
+msgid "Could not validate repository URL: %s"
+msgstr "Varamut ei saa uuendada: %s"
+
 #, fuzzy
 #| msgid "Duplicated filemask."
 msgid "Duplicate check name."
@@ -17771,13 +19393,18 @@ msgstr "Topelt failimask."
 msgid "Referenced category does not exist."
 msgstr "{filename} ({parameter}) pole olemas."
 
-msgid "Component filename does not match its category and slug."
-msgstr ""
-
 #, fuzzy
 #| msgid "Default component list"
 msgid "Duplicate component slug."
 msgstr "Vaikimisi komponentide nimekiri"
+
+msgid "Component filename does not match its category and slug."
+msgstr ""
+
+#, fuzzy
+#| msgid "This translation is locked."
+msgid "Translation revision has an invalid format."
+msgstr "See tõlge on lukustatud."
 
 #, fuzzy
 #| msgid "Duplicated translation."
@@ -17855,16 +19482,98 @@ msgstr "Kasutaja on kutsutud liituma selle projektiga."
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 
+#, fuzzy
+#| msgid "Important dates"
+msgid "Imported authors"
+msgstr "Olulised kuupäevad"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
 msgstr ""
 
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
+msgstr ""
+
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is unknown."
+msgstr ""
+
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is not applicable."
+msgstr ""
+
+#, fuzzy
+#| msgid "Special characters"
+msgid "Version control parameters"
+msgstr "Erimärgid"
+
+#, fuzzy
+#| msgid "File format"
+msgid "File format parameters"
+msgstr "Faili vorming"
+
 #, fuzzy
 #| msgid "This translation does not yet exist."
 msgid "The project repository directory already exists."
 msgstr "Seda tõlget pole veel olemas."
+
+#, fuzzy
+#| msgid "Manage users"
+msgid "Invalid search type."
+msgstr "Halda kasutajaid"
+
+msgid "Enter a search string to replace."
+msgstr ""
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy
+#| msgid "Invalid unit."
+msgid "Invalid target state."
+msgstr "Vigane ühik."
+
+#, fuzzy
+#| msgid "How to handle requests for creating new translations."
+msgid "Choose either replacement or clearing translations."
+msgstr "Kuidas uute keelte lisamist peaks käsitlema."
+
+#, python-format
+msgid "Bulk edits are limited to %(limit)d strings. Narrow the search query."
+msgstr ""
 
 msgid "The component was automatically locked because of an alert."
 msgstr "See osis lukustati hoiatuse alusel automaatselt."
@@ -17946,6 +19655,9 @@ msgstr ""
 msgid "New revision: {}"
 msgstr "Isiklik info"
 
+msgid "Content is too long to show in the change list."
+msgstr ""
+
 #, fuzzy, python-format
 #| msgid "Browse %(count)s project"
 #| msgid_plural "Browse all %(count)s projects"
@@ -18018,6 +19730,14 @@ msgstr "Tehtud soovitusi"
 msgid "Needs review"
 msgstr "Lähte lausendite läbivaatus"
 
+#, fuzzy
+#| msgid "This translation does not yet exist."
+msgid "The source and destination checkouts must be different."
+msgstr "Seda tõlget pole veel olemas."
+
+msgid "This component does not exist or you cannot access it."
+msgstr ""
+
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr ""
 
@@ -18036,9 +19756,6 @@ msgstr ""
 msgid "Version control"
 msgstr ""
 
-msgid "State"
-msgstr "Olek"
-
 #, fuzzy
 #| msgid "Revert"
 msgid "Severity"
@@ -18051,6 +19768,11 @@ msgstr ""
 #| msgid "New password confirmation"
 msgid "Discovery configuration"
 msgstr "Uue parooli kinnitus"
+
+#, fuzzy, python-format
+#| msgid "Could not send test e-mail: %s"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "Ei õnnestunud saata e-kirja %s aadressile"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -18098,6 +19820,12 @@ msgstr "Tõlke võti"
 #, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
 msgstr "{filename} ({parameter}) pole olemas."
+
+#. Translators: condensed rendering of a change action in history
+#, fuzzy, python-format
+#| msgid "Changed translation in %(translation)s"
+msgid "%(action)s at %(time)s on %(translation)s"
+msgstr "Muudatetud tõlge %(translation)s keeles"
 
 #. Translators: %s is site title here
 #, fuzzy, python-format
@@ -18278,6 +20006,49 @@ msgstr "MAC (\\r)"
 
 msgid "Include closing tag for blank XML tags"
 msgstr "Lisa tühjadele XML-märgenditele ka lõpumärgend"
+
+msgid "UTF-8 byte order mark"
+msgstr ""
+
+msgid "Preserve input"
+msgstr ""
+
+msgid "Always include"
+msgstr ""
+
+msgid "Always omit"
+msgstr ""
+
+msgid ""
+"Controls the UTF-8 byte order mark. Other encodings are unchanged. New files "
+"without a template omit the mark when preserving input."
+msgstr ""
+
+msgid "XML declaration encoding case"
+msgstr ""
+
+#, fuzzy
+#| msgid "Somali"
+msgid "Format default"
+msgstr "somaali"
+
+msgid "Uppercase"
+msgstr ""
+
+msgid "Lowercase"
+msgstr ""
+
+msgid ""
+"Controls encoding names in the XML declaration, for example \"UTF-8\" or "
+"\"utf-8\"."
+msgstr ""
+
+msgid "XML final newline"
+msgstr ""
+
+msgid ""
+"Controls the newline at the end of the file, using the format's line endings."
+msgstr ""
 
 msgid "Whitespace handling"
 msgstr ""
@@ -18816,6 +20587,11 @@ msgid "You do not have permission to edit these flags."
 msgstr "Sinul puuduvad õigused ligipääsuks sellele osisele."
 
 #, fuzzy
+#| msgid "You currently do not have permission to create projects."
+msgid "You do not have permission to create terminology."
+msgstr "Sul hetkel pole õigusi projektide algatamiseks."
+
+#, fuzzy
 #| msgid "Navigate to the previous translation in the current search."
 msgid ""
 "Revert the latest translation edits from this user in the current project."
@@ -19014,6 +20790,11 @@ msgid "Could not load repository branches. Please try again."
 msgstr "Veateate avamine ei õnnestunud, palun proovi hiljem uuesti."
 
 #, fuzzy
+#| msgid "You do not have permission to access this component."
+msgid "You do not have permission to edit this project."
+msgstr "Sinul puuduvad õigused ligipääsuks sellele osisele."
+
+#, fuzzy
 #| msgid "Suggested translations"
 msgid "ZIP file containing translations"
 msgstr "Soovitatud tõlked"
@@ -19115,18 +20896,6 @@ msgstr "Muuda lausendite lisateavet"
 msgid "Could not load project backup."
 msgstr "Muuda lausendite lisateavet"
 
-msgid "Optional additional filter applied to the strings"
-msgstr ""
-
-msgid "Search string"
-msgstr ""
-
-msgid "Case-sensitive string to search for and replace."
-msgstr ""
-
-msgid "Replacement string"
-msgstr ""
-
 #, fuzzy
 #| msgid "Response content"
 msgid "Key or context"
@@ -19180,14 +20949,33 @@ msgid ""
 msgstr ""
 
 #, fuzzy
-#| msgid "You currently do not have permission to create projects."
-msgid "You do not have permission to create terminology."
-msgstr "Sul hetkel pole õigusi projektide algatamiseks."
-
-#, fuzzy
 #| msgid "Default component list"
 msgid "Invalid string selection!"
 msgstr "Vaikimisi komponentide nimekiri"
+
+#, fuzzy
+#| msgid "Language filter"
+msgid "Search type"
+msgstr "Keelte filter"
+
+msgid "Text"
+msgstr ""
+
+msgid "Search string"
+msgstr ""
+
+msgid ""
+"Case-sensitive text or regular expression to replace in matching strings. "
+"Leave empty to disable replacement."
+msgstr ""
+
+msgid "Replacement string"
+msgstr ""
+
+msgid ""
+"Leave empty to remove matching text. In regular expression mode, use \\1 for "
+"the first captured group. Named group references are also supported."
+msgstr ""
 
 msgid "State to set"
 msgstr ""
@@ -19197,39 +20985,80 @@ msgstr ""
 msgid "Do not change"
 msgstr "Viimased muudatused"
 
-msgid "Source flags to add — all languages"
-msgstr ""
+#, fuzzy
+#| msgid "Edit label"
+msgid "Add flags"
+msgstr "Muuda silti"
 
-msgid "Source flags to remove — all languages"
+#, fuzzy
+#| msgid "Remove"
+msgid "Remove flags"
+msgstr "Eemalda"
+
+msgid ""
+"Only flags set directly on these translations are removed. Inherited flags "
+"remain in effect."
 msgstr ""
 
 #, fuzzy
-#| msgid "Translation key"
-msgid "Translation flags to add — matching translations"
-msgstr "Tõlke võti"
+#| msgid "Translated languages"
+msgid "Add labels"
+msgstr "Tõlgitud keeled"
+
+#, fuzzy
+#| msgid "Remove a string"
+msgid "Remove labels"
+msgstr "Kustuta lausend"
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Preview changes"
+msgstr "Viimased muudatused"
+
+msgid "Choose flags to add…"
+msgstr ""
+
+#, fuzzy
+#| msgid "Component name"
+msgid "Choose flags to remove…"
+msgstr "Osise nimi"
+
+#, fuzzy
+#| msgid "Source language"
+msgid "Source flags"
+msgstr "Lähtekeel"
+
+msgid ""
+"Flags are set on the source strings corresponding to your selection and "
+"apply to their translations in every language."
+msgstr ""
+
+msgid ""
+"Flags are set on the source strings corresponding to your filter results and "
+"apply to their translations in every language."
+msgstr ""
 
 #, fuzzy
 #| msgid "This translation is used for source strings."
-msgid "Applies only to matching translations, excluding source strings."
+msgid ""
+"Flags apply only to translations in your selection. Source strings are "
+"excluded."
 msgstr "Seda tõlget kasutatakse lähtelausendite jaoks."
 
-#, fuzzy
-#| msgid "Translation key"
-msgid "Translation flags to remove — matching translations"
-msgstr "Tõlke võti"
-
-msgid "Removes locally set flags. Inherited flags remain in effect."
+msgid ""
+"Flags apply only to translations matching your filter. Source strings are "
+"excluded."
 msgstr ""
 
-#, fuzzy
-#| msgid "Browse all languages"
-msgid "Labels to add — all languages"
-msgstr "Lehitse kõiki keeli"
+msgid ""
+"Labels apply to the source strings corresponding to your selection and are "
+"shared across all languages."
+msgstr ""
 
-#, fuzzy
-#| msgid "Browse all languages"
-msgid "Labels to remove — all languages"
-msgstr "Lehitse kõiki keeli"
+msgid ""
+"Labels apply to the source strings corresponding to your filter results and "
+"are shared across all languages."
+msgstr ""
 
 msgid "Select strings to edit or enter a search query."
 msgstr ""
@@ -19502,11 +21331,6 @@ msgstr "Kategooria"
 msgid "Display name"
 msgstr "Tõlgitud keeled"
 
-#, fuzzy
-#| msgid "Translation key"
-msgid "Translation flags"
-msgstr "Tõlke võti"
-
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
 
@@ -19750,12 +21574,6 @@ msgstr "Osise nimi"
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
 
-#. Translators: condensed rendering of a change action in history
-#, fuzzy, python-format
-#| msgid "Changed translation in %(translation)s"
-msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "Muudatetud tõlge %(translation)s keeles"
-
 msgctxt "Change origin badge"
 msgid "API"
 msgstr ""
@@ -19842,11 +21660,6 @@ msgid ""
 "translations. You can also choose additional integration with third party "
 "providers to submit pull/merge requests."
 msgstr ""
-
-#, fuzzy
-#| msgid "Special characters"
-msgid "Version control parameters"
-msgstr "Erimärgid"
 
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
@@ -19957,11 +21770,6 @@ msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
 msgstr ""
-
-#, fuzzy
-#| msgid "File format"
-msgid "File format parameters"
-msgstr "Faili vorming"
 
 msgid "Locked component will not get any translation updates."
 msgstr ""
@@ -20199,6 +22007,11 @@ msgstr ""
 #| msgid "Secondary language defined in project or component"
 msgid "Use the secondary language configured in the category or project."
 msgstr "Projekti või osise teisene keel"
+
+#, fuzzy
+#| msgid "This translation does not yet exist."
+msgid "The linked repository path is ambiguous."
+msgstr "Seda tõlget pole veel olemas."
 
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
@@ -20466,6 +22279,16 @@ msgid ""
 "Pushing without a merge request needs write access to the repository. "
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
+
+#, fuzzy
+#| msgid "The translation base language can not be edited."
+msgid "Version control system cannot be changed to this backend."
+msgstr "Tõlke aluskeel pole toimetatav."
+
+#, fuzzy
+#| msgid "The regular expression can not match an empty string."
+msgid "The file mask is too complex and took too long to evaluate."
+msgstr "Regulaaravaldis ei saa sobituda tühja lausendiga."
 
 msgid ""
 "A component can not be restricted while its project uses shared translation "
@@ -20772,6 +22595,12 @@ msgstr "Lähtelausendid"
 msgid "Could not accept suggestion!"
 msgstr "Soovitusega ei olnud võimalik nõustuda!"
 
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr "Lausendit ei õnnestunud lisada %d komponenti."
+
 #, fuzzy
 #| msgid "Image is too big."
 msgid "Uploaded translation file is too big."
@@ -20838,6 +22667,19 @@ msgstr ""
 msgid "Plural form %d in the uploaded file is missing."
 msgstr ""
 
+#, fuzzy, python-format
+#| msgid "Suggested translations"
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr "Soovitatud tõlked"
+
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] "Lausendit ei õnnestunud lisada %d komponenti."
+msgstr[1] "Lausendit ei õnnestunud lisada %d komponenti."
+
 #, fuzzy
 #| msgid "Suggested translations"
 msgid "The uploaded file contains too many language declarations."
@@ -20865,6 +22707,10 @@ msgstr "Ootel olevate muudatuste laadimine repositooriumi ei õnnestunud: %s"
 #| msgid "Could not parse {file}: {error}"
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "Ei õnnestunud töödelda {file} faili: {error}"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Could not parse translation files."
@@ -21103,6 +22949,11 @@ msgstr ""
 msgid "User configured character: {}"
 msgstr ""
 
+#, fuzzy, python-format
+#| msgid "Could not push the repository."
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "Ei saa panustada varamusse."
+
 #, fuzzy
 #| msgid "Suggested translations"
 msgid "Repository operation could not be completed because it remained locked."
@@ -21148,6 +22999,31 @@ msgid ""
 msgid_plural ""
 "Accepted %(accepted)d of %(total)d suggestions from %(user)s. %(failed)d "
 "failed due to permissions or checks."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Bulk edit parameters are no longer valid."
+msgstr ""
+
+#, python-format
+msgid "Bulk edit failed after processing %(count)d strings: %(error)s"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "The target or permissions changed."
+msgstr "Litsents on muutunud"
+
+#, python-format
+msgid ""
+"Bulk edit failed after processing %(count)d strings. Earlier batches may "
+"have been applied."
+msgstr ""
+
+#, python-format
+msgid "Bulk edit completed, %d string was updated."
+msgid_plural "Bulk edit completed, %d strings were updated."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -21216,6 +23092,10 @@ msgstr ""
 #| msgid "This translation is used for source strings."
 msgid "This language is used for source strings."
 msgstr "Seda tõlget kasutatakse lähtelausendite jaoks."
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr ""
 
 #, fuzzy
 #| msgid "This component is currently locked."
@@ -21336,6 +23216,33 @@ msgstr ""
 #| msgid "Leave empty for bilingual translation files."
 msgid "Updates source strings in bilingual translation file."
 msgstr "Kakskeelsete tõlkefailide puhul jäta see tühjaks."
+
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "A translation upload is already in progress."
+msgstr "Tõlgete uuendamine on töös."
+
+msgid "The uploaded file has expired or was already processed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation key"
+msgid "The uploaded file has expired."
+msgstr "Tõlke võti"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "The upload target or permissions changed."
+msgstr "Litsents on muutunud"
+
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "File upload has failed. Please try again later."
+msgstr "Liiga palu sõnumeid on saadetud, palun proovi hiljem uuesti."
 
 msgid "Very high"
 msgstr ""
@@ -21462,6 +23369,9 @@ msgstr "Sa ei saa ennast eemaldada!"
 msgid "You can not block yourself on this project."
 msgstr "Kasutaja on kutsutud liituma selle projektiga."
 
+msgid "Remove project administration rights before blocking this user."
+msgstr ""
+
 #, fuzzy
 #| msgid "User has been invited to this project."
 msgid "User has been blocked on this project."
@@ -21521,6 +23431,11 @@ msgstr[0] ""
 msgstr[1] ""
 "Uue keele (%(language)s) lisamine %(count)d osistesse polnud võimalik. Palun "
 "kontrolli osiste seadistusi."
+
+#, fuzzy
+#| msgid "You do not have permission to access this component."
+msgid "You do not have permission to add this language."
+msgstr "Sinul puuduvad õigused ligipääsuks sellele osisele."
 
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
@@ -21771,8 +23686,10 @@ msgstr ""
 msgid "Access denied."
 msgstr ""
 
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr ""
+#, fuzzy
+#| msgid "Translation process"
+msgid "Translation upload in progress."
+msgstr "Tõlke edenemine"
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -21832,12 +23749,22 @@ msgstr ""
 msgid "All components are now locked for translation updates!"
 msgstr ""
 
+#, fuzzy
+#| msgid "Lock component, preventing translations"
+msgid "Allowed components are now locked for translation updates!"
+msgstr "Lukusta osis ja takista sellega tõlkimist"
+
 msgid "Component is now open for translation updates."
 msgstr ""
 
 #, fuzzy
 #| msgid "Lock component, preventing translations"
 msgid "All components are now open for translation updates."
+msgstr "Lukusta osis ja takista sellega tõlkimist"
+
+#, fuzzy
+#| msgid "Lock component, preventing translations"
+msgid "Allowed components are now open for translation updates."
 msgstr "Lukusta osis ja takista sellega tõlkimist"
 
 #, fuzzy
@@ -21910,18 +23837,6 @@ msgstr "Laadi kasutajaandmed alla"
 msgid "Excluded user days"
 msgstr "Kasutajanimi"
 
-msgid "Could not process form!"
-msgstr "Vormi töötlemine ei õnnestu!"
-
-msgid "Search and replace completed, no strings were updated."
-msgstr ""
-
-#, python-format
-msgid "Search and replace completed, %d string was updated."
-msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] ""
-msgstr[1] ""
-
 #, python-format
 msgid "Search for %s"
 msgstr ""
@@ -21932,14 +23847,29 @@ msgstr ""
 msgid "Invalid search query!"
 msgstr ""
 
-msgid "Bulk edit completed, no strings were updated."
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "Too many bulk edits, please try again later."
+msgstr "Liiga palu sõnumeid on saadetud, palun proovi hiljem uuesti."
+
+msgid "The preview has expired or is invalid. Preview the changes again."
 msgstr ""
 
-#, python-format
-msgid "Bulk edit completed, %d string was updated."
-msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] ""
-msgstr[1] ""
+msgid "Could not process form!"
+msgstr "Vormi töötlemine ei õnnestu!"
+
+#, fuzzy
+#| msgid "Bulk edit"
+msgid "Bulk edit in progress."
+msgstr "Hulgimuutmine"
+
+#, fuzzy, python-format
+#| msgid "Authentication app (%s)"
+msgid "Bulk edit failed: %s"
+msgstr "Autentimisrakendus (%s)"
+
+msgid "Bulk edit completed, no strings were updated."
+msgstr ""
 
 msgid "Settings saved"
 msgstr ""
@@ -22065,6 +23995,16 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr ""
 
+#, fuzzy
+#| msgid "Source language"
+msgid "Sort languages by"
+msgstr "Lähtekeel"
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Translation percentage"
+msgstr "Tõlgitud keeled"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr ""
@@ -22094,6 +24034,11 @@ msgid "language"
 msgid_plural "languages"
 msgstr[0] "keel"
 msgstr[1] "keeled"
+
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
+msgstr ""
 
 #, fuzzy
 #| msgid "This component is currently locked."
@@ -22127,9 +24072,138 @@ msgid "Invalid host name given!"
 msgstr ""
 
 #, fuzzy
+#| msgid "XML tags in translation do not match source."
+msgid "Press ? in the translation editor to discover keyboard shortcuts."
+msgstr "XML-siltide arv tõlkes ei vasta lähtelausendis leiduvale."
+
+msgid ""
+"Add secondary languages in your preferences to see translations you already "
+"understand alongside the source."
+msgstr ""
+
+msgid ""
+"Customize your special characters in your profile to keep frequently used "
+"characters within reach."
+msgstr ""
+
+msgid ""
+"Use the visual keyboard above the translation field to insert special "
+"characters."
+msgstr ""
+
+msgid ""
+"Save searches you use often so you can return to them from the search "
+"filters."
+msgstr ""
+
+msgid ""
+"Combine search conditions with AND, OR, and NOT to find exactly the strings "
+"you need."
+msgstr ""
+
+msgid ""
+"Search with regular expressions when a simple word search is not enough."
+msgstr ""
+
+#, fuzzy
+#| msgid "Use flags to indicate special strings in your translation."
+msgid "Use labels to organize strings and find related translation work."
+msgstr ""
+"Spetsiaalsete sõnede märkimiseks kasuta oma tõlkes kasuta tõlketunnuseid."
+
+msgid ""
+"Check a string’s screenshots to see where the text appears in the "
+"application."
+msgstr ""
+
+msgid ""
+"Link an existing screenshot to a string to give translators more context."
+msgstr ""
+
+msgid ""
+"Check nearby strings for context before translating a short or ambiguous "
+"message."
+msgstr ""
+
+msgid "Explore a string’s history to see how its translation has changed."
+msgstr ""
+
+msgid ""
+"Leave a comment on a source string to ask for context that can help every "
+"language."
+msgstr ""
+
+msgid ""
+"Suggest a translation when you want others to review your wording before it "
+"is accepted."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation suggestions are turned off."
+msgid "You can edit a translation suggestion before accepting it."
+msgstr "Tõlke soovitused on välja lülitatud."
+
+msgid ""
+"Add terms to a project glossary to help translators use consistent wording."
+msgstr ""
+
+msgid ""
+"Glossaries can mark terms as forbidden to help translators avoid unwanted "
+"wording."
+msgstr ""
+
+msgid "Glossaries can mark names and other terms as untranslatable."
+msgstr ""
+
+msgid ""
+"Watch projects you care about and choose which translation events notify you."
+msgstr ""
+
+msgid ""
+"Choose notification digests to receive translation updates together instead "
+"of one email at a time."
+msgstr ""
+
+msgid "Regular expression processing failed or exceeded its resource limit."
+msgstr ""
+
+msgid "Cumulative regex time limit exceeded."
+msgstr ""
+
+msgid "Regex request exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression to match translation files against"
+msgid "Regular expression evaluation timed out."
+msgstr "Regulaaravaldis, mille suhtes kontrollime tõlkefaile"
+
+msgid "Regex response exceeds its size limit."
+msgstr ""
+
+msgid "Regex output exceeds its size limit."
+msgstr ""
+
+msgid "Pattern and replacement must not exceed 4096 characters."
+msgstr ""
+
+msgid "Regex input exceeds 1 MiB per plural."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Regular expression for e-mail address"
+msgid "Invalid regular expression or replacement: %s"
+msgstr "Regulaaravaldis, mida pruugitakse e-posti aadressi vastendamiseks"
+
+#, fuzzy
 #| msgid "Suggested translations"
 msgid "Automatic translation reported a warning."
 msgstr "Soovitatud tõlked"
+
+#, fuzzy
+#| msgid "source strings"
+msgid "Automatic translation is waiting for another operation to finish."
+msgstr "Lähte lausendid"
 
 #, fuzzy
 #| msgid "Suggested translations"
@@ -22138,6 +24212,11 @@ msgstr "Soovitatud tõlked"
 
 msgid "Task could not be completed. See the task log for details."
 msgstr ""
+
+#, fuzzy
+#| msgid "Suggested translations"
+msgid "Automatic translation reported an error."
+msgstr "Soovitatud tõlked"
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -22309,11 +24388,10 @@ msgstr "Muuda lausendite lisateavet"
 msgid "Could not resolve the URL domain."
 msgstr "Muuda lausendite lisateavet"
 
-msgid "Parameters must be a dictionary of key-value pairs."
+msgid "Invalid stored parameter value."
 msgstr ""
 
-#, python-format
-msgid "Undefined variable: \"%s\""
+msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
 #, fuzzy
@@ -22326,11 +24404,367 @@ msgid ""
 "instead."
 msgstr ""
 
+msgid "Template context exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic component list assignment"
+msgid "Template context is nested too deeply."
+msgstr "Automaatne osise loendi sidumine"
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported nonfinite template context value."
+msgstr "Faili formaati ei toetata."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template context key."
+msgstr "Faili formaati ei toetata."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template context value."
+msgstr "Faili formaati ei toetata."
+
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Template text is not valid UTF-8."
+msgstr "Sisestatud tunnusluba pole kehtiv."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid unit."
+msgid "Invalid template syntax."
+msgstr "Vigane ühik."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Undefined template variable."
+msgstr "Faili formaati ei toetata."
+
+#, fuzzy
+#| msgid "The translation is not valid XML."
+msgid "Text is not valid UTF-8."
+msgstr "Tõlge pole korrektne XML."
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Division by zero is not supported."
+msgstr "Valitud sortimisviis ei ole toetatud."
+
+#, fuzzy
+#| msgid "Browse all changes for user"
+msgid "Numeric value is too large for this operation."
+msgstr "Sirvi kõiki muudatusi kasutajale"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Numeric operation failed."
+msgstr "Varamutoiming ei õnnestunud"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "This translation is locked."
+msgid "Value or argument has an invalid format."
+msgstr "See tõlge on lukustatud."
+
+#, fuzzy, python-format
+#| msgid "Could not parse translation base file: %s"
+msgid "%(operation)s: %(message)s"
+msgstr "Ei õnnestunud sirvida tõlke alusfaili: %s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
+msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nonfinite numbers are not supported."
+msgstr "Valitud sortimisviis ei ole toetatud."
+
+#, fuzzy, python-format
+#| msgid "Filename"
+msgid "Filter \"%(name)s\""
+msgstr "Failinimi"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
+msgstr ""
+
+msgid "Template rendering exceeded its loop limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Attribute access and method calls are not supported."
+msgstr "Valitud sortimisviis ei ole toetatud."
+
+msgid "Index exceeds the length limit of 128 characters."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Translated template literals are not supported."
+msgstr "Valitud sortimisviis ei ole toetatud."
+
+#, fuzzy
+#| msgid "Invalid unit."
+msgid "Invalid filter."
+msgstr "Vigane ühik."
+
+msgid "Identity comparisons require None, True, or False."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This condition operator is not supported."
+msgstr "Valitud sortimisviis ei ole toetatud."
+
+msgid "Template output exceeds its size limit."
+msgstr ""
+
+msgid "Loops require a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
+msgstr ""
+
+msgid "Loop value cannot be unpacked into its variables."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This template tag is not supported."
+msgstr "Valitud sortimisviis ei ole toetatud."
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This template node is not supported."
+msgstr "Valitud sortimisviis ei ole toetatud."
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Undefined variable: \"%s\""
+msgstr ""
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "This field is required."
+msgid "This filter requires strings."
+msgstr "See väli on kohustuslik."
+
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Choices must be a string."
+msgstr "Automaatne tõlge"
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Joining requires string elements."
+msgstr "Lähtelausendid"
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Date format must be a string or None."
+msgstr "Automaatne tõlge"
+
+#, fuzzy
+#| msgid "No screenshot currently associated."
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "Hetkel ei ole ühtegi seostatud ekraanitõmmist ."
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Plural suffixes must be a string."
+msgstr "Automaatne tõlge"
+
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nested template delimiters are not supported."
+msgstr "Valitud sortimisviis ei ole toetatud."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unclosed template token."
+msgstr "Faili formaati ei toetata."
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "This translation is locked."
+msgid "Template tag is empty."
+msgstr "See tõlge on lukustatud."
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr ""
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unsupported file format."
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "Faili formaati ei toetata."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template tag."
+msgstr "Faili formaati ei toetata."
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
 #, fuzzy, python-format
 #| msgid "Unable to download image from the provided URL."
 msgid ""
 "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
 msgstr "Pilti pole võimalik antud pildifaili võrguaadressilt alla laadida."
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Regular expression is too complex."
+msgstr "Regulaaravaldis"
 
 msgid "Search query is too complex."
 msgstr ""
@@ -22367,6 +24801,12 @@ msgid "Unsupported lookup for {field}: {value}"
 msgstr ""
 
 #, fuzzy
+#| msgctxt "Notification name"
+#| msgid "New translation component was created"
+msgid "A concrete project or component is required."
+msgstr "Loodi uus tõlkeosis"
+
+#, fuzzy
 #| msgid "Edit additional string info"
 msgid "Could not parse IP address: {}"
 msgstr "Muuda lausendite lisateavet"
@@ -22381,6 +24821,11 @@ msgstr ""
 
 msgid "Mixed operators!"
 msgstr ""
+
+#, fuzzy
+#| msgid "The translation base language can not be edited."
+msgid "Search query is too long."
+msgstr "Tõlke aluskeel pole toimetatav."
 
 #, fuzzy
 #| msgid "Invalid ordering"
@@ -22590,6 +25035,9 @@ msgstr ""
 msgid "URL domain is not allowed."
 msgstr "Selle pildifaili võrguaadressi domeen on keelatud."
 
+msgid "AMQP broker URLs must not contain query strings or fragments."
+msgstr ""
+
 #, fuzzy
 #| msgid "Translation key"
 msgid "Repository URL contains unsafe characters."
@@ -22789,6 +25237,37 @@ msgstr ""
 #| msgid "Too many messages sent, please try again later."
 msgid "Pull request listing failed: %(error)s Please retry later."
 msgstr "Liiga palu sõnumeid on saadetud, palun proovi hiljem uuesti."
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s"
+msgstr "Liiga palu sõnumeid on saadetud, palun proovi hiljem uuesti."
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s "
+"Please retry later."
+msgstr "Liiga palu sõnumeid on saadetud, palun proovi hiljem uuesti."
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s"
+msgstr "Liiga palu sõnumeid on saadetud, palun proovi hiljem uuesti."
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s Please retry later."
+msgstr "Liiga palu sõnumeid on saadetud, palun proovi hiljem uuesti."
+
+#, python-format
+msgid "GitHub did not assign the requested users: %(assignees)s"
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Could not get repository status!"
@@ -23148,6 +25627,11 @@ msgid "This will push changes to the upstream Mercurial repository."
 msgstr "Weblate ei saa panustada muudatusi ülesvoo-varamusse."
 
 #, fuzzy
+#| msgid "Could not merge the repository."
+msgid "Could not remove nested repository metadata."
+msgstr "Ei saa ühitada varamuid."
+
+#, fuzzy
 #| msgctxt "Label on engage page"
 #| msgid "GitHub star"
 #| msgid_plural "GitHub stars"
@@ -23229,6 +25713,32 @@ msgid ""
 "Open a pull or merge request for the translation changes. When turned off, "
 "Weblate pushes to the translated branch directly, which requires write "
 "access to it."
+msgstr ""
+
+#, fuzzy
+#| msgid "GitHub pull request"
+msgid "Pull request assignee"
+msgstr "GitHubi kaasamis taotlus"
+
+msgid "GitHub username to assign to pull requests created by Weblate."
+msgstr ""
+
+msgid "Assign pull requests to acting user"
+msgstr ""
+
+msgid ""
+"Also assign the GitHub account linked to the Weblate user who starts the "
+"push, when available."
+msgstr ""
+
+#, fuzzy
+#| msgid "GitHub pull request"
+msgid "Pull request labels"
+msgstr "GitHubi kaasamis taotlus"
+
+msgid ""
+"Comma-separated names of labels to add to pull requests created by Weblate. "
+"Existing labels are kept."
 msgstr ""
 
 msgid "Merge pull requests automatically"
@@ -23573,6 +26083,70 @@ msgid ""
 "there is room for a full menu."
 msgstr ""
 
+#, fuzzy
+#| msgid "Data exports"
+msgid "CSV report"
+msgstr "Andmete väljastused"
+
+#, fuzzy
+#| msgid "Languages limit"
+msgid "Delimiter"
+msgstr "Keelte piirang"
+
+msgid ""
+"Leave blank to detect automatically. Use a comma, semicolon, pipe, or \\t "
+"for a tab."
+msgstr ""
+
+msgid "First row contains column names"
+msgstr ""
+
+#, fuzzy
+#| msgid "Username or e-mail"
+msgid "Username or e-mail column"
+msgstr "Kasutajanimi või e-kiri"
+
+#, fuzzy
+#| msgid "Password"
+msgid "Password column"
+msgstr "Salasõna"
+
+msgid ""
+"Specify both column numbers, or leave both blank for automatic detection."
+msgstr ""
+
+#, fuzzy
+#| msgid "Configuration errors"
+msgid "Configuring"
+msgstr "Seadistuste tõrked"
+
+msgid "Running"
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+#, fuzzy
+#| msgid "Resolve"
+msgid "Resolved"
+msgstr "Lahenda"
+
+#, fuzzy
+#| msgid "User was disabled by administrator."
+msgid "Dismissed by administrator"
+msgstr "Administraator keelas kasutaja."
+
+msgid "Lookalike e-mail identity removed"
+msgstr ""
+
+msgid "E-mail identity already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Password already changed"
+msgstr "Salasõna on muudetud."
+
 #. Translators: The Weblate server has no paid support by the Weblate team
 msgid "Community support"
 msgstr "Kogukonna toetus"
@@ -23638,11 +26212,186 @@ msgstr ""
 msgid "Repository initialization"
 msgstr "Varamu initsialiseerimine"
 
+#, fuzzy
+#| msgid "New password"
+msgid "Leaked password"
+msgstr "Uus salasõna"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Lookalike verified e-mail address"
+msgstr "Kinnita oma uus e-posti aadress"
+
+msgid "The uploaded report has expired. Upload it again."
+msgstr ""
+
+msgid ""
+"Could not detect the credential columns. Configure their column numbers."
+msgstr ""
+
+msgid "Choose different identifier and password columns."
+msgstr ""
+
+msgid "The report exceeds the 10 MiB limit."
+msgstr ""
+
+msgid "Upload a UTF-8 encoded CSV file."
+msgstr ""
+
+msgid ""
+"Could not detect the delimiter. Configure the CSV columns and delimiter."
+msgstr ""
+
+msgid "Choose a single delimiter character."
+msgstr ""
+
+#, fuzzy
+#| msgid "Suggested translations"
+msgid "The file contains malformed CSV quoting."
+msgstr "Soovitatud tõlked"
+
+#, fuzzy
+#| msgid "This translation is locked."
+msgid "The report is empty."
+msgstr "See tõlge on lukustatud."
+
+msgid "The report exceeds the 50,000 row limit."
+msgstr ""
+
+msgid "The report contains no credential rows."
+msgstr ""
+
+#, fuzzy
+#| msgid "You do not have permission to access this component."
+msgid ""
+"The initiating administrator no longer has permission to perform this "
+"operation."
+msgstr "Sinul puuduvad õigused ligipääsuks sellele osisele."
+
+msgid ""
+"The security operation failed. Review any findings already recorded and "
+"start a new operation."
+msgstr ""
+
+#, fuzzy
+#| msgid "Revert"
+msgid "Security report"
+msgstr "Muuda tagasi"
+
+#, python-format
+msgid "Report from %(date)s"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "%(language)s glossary for %(project)s"
+msgid "%(filename)s — %(report)s"
+msgstr "%(project)s projekti sõnastik %(language)s keeles"
+
+msgid ""
+"Your identity verification has expired. Confirm your identity, then select "
+"and upload the CSV report again."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not open a ticket, please try again later."
+msgid "Could not store the encrypted upload. Try again."
+msgstr "Veateate avamine ei õnnestunud, palun proovi hiljem uuesti."
+
+msgid "Choose a CSV report of at most 10 MiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not open a ticket, please try again later."
+msgid "Could not read the uploaded report. Upload it again."
+msgstr "Veateate avamine ei õnnestunud, palun proovi hiljem uuesti."
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords checked"
+msgstr "Salasõna on muudetud."
+
+#, fuzzy
+#| msgid "Duplicated translation."
+msgid "Duplicate rows"
+msgstr "Topelttõlge."
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Unknown accounts"
+msgstr "Kustuta kasutajakonto"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Ambiguous accounts"
+msgstr "Kustuta kasutajakonto"
+
+msgid "Malformed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "Disable password"
+msgid "Unusable passwords"
+msgstr "Keela salasõna kasutamine"
+
+msgid "Passwords that did not match"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password reset"
+msgid "Passwords reset"
+msgstr "Salasõna lähtestamine"
+
+msgid "Lookalike e-mail identities removed"
+msgstr ""
+
+msgid "E-mail identities already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords already changed"
+msgstr "Salasõna on muudetud."
+
+#, fuzzy
+#| msgid "Dismiss failing check"
+msgid "Dismissed findings"
+msgstr "Ära arvesta seda loogilist kontrolli"
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Skipped findings"
+msgstr "Viimased muudatused"
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported actions"
+msgstr "Fail pole toetatud!"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Primary e-mail address"
+msgstr "Kinnita oma uus e-posti aadress"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Verified e-mail address"
+msgstr "Kinnita oma uus e-posti aadress"
+
+#, fuzzy, python-format
+#| msgid "Manage users"
+msgid "Finding for %(username)s"
+msgstr "Halda kasutajaid"
+
 msgid "Weblate administration"
 msgstr ""
 
 msgid "Object listing turned off"
 msgstr ""
+
+#, fuzzy
+#| msgid "The registration link has been invalidated."
+msgid "The security operation expired. Start a new operation."
+msgstr "Registreerimislink on kehtetu."
 
 #, fuzzy
 #| msgid "Donate to Weblate"
@@ -23794,6 +26543,21 @@ msgid "Workspace name"
 msgstr "Tõlgitud keeled"
 
 #, fuzzy
+#| msgid "Translation notifications"
+msgid "Translation propagation scope"
+msgstr "Tõlgete teated"
+
+#, fuzzy
+#| msgid "Cannot change this on a built-in team."
+msgid "Matching component name within workspace"
+msgstr "Automaatselt kaasatud tiimi puhul ei saa seda muuta."
+
+#, fuzzy
+#| msgid "Translation key"
+msgid "Where translations of matching strings are propagated."
+msgstr "Tõlke võti"
+
+#, fuzzy
 #| msgid "Manage users"
 msgid "Managed name"
 msgstr "Halda kasutajaid"
@@ -23824,6 +26588,72 @@ msgstr ""
 #| msgid "Source has been removed."
 msgid "The workspace has been removed."
 msgstr "Allikas on eemaldatud."
+
+#, python-format
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "Sirvi %(name)s sõnastikke"
+
+#, fuzzy
+#~| msgid "Invalid translation flag: \"%s\""
+#~ msgid "Invalid template rendering response."
+#~ msgstr "Vigane tõlketunnus: „%s“"
+
+#, fuzzy
+#~| msgid "Registration almost complete"
+#~ msgid "E-mail verification almost complete"
+#~ msgstr "Registreerimine on peaaegu tehtud"
+
+#, fuzzy
+#~| msgid ""
+#~| "Click the confirmation link sent to your e-mail inbox and start using "
+#~| "your account."
+#~ msgid ""
+#~ "Click the confirmation link sent to your e-mail inbox to verify the "
+#~ "address for your account."
+#~ msgstr ""
+#~ "Oma kasutajakonto loomise kinnitamiseks klõpsa linki, mille saatsime "
+#~ "sulle e-kirjaga."
+
+#~ msgid "Search and replace"
+#~ msgstr "Leia ja asenda"
+
+#, fuzzy
+#~| msgid "Adding strings is disabled in the component configuration."
+#~ msgid "Stop using this installation without removing its configuration."
+#~ msgstr "Lausendite lisamine on osise seadistustes keelatud."
+
+#, fuzzy
+#~| msgid "Remove this notification setting"
+#~ msgid "Remove this installation and its configuration."
+#~ msgstr "Eemalda see teavituste seadistus"
+
+#~ msgid "Replace"
+#~ msgstr "Asenda"
+
+#, fuzzy
+#~| msgid "Include strings needing editing"
+#~ msgid "Find strings in image"
+#~ msgstr "Kaasa tähelepanu vajavad lausendid"
+
+#, fuzzy
+#~| msgid "Translation key"
+#~ msgid "Translation flags to add — matching translations"
+#~ msgstr "Tõlke võti"
+
+#, fuzzy
+#~| msgid "Translation key"
+#~ msgid "Translation flags to remove — matching translations"
+#~ msgstr "Tõlke võti"
+
+#, fuzzy
+#~| msgid "Browse all languages"
+#~ msgid "Labels to add — all languages"
+#~ msgstr "Lehitse kõiki keeli"
+
+#, fuzzy
+#~| msgid "Browse all languages"
+#~ msgid "Labels to remove — all languages"
+#~ msgstr "Lehitse kõiki keeli"
 
 #~ msgid "Name is also used in version control commits."
 #~ msgstr "Nimi on kasutusel ka versioonihalduse sissekannetel."
@@ -23921,11 +26751,6 @@ msgstr "Allikas on eemaldatud."
 #~ "Tõendamine nurjus, tõenäoliselt aegunud tunnistuse või ühendus tõrke "
 #~ "tõttu."
 
-#, fuzzy, python-format
-#~| msgid "Authentication app (%s)"
-#~ msgid "Authentication failed: %s"
-#~ msgstr "Autentimisrakendus (%s)"
-
 #, fuzzy
 #~| msgid "Return to the component"
 #~ msgid "Project backup import completed with skipped components."
@@ -23976,9 +26801,6 @@ msgstr "Allikas on eemaldatud."
 #~| msgid "Permission Denied"
 #~ msgid "Permission required on:"
 #~ msgstr "Õigused on puudu"
-
-#~ msgid "Suggested change"
-#~ msgstr "Muudatusettepanek"
 
 #~ msgid "Similarity"
 #~ msgstr "Sarnasus"
@@ -24037,9 +26859,6 @@ msgstr "Allikas on eemaldatud."
 #~ msgid "Translation files in accessible repositories have been synchronized."
 #~ msgstr "Tõlkele lisatud kommentaar on leidnud lahenduse."
 
-#~ msgid "Updates of translations are in progress."
-#~ msgstr "Tõlgete uuendamine on töös."
-
 #, fuzzy
 #~| msgid "Updates of translations are in progress."
 #~ msgid "Updates of translations in accessible repositories are in progress."
@@ -24055,9 +26874,6 @@ msgstr "Allikas on eemaldatud."
 #~ msgid "Pending translations in accessible repositories were committed."
 #~ msgstr "Tõlge on valmis: %(translation)s"
 
-#~ msgid "Activation completed."
-#~ msgstr "Aktiveerimine sai valmis."
-
 #, fuzzy, python-format
 #~| msgid "Translation key"
 #~ msgid "Could not activate your installation: %s"
@@ -24070,11 +26886,6 @@ msgstr "Allikas on eemaldatud."
 #~| msgid "Backup repository"
 #~ msgid "Repository URL"
 #~ msgstr "Varundus varamu"
-
-#, fuzzy
-#~| msgid "Repository failure"
-#~ msgid "Repository name"
-#~ msgstr "Varamu viga"
 
 #, fuzzy
 #~| msgid "Default component list"
@@ -24094,9 +26905,6 @@ msgstr "Allikas on eemaldatud."
 #~ msgid "File processed, the entries will appear shortly."
 #~ msgstr "Fail on töödeldud, kirjed on näha üsna pea."
 
-#~ msgid "repository wide"
-#~ msgstr "varamu ülene"
-
 #~ msgid "component"
 #~ msgstr "osis"
 
@@ -24109,11 +26917,6 @@ msgstr "Allikas on eemaldatud."
 #~| msgid "project wide"
 #~ msgid "project-wide"
 #~ msgstr "Projekti ülene"
-
-#, fuzzy
-#~| msgid "repository wide"
-#~ msgid "site-wide"
-#~ msgstr "varamu ülene"
 
 #, fuzzy, python-format
 #~| msgid "Translation notifications"
@@ -24226,11 +27029,6 @@ msgstr "Allikas on eemaldatud."
 #~| msgid "Check user access"
 #~ msgid "Revoke access"
 #~ msgstr "Kontrolli kasutaja ligipääsu"
-
-#, fuzzy
-#~| msgid "Add team"
-#~ msgid "Add admin"
-#~ msgstr "Lisa tiim"
 
 #, fuzzy
 #~| msgid "No projects currently assigned!"
@@ -24501,11 +27299,6 @@ msgstr "Allikas on eemaldatud."
 #~ msgstr "Ära näita avalikult e-posti aadressi"
 
 #, fuzzy
-#~| msgid "This translation is locked."
-#~ msgid "Translation reviews are not enabled."
-#~ msgstr "See tõlge on lukustatud."
-
-#, fuzzy
 #~| msgid "There is currently %(count)s addon installed."
 #~| msgid_plural "There are currently %(count)s addons installed."
 #~ msgid "Reviews are not enabled."
@@ -24591,9 +27384,6 @@ msgstr "Allikas on eemaldatud."
 #~ msgid "Rename component"
 #~ msgstr "Nimeta osis ümber"
 
-#~ msgid "Move component"
-#~ msgstr "Teisalda osis"
-
 #, fuzzy
 #~| msgid "Watched projects"
 #~ msgid "Rename project"
@@ -24615,11 +27405,6 @@ msgstr "Allikas on eemaldatud."
 #~| msgid "Watched projects"
 #~ msgid "Renamed project"
 #~ msgstr "Jälgitavad projektid"
-
-#, fuzzy
-#~| msgid "Default component list"
-#~ msgid "Renamed component"
-#~ msgstr "Vaikimisi komponentide nimekiri"
 
 #, fuzzy
 #~| msgid "New string to translate"
@@ -24714,9 +27499,6 @@ msgstr "Allikas on eemaldatud."
 
 #~ msgid "New language"
 #~ msgstr "Uus keel"
-
-#~ msgid "Check details"
-#~ msgstr "Kontrolli üksikasju"
 
 #~ msgid ""
 #~ "Customizable quality checks will help you improve the quality of "
@@ -24858,9 +27640,6 @@ msgstr "Allikas on eemaldatud."
 
 #~ msgid "Too many failed registration attempts from this location."
 #~ msgstr "Liiga palju nurjunud registreerumiskatseid sellest asukohast."
-
-#~ msgid "Too many authentication attempts from this location."
-#~ msgstr "Liiga palju autentimiskatseid sellest asukohast."
 
 #, fuzzy
 #~| msgid "Default component list"
@@ -25027,9 +27806,6 @@ msgstr "Allikas on eemaldatud."
 #~ msgid "Use this translation for all components"
 #~ msgstr "Kasuta seda tõlget kõikides osistes"
 
-#~ msgid "Use this translation"
-#~ msgstr "Kasuta seda tõlget"
-
 #, fuzzy
 #~| msgid "Translated"
 #~ msgid "Translatable strings"
@@ -25163,9 +27939,6 @@ msgstr "Allikas on eemaldatud."
 #~ msgid "Log in to use Weblate."
 #~ msgstr "Soovitatud tõlked"
 
-#~ msgid "Please read our Terms of Service before registering."
-#~ msgstr "Enne registreerumist palume lugeda Teenusetingimusi."
-
 #~ msgid "Third party registration"
 #~ msgstr "Registreeru kolmanda osapoolega"
 
@@ -25216,11 +27989,6 @@ msgstr "Allikas on eemaldatud."
 #~| msgid "Translated"
 #~ msgid "Shows machine translation tab"
 #~ msgstr "Tõlgitud"
-
-#, fuzzy
-#~| msgid "Translation key"
-#~ msgid "Merge failure"
-#~ msgstr "Tõlke võti"
 
 #~ msgid "Logged in as %(user)s"
 #~ msgstr "Sisenenud kasutajana %(user)s"

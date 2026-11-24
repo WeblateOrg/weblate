@@ -10,27 +10,25 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, TestCase
 from translation_finder import discover
 
 from weblate.trans.tests.github import DEMO_URL, TEST_URL, github_fixture_repositories
 from weblate.utils.data import data_dir
-from weblate.vcs.git import GitRepository
+from weblate.vcs.git import GitRepository, with_git_config
 
 
-class GitHubFixtureTest(SimpleTestCase):
+class GitHubFixtureTest(TestCase):
     def test_offline_clone_fetch_and_branches(self) -> None:
         original_getenv = GitRepository._getenv  # ruff: ignore[private-member-access]
 
         def offline_git_environment(
             environment: dict[str, str] | None = None, *, cwd: str | None = None
         ) -> dict[str, str]:
-            result = original_getenv(environment, cwd=cwd)
-            index = int(result.get("GIT_CONFIG_COUNT", "0"))
-            result["GIT_CONFIG_COUNT"] = str(index + 1)
-            result[f"GIT_CONFIG_KEY_{index}"] = "protocol.https.allow"
-            result[f"GIT_CONFIG_VALUE_{index}"] = "never"
-            return result
+            return with_git_config(
+                original_getenv(environment, cwd=cwd),
+                ("protocol.https.allow", "never"),
+            )
 
         with (
             github_fixture_repositories(),
@@ -79,6 +77,8 @@ class GitHubFixtureTest(SimpleTestCase):
                 },
             )
 
+
+class GitHubFixtureConfigTest(SimpleTestCase):
     def test_config_restored_after_failure(self) -> None:
         config = Path(data_dir("home"), ".config", "git", "config")
         config.parent.mkdir(parents=True, exist_ok=True)

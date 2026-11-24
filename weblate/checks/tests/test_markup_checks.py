@@ -7,9 +7,11 @@
 from __future__ import annotations
 
 from time import monotonic
+from typing import TYPE_CHECKING
 from unittest.mock import patch
 
 from django.contrib.admindocs.utils import docutils_is_available
+from django.test import SimpleTestCase
 from docutils.nodes import Text, substitution_reference
 from docutils.nodes import target as docutils_target
 
@@ -37,6 +39,34 @@ from weblate.checks.markup import (
 )
 from weblate.checks.tests.test_checks import CheckTestCase
 from weblate.trans.tests.factories import make_check, make_unit
+from weblate.utils.html import MarkdownSyntax
+from weblate.utils.regex import regex_finditer
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
+
+    import regex
+
+
+class MarkupEligibilityTest(SimpleTestCase):
+    def test_plain_text_skips_bbcode_scan(self) -> None:
+        with patch("weblate.checks.markup.BBCODE_TOKEN") as pattern:
+            self.assertEqual(extract_bbcode_pairs("Plain text"), [])
+            pattern.finditer.assert_not_called()
+
+    def test_plain_source_skips_markdown_link_scan(self) -> None:
+        for check, name in (
+            (MarkdownLinkCheck(), "MD_LINK"),
+            (MarkdownRefLinkCheck(), "MD_REFLINK"),
+        ):
+            with (
+                self.subTest(check=check.check_id),
+                patch(f"weblate.checks.markup.{name}") as pattern,
+            ):
+                self.assertFalse(
+                    check.check_single("Plain text", "Translation", make_unit())
+                )
+                pattern.findall.assert_not_called()
 
 
 class BBCodeCheckTest(CheckTestCase):
@@ -655,6 +685,86 @@ class MarkdownSyntaxCheckTest(CheckTestCase):
                 (71, 72, ">"),
             ],
         )
+
+    def test_timeout_reports_check_failure(self) -> None:
+        for source, target, timed_out in (
+            ("**source**", "plain", "**source**"),
+            ("plain", "**target**", "**target**"),
+        ):
+            unit = make_unit(source=source, target=target, flags="md-text")
+
+            def matches(
+                pattern: regex.Pattern,
+                text: str,
+                *,
+                concurrent: bool = False,
+                timed_out: str = timed_out,
+            ) -> Iterator[regex.Match]:
+                if text == timed_out:
+                    raise TimeoutError
+                yield from regex_finditer(pattern, text, concurrent=concurrent)
+
+            with (
+                self.subTest(timed_out=timed_out),
+                patch("weblate.utils.html.regex_finditer", side_effect=matches),
+            ):
+                result = self.check.check_single(source, target, unit)
+                self.assertIsInstance(result, dict)
+                assert isinstance(result, dict)
+                self.assertIn("time limit", result["errors"][0])
+                self.assertTrue(self.check.check_target_unit([source], [target], unit))
+                self.assertIn(
+                    "time limit",
+                    str(self.check.get_description(make_check(unit, self.check))),
+                )
+
+    def test_plural_timeout_description(self) -> None:
+        sources = ["**source**", "sources"]
+        targets = ["**target**", "targets"]
+        unit = make_unit(source=sources, target=targets, flags="md-text")
+        with patch("weblate.utils.html.regex_finditer", side_effect=TimeoutError):
+            self.assertTrue(self.check.check_target_unit(sources, targets, unit))
+            self.assertIn(
+                "time limit",
+                str(self.check.get_description(make_check(unit, self.check))),
+            )
+
+    def test_timeout_discards_highlighting(self) -> None:
+        unit = make_unit(flags="md-text")
+        with patch("weblate.utils.regex.REGEX_TIMEOUT", 0):
+            self.assertEqual(
+                list(
+                    self.check.check_highlight(
+                        "**bold** `code` <https://example.com>", unit
+                    )
+                ),
+                [],
+            )
+
+    def test_timeout_discards_partial_highlighting(self) -> None:
+        def partial_syntax() -> Iterator[MarkdownSyntax]:
+            yield MarkdownSyntax(0, 8, "**")
+            raise TimeoutError
+
+        with patch(
+            "weblate.checks.markup.iter_markdown_syntax", return_value=partial_syntax()
+        ):
+            self.assertEqual(
+                list(
+                    self.check.check_highlight("**bold**", make_unit(flags="md-text"))
+                ),
+                [],
+            )
+
+    def test_unrelated_errors_are_not_hidden(self) -> None:
+        unit = make_unit(flags="md-text")
+        with patch(
+            "weblate.utils.html.regex_finditer", side_effect=ValueError("broken scan")
+        ):
+            with self.assertRaisesMessage(ValueError, "broken scan"):
+                self.check.check_single("**source**", "plain", unit)
+            with self.assertRaisesMessage(ValueError, "broken scan"):
+                list(self.check.check_highlight("**source**", unit))
 
     def test_code_span_delimiter(self) -> None:
         self.do_test(True, ("`code`", "``code``", "md-text"))
@@ -1626,6 +1736,33 @@ class RSTSyntaxCheckTest(CheckTestCase):
             ),
         )
 
+    def test_literal_block_marker(self) -> None:
+        # Sphinx extracts the paragraph without the literal block that follows
+        self.do_test(
+            False,
+            (
+                "The manifest looks like this::",
+                "Le manifeste est le suivant ::",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "The manifest looks like this::",
+                "Le ``manifeste est le suivant ::",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "The manifest looks like this:",
+                "Le manifeste est le suivant ::",
+                "rst-text",
+            ),
+        )
+
     def test_admindocs_tags(self) -> None:
         # admindocs registers own parsers which fail without specific settings
         self.assertTrue(docutils_is_available)
@@ -1724,6 +1861,32 @@ class RSTSyntaxCheckTest(CheckTestCase):
 
 class AsciiDocMarkupCheckTest(CheckTestCase):
     check = AsciiDocMarkupCheck()
+
+    def test_repeated_macro_candidates_are_linear(self) -> None:
+        for text in (
+            "a:" * 40_000 + "[",
+            "a::" * 30_000 + "[",
+            "a:" * 40_000 + r"[\]",
+            "a:" * 40_000 + " missing[]",
+        ):
+            with self.subTest(ending=text[-20:]):
+                unit = make_unit(source=text, target=text, flags="asciidoc-text")
+                started = monotonic()
+                self.assertFalse(self.check.check_target([text], [text], unit))
+                self.assertEqual(list(self.check.check_highlight(text, unit)), [])
+                self.assertLess(monotonic() - started, 2)
+
+    def test_long_valid_macro(self) -> None:
+        text = "link:" + "a:" * 40_000 + "[Label]"
+        unit = make_unit(source=text, target=text, flags="asciidoc-text")
+        started = monotonic()
+        self.assertEqual(extract_asciidoc_markup(text), {text[:-7] + "[]": 1})
+        highlights = list(self.check.check_highlight(text, unit))
+        self.assertEqual(
+            [(item.start, item.end, item.text) for item in highlights],
+            [(0, len(text), text)],
+        )
+        self.assertLess(monotonic() - started, 2)
 
     def setUp(self) -> None:
         super().setUp()

@@ -22,6 +22,10 @@ using categories.
 * Above :ref:`component` there are individual translations, handled automatically by Weblate as translation
   files (which match :ref:`component-filemask` defined in :ref:`component`) appear in the VCS repository.
 
+* Each target language in a project has :ref:`workflow settings <workflow-customization>`
+  for reviews and suggestions. You can also choose a
+  :ref:`custom source language <workflow-source-language>` for that target language.
+
 Weblate supports a wide range of translation formats (both bilingual and
 monolingual ones) supported by Translate Toolkit, see :ref:`formats`.
 
@@ -148,6 +152,8 @@ URL slug
 
 Project name suitable for URLs.
 
+Project slugs are case-insensitively unique across the instance.
+
 .. _project-web:
 
 Project website
@@ -235,6 +241,8 @@ Whether to use translation memory shared by projects in the same workspace,
 see :ref:`memory-scopes` for more details. The workspace has to allow workspace
 translation memory as well.
 
+The default value can be changed by :setting:`DEFAULT_WORKSPACE_TM`.
+
 .. _project-contribute-workspace-tm:
 
 Contribute to workspace translation memory
@@ -243,6 +251,8 @@ Contribute to workspace translation memory
 Whether to contribute translations to the translation memory shared by
 projects in the same workspace. The workspace has to allow contribution as
 well.
+
+The default value can be changed by :setting:`DEFAULT_WORKSPACE_TM`.
 
 .. note::
 
@@ -313,6 +323,9 @@ Enforced two-factor authentication
 
 Enforce :ref:`2fa` for all contributors. Users won’t be allowed
 to perform any operations within the project without having it configured.
+This also excludes the project from component creation, move, and sharing
+targets, including GitHub App imports. Site administrators and bot accounts
+retain their existing exemptions.
 
 .. _project-translation_review:
 
@@ -568,6 +581,10 @@ Component slug
 
 Component name suitable for URLs.
 
+The slug is case-insensitively unique among components in the same category or
+at the top level of the same project. Different projects and categories may reuse
+the same component slug.
+
 .. _component-project:
 
 Component project
@@ -581,6 +598,11 @@ Version control system
 ++++++++++++++++++++++
 
 VCS to use, see :ref:`vcs` for details.
+
+After creating a component, you can switch only between compatible backends
+offered in the settings form. Switching to another VCS family requires
+recreating the component. Backends managed by an authenticated integration are
+available through their provider import flow, not generic component creation.
 
 .. seealso::
 
@@ -619,6 +641,10 @@ VCS repository used to pull changes.
     This can either be a real VCS URL or ``weblate://project/component``
     indicating that the repository should be shared with another component.
     See :ref:`internal-urls` for more details.
+
+Creating a repository link requires access to the referenced component and
+permission to edit it. Missing components and components you cannot access
+produce the same validation error.
 
 .. _component-push:
 
@@ -733,6 +759,17 @@ For example ``po/*.po`` or ``locale/*/LC_MESSAGES/django.po``.
 
 In case your filename contains special characters such as ``[``, ``]``, these need
 to be escaped as ``[[]`` or ``[]]``.
+
+File-mask scans are limited to 100,000 traversal work units and five seconds,
+including processing the matches. Each visited traversal state and examined
+directory entry counts toward the work limit, even when it does not match.
+Exceeding either limit fails the scan without using partial results. Narrow the
+mask to the relevant directories if a scan exceeds these limits.
+
+Directory symlinks within the repository are supported. Scans skip links outside
+the repository, links to managed VCS metadata, and directory cycles. The time
+limit is checked between filesystem operations; it cannot interrupt an operation
+blocked on storage.
 
 .. seealso::
 
@@ -964,6 +1001,14 @@ Automatically accept suggestions
 ++++++++++++++++++++++++++++++++
 
 Automatically accept voted suggestions, see :ref:`voting`.
+
+When the vote threshold is reached, the suggestion can replace an approved
+translation even if the voters cannot review translations. A replacement
+returns to the waiting-for-review state when reviews are enabled.
+Use this setting only when voting should authorize this change.
+
+Read-only strings remain unchanged. Votes are recorded and the suggestion stays
+pending for a later permitted acceptance.
 
 .. seealso::
 
@@ -1433,6 +1478,9 @@ default `custom` or `private` access control groups.
 
 The default value can be changed in :setting:`DEFAULT_RESTRICTED_COMPONENT`.
 
+Changing this setting in a browser session requires recent credential
+verification, see :ref:`2fa`.
+
 Restricted access controls visibility of component pages, translations, API
 reads, and translation memory for users without component access or
 :guilabel:`Edit project settings` permission. Project administrators with that
@@ -1572,6 +1620,94 @@ Currently it is used in:
     * :ref:`addon-weblate.generate.generate`
     * :ref:`addon-script`
 
+Template source is limited to 64 KiB of UTF-8 text. A render may execute at most
+10,000 loop iterations in total, including nested loops, and produce at most
+1 MiB of UTF-8 output. Expanding filters and intermediate values are also
+bounded. These limits apply both when validating settings and when rendering
+saved templates. Exceeding a limit fails the render without returning partial
+output or replacing a generated file.
+
+Template parsing is limited to 1,024 tokens, 2,048 bytes per token, 32 levels
+of nesting, and 64 terms per condition. Parsing work is limited to 8,388,608
+units, calculated as the sum of the squared UTF-8 byte lengths of token contents.
+Rendering also limits evaluated
+operations to 8,192, filter applications to 1,024, and cumulative processing
+work to an 8 MiB budget. These budgets count
+repeated operations even inside conditions that produce no output. A five-second
+deadline provides an additional guard. Exceeding any limit fails the render.
+Errors identify the failed limit or unsupported operation and the relevant filter
+or tag when available. Multiline parsing and evaluation errors also include
+the source line number. Validation can quote parts of the submitted template
+to help you find the error. Runtime diagnostics omit raw template fragments
+and context values.
+
+If a saved repository browser or editor link template fails to render, Weblate
+displays the filename without a link. Failed commit, merge, and pull request
+message templates stop the operation with an error. A failure in the
+:ref:`delete message <component-delete_message>` template stops translation
+deletion. Correct the template before retrying the operation.
+Discovery template failures stop component creation and removal. Add-on template
+failures appear in the add-on activity log.
+
+Contexts support scalar substitutions, dictionary lookups such as
+``{{ stats.translated }}``, and list or string indexing such as
+``{{ translations.0.language_code }}``. Dictionaries expose read-only ``items``,
+``keys``, and ``values`` views; stored keys with these names take precedence.
+General attribute access and method calls are not supported.
+
+Supported filters are:
+
+* Strings and paths: ``parentdir``, ``dirname``, ``stripext``, ``lower``, ``upper``,
+  ``capfirst``, ``title``, ``urlencode``, ``iriencode``, ``cut``, ``addslashes``,
+  ``escape``, ``force_escape``, ``escapejs``, ``linenumbers``, ``slugify``,
+  ``truncatechars``, ``truncatewords``, ``wordcount``, ``wordwrap``, ``linebreaks``,
+  ``linebreaksbr``, ``safe``, and ``phone2numeric``.
+* Sequences: ``slice``, ``length``, ``first``, ``last``, ``join``, ``make_list``,
+  ``random``, ``safeseq``, and ``escapeseq``. Joining requires strings; sequence
+  escaping requires scalar elements.
+* Values and numbers: ``default``, ``default_if_none``, ``yesno``, ``add``,
+  ``get_digit``, ``divisibleby``, ``filesizeformat``, and ``pluralize``.
+* Formatting: ``center``, ``ljust``, ``rjust``, ``floatformat``, and
+  ``stringformat``. Padding checks its width before allocation. Numeric
+  conversions are bounded; formatting precision is limited to 1,000 places.
+  ``stringformat`` accepts a single conversion with literal flags, width, and
+  precision, without mapping keys or dynamic widths.
+* Dates: ``date``, ``time``, ``timesince``, and ``timeuntil``, with bounded format
+  strings and the current time zone.
+* Serialization: ``json`` produces JSON text, and ``python`` produces Python
+  literals using JSON-compatible value conversions. Serialized results are
+  subject to the intermediate-value and output limits.
+
+The ``default``, ``default_if_none``, and ``yesno`` filters also accept containers.
+Defaults can select containers for subsequent iteration, filtering, or serialization;
+containers cannot be rendered directly as text.
+
+Django string filters convert bounded scalar data to strings; custom filename
+filters require strings. Unicode normalization counts combining-character
+sequences against the work budget. Allocation and work guards can reject an
+operation even when its final result would fit the output limit.
+
+Supported tags are ``if`` / ``elif`` / ``else``, ``for`` / ``empty``, and
+``replace``, including replacement assignment with ``as``. Conditions support
+truth tests, ``and``, ``or``, ``not``, scalar comparisons, and identity checks
+against ``None``, ``True``, or ``False``. Membership tests and container comparisons
+are not supported. Loops support lists, strings, dictionaries, dictionary views, unpacking,
+``reversed``, and Django's ``forloop`` metadata. This covers the default
+pull-request message, including linked components. Conditions cannot suppress
+resource-limit errors.
+
+The following Django filters are not supported: ``urlize``, ``urlizetrunc``,
+``striptags``, ``truncatechars_html``, ``truncatewords_html``, ``dictsort``,
+``dictsortreversed``, ``unordered_list``, ``pprint``, and ``json_script``.
+Unsupported filters fail validation even in untaken branches.
+
+Before evaluation, the complete context is validated and copied as plain data,
+including unused values. Context data is limited to an 8 MiB budget and 32 levels
+of nesting. Application objects must be expanded into supported data before
+rendering. Add-on commit messages use the English add-on name regardless of the
+active interface language. Rendered templates return plain text; HTML sinks must
+escape it.
+
 The following variables are available in the component templates:
 
 ``{{ language_code }}``
@@ -1580,6 +1716,13 @@ The following variables are available in the component templates:
     Language name
 ``{{ component_name }}``
     Component name
+``{{ component_full_name }}``
+    Component name prefixed with the project and all parent categories, separated
+    by ``/``. Built-in message defaults use this value; existing saved templates
+    are unchanged.
+``{{ component_linked_children }}``
+    Linked repository components. Each entry provides ``full_name`` (including
+    project and categories), ``project_name``, ``name``, and ``url``.
 ``{{ component_slug }}``
     Component slug
 ``{{ project_name }}``

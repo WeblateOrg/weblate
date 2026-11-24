@@ -13,7 +13,7 @@
         <button type="button"
                 class="btn btn-link btn-xs float-end"
                 data-clipboard-value="{{ object.name }}"
-                title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                title="{% translate "Copy to clipboard"|force_escape %}">{% icon "copy.svg" %}</button>
 
         {{ object.name }}
       </div>

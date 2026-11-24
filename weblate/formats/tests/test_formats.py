@@ -8,28 +8,32 @@
 from __future__ import annotations
 
 import csv
+import json
 import os.path
 import shutil
 import tempfile
 from abc import ABC, abstractmethod
+from codecs import BOM_UTF8
 from contextlib import contextmanager
-from io import BytesIO
+from io import BytesIO, StringIO
 from pathlib import Path
 from types import SimpleNamespace
 from typing import IO, TYPE_CHECKING, ClassVar, NoReturn, cast
 from unittest.mock import Mock, patch
 
 from django.core.exceptions import ValidationError
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, TestCase
 from lxml import etree
 from openpyxl import Workbook
 from translate.storage.base import ParseError
+from translate.storage.fluent import FluentContentError
 from translate.storage.pypo import pofile
 
 from weblate.checks.flags import Flags
 from weblate.formats.auto import AutodetectFormat, detect_filename, try_load
 from weblate.formats.base import BilingualUpdateMixin, TranslationFormat, UpdateError
-from weblate.formats.convert import MDXFormat
+from weblate.formats.convert import HTMLFormat, MDXFormat
+from weblate.formats.exporters import XliffExporter
 from weblate.formats.external import XlsxFormat
 from weblate.formats.helpers import NamedBytesIO, format_csv_id_hash
 from weblate.formats.management.commands.list_format_features import (
@@ -91,15 +95,181 @@ from weblate.formats.ttkit import (
 )
 from weblate.lang.data import PLURAL_UNKNOWN
 from weblate.lang.models import Language, Plural
-from weblate.trans.file_format_params import get_encoding_param
+from weblate.trans.file_format_params import (
+    XMLUTF8BOM,
+    XMLEncodingCase,
+    XMLFinalNewline,
+    get_encoding_param,
+)
+from weblate.trans.models.translation import read_stored_content
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.utils import TempDirMixin, get_test_file
+from weblate.trans.util import get_string
 from weblate.utils.files import REPO_TEMP_DIRNAME
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_FUZZY,
     STATE_TRANSLATED,
 )
+
+
+class XMLSerializationParamsTest(SimpleTestCase):
+    def test_supported_xml_formats(self) -> None:
+        params: FileFormatParams = {
+            "xml_utf8_bom": "include",
+            "xml_encoding_case": "uppercase",
+            "xml_final_newline": "include",
+        }
+        for name in XMLUTF8BOM.file_formats:
+            with self.subTest(format=name):
+                store = FILE_FORMATS[name].get_class()()
+                XMLUTF8BOM().setup_store(store, **params)
+                XMLEncodingCase().setup_store(store, **params)
+                result = TTKitFormat.serialize(store, params)
+                self.assertTrue(result.startswith(BOM_UTF8))
+                self.assertEqual(result.count(BOM_UTF8), 1)
+                self.assertIn(b'encoding="UTF-8"', result)
+                self.assertTrue(result.endswith(b"\n"))
+        self.assertFalse(XMLFinalNewline.supports_format("json"))
+
+    def test_xliff_serialization(self) -> None:
+        for format_class, filename in (
+            (XliffFormat, "cs.xliff"),
+            (Xliff2Format, "cs.xliff2"),
+        ):
+            data = Path(get_test_file(filename)).read_bytes()
+            for input_bom in (False, True):
+                for bom in ("preserve", "include", "omit"):
+                    with self.subTest(
+                        format=format_class, input_bom=input_bom, bom=bom
+                    ):
+                        params: FileFormatParams = {
+                            "xml_utf8_bom": bom,
+                            "xml_encoding_case": "lowercase",
+                            "xml_final_newline": "omit",
+                        }
+                        storage = format_class(
+                            BytesIO((BOM_UTF8 if input_bom else b"") + data),
+                            file_format_params=params,
+                        )
+                        outputs = []
+                        for _ in range(2):
+                            output = BytesIO()
+                            storage.save_content(output)
+                            outputs.append(output.getvalue())
+                        self.assertEqual(outputs[0], outputs[1])
+                        result = outputs[0]
+                        self.assertEqual(
+                            result.count(BOM_UTF8),
+                            int(input_bom if bom == "preserve" else bom == "include"),
+                        )
+                        self.assertIn(b'encoding="utf-8"', result)
+                        self.assertFalse(result.endswith((b"\n", b"\r")))
+                        restored = format_class(BytesIO(result))
+                        self.assertEqual(
+                            len(storage.all_units), len(restored.all_units)
+                        )
+                        self.assertEqual(
+                            storage.all_units[0].target, restored.all_units[0].target
+                        )
+            default = format_class(BytesIO(data))
+            self.assertTrue(bytes(default.store).startswith(b"<?xml"))
+            self.assertTrue(default.store.XMLuppercaseEncoding)
+
+    def test_newline_after_document(self) -> None:
+        data = (
+            '<resources><string name="hello">Příliš\n žluťoučký\n</string>'
+            "</resources><!-- end --><?end done?>"
+        ).encode()
+        for format_class in (AndroidFormat, RESXFormat):
+            # Both formats have a lowercase declaration by default; RESX
+            # converts the entire document to CRLF when serializing.
+            source = (
+                data
+                if format_class is AndroidFormat
+                else (
+                    '<root><data name="hello"><value>café</value></data>'
+                    "</root><!-- end --><?end done?>"
+                ).encode()
+            )
+            for newline in ("include", "omit"):
+                with self.subTest(format=format_class, newline=newline):
+                    storage = format_class(
+                        BytesIO(source),
+                        file_format_params={"xml_final_newline": newline},
+                    )
+                    original = bytes(storage.store)
+                    out = BytesIO()
+                    storage.save_content(out)
+                    result = out.getvalue()
+                    ending = b"\r\n" if format_class is RESXFormat else b"\n"
+                    self.assertEqual(
+                        result,
+                        original.rstrip(b"\r\n")
+                        + (ending if newline == "include" else b""),
+                    )
+                    self.assertIn(b'encoding="utf-8"', result)
+                    format_class(BytesIO(result))
+
+    def test_non_utf8_output(self) -> None:
+        for encoding in ("ISO-8859-1", "UTF-16LE", "UTF-16BE"):
+            with self.subTest(encoding=encoding):
+                data = (
+                    f'<?xml version="1.0" encoding="{encoding}"?>'
+                    '<resources><string name="hello">café</string></resources>'
+                ).encode(encoding)
+                storage = AndroidFormat(
+                    BytesIO(data),
+                    file_format_params={
+                        "xml_utf8_bom": "include",
+                        "xml_final_newline": "include",
+                    },
+                )
+                out = BytesIO()
+                storage.save_content(out)
+                result = out.getvalue()
+                self.assertFalse(result.startswith(BOM_UTF8))
+                self.assertTrue(result.endswith("\n".encode(encoding)))
+                self.assertIn("café".encode(encoding), result)
+                AndroidFormat(BytesIO(result))
+
+    def test_export(self) -> None:
+        exporter = XliffExporter(
+            source_language=SimpleNamespace(code="en"),
+            language=SimpleNamespace(code="cs", plural=None),
+        )
+        exporter.file_format_params = {
+            "xml_utf8_bom": "include",
+            "xml_encoding_case": "lowercase",
+            "xml_final_newline": "omit",
+        }
+        result = exporter.serialize()
+        self.assertTrue(result.startswith(BOM_UTF8 + b"<?xml"))
+        self.assertEqual(result.count(BOM_UTF8), 1)
+        self.assertIn(b'encoding="utf-8"', result)
+        self.assertFalse(result.endswith(b"\n"))
+        XliffFormat(BytesIO(result))
+
+    def test_new_file(self) -> None:
+        for base in ("", get_test_file("cs.xliff")):
+            with self.subTest(base=base), tempfile.TemporaryDirectory() as directory:
+                filename = Path(directory) / "new.xlf"
+                XliffFormat.create_new_file(
+                    str(filename),
+                    cast("Language", SimpleNamespace(code="cs")),
+                    base,
+                    file_format_params={
+                        "xml_utf8_bom": "include",
+                        "xml_encoding_case": "lowercase",
+                        "xml_final_newline": "omit",
+                    },
+                )
+                result = filename.read_bytes()
+                self.assertTrue(result.startswith(BOM_UTF8))
+                self.assertIn(b'encoding="utf-8"', result)
+                self.assertFalse(result.endswith(b"\n"))
+                XliffFormat(filename)
+
 
 if TYPE_CHECKING:
     from collections.abc import Generator, Iterable
@@ -157,6 +327,132 @@ class DummyBilingualUpdate(BilingualUpdateMixin):
         **kwargs,
     ) -> None:
         return
+
+
+class AtomicNewFileTest(TestCase):
+    def test_create_new_file_replacement_failure(self) -> None:
+        language = Language.objects.get(code="cs")
+        cases = (
+            (PoFormat, "cs.po"),
+            (XliffFormat, "cs.xliff"),
+            (XliffFormat, ""),
+            (JSONFormat, ""),
+            (TS1Format, "cs-ts1.ts"),
+            (HTMLFormat, "cs.html"),
+            (XlsxFormat, "cs.xlsx"),
+        )
+        for format_class, base in cases:
+            for existing in (False, True):
+                with (
+                    self.subTest(
+                        format=format_class.format_id, base=base, existing=existing
+                    ),
+                    tempfile.TemporaryDirectory() as directory,
+                ):
+                    filename = Path(directory) / "translation"
+                    if existing:
+                        filename.write_bytes(b"original")
+                    callback = Mock()
+
+                    def fail_replace(
+                        source, destination, filename=filename, existing=existing
+                    ) -> NoReturn:
+                        self.assertEqual(Path(destination), filename)
+                        self.assertTrue(Path(source).read_bytes())
+                        if existing:
+                            self.assertEqual(filename.read_bytes(), b"original")
+                        else:
+                            self.assertFalse(filename.exists())
+                        msg = "replacement failed"
+                        raise OSError(msg)
+
+                    with (
+                        patch(
+                            "weblate.formats.base.os.replace", side_effect=fail_replace
+                        ),
+                        self.assertRaisesMessage(OSError, "replacement failed"),
+                    ):
+                        format_class.create_new_file(
+                            str(filename),
+                            language,
+                            get_test_file(base) if base else "",
+                            callback,
+                        )
+                    self.assertEqual(
+                        set(Path(directory).iterdir()),
+                        {filename} if existing else set(),
+                    )
+                    if base and format_class is not HTMLFormat:
+                        callback.assert_called_once()
+
+    def test_serialization_failure(self) -> None:
+        language = Language.objects.get(code="cs")
+        for format_class, base in (
+            (PoFormat, "cs.po"),
+            (XliffFormat, "cs.xliff"),
+            (XliffFormat, ""),
+            (TS1Format, "cs-ts1.ts"),
+            (XlsxFormat, "cs.xlsx"),
+        ):
+            with (
+                self.subTest(format=format_class.format_id, base=base),
+                tempfile.TemporaryDirectory() as directory,
+            ):
+                filename = Path(directory) / "translation"
+                filename.write_bytes(b"original")
+
+                def fail_serialize(handle) -> NoReturn:
+                    handle.write(b"partial")
+                    msg = "serialization failed"
+                    raise OSError(msg)
+
+                with (
+                    patch.object(
+                        format_class, "save_content", side_effect=fail_serialize
+                    ),
+                    self.assertRaisesMessage(OSError, "serialization failed"),
+                ):
+                    format_class.create_new_file(
+                        str(filename), language, get_test_file(base) if base else ""
+                    )
+                self.assertEqual(filename.read_bytes(), b"original")
+                self.assertEqual(list(Path(directory).iterdir()), [filename])
+
+    def test_conversion_copy_failure(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            filename = Path(directory) / "translation.html"
+            filename.write_bytes(b"original")
+
+            def fail_copy(source, destination) -> NoReturn:
+                destination.write(b"partial")
+                msg = "copy failed"
+                raise OSError(msg)
+
+            with (
+                patch(
+                    "weblate.formats.convert.shutil.copyfileobj", side_effect=fail_copy
+                ),
+                self.assertRaisesMessage(OSError, "copy failed"),
+            ):
+                HTMLFormat.create_new_file(
+                    str(filename),
+                    Language.objects.get(code="cs"),
+                    get_test_file("cs.html"),
+                )
+            self.assertEqual(filename.read_bytes(), b"original")
+            self.assertEqual(list(Path(directory).iterdir()), [filename])
+
+    def test_conversion_copy_permissions(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "source.html"
+            source.write_bytes(b"<p>Hello</p>")
+            source.chmod(0o755)
+            filename = Path(directory) / "translation.html"
+            HTMLFormat.create_new_file(
+                str(filename), Language.objects.get(code="cs"), str(source)
+            )
+            self.assertEqual(filename.read_bytes(), source.read_bytes())
+            self.assertEqual(filename.stat().st_mode, source.stat().st_mode)
 
 
 class AtomicWriteTempDirTest(SimpleTestCase):
@@ -217,6 +513,8 @@ class AtomicWriteTempDirTest(SimpleTestCase):
             template = repo / "messages.pot"
             (repo / ".git").mkdir(parents=True)
             filename.parent.mkdir(parents=True)
+            filename.write_bytes(b"")
+            template.write_bytes(b"")
 
             with (
                 patch(
@@ -440,6 +738,7 @@ class FormatFeatureDocumentationTest(SimpleTestCase):
         "supports_explanation",
         "supports_context",
         "supports_location",
+        "supports_line_number",
         "supports_flags",
         "additional_states",
         "supports_read_only",
@@ -1172,6 +1471,15 @@ class BaseFormatTest(FormatTestCase, ABC):
     def test_edit(self) -> None:
         self._test_save(self.EDIT_TARGET)
 
+    def test_edit_stored_content(self) -> None:
+        storage = self.parse_file(self.FILE)
+        unit = storage.all_units[self.EDIT_OFFSET]
+        original = read_stored_content(unit)
+        unit.set_target(self.EDIT_TARGET)
+        unit.set_state(STATE_TRANSLATED)
+        self.assertEqual(unit.target, get_string(self.EDIT_TARGET))
+        self.assertNotEqual(read_stored_content(unit), original)
+
     def assert_same(self, newdata: bytes, testdata: bytes) -> None:
         """
         Content aware comparison.
@@ -1402,6 +1710,25 @@ class PoFormatPreviousSourceTest(SimpleTestCase):
 
         self.assertEqual(unit.previous_source, "")
         self.assertNotIn("#|", str(unit.unit))
+
+
+class LineNumberTest(SimpleTestCase):
+    def test_line_number(self) -> None:
+        storage = PoFormat(TEST_PO)
+        self.assertEqual(storage.content_units[0].line_number, 16)
+
+    def test_line_number_unsupported_format(self) -> None:
+        storage: TranslationFormat = JSONFormat(TEST_JSON)
+        self.assertIsNone(storage.content_units[0].line_number)
+
+
+class LineNumberSupportTest(SimpleTestCase):
+    def test_format_support_flag(self) -> None:
+        for format_class in (PoFormat, PoMonoFormat, PropertiesFormat, CSVFormat):
+            with self.subTest(format_class=format_class):
+                self.assertTrue(format_class.supports_line_number)
+        self.assertFalse(JSONFormat.supports_line_number)
+        self.assertFalse(XlsxFormat.supports_line_number)
 
 
 class ContributorCommentsTest(SimpleTestCase):
@@ -3006,6 +3333,44 @@ class DTDFormatTest(BaseFormatTest):
     MONOLINGUAL = True
     SUPPORTS_NOTES = False
 
+    def test_invalid_target_preserves_file(self) -> None:
+        filename = Path(self.tempdir) / "test.dtd"
+        original = Path(self.FILE).read_bytes()
+        for target in ("&#;", "&#xZZ;", "&#0;", "&#xD800;", "&1;", "&;"):
+            with self.subTest(target=target):
+                filename.write_bytes(original)
+                storage = self.parse_file(str(filename))
+                storage.find_unit("hello", "")[0].set_target(target)
+                with (
+                    self.assertWarnsRegex(UserWarning, "DTD parse error"),
+                    self.assertRaisesRegex(ValueError, "does not validate"),
+                ):
+                    storage.save()
+                self.assertEqual(filename.read_bytes(), original)
+
+    def test_invalid_repository_dtd_preserves_file(self) -> None:
+        filename = Path(self.tempdir) / "test.dtd"
+        original = b'<!ENTITY hello "Hello &#; world">\n<!ENTITY thanks "">\n'
+        filename.write_bytes(original)
+        storage = self.parse_file(str(filename))
+        storage.find_unit("thanks", "")[0].set_target("Thanks")
+        with (
+            self.assertWarnsRegex(UserWarning, "DTD parse error"),
+            self.assertRaisesRegex(ValueError, "does not validate"),
+        ):
+            storage.save()
+        self.assertEqual(filename.read_bytes(), original)
+
+    def test_valid_entity_references_roundtrip(self) -> None:
+        filename = Path(self.tempdir) / "test.dtd"
+        shutil.copy(self.FILE, filename)
+        storage = self.parse_file(str(filename))
+        target = 'Hello &brandShortName; & 50% "world"'
+        storage.find_unit("hello", "")[0].set_target(target)
+        storage.save()
+        reloaded = self.parse_file(str(filename))
+        self.assertEqual(reloaded.find_unit("hello", "")[0].target, target)
+
 
 class CSVFormatTest(BaseFormatTest):
     format_class = CSVFormat
@@ -3027,20 +3392,43 @@ class CSVFormatTest(BaseFormatTest):
             self.skipTest("Only full CSV formula escaping is tested here")
 
         filename = Path(self.tempdir) / "formula.csv"
-        filename.write_text('"source","target"\n"Hello",""\n', encoding="utf-8")
-        storage = self.format_class(
-            str(filename), file_format_params={"csv_escape_formulas": True}
-        )
-        unit = storage.content_units[0]
-        unit.set_target("=1+1")
-        storage.save()
+        for target in ("=1+1", "\ufeff=1+1", "\u034f=1+1", "\u200b=1+1", "\uff1d1+1"):
+            with self.subTest(target=target):
+                filename.write_text('"source","target"\n"Hello",""\n', encoding="utf-8")
+                storage = self.format_class(
+                    str(filename),
+                    file_format_params={
+                        "csv_escape_formulas": True,
+                        "csv_encoding": "utf-8",
+                    },
+                )
+                storage.content_units[0].set_target(target)
+                storage.save()
 
-        self.assertIn('"\'=1+1"', filename.read_text(encoding="utf-8"))
+                row = next(
+                    csv.DictReader(StringIO(filename.read_text(encoding="utf-8")))
+                )
+                self.assertEqual(row["target"], f"'{target}")
 
-        storage = self.format_class(
-            str(filename), file_format_params={"csv_escape_formulas": True}
+                storage = self.format_class(
+                    str(filename),
+                    file_format_params={
+                        "csv_escape_formulas": True,
+                        "csv_encoding": "utf-8",
+                    },
+                )
+                self.assertEqual(storage.content_units[0].target, target)
+
+    def test_download_csv_formula_escaping_round_trip(self) -> None:
+        if self.format_class is not CSVFormat:
+            self.skipTest("Only full CSV formula escaping is tested here")
+
+        filename = Path(self.tempdir) / "download.csv"
+        filename.write_text(
+            '"source","target"\n"Hello","\'\ufeff=1+1\'"\n', encoding="utf-8"
         )
-        self.assertEqual(storage.content_units[0].target, "=1+1")
+        storage = self.format_class(str(filename))
+        self.assertEqual(storage.content_units[0].target, "\ufeff=1+1")
 
     def test_plural_metadata_rows(self) -> None:
         if self.format_class is not CSVFormat:
@@ -3072,6 +3460,9 @@ class CSVFormatTest(BaseFormatTest):
         self.assertEqual(units[0].context, "ctx")
         self.assertEqual(units[0].import_id_hash, -123)
         self.assertEqual(units[0].target_plural_forms, (0, 1, 2))
+        # Header is line 1, so the first physical plural row is line 2.
+        self.assertEqual(units[0].line_number, 2)
+        self.assertEqual(units[0].unit.plural_rows[0].line_number, 2)
 
         units[0].set_target(["jeden soubor", "%(count)s soubory", "%(count)s souboru"])
         units[0].set_state(STATE_FUZZY)
@@ -3551,6 +3942,30 @@ class FlatXMLFormatTest(BaseFormatTest):
     MONOLINGUAL = True
     SUPPORTS_NOTES = False
 
+    def test_add_without_base(self) -> None:
+        out = Path(self.tempdir) / "empty.xml"
+        self.format_class.add_language(
+            out,
+            Language.objects.get(code="cs"),
+            "",
+            file_format_params=self.FILE_FORMAT_PARAMS,
+        )
+        storage = self.format_class(
+            out, is_template=True, file_format_params=self.FILE_FORMAT_PARAMS
+        )
+        self.assertEqual(len(storage.all_units), 0)
+        self.assertEqual(
+            storage.store.root.tag,
+            self.FILE_FORMAT_PARAMS.get("flatxml_root_name", "root").strip(),
+        )
+        storage.new_unit("key", "Source string")
+        storage.save()
+        self.assertIn(self.NEW_UNIT_MATCH, out.read_bytes())
+        storage = self.parse_file(str(out))
+        self.assertEqual(len(storage.all_units), 1)
+        self.assertEqual(storage.content_units[0].context, "key")
+        self.assertEqual(storage.content_units[0].target, "Source string")
+
 
 class CustomFlatXMLFormatTest(FlatXMLFormatTest):
     FILE = TEST_CUSTOM_FLATXML
@@ -3561,6 +3976,16 @@ class CustomFlatXMLFormatTest(FlatXMLFormatTest):
         "flatxml_value_name": "entry",
         "flatxml_key_name": "name",
     }
+
+    def test_add_without_base_custom_root(self) -> None:
+        for root in ("data", " dictionary "):
+            with (
+                self.subTest(root=root),
+                self.temporary_file_format_param("flatxml_root_name", root),
+                self.temporary_file_format_param("flatxml_value_name", " entry "),
+                self.temporary_file_format_param("flatxml_key_name", " name "),
+            ):
+                self.test_add_without_base()
 
     def test_parameter_whitespace_is_normalized(self) -> None:
         with (
@@ -3590,6 +4015,27 @@ class ResourceDictionaryFormatTest(BaseFormatTest):
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     MONOLINGUAL = True
     SUPPORTS_NOTES = False
+
+    def test_add_without_base(self) -> None:
+        out = Path(self.tempdir) / "empty.xaml"
+        self.format_class.add_language(out, Language.objects.get(code="cs"), "")
+        storage = self.format_class(out, is_template=True)
+        self.assertEqual(len(storage.all_units), 0)
+        self.assertEqual(
+            storage.store.root.nsmap,
+            {
+                None: "http://schemas.microsoft.com/winfx/2006/xaml/presentation",
+                "x": "http://schemas.microsoft.com/winfx/2006/xaml",
+                "system": "clr-namespace:System;assembly=mscorlib",
+            },
+        )
+        storage.new_unit("key", "Source string")
+        storage.save()
+        self.assertIn(self.NEW_UNIT_MATCH, out.read_bytes())
+        storage = self.parse_file(str(out))
+        self.assertEqual(len(storage.all_units), 1)
+        self.assertEqual(storage.content_units[0].context, "key")
+        self.assertEqual(storage.content_units[0].target, "Source string")
 
 
 class INIFormatTest(BaseFormatTest):
@@ -3672,12 +4118,15 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
     EXT = "xml"
     MASK = "xml/XWikiSource.*.xml"
     EXPECTED_PATH = "xml/XWikiSource.cs.xml"
-    FIND = "administration.section.users.disableUser.done"
-    FIND_CONTEXT = "administration.section.users.disableUser.done"
-    FIND_MATCH = "User account disabled"
+    FIND = "administration.section.users.disableUser.failed"
+    FIND_CONTEXT = "administration.section.users.disableUser.failed"
+    FIND_MATCH = "Erreur lors de la désactivation du compte."
     MATCH = "\n"
     NEW_UNIT_MATCH = b"\nkey=Source string\n"
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
+    # Edit a translated unit: the first one is a "### Missing:" placeholder,
+    # which is not translated anymore (see test_missing_unit_is_untranslated).
+    EDIT_OFFSET = 1
 
     def test_get_language_filename(self) -> None:
         self.assertEqual(
@@ -3687,6 +4136,25 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
             self.EXPECTED_PATH,
         )
 
+    def test_missing_unit_is_untranslated(self) -> None:
+        storage = self.parse_file(self.FILE)
+        # The unit is only present as a "### Missing:" comment in the
+        # translation file, so it must not be treated as translated even
+        # though the comment carries the source value.
+        unit, add = storage.find_unit(
+            "administration.section.users.disableUser.done",
+            "User account disabled",
+        )
+        self.assertFalse(add)
+        self.assertIsNotNone(unit)
+        self.assertEqual(unit.target, "")
+        self.assertFalse(unit.is_translated())
+
+        # Translating the unit clears the missing marker.
+        unit.set_target("Compte utilisateur désactivé")
+        self.assertEqual(unit.target, "Compte utilisateur désactivé")
+        self.assertTrue(unit.is_translated())
+
     def _test_save(self, edit=False) -> None:
         self.maxDiff = None
         super()._test_save(edit)
@@ -3694,20 +4162,14 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
         testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
 
         # Read new content
-        newdata = Path(testfile).read_text(encoding="utf-8")
+        newdata = Path(testfile).read_bytes()
 
-        # Perform some general assertions about the copyright
-        self.assertIn('<?xml version="1.1" encoding="UTF-8"?>', newdata)
-        self.assertIn(
-            "<!--\n * See the NOTICE file distributed with this work for additional",
-            newdata,
+        # Preserve the original XML declaration, copyright comment, and whitespace.
+        original = Path(self.FILE).read_bytes()
+        self.assertEqual(
+            newdata.partition(b"<xwikidoc")[0],
+            original.partition(b"<xwikidoc")[0],
         )
-        self.assertIn(
-            "* 02110-1301 USA, or see the FSF site: https://www.fsf.org.\n-->",
-            newdata,
-        )
-        # Remove XML declaration so that etree doesn't complain for parsing
-        newdata = newdata.replace('<?xml version="1.1" encoding="UTF-8"?>', "")
         xml_data = etree.XML(newdata)
         self.assertEqual("1", cast("_Element", xml_data.find("translation")).text)
         self.assertIs(None, xml_data.find("attachment"))
@@ -3820,20 +4282,14 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
         testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
 
         # Read new content
-        newdata = Path(testfile).read_text(encoding="utf-8")
+        newdata = Path(testfile).read_bytes()
 
-        # Perform some general assertions about the copyright
-        self.assertIn('<?xml version="1.1" encoding="UTF-8"?>', newdata)
-        self.assertIn(
-            "<!--\n * See the NOTICE file distributed with this work for additional",
-            newdata,
+        # Preserve the original XML declaration, copyright comment, and whitespace.
+        original = Path(self.FILE).read_bytes()
+        self.assertEqual(
+            newdata.partition(b"<xwikidoc")[0],
+            original.partition(b"<xwikidoc")[0],
         )
-        self.assertIn(
-            "* 02110-1301 USA, or see the FSF site: https://www.fsf.org.\n-->",
-            newdata,
-        )
-        # Remove XML declaration so that etree doesn't complain for parsing
-        newdata = newdata.replace('<?xml version="1.1" encoding="UTF-8"?>', "")
         xml_data = etree.XML(newdata)
         self.assertEqual("1", cast("_Element", xml_data.find("translation")).text)
         self.assertIs(None, xml_data.find("attachment"))
@@ -4060,6 +4516,19 @@ class FluentFormatTest(BaseFormatTest):
     MONOLINGUAL = True
     EXPECTED_FLAGS: ClassVar[str | list[str]] = "fluent-type:Message"
 
+    def test_too_complex_target_rejected(self) -> None:
+        storage = self.parse_file(self.FILE)
+        unit = storage.find_unit(self.FIND_CONTEXT, "")[0]
+        original = unit.target
+        # Below and above the recursion limit of the parser.
+        for depth in (40, 300):
+            payload = "{" * depth + '"x"' + "}" * depth
+            with self.assertRaises(FluentContentError):
+                unit.set_target(payload)
+            self.assertEqual(unit.target, original)
+        unit.set_target("Ahoj { $name }")
+        self.assertEqual(unit.target, "Ahoj { $name }")
+
 
 class Xliff2FormatTestCase(BaseFormatTest):
     format_class = Xliff2Format
@@ -4134,4 +4603,95 @@ class NextcloudJSONFormatTestCase(JSONFormatTest):
     FILE = TEST_NEXTJSON
     BASE = TEST_NEXTJSON
     NEW_UNIT_MATCH = b'"Source string":'
+    NEW_UNIT_TARGET = "Cílový řetězec"
     MATCH = '"translations":'
+
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
+        expected = json.loads(testdata)
+        # Nextcloud omits untranslated strings when saving.
+        expected["translations"] = {
+            source: target
+            for source, target in expected["translations"].items()
+            if target
+        }
+        self.assertEqual(json.loads(newdata), expected)
+
+    def test_new_untranslated_unit(self) -> None:
+        testfile = Path(self.tempdir) / "new.nextjson"
+        testfile.write_bytes(Path(self.FILE).read_bytes())
+        storage = self.parse_file(testfile.as_posix())
+        unit = storage.new_unit(self.NEW_UNIT_KEY, "Source string")
+        storage.save()
+        self.assertNotIn(
+            "Source string", json.loads(testfile.read_bytes())["translations"]
+        )
+
+        unit.set_target(self.NEW_UNIT_TARGET)
+        storage.save()
+        self.assertEqual(
+            json.loads(testfile.read_bytes())["translations"]["Source string"],
+            self.NEW_UNIT_TARGET,
+        )
+
+
+class KeyValuePersistenceTest(SimpleTestCase):
+    def test_target_readback_and_roundtrip(self) -> None:
+        for test_class in (
+            PhpFormatTest,
+            LaravelPhpFormatTest,
+            XWikiPropertiesFormatTest,
+            XWikiPagePropertiesFormatTest,
+            XWikiFullPageFormatTest,
+        ):
+            for target in ("Quote ' and é {0} \\path\nNext line", ""):
+                with (
+                    self.subTest(
+                        format=test_class.format_class.format_id, target=target
+                    ),
+                    tempfile.TemporaryDirectory() as directory,
+                ):
+                    test = test_class("test_edit")
+                    filename = Path(directory, Path(test.FILE).name)
+                    filename.write_bytes(Path(test.FILE).read_bytes())
+                    storage = test.parse_file(str(filename), test.FILE)
+                    unit = storage.all_units[test.EDIT_OFFSET]
+                    original = read_stored_content(unit)
+                    unit.set_target(unit.target)
+                    self.assertEqual(read_stored_content(unit), original)
+                    unit.set_target(target)
+                    self.assertEqual(unit.target, target)
+                    self.assertNotEqual(read_stored_content(unit), original)
+                    storage.save()
+                    reloaded = test.parse_file(str(filename), test.FILE)
+                    reloaded_unit = reloaded.all_units[test.EDIT_OFFSET]
+                    if not target and test.format_class is XWikiFullPageFormat:
+                        # Full pages fall back to the source content.
+                        self.assertEqual(reloaded_unit.target, original[0])
+                    elif not target and issubclass(
+                        test.format_class, XWikiPropertiesFormat
+                    ):
+                        # XWiki represents untranslated values with commented
+                        # source placeholders, which must remain marked missing.
+                        self.assertTrue(reloaded_unit.unit.missing)
+                        self.assertFalse(reloaded_unit.unit.target)
+                    else:
+                        self.assertEqual(reloaded_unit.target, target)
+
+    def test_laravel_plural_roundtrip(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            filename = Path(directory, "cs.php")
+            filename.write_bytes(Path(TEST_LARAVEL).read_bytes())
+            template = LaravelPhpFormat(TEST_LARAVEL, is_template=True)
+            storage = LaravelPhpFormat(filename, template_store=template)
+            unit, add = storage.find_unit("apples", "")
+            self.assertFalse(add)
+            original = read_stored_content(unit)
+            target = ["One translated apple", "Many translated apples"]
+            unit.set_target(target)
+            self.assertEqual(unit.target, get_string(target))
+            self.assertNotEqual(read_stored_content(unit), original)
+            storage.save()
+            reloaded = LaravelPhpFormat(filename, template_store=template)
+            self.assertEqual(
+                reloaded.find_unit("apples", "")[0].target, get_string(target)
+            )

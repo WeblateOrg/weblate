@@ -40,6 +40,17 @@ generate alerts for unreachable project websites.
 Alerts are listed on each respective component page as
 :guilabel:`Diagnostics`.
 
+Repository diagnostics show how many commits are missing locally or are
+outgoing relative to the tracked upstream branch, as of the latest repository
+alert check. These counts are visible to users who can view repository status.
+For merge request backends, the outgoing count includes commits already pushed
+to the fork that have yet to reach upstream. The alert threshold still applies
+to commits that need to be pushed.
+Diagnostics that list repeated findings show the total even when the list is
+truncated. File-format warnings describe the evidence behind the suspected
+misconfiguration, and inactivity warnings show the last recorded translation
+change when available.
+
 Add-on error diagnostics link to the responsible installation's
 :guilabel:`Configuration` page for users who can manage it, including add-ons
 inherited from a category, project, or site configuration. For AI quality
@@ -74,6 +85,12 @@ complete diagnostic details or dismiss a diagnostic on the component page.
 The summary can be filtered by active or dismissed state, severity, category,
 or whether the signed-in user can act on the diagnostic. Components shared into
 a project are listed only in the diagnostics of their owning project.
+
+Repository conflict detection covers the whole site. A conflict warning and its
+history are shown only when you can access at least one conflicting component,
+and list only the conflicting components you can access. Site administrators
+can see all conflicts. Conflicts involving only inaccessible components do not
+appear in diagnostic counts or indicators.
 
 If it is missing, the component clears all current checks. Alerts disappear once
 the underlying condition has been resolved.

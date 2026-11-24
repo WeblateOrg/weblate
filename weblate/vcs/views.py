@@ -9,7 +9,7 @@ import logging
 import secrets
 import uuid
 from collections import defaultdict
-from typing import TYPE_CHECKING, TypedDict
+from typing import TYPE_CHECKING, Literal, NotRequired, TypedDict
 from urllib.parse import urlencode
 
 from asgiref.sync import sync_to_async
@@ -18,6 +18,7 @@ from django.contrib.auth.decorators import login_required
 from django.core import signing
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.signing import BadSignature, SignatureExpired
+from django.db.models.functions import Lower
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import aget_object_or_404, get_object_or_404, redirect, render
 from django.urls import reverse
@@ -37,6 +38,7 @@ from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.site import get_site_url
 from weblate.vcs.forms import (
     GitHubAppMigrationForm,
+    GitHubAppRecoveryForm,
     GitHubAppRegisterCallbackForm,
     GitHubAppRegisterForm,
     GitHubAppSetupCallbackForm,
@@ -48,6 +50,7 @@ from weblate.vcs.github import (
     GITHUB_APP_MIGRATABLE_VCS,
     GITHUB_APP_NAME_MAX_LENGTH,
     GitHubAppCredentials,
+    GitHubAppInvalidCodeError,
     GithubAppRepository,
     GitHubInstallation,
     InstallationRemoval,
@@ -60,12 +63,14 @@ from weblate.vcs.github import (
     get_github_app_install_url,
     get_github_app_manifest_new_url,
     get_github_app_settings,
+    get_github_oauth_base,
     get_github_repository_clone_url,
     get_github_repository_identity,
     get_github_repository_import_url,
     get_user_admin_installation,
     github_app_is_configured,
     normalize_github_app_hostname,
+    normalize_github_installation_id,
     remove_github_installation,
 )
 from weblate.vcs.params import strip_unused_vcs_params
@@ -75,9 +80,12 @@ from weblate.vcs.permissions import (
     user_can_install_github_app_in_workspace,
 )
 from weblate.wladmin.views import MENU
-from weblate.workspaces.models import Workspace
+from weblate.workspaces.models import WORKSPACE_OWNERS_GROUP, Workspace
 
 if TYPE_CHECKING:
+    from django.forms.boundfield import BoundWidget
+
+    from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.auth.results import PermissionResult
 
 logger = logging.getLogger(__name__)
@@ -89,11 +97,14 @@ _GITHUB_APP_REGISTER_SALT = "weblate.vcs.github.register"
 _GITHUB_APP_REGISTER_MAX_AGE = 60 * 60
 
 
+type MigrationStatus = Literal["ready", "access-needed", "using-app"]
+
+
 class GitHubAppMigrationEntry(TypedDict):
     component: Component
-    hostname: str
     full_name: str
-    canonical_url: str
+    status: MigrationStatus
+    checkbox: NotRequired[BoundWidget]
 
 
 def _installation_workspaces(user):
@@ -316,31 +327,43 @@ def _get_github_app_migration_entries(
     components = (
         Component.objects.filter(
             project__workspace=workspace,
-            vcs__in=GITHUB_APP_MIGRATABLE_VCS,
+            vcs__in=GITHUB_APP_MIGRATABLE_VCS | {"github-app"},
         )
-        .select_related("project")
+        .prefetch(alerts=False)
         .order_by("project__name", "name", "pk")
     )
     for component in components:
         if not user.has_perm("component.edit", component):
             continue
         identity = get_github_repository_identity(component.repo)
-        if identity is None or identity[0] not in configured_hosts:
+        if identity is None:
             continue
         hostname, full_name = identity
+        status: MigrationStatus
+        if component.vcs == "github-app":
+            status = "using-app"
+        elif hostname not in configured_hosts:
+            continue
+        elif (hostname, full_name.casefold()) in repositories:
+            status = "ready"
+        else:
+            status = "access-needed"
         entries.append(
             {
                 "component": component,
-                "hostname": hostname,
                 "full_name": full_name,
-                "canonical_url": repositories.get((hostname, full_name.casefold()), ""),
+                "status": status,
             }
         )
     return entries, repositories, installations
 
 
 def _build_install_state(
-    request, next_url: str, hostname: str, workspace: Workspace
+    request,
+    next_url: str,
+    hostname: str,
+    workspace: Workspace,
+    installation_id: str = "",
 ) -> str:
     nonce = request.session.get("github_app_install_nonce")
     if not nonce:
@@ -351,6 +374,7 @@ def _build_install_state(
             "user": request.user.pk,
             "next": next_url,
             "nonce": nonce,
+            "installation_id": installation_id,
             "host": hostname,
             "workspace": str(workspace.pk),
         },
@@ -394,6 +418,7 @@ def _load_install_state(
         "next": next_url,
         "host": normalize_github_app_hostname(hostname) if hostname else "",
         "workspace": str(workspace_id),
+        "installation_id": payload.get("installation_id", ""),
     }
 
 
@@ -525,7 +550,9 @@ class UserVCSIntegrationListView(View):
         selected_workspace = None
         workspace_id = request.GET.get("workspace", "").strip()
         if workspace_id:
-            selected_workspace = _get_managed_workspace(request.user, workspace_id)
+            if request.user.has_perm("management.use"):
+                workspace_queryset = Workspace.objects.all()
+            selected_workspace = _get_workspace(workspace_queryset, workspace_id)
             workspaces = [selected_workspace]
         else:
             workspaces = list(workspace_queryset)
@@ -585,6 +612,7 @@ class UserVCSIntegrationListView(View):
             "vcs/account_integrations.html",
             {
                 "apps": apps,
+                "bread_image": "project.svg" if selected_workspace else "account.svg",
                 "managed_workspaces": workspaces,
                 "next_url": request.get_full_path(),
                 "selected_workspace": selected_workspace,
@@ -616,6 +644,7 @@ class GitHubInstallationDetailView(View):
             "vcs/github_installation_detail.html",
             {
                 "installation": installation,
+                "bread_image": "project.svg",
                 "repositories": repositories,
                 "github_app_install_url": _get_install_link(
                     request,
@@ -623,7 +652,6 @@ class GitHubInstallationDetailView(View):
                     installation.workspace,
                 ),
                 "app_configured": app_configured,
-                **_MENU_CONTEXT,
             },
         )
 
@@ -787,7 +815,6 @@ def github_app_install(request):
                 "install_choices": _get_install_choices(next_url, workspace),
                 "next_url": next_url,
                 "workspace": workspace,
-                **_MENU_CONTEXT,
             },
         )
     else:
@@ -805,32 +832,124 @@ def github_app_install(request):
         )
         return redirect(next_url)
 
+    connected = GitHubInstallation.objects.filter(hostname=host, workspace=workspace)
+    accounts = (
+        GitHubInstallation.objects.filter(
+            hostname=host,
+            workspace__in=_installation_workspaces(request.user),
+            enabled=True,
+        )
+        .exclude(installation_id__in=connected.values("installation_id"))
+        .order_by(Lower("target_login"), "installation_id", "pk")
+    )
+    owned_installation_ids = None
+    if request.user.has_perm("management.use"):
+        owned_workspaces = request.user.groups.filter(name=WORKSPACE_OWNERS_GROUP)
+        owned_installation_ids = set(
+            accounts.filter(
+                workspace_id__in=owned_workspaces.values("defining_workspace_id")
+            ).values_list("installation_id", flat=True)
+        )
+    choices = []
+    other_choices = []
+    seen = set()
+    for login, installation_id in accounts.values_list(
+        "target_login", "installation_id"
+    ):
+        if installation_id in seen:
+            continue
+        seen.add(installation_id)
+        url = _get_authorize_url(
+            request, configs[host], workspace, next_url, installation_id
+        )
+        if owned_installation_ids is None or installation_id in owned_installation_ids:
+            choices.append((login, url))
+        else:
+            other_choices.append((login, url))
+    if choices or other_choices:
+        return render(
+            request,
+            "vcs/github_install_account.html",
+            {
+                "choices": choices,
+                "other_choices": other_choices,
+                "install_url": install_url,
+                "workspace": workspace,
+            },
+        )
     return redirect(install_url)
 
 
-async def _get_authorized_installation(
-    request, config, code, installation_id
-) -> dict | None:
-    """
-    Return the installation when the current user controls it via OAuth.
+def _get_authorize_url(
+    request: AuthenticatedHttpRequest,
+    config: GitHubAppCredentials,
+    workspace: Workspace,
+    next_url: str,
+    installation_id: str,
+) -> str:
+    query = urlencode(
+        {
+            "client_id": config.client_id,
+            "state": _build_install_state(
+                request, next_url, config.hostname, workspace, installation_id
+            ),
+            "redirect_uri": get_site_url(reverse("github-app-setup")),
+        }
+    )
+    return f"{get_github_oauth_base(config.hostname)}/login/oauth/authorize?{query}"
 
-    Exchanges the install-time ``code`` for a user-to-server token and checks
-    that the user owns or administers the selected installation.
-    """
-    if not code:
-        return None
+
+def _recover_update(
+    request: AuthenticatedHttpRequest,
+    installation_id: str,
+    next_url: str,
+    configs: dict[str, GitHubAppCredentials],
+) -> HttpResponse:
     try:
-        user_token = await exchange_github_user_code(config, code)
-        return await get_user_admin_installation(config, user_token, installation_id)
-    except Exception as error:
-        await sync_to_async(report_error)(
-            "Failed to verify GitHub installation ownership", exception=error
+        installation_id = normalize_github_installation_id(installation_id)
+    except ValueError:
+        messages.error(
+            request, gettext("GitHub did not return a valid installation ID.")
         )
-        return None
+        return redirect(next_url)
+
+    workspaces = {
+        str(workspace.pk): workspace
+        for workspace in _installation_workspaces(request.user).order_by("name", "pk")
+    }
+    if not workspaces or not configs:
+        messages.error(
+            request,
+            gettext(
+                "The Weblate GitHub app installation link is no longer valid. "
+                "Start the installation again."
+            ),
+        )
+        return redirect(next_url)
+
+    form = GitHubAppRecoveryForm(
+        request.POST if request.method == "POST" else None,
+        workspaces=workspaces.values(),
+        hosts=sorted(configs),
+    )
+    if form.is_valid():
+        workspace = workspaces[form.cleaned_data["workspace"]]
+        return redirect(
+            _get_authorize_url(
+                request,
+                configs[form.cleaned_data["host"]],
+                workspace,
+                _default_next_url(request, workspace),
+                installation_id,
+            )
+        )
+    return render(request, "vcs/github_install_recovery.html", {"form": form})
 
 
 async def _aget_update_callback_installation(
-    request, installation_id: str
+    request: AuthenticatedHttpRequest,
+    installation_id: str,
+    configured_hosts: dict[str, GitHubAppCredentials],
 ) -> GitHubInstallation | None:
     """
     Return an existing accessible installation for GitHub's update callback.
@@ -853,7 +972,6 @@ async def _aget_update_callback_installation(
         return None
 
     await request.user.aprepare_permissions()
-    configured_hosts = set(await aget_github_app_configurations())
     if not configured_hosts:
         return None
 
@@ -879,6 +997,55 @@ def _get_update_callback_next_url(request, installation: GitHubInstallation) -> 
     return _get_installation_repository_url(installation)
 
 
+async def _verify_installation(
+    request: AuthenticatedHttpRequest,
+    config: GitHubAppCredentials,
+    workspace: Workspace,
+    next_url: str,
+    installation_id: str,
+    code: str,
+) -> dict | HttpResponse:
+    """Return the verified installation or the response needed to recover."""
+    authorized_installation = None
+    if code:
+        try:
+            token = await exchange_github_user_code(config, code)
+            authorized_installation = await get_user_admin_installation(
+                config, token, installation_id
+            )
+        except GitHubAppInvalidCodeError:
+            authorize_url = await sync_to_async(_get_authorize_url)(
+                request, config, workspace, next_url, installation_id
+            )
+            return await sync_to_async(render)(
+                request,
+                "vcs/github_install_recovery.html",
+                {"authorize_url": authorize_url},
+            )
+        except Exception as error:
+            await sync_to_async(report_error)(
+                "Failed to verify GitHub installation ownership", exception=error
+            )
+            messages.error(
+                request,
+                gettext(
+                    "Weblate could not verify the installation with GitHub. Try again later."
+                ),
+            )
+            return redirect(next_url)
+    if authorized_installation is None:
+        messages.error(
+            request,
+            gettext(
+                "Weblate could not confirm that you can administer this GitHub "
+                "installation. Start the installation again with a GitHub user "
+                "who owns the account or can administer the organization."
+            ),
+        )
+        return redirect(next_url)
+    return authorized_installation
+
+
 @login_required
 async def github_app_setup(request):
     """Finish connecting a GitHub account after GitHub redirects back."""
@@ -890,8 +1057,9 @@ async def github_app_setup(request):
     # signed ``state``. Signed callbacks fall through to the normal setup flow
     # below.
     if request.GET.get("setup_action") == "update" and not request.GET.get("state"):
+        configs = await aget_github_app_configurations()
         installation = await _aget_update_callback_installation(
-            request, installation_id
+            request, installation_id, configs
         )
         if installation:
             messages.success(
@@ -899,14 +1067,9 @@ async def github_app_setup(request):
                 gettext("Connected GitHub account updated."),
             )
             return redirect(_get_update_callback_next_url(request, installation))
-        messages.error(
-            request,
-            gettext(
-                "The Weblate GitHub app installation link is no longer valid. "
-                "Start the installation again."
-            ),
+        return await sync_to_async(_recover_update)(
+            request, installation_id, next_url, configs
         )
-        return redirect(next_url)
 
     if response := await _ahandle_missing_github_app_access(request, next_url):
         return response
@@ -941,7 +1104,10 @@ async def github_app_setup(request):
         )
         return redirect(next_url)
 
-    callback_form = GitHubAppSetupCallbackForm(request.GET)
+    callback_data = request.GET.copy()
+    if state["installation_id"]:
+        callback_data["installation_id"] = state["installation_id"]
+    callback_form = GitHubAppSetupCallbackForm(callback_data)
     if not callback_form.is_valid() and "installation_id" in callback_form.errors:
         messages.error(
             request,
@@ -976,20 +1142,16 @@ async def github_app_setup(request):
         )
         return redirect(next_url)
 
-    code = callback_form.cleaned_data.get("code", "")
-    authorized_installation = await _get_authorized_installation(
-        request, config, code, installation_id
+    authorized_installation = await _verify_installation(
+        request,
+        config,
+        workspace,
+        next_url,
+        installation_id,
+        callback_form.cleaned_data.get("code", ""),
     )
-    if authorized_installation is None:
-        messages.error(
-            request,
-            gettext(
-                "Weblate could not confirm that you can administer this GitHub "
-                "installation. Start the installation again with a GitHub user "
-                "who owns the account or can administer the organization."
-            ),
-        )
-        return redirect(next_url)
+    if isinstance(authorized_installation, HttpResponse):
+        return authorized_installation
     (
         installation,
         is_new_install,
@@ -1061,17 +1223,13 @@ def github_app_migration(request, workspace_id):
     entries, repositories, installations = _get_github_app_migration_entries(
         request.user, workspace
     )
-    available_entries = [entry for entry in entries if entry["canonical_url"]]
-    unavailable_entries = [entry for entry in entries if not entry["canonical_url"]]
+    available_entries = [entry for entry in entries if entry["status"] == "ready"]
+    unavailable_entries = [
+        entry for entry in entries if entry["status"] == "access-needed"
+    ]
     entries_by_id = {str(entry["component"].pk): entry for entry in available_entries}
     component_choices = [
-        (
-            component_id,
-            (
-                f"{entry['component'].project.name} / "
-                f"{entry['component'].name} ({entry['full_name']})"
-            ),
-        )
+        (component_id, entry["component"].full_slug)
         for component_id, entry in entries_by_id.items()
     ]
     form = GitHubAppMigrationForm(
@@ -1159,8 +1317,10 @@ def github_app_migration(request, workspace_id):
             )
         return redirect("github-app-migration", workspace_id=workspace.pk)
 
+    for checkbox in form["components"]:
+        entries_by_id[checkbox.data["value"]]["checkbox"] = checkbox
     required_accounts = sorted(
-        {entry["full_name"].split("/", 1)[0] for entry in entries},
+        {entry["full_name"].split("/", 1)[0] for entry in unavailable_entries},
         key=str.casefold,
     )
     return render(
@@ -1169,14 +1329,13 @@ def github_app_migration(request, workspace_id):
         {
             "workspace": workspace,
             "entries": entries,
+            "bread_image": "project.svg",
             "available_entries": available_entries,
             "unavailable_entries": unavailable_entries,
             "installations": installations,
-            "manageable_installations": {
-                installation.pk
-                for installation in installations
-                if _user_can_manage_installation(request.user, installation)
-            },
+            "can_manage_installations": _user_can_install_in_workspace(
+                request.user, workspace
+            ),
             "required_accounts": required_accounts,
             "form": form,
             "next_url": request.get_full_path(),
@@ -1200,13 +1359,15 @@ def github_app_repository_list(request):
     project_id = request.GET.get("project", "").strip()
     if project_id:
         try:
-            selected_project = request.user.managed_projects.get(pk=project_id)
+            selected_project = request.user.accessible_managed_projects.get(
+                pk=project_id
+            )
+            if not request.user.has_perm("project.edit", selected_project):
+                raise PermissionDenied
         except (Project.DoesNotExist, ValueError) as error:
             raise PermissionDenied from error
-        if selected_project.workspace_id is None:
-            selected_project_without_workspace = True
-        else:
-            selected_workspace = selected_project.workspace
+        selected_workspace = selected_project.workspace
+        selected_project_without_workspace = selected_workspace is None
 
     category_id = request.GET.get("category", "").strip()
     configured_hosts = set(get_github_app_configurations())
@@ -1260,8 +1421,12 @@ def github_app_repository_list(request):
             "selected_project": selected_project,
             "next_url": request.get_full_path(),
             "github_app_configured": github_app_is_configured(),
-            "github_app_install_url": _get_install_link(
-                request, request.get_full_path(), selected_workspace
+            "github_app_install_url": (
+                None
+                if selected_project_without_workspace
+                else _get_install_link(
+                    request, request.get_full_path(), selected_workspace
+                )
             ),
         },
     )
@@ -1300,9 +1465,15 @@ async def github_app_import_repository(request, pk, repo_full_name):
     project_id = request.GET.get("project", "").strip()
     if project_id:
         try:
-            selected_project = await request.user.managed_projects.aget(pk=project_id)
+            selected_project = await request.user.accessible_managed_projects.aget(
+                pk=project_id
+            )
         except (Project.DoesNotExist, ValueError) as error:
             raise PermissionDenied from error
+        if not await sync_to_async(request.user.has_perm)(
+            "project.edit", selected_project
+        ):
+            raise PermissionDenied
         if selected_project.workspace_id != installation.workspace_id:
             raise PermissionDenied
         params["project"] = selected_project.pk
@@ -1314,10 +1485,14 @@ async def github_app_import_repository(request, pk, repo_full_name):
                 "project__workspace"
             ).aget(
                 pk=category_id,
-                project__in=request.user.managed_projects,
+                project__in=request.user.accessible_managed_projects,
             )
         except (Category.DoesNotExist, ValueError) as error:
             raise PermissionDenied from error
+        if not await sync_to_async(request.user.has_perm)(
+            "project.edit", selected_category.project
+        ):
+            raise PermissionDenied
         if selected_category.project.workspace_id != installation.workspace_id:
             raise PermissionDenied
         params["category"] = selected_category.pk

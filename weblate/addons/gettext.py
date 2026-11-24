@@ -7,7 +7,6 @@ from __future__ import annotations
 import json
 import os
 import re
-import shutil
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import sys
 import tempfile
@@ -22,7 +21,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy, override
 
-from weblate.addons.base import BaseAddon, UpdateBaseAddon
+from weblate.addons.base import BaseAddon, UpdateBaseAddon, process_failure_message
 from weblate.addons.events import (
     AddonActivityLogReason,
     AddonEvent,
@@ -49,7 +48,6 @@ from weblate.trans.file_format_params import GettextReportMsgidBugsTo
 from weblate.utils.change_origin import get_acting_user
 from weblate.utils.commands import find_runtime_command, get_clean_env
 from weblate.utils.errors import report_error
-from weblate.utils.files import cleanup_error_message
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 from weblate.vcs.base import RepositoryError
@@ -243,8 +241,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
         changed, lines = self.update_linguas(lines, codes)
 
         if changed:
-            with open(path, "w", encoding="utf-8") as handle:
-                handle.writelines(lines)
+            self.write_repo_file(path, "".join(lines))
 
         return changed
 
@@ -358,8 +355,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
                     added = True
 
             if added:
-                with open(path, "w", encoding="utf-8") as handle:
-                    handle.writelines(lines)
+                self.write_repo_file(path, "".join(lines))
 
         return added
 
@@ -456,7 +452,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
                 {
                     "addon": self.name,
                     "command": "msgmerge",
-                    "output": template or "<missing>",
+                    "output": component.new_base or "<missing>",
                     "error": "Template for new translations not found",
                 }
             )
@@ -486,9 +482,9 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
                 self.alerts.append(
                     {
                         "addon": self.name,
-                        "command": error.cmd,
-                        "output": str(error.output),
-                        "error": str(error),
+                        "command": "msgmerge",
+                        "output": translation.filename,
+                        "error": "Could not update translation",
                     }
                 )
                 component.log_info("%s addon failed: %s", self.name, error)
@@ -557,7 +553,13 @@ class ExtractPotBaseAddon(UpdateBaseAddon, GettextBaseAddon):
         return Path(component.new_base).stem
 
     def get_component_full_name(self, component: Component) -> str:
-        return f"{component.project.name} / {component.name}"
+        names = [component.name]
+        category = component.category
+        while category is not None:
+            names.append(category.name)
+            category = category.category
+        names.append(component.project.name)
+        return " / ".join(reversed(names))
 
     def should_normalize_header(self) -> bool:
         return bool(self.instance.configuration.get("normalize_header"))
@@ -807,8 +809,7 @@ class ExtractPotBaseAddon(UpdateBaseAddon, GettextBaseAddon):
             self.alerts.append(
                 {
                     "addon": self.name,
-                    "command": " ".join(cmd),
-                    "output": cleanup_error_message(output),
+                    "command": Path(cmd[0]).name,
                     "error": f"Command timed out after {self.PROCESS_TIMEOUT} seconds",
                 }
             )
@@ -822,9 +823,8 @@ class ExtractPotBaseAddon(UpdateBaseAddon, GettextBaseAddon):
             self.alerts.append(
                 {
                     "addon": self.name,
-                    "command": " ".join(cmd),
-                    "output": cleanup_error_message(output),
-                    "error": str(err),
+                    "command": Path(cmd[0]).name,
+                    "error": process_failure_message(err),
                 }
             )
             report_error("Add-on script error", project=component.project)
@@ -1181,7 +1181,6 @@ class XgettextAddon(ExtractPotBaseAddon):
                     {
                         "addon": self.name,
                         "command": "xgettext",
-                        "output": line,
                         "error": "POTFILES entries must be relative paths",
                     }
                 )
@@ -1239,7 +1238,7 @@ class XgettextAddon(ExtractPotBaseAddon):
                 {
                     "addon": self.name,
                     "command": "xgettext",
-                    "output": os.fspath(manifest),
+                    "output": manifest.name,
                     "error": "POTFILES manifest points outside repository",
                 }
             )
@@ -1281,7 +1280,7 @@ class XgettextAddon(ExtractPotBaseAddon):
                 {
                     "addon": self.name,
                     "command": "xgettext",
-                    "output": os.fspath(skip_manifest),
+                    "output": skip_manifest.name,
                     "error": "POTFILES.skip manifest points outside repository",
                 }
             )
@@ -1462,7 +1461,9 @@ class XgettextAddon(ExtractPotBaseAddon):
                     "addon": self.name,
                     "command": "xgettext",
                     "output": "",
-                    "error": str(error),
+                    "error": str(error)
+                    if isinstance(error, ValidationError)
+                    else "Could not read ITS data directories",
                 }
             )
             return False
@@ -1495,28 +1496,32 @@ class XgettextAddon(ExtractPotBaseAddon):
         Path(template).parent.mkdir(parents=True, exist_ok=True)
         language = self.get_language()
         language_args = ["--language", language] if language else []
-        if (
-            self.run_process(
-                component,
-                [
-                    "xgettext",
-                    "--output",
-                    component.new_base,
-                    *language_args,
-                    *self.get_extra_xgettext_args(component),
-                    *self.get_gettext_format_args(component),
-                    "--",
-                    *files,
-                ],
-                env={
-                    "GETTEXTDATADIRS": os.pathsep.join(
-                        str(path) for path in [*data_dirs, GETTEXT_DATA_DIR]
-                    )
-                },
-            )
-            is None
-        ):
-            return False
+        with tempfile.TemporaryDirectory(prefix="weblate-xgettext-") as tempdir:
+            generated = Path(tempdir) / Path(template).name
+            if (
+                self.run_process(
+                    component,
+                    [
+                        "xgettext",
+                        "--output",
+                        str(generated),
+                        *language_args,
+                        *self.get_extra_xgettext_args(component),
+                        *self.get_gettext_format_args(component),
+                        "--",
+                        *files,
+                    ],
+                    env={
+                        "GETTEXTDATADIRS": os.pathsep.join(
+                            str(path) for path in [*data_dirs, GETTEXT_DATA_DIR]
+                        )
+                    },
+                )
+                is None
+            ):
+                return False
+            if generated.exists():
+                self.write_repo_file(template, generated.read_bytes())
         return self.finalize_template(component)
 
 
@@ -1827,7 +1832,7 @@ class DjangoAddon(ExtractPotBaseAddon):
                 )
                 return False
             Path(template).parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(generated, template)
+            self.write_repo_file(template, generated.read_bytes())
         return self.finalize_template(component, template)
 
     def validate_django_repository_tree(
@@ -2028,7 +2033,7 @@ class SphinxAddon(ExtractPotBaseAddon):
             if template is None:
                 return False
             Path(template).parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(generated, template)
+            self.write_repo_file(template, generated.read_bytes())
         return self.finalize_template(component)
 
     def postprocess_sphinx_template(

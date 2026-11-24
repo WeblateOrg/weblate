@@ -6,19 +6,24 @@
 
 from __future__ import annotations
 
-from time import monotonic
+import re
+from time import monotonic, process_time
 from typing import TYPE_CHECKING
+from unittest.mock import patch
 
 from django.test import SimpleTestCase
 
+from weblate.checks.angularjs import AngularJSInterpolationCheck
 from weblate.checks.format import (
     AutomatticComponentsCheck,
+    BaseFormatCheck,
     CFormatCheck,
     CSharpFormatCheck,
     ESTemplateLiteralsCheck,
     I18NextInterpolationCheck,
     JavaFormatCheck,
     JavaMessageFormatCheck,
+    JavaScriptFormatCheck,
     LaravelFormatCheck,
     LuaFormatCheck,
     MultipleUnnamedFormatsCheck,
@@ -43,9 +48,178 @@ from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.trans.util import join_plural
 
 if TYPE_CHECKING:
-    from weblate.checks.format import (
-        BaseFormatCheck,
-    )
+    from collections.abc import Iterator
+
+    from weblate.utils.regex import RegexMatch
+
+
+class FormatEligibilityTest(SimpleTestCase):
+    def test_plain_text_skips_extraction_and_highlighting(self) -> None:
+        for check in (
+            PythonFormatCheck(),
+            PHPFormatCheck(),
+            CFormatCheck(),
+            ObjCFormatCheck(),
+            PerlFormatCheck(),
+            JavaScriptFormatCheck(),
+            LuaFormatCheck(),
+            ObjectPascalFormatCheck(),
+            SchemeFormatCheck(),
+            PerlBraceFormatCheck(),
+            PythonBraceFormatCheck(),
+            CSharpFormatCheck(),
+            LaravelFormatCheck(),
+            JavaFormatCheck(),
+            JavaMessageFormatCheck(),
+            I18NextInterpolationCheck(),
+            AngularJSInterpolationCheck(),
+            PercentPlaceholdersCheck(),
+            VueFormattingCheck(),
+            AutomatticComponentsCheck(),
+            QtFormatCheck(),
+            QtPluralCheck(),
+            RubyFormatCheck(),
+        ):
+            with (
+                self.subTest(check=check.check_id),
+                patch.object(
+                    check,
+                    "iter_matches",
+                    side_effect=AssertionError("Unexpected extraction"),
+                ),
+            ):
+                unit = make_unit(flags=check.enable_string)
+                self.assertEqual(check.extract_matches("Open document"), [])
+                self.assertEqual(list(check.check_highlight("Open document", unit)), [])
+
+    def test_default_hook_preserves_custom_patterns(self) -> None:
+        class CustomFormatCheck(BaseFormatCheck):
+            regexp = re.compile(r"(TOKEN)")
+
+        check = CustomFormatCheck()
+        self.assertTrue(check.may_have_matches("TOKEN"))
+        self.assertEqual(check.extract_matches("A TOKEN"), ["TOKEN"])
+
+    def test_non_percent_printf_subclasses(self) -> None:
+        for check, placeholder in (
+            (SchemeFormatCheck(), "~a"),
+            (LaravelFormatCheck(), ":name"),
+            (AutomatticComponentsCheck(), "{{name}}"),
+            (VueFormattingCheck(), "@:message"),
+            (I18NextInterpolationCheck(), "$t(message)"),
+        ):
+            with self.subTest(check=check.check_id):
+                self.assertTrue(check.extract_matches(placeholder))
+                self.assertTrue(
+                    check.check_target_unit(["Plain text"], [placeholder], make_unit())
+                )
+                self.assertTrue(
+                    list(
+                        check.check_highlight(
+                            placeholder, make_unit(flags=check.enable_string)
+                        )
+                    )
+                )
+
+    def test_validation_without_opening_braces(self) -> None:
+        unit = make_unit()
+        self.assertEqual(
+            PythonBraceFormatCheck().check_format("Plain text", "Stray }", False, unit),
+            {"missing": [], "extra": ["}"]},
+        )
+        self.assertTrue(
+            JavaMessageFormatCheck().check_format(
+                "Plain text", "Unpaired ' quote", False, unit
+            )
+        )
+
+    def test_python_escaped_closing_braces(self) -> None:
+        check = PythonBraceFormatCheck()
+        self.assertEqual(check.extract_matches("Escaped }}"), ["}"])
+        self.assertFalse(check.check_format("Text", "Escaped }}", False, make_unit()))
+
+    def test_missing_and_extra_placeholders(self) -> None:
+        for check, placeholder in (
+            (PythonBraceFormatCheck(), "{name}"),
+            (I18NextInterpolationCheck(), "{{name}}"),
+            (CFormatCheck(), "%s"),
+        ):
+            for source, target in (("Text", placeholder), (placeholder, "Text")):
+                with self.subTest(check=check.check_id, source=source):
+                    self.assertTrue(
+                        check.check_target_unit([source], [target], make_unit())
+                    )
+
+
+class FormatMatchingTimeoutTest(SimpleTestCase):
+    def test_check_reports_timeout(self) -> None:
+        check = RubyFormatCheck()
+        unit = make_unit(source="%s", target="%s", flags="ruby-format")
+        with patch("weblate.utils.regex.REGEX_TIMEOUT", 0):
+            result = check.check_format("%s", "%s", False, unit)
+            self.assertIsInstance(result, dict)
+            assert isinstance(result, dict)
+            self.assertEqual(result["missing"], [])
+            self.assertEqual(result["extra"], [])
+            self.assertIn("time limit", result["errors"][0])
+            self.assertTrue(check.check_target_unit(["%s"], ["%s"], unit))
+            self.assertIn(
+                "time limit", str(check.get_description(make_check(unit, check)))
+            )
+
+    def test_plural_selection_reports_timeout(self) -> None:
+        check = RubyFormatCheck()
+        unit = make_unit(source=["%s", "%d"], target=["%s", "%d"], flags="ruby-format")
+        with patch.object(check, "extract_matches", side_effect=TimeoutError):
+            failures = list(check.check_generator(["%s", "%d"], ["%s", "%d"], unit))
+        self.assertEqual(len(failures), 1)
+        self.assertTrue(failures[0])
+        self.assertIn("time limit", str(failures[0]))
+
+    def test_highlight_discards_partial_matches(self) -> None:
+        check = RubyFormatCheck()
+        unit = make_unit(flags="ruby-format")
+
+        def partial_matches() -> Iterator[RegexMatch]:
+            yield from check.regexp.finditer("%s")
+            raise TimeoutError
+
+        with patch(
+            "weblate.checks.format.builtin_regex_finditer",
+            return_value=partial_matches(),
+        ):
+            self.assertEqual(list(check.check_highlight("%s", unit)), [])
+
+    def test_timeout_does_not_hide_other_errors(self) -> None:
+        check = RubyFormatCheck()
+        with (
+            patch.object(check, "iter_matches", side_effect=ValueError("broken check")),
+            self.assertRaisesMessage(ValueError, "broken check"),
+        ):
+            check.check_format("%s", "%s", False, make_unit())
+
+    def test_nested_ruby_field_is_preserved(self) -> None:
+        self.assertEqual(
+            RubyFormatCheck().extract_matches("%{outer%{inner}"), ["{outer%{inner}"]
+        )
+
+    def test_unterminated_ruby_fields_are_bounded(self) -> None:
+        check = RubyFormatCheck()
+        for opener in ("%<", "%{"):
+            with self.subTest(opener=opener):
+                started = process_time()
+                check.check_format(opener * 20_000, "translation", False, make_unit())
+                self.assertLess(process_time() - started, 2)
+        self.assertFalse(check.check_format("%s", "%s", False, make_unit()))
+
+    def test_source_format_timeout_is_bounded(self) -> None:
+        unit = make_unit(source="%s", flags="c-format")
+        with patch("weblate.utils.regex.REGEX_TIMEOUT", 0):
+            check = MultipleUnnamedFormatsCheck()
+            self.assertTrue(check.check_source_unit(["%s"], unit))
+            self.assertIn(
+                "time limit", str(check.get_description(make_check(unit, check)))
+            )
 
 
 class PythonFormatCheckTest(CheckTestCase):
@@ -1072,6 +1246,38 @@ class JavaFormatCheckTest(CheckTestCase):
 class JavaMessageFormatCheckTest(CheckTestCase):
     check = JavaMessageFormatCheck()
 
+    def test_malformed_styles_are_linear(self) -> None:
+        for text in (
+            "{1,a," * 20_000,
+            "{1,a," * 10_000 + " " + "{1,a," * 10_000 + "}",
+            "{1,a," * 20_000 + " broken style}",
+        ):
+            with self.subTest(ending=text[-20:]):
+                unit = make_unit(source="{0}", target=text, flags="java-format")
+                started = monotonic()
+                self.assertTrue(self.check.check_target(["{0}"], [text], unit))
+                list(self.check.check_highlight(text, unit))
+                self.assertLess(monotonic() - started, 2)
+
+    def test_style_match_spans(self) -> None:
+        for text, expected in (
+            ("x {0,number,integer} y", [(2, 20, "{0,number,integer}")]),
+            ("{0,choice,{1}}", [(0, 14, "{0,choice,{1}}")]),
+            ("{0,a,x} {1}", [(0, 7, "{0,a,x}"), (8, 11, "{1}")]),
+            ("{0,a,x}{1}", [(0, 10, "{0,a,x}{1}")]),
+            ("{0,a,x \n }", [(0, 10, "{0,a,x \n }")]),
+            ("{0,a,} {1}", [(7, 10, "{1}")]),
+            ("{ 0}", []),
+        ):
+            with self.subTest(text=text):
+                self.assertEqual(
+                    [
+                        (m.start(), m.end(), m.group())
+                        for m in self.check.iter_matches(text)
+                    ],
+                    expected,
+                )
+
     def setUp(self) -> None:
         super().setUp()
         self.test_highlight = (
@@ -1718,10 +1924,22 @@ class I18NextInterpolationCheckTest(CheckTestCase):
         self.assertLess(monotonic() - started, 1)
 
     def test_many_valid_interpolations_are_linear(self) -> None:
-        source = "{{x}}" * 80_000
-        started = monotonic()
-        self.assertEqual(len(self.check.extract_matches(source)), 80_000)
-        self.assertLess(monotonic() - started, 1)
+        def measure(count: int) -> float:
+            source = "{{x}}" * count
+            durations = []
+            for _ in range(3):
+                started = process_time()
+                matches = self.check.extract_matches(source)
+                durations.append(process_time() - started)
+                self.assertEqual(matches, ["{{x}}"] * count)
+            return min(durations)
+
+        # Compare CPU time to avoid depending on CI runner speed and scheduling.
+        # Eight times the input needs about 8x linear work or 64x quadratic work;
+        # allow headroom for measurement noise while catching quadratic growth.
+        small = measure(10_000)
+        large = measure(80_000)
+        self.assertLess(large, small * 24)
 
     def test_no_format(self) -> None:
         self.assertFalse(

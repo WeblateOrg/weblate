@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import fnmatch
 import os
+from datetime import timedelta
 from typing import TYPE_CHECKING, Any
 from uuid import uuid4
 
@@ -17,6 +18,7 @@ from django.db import models, transaction
 from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.dispatch import receiver
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import gettext_lazy
 
 from weblate.auth.bots import InternalBot
@@ -26,6 +28,7 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models import Translation, Unit
+from weblate.trans.models.backup import BackupAuthorshipMixin
 from weblate.trans.signals import component_post_update, vcs_post_update
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
@@ -34,14 +37,25 @@ from weblate.vcs.base import RepositorySymlinkError
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
+    from typing import Self
 
     from weblate.auth.models import User
     from weblate.trans.models import Component
 
 
+UNUSED_SCREENSHOT_DELAY = timedelta(minutes=5)
+
+
 class ScreenshotQuerySet(models.QuerySet["Screenshot", "Screenshot"]):
     def order(self):
         return self.order_by("name")
+
+    def unused_for_component(self, component: Component) -> Self:
+        return self.filter(
+            translation__component=component,
+            units__isnull=True,
+            timestamp__lte=timezone.now() - UNUSED_SCREENSHOT_DELAY,
+        )
 
     def filter_access(self, user: User):
         result = self
@@ -56,7 +70,13 @@ class ScreenshotQuerySet(models.QuerySet["Screenshot", "Screenshot"]):
         return result
 
 
-class Screenshot(models.Model, UserDisplayMixin):
+def can_set_screenshot_repository_path(user: User, component: Component) -> bool:
+    """Check whether the user can publish images from this checkout as screenshots."""
+    owner = component.linked_component or component
+    return user.can_access_component(owner) and bool(user.has_perm("vcs.access", owner))
+
+
+class Screenshot(BackupAuthorshipMixin, UserDisplayMixin):
     name = models.CharField(
         verbose_name=gettext_lazy("Screenshot name"), max_length=200
     )
@@ -244,9 +264,21 @@ def change_screenshot_assignment(sender, instance, action, **kwargs) -> None:
         )
 
 
+def schedule_unused_screenshot_check(component_id: int) -> None:
+    from weblate.screenshots.tasks import check_unused_screenshots  # ruff: ignore[import-outside-top-level]
+
+    check_unused_screenshots.apply_async_on_commit(
+        args=(component_id,), countdown=UNUSED_SCREENSHOT_DELAY.total_seconds()
+    )
+
+
 @receiver(post_save, sender=Screenshot)
 @disable_for_loaddata
-def update_alerts_on_screenshot_save(sender, instance: Screenshot, **kwargs) -> None:
+def update_alerts_on_screenshot_save(
+    sender, instance: Screenshot, created: bool, **kwargs
+) -> None:
+    if created:
+        schedule_unused_screenshot_check(instance.translation.component_id)
     update_alerts(
         instance.translation.component,
         alerts={"MissingScreenshots", "UnusedScreenshot"},

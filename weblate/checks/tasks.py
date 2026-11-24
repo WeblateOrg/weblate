@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import json
-from contextlib import contextmanager
+from contextlib import ExitStack, contextmanager, nullcontext
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Literal, NotRequired, TypedDict
 
@@ -16,7 +16,11 @@ from django.db.models import Value
 from django.db.models.functions import MD5, Lower
 
 from weblate.checks.base import BatchCheckMixin
-from weblate.checks.locks import check_project_session_read_lock
+from weblate.checks.locks import (
+    check_boundary_lock,
+    check_component_session_read_lock,
+    check_project_session_read_lock,
+)
 from weblate.checks.models import CHECKS, Check
 from weblate.trans.models import Component, Project, Unit
 from weblate.trans.propagation import (
@@ -33,6 +37,7 @@ from weblate.utils.change_origin import (
     get_change_origin,
 )
 from weblate.utils.lock import WeblateLockTimeoutError
+from weblate.utils.tasks import update_translation_stats
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator
@@ -161,10 +166,7 @@ def _coalesce_component_check_batches(*, using: str, start: int) -> None:
             current_checks.update(checks)
     connection.run_on_commit = keep
     for batch in pending.values():
-        if batch.inline:
-            batch()
-        else:
-            transaction.on_commit(batch, using=using)
+        transaction.on_commit(batch, using=using)
 
 
 class PropagatedCheckGroup(TypedDict):
@@ -189,10 +191,42 @@ class PendingCheckRefresh:
     group_keys: set[tuple[object, ...]] = field(default_factory=set)
     unit_ids: set[int] = field(default_factory=set)
 
+    def add_group(self, group: PropagatedCheckGroup) -> None:
+        key = tuple(group.values())
+        if key not in self.group_keys:
+            self.group_keys.add(key)
+            self.groups.append(group)
+
     def __call__(self) -> None:
         refresh_propagated_checks.delay(
             self.project_id, self.groups, sorted(self.unit_ids)
         )
+
+
+@contextmanager
+def coalesce_propagated_check_refreshes() -> Generator[None]:
+    """Merge refresh callbacks from successful savepoints in a bounded batch."""
+    with transaction.atomic():
+        connection = transaction.get_connection()
+        start = len(connection.run_on_commit)
+        # A failure leaves callback cleanup to the atomic block's rollback.
+        yield  # ruff: ignore[fallible-context-manager]
+        pending: dict[int, PendingCheckRefresh] = {}
+        keep = connection.run_on_commit[:start]
+        for entry in connection.run_on_commit[start:]:
+            callback = entry[1]
+            if not isinstance(callback, PendingCheckRefresh):
+                keep.append(entry)
+                continue
+            batch = pending.setdefault(
+                callback.project_id, PendingCheckRefresh(callback.project_id)
+            )
+            batch.unit_ids.update(callback.unit_ids)
+            for group in callback.groups:
+                batch.add_group(group)
+        connection.run_on_commit = keep
+        for batch in pending.values():
+            transaction.on_commit(batch)
 
 
 def schedule_propagated_checks(
@@ -255,10 +289,7 @@ def schedule_propagated_checks(
                 group["source"] = group["context"] = ""
                 # Target groups are shared by translations with the same plural.
                 group["language_id"] = 0
-            key = tuple(group.values())
-            if key not in pending.group_keys:
-                pending.group_keys.add(key)
-                pending.groups.append(group)
+            pending.add_group(group)
     if (pending.groups or pending.unit_ids) and not any(
         callback is pending for _, callback, _ in connection.run_on_commit
     ):
@@ -295,13 +326,13 @@ def _get_propagated_check_units(
         return Unit.objects.none()
     units = (
         Unit.objects.exclude_blocked(custom_sources=custom_sources)
-        .with_effective_source(custom_sources=custom_sources, select=False)
         .filter(
             propagation_filter(project, "translation__component__", component.name),
-            check_source_language=group["source_language_id"],
             translation__component__allow_translation_propagation=True,
             translation__plural_id=group["plural_id"],
         )
+        .with_effective_source(custom_sources=custom_sources, select=False)
+        .filter(check_source_language=group["source_language_id"])
     )
     if custom_sources and "source_rules" in group:
         number, formula, plural_type = group["source_rules"]
@@ -351,13 +382,17 @@ def refresh_propagated_checks(
         )
         if project is None:
             return
-        with project.propagation_checks_lock:
-            _refresh_propagated_checks(project, groups, unit_ids)
+        with check_boundary_lock(project):
+            translation_ids = _refresh_propagated_checks(project, groups, unit_ids)
+    if len(translation_ids) > 1:
+        update_translation_stats.delay_on_commit(
+            translation_ids, update_translations=False
+        )
 
 
 def _refresh_propagated_checks(
     project: Project, groups: list[PropagatedCheckGroup], unit_ids: list[int] | None
-) -> None:
+) -> list[int]:
     project_id = project.pk
     project.log_info("refreshing %d propagated check groups", len(groups))
     translations: dict[int, Translation] = {}
@@ -420,7 +455,8 @@ def _refresh_propagated_checks(
     with transaction.atomic():
         for translation in translations.values():
             translation.require_full_stats_rebuild()
-            translation.invalidate_cache()
+            translation.invalidate_cache(update_stats_parents=len(translations) == 1)
+    return list(translations)
 
 
 def _perform_batched_checks(component: Component, checks: list[str]) -> None:
@@ -473,18 +509,48 @@ def finalize_component_checks(
         return
     if component is None:
         try:
-            component = Component.objects.get(pk=component_id)
+            component = Component.objects.select_related("project__workspace").get(
+                pk=component_id
+            )
         except Component.DoesNotExist:
             return
-    with component.checks_lock:
-        previous_source_checks = component.refresh_peer_source_checks
-        component.refresh_peer_source_checks = refresh_source_checks
-        component.batch_checks = batch_mode
-        component.batched_checks = set(checks)
+    with ExitStack() as stack:
         try:
-            _run_component_checks(component, unit_ids)
-        finally:
-            component.batch_checks = False
-            component.batched_checks = set()
-            component.refresh_peer_source_checks = previous_source_checks
-        component.invalidate_cache()
+            stack.enter_context(check_component_session_read_lock(component))
+        except Component.DoesNotExist:
+            return
+        boundary_lock = (
+            check_boundary_lock(component.project)
+            if component.allow_translation_propagation
+            and (unit_ids or any(CHECKS[name].batch_project_wide for name in checks))
+            else nullcontext()
+        )
+        with boundary_lock, component.checks_lock:
+            _finalize_component_checks(
+                component,
+                unit_ids,
+                checks,
+                batch_mode=batch_mode,
+                refresh_source_checks=refresh_source_checks,
+            )
+
+
+def _finalize_component_checks(
+    component: Component,
+    unit_ids: list[int],
+    checks: list[str],
+    *,
+    batch_mode: bool,
+    refresh_source_checks: bool,
+) -> None:
+    previous_source_checks = component.refresh_peer_source_checks
+    component.refresh_peer_source_checks = refresh_source_checks
+    component.batch_checks = batch_mode
+    component.batched_checks = set(checks)
+    try:
+        _run_component_checks(component, unit_ids)
+    finally:
+        component.batch_checks = False
+        component.batched_checks = set()
+        component.refresh_peer_source_checks = previous_source_checks
+    component.invalidate_cache()

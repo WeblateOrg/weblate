@@ -33,7 +33,9 @@
             {% crispy merge_form %}
           </div>
           <div class="card-footer">
-            <input type="submit" class="btn btn-primary" value="{% translate "Confirm merge" %}">
+            <input type="submit"
+                   class="btn btn-primary"
+                   value="{% translate "Confirm merge"|force_escape %}">
           </div>
         </form>
       </div>

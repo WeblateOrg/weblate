@@ -6,6 +6,8 @@
 
 from __future__ import annotations
 
+from time import process_time
+
 from django.test import TestCase
 
 from weblate.trans.autofixes import fix_target
@@ -94,6 +96,21 @@ class AutoFixTest(TestCase):
         self.assertEqual(fix.fix_target(["Bar\n"], unit), (["Bar\n"], False))
         unit = make_unit(source=" ")
         self.assertEqual(fix.fix_target(["  "], unit), (["  "], False))
+
+    def test_long_whitespace_prefix(self) -> None:
+        unit = make_unit(source=" " * 100_000 + "a", flags="ignore-begin-space")
+        started = process_time()
+        self.assertEqual(
+            SameBookendingWhitespace().fix_target([" word "], unit), ([" word"], True)
+        )
+        self.assertLess(process_time() - started, 2)
+
+    def test_unicode_bookending_whitespace(self) -> None:
+        unit = make_unit(source="\u2003source\u00a0\n")
+        self.assertEqual(
+            SameBookendingWhitespace().fix_target([" target "], unit),
+            (["\u2003target\u00a0\n"], True),
+        )
 
     def test_no_whitespace(self) -> None:
         unit = make_unit(source="Foo")

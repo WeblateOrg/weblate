@@ -458,13 +458,3 @@ def get_operation_call(
     if operation == "file-scan":
         return "do_file_scan", (), {}
     raise ValueError(operation)
-
-
-def get_repository_operation_permission(operation: RepositoryOperation) -> str:
-    if operation == "commit":
-        return "vcs.commit"
-    if operation == "push":
-        return "vcs.push"
-    if operation.startswith("pull"):
-        return "vcs.update"
-    return "vcs.reset"

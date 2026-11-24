@@ -80,12 +80,21 @@ class BulkEditConcurrencyTest(RepoTestMixin, TransactionTestCase):
         pids: Queue[int] = Queue()
         original = Unit.update_extra_flags
 
-        def update(unit: Unit, flags: str, user: User, save: bool = True) -> None:
+        def update(
+            unit: Unit,
+            flags: str,
+            user: User,
+            save: bool = True,
+            *,
+            enforce_permissions: bool = True,
+        ) -> None:
             if not entered.is_set():
                 entered.set()
                 if not release.wait(timeout=10):
                     self.fail("First flag update was not released")
-            original(unit, flags, user, save=save)
+            original(
+                unit, flags, user, save=save, enforce_permissions=enforce_permissions
+            )
 
         def perform(unit_id: int, flags: str) -> int:
             close_old_connections()

@@ -6,6 +6,8 @@
 
 from __future__ import annotations
 
+from unittest.mock import patch
+
 import regex
 from django.template import Context, Template
 from django.test import SimpleTestCase
@@ -385,6 +387,13 @@ class EndEllipsisCheckTest(CheckTestCase):
 
 class EscapedNewlineCountingCheckTest(CheckTestCase):
     check = EscapedNewlineCountingCheck()
+
+    def test_plain_text_skips_path_preprocessing(self) -> None:
+        with patch.object(self.check, "ignore_re") as pattern:
+            self.assertFalse(
+                self.check.check_single("Plain text", "Translation", make_unit())
+            )
+            pattern.sub.assert_not_called()
 
     def setUp(self) -> None:
         super().setUp()

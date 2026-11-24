@@ -5,7 +5,15 @@ from __future__ import annotations
 
 from collections import Counter
 from contextlib import suppress
-from typing import TYPE_CHECKING, NotRequired, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+    cast,
+    overload,
+)
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_not_required, login_required
@@ -19,6 +27,7 @@ from django.utils.translation import gettext, ngettext
 from django.views.decorators.cache import never_cache
 from django.views.generic import RedirectView
 
+from weblate.auth.results import ContributorAgreementDenied
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
@@ -56,6 +65,7 @@ from weblate.trans.models import (
     Project,
     Translation,
 )
+from weblate.trans.models.alert import filter_visible_alerts
 from weblate.trans.models.component import (
     ComponentLink,
     prefetch_tasks,
@@ -88,8 +98,11 @@ from weblate.utils.views import (
 )
 
 if TYPE_CHECKING:
+    from django.core.paginator import Page
+
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.trans.models.component import ComponentQuerySet
+    from weblate.utils.forms import UserField
 
 
 class LanguageChangeKwargs(TypedDict):
@@ -111,6 +124,9 @@ def list_projects(request: AuthenticatedHttpRequest):
     query_params = QueryDict(mutable=True)
     projects = request.user.allowed_projects
     form = ProjectFilterForm(request.GET)
+    if request.user.has_perm("user.view") or request.user.has_perm("user.edit"):
+        cast("UserField", form.fields["owned"]).allow_email = True
+        cast("UserField", form.fields["watched"]).allow_email = True
     if form.is_valid():
         if form.cleaned_data["owned"]:
             user = form.cleaned_data["owned"]
@@ -138,7 +154,8 @@ def list_projects(request: AuthenticatedHttpRequest):
                     projects,
                     stats=True,
                     sort_by=request.GET.get("sort_by"),
-                )
+                ),
+                user=request.user,
             ),
             "title": gettext("Projects"),
             "query_params": query_params,
@@ -281,6 +298,63 @@ def show(request: AuthenticatedHttpRequest, path):
     raise TypeError(msg)
 
 
+def get_project_root_components(project: Project, user: User) -> ComponentQuerySet:
+    def filter_no_category(qs: ComponentQuerySet) -> ComponentQuerySet:
+        if settings.HIDE_SHARED_GLOSSARY_COMPONENTS:
+            qs = qs.exclude(Q(is_glossary=True) & ~Q(project=project))
+        # Use the destination link's category for shared components.
+        shared_root_components = ComponentLink.objects.filter(
+            project=project, category__isnull=True
+        ).values_list("component_id", flat=True)
+        return qs.filter(
+            Q(project=project, category=None) | Q(pk__in=shared_root_components)
+        )
+
+    return project.get_child_components_access(user, filter_no_category)
+
+
+def get_language_overview_translations(
+    request: AuthenticatedHttpRequest,
+    project: Project,
+    language: Language,
+    components: ComponentQuerySet,
+) -> tuple[Page[Translation], list[GhostTranslation | Translation]]:
+    user = request.user
+    translation_set = sorted(
+        language.translation_set.filter(
+            component_id__in=components.order_by().values("pk")
+        )
+        .filter_access(user)
+        .prefetch(),
+        key=lambda item: (item.component.priority, item.component.name.lower()),
+    )
+    translations = get_paginator(
+        request,
+        translation_set,
+        stats=True,
+        sort_by=request.GET.get("sort_by"),
+    )
+    for item in translations:
+        item.is_shared = (
+            None if item.component.project_id == project.pk else item.component.project
+        )
+
+    extra_translations = []
+    if user.is_authenticated and translations.paginator.num_pages == 1:
+        missing = components.exclude(
+            pk__in=[item.component_id for item in translation_set]
+        ).prefetch_related("source_language")
+        # The create form posts to the owning component, which enforces its
+        # own language policy even when the row appears in a linked project.
+        extra_translations = [
+            GhostTranslation(project, language, component)
+            for component in missing
+            if component.can_add_new_language(user, fast=True)
+        ]
+
+    return translations, [*extra_translations, *translations]
+
+
 def show_project_language(
     request: AuthenticatedHttpRequest, obj: ProjectLanguage
 ) -> HttpResponse:
@@ -300,41 +374,20 @@ def show_project_language(
         .recent()
     )
 
-    translation_set = obj.get_translation_set_access(user)
-    translations = translation_prefetch_tasks(
-        get_paginator(
-            request,
-            translation_set,
-            stats=True,
-            sort_by=request.GET.get("sort_by"),
-        )
+    translations, translation_objects = get_language_overview_translations(
+        request,
+        project_object,
+        language_object,
+        get_project_root_components(project_object, user),
     )
-    extra_translations = []
-
-    # Add ghost translations
-    if user.is_authenticated and translations.paginator.num_pages == 1:
-        existing = {translation.component.id for translation in translation_set}
-        missing = project_object.get_child_components_filter(
-            lambda qs: (
-                qs.filter_access(user)
-                .exclude(id__in=existing)
-                .prefetch()
-                .prefetch_related("source_language")
-            )
-        )
-        for item in missing:
-            item.project = project_object
-        extra_translations = [
-            GhostTranslation(project_object, language_object, component)
-            for component in missing
-            if component.can_add_new_language(user, fast=True)
-        ]
+    translation_prefetch_tasks(translations)
 
     return render(
         request,
         "language-project.html",
         {
             "allow_index": True,
+            "user_can_upload_translation": bool(user.has_perm("upload.perform", obj)),
             "language": language_object,
             "project": project_object,
             "object": obj,
@@ -342,7 +395,7 @@ def show_project_language(
             "last_changes": last_changes,
             "last_announcements": last_announcements,
             "translations": translations,
-            "translation_objects": [*extra_translations, *translations],
+            "translation_objects": translation_objects,
             "categories": prefetch_stats(
                 CategoryLanguage(category, obj.language)
                 for category in obj.project.category_set.filter(category=None).all()
@@ -397,39 +450,26 @@ def show_category_language(
         language=language_object,
     ).recent()
 
-    translation_set = obj.get_translation_set_access(user)
-    translations = get_paginator(
+    translations, translation_objects = get_language_overview_translations(
         request,
-        translation_set,
-        stats=True,
-        sort_by=request.GET.get("sort_by"),
+        obj.project,
+        language_object,
+        category_object.get_child_components_access(user),
     )
-    extra_translations = []
-
-    # Add ghost translations
-    if user.is_authenticated and translations.paginator.num_pages == 1:
-        existing = {translation.component.id for translation in translation_set}
-        missing = category_object.component_set.filter_access(user).exclude(
-            id__in=existing
-        )
-        extra_translations = [
-            GhostTranslation(obj.project, language_object, component)
-            for component in missing
-            if component.can_add_new_language(user, fast=True)
-        ]
 
     return render(
         request,
         "category-language.html",
         {
             "allow_index": True,
+            "user_can_upload_translation": bool(user.has_perm("upload.perform", obj)),
             "language": language_object,
             "category": category_object,
             "object": obj,
             "path_object": obj,
             "last_changes": last_changes,
             "translations": translations,
-            "translation_objects": [*extra_translations, *translations],
+            "translation_objects": translation_objects,
             "categories": prefetch_stats(
                 CategoryLanguage(category, obj.language)
                 for category in obj.category.category_set.all()
@@ -464,31 +504,19 @@ def show_category_language(
 
 
 def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpResponse:
-    def filter_no_category(qs: ComponentQuerySet) -> ComponentQuerySet:
-        if settings.HIDE_SHARED_GLOSSARY_COMPONENTS:
-            qs = qs.exclude(Q(is_glossary=True) & ~Q(project=obj))
-        # Show at project root:
-        # - Owned components without a category (project=obj ensures we
-        #   don't match shared components whose source category is None)
-        # - Shared components whose link to this project has no category
-        #   (scoped to this project to avoid matching links to other projects
-        #   if a component is shared to multiple projects)
-        shared_root_components = ComponentLink.objects.filter(
-            project=obj, category__isnull=True
-        ).values_list("component_id", flat=True)
-        return qs.filter(
-            Q(project=obj, category=None) | Q(pk__in=shared_root_components)
-        )
-
     user = request.user
 
-    all_changes = obj.change_set.filter_components(request.user).prefetch()
+    all_changes = (
+        obj.change_set.filter_components(request.user)
+        .filter_visible_alerts(request.user)
+        .prefetch()
+    )
     last_changes = all_changes.recent(skip_preload="project")
     last_announcements = all_changes.filter_announcements().recent(
         skip_preload="project"
     )
 
-    all_components = obj.get_child_components_access(user, filter_no_category)
+    all_components = get_project_root_components(obj, user)
     all_components = get_paginator(
         request,
         all_components,
@@ -512,10 +540,14 @@ def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpRespons
     language_stats = sort_unicode(
         language_stats, user.profile.get_translation_orderer(request)
     )
-    language_objects = [stat.obj or stat for stat in language_stats]
-    obj.project_languages.preload_workflow_settings(language_objects)
+    language_objects = cast(
+        "list[ProjectLanguage | GhostProjectLanguageStats]",
+        [stat.obj or stat for stat in language_stats],
+    )
+    obj.project_languages.ensure_workflow_settings(language_objects)
 
     components = prefetch_tasks(all_components)
+    prefetch_project_flags([obj], user=user)
     available_exporters = [(item.name, item.verbose) for item in EXPORTERS.values()]
 
     return render(
@@ -523,6 +555,7 @@ def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpRespons
         "project.html",
         {
             "allow_index": True,
+            "user_can_upload_translation": bool(user.has_perm("upload.perform", obj)),
             "object": obj,
             "path_object": obj,
             "project": obj,
@@ -619,6 +652,7 @@ def show_category(request: AuthenticatedHttpRequest, obj: Category) -> HttpRespo
         "category.html",
         {
             "allow_index": True,
+            "user_can_upload_translation": bool(user.has_perm("upload.perform", obj)),
             "object": obj,
             "path_object": obj,
             "project": obj,
@@ -684,9 +718,14 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component) -> HttpRes
         if "alerts" not in request.GET
         else obj.all_alerts.values()
     )
-    problem_alerts = obj.all_problem_alerts
+    alerts = filter_visible_alerts(alerts, request.user)
+    problem_alerts = filter_visible_alerts(obj.all_problem_alerts, request.user)
 
-    last_changes = obj.change_set.prefetch().recent(skip_preload="component")
+    last_changes = (
+        obj.change_set.filter_visible_alerts(user)
+        .prefetch()
+        .recent(skip_preload="component")
+    )
 
     translations = prefetch_stats(list(obj.translation_set.prefetch_meta()))
     if obj.project.translation_parent_language_ids:
@@ -728,6 +767,7 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component) -> HttpRes
         "component.html",
         {
             "allow_index": True,
+            "user_can_upload_translation": bool(user.has_perm("upload.perform", obj)),
             "object": obj,
             "path_object": obj,
             "project": obj.project,
@@ -817,7 +857,11 @@ def show_translation(
 ) -> HttpResponse:
     component = obj.component
     project = component.project
-    last_changes = obj.change_set.prefetch().recent(skip_preload="translation")
+    last_changes = (
+        obj.change_set.filter_visible_alerts(request.user)
+        .prefetch()
+        .recent(skip_preload="translation")
+    )
     user = request.user
 
     # Get form
@@ -1128,8 +1172,46 @@ def add_languages_to_component(
             action = component.get_new_language_action(
                 user, language, existing_language_ids=existing_language_ids
             )
-            if component.can_add_new_language(
-                user, language=language, existing_language_ids=existing_language_ids
+            creation_permission = (
+                user.has_perm(
+                    "translation.add",
+                    Translation(component=component, language=language),
+                )
+                if action == "add"
+                else True
+            )
+            if action == "add" and not creation_permission and show_messages:
+                reason = getattr(creation_permission, "reason", "")
+                if isinstance(creation_permission, ContributorAgreementDenied):
+                    agreement_url = reverse(
+                        "contributor-agreement",
+                        kwargs={"path": component.get_url_path()},
+                    )
+                    new_language_url = reverse(
+                        "new-language", kwargs={"path": component.get_url_path()}
+                    )
+                    messages.error(
+                        request,
+                        format_html(
+                            '{} <a href="{}?next={}">{}</a>',
+                            reason,
+                            agreement_url,
+                            new_language_url,
+                            gettext("View contributor license agreement"),
+                        ),
+                    )
+                else:
+                    messages.error(
+                        request,
+                        reason
+                        or gettext("You do not have permission to add this language."),
+                    )
+            if (
+                action == "add"
+                and creation_permission
+                and component.can_add_new_language(
+                    user, language=language, existing_language_ids=existing_language_ids
+                )
             ):
                 translation = component.add_new_language(
                     language,

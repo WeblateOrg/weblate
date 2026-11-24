@@ -86,9 +86,7 @@ class Command(WeblateComponentCommand):
                         self.stderr.write(f"Already installed on {component}")
                     continue
 
-                if not addon.can_install(
-                    component=component
-                ) or not addon.api_available(component):
+                if not addon.can_install(component=component):
                     self.stderr.write(f"Can not install on {component}")
                     continue
 

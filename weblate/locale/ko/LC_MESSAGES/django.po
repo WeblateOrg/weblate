@@ -17,14 +17,16 @@
 # suyeon kim <tndusdl3579@gmail.com>, 2026.
 # suyeon kim <suyeonkim20@users.noreply.hosted.weblate.org>, 2026.
 # justcontributor <kty5663@users.noreply.hosted.weblate.org>, 2026.
+# 김신애 <svikim1227@users.noreply.hosted.weblate.org>, 2026.
+# Hyeonjeong Lee <hayden@users.noreply.hosted.weblate.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-22 19:01-0500\n"
-"PO-Revision-Date: 2026-10-26 19:33+0000\n"
-"Last-Translator: suyeon kim <suyeonkim20@users.noreply.hosted.weblate.org>\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
+"PO-Revision-Date: 2026-11-23 16:21+0000\n"
+"Last-Translator: Hyeonjeong Lee <hayden@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
 "Language: ko\n"
@@ -32,7 +34,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.12.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -86,17 +88,17 @@ msgid ""
 "Your full name may appear in version control commits, depending on the "
 "commit name setting below."
 msgstr ""
+"성명이 해당 버전 관리 커밋에 표시될 수 있으며, 커밋 이름 설정은 아래 조건을 "
+"따릅니다."
 
 msgid "User data file"
 msgstr "사용자 데이터 파일"
 
-#, fuzzy
-#| msgid "Remove this notification setting"
 msgid "Import general notification settings"
-msgstr "이 알림 설정 제거"
+msgstr "일반 알림 설정 가져오기"
 
 msgid "Import commit identity choices"
-msgstr ""
+msgstr "커밋 신원 선택 불러오기"
 
 #, fuzzy
 #| msgid "Uploaded file is too big."
@@ -136,10 +138,8 @@ msgstr ""
 "버전 관리 커밋에 사용됩니다. Weblate에서 변경사항을 커밋하면 해당 이름이 저장"
 "소에 영구적으로 남습니다."
 
-#, fuzzy
-#| msgid "Version control settings"
 msgid "Version control identity"
-msgstr "버전 관리 설정"
+msgstr "버전 관리 신원"
 
 msgid "Public e-mail"
 msgstr "공개 이메일"
@@ -147,10 +147,8 @@ msgstr "공개 이메일"
 msgid "Hide e-mail address from public view"
 msgstr "이메일 주소를 외부에 공개하지 않음"
 
-#, fuzzy
-#| msgid "Display name"
 msgid "Display"
-msgstr "표시 이름"
+msgstr "표시"
 
 msgid "Translation"
 msgstr "번역"
@@ -172,8 +170,6 @@ msgstr ""
 "이메일 알림에 사용되며, 아래에서 별도로 구성되지 않은 경우 커밋 이메일로도 사"
 "용됩니다."
 
-#, fuzzy
-#| msgid "Personal info"
 msgid "Personal information"
 msgstr "개인 정보"
 
@@ -393,10 +389,8 @@ msgstr ""
 msgid "Enter the code from the app"
 msgstr "앱에서 코드를 입력하세요"
 
-#, fuzzy
-#| msgid "Authentication app (%s)"
 msgid "Authentication app"
-msgstr "인증 앱 (%s)"
+msgstr "인증 앱"
 
 #, fuzzy
 #| msgid "Subproject is now open for translation updates."
@@ -420,10 +414,18 @@ msgstr "타겟이 없거나 접근할 수 없습니다."
 msgid "Notification setting"
 msgstr "알림 설정"
 
-#, fuzzy
-#| msgid "search"
 msgid "Saved search"
-msgstr "검색"
+msgstr "저장된 검색"
+
+msgid ""
+"A lookalike e-mail identity was removed, the password was disabled, and API "
+"tokens were revoked."
+msgstr ""
+
+msgid ""
+"Password disabled as reported leaked credential matched the password; API "
+"tokens revoked."
+msgstr ""
 
 #. Translators: Audit log entry
 msgid "Password changed."
@@ -593,7 +595,16 @@ msgstr "{username} 님이 {team} 팀에 사용자를 추가함."
 msgid "User access to the {team} team was changed by {username}."
 msgstr "{username} 님이 {team} 팀에 사용자를 추가함."
 
-#. Translators: Audit log entry
+#, fuzzy, python-brace-format
+#| msgid "User access to the {team} team was changed by {username}."
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr "{username} 님이 {team} 팀에 사용자를 추가함."
+
+#, fuzzy, python-brace-format
+#| msgid "User access to the {team} team was changed by {username}."
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr "{username} 님이 {team} 팀에 사용자를 추가함."
+
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr "{username} 님이 {team} 팀에서 사용자를 제거함."
@@ -658,6 +669,20 @@ msgstr "{username} 님이 {project}에 초대함."
 msgid "Password configured."
 msgstr "비밀번호 설정됨."
 
+#, fuzzy
+#| msgid "If it was you, reset your password to regain access to your account."
+msgid ""
+"Reset your password to restore password access and review your account "
+"activity."
+msgstr ""
+"본인이 맞다면, 계정에 다시 로그인할 수 있도록 비밀번호를 재설정해 주세요."
+
+msgid ""
+"Reset your password to restore password access. Choose a unique password and "
+"review your account activity. The report didn't disclose the source of the "
+"leak."
+msgstr ""
+
 msgid "To restore access to your account, please reset your password."
 msgstr "계정 접근 권한을 복구하려면 비밀번호를 재설정해 주세요."
 
@@ -692,6 +717,44 @@ msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr "iOS 기기"
 
+#, fuzzy
+#| msgid "site wide"
+msgid "Site-wide"
+msgstr "사이트 전체"
+
+msgid "Workspace"
+msgstr "작업공간"
+
+#, fuzzy
+#| msgid "Backup created"
+msgid "Team created"
+msgstr "백업 생성됨"
+
+#, fuzzy
+#| msgid "Last change"
+msgid "Team changed"
+msgstr "최종 변경"
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "Team deleted"
+msgstr "글꼴이 삭제되었습니다."
+
+#, fuzzy
+#| msgid "Label added"
+msgid "Team member added"
+msgstr "레이블 추가됨"
+
+#, fuzzy
+#| msgid "Label removed"
+msgid "Team member removed"
+msgstr "레이블 제거됨"
+
+#, fuzzy
+#| msgid "User access changed"
+msgid "Team member access changed"
+msgstr "사용자 접근 변경됨"
+
 msgid "Account activity"
 msgstr "계정 활동"
 
@@ -724,7 +787,7 @@ msgid "Comments"
 msgstr "의견"
 
 msgid "Invalid listing column selection."
-msgstr ""
+msgstr "유효하지 않은 목록 열 선택."
 
 msgid "Interface Language"
 msgstr "인터페이스 언어"
@@ -762,22 +825,21 @@ msgid "Hide source if a secondary translation exists"
 msgstr "보조 번역이 있는 경우 원문 숨기기"
 
 msgid "Show all columns in lists using horizontal scrolling"
-msgstr ""
+msgstr "가로 스크롤링으로 목록의 모든 열 표시"
 
 msgid ""
 "Instead of hiding columns on narrow screens, keep all columns and scroll the "
 "table horizontally."
 msgstr ""
+"좁은 화면에서 열을 숨기는 대신 모든 열을 유지하고 표를 가로로 스크롤하세요."
 
-#, fuzzy
-#| msgid "All component lists"
 msgid "Visible columns in lists"
-msgstr "모든 구성요소 목록"
+msgstr "목록에 표시할 열"
 
 msgid ""
 "Choose which statistics columns are shown in project, component, and "
 "language lists."
-msgstr ""
+msgstr "프로젝트, 구성요소, 언어 목록에 표시할 통계 열을 선택하세요."
 
 msgid "Editor link"
 msgstr "편집기 링크"
@@ -831,7 +893,7 @@ msgstr "기여 시 프로젝트 자동 관심 등록"
 
 msgid ""
 "Projects are added to your watched projects when you contribute to them."
-msgstr ""
+msgstr "프로젝트에 기여하면 관심 프로젝트 목록에 자동으로 추가됩니다."
 
 msgid "Contribute to personal translation memory"
 msgstr "개인 번역 메모리에 기여"
@@ -1006,9 +1068,14 @@ msgid ""
 "a translation."
 msgstr ""
 
+#, fuzzy
+#| msgid "Contributors"
+msgid "Contributor"
+msgstr "기여자"
+
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
-msgstr "저장소에서 작업 수행됨"
+msgstr "저장소 작업 수행"
 
 msgctxt "Notification name"
 msgid "Operations were performed in the repository"
@@ -1036,7 +1103,7 @@ msgstr "구문 분석 오류 발생"
 
 msgctxt "Notification name"
 msgid "String is available for translation"
-msgstr "해당 문자열은 번역 가능합니다"
+msgstr "새 번역 가능 문자열"
 
 msgctxt "Notification name"
 msgid "Strings are available for translation"
@@ -1107,12 +1174,9 @@ msgid ""
 "its discussion."
 msgstr ""
 
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Your translation received a comment"
 msgctxt "Notification name"
 msgid "String you contributed to received a comment"
-msgstr "내 번역에 대한 의견"
+msgstr "기여한 문자열에 대한 의견"
 
 #, fuzzy
 #| msgid "Strings with source comments"
@@ -1260,6 +1324,28 @@ msgstr ""
 "이 초대는 초대자가 지정한 이메일 주소로만 수락할 수 있으며, 현재 계정으로는 "
 "사용할 수 없습니다."
 
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Your e-mail no longer belongs to verified account, it has been changed to "
+#| "{0}."
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr ""
+"이 이메일은 더 이상 인증된 계정에 속하지 않으며, 이미 {0}(으)로 변경되었습니"
+"다."
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
+msgstr ""
+
+msgid ""
+"Your e-mail address has been added. You can now select it as your account e-"
+"mail address in Account settings."
+msgstr ""
+
 #, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
@@ -1290,6 +1376,15 @@ msgstr "밝은 테마"
 msgctxt "Theme selection"
 msgid "Dark"
 msgstr "어두운 테마"
+
+msgid "Please confirm your identity using a second factor before proceeding."
+msgstr "진행하기 전 2단계 인증으로 본인 확인을 완료해 주세요."
+
+#, fuzzy
+#| msgid ""
+#| "Please confirm your identity using a second factor before proceeding."
+msgid "Please confirm your identity before proceeding."
+msgstr "진행하기 전 2단계 인증으로 본인 확인을 완료해 주세요."
 
 #, python-format
 msgid "Security key (%s)"
@@ -1397,17 +1492,17 @@ msgstr "로그인"
 msgid "Signed out"
 msgstr "로그아웃됨"
 
-msgid "Verify new e-mail address"
-msgstr "새 이메일 주소 확인"
-
-msgid "Please confirm your identity using a second factor before proceeding."
-msgstr "진행하기 전 2단계 인증으로 본인 확인을 완료해 주세요."
+msgid "Add and verify e-mail address"
+msgstr "새 이메일 주소 추가 및 인증"
 
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "비밀번호를 재설정할 수 없습니다. 이메일 인증이 비활성화되어 있습니다."
 
 msgid "Change password"
 msgstr "비밀번호 변경"
+
+msgid "Set password"
+msgstr "비밀번호 지정"
 
 msgid "Password reset has been already completed."
 msgstr "비밀번호 재설정이 이미 완료되었습니다."
@@ -1621,6 +1716,10 @@ msgid ""
 "components."
 msgstr "기계 번역이나 다른 구성요소를 사용하여 문자열을 자동으로 번역합니다."
 
+#, python-format
+msgid "Error: %s"
+msgstr "오류: %s"
+
 msgid "enabled"
 msgstr "활성화됨"
 
@@ -1792,10 +1891,8 @@ msgstr "이 애드온은 구성요소에만 설치할 수 있습니다."
 msgid "No source files are configured."
 msgstr "현재 원본 문자열이 지정되지 않았습니다!"
 
-#, fuzzy
-#| msgid "The entered token is not valid."
 msgid "The configured output path is invalid."
-msgstr "입력한 토큰이 유효하지 않습니다."
+msgstr "설정된 출력 경로가 올바르지 않습니다."
 
 #, fuzzy
 #| msgid "This add-on executes a script."
@@ -1833,14 +1930,6 @@ msgstr ""
 "이 완료되지 않았습니다. 오류:%(error)s"
 
 #, python-format
-msgid ""
-"Fedora Messaging publisher service was unavailable; the connection will be "
-"recreated on the next attempt: %(error)s"
-msgstr ""
-"Fedora Messaging 게시 서비스를 사용할 수 없습니. 다음 시도 시 연결이 다시 생"
-"성됩니다. 에러:%(error)s"
-
-#, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
 msgstr ""
 
@@ -1857,8 +1946,8 @@ msgstr ""
 msgid "configured"
 msgstr "구성"
 
-msgid "Could not reset Fedora Messaging publisher service."
-msgstr ""
+msgid "The SSL certificates have to be provided for SSL connection."
+msgstr "SSL 연결에는 SSL 인증서가 필요합니다."
 
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
 msgstr ""
@@ -1867,10 +1956,6 @@ msgid "Client SSL key must be an unencrypted PEM encoded private key."
 msgstr ""
 
 msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
-msgstr ""
-
-#, python-format
-msgid "Fedora Messaging broker URL is invalid: %(error)s"
 msgstr ""
 
 #, python-format
@@ -1916,7 +2001,9 @@ msgstr ""
 msgid "Bulk edit"
 msgstr "일괄 편집"
 
-msgid "Bulk edit flags, labels, or states of strings."
+#, fuzzy
+#| msgid "Bulk edit flags, labels, or states of strings."
+msgid "Bulk edit text, flags, labels, or states of strings."
 msgstr "플래그, 레이블 또는 문자열의 상태를 일괄 편집합니다."
 
 msgid "Flag updated translations from repository as \"Needs rewriting\""
@@ -2054,6 +2141,24 @@ msgid ""
 "specified above is recognized."
 msgstr ""
 
+#, fuzzy
+#| msgid "Component alerts"
+msgid "Comment extraction"
+msgstr "구성요소 경고"
+
+#, fuzzy
+#| msgid "words"
+msgid "Keywords"
+msgstr "단어"
+
+msgid "Checks and ITS data"
+msgstr ""
+
+#, fuzzy
+#| msgid "Start review"
+msgid "Update behavior"
+msgstr "검토 시작"
+
 msgid "This field is required."
 msgstr "이 필드는 필수입니다."
 
@@ -2103,6 +2208,11 @@ msgstr ""
 "POTFILES 또는 POTFILES.in의 저장소 상대 경로입니다. 항목은 저장소 루트를 기준"
 "으로 해석됩니다. 매니페스트 옆에 POTFILES.skip이 있으면 나열된 파일이 추출에"
 "서 제외됩니다."
+
+#, fuzzy
+#| msgid "Font file"
+msgid "Input files"
+msgstr "글꼴 파일"
 
 msgid "Invalid symbolic link in a repository."
 msgstr "저장소에 잘못된 심볼릭 링크가 있습니다."
@@ -2325,6 +2435,22 @@ msgstr "존재하지 않는 파일의 구성요소 제거"
 msgid "I confirm the above matches look correct"
 msgstr "위의 일치 항목이 올바른지 확인합니다"
 
+#, fuzzy
+#| msgid "File encoding"
+msgid "File matching"
+msgstr "파일 인코딩"
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Component source language"
+msgid "Component naming and file templates"
+msgstr "구성요소 원문 언어"
+
+#, fuzzy
+#| msgid "Component locked"
+msgid "Component lifecycle"
+msgstr "구성요소 잠김"
+
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
 msgstr "일반 프리셋: %(name)s [%(details)s]"
@@ -2502,6 +2628,26 @@ msgstr "원문 문자열의 길이에 따라 변수 텍스트를 몇 번 반복�
 msgid "Include read-only strings"
 msgstr "읽기 전용 문자열 포함"
 
+#, fuzzy
+#| msgid "Source language"
+msgid "Source and target"
+msgstr "원문 언어"
+
+#, fuzzy
+#| msgid "Prepended static text"
+msgid "Prepended text"
+msgstr "앞에 추가되는 고정 텍스트"
+
+#, fuzzy
+#| msgid "Appended static text"
+msgid "Appended text"
+msgstr "뒤에 추가되는 고정 텍스트"
+
+#, fuzzy
+#| msgid "Text direction"
+msgid "Text expansion"
+msgstr "텍스트 방향"
+
 msgid "The source and target have to be different languages."
 msgstr "원문과 대상은 다른 언어여야 합니다."
 
@@ -2563,8 +2709,8 @@ msgid ""
 "Paste a single unencrypted PEM private key block. Encrypted private keys are "
 "not supported."
 msgstr ""
-"암호화되지 않은 PEM 비밀 키 블록을 하나 붙여넣으세요. 암호화된 비밀 키는 "
-"지원하지 않습니다."
+"암호화되지 않은 PEM 비밀 키 블록을 하나 붙여넣으세요. 암호화된 비밀 키는 지원"
+"하지 않습니다."
 
 msgid "Client certificate (PEM)"
 msgstr "클라이언트 인증서 (PEM)"
@@ -2576,10 +2722,22 @@ msgstr ""
 "\"-----BEGIN CERTIFICATE-----\"로 시작하는 PEM 인증서 블록만 붙여넣으세요. "
 "\"openssl x509 -text\"의 출력은 붙여넣지 마세요."
 
+#, fuzzy
+#| msgid "Connection attempts"
+msgid "Connection timeout"
+msgstr "연결 시도 횟수"
+
+#, fuzzy
+#| msgid "How many seconds to wait between connection attempts."
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr "연결 시도 사이에 기다릴 초 단위 시간입니다."
+
 msgid "Publish timeout"
 msgstr ""
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
 msgstr ""
 
 msgid "Connection attempts"
@@ -2595,6 +2753,22 @@ msgid "How many seconds to wait between connection attempts."
 msgstr "연결 시도 사이에 기다릴 초 단위 시간입니다."
 
 #, fuzzy
+#| msgid "Hosting translations"
+msgid "Broker connection"
+msgstr "번역 호스팅"
+
+msgid "Timeouts and retries"
+msgstr ""
+
+msgid "TLS credentials"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project selection"
+msgid "Event selection"
+msgstr "프로젝트 선택"
+
+#, fuzzy
 #| msgid "String contains control character: %s"
 msgid "Topic prefix can contain only ASCII characters."
 msgstr "문자열에 제어 문자가 포함되어 있습니다: %s"
@@ -2602,9 +2776,6 @@ msgstr "문자열에 제어 문자가 포함되어 있습니다: %s"
 #, python-format
 msgid "Topic prefix must not exceed %(limit)d characters."
 msgstr ""
-
-msgid "The SSL certificates have to be provided for SSL connection."
-msgstr "SSL 연결에는 SSL 인증서가 필요합니다."
 
 msgid "The SSL certificates are not used without a SSL connection."
 msgstr "SSL 연결이 아닌 경우 SSL 인증서는 사용되지 않습니다."
@@ -2794,6 +2965,12 @@ msgstr "이 애드온은 구성요소에만 설치할 수 있습니다."
 msgid "This add-on is already installed on this component."
 msgstr "이 애드온은 구성요소에만 설치할 수 있습니다."
 
+#, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr "이 애드온은 이 저장소를 공유하는 모든 구성요소에 사용됩니다."
+
 msgid "This add-on cannot be triggered manually."
 msgstr "이 애드온은 수동으로 실행할 수 없습니다."
 
@@ -2855,6 +3032,11 @@ msgstr "프로젝트"
 msgctxt "Add-on scope"
 msgid "Site"
 msgstr "사이트"
+
+#, fuzzy
+#| msgid "The target does not exist or you cannot access it."
+msgid "a component you cannot access"
+msgstr "타겟이 없거나 접근할 수 없습니다."
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -3140,6 +3322,9 @@ msgstr "번역 텍스트가 너무 깁니다!"
 msgid "Your suggestion already exists!"
 msgstr "제안이 이미 존재합니다!"
 
+msgid "Search query"
+msgstr "검색어"
+
 #, fuzzy
 #| msgid "Choose either a project or a workspace."
 msgid "Inherit enforced checks from the parent category, project or workspace."
@@ -3226,6 +3411,28 @@ msgstr "사용자"
 msgid "Language"
 msgstr "언어"
 
+msgid ""
+"Contributor identities are exposed by View contributor identities, Download "
+"changes, Manage reports, and access-management permissions. Permissions from "
+"all assigned roles are additive."
+msgstr ""
+
+msgid "Built-in"
+msgstr ""
+
+#, fuzzy
+#| msgid "Customer"
+msgid "Customized"
+msgstr "고객"
+
+#, fuzzy
+#| msgid "Restore site default"
+msgid "Reset built-in roles to defaults"
+msgstr "사이트 기본값 복원"
+
+msgid "Built-in role permissions reset."
+msgstr ""
+
 msgid "Personal info"
 msgstr "개인 정보"
 
@@ -3243,6 +3450,12 @@ msgstr "구성요소 목록을 선택한 경우 사용되지 않습니다."
 
 msgid "This is not used when a component is selected."
 msgstr "구성요소를 선택한 경우 사용되지 않습니다."
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "View contributor license agreement"
+msgid "View contributor identities"
+msgstr "기여자 라이선스 계약 보기"
 
 #. Translators: Permission name
 msgid "Download changes"
@@ -3456,6 +3669,24 @@ msgid "Manage workspace access"
 msgstr "작업공간 접근 관리"
 
 #. Translators: Permission name
+#, fuzzy
+#| msgid "Browse all users"
+msgid "Browse users"
+msgstr "모든 사용자 보기"
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "Clean up user contributions"
+msgid "Search resource contributors"
+msgstr "사용자 기여 지우기"
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "User profile"
+msgid "View user profiles"
+msgstr "사용자 프로필"
+
+#. Translators: Permission name
 msgid "Use management interface"
 msgstr "관리 인터페이스 사용"
 
@@ -3526,6 +3757,18 @@ msgstr "결제 관리"
 #. Translators: Permission name
 msgid "Manage site-wide add-ons"
 msgstr "사이트 전체 애드온 관리"
+
+#, fuzzy
+#| msgid "Discover Weblate"
+msgctxt "Access-control role"
+msgid "Discover users"
+msgstr "Weblate 둘러보기"
+
+#, fuzzy
+#| msgid "User profile"
+msgctxt "Access-control role"
+msgid "View user profiles"
+msgstr "사용자 프로필"
 
 msgctxt "Access-control role"
 msgid "Administration"
@@ -3728,6 +3971,20 @@ msgstr "이름"
 
 msgid "Choose permissions granted to this role."
 msgstr "이 역할에 부여할 권한을 선택하세요."
+
+msgid ""
+"Remove the component from project teams before moving it to another project."
+msgstr ""
+
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
 
 msgid "Roles"
 msgstr "역할"
@@ -4022,6 +4279,11 @@ msgid ""
 "enable them."
 msgstr ""
 
+#, fuzzy
+#| msgid "You do not have permission to accept suggestions."
+msgid "You need to log in to upload translations."
+msgstr "제안을 수락할 권한이 없습니다."
+
 msgid "The file format does not support updating source strings."
 msgstr "파일 형식이 원문 문자열 업데이트를 지원하지 않습니다."
 
@@ -4040,6 +4302,11 @@ msgid ""
 "access; otherwise, you would lock yourself out."
 msgstr ""
 
+#, fuzzy
+#| msgid "Additional labels can be defined by project administrators."
+msgid "Blocked users cannot be granted project administration rights."
+msgstr "추가 레이블은 프로젝트 관리자가 정의할 수 있습니다."
+
 #, python-format
 msgid ""
 "Team %(name)s was renamed to %(new_name)s because its name was already in "
@@ -4055,11 +4322,31 @@ msgstr "비활성 사용자는 팀에 할당할 수 없습니다."
 msgid "Project tokens can not be assigned to teams here."
 msgstr "여기서는 프로젝트 토큰을 팀에 할당할 수 없습니다."
 
+#, fuzzy
+#| msgid "View audit log"
+msgid "Team audit log"
+msgstr "감사 로그 보기"
+
+#, fuzzy
+#| msgid "Team administrator"
+msgid "Team audit entry"
+msgstr "팀 관리자"
+
 msgid "Cannot remove built-in team!"
 msgstr "기본 제공 팀을 제거할 수 없습니다!"
 
 msgid "User invitation was removed."
 msgstr "사용자 초대가 제거되었습니다."
+
+#, fuzzy
+#| msgid "User invitation was removed."
+msgid "This invitation was already accepted or removed."
+msgstr "사용자 초대가 제거되었습니다."
+
+#, fuzzy
+#| msgid "Please complete the registration to accept the invitation."
+msgid "Remove the project block before accepting this invitation."
+msgstr "초대를 수락하려면 등록을 완료해 주세요."
 
 #, python-format
 msgid "Accepted invitation to the %s team."
@@ -4109,7 +4396,8 @@ msgstr "자동화 정의는 64 KiB를 초과할 수 없습니다."
 
 #, python-format
 msgid "%(path)s: Unknown change event “%(event)s”. Valid events: %(choices)s"
-msgstr "%(path)s: 알 수 없는 변경 이벤트 “%(event)s”. 유효한 이벤트: %(choices)s"
+msgstr ""
+"%(path)s: 알 수 없는 변경 이벤트 “%(event)s”. 유효한 이벤트: %(choices)s"
 
 #, fuzzy
 #| msgid "The chosen sorting is not supported."
@@ -4178,6 +4466,189 @@ msgstr ""
 msgid "Preview without changes"
 msgstr "변경 없이 미리보기"
 
+#, fuzzy
+#| msgid "All change events"
+msgid "Change events"
+msgstr "모든 변경 이벤트"
+
+#, fuzzy
+#| msgid "The category does not belong to the selected project."
+msgid "The workflow runs for each of the selected events."
+msgstr "카테고리가 선택한 프로젝트에 속하지 않습니다."
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "CEL expression"
+msgstr "정규 표현식"
+
+#, fuzzy
+#| msgid "The translation has come to an end."
+msgid "The expression has to evaluate to a boolean."
+msgstr "번역이 끝났습니다."
+
+#, fuzzy
+#| msgid "Category name"
+msgid "Category path"
+msgstr "카테고리 이름"
+
+#, fuzzy
+#| msgid "Parent category has to be in the same project!"
+msgid "Slash-separated category path inside the project."
+msgstr "상위 카테고리는 동일한 프로젝트에 있어야 합니다!"
+
+msgid "Language code"
+msgstr "언어 코드"
+
+#, fuzzy
+#| msgid "All change events"
+msgid "Change event"
+msgstr "모든 변경 이벤트"
+
+msgid "String state"
+msgstr "문자열 상태"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Action ID"
+msgstr "작업"
+
+msgid "Optional identifier so that later actions can use its results."
+msgstr ""
+
+#, fuzzy
+#| msgid "Move component"
+msgid "Whole component"
+msgstr "구성요소 이동하기"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Strings were changed"
+msgid "String affected by the change"
+msgstr "문자열 변경"
+
+#, fuzzy
+#| msgid "String state"
+msgid "String scope"
+msgstr "문자열 상태"
+
+#, fuzzy
+#| msgid "Default component list"
+msgid "Default (whole component)"
+msgstr "기본 구성요소 목록"
+
+#, fuzzy
+#| msgid "Delete string"
+msgid "Select strings"
+msgstr "문자열 삭제"
+
+msgid "Use the effective AI quality add-on"
+msgstr ""
+
+msgid "Bulk editing"
+msgstr "일괄 편집"
+
+msgid "Component update"
+msgstr "구성요소 업데이트"
+
+msgid "Repository update"
+msgstr "저장소 업데이트"
+
+msgid "Repository commit"
+msgstr "저장소 커밋"
+
+msgid "Repository push"
+msgstr "저장소 푸시"
+
+msgid "Manual run"
+msgstr "수동 실행"
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Expression"
+msgstr "정규 표현식"
+
+#, fuzzy
+#| msgid "Component created"
+msgid "Component category"
+msgstr "구성요소 생성됨"
+
+#, fuzzy
+#| msgid "Manage strings"
+msgid "Matching strings"
+msgstr "문자열 관리"
+
+msgid "All of"
+msgstr ""
+
+msgid "Any of"
+msgstr ""
+
+#, fuzzy
+#| msgid "Note"
+msgid "Not"
+msgstr "참고"
+
+#, fuzzy
+#| msgid "Frequency"
+msgid "Sequence"
+msgstr "빈도"
+
+msgid "Choose"
+msgstr "선택"
+
+msgid "Trigger"
+msgstr "트리거"
+
+#, fuzzy
+#| msgid "Alert triggered"
+msgid "Add trigger"
+msgstr "경고 발생"
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Condition"
+msgstr "설정"
+
+#, fuzzy
+#| msgid "Bad configuration"
+msgid "Add condition"
+msgstr "잘못된 설정"
+
+msgid "Action"
+msgstr "작업"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Add action"
+msgstr "작업"
+
+msgid "Conditions"
+msgstr "조건"
+
+msgid "Actions"
+msgstr "작업"
+
+#, fuzzy
+#| msgid "Branch"
+msgid "Branches"
+msgstr "브랜치"
+
+#, fuzzy
+#| msgid "Additional branch"
+msgid "Add branch"
+msgstr "추가 브랜치"
+
+#, fuzzy
+#| msgid "Others"
+msgid "Otherwise"
+msgstr "그 외"
+
+msgid "Add action to run otherwise"
+msgstr ""
+
+msgid "Branch"
+msgstr "브랜치"
+
 msgid "Additional message"
 msgstr "추가 메시지"
 
@@ -4199,9 +4670,6 @@ msgstr ""
 
 msgid "No valid billing found or limit exceeded."
 msgstr "유효한 결제를 찾을 수 없거나 한도를 초과했습니다."
-
-msgid "Workspace"
-msgstr "작업공간"
 
 msgid "Customer name"
 msgstr "고객 이름"
@@ -4237,7 +4705,7 @@ msgid "Oldest pending Weblate change"
 msgstr "가장 오래된 보류 중인 Weblate 변경사항"
 
 msgid "Repository changes alert"
-msgstr "저장소 변경사항 알림"
+msgstr "저장소 변경 사항 알림"
 
 msgid "Push failure alert"
 msgstr "푸시 실패 알림"
@@ -4298,6 +4766,11 @@ msgid "Contains %d component"
 msgid_plural "Contains %d components"
 msgstr[0] "%d개 구성요소 포함"
 
+#, fuzzy
+#| msgid "Suggestions are not allowed on this translation!"
+msgid "Restricted components are not allowed by this billing plan."
+msgstr "이 번역에는 제안이 허용되지 않습니다!"
+
 msgid "Missing license"
 msgstr "라이선스 누락"
 
@@ -4309,6 +4782,11 @@ msgstr "결제"
 
 msgid "Billing event"
 msgstr "결제 이벤트"
+
+#, fuzzy
+#| msgid "Projects without components"
+msgid "Project has no components."
+msgstr "구성요소가 없는 프로젝트"
 
 msgid "monthly"
 msgstr "매월"
@@ -4357,6 +4835,9 @@ msgstr ""
 
 msgid "To terminate billing you have to remove all projects first."
 msgstr "청구를 종료하려면 먼저 모든 프로젝트를 제거해야 합니다."
+
+msgid "Externally managed billings cannot be merged."
+msgstr ""
 
 msgid "Cannot merge such a billing."
 msgstr "이러한 결제 항목은 병합할 수 없습니다."
@@ -4597,9 +5078,13 @@ msgstr "일부 복수형이 동일하게 번역되었습니다."
 msgid "Inconsistent"
 msgstr "일관성 없음"
 
+#, fuzzy
+#| msgid ""
+#| "This string has more than one translation in this project or is "
+#| "untranslated in some components."
 msgid ""
-"This string has more than one translation in this project or is untranslated "
-"in some components."
+"This string has more than one translation in its propagation group or is "
+"untranslated in some components."
 msgstr ""
 "이 문자열은 이 프로젝트에서 둘 이상의 번역이 있거나 일부 구성요소에서 번역되"
 "지 않았습니다."
@@ -4847,6 +5332,11 @@ msgstr ""
 msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr "HTML {tag} 태그에 일치하는 종료 태그 {end}가 없습니다."
 
+#, fuzzy, python-brace-format
+#| msgid "The HTML {tag} tag is missing a matching end tag: {end}."
+msgid "The HTML {tag} tag is nested too deeply."
+msgstr "HTML {tag} 태그에 일치하는 종료 태그 {end}가 없습니다."
+
 #, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
@@ -5062,6 +5552,17 @@ msgstr "Fluent 번역 구문"
 
 msgid "Fluent syntax error in the translation."
 msgstr "번역에 Fluent 구문 오류가 있습니다."
+
+msgid "The Fluent value could not be checked because it is too complex."
+msgstr ""
+
+msgid "the value is too complex or nested too deeply"
+msgstr ""
+
+#, fuzzy
+#| msgid "Your billing plan has exceeded its limits."
+msgid "Format matching exceeded its time limit."
+msgstr "결제 플랜의 한도를 초과했습니다."
 
 msgid "The following format strings are in the wrong order:"
 msgstr "다음 형식 문자열의 순서가 잘못되었습니다:"
@@ -5310,6 +5811,9 @@ msgstr "마크다운 구문"
 msgid "Markdown syntax does not match source."
 msgstr "마크다운 구문이 원문과 일치하지 않습니다."
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr ""
+
 msgid "The translation does not contain a URL."
 msgstr "번역에 URL이 포함되어 있지 않습니다."
 
@@ -5477,6 +5981,11 @@ msgstr "Weblate 구성"
 msgid "Your translation is foo"
 msgstr "당신의 번역은 거시기하네요"
 
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
+msgstr ""
+
 msgid "Font style"
 msgstr "글꼴 스타일"
 
@@ -5637,6 +6146,25 @@ msgstr "iOS 문자열"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
+#, fuzzy
+#| msgid "Could not update the repository."
+msgid "Could not open the workbook archive."
+msgstr "저장소를 업데이트할 수 없습니다."
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr ""
+
 msgid "Multivalue CSV file"
 msgstr "다중값 CSV 파일"
 
@@ -5686,6 +6214,10 @@ msgstr "CSV 파일의 id_hash 메타데이터가 유효하지 않습니다: %s"
 
 msgid "Plural form metadata in CSV file requires id_hash."
 msgstr "CSV 파일 내 복수형 메타데이터에는 id_hash 값이 필요합니다."
+
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
+msgstr ""
 
 #. Translators: File format name
 msgid "gettext PO file"
@@ -5912,6 +6444,13 @@ msgstr "앱 스토어 메타데이터 파일"
 msgid "File validation is required for directory-based formats."
 msgstr ""
 
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr ""
+
+msgid "Converted workbook content exceeds the configured size limit."
+msgstr ""
+
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
@@ -5982,6 +6521,16 @@ msgid ""
 "either this limit or the maximum age is reached."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation files CDN"
+msgid "Install Translation files CDN"
+msgstr "번역 파일 CDN"
+
+msgid ""
+"Publishes original translation files publicly, including files from private "
+"components."
+msgstr ""
+
 msgid "Kotlin SDK CDN"
 msgstr ""
 
@@ -5989,6 +6538,11 @@ msgid ""
 "Publishes Android string and plural resources for registered Kotlin SDK "
 "builds."
 msgstr ""
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "Translation files CDN cannot be installed on this component."
+msgstr "이 애드온은 구성요소에만 설치할 수 있습니다."
 
 msgid "Weblate languages"
 msgstr "Weblate 언어"
@@ -6041,9 +6595,6 @@ msgstr "언어 제한 없음"
 
 msgid "Enter a valid language code."
 msgstr "유효한 언어 코드를 입력하세요."
-
-msgid "Language code"
-msgstr "언어 코드"
 
 msgid "Language name"
 msgstr "언어명"
@@ -6204,9 +6755,6 @@ msgstr "복수형 수식"
 
 msgid "Plural type"
 msgstr "복수형 유형"
-
-msgid "Example counts for this plural form."
-msgstr "이 복수형의 예시 개수입니다."
 
 msgid "Singular"
 msgstr "단수형"
@@ -6530,6 +7078,9 @@ msgstr ""
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
 msgstr "원문 언어 선택"
+
+msgid "disabled"
+msgstr "비활성화됨"
 
 msgid ""
 "Project-level machine translation cannot use internal or non-public "
@@ -7103,6 +7654,21 @@ msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "프로젝트 또는 구성요소에 정의된 보조 언어"
 
+#, fuzzy
+#| msgid "Update with rebase"
+msgid "Rate limit reset."
+msgstr "요청 제한이 초기화되었습니다."
+
+#, fuzzy
+#| msgid "This translation needs editing."
+msgid "Too many translation requests."
+msgstr "이 번역은 편집이 필요합니다."
+
+#, fuzzy
+#| msgid "Too many authentication attempts from this location."
+msgid "Too many concurrent translation requests for this service."
+msgstr "이 위치에서 인증 시도가 너무 많습니다."
+
 msgid "File"
 msgstr "파일"
 
@@ -7230,6 +7796,11 @@ msgid ""
 "and will be rebuilt in the background."
 msgstr "항목이 삭제되었으며 번역 메모리가 백그라운드에서 재구축됩니다."
 
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many uploads, please try again later."
+msgstr "검색 요청이 너무 많습니다. 잠시 후 다시 시도하세요."
+
 #, fuzzy, python-format
 #| msgid "Remove selected translation memory entries"
 msgid "Processed %(count)d active translation memory entry."
@@ -7313,6 +7884,11 @@ msgid "Read your e-mail address"
 msgstr "계정 이메일 주소 사용"
 
 msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
 msgstr ""
 
 msgid "Image is too big."
@@ -7421,10 +7997,23 @@ msgstr[0] "%(count)s개의 일치하는 원문 문자열을 찾았습니다."
 msgid "No new matching source strings found."
 msgstr "일치하는 새 원문 문자열을 찾을 수 없습니다."
 
+msgid "Only some matching strings are shown. Search for more strings manually."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many image text searches. Please try again later."
+msgstr "검색 요청이 너무 많습니다. 잠시 후 다시 시도하세요."
+
 #, fuzzy
 #| msgid "Could not open a ticket, please try again later."
-msgid "OCR data could not be downloaded. Please try again later."
+msgid "Text recognition data could not be downloaded. Please try again later."
 msgstr "티켓을 열 수 없습니다. 나중에 다시 시도해 주세요."
+
+#, fuzzy
+#| msgid "Could not load repository branches. Please try again."
+msgid "Could not find strings in the image. Please try again."
+msgstr "저장소 브랜치를 불러오지 못했습니다. 다시 시도하세요."
 
 #, fuzzy
 #| msgid "Delete screenshot"
@@ -7535,10 +8124,8 @@ msgstr "Weblate 후원"
 msgid "Welcome and thank you for supporting Weblate"
 msgstr "Weblate를 후원해 주셔서 감사합니다"
 
-#, fuzzy
-#| msgid "Contribute to Weblate"
 msgid "Continue to Weblate"
-msgstr "Weblate에 공헌하기"
+msgstr "Weblate로 돌아가기"
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -7633,8 +8220,19 @@ msgstr ""
 msgid "Your profile"
 msgstr "내 프로필"
 
+#, fuzzy
+#| msgid "Enter a valid e-mail address."
+msgid "Confirm adding e-mail address"
+msgstr "올바른 이메일 주소를 입력하세요."
+
 msgid "Confirm adding user identity"
 msgstr "사용자 ID 추가 확인"
+
+#, python-format
+msgid ""
+"Confirm adding %(uid)s to your existing Weblate account by entering your "
+"current password."
+msgstr ""
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #, python-format
@@ -7644,6 +8242,11 @@ msgid ""
 msgstr ""
 "확인한 후 %(backend_verbose)s (%(uid)s)(을)를 사용하여 Weblate에 인증할 수 있"
 "습니다."
+
+#, fuzzy
+#| msgid "Add and verify e-mail address"
+msgid "Add e-mail address"
+msgstr "새 이메일 주소 추가 및 인증"
 
 msgid "Confirm"
 msgstr "확인"
@@ -7742,16 +8345,16 @@ msgstr "연락 양식 열기"
 msgid "Registration"
 msgstr "가입"
 
+#, fuzzy
+#| msgid "Your e-mail"
+msgid "Check your e-mail"
+msgstr "이메일"
+
 msgid "Password reset almost complete"
 msgstr "비밀번호 재설정이 거의 완료되었습니다"
 
 msgid "Account removal almost complete"
 msgstr "계정 제거가 거의 완료되었습니다"
-
-#, fuzzy
-#| msgid "Registration almost complete"
-msgid "E-mail verification almost complete"
-msgstr "가입이 거의 완료되었습니다"
 
 msgid "Registration almost complete"
 msgstr "가입이 거의 완료되었습니다"
@@ -7764,14 +8367,11 @@ msgid ""
 "inbox."
 msgstr "이메일 수신함으로 전송된 확인 링크를 클릭하여 계정을 제거하세요."
 
-#, fuzzy
-#| msgid ""
-#| "Click the confirmation link sent to your e-mail inbox and start using "
-#| "your account."
 msgid ""
-"Click the confirmation link sent to your e-mail inbox to verify the address "
-"for your account."
-msgstr "이메일 수신함으로 전송된 확인 링크를 클릭하고 계정 사용을 시작하세요."
+"Check your e-mail for instructions. If this address is already associated "
+"with an account, you may receive account recovery guidance instead of a "
+"verification link."
+msgstr ""
 
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
@@ -7780,6 +8380,15 @@ msgstr "이메일 수신함으로 전송된 확인 링크를 클릭하고 계정
 
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr "받은 편지함에서 확인할 수 없으면 스팸 폴더를 확인하세요."
+
+#, fuzzy, python-format
+#| msgid "The confirmation link will expire after %(count)s hour."
+#| msgid_plural "The confirmation link will expire after %(count)s hours."
+msgid ""
+"If you receive a verification link, it will expire after %(count)s hour."
+msgid_plural ""
+"If you receive a verification link, it will expire after %(count)s hours."
+msgstr[0] "확인 링크는 %(count)s시간 후에 만료됩니다."
 
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
@@ -7800,6 +8409,15 @@ msgid "Register again if the confirmation link expires."
 msgstr "확인 링크가 만료되면 다시 등록하세요."
 
 msgid ""
+"If you receive a verification link, open it while signed in to this account "
+"and follow the confirmation steps. You may be asked for your current "
+"password."
+msgstr ""
+
+msgid "Back to account settings"
+msgstr "계정 설정으로 돌아가기"
+
+msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
@@ -7817,13 +8435,48 @@ msgstr "등록에 문제가 있으면 저희에게 연락해 주세요."
 msgid "Please fix errors in the form."
 msgstr "양식의 오류를 수정하세요."
 
-#, fuzzy
-#| msgid "Send test e-mail"
-msgid "Send verification e-mail"
-msgstr "테스트 이메일 발송"
+msgid ""
+"Verification instructions will be sent to the new e-mail address. You do not "
+"need access to your old mailbox."
+msgstr ""
 
-msgid "Back to account settings"
-msgstr "계정 설정으로 돌아가기"
+msgid ""
+"Adding an address does not change your account e-mail address. After "
+"verification, you can select the new address in Account settings."
+msgstr ""
+
+msgid "Send verification e-mail"
+msgstr "인증 이메일 발송"
+
+msgid "Confirm your identity"
+msgstr "본인 확인"
+
+msgid "Confirm your existing sign-in method before continuing."
+msgstr "계속하기 전에 기존 로그인 방식으로 본인 확인을 해 주세요."
+
+msgid ""
+"Confirm your existing sign-in method before registering your first second "
+"factor."
+msgstr ""
+"첫 번째 2단계 인증 수단을 등록하기 전에 기존 로그인 방식으로 본인 확인을 해 "
+"주세요."
+
+msgid "Sign in again using a connected provider:"
+msgstr ""
+
+msgid ""
+"Your previous e-mail verification has expired. Reset your password to "
+"continue."
+msgstr ""
+"이전에 보낸 이메일 인증이 만료되었습니다. 계속하려면 비밀번호를 재설정하세요."
+
+msgid "Sign out and reset password by e-mail"
+msgstr "로그아웃 후 이메일로 비밀번호 재설정"
+
+msgid ""
+"No sign-in method is available to confirm your identity. Contact an "
+"administrator to recover access."
+msgstr ""
 
 msgid "Trial subscriptions"
 msgstr "체험판 구독"
@@ -8021,7 +8674,7 @@ msgid "The password is used to verify important changes on your account."
 msgstr "비밀번호는 계정의 중요한 변경 사항을 확인하는 데 사용됩니다."
 
 msgid "Configure the password"
-msgstr "비밀번호 구성하기"
+msgstr "비밀번호 설정"
 
 msgid ""
 "Please enter your new password twice so we can verify you typed it in "
@@ -8030,6 +8683,9 @@ msgstr "정확히 입력되었는지 확인하기 위해 새 비밀번호를 두
 
 msgid "Change my password"
 msgstr "비밀번호 변경"
+
+msgid "Set my password"
+msgstr "비밀번호 지정"
 
 #, fuzzy
 #| msgid "Back to account settings"
@@ -8048,12 +8704,10 @@ msgid "Public profile"
 msgstr "공개 프로필"
 
 msgid "Preferences"
-msgstr "환경설정"
+msgstr "환경 설정"
 
-#, fuzzy
-#| msgid "search"
 msgid "Saved searches"
-msgstr "검색"
+msgstr "저장된 검색"
 
 msgid "Notifications"
 msgstr "알림"
@@ -8061,10 +8715,8 @@ msgstr "알림"
 msgid "Security"
 msgstr "보안"
 
-#, fuzzy
-#| msgid "Workspace settings"
 msgid "Developer settings"
-msgstr "작업공간 설정"
+msgstr "개발자 설정"
 
 msgid "Licenses"
 msgstr "라이선스"
@@ -8073,20 +8725,13 @@ msgid "Activity"
 msgstr "활동"
 
 msgid "The e-mail address can be chosen from verified addresses only."
-msgstr "이메일 주소는 인증된 주소 중에서만 선택할 수 있습니다."
-
-#, fuzzy
-#| msgid "Verify new e-mail address"
-msgid "Add and verify e-mail address"
-msgstr "새 이메일 주소 확인"
+msgstr "이메일 주소는 인증 완료 주소 중에서만 선택할 수 있습니다."
 
 msgid "Save"
 msgstr "저장"
 
-#, fuzzy
-#| msgid "File management"
 msgid "Account management"
-msgstr "파일 관리"
+msgstr "계정 관리"
 
 msgid "Download user data"
 msgstr "사용자 데이터 다운로드"
@@ -8094,15 +8739,15 @@ msgstr "사용자 데이터 다운로드"
 msgid "You can download all your private data."
 msgstr "모든 개인 데이터를 다운로드할 수 있습니다."
 
-#, fuzzy
-#| msgid "Edit project settings"
 msgid "Import settings"
-msgstr "프로젝트 설정 편집"
+msgstr "설정 가져오기"
 
 msgid ""
 "Import settings from a user data file downloaded from another Weblate "
 "server. Your contribution history and account identifiers are not imported."
 msgstr ""
+"다른 Weblate 서버에서 다운로드한 사용자 데이터 파일에서 설정을 가져옵니다. 기"
+"여 내역과 계정 식별자는 가져오지 않습니다."
 
 msgid "Removal"
 msgstr "제거"
@@ -8135,22 +8780,20 @@ msgid ""
 msgstr "누락된 언어를 추가하려면 번역하려는 프로젝트에 요청을 보내세요."
 
 msgid "Your saved searches are offered in the search filters everywhere."
-msgstr ""
+msgstr "저장된 검색은 어디서든 검색 필터에 표시됩니다."
 
-#, fuzzy
-#| msgid "Add a user"
 msgid "Add saved search"
-msgstr "사용자 추가"
+msgstr "저장된 검색 추가"
 
 msgid ""
 "Check which subscriptions apply to a project, component, or translation and "
 "what can prevent notification delivery."
 msgstr ""
+"프로젝트, 구성요소, 번역에 어떤 구독이 적용되는지와 알림 전달을 방해할 수 있"
+"는 요소를 확인하세요."
 
-#, fuzzy
-#| msgid "Notification settings"
 msgid "Open notification diagnostics"
-msgstr "알림 설정"
+msgstr "알림 진단 열기"
 
 msgid ""
 "Add all projects you want to translate to see them as watched projects on "
@@ -8163,23 +8806,14 @@ msgstr "알림 설정"
 msgid "Remove this notification setting"
 msgstr "이 알림 설정 제거"
 
-#, fuzzy
-#| msgid "Password login"
 msgid "Password-based sign-in"
-msgstr "비밀번호 로그인"
+msgstr "비밀번호 기반 로그인"
 
-#, fuzzy
-#| msgid "Configure"
 msgid "Configured"
-msgstr "구성"
+msgstr "설정됨"
 
-#, fuzzy
-#| msgid "Configure"
 msgid "Not configured"
-msgstr "구성"
-
-msgid "Set password"
-msgstr "비밀번호 지정"
+msgstr "설정되지 않음"
 
 msgid "Two-factor authentication"
 msgstr "2단계 인증"
@@ -8203,11 +8837,8 @@ msgid "%(count)s security key registered."
 msgid_plural "%(count)s security keys registered."
 msgstr[0] "보안 키 %s이(가) 등록되었습니다."
 
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "API secret key"
 msgid "Add security key"
-msgstr "API 시크릿 키"
+msgstr "보안 키 추가"
 
 msgid "Remove"
 msgstr "제거"
@@ -8245,18 +8876,16 @@ msgid "View recovery codes"
 msgstr "복구 코드 보기"
 
 msgid "Linked sign-in accounts"
-msgstr ""
+msgstr "연동된 로그인 계정"
 
 msgid "Disconnect"
 msgstr "연결 해제"
 
-#, fuzzy
-#| msgid "Do not have an account yet?"
 msgid "No linked sign-in accounts."
-msgstr "아직 계정이 없으십니까?"
+msgstr "연동된 로그인 계정이 없습니다."
 
 msgid "Add sign-in method"
-msgstr ""
+msgstr "로그인 방식 추가"
 
 msgid "API access"
 msgstr "API 접근"
@@ -8277,6 +8906,9 @@ msgstr "API 키 표시/숨기기"
 msgid "API key copied to clipboard."
 msgstr "API 키가 클립보드에 복사되었습니다."
 
+msgid "Verify your identity to view your API key"
+msgstr "본인 인증 후 API 키 보기"
+
 msgid "API root URL:"
 msgstr "API 루트 URL:"
 
@@ -8294,20 +8926,18 @@ msgid ""
 "repositories."
 msgstr "API 키는 자동으로 내보내기된 Git 저장소의 인증에도 사용됩니다."
 
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "Code-hosting connections"
-msgstr "번역 호스팅"
+msgstr "코드 호스팅 연결"
 
 msgid ""
 "Manage code-hosting accounts connected to workspaces you administer. These "
 "connections are separate from sign-in identities."
 msgstr ""
+"관리 중인 워크스페이스에 연결된 코드 호스팅 계정을 관리하세요. 이 연결은 로그"
+"인 ID와 별개입니다."
 
-#, fuzzy
-#| msgid "Pending invitations"
 msgid "Manage code-hosting connections"
-msgstr "보류 중인 초대"
+msgstr "코드 호스팅 연결 관리"
 
 msgid "Pending invitation"
 msgstr "초대 보류 중"
@@ -8458,16 +9088,11 @@ msgstr ""
 "비밀번호를 잊으셨나요? 아래에 이메일 주소를 입력하시면 새 비밀번호 지정 방법"
 "을 이메일로 보내드리겠습니다."
 
-msgid "Set my password"
-msgstr "비밀번호 지정"
-
 msgid "Reset my password"
 msgstr "비밀번호 재설정"
 
-#, fuzzy
-#| msgid "Edit user"
 msgid "Edit saved search"
-msgstr "사용자 편집"
+msgstr "저장된 검색 편집"
 
 msgid "Web-based <strong>continuous</strong> localization"
 msgstr "웹 기반 <strong>지속적인</strong> 현지화"
@@ -8821,7 +9446,7 @@ msgid "Configuration"
 msgstr "설정"
 
 msgid "API"
-msgstr ""
+msgstr "API"
 
 #, fuzzy
 #| msgid "View Logs"
@@ -8855,16 +9480,17 @@ msgstr "사용 불가"
 msgid "No components found."
 msgstr "지정된 구성요소 없음"
 
+msgid "Integration instructions"
+msgstr "통합 안내"
+
 msgid "Configure add-on"
-msgstr "애드온 구성"
+msgstr "애드온 설정"
 
 msgid "This add-on has no settings."
 msgstr "이 애드온에는 설정이 없습니다."
 
-#, fuzzy
-#| msgid "Review"
 msgid "Preview"
-msgstr "검토"
+msgstr "미리보기"
 
 #, fuzzy
 #| msgid "No invitations were created."
@@ -8945,6 +9571,26 @@ msgstr "애드온은 구성요소 레벨에서만 설치할 수 있습니다."
 msgid "Install"
 msgstr "설치"
 
+#, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid "Install on the component owning the repository."
+msgstr "이 애드온은 이 저장소를 공유하는 모든 구성요소에 사용됩니다."
+
+#, fuzzy
+#| msgid "This component is set up incorrectly."
+msgid "The component owning this repository is not available to you."
+msgstr "이 구성요소가 올바르게 설정되지 않았습니다."
+
+#, fuzzy
+#| msgid "Repository changes"
+msgid "Open repository add-ons"
+msgstr "저장소 변경사항"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Unavailable"
+msgstr "사용 불가"
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -8977,8 +9623,51 @@ msgstr "이전"
 msgid "Next"
 msgstr "다음"
 
-msgid "Integration instructions"
-msgstr "통합 안내"
+#, fuzzy
+#| msgid "Workflow customization"
+msgid "Workflow editing mode"
+msgstr "워크플로 사용자 지정"
+
+#, fuzzy
+#| msgid "Edit"
+msgid "Editor"
+msgstr "편집"
+
+#, fuzzy
+#| msgid "YAML file"
+msgid "YAML"
+msgstr "YAML 파일"
+
+msgid ""
+"Both modes edit the same workflow, and switching between them keeps unsaved "
+"changes."
+msgstr ""
+
+msgid "Triggers"
+msgstr "트리거"
+
+msgid ""
+"Events starting the workflow. Without any trigger it can only be run "
+"manually."
+msgstr ""
+
+#, fuzzy
+#| msgid "All components are now open for translation updates."
+msgid "All conditions have to pass before any action runs."
+msgstr "모든 구성요소가 번역 업데이트를 위해 열렸습니다."
+
+msgid "Operations performed in this order once the conditions pass."
+msgstr "조건을 충족하면 이 순서대로 작업이 수행됩니다."
+
+#, fuzzy
+#| msgid "Move"
+msgid "Move up"
+msgstr "이동"
+
+#, fuzzy
+#| msgid "Move"
+msgid "Move down"
+msgstr "이동"
 
 msgid "Published translation files are available from the CDN base URL:"
 msgstr "게시된 번역 파일은 다음 CDN 기본 URL에서 사용할 수 있습니다:"
@@ -9042,6 +9731,28 @@ msgid "No matching components were found!"
 msgstr "일치하는 구성요소가 없습니다!"
 
 msgid ""
+"Configure the AMQP broker connection below, including any TLS certificates "
+"required by your broker, and select the events to publish."
+msgstr ""
+
+msgid "Configure your consumer to subscribe to Weblate message topics:"
+msgstr ""
+
+msgid ""
+"Topics include only the path segments available for the event. If you "
+"configure a topic prefix, it is prepended with a dot separator."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "Browse the Weblate documentation for guides on translating, "
+#| "administration, and configuration."
+msgid ""
+"See the add-on documentation for topic examples, the message schema, and "
+"consumer configuration."
+msgstr "번역, 관리, 구성 안내는 Weblate 문서를 살펴보세요."
+
+msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
 msgstr ""
@@ -9084,6 +9795,17 @@ msgstr "프로젝트 URL 슬러그"
 msgid ""
 "See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
 "library setup."
+msgstr ""
+
+msgid ""
+"Install Translation files CDN to let the SDK download original XML "
+"translation files. These files are published publicly, including files from "
+"private components."
+msgstr ""
+
+msgid ""
+"After installation, return to this page to copy the updated Gradle "
+"configuration."
 msgstr ""
 
 msgid "Configure the Kotlin SDK Gradle plugin with these values:"
@@ -9198,6 +9920,21 @@ msgstr "문자열은 다음 패턴을 사용하여 생성됩니다:"
 msgid "Source string"
 msgstr "원문 문자열"
 
+#, python-format
+msgid ""
+"Create an <a href=\"%(url)s\">incoming webhook in Slack</a> for the channel "
+"that should receive notifications."
+msgstr ""
+
+msgid ""
+"Enter the webhook URL below and select the events to send to the channel."
+msgstr ""
+
+#, fuzzy
+#| msgid "Please see a documentation for more info."
+msgid "See the add-on documentation for more information."
+msgstr "자세한 내용은 문서를 참조하세요."
+
 msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr "이 저장소 내 구성요소의 Weblate 커밋이 스쿼시됩니다."
@@ -9214,6 +9951,22 @@ msgstr ""
 "원본 커밋 메시지는 유지되지만, \"작성자별\"을 선택하거나 커밋 메시지에 작성자"
 "를 포함하도록 수정하지 않는 한 작성자 정보는 사라집니다."
 
+msgid ""
+"Configure your service to receive JSON POST requests, enter its URL below, "
+"and select the events to send."
+msgstr ""
+
+msgid ""
+"To verify request signatures, configure the same Standard Webhooks secret in "
+"Weblate and your receiver. Requests are signed only when a secret is "
+"configured."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for the message payload and signature "
+"verification."
+msgstr ""
+
 msgid "HTTP Response"
 msgstr "HTTP 응답"
 
@@ -9229,6 +9982,43 @@ msgstr "응답 내용"
 msgid "Request payload"
 msgstr "요청 페이로드"
 
+msgid ""
+"Reset these built-in roles to the current default permissions? This discards "
+"their customizations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Permissions"
+msgid "Reset permissions"
+msgstr "권한 초기화"
+
+msgid "Cancel"
+msgstr "취소"
+
+msgid "Actor"
+msgstr "행위자"
+
+#, fuzzy
+#| msgid "Delete entry"
+msgid "Deleted user"
+msgstr "항목 삭제"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Administrative team changes"
+msgstr "관리"
+
+msgid "Change"
+msgstr "변경"
+
+msgid "View details"
+msgstr "자세한 내용 보기"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No team audit entries found."
+msgstr "일치하는 문자열이 없습니다."
+
 msgid "Settings"
 msgstr "설정"
 
@@ -9237,6 +10027,16 @@ msgstr "자동 할당"
 
 msgid "Access control"
 msgstr "접근 제어"
+
+#, fuzzy
+#| msgid ""
+#| "Automatically add newly created users to this team based on their e-mail "
+#| "address."
+msgid ""
+"Automatically invite newly created users to this team based on their e-mail "
+"address. Users join only after accepting the invitation."
+msgstr ""
+"이메일 주소를 기반으로 새로 생성된 사용자를 이 팀에 자동으로 추가합니다."
 
 msgid ""
 "Automatically add newly created users to this team based on their e-mail "
@@ -9282,6 +10082,9 @@ msgstr "프로젝트에서 <b>%(user)s</b>의 접근 권한을 제거합니다."
 msgid "Add"
 msgstr "추가"
 
+msgid "Moved component"
+msgstr "구성요소 이동됨"
+
 msgid "All components"
 msgstr "모든 구성요소"
 
@@ -9305,6 +10108,9 @@ msgstr "관심 프로젝트 관리"
 
 msgid "My workspaces"
 msgstr "내 작업공간"
+
+msgid "Workspaces"
+msgstr "작업공간"
 
 msgid "Manage translated languages"
 msgstr "번역 언어 관리"
@@ -9479,6 +10285,16 @@ msgstr ""
 "이 구독은 Libre 플랜에 적합하지 않습니다. 위의 오류를 수정하거나 구독을 구매"
 "하세요."
 
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+
 msgid "Customer"
 msgstr "고객"
 
@@ -9496,9 +10312,6 @@ msgstr "보기"
 
 msgid "Event details"
 msgstr "이벤트 상세"
-
-msgid "Actions"
-msgstr "작업"
 
 msgid "Download"
 msgstr "다운로드"
@@ -9605,6 +10418,131 @@ msgstr "프로젝트 접근 제어를 변경할 권한이 없습니다."
 msgid "Check your billing status"
 msgstr "결제 상태 확인"
 
+msgid "Checking your browser"
+msgstr "브라우저 확인 중"
+
+msgid ""
+"Your browser will calculate a short proof of work to protect this site "
+"against automated scraping."
+msgstr ""
+"브라우저에서 간단한 작업 증명을 계산하여 자동 스크래핑으로부터 이 사이트를 보"
+"호합니다."
+
+msgid "Working…"
+msgstr "작업 중…"
+
+msgid ""
+"Verification failed. Enable JavaScript, workers, and cookies, then retry. "
+"You can also sign in."
+msgstr ""
+"검증에 실패했습니다. JavaScript, 워커, 쿠키를 활성화한 후 다시 시도하세요. 아"
+"니면 로그인해도 됩니다."
+
+msgid "The challenge expired. Retry to start a new challenge."
+msgstr "챌린지가 만료되었습니다. 다시 시도하여 새로운 챌린지를 시작하세요."
+
+msgid "This challenge was already used. Retry to start a new challenge."
+msgstr "이미 사용된 챌린지입니다. 다시 시도하여 새로운 챌린지를 시작하세요."
+
+msgid "Browser verification was unsuccessful. Please retry."
+msgstr "브라우저 검증에 실패했습니다. 다시 시도해 주세요."
+
+msgid "Browser verification could not be confirmed. Enable cookies and retry."
+msgstr ""
+"브라우저 검증을 완료할 수 없습니다. 쿠키를 활성화한 후 다시 시도하세요."
+
+msgid ""
+"The verification service is temporarily unavailable. Please retry later."
+msgstr ""
+"검증 서비스를 일시적으로 사용할 수 없습니다. 나중에 다시 시도해 주세요."
+
+msgid "Verification cookies could not be confirmed. Enable cookies and retry."
+msgstr "검증 쿠키를 확인할 수 없습니다. 쿠키를 활성화한 후 다시 시도하세요."
+
+msgid "JavaScript is required for anonymous access. You can sign in instead."
+msgstr "익명으로 액세스하려면 JavaScript가 필요합니다. 대신 로그인해도 됩니다."
+
+msgid "Retry"
+msgstr "다시 시도"
+
+msgid "Did you know?"
+msgstr "알고 계셨나요?"
+
+#, fuzzy
+#| msgid "Please review and confirm the missing language changes."
+msgid "Review and confirm the bulk edit changes."
+msgstr "누락된 언어 변경 사항을 검토하고 확인하세요."
+
+#, fuzzy, python-format
+#| msgid "%(count)s string needing action"
+#| msgid_plural "%(count)s strings needing action"
+msgid "%(counter)s string would change."
+msgid_plural "%(counter)s strings would change."
+msgstr[0] "작업이 필요한 %(count)s개의 문자열"
+
+msgid ""
+"Showing the first 250 changes. Only selected displayed strings will be "
+"processed unless you choose to apply all matching strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Start review"
+msgid "Update preview"
+msgstr "검토 시작"
+
+#, python-format
+msgid "Apply all matching strings (%(total)s)"
+msgstr ""
+
+msgid ""
+"Applies to all current matches, including those not displayed. The query and "
+"permissions are checked again when applying changes."
+msgstr ""
+
+msgid "Select"
+msgstr "선택"
+
+#, fuzzy
+#| msgctxt "Label on engage page"
+#| msgid "String"
+#| msgid_plural "Strings"
+msgid "String"
+msgstr "문자열"
+
+msgid "Changes"
+msgstr "변경 사항"
+
+msgid "State"
+msgstr "상태"
+
+msgid "Before"
+msgstr ""
+
+msgid "After"
+msgstr ""
+
+msgid "Empty"
+msgstr "비었음"
+
+msgid "Source flags (all languages)"
+msgstr "원문 플래그 (모든 언어)"
+
+msgid "Translation flags"
+msgstr "번역 플래그"
+
+#, fuzzy
+#| msgid "All languages"
+msgid "Add label (all languages)"
+msgstr "모든 언어"
+
+#, fuzzy
+#| msgid "Browse all languages"
+msgid "Remove label (all languages)"
+msgstr "모든 언어 보기"
+
+msgid "Apply"
+msgstr "적용"
+
 msgid "Insights"
 msgstr "분석"
 
@@ -9623,9 +10561,6 @@ msgstr "번역 업로드"
 msgid "Operations"
 msgstr "작업"
 
-msgid "Search and replace"
-msgstr "검색 및 바꾸기"
-
 msgid "Post announcement"
 msgstr "공지 작성"
 
@@ -9634,12 +10569,6 @@ msgstr "정리 또는 제거"
 
 msgid "Browse all changes for this language"
 msgstr "이 언어의 모든 변경사항 보기"
-
-msgid "Review changes"
-msgstr "변경사항 검토"
-
-msgid "Apply"
-msgstr "적용"
 
 msgid "Browse components"
 msgstr "구성요소 보기"
@@ -9875,14 +10804,14 @@ msgid ""
 "Choose what languages you want in the preferences, to see overview of "
 "available translations for those languages in your watched projects."
 msgstr ""
-"환경설정에서 원하는 언어를 선택하면 관심 프로젝트에서 해당 언어의 번역 현황"
+"환경 설정에서 원하는 언어를 선택하면 관심 프로젝트에서 해당 언어의 번역 현황"
 "을 확인할 수 있습니다."
 
 msgid ""
 "Could not find any suggestions for you, please choose your languages in the "
 "preferences to get some."
 msgstr ""
-"추천 항목을 찾을 수 없습니다. 환경설정에서 언어를 선택하시면 추천을 받을 수 "
+"추천 항목을 찾을 수 없습니다. 환경 설정에서 언어를 선택하시면 추천을 받을 수 "
 "있습니다."
 
 msgid "Various data from Weblate is available in machine-readable format."
@@ -10291,7 +11220,7 @@ msgstr "결과"
 #, fuzzy
 #| msgid "Reset repository to upstream"
 msgid "Reset the configured branch to upstream."
-msgstr "저장소를 업스트림으로 초기화"
+msgstr "설정된 브랜치를 업스트림 기준으로 재설정합니다."
 
 #, fuzzy
 #| msgid "Data exports"
@@ -10333,10 +11262,8 @@ msgid ""
 "needs administrator repair."
 msgstr ""
 
-#, fuzzy
-#| msgid "Translation files"
 msgid "Refresh translation files"
-msgstr "번역 파일"
+msgstr "번역 파일 새로고침"
 
 msgid "Synchronize"
 msgstr "동기화"
@@ -10456,9 +11383,6 @@ msgstr "미리볼 것이 없습니다."
 msgid "Shortcut"
 msgstr "단축키"
 
-msgid "Action"
-msgstr "작업"
-
 msgid "Open available keyboard shortcuts."
 msgstr "사용 가능한 키보드 단축키를 엽니다."
 
@@ -10569,10 +11493,8 @@ msgstr "복수형 규칙을 변경하면 원하는 결과가 나오지 않을 �
 msgid "Please see a documentation for more info."
 msgstr "자세한 내용은 문서를 참조하세요."
 
-#, fuzzy
-#| msgid "Translation Info"
 msgid "Translation workflow"
-msgstr "번역 정보"
+msgstr "번역 워크플로"
 
 msgid ""
 "The message is shown for all translations in this project language, until "
@@ -10599,6 +11521,9 @@ msgstr "해결"
 msgid "Mark as spam"
 msgstr "스팸으로 표시"
 
+msgid "Service is no longer available"
+msgstr "더 이상 이용할 수 없는 서비스입니다"
+
 msgid "This service is installed site wide."
 msgstr "이 서비스는 사이트 전체에 설치되어 있습니다."
 
@@ -10610,32 +11535,24 @@ msgstr "사이트 전체"
 msgid "This service is installed in the workspace."
 msgstr "이 서비스는 사이트 전체에 설치되어 있습니다."
 
-#, fuzzy
-#| msgid "Workspace"
 msgid "workspace"
 msgstr "작업공간"
+
+#, fuzzy
+#| msgid "Language limit"
+msgid "Rate limited"
+msgstr "언어 제한"
 
 #, fuzzy
 #| msgid "This service is installed site wide."
 msgid "This service is disabled."
 msgstr "이 서비스는 사이트 전체에 설치되어 있습니다."
 
-msgid "disabled"
-msgstr "비활성화됨"
-
-msgid "Service is no longer available"
-msgstr "더 이상 이용할 수 없는 서비스입니다"
-
 msgid "ID"
 msgstr ""
 
 msgid "Slug"
 msgstr "슬러그"
-
-#, fuzzy
-#| msgid "Translation explanation"
-msgid "Installation slug (optional)"
-msgstr "번역 설명"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -10646,37 +11563,158 @@ msgstr ""
 "습니다. 활성화하기 전에 공급자의 약관과 개인정보 처리방침을 검토하세요."
 
 #, fuzzy
-#| msgid "Cleanup translation files"
-msgid "Configured translation services"
-msgstr "번역 파일 정리"
+#| msgid "Hosted service"
+msgid "Inherited service"
+msgstr "호스팅 서비스"
 
 #, fuzzy
-#| msgid "Adding strings is disabled in the component configuration."
-msgid "Stop using this installation without removing its configuration."
-msgstr "구성요소 설정에서 문자열 추가가 비활성화되어 있습니다."
+#| msgid "This service is installed site wide."
+msgid "This service is managed at its installation scope."
+msgstr "이 서비스는 사이트 전체에 설치되어 있습니다."
+
+#, fuzzy
+#| msgid "Use this translation"
+msgid "Manage this installation"
+msgstr "이 번역을 사용"
+
+#, fuzzy
+#| msgid "Translation explanation"
+msgid "Installation slug (optional)"
+msgstr "번역 설명"
+
+#, fuzzy
+#| msgid "This add-on has no settings."
+msgid "This service has no settings."
+msgstr "이 애드온에는 설정이 없습니다."
+
+#, fuzzy
+#| msgid "Use automatic suggestions"
+msgid "Use in automations"
+msgstr "자동 제안 사용"
+
+msgid ""
+"Select this installation in the engines setting of an automatic translation "
+"action using its numeric ID:"
+msgstr ""
+
+#, fuzzy
+#| msgid "You can now log in using password."
+msgid "You can also select it using its slug:"
+msgstr "이제 비밀번호를 사용하여 로그인 할 수 있습니다."
+
+msgid ""
+"The numeric ID always selects this installation. The slug selects the "
+"installation currently using that name in the project."
+msgstr ""
+
+msgid ""
+"Set an installation slug above to give this service a readable name in your "
+"automations."
+msgstr ""
+
+msgid "Rate limit"
+msgstr "요청 횟수 제한"
+
+msgid ""
+"Requests to this service are temporarily paused after a provider error. "
+"Resetting the rate limit allows Weblate to try again; it does not reset the "
+"provider’s quota."
+msgstr ""
+
+#, fuzzy
+#| msgid "Repositories limit"
+msgid "Reset rate limit"
+msgstr "저장소 제한"
+
+#, fuzzy
+#| msgid "This component is already shared in %s."
+msgid "The rate limit can be reset at the service’s installation scope."
+msgstr "이 구성요소는 이미 %s에서 공유되고 있습니다."
+
+#, fuzzy
+#| msgid "Version control"
+msgid "Service control"
+msgstr "버전 관리"
+
+#, fuzzy
+#| msgctxt "Label on donate page"
+#| msgid "GitHub star"
+#| msgid_plural "GitHub stars"
+msgid "Disable installation"
+msgstr "GitHub 스타"
+
+msgid ""
+"Stop using this installation here and in scopes inheriting it. Its settings "
+"are kept so you can enable it again later."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this workspace and its projects. "
+"Other installations of this service remain available."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this project. Other installations "
+"of this service and its use in other projects are unaffected."
+msgstr ""
 
 msgid "Disable"
 msgstr "비활성화"
 
-msgid "Stop using this inherited installation here."
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Enable machine translation"
+msgid "Enable installation"
+msgstr "기계 번역 활성화"
+
+msgid ""
+"Resume using this installation with its saved settings here and in scopes "
+"inheriting it. Existing exclusions still apply."
+msgstr ""
+
+msgid ""
+"Remove the local exclusion for this installation. It can provide suggestions "
+"here when it is enabled at its installation scope and is not excluded "
+"upstream. Other excluded installations remain excluded."
 msgstr ""
 
 msgid "Enable"
 msgstr "활성화"
 
-#, fuzzy
-#| msgid "Remove this notification setting"
-msgid "Remove this installation and its configuration."
-msgstr "이 알림 설정 제거"
+msgid ""
+"This installation is disabled at its installation scope or excluded by an "
+"upstream scope."
+msgstr ""
 
-msgid "Exclude all inherited installations of this service"
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Authentication service URL"
+msgid "Exclude inherited service"
+msgstr "인증 서비스 URL"
+
+msgid ""
+"Stop using all site-wide installations of this service in this workspace and "
+"its projects, including installations added later. Installations configured "
+"directly in this workspace or its projects remain available."
+msgstr ""
+
+msgid ""
+"Stop using all inherited installations of this service in this project, "
+"including installations added later. Installations configured directly in "
+"this project and use in other projects are unaffected."
 msgstr ""
 
 msgid "Exclude"
 msgstr ""
 
-msgid "Configure"
-msgstr "구성"
+msgid ""
+"Removing this installation stops it from being used here and in scopes "
+"inheriting it, and deletes its saved settings. You will need to install and "
+"configure it again to use it later."
+msgstr ""
+
+msgid "Configured translation services"
+msgstr "설정된 번역 서비스"
 
 msgid "There are no services currently installed."
 msgstr "현재 설치된 서비스가 없습니다."
@@ -10697,6 +11735,17 @@ msgstr "추가 서비스를 찾을 수 없습니다."
 msgid ""
 "Some services will ask for additional configuration during installation."
 msgstr "일부 서비스는 설치 중 추가 구성을 요청합니다."
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "Translation service errors"
+msgstr "번역 라이선스"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "No translation service errors available."
+msgstr "번역 도메인"
 
 #, python-format
 msgid "The following activity has occurred on your account at %(site_title)s:"
@@ -10857,6 +11906,16 @@ msgstr ""
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr "활동이 없는 프로젝트의 정기 결제는 중단됩니다"
 
+#, fuzzy
+#| msgid "Does not meet Libre hosting conditions."
+msgid "Review Libre hosting conditions"
+msgstr "Libre 호스팅 조건을 충족하지 않습니다."
+
+#, fuzzy, python-format
+#| msgid "Number of entries for %(project)s"
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "%(project)s의 항목 수"
+
 msgid "Translation change"
 msgstr "번역 변경"
 
@@ -10914,6 +11973,37 @@ msgstr "구성요소 %(component)s이(가) 잠금 해제되었습니다"
 msgid "Digest: %(notification_name)s"
 msgstr "요약: %(notification_name)s"
 
+#, python-format
+msgid ""
+"Somebody requested to add this e-mail address to another account at "
+"%(site_title)s. This address is already associated with an account and "
+"cannot be added to another."
+msgstr ""
+
+msgid ""
+"If you intended to access the existing account, sign out and use password "
+"recovery. The button below opens the password reset form; it does not reset "
+"your password."
+msgstr ""
+
+#, fuzzy
+#| msgid "Confirm password reset"
+msgid "Open password recovery"
+msgstr "비밀번호 재설정 확인"
+
+msgid "Contact support for help moving this address between accounts."
+msgstr ""
+
+msgid ""
+"If you did not request this, you can ignore this e-mail. Your account has "
+"not been changed."
+msgstr ""
+
+#. Translators: e-mail subject
+#, python-format
+msgid "E-mail address already associated with an account on %(site_title)s"
+msgstr ""
+
 msgid "View invitation"
 msgstr "초대 보기"
 
@@ -10921,6 +12011,10 @@ msgstr "초대 보기"
 msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
 msgstr[0] "초대는 %(count)s시간 후에 만료됩니다."
+
+#, python-format
+msgid "Automatic team assignment: invitation to join %(team_name)s"
+msgstr ""
 
 #. Translators: e-mail subject
 #, python-format
@@ -11155,6 +12249,9 @@ msgstr "계정 제거 확인"
 msgid "Confirm invitation"
 msgstr "초대 확인"
 
+msgid "Verify e-mail address"
+msgstr "이메일 주소 인증"
+
 #, fuzzy
 #| msgid ""
 #| "Note: This digest has been truncated as there were over 100 notifications."
@@ -11169,7 +12266,7 @@ msgid "Source string location"
 msgstr "원문 문자열 위치"
 
 msgid "Screenshot context"
-msgstr "스크린샷 컨텍스트"
+msgstr "스크린샷 문맥"
 
 #. Translators: e-mail subject
 #, python-format
@@ -11214,6 +12311,17 @@ msgstr "미완료"
 #. Translators: e-mail subject
 msgid "Translation activity summary"
 msgstr "번역 활동 요약"
+
+#, fuzzy, python-format
+#| msgid "Activity on your account at %(site_title)s"
+msgid "Verify this e-mail address for your account at %(site_title)s."
+msgstr "%(site_title)s에서의 계정 활동"
+
+#. Translators: e-mail subject
+#, fuzzy, python-format
+#| msgid "Account removal on %(site_title)s"
+msgid "Verify your e-mail address on %(site_title)s"
+msgstr "%(site_title)s에서 계정 제거"
 
 msgid "Component diagnostics"
 msgstr "구성요소 진단"
@@ -11266,7 +12374,7 @@ msgid "Backup service credentials"
 msgstr "백업 서비스 인증 정보"
 
 msgid "Failed"
-msgstr "실패함"
+msgstr "실패"
 
 msgid "Warnings"
 msgstr "경고"
@@ -11293,7 +12401,7 @@ msgid ""
 msgstr "백업을 복원할 수 있도록 하려면 아래의 인증 정보를 기록해 두세요."
 
 msgid "Cloud backups for self-hosted Weblate"
-msgstr ""
+msgstr "자체 호스팅 Weblate를 위한 클라우드 백업"
 
 msgid ""
 "Back up Weblate running in your own environment. No hosting or separate "
@@ -11413,6 +12521,70 @@ msgstr "발견 항목 보기"
 
 msgid "Performance report"
 msgstr "성능 보고서"
+
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Bot protection"
+msgstr "번역 호스팅"
+
+msgid ""
+"Issued challenges, requests requiring proof of work, and verification "
+"outcomes in hourly buckets. Counts are best-effort and can be lost during "
+"cache outages or eviction."
+msgstr ""
+
+#, fuzzy
+#| msgid "No teams are available."
+msgid "Counters are unavailable."
+msgstr "선택 가능한 팀이 없습니다."
+
+msgid "Outcome"
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Current hour"
+msgstr "현재 비밀번호"
+
+#, fuzzy
+#| msgid "Previously not translated"
+msgid "Previous 24 completed hours"
+msgstr "이전에 번역되지 않았습니다"
+
+#, fuzzy
+#| msgid "Pushed changes"
+msgid "Issued challenges"
+msgstr "푸시된 변경 사항"
+
+msgid "Requests requiring proof of work"
+msgstr ""
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Expired challenge"
+msgstr "원문 변경"
+
+#, fuzzy
+#| msgid "Invalid suggestion!"
+msgid "Invalid solution"
+msgstr "잘못된 제안!"
+
+#, fuzzy
+#| msgctxt "Label on donate page"
+#| msgid "Recent change"
+#| msgid_plural "Recent changes"
+msgid "Replayed challenge"
+msgstr "최근 변경사항"
+
+#, fuzzy
+#| msgid "Merge failure"
+msgid "CSRF failure"
+msgstr "합치기 실패"
+
+#, fuzzy
+#| msgid "Service is no longer available"
+msgid "Service unavailable"
+msgstr "더 이상 이용할 수 없는 서비스입니다"
 
 msgid "Last occurrence"
 msgstr "최종 발생"
@@ -11593,6 +12765,337 @@ msgstr "원격 VCS가 없는 구성요소 표시"
 msgid "This repository is linked to:"
 msgstr "이 저장소는 다음에 연결되어 있습니다:"
 
+#, fuzzy
+#| msgid "Confirm registration"
+msgid "Confirm security action"
+msgstr "가입 확인"
+
+#, python-format
+msgid "Selected %(count)s findings affecting %(accounts)s accounts."
+msgstr ""
+
+msgid ""
+"Disable the matching passwords, invalidate signed-in sessions, and revoke "
+"all API tokens. Users with an e-mail address will be notified. Single sign-"
+"on and two-factor settings are preserved. Accounts whose passwords have "
+"changed will be skipped."
+msgstr ""
+
+msgid ""
+"Remove the selected lookalike verified e-mail addresses and associated sign-"
+"in identities, disable account passwords, invalidate sessions, and revoke "
+"API tokens. Account owners will be notified at their primary e-mail address."
+msgstr ""
+
+msgid ""
+"Dismiss the selected findings without changing credentials or notifying "
+"users. A new report confirming the same exposure can reopen them."
+msgstr ""
+
+msgid "Reset passwords"
+msgstr "비밀번호 재설정"
+
+#, fuzzy
+#| msgid "Remove my account"
+msgid "Remove identities and reset accounts"
+msgstr "내 계정 제거"
+
+#, fuzzy
+#| msgid "Dismiss failing check"
+msgid "Dismiss findings"
+msgstr "실패한 검사 해제"
+
+#, fuzzy, python-format
+#| msgid "Edit team membership for %(username)s"
+msgid "Security finding for %(username)s"
+msgstr "%(username)s의 팀 구성원 편집"
+
+msgid "CSV row"
+msgstr ""
+
+#, fuzzy
+#| msgid "Unit identifier"
+msgid "Identifier"
+msgstr "단위 식별자"
+
+#, fuzzy
+#| msgid "Matching multiple paths"
+msgid "Matching method"
+msgstr "복수 경로 일치"
+
+#, fuzzy
+#| msgid "No teams are available."
+msgid "No matching row details."
+msgstr "선택 가능한 팀이 없습니다."
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Page %(number)s of %(total)s"
+msgstr "%(total)s 중 %(used)s 사용됨"
+
+#, fuzzy
+#| msgid "Detected from repository"
+msgid "Detected in reports"
+msgstr "저장소에서 감지됨"
+
+#, fuzzy
+#| msgid "Administrators"
+msgid "Administrator"
+msgstr "관리자"
+
+#, fuzzy
+#| msgid "Weblate administration"
+msgid "Deleted administrator"
+msgstr "Weblate 관리"
+
+msgid "No validation reports for this finding."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Reports page %(number)s of %(total)s"
+msgstr "%(total)s 중 %(used)s 사용됨"
+
+#, fuzzy
+#| msgid "Previously not translated"
+msgid "Previous reports"
+msgstr "이전에 번역되지 않았습니다"
+
+#, fuzzy
+#| msgid "Data exports"
+msgid "Next reports"
+msgstr "데이터 내보내기"
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Account security findings"
+msgstr "계정 설정으로 돌아가기"
+
+#, fuzzy
+#| msgid "Translation reports"
+msgid "Validation reports"
+msgstr "번역 보고"
+
+msgid "Filename"
+msgstr "파일명"
+
+#, fuzzy
+#| msgid "Not yet measured"
+msgid "Not recorded"
+msgstr "아직 측정되지 않음"
+
+#, fuzzy
+#| msgid "Submit"
+msgid "Submitted by"
+msgstr "제출"
+
+#, fuzzy
+#| msgid "Professional support"
+msgid "Processing summary"
+msgstr "전문 지원"
+
+#, fuzzy
+#| msgid "Translation completed"
+msgid "Password validation completed."
+msgstr "번역 완료됨"
+
+msgid "Legacy e-mail identity check completed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Activation completed."
+msgid "Security action completed."
+msgstr "활성화가 완료되었습니다."
+
+#, fuzzy
+#| msgid "Parsing failed"
+msgid "Processing failed."
+msgstr "구문분석 실패함"
+
+msgid "Processing is not complete. Findings may still be added."
+msgstr ""
+
+#, fuzzy
+#| msgid "Progress"
+msgid "View progress"
+msgstr "진행"
+
+#, python-format
+msgid "Processed %(processed)s of %(total)s entries."
+msgstr "항목 %(processed)s/%(total)s개를 처리했습니다."
+
+#, fuzzy
+#| msgid "Ending date"
+msgid "Finding type"
+msgstr "종료일"
+
+#, fuzzy
+#| msgid "Filters"
+msgid "Filter"
+msgstr "필터"
+
+#, fuzzy
+#| msgid "Select all source strings"
+msgid "Actions apply only to checked findings on this page."
+msgstr "모든 원문 문자열 선택"
+
+#, fuzzy
+#| msgid "Select all source strings"
+msgid "Select all on this page"
+msgstr "모든 원문 문자열 선택"
+
+#, fuzzy
+#| msgid "Project selection"
+msgid "Clear selection"
+msgstr "프로젝트 선택"
+
+#, fuzzy
+#| msgid "Pending"
+msgid "Finding"
+msgstr "보류 중"
+
+#, python-format
+msgid "Select finding for %(username)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "active"
+msgid "Inactive"
+msgstr "활동"
+
+#, fuzzy
+#| msgid "Note"
+msgid "Bot"
+msgstr "참고"
+
+msgid "No e-mail address: notification unavailable"
+msgstr ""
+
+#, fuzzy
+#| msgid "Date joined"
+msgid "Date joined:"
+msgstr "가입 날짜"
+
+#, fuzzy
+#| msgid "Last sign in"
+msgid "Last sign-in:"
+msgstr "마지막 로그인"
+
+#, python-format
+msgid "Row %(row)s: %(identifier)s (%(method)s)"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Comments (%(count)s)"
+msgid "View details (%(count)s match)"
+msgid_plural "View details (%(count)s matches)"
+msgstr[0] "댓글 (%(count)s)"
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "First detected:"
+msgstr "글꼴이 삭제되었습니다."
+
+#, fuzzy
+#| msgid "Last updated"
+msgid "Last detected:"
+msgstr "최종 업데이트"
+
+msgid "No security findings match these filters."
+msgstr ""
+
+msgid "Remove lookalike e-mail identities and reset selected accounts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Set password for your Weblate account"
+msgid "Reset passwords for selected accounts"
+msgstr "Weblate 계정 비밀번호 지정"
+
+msgid "Dismiss selected findings"
+msgstr ""
+
+msgid ""
+"Dismissing findings marks them as reviewed without changing passwords or "
+"notifying users."
+msgstr ""
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Account security operation"
+msgstr "계정 설정으로 돌아가기"
+
+#, fuzzy
+#| msgid "Professional support"
+msgid "Processing progress"
+msgstr "전문 지원"
+
+msgid "Refresh progress"
+msgstr "진행 상황 새로고침"
+
+msgid ""
+"Review previous credential validation reports, including reports with no "
+"matching passwords."
+msgstr ""
+
+#, fuzzy
+#| msgid "Download reports"
+msgid "Upload report"
+msgstr "보고서 다운로드"
+
+#, fuzzy
+#| msgid "Process"
+msgid "Processed rows"
+msgstr "처리"
+
+#, fuzzy
+#| msgid "Manage strings"
+msgid "Matching rows"
+msgstr "문자열 관리"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Affected accounts"
+msgstr "계정 삭제"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "%(processed)s of %(total)s"
+msgstr "%(total)s 중 %(used)s 사용됨"
+
+#, fuzzy
+#| msgid "Translation reports"
+msgid "No validation reports yet."
+msgstr "번역 보고"
+
+msgid ""
+"Upload a CSV containing usernames or e-mail addresses and passwords. "
+"Passwords are checked in the background and never displayed in the report."
+msgstr ""
+
+msgid ""
+"Reports must use UTF-8 and contain at most 50,000 rows and 10 MiB. Leave the "
+"delimiter and column numbers blank for automatic detection."
+msgstr ""
+
+msgid ""
+"The uploaded file is available for one hour. Adjust the CSV settings below "
+"to try again."
+msgstr ""
+
+msgid "CSV format (detected automatically)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Old password"
+msgid "Validate passwords"
+msgstr "예전 비밀번호"
+
+#, fuzzy
+#| msgid "Disable password"
+msgid "Validate leaked passwords"
+msgstr "비밀번호 비활성화"
+
 msgid "Activate support package"
 msgstr "지원 패키지 활성화"
 
@@ -11727,8 +13230,19 @@ msgstr "초대 제거"
 msgid "Check user access"
 msgstr "사용자 접근 확인"
 
-msgid "Workspaces"
-msgstr "작업공간"
+#, fuzzy
+#| msgid "Account activity"
+msgid "Account security"
+msgstr "계정 활동"
+
+#, python-format
+msgid "Security report (%(security_findings_open)s open findings)"
+msgstr ""
+
+msgid ""
+"Validate a CSV report of leaked credentials against current account "
+"passwords."
+msgstr ""
 
 msgid "Add workspace"
 msgstr "작업공간 추가"
@@ -11753,9 +13267,6 @@ msgstr "행렬"
 
 msgid "Displayed languages"
 msgstr "표시된 언어"
-
-msgid "Choose"
-msgstr "선택"
 
 msgid "Translation memory status"
 msgstr "번역 메모리 상태"
@@ -11835,6 +13346,9 @@ msgstr "켬"
 #. Translators: Shared translation memory is disabled
 msgid "off"
 msgstr "끔"
+
+msgid "Configure"
+msgstr "구성"
 
 msgid "Autoclean translation memory"
 msgstr "번역 메모리 자동 정리"
@@ -11988,6 +13502,8 @@ msgid ""
 "Saved searches of this project are offered in the search filters to "
 "everybody translating it."
 msgstr ""
+"이 프로젝트의 저장된 검색은 번역에 참여하는 모든 사람의 검색 필터에 제공됩니"
+"다."
 
 #, fuzzy, python-format
 #| msgid "Download translations as CSV in a ZIP file"
@@ -12033,33 +13549,11 @@ msgstr "Weblate를 이용해 주셔서 감사합니다"
 msgid "Return to dashboard"
 msgstr "대시보드로 돌아가기"
 
-#, fuzzy
-#| msgid "New contributor in %(translation)s"
 msgid "Thank you for contributing translations."
-msgstr "%(translation)s의 새 기여자"
+msgstr "번역에 기여해 주셔서 감사합니다."
 
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Donate to Weblate development"
-msgstr "Weblate에 기부하기"
-
-msgid "Please review and confirm the search and replace results."
-msgstr "검색 및 바꾸기 결과를 검토하고 확인하세요."
-
-msgid ""
-"Showing and replacing only the first 250 matches. Perform the replacement "
-"again to replace more."
-msgstr ""
-"처음 250개의 일치 항목만 표시하고 바꿉니다. 더 바꾸려면 교체를 다시 실행하세"
-"요."
-
-#, fuzzy
-#| msgid "Start review"
-msgid "Update preview"
-msgstr "검토 시작"
-
-msgid "Replace"
-msgstr "교체"
+msgstr "Weblate 개발에 기부하기"
 
 #, fuzzy
 #| msgid "Generate"
@@ -12087,12 +13581,10 @@ msgid "Download reStructuredText"
 msgstr "reStructuredText"
 
 msgid "Saved searches are offered in the search filters."
-msgstr ""
+msgstr "저장된 검색은 검색 필터에서 제공됩니다."
 
-#, fuzzy
-#| msgid "search"
 msgid "Save search"
-msgstr "검색"
+msgstr "검색 저장"
 
 msgid "Assigned source strings"
 msgstr "할당된 원문 문자열"
@@ -12104,6 +13596,22 @@ msgstr ""
 
 msgid "Assign source strings"
 msgstr "원문 문자열 할당"
+
+#, fuzzy
+#| msgid "Assigned source strings"
+msgid "Find source strings"
+msgstr "할당된 원문 문자열"
+
+#, fuzzy
+#| msgid "Image widgets"
+msgid "Image text"
+msgstr "이미지 텍스트"
+
+msgid "Suggests source strings by recognizing text in this screenshot."
+msgstr "이 스크린샷의 텍스트를 인식해 원문 문자열을 제안합니다."
+
+msgid "Add selected"
+msgstr "선택한 항목 추가"
 
 msgid "Source string search"
 msgstr "원문 문자열 검색"
@@ -12117,15 +13625,6 @@ msgstr ""
 #| msgid "View check documentation"
 msgid "Search query syntax documentation"
 msgstr "검사 문서 보기"
-
-msgid "Suggests source strings by recognizing text in this screenshot."
-msgstr "이 스크린샷의 텍스트를 인식해 원문 문자열을 제안합니다."
-
-msgid "Find strings in image"
-msgstr "이미지에서 문자열 찾기"
-
-msgid "Add selected"
-msgstr "선택한 항목 추가"
 
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr "스크린샷을 삭제하면 연결된 모든 원문 문자열에서 제거됩니다."
@@ -12329,9 +13828,8 @@ msgstr "모든 원문 문자열 선택"
 msgid "Select string for bulk edit"
 msgstr "편집 필요로 표시된 문자열"
 
-msgid "You can change the state of all strings matching given type at once."
+msgid "Choose which strings to edit and the changes to apply."
 msgstr ""
-"지정된 유형과 일치하는 모든 문자열의 상태를 한 번에 변경할 수 있습니다."
 
 msgid "The operation is applied to the strings selected in the list above."
 msgstr ""
@@ -12361,18 +13859,11 @@ msgid ""
 "controls which translations are written to files."
 msgstr ""
 
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Configure language workflow"
-msgstr "단일언어 기반 언어 파일"
+msgstr "언어 워크플로 설정"
 
-#, fuzzy
-#| msgid "Translation quality filter"
 msgid "Configure translation quality filter"
-msgstr "번역 품질 필터"
-
-msgid "View details"
-msgstr "자세한 내용 보기"
+msgstr "번역 품질 필터 설정"
 
 msgid "View contributor license agreement"
 msgstr "기여자 라이선스 계약 보기"
@@ -12390,11 +13881,6 @@ msgid "The translation was automatically locked due to the following alert:"
 msgid_plural ""
 "The translation was automatically locked due to the following alerts:"
 msgstr[0] "다음 경고로 인해 번역이 자동으로 잠겼습니다:"
-
-#, fuzzy
-#| msgid "Filters"
-msgid "Filter"
-msgstr "필터"
 
 #, fuzzy
 #| msgid "Search filter"
@@ -12438,20 +13924,21 @@ msgstr[0] "%(component)s의 %(count)s개 문자열에 작업이 필요합니다"
 msgid "No diagnostics match the selected filters."
 msgstr ""
 
-#, fuzzy
-#| msgid "Support Weblate"
 msgid "Support Weblate development"
-msgstr "Weblate 후원"
+msgstr "Weblate 개발 후원"
 
-#, fuzzy
-#| msgid "Thank you for using Weblate"
 msgid "Thank you for using Weblate and contributing translations."
-msgstr "Weblate를 이용해 주셔서 감사합니다"
+msgstr "Weblate를 이용하고 번역에 기여해 주셔서 감사합니다."
 
 msgid ""
 "If you would like to give more, an optional donation funds development and "
 "maintenance of Weblate itself."
 msgstr ""
+"추가로 후원해 주시면, 자발적인 기부금은 Weblate 자체의 개발 및 유지보수에 사"
+"용됩니다."
+
+msgid "Example counts for this plural form."
+msgstr "이 복수형의 예시 개수입니다."
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -12459,9 +13946,6 @@ msgstr "최대 문자열 길이는 원문 문자열 또는 플래그에 의해 �
 
 msgid "Clone to translation"
 msgstr "번역으로 복제"
-
-msgid "Select"
-msgstr "선택"
 
 msgid "Target string"
 msgstr "대상 문자열"
@@ -12489,12 +13973,13 @@ msgstr ""
 msgid "Source code repository"
 msgstr "소스 코드 저장소"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr "이 구성요소는 %(target)s 저장소에 연결되어 있습니다."
-
 msgid "Repository URL copied to clipboard."
 msgstr "저장소 URL이 클립보드에 복사되었습니다."
+
+#, fuzzy
+#| msgid "Renamed component"
+msgid "Linked component"
+msgstr "구성요소 이름 변경됨"
 
 msgid "Repository branch"
 msgstr "저장소 브랜치"
@@ -12512,7 +13997,6 @@ msgstr "저장소 URL이 클립보드에 복사되었습니다."
 msgid "Last remote commit"
 msgstr "최근 원격 커밋"
 
-#. Translators: For example: "nijel authored five days ago"
 #, python-format
 msgid "%(author)s authored %(date)s"
 msgstr "%(author)s - %(date)s 작성"
@@ -12729,6 +14213,24 @@ msgstr "기여자"
 msgid "Translations"
 msgstr "번역"
 
+#, fuzzy, python-format
+#| msgid ""
+#| "You were invited to %(site_title)s by %(invitation_author)s to "
+#| "collaborate on %(project_name)s and join the %(team_name)s team."
+msgid ""
+"An automatic team assignment rule invited you to collaborate on "
+"%(project_name)s and join the %(team_name)s team. You will join only if you "
+"accept this invitation."
+msgstr ""
+"%(invitation_author)s 님이 %(project_name)s에서 협업하고 %(team_name)s 팀에 "
+"참여하도록 %(site_title)s에 초대했습니다."
+
+#, python-format
+msgid ""
+"An automatic team assignment rule invited you to join the %(team_name)s team "
+"in %(workspace_name)s. You will join only if you accept this invitation."
+msgstr ""
+
 #, python-format
 msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
@@ -12744,6 +14246,19 @@ msgid ""
 msgstr ""
 "%(invitation_author)s 님이 %(team_name)s 팀에 참여하도록 %(site_title)s에 초"
 "대했습니다."
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr ""
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -12781,6 +14296,11 @@ msgstr "사용자 차단"
 
 msgid "View notification"
 msgstr "알림 보기"
+
+#, fuzzy
+#| msgid "All changes"
+msgid "View full change"
+msgstr "모든 변경사항"
 
 msgid "No matching activity found."
 msgstr "일치하는 활동이 없습니다."
@@ -12902,6 +14422,11 @@ msgstr "복수형: %(source_description)s"
 msgid "Plurals"
 msgstr "복수형"
 
+#, fuzzy
+#| msgid "No strings found!"
+msgid "No integer examples found"
+msgstr "문자열을 찾을 수 없습니다!"
+
 msgid "First"
 msgstr "처음"
 
@@ -12955,13 +14480,10 @@ msgid "Target strings"
 msgstr "대상 문자열"
 
 msgid "Key/Context strings"
-msgstr "키/컨텍스트 문자열"
+msgstr "키/문맥 문자열"
 
 msgid "Location strings"
 msgstr "위치 문자열"
-
-msgid "String state"
-msgstr "문자열 상태"
 
 #. Translators: String pending for flushing to VCS.
 msgid "Pending string"
@@ -13025,10 +14547,8 @@ msgstr "자동 번역된 문자열"
 msgid "Translated strings in a certain language"
 msgstr "특정 언어로 번역된 문자열"
 
-#, fuzzy
-#| msgid "Search for…"
 msgid "Save search…"
-msgstr "검색…"
+msgstr "검색 저장…"
 
 msgid "Query"
 msgstr "쿼리"
@@ -13122,48 +14642,35 @@ msgstr "생성된 복구 코드가 없습니다."
 msgid "Report history pagination"
 msgstr "저장소 초기화"
 
-#, fuzzy
-#| msgid "There are no glossaries defined for this language."
 msgid "Reviews are enabled for this language."
-msgstr "이 언어에 대해 정의된 용어집이 존재하지 않습니다."
+msgstr "이 언어에 대한 검토가 활성화되어 있습니다."
 
-#, fuzzy
-#| msgid "There are no glossaries defined for this language."
 msgid "Reviews are disabled for this language."
-msgstr "이 언어에 대해 정의된 용어집이 존재하지 않습니다."
+msgstr "이 언어에 대한 검토가 비활성화되어 있습니다."
 
-#, fuzzy, python-format
-#| msgid "Review strings"
+#, python-format
 msgid "Review setting: %(origin)s."
-msgstr "문자열 검토"
+msgstr "검토 설정: %(origin)s."
 
 #, python-format
 msgid ""
 "Learn how to <a href=\"%(workflow_url)s\">customize the workflow for this "
 "language</a>."
 msgstr ""
+"<a href=\"%(workflow_url)s\">이 언어의 워크플로를 사용자 정의</a>하는 방법을 "
+"알아보세요."
 
-#, fuzzy
-#| msgid "Customize translation workflow for this language"
 msgid "Learn how to customize translation workflows."
-msgstr "이 언어의 번역 워크플로 사용자 정의"
+msgstr "번역 워크플로를 사용자 정의하는 방법을 알아보세요."
 
-#, fuzzy
-#| msgid "Your translation is foo"
 msgid "Configure translation workflow"
-msgstr "당신의 번역은 거시기하네요"
+msgstr "번역 워크플로 설정"
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "SAP username"
 msgid "Saved search name"
-msgstr "SAP 사용자 이름"
-
-msgid "Search query"
-msgstr "검색어"
+msgstr "저장된 검색 이름"
 
 msgid "No saved searches yet."
-msgstr ""
+msgstr "아직 저장된 검색이 없습니다."
 
 #, python-format
 msgid ""
@@ -13193,8 +14700,8 @@ msgid "Community"
 msgstr "커뮤니티"
 
 #, python-format
-msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr "%(share_url)s에서 %%23Weblate를 사용하여 %(object)s를 번역하세요!"
+msgid "Translate %(object)s using #Weblate at %(share_url)s!"
+msgstr "%(share_url)s에서 #Weblate를 사용하여 %(object)s를 번역하세요!"
 
 msgid "Share on Bluesky"
 msgstr "Bluesky에 공유"
@@ -13256,10 +14763,9 @@ msgstr "찬성"
 msgid "Vote against"
 msgstr "반대"
 
-#, fuzzy, python-format
-#| msgid "Accept all suggestions from %(username)s"
+#, python-format
 msgid "Accept all suggestions from %(username)s in %(translation)s"
-msgstr "%(username)s 님의 모든 제안 수락"
+msgstr "%(translation)s 에서 %(username)s 님의 모든 제안 수락"
 
 msgid "Accept"
 msgstr "수락"
@@ -13291,10 +14797,8 @@ msgstr ""
 msgid "Already purchased? Link your support package"
 msgstr "지원 패키지 구매"
 
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid "Term information from the translation file"
-msgstr "모든 문자열을 번역 파일에 강제로 기록합니다."
+msgstr "번역 파일의 용어 정보"
 
 #, fuzzy
 #| msgid "Source strings"
@@ -13345,6 +14849,8 @@ msgid ""
 "Uploading translations at this level is not supported. Open an individual "
 "translation and upload the file there."
 msgstr ""
+"현재 단계에서는 번역을 업로드할 수 없습니다. 개별 번역을 연 다음 해당 페이지"
+"에서 파일을 업로드하세요."
 
 msgid "Revert user edits"
 msgstr "사용자 편집 내용 되돌리기"
@@ -13425,6 +14931,13 @@ msgstr "Weblate 계정 비밀번호 지정"
 msgid "You are about to continue removing your Weblate account."
 msgstr "Weblate 계정 비밀번호 지정"
 
+#, fuzzy
+#| msgid "Set password for your Weblate account"
+msgid ""
+"You are about to continue adding this e-mail address to your existing "
+"Weblate account."
+msgstr "Weblate 계정 비밀번호 지정"
+
 msgid "You are about to accept an invitation and create a Weblate account."
 msgstr ""
 
@@ -13438,15 +14951,14 @@ msgstr "로그인 상태에서는 등록을 완료할 수 없습니다."
 msgid "Continue only if you opened the confirmation link from your e-mail."
 msgstr "전자우편 편지함에서 확인 링크를 찾을 수 있습니다."
 
-#, fuzzy
-#| msgid "Confirm password reset"
 msgid "Continue password reset"
-msgstr "비밀번호 재설정 확인"
+msgstr "비밀번호 재설정 계속"
 
-#, fuzzy
-#| msgid "Confirm account removal"
 msgid "Continue account removal"
-msgstr "계정 제거 확인"
+msgstr "계정 삭제 계속"
+
+msgid "Continue e-mail verification"
+msgstr "이메일 인증 계속"
 
 msgid "Accept invitation"
 msgstr "초대 수락"
@@ -13456,10 +14968,9 @@ msgstr "초대 수락"
 msgid "Create account"
 msgstr "다음으로 계정 만들기:"
 
-#, fuzzy, python-format
-#| msgid "Configure add-on"
+#, python-format
 msgid "Configure %(addon)s"
-msgstr "애드온 구성"
+msgstr "%(addon)s 설정"
 
 msgid "Weblate could not execute script add-on."
 msgstr "Weblate에서 스크립트 애드온을 실행할 수 없습니다."
@@ -13539,9 +15050,6 @@ msgstr "Weblate이 프로젝트 웹사이트 URL을 확인할 수 없습니다:"
 
 msgid "Weblate CDN add-on could not parse the HTML files."
 msgstr "Weblate CDN 애드온이 HTML 파일을 파싱할 수 없습니다."
-
-msgid "Filename"
-msgstr "파일명"
 
 msgid ""
 "The local repository checkout or its Git directory is missing. Repeated "
@@ -13819,15 +15327,15 @@ msgstr "구성요소에 중복된 번역 문자열이 여러 개 있습니다."
 msgid "Source"
 msgstr "원문"
 
-#, fuzzy, python-format
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove duplicate strings from %(language)s (%(filename)s)"
-msgstr "모든 문자열을 번역 파일에 강제로 기록합니다."
-
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
 msgstr "빈 문자열 제거"
+
+#, fuzzy, python-format
+#| msgid "Forces writing all strings to the translation files."
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "모든 문자열을 번역 파일에 강제로 기록합니다."
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -13978,6 +15486,16 @@ msgid ""
 "translations."
 msgstr "번역을 업데이트하는 동안 Weblate에서 번역 파일을 파싱할 수 없었습니다."
 
+msgid ""
+"Weblate pushed the changes and created the pull request, but could not apply "
+"the configured labels or assignees."
+msgstr ""
+
+msgid ""
+"Check that the labels and assignees exist and that Weblate can write pull "
+"requests, or remove the customization from the version control parameters."
+msgstr ""
+
 msgid "Weblate could not push changes to the upstream repository."
 msgstr "Weblate에서 업스트림 저장소에 변경사항을 푸시할 수 없었습니다."
 
@@ -14106,18 +15624,16 @@ msgid "Backups are removed after %(keep_days)s day."
 msgid_plural "Backups are removed after %(keep_days)s days."
 msgstr[0] "백업은 %(keep_days)s일 후에 제거됩니다."
 
-#, fuzzy
-#| msgid "Jump to"
 msgid "Jump to date"
+msgstr "날짜로 이동"
+
+msgid "Go"
 msgstr "이동"
 
 #, fuzzy
-#| msgid "Good"
-msgid "Go"
-msgstr "좋음"
-
-msgid "Changes"
-msgstr "변경 사항"
+#| msgid "Check details"
+msgid "Change details"
+msgstr "검사 (교정) 세부 과정"
 
 msgid "Download latest changes as CSV"
 msgstr "최근 변경사항을 CSV로 다운로드"
@@ -14132,16 +15648,13 @@ msgid "History navigation below results"
 msgstr ""
 
 msgid "Latest"
-msgstr ""
+msgstr "최신"
 
-#, fuzzy
-#| msgctxt "Access-control team name"
-#| msgid "Viewers"
 msgid "Newer"
-msgstr "뷰어"
+msgstr "이전"
 
 msgid "Older"
-msgstr ""
+msgstr "다음"
 
 msgid "From version control"
 msgstr "버전 관리에서"
@@ -14186,11 +15699,6 @@ msgid ""
 "translation component."
 msgstr "기존 번역 구성요소의 추가 브랜치에 대한 새 번역 구성요소를 만듭니다."
 
-#, fuzzy
-#| msgid "Repository details"
-msgid "Retry"
-msgstr "저장소 상세"
-
 msgid ""
 "The new component will be created for the selected branch with the exact "
 "same configuration as the existing one."
@@ -14226,13 +15734,8 @@ msgid ""
 "be pre-filled with the clone URL, default branch, and matching VCS driver."
 msgstr ""
 
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Add or configure account"
-msgstr "잘못된 설정"
-
-msgid "Branch"
-msgstr "브랜치"
+msgstr "계정 추가 또는 설정"
 
 #, fuzzy
 #| msgid "Visibility changed"
@@ -14246,6 +15749,8 @@ msgid ""
 "No repositories available yet. Connect a code-hosting account to make "
 "repositories available here."
 msgstr ""
+"사용 가능한 저장소가 아직 없습니다. 여기에 저장소를 표시하려면 코드 호스팅 계"
+"정을 연결하세요."
 
 msgid ""
 "No repositories are available from connected accounts for this project "
@@ -14523,6 +16028,15 @@ msgstr "백업 가져오는 중"
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr "%(server)s(%(domain)s)에서 Weblate %(version)s로 생성됨"
 
+msgid "Public access on import"
+msgstr ""
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
+
 msgid "Token copied to clipboard."
 msgstr "토큰이 클립보드에 복사되었습니다."
 
@@ -14545,14 +16059,8 @@ msgstr ""
 "치로 이동된 경우 정상적으로 작동합니다. 저장소 콘텐츠가 다른 경우 새 번역 구"
 "성요소를 만드는 것이 더 나을 수 있습니다."
 
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Edit source"
 msgid "Edit source"
 msgstr "원문 편집"
-
-msgid "Cancel"
-msgstr "취소"
 
 #, fuzzy
 #| msgid "URL of repository where users can fetch changes from Weblate"
@@ -14569,6 +16077,8 @@ msgid ""
 "Search results stay fixed while you translate. Refresh results to show "
 "strings matching the filters now."
 msgstr ""
+"번역하는 동안 검색 결과가 유지됩니다. 현재 필터 조건에 맞는 문자열을 표시하려"
+"면 결과를 새로고침하세요."
 
 msgid "Permalink copied to clipboard."
 msgstr "퍼머링크가 클립보드에 복사되었습니다."
@@ -14773,10 +16283,6 @@ msgstr "이 문자열은 %(author)s에 의해 자동으로 번역되었습니다
 msgid "Add term to glossary"
 msgstr "용어집에 용어 추가"
 
-#, python-format
-msgid "Browse glossary %(name)s"
-msgstr "용어집 %(name)s 보기"
-
 msgid "Browse glossary"
 msgstr "용어집 찾아보기"
 
@@ -14802,10 +16308,8 @@ msgstr "현재 제공된 설명이 없습니다."
 msgid "No labels currently set."
 msgstr "현재 설정된 레이블이 없습니다."
 
-#, fuzzy
-#| msgid "Edit label"
 msgid "Edit flags"
-msgstr "레이블 편집"
+msgstr "플래그 편집"
 
 msgid "Flags"
 msgstr "플래그"
@@ -14830,6 +16334,15 @@ msgstr "최종 업데이트"
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
 msgstr "원문 문자열 등록 시점"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s, line %(line)s"
+msgstr "%(filename)s, 문자열 %(position)s"
+
+#, python-format
+msgid "line %(line)s"
+msgstr ""
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -14880,16 +16393,17 @@ msgstr ""
 "<code>%(flags)s</code>가 %(object)s 에서 상속된 이유는 원문 문자열 편집이 비"
 "활성화되어 있기 때문입니다."
 
-#, fuzzy
-#| msgid "Inherited flags"
 msgid "Effective flags"
-msgstr "상속된 플래그"
+msgstr "적용된 플래그"
 
 msgid ""
 "Changes apply to all languages in this component. Changing source text marks "
 "existing translations as needing editing. Renamed keys may require changes "
 "in your application code."
 msgstr ""
+"변경 사항은 이 구성요소의 모든 언어에 적용됩니다. 원문 텍스트를 변경하면 기"
+"존 번역이 편집 필요 상태로 표시됩니다. 키 이름을 변경하면 응용프로그램 코드"
+"를 수정해야 할 수도 있습니다."
 
 #, python-format
 msgid "Add a new variant for \"%(existing)s\""
@@ -14924,6 +16438,11 @@ msgstr ""
 
 msgid "Quick downloads"
 msgstr "빠른 다운로드"
+
+msgid ""
+"Original files can contain contributor identities and require additional "
+"permission. Use a generated export below for offline translation."
+msgstr ""
 
 msgid "File in original format as translated in the repository"
 msgstr "저장소에서 번역된 원본 형식 파일"
@@ -14960,6 +16479,8 @@ msgid ""
 "No code-hosting connections are available. A site administrator needs to "
 "register a code-hosting app first."
 msgstr ""
+"이용 가능한 코드 호스팅 연결이 없습니다. 먼저 사이트 관리자가 코드 호스팅 애"
+"플리케이션을 등록해야 합니다."
 
 #, python-format
 msgid ""
@@ -14972,10 +16493,8 @@ msgid ""
 "then be used when creating components from version control."
 msgstr ""
 
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "Code-hosting app"
-msgstr "번역 호스팅"
+msgstr "코드 호스팅 앱"
 
 #, fuzzy
 #| msgid "Not yet measured"
@@ -15011,17 +16530,13 @@ msgid "Repositories"
 msgstr "저장소"
 
 msgid "Refresh"
-msgstr ""
+msgstr "새로고침"
 
-#, fuzzy
-#| msgid "Do not have an account yet?"
 msgid "No connected accounts yet."
-msgstr "아직 계정이 없으십니까?"
+msgstr "아직 연결된 계정이 없습니다."
 
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "Code-hosting integrations"
-msgstr "번역 호스팅"
+msgstr "코드 호스팅 연동"
 
 #, python-format
 msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
@@ -15043,15 +16558,11 @@ msgid ""
 "The GitHub App needs repository access for these accounts: %(accounts)s."
 msgstr ""
 
-#, fuzzy
-#| msgid "Delete this account"
 msgid "Connected GitHub accounts:"
-msgstr "이 계정 삭제"
+msgstr "연결된 GitHub 계정:"
 
-#, fuzzy
-#| msgid "Repositories"
 msgid "Refresh repositories"
-msgstr "저장소"
+msgstr "저장소 새로고침"
 
 #, fuzzy
 #| msgid "Created component"
@@ -15203,20 +16714,13 @@ msgstr ""
 msgid "GitHub installation ID"
 msgstr "GitHub 스타"
 
-#, fuzzy
-#| msgid "Repository outdated."
 msgid "Repositories updated"
-msgstr "저장소가 오래되었습니다."
+msgstr "저장소 업데이트됨"
 
 #, fuzzy
 #| msgid "Repositories"
 msgid "Available Repositories"
 msgstr "저장소"
-
-#, fuzzy
-#| msgid "Not available"
-msgid "Unavailable"
-msgstr "사용 불가"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -15413,7 +16917,7 @@ msgid "Embed Code"
 msgstr "임베드 코드"
 
 msgid "Write"
-msgstr ""
+msgstr "작성"
 
 msgid "Browse all workspace changes"
 msgstr "모든 작업공간 변경사항 찾아보기"
@@ -15446,6 +16950,8 @@ msgid ""
 "This includes workspace access-control teams, translation memory, and code-"
 "hosting connections."
 msgstr ""
+"삭제되는 항목에는 워크스페이스 접근 제어 팀, 번역 메모리, 코드 호스팅 연결이 "
+"포함됩니다."
 
 #, fuzzy
 #| msgid "Workspace name"
@@ -15495,19 +17001,14 @@ msgstr "문자열 번역 편집"
 msgid "Translation changed"
 msgstr "번역 변경됨"
 
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Comment was added"
 msgid "A comment was added to a string."
-msgstr "새 의견"
+msgstr "문자열에 의견이 추가되었습니다."
 
 msgid "Comment added"
 msgstr "의견 추가됨"
 
-#, fuzzy
-#| msgid "Translation suggestions can be made."
 msgid "A translation suggestion was added."
-msgstr "번역 제안을 할 수 있습니다."
+msgstr "번역 제안이 추가되었습니다."
 
 #, fuzzy
 #| msgid "All untranslated strings added the past month"
@@ -15546,10 +17047,8 @@ msgstr ""
 msgid "Translation uploaded"
 msgstr "번역 업로드됨"
 
-#, fuzzy
-#| msgid "Source string added in the repository"
 msgid "A source string was added outside repository or upload updates."
-msgstr "저장소에 원문 문자열 추가됨"
+msgstr "저장소 동기화나 업로드 외의 경로로 원문 문자열이 추가되었습니다."
 
 msgid "Source string added"
 msgstr "원문 문자열 추가됨"
@@ -15578,10 +17077,8 @@ msgstr "보류 중인 모든 번역이 커밋되었습니다."
 msgid "Changes committed"
 msgstr "변경사항 커밋됨"
 
-#, fuzzy
-#| msgid "Repository changes alert"
 msgid "Repository changes were pushed upstream."
-msgstr "저장소 변경사항 알림"
+msgstr "저장소 변경 사항이 업스트림으로 푸시되었습니다."
 
 msgid "Changes pushed"
 msgstr "변경사항 푸시됨"
@@ -15594,18 +17091,14 @@ msgstr "저장소를 업스트림으로 초기화"
 msgid "Repository reset"
 msgstr "저장소 초기화됨"
 
-#, fuzzy
-#| msgid "The remote repository needs to be merged!"
 msgid "Upstream repository changes were merged."
-msgstr "원격 저장소를 먼저 병합해야 합니다!"
+msgstr "업스트림 저장소 변경 사항이 병합되었습니다."
 
 msgid "Repository merged"
 msgstr "저장소 병합됨"
 
-#, fuzzy
-#| msgid "Repository changes alert"
 msgid "Repository changes were rebased on upstream."
-msgstr "저장소 변경사항 알림"
+msgstr "저장소 변경 사항이 업스트림을 기준으로 리베이스되었습니다."
 
 msgid "Repository rebased"
 msgstr "저장소 리베이스됨"
@@ -15616,15 +17109,13 @@ msgid "Merging upstream repository changes failed."
 msgstr "업스트림 저장소 위치 보기"
 
 msgid "Repository merge failed"
-msgstr "저장소 병합 실패함"
+msgstr "저장소 병합 실패"
 
-#, fuzzy
-#| msgid "Repository changes alert"
 msgid "Rebasing repository changes failed."
-msgstr "저장소 변경사항 알림"
+msgstr "저장소 변경 사항 리베이스에 실패했습니다."
 
 msgid "Repository rebase failed"
-msgstr "저장소 리베이스 실패함"
+msgstr "저장소 리베이스 실패"
 
 #, fuzzy
 #| msgid "Could not parse translation files."
@@ -15632,7 +17123,7 @@ msgid "Weblate could not parse a translation file."
 msgstr "번역 파일을 파싱할 수 없습니다."
 
 msgid "Parsing failed"
-msgstr "구문분석 실패함"
+msgstr "구문 분석 실패"
 
 #, fuzzy
 #| msgid "A language in the category was removed."
@@ -15658,13 +17149,11 @@ msgstr ""
 msgid "Translation replaced"
 msgstr "번역 대체됨"
 
-#, fuzzy
-#| msgid "Repository changes alert"
 msgid "Pushing repository changes upstream failed."
-msgstr "저장소 변경사항 알림"
+msgstr "저장소 변경 사항을 업스트림으로 푸시하는 데 실패했습니다."
 
 msgid "Repository push failed"
-msgstr "저장소 푸시 실패함"
+msgstr "저장소 푸시 실패"
 
 #, fuzzy
 #| msgid "Suggestion removed during cleanup"
@@ -15738,11 +17227,8 @@ msgstr "편집 필요로 표시된 번역 건너뛰기"
 msgid "Marked for edit"
 msgstr "편집 필요로 표시됨"
 
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New translation component was created"
 msgid "A translation component was removed."
-msgstr "새 번역 구성요소"
+msgstr "번역 구성요소가 제거되었습니다."
 
 msgid "Component removed"
 msgstr "구성요소 제거됨"
@@ -15772,13 +17258,8 @@ msgstr "새 번역 구성요소"
 msgid "Component renamed"
 msgstr "구성요소 이름 변경됨"
 
-#, fuzzy
-#| msgid "All components in current project"
 msgid "A component was moved within a project."
-msgstr "현재 프로젝트의 모든 구성요소"
-
-msgid "Moved component"
-msgstr "구성요소 이동됨"
+msgstr "구성요소가 프로젝트 내에서 이동되었습니다."
 
 #, fuzzy
 #| msgctxt "Notification name"
@@ -15789,18 +17270,14 @@ msgstr "신규 기여자의 첫 활동"
 msgid "Contributor joined"
 msgstr "기여자 참여함"
 
-#, fuzzy
-#| msgid "Announcement posted"
 msgid "An announcement was posted."
-msgstr "공지사항 게시됨"
+msgstr "공지사항이 게시되었습니다."
 
 msgid "Announcement posted"
 msgstr "공지사항 게시됨"
 
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "A component alert was triggered."
-msgstr "경고 발생"
+msgstr "구성요소 경고가 발생했습니다."
 
 msgid "Alert triggered"
 msgstr "경고 발생"
@@ -15821,19 +17298,14 @@ msgstr "요청된 새로운 언어"
 msgid "Language requested"
 msgstr "언어 추가 요청됨"
 
-#, fuzzy
-#| msgid "Your translation project was removed"
 msgid "A translation project was created."
-msgstr "번역 프로젝트가 제거되었습니다"
+msgstr "번역 프로젝트가 생성되었습니다."
 
 msgid "Project created"
 msgstr "프로젝트 생성됨"
 
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New translation component was created"
 msgid "A translation component was created."
-msgstr "새 번역 구성요소"
+msgstr "번역 구성요소가 생성되었습니다."
 
 msgid "Component created"
 msgstr "구성요소 생성됨"
@@ -15846,12 +17318,8 @@ msgstr "사용자가 이 프로젝트에 초대되었습니다."
 msgid "User invited"
 msgstr "사용자 초대됨"
 
-#, fuzzy
-#| msgid ""
-#| "Weblate also supports direct notifications from several code hosting "
-#| "sites:"
 msgid "Weblate received a repository notification from a code host."
-msgstr "Weblate는 여러 코드 호스팅 사이트의 직접 알림도 지원합니다:"
+msgstr "Weblate가 코드 호스트로부터 저장소 알림을 받았습니다."
 
 msgid "Repository notification received"
 msgstr "저장소 알림 수신됨"
@@ -15873,7 +17341,7 @@ msgstr "라이선스 변경됨"
 #, fuzzy
 #| msgid "Contributor license agreement changed"
 msgid "The contributor license agreement was changed."
-msgstr "기여자 약관(CLA) 변경됨"
+msgstr "기여자 약관(CLA)이 변경되었습니다."
 
 msgid "Contributor license agreement changed"
 msgstr "기여자 약관(CLA) 변경됨"
@@ -15886,10 +17354,8 @@ msgstr "당신과 관련된 해를 피하십시오."
 msgid "Screenshot added"
 msgstr "스크린샷 추가됨"
 
-#, fuzzy
-#| msgid "Screenshots uploaded"
 msgid "A screenshot image was uploaded."
-msgstr "업로드한 스크린샷"
+msgstr "스크린샷 이미지가 업로드되었습니다."
 
 msgid "Screenshot uploaded"
 msgstr "스크린샷 업로드됨"
@@ -15900,26 +17366,20 @@ msgstr ""
 msgid "String updated in the repository"
 msgstr "저장소에 문자열 업데이트됨"
 
-#, fuzzy
-#| msgid "Add-on installed"
 msgid "An add-on was installed."
-msgstr "애드온 설치됨"
+msgstr "애드온이 설치되었습니다."
 
 msgid "Add-on installed"
 msgstr "애드온 설치됨"
 
-#, fuzzy
-#| msgid "Add-on configuration changed"
 msgid "An add-on's configuration was changed."
-msgstr "애드온 구성 변경됨"
+msgstr "애드온 설정이 변경되었습니다."
 
 msgid "Add-on configuration changed"
 msgstr "애드온 구성 변경됨"
 
-#, fuzzy
-#| msgid "Add-on uninstalled"
 msgid "An add-on was uninstalled."
-msgstr "애드온 제거됨"
+msgstr "애드온이 제거되었습니다."
 
 msgid "Add-on uninstalled"
 msgstr "애드온 제거됨"
@@ -15989,10 +17449,8 @@ msgstr "Weblate에서 스크립트 애드온을 실행할 수 없습니다."
 msgid "Saving string failed"
 msgstr "문자열 저장 실패"
 
-#, fuzzy
-#| msgid "Source string added in the repository"
 msgid "A new string was found while synchronizing from the repository."
-msgstr "저장소에 원문 문자열 추가됨"
+msgstr "저장소에서 동기화하는 동안 새 문자열이 발견되었습니다."
 
 msgid "String added in the repository"
 msgstr "저장소에 문자열 추가됨"
@@ -16036,18 +17494,14 @@ msgstr "편집 필요로 표시된 번역 건너뛰기"
 msgid "Applied enforced check"
 msgstr "검사 강제 적용"
 
-#, fuzzy
-#| msgid "Apply selected translation to all propagated strings"
 msgid "A translation edit was propagated to another matching string."
-msgstr "선택한 번역을 전파된 모든 문자열에 적용"
+msgstr "번역 수정 사항이 일치하는 다른 문자열로 전파되었습니다."
 
 msgid "Propagated change"
 msgstr "변경 사항 전파됨"
 
-#, fuzzy
-#| msgid "Define author of uploaded translation"
 msgid "A file was uploaded to a translation."
-msgstr "업로드된 번역의 작성자 지정"
+msgstr "번역에 파일이 업로드되었습니다."
 
 msgid "File uploaded"
 msgstr "파일 업로드됨"
@@ -16060,10 +17514,8 @@ msgstr "모든 저장소가 업데이트 되었습니다."
 msgid "Extra flags updated"
 msgstr "추가 플래그 업데이트됨"
 
-#, fuzzy
-#| msgid "Font uploaded"
 msgid "A font was uploaded."
-msgstr "글꼴 업로드됨"
+msgstr "글꼴이 업로드되었습니다."
 
 msgid "Font uploaded"
 msgstr "글꼴 업로드됨"
@@ -16100,10 +17552,8 @@ msgstr "번역은 지금 귀하를 위해 잠겨 있습니다."
 msgid "Forced rescan of translations"
 msgstr "번역 강제 재검사"
 
-#, fuzzy
-#| msgid "Screenshot removed"
 msgid "A screenshot was removed."
-msgstr "스크린샷 제거됨"
+msgstr "스크린샷이 제거되었습니다."
 
 msgid "Screenshot removed"
 msgstr "스크린샷 제거됨"
@@ -16128,18 +17578,14 @@ msgstr "모든 저장소가 정리되었습니다."
 msgid "Repository cleanup"
 msgstr "저장소 정리"
 
-#, fuzzy
-#| msgid "Source string added in the upload"
 msgid "A source string was added while processing an uploaded file."
-msgstr "업로드로 원문 문자열 추가됨"
+msgstr "업로드한 파일을 처리하는 동안 원문 문자열이 추가되었습니다."
 
 msgid "Source string added in the upload"
 msgstr "업로드로 원문 문자열 추가됨"
 
-#, fuzzy
-#| msgid "Source string added in the repository"
 msgid "A source string was added while synchronizing from the repository."
-msgstr "저장소에 원문 문자열 추가됨"
+msgstr "저장소에서 동기화하는 동안 원문 문자열이 추가되었습니다."
 
 msgid "Source string added in the repository"
 msgstr "저장소에 원문 문자열 추가됨"
@@ -16153,15 +17599,13 @@ msgid "Project backed up"
 msgstr "프로젝트 백업됨"
 
 msgid "A project was restored from a backup."
-msgstr ""
+msgstr "프로젝트가 백업에서 복원되었습니다."
 
 msgid "Project restored"
 msgstr "프로젝트 복원됨"
 
-#, fuzzy
-#| msgid "Component created from scratch"
 msgid "A component was restored from a backup."
-msgstr "처음부터 구성요소 생성됨"
+msgstr "구성요소가 백업에서 복원되었습니다."
 
 msgid "Component restored"
 msgstr "구성요소 복원됨"
@@ -16172,26 +17616,20 @@ msgstr ""
 msgid "User edit reverted"
 msgstr "사용자 편집 되돌림"
 
-#, fuzzy
-#| msgid "Project setting changed"
 msgid "A project setting was changed."
-msgstr "프로젝트 설정 변경됨"
+msgstr "프로젝트 설정이 변경되었습니다."
 
 msgid "Project setting changed"
 msgstr "프로젝트 설정 변경됨"
 
-#, fuzzy
-#| msgid "Component setting changed"
 msgid "A component setting was changed."
-msgstr "구성요소 설정 변경됨"
+msgstr "구성요소 설정이 변경되었습니다."
 
 msgid "Component setting changed"
 msgstr "구성요소 설정 변경됨"
 
-#, fuzzy
-#| msgid "User access changed"
 msgid "A user's access permissions were changed."
-msgstr "사용자 접근 변경됨"
+msgstr "사용자의 접근 권한이 변경되었습니다."
 
 msgid "User access changed"
 msgstr "사용자 접근 변경됨"
@@ -16204,10 +17642,8 @@ msgstr "작업공간 생성됨."
 msgid "Workspace created"
 msgstr "작업공간 생성됨"
 
-#, fuzzy
-#| msgid "Workspace setting changed"
 msgid "A workspace setting was changed."
-msgstr "작업공간 설정 변경됨"
+msgstr "작업공간 설정이 변경되었습니다."
 
 msgid "Workspace setting changed"
 msgstr "작업공간 설정 변경됨"
@@ -16220,40 +17656,28 @@ msgstr "프로젝트가 이미 이 작업공간에 할당되어 있습니다."
 msgid "Project moved"
 msgstr "프로젝트 이동됨"
 
-#, fuzzy
-#| msgid "Repository rebase failed"
 msgid "A remote repository update was completed."
-msgstr "저장소 리베이스 실패함"
+msgstr "원격 저장소 업데이트가 완료되었습니다."
 
-#, fuzzy
-#| msgid "Repository outdated."
 msgid "Remote repository updated"
-msgstr "저장소가 오래되었습니다."
+msgstr "원격 저장소 업데이트됨"
 
-#, fuzzy
-#| msgid "Repository rebase failed"
 msgid "Updating a remote repository failed."
-msgstr "저장소 리베이스 실패함"
+msgstr "원격 저장소 업데이트에 실패했습니다."
 
-#, fuzzy
-#| msgid "Repository rebase failed"
 msgid "Remote repository update failed"
-msgstr "저장소 리베이스 실패함"
+msgstr "원격 저장소 업데이트 실패"
 
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "A component alert was dismissed."
-msgstr "경고 발생"
+msgstr "구성요소 경고가 무시되었습니다."
 
 #, fuzzy
 #| msgid "dismissed"
 msgid "Alert dismissed"
 msgstr "해결됨"
 
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "A component alert was reopened after its context changed."
-msgstr "경고 발생"
+msgstr "문맥이 변경된 후 구성요소 경고가 다시 열렸습니다."
 
 #, fuzzy
 #| msgid "Alert triggered"
@@ -16454,6 +17878,12 @@ msgid "Could not merge the pull request automatically."
 msgstr "저장소를 병합할 수 없습니다."
 
 #. Translators: Name of an alert
+#, fuzzy
+#| msgid "Could not merge the repository."
+msgid "Could not customize the pull request."
+msgstr "저장소를 병합할 수 없습니다."
+
+#. Translators: Name of an alert
 msgid "Repository outdated."
 msgstr "저장소가 오래되었습니다."
 
@@ -16479,6 +17909,19 @@ msgstr "Java MessageFormat의 아포스트로피"
 msgid "Trailing and leading whitespace"
 msgstr "선행 및 후행 공백"
 
+#, fuzzy
+#| msgid "Automatic translation completed, no strings were updated."
+msgid "Automatic translation completed with errors, no strings were updated."
+msgstr "자동 번역이 완료되었습니다. 업데이트된 문자열이 없습니다."
+
+#, fuzzy, python-format
+#| msgid "Automatic translation completed, %d string was updated."
+#| msgid_plural "Automatic translation completed, %d strings were updated."
+msgid "Automatic translation completed with errors, %d string was updated."
+msgid_plural ""
+"Automatic translation completed with errors, %d strings were updated."
+msgstr[0] "자동 번역이 완료되었습니다. 문자열 %d개가 업데이트되었습니다."
+
 msgid "Automatic translation completed, no strings were updated."
 msgstr "자동 번역이 완료되었습니다. 업데이트된 문자열이 없습니다."
 
@@ -16486,6 +17929,12 @@ msgstr "자동 번역이 완료되었습니다. 업데이트된 문자열이 없
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "자동 번역이 완료되었습니다. 문자열 %d개가 업데이트되었습니다."
+
+#, fuzzy
+#| msgid "Automatic translation skipped because the target no longer exists."
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr "대상이 더 이상 존재하지 않으므로 자동 번역이 건너뛰었습니다."
 
 #, python-format
 msgid ""
@@ -16508,6 +17957,17 @@ msgid ""
 msgstr ""
 "%(component)s의 복수형이 대상 번역과 일치하지 않습니다. 자동 번역에서 복수형 "
 "문자열을 건너뛰고 단수형 문자열만 처리했습니다."
+
+#, fuzzy
+#| msgid "Automatic translation skipped because the target no longer exists."
+msgid ""
+"Automatic translation lost its database connection. Please try again later."
+msgstr "대상이 더 이상 존재하지 않으므로 자동 번역이 건너뛰었습니다."
+
+msgid ""
+"Automatic translation is already running for this translation. Please try "
+"again later."
+msgstr ""
 
 #, python-format
 msgid "Automatic translation failed: %s"
@@ -16558,13 +18018,19 @@ msgstr "중복된 번역."
 msgid "Duplicate label name."
 msgstr "중복된 파일 마스크."
 
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Duplicate saved search name."
-msgstr "중복된 번역."
+msgstr "중복된 저장된 검색 이름입니다."
 
 msgid "Screenshot image is missing."
 msgstr "스크린 샷 이미지가 누락되었습니다."
+
+msgid "Revision must be a complete hexadecimal object ID."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not update repository: %s"
+msgid "Could not validate repository URL: %s"
+msgstr "저장소를 업데이트할 수 없습니다: %s"
 
 #, fuzzy
 #| msgid "Duplicated file mask."
@@ -16576,13 +18042,18 @@ msgstr "중복된 파일 마스크."
 msgid "Referenced category does not exist."
 msgstr "{filename} ({parameter})이(가) 존재하지 않습니다."
 
-msgid "Component filename does not match its category and slug."
-msgstr ""
-
 #, fuzzy
 #| msgid "Duplicate this component"
 msgid "Duplicate component slug."
 msgstr "이 구성요소 복제"
+
+msgid "Component filename does not match its category and slug."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation reviews are not enabled."
+msgid "Translation revision has an invalid format."
+msgstr "번역 검토가 활성화되어 있지 않습니다."
 
 #, fuzzy
 #| msgid "Duplicated translation."
@@ -16658,16 +18129,94 @@ msgstr "카테고리가 선택한 프로젝트에 속하지 않습니다."
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 
+#, fuzzy
+#| msgid "Important dates"
+msgid "Imported authors"
+msgstr "중요 날짜"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
 msgstr ""
 
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
+msgstr ""
+
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is unknown."
+msgstr ""
+
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is not applicable."
+msgstr ""
+
+#, fuzzy
+#| msgid "Version control settings"
+msgid "Version control parameters"
+msgstr "버전 관리 설정"
+
+msgid "File format parameters"
+msgstr "파일 형식 매개변수"
+
 #, fuzzy
 #| msgid "The local repository is up to date."
 msgid "The project repository directory already exists."
 msgstr "로컬 저장소는 이미 최신 상태입니다."
+
+#, fuzzy
+#| msgid "Invalid search query!"
+msgid "Invalid search type."
+msgstr "잘못된 검색어!"
+
+msgid "Enter a search string to replace."
+msgstr ""
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] ""
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] ""
+
+#, fuzzy
+#| msgid "Invalid request."
+msgid "Invalid target state."
+msgstr "잘못된 요청."
+
+#, fuzzy
+#| msgid "How to handle requests for creating new translations."
+msgid "Choose either replacement or clearing translations."
+msgstr "새 번역 생성 요청 처리 방법."
+
+#, python-format
+msgid "Bulk edits are limited to %(limit)d strings. Narrow the search query."
+msgstr ""
 
 msgid "The component was automatically locked because of an alert."
 msgstr "경고로 인해 구성요소가 자동으로 잠겼습니다."
@@ -16731,6 +18280,9 @@ msgstr "원본 리비전: {}"
 msgid "New revision: {}"
 msgstr "새 리비전: {}"
 
+msgid "Content is too long to show in the change list."
+msgstr ""
+
 #, python-format
 msgctxt "Number of edits on a change in Damerau–Levenshtein distance"
 msgid "%(count)d character edited"
@@ -16739,7 +18291,7 @@ msgstr[0] "%(count)d자 편집됨"
 
 #. Translators: Translation context for Gettext
 msgid "Context"
-msgstr "컨텍스트"
+msgstr "문맥"
 
 msgid "Backup file"
 msgstr "백업 파일"
@@ -16782,6 +18334,16 @@ msgstr "보류 중인 제안"
 msgid "Needs review"
 msgstr "검토 필요"
 
+#, fuzzy
+#| msgid "The source and target have to be different languages."
+msgid "The source and destination checkouts must be different."
+msgstr "원문과 대상은 다른 언어여야 합니다."
+
+#, fuzzy
+#| msgid "The target does not exist or you cannot access it."
+msgid "This component does not exist or you cannot access it."
+msgstr "타겟이 없거나 접근할 수 없습니다."
+
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr "Hosted Weblate, 소프트웨어 프로젝트를 현지화하는 공간입니다."
 
@@ -16797,9 +18359,6 @@ msgstr ""
 msgid "Version control"
 msgstr "버전 관리"
 
-msgid "State"
-msgstr "상태"
-
 msgid "Severity"
 msgstr "심각도"
 
@@ -16808,6 +18367,11 @@ msgstr ""
 
 msgid "Discovery configuration"
 msgstr "검색 구성"
+
+#, fuzzy, python-format
+#| msgid "Could not render template: {}"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "템플릿을 렌더링할 수 없습니다: {}"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -16849,6 +18413,11 @@ msgstr "파일 마스크가 기본 구성요소와 일치합니다."
 #, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
 msgstr "{filename} ({parameter})이(가) 존재하지 않습니다."
+
+#. Translators: condensed rendering of a change action in history
+#, python-format
+msgid "%(action)s at %(time)s on %(translation)s"
+msgstr "%(translation)s에서 %(time)s에 %(action)s"
 
 #. Translators: %s is site title here
 #, python-format
@@ -16928,10 +18497,8 @@ msgstr ""
 msgid "Contributor comments"
 msgstr "주석에 기여자 표시"
 
-#, fuzzy
-#| msgid "gettext PO"
 msgid "Gettext"
-msgstr "gettext PO"
+msgstr "Gettext"
 
 msgid "SPDX"
 msgstr ""
@@ -17020,6 +18587,54 @@ msgstr "MAC (\\r)"
 
 msgid "Include closing tag for blank XML tags"
 msgstr "빈 XML 태그에 닫는 태그 포함"
+
+msgid "UTF-8 byte order mark"
+msgstr ""
+
+msgid "Preserve input"
+msgstr ""
+
+msgid "Always include"
+msgstr ""
+
+msgid "Always omit"
+msgstr ""
+
+msgid ""
+"Controls the UTF-8 byte order mark. Other encodings are unchanged. New files "
+"without a template omit the mark when preserving input."
+msgstr ""
+
+msgid "XML declaration encoding case"
+msgstr ""
+
+#, fuzzy
+#| msgid "Restore site default"
+msgid "Format default"
+msgstr "사이트 기본값 복원"
+
+msgid "Uppercase"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Power user"
+msgid "Lowercase"
+msgstr "고급 사용자"
+
+msgid ""
+"Controls encoding names in the XML declaration, for example \"UTF-8\" or "
+"\"utf-8\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "Starting newline"
+msgid "XML final newline"
+msgstr "시작 줄바꿈"
+
+msgid ""
+"Controls the newline at the end of the file, using the format's line endings."
+msgstr ""
 
 #, fuzzy
 #| msgid "Conflict handling"
@@ -17284,12 +18899,12 @@ msgstr "대체 번역"
 msgid "The string you wanted to translate is no longer available."
 msgstr "번역하려던 문자열을 더 이상 사용할 수 없습니다."
 
-#, fuzzy
-#| msgid "The string you wanted to translate is no longer available."
 msgid ""
 "The string you wanted to translate could not be identified. Please reopen it "
 "and try again."
-msgstr "번역하려던 문자열을 더 이상 사용할 수 없습니다."
+msgstr ""
+"번역하려던 문자열을 식별할 수 없습니다. 페이지를 다시 열고 다시 시도해 주세"
+"요."
 
 msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
@@ -17326,13 +18941,11 @@ msgid ""
 "changes."
 msgstr "그 사이 문자열의 번역이 변경되었습니다. 변경사항을 확인하세요."
 
-#, fuzzy
-#| msgid "No language limit"
 msgid "Ignore language mismatch"
-msgstr "언어 제한 없음"
+msgstr "언어 불일치 무시"
 
 msgid "Allow uploading a file that declares a different translation language."
-msgstr ""
+msgstr "다른 번역 언어가 명시된 파일도 업로드할 수 있도록 허용합니다."
 
 msgid "File upload mode"
 msgstr "파일 업로드 모드"
@@ -17478,33 +19091,31 @@ msgstr "번역 의견, 다른 번역자와의 토론"
 msgid "Please choose"
 msgstr "선택하세요"
 
-#, fuzzy
-#| msgid "For all languages"
 msgid "Source flags — all languages"
-msgstr "모든 언어"
+msgstr "원문 플래그 — 모든 언어"
 
 msgid "These flags are inherited by every translation of this string."
-msgstr ""
+msgstr "이 플래그는 해당 문자열의 모든 번역에 상속됩니다."
 
-#, fuzzy
-#| msgid "Translation language:"
 msgid "Translation flags — this language"
-msgstr "번역 언어:"
+msgstr "번역 플래그 — 이 언어"
 
 msgid ""
 "These flags apply only to this translation. Source read-only cannot be "
 "overridden."
 msgstr ""
+"이 플래그는 해당 번역에만 적용됩니다. 원문의 읽기 전용 플래그는 재정의할 수 "
+"없습니다."
 
-#, fuzzy, python-format
-#| msgid "Translation language:"
+#, python-format
 msgid "Translation flags — %(language)s"
-msgstr "번역 언어:"
+msgstr "번역 플래그 — %(language)s"
 
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to edit these flags."
-msgstr "제안을 수락할 권한이 없습니다."
+msgstr "이 플래그를 수정할 권한이 없습니다."
+
+msgid "You do not have permission to create terminology."
+msgstr "용어를 생성할 권한이 없습니다."
 
 msgid ""
 "Revert the latest translation edits from this user in the current project."
@@ -17659,6 +19270,11 @@ msgstr "검색 요청이 너무 많습니다. 잠시 후 다시 시도하세요.
 msgid "Could not load repository branches. Please try again."
 msgstr "저장소 브랜치를 불러오지 못했습니다. 다시 시도하세요."
 
+#, fuzzy
+#| msgid "You do not have permission to edit the target workspace."
+msgid "You do not have permission to edit this project."
+msgstr "대상 작업공간을 편집할 권한이 없습니다."
+
 msgid "ZIP file containing translations"
 msgstr "번역이 포함된 ZIP 파일"
 
@@ -17759,22 +19375,8 @@ msgstr "프로젝트 백업을 불러올 수 없습니다: %s"
 msgid "Could not load project backup."
 msgstr "프로젝트 백업을 불러올 수 없습니다: %s"
 
-msgid "Optional additional filter applied to the strings"
-msgstr "문자열에 적용되는 선택적 추가 필터"
-
-msgid "Search string"
-msgstr "검색 문자열"
-
-msgid "Case-sensitive string to search for and replace."
-msgstr "대소문자를 구분하여 검색하고 바꿀 문자열입니다."
-
-msgid "Replacement string"
-msgstr "교체 문자열"
-
-#, fuzzy
-#| msgid "Screenshot context"
 msgid "Key or context"
-msgstr "스크린샷 컨텍스트"
+msgstr "키 또는 문맥"
 
 msgid "Translation key"
 msgstr "번역 키"
@@ -17819,13 +19421,32 @@ msgid ""
 "without change."
 msgstr "원문 언어 그대로 유지해야 하는 문장에 이 옵션을 표시하세요."
 
-msgid "You do not have permission to create terminology."
-msgstr "용어를 생성할 권한이 없습니다."
-
 #, fuzzy
 #| msgid "Invalid suggestion!"
 msgid "Invalid string selection!"
 msgstr "잘못된 제안!"
+
+msgid "Search type"
+msgstr "검색 유형"
+
+msgid "Text"
+msgstr "글자"
+
+msgid "Search string"
+msgstr "검색 문자열"
+
+msgid ""
+"Case-sensitive text or regular expression to replace in matching strings. "
+"Leave empty to disable replacement."
+msgstr ""
+
+msgid "Replacement string"
+msgstr "교체 문자열"
+
+msgid ""
+"Leave empty to remove matching text. In regular expression mode, use \\1 for "
+"the first captured group. Named group references are also supported."
+msgstr ""
 
 msgid "State to set"
 msgstr "지정할 상태"
@@ -17833,39 +19454,78 @@ msgstr "지정할 상태"
 msgid "Do not change"
 msgstr "변경하지 않음"
 
-msgid "Source flags to add — all languages"
-msgstr ""
+#, fuzzy
+#| msgid "Edit label"
+msgid "Add flags"
+msgstr "레이블 편집"
 
-msgid "Source flags to remove — all languages"
+#, fuzzy
+#| msgid "Remove"
+msgid "Remove flags"
+msgstr "제거"
+
+msgid ""
+"Only flags set directly on these translations are removed. Inherited flags "
+"remain in effect."
 msgstr ""
 
 #, fuzzy
-#| msgid "Translation flags to add"
-msgid "Translation flags to add — matching translations"
-msgstr "추가할 번역 플래그"
+#| msgid "Add label"
+msgid "Add labels"
+msgstr "레이블 추가"
+
+#, fuzzy
+#| msgid "Removed category"
+msgid "Remove labels"
+msgstr "카테고리 제거됨"
+
+#, fuzzy
+#| msgid "Review changes"
+msgid "Preview changes"
+msgstr "변경사항 검토"
+
+msgid "Choose flags to add…"
+msgstr ""
+
+#, fuzzy
+#| msgid "Component to remove"
+msgid "Choose flags to remove…"
+msgstr "제거할 구성요소"
+
+msgid "Source flags"
+msgstr "원문 플래그"
+
+msgid ""
+"Flags are set on the source strings corresponding to your selection and "
+"apply to their translations in every language."
+msgstr ""
+
+msgid ""
+"Flags are set on the source strings corresponding to your filter results and "
+"apply to their translations in every language."
+msgstr ""
 
 #, fuzzy
 #| msgid "Fills in translation strings with source string."
-msgid "Applies only to matching translations, excluding source strings."
+msgid ""
+"Flags apply only to translations in your selection. Source strings are "
+"excluded."
 msgstr "번역 문자열을 원문 문자열로 채웁니다."
 
-#, fuzzy
-#| msgid "Translation flags to remove"
-msgid "Translation flags to remove — matching translations"
-msgstr "제거할 번역 플래그"
-
-msgid "Removes locally set flags. Inherited flags remain in effect."
+msgid ""
+"Flags apply only to translations matching your filter. Source strings are "
+"excluded."
 msgstr ""
 
-#, fuzzy
-#| msgid "For all languages"
-msgid "Labels to add — all languages"
-msgstr "모든 언어"
+msgid ""
+"Labels apply to the source strings corresponding to your selection and are "
+"shared across all languages."
+msgstr ""
 
-#, fuzzy
-#| msgid "Labels to remove"
-msgid "Labels to remove — all languages"
-msgstr "제거할 레이블"
+msgid ""
+"Labels apply to the source strings corresponding to your filter results and "
+"are shared across all languages."
+msgstr ""
 
 msgid "Select strings to edit or enter a search query."
 msgstr ""
@@ -17944,10 +19604,8 @@ msgstr ""
 msgid "Everybody in project {}"
 msgstr "프로젝트에서 공유"
 
-#, fuzzy
-#| msgid "A user with that username already exists."
 msgid "A saved search with this name already exists."
-msgstr "해당 사용자 이름이 이미 존재합니다."
+msgstr "해당 이름의 저장된 검색이 이미 존재합니다."
 
 msgid "Expiry cannot be in the past."
 msgstr "만료일은 과거일 수 없습니다."
@@ -18110,9 +19768,6 @@ msgstr "카테고리 이름"
 
 msgid "Display name"
 msgstr "표시 이름"
-
-msgid "Translation flags"
-msgstr "번역 플래그"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr "Weblate 동작에 영향을 주는 쉼표로 구분된 추가 플래그입니다."
@@ -18312,68 +19967,50 @@ msgstr "문서 업로드로 구성요소 생성됨"
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(user)s 님이 %(translation)s에서 %(time)s에 %(action)s"
 
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "%(translation)s에서 %(time)s에 %(action)s"
-
 msgctxt "Change origin badge"
 msgid "API"
-msgstr ""
+msgstr "API"
 
-#, fuzzy
-#| msgctxt "Short name of month"
-#| msgid "Feb"
 msgctxt "Change origin badge"
 msgid "Web"
-msgstr "2월"
+msgstr "웹"
 
-#, fuzzy
-#| msgid "Repository"
 msgctxt "Change origin badge"
 msgid "Repository"
 msgstr "저장소"
 
-#, fuzzy
-#| msgid "System checks"
 msgctxt "Change origin badge"
 msgid "System"
-msgstr "시스템 검사"
+msgstr "시스템"
 
-#, fuzzy
-#| msgid "Automatic detection"
 msgctxt "Change origin badge"
 msgid "Automation"
-msgstr "자동 감지"
+msgstr "자동화"
 
 #, python-format
 msgctxt "Change origin tooltip"
 msgid "Created by automation #%(addon_id)s (run #%(activity_id)s)."
-msgstr ""
+msgstr "자동화 #%(addon_id)s (실행 #%(activity_id)s)로 생성되었습니다."
 
-#, fuzzy
-#| msgid "Create translation"
 msgctxt "Change origin tooltip"
 msgid "Created by an automation."
-msgstr "번역 생성"
+msgstr "자동화로 생성되었습니다."
 
 msgctxt "Change origin tooltip"
 msgid "Initiated through the API using an authentication token."
-msgstr ""
+msgstr "인증 토큰을 사용하여 API를 통해 수행되었습니다."
 
 msgctxt "Change origin tooltip"
 msgid "Initiated through the web interface."
-msgstr ""
+msgstr "웹 인터페이스를 통해 수행되었습니다."
 
-#, fuzzy
-#| msgid "Rescan all translation files in the Weblate repository"
 msgctxt "Change origin tooltip"
 msgid "Imported from translation files in the repository."
-msgstr "Weblate 저장소의 모든 번역 파일 다시 검사"
+msgstr "저장소의 번역 파일에서 가져왔습니다."
 
 msgctxt "Change origin tooltip"
 msgid "Created by Weblate without a recorded initiating request."
-msgstr ""
+msgstr "요청 기록 없이 Weblate에서 생성되었습니다."
 
 msgid "Source needs review"
 msgstr "원문 검토 필요"
@@ -18405,11 +20042,6 @@ msgid ""
 msgstr ""
 "번역이 포함된 저장소에 접근하기 위해 사용할 버전 관리 시스템입니다. 타사 제공"
 "업체와의 추가 통합을 선택하여 풀/병합 요청을 제출할 수도 있습니다."
-
-#, fuzzy
-#| msgid "Version control settings"
-msgid "Version control parameters"
-msgstr "버전 관리 설정"
 
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
@@ -18535,9 +20167,6 @@ msgid ""
 msgstr ""
 "새 번역을 만드는 데 사용되는 파일 이름입니다. gettext의 경우 .pot 파일을 선택"
 "하세요."
-
-msgid "File format parameters"
-msgstr "파일 형식 매개변수"
 
 msgid "Locked component will not get any translation updates."
 msgstr "잠긴 구성요소는 번역 업데이트를 받지 않습니다."
@@ -18755,6 +20384,11 @@ msgstr "설정을 비워두면 프로젝트의 설정을 따릅니다."
 
 msgid "Use the secondary language configured in the category or project."
 msgstr "카테고리 또는 프로젝트에 구성된 보조 언어를 사용합니다."
+
+#, fuzzy
+#| msgid "The local repository is up to date."
+msgid "The linked repository path is ambiguous."
+msgstr "로컬 저장소는 이미 최신 상태입니다."
 
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
@@ -19046,6 +20680,16 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "This role cannot be assigned to this team."
+msgid "Version control system cannot be changed to this backend."
+msgstr "이 역할은 이 팀에 할당할 수 없습니다."
+
+#, fuzzy
+#| msgid "The regular expression is too complex and took too long to evaluate."
+msgid "The file mask is too complex and took too long to evaluate."
+msgstr "정규 표현식이 너무 복잡하고 평가하는 데 시간이 너무 오래 걸립니다."
+
+#, fuzzy
 #| msgid ""
 #| "Allow this component's translations to be added to the project-level "
 #| "translation memory."
@@ -19314,13 +20958,17 @@ msgid ""
 "to the translation file."
 msgstr "승인된 번역만 번역 파일에 기록됩니다."
 
-#, fuzzy
-#| msgid "Label description"
 msgid "Search description"
-msgstr "레이블 설명"
+msgstr "검색 설명"
 
 msgid "Could not accept suggestion!"
 msgstr "제안을 수락할 수 없습니다!"
+
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr "문자열을 %d개 구성요소로 전파할 수 없습니다."
 
 msgid "Uploaded translation file is too big."
 msgstr "업로드한 번역 파일이 너무 큽니다."
@@ -19386,6 +21034,18 @@ msgstr "업로드된 파일의 복수형 %d가 허용 범위를 벗어났습니�
 msgid "Plural form %d in the uploaded file is missing."
 msgstr "업로드된 파일에서 복수형 %d가 누락되었습니다."
 
+#, fuzzy, python-format
+#| msgid "The ZIP file contains too many entries."
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr "ZIP 파일에 너무 많은 항목이 포함되어 있습니다."
+
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] "문자열을 %d개 구성요소로 전파할 수 없습니다."
+
 #, fuzzy
 #| msgid "The ZIP file contains too many entries."
 msgid "The uploaded file contains too many language declarations."
@@ -19409,6 +21069,10 @@ msgstr "보류 중인 변경사항을 커밋할 수 없습니다: %s"
 #, python-brace-format
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "업로드된 파일을 {file_format} 형식으로 파싱할 수 없습니다: {error}"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr ""
 
 #, python-format
 msgid "Could not parse translation file: %s"
@@ -19451,26 +21115,21 @@ msgid ""
 "while you were editing it. Reload the editor and review your changes before "
 "saving."
 msgstr ""
+"편집하는 동안 이 문자열의 검토 상태가 %(previous)s 에서 %(current)s (으)로 변"
+"경되었습니다. 편집기를 새로 고침한 후 저장하기 전에 변경 사항을 다시 확인하세"
+"요."
 
-#, fuzzy
-#| msgid "Unmark as untranslatable"
 msgid "Unmark as untranslatable for all languages"
-msgstr "번역 불가 표시 해제"
+msgstr "모든 언어에 번역 불가로 표시 해제"
 
-#, fuzzy
-#| msgid "Unmark as read-only"
 msgid "Unmark as read-only for all languages"
-msgstr "읽기 전용 표시 해제"
+msgstr "모든 언어에 읽기 전용으로 표시 해제"
 
-#, fuzzy
-#| msgid "Unmark as untranslatable"
 msgid "Unmark this translation as untranslatable"
-msgstr "번역 불가 표시 해제"
+msgstr "이 번역을 번역 불가로 표시 해제"
 
-#, fuzzy
-#| msgid "The translation is read-only."
 msgid "Unmark this translation as read-only"
-msgstr "번역이 읽기 전용입니다."
+msgstr "이 번역을 읽기 전용으로 표시 해제"
 
 #, fuzzy
 #| msgid "Manage translated languages"
@@ -19482,25 +21141,17 @@ msgstr "번역 언어 관리"
 msgid "Make read-only apply to all languages"
 msgstr "번역 언어 관리"
 
-#, fuzzy
-#| msgid "Mark as untranslatable"
 msgid "Mark this translation as untranslatable"
-msgstr "번역 불가로 표시"
+msgstr "이 번역을 번역 불가로 표시"
 
-#, fuzzy
-#| msgid "The translation is read-only."
 msgid "Mark this translation as read-only"
-msgstr "번역이 읽기 전용입니다."
+msgstr "이 번역을 읽기 전용으로 표시"
 
-#, fuzzy
-#| msgid "Mark as untranslatable"
 msgid "Mark as untranslatable for all languages"
-msgstr "번역 불가로 표시"
+msgstr "모든 언어에 번역 불가로 표시"
 
-#, fuzzy
-#| msgid "Mark as read-only"
 msgid "Mark as read-only for all languages"
-msgstr "읽기 전용으로 표시"
+msgstr "모든 언어에 읽기 전용으로 표시"
 
 msgid "Mark as forbidden translation"
 msgstr "금지 번역으로 표시"
@@ -19508,15 +21159,11 @@ msgstr "금지 번역으로 표시"
 msgid "Unmark as forbidden translation"
 msgstr "금지 번역 표시 해제"
 
-#, fuzzy
-#| msgid "Mark as terminology"
 msgid "Mark as terminology for all languages"
-msgstr "용어로 표시"
+msgstr "모든 언어에 전문 용어로 표시"
 
-#, fuzzy
-#| msgid "Unmark as terminology"
 msgid "Unmark as terminology for all languages"
-msgstr "용어 표시 해제"
+msgstr "모든 언어에 전문 용어로 표시 해제"
 
 msgid ""
 "Translate from this language. Leave empty to use the component source "
@@ -19634,6 +21281,11 @@ msgstr "전각 대시"
 msgid "User configured character: {}"
 msgstr "사용자 설정 문자: {}"
 
+#, fuzzy, python-format
+#| msgid "Could not push the repository."
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "저장소를 푸시할 수 없습니다."
+
 #, fuzzy
 #| msgid "Automatic translation skipped because the target no longer exists."
 msgid "Repository operation could not be completed because it remained locked."
@@ -19678,6 +21330,31 @@ msgid_plural ""
 msgstr[0] ""
 "%(user)s 님의 제안 %(total)d건 중 %(accepted)d건을 수락했습니다. 권한 또는 검"
 "사로 인해 %(failed)d건이 실패했습니다."
+
+#, fuzzy
+#| msgid "Bulk edit completed, no strings were updated."
+msgid "Bulk edit parameters are no longer valid."
+msgstr "대량 편집이 완료되었습니다. 업데이트된 문자열이 없습니다."
+
+#, python-format
+msgid "Bulk edit failed after processing %(count)d strings: %(error)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "User access changed"
+msgid "The target or permissions changed."
+msgstr "사용자 접근 변경됨"
+
+#, python-format
+msgid ""
+"Bulk edit failed after processing %(count)d strings. Earlier batches may "
+"have been applied."
+msgstr ""
+
+#, python-format
+msgid "Bulk edit completed, %d string was updated."
+msgid_plural "Bulk edit completed, %d strings were updated."
+msgstr[0] "대량 편집이 완료되어 문자열 %d개가 업데이트되었습니다."
 
 msgid "Automatic translation skipped because the target no longer exists."
 msgstr "대상이 더 이상 존재하지 않으므로 자동 번역이 건너뛰었습니다."
@@ -19737,6 +21414,10 @@ msgstr "문자열 ID %s"
 msgid "This language is used for source strings."
 msgstr "이 언어는 원문 문자열에 사용됩니다."
 
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr "이 구성요소는 %(target)s 저장소에 연결되어 있습니다."
+
 msgid "Fix this component to clear its diagnostics."
 msgstr "이 구성요소를 수정하면 진단이 해제됩니다."
 
@@ -19780,24 +21461,17 @@ msgstr "프로젝트-언어 사용자 지정"
 msgid "Only approved translations are written to the translation file."
 msgstr "승인된 번역만 번역 파일에 기록됩니다."
 
-#, fuzzy
-#| msgid ""
-#| "Translations marked as needing editing are not written to the translation "
-#| "file."
 msgid ""
 "All translation states, including those needing editing, are eligible to be "
 "written to the translation file."
-msgstr "편집 필요로 표시된 번역은 번역 파일에 기록되지 않습니다."
+msgstr ""
+"편집 필요 상태를 포함하여 모든 번역 상태가 번역 파일에 기록될 수 있습니다."
 
-#, fuzzy
-#| msgid "Enable source reviews"
 msgid "Configure source reviews"
-msgstr "원문 검토 활성화"
+msgstr "원문 검토 설정"
 
-#, fuzzy
-#| msgid "Cleanup translation files"
 msgid "Configure translation reviews"
-msgstr "번역 파일 정리"
+msgstr "번역 검토 설정"
 
 #, python-format
 msgid "Completed translation with %(count)s string"
@@ -19852,6 +21526,32 @@ msgstr "번역에 새 문자열을 추가합니다. 이미 존재하는 문자�
 
 msgid "Updates source strings in bilingual translation file."
 msgstr "이중 언어 번역 파일의 원문 문자열을 업데이트합니다."
+
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "A translation upload is already in progress."
+msgstr "번역 업데이트가 진행 중입니다."
+
+msgid "The uploaded file has expired or was already processed."
+msgstr ""
+
+#, fuzzy
+#| msgid "The uploaded image was invalid."
+msgid "The uploaded file has expired."
+msgstr "업로드된 이미지가 유효하지 않습니다."
+
+#, fuzzy
+#| msgid "User access changed"
+msgid "The upload target or permissions changed."
+msgstr "사용자 접근 변경됨"
+
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr "업로드한 파일의 복수형이 현재 번역과 일치하지 않습니다."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "File upload has failed. Please try again later."
+msgstr "검색 요청이 너무 많습니다. 잠시 후 다시 시도하세요."
 
 msgid "Very high"
 msgstr "매우 높음"
@@ -19972,6 +21672,9 @@ msgstr "자기 자신을 제거할 수 없습니다!"
 msgid "You can not block yourself on this project."
 msgstr "이 프로젝트에서 자기 자신을 차단할 수 없습니다."
 
+msgid "Remove project administration rights before blocking this user."
+msgstr ""
+
 msgid "User has been blocked on this project."
 msgstr "이 프로젝트에서 사용자가 차단되었습니다."
 
@@ -20018,6 +21721,11 @@ msgid_plural ""
 msgstr[0] ""
 "%(language)s 언어를 %(count)d개 구성요소에 추가할 수 없습니다. 구성요소 설정"
 "을 확인하세요."
+
+#, fuzzy
+#| msgid "You do not have permission to accept suggestions."
+msgid "You do not have permission to add this language."
+msgstr "제안을 수락할 권한이 없습니다."
 
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
@@ -20143,6 +21851,7 @@ msgid ""
 "Your previous search results are no longer available. The results have been "
 "refreshed."
 msgstr ""
+"이전 검색 결과를 더 이상 사용할 수 없습니다. 결과가 새로고침되었습니다."
 
 msgid "No strings found!"
 msgstr "문자열을 찾을 수 없습니다!"
@@ -20219,10 +21928,8 @@ msgstr "새 문자열이 추가되었습니다."
 msgid "The component is busy. Please try again."
 msgstr "이 구성요소는 이미 %s에서 공유되고 있습니다."
 
-#, fuzzy
-#| msgid "Source string added"
 msgid "Source string updated."
-msgstr "원문 문자열 추가됨"
+msgstr "원문 문자열이 업데이트되었습니다."
 
 #, python-format
 msgid "Could not remove the string: %s"
@@ -20237,8 +21944,10 @@ msgstr "잘못된 요청"
 msgid "Access denied."
 msgstr "접근 거부됨."
 
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr "업로드한 파일의 복수형이 현재 번역과 일치하지 않습니다."
+#, fuzzy
+#| msgid "Translation uploaded"
+msgid "Translation upload in progress."
+msgstr "번역 업로드됨"
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -20297,10 +22006,20 @@ msgstr "구성요소가 번역 업데이트를 위해 잠겼습니다!"
 msgid "All components are now locked for translation updates!"
 msgstr "모든 구성요소가 번역 업데이트를 위해 잠겼습니다!"
 
+#, fuzzy
+#| msgid "All components are now locked for translation updates!"
+msgid "Allowed components are now locked for translation updates!"
+msgstr "모든 구성요소가 번역 업데이트를 위해 잠겼습니다!"
+
 msgid "Component is now open for translation updates."
 msgstr "구성요소가 번역 업데이트를 위해 열렸습니다."
 
 msgid "All components are now open for translation updates."
+msgstr "모든 구성요소가 번역 업데이트를 위해 열렸습니다."
+
+#, fuzzy
+#| msgid "All components are now open for translation updates."
+msgid "Allowed components are now open for translation updates."
 msgstr "모든 구성요소가 번역 업데이트를 위해 열렸습니다."
 
 #, fuzzy
@@ -20367,17 +22086,6 @@ msgstr "사용자 데이터 다운로드"
 msgid "Excluded user days"
 msgstr "제외할 작성자(사용자 이름)"
 
-msgid "Could not process form!"
-msgstr "양식을 처리할 수 없습니다!"
-
-msgid "Search and replace completed, no strings were updated."
-msgstr "검색 및 교체가 완료되었습니다. 업데이트된 문자열이 없습니다."
-
-#, python-format
-msgid "Search and replace completed, %d string was updated."
-msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] "검색 및 교체가 완료되어 문자열 %d개가 업데이트되었습니다."
-
 #, python-format
 msgid "Search for %s"
 msgstr "%s 검색"
@@ -20388,13 +22096,29 @@ msgstr "검색 요청이 너무 많습니다. 잠시 후 다시 시도하세요.
 msgid "Invalid search query!"
 msgstr "잘못된 검색어!"
 
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many bulk edits, please try again later."
+msgstr "검색 요청이 너무 많습니다. 잠시 후 다시 시도하세요."
+
+msgid "The preview has expired or is invalid. Preview the changes again."
+msgstr ""
+
+msgid "Could not process form!"
+msgstr "양식을 처리할 수 없습니다!"
+
+#, fuzzy
+#| msgid "Bulk edit strings"
+msgid "Bulk edit in progress."
+msgstr "문자열 일괄 편집"
+
+#, fuzzy, python-format
+#| msgid "Authentication failed: %s"
+msgid "Bulk edit failed: %s"
+msgstr "인증 실패: %s"
+
 msgid "Bulk edit completed, no strings were updated."
 msgstr "대량 편집이 완료되었습니다. 업데이트된 문자열이 없습니다."
-
-#, python-format
-msgid "Bulk edit completed, %d string was updated."
-msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] "대량 편집이 완료되어 문자열 %d개가 업데이트되었습니다."
 
 msgid "Settings saved"
 msgstr "설정이 저장되었습니다"
@@ -20443,10 +22167,8 @@ msgstr "이 구성요소는 이미 %s에서 공유되고 있습니다."
 msgid "Backup scheduled. It will be available soon."
 msgstr "백업이 예약되었습니다. 곧 이용할 수 있습니다."
 
-#, fuzzy
-#| msgid "Could not change additional string info!"
 msgid "Could not change string flags!"
-msgstr "추가 문자열 정보를 변경할 수 없습니다!"
+msgstr "문자열 플래그를 변경할 수 없습니다!"
 
 msgid "Could not change additional string info!"
 msgstr "추가 문자열 정보를 변경할 수 없습니다!"
@@ -20502,6 +22224,16 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "수직 언어 막대 차트"
 
+#, fuzzy
+#| msgid "Your languages"
+msgid "Sort languages by"
+msgstr "당신의 언어"
+
+#, fuzzy
+#| msgid "Translation change"
+msgid "Translation percentage"
+msgstr "번역 변경"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr "수평 언어 막대 차트"
@@ -20527,6 +22259,11 @@ msgid "language"
 msgid_plural "languages"
 msgstr[0] "언어"
 
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
+msgstr ""
+
 msgid "The project is already assigned to this workspace."
 msgstr "프로젝트가 이미 이 작업공간에 할당되어 있습니다."
 
@@ -20548,10 +22285,165 @@ msgstr "Borg가 출력 없이 경고와 함께 완료되었습니다."
 msgid "Invalid host name given!"
 msgstr "잘못된 호스트 이름입니다!"
 
+msgid "Press ? in the translation editor to discover keyboard shortcuts."
+msgstr "번역 편집기에서 ?를 누르면 키보드 단축키를 확인할 수 있습니다."
+
+msgid ""
+"Add secondary languages in your preferences to see translations you already "
+"understand alongside the source."
+msgstr ""
+"환경 설정에서 보조 언어를 추가하면 다른 익숙한 언어의 번역을 원문과 함께 볼 "
+"수 있습니다."
+
+msgid ""
+"Customize your special characters in your profile to keep frequently used "
+"characters within reach."
+msgstr ""
+"프로필에서 특수문자를 맞춤 설정하여 자주 사용하는 문자에 손쉽게 접근할 수 있"
+"습니다."
+
+msgid ""
+"Use the visual keyboard above the translation field to insert special "
+"characters."
+msgstr ""
+"번역 필드 위에 있는 가상 키보드를 사용하여 특수문자를 입력할 수 있습니다."
+
+msgid ""
+"Save searches you use often so you can return to them from the search "
+"filters."
+msgstr ""
+"자주 사용하는 검색을 저장해 두면 검색 필터에서 언제든지 다시 불러올 수 있습니"
+"다."
+
+msgid ""
+"Combine search conditions with AND, OR, and NOT to find exactly the strings "
+"you need."
+msgstr ""
+"AND, OR, NOT을 조합하여 검색 조건을 세밀하게 설정하면 필요한 문자열을 정확하"
+"게 찾을 수 있습니다."
+
+msgid ""
+"Search with regular expressions when a simple word search is not enough."
+msgstr ""
+"단순 단어 검색으로 부족할 때는 정규 표현식을 사용하여 검색할 수 있습니다."
+
+msgid "Use labels to organize strings and find related translation work."
+msgstr ""
+"레이블을 사용하여 문자열을 정리하고 관련된 번역 작업을 찾을 수 있습니다."
+
+msgid ""
+"Check a string’s screenshots to see where the text appears in the "
+"application."
+msgstr ""
+"문자열의 스크린샷을 확인하여 애플리케이션 내에서 해당 텍스트가 어디에 표시되"
+"는지 볼 수 있습니다."
+
+msgid ""
+"Link an existing screenshot to a string to give translators more context."
+msgstr ""
+"기존 스크린샷을 문자열에 연결하여 번역자에게 추가 문맥을 제공할 수 있습니다."
+
+msgid ""
+"Check nearby strings for context before translating a short or ambiguous "
+"message."
+msgstr ""
+"짧거나 모호한 메시지를 번역하기 전에 주변 문자열을 확인하여 문맥을 파악할 수 "
+"있습니다."
+
+msgid "Explore a string’s history to see how its translation has changed."
+msgstr ""
+"문자열의 변경 이력을 살펴보면 번역이 어떻게 변경되어 왔는지 확인할 수 있습니"
+"다."
+
+msgid ""
+"Leave a comment on a source string to ask for context that can help every "
+"language."
+msgstr ""
+"원문 문자열에 의견을 남겨 모든 언어 번역에 도움이 될 문맥을 요청할 수 있습니"
+"다."
+
+msgid ""
+"Suggest a translation when you want others to review your wording before it "
+"is accepted."
+msgstr ""
+"번역 승인 전에 다른 사람들의 검토를 받고 싶다면 번역을 제안할 수 있습니다."
+
+msgid "You can edit a translation suggestion before accepting it."
+msgstr "번역 제안을 승인하기 전에 내용을 수정할 수 있습니다."
+
+msgid ""
+"Add terms to a project glossary to help translators use consistent wording."
+msgstr ""
+"프로젝트 용어집에 용어를 추가하여 번역자들이 일관된 표현을 사용하도록 도울 "
+"수 있습니다."
+
+msgid ""
+"Glossaries can mark terms as forbidden to help translators avoid unwanted "
+"wording."
+msgstr ""
+"용어집에서 특정 용어를 금지어로 지정하여 원하지 않는 표현이 사용되는 것을 방"
+"지할 수 있습니다."
+
+msgid "Glossaries can mark names and other terms as untranslatable."
+msgstr "고유 명사나 기타 용어를 번역 불가 항목으로 지정할 수 있습니다."
+
+msgid ""
+"Watch projects you care about and choose which translation events notify you."
+msgstr ""
+"관심 있는 프로젝트를 관심 등록하고 알림을 받을 번역 이벤트를 선택할 수 있습니"
+"다."
+
+msgid ""
+"Choose notification digests to receive translation updates together instead "
+"of one email at a time."
+msgstr ""
+"개별 이메일 대신 알림 요약을 선택하여 번역 업데이트 내용을 모아서 받을 수 있"
+"습니다."
+
+msgid "Regular expression processing failed or exceeded its resource limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The API request rate limit was exceeded."
+msgid "Cumulative regex time limit exceeded."
+msgstr "API 요청 속도 제한이 초과되었습니다."
+
+msgid "Regex request exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression to match translation files against"
+msgid "Regular expression evaluation timed out."
+msgstr "번역 파일과 일치시킬 정규 표현식"
+
+msgid "Regex response exceeds its size limit."
+msgstr ""
+
+msgid "Regex output exceeds its size limit."
+msgstr ""
+
+msgid "Pattern and replacement must not exceed 4096 characters."
+msgstr ""
+
+msgid "Regex input exceeds 1 MiB per plural."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Invalid regular expression: {}"
+msgid "Invalid regular expression or replacement: %s"
+msgstr "유효하지 않은 정규식: {}"
+
 #, fuzzy
 #| msgid "Automatic translation source"
 msgid "Automatic translation reported a warning."
 msgstr "자동 번역 원본"
+
+#, fuzzy
+#| msgid ""
+#| "Automatically translates strings using machine translation or other "
+#| "components."
+msgid "Automatic translation is waiting for another operation to finish."
+msgstr "기계 번역이나 다른 구성요소를 사용하여 문자열을 자동으로 번역합니다."
 
 #, fuzzy
 #| msgid "Automatic translation skipped because the target no longer exists."
@@ -20560,6 +22452,11 @@ msgstr "대상이 더 이상 존재하지 않으므로 자동 번역이 건너�
 
 msgid "Task could not be completed. See the task log for details."
 msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation source"
+msgid "Automatic translation reported an error."
+msgstr "자동 번역 원본"
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -20719,13 +22616,14 @@ msgid "Could not resolve the URL domain."
 msgstr "URL 도메인을 확인할 수 없습니다: {}"
 
 #, fuzzy
+#| msgid "Invalid parameters!"
+msgid "Invalid stored parameter value."
+msgstr "잘못된 매개변수!"
+
+#, fuzzy
 #| msgid "File format parameters must be a dictionary of key-value pairs."
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "파일 형식 매개변수는 키-값 쌍의 딕셔너리여야 합니다."
-
-#, python-format
-msgid "Undefined variable: \"%s\""
-msgstr "정의되지 않은 변수: \"%s\""
 
 msgid "Could not render template: {}"
 msgstr "템플릿을 렌더링할 수 없습니다: {}"
@@ -20735,11 +22633,373 @@ msgid ""
 "instead."
 msgstr "포맷 문자열은 더 이상 지원되지 않습니다. 템플릿 언어를 사용하세요."
 
+msgid "Template context exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The HTML {tag} tag is missing a matching end tag: {end}."
+msgid "Template context is nested too deeply."
+msgstr "HTML {tag} 태그에 일치하는 종료 태그 {end}가 없습니다."
+
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported nonfinite template context value."
+msgstr "지원되지 않는 ITS 규칙 콘텐츠입니다."
+
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported template context key."
+msgstr "지원되지 않는 ITS 규칙 콘텐츠입니다."
+
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported template context value."
+msgstr "지원되지 않는 ITS 규칙 콘텐츠입니다."
+
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Template text is not valid UTF-8."
+msgstr "입력한 토큰이 유효하지 않습니다."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid request."
+msgid "Invalid template syntax."
+msgstr "잘못된 요청."
+
+#, fuzzy
+#| msgid "Undefined variable: \"%s\""
+msgid "Undefined template variable."
+msgstr "정의되지 않은 변수: \"%s\""
+
+#, fuzzy
+#| msgid "The translation is not valid XML."
+msgid "Text is not valid UTF-8."
+msgstr "번역이 유효한 XML이 아닙니다."
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Division by zero is not supported."
+msgstr "선택한 정렬은 지원되지 않습니다."
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Numeric value is too large for this operation."
+msgstr "이 언어의 모든 변경사항 보기"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Numeric operation failed."
+msgstr "저장소 작업 실패"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation reviews are not enabled."
+msgid "Value or argument has an invalid format."
+msgstr "번역 검토가 활성화되어 있지 않습니다."
+
+#, fuzzy, python-format
+#| msgid "%(path)s: %(error)s"
+msgid "%(operation)s: %(message)s"
+msgstr "%(path)s: %(error)s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
+msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nonfinite numbers are not supported."
+msgstr "선택한 정렬은 지원되지 않습니다."
+
+#, fuzzy, python-format
+#| msgid "File names"
+msgid "Filter \"%(name)s\""
+msgstr "파일 이름"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
+msgstr ""
+
+msgid "Template rendering exceeded its loop limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Attribute access and method calls are not supported."
+msgstr "선택한 정렬은 지원되지 않습니다."
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Index exceeds the length limit of 128 characters."
+msgstr "사용자 이름은 적어도 5글자 이상이어야 합니다."
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Translated template literals are not supported."
+msgstr "선택한 정렬은 지원되지 않습니다."
+
+#, fuzzy
+#| msgid "Invalid unit."
+msgid "Invalid filter."
+msgstr "잘못된 유닛입니다."
+
+msgid "Identity comparisons require None, True, or False."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This condition operator is not supported."
+msgstr "선택한 정렬은 지원되지 않습니다."
+
+msgid "Template output exceeds its size limit."
+msgstr ""
+
+msgid "Loops require a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
+msgstr ""
+
+msgid "Loop value cannot be unpacked into its variables."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This template tag is not supported."
+msgstr "선택한 정렬은 지원되지 않습니다."
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This template node is not supported."
+msgstr "감지된 파일 형식은 지원되지 않습니다."
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Undefined variable: \"%s\""
+msgstr "정의되지 않은 변수: \"%s\""
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "This field is required."
+msgid "This filter requires strings."
+msgstr "이 필드는 필수입니다."
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Choices must be a string."
+msgstr "자동화 키는 문자열이어야 합니다."
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr "사용자 이름은 적어도 5글자 이상이어야 합니다."
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source string length"
+msgid "Joining requires string elements."
+msgstr "원문 문자열 길이"
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Date format must be a string or None."
+msgstr "자동화 키는 문자열이어야 합니다."
+
+#, fuzzy
+#| msgid "Avoid years that are associated with you."
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "당신과 관련된 해를 피하십시오."
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Plural suffixes must be a string."
+msgstr "자동화 키는 문자열이어야 합니다."
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr "사용자 이름은 적어도 5글자 이상이어야 합니다."
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nested template delimiters are not supported."
+msgstr "선택한 정렬은 지원되지 않습니다."
+
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unclosed template token."
+msgstr "지원되지 않는 ITS 규칙 콘텐츠입니다."
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "The resource is locked."
+msgid "Template tag is empty."
+msgstr "리소스가 잠겼습니다."
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr ""
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "지원되지 않는 ITS 규칙 콘텐츠입니다."
+
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported template tag."
+msgstr "지원되지 않는 ITS 규칙 콘텐츠입니다."
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
 #, python-format
 msgid ""
 "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
 "제공된 URL에서 에셋을 다운로드할 수 없습니다(HTTP 상태 코드: %(code)s)."
+
+#, fuzzy
+#| msgid "Search query is too complex."
+msgid "Regular expression is too complex."
+msgstr "검색 쿼리가 너무 복잡합니다."
 
 msgid "Search query is too complex."
 msgstr "검색 쿼리가 너무 복잡합니다."
@@ -20769,6 +23029,11 @@ msgstr "유효하지 않은 정규식: {}"
 msgid "Unsupported lookup for {field}: {value}"
 msgstr "{field}에서 지원되지 않는 조회: {value}"
 
+#, fuzzy
+#| msgid "Enter component ID or project/component slug."
+msgid "A concrete project or component is required."
+msgstr "구성요소 ID 또는 프로젝트/구성요소 슬러그를 입력하세요."
+
 msgid "Could not parse IP address: {}"
 msgstr "IP 주소를 파싱 할 수 없습니다 : {}"
 
@@ -20780,6 +23045,11 @@ msgstr "{} 필드에서는 범위를 지원하지 않습니다"
 
 msgid "Mixed operators!"
 msgstr "연산자가 혼합되었습니다!"
+
+#, fuzzy
+#| msgid "Search query is too complex."
+msgid "Search query is too long."
+msgstr "검색 쿼리가 너무 복잡합니다."
 
 msgid "Invalid character in the query string"
 msgstr "쿼리 문자열에 잘못된 문자가 있습니다"
@@ -20970,6 +23240,9 @@ msgstr "페디버스 URL은 페디버스 사용자 프로필로 연결되어야 
 msgid "URL domain is not allowed."
 msgstr "URL 도메인이 허용되지 않습니다."
 
+msgid "AMQP broker URLs must not contain query strings or fragments."
+msgstr ""
+
 #, fuzzy
 #| msgid "Name contains disallowed characters."
 msgid "Repository URL contains unsafe characters."
@@ -21056,10 +23329,9 @@ msgstr "로컬 저장소는 이미 최신 상태입니다."
 msgid "The local repository checkout is invalid."
 msgstr "업로드된 이미지가 유효하지 않습니다."
 
-#, fuzzy, python-format
-#| msgid "Details"
+#, python-format
 msgid "%(detail)s"
-msgstr "상세"
+msgstr "%(detail)s"
 
 #, fuzzy, python-format
 #| msgid "Too many messages sent, please try again later."
@@ -21157,6 +23429,37 @@ msgstr ""
 #| msgid "Too many messages sent, please try again later."
 msgid "Pull request listing failed: %(error)s Please retry later."
 msgstr "너무 많은 메시지를 보냈습니다. 잠시 후 다시 시도해 주세요."
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s"
+msgstr "너무 많은 메시지를 보냈습니다. 잠시 후 다시 시도해 주세요."
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s "
+"Please retry later."
+msgstr "너무 많은 메시지를 보냈습니다. 잠시 후 다시 시도해 주세요."
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s"
+msgstr "너무 많은 메시지를 보냈습니다. 잠시 후 다시 시도해 주세요."
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s Please retry later."
+msgstr "너무 많은 메시지를 보냈습니다. 잠시 후 다시 시도해 주세요."
+
+#, python-format
+msgid "GitHub did not assign the requested users: %(assignees)s"
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Could not get repository status!"
@@ -21441,19 +23744,13 @@ msgid "App slug"
 msgstr "URL 슬러그"
 
 msgid "Private key (PEM)"
-msgstr ""
+msgstr "개인 키 (PEM)"
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Client ID"
 msgid "OAuth client ID"
-msgstr "클라이언트 ID"
+msgstr "OAuth 클라이언트 ID"
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Client secret"
 msgid "OAuth client secret"
-msgstr "클라이언트 시크릿"
+msgstr "OAuth 클라이언트 시크릿"
 
 #, fuzzy
 #| msgid "Webhook"
@@ -21498,6 +23795,11 @@ msgstr ""
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr "변경 사항이 업스트림 Mercurial 저장소에 푸시됩니다."
 
+#, fuzzy
+#| msgid "Could not merge the repository."
+msgid "Could not remove nested repository metadata."
+msgstr "저장소를 병합할 수 없습니다."
+
 msgid "GitHub"
 msgstr "GitHub"
 
@@ -21534,30 +23836,22 @@ msgstr "번역 호스팅"
 msgid "Available repositories"
 msgstr "VCS 저장소"
 
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "code-hosting installation"
-msgstr "번역 호스팅"
+msgstr "코드 호스팅 설치"
 
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "code-hosting installations"
-msgstr "번역 호스팅"
+msgstr "코드 호스팅 설치"
 
 #, fuzzy
 #| msgid "Webhook"
 msgid "Webhook payload"
 msgstr "웹훅"
 
-#, fuzzy
-#| msgid "Pending invitation"
 msgid "pending code-hosting installation"
-msgstr "초대 보류 중"
+msgstr "대기 중인 코드 호스팅 설치"
 
-#, fuzzy
-#| msgid "Pending invitations"
 msgid "pending code-hosting installations"
-msgstr "보류 중인 초대"
+msgstr "대기 중인 코드 호스팅 설치"
 
 #, fuzzy
 #| msgid "Git with force push"
@@ -21579,6 +23873,32 @@ msgid ""
 "Open a pull or merge request for the translation changes. When turned off, "
 "Weblate pushes to the translated branch directly, which requires write "
 "access to it."
+msgstr ""
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request assignee"
+msgstr "Gitea 풀 리퀘스트"
+
+msgid "GitHub username to assign to pull requests created by Weblate."
+msgstr ""
+
+msgid "Assign pull requests to acting user"
+msgstr ""
+
+msgid ""
+"Also assign the GitHub account linked to the Weblate user who starts the "
+"push, when available."
+msgstr ""
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request labels"
+msgstr "Gitea 풀 리퀘스트"
+
+msgid ""
+"Comma-separated names of labels to add to pull requests created by Weblate. "
+"Existing labels are kept."
 msgstr ""
 
 msgid "Merge pull requests automatically"
@@ -21934,6 +24254,70 @@ msgstr ""
 "전체 메뉴를 표시할 공간이 있더라도 오른쪽 상단에 내비게이션 드롭다운 메뉴를 "
 "항상 표시합니다."
 
+#, fuzzy
+#| msgid "Data exports"
+msgid "CSV report"
+msgstr "데이터 내보내기"
+
+#, fuzzy
+#| msgid "Language limit"
+msgid "Delimiter"
+msgstr "언어 제한"
+
+msgid ""
+"Leave blank to detect automatically. Use a comma, semicolon, pipe, or \\t "
+"for a tab."
+msgstr ""
+
+msgid "First row contains column names"
+msgstr ""
+
+#, fuzzy
+#| msgid "Username or e-mail"
+msgid "Username or e-mail column"
+msgstr "사용자 이름 또는 이메일"
+
+#, fuzzy
+#| msgid "Password"
+msgid "Password column"
+msgstr "비밀번호"
+
+msgid ""
+"Specify both column numbers, or leave both blank for automatic detection."
+msgstr ""
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Configuring"
+msgstr "설정"
+
+msgid "Running"
+msgstr ""
+
+msgid "Open"
+msgstr "열림"
+
+#, fuzzy
+#| msgid "Resolve"
+msgid "Resolved"
+msgstr "해결"
+
+#, fuzzy
+#| msgid "User was disabled by administrator."
+msgid "Dismissed by administrator"
+msgstr "관리자가 사용자를 비활성화했습니다."
+
+msgid "Lookalike e-mail identity removed"
+msgstr ""
+
+msgid "E-mail identity already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Password already changed"
+msgstr "비밀번호 변경됨."
+
 #. Translators: The Weblate server has no paid support by the Weblate team
 msgid "Community support"
 msgstr "커뮤니티 지원"
@@ -21982,10 +24366,8 @@ msgid "Database backup performed"
 msgstr "백업 수행됨"
 
 #. Translators: Backup repository operation
-#, fuzzy
-#| msgid "Backup failed"
 msgid "Database backup failed"
-msgstr "백업 실패"
+msgstr "데이터베이스 백업 실패"
 
 #. Translators: Backup repository operation
 msgid "Deleted the oldest backups"
@@ -21999,11 +24381,187 @@ msgstr "백업 저장소 정리됨"
 msgid "Repository initialization"
 msgstr "저장소 초기화"
 
+#, fuzzy
+#| msgid "Old password"
+msgid "Leaked password"
+msgstr "예전 비밀번호"
+
+#, fuzzy
+#| msgid "Add and verify e-mail address"
+msgid "Lookalike verified e-mail address"
+msgstr "새 이메일 주소 추가 및 인증"
+
+msgid "The uploaded report has expired. Upload it again."
+msgstr ""
+
+msgid ""
+"Could not detect the credential columns. Configure their column numbers."
+msgstr ""
+
+msgid "Choose different identifier and password columns."
+msgstr ""
+
+msgid "The report exceeds the 10 MiB limit."
+msgstr ""
+
+msgid "Upload a UTF-8 encoded CSV file."
+msgstr ""
+
+msgid ""
+"Could not detect the delimiter. Configure the CSV columns and delimiter."
+msgstr ""
+
+msgid "Choose a single delimiter character."
+msgstr ""
+
+#, fuzzy
+#| msgid "The ZIP file contains too many entries."
+msgid "The file contains malformed CSV quoting."
+msgstr "ZIP 파일에 너무 많은 항목이 포함되어 있습니다."
+
+#, fuzzy
+#| msgid "The resource is locked."
+msgid "The report is empty."
+msgstr "리소스가 잠겼습니다."
+
+msgid "The report exceeds the 50,000 row limit."
+msgstr ""
+
+msgid "The report contains no credential rows."
+msgstr ""
+
+#, fuzzy
+#| msgid "You do not have permission to access this component."
+msgid ""
+"The initiating administrator no longer has permission to perform this "
+"operation."
+msgstr "이 구성요소에 접근할 권한이 없습니다."
+
+msgid ""
+"The security operation failed. Review any findings already recorded and "
+"start a new operation."
+msgstr ""
+
+#, fuzzy
+#| msgid "Security"
+msgid "Security report"
+msgstr "보안"
+
+#, fuzzy, python-format
+#| msgid "Joined on %(date)s"
+msgid "Report from %(date)s"
+msgstr "가입일: %(date)s"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s — %(report)s"
+msgstr "%(filename)s, 문자열 %(position)s"
+
+msgid ""
+"Your identity verification has expired. Confirm your identity, then select "
+"and upload the CSV report again."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not load repository branches. Please try again."
+msgid "Could not store the encrypted upload. Try again."
+msgstr "저장소 브랜치를 불러오지 못했습니다. 다시 시도하세요."
+
+msgid "Choose a CSV report of at most 10 MiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not load repository branches. Please try again."
+msgid "Could not read the uploaded report. Upload it again."
+msgstr "저장소 브랜치를 불러오지 못했습니다. 다시 시도하세요."
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords checked"
+msgstr "비밀번호 변경됨."
+
+#, fuzzy
+#| msgid "Duplicated translation."
+msgid "Duplicate rows"
+msgstr "중복된 번역."
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Unknown accounts"
+msgstr "계정 삭제"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Ambiguous accounts"
+msgstr "계정 삭제"
+
+msgid "Malformed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "Disable password"
+msgid "Unusable passwords"
+msgstr "비밀번호 비활성화"
+
+#, fuzzy
+#| msgid "The two password fields didn't match."
+msgid "Passwords that did not match"
+msgstr "2개의 비밀번호 입력란이 동일하지 않습니다."
+
+msgid "Passwords reset"
+msgstr "비밀번호 재설정"
+
+msgid "Lookalike e-mail identities removed"
+msgstr ""
+
+msgid "E-mail identities already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords already changed"
+msgstr "비밀번호 변경됨."
+
+#, fuzzy
+#| msgid "Dismissed"
+msgid "Dismissed findings"
+msgstr "해결됨"
+
+#, fuzzy
+#| msgid "Skipped additions"
+msgid "Skipped findings"
+msgstr "건너뛴 추가 항목"
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported actions"
+msgstr "지원되지 않는 파일입니다!"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Primary e-mail address"
+msgstr "새 이메일 주소 확인"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Verified e-mail address"
+msgstr "새 이메일 주소 확인"
+
+#, fuzzy, python-format
+#| msgid "Edit team membership for %(username)s"
+msgid "Finding for %(username)s"
+msgstr "%(username)s의 팀 구성원 편집"
+
 msgid "Weblate administration"
 msgstr "Weblate 관리"
 
 msgid "Object listing turned off"
 msgstr "객체 목록이 비활성화되었습니다"
+
+#, fuzzy
+#| msgid "The invitation link is no longer valid."
+msgid "The security operation expired. Start a new operation."
+msgstr "초대 링크가 더 이상 유효하지 않습니다."
 
 msgid "Return to Weblate"
 msgstr "Weblate로 돌아가기"
@@ -22080,10 +24638,8 @@ msgstr ""
 msgid "Discover Weblate enabled."
 msgstr "Weblate 둘러보기"
 
-#, fuzzy
-#| msgid "Support status"
 msgid "Support status refreshed."
-msgstr "지원 상태"
+msgstr "지원 상태가 새로고침되었습니다."
 
 #, fuzzy
 #| msgid "Could not activate your installation. Please try again later."
@@ -22160,6 +24716,23 @@ msgstr "상속된 구성요소 기본값"
 msgid "Workspace name"
 msgstr "작업공간 이름"
 
+#, fuzzy
+#| msgid "Allow translation propagation"
+msgid "Translation propagation scope"
+msgstr "번역 전파 허용"
+
+#, fuzzy
+#| msgid "Cannot change components on a workspace team."
+msgid "Matching component name within workspace"
+msgstr "작업공간 팀에서는 구성요소 목록을 변경할 수 없습니다."
+
+#, fuzzy
+#| msgid ""
+#| "Whether to overwrite existing translations if the string is already "
+#| "translated."
+msgid "Where translations of matching strings are propagated."
+msgstr "문자열이 이미 번역된 경우 기존 번역을 덮어쓸지 여부."
+
 msgid "Managed name"
 msgstr "관리 이름"
 
@@ -22193,6 +24766,105 @@ msgstr ""
 #| msgid "Source has been removed."
 msgid "The workspace has been removed."
 msgstr "원문이 제거되었습니다."
+
+#, python-format
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "용어집 %(name)s 보기"
+
+#, fuzzy
+#~| msgid "Invalid translation flag: \"%s\""
+#~ msgid "Invalid template rendering response."
+#~ msgstr "잘못된 번역 플래그: \"%s\""
+
+#, python-format
+#~ msgid ""
+#~ "Fedora Messaging publisher service was unavailable; the connection will "
+#~ "be recreated on the next attempt: %(error)s"
+#~ msgstr ""
+#~ "Fedora Messaging 게시 서비스를 사용할 수 없습니. 다음 시도 시 연결이 다시 "
+#~ "생성됩니다. 에러:%(error)s"
+
+#, fuzzy
+#~| msgid "Registration almost complete"
+#~ msgid "E-mail verification almost complete"
+#~ msgstr "가입이 거의 완료되었습니다"
+
+#, fuzzy
+#~| msgid ""
+#~| "Click the confirmation link sent to your e-mail inbox and start using "
+#~| "your account."
+#~ msgid ""
+#~ "Click the confirmation link sent to your e-mail inbox to verify the "
+#~ "address for your account."
+#~ msgstr ""
+#~ "이메일 수신함으로 전송된 확인 링크를 클릭하고 계정 사용을 시작하세요."
+
+#~ msgid "Search and replace"
+#~ msgstr "검색 및 바꾸기"
+
+#, fuzzy
+#~| msgid "Adding strings is disabled in the component configuration."
+#~ msgid "Stop using this installation without removing its configuration."
+#~ msgstr "구성요소 설정에서 문자열 추가가 비활성화되어 있습니다."
+
+#, fuzzy
+#~| msgid "Remove this notification setting"
+#~ msgid "Remove this installation and its configuration."
+#~ msgstr "이 알림 설정 제거"
+
+#~ msgid "Please review and confirm the search and replace results."
+#~ msgstr "검색 및 바꾸기 결과를 검토하고 확인하세요."
+
+#~ msgid ""
+#~ "Showing and replacing only the first 250 matches. Perform the replacement "
+#~ "again to replace more."
+#~ msgstr ""
+#~ "처음 250개의 일치 항목만 표시하고 바꿉니다. 더 바꾸려면 교체를 다시 실행하"
+#~ "세요."
+
+#~ msgid "Replace"
+#~ msgstr "교체"
+
+#~ msgid "Find strings in image"
+#~ msgstr "이미지에서 문자열 찾기"
+
+#~ msgid "You can change the state of all strings matching given type at once."
+#~ msgstr ""
+#~ "지정된 유형과 일치하는 모든 문자열의 상태를 한 번에 변경할 수 있습니다."
+
+#~ msgid "Optional additional filter applied to the strings"
+#~ msgstr "문자열에 적용되는 선택적 추가 필터"
+
+#~ msgid "Case-sensitive string to search for and replace."
+#~ msgstr "대소문자를 구분하여 검색하고 바꿀 문자열입니다."
+
+#, fuzzy
+#~| msgid "Translation flags to add"
+#~ msgid "Translation flags to add — matching translations"
+#~ msgstr "추가할 번역 플래그"
+
+#, fuzzy
+#~| msgid "Translation flags to remove"
+#~ msgid "Translation flags to remove — matching translations"
+#~ msgstr "제거할 번역 플래그"
+
+#, fuzzy
+#~| msgid "For all languages"
+#~ msgid "Labels to add — all languages"
+#~ msgstr "모든 언어"
+
+#, fuzzy
+#~| msgid "Labels to remove"
+#~ msgid "Labels to remove — all languages"
+#~ msgstr "제거할 레이블"
+
+#~ msgid "Search and replace completed, no strings were updated."
+#~ msgstr "검색 및 교체가 완료되었습니다. 업데이트된 문자열이 없습니다."
+
+#, python-format
+#~ msgid "Search and replace completed, %d string was updated."
+#~ msgid_plural "Search and replace completed, %d strings were updated."
+#~ msgstr[0] "검색 및 교체가 완료되어 문자열 %d개가 업데이트되었습니다."
 
 #~ msgid "Name is also used in version control commits."
 #~ msgstr "이 이름은 버전 관리 커밋에도 사용됩니다."
@@ -22330,10 +25002,6 @@ msgstr "원문이 제거되었습니다."
 #~ "error."
 #~ msgstr "토큰이 만료되었거나 연결 오류로 인해 인증에 실패했습니다."
 
-#, python-format
-#~ msgid "Authentication failed: %s"
-#~ msgstr "인증 실패: %s"
-
 #~ msgid "The authentication provider could not be reached."
 #~ msgstr "인증 제공자에 연결할 수 없습니다."
 
@@ -22462,9 +25130,6 @@ msgstr "원문이 제거되었습니다."
 #~ msgid "Join us in shaping the future of localization and contribute today!"
 #~ msgstr "현지화의 미래를 함께 만들어 가세요!"
 
-#~ msgid "Download reports"
-#~ msgstr "보고서 다운로드"
-
 #~ msgid "DeepL API v1 is no longer supported."
 #~ msgstr "DeepL API v1은 더 이상 지원되지 않습니다."
 
@@ -22581,9 +25246,6 @@ msgstr "원문이 제거되었습니다."
 #~ msgid "Translation files in accessible repositories have been synchronized."
 #~ msgstr "번역 파일이 동기화되었습니다."
 
-#~ msgid "Updates of translations are in progress."
-#~ msgstr "번역 업데이트가 진행 중입니다."
-
 #, fuzzy
 #~| msgid "Updates of translations are in progress."
 #~ msgid "Updates of translations in accessible repositories are in progress."
@@ -22608,9 +25270,6 @@ msgstr "원문이 제거되었습니다."
 #~ msgstr ""
 #~ "이 작업은 즉시 적용되지 않습니다. 실제 변경사항을 적용할 때 한번 더 확인"
 #~ "할 수 있습니다."
-
-#~ msgid "Activation completed."
-#~ msgstr "활성화가 완료되었습니다."
 
 #, python-format
 #~ msgid "Could not activate your installation: %s"
@@ -22654,9 +25313,6 @@ msgstr "원문이 제거되었습니다."
 
 #~ msgid "Repository URL"
 #~ msgstr "저장소 URL"
-
-#~ msgid "Repository name"
-#~ msgstr "저장소 이름"
 
 #~ msgid "Configure component"
 #~ msgstr "구성 요소"
@@ -22712,11 +25368,6 @@ msgstr "원문이 제거되었습니다."
 #~| msgid "project wide"
 #~ msgid "project-wide"
 #~ msgstr "전체 프로젝트"
-
-#, fuzzy
-#~| msgid "site wide"
-#~ msgid "site-wide"
-#~ msgstr "사이트 전체"
 
 #, fuzzy, python-format
 #~| msgctxt "Automatic suggestion service configuration"
@@ -22945,9 +25596,6 @@ msgstr "원문이 제거되었습니다."
 
 #~ msgid "Provide context to the translators"
 #~ msgstr "번역자에게 컨텍스트 제공"
-
-#~ msgid "Workflow customization"
-#~ msgstr "워크플로 사용자 지정"
 
 #~ msgid "Add team"
 #~ msgstr "팀 추가"
@@ -23465,9 +26113,6 @@ msgstr "원문이 제거되었습니다."
 #~ msgid "Disable two-factor authentication"
 #~ msgstr "2단계 인증 비활성화"
 
-#~ msgid "Translation reviews are not enabled."
-#~ msgstr "번역 검토가 활성화되어 있지 않습니다."
-
 #~ msgid "Reviews are not enabled."
 #~ msgstr "검토가 활성화되어 있지 않습니다."
 
@@ -23505,9 +26150,6 @@ msgstr "원문이 제거되었습니다."
 
 #~ msgid "Starting date"
 #~ msgstr "시작일"
-
-#~ msgid "Ending date"
-#~ msgstr "종료일"
 
 #~ msgid "Last 30 days"
 #~ msgstr "지난 30일"
@@ -23630,9 +26272,6 @@ msgstr "원문이 제거되었습니다."
 #~ msgid "Rename component"
 #~ msgstr "구성요소 이름 바꾸기"
 
-#~ msgid "Move component"
-#~ msgstr "구성요소 이동하기"
-
 #~ msgid "Moving the component will also change its URLs."
 #~ msgstr "구성요소를 이동하면 해당 URL도 변경됩니다."
 
@@ -23658,9 +26297,6 @@ msgstr "원문이 제거되었습니다."
 #~ msgid "Committed changes"
 #~ msgstr "커밋된 변경 사항"
 
-#~ msgid "Pushed changes"
-#~ msgstr "푸시된 변경 사항"
-
 #~ msgid "Failed merge on repository"
 #~ msgstr "저장소에서 병합 실패"
 
@@ -23684,9 +26320,6 @@ msgstr "원문이 제거되었습니다."
 
 #~ msgid "Renamed project"
 #~ msgstr "프로젝트 이름 변경"
-
-#~ msgid "Renamed component"
-#~ msgstr "구성요소 이름 변경됨"
 
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
@@ -23782,9 +26415,6 @@ msgstr "원문이 제거되었습니다."
 
 #~ msgid "New language"
 #~ msgstr "새로운 언어"
-
-#~ msgid "Check details"
-#~ msgstr "검사 (교정) 세부 과정"
 
 #~ msgid ""
 #~ "Customizable quality checks will help you improve the quality of "
@@ -24039,9 +26669,6 @@ msgstr "원문이 제거되었습니다."
 #~ msgid "Too many failed registration attempts from this location."
 #~ msgstr "올바르지 않은 등록 시도가 해당 위치에서 너무 많이 일어났습니다."
 
-#~ msgid "Too many authentication attempts from this location."
-#~ msgstr "이 위치에서 인증 시도가 너무 많습니다."
-
 #~ msgid ""
 #~ "Weblate user management is turned off, you can change permissions in the "
 #~ "Django admin interface."
@@ -24071,9 +26698,6 @@ msgstr "원문이 제거되었습니다."
 #~ msgid "source"
 #~ msgstr "원본"
 
-#~ msgid "Invalid parameters!"
-#~ msgstr "잘못된 매개변수!"
-
 #~ msgid "Not translated strings"
 #~ msgstr "번역 되지 않은 문자열"
 
@@ -24082,11 +26706,6 @@ msgstr "원문이 제거되었습니다."
 
 #~ msgid "Strings needing action"
 #~ msgstr "조치가 필요한 문자열"
-
-#, python-format
-#~ msgid "%(count)s string needing action"
-#~ msgid_plural "%(count)s strings needing action"
-#~ msgstr[0] "작업이 필요한 %(count)s개의 문자열"
 
 #~ msgid ""
 #~ "Strings needing action, converted files enriched with comments; suitable "
@@ -24552,9 +27171,6 @@ msgstr "원문이 제거되었습니다."
 #~ msgid "Use this translation for all components"
 #~ msgstr "모든 구성 요소에 이 번역을 사용"
 
-#~ msgid "Use this translation"
-#~ msgstr "이 번역을 사용"
-
 #~ msgid "Change compared to this translation:"
 #~ msgstr "이 번역에 비해 변경된 점:"
 
@@ -24810,9 +27426,6 @@ msgstr "원문이 제거되었습니다."
 #~ msgstr ""
 #~ "당신은 더 이상 {method} ({name}) 을(를) 사용하여 로그인 할 수 없습니다."
 
-#~ msgid "You can now log in using password."
-#~ msgstr "이제 비밀번호를 사용하여 로그인 할 수 있습니다."
-
 #~ msgid "New whiteboard message"
 #~ msgstr "새로운 화이트보드 메시지"
 
@@ -25027,9 +27640,6 @@ msgstr "원문이 제거되었습니다."
 #~ msgid "Toggle edit needed flag"
 #~ msgstr "수정이 필요함 플래그 켜거나 끔"
 
-#~ msgid "Merge failure"
-#~ msgstr "합치기 실패"
-
 #~ msgid "Standard user"
 #~ msgstr "표준 사용자"
 
@@ -25149,12 +27759,6 @@ msgstr "원문이 제거되었습니다."
 #~ msgid "Backup pepository"
 #~ msgstr "저장소"
 
-#~ msgid "Your languages"
-#~ msgstr "당신의 언어"
-
-#~ msgid "Search type"
-#~ msgstr "검색 유형"
-
 #~ msgid "Fulltext"
 #~ msgstr "전체 글자"
 
@@ -25192,14 +27796,8 @@ msgstr "원문이 제거되었습니다."
 #~ msgid "{0}%"
 #~ msgstr "{0}%"
 
-#~ msgid "Repositories limit"
-#~ msgstr "저장소 제한"
-
 #~ msgid "User has all permissions without having been given them."
 #~ msgstr "사용자는 다른 이의 허가 없이도 모든 권한을 갖습니다."
-
-#~ msgid "active"
-#~ msgstr "활동"
 
 #~ msgid ""
 #~ "Choose languages you speak in the preferences, to see an overview of all "
@@ -25261,9 +27859,6 @@ msgstr "원문이 제거되었습니다."
 
 #~ msgid "Host:"
 #~ msgstr "호스트:"
-
-#~ msgid "Process"
-#~ msgstr "처리"
 
 #~ msgid "Automatically add language file"
 #~ msgstr "자동으로 언어 파일 추가"
@@ -27223,9 +29818,6 @@ msgstr "원문이 제거되었습니다."
 #~ msgid "End date"
 #~ msgstr "종료일"
 
-#~ msgid "Text"
-#~ msgstr "글자"
-
 #~ msgid "Depending on placement, HTML can be allowed."
 #~ msgstr "배치에 따라 HTML은 허용될 수 있습니다."
 
@@ -27509,9 +30101,6 @@ msgstr "원문이 제거되었습니다."
 #~ "파일 내용이 성공적으로 번역으로 병합되었고, %d개의 문자열을 처리하였습니"
 #~ "다."
 
-#~ msgid "Suggestions are not allowed on this translation!"
-#~ msgstr "이 번역에는 제안이 허용되지 않습니다!"
-
 #, fuzzy
 #~| msgid "You don't have privileges to save translations!"
 #~ msgid "You don't have privileges to save templates!"
@@ -27548,9 +30137,6 @@ msgstr "원문이 제거되었습니다."
 #~ msgid "Messages"
 #~ msgstr "메세지"
 
-#~ msgid "Others"
-#~ msgstr "그 외"
-
 #~ msgid "Subprojects"
 #~ msgstr "하위 프로젝트"
 
@@ -27579,9 +30165,6 @@ msgstr "원문이 제거되었습니다."
 
 #~ msgid "Words extracted from glossary"
 #~ msgstr "용어집에서 추출된 단어"
-
-#~ msgid "Comments (%(count)s)"
-#~ msgstr "댓글 (%(count)s)"
 
 #~ msgid "Source string details and feedback"
 #~ msgstr "원본 문자열의 세부사항 및 피드백"
@@ -27627,18 +30210,9 @@ msgstr "원문이 제거되었습니다."
 #~ msgid "First name"
 #~ msgstr "이름"
 
-#~ msgid "Username needs to have at least five characters."
-#~ msgstr "사용자 이름은 적어도 5글자 이상이어야 합니다."
-
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."
 #~ msgstr "당신의 프로파일이 이전되었습니다, 환경 설정을 변경 할 수 있습니다."
-
-#~ msgid "Old password"
-#~ msgstr "예전 비밀번호"
-
-#~ msgid "The two password fields didn't match."
-#~ msgstr "2개의 비밀번호 입력란이 동일하지 않습니다."
 
 #~ msgid "AJAX request to load this content has failed!"
 #~ msgstr "이 내용을 읽어들이기 위한 AJAX 요청이 실패했습니다!"

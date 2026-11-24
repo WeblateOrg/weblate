@@ -220,13 +220,17 @@ def handle_post(request: AuthenticatedHttpRequest, billing: Billing) -> None:
             billing.billinglog_set.create(
                 event=BillingEvent.LIBRE_APPROVED, user=request.user
             )
-        elif "request" in request.POST and billing.is_libre_trial:
+        elif (
+            "request" in request.POST
+            and billing.is_libre_trial
+            and not billing.libre_request_pending
+        ):
             form = HostingForm(request.POST)
             if form.is_valid():
                 project = billing.get_projects_queryset().get()
                 subject = f"Hosting request for {project}"
-                billing.payment["libre_request"] = True
-                billing.save(update_fields=["payment"])
+                billing.libre_request_pending = True
+                billing.save(update_fields=["libre_request_pending"])
                 billing.billinglog_set.create(
                     event=BillingEvent.LIBRE_REQUEST, summary=subject, user=request.user
                 )
@@ -274,6 +278,19 @@ def overview(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 @transaction.atomic
 def merge_billings(billing: Billing, other: Billing, user: User) -> None:
+    locked_billings = {
+        item.pk: item
+        for item in Billing.objects.filter(pk__in=(billing.pk, other.pk))
+        .order_by("pk")
+        .select_related("plan", "workspace")
+        .select_for_update(of=("self",))
+    }
+    billing = locked_billings[billing.pk]
+    other = locked_billings[other.pk]
+    if Billing.PaymentMode.EXTERNAL in {billing.payment_mode, other.payment_mode}:
+        msg = gettext("Externally managed billings cannot be merged.")
+        raise ValidationError(msg)
+
     source_details = {"id": billing.pk, "name": str(billing)}
     target_details = {"id": other.pk, "name": str(other)}
     moved_projects = billing.get_projects_queryset()
@@ -286,6 +303,8 @@ def merge_billings(billing: Billing, other: Billing, user: User) -> None:
     other.save()
     projects_moved = moved_projects.update(workspace=other.workspace)
     if projects_moved:
+        billing.reset_libre_cleanup(user=user)
+        other.reset_libre_cleanup(user=user)
         # ruff: ignore[import-outside-top-level]
         from weblate.utils.tasks import update_workspace_stats
 
@@ -403,7 +422,7 @@ def detail(request: AuthenticatedHttpRequest, pk: int) -> HttpResponse:
             to_attr="ordered_invoices",
         ),
     )
-    prefetch_project_flags(billing.all_projects)
+    prefetch_project_flags(billing.all_projects, user=request.user)
 
     user_can_manage_billing = request.user.has_perm("billing.manage")
     context: dict[str, object] = {

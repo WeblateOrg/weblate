@@ -9,6 +9,7 @@ from __future__ import annotations
 from typing import ClassVar
 
 from appconf import AppConf
+from django.core.exceptions import ImproperlyConfigured
 
 from weblate.utils import defaults
 from weblate.utils.version_display import (
@@ -28,6 +29,22 @@ class WeblateConf(AppConf):
     RATELIMIT_SEARCH_ATTEMPTS = defaults.DEFAULT_RATELIMIT_SEARCH_ATTEMPTS
     RATELIMIT_SEARCH_WINDOW = defaults.DEFAULT_RATELIMIT_SEARCH_WINDOW
     RATELIMIT_SEARCH_LOCKOUT = defaults.DEFAULT_RATELIMIT_SEARCH_LOCKOUT
+
+    RATELIMIT_BULK_EDIT_ATTEMPTS = defaults.DEFAULT_RATELIMIT_BULK_EDIT_ATTEMPTS
+    RATELIMIT_BULK_EDIT_WINDOW = defaults.DEFAULT_RATELIMIT_BULK_EDIT_WINDOW
+    RATELIMIT_BULK_EDIT_LOCKOUT = defaults.DEFAULT_RATELIMIT_BULK_EDIT_LOCKOUT
+
+    RATELIMIT_UPLOAD_ATTEMPTS = defaults.DEFAULT_RATELIMIT_UPLOAD_ATTEMPTS
+    RATELIMIT_UPLOAD_WINDOW = defaults.DEFAULT_RATELIMIT_UPLOAD_WINDOW
+    RATELIMIT_UPLOAD_LOCKOUT = defaults.DEFAULT_RATELIMIT_UPLOAD_LOCKOUT
+
+    RATELIMIT_MACHINERY_ATTEMPTS = defaults.DEFAULT_RATELIMIT_MACHINERY_ATTEMPTS
+    RATELIMIT_MACHINERY_WINDOW = defaults.DEFAULT_RATELIMIT_MACHINERY_WINDOW
+    RATELIMIT_MACHINERY_LOCKOUT = defaults.DEFAULT_RATELIMIT_MACHINERY_LOCKOUT
+
+    RATELIMIT_OCR_ATTEMPTS = defaults.DEFAULT_RATELIMIT_OCR_ATTEMPTS
+    RATELIMIT_OCR_WINDOW = defaults.DEFAULT_RATELIMIT_OCR_WINDOW
+    RATELIMIT_OCR_LOCKOUT = defaults.DEFAULT_RATELIMIT_OCR_LOCKOUT
 
     RATELIMIT_COMMENT_ATTEMPTS = defaults.DEFAULT_RATELIMIT_COMMENT_ATTEMPTS
     RATELIMIT_COMMENT_WINDOW = defaults.DEFAULT_RATELIMIT_COMMENT_WINDOW
@@ -154,12 +171,20 @@ class WeblateConf(AppConf):
     TRANSLATION_UPLOAD_MAX_SIZE: ClassVar[int] = (
         defaults.DEFAULT_TRANSLATION_UPLOAD_MAX_SIZE
     )
+    TRANSLATION_MAX_SIZE: ClassVar[int | None] = None
+    TRANSLATION_MAX_UNITS: ClassVar[int] = defaults.DEFAULT_TRANSLATION_MAX_UNITS
     COMPONENT_ZIP_UPLOAD_MAX_SIZE: ClassVar[int] = (
         defaults.DEFAULT_COMPONENT_ZIP_UPLOAD_MAX_SIZE
     )
     PROJECT_BACKUP_UPLOAD_MAX_SIZE: ClassVar[int] = (
         defaults.DEFAULT_PROJECT_BACKUP_UPLOAD_MAX_SIZE
     )
+
+    def configure_translation_max_units(self, value: object) -> int:
+        if not isinstance(value, int) or isinstance(value, bool) or value < 1:
+            msg = "TRANSLATION_MAX_UNITS must be a positive integer."
+            raise ImproperlyConfigured(msg)
+        return value
 
     def configure(self):
         data = AppConf.configure(self).copy()

@@ -8,26 +8,44 @@ from __future__ import annotations
 
 import os.path
 import pathlib
+from concurrent.futures import ThreadPoolExecutor
 from tempfile import TemporaryDirectory
+from threading import Barrier
 from typing import ClassVar, Never
 from unittest.mock import patch
 
+from django.contrib.admin.models import DELETION, LogEntry
 from django.core import mail
-from django.db import connection, transaction
+from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
+from django.db import IntegrityError, connection, connections, transaction
 from django.db.models.signals import post_save
 from django.test import TransactionTestCase, override_settings
 from django.urls import reverse
 from lxml.html import fromstring
 
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
-from weblate.auth.models import Group, Role, TeamMembership
+from weblate.auth.models import (
+    Group,
+    Role,
+    TeamMembership,
+    User,
+    validate_component_deletion,
+)
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.forms import ComponentRenameForm
-from weblate.trans.models import Announcement, Category, Component, Project, Translation
+from weblate.trans.models import (
+    Announcement,
+    Category,
+    Component,
+    ComponentList,
+    Project,
+    Translation,
+)
 from weblate.trans.models.component import ComponentLink, ComponentQuerySet
+from weblate.trans.tasks import category_removal, component_removal
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.tests.utils import get_test_actor
+from weblate.trans.tests.utils import get_optional_path, get_test_actor
 from weblate.utils.change_origin import acting_user_context
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
@@ -47,6 +65,46 @@ class ProjectSaveTransactionTest(TransactionTestCase):
         )
 
         self.enterContext(acting_user_context(get_test_actor(self)))
+
+    def test_concurrent_slug_updates_preserve_both_checkouts(self) -> None:
+        other = Project.objects.create(name="Other project", slug="other-project")
+        projects = {project.pk: project for project in (self.project, other)}
+        old_paths = {
+            pk: pathlib.Path(project.full_path) for pk, project in projects.items()
+        }
+        for pk, path in old_paths.items():
+            (path / "probe.txt").write_text(projects[pk].name)
+
+        ready = Barrier(2, timeout=10)
+        actor = get_test_actor(self)
+
+        def rename(pk: int, slug: str) -> bool:
+            try:
+                project = Project.objects.get(pk=pk)
+                project.slug = slug
+                ready.wait()
+                with acting_user_context(actor):
+                    project.save(update_fields=["slug"])
+            except IntegrityError:
+                return False
+            finally:
+                connections.close_all()
+            return True
+
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            first = pool.submit(rename, self.project.pk, "Shared-path")
+            second = pool.submit(rename, other.pk, "shared-path")
+            self.assertCountEqual(
+                [first.result(timeout=20), second.result(timeout=20)], [True, False]
+            )
+
+        self.assertEqual(Project.objects.filter(slug__iexact="shared-path").count(), 1)
+        for project in Project.objects.filter(pk__in=projects):
+            path = pathlib.Path(project.full_path)
+            self.assertEqual((path / "probe.txt").read_text(), project.name)
+            self.assertEqual(
+                old_paths[project.pk].exists(), old_paths[project.pk] == path
+            )
 
     def test_failed_setup_discards_audit_without_outer_transaction(self) -> None:
         self.assertFalse(connection.in_atomic_block)
@@ -87,6 +145,38 @@ class ProjectSaveTransactionTest(TransactionTestCase):
             (pathlib.Path(persisted.full_path) / "probe.txt").read_text(),
             "repository contents",
         )
+
+    def test_save_failure_restores_checkout_after_rename_reported_missing(self) -> None:
+        old_slug = self.project.slug
+        old_path = pathlib.Path(self.project.full_path)
+        new_path = old_path.with_name("new-path")
+        probe = old_path / "probe.txt"
+        probe.write_text("repository contents")
+        self.project.slug = new_path.name
+        rename = os.rename
+
+        def rename_then_report_missing(source: str, destination: str) -> None:
+            rename(source, destination)
+            if pathlib.Path(source) == old_path:
+                raise FileNotFoundError
+
+        with (
+            patch(
+                "weblate.trans.mixins.os.rename", side_effect=rename_then_report_missing
+            ),
+            patch.object(
+                self.project,
+                "_update_component_repository_links",
+                side_effect=RuntimeError("could not update repository links"),
+            ),
+            self.assertRaisesMessage(RuntimeError, "could not update repository links"),
+        ):
+            self.project.save(update_fields=["slug"])
+
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.slug, old_slug)
+        self.assertEqual(probe.read_text(), "repository contents")
+        self.assertFalse(new_path.exists())
 
     def test_new_project_can_retry_after_failed_setup(self) -> None:
         project = Project(
@@ -167,6 +257,243 @@ class ProjectSaveTransactionTest(TransactionTestCase):
 
 
 class RemovalTest(ViewTestCase):
+    def test_admin_component_list_deletion_reports_team_scope_error(self) -> None:
+        first = ComponentList.objects.create(name="First list", slug="first")
+        second = ComponentList.objects.create(name="Second list", slug="second")
+        team = Group.objects.create(name="List deletion team")
+        team.componentlists.add(first)
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.client.force_login(self.user)
+
+        response = self.client.post(
+            reverse("admin:trans_componentlist_delete", args=(first.pk,)),
+            {"post": "yes"},
+            follow=True,
+        )
+        self.assertContains(response, "Remove the component list from its teams")
+
+        team.componentlists.add(second)
+        response = self.client.post(
+            reverse("admin:trans_componentlist_changelist"),
+            {
+                "action": "delete_selected",
+                "_selected_action": [first.pk, second.pk],
+                "post": "yes",
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Remove the component list from its teams")
+        self.assertNotContains(response, "Successfully deleted")
+        self.assertCountEqual(team.componentlists.all(), [first, second])
+        self.assertFalse(
+            LogEntry.objects.filter(
+                content_type__model="componentlist", action_flag=DELETION
+            ).exists()
+        )
+
+    def test_admin_component_deletion_reports_team_scope_error(self) -> None:
+        team = Group.objects.create(name="Admin deletion team")
+        team.components.add(self.component)
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.client.force_login(self.user)
+
+        response = self.client.post(
+            reverse("admin:trans_component_delete", args=(self.component.pk,)),
+            {"post": "yes"},
+            follow=True,
+        )
+        self.assertContains(response, "Remove the component from its teams")
+        self.assertNotContains(response, "Successfully deleted")
+        self.assertTrue(Component.objects.filter(pk=self.component.pk).exists())
+
+    def test_admin_bulk_component_deletion_reports_team_scope_error(self) -> None:
+        team = Group.objects.create(name="Admin bulk deletion team")
+        team.components.add(self.component)
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.client.force_login(self.user)
+
+        response = self.client.post(
+            reverse("admin:trans_component_changelist"),
+            {
+                "action": "delete_selected",
+                "_selected_action": [self.component.pk],
+                "post": "yes",
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Remove the component from its teams")
+        self.assertNotContains(response, "Successfully deleted")
+        self.assertTrue(Component.objects.filter(pk=self.component.pk).exists())
+
+    def test_last_team_component_cannot_be_deleted(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        member = User.objects.create_user("component-member", "member@example.com")
+        team = Group.objects.create(
+            name="Component administrators", defining_project=self.project
+        )
+        team.projects.add(self.project)
+        team.components.add(self.component)
+        team.roles.add(Role.objects.get(name="Administration"))
+        member.groups.add(team)
+        member.clear_permissions_cache()
+        self.assertTrue(member.has_perm("component.edit", self.component))
+        self.assertFalse(member.has_perm("project.edit", self.project))
+
+        self.client.force_login(member)
+        response = self.client.post(
+            reverse("remove", kwargs=self.kw_component),
+            {"confirm": self.component.full_slug},
+            follow=True,
+        )
+        self.assertContains(response, "Remove the component from its teams")
+        self.assertTrue(Component.objects.filter(pk=self.component.pk).exists())
+
+        with self.assertRaisesMessage(ValidationError, "Remove the component"):
+            component_removal(self.component.pk, member.pk)
+        with (
+            transaction.atomic(),
+            self.assertRaisesMessage(ValidationError, "Remove the component"),
+        ):
+            Component.objects.filter(pk=self.component.pk).delete()
+        member.clear_permissions_cache()
+        self.assertFalse(member.has_perm("project.edit", self.project))
+
+        team.components.remove(self.component)
+        member.clear_permissions_cache()
+        self.assertTrue(member.has_perm("project.edit", self.project))
+        component_removal(self.component.pk, member.pk)
+        self.assertFalse(Component.objects.filter(pk=self.component.pk).exists())
+
+    def test_category_removal_cannot_delete_all_team_components(self) -> None:
+        category = Category.objects.create(
+            name="Team category", slug="team-category", project=self.project
+        )
+        other = self.create_po(name="Second", slug="second", project=self.project)
+        Component.objects.filter(pk__in=(self.component.pk, other.pk)).update(
+            category=category
+        )
+        team = Group.objects.create(name="Category team", defining_project=self.project)
+        team.components.add(self.component, other)
+
+        with self.assertRaisesMessage(ValidationError, "Remove the component"):
+            category_removal(category.pk, self.user.pk)
+        self.assertTrue(Component.objects.filter(pk=self.component.pk).exists())
+        self.assertTrue(Component.objects.filter(pk=other.pk).exists())
+        with (
+            transaction.atomic(),
+            self.assertRaisesMessage(ValidationError, "Remove the component"),
+        ):
+            Component.objects.filter(pk__in=(self.component.pk, other.pk)).delete()
+        with (
+            transaction.atomic(),
+            self.assertRaisesMessage(ValidationError, "Remove the component"),
+        ):
+            Category.objects.filter(pk=category.pk).delete()
+
+    def test_component_deletion_keeps_remaining_team_scope(self) -> None:
+        other = self.create_po(name="Second", slug="second", project=self.project)
+        team = Group.objects.create(
+            name="Component team", defining_project=self.project
+        )
+        team.projects.add(self.project)
+        team.components.add(self.component, other)
+        team.roles.add(Role.objects.get(name="Administration"))
+        member = User.objects.create_user("remaining-member", "remaining@example.com")
+        member.groups.add(team)
+
+        component_removal(self.component.pk, self.user.pk)
+        member.clear_permissions_cache()
+        self.assertFalse(member.has_perm("project.edit", self.project))
+        self.assertTrue(member.has_perm("component.edit", other))
+
+    def test_project_deletion_can_remove_assigned_components(self) -> None:
+        team = Group.objects.create(name="Project team", defining_project=self.project)
+        team.components.add(self.component)
+        self.create_po(name="Second", slug="second", project=self.project)
+        self.create_po(name="Third", slug="third", project=self.project)
+
+        with patch(
+            "weblate.auth.models.validate_component_deletion",
+            wraps=validate_component_deletion,
+        ) as validate:
+            Project.objects.filter(pk=self.project.pk).delete()
+        validate.assert_called_once()
+        self.assertFalse(Project.objects.filter(pk=self.project.pk).exists())
+
+    def test_project_deletion_preserves_surviving_team_scope(self) -> None:
+        team = Group.objects.create(name="Global component team")
+        team.components.add(self.component)
+
+        with (
+            transaction.atomic(),
+            self.assertRaisesMessage(ValidationError, "Remove the component"),
+        ):
+            Project.objects.filter(pk=self.project.pk).delete()
+        self.assertTrue(Project.objects.filter(pk=self.project.pk).exists())
+
+    def test_bulk_removal_preflights_all_delete_templates(self) -> None:
+        self.make_manager()
+        other = self.create_po(name="Other", project=self.project)
+        category = self.create_category(self.project)
+        translations = [
+            component.translation_set.get(language_code="cs")
+            for component in (self.component, other)
+        ]
+        filenames = [
+            get_optional_path(translation.get_filename())
+            for translation in translations
+        ]
+        heads = [
+            component.repository.last_revision for component in (self.component, other)
+        ]
+        Component.objects.filter(pk=other.pk).update(
+            delete_message="{% invalid %}", inherit_delete_message=False
+        )
+        for parent in (self.project, category):
+            with self.subTest(parent=parent):
+                if isinstance(parent, Category):
+                    Component.objects.filter(
+                        pk__in=[self.component.pk, other.pk]
+                    ).update(category=parent)
+                path = [*parent.get_url_path(), "-", "cs"]
+                response = self.client.post(
+                    reverse("remove", kwargs={"path": path}),
+                    {"confirm": "/".join(path)},
+                    follow=True,
+                )
+                self.assertContains(
+                    response, "Could not render delete message template"
+                )
+                for translation, filename, head in zip(
+                    translations, filenames, heads, strict=True
+                ):
+                    self.assertTrue(
+                        Translation.objects.filter(pk=translation.pk).exists()
+                    )
+                    self.assertTrue(filename.exists())
+                    self.assertEqual(
+                        translation.component.repository.get_last_revision(), head
+                    )
+
+    def test_invalid_delete_template_is_handled(self) -> None:
+        self.make_manager()
+        Component.objects.filter(pk=self.component.pk).update(
+            delete_message="{% invalid %}", inherit_delete_message=False
+        )
+        response = self.client.post(
+            reverse("remove", kwargs=self.kw_translation),
+            {"confirm": "test/test/cs"},
+            follow=True,
+        )
+        self.assertContains(response, "Could not render delete message template")
+        self.assertTrue(
+            self.component.translation_set.filter(language_code="cs").exists()
+        )
+
     def test_translation_remove_is_atomic(self) -> None:
         translation = self.get_translation()
         original_delete = Translation.delete
@@ -207,7 +534,7 @@ class RemovalTest(ViewTestCase):
         atomic_states: list[bool] = []
         url = reverse("remove", kwargs={"path": [self.project.slug, "-", "cs"]})
 
-        def wrapped_remove(instance, user) -> None:
+        def wrapped_remove(instance, user, *, commit_message=None) -> None:
             atomic_states.append(connection.in_atomic_block)
 
         with patch.object(
@@ -418,6 +745,204 @@ class RenameTest(ViewTestCase):
         component = Component.objects.get(pk=self.component.pk)
         self.assertEqual(component.project.slug, "other")
         self.assertIsNotNone(component.repository.last_remote_revision)
+
+    def test_move_linked_component_incompatible_inherited_settings(self) -> None:
+        self.make_manager()
+        self.project.new_lang = "none"
+        self.project.inherit_new_lang = False
+        self.project.save()
+        destination = Project.objects.create(
+            name="Destination",
+            slug="destination",
+            new_lang="add",
+            inherit_new_lang=False,
+        )
+        component = self.create_link_existing(
+            filemask="po/*.po", new_lang="none", inherit_new_lang=True
+        )
+        original_url = component.get_absolute_url()
+        original_repo = component.repo
+        original_path = component.full_path
+        translation_ids = set(component.translation_set.values_list("pk", flat=True))
+
+        response = self.client.post(
+            reverse("rename", kwargs={"path": component.get_url_path()}),
+            {
+                "project": destination.pk,
+                "category": "",
+                "slug": component.slug,
+                "name": component.name,
+            },
+            follow=True,
+        )
+
+        self.assertRedirects(response, f"{original_url}#organize")
+        self.assertContains(
+            response,
+            "You have set up Weblate to add new translation "
+            "files, but did not provide a base file to do that.",
+        )
+        component.refresh_from_db()
+        self.assertEqual(component.project_id, self.project.pk)
+        self.assertEqual(component.new_lang, "none")
+        self.assertTrue(component.inherit_new_lang)
+        self.assertEqual(component.repo, original_repo)
+        self.assertEqual(component.full_path, original_path)
+        self.assertEqual(
+            set(component.translation_set.values_list("pk", flat=True)), translation_ids
+        )
+
+    def test_move_linked_component_explicit_settings(self) -> None:
+        self.assert_move_linked_component(inherit_new_lang=False)
+
+    def test_move_linked_component_compatible_inherited_settings(self) -> None:
+        self.assert_move_linked_component(inherit_new_lang=True)
+
+    def assert_move_linked_component(self, *, inherit_new_lang: bool) -> None:
+        self.make_manager()
+        self.project.new_lang = "none"
+        self.project.inherit_new_lang = False
+        self.project.save()
+        destination = Project.objects.create(
+            name="Destination",
+            slug="destination",
+            new_lang="none" if inherit_new_lang else "add",
+            inherit_new_lang=False,
+        )
+        component = self.create_link_existing(
+            filemask="po/*.po", new_lang="none", inherit_new_lang=inherit_new_lang
+        )
+        original_repo = component.repo
+        original_path = component.full_path
+        translation_ids = set(component.translation_set.values_list("pk", flat=True))
+
+        response = self.client.post(
+            reverse("rename", kwargs={"path": component.get_url_path()}),
+            {
+                "project": destination.pk,
+                "category": "",
+                "slug": component.slug,
+                "name": component.name,
+            },
+        )
+
+        component.refresh_from_db()
+        self.assertRedirects(response, component.get_absolute_url())
+        self.assertEqual(component.project_id, destination.pk)
+        self.assertEqual(component.inherit_new_lang, inherit_new_lang)
+        self.assertEqual(component.repo, original_repo)
+        self.assertEqual(component.full_path, original_path)
+        self.assertEqual(
+            set(component.translation_set.values_list("pk", flat=True)), translation_ids
+        )
+
+    def test_rename_form_model_errors(self) -> None:
+        self.make_manager()
+        field_error = ValidationError(
+            "Invalid %(value)s", code="invalid", params={"value": "name"}
+        )
+        missing_field_error = ValidationError(
+            "Invalid %(value)s", code="invalid_base", params={"value": "base"}
+        )
+        non_field_error = ValidationError("Invalid settings", code="invalid_settings")
+        form = ComponentRenameForm(
+            self.get_request(),
+            {
+                "name": self.component.name,
+                "slug": self.component.slug,
+                "project": self.project.pk,
+                "category": "",
+            },
+            instance=self.component,
+        )
+        with patch.object(
+            Component,
+            "clean",
+            side_effect=ValidationError(
+                {
+                    "name": field_error,
+                    "new_base": missing_field_error,
+                    NON_FIELD_ERRORS: non_field_error,
+                }
+            ),
+        ):
+            self.assertFalse(form.is_valid())
+        errors = form.errors.as_data()
+        self.assertEqual(set(errors), {"name", NON_FIELD_ERRORS})
+        self.assertEqual(errors["name"], [field_error])
+        self.assertEqual(
+            errors[NON_FIELD_ERRORS], [missing_field_error, non_field_error]
+        )
+
+    def test_rename_form_non_field_model_error(self) -> None:
+        self.make_manager()
+        form = ComponentRenameForm(
+            self.get_request(),
+            {
+                "name": self.component.name,
+                "slug": self.component.slug,
+                "project": self.project.pk,
+                "category": "",
+            },
+            instance=self.component,
+        )
+        error = ValidationError("Invalid settings", code="invalid_settings")
+        with patch.object(Component, "clean", side_effect=error):
+            self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors.as_data(), {NON_FIELD_ERRORS: [error]})
+
+    def test_move_component_assigned_to_project_team_is_rejected(self) -> None:
+        self.make_manager()
+        destination = Project.objects.create(name="Destination", slug="destination")
+        team = Group.objects.create(
+            name="Component team", defining_project=self.project
+        )
+        team.components.add(self.component)
+        old_path = self.component.full_path
+
+        response = self.client.post(
+            reverse("rename", kwargs=self.kw_component),
+            {
+                "project": destination.pk,
+                "slug": self.component.slug,
+                "name": self.component.name,
+            },
+            follow=True,
+        )
+        self.assertRedirects(response, f"{self.component.get_absolute_url()}#organize")
+        self.assertContains(
+            response,
+            "Remove the component from project teams before moving it to another project.",
+        )
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.project, self.project)
+        self.assertTrue(os.path.exists(old_path))
+
+        self.component.project = destination
+        with self.assertRaisesMessage(ValidationError, "Remove the component"):
+            self.component.save(update_fields=["project"])
+        self.assertEqual(
+            Component.objects.get(pk=self.component.pk).project, self.project
+        )
+
+    def test_move_component_assigned_to_sitewide_team_succeeds(self) -> None:
+        self.make_manager()
+        destination = Project.objects.create(name="Destination", slug="destination")
+        team = Group.objects.create(name="Sitewide component team")
+        team.components.add(self.component)
+
+        response = self.client.post(
+            reverse("rename", kwargs=self.kw_component),
+            {
+                "project": destination.pk,
+                "slug": self.component.slug,
+                "name": self.component.name,
+            },
+        )
+        self.assertRedirects(response, "/projects/destination/test/")
+        self.assertEqual(
+            Component.objects.get(pk=self.component.pk).project, destination
+        )
 
     def test_rename_invalid(self) -> None:
         url = self.component.get_absolute_url()
@@ -1081,6 +1606,7 @@ class AnnouncementPermissionTestCase(ViewTestCase):
             language_selection=SELECTION_ALL,
         )
         group.roles.add(Role.objects.get(name="Translation coordinator"))
+        group.projects.add(self.project)
         group.components.add(self.component)
         self.user.groups.add(group)
 
@@ -1114,7 +1640,6 @@ class AnnouncementPermissionTestCase(ViewTestCase):
             Announcement.objects.filter(pk=category_announcement.pk).count(), 1
         )
 
-        group.project_selection = SELECTION_ALL
         group.components.clear()
         group.save()
         self.user.clear_permissions_cache()
@@ -1262,14 +1787,24 @@ class CategoryLanguageAnnouncementTest(ViewTestCase):
         owned_category = self.create_category(self.project)
         self.component.category = owned_category
         self.component.save(update_fields=["category"])
-        self.group.projects.add(self.project)
-        membership = TeamMembership.objects.get(user=self.user, group=self.group)
+        owned_group = Group.objects.create(
+            name="Owned category announcement coordinators",
+            defining_project=self.project,
+            language_selection=SELECTION_MANUAL,
+        )
+        owned_group.roles.add(Role.objects.get(name="Translation coordinator"))
+        owned_group.projects.add(self.project)
+        owned_group.languages.add(self.czech)
+        owned_group.user_set.add(self.user)
+        groups = (self.group, owned_group)
 
         for limit in ("team", "membership"):
             if limit == "membership":
-                self.group.language_selection = SELECTION_ALL
-                self.group.save(update_fields=["language_selection"])
-                membership.limit_languages.add(self.czech)
+                for group in groups:
+                    group.language_selection = SELECTION_ALL
+                    group.save(update_fields=["language_selection"])
+                    membership = TeamMembership.objects.get(user=self.user, group=group)
+                    membership.limit_languages.add(self.czech)
             for category in (owned_category, self.category):
                 for language in (self.german, self.czech):
                     with self.subTest(

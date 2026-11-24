@@ -17,7 +17,7 @@
       {% endif %}
         <img class="avatar w128"
              src="{% user_avatar object size=128 %}"
-             alt="{% translate "User avatar" %}" />
+             alt="{% translate "User avatar"|force_escape %}" />
         <h4>{{ object }}</h4>
         <span class="middle-dot-divider">@{{ object.username }}</span>
         {% if can_view_user %}

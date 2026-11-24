@@ -15,6 +15,7 @@ from django.core.exceptions import ValidationError
 from django.test.utils import override_settings
 from django.urls import reverse
 
+from weblate.auth.models import Group
 from weblate.lang.models import get_default_lang
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Category, Component, ComponentLink, Project
@@ -148,11 +149,54 @@ class CategoriesTest(ViewTestCase):
         self.assertContains(response, "Test category")
         self.assertContains(response, "Nothing to list here.")
 
+    def test_move_nested_category_with_project_team_component_is_rejected(self) -> None:
+        destination = self.create_project(name="Destination", slug="destination")
+        destination.add_user(self.user, "Administration")
+        parent = self.create_category(self.project)
+        child = self.create_category(self.project, category=parent)
+        self.component.category = child
+        self.component.save(update_fields=["category"])
+        team = Group.objects.create(
+            name="Component team", defining_project=self.project
+        )
+        team.components.add(self.component)
+        old_path = self.component.full_path
+
+        response = self.client.post(
+            reverse("rename", kwargs={"path": parent.get_url_path()}),
+            {
+                "project": destination.pk,
+                "category": "",
+                "name": parent.name,
+                "slug": parent.slug,
+            },
+            follow=True,
+        )
+        self.assertRedirects(response, f"{parent.get_absolute_url()}#organize")
+        self.assertContains(
+            response,
+            "Remove the component from project teams before moving it to another project.",
+        )
+        for obj in (parent, child, self.component):
+            obj.refresh_from_db()
+            self.assertEqual(obj.project, self.project)
+        self.assertTrue(os.path.exists(old_path))
+
+        parent.project = destination
+        with self.assertRaisesMessage(ValidationError, "Remove the component"):
+            parent.save(update_fields=["project"])
+        self.assertEqual(Category.objects.get(pk=parent.pk).project, self.project)
+
     def test_move_nested_category_preserves_actor(self) -> None:
         destination = self.create_project(name="Destination", slug="destination")
         destination.add_user(self.user, "Administration")
         parent = self.create_category(self.project)
         child = self.create_category(self.project, category=parent)
+        child.slug = "renamed-child"
+        with acting_user_context(self.user):
+            child.save(update_fields=["slug"])
+        rename = child.change_set.get(action=ActionEvents.RENAME_CATEGORY)
+        self.assertEqual(rename.project, self.project)
         self.component.category = child
         self.component.save(update_fields=["category"])
         previous_change = self.component.change_set.latest("pk").pk
@@ -171,10 +215,17 @@ class CategoriesTest(ViewTestCase):
         for obj in (parent, child, self.component):
             obj.refresh_from_db()
             self.assertEqual(obj.project, destination)
+        self.assertTrue(destination.change_set.filter(pk=previous_change).exists())
         category_changes = destination.change_set.filter(
             pk__gt=previous_change, action=ActionEvents.MOVE_CATEGORY
         )
-        self.assertEqual(category_changes.count(), 2)
+        rename.refresh_from_db()
+        self.assertEqual(rename.project, destination)
+        self.assertEqual(rename.category, child)
+        self.assertCountEqual(
+            category_changes.values_list("category_id", flat=True),
+            [parent.pk, child.pk],
+        )
         component_change = self.component.change_set.get(
             pk__gt=previous_change, action=ActionEvents.MOVE_COMPONENT
         )
@@ -544,6 +595,15 @@ class CategoriesTest(ViewTestCase):
             self.project.change_set.filter(
                 action=ActionEvents.REMOVE_COMPONENT
             ).count(),
+        )
+        self.assertEqual(
+            [
+                details["restricted"]
+                for details in self.project.change_set.filter(
+                    action=ActionEvents.REMOVE_COMPONENT
+                ).values_list("details", flat=True)
+            ],
+            [False, False],
         )
 
     def test_category_removal_skips_deleted_categories_before_global(self) -> None:

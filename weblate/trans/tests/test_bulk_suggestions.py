@@ -425,7 +425,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         )
 
         def has_perm(_user: User, permission: str, _obj: object) -> bool:
-            return permission == "suggestion.accept"
+            return permission in {"suggestion.accept", "contribution.view_author"}
 
         with patch("weblate.trans.views.bulk_suggestions.User.has_perm", has_perm):
             response = self.client.post(

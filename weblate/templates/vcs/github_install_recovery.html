@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">{% translate "Connect GitHub account" %}</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Connect GitHub account" %}</h4>
+    </div>
+    <div class="card-body">
+      {% if authorize_url %}
+        <p>{% translate "GitHub rejected the authorization code. Authorize again to finish connecting this installation." %}</p>
+        <a href="{{ authorize_url }}" class="btn btn-primary">{% translate "Authorize again" %}</a>
+      {% else %}
+        <p>{% translate "Choose the workspace that should have access to this installation’s repositories, then authorize Weblate on GitHub." %}</p>
+        <form method="post">
+          {% csrf_token %}
+          {{ form|crispy }}
+          <button type="submit" class="btn btn-primary">{% translate "Authorize on GitHub" %}</button>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+{% endblock content %}

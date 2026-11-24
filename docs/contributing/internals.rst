@@ -167,12 +167,26 @@ after commit. Boundary-wide batches also clear stale warnings on old-source
 peers. Successful child batches are combined at the exclusive project gate,
 deduplicating shared project and workspace checks while preserving rollback
 boundaries and actor attribution. Eager tasks and automation contexts finalize
-their batches inline. Ordinary dependency reconciliation retains its synchronous
+their batches synchronously after commit, retaining the initiating actor and
+change origin. A finalization failure does not roll back the committed edit.
+Finalization holds the project or workspace checks lock before acquiring the
+component checks lock and keeps it until the checks transaction commits.
+Ordinary dependency reconciliation retains its synchronous
 unit and previous-source peer checks.
 
 Translation-memory payloads use bounded batches scheduled after commit. Nested
 operations merge dependency work, while rolled-back savepoints discard their
 work and commit callbacks.
+
+Automatic translation uses a nonblocking PostgreSQL session advisory lock per
+translation, acquired before selecting units and fetching provider results.
+Calls inside an editing transaction also retain a transaction advisory lock
+until commit or rollback. Provider results are discarded if the owning database
+session is lost. Background translation tasks carry completed target IDs and
+accumulated results through retries, deferring busy targets for 30–60 seconds.
+These deferrals do not consume the retry budget for other lock failures.
+Synchronous callers report busy translations immediately. Worker queues and
+concurrency are unchanged.
 
 Acquire any required repository locks before project gates, then component and
 unit row locks. Reconciliation itself only changes database state and does not
@@ -220,3 +234,30 @@ workload:
    The backup tasks cannot be executed in parallel, and a single dedicated worker makes this easier.
 ``translate``
    Automatic translation tasks are known to take long because they hit external services.
+
+
+Built-in role defaults
+----------------------
+
+Changes to built-in roles in :file:`weblate/auth/data.py` require a data migration.
+Run the following after changing the definitions, then review and format the
+resulting migration::
+
+    ./manage.py generate_role_migration
+    ./manage.py generate_role_migration --check
+
+Each generated migration freezes the old and new permission codenames and merges
+them with assigned permissions using historical models. Keep these snapshots
+independent of runtime definitions so upgrades through skipped releases apply each
+change in order. The consistency test rejects definitions without a matching
+migration. Role-update migrations are irreversible because merging can discard
+information. The post-migration hook only creates missing roles.
+
+
+Built-in role names are persistent identifiers, not freely changeable labels.
+An upstream rename requires an explicit data migration that preserves the role's
+primary key, team assignments, and local permission differences. Rename the
+existing role and map its old upstream baseline to the new name before merging.
+Freeze the renamed upstream defaults in that migration so subsequent generation
+uses the correct baseline. A generated remove/add migration would create a new
+role and leave teams assigned to the old one.

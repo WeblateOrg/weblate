@@ -225,7 +225,7 @@ class SelectOperation(AutomationOperation):
         query = settings["q"]
         if query:
             units = selection.queryset(component).search(
-                query, project=component.project
+                query, project=component.project, enforce_contributor_permissions=False
             )
             if affected is None:
                 selected = units.count()
@@ -480,7 +480,11 @@ class AIQualityOperation(AutomationOperation):
             .exclude(pk=F("source_unit_id"))
         )
         if settings["q"]:
-            units = units.search(settings["q"], project=component.project)
+            units = units.search(
+                settings["q"],
+                project=component.project,
+                enforce_contributor_permissions=False,
+            )
         evaluated: set[int] = set()
         snapshots: dict[int, EvaluatedUnitSnapshot] = {}
         result = evaluate_component(
@@ -500,6 +504,12 @@ class AIQualityOperation(AutomationOperation):
             or current.addon.get_configuration() != configuration
         ):
             msg = "AI quality evaluation add-on changed during execution."
+            raise ValueError(msg)
+        if errors := result.get("errors"):
+            msg = f"AI quality evaluation failed: {', '.join(errors)}."
+            raise ValueError(msg)
+        if result["skipped"] and result["skipped"] == result.get("rate_limited"):
+            msg = "AI quality evaluation was incomplete because the service is on cooldown."
             raise ValueError(msg)
         if result["failed"] or result["skipped"]:
             msg = "AI quality evaluation was incomplete."
@@ -540,7 +550,11 @@ class BulkEditOperation(AutomationOperation):
         [],
     )
     result_schema = object_schema(
-        {"component": {"type": "integer"}, "updated": {"type": "integer"}},
+        {
+            "component": {"type": "integer"},
+            "updated": {"type": "integer"},
+            "skipped_too_long": {"type": "integer", "minimum": 1},
+        },
         ["component", "updated"],
     )
 

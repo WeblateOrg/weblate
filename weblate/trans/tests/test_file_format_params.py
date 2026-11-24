@@ -385,6 +385,24 @@ class XMLParamsTest(BaseFileFormatsTest):
     def create_component(self) -> Component:
         return self.create_xliff("complex")
 
+    def test_serialization_params(self) -> None:
+        self.update_component_file_params(
+            xml_utf8_bom="include",
+            xml_encoding_case="lowercase",
+            xml_final_newline="omit",
+        )
+        self.assertEqual(self.component.file_format_params["xml_utf8_bom"], "include")
+        self.assertEqual(
+            self.component.file_format_params["xml_encoding_case"], "lowercase"
+        )
+        self.assertEqual(self.component.file_format_params["xml_final_newline"], "omit")
+        self.edit_unit("Thank you for using Weblate", "Děkujeme, že používáte Weblate")
+        self.get_translation().commit_pending("test", get_test_actor(self))
+        result = get_optional_path(self.get_translation().get_filename()).read_bytes()
+        self.assertTrue(result.startswith(b"\xef\xbb\xbf"))
+        self.assertIn(b'encoding="utf-8"', result)
+        self.assertFalse(result.endswith(b"\n"))
+
     def test_closing_tags(self, closing_tags_active: bool = True) -> None:
         self.update_component_file_params(xml_closing_tags=closing_tags_active)
         rev = self.component.repository.last_revision

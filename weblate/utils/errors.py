@@ -5,12 +5,15 @@ from __future__ import annotations
 
 import logging
 import os
+import re
 import sys
 from contextlib import suppress
+from copy import deepcopy
 from importlib import import_module
 from json import JSONDecodeError
 from traceback import format_exception
 from typing import TYPE_CHECKING, Any, Literal, cast
+from urllib.parse import unquote_plus
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
@@ -20,10 +23,86 @@ import weblate.utils.version
 from weblate.utils.tracing import record_error
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
+    from sentry_sdk.types import DataCollectionUserOptions, Event, Hint, SpanJSON
+
     from weblate.auth.models import AuthenticatedHttpRequest
 
 ERROR_LOGGER = "weblate.errors"
-SENTRY_SECRET_DENYLIST = ("passphrase", "borg_passphrase", "borg_new_passphrase")
+SENTRY_SECRET_DENYLIST = (
+    # Keep the SDK 2 event scrubber's credential coverage on serialized data.
+    "password",
+    "passwd",
+    "secret",
+    "api_key",
+    "apikey",
+    "auth",
+    "credentials",
+    "mysql_pwd",
+    "privatekey",
+    "private_key",
+    "token",
+    "session",
+    "csrftoken",
+    "sessionid",
+    "x_csrftoken",
+    "cookie",
+    "authorization",
+    "proxy-authorization",
+    "x_api_key",
+    "aiohttp_session",
+    "connect.sid",
+    "csrf_token",
+    "csrf",
+    "_csrf",
+    "_csrf_token",
+    "phpsessid",
+    "_session",
+    "symfony",
+    "user_session",
+    "_xsrf",
+    "xsrf-token",
+    "passphrase",
+    "borg_passphrase",
+    "borg_new_passphrase",
+    "set-cookie",
+    # Machine translation configuration and provider authentication headers.
+    "key",
+    "api-key",
+    "x-api-key",
+    "x-goog-api-key",
+    "mmt-apikey",
+    "ocp-apim-subscription-key",
+    # GitHub App authentication and OAuth responses.
+    "private_key_pem",
+    "pem",
+    "client_secret",
+    "webhook_secret",
+    "access_token",
+    "refresh_token",
+    "cached_token",
+    "user_token",
+)
+SENTRY_PII_DENYLIST = ("x_forwarded_for", "x_real_ip", "ip_address", "remote_addr")
+SENTRY_TOKEN_PATH = re.compile(
+    r"(/(?:accounts/invitation|hooks/integrations|machinery/etranslation/callback)/)"
+    r"[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}(?=/|[?#\s]|$)",
+    re.IGNORECASE,
+)
+
+SENTRY_QUERY_PARAMETER = re.compile(
+    r"(?<![\w%+.-])(?P<name>[\w%+.-]+)=(?P<value>[^&\s#'\"<>]*)"
+)
+SENTRY_URL_USERINFO = re.compile(
+    r"(?<![a-z0-9+.-])(?P<scheme>[a-z][a-z0-9+.-]*://)[^/\s?#\"<>]*@",
+    re.IGNORECASE,
+)
+SENTRY_ROUTINE_TRACE_PATHS = frozenset({"/-/pow/verify/", "/js/i18n/", "/js/flags/"})
+SENTRY_WIDGET_IMAGE_PATH = re.compile(
+    r"/(?:widget/(?:[^/]+/)+|widgets/(?:[^/]+/){2,3})[^/-]+-[^/-]+\.(?:png|svg)"
+)
+SENTRY_AVATAR_PATH = re.compile(r"/avatar/[0-9]+/[^/]+\.png")
 
 LOGGER = logging.getLogger(ERROR_LOGGER)
 _STATE: dict[str, Any] = {
@@ -75,7 +154,7 @@ def report_error(
 ) -> None:
     """Report an active or explicitly supplied exception."""
     # pylint: disable-next=unused-variable
-    __traceback_hide__ = True  # ruff: ignore[unused-variable]
+    __traceback_hide__ = True
     error = exception if exception is not None else sys.exc_info()[1]
     if error is None:
         msg = f"report_error called without an exception: {cause}"
@@ -220,15 +299,192 @@ def log_handled_exception(
     )
 
 
-class ChainedEventScrubber:
-    """Run mandatory and operator-configured Sentry event scrubbers."""
+class SentryRedactor:
+    """Filter credentials from serialized Sentry data."""
 
-    def __init__(self, *scrubbers) -> None:
-        self.scrubbers = scrubbers
+    def __init__(self, *, send_pii: bool = False) -> None:
+        terms = (
+            SENTRY_SECRET_DENYLIST
+            if send_pii
+            else (
+                *SENTRY_SECRET_DENYLIST,
+                *SENTRY_PII_DENYLIST,
+            )
+        )
+        self.secret_fields = frozenset(term.replace("-", "_") for term in terms)
+        secret_names = "|".join(
+            re.escape(name).replace("_", "[-_]")
+            for name in sorted(self.secret_fields, key=len, reverse=True)
+        )
+        # SDK frames can contain header tuple/dict reprs and raw HTTP bytes.
+        self.quoted_secret = re.compile(
+            rf"(?P<prefix>(?P<quote>['\"])(?:HTTP_)?(?:{secret_names})(?P=quote)"
+            r"\s*[:,]\s*b?(?P<value_quote>['\"]))"
+            r"(?:\\[\s\S]|(?!(?P=value_quote))[^\\])*"
+            r"(?P<suffix>(?P=value_quote)|\\?$)",
+            re.IGNORECASE,
+        )
+        self.header_secret = re.compile(
+            rf"(?P<prefix>(?:(?<![\w-])|(?<=\\[rn]))(?:{secret_names})[ \t]*:[ \t]*)"
+            r"(?:(?!\\[rn])[^\r\n])*",
+            re.IGNORECASE,
+        )
 
-    def scrub_event(self, event) -> None:
-        for scrubber in self.scrubbers:
-            scrubber.scrub_event(event)
+    def is_secret(self, name: str) -> bool:
+        return (
+            name.lower().replace("-", "_").removeprefix("http_") in self.secret_fields
+        )
+
+    def _scrub_query_parameter(self, match: re.Match[str]) -> str:
+        name = match["name"]
+        if self.is_secret(unquote_plus(name)):
+            return f"{name}=[Filtered]"
+        return match[0]
+
+    def scrub(self, value: object) -> object:
+        if isinstance(value, dict):
+            for key, item in value.items():
+                value[key] = (
+                    "[Filtered]"
+                    if isinstance(key, str) and self.is_secret(key)
+                    else self.scrub(item)
+                )
+        elif isinstance(value, (list, tuple)):
+            items = [self.scrub(item) for item in value]
+            # Header pairs can be added by callbacks after SDK serialization.
+            if (
+                len(value) == 2
+                and isinstance(value[0], str)
+                and self.is_secret(value[0])
+            ):
+                items[1] = "[Filtered]"
+            if isinstance(value, tuple):
+                return tuple(items)
+            value[:] = items
+        elif isinstance(value, str):
+            value = self.quoted_secret.sub(r"\g<prefix>[Filtered]\g<suffix>", value)
+            if ":" in value:
+                value = self.header_secret.sub(r"\g<prefix>[Filtered]", value)
+            if "://" in value:
+                value = SENTRY_URL_USERINFO.sub(r"\g<scheme>[Filtered]@", value)
+            if "/" in value:
+                value = SENTRY_TOKEN_PATH.sub(r"\g<1>[Filtered]", value)
+            if "=" in value:
+                value = SENTRY_QUERY_PARAMETER.sub(self._scrub_query_parameter, value)
+        return value
+
+    def scrub_span(self, span: SpanJSON) -> SpanJSON:
+        span["name"] = cast("str", self.scrub(span["name"]))
+        if (attributes := span.get("attributes")) is not None:
+            attributes.pop("process.command_args", None)
+            for key, value in attributes.items():
+                if key.startswith(("http.request.header.", "http.response.header.")):
+                    header = key.split(".", 3)[-1]
+                    if self.is_secret(header):
+                        attributes[key] = (
+                            ["[Filtered]"] if isinstance(value, list) else "[Filtered]"
+                        )
+            self.scrub(attributes)
+        return span
+
+
+class SentryBeforeSend:
+    """Scrub serialized events and bound the size of long exception chains."""
+
+    def __init__(
+        self,
+        callback: Callable[[Event, Hint], Event | None] | None = None,
+        *,
+        redactor: SentryRedactor | None = None,
+    ) -> None:
+        self.callback = callback
+        self.redactor = redactor if redactor is not None else SentryRedactor()
+
+    def __call__(self, event: Event, hint: Hint) -> Event | None:
+        # ruff: ignore[import-outside-top-level]
+        from sentry_sdk.utils import json_dumps
+
+        if self.callback is not None:
+            filtered_event = self.callback(event, hint)
+            if filtered_event is None:
+                return None
+            event = filtered_event
+        self.redactor.scrub(event)
+        if len(json_dumps(event)) <= 1_000_000:
+            return event
+
+        values = event.get("exception", {}).get("values", [])
+        # Exception groups have a hierarchy rather than a linear cause chain.
+        if any(
+            value.get("mechanism", {}).get("is_exception_group") for value in values
+        ):
+            return event
+        original_count = len(values)
+        while len(values) > 2 and len(json_dumps(event)) > 900_000:
+            # Preserve the original cause and the final exception. Remove
+            # intermediate exceptions in batches, leaving room for metadata.
+            values = values[:1] + values[1 + max(1, (len(values) - 2) // 2) :]
+            # SDK 3 also assigns parent IDs to ordinary exception chains.
+            if (mechanism := values[0].get("mechanism")) and (
+                parent_id := values[1].get("mechanism", {}).get("exception_id")
+            ) is not None:
+                mechanism["parent_id"] = parent_id
+            event["exception"]["values"] = values
+            # Serialized annotations refer to indices in the original chain.
+            metadata = event.get("_meta")
+            if isinstance(metadata, dict):
+                metadata.pop("exception", None)
+            event.setdefault("contexts", {})["weblate_exception_chain"] = {
+                "original_count": original_count,
+                "omitted_count": original_count - len(values),
+            }
+
+        return event
+
+
+class SentryBeforeSendSpan:
+    def __init__(
+        self,
+        redactor: SentryRedactor,
+        callback: Callable[[SpanJSON, Hint], SpanJSON | None] | None = None,
+    ) -> None:
+        self.redactor = redactor
+        self.callback = callback
+
+    def __call__(self, span: SpanJSON, hint: Hint) -> SpanJSON:
+        if self.callback is not None:
+            # Preserve the original if the callback mutates the span and then fails.
+            try:
+                replacement = self.callback(deepcopy(span), hint)
+                if replacement is not None and isinstance(replacement.get("name"), str):
+                    return self.redactor.scrub_span(replacement)
+            except Exception:
+                # The SDK would otherwise send the original without redaction.
+                LOGGER.warning("Sentry span callback failed")
+        return self.redactor.scrub_span(span)
+
+
+def sentry_data_collection(*, send_pii: bool) -> DataCollectionUserOptions:
+    terms = list(SENTRY_SECRET_DENYLIST)
+    if not send_pii:
+        terms.extend(
+            (*SENTRY_PII_DENYLIST, "forwarded", "-ip", "remote-", "via", "-user")
+        )
+    return {
+        "user_info": send_pii,
+        "http_bodies": ["incoming_request"] if send_pii else [],
+        "http_headers": {"request": {"mode": "denylist", "terms": terms}},
+        "cookies": {"mode": "denylist", "terms": terms}
+        if send_pii
+        else {"mode": "off"},
+        "url_query_params": {"mode": "denylist", "terms": terms},
+        "stack_frame_variables": {"mode": "denylist", "terms": terms},
+        "database_query_data": False,
+        "queues": False,
+        "graphql": {"document": False, "variables": False},
+        "gen_ai": {"inputs": False, "outputs": False},
+        "mcp": {"inputs": False, "outputs": False},
+    }
 
 
 def add_breadcrumb(category: str, message: str, level: str = "info", **data) -> None:
@@ -244,6 +500,43 @@ def add_breadcrumb(category: str, message: str, level: str = "info", **data) -> 
 
 def celery_base_data_hook(request: AuthenticatedHttpRequest, data) -> None:
     data["framework"] = "celery"
+
+
+def sample_sentry_traces(sampling_context: dict[str, Any]) -> float | bool:
+    """Sample routine requests and standalone statistics tasks at reduced rates."""
+    parent_sampled = sampling_context.get("parent_sampled")
+    if isinstance(parent_sampled, bool):
+        return parent_sampled
+
+    sample_rate = settings.SENTRY_TRACES_SAMPLE_RATE
+    celery_job = sampling_context.get("celery_job", {})
+    if celery_job.get("task") == "weblate.utils.tasks.update_translation_stats_parents":
+        return sample_rate * 0.25
+
+    wsgi_environ = sampling_context.get("wsgi_environ", {})
+    asgi_scope = sampling_context.get("asgi_scope", {})
+    path = wsgi_environ.get("PATH_INFO", "")
+    if asgi_scope.get("type") == "http":
+        path = asgi_scope.get("path", "")
+        root_path = settings.FORCE_SCRIPT_NAME or asgi_scope.get("root_path") or ""
+        root_path = root_path.rstrip("/")
+        if root_path and path.startswith(f"{root_path}/"):
+            path = path[len(root_path) :]
+
+    url_prefix = settings.URL_PREFIX.strip("/")
+    if url_prefix:
+        prefix = f"/{url_prefix}"
+        if not path.startswith(f"{prefix}/"):
+            return sample_rate
+        path = path[len(prefix) :]
+
+    if (
+        path in SENTRY_ROUTINE_TRACE_PATHS
+        or SENTRY_WIDGET_IMAGE_PATH.fullmatch(path)
+        or SENTRY_AVATAR_PATH.fullmatch(path)
+    ):
+        return sample_rate * 0.1
+    return sample_rate
 
 
 def init_sentry() -> None:
@@ -265,7 +558,8 @@ def init_sentry() -> None:
 
     # ruff: ignore[import-outside-top-level]
     from sentry_sdk.integrations.logging import (
-        ignore_logger,
+        LoggingIntegration,
+        ignore_logger_for_events,
     )
 
     # ruff: ignore[import-outside-top-level]
@@ -273,37 +567,52 @@ def init_sentry() -> None:
         RedisIntegration,
     )
 
-    # ruff: ignore[import-outside-top-level]
-    from sentry_sdk.scrubber import DEFAULT_DENYLIST, EventScrubber
-
     integrations = [
         CeleryIntegration(monitor_beat_tasks=settings.SENTRY_MONITOR_BEAT_TASKS),
-        DjangoIntegration(),
+        DjangoIntegration(cache_spans=False),
         Httpx2Integration(),
         RedisIntegration(),
+        LoggingIntegration(
+            level=None, event_level=logging.ERROR, breadcrumb_level=logging.INFO
+        ),
     ]
     sentry_extra_args = dict(settings.SENTRY_EXTRA_ARGS)
-    configured_scrubber = sentry_extra_args.pop("event_scrubber", None)
-    mandatory_scrubber = EventScrubber(
-        denylist=[*DEFAULT_DENYLIST, *SENTRY_SECRET_DENYLIST],
-        recursive=True,
-        send_default_pii=settings.SENTRY_SEND_PII,
+    for option, replacement in (
+        ("event_scrubber", "data_collection or before_send"),
+        (
+            "before_send_transaction",
+            "before_send_span, ignore_spans, or traces_sampler",
+        ),
+    ):
+        if option in sentry_extra_args:
+            msg = f"Sentry SDK 3 removed {option} from SENTRY_EXTRA_ARGS. Use {replacement}."
+            raise ImproperlyConfigured(msg)
+
+    traces_sample_rate = settings.SENTRY_TRACES_SAMPLE_RATE
+    if traces_sample_rate:
+        sentry_extra_args.setdefault("traces_sampler", sample_sentry_traces)
+    sentry_extra_args.setdefault(
+        "profile_session_sample_rate", settings.SENTRY_PROFILES_SAMPLE_RATE
     )
-    scrubbers = []
-    if configured_scrubber is not None:
-        scrubbers.append(configured_scrubber)
-    scrubbers.append(mandatory_scrubber)
-    sentry_extra_args["event_scrubber"] = ChainedEventScrubber(*scrubbers)
+    sentry_extra_args.setdefault("profile_lifecycle", "trace")
+    data_collection = sentry_data_collection(send_pii=settings.SENTRY_SEND_PII)
+    data_collection.update(sentry_extra_args.pop("data_collection", {}))
+    redactor = SentryRedactor(send_pii=settings.SENTRY_SEND_PII)
+    before_send = sentry_extra_args.pop("before_send", None)
+    before_send_check_in = sentry_extra_args.pop("before_send_check_in", before_send)
+    before_send_span = sentry_extra_args.pop("before_send_span", None)
 
     sentry_sdk.init(
         dsn=settings.SENTRY_DSN,
         integrations=integrations,
         auto_enabling_integrations=False,
-        send_default_pii=settings.SENTRY_SEND_PII,
+        data_collection=data_collection,
+        before_send=SentryBeforeSend(before_send, redactor=redactor),
+        before_send_check_in=SentryBeforeSend(before_send_check_in, redactor=redactor),
+        before_send_span=SentryBeforeSendSpan(redactor, before_send_span),
         release=weblate.utils.version.GIT_REVISION or weblate.utils.version.TAG_NAME,
         environment=settings.SENTRY_ENVIRONMENT,
-        traces_sample_rate=settings.SENTRY_TRACES_SAMPLE_RATE,
-        profiles_sample_rate=settings.SENTRY_PROFILES_SAMPLE_RATE,
+        traces_sample_rate=traces_sample_rate,
         in_app_include=[
             "weblate",
             "wlhosted",
@@ -314,16 +623,15 @@ def init_sentry() -> None:
             "translation_finder",
         ],
         attach_stacktrace=True,
-        _experiments={"max_spans": 2000},
         keep_alive=True,
         **sentry_extra_args,
     )
     # Ignore Weblate logging, those should trigger proper errors
-    ignore_logger("weblate")
-    ignore_logger("weblate.*")
+    ignore_logger_for_events("weblate")
+    ignore_logger_for_events("weblate.*")
     # Python Social Auth logs provider failures before Weblate classifies them.
-    ignore_logger("social")
-    ignore_logger("social.*")
+    ignore_logger_for_events("social")
+    ignore_logger_for_events("social.*")
 
 
 def init_google_cloud_error_reporting() -> None:

@@ -10,14 +10,15 @@
 # Automatic translation add-on <noreply-addon-autotranslate@weblate.org>, 2026.
 # GitHub webhook <noreply-webhook-github-integration@weblate.org>, 2026.
 # Black Daniel <dantix@users.noreply.hosted.weblate.org>, 2026.
+# RViktor <v1k70rk4@users.noreply.hosted.weblate.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-22 19:01-0500\n"
-"PO-Revision-Date: 2026-10-28 07:24+0000\n"
-"Last-Translator: Black Daniel <dantix@users.noreply.hosted.weblate.org>\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
+"PO-Revision-Date: 2026-11-20 00:48+0000\n"
+"Last-Translator: RViktor <v1k70rk4@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "application/hu/>\n"
 "Language: hu\n"
@@ -25,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.12.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -431,6 +432,16 @@ msgstr "Értesítési beállítások"
 msgid "Saved search"
 msgstr "Keresés"
 
+msgid ""
+"A lookalike e-mail identity was removed, the password was disabled, and API "
+"tokens were revoked."
+msgstr ""
+
+msgid ""
+"Password disabled as reported leaked credential matched the password; API "
+"tokens revoked."
+msgstr ""
+
 #. Translators: Audit log entry
 msgid "Password changed."
 msgstr "Jelszó megváltoztatva."
@@ -601,7 +612,16 @@ msgstr "A felhasználót {username} hozzáadta a(z) {team} csapathoz."
 msgid "User access to the {team} team was changed by {username}."
 msgstr "A felhasználót {username} hozzáadta a(z) {team} csapathoz."
 
-#. Translators: Audit log entry
+#, fuzzy, python-brace-format
+#| msgid "User was added to the {team} team by {username}."
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr "A felhasználót {username} hozzáadta a(z) {team} csapathoz."
+
+#, fuzzy, python-brace-format
+#| msgid "User was added to the {team} team by {username}."
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr "A felhasználót {username} hozzáadta a(z) {team} csapathoz."
+
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr "A felhasználót {username} eltávolította a(z) {team} csapatból."
@@ -667,6 +687,23 @@ msgstr "{username} meghívta a(z) {project} projektbe."
 msgid "Password configured."
 msgstr "Jelszó beállítva."
 
+#, fuzzy
+#| msgid ""
+#| "If it was you, please use a password reset to regain access to your "
+#| "account."
+msgid ""
+"Reset your password to restore password access and review your account "
+"activity."
+msgstr ""
+"Ha Ön volt az, akkor használja a jelszó-visszaállítást a fiókjához való "
+"hozzáférés visszaszerzéséhez."
+
+msgid ""
+"Reset your password to restore password access. Choose a unique password and "
+"review your account activity. The report didn't disclose the source of the "
+"leak."
+msgstr ""
+
 msgid "To restore access to your account, please reset your password."
 msgstr ""
 "A fiókjához való hozzáférés helyreállításához állítsa vissza a jelszavát."
@@ -717,6 +754,45 @@ msgstr "Tároló visszaállítva"
 msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr "Szolgáltatás"
+
+#, fuzzy
+#| msgid "site wide"
+msgid "Site-wide"
+msgstr "webhelyszintű"
+
+msgid "Workspace"
+msgstr ""
+
+#, fuzzy
+#| msgid "Backup failed"
+msgid "Team created"
+msgstr "Biztonsági mentés sikertelen"
+
+#, fuzzy
+#| msgid "Last change"
+msgid "Team changed"
+msgstr "Utolsó változtatás"
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "Team deleted"
+msgstr "Betűkészlet törölve."
+
+#, fuzzy
+#| msgid "Label added"
+msgid "Team member added"
+msgstr "Címke hozzáadva"
+
+#, fuzzy
+#| msgid "Label removed"
+msgid "Team member removed"
+msgstr "Címke eltávolítva"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "Team member access changed"
+msgstr "A licenc meg lett változtatva"
 
 msgid "Account activity"
 msgstr "Fióktevékenység"
@@ -1048,6 +1124,11 @@ msgid ""
 "a translation."
 msgstr ""
 
+#, fuzzy
+#| msgid "Contributors"
+msgid "Contributor"
+msgstr "Közreműködők"
+
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "A műveletet végre lett hajtva a tárolóban"
@@ -1313,6 +1394,28 @@ msgstr ""
 "Ez a meghívó csak a meghívó által választott e-mail címmel fogadható el; nem "
 "használható az Ön fiókjával."
 
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Your e-mail no longer belongs to verified account, it has been changed to "
+#| "{0}."
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr ""
+"Az e-mail-címe többé már nem tartozik ellenőrzött fiókhoz. Meg lett "
+"változtatva erre: {0}."
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
+msgstr ""
+
+msgid ""
+"Your e-mail address has been added. You can now select it as your account e-"
+"mail address in Account settings."
+msgstr ""
+
 #, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
@@ -1343,6 +1446,20 @@ msgstr "Világos"
 msgctxt "Theme selection"
 msgid "Dark"
 msgstr "Sötét"
+
+#, fuzzy
+#| msgid "Please complete your sign-in using second factor credential."
+msgid "Please confirm your identity using a second factor before proceeding."
+msgstr ""
+"Fejezze be a bejelentkezést a második faktoros hitelesítési adatok "
+"használatával."
+
+#, fuzzy
+#| msgid "Please complete your sign-in using second factor credential."
+msgid "Please confirm your identity before proceeding."
+msgstr ""
+"Fejezze be a bejelentkezést a második faktoros hitelesítési adatok "
+"használatával."
 
 #, python-format
 msgid "Security key (%s)"
@@ -1461,15 +1578,10 @@ msgstr "Bejelentkezés"
 msgid "Signed out"
 msgstr "Kijelentkezve"
 
-msgid "Verify new e-mail address"
-msgstr "Új e-mail-cím ellenőrzése"
-
 #, fuzzy
-#| msgid "Please complete your sign-in using second factor credential."
-msgid "Please confirm your identity using a second factor before proceeding."
-msgstr ""
-"Fejezze be a bejelentkezést a második faktoros hitelesítési adatok "
-"használatával."
+#| msgid "Verify new e-mail address"
+msgid "Add and verify e-mail address"
+msgstr "Új e-mail-cím ellenőrzése"
 
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr ""
@@ -1477,6 +1589,9 @@ msgstr ""
 
 msgid "Change password"
 msgstr "Jelszó megváltoztatása"
+
+msgid "Set password"
+msgstr "Jelszó beállítása"
 
 msgid "Password reset has been already completed."
 msgstr "A jelszó visszaállítása már befejeződött."
@@ -1671,10 +1786,8 @@ msgstr "Letiltás"
 msgid "Daily"
 msgstr "Napi"
 
-#, fuzzy
-#| msgid "Weekly digest"
 msgid "Weekly"
-msgstr "Heti összegzés"
+msgstr "Hetente"
 
 msgid "Monthly"
 msgstr "Havi"
@@ -1707,6 +1820,10 @@ msgid ""
 msgstr ""
 "Automatikusan lefordítja a szövegeket gépi fordítással vagy más összetevők "
 "alapján."
+
+#, python-format
+msgid "Error: %s"
+msgstr "Hiba: %s"
 
 msgid "enabled"
 msgstr "engedélyezve"
@@ -1937,12 +2054,6 @@ msgid ""
 msgstr ""
 
 #, python-format
-msgid ""
-"Fedora Messaging publisher service was unavailable; the connection will be "
-"recreated on the next attempt: %(error)s"
-msgstr ""
-
-#, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
 msgstr ""
 
@@ -1959,8 +2070,8 @@ msgstr ""
 msgid "configured"
 msgstr "Beállítás"
 
-msgid "Could not reset Fedora Messaging publisher service."
-msgstr ""
+msgid "The SSL certificates have to be provided for SSL connection."
+msgstr "Az SSL tanúsítványokat meg kell adni az SSL kapcsolathoz."
 
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
 msgstr ""
@@ -1969,10 +2080,6 @@ msgid "Client SSL key must be an unencrypted PEM encoded private key."
 msgstr ""
 
 msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
-msgstr ""
-
-#, python-format
-msgid "Fedora Messaging broker URL is invalid: %(error)s"
 msgstr ""
 
 #, python-format
@@ -2020,7 +2127,9 @@ msgstr ""
 msgid "Bulk edit"
 msgstr "Tömeges szerkesztés"
 
-msgid "Bulk edit flags, labels, or states of strings."
+#, fuzzy
+#| msgid "Bulk edit flags, labels, or states of strings."
+msgid "Bulk edit text, flags, labels, or states of strings."
 msgstr "Szövegek jelzőinek, címkéinek vagy állapotainak tömeges szerkesztése."
 
 msgid "Flag updated translations from repository as \"Needs rewriting\""
@@ -2052,10 +2161,8 @@ msgstr ""
 "A szerkesztést igénylő (zavaros) szövegek általában még nem alkalmasak "
 "fordításként való használatra."
 
-#, fuzzy
-#| msgid "Frequency"
 msgid "Update frequency"
-msgstr "Gyakoriság"
+msgstr "Frissítési gyakoriság"
 
 msgid ""
 "How often the add-on should update the POT file when the component is "
@@ -2068,6 +2175,7 @@ msgstr "POT fejléc normalizálása"
 
 msgid "Updates gettext headers and replaces placeholder POT comments."
 msgstr ""
+"Frissíti a gettext fejléceket, és lecseréli a helyőrző POT-megjegyzéseket."
 
 #, fuzzy
 #| msgid "Update PO files to match POT (msgmerge)"
@@ -2125,40 +2233,38 @@ msgstr ""
 msgid "Do not extract comments"
 msgstr "Ne nyerje ki a megjegyzéseket"
 
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Extract all comments"
-msgstr "Összes összetevő böngészése"
+msgstr "Összes megjegyzés kinyerése"
 
 msgid "Extract comments with tag"
-msgstr ""
+msgstr "Címkével ellátott megjegyzések kinyerése"
 
-#, fuzzy
-#| msgid "User comments"
 msgid "Code comments"
-msgstr "Felhasználói megjegyzések"
+msgstr "Kódmegjegyzések"
 
 msgid ""
 "Choose whether xgettext should extract no comments, all comments, or only "
 "comments marked with a specific tag."
 msgstr ""
+"Válassza ki, hogy az xgettext ne nyerjen ki megjegyzést, minden megjegyzést "
+"kinyerjen, vagy csak a megadott címkével megjelölteket."
 
-#, fuzzy
-#| msgid "Comment text"
 msgid "Comment tag"
-msgstr "Megjegyzés szövege"
+msgstr "Megjegyzéscímke"
 
 msgid ""
 "Tag passed to xgettext for comment extraction when using tagged comment mode."
 msgstr ""
+"Az xgettextnek átadott címke a megjegyzések kinyeréséhez címkézett "
+"megjegyzések módja esetén."
 
-#, fuzzy
-#| msgid "System checks"
 msgid "xgettext checks"
-msgstr "Rendszerellenőrzések"
+msgstr "xgettext-ellenőrzések"
 
 msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr ""
+"További xgettext-érvényesítési ellenőrzések, amelyeket a kinyert üzenetekhez "
+"engedélyezni kell."
 
 #, fuzzy
 #| msgid "Additional branch"
@@ -2178,6 +2284,24 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "Component alerts"
+msgid "Comment extraction"
+msgstr "Összetevő-riasztások"
+
+#, fuzzy
+#| msgid "words"
+msgid "Keywords"
+msgstr "szavak"
+
+msgid "Checks and ITS data"
+msgstr ""
+
+#, fuzzy
+#| msgid "Start review"
+msgid "Update behavior"
+msgstr "Felülvizsgálat megkezdése"
+
+#, fuzzy
 #| msgid "This name is prohibited"
 msgid "This field is required."
 msgstr "Ez a név tiltott"
@@ -2185,17 +2309,11 @@ msgstr "Ez a név tiltott"
 msgid "An additional keyword is required when using keywords exclusively."
 msgstr ""
 
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Edit source"
 msgid "Input source"
-msgstr "Forrás szerkesztése"
+msgstr "Bemeneti forrás"
 
-#, fuzzy
-#| msgctxt "Number of source characters"
-#| msgid "Source characters"
 msgid "Source file patterns"
-msgstr "Forráskarakterek"
+msgstr "Forrásfájl-minták"
 
 msgid "POTFILES manifest"
 msgstr "POTFILES manifeszt"
@@ -2207,10 +2325,8 @@ msgstr ""
 "Válassza ki, hogy az xgettext a forrásfájlokat glob-minta alapján vagy a "
 "POTFILES/POTFILES.in manifesztből olvassa-e be."
 
-#, fuzzy
-#| msgid "Target language"
 msgid "xgettext language"
-msgstr "Célnyelv"
+msgstr "xgettext nyelv"
 
 #, fuzzy
 #| msgid "Programming language passed to xgettext, for example Python or C."
@@ -2229,17 +2345,20 @@ msgstr ""
 msgid "POTFILES path"
 msgstr "POTFILES elérési útja"
 
-#, fuzzy
-#| msgid ""
-#| "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
-#| "relative to that file."
 msgid ""
 "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
 "relative to the repository root. If present next to the manifest, "
 "POTFILES.skip excludes listed files from extraction."
 msgstr ""
-"A POTFILES vagy a POTFILES.in fájlhoz viszonyított elérési út a tárolóban. A "
-"bejegyzések e fájlhoz viszonyítva kerülnek feloldásra."
+"A POTFILES vagy POTFILES.in fájl tárolóhoz viszonyított elérési útja. A "
+"bejegyzések a tároló gyökeréhez viszonyítva kerülnek feloldásra. Ha a "
+"POTFILES.skip a jegyzékfájl mellett található, a benne felsorolt fájlokat "
+"kihagyja a kinyerésből."
+
+#, fuzzy
+#| msgid "Font file"
+msgid "Input files"
+msgstr "Betűkészletfájl"
 
 msgid "Invalid symbolic link in a repository."
 msgstr "Érvénytelen szimbolikus hivatkozás a tárolóban."
@@ -2247,19 +2366,20 @@ msgstr "Érvénytelen szimbolikus hivatkozás a tárolóban."
 msgid "POTFILES path has to point to a file."
 msgstr "POTFILES útvonalnak egy fájlra kell mutatnia."
 
-#, fuzzy
-#| msgid "Repository reset"
 msgid "Meson preset"
-msgstr "Tároló visszaállítva"
+msgstr "Meson előbeállítás"
 
 msgid "GLib"
-msgstr ""
+msgstr "GLib"
 
 msgid ""
 "Built-in xgettext argument preset matching Meson gettext integration. The "
 "GLib preset adds the keyword and format-flag options used by Meson's gettext "
 "helper."
 msgstr ""
+"Beépített xgettext-argumentum előbeállítás, amely megfelel a Meson gettext-"
+"integrációjának. A GLib előbeállítás hozzáadja a Meson gettext-segédje által "
+"használt kulcsszó- és formátumjelző-beállításokat."
 
 msgid ""
 "The Meson add-on expects a Meson gettext directory with meson.build and "
@@ -2282,10 +2402,8 @@ msgstr ""
 "A Django kiegészítő azt várja, hogy az új fordítások sablonjait „django.pot” "
 "vagy „djangojs.pot” néven nevezzék el."
 
-#, fuzzy
-#| msgid "Filters"
 msgid "Filtering"
-msgstr "Szűrők"
+msgstr "Szűrés"
 
 msgctxt "None filtering"
 msgid "None"
@@ -2425,47 +2543,41 @@ msgstr "Az összetevő nevének testreszabása"
 
 msgid "Use Django template syntax. This template must include {{ component }}."
 msgstr ""
+"Használjon Django sablonszintaxist. A sablonnak tartalmaznia kell a "
+"következőt: {{ component }}."
 
 msgid "Define the monolingual base filename"
 msgstr "Az egynyelvű alapfájlnév meghatározása"
 
-#, fuzzy
-#| msgid "Leave empty for bilingual translation files."
 msgid ""
 "Leave empty for bilingual translation files. When set, this template must "
 "include {{ component }}."
-msgstr "Hagyja üresen, ha kétnyelvű fordítási fájlt használ."
+msgstr ""
+"Kétnyelvű fordítási fájlok esetén hagyja üresen. Megadása esetén a sablonnak "
+"tartalmaznia kell a következőt: {{ component }}."
 
 msgid "Define the base file for new translations"
 msgstr "Új fordítások alapfájljának meghatározása"
 
-#, fuzzy
-#| msgid ""
-#| "Filename of file used for creating new translations. For gettext "
-#| "choose .pot file."
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file. This template must include {{ component }}."
 msgstr ""
-"Az új fordítások létrehozásához használt fájl neve; gettext esetén például "
-"a .pot fájl."
+"Az új fordítások létrehozásához használt fájl neve. Gettext esetén válassza "
+"a .pot fájlt. A sablonnak tartalmaznia kell a következőt: {{ component }}."
 
 msgid "Intermediate language file"
 msgstr "Köztes nyelvi fájl"
 
-#, fuzzy
-#| msgid ""
-#| "Filename of intermediate translation file. In most cases this is a "
-#| "translation file provided by developers and is used when creating actual "
-#| "source strings."
 msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
 "source strings. This template must include {{ component }}."
 msgstr ""
 "A köztes fordítási fájl neve. A legtöbb esetben ez egy fejlesztők által "
-"biztosított fordítási fájl, amelyet az eredeti forrásszövegek létrehozásakor "
-"használnak."
+"biztosított fordítási fájl, amelyet a tényleges forrásszövegek "
+"létrehozásakor használnak. A sablonnak tartalmaznia kell a következőt: {{ "
+"component }}."
 
 #, fuzzy
 #| msgid "Duplicated file mask."
@@ -2498,6 +2610,22 @@ msgstr "Nem létező fájlok összetevőinek eltávolítása"
 
 msgid "I confirm the above matches look correct"
 msgstr "Megerősítem, hogy a fenti egyezések helyesek"
+
+#, fuzzy
+#| msgid "File encoding"
+msgid "File matching"
+msgstr "Fájl kódolása"
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Component source language"
+msgid "Component naming and file templates"
+msgstr "Összetevő forrásnyelve"
+
+#, fuzzy
+#| msgid "Component locked"
+msgid "Component lifecycle"
+msgstr "Összetevő zárolva"
 
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
@@ -2690,6 +2818,26 @@ msgstr ""
 msgid "Include read-only strings"
 msgstr "Csak olvasható szövegek bevonása"
 
+#, fuzzy
+#| msgid "Source language"
+msgid "Source and target"
+msgstr "Forrásnyelv"
+
+#, fuzzy
+#| msgid "Prepended static text"
+msgid "Prepended text"
+msgstr "Elé fűzött statikus szöveg"
+
+#, fuzzy
+#| msgid "Appended static text"
+msgid "Appended text"
+msgstr "Mögé fűzött statikus szöveg"
+
+#, fuzzy
+#| msgid "Text direction"
+msgid "Text expansion"
+msgstr "Írásirány"
+
 msgid "The source and target have to be different languages."
 msgstr "A forrásnak és a célnak különböző nyelveknek kell lenniük."
 
@@ -2773,10 +2921,20 @@ msgid ""
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
 
+#, fuzzy
+#| msgid "Creation timestamp"
+msgid "Connection timeout"
+msgstr "Létrehozás időbélyege"
+
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr ""
+
 msgid "Publish timeout"
 msgstr ""
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
 msgstr ""
 
 msgid "Connection attempts"
@@ -2794,6 +2952,22 @@ msgid "How many seconds to wait between connection attempts."
 msgstr ""
 
 #, fuzzy
+#| msgid "Hosting translations"
+msgid "Broker connection"
+msgstr "Fordítások tárhelyének szolgáltatása"
+
+msgid "Timeouts and retries"
+msgstr ""
+
+msgid "TLS credentials"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project selection"
+msgid "Event selection"
+msgstr "Projektválasztás"
+
+#, fuzzy
 #| msgid "String contains control character: %s"
 msgid "Topic prefix can contain only ASCII characters."
 msgstr "A szöveg vezérlőkaraktert tartalmaz: %s"
@@ -2801,9 +2975,6 @@ msgstr "A szöveg vezérlőkaraktert tartalmaz: %s"
 #, python-format
 msgid "Topic prefix must not exceed %(limit)d characters."
 msgstr ""
-
-msgid "The SSL certificates have to be provided for SSL connection."
-msgstr "Az SSL tanúsítványokat meg kell adni az SSL kapcsolathoz."
 
 msgid "The SSL certificates are not used without a SSL connection."
 msgstr "Az SSL tanúsítványok SSL kapcsolat nélkül nem használhatók."
@@ -2849,24 +3020,19 @@ msgstr "Automatikusan MO-fájlt generál minden módosított PO-fájlhoz."
 msgid "Update LINGUAS file"
 msgstr "LINGUAS-fájl frissítése"
 
-#, fuzzy
-#| msgid "Updates the LINGUAS file when a new translation is added."
 msgid "Updates the LINGUAS file when a translation is added or removed."
-msgstr "Frissíti a LINGUAS fájlt, amikor új fordítás kerül hozzáadásra."
+msgstr ""
+"Frissíti a LINGUAS fájlt, amikor egy fordítást hozzáadnak vagy eltávolítanak."
 
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
 msgstr "ALL_LINGUAS változó frissítése a „configure” fájlban"
 
-#, fuzzy
-#| msgid ""
-#| "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
-#| "\"configure.ac\" files, when a new translation is added."
 msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a translation is added or removed."
 msgstr ""
-"Frissíti az ALL_LINGUAS változót a „configure”, a „configure.in” vagy a "
-"„configure.ac” fájlokban, ha új fordítást adnak hozzá."
+"Frissíti az ALL_LINGUAS változót a „configure”, „configure.in” vagy „"
+"configure.ac” fájlokban, amikor egy fordítást hozzáadnak vagy eltávolítanak."
 
 msgid "Update PO files to match POT (msgmerge)"
 msgstr "PO-fájlok frissítése a POT-fájlhoz igazítva (msgmerge)"
@@ -2879,28 +3045,19 @@ msgstr ""
 "„Fájlmaszkban” be van állítva), hogy egyezzenek a POT-fájllal (ahogy a "
 "„Sablon az új fordításokhoz” beállításban szerepel)."
 
-#, fuzzy
-#| msgid "Update PO files to match POT (msgmerge)"
 msgid "Update POT file (xgettext)"
-msgstr "PO-fájlok frissítése a POT-fájlhoz igazítva (msgmerge)"
+msgstr "POT-fájl frissítése (xgettext)"
 
 msgid "Updates the gettext template using xgettext on selected source files."
 msgstr ""
 "A kiválasztott forrásfájlokon az xgettext segítségével frissíti a gettext-"
 "sablont."
 
-#, fuzzy
-#| msgid "Update POT file (Django)"
 msgid "Update POT file (Meson)"
-msgstr "POT-fájl frissítése (Django)"
+msgstr "POT-fájl frissítése (Meson)"
 
-#, fuzzy
-#| msgid ""
-#| "Updates the gettext template using xgettext on selected source files."
 msgid "Updates the gettext template using Meson gettext conventions."
-msgstr ""
-"A kiválasztott forrásfájlokon az xgettext segítségével frissíti a gettext-"
-"sablont."
+msgstr "Frissíti a gettext-sablont a Meson gettext konvencióinak használatával."
 
 #, fuzzy
 #| msgid "Update POT file (Django)"
@@ -3039,6 +3196,13 @@ msgid "This add-on is already installed on this component."
 msgstr "A kiegészítő csak az összetevőre telepíthető."
 
 #, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr ""
+"Ez a kiegészítő az ezt a tárolót megosztó összes összetevőnél használva van."
+
+#, fuzzy
 #| msgid "This add-on has no settings."
 msgid "This add-on cannot be triggered manually."
 msgstr "Ennek a kiegészítőnek nincsenek beállításai."
@@ -3105,6 +3269,11 @@ msgstr "Projekt"
 msgctxt "Add-on scope"
 msgid "Site"
 msgstr ""
+
+#, fuzzy
+#| msgid "Categorized component can not be shared."
+msgid "a component you cannot access"
+msgstr "A kategorizált összetevőt nem lehet megosztani."
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -3418,6 +3587,9 @@ msgstr "A fordítási szöveg túl hosszú!"
 msgid "Your suggestion already exists!"
 msgstr "A javaslata már létezik!"
 
+msgid "Search query"
+msgstr "Keresési lekérdezés"
+
 msgid "Inherit enforced checks from the parent category, project or workspace."
 msgstr ""
 
@@ -3515,6 +3687,26 @@ msgstr "Felhasználó"
 msgid "Language"
 msgstr "Nyelv"
 
+msgid ""
+"Contributor identities are exposed by View contributor identities, Download "
+"changes, Manage reports, and access-management permissions. Permissions from "
+"all assigned roles are additive."
+msgstr ""
+
+msgid "Built-in"
+msgstr ""
+
+#, fuzzy
+#| msgid "Custom"
+msgid "Customized"
+msgstr "Egyéni"
+
+msgid "Reset built-in roles to defaults"
+msgstr ""
+
+msgid "Built-in role permissions reset."
+msgstr ""
+
 msgid "Personal info"
 msgstr "Személyes információk"
 
@@ -3532,6 +3724,12 @@ msgstr "Ez nem lesz használva, ha összetevőlista van kiválasztva."
 
 msgid "This is not used when a component is selected."
 msgstr "Ez nem lesz használva, ha összetevő van kiválasztva."
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "View contributor license agreement"
+msgid "View contributor identities"
+msgstr "Közreműködői licencmegállapodás megtekintése"
 
 #. Translators: Permission name
 msgid "Download changes"
@@ -3751,6 +3949,24 @@ msgid "Manage workspace access"
 msgstr "Projekt-hozzáférés kezelése"
 
 #. Translators: Permission name
+#, fuzzy
+#| msgid "Browse all users"
+msgid "Browse users"
+msgstr "Az összes felhasználó böngészése"
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "Only chosen users can contribute."
+msgid "Search resource contributors"
+msgstr "Csak a kiválasztott felhasználók járulhatnak hozzá."
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "User profile"
+msgid "View user profiles"
+msgstr "Felhasználói profil"
+
+#. Translators: Permission name
 msgid "Use management interface"
 msgstr "Kezelőfelület használata"
 
@@ -3827,6 +4043,18 @@ msgstr "Számlázás kezelése"
 #. Translators: Permission name
 msgid "Manage site-wide add-ons"
 msgstr "Webhelyszintű kiegészítők kezelése"
+
+#, fuzzy
+#| msgid "Discover Weblate"
+msgctxt "Access-control role"
+msgid "Discover users"
+msgstr "Weblate-felfedezés"
+
+#, fuzzy
+#| msgid "User profile"
+msgctxt "Access-control role"
+msgid "View user profiles"
+msgstr "Felhasználói profil"
 
 msgctxt "Access-control role"
 msgid "Administration"
@@ -4040,6 +4268,20 @@ msgstr "Név"
 
 msgid "Choose permissions granted to this role."
 msgstr "Válassza ki az ehhez a szerephez megadott jogosultságokat."
+
+msgid ""
+"Remove the component from project teams before moving it to another project."
+msgstr ""
+
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
 
 msgid "Roles"
 msgstr "Szerepkörök"
@@ -4349,6 +4591,11 @@ msgid ""
 "enable them."
 msgstr ""
 
+#, fuzzy
+#| msgid "You do not have permission to accept suggestions."
+msgid "You need to log in to upload translations."
+msgstr "Nincs jogosultsága javaslatok elfogadására."
+
 msgid "The file format does not support updating source strings."
 msgstr "A fájlformátum nem támogatja a forrásszövegek frissítését."
 
@@ -4367,6 +4614,11 @@ msgid ""
 "access; otherwise, you would lock yourself out."
 msgstr ""
 
+#, fuzzy
+#| msgid "Additional labels can be defined by project administrators."
+msgid "Blocked users cannot be granted project administration rights."
+msgstr "További címkéket a projekt adminisztrátorai határozhatnak meg."
+
 #, python-format
 msgid ""
 "Team %(name)s was renamed to %(new_name)s because its name was already in "
@@ -4384,11 +4636,31 @@ msgstr ""
 msgid "Project tokens can not be assigned to teams here."
 msgstr ""
 
+#, fuzzy
+#| msgid "View audit log"
+msgid "Team audit log"
+msgstr "Ellenőrzési napló megtekintése"
+
+#, fuzzy
+#| msgid "Team administrator"
+msgid "Team audit entry"
+msgstr "Csapatadminisztrátor"
+
 msgid "Cannot remove built-in team!"
 msgstr "Nem lehet eltávolítani a beépített csapatot!"
 
 msgid "User invitation was removed."
 msgstr "A felhasználó meghívása el lett távolítva."
+
+#, fuzzy
+#| msgid "User invitation was removed."
+msgid "This invitation was already accepted or removed."
+msgstr "A felhasználó meghívása el lett távolítva."
+
+#, fuzzy
+#| msgid "Please complete the registration to accept the invitation."
+msgid "Remove the project block before accepting this invitation."
+msgstr "Fejezze be a regisztrációt a meghívás elfogadásához."
 
 #, python-format
 msgid "Accepted invitation to the %s team."
@@ -4520,6 +4792,194 @@ msgstr ""
 msgid "Preview without changes"
 msgstr "Legutóbbi változtatások"
 
+msgid "Change events"
+msgstr "Eseményváltozások"
+
+#, fuzzy
+#| msgid "Category does not belong to this project."
+msgid "The workflow runs for each of the selected events."
+msgstr "A kategória nem tartozik ehhez a projekthez."
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "CEL expression"
+msgstr "Reguláris kifejezés"
+
+#, fuzzy
+#| msgid "The translation has come to an end."
+msgid "The expression has to evaluate to a boolean."
+msgstr "A fordítás a végéhez ért."
+
+#, fuzzy
+#| msgid "Category name"
+msgid "Category path"
+msgstr "Kategória neve"
+
+#, fuzzy
+#| msgid "Parent category has to be in the same project!"
+msgid "Slash-separated category path inside the project."
+msgstr "A szülőkategóriának ugyanabban a projektben kell lennie!"
+
+msgid "Language code"
+msgstr "Nyelvi kód"
+
+#, fuzzy
+#| msgid "Change events"
+msgid "Change event"
+msgstr "Eseményváltozások"
+
+msgid "String state"
+msgstr "Szöveg állapota"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Action ID"
+msgstr "Művelet"
+
+msgid "Optional identifier so that later actions can use its results."
+msgstr ""
+
+#, fuzzy
+#| msgid "Move component"
+msgid "Whole component"
+msgstr "Összetevő áthelyezése"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Strings were changed"
+msgid "String affected by the change"
+msgstr "Szövegek megváltoztak"
+
+#, fuzzy
+#| msgid "String state"
+msgid "String scope"
+msgstr "Szöveg állapota"
+
+#, fuzzy
+#| msgid "Default component list"
+msgid "Default (whole component)"
+msgstr "Alapértelmezett összetevőlista"
+
+#, fuzzy
+#| msgid "Delete string"
+msgid "Select strings"
+msgstr "Szöveg törlése"
+
+msgid "Use the effective AI quality add-on"
+msgstr ""
+
+msgid "Bulk editing"
+msgstr "Tömeges szerkesztés"
+
+msgid "Component update"
+msgstr "Összetevő frissítése"
+
+#, fuzzy
+#| msgid "Repository outdated."
+msgid "Repository update"
+msgstr "A tároló elavult."
+
+#, fuzzy
+#| msgid "Repository merged"
+msgid "Repository commit"
+msgstr "Tároló beolvasztva"
+
+#, fuzzy
+#| msgid "Repository push URL"
+msgid "Repository push"
+msgstr "Tároló feltöltési URL"
+
+msgid "Manual run"
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Expression"
+msgstr "Reguláris kifejezés"
+
+#, fuzzy
+#| msgid "Component created"
+msgid "Component category"
+msgstr "Összetevő létrehozva"
+
+#, fuzzy
+#| msgid "Manage strings"
+msgid "Matching strings"
+msgstr "Szövegek kezelése"
+
+msgid "All of"
+msgstr ""
+
+msgid "Any of"
+msgstr ""
+
+#, fuzzy
+#| msgid "Note"
+msgid "Not"
+msgstr "Megjegyzés"
+
+#, fuzzy
+#| msgid "Frequency"
+msgid "Sequence"
+msgstr "Gyakoriság"
+
+msgid "Choose"
+msgstr "Választás"
+
+msgid "Trigger"
+msgstr "Kiváltó ok"
+
+#, fuzzy
+#| msgid "Alert triggered"
+msgid "Add trigger"
+msgstr "Riasztás aktiválva"
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Condition"
+msgstr "Beállítások"
+
+#, fuzzy
+#| msgid "Bad configuration"
+msgid "Add condition"
+msgstr "Hibás beállítás"
+
+msgid "Action"
+msgstr "Művelet"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Add action"
+msgstr "Művelet"
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Conditions"
+msgstr "Beállítások"
+
+msgid "Actions"
+msgstr "Műveletek"
+
+msgid "Branches"
+msgstr ""
+
+#, fuzzy
+#| msgid "Additional branch"
+msgid "Add branch"
+msgstr "További ág"
+
+#, fuzzy
+#| msgctxt "Plural form description"
+#| msgid "Other"
+msgid "Otherwise"
+msgstr "Egyéb"
+
+msgid "Add action to run otherwise"
+msgstr ""
+
+msgid "Branch"
+msgstr ""
+
 msgid "Additional message"
 msgstr "További üzenet"
 
@@ -4541,9 +5001,6 @@ msgid ""
 msgstr ""
 
 msgid "No valid billing found or limit exceeded."
-msgstr ""
-
-msgid "Workspace"
 msgstr ""
 
 #, fuzzy
@@ -4656,6 +5113,9 @@ msgid_plural "Contains %d components"
 msgstr[0] "%d összetevőt tartalmaz"
 msgstr[1] "%d összetevőt tartalmaz"
 
+msgid "Restricted components are not allowed by this billing plan."
+msgstr ""
+
 msgid "Missing license"
 msgstr "Hiányzó licenc"
 
@@ -4667,6 +5127,11 @@ msgstr "Számlázás"
 
 msgid "Billing event"
 msgstr "Számlázási esemény"
+
+#, fuzzy
+#| msgid "Projects without components"
+msgid "Project has no components."
+msgstr "Projektek összetevők nélkül"
 
 #, fuzzy
 #| msgid "Monthly"
@@ -4724,6 +5189,9 @@ msgid "To terminate billing you have to remove all projects first."
 msgstr ""
 "A számlázás megszüntetéséhez először el kell távolítania az összes projektet."
 
+msgid "Externally managed billings cannot be merged."
+msgstr ""
+
 msgid "Cannot merge such a billing."
 msgstr "Ilyen számlázást nem lehet egyesíteni."
 
@@ -4734,7 +5202,7 @@ msgid "Major"
 msgstr ""
 
 msgid "Critical"
-msgstr ""
+msgstr "Kritikus"
 
 msgid "AI: Accuracy"
 msgstr ""
@@ -4970,9 +5438,13 @@ msgstr "Egyes többes számú alakok azonos fordítást kaptak."
 msgid "Inconsistent"
 msgstr "Nem egységes"
 
+#, fuzzy
+#| msgid ""
+#| "This string has more than one translation in this project or is "
+#| "untranslated in some components."
 msgid ""
-"This string has more than one translation in this project or is untranslated "
-"in some components."
+"This string has more than one translation in its propagation group or is "
+"untranslated in some components."
 msgstr ""
 "Ez a szöveg több különböző fordítással is szerepel a projektben vagy néhány "
 "összetevőben nincs lefordítva."
@@ -5263,6 +5735,11 @@ msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr "A HTML {tag} címkéből hiányzik az illeszkedő záró címke: {end}."
 
 #, fuzzy, python-brace-format
+#| msgid "The HTML {tag} tag is missing a matching end tag: {end}."
+msgid "The HTML {tag} tag is nested too deeply."
+msgstr "A HTML {tag} címkéből hiányzik az illeszkedő záró címke: {end}."
+
+#, fuzzy, python-brace-format
 #| msgid ""
 #| "The sequence {sequence} will begin a HTML character reference, but does "
 #| "not end with {semicolon}. If you do not want a character reference, use "
@@ -5500,6 +5977,17 @@ msgstr "Fluent-fordítás szintaxisa"
 msgid "Fluent syntax error in the translation."
 msgstr "Fluent szintaktikai hiba a fordításban."
 
+msgid "The Fluent value could not be checked because it is too complex."
+msgstr ""
+
+msgid "the value is too complex or nested too deeply"
+msgstr ""
+
+#, fuzzy
+#| msgid "Your billing plan has exceeded its limits."
+msgid "Format matching exceeded its time limit."
+msgstr "A számlázási csomagja elérte a korlátjait."
+
 msgid "The following format strings are in the wrong order:"
 msgstr "A következő formátumszövegek hibás sorrendben vannak:"
 
@@ -5521,15 +6009,11 @@ msgstr "C formátum"
 msgid "C format string does not match source."
 msgstr "A C formátumú szöveg nem egyezik a forrással."
 
-#, fuzzy
-#| msgid "Object Pascal format"
 msgid "Objective-C format"
-msgstr "Object Pascal formátum"
+msgstr "Objective-C formátum"
 
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "Objective-C format string does not match source."
-msgstr "A C formátumú szöveg nem egyezik a forrással."
+msgstr "Az Objective-C formátumú szöveg nem egyezik a forrással."
 
 msgid "Perl brace format"
 msgstr "Perl kapcsos zárójeles formátum"
@@ -5784,6 +6268,9 @@ msgstr "Markdown szintaxis"
 msgid "Markdown syntax does not match source."
 msgstr "A Markdown szintaxis nem egyezik meg a forrással."
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr ""
+
 #, fuzzy
 #| msgid "The translation does not contain an URL."
 msgid "The translation does not contain a URL."
@@ -5958,6 +6445,11 @@ msgstr "Weblate beállítás"
 msgid "Your translation is foo"
 msgstr "Nem található fordítás."
 
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
+msgstr ""
+
 msgid "Font style"
 msgstr "Betűstílus"
 
@@ -6076,10 +6568,8 @@ msgid "AsciiDoc file"
 msgstr "AsciiDoc-fájl"
 
 #. Translators: File format name
-#, fuzzy
-#| msgid "Localization guide"
 msgid "WixLocalization file"
-msgstr "Honosítási útmutató"
+msgstr "WixLocalization-fájl"
 
 msgid "gettext PO"
 msgstr "gettext PO"
@@ -6125,6 +6615,25 @@ msgstr "iOS szövegek"
 
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
+
+#, fuzzy
+#| msgid "Could not update the repository."
+msgid "Could not open the workbook archive."
+msgstr "Nem sikerült frissíteni a tárolót."
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr ""
 
 msgid "Multivalue CSV file"
 msgstr "Többértékű CSV-fájl"
@@ -6176,6 +6685,10 @@ msgstr "Érvénytelen fordítási jelző: „%s”"
 msgid "Plural form metadata in CSV file requires id_hash."
 msgstr ""
 
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
+msgstr ""
+
 #. Translators: File format name
 msgid "gettext PO file"
 msgstr "gettext PO-fájl"
@@ -6205,10 +6718,8 @@ msgid "XLIFF 1.2 with gettext extensions"
 msgstr "XLIFF 1.2 gettext kiterjesztésekkel"
 
 #. Translators: File format name
-#, fuzzy
-#| msgid "XLIFF 1.2 with gettext extensions"
 msgid "XLIFF 1.2 with Apple extensions"
-msgstr "XLIFF 1.2 gettext kiterjesztésekkel"
+msgstr "XLIFF 1.2 Apple-kiterjesztésekkel"
 
 #. Translators: File format name
 msgid "XLIFF 2.0 translation file"
@@ -6407,6 +6918,13 @@ msgstr "App Store-metaadatfájlok"
 msgid "File validation is required for directory-based formats."
 msgstr ""
 
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr ""
+
+msgid "Converted workbook content exceeds the configured size limit."
+msgstr ""
+
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
@@ -6471,6 +6989,16 @@ msgid ""
 "either this limit or the maximum age is reached."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation files"
+msgid "Install Translation files CDN"
+msgstr "Fordítási fájlok"
+
+msgid ""
+"Publishes original translation files publicly, including files from private "
+"components."
+msgstr ""
+
 msgid "Kotlin SDK CDN"
 msgstr ""
 
@@ -6478,6 +7006,11 @@ msgid ""
 "Publishes Android string and plural resources for registered Kotlin SDK "
 "builds."
 msgstr ""
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "Translation files CDN cannot be installed on this component."
+msgstr "A kiegészítő csak az összetevőre telepíthető."
 
 msgid "Weblate languages"
 msgstr "Weblate nyelvek"
@@ -6536,9 +7069,6 @@ msgstr "Nyelvek korlátja"
 #| msgid "Repeated language code"
 msgid "Enter a valid language code."
 msgstr "Ismételt nyelvkód"
-
-msgid "Language code"
-msgstr "Nyelvi kód"
 
 msgid "Language name"
 msgstr "Nyelv neve"
@@ -6699,9 +7229,6 @@ msgstr "Többes szám képlet"
 
 msgid "Plural type"
 msgstr "Többes szám típusa"
-
-msgid "Example counts for this plural form."
-msgstr "Példaszámok erre a többes számú alakra."
 
 msgid "Singular"
 msgstr "Egyes szám"
@@ -7035,6 +7562,9 @@ msgstr ""
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
 msgstr "Forrásnyelv kiválasztása"
+
+msgid "disabled"
+msgstr "letiltva"
 
 msgid ""
 "Project-level machine translation cannot use internal or non-public "
@@ -7648,6 +8178,21 @@ msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "A projektben vagy összetevőben meghatározott másodlagos nyelv"
 
+#, fuzzy
+#| msgid "Update with rebase"
+msgid "Rate limit reset."
+msgstr "Frissítés újraalapozással"
+
+#, fuzzy
+#| msgid "This translation needs editing."
+msgid "Too many translation requests."
+msgstr "Ez a fordítás szerkesztést igényel."
+
+#, fuzzy
+#| msgid "Too many authentication attempts from this location."
+msgid "Too many concurrent translation requests for this service."
+msgstr "Túl sok hitelesítési próbálkozás erről a helyről."
+
 msgid "File"
 msgstr "Fájl"
 
@@ -7798,6 +8343,11 @@ msgstr ""
 "A bejegyzések törölve lettek, és a fordítási memória a háttérben újra lesz "
 "építve."
 
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many uploads, please try again later."
+msgstr "Túl sok keresési lekérdezés, próbálja meg később újra."
+
 #, fuzzy, python-format
 #| msgid "Confirm deleting all translation memory entries"
 msgid "Processed %(count)d active translation memory entry."
@@ -7880,6 +8430,11 @@ msgid "Read your e-mail address"
 msgstr "Fiók e-mail-címének használata"
 
 msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
 msgstr ""
 
 msgid "Image is too big."
@@ -8006,9 +8561,22 @@ msgstr[1] "Nem találhatók megfelelő forrásszövegek."
 msgid "No new matching source strings found."
 msgstr "Nem találhatók új egyező forrásszövegek."
 
+msgid "Only some matching strings are shown. Search for more strings manually."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many image text searches. Please try again later."
+msgstr "Túl sok keresési lekérdezés, próbálja meg később újra."
+
 #, fuzzy
 #| msgid "Could not open a ticket, please try again later."
-msgid "OCR data could not be downloaded. Please try again later."
+msgid "Text recognition data could not be downloaded. Please try again later."
+msgstr "Nem sikerült jegyet nyitni, próbálja meg később újra."
+
+#, fuzzy
+#| msgid "Could not open a ticket, please try again later."
+msgid "Could not find strings in the image. Please try again."
 msgstr "Nem sikerült jegyet nyitni, próbálja meg később újra."
 
 #, fuzzy
@@ -8233,8 +8801,19 @@ msgstr ""
 msgid "Your profile"
 msgstr "Saját profil"
 
+#, fuzzy
+#| msgid "Enter a valid e-mail address."
+msgid "Confirm adding e-mail address"
+msgstr "Adjon meg egy érvényes e-mail címet."
+
 msgid "Confirm adding user identity"
 msgstr "Felhasználói személyazonosság hozzáadásának megerősítése"
+
+#, python-format
+msgid ""
+"Confirm adding %(uid)s to your existing Weblate account by entering your "
+"current password."
+msgstr ""
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #, python-format
@@ -8244,6 +8823,11 @@ msgid ""
 msgstr ""
 "Ennek megerősítése után képes lesz hitelesíteni magát a Weblate-en "
 "%(backend_verbose)s (%(uid)s) használatával."
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Add e-mail address"
+msgstr "Új e-mail-cím ellenőrzése"
 
 msgid "Confirm"
 msgstr "Megerősítés"
@@ -8377,16 +8961,16 @@ msgstr ""
 msgid "Registration"
 msgstr "Regisztráció"
 
+#, fuzzy
+#| msgid "Your e-mail"
+msgid "Check your e-mail"
+msgstr "Az Ön e-mail-címe"
+
 msgid "Password reset almost complete"
 msgstr "A jelszó-visszaállítás majdnem kész"
 
 msgid "Account removal almost complete"
 msgstr "A fiók-eltávolítás majdnem kész"
-
-#, fuzzy
-#| msgid "Registration almost complete"
-msgid "E-mail verification almost complete"
-msgstr "A regisztráció majdnem kész"
 
 msgid "Registration almost complete"
 msgstr "A regisztráció majdnem kész"
@@ -8401,16 +8985,11 @@ msgstr ""
 "Távolítsa el a fiókját az e-mail-címére küldött megerősítési hivatkozásra "
 "történő kattintással."
 
-#, fuzzy
-#| msgid ""
-#| "Click the confirmation link sent to your e-mail inbox and start using "
-#| "your account."
 msgid ""
-"Click the confirmation link sent to your e-mail inbox to verify the address "
-"for your account."
+"Check your e-mail for instructions. If this address is already associated "
+"with an account, you may receive account recovery guidance instead of a "
+"verification link."
 msgstr ""
-"Kattintson az e-mail-címére küldött megerősítési hivatkozásra, és kezdje el "
-"használni a fiókját."
 
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
@@ -8422,6 +9001,16 @@ msgstr ""
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr ""
 "Nézze meg a levélszemét mappáját, ha nem látja a bejövő üzenetek között."
+
+#, fuzzy, python-format
+#| msgid "The confirmation link will expire after %(count)s hour."
+#| msgid_plural "The confirmation link will expire after %(count)s hours."
+msgid ""
+"If you receive a verification link, it will expire after %(count)s hour."
+msgid_plural ""
+"If you receive a verification link, it will expire after %(count)s hours."
+msgstr[0] "A megerősítési hivatkozás %(count)s óra múlva le fog járni."
+msgstr[1] "A megerősítési hivatkozás %(count)s óra múlva le fog járni."
 
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
@@ -8443,6 +9032,15 @@ msgid "Register again if the confirmation link expires."
 msgstr "Regisztráljon újra, ha a megerősítési hivatkozás lejár."
 
 msgid ""
+"If you receive a verification link, open it while signed in to this account "
+"and follow the confirmation steps. You may be asked for your current "
+"password."
+msgstr ""
+
+msgid "Back to account settings"
+msgstr "Vissza a fiók beállításaihoz"
+
+msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
@@ -8460,13 +9058,49 @@ msgstr "Ha problémája adódik a regisztrációval, lépjen velünk kapcsolatba
 msgid "Please fix errors in the form."
 msgstr "Javítsa az űrlapon lévő hibákat."
 
+msgid ""
+"Verification instructions will be sent to the new e-mail address. You do not "
+"need access to your old mailbox."
+msgstr ""
+
+msgid ""
+"Adding an address does not change your account e-mail address. After "
+"verification, you can select the new address in Account settings."
+msgstr ""
+
 #, fuzzy
 #| msgid "Send test e-mail"
 msgid "Send verification e-mail"
 msgstr "Teszt e-mail küldése"
 
-msgid "Back to account settings"
-msgstr "Vissza a fiók beállításaihoz"
+#, fuzzy
+#| msgid "Confirm adding user identity"
+msgid "Confirm your identity"
+msgstr "Felhasználói személyazonosság hozzáadásának megerősítése"
+
+msgid "Confirm your existing sign-in method before continuing."
+msgstr ""
+
+msgid ""
+"Confirm your existing sign-in method before registering your first second "
+"factor."
+msgstr ""
+
+msgid "Sign in again using a connected provider:"
+msgstr ""
+
+msgid ""
+"Your previous e-mail verification has expired. Reset your password to "
+"continue."
+msgstr ""
+
+msgid "Sign out and reset password by e-mail"
+msgstr ""
+
+msgid ""
+"No sign-in method is available to confirm your identity. Contact an "
+"administrator to recover access."
+msgstr ""
 
 msgid "Trial subscriptions"
 msgstr "Próba-előfizetések"
@@ -8686,6 +9320,9 @@ msgstr ""
 msgid "Change my password"
 msgstr "Jelszó megváltoztatása"
 
+msgid "Set my password"
+msgstr "Saját jelszó beállítása"
+
 #, fuzzy
 #| msgid "Back to account settings"
 msgid "Back to security settings"
@@ -8729,11 +9366,6 @@ msgstr "Tevékenység"
 
 msgid "The e-mail address can be chosen from verified addresses only."
 msgstr "Az e-mail-címet csak ellenőrzött címek közül lehet kiválasztani."
-
-#, fuzzy
-#| msgid "Verify new e-mail address"
-msgid "Add and verify e-mail address"
-msgstr "Új e-mail-cím ellenőrzése"
 
 msgid "Save"
 msgstr "Mentés"
@@ -8838,9 +9470,6 @@ msgstr "Beállítás"
 msgid "Not configured"
 msgstr "Beállítás"
 
-msgid "Set password"
-msgstr "Jelszó beállítása"
-
 msgid "Two-factor authentication"
 msgstr "Kétlépcsős hitelesítés"
 
@@ -8940,6 +9569,9 @@ msgstr "API-kulcs láthatóságának ki- és bekapcsolása"
 
 msgid "API key copied to clipboard."
 msgstr "Az API-kulcs a vágólapra másolva."
+
+msgid "Verify your identity to view your API key"
+msgstr ""
 
 msgid "API root URL:"
 msgstr "API gyökér URL:"
@@ -9140,9 +9772,6 @@ msgid ""
 msgstr ""
 "Elfelejtette a jelszavát? Adja meg az e-mail-címét lent, és mi elküldjük e-"
 "mailben az új jelszó beállításához szükséges utasításokat."
-
-msgid "Set my password"
-msgstr "Saját jelszó beállítása"
 
 msgid "Reset my password"
 msgstr "Saját jelszó visszaállítása"
@@ -9560,6 +10189,9 @@ msgstr "Nem érhető el"
 msgid "No components found."
 msgstr "Nincsenek összetevők megadva"
 
+msgid "Integration instructions"
+msgstr "Integrációs utasítások"
+
 msgid "Configure add-on"
 msgstr "Kiegészítő beállítása"
 
@@ -9652,6 +10284,27 @@ msgstr "A kiegészítő csak összetevőszinten telepíthető."
 msgid "Install"
 msgstr "Telepítés"
 
+#, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid "Install on the component owning the repository."
+msgstr ""
+"Ez a kiegészítő az ezt a tárolót megosztó összes összetevőnél használva van."
+
+#, fuzzy
+#| msgid "This component is set up incorrectly."
+msgid "The component owning this repository is not available to you."
+msgstr "Ez az összetevő helytelenül van beállítva."
+
+#, fuzzy
+#| msgid "Repository changes"
+msgid "Open repository add-ons"
+msgstr "Tároló változtatásai"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Unavailable"
+msgstr "Nem érhető el"
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -9686,8 +10339,54 @@ msgstr "Előző"
 msgid "Next"
 msgstr "Következő"
 
-msgid "Integration instructions"
-msgstr "Integrációs utasítások"
+#, fuzzy
+#| msgid "Workflow customization"
+msgid "Workflow editing mode"
+msgstr "Munkafolyamat testreszabása"
+
+#, fuzzy
+#| msgid "Edit"
+msgid "Editor"
+msgstr "Szerkesztés"
+
+#, fuzzy
+#| msgid "YAML file"
+msgid "YAML"
+msgstr "YAML-fájl"
+
+msgid ""
+"Both modes edit the same workflow, and switching between them keeps unsaved "
+"changes."
+msgstr ""
+
+msgid "Triggers"
+msgstr "Események"
+
+msgid ""
+"Events starting the workflow. Without any trigger it can only be run "
+"manually."
+msgstr ""
+
+#, fuzzy
+#| msgid "All components are now open for translation updates."
+msgid "All conditions have to pass before any action runs."
+msgstr "Az összes összetevő most nyitva van a fordítási frissítésekhez."
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Operation was performed in the repository"
+msgid "Operations performed in this order once the conditions pass."
+msgstr "A műveletet végre lett hajtva a tárolóban"
+
+#, fuzzy
+#| msgid "Move"
+msgid "Move up"
+msgstr "Áthelyezés"
+
+#, fuzzy
+#| msgid "Move"
+msgid "Move down"
+msgstr "Áthelyezés"
 
 msgid "Published translation files are available from the CDN base URL:"
 msgstr ""
@@ -9759,6 +10458,24 @@ msgid "No matching components were found!"
 msgstr "Nem találhatók megfelelő összetevők!"
 
 msgid ""
+"Configure the AMQP broker connection below, including any TLS certificates "
+"required by your broker, and select the events to publish."
+msgstr ""
+
+msgid "Configure your consumer to subscribe to Weblate message topics:"
+msgstr ""
+
+msgid ""
+"Topics include only the path segments available for the event. If you "
+"configure a topic prefix, it is prepended with a dot separator."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for topic examples, the message schema, and "
+"consumer configuration."
+msgstr ""
+
+msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
 msgstr ""
@@ -9802,6 +10519,17 @@ msgstr "Projekt URL-azonosítója (slug)"
 msgid ""
 "See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
 "library setup."
+msgstr ""
+
+msgid ""
+"Install Translation files CDN to let the SDK download original XML "
+"translation files. These files are published publicly, including files from "
+"private components."
+msgstr ""
+
+msgid ""
+"After installation, return to this page to copy the updated Gradle "
+"configuration."
 msgstr ""
 
 msgid "Configure the Kotlin SDK Gradle plugin with these values:"
@@ -9913,6 +10641,21 @@ msgstr "A szövegek a következő minta alapján generálódnak:"
 msgid "Source string"
 msgstr "Forrásszöveg"
 
+#, python-format
+msgid ""
+"Create an <a href=\"%(url)s\">incoming webhook in Slack</a> for the channel "
+"that should receive notifications."
+msgstr ""
+
+msgid ""
+"Enter the webhook URL below and select the events to send to the channel."
+msgstr ""
+
+#, fuzzy
+#| msgid "Please see a documentation for more info."
+msgid "See the add-on documentation for more information."
+msgstr "További információkért nézze meg a dokumentációt."
+
 msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr ""
@@ -9932,6 +10675,22 @@ msgstr ""
 "hacsak a „Szerzőnként” ki nincs választva, vagy a véglegesítésüzenet "
 "személyre nincs szabva, hogy tartalmazza azt."
 
+msgid ""
+"Configure your service to receive JSON POST requests, enter its URL below, "
+"and select the events to send."
+msgstr ""
+
+msgid ""
+"To verify request signatures, configure the same Standard Webhooks secret in "
+"Weblate and your receiver. Requests are signed only when a secret is "
+"configured."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for the message payload and signature "
+"verification."
+msgstr ""
+
 msgid "HTTP Response"
 msgstr "HTTP válasz"
 
@@ -9947,6 +10706,43 @@ msgstr "Válasz tartalma"
 msgid "Request payload"
 msgstr "Kérés tartalma"
 
+msgid ""
+"Reset these built-in roles to the current default permissions? This discards "
+"their customizations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Permissions"
+msgid "Reset permissions"
+msgstr "Jogosultságok"
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Actor"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete entry"
+msgid "Deleted user"
+msgstr "Bejegyzés törlése"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Administrative team changes"
+msgstr "Adminisztráció"
+
+msgid "Change"
+msgstr "Módosítás"
+
+msgid "View details"
+msgstr "Részletek megtekintése"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No team audit entries found."
+msgstr "Nem találhatók megfelelő szövegek."
+
 msgid "Settings"
 msgstr "Beállítások"
 
@@ -9955,6 +10751,17 @@ msgstr "Automatikus hozzárendelések"
 
 msgid "Access control"
 msgstr "Hozzáférés-vezérlés"
+
+#, fuzzy
+#| msgid ""
+#| "Automatically add newly created users to this team based on their e-mail "
+#| "address."
+msgid ""
+"Automatically invite newly created users to this team based on their e-mail "
+"address. Users join only after accepting the invitation."
+msgstr ""
+"Az újonnan létrehozott felhasználók automatikus hozzáadása ehhez a csapathoz "
+"az e-mail-címük alapján."
 
 msgid ""
 "Automatically add newly created users to this team based on their e-mail "
@@ -10001,6 +10808,9 @@ msgstr "Ez eltávolítja <b>%(user)s</b> hozzáférését ettől a projekttől."
 msgid "Add"
 msgstr "Hozzáadás"
 
+msgid "Moved component"
+msgstr "Összetevő áthelyezve"
+
 msgid "All components"
 msgstr "Összes összetevő"
 
@@ -10026,6 +10836,11 @@ msgstr "Megfigyelt projektek kezelése"
 #, fuzzy
 #| msgid "Spaces"
 msgid "My workspaces"
+msgstr "Szóközök"
+
+#, fuzzy
+#| msgid "Spaces"
+msgid "Workspaces"
 msgstr "Szóközök"
 
 msgid "Manage translated languages"
@@ -10206,6 +11021,16 @@ msgstr ""
 "Ez az előfizetés nem megfelelő a szabad szoftveres csomaghoz. Javítsa a "
 "fenti hibákat vagy vásároljon előfizetést."
 
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+
 #, fuzzy
 #| msgid "Custom"
 msgid "Customer"
@@ -10225,9 +11050,6 @@ msgstr "Megtekintés"
 
 msgid "Event details"
 msgstr "Esemény részletei"
-
-msgid "Actions"
-msgstr "Műveletek"
 
 msgid "Download"
 msgstr "Letöltés"
@@ -10338,6 +11160,141 @@ msgstr ""
 msgid "Check your billing status"
 msgstr "Számlázási állapot ellenőrzése"
 
+#, fuzzy
+#| msgid "Repository browser"
+msgid "Checking your browser"
+msgstr "Tárolóböngésző"
+
+msgid ""
+"Your browser will calculate a short proof of work to protect this site "
+"against automated scraping."
+msgstr ""
+
+#, fuzzy
+#| msgid "Loading…"
+msgid "Working…"
+msgstr "Betöltés…"
+
+msgid ""
+"Verification failed. Enable JavaScript, workers, and cookies, then retry. "
+"You can also sign in."
+msgstr ""
+
+msgid "The challenge expired. Retry to start a new challenge."
+msgstr ""
+
+msgid "This challenge was already used. Retry to start a new challenge."
+msgstr ""
+
+msgid "Browser verification was unsuccessful. Please retry."
+msgstr ""
+
+msgid "Browser verification could not be confirmed. Enable cookies and retry."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The verification service is temporarily unavailable. Please retry later."
+msgstr ""
+"A távoli tárolót átmenetileg nem sikerült elérni. Próbálja meg később újra."
+
+msgid "Verification cookies could not be confirmed. Enable cookies and retry."
+msgstr ""
+
+msgid "JavaScript is required for anonymous access. You can sign in instead."
+msgstr ""
+
+#, fuzzy
+#| msgid "Repository details"
+msgid "Retry"
+msgstr "Tároló részletei"
+
+msgid "Did you know?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Please review and confirm the matched components."
+msgid "Review and confirm the bulk edit changes."
+msgstr "Nézze át és erősítse meg az illesztett összetevőket."
+
+#, fuzzy, python-format
+#| msgid "%(count)s string needing action"
+#| msgid_plural "%(count)s strings needing action"
+msgid "%(counter)s string would change."
+msgid_plural "%(counter)s strings would change."
+msgstr[0] "%(count)s műveletet igénylő szöveg"
+msgstr[1] "%(count)s műveletet igénylő szöveg"
+
+msgid ""
+"Showing the first 250 changes. Only selected displayed strings will be "
+"processed unless you choose to apply all matching strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Start review"
+msgid "Update preview"
+msgstr "Felülvizsgálat megkezdése"
+
+#, python-format
+msgid "Apply all matching strings (%(total)s)"
+msgstr ""
+
+msgid ""
+"Applies to all current matches, including those not displayed. The query and "
+"permissions are checked again when applying changes."
+msgstr ""
+
+#, fuzzy
+#| msgid "CSS selector"
+msgid "Select"
+msgstr "CSS-szelektor"
+
+#, fuzzy
+#| msgctxt "Label on engage page"
+#| msgid "String"
+#| msgid_plural "Strings"
+msgid "String"
+msgstr "Szöveg"
+
+msgid "Changes"
+msgstr "Változások"
+
+msgid "State"
+msgstr "Állapot"
+
+msgid "Before"
+msgstr ""
+
+msgid "After"
+msgstr ""
+
+msgid "Empty"
+msgstr "Üres"
+
+#, fuzzy
+#| msgid "For all languages"
+msgid "Source flags (all languages)"
+msgstr "Az összes nyelvhez"
+
+msgid "Translation flags"
+msgstr "Fordítási jelzők"
+
+#, fuzzy
+#| msgid "All languages"
+msgid "Add label (all languages)"
+msgstr "Összes nyelv"
+
+#, fuzzy
+#| msgid "Browse all languages"
+msgid "Remove label (all languages)"
+msgstr "Az összes nyelv böngészése"
+
+msgid "Apply"
+msgstr "Alkalmaz"
+
 msgid "Insights"
 msgstr "Betekintések"
 
@@ -10356,9 +11313,6 @@ msgstr "Fordítás feltöltése"
 msgid "Operations"
 msgstr "Műveletek"
 
-msgid "Search and replace"
-msgstr "Keresés és csere"
-
 msgid "Post announcement"
 msgstr "Bejelentés küldése"
 
@@ -10367,14 +11321,6 @@ msgstr "Rendszerezés vagy eltávolítás"
 
 msgid "Browse all changes for this language"
 msgstr "A nyelv összes változtatásának böngészése"
-
-#, fuzzy
-#| msgid "Recent changes"
-msgid "Review changes"
-msgstr "Legutóbbi változtatások"
-
-msgid "Apply"
-msgstr "Alkalmaz"
 
 #, fuzzy
 #| msgid "Browse all components"
@@ -11235,9 +12181,6 @@ msgstr "Felülvizsgálatra vár"
 msgid "Shortcut"
 msgstr "Gyorsbillentyű"
 
-msgid "Action"
-msgstr "Művelet"
-
 msgid "Open available keyboard shortcuts."
 msgstr "Az elérhető billentyűparancsok megnyitása."
 
@@ -11387,6 +12330,9 @@ msgstr "Megoldás"
 msgid "Mark as spam"
 msgstr "Megjelölés szemétként"
 
+msgid "Service is no longer available"
+msgstr "A szolgáltatás többé nem érhető el"
+
 msgid "This service is installed site wide."
 msgstr "Ez a szolgáltatás webhelyszinten van telepítve."
 
@@ -11404,26 +12350,20 @@ msgid "workspace"
 msgstr "Szóközök"
 
 #, fuzzy
+#| msgid "Languages limit"
+msgid "Rate limited"
+msgstr "Nyelvek korlátja"
+
+#, fuzzy
 #| msgid "This service is installed site wide."
 msgid "This service is disabled."
 msgstr "Ez a szolgáltatás webhelyszinten van telepítve."
-
-msgid "disabled"
-msgstr "letiltva"
-
-msgid "Service is no longer available"
-msgstr "A szolgáltatás többé nem érhető el"
 
 msgid "ID"
 msgstr ""
 
 msgid "Slug"
 msgstr ""
-
-#, fuzzy
-#| msgid "Translation explanation"
-msgid "Installation slug (optional)"
-msgstr "Fordítás magyarázata"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -11432,37 +12372,160 @@ msgid ""
 msgstr ""
 
 #, fuzzy
-#| msgid "Cleanup translation files"
-msgid "Configured translation services"
-msgstr "Fordítási fájlok tisztítása"
+#| msgid "Hosted service"
+msgid "Inherited service"
+msgstr "Kiszolgálón biztosított szolgáltatás"
 
 #, fuzzy
-#| msgid "Adding strings is disabled in the component configuration."
-msgid "Stop using this installation without removing its configuration."
-msgstr "A szövegek hozzáadása le van tiltva az összetevő beállításaiban."
+#| msgid "This service is installed site wide."
+msgid "This service is managed at its installation scope."
+msgstr "Ez a szolgáltatás webhelyszinten van telepítve."
+
+#, fuzzy
+#| msgid "Use this translation"
+msgid "Manage this installation"
+msgstr "A fordítás használata"
+
+#, fuzzy
+#| msgid "Translation explanation"
+msgid "Installation slug (optional)"
+msgstr "Fordítás magyarázata"
+
+#, fuzzy
+#| msgid "This add-on has no settings."
+msgid "This service has no settings."
+msgstr "Ennek a kiegészítőnek nincsenek beállításai."
+
+#, fuzzy
+#| msgid "Use automatic suggestions"
+msgid "Use in automations"
+msgstr "Automatikus javaslatok használata"
+
+msgid ""
+"Select this installation in the engines setting of an automatic translation "
+"action using its numeric ID:"
+msgstr ""
+
+#, fuzzy
+#| msgid "You can now log in using password."
+msgid "You can also select it using its slug:"
+msgstr "Most már bejelentkezhet jelszó használatával."
+
+msgid ""
+"The numeric ID always selects this installation. The slug selects the "
+"installation currently using that name in the project."
+msgstr ""
+
+msgid ""
+"Set an installation slug above to give this service a readable name in your "
+"automations."
+msgstr ""
+
+msgid "Rate limit"
+msgstr "Sebességkorlát"
+
+msgid ""
+"Requests to this service are temporarily paused after a provider error. "
+"Resetting the rate limit allows Weblate to try again; it does not reset the "
+"provider’s quota."
+msgstr ""
+
+#, fuzzy
+#| msgid "Repositories limit"
+msgid "Reset rate limit"
+msgstr "Tárolók korlátja"
+
+#, fuzzy
+#| msgid "This component is currently locked."
+msgid "The rate limit can be reset at the service’s installation scope."
+msgstr "Ez az összetevő jelenleg zárolva van."
+
+#, fuzzy
+#| msgid "Version control"
+msgid "Service control"
+msgstr "Verziókövetés"
+
+#, fuzzy
+#| msgctxt "Label on donate page"
+#| msgid "GitHub star"
+#| msgid_plural "GitHub stars"
+msgid "Disable installation"
+msgstr "GitHub csillag"
+
+msgid ""
+"Stop using this installation here and in scopes inheriting it. Its settings "
+"are kept so you can enable it again later."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this workspace and its projects. "
+"Other installations of this service remain available."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this project. Other installations "
+"of this service and its use in other projects are unaffected."
+msgstr ""
 
 msgid "Disable"
 msgstr "Letiltás"
 
-msgid "Stop using this inherited installation here."
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Enable machine translation"
+msgid "Enable installation"
+msgstr "Gépi fordítás engedélyezése"
+
+msgid ""
+"Resume using this installation with its saved settings here and in scopes "
+"inheriting it. Existing exclusions still apply."
+msgstr ""
+
+msgid ""
+"Remove the local exclusion for this installation. It can provide suggestions "
+"here when it is enabled at its installation scope and is not excluded "
+"upstream. Other excluded installations remain excluded."
 msgstr ""
 
 msgid "Enable"
 msgstr "Engedélyezés"
 
-#, fuzzy
-#| msgid "Remove this notification setting"
-msgid "Remove this installation and its configuration."
-msgstr "Az értesítési beállítás eltávolítása"
+msgid ""
+"This installation is disabled at its installation scope or excluded by an "
+"upstream scope."
+msgstr ""
 
-msgid "Exclude all inherited installations of this service"
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Authentication service URL"
+msgid "Exclude inherited service"
+msgstr "Hitelesítési szolgáltatás URL-e"
+
+msgid ""
+"Stop using all site-wide installations of this service in this workspace and "
+"its projects, including installations added later. Installations configured "
+"directly in this workspace or its projects remain available."
+msgstr ""
+
+msgid ""
+"Stop using all inherited installations of this service in this project, "
+"including installations added later. Installations configured directly in "
+"this project and use in other projects are unaffected."
 msgstr ""
 
 msgid "Exclude"
 msgstr ""
 
-msgid "Configure"
-msgstr "Beállítás"
+msgid ""
+"Removing this installation stops it from being used here and in scopes "
+"inheriting it, and deletes its saved settings. You will need to install and "
+"configure it again to use it later."
+msgstr ""
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Configured translation services"
+msgstr "Fordítási fájlok tisztítása"
 
 msgid "There are no services currently installed."
 msgstr "Jelenleg nincsenek szolgáltatások telepítve."
@@ -11484,6 +12547,17 @@ msgstr "Nem találhatók további szolgáltatások."
 msgid ""
 "Some services will ask for additional configuration during installation."
 msgstr "Néhány szolgáltatás további beállítást fog kérni a telepítés során."
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "Translation service errors"
+msgstr "Fordítási licenc"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "No translation service errors available."
+msgstr "Fordítási tartomány"
 
 #, python-format
 msgid "The following activity has occurred on your account at %(site_title)s:"
@@ -11656,6 +12730,16 @@ msgstr ""
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr "A fiók a lejárat után, le lesz tiltva."
 
+#, fuzzy
+#| msgid "Does not meet Libre hosting conditions."
+msgid "Review Libre hosting conditions"
+msgstr "Nem teljesíti a szabad szoftveres tárhelyszolgáltatás feltételeit."
+
+#, fuzzy, python-format
+#| msgid "Number of entries for %(project)s"
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "%(project)s bejegyzések száma"
+
 msgid "Translation change"
 msgstr "Fordítási változtatás"
 
@@ -11716,6 +12800,37 @@ msgstr "A(z) %(component)s összetevő fel lett oldva"
 msgid "Digest: %(notification_name)s"
 msgstr "Kivonat: %(notification_name)s"
 
+#, python-format
+msgid ""
+"Somebody requested to add this e-mail address to another account at "
+"%(site_title)s. This address is already associated with an account and "
+"cannot be added to another."
+msgstr ""
+
+msgid ""
+"If you intended to access the existing account, sign out and use password "
+"recovery. The button below opens the password reset form; it does not reset "
+"your password."
+msgstr ""
+
+#, fuzzy
+#| msgid "Confirm password reset"
+msgid "Open password recovery"
+msgstr "Jelszó-visszaállítás megerősítése"
+
+msgid "Contact support for help moving this address between accounts."
+msgstr ""
+
+msgid ""
+"If you did not request this, you can ignore this e-mail. Your account has "
+"not been changed."
+msgstr ""
+
+#. Translators: e-mail subject
+#, python-format
+msgid "E-mail address already associated with an account on %(site_title)s"
+msgstr ""
+
 msgid "View invitation"
 msgstr "Meghívás megtekintése"
 
@@ -11724,6 +12839,10 @@ msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
 msgstr[0] "A meghívás %(count)s óra múlva le fog járni."
 msgstr[1] "A meghívás %(count)s óra múlva le fog járni."
+
+#, python-format
+msgid "Automatic team assignment: invitation to join %(team_name)s"
+msgstr ""
 
 #. Translators: e-mail subject
 #, python-format
@@ -11979,6 +13098,11 @@ msgid "Confirm invitation"
 msgstr "Meghívás megerősítése"
 
 #, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Verify e-mail address"
+msgstr "Új e-mail-cím ellenőrzése"
+
+#, fuzzy
 #| msgid ""
 #| "Note: This digest has been truncated as there were over 100 notifications."
 msgid ""
@@ -12051,6 +13175,17 @@ msgstr "Befejezetlen"
 #| msgid "Translation summary"
 msgid "Translation activity summary"
 msgstr "Fordítási összegzés"
+
+#, fuzzy, python-format
+#| msgid "Activity on your account at %(site_title)s"
+msgid "Verify this e-mail address for your account at %(site_title)s."
+msgstr "A fiókjában végzett tevékenység a(z) %(site_title)s webhelyen"
+
+#. Translators: e-mail subject
+#, fuzzy, python-format
+#| msgid "Account removal on %(site_title)s"
+msgid "Verify your e-mail address on %(site_title)s"
+msgstr "Fiókeltávolítás a(z) %(site_title)s webhelyen"
 
 #, fuzzy
 #| msgid "Component lists"
@@ -12264,6 +13399,70 @@ msgstr "Böngészési felfedezés"
 msgid "Performance report"
 msgstr "Teljesítményjelentés"
 
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Bot protection"
+msgstr "Fordítások tárhelyének szolgáltatása"
+
+msgid ""
+"Issued challenges, requests requiring proof of work, and verification "
+"outcomes in hourly buckets. Counts are best-effort and can be lost during "
+"cache outages or eviction."
+msgstr ""
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Counters are unavailable."
+msgstr "Nem érhető el"
+
+msgid "Outcome"
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Current hour"
+msgstr "Jelenlegi jelszó"
+
+#, fuzzy
+#| msgid "Previously not translated"
+msgid "Previous 24 completed hours"
+msgstr "Korábban le nem fordított"
+
+#, fuzzy
+#| msgid "Pushed changes"
+msgid "Issued challenges"
+msgstr "Változtatások felküldve"
+
+msgid "Requests requiring proof of work"
+msgstr ""
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Expired challenge"
+msgstr "Forrás változtatása"
+
+#, fuzzy
+#| msgid "Invalid suggestion!"
+msgid "Invalid solution"
+msgstr "Érvénytelen javaslat!"
+
+#, fuzzy
+#| msgctxt "Label on donate page"
+#| msgid "Recent change"
+#| msgid_plural "Recent changes"
+msgid "Replayed challenge"
+msgstr "Legutóbbi változtatás"
+
+#, fuzzy
+#| msgid "Merge failure"
+msgid "CSRF failure"
+msgstr "Beolvasztási hiba"
+
+#, fuzzy
+#| msgid "Service is no longer available"
+msgid "Service unavailable"
+msgstr "A szolgáltatás többé nem érhető el"
+
 msgid "Last occurrence"
 msgstr "Utolsó előfordulás"
 
@@ -12444,6 +13643,342 @@ msgstr "Távoli VCS nélküli összetevők megjelenítése"
 msgid "This repository is linked to:"
 msgstr "Ez a tároló a következőhöz kapcsolódik:"
 
+#, fuzzy
+#| msgid "Confirm registration"
+msgid "Confirm security action"
+msgstr "Regisztráció megerősítése"
+
+#, python-format
+msgid "Selected %(count)s findings affecting %(accounts)s accounts."
+msgstr ""
+
+msgid ""
+"Disable the matching passwords, invalidate signed-in sessions, and revoke "
+"all API tokens. Users with an e-mail address will be notified. Single sign-"
+"on and two-factor settings are preserved. Accounts whose passwords have "
+"changed will be skipped."
+msgstr ""
+
+msgid ""
+"Remove the selected lookalike verified e-mail addresses and associated sign-"
+"in identities, disable account passwords, invalidate sessions, and revoke "
+"API tokens. Account owners will be notified at their primary e-mail address."
+msgstr ""
+
+msgid ""
+"Dismiss the selected findings without changing credentials or notifying "
+"users. A new report confirming the same exposure can reopen them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Reset my password"
+msgid "Reset passwords"
+msgstr "Saját jelszó visszaállítása"
+
+#, fuzzy
+#| msgid "Remove my account"
+msgid "Remove identities and reset accounts"
+msgstr "Saját fiók eltávolítása"
+
+#, fuzzy
+#| msgid "Dismiss failing check"
+msgid "Dismiss findings"
+msgstr "Sikertelen ellenőrzés eltüntetése"
+
+#, fuzzy, python-format
+#| msgid "Edit team membership for %(username)s"
+msgid "Security finding for %(username)s"
+msgstr "%(username)s csapattagságának szerkesztése"
+
+msgid "CSV row"
+msgstr ""
+
+#, fuzzy
+#| msgid "Unit identifier"
+msgid "Identifier"
+msgstr "Egység azonosítója"
+
+#, fuzzy
+#| msgid "Matching multiple paths"
+msgid "Matching method"
+msgstr "Több útvonal egyeztetése"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "No matching row details."
+msgstr "Nem érhető el"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Page %(number)s of %(total)s"
+msgstr "%(used)s / %(total)s használva"
+
+#, fuzzy
+#| msgid "Merged repository"
+msgid "Detected in reports"
+msgstr "Tároló beolvasztva"
+
+#, fuzzy
+#| msgid "Administrators"
+msgid "Administrator"
+msgstr "Adminisztrátorok"
+
+#, fuzzy
+#| msgid "Weblate administration"
+msgid "Deleted administrator"
+msgstr "Weblap adminisztráció"
+
+msgid "No validation reports for this finding."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Reports page %(number)s of %(total)s"
+msgstr "%(used)s / %(total)s használva"
+
+#, fuzzy
+#| msgid "Previously not translated"
+msgid "Previous reports"
+msgstr "Korábban le nem fordított"
+
+#, fuzzy
+#| msgid "Data exports"
+msgid "Next reports"
+msgstr "Adat exportok"
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Account security findings"
+msgstr "Vissza a fiók beállításaihoz"
+
+#, fuzzy
+#| msgid "Translation reports"
+msgid "Validation reports"
+msgstr "Fordítási jelentések"
+
+msgid "Filename"
+msgstr "Fájlnév"
+
+#, fuzzy
+#| msgid "Not yet measured"
+msgid "Not recorded"
+msgstr "Még nincs megmérve"
+
+#, fuzzy
+#| msgid "Submit"
+msgid "Submitted by"
+msgstr "Beküldés"
+
+#, fuzzy
+#| msgid "Professional support"
+msgid "Processing summary"
+msgstr "Professzionális támogatás"
+
+#, fuzzy
+#| msgid "Translation completed"
+msgid "Password validation completed."
+msgstr "Fordítás befejezve"
+
+msgid "Legacy e-mail identity check completed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Activation completed."
+msgid "Security action completed."
+msgstr "Aktiválás befejezve."
+
+#, fuzzy
+#| msgid "Parsing failed"
+msgid "Processing failed."
+msgstr "Feldolgozás sikertelen"
+
+msgid "Processing is not complete. Findings may still be added."
+msgstr ""
+
+#, fuzzy
+#| msgid "Progress"
+msgid "View progress"
+msgstr "Folyamat"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Processed %(processed)s of %(total)s entries."
+msgstr "%(used)s / %(total)s használva"
+
+#, fuzzy
+#| msgid "Ending date"
+msgid "Finding type"
+msgstr "Befejezési dátum"
+
+#, fuzzy
+#| msgid "Filters"
+msgid "Filter"
+msgstr "Szűrők"
+
+#, fuzzy
+#| msgid "Labeled source strings"
+msgid "Actions apply only to checked findings on this page."
+msgstr "Címkézett forrásszövegek"
+
+#, fuzzy
+#| msgid "Labeled source strings"
+msgid "Select all on this page"
+msgstr "Címkézett forrásszövegek"
+
+#, fuzzy
+#| msgid "Project selection"
+msgid "Clear selection"
+msgstr "Projektválasztás"
+
+#, fuzzy
+#| msgid "Pending"
+msgid "Finding"
+msgstr "Függőben"
+
+#, python-format
+msgid "Select finding for %(username)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "active"
+msgid "Inactive"
+msgstr "aktív"
+
+#, fuzzy
+#| msgid "Note"
+msgid "Bot"
+msgstr "Megjegyzés"
+
+msgid "No e-mail address: notification unavailable"
+msgstr ""
+
+#, fuzzy
+#| msgid "Date joined"
+msgid "Date joined:"
+msgstr "Csatlakozás dátuma"
+
+#, fuzzy
+#| msgid "Last sign in"
+msgid "Last sign-in:"
+msgstr "Utolsó bejelentkezés"
+
+#, python-format
+msgid "Row %(row)s: %(identifier)s (%(method)s)"
+msgstr ""
+
+#, python-format
+msgid "View details (%(count)s match)"
+msgid_plural "View details (%(count)s matches)"
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "First detected:"
+msgstr "Betűkészlet törölve."
+
+#, fuzzy
+#| msgid "Last updated"
+msgid "Last detected:"
+msgstr "Utoljára frissítve"
+
+msgid "No security findings match these filters."
+msgstr ""
+
+msgid "Remove lookalike e-mail identities and reset selected accounts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Reset passwords for selected accounts"
+msgstr "Fiók eltávolítása"
+
+msgid "Dismiss selected findings"
+msgstr ""
+
+msgid ""
+"Dismissing findings marks them as reviewed without changing passwords or "
+"notifying users."
+msgstr ""
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Account security operation"
+msgstr "Vissza a fiók beállításaihoz"
+
+#, fuzzy
+#| msgid "Professional support"
+msgid "Processing progress"
+msgstr "Professzionális támogatás"
+
+#, fuzzy
+#| msgid "Repositories"
+msgid "Refresh progress"
+msgstr "Tárolók"
+
+msgid ""
+"Review previous credential validation reports, including reports with no "
+"matching passwords."
+msgstr ""
+
+#, fuzzy
+#| msgid "Download reports"
+msgid "Upload report"
+msgstr "Jelentések letöltése"
+
+#, fuzzy
+#| msgid "Process"
+msgid "Processed rows"
+msgstr "Folyamat"
+
+#, fuzzy
+#| msgid "Manage strings"
+msgid "Matching rows"
+msgstr "Szövegek kezelése"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Affected accounts"
+msgstr "Fiók eltávolítása"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "%(processed)s of %(total)s"
+msgstr "%(used)s / %(total)s használva"
+
+#, fuzzy
+#| msgid "Translation reports"
+msgid "No validation reports yet."
+msgstr "Fordítási jelentések"
+
+msgid ""
+"Upload a CSV containing usernames or e-mail addresses and passwords. "
+"Passwords are checked in the background and never displayed in the report."
+msgstr ""
+
+msgid ""
+"Reports must use UTF-8 and contain at most 50,000 rows and 10 MiB. Leave the "
+"delimiter and column numbers blank for automatic detection."
+msgstr ""
+
+msgid ""
+"The uploaded file is available for one hour. Adjust the CSV settings below "
+"to try again."
+msgstr ""
+
+msgid "CSV format (detected automatically)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Disable password"
+msgid "Validate passwords"
+msgstr "Jelszó letiltása"
+
+#, fuzzy
+#| msgid "Disable password"
+msgid "Validate leaked passwords"
+msgstr "Jelszó letiltása"
+
 msgid "Activate support package"
 msgstr "Támogatási csomag aktiválása"
 
@@ -12589,9 +14124,18 @@ msgid "Check user access"
 msgstr "Felhasználói hozzáférés ellenőrzése"
 
 #, fuzzy
-#| msgid "Spaces"
-msgid "Workspaces"
-msgstr "Szóközök"
+#| msgid "Account activity"
+msgid "Account security"
+msgstr "Fióktevékenység"
+
+#, python-format
+msgid "Security report (%(security_findings_open)s open findings)"
+msgstr ""
+
+msgid ""
+"Validate a CSV report of leaked credentials against current account "
+"passwords."
+msgstr ""
 
 msgid "Add workspace"
 msgstr ""
@@ -12622,9 +14166,6 @@ msgstr "Mátrix"
 
 msgid "Displayed languages"
 msgstr "Megjelenített nyelvek"
-
-msgid "Choose"
-msgstr "Választás"
 
 msgid "Translation memory status"
 msgstr "Fordítási memória állapota"
@@ -12709,6 +14250,9 @@ msgstr "be"
 #. Translators: Shared translation memory is disabled
 msgid "off"
 msgstr "ki"
+
+msgid "Configure"
+msgstr "Beállítás"
 
 msgid "Autoclean translation memory"
 msgstr "Fordítási memória automatikus tisztítása"
@@ -12925,24 +14469,6 @@ msgstr "Új közreműködő %(translation)s nyelven"
 msgid "Donate to Weblate development"
 msgstr "Támogassa a Weblate-et"
 
-msgid "Please review and confirm the search and replace results."
-msgstr "Nézze át és erősítse meg a keresés és csere eredményeit."
-
-msgid ""
-"Showing and replacing only the first 250 matches. Perform the replacement "
-"again to replace more."
-msgstr ""
-"Csak az első 250 találat megjelenítése és cseréje. Hajtsa végre a cserét "
-"újra, hogy többet cseréljen le."
-
-#, fuzzy
-#| msgid "Start review"
-msgid "Update preview"
-msgstr "Felülvizsgálat megkezdése"
-
-msgid "Replace"
-msgstr "Csere"
-
 #, fuzzy
 #| msgid "Generate"
 msgid "Generated by"
@@ -12988,6 +14514,24 @@ msgstr ""
 msgid "Assign source strings"
 msgstr "Forrásszövegek hozzárendelése"
 
+#, fuzzy
+#| msgid "Assigned source strings"
+msgid "Find source strings"
+msgstr "Hozzárendelt forrásszövegek"
+
+#, fuzzy
+#| msgid "Image widgets"
+msgid "Image text"
+msgstr "Képes felületi elemek"
+
+msgid "Suggests source strings by recognizing text in this screenshot."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Add selected"
+msgstr "Képernyőkép hozzáadása"
+
 msgid "Source string search"
 msgstr "Forrásszöveg keresése"
 
@@ -13000,19 +14544,6 @@ msgstr ""
 #| msgid "View check documentation"
 msgid "Search query syntax documentation"
 msgstr "Ellenőrzés dokumentációjának megtekintése"
-
-msgid "Suggests source strings by recognizing text in this screenshot."
-msgstr ""
-
-#, fuzzy
-#| msgid "Include strings needing editing"
-msgid "Find strings in image"
-msgstr "Szerkesztést igénylő szövegek beillesztése"
-
-#, fuzzy
-#| msgid "Add screenshot"
-msgid "Add selected"
-msgstr "Képernyőkép hozzáadása"
 
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr ""
@@ -13248,10 +14779,8 @@ msgstr "Címkézett forrásszövegek"
 msgid "Select string for bulk edit"
 msgstr "Szerkesztésre megjelölt szövegek"
 
-msgid "You can change the state of all strings matching given type at once."
+msgid "Choose which strings to edit and the changes to apply."
 msgstr ""
-"Megváltoztathatja egyszerre egy adott típusra illeszkedő összes szöveg "
-"állapotát."
 
 msgid "The operation is applied to the strings selected in the list above."
 msgstr ""
@@ -13292,9 +14821,6 @@ msgstr "Egynyelvű alap nyelvi fájl"
 msgid "Configure translation quality filter"
 msgstr "Fordításminőség szűrő"
 
-msgid "View details"
-msgstr "Részletek megtekintése"
-
 msgid "View contributor license agreement"
 msgstr "Közreműködői licencmegállapodás megtekintése"
 
@@ -13313,11 +14839,6 @@ msgid_plural ""
 "The translation was automatically locked due to the following alerts:"
 msgstr[0] "A fordítás automatikusan zárolva lett a következő riasztás miatt:"
 msgstr[1] "A fordítás automatikusan zárolva lett a következő riasztás miatt:"
-
-#, fuzzy
-#| msgid "Filters"
-msgid "Filter"
-msgstr "Szűrők"
 
 #, fuzzy
 #| msgid "Search filter"
@@ -13378,6 +14899,9 @@ msgid ""
 "maintenance of Weblate itself."
 msgstr ""
 
+msgid "Example counts for this plural form."
+msgstr "Példaszámok erre a többes számú alakra."
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
@@ -13386,11 +14910,6 @@ msgstr ""
 
 msgid "Clone to translation"
 msgstr "Klónozás a fordításhoz"
-
-#, fuzzy
-#| msgid "CSS selector"
-msgid "Select"
-msgstr "CSS-szelektor"
 
 msgid "Target string"
 msgstr "Célszöveg"
@@ -13419,12 +14938,13 @@ msgstr ""
 msgid "Source code repository"
 msgstr "Forráskód tároló"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr "Ez az összetevő össze van kapcsolva a(z) %(target)s tárolóval."
-
 msgid "Repository URL copied to clipboard."
 msgstr "A tároló URL a vágólapra másolva."
+
+#, fuzzy
+#| msgid "Renamed component"
+msgid "Linked component"
+msgstr "Összetevő átnevezve"
 
 msgid "Repository branch"
 msgstr "Tároló ág"
@@ -13442,7 +14962,6 @@ msgstr "A tároló URL a vágólapra másolva."
 msgid "Last remote commit"
 msgstr "Utolsó távoli véglegesítés"
 
-#. Translators: For example: "nijel authored five days ago"
 #, python-format
 msgid "%(author)s authored %(date)s"
 msgstr "%(author)s hozta létre %(date)s"
@@ -13664,6 +15183,25 @@ msgstr "Közreműködők"
 msgid "Translations"
 msgstr "Fordítások"
 
+#, fuzzy, python-format
+#| msgid ""
+#| "You were invited to %(site_title)s by %(invitation_author)s to "
+#| "collaborate on %(project_name)s and join the %(team_name)s team."
+msgid ""
+"An automatic team assignment rule invited you to collaborate on "
+"%(project_name)s and join the %(team_name)s team. You will join only if you "
+"accept this invitation."
+msgstr ""
+"%(invitation_author)s meghívta Önt a(z) %(site_title)s webhelyre, hogy "
+"közreműködjön a(z) %(project_name)s projektben és csatlakozzon a(z) "
+"%(team_name)s csapathoz."
+
+#, python-format
+msgid ""
+"An automatic team assignment rule invited you to join the %(team_name)s team "
+"in %(workspace_name)s. You will join only if you accept this invitation."
+msgstr ""
+
 #, python-format
 msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
@@ -13680,6 +15218,19 @@ msgid ""
 msgstr ""
 "%(invitation_author)s meghívta Önt a(z) %(site_title)s webhelyre, hogy "
 "csatlakozzon a(z) %(team_name)s csapathoz."
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr ""
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -13718,6 +15269,11 @@ msgstr "Felhasználó tiltása"
 
 msgid "View notification"
 msgstr "Értesítés megtekintése"
+
+#, fuzzy
+#| msgid "All languages"
+msgid "View full change"
+msgstr "Összes nyelv"
 
 msgid "No matching activity found."
 msgstr "Nem található megfelelő tevékenység."
@@ -13849,6 +15405,11 @@ msgstr "Többes szám: %(source_description)s"
 msgid "Plurals"
 msgstr "Többes számok"
 
+#, fuzzy
+#| msgid "No strings found!"
+msgid "No integer examples found"
+msgstr "Nem találhatók szövegek!"
+
 msgid "First"
 msgstr "Első"
 
@@ -13910,9 +15471,6 @@ msgstr "Kulcs/környezetszövegek"
 
 msgid "Location strings"
 msgstr "Helyszövegek"
-
-msgid "String state"
-msgstr "Szöveg állapota"
 
 #. Translators: String pending for flushing to VCS.
 msgid "Pending string"
@@ -14110,9 +15668,6 @@ msgstr "Nem található fordítás."
 msgid "Saved search name"
 msgstr "SAP-felhasználónév"
 
-msgid "Search query"
-msgstr "Keresési lekérdezés"
-
 msgid "No saved searches yet."
 msgstr ""
 
@@ -14150,8 +15705,8 @@ msgid "Community"
 msgstr "Közösség"
 
 #, python-format
-msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr "%(object)s fordítása %%23Weblate használatával itt: %(share_url)s!"
+msgid "Translate %(object)s using #Weblate at %(share_url)s!"
+msgstr "%(object)s fordítása #Weblate használatával itt: %(share_url)s!"
 
 msgid "Share on Bluesky"
 msgstr "Megosztás Blueskyon"
@@ -14389,6 +15944,13 @@ msgstr ""
 msgid "You are about to continue removing your Weblate account."
 msgstr ""
 
+#, fuzzy
+#| msgid "You can not complete registration while signed in."
+msgid ""
+"You are about to continue adding this e-mail address to your existing "
+"Weblate account."
+msgstr "Nem tudja befejezni a regisztrációt, miközben be van jelentkezve."
+
 msgid "You are about to accept an invitation and create a Weblate account."
 msgstr ""
 
@@ -14412,6 +15974,11 @@ msgstr "Jelszó-visszaállítás megerősítése"
 #| msgid "Confirm account removal"
 msgid "Continue account removal"
 msgstr "Fiókeltávolítás megerősítése"
+
+#, fuzzy
+#| msgid "Human verification"
+msgid "Continue e-mail verification"
+msgstr "Emberi ellenőrzés"
 
 msgid "Accept invitation"
 msgstr "Meghívás elfogadása"
@@ -14508,9 +16075,6 @@ msgstr "A Weblate nem tudta felküldeni a változtatásokat a távoli tárolóba
 
 msgid "Weblate CDN add-on could not parse the HTML files."
 msgstr "A Weblate CDN-kiegészítője nem tudta feldolgozni a HTML-fájlokat."
-
-msgid "Filename"
-msgstr "Fájlnév"
 
 msgid ""
 "The local repository checkout or its Git directory is missing. Repeated "
@@ -14795,15 +16359,15 @@ msgstr "Az összetevő több kettőzött fordítási szöveget tartalmaz."
 msgid "Source"
 msgstr "Forrás"
 
-#, fuzzy, python-format
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove duplicate strings from %(language)s (%(filename)s)"
-msgstr "Az összes szöveg kényszerített írása a fordítási fájlokba."
-
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
 msgstr "Üres szövegek eltávolítása"
+
+#, fuzzy, python-format
+#| msgid "Forces writing all strings to the translation files."
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Az összes szöveg kényszerített írása a fordítási fájlokba."
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -14970,6 +16534,16 @@ msgstr ""
 "A Weblate nem tudta feldolgozni a fordítási fájlt a fordítások frissítése "
 "közben."
 
+msgid ""
+"Weblate pushed the changes and created the pull request, but could not apply "
+"the configured labels or assignees."
+msgstr ""
+
+msgid ""
+"Check that the labels and assignees exist and that Weblate can write pull "
+"requests, or remove the customization from the version control parameters."
+msgstr ""
+
 msgid "Weblate could not push changes to the upstream repository."
 msgstr "A Weblate nem tudta felküldeni a változtatásokat a távoli tárolóba."
 
@@ -15116,8 +16690,10 @@ msgstr "Ugrás ide"
 msgid "Go"
 msgstr "Jó"
 
-msgid "Changes"
-msgstr "Változások"
+#, fuzzy
+#| msgid "Check details"
+msgid "Change details"
+msgstr "Ellenőrzések részletei"
 
 msgid "Download latest changes as CSV"
 msgstr "Legutóbbi változtatások letöltése CSV-ként"
@@ -15192,11 +16768,6 @@ msgstr ""
 "Új fordítási összetevő létrehozása a meglévő fordítási összetevő egy további "
 "ágához."
 
-#, fuzzy
-#| msgid "Repository details"
-msgid "Retry"
-msgstr "Tároló részletei"
-
 msgid ""
 "The new component will be created for the selected branch with the exact "
 "same configuration as the existing one."
@@ -15242,9 +16813,6 @@ msgstr ""
 #| msgid "Bad configuration"
 msgid "Add or configure account"
 msgstr "Hibás beállítás"
-
-msgid "Branch"
-msgstr ""
 
 #, fuzzy
 #| msgid "Visibility changed"
@@ -15546,6 +17114,15 @@ msgstr "Biztonsági mentés importálása"
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr "A Weblate %(version)s hozta létre következőn: %(server)s (%(domain)s)"
 
+msgid "Public access on import"
+msgstr ""
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
+
 msgid "Token copied to clipboard."
 msgstr "A token a vágólapra másolva."
 
@@ -15574,9 +17151,6 @@ msgstr ""
 #| msgid "Edit source"
 msgid "Edit source"
 msgstr "Forrás szerkesztése"
-
-msgid "Cancel"
-msgstr ""
 
 #, fuzzy
 #| msgid "URL of repository where users can fetch changes from Weblate"
@@ -15817,10 +17391,6 @@ msgstr "Ezt a szöveget %(author)s automatikusan fordította le."
 msgid "Add term to glossary"
 msgstr "Kifejezés hozzáadása a szójegyzékhez"
 
-#, python-format
-msgid "Browse glossary %(name)s"
-msgstr "%(name)s szójegyzék böngészése"
-
 #, fuzzy
 #| msgid "Browse glossary %(name)s"
 msgid "Browse glossary"
@@ -15876,6 +17446,15 @@ msgstr "Utoljára frissítve"
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
 msgstr "Forrásszöveg kora"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s, line %(line)s"
+msgstr "%(filename)s, %(position)s. szöveg"
+
+#, python-format
+msgid "line %(line)s"
+msgstr ""
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -15973,6 +17552,11 @@ msgstr ""
 
 msgid "Quick downloads"
 msgstr "Gyors letöltések"
+
+msgid ""
+"Original files can contain contributor identities and require additional "
+"permission. Use a generated export below for offline translation."
+msgstr ""
 
 msgid "File in original format as translated in the repository"
 msgstr "A fájl eredeti formátumban, ahogy a tárolóban van lefordítva"
@@ -16267,11 +17851,6 @@ msgstr "A tároló elavult."
 #| msgid "Repositories"
 msgid "Available Repositories"
 msgstr "Tárolók"
-
-#, fuzzy
-#| msgid "Not available"
-msgid "Unavailable"
-msgstr "Nem érhető el"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -16842,9 +18421,6 @@ msgstr "Összetevő átnevezve"
 msgid "A component was moved within a project."
 msgstr "Az összes összetevő a jelenlegi projektben"
 
-msgid "Moved component"
-msgstr "Összetevő áthelyezve"
-
 #, fuzzy
 #| msgctxt "Notification name"
 #| msgid "Contributor made their first translation"
@@ -17199,56 +18775,44 @@ msgstr "Tároló tisztítása"
 msgid "A source string was added while processing an uploaded file."
 msgstr "Szöveg hozzáadva a feltöltésben"
 
-#, fuzzy
-#| msgid "String added in the upload"
 msgid "Source string added in the upload"
-msgstr "Szöveg hozzáadva a feltöltésben"
+msgstr "Forrásszöveg hozzáadva a feltöltésben"
 
 #, fuzzy
 #| msgid "String added in the repository"
 msgid "A source string was added while synchronizing from the repository."
 msgstr "Szöveg hozzáadva a tárolóban"
 
-#, fuzzy
-#| msgid "String added in the repository"
 msgid "Source string added in the repository"
-msgstr "Szöveg hozzáadva a tárolóban"
+msgstr "Forrásszöveg hozzáadva a tárolóban"
 
 #, fuzzy
 #| msgid "Projects without components"
 msgid "A project backup was created."
 msgstr "Projektek összetevők nélkül"
 
-#, fuzzy
-#| msgid "Project name"
 msgid "Project backed up"
-msgstr "Projekt neve"
+msgstr "Projekt biztonsági mentése elkészült"
 
 msgid "A project was restored from a backup."
 msgstr ""
 
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project restored"
-msgstr "Projekt eltávolítva"
+msgstr "Projekt visszaállítva"
 
 #, fuzzy
 #| msgid "Component created from scratch"
 msgid "A component was restored from a backup."
 msgstr "Összetevő létrehozva az alapoktól"
 
-#, fuzzy
-#| msgid "Component removed"
 msgid "Component restored"
-msgstr "Összetevő eltávolítva"
+msgstr "Összetevő visszaállítva"
 
 msgid "All selected edits by a user were reverted."
 msgstr ""
 
-#, fuzzy
-#| msgid "User removed"
 msgid "User edit reverted"
-msgstr "Felhasználó eltávolítva"
+msgstr "Felhasználói szerkesztés visszavonva"
 
 #, fuzzy
 #| msgid "Source string changed"
@@ -17562,6 +19126,12 @@ msgid "Could not merge the pull request automatically."
 msgstr "Nem sikerült beolvasztani a tárolót."
 
 #. Translators: Name of an alert
+#, fuzzy
+#| msgid "Could not merge the repository."
+msgid "Could not customize the pull request."
+msgstr "Nem sikerült beolvasztani a tárolót."
+
+#. Translators: Name of an alert
 msgid "Repository outdated."
 msgstr "A tároló elavult."
 
@@ -17587,6 +19157,20 @@ msgstr "Aposztrófok a Java-üzenetformátum szövegekben"
 msgid "Trailing and leading whitespace"
 msgstr "Lezáró és kezdő szóköz"
 
+#, fuzzy
+#| msgid "Automatic translation completed, no strings were updated."
+msgid "Automatic translation completed with errors, no strings were updated."
+msgstr "Az automatikus fordítás befejeződött, egyetlen szöveg sem frissült."
+
+#, fuzzy, python-format
+#| msgid "Automatic translation completed, %d string was updated."
+#| msgid_plural "Automatic translation completed, %d strings were updated."
+msgid "Automatic translation completed with errors, %d string was updated."
+msgid_plural ""
+"Automatic translation completed with errors, %d strings were updated."
+msgstr[0] "Az automatikus fordítás befejeződött, %d szöveg frissült."
+msgstr[1] "Az automatikus fordítás befejeződött, %d szöveg frissült."
+
 msgid "Automatic translation completed, no strings were updated."
 msgstr "Az automatikus fordítás befejeződött, egyetlen szöveg sem frissült."
 
@@ -17595,6 +19179,12 @@ msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "Az automatikus fordítás befejeződött, %d szöveg frissült."
 msgstr[1] "Az automatikus fordítás befejeződött, %d szöveg frissült."
+
+#, fuzzy
+#| msgid "Automatic translation in progress"
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr "Automatikus fordítás folyamatban"
 
 #, python-format
 msgid ""
@@ -17607,6 +19197,17 @@ msgid ""
 "Plural forms in some source components do not match the target translation. "
 "Automatic translation skipped pluralized strings and processed only single-"
 "form strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation in progress"
+msgid ""
+"Automatic translation lost its database connection. Please try again later."
+msgstr "Automatikus fordítás folyamatban"
+
+msgid ""
+"Automatic translation is already running for this translation. Please try "
+"again later."
 msgstr ""
 
 #, python-format
@@ -17670,6 +19271,14 @@ msgstr "Kettőzött fordítás."
 msgid "Screenshot image is missing."
 msgstr "Képernyőkép fájlmaszk"
 
+msgid "Revision must be a complete hexadecimal object ID."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not update repository: %s"
+msgid "Could not validate repository URL: %s"
+msgstr "Nem sikerült frissíteni a tárolót: %s"
+
 #, fuzzy
 #| msgid "Duplicated file mask."
 msgid "Duplicate check name."
@@ -17680,13 +19289,18 @@ msgstr "Kettőzött fájlmaszk."
 msgid "Referenced category does not exist."
 msgstr "A(z) {filename} ({parameter}) nem létezik."
 
-msgid "Component filename does not match its category and slug."
-msgstr ""
-
 #, fuzzy
 #| msgid "Duplicate this component"
 msgid "Duplicate component slug."
 msgstr "Az összetevő kettőzése"
+
+msgid "Component filename does not match its category and slug."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation reviews are not enabled."
+msgid "Translation revision has an invalid format."
+msgstr "A fordítás felülvizsgálatai nincsenek engedélyezve."
 
 #, fuzzy
 #| msgid "Duplicated translation."
@@ -17764,16 +19378,96 @@ msgstr "A kategória nem tartozik ehhez a projekthez."
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 
+#, fuzzy
+#| msgid "Important dates"
+msgid "Imported authors"
+msgstr "Fontos dátumok"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
 msgstr ""
 
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
+msgstr ""
+
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is unknown."
+msgstr ""
+
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is not applicable."
+msgstr ""
+
+#, fuzzy
+#| msgid "Version control settings"
+msgid "Version control parameters"
+msgstr "Verziókövető beállításai"
+
+msgid "File format parameters"
+msgstr "Fájlformátum paraméterek"
+
 #, fuzzy
 #| msgid "The local repository is up to date."
 msgid "The project repository directory already exists."
 msgstr "A helyi tároló naprakész."
+
+#, fuzzy
+#| msgid "Invalid search query!"
+msgid "Invalid search type."
+msgstr "Érvénytelen keresési lekérdezés!"
+
+msgid "Enter a search string to replace."
+msgstr ""
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy
+#| msgid "Invalid request."
+msgid "Invalid target state."
+msgstr "Érvénytelen kérés."
+
+#, fuzzy
+#| msgid "How to handle requests for creating new translations."
+msgid "Choose either replacement or clearing translations."
+msgstr "Hogyan kell kezelni az új fordítások létrehozásának kéréseit."
+
+#, python-format
+msgid "Bulk edits are limited to %(limit)d strings. Narrow the search query."
+msgstr ""
 
 msgid "The component was automatically locked because of an alert."
 msgstr "Az összetevő automatikusan zárolva lett egy riasztás miatt."
@@ -17848,6 +19542,9 @@ msgstr "Eredeti átvizsgálás: {}"
 msgid "New revision: {}"
 msgstr "Új átvizsgálás: {}"
 
+msgid "Content is too long to show in the change list."
+msgstr ""
+
 #, python-format
 msgctxt "Number of edits on a change in Damerau–Levenshtein distance"
 msgid "%(count)d character edited"
@@ -17914,6 +19611,14 @@ msgstr "Javaslatok szavazása"
 msgid "Needs review"
 msgstr "A forrás felülvizsgálatot igényel"
 
+#, fuzzy
+#| msgid "The source and target have to be different languages."
+msgid "The source and destination checkouts must be different."
+msgstr "A forrásnak és a célnak különböző nyelveknek kell lenniük."
+
+msgid "This component does not exist or you cannot access it."
+msgstr ""
+
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr "Szolgáltatott Weblate, a hely a szoftverprojektek honosításához."
 
@@ -17932,9 +19637,6 @@ msgstr ""
 msgid "Version control"
 msgstr "Verziókövetés"
 
-msgid "State"
-msgstr "Állapot"
-
 msgid "Severity"
 msgstr "Súlyosság"
 
@@ -17945,6 +19647,11 @@ msgstr ""
 #| msgid "Good configuration"
 msgid "Discovery configuration"
 msgstr "Helyes beállítás"
+
+#, fuzzy, python-format
+#| msgid "Could not render template: {}"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "Nem sikerült a sablon megjelenítése: {}"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -17993,6 +19700,11 @@ msgstr "A fájlmaszk illeszkedik a fő összetevőre."
 #, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
 msgstr "A(z) {filename} ({parameter}) nem létezik."
+
+#. Translators: condensed rendering of a change action in history
+#, python-format
+msgid "%(action)s at %(time)s on %(translation)s"
+msgstr "%(action)s %(time)s-kor %(translation)s nyelven"
 
 #. Translators: %s is site title here
 #, python-format
@@ -18191,6 +19903,54 @@ msgstr "MAC (\\r)"
 
 msgid "Include closing tag for blank XML tags"
 msgstr "Záró címke hozzáadása az üres XML-címkékhez"
+
+msgid "UTF-8 byte order mark"
+msgstr ""
+
+msgid "Preserve input"
+msgstr ""
+
+msgid "Always include"
+msgstr ""
+
+msgid "Always omit"
+msgstr ""
+
+msgid ""
+"Controls the UTF-8 byte order mark. Other encodings are unchanged. New files "
+"without a template omit the mark when preserving input."
+msgstr ""
+
+msgid "XML declaration encoding case"
+msgstr ""
+
+#, fuzzy
+#| msgid "Use global default"
+msgid "Format default"
+msgstr "Globális alapértelmezett használata"
+
+msgid "Uppercase"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Power user"
+msgid "Lowercase"
+msgstr "Képzett felhasználó"
+
+msgid ""
+"Controls encoding names in the XML declaration, for example \"UTF-8\" or "
+"\"utf-8\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "Starting newline"
+msgid "XML final newline"
+msgstr "Kezdő soremelés"
+
+msgid ""
+"Controls the newline at the end of the file, using the format's line endings."
+msgstr ""
 
 #, fuzzy
 #| msgid "Conflict handling"
@@ -18689,6 +20449,9 @@ msgstr "Fordítás nyelve:"
 msgid "You do not have permission to edit these flags."
 msgstr "Nincs jogosultsága javaslatok elfogadására."
 
+msgid "You do not have permission to create terminology."
+msgstr "Nincs jogosultsága terminológia létrehozásához."
+
 #, fuzzy
 #| msgid "Navigate to the last translation in the current search."
 msgid ""
@@ -18867,6 +20630,11 @@ msgstr "Túl sok keresési lekérdezés, próbálja meg később újra."
 msgid "Could not load repository branches. Please try again."
 msgstr "Nem sikerült jegyet nyitni, próbálja meg később újra."
 
+#, fuzzy
+#| msgid "You do not have permission to accept suggestions."
+msgid "You do not have permission to edit this project."
+msgstr "Nincs jogosultsága javaslatok elfogadására."
+
 msgid "ZIP file containing translations"
 msgstr "Fordításokat tartalmazó ZIP-fájl"
 
@@ -18983,18 +20751,6 @@ msgstr "Nem sikerült betölteni a projekt biztonsági mentését: %s"
 msgid "Could not load project backup."
 msgstr "Nem sikerült betölteni a projekt biztonsági mentését: %s"
 
-msgid "Optional additional filter applied to the strings"
-msgstr "A szövegekre alkalmazott további nem kötelező szűrő"
-
-msgid "Search string"
-msgstr "Keresett szöveg"
-
-msgid "Case-sensitive string to search for and replace."
-msgstr "A keresendő és cserélendő szöveg, a kis- és nagybetűk különböznek."
-
-msgid "Replacement string"
-msgstr "Csere szöveg"
-
 #, fuzzy
 #| msgid "Screenshot context"
 msgid "Key or context"
@@ -19045,13 +20801,32 @@ msgstr ""
 "Jelölje be ezt az opciót, ha a mondat változtatás nélkül, a forrásnyelven "
 "maradjon."
 
-msgid "You do not have permission to create terminology."
-msgstr "Nincs jogosultsága terminológia létrehozásához."
-
 #, fuzzy
 #| msgid "Invalid suggestion!"
 msgid "Invalid string selection!"
 msgstr "Érvénytelen javaslat!"
+
+msgid "Search type"
+msgstr "Keresés típusa"
+
+msgid "Text"
+msgstr ""
+
+msgid "Search string"
+msgstr "Keresett szöveg"
+
+msgid ""
+"Case-sensitive text or regular expression to replace in matching strings. "
+"Leave empty to disable replacement."
+msgstr ""
+
+msgid "Replacement string"
+msgstr "Csere szöveg"
+
+msgid ""
+"Leave empty to remove matching text. In regular expression mode, use \\1 for "
+"the first captured group. Named group references are also supported."
+msgstr ""
 
 msgid "State to set"
 msgstr "Beállítandó állapot"
@@ -19059,39 +20834,80 @@ msgstr "Beállítandó állapot"
 msgid "Do not change"
 msgstr "Ne változtassa"
 
-msgid "Source flags to add — all languages"
-msgstr ""
+#, fuzzy
+#| msgid "Edit label"
+msgid "Add flags"
+msgstr "Címke szerkesztése"
 
-msgid "Source flags to remove — all languages"
+#, fuzzy
+#| msgid "Remove"
+msgid "Remove flags"
+msgstr "Eltávolítás"
+
+msgid ""
+"Only flags set directly on these translations are removed. Inherited flags "
+"remain in effect."
 msgstr ""
 
 #, fuzzy
-#| msgid "Translation flags to add"
-msgid "Translation flags to add — matching translations"
-msgstr "Hozzáadandó fordítási jelzők"
+#| msgid "Add label"
+msgid "Add labels"
+msgstr "Címke hozzáadása"
+
+#, fuzzy
+#| msgid "Removed category"
+msgid "Remove labels"
+msgstr "Kategória eltávolítva"
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Preview changes"
+msgstr "Legutóbbi változtatások"
+
+msgid "Choose flags to add…"
+msgstr ""
+
+#, fuzzy
+#| msgid "Component to remove"
+msgid "Choose flags to remove…"
+msgstr "Eltávolítandó összetevő"
+
+#, fuzzy
+#| msgid "Source language"
+msgid "Source flags"
+msgstr "Forrásnyelv"
+
+msgid ""
+"Flags are set on the source strings corresponding to your selection and "
+"apply to their translations in every language."
+msgstr ""
+
+msgid ""
+"Flags are set on the source strings corresponding to your filter results and "
+"apply to their translations in every language."
+msgstr ""
 
 #, fuzzy
 #| msgid "Fills in translation strings with source string."
-msgid "Applies only to matching translations, excluding source strings."
+msgid ""
+"Flags apply only to translations in your selection. Source strings are "
+"excluded."
 msgstr "A fordítási szövegeket a forrásszöveggel tölti ki."
 
-#, fuzzy
-#| msgid "Translation flags to remove"
-msgid "Translation flags to remove — matching translations"
-msgstr "Eltávolítandó fordítási jelzők"
-
-msgid "Removes locally set flags. Inherited flags remain in effect."
+msgid ""
+"Flags apply only to translations matching your filter. Source strings are "
+"excluded."
 msgstr ""
 
-#, fuzzy
-#| msgid "For all languages"
-msgid "Labels to add — all languages"
-msgstr "Az összes nyelvhez"
+msgid ""
+"Labels apply to the source strings corresponding to your selection and are "
+"shared across all languages."
+msgstr ""
 
-#, fuzzy
-#| msgid "Labels to remove"
-msgid "Labels to remove — all languages"
-msgstr "Eltávolítandó címkék"
+msgid ""
+"Labels apply to the source strings corresponding to your filter results and "
+"are shared across all languages."
+msgstr ""
 
 msgid "Select strings to edit or enter a search query."
 msgstr ""
@@ -19348,9 +21164,6 @@ msgstr "Kategória neve"
 msgid "Display name"
 msgstr "Megjelenített név"
 
-msgid "Translation flags"
-msgstr "Fordítási jelzők"
-
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
 "További, vesszővel elválasztott jelzők a Weblate viselkedésének "
@@ -19585,11 +21398,6 @@ msgstr "Összetevő létrehozva dokumentumfeltöltéssel"
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s ekkor: %(time)s itt: %(translation)s – %(user)s"
 
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "%(action)s %(time)s-kor %(translation)s nyelven"
-
 msgctxt "Change origin badge"
 msgid "API"
 msgstr ""
@@ -19679,11 +21487,6 @@ msgstr ""
 "A fordításokat tartalmazó tároló eléréséhez használt verziókezelő rendszer. "
 "További integrációt is választhat harmadik fél szolgáltatókkal a módosítási "
 "kérelmek beküldéséhez."
-
-#, fuzzy
-#| msgid "Version control settings"
-msgid "Version control parameters"
-msgstr "Verziókövető beállításai"
 
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
@@ -19819,9 +21622,6 @@ msgid ""
 msgstr ""
 "Az új fordítások létrehozásához használt fájl neve; gettext esetén például "
 "a .pot fájl."
-
-msgid "File format parameters"
-msgstr "Fájlformátum paraméterek"
 
 msgid "Locked component will not get any translation updates."
 msgstr "A zárolt összetevő nem kap semmilyen fordítási frissítéseket."
@@ -20069,6 +21869,11 @@ msgstr "Ha ez a beállítás üresen marad, a projekt beállításait örökli."
 #| msgid "Secondary language defined in project or component"
 msgid "Use the secondary language configured in the category or project."
 msgstr "A projektben vagy összetevőben meghatározott másodlagos nyelv"
+
+#, fuzzy
+#| msgid "The local repository is up to date."
+msgid "The linked repository path is ambiguous."
+msgstr "A helyi tároló naprakész."
 
 #, fuzzy
 #| msgid ""
@@ -20380,6 +22185,16 @@ msgid ""
 "Pushing without a merge request needs write access to the repository. "
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
+
+#, fuzzy
+#| msgid "The filename can not be an absolute path."
+msgid "Version control system cannot be changed to this backend."
+msgstr "A fájlnév nem lehet abszolút elérési út."
+
+#, fuzzy
+#| msgid "The regular expression can not match an empty string."
+msgid "The file mask is too complex and took too long to evaluate."
+msgstr "A reguláris kifejezés nem illeszkedhet üres szövegre."
 
 #, fuzzy
 #| msgid ""
@@ -20706,6 +22521,12 @@ msgstr "Címke leírása"
 msgid "Could not accept suggestion!"
 msgstr "Nem sikerült elfogadni a javaslatot!"
 
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr "A szöveget nem sikerült terjeszteni %d összetevőbe."
+
 #, fuzzy
 #| msgid "Image is too big."
 msgid "Uploaded translation file is too big."
@@ -20779,6 +22600,19 @@ msgstr ""
 "A feltöltött fájlban lévő többes számú alakok nem egyeznek a jelenlegi "
 "fordítással."
 
+#, fuzzy, python-format
+#| msgid "The uploaded file contains too many settings."
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr "Fordításokat tartalmazó ZIP-fájl"
+
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] "A szöveget nem sikerült terjeszteni %d összetevőbe."
+msgstr[1] "A szöveget nem sikerült terjeszteni %d összetevőbe."
+
 #, fuzzy
 #| msgid "ZIP file containing translations"
 msgid "The uploaded file contains too many language declarations."
@@ -20803,6 +22637,10 @@ msgstr "Nem sikerült véglegesíteni a függőben lévő változtatásokat: %s"
 #, python-brace-format
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "Nem sikerült feldolgozni a(z) {file_format} fájlt: {error}"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Could not parse translation files."
@@ -21034,6 +22872,11 @@ msgstr "Kvirtmínusz"
 msgid "User configured character: {}"
 msgstr "Felhasználó által beállított karakter: {}"
 
+#, fuzzy, python-format
+#| msgid "Could not push the repository."
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "Nem sikerült felküldeni a tárolót."
+
 #, fuzzy
 #| msgid "Automatic translation in progress"
 msgid "Repository operation could not be completed because it remained locked."
@@ -21082,6 +22925,33 @@ msgstr[0] ""
 msgstr[1] ""
 "%(accepted)d javaslat elfogadva a %(total)d-ből %(user)s felhasználótól. "
 "%(failed)d meghiúsult jogosultságok vagy ellenőrzések miatt."
+
+#, fuzzy
+#| msgid "Bulk edit completed, no strings were updated."
+msgid "Bulk edit parameters are no longer valid."
+msgstr "A tömeges szerkesztés befejeződött, egyetlen szöveg sem frissült."
+
+#, python-format
+msgid "Bulk edit failed after processing %(count)d strings: %(error)s"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "The target or permissions changed."
+msgstr "A licenc meg lett változtatva"
+
+#, python-format
+msgid ""
+"Bulk edit failed after processing %(count)d strings. Earlier batches may "
+"have been applied."
+msgstr ""
+
+#, python-format
+msgid "Bulk edit completed, %d string was updated."
+msgid_plural "Bulk edit completed, %d strings were updated."
+msgstr[0] "A tömeges szerkesztés befejeződött, %d szöveg frissült."
+msgstr[1] "A tömeges szerkesztés befejeződött, %d szöveg frissült."
 
 #, fuzzy
 #| msgid "Automatic translation in progress"
@@ -21144,6 +23014,10 @@ msgstr "%s szövegazonosító"
 
 msgid "This language is used for source strings."
 msgstr "Ez a nyelv forrásszövegeknél van használva."
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr "Ez az összetevő össze van kapcsolva a(z) %(target)s tárolóval."
 
 #, fuzzy
 #| msgid "Fix this component to clear its alerts."
@@ -21269,6 +23143,35 @@ msgstr "Új szövegeket ad a fordításhoz. Kihagyja azokat, amelyek már létez
 
 msgid "Updates source strings in bilingual translation file."
 msgstr "Frissíti a forrásszövegeket kétnyelvű fordítási fájlban."
+
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "A translation upload is already in progress."
+msgstr "A fordítások frissítései folyamatban vannak."
+
+msgid "The uploaded file has expired or was already processed."
+msgstr ""
+
+#, fuzzy
+#| msgid "The uploaded image was invalid."
+msgid "The uploaded file has expired."
+msgstr "A feltöltött kép érvénytelen volt."
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "The upload target or permissions changed."
+msgstr "A licenc meg lett változtatva"
+
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr ""
+"A feltöltött fájlban lévő többes számú alakok nem egyeznek a jelenlegi "
+"fordítással."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "File upload has failed. Please try again later."
+msgstr "Túl sok keresési lekérdezés, próbálja meg később újra."
 
 msgid "Very high"
 msgstr "Nagyon magas"
@@ -21404,6 +23307,9 @@ msgstr "Nem távolíthatja el saját magát!"
 msgid "You can not block yourself on this project."
 msgstr "Nem tilthatja saját magát ennél a projektnél."
 
+msgid "Remove project administration rights before blocking this user."
+msgstr ""
+
 msgid "User has been blocked on this project."
 msgstr "A felhasználó tiltva lett ennél a projektnél."
 
@@ -21457,6 +23363,11 @@ msgstr[0] ""
 msgstr[1] ""
 "%(language)s nyelv nem adható hozzá %(count)d összetevőhöz. Ellenőrizze az "
 "összetevő konfigurációját."
+
+#, fuzzy
+#| msgid "You do not have permission to accept suggestions."
+msgid "You do not have permission to add this language."
+msgstr "Nincs jogosultsága javaslatok elfogadására."
 
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
@@ -21693,10 +23604,10 @@ msgstr "Hibás kérés"
 msgid "Access denied."
 msgstr "Hozzáférés megtagadva."
 
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr ""
-"A feltöltött fájlban lévő többes számú alakok nem egyeznek a jelenlegi "
-"fordítással."
+#, fuzzy
+#| msgid "Translation uploaded"
+msgid "Translation upload in progress."
+msgstr "Fordítás feltöltve"
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -21756,10 +23667,20 @@ msgstr "Az összetevő most zárolva van a fordítási frissítésekhez!"
 msgid "All components are now locked for translation updates!"
 msgstr "Az összes összetevő most zárolva van a fordítási frissítésekhez!"
 
+#, fuzzy
+#| msgid "All components are now locked for translation updates!"
+msgid "Allowed components are now locked for translation updates!"
+msgstr "Az összes összetevő most zárolva van a fordítási frissítésekhez!"
+
 msgid "Component is now open for translation updates."
 msgstr "Az összetevő most nyitva van a fordítási frissítésekhez."
 
 msgid "All components are now open for translation updates."
+msgstr "Az összes összetevő most nyitva van a fordítási frissítésekhez."
+
+#, fuzzy
+#| msgid "All components are now open for translation updates."
+msgid "Allowed components are now open for translation updates."
 msgstr "Az összes összetevő most nyitva van a fordítási frissítésekhez."
 
 #, fuzzy
@@ -21837,18 +23758,6 @@ msgstr "Felhasználóadatok letöltése"
 msgid "Excluded user days"
 msgstr "Szerző (felhasználónév) kizárása"
 
-msgid "Could not process form!"
-msgstr "Nem sikerült feldolgozni az űrlapot!"
-
-msgid "Search and replace completed, no strings were updated."
-msgstr "A keresés és csere befejeződött, egyetlen szöveg sem frissült."
-
-#, python-format
-msgid "Search and replace completed, %d string was updated."
-msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] "A keresés és csere befejeződött, %d szöveg frissült."
-msgstr[1] "A keresés és csere befejeződött, %d szöveg frissült."
-
 #, python-format
 msgid "Search for %s"
 msgstr "Keresés erre: %s"
@@ -21859,14 +23768,29 @@ msgstr "Túl sok keresési lekérdezés, próbálja meg később újra."
 msgid "Invalid search query!"
 msgstr "Érvénytelen keresési lekérdezés!"
 
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many bulk edits, please try again later."
+msgstr "Túl sok keresési lekérdezés, próbálja meg később újra."
+
+msgid "The preview has expired or is invalid. Preview the changes again."
+msgstr ""
+
+msgid "Could not process form!"
+msgstr "Nem sikerült feldolgozni az űrlapot!"
+
+#, fuzzy
+#| msgid "Bulk edit strings"
+msgid "Bulk edit in progress."
+msgstr "Szövegek tömeges szerkesztése"
+
+#, fuzzy, python-format
+#| msgid "Authentication failed: %s"
+msgid "Bulk edit failed: %s"
+msgstr "Hitelesítés sikertelen: %s"
+
 msgid "Bulk edit completed, no strings were updated."
 msgstr "A tömeges szerkesztés befejeződött, egyetlen szöveg sem frissült."
-
-#, python-format
-msgid "Bulk edit completed, %d string was updated."
-msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] "A tömeges szerkesztés befejeződött, %d szöveg frissült."
-msgstr[1] "A tömeges szerkesztés befejeződött, %d szöveg frissült."
 
 msgid "Settings saved"
 msgstr "Beállítások elmentve"
@@ -21978,6 +23902,16 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "Függőleges nyelvi oszlopdiagram"
 
+#, fuzzy
+#| msgid "Your languages"
+msgid "Sort languages by"
+msgstr "Saját nyelvek"
+
+#, fuzzy
+#| msgid "Translation change"
+msgid "Translation percentage"
+msgstr "Fordítási változtatás"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr "Vízszintes nyelvi oszlopdiagram"
@@ -22003,6 +23937,11 @@ msgid "language"
 msgid_plural "languages"
 msgstr[0] "nyelv"
 msgstr[1] "nyelvek"
+
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
+msgstr ""
 
 #, fuzzy
 #| msgid "This component is currently locked."
@@ -22038,9 +23977,141 @@ msgid "Invalid host name given!"
 msgstr "Érvénytelen gépnév lett megadva!"
 
 #, fuzzy
+#| msgid "XML tags in translation do not match source."
+msgid "Press ? in the translation editor to discover keyboard shortcuts."
+msgstr "A fordításban szereplő XML-címkék nem egyeznek meg a forrással."
+
+msgid ""
+"Add secondary languages in your preferences to see translations you already "
+"understand alongside the source."
+msgstr ""
+
+msgid ""
+"Customize your special characters in your profile to keep frequently used "
+"characters within reach."
+msgstr ""
+
+msgid ""
+"Use the visual keyboard above the translation field to insert special "
+"characters."
+msgstr ""
+
+msgid ""
+"Save searches you use often so you can return to them from the search "
+"filters."
+msgstr ""
+
+msgid ""
+"Combine search conditions with AND, OR, and NOT to find exactly the strings "
+"you need."
+msgstr ""
+
+msgid ""
+"Search with regular expressions when a simple word search is not enough."
+msgstr ""
+
+#, fuzzy
+#| msgid "Use flags to indicate special strings in your translation."
+msgid "Use labels to organize strings and find related translation work."
+msgstr "Használjon jelzőket a különleges szövegek jelzéséhez a fordításában."
+
+msgid ""
+"Check a string’s screenshots to see where the text appears in the "
+"application."
+msgstr ""
+
+msgid ""
+"Link an existing screenshot to a string to give translators more context."
+msgstr ""
+
+msgid ""
+"Check nearby strings for context before translating a short or ambiguous "
+"message."
+msgstr ""
+
+msgid "Explore a string’s history to see how its translation has changed."
+msgstr ""
+
+msgid ""
+"Leave a comment on a source string to ask for context that can help every "
+"language."
+msgstr ""
+
+msgid ""
+"Suggest a translation when you want others to review your wording before it "
+"is accepted."
+msgstr ""
+
+#, fuzzy
+#| msgid "Suggestion removed during cleanup"
+msgid "You can edit a translation suggestion before accepting it."
+msgstr "Javaslat eltávolítva a tisztítás során"
+
+msgid ""
+"Add terms to a project glossary to help translators use consistent wording."
+msgstr ""
+
+msgid ""
+"Glossaries can mark terms as forbidden to help translators avoid unwanted "
+"wording."
+msgstr ""
+
+msgid "Glossaries can mark names and other terms as untranslatable."
+msgstr ""
+
+msgid ""
+"Watch projects you care about and choose which translation events notify you."
+msgstr ""
+
+msgid ""
+"Choose notification digests to receive translation updates together instead "
+"of one email at a time."
+msgstr ""
+
+msgid "Regular expression processing failed or exceeded its resource limit."
+msgstr ""
+
+msgid "Cumulative regex time limit exceeded."
+msgstr ""
+
+msgid "Regex request exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression to match translation files against"
+msgid "Regular expression evaluation timed out."
+msgstr "Reguláris kifejezés, amellyel a fordítási fájlokat egyezteti"
+
+msgid "Regex response exceeds its size limit."
+msgstr ""
+
+msgid "Regex output exceeds its size limit."
+msgstr ""
+
+msgid "Pattern and replacement must not exceed 4096 characters."
+msgstr ""
+
+msgid "Regex input exceeds 1 MiB per plural."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Invalid regular expression: {}"
+msgid "Invalid regular expression or replacement: %s"
+msgstr "Érvénytelen reguláris kifejezés: {}"
+
+#, fuzzy
 #| msgid "Automatic translation source"
 msgid "Automatic translation reported a warning."
 msgstr "Automatikus fordítási forrás"
+
+#, fuzzy
+#| msgid ""
+#| "Automatically translates strings using machine translation or other "
+#| "components."
+msgid "Automatic translation is waiting for another operation to finish."
+msgstr ""
+"Automatikusan lefordítja a szövegeket gépi fordítással vagy más összetevők "
+"alapján."
 
 #, fuzzy
 #| msgid "Automatic translation in progress"
@@ -22049,6 +24120,11 @@ msgstr "Automatikus fordítás folyamatban"
 
 msgid "Task could not be completed. See the task log for details."
 msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation source"
+msgid "Automatic translation reported an error."
+msgstr "Automatikus fordítási forrás"
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -22213,14 +24289,15 @@ msgid "Could not resolve the URL domain."
 msgstr "Nem sikerült eltávolítani a szöveget: %s"
 
 #, fuzzy
+#| msgid "Invalid parameters!"
+msgid "Invalid stored parameter value."
+msgstr "Érvénytelen paraméterek!"
+
+#, fuzzy
 #| msgid "File format parameters must be a dictionary of key-value pairs."
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 "A fájlformátum-paramétereknek kulcs-érték párok szótárának kell lenniük."
-
-#, python-format
-msgid "Undefined variable: \"%s\""
-msgstr "Meghatározatlan változó: „%s”"
 
 msgid "Could not render template: {}"
 msgstr "Nem sikerült a sablon megjelenítése: {}"
@@ -22232,6 +24309,357 @@ msgstr ""
 "A formátumszövegek többé már nem támogatottak, használja a sablonnyelvet "
 "helyette."
 
+msgid "Template context exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The HTML {tag} tag is missing a matching end tag: {end}."
+msgid "Template context is nested too deeply."
+msgstr "A HTML {tag} címkéből hiányzik az illeszkedő záró címke: {end}."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported nonfinite template context value."
+msgstr "Nem támogatott fájlformátum."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template context key."
+msgstr "Nem támogatott fájlformátum."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template context value."
+msgstr "Nem támogatott fájlformátum."
+
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Template text is not valid UTF-8."
+msgstr "A megadott token nem érvényes."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid request."
+msgid "Invalid template syntax."
+msgstr "Érvénytelen kérés."
+
+#, fuzzy
+#| msgid "Undefined variable: \"%s\""
+msgid "Undefined template variable."
+msgstr "Meghatározatlan változó: „%s”"
+
+#, fuzzy
+#| msgid "The translation is not valid XML."
+msgid "Text is not valid UTF-8."
+msgstr "A fordítás nem érvényes XML."
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Division by zero is not supported."
+msgstr "A választott rendezés nem támogatott."
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Numeric value is too large for this operation."
+msgstr "A nyelv összes változtatásának böngészése"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Numeric operation failed."
+msgstr "A tárolóművelet sikertelen"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation reviews are not enabled."
+msgid "Value or argument has an invalid format."
+msgstr "A fordítás felülvizsgálatai nincsenek engedélyezve."
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "%(operation)s: %(message)s"
+msgstr "Nem sikerült felküldeni a(z) %(component)s összetevőt: %(error_text)s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
+msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nonfinite numbers are not supported."
+msgstr "A választott rendezés nem támogatott."
+
+#, fuzzy, python-format
+#| msgid "File names"
+msgid "Filter \"%(name)s\""
+msgstr "Fájlnevek"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
+msgstr ""
+
+msgid "Template rendering exceeded its loop limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Attribute access and method calls are not supported."
+msgstr "A választott rendezés nem támogatott."
+
+msgid "Index exceeds the length limit of 128 characters."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Translated template literals are not supported."
+msgstr "A választott rendezés nem támogatott."
+
+#, fuzzy
+#| msgid "Invalid unit."
+msgid "Invalid filter."
+msgstr "Érvénytelen egység."
+
+msgid "Identity comparisons require None, True, or False."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This condition operator is not supported."
+msgstr "A választott rendezés nem támogatott."
+
+msgid "Template output exceeds its size limit."
+msgstr ""
+
+msgid "Loops require a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
+msgstr ""
+
+msgid "Loop value cannot be unpacked into its variables."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This template tag is not supported."
+msgstr "A választott rendezés nem támogatott."
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This template node is not supported."
+msgstr "Az észlelt fájlformátum nem támogatott."
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Undefined variable: \"%s\""
+msgstr "Meghatározatlan változó: „%s”"
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "This name is prohibited"
+msgid "This filter requires strings."
+msgstr "Ez a név tiltott"
+
+#, fuzzy
+#| msgid "Automatically translated strings"
+msgid "Choices must be a string."
+msgstr "Automatikusan lefordított szövegek"
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source string length"
+msgid "Joining requires string elements."
+msgstr "Forrásszöveg hossza"
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatically translated strings"
+msgid "Date format must be a string or None."
+msgstr "Automatikusan lefordított szövegek"
+
+#, fuzzy
+#| msgid "Avoid years that are associated with you."
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "Kerülje azokat az éveket, amelyek Önhöz köthetők."
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatically translated strings"
+msgid "Plural suffixes must be a string."
+msgstr "Automatikusan lefordított szövegek"
+
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nested template delimiters are not supported."
+msgstr "A választott rendezés nem támogatott."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unclosed template token."
+msgstr "Nem támogatott fájlformátum."
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid ".NET resource file"
+msgid "Template tag is empty."
+msgstr ".Net erőforrásfájl"
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr ""
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unsupported file format."
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "Nem támogatott fájlformátum."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template tag."
+msgstr "Nem támogatott fájlformátum."
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
 #, fuzzy, python-format
 #| msgid ""
 #| "Unable to download image from the provided URL (HTTP status code: "
@@ -22241,6 +24669,11 @@ msgid ""
 msgstr ""
 "Nem lehet letölteni a képet a megadott URL-címről (HTTP állapotkód: "
 "%(code)s)."
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Regular expression is too complex."
+msgstr "Reguláris kifejezés"
 
 msgid "Search query is too complex."
 msgstr ""
@@ -22273,6 +24706,12 @@ msgid "Unsupported lookup for {field}: {value}"
 msgstr "Nem támogatott keresés a következőhöz {field}: {value}"
 
 #, fuzzy
+#| msgctxt "Notification name"
+#| msgid "New translation component was created"
+msgid "A concrete project or component is required."
+msgstr "Új fordítási összetevő lett létrehozva"
+
+#, fuzzy
 #| msgid "Could not parse {} flag: {}"
 msgid "Could not parse IP address: {}"
 msgstr "Nem sikerült feldolgozni a(z) {} jelzőt: {}"
@@ -22289,6 +24728,11 @@ msgstr "Nem támogatott keresés a következőhöz {field}: {value}"
 
 msgid "Mixed operators!"
 msgstr "Vegyes operátorok!"
+
+#, fuzzy
+#| msgid "The source string needs review."
+msgid "Search query is too long."
+msgstr "A forrásszöveg felülvizsgálatot igényel."
 
 msgid "Invalid character in the query string"
 msgstr "Érvénytelen karakter a lekérdezési karakterláncban"
@@ -22477,6 +24921,9 @@ msgstr ""
 #| msgid "Image URL domain is not allowed."
 msgid "URL domain is not allowed."
 msgstr "A kép URL-címének tartománya nem engedélyezett."
+
+msgid "AMQP broker URLs must not contain query strings or fragments."
+msgstr ""
 
 #, fuzzy
 #| msgid "Name contains disallowed characters."
@@ -22669,6 +25116,37 @@ msgstr ""
 #| msgid "Too many messages sent, please try again later."
 msgid "Pull request listing failed: %(error)s Please retry later."
 msgstr "Túl sok üzenetet küldtek, próbálja meg később újra."
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s"
+msgstr "Túl sok üzenetet küldtek, próbálja meg később újra."
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s "
+"Please retry later."
+msgstr "Túl sok üzenetet küldtek, próbálja meg később újra."
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s"
+msgstr "Túl sok üzenetet küldtek, próbálja meg később újra."
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s Please retry later."
+msgstr "Túl sok üzenetet küldtek, próbálja meg később újra."
+
+#, python-format
+msgid "GitHub did not assign the requested users: %(assignees)s"
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Could not get repository status!"
@@ -23025,6 +25503,11 @@ msgstr ""
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr "Ez fel fogja küldeni a változtatásokat a távoli Mercurial-tárolóba."
 
+#, fuzzy
+#| msgid "Could not merge the repository."
+msgid "Could not remove nested repository metadata."
+msgstr "Nem sikerült beolvasztani a tárolót."
+
 msgid "GitHub"
 msgstr "GitHub"
 
@@ -23106,6 +25589,32 @@ msgid ""
 "Open a pull or merge request for the translation changes. When turned off, "
 "Weblate pushes to the translated branch directly, which requires write "
 "access to it."
+msgstr ""
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request assignee"
+msgstr "Gitea beolvasztási kérés"
+
+msgid "GitHub username to assign to pull requests created by Weblate."
+msgstr ""
+
+msgid "Assign pull requests to acting user"
+msgstr ""
+
+msgid ""
+"Also assign the GitHub account linked to the Weblate user who starts the "
+"push, when available."
+msgstr ""
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request labels"
+msgstr "Gitea beolvasztási kérés"
+
+msgid ""
+"Comma-separated names of labels to add to pull requests created by Weblate. "
+"Existing labels are kept."
 msgstr ""
 
 msgid "Merge pull requests automatically"
@@ -23479,6 +25988,70 @@ msgstr ""
 "Állandó navigációs legördülő menü a jobb felső sarokban, akkor is ha elférne "
 "a teljes menü."
 
+#, fuzzy
+#| msgid "Data exports"
+msgid "CSV report"
+msgstr "Adat exportok"
+
+#, fuzzy
+#| msgid "Languages limit"
+msgid "Delimiter"
+msgstr "Nyelvek korlátja"
+
+msgid ""
+"Leave blank to detect automatically. Use a comma, semicolon, pipe, or \\t "
+"for a tab."
+msgstr ""
+
+msgid "First row contains column names"
+msgstr ""
+
+#, fuzzy
+#| msgid "Username or e-mail"
+msgid "Username or e-mail column"
+msgstr "Felhasználónév vagy e-mail"
+
+#, fuzzy
+#| msgid "Password"
+msgid "Password column"
+msgstr "Jelszó"
+
+msgid ""
+"Specify both column numbers, or leave both blank for automatic detection."
+msgstr ""
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Configuring"
+msgstr "Beállítások"
+
+msgid "Running"
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+#, fuzzy
+#| msgid "Resolve"
+msgid "Resolved"
+msgstr "Megoldás"
+
+#, fuzzy
+#| msgid "User was disabled by administrator."
+msgid "Dismissed by administrator"
+msgstr "A felhasználót letiltotta egy adminisztrátor."
+
+msgid "Lookalike e-mail identity removed"
+msgstr ""
+
+msgid "E-mail identity already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Password already changed"
+msgstr "Jelszó megváltoztatva."
+
 #. Translators: The Weblate server has no paid support by the Weblate team
 msgid "Community support"
 msgstr "Közösségi támogatás"
@@ -23546,11 +26119,187 @@ msgstr "A biztonsági mentés tárolója kitisztítva"
 msgid "Repository initialization"
 msgstr "Tároló előkészítése"
 
+#, fuzzy
+#| msgid "New password"
+msgid "Leaked password"
+msgstr "Új jelszó"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Lookalike verified e-mail address"
+msgstr "Új e-mail-cím ellenőrzése"
+
+msgid "The uploaded report has expired. Upload it again."
+msgstr ""
+
+msgid ""
+"Could not detect the credential columns. Configure their column numbers."
+msgstr ""
+
+msgid "Choose different identifier and password columns."
+msgstr ""
+
+msgid "The report exceeds the 10 MiB limit."
+msgstr ""
+
+msgid "Upload a UTF-8 encoded CSV file."
+msgstr ""
+
+msgid ""
+"Could not detect the delimiter. Configure the CSV columns and delimiter."
+msgstr ""
+
+msgid "Choose a single delimiter character."
+msgstr ""
+
+#, fuzzy
+#| msgid "The uploaded file contains too many settings."
+msgid "The file contains malformed CSV quoting."
+msgstr "Fordításokat tartalmazó ZIP-fájl"
+
+#, fuzzy
+#| msgid ".NET resource file"
+msgid "The report is empty."
+msgstr ".Net erőforrásfájl"
+
+msgid "The report exceeds the 50,000 row limit."
+msgstr ""
+
+msgid "The report contains no credential rows."
+msgstr ""
+
+#, fuzzy
+#| msgid "You do not have permission to access this component."
+msgid ""
+"The initiating administrator no longer has permission to perform this "
+"operation."
+msgstr "Nincs jogosultsága az összetevőhöz való hozzáféréshez."
+
+msgid ""
+"The security operation failed. Review any findings already recorded and "
+"start a new operation."
+msgstr ""
+
+#, fuzzy
+#| msgid "Security"
+msgid "Security report"
+msgstr "Biztonság"
+
+#, fuzzy, python-format
+#| msgid "Joined on %(date)s"
+msgid "Report from %(date)s"
+msgstr "Csatlakozott ekkor: %(date)s"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s — %(report)s"
+msgstr "%(filename)s, %(position)s. szöveg"
+
+msgid ""
+"Your identity verification has expired. Confirm your identity, then select "
+"and upload the CSV report again."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not open a ticket, please try again later."
+msgid "Could not store the encrypted upload. Try again."
+msgstr "Nem sikerült jegyet nyitni, próbálja meg később újra."
+
+msgid "Choose a CSV report of at most 10 MiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not open a ticket, please try again later."
+msgid "Could not read the uploaded report. Upload it again."
+msgstr "Nem sikerült jegyet nyitni, próbálja meg később újra."
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords checked"
+msgstr "Jelszó megváltoztatva."
+
+#, fuzzy
+#| msgid "Duplicated translation."
+msgid "Duplicate rows"
+msgstr "Kettőzött fordítás."
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Unknown accounts"
+msgstr "Fiók eltávolítása"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Ambiguous accounts"
+msgstr "Fiók eltávolítása"
+
+msgid "Malformed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "Disable password"
+msgid "Unusable passwords"
+msgstr "Jelszó letiltása"
+
+msgid "Passwords that did not match"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password reset"
+msgid "Passwords reset"
+msgstr "Jelszó-visszaállítás"
+
+msgid "Lookalike e-mail identities removed"
+msgstr ""
+
+msgid "E-mail identities already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords already changed"
+msgstr "Jelszó megváltoztatva."
+
+#, fuzzy
+#| msgid "Dismissed"
+msgid "Dismissed findings"
+msgstr "Eltüntetve"
+
+#, fuzzy
+#| msgid "Recent additions"
+msgid "Skipped findings"
+msgstr "Legutóbbi hozzáadások"
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported actions"
+msgstr "Nem támogatott fájl!"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Primary e-mail address"
+msgstr "Új e-mail-cím ellenőrzése"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Verified e-mail address"
+msgstr "Új e-mail-cím ellenőrzése"
+
+#, fuzzy, python-format
+#| msgid "Edit team membership for %(username)s"
+msgid "Finding for %(username)s"
+msgstr "%(username)s csapattagságának szerkesztése"
+
 msgid "Weblate administration"
 msgstr "Weblap adminisztráció"
 
 msgid "Object listing turned off"
 msgstr "Az objektumfelsorolás ki van kapcsolva"
+
+#, fuzzy
+#| msgid "The registration link has been invalidated."
+msgid "The security operation expired. Start a new operation."
+msgstr "A regisztrációs hivatkozás érvénytelenítve lett."
 
 msgid "Return to Weblate"
 msgstr "Visszatérés a Weblate-hez"
@@ -23719,6 +26468,23 @@ msgid "Workspace name"
 msgstr "Megjelenített név"
 
 #, fuzzy
+#| msgid "Allow translation propagation"
+msgid "Translation propagation scope"
+msgstr "Fordítások terjesztésének engedélyezése"
+
+#, fuzzy
+#| msgid "Cannot change this on a built-in team."
+msgid "Matching component name within workspace"
+msgstr "Ezt nem lehet megváltoztatni egy beépített csapatnál."
+
+#, fuzzy
+#| msgid ""
+#| "Whether to overwrite existing translations if the string is already "
+#| "translated."
+msgid "Where translations of matching strings are propagated."
+msgstr "Felülírja-e a meglévő fordításokat, ha a szöveg már le van fordítva."
+
+#, fuzzy
 #| msgid "Language name"
 msgid "Managed name"
 msgstr "Nyelv neve"
@@ -23762,6 +26528,102 @@ msgstr ""
 #| msgid "Source has been removed."
 msgid "The workspace has been removed."
 msgstr "A forrás el lett távolítva."
+
+#, python-format
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "%(name)s szójegyzék böngészése"
+
+#, fuzzy
+#~| msgid "Invalid translation flag: \"%s\""
+#~ msgid "Invalid template rendering response."
+#~ msgstr "Érvénytelen fordítási jelző: „%s”"
+
+#, fuzzy
+#~| msgid "Registration almost complete"
+#~ msgid "E-mail verification almost complete"
+#~ msgstr "A regisztráció majdnem kész"
+
+#, fuzzy
+#~| msgid ""
+#~| "Click the confirmation link sent to your e-mail inbox and start using "
+#~| "your account."
+#~ msgid ""
+#~ "Click the confirmation link sent to your e-mail inbox to verify the "
+#~ "address for your account."
+#~ msgstr ""
+#~ "Kattintson az e-mail-címére küldött megerősítési hivatkozásra, és kezdje "
+#~ "el használni a fiókját."
+
+#~ msgid "Search and replace"
+#~ msgstr "Keresés és csere"
+
+#, fuzzy
+#~| msgid "Adding strings is disabled in the component configuration."
+#~ msgid "Stop using this installation without removing its configuration."
+#~ msgstr "A szövegek hozzáadása le van tiltva az összetevő beállításaiban."
+
+#, fuzzy
+#~| msgid "Remove this notification setting"
+#~ msgid "Remove this installation and its configuration."
+#~ msgstr "Az értesítési beállítás eltávolítása"
+
+#~ msgid "Please review and confirm the search and replace results."
+#~ msgstr "Nézze át és erősítse meg a keresés és csere eredményeit."
+
+#~ msgid ""
+#~ "Showing and replacing only the first 250 matches. Perform the replacement "
+#~ "again to replace more."
+#~ msgstr ""
+#~ "Csak az első 250 találat megjelenítése és cseréje. Hajtsa végre a cserét "
+#~ "újra, hogy többet cseréljen le."
+
+#~ msgid "Replace"
+#~ msgstr "Csere"
+
+#, fuzzy
+#~| msgid "Include strings needing editing"
+#~ msgid "Find strings in image"
+#~ msgstr "Szerkesztést igénylő szövegek beillesztése"
+
+#~ msgid "You can change the state of all strings matching given type at once."
+#~ msgstr ""
+#~ "Megváltoztathatja egyszerre egy adott típusra illeszkedő összes szöveg "
+#~ "állapotát."
+
+#~ msgid "Optional additional filter applied to the strings"
+#~ msgstr "A szövegekre alkalmazott további nem kötelező szűrő"
+
+#~ msgid "Case-sensitive string to search for and replace."
+#~ msgstr "A keresendő és cserélendő szöveg, a kis- és nagybetűk különböznek."
+
+#, fuzzy
+#~| msgid "Translation flags to add"
+#~ msgid "Translation flags to add — matching translations"
+#~ msgstr "Hozzáadandó fordítási jelzők"
+
+#, fuzzy
+#~| msgid "Translation flags to remove"
+#~ msgid "Translation flags to remove — matching translations"
+#~ msgstr "Eltávolítandó fordítási jelzők"
+
+#, fuzzy
+#~| msgid "For all languages"
+#~ msgid "Labels to add — all languages"
+#~ msgstr "Az összes nyelvhez"
+
+#, fuzzy
+#~| msgid "Labels to remove"
+#~ msgid "Labels to remove — all languages"
+#~ msgstr "Eltávolítandó címkék"
+
+#~ msgid "Search and replace completed, no strings were updated."
+#~ msgstr "A keresés és csere befejeződött, egyetlen szöveg sem frissült."
+
+#, python-format
+#~ msgid "Search and replace completed, %d string was updated."
+#~ msgid_plural "Search and replace completed, %d strings were updated."
+#~ msgstr[0] "A keresés és csere befejeződött, %d szöveg frissült."
+#~ msgstr[1] "A keresés és csere befejeződött, %d szöveg frissült."
 
 #~ msgid "Name is also used in version control commits."
 #~ msgstr "A név a verziókövető véglegesítéseiben is használva van."
@@ -23904,10 +26766,6 @@ msgstr "A forrás el lett távolítva."
 #~ "Nem sikerült hitelesíteni, valószínűleg lejárt token vagy kapcsolódási "
 #~ "hiba miatt."
 
-#, python-format
-#~ msgid "Authentication failed: %s"
-#~ msgstr "Hitelesítés sikertelen: %s"
-
 #~ msgid "The authentication provider could not be reached."
 #~ msgstr "A hitelesítési szolgáltató nem elérhető."
 
@@ -24041,9 +26899,6 @@ msgstr "A forrás el lett távolítva."
 #~ msgstr ""
 #~ "Csatlakozzon hozzánk a honosítás jövőjének alakításában, és működjön "
 #~ "közre még ma!"
-
-#~ msgid "Download reports"
-#~ msgstr "Jelentések letöltése"
 
 #~ msgctxt "Anthropic model selection"
 #~ msgid "Claude Haiku 4.5"
@@ -24189,9 +27044,6 @@ msgstr "A forrás el lett távolítva."
 #~ msgid "Translation files in accessible repositories have been synchronized."
 #~ msgstr "A fordítási fájlok szinkronizálva lettek."
 
-#~ msgid "Updates of translations are in progress."
-#~ msgstr "A fordítások frissítései folyamatban vannak."
-
 #, fuzzy
 #~| msgid "Updates of translations are in progress."
 #~ msgid "Updates of translations in accessible repositories are in progress."
@@ -24218,9 +27070,6 @@ msgstr "A forrás el lett távolítva."
 #~ "megjeleníti a szerkesztett szövegek előnézetét, mielőtt megerősítené a "
 #~ "tényleges változtatásokat."
 
-#~ msgid "Activation completed."
-#~ msgstr "Aktiválás befejezve."
-
 #, python-format
 #~ msgid "Could not activate your installation: %s"
 #~ msgstr "Nem sikerült aktiválni a telepítést: %s"
@@ -24232,11 +27081,6 @@ msgstr "A forrás el lett távolítva."
 #~| msgid "Backup repository URL"
 #~ msgid "Repository URL"
 #~ msgstr "Biztonsági mentés tároló URL-e"
-
-#, fuzzy
-#~| msgid "Repository merged"
-#~ msgid "Repository name"
-#~ msgstr "Tároló beolvasztva"
 
 #, fuzzy
 #~| msgid "Create component"
@@ -24300,11 +27144,6 @@ msgstr "A forrás el lett távolítva."
 #~| msgid "project wide"
 #~ msgid "project-wide"
 #~ msgstr "projektszintű"
-
-#, fuzzy
-#~| msgid "site wide"
-#~ msgid "site-wide"
-#~ msgstr "webhelyszintű"
 
 #, fuzzy, python-format
 #~| msgctxt "Automatic suggestion service configuration"
@@ -24552,9 +27391,6 @@ msgstr "A forrás el lett távolítva."
 #~ msgid "Provide context to the translators"
 #~ msgstr "Biztosítson környezetet a fordítóknak"
 
-#~ msgid "Workflow customization"
-#~ msgstr "Munkafolyamat testreszabása"
-
 #~ msgid "Add team"
 #~ msgstr "Csapat hozzáadása"
 
@@ -24619,9 +27455,6 @@ msgstr "A forrás el lett távolítva."
 
 #~ msgid "This URL is prohibited"
 #~ msgstr "Ez az URL tiltott"
-
-#~ msgid "Categorized component can not be shared."
-#~ msgstr "A kategorizált összetevőt nem lehet megosztani."
 
 #~ msgctxt "Access-control role"
 #~ msgid "Billing"
@@ -25100,9 +27933,6 @@ msgstr "A forrás el lett távolítva."
 #~ msgid "Disable two-factor authentication"
 #~ msgstr "Kétfaktoros hitelesítés letiltása"
 
-#~ msgid "Translation reviews are not enabled."
-#~ msgstr "A fordítás felülvizsgálatai nincsenek engedélyezve."
-
 #~ msgid "Reviews are not enabled."
 #~ msgstr "A felülvizsgálatok nincsenek engedélyezve."
 
@@ -25137,9 +27967,6 @@ msgstr "A forrás el lett távolítva."
 
 #~ msgid "Starting date"
 #~ msgstr "Kezdési dátum"
-
-#~ msgid "Ending date"
-#~ msgstr "Befejezési dátum"
 
 #~ msgid "Last 30 days"
 #~ msgstr "Az elmúlt 30 nap"
@@ -25273,9 +28100,6 @@ msgstr "A forrás el lett távolítva."
 #~ msgid "Rename component"
 #~ msgstr "Összetevő átnevezése"
 
-#~ msgid "Move component"
-#~ msgstr "Összetevő áthelyezése"
-
 #~ msgid "Moving the component will also change its URLs."
 #~ msgstr "Az összetevő áthelyezése az URL-jeit is megváltoztatja."
 
@@ -25301,9 +28125,6 @@ msgstr "A forrás el lett távolítva."
 #~ msgid "Committed changes"
 #~ msgstr "Változtatások véglegesítve"
 
-#~ msgid "Pushed changes"
-#~ msgstr "Változtatások felküldve"
-
 #~ msgid "Failed merge on repository"
 #~ msgstr "Nem sikerült beolvasztani a tárolón"
 
@@ -25327,9 +28148,6 @@ msgstr "A forrás el lett távolítva."
 
 #~ msgid "Renamed project"
 #~ msgstr "Projekt átnevezve"
-
-#~ msgid "Renamed component"
-#~ msgstr "Összetevő átnevezve"
 
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
@@ -25429,9 +28247,6 @@ msgstr "A forrás el lett távolítva."
 
 #~ msgid "New language"
 #~ msgstr "Új nyelv"
-
-#~ msgid "Check details"
-#~ msgstr "Ellenőrzések részletei"
 
 #~ msgid ""
 #~ "Customizable quality checks will help you improve the quality of "
@@ -25679,9 +28494,6 @@ msgstr "A forrás el lett távolítva."
 #~ msgid "Too many failed registration attempts from this location."
 #~ msgstr "Túl sok sikertelen regisztrációs kísérlet erről a helyről."
 
-#~ msgid "Too many authentication attempts from this location."
-#~ msgstr "Túl sok hitelesítési próbálkozás erről a helyről."
-
 #~ msgid ""
 #~ "Weblate user management is turned off, you can change permissions in the "
 #~ "Django admin interface."
@@ -25707,9 +28519,6 @@ msgstr "A forrás el lett távolítva."
 #~ msgid "source"
 #~ msgstr "forrás"
 
-#~ msgid "Invalid parameters!"
-#~ msgstr "Érvénytelen paraméterek!"
-
 #~ msgid "Not translated strings"
 #~ msgstr "Nem lefordított szövegek"
 
@@ -25718,12 +28527,6 @@ msgstr "A forrás el lett távolítva."
 
 #~ msgid "Strings needing action"
 #~ msgstr "Műveletet igénylő szövegek"
-
-#, python-format
-#~ msgid "%(count)s string needing action"
-#~ msgid_plural "%(count)s strings needing action"
-#~ msgstr[0] "%(count)s műveletet igénylő szöveg"
-#~ msgstr[1] "%(count)s műveletet igénylő szöveg"
 
 #~ msgid ""
 #~ "Strings needing action, converted files enriched with comments; suitable "
@@ -26191,9 +28994,6 @@ msgstr "A forrás el lett távolítva."
 #~ msgid "Use this translation for all components"
 #~ msgstr "A fordítás használata az összes összetevőnél"
 
-#~ msgid "Use this translation"
-#~ msgstr "A fordítás használata"
-
 #~ msgid "Change compared to this translation:"
 #~ msgstr "Változtatás ehhez a fordításhoz képest:"
 
@@ -26461,9 +29261,6 @@ msgstr "A forrás el lett távolítva."
 #~ msgid "You can no longer log in using {method} ({name})."
 #~ msgstr "Már nem tud bejelentkezni {method} ({name}) használatával."
 
-#~ msgid "You can now log in using password."
-#~ msgstr "Most már bejelentkezhet jelszó használatával."
-
 #~ msgid "New whiteboard message"
 #~ msgstr "Új tábla üzenet"
 
@@ -26695,9 +29492,6 @@ msgstr "A forrás el lett távolítva."
 #~ msgid "Toggle edit needed flag"
 #~ msgstr "Szerkesztés szükséges jelző be- vagy kikapcsolása"
 
-#~ msgid "Merge failure"
-#~ msgstr "Beolvasztási hiba"
-
 #~ msgid "Standard user"
 #~ msgstr "Szabványos felhasználó"
 
@@ -26807,12 +29601,6 @@ msgstr "A forrás el lett távolítva."
 #~ msgid "Backup pepository"
 #~ msgstr "Tároló"
 
-#~ msgid "Your languages"
-#~ msgstr "Saját nyelvek"
-
-#~ msgid "Search type"
-#~ msgstr "Keresés típusa"
-
 #~ msgid "Fulltext"
 #~ msgstr "Szabad-szavas"
 
@@ -26850,16 +29638,10 @@ msgstr "A forrás el lett távolítva."
 #~ msgid "{0}%"
 #~ msgstr "{0}%"
 
-#~ msgid "Repositories limit"
-#~ msgstr "Tárolók korlátja"
-
 #~ msgid "User has all permissions without having been given them."
 #~ msgstr ""
 #~ "A felhasználónak minden jogosultsága megvan, anélkül hogy megkapta volna "
 #~ "azokat."
-
-#~ msgid "active"
-#~ msgstr "aktív"
 
 #~ msgid ""
 #~ "Choose languages you speak in the preferences, to see an overview of all "
@@ -26926,9 +29708,6 @@ msgstr "A forrás el lett távolítva."
 
 #~ msgid "Host:"
 #~ msgstr "Gép:"
-
-#~ msgid "Process"
-#~ msgstr "Folyamat"
 
 #~ msgid "Automatically add language file"
 #~ msgstr "Nyelvi fájl automatikus hozzáadása"

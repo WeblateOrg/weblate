@@ -16,8 +16,8 @@
         <button type="button"
                 class="btn btn-link btn-xs float-end"
                 data-clipboard-value="{{ instance.api_url }}"
-                title="{% translate "Copy to clipboard" %}"
-                aria-label="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                title="{% translate "Copy to clipboard"|force_escape %}"
+                aria-label="{% translate "Copy to clipboard"|force_escape %}">{% icon "copy.svg" %}</button>
         {{ instance.api_url }}
       </code>
       <p class="mt-3">

@@ -12,11 +12,14 @@ from html.parser import HTMLParser as StdHTMLParser
 from typing import TYPE_CHECKING, Any, NamedTuple
 
 import nh3
+import regex
 from django.utils.html import format_html, format_html_join
 from django.utils.translation import pgettext
 from lxml.etree import HTMLParser
 from lxml.html.defs import tags as lxml_html_tags
 from turbohtml import Element, PlainText, Text, parse
+
+from weblate.utils.regex import regex_finditer
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable, Iterator
@@ -29,19 +32,20 @@ else:
     ParserTarget = object
 
 MD_BROKEN_LINK = re.compile(r"\] +\(")
-MD_SYNTAX = re.compile(
+# Keep Python's Unicode letter/number definition at underscore boundaries.
+MD_SYNTAX = regex.compile(
     r"""
     (_{2})(?:[\s\S]+?)_{2}(?!_)         # __word__
     |
     (\*{2})(?:[\s\S]+?)\*{2}(?!\*)      # **word**
     |
-    \b(_)(?:(?:__|[^_])+?)_\b           # _word_
+    (?<![\p{L}\p{N}_])(_)(?:(?:__|[^_])+?)_(?![\p{L}\p{N}_]) # _word_
     |
     (\*)(?:(?:\*\*|[^\*])+?)\*(?!\*)    # *word*
     |
     (~~)(?=\S)(?:[\s\S]*?\S)~~          # ~~word~~
     """,
-    re.VERBOSE,
+    regex.VERBOSE | regex.VERSION0,
 )
 
 
@@ -449,7 +453,7 @@ def iter_markdown_code_spans(text: str) -> Iterator[MarkdownSyntax]:
 
 
 def iter_markdown_syntax(text: str) -> Iterator[MarkdownSyntax]:
-    """Yield Markdown syntax while treating code spans as opaque text."""
+    """Yield Markdown syntax with opaque code spans, propagating timeouts."""
     autolinks = list(iter_markdown_autolinks(text))
     code_spans = list(
         _iter_markdown_code_spans(
@@ -490,13 +494,14 @@ def iter_markdown_syntax(text: str) -> Iterator[MarkdownSyntax]:
     else:
         masked = text
 
+    matches = list(regex_finditer(MD_SYNTAX, masked))
     regex_syntax = (
         MarkdownSyntax(
             match.start(),
             match.end(),
             next((group for group in match.groups() if group), ""),
         )
-        for match in MD_SYNTAX.finditer(masked)
+        for match in matches
     )
     yield from merge(regex_syntax, opaque_syntax, key=lambda match: match.start)
 
@@ -640,11 +645,19 @@ def is_auto_safe_html_source(source: str, flags: Flags) -> bool:
         return False
 
     segment_spans = [(segment.start(), segment.end()) for segment in segments]
-    if any(
-        not any(start <= start_match.start() < end for start, end in segment_spans)
-        for start_match in AUTO_SAFE_HTML_START.finditer(source)
-    ):
-        return False
+    segment_index = 0
+    for start_match in AUTO_SAFE_HTML_START.finditer(source):
+        position = start_match.start()
+        while (
+            segment_index < len(segment_spans)
+            and segment_spans[segment_index][1] <= position
+        ):
+            segment_index += 1
+        if (
+            segment_index == len(segment_spans)
+            or position < segment_spans[segment_index][0]
+        ):
+            return False
 
     if not all(is_auto_safe_html_segment(segment.group(0)) for segment in segments):
         return False

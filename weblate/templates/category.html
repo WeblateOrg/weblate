@@ -4,7 +4,6 @@
 
 {% block nav_pills %}
   {% perm 'project.edit' object as user_can_edit_project %}
-  {% perm 'upload.perform' object as user_can_upload_translation %}
 
   <ul class="nav nav-pills">
     <li class="nav-item">
@@ -56,22 +55,22 @@
         <li>
           <a class="dropdown-item"
              href="{% url 'download' path=object.get_url_path %}?format=zip"
-             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translation files as ZIP file{% endblocktranslate %}</a>
+             title="{% translate "Download for offline translation."|force_escape %}">{% blocktranslate %}Download translation files as ZIP file{% endblocktranslate %}</a>
         </li>
         <li>
           <a class="dropdown-item"
              href="{% url 'download' path=object.get_url_path %}?format=zip:csv"
-             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as CSV in a ZIP file{% endblocktranslate %}</a>
+             title="{% translate "Download for offline translation."|force_escape %}">{% blocktranslate %}Download translations as CSV in a ZIP file{% endblocktranslate %}</a>
         </li>
         <li>
           <a class="dropdown-item"
              href="{% url 'download' path=object.get_url_path %}?format=zip:xliff11"
-             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as XLIFF 1.1 in a ZIP file{% endblocktranslate %}</a>
+             title="{% translate "Download for offline translation."|force_escape %}">{% blocktranslate %}Download translations as XLIFF 1.1 in a ZIP file{% endblocktranslate %}</a>
         </li>
         <li>
           <a class="dropdown-item"
              href="{% url 'download' path=object.get_url_path %}?format=zip:xlsx"
-             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as XLSX in a ZIP file{% endblocktranslate %}</a>
+             title="{% translate "Download for offline translation."|force_escape %}">{% blocktranslate %}Download translations as XLSX in a ZIP file{% endblocktranslate %}</a>
         </li>
         {% if user_can_upload_translation %}
           <li>
@@ -170,7 +169,7 @@
 
   <a class="ms-auto" href="{{ object.get_widgets_url }}">
     <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1"
-         alt="{% translate "Translation status widgets" %}" />
+         alt="{% translate "Translation status widgets"|force_escape %}" />
   </a>
 {% endblock breadcrumbs %}
 
@@ -181,7 +180,6 @@
   {% include "snippets/project/state.html" with object=object.project %}
 
   {% perm 'project.edit' object as user_can_edit_project %}
-  {% perm 'upload.perform' object as user_can_upload_translation %}
 
   <div class="tab-content">
     <div class="tab-pane" id="components">
@@ -193,7 +191,7 @@
     </div>
 
     <div class="tab-pane" id="information">
-      {% show_info project=object.project stats=object.stats metrics=object|metrics show_source=True %}
+      {% show_info project=object.project contributor_scope=object stats=object.stats metrics=object|metrics show_source=True %}
     </div>
 
     <div class="tab-pane active" id="languages">
@@ -245,7 +243,9 @@
             </div>
             <div class="card-body">{% crispy bulk_state_form %}</div>
             <div class="card-footer">
-              <input type="submit" value="{% translate "Apply" %}" class="btn btn-primary" />
+              <input type="submit"
+                     value="{% translate "Apply"|force_escape %}"
+                     class="btn btn-primary" />
             </div>
           </div>
         </form>
@@ -273,7 +273,9 @@
               {% crispy add_form %}
             </div>
             <div class="card-footer">
-              <input type="submit" class="btn btn-warning" value="{% translate "Add" %}">
+              <input type="submit"
+                     class="btn btn-warning"
+                     value="{% translate "Add"|force_escape %}">
             </div>
           </div>
         </form>
@@ -300,7 +302,9 @@
                 {% crispy rename_form %}
               </div>
               <div class="card-footer">
-                <input type="submit" class="btn btn-warning" value="{% translate "Organize" %}">
+                <input type="submit"
+                       class="btn btn-warning"
+                       value="{% translate "Organize"|force_escape %}">
               </div>
             </div>
           </form>
@@ -331,7 +335,9 @@
               </p>
             </div>
             <div class="card-footer">
-              <input type="submit" value="{% translate "Add" %}" class="btn btn-primary" />
+              <input type="submit"
+                     value="{% translate "Add"|force_escape %}"
+                     class="btn btn-primary" />
             </div>
           </div>
         </form>

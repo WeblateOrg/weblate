@@ -105,11 +105,13 @@ class InstalledAddonAPIView(GenericAPIView):
 
         if self.addon_name not in ADDONS:
             raise NotFound
-        component = get_object_or_404(
-            Component.objects.filter_access(cast("User", request.user)).filter_by_path(
+        components = Component.objects.filter_access(cast("User", request.user))
+        try:
+            component = components.get_by_path(
                 f"{kwargs['project__slug']}/{unquote(kwargs['slug'])}"
-            ),
-        )
+            )
+        except (Component.DoesNotExist, Component.MultipleObjectsReturned) as error:
+            raise NotFound from error
         self.addon = get_object_or_404(Addon, component=component, name=self.addon_name)
         if not self.addon.is_valid or not self.addon.addon.can_process(
             component=component

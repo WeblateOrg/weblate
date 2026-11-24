@@ -15,6 +15,7 @@ import re
 import shlex
 import stat
 import sys
+import tempfile
 import urllib.parse
 from configparser import NoOptionError, NoSectionError, RawConfigParser
 from contextlib import contextmanager, suppress
@@ -39,14 +40,17 @@ from urllib.parse import urlparse, urlunparse
 from zipfile import ZipFile
 
 import httpx2
+from asgiref.sync import async_to_sync
 from django.conf import settings
 from django.core.cache import cache
+from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
 from git.config import GitConfigParser
 from idna import IDNAError
 from idna import encode as idna_encode
 
+from weblate.utils.change_origin import get_acting_user
 from weblate.utils.data import data_dir, data_path
 from weblate.utils.errors import report_error, report_message
 from weblate.utils.files import (
@@ -57,15 +61,17 @@ from weblate.utils.files import (
     normalize_archive_path,
     remove_tree,
 )
-from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
-from weblate.utils.render import render_template
+from weblate.utils.lock import LockScope, WeblateLock, WeblateLockTimeoutError
+from weblate.utils.render import render_repository_template
 from weblate.utils.requests import (
     JSON_RESPONSE_ERRORS,
+    VCS_RESPONSE_SIZE,
     RedirectValidators,
-    create_http_client,
-    fetch_url,
+    async_open_url,
+    fetch_validated_url,
 )
 from weblate.utils.tracing import start_span
+from weblate.utils.validators import validate_filename
 from weblate.utils.xml import parse_xml
 from weblate.utils.zip import (
     ZipSafetyError,
@@ -92,13 +98,18 @@ from weblate.vcs.gpg import get_gpg_sign_key
 from weblate.vcs.params import (
     CreateMergeRequest,
     GitForcePush,
+    MergeRequestAssignActingUser,
+    MergeRequestAssignee,
     MergeRequestAutomerge,
+    MergeRequestLabels,
     MergeRequestMergeMethod,
+    parse_pull_request_labels,
+    wants_pull_request_customization,
 )
 from weblate.vcs.ssh import SSH_WRAPPER, resolve_ssh_destination
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Iterator
+    from collections.abc import Callable, Generator, Iterator
     from datetime import datetime
     from zipfile import ZipInfo
 
@@ -109,7 +120,18 @@ if TYPE_CHECKING:
     from weblate.vcs.base import (
         RawCommitInfo,
         RepositoryErrorCode,
+        RepositoryLock,
+        RepositoryStructuredError,
     )
+
+# Social authentication backends for github.com and GitHub Enterprise Server
+GITHUB_SOCIAL_PROVIDERS = ("github", "github-org", "github-team", "github-app")
+# Each GitHub Enterprise backend reads the API URL from its own setting
+GITHUB_ENTERPRISE_SOCIAL_PROVIDERS = {
+    "github-enterprise": "SOCIAL_AUTH_GITHUB_ENTERPRISE_API_URL",
+    "github-enterprise-org": "SOCIAL_AUTH_GITHUB_ENTERPRISE_ORG_API_URL",
+    "github-enterprise-team": "SOCIAL_AUTH_GITHUB_ENTERPRISE_TEAM_API_URL",
+}
 
 LOCK_ERROR = re.compile(r"Unable to create '([^']*\.git/[^']*\.lock)': File exists")
 # Assume lock is stale after one hour
@@ -299,19 +321,29 @@ def _get_git_probe_headers(
     return headers
 
 
-def _with_git_http_proxy(
+def git_protocol_config() -> Iterator[tuple[str, str]]:
+    """Yield Git's transport policy from the active Weblate settings."""
+    for protocol in ("file", "git", "http", "https", "ssh"):
+        yield (
+            f"protocol.{protocol}.allow",
+            "always" if protocol in settings.VCS_ALLOW_SCHEMES else "never",
+        )
+
+
+def with_git_config(
     environment: dict[str, str] | None,
-    proxy: str,
+    *entries: tuple[str, str],
 ) -> dict[str, str]:
-    """Configure Git's proxy without exposing it in command arguments."""
+    """Append command-specific Git configuration to a copy of the environment."""
     result = dict(environment or {})
     try:
         index = int(result.get("GIT_CONFIG_COUNT", "0"))
     except ValueError:
         index = 0
-    result["GIT_CONFIG_COUNT"] = str(index + 1)
-    result[f"GIT_CONFIG_KEY_{index}"] = "http.proxy"
-    result[f"GIT_CONFIG_VALUE_{index}"] = proxy
+    for position, (key, value) in enumerate(entries, start=index):
+        result[f"GIT_CONFIG_KEY_{position}"] = key
+        result[f"GIT_CONFIG_VALUE_{position}"] = value
+    result["GIT_CONFIG_COUNT"] = str(index + len(entries))
     return result
 
 
@@ -337,16 +369,23 @@ def _perform_git_probe(
     environment: dict[str, str] | None,
 ) -> tuple[int, str | None, str]:
     """Perform one Git smart-HTTP probe using the shared HTTP client."""
-    with (
-        create_http_client(validators=GitProbeRedirectValidators(target)) as client,
-        client.stream(
-            "GET",
-            _build_git_probe_url(repository_url),
-            headers=_get_git_probe_headers(repository_url, environment),
-            timeout=20,
-            follow_redirects=False,
-        ) as response,
-    ):
+    return async_to_sync(_async_perform_git_probe)(repository_url, target, environment)
+
+
+async def _async_perform_git_probe(
+    repository_url: str,
+    target: ResolvedRepositoryURL,
+    environment: dict[str, str] | None,
+) -> tuple[int, str | None, str]:
+    async with async_open_url(
+        "GET",
+        _build_git_probe_url(repository_url),
+        validators=GitProbeRedirectValidators(target),
+        headers=_get_git_probe_headers(repository_url, environment),
+        timeout=20,
+        follow_redirects=False,
+        raise_for_status=False,
+    ) as response:
         return (
             response.status_code,
             response.headers.get("Location"),
@@ -610,10 +649,6 @@ class GitRepository(Repository):
                 component.branch,
                 fast=not component.id,
             )
-        staged.set_committer(
-            settings.DEFAULT_COMMITER_NAME, settings.DEFAULT_COMMITER_EMAIL
-        )
-        staged.check_config()
         if component.is_repo_local and original.is_dir():
             self.preserve_recovery_working_files(original, staged_path)
             staged.commit("Recovered local repository files")
@@ -675,8 +710,19 @@ class GitRepository(Repository):
         *,
         cwd: str | None = None,
     ) -> dict[str, str]:
-        """Generate a Git environment without unsupported LFS transfers."""
-        git_environment = dict(environment or {})
+        """Apply the current Weblate settings to managed Git commands."""
+        git_environment = with_git_config(
+            environment,
+            *git_protocol_config(),
+            ("user.name", settings.DEFAULT_COMMITER_NAME),
+            ("user.email", settings.DEFAULT_COMMITER_EMAIL),
+            ("committer.name", settings.DEFAULT_COMMITER_NAME),
+            ("committer.email", settings.DEFAULT_COMMITER_EMAIL),
+            # Weblate schedules repository maintenance under its own lock.
+            ("maintenance.auto", "0"),
+            ("gc.auto", "0"),
+            ("push.default", "current"),
+        )
         git_environment.update(
             {
                 "GIT_LFS_SKIP_PUSH": "1",
@@ -704,40 +750,28 @@ class GitRepository(Repository):
             return args, environment
 
         if target.scheme in {"http", "https"}:
-            proxy = target.proxy_url
-            if proxy is not None:
-                environment = _with_git_http_proxy(
-                    environment,
-                    proxy,
-                )
-                connection_options: list[str] = []
-            else:
-                connection_options = ["-c", "http.proxy="]
-                if target.requires_pinning:
-                    try:
-                        ip_address(target.hostname)
-                    except ValueError:
-                        resolve_hostname = idna_encode(
-                            target.hostname, uts46=True
-                        ).decode("ascii")
-                        addresses = ",".join(
-                            f"[{address}]" if ":" in address else address
-                            for address in target.addresses
+            config = [
+                ("http.proxy", target.proxy_url or ""),
+                ("http.followRedirects", "false"),
+            ]
+            if target.proxy_url is None and target.requires_pinning:
+                try:
+                    ip_address(target.hostname)
+                except ValueError:
+                    resolve_hostname = idna_encode(target.hostname, uts46=True).decode(
+                        "ascii"
+                    )
+                    addresses = ",".join(
+                        f"[{address}]" if ":" in address else address
+                        for address in target.addresses
+                    )
+                    config.append(
+                        (
+                            "http.curloptResolve",
+                            f"{resolve_hostname}:{target.port}:{addresses}",
                         )
-                        connection_options = [
-                            *connection_options,
-                            "-c",
-                            f"http.curloptResolve={resolve_hostname}:{target.port}:{addresses}",
-                        ]
-            return (
-                [
-                    *connection_options,
-                    "-c",
-                    "http.followRedirects=false",
-                    *args,
-                ],
-                environment,
-            )
+                    )
+            return args, with_git_config(environment, *config)
 
         if target.scheme == "ssh" and target.requires_pinning:
             pinned_environment = dict(environment or {})
@@ -1008,30 +1042,53 @@ class GitRepository(Repository):
                 if value is not None:
                     config.set(section, key, value)
 
-    def config_update(self, *updates: tuple[str, str, str | None]) -> None:
+    def _checked_config_path(self) -> Path:
+        filename = Path(self.path) / ".git" / "config"
+        try:
+            metadata_mode = filename.parent.stat().st_mode
+        except (FileNotFoundError, NotADirectoryError) as error:
+            missing = self.checkout_is_missing()
+            raise RepositoryInternalError(
+                1,
+                "repository_checkout_missing"
+                if missing
+                else "repository_checkout_invalid",
+                diagnoses=[
+                    {"code": "checkout_missing" if missing else "checkout_invalid"}
+                ],
+            ) from error
+        except OSError as error:
+            raise RepositoryError(1, str(error)) from error
+        if not stat.S_ISDIR(metadata_mode):
+            raise RepositoryInternalError(
+                1,
+                "repository_checkout_invalid",
+                diagnoses=[{"code": "checkout_invalid"}],
+            )
+        return filename
+
+    def check_config(self) -> None:
+        """Validate the checkout and recreate a missing Git configuration."""
         with self.lock:
-            filename = Path(self.path) / ".git" / "config"
+            filename = self._checked_config_path()
             try:
-                metadata_mode = filename.parent.stat().st_mode
-            except (FileNotFoundError, NotADirectoryError) as error:
-                missing = self.checkout_is_missing()
-                raise RepositoryInternalError(
-                    1,
-                    "repository_checkout_missing"
-                    if missing
-                    else "repository_checkout_invalid",
-                    diagnoses=[
-                        {"code": "checkout_missing" if missing else "checkout_invalid"}
-                    ],
-                ) from error
+                mode = filename.lstat().st_mode
+            except FileNotFoundError:
+                # Recreate the checkout config without persisting runtime policy.
+                self.config_update(("core", "bare", "false"))
+                return
             except OSError as error:
                 raise RepositoryError(1, str(error)) from error
-            if not stat.S_ISDIR(metadata_mode):
+            if not (stat.S_ISREG(mode) or stat.S_ISLNK(mode)):
                 raise RepositoryInternalError(
                     1,
                     "repository_checkout_invalid",
                     diagnoses=[{"code": "checkout_invalid"}],
                 )
+
+    def config_update(self, *updates: tuple[str, str, str | None]) -> None:
+        with self.lock:
+            filename = self._checked_config_path()
             try:
                 self.git_config_update(filename, *updates)
             except OSError as error:
@@ -1052,14 +1109,6 @@ class GitRepository(Repository):
                         ],
                     ) from error
                 raise RepositoryError(1, str(error)) from error
-
-    def check_config(self) -> None:
-        """Check VCS configuration."""
-        self.config_update(
-            ("push", "default", "current"),
-            ("maintenance", "auto", "0"),
-            ("gc", "auto", "0"),
-        )
 
     def get_interrupted_operation(self) -> str | None:
         if self.has_git_file("rebase-apply") or self.has_git_file("rebase-merge"):
@@ -1103,6 +1152,15 @@ class GitRepository(Repository):
                 )
         self.clean_revision_cache()
 
+    def read_needs_recovery(self) -> bool:
+        return super().read_needs_recovery() or (
+            self.is_valid()
+            and (
+                self.get_interrupted_operation() is not None
+                or self.get_current_branch() in TEMPORARY_BRANCHES
+            )
+        )
+
     def recover_lock_session(self) -> list[RepositoryRecoveryEvent]:
         recovery_events = super().recover_lock_session()
         if not self.is_valid():
@@ -1140,7 +1198,17 @@ class GitRepository(Repository):
         )
         return recovery_events
 
+    def _read_checkout(self, args: list[str]) -> str:
+        # A failed reader must leave stale lock cleanup to the exclusive path.
+        output = self._popen(
+            args, cwd=self.path, local=self.local, merge_err=False, retry=False
+        )
+        self.last_output = output
+        return output
+
     def get_current_branch(self) -> str:
+        if self.lock.is_read_locked and not self.lock.is_locked:
+            return self._read_checkout(["branch", "--show-current"]).strip()
         return self.execute(
             ["branch", "--show-current"],
             remote_op="none",
@@ -1166,20 +1234,10 @@ class GitRepository(Repository):
             yield "--depth"
             yield str(settings.VCS_CLONE_DEPTH)
 
-    def _get_auth_args(self, repo: str) -> Iterator[str]:
-        if repo.startswith("https://"):
-            parsed = urlparse(repo)
-            if parsed.password:
-                # proactive HTTP authentication
-                yield "-c"
-                yield "http.proactiveAuth=auto"
-
-    def get_auth_args(self) -> list[str]:
-        if self.component:
-            return list(self._get_auth_args(self.component.repo))
-        return []
-
     def _get_auth_environment(self, repo: str) -> dict[str, str]:
+        if repo.startswith("https://") and urlparse(repo).password:
+            # Use URL credentials on the first HTTP request.
+            return with_git_config(None, ("http.proactiveAuth", "auto"))
         return {}
 
     def get_auth_environment(self) -> dict[str, str]:
@@ -1229,7 +1287,6 @@ class GitRepository(Repository):
         refspec = f"+refs/heads/{branch}:refs/remotes/origin/{branch}"
         self.execute(
             [
-                *self._get_auth_args(remote_url),
                 "fetch",
                 f"--deepen={self.remote_compatibility_deepen}",
                 "--no-tags",
@@ -1263,7 +1320,6 @@ class GitRepository(Repository):
             try:
                 self.execute(
                     [
-                        *self._get_auth_args(pull_url),
                         "fetch",
                         "--no-tags",
                         "--",
@@ -1321,9 +1377,9 @@ class GitRepository(Repository):
         branch = self.validate_branch_name(branch)
         args, environment = self.prepare_remote_command(
             [
-                *self._get_auth_args(source),
                 "clone",
                 *self.get_depth(),
+                "--no-tags",
                 "--branch",
                 branch,
                 "--",
@@ -1353,10 +1409,6 @@ class GitRepository(Repository):
             needs_lock=False,
             merge_err=False,
         ).strip()
-
-    def set_committer(self, name, mail) -> None:
-        """Configure committer name."""
-        self.config_update(("user", "name", name), ("user", "email", mail))
 
     def clear_interrupted_operation(self) -> None:
         """Clear interrupted Git operation metadata before a hard reset."""
@@ -1533,6 +1585,12 @@ class GitRepository(Repository):
         if filenames is not None:
             cmd.extend(["--untracked-files=all", "--ignored=traditional", "--"])
             cmd.extend(filenames)
+        if not self.lock.is_locked:
+            with self.lock.read():
+                if self.component is None or self.config_is_current():
+                    # Retry under exclusive ownership for normal error handling.
+                    with suppress(RepositoryError):
+                        return bool(self._read_checkout(cmd))
         with self.lock:
             status = self.execute(cmd, remote_op="none", merge_err=False)
         return bool(status)
@@ -1760,51 +1818,28 @@ class GitRepository(Repository):
         """Perform global settings."""
         home = data_path("home")
         merge_driver = cls.get_merge_driver("po")
-        # Sync protocol configuration with settings
-        updates: list[tuple[str, str, str]] = [
-            (
-                f'protocol "{protocol}"',
-                "allow",
-                "always" if protocol in settings.VCS_ALLOW_SCHEMES else "never",
-            )
-            for protocol in ("file", "git", "http", "https", "ssh")
-        ]
-        updates.extend(
-            (
-                # Default committer
-                ("user", "email", settings.DEFAULT_COMMITER_EMAIL),
-                ("user", "name", settings.DEFAULT_COMMITER_NAME),
-                # Weblate schedules repository maintenance under its own lock.
-                ("maintenance", "auto", "0"),
-                ("gc", "auto", "0"),
-            )
-        )
-        # Merge driver
         if merge_driver is not None:
-            updates.extend(
-                (
-                    (
-                        'merge "weblate-merge-gettext-po"',
-                        "name",
-                        "Weblate merge driver for gettext PO files",
-                    ),
-                    (
-                        'merge "weblate-merge-gettext-po"',
-                        "driver",
-                        f"{merge_driver} %O %A %B %P",
-                    ),
-                )
-            )
-
-        filename = home / ".gitconfig"
-        attempts = 0
-        while attempts < 5:
-            try:
-                cls.git_config_update(filename, *updates)
-                break
-            except OSError:
-                attempts += 1
-                sleep(attempts * 0.1)
+            filename = home / ".gitconfig"
+            attempts = 0
+            while attempts < 5:
+                try:
+                    cls.git_config_update(
+                        filename,
+                        (
+                            'merge "weblate-merge-gettext-po"',
+                            "name",
+                            "Weblate merge driver for gettext PO files",
+                        ),
+                        (
+                            'merge "weblate-merge-gettext-po"',
+                            "driver",
+                            f"{merge_driver} %O %A %B %P",
+                        ),
+                    )
+                    break
+                except OSError:
+                    attempts += 1
+                    sleep(attempts * 0.1)
 
         # Use it for *.po by default
         configfile = home / ".config" / "git" / "attributes"
@@ -1836,7 +1871,7 @@ class GitRepository(Repository):
             # Prune remote branches, this can fail if repository is unreachable
             with suppress(RepositoryCommandError):
                 self.execute(
-                    [*self.get_auth_args(), "remote", "prune", "origin"],
+                    ["remote", "prune", "origin"],
                     remote_op="pull",
                     environment=auth_environment,
                 )
@@ -1853,7 +1888,7 @@ class GitRepository(Repository):
             remote_op="none",
             merge_err=False,
         ).splitlines():
-            self.execute(["tag", "--delete", tag], remote_op="none")
+            self.execute(["tag", "--delete", "--", tag], remote_op="none")
 
     def cleanup_files(self) -> None:
         """Remove not tracked files from the repository."""
@@ -1862,7 +1897,7 @@ class GitRepository(Repository):
     def list_remote_branches(self, *, timeout: float = 3600) -> list[str]:
         """Return a list of remote branch names by querying the remote repository using 'git ls-remote --heads origin'."""
         branches = self.execute(
-            [*self.get_auth_args(), "ls-remote", "--heads", "origin"],
+            ["ls-remote", "--heads", "origin"],
             remote_op="pull",
             needs_lock=False,
             environment=self.get_auth_environment(),
@@ -1885,7 +1920,7 @@ class GitRepository(Repository):
         refspec = f"+refs/heads/{branch}:refs/remotes/origin/{branch}"
         # Update existing branch only, not changing depth
         self.execute(
-            [*self.get_auth_args(), "fetch", "--no-tags", "origin", refspec],
+            ["fetch", "--no-tags", "origin", refspec],
             remote_op="pull",
             environment=self.get_auth_environment(),
         )
@@ -1915,7 +1950,6 @@ class GitRepository(Repository):
         )
         self.execute(
             [
-                *self.get_auth_args(),
                 *self.get_push_command(force=force),
                 "origin",
                 refspec,
@@ -1928,7 +1962,7 @@ class GitRepository(Repository):
 
     def unshallow(self) -> None:
         self.execute(
-            [*self.get_auth_args(), "fetch", "--unshallow"],
+            ["fetch", "--unshallow"],
             remote_op="pull",
             environment=self.get_auth_environment(),
         )
@@ -2477,6 +2511,22 @@ class GitMergeRequestBase(GitRepository):
     def get_credentials_configuration(cls):
         return getattr(settings, cls.get_credentials_name())
 
+    @classmethod
+    def validate_fork_remote_name(cls, name: str | None) -> str:
+        """Validate a forge username before using it as a Git remote name."""
+        if not isinstance(name, str) or not name or name.startswith("-"):
+            raise RepositoryError(0, f"{name!r} is not a valid fork remote name")
+        try:
+            cls._popen(
+                ["check-ref-format", f"refs/remotes/{name}/weblate"],
+                merge_err=False,
+            )
+        except RepositoryError as error:
+            raise RepositoryError(
+                0, f"{name!r} is not a valid fork remote name"
+            ) from error
+        return name
+
     def get_credentials(self) -> GitCredentials:
         scheme, username, password, host, owner, slug = self.parse_repo_url()
         hostname = self.format_api_host(host).lower()
@@ -2497,6 +2547,7 @@ class GitMergeRequestBase(GitRepository):
             push_scheme = "ssh"
             username = credentials["username"]
             password = credentials["token"]
+        username = self.validate_fork_remote_name(username)
 
         result: GitCredentials = {
             "url": self.format_url(scheme, hostname, owner, slug),
@@ -2757,8 +2808,10 @@ class GitMergeRequestBase(GitRepository):
         component = self.component
         if component is None:
             raise RepositoryError(0, "Repository operation requires component.")
-        lines = render_template(
-            component.effective_pull_message.strip(), component=component
+        lines = render_repository_template(
+            component.effective_pull_message.strip(),
+            setting="pull request message",
+            component=component,
         ).splitlines()
         return lines[0], "\n".join(lines[1:]).strip()
 
@@ -2867,7 +2920,7 @@ class GitMergeRequestBase(GitRepository):
                 with start_span(op="vcs.api_sleep", name=vcs_id):
                     sleep(next_api_time - now)
             try:
-                response = fetch_url(
+                response = fetch_validated_url(
                     method,
                     url,
                     headers=self.get_headers(credentials),
@@ -2876,8 +2929,16 @@ class GitMergeRequestBase(GitRepository):
                     json=json,
                     auth=self.get_auth(credentials),
                     timeout=settings.VCS_API_TIMEOUT,
+                    max_response_size=VCS_RESPONSE_SIZE,
+                    allow_private_targets=not settings.VCS_RESTRICT_PRIVATE,
+                    private_allowlist=[
+                        *settings.VCS_ALLOW_HOSTS,
+                        *settings.VCS_PRIVATE_ALLOWLIST,
+                    ],
                     raise_for_status=False,
                 )
+            except ValidationError as error:
+                raise RepositoryError(0, str(error)) from error
             except (OSError, httpx2.HTTPError) as error:
                 report_error("Git API request")
                 raise RepositoryError(0, str(error)) from error
@@ -2923,9 +2984,8 @@ class GitMergeRequestBase(GitRepository):
         self.log(f"HTTP {method} {url}")
         cache_id = self.request_time_cache_key
         lock = WeblateLock(
-            scope="vcs:api:throttle",
+            scope=LockScope.VCS_API_THROTTLE,
             key=vcs_id,
-            slug=vcs_id,
             timeout=3 * max(settings.VCS_API_DELAY, 10),
         )
         try:
@@ -3583,16 +3643,14 @@ class GithubRepository(GitMergeRequestBase):
             error_text = error_message or ""
             # Gracefully handle pull request already exists or nothing to merge cases
             if "A pull request already exists" in error_text:
-                # Weblate pushed onto a branch which already has an open pull
-                # request. Automerge might have been turned on since it was
-                # created, so make sure it is applied to it as well.
-                if self.wants_automerge():
+                # Apply the current configuration to the open pull request
+                if self.wants_pull_request_configuration():
                     existing = self.find_open_pull_request(
                         credentials, head, origin_branch
                     )
                     if existing is None:
                         return None
-                    self.enable_automerge(credentials, existing)
+                    self.configure_pull_request(credentials, existing, existing=True)
                     return existing.get("html_url")
                 return self.get_existing_pull_request_url(
                     credentials, head, origin_branch
@@ -3625,10 +3683,193 @@ class GithubRepository(GitMergeRequestBase):
                 response_data,
             )
 
-        if self.wants_automerge():
-            self.enable_automerge(credentials, response_data)
+        self.configure_pull_request(credentials, response_data, existing=False)
 
         return response_data.get("html_url")
+
+    def wants_pull_request_configuration(self) -> bool:
+        """Check whether created pull requests need additional configuration."""
+        return self.wants_pull_request_customization() or self.wants_automerge()
+
+    def wants_pull_request_customization(self) -> bool:
+        """Check whether created pull requests need labels or assignees."""
+        return wants_pull_request_customization(
+            None if self.component is None else self.component.vcs_params
+        )
+
+    def configure_pull_request(
+        self, credentials: GitCredentials, pull_request: dict, *, existing: bool
+    ) -> None:
+        """Apply configured labels, assignees and automatic merging."""
+        if self.wants_pull_request_customization():
+            self.customize_pull_request(credentials, pull_request, existing=existing)
+        if self.wants_automerge():
+            self.enable_automerge(credentials, pull_request)
+
+    def get_acting_user_github_login(self, credentials: GitCredentials) -> str | None:
+        """Return the acting user's linked GitHub login for this host."""
+        user = get_acting_user()
+        if user is None or user.is_anonymous:
+            return None
+        providers: tuple[str, ...]
+        if credentials["hostname"] == "api.github.com":
+            providers = GITHUB_SOCIAL_PROVIDERS
+        else:
+            providers = tuple(
+                provider
+                for provider, setting in GITHUB_ENTERPRISE_SOCIAL_PROVIDERS.items()
+                if urlparse(getattr(settings, setting, "")).hostname
+                == credentials["hostname"]
+            )
+            if not providers:
+                return None
+        social = user.social_auth.filter(provider__in=providers).order_by("id").first()
+        return None if social is None else social.extra_data.get("login")
+
+    def customize_pull_request(
+        self, credentials: GitCredentials, pull_request: dict, *, existing: bool
+    ) -> None:
+        """Add configured labels and assignees missing on the pull request."""
+        present_labels = {label["name"].casefold() for label in pull_request["labels"]}
+        labels = [
+            label
+            for label in parse_pull_request_labels(
+                cast("str", self.get_vcs_param(MergeRequestLabels))
+            )
+            if label.casefold() not in present_labels
+        ]
+
+        # GitHub logins are case-insensitive, compare them lowercased
+        configured = cast("str", self.get_vcs_param(MergeRequestAssignee)).casefold()
+        # Assign the acting user only to new pull requests, not on every push
+        acting_user = ""
+        if not existing and self.get_vcs_param(MergeRequestAssignActingUser):
+            acting_user = (
+                self.get_acting_user_github_login(credentials) or ""
+            ).casefold()
+        present_assignees = {
+            assignee["login"].casefold() for assignee in pull_request["assignees"]
+        }
+        assignees = [
+            assignee
+            for assignee in dict.fromkeys((configured, acting_user))
+            if assignee and assignee not in present_assignees
+        ]
+
+        # Only the first failure is shown in the alert
+        failure = None
+        if labels:
+            _response_data, failure = self.update_pull_request(
+                credentials, pull_request, "labels", labels
+            )
+        if assignees:
+            response_data, error = self.update_pull_request(
+                credentials, pull_request, "assignees", assignees
+            )
+            if error is None:
+                # GitHub silently skips users without repository access
+                assigned = {
+                    assignee["login"].casefold()
+                    for assignee in response_data["assignees"]
+                }
+                missing = [
+                    assignee for assignee in assignees if assignee not in assigned
+                ]
+                if missing:
+                    self.log(
+                        f"GitHub did not assign {', '.join(missing)}", logging.WARNING
+                    )
+                    error = RepositoryInternalError(
+                        0,
+                        "pull_request_assignees_ignored",
+                        params={"assignees": ", ".join(missing)},
+                    ).get_stored_error()
+            failure = failure or error
+
+        if self.component is None:
+            return
+        if failure is None:
+            self.component.handle_pull_request_update_success()
+        else:
+            self.component.handle_pull_request_update_failure(failure)
+
+    def update_pull_request(
+        self, credentials: GitCredentials, pull_request: dict, key: str, values: list
+    ) -> tuple[dict, str | RepositoryStructuredError | None]:
+        """Add labels or assignees to a pull request."""
+        url = f"{credentials['url']}/issues/{pull_request['number']}/{key}"
+        try:
+            response_data, response, error_message = self.request(
+                "post", credentials, url, json={key: values}
+            )
+        except GitAPIRequestError as error:
+            return {}, self.get_pull_request_update_failure(
+                error.error, url, error.response, error.response_data
+            )
+        except RepositoryError as error:
+            return {}, self.get_pull_request_update_exception(error, url)
+        if not response.is_success:
+            return {}, self.get_pull_request_update_failure(
+                error_message, url, response, response_data
+            )
+        return response_data, None
+
+    def get_pull_request_update_failure(
+        self,
+        error: str,
+        url: str,
+        response: httpx2.Response,
+        data: object,
+    ) -> RepositoryStructuredError:
+        """Log and report a failed pull request customization API request."""
+        self.log(
+            f"Customizing pull request via {url} failed ({response.status_code}): "
+            f"{data or response.text[:500]!r}",
+            level=logging.WARNING,
+        )
+        report_message("Could not customize pull request")
+        return self.get_api_request_failure_error(
+            response, error, code_prefix="pull_request_update_failed"
+        ).get_stored_error()
+
+    def get_pull_request_update_exception(
+        self, error: RepositoryError, url: str
+    ) -> str | RepositoryStructuredError:
+        """Log and report a pull request customization transport error."""
+        self.log(
+            f"Customizing pull request via {url} failed: {error.get_message()}",
+            level=logging.WARNING,
+        )
+        report_message("Could not customize pull request")
+        if isinstance(error, RepositoryInternalError):
+            return error.get_stored_error()
+        return error.get_message()
+
+    def failed_pull_request_configuration(
+        self,
+        error: str,
+        url: str,
+        response: httpx2.Response,
+        data: object,
+    ) -> None:
+        """Report a failed API request looking up the pull request."""
+        if self.wants_pull_request_customization() and self.component is not None:
+            self.component.handle_pull_request_update_failure(
+                self.get_pull_request_update_failure(error, url, response, data)
+            )
+        if self.wants_automerge():
+            self.failed_automerge(error, url, response, data)
+
+    def failed_pull_request_configuration_exception(
+        self, error: RepositoryError, url: str
+    ) -> None:
+        """Report a transport error looking up the pull request."""
+        if self.wants_pull_request_customization() and self.component is not None:
+            self.component.handle_pull_request_update_failure(
+                self.get_pull_request_update_exception(error, url)
+            )
+        if self.wants_automerge():
+            self.failed_automerge_exception(error, url)
 
     def wants_automerge(self) -> bool:
         """Check whether created pull requests should be merged automatically."""
@@ -3666,15 +3907,17 @@ class GithubRepository(GitMergeRequestBase):
                 },
             )
         except GitAPIRequestError as error:
-            self.failed_automerge(
+            self.failed_pull_request_configuration(
                 error.error, pulls_url, error.response, error.response_data
             )
             return None
         except RepositoryError as error:
-            self.failed_automerge_exception(error, pulls_url)
+            self.failed_pull_request_configuration_exception(error, pulls_url)
             return None
         if not response.is_success:
-            self.failed_automerge(error_message, pulls_url, response, response_data)
+            self.failed_pull_request_configuration(
+                error_message, pulls_url, response, response_data
+            )
             return None
         if not isinstance(response_data, list):
             return None
@@ -3682,8 +3925,7 @@ class GithubRepository(GitMergeRequestBase):
             (
                 pull
                 for pull in response_data
-                if "node_id" in pull
-                and pull.get("base", {}).get("ref") == origin_branch
+                if pull.get("base", {}).get("ref") == origin_branch
             ),
             None,
         )
@@ -4058,8 +4300,16 @@ class LocalRepository(GitRepository):
 
     @classmethod
     @contextmanager
-    def build_local_repo(cls, target: str, commit_message: str):
+    def build_local_repo(
+        cls,
+        target: str,
+        commit_message: str,
+        *,
+        lock: RepositoryLock | None = None,
+    ) -> Generator[Self, None, None]:
         repo = cls(target)
+        if lock is not None:
+            repo.lock.replace_lock(lock)
         with repo.lock:
             # Create empty repo
             if os.path.exists(target):
@@ -4108,15 +4358,40 @@ class LocalRepository(GitRepository):
                 return repo
 
     @classmethod
-    def from_files(cls, target: str, files: dict[str, bytes]) -> Self:
-        with cls.build_local_repo(target, "Started translation using Weblate") as repo:
+    def from_files(
+        cls,
+        target: str,
+        files: dict[str, bytes],
+        *,
+        lock: RepositoryLock | None = None,
+    ) -> Self:
+        # Check all names before build_local_repo can replace an existing tree.
+        for name in files:
+            validate_filename(name)
+        with cls.build_local_repo(
+            target, "Started translation using Weblate", lock=lock
+        ) as repo:
             # Create files
             for name, content in files.items():
                 fullname = os.path.join(target, name)
                 dirname = os.path.dirname(fullname)
+                repo.resolve_symlinks(dirname)
                 if not os.path.exists(dirname):
                     os.makedirs(dirname)
-                Path(fullname).write_bytes(content)
+                repo.resolve_symlinks(fullname)
+                temp_name = ""
+                try:
+                    with tempfile.NamedTemporaryFile(
+                        dir=dirname, delete=False
+                    ) as handle:
+                        temp_name = handle.name
+                        handle.write(content)
+                    repo.resolve_symlinks(fullname)
+                    os.replace(temp_name, fullname)
+                    temp_name = ""
+                finally:
+                    if temp_name:
+                        Path(temp_name).unlink(missing_ok=True)
             return repo
 
 

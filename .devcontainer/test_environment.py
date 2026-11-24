@@ -17,7 +17,8 @@ from contextlib import redirect_stderr
 from io import StringIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from unittest.mock import patch
+from time import monotonic
+from unittest.mock import Mock, patch
 
 from environment import Environment, configuration, initialize, main, project_name
 
@@ -408,10 +409,10 @@ class ApplicationTests(unittest.TestCase):
                 "output",
                 side_effect=[json.dumps(entries[:-1]), json.dumps(entries)],
             ),
-            patch("environment.time.sleep") as sleep,
+            patch("environment.time", monotonic=monotonic) as clock,
         ):
             self.assertEqual(self.env.wait(), 0)
-        sleep.assert_called_once()
+        clock.sleep.assert_called_once()
 
     def test_readiness_reports_exit_and_timeout(self) -> None:
         with (
@@ -424,7 +425,7 @@ class ApplicationTests(unittest.TestCase):
         ):
             self.assertEqual(self.env.wait(), 1)
         with (
-            patch("environment.time.monotonic", side_effect=[0, 1801]),
+            patch("environment.time", monotonic=Mock(side_effect=[0, 1801])),
             redirect_stderr(StringIO()),
         ):
             self.assertEqual(self.env.wait(), 1)

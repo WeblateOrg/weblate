@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_tags humanize i18n icons permissions translations user_display %}
+{% load authnames crispy_forms_tags humanize i18n icons permissions translations user_display %}
 
 {% block nav_pills %}
   {% perm 'user.edit' as can_edit_user %}
@@ -27,6 +27,18 @@
          id="tab_api"
          href="#">{% translate "API access" %}</a>
     </li>
+    {% if can_view_team_audit %}
+      <li class="nav-item" role="presentation">
+        <a class="nav-link"
+           id="tab_team_audit"
+           data-bs-target="#team-audit"
+           data-bs-toggle="tab"
+           role="tab"
+           aria-controls="team-audit"
+           aria-selected="false"
+           href="#team-audit">{% translate "Team audit log" %}</a>
+      </li>
+    {% endif %}
   </ul>
 {% endblock nav_pills %}
 
@@ -38,6 +50,7 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
+  {% can_show_personal_api_key request as can_show_api_key %}
 
   {% perm 'user.edit' as can_edit_user %}
 
@@ -96,7 +109,7 @@
                      data-bs-toggle="modal"
                      data-bs-target="#revert_blocked_user_{{ userblock.user.id }}"
                      class="btn btn-link btn-xs"
-                     title="{% translate "Choose cleanup actions" %}">{% icon 'undo.svg' %}</a>
+                     title="{% translate "Choose cleanup actions"|force_escape %}">{% icon 'undo.svg' %}</a>
                   <form action="{% url "unblock-user" project=object.slug %}"
                         method="post"
                         class="inlineform">
@@ -104,7 +117,7 @@
                     <input type="hidden" name="user" value="{{ userblock.user.username }}" />
                     <button type="submit"
                             class="btn btn-link btn-xs"
-                            title="{% translate "Unblock user" %}">{% icon 'close.svg' %}</button>
+                            title="{% translate "Unblock user"|force_escape %}">{% icon 'close.svg' %}</button>
                   </form>
                   <form action="{% url "revert-blocked-user-edits" project=object.slug %}"
                         method="post"
@@ -122,7 +135,7 @@
                             <button type="button"
                                     class="btn-close"
                                     data-bs-dismiss="modal"
-                                    aria-label="{% translate "Close" %}"></button>
+                                    aria-label="{% translate "Close"|force_escape %}"></button>
                           </div>
                           <div class="modal-body">
                             {% blocktranslate with user=userblock.user.username %}Choose which contributions by <b>{{ user }}</b> to clean up in this project.{% endblocktranslate %}
@@ -132,7 +145,7 @@
                             <input type="submit"
                                    name="cleanup_user_contributions"
                                    class="btn btn-danger"
-                                   value="{% translate "Clean up selected contributions" %}" />
+                                   value="{% translate "Clean up selected contributions"|force_escape %}" />
                           </div>
                         </div>
                       </div>
@@ -167,19 +180,19 @@
                     <input type="hidden" name="action" value="resend" />
                     <button type="submit"
                             class="btn btn-link btn-xs"
-                            title="{% translate "Resend invitation" %}">{% icon 'refresh.svg' %}</button>
+                            title="{% translate "Resend invitation"|force_escape %}">{% icon 'refresh.svg' %}</button>
                   </form>
                   <button type="button"
                           class="btn btn-link btn-xs"
                           data-clipboard-value="{{ site_url }}{{ invitation.get_absolute_url }}"
-                          data-clipboard-message="{% translate "Invitation link copied to clipboard." %}"
-                          title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                          data-clipboard-message="{% translate "Invitation link copied to clipboard."|force_escape %}"
+                          title="{% translate "Copy to clipboard"|force_escape %}">{% icon "copy.svg" %}</button>
                   <form action="{{ invitation.get_absolute_url }}" method="post" class="inlineform">
                     {% csrf_token %}
                     <input type="hidden" name="action" value="remove" />
                     <button type="submit"
                             class="btn btn-link btn-xs red"
-                            title="{% translate "Remove invitation" %}">{% icon 'delete.svg' %}</button>
+                            title="{% translate "Remove invitation"|force_escape %}">{% icon 'delete.svg' %}</button>
                   </form>
                 </td>
               </tr>
@@ -211,7 +224,9 @@
               </div>
               <div class="card-body">{{ invite_user_form|crispy }}</div>
               <div class="card-footer">
-                <input type="submit" class="btn btn-primary" value="{% translate "Add" %}" />
+                <input type="submit"
+                       class="btn btn-primary"
+                       value="{% translate "Add"|force_escape %}" />
               </div>
             </div>
           </form>
@@ -228,7 +243,9 @@
               </div>
               <div class="card-body">{{ block_user_form|crispy }}</div>
               <div class="card-footer">
-                <input type="submit" class="btn btn-danger" value="{% translate "Block" %}" />
+                <input type="submit"
+                       class="btn btn-danger"
+                       value="{% translate "Block"|force_escape %}" />
               </div>
             </div>
           </form>
@@ -246,7 +263,9 @@
               {% if invite_email_form %}
                 <div class="card-body">{{ invite_email_form|crispy }}</div>
                 <div class="card-footer">
-                  <input type="submit" class="btn btn-primary" value="{% translate "Invite" %}" />
+                  <input type="submit"
+                         class="btn btn-primary"
+                         value="{% translate "Invite"|force_escape %}" />
                 </div>
               {% else %}
                 <div class="card-body">
@@ -267,7 +286,9 @@
               {% if bulk_invite_form %}
                 <div class="card-body">{{ bulk_invite_form|crispy }}</div>
                 <div class="card-footer">
-                  <input type="submit" class="btn btn-primary" value="{% translate "Invite" %}" />
+                  <input type="submit"
+                         class="btn btn-primary"
+                         value="{% translate "Invite"|force_escape %}" />
                 </div>
               {% else %}
                 <div class="card-body">
@@ -310,12 +331,12 @@
                 <td>
                   <a href="{{ group.get_absolute_url }}"
                      class="btn btn-link btn-xs"
-                     title="{% translate "Edit" %}">{% icon 'pencil.svg' %}</a>
+                     title="{% translate "Edit"|force_escape %}">{% icon 'pencil.svg' %}</a>
                   <a href="#"
                      data-bs-toggle="modal"
                      data-bs-target="#delete_group_{{ group.id }}"
                      class="btn btn-link btn-xs red"
-                     title="{% translate "Delete" %}">{% icon 'delete.svg' %}</a>
+                     title="{% translate "Delete"|force_escape %}">{% icon 'delete.svg' %}</a>
                   <form action="{{ group.get_absolute_url }}" method="post" class="inlineform">
                     {% csrf_token %}
                     <input type="hidden" name="next" value="{{ request.get_full_path }}" />
@@ -333,7 +354,7 @@
                             <button type="button"
                                     class="btn-close"
                                     data-bs-dismiss="modal"
-                                    aria-label="{% translate "Close" %}"></button>
+                                    aria-label="{% translate "Close"|force_escape %}"></button>
                           </div>
                           <div class="modal-body" id="delete_group_body_{{ group.id }}">
                             {% blocktranslate with name=group %}This will delete the team <b>{{ name }}</b> from this project.{% endblocktranslate %}
@@ -345,7 +366,7 @@
                             <input type="submit"
                                    class="btn btn-danger"
                                    name="delete"
-                                   value="{% translate "Delete" %}" />
+                                   value="{% translate "Delete"|force_escape %}" />
                           </div>
                         </div>
                         <!-- /.modal-content -->
@@ -370,7 +391,9 @@
           </div>
           <div class="card-body">{% crispy create_team_form %}</div>
           <div class="card-footer">
-            <input type="submit" class="btn btn-primary" value="{% translate "Add" %}" />
+            <input type="submit"
+                   class="btn btn-primary"
+                   value="{% translate "Add"|force_escape %}" />
           </div>
         </div>
       </form>
@@ -414,7 +437,9 @@
               </div>
               <div class="card-body">{{ create_project_token_form|crispy }}</div>
               <div class="card-footer">
-                <input type="submit" class="btn btn-primary" value="{% translate "Create" %}" />
+                <input type="submit"
+                       class="btn btn-primary"
+                       value="{% translate "Create"|force_escape %}" />
               </div>
             </div>
           </form>
@@ -431,16 +456,21 @@
               <tr>
                 <th>{% translate "Your personal API key:" %}</th>
                 <td>
-                  <span class="auth-token">{{ user.auth_token.key }}</span>
-                  <button type="button"
-                          class="btn btn-link btn-xs"
-                          data-visibility=".auth-token"
-                          title="{% translate "Toggle API key visibility" %}">{% icon "eye.svg" %}</button>
-                  <button type="button"
-                          class="btn btn-link btn-xs"
-                          data-clipboard-value="{{ user.auth_token.key }}"
-                          data-clipboard-message="{% translate "API key copied to clipboard." %}"
-                          title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                  <span class="auth-token">{% personal_api_key request %}</span>
+                  {% if can_show_api_key %}
+                    <button type="button"
+                            class="btn btn-link btn-xs"
+                            data-visibility=".auth-token"
+                            title="{% translate "Toggle API key visibility"|force_escape %}">{% icon "eye.svg" %}</button>
+                    <button type="button"
+                            class="btn btn-link btn-xs"
+                            data-clipboard-value="{{ user.auth_token.key }}"
+                            data-clipboard-message="{% translate "API key copied to clipboard."|force_escape %}"
+                            title="{% translate "Copy to clipboard"|force_escape %}">{% icon "copy.svg" %}</button>
+                  {% else %}
+                    <a href="{% url 'verify-second-factor' %}?next={{ request.path|urlencode }}"
+                       class="btn btn-link btn-xs">{% translate "Verify your identity to view your API key" %}</a>
+                  {% endif %}
                 </td>
               </tr>
             </table>
@@ -453,6 +483,15 @@
       {% include "snippets/ssh-key.html" %}
       {% documentation_icon 'vcs' right=True %}
     </div>
+    {% if can_view_team_audit %}
+      <div class="tab-pane"
+           id="team-audit"
+           role="tabpanel"
+           aria-labelledby="tab_team_audit"
+           tabindex="0">
+        {% include "auth/team-audit-list.html" with entries=team_audit_entries anchor="team-audit" paginator_form="team-audit-paginator-form" %}
+      </div>
+    {% endif %}
   </div>
 
   <form action="{% url "set-groups" project=object.slug %}"
@@ -471,19 +510,26 @@
             <button type="button"
                     class="btn-close"
                     data-bs-dismiss="modal"
-                    aria-label="{% translate "Close" %}"></button>
+                    aria-label="{% translate "Close"|force_escape %}"></button>
           </div>
           <div class="modal-body"
-               data-loading-text="{% translate "Loading…" %}"
-               data-error-text="{% translate "Error while loading form:" %}"></div>
+               data-loading-text="{% translate "Loading…"|force_escape %}"
+               data-error-text="{% translate "Error while loading form:"|force_escape %}"></div>
           <div class="modal-footer">
-            <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" disabled />
+            <input type="submit"
+                   class="btn btn-primary"
+                   value="{% translate "Save"|force_escape %}"
+                   disabled />
           </div>
         </div>
       </div>
     </div>
   </form>
 
+  {% if can_view_team_audit %}
+    <form method="get" action="#team-audit" id="team-audit-paginator-form">
+    </form>
+  {% endif %}
   <form method="get" id="paginator-form">
   </form>
 

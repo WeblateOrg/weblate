@@ -158,7 +158,7 @@ Warn users and follow up
 ------------------------
 
 Send protective advice without waiting for a fix or full technical disclosure,
-using the e-mail and public advisory channels in :doc:`issues`. State affected
+using the user-notification channels described in :doc:`issues`. State affected
 versions, known impact, available actions, and remaining uncertainty. Record
 what was communicated and follow through on promised updates.
 

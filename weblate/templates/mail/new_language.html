@@ -9,7 +9,7 @@
 
   {% else %}
     <p>
-      {% blocktranslate with user=user.get_visible_name %}There has been a request for new language on {{ component }} at {{ site_title }} by {{ user }}.{% endblocktranslate %}
+      {% blocktranslate with user=contributor_name %}There has been a request for new language on {{ component }} at {{ site_title }} by {{ user }}.{% endblocktranslate %}
     </p>
 
     <p>{% translate "Please add the language file to VCS, Weblate will automatically discover it upon next update." %}</p>

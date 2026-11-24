@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 from datetime import timedelta
+from typing import TYPE_CHECKING
 from unittest.mock import patch
 
 from django.contrib.auth.models import AnonymousUser
@@ -40,6 +41,9 @@ from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.utils.files import FileUploadMethod
 from weblate.utils.formatting import render_documentation_icon
 from weblate.workspaces.models import Workspace
+
+if TYPE_CHECKING:
+    from weblate.utils.search import SearchHighlightField
 
 
 class ExtractedHelperRegistrationTest(SimpleTestCase):
@@ -303,6 +307,17 @@ class LocationLinksTest(TestCase):
             """,
         )
 
+    def test_repoweb_template_markup_is_escaped(self) -> None:
+        self.unit.translation.component.repoweb = (
+            'http://example.net/"><b>{{filename}}#L{{line}}'
+        )
+        self.unit.location = "foo.bar:123"
+        result = get_location_links(self.user, self.unit)
+        self.assertNotIn("<b>", result)
+        self.assertIn(
+            'href="http://example.net/&quot;&gt;&lt;b&gt;foo.bar#L123"', result
+        )
+
     def test_default_github_repoweb(self) -> None:
         component = self.unit.translation.component
         component.vcs = "github-app"
@@ -374,6 +389,12 @@ class LocationLinksTest(TestCase):
             </a>
             """,
         )
+
+    def test_broken_editor_template_preserves_location_text(self) -> None:
+        self.unit.translation.component.repoweb = "https://example.net/{{ filename }}"
+        self.user.profile.editor_link = '{{ filename|center:"1048577" }}'
+        self.unit.location = "foo.bar:123"
+        self.assertHTMLEqual(get_location_links(self.user, self.unit), "foo.bar:123")
 
     def test_filename_quote(self) -> None:
         self.unit.translation.component.repoweb = (
@@ -772,7 +793,7 @@ ahoj svete [hello world]">
             ["Translation comment"],
             self.component.source_language,
             glossary=[glossary_unit],
-            search_match="Translation comment",
+            search_match='"Translation comment"',
         )["items"][0]["content"]
         self.assertHTMLEqual(
             content,
@@ -988,6 +1009,39 @@ glosář [glossary]">glossary</span>
             """,
         )
 
+    def test_compact_space_runs(self) -> None:
+        indentation = " " * 40
+        value = f"{indentation}<tag>   text\u00a0end\n{' ' * 8}next"
+        content = format_translation(
+            [value], self.component.source_language, search_match='"   <tag>"'
+        )["items"][0]["content"]
+        markup = fromstring(f"<div>{content}</div>")
+        self.assertEqual(markup.text_content(), value)
+        self.assertEqual(
+            markup.xpath('.//span[@class="hlspace space-run"]/text()'),
+            [indentation[:-3], "   ", " " * 8],
+        )
+        self.assertEqual(markup.xpath('string(.//span[@class="hlmatch"])'), "   <tag>")
+        self.assertEqual(
+            markup.xpath('.//span[@class="space-space"]/text()'), [" "] * 3
+        )
+        self.assertEqual(
+            markup.xpath('.//span[@class="space-nbsp"]/text()'), ["\u00a0"]
+        )
+        self.assertEqual(len(markup.findall(".//br")), 1)
+
+    def test_diff_keeps_individual_space_markers(self) -> None:
+        indentation = " " * 12
+        for value, previous in ((indentation, ""), ("", indentation)):
+            with self.subTest(value=value, previous=previous):
+                content = format_translation(
+                    [f"start\n{value}end"],
+                    self.component.source_language,
+                    diff=f"start\n{previous}end",
+                )["items"][0]["content"]
+                self.assertNotIn("space-run", content)
+                self.assertEqual(content.count('class="space-space"'), len(indentation))
+
     def test_whitespace_special(self) -> None:
         self.assertHTMLEqual(
             format_translation(
@@ -1099,6 +1153,12 @@ class DiffTestCase(SimpleTestCase):
 
     def test_same(self) -> None:
         self.assertEqual(self.html_diff("first text", "first text"), "first text")
+
+    def test_large_change_renders_without_diff(self) -> None:
+        self.assertEqual(
+            self.html_diff("A" * 1000, "<script>" + "B" * 1000),
+            "&lt;script&gt;" + "B" * 1000,
+        )
 
     def test_add(self) -> None:
         self.assertHTMLEqual(
@@ -1215,6 +1275,43 @@ class DiffTestCase(SimpleTestCase):
             '<span class="hlmatch">Hello</span> world!',
         )
 
+    def test_fmtsearchmatch_terms(self) -> None:
+        self.assertHTMLEqual(
+            format_translation(
+                ["Hello world!"], make_language("en"), search_match="world hello"
+            )["items"][0]["content"],
+            """
+            <span class="hlmatch">Hello</span>
+            <span class="hlmatch">world</span>!
+            """,
+        )
+
+    def test_fmtsearchmatch_field(self) -> None:
+        cases: tuple[tuple[SearchHighlightField | None, str], ...] = (
+            ("source", '<span class="hlmatch">Hello</span> world!'),
+            ("target", "Hello world!"),
+            (None, '<span class="hlmatch">Hello</span> world!'),
+        )
+        for search_field, expected in cases:
+            with self.subTest(search_field=search_field):
+                self.assertHTMLEqual(
+                    format_translation(
+                        ["Hello world!"],
+                        make_language("en"),
+                        search_match="source:hello",
+                        search_field=search_field,
+                    )["items"][0]["content"],
+                    expected,
+                )
+
+    def test_fmtsearchmatch_filter_only(self) -> None:
+        self.assertHTMLEqual(
+            format_translation(
+                ["Hello world!"], make_language("en"), search_match="state:<translated"
+            )["items"][0]["content"],
+            "Hello world!",
+        )
+
     def test_fmtsearchmatch_inserted_diff(self) -> None:
         self.assertHTMLEqual(
             format_translation(
@@ -1243,7 +1340,7 @@ class DiffTestCase(SimpleTestCase):
                 ["Hello world"],
                 make_language("en"),
                 diff="Hello  world",
-                search_match="o w",
+                search_match='"o w"',
             )["items"][0]["content"],
             """
             Hell
@@ -1276,7 +1373,7 @@ class FormatterNestingTestCase(SimpleTestCase):
             ["Translation comment"],
             make_language("en"),
             glossary=[self.GlossaryTerm("Translation", "Tradução", [(0, 11)])],
-            search_match="Translation comment",
+            search_match='"Translation comment"',
         )["items"][0]["content"]
         self.assertHTMLEqual(
             content,
@@ -1316,7 +1413,7 @@ Tradução [Translation]">Translation</span> comment
             ["Hello world"],
             make_language("en"),
             diff="Hello  world",
-            search_match="o w",
+            search_match='"o w"',
         )["items"][0]["content"]
         self.assertHTMLEqual(
             content,
@@ -1340,7 +1437,7 @@ Tradução [Translation]">Translation</span> comment
             format_translation(
                 ["Hello  world"],
                 make_language("en"),
-                search_match="o  w",
+                search_match='"o  w"',
             )["items"][0]["content"],
             """
             Hell
@@ -1361,7 +1458,7 @@ Tradução [Translation]">Translation</span> comment
             format_translation(
                 ["Hello\nworld"],
                 make_language("en"),
-                search_match="o\nw",
+                search_match=r'r"o\nw"',
             )["items"][0]["content"],
             """
             Hell
@@ -1382,7 +1479,7 @@ Tradução [Translation]">Translation</span> comment
                 ["Hello  world"],
                 make_language("en"),
                 diff="Hello world",
-                search_match="o  w",
+                search_match='"o  w"',
             )["items"][0]["content"],
             """
             Hell
@@ -1408,7 +1505,7 @@ Tradução [Translation]">Translation</span> comment
                 ["Hello world"],
                 make_language("en"),
                 diff="Hello\nworld",
-                search_match="o w",
+                search_match='"o w"',
             )["items"][0]["content"],
             """
             Hell

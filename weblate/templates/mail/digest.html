@@ -8,5 +8,5 @@
 
 {% block content %}
   {% include "mail/snippets/digest-overlimit.html" %}
-  {% format_last_changes_content last_changes=changes user=user in_email=True %}
+  {% format_last_changes_content last_changes=changes user=subscription_user in_email=True %}
 {% endblock content %}

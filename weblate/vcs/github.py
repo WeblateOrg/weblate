@@ -20,6 +20,7 @@ from urllib.parse import quote, urlencode, urlparse
 import httpx2
 import jwt
 from asgiref.sync import async_to_sync, sync_to_async
+from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
@@ -36,9 +37,9 @@ from weblate.trans.hooks.repository import (
     repo_path,
 )
 from weblate.utils.errors import report_error
-from weblate.utils.requests import async_fetch_url
+from weblate.utils.requests import VCS_RESPONSE_SIZE, async_fetch_validated_url
 from weblate.vcs.base import RepositoryInternalError, RepositoryRedirectError
-from weblate.vcs.git import GithubRepository
+from weblate.vcs.git import GithubRepository, with_git_config
 from weblate.vcs.models import Installation, InstallationProvider
 
 if TYPE_CHECKING:
@@ -334,18 +335,33 @@ def get_github_app_manifest_new_url(hostname: str, org: str | None = None) -> st
     return f"https://{hostname}/settings/apps/new"
 
 
+async def _github_app_request(method: str, url: str, **kwargs) -> httpx2.Response:
+    """Apply the VCS network policy to GitHub App API and OAuth requests."""
+    return await async_fetch_validated_url(
+        method,
+        url,
+        allow_private_targets=not settings.VCS_RESTRICT_PRIVATE,
+        private_allowlist=[
+            *settings.VCS_ALLOW_HOSTS,
+            *settings.VCS_PRIVATE_ALLOWLIST,
+        ],
+        **kwargs,
+    )
+
+
 async def exchange_github_app_manifest_code(
     code: str, hostname: str = "github.com"
 ) -> dict[str, object]:
     """Exchange a temporary manifest code for the created app's credentials."""
     code = quote(normalize_github_callback_code(code), safe="")
     api_base = get_github_api_base(normalize_github_app_hostname(hostname))
-    response = await async_fetch_url(
+    response = await _github_app_request(
         "post",
         f"{api_base}/app-manifests/{code}/conversions",
         headers={"Accept": "application/vnd.github.v3+json"},
         timeout=30,
         raise_for_status=False,
+        max_response_size=VCS_RESPONSE_SIZE,
     )
     response.raise_for_status()
     return response.json()
@@ -395,11 +411,9 @@ def get_github_git_auth_environment(username: str, token: str) -> dict[str, str]
     Use Git's environment-backed config instead of ``git -c`` so installation
     tokens are not exposed in process arguments or VCS breadcrumbs.
     """
-    return {
-        "GIT_CONFIG_COUNT": "1",
-        "GIT_CONFIG_KEY_0": "http.extraHeader",
-        "GIT_CONFIG_VALUE_0": get_github_basic_auth_header(username, token),
-    }
+    return with_git_config(
+        None, ("http.extraHeader", get_github_basic_auth_header(username, token))
+    )
 
 
 def get_github_api_base(hostname: str) -> str:
@@ -426,7 +440,7 @@ async def get_installation_token(
     token = generate_jwt(app_id, private_key_pem)
 
     api_base = get_github_api_base(hostname)
-    response = await async_fetch_url(
+    response = await _github_app_request(
         "post",
         f"{api_base}/app/installations/{installation_id}/access_tokens",
         headers={
@@ -435,6 +449,7 @@ async def get_installation_token(
         },
         timeout=30,
         raise_for_status=False,
+        max_response_size=VCS_RESPONSE_SIZE,
     )
     response.raise_for_status()
     data = response.json()
@@ -460,7 +475,7 @@ async def get_app_installation(
     private_key_pem = validate_private_key(private_key)
     token = generate_jwt(app_id, private_key_pem)
     api_base = get_github_api_base(hostname)
-    response = await async_fetch_url(
+    response = await _github_app_request(
         "get",
         f"{api_base}/app/installations/{installation_id}",
         headers={
@@ -469,6 +484,7 @@ async def get_app_installation(
         },
         timeout=30,
         raise_for_status=False,
+        max_response_size=VCS_RESPONSE_SIZE,
     )
     response.raise_for_status()
     return response.json()
@@ -490,7 +506,7 @@ async def delete_app_installation(
     private_key_pem = validate_private_key(private_key)
     token = generate_jwt(app_id, private_key_pem)
     api_base = get_github_api_base(hostname)
-    response = await async_fetch_url(
+    response = await _github_app_request(
         "delete",
         f"{api_base}/app/installations/{installation_id}",
         headers={
@@ -499,6 +515,7 @@ async def delete_app_installation(
         },
         timeout=30,
         raise_for_status=False,
+        max_response_size=VCS_RESPONSE_SIZE,
     )
     unreachable = response.status_code in GITHUB_UNINSTALL_UNREACHABLE_STATUSES
     if not unreachable:
@@ -534,8 +551,13 @@ async def get_app_repositories(
         "Accept": "application/vnd.github.v3+json",
     }
     while url:
-        response = await async_fetch_url(
-            "get", url, headers=headers, timeout=30, raise_for_status=False
+        response = await _github_app_request(
+            "get",
+            url,
+            headers=headers,
+            timeout=30,
+            raise_for_status=False,
+            max_response_size=VCS_RESPONSE_SIZE,
         )
         response.raise_for_status()
         data = response.json()
@@ -581,7 +603,7 @@ async def get_app_repository(
         app_id, private_key, installation_id, hostname
     )
     api_base = get_github_api_base(hostname)
-    response = await async_fetch_url(
+    response = await _github_app_request(
         "get",
         f"{api_base}/repos/{quote(full_name, safe='/')}",
         headers={
@@ -590,6 +612,7 @@ async def get_app_repository(
         },
         timeout=30,
         raise_for_status=False,
+        max_response_size=VCS_RESPONSE_SIZE,
     )
     if response.status_code == 404:
         return None
@@ -601,7 +624,7 @@ def verify_webhook_signature(
     payload_body: bytes, signature_header: str, secret: str
 ) -> bool:
     """Verify a GitHub X-Hub-Signature-256 header using HMAC-SHA256."""
-    if not signature_header or not signature_header.startswith("sha256="):
+    if not signature_header.isascii() or not signature_header.startswith("sha256="):
         return False
     expected_signature = (
         "sha256="
@@ -674,6 +697,10 @@ class GitHubAppOAuthError(Exception):
     """Raised when the user-authorization step of the install flow fails."""
 
 
+class GitHubAppInvalidCodeError(GitHubAppOAuthError):
+    """GitHub rejected a code and requires fresh user authorization."""
+
+
 def get_github_oauth_base(hostname: str) -> str:
     """Return the base URL hosting the OAuth ``login/oauth`` endpoints."""
     hostname = normalize_github_app_hostname(hostname)
@@ -682,7 +709,7 @@ def get_github_oauth_base(hostname: str) -> str:
 
 async def exchange_github_user_code(config: GitHubAppCredentials, code: str) -> str:
     """Exchange an install-time OAuth ``code`` for a user-to-server access token."""
-    response = await async_fetch_url(
+    response = await _github_app_request(
         "post",
         f"{get_github_oauth_base(config.hostname)}/login/oauth/access_token",
         data={
@@ -693,12 +720,15 @@ async def exchange_github_user_code(config: GitHubAppCredentials, code: str) -> 
         headers={"Accept": "application/json"},
         timeout=30,
         raise_for_status=False,
+        max_response_size=VCS_RESPONSE_SIZE,
     )
     response.raise_for_status()
     payload = response.json()
     token = payload.get("access_token")
     if not token:
         msg = f"GitHub did not return a user access token: {payload.get('error')}"
+        if payload.get("error") == "bad_verification_code":
+            raise GitHubAppInvalidCodeError(msg)
         raise GitHubAppOAuthError(msg)
     return token
 
@@ -708,12 +738,13 @@ async def get_authenticated_github_user(
 ) -> dict:
     """Return metadata for the authenticated GitHub user."""
     api_base = get_github_api_base(normalize_github_app_hostname(config.hostname))
-    response = await async_fetch_url(
+    response = await _github_app_request(
         "get",
         f"{api_base}/user",
         headers=_get_github_user_headers(user_token),
         timeout=30,
         raise_for_status=False,
+        max_response_size=VCS_RESPONSE_SIZE,
     )
     response.raise_for_status()
     return response.json()
@@ -735,8 +766,13 @@ async def _get_user_accessible_installation(
     url: str | None = f"{api_base}/user/installations?per_page=100"
     headers = _get_github_user_headers(user_token)
     while url:
-        response = await async_fetch_url(
-            "get", url, headers=headers, timeout=30, raise_for_status=False
+        response = await _github_app_request(
+            "get",
+            url,
+            headers=headers,
+            timeout=30,
+            raise_for_status=False,
+            max_response_size=VCS_RESPONSE_SIZE,
         )
         response.raise_for_status()
         for installation in response.json().get("installations", []):
@@ -760,8 +796,13 @@ async def user_can_administer_org_installation(
     )
     headers = _get_github_user_headers(user_token)
     while url:
-        response = await async_fetch_url(
-            "get", url, headers=headers, timeout=30, raise_for_status=False
+        response = await _github_app_request(
+            "get",
+            url,
+            headers=headers,
+            timeout=30,
+            raise_for_status=False,
+            max_response_size=VCS_RESPONSE_SIZE,
         )
         try:
             response.raise_for_status()
@@ -1155,7 +1196,7 @@ class GitHubInstallation(Installation):
                     self.hostname,
                     full_name,
                 )
-            except httpx2.HTTPError as error:
+            except (ValidationError, httpx2.HTTPError) as error:
                 await sync_to_async(report_error)(
                     "Failed to look up moved GitHub repository", exception=error
                 )
@@ -1294,7 +1335,7 @@ def remove_github_installation(
                 installation.installation_id,
                 installation.hostname,
             )
-        except (ValueError, TypeError, ValidationError, jwt.PyJWTError) as error:
+        except (ValueError, TypeError, jwt.PyJWTError) as error:
             # The stored credentials cannot produce a valid request at all
             report_error(
                 "Failed to uninstall connected GitHub account", exception=error
@@ -1459,7 +1500,7 @@ class GithubAppRepository(GithubRepository):
             raise RepositoryInternalError(
                 0, "github_app_installation_invalid"
             ) from error
-        except httpx2.HTTPError as error:
+        except (ValidationError, httpx2.HTTPError) as error:
             raise RepositoryInternalError(
                 0,
                 "github_app_token_failed",
@@ -1480,11 +1521,9 @@ class GithubAppRepository(GithubRepository):
         if app_creds is None:
             raise RepositoryInternalError(0, "github_app_installation_missing")
 
-        environment = super()._get_auth_environment(repo)
-        environment.update(
-            get_github_git_auth_environment(app_creds["username"], app_creds["token"])
+        return get_github_git_auth_environment(
+            app_creds["username"], app_creds["token"]
         )
-        return environment
 
     def get_auth_environment(self) -> dict[str, str]:
         if self.component is None:
@@ -1495,10 +1534,15 @@ class GithubAppRepository(GithubRepository):
     def get_remote_branch(cls, _repo: str) -> str:
         raise RepositoryInternalError(0, "github_app_branch_required")
 
-    def _resolve_github_app_token(self, _hostname: str) -> dict[str, str] | None:
+    def _resolve_github_app_token(self, hostname: str) -> dict[str, str] | None:
         """Resolve an installation access token for the parsed repository."""
         if self.component is None:
             raise RepositoryInternalError(0, "github_app_workspace_required")
+        if (
+            normalize_github_app_hostname(hostname)
+            != urlparse(self.component.repo).hostname
+        ):
+            return None
         workspace = self._get_component_workspace()
         return GithubAppRepository._resolve_github_app_credentials_for_repo(
             self.component.repo, workspace=workspace

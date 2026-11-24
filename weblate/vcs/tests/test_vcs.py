@@ -13,8 +13,8 @@ import shutil
 # ruff: ignore[suspicious-subprocess-import]
 import subprocess
 import tempfile
-from configparser import RawConfigParser
-from contextlib import ExitStack
+from concurrent.futures import ThreadPoolExecutor
+from contextlib import ExitStack, nullcontext
 from datetime import datetime
 from io import BytesIO
 from os import utime
@@ -27,6 +27,8 @@ from zipfile import ZIP_DEFLATED, ZipFile
 
 import httpx2
 from django.core.cache import cache
+from django.core.exceptions import ValidationError
+from django.db import connections
 from django.test import SimpleTestCase, TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
@@ -39,8 +41,10 @@ from weblate.trans.tests.utils import (
     TEST_VCS_ALLOW_SCHEMES,
     RepoTestMixin,
     TempDirMixin,
+    can_lock_repository,
 )
 from weblate.utils.files import REPO_TEMP_DIRNAME
+from weblate.utils.lock import LockScope, WeblateLock, WeblateLockTimeoutError
 from weblate.utils.render import render_template
 from weblate.utils.tests import http_mock
 from weblate.utils.zip import ZipSafetyLimits
@@ -50,6 +54,7 @@ from weblate.vcs.base import (
     RepositoryCommandError,
     RepositoryError,
     RepositoryInternalError,
+    RepositoryLock,
     RepositoryRedirectError,
     RepositoryRestrictedPathError,
     RepositorySymlinkError,
@@ -83,6 +88,8 @@ from weblate.vcs.ssh import SSH_WRAPPER, add_host_key
 
 if TYPE_CHECKING:
     from contextlib import AbstractContextManager
+
+    from weblate.vcs.base import RepositoryRecoveryEvent
 
 
 class AzureDevOpsFakeRepository(AzureDevOpsRepository):
@@ -157,7 +164,7 @@ class BrokenGitChildRepository(BrokenGitRepository):
         return "1.0"
 
 
-class RepositoryTest(SimpleTestCase):
+class RepositoryTest(TestCase):
     def create_git_repository(
         self,
         tempdir: str,
@@ -342,10 +349,39 @@ class RepositoryTest(SimpleTestCase):
 
         self.assertEqual(str(error), "Can not switch subversion URL (-1)")
 
+    def test_repository_error_diagnoses_not_temporary(self) -> None:
+        for message in (
+            "The requested URL returned error: 401",
+            "The requested URL returned error: 403",
+            "The requested URL returned error: 404",
+            "The requested URL returned error: 501",
+            "The requested URL returned error: 5020",
+            (
+                "fatal: could not read Username for 'https://git.example': "
+                "terminal prompts disabled"
+            ),
+            "fatal: repository 'https://git.example/repo/' not found",
+        ):
+            with self.subTest(message=message):
+                self.assertNotIn(
+                    "temporary_failure",
+                    {
+                        diagnosis["code"]
+                        for diagnosis in get_repository_error_diagnoses(message)
+                    },
+                )
+
     def test_repository_error_diagnoses(self) -> None:
         cases = (
             ("The requested URL returned error: 301", "repository_redirect"),
             ("fatal: terminal prompts disabled", "missing_credentials"),
+            (
+                (
+                    "remote: Authentication failed: your SSH key has expired. To restore "
+                    "access, visit https://aka.ms/ado-ssh-public-key-expired for guidance."
+                ),
+                "azure_devops_ssh_key_expired",
+            ),
             ("rejected: fetch first", "branch_behind"),
             ("Repository not found.", "repository_not_found"),
             ("push denied to user", "repository_permission"),
@@ -359,6 +395,10 @@ class RepositoryTest(SimpleTestCase):
                 "git_lfs_missing_objects",
             ),
             ("Connection timed out", "temporary_failure"),
+            ("The requested URL returned error: 500", "temporary_failure"),
+            ("The requested URL returned error: 502", "temporary_failure"),
+            ("The requested URL returned error: 503", "temporary_failure"),
+            ("The requested URL returned error: 504", "temporary_failure"),
             ("Host key verification failed", "ssh_host_key_unverified"),
             (
                 (
@@ -649,6 +689,75 @@ class RepositoryTest(SimpleTestCase):
             self.assertIn(
                 "Failed to clean repository temp entry", captured_logs.output[0]
             )
+
+    def test_status_uses_shared_lock_and_exclusive_retry(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            self.create_git_repository(tempdir)
+            component = Component(
+                pk=123, slug="component", project=Project(slug="project")
+            )
+            repo = GitRepository(tempdir, component=component, local=True)
+            check_key = get_config_check_cache_key(123)
+            cache.delete(check_key)
+            self.addCleanup(cache.delete, check_key)
+            attempts = []
+
+            def run(args, **kwargs) -> str:
+                if args[0] == "branch":
+                    return "main"
+                exclusive = repo.lock.is_locked
+                self.assertTrue(repo.lock.is_read_locked)
+                self.assertEqual(
+                    can_lock_repository(component.pk, shared=True), not exclusive
+                )
+                self.assertFalse(can_lock_repository(component.pk))
+                attempts.append(exclusive)
+                if not exclusive:
+                    self.assertFalse(kwargs["retry"])
+                    if args[-1] == "stale":
+                        raise RepositoryCommandError(1, "stale index lock")
+                return " M file"
+
+            def configure() -> None:
+                self.assertTrue(repo.lock.is_locked)
+
+            with (
+                patch.object(repo, "_popen", side_effect=run),
+                patch.object(repo, "check_config", side_effect=configure) as config,
+                patch.object(repo, "ensure_lock_session_recovered"),
+            ):
+                self.assertTrue(repo.needs_commit())
+                self.assertTrue(repo.needs_commit(["file"]))
+                self.assertTrue(repo.needs_commit(["stale"]))
+                with repo.lock:
+                    self.assertTrue(repo.needs_commit())
+                self.assertFalse(repo.needs_commit([]))
+            self.assertEqual(attempts, [True, False, False, True, True])
+            config.assert_called_once_with()
+
+    def test_read_lock_recovers_interrupted_checkout_exclusively(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            repo, git_dir = self.create_git_repository(tempdir)
+            marker = git_dir / "MERGE_HEAD"
+            marker.touch()
+
+            def recover() -> list[RepositoryRecoveryEvent]:
+                self.assertTrue(repo.lock.is_locked)
+                marker.unlink()
+                return []
+
+            with (
+                patch.object(repo, "get_current_branch", return_value="main"),
+                patch.object(
+                    repo, "recover_lock_session", side_effect=recover
+                ) as recovery,
+            ):
+                for _ in range(2):
+                    with repo.lock.read():
+                        self.assertFalse(repo.lock.is_locked)
+                        self.assertTrue(repo.lock.is_read_locked)
+                        self.assertFalse(marker.exists())
+                recovery.assert_called_once_with()
 
     def test_lock_session_recovery_runs_once_per_outer_lock(self) -> None:
         with tempfile.TemporaryDirectory() as tempdir:
@@ -1189,7 +1298,7 @@ class RepositoryTest(SimpleTestCase):
         )
 
 
-class GitCrashRecoveryTest(SimpleTestCase, RepoTestMixin, TempDirMixin):
+class GitCrashRecoveryTest(TestCase, RepoTestMixin, TempDirMixin):
     def setUp(self) -> None:
         super().setUp()
         if not GitRepository.is_supported():
@@ -1255,7 +1364,6 @@ class GitCrashRecoveryTest(SimpleTestCase, RepoTestMixin, TempDirMixin):
         conflict_path = Path(self.tempdir) / "recovery-conflict.txt"
         with self.repo.lock:
             original_revision = self.repo.get_last_revision()
-            self.repo.set_committer("Weblate Test", "weblate@example.com")
             conflict_path.write_text("TRACKED\n", encoding="utf-8")
             self.assertTrue(
                 self.repo.commit("Add recovery conflict", files=[conflict_path.name])
@@ -1288,7 +1396,6 @@ class GitBranchValidationTest(SimpleTestCase):
     def test_remote_branch_lookup_timeout(self) -> None:
         repo = GitRepository(".", local=True)
         with (
-            patch.object(GitRepository, "get_auth_args", return_value=[]),
             patch.object(GitRepository, "get_auth_environment", return_value={}),
             patch.object(
                 GitRepository, "execute", return_value="abc\trefs/heads/feature\n"
@@ -1305,7 +1412,6 @@ class GitBranchValidationTest(SimpleTestCase):
         repo.local = False
         error = RepositoryCommandError(1, "Remote lookup failed")
         with (
-            patch.object(GitRepository, "get_auth_args", return_value=[]),
             patch.object(GitRepository, "get_auth_environment", return_value={}),
             patch.object(GitRepository, "validate_pull_url", return_value=None),
             patch.object(GitRepository, "_popen", side_effect=error) as popen,
@@ -1460,6 +1566,23 @@ class GitBranchValidationTest(SimpleTestCase):
         )
         self.assertIsInstance(component.repository, GitRepository)
 
+    def test_invalid_pull_message_is_repository_error(self) -> None:
+        component = Component(
+            slug="test",
+            name="Test",
+            project=Project(name="Test", slug="test", pk=-1),
+            source_language_id=1,
+            branch="main",
+            vcs="git",
+            repo="https://example.invalid/repo.git",
+            pk=-1,
+            pull_message="{% invalid %}",
+            inherit_pull_message=False,
+        )
+        repo = GithubFakeRepository(".", branch="main", component=component, local=True)
+        with self.assertRaisesMessage(RepositoryError, "pull request message"):
+            repo.get_merge_message()
+
     def test_default_pull_message_title_ignores_multiline_names(self) -> None:
         component = Component(
             slug="test",
@@ -1587,7 +1710,128 @@ class RepositoryHostKeyErrorTest(SimpleTestCase):
         )
 
 
+class GitRuntimeConfigTest(SimpleTestCase):
+    def test_global_setup_only_writes_installation_config(self) -> None:
+        execute = GitRepository._popen  # ruff: ignore[private-member-access]
+        with (
+            tempfile.TemporaryDirectory() as directory,
+            override_settings(DATA_DIR=directory),
+            patch.object(
+                GitRepository,
+                "get_merge_driver",
+                return_value="/bin/git-merge-gettext-po",
+            ),
+        ):
+            home = Path(directory, "home")
+            home.mkdir()
+            GitRepository.global_setup()
+
+            self.assertEqual(
+                execute(["config", "--global", "--name-only", "--list"]).splitlines(),
+                [
+                    "merge.weblate-merge-gettext-po.name",
+                    "merge.weblate-merge-gettext-po.driver",
+                ],
+            )
+            self.assertEqual(
+                (home / ".config" / "git" / "attributes").read_text(encoding="utf-8"),
+                "*.po merge=weblate-merge-gettext-po\n",
+            )
+
+    def test_runtime_policy_overrides_persisted_git_config(self) -> None:
+        execute = GitRepository._popen  # ruff: ignore[private-member-access]
+        with (
+            tempfile.TemporaryDirectory() as directory,
+            override_settings(
+                DATA_DIR=directory,
+                DEFAULT_COMMITER_NAME="Weblate Ž",
+                DEFAULT_COMMITER_EMAIL="weblate@example.org",
+            ),
+        ):
+            home = Path(directory, "home")
+            home.mkdir()
+            shared_config = home / ".gitconfig"
+            shared_config.write_text(
+                '[protocol "http"]\n    allow = never\n'
+                "[maintenance]\n    auto = true\n",
+                encoding="utf-8",
+            )
+            checkout = Path(directory, "repo")
+            GitRepository.create_blank_repository(str(checkout))
+            checkout_config = checkout / ".git" / "config"
+            with checkout_config.open("a", encoding="utf-8") as config:
+                config.write(
+                    "[user]\n    name = Stale\n    email = stale@example.org\n"
+                    "[committer]\n    name = Stale\n    email = stale@example.org\n"
+                    "[gc]\n    auto = 100\n"
+                    "[push]\n    default = nothing\n"
+                )
+
+            original_shared = shared_config.read_bytes()
+            checkout_defaults = checkout_config.read_text(encoding="utf-8")
+            for schemes, stale, expected in (
+                ({"http", "https", "ssh"}, "never", "always"),
+                ({"https", "ssh"}, "always", "never"),
+            ):
+                checkout_config.write_text(
+                    checkout_defaults + f'[protocol "http"]\n    allow = {stale}\n',
+                    encoding="utf-8",
+                )
+                original_checkout = checkout_config.read_bytes()
+                with (
+                    self.subTest(schemes=schemes),
+                    override_settings(VCS_ALLOW_SCHEMES=schemes),
+                ):
+                    for key, value in (
+                        ("protocol.http.allow", expected),
+                        ("maintenance.auto", "0"),
+                        ("gc.auto", "0"),
+                        ("push.default", "current"),
+                    ):
+                        self.assertEqual(
+                            execute(
+                                ["config", "--get", key], cwd=str(checkout)
+                            ).strip(),
+                            value,
+                        )
+                    self.assertEqual(checkout_config.read_bytes(), original_checkout)
+
+            original_checkout = checkout_config.read_bytes()
+            execute(
+                [
+                    "commit",
+                    "--allow-empty",
+                    "--author=Translator <translator@example.org>",
+                    "--message=Test identity",
+                ],
+                cwd=str(checkout),
+            )
+            self.assertEqual(
+                execute(
+                    ["log", "-1", "--format=%an <%ae>%n%cn <%ce>"],
+                    cwd=str(checkout),
+                ).splitlines(),
+                [
+                    "Translator <translator@example.org>",
+                    "Weblate Ž <weblate@example.org>",
+                ],
+            )
+            self.assertEqual(
+                (shared_config.read_bytes(), checkout_config.read_bytes()),
+                (original_shared, original_checkout),
+            )
+
+
 class RepositoryRemotePinningTest(SimpleTestCase):
+    @staticmethod
+    def get_command_config(environment: dict[str, str]) -> dict[str, str]:
+        return {
+            environment[f"GIT_CONFIG_KEY_{index}"]: environment[
+                f"GIT_CONFIG_VALUE_{index}"
+            ]
+            for index in range(int(environment["GIT_CONFIG_COUNT"]))
+        }
+
     def test_git_lfs_transfers_are_disabled(self) -> None:
         # ruff: ignore[private-member-access]
         environment = GitRepository._getenv(
@@ -1644,7 +1888,7 @@ class RepositoryRemotePinningTest(SimpleTestCase):
         request = http_mock.calls[0].request
         self.assertEqual(
             str(http_mock.get_transport_url(request)),
-            "https://user:secret@93.184.216.34/owner/repo/"
+            "https://user:secret@93.184.216.34/owner/repo/"  # kingfisher:ignore
             "info/refs?service=git-upload-pack",
         )
         self.assertEqual(request.headers["Host"], "git.example")
@@ -1834,17 +2078,13 @@ class RepositoryRemotePinningTest(SimpleTestCase):
             branch = GitRepository.get_remote_branch("https://git.example/repo.git")
 
         self.assertEqual(branch, "main")
-        args = popen.call_args.args[0]
         self.assertEqual(
-            args[:6],
-            [
-                "-c",
-                "http.proxy=",
-                "-c",
-                "http.curloptResolve=git.example:443:93.184.216.34,[2001:4860:4860::8888]",
-                "-c",
-                "http.followRedirects=false",
-            ],
+            self.get_command_config(popen.call_args.kwargs["environment"]),
+            {
+                "http.proxy": "",
+                "http.curloptResolve": "git.example:443:93.184.216.34,[2001:4860:4860::8888]",
+                "http.followRedirects": "false",
+            },
         )
 
     @override_settings(
@@ -1873,27 +2113,12 @@ class RepositoryRemotePinningTest(SimpleTestCase):
 
         self.assertEqual(branch, "main")
         getaddrinfo.assert_not_called()
-        args = popen.call_args.args[0]
-        self.assertNotIn(
-            "http.curloptResolve=git.example:443:93.184.216.34",
-            args,
-        )
-        self.assertNotIn("http.proxy=", args)
-        self.assertIn("http.followRedirects=false", args)
-        environment = popen.call_args.kwargs["environment"]
         self.assertEqual(
-            environment,
+            self.get_command_config(popen.call_args.kwargs["environment"]),
             {
-                "GIT_CONFIG_COUNT": "1",
-                "GIT_CONFIG_KEY_0": "http.proxy",
-                "GIT_CONFIG_VALUE_0": "http://proxy.example:8080",
+                "http.proxy": "http://proxy.example:8080",
+                "http.followRedirects": "false",
             },
-        )
-        self.assertEqual(
-            GitRepository._getenv(environment)[  # ruff: ignore[private-member-access]
-                "GIT_CONFIG_VALUE_0"
-            ],
-            "http://proxy.example:8080",
         )
 
     def test_https_proxy_preserves_command_authentication(self) -> None:
@@ -1913,14 +2138,24 @@ class RepositoryRemotePinningTest(SimpleTestCase):
             target,  # type: ignore[arg-type]
         )
 
+        self.assertIsNotNone(environment)
+        runtime_environment = GitRepository._getenv(  # ruff: ignore[private-member-access]
+            environment
+        )
+        config = self.get_command_config(runtime_environment)
+        self.assertEqual(config["http.extraHeader"], "Authorization: Basic secret")
+        self.assertEqual(config["http.proxy"], "http://proxy.example:8080")
+        self.assertEqual(config["http.followRedirects"], "false")
+        self.assertEqual(config["protocol.https.allow"], "always")
+        self.assertEqual(authentication["GIT_CONFIG_COUNT"], "1")
+
+    def test_url_password_enables_proactive_authentication(self) -> None:
+        repository = GitRepository(".", local=True)
+        environment = repository._get_auth_environment(  # ruff: ignore[private-member-access]
+            "https://user:password@git.example/repo.git"
+        )
         self.assertEqual(
-            environment,
-            {
-                **authentication,
-                "GIT_CONFIG_COUNT": "2",
-                "GIT_CONFIG_KEY_1": "http.proxy",
-                "GIT_CONFIG_VALUE_1": "http://proxy.example:8080",
-            },
+            self.get_command_config(environment), {"http.proactiveAuth": "auto"}
         )
 
     @override_settings(
@@ -1943,9 +2178,11 @@ class RepositoryRemotePinningTest(SimpleTestCase):
         ):
             GitRepository.get_remote_branch("https://faß.example/repo.git")
 
-        self.assertIn(
-            "http.curloptResolve=xn--fa-hia.example:443:93.184.216.34",
-            popen.call_args.args[0],
+        self.assertEqual(
+            self.get_command_config(popen.call_args.kwargs["environment"])[
+                "http.curloptResolve"
+            ],
+            "xn--fa-hia.example:443:93.184.216.34",
         )
         self.assertEqual(getaddrinfo.call_args.args[0], "xn--fa-hia.example")
 
@@ -1970,12 +2207,10 @@ class RepositoryRemotePinningTest(SimpleTestCase):
             ):
                 GitRepository.get_remote_branch(url)
 
-            args = popen.call_args.args[0]
-            self.assertFalse(
-                any(arg.startswith("http.curloptResolve=") for arg in args)
+            self.assertEqual(
+                self.get_command_config(popen.call_args.kwargs["environment"]),
+                {"http.proxy": "", "http.followRedirects": "false"},
             )
-            self.assertIn("http.followRedirects=false", args)
-            self.assertIn("http.proxy=", args)
 
     @override_settings(
         VCS_ALLOW_HOSTS=set(),
@@ -1998,9 +2233,11 @@ class RepositoryRemotePinningTest(SimpleTestCase):
 
         args = popen.call_args.args[0]
         getaddrinfo.assert_called_once()
-        self.assertIn(
-            "http.curloptResolve=git.example:443:93.184.216.34",
-            args,
+        self.assertEqual(
+            self.get_command_config(popen.call_args.kwargs["environment"])[
+                "http.curloptResolve"
+            ],
+            "git.example:443:93.184.216.34",
         )
         self.assertIn("https://git.example/repo.git", args)
 
@@ -2197,6 +2434,189 @@ class RepositoryRemotePinningTest(SimpleTestCase):
         get_remote_args.assert_not_called()
 
 
+@override_settings(
+    VCS_RESTRICT_PRIVATE=True,
+    VCS_ALLOW_HOSTS=[],
+    VCS_PRIVATE_ALLOWLIST=[],
+    VCS_API_DELAY=0,
+    CACHES={"default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"}},
+)
+class HostingAPIOutboundTest(SimpleTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.repo = BitbucketCloudRepository(".", local=True)
+        self.credentials = git_module.GitCredentials(
+            url="https://forge.example/api",
+            owner="owner",
+            slug="repo",
+            hostname="forge.example",
+            username="bot",
+            token="secret",
+            scheme="https",
+            push_scheme="ssh",
+        )
+        self.enterContext(
+            patch("weblate.vcs.git.WeblateLock", return_value=nullcontext())
+        )
+        self.enterContext(
+            patch("weblate.utils.requests.get_environment_proxy", return_value=None)
+        )
+        self.resolve = self.enterContext(
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
+            )
+        )
+        cache.clear()
+
+    @override_settings(VCS_API_DELAY=120)
+    def test_throttle_contention_retries_with_configured_budget(self) -> None:
+        lock = WeblateLock(
+            scope=LockScope.VCS_API_THROTTLE, key=self.repo.get_identifier()
+        )
+        busy = WeblateLockTimeoutError("busy", lock=lock)
+        response = httpx2.Response(200)
+        with (
+            patch("weblate.vcs.git.WeblateLock", return_value=lock) as constructor,
+            patch.object(
+                self.repo,
+                "send_api_request",
+                side_effect=[busy, (False, {}, response, False)],
+            ) as send,
+        ):
+            self.assertEqual(
+                self.repo.request("get", self.credentials, self.credentials["url"]),
+                ({}, response, ""),
+            )
+        self.assertEqual(send.call_count, 2)
+        constructor.assert_called_with(
+            scope=LockScope.VCS_API_THROTTLE,
+            key=self.repo.get_identifier(),
+            timeout=360,
+        )
+
+    @http_mock.activate
+    def test_public_redirect_pins_each_request(self) -> None:
+        http_mock.register(
+            "GET",
+            self.credentials["url"],
+            status_code=302,
+            headers={"Location": "https://other.example/api"},
+        )
+        http_mock.register("GET", "https://other.example/api", json={"values": []})
+        data, _response, error = self.repo.request(
+            "get", self.credentials, self.credentials["url"]
+        )
+        self.assertEqual(data, {"values": []})
+        self.assertEqual(error, "")
+        self.assertEqual(self.resolve.call_count, 2)
+        self.assertEqual(len(http_mock.calls), 2)
+        for request_call in http_mock.calls:
+            self.assertEqual(
+                http_mock.get_transport_url(request_call.request).host, "93.184.216.34"
+            )
+
+    @http_mock.activate
+    def test_private_initial_url_rejected(self) -> None:
+        with self.assertRaises(RepositoryError):
+            self.repo.request("get", self.credentials, "http://127.0.0.1/api")
+        self.assertEqual(len(http_mock.calls), 0)
+
+    @http_mock.activate
+    def test_private_redirect_rejected(self) -> None:
+        http_mock.register(
+            "GET",
+            self.credentials["url"],
+            status_code=302,
+            headers={"Location": "http://169.254.169.254/api"},
+        )
+        with self.assertRaises(RepositoryError):
+            self.repo.request("get", self.credentials, self.credentials["url"])
+        self.assertEqual(len(http_mock.calls), 1)
+
+    @http_mock.activate
+    def test_redirect_dns_rebinding_rejected(self) -> None:
+        self.resolve.side_effect = [
+            [(0, 0, 0, "", ("93.184.216.34", 443))],
+            [(0, 0, 0, "", ("10.0.0.1", 443))],
+        ]
+        http_mock.register(
+            "GET",
+            self.credentials["url"],
+            status_code=302,
+            headers={"Location": "/next"},
+        )
+        with self.assertRaises(RepositoryError):
+            self.repo.request("get", self.credentials, self.credentials["url"])
+        self.assertEqual(self.resolve.call_count, 2)
+        self.assertEqual(len(http_mock.calls), 1)
+
+    @http_mock.activate
+    @override_settings(VCS_PRIVATE_ALLOWLIST=["forge.example"])
+    def test_allowlisted_host_does_not_exempt_redirect_target(self) -> None:
+        http_mock.register(
+            "GET",
+            self.credentials["url"],
+            status_code=302,
+            headers={"Location": "http://127.0.0.1/api"},
+        )
+        with self.assertRaises(RepositoryError):
+            self.repo.request("get", self.credentials, self.credentials["url"])
+        self.assertEqual(len(http_mock.calls), 1)
+
+    @http_mock.activate
+    def test_private_pagination_rejected(self) -> None:
+        http_mock.register(
+            "GET",
+            self.credentials["url"],
+            json={"values": [], "next": "http://127.0.0.1/api"},
+        )
+        with self.assertRaises(RepositoryError):
+            self.repo.build_full_paginated_result(
+                self.credentials, self.credentials["url"], "Could not paginate"
+            )
+        self.assertEqual(len(http_mock.calls), 1)
+
+    @http_mock.activate
+    def test_private_dns_rejected(self) -> None:
+        self.resolve.return_value = [(0, 0, 0, "", ("10.0.0.1", 443))]
+        with self.assertRaises(RepositoryError):
+            self.repo.request("get", self.credentials, self.credentials["url"])
+        self.assertEqual(len(http_mock.calls), 0)
+
+    @http_mock.activate
+    def test_private_peer_rejected(self) -> None:
+        http_mock.register("GET", self.credentials["url"], json={"values": []})
+        with (
+            patch(
+                "weblate.utils.requests._get_response_peer_ip", return_value="10.0.0.1"
+            ),
+            self.assertRaises(RepositoryError),
+        ):
+            self.repo.request("get", self.credentials, self.credentials["url"])
+        self.assertEqual(len(http_mock.calls), 1)
+
+    @http_mock.activate
+    def test_private_host_exemptions(self) -> None:
+        self.resolve.return_value = [(0, 0, 0, "", ("10.0.0.1", 443))]
+        http_mock.register("GET", self.credentials["url"], json={"values": []})
+        for configuration in (
+            {"VCS_RESTRICT_PRIVATE": False},
+            {"VCS_ALLOW_HOSTS": ["forge.example"]},
+            {"VCS_PRIVATE_ALLOWLIST": [".example"]},
+        ):
+            with (
+                self.subTest(configuration=configuration),
+                override_settings(**configuration),
+            ):
+                data, _response, error = self.repo.request(
+                    "get", self.credentials, self.credentials["url"]
+                )
+                self.assertEqual(data, {"values": []})
+                self.assertEqual(error, "")
+        self.assertEqual(len(http_mock.calls), 3)
+
+
 class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     _class: type[Repository] = GitRepository
     _vcs = "git"
@@ -2238,7 +2658,9 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         GitRepository.create_blank_repository(path)
         unrelated = GitRepository(path, branch=GitRepository.default_branch, local=True)
         with unrelated.lock:
-            unrelated.set_committer("Test", "test@example.net")
+            unrelated.config_update(
+                ("user", "name", "Test"), ("user", "email", "test@example.net")
+            )
             Path(path, "README.md").write_text("Unrelated\n", encoding="utf-8")
             unrelated.commit(
                 "Initial commit",
@@ -2302,7 +2724,6 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             self.fixup_repo(repo)
 
             with repo.lock:
-                repo.set_committer("Second Bar", "second@example.net")
                 if rename:
                     shutil.move(
                         os.path.join(tempdir, "README.md"),
@@ -2338,6 +2759,31 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         else:
             dirname = f".{self._vcs}"
         self.assertTrue(os.path.exists(os.path.join(self.tempdir, dirname)))
+
+    @override_settings(VCS_CLONE_DEPTH=1)
+    def test_clone_does_not_fetch_tags(self) -> None:
+        if self._class is not GitRepository:
+            self.skipTest("GitRepository-specific regression test")
+
+        with self.repo.lock:
+            self.repo.execute(
+                ["update-ref", "refs/tags/--list", self.repo.last_revision],
+                remote_op="none",
+            )
+            self.repo.execute(
+                ["push", "origin", "refs/tags/--list:refs/tags/--list"],
+                remote_op="push",
+            )
+
+        with tempfile.TemporaryDirectory() as tempdir:
+            cloned = self.clone_repo(tempdir)
+            with cloned.lock:
+                self.assertEqual(
+                    "",
+                    cloned.execute(
+                        ["tag", "--list"], remote_op="none", merge_err=False
+                    ),
+                )
 
     def test_revision(self) -> None:
         self.assertEqual(self.repo.last_revision, self.repo.last_remote_revision)
@@ -2437,6 +2883,21 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             patch.object(self.repo, "execute", side_effect=mocked_execute),
         ):
             self.repo.remove_stale_branches()
+
+    def test_maintenance_deletes_option_like_tag(self) -> None:
+        if self._class is not GitRepository:
+            self.skipTest("GitRepository-specific regression test")
+
+        with self.repo.lock:
+            self.repo.execute(
+                ["update-ref", "refs/tags/--list", self.repo.last_revision],
+                remote_op="none",
+            )
+            self.repo.maintenance()
+            self.assertEqual(
+                "",
+                self.repo.execute(["tag", "--list"], remote_op="none", merge_err=False),
+            )
 
     def test_update_remote_runtime_private_url_rejected(self) -> None:
         if self._class in {SubversionRepository, HgRepository, LocalRepository}:
@@ -2723,7 +3184,9 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             )
             work = GitRepository(work_path, branch=branch, local=True)
             with work.lock:
-                work.set_committer("Test", "test@example.net")
+                work.config_update(
+                    ("user", "name", "Test"), ("user", "email", "test@example.net")
+                )
                 Path(work_path, "README.md").write_text("A\n", encoding="utf-8")
                 work.commit(
                     "A", "Test <test@example.net>", timezone.now(), ["README.md"]
@@ -2878,16 +3341,8 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     def test_get_version(self) -> None:
         self.assertNotEqual(self._class.get_version(), "")
 
-    def test_set_committer(self) -> None:
-        with self.repo.lock:
-            self.repo.set_committer("Foo Bar Žač", "foo@example.net")
-        self.assertEqual(self.repo.get_config("user.name"), "Foo Bar Žač")
-        self.assertEqual(self.repo.get_config("user.email"), "foo@example.net")
-
     def test_commit(self, committer="Foo Bar") -> None:
         committer_email = f"{committer} <foo@example.com>"
-        with self.repo.lock:
-            self.repo.set_committer(committer, "foo@example.net")
         # Create test file
         Path(os.path.join(self.tempdir, "testfile")).write_bytes(b"TEST FILE\n")
 
@@ -2943,8 +3398,6 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         self.test_commit("Zkouška Sirén")
 
     def test_remove(self) -> None:
-        with self.repo.lock:
-            self.repo.set_committer("Foo Bar", "foo@example.net")
         self.assertTrue(os.path.exists(os.path.join(self.tempdir, "po/cs.po")))
         with self.repo.lock:
             self.repo.remove(["po/cs.po"], "Remove Czech translation")
@@ -2995,16 +3448,6 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
 
                 with self.assertRaises(RepositoryError):
                     self.repo.get_config("remote.origin.pushURL")
-
-    def test_check_config_disables_git_auto_maintenance(self) -> None:
-        if not issubclass(self._class, GitRepository):
-            self.skipTest("Git specific configuration")
-
-        self.repo.check_config()
-
-        self.assertEqual(self.repo.get_config("push.default"), "current")
-        self.assertEqual(self.repo.get_config("maintenance.auto"), "0")
-        self.assertEqual(self.repo.get_config("gc.auto"), "0")
 
     def test_configure_branch(self) -> None:
         # Existing branch
@@ -3107,6 +3550,42 @@ class VCSGiteaTest(VCSGitUpstreamTest):
     _vcs = "git"
     _sets_push = False
     _repo_override = "https://try.gitea.io/WeblateOrg/test.git"
+
+    def test_fork_remote_name_from_url_credentials(self) -> None:
+        url = "https://--output=.:token@try.gitea.io/WeblateOrg/test.git"  # kingfisher:ignore
+        for field in ("push", "repo"):
+            with self.subTest(field=field):
+                self.repo.component.repo = self._repo_override
+                self.repo.component.push = ""
+                setattr(self.repo.component, field, url)
+                with self.assertRaisesRegex(
+                    RepositoryError, "not a valid fork remote name"
+                ):
+                    self.repo.get_credentials()
+
+    def test_fork_remote_name_from_configuration(self) -> None:
+        with (
+            override_settings(
+                GITEA_CREDENTIALS={
+                    "try.gitea.io": {"username": "--force", "token": "token"}
+                }
+            ),
+            self.assertRaisesRegex(RepositoryError, "not a valid fork remote name"),
+        ):
+            self.repo.get_credentials()
+
+    def test_fork_remote_name_must_be_valid_ref_component(self) -> None:
+        self.repo.component.push = (
+            "https://bad name:token@try.gitea.io/WeblateOrg/test.git"
+        )
+        with self.assertRaisesRegex(RepositoryError, "not a valid fork remote name"):
+            self.repo.get_credentials()
+
+    def test_fork_remote_name_accepts_valid_url_credentials(self) -> None:
+        self.repo.component.push = (
+            "https://alice:token@try.gitea.io/WeblateOrg/test.git"  # kingfisher:ignore
+        )
+        self.assertEqual(self.repo.get_credentials()["username"], "alice")
 
     @http_mock.activate
     def test_pull_request_returns_browser_url(self) -> None:
@@ -3648,9 +4127,7 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
 
     def test_api_url_visualstudio_com(self) -> None:
         # HTTPS with PAT
-        self.repo.component.repo = (
-            "https://username:PAT@summanv.visualstudio.com/Lancelot/_git/GoSuite"
-        )
+        self.repo.component.repo = "https://username:PAT@summanv.visualstudio.com/Lancelot/_git/GoSuite"  # kingfisher:ignore
         self.assertEqual(
             self.repo.get_credentials()["url"],
             "https://summanv.visualstudio.com/Lancelot/_apis/git/repositories/GoSuite",
@@ -4448,6 +4925,8 @@ class VCSGitHubTest(VCSGitUpstreamTest):
 
     GRAPHQL_URL = "https://api.github.com/graphql"
     MERGE_URL = "https://api.github.com/repos/WeblateOrg/test/pulls/1/merge"
+    LABELS_URL = "https://api.github.com/repos/WeblateOrg/test/issues/1/labels"
+    ASSIGNEES_URL = "https://api.github.com/repos/WeblateOrg/test/issues/1/assignees"
 
     def get_calls(self, url: str) -> list:
         return [
@@ -4456,6 +4935,204 @@ class VCSGitHubTest(VCSGitUpstreamTest):
 
     def mock_automerge_response(self, data: dict, status: int = 200) -> None:
         http_mock.register("POST", self.GRAPHQL_URL, json=data, status_code=status)
+
+    PULLS_URL = "https://api.github.com/repos/WeblateOrg/test/pulls"
+    PULL_REQUEST: ClassVar[dict] = {
+        "url": "https://github.com/WeblateOrg/test/pull/1",
+        "number": 1,
+        "labels": [],
+        "assignees": [],
+    }
+
+    def push_with_customization(
+        self, acting_user: str | None = None, existing: dict | None = None, **params
+    ) -> tuple[MagicMock, MagicMock]:
+        """Push with pull request customization, returning the alert handlers."""
+        if existing is None:
+            self.mock_responses(pr_response=self.PULL_REQUEST)
+        else:
+            self.mock_responses(
+                pr_status=422,
+                pr_response={"errors": [{"message": "A pull request already exists"}]},
+            )
+            http_mock.register(
+                "GET",
+                self.PULLS_URL,
+                json=[{**self.PULL_REQUEST, "base": {"ref": "main"}, **existing}],
+            )
+        self.repo.component.vcs_params = params
+        with (
+            patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork", return_value=""),
+            patch.object(
+                self.repo, "get_acting_user_github_login", return_value=acting_user
+            ),
+            patch.object(
+                self.repo.component, "handle_pull_request_update_failure"
+            ) as handle_failure,
+            patch.object(
+                self.repo.component, "handle_pull_request_update_success"
+            ) as handle_success,
+        ):
+            super().test_push("")
+        return handle_failure, handle_success
+
+    def get_payload(self, url: str) -> dict:
+        calls = self.get_calls(url)
+        self.assertEqual(len(calls), 1)
+        return json.loads(calls[0].request.content)
+
+    @http_mock.activate
+    def test_pull_request_labels_and_assignees(self) -> None:
+        http_mock.register("POST", self.LABELS_URL, json=[])
+        http_mock.register(
+            "POST",
+            self.ASSIGNEES_URL,
+            json={"assignees": [{"login": "Maintainer"}, {"login": "translator"}]},
+            status_code=201,
+        )
+
+        handle_failure, handle_success = self.push_with_customization(
+            acting_user="translator",
+            merge_request_assignee="maintainer",
+            merge_request_assign_acting_user=True,
+            merge_request_labels="translations, documentation",
+        )
+
+        self.assertEqual(
+            self.get_payload(self.LABELS_URL),
+            {"labels": ["translations", "documentation"]},
+        )
+        self.assertEqual(
+            self.get_payload(self.ASSIGNEES_URL),
+            {"assignees": ["maintainer", "translator"]},
+        )
+        handle_failure.assert_not_called()
+        handle_success.assert_called_once()
+
+    @http_mock.activate
+    def test_pull_request_ignored_assignee_is_reported(self) -> None:
+        http_mock.register(
+            "POST",
+            self.ASSIGNEES_URL,
+            json={"assignees": [{"login": "translator"}]},
+            status_code=201,
+        )
+
+        handle_failure, handle_success = self.push_with_customization(
+            merge_request_assignee="maintainer"
+        )
+
+        handle_failure.assert_called_once_with(
+            {
+                "code": "pull_request_assignees_ignored",
+                "retcode": 0,
+                "params": {"assignees": "maintainer"},
+            }
+        )
+        handle_success.assert_not_called()
+
+    @http_mock.activate
+    def test_pull_request_ignored_acting_user_is_reported(self) -> None:
+        http_mock.register(
+            "POST",
+            self.ASSIGNEES_URL,
+            json={"assignees": [{"login": "maintainer"}]},
+            status_code=201,
+        )
+
+        handle_failure, handle_success = self.push_with_customization(
+            acting_user="translator",
+            merge_request_assignee="maintainer",
+            merge_request_assign_acting_user=True,
+        )
+
+        handle_failure.assert_called_once_with(
+            {
+                "code": "pull_request_assignees_ignored",
+                "retcode": 0,
+                "params": {"assignees": "translator"},
+            }
+        )
+        handle_success.assert_not_called()
+
+    @http_mock.activate
+    def test_pull_request_customization_applied_to_existing_request(self) -> None:
+        http_mock.register("POST", self.LABELS_URL, json=[])
+
+        self.push_with_customization(existing={}, merge_request_labels="translations")
+
+        self.assertEqual(
+            self.get_payload(self.LABELS_URL), {"labels": ["translations"]}
+        )
+
+    @http_mock.activate
+    def test_pull_request_existing_customization_skips_present_values(self) -> None:
+        handle_failure, handle_success = self.push_with_customization(
+            acting_user="translator",
+            existing={
+                "labels": [{"name": "Translations"}],
+                "assignees": [{"login": "maintainer"}],
+            },
+            merge_request_labels="translations",
+            merge_request_assignee="maintainer",
+            merge_request_assign_acting_user=True,
+        )
+
+        # Nothing is missing and the pushing user is not assigned to an open
+        # pull request
+        self.assertEqual(self.get_calls(self.LABELS_URL), [])
+        self.assertEqual(self.get_calls(self.ASSIGNEES_URL), [])
+        handle_failure.assert_not_called()
+        handle_success.assert_called_once()
+
+    @http_mock.activate
+    def test_pull_request_customization_error_does_not_fail_push(self) -> None:
+        http_mock.register(
+            "POST",
+            self.LABELS_URL,
+            status_code=403,
+            json={"message": "Resource not accessible by integration"},
+        )
+        http_mock.register(
+            "POST", self.ASSIGNEES_URL, json={"assignees": []}, status_code=201
+        )
+
+        handle_failure, _handle_success = self.push_with_customization(
+            merge_request_labels="translations", merge_request_assignee="maintainer"
+        )
+
+        # The first failure is reported, the assignees are still applied
+        handle_failure.assert_called_once()
+        stored_error = handle_failure.call_args[0][0]
+        self.assertEqual(stored_error["code"], "pull_request_update_failed_with_error")
+        self.assertEqual(
+            stored_error["params"]["error"], "Resource not accessible by integration"
+        )
+        self.assertEqual(len(self.get_calls(self.ASSIGNEES_URL)), 1)
+
+    @http_mock.activate
+    def test_pull_request_customization_lookup_error_is_reported(self) -> None:
+        self.mock_responses(
+            pr_status=422,
+            pr_response={"errors": [{"message": "A pull request already exists"}]},
+        )
+        http_mock.register(
+            "GET", self.PULLS_URL, status_code=403, json={"message": "Forbidden"}
+        )
+        self.repo.component.vcs_params = {"merge_request_labels": "translations"}
+
+        with (
+            patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork", return_value=""),
+            patch.object(
+                self.repo.component, "handle_pull_request_update_failure"
+            ) as handle_failure,
+        ):
+            super().test_push("")
+
+        handle_failure.assert_called_once()
+        stored_error = handle_failure.call_args[0][0]
+        self.assertEqual(stored_error["code"], "pull_request_update_failed_with_error")
+        self.assertEqual(stored_error["params"]["error"], "Forbidden")
 
     def push_with_automerge(self, branch: str = "", **vcs_params) -> None:
         self.repo.component.vcs_params = {
@@ -5011,7 +5688,9 @@ class VCSGitLabTest(VCSGitUpstreamTest):
             self.repo.get_credentials()["url"],
             "http://gitlab.com/api/v4/projects/WeblateOrg%2Ftest",
         )
-        self.repo.component.repo = "https://user:pass@gitlab.com/WeblateOrg/test.git"
+        self.repo.component.repo = (
+            "https://user:pass@gitlab.com/WeblateOrg/test.git"  # kingfisher:ignore
+        )
         self.assertEqual(
             self.repo.get_credentials()["url"],
             "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest",
@@ -5057,7 +5736,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         )
         self.assertEqual(
             self.repo.parse_repo_url(
-                "https://bot:glpat@gitlab.com/path/group/repo.git"
+                "https://bot:glpat@gitlab.com/path/group/repo.git"  # kingfisher:ignore
             ),
             ("https", "bot", "glpat", "gitlab.com", "path", "group/repo"),
         )
@@ -5947,6 +6626,40 @@ class VCSHgTest(VCSGitTest):
             self.repo.get_file(filename, self.repo.last_revision), "COMMITTED FILE\n"
         )
 
+    def test_commit_option_shaped_message_and_author(self) -> None:
+        for filename, message, author in (
+            (
+                "message-file",
+                "--config=alias.commit=version",
+                "Test <test@example.net>",
+            ),
+            (
+                "author-file",
+                "First line\nSecond line",
+                "--config=alias.commit=version",
+            ),
+        ):
+            with self.subTest(filename=filename):
+                Path(self.tempdir, filename).write_text("CONTENT\n", encoding="utf-8")
+                old_revision = self.repo.last_revision
+
+                with self.repo.lock:
+                    self.repo.commit(message, author, timezone.now(), [filename])
+
+                self.assertNotEqual(self.repo.last_revision, old_revision)
+                self.assertEqual(
+                    self.repo.execute(
+                        ["log", "--rev=.", "--template={desc}"],
+                        remote_op="none",
+                        needs_lock=False,
+                    ),
+                    message,
+                )
+                self.assertEqual(
+                    self.repo.get_revision_info(self.repo.last_revision)["author"],
+                    author,
+                )
+
     def test_count_outgoing_runtime_private_url_rejected(self) -> None:
         self.repo.component.repo = "https://private.example/repo"
         with (
@@ -5994,23 +6707,99 @@ class VCSLocalTest(VCSGitTest):
         # Global setup to configure git committer
         GitRepository.global_setup()
 
-    def test_global_setup_disables_git_auto_maintenance(self) -> None:
-        with tempfile.TemporaryDirectory() as data_dir:
-            home = Path(data_dir) / "home"
-            home.mkdir()
-
-            with override_settings(DATA_DIR=data_dir):
-                GitRepository.global_setup()
-
-            config = RawConfigParser()
-            config.read(home / ".gitconfig")
-            self.assertEqual(config.get("maintenance", "auto"), "0")
-            self.assertEqual(config.get("gc", "auto"), "0")
-
     def test_status(self) -> None:
         status = self.repo.status()
         # Older git print up-to-date, newer up to date
         self.assertIn("On branch main", status)
+
+    def test_from_files_rejects_outside_paths_before_replacing_target(self) -> None:
+        target = Path(self.tempdir, "new-repository")
+        target.mkdir()
+        sentinel = target / "sentinel.txt"
+        sentinel.write_bytes(b"original")
+        outside = Path(self.tempdir, "outside.txt")
+        outside.write_bytes(b"outside original")
+
+        for name in (str(outside), "../outside.txt"):
+            with self.subTest(name=name), self.assertRaises(ValidationError):
+                LocalRepository.from_files(str(target), {name: b"replacement"})
+            self.assertEqual(sentinel.read_bytes(), b"original")
+            self.assertEqual(outside.read_bytes(), b"outside original")
+
+        repo = LocalRepository.from_files(
+            str(target), {"nested/translation.txt": b"translation"}
+        )
+        self.assertTrue(repo.is_valid())
+        self.assertEqual(
+            (target / "nested" / "translation.txt").read_bytes(), b"translation"
+        )
+
+    def test_from_files_holds_supplied_lock_through_cleanup(self) -> None:
+        target = os.path.join(self.tempdir, "shared-lock")
+        lock = RepositoryLock(
+            LocalRepository(target),
+            WeblateLock(
+                scope=LockScope.REPOSITORY,
+                key="local-initialization-test",
+                timeout=0,
+            ),
+        )
+
+        def acquire_competing_lock() -> bool:
+            competing = WeblateLock(
+                scope=LockScope.REPOSITORY,
+                key="local-initialization-test",
+                timeout=0,
+            )
+            try:
+                with competing:
+                    return True
+            except WeblateLockTimeoutError:
+                return False
+            finally:
+                connections.close_all()
+
+        original_remove_tree = git_module.remove_tree
+        with ThreadPoolExecutor(max_workers=1) as executor:
+
+            def remove_while_locked(path, **kwargs):
+                self.assertFalse(
+                    executor.submit(acquire_competing_lock).result(timeout=5)
+                )
+                return original_remove_tree(path, **kwargs)
+
+            # Successful initialization reenters the caller's lock, and no
+            # competing component operation may write during file population.
+            with (
+                lock,
+                LocalRepository.build_local_repo(
+                    target, "Initialize test repository", lock=lock
+                ),
+            ):
+                self.assertFalse(
+                    executor.submit(acquire_competing_lock).result(timeout=5)
+                )
+                Path(target, "translation.txt").write_bytes(b"translation")
+            self.assertTrue(executor.submit(acquire_competing_lock).result(timeout=5))
+
+            with (
+                patch.object(LocalRepository, "commit", side_effect=OSError("failed")),
+                patch.object(
+                    git_module, "remove_tree", side_effect=remove_while_locked
+                ),
+                self.assertRaisesRegex(OSError, "failed"),
+            ):
+                LocalRepository.from_files(
+                    target, {"translation.txt": b"translation"}, lock=lock
+                )
+
+            self.assertFalse(Path(target).exists())
+            self.assertTrue(executor.submit(acquire_competing_lock).result(timeout=5))
+            repo = LocalRepository.from_files(
+                target, {"translation.txt": b"retry"}, lock=lock
+            )
+            self.assertTrue(repo.is_valid())
+            self.assertFalse(repo.needs_commit())
 
     def test_upstream_changes(self) -> NoReturn:
         self.skipTest("Not supported")

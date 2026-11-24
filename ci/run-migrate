@@ -102,6 +102,22 @@ if [ "$bot_membership_cleanup" -eq 0 ]; then
     check
 fi
 
+# Exercise the repair after the previous token cleanup migrations already ran.
+semver_compare "$1" ">=" "2026.10" && semver_compare "$1" "<" "2026.11.2"
+project_token_repair=$?
+if [ "$project_token_repair" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-project-token-repair.py"
+    check
+fi
+
+# Seed built-in role identity and custom roles before editable role synchronization.
+semver_compare "$1" "<" "2026.11"
+editable_roles_migrate=$?
+if [ "$editable_roles_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-editable-roles.py"
+    check
+fi
+
 # Add a pending unit
 semver_compare "$1" "<" "5.12"
 pending_migration_test=$?
@@ -126,6 +142,14 @@ semver_compare "$1" "<" "5.16"
 file_format_encoding_merge=$?
 if [ "$file_format_encoding_merge" -eq 0 ]; then
     ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-formats.py"
+    check
+fi
+
+# Seed legacy Libre requests before billing stores pending approval separately.
+semver_compare "$1" "<" "2026.12"
+libre_request_migrate=$?
+if [ "$libre_request_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-libre-requests.py"
     check
 fi
 
@@ -187,6 +211,22 @@ if [ "$xliff_params_migrate" -eq 0 ]; then
     check
 fi
 
+# Seed duplicate zero plurals before their cleanup and uniqueness migrations.
+semver_compare "$1" "<" "2026.11.2"
+zero_plurals_migrate=$?
+if [ "$zero_plurals_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-zero-plurals.py"
+    check
+fi
+
+# Seed invalid GitHub App push settings before the cleanup migration.
+semver_compare "2026.7" "<=" "$1" && semver_compare "$1" "<" "2026.11.2"
+github_app_push_migrate=$?
+if [ "$github_app_push_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-github-app-push.py"
+    check
+fi
+
 # Seed an ordinary workflow before the source-workflow gate function is installed.
 semver_compare "$1" "<" "2026.10"
 source_workflow_gate_migrate=$?
@@ -200,6 +240,16 @@ semver_compare "2026.10" "<=" "$1" && semver_compare "$1" "<" "2026.10.1"
 automation_audit_redaction_migrate=$?
 if [ "$automation_audit_redaction_migrate" -eq 0 ]; then
     ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-automation-audit-redaction.py"
+    check
+fi
+
+# Exercise releases with alert dismissal snapshots and CDN activity logs.
+semver_compare "2026.10" "<=" "$1" && semver_compare "$1" "<" "2026.12"
+cdn_alert_redaction_migrate=$?
+if [ "$cdn_alert_redaction_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-cdn-alert-redaction.py"
+    check
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-process-alert-redaction.py"
     check
 fi
 
@@ -227,6 +277,29 @@ if [ "$screenshot_extensions_migrate" -eq 0 ]; then
     check
 fi
 
+semver_compare "$1" "<" "2026.11"
+legacy_email_migrate=$?
+if [ "$legacy_email_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-legacy-email-alias.py"
+    check
+fi
+
+# Populate URL slug conflicts using the previous release's database constraints.
+semver_compare "2026.11" "<=" "$1" && semver_compare "$1" "<" "2026.12"
+case_insensitive_slugs_migrate=$?
+if [ "$case_insensitive_slugs_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-case-insensitive-slugs.py"
+    check
+fi
+
+# Exercise component history ownership on the previous release schema.
+semver_compare "2026.11" "<=" "$1" && semver_compare "$1" "<" "2026.12"
+change_projects_migrate=$?
+if [ "$change_projects_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-change-projects.py"
+    check
+fi
+
 git reset --hard
 check
 git checkout "$HEAD_COMMIT"
@@ -243,8 +316,30 @@ fi
 # Use CI environment
 deactivate
 check
+if [ "$case_insensitive_slugs_migrate" -eq 0 ]; then
+    if run_coverage ./manage.py migrate > "$MIGRATE_DIR/slug-conflicts.log" 2>&1; then
+        echo "The migration unexpectedly accepted conflicting URL slugs."
+        exit 1
+    fi
+    if ! grep -Fq 'Case-insensitive URL slug conflicts prevent this upgrade' "$MIGRATE_DIR/slug-conflicts.log" ||
+        ! grep -Fq 'Slug-Upgrade-Duplicate' "$MIGRATE_DIR/slug-conflicts.log" ||
+        ! grep -Fq 'Slug-Upgrade/Shared-Component' "$MIGRATE_DIR/slug-conflicts.log"; then
+        cat "$MIGRATE_DIR/slug-conflicts.log"
+        exit 1
+    fi
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/repair-case-insensitive-slugs.py"
+    check
+fi
 run_coverage ./manage.py migrate
 check
+if [ "$change_projects_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-change-projects.py"
+    check
+fi
+if [ "$case_insensitive_slugs_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-case-insensitive-slugs.py"
+    check
+fi
 if [ "$cleanup_settings_migrate" -eq 0 ]; then
     cp "$MIGRATE_DIR/settings_test.py" weblate/settings_test.py
     check
@@ -266,6 +361,12 @@ fi
 # Check automatic bot memberships were cleaned up
 if [ "$bot_membership_cleanup" -eq 0 ]; then
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-bot-memberships.py"
+    check
+fi
+
+# Check project-token authority and orphaned credentials were repaired.
+if [ "$project_token_repair" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-project-token-repair.py"
     check
 fi
 
@@ -294,6 +395,11 @@ fi
 if [ "$billing_users_migrate" -eq 0 ]; then
     # Verify that the user has been migrated from the billing permission to the owner
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-billing.py"
+    check
+fi
+
+if [ "$libre_request_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-libre-requests.py"
     check
 fi
 
@@ -335,10 +441,27 @@ if [ "$source_workflow_gate_migrate" -eq 0 ]; then
     check
 fi
 
+if [ "$github_app_push_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-github-app-push.py"
+    check
+fi
+
+if [ "$zero_plurals_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-zero-plurals.py"
+    check
+fi
+
 if [ "$automation_audit_redaction_migrate" -eq 0 ]; then
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-automation-audit-redaction.py"
     check
 fi
+if [ "$cdn_alert_redaction_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-cdn-alert-redaction.py"
+    check
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-process-alert-redaction.py"
+    check
+fi
+
 if [ "$autotranslate_audit_redaction_migrate" -eq 0 ]; then
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-autotranslate-audit-redaction.py"
     check
@@ -349,5 +472,15 @@ if [ "$machinery_installations_migrate" -eq 0 ]; then
 fi
 if [ "$screenshot_extensions_migrate" -eq 0 ]; then
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-screenshot-extensions.py"
+    check
+fi
+
+if [ "$legacy_email_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-legacy-email-alias.py"
+    check
+fi
+
+if [ "$editable_roles_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-editable-roles.py"
     check
 fi

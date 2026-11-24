@@ -18,14 +18,30 @@ from django.forms.forms import BaseForm
 from django.utils.http import urlencode
 from django.utils.translation import gettext, gettext_lazy
 
-from weblate.screenshots.models import Screenshot
+from weblate.screenshots.models import Screenshot, can_set_screenshot_repository_path
 from weblate.trans.forms import QueryField
 from weblate.utils.forms import AssetImageField, SortedSelect
-from weblate.utils.requests import open_restricted_asset_url
+from weblate.utils.requests import (
+    ResponseTooLarge,
+    fetch_restricted_asset_url,
+)
 from weblate.utils.validators import ALLOWED_IMAGES, WeblateURLValidator
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
+
+    from weblate.auth.models import User
+    from weblate.trans.models import Component
+
+
+def configure_repository_path_field(
+    field: forms.Field, user: User, component: Component
+) -> None:
+    field.disabled = not can_set_screenshot_repository_path(user, component)
+    field.help_text = gettext_lazy(
+        "When the linked file changes, Weblate can replace the screenshot with "
+        "the repository image. Repository access is required to change this path."
+    )
 
 
 class ScreenshotImageValidationMixin(BaseForm):
@@ -33,31 +49,21 @@ class ScreenshotImageValidationMixin(BaseForm):
         raise forms.ValidationError({"image_url": message})
 
     def get_image_url_content(self, url: str) -> tuple[bytes, str]:
-        with open_restricted_asset_url(
-            "get",
-            url,
-            allow_private_targets=not settings.ASSET_RESTRICT_PRIVATE,
-            private_allowlist=settings.ASSET_PRIVATE_ALLOWLIST,
-        ) as response:
-            content = b""
-            for chunk in response.iter_bytes(
-                chunk_size=settings.ALLOWED_ASSET_SIZE + 1
-            ):
-                if not content:
-                    content = chunk
-                else:
-                    # This can be slow, but it typically won't happen
-                    content += chunk
-                if len(content) > settings.ALLOWED_ASSET_SIZE:
-                    break
-            if len(content) > settings.ALLOWED_ASSET_SIZE:
-                self.raise_image_url_error(gettext("Image is too big."))
-            content_type = response.headers.get("Content-Type")
-            if not content_type or content_type not in ALLOWED_IMAGES:
-                self.raise_image_url_error(
-                    gettext("Unsupported image type: %s") % content_type
-                )
-            return content, content_type
+        try:
+            response = fetch_restricted_asset_url(
+                "get",
+                url,
+                allow_private_targets=not settings.ASSET_RESTRICT_PRIVATE,
+                private_allowlist=settings.ASSET_PRIVATE_ALLOWLIST,
+            )
+        except ResponseTooLarge:
+            self.raise_image_url_error(gettext("Image is too big."))
+        content_type = response.headers.get("Content-Type")
+        if not content_type or content_type not in ALLOWED_IMAGES:
+            self.raise_image_url_error(
+                gettext("Unsupported image type: %s") % content_type
+            )
+        return response.content, content_type
 
     def clean_images(
         self, cleaned_data: dict[str, Any], edit: bool = False
@@ -130,8 +136,13 @@ class ScreenshotEditForm(forms.ModelForm, ScreenshotImageValidationMixin):
         # ruff: ignore[mutable-class-default]
         field_classes = {"image": AssetImageField}
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, user: User, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+        configure_repository_path_field(
+            self.fields["repository_filename"],
+            user,
+            self.instance.translation.component,
+        )
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
@@ -143,8 +154,10 @@ class ScreenshotEditForm(forms.ModelForm, ScreenshotImageValidationMixin):
         )
 
     def clean(self):
-        cleaned_data = super().clean()
-        return self.clean_images(cleaned_data or {}, edit=True)
+        cleaned_data = super().clean() or {}
+        if self.fields["repository_filename"].disabled:
+            cleaned_data.pop("repository_filename", None)
+        return self.clean_images(cleaned_data, edit=True)
 
 
 class LanguageChoiceField(forms.ModelChoiceField):
@@ -180,6 +193,9 @@ class ScreenshotForm(forms.ModelForm, ScreenshotImageValidationMixin):
     ) -> None:
         self.component = component
         super().__init__(data=data, files=files, instance=instance, initial=initial)
+        configure_repository_path_field(
+            self.fields["repository_filename"], user, component
+        )
 
         translations = component.translation_set.select_related("language")
         if initial and "translation" in initial:

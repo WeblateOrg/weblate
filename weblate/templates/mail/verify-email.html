@@ -1,0 +1,11 @@
+{% extends "mail/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+  <p>
+    {% blocktranslate %}Verify this e-mail address for your account at {{ site_title }}.{% endblocktranslate %}
+  </p>
+
+  {% include "mail/shared-registration.html" with action="verify-email" %}
+{% endblock content %}

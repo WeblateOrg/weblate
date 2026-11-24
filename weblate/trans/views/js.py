@@ -65,12 +65,15 @@ def diagnostics(request: AuthenticatedHttpRequest, path):
     if isinstance(obj, Project):
         components = obj.component_set.filter_access(request.user)
         show_projects = False
+        libre_cleanup_alerts = obj.libre_cleanup_alerts
     else:
         projects = request.user.allowed_projects.filter(workspace=obj)
         components = Component.objects.filter(project__in=projects).filter_access(
             request.user
         )
         show_projects = True
+        billing = obj.billing_or_none if settings.OFFER_HOSTING else None
+        libre_cleanup_alerts = billing.libre_cleanup_alerts if billing else ()
 
     return render(
         request,
@@ -78,7 +81,9 @@ def diagnostics(request: AuthenticatedHttpRequest, path):
         {
             "object": obj,
             "show_projects": show_projects,
-            **get_diagnostics_context(request.GET, request.user, components),
+            **get_diagnostics_context(
+                request.GET, request.user, components, libre_cleanup_alerts
+            ),
         },
     )
 
@@ -128,14 +133,15 @@ def markdown_preview(request: AuthenticatedHttpRequest) -> HttpResponse:
 @transaction.atomic
 def ignore_check(request: AuthenticatedHttpRequest, check_id):
     obj = get_object_or_404(
-        Check.objects.filter_access(request.user).select_for_update(), pk=int(check_id)
+        Check.objects.filter_access(request.user).select_for_update(of=("self",)),
+        pk=int(check_id),
     )
 
     if not request.user.has_perm("unit.check", obj):
         raise PermissionDenied
 
     # Mark check for ignoring
-    obj.set_dismiss(state="revert" not in request.GET)
+    obj.set_dismiss(state="revert" not in request.GET, user=request.user)
     # response for AJAX
     return JsonResponse({})
 
@@ -148,7 +154,7 @@ def ignore_check_source(request: AuthenticatedHttpRequest, check_id):
     unit = obj.unit.source_unit
 
     if not request.user.has_perm("unit.check", obj) or not request.user.has_perm(
-        "source.edit", unit.translation.component
+        "source.edit", unit.translation
     ):
         raise PermissionDenied
 
@@ -177,16 +183,22 @@ def ignore_check_source(request: AuthenticatedHttpRequest, check_id):
 @login_required
 @transaction.atomic
 def dismiss_automatically_translated(request: AuthenticatedHttpRequest, unit_id):
-    unit = get_object_or_404(Unit.objects.filter_access(request.user), pk=int(unit_id))
-    if not request.user.has_perm("unit.edit", unit):
-        raise PermissionDenied
+    from weblate.trans.models.source import source_operation  # ruff: ignore[import-outside-top-level]
 
-    unit.translate(
-        request.user,
-        unit.target,
-        unit.state,
-        request=request,
-    )
+    unit = get_object_or_404(Unit.objects.filter_access(request.user), pk=int(unit_id))
+    with source_operation(unit.translation.component):
+        unit = get_object_or_404(
+            Unit.objects.filter_access(request.user).select_for_update(), pk=unit.pk
+        )
+        if not request.user.has_perm("unit.edit", unit):
+            raise PermissionDenied
+
+        unit.translate(
+            request.user,
+            unit.get_target_plurals(),
+            unit.state,
+            request=request,
+        )
     return JsonResponse({})
 
 

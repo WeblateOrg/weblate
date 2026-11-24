@@ -14,11 +14,13 @@ import inspect
 import os
 import re
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
+from codecs import BOM_UTF16_LE, BOM_UTF32_LE, lookup
 from copy import copy, deepcopy
-from io import StringIO
+from io import BytesIO, StringIO
 from pathlib import Path
 from typing import IO, TYPE_CHECKING, Any, ClassVar, TypedDict, cast
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
@@ -37,6 +39,7 @@ from translate.storage.applestrings_xliff import AppleStringsXliffFile
 from translate.storage.base import TranslationStore
 from translate.storage.catkeys import CatkeysFile, CatkeysUnit
 from translate.storage.csvl10n import csvfile, csvunit
+from translate.storage.fluent import FluentContentError
 from translate.storage.jsonl10n import (
     ARBJsonFile,
     BaseJsonUnit,
@@ -83,6 +86,7 @@ from weblate.formats.helpers import (
     CSV_TARGET_PLURAL_FORM,
     format_csv_id_hash,
 )
+from weblate.formats.limits import TranslationLimitError
 from weblate.lang.data import FORMULA_WITH_ZERO, ZERO_PLURAL_TYPES
 from weblate.lang.models import Plural
 from weblate.trans.exceptions import is_expected_parse_error
@@ -93,6 +97,7 @@ from weblate.trans.file_format_params import (
     GettextRemoveObsolete,
     GettextXGenerator,
     XliffPlaceables,
+    XMLFinalNewline,
     XMLWhitespaceHandling,
     get_effective_params_for_file_format,
     get_encoding_param,
@@ -105,8 +110,10 @@ from weblate.trans.util import (
     xliff_string_to_rich,
 )
 from weblate.utils.commands import get_clean_env
+from weblate.utils.csv import csv_starts_with_formula
 from weblate.utils.errors import report_error
 from weblate.utils.files import cleanup_error_message
+from weblate.utils.fluent import fluent_ast_is_too_complex
 from weblate.utils.hash import checksum_to_hash
 from weblate.utils.state import (
     FUZZY_STATES,
@@ -438,6 +445,13 @@ class TTKitUnit[U: TranslateToolkitUnit, F: "BaseTTKitFormat"](TranslationUnit[U
         self.set_target(target)
         self.set_state(STATE_EMPTY)
 
+    @cached_property
+    def line_number(self) -> int | None:
+        """Return line number from a TTKit unit."""
+        if not self.has_unit() or not self.parent.supports_line_number:
+            return None
+        return self.unit.line_number
+
 
 class KeyValueUnit[U: phpunit | propunit, F: "TTKitFormat"](TTKitUnit[U, F]):
     @cached_property
@@ -481,9 +495,10 @@ class KeyValueUnit[U: phpunit | propunit, F: "TTKitFormat"](TTKitUnit[U, F]):
     def set_target(self, target: str | list[str]) -> None:
         """Set translation unit target."""
         super().set_target(target)
-        # Propagate to value so that serializing of empty values works correctly
+        # Empty targets serialize as the stored source. Use the setter to
+        # invalidate any cached representation of that source.
         if not target:
-            self.unit.value = self.unit.target
+            self.unit.source = self.unit.target
 
 
 class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
@@ -497,9 +512,33 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
     plural_preference: tuple[int, ...] | None = (Plural.SOURCE_CLDR,)
 
     @staticmethod
-    def serialize(store):
+    def serialize(
+        store: TranslationStore, file_format_params: FileFormatParams | None = None
+    ) -> bytes:
         """Serialize given Translate Toolkit store."""
-        return bytes(store)
+        result = bytes(store)
+        newline = XMLFinalNewline.get_value(file_format_params)
+        if not isinstance(store, LISAfile) or newline == "default":
+            return result
+
+        # Change only the encoded suffix, preserving the rest of the output,
+        # including its BOM and the byte order of UTF-16 and UTF-32 files.
+        encoding = lookup(store.encoding).name
+        if encoding == "utf-16":
+            encoding = "utf-16-le" if result.startswith(BOM_UTF16_LE) else "utf-16-be"
+        elif encoding == "utf-32":
+            encoding = "utf-32-le" if result.startswith(BOM_UTF32_LE) else "utf-32-be"
+        elif encoding == "utf-8-sig":
+            encoding = "utf-8"
+        text = result.decode(encoding)
+        stripped = text.rstrip("\r\n")
+        suffix_length = len(text[len(stripped) :].encode(encoding))
+        if suffix_length:
+            result = result[:-suffix_length]
+        if newline == "include":
+            endings = re.findall(r"\r\n|\r|\n", text)
+            result += (endings[-1] if endings else "\n").encode(encoding)
+        return result
 
     def fixup(self, store) -> None:
         """Perform optional fixups on store."""
@@ -577,7 +616,13 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
 
     def save_content(self, handle: IO[bytes]) -> None:
         """Store content to file."""
-        self.store.serialize(handle)
+        if (
+            isinstance(self.store, LISAfile)
+            and XMLFinalNewline.get_value(self.file_format_params) != "default"
+        ):
+            handle.write(self.serialize(self.store, self.file_format_params))
+        else:
+            self.store.serialize(handle)
 
     def save(self) -> None:
         """Save underlying store to disk."""
@@ -719,13 +764,20 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
             if callback:
                 callback(store)
             store.untranslate_store(language, file_format_params=file_format_params)
-            store.store.savefile(filename)
+            cls.save_atomic(filename, store.save_content)
         elif cls.empty_file_template is not None:
-            Path(filename).write_bytes(
-                cls.get_new_file_content(
-                    get_encoding_param(cls.format_id, file_format_params)
-                )
+            content = cls.get_new_file_content(
+                get_encoding_param(cls.format_id, file_format_params)
             )
+            if issubclass(cls, TTKitFormat) and issubclass(cls.get_class(), LISAfile):
+                store = cls(BytesIO(content), file_format_params=file_format_params)
+                cls.save_atomic(filename, store.save_content)
+            else:
+
+                def write_content(handle: IO[bytes]) -> None:
+                    handle.write(content)
+
+                cls.save_atomic(filename, write_content)
         else:
             msg = "Not supported"
             raise ValueError(msg)
@@ -778,6 +830,33 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
 class TTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
     BaseTTKitFormat[S, U, T]
 ):
+    @classmethod
+    def validate_context(cls, context: str) -> None:
+        """Validate keys using a new file when no existing store is available."""
+        content = cls.get_new_file_content()
+        if content is None:
+            content = bytes(cls.get_class()())
+        cls(BytesIO(content), is_template=True).validate_new_context(context)
+
+    def validate_new_context(
+        self,
+        context: str,
+        pending_contexts: Iterable[str] | None = None,
+        *,
+        unit: U | None = None,
+    ) -> None:
+        """Validate an identifier using the store's dialect and encoding."""
+        try:
+            if unit is None:
+                unit = self.construct_unit(context)
+                # Properties constructors need the store's effective encoding.
+                unit._store = self.store  # ruff: ignore[private-member-access]
+            unit.validate_id(context)
+        except (ValueError, TypeError) as error:
+            raise ValidationError(
+                gettext("The key cannot be represented in this file format.")
+            ) from error
+
     @classmethod
     def get_class(cls, encoding: str | None = None) -> type[S]:
         """Return class for handling this module."""
@@ -846,7 +925,12 @@ class ZeroCLDRPluralMixin(TranslationFormat):
 
     def get_plural(self, language: Language) -> Plural:
         """Return matching plural object."""
-        plural = super().get_plural(language)
+        return self.get_zero_plural(language)
+
+    @classmethod
+    def get_zero_plural(cls, language: Language) -> Plural:
+        """Resolve current zero-plural rules without loading a translation file."""
+        plural = cls.get_plural_by_preference(language)
         if plural.type in ZERO_PLURAL_TYPES:
             return plural
 
@@ -1539,6 +1623,12 @@ class WeblateCSVUnit(csvunit):
         self.plural_rows: tuple[WeblateCSVUnit, ...] = ()
         self.id_hash = ""
 
+    def add_spreadsheet_escape(self, value):
+        """Use the same formula detection as other Weblate CSV exports."""
+        if isinstance(value, str) and csv_starts_with_formula(value):
+            return f"'{value}"
+        return value
+
     def fromdict(self, cedict, encoding="utf-8") -> None:
         super().fromdict(cedict, encoding=encoding)
         for field in (CSV_SOURCE_PLURAL_FORM, CSV_TARGET_PLURAL_FORM, CSV_ID_HASH):
@@ -1555,6 +1645,34 @@ class WeblateCSVUnit(csvunit):
 
 class WeblateCSVFile(csvfile):
     UnitClass = WeblateCSVUnit
+    _parsed_rows: int | None = None
+
+    def parse(
+        self,
+        csvsrc: bytes,
+        sample_length: int | None = 1024,
+        *,
+        dialect: str | None = None,
+    ) -> None:
+        """Bound data rows while the parser builds the store."""
+        self._parsed_rows = 0
+        try:
+            super().parse(csvsrc, sample_length=sample_length, dialect=dialect)
+        finally:
+            self._parsed_rows = None
+
+    def addunit(self, unit: WeblateCSVUnit) -> None:
+        if self._parsed_rows is not None:
+            self._parsed_rows += 1
+            max_rows = settings.TRANSLATION_MAX_UNITS
+            if self._parsed_rows > max_rows:
+                raise TranslationLimitError(
+                    gettext(
+                        "CSV file exceeds the maximum allowed count of %d data rows."
+                    )
+                    % max_rows
+                )
+        super().addunit(unit)
 
 
 CSVPluralGroupKey = int
@@ -1615,14 +1733,14 @@ class CSVUnit(MonolingualSimpleUnit):
             len(string) > 2
             and string[0] == "'"
             and string[-1] == "'"
-            and string[1] in {"=", "+", "-", "@", "\\", "%"}
+            and (string[1] == "\\" or csv_starts_with_formula(string[1:-1]))
         ):
             return get_string(string[1:-1].replace("\\|", "|"))
         if (
             escape_formulas
             and len(string) > 1
             and string[0] == "'"
-            and string[1] in csvunit.spreadsheetescapes
+            and csv_starts_with_formula(string[1:])
         ):
             return get_string(string[1:])
         return get_string(string)
@@ -1773,7 +1891,7 @@ class PHPUnit[U: phpunit, F: "PhpFormat"](KeyValueUnit[U, F]):
     def target(self):
         if not self.has_unit():
             return ""
-        return get_string(self.unit.source)
+        return get_string(self.unit.target or self.unit.source)
 
 
 class INIUnit(TTKitUnit):
@@ -1969,10 +2087,12 @@ class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](
 ):
     loader = pofile  # type: ignore[assignment]
     plural_preference: tuple[int, ...] | None = None
+    parse_version = 1
     supports_plural: bool = True
     supports_descriptions = True
     supports_context = True
     supports_location = True
+    supports_line_number = True
     supports_flags = True
     supports_remove_obsolete_units = True
     additional_states = (STATE_FUZZY,)
@@ -2212,7 +2332,7 @@ class TS1Format(TranslationFormat[TS1Store, TS1Item, TS1Unit]):
             callback(storage)
         for unit in storage.content_units:
             unit.untranslate(language)
-        Path(filename).write_bytes(storage.store.serialize())
+        cls.save_atomic(filename, storage.save_content)
 
     @classmethod
     # ruff: ignore[unused-class-method-argument]
@@ -2424,6 +2544,8 @@ class PropertiesBaseFormat[S: propfile, U: propunit, T: PropertiesUnit](
     TTKitFormat[S, U, T]
 ):
     unit_class = PropertiesUnit  # type: ignore[assignment]
+    parse_version = 1
+    supports_line_number = True
 
     def is_valid(self):
         result = super().is_valid()
@@ -2635,8 +2757,14 @@ class ContextIdValidationMixin:
         cls.parse_new_context_id(context)
 
     def validate_new_context(
-        self, context: str, pending_contexts: Iterable[str] | None = None
+        self,
+        context: str,
+        pending_contexts: Iterable[str] | None = None,
+        *,
+        unit: TranslateToolkitUnit | None = None,
     ) -> None:
+        ttkit_format = cast("TTKitFormat", self)
+        TTKitFormat.validate_new_context(ttkit_format, context, unit=unit)
         # Validate against parsed file UnitIds first. Database contexts are used
         # only for pending additions which are not yet present in the file.
         context_parts = self.parse_new_context_id(context).parts
@@ -2644,7 +2772,6 @@ class ContextIdValidationMixin:
         if not self.has_hierarchical_contexts:
             return
 
-        ttkit_format = cast("BaseTTKitFormat[Any, Any, Any]", self)
         parsed_store_contexts: set[str] | None = (
             set() if pending_contexts is not None else None
         )
@@ -2868,11 +2995,13 @@ class CSVFormat(TTKitFormat[WeblateCSVFile, WeblateCSVUnit, CSVUnit]):
     loader = WeblateCSVFile
     unit_class = CSVUnit
     autoload: tuple[str, ...] = ("*.csv",)
+    parse_version = 1
     supports_plural: bool = True
     can_add_plural_units = False
     supports_descriptions: bool = True
     supports_context: bool = True
     supports_location: bool = True
+    supports_line_number = True
     additional_states = (STATE_FUZZY,)
 
     def __init__(
@@ -2991,6 +3120,9 @@ class CSVFormat(TTKitFormat[WeblateCSVFile, WeblateCSVUnit, CSVUnit]):
         ):
             setattr(unit, attr, getattr(first, attr))
         unit.id_hash = format_csv_id_hash(group["import_id_hash"])
+        # The synthetic unit replaces the parsed rows. Keep the first row's
+        # locator for the API, repository links, and nearby strings.
+        unit._line_number = first.line_number  # ruff: ignore[private-member-access]
 
         return unit
 
@@ -3379,15 +3511,40 @@ class FlatXMLFormat(TTKitFormat):
     empty_file_template = '<?xml version="1.0" encoding="utf-8"?>\n<root></root>'
     supports_flags: bool = True
 
-    def get_format_class_kwargs(self):
-        params = get_effective_params_for_file_format(
-            self.format_id, self.file_format_params
-        )
+    @classmethod
+    def get_flatxml_store_kwargs(
+        cls, file_format_params: FileFormatParams | None
+    ) -> dict[str, str | None]:
+        params = get_effective_params_for_file_format(cls.format_id, file_format_params)
         return {
             "root_name": params.get("flatxml_root_name"),
             "value_name": params.get("flatxml_value_name"),
             "key_name": params.get("flatxml_key_name"),
         }
+
+    def get_format_class_kwargs(self) -> dict[str, str | None]:
+        return self.get_flatxml_store_kwargs(self.file_format_params)
+
+    @classmethod
+    def create_new_file(
+        cls,
+        filename: str,
+        language: Language,
+        base: str,
+        callback: Callable | None = None,
+        file_format_params: FileFormatParams | None = None,
+    ) -> None:
+        if base or cls.format_id != "flatxml":
+            super().create_new_file(
+                filename, language, base, callback, file_format_params
+            )
+            return
+
+        store = cls(
+            cls.get_class()(**cls.get_flatxml_store_kwargs(file_format_params)),
+            file_format_params=file_format_params,
+        )
+        cls.save_atomic(filename, store.save_content)
 
     def get_unit_class_kwargs(self):
         params = get_effective_params_for_file_format(
@@ -3486,18 +3643,19 @@ class XWikiUnit(PropertiesUnit):
         # Need to decode property encoded string
         return get_string(quote.xwiki_properties_decode(super().source))
 
+    def _is_missing(self) -> bool:
+        # Units listed as "### Missing:" comments are not translated: the
+        # value they carry is the source one, to be displayed in the comment.
+        return self.has_unit() and self.unit.missing
+
     @cached_property
     def target(self):
-        """Return target string from a Translate Toolkit unit."""
-        if not self.has_unit():
+        if self._is_missing():
             return ""
-        # Need to decode property encoded string
-        # This is basically stolen from
-        # translate.storage.properties.propunit.gettarget
-        # which for some reason does not return translation
-        value = quote.xwiki_properties_decode(self.unit.value)
-        value = re.sub(r"\\ ", " ", value)
-        return get_string(value)
+        return super().target
+
+    def is_translated(self):
+        return not self._is_missing() and super().is_translated()
 
 
 class XWikiPropertiesFormat(PropertiesBaseFormat):
@@ -3877,13 +4035,23 @@ class FluentUnit(MonolingualSimpleUnit):
         super().set_target(target)
         self.unit.source = target
         try:
-            # This triggers serialization discovering any syntax issues
-            self.unit.to_entry()
+            self._validate_entry()
         except Exception:
             # Restore previous content
             self.unit.target = old_target
             self.unit.source = old_source
             raise
+
+    def _validate_entry(self) -> None:
+        """Ensure the content can be written and read back."""
+        msg = "The value is too complex or nested too deeply"
+        try:
+            # This triggers serialization discovering any syntax issues
+            entry = self.unit.to_entry()
+        except RecursionError as error:
+            raise FluentContentError(msg) from error
+        if entry is not None and fluent_ast_is_too_complex(entry):
+            raise FluentContentError(msg)
 
     @cached_property
     def flags(self):

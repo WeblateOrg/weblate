@@ -6,21 +6,24 @@ from __future__ import annotations
 
 import logging
 import warnings
+from contextlib import contextmanager
 from copy import deepcopy
 from datetime import date, datetime, timedelta
+from itertools import batched
 from typing import TYPE_CHECKING, Any, ClassVar, Self, TypedDict, cast, overload
 from uuid import uuid5
 
 from django.conf import settings
 from django.core.cache import cache
-from django.db import models, transaction
-from django.db.models import Count, F, OuterRef, Q, Subquery
+from django.db import connections, models, router, transaction
+from django.db.models import Count, Exists, F, OuterRef, Q, Subquery
+from django.db.models.functions import Coalesce
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy, pgettext, pgettext_lazy
-from rapidfuzz.distance import DamerauLevenshtein
+from rapidfuzz.distance import DamerauLevenshtein, Hamming
 
 from weblate.automation.context import automation_origin
 from weblate.trans.actions import (
@@ -35,6 +38,8 @@ from weblate.trans.actions import (
     ActionEvents,
 )
 from weblate.trans.mixins import UserDisplayMixin
+from weblate.trans.models.alert import visible_conflict_components
+from weblate.trans.models.backup import BackupAuthorshipMixin, apply_backup_authorship
 from weblate.trans.models.project import Project
 from weblate.trans.signals import change_bulk_create
 from weblate.trans.util import split_plural
@@ -42,13 +47,18 @@ from weblate.utils.change_origin import get_change_origin
 from weblate.utils.const import WEBLATE_UUID_NAMESPACE
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_message
-from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED, StringState
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_READONLY,
+    STATE_TRANSLATED,
+    StringState,
+)
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.task_log import get_log_user_label
 from weblate.utils.tracing import start_span
 
 if TYPE_CHECKING:
-    from collections.abc import Collection, Iterable
+    from collections.abc import Collection, Generator, Iterable
     from uuid import UUID
 
     from django.contrib.auth.models import AnonymousUser
@@ -62,6 +72,8 @@ if TYPE_CHECKING:
 LOGGER = logging.getLogger("weblate.change")
 
 CHANGE_PROJECT_LOOKUP_KEY = "change:project-lookup"
+MAX_EXACT_DISTANCE_PAIRS = 1_000_000
+REVERT_USER_EDITS_BATCH_SIZE = 25
 
 PREFETCH_FIELDS = (
     "user",
@@ -111,6 +123,54 @@ def dt_as_day_range(dt: datetime | date) -> tuple[datetime, datetime]:
         dt.replace(hour=0, minute=0, second=0, microsecond=0),
         dt.replace(hour=23, minute=59, second=59, microsecond=999999),
     )
+
+
+@contextmanager
+def lock_change_projects(
+    changes: Collection[Change], using: str
+) -> Generator[None, None, None]:
+    """Keep the owning component or category's project stable during history writes."""
+    component_ids = {
+        change.component_id for change in changes if change.component_id is not None
+    }
+    category_ids = {
+        change.category_id
+        for change in changes
+        if change.component_id is None and change.category_id is not None
+    }
+    if not component_ids and not category_ids:
+        yield
+        return
+
+    with transaction.atomic(using=using, savepoint=False):
+        # Component moves take FOR UPDATE. KEY SHARE allows concurrent history
+        # writers and ordinary updates to the component's non-key fields.
+        with connections[using].cursor() as cursor:
+            category_projects = {}
+            if category_ids:
+                cursor.execute(
+                    "SELECT id, project_id FROM trans_category "
+                    "WHERE id = ANY(%s) ORDER BY id FOR SHARE",
+                    [sorted(category_ids)],
+                )
+                category_projects = dict(cursor.fetchall())
+            locations = {}
+            if component_ids:
+                cursor.execute(
+                    "SELECT id, project_id, category_id FROM trans_component "
+                    "WHERE id = ANY(%s) ORDER BY id FOR KEY SHARE",
+                    [sorted(component_ids)],
+                )
+                locations = {
+                    pk: (project, category) for pk, project, category in cursor
+                }
+        for change in changes:
+            if change.component_id is None and change.category_id in category_projects:
+                change.project_id = category_projects[change.category_id]
+            if change.component_id not in locations:
+                continue
+            change.project_id, change.category_id = locations[change.component_id]
+        yield
 
 
 class ChangeQuerySet(models.QuerySet["Change", "Change"]):
@@ -194,12 +254,20 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
 
         Might be used with Change.fill_in_prefetched.
         """
-        return self.prefetch().select_related(
-            "alert",
-            "screenshot",
-            "announcement",
-            "suggestion",
-            "comment",
+        return (
+            self.prefetch()
+            .prefetch_related(
+                "category__project__workspace",
+                "category__category__project__workspace",
+                "category__category__category__project__workspace",
+            )
+            .select_related(
+                "alert",
+                "screenshot",
+                "announcement",
+                "suggestion",
+                "comment",
+            )
         )
 
     def prefetch(self) -> Self:
@@ -309,14 +377,16 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
             change.fixup_references()
             change.check_user()
 
-        changes: list[Change] = super().bulk_create(  # type: ignore[assignment]
-            objs,  # type: ignore[arg-type]
-            batch_size=batch_size,
-            ignore_conflicts=ignore_conflicts,
-            update_conflicts=update_conflicts,
-            update_fields=update_fields,
-            unique_fields=unique_fields,
-        )
+        self._for_write = True
+        with lock_change_projects(objs, self.db):
+            changes: list[Change] = super().bulk_create(  # type: ignore[assignment]
+                objs,  # type: ignore[arg-type]
+                batch_size=batch_size,
+                ignore_conflicts=ignore_conflicts,
+                update_conflicts=update_conflicts,
+                update_fields=update_fields,
+                unique_fields=unique_fields,
+            )
 
         # Dispatch notifications
         dispatch_changes_notifications(changes)
@@ -342,12 +412,106 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
 
         return changes
 
-    def filter_components(self, user: User) -> Self:
-        if not user.needs_component_restrictions_filter:
+    def filter_team_history(self, user: User) -> Self:
+        """Keep historical access-management details out of public activity."""
+        if user.is_superuser:
             return self
         return self.filter(
+            ~Q(
+                action__in=(
+                    ActionEvents.ADD_USER,
+                    ActionEvents.REMOVE_USER,
+                    ActionEvents.USER_ACCESS_CHANGE,
+                )
+            )
+            | Q(project__in=user.accessible_managed_projects)
+        )
+
+    def filter_workspaces(self, user: User) -> Self:
+        """
+        Hide changes in workspaces the user cannot view.
+
+        Only workspace-only rows (no project) are judged here: rows carrying
+        a project keep the workspace they were recorded with even after the
+        project moves (see the workspace backfill), and their visibility is
+        governed by the project access checks instead. For workspace-only
+        rows, visibility follows Workspace.can_view(): a workspace is
+        visible when it holds one of the user's allowed projects, the user
+        has a workspace permission on it, or the user can view it globally
+        (management access, or billing management for workspaces that carry
+        a billing; billed workspaces otherwise reduce to the
+        workspace.edit permission).
+        """
+        if user.is_superuser or user.has_perm("management.use"):
+            return self
+        # ruff: ignore[import-outside-top-level]
+        from weblate.workspaces.models import Workspace
+
+        condition = Q(projects__in=user.allowed_projects.all()) | Q(
+            pk__in=(
+                user.workspace_ids_with_perm("workspace.edit")
+                | user.workspace_ids_with_perm("workspace.add_project")
+                | user.workspace_ids_with_perm("workspace.edit_members")
+            )
+        )
+        if "weblate.billing" in settings.INSTALLED_APPS and user.has_perm(
+            "billing.manage"
+        ):
+            condition |= Q(billing__isnull=False)
+        visible_workspaces = Workspace.objects.filter(condition)
+        return self.filter(
+            Q(project__isnull=False)
+            | Q(workspace__isnull=True)
+            | Q(workspace__in=visible_workspaces)
+        )
+
+    def filter_components(self, user: User) -> Self:
+        if not user.is_superuser:
+            # The former visibility of older removed components cannot be recovered.
+            # Only project administrators may see removal records without a flag.
+            result = self.filter(
+                ~Q(action=ActionEvents.REMOVE_COMPONENT)
+                | Q(project__in=user.accessible_managed_projects)
+                | Q(details__restricted=False)
+            )
+        else:
+            result = self
+        result = result.filter_team_history(user)
+        if not user.needs_component_restrictions_filter:
+            return result
+        return result.filter(
             Q(component__isnull=True) | user.get_component_access_query("component")
         )
+
+    def filter_visible_alerts(self, user: User) -> Self:
+        """Hide historical conflict signals with no accessible stored peer."""
+        if user.is_superuser:
+            return self
+        peers = visible_conflict_components(
+            user,
+            Coalesce(
+                OuterRef("details__alert_snapshot__details__component_ids"),
+                OuterRef("alert__details__component_ids"),
+                output_field=models.JSONField(),
+            ),
+        )
+        conflict = Q(
+            action__in=(
+                ActionEvents.ALERT,
+                ActionEvents.ALERT_DISMISSED,
+                ActionEvents.ALERT_REOPENED,
+            )
+        ) & (
+            Q(alert__name="ConflictingRepositorySetup")
+            | Q(details__alert="ConflictingRepositorySetup")
+        )
+        return self.alias(
+            repository_conflict=models.Case(
+                models.When(conflict, then=models.Value(True)),
+                default=models.Value(False),
+                output_field=models.BooleanField(),
+            )
+        ).filter(Q(repository_conflict=False) | Exists(peers))
 
     def filter_projects(self, user: User) -> Self:
         if not user.needs_project_filter:
@@ -393,6 +557,18 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
 class ChangeManager(models.Manager["Change"]):
     def get_queryset(self) -> ChangeQuerySet:
         return cast("ChangeQuerySet", super().get_queryset())
+
+    def _last_site_changes(self, user: User) -> ChangeQuerySet:
+        result = self.get_queryset()
+        if user.needs_project_filter:
+            # Keep workspace-only rows alive so filter_workspaces() can
+            # decide their visibility; other projectless rows keep the
+            # historical project filtering.
+            result = result.filter(
+                Q(project__isnull=True, workspace__isnull=False)
+                | user.get_project_access_query("project")
+            )
+        return result.filter_components(user).filter_workspaces(user)
 
     def _last_category_changes(
         self,
@@ -466,8 +642,14 @@ class ChangeManager(models.Manager["Change"]):
         elif language is not None:
             result = language.change_set.filter_projects(user).filter_components(user)
         else:
-            result = self.filter_projects(user).filter_components(user)  # type: ignore[attr-defined]
-        return cast("ChangeQuerySet", result).prefetch_for_render().order()
+            result = self._last_site_changes(user)
+        return (
+            cast("ChangeQuerySet", result)
+            .filter_visible_alerts(user)
+            .filter_team_history(user)
+            .prefetch_for_render()
+            .order()
+        )
 
     def latest_revertable_changes(
         self,
@@ -504,6 +686,8 @@ class ChangeManager(models.Manager["Change"]):
         project: Project | None = None,
         request=None,
     ) -> RevertUserEditsResult:
+        from weblate.checks.tasks import coalesce_propagated_check_refreshes  # ruff: ignore[import-outside-top-level]
+
         base = self.filter(
             user=target_user,
             unit__isnull=False,
@@ -516,19 +700,25 @@ class ChangeManager(models.Manager["Change"]):
         attempted = 0
         skipped_failed = 0
         total = base.values("unit_id").distinct().count()
-        for change in self.latest_revertable_changes(
-            target_user, project=project
-        ).iterator(chunk_size=100):
-            attempted += 1
-            if change.revert_user_edits(
-                acting_user,
-                change_action=ActionEvents.USER_REVERT,
-                request=request,
-                change_details={"username": target_user.username},
-            ):
-                reverted += 1
-            else:
-                skipped_failed += 1
+        changes = self.latest_revertable_changes(target_user, project=project).iterator(
+            chunk_size=100
+        )
+        # Keep row locks and deferred refresh payloads bounded during large reverts.
+        for batch in batched(changes, REVERT_USER_EDITS_BATCH_SIZE):
+            translations: dict[int, Translation] = {}
+            with coalesce_propagated_check_refreshes():
+                for change in batch:
+                    attempted += 1
+                    if change.revert_user_edits(
+                        acting_user,
+                        change_action=ActionEvents.USER_REVERT,
+                        request=request,
+                        change_details={"username": target_user.username},
+                        translations=translations,
+                    ):
+                        reverted += 1
+                    else:
+                        skipped_failed += 1
 
         skipped_newer = total - attempted
         return {
@@ -539,7 +729,7 @@ class ChangeManager(models.Manager["Change"]):
         }
 
 
-class Change(models.Model, UserDisplayMixin):
+class Change(BackupAuthorshipMixin, UserDisplayMixin):
     ACTIONS_DICT: ClassVar[dict[int, StrOrPromise]] = dict(ActionEvents.choices)
     ACTION_STRINGS: ClassVar[dict[str, int]] = {
         name.lower().replace(" ", "-"): value for value, name in ActionEvents.choices
@@ -725,17 +915,6 @@ class Change(models.Model, UserDisplayMixin):
         verbose_name_plural = "history events"
 
     def __str__(self) -> str:
-        if self.user:
-            # Translators: condensed rendering of a change action in history
-            return gettext("%(action)s at %(time)s on %(translation)s by %(user)s") % {
-                "action": self.get_action_display(),
-                "time": self.timestamp,
-                "translation": self.translation
-                or self.component
-                or self.project
-                or self.workspace,
-                "user": self.get_user_display(False),
-            }
         # Translators: condensed rendering of a change action in history
         return gettext("%(action)s at %(time)s on %(translation)s") % {
             "action": self.get_action_display(),
@@ -747,6 +926,8 @@ class Change(models.Model, UserDisplayMixin):
         }
 
     def __init__(self, *args, **kwargs) -> None:
+        if not args and not kwargs.get("pk") and not kwargs.get("id"):
+            apply_backup_authorship(kwargs)
         for attr in ("user", "author"):
             user = kwargs.get(attr)
             if user is not None and hasattr(user, "get_token_user"):
@@ -770,7 +951,9 @@ class Change(models.Model, UserDisplayMixin):
         self.fixup_references()
         self.check_user()
 
-        super().save(*args, **kwargs)
+        using = kwargs.get("using") or router.db_for_write(type(self), instance=self)
+        with lock_change_projects([self], using):
+            super().save(*args, **kwargs)
 
         if self.is_last_content_change_storable():
             translation = cast("Translation", self.translation)
@@ -910,6 +1093,8 @@ class Change(models.Model, UserDisplayMixin):
         if self.component:
             self.project = self.component.project
             self.category = self.component.category
+        elif self.category:
+            self.project = self.category.project
         if self.project:
             self.workspace = self.project.workspace
         if (self.user is None or not self.user.is_authenticated) and (
@@ -1014,8 +1199,13 @@ class Change(models.Model, UserDisplayMixin):
     def permitted_revert_state(
         state: StringState, unit: Unit, user: User
     ) -> StringState:
-        if state == STATE_APPROVED and (
-            not unit.translation.enable_review or not user.has_perm("unit.review", unit)
+        """Restore content without copying read-only state or unauthorized approval."""
+        if state == STATE_READONLY or (
+            state == STATE_APPROVED
+            and (
+                not unit.translation.enable_review
+                or not user.has_perm("unit.review", unit)
+            )
         ):
             return STATE_TRANSLATED
         return state
@@ -1054,6 +1244,7 @@ class Change(models.Model, UserDisplayMixin):
         author: User | None = None,
         request=None,
         change_details: dict[str, str] | None = None,
+        translations: dict[int, Translation] | None = None,
     ) -> bool:
         if self.unit is None or self.action not in ACTIONS_REVERTABLE:
             return False
@@ -1064,6 +1255,12 @@ class Change(models.Model, UserDisplayMixin):
         if revert_target is None:
             return False
 
+        # Reuse the pending cache invalidation for edits to the same translation.
+        if translations is not None:
+            if locked_unit.translation_id in translations:
+                locked_unit.translation = translations[locked_unit.translation_id]
+            else:
+                translations[locked_unit.translation_id] = locked_unit.translation
         target, state = revert_target
         return locked_unit.translate(
             user,
@@ -1074,6 +1271,8 @@ class Change(models.Model, UserDisplayMixin):
             request=request,
             select_for_update=False,
             change_details=change_details,
+            # The text was stored before, possibly with a different limit
+            validate_length=False,
         )
 
     @transaction.atomic
@@ -1104,6 +1303,8 @@ class Change(models.Model, UserDisplayMixin):
             request=request,
             select_for_update=False,
             change_details=change_details,
+            # The text was stored before, possibly with a different limit
+            validate_length=False,
         )
 
     def show_source(self) -> bool:
@@ -1131,18 +1332,48 @@ class Change(models.Model, UserDisplayMixin):
         return self.action in ACTIONS_SHOW_CONTENT or self.action in ACTIONS_REVERTABLE
 
     def get_details_display(
-        self, *, viewer: User | AnonymousUser | None = None
+        self, *, viewer: User | AnonymousUser | None = None, trusted: bool = False
     ) -> StrOrPromise:
         # ruff: ignore[import-outside-top-level]
-        from weblate.trans.change_display import (
+        from weblate.accounts.visibility import can_view_contributor
+        from weblate.trans.change_display import (  # ruff: ignore[import-outside-top-level]
             ChangeDetailsRenderFactory,
         )
 
+        if (
+            not trusted
+            and not can_view_contributor(viewer, self)
+            and self.action != ActionEvents.COMMENT
+        ):
+            return ""
         strategy = ChangeDetailsRenderFactory.get_strategy(self, viewer=viewer)
         return strategy.render_details(self)
 
     def get_distance(self) -> int:
-        return DamerauLevenshtein.distance(self.old, self.target)
+        """Return exact edit distance for small changes and an estimate for large ones."""
+        old, target = self.old, self.target
+        if not old:
+            return len(target)
+        if not target:
+            return len(old)
+        if len(old) * len(target) <= MAX_EXACT_DISTANCE_PAIRS:
+            return DamerauLevenshtein.distance(old, target)
+
+        # Bound quadratic work on stored, translator-controlled content. Trim
+        # shared affixes so isolated insertions and deletions count accurately.
+        start = 0
+        old_end, target_end = len(old), len(target)
+        prefix_end = min(old_end, target_end)
+        while start < prefix_end and old[start] == target[start]:
+            start += 1
+        while (
+            old_end > start
+            and target_end > start
+            and old[old_end - 1] == target[target_end - 1]
+        ):
+            old_end -= 1
+            target_end -= 1
+        return Hamming.distance(old[start:old_end], target[start:target_end], pad=True)
 
     def get_source(self) -> str:
         return self.details.get("source", cast("Unit", self.unit).source)

@@ -13,10 +13,10 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-22 19:01-0500\n"
-"PO-Revision-Date: 2026-10-16 04:35+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
+"PO-Revision-Date: 2026-10-30 05:05+0000\n"
+"Last-Translator: GitHub webhook <noreply-webhook-github-"
+"integration@weblate.org>\n"
 "Language-Team: Welsh <https://hosted.weblate.org/projects/weblate/"
 "application/cy/>\n"
 "Language: cy\n"
@@ -464,6 +464,16 @@ msgstr "Gosodiadau hysbysiadau"
 msgid "Saved search"
 msgstr "Chwilio"
 
+msgid ""
+"A lookalike e-mail identity was removed, the password was disabled, and API "
+"tokens were revoked."
+msgstr ""
+
+msgid ""
+"Password disabled as reported leaked credential matched the password; API "
+"tokens revoked."
+msgstr ""
+
 #. Translators: Audit log entry
 msgid "Password changed."
 msgstr "Cyfrinair wedi newid."
@@ -638,7 +648,16 @@ msgstr "Gwahoddwyd i {team} gan {username}."
 msgid "User access to the {team} team was changed by {username}."
 msgstr "Gwahoddwyd i {team} gan {username}."
 
-#. Translators: Audit log entry
+#, fuzzy, python-brace-format
+#| msgid "User was added to the {team} team by {username}."
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr "Gwahoddwyd i {team} gan {username}."
+
+#, fuzzy, python-brace-format
+#| msgid "User was added to the {team} team by {username}."
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr "Gwahoddwyd i {team} gan {username}."
+
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr "Cafodd y defnyddiwr ei dynnu o dîm {team} gan {username}."
@@ -706,6 +725,23 @@ msgstr "Gwahoddwyd i {project} gan {username}."
 msgid "Password configured."
 msgstr "Cyfrinair wedi'i ffurfweddu."
 
+#, fuzzy
+#| msgid ""
+#| "If it was you, please use a password reset to regain access to your "
+#| "account."
+msgid ""
+"Reset your password to restore password access and review your account "
+"activity."
+msgstr ""
+"Os mai chi oedd yno, defnyddiwch ailosodiad cyfrinair i adennill mynediad "
+"i'ch cyfrif."
+
+msgid ""
+"Reset your password to restore password access. Choose a unique password and "
+"review your account activity. The report didn't disclose the source of the "
+"leak."
+msgstr ""
+
 msgid "To restore access to your account, please reset your password."
 msgstr "Ailosodwch eich cyfrinair er mwyn cael mynediad at eich cyfrif."
 
@@ -751,6 +787,45 @@ msgstr "Ailosod storfa"
 msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr ""
+
+#, fuzzy
+#| msgid "site wide"
+msgid "Site-wide"
+msgstr "safle eang"
+
+msgid "Workspace"
+msgstr ""
+
+#, fuzzy
+#| msgid "Backup failed"
+msgid "Team created"
+msgstr "Copi wrth gefn wedi methu"
+
+#, fuzzy
+#| msgid "Last change"
+msgid "Team changed"
+msgstr "Newid diwethaf"
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "Team deleted"
+msgstr "Dilëwyd y ffont."
+
+#, fuzzy
+#| msgid "Label name"
+msgid "Team member added"
+msgstr "Enw label"
+
+#, fuzzy
+#| msgid "Labels to remove"
+msgid "Team member removed"
+msgstr "Labeli i'w tynnu"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "Team member access changed"
+msgstr "Newidiwyd y drwydded"
 
 msgid "Account activity"
 msgstr "Gweithgaredd cyfrif"
@@ -1084,6 +1159,11 @@ msgid ""
 "This scope is too large to check. Choose a smaller category, a component, or "
 "a translation."
 msgstr ""
+
+#, fuzzy
+#| msgid "Contributors"
+msgid "Contributor"
+msgstr "Cyfranwyr"
 
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
@@ -1422,6 +1502,28 @@ msgstr ""
 "Dim ond y cyfeiriad e-bost a ddewiswyd gan y gwahoddwr all dderbyn y "
 "gwahoddiad hwn; ni all eich cyfrif ei ddefnyddio."
 
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Your e-mail no longer belongs to verified account, it has been changed to "
+#| "{0}."
+msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr ""
+"Nid yw'ch e-bost bellach yn perthyn i gyfrif wedi'i ddilysu, mae wedi'i "
+"newid i {0}."
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
+msgstr ""
+
+msgid ""
+"Your e-mail address has been added. You can now select it as your account e-"
+"mail address in Account settings."
+msgstr ""
+
 #, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
@@ -1452,6 +1554,16 @@ msgstr "Golau"
 msgctxt "Theme selection"
 msgid "Dark"
 msgstr "Tywyll"
+
+#, fuzzy
+#| msgid "Please complete your sign-in using second factor credential."
+msgid "Please confirm your identity using a second factor before proceeding."
+msgstr "Cwblhewch eich mewngofnodi gan ddefnyddio manylion ail ffactor."
+
+#, fuzzy
+#| msgid "Please complete your sign-in using second factor credential."
+msgid "Please confirm your identity before proceeding."
+msgstr "Cwblhewch eich mewngofnodi gan ddefnyddio manylion ail ffactor."
 
 #, python-format
 msgid "Security key (%s)"
@@ -1576,19 +1688,19 @@ msgstr "Mewngofnodi"
 msgid "Signed out"
 msgstr "Wedi allgofnodi"
 
-msgid "Verify new e-mail address"
-msgstr "Gwirio cyfeiriad e-bost newydd"
-
 #, fuzzy
-#| msgid "Please complete your sign-in using second factor credential."
-msgid "Please confirm your identity using a second factor before proceeding."
-msgstr "Cwblhewch eich mewngofnodi gan ddefnyddio manylion ail ffactor."
+#| msgid "Verify new e-mail address"
+msgid "Add and verify e-mail address"
+msgstr "Gwirio cyfeiriad e-bost newydd"
 
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "Does dim modd ailosod cyfrinair, mae'r e-bost dilysu wedi'i ddiffodd."
 
 msgid "Change password"
 msgstr "Newid cyfrinair"
+
+msgid "Set password"
+msgstr "Gosod cyfrinair"
 
 msgid "Password reset has been already completed."
 msgstr "Mae ailosod cyfrinair eisoes wedi'i gwblhau."
@@ -1823,6 +1935,11 @@ msgstr ""
 "Mae'r ychwanegyn hwn yn cyfieithu llinynnau yn awtomatig gyda chyfieithu "
 "peirianyddol neu gydrannau eraill."
 
+#, fuzzy, python-format
+#| msgid "Error"
+msgid "Error: %s"
+msgstr "Gwall"
+
 msgid "enabled"
 msgstr "galluogwyd"
 
@@ -2054,12 +2171,6 @@ msgid ""
 msgstr ""
 
 #, python-format
-msgid ""
-"Fedora Messaging publisher service was unavailable; the connection will be "
-"recreated on the next attempt: %(error)s"
-msgstr ""
-
-#, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
 msgstr ""
 
@@ -2076,8 +2187,8 @@ msgstr ""
 msgid "configured"
 msgstr "Ffurfweddu"
 
-msgid "Could not reset Fedora Messaging publisher service."
-msgstr ""
+msgid "The SSL certificates have to be provided for SSL connection."
+msgstr "Rhaid darparu'r tystysgrifau SSL ar gyfer cysylltiad SSL."
 
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
 msgstr ""
@@ -2086,10 +2197,6 @@ msgid "Client SSL key must be an unencrypted PEM encoded private key."
 msgstr ""
 
 msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
-msgstr ""
-
-#, python-format
-msgid "Fedora Messaging broker URL is invalid: %(error)s"
 msgstr ""
 
 #, python-format
@@ -2159,7 +2266,9 @@ msgstr ""
 msgid "Bulk edit"
 msgstr "Golygu swmp"
 
-msgid "Bulk edit flags, labels, or states of strings."
+#, fuzzy
+#| msgid "Bulk edit flags, labels, or states of strings."
+msgid "Bulk edit text, flags, labels, or states of strings."
 msgstr "Golygu fflagiau yn swmpus, labeli, neu gyflwr llinynnau."
 
 #, fuzzy
@@ -2323,6 +2432,24 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "Component alerts"
+msgid "Comment extraction"
+msgstr "Rhybuddion cydran"
+
+#, fuzzy
+#| msgid "Words"
+msgid "Keywords"
+msgstr "Geiriau"
+
+msgid "Checks and ITS data"
+msgstr ""
+
+#, fuzzy
+#| msgid "Live Preview"
+msgid "Update behavior"
+msgstr "Rhagolwg Byw"
+
+#, fuzzy
 #| msgid "This name is prohibited"
 msgid "This field is required."
 msgstr "Ni chaniateir yr enw hwn"
@@ -2372,6 +2499,11 @@ msgid ""
 "relative to the repository root. If present next to the manifest, "
 "POTFILES.skip excludes listed files from extraction."
 msgstr ""
+
+#, fuzzy
+#| msgid "Font file"
+msgid "Input files"
+msgstr "Ffeil ffontiau"
 
 msgid "Invalid symbolic link in a repository."
 msgstr ""
@@ -2625,6 +2757,21 @@ msgstr "Dileu cydrannau ar gyfer ffeiliau nad ydynt yn bodoli"
 msgid "I confirm the above matches look correct"
 msgstr "Rwy'n cadarnhau fod y cydweddiadau uchod yn edrych yn gywir"
 
+#, fuzzy
+#| msgid "Filenames encoding"
+msgid "File matching"
+msgstr "Amgodio enwau ffeiliau"
+
+#, fuzzy
+#| msgid "Component renamed"
+msgid "Component naming and file templates"
+msgstr "Cydran wedi'i hailenwi"
+
+#, fuzzy
+#| msgid "Component locked"
+msgid "Component lifecycle"
+msgstr "Cydran wedi'i chloi"
+
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
 msgstr ""
@@ -2835,6 +2982,26 @@ msgstr ""
 msgid "Include read-only strings"
 msgstr "Cynnwys llinynnau darllen-yn-unig"
 
+#, fuzzy
+#| msgid "Source language"
+msgid "Source and target"
+msgstr "Iaith ffynhonnell"
+
+#, fuzzy
+#| msgid "Prepended static text"
+msgid "Prepended text"
+msgstr "Testun statig wedi'i ragosod"
+
+#, fuzzy
+#| msgid "Appended static text"
+msgid "Appended text"
+msgstr "Testun statig wedi'i atodi"
+
+#, fuzzy
+#| msgid "Text direction"
+msgid "Text expansion"
+msgstr "Cyfeiriad testun"
+
 msgid "The source and target have to be different languages."
 msgstr "Rhaid i’r ieithoedd ffynhonnell a tharged fod yn wahanol."
 
@@ -2922,10 +3089,20 @@ msgid ""
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
 
+#, fuzzy
+#| msgid "Generated on %(timestamp)s."
+msgid "Connection timeout"
+msgstr "Cynhyrchwyd ar %(timestamp)s."
+
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr ""
+
 msgid "Publish timeout"
 msgstr ""
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
 msgstr ""
 
 msgid "Connection attempts"
@@ -2943,6 +3120,22 @@ msgid "How many seconds to wait between connection attempts."
 msgstr ""
 
 #, fuzzy
+#| msgid "Hosting translations"
+msgid "Broker connection"
+msgstr "Cynnal cyfieithiadau"
+
+msgid "Timeouts and retries"
+msgstr ""
+
+msgid "TLS credentials"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project selection"
+msgid "Event selection"
+msgstr "Dewis prosiect"
+
+#, fuzzy
 #| msgid "String contains control character: %s"
 msgid "Topic prefix can contain only ASCII characters."
 msgstr "Mae'r llinyn yn cynnwys nod rheoli: %s"
@@ -2950,9 +3143,6 @@ msgstr "Mae'r llinyn yn cynnwys nod rheoli: %s"
 #, python-format
 msgid "Topic prefix must not exceed %(limit)d characters."
 msgstr ""
-
-msgid "The SSL certificates have to be provided for SSL connection."
-msgstr "Rhaid darparu'r tystysgrifau SSL ar gyfer cysylltiad SSL."
 
 msgid "The SSL certificates are not used without a SSL connection."
 msgstr "Ni ddefnyddir y tystysgrifau SSL heb gysylltiad SSL."
@@ -3175,6 +3365,14 @@ msgid "This add-on is already installed on this component."
 msgstr "Dim ond ar y gydran y gellir gosod yr ychwanegyn."
 
 #, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr ""
+"Mae'r ychwanegyn hwn yn cael ei ddefnyddio gan bob cydran sy'n rhannu'r "
+"storfa hon."
+
+#, fuzzy
 #| msgid "This add-on has no settings."
 msgid "This add-on cannot be triggered manually."
 msgstr "Nid oes gan yr ychwanegyn hwn unrhyw osodiadau."
@@ -3241,6 +3439,11 @@ msgstr "Prosiect"
 msgctxt "Add-on scope"
 msgid "Site"
 msgstr ""
+
+#, fuzzy
+#| msgid "Categorized component can not be shared."
+msgid "a component you cannot access"
+msgstr "Nid oes modd rhannu cydran wedi'i chategoreiddio."
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -3568,6 +3771,11 @@ msgstr "Testun cyfieithu yn rhy hir!"
 msgid "Your suggestion already exists!"
 msgstr "Mae eich awgrym yn bodoli eisoes!"
 
+#, fuzzy
+#| msgid "Search filter"
+msgid "Search query"
+msgstr "Hidlydd chwilio"
+
 msgid "Inherit enforced checks from the parent category, project or workspace."
 msgstr ""
 
@@ -3665,6 +3873,26 @@ msgstr "Defnyddiwr"
 msgid "Language"
 msgstr "Iaith"
 
+msgid ""
+"Contributor identities are exposed by View contributor identities, Download "
+"changes, Manage reports, and access-management permissions. Permissions from "
+"all assigned roles are additive."
+msgstr ""
+
+msgid "Built-in"
+msgstr ""
+
+#, fuzzy
+#| msgid "Custom"
+msgid "Customized"
+msgstr "Cyfaddas"
+
+msgid "Reset built-in roles to defaults"
+msgstr ""
+
+msgid "Built-in role permissions reset."
+msgstr ""
+
 msgid "Personal info"
 msgstr "Manylion personol"
 
@@ -3683,6 +3911,12 @@ msgstr ""
 
 msgid "This is not used when a component is selected."
 msgstr "Nid yw hwn yn cael ei ddefnyddio pan mae cydran yn cael ei ddewis."
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "View contributor agreement"
+msgid "View contributor identities"
+msgstr "Gweld cytundeb cyfrannwr"
 
 #. Translators: Permission name
 msgid "Download changes"
@@ -3908,6 +4142,24 @@ msgid "Manage workspace access"
 msgstr "Rheoli mynediad i'r prosiect"
 
 #. Translators: Permission name
+#, fuzzy
+#| msgid "Browse all users"
+msgid "Browse users"
+msgstr "Pori pob defnyddiwr"
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "Only chosen users can contribute."
+msgid "Search resource contributors"
+msgstr "Dim ond defnyddwyr dethol all gyfrannu."
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "User profile"
+msgid "View user profiles"
+msgstr "Proffil defnyddiwr"
+
+#. Translators: Permission name
 msgid "Use management interface"
 msgstr "Defnyddio rhyngwyneb rheoli"
 
@@ -3990,6 +4242,18 @@ msgstr "Rheoli bilio"
 #. Translators: Permission name
 msgid "Manage site-wide add-ons"
 msgstr "Rheoli ychwanegiadau'r wefan"
+
+#, fuzzy
+#| msgid "Discover Weblate"
+msgctxt "Access-control role"
+msgid "Discover users"
+msgstr "Darganfod Weblate"
+
+#, fuzzy
+#| msgid "User profile"
+msgctxt "Access-control role"
+msgid "View user profiles"
+msgstr "Proffil defnyddiwr"
 
 msgctxt "Access-control role"
 msgid "Administration"
@@ -4217,6 +4481,20 @@ msgstr "Enw"
 
 msgid "Choose permissions granted to this role."
 msgstr "Dewis y caniatâd a roddwyd i'r rôl hon."
+
+msgid ""
+"Remove the component from project teams before moving it to another project."
+msgstr ""
+
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
 
 msgid "Roles"
 msgstr "Rolau"
@@ -4557,6 +4835,11 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You need to log in to upload translations."
+msgstr "Nid oes gennych y fraint o dderbyn awgrymiadau!"
+
+#, fuzzy
 #| msgid "File format does not support this."
 msgid "The file format does not support updating source strings."
 msgstr "Nid yw fformat ffeil yn cefnogi hyn."
@@ -4576,6 +4859,11 @@ msgid ""
 "access; otherwise, you would lock yourself out."
 msgstr ""
 
+#, fuzzy
+#| msgid "Additional labels can be defined by project administrators."
+msgid "Blocked users cannot be granted project administration rights."
+msgstr "Gall gweinyddwyr prosiect ddiffinio labeli ychwanegol."
+
 #, python-format
 msgid ""
 "Team %(name)s was renamed to %(new_name)s because its name was already in "
@@ -4593,11 +4881,31 @@ msgstr ""
 msgid "Project tokens can not be assigned to teams here."
 msgstr ""
 
+#, fuzzy
+#| msgid "Audit log"
+msgid "Team audit log"
+msgstr "Log cofnodi"
+
+#, fuzzy
+#| msgid "Team administrator"
+msgid "Team audit entry"
+msgstr "Gweinyddwr y tîm"
+
 msgid "Cannot remove built-in team!"
 msgstr "Methu tynnu'r tîm mewnol!"
 
 msgid "User invitation was removed."
 msgstr "Cafodd gwahoddiad defnyddiwr ei ddileu."
+
+#, fuzzy
+#| msgid "User invitation was removed."
+msgid "This invitation was already accepted or removed."
+msgstr "Cafodd gwahoddiad defnyddiwr ei ddileu."
+
+#, fuzzy
+#| msgid "Please complete the registration to accept the invitation."
+msgid "Remove the project block before accepting this invitation."
+msgstr "Cwblhewch y cofrestriad i dderbyn y gwahoddiad."
 
 #, python-format
 msgid "Accepted invitation to the %s team."
@@ -4727,6 +5035,202 @@ msgstr ""
 msgid "Preview without changes"
 msgstr "Newidiadau diweddar"
 
+#, fuzzy
+#| msgid "Changed license"
+msgid "Change events"
+msgstr "Newid trwydded"
+
+#, fuzzy
+#| msgid "Category does not belong to this project."
+msgid "The workflow runs for each of the selected events."
+msgstr "Nid yw'r categori yn perthyn i'r prosiect hwn."
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "CEL expression"
+msgstr "Mynegiad rheolaidd"
+
+#, fuzzy
+#| msgid "The translation has come to an end."
+msgid "The expression has to evaluate to a boolean."
+msgstr "Dyma diwedd y cyfieithiadau."
+
+#, fuzzy
+#| msgid "Category name"
+msgid "Category path"
+msgstr "Enw'r categori"
+
+#, fuzzy
+#| msgid "Parent category has to be in the same project!"
+msgid "Slash-separated category path inside the project."
+msgstr "Mae'n rhaid i'r categori rhiant fod yn yr un prosiect!"
+
+msgid "Language code"
+msgstr "Cod iaith"
+
+#, fuzzy
+#| msgid "Changed license"
+msgid "Change event"
+msgstr "Newid trwydded"
+
+msgid "String state"
+msgstr "Cyflwr y llinynnau"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Action ID"
+msgstr "Gweithred"
+
+msgid "Optional identifier so that later actions can use its results."
+msgstr ""
+
+#, fuzzy
+#| msgid "Move component"
+msgid "Whole component"
+msgstr "Symud cydran"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "String was changed"
+msgid "String affected by the change"
+msgstr "Newidiwyd y llinyn"
+
+#, fuzzy
+#| msgid "String state"
+msgid "String scope"
+msgstr "Cyflwr y llinynnau"
+
+#, fuzzy
+#| msgid "Default component list"
+msgid "Default (whole component)"
+msgstr "Rhestr cydran rhagosodedig"
+
+#, fuzzy
+#| msgid "Delete string"
+msgid "Select strings"
+msgstr "Dileu llinyn"
+
+msgid "Use the effective AI quality add-on"
+msgstr ""
+
+#, fuzzy
+#| msgid "Bulk edit"
+msgid "Bulk editing"
+msgstr "Golygu swmp"
+
+#, fuzzy
+#| msgid "Component name"
+msgid "Component update"
+msgstr "Enw’r cydran"
+
+#, fuzzy
+#| msgid "Repository outdated."
+msgid "Repository update"
+msgstr "Ystorfa wedi dyddio."
+
+#, fuzzy
+#| msgid "Repository merged"
+msgid "Repository commit"
+msgstr "Cyfuno storfa"
+
+#, fuzzy
+#| msgid "Repository push URL"
+msgid "Repository push"
+msgstr "URL gwthio storfa"
+
+msgid "Manual run"
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Expression"
+msgstr "Mynegiad rheolaidd"
+
+#, fuzzy
+#| msgid "Component created"
+msgid "Component category"
+msgstr "Cydran wedi'i chreu"
+
+#, fuzzy
+#| msgid "Manage strings"
+msgid "Matching strings"
+msgstr "Rheoli llinynnau"
+
+msgid "All of"
+msgstr ""
+
+msgid "Any of"
+msgstr ""
+
+#, fuzzy
+#| msgid "Note"
+msgid "Not"
+msgstr "Nodyn"
+
+#, fuzzy
+#| msgid "Frequency"
+msgid "Sequence"
+msgstr "Amlder"
+
+msgid "Choose"
+msgstr "Dewis"
+
+#, fuzzy
+#| msgid "Trigger backup"
+msgid "Trigger"
+msgstr "Cychwyn copi wrth gefn"
+
+#, fuzzy
+#| msgid "Alert triggered"
+msgid "Add trigger"
+msgstr "Rhybudd Newydd"
+
+#, fuzzy
+#| msgid "Bad configuration"
+msgid "Condition"
+msgstr "Ffurfweddiad gwael"
+
+#, fuzzy
+#| msgid "Bad configuration"
+msgid "Add condition"
+msgstr "Ffurfweddiad gwael"
+
+msgid "Action"
+msgstr "Gweithred"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Add action"
+msgstr "Gweithred"
+
+#, fuzzy
+#| msgid "Bad configuration"
+msgid "Conditions"
+msgstr "Ffurfweddiad gwael"
+
+msgid "Actions"
+msgstr "Gweithredoedd"
+
+msgid "Branches"
+msgstr ""
+
+#, fuzzy
+#| msgid "Additional branch"
+msgid "Add branch"
+msgstr "Cangen ychwanegol"
+
+#, fuzzy
+#| msgctxt "Plural form description"
+#| msgid "Other"
+msgid "Otherwise"
+msgstr "Arall"
+
+msgid "Add action to run otherwise"
+msgstr ""
+
+msgid "Branch"
+msgstr ""
+
 msgid "Additional message"
 msgstr "Neges ychwanegol"
 
@@ -4747,9 +5251,6 @@ msgid ""
 msgstr ""
 
 msgid "No valid billing found or limit exceeded."
-msgstr ""
-
-msgid "Workspace"
 msgstr ""
 
 #, fuzzy
@@ -4872,6 +5373,9 @@ msgstr[3] "Yn cynnwys %d chydran"
 msgstr[4] "Yn cynnwys %d cydran"
 msgstr[5] "Yn cynnwys %d cydran"
 
+msgid "Restricted components are not allowed by this billing plan."
+msgstr ""
+
 msgid "Missing license"
 msgstr "Trwydded ar goll"
 
@@ -4885,6 +5389,11 @@ msgstr "Bilio"
 #| msgid "Billing overview"
 msgid "Billing event"
 msgstr "Trosolwg bilio"
+
+#, fuzzy
+#| msgid "Projects without components"
+msgid "Project has no components."
+msgstr "Prosiectau heb gydrannau"
 
 #, fuzzy
 #| msgid "Monthly"
@@ -4941,6 +5450,9 @@ msgstr ""
 
 msgid "To terminate billing you have to remove all projects first."
 msgstr "I derfynu bilio mae'n rhaid i chi ddileu pob prosiect yn gyntaf."
+
+msgid "Externally managed billings cannot be merged."
+msgstr ""
 
 #, fuzzy
 #| msgid "Cannot change this on a built-in team."
@@ -5242,9 +5754,13 @@ msgstr "Mae rhai ffurfiau lluosog yn cael eu cyfieithu yn yr un modd"
 msgid "Inconsistent"
 msgstr "Anghyson"
 
+#, fuzzy
+#| msgid ""
+#| "This string has more than one translation in this project or is "
+#| "untranslated in some components."
 msgid ""
-"This string has more than one translation in this project or is untranslated "
-"in some components."
+"This string has more than one translation in its propagation group or is "
+"untranslated in some components."
 msgstr ""
 "Mae gan y llinyn hwn fwy nag un cyfieithiad yn y prosiect hwn neu heb ei "
 "gyfieithu mewn rhai cydrannau."
@@ -5550,6 +6066,11 @@ msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr "Mae tag diwedd cyfatebol ar goll yn y tag HTML {tag}: {end}."
 
 #, fuzzy, python-brace-format
+#| msgid "The HTML {tag} tag is missing a matching end tag: {end}."
+msgid "The HTML {tag} tag is nested too deeply."
+msgstr "Mae tag diwedd cyfatebol ar goll yn y tag HTML {tag}: {end}."
+
+#, fuzzy, python-brace-format
 #| msgid ""
 #| "The sequence {sequence} will begin a HTML character reference, but does "
 #| "not end with {semicolon}. If you do not want a character reference, use "
@@ -5795,6 +6316,17 @@ msgstr "Cystrawen cyfieithu Fluent"
 #| msgid "Fluent syntax error in translation"
 msgid "Fluent syntax error in the translation."
 msgstr "Gwall cystrawen Fluent wrth gyfieithu"
+
+msgid "The Fluent value could not be checked because it is too complex."
+msgstr ""
+
+msgid "the value is too complex or nested too deeply"
+msgstr ""
+
+#, fuzzy
+#| msgid "Your billing plan has exceeded its limits."
+msgid "Format matching exceeded its time limit."
+msgstr "Mae eich cynllun bilio wedi pasio'r cyfnod talu."
 
 #, fuzzy
 #| msgid "The following format strings are in the wrong order: %s"
@@ -6139,6 +6671,9 @@ msgstr "Cystrawen Markdown"
 msgid "Markdown syntax does not match source."
 msgstr "Nid yw cystrawen markdown yn cyfateb i'r ffynhonnell"
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr ""
+
 #, fuzzy
 #| msgid "The translation does not contain an URL"
 msgid "The translation does not contain a URL."
@@ -6344,6 +6879,11 @@ msgstr "Ffurfweddiad Weblate"
 msgid "Your translation is foo"
 msgstr "Ni chanfuwyd cyfieithiad."
 
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
+msgstr ""
+
 msgid "Font style"
 msgstr "Arddull ffont"
 
@@ -6515,6 +7055,25 @@ msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
 #, fuzzy
+#| msgid "Could not update the repository."
+msgid "Could not open the workbook archive."
+msgstr "Methu diweddaru'r storfa."
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr ""
+
+#, fuzzy
 #| msgid "Multivalue CSV file (UTF-8)"
 msgid "Multivalue CSV file"
 msgstr "Ffeil CSV amlwerth (UTF-8)"
@@ -6563,6 +7122,10 @@ msgid "Invalid id_hash metadata in CSV file: %s"
 msgstr "Baner cyfieithu annilys: \"%s\""
 
 msgid "Plural form metadata in CSV file requires id_hash."
+msgstr ""
+
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
 msgstr ""
 
 #. Translators: File format name
@@ -6809,6 +7372,13 @@ msgstr "Ffeiliau metadata App Store"
 msgid "File validation is required for directory-based formats."
 msgstr ""
 
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr ""
+
+msgid "Converted workbook content exceeds the configured size limit."
+msgstr ""
+
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
@@ -6873,6 +7443,16 @@ msgid ""
 "either this limit or the maximum age is reached."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation files"
+msgid "Install Translation files CDN"
+msgstr "Ffeiliau cyfieithu"
+
+msgid ""
+"Publishes original translation files publicly, including files from private "
+"components."
+msgstr ""
+
 msgid "Kotlin SDK CDN"
 msgstr ""
 
@@ -6880,6 +7460,11 @@ msgid ""
 "Publishes Android string and plural resources for registered Kotlin SDK "
 "builds."
 msgstr ""
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "Translation files CDN cannot be installed on this component."
+msgstr "Dim ond ar y gydran y gellir gosod yr ychwanegyn."
 
 msgid "Weblate languages"
 msgstr "Ieithoedd Weblate"
@@ -6938,9 +7523,6 @@ msgstr "Terfyn ieithoedd"
 #| msgid "Aliased language codes"
 msgid "Enter a valid language code."
 msgstr "Codau iaith arall"
-
-msgid "Language code"
-msgstr "Cod iaith"
 
 msgid "Language name"
 msgstr "Enw iaith"
@@ -7101,9 +7683,6 @@ msgstr "Fformiwla luosog"
 
 msgid "Plural type"
 msgstr "Math lluosog"
-
-msgid "Example counts for this plural form."
-msgstr "Mae enghraifft yn cyfrif ar gyfer y ffurf luosog hon."
 
 msgid "Singular"
 msgstr "Unigol"
@@ -7444,6 +8023,9 @@ msgstr ""
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
 msgstr "Testun ffynhonnell"
+
+msgid "disabled"
+msgstr "analluogir"
 
 msgid ""
 "Project-level machine translation cannot use internal or non-public "
@@ -8060,6 +8642,21 @@ msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "Iaith newydd wedi'i hychwanegu at %(component)s"
 
+#, fuzzy
+#| msgid "Update with rebase"
+msgid "Rate limit reset."
+msgstr "Diweddariad gyda rebase"
+
+#, fuzzy
+#| msgid "This translation is locked."
+msgid "Too many translation requests."
+msgstr "Mae'r cyfieithiad hwn wedi'i gloi."
+
+#, fuzzy
+#| msgid "Too many authentication attempts from this location."
+msgid "Too many concurrent translation requests for this service."
+msgstr "Gormod o geisiadau dilysu o'r lleoliad hwn."
+
 msgid "File"
 msgstr "Ffeil"
 
@@ -8215,6 +8812,11 @@ msgstr ""
 "Cafodd y cofnodion eu dileu a bydd y cof cyfieithu yn cael ei ail-adeiladu "
 "yn y cefndir."
 
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many uploads, please try again later."
+msgstr "Gormod o chwilio, ceisiwch eto yn nes ymlaen."
+
 #, fuzzy, python-format
 #| msgid "Confirm deleting all translation memory entries"
 msgid "Processed %(count)d active translation memory entry."
@@ -8301,6 +8903,11 @@ msgid "Read your e-mail address"
 msgstr "Defnyddio cyfeiriad e-bost eich cyfrif"
 
 msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
 msgstr ""
 
 msgid "Image is too big."
@@ -8433,9 +9040,22 @@ msgstr[5] "Heb ganfod llinynnau cyfatebol."
 msgid "No new matching source strings found."
 msgstr "Heb ganfod llinynnau ffynhonnell cyfatebol newydd."
 
+msgid "Only some matching strings are shown. Search for more strings manually."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many image text searches. Please try again later."
+msgstr "Gormod o chwilio, ceisiwch eto yn nes ymlaen."
+
 #, fuzzy
 #| msgid "Too many messages sent, please try again later."
-msgid "OCR data could not be downloaded. Please try again later."
+msgid "Text recognition data could not be downloaded. Please try again later."
+msgstr "Anfonwyd gormod o negeseuon, ceisiwch eto yn nes ymlaen."
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "Could not find strings in the image. Please try again."
 msgstr "Anfonwyd gormod o negeseuon, ceisiwch eto yn nes ymlaen."
 
 #, fuzzy
@@ -8677,8 +9297,19 @@ msgstr ""
 msgid "Your profile"
 msgstr "Eich proffil"
 
+#, fuzzy
+#| msgid "Enter a valid e-mail address."
+msgid "Confirm adding e-mail address"
+msgstr "Rhowch gyfeiriad e-bost dilys."
+
 msgid "Confirm adding user identity"
 msgstr "Cadarnhewch drwy ychwanegu hunaniaeth defnyddiwr"
+
+#, python-format
+msgid ""
+"Confirm adding %(uid)s to your existing Weblate account by entering your "
+"current password."
+msgstr ""
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #, python-format
@@ -8688,6 +9319,11 @@ msgid ""
 msgstr ""
 "Ar ôl cadarnhau hyn, byddwch yn gallu dilysu i Weblate gan ddefnyddio "
 "%(backend_verbose)s (%(uid)s)."
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Add e-mail address"
+msgstr "Gwirio cyfeiriad e-bost newydd"
 
 msgid "Confirm"
 msgstr "Cadarnhau"
@@ -8818,16 +9454,16 @@ msgstr ""
 msgid "Registration"
 msgstr "Cofrestru"
 
+#, fuzzy
+#| msgid "Your e-mail"
+msgid "Check your e-mail"
+msgstr "Eich e-bost"
+
 msgid "Password reset almost complete"
 msgstr "Mae ailosod cyfrinair bron wedi'i gwblhau"
 
 msgid "Account removal almost complete"
 msgstr "Dileu cyfrif bron wedi'i gwblhau"
-
-#, fuzzy
-#| msgid "Registration almost complete"
-msgid "E-mail verification almost complete"
-msgstr "Cofrestru bron yn gyflawn"
 
 msgid "Registration almost complete"
 msgstr "Cofrestru bron yn gyflawn"
@@ -8843,16 +9479,11 @@ msgid ""
 msgstr ""
 "Dileu eich cyfrif trwy glicio ar y ddolen gadarnhau yn eich mewnflwch e-bost."
 
-#, fuzzy
-#| msgid ""
-#| "Click the confirmation link sent to your e-mail inbox and start using "
-#| "your account."
 msgid ""
-"Click the confirmation link sent to your e-mail inbox to verify the address "
-"for your account."
+"Check your e-mail for instructions. If this address is already associated "
+"with an account, you may receive account recovery guidance instead of a "
+"verification link."
 msgstr ""
-"Cliciwch ar y ddolen gadarnhau ag anfonwyd at eich mewnflwch e-bost a "
-"dechrau defnyddio eich cyfrif."
 
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
@@ -8863,6 +9494,20 @@ msgstr ""
 
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr "Gwiriwch eich ffolder sbam os na allwch ei weld yn eich mewnflwch."
+
+#, fuzzy, python-format
+#| msgid "The confirmation link will expire after %(count)s hour."
+#| msgid_plural "The confirmation link will expire after %(count)s hours."
+msgid ""
+"If you receive a verification link, it will expire after %(count)s hour."
+msgid_plural ""
+"If you receive a verification link, it will expire after %(count)s hours."
+msgstr[0] "Daw'r ddolenni cadarnhau i ben ar ôl %(count)s awr."
+msgstr[1] "Daw'r ddolen gadarnhau i ben ar ôl %(count)s awr."
+msgstr[2] "Daw'r ddolen gadarnhau i ben ar ôl %(count)s awr."
+msgstr[3] "Daw'r ddolen gadarnhau i ben ar ôl %(count)s awr."
+msgstr[4] "Daw'r ddolen gadarnhau i ben ar ôl %(count)s awr."
+msgstr[5] "Daw'r ddolen gadarnhau i ben ar ôl %(count)s awr."
 
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
@@ -8888,6 +9533,15 @@ msgid "Register again if the confirmation link expires."
 msgstr "Cofrestrwch eto os daw'r ddolen gadarnhau i ben."
 
 msgid ""
+"If you receive a verification link, open it while signed in to this account "
+"and follow the confirmation steps. You may be asked for your current "
+"password."
+msgstr ""
+
+msgid "Back to account settings"
+msgstr "Yn ôl i osodiadau cyfrif"
+
+msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
@@ -8905,13 +9559,49 @@ msgstr "Os oes problem gyda'ch cofrestriad, cysylltwch â ni."
 msgid "Please fix errors in the form."
 msgstr "Trwsiwch wallau yn y ffurflen."
 
+msgid ""
+"Verification instructions will be sent to the new e-mail address. You do not "
+"need access to your old mailbox."
+msgstr ""
+
+msgid ""
+"Adding an address does not change your account e-mail address. After "
+"verification, you can select the new address in Account settings."
+msgstr ""
+
 #, fuzzy
 #| msgid "Send test e-mail"
 msgid "Send verification e-mail"
 msgstr "Anfon e-bost arbrofol"
 
-msgid "Back to account settings"
-msgstr "Yn ôl i osodiadau cyfrif"
+#, fuzzy
+#| msgid "Confirm adding user identity"
+msgid "Confirm your identity"
+msgstr "Cadarnhewch drwy ychwanegu hunaniaeth defnyddiwr"
+
+msgid "Confirm your existing sign-in method before continuing."
+msgstr ""
+
+msgid ""
+"Confirm your existing sign-in method before registering your first second "
+"factor."
+msgstr ""
+
+msgid "Sign in again using a connected provider:"
+msgstr ""
+
+msgid ""
+"Your previous e-mail verification has expired. Reset your password to "
+"continue."
+msgstr ""
+
+msgid "Sign out and reset password by e-mail"
+msgstr ""
+
+msgid ""
+"No sign-in method is available to confirm your identity. Contact an "
+"administrator to recover access."
+msgstr ""
 
 msgid "Trial subscriptions"
 msgstr "Tanysgrifiadau treial"
@@ -9144,6 +9834,9 @@ msgstr ""
 msgid "Change my password"
 msgstr "Newid fy nghyfrinair"
 
+msgid "Set my password"
+msgstr "Gosod fy nghyfrinair"
+
 #, fuzzy
 #| msgid "Back to account settings"
 msgid "Back to security settings"
@@ -9189,11 +9882,6 @@ msgstr "Gweithgaredd"
 
 msgid "The e-mail address can be chosen from verified addresses only."
 msgstr "Mae modd dewis y cyfeiriad e-bost o gyfeiriadau wedi'u dilysu yn unig."
-
-#, fuzzy
-#| msgid "Verify new e-mail address"
-msgid "Add and verify e-mail address"
-msgstr "Gwirio cyfeiriad e-bost newydd"
 
 msgid "Save"
 msgstr "Cadw"
@@ -9293,9 +9981,6 @@ msgstr "Ffurfweddu"
 #| msgid "Configure"
 msgid "Not configured"
 msgstr "Ffurfweddu"
-
-msgid "Set password"
-msgstr "Gosod cyfrinair"
 
 msgid "Two-factor authentication"
 msgstr "Dilysu dau ffactor"
@@ -9419,6 +10104,9 @@ msgstr "Toglo gwelededd allwedd API"
 
 msgid "API key copied to clipboard."
 msgstr "Allwedd API wedi'i chopïo i'r clipfwrdd."
+
+msgid "Verify your identity to view your API key"
+msgstr ""
 
 msgid "API root URL:"
 msgstr "URL gwraidd API:"
@@ -9627,9 +10315,6 @@ msgid ""
 msgstr ""
 "Wedi anghofio eich cyfrinair? Rhowch eich cyfeiriad e-bost isod, a byddwn yn "
 "e-bostio cyfarwyddiadau ar gyfer gosod un newydd."
-
-msgid "Set my password"
-msgstr "Gosod fy nghyfrinair"
 
 msgid "Reset my password"
 msgstr "Ailosod fy nghyfrinair"
@@ -10093,6 +10778,9 @@ msgstr "Ddim ar gael"
 msgid "No components found."
 msgstr "Dim cydrannau wedi'u pennu"
 
+msgid "Integration instructions"
+msgstr "Cyfarwyddiadau integreiddio"
+
 msgid "Configure add-on"
 msgstr "Ffurfweddu ychwanegyn"
 
@@ -10193,6 +10881,28 @@ msgstr "Dim ond ar y gydran y gellir gosod yr ychwanegyn."
 msgid "Install"
 msgstr "Gosod"
 
+#, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid "Install on the component owning the repository."
+msgstr ""
+"Mae'r ychwanegyn hwn yn cael ei ddefnyddio gan bob cydran sy'n rhannu'r "
+"storfa hon."
+
+#, fuzzy
+#| msgid "This component is set up incorrectly."
+msgid "The component owning this repository is not available to you."
+msgstr "Mae'r gydran hon wedi'i gosod yn anghywir."
+
+#, fuzzy
+#| msgid "Repository changes"
+msgid "Open repository add-ons"
+msgstr "Newidiadau i’r storfa"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Unavailable"
+msgstr "Ddim ar gael"
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -10229,8 +10939,56 @@ msgstr "Cynt"
 msgid "Next"
 msgstr "Nesaf"
 
-msgid "Integration instructions"
-msgstr "Cyfarwyddiadau integreiddio"
+#, fuzzy
+#| msgid "Workflow customization"
+msgid "Workflow editing mode"
+msgstr "Addasu llif gwaith"
+
+#, fuzzy
+#| msgid "Edit"
+msgid "Editor"
+msgstr "Golygu"
+
+#, fuzzy
+#| msgid "YAML file"
+msgid "YAML"
+msgstr "Ffeil YAML"
+
+msgid ""
+"Both modes edit the same workflow, and switching between them keeps unsaved "
+"changes."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trigger backup"
+msgid "Triggers"
+msgstr "Cychwyn copi wrth gefn"
+
+msgid ""
+"Events starting the workflow. Without any trigger it can only be run "
+"manually."
+msgstr ""
+
+#, fuzzy
+#| msgid "All components are now open for translation updates."
+msgid "All conditions have to pass before any action runs."
+msgstr "Mae'r holl gydrannau bellach ar agor ar gyfer diweddariadau cyfieithu."
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Operation was performed in the repository"
+msgid "Operations performed in this order once the conditions pass."
+msgstr "Yn diweddaru'r storfa fewnol"
+
+#, fuzzy
+#| msgid "Move"
+msgid "Move up"
+msgstr "Symud"
+
+#, fuzzy
+#| msgid "Move"
+msgid "Move down"
+msgstr "Symud"
 
 msgid "Published translation files are available from the CDN base URL:"
 msgstr ""
@@ -10304,6 +11062,24 @@ msgid "No matching components were found!"
 msgstr "Heb ganfod unrhyw gydrannau cyfatebol!"
 
 msgid ""
+"Configure the AMQP broker connection below, including any TLS certificates "
+"required by your broker, and select the events to publish."
+msgstr ""
+
+msgid "Configure your consumer to subscribe to Weblate message topics:"
+msgstr ""
+
+msgid ""
+"Topics include only the path segments available for the event. If you "
+"configure a topic prefix, it is prepended with a dot separator."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for topic examples, the message schema, and "
+"consumer configuration."
+msgstr ""
+
+msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
 msgstr ""
@@ -10347,6 +11123,17 @@ msgstr "Boonyn URL y prosiect"
 msgid ""
 "See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
 "library setup."
+msgstr ""
+
+msgid ""
+"Install Translation files CDN to let the SDK download original XML "
+"translation files. These files are published publicly, including files from "
+"private components."
+msgstr ""
+
+msgid ""
+"After installation, return to this page to copy the updated Gradle "
+"configuration."
 msgstr ""
 
 msgid "Configure the Kotlin SDK Gradle plugin with these values:"
@@ -10478,6 +11265,21 @@ msgstr "Bydd y llinynnau'n cael eu cynhyrchu gan ddefnyddio'r patrwm canlynol:"
 msgid "Source string"
 msgstr "Llinyn ffynhonnell"
 
+#, python-format
+msgid ""
+"Create an <a href=\"%(url)s\">incoming webhook in Slack</a> for the channel "
+"that should receive notifications."
+msgstr ""
+
+msgid ""
+"Enter the webhook URL below and select the events to send to the channel."
+msgstr ""
+
+#, fuzzy
+#| msgid "Please see a documentation for more info."
+msgid "See the add-on documentation for more information."
+msgstr "Gweler dogfennaeth am ragor o wybodaeth."
+
 msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr "Traddodion Weblate o gydrannau o fewn y storfa hon yn cael ei wasgu."
@@ -10494,6 +11296,22 @@ msgstr ""
 "Cedwir negeseuon traddodi gwreiddiol, ond collir awduraeth oni bai bod "
 "\"Fesul awdur\" yn cael ei ddewis neu fod y neges traddodi wedi'i haddasu "
 "i'w chynnwys."
+
+msgid ""
+"Configure your service to receive JSON POST requests, enter its URL below, "
+"and select the events to send."
+msgstr ""
+
+msgid ""
+"To verify request signatures, configure the same Standard Webhooks secret in "
+"Weblate and your receiver. Requests are signed only when a secret is "
+"configured."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for the message payload and signature "
+"verification."
+msgstr ""
 
 msgid "HTTP Response"
 msgstr ""
@@ -10516,6 +11334,45 @@ msgstr "Datrys sylw"
 msgid "Request payload"
 msgstr "Iaith y cais"
 
+msgid ""
+"Reset these built-in roles to the current default permissions? This discards "
+"their customizations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Permissions"
+msgid "Reset permissions"
+msgstr "Caniatâd"
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Actor"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete entry"
+msgid "Deleted user"
+msgstr "Dileu cofnod"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Administrative team changes"
+msgstr "Gweinyddu"
+
+#, fuzzy
+#| msgid "Changes"
+msgid "Change"
+msgstr "Newidiadau"
+
+msgid "View details"
+msgstr "Gweld manylion"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No team audit entries found."
+msgstr "Heb ganfod llinynnau cyfatebol."
+
 msgid "Settings"
 msgstr "Gosodiadau"
 
@@ -10524,6 +11381,17 @@ msgstr "Aseiniadau awtomatig"
 
 msgid "Access control"
 msgstr "Rheoli mynediad"
+
+#, fuzzy
+#| msgid ""
+#| "Automatically add newly created users to this team based on their e-mail "
+#| "address."
+msgid ""
+"Automatically invite newly created users to this team based on their e-mail "
+"address. Users join only after accepting the invitation."
+msgstr ""
+"Ychwanegu defnyddwyr newydd eu creu yn awtomatig i'r tîm hwn ar sail eu "
+"cyfeiriad e-bost."
 
 msgid ""
 "Automatically add newly created users to this team based on their e-mail "
@@ -10570,6 +11438,9 @@ msgstr "Bydd hyn yn tynnu mynediad <b>%(user)s</b> i'r prosiect hwn."
 msgid "Add"
 msgstr "Ychwanegu"
 
+msgid "Moved component"
+msgstr "Symudwyd cydran"
+
 msgid "All components"
 msgstr "Pob cydran"
 
@@ -10596,6 +11467,11 @@ msgstr "Rheoli prosiectau wedi'u gwylio"
 #| msgid "workspace"
 msgid "My workspaces"
 msgstr "man gwaith"
+
+#, fuzzy
+#| msgid "Spaces"
+msgid "Workspaces"
+msgstr "Bylchau"
 
 msgid "Manage translated languages"
 msgstr "Rheoli ieithoedd wedi'u cyfieithu"
@@ -10789,6 +11665,16 @@ msgstr ""
 "Nid yw'r tanysgrifiad hwn yn gymwys i'r cynllun libre, trwsiwch y gwallau "
 "uchod neu prynwch danysgrifiad."
 
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+
 #, fuzzy
 #| msgid "Custom"
 msgid "Customer"
@@ -10810,9 +11696,6 @@ msgstr "Gweld"
 #| msgid "View details"
 msgid "Event details"
 msgstr "Gweld manylion"
-
-msgid "Actions"
-msgstr "Gweithredoedd"
 
 msgid "Download"
 msgstr "Llwytho i lawr"
@@ -10924,6 +11807,147 @@ msgstr "Nid oes gennych ganiatâd i newid rheolaeth mynediad prosiect."
 msgid "Check your billing status"
 msgstr "Gwirio eich statws bilio"
 
+#, fuzzy
+#| msgid "Repository browser"
+msgid "Checking your browser"
+msgstr "Porwr yr storfa"
+
+msgid ""
+"Your browser will calculate a short proof of work to protect this site "
+"against automated scraping."
+msgstr ""
+
+#, fuzzy
+#| msgid "Loading…"
+msgid "Working…"
+msgstr "Wrthi'n llwytho…"
+
+msgid ""
+"Verification failed. Enable JavaScript, workers, and cookies, then retry. "
+"You can also sign in."
+msgstr ""
+
+msgid "The challenge expired. Retry to start a new challenge."
+msgstr ""
+
+msgid "This challenge was already used. Retry to start a new challenge."
+msgstr ""
+
+msgid "Browser verification was unsuccessful. Please retry."
+msgstr ""
+
+msgid "Browser verification could not be confirmed. Enable cookies and retry."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The verification service is temporarily unavailable. Please retry later."
+msgstr ""
+"Nid oedd modd cael mynediad dros dro i'r storfa i fyny'r afon. Rhowch gynnig "
+"arall arni yn nes ymlaen."
+
+msgid "Verification cookies could not be confirmed. Enable cookies and retry."
+msgstr ""
+
+msgid "JavaScript is required for anonymous access. You can sign in instead."
+msgstr ""
+
+#, fuzzy
+#| msgid "Repository details"
+msgid "Retry"
+msgstr "Manylion yr storfa"
+
+msgid "Did you know?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Please review and confirm the matched components."
+msgid "Review and confirm the bulk edit changes."
+msgstr "Adolygwch a chadarnhewch y cydrannau cydweddus."
+
+#, fuzzy, python-format
+#| msgid "Strings needing action"
+msgid "%(counter)s string would change."
+msgid_plural "%(counter)s strings would change."
+msgstr[0] "Llinynnau sydd angen eu gweithredu"
+msgstr[1] "Llinynnau sydd angen eu gweithredu"
+msgstr[2] "Llinynnau sydd angen eu gweithredu"
+msgstr[3] "Llinynnau sydd angen eu gweithredu"
+msgstr[4] "Llinynnau sydd angen eu gweithredu"
+msgstr[5] "Llinynnau sydd angen eu gweithredu"
+
+msgid ""
+"Showing the first 250 changes. Only selected displayed strings will be "
+"processed unless you choose to apply all matching strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Live Preview"
+msgid "Update preview"
+msgstr "Rhagolwg Byw"
+
+#, python-format
+msgid "Apply all matching strings (%(total)s)"
+msgstr ""
+
+msgid ""
+"Applies to all current matches, including those not displayed. The query and "
+"permissions are checked again when applying changes."
+msgstr ""
+
+#, fuzzy
+#| msgid "CSS selector"
+msgid "Select"
+msgstr "Dewisydd CSS"
+
+#, fuzzy
+#| msgctxt "Label on engage page"
+#| msgid "String"
+#| msgid_plural "Strings"
+msgid "String"
+msgstr "Llinynnau"
+
+msgid "Changes"
+msgstr "Newidiadau"
+
+#, fuzzy
+#| msgid "Status"
+msgid "State"
+msgstr "Statws"
+
+msgid "Before"
+msgstr ""
+
+msgid "After"
+msgstr ""
+
+msgid "Empty"
+msgstr "Gwag"
+
+#, fuzzy
+#| msgid "For all languages"
+msgid "Source flags (all languages)"
+msgstr "Am bob iaith"
+
+msgid "Translation flags"
+msgstr "Fflagiau cyfieithu"
+
+#, fuzzy
+#| msgid "All languages"
+msgid "Add label (all languages)"
+msgstr "Pob iaith"
+
+#, fuzzy
+#| msgid "Browse all languages"
+msgid "Remove label (all languages)"
+msgstr "Pori pob iaith"
+
+msgid "Apply"
+msgstr "Cymhwyso"
+
 msgid "Insights"
 msgstr "Mewnwelediadau"
 
@@ -10944,9 +11968,6 @@ msgstr "Llwytho cyfieithiad i fyny"
 msgid "Operations"
 msgstr "Cofrestru"
 
-msgid "Search and replace"
-msgstr "Canfod a amnewid"
-
 msgid "Post announcement"
 msgstr "Creu cyhoeddiad"
 
@@ -10955,14 +11976,6 @@ msgstr "Trefnu neu ddileu"
 
 msgid "Browse all changes for this language"
 msgstr "Pori pob newid ar gyfer yr iaith hon"
-
-#, fuzzy
-#| msgid "Recent changes"
-msgid "Review changes"
-msgstr "Newidiadau diweddar"
-
-msgid "Apply"
-msgstr "Cymhwyso"
 
 #, fuzzy
 #| msgid "Browse all components"
@@ -11923,9 +12936,6 @@ msgstr "Yn aros am adolygiad"
 msgid "Shortcut"
 msgstr "Llwybr byr"
 
-msgid "Action"
-msgstr "Gweithred"
-
 msgid "Open available keyboard shortcuts."
 msgstr "Agorwch y llwybrau byr bysellfwrdd sydd ar gael."
 
@@ -12067,6 +13077,9 @@ msgstr "Datrys"
 msgid "Mark as spam"
 msgstr "Marcio fel sbam"
 
+msgid "Service is no longer available"
+msgstr "Nid yw'r gwasanaeth ar gael ar hyn o bryd"
+
 msgid "This service is installed site wide."
 msgstr "Mae'r gwasanaeth hwn wedi'i osod ar draws y wefan."
 
@@ -12082,26 +13095,20 @@ msgid "workspace"
 msgstr "man gwaith"
 
 #, fuzzy
+#| msgid "Languages limit"
+msgid "Rate limited"
+msgstr "Terfyn ieithoedd"
+
+#, fuzzy
 #| msgid "This service is installed site wide."
 msgid "This service is disabled."
 msgstr "Mae'r gwasanaeth hwn wedi'i osod ar draws y wefan."
-
-msgid "disabled"
-msgstr "analluogir"
-
-msgid "Service is no longer available"
-msgstr "Nid yw'r gwasanaeth ar gael ar hyn o bryd"
 
 msgid "ID"
 msgstr "ID"
 
 msgid "Slug"
 msgstr ""
-
-#, fuzzy
-#| msgid "Translation explanation"
-msgid "Installation slug (optional)"
-msgstr "Esboniad o'r cyfieithiad"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -12110,37 +13117,160 @@ msgid ""
 msgstr ""
 
 #, fuzzy
-#| msgid "Cleanup translation files"
-msgid "Configured translation services"
-msgstr "Glanhau ffeiliau cyfieithu"
+#| msgid "Hosted service"
+msgid "Inherited service"
+msgstr "Gwasanaeth a gynhelir"
 
 #, fuzzy
-#| msgid "Adding strings is disabled in the component configuration."
-msgid "Stop using this installation without removing its configuration."
-msgstr "Mae ychwanegu llinynnau wedi'i analluogi yng ffurfweddiad y gydran."
+#| msgid "This service is installed site wide."
+msgid "This service is managed at its installation scope."
+msgstr "Mae'r gwasanaeth hwn wedi'i osod ar draws y wefan."
+
+#, fuzzy
+#| msgid "Weblate configuration"
+msgid "Manage this installation"
+msgstr "Ffurfweddiad Weblate"
+
+#, fuzzy
+#| msgid "Translation explanation"
+msgid "Installation slug (optional)"
+msgstr "Esboniad o'r cyfieithiad"
+
+#, fuzzy
+#| msgid "This add-on has no settings."
+msgid "This service has no settings."
+msgstr "Nid oes gan yr ychwanegyn hwn unrhyw osodiadau."
+
+#, fuzzy
+#| msgid "Use automatic suggestions"
+msgid "Use in automations"
+msgstr "Defnyddio cynigion awtomatig"
+
+msgid ""
+"Select this installation in the engines setting of an automatic translation "
+"action using its numeric ID:"
+msgstr ""
+
+#, fuzzy
+#| msgid "You can now log in using password."
+msgid "You can also select it using its slug:"
+msgstr "Gallwch nawr fewngofnodi gan ddefnyddio cyfrinair."
+
+msgid ""
+"The numeric ID always selects this installation. The slug selects the "
+"installation currently using that name in the project."
+msgstr ""
+
+msgid ""
+"Set an installation slug above to give this service a readable name in your "
+"automations."
+msgstr ""
+
+msgid "Rate limit"
+msgstr "Terfyn graddfa"
+
+msgid ""
+"Requests to this service are temporarily paused after a provider error. "
+"Resetting the rate limit allows Weblate to try again; it does not reset the "
+"provider’s quota."
+msgstr ""
+
+#, fuzzy
+#| msgid "Push the repository"
+msgid "Reset rate limit"
+msgstr "Gwthio'r storfa"
+
+#, fuzzy
+#| msgid "This translation is currently locked."
+msgid "The rate limit can be reset at the service’s installation scope."
+msgstr "Mae'r cyfieithiad hwn wedi'i gloi ar hyn o bryd."
+
+#, fuzzy
+#| msgid "Version control"
+msgid "Service control"
+msgstr "Rheoli fersiwn"
+
+#, fuzzy
+#| msgctxt "Label on engage page"
+#| msgid "GitHub star"
+#| msgid_plural "GitHub stars"
+msgid "Disable installation"
+msgstr "Sêr GitHub"
+
+msgid ""
+"Stop using this installation here and in scopes inheriting it. Its settings "
+"are kept so you can enable it again later."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this workspace and its projects. "
+"Other installations of this service remain available."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this project. Other installations "
+"of this service and its use in other projects are unaffected."
+msgstr ""
 
 msgid "Disable"
 msgstr "Diffodd"
 
-msgid "Stop using this inherited installation here."
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Enable machine translation"
+msgid "Enable installation"
+msgstr "Galluogi cyfieithu peirianyddol"
+
+msgid ""
+"Resume using this installation with its saved settings here and in scopes "
+"inheriting it. Existing exclusions still apply."
+msgstr ""
+
+msgid ""
+"Remove the local exclusion for this installation. It can provide suggestions "
+"here when it is enabled at its installation scope and is not excluded "
+"upstream. Other excluded installations remain excluded."
 msgstr ""
 
 msgid "Enable"
 msgstr "Galluogi"
 
-#, fuzzy
-#| msgid "Remove this notification setting"
-msgid "Remove this installation and its configuration."
-msgstr "Dileu'r gosodiad hysbysu hwn"
+msgid ""
+"This installation is disabled at its installation scope or excluded by an "
+"upstream scope."
+msgstr ""
 
-msgid "Exclude all inherited installations of this service"
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Authentication service URL"
+msgid "Exclude inherited service"
+msgstr "URL Dilysu Gwasanaeth"
+
+msgid ""
+"Stop using all site-wide installations of this service in this workspace and "
+"its projects, including installations added later. Installations configured "
+"directly in this workspace or its projects remain available."
+msgstr ""
+
+msgid ""
+"Stop using all inherited installations of this service in this project, "
+"including installations added later. Installations configured directly in "
+"this project and use in other projects are unaffected."
 msgstr ""
 
 msgid "Exclude"
 msgstr ""
 
-msgid "Configure"
-msgstr "Ffurfweddu"
+msgid ""
+"Removing this installation stops it from being used here and in scopes "
+"inheriting it, and deletes its saved settings. You will need to install and "
+"configure it again to use it later."
+msgstr ""
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Configured translation services"
+msgstr "Glanhau ffeiliau cyfieithu"
 
 msgid "There are no services currently installed."
 msgstr "Nid oes unrhyw wasanaethau wedi'u gosod ar hyn o bryd."
@@ -12168,6 +13298,17 @@ msgid ""
 msgstr ""
 "Bydd rhai gwasanaethau yn gofyn am ffurfweddiad ychwanegol yn ystod y "
 "gosodiad."
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "Translation service errors"
+msgstr "Trwydded cyfieithu"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "No translation service errors available."
+msgstr "Parth cyfieithu"
 
 #, python-format
 msgid "The following activity has occurred on your account at %(site_title)s:"
@@ -12339,6 +13480,16 @@ msgstr ""
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr "Bydd y cyfrif yn cael ei analluogi ar ôl i'r dyddiad ddod i ben."
 
+#, fuzzy
+#| msgid "Does not meet Libre hosting conditions."
+msgid "Review Libre hosting conditions"
+msgstr "Nid yw'n cwrdd ag amodau gwesteio Libre."
+
+#, fuzzy, python-format
+#| msgid "Number of entries for %(project)s"
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "Nifer y cofnodion ar gyfer %(project)s"
+
 msgid "Translation change"
 msgstr "Newid i gyfieithiad"
 
@@ -12402,6 +13553,37 @@ msgstr "Cafodd cydran %(component)s ei datgloi"
 msgid "Digest: %(notification_name)s"
 msgstr "Crynodeb: %(notification_name)s"
 
+#, python-format
+msgid ""
+"Somebody requested to add this e-mail address to another account at "
+"%(site_title)s. This address is already associated with an account and "
+"cannot be added to another."
+msgstr ""
+
+msgid ""
+"If you intended to access the existing account, sign out and use password "
+"recovery. The button below opens the password reset form; it does not reset "
+"your password."
+msgstr ""
+
+#, fuzzy
+#| msgid "Confirm password reset"
+msgid "Open password recovery"
+msgstr "Cadarnhau ailosod cyfrinair"
+
+msgid "Contact support for help moving this address between accounts."
+msgstr ""
+
+msgid ""
+"If you did not request this, you can ignore this e-mail. Your account has "
+"not been changed."
+msgstr ""
+
+#. Translators: e-mail subject
+#, python-format
+msgid "E-mail address already associated with an account on %(site_title)s"
+msgstr ""
+
 msgid "View invitation"
 msgstr "Gweld gwahoddiad"
 
@@ -12414,6 +13596,10 @@ msgstr[2] "Daw'r gwahoddiad i ben ar ôl %(count)s awr."
 msgstr[3] "Daw'r gwahoddiad i ben ar ôl %(count)s awr."
 msgstr[4] "Daw'r gwahoddiad i ben ar ôl %(count)s awr."
 msgstr[5] "Daw'r gwahoddiad i ben ar ôl %(count)s awr."
+
+#, python-format
+msgid "Automatic team assignment: invitation to join %(team_name)s"
+msgstr ""
 
 #. Translators: e-mail subject
 #, python-format
@@ -12667,6 +13853,11 @@ msgstr "Cadarnhau dileu cyfrif"
 msgid "Confirm invitation"
 msgstr "Cadarnhau gwahoddiad"
 
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Verify e-mail address"
+msgstr "Gwirio cyfeiriad e-bost newydd"
+
 msgid ""
 "Note: This notification has been truncated as there were over 100 entries."
 msgstr ""
@@ -12741,6 +13932,17 @@ msgstr "Heb orffen"
 #| msgid "Translation memory"
 msgid "Translation activity summary"
 msgstr "Cof cyfieithu"
+
+#, fuzzy, python-format
+#| msgid "Activity on your account at %(site_title)s"
+msgid "Verify this e-mail address for your account at %(site_title)s."
+msgstr "Gweithgarwch ar eich cyfrif am %(site_title)s"
+
+#. Translators: e-mail subject
+#, fuzzy, python-format
+#| msgid "Account removal on %(site_title)s"
+msgid "Verify your e-mail address on %(site_title)s"
+msgstr "Dileu cyfrif ar %(site_title)s"
 
 #, fuzzy
 #| msgid "Component lists"
@@ -12956,6 +14158,66 @@ msgstr "Canlyniadau pori"
 msgid "Performance report"
 msgstr "Adroddiad perfformiad"
 
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Bot protection"
+msgstr "Cynnal cyfieithiadau"
+
+msgid ""
+"Issued challenges, requests requiring proof of work, and verification "
+"outcomes in hourly buckets. Counts are best-effort and can be lost during "
+"cache outages or eviction."
+msgstr ""
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Counters are unavailable."
+msgstr "Ddim ar gael"
+
+msgid "Outcome"
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Current hour"
+msgstr "Cyfrinair cyfredol"
+
+#, fuzzy
+#| msgid "There are currently no recovery codes generated."
+msgid "Previous 24 completed hours"
+msgstr "Nid oes unrhyw godau adfer wedi'u cynhyrchu ar hyn o bryd."
+
+#, fuzzy
+#| msgid "Pushed changes"
+msgid "Issued challenges"
+msgstr "Newidiadau wedi'u gwthio"
+
+msgid "Requests requiring proof of work"
+msgstr ""
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Expired challenge"
+msgstr "Newid i’r ffynhonnell"
+
+#, fuzzy
+#| msgid "Invalid suggestion!"
+msgid "Invalid solution"
+msgstr "Cynnig annilys!"
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Replayed challenge"
+msgstr "Newidiadau diweddar"
+
+msgid "CSRF failure"
+msgstr ""
+
+#, fuzzy
+#| msgid "Service is no longer available"
+msgid "Service unavailable"
+msgstr "Nid yw'r gwasanaeth ar gael ar hyn o bryd"
+
 msgid "Last occurrence"
 msgstr "Digwyddiad diwethaf"
 
@@ -13146,6 +14408,340 @@ msgstr "Dangos cydrannau gyda storfeydd cysylltiedig"
 msgid "This repository is linked to:"
 msgstr "Mae'r storfa hon yn gysylltiedig â:"
 
+#, fuzzy
+#| msgid "Confirm registration"
+msgid "Confirm security action"
+msgstr "Cadarnhau cofrestriad"
+
+#, python-format
+msgid "Selected %(count)s findings affecting %(accounts)s accounts."
+msgstr ""
+
+msgid ""
+"Disable the matching passwords, invalidate signed-in sessions, and revoke "
+"all API tokens. Users with an e-mail address will be notified. Single sign-"
+"on and two-factor settings are preserved. Accounts whose passwords have "
+"changed will be skipped."
+msgstr ""
+
+msgid ""
+"Remove the selected lookalike verified e-mail addresses and associated sign-"
+"in identities, disable account passwords, invalidate sessions, and revoke "
+"API tokens. Account owners will be notified at their primary e-mail address."
+msgstr ""
+
+msgid ""
+"Dismiss the selected findings without changing credentials or notifying "
+"users. A new report confirming the same exposure can reopen them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Reset my password"
+msgid "Reset passwords"
+msgstr "Ailosod fy nghyfrinair"
+
+#, fuzzy
+#| msgid "Remove my account"
+msgid "Remove identities and reset accounts"
+msgstr "Dileu fy nghyfrif"
+
+#, fuzzy
+#| msgid "Dismiss failing check"
+msgid "Dismiss findings"
+msgstr "Anwybyddu gwiriad anghyflawn"
+
+#, fuzzy, python-format
+#| msgid "Edit team membership for %(username)s"
+msgid "Security finding for %(username)s"
+msgstr "Golygu aelodaeth tîm ar gyfer %(username)s"
+
+msgid "CSV row"
+msgstr ""
+
+#, fuzzy
+#| msgid "User identities"
+msgid "Identifier"
+msgstr "Hunaniaethau defnyddwyr"
+
+#, fuzzy
+#| msgid "Mismatching line breaks"
+msgid "Matching method"
+msgstr "Toriadau llinell anghyson"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "No matching row details."
+msgstr "Ddim ar gael"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Page %(number)s of %(total)s"
+msgstr "Defnyddiwyd %(used)s o %(total)s"
+
+#, fuzzy
+#| msgid "Merged repository"
+msgid "Detected in reports"
+msgstr "Cyfunwyd ystorfa"
+
+#, fuzzy
+#| msgid "Administrators"
+msgid "Administrator"
+msgstr "Gweinyddion"
+
+#, fuzzy
+#| msgid "Weblate administration"
+msgid "Deleted administrator"
+msgstr "Gweinyddiaeth Weblate"
+
+msgid "No validation reports for this finding."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Reports page %(number)s of %(total)s"
+msgstr "Defnyddiwyd %(used)s o %(total)s"
+
+#, fuzzy
+#| msgid "There are currently no recovery codes generated."
+msgid "Previous reports"
+msgstr "Nid oes unrhyw godau adfer wedi'u cynhyrchu ar hyn o bryd."
+
+#, fuzzy
+#| msgid "Data exports"
+msgid "Next reports"
+msgstr "Allforion data"
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Account security findings"
+msgstr "Yn ôl i osodiadau cyfrif"
+
+#, fuzzy
+#| msgid "Translation reports"
+msgid "Validation reports"
+msgstr "Adroddiadau cyfieithu"
+
+msgid "Filename"
+msgstr "Enw'r ffeil"
+
+#, fuzzy
+#| msgid "Not yet measured"
+msgid "Not recorded"
+msgstr "Heb ei fesur eto"
+
+#, fuzzy
+#| msgid "Submit"
+msgid "Submitted by"
+msgstr "Cyflwyno"
+
+msgid "Processing summary"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation completed"
+msgid "Password validation completed."
+msgstr "Cwblhawyd y cyfieithiad"
+
+msgid "Legacy e-mail identity check completed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Activation completed."
+msgid "Security action completed."
+msgstr "Cwblhawyd yr agor."
+
+#, fuzzy
+#| msgid "Parsing failed"
+msgid "Processing failed."
+msgstr "Methodd dosrannu"
+
+msgid "Processing is not complete. Findings may still be added."
+msgstr ""
+
+#, fuzzy
+#| msgid "Progress"
+msgid "View progress"
+msgstr "Cynnydd"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Processed %(processed)s of %(total)s entries."
+msgstr "Defnyddiwyd %(used)s o %(total)s"
+
+#, fuzzy
+#| msgid "Ending date"
+msgid "Finding type"
+msgstr "Dyddiad gorffen"
+
+#, fuzzy
+#| msgid "Filters"
+msgid "Filter"
+msgstr "Hidlyddion"
+
+#, fuzzy
+#| msgid "Labeled source strings"
+msgid "Actions apply only to checked findings on this page."
+msgstr "Llinynnau ffynhonnell wedi'u labelu"
+
+#, fuzzy
+#| msgid "Labeled source strings"
+msgid "Select all on this page"
+msgstr "Llinynnau ffynhonnell wedi'u labelu"
+
+#, fuzzy
+#| msgid "Project selection"
+msgid "Clear selection"
+msgstr "Dewis prosiect"
+
+#, fuzzy
+#| msgid "pending"
+msgid "Finding"
+msgstr "ar y gweill"
+
+#, python-format
+msgid "Select finding for %(username)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "Active"
+msgid "Inactive"
+msgstr "Gweithredol"
+
+#, fuzzy
+#| msgid "Note"
+msgid "Bot"
+msgstr "Nodyn"
+
+msgid "No e-mail address: notification unavailable"
+msgstr ""
+
+#, fuzzy
+#| msgid "Date joined"
+msgid "Date joined:"
+msgstr "Dyddiad ymuno"
+
+#, fuzzy
+#| msgid "Last sign in"
+msgid "Last sign-in:"
+msgstr "Mewngofnodiad diwethaf"
+
+#, python-format
+msgid "Row %(row)s: %(identifier)s (%(method)s)"
+msgstr ""
+
+#, python-format
+msgid "View details (%(count)s match)"
+msgid_plural "View details (%(count)s matches)"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "First detected:"
+msgstr "Dilëwyd y ffont."
+
+#, fuzzy
+#| msgid "Last updated"
+msgid "Last detected:"
+msgstr "Diweddarwyd ddiwethaf"
+
+msgid "No security findings match these filters."
+msgstr ""
+
+msgid "Remove lookalike e-mail identities and reset selected accounts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Reset passwords for selected accounts"
+msgstr "Dileu cyfrif"
+
+msgid "Dismiss selected findings"
+msgstr ""
+
+msgid ""
+"Dismissing findings marks them as reviewed without changing passwords or "
+"notifying users."
+msgstr ""
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Account security operation"
+msgstr "Yn ôl i osodiadau cyfrif"
+
+msgid "Processing progress"
+msgstr ""
+
+#, fuzzy
+#| msgid "Repositories"
+msgid "Refresh progress"
+msgstr "Ystorfeydd"
+
+msgid ""
+"Review previous credential validation reports, including reports with no "
+"matching passwords."
+msgstr ""
+
+#, fuzzy
+#| msgid "Download reports"
+msgid "Upload report"
+msgstr "Adroddiadau llwytho i lawr"
+
+msgid "Processed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "Manage strings"
+msgid "Matching rows"
+msgstr "Rheoli llinynnau"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Affected accounts"
+msgstr "Dileu cyfrif"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "%(processed)s of %(total)s"
+msgstr "Defnyddiwyd %(used)s o %(total)s"
+
+#, fuzzy
+#| msgid "Translation reports"
+msgid "No validation reports yet."
+msgstr "Adroddiadau cyfieithu"
+
+msgid ""
+"Upload a CSV containing usernames or e-mail addresses and passwords. "
+"Passwords are checked in the background and never displayed in the report."
+msgstr ""
+
+msgid ""
+"Reports must use UTF-8 and contain at most 50,000 rows and 10 MiB. Leave the "
+"delimiter and column numbers blank for automatic detection."
+msgstr ""
+
+msgid ""
+"The uploaded file is available for one hour. Adjust the CSV settings below "
+"to try again."
+msgstr ""
+
+msgid "CSV format (detected automatically)"
+msgstr ""
+
+#, fuzzy
+#| msgid "New password"
+msgid "Validate passwords"
+msgstr "Cyfrinair newydd"
+
+#, fuzzy
+#| msgid "New password"
+msgid "Validate leaked passwords"
+msgstr "Cyfrinair newydd"
+
 msgid "Activate support package"
 msgstr "Agor pecyn cymorth"
 
@@ -13304,9 +14900,18 @@ msgid "Check user access"
 msgstr "Gwirio mynediad defnyddiwr"
 
 #, fuzzy
-#| msgid "Spaces"
-msgid "Workspaces"
-msgstr "Bylchau"
+#| msgid "Account activity"
+msgid "Account security"
+msgstr "Gweithgaredd cyfrif"
+
+#, python-format
+msgid "Security report (%(security_findings_open)s open findings)"
+msgstr ""
+
+msgid ""
+"Validate a CSV report of leaked credentials against current account "
+"passwords."
+msgstr ""
 
 msgid "Add workspace"
 msgstr ""
@@ -13337,9 +14942,6 @@ msgstr "Matrics"
 
 msgid "Displayed languages"
 msgstr "Ieithoedd ag arddangosir"
-
-msgid "Choose"
-msgstr "Dewis"
 
 msgid "Translation memory status"
 msgstr "Statws cof cyfieithu"
@@ -13434,6 +15036,9 @@ msgstr "ie"
 #. Translators: Shared translation memory is disabled
 msgid "off"
 msgstr "na"
+
+msgid "Configure"
+msgstr "Ffurfweddu"
 
 #, fuzzy
 #| msgid "Delete translation memory"
@@ -13656,24 +15261,6 @@ msgstr "Cyfrannwr newydd yn %(translation)s"
 msgid "Donate to Weblate development"
 msgstr "Rhoi arian i Weblate"
 
-msgid "Please review and confirm the search and replace results."
-msgstr "Adolygwch a chadarnhewch y chwiliad ac amnewid canlyniadau."
-
-msgid ""
-"Showing and replacing only the first 250 matches. Perform the replacement "
-"again to replace more."
-msgstr ""
-"Yn dangos ac yn disodli'r 250 cyfatebiadau cyntaf yn unig. Gwnewch yr "
-"amnewidiad eto i ddisodli mwy."
-
-#, fuzzy
-#| msgid "Live Preview"
-msgid "Update preview"
-msgstr "Rhagolwg Byw"
-
-msgid "Replace"
-msgstr "Amnewid"
-
 #, fuzzy
 #| msgid "Generate"
 msgid "Generated by"
@@ -13719,6 +15306,24 @@ msgstr ""
 msgid "Assign source strings"
 msgstr "Neilltuo llinynnau ffynhonnell"
 
+#, fuzzy
+#| msgid "Assigned source strings"
+msgid "Find source strings"
+msgstr "Llinynnau ffynhonnell a neilltuwyd"
+
+#, fuzzy
+#| msgid "Image widgets"
+msgid "Image text"
+msgstr "Wijets delwedd"
+
+msgid "Suggests source strings by recognizing text in this screenshot."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Add selected"
+msgstr "Ychwanegu llun sgrin"
+
 msgid "Source string search"
 msgstr "Chwilio llinyn ffynhonnell"
 
@@ -13731,19 +15336,6 @@ msgstr ""
 #| msgid "View check documentation"
 msgid "Search query syntax documentation"
 msgstr "Gweld dogfennaeth gwirio"
-
-msgid "Suggests source strings by recognizing text in this screenshot."
-msgstr ""
-
-#, fuzzy
-#| msgid "Include strings needing editing"
-msgid "Find strings in image"
-msgstr "Cynnwys llinynnau sydd angen eu golygu"
-
-#, fuzzy
-#| msgid "Add screenshot"
-msgid "Add selected"
-msgstr "Ychwanegu llun sgrin"
 
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr ""
@@ -13985,9 +15577,8 @@ msgstr "Llinynnau ffynhonnell wedi'u labelu"
 msgid "Select string for bulk edit"
 msgstr "Llinynnau wedi'u marcio i'w golygu"
 
-msgid "You can change the state of all strings matching given type at once."
+msgid "Choose which strings to edit and the changes to apply."
 msgstr ""
-"Gallwch newid cyflwr pob llinyn sy'n cyfateb i'r math penodol ar unwaith."
 
 msgid "The operation is applied to the strings selected in the list above."
 msgstr ""
@@ -14027,9 +15618,6 @@ msgstr "Ffeil iaith sylfaenol uniaith"
 msgid "Configure translation quality filter"
 msgstr "Ffeil y cyfieithiad"
 
-msgid "View details"
-msgstr "Gweld manylion"
-
 #, fuzzy
 #| msgid "View contributor agreement"
 msgid "View contributor license agreement"
@@ -14062,11 +15650,6 @@ msgstr[4] ""
 "Cafodd y cyfieithiad ei gloi yn awtomatig oherwydd y rhybuddion canlynol:"
 msgstr[5] ""
 "Cafodd y cyfieithiad ei gloi yn awtomatig oherwydd y rhybuddion canlynol:"
-
-#, fuzzy
-#| msgid "Filters"
-msgid "Filter"
-msgstr "Hidlyddion"
 
 #, fuzzy
 #| msgid "Search filter"
@@ -14134,6 +15717,9 @@ msgid ""
 "maintenance of Weblate itself."
 msgstr ""
 
+msgid "Example counts for this plural form."
+msgstr "Mae enghraifft yn cyfrif ar gyfer y ffurf luosog hon."
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
@@ -14142,11 +15728,6 @@ msgstr ""
 
 msgid "Clone to translation"
 msgstr "Copïo i gyfieithiad"
-
-#, fuzzy
-#| msgid "CSS selector"
-msgid "Select"
-msgstr "Dewisydd CSS"
 
 msgid "Target string"
 msgstr "Llinyn targed"
@@ -14174,12 +15755,13 @@ msgstr ""
 msgid "Source code repository"
 msgstr "Ystorfa cod ffynhonnell"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr "Mae'r gydran hon yn gysylltiedig â'r storfa %(target)s."
-
 msgid "Repository URL copied to clipboard."
 msgstr "URL y storfa wedi'i gopïo i'r clipfwrdd."
+
+#, fuzzy
+#| msgid "Renamed component"
+msgid "Linked component"
+msgstr "Ailenwyd cydran"
 
 msgid "Repository branch"
 msgstr "Cangen storfa"
@@ -14197,7 +15779,6 @@ msgstr "URL y storfa wedi'i gopïo i'r clipfwrdd."
 msgid "Last remote commit"
 msgstr "Traddodi pell olaf"
 
-#. Translators: For example: "nijel authored five days ago"
 #, python-format
 msgid "%(author)s authored %(date)s"
 msgstr "Awdurodd %(author)s %(date)s"
@@ -14439,6 +16020,24 @@ msgstr "Cyfranwyr"
 msgid "Translations"
 msgstr "Cyfieithiadau"
 
+#, fuzzy, python-format
+#| msgid ""
+#| "You were invited to %(site_title)s by %(invitation_author)s to "
+#| "collaborate on %(project_name)s and join the %(team_name)s team."
+msgid ""
+"An automatic team assignment rule invited you to collaborate on "
+"%(project_name)s and join the %(team_name)s team. You will join only if you "
+"accept this invitation."
+msgstr ""
+"Fe'ch gwahoddwyd i %(site_title)s gan %(invitation_author)s i gydweithio ar "
+"%(project_name)s ac ymuno â thîm %(team_name)s."
+
+#, python-format
+msgid ""
+"An automatic team assignment rule invited you to join the %(team_name)s team "
+"in %(workspace_name)s. You will join only if you accept this invitation."
+msgstr ""
+
 #, python-format
 msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
@@ -14454,6 +16053,19 @@ msgid ""
 msgstr ""
 "Fe'ch gwahoddwyd i %(site_title)s gan %(invitation_author)s i ymuno â thîm "
 "%(team_name)s."
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr ""
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -14492,6 +16104,11 @@ msgstr "Blocio defnyddiwr"
 
 msgid "View notification"
 msgstr "Gweld hysbysiad"
+
+#, fuzzy
+#| msgid "All languages"
+msgid "View full change"
+msgstr "Pob iaith"
 
 msgid "No matching activity found."
 msgstr "Ni chanfuwyd unrhyw weithgaredd cyfatebol."
@@ -14625,6 +16242,11 @@ msgstr "Lluosog: %(source_description)s"
 msgid "Plurals"
 msgstr "Lluosog"
 
+#, fuzzy
+#| msgid "No strings found!"
+msgid "No integer examples found"
+msgstr "Heb ganfod llinynnau!"
+
 msgid "First"
 msgstr "Cyntaf"
 
@@ -14689,9 +16311,6 @@ msgstr "Llinynnau Allwedd/Cyd-destun"
 
 msgid "Location strings"
 msgstr "Llinynnau lleoliad"
-
-msgid "String state"
-msgstr "Cyflwr y llinynnau"
 
 #. Translators: String pending for flushing to VCS.
 msgid "Pending string"
@@ -14890,11 +16509,6 @@ msgstr "Ni chanfuwyd cyfieithiad."
 msgid "Saved search name"
 msgstr "Enw defnyddiwr SAP"
 
-#, fuzzy
-#| msgid "Search filter"
-msgid "Search query"
-msgstr "Hidlydd chwilio"
-
 msgid "No saved searches yet."
 msgstr ""
 
@@ -14931,8 +16545,8 @@ msgid "Community"
 msgstr "Cymuned"
 
 #, python-format
-msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr "Cyfieithwch %(object)s gan ddefnyddio %%23Weblate am %(share_url)s!"
+msgid "Translate %(object)s using #Weblate at %(share_url)s!"
+msgstr "Cyfieithwch %(object)s gan ddefnyddio #Weblate am %(share_url)s!"
 
 #, fuzzy
 #| msgid "Share on X"
@@ -15179,6 +16793,13 @@ msgstr ""
 msgid "You are about to continue removing your Weblate account."
 msgstr ""
 
+#, fuzzy
+#| msgid "You can not complete registration while signed in."
+msgid ""
+"You are about to continue adding this e-mail address to your existing "
+"Weblate account."
+msgstr "Nid oes modd cwblhau'r broses cofrestru tra eich bod wedi mewngofnodi."
+
 msgid "You are about to accept an invitation and create a Weblate account."
 msgstr ""
 
@@ -15204,6 +16825,11 @@ msgstr "Cadarnhau ailosod cyfrinair"
 #| msgid "Confirm account removal"
 msgid "Continue account removal"
 msgstr "Cadarnhau dileu cyfrif"
+
+#, fuzzy
+#| msgid "Human verification"
+msgid "Continue e-mail verification"
+msgstr "Dilysu dynol"
 
 msgid "Accept invitation"
 msgstr "Derbyn gwahoddiad"
@@ -15302,9 +16928,6 @@ msgstr "Nid oedd modd i Weblate wthio newidiadau i'r storfa i fyny'r afon."
 
 msgid "Weblate CDN add-on could not parse the HTML files."
 msgstr "Nid oedd modd dosrannu ychwanegyn Weblate CDN y ffeiliau HTML."
-
-msgid "Filename"
-msgstr "Enw'r ffeil"
 
 msgid ""
 "The local repository checkout or its Git directory is missing. Repeated "
@@ -15597,15 +17220,15 @@ msgstr "Mae'r gydran yn cynnwys sawl llinyn cyfieithu dyblyg."
 msgid "Source"
 msgstr "Ffynhonnell"
 
-#, fuzzy, python-format
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove duplicate strings from %(language)s (%(filename)s)"
-msgstr "Yn gorfodi ysgrifennu pob llinyn i'r ffeiliau cyfieithu."
-
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
 msgstr "Dileu llinynnau gwag"
+
+#, fuzzy, python-format
+#| msgid "Forces writing all strings to the translation files."
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Yn gorfodi ysgrifennu pob llinyn i'r ffeiliau cyfieithu."
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -15765,6 +17388,16 @@ msgid ""
 msgstr ""
 "Nid oedd modd i Weblate ddosrannu'r ffeiliau cyfieithu wrth ddiweddaru'r "
 "cyfieithiadau."
+
+msgid ""
+"Weblate pushed the changes and created the pull request, but could not apply "
+"the configured labels or assignees."
+msgstr ""
+
+msgid ""
+"Check that the labels and assignees exist and that Weblate can write pull "
+"requests, or remove the customization from the version control parameters."
+msgstr ""
 
 msgid "Weblate could not push changes to the upstream repository."
 msgstr "Nid oedd modd i Weblate wthio newidiadau i'r storfa i fyny'r afon."
@@ -15930,8 +17563,10 @@ msgstr "Neidio i"
 msgid "Go"
 msgstr "Mynd"
 
-msgid "Changes"
-msgstr "Newidiadau"
+#, fuzzy
+#| msgid "Check details"
+msgid "Change details"
+msgstr "Manylion gwirio"
 
 msgid "Download latest changes as CSV"
 msgstr "Llwythwch i lawr y newidiadau diweddaraf fel CSV"
@@ -16005,11 +17640,6 @@ msgstr ""
 "Creu cydran gyfieithu newydd ar gyfer cangen ychwanegol o'r gydran gyfieithu "
 "bresennol."
 
-#, fuzzy
-#| msgid "Repository details"
-msgid "Retry"
-msgstr "Manylion yr storfa"
-
 msgid ""
 "The new component will be created for the selected branch with the exact "
 "same configuration as the existing one."
@@ -16053,9 +17683,6 @@ msgstr ""
 #| msgid "Bad configuration"
 msgid "Add or configure account"
 msgstr "Ffurfweddiad gwael"
-
-msgid "Branch"
-msgstr ""
 
 #, fuzzy
 #| msgid "Visibility changed"
@@ -16369,6 +17996,15 @@ msgstr "Wrthi'n mewnforio copi wrth gefn"
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr "Crëwyd ar %(server)s (%(domain)s) gan Weblate %(version)s"
 
+msgid "Public access on import"
+msgstr ""
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
+
 msgid "Token copied to clipboard."
 msgstr "Tocyn wedi'i gopïo i'r clipfwrdd."
 
@@ -16398,9 +18034,6 @@ msgstr ""
 #| msgid "Edit source"
 msgid "Edit source"
 msgstr "Golygu ffynhonnell"
-
-msgid "Cancel"
-msgstr ""
 
 #, fuzzy
 #| msgid "URL of repository where users can fetch changes from Weblate"
@@ -16667,10 +18300,6 @@ msgstr "Cyfieithwyd y llinyn hwn eisoes"
 msgid "Add term to glossary"
 msgstr "Ychwanegu cofnod i'r eirfa"
 
-#, python-format
-msgid "Browse glossary %(name)s"
-msgstr "Pori geirfa %(name)s"
-
 #, fuzzy
 #| msgid "Browse glossary %(name)s"
 msgid "Browse glossary"
@@ -16730,6 +18359,15 @@ msgstr "Diweddarwyd ddiwethaf"
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
 msgstr "Oedran y llinyn ffynhonnell"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s, line %(line)s"
+msgstr "%(filename)s, llinyn %(position)s"
+
+#, python-format
+msgid "line %(line)s"
+msgstr ""
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -16821,6 +18459,11 @@ msgstr ""
 
 msgid "Quick downloads"
 msgstr "Lawrlwythiadau cyflym"
+
+msgid ""
+"Original files can contain contributor identities and require additional "
+"permission. Use a generated export below for offline translation."
+msgstr ""
 
 msgid "File in original format as translated in the repository"
 msgstr "Ffeil yn ei fformat gwreiddiol fel wedi ei chyfieithu yn yr storfa"
@@ -17118,11 +18761,6 @@ msgstr "Ystorfa wedi dyddio."
 #| msgid "Repositories"
 msgid "Available Repositories"
 msgstr "Ystorfeydd"
-
-#, fuzzy
-#| msgid "Not available"
-msgid "Unavailable"
-msgstr "Ddim ar gael"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -17704,9 +19342,6 @@ msgstr "Cydran wedi'i hailenwi"
 #| msgid "All components in current project"
 msgid "A component was moved within a project."
 msgstr "Pob cydran yn y prosiect cyfredol"
-
-msgid "Moved component"
-msgstr "Symudwyd cydran"
 
 #, fuzzy
 #| msgctxt "Notification name"
@@ -18452,6 +20087,12 @@ msgid "Could not merge the pull request automatically."
 msgstr "Methu uno'r storfa."
 
 #. Translators: Name of an alert
+#, fuzzy
+#| msgid "Could not merge the repository."
+msgid "Could not customize the pull request."
+msgstr "Methu uno'r storfa."
+
+#. Translators: Name of an alert
 msgid "Repository outdated."
 msgstr "Ystorfa wedi dyddio."
 
@@ -18477,6 +20118,24 @@ msgstr "Collnod mewn Java MessageFormat"
 msgid "Trailing and leading whitespace"
 msgstr "Gofod gwyn sy'n llusgo ac yn arwain"
 
+#, fuzzy
+#| msgid "Automatic translation completed, no strings were updated."
+msgid "Automatic translation completed with errors, no strings were updated."
+msgstr "Cyfieithu awtomatig wedi'i gwblhau, ni ddiweddarwyd unrhyw linynnau."
+
+#, fuzzy, python-format
+#| msgid "Automatic translation completed, %d string was updated."
+#| msgid_plural "Automatic translation completed, %d strings were updated."
+msgid "Automatic translation completed with errors, %d string was updated."
+msgid_plural ""
+"Automatic translation completed with errors, %d strings were updated."
+msgstr[0] "Cyfieithu awtomatig wedi'i gwblhau, %d llinyn wedi'u diweddaru."
+msgstr[1] "Cyfieithu awtomatig wedi'i gwblhau, %d llinyn wedi'i ddiweddaru."
+msgstr[2] "Cyfieithu awtomatig wedi'i gwblhau, %d llinyn wedi'u diweddaru."
+msgstr[3] "Cyfieithu awtomatig wedi'i gwblhau, %d llinyn wedi'u diweddaru."
+msgstr[4] "Cyfieithu awtomatig wedi'i gwblhau, %d llinyn wedi'u diweddaru."
+msgstr[5] "Cyfieithu awtomatig wedi'i gwblhau, %d llinyn wedi'u diweddaru."
+
 msgid "Automatic translation completed, no strings were updated."
 msgstr "Cyfieithu awtomatig wedi'i gwblhau, ni ddiweddarwyd unrhyw linynnau."
 
@@ -18490,6 +20149,12 @@ msgstr[3] "Cyfieithu awtomatig wedi'i gwblhau, %d llinyn wedi'u diweddaru."
 msgstr[4] "Cyfieithu awtomatig wedi'i gwblhau, %d llinyn wedi'u diweddaru."
 msgstr[5] "Cyfieithu awtomatig wedi'i gwblhau, %d llinyn wedi'u diweddaru."
 
+#, fuzzy
+#| msgid "Automatic translation in progress"
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr "Cyfieithu awtomatig yn digwydd"
+
 #, python-format
 msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
@@ -18501,6 +20166,17 @@ msgid ""
 "Plural forms in some source components do not match the target translation. "
 "Automatic translation skipped pluralized strings and processed only single-"
 "form strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation in progress"
+msgid ""
+"Automatic translation lost its database connection. Please try again later."
+msgstr "Cyfieithu awtomatig yn digwydd"
+
+msgid ""
+"Automatic translation is already running for this translation. Please try "
+"again later."
 msgstr ""
 
 #, python-format
@@ -18564,6 +20240,14 @@ msgstr "Cyfieithiad dyblyg."
 msgid "Screenshot image is missing."
 msgstr "Mwgwd ffeil llun sgrin"
 
+msgid "Revision must be a complete hexadecimal object ID."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not update repository: %s"
+msgid "Could not validate repository URL: %s"
+msgstr "Methu â diweddaru storfa: %s"
+
 #, fuzzy
 #| msgid "Duplicated file mask."
 msgid "Duplicate check name."
@@ -18574,13 +20258,18 @@ msgstr "Mwgwd ffeil dyblyg."
 msgid "Referenced category does not exist."
 msgstr "Nid yw {filename} ({parameter}) yn bodoli."
 
-msgid "Component filename does not match its category and slug."
-msgstr ""
-
 #, fuzzy
 #| msgid "Create component"
 msgid "Duplicate component slug."
 msgstr "Creu cydran"
+
+msgid "Component filename does not match its category and slug."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation reviews are not enabled."
+msgid "Translation revision has an invalid format."
+msgstr "Nid yw adolygiadau cyfieithu wedi'u galluogi."
 
 #, fuzzy
 #| msgid "Duplicated translation."
@@ -18656,16 +20345,106 @@ msgstr "Nid yw'r categori yn perthyn i'r prosiect hwn."
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 
+#, fuzzy
+#| msgid "Important dates"
+msgid "Imported authors"
+msgstr "Dyddiadau pwysig"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
 msgstr ""
 
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
+msgstr ""
+
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is unknown."
+msgstr ""
+
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is not applicable."
+msgstr ""
+
+#, fuzzy
+#| msgid "Version control settings"
+msgid "Version control parameters"
+msgstr "Gosodiadau rheoli fersiwn"
+
+#, fuzzy
+#| msgid "File format"
+msgid "File format parameters"
+msgstr "Fformat ffeil"
+
 #, fuzzy
 #| msgid "This string seems to already exist."
 msgid "The project repository directory already exists."
 msgstr "Mae'n ymddangos bod y llinyn hwn yn bodoli eisoes."
+
+#, fuzzy
+#| msgid "Invalid search query!"
+msgid "Invalid search type."
+msgstr "Chwilio annilys!"
+
+msgid "Enter a search string to replace."
+msgstr ""
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
+
+#, fuzzy
+#| msgid "Invalid merge request!"
+msgid "Invalid target state."
+msgstr "Cais cyfuno annilys!"
+
+#, fuzzy
+#| msgid "How to handle requests for creating new translations."
+msgid "Choose either replacement or clearing translations."
+msgstr "Sut i drin ceisiadau am greu cyfieithiadau newydd."
+
+#, python-format
+msgid "Bulk edits are limited to %(limit)d strings. Narrow the search query."
+msgstr ""
 
 msgid "The component was automatically locked because of an alert."
 msgstr "Cafodd y gydran ei chloi'n awtomatig oherwydd rhybudd."
@@ -18733,6 +20512,9 @@ msgstr "Adolygiad gwreiddiol: {}"
 
 msgid "New revision: {}"
 msgstr "Adolygiad newydd: {}"
+
+msgid "Content is too long to show in the change list."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "%(count)s character edited"
@@ -18809,6 +20591,14 @@ msgstr "Pleidleisio dros gynigion"
 msgid "Needs review"
 msgstr "Mae angen gwirio’r ffynhonnell"
 
+#, fuzzy
+#| msgid "The source and target have to be different languages."
+msgid "The source and destination checkouts must be different."
+msgstr "Rhaid i’r ieithoedd ffynhonnell a tharged fod yn wahanol."
+
+msgid "This component does not exist or you cannot access it."
+msgstr ""
+
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr "Weblate wedi'i westeio, y lle i leoleiddio eich prosiect meddalwedd."
 
@@ -18827,11 +20617,6 @@ msgstr ""
 msgid "Version control"
 msgstr "Rheoli fersiwn"
 
-#, fuzzy
-#| msgid "Status"
-msgid "State"
-msgstr "Statws"
-
 msgid "Severity"
 msgstr "Difrifoldeb"
 
@@ -18842,6 +20627,11 @@ msgstr ""
 #| msgid "Good configuration"
 msgid "Discovery configuration"
 msgstr "Ffurfweddiad da"
+
+#, fuzzy, python-format
+#| msgid "Could not render template: {}"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "Methu rendro templed: {}"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -18881,6 +20671,11 @@ msgstr "Mae mwgwd ffeil yn cyfateb i'r brif gydran."
 #, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
 msgstr "Nid yw {filename} ({parameter}) yn bodoli."
+
+#. Translators: condensed rendering of a change action in history
+#, python-format
+msgid "%(action)s at %(time)s on %(translation)s"
+msgstr "%(action)s am %(time)s ar %(translation)s"
 
 #. Translators: %s is site title here
 #, fuzzy, python-format
@@ -19079,6 +20874,55 @@ msgstr "MAC (\\r)"
 
 msgid "Include closing tag for blank XML tags"
 msgstr "Cynnwys tag clo ar gyfer tagiau gwag XML"
+
+msgid "UTF-8 byte order mark"
+msgstr ""
+
+msgid "Preserve input"
+msgstr ""
+
+msgid "Always include"
+msgstr ""
+
+msgid "Always omit"
+msgstr ""
+
+msgid ""
+"Controls the UTF-8 byte order mark. Other encodings are unchanged. New files "
+"without a template omit the mark when preserving input."
+msgstr ""
+
+msgid "XML declaration encoding case"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "AWS Translate configuration"
+#| msgid "Formality"
+msgid "Format default"
+msgstr "Ffurfioldeb"
+
+msgid "Uppercase"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Power user"
+msgid "Lowercase"
+msgstr "Defnyddiwr uwch"
+
+msgid ""
+"Controls encoding names in the XML declaration, for example \"UTF-8\" or "
+"\"utf-8\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "Starting newline"
+msgid "XML final newline"
+msgstr "Cychwyn llinell newydd"
+
+msgid ""
+"Controls the newline at the end of the file, using the format's line endings."
+msgstr ""
 
 #, fuzzy
 #| msgid "Conflict handling"
@@ -19598,6 +21442,9 @@ msgstr "Baneri cyfieithu i'w hychwanegu"
 msgid "You do not have permission to edit these flags."
 msgstr "Nid oes gennych y fraint o dderbyn awgrymiadau!"
 
+msgid "You do not have permission to create terminology."
+msgstr "Nid oes gennych ganiatâd i greu terminoleg."
+
 #, fuzzy
 #| msgid "Navigate to the last translation in the current search."
 msgid ""
@@ -19776,6 +21623,11 @@ msgstr "Gormod o chwilio, ceisiwch eto yn nes ymlaen."
 msgid "Could not load repository branches. Please try again."
 msgstr "Anfonwyd gormod o negeseuon, ceisiwch eto yn nes ymlaen."
 
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You do not have permission to edit this project."
+msgstr "Nid oes gennych y fraint o dderbyn awgrymiadau!"
+
 msgid "ZIP file containing translations"
 msgstr "Ffeil ZIP yn cynnwys cyfieithiadau"
 
@@ -19879,18 +21731,6 @@ msgstr "Wedi methu llwytho copi wrth gefn o brosiect: %s"
 msgid "Could not load project backup."
 msgstr "Wedi methu llwytho copi wrth gefn o brosiect: %s"
 
-msgid "Optional additional filter applied to the strings"
-msgstr "Hidlydd ychwanegol dewisol wedi'i gymhwyso i'r llinynnau"
-
-msgid "Search string"
-msgstr "Chwilio llinyn"
-
-msgid "Case-sensitive string to search for and replace."
-msgstr "Llinyn sy'n sensitif i achos i chwilio amdano a'i ddisodli."
-
-msgid "Replacement string"
-msgstr "Llinyn amnewidwyd"
-
 #, fuzzy
 #| msgid "Screenshot context"
 msgid "Key or context"
@@ -19943,13 +21783,34 @@ msgid ""
 "without change."
 msgstr ""
 
-msgid "You do not have permission to create terminology."
-msgstr "Nid oes gennych ganiatâd i greu terminoleg."
-
 #, fuzzy
 #| msgid "Invalid suggestion!"
 msgid "Invalid string selection!"
 msgstr "Cynnig annilys!"
+
+#, fuzzy
+#| msgid "Search filter"
+msgid "Search type"
+msgstr "Hidlydd chwilio"
+
+msgid "Text"
+msgstr ""
+
+msgid "Search string"
+msgstr "Chwilio llinyn"
+
+msgid ""
+"Case-sensitive text or regular expression to replace in matching strings. "
+"Leave empty to disable replacement."
+msgstr ""
+
+msgid "Replacement string"
+msgstr "Llinyn amnewidwyd"
+
+msgid ""
+"Leave empty to remove matching text. In regular expression mode, use \\1 for "
+"the first captured group. Named group references are also supported."
+msgstr ""
 
 msgid "State to set"
 msgstr "Statws i’w gosod"
@@ -19957,39 +21818,80 @@ msgstr "Statws i’w gosod"
 msgid "Do not change"
 msgstr "Peidio â newid"
 
-msgid "Source flags to add — all languages"
-msgstr ""
+#, fuzzy
+#| msgid "Edit label"
+msgid "Add flags"
+msgstr "Golygu label"
 
-msgid "Source flags to remove — all languages"
+#, fuzzy
+#| msgid "Remove"
+msgid "Remove flags"
+msgstr "Tynnu"
+
+msgid ""
+"Only flags set directly on these translations are removed. Inherited flags "
+"remain in effect."
 msgstr ""
 
 #, fuzzy
-#| msgid "Translation flags to add"
-msgid "Translation flags to add — matching translations"
-msgstr "Baneri cyfieithu i'w hychwanegu"
+#| msgid "Add label"
+msgid "Add labels"
+msgstr "Ychwanegu label"
+
+#, fuzzy
+#| msgid "Removed category"
+msgid "Remove labels"
+msgstr "Wedi dileu categori"
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Preview changes"
+msgstr "Newidiadau diweddar"
+
+msgid "Choose flags to add…"
+msgstr ""
+
+#, fuzzy
+#| msgid "Component to remove"
+msgid "Choose flags to remove…"
+msgstr "Cydran i’w ddileu"
+
+#, fuzzy
+#| msgid "Source language"
+msgid "Source flags"
+msgstr "Iaith ffynhonnell"
+
+msgid ""
+"Flags are set on the source strings corresponding to your selection and "
+"apply to their translations in every language."
+msgstr ""
+
+msgid ""
+"Flags are set on the source strings corresponding to your filter results and "
+"apply to their translations in every language."
+msgstr ""
 
 #, fuzzy
 #| msgid "Fills in translation strings with source string."
-msgid "Applies only to matching translations, excluding source strings."
+msgid ""
+"Flags apply only to translations in your selection. Source strings are "
+"excluded."
 msgstr "Llenwi'r blwch llinyn targed gyda'r llinyn ffynhonnell."
 
-#, fuzzy
-#| msgid "Translation flags to remove"
-msgid "Translation flags to remove — matching translations"
-msgstr "Cyfieithu baneri i gael gwared"
-
-msgid "Removes locally set flags. Inherited flags remain in effect."
+msgid ""
+"Flags apply only to translations matching your filter. Source strings are "
+"excluded."
 msgstr ""
 
-#, fuzzy
-#| msgid "For all languages"
-msgid "Labels to add — all languages"
-msgstr "Am bob iaith"
+msgid ""
+"Labels apply to the source strings corresponding to your selection and are "
+"shared across all languages."
+msgstr ""
 
-#, fuzzy
-#| msgid "Labels to remove"
-msgid "Labels to remove — all languages"
-msgstr "Labeli i'w tynnu"
+msgid ""
+"Labels apply to the source strings corresponding to your filter results and "
+"are shared across all languages."
+msgstr ""
 
 msgid "Select strings to edit or enter a search query."
 msgstr ""
@@ -20252,9 +22154,6 @@ msgstr "Enw'r categori"
 msgid "Display name"
 msgstr "Enw defnyddiwr"
 
-msgid "Translation flags"
-msgstr "Fflagiau cyfieithu"
-
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
 "Baneri ychwanegol wedi'u gwahanu gan goma i ddylanwadu ar ymddygiad Weblate."
@@ -20500,11 +22399,6 @@ msgstr "Cydran wedi'i chreu"
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s am %(time)s ar %(translation)s gan %(user)s"
 
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "%(action)s am %(time)s ar %(translation)s"
-
 msgctxt "Change origin badge"
 msgid "API"
 msgstr "API"
@@ -20594,11 +22488,6 @@ msgstr ""
 "Y system rheoli fersiynau i'w defnyddio i gael mynediad i'ch storfa sy'n "
 "cynnwys cyfieithiadau. Gallwch hefyd ddewis integreiddio ychwanegol gyda "
 "darparwyr trydydd parti i gyflwyno ceisiadau uno."
-
-#, fuzzy
-#| msgid "Version control settings"
-msgid "Version control parameters"
-msgstr "Gosodiadau rheoli fersiwn"
 
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
@@ -20727,11 +22616,6 @@ msgid ""
 msgstr ""
 "Enw ffeil y ffeil sy'n cael ei ddefnyddio ar gyfer creu cyfieithiadau "
 "newydd. Ar gyfer gettext, dewiswch ffeil .pot."
-
-#, fuzzy
-#| msgid "File format"
-msgid "File format parameters"
-msgstr "Fformat ffeil"
 
 msgid "Locked component will not get any translation updates."
 msgstr ""
@@ -20988,6 +22872,11 @@ msgstr "Ni fewnforiwyd unrhyw linynnau o'r ffeil a lwythwyd."
 #| msgid "New language added to %(component)s"
 msgid "Use the secondary language configured in the category or project."
 msgstr "Iaith newydd wedi'i hychwanegu at %(component)s"
+
+#, fuzzy
+#| msgid "This string seems to already exist."
+msgid "The linked repository path is ambiguous."
+msgstr "Mae'n ymddangos bod y llinyn hwn yn bodoli eisoes."
 
 #, fuzzy
 #| msgid ""
@@ -21288,6 +23177,16 @@ msgid ""
 "Pushing without a merge request needs write access to the repository. "
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
+
+#, fuzzy
+#| msgid "The filename can not be an absolute path."
+msgid "Version control system cannot be changed to this backend."
+msgstr "Nid yw'r enw'r ffeil yn gallu bod yn llwybr absoliwt."
+
+#, fuzzy
+#| msgid "The regular expression can not match an empty string."
+msgid "The file mask is too complex and took too long to evaluate."
+msgstr "Ni all y mynegiant rheolaidd gydweddu â llinyn gwag."
 
 #, fuzzy
 #| msgid ""
@@ -21605,6 +23504,15 @@ msgstr "Disgrifiad label"
 msgid "Could not accept suggestion!"
 msgstr "Methu derbyn awgrym!"
 
+#, fuzzy, python-format
+#| msgid ""
+#| "String could not be propagated to %(component)s because you have not "
+#| "agreed with a contributor agreement."
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr ""
+"Ni fu modd lluosogi'r llinyn i %(component)s oherwydd nad ydych wedi cytuno "
+"â chytundeb cyfrannwr."
+
 #, fuzzy
 #| msgid "Upload translations files"
 msgid "Uploaded translation file is too big."
@@ -21682,6 +23590,36 @@ msgstr ""
 "Nid yw ffurfiau lluosog yn y ffeil sydd wedi ei llwytho i fyny'n cyfateb i'r "
 "cyfieithiad cyfredol."
 
+#, fuzzy, python-format
+#| msgid "ZIP file containing translations"
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr "Ffeil ZIP yn cynnwys cyfieithiadau"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "String could not be propagated to %(component)s because you have not "
+#| "agreed with a contributor agreement."
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] ""
+"Ni fu modd lluosogi'r llinyn i %(component)s oherwydd nad ydych wedi cytuno "
+"â chytundeb cyfrannwr."
+msgstr[1] ""
+"Ni fu modd lluosogi'r llinyn i %(component)s oherwydd nad ydych wedi cytuno "
+"â chytundeb cyfrannwr."
+msgstr[2] ""
+"Ni fu modd lluosogi'r llinyn i %(component)s oherwydd nad ydych wedi cytuno "
+"â chytundeb cyfrannwr."
+msgstr[3] ""
+"Ni fu modd lluosogi'r llinyn i %(component)s oherwydd nad ydych wedi cytuno "
+"â chytundeb cyfrannwr."
+msgstr[4] ""
+"Ni fu modd lluosogi'r llinyn i %(component)s oherwydd nad ydych wedi cytuno "
+"â chytundeb cyfrannwr."
+msgstr[5] ""
+"Ni fu modd lluosogi'r llinyn i %(component)s oherwydd nad ydych wedi cytuno "
+"â chytundeb cyfrannwr."
+
 #, fuzzy
 #| msgid "ZIP file containing translations"
 msgid "The uploaded file contains too many language declarations."
@@ -21707,6 +23645,10 @@ msgstr "Wedi methu traddodi newidiadau: %s"
 #| msgid "Could not parse file %(file)s: %(error)s"
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "Methu dosrannu ffeil %(file)s: %(error)s"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Could not parse translation files."
@@ -21960,6 +23902,11 @@ msgstr "Em dash"
 msgid "User configured character: {}"
 msgstr "Nod wedi'i ffurfweddu gan ddefnyddiwr: {}"
 
+#, fuzzy, python-format
+#| msgid "Could not push the repository."
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "Wedi methu gwthio'r storfa."
+
 #, fuzzy
 #| msgid "Automatic translation in progress"
 msgid "Repository operation could not be completed because it remained locked."
@@ -22015,6 +23962,37 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
+
+#, fuzzy
+#| msgid "Bulk edit completed, no strings were updated."
+msgid "Bulk edit parameters are no longer valid."
+msgstr "Cwblhawyd golygiad swmp, ni ddiweddarwyd unrhyw linynnau."
+
+#, python-format
+msgid "Bulk edit failed after processing %(count)d strings: %(error)s"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "The target or permissions changed."
+msgstr "Newidiwyd y drwydded"
+
+#, python-format
+msgid ""
+"Bulk edit failed after processing %(count)d strings. Earlier batches may "
+"have been applied."
+msgstr ""
+
+#, python-format
+msgid "Bulk edit completed, %d string was updated."
+msgid_plural "Bulk edit completed, %d strings were updated."
+msgstr[0] "Cwblhawyd golygiad swmp, diweddarwyd %d llinynnau."
+msgstr[1] "Cwblhawyd golygiad swmp, diweddarwyd %d llinyn."
+msgstr[2] "Cwblhawyd golygiad swmp, diweddarwyd %d llinyn."
+msgstr[3] "Cwblhawyd golygiad swmp, diweddarwyd %d llinyn."
+msgstr[4] "Cwblhawyd golygiad swmp, diweddarwyd %d llinyn."
+msgstr[5] "Cwblhawyd golygiad swmp, diweddarwyd %d llinyn."
 
 #, fuzzy
 #| msgid "Automatic translation in progress"
@@ -22077,6 +24055,10 @@ msgstr "ID llinyn %s"
 
 msgid "This language is used for source strings."
 msgstr "Defnyddir yr iaith hon ar gyfer llinynnau ffynhonnell."
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr "Mae'r gydran hon yn gysylltiedig â'r storfa %(target)s."
 
 #, fuzzy
 #| msgid "Fix this component to clear its alerts."
@@ -22201,6 +24183,35 @@ msgstr ""
 #| msgid "Leave empty for bilingual translation files."
 msgid "Updates source strings in bilingual translation file."
 msgstr "Gadael yn wag ar gyfer ffeiliau cyfieithu dwyieithog."
+
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "A translation upload is already in progress."
+msgstr "Mae diweddariadau o gyfieithiadau ar y gweill."
+
+msgid "The uploaded file has expired or was already processed."
+msgstr ""
+
+#, fuzzy
+#| msgid "A language in the project was removed."
+msgid "The uploaded file has expired."
+msgstr "Dilëwyd iaith yn y prosiect."
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "The upload target or permissions changed."
+msgstr "Newidiwyd y drwydded"
+
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr ""
+"Nid yw ffurfiau lluosog yn y ffeil sydd wedi ei llwytho i fyny'n cyfateb i'r "
+"cyfieithiad cyfredol."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "File upload has failed. Please try again later."
+msgstr "Gormod o chwilio, ceisiwch eto yn nes ymlaen."
 
 msgid "Very high"
 msgstr "Uchel iawn"
@@ -22347,6 +24358,9 @@ msgstr "Gallwch chi ddim tynnu eich hun!"
 msgid "You can not block yourself on this project."
 msgstr "Gallwch chi ddim rwystro'ch hun ar y prosiect hwn."
 
+msgid "Remove project administration rights before blocking this user."
+msgstr ""
+
 msgid "User has been blocked on this project."
 msgstr "Mae defnyddiwr wedi'i rwystro ar y prosiect hwn."
 
@@ -22411,6 +24425,11 @@ msgstr[2] "Iaith newydd wedi'i hychwanegu at %(component)s"
 msgstr[3] "Iaith newydd wedi'i hychwanegu at %(component)s"
 msgstr[4] "Iaith newydd wedi'i hychwanegu at %(component)s"
 msgstr[5] "Iaith newydd wedi'i hychwanegu at %(component)s"
+
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You do not have permission to add this language."
+msgstr "Nid oes gennych y fraint o dderbyn awgrymiadau!"
 
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
@@ -22669,10 +24688,10 @@ msgstr "Cais Annilys"
 msgid "Access denied."
 msgstr "Mynediad wedi ei wrthod."
 
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr ""
-"Nid yw ffurfiau lluosog yn y ffeil sydd wedi ei llwytho i fyny'n cyfateb i'r "
-"cyfieithiad cyfredol."
+#, fuzzy
+#| msgid "Translation uploaded"
+msgid "Translation upload in progress."
+msgstr "Llwythwyd cyfieithiad i fyny"
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -22733,10 +24752,21 @@ msgid "All components are now locked for translation updates!"
 msgstr ""
 "Mae'r holl gydrannau bellach wedi'u cloi ar gyfer diweddariadau cyfieithu!"
 
+#, fuzzy
+#| msgid "All components are now locked for translation updates!"
+msgid "Allowed components are now locked for translation updates!"
+msgstr ""
+"Mae'r holl gydrannau bellach wedi'u cloi ar gyfer diweddariadau cyfieithu!"
+
 msgid "Component is now open for translation updates."
 msgstr "Mae'r gydran nawr ar agor ar gyfer diweddariadau cyfieithu."
 
 msgid "All components are now open for translation updates."
+msgstr "Mae'r holl gydrannau bellach ar agor ar gyfer diweddariadau cyfieithu."
+
+#, fuzzy
+#| msgid "All components are now open for translation updates."
+msgid "Allowed components are now open for translation updates."
 msgstr "Mae'r holl gydrannau bellach ar agor ar gyfer diweddariadau cyfieithu."
 
 #, fuzzy
@@ -22814,22 +24844,6 @@ msgstr "Llwytho i lawr data defnyddiwr"
 msgid "Excluded user days"
 msgstr "Enw defnyddiwr yr awdur"
 
-msgid "Could not process form!"
-msgstr "Methu prosesu'r ffurflen!"
-
-msgid "Search and replace completed, no strings were updated."
-msgstr "Chwilio a disodli wedi'i gwblhau, ni ddiweddarwyd unrhyw linynnau."
-
-#, python-format
-msgid "Search and replace completed, %d string was updated."
-msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] "Chwilio ac amnewid wedi'i gwblhau, %d llinynnau wedi'u ddiweddaru."
-msgstr[1] "Chwilio ac amnewid wedi'i gwblhau, %d llinyn wedi'i ddiweddaru."
-msgstr[2] "Chwilio ac amnewid wedi'i gwblhau, %d llinyn wedi'u diweddaru."
-msgstr[3] "Chwilio ac amnewid wedi'i gwblhau, %d llinyn wedi'u diweddaru."
-msgstr[4] "Chwilio ac amnewid wedi'i gwblhau, %d llinyn wedi'u diweddaru."
-msgstr[5] "Chwilio ac amnewid wedi'i gwblhau, %d llinyn wedi'u diweddaru."
-
 #, python-format
 msgid "Search for %s"
 msgstr "Chwilio am %s"
@@ -22840,18 +24854,29 @@ msgstr "Gormod o chwilio, ceisiwch eto yn nes ymlaen."
 msgid "Invalid search query!"
 msgstr "Chwilio annilys!"
 
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many bulk edits, please try again later."
+msgstr "Gormod o chwilio, ceisiwch eto yn nes ymlaen."
+
+msgid "The preview has expired or is invalid. Preview the changes again."
+msgstr ""
+
+msgid "Could not process form!"
+msgstr "Methu prosesu'r ffurflen!"
+
+#, fuzzy
+#| msgid "Edit strings"
+msgid "Bulk edit in progress."
+msgstr "Golygu llinynnau"
+
+#, fuzzy, python-format
+#| msgid "Authentication app (%s)"
+msgid "Bulk edit failed: %s"
+msgstr "Ap dilysu (%s)"
+
 msgid "Bulk edit completed, no strings were updated."
 msgstr "Cwblhawyd golygiad swmp, ni ddiweddarwyd unrhyw linynnau."
-
-#, python-format
-msgid "Bulk edit completed, %d string was updated."
-msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] "Cwblhawyd golygiad swmp, diweddarwyd %d llinynnau."
-msgstr[1] "Cwblhawyd golygiad swmp, diweddarwyd %d llinyn."
-msgstr[2] "Cwblhawyd golygiad swmp, diweddarwyd %d llinyn."
-msgstr[3] "Cwblhawyd golygiad swmp, diweddarwyd %d llinyn."
-msgstr[4] "Cwblhawyd golygiad swmp, diweddarwyd %d llinyn."
-msgstr[5] "Cwblhawyd golygiad swmp, diweddarwyd %d llinyn."
 
 msgid "Settings saved"
 msgstr "Cadwyd y gosodiadau"
@@ -22962,6 +24987,16 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "Siart bar ieithoedd fertigol"
 
+#, fuzzy
+#| msgid "Your languages"
+msgid "Sort languages by"
+msgstr "Eich ieithoedd"
+
+#, fuzzy
+#| msgid "Translation change"
+msgid "Translation percentage"
+msgstr "Newid i gyfieithiad"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr "Siart bar ieithoedd llorweddol"
@@ -22996,6 +25031,11 @@ msgstr[3] "Ieithoedd"
 msgstr[4] "Ieithoedd"
 msgstr[5] "Ieithoedd"
 
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
+msgstr ""
+
 #, fuzzy
 #| msgid "This translation is currently locked."
 msgid "The project is already assigned to this workspace."
@@ -23028,9 +25068,141 @@ msgid "Invalid host name given!"
 msgstr "Enw gwesteiwr annilys wedi'i roi!"
 
 #, fuzzy
+#| msgid "XML tags in translation do not match source"
+msgid "Press ? in the translation editor to discover keyboard shortcuts."
+msgstr "Nid yw'r tagiau XML yn y cyfieithiad yn cyfateb i'r ffynhonnell"
+
+msgid ""
+"Add secondary languages in your preferences to see translations you already "
+"understand alongside the source."
+msgstr ""
+
+msgid ""
+"Customize your special characters in your profile to keep frequently used "
+"characters within reach."
+msgstr ""
+
+msgid ""
+"Use the visual keyboard above the translation field to insert special "
+"characters."
+msgstr ""
+
+msgid ""
+"Save searches you use often so you can return to them from the search "
+"filters."
+msgstr ""
+
+msgid ""
+"Combine search conditions with AND, OR, and NOT to find exactly the strings "
+"you need."
+msgstr ""
+
+msgid ""
+"Search with regular expressions when a simple word search is not enough."
+msgstr ""
+
+#, fuzzy
+#| msgid "Use flags to indicate special strings in your translation."
+msgid "Use labels to organize strings and find related translation work."
+msgstr "Defnyddiwch fflagiau i nodi llinynnau arbennig yn eich cyfieithiad."
+
+msgid ""
+"Check a string’s screenshots to see where the text appears in the "
+"application."
+msgstr ""
+
+msgid ""
+"Link an existing screenshot to a string to give translators more context."
+msgstr ""
+
+msgid ""
+"Check nearby strings for context before translating a short or ambiguous "
+"message."
+msgstr ""
+
+msgid "Explore a string’s history to see how its translation has changed."
+msgstr ""
+
+msgid ""
+"Leave a comment on a source string to ask for context that can help every "
+"language."
+msgstr ""
+
+msgid ""
+"Suggest a translation when you want others to review your wording before it "
+"is accepted."
+msgstr ""
+
+#, fuzzy
+#| msgid "Suggestion removed during cleanup"
+msgid "You can edit a translation suggestion before accepting it."
+msgstr "Tynnwyd yr awgrym yn ystod y glanhau"
+
+msgid ""
+"Add terms to a project glossary to help translators use consistent wording."
+msgstr ""
+
+msgid ""
+"Glossaries can mark terms as forbidden to help translators avoid unwanted "
+"wording."
+msgstr ""
+
+msgid "Glossaries can mark names and other terms as untranslatable."
+msgstr ""
+
+msgid ""
+"Watch projects you care about and choose which translation events notify you."
+msgstr ""
+
+msgid ""
+"Choose notification digests to receive translation updates together instead "
+"of one email at a time."
+msgstr ""
+
+msgid "Regular expression processing failed or exceeded its resource limit."
+msgstr ""
+
+msgid "Cumulative regex time limit exceeded."
+msgstr ""
+
+msgid "Regex request exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression to match translation files against"
+msgid "Regular expression evaluation timed out."
+msgstr "Mynegiant rheolaidd i gydweddu ffeiliau cyfieithu yn ei erbyn"
+
+msgid "Regex response exceeds its size limit."
+msgstr ""
+
+msgid "Regex output exceeds its size limit."
+msgstr ""
+
+msgid "Pattern and replacement must not exceed 4096 characters."
+msgstr ""
+
+msgid "Regex input exceeds 1 MiB per plural."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Invalid regular expression: {}"
+msgid "Invalid regular expression or replacement: %s"
+msgstr "Mynegiant rheolaidd annilys: {}"
+
+#, fuzzy
 #| msgid "Automatic translation mode"
 msgid "Automatic translation reported a warning."
 msgstr "Modd cyfieithu awtomatig"
+
+#, fuzzy
+#| msgid ""
+#| "Automatically translates strings using machine translation or other "
+#| "components."
+msgid "Automatic translation is waiting for another operation to finish."
+msgstr ""
+"Mae'r ychwanegyn hwn yn cyfieithu llinynnau yn awtomatig gyda chyfieithu "
+"peirianyddol neu gydrannau eraill."
 
 #, fuzzy
 #| msgid "Automatic translation in progress"
@@ -23039,6 +25211,11 @@ msgstr "Cyfieithu awtomatig yn digwydd"
 
 msgid "Task could not be completed. See the task log for details."
 msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation mode"
+msgid "Automatic translation reported an error."
+msgstr "Modd cyfieithu awtomatig"
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -23214,12 +25391,13 @@ msgstr "Wedi methu dileu'r llinyn: %s"
 msgid "Could not resolve the URL domain."
 msgstr "Wedi methu dileu'r llinyn: %s"
 
+#, fuzzy
+#| msgid "Invalid host name given!"
+msgid "Invalid stored parameter value."
+msgstr "Enw gwesteiwr annilys wedi'i roi!"
+
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
-
-#, python-format
-msgid "Undefined variable: \"%s\""
-msgstr "Newidyn anniffiniedig: \"%s\""
 
 msgid "Could not render template: {}"
 msgstr "Methu rendro templed: {}"
@@ -23231,10 +25409,366 @@ msgstr ""
 "Nid yw'r llinynnau fformat yn cael eu cefnogi bellach, defnyddiwch iaith y "
 "templed yn lle hynny."
 
+msgid "Template context exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The HTML {tag} tag is missing a matching end tag: {end}."
+msgid "Template context is nested too deeply."
+msgstr "Mae tag diwedd cyfatebol ar goll yn y tag HTML {tag}: {end}."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported nonfinite template context value."
+msgstr "Fformat ffeil heb ei gefnogi."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template context key."
+msgstr "Fformat ffeil heb ei gefnogi."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template context value."
+msgstr "Fformat ffeil heb ei gefnogi."
+
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Entered token is not valid."
+msgid "Template text is not valid UTF-8."
+msgstr "Nid yw'r cyfieithiad yn XML dilys."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid merge request!"
+msgid "Invalid template syntax."
+msgstr "Cais cyfuno annilys!"
+
+#, fuzzy
+#| msgid "Undefined variable: \"%s\""
+msgid "Undefined template variable."
+msgstr "Newidyn anniffiniedig: \"%s\""
+
+#, fuzzy
+#| msgid "The translation is not valid XML"
+msgid "Text is not valid UTF-8."
+msgstr "Nid yw'r cyfieithiad yn XML dilys"
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Division by zero is not supported."
+msgstr "Dyw'r didoli hwn ddim yn cael ei gefnogi."
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Numeric value is too large for this operation."
+msgstr "Pori pob newid ar gyfer yr iaith hon"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Numeric operation failed."
+msgstr "Methodd gweithrediad y storfa"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation reviews are not enabled."
+msgid "Value or argument has an invalid format."
+msgstr "Nid yw adolygiadau cyfieithu wedi'u galluogi."
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "%(operation)s: %(message)s"
+msgstr "Wedi methu gwthio %(component)s: %(error_text)s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
+msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nonfinite numbers are not supported."
+msgstr "Dyw'r didoli hwn ddim yn cael ei gefnogi."
+
+#, fuzzy, python-format
+#| msgid "File names"
+msgid "Filter \"%(name)s\""
+msgstr "Enwau ffeiliau"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
+msgstr ""
+
+msgid "Template rendering exceeded its loop limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Attribute access and method calls are not supported."
+msgstr "Dyw'r didoli hwn ddim yn cael ei gefnogi."
+
+msgid "Index exceeds the length limit of 128 characters."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Translated template literals are not supported."
+msgstr "Dyw'r didoli hwn ddim yn cael ei gefnogi."
+
+#, fuzzy
+#| msgid "Invalid date!"
+msgid "Invalid filter."
+msgstr "Dyddiad annilys!"
+
+msgid "Identity comparisons require None, True, or False."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This condition operator is not supported."
+msgstr "Dyw'r didoli hwn ddim yn cael ei gefnogi."
+
+msgid "Template output exceeds its size limit."
+msgstr ""
+
+msgid "Loops require a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
+msgstr ""
+
+msgid "Loop value cannot be unpacked into its variables."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This template tag is not supported."
+msgstr "Dyw'r didoli hwn ddim yn cael ei gefnogi."
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This template node is not supported."
+msgstr "Nid yw'r fformat ffeil yma'n cael ei gefnogi."
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Undefined variable: \"%s\""
+msgstr "Newidyn anniffiniedig: \"%s\""
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "This name is prohibited"
+msgid "This filter requires strings."
+msgstr "Ni chaniateir yr enw hwn"
+
+#, fuzzy
+#| msgid "Automatically translated"
+msgid "Choices must be a string."
+msgstr "Wedi'i gyfieithu'n awtomatig"
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source string length"
+msgid "Joining requires string elements."
+msgstr "Hyd y llinyn ffynhonnell"
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatically translated"
+msgid "Date format must be a string or None."
+msgstr "Wedi'i gyfieithu'n awtomatig"
+
+#, fuzzy
+#| msgid "Avoid years that are associated with you."
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "Osgowch flynyddoedd sy'n gysylltiedig â chithau."
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatically translated"
+msgid "Plural suffixes must be a string."
+msgstr "Wedi'i gyfieithu'n awtomatig"
+
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nested template delimiters are not supported."
+msgstr "Dyw'r didoli hwn ddim yn cael ei gefnogi."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unclosed template token."
+msgstr "Fformat ffeil heb ei gefnogi."
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid ".NET resource file"
+msgid "Template tag is empty."
+msgstr "Ffeil adnoddau .NET"
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr ""
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unsupported file format."
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "Fformat ffeil heb ei gefnogi."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported template tag."
+msgstr "Fformat ffeil heb ei gefnogi."
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
 #, python-format
 msgid ""
 "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Regular expression is too complex."
+msgstr "Mynegiad rheolaidd"
 
 msgid "Search query is too complex."
 msgstr ""
@@ -23275,6 +25809,12 @@ msgid "Unsupported lookup for {field}: {value}"
 msgstr ""
 
 #, fuzzy
+#| msgctxt "Notification name"
+#| msgid "New translation component was created"
+msgid "A concrete project or component is required."
+msgstr "Crëwyd cydran cyfieithu newydd"
+
+#, fuzzy
 #| msgid "Could not parse flags: %s"
 msgid "Could not parse IP address: {}"
 msgstr "Wedi methu dosrannu fflagiau: %s"
@@ -23289,6 +25829,11 @@ msgstr ""
 
 msgid "Mixed operators!"
 msgstr ""
+
+#, fuzzy
+#| msgid "The source string needs review."
+msgid "Search query is too long."
+msgstr "Mae angen adolygu'r llinyn ffynhonnell."
 
 #, fuzzy
 #| msgid "Invalid search string!"
@@ -23491,6 +26036,9 @@ msgstr ""
 msgid "URL domain is not allowed."
 msgstr ""
 
+msgid "AMQP broker URLs must not contain query strings or fragments."
+msgstr ""
+
 #, fuzzy
 #| msgid "Name consists only of disallowed characters."
 msgid "Repository URL contains unsafe characters."
@@ -23686,6 +26234,37 @@ msgstr ""
 #| msgid "Too many messages sent, please try again later."
 msgid "Pull request listing failed: %(error)s Please retry later."
 msgstr "Anfonwyd gormod o negeseuon, ceisiwch eto yn nes ymlaen."
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s"
+msgstr "Anfonwyd gormod o negeseuon, ceisiwch eto yn nes ymlaen."
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s "
+"Please retry later."
+msgstr "Anfonwyd gormod o negeseuon, ceisiwch eto yn nes ymlaen."
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s"
+msgstr "Anfonwyd gormod o negeseuon, ceisiwch eto yn nes ymlaen."
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s Please retry later."
+msgstr "Anfonwyd gormod o negeseuon, ceisiwch eto yn nes ymlaen."
+
+#, python-format
+msgid "GitHub did not assign the requested users: %(assignees)s"
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Could not merge the repository."
@@ -24028,6 +26607,11 @@ msgid "This will push changes to the upstream Mercurial repository."
 msgstr "Bydd hyn yn gwthio newidiadau i'r storfa Mercurial i fyny'r afon."
 
 #, fuzzy
+#| msgid "Could not merge the repository."
+msgid "Could not remove nested repository metadata."
+msgstr "Methu uno'r storfa."
+
+#, fuzzy
 #| msgctxt "Label on engage page"
 #| msgid "GitHub star"
 #| msgid_plural "GitHub stars"
@@ -24112,6 +26696,32 @@ msgid ""
 "Open a pull or merge request for the translation changes. When turned off, "
 "Weblate pushes to the translated branch directly, which requires write "
 "access to it."
+msgstr ""
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request assignee"
+msgstr "Cais tynnu Gitea"
+
+msgid "GitHub username to assign to pull requests created by Weblate."
+msgstr ""
+
+msgid "Assign pull requests to acting user"
+msgstr ""
+
+msgid ""
+"Also assign the GitHub account linked to the Weblate user who starts the "
+"push, when available."
+msgstr ""
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request labels"
+msgstr "Cais tynnu Gitea"
+
+msgid ""
+"Comma-separated names of labels to add to pull requests created by Weblate. "
+"Existing labels are kept."
 msgstr ""
 
 msgid "Merge pull requests automatically"
@@ -24496,6 +27106,70 @@ msgstr ""
 "Cwymplen llywio gyson yn y gornel dde uchaf, hyd yn oed os oes lle i "
 "ddewislen lawn."
 
+#, fuzzy
+#| msgid "Data exports"
+msgid "CSV report"
+msgstr "Allforion data"
+
+#, fuzzy
+#| msgid "Languages limit"
+msgid "Delimiter"
+msgstr "Terfyn ieithoedd"
+
+msgid ""
+"Leave blank to detect automatically. Use a comma, semicolon, pipe, or \\t "
+"for a tab."
+msgstr ""
+
+msgid "First row contains column names"
+msgstr ""
+
+#, fuzzy
+#| msgid "Username or e-mail"
+msgid "Username or e-mail column"
+msgstr "Enw defnyddiwr neu e-bost"
+
+#, fuzzy
+#| msgid "Password"
+msgid "Password column"
+msgstr "Cyfrinair"
+
+msgid ""
+"Specify both column numbers, or leave both blank for automatic detection."
+msgstr ""
+
+#, fuzzy
+#| msgid "Bad configuration"
+msgid "Configuring"
+msgstr "Ffurfweddiad gwael"
+
+msgid "Running"
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+#, fuzzy
+#| msgid "Resolve"
+msgid "Resolved"
+msgstr "Datrys"
+
+#, fuzzy
+#| msgid "User was disabled by administrator."
+msgid "Dismissed by administrator"
+msgstr "Anfonwyd neges at y gweinyddwr."
+
+msgid "Lookalike e-mail identity removed"
+msgstr ""
+
+msgid "E-mail identity already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Password already changed"
+msgstr "Cyfrinair wedi newid."
+
 #. Translators: The Weblate server has no paid support by the Weblate team
 msgid "Community support"
 msgstr "Cefnogaeth y cymuned"
@@ -24564,11 +27238,187 @@ msgstr "Storfa wrth gefn wedi'i glanhau"
 msgid "Repository initialization"
 msgstr "Cychwyn storfa"
 
+#, fuzzy
+#| msgid "New password"
+msgid "Leaked password"
+msgstr "Cyfrinair newydd"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Lookalike verified e-mail address"
+msgstr "Gwirio cyfeiriad e-bost newydd"
+
+msgid "The uploaded report has expired. Upload it again."
+msgstr ""
+
+msgid ""
+"Could not detect the credential columns. Configure their column numbers."
+msgstr ""
+
+msgid "Choose different identifier and password columns."
+msgstr ""
+
+msgid "The report exceeds the 10 MiB limit."
+msgstr ""
+
+msgid "Upload a UTF-8 encoded CSV file."
+msgstr ""
+
+msgid ""
+"Could not detect the delimiter. Configure the CSV columns and delimiter."
+msgstr ""
+
+msgid "Choose a single delimiter character."
+msgstr ""
+
+#, fuzzy
+#| msgid "ZIP file containing translations"
+msgid "The file contains malformed CSV quoting."
+msgstr "Ffeil ZIP yn cynnwys cyfieithiadau"
+
+#, fuzzy
+#| msgid ".NET resource file"
+msgid "The report is empty."
+msgstr "Ffeil adnoddau .NET"
+
+msgid "The report exceeds the 50,000 row limit."
+msgstr ""
+
+msgid "The report contains no credential rows."
+msgstr ""
+
+#, fuzzy
+#| msgid "You do not have permission to access this component."
+msgid ""
+"The initiating administrator no longer has permission to perform this "
+"operation."
+msgstr "Nid oes gennych ganiatâd i gael mynediad i'r gydran hon."
+
+msgid ""
+"The security operation failed. Review any findings already recorded and "
+"start a new operation."
+msgstr ""
+
+#, fuzzy
+#| msgid "Security FAQ"
+msgid "Security report"
+msgstr "Cwestiynau Cyffredin Diogelwch"
+
+#, fuzzy, python-format
+#| msgid "Joined on %(date)s"
+msgid "Report from %(date)s"
+msgstr "Wedi ymuno ar %(date)s"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s — %(report)s"
+msgstr "%(filename)s, llinyn %(position)s"
+
+msgid ""
+"Your identity verification has expired. Confirm your identity, then select "
+"and upload the CSV report again."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "Could not store the encrypted upload. Try again."
+msgstr "Anfonwyd gormod o negeseuon, ceisiwch eto yn nes ymlaen."
+
+msgid "Choose a CSV report of at most 10 MiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "Could not read the uploaded report. Upload it again."
+msgstr "Anfonwyd gormod o negeseuon, ceisiwch eto yn nes ymlaen."
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords checked"
+msgstr "Cyfrinair wedi newid."
+
+#, fuzzy
+#| msgid "Duplicated translation."
+msgid "Duplicate rows"
+msgstr "Cyfieithiad dyblyg."
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Unknown accounts"
+msgstr "Dileu cyfrif"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Ambiguous accounts"
+msgstr "Dileu cyfrif"
+
+msgid "Malformed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "New password"
+msgid "Unusable passwords"
+msgstr "Cyfrinair newydd"
+
+msgid "Passwords that did not match"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password reset"
+msgid "Passwords reset"
+msgstr "Ailosod cyfrinair"
+
+msgid "Lookalike e-mail identities removed"
+msgstr ""
+
+msgid "E-mail identities already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords already changed"
+msgstr "Cyfrinair wedi newid."
+
+#, fuzzy
+#| msgid "Dismissed"
+msgid "Dismissed findings"
+msgstr "Cau"
+
+#, fuzzy
+#| msgid "Recent additions"
+msgid "Skipped findings"
+msgstr "Ychwanegiadau diweddar"
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported actions"
+msgstr "Ffeil heb ei gynnal!"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Primary e-mail address"
+msgstr "Gwirio cyfeiriad e-bost newydd"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Verified e-mail address"
+msgstr "Gwirio cyfeiriad e-bost newydd"
+
+#, fuzzy, python-format
+#| msgid "Edit team membership for %(username)s"
+msgid "Finding for %(username)s"
+msgstr "Golygu aelodaeth tîm ar gyfer %(username)s"
+
 msgid "Weblate administration"
 msgstr "Gweinyddiaeth Weblate"
 
 msgid "Object listing turned off"
 msgstr "Rhestru gwrthrychau wedi'i ddiffodd"
+
+#, fuzzy
+#| msgid "The registration link has been invalidated."
+msgid "The security operation expired. Start a new operation."
+msgstr "Mae'r ddolen gofrestru wedi'i hannilysu."
 
 msgid "Return to Weblate"
 msgstr "Nôl i Weblate"
@@ -24738,6 +27588,25 @@ msgid "Workspace name"
 msgstr "Enw defnyddiwr"
 
 #, fuzzy
+#| msgid "Allow translation propagation"
+msgid "Translation propagation scope"
+msgstr "Caniatáu lluosogi cyfieithu"
+
+#, fuzzy
+#| msgid "Cannot change this on a built-in team."
+msgid "Matching component name within workspace"
+msgstr "Methu newid hyn ar dîm mewnol."
+
+#, fuzzy
+#| msgid ""
+#| "Whether to overwrite existing translations if the string is already "
+#| "translated."
+msgid "Where translations of matching strings are propagated."
+msgstr ""
+"A ddylid trosysgrifo cyfieithiadau sy'n bodoli eisoes os yw'r llinyn wedi'i "
+"gyfieithu eisoes."
+
+#, fuzzy
 #| msgid "Language name"
 msgid "Managed name"
 msgstr "Enw iaith"
@@ -24780,6 +27649,106 @@ msgstr ""
 #| msgid "Source has been removed."
 msgid "The workspace has been removed."
 msgstr "Mae ffynhonnell wedi'i dileu."
+
+#, python-format
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "Pori geirfa %(name)s"
+
+#, fuzzy
+#~| msgid "Invalid translation flag: \"%s\""
+#~ msgid "Invalid template rendering response."
+#~ msgstr "Baner cyfieithu annilys: \"%s\""
+
+#, fuzzy
+#~| msgid "Registration almost complete"
+#~ msgid "E-mail verification almost complete"
+#~ msgstr "Cofrestru bron yn gyflawn"
+
+#, fuzzy
+#~| msgid ""
+#~| "Click the confirmation link sent to your e-mail inbox and start using "
+#~| "your account."
+#~ msgid ""
+#~ "Click the confirmation link sent to your e-mail inbox to verify the "
+#~ "address for your account."
+#~ msgstr ""
+#~ "Cliciwch ar y ddolen gadarnhau ag anfonwyd at eich mewnflwch e-bost a "
+#~ "dechrau defnyddio eich cyfrif."
+
+#~ msgid "Search and replace"
+#~ msgstr "Canfod a amnewid"
+
+#, fuzzy
+#~| msgid "Adding strings is disabled in the component configuration."
+#~ msgid "Stop using this installation without removing its configuration."
+#~ msgstr "Mae ychwanegu llinynnau wedi'i analluogi yng ffurfweddiad y gydran."
+
+#, fuzzy
+#~| msgid "Remove this notification setting"
+#~ msgid "Remove this installation and its configuration."
+#~ msgstr "Dileu'r gosodiad hysbysu hwn"
+
+#~ msgid "Please review and confirm the search and replace results."
+#~ msgstr "Adolygwch a chadarnhewch y chwiliad ac amnewid canlyniadau."
+
+#~ msgid ""
+#~ "Showing and replacing only the first 250 matches. Perform the replacement "
+#~ "again to replace more."
+#~ msgstr ""
+#~ "Yn dangos ac yn disodli'r 250 cyfatebiadau cyntaf yn unig. Gwnewch yr "
+#~ "amnewidiad eto i ddisodli mwy."
+
+#~ msgid "Replace"
+#~ msgstr "Amnewid"
+
+#, fuzzy
+#~| msgid "Include strings needing editing"
+#~ msgid "Find strings in image"
+#~ msgstr "Cynnwys llinynnau sydd angen eu golygu"
+
+#~ msgid "You can change the state of all strings matching given type at once."
+#~ msgstr ""
+#~ "Gallwch newid cyflwr pob llinyn sy'n cyfateb i'r math penodol ar unwaith."
+
+#~ msgid "Optional additional filter applied to the strings"
+#~ msgstr "Hidlydd ychwanegol dewisol wedi'i gymhwyso i'r llinynnau"
+
+#~ msgid "Case-sensitive string to search for and replace."
+#~ msgstr "Llinyn sy'n sensitif i achos i chwilio amdano a'i ddisodli."
+
+#, fuzzy
+#~| msgid "Translation flags to add"
+#~ msgid "Translation flags to add — matching translations"
+#~ msgstr "Baneri cyfieithu i'w hychwanegu"
+
+#, fuzzy
+#~| msgid "Translation flags to remove"
+#~ msgid "Translation flags to remove — matching translations"
+#~ msgstr "Cyfieithu baneri i gael gwared"
+
+#, fuzzy
+#~| msgid "For all languages"
+#~ msgid "Labels to add — all languages"
+#~ msgstr "Am bob iaith"
+
+#, fuzzy
+#~| msgid "Labels to remove"
+#~ msgid "Labels to remove — all languages"
+#~ msgstr "Labeli i'w tynnu"
+
+#~ msgid "Search and replace completed, no strings were updated."
+#~ msgstr "Chwilio a disodli wedi'i gwblhau, ni ddiweddarwyd unrhyw linynnau."
+
+#, python-format
+#~ msgid "Search and replace completed, %d string was updated."
+#~ msgid_plural "Search and replace completed, %d strings were updated."
+#~ msgstr[0] ""
+#~ "Chwilio ac amnewid wedi'i gwblhau, %d llinynnau wedi'u ddiweddaru."
+#~ msgstr[1] "Chwilio ac amnewid wedi'i gwblhau, %d llinyn wedi'i ddiweddaru."
+#~ msgstr[2] "Chwilio ac amnewid wedi'i gwblhau, %d llinyn wedi'u diweddaru."
+#~ msgstr[3] "Chwilio ac amnewid wedi'i gwblhau, %d llinyn wedi'u diweddaru."
+#~ msgstr[4] "Chwilio ac amnewid wedi'i gwblhau, %d llinyn wedi'u diweddaru."
+#~ msgstr[5] "Chwilio ac amnewid wedi'i gwblhau, %d llinyn wedi'u diweddaru."
 
 #~ msgid "Name is also used in version control commits."
 #~ msgstr "Mae'r enw hefyd yn cael ei ddefnyddio yn rheoli fersiwn traddodi."
@@ -24918,11 +27887,6 @@ msgstr "Mae ffynhonnell wedi'i dileu."
 #~ "Methwyd dilysu, yn ôl pob tebyg oherwydd gwall tocyn neu gysylltiad sydd "
 #~ "wedi dod i ben."
 
-#, fuzzy, python-format
-#~| msgid "Authentication app (%s)"
-#~ msgid "Authentication failed: %s"
-#~ msgstr "Ap dilysu (%s)"
-
 #, fuzzy
 #~| msgid "The authentication app was removed."
 #~ msgid "The authentication provider could not be reached."
@@ -25049,9 +28013,6 @@ msgstr "Mae ffynhonnell wedi'i dileu."
 #~ msgid "Join us in shaping the future of localization and contribute today!"
 #~ msgstr "Ymunwch â ni i lunio dyfodol lleoleiddio a chyfrannwch heddiw!"
 
-#~ msgid "Download reports"
-#~ msgstr "Adroddiadau llwytho i lawr"
-
 #~ msgid "Suggested change"
 #~ msgstr "Newid a awgrymir"
 
@@ -25149,9 +28110,6 @@ msgstr "Mae ffynhonnell wedi'i dileu."
 #~ msgid "Translation files in accessible repositories have been synchronized."
 #~ msgstr "Mae ffeiliau cyfieithu wedi'u cydweddu."
 
-#~ msgid "Updates of translations are in progress."
-#~ msgstr "Mae diweddariadau o gyfieithiadau ar y gweill."
-
 #, fuzzy
 #~| msgid "Updates of translations are in progress."
 #~ msgid "Updates of translations in accessible repositories are in progress."
@@ -25178,9 +28136,6 @@ msgstr "Mae ffynhonnell wedi'i dileu."
 #~ "gam sy'n dangos rhagolwg o'r llinynnau wedi'u golygu cyn i'r newid "
 #~ "gwirioneddol gael ei gadarnhau."
 
-#~ msgid "Activation completed."
-#~ msgstr "Cwblhawyd yr agor."
-
 #, python-format
 #~ msgid "Could not activate your installation: %s"
 #~ msgstr "Methu gweithredu eich gosodiad: %s"
@@ -25194,11 +28149,6 @@ msgstr "Mae ffynhonnell wedi'i dileu."
 #~| msgid "Backup repository URL"
 #~ msgid "Repository URL"
 #~ msgstr "URL storfa wrth gefn"
-
-#, fuzzy
-#~| msgid "Repository merged"
-#~ msgid "Repository name"
-#~ msgstr "Cyfuno storfa"
 
 #, fuzzy
 #~| msgid "Create component"
@@ -25260,11 +28210,6 @@ msgstr "Mae ffynhonnell wedi'i dileu."
 #~| msgid "project wide"
 #~ msgid "project-wide"
 #~ msgstr "project eang"
-
-#, fuzzy
-#~| msgid "site wide"
-#~ msgid "site-wide"
-#~ msgstr "safle eang"
 
 #, fuzzy, python-format
 #~| msgctxt "Automatic suggestion service configuration"
@@ -25349,11 +28294,6 @@ msgstr "Mae ffynhonnell wedi'i dileu."
 #~| msgid "Test Sentry integration"
 #~ msgid "VCS integrations"
 #~ msgstr "Integreiddio Test Sentry"
-
-#, fuzzy
-#~| msgid "Weblate configuration"
-#~ msgid "Manage VCS integrations"
-#~ msgstr "Ffurfweddiad Weblate"
 
 #, fuzzy
 #~| msgctxt "Label on engage page"
@@ -25506,9 +28446,6 @@ msgstr "Mae ffynhonnell wedi'i dileu."
 #~ msgid "Provide context to the translators"
 #~ msgstr "Rhowch gyd-destun i'r cyfieithwyr"
 
-#~ msgid "Workflow customization"
-#~ msgstr "Addasu llif gwaith"
-
 #~ msgid "Add team"
 #~ msgstr "Ychwanegu tîm"
 
@@ -25571,9 +28508,6 @@ msgstr "Mae ffynhonnell wedi'i dileu."
 
 #~ msgid "This URL is prohibited"
 #~ msgstr "Mae’r URL hwn yn waharddedig"
-
-#~ msgid "Categorized component can not be shared."
-#~ msgstr "Nid oes modd rhannu cydran wedi'i chategoreiddio."
 
 #~ msgctxt "Access-control role"
 #~ msgid "Billing"
@@ -26111,9 +29045,6 @@ msgstr "Mae ffynhonnell wedi'i dileu."
 #~ msgid "Disable two-factor authentication"
 #~ msgstr "Analluogu dilysu dau ffactor"
 
-#~ msgid "Translation reviews are not enabled."
-#~ msgstr "Nid yw adolygiadau cyfieithu wedi'u galluogi."
-
 #~ msgid "Reviews are not enabled."
 #~ msgstr "Nid yw adolygiadau wedi'u galluogi."
 
@@ -26154,9 +29085,6 @@ msgstr "Mae ffynhonnell wedi'i dileu."
 
 #~ msgid "Starting date"
 #~ msgstr "Dyddiad cychwyn"
-
-#~ msgid "Ending date"
-#~ msgstr "Dyddiad gorffen"
 
 #~ msgid "Last 30 days"
 #~ msgstr "Y 30 diwrnod diwethaf"
@@ -26297,9 +29225,6 @@ msgstr "Mae ffynhonnell wedi'i dileu."
 #~ msgid "Rename component"
 #~ msgstr "Ailenwi cydran"
 
-#~ msgid "Move component"
-#~ msgstr "Symud cydran"
-
 #~ msgid "Moving the component will also change its URLs."
 #~ msgstr "Bydd symud y gydran hefyd yn newid ei URLs."
 
@@ -26325,9 +29250,6 @@ msgstr "Mae ffynhonnell wedi'i dileu."
 #~ msgid "Committed changes"
 #~ msgstr "Newidiadau traddodi"
 
-#~ msgid "Pushed changes"
-#~ msgstr "Newidiadau wedi'u gwthio"
-
 #~ msgid "Failed merge on repository"
 #~ msgstr "Wedi methu uno ar yr ystorfa"
 
@@ -26348,9 +29270,6 @@ msgstr "Mae ffynhonnell wedi'i dileu."
 
 #~ msgid "Renamed project"
 #~ msgstr "Ailenwyd project"
-
-#~ msgid "Renamed component"
-#~ msgstr "Ailenwyd cydran"
 
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
@@ -26428,9 +29347,6 @@ msgstr "Mae ffynhonnell wedi'i dileu."
 
 #~ msgid "New language"
 #~ msgstr "Iaith newydd"
-
-#~ msgid "Check details"
-#~ msgstr "Manylion gwirio"
 
 #, python-format
 #~ msgctxt "Changes by user"
@@ -26545,22 +29461,8 @@ msgstr "Mae ffynhonnell wedi'i dileu."
 #~ msgid "Too many failed registration attempts from this location."
 #~ msgstr "Gormod o ymdrechion cofrestru wedi methu o'r lleoliad hwn."
 
-#~ msgid "Too many authentication attempts from this location."
-#~ msgstr "Gormod o geisiadau dilysu o'r lleoliad hwn."
-
 #~ msgid "source"
 #~ msgstr "ffynhonnell"
-
-#, fuzzy, python-format
-#~| msgid "Strings needing action"
-#~ msgid "%(count)s string needing action"
-#~ msgid_plural "%(count)s strings needing action"
-#~ msgstr[0] "Llinynnau sydd angen eu gweithredu"
-#~ msgstr[1] "Llinynnau sydd angen eu gweithredu"
-#~ msgstr[2] "Llinynnau sydd angen eu gweithredu"
-#~ msgstr[3] "Llinynnau sydd angen eu gweithredu"
-#~ msgstr[4] "Llinynnau sydd angen eu gweithredu"
-#~ msgstr[5] "Llinynnau sydd angen eu gweithredu"
 
 #, fuzzy
 #~| msgid "Component discovery"
@@ -26847,9 +29749,6 @@ msgstr "Mae ffynhonnell wedi'i dileu."
 #~ msgstr ""
 #~ "Nid oes modd i chi fewngofnodi mwyach gan ddefnyddio {method} ({name})."
 
-#~ msgid "You can now log in using password."
-#~ msgstr "Gallwch nawr fewngofnodi gan ddefnyddio cyfrinair."
-
 #~ msgid "New whiteboard message"
 #~ msgstr "Neges Bwrdd Gwyn newydd"
 
@@ -26892,6 +29791,3 @@ msgstr "Mae ffynhonnell wedi'i dileu."
 #~| msgid "Access repository"
 #~ msgid "Backup pepository"
 #~ msgstr "Mynediad i'r ystorfa"
-
-#~ msgid "Your languages"
-#~ msgstr "Eich ieithoedd"

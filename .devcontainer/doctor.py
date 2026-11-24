@@ -21,6 +21,7 @@ from threading import Thread
 import django
 from django.conf import settings
 from django.db import connection
+from readiness import check_image, check_preparation, check_tools, record_preparation
 from redis import Redis
 from redis.exceptions import RedisError
 
@@ -97,6 +98,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--services-only", action="store_true")
     parser.add_argument("--browser", action="store_true")
+    parser.add_argument("--record-bootstrap", action="store_true")
     args = parser.parse_args()
     django.setup()
     cache = Redis(
@@ -115,6 +117,11 @@ def main() -> None:
     if args.services_only:
         return
     root = Path(__file__).resolve().parent.parent
+    check_image(root)
+    check_tools()
+    marker = Path(os.environ["CI_BASE_DIR"]) / "bootstrap.json"
+    if not args.record_bootstrap:
+        check_preparation(root, marker)
     imported = Path(weblate.__file__).resolve().parent
     if imported != root / "weblate":
         sys.exit(f"Wrong Weblate import: {imported}; expected {root / 'weblate'}")
@@ -132,6 +139,16 @@ def main() -> None:
         with TemporaryFile(dir=path):
             pass
         print(f"Writable: {path}")
+    for name in ("UV_CACHE_DIR", "PRE_COMMIT_HOME", "XDG_CACHE_HOME"):
+        path = Path(os.environ[name])
+        path.mkdir(parents=True, exist_ok=True)
+        with TemporaryFile(dir=path):
+            pass
+        print(f"Writable cache: {path}")
+    for language in ("eng", "osd"):
+        path = Path(settings.CACHE_DIR) / "tesseract" / f"{language}.traineddata"
+        if not path.is_file() or not path.stat().st_size:
+            sys.exit(f"OCR model is missing: {path}; rerun bootstrap")
     if not any(Path(settings.STATIC_ROOT).iterdir()):
         sys.exit("Static assets are missing; rerun bootstrap")
     if not any((root / "weblate/locale").glob("*/LC_MESSAGES/django.mo")):
@@ -139,8 +156,13 @@ def main() -> None:
     subprocess.run(["uv", "pip", "check"], check=True)
     if args.browser:
         check_browser()
+    if args.record_bootstrap:
+        record_preparation(root, marker)
     print("Ready for pytest and lint. Test database migrations are applied by pytest.")
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except RuntimeError as error:
+        sys.exit(str(error))

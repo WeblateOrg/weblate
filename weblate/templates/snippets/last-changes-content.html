@@ -12,7 +12,7 @@
           {% if in_email %}style="clear:both"{% endif %}>
         <td class="history-event col-md-3">
           <div class="history-author ms-2">
-            <strong>{% user_display item.change.user %}</strong>
+            <strong>{% user_display item.change.user resource=item.change %}</strong>
             {% if item.origin %}
               {% include "snippets/history-badge.html" with label=item.origin description=item.origin_description prefix=origin_prefix in_email=in_email only %}
             {% endif %}
@@ -40,27 +40,30 @@
                           type="submit"
                           name="revert"
                           value="{{ item.change.id }}"
-                          aria-label="{% translate "Revert" %}"
-                          title="{% translate "Revert" %}">{% icon "undo.svg" %}</button>
+                          aria-label="{% translate "Revert"|force_escape %}"
+                          title="{% translate "Revert"|force_escape %}">{% icon "undo.svg" %}</button>
                 </form>
               {% endif %}
               {% if item.permissions.can_block_user %}
                 <a class="btn btn-link red"
                    href="{% url 'manage-access' project=item.change.project.slug %}?block_user={{ item.change.user.username }}#block-user"
-                   title="{% translate "Block user" %}">{% icon "account-cancel.svg" %}</a>
+                   title="{% translate "Block user"|force_escape %}">{% icon "account-cancel.svg" %}</a>
               {% endif %}
               {% if debug %}
                 <a class="btn btn-link"
                    href="{% url 'show_change' pk=item.change.pk %}"
-                   title="{% translate "View notification" %}">{% icon "bell.svg" %}</a>
+                   title="{% translate "View notification"|force_escape %}">{% icon "bell.svg" %}</a>
               {% endif %}
               <a class="btn btn-link"
                  href="{{ item.change.get_absolute_url }}"
-                 title="{% translate "View details" %}">{% icon "magnify-plus-outline.svg" %}</a>
+                 title="{% translate "View details"|force_escape %}">{% icon "magnify-plus-outline.svg" %}</a>
             </div>
           {% endif %}
           <div class="comment-content">
             {% if item.history_data.description %}{{ item.history_data.description }}{% endif %}
+            {% if item.history_data.preview_truncated %}
+              <a href="{% url 'change-detail' pk=item.change.pk %}">{% translate "View full change" %}</a>
+            {% endif %}
             {% for history_field in item.history_data.change_details_fields %}
               <label class="{{ history_field.label_class }}">
                 {{ history_field.label }}

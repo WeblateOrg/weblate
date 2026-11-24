@@ -56,14 +56,14 @@
           <a href=""
              class="dropdown-item btn btn-link link-post"
              data-href="{% url 'watch' path=project.get_url_path %}?next={{ request.path }}"
-             title="{% translate "You can receive notifications for watched projects and they are shown on the dashboard by default." %}">{% blocktranslate %}Watch project {{ project }}{% endblocktranslate %}</a>
+             title="{% translate "You can receive notifications for watched projects and they are shown on the dashboard by default."|force_escape %}">{% blocktranslate %}Watch project {{ project }}{% endblocktranslate %}</a>
         </li>
         {% if component %}
           <li>
             <a href=""
                class="dropdown-item btn btn-link link-post"
                data-href="{% url 'watch' path=component.get_url_path %}?next={{ request.path }}"
-               title="{% translate "You can receive notifications for watched projects and they are shown on the dashboard by default." %}">{% blocktranslate %}Watch component {{ component }}{% endblocktranslate %}</a>
+               title="{% translate "You can receive notifications for watched projects and they are shown on the dashboard by default."|force_escape %}">{% blocktranslate %}Watch component {{ component }}{% endblocktranslate %}</a>
           </li>
         {% endif %}
       </ul>

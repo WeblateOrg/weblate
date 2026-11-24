@@ -258,7 +258,8 @@ def check_database(
     **kwargs: object,
 ) -> Iterable[CheckMessage]:
     errors: list[CheckMessage] = []
-    if connections["default"].vendor != "postgresql":
+    connection = connections["default"]
+    if connection.vendor != "postgresql":
         errors.append(
             weblate_check(
                 "weblate.E006",
@@ -268,6 +269,17 @@ def check_database(
         )
 
     try:
+        if connection.vendor == "postgresql" and connection.get_database_version() < (
+            15,
+        ):
+            return [
+                weblate_check(
+                    "weblate.E051",
+                    "Weblate requires PostgreSQL 15 or later. Upgrade the database server before upgrading Weblate.",
+                    Error,
+                )
+            ]
+
         delta = measure_database_latency()
         if delta > 120:
             errors.append(
@@ -415,13 +427,13 @@ def check_data_writable(
         ]
     dirs: list[Path] = [
         Path(settings.DATA_DIR),
-        data_path("locks"),
         data_path("home"),
         data_path("ssh"),
         data_path("vcs"),
         data_path("backups"),
         data_path("fonts"),
         data_path("cache") / "ssh",
+        data_path("cache") / "fonts",
         data_path("cache") / "matplotlib",
     ]
     message = "Path {} is not writable, check your DATA_DIR and CACHE_DIR settings."

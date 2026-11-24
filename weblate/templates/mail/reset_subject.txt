@@ -1,10 +1,8 @@
 {% load i18n translations %}
 
-{% autoescape off %}
-  {# Translators: e-mail subject #}
-  {% if password_reset_scope == "weblate-services" %}
-    {% translate "Set password for your Weblate account" %}
-  {% else %}
-    {% blocktranslate %}Password reset on {{ site_title }}{% endblocktranslate %}
-  {% endif %}
-{% endautoescape %}
+{# Translators: e-mail subject #}
+{% if password_reset_scope == "weblate-services" %}
+  {% translate "Set password for your Weblate account" %}
+{% else %}
+  {% blocktranslate %}Password reset on {{ site_title }}{% endblocktranslate %}
+{% endif %}

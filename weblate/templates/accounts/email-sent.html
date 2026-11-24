@@ -4,15 +4,17 @@
 
 {% block breadcrumbs %}
   <li class="breadcrumb-item">
-    {% if is_email_verification %}
+    {% if is_reset %}
+      <a href="{% url 'password_reset' %}">{% translate "Password reset" %}</a>
+    {% elif is_remove %}
+      <a href="{% url 'remove' %}">{% translate "Remove account" %}</a>
+    {% elif is_email_verification %}
       <a href="{% url 'profile' %}#account">{% translate "Your profile" %}</a>
     {% else %}
       <a href="{% url 'register' %}">{% translate "Registration" %}</a>
     {% endif %}
   </li>
-  <li class="breadcrumb-item">
-    <a>{{ title }}</a>
-  </li>
+  <li class="breadcrumb-item active" aria-current="page">{% translate "Check your e-mail" %}</li>
 {% endblock breadcrumbs %}
 
 {% block content %}
@@ -25,7 +27,7 @@
       {% elif is_remove %}
         {% translate "Account removal almost complete" %}
       {% elif is_email_verification %}
-        {% translate "E-mail verification almost complete" %}
+        {% translate "Check your e-mail" %}
       {% else %}
         {% translate "Registration almost complete" %}
       {% endif %}
@@ -37,7 +39,7 @@
       {% elif is_remove %}
         {% blocktranslate %}Remove your account by clicking the confirmation link sent to your e-mail inbox.{% endblocktranslate %}
       {% elif is_email_verification %}
-        {% blocktranslate %}Click the confirmation link sent to your e-mail inbox to verify the address for your account.{% endblocktranslate %}
+        {% translate "Check your e-mail for instructions. If this address is already associated with an account, you may receive account recovery guidance instead of a verification link." %}
       {% else %}
         {% blocktranslate %}Click the confirmation link sent to your e-mail inbox and start using your account.{% endblocktranslate %}
       {% endif %}
@@ -48,7 +50,11 @@
     </p>
 
     <p>
-      {% blocktranslate count count=validity %}The confirmation link will expire after {{ count }} hour.{% plural %}The confirmation link will expire after {{ count }} hours.{% endblocktranslate %}
+      {% if is_email_verification %}
+        {% blocktranslate count count=validity %}If you receive a verification link, it will expire after {{ count }} hour.{% plural %}If you receive a verification link, it will expire after {{ count }} hours.{% endblocktranslate %}
+      {% else %}
+        {% blocktranslate count count=validity %}The confirmation link will expire after {{ count }} hour.{% plural %}The confirmation link will expire after {{ count }} hours.{% endblocktranslate %}
+      {% endif %}
       {% if is_reset or is_remove %}
         {% blocktranslate %}Request a new confirmation link if it expires.{% endblocktranslate %}
       {% elif is_email_verification %}
@@ -57,6 +63,11 @@
         {% blocktranslate %}Register again if the confirmation link expires.{% endblocktranslate %}
       {% endif %}
     </p>
+
+    {% if is_email_verification %}
+      <p>{% translate "If you receive a verification link, open it while signed in to this account and follow the confirmation steps. You may be asked for your current password." %}</p>
+      <p><a href="{% url 'profile' %}#account">{% translate "Back to account settings" %}</a></p>
+    {% endif %}
 
     <p>
       {% translate "E-mail is not an instant technology. Please wait for the confirmation e-mail at least 30 minutes before you write to us about issues." %}

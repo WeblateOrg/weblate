@@ -322,7 +322,10 @@ def _get_actionable_groups(
 
 
 def get_diagnostics_context(
-    data: QueryDict, user: User, components: QuerySet[Component]
+    data: QueryDict,
+    user: User,
+    components: QuerySet[Component],
+    libre_cleanup_alerts: tuple[str, ...] = (),
 ) -> dict[str, object]:
     form = _get_filter_form(data)
     form.is_valid()
@@ -342,7 +345,7 @@ def get_diagnostics_context(
 
     alerts = Alert.objects.filter(
         component__in=components.order_by(), name__in=allowed_names
-    )
+    ).filter_visible_conflicts(user)
     if state == DIAGNOSTICS_STATE_ACTIVE:
         alerts = alerts.filter(dismissed_at__isnull=True)
     elif state == DIAGNOSTICS_STATE_DISMISSED:
@@ -360,5 +363,15 @@ def get_diagnostics_context(
     result = list(groups.values())
     for group in result:
         group.finalize()
-    result.sort(key=lambda group: (-group.severity, str(group.title).casefold()))
-    return {"diagnostics": result, "diagnostics_filter": form}
+    result.sort(
+        key=lambda group: (
+            group.name not in libre_cleanup_alerts,
+            -group.severity,
+            str(group.title).casefold(),
+        )
+    )
+    return {
+        "diagnostics": result,
+        "diagnostics_filter": form,
+        "libre_cleanup_alerts": libre_cleanup_alerts,
+    }

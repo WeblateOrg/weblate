@@ -2,7 +2,11 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-FROM weblate/weblate:2026.10.1.4@sha256:c74bf3c6f5cb52e4aa141e6f605c0f4fdefdcf1e89d1a9fbd011a79a4a83807d AS common
+FROM node:26.13.1-bookworm-slim@sha256:b822af76043e2656ffc172072036fe0968a3c09a692e4ad05eb9348ad5dbdf4c AS node
+# Yarn Classic matches client/yarn.lock; recent Node images omit Yarn.
+RUN npm install --global yarn@1.22.22
+
+FROM weblate/weblate:2026.11.2.1@sha256:5452e58bea51d8e8b77059b4b4e0af753a61c834354cc757fa395a96d29b7d5f AS common
 
 ##########
 # WARNING!
@@ -91,9 +95,27 @@ RUN ln -sf "$(uv --no-cache python find --system --managed-python --no-python-do
 # Compose selects this target with the existing small development context.
 FROM common AS development
 COPY --link --chmod=0755 start-dev /app/bin/
+COPY --from=node /usr/local/ /opt/node/
+ENV PATH=/app/venv/bin:/opt/node/bin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
+RUN apt-get update --error-on=any \
+    && apt-get install -y --no-install-recommends graphviz \
+    && node --version && npm --version && yarn --version
+# The small development build context contains this Dockerfile. Diagnostics
+# compare it with the mounted checkout to detect an image needing a rebuild.
+COPY Dockerfile /usr/local/share/weblate-dev.Dockerfile
 
 ENTRYPOINT ["/app/bin/start-dev"]
 CMD ["runserver"]
+
+
+FROM development AS migration
+ENV UV_PYTHON_INSTALL_DIR=/opt/python
+RUN apt-get update --error-on=any \
+    && apt-get install -y --no-install-recommends \
+        libgirepository-2.0-dev libcairo-dev gir1.2-rsvg-2.0 gir1.2-pango-1.0 \
+    && uv --no-cache python install --install-dir /opt/python 3.11 3.13 \
+    && ln -s "$(uv --no-cache python find --managed-python --no-python-downloads 3.11)" /usr/local/bin/python3.11 \
+    && ln -s "$(uv --no-cache python find --managed-python --no-python-downloads 3.13)" /usr/local/bin/python3.13
 
 
 # OSS Scanner builds the final target with the repository root as context.
@@ -102,6 +124,7 @@ FROM common AS scanner
 USER root
 ENV DEBIAN_FRONTEND=noninteractive
 # The inherited PGDG source targets noble; use this image's Ubuntu packages.
+# Keep the PostgreSQL major version in sync with .oss-scanner/start-services.
 RUN rm -f /etc/apt/sources.list.d/pgdg.list \
     && printf '%s\n' 'Package: postgresql*' 'Pin: release o=Ubuntu' 'Pin-Priority: 1001' \
         > /etc/apt/preferences.d/oss-scanner-postgresql \
@@ -131,7 +154,7 @@ RUN ./ci/pip-install latest \
     && uv run --offline --no-sync ./manage.py compilemessages \
     && uv run --offline --no-sync ./manage.py collectstatic --noinput --verbosity 0 \
     && uv run --offline --no-sync ./manage.py shell -c \
-        'from weblate.screenshots.ocr import ensure_tesseract_language; ensure_tesseract_language("eng")'
+        'from weblate.screenshots.ocr import prepare_tesseract_models; prepare_tesseract_models("eng")'
 
 # The scanner replaces ENTRYPOINT; helpers must work when called from bash.
 HEALTHCHECK NONE

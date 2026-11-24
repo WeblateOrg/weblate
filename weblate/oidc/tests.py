@@ -16,7 +16,7 @@ from itertools import product
 from pathlib import Path
 from textwrap import dedent
 from typing import TYPE_CHECKING, Any
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 from urllib.parse import parse_qs, urlencode, urlsplit
 
 import jwt
@@ -847,8 +847,10 @@ class OIDCProviderTest(TestCase):
     def test_expired_login_attempt(self) -> None:
         target = self.begin_login()
         with patch(
-            "weblate.accounts.oidc.time.time",
-            return_value=timezone.now().timestamp() + OIDC_ATTEMPT_LIFETIME + 1,
+            "weblate.accounts.oidc.time",
+            time=Mock(
+                return_value=timezone.now().timestamp() + OIDC_ATTEMPT_LIFETIME + 1
+            ),
         ):
             response = self.password_login(target)
         self.assertContains(response, "Start signing in again", status_code=400)

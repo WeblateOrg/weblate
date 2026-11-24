@@ -240,7 +240,7 @@ class BuildRegistrationView(InstalledAddonAPIView):
                 "Send application/json using an API token with component.edit permission. "
                 "Keep the token in the build environment, never in the application.\n\n"
                 "The request limit is 5 MiB and 100000 resources combined across strings and plurals, "
-                "with at least one resource required. Names must match [a-zA-Z_][a-zA-Z0-9_.]*. "
+                "with at least one resource required. Names must match `[a-zA-Z_][a-zA-Z0-9_.]*`. "
                 "IDs must belong to app package 0x7f, with one nonzero type ID per resource kind "
                 "and distinct type IDs for strings and plurals. The same name may appear in both "
                 "maps with different IDs. Duplicate IDs, invalid names, unknown fields, and "

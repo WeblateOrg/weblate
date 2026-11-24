@@ -17,7 +17,7 @@ from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.translation import gettext, pgettext
 
-from weblate.accounts.visibility import can_view_profile
+from weblate.accounts.visibility import can_view_profile, public_profile_render
 from weblate.utils.errors import report_error
 from weblate.utils.requests import fetch_url
 
@@ -108,6 +108,7 @@ def get_user_avatar_url(
     return reverse("user_avatar", kwargs={"user": user.username, "size": size})
 
 
+@public_profile_render()
 def get_user_display(
     user: User | None,
     icon: bool = True,

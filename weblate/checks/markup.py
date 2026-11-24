@@ -82,6 +82,8 @@ BBCODE_TOKEN = re.compile(
 
 def extract_bbcode_pairs(text: str) -> list[tuple[re.Match[str], re.Match[str]]]:
     """Pair BBCode open/close tags in linear time, including nested tags."""
+    if "[" not in text:
+        return []
     stack: list[tuple[re.Match[str], int | None, int]] = []
     latest: dict[str, int] = {}
     pairs: list[tuple[re.Match[str], re.Match[str]] | None] = []
@@ -584,6 +586,8 @@ class MarkdownRefLinkCheck(MarkdownBaseCheck):
     description = gettext_lazy("Markdown link references do not match source.")
 
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
+        if "[" not in source:
+            return False
         src_match = MD_REFLINK.findall(source)
         if not src_match:
             return False
@@ -601,6 +605,8 @@ class MarkdownLinkCheck(MarkdownBaseCheck):
     description = gettext_lazy("Markdown links do not match source.")
 
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
+        if "[" not in source and "<" not in source:
+            return False
         src_match = MD_LINK.findall(source)
         if not src_match:
             return False
@@ -656,21 +662,32 @@ class MarkdownLinkCheck(MarkdownBaseCheck):
         return None
 
 
-class MarkdownSyntaxCheck(MarkdownBaseCheck):
+class MarkdownSyntaxCheck(PluralResultDescriptionMixin, MarkdownBaseCheck):
     check_id = "md-syntax"
     name = gettext_lazy("Markdown syntax")
     description = gettext_lazy("Markdown syntax does not match source.")
 
-    def check_single(self, source: str, target: str, unit: Unit) -> bool:
-        src_tags = {match.value for match in iter_markdown_syntax(source)}
-        tgt_tags = {match.value for match in iter_markdown_syntax(target)}
+    def check_single(
+        self, source: str, target: str, unit: Unit
+    ) -> bool | MissingExtraDict:
+        try:
+            src_tags = {match.value for match in iter_markdown_syntax(source)}
+            tgt_tags = {match.value for match in iter_markdown_syntax(target)}
+        except TimeoutError:
+            return {
+                "errors": [gettext("Markdown syntax matching exceeded its time limit.")]
+            }
 
         return src_tags != tgt_tags
 
     def check_highlight(self, source: str, unit: Unit) -> Iterable[Highlight]:
         if self.should_skip(unit):
             return
-        for match in iter_markdown_syntax(source):
+        try:
+            matches = list(iter_markdown_syntax(source))
+        except TimeoutError:
+            return
+        for match in matches:
             value = match.value
             start = match.start
             end = match.end
@@ -1152,9 +1169,12 @@ class RSTSyntaxCheck(PluralResultDescriptionMixin, RSTBaseCheck):
     def check_single(
         self, source: str, target: str, unit: Unit
     ) -> bool | MissingExtraDict:
-        _errors, source_roles = validate_rst_snippet(source)
+        source_errors, source_roles = validate_rst_snippet(source)
         rst_errors, _target_roles = validate_rst_snippet(target, source_roles)
-        errors = list(rst_errors)
+        # Errors already present in the source come from the surrounding
+        # document, for example a literal block marker whose block was not
+        # extracted together with the paragraph
+        errors = list((Counter(rst_errors) - Counter(source_errors)).elements())
 
         errors.extend(
             (
@@ -1180,6 +1200,41 @@ class RSTSyntaxCheck(PluralResultDescriptionMixin, RSTBaseCheck):
 ASCIIDOC_MACRO = re.compile(
     r"(?<![a-z0-9])(?P<name>[a-z][a-z0-9]*?)(?P<sep>::?)(?P<target>[^\s\[]*+)\[(?P<attrs>(?:\\.|[^\]])*+)\]"
 )
+ASCIIDOC_MACRO_START = re.compile(r"(?<![a-z0-9])[a-z][a-z0-9]*?::?")
+
+
+def iter_asciidoc_macros(text: str) -> Iterable[re.Match[str]]:
+    """Cache target and attribute boundaries before trying macro openers."""
+    if "[" not in text or "]" not in text:
+        return
+    targets = [-1] * (len(text) + 1)
+    attrs = [-1] * (len(text) + 2)
+    for position in range(len(text) - 1, -1, -1):
+        char = text[position]
+        if char == "[":
+            targets[position] = position
+        elif not char.isspace():
+            targets[position] = targets[position + 1]
+        if char == "]":
+            attrs[position] = position
+        elif char == "\\" and position + 1 < len(text) and text[position + 1] != "\n":
+            attrs[position] = attrs[position + 2]
+        else:
+            attrs[position] = attrs[position + 1]
+
+    consumed = 0
+    for opener in ASCIIDOC_MACRO_START.finditer(text):
+        if opener.start() < consumed:
+            continue
+        bracket = targets[opener.end()]
+        if bracket == -1 or attrs[bracket + 1] == -1:
+            continue
+        match = ASCIIDOC_MACRO.match(text, opener.start(), attrs[bracket + 1] + 1)
+        if match is not None:
+            yield match
+            consumed = match.end()
+
+
 # cross references: <<id>> or <<id,text>>.
 ASCIIDOC_XREF = re.compile(r"(?<!<)<<(?P<id>[^,>]++)(?:,(?P<text>[^>]*+))?>>")
 # inline anchors: [[id]] or [[id,label]].
@@ -1251,7 +1306,7 @@ class AsciiDocMarkupCheck(PluralResultDescriptionMixin, TargetCheck):
 
 def extract_asciidoc_markup(text: str) -> Counter[str]:
     tokens: list[str] = []
-    for match in ASCIIDOC_MACRO.finditer(text):
+    for match in iter_asciidoc_macros(text):
         if is_preceded_by_asciidoc_escape(text, match.start()):
             continue
         if match.group("name") == "pass":
@@ -1280,7 +1335,7 @@ def extract_asciidoc_markup(text: str) -> Counter[str]:
 
 
 def iter_asciidoc_highlights(text: str) -> Iterable[Highlight]:
-    for match in ASCIIDOC_MACRO.finditer(text):
+    for match in iter_asciidoc_macros(text):
         if is_preceded_by_asciidoc_escape(text, match.start()):
             continue
         yield Highlight(match.start(), match.end(), match.group(), kind="syntax")

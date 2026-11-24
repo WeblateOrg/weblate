@@ -7,11 +7,13 @@ from __future__ import annotations
 import json
 import os
 import re
+from contextlib import contextmanager
 from copy import copy
 from datetime import UTC, datetime
 from functools import partial
 from io import StringIO
 from pathlib import Path
+from types import SimpleNamespace
 from typing import TYPE_CHECKING, Any, ClassVar, NoReturn, cast
 from unittest.mock import AsyncMock, MagicMock, Mock, call, patch
 from urllib.parse import parse_qs, urlparse
@@ -25,11 +27,13 @@ from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from django.db import connection
 from django.test import Client, SimpleTestCase, TestCase
-from django.test.utils import override_settings
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils.translation import get_language
 from django.utils.translation import override as translation_override
+from django_otp.plugins.otp_totp.models import TOTPDevice
 from google.api_core import exceptions as google_api_exceptions
 from google.cloud.translate import (
     SupportedLanguages,
@@ -40,6 +44,7 @@ from google.cloud.translate_v3 import Glossary
 from google.oauth2 import service_account
 from google.rpc.error_details_pb2 import RetryInfo  # type: ignore[import-untyped]
 
+from weblate.accounts.utils import SESSION_SENSITIVE_FACTOR_GRANT
 from weblate.auth.models import Group, Role
 from weblate.checks import flags as check_flags
 from weblate.checks import models as check_models
@@ -120,11 +125,26 @@ from weblate.workspaces.models import Workspace
 from .types import SourceLanguageChoices
 
 if TYPE_CHECKING:
+    from collections.abc import Generator
+
     from weblate.machinery.base import (
         SettingsDict,
     )
 
 HTTPError = httpx2.HTTPStatusError
+
+
+@contextmanager
+def mock_machinery_time(timestamp: int) -> Generator[Mock, None, None]:
+    now = Mock(return_value=timestamp)
+    clock = SimpleNamespace(time=now)
+    # Cache timeout creation and expiry checks must advance with retry parsing.
+    with (
+        patch("weblate.machinery.base.time", clock),
+        patch("django.core.cache.backends.base.time", clock),
+        patch("django.core.cache.backends.locmem.time", clock),
+    ):
+        yield now
 
 
 def make_error_response(
@@ -476,13 +496,13 @@ class MachineryRateLimitTest(SimpleTestCase):
 
     def test_cooldowns_expire(self) -> None:
         machine = DeepLTranslation({"_installation_id": 1})
-        with patch("time.time", return_value=1000):
+        with mock_machinery_time(1000):
             machine.set_rate_limit()
             machine.set_rephrase_rate_limit()
-        with patch("time.time", return_value=2799):
+        with mock_machinery_time(2799):
             self.assertTrue(machine.is_rate_limited())
             self.assertTrue(machine.is_rephrase_rate_limited())
-        with patch("time.time", return_value=2801):
+        with mock_machinery_time(2801):
             self.assertFalse(machine.is_rate_limited())
             self.assertFalse(machine.is_rephrase_rate_limited())
 
@@ -897,7 +917,7 @@ class MachineTranslationRateLimitTest(SimpleTestCase):
 
     def assert_window_expires(self, machine: DeepLTranslation, window: int) -> None:
         cache.clear()
-        with patch("time.time", return_value=10000) as now:
+        with mock_machinery_time(10000) as now:
             machine.set_rate_limit()
             self.assertTrue(machine.is_rate_limited())
             self.assertFalse(machine.is_rephrase_rate_limited())
@@ -962,7 +982,7 @@ class MachineTranslationRateLimitTest(SimpleTestCase):
             ({"Retry-After": "1e1000"}, 1800),
             ({"Retry-After": "1e100"}, 1800),
         ):
-            with self.subTest(headers=headers), patch("time.time", return_value=10000):
+            with self.subTest(headers=headers), mock_machinery_time(10000):
                 response = make_error_response("https://example.com/", 429)
                 response.headers.update(headers)
                 error = HTTPError(
@@ -1165,7 +1185,7 @@ class MachineTranslationRateLimitTest(SimpleTestCase):
         ):
             with (
                 self.subTest(service=machine.name),
-                patch("time.time", return_value=10000) as now,
+                mock_machinery_time(10000) as now,
             ):
                 cache.clear()
                 machine.cache_translations = False
@@ -1201,7 +1221,7 @@ class MachineTranslationRateLimitTest(SimpleTestCase):
             ("Throttling.Api", 400),
             ("Unknown", 429),
         ):
-            with self.subTest(code=code), patch("time.time", return_value=10000) as now:
+            with self.subTest(code=code), mock_machinery_time(10000) as now:
                 cache.clear()
                 http_mock.register(
                     "POST",
@@ -1241,7 +1261,7 @@ class MachineTranslationRateLimitTest(SimpleTestCase):
         for asynchronous in (False, True):
             with (
                 self.subTest(asynchronous=asynchronous),
-                patch("time.time", return_value=10000) as now,
+                mock_machinery_time(10000) as now,
             ):
                 cache.clear()
                 machine = DeepLTranslation({})
@@ -2041,7 +2061,7 @@ class MicrosoftCognitiveTranslationTest(BaseMachineTranslationTest):
             self.assertFalse(form.is_valid())
 
         mocked_getaddrinfo.assert_called_once_with(
-            "api.cognitive.microsofttranslator.com", None, type=1
+            "api.cognitive.microsofttranslator.com", None, 0, 1, 0, 0
         )
         self.assertEqual(len(http_mock.calls), 0)
         self.assertIn("internal or non-public address", str(form.non_field_errors()))
@@ -6418,6 +6438,80 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         self.assertEqual(translation[cleaned_source][0]["text"], "Bonjour @@PH7@@!")
         self.assertEqual(label_languages, ["en", "en"])
 
+    def test_translate_sends_source_notes(self) -> None:
+        machine = self.get_machine()
+        unit = make_unit(code="fr", source="New", context="ActionNew")
+        unit.source_unit.note = "Button that creates a new examination type."
+        unit.note = "Stale comment copied into the translation file."
+        typed_unit = cast("Unit", unit)
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            item = json.loads(content)["strings"][0]
+            self.assertEqual(
+                item["notes"], "Button that creates a new examination type."
+            )
+            return json.dumps(["Nouveau"])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = machine.download_multiple_translations(
+                "en", "fr", [("New", typed_unit)]
+            )
+
+        self.assertEqual(translation["New"][0]["text"], "Nouveau")
+
+    def test_translate_falls_back_to_unit_notes(self) -> None:
+        machine = self.get_machine()
+        unit = make_unit(code="fr", source="New", context="ActionNew")
+        unit.note = "Button that creates a new examination type."
+        typed_unit = cast("Unit", unit)
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            item = json.loads(content)["strings"][0]
+            self.assertEqual(
+                item["notes"], "Button that creates a new examination type."
+            )
+            return json.dumps(["Nouveau"])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = machine.download_multiple_translations(
+                "en", "fr", [("New", typed_unit)]
+            )
+
+        self.assertEqual(translation["New"][0]["text"], "Nouveau")
+
+    def test_translate_omits_empty_notes(self) -> None:
+        machine = self.get_machine()
+        unit = make_unit(code="fr", source="New", context="ActionNew")
+        typed_unit = cast("Unit", unit)
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            self.assertNotIn("notes", json.loads(content)["strings"][0])
+            return json.dumps(["Nouveau"])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            machine.download_multiple_translations("en", "fr", [("New", typed_unit)])
+
     def test_translate_uses_neutral_previous_messages_without_czech(self) -> None:
         machine = self.get_machine()
         unit = make_unit(code="fr", source="Hello, world!")
@@ -9152,6 +9246,51 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         self.assertEqual(translation[0][0]["text"], "**Konfigurēt paziņojumus**:")
 
     @http_mock.activate
+    def test_translate_wraps_single_structured_reply(self) -> None:
+        self.mock_response('{"parts": [{"type": "text", "text": "Premier"}]}')
+
+        translation = self.get_machine().download_multiple_translations(
+            "en", "fr", [("One", None)]
+        )
+
+        self.assertEqual(translation["One"][0]["text"], "Premier")
+
+    @http_mock.activate
+    def test_translate_rejects_bare_structured_reply_for_multiple_sources(self) -> None:
+        self.mock_response('{"parts": [{"type": "text", "text": "Premier"}]}')
+
+        with self.assertRaisesMessage(
+            MachineTranslationError, "Mismatching assistant reply."
+        ):
+            self.get_machine().download_multiple_translations(
+                "en", "fr", [("One", None), ("Two", None)]
+            )
+
+    @http_mock.activate
+    def test_translate_rejects_bare_structured_reply_missing_placeholder(self) -> None:
+        self.mock_response('{"parts": [{"type": "text", "text": "Bonjour !"}]}')
+
+        with self.assertRaisesMessage(
+            MachineTranslationError, "Mismatching assistant reply."
+        ):
+            self.assert_translate(
+                "fr", "Hello, %s!", 1, unit_args={"flags": "python-format"}
+            )
+
+    @http_mock.activate
+    def test_translate_rejects_bare_structured_reply_with_metadata(self) -> None:
+        self.mock_response(
+            '{"parts": [{"type": "text", "text": "Premier"}], "diagnostic": "extra"}'
+        )
+
+        with self.assertRaisesMessage(
+            MachineTranslationError, "Mismatching assistant reply."
+        ):
+            self.get_machine().download_multiple_translations(
+                "en", "fr", [("One", None)]
+            )
+
+    @http_mock.activate
     def test_translate_drops_trailing_empty_extra_structured_reply(self) -> None:
         self.mock_response(
             json.dumps(
@@ -10451,6 +10590,37 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
             '["Hallo Welt"]',
         )
 
+    def test_batch_system_prompt_is_cached(self) -> None:
+        machine = self.get_machine()
+
+        payload = machine.get_chat_payload(
+            "claude-haiku-4-5", "system prompt", "source", "", ""
+        )
+
+        self.assertEqual(
+            payload["system"],
+            [
+                {
+                    "type": "text",
+                    "text": "system prompt",
+                    "cache_control": {"type": "ephemeral"},
+                }
+            ],
+        )
+
+    @http_mock.activate
+    def test_single_lookup_skips_prompt_cache(self) -> None:
+        self.mock_response()
+        machine = self.get_machine()
+
+        self.assert_translate(
+            self.SUPPORTED, self.SOURCE_BLANK, self.EXPECTED_LEN, machine=machine
+        )
+
+        payload = load_request_json(http_mock.calls[-1].request)
+        self.assertIsInstance(payload["system"], str)
+        self.assertTrue(machine.prompt_cache)
+
 
 class AnthropicCustomModelTranslationTest(AnthropicTranslationTest):
     CONFIGURATION: ClassVar[SettingsDict] = {
@@ -10486,10 +10656,106 @@ class AnthropicCustomModelTranslationTest(AnthropicTranslationTest):
 
 
 class WeblateTranslationTest(FixtureComponentTestCase):
+    def test_candidate_pages_keep_short_source_ranking(self) -> None:
+        unit = self.get_unit(language="cs")
+        candidates = Unit.objects.bulk_create(
+            [
+                Unit(
+                    translation=unit.translation,
+                    source_unit_id=unit.source_unit_id,
+                    source=source,
+                    target=source,
+                    state=STATE_TRANSLATED,
+                    id_hash=index,
+                    position=index,
+                )
+                for index, source in enumerate(["map", "apple", "app", "ap", "AP"])
+            ]
+        )
+        machine = WeblateTranslation({})
+        machine.candidate_limit = 2
+        matches = list(
+            machine.get_matching_units(
+                Unit.objects.filter(pk__in=[unit.pk for unit in candidates]), "ap", 75
+            )
+        )
+        self.assertEqual(
+            [unit.pk for unit in matches],
+            [candidates[index].pk for index in (3, 4, 2, 1, 0)],
+        )
+
+    def test_candidate_pages_continue_after_rejected_long_sources(self) -> None:
+        unit = self.get_unit(language="cs")
+        text = (
+            "<p>"
+            + "".join(
+                f"Template message {index} for the customer. " for index in range(60)
+            )[:1739]
+            + "</p>"
+        )
+        candidates = Unit.objects.bulk_create(
+            [
+                Unit(
+                    translation=unit.translation,
+                    source_unit_id=unit.source_unit_id,
+                    source=source,
+                    target=f"Translation {index}",
+                    flags=flags,
+                    state=STATE_TRANSLATED,
+                    id_hash=index,
+                    position=index,
+                )
+                for index, (source, flags) in enumerate(
+                    [
+                        (text.upper(), ""),
+                        (text, "forbidden"),
+                        (text, ""),
+                        (text.replace("customer", "customers", 1), ""),
+                        (text.replace("customer", "customers", 1), ""),
+                    ]
+                )
+            ]
+        )
+        machine = WeblateTranslation({})
+        machine.candidate_limit = 2
+        with CaptureQueriesContext(connection) as queries:
+            results = list(
+                machine.download_translations(
+                    unit.translation.component.source_language,
+                    unit.translation.language,
+                    text,
+                    unit=None,
+                    user=self.user,
+                    threshold=75,
+                )
+            )
+        self.assertEqual(
+            [result["text"] for result in results],
+            [candidates[index].target for index in (2, 3)],
+        )
+        candidate_queries = [
+            query["sql"] for query in queries if "UNION ALL" in query["sql"]
+        ]
+        self.assertEqual(len(candidate_queries), 2)
+        for sql in candidate_queries:
+            self.assertIn("LIMIT 2", sql)
+            self.assertNotIn("OFFSET", sql)
+            self.assertNotIn("WORD_SIMILARITY", sql)
+            self.assertNotIn("%>", sql)
+        # Continue through a nonintegral similarity rank shared across pages.
+        matches = list(
+            machine.get_matching_units(
+                Unit.objects.filter(pk__in=[unit.pk for unit in candidates]), text, 75
+            )
+        )
+        self.assertEqual(
+            [unit.pk for unit in matches], [unit.pk for unit in candidates]
+        )
+
     def test_regular_source_query_keeps_indexed_lookup(self) -> None:
         unit = self.get_unit(language="cs")
         machine = WeblateTranslation({})
-        base = machine.get_base_queryset(
+        base, _translations = machine.get_search_querysets(
             self.user,
             unit.translation.component.source_language,
             unit.translation.language,
@@ -10869,6 +11135,70 @@ class ViewsTest(FixtureTestCase):
         "to a third-party provider."
     )
 
+    def test_translate_rate_limit(self) -> None:
+        from weblate.utils.ratelimit import reset_rate_limit  # ruff: ignore[import-outside-top-level]
+
+        # Restore overrides in the same cleanup order as ensure_dummy_mt().
+        self.enterContext(override_settings(RATELIMIT_MACHINERY_ATTEMPTS=1))
+        reset_rate_limit("machinery", user=self.user)
+        self.addCleanup(reset_rate_limit, "machinery", user=self.user)
+        self.ensure_dummy_mt()
+        unit = self.get_unit()
+        url = reverse("js-translate", kwargs={"unit_id": unit.pk, "service": "dummy"})
+        self.assertEqual(self.client.post(url).status_code, 200)
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, 429)
+        data = response.json()
+        self.assertEqual(data["service"], DummyTranslation.name)
+        self.assertEqual(data["responseStatus"], 429)
+        self.assertEqual(data["responseDetails"], "Too many translation requests.")
+
+    def test_translate_concurrency_is_per_installation(self) -> None:
+        from weblate.machinery.admission import machinery_slot  # ruff: ignore[import-outside-top-level]
+
+        self.ensure_dummy_mt()
+        installation = MachineryInstallation.objects.get(engine="dummy")
+        self.enterContext(
+            patch.object(DummyTranslation, "settings_form", BaseMachineryForm)
+        )
+        other = MachineryInstallation.objects.create(engine="dummy", slug="other")
+        unit = self.get_unit()
+        self.async_client.force_login(self.user)
+
+        async def request() -> None:
+            async with (
+                machinery_slot(self.user.pk, installation.pk) as first,
+                machinery_slot(self.user.pk, installation.pk) as second,
+            ):
+                self.assertTrue(first)
+                self.assertTrue(second)
+                response = await self.async_client.post(
+                    reverse(
+                        "js-translate",
+                        kwargs={"unit_id": unit.pk, "service": installation.selector},
+                    )
+                )
+                self.assertEqual(response.status_code, 429)
+                data = response.json()
+                self.assertEqual(data["service"], DummyTranslation.name)
+                self.assertEqual(data["responseStatus"], 429)
+                self.assertEqual(
+                    data["responseDetails"],
+                    "Too many concurrent translation requests for this service.",
+                )
+                response = await self.async_client.post(
+                    reverse(
+                        "js-translate",
+                        kwargs={"unit_id": unit.pk, "service": other.selector},
+                    )
+                )
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(
+                    response.json()["responseStatus"], 200, response.json()
+                )
+
+        async_to_sync(request)()
+
     def ensure_dummy_mt(self):
         """Ensure we have dummy mt installed."""
         machinery_override = override_settings(
@@ -10957,7 +11287,7 @@ class ViewsTest(FixtureTestCase):
         self.assertTrue(self.anotheruser.can_access_component(self.component))
         self.assertFalse(self.anotheruser.can_access_component(protected))
         machine = WeblateTranslation({})
-        base = machine.get_base_queryset(
+        base, _translations = machine.get_search_querysets(
             self.user, self.component.source_language, public_unit.translation.language
         )
         self.assertIn(protected_unit.pk, base.values_list("pk", flat=True))
@@ -11252,6 +11582,59 @@ class ViewsTest(FixtureTestCase):
                         reverse("js-memory", kwargs={"unit_id": unit_id}), data
                     )
                     self.assertEqual(response.status_code, 404)
+
+    def test_configuration_requires_recent_verification(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        workspace = Workspace.objects.create(name="Translation services")
+        session = self.client.session
+        del session[SESSION_SENSITIVE_FACTOR_GRANT]
+        session.save()
+        for scope, kwargs, list_view in (
+            ({}, {}, "manage-machinery"),
+            (
+                {"workspace": workspace},
+                {"workspace": workspace.pk},
+                "workspace-machinery",
+            ),
+            (
+                {"project": self.project},
+                {"project": self.project.slug},
+                "machinery-list",
+            ),
+        ):
+            with self.subTest(scope=scope):
+                installation = MachineryInstallation.objects.create(
+                    engine="deepl", configuration={"key": "saved-secret"}, **scope
+                )
+                overview = self.client.get(reverse(list_view, kwargs=kwargs))
+                self.assertContains(overview, "DeepL")
+                self.assertNotContains(overview, "saved-secret")
+                edit = reverse(
+                    "machinery-edit", kwargs={**kwargs, "machinery": installation.pk}
+                )
+                verify = reverse(
+                    "first-factor-verify", query={"target": "sensitive", "next": edit}
+                )
+                self.assertRedirects(
+                    self.client.get(edit), verify, fetch_redirect_response=False
+                )
+                self.assertRedirects(
+                    self.client.post(edit, {"pause": "1"}),
+                    verify,
+                    fetch_redirect_response=False,
+                )
+                installation.refresh_from_db()
+                self.assertTrue(installation.enabled)
+
+        TOTPDevice.objects.create(user=self.user, confirmed=True)
+        edit = reverse("machinery-edit", kwargs={"machinery": "deepl"})
+        response = self.client.get(edit)
+        self.assertRedirects(
+            response,
+            reverse("2fa-login", kwargs={"backend": "totp"}, query={"next": edit}),
+            fetch_redirect_response=False,
+        )
 
     def test_configure_global(self) -> None:
         service = self.ensure_dummy_mt()
@@ -12055,91 +12438,6 @@ class ViewsTest(FixtureTestCase):
 
 
 class WeblateTranslationLookupTest(SimpleTestCase):
-    @patch("weblate.machinery.weblatetm.adjust_similarity_threshold")
-    def test_get_matching_units_uses_fuzzy_lookup(self, adjust_threshold: Mock) -> None:
-        machine = WeblateTranslation({})
-        base = MagicMock()
-        queryset = MagicMock()
-        annotated_queryset = MagicMock()
-        ordered_queryset = MagicMock()
-        prepared_queryset = MagicMock()
-        fuzzy_match = MagicMock(pk=1)
-        base.filter.return_value = queryset
-        queryset.annotate.return_value = annotated_queryset
-        annotated_queryset.order_by.return_value = ordered_queryset
-        prepared_queryset.iterator.return_value = [fuzzy_match]
-
-        with patch.object(
-            machine, "prepare_queryset", return_value=prepared_queryset
-        ) as prepare_queryset:
-            results = machine.get_matching_units(base, "Hello", 75)
-
-        self.assertEqual(results, [fuzzy_match])
-        base.filter.assert_called_once()
-        queryset.annotate.assert_called_once()
-        annotated_queryset.order_by.assert_called_once_with("-match_similarity", "pk")
-        prepare_queryset.assert_called_once_with(ordered_queryset)
-        prepared_queryset.iterator.assert_called_once_with(
-            chunk_size=machine.candidate_limit
-        )
-        adjust_threshold.assert_called_once_with(0.98)
-
-    @patch("weblate.machinery.weblatetm.adjust_similarity_threshold")
-    def test_get_matching_units_orders_short_queries_before_slicing(
-        self, adjust_threshold: Mock
-    ) -> None:
-        machine = WeblateTranslation({})
-        base = MagicMock()
-        short_queryset = MagicMock()
-        prepared_queryset = MagicMock()
-        fuzzy_match = MagicMock(pk=1)
-        prepared_queryset.iterator.return_value = [fuzzy_match]
-
-        with (
-            patch.object(
-                machine, "get_short_query_matches", return_value=short_queryset
-            ) as get_short_query_matches,
-            patch.object(
-                machine, "prepare_queryset", return_value=prepared_queryset
-            ) as prepare_queryset,
-        ):
-            results = machine.get_matching_units(base, "id", 75)
-
-        self.assertEqual(results, [fuzzy_match])
-        get_short_query_matches.assert_called_once_with(base, "id")
-        prepare_queryset.assert_called_once_with(short_queryset)
-        prepared_queryset.iterator.assert_called_once_with(
-            chunk_size=machine.candidate_limit
-        )
-        adjust_threshold.assert_called_once_with(0.98)
-
-    @patch("weblate.machinery.weblatetm.adjust_similarity_threshold")
-    def test_get_matching_units_uses_exact_lookup_at_full_threshold(
-        self, adjust_threshold: Mock
-    ) -> None:
-        machine = WeblateTranslation({})
-        base = MagicMock()
-        queryset = MagicMock()
-        ordered_queryset = MagicMock()
-        prepared_queryset = MagicMock()
-        exact_match = MagicMock(pk=1)
-        base.filter.return_value = queryset
-        queryset.order_by.return_value = ordered_queryset
-        prepared_queryset.iterator.return_value = [exact_match]
-
-        with patch.object(
-            machine, "prepare_queryset", return_value=prepared_queryset
-        ) as prepare_queryset:
-            results = machine.get_matching_units(base, "Hello", 100)
-
-        self.assertEqual(results, [exact_match])
-        queryset.order_by.assert_called_once_with("pk")
-        prepare_queryset.assert_called_once_with(ordered_queryset)
-        prepared_queryset.iterator.assert_called_once_with(
-            chunk_size=machine.candidate_limit
-        )
-        adjust_threshold.assert_not_called()
-
     def test_download_translations_limits_after_filtering(self) -> None:
         machine = WeblateTranslation({})
         machine.candidate_limit = 2
@@ -12176,7 +12474,9 @@ class WeblateTranslationLookupTest(SimpleTestCase):
         third_match.get_absolute_url.return_value = "/third/"
 
         with (
-            patch.object(machine, "get_base_queryset", return_value=MagicMock()),
+            patch.object(
+                machine, "get_search_querysets", return_value=(MagicMock(), MagicMock())
+            ),
             patch.object(
                 machine,
                 "get_matching_units",

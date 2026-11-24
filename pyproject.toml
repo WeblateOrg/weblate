@@ -1,8 +1,8 @@
 [build-system]
 build-backend = "setuptools.build_meta"
 requires = [
-  "setuptools==84.1.0",
-  "translate-toolkit==3.20.1"
+  "setuptools==84.2.1",
+  "translate-toolkit==3.20.6"
 ]
 
 [dependency-groups]
@@ -28,15 +28,15 @@ docs = [
   "sphinxcontrib-httpdomain==2.2.1",
   "sphinxext-opengraph==0.13.0",
   "weblate-fonts==2026.1",
-  "wlc==3.1.0"
+  "wlc==3.4.0"
 ]
 lint = [
   { include-group = "pre-commit" },
   { include-group = "pylint" }
 ]
 package-build = [
-  "setuptools==84.1.0",
-  "translate-toolkit==3.20.1"
+  "setuptools==84.2.1",
+  "translate-toolkit==3.20.6"
 ]
 package-lint = [
   "check-manifest==0.51",
@@ -46,27 +46,27 @@ package-lint = [
   "twine==7.0.0"
 ]
 pre-commit = [
-  "prek==0.5.7"
+  "prek==0.5.11"
 ]
 pylint = [
-  "pylint==4.1.3"
+  "pylint==4.1.4"
 ]
 sbom = [
   "packaging==26.3"
 ]
 schemas = [
-  "weblate-schemas==2026.13"
+  "weblate-schemas==2026.14"
 ]
 scripts = [
   "django-debug-toolbar==8.0.0",
   "lxml==6.1.3",
   "PyICU==2.17",
-  "reuse==6.2.0",
+  "reuse==6.3.0",
   "scour==0.38.2"
 ]
 test = [
-  "coverage==7.17.0",
-  "hypothesis==6.170.12",
+  "coverage==7.17.5",
+  "hypothesis==6.170.17",
   "pytest-cov==7.1.0",
   "pytest-django==4.14.0",
   "pytest-github-actions-annotate-failures==0.4.2",
@@ -74,24 +74,25 @@ test = [
   "pytest-xdist==3.8.0",
   "pytest==9.2.0",
   "responses==0.26.3",
-  "selenium==4.51.0",
-  "standardwebhooks==1.1.0"
+  "selenium==4.54.0",
+  "standardwebhooks==1.3.0"
 ]
 types = [
-  "boto3-stubs==1.43.118",
+  "boto3-stubs==1.44.9",
+  "botocore-stubs==1.43.126",
   "celery-types==0.26.0",
   "django-stubs-ext==6.1.2",
   "django-stubs[compatible-mypy]==6.1.2",
-  "djangorestframework-stubs==3.18.1",
-  "mypy==2.3.1",
-  "types-dateparser==1.4.3.20260907",
-  "types-docutils==0.23.0.20260923",
+  "djangorestframework-stubs==3.18.2",
+  "mypy==2.4.1",
+  "types-dateparser==1.4.3.20261122",
+  "types-docutils==0.23.0.20261122",
   "types-jsonschema==4.26.0.20261006",
   "types-lxml==2026.2.16",
-  "types-openpyxl==3.1.5.20261017",
-  "types-python-dateutil==2.9.0.20261021",
-  "types-regex==2026.9.29.20261017",
-  "types-setuptools==84.0.0.20261006"
+  "types-openpyxl==3.1.5.20261122",
+  "types-python-dateutil==2.9.0.20261122",
+  "types-regex==2026.11.19.20261122",
+  "types-setuptools==84.2.0.20261122"
 ]
 
 [project]
@@ -119,30 +120,32 @@ classifiers = [
 dependencies = [
   # Pin for translate-toolkit extra
   "aeidon==2.0.1",
-  "ahocorasick-rs==1.0.3",
-  "altcha==2.3.0",
-  "argon2-cffi-bindings==26.1.0",
+  "ahocorasick-rs==1.0.4",
+  "altcha==2.5.0",
+  "argon2-cffi-bindings==26.2.0",
   "argon2-cffi==25.1.0",
   "arsc-writer==0.1.0",
+  # Celery transitional
+  "billiard==4.3.2",
   "borgbackup==1.4.5",
   # Transitional dep for httpx2 and urllib3
   "brotli==1.2.1",
-  "cel-expr-python==0.1.3",
-  "celery[redis]==5.6.3",
+  "cel-expr-python==0.1.4",
+  "celery[redis]==5.7.0",
   # We intentionally allow newer SSL certs bundle, as that should not be breaking
-  "certifi>=2026.10.23",
+  "certifi>=2026.11.20",
   # For Argon2
   "cffi==2.1.1",
-  "charset-normalizer==3.5.2",
+  "charset-normalizer==3.5.3",
   "confusable-homoglyphs==3.3.1",
   "crispy-bootstrap5==2026.9",
   "cryptography==50.0.2",
   "cssselect==1.6.0",
   "cyrtranslit==1.2.0",
   "cysignals==1.12.6",
-  "dateparser==1.4.3",
+  "dateparser==1.5.1",
   "diff-match-patch==20241021",
-  "disposable-email-domains==0.0.286",
+  "disposable-email-domains==0.0.297",
   "django-appconf==1.2.0",
   "django-celery-beat==2.9.0",
   "django-cors-headers==4.9.0",
@@ -151,37 +154,38 @@ dependencies = [
   "django-otp-webauthn==0.10.3",
   "django-otp==1.7.5",
   "django-redis==7.0.0",
-  "Django[argon2]==6.0.9",
+  "Django[argon2]==6.0.10",
   "djangorestframework-csv==3.0.2",
   "djangorestframework==3.18.3",
   "docutils==0.21.2",
   "drf-spectacular[sidecar]==0.30.0",
   "drf-standardized-errors[openapi]==0.16.0",
-  "fedora-messaging==3.9.1",
-  "filelock==4.2.4",
   # Pin for translate-toolkit extra
   "fluent.syntax==0.19.0",
   "GitPython==3.2.1",
   "hiredis==3.5.0",
-  "httpx2[brotli,socks,zstd]==2.16.0",
+  "httpx2[brotli,socks,zstd]==2.16.2",
   "idna==3.20",
   # Pin for translate-toolkit extra
-  "iniparse==0.5",
+  "iniparse==0.5.3",
   "jsonschema==4.26.0",
+  # Celery transitional
+  "kombu[redis]==5.7.0",
+  "linkify-it-py==2.2.0",
   "lxml==6.1.3",
+  "markdown-it-py[linkify]==4.3.0",
   "matplotlib==3.11.2",
-  "mistletoe==1.6.0",
   # Transitional dependency for borg
   "msgpack==1.2.1",
-  "nh3==0.3.7",
+  "nh3==0.3.8",
   "openpyxl==3.1.5",
-  "opentelemetry-exporter-otlp-proto-http==1.45.1",
-  "opentelemetry-instrumentation-celery==0.66b1",
-  "opentelemetry-instrumentation-django==0.66b1",
-  "opentelemetry-instrumentation-psycopg==0.66b1",
-  "opentelemetry-instrumentation-redis==0.66b1",
-  "opentelemetry-instrumentation-requests==0.66b1",
-  "opentelemetry-sdk==1.45.1",
+  "opentelemetry-exporter-otlp-proto-http==1.45.2",
+  "opentelemetry-instrumentation-celery==0.66b2",
+  "opentelemetry-instrumentation-django==0.66b2",
+  "opentelemetry-instrumentation-psycopg==0.66b2",
+  "opentelemetry-instrumentation-redis==0.66b2",
+  "opentelemetry-instrumentation-requests==0.66b2",
+  "opentelemetry-sdk==1.45.2",
   "packaging==26.3",
   # Pin for translate-toolkit extra
   "phply==1.2.6",
@@ -196,30 +200,29 @@ dependencies = [
   "python-dateutil==2.9.0.post0",
   "qrcode==8.2",
   "rapidfuzz==3.14.6",
-  "redis==6.4.0",
-  "regex==2026.9.29",
+  "redis==8.2.0",
+  "regex==2026.11.23",
   "requests==2.34.2",
   "ruamel.yaml==0.19.1",
-  "sentry-sdk==2.73.0",
+  "sentry-sdk==3.0.0",
   "siphashc==2.9.1",
-  "social-auth-app-django==7.2.0",
-  "social-auth-core==6.2.0",
-  "tesserocr==2.12.0",
+  "social-auth-app-django==8.1.0",
+  "social-auth-core==7.2.0",
+  "tesserocr==2.13.0",
   # Pin for translate-toolkit extra
-  "tomlkit==0.15.2",
-  "translate-toolkit[chardet,fluent,ini,markdown,toml,php,rc,subtitles,yaml]==3.20.1",
-  "translation-finder==3.9.0",
-  "turbohtml==1.15.4",
-  "twisted==26.4.0",
+  "tomlkit==0.15.3",
+  "translate-toolkit[chardet,fluent,ini,markdown,toml,php,rc,subtitles,yaml]==3.20.6",
+  "translation-finder==3.11.0",
+  "turbohtml==1.16.5",
   "ua-parser==1.0.2",
-  "unicode-segmentation-rs==1.0.0",
+  "unicode-segmentation-rs==1.0.1",
   "unidecode==1.4.0",
   "urllib3[brotli,zstd]==2.8.0",
   "user-agents==2.2.0",
   "webauthn==3.0.1",
   "weblate-fonts==2026.1",
-  "weblate-language-data==2026.11",
-  "weblate-schemas==2026.13"
+  "weblate-language-data==2026.11.1",
+  "weblate-schemas==2026.14"
 ]
 description = "A web-based continuous localization system with tight version control integration"
 keywords = [
@@ -234,19 +237,19 @@ license = "GPL-3.0-or-later"
 license-files = ["LICENSE", "LICENSES/*.txt", "REUSE.toml"]
 name = "weblate"
 requires-python = ">=3.12"
-version = "2026.11.dev0"
+version = "2026.12.dev0"
 
 [project.optional-dependencies]
 all = [
-  "weblate[amazon,gelf,gerrit,google,google-errors,ldap,mercurial,postgres,rollbar,sphinx,zxcvbn]"
+  "weblate[amazon,gelf,gerrit,google,google-errors,ldap,mercurial,postgres,rollbar,sphinx,storage,zxcvbn]"
 ]
 amazon = [
-  "boto3==1.43.118",
-  "botocore==1.43.118",
-  "django-ses==4.8.2"
+  "boto3==1.44.9",
+  "botocore==1.44.9",
+  "django-ses==4.9.1"
 ]
 asgi = [
-  "granian==2.8.5"
+  "granian==2.8.9"
 ]
 gelf = [
   "logging-gelf==0.0.32"
@@ -255,7 +258,7 @@ gerrit = [
   "git-review==2.5.0"
 ]
 google = [
-  "google-cloud-storage==3.17.1",
+  "google-cloud-storage==3.17.2",
   "google-cloud-translate==3.28.0"
 ]
 google-errors = [
@@ -271,23 +274,26 @@ oidc = [
   "django-oauth-toolkit==3.4.1"
 ]
 postgres = [
-  "psycopg[binary]==3.3.6"
+  "psycopg[binary]==3.3.9"
 ]
 rollbar = [
   "rollbar==1.5.0"
 ]
 saml = [
   "python3-saml==1.16.0",
-  "xmlsec==1.3.17"
+  "xmlsec==1.3.18"
 ]
 sphinx = [
   "Sphinx==8.2.3"
 ]
+storage = [
+  "django-storages==1.14.6"
+]
 wllegal = [
-  "wllegal==2026.6"
+  "wllegal==2026.11.0"
 ]
 wsgi = [
-  "granian==2.8.5"
+  "granian==2.8.9"
 ]
 zxcvbn = [
   "django-zxcvbn-password-validator==1.7.0"
@@ -491,7 +497,6 @@ module = [
   "google.oauth2.*",
   "icu.*",
   "ldap.*",
-  "mistletoe.*",
   "oauth2_provider.*",
   "oauthlib.*",
   "pygments.*",
@@ -1972,12 +1977,6 @@ max-complexity = 16  # TODO: should be lower
   "missing-type-args",
   "missing-type-kwargs"
 ]
-"weblate/utils/markdown.py" = [
-  "missing-return-type-undocumented-public-function",
-  "missing-type-args",
-  "missing-type-function-argument",
-  "missing-type-kwargs"
-]
 "weblate/utils/models.py" = ["missing-return-type-undocumented-public-function"]
 "weblate/utils/params.py" = ["missing-return-type-class-method"]
 "weblate/utils/ratelimit.py" = [
@@ -2182,7 +2181,8 @@ weblate = [
   "examples/git-merge-gettext-po",
   "locale/**/*.mo",
   "static/**/*",
-  "templates/**/*"
+  "templates/**/*",
+  "utils/crawler-ranges.json"
 ]
 "weblate.fonts" = ["static/**/*"]
 "weblate.legal" = ["templates/**/*"]
@@ -2204,6 +2204,10 @@ sort_inline_arrays = true
 sort_inline_tables = true
 sort_table_keys = true
 spaces_before_inline_comment = 2
+
+[tool.tomlsort.overrides."tool.pytest.ini_options.filterwarnings"]
+# Pytest applies the last matching filter, so preserve the warning precedence.
+inline_arrays = false
 
 [tool.typos.default]
 extend-ignore-re = [
@@ -2265,7 +2269,3 @@ extend-exclude = [
   "weblate/trans/tests/data",
   "weblate/utils/licensedata.py"
 ]
-
-[tool.tomlsort.overrides."tool.pytest.ini_options.filterwarnings"]
-# Pytest applies the last matching filter, so preserve the warning precedence.
-inline_arrays = false

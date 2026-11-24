@@ -31,41 +31,13 @@ jobs:
       DJANGO_SETTINGS_MODULE: weblate.settings_test
       CI_SKIP_SAML: 1
       HOMEBREW_NO_AUTO_UPDATE: '1'
-      # renovate-homebrew-brew
-      HOMEBREW_BREW_REF: f8d1b25f33e032707f151123aca0eac3a239c676
-      # renovate-homebrew-core
-      HOMEBREW_CORE_REF: 20452555566744ca66ecdda4bf811b84facf7eed
-      # renovate-homebrew-cask
-      HOMEBREW_CASK_REF: 714ac3fbcf9a1c54c2ee2421c7e277e2916a3160
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         persist-credentials: false
-    - name: Pin Homebrew snapshot
+    - name: Update Homebrew
       run: |
-        brew_repo="$(brew --repo)"
-        git -C "${brew_repo}" reset --hard
-        git -C "${brew_repo}" clean -fd
-        git -C "${brew_repo}" fetch --no-tags --depth=1 origin "${HOMEBREW_BREW_REF}"
-        git -C "${brew_repo}" checkout --force -B stable FETCH_HEAD
-
-        # Core and cask migration maps must come from the same snapshot.
-        brew tap --force homebrew/cask
-        cask_repo="$(brew --repo homebrew/cask)"
-        git -C "${cask_repo}" reset --hard
-        git -C "${cask_repo}" clean -fd
-        git -C "${cask_repo}" fetch --no-tags --depth=1 origin "${HOMEBREW_CASK_REF}"
-        git -C "${cask_repo}" checkout --force --detach FETCH_HEAD
-        git -C "${cask_repo}" rev-parse HEAD
-
-        brew tap --force homebrew/core
-        core_repo="$(brew --repo homebrew/core)"
-        git -C "${core_repo}" reset --hard
-        git -C "${core_repo}" clean -fd
-        git -C "${core_repo}" fetch --no-tags --depth=1 origin "${HOMEBREW_CORE_REF}"
-        git -C "${core_repo}" checkout --force --detach FETCH_HEAD
-        git -C "${core_repo}" rev-parse HEAD
-        echo "HOMEBREW_NO_INSTALL_FROM_API=1" >> "${GITHUB_ENV}"
+        brew update
         brew --version
     - run: brew list --versions
     - run: brew config

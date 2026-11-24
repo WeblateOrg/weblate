@@ -12,14 +12,13 @@ from typing import TYPE_CHECKING
 from crispy_forms.helper import FormHelper
 from django import forms
 from django.core.exceptions import ValidationError
-from django.db import transaction
 from django.db.models import Q
-from django.db.models.functions import Lower
 from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.accounts.forms import UniqueEmailMixin
-from weblate.accounts.models import AuditLog, VerifiedEmail
+from weblate.accounts.models import VerifiedEmail
 from weblate.auth.data import SELECTION_ALL, SELECTION_COMPONENT_LIST, SELECTION_MANUAL
+from weblate.auth.invitations import create_team_invitation
 from weblate.auth.models import (
     Group,
     Invitation,
@@ -28,9 +27,8 @@ from weblate.auth.models import (
 )
 from weblate.auth.utils import validate_team_assignable_user
 from weblate.lang.forms import LimitLanguagesField, get_language_code_choices
-from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Change
 from weblate.utils import messages
+from weblate.utils.email import email_key, email_key_expression
 from weblate.utils.forms import EmailField, UserField, WeblateDateInput
 
 if TYPE_CHECKING:
@@ -89,7 +87,7 @@ def bulk_lookup_invited_users(emails: list[str]) -> dict[str, User | None]:
     if not emails:
         return {}
 
-    normalized_emails = {email.lower() for email in emails}
+    normalized_emails = {email_key(email) for email in emails}
     direct_matches: dict[str, User] = {}
 
     for user in (
@@ -97,11 +95,12 @@ def bulk_lookup_invited_users(emails: list[str]) -> dict[str, User | None]:
             is_active=True,
             is_bot=False,
         )
-        .annotate(lower_email=Lower("email"))
-        .filter(lower_email__in=normalized_emails)
+        .annotate(normalized_email=email_key_expression("email"))
+        .filter(normalized_email__in=normalized_emails)
         .order_by("pk")
     ):
-        direct_matches.setdefault(user.email.lower(), user)
+        if user.email is not None:
+            direct_matches.setdefault(email_key(user.email), user)
 
     resolved_matches: dict[str, User | None] = {
         email: direct_matches.get(email) for email in normalized_emails
@@ -120,12 +119,12 @@ def bulk_lookup_invited_users(emails: list[str]) -> dict[str, User | None]:
             social__user__is_active=True,
             social__user__is_bot=False,
         )
-        .annotate(lower_email=Lower("email"))
-        .filter(lower_email__in=unresolved_emails)
+        .annotate(normalized_email=email_key_expression("email"))
+        .filter(normalized_email__in=unresolved_emails)
         .select_related("social__user")
         .order_by("social__user__pk", "pk")
     ):
-        verified_matches[verified.lower_email].setdefault(
+        verified_matches[verified.normalized_email].setdefault(
             verified.social.user_id, verified.social.user
         )
 
@@ -143,18 +142,22 @@ def bulk_existing_invitations(
     if not emails:
         return set(), set()
 
-    normalized_emails = {email.lower() for email in emails}
-    query = Invitation.objects.filter(group=group).annotate(lower_email=Lower("email"))
+    normalized_emails = {email_key(email) for email in emails}
+    query = Invitation.objects.filter(group=group).annotate(
+        normalized_email=email_key_expression("email")
+    )
     if users:
-        query = query.filter(Q(lower_email__in=normalized_emails) | Q(user__in=users))
+        query = query.filter(
+            Q(normalized_email__in=normalized_emails) | Q(user__in=users)
+        )
     else:
-        query = query.filter(lower_email__in=normalized_emails)
+        query = query.filter(normalized_email__in=normalized_emails)
 
     existing_email_matches: set[str] = set()
     existing_user_matches: set[int] = set()
     for invitation in query:
         if invitation.email:
-            existing_email_matches.add(invitation.email.lower())
+            existing_email_matches.add(email_key(invitation.email))
         if invitation.user_id is not None:
             existing_user_matches.add(invitation.user_id)
 
@@ -183,43 +186,18 @@ def create_invitation(
     if resolved_user is not None:
         resolved_email = ""
 
-    with transaction.atomic():
-        invitation = Invitation.objects.create(
-            author=author,
-            user=resolved_user,
-            username=username,
-            full_name=full_name,
-            group=group,
-            email=resolved_email,
-            is_superuser=is_superuser,
-        )
-        if limit_languages is not None:
-            invitation.limit_languages.set(limit_languages)
-
-    if invitation.user:
-        details = {"username": invitation.user.username}
-    else:
-        details = {"email": invitation.email}
-
-    Change.objects.create(
+    invitation = create_team_invitation(
+        author=author,
+        request=request,
+        group=group,
         project=project,
-        action=ActionEvents.INVITE_USER,
-        user=author,
-        details=details,
+        user=resolved_user,
+        email=resolved_email,
+        username=username,
+        full_name=full_name,
+        is_superuser=is_superuser,
+        limit_languages=limit_languages,
     )
-    if invitation.user:
-        audit_details = {"username": request.user.username}
-        if project:
-            audit_details["project"] = project.name
-            audit_details["method"] = "project"
-        AuditLog.objects.create(
-            user=invitation.user,
-            request=request,
-            activity="invited",
-            **audit_details,
-        )
-
-    invitation.send_email()
     if success_message:
         messages.success(request, gettext("User invitation e-mail was sent."))
 
@@ -237,7 +215,7 @@ class BaseInviteForm:
             ).order()
         else:
             self.fields["group"].queryset = (
-                Group.objects.filter(defining_project=None)
+                Group.objects.filter(defining_project=None, defining_workspace=None)
                 .select_related("defining_project", "defining_workspace")
                 .order()
             )
@@ -360,7 +338,7 @@ class BulkInviteForm(BaseInviteForm, forms.Form):
         email_tokens: list[tuple[str, str]] = []
 
         for token in self.get_tokens():
-            normalized = token.lower()
+            normalized = email_key(token)
             if normalized in seen:
                 skipped.append(
                     gettext("%(email)s: duplicate address in the submission")
@@ -392,8 +370,8 @@ class BulkInviteForm(BaseInviteForm, forms.Form):
         )
 
         for _token, email in email_tokens:
-            invited_user = invited_users[email.lower()]
-            if email.lower() in existing_email_matches or (
+            invited_user = invited_users[email_key(email)]
+            if email_key(email) in existing_email_matches or (
                 invited_user is not None and invited_user.pk in existing_user_matches
             ):
                 skipped.append(
@@ -415,7 +393,7 @@ class BulkInviteForm(BaseInviteForm, forms.Form):
             if invited_user is not None:
                 existing_user_matches.add(invited_user.pk)
             else:
-                existing_email_matches.add(email.lower())
+                existing_email_matches.add(email_key(email))
             created += 1
 
         if created:
@@ -573,6 +551,21 @@ class ProjectTeamForm(BaseTeamForm):
         self.instance.defining_project = project
         self.fields["components"].queryset = project.component_set.order()
         self.fields["roles"].queryset = Role.objects.assignable_to_project_team()
+
+    def save(self, commit=True, project=None, workspace: Workspace | None = None):
+        if (
+            commit
+            and self.instance.pk
+            and not self.cleaned_data.get("components")
+            and self.instance.components.exclude(
+                project_id=self.instance.defining_project_id
+            ).exists()
+        ):
+            # An old out-of-project link still marks this team as component-limited.
+            # The form cannot select that component, so keep the link when an
+            # unrelated edit would otherwise grant access to the whole project.
+            self.cleaned_data.pop("components", None)
+        return super().save(commit=commit, project=project, workspace=workspace)
 
 
 class WorkspaceTeamForm(BaseTeamForm):

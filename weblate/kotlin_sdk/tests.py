@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import json
 import os
+from collections.abc import Generator
 from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
 from io import BytesIO
@@ -17,13 +18,16 @@ from weakref import ref
 
 from arsc_writer import Text
 from django.db import DatabaseError, connections, transaction
-from django.test import SimpleTestCase, TransactionTestCase, override_settings
+from django.test import Client, SimpleTestCase, TransactionTestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
 from jsonschema.exceptions import ValidationError as SchemaValidationError
+from rest_framework.request import Request
 from rest_framework.test import APIClient, APIRequestFactory
 from translate.storage.base import ParseError as TranslateParseError
 
+from weblate.addons.cdn import CDNFilesAddon
+from weblate.addons.models import Addon
 from weblate.formats.ttkit import AndroidFormat
 from weblate.kotlin_sdk.addons import (
     KotlinSDKAddon,
@@ -34,10 +38,11 @@ from weblate.kotlin_sdk.models import KotlinSDKBuild, KotlinSDKCleanup
 from weblate.kotlin_sdk.publication import Publication
 from weblate.kotlin_sdk.retention import select_retired_builds
 from weblate.kotlin_sdk.translations import LocaleSnapshot, LocaleValues
+from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FileParseError
-from weblate.trans.models import Category, Component, Translation, Unit
+from weblate.trans.models import Category, Change, Component, Translation, Unit
 from weblate.trans.tests.test_views import ReusableViewTestCase
-from weblate.trans.tests.utils import RepoTestMixin, get_test_actor
+from weblate.trans.tests.utils import RepoTestMixin, can_lock_repository, get_test_actor
 from weblate.utils.change_origin import acting_user_context
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
@@ -207,11 +212,11 @@ class RegistrationConcurrencyTest(RepoTestMixin, TransactionTestCase):
         super().setUp()
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
-    def test_worker_renews_publication_lock(self) -> None:
+    def test_worker_holds_publication_lock(self) -> None:
         from arsc_writer import generate  # ruff: ignore[import-outside-top-level]
 
         from weblate.kotlin_sdk.tasks import publish_kotlin_sdk  # ruff: ignore[import-outside-top-level]
-        from weblate.utils.lock import WeblateLock  # ruff: ignore[import-outside-top-level]
+        from weblate.utils.lock import LockScope, WeblateLock  # ruff: ignore[import-outside-top-level]
 
         addon = KotlinSDKAddon.create(
             acting_user=get_test_actor(self),
@@ -230,24 +235,18 @@ class RegistrationConcurrencyTest(RepoTestMixin, TransactionTestCase):
             locale: (locale, {("strings", "hello"): Text("Hello")})
             for locale in ("de", "fr")
         }
-        renewed: list[WeblateLock] = []
-        compiled: list[int] = []
-        original_reacquire = WeblateLock.reacquire
-
-        def renew(lock: WeblateLock) -> None:
-            self.assertTrue(lock.is_locked)
-            original_reacquire(lock)
-            renewed.append(lock)
+        lock = WeblateLock(scope=LockScope.KOTLIN_SDK, key=addon.instance.pk)
+        compiled = []
 
         def compile_locale(
             resources: ResourceTable, *, package: str, locale: str
         ) -> bytes:
-            self.assertGreater(len(renewed), compiled[-1] if compiled else 0)
-            compiled.append(len(renewed))
+            self.assertTrue(lock.is_locked)
+            compiled.append(locale)
             return generate(resources, package=package, locale=locale)
 
         with (
-            patch.object(WeblateLock, "reacquire", autospec=True, side_effect=renew),
+            patch("weblate.kotlin_sdk.tasks.WeblateLock", return_value=lock),
             patch.object(Publication, "translations", return_value=locales(snapshot)),
             patch(
                 "weblate.kotlin_sdk.preparation.generate", side_effect=compile_locale
@@ -255,9 +254,7 @@ class RegistrationConcurrencyTest(RepoTestMixin, TransactionTestCase):
         ):
             publish_kotlin_sdk.run(addon.instance.pk)
         self.assertEqual(len(compiled), 2)
-        self.assertGreater(len(renewed), compiled[-1])
-        self.assertTrue(all(lock is renewed[0] for lock in renewed))
-        self.assertFalse(renewed[0].is_locked)
+        self.assertFalse(lock.is_locked)
         build.refresh_from_db()
         self.assertEqual(build.status, "published")
 
@@ -266,7 +263,7 @@ class RegistrationConcurrencyTest(RepoTestMixin, TransactionTestCase):
         from celery.exceptions import Retry  # ruff: ignore[import-outside-top-level]
 
         from weblate.kotlin_sdk.tasks import publish_kotlin_sdk  # ruff: ignore[import-outside-top-level]
-        from weblate.utils.lock import WeblateLock  # ruff: ignore[import-outside-top-level]
+        from weblate.utils.lock import LockScope, WeblateLock  # ruff: ignore[import-outside-top-level]
 
         addon = KotlinSDKAddon.create(
             acting_user=get_test_actor(self),
@@ -282,7 +279,7 @@ class RegistrationConcurrencyTest(RepoTestMixin, TransactionTestCase):
                 connections.close_all()
 
         with (
-            WeblateLock(scope="kotlin-sdk", key=addon.instance.pk, slug="test"),
+            WeblateLock(scope=LockScope.KOTLIN_SDK, key=addon.instance.pk),
             patch.object(publish_kotlin_sdk, "retry", side_effect=Retry) as retry,
             patch.object(Publication, "publish") as publish,
             ThreadPoolExecutor(max_workers=1) as executor,
@@ -300,7 +297,6 @@ class RegistrationConcurrencyTest(RepoTestMixin, TransactionTestCase):
     def test_lifecycle_changes_during_compilation(self) -> None:
         from arsc_writer import generate  # ruff: ignore[import-outside-top-level]
 
-        from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level]
         from weblate.kotlin_sdk.api import register_build  # ruff: ignore[import-outside-top-level]
         from weblate.kotlin_sdk.tasks import publish_kotlin_sdk  # ruff: ignore[import-outside-top-level]
 
@@ -374,7 +370,7 @@ class RegistrationConcurrencyTest(RepoTestMixin, TransactionTestCase):
                                 self.assertEqual(
                                     register_build(
                                         current,
-                                        APIRequestFactory().post("/"),
+                                        Request(APIRequestFactory().post("/")),
                                         serializer.validated_data,
                                     ).status_code,
                                     202,
@@ -409,8 +405,6 @@ class RegistrationConcurrencyTest(RepoTestMixin, TransactionTestCase):
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
     def test_concurrent_capacity(self) -> None:
-        # ruff: ignore[import-outside-top-level]
-        from weblate.addons.models import Addon
         from weblate.kotlin_sdk.api import register_build  # ruff: ignore[import-outside-top-level]
 
         component = self.create_android()
@@ -431,7 +425,9 @@ class RegistrationConcurrencyTest(RepoTestMixin, TransactionTestCase):
                 serializer.is_valid(raise_exception=True)
                 barrier.wait(timeout=10)
                 return register_build(
-                    instance, APIRequestFactory().post("/"), serializer.validated_data
+                    instance,
+                    Request(APIRequestFactory().post("/")),
+                    serializer.validated_data,
                 ).status_code
             finally:
                 connections.close_all()
@@ -759,6 +755,143 @@ class KotlinSDKTest(ReusableViewTestCase):
         )
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
+    def test_install_translation_files(self) -> None:
+        self.make_manager()
+        addon = KotlinSDKAddon(KotlinSDKAddon.create_object(component=self.component))
+        form = KotlinSDKForm(self.user, addon)
+        self.assertTrue(form.fields["install_translation_files"].initial)
+        form = KotlinSDKForm(
+            self.user,
+            addon,
+            data={
+                "maximum_age": 365,
+                "maximum_versions": 20,
+                "install_translation_files": True,
+            },
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        with patch("weblate.addons.tasks.postconfigure_addon") as configure:
+            instance = form.save()
+        self.assertEqual(configure.call_count, 2)
+        files = Addon.objects.get(component=self.component, name=CDNFilesAddon.name)
+        self.assertEqual(
+            Change.objects.get(addon=files, action=ActionEvents.ADDON_CREATE).user,
+            self.user,
+        )
+        instance.refresh_from_db()
+        self.assertEqual(
+            instance.configuration, {"maximum_age": 365, "maximum_versions": 20}
+        )
+        settings_form = KotlinSDKForm(
+            self.user,
+            instance.addon,
+            data={
+                "maximum_age": 100,
+                "maximum_versions": 10,
+                "install_translation_files": True,
+                "_install_translation_files": True,
+            },
+        )
+        self.assertNotIn("install_translation_files", settings_form.fields)
+        self.assertTrue(settings_form.is_valid(), settings_form.errors)
+        self.assertEqual(
+            settings_form.serialize_form(), {"maximum_age": 100, "maximum_versions": 10}
+        )
+        response = self.client.get(instance.get_absolute_url())
+        self.assertContains(response, "translationFiles {")
+        self.assertContains(
+            response, f"cdnUrl = &quot;{CDNFilesAddon(files).cdn_base_url}&quot;"
+        )
+        self.assertContains(response, "kotlinSdk {")
+        self.assertNotContains(response, 'name="install_translation_files"')
+        self.assertNotContains(response, 'value="weblate.cdn.files"')
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    def test_install_reuses_translation_files(self) -> None:
+        files = CDNFilesAddon.create(
+            component=self.component, acting_user=get_test_actor(self), run=False
+        )
+        KotlinSDKAddon.create(
+            component=self.component,
+            acting_user=get_test_actor(self),
+            run=False,
+            configuration={"_install_translation_files": True},
+        )
+        self.assertEqual(
+            list(
+                Addon.objects.filter(component=self.component, name=CDNFilesAddon.name)
+            ),
+            [files.instance],
+        )
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    def test_install_without_translation_files(self) -> None:
+        self.make_manager()
+        addon = KotlinSDKAddon(KotlinSDKAddon.create_object(component=self.component))
+        form = KotlinSDKForm(
+            self.user, addon, data={"maximum_age": 365, "maximum_versions": 20}
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        with patch("weblate.addons.tasks.postconfigure_addon"):
+            instance = form.save()
+        self.assertFalse(
+            Addon.objects.filter(
+                component=self.component, name=CDNFilesAddon.name
+            ).exists()
+        )
+        response = self.client.get(instance.get_absolute_url())
+        self.assertNotContains(response, "translationFiles {")
+        self.assertContains(response, "kotlinSdk {")
+        self.assertContains(response, 'value="weblate.cdn.files"')
+        url = reverse("addons", kwargs={"path": self.component.get_url_path()})
+        self.assertContains(response, f'action="{url}"')
+        csrf_client = Client(enforce_csrf_checks=True)
+        csrf_client.force_login(self.user)
+        page = csrf_client.get(instance.get_absolute_url())
+        self.assertContains(page, 'name="csrfmiddlewaretoken"')
+        self.assertEqual(
+            csrf_client.post(url, {"name": CDNFilesAddon.name}).status_code, 403
+        )
+        with patch("weblate.addons.tasks.postconfigure_addon"):
+            installed = csrf_client.post(
+                url,
+                {
+                    "name": CDNFilesAddon.name,
+                    "csrfmiddlewaretoken": str(page.context["csrf_token"]),
+                },
+            )
+        files = Addon.objects.get(component=self.component, name=CDNFilesAddon.name)
+        self.assertRedirects(installed, files.get_absolute_url())
+        self.client.post(url, {"name": CDNFilesAddon.name})
+        self.assertEqual(
+            Addon.objects.filter(
+                component=self.component, name=CDNFilesAddon.name
+            ).count(),
+            1,
+        )
+        response = self.client.get(instance.get_absolute_url())
+        self.assertContains(response, "translationFiles {")
+        self.assertNotContains(response, 'value="weblate.cdn.files"')
+        self.client.logout()
+        self.assertEqual(
+            self.client.post(url, {"name": CDNFilesAddon.name}).status_code, 403
+        )
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    def test_translation_files_install_button_eligibility(self) -> None:
+        self.make_manager()
+        addon = self.install()
+        with patch.object(CDNFilesAddon, "can_install", return_value=False):
+            response = self.client.get(addon.instance.get_absolute_url())
+        self.assertNotContains(response, 'value="weblate.cdn.files"')
+        self.assertContains(response, "Install Translation files CDN to let the SDK")
+        request = APIRequestFactory().get("/")
+        instructions = addon.cdn.get_integration_instructions(
+            self.anotheruser, request=request
+        )
+        self.assertNotIn('value="weblate.cdn.files"', instructions)
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
     def test_api_links(self) -> None:
         self.make_manager()
         addon = self.install()
@@ -818,6 +951,9 @@ class KotlinSDKTest(ReusableViewTestCase):
         self.component.category = child
         self.component.save()
         addon = self.install()
+        files = CDNFilesAddon.create(
+            component=self.component, acting_user=get_test_actor(self), run=False
+        )
 
         response = self.client.get(addon.instance.get_absolute_url())
         self.assertContains(
@@ -825,9 +961,11 @@ class KotlinSDKTest(ReusableViewTestCase):
             f"component = &quot;parent%2Fchild%2F{self.component.slug}&quot;",
         )
 
+        self.assertContains(response, "translationFiles {")
+        self.assertContains(response, f"cdnUrl = &quot;{files.cdn_base_url}&quot;")
+
     @tempdir_setting("LOCALIZE_CDN_PATH")
     def test_registration_uses_locked_configuration(self) -> None:
-        from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level]
         from weblate.kotlin_sdk.api import register_build  # ruff: ignore[import-outside-top-level]
 
         addon = self.install()
@@ -845,7 +983,9 @@ class KotlinSDKTest(ReusableViewTestCase):
             patch("weblate.kotlin_sdk.tasks.publish_kotlin_sdk.delay_on_commit"),
         ):
             result = register_build(
-                addon.instance, APIRequestFactory().post("/"), serializer.validated_data
+                addon.instance,
+                Request(APIRequestFactory().post("/")),
+                serializer.validated_data,
             )
         self.assertEqual(result.status_code, 202)
         self.assertEqual(
@@ -907,7 +1047,7 @@ class KotlinSDKTest(ReusableViewTestCase):
         serializer = BuildMetadataSerializer(data=metadata(2))
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
-        request = APIRequestFactory().post("/")
+        request = Request(APIRequestFactory().post("/"))
         with (
             patch("weblate.kotlin_sdk.api.build_status", return_value={}),
             patch("weblate.kotlin_sdk.tasks.publish_kotlin_sdk.delay_on_commit"),
@@ -1576,6 +1716,47 @@ class KotlinSDKTest(ReusableViewTestCase):
         self.assertTrue(build.artifacts.exists())
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
+    def test_locale_reader_lifetime(self) -> None:
+        addon = self.install()
+        component = self.component
+        temp_dir = component.repository.get_repo_temp_dir(create=False)
+        assert temp_dir is not None
+        if temp_dir.exists():
+            temp_dir.rmdir()
+        component.drop_template_store_cache()
+        language: str | None = None
+        for close_normally in (True, False):
+            for snapshot in addon.translations():
+                entries = iter(snapshot.values.entries)
+                if next(entries, None) is not None:
+                    language = snapshot.language
+                    break
+            else:
+                self.fail("Expected a translated resource")
+            assert isinstance(entries, Generator)
+            try:
+                self.assertTrue(can_lock_repository(component.pk, shared=True))
+                self.assertFalse(can_lock_repository(component.pk))
+                self.assertFalse(temp_dir.exists())
+                if not close_normally:
+                    with self.assertRaisesMessage(ValueError, "stop reading"):
+                        entries.throw(ValueError("stop reading"))
+            finally:
+                entries.close()
+            self.assertTrue(can_lock_repository(component.pk))
+        assert language is not None
+        with component.repository.lock:
+            translation = component.translation_set.get(language__code=language)
+            store = translation.load_store()
+            self.assertIsInstance(store, AndroidFormat)
+            output_path = Path(component.full_path, "test-atomic-save")
+            self.addCleanup(output_path.unlink, missing_ok=True)
+            store.storefile = str(output_path)
+            store.save()
+            self.assertTrue(output_path.is_file())
+        self.assertTrue(temp_dir.is_dir())
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
     def test_locale_streaming(self) -> None:
         addon = self.install()
         with patch.object(
@@ -1633,7 +1814,9 @@ class KotlinSDKTest(ReusableViewTestCase):
             self.captureOnCommitCallbacks(execute=True),
         ):
             response = register_build(
-                addon.instance, APIRequestFactory().post("/"), serializer.validated_data
+                addon.instance,
+                Request(APIRequestFactory().post("/")),
+                serializer.validated_data,
             )
             self.assertEqual(response.status_code, 202)
         enqueue.assert_called_once_with(addon.instance.pk)

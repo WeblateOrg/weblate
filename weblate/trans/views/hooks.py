@@ -12,7 +12,7 @@ from urllib.parse import quote, urlparse
 from asgiref.sync import async_to_sync
 from django.conf import settings
 from django.db.models import Q
-from drf_spectacular.utils import OpenApiParameter, extend_schema
+from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
 from rest_framework import parsers, serializers
 from rest_framework.exceptions import (
     APIException,
@@ -103,6 +103,8 @@ AZURE_REPOS = (
     "{organization}@vs-ssh.visualstudio.com:v3/{organization}/{project}/{repository}",
 )
 
+HOOK_MAX_REPOSITORY_URLS = 64
+
 type JSONScalar = str | int | float | bool | None
 type JSONValue = JSONScalar | list[JSONValue] | dict[str, JSONValue]
 type JSONDict = dict[str, JSONValue]
@@ -137,17 +139,23 @@ def exact_repositories_filter(repos: list[str], *, include_variants: bool = True
     spfilter = Q(repo__in=repos)
     if not include_variants:
         return spfilter
+    variants = []
     for repo in repos:
         # We need to match also URLs which include username and password
         if repo.startswith("http://"):
-            spfilter |= Q(repo__startswith="http://") & Q(repo__endswith=f"@{repo[7:]}")
-        elif repo.startswith("https://"):
-            spfilter |= Q(repo__startswith="https://") & Q(
-                repo__endswith=f"@{repo[8:]}"
+            variants.append(
+                Q(repo__startswith="http://") & Q(repo__endswith=f"@{repo[7:]}")
             )
-        # Include URLs with trailing slash
-        spfilter |= Q(repo=f"{repo}/")
-    return spfilter
+        elif repo.startswith("https://"):
+            variants.append(
+                Q(repo__startswith="https://") & Q(repo__endswith=f"@{repo[8:]}")
+            )
+    # Build the OR once; repeatedly combining Q objects copies prior conditions.
+    return (
+        spfilter
+        | Q(repo__in=[f"{repo}/" for repo in repos])
+        | Q(*variants, _connector=Q.OR)
+    )
 
 
 def get_hook_components(
@@ -158,8 +166,8 @@ def get_hook_components(
     component_vcs: str | None = None,
     exclude_component_vcs: list[str] | None = None,
 ) -> QuerySet[Component]:
-    """Return hook target components matched by repository URL."""
-    components = Component.objects.all()
+    """Return repository owners matched by repository URL."""
+    components = Component.objects.filter(linked_component__isnull=True)
     if project_ids is not None:
         components = components.filter(project_id__in=project_ids)
     if component_vcs is not None:
@@ -395,7 +403,11 @@ def bitbucket_hook_helper(data, request: Request | None) -> HandlerResponse | No
 
     # Extract repository links
     if "links" in repository and "clone" in repository["links"]:
-        repos = [val["href"] for val in repository["links"]["clone"]]
+        clone_links = repository["links"]["clone"]
+        if len(clone_links) > HOOK_MAX_REPOSITORY_URLS:
+            msg = "Too many repository URLs in payload"
+            raise HookPayloadError(msg)
+        repos = [val["href"] for val in clone_links]
     else:
         repo_servers = {"bitbucket.org", urlparse(repo_url).hostname}
         repos = []
@@ -1256,6 +1268,10 @@ class BaseHookView(APIView):
         if service_data is None:
             return self.hook_response("Hook working", status=201)
 
+        if len(service_data["repos"]) > HOOK_MAX_REPOSITORY_URLS:
+            msg = "Invalid data in json payload: Too many repository URLs in payload"
+            raise ValidationError(msg)
+
         if self.default_exclude_component_vcs and "component_vcs" not in service_data:
             service_data = {
                 **service_data,
@@ -1342,11 +1358,52 @@ class BaseHookView(APIView):
         )
 
 
+HOOK_FORM_REQUEST = {
+    "type": "object",
+    "properties": {
+        "payload": {
+            "type": "string",
+            "description": "The provider's payload as a JSON-encoded string.",
+        }
+    },
+    "required": ["payload"],
+}
+
+
 # ServiceHookView is defined after all @register_hook calls so the OpenAPI
 # service enum is derived automatically from HOOK_HANDLERS.
 @extend_schema(
-    responses=HookResponseSerializer,
-    request=HookRequestSerializer,
+    summary="Receive a repository webhook",
+    description=(
+        "Send the provider's native webhook payload. Weblate matches repository "
+        "URLs and branches against components with hooks enabled. Update events "
+        "include match counts to diagnose repository, branch, and hook settings. "
+        "Components managed by the authenticated GitHub App integration are "
+        "excluded from generic matching."
+    ),
+    responses={
+        200: OpenApiResponse(
+            HookResponseSerializer,
+            description="A repository update was scheduled for the listed components.",
+        ),
+        201: OpenApiResponse(
+            HookResponseSerializer,
+            description="A ping or an ignored event. Repository matching was skipped.",
+        ),
+        202: OpenApiResponse(
+            HookResponseSerializer,
+            description="Matching completed without an update. The response includes match counts.",
+        ),
+    },
+    request={
+        "application/json": {
+            "type": "object",
+            "additionalProperties": True,
+            "minProperties": 1,
+        },
+        "application/x-www-form-urlencoded": HOOK_FORM_REQUEST,
+        "multipart/form-data": HOOK_FORM_REQUEST,
+    },
     parameters=[
         OpenApiParameter(
             "service",

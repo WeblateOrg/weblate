@@ -106,6 +106,55 @@ After changing dependencies, rerun:
 
    ./scripts/devcontainer bootstrap
 
+Bootstrap also prepares English and orientation OCR models. Subsequent OCR
+tests using these models do not need to download them. Diagnostics check the
+prepared dependency inputs, Python version, tool caches, and required tools.
+After changing the development Dockerfile, run ``./scripts/devcontainer build``
+and ``./scripts/devcontainer restart`` to rebuild and recreate the container.
+
+Run broader verification explicitly after starting the environment:
+
+.. code-block:: sh
+
+   ./scripts/devcontainer verify
+   ./scripts/devcontainer verify --check docs --check frontend
+
+The available checks are ``lint`` (all pre-commit hooks and pylint), ``types``
+(mypy with the same filtering and enforcement as CI), ``docs`` (documentation
+extension tests and a strict English documentation build), and ``frontend``
+(a frozen-lockfile install and client asset build). Without ``--check``, all
+groups run. Independent groups continue after failures and the command fails
+if any group fails. Pre-commit hooks can leave formatting fixes in the checkout
+for review. Frontend build output goes into a temporary directory, preserving
+tracked vendor assets. The image provides Graphviz, Node.js 26, npm, and Yarn
+Classic; client dependencies are installed only when requested.
+
+Verification does not synchronize Python dependencies or refresh test assets.
+If diagnostics report stale preparation, rerun bootstrap first. Initial lint
+and frontend checks require network access for hook environments and JavaScript
+dependencies; documentation builds can fetch external reference inventories.
+
+To verify a populated upgrade from a historical release:
+
+.. code-block:: sh
+
+   ./scripts/devcontainer migration-test 5.10
+   ./scripts/devcontainer migration-test 5.14
+
+Each invocation snapshots the current working tree, including tracked edits
+and non-ignored untracked files, into an independent temporary clone. It runs
+the existing migration CI setup and upgrade assertions with a dedicated Compose
+project and database. The optional migration image includes Python 3.11 and
+3.13 and legacy rendering dependencies. Release tags and historical dependencies
+require network access. The command always uses Docker Compose internally;
+it does not require the Dev Container CLI or a running test environment.
+
+Migration verification prints service logs on failure and removes its temporary
+clone, containers, and volumes on completion or interruption. It preserves the
+caller's branch, index, files, and existing test and application databases.
+Run it once per source release that needs verification. Abrupt host shutdown or
+an uncatchable process termination can still require manual Docker cleanup.
+
 Pytest creates and migrates its test database on first use and reuses it on
 subsequent runs. To recreate it after incompatible migration changes, pass
 ``--create-db`` to pytest. Existing host virtual environments and local

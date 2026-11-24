@@ -88,15 +88,11 @@ def prepare(
     translations: Callable[[set[tuple[str, str]]], Iterable[LocaleSnapshot]],
     compilation_limit: int,
     staging_limit: int,
-    *,
-    renew_lock: Callable[[], None] | None = None,
 ) -> PreparedPublication:
     result = PreparedPublication()
     keys = {(kind, name) for kind in ("strings", "plurals") for name in mapping[kind]}
     staged_size = 0
     for language, (locale, entries) in translations(keys):
-        if renew_lock is not None:
-            renew_lock()
         resources: ResourceTable = {}
         estimated = 4096
         records = iter(entries)

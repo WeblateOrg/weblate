@@ -732,6 +732,17 @@ import_projectbackup
 
 Imports :ref:`projectbackup`.
 
+Use ``--skip-duplicate-translations`` to keep the first target file in scan
+order when several files resolve to one destination language. Source-language
+collisions and ambiguous target scan order still block import. See
+:ref:`projectbackup` for how to correct these conflicts and which data is
+omitted when skipping a target.
+
+The supplied account is the importing actor. Matching other human users directly
+requires a superuser account; ordinary accounts use the invitation and
+authorship-consent flow described in :ref:`projectbackup`. Unmapped usernames
+and pending invitations are reported as warnings.
+
 .. hint::
 
    Usually it is more comfortable to import project when :ref:`adding-projects`.
@@ -1112,6 +1123,27 @@ You can either define which project or component to update (for example
 
     Weblate pushes changes automatically if :ref:`component-push_on_commit` in
     :ref:`component` is turned on, which is the default.
+
+recovergit
+----------
+
+.. weblate-admin:: recovergit <project|project/component>
+
+.. versionadded:: 2026.12
+
+Queues :ref:`manage-vcs-reset-reapply` for components whose Git checkout or its
+:file:`.git` directory is missing. Components with an existing checkout are
+skipped.
+
+You can either define which project or component to process (for example
+``weblate/application``), or use ``--all`` to process all existing components.
+
+This is useful when :setting:`DATA_DIR` is on storage that can be lost, such as
+a node-local disk in Kubernetes. Run it after the data volume is mounted and
+migrations are applied, for example at container startup. The Docker container
+does this when :envvar:`WEBLATE_RECOVER_GIT` is set. Make sure the data
+volume is actually mounted first; otherwise, recovery clones the repositories
+into the wrong place.
 
 refresh_github_repositories
 ---------------------------

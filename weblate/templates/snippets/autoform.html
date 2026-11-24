@@ -32,7 +32,9 @@
       {% crispy autoform %}
     </div>
     <div class="card-footer">
-      <input type="submit" value="{% translate "Apply" %}" class="btn btn-primary" />
+      <input type="submit"
+             value="{% translate "Apply"|force_escape %}"
+             class="btn btn-primary" />
     </div>
   </div>
 </form>

@@ -22,9 +22,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-22 19:01-0500\n"
-"PO-Revision-Date: 2026-10-25 23:06+0000\n"
-"Last-Translator: Michal Čihař <michal@weblate.org>\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
+"PO-Revision-Date: 2026-11-23 16:21+0000\n"
+"Last-Translator: Adam Havránek <helak@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
 "Language: cs\n"
@@ -32,7 +32,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.12.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -89,33 +89,24 @@ msgstr ""
 "Vaše celé jméno se může objevit v záznamech verzovacího systému, a to v "
 "závislosti na nastavení uvedeném níže."
 
-#, fuzzy
-#| msgid "User data"
 msgid "User data file"
-msgstr "Data uživatele"
+msgstr "Soubor s uživatelskými údaji"
 
-#, fuzzy
-#| msgid "Remove this notification setting"
 msgid "Import general notification settings"
-msgstr "Odeberat toto nastavení oznámení"
+msgstr "Načíst obecná nastavení oznámení"
 
 msgid "Import commit identity choices"
-msgstr ""
+msgstr "Možnosti volby identity při importu změn"
 
-#, fuzzy
-#| msgid "ITS rule file is too large."
 msgid "The user data file is too large."
-msgstr "Soubor pravidel ITS je příliš velký."
+msgstr "Soubor s uživatelskými daty je příliš velký."
 
-#, fuzzy, python-format
-#| msgid "The uploaded image was invalid."
+#, python-format
 msgid "The uploaded file is not valid user data: %s"
-msgstr "Nahraný obrázek byl neplatný."
+msgstr "Nahraný soubor není platným souborem uživatelských dat: %s"
 
-#, fuzzy
-#| msgid "ITS rule file contains too many elements."
 msgid "The uploaded file contains too many settings."
-msgstr "Soubor pravidel ITS obsahuje příliš mnoho prvků."
+msgstr "Nahraný soubor obsahuje příliš mnoho nastavení."
 
 msgid "Commit e-mail"
 msgstr "E-mail pro zápisy do Gitu"
@@ -140,10 +131,8 @@ msgstr ""
 "Používá se v zápisech do verzovacího systému. Jméno zůstane v repozitáři "
 "navždy, jakmile Weblate zapíše změny."
 
-#, fuzzy
-#| msgid "Version control settings"
 msgid "Version control identity"
-msgstr "Nastavení verzovacího systému"
+msgstr "Identita pro správu verzí"
 
 msgid "Public e-mail"
 msgstr "Veřejný e-mail"
@@ -151,10 +140,8 @@ msgstr "Veřejný e-mail"
 msgid "Hide e-mail address from public view"
 msgstr "Skrýt e-mailovou adresu veřejnosti"
 
-#, fuzzy
-#| msgid "Display name"
 msgid "Display"
-msgstr "Zobrazený název"
+msgstr "Zobrazení"
 
 msgid "Translation"
 msgstr "Překlad"
@@ -176,8 +163,6 @@ msgstr ""
 "Používá se pro e-mailová oznámení a jako e-mail pro zápisy, pokud není "
 "nakonfigurován níže."
 
-#, fuzzy
-#| msgid "Personal info"
 msgid "Personal information"
 msgstr "Osobní údaje"
 
@@ -410,10 +395,8 @@ msgstr ""
 msgid "Enter the code from the app"
 msgstr "Zadejte kód z aplikace"
 
-#, fuzzy
-#| msgid "Authentication app (%s)"
 msgid "Authentication app"
-msgstr "Autentifikátor (%s)"
+msgstr "Aplikace pro ověřování"
 
 msgid "Project, category, component, or translation path"
 msgstr "Projekt, kategorie, komponenta nebo překladová cesta"
@@ -432,15 +415,25 @@ msgstr "Zadejte platnou cestu k objektu."
 msgid "The target does not exist or you cannot access it."
 msgstr "Cíl neexistuje nebo k němu nemáte přístup."
 
-#, fuzzy
-#| msgid "Notification settings"
 msgid "Notification setting"
 msgstr "Nastavení oznámení"
 
-#, fuzzy
-#| msgid "search"
 msgid "Saved search"
-msgstr "hledat"
+msgstr "Uložené vyhledávání"
+
+msgid ""
+"A lookalike e-mail identity was removed, the password was disabled, and API "
+"tokens were revoked."
+msgstr ""
+"Byla odstraněna identita e-mailu s podobným názvem, heslo bylo deaktivováno "
+"a tokeny API byly zrušeny."
+
+msgid ""
+"Password disabled as reported leaked credential matched the password; API "
+"tokens revoked."
+msgstr ""
+"Heslo bylo deaktivováno, protože nahlášené uniklé přihlašovací údaje se "
+"shodovaly s heslem; API tokeny byly zrušeny."
 
 #. Translators: Audit log entry
 msgid "Password changed."
@@ -611,7 +604,14 @@ msgstr "Uživatel byl přidán do týmu {team} uživatelem {username}."
 msgid "User access to the {team} team was changed by {username}."
 msgstr "Přístup uživatele k týmu {team} byl změněn uživatelem {username}."
 
-#. Translators: Audit log entry
+#, python-brace-format
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr "Přístup správce týmu k {team} byl udělen uživatelem {username}."
+
+#, python-brace-format
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr "Přístup správce týmu k {team} byl odebrán uživatelem {username}."
+
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr "Uživatel byl odstraněn z týmu {team} uživatelem {username}."
@@ -676,6 +676,21 @@ msgstr "Pozvánka do {project} od {username}."
 msgid "Password configured."
 msgstr "Heslo nastaveno."
 
+msgid ""
+"Reset your password to restore password access and review your account "
+"activity."
+msgstr ""
+"Obnovte si heslo, abyste mohli znovu přistupovat k účtu a zkontrolovat jeho "
+"aktivitu."
+
+msgid ""
+"Reset your password to restore password access. Choose a unique password and "
+"review your account activity. The report didn't disclose the source of the "
+"leak."
+msgstr ""
+"Obnovte si heslo, abyste znovu získali přístup k účtu. Zvolte si jedinečné "
+"heslo a zkontrolujte aktivitu na svém účtu. Zpráva neuváděla zdroj úniku."
+
 msgid "To restore access to your account, please reset your password."
 msgstr "Pro obnovení přístupu ke svému účtu proveďte znovunastavení hesla."
 
@@ -711,6 +726,30 @@ msgstr "Běžný mobilní telefon"
 msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr "Zařízení s iOS"
+
+msgid "Site-wide"
+msgstr "V rámci celého webu"
+
+msgid "Workspace"
+msgstr "Pracovní prostor"
+
+msgid "Team created"
+msgstr "Vytvořen tým"
+
+msgid "Team changed"
+msgstr "Změna v týmu"
+
+msgid "Team deleted"
+msgstr "Tým byl smazán"
+
+msgid "Team member added"
+msgstr "Byl přidán člen týmu"
+
+msgid "Team member removed"
+msgstr "Člen týmu byl odstraněn"
+
+msgid "Team member access changed"
+msgstr "Změna přístupových práv člena týmu"
 
 msgid "Account activity"
 msgstr "Aktivita na účtu"
@@ -1032,6 +1071,9 @@ msgstr ""
 "Tento rozsah je příliš široký na to, aby se dal zkontrolovat. Vyberte menší "
 "kategorii, komponentu nebo překlad."
 
+msgid "Contributor"
+msgstr "Přispěvatel"
+
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "Operace byla provedena v repozitáři"
@@ -1236,6 +1278,8 @@ msgid ""
 "This sign-in request has expired or changed. Start signing in again from the "
 "application."
 msgstr ""
+"Platnost této žádosti o přihlášení vypršela nebo došlo ke změně. Zahajte "
+"přihlášení znovu z aplikace."
 
 msgid "This password consists of only whitespace."
 msgstr "Toto heslo je tvořeno jen prázdnými znaky."
@@ -1298,6 +1342,29 @@ msgstr ""
 
 #, python-brace-format
 msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr "Váš e-mail již nepatří k ověřenému účtu, byl změněn na {0}."
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
+msgstr ""
+"E-mailová adresa vašeho účtu již není ověřena a byla odstraněna. Přidejte a "
+"ověřte e-mailovou adresu, abyste si mohli obnovit heslo, a poté ji v "
+"nastavení účtu vyberte jako e-mailovou adresu účtu, abyste mohli dostávat "
+"oznámení."
+
+msgid ""
+"Your e-mail address has been added. You can now select it as your account e-"
+"mail address in Account settings."
+msgstr ""
+"Vaše e-mailová adresa byla přidána. Nyní ji můžete v nastavení účtu vybrat "
+"jako e-mailovou adresu svého účtu."
+
+#, python-brace-format
+msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
 "{0}."
 msgstr "Váš e-mail už není ověřený, byl změněn na {0}."
@@ -1323,6 +1390,12 @@ msgctxt "Theme selection"
 msgid "Dark"
 msgstr "Tmavý"
 
+msgid "Please confirm your identity using a second factor before proceeding."
+msgstr "Před pokračováním potvrďte svou identitu pomocí druhého faktoru."
+
+msgid "Please confirm your identity before proceeding."
+msgstr "Než budete pokračovat, potvrďte prosím svou totožnost."
+
 #, python-format
 msgid "Security key (%s)"
 msgstr "Bezpečnostní klíč (%s)"
@@ -1331,10 +1404,9 @@ msgstr "Bezpečnostní klíč (%s)"
 msgid "Authentication app (%s)"
 msgstr "Autentifikátor (%s)"
 
-#, fuzzy, python-format
-#| msgid "%(filter_name)s (%(filter_count)s)"
+#, python-format
 msgid "%(name)s (#%(id)s)"
-msgstr "%(filter_name)s (%(filter_count)s)"
+msgstr "%(name)s (#%(id)s)"
 
 msgid "Password reset"
 msgstr "Obnovení hesla"
@@ -1342,10 +1414,8 @@ msgstr "Obnovení hesla"
 msgid "Remove account"
 msgstr "Odstranit účet"
 
-#, fuzzy
-#| msgid "Human verification"
 msgid "E-mail verification"
-msgstr "Ověření člověka"
+msgstr "Ověření e-mailu"
 
 msgid "User registration"
 msgstr "Registrace uživatele"
@@ -1434,11 +1504,8 @@ msgstr "Přihlásit se"
 msgid "Signed out"
 msgstr "Odhlášeni"
 
-msgid "Verify new e-mail address"
-msgstr "Ověřit novou e-mailovou adresu"
-
-msgid "Please confirm your identity using a second factor before proceeding."
-msgstr "Před pokračováním potvrďte svou identitu pomocí druhého faktoru."
+msgid "Add and verify e-mail address"
+msgstr "Přidat a ověřit e-mailovou adresu"
 
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "Nelze obnovit heslo, protože je vypnuté přihlašování přes e-mail."
@@ -1446,23 +1513,22 @@ msgstr "Nelze obnovit heslo, protože je vypnuté přihlašování přes e-mail.
 msgid "Change password"
 msgstr "Změna hesla"
 
+msgid "Set password"
+msgstr "Nastavit heslo"
+
 msgid "Password reset has been already completed."
 msgstr "Obnovení hesla už bylo dokončeno."
 
 #, python-format
 msgid " and %s more"
-msgstr ""
+msgstr " a ještě %s"
 
-#, fuzzy, python-format
-#| msgid "String could not be propagated to %d component."
-#| msgid_plural "String could not be propagated to %d components."
+#, python-format
 msgid "Some settings could not be imported: %s"
-msgstr "Řetězec nemohl být rozšířen do %d součásti."
+msgstr "Některá nastavení se nepodařilo importovat: %s"
 
-#, fuzzy
-#| msgid "Your profile has been updated."
 msgid "Your settings have been imported."
-msgstr "Váš profil byl aktualizován."
+msgstr "Vaše nastavení bylo importováno."
 
 msgid "Could not remove user identity"
 msgstr "Nepodařilo se odstranit uživatelskou identitu"
@@ -1644,6 +1710,10 @@ msgstr ""
 "Automaticky překládá řetězce strojovým překladem nebo překlady z jiných "
 "součástí."
 
+#, python-format
+msgid "Error: %s"
+msgstr "Chyba: %s"
+
 msgid "enabled"
 msgstr "zapnuto"
 
@@ -1654,11 +1724,8 @@ msgstr ""
 "Repozitář je zastaralý, dokud ho neobnovíte nemusí výsledky odpovídat "
 "očekávaným."
 
-#, fuzzy
-#| msgid "The translation files CDN add-on cannot publish weblate.js."
 msgid "The CDN add-on cannot publish a translation as manifest.json."
-msgstr ""
-"Doplněk CDN pro překladové soubory nedokáže publikovat soubor weblate.js."
+msgstr "Doplněk CDN nemůže publikovat překlad jako soubor manifest.json."
 
 msgid "JavaScript localization CDN"
 msgstr "Lokalizační CDN pro JavaScript"
@@ -1845,14 +1912,6 @@ msgstr ""
 "brokeru nebo potvrzení doručení nebylo dokončeno: %(error)s"
 
 #, python-format
-msgid ""
-"Fedora Messaging publisher service was unavailable; the connection will be "
-"recreated on the next attempt: %(error)s"
-msgstr ""
-"Služba vydavatele Fedora Messaging nebyla dostupná; připojení bude obnoveno "
-"při příštím pokusu: %(error)s"
-
-#, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
 msgstr "Zprostředkovatel zpráv Fedora vrátil zprávu: %(error)s"
 
@@ -1867,8 +1926,8 @@ msgstr "Zveřejnění zprávy ve Fedora Messaging se nezdařilo: %(error)s"
 msgid "configured"
 msgstr "nastavené"
 
-msgid "Could not reset Fedora Messaging publisher service."
-msgstr "Nepodařilo se resetovat službu vydavatele Fedora Messaging."
+msgid "The SSL certificates have to be provided for SSL connection."
+msgstr "Pro SSL spojení musí být dodány SSL certifikáty."
 
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
 msgstr "Certifikáty CA musí být platné certifikáty X.509 v kódování PEM."
@@ -1879,10 +1938,6 @@ msgstr "SSL klíč klienta musí být nešifrovaný soukromý klíč v kódován
 msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
 msgstr ""
 "SSL certifikáty klientů musí být platné certifikáty X.509 v kódování PEM."
-
-#, python-format
-msgid "Fedora Messaging broker URL is invalid: %(error)s"
-msgstr "URL zprostředkovatele zpráv Fedory je neplatná: %(error)s"
 
 #, python-format
 msgid ""
@@ -1930,8 +1985,8 @@ msgstr ""
 msgid "Bulk edit"
 msgstr "Hromadné úpravy"
 
-msgid "Bulk edit flags, labels, or states of strings."
-msgstr "Hromadné úpravy příznaků, štítků nebo stavů řetězců."
+msgid "Bulk edit text, flags, labels, or states of strings."
+msgstr "Hromadná úprava textu, příznaků, štítků nebo stavů řetězců."
 
 msgid "Flag updated translations from repository as \"Needs rewriting\""
 msgstr "Označit upravené překlady z repozitáře jako „Potřebuje přepsat“"
@@ -2075,6 +2130,18 @@ msgstr ""
 "před dalším klíčem a deaktivuje všechna výchozí klíčová slova, takže bude "
 "rozpoznán pouze výše zadaný klíč."
 
+msgid "Comment extraction"
+msgstr "Extrakce komentářů"
+
+msgid "Keywords"
+msgstr "Klíčová slova"
+
+msgid "Checks and ITS data"
+msgstr "Kontroly a údaje ITS"
+
+msgid "Update behavior"
+msgstr "Chování aktualizace"
+
 msgid "This field is required."
 msgstr "Toto pole je vyžadováno."
 
@@ -2126,6 +2193,9 @@ msgstr ""
 "Cesta k souboru POTFILES nebo POTFILES.in relativní k repozitáři. Položky "
 "budou zpracovány relativně ke kořenu repozitáře. Pokud se nachází vedle "
 "manifestu, soubor POTFILES.skip vyloučí zapsané soubory z extrahování."
+
+msgid "Input files"
+msgstr "Vstupní soubory"
 
 msgid "Invalid symbolic link in a repository."
 msgstr "Neplatný symbolický odkaz v repozitáři."
@@ -2359,6 +2429,15 @@ msgstr "Odebrat součásti pro neexistující soubory"
 msgid "I confirm the above matches look correct"
 msgstr "Potvrzuji, že výše uvedené shody se zdají být správné"
 
+msgid "File matching"
+msgstr "Porovnávání souborů"
+
+msgid "Component naming and file templates"
+msgstr "Pojmenování komponent a šablony souborů"
+
+msgid "Component lifecycle"
+msgstr "Životní cyklus komponenty"
+
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
 msgstr "Obecná předvolba: %(name)s [%(details)s]"
@@ -2538,6 +2617,18 @@ msgstr ""
 msgid "Include read-only strings"
 msgstr "Zahrnout řetězce jen pro čtení"
 
+msgid "Source and target"
+msgstr "Zdroj a cíl"
+
+msgid "Prepended text"
+msgstr "Text na začátku"
+
+msgid "Appended text"
+msgstr "Dozadu připojený text"
+
+msgid "Text expansion"
+msgstr "Rozšíření textu"
+
 msgid "The source and target have to be different languages."
 msgstr "Zdroj a cíl musí být odlišné jazyky."
 
@@ -2611,12 +2702,23 @@ msgstr ""
 "Vložte pouze blok certifikátu ve formátu PEM, který začíná „-----BEGIN "
 "CERTIFICATE-----“; nevkládejte výstup příkazu „openssl x509 -text“."
 
+msgid "Connection timeout"
+msgstr "Časový limit připojení"
+
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr ""
+"Kolik sekund je třeba vyčkat na navázání spojení a nastavení kanálu při "
+"každém pokusu."
+
 msgid "Publish timeout"
 msgstr "Časový limit pro zveřejnění"
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
 msgstr ""
-"Kolik sekund je třeba čekat na potvrzení doručení od zprostředkovatele."
+"Kolik sekund je třeba počkat na odeslání a potvrzení doručení ze strany "
+"zprostředkovatele při každém pokusu po navázání spojení."
 
 msgid "Connection attempts"
 msgstr "Pokusy o připojení"
@@ -2630,15 +2732,24 @@ msgstr "Časová prodleva mezi pokusy"
 msgid "How many seconds to wait between connection attempts."
 msgstr "Kolik sekund se má čekat mezi jednotlivými pokusy o připojení."
 
+msgid "Broker connection"
+msgstr "Připojení k brokerovi"
+
+msgid "Timeouts and retries"
+msgstr "Časové limity a opakované pokusy"
+
+msgid "TLS credentials"
+msgstr "Pověření TLS"
+
+msgid "Event selection"
+msgstr "Výběr události"
+
 msgid "Topic prefix can contain only ASCII characters."
 msgstr "Předpona tématu může obsahovat pouze znaky ASCII."
 
 #, python-format
 msgid "Topic prefix must not exceed %(limit)d characters."
 msgstr "Předpona tématu nesmí překročit %(limit)d znaků."
-
-msgid "The SSL certificates have to be provided for SSL connection."
-msgstr "Pro SSL spojení musí být dodány SSL certifikáty."
 
 msgid "The SSL certificates are not used without a SSL connection."
 msgstr "Bez SSL spojení nebudou SSL certifikáty použity."
@@ -2824,6 +2935,12 @@ msgstr "Doplňky API je nutné nainstalovat přímo do komponenty."
 msgid "This add-on is already installed on this component."
 msgstr "Tento doplněk je v této komponentě již nainstalován."
 
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr ""
+"Doplňky repozitáře musí být nainstalovány na komponentě, která je vlastníkem "
+"daného repozitáře."
+
 msgid "This add-on cannot be triggered manually."
 msgstr "Tento doplněk nelze spustit ručně."
 
@@ -2883,6 +3000,9 @@ msgstr "Projekt"
 msgctxt "Add-on scope"
 msgid "Site"
 msgstr "Stránka"
+
+msgid "a component you cannot access"
+msgstr "komponenta, ke které nemáte přístup"
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -3144,6 +3264,9 @@ msgstr "Text překladu je příliš dlouhý!"
 msgid "Your suggestion already exists!"
 msgstr "Váš návrh už existuje!"
 
+msgid "Search query"
+msgstr "Vyhledávací dotaz"
+
 msgid "Inherit enforced checks from the parent category, project or workspace."
 msgstr ""
 "Zdědit vynucené kontroly z nadřazené kategorie, projektu nebo pracovního "
@@ -3227,6 +3350,27 @@ msgstr "Uživatel"
 msgid "Language"
 msgstr "Jazyk"
 
+msgid ""
+"Contributor identities are exposed by View contributor identities, Download "
+"changes, Manage reports, and access-management permissions. Permissions from "
+"all assigned roles are additive."
+msgstr ""
+"Identity přispěvatelů jsou zpřístupňovány prostřednictvím funkcí „Zobrazit "
+"identity přispěvatelů“, „Stáhnout změny“, „Spravovat zprávy“ a oprávnění pro "
+"správu přístupu. Oprávnění ze všech přiřazených rolí se sčítají."
+
+msgid "Built-in"
+msgstr "Integrovaný"
+
+msgid "Customized"
+msgstr "Vlastní"
+
+msgid "Reset built-in roles to defaults"
+msgstr "Obnovit výchozí nastavení vestavěných rolí"
+
+msgid "Built-in role permissions reset."
+msgstr "Obnovení vestavěných oprávnění rolí."
+
 msgid "Personal info"
 msgstr "Osobní údaje"
 
@@ -3244,6 +3388,10 @@ msgstr "Toto se nepoužije pokud je zvolen seznam součástí."
 
 msgid "This is not used when a component is selected."
 msgstr "Toto se nepoužije pokud je zvolena součást."
+
+#. Translators: Permission name
+msgid "View contributor identities"
+msgstr "Zobrazit profily přispěvatelů"
 
 #. Translators: Permission name
 msgid "Download changes"
@@ -3454,6 +3602,18 @@ msgid "Manage workspace access"
 msgstr "Správa přístupu k pracovnímu prostoru"
 
 #. Translators: Permission name
+msgid "Browse users"
+msgstr "Procházet uživatele"
+
+#. Translators: Permission name
+msgid "Search resource contributors"
+msgstr "Vyhledat přispěvatele zdrojů"
+
+#. Translators: Permission name
+msgid "View user profiles"
+msgstr "Zobrazit profily uživatelů"
+
+#. Translators: Permission name
 msgid "Use management interface"
 msgstr "Použít správcovské rozhraní"
 
@@ -3510,10 +3670,8 @@ msgid "Manage translation memory"
 msgstr "Správa překladové paměti"
 
 #. Translators: Permission name
-#, fuzzy
-#| msgid "Use machine translation services"
 msgid "Manage translation services"
-msgstr "Využít služby strojového překladu"
+msgstr "Správa překladatelských služeb"
 
 #. Translators: Permission name
 msgid "Manage component lists"
@@ -3526,6 +3684,14 @@ msgstr "Spravovat předplatné"
 #. Translators: Permission name
 msgid "Manage site-wide add-ons"
 msgstr "Spravovat doplňky celého webu"
+
+msgctxt "Access-control role"
+msgid "Discover users"
+msgstr "Objevit uživatele"
+
+msgctxt "Access-control role"
+msgid "View user profiles"
+msgstr "Zobrazit profily uživatelů"
 
 msgctxt "Access-control role"
 msgid "Administration"
@@ -3734,6 +3900,27 @@ msgstr "Název"
 
 msgid "Choose permissions granted to this role."
 msgstr "Zvolte oprávnění udělené této roli."
+
+msgid ""
+"Remove the component from project teams before moving it to another project."
+msgstr ""
+"Před přesunutím komponenty do jiného projektu ji nejprve odeberte z "
+"projektových týmů."
+
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+"Před smazáním komponenty ji odeberte z příslušných týmů. Smazání poslední "
+"přiřazené komponenty by vedlo k rozšíření přístupových oprávnění týmu."
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
+msgstr ""
+"Před smazáním seznamu komponent jej odeberte z příslušných týmů. Smazání "
+"posledního přiřazeného seznamu komponent by mohlo rozšířit přístup daného "
+"týmu."
 
 msgid "Roles"
 msgstr "Role"
@@ -4021,6 +4208,9 @@ msgstr ""
 "Pro tento jazyk jsou návrhy vypnuté. Požádejte správce projektu, aby je "
 "zapnul."
 
+msgid "You need to log in to upload translations."
+msgstr "Abyste mohli nahrávat překlady, musíte se přihlásit."
+
 msgid "The file format does not support updating source strings."
 msgstr "Formát souboru nepodporuje aktualizaci zdrojových řetězců."
 
@@ -4041,6 +4231,9 @@ msgstr ""
 "Než povolíte omezený přístup, musíte mít k této součásti výslovný přístup; "
 "jinak byste si zablokovali přístup."
 
+msgid "Blocked users cannot be granted project administration rights."
+msgstr "Zablokovaným uživatelům nelze udělit práva správce projektu."
+
 #, python-format
 msgid ""
 "Team %(name)s was renamed to %(new_name)s because its name was already in "
@@ -4058,11 +4251,23 @@ msgstr "Neaktivní uživatelé nemohou být přiřazeni do týmů."
 msgid "Project tokens can not be assigned to teams here."
 msgstr "Projektové tokeny nelze zde přiřadit týmům."
 
+msgid "Team audit log"
+msgstr "Protokol auditu týmu"
+
+msgid "Team audit entry"
+msgstr "Záznam o auditu týmu"
+
 msgid "Cannot remove built-in team!"
 msgstr "Nelze odstranit vestavěný tým!"
 
 msgid "User invitation was removed."
 msgstr "Pozvánka uživatele byla odstraněna."
+
+msgid "This invitation was already accepted or removed."
+msgstr "Tato pozvánka již byla přijata nebo odstraněna."
+
+msgid "Remove the project block before accepting this invitation."
+msgstr "Než tuto pozvánku přijmete, odstraňte projektový blok."
 
 #, python-format
 msgid "Accepted invitation to the %s team."
@@ -4074,33 +4279,24 @@ msgstr "Automatizace"
 msgid "Runs ordered translation operations with conditions and branches."
 msgstr "Provádí překladové operace podle zadaných podmínek a větvení."
 
-#, fuzzy
-#| msgid "Select at least one component to migrate."
 msgid "Select a component for this automation."
-msgstr "Vyberte alespoň jednu součást k migraci."
+msgstr "Vyberte komponentu pro tuto automatizaci."
 
-#, fuzzy
-#| msgid "The component is outside this add-on's scope."
 msgid "The component is outside this add-on's scope or is incompatible."
-msgstr "Tato součást nespadá do rozsahu tohoto doplňku."
+msgstr ""
+"Tato součást nespadá do rozsahu tohoto doplňku nebo je s ním nekompatibilní."
 
-#, fuzzy
-#| msgid "Browse all changes for this language"
 msgid "Select a change for this automation."
-msgstr "Procházet všechny změny pro tento jazyk"
+msgstr "Vyberte změnu pro tuto automatizaci."
 
 msgid "The change does not belong to this component."
 msgstr "Tato změna se této komponenty netýká."
 
-#, fuzzy
-#| msgid "The change does not belong to this component."
 msgid "The change event does not match this automation's triggers."
-msgstr "Tato změna se této komponenty netýká."
+msgstr "Událost změny neodpovídá spouštěčům této automatizace."
 
-#, fuzzy
-#| msgid "%(path)s: trigger scope requires only change triggers."
 msgid "Trigger scope requires a change with a string."
-msgstr "%(path)s: rozsah spouštěče vyžaduje pouze spouštěče změn."
+msgstr "Spouštěcí rozsah vyžaduje změnu pomocí řetězce."
 
 msgid "Automation nesting is too deep."
 msgstr "Úroveň vnoření automatizace je příliš hluboká."
@@ -4111,6 +4307,7 @@ msgstr "Definice automatizace nesmí přesáhnout 64 KiB."
 #, python-format
 msgid "%(path)s: Unknown change event “%(event)s”. Valid events: %(choices)s"
 msgstr ""
+"%(path)s: Neznámá událost změny „%(event)s“. Platné události: %(choices)s"
 
 msgid "YAML aliases and tags are not supported."
 msgstr "Aliasy a značky YAML nejsou podporovány."
@@ -4159,28 +4356,215 @@ msgstr "Pracovní postup"
 msgid "Enter an automation definition as YAML or JSON."
 msgstr "Zadejte definici automatizace ve formátu YAML nebo JSON."
 
-#, fuzzy
-#| msgid "Component"
 msgid "Component ID"
-msgstr "Součást"
+msgstr "ID komponenty"
 
-#, fuzzy
-#| msgid "Required for inherited automations. Used only for preview."
 msgid "Required for inherited automations."
-msgstr "Nezbytné pro zděděné automatizace. Slouží pouze k náhledu."
+msgstr "Nezbytné pro zděděné automatizace."
 
-#, fuzzy
-#| msgid "Change"
 msgid "Change ID"
-msgstr "Změnit"
+msgstr "Změnit ID"
 
 msgid "Required for workflows using only change triggers."
-msgstr ""
+msgstr "Je to nutné pro pracovní postupy, které využívají pouze spouštěče změn."
 
 #, fuzzy
 #| msgid "Review changes"
 msgid "Preview without changes"
 msgstr "Zkontrolovat změny"
+
+#, fuzzy
+#| msgid "All change events"
+msgid "Change events"
+msgstr "Všechny události změn"
+
+#, fuzzy
+#| msgid "The category does not belong to the selected project."
+msgid "The workflow runs for each of the selected events."
+msgstr "Kategorie nepatří do zvoleného projektu."
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "CEL expression"
+msgstr "Regulární výraz"
+
+#, fuzzy
+#| msgid "The translation has come to an end."
+msgid "The expression has to evaluate to a boolean."
+msgstr "Překlad byl dokončen."
+
+#, fuzzy
+#| msgid "Category name"
+msgid "Category path"
+msgstr "Jméno kategorie"
+
+#, fuzzy
+#| msgid "Parent category has to be in the same project!"
+msgid "Slash-separated category path inside the project."
+msgstr "Nadřazená kategorie musí být ve stejném projektu!"
+
+msgid "Language code"
+msgstr "Kód jazyka"
+
+#, fuzzy
+#| msgid "All change events"
+msgid "Change event"
+msgstr "Všechny události změn"
+
+msgid "String state"
+msgstr "Stav řetězce"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Action ID"
+msgstr "Akce"
+
+msgid "Optional identifier so that later actions can use its results."
+msgstr ""
+
+#, fuzzy
+#| msgid "Move component"
+msgid "Whole component"
+msgstr "Přesunout součást"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Strings were changed"
+msgid "String affected by the change"
+msgstr "Řetězce byly změněny"
+
+#, fuzzy
+#| msgid "String state"
+msgid "String scope"
+msgstr "Stav řetězce"
+
+#, fuzzy
+#| msgid "Default component list"
+msgid "Default (whole component)"
+msgstr "Výchozí seznam součástí"
+
+#, fuzzy
+#| msgid "Delete string"
+msgid "Select strings"
+msgstr "Smazat řetězec"
+
+msgid "Use the effective AI quality add-on"
+msgstr ""
+
+msgid "Bulk editing"
+msgstr "Hromadné úpravy"
+
+#, fuzzy
+#| msgid "Component name"
+msgid "Component update"
+msgstr "Název součásti"
+
+#, fuzzy
+#| msgid "Repositories updated"
+msgid "Repository update"
+msgstr "Aktualizovány repozitáře"
+
+#, fuzzy
+#| msgid "Repository name"
+msgid "Repository commit"
+msgstr "Název repozitáře"
+
+#, fuzzy
+#| msgid "Repository push URL"
+msgid "Repository push"
+msgstr "URL pro odesílání repozitáře"
+
+msgid "Manual run"
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Expression"
+msgstr "Regulární výraz"
+
+#, fuzzy
+#| msgid "Component created"
+msgid "Component category"
+msgstr "Součást vytvořena"
+
+#, fuzzy
+#| msgid "Manage strings"
+msgid "Matching strings"
+msgstr "Spravovat řetězce"
+
+msgid "All of"
+msgstr ""
+
+msgid "Any of"
+msgstr ""
+
+#, fuzzy
+#| msgid "Note"
+msgid "Not"
+msgstr "Poznámka"
+
+#, fuzzy
+#| msgid "Frequency"
+msgid "Sequence"
+msgstr "Frekvence"
+
+msgid "Choose"
+msgstr "Zvolit"
+
+msgid "Trigger"
+msgstr "Vyvolat"
+
+#, fuzzy
+#| msgid "Alert triggered"
+msgid "Add trigger"
+msgstr "Zjištěno upozornění"
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Condition"
+msgstr "Konfigurace"
+
+#, fuzzy
+#| msgid "Bad configuration"
+msgid "Add condition"
+msgstr "Chybné nastavení"
+
+msgid "Action"
+msgstr "Akce"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Add action"
+msgstr "Akce"
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Conditions"
+msgstr "Konfigurace"
+
+msgid "Actions"
+msgstr "Akce"
+
+#, fuzzy
+#| msgid "Branch"
+msgid "Branches"
+msgstr "Větev"
+
+#, fuzzy
+#| msgid "Additional branch"
+msgid "Add branch"
+msgstr "Další větev"
+
+#, fuzzy
+#| msgid "Others"
+msgid "Otherwise"
+msgstr "Další"
+
+msgid "Add action to run otherwise"
+msgstr ""
+
+msgid "Branch"
+msgstr "Větev"
 
 msgid "Additional message"
 msgstr "Váš vzkaz"
@@ -4203,9 +4587,6 @@ msgstr ""
 msgid "No valid billing found or limit exceeded."
 msgstr ""
 "Nebyla nalezena žádná platná fakturační adresa nebo byl překročen limit."
-
-msgid "Workspace"
-msgstr "Pracovní prostor"
 
 msgid "Customer name"
 msgstr "Jméno zákazníka"
@@ -4306,6 +4687,11 @@ msgstr[0] "Obsahuje %d součást"
 msgstr[1] "Obsahuje %d součásti"
 msgstr[2] "Obsahuje %d součástí"
 
+#, fuzzy
+#| msgid "Suggestions are not allowed on this translation!"
+msgid "Restricted components are not allowed by this billing plan."
+msgstr "V tomto překladu nejsou povoleny návrhy!"
+
 msgid "Missing license"
 msgstr "Chybějící licence"
 
@@ -4317,6 +4703,11 @@ msgstr "Fakturace"
 
 msgid "Billing event"
 msgstr "Fakturační událost"
+
+#, fuzzy
+#| msgid "Projects without components"
+msgid "Project has no components."
+msgstr "Projekty bez součástí"
 
 msgid "monthly"
 msgstr "měsíčně"
@@ -4362,6 +4753,11 @@ msgstr ""
 
 msgid "To terminate billing you have to remove all projects first."
 msgstr "Pro ukončení předplatného musíte nejdříve odstranit všechny projekty."
+
+#, fuzzy
+#| msgid "A workspace associated with billing cannot be removed."
+msgid "Externally managed billings cannot be merged."
+msgstr "Pracovní prostor spojený s fakturací nelze odstranit."
 
 msgid "Cannot merge such a billing."
 msgstr "Nepodařilo se sloučit danou fakturu."
@@ -4583,9 +4979,13 @@ msgstr "Některé tvary množného čísla jsou přeložené stejně."
 msgid "Inconsistent"
 msgstr "Nejednotné"
 
+#, fuzzy
+#| msgid ""
+#| "This string has more than one translation in this project or is "
+#| "untranslated in some components."
 msgid ""
-"This string has more than one translation in this project or is untranslated "
-"in some components."
+"This string has more than one translation in its propagation group or is "
+"untranslated in some components."
 msgstr ""
 "Tento řetězec má v tomto projektu více rozdílných překladů nebo někde není "
 "přeložený."
@@ -4836,6 +5236,11 @@ msgstr ""
 msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr "Značka HTML {tag} má chybějící uzavírací značku: {end}."
 
+#, fuzzy, python-brace-format
+#| msgid "The HTML {tag} tag is missing a matching end tag: {end}."
+msgid "The HTML {tag} tag is nested too deeply."
+msgstr "Značka HTML {tag} má chybějící uzavírací značku: {end}."
+
 #, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
@@ -5056,6 +5461,17 @@ msgstr "Syntaxe překladu Fluent"
 
 msgid "Fluent syntax error in the translation."
 msgstr "Chyba syntaxe Fluent v překladu."
+
+msgid "The Fluent value could not be checked because it is too complex."
+msgstr ""
+
+msgid "the value is too complex or nested too deeply"
+msgstr ""
+
+#, fuzzy
+#| msgid "Your billing plan has exceeded its limits."
+msgid "Format matching exceeded its time limit."
+msgstr "Vaše předplatné překročilo omezení."
 
 msgid "The following format strings are in the wrong order:"
 msgstr "Následující formátovací řetězce jsou ve špatném pořadí:"
@@ -5307,6 +5723,9 @@ msgstr "Syntaxe Markdown"
 msgid "Markdown syntax does not match source."
 msgstr "Syntaxe Markdownu neodpovídá zdroji."
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr ""
+
 msgid "The translation does not contain a URL."
 msgstr "Překlad neobsahuje adresu URL."
 
@@ -5461,6 +5880,11 @@ msgstr "Nastavení Weblate"
 
 msgid "Your translation is foo"
 msgstr "Váš překlad je foo"
+
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
+msgstr ""
 
 msgid "Font style"
 msgstr "Řez písma"
@@ -5619,6 +6043,25 @@ msgstr "Řetězce iOS"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
+#, fuzzy
+#| msgid "Could not update the repository."
+msgid "Could not open the workbook archive."
+msgstr "Nepodařilo se aktualizovat repozitář."
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr ""
+
 msgid "Multivalue CSV file"
 msgstr "Vícehodnotový soubor CSV"
 
@@ -5658,6 +6101,10 @@ msgstr "Neplatná metadata id_hash v souboru CSV: %s"
 
 msgid "Plural form metadata in CSV file requires id_hash."
 msgstr "Metadata v množném čísle v souboru CSV vyžadují id_hash."
+
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
+msgstr ""
 
 #. Translators: File format name
 msgid "gettext PO file"
@@ -5886,6 +6333,13 @@ msgstr "Soubory metadat pro aplikační obchody"
 msgid "File validation is required for directory-based formats."
 msgstr ""
 
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr ""
+
+msgid "Converted workbook content exceeds the configured size limit."
+msgstr ""
+
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
@@ -5954,6 +6408,16 @@ msgid ""
 "either this limit or the maximum age is reached."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation files CDN"
+msgid "Install Translation files CDN"
+msgstr "Překladové soubory CDN"
+
+msgid ""
+"Publishes original translation files publicly, including files from private "
+"components."
+msgstr ""
+
 msgid "Kotlin SDK CDN"
 msgstr "Kotlin SDK CDN"
 
@@ -5963,6 +6427,11 @@ msgid ""
 msgstr ""
 "Zveřejňuje řetězcové a množné zdroje pro Android pro registrované sestavení "
 "SDK v jazyce Kotlin."
+
+#, fuzzy
+#| msgid "This add-on is already installed on this component."
+msgid "Translation files CDN cannot be installed on this component."
+msgstr "Tento doplněk je v této komponentě již nainstalován."
 
 msgid "Weblate languages"
 msgstr "Jazyky Weblate"
@@ -6017,9 +6486,6 @@ msgstr "Žádné jazykové omezení"
 
 msgid "Enter a valid language code."
 msgstr "Zadejte platný kód jazyka."
-
-msgid "Language code"
-msgstr "Kód jazyka"
 
 msgid "Language name"
 msgstr "Název jazyka"
@@ -6180,9 +6646,6 @@ msgstr "Vzorec množného čísla"
 
 msgid "Plural type"
 msgstr "Druh množného čísla"
-
-msgid "Example counts for this plural form."
-msgstr "Příklady počtů pro toto množné číslo."
 
 msgid "Singular"
 msgstr "Jednotné číslo"
@@ -6509,6 +6972,9 @@ msgstr ""
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
 msgstr "Výběr zdrojového jazyka"
+
+msgid "disabled"
+msgstr "vypnuto"
 
 msgid ""
 "Project-level machine translation cannot use internal or non-public "
@@ -7090,6 +7556,21 @@ msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "Alternativní jazyk zvolený v projektu nebo v součásti"
 
+#, fuzzy
+#| msgid "Update with rebase"
+msgid "Rate limit reset."
+msgstr "Aktualizovat s rebase"
+
+#, fuzzy
+#| msgid "This translation needs editing."
+msgid "Too many translation requests."
+msgstr "Tento překlad potřebuje upravit."
+
+#, fuzzy
+#| msgid "Too many authentication attempts from this location."
+msgid "Too many concurrent translation requests for this service."
+msgstr "Příliš mnoho pokusů o přihlášení z tohoto umístění."
+
 msgid "File"
 msgstr "Soubor"
 
@@ -7219,6 +7700,13 @@ msgstr ""
 "Položky překladové paměti vytvořené na základě aktuálních překladů byly "
 "odstraněny a budou znovu vytvořeny na pozadí."
 
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many uploads, please try again later."
+msgstr ""
+"Zadáno příliš mnoho vyhledávacích dotazů bezprostředně po sobě, zkuste to "
+"prosím později."
+
 #, python-format
 msgid "Processed %(count)d active translation memory entry."
 msgid_plural "Processed %(count)d active translation memory entries."
@@ -7303,6 +7791,11 @@ msgid "Read your e-mail address"
 msgstr "Použít e-mailovou adresu profilu"
 
 msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
 msgstr ""
 
 msgid "Image is too big."
@@ -7414,8 +7907,25 @@ msgstr[2] "Bylo nalezeno %(count)s shod s hledaným řetězcem."
 msgid "No new matching source strings found."
 msgstr "Nebyly nalezeny žádné nové odpovídající zdrojové řetězce."
 
-msgid "OCR data could not be downloaded. Please try again later."
+msgid "Only some matching strings are shown. Search for more strings manually."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many image text searches. Please try again later."
+msgstr ""
+"Zadáno příliš mnoho vyhledávacích dotazů bezprostředně po sobě, zkuste to "
+"prosím později."
+
+#, fuzzy
+#| msgid "OCR data could not be downloaded. Please try again later."
+msgid "Text recognition data could not be downloaded. Please try again later."
 msgstr "Data OCR se nepodařilo stáhnout. Zkuste to prosím později."
+
+#, fuzzy
+#| msgid "Could not load repository branches. Please try again."
+msgid "Could not find strings in the image. Please try again."
+msgstr "Nepodařilo se načíst větve repozitáře. Zkuste to prosím znovu."
 
 msgid "Select a valid screenshot."
 msgstr "Vyberte platný snímek obrazovky."
@@ -7630,8 +8140,19 @@ msgstr ""
 msgid "Your profile"
 msgstr "Váš profil"
 
+#, fuzzy
+#| msgid "Enter a valid e-mail address."
+msgid "Confirm adding e-mail address"
+msgstr "Zadejte platnou e-mailovou adresu."
+
 msgid "Confirm adding user identity"
 msgstr "Potvrďte přidání uživatelské identity"
+
+#, python-format
+msgid ""
+"Confirm adding %(uid)s to your existing Weblate account by entering your "
+"current password."
+msgstr ""
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #, python-format
@@ -7641,6 +8162,11 @@ msgid ""
 msgstr ""
 "Po potvrzení se budete moci přihlásit do Weblate pomocí služby "
 "%(backend_verbose)s (%(uid)s)."
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Add e-mail address"
+msgstr "Ověřit novou e-mailovou adresu"
 
 msgid "Confirm"
 msgstr "Potvrdit"
@@ -7742,16 +8268,16 @@ msgstr "Otevřít kontaktní formulář"
 msgid "Registration"
 msgstr "Registrace"
 
+#, fuzzy
+#| msgid "Your e-mail"
+msgid "Check your e-mail"
+msgstr "Váš e-mail"
+
 msgid "Password reset almost complete"
 msgstr "Obnovení hesla je téměř dokončeno"
 
 msgid "Account removal almost complete"
 msgstr "Odstranění účtu je téměř dokončeno"
-
-#, fuzzy
-#| msgid "Registration almost complete"
-msgid "E-mail verification almost complete"
-msgstr "Registrace je téměř hotová"
 
 msgid "Registration almost complete"
 msgstr "Registrace je téměř hotová"
@@ -7767,16 +8293,11 @@ msgid ""
 msgstr ""
 "Svůj účet odstraníte kliknutím na potvrzovací odkaz v zaslaném e-mailu."
 
-#, fuzzy
-#| msgid ""
-#| "Click the confirmation link sent to your e-mail inbox and start using "
-#| "your account."
 msgid ""
-"Click the confirmation link sent to your e-mail inbox to verify the address "
-"for your account."
+"Check your e-mail for instructions. If this address is already associated "
+"with an account, you may receive account recovery guidance instead of a "
+"verification link."
 msgstr ""
-"Klikněte na potvrzovací odkaz zaslaný do vaší e-mailové schránky a začněte "
-"používat svůj účet."
 
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
@@ -7787,6 +8308,17 @@ msgstr ""
 
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr "Pokud jej nevidíte v doručené poště, podívejte se do nevyžádaných."
+
+#, fuzzy, python-format
+#| msgid "The confirmation link will expire after %(count)s hour."
+#| msgid_plural "The confirmation link will expire after %(count)s hours."
+msgid ""
+"If you receive a verification link, it will expire after %(count)s hour."
+msgid_plural ""
+"If you receive a verification link, it will expire after %(count)s hours."
+msgstr[0] "Platnost odkazu pro potvrzení vyprší po %(count)s hodině."
+msgstr[1] "Platnost odkazu pro potvrzení vyprší po %(count)s hodinách."
+msgstr[2] "Platnost odkazu pro potvrzení vyprší po %(count)s hodinách."
 
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
@@ -7809,6 +8341,15 @@ msgid "Register again if the confirmation link expires."
 msgstr "Pokud platnost potvrzovacího odkazu vyprší, zaregistrujte se znovu."
 
 msgid ""
+"If you receive a verification link, open it while signed in to this account "
+"and follow the confirmation steps. You may be asked for your current "
+"password."
+msgstr ""
+
+msgid "Back to account settings"
+msgstr "Zpět na nastavení účtu"
+
+msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
@@ -7826,13 +8367,49 @@ msgstr "Pokud máte problémy s registrací, kontaktujte nás."
 msgid "Please fix errors in the form."
 msgstr "Prosím opravte chyby ve formuláři."
 
+msgid ""
+"Verification instructions will be sent to the new e-mail address. You do not "
+"need access to your old mailbox."
+msgstr ""
+
+msgid ""
+"Adding an address does not change your account e-mail address. After "
+"verification, you can select the new address in Account settings."
+msgstr ""
+
 #, fuzzy
 #| msgid "Send test e-mail"
 msgid "Send verification e-mail"
 msgstr "Odeslat zkušební e-mail"
 
-msgid "Back to account settings"
-msgstr "Zpět na nastavení účtu"
+#, fuzzy
+#| msgid "Confirm adding user identity"
+msgid "Confirm your identity"
+msgstr "Potvrďte přidání uživatelské identity"
+
+msgid "Confirm your existing sign-in method before continuing."
+msgstr ""
+
+msgid ""
+"Confirm your existing sign-in method before registering your first second "
+"factor."
+msgstr ""
+
+msgid "Sign in again using a connected provider:"
+msgstr ""
+
+msgid ""
+"Your previous e-mail verification has expired. Reset your password to "
+"continue."
+msgstr ""
+
+msgid "Sign out and reset password by e-mail"
+msgstr ""
+
+msgid ""
+"No sign-in method is available to confirm your identity. Contact an "
+"administrator to recover access."
+msgstr ""
 
 msgid "Trial subscriptions"
 msgstr "Zkušební předplatné"
@@ -8035,6 +8612,9 @@ msgstr "Vložte dvakrát nové heslo. Tak ověříme, že bylo zadáno správně
 msgid "Change my password"
 msgstr "Změnit heslo"
 
+msgid "Set my password"
+msgstr "Nastavit moje heslo"
+
 #, fuzzy
 #| msgid "Back to account settings"
 msgid "Back to security settings"
@@ -8080,11 +8660,6 @@ msgstr "Aktivita"
 
 msgid "The e-mail address can be chosen from verified addresses only."
 msgstr "E-mailovou adresu lze vybrat pouze z ověřených adres."
-
-#, fuzzy
-#| msgid "Verify new e-mail address"
-msgid "Add and verify e-mail address"
-msgstr "Ověřit novou e-mailovou adresu"
 
 msgid "Save"
 msgstr "Uložit"
@@ -8188,9 +8763,6 @@ msgstr "Nastavit"
 msgid "Not configured"
 msgstr "nastavené"
 
-msgid "Set password"
-msgstr "Nastavit heslo"
-
 msgid "Two-factor authentication"
 msgstr "Dvoufaktorové ověřování"
 
@@ -8292,6 +8864,9 @@ msgstr "Přepnout viditelnost klíče API"
 
 msgid "API key copied to clipboard."
 msgstr "Klíč API zkopírován do schránky."
+
+msgid "Verify your identity to view your API key"
+msgstr ""
 
 msgid "API root URL:"
 msgstr "Kořenová adresa API:"
@@ -8489,9 +9064,6 @@ msgid ""
 msgstr ""
 "Zapomněli jste své současné heslo? Vložte svou e-mailovou adresu a obdržíte "
 "na ní pokyny pro nastavení nového."
-
-msgid "Set my password"
-msgstr "Nastavit moje heslo"
 
 msgid "Reset my password"
 msgstr "Obnovit heslo"
@@ -8905,6 +9477,9 @@ msgstr "Nekompatibilní"
 msgid "No components found."
 msgstr "Nebyly nalezeny žádné součásti."
 
+msgid "Integration instructions"
+msgstr "Pokyny pro integraci"
+
 msgid "Configure add-on"
 msgstr "Nastavit doplněk"
 
@@ -8992,6 +9567,31 @@ msgstr "Doplněk lze nainstalovat pouze na úrovni součástí."
 msgid "Install"
 msgstr "Nainstalovat"
 
+#, fuzzy
+#| msgid "This add-on is used for all components sharing this repository."
+msgid "Install on the component owning the repository."
+msgstr ""
+"Tento doplněk bude použit ve všech součástech sdílejících tento repozitář."
+
+#, fuzzy
+#| msgid ""
+#| "One component was not migrated because its repository is no longer "
+#| "available."
+#| msgid_plural ""
+#| "%(count)d components were not migrated because their repositories are no "
+#| "longer available."
+msgid "The component owning this repository is not available to you."
+msgstr ""
+"Jedna součást nebyla zmigrována, protože její repozitář již není dostupný."
+
+#, fuzzy
+#| msgid "Repository changes"
+msgid "Open repository add-ons"
+msgstr "Změny repozitáře"
+
+msgid "Unavailable"
+msgstr "Není k dispozici"
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -9025,8 +9625,56 @@ msgstr "Předchozí"
 msgid "Next"
 msgstr "Následující"
 
-msgid "Integration instructions"
-msgstr "Pokyny pro integraci"
+#, fuzzy
+#| msgid "Workflow customization"
+msgid "Workflow editing mode"
+msgstr "Přizpůsobení pracovního postupu"
+
+#, fuzzy
+#| msgid "Edit"
+msgid "Editor"
+msgstr "Upravit"
+
+#, fuzzy
+#| msgid "YAML file"
+msgid "YAML"
+msgstr "Soubor YAML"
+
+msgid ""
+"Both modes edit the same workflow, and switching between them keeps unsaved "
+"changes."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trigger backup"
+msgid "Triggers"
+msgstr "Spustit zálohu"
+
+msgid ""
+"Events starting the workflow. Without any trigger it can only be run "
+"manually."
+msgstr ""
+
+#, fuzzy
+#| msgid "All components are now open for translation updates."
+msgid "All conditions have to pass before any action runs."
+msgstr "Všechny součásti byly otevřeny pro překlad."
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Operation was performed in the repository"
+msgid "Operations performed in this order once the conditions pass."
+msgstr "Operace byla provedena v repozitáři"
+
+#, fuzzy
+#| msgid "Move"
+msgid "Move up"
+msgstr "Přesunout"
+
+#, fuzzy
+#| msgid "Move"
+msgid "Move down"
+msgstr "Přesunout"
 
 msgid "Published translation files are available from the CDN base URL:"
 msgstr "Zveřejněné překladové soubory jsou k dispozici na základní adrese CDN:"
@@ -9090,6 +9738,30 @@ msgid "No matching components were found!"
 msgstr "Nebyly nalezeny žádné odpovídající součásti!"
 
 msgid ""
+"Configure the AMQP broker connection below, including any TLS certificates "
+"required by your broker, and select the events to publish."
+msgstr ""
+
+msgid "Configure your consumer to subscribe to Weblate message topics:"
+msgstr ""
+
+msgid ""
+"Topics include only the path segments available for the event. If you "
+"configure a topic prefix, it is prepended with a dot separator."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "Browse the Weblate documentation for guides on translating, "
+#| "administration, and configuration."
+msgid ""
+"See the add-on documentation for topic examples, the message schema, and "
+"consumer configuration."
+msgstr ""
+"Procházejte dokumentaci Weblate pro návody na překlad, administraci a "
+"konfiguraci."
+
+msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
 msgstr ""
@@ -9139,6 +9811,17 @@ msgstr "Zkratka URL projektu"
 msgid ""
 "See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
 "library setup."
+msgstr ""
+
+msgid ""
+"Install Translation files CDN to let the SDK download original XML "
+"translation files. These files are published publicly, including files from "
+"private components."
+msgstr ""
+
+msgid ""
+"After installation, return to this page to copy the updated Gradle "
+"configuration."
 msgstr ""
 
 msgid "Configure the Kotlin SDK Gradle plugin with these values:"
@@ -9295,6 +9978,21 @@ msgstr "Řetězce budou vytvořeny podle následujícího vzoru:"
 msgid "Source string"
 msgstr "Zdrojový řetězec"
 
+#, python-format
+msgid ""
+"Create an <a href=\"%(url)s\">incoming webhook in Slack</a> for the channel "
+"that should receive notifications."
+msgstr ""
+
+msgid ""
+"Enter the webhook URL below and select the events to send to the channel."
+msgstr ""
+
+#, fuzzy
+#| msgid "Please see a documentation for more info."
+msgid "See the add-on documentation for more information."
+msgstr "Další informace naleznete v dokumentaci."
+
 msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr "Zápisy Weblate ze součástí v tomto repozitáři budou sloučeny."
@@ -9312,6 +10010,22 @@ msgstr ""
 "není vybrána možnost „Podle autora“ nebo pokud není zpráva commitu upravena "
 "tak, aby obsahovala toto autorství."
 
+msgid ""
+"Configure your service to receive JSON POST requests, enter its URL below, "
+"and select the events to send."
+msgstr ""
+
+msgid ""
+"To verify request signatures, configure the same Standard Webhooks secret in "
+"Weblate and your receiver. Requests are signed only when a secret is "
+"configured."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for the message payload and signature "
+"verification."
+msgstr ""
+
 msgid "HTTP Response"
 msgstr "HTTP odpověď"
 
@@ -9327,6 +10041,43 @@ msgstr "Obsah odpovědi"
 msgid "Request payload"
 msgstr "Tělo požadavku"
 
+msgid ""
+"Reset these built-in roles to the current default permissions? This discards "
+"their customizations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Permissions"
+msgid "Reset permissions"
+msgstr "Oprávnění"
+
+msgid "Cancel"
+msgstr "Zrušit"
+
+msgid "Actor"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete entry"
+msgid "Deleted user"
+msgstr "Odstranit položku"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Administrative team changes"
+msgstr "Administrace"
+
+msgid "Change"
+msgstr "Změnit"
+
+msgid "View details"
+msgstr "Zobrazit podrobnosti"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No team audit entries found."
+msgstr "Nenalezeny žádné odpovídající řetězce."
+
 msgid "Settings"
 msgstr "Nastavení"
 
@@ -9335,6 +10086,17 @@ msgstr "Automatická přiřazení"
 
 msgid "Access control"
 msgstr "Řízení přístupu"
+
+#, fuzzy
+#| msgid ""
+#| "Automatically add newly created users to this team based on their e-mail "
+#| "address."
+msgid ""
+"Automatically invite newly created users to this team based on their e-mail "
+"address. Users join only after accepting the invitation."
+msgstr ""
+"Automaticky přidávat nově vytvořené uživatele do tohoto týmu na základě "
+"jejich e-mailové adresy."
 
 msgid ""
 "Automatically add newly created users to this team based on their e-mail "
@@ -9381,6 +10143,9 @@ msgstr "Tímto odstraníte přístup uživatele <b>%(user)s</b> k tomuto projekt
 msgid "Add"
 msgstr "Přidat"
 
+msgid "Moved component"
+msgstr "Přesunuta součást"
+
 msgid "All components"
 msgstr "Všechny součásti"
 
@@ -9404,6 +10169,9 @@ msgstr "Spravovat sledované projekty"
 
 msgid "My workspaces"
 msgstr "Moje pracovní prostory"
+
+msgid "Workspaces"
+msgstr "Pracovní prostory"
 
 msgid "Manage translated languages"
 msgstr "Spravovat překládané jazyky"
@@ -9575,6 +10343,16 @@ msgstr ""
 "Toto předplatné nesplňuje podmínky hostování zdarma. Prosím opravte výše "
 "uvedené chyby nebo si předplatné zakupte."
 
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+
 msgid "Customer"
 msgstr "Zákazník"
 
@@ -9592,9 +10370,6 @@ msgstr "Zobrazit"
 
 msgid "Event details"
 msgstr "Podrobnosti o události"
-
-msgid "Actions"
-msgstr "Akce"
 
 msgid "Download"
 msgstr "Stáhnout"
@@ -9702,6 +10477,138 @@ msgstr "Pro změnu přístupu nemáte oprávnění."
 msgid "Check your billing status"
 msgstr "Zkontrolovat stav předplatného"
 
+#, fuzzy
+#| msgid "Repository browser"
+msgid "Checking your browser"
+msgstr "Prohlížení repozitáře"
+
+msgid ""
+"Your browser will calculate a short proof of work to protect this site "
+"against automated scraping."
+msgstr ""
+
+#, fuzzy
+#| msgid "Loading…"
+msgid "Working…"
+msgstr "Načítání…"
+
+msgid ""
+"Verification failed. Enable JavaScript, workers, and cookies, then retry. "
+"You can also sign in."
+msgstr ""
+
+msgid "The challenge expired. Retry to start a new challenge."
+msgstr ""
+
+msgid "This challenge was already used. Retry to start a new challenge."
+msgstr ""
+
+msgid "Browser verification was unsuccessful. Please retry."
+msgstr ""
+
+msgid "Browser verification could not be confirmed. Enable cookies and retry."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "The authentication provider is temporarily unavailable. Please try again "
+#| "later."
+msgid ""
+"The verification service is temporarily unavailable. Please retry later."
+msgstr ""
+"Poskytovatel ověřování je dočasně nedostupný. Zkuste to prosím později."
+
+msgid "Verification cookies could not be confirmed. Enable cookies and retry."
+msgstr ""
+
+msgid "JavaScript is required for anonymous access. You can sign in instead."
+msgstr ""
+
+#, fuzzy
+#| msgid "Retry delay"
+msgid "Retry"
+msgstr "Časová prodleva mezi pokusy"
+
+msgid "Did you know?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Please review and confirm the missing language changes."
+msgid "Review and confirm the bulk edit changes."
+msgstr "Prosím, zkontrolujte a potvrďte chybějící jazykové úpravy."
+
+#, fuzzy, python-format
+#| msgid "%(count)s string needing action"
+#| msgid_plural "%(count)s strings needing action"
+msgid "%(counter)s string would change."
+msgid_plural "%(counter)s strings would change."
+msgstr[0] "%(count)s řetězec vyžadující pozornost"
+msgstr[1] "%(count)s řetězce vyžadující pozornost"
+msgstr[2] "%(count)s řetězců vyžadujících pozornost"
+
+msgid ""
+"Showing the first 250 changes. Only selected displayed strings will be "
+"processed unless you choose to apply all matching strings."
+msgstr ""
+
+msgid "Update preview"
+msgstr "Náhled aktualizace"
+
+#, python-format
+msgid "Apply all matching strings (%(total)s)"
+msgstr ""
+
+msgid ""
+"Applies to all current matches, including those not displayed. The query and "
+"permissions are checked again when applying changes."
+msgstr ""
+
+msgid "Select"
+msgstr "Vybrat"
+
+#, fuzzy
+#| msgctxt "Label on engage page"
+#| msgid "String"
+#| msgid_plural "Strings"
+msgid "String"
+msgstr "Řetězec"
+
+msgid "Changes"
+msgstr "Změny"
+
+msgid "State"
+msgstr "Stav"
+
+msgid "Before"
+msgstr ""
+
+msgid "After"
+msgstr ""
+
+msgid "Empty"
+msgstr "Prázdný"
+
+#, fuzzy
+#| msgid "For all languages"
+msgid "Source flags (all languages)"
+msgstr "Pro všechny jazyky"
+
+msgid "Translation flags"
+msgstr "Příznaky překladu"
+
+#, fuzzy
+#| msgid "All languages"
+msgid "Add label (all languages)"
+msgstr "Všechny jazyky"
+
+#, fuzzy
+#| msgid "Browse all languages"
+msgid "Remove label (all languages)"
+msgstr "Procházet všechny jazyky"
+
+msgid "Apply"
+msgstr "Použít"
+
 msgid "Insights"
 msgstr "Přehledy"
 
@@ -9720,9 +10627,6 @@ msgstr "Nahrát překlad"
 msgid "Operations"
 msgstr "Operace"
 
-msgid "Search and replace"
-msgstr "Vyhledat a nahradit"
-
 msgid "Post announcement"
 msgstr "Vydat oznámení"
 
@@ -9731,12 +10635,6 @@ msgstr "Uspořádat nebo odstranit"
 
 msgid "Browse all changes for this language"
 msgstr "Procházet všechny změny pro tento jazyk"
-
-msgid "Review changes"
-msgstr "Zkontrolovat změny"
-
-msgid "Apply"
-msgstr "Použít"
 
 msgid "Browse components"
 msgstr "Procházet součásti"
@@ -10575,9 +11473,6 @@ msgstr "Nic k náhledu."
 msgid "Shortcut"
 msgstr "Zkratka"
 
-msgid "Action"
-msgstr "Akce"
-
 msgid "Open available keyboard shortcuts."
 msgstr "Otevřít dostupné klávesové zkratky."
 
@@ -10719,6 +11614,9 @@ msgstr "Vyřešit"
 msgid "Mark as spam"
 msgstr "Označit jako spam"
 
+msgid "Service is no longer available"
+msgstr "Služba již není k dispozici"
+
 msgid "This service is installed site wide."
 msgstr "Tato služba je nainstalovaná globálně."
 
@@ -10734,26 +11632,20 @@ msgid "workspace"
 msgstr "pracovní prostor"
 
 #, fuzzy
+#| msgid "Language limit"
+msgid "Rate limited"
+msgstr "Jazykový limit"
+
+#, fuzzy
 #| msgid "This service is installed site wide."
 msgid "This service is disabled."
 msgstr "Tato služba je nainstalovaná globálně."
-
-msgid "disabled"
-msgstr "vypnuto"
-
-msgid "Service is no longer available"
-msgstr "Služba již není k dispozici"
 
 msgid "ID"
 msgstr ""
 
 msgid "Slug"
 msgstr "Slug"
-
-#, fuzzy
-#| msgid "Organization (optional)"
-msgid "Installation slug (optional)"
-msgstr "Organizace (volitelné)"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -10765,37 +11657,157 @@ msgstr ""
 "zásady ochrany osobních údajů daného poskytovatele."
 
 #, fuzzy
-#| msgid "Configure translation reviews"
-msgid "Configured translation services"
-msgstr "Nastavení kontroly překladů"
+#| msgid "Hosted service"
+msgid "Inherited service"
+msgstr "Hostovaná služba"
 
 #, fuzzy
-#| msgid "Adding strings is disabled in the component configuration."
-msgid "Stop using this installation without removing its configuration."
-msgstr "Přidání řetězců je zakázáno v nastavení součásti."
+#| msgid "This service is installed site wide."
+msgid "This service is managed at its installation scope."
+msgstr "Tato služba je nainstalovaná globálně."
+
+#, fuzzy
+#| msgid "Use this translation"
+msgid "Manage this installation"
+msgstr "Použít tento překlad"
+
+#, fuzzy
+#| msgid "Organization (optional)"
+msgid "Installation slug (optional)"
+msgstr "Organizace (volitelné)"
+
+#, fuzzy
+#| msgid "This add-on has no settings."
+msgid "This service has no settings."
+msgstr "Tento doplněk nemá žádná nastavení."
+
+#, fuzzy
+#| msgid "Use automatic suggestions"
+msgid "Use in automations"
+msgstr "Používat automatické návrhy"
+
+msgid ""
+"Select this installation in the engines setting of an automatic translation "
+"action using its numeric ID:"
+msgstr ""
+
+#, fuzzy
+#| msgid "You can now log in using password."
+msgid "You can also select it using its slug:"
+msgstr "Od teď se můžete přihlásit prostřednictvím hesla."
+
+msgid ""
+"The numeric ID always selects this installation. The slug selects the "
+"installation currently using that name in the project."
+msgstr ""
+
+msgid ""
+"Set an installation slug above to give this service a readable name in your "
+"automations."
+msgstr ""
+
+msgid "Rate limit"
+msgstr "Limit počtu požadavků"
+
+msgid ""
+"Requests to this service are temporarily paused after a provider error. "
+"Resetting the rate limit allows Weblate to try again; it does not reset the "
+"provider’s quota."
+msgstr ""
+
+#, fuzzy
+#| msgid "Repositories limit"
+msgid "Reset rate limit"
+msgstr "Počet repozitářů"
+
+#, fuzzy
+#| msgid "This component is already shared in %s."
+msgid "The rate limit can be reset at the service’s installation scope."
+msgstr "Tato součást je již sdílena v %s."
+
+#, fuzzy
+#| msgid "Version control"
+msgid "Service control"
+msgstr "Verzovací systém"
+
+#, fuzzy
+#| msgid "GitHub installation ID"
+msgid "Disable installation"
+msgstr "Identifikátor instalace GitHubu"
+
+msgid ""
+"Stop using this installation here and in scopes inheriting it. Its settings "
+"are kept so you can enable it again later."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this workspace and its projects. "
+"Other installations of this service remain available."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this project. Other installations "
+"of this service and its use in other projects are unaffected."
+msgstr ""
 
 msgid "Disable"
 msgstr "Zakázat"
 
-msgid "Stop using this inherited installation here."
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Enable machine translation"
+msgid "Enable installation"
+msgstr "Povolit strojový překlad"
+
+msgid ""
+"Resume using this installation with its saved settings here and in scopes "
+"inheriting it. Existing exclusions still apply."
+msgstr ""
+
+msgid ""
+"Remove the local exclusion for this installation. It can provide suggestions "
+"here when it is enabled at its installation scope and is not excluded "
+"upstream. Other excluded installations remain excluded."
 msgstr ""
 
 msgid "Enable"
 msgstr "Povolit"
 
-#, fuzzy
-#| msgid "Remove this notification setting"
-msgid "Remove this installation and its configuration."
-msgstr "Odeberat toto nastavení oznámení"
+msgid ""
+"This installation is disabled at its installation scope or excluded by an "
+"upstream scope."
+msgstr ""
 
-msgid "Exclude all inherited installations of this service"
+#, fuzzy
+#| msgid "Evaluation service"
+msgid "Exclude inherited service"
+msgstr "Hodnotící služba"
+
+msgid ""
+"Stop using all site-wide installations of this service in this workspace and "
+"its projects, including installations added later. Installations configured "
+"directly in this workspace or its projects remain available."
+msgstr ""
+
+msgid ""
+"Stop using all inherited installations of this service in this project, "
+"including installations added later. Installations configured directly in "
+"this project and use in other projects are unaffected."
 msgstr ""
 
 msgid "Exclude"
 msgstr ""
 
-msgid "Configure"
-msgstr "Nastavit"
+msgid ""
+"Removing this installation stops it from being used here and in scopes "
+"inheriting it, and deletes its saved settings. You will need to install and "
+"configure it again to use it later."
+msgstr ""
+
+#, fuzzy
+#| msgid "Configure translation reviews"
+msgid "Configured translation services"
+msgstr "Nastavení kontroly překladů"
 
 msgid "There are no services currently installed."
 msgstr "Momentálně nejsou nainstalovány žádné služby."
@@ -10818,6 +11830,17 @@ msgstr "Nepodařilo se najít žádné další služby."
 msgid ""
 "Some services will ask for additional configuration during installation."
 msgstr "Některé služby budou při instalaci požadovat další nastavení."
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "Translation service errors"
+msgstr "Licence překladu"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "No translation service errors available."
+msgstr "Doména překladu"
 
 #, python-format
 msgid "The following activity has occurred on your account at %(site_title)s:"
@@ -10983,6 +12006,16 @@ msgstr ""
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr "Opakované platby budou zrušeny u neaktivních projektů"
 
+#, fuzzy
+#| msgid "Does not meet Libre hosting conditions."
+msgid "Review Libre hosting conditions"
+msgstr "Nesplňuje podmínky pro svobodné hostování."
+
+#, fuzzy, python-format
+#| msgid "Number of entries for %(project)s"
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "Počet položek pro %(project)s"
+
 msgid "Translation change"
 msgstr "Změna v překladu"
 
@@ -11041,6 +12074,37 @@ msgstr "Součást %(component)s byla odemčena"
 msgid "Digest: %(notification_name)s"
 msgstr "Souhrn: %(notification_name)s"
 
+#, python-format
+msgid ""
+"Somebody requested to add this e-mail address to another account at "
+"%(site_title)s. This address is already associated with an account and "
+"cannot be added to another."
+msgstr ""
+
+msgid ""
+"If you intended to access the existing account, sign out and use password "
+"recovery. The button below opens the password reset form; it does not reset "
+"your password."
+msgstr ""
+
+#, fuzzy
+#| msgid "Confirm password reset"
+msgid "Open password recovery"
+msgstr "Potvrdit obnovení hesla"
+
+msgid "Contact support for help moving this address between accounts."
+msgstr ""
+
+msgid ""
+"If you did not request this, you can ignore this e-mail. Your account has "
+"not been changed."
+msgstr ""
+
+#. Translators: e-mail subject
+#, python-format
+msgid "E-mail address already associated with an account on %(site_title)s"
+msgstr ""
+
 msgid "View invitation"
 msgstr "Zobrazit pozvánku"
 
@@ -11050,6 +12114,10 @@ msgid_plural "The invitation will expire after %(count)s hours."
 msgstr[0] "Pozvánka vyprší za %(count)s hodinu."
 msgstr[1] "Pozvánka vyprší za %(count)s hodiny."
 msgstr[2] "Pozvánka vyprší za %(count)s hodin."
+
+#, python-format
+msgid "Automatic team assignment: invitation to join %(team_name)s"
+msgstr ""
 
 #. Translators: e-mail subject
 #, python-format
@@ -11295,6 +12363,11 @@ msgstr "Potvrdit odstranění účtu"
 msgid "Confirm invitation"
 msgstr "Potvrďte pozvánku"
 
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Verify e-mail address"
+msgstr "Ověřit novou e-mailovou adresu"
+
 msgid ""
 "Note: This notification has been truncated as there were over 100 entries."
 msgstr ""
@@ -11357,6 +12430,17 @@ msgstr "Nedokončené"
 #. Translators: e-mail subject
 msgid "Translation activity summary"
 msgstr "Shrnutí překladatelské činnosti"
+
+#, fuzzy, python-format
+#| msgid "Activity on your account at %(site_title)s"
+msgid "Verify this e-mail address for your account at %(site_title)s."
+msgstr "Událost ve vašem účtu na %(site_title)s"
+
+#. Translators: e-mail subject
+#, fuzzy, python-format
+#| msgid "Account removal on %(site_title)s"
+msgid "Verify your e-mail address on %(site_title)s"
+msgstr "Odstranění účtu na %(site_title)s"
 
 msgid "Component diagnostics"
 msgstr "Diagnostika součásti"
@@ -11557,6 +12641,70 @@ msgstr "Procházet objevování"
 msgid "Performance report"
 msgstr "Informace o výkonnosti"
 
+#, fuzzy
+#| msgid "Code-hosting connections"
+msgid "Bot protection"
+msgstr "Připojení pro hostování kódu"
+
+msgid ""
+"Issued challenges, requests requiring proof of work, and verification "
+"outcomes in hourly buckets. Counts are best-effort and can be lost during "
+"cache outages or eviction."
+msgstr ""
+
+#, fuzzy
+#| msgid "No teams are available."
+msgid "Counters are unavailable."
+msgstr "Žádné týmy nejsou k dispozici."
+
+msgid "Outcome"
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Current hour"
+msgstr "Stávající heslo"
+
+#, fuzzy
+#| msgid "Previously generated reports"
+msgid "Previous 24 completed hours"
+msgstr "Dříve vygenerované zprávy"
+
+#, fuzzy
+#| msgid "Pushed changes"
+msgid "Issued challenges"
+msgstr "Odeslány změny"
+
+msgid "Requests requiring proof of work"
+msgstr ""
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Expired challenge"
+msgstr "Změna zdroje"
+
+#, fuzzy
+#| msgid "Invalid suggestion!"
+msgid "Invalid solution"
+msgstr "Chybný návrh!"
+
+#, fuzzy
+#| msgctxt "Label on donate page"
+#| msgid "Recent change"
+#| msgid_plural "Recent changes"
+msgid "Replayed challenge"
+msgstr "Nedávná změna"
+
+#, fuzzy
+#| msgid "Merge failure"
+msgid "CSRF failure"
+msgstr "Chyba při slučování"
+
+#, fuzzy
+#| msgid "Service is no longer available"
+msgid "Service unavailable"
+msgstr "Služba již není k dispozici"
+
 msgid "Last occurrence"
 msgstr "Minulý výskyt"
 
@@ -11708,6 +12856,343 @@ msgstr "Zobrazit součásti s bez vzdáleného VCS"
 msgid "This repository is linked to:"
 msgstr "Tento repozitář je propojen s:"
 
+#, fuzzy
+#| msgid "Confirm registration"
+msgid "Confirm security action"
+msgstr "Potvrďte registraci"
+
+#, python-format
+msgid "Selected %(count)s findings affecting %(accounts)s accounts."
+msgstr ""
+
+msgid ""
+"Disable the matching passwords, invalidate signed-in sessions, and revoke "
+"all API tokens. Users with an e-mail address will be notified. Single sign-"
+"on and two-factor settings are preserved. Accounts whose passwords have "
+"changed will be skipped."
+msgstr ""
+
+msgid ""
+"Remove the selected lookalike verified e-mail addresses and associated sign-"
+"in identities, disable account passwords, invalidate sessions, and revoke "
+"API tokens. Account owners will be notified at their primary e-mail address."
+msgstr ""
+
+msgid ""
+"Dismiss the selected findings without changing credentials or notifying "
+"users. A new report confirming the same exposure can reopen them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Reset my password"
+msgid "Reset passwords"
+msgstr "Obnovit heslo"
+
+#, fuzzy
+#| msgid "Remove connected account?"
+msgid "Remove identities and reset accounts"
+msgstr "Chcete odstranit propojený účet?"
+
+#, fuzzy
+#| msgid "Dismiss failing check"
+msgid "Dismiss findings"
+msgstr "Zahodit selhavší kontrolu"
+
+#, fuzzy, python-format
+#| msgid "Edit team membership for %(username)s"
+msgid "Security finding for %(username)s"
+msgstr "Upravit členství v týmu pro %(username)s"
+
+msgid "CSV row"
+msgstr ""
+
+#, fuzzy
+#| msgid "Unit identifier"
+msgid "Identifier"
+msgstr "Identifikátor jednotky"
+
+#, fuzzy
+#| msgid "Matching multiple paths"
+msgid "Matching method"
+msgstr "Porovnání více cest"
+
+#, fuzzy
+#| msgid "No matching screenshots available."
+msgid "No matching row details."
+msgstr "Nejsou k dispozici žádné odpovídající snímky obrazovky."
+
+#, fuzzy, python-format
+#| msgid "Page %(current)s of %(total)s"
+msgid "Page %(number)s of %(total)s"
+msgstr "Strana %(current)s z %(total)s"
+
+#, fuzzy
+#| msgid "Detected from repository"
+msgid "Detected in reports"
+msgstr "Zjištěno z repozitáře"
+
+#, fuzzy
+#| msgid "Administrators"
+msgid "Administrator"
+msgstr "Správci"
+
+#, fuzzy
+#| msgid "Weblate administration"
+msgid "Deleted administrator"
+msgstr "Administrace Weblate"
+
+msgid "No validation reports for this finding."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Reports page %(number)s of %(total)s"
+msgstr "Použito %(used)s z %(total)s"
+
+#, fuzzy
+#| msgid "Previously generated reports"
+msgid "Previous reports"
+msgstr "Dříve vygenerované zprávy"
+
+#, fuzzy
+#| msgid "Past reports"
+msgid "Next reports"
+msgstr "Předchozí zprávy"
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Account security findings"
+msgstr "Zpět na nastavení účtu"
+
+#, fuzzy
+#| msgid "Translation reports"
+msgid "Validation reports"
+msgstr "Souhrny překladů"
+
+msgid "Filename"
+msgstr "Název souboru"
+
+#, fuzzy
+#| msgid "Not needed"
+msgid "Not recorded"
+msgstr "Není třeba"
+
+#, fuzzy
+#| msgid "Submit"
+msgid "Submitted by"
+msgstr "Odeslat"
+
+#, fuzzy
+#| msgid "Professional support"
+msgid "Processing summary"
+msgstr "Profesionální podpora"
+
+#, fuzzy
+#| msgid "Translation completed"
+msgid "Password validation completed."
+msgstr "Dokončení překladu"
+
+msgid "Legacy e-mail identity check completed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Activation completed."
+msgid "Security action completed."
+msgstr "Aktivace dokončena."
+
+#, fuzzy
+#| msgid "Parsing failed"
+msgid "Processing failed."
+msgstr "Zpracování selhalo"
+
+msgid "Processing is not complete. Findings may still be added."
+msgstr ""
+
+#, fuzzy
+#| msgid "Progress"
+msgid "View progress"
+msgstr "Postup"
+
+#, python-format
+msgid "Processed %(processed)s of %(total)s entries."
+msgstr "Bylo zpracováno %(processed)s z %(total)s záznamů."
+
+#, fuzzy
+#| msgid "Ending date"
+msgid "Finding type"
+msgstr "Koncové datum"
+
+msgid "Filter"
+msgstr "Filtr"
+
+#, fuzzy
+#| msgid "Select all source strings"
+msgid "Actions apply only to checked findings on this page."
+msgstr "Vybrat všechny zdrojové řetězce"
+
+#, fuzzy
+#| msgid "Select all source strings"
+msgid "Select all on this page"
+msgstr "Vybrat všechny zdrojové řetězce"
+
+#, fuzzy
+#| msgid "Project selection"
+msgid "Clear selection"
+msgstr "Výběr projektu"
+
+#, fuzzy
+#| msgid "Pending"
+msgid "Finding"
+msgstr "Čekající"
+
+#, python-format
+msgid "Select finding for %(username)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "active"
+msgid "Inactive"
+msgstr "aktivní"
+
+#, fuzzy
+#| msgid "Note"
+msgid "Bot"
+msgstr "Poznámka"
+
+msgid "No e-mail address: notification unavailable"
+msgstr ""
+
+#, fuzzy
+#| msgid "Date joined"
+msgid "Date joined:"
+msgstr "Datum připojení"
+
+#, fuzzy
+#| msgid "Last sign in"
+msgid "Last sign-in:"
+msgstr "Poslední přihlášení"
+
+#, python-format
+msgid "Row %(row)s: %(identifier)s (%(method)s)"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Comments (%(count)s)"
+msgid "View details (%(count)s match)"
+msgid_plural "View details (%(count)s matches)"
+msgstr[0] "Komentáře (%(count)s)"
+msgstr[1] "Komentáře (%(count)s)"
+msgstr[2] "Komentáře (%(count)s)"
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "First detected:"
+msgstr "Písmo bylo smazáno."
+
+#, fuzzy
+#| msgid "Last updated"
+msgid "Last detected:"
+msgstr "Naposledy aktualizováno"
+
+#, fuzzy
+#| msgid "No diagnostics match the selected filters."
+msgid "No security findings match these filters."
+msgstr "Žádná diagnostika neodpovídá zadaným filtrům."
+
+msgid "Remove lookalike e-mail identities and reset selected accounts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Set password for your Weblate account"
+msgid "Reset passwords for selected accounts"
+msgstr "Nastavte heslo pro svůj účet Weblate"
+
+msgid "Dismiss selected findings"
+msgstr ""
+
+msgid ""
+"Dismissing findings marks them as reviewed without changing passwords or "
+"notifying users."
+msgstr ""
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Account security operation"
+msgstr "Zpět na nastavení účtu"
+
+#, fuzzy
+#| msgid "Professional support"
+msgid "Processing progress"
+msgstr "Profesionální podpora"
+
+#, fuzzy
+#| msgid "Refresh results"
+msgid "Refresh progress"
+msgstr "Obnovit výsledky"
+
+msgid ""
+"Review previous credential validation reports, including reports with no "
+"matching passwords."
+msgstr ""
+
+#, fuzzy
+#| msgid "Download reports"
+msgid "Upload report"
+msgstr "Stáhnout výkazy"
+
+#, fuzzy
+#| msgid "Process"
+msgid "Processed rows"
+msgstr "Zpracovat"
+
+#, fuzzy
+#| msgid "Manage strings"
+msgid "Matching rows"
+msgstr "Spravovat řetězce"
+
+#, fuzzy
+#| msgid "Connected accounts"
+msgid "Affected accounts"
+msgstr "Propojené účty"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "%(processed)s of %(total)s"
+msgstr "Použito %(used)s z %(total)s"
+
+#, fuzzy
+#| msgid "Translation reports"
+msgid "No validation reports yet."
+msgstr "Souhrny překladů"
+
+msgid ""
+"Upload a CSV containing usernames or e-mail addresses and passwords. "
+"Passwords are checked in the background and never displayed in the report."
+msgstr ""
+
+msgid ""
+"Reports must use UTF-8 and contain at most 50,000 rows and 10 MiB. Leave the "
+"delimiter and column numbers blank for automatic detection."
+msgstr ""
+
+msgid ""
+"The uploaded file is available for one hour. Adjust the CSV settings below "
+"to try again."
+msgstr ""
+
+msgid "CSV format (detected automatically)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Old password"
+msgid "Validate passwords"
+msgstr "Původní heslo"
+
+#, fuzzy
+#| msgid "Disable password"
+msgid "Validate leaked passwords"
+msgstr "Zakázat heslo"
+
 msgid "Activate support package"
 msgstr "Aktivujte balíček podpory"
 
@@ -11850,8 +13335,19 @@ msgstr "Znovu poslat"
 msgid "Check user access"
 msgstr "Zkontrolovat přístup"
 
-msgid "Workspaces"
-msgstr "Pracovní prostory"
+#, fuzzy
+#| msgid "Account activity"
+msgid "Account security"
+msgstr "Aktivita na účtu"
+
+#, python-format
+msgid "Security report (%(security_findings_open)s open findings)"
+msgstr ""
+
+msgid ""
+"Validate a CSV report of leaked credentials against current account "
+"passwords."
+msgstr ""
 
 msgid "Add workspace"
 msgstr "Přidat pracovní prostor"
@@ -11876,9 +13372,6 @@ msgstr "Matice"
 
 msgid "Displayed languages"
 msgstr "Zobrazených jazyků"
-
-msgid "Choose"
-msgstr "Zvolit"
 
 msgid "Translation memory status"
 msgstr "Stav překladové paměti"
@@ -11971,6 +13464,9 @@ msgstr "zapnuto"
 #. Translators: Shared translation memory is disabled
 msgid "off"
 msgstr "vypnuto"
+
+msgid "Configure"
+msgstr "Nastavit"
 
 msgid "Autoclean translation memory"
 msgstr "Automaticky vyčistit překladovou paměť"
@@ -12179,22 +13675,6 @@ msgstr "Děkujeme za vaše překlady."
 msgid "Donate to Weblate development"
 msgstr "Přispějte na vývoj Weblate"
 
-msgid "Please review and confirm the search and replace results."
-msgstr "Zkontrolujte a potvrďte výsledky vyhledání a nahrazení."
-
-msgid ""
-"Showing and replacing only the first 250 matches. Perform the replacement "
-"again to replace more."
-msgstr ""
-"Zobrazuji a nahrazuji pouze prvních 250 shod. Opětovným provedením náhrady "
-"nahradíte více."
-
-msgid "Update preview"
-msgstr "Náhled aktualizace"
-
-msgid "Replace"
-msgstr "Nahradit"
-
 msgid "Generated by"
 msgstr "Vytvořeno pomocí"
 
@@ -12229,6 +13709,24 @@ msgstr ""
 msgid "Assign source strings"
 msgstr "Přiřadit zdrojové řetězce"
 
+#, fuzzy
+#| msgid "Assigned source strings"
+msgid "Find source strings"
+msgstr "Přiřazené zdrojové řetězce"
+
+#, fuzzy
+#| msgid "Image widgets"
+msgid "Image text"
+msgstr "Obrázková tlačítka"
+
+msgid "Suggests source strings by recognizing text in this screenshot."
+msgstr ""
+"Navrhuje zdrojové řetězce na základě rozpoznání textu na tomto snímku "
+"obrazovky."
+
+msgid "Add selected"
+msgstr "Přidat vybrané"
+
 msgid "Source string search"
 msgstr "Vyhledat zdrojové řetězce"
 
@@ -12241,17 +13739,6 @@ msgstr ""
 
 msgid "Search query syntax documentation"
 msgstr "Dokumentace k syntaxi vyhledávacích dotazů"
-
-msgid "Suggests source strings by recognizing text in this screenshot."
-msgstr ""
-"Navrhuje zdrojové řetězce na základě rozpoznání textu na tomto snímku "
-"obrazovky."
-
-msgid "Find strings in image"
-msgstr "Vyhledat řetězce v obrázku"
-
-msgid "Add selected"
-msgstr "Přidat vybrané"
 
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr "Odstranění snímku obrazovky jej odebere ze všech zdrojových řetězců."
@@ -12458,8 +13945,8 @@ msgstr "Vybrat všechny zdrojové řetězce"
 msgid "Select string for bulk edit"
 msgstr "Řetězce označené pro úpravu"
 
-msgid "You can change the state of all strings matching given type at once."
-msgstr "Je možné změnit stav všech řetězců odpovídajícího typu naráz."
+msgid "Choose which strings to edit and the changes to apply."
+msgstr ""
 
 msgid "The operation is applied to the strings selected in the list above."
 msgstr ""
@@ -12493,9 +13980,6 @@ msgstr "Nastavit workflow jazyka"
 msgid "Configure translation quality filter"
 msgstr "Nastavit filtr kvality překladů"
 
-msgid "View details"
-msgstr "Zobrazit podrobnosti"
-
 msgid "View contributor license agreement"
 msgstr "Zobrazit licenční smlouvu s přispěvateli"
 
@@ -12518,9 +14002,6 @@ msgstr[1] ""
 "Tento překlad byl automaticky uzamčen z důvodu následujících upozornění:"
 msgstr[2] ""
 "Tento překlad byl automaticky uzamčen z důvodu následujících upozornění:"
-
-msgid "Filter"
-msgstr "Filtr"
 
 msgid "Clear filters"
 msgstr "Vymazat filtry"
@@ -12569,15 +14050,15 @@ msgstr ""
 "Pokud byste chtěli přispět vyšší částkou, můžete prostřednictvím "
 "dobrovolného příspěvku podpořit vývoj a údržbu samotného Weblate."
 
+msgid "Example counts for this plural form."
+msgstr "Příklady počtů pro toto množné číslo."
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr "Maximální délka řetězce je určena ze zdrojového řetězce nebo příznaků."
 
 msgid "Clone to translation"
 msgstr "Klonovat do překladu"
-
-msgid "Select"
-msgstr "Vybrat"
 
 msgid "Target string"
 msgstr "Cílový řetězec"
@@ -12605,12 +14086,13 @@ msgstr ""
 msgid "Source code repository"
 msgstr "Repozitář se zdrojovými kódy"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr "Repozitář pro tuto součást je propojen s %(target)s."
-
 msgid "Repository URL copied to clipboard."
 msgstr "Adresa URL repozitáře zkopírována do schránky."
+
+#, fuzzy
+#| msgid "Renamed component"
+msgid "Linked component"
+msgstr "Přejmenována součást"
 
 msgid "Repository branch"
 msgstr "Větev repozitáře"
@@ -12628,7 +14110,6 @@ msgstr "Adresa URL repozitáře zkopírována do schránky."
 msgid "Last remote commit"
 msgstr "Poslední zápis vzdáleného repozitáře"
 
-#. Translators: For example: "nijel authored five days ago"
 #, python-format
 msgid "%(author)s authored %(date)s"
 msgstr "%(author)s vytvořil %(date)s"
@@ -12846,6 +14327,24 @@ msgstr "Přispěvatelé"
 msgid "Translations"
 msgstr "Překlady"
 
+#, fuzzy, python-format
+#| msgid ""
+#| "You were invited to %(site_title)s by %(invitation_author)s to "
+#| "collaborate on %(project_name)s and join the %(team_name)s team."
+msgid ""
+"An automatic team assignment rule invited you to collaborate on "
+"%(project_name)s and join the %(team_name)s team. You will join only if you "
+"accept this invitation."
+msgstr ""
+"Byli jste pozváni do %(site_title)s uživatelem %(invitation_author)s pro "
+"spolupráci na projektu %(project_name)s a připojení se do týmu %(team_name)s."
+
+#, python-format
+msgid ""
+"An automatic team assignment rule invited you to join the %(team_name)s team "
+"in %(workspace_name)s. You will join only if you accept this invitation."
+msgstr ""
+
 #, python-format
 msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
@@ -12861,6 +14360,19 @@ msgid ""
 msgstr ""
 "Byli jste pozváni do %(site_title)s uživatelem %(invitation_author)s pro "
 "připojení se do týmu %(team_name)s."
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr ""
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -12898,6 +14410,11 @@ msgstr "Blokovat uživatele"
 
 msgid "View notification"
 msgstr "Zobrazit oznámení"
+
+#, fuzzy
+#| msgid "All changes"
+msgid "View full change"
+msgstr "Všechny změny"
 
 msgid "No matching activity found."
 msgstr "Nenalezena žádná odpovídající aktivita."
@@ -13023,6 +14540,11 @@ msgstr "Tvar množného čísla: %(source_description)s"
 msgid "Plurals"
 msgstr "Množná čísla"
 
+#, fuzzy
+#| msgid "No strings found!"
+msgid "No integer examples found"
+msgstr "Nebyly nalezeny žádné řetězce!"
+
 msgid "First"
 msgstr "První"
 
@@ -13082,9 +14604,6 @@ msgstr "Klíče/Kontextové řetězce"
 
 msgid "Location strings"
 msgstr "Řetězce umístění"
-
-msgid "String state"
-msgstr "Stav řetězce"
 
 #. Translators: String pending for flushing to VCS.
 msgid "Pending string"
@@ -13254,11 +14773,6 @@ msgstr "Nastavit workflow překladů"
 msgid "Saved search name"
 msgstr "Uživatelské jméno pro SAP"
 
-#, fuzzy
-#| msgid "Search filter"
-msgid "Search query"
-msgstr "Filtr vyhledávání"
-
 msgid "No saved searches yet."
 msgstr ""
 
@@ -13290,8 +14804,8 @@ msgid "Community"
 msgstr "Komunita"
 
 #, python-format
-msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr "Překládejte %(object)s pomocí %%23Weblate na %(share_url)s!"
+msgid "Translate %(object)s using #Weblate at %(share_url)s!"
+msgstr "Překládejte %(object)s pomocí #Weblate na %(share_url)s!"
 
 msgid "Share on Bluesky"
 msgstr "Sdílet na Bluesky"
@@ -13520,6 +15034,14 @@ msgstr "Chystáte se pokračovat v resetování hesla ke svému účtu na Weblat
 msgid "You are about to continue removing your Weblate account."
 msgstr "Chystáte se pokračovat v odstranění svého účtu ve Weblate."
 
+#, fuzzy
+#| msgid ""
+#| "You are about to continue resetting the password for your Weblate account."
+msgid ""
+"You are about to continue adding this e-mail address to your existing "
+"Weblate account."
+msgstr "Chystáte se pokračovat v resetování hesla ke svému účtu na Weblate."
+
 msgid "You are about to accept an invitation and create a Weblate account."
 msgstr "Chystáte se přijmout pozvánku a vytvořit si účet na Weblate."
 
@@ -13535,6 +15057,11 @@ msgstr "Pokračovat v obnovení hesla"
 
 msgid "Continue account removal"
 msgstr "Pokračovat ve smazání účtu"
+
+#, fuzzy
+#| msgid "Human verification"
+msgid "Continue e-mail verification"
+msgstr "Ověření člověka"
 
 msgid "Accept invitation"
 msgstr "Přijmout pozvánku"
@@ -13635,9 +15162,6 @@ msgstr "Weblate nedokázal ověřit adresu webu projektu:"
 
 msgid "Weblate CDN add-on could not parse the HTML files."
 msgstr "Weblate CDN doplňku se nepodařilo zpracovat HTML soubory."
-
-msgid "Filename"
-msgstr "Název souboru"
 
 msgid ""
 "The local repository checkout or its Git directory is missing. Repeated "
@@ -13958,12 +15482,12 @@ msgstr "Součást obsahuje několik duplicitních překladových řetězců."
 msgid "Source"
 msgstr "Zdroj"
 
+msgid "Remove duplicate strings"
+msgstr "Odstranit duplicitní řetězce"
+
 #, python-format
 msgid "Remove duplicate strings from %(language)s (%(filename)s)"
 msgstr "Odstranit duplicitní řetězce z %(language)s (%(filename)s)"
-
-msgid "Remove duplicate strings"
-msgstr "Odstranit duplicitní řetězce"
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -14127,6 +15651,29 @@ msgid ""
 "translations."
 msgstr "Weblate se při aktualizaci repozitáře nepodařilo načíst soubory."
 
+#, fuzzy
+#| msgid ""
+#| "Weblate pushed the changes and created the pull request, but could not "
+#| "merge it automatically."
+msgid ""
+"Weblate pushed the changes and created the pull request, but could not apply "
+"the configured labels or assignees."
+msgstr ""
+"Weblate odeslal změny a vytvořil žádost o začlenění, ale nedokázal ji "
+"automaticky začlenit."
+
+#, fuzzy
+#| msgid ""
+#| "Check that the repository allows auto-merge and the selected merge "
+#| "method, or turn off automatic merging in the version control parameters."
+msgid ""
+"Check that the labels and assignees exist and that Weblate can write pull "
+"requests, or remove the customization from the version control parameters."
+msgstr ""
+"Zkontrolujte, zda repozitář podporuje automatické slučování a zvolenou "
+"metodu slučování, případně v parametrech správy verzí vypněte automatické "
+"slučování."
+
 msgid "Weblate could not push changes to the upstream repository."
 msgstr "Weblate se nepodařilo odeslat změny do repozitáře."
 
@@ -14266,8 +15813,10 @@ msgstr "Přeskočit na"
 msgid "Go"
 msgstr "Dobré"
 
-msgid "Changes"
-msgstr "Změny"
+#, fuzzy
+#| msgid "Check details"
+msgid "Change details"
+msgstr "Podrobnosti kontroly"
 
 msgid "Download latest changes as CSV"
 msgstr "Stáhnout poslední změny jako CSV"
@@ -14341,11 +15890,6 @@ msgid ""
 msgstr ""
 "Vytvořit novou součást překladu pro další větev existující součásti překladu."
 
-#, fuzzy
-#| msgid "Retry delay"
-msgid "Retry"
-msgstr "Časová prodleva mezi pokusy"
-
 msgid ""
 "The new component will be created for the selected branch with the exact "
 "same configuration as the existing one."
@@ -14386,9 +15930,6 @@ msgstr ""
 
 msgid "Add or configure account"
 msgstr "Přidat nebo nakonfigurovat účet"
-
-msgid "Branch"
-msgstr "Větev"
 
 msgid "Visibility"
 msgstr "Viditelnost"
@@ -14705,6 +16246,15 @@ msgstr "Importování zálohy"
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr "Vytvořeno na %(server)s (%(domain)s) službou Weblate %(version)s"
 
+msgid "Public access on import"
+msgstr ""
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
+
 msgid "Token copied to clipboard."
 msgstr "Token byl zkopírovaný do schránky."
 
@@ -14734,9 +16284,6 @@ msgstr ""
 #| msgid "Edit source"
 msgid "Edit source"
 msgstr "Upravit zdroj"
-
-msgid "Cancel"
-msgstr "Zrušit"
 
 msgid "Learn more about pushing changes from Weblate."
 msgstr "Zjistěte více o odesílání změn z Weblate."
@@ -14966,10 +16513,6 @@ msgstr "Tento řetězec byl automaticky přeložen nástrojem %(author)s."
 msgid "Add term to glossary"
 msgstr "Přidat slovo do glosáře"
 
-#, python-format
-msgid "Browse glossary %(name)s"
-msgstr "Procházet glosář %(name)s"
-
 msgid "Browse glossary"
 msgstr "Procházet glosář"
 
@@ -15019,6 +16562,15 @@ msgstr "Naposledy aktualizováno"
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
 msgstr "Stáří zdrojového řetězce"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s, line %(line)s"
+msgstr "%(filename)s, řetězec %(position)s"
+
+#, python-format
+msgid "line %(line)s"
+msgstr ""
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -15114,6 +16666,11 @@ msgstr ""
 
 msgid "Quick downloads"
 msgstr "Rychlé stahování"
+
+msgid ""
+"Original files can contain contributor identities and require additional "
+"permission. Use a generated export below for offline translation."
+msgstr ""
 
 msgid "File in original format as translated in the repository"
 msgstr "Soubor v původním formátu, jak je přeložen v repozitáři"
@@ -15399,9 +16956,6 @@ msgstr "Aktualizovány repozitáře"
 
 msgid "Available Repositories"
 msgstr "Dostupné repozitáře"
-
-msgid "Unavailable"
-msgstr "Není k dispozici"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -15906,9 +17460,6 @@ msgstr "Součást přejmenována"
 
 msgid "A component was moved within a project."
 msgstr "Součást byla přesunuta v rámci projektu."
-
-msgid "Moved component"
-msgstr "Přesunuta součást"
 
 msgid "A user made their first contribution to a translation."
 msgstr "Jeden uživatel přispěl poprvé k překladu."
@@ -16465,6 +18016,12 @@ msgid "Could not merge the pull request automatically."
 msgstr "Nepodařilo se automaticky sloučit žádost o začlenění."
 
 #. Translators: Name of an alert
+#, fuzzy
+#| msgid "Could not merge the pull request automatically."
+msgid "Could not customize the pull request."
+msgstr "Nepodařilo se automaticky sloučit žádost o začlenění."
+
+#. Translators: Name of an alert
 msgid "Repository outdated."
 msgstr "Repozitář je zastaralý."
 
@@ -16490,6 +18047,21 @@ msgstr "Apostrofy ve formátovacím řetězeci Java zpráv"
 msgid "Trailing and leading whitespace"
 msgstr "Koncové a uvozující mezery"
 
+#, fuzzy
+#| msgid "Automatic translation completed, no strings were updated."
+msgid "Automatic translation completed with errors, no strings were updated."
+msgstr "Automatický překlad byl dokončen, nebyly změněny žádné řetězce."
+
+#, fuzzy, python-format
+#| msgid "Automatic translation completed, %d string was updated."
+#| msgid_plural "Automatic translation completed, %d strings were updated."
+msgid "Automatic translation completed with errors, %d string was updated."
+msgid_plural ""
+"Automatic translation completed with errors, %d strings were updated."
+msgstr[0] "Automatický překlad byl dokončen, změněn %d řetězec."
+msgstr[1] "Automatický překlad byl dokončen, změněny %d řetezce."
+msgstr[2] "Automatický překlad byl dokončen, změněno %d řetezců."
+
 msgid "Automatic translation completed, no strings were updated."
 msgstr "Automatický překlad byl dokončen, nebyly změněny žádné řetězce."
 
@@ -16499,6 +18071,12 @@ msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "Automatický překlad byl dokončen, změněn %d řetězec."
 msgstr[1] "Automatický překlad byl dokončen, změněny %d řetezce."
 msgstr[2] "Automatický překlad byl dokončen, změněno %d řetezců."
+
+#, fuzzy
+#| msgid "Automatic translation skipped because the target no longer exists."
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr "Automatický překlad byl přeskočen, protože cíl již neexistuje."
 
 #, python-format
 msgid ""
@@ -16523,6 +18101,18 @@ msgstr ""
 "Formy plurálů v součásti %(component)s neodpovídají cílovému překladu. "
 "Automatický překlad přeskočil pluralizované řetězce a zpracoval pouze "
 "řetězce v singulární formě."
+
+#, fuzzy
+#| msgid ""
+#| "Automatic translation cannot be started because the target is locked."
+msgid ""
+"Automatic translation lost its database connection. Please try again later."
+msgstr "Automatický překlad nelze spustit, protože cíl je uzamčen."
+
+msgid ""
+"Automatic translation is already running for this translation. Please try "
+"again later."
+msgstr ""
 
 #, python-format
 msgid "Automatic translation failed: %s"
@@ -16571,17 +18161,30 @@ msgstr "Název týmu se opakuje."
 msgid "Screenshot image is missing."
 msgstr "Chybí snímek obrazovky."
 
+msgid "Revision must be a complete hexadecimal object ID."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not validate push URL: %s"
+msgid "Could not validate repository URL: %s"
+msgstr "Nelze ověřit URL pro odeslání: %s"
+
 msgid "Duplicate check name."
 msgstr "Název kontroly se opakuje."
 
 msgid "Referenced category does not exist."
 msgstr "Uvedená kategorie neexistuje."
 
+msgid "Duplicate component slug."
+msgstr "Duplicitní slug komponenty."
+
 msgid "Component filename does not match its category and slug."
 msgstr "Název souboru komponenty neodpovídá její kategorii a slugu."
 
-msgid "Duplicate component slug."
-msgstr "Duplicitní slug komponenty."
+#, fuzzy
+#| msgid "Translation reviews are not enabled."
+msgid "Translation revision has an invalid format."
+msgstr "Kontroly překladů nejsou povoleny."
 
 msgid "Duplicate translation identifier."
 msgstr "Identifikátor překladu se opakuje."
@@ -16635,6 +18238,11 @@ msgid "Repository-linked components can not contain repository data."
 msgstr ""
 "Komponenty propojené s repozitářem nemohou obsahovat data z repozitáře."
 
+#, fuzzy
+#| msgid "Important dates"
+msgid "Imported authors"
+msgstr "Důležitá data"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
@@ -16643,8 +18251,88 @@ msgstr ""
 "Komponenta %(component)s byla přeskočena, protože její propojený repozitář "
 "není k dispozici."
 
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
+msgstr ""
+
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is unknown."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid ""
+#| "Component %(component)s was skipped because its linked repository is "
+#| "unavailable."
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is not applicable."
+msgstr ""
+"Komponenta %(component)s byla přeskočena, protože její propojený repozitář "
+"není k dispozici."
+
+msgid "Version control parameters"
+msgstr "Parametry verzovacího systému"
+
+msgid "File format parameters"
+msgstr "Parametry formátu souborů"
+
 msgid "The project repository directory already exists."
 msgstr "Adresář repozitáře projektu již existuje."
+
+#, fuzzy
+#| msgid "Invalid search query!"
+msgid "Invalid search type."
+msgstr "Chybný vyhledávací řetězec!"
+
+msgid "Enter a search string to replace."
+msgstr ""
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#, fuzzy
+#| msgid "Invalid request."
+msgid "Invalid target state."
+msgstr "Neplatný požadavek."
+
+#, fuzzy
+#| msgid "How to handle requests for creating new translations."
+msgid "Choose either replacement or clearing translations."
+msgstr "Jak se mají řešit požadavky na nové překlady."
+
+#, python-format
+msgid "Bulk edits are limited to %(limit)d strings. Narrow the search query."
+msgstr ""
 
 msgid "The component was automatically locked because of an alert."
 msgstr "Součást byla automaticky uzamčena kvůli upozornění."
@@ -16702,6 +18390,9 @@ msgstr "Původní revize: {}"
 msgid "New revision: {}"
 msgstr "Nová revize: {}"
 
+msgid "Content is too long to show in the change list."
+msgstr ""
+
 #, python-format
 msgctxt "Number of edits on a change in Damerau–Levenshtein distance"
 msgid "%(count)d character edited"
@@ -16753,6 +18444,16 @@ msgstr "Návrhy v řešení"
 msgid "Needs review"
 msgstr "Vyžaduje kontrolu"
 
+#, fuzzy
+#| msgid "The source and target have to be different languages."
+msgid "The source and destination checkouts must be different."
+msgstr "Zdroj a cíl musí být odlišné jazyky."
+
+#, fuzzy
+#| msgid "The target does not exist or you cannot access it."
+msgid "This component does not exist or you cannot access it."
+msgstr "Cíl neexistuje nebo k němu nemáte přístup."
+
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr "Hostované Weblate – místo pro lokalizaci vašeho softwarového projektu."
 
@@ -16767,9 +18468,6 @@ msgstr ""
 msgid "Version control"
 msgstr "Verzovací systém"
 
-msgid "State"
-msgstr "Stav"
-
 msgid "Severity"
 msgstr "Závažnost"
 
@@ -16778,6 +18476,11 @@ msgstr "Můžu to provést já"
 
 msgid "Discovery configuration"
 msgstr "Nastavení objevování"
+
+#, fuzzy, python-format
+#| msgid "Could not render template: {}"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "Šablonu se nepodařilo vykreslit: {0}"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -16826,6 +18529,11 @@ msgstr "Maska souborů odpovídá hlavní součásti."
 #, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
 msgstr "{filename} ({parameter}) neexistuje."
+
+#. Translators: condensed rendering of a change action in history
+#, python-format
+msgid "%(action)s at %(time)s on %(translation)s"
+msgstr "%(action)s v %(time)s na %(translation)s"
 
 #. Translators: %s is site title here
 #, python-format
@@ -16992,6 +18700,54 @@ msgstr "MAC (\\r)"
 
 msgid "Include closing tag for blank XML tags"
 msgstr "Zahrnout uzavírací značky pro prázdné značky XML"
+
+msgid "UTF-8 byte order mark"
+msgstr ""
+
+msgid "Preserve input"
+msgstr ""
+
+msgid "Always include"
+msgstr ""
+
+msgid "Always omit"
+msgstr ""
+
+msgid ""
+"Controls the UTF-8 byte order mark. Other encodings are unchanged. New files "
+"without a template omit the mark when preserving input."
+msgstr ""
+
+msgid "XML declaration encoding case"
+msgstr ""
+
+#, fuzzy
+#| msgid "Restore site default"
+msgid "Format default"
+msgstr "Obnovit výchozí nastavení webu"
+
+msgid "Uppercase"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Power user"
+msgid "Lowercase"
+msgstr "Pokročilý uživatel"
+
+msgid ""
+"Controls encoding names in the XML declaration, for example \"UTF-8\" or "
+"\"utf-8\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "Starting newline"
+msgid "XML final newline"
+msgstr "Úvodní odřádkování"
+
+msgid ""
+"Controls the newline at the end of the file, using the format's line endings."
+msgstr ""
 
 #, fuzzy
 #| msgid "Conflict handling"
@@ -17486,6 +19242,9 @@ msgstr "Jazyk překladu:"
 msgid "You do not have permission to edit these flags."
 msgstr "Nemáte oprávnění k úpravám zdrojových řetězců."
 
+msgid "You do not have permission to create terminology."
+msgstr "Nemáte oprávnění k vytváření terminologie."
+
 msgid ""
 "Revert the latest translation edits from this user in the current project."
 msgstr ""
@@ -17638,6 +19397,11 @@ msgstr ""
 msgid "Could not load repository branches. Please try again."
 msgstr "Nepodařilo se načíst větve repozitáře. Zkuste to prosím znovu."
 
+#, fuzzy
+#| msgid "You do not have permission to edit this glossary."
+msgid "You do not have permission to edit this project."
+msgstr "Nemáte oprávnění tento slovník upravovat."
+
 msgid "ZIP file containing translations"
 msgstr "ZIP soubor s překlady"
 
@@ -17738,19 +19502,6 @@ msgstr "Nepodařilo se načíst zálohu projektu: %s"
 msgid "Could not load project backup."
 msgstr "Nepodařilo se načíst zálohu projektu: %s"
 
-msgid "Optional additional filter applied to the strings"
-msgstr "Volitelný dodatečný filtr použitý na řetězce"
-
-msgid "Search string"
-msgstr "Hledaný řetězec"
-
-msgid "Case-sensitive string to search for and replace."
-msgstr ""
-"Řetězec rozlišující malá a velká písmena, který chcete vyhledat a nahradit."
-
-msgid "Replacement string"
-msgstr "Nahradit řetězcem"
-
 #, fuzzy
 #| msgid "Screenshot context"
 msgid "Key or context"
@@ -17803,13 +19554,32 @@ msgid ""
 msgstr ""
 "Zaškrtněte tuto možnost, pokud má věta zůstat beze změny v původním jazyce."
 
-msgid "You do not have permission to create terminology."
-msgstr "Nemáte oprávnění k vytváření terminologie."
-
 #, fuzzy
 #| msgid "Invalid listing column selection."
 msgid "Invalid string selection!"
 msgstr "Neplatný výběr sloupců v seznamu."
+
+msgid "Search type"
+msgstr "Způsob vyhledávání"
+
+msgid "Text"
+msgstr "Text"
+
+msgid "Search string"
+msgstr "Hledaný řetězec"
+
+msgid ""
+"Case-sensitive text or regular expression to replace in matching strings. "
+"Leave empty to disable replacement."
+msgstr ""
+
+msgid "Replacement string"
+msgstr "Nahradit řetězcem"
+
+msgid ""
+"Leave empty to remove matching text. In regular expression mode, use \\1 for "
+"the first captured group. Named group references are also supported."
+msgstr ""
 
 msgid "State to set"
 msgstr "Stav který nastavit"
@@ -17817,39 +19587,80 @@ msgstr "Stav který nastavit"
 msgid "Do not change"
 msgstr "Beze změny"
 
-msgid "Source flags to add — all languages"
-msgstr ""
+#, fuzzy
+#| msgid "Edit label"
+msgid "Add flags"
+msgstr "Upravit štítky"
 
-msgid "Source flags to remove — all languages"
+#, fuzzy
+#| msgid "Remove app"
+msgid "Remove flags"
+msgstr "Odstranit aplikaci"
+
+msgid ""
+"Only flags set directly on these translations are removed. Inherited flags "
+"remain in effect."
 msgstr ""
 
 #, fuzzy
-#| msgid "Translation flags to add"
-msgid "Translation flags to add — matching translations"
-msgstr "Přidat příznaky překladu"
+#| msgid "Add label"
+msgid "Add labels"
+msgstr "Přidat štítek"
+
+#, fuzzy
+#| msgid "Remove duplicates"
+msgid "Remove labels"
+msgstr "Odstranit duplicity"
+
+#, fuzzy
+#| msgid "Review changes"
+msgid "Preview changes"
+msgstr "Zkontrolovat změny"
+
+msgid "Choose flags to add…"
+msgstr ""
+
+#, fuzzy
+#| msgid "Component to remove"
+msgid "Choose flags to remove…"
+msgstr "Součást k odstranění"
+
+#, fuzzy
+#| msgid "Source language"
+msgid "Source flags"
+msgstr "Jazyk zdroje"
+
+msgid ""
+"Flags are set on the source strings corresponding to your selection and "
+"apply to their translations in every language."
+msgstr ""
+
+msgid ""
+"Flags are set on the source strings corresponding to your filter results and "
+"apply to their translations in every language."
+msgstr ""
 
 #, fuzzy
 #| msgid "Fills in translation strings with source string."
-msgid "Applies only to matching translations, excluding source strings."
+msgid ""
+"Flags apply only to translations in your selection. Source strings are "
+"excluded."
 msgstr "Vyplní překladové řetězce zdrojovými."
 
-#, fuzzy
-#| msgid "Translation flags to remove"
-msgid "Translation flags to remove — matching translations"
-msgstr "Odebrat příznaky překladu"
-
-msgid "Removes locally set flags. Inherited flags remain in effect."
+msgid ""
+"Flags apply only to translations matching your filter. Source strings are "
+"excluded."
 msgstr ""
 
-#, fuzzy
-#| msgid "For all languages"
-msgid "Labels to add — all languages"
-msgstr "Pro všechny jazyky"
+msgid ""
+"Labels apply to the source strings corresponding to your selection and are "
+"shared across all languages."
+msgstr ""
 
-#, fuzzy
-#| msgid "Labels to remove"
-msgid "Labels to remove — all languages"
-msgstr "Odebrat štítky"
+msgid ""
+"Labels apply to the source strings corresponding to your filter results and "
+"are shared across all languages."
+msgstr ""
 
 msgid "Select strings to edit or enter a search query."
 msgstr ""
@@ -18115,9 +19926,6 @@ msgstr "Jméno kategorie"
 msgid "Display name"
 msgstr "Zobrazený název"
 
-msgid "Translation flags"
-msgstr "Příznaky překladu"
-
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr "Další čárkou oddělené značky pro ovlivnění chování Weblate."
 
@@ -18330,11 +20138,6 @@ msgstr "Součást vytvořena skrze nahrání dokumentu"
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s v %(time)s na %(translation)s provedl %(user)s"
 
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "%(action)s v %(time)s na %(translation)s"
-
 msgctxt "Change origin badge"
 msgid "API"
 msgstr ""
@@ -18421,9 +20224,6 @@ msgid ""
 msgstr ""
 "Verzovací systém který používáte pro váš repozitář s překlady. Můžete si "
 "také vybrat integraci s dalšími službami pro odesílání požadavků na sloučení."
-
-msgid "Version control parameters"
-msgstr "Parametry verzovacího systému"
 
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
@@ -18555,9 +20355,6 @@ msgid ""
 msgstr ""
 "Název souboru použitého pro vytváření nových překladů. Pokud používáte "
 "gettext, zvolte soubor .pot."
-
-msgid "File format parameters"
-msgstr "Parametry formátu souborů"
 
 msgid "Locked component will not get any translation updates."
 msgstr "Zamčenou součást nebude možné překládat."
@@ -18791,6 +20588,11 @@ msgstr "Toto nastavení se dědí z projektu, pokud je prázdné."
 
 msgid "Use the secondary language configured in the category or project."
 msgstr "Použijte sekundární jazyk nastavený v dané kategorii nebo projektu."
+
+#, fuzzy
+#| msgid "The project repository directory already exists."
+msgid "The linked repository path is ambiguous."
+msgstr "Adresář repozitáře projektu již existuje."
 
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
@@ -19119,6 +20921,20 @@ msgstr ""
 "Nastavte adresu URL pro odesílání s přihlašovacími údaji nebo použijte "
 "adresu URL repozitáře přes SSH."
 
+#, fuzzy
+#| msgid "This role cannot be assigned to this team."
+msgid "Version control system cannot be changed to this backend."
+msgstr "Tuto roli nelze přiřadit tomuto týmu."
+
+#, fuzzy
+#| msgid ""
+#| "The file mask used for discovery is too complex and took too long to "
+#| "evaluate."
+msgid "The file mask is too complex and took too long to evaluate."
+msgstr ""
+"Souborová maska použitá pro objevování je příliš složitá a její vyhodnocení "
+"trvalo příliš dlouho."
+
 msgid ""
 "A component can not be restricted while its project uses shared translation "
 "memory."
@@ -19417,6 +21233,11 @@ msgstr "Popis štítku"
 msgid "Could not accept suggestion!"
 msgstr "Nepodařilo se přijmout návrh!"
 
+#, fuzzy, python-format
+#| msgid "Some settings could not be imported: %s"
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr "Některá nastavení se nepodařilo importovat: %s"
+
 msgid "Uploaded translation file is too big."
 msgstr "Nahraný soubor překladů je příliš velký."
 
@@ -19474,6 +21295,20 @@ msgstr "Tvar množného čísla %d v nahraném souboru je mimo rozsah."
 msgid "Plural form %d in the uploaded file is missing."
 msgstr "Tvar množného čísla %d v nahraném souboru chybí."
 
+#, fuzzy, python-format
+#| msgid "The uploaded file contains too many settings."
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr "Nahraný soubor obsahuje příliš mnoho nastavení."
+
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] "Řetězec nemohl být rozšířen do %d součásti."
+msgstr[1] "Řetězec nemohl být rozšířen do %d součástí."
+msgstr[2] "Řetězec nemohl být rozšířen do %d součástí."
+
 #, fuzzy
 #| msgid "ITS rule file contains too many elements."
 msgid "The uploaded file contains too many language declarations."
@@ -19497,6 +21332,10 @@ msgstr "Nepodailo se zapsat čekající změny: %s"
 #, python-brace-format
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "Nepodařilo ze zpracovat nahraný soubor jako {file_format}: {error}"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr ""
 
 #, python-format
 msgid "Could not parse translation file: %s"
@@ -19727,6 +21566,11 @@ msgstr "Dlouhá pomlčka"
 msgid "User configured character: {}"
 msgstr "Uživatelem zadaný znak: {}"
 
+#, fuzzy, python-format
+#| msgid "Could not push the repository."
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "Nepodařilo se odeslat repozitář."
+
 msgid "Repository operation could not be completed because it remained locked."
 msgstr "Operaci repozitáře nebylo možné dokončit, protože zůstala zamčená."
 
@@ -19771,6 +21615,33 @@ msgstr[1] ""
 msgstr[2] ""
 "Přijato %(accepted)d ze %(total)d návrhů od uživatele %(user)s. %(failed)d "
 "selhalo z důvodu oprávnění nebo kontrol."
+
+#, fuzzy
+#| msgid "Bulk edit completed, no strings were updated."
+msgid "Bulk edit parameters are no longer valid."
+msgstr "Hromadná úprava byla dokončena, nebyly změněny žádné řetězce."
+
+#, python-format
+msgid "Bulk edit failed after processing %(count)d strings: %(error)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "A user's access permissions were changed."
+msgid "The target or permissions changed."
+msgstr "Byla změněna přístupová oprávnění uživatele."
+
+#, python-format
+msgid ""
+"Bulk edit failed after processing %(count)d strings. Earlier batches may "
+"have been applied."
+msgstr ""
+
+#, python-format
+msgid "Bulk edit completed, %d string was updated."
+msgid_plural "Bulk edit completed, %d strings were updated."
+msgstr[0] "Hromadná úprava byla dokončena. Byl změněn %d řetězec."
+msgstr[1] "Hromadná úprava byla dokončena. Byly změněny %d řetězce."
+msgstr[2] "Hromadná úprava byla dokončena. Bylo změněno %d řetězců."
 
 msgid "Automatic translation skipped because the target no longer exists."
 msgstr "Automatický překlad byl přeskočen, protože cíl již neexistuje."
@@ -19819,6 +21690,10 @@ msgstr "Identifikátor řetězce %s"
 
 msgid "This language is used for source strings."
 msgstr "Tento jazyk je používán pro zdrojové řetězce."
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr "Repozitář pro tuto součást je propojen s %(target)s."
 
 msgid "Fix this component to clear its diagnostics."
 msgstr "Opravte tuto součást pro vyčištění její diagnostiky."
@@ -19930,6 +21805,39 @@ msgstr "Přidá nové řetězce k překladu. Přeskočí ty, které již existuj
 
 msgid "Updates source strings in bilingual translation file."
 msgstr "Aktualizuje zdrojové řetězce v bilingvním souboru překladů."
+
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "A translation upload is already in progress."
+msgstr "Probíhají aktualizace překladů."
+
+#, fuzzy
+#| msgid ""
+#| "The authentication response has expired. Please try signing in again."
+msgid "The uploaded file has expired or was already processed."
+msgstr ""
+"Platnost ověřovací odpovědi vypršela. Zkuste se prosím přihlásit znovu."
+
+#, fuzzy
+#| msgid "The uploaded image was invalid."
+msgid "The uploaded file has expired."
+msgstr "Nahraný obrázek byl neplatný."
+
+#, fuzzy
+#| msgid "A user's access permissions were changed."
+msgid "The upload target or permissions changed."
+msgstr "Byla změněna přístupová oprávnění uživatele."
+
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr ""
+"Tvary množného čísla v nahraném souboru se neshodují se stávajícím překladem."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "File upload has failed. Please try again later."
+msgstr ""
+"Zadáno příliš mnoho vyhledávacích dotazů bezprostředně po sobě, zkuste to "
+"prosím později."
 
 msgid "Very high"
 msgstr "Velmi vysoká"
@@ -20049,6 +21957,9 @@ msgstr "Nemůžete odebrat sami sebe!"
 msgid "You can not block yourself on this project."
 msgstr "V tomto projektu nemůžete zablokovat sám sebe."
 
+msgid "Remove project administration rights before blocking this user."
+msgstr ""
+
 msgid "User has been blocked on this project."
 msgstr "Uživatel byl zablokován v tomto projektu."
 
@@ -20105,6 +22016,11 @@ msgstr[1] ""
 msgstr[2] ""
 "Jazyk %(language)s se nepodařilo přidat do %(count)d součástí. Zkontrolujte "
 "prosím jejich konfiguraci."
+
+#, fuzzy
+#| msgid "You do not have permission to edit source strings."
+msgid "You do not have permission to add this language."
+msgstr "Nemáte oprávnění k úpravám zdrojových řetězců."
 
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
@@ -20327,9 +22243,10 @@ msgstr "Chybný požadavek"
 msgid "Access denied."
 msgstr "Přístup odepřen."
 
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr ""
-"Tvary množného čísla v nahraném souboru se neshodují se stávajícím překladem."
+#, fuzzy
+#| msgid "Translation uploaded"
+msgid "Translation upload in progress."
+msgstr "Nahrán překlad"
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -20377,10 +22294,20 @@ msgstr "Součást je nyní zamčena pro překlady!"
 msgid "All components are now locked for translation updates!"
 msgstr "Všechny součásti byly zamčeny pro překlady!"
 
+#, fuzzy
+#| msgid "All components are now locked for translation updates!"
+msgid "Allowed components are now locked for translation updates!"
+msgstr "Všechny součásti byly zamčeny pro překlady!"
+
 msgid "Component is now open for translation updates."
 msgstr "Součást je nyní přístupná k aktualizacím překladu."
 
 msgid "All components are now open for translation updates."
+msgstr "Všechny součásti byly otevřeny pro překlad."
+
+#, fuzzy
+#| msgid "All components are now open for translation updates."
+msgid "Allowed components are now open for translation updates."
 msgstr "Všechny součásti byly otevřeny pro překlad."
 
 msgid "Generating report…"
@@ -20431,19 +22358,6 @@ msgstr "Zahrnuté uživatelské dny"
 msgid "Excluded user days"
 msgstr "Vyloučené uživatelské dny"
 
-msgid "Could not process form!"
-msgstr "Nepodařilo se zpracovat formulář!"
-
-msgid "Search and replace completed, no strings were updated."
-msgstr "Vyhledání a nahrazení bylo dokončeno, nebyly změněny žádné řetězce."
-
-#, python-format
-msgid "Search and replace completed, %d string was updated."
-msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] "Vyhledání a nahrazení bylo dokončeno, změněn %d řetězec."
-msgstr[1] "Vyhledání a nahrazení bylo dokončeno, změněny %d řetězce."
-msgstr[2] "Vyhledání a nahrazení bylo dokončeno, změněno %d řetězců."
-
 #, python-format
 msgid "Search for %s"
 msgstr "Hledání %s"
@@ -20456,15 +22370,31 @@ msgstr ""
 msgid "Invalid search query!"
 msgstr "Chybný vyhledávací řetězec!"
 
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many bulk edits, please try again later."
+msgstr ""
+"Zadáno příliš mnoho vyhledávacích dotazů bezprostředně po sobě, zkuste to "
+"prosím později."
+
+msgid "The preview has expired or is invalid. Preview the changes again."
+msgstr ""
+
+msgid "Could not process form!"
+msgstr "Nepodařilo se zpracovat formulář!"
+
+#, fuzzy
+#| msgid "Bulk edit strings"
+msgid "Bulk edit in progress."
+msgstr "Hromadně upravit řetězce"
+
+#, fuzzy, python-format
+#| msgid "Authentication failed: %s"
+msgid "Bulk edit failed: %s"
+msgstr "Autentifikace selhala: %s"
+
 msgid "Bulk edit completed, no strings were updated."
 msgstr "Hromadná úprava byla dokončena, nebyly změněny žádné řetězce."
-
-#, python-format
-msgid "Bulk edit completed, %d string was updated."
-msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] "Hromadná úprava byla dokončena. Byl změněn %d řetězec."
-msgstr[1] "Hromadná úprava byla dokončena. Byly změněny %d řetězce."
-msgstr[2] "Hromadná úprava byla dokončena. Bylo změněno %d řetězců."
 
 msgid "Settings saved"
 msgstr "Nastavení uložena"
@@ -20569,6 +22499,16 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "Vertikální sloupcový graf jazyků"
 
+#, fuzzy
+#| msgid "Your languages"
+msgid "Sort languages by"
+msgstr "Vaše jazyky"
+
+#, fuzzy
+#| msgid "Translation change"
+msgid "Translation percentage"
+msgstr "Změna v překladu"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr "Horizontální sloupcový graf jazyků"
@@ -20594,6 +22534,11 @@ msgstr[0] "jazyk"
 msgstr[1] "jazyky"
 msgstr[2] "jazyků"
 
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
+msgstr ""
+
 msgid "The project is already assigned to this workspace."
 msgstr "Projekt je již přiřazen k tomuto pracovnímu prostoru."
 
@@ -20616,9 +22561,147 @@ msgid "Invalid host name given!"
 msgstr "Zadán chybný název stroje!"
 
 #, fuzzy
+#| msgid "JSX expressions in the translation do not match the source."
+msgid "Press ? in the translation editor to discover keyboard shortcuts."
+msgstr "Výrazy JSX v překladu neodpovídají zdrojovému textu."
+
+msgid ""
+"Add secondary languages in your preferences to see translations you already "
+"understand alongside the source."
+msgstr ""
+
+msgid ""
+"Customize your special characters in your profile to keep frequently used "
+"characters within reach."
+msgstr ""
+
+msgid ""
+"Use the visual keyboard above the translation field to insert special "
+"characters."
+msgstr ""
+
+msgid ""
+"Save searches you use often so you can return to them from the search "
+"filters."
+msgstr ""
+
+msgid ""
+"Combine search conditions with AND, OR, and NOT to find exactly the strings "
+"you need."
+msgstr ""
+
+msgid ""
+"Search with regular expressions when a simple word search is not enough."
+msgstr ""
+
+#, fuzzy
+#| msgid "Use flags to indicate special strings in your translation."
+msgid "Use labels to organize strings and find related translation work."
+msgstr "Pomocí příznaků označte ve svém překladu speciální řetězce."
+
+msgid ""
+"Check a string’s screenshots to see where the text appears in the "
+"application."
+msgstr ""
+
+msgid ""
+"Link an existing screenshot to a string to give translators more context."
+msgstr ""
+
+msgid ""
+"Check nearby strings for context before translating a short or ambiguous "
+"message."
+msgstr ""
+
+msgid "Explore a string’s history to see how its translation has changed."
+msgstr ""
+
+msgid ""
+"Leave a comment on a source string to ask for context that can help every "
+"language."
+msgstr ""
+
+msgid ""
+"Suggest a translation when you want others to review your wording before it "
+"is accepted."
+msgstr ""
+
+#, fuzzy
+#| msgid "An obsolete translation suggestion was removed during cleanup."
+msgid "You can edit a translation suggestion before accepting it."
+msgstr "Při úklidu byl odstraněn zastaralý návrh překladu."
+
+msgid ""
+"Add terms to a project glossary to help translators use consistent wording."
+msgstr ""
+
+msgid ""
+"Glossaries can mark terms as forbidden to help translators avoid unwanted "
+"wording."
+msgstr ""
+
+msgid "Glossaries can mark names and other terms as untranslatable."
+msgstr ""
+
+msgid ""
+"Watch projects you care about and choose which translation events notify you."
+msgstr ""
+
+msgid ""
+"Choose notification digests to receive translation updates together instead "
+"of one email at a time."
+msgstr ""
+
+#, fuzzy
+#| msgid "CEL validation or evaluation failed or exceeded its resource limit."
+msgid "Regular expression processing failed or exceeded its resource limit."
+msgstr "Validace nebo vyhodnocení CEL selhalo nebo překročilo limit zdrojů."
+
+#, fuzzy
+#| msgid "The API request rate limit was exceeded."
+msgid "Cumulative regex time limit exceeded."
+msgstr "Byl překročen limit počtu požadavků na API."
+
+msgid "Regex request exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression to match translation files against"
+msgid "Regular expression evaluation timed out."
+msgstr "Regulární výraz pro hledání shody s překladovými soubory"
+
+msgid "Regex response exceeds its size limit."
+msgstr ""
+
+msgid "Regex output exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Topic prefix must not exceed %(limit)d characters."
+msgid "Pattern and replacement must not exceed 4096 characters."
+msgstr "Předpona tématu nesmí překročit %(limit)d znaků."
+
+msgid "Regex input exceeds 1 MiB per plural."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Invalid regular expression: {}"
+msgid "Invalid regular expression or replacement: %s"
+msgstr "Neplatný regulární výraz: {}"
+
+#, fuzzy
 #| msgid "Automatic translation source"
 msgid "Automatic translation reported a warning."
 msgstr "Zdroj automatického překladu"
+
+#, fuzzy
+#| msgid ""
+#| "Automatically translates strings using machine translation or other "
+#| "components."
+msgid "Automatic translation is waiting for another operation to finish."
+msgstr ""
+"Automaticky překládá řetězce strojovým překladem nebo překlady z jiných "
+"součástí."
 
 #, fuzzy
 #| msgid "Automatic translation skipped because the target no longer exists."
@@ -20627,6 +22710,11 @@ msgstr "Automatický překlad byl přeskočen, protože cíl již neexistuje."
 
 msgid "Task could not be completed. See the task log for details."
 msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation source"
+msgid "Automatic translation reported an error."
+msgstr "Zdroj automatického překladu"
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -20787,12 +22875,13 @@ msgstr "Nepodařilo se zjistit doménu URL: {}"
 msgid "Could not resolve the URL domain."
 msgstr "Nepodařilo se vyřešit doménu URL."
 
+#, fuzzy
+#| msgid "Invalid parameters!"
+msgid "Invalid stored parameter value."
+msgstr "Chybné parametry!"
+
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "Parametry musí být slovníkem dvojic klíč–hodnota."
-
-#, python-format
-msgid "Undefined variable: \"%s\""
-msgstr "Nedefinovaná proměnná: \"%s\""
 
 msgid "Could not render template: {}"
 msgstr "Šablonu se nepodařilo vykreslit: {0}"
@@ -20804,12 +22893,374 @@ msgstr ""
 "Formátovací řetězce již nejsou podporovány, prosím použijte místo toho "
 "šablony."
 
+msgid "Template context exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The HTML {tag} tag is missing a matching end tag: {end}."
+msgid "Template context is nested too deeply."
+msgstr "Značka HTML {tag} má chybějící uzavírací značku: {end}."
+
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported nonfinite template context value."
+msgstr "Nepodporovaný obsah pravidla ITS."
+
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported template context key."
+msgstr "Nepodporovaný obsah pravidla ITS."
+
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported template context value."
+msgstr "Nepodporovaný obsah pravidla ITS."
+
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Template text is not valid UTF-8."
+msgstr "Zadaný token je neplatný."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid request."
+msgid "Invalid template syntax."
+msgstr "Neplatný požadavek."
+
+#, fuzzy
+#| msgid "Undefined variable: \"%s\""
+msgid "Undefined template variable."
+msgstr "Nedefinovaná proměnná: \"%s\""
+
+#, fuzzy
+#| msgid "The translation is not valid XML."
+msgid "Text is not valid UTF-8."
+msgstr "Tento překlad není platné XML."
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Division by zero is not supported."
+msgstr "Zvolené řazení není podporované."
+
+#, fuzzy
+#| msgid "Select a change for this automation."
+msgid "Numeric value is too large for this operation."
+msgstr "Vyberte změnu pro tuto automatizaci."
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Numeric operation failed."
+msgstr "Operace na repozitáři selhala"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation reviews are not enabled."
+msgid "Value or argument has an invalid format."
+msgstr "Kontroly překladů nejsou povoleny."
+
+#, fuzzy, python-format
+#| msgid "%(path)s: %(error)s"
+msgid "%(operation)s: %(message)s"
+msgstr "%(path)s: %(error)s"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
+msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Nonfinite numbers are not supported."
+msgstr "Aliasy a značky YAML nejsou podporovány."
+
+#, fuzzy, python-format
+#| msgid "File names"
+msgid "Filter \"%(name)s\""
+msgstr "Názvy souboru"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
+msgstr ""
+
+msgid "Template rendering exceeded its loop limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Attribute access and method calls are not supported."
+msgstr "Aliasy a značky YAML nejsou podporovány."
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Index exceeds the length limit of 128 characters."
+msgstr "Uživatelské jméno musí být alespoň pět znaků dlouhé."
+
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Translated template literals are not supported."
+msgstr "Aliasy a značky YAML nejsou podporovány."
+
+#, fuzzy
+#| msgid "Invalid unit."
+msgid "Invalid filter."
+msgstr "Neplatná jednotka."
+
+msgid "Identity comparisons require None, True, or False."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This condition operator is not supported."
+msgstr "Zvolené řazení není podporované."
+
+msgid "Template output exceeds its size limit."
+msgstr ""
+
+msgid "Loops require a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
+msgstr ""
+
+msgid "Loop value cannot be unpacked into its variables."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This template tag is not supported."
+msgstr "Zvolené řazení není podporované."
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This template node is not supported."
+msgstr "Zjištěný formát souboru není podporován."
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Undefined variable: \"%s\""
+msgstr "Nedefinovaná proměnná: \"%s\""
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "This field is required."
+msgid "This filter requires strings."
+msgstr "Toto pole je vyžadováno."
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Choices must be a string."
+msgstr "Automatizační klíče musí být řetězce."
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr "Uživatelské jméno musí být alespoň pět znaků dlouhé."
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source string length"
+msgid "Joining requires string elements."
+msgstr "Délka zdrojového řetězce"
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Date format must be a string or None."
+msgstr "Automatizační klíče musí být řetězce."
+
+#, fuzzy
+#| msgid "%(path)s: trigger scope requires only change triggers."
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "%(path)s: rozsah spouštěče vyžaduje pouze spouštěče změn."
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automation keys must be strings."
+msgid "Plural suffixes must be a string."
+msgstr "Automatizační klíče musí být řetězce."
+
+#, fuzzy
+#| msgid "Username needs to have at least five characters."
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr "Uživatelské jméno musí být alespoň pět znaků dlouhé."
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+#, fuzzy
+#| msgid "YAML aliases and tags are not supported."
+msgid "Nested template delimiters are not supported."
+msgstr "Aliasy a značky YAML nejsou podporovány."
+
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unclosed template token."
+msgstr "Nepodporovaný obsah pravidla ITS."
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "The resource is locked."
+msgid "Template tag is empty."
+msgstr "Zdroj je uzamčen."
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr ""
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "Nepodporovaný obsah pravidla ITS."
+
+#, fuzzy
+#| msgid "Unsupported ITS rule content."
+msgid "Unsupported template tag."
+msgstr "Nepodporovaný obsah pravidla ITS."
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
 #, python-format
 msgid ""
 "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
 "Nepodařilo se stáhnout zdroj ze zadané adresy URL (stavový kód HTTP: "
 "%(code)s)."
+
+#, fuzzy
+#| msgid "Search query is too complex."
+msgid "Regular expression is too complex."
+msgstr "Vyhledávací dotaz je příliš složitý."
 
 msgid "Search query is too complex."
 msgstr "Vyhledávací dotaz je příliš složitý."
@@ -20839,6 +23290,11 @@ msgstr "Neplatný regulární výraz: {}"
 msgid "Unsupported lookup for {field}: {value}"
 msgstr "Nepodporované vyhledávání pro {field}: {value}"
 
+#, fuzzy
+#| msgid "Enter component ID or project/component slug."
+msgid "A concrete project or component is required."
+msgstr "Zadejte ID součásti nebo zkrácený název projektu/součásti."
+
 msgid "Could not parse IP address: {}"
 msgstr "Nepodařilo se zpracovat IP adresu: {}"
 
@@ -20850,6 +23306,11 @@ msgstr "Rozsah není pro pole {} podporován"
 
 msgid "Mixed operators!"
 msgstr "Smíchané operátory!"
+
+#, fuzzy
+#| msgid "Search query is too complex."
+msgid "Search query is too long."
+msgstr "Vyhledávací dotaz je příliš složitý."
 
 msgid "Invalid character in the query string"
 msgstr "Neplatný znak v řetězci vyhledávání"
@@ -21040,6 +23501,9 @@ msgstr "Adresa Fediverse by měla odkazovat na uživatelský profil na Fediverse
 
 msgid "URL domain is not allowed."
 msgstr "Doména adresy URL není povolena."
+
+msgid "AMQP broker URLs must not contain query strings or fragments."
+msgstr ""
 
 #, fuzzy
 #| msgid "Name contains disallowed characters."
@@ -21232,6 +23696,52 @@ msgid "Pull request listing failed: %(error)s Please retry later."
 msgstr ""
 "Zobrazení seznamu žádostí o začlenění se nezdařilo: %(error)s Zkuste to "
 "prosím později."
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request: %(status)s"
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s"
+msgstr ""
+"Při vytváření žádosti o stažení došlo k selhání API požadavku %(service)s: "
+"%(status)s"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request: %(status)s "
+#| "Please retry later."
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s "
+"Please retry later."
+msgstr ""
+"%(service)s Došlo k selhání API požadavku při vytváření žádosti o stažení: "
+"%(status)s Zkuste to prosím později."
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request "
+#| "(%(status)s): %(error)s"
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s"
+msgstr ""
+"Při vytváření žádosti o stažení došlo k selhání API požadavku (%(service)s) "
+"(%(status)s): %(error)s"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request "
+#| "(%(status)s): %(error)s Please retry later."
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s Please retry later."
+msgstr ""
+"Při vytváření žádosti o stažení došlo k selhání API požadavku služby "
+"%(service)s (%(status)s): %(error)s Zkuste to prosím později."
+
+#, python-format
+msgid "GitHub did not assign the requested users: %(assignees)s"
+msgstr ""
 
 #, python-format
 msgid "Could not fork repository at %(hostname)s"
@@ -21561,6 +24071,11 @@ msgstr ""
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr "Toto odešle změny do upstream repozitáře Mercurial."
 
+#, fuzzy
+#| msgid "Could not recover the repository."
+msgid "Could not remove nested repository metadata."
+msgstr "Nepodařilo se obnovit repozitář."
+
 msgid "GitHub"
 msgstr "GitHub"
 
@@ -21623,6 +24138,34 @@ msgstr ""
 "Otevře pro změny překladů žádost o začlenění nebo sloučení. Je-li tato "
 "možnost vypnutá, Weblate odesílá změny přímo do překladové větve, k čemuž "
 "potřebuje oprávnění k zápisu."
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request assignee"
+msgstr "Gitea požadavek na začlenění"
+
+msgid "GitHub username to assign to pull requests created by Weblate."
+msgstr ""
+
+#, fuzzy
+#| msgid "Merge pull requests automatically"
+msgid "Assign pull requests to acting user"
+msgstr "Automaticky slučovat žádosti o začlenění"
+
+msgid ""
+"Also assign the GitHub account linked to the Weblate user who starts the "
+"push, when available."
+msgstr ""
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request labels"
+msgstr "Gitea požadavek na začlenění"
+
+msgid ""
+"Comma-separated names of labels to add to pull requests created by Weblate. "
+"Existing labels are kept."
+msgstr ""
 
 msgid "Merge pull requests automatically"
 msgstr "Automaticky slučovat žádosti o začlenění"
@@ -21987,6 +24530,70 @@ msgstr ""
 "Trvalá navigační rozevírací nabídka v pravém horním rohu, i když je místo "
 "pro celou nabídku."
 
+#, fuzzy
+#| msgid "Past reports"
+msgid "CSV report"
+msgstr "Předchozí zprávy"
+
+#, fuzzy
+#| msgid "Language limit"
+msgid "Delimiter"
+msgstr "Jazykový limit"
+
+msgid ""
+"Leave blank to detect automatically. Use a comma, semicolon, pipe, or \\t "
+"for a tab."
+msgstr ""
+
+msgid "First row contains column names"
+msgstr ""
+
+#, fuzzy
+#| msgid "Username or e-mail"
+msgid "Username or e-mail column"
+msgstr "Uživatelské jméno nebo e-mail"
+
+#, fuzzy
+#| msgid "Password"
+msgid "Password column"
+msgstr "Heslo"
+
+msgid ""
+"Specify both column numbers, or leave both blank for automatic detection."
+msgstr ""
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Configuring"
+msgstr "Konfigurace"
+
+msgid "Running"
+msgstr ""
+
+msgid "Open"
+msgstr "Otevřená"
+
+#, fuzzy
+#| msgid "Resolve"
+msgid "Resolved"
+msgstr "Vyřešit"
+
+#, fuzzy
+#| msgid "User was disabled by administrator."
+msgid "Dismissed by administrator"
+msgstr "Uživatel byl zakázán správcem."
+
+msgid "Lookalike e-mail identity removed"
+msgstr ""
+
+msgid "E-mail identity already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Password already changed"
+msgstr "Heslo změněno."
+
 #. Translators: The Weblate server has no paid support by the Weblate team
 msgid "Community support"
 msgstr "Komunitní podpora"
@@ -22049,11 +24656,199 @@ msgstr "Vymazán zálohovací repozitář"
 msgid "Repository initialization"
 msgstr "Inicializace repozitáře"
 
+#, fuzzy
+#| msgid "Old password"
+msgid "Leaked password"
+msgstr "Původní heslo"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Lookalike verified e-mail address"
+msgstr "Ověřit novou e-mailovou adresu"
+
+#, fuzzy
+#| msgid ""
+#| "The authentication response has expired. Please try signing in again."
+msgid "The uploaded report has expired. Upload it again."
+msgstr ""
+"Platnost ověřovací odpovědi vypršela. Zkuste se prosím přihlásit znovu."
+
+msgid ""
+"Could not detect the credential columns. Configure their column numbers."
+msgstr ""
+
+msgid "Choose different identifier and password columns."
+msgstr ""
+
+msgid "The report exceeds the 10 MiB limit."
+msgstr ""
+
+msgid "Upload a UTF-8 encoded CSV file."
+msgstr ""
+
+msgid ""
+"Could not detect the delimiter. Configure the CSV columns and delimiter."
+msgstr ""
+
+msgid "Choose a single delimiter character."
+msgstr ""
+
+#, fuzzy
+#| msgid "ITS rule file contains too many elements."
+msgid "The file contains malformed CSV quoting."
+msgstr "Soubor pravidel ITS obsahuje příliš mnoho prvků."
+
+#, fuzzy
+#| msgid "The resource is locked."
+msgid "The report is empty."
+msgstr "Zdroj je uzamčen."
+
+msgid "The report exceeds the 50,000 row limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The repository HTTP redirect contains credentials and was rejected."
+msgid "The report contains no credential rows."
+msgstr ""
+"HTTP přesměrování repozitáře obsahovalo přihlašovací údaje a bylo zamítnuto."
+
+#, fuzzy
+#| msgid "The authenticated user does not have permission for this operation."
+msgid ""
+"The initiating administrator no longer has permission to perform this "
+"operation."
+msgstr "Ověřený uživatel nemá oprávnění k provedení této operace."
+
+msgid ""
+"The security operation failed. Review any findings already recorded and "
+"start a new operation."
+msgstr ""
+
+#, fuzzy
+#| msgid "Security FAQ"
+msgid "Security report"
+msgstr "Často kladené dotazy k zabezpečení"
+
+#, fuzzy, python-format
+#| msgid "Joined on %(date)s"
+msgid "Report from %(date)s"
+msgstr "Připojil/a se %(date)s"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s — %(report)s"
+msgstr "%(filename)s, řetězec %(position)s"
+
+msgid ""
+"Your identity verification has expired. Confirm your identity, then select "
+"and upload the CSV report again."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not load repository branches. Please try again."
+msgid "Could not store the encrypted upload. Try again."
+msgstr "Nepodařilo se načíst větve repozitáře. Zkuste to prosím znovu."
+
+msgid "Choose a CSV report of at most 10 MiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not load repository branches. Please try again."
+msgid "Could not read the uploaded report. Upload it again."
+msgstr "Nepodařilo se načíst větve repozitáře. Zkuste to prosím znovu."
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords checked"
+msgstr "Heslo změněno."
+
+#, fuzzy
+#| msgid "Duplicated translation."
+msgid "Duplicate rows"
+msgstr "Duplicitní překlad."
+
+#, fuzzy
+#| msgid "Connect accounts"
+msgid "Unknown accounts"
+msgstr "Propojit účty"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Ambiguous accounts"
+msgstr "Odstranit účet"
+
+msgid "Malformed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "Disable password"
+msgid "Unusable passwords"
+msgstr "Zakázat heslo"
+
+#, fuzzy
+#| msgid "The two password fields didn't match."
+msgid "Passwords that did not match"
+msgstr "Zadaná hesla se neshodují."
+
+#, fuzzy
+#| msgid "Password reset"
+msgid "Passwords reset"
+msgstr "Obnovení hesla"
+
+msgid "Lookalike e-mail identities removed"
+msgstr ""
+
+msgid "E-mail identities already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords already changed"
+msgstr "Heslo změněno."
+
+#, fuzzy
+#| msgid "Dismissed"
+msgid "Dismissed findings"
+msgstr "Zahozené"
+
+#, fuzzy
+#| msgid "Skipped additions"
+msgid "Skipped findings"
+msgstr "Přeskočená přidání"
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported actions"
+msgstr "Nepodporovaný soubor!"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Primary e-mail address"
+msgstr "Ověřit novou e-mailovou adresu"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Verified e-mail address"
+msgstr "Ověřit novou e-mailovou adresu"
+
+#, fuzzy, python-format
+#| msgid "Edit team membership for %(username)s"
+msgid "Finding for %(username)s"
+msgstr "Upravit členství v týmu pro %(username)s"
+
 msgid "Weblate administration"
 msgstr "Administrace Weblate"
 
 msgid "Object listing turned off"
 msgstr "Vypisování objektů je vypnuté"
+
+#, fuzzy
+#| msgid ""
+#| "This authentication app registration is no longer valid. Start a new "
+#| "registration."
+msgid "The security operation expired. Start a new operation."
+msgstr ""
+"Tato registrace ověřovací aplikace již není platná. Zahajte novou registraci."
 
 msgid "Return to Weblate"
 msgstr "Zpět do Weblate"
@@ -22186,6 +24981,23 @@ msgstr "Výchozí nastavení zděděných komponent"
 msgid "Workspace name"
 msgstr "Název pracovního prostoru"
 
+#, fuzzy
+#| msgid "Allow translation propagation"
+msgid "Translation propagation scope"
+msgstr "Povolit propagování překladů"
+
+#, fuzzy
+#| msgid "Cannot change components on a workspace team."
+msgid "Matching component name within workspace"
+msgstr "V týmu pracovního prostoru nelze měnit součásti."
+
+#, fuzzy
+#| msgid ""
+#| "Whether to overwrite existing translations if the string is already "
+#| "translated."
+msgid "Where translations of matching strings are propagated."
+msgstr "Zda se mají přepsat stávající překlady, pokud už existují."
+
 msgid "Managed name"
 msgstr "Spravované jméno"
 
@@ -22217,6 +25029,121 @@ msgstr "Pracovní prostor nelze odstranit, protože je stále v používání."
 
 msgid "The workspace has been removed."
 msgstr "Pracovní prostor byl odstraněn."
+
+#, python-format
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "Procházet glosář %(name)s"
+
+#, fuzzy
+#~| msgid "CEL validation or evaluation failed or exceeded its resource limit."
+#~ msgid "Template rendering failed or exceeded its resource limits."
+#~ msgstr "Validace nebo vyhodnocení CEL selhalo nebo překročilo limit zdrojů."
+
+#, fuzzy
+#~| msgid "Invalid translation flag: \"%s\""
+#~ msgid "Invalid template rendering response."
+#~ msgstr "Chybná příznak pro překlad: „%s“"
+
+#, python-format
+#~ msgid ""
+#~ "Fedora Messaging publisher service was unavailable; the connection will "
+#~ "be recreated on the next attempt: %(error)s"
+#~ msgstr ""
+#~ "Služba vydavatele Fedora Messaging nebyla dostupná; připojení bude "
+#~ "obnoveno při příštím pokusu: %(error)s"
+
+#~ msgid "Could not reset Fedora Messaging publisher service."
+#~ msgstr "Nepodařilo se resetovat službu vydavatele Fedora Messaging."
+
+#, python-format
+#~ msgid "Fedora Messaging broker URL is invalid: %(error)s"
+#~ msgstr "URL zprostředkovatele zpráv Fedory je neplatná: %(error)s"
+
+#, fuzzy
+#~| msgid "Registration almost complete"
+#~ msgid "E-mail verification almost complete"
+#~ msgstr "Registrace je téměř hotová"
+
+#, fuzzy
+#~| msgid ""
+#~| "Click the confirmation link sent to your e-mail inbox and start using "
+#~| "your account."
+#~ msgid ""
+#~ "Click the confirmation link sent to your e-mail inbox to verify the "
+#~ "address for your account."
+#~ msgstr ""
+#~ "Klikněte na potvrzovací odkaz zaslaný do vaší e-mailové schránky a "
+#~ "začněte používat svůj účet."
+
+#~ msgid "Search and replace"
+#~ msgstr "Vyhledat a nahradit"
+
+#, fuzzy
+#~| msgid "Adding strings is disabled in the component configuration."
+#~ msgid "Stop using this installation without removing its configuration."
+#~ msgstr "Přidání řetězců je zakázáno v nastavení součásti."
+
+#, fuzzy
+#~| msgid "Remove this notification setting"
+#~ msgid "Remove this installation and its configuration."
+#~ msgstr "Odeberat toto nastavení oznámení"
+
+#~ msgid "Please review and confirm the search and replace results."
+#~ msgstr "Zkontrolujte a potvrďte výsledky vyhledání a nahrazení."
+
+#~ msgid ""
+#~ "Showing and replacing only the first 250 matches. Perform the replacement "
+#~ "again to replace more."
+#~ msgstr ""
+#~ "Zobrazuji a nahrazuji pouze prvních 250 shod. Opětovným provedením "
+#~ "náhrady nahradíte více."
+
+#~ msgid "Replace"
+#~ msgstr "Nahradit"
+
+#~ msgid "Find strings in image"
+#~ msgstr "Vyhledat řetězce v obrázku"
+
+#~ msgid "You can change the state of all strings matching given type at once."
+#~ msgstr "Je možné změnit stav všech řetězců odpovídajícího typu naráz."
+
+#~ msgid "Optional additional filter applied to the strings"
+#~ msgstr "Volitelný dodatečný filtr použitý na řetězce"
+
+#~ msgid "Case-sensitive string to search for and replace."
+#~ msgstr ""
+#~ "Řetězec rozlišující malá a velká písmena, který chcete vyhledat a "
+#~ "nahradit."
+
+#, fuzzy
+#~| msgid "Translation flags to add"
+#~ msgid "Translation flags to add — matching translations"
+#~ msgstr "Přidat příznaky překladu"
+
+#, fuzzy
+#~| msgid "Translation flags to remove"
+#~ msgid "Translation flags to remove — matching translations"
+#~ msgstr "Odebrat příznaky překladu"
+
+#, fuzzy
+#~| msgid "For all languages"
+#~ msgid "Labels to add — all languages"
+#~ msgstr "Pro všechny jazyky"
+
+#, fuzzy
+#~| msgid "Labels to remove"
+#~ msgid "Labels to remove — all languages"
+#~ msgstr "Odebrat štítky"
+
+#~ msgid "Search and replace completed, no strings were updated."
+#~ msgstr "Vyhledání a nahrazení bylo dokončeno, nebyly změněny žádné řetězce."
+
+#, python-format
+#~ msgid "Search and replace completed, %d string was updated."
+#~ msgid_plural "Search and replace completed, %d strings were updated."
+#~ msgstr[0] "Vyhledání a nahrazení bylo dokončeno, změněn %d řetězec."
+#~ msgstr[1] "Vyhledání a nahrazení bylo dokončeno, změněny %d řetězce."
+#~ msgstr[2] "Vyhledání a nahrazení bylo dokončeno, změněno %d řetězců."
 
 #~ msgid "Name is also used in version control commits."
 #~ msgstr "Jméno se používá také v zápisech systému správy revizí."
@@ -22353,10 +25280,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgstr ""
 #~ "Přihlášení se nezdařilo, pravděpodobně kvůli skončení platnosti tokenu "
 #~ "nebo chybě připojení."
-
-#, python-format
-#~ msgid "Authentication failed: %s"
-#~ msgstr "Autentifikace selhala: %s"
 
 #~ msgid "The authentication provider could not be reached."
 #~ msgstr "Nepodařilo se spojit s poskytovatelem přihlašování."
@@ -22496,9 +25419,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ "Připojte se k nám při utváření budoucnosti lokalizace a přispějte ještě "
 #~ "dnes!"
 
-#~ msgid "Download reports"
-#~ msgstr "Stáhnout výkazy"
-
 #~ msgid "DeepL API v1 is no longer supported."
 #~ msgstr "DeepL API v1 již není podporováno."
 
@@ -22614,9 +25534,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgid "Translation files in accessible repositories have been synchronized."
 #~ msgstr "Překladové soubory v dostupných repozitářích byly synchronizovány."
 
-#~ msgid "Updates of translations are in progress."
-#~ msgstr "Probíhají aktualizace překladů."
-
 #~ msgid "Updates of translations in accessible repositories are in progress."
 #~ msgstr ""
 #~ "V současné době probíhá aktualizace překladů v přístupných repozitářích."
@@ -22637,9 +25554,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgstr ""
 #~ "Nebojte se, že byste zničili řetězce. Jedná se o dvoufázový proces, který "
 #~ "zobrazuje náhled upravených řetězců před potvrzením skutečné změny."
-
-#~ msgid "Activation completed."
-#~ msgstr "Aktivace dokončena."
 
 #, python-format
 #~ msgid "Could not activate your installation: %s"
@@ -22684,9 +25598,6 @@ msgstr "Pracovní prostor byl odstraněn."
 
 #~ msgid "Repository URL"
 #~ msgstr "URL repozitáře"
-
-#~ msgid "Repository name"
-#~ msgstr "Název repozitáře"
 
 #~ msgid "Configure component"
 #~ msgstr "Nastavit součást"
@@ -22738,9 +25649,6 @@ msgstr "Pracovní prostor byl odstraněn."
 
 #~ msgid "project-wide"
 #~ msgstr "v rámci celého projektu"
-
-#~ msgid "site-wide"
-#~ msgstr "v rámci celého webu"
 
 #, python-format
 #~ msgid "Manage add-ons at %(location)s"
@@ -22975,9 +25883,6 @@ msgstr "Pracovní prostor byl odstraněn."
 
 #~ msgid "Provide context to the translators"
 #~ msgstr "Poskytněte překladatelům kontext"
-
-#~ msgid "Workflow customization"
-#~ msgstr "Přizpůsobení pracovního postupu"
 
 #~ msgid "Add team"
 #~ msgstr "Přidat tým"
@@ -23547,9 +26452,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgid "Disable two-factor authentication"
 #~ msgstr "Vypnout dvoufaktorové ověřování"
 
-#~ msgid "Translation reviews are not enabled."
-#~ msgstr "Kontroly překladů nejsou povoleny."
-
 #~ msgid "Reviews are not enabled."
 #~ msgstr "Kontroly nejsou povoleny."
 
@@ -23590,9 +26492,6 @@ msgstr "Pracovní prostor byl odstraněn."
 
 #~ msgid "Starting date"
 #~ msgstr "Počáteční datum"
-
-#~ msgid "Ending date"
-#~ msgstr "Koncové datum"
 
 #~ msgid "Last 30 days"
 #~ msgstr "Posledních 30 dní"
@@ -23718,9 +26617,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgid "Rename component"
 #~ msgstr "Přejmenovat součást"
 
-#~ msgid "Move component"
-#~ msgstr "Přesunout součást"
-
 #~ msgid "Rename project"
 #~ msgstr "Přejmenovat projekt"
 
@@ -23742,9 +26638,6 @@ msgstr "Pracovní prostor byl odstraněn."
 
 #~ msgid "Committed changes"
 #~ msgstr "Zapsány změny"
-
-#~ msgid "Pushed changes"
-#~ msgstr "Odeslány změny"
 
 #~ msgid "Failed merge on repository"
 #~ msgstr "Chyba při sloučení repozitáře"
@@ -23769,9 +26662,6 @@ msgstr "Pracovní prostor byl odstraněn."
 
 #~ msgid "Renamed project"
 #~ msgstr "Přejmenován projekt"
-
-#~ msgid "Renamed component"
-#~ msgstr "Přejmenována součást"
 
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
@@ -23887,9 +26777,6 @@ msgstr "Pracovní prostor byl odstraněn."
 
 #~ msgid "New language"
 #~ msgstr "Nový jazyk"
-
-#~ msgid "Check details"
-#~ msgstr "Podrobnosti kontroly"
 
 #~ msgid ""
 #~ "Customizable quality checks will help you improve the quality of "
@@ -24151,9 +27038,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgid "Too many failed registration attempts from this location."
 #~ msgstr "Příliš mnoho chybných pokusů o registraci z tohoto umístění."
 
-#~ msgid "Too many authentication attempts from this location."
-#~ msgstr "Příliš mnoho pokusů o přihlášení z tohoto umístění."
-
 #~ msgid ""
 #~ "Weblate user management is turned off, you can change permissions in the "
 #~ "Django admin interface."
@@ -24183,9 +27067,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgid "source"
 #~ msgstr "zdroj"
 
-#~ msgid "Invalid parameters!"
-#~ msgstr "Chybné parametry!"
-
 #~ msgid "Not translated strings"
 #~ msgstr "Nepřeložené řetězce"
 
@@ -24194,13 +27075,6 @@ msgstr "Pracovní prostor byl odstraněn."
 
 #~ msgid "Strings needing action"
 #~ msgstr "Řetězce vyžadující pozornost"
-
-#, python-format
-#~ msgid "%(count)s string needing action"
-#~ msgid_plural "%(count)s strings needing action"
-#~ msgstr[0] "%(count)s řetězec vyžadující pozornost"
-#~ msgstr[1] "%(count)s řetězce vyžadující pozornost"
-#~ msgstr[2] "%(count)s řetězců vyžadujících pozornost"
 
 #~ msgid ""
 #~ "Strings needing action, converted files enriched with comments; suitable "
@@ -24658,9 +27532,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgid "Use this translation for all components"
 #~ msgstr "Použít tento překlad pro všechny součásti"
 
-#~ msgid "Use this translation"
-#~ msgstr "Použít tento překlad"
-
 #~ msgid "Change compared to this translation:"
 #~ msgstr "Změna v porovnání s tímto překladem:"
 
@@ -24946,9 +27817,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgid "You can no longer log in using {method} ({name})."
 #~ msgstr "Od teď se nemůžete přihlásit prostřednictvím {method} ({name})."
 
-#~ msgid "You can now log in using password."
-#~ msgstr "Od teď se můžete přihlásit prostřednictvím hesla."
-
 #~ msgid "New whiteboard message"
 #~ msgstr "Nová zpráva na nástěnce"
 
@@ -25166,9 +28034,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgid "Toggle edit needed flag"
 #~ msgstr "Přepnout příznak „Ke kontrole“"
 
-#~ msgid "Merge failure"
-#~ msgstr "Chyba při slučování"
-
 #~ msgid "Standard user"
 #~ msgstr "Standardní uživatel"
 
@@ -25286,12 +28151,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgid "Backup pepository"
 #~ msgstr "Repozitář"
 
-#~ msgid "Your languages"
-#~ msgstr "Vaše jazyky"
-
-#~ msgid "Search type"
-#~ msgstr "Způsob vyhledávání"
-
 #~ msgid "Fulltext"
 #~ msgstr "Fulltextové"
 
@@ -25327,15 +28186,9 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgid "{0}%"
 #~ msgstr "{0} %"
 
-#~ msgid "Repositories limit"
-#~ msgstr "Počet repozitářů"
-
 #~ msgid "User has all permissions without having been given them."
 #~ msgstr ""
 #~ "Uživatel má veškerá oprávnění aniž by je bylo třeba výslovně přiřazovat."
-
-#~ msgid "active"
-#~ msgstr "aktivní"
 
 #~ msgid ""
 #~ "Choose languages you speak in the preferences, to see an overview of all "
@@ -25396,9 +28249,6 @@ msgstr "Pracovní prostor byl odstraněn."
 
 #~ msgid "Host:"
 #~ msgstr "Server:"
-
-#~ msgid "Process"
-#~ msgstr "Zpracovat"
 
 #~ msgid "Automatically add language file"
 #~ msgstr "Automaticky přidat soubor s překladem"
@@ -27351,9 +30201,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgid "End date"
 #~ msgstr "Koncové datum"
 
-#~ msgid "Text"
-#~ msgstr "Text"
-
 #~ msgid "Depending on placement, HTML can be allowed."
 #~ msgstr "V závislosti na umístění může být možné použít HTML."
 
@@ -27674,9 +30521,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgstr[2] ""
 #~ "Obsah souboru byl úspěšně přidán do překladu, zpracováno %d řetězců."
 
-#~ msgid "Suggestions are not allowed on this translation!"
-#~ msgstr "V tomto překladu nejsou povoleny návrhy!"
-
 #~ msgid "You don't have privileges to save templates!"
 #~ msgstr "Pro změnu šablony nemáte oprávnění!"
 
@@ -27717,9 +30561,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgid "Messages"
 #~ msgstr "Zprávy"
 
-#~ msgid "Others"
-#~ msgstr "Další"
-
 #~ msgid "Subprojects"
 #~ msgstr "Podprojekty"
 
@@ -27746,9 +30587,6 @@ msgstr "Pracovní prostor byl odstraněn."
 
 #~ msgid "Words extracted from glossary"
 #~ msgstr "Vybraná slova z glosáře"
-
-#~ msgid "Comments (%(count)s)"
-#~ msgstr "Komentáře (%(count)s)"
 
 #~ msgid "Source string details and feedback"
 #~ msgstr "Podrobnosti o zdrojovém řetězci a možnost zpětné vazby"
@@ -27804,18 +30642,9 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgid "First name"
 #~ msgstr "Křestní jméno"
 
-#~ msgid "Username needs to have at least five characters."
-#~ msgstr "Uživatelské jméno musí být alespoň pět znaků dlouhé."
-
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."
 #~ msgstr "Váš profil byl aktualizován, můžete chtít změnit některá nastavení."
-
-#~ msgid "Old password"
-#~ msgstr "Původní heslo"
-
-#~ msgid "The two password fields didn't match."
-#~ msgstr "Zadaná hesla se neshodují."
 
 #~ msgid "Your account could not be activated"
 #~ msgstr "Váš účet nemohl být aktivován"

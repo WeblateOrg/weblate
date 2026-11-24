@@ -23,9 +23,9 @@
       </div>
       <div class="card-body">
         <p>
-          {% if terms_url and privacy_url %}
+          {% if external_terms_url and privacy_url %}
             {% blocktranslate %}Please read the <a href="{{ terms_url }}">General Terms and Conditions</a> and the <a href="{{ privacy_url }}">Privacy Policy</a>.{% endblocktranslate %}
-          {% elif terms_url %}
+          {% elif external_terms_url %}
             {% blocktranslate %}Please read the <a href="{{ terms_url }}">General Terms and Conditions</a>.{% endblocktranslate %}
           {% elif privacy_url %}
             {% blocktranslate %}Please read the General Terms and Conditions below as well as the <a href="{{ privacy_url }}">Privacy Policy</a>.{% endblocktranslate %}
@@ -33,7 +33,7 @@
             {% translate "Please read the General Terms and Conditions below." %}
           {% endif %}
         </p>
-        {% if not terms_url %}
+        {% if not external_terms_url %}
           <h5>{% translate "General Terms and Conditions" %}</h5>
           <div class="list-group-item pre-scrollable{% if legal_document_css_class %} {{ legal_document_css_class }}{% endif %}">
             {% include "legal/documents/tos.html" %}

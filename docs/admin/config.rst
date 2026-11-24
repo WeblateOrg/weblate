@@ -117,6 +117,10 @@ ALLOWED_ASSET_SIZE
 
 Configures size limit in bytes for fetching or uploading assets into Weblate. Defaults to 10 MB.
 
+For screenshot URL uploads and remote CDN add-on HTML, the limit counts
+response bytes after decompression, before the complete body is buffered.
+See :ref:`outbound-http-limits` for other HTTP response limits.
+
 .. seealso::
 
    * :ref:`screenshots`
@@ -226,6 +230,10 @@ about the account activity.
 
 Defaults to 180 days.
 
+.. seealso::
+
+   :doc:`/admin/privacy`
+
 .. setting:: AUTH_LOCK_ATTEMPTS
 
 AUTH_LOCK_ATTEMPTS
@@ -268,6 +276,14 @@ Execution can be delayed by queued tasks or repository operations. Restarting
 Celery does not change the assigned hour. This setting does not provide a
 configurable update time window.
 
+When a repository update fails because of a temporary problem, such as a
+timeout or an HTTP 500, 502, 503, or 504 server error, Weblate retries it
+before the next assigned hour. The delay before each retry equals how long the
+update has been failing, so retries happen after about 1, 2, 4, 8, and 16 hours
+until the daily update takes over. A successful update stops the retries. Other
+failures, such as rejected credentials or a missing repository, are not retried
+early because a retry cannot fix them.
+
 .. hint::
 
     Useful if you are not using :ref:`hooks` to update Weblate repositories automatically.
@@ -307,6 +323,7 @@ Libravatar, as per https://www.libravatar.org/
 
 .. seealso::
 
+   * :doc:`/admin/privacy`
    * :ref:`production-cache-avatar`
    * :setting:`ENABLE_AVATARS`
    * :ref:`avatars`
@@ -329,6 +346,7 @@ Codeberg's Forgejo-backed avatar service)::
 
 .. seealso::
 
+   * :doc:`/admin/privacy`
    * :setting:`AVATAR_URL_PREFIX`
    * :ref:`production-cache-avatar`
    * :setting:`ENABLE_AVATARS`
@@ -489,7 +507,7 @@ The following subdirectories usually exist:
 :file:`ssh`
    Generated helper files used for VCS access.
 :file:`fonts`
-   :program:`font-config` cache for :ref:`fonts`.
+   Local copies of uploaded :ref:`fonts` used for rendering.
 :file:`avatar`
    Cached user avatars, see :ref:`avatars`.
 :file:`static`
@@ -626,7 +644,8 @@ Choose a configuration that matches the configuration of your mail server.
 
 .. seealso::
 
-   :setting:`ADMINS_CONTACT`
+   * :doc:`/admin/privacy`
+   * :setting:`ADMINS_CONTACT`
 
 .. setting:: DATA_DIR
 
@@ -646,10 +665,16 @@ The following subdirectories usually exist:
     Default location for Django media files, specified by :setting:`django:MEDIA_ROOT`. Contains uploaded screenshots, see :ref:`screenshots`.
 :file:`vcs`
     Version-control repositories for translations.
+:file:`translation-uploads`
+    Private temporary files for background translation uploads. Share this
+    directory between web and Celery worker processes, with read/write access
+    only for Weblate. Jobs expire after six hours; hourly cleanup removes
+    abandoned files older than 24 hours while leaving active uploads intact.
 :file:`backups`
     Daily backup data. Please check :ref:`backup-dumps` for details.
 :file:`fonts`:
-    User-uploaded fonts, see :ref:`fonts`.
+    User-uploaded fonts, see :ref:`fonts`. They can be stored elsewhere, see
+    :ref:`font-storage`.
 :file:`cache`
     Various caches. Can be placed elsewhere using :setting:`CACHE_DIR`.
 
@@ -711,6 +736,7 @@ on the internal Weblate management.
 
 .. seealso::
 
+   * :doc:`/admin/privacy`
    * :ref:`acl`
    * :ref:`project-access_control`
 
@@ -813,6 +839,10 @@ This identifies Weblate as the committer, separately from the translator recorde
 as the author. To make translators' author e-mail addresses private by default,
 set :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` to ``False``.
 
+For Git, Weblate applies this address to new commits in all checkouts after
+you restart its services. It takes precedence over the checkout's committer
+configuration.
+
 .. seealso::
 
    :setting:`DEFAULT_COMMITER_NAME`
@@ -827,6 +857,10 @@ Committer name, defaulting to ``Weblate``.
 This identifies Weblate as the committer, separately from the translator recorded
 as the author. To make translators' author names private by default, set
 :setting:`PRIVATE_COMMIT_NAME_OPT_IN` to ``False``.
+
+For Git, Weblate applies this name to new commits in all checkouts after you
+restart its services. It takes precedence over the checkout's committer
+configuration.
 
 .. seealso::
 
@@ -902,6 +936,16 @@ DEFAULT_SHARED_TM
 Configures the default value of :ref:`project-use_shared_tm` and :ref:`project-contribute_shared_tm`.
 
 
+.. setting:: DEFAULT_WORKSPACE_TM
+
+DEFAULT_WORKSPACE_TM
+--------------------
+
+.. versionadded:: 2026.11.2
+
+Configures the default value of :ref:`project-use-workspace-tm` and :ref:`project-contribute-workspace-tm`.
+
+
 .. setting:: DEFAULT_TRANSLATION_REVIEW
 
 DEFAULT_TRANSLATION_REVIEW
@@ -965,6 +1009,7 @@ leaking private info, speeding up the user experience.
 
 .. seealso::
 
+   * :doc:`/admin/privacy`
    * :ref:`production-cache-avatar`
    * :setting:`AVATAR_URL_PREFIX`
    * :ref:`avatars`
@@ -1495,10 +1540,10 @@ The ``index`` page is always visible. Supported document identifiers are
 ``terms``, ``cookies``, ``privacy``, and ``contracts``.
 
 Hidden pages are removed from the legal menu and return a 404 response when
-requested directly. When legal document confirmation is enabled, hiding
-``terms`` without :setting:`LEGAL_URL` makes confirmation embed the terms
-template. Hiding ``privacy`` without :setting:`PRIVACY_URL` makes confirmation
-cover only the terms.
+requested directly. When legal document confirmation is enabled, leaving
+:setting:`LEGAL_URL` unset makes confirmation embed the terms template, even
+if ``terms`` is hidden. Hiding ``privacy`` without :setting:`PRIVACY_URL` makes
+confirmation cover only the terms.
 
 Links exposed through the ``terms_url`` and ``privacy_url`` template variables
 use :setting:`LEGAL_URL` and :setting:`PRIVACY_URL` first when configured.
@@ -1833,6 +1878,7 @@ private commit e-mail. Set to ``False`` to use
 
 .. seealso::
 
+   * :doc:`/admin/privacy`
    * :ref:`profile`
    * :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`
 
@@ -1843,22 +1889,31 @@ PRIVATE_COMMIT_EMAIL_TEMPLATE
 
 .. versionadded:: 4.15
 
-Template to generate a private commit e-mail for a user. Defaults to ``"{username}@users.noreply.{site_domain}"``.
+Template to generate a private commit e-mail for a user. Defaults to ``"user-{user_id}@users.noreply.{site_domain}"``.
 
 It can contain ``{user_id}``, ``{username}``, ``{site_title}``, and ``{site_domain}``.
 
 Set to a blank string to disable private commit e-mails and use the account
 e-mail when no commit e-mail has been explicitly chosen.
 
-The default template includes the username. To avoid including it, use
-``"user-{user_id}@users.noreply.{site_domain}"`` instead. Changing the template
-alone does not make private commit e-mails the default.
+The default template uses the user ID rather than the username. Changing the
+template alone does not make private commit e-mails the default.
+
+.. versionchanged:: 2026.11
+
+   The default previously used ``"{username}@users.noreply.{site_domain}"``.
+   Configure that template explicitly to retain the previous generated addresses.
+   Explicitly selected commit e-mail addresses are not changed.
 
 .. note::
 
    Using a different commit e-mail is opt-in for users unless configured by
    :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure their commit e-mail in
    the :ref:`profile`.
+
+.. seealso::
+
+   :doc:`/admin/privacy`
 
 .. setting:: PRIVATE_COMMIT_NAME_OPT_IN
 
@@ -1881,6 +1936,7 @@ private commit name. Set to ``False`` to use
 
 .. seealso::
 
+   * :doc:`/admin/privacy`
    * :ref:`profile`
    * :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`
 
@@ -1903,6 +1959,10 @@ Changing the template alone does not make private commit names the default.
    Using a different commit name is opt-in for users unless configured by
    :setting:`PRIVATE_COMMIT_NAME_OPT_IN`. Users can configure their commit name in
    the :ref:`profile`.
+
+.. seealso::
+
+   :doc:`/admin/privacy`
 
 .. setting:: PROJECT_BACKUP_KEEP_COUNT
 
@@ -2000,9 +2060,12 @@ PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE
 Defines the maximum uncompressed size, in bytes, for a single highly
 compressed ZIP entry in an imported project backup.
 
-This limit is only applied to entries that are large enough and compress
-enough to look suspicious. Large low-compression files are intentionally
-allowed here and are expected to be constrained by the HTTP upload limit.
+An entry is rejected only when its uncompressed size exceeds this limit and
+its compression ratio exceeds
+:setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`. Entries at or
+below this limit are allowed regardless of compression ratio. Large entries
+that compress poorly are also allowed. The total uncompressed size remains
+bounded by :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`.
 Defaults to 262144000 bytes (250 MiB).
 
 In Docker, configure this using the
@@ -2020,12 +2083,12 @@ PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE
 
 .. versionadded:: 5.17
 
-Defines the minimum uncompressed size, in bytes, at which Weblate starts
-considering the ZIP compression ratio during project backup import.
-
-Smaller files are ignored for the compression-ratio-based validation to avoid
-rejecting reasonably sized files that compress well. Defaults to 1048576 bytes
-(1 MiB).
+Defines the minimum uncompressed size, in bytes, for checking the compression
+ratio of an entry that already exceeds
+:setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`. Smaller files are
+allowed regardless of compression ratio. Defaults to 1048576 bytes (1 MiB),
+which is below the default compressed-entry size threshold and therefore does
+not further restrict the check unless the thresholds are changed.
 
 In Docker, configure this using the
 ``WEBLATE_PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`` environment variable.
@@ -2377,6 +2440,111 @@ An amount of seconds defaulting to 600 (10 minutes).
    * :setting:`RATELIMIT_ATTEMPTS`
    * :setting:`RATELIMIT_WINDOW`
 
+.. setting:: RATELIMIT_BULK_EDIT_ATTEMPTS
+
+RATELIMIT_BULK_EDIT_ATTEMPTS
+----------------------------
+
+Maximum browser bulk-edit submissions per user during
+:setting:`RATELIMIT_BULK_EDIT_WINDOW`. Defaults to 10. Preview requests count
+toward this limit.
+
+.. setting:: RATELIMIT_BULK_EDIT_WINDOW
+
+RATELIMIT_BULK_EDIT_WINDOW
+--------------------------
+
+Window for browser bulk-edit rate limiting, in seconds. Defaults to 60.
+
+.. setting:: RATELIMIT_BULK_EDIT_LOCKOUT
+
+RATELIMIT_BULK_EDIT_LOCKOUT
+---------------------------
+
+Lockout after exceeding the browser bulk-edit rate limit, in seconds. Defaults
+to 60.
+
+.. setting:: RATELIMIT_UPLOAD_ATTEMPTS
+
+RATELIMIT_UPLOAD_ATTEMPTS
+-------------------------
+
+Maximum translation and translation-memory upload attempts per user through the
+web interface during :setting:`RATELIMIT_UPLOAD_WINDOW`. Defaults to 10.
+Superusers are exempt. Uploads rejected before the upload permission check do
+not count.
+REST translation uploads count toward :ref:`api-rate`.
+
+.. setting:: RATELIMIT_UPLOAD_WINDOW
+
+RATELIMIT_UPLOAD_WINDOW
+-----------------------
+
+Window for translation upload rate limiting, in seconds. Defaults to 60.
+
+.. setting:: RATELIMIT_UPLOAD_LOCKOUT
+
+RATELIMIT_UPLOAD_LOCKOUT
+------------------------
+
+Lockout after exceeding the translation upload rate limit, in seconds.
+Defaults to 60.
+
+.. setting:: RATELIMIT_MACHINERY_ATTEMPTS
+
+RATELIMIT_MACHINERY_ATTEMPTS
+----------------------------
+
+Maximum interactive machine-translation requests per user during
+:setting:`RATELIMIT_MACHINERY_WINDOW`. Defaults to 30. The usual superuser
+rate-limit exemption applies.
+
+Interactive requests also allow at most two concurrent calls per user per
+configured service installation. Other installations remain available. Excess
+requests return HTTP 429. Slots are released on completion or failure.
+Disconnected requests retain their slots until the provider work finishes,
+including synchronous calls already running in executor threads. If a worker
+exits, PostgreSQL releases its slots when its database session ends.
+
+.. setting:: RATELIMIT_MACHINERY_WINDOW
+
+RATELIMIT_MACHINERY_WINDOW
+--------------------------
+
+Window for interactive machine-translation rate limiting, in seconds. Defaults
+to 60.
+
+.. setting:: RATELIMIT_MACHINERY_LOCKOUT
+
+RATELIMIT_MACHINERY_LOCKOUT
+---------------------------
+
+Lockout after exceeding the interactive machine-translation rate limit, in
+seconds. Defaults to 60.
+
+.. setting:: RATELIMIT_OCR_ATTEMPTS
+
+RATELIMIT_OCR_ATTEMPTS
+----------------------
+
+Maximum screenshot image text searches per signed-in session during
+:setting:`RATELIMIT_OCR_WINDOW`. Defaults to 6.
+
+.. setting:: RATELIMIT_OCR_WINDOW
+
+RATELIMIT_OCR_WINDOW
+--------------------
+
+Window for screenshot image text search rate limiting, in seconds. Defaults to 60.
+
+.. setting:: RATELIMIT_OCR_LOCKOUT
+
+RATELIMIT_OCR_LOCKOUT
+---------------------
+
+Lockout after exceeding the screenshot image text search rate limit, in seconds.
+Defaults to 60.
+
 .. setting:: REGISTRATION_ALLOW_BACKENDS
 
 REGISTRATION_ALLOW_BACKENDS
@@ -2433,6 +2601,12 @@ REGISTRATION_EMAIL_MATCH
 
 Allows you to filter which e-mail addresses can register.
 
+The restriction also applies to addresses imported from authentication
+providers and addresses selected as public or commit e-mail addresses.
+Provider addresses that do not match are skipped. This includes GitHub
+noreply addresses: to use them for commits, explicitly allow
+``users.noreply.github.com`` in the expression.
+
 Defaults to ``.*``, which allows any e-mail address to be registered.
 
 You can use it to restrict registration to a single e-mail domain:
@@ -2450,6 +2624,9 @@ REGISTRATION_ALLOW_DISPOSABLE_EMAILS
 
 Allow registration with disposable e-mail domains. When enabled, the
 disposable domain blocklist is bypassed. Default is ``False``.
+
+This also applies to addresses imported from authentication providers and
+addresses selected as public or commit e-mail addresses.
 
 .. seealso::
 
@@ -2487,14 +2664,17 @@ REGISTRATION_REBIND
 
 .. versionadded:: 4.16
 
-Allow rebinding authentication backends for existing users. Turn this on when
-migrating between authentication providers.
+Allow signed-out users to link a new third-party authentication provider to an
+existing account when its e-mail address matches. Turn this on when migrating
+between trusted authentication providers. Existing users can add a provider
+while signed in regardless of this setting. E-mail registration and password
+reset use their own confirmation flow and are not affected.
 
 .. note::
 
-   Off by default to not allow adding other authentication backends to
-   an existing account. Rebinding can lead to account compromise when using
-   more third-party authentication backends.
+   Off by default. When enabled, Weblate trusts configured providers' e-mail
+   claims for account matching. Use only providers that verify these addresses;
+   otherwise another person could link an identity to an existing account.
 
 .. setting:: REPOSITORY_ALERT_THRESHOLD
 
@@ -2574,6 +2754,10 @@ and configures REST framework to require authentication for all API endpoints.
 
     This is implemented in the :ref:`sample-configuration`. For Docker, use
     :envvar:`WEBLATE_REQUIRE_LOGIN`.
+
+.. seealso::
+
+   :doc:`/admin/privacy`
 
 .. setting:: GOOGLE_CLOUD_ERROR_REPORTING
 
@@ -2670,7 +2854,11 @@ Configure whether to monitor Celery Beat tasks with Sentry. Defaults to ``True``
 SENTRY_PROFILES_SAMPLE_RATE
 ---------------------------
 
-Configure sampling rate for performance monitoring. Set to 1 to profile all traced events (the default), 0 disables profiling.
+Configure Sentry's profiler session sampling rate. At ``1`` (the default),
+sampled traces start profiling. At ``0``, profiling is disabled. The profiler
+captures Python stacks across the process while sampled spans are active,
+so overlapping requests can share a profiler session. Fractional rates
+select profiler sessions when the SDK initializes.
 
 .. seealso::
 
@@ -2681,7 +2869,9 @@ Configure sampling rate for performance monitoring. Set to 1 to profile all trac
 SENTRY_SEND_PII
 ---------------
 
-Allow Sentry to collect certain personally identifiable information. Turned off by default.
+Allow Sentry to collect user information, incoming request bodies, and
+non-sensitive cookies. Turned off by default. Weblate filters known credentials
+in both modes.
 
 .. versionchanged:: 5.7
 
@@ -2692,7 +2882,8 @@ Allow Sentry to collect certain personally identifiable information. Turned off 
 SENTRY_TRACES_SAMPLE_RATE
 -------------------------
 
-Configure sampling rate for profiling monitoring. Set to 1 to trace all events, 0 (the default) disables tracing.
+Configure the base sampling rate for :ref:`Sentry traces <sentry-integration>`.
+Set to ``0`` (the default) to disable sampling for new traces.
 
 .. seealso::
 
@@ -2883,6 +3074,46 @@ donation links elsewhere in the interface.
 
    Improve your Weblate experience by purchasing a support subscription and boosting Weblate progress instead of turning this off.
 
+.. setting:: TRANSLATION_MAX_SIZE
+
+TRANSLATION_MAX_SIZE
+--------------------
+
+.. versionadded:: 2026.11.2
+
+Maximum size, in bytes, of a translation file before parsing. Applies to all
+formats and to repository files as well as uploads and translation-memory
+imports, including source templates and intermediate files. For directory-based
+formats, the limit applies to each metadata file. When unset or ``None``, uses
+:setting:`TRANSLATION_UPLOAD_MAX_SIZE`
+(50 MB by default). An explicit value overrides this fallback.
+
+Uploads must also satisfy :setting:`TRANSLATION_UPLOAD_MAX_SIZE`, even when
+``TRANSLATION_MAX_SIZE`` is higher. This byte limit does not bound decompression
+or other expansion performed by a parser.
+
+Translation files must also satisfy :setting:`TRANSLATION_MAX_UNITS`.
+
+In Docker, configure this using :envvar:`WEBLATE_TRANSLATION_MAX_SIZE`.
+
+.. setting:: TRANSLATION_MAX_UNITS
+
+TRANSLATION_MAX_UNITS
+---------------------
+
+.. versionadded:: 2026.12
+
+Maximum number of logical content strings in a translation file before
+database synchronization or import. Set this to a positive integer. Defaults
+to 200,000.
+
+The same limit applies to data rows while parsing :ref:`CSV files <csv>`,
+worksheet rows while reading :ref:`XLSX files <xlsx>`, and entries in
+:doc:`translation-memory imports </admin/memory>`. File size, compressed
+format extraction, and suggestion uploads have separate limits.
+
+In Docker, configure this using :envvar:`WEBLATE_TRANSLATION_MAX_UNITS`.
+
 .. setting:: TRANSLATION_UPLOAD_MAX_SIZE
 
 TRANSLATION_UPLOAD_MAX_SIZE
@@ -2892,6 +3123,11 @@ TRANSLATION_UPLOAD_MAX_SIZE
 
 Configures the maximum size, in bytes, for uploaded translation files. Defaults
 to 50 MB.
+
+Uploads must also satisfy :setting:`TRANSLATION_MAX_SIZE`.
+
+Suggestion uploads are additionally limited to 20,000 content strings. See
+:ref:`upload` for upload processing and rate limits.
 
 In Docker, configure this using the ``WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE``
 environment variable.
@@ -2956,73 +3192,10 @@ Example:
     This setting does not work with Django's built-in server, you would have to
     adjust :file:`urls.py` to contain this prefix.
 
-.. setting:: USER_DIRECTORY_VISIBILITY
-
-USER_DIRECTORY_VISIBILITY
--------------------------
-
-.. versionadded:: 2026.11
-
-Controls discovery of other users. Defaults to ``"all"`` for compatibility.
-
-``"all"``
-   Keeps user browsing, username autocomplete, and site-wide user search enabled.
-``"scoped"``
-   Requires a resource-specific contributor search, such as
-   ``contributes:my-project`` or ``contributes:my-project/my-component``, on the
-   user directory page and REST API. Every matching branch of a search must
-   include a positive resource scope. Generic names, language filters, and
-   negated scopes do not grant directory access.
-``"disabled"``
-   Disables the user directory page. Resource-scoped REST searches and
-   autocomplete remain available.
-
-In both restricted modes, searches return contributors only within accessible
-resources. Translation editor mentions use the current string's translation as
-scope. Generic site-wide searches do not return users. The REST user list still
-returns the caller's own details when no search is supplied.
-
-Users with the global ``user.view`` or ``user.edit`` permission retain directory
-and administrative access in every mode.
-
-This setting controls discovery independently of
-:setting:`USER_PROFILE_VISIBILITY`. Contributor identities can appear in scoped
-results even when their profiles are restricted. It does not anonymize
-contributors or change attribution in translation history.
-
-In Docker, use :envvar:`WEBLATE_USER_DIRECTORY_VISIBILITY`.
-
-.. setting:: USER_PROFILE_VISIBILITY
-
-USER_PROFILE_VISIBILITY
------------------------
-
-.. versionadded:: 2026.11
-
-Controls access to user profiles. Defaults to ``"public"`` for compatibility.
-
-``"public"``
-   Keeps existing public profile access, subject to installation login rules.
-``"authenticated"``
-   Requires signing in to view another user's profile.
-``"admins"``
-   Requires the global ``user.view`` or ``user.edit`` permission to view another
-   user's profile.
-
-Users can always access their own profile, and users with either global
-permission retain administrative access. The policy applies to direct profile
-URLs, contribution and suggestion pages, external profile links, contact links,
-avatars, and REST user details. Restricted URLs return HTTP 404.
-Contributor displays retain names but use a generic avatar and omit profile
-links when access is denied. Email and feed displays use public-access rules.
-
-Combine this with :setting:`USER_DIRECTORY_VISIBILITY` to control discovery.
-For example, ``"scoped"`` directory visibility with ``"public"`` profile
-visibility preserves public contributor profiles while limiting discovery to
-accessible resources. Basic contributor identities remain visible in permitted
-search results regardless of profile visibility.
-
-In Docker, use :envvar:`WEBLATE_USER_PROFILE_VISIBILITY`.
+When using a URL prefix, expose Weblate's prefixed ``robots.txt`` at the origin's
+``/robots.txt`` through your reverse proxy. Its crawl rules and sitemap URL
+include the configured prefix. If other applications share the origin, merge
+their crawl rules in the proxy-served document as appropriate.
 
 .. setting:: VCS_ALLOW_HOSTS
 
@@ -3082,6 +3255,9 @@ VCS_ALLOW_SCHEMES
 A set of URL schemes to allow when configuring VCS URL. Only ``https`` and
 ``ssh`` are allowed by default.
 
+Weblate also applies this setting when launching Git. Restart the Weblate
+services after changing it.
+
 The ``file`` scheme and bare filesystem paths are disabled for security reasons
 because they could allow component editors to access repositories on the server
 filesystem. Including ``file`` in this setting prevents Weblate from starting
@@ -3111,6 +3287,11 @@ validated, and stored as the canonical component repository URL. Cross-host
 redirects have to be configured manually. Mercurial, Subversion, custom VCS
 backends, and additional URL schemes are rejected unless the target host is
 trusted by :setting:`VCS_ALLOW_HOSTS` or :setting:`VCS_PRIVATE_ALLOWLIST`.
+
+Hosting API requests, including GitHub App manifest-code and OAuth exchanges,
+redirects, and pagination URLs, apply the same private-target restrictions and
+trusted-host exemptions. Direct API connections are bound to validated addresses
+and their connected peers are checked.
 
 Network-level egress filtering which blocks internal, loopback, link-local,
 reserved, and cloud metadata address ranges is recommended as defense in depth,
@@ -3402,3 +3583,248 @@ The following configuration is available for each host:
 
    In the Docker container, the credentials can be configured using environment variables,
    see :ref:`docker-vcs-config`.
+
+.. _bot-protection:
+
+Anonymous bot protection
+------------------------
+
+.. versionadded:: 2026.11
+
+.. warning::
+
+   This feature is a technology preview for evaluating application-aware bot
+   protection as an alternative to Anubis. Its configuration and behavior may
+   change, and it may be removed if it does not prove sufficiently useful.
+   Long-term maintenance is not guaranteed.
+
+While verification runs automatically, visitors see a randomly selected tip
+about Weblate features.
+
+.. image:: /screenshots/bot-protection.webp
+   :alt: Weblate browser verification page with a feature tip about keyboard shortcuts.
+
+.. setting:: BOT_PROTECTION_ENABLED
+
+``BOT_PROTECTION_ENABLED``
+++++++++++++++++++++++++++
+
+Default: ``False``. Enable self-hosted, proactive proof of work for anonymous
+visitors. Place ``weblate.utils.bot_protection.BotProtectionMiddleware`` after
+Django's session middleware and before Weblate's authentication middleware,
+following the example settings. Authenticated users bypass protection, including
+when no proof-of-work cookie exists. Existing authentication and API rate limits
+remain in effect. Proof of work never grants authentication or permissions.
+
+Anonymous HTML GET requests receive an automatic challenge. HEAD and unsafe
+methods receive HTTP 403 without challenge HTML; request bodies are never
+replayed. REST API requests without an explicit HTML Accept media type are
+exempt. HTML API browsing requires verification. Changing Accept on a regular
+page route does not exempt it. Account routes under ``/accounts/`` are exempt so
+sign-in flows and redirects to login work without verification. Hooks, widget
+images (including legacy image redirects), feeds, OIDC provider routes under
+``/oidc/``, static files, health, robots, and well-known routes are exempt.
+Hosted integration API routes under ``/hosted/api/`` are exempt when
+``wlhosted.integrations`` is installed; their signed-payload authentication
+remains in effect.
+Widget configuration pages remain protected. Public assets, including custom
+CSS, manifests, icons, and Open Graph images, are exempt. The JavaScript
+translation catalog and :ref:`git-exporter` protocol routes, including clone
+redirects, are also exempt so they can use their existing localization and
+authentication. Login exemptions and bot exemptions are independent; making a
+view public does not automatically bypass bot protection.
+
+.. setting:: BOT_PROTECTION_DIFFICULTY
+
+``BOT_PROTECTION_DIFFICULTY``
++++++++++++++++++++++++++++++
+
+Default: ``4``. Number of leading hexadecimal zeroes required, from 1 to 6.
+Four zeroes require an average of 65,536 SHA-256 attempts. ALTCHA v2 runs with
+SHA-256 and cost 1: challenge generation performs no candidate hashing and
+verification performs one candidate hash, independent of difficulty. Registration
+and other form CAPTCHAs retain their existing Argon2id configuration.
+
+.. setting:: BOT_PROTECTION_CHALLENGE_AGE
+.. setting:: BOT_PROTECTION_COOKIE_AGE
+
+Challenge and clearance lifetime
+++++++++++++++++++++++++++++++++
+
+``BOT_PROTECTION_CHALLENGE_AGE`` defaults to 300 seconds (allowed: 1–3600).
+``BOT_PROTECTION_COOKIE_AGE`` defaults to 3600 seconds (allowed: 1–86400).
+Clearance has a fixed expiry and is bound to the client IP and deployment.
+Cookies are host-only, Secure, HttpOnly, and SameSite=Lax. HTTPS is required.
+Network changes require another challenge. Shared NAT clients can share copied
+clearance; PoW increases harvesting cost but does not prevent capable solvers.
+
+The challenge uses a separate CSRF cookie and Django's token and origin checks,
+without creating an application session. After solving a challenge, the browser checks its clearance cookie through
+``/-/pow/check/`` before navigating, without invoking the destination view. An
+expired challenge is refreshed automatically once; repeated expiry and other
+failures leave Retry and sign-in available. Failure messages distinguish invalid
+verification, replay, cookie/CSRF problems, and service unavailability.
+
+Browser workers calculate the solution
+without blocking the main thread. Visitors without JavaScript or workers can
+sign in instead. Challenge assets must be available from the same origin.
+
+.. setting:: BOT_PROTECTION_CACHE_ALIAS
+
+``BOT_PROTECTION_CACHE_ALIAS``
+++++++++++++++++++++++++++++++
+
+Default: ``"default"``. Shared Redis or Memcached cache used to atomically consume
+valid solutions once. No replay entries are created for unsolved challenges.
+Cache failures reject verification with HTTP 503. Ordinary clearance checks do
+not access the database or shared cache. Sessionless challenge generation only
+accesses the shared cache to increment a best-effort issued-challenge counter.
+Keep the replay cache available and sized to retain entries through challenge
+expiry: eviction or cache loss can permit reuse of otherwise valid solutions.
+Normal Django session validation still accesses the configured session backend.
+
+The management :guilabel:`Performance report` shows issued challenges and
+verification outcomes for the current hour and the previous 24 completed hours.
+It also shows requests rejected with ``pow_required`` without issuing a challenge
+because of their method or Accept header. These counts exclude explicit
+``bot_denied`` policy denials and exempt requests, and count requests rather than
+unique clients.
+Hours are aligned to UTC. Hourly buckets in the PoW cache expire after 25 hours;
+eviction and outages can lose counts. Counter failures never change challenge
+or verification responses. Following an upgrade from minute buckets, totals
+populate as new events occur.
+
+These counts are also available from :http:get:`/api/metrics/`. Issued challenges
+and verification outcomes indicate relative volumes, not an exact count of
+unattempted challenges: verification requests can include retries, replays, and
+malformed submissions.
+
+The ``weblate.bot_protection`` logger emits structured verification events with
+``event``, ``reason``, ``status``, and ``count`` fields, without proof payloads or
+client identifiers. Configure a log handler that retains these fields for
+diagnosis during cache outages. Clearance checks remain independent of the
+cache; issued-challenge, ``pow_required``, and verification outcome counters use it.
+
+.. setting:: BOT_PROTECTION_EXEMPT_PATHS
+
+``BOT_PROTECTION_EXEMPT_PATHS``
++++++++++++++++++++++++++++++++
+
+Default: ``[]``. Additional paths relative to the Weblate deployment prefix.
+A trailing slash exempts that entire path prefix; other entries match exactly.
+Use narrow exceptions for integrations that cannot solve challenges.
+
+.. setting:: BOT_PROTECTION_EXEMPT_AGENTS
+
+``BOT_PROTECTION_EXEMPT_AGENTS``
+++++++++++++++++++++++++++++++++
+
+Default: ``[]``. Case-insensitive User-Agent regular expressions that bypass bot
+protection for all HTTP methods and paths. Patterns use search matching against
+the first 1,024 characters of the header. Invalid expressions prevent startup
+when bot protection is enabled.
+
+Use this for uptime monitoring of application pages, such as measuring latency
+on ``/``. Simple health checks on ``/healthz/`` are already exempt.
+
+For a monitor configured to send the User-Agent ``Weblate-Uptime/1.0``:
+
+.. code-block:: python
+
+   BOT_PROTECTION_EXEMPT_AGENTS = [r"^Weblate-Uptime/1\.0$"]
+
+These exemptions trust a client-supplied, spoofable header. They override
+unwanted-agent denial and do not depend on crawler verification or robots.txt.
+They bypass only bot protection: authentication, permissions, and existing rate
+limits still apply. The proof-of-work verification endpoint retains its normal
+validation.
+
+.. setting:: BOT_PROTECTION_CRAWLER_FILE
+.. setting:: BOT_PROTECTION_CRAWLER_RULES
+
+Verified crawler configuration
+++++++++++++++++++++++++++++++
+
+``BOT_PROTECTION_CRAWLER_FILE`` defaults to an empty string, selecting the packaged
+IP snapshot. The initial set follows Anubis's IP-based allowed-crawler definitions
+and adds SeznamBot:
+
+* Googlebot, Bingbot, Applebot, DuckDuckBot, QwantBot, MojeekBot, Marginalia,
+  Common Crawl (CCBot), Arquivo.pt, and SeznamBot use official address feeds.
+* KagiBot, Internet Archive, and Wikimedia's Citoid and Zotero translation
+  services use reviewed bundled ranges, maintained with Weblate releases.
+
+Verification requires a matching User-Agent and source IP. Verified crawlers
+bypass protection only for GET and HEAD requests to paths allowed by the shared
+robots.txt crawl policy, including sitemap documents. Other requests follow the
+normal challenge or deny policy. Explicit endpoint exemptions, configured exempt
+paths, valid clearance, and authenticated sessions still take precedence.
+Internet Archive and Arquivo.pt deliberately allow their listed networks regardless of User-Agent,
+following Anubis so that browser-like archival requests work. These exceptions
+trust the service networks, not individual crawler processes. No crawler bypass
+grants authentication or access to private content.
+
+Set an absolute writable filename and run ``weblate update_crawler_ranges`` daily
+using an operator-managed scheduler, then restart all application workers to
+load the updated snapshot. It downloads bounded datasets only from
+fixed official HTTPS sources and publishes validated updates atomically. A failed
+provider retains its previous ranges and retrieval time; successful providers
+still update. The command exits unsuccessfully and lists failed providers, so
+monitor its exit status. Administrator-defined entries are preserved.
+HTTP requests never download ranges or perform DNS lookups.
+
+Crawler snapshots are loaded once during application startup. Requests use
+parsed networks in memory without checking file freshness or retrieval age.
+Ranges remain active until restart; packaged snapshots are updated through
+Weblate releases. Custom snapshot updates also require restarting application
+workers. Retrieval timestamps are metadata and do not expire ranges.
+
+``BOT_PROTECTION_CRAWLER_RULES`` defaults to ``{}`` and extends or overrides the
+mapping from provider identifiers to User-Agent regular expressions. Built-in
+identifiers are ``googlebot``, ``bingbot``, ``applebot``, ``duckduckbot``,
+``qwantbot``, ``mojeekbot``, ``marginalia``, ``commoncrawl``, ``arquivo-pt``,
+``seznambot``, ``kagibot``, ``internet-archive``, and ``wikimedia-citoid``.
+Custom providers must also have verified CIDRs in the local snapshot's ``ranges``
+mapping and a Unix retrieval timestamp in its ``refreshed_at`` mapping, both keyed
+by provider identifier. Record official sources when maintaining custom ranges.
+
+.. setting:: BOT_PROTECTION_UNWANTED_AGENTS
+.. setting:: BOT_PROTECTION_UNWANTED_ACTION
+
+Unwanted crawler configuration
+++++++++++++++++++++++++++++++
+
+``BOT_PROTECTION_UNWANTED_AGENTS`` defaults to ``[]`` and accepts User-Agent
+regular expressions. ``BOT_PROTECTION_UNWANTED_ACTION`` defaults to
+``"challenge"``; use ``"deny"`` to return HTTP 403 instead. Valid clearance and
+session authentication take precedence. These rules are an administrative
+policy, not verified identity. No GeoIP, fingerprinting, or behavioral scoring
+is performed.
+
+Deploy behind HTTPS and configure :ref:`reverse-proxy` client-IP handling
+correctly. Do not trust client-supplied forwarding headers. Disable shared proxy
+caching for protected application routes and preserve no-store responses and
+cookies. Apply proxy body-size and connection limits: application PoW does not
+protect against volumetric network attacks.
+
+Benchmarking
+++++++++++++
+
+Use a disposable HTTPS deployment with production-like data and proxy caching
+disabled. Copy Cookie headers for an authenticated browser and a cleared anonymous
+browser into separate private files. Run the following command, supplying all
+application worker process IDs with repeated ``--server-pid`` arguments::
+
+    .venv/bin/python scripts/benchmark-bot-protection.py https://test.example/projects/ \
+        --authenticated-cookie-file /tmp/auth-cookie \
+        --clearance-cookie-file /tmp/pow-cookie --server-pid 1234
+
+The script reports requests per second, worker CPU seconds, resident memory,
+status counts, and p50/p95/p99 latency at concurrency 1, 32, and 128. It compares
+authenticated, cleared anonymous, new anonymous, and repeated unsolved requests.
+Distinct anonymous cookie states simulate many visitors without creating Django
+sessions; to measure distinct source IPs, run load generators on multiple hosts.
+Supply process IDs for the shared cache as well when measuring its CPU cost.
+Cookie files contain credentials: remove them after the benchmark. Record machine
+specifications, worker counts, page data, proxy configuration, and cache setup
+alongside results. Check status counts to catch expired cookies during a run.

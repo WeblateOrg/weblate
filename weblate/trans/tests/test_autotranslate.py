@@ -48,6 +48,11 @@ from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.tasks import auto_translate, auto_translate_component
 from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import get_test_actor
+from weblate.trans.util import join_plural
+from weblate.trans.validators import (
+    MAX_TRANSLATION_ALTERNATIVES,
+    MAX_TRANSLATION_TOTAL_LENGTH,
+)
 from weblate.utils.celery import get_task_metadata, get_task_metadata_key
 from weblate.utils.change_origin import acting_user_context
 from weblate.utils.state import (
@@ -176,6 +181,56 @@ class AutoTranslationTest(ReusableViewTestCase):
         self.assertNotIn("'BLOCKED'", sql)
         self.assertIn('MD5(LOWER("TRANS_UNIT"."SOURCE"))', sql)
         self.assertEqual(auto.updated, 1)
+
+    @override_settings(LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH=False)
+    def test_reuse_skips_oversized_alternatives(self) -> None:
+        translation = self.component2.translation_set.get(language_code="cs")
+        oversized_source = self.get_unit("Hello, world!\n")
+        valid_source = self.get_unit("Thank you for using Weblate.")
+        valid_target = translation.unit_set.get(id_hash=valid_source.id_hash)
+        oversized_target = translation.unit_set.get(id_hash=oversized_source.id_hash)
+        for alternatives in (
+            ["short"] * (MAX_TRANSLATION_ALTERNATIVES + 1),
+            ["x" * 2000] * (MAX_TRANSLATION_TOTAL_LENGTH // 2000 + 1),
+        ):
+            with self.subTest(alternatives=len(alternatives)):
+                # Repository imports can store text above the user-write limits.
+                Unit.objects.filter(pk=oversized_source.pk).update(
+                    target=join_plural(alternatives), state=STATE_TRANSLATED
+                )
+                Unit.objects.filter(pk=valid_source.pk).update(
+                    target="Reusable translation", state=STATE_TRANSLATED
+                )
+                Unit.objects.filter(
+                    pk__in=[valid_target.pk, oversized_target.pk]
+                ).update(target="", state=STATE_EMPTY)
+                auto = AutoTranslate(
+                    translation=translation,
+                    user=self.user,
+                    q=f"id:{valid_target.pk} OR id:{oversized_target.pk}",
+                    mode="translate",
+                )
+
+                with patch.object(Component, "is_multivalue", True):
+                    message = auto.perform(
+                        auto_source="others",
+                        engines=[],
+                        threshold=100,
+                        source_component_ids=[self.component.pk],
+                    )
+
+                self.assertIn("1 string was updated", message)
+                self.assertIsNone(auto.failure_message)
+                self.assertEqual(auto.updated, 1)
+                self.assertEqual(auto.affected_unit_ids, {valid_target.pk})
+                self.assertEqual(len(auto.get_warnings()), 1)
+                self.assertIn("text length limit", auto.get_warnings()[0])
+                self.assertEqual(auto.get_errors(), [])
+                valid_target.refresh_from_db()
+                oversized_target.refresh_from_db()
+                self.assertEqual(valid_target.target, "Reusable translation")
+                self.assertEqual(oversized_target.target, "")
+                self.assertEqual(oversized_target.state, STATE_EMPTY)
 
     def test_others_matches_effective_source(self) -> None:
         source = self.get_unit("Hello, world!\n")

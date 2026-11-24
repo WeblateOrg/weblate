@@ -149,9 +149,15 @@ On the translation page, the source string and an editing area for its translati
 Should the translation be plural, multiple source strings and editing areas are
 shown, each described and labeled in the amount of plural forms the translated language has.
 
-All special whitespace characters are underlined in red and indicated with grey
-symbols. More than one subsequent space is also underlined in red to alert the translator to
-a potential formatting issue.
+The labels include example counts for each plural form. A range such as
+``10–20`` includes both endpoints. If the editor shortens the list to fit,
+open the translation's :guilabel:`Overview` tab to see all the selected examples.
+
+Special whitespace characters are marked in red and indicated with grey symbols.
+Consecutive spaces are also marked in red to flag a potential formatting issue.
+Long runs of spaces in displayed strings share a single outline. The editor
+uses plain text for long translations and restores highlighting when the text
+is shortened.
 
 Various bits of extra info can be shown on this page, most of which coming from the project source code
 (like context, comments or where the message is being used).
@@ -232,6 +238,9 @@ explanation. Existing translations, history, comments, labels, and suggestions
 are retained. Changing source text marks existing translations as needing
 editing. Changing only the key, context, or explanation preserves their states.
 Renaming a key may require corresponding changes in your application code.
+New and renamed keys must be representable in the file format and its encoding.
+For example, PHP keys must use supported variable or array syntax, properties
+keys cannot introduce additional entries, and DTD keys must be XML names.
 
 Changes are written to translation files through the normal pending-change
 queue and follow the project's commit policy. Keys used by pending edits remain
@@ -421,8 +430,16 @@ Translation context
 
 This contextual description provides related info about the current string.
 
+Last translator and last approver
+    If you can view contributor identities, :guilabel:`String information` shows
+    who last changed the translation text. For approved strings, it also shows
+    who approved the current translation when the reviewer is known.
 String attributes
     Things like message ID, context (``msgctxt``) or location in source code.
+Translation file
+    Where the string appears in the component translation file; when the format
+    provides a line number, Weblate shows it and uses it for repository links
+    when available. Without a line number, the string index in the file is shown.
 Explanation
     Further clarification can be provided in Weblate via :ref:`additional-explanation`.
 Screenshots
@@ -434,6 +451,8 @@ Screenshots
     :ref:`screenshots`.
 Nearby strings
     Displays neighbouring strings from the translation file.
+    When the format provides a line number, neighbours are the surrounding
+    strings in file order; otherwise they are the surrounding string indexes.
     These are usually also used in a similar context and prove
     useful in keeping the translation consistent.
 Other occurrences
@@ -483,6 +502,21 @@ string are excluded from the picker.
 This action requires the :guilabel:`Edit screenshot` permission. To upload a new
 image, use :guilabel:`Upload screenshot` instead. Use :guilabel:`Manage screenshots`
 for the full :ref:`screenshot management interface <screenshots>`.
+
+.. _contributor-rankings:
+
+Contributor rankings
+++++++++++++++++++++
+
+Open :guilabel:`Contributors` in the :guilabel:`Overview` tab to see who
+contributed within that scope. Project, language, and workspace information
+pages also show the ten highest-ranked translators. Both views include only
+activity for translations whose contributor identities you have permission to see.
+
+Weblate ranks people by the number of recorded translation events, including
+edits, approvals, uploads, and automatic changes. Suggestions and comments
+also qualify someone for the full list and do not increase their ranking.
+The rankings are refreshed daily and can take time to appear after an upgrade.
 
 .. _translation-history:
 
@@ -564,6 +598,11 @@ the :guilabel:`Operations` menu, once you have selected a component and a langua
 
 A similar operation :guilabel:`Batch automatic translation` is available if you have
 selected a project language, a component or a category.
+
+Only one automatic translation operation can process a component and language at
+a time. Background operations defer busy translations and resume them later,
+without repeating languages they have already completed. Synchronous API and
+command-line requests report an error immediately if the translation is busy.
 
 Two modes of operation are possible:
 
@@ -654,7 +693,9 @@ Choose :guilabel:`Text` for case-sensitive literal replacement, or
 :guilabel:`Regular expression` for a pattern. Leave :guilabel:`Search string`
 empty to disable replacement. An empty :guilabel:`Replacement string` removes
 matching text. Spaces and newlines in the fields are preserved, and each plural form is
-processed separately. The usual translation autofixes still apply.
+processed separately. The usual translation autofixes still apply. Strings
+where the replaced text would exceed the length limit of the translation editor
+are left unchanged, and the preview and result report how many were skipped.
 
 Regular expression replacements use Python syntax: ``\g<1>`` inserts the first
 captured group, ``\g<name>`` inserts a named group, and ``\g<0>`` inserts the
@@ -683,6 +724,13 @@ again when applying changes. Source flag and label changes affect every language
 of the corresponding source, even when only one translation is selected.
 Uncheck :guilabel:`Preview changes` to apply directly.
 
+Each bulk edit is limited to 20,000 matching strings. Narrow the search query
+if it exceeds this limit. This limit also applies to Automations and the bulk-edit
+add-on. Browser bulk edits run in the background and show progress after submission.
+The query and permissions are checked again when the task starts. The selected
+strings are processed in batches; if a later batch fails, earlier batches remain
+applied and the result reports the partial progress.
+
 Regular expression replacement runs in a separate helper process with fixed
 resource limits shared across the bulk operation. Patterns and replacement
 strings are limited to 4096 characters each. Each plural form is limited to
@@ -698,8 +746,8 @@ replacement reuse the helper within one request, and components processed
 synchronously share its budget. A separate request or queued task gets a fresh
 budget.
 
-Exceeding a limit stops regex processing and rolls back the current component.
-Changes to components completed earlier remain applied. The preview and actual
+Exceeding a limit stops regex processing and rolls back the current batch.
+Changes to batches completed earlier remain applied. The preview and actual
 execution enforce the same limits. On macOS the helper enforces time and output
 limits but cannot enforce the address-space limit; native regex compilation or
 matching can still exhaust memory there.

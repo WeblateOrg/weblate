@@ -26,10 +26,12 @@ from weblate.addons.base import (
 )
 from weblate.addons.defaults import (
     DEFAULT_FEDORA_MESSAGING_CONNECTION_ATTEMPTS,
+    DEFAULT_FEDORA_MESSAGING_CONNECTION_TIMEOUT,
     DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT,
     DEFAULT_FEDORA_MESSAGING_RETRY_DELAY,
 )
 from weblate.addons.gettext_rules import resolve_data_dirs, validate_data_dirs
+from weblate.addons.utils import is_remote_cdn_source
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.actions import ActionEvents
 from weblate.trans.discovery import (
@@ -1711,7 +1713,7 @@ class CDNJSForm(BaseAddonForm[dict[str, object], "CDNJSAddon"]):
             if not filename:
                 continue
             try:
-                if filename.startswith(("http://", "https://")):
+                if is_remote_cdn_source(filename):
                     validate_restricted_asset_url(filename)
                 else:
                     validate_filename(filename)
@@ -1982,6 +1984,7 @@ class WebhooksAddonForm(BaseWebhooksAddonForm):
 class FedoraMessagingAddonForm(ChangeBaseAddonForm):
     public_configuration_fields = ChangeBaseAddonForm.public_configuration_fields | {
         "connection_attempts",
+        "connection_timeout",
         "publish_timeout",
         "retry_delay",
         "topic_prefix",
@@ -2024,10 +2027,20 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
         ),
         required=False,
     )
+    connection_timeout = forms.IntegerField(
+        label=gettext_lazy("Connection timeout"),
+        help_text=gettext_lazy(
+            "How many seconds to allow for connection and channel setup per attempt."
+        ),
+        initial=DEFAULT_FEDORA_MESSAGING_CONNECTION_TIMEOUT,
+        min_value=1,
+        max_value=60,
+        required=False,
+    )
     publish_timeout = forms.IntegerField(
         label=gettext_lazy("Publish timeout"),
         help_text=gettext_lazy(
-            "How many seconds to wait for the broker delivery acknowledgement."
+            "How many seconds to allow for sending and the broker delivery acknowledgement per attempt, after connection setup."
         ),
         initial=DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT,
         min_value=1,
@@ -2065,7 +2078,12 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
             ),
             FormFieldGroup(
                 gettext_lazy("Timeouts and retries"),
-                ("publish_timeout", "connection_attempts", "retry_delay"),
+                (
+                    "connection_timeout",
+                    "publish_timeout",
+                    "connection_attempts",
+                    "retry_delay",
+                ),
             ),
             FormFieldGroup(
                 gettext_lazy("TLS credentials"),
@@ -2079,15 +2097,13 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
         from .fedora_messaging import FedoraMessagingAddon
 
         result = dict(super().serialize_form())
-        if result.get("amqp_url"):
-            result["amqp_url"] = FedoraMessagingAddon.get_broker_amqp_url(
-                result["amqp_url"]
-            )
         result["topic_prefix"] = FedoraMessagingAddon.normalize_topic_prefix(
             result.get("topic_prefix")
         )
         if result.get("publish_timeout") is None:
             result["publish_timeout"] = DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT
+        if result.get("connection_timeout") is None:
+            result["connection_timeout"] = DEFAULT_FEDORA_MESSAGING_CONNECTION_TIMEOUT
         if result.get("connection_attempts") is None:
             result["connection_attempts"] = DEFAULT_FEDORA_MESSAGING_CONNECTION_ATTEMPTS
         if result.get("retry_delay") is None:
@@ -2116,11 +2132,9 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
 
     def clean(self) -> None:
         # ruff: ignore[import-outside-top-level]
-        from fedora_messaging.exceptions import ConfigurationException
-
-        # ruff: ignore[import-outside-top-level]
         from .fedora_messaging import (
             FedoraMessagingAddon,
+            FedoraMessagingConfigurationError,
         )
 
         amqp_url = self.cleaned_data.get("amqp_url")
@@ -2171,12 +2185,6 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
                     retry_delay=retry_delay,
                     force_update=True,
                 )
-                FedoraMessagingAddon.validate_broker_tls(
-                    FedoraMessagingAddon.get_configured_amqp_url(
-                        amqp_url,
-                        connection_attempts=connection_attempts,
-                        retry_delay=retry_delay,
-                    )
-                )
-            except ConfigurationException as error:
+                FedoraMessagingAddon.validate_broker_tls(amqp_url)
+            except FedoraMessagingConfigurationError as error:
                 raise forms.ValidationError(error.message) from error

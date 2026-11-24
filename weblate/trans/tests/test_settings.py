@@ -6,16 +6,22 @@
 
 from __future__ import annotations
 
+import json
 from importlib import import_module
-from typing import cast
+from typing import TYPE_CHECKING, cast
 from unittest.mock import patch
+from urllib.parse import urlencode
 
 from django.apps import apps
+from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.test import Client
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
-from filelock import FileLock
+from django_otp.plugins.otp_totp.models import TOTPDevice
 
+from weblate.accounts.utils import SESSION_SENSITIVE_FACTOR_GRANT
+from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, Permission, Role
 from weblate.checks.models import Check
 from weblate.machinery.models import MachineryInstallation
@@ -43,7 +49,7 @@ from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import create_test_billing
 from weblate.utils.change_origin import acting_user_context
-from weblate.utils.lock import WeblateLockTimeoutError
+from weblate.utils.lock import AdvisoryLock, WeblateLockTimeoutError
 from weblate.utils.render import (
     validate_render_addon,
     validate_render_commit,
@@ -55,6 +61,556 @@ from weblate.vcs.base import RepositoryLock
 from weblate.vcs.github import GitHubInstallation
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
+
+if TYPE_CHECKING:
+    from django.test.client import _MonkeyPatchedWSGIResponse as ClientResponse
+
+
+class ComponentRestrictedVerificationTest(ReusableViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        session = self.client.session
+        session.pop(SESSION_SENSITIVE_FACTOR_GRANT, None)
+        session.save()
+        self.project.add_user(self.user, "Administration")
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.api_url = reverse(
+            "api:component-detail",
+            kwargs={"project__slug": self.project.slug, "slug": self.component.slug},
+        )
+        self.settings_url = reverse(
+            "settings", kwargs={"path": self.component.get_url_path()}
+        )
+
+    def assert_restricted(self, restricted: bool) -> None:
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.restricted, restricted)
+        self.assertEqual(
+            Client().get(self.component.get_absolute_url()).status_code,
+            404 if restricted else 200,
+        )
+
+    def verify_credentials(self, next_url: str) -> None:
+        response = self.client.post(
+            reverse("first-factor-verify"),
+            {"target": "sensitive", "next": next_url, "password": "testpassword"},
+        )
+        self.assertEqual(response.status_code, 302)
+
+    def api_patch(self, payload: dict, **kwargs) -> ClientResponse:
+        return self.client.patch(
+            self.api_url,
+            json.dumps(payload),
+            content_type="application/json",
+            **kwargs,
+        )
+
+    def test_api_removal_requires_verification(self) -> None:
+        response = self.api_patch({"restricted": False})
+        self.assertEqual(response.status_code, 403, response.content)
+        self.assert_restricted(True)
+
+        self.verify_credentials(self.api_url)
+        response = self.api_patch({"restricted": False})
+        self.assertEqual(response.status_code, 200, response.content)
+        self.assert_restricted(False)
+
+    def test_api_enabling_requires_verification(self) -> None:
+        self.component.restricted = False
+        self.component.save(update_fields=["restricted"])
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+
+        response = self.api_patch({"restricted": True})
+        self.assertEqual(response.status_code, 403, response.content)
+        self.assert_restricted(False)
+
+    def test_api_form_put_requires_verification(self) -> None:
+        """Omitting a boolean from a form-encoded PUT clears it."""
+        payload = urlencode(
+            {
+                "name": self.component.name,
+                "slug": self.component.slug,
+                "vcs": self.component.vcs,
+                "repo": self.component.repo,
+                "branch": self.component.branch,
+                "filemask": self.component.filemask,
+                "file_format": self.component.file_format,
+                "new_lang": self.component.new_lang,
+                "new_base": self.component.new_base,
+            }
+        )
+        content_type = "application/x-www-form-urlencoded"
+
+        response = self.client.put(self.api_url, payload, content_type=content_type)
+        self.assertEqual(response.status_code, 403, response.content)
+        self.assert_restricted(True)
+
+        self.verify_credentials(self.api_url)
+        response = self.client.put(self.api_url, payload, content_type=content_type)
+        self.assertEqual(response.status_code, 200, response.content)
+        self.assert_restricted(False)
+
+    def test_api_unchanged_value_skips_verification(self) -> None:
+        response = self.api_patch({"restricted": True, "priority": 80})
+        self.assertEqual(response.status_code, 200, response.content)
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.priority, 80)
+        self.assert_restricted(True)
+
+    def test_api_token_skips_verification(self) -> None:
+        response = self.api_patch(
+            {"restricted": False},
+            HTTP_AUTHORIZATION=f"Token {self.user.auth_token.key}",
+        )
+        self.assertEqual(response.status_code, 200, response.content)
+        self.assert_restricted(False)
+
+    def assert_create_requires_verification(self, payload: dict) -> None:
+        url = reverse("api:project-components", kwargs={"slug": self.project.slug})
+        payload = {"name": "Copy", "slug": "copy", "restricted": False, **payload}
+        data = json.dumps(payload)
+
+        response = self.client.post(url, data, content_type="application/json")
+        self.assertEqual(response.status_code, 403, response.content)
+        self.assertFalse(self.project.component_set.filter(slug="copy").exists())
+
+        self.verify_credentials(url)
+        response = self.client.post(url, data, content_type="application/json")
+        self.assertEqual(response.status_code, 201, response.content)
+
+    def test_api_from_component_requires_verification(self) -> None:
+        self.assert_create_requires_verification(
+            {"from_component": f"{self.project.slug}/{self.component.slug}"}
+        )
+
+    def test_api_repo_link_requires_verification(self) -> None:
+        self.assert_create_requires_verification(
+            {
+                "repo": self.component.get_repo_link_url(),
+                "vcs": self.component.vcs,
+                "filemask": self.component.filemask,
+                "file_format": self.component.file_format,
+                "new_lang": "none",
+            }
+        )
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_api_restricted_copy_skips_verification(self) -> None:
+        response = self.client.post(
+            reverse("api:project-components", kwargs={"slug": self.project.slug}),
+            json.dumps(
+                {
+                    "name": "Copy",
+                    "slug": "copy",
+                    "repo": self.component.get_repo_link_url(),
+                    "vcs": self.component.vcs,
+                    "filemask": self.component.filemask,
+                    "file_format": self.component.file_format,
+                    "new_lang": "none",
+                    "restricted": True,
+                }
+            ),
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 201, response.content)
+
+    def test_two_factor_account_requires_second_factor(self) -> None:
+        TOTPDevice.objects.create(user=self.user, name="Test")
+
+        response = self.api_patch({"restricted": False})
+        self.assertEqual(response.status_code, 403, response.content)
+        self.assert_restricted(True)
+
+        response = self.client.get(self.settings_url)
+        data = get_form_data(response.context["form"].initial)
+        data.pop("restricted")
+        response = self.client.post(self.settings_url, data)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(
+            response.headers["Location"].startswith(
+                reverse("2fa-login", kwargs={"backend": "totp"}),
+            )
+        )
+        self.assert_restricted(True)
+
+    def test_settings_enabling_requires_verification(self) -> None:
+        self.component.restricted = False
+        self.component.save(update_fields=["restricted"])
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        response = self.client.get(self.settings_url)
+        data = get_form_data(response.context["form"].initial)
+        data["restricted"] = True
+
+        response = self.client.post(self.settings_url, data)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(
+            response.headers["Location"].startswith(reverse("first-factor-verify"))
+        )
+        self.assert_restricted(False)
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_browser_repo_link_requires_verification(self) -> None:
+        self.assert_browser_repo_link_requires_verification()
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_browser_repo_link_with_unrestricted_config_requires_verification(
+        self,
+    ) -> None:
+        source = self.create_link_existing(restricted=False)
+        self.assert_browser_repo_link_requires_verification(source_component=source.pk)
+
+    def assert_browser_repo_link_requires_verification(self, **kwargs) -> None:
+        url = reverse("create-component-vcs")
+        params = {
+            "name": "Copy",
+            "slug": "copy",
+            "project": self.project.pk,
+            "vcs": self.component.vcs,
+            "repo": self.component.get_repo_link_url(),
+            "file_format": "po",
+            "filemask": "po/*.po",
+            "new_base": "po/project.pot",
+            "new_lang": "add",
+            "language_regex": "^[^.]+$",
+            "source_language": self.component.source_language.pk,
+            **kwargs,
+        }
+
+        response = self.client.post(url, params)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(
+            response.headers["Location"].startswith(reverse("first-factor-verify"))
+        )
+        self.assertFalse(self.project.component_set.filter(slug="copy").exists())
+
+        self.verify_credentials(url)
+        response = self.client.post(url, params)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(self.project.component_set.filter(slug="copy").exists())
+
+    def get_admin_form(self, url: str) -> dict:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        response = self.client.get(url)
+        return {**get_form_data(response.context["adminform"].form.initial), "_save": 1}
+
+    def test_admin_component_requires_verification(self) -> None:
+        url = reverse("admin:trans_component_change", args=(self.component.pk,))
+        data = self.get_admin_form(url)
+        data.pop("restricted")
+
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(
+            response.headers["Location"].startswith(reverse("first-factor-verify"))
+        )
+        self.assert_restricted(True)
+
+        self.verify_credentials(url)
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)
+        self.assert_restricted(False)
+
+    def test_admin_relink_requires_verification(self) -> None:
+        destination = self.create_po(
+            name="Destination", project=self.project, restricted=False
+        )
+        url = reverse("admin:trans_component_change", args=(destination.pk,))
+        data = self.get_admin_form(url)
+        original_repo = destination.repo
+        data.update(
+            repo=self.component.get_repo_link_url(), branch="", push="", push_branch=""
+        )
+
+        for repo in (data["repo"], f"  {data['repo']}  "):
+            with self.subTest(repo=repo), patch.object(Component, "clean") as clean:
+                response = self.client.post(url, {**data, "repo": repo})
+                self.assertEqual(response.status_code, 302)
+                self.assertTrue(
+                    response.headers["Location"].startswith(
+                        reverse("first-factor-verify")
+                    )
+                )
+                clean.assert_not_called()
+                destination.refresh_from_db()
+                self.assertEqual(destination.repo, original_repo)
+                self.assertFalse(destination.restricted)
+
+        self.verify_credentials(url)
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(
+            response.headers["Location"].startswith(reverse("first-factor-verify"))
+        )
+        destination.refresh_from_db()
+        self.assertEqual(destination.linked_component, self.component)
+        self.assertFalse(destination.restricted)
+
+    def test_admin_restricted_relink_skips_verification(self) -> None:
+        destination = self.create_po(
+            name="Destination", project=self.project, restricted=True
+        )
+        url = reverse("admin:trans_component_change", args=(destination.pk,))
+        data = self.get_admin_form(url)
+        data.update(
+            repo=self.component.get_repo_link_url(), branch="", push="", push_branch=""
+        )
+
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(
+            response.headers["Location"].startswith(reverse("first-factor-verify"))
+        )
+        destination.refresh_from_db()
+        self.assertEqual(destination.linked_component, self.component)
+        self.assertTrue(destination.restricted)
+
+    def test_admin_link_creation_requires_verification(self) -> None:
+        self.assert_admin_link_creation_requires_verification(save_as_new=False)
+
+    def test_admin_restricted_link_creation_skips_verification(self) -> None:
+        self.assert_admin_link_creation_requires_verification(
+            save_as_new=False, restricted=True
+        )
+
+    def test_admin_save_as_new_requires_verification(self) -> None:
+        self.assert_admin_link_creation_requires_verification(save_as_new=True)
+
+    def test_admin_save_as_new_preserves_restricted_source(self) -> None:
+        self.assert_admin_restricted_source_copy(restricted=False)
+
+    def test_admin_save_as_new_keeps_restricted_source_private(self) -> None:
+        self.assert_admin_restricted_source_copy(restricted=True)
+
+    def assert_admin_restricted_source_copy(self, *, restricted: bool) -> None:
+        owner = self.create_po(name="Owner", project=self.project, restricted=False)
+        source = self.create_link_existing(
+            name="Restricted source",
+            slug="restricted-source",
+            repo=owner.get_repo_link_url(),
+            language_regex="^[a-z]{2}$",
+            restricted=True,
+        )
+        self.assert_admin_link_creation_requires_verification(
+            save_as_new=True,
+            restricted=restricted,
+            source=source,
+            repository_source=owner,
+        )
+        source.refresh_from_db()
+        self.assertTrue(source.restricted)
+
+    def assert_admin_link_creation_requires_verification(
+        self,
+        *,
+        save_as_new: bool,
+        restricted: bool = False,
+        source: Component | None = None,
+        repository_source: Component | None = None,
+    ) -> None:
+        source = source if source is not None else self.component
+        repository_source = (
+            repository_source if repository_source is not None else source
+        )
+        change_url = reverse("admin:trans_component_change", args=(source.pk,))
+        data = self.get_admin_form(change_url)
+        data.pop("restricted")
+        if restricted:
+            data["restricted"] = True
+        data.update(
+            name="Copy",
+            slug="copy",
+            repo=repository_source.get_repo_link_url(),
+            branch="",
+            push="",
+            push_branch="",
+        )
+        if save_as_new:
+            url = change_url
+            data.pop("_save")
+            data["_saveasnew"] = 1
+        else:
+            url = reverse("admin:trans_component_add")
+
+        if not restricted:
+            with patch.object(Component, "clean") as clean:
+                response = self.client.post(url, data)
+            self.assertEqual(response.status_code, 302)
+            self.assertTrue(
+                response.headers["Location"].startswith(reverse("first-factor-verify"))
+            )
+            clean.assert_not_called()
+            self.assertFalse(self.project.component_set.filter(slug="copy").exists())
+
+            self.verify_credentials(url)
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(
+            response.headers["Location"].startswith(reverse("first-factor-verify"))
+        )
+        copy = self.project.component_set.get(slug="copy")
+        self.assertEqual(copy.linked_component, repository_source)
+        self.assertEqual(copy.filemask, source.filemask)
+        self.assertEqual(copy.restricted, restricted)
+
+    def test_api_verification_precedes_repository_validation(self) -> None:
+        """Model validation can switch the branch of the live checkout."""
+        with patch.object(Component, "clean") as clean:
+            response = self.api_patch({"restricted": False, "branch": "translations"})
+        self.assertEqual(response.status_code, 403, response.content)
+        clean.assert_not_called()
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.branch, "main")
+        self.assert_restricted(True)
+
+    def test_settings_relink_requires_verification(self) -> None:
+        destination = self.create_po(
+            name="Destination", project=self.project, restricted=False
+        )
+        url = reverse("settings", kwargs={"path": destination.get_url_path()})
+        response = self.client.get(url)
+        data = get_form_data(response.context["form"].initial)
+        original_repo = destination.repo
+        data.update(
+            repo=self.component.get_repo_link_url(), branch="", push="", push_branch=""
+        )
+
+        for repo in (data["repo"], f"  {data['repo']}  "):
+            with self.subTest(repo=repo), patch.object(Component, "clean") as clean:
+                response = self.client.post(url, {**data, "repo": repo})
+                self.assertEqual(response.status_code, 302)
+                self.assertTrue(
+                    response.headers["Location"].startswith(
+                        reverse("first-factor-verify")
+                    )
+                )
+                clean.assert_not_called()
+                destination.refresh_from_db()
+                self.assertEqual(destination.repo, original_repo)
+                self.assertFalse(destination.restricted)
+
+        self.verify_credentials(url)
+        response = self.client.post(url, data)
+        self.assertRedirects(response, url)
+        destination.refresh_from_db()
+        self.assertEqual(destination.linked_component, self.component)
+        self.assertFalse(destination.restricted)
+
+    def test_settings_restricted_relink_skips_verification(self) -> None:
+        destination = self.create_po(
+            name="Destination", project=self.project, restricted=True
+        )
+        url = reverse("settings", kwargs={"path": destination.get_url_path()})
+        response = self.client.get(url)
+        data = get_form_data(response.context["form"].initial)
+        data.update(
+            repo=self.component.get_repo_link_url(), branch="", push="", push_branch=""
+        )
+
+        response = self.client.post(url, data)
+        self.assertRedirects(response, url)
+        destination.refresh_from_db()
+        self.assertEqual(destination.linked_component, self.component)
+        self.assertTrue(destination.restricted)
+
+    def test_settings_verification_precedes_repository_validation(self) -> None:
+        response = self.client.get(self.settings_url)
+        data = get_form_data(response.context["form"].initial)
+        data.pop("restricted")
+        data["branch"] = "translations"
+
+        with patch.object(Component, "clean") as clean:
+            response = self.client.post(self.settings_url, data)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(
+            response.headers["Location"].startswith(reverse("first-factor-verify"))
+        )
+        clean.assert_not_called()
+        self.assert_restricted(True)
+
+    def test_admin_verification_precedes_repository_validation(self) -> None:
+        url = reverse("admin:trans_component_change", args=(self.component.pk,))
+        data = self.get_admin_form(url)
+        data.pop("restricted")
+        data["branch"] = "translations"
+
+        with patch.object(Component, "clean") as clean:
+            response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(
+            response.headers["Location"].startswith(reverse("first-factor-verify"))
+        )
+        clean.assert_not_called()
+        self.assert_restricted(True)
+
+    def test_admin_project_requires_verification(self) -> None:
+        url = reverse("admin:trans_project_change", args=(self.project.pk,))
+        data = self.get_admin_form(url)
+        data["access_control"] = Project.ACCESS_PRIVATE
+
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(
+            response.headers["Location"].startswith(reverse("first-factor-verify"))
+        )
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.access_control, Project.ACCESS_PUBLIC)
+
+    def test_api_project_form_put_requires_verification(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        Project.objects.filter(pk=self.project.pk).update(public_sharing=True)
+        url = reverse("api:project-detail", kwargs={"slug": self.project.slug})
+        payload = urlencode(
+            {
+                "name": self.project.name,
+                "slug": self.project.slug,
+                "web": self.project.web,
+            }
+        )
+        content_type = "application/x-www-form-urlencoded"
+
+        response = self.client.put(url, payload, content_type=content_type)
+        self.assertEqual(response.status_code, 403, response.content)
+        self.project.refresh_from_db()
+        self.assertTrue(self.project.public_sharing)
+
+        self.verify_credentials(url)
+        response = self.client.put(url, payload, content_type=content_type)
+        self.assertEqual(response.status_code, 200, response.content)
+        self.project.refresh_from_db()
+        self.assertFalse(self.project.public_sharing)
+
+    def test_settings_removal_requires_verification(self) -> None:
+        response = self.client.get(self.settings_url)
+        data = get_form_data(response.context["form"].initial)
+        data.pop("restricted")
+
+        response = self.client.post(self.settings_url, data)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(
+            response.headers["Location"].startswith(reverse("first-factor-verify"))
+        )
+        self.assert_restricted(True)
+
+        self.verify_credentials(self.settings_url)
+        response = self.client.post(self.settings_url, data)
+        self.assertRedirects(response, self.settings_url)
+        self.assert_restricted(False)
+
+    def test_settings_unchanged_value_skips_verification(self) -> None:
+        response = self.client.get(self.settings_url)
+        data = get_form_data(response.context["form"].initial)
+        data["priority"] = 80
+
+        response = self.client.post(self.settings_url, data)
+        self.assertRedirects(response, self.settings_url)
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.priority, 80)
+        self.assert_restricted(True)
 
 
 class SettingsTest(ReusableViewTestCase):
@@ -1182,6 +1738,34 @@ class SettingsTest(ReusableViewTestCase):
         response = self.client.post(url)
         self.assertEqual(response.status_code, 404)
 
+    def test_project_language_component_admin_denied(self) -> None:
+        group = Group.objects.create(
+            name="Component admins", language_selection=SELECTION_ALL
+        )
+        group.roles.add(Role.objects.get(name="Administration"))
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        project_language = self.project.project_languages[self.translation.language]
+        self.assertTrue(self.user.has_perm("component.edit", self.component))
+        self.assertFalse(self.user.has_perm("project.edit", self.project))
+        self.assertFalse(self.user.has_perm("project.edit", project_language))
+
+        url = reverse("settings", kwargs={"path": project_language.get_url_path()})
+        self.assertEqual(self.client.get(url).status_code, 404)
+        self.assertEqual(
+            self.client.post(
+                url,
+                {"workflow-enable": 1, "workflow-restrict_direct_editing": 1},
+            ).status_code,
+            404,
+        )
+        self.assertFalse(
+            WorkflowSetting.objects.filter(
+                project=self.project, language=self.translation.language
+            ).exists()
+        )
+
     def test_project_language(self) -> None:
         projlang = self.project.project_languages[self.translation.language]
         self.assertIsNone(projlang.workflow_settings)
@@ -1262,7 +1846,7 @@ class SettingsTest(ReusableViewTestCase):
         change = project.change_set.filter(action=ActionEvents.ACCESS_EDIT).get()
 
         # Check change details display
-        self.assertEqual(change.get_details_display(), "Protected")
+        self.assertEqual(change.get_details_display(trusted=True), "Protected")
 
     def test_change_public_sharing(self) -> None:
         self.project.add_user(self.user, "Administration")
@@ -1319,11 +1903,11 @@ class SettingsTest(ReusableViewTestCase):
         review_change = setting_changes.get(details__field="translation_review")
         policy_change = setting_changes.get(details__field="commit_policy")
         self.assertEqual(
-            review_change.get_details_display(),
+            review_change.get_details_display(trusted=True),
             'Enable reviews changed from "disabled" to "enabled".',
         )
         self.assertEqual(
-            policy_change.get_details_display(),
+            policy_change.get_details_display(trusted=True),
             'Translation quality filter changed from "Commit all translations '
             'regardless of quality" to "Skip translations marked as needing editing".',
         )
@@ -1352,8 +1936,77 @@ class SettingsTest(ReusableViewTestCase):
         self.assertEqual(self.project.workspace_id, target_workspace.pk)
         change = self.project.change_set.get(action=ActionEvents.MOVE_PROJECT)
         self.assertEqual(
-            change.get_details_display(),
+            change.get_details_display(trusted=True),
             'Project moved from "Current workspace" to "Target workspace".',
+        )
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_project_move_public_plan(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        source = Workspace.objects.create(name="Source move workspace")
+        source.add_owner(self.user)
+        billing = create_test_billing(self.user)
+        billing.plan.change_access_control = False
+        billing.plan.save(update_fields=["change_access_control"])
+        self.user.clear_permissions_cache()
+        url = reverse("move", kwargs={"path": self.project.get_url_path()})
+        for access, restricted in (
+            (Project.ACCESS_PRIVATE, False),
+            (Project.ACCESS_PROTECTED, False),
+            (Project.ACCESS_PUBLIC, True),
+            (Project.ACCESS_PUBLIC, False),
+        ):
+            with self.subTest(access=access, restricted=restricted):
+                Project.objects.filter(pk=self.project.pk).update(
+                    workspace=source, access_control=access
+                )
+                self.project.component_set.update(
+                    restricted=restricted, license="MIT", inherit_license=False
+                )
+                response = self.client.post(
+                    url, {"workspace": str(billing.workspace_id)}, follow=True
+                )
+                self.project.refresh_from_db()
+                if access == Project.ACCESS_PUBLIC and not restricted:
+                    self.assertContains(response, "Project moved.")
+                    self.assertEqual(self.project.workspace_id, billing.workspace_id)
+                else:
+                    self.assertContains(response, "only allows public projects")
+                    self.assertEqual(self.project.workspace_id, source.pk)
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_project_move_public_plan_recheck(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        source = Workspace.objects.create(name="Source plan recheck workspace")
+        source.add_owner(self.user)
+        Project.objects.filter(pk=self.project.pk).update(
+            workspace=source, access_control=Project.ACCESS_PRIVATE
+        )
+        self.project.component_set.update(license="MIT", inherit_license=False)
+        billing = create_test_billing(self.user)
+        billing.plan.change_access_control = True
+        billing.plan.save(update_fields=["change_access_control"])
+        self.user.clear_permissions_cache()
+        original = ProjectMoveForm.is_valid
+
+        def restrict_plan(form: ProjectMoveForm) -> bool:
+            valid = original(form)
+            if valid:
+                billing.plan.change_access_control = False
+                billing.plan.save(update_fields=["change_access_control"])
+            return valid
+
+        with patch.object(ProjectMoveForm, "is_valid", restrict_plan):
+            response = self.client.post(
+                reverse("move", kwargs={"path": self.project.get_url_path()}),
+                {"workspace": str(billing.workspace_id)},
+                follow=True,
+            )
+        self.assertContains(response, "only allows public projects")
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, source.pk)
+        self.assertFalse(
+            self.project.change_set.filter(action=ActionEvents.MOVE_PROJECT).exists()
         )
 
     def test_project_move_reports_machinery_conflicts(self) -> None:
@@ -1649,11 +2302,11 @@ class SettingsTest(ReusableViewTestCase):
         restricted_change = setting_changes.get(details__field="restricted")
         new_lang_change = setting_changes.get(details__field="new_lang")
         self.assertEqual(
-            restricted_change.get_details_display(),
+            restricted_change.get_details_display(trusted=True),
             'Restricted component changed from "disabled" to "enabled".',
         )
         self.assertEqual(
-            new_lang_change.get_details_display(),
+            new_lang_change.get_details_display(trusted=True),
             'Adding new translation changed from "Contact maintainers" to '
             '"Disable adding new translations".',
         )
@@ -1770,26 +2423,30 @@ class SettingsTest(ReusableViewTestCase):
                 return original_clean(instance)
 
         with (
-            patch("weblate.utils.lock.is_redis_cache", return_value=False),
             patch.object(
                 Component,
                 "clean",
                 autospec=True,
                 side_effect=clean_with_fresh_repository_lock,
             ),
-            patch.object(FileLock, "acquire", autospec=True) as acquire,
-            patch.object(FileLock, "release", autospec=True) as release,
+            patch.object(
+                AdvisoryLock,
+                "_execute",
+                autospec=True,
+                # ruff: ignore[private-member-access]
+                side_effect=AdvisoryLock._execute,
+            ) as acquire,
         ):
             response = self.client.post(url, data)
 
         self.assertRedirects(response, url, fetch_redirect_response=False)
-        acquire.assert_called_once()
         self.assertEqual(
-            sum(
-                call.kwargs.get("force", False) is False
-                for call in release.call_args_list
-            ),
-            1,
+            [
+                call.args[1]
+                for call in acquire.call_args_list
+                if call.args[0].scope == "repository"
+            ],
+            ["try_advisory_lock", "advisory_unlock"],
         )
 
     def test_linked_component_reuses_repository_lock_during_setup_commit(self) -> None:
@@ -1818,13 +2475,17 @@ class SettingsTest(ReusableViewTestCase):
 
         with (
             override_settings(CELERY_TASK_ALWAYS_EAGER=False),
-            patch("weblate.utils.lock.is_redis_cache", return_value=False),
             patch.object(Component, "queue_background_task", autospec=True),
             patch.object(
                 Translation, "_commit_pending", autospec=True, return_value=False
             ) as commit_pending,
-            patch.object(FileLock, "acquire", autospec=True) as acquire,
-            patch.object(FileLock, "release", autospec=True) as release,
+            patch.object(
+                AdvisoryLock,
+                "_execute",
+                autospec=True,
+                # ruff: ignore[private-member-access]
+                side_effect=AdvisoryLock._execute,
+            ) as acquire,
             linked_component.locked_for_update() as locked_component,
         ):
             locked_component.repo = new_target.get_repo_link_url()
@@ -1832,13 +2493,13 @@ class SettingsTest(ReusableViewTestCase):
             locked_component.save()
 
         commit_pending.assert_called_once()
-        acquire.assert_called_once()
         self.assertEqual(
-            sum(
-                call.kwargs.get("force", False) is False
-                for call in release.call_args_list
-            ),
-            1,
+            [
+                call.args[1]
+                for call in acquire.call_args_list
+                if call.args[0].scope == "repository"
+            ],
+            ["try_advisory_lock", "advisory_unlock"],
         )
 
     def test_linked_component_repository_settings_show_effective_values(self) -> None:
@@ -1904,6 +2565,90 @@ class SettingsTest(ReusableViewTestCase):
         self.assertFalse(linked_component.push_on_commit)
         self.assertEqual(linked_component.commit_pending_age, 1)
         self.assertTrue(linked_component.auto_lock_error)
+
+    def test_component_settings_do_not_expose_private_link_target(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.component.commit_pending_age = 11
+        self.component.save(update_fields=["commit_pending_age"])
+        private_project = self.create_project(
+            name="Private settings",
+            slug="private-settings",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        private_component = self.create_po(
+            project=private_project, name="Private settings"
+        )
+        private_component.commit_pending_age = 37
+        private_component.push_on_commit = True
+        private_component.auto_lock_error = True
+        private_component.vcs_params = {"merge_request_assignee": "private-assignee"}
+        private_component.save(
+            update_fields=[
+                "commit_pending_age",
+                "push_on_commit",
+                "auto_lock_error",
+                "vcs_params",
+            ]
+        )
+        self.assertFalse(self.user.can_access_component(private_component))
+
+        url = reverse("settings", kwargs=self.kw_component)
+        response = self.client.get(url)
+        data = get_form_data(response.context["form"].initial)
+        errors = []
+        for repo in (
+            private_component.get_repo_link_url(),
+            "weblate://private-settings/missing",
+        ):
+            with self.subTest(repo=repo):
+                data["repo"] = repo
+                response = self.client.post(url, data)
+                self.assertEqual(response.status_code, 200)
+                form = response.context["form"]
+                self.assertIn("repo", form.errors)
+                errors.append(form.errors)
+                self.assertEqual(form.initial["commit_pending_age"], 11)
+                self.assertFalse(form.fields["commit_pending_age"].disabled)
+                self.assertFalse(form.initial["push_on_commit"])
+                self.assertNotContains(response, "private-assignee")
+                self.assertNotContains(response, 'name="commit_pending_age" value="37"')
+
+        self.assertEqual(errors[0], errors[1])
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.commit_pending_age, 11)
+        self.assertFalse(self.component.push_on_commit)
+        self.assertIsNone(self.component.linked_component_id)
+
+    def test_component_settings_hide_inaccessible_existing_link_target(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        private_project = self.create_project(
+            name="Private linked settings",
+            slug="private-linked-settings",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        private_component = self.create_po(
+            project=private_project, name="Private linked settings"
+        )
+        private_component.commit_pending_age = 37
+        private_component.vcs_params = {"merge_request_assignee": "private-assignee"}
+        private_component.save(update_fields=["commit_pending_age", "vcs_params"])
+        linked_component = self.create_link_existing(
+            name="Settings child", slug="settings-child"
+        )
+        Component.objects.filter(pk=linked_component.pk).update(
+            repo=private_component.get_repo_link_url(),
+            linked_component=private_component,
+            commit_pending_age=11,
+        )
+
+        url = reverse("settings", kwargs={"path": linked_component.get_url_path()})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        form = response.context["form"]
+        self.assertEqual(form.initial["commit_pending_age"], 11)
+        self.assertFalse(form.fields["commit_pending_age"].disabled)
+        self.assertNotContains(response, "private-assignee")
+        self.assertNotContains(response, 'name="commit_pending_age" value="37"')
 
     @mock_dns("github.com", "example.com")
     def test_github_app_component_settings_lock_push_settings(self) -> None:
@@ -2087,3 +2832,27 @@ class SettingsTest(ReusableViewTestCase):
         self.assertFalse(linked_component.push_on_commit)
         self.assertEqual(linked_component.commit_pending_age, 17)
         self.assertTrue(linked_component.auto_lock_error)
+
+
+class WorkspaceTMDefaultsTest(ReusableViewTestCase):
+    """Workspace translation memory defaults taken from the settings."""
+
+    def test_project_field_defaults_follow_setting(self) -> None:
+        # ruff: ignore[private-member-access]
+        use_default = Project._meta.get_field("use_workspace_tm").default
+        # ruff: ignore[private-member-access]
+        contribute_default = Project._meta.get_field("contribute_workspace_tm").default
+        self.assertEqual(use_default, settings.DEFAULT_WORKSPACE_TM)
+        self.assertEqual(contribute_default, settings.DEFAULT_WORKSPACE_TM)
+
+    @override_settings(OFFER_HOSTING=True, DEFAULT_WORKSPACE_TM=True)
+    def test_hosted_contribution_follows_enabled_default(self) -> None:
+        data: dict[str, bool] = {}
+        Project.apply_hosted_tm_contribution(data)
+        self.assertTrue(data["contribute_workspace_tm"])
+
+    @override_settings(OFFER_HOSTING=True, DEFAULT_WORKSPACE_TM=True)
+    def test_hosted_explicit_setting_overrides_default(self) -> None:
+        data: dict[str, bool] = {"use_workspace_tm": False}
+        Project.apply_hosted_tm_contribution(data)
+        self.assertFalse(data["contribute_workspace_tm"])

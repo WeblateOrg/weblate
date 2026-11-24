@@ -24,6 +24,10 @@ from weblate.trans.models import Unit
 from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.models.source import source_operation
 from weblate.trans.util import join_plural, split_plural
+from weblate.trans.validators import (
+    TranslationTextTooLongError,
+    validate_changed_text_length,
+)
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_APPROVED,
@@ -76,6 +80,15 @@ def edit_source(
         explanation = source_unit.explanation if explanation is None else explanation
         if old == new and explanation == source_unit.explanation:
             return source_unit
+        for field, new_texts, old_texts in (
+            ("source", split_plural(new["source"]), split_plural(old["source"])),
+            ("context", [new["context"]], [old["context"]]),
+            ("explanation", [explanation], [source_unit.explanation]),
+        ):
+            try:
+                validate_changed_text_length(new_texts, old_texts)
+            except TranslationTextTooLongError as error:
+                raise ValidationError({field: error.messages}) from error
         _validate_request(component, old, new)
         unit_class = component.file_format_cls.get_unit_class(
             component.file_format_params
@@ -149,9 +162,14 @@ def _validate_request(
 def _validate_backend(item: Unit, new: dict[str, str]) -> bool:
     component = item.translation.component
     if not item.translation.filename:
+        if new["context"] != item.context:
+            component.file_format_cls.validate_context(new["context"])
         return False
     physical = True
-    store = clone_for_edit(item.translation.store)
+    try:
+        store = clone_for_edit(item.translation.store)
+    except (ValueError, TypeError) as error:
+        raise ValidationError(str(error)) from error
     disk = item.details.get("disk_identity", identity(item))
     try:
         backend = find_identity(store, disk)

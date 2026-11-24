@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 from datetime import date, datetime
-from typing import TYPE_CHECKING, NamedTuple
+from typing import TYPE_CHECKING, Any, NamedTuple
 
 from django import template
 from django.contrib.auth.models import AnonymousUser
@@ -21,10 +21,21 @@ from siphashc import siphash
 
 from weblate.accounts.avatar import get_user_display
 from weblate.accounts.models import DEFAULT_LISTING_COLUMNS, Profile
-from weblate.accounts.visibility import can_browse_users, can_search_scoped_users
+from weblate.accounts.visibility import (
+    can_browse_users,
+    can_view_contributor,
+    prepare_contributor_visibility,
+)
 from weblate.auth.models import User
 from weblate.checks.models import CHECKS
-from weblate.trans.filter import FILTERS, get_filter_choice
+from weblate.lang.models import Language
+from weblate.metrics.contributors import (
+    can_view_contributor_ranking,
+    contributor_ranking,
+    load_ranked_contributors,
+)
+from weblate.metrics.models import ContributorCollection
+from weblate.trans.filter import FILTERS
 from weblate.trans.formatting import (
     format_language_string,
     format_source_string,
@@ -46,6 +57,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
+from weblate.trans.models.alert import filter_visible_alerts
 from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import translation_percent
@@ -62,21 +74,24 @@ from weblate.utils.random import get_random_identifier
 from weblate.utils.stats import (
     BaseStats,
     ProjectLanguage,
+    WorkspaceLanguage,
 )
 from weblate.utils.templatetags.icons import icon
 from weblate.utils.views import SORT_CHOICES
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
     from django import forms
     from django.core.paginator import Page
-    from django.db.models import QuerySet
+    from django.db.models import Model, QuerySet
     from django.template.context import Context
     from django.utils.safestring import SafeString
     from django_stubs_ext import StrOrPromise
 
-    from weblate.lang.models import Language
+    from weblate.billing.models import LibreCheckAlert
+    from weblate.metrics.contributors import ContributorScope, RankedContributor
     from weblate.metrics.wrapper import MetricsWrapper
     from weblate.trans.models import (
         Alert,
@@ -87,7 +102,6 @@ if TYPE_CHECKING:
         GhostCategoryLanguageStats,
         GhostProjectLanguageStats,
     )
-    from weblate.workspaces.models import Workspace
 
 register = template.Library()
 
@@ -546,8 +560,7 @@ def get_unique_row_id(context: Context, obj) -> str:
 
 @register.simple_tag
 def get_filter_name(name: str) -> str:
-    names = dict(get_filter_choice())
-    return names[name]
+    return str(FILTERS.get_filter_name(name))
 
 
 def get_alert_css_class(icon_name: str, css_class: str = "") -> str:
@@ -572,8 +585,22 @@ def translation_alerts(
         )
 
 
+@register.filter
+def visible_billing_alerts(
+    alerts: Iterable[LibreCheckAlert], user: User
+) -> list[LibreCheckAlert]:
+    """Apply diagnostic visibility to the Libre-hosting checklist as well."""
+    items = list(alerts)
+    visible_ids = {
+        alert.pk
+        for alert in filter_visible_alerts((item.alert for item in items), user)
+    }
+    return [item for item in items if item.alert.pk in visible_ids]
+
+
 def component_alerts(
     component: Component,
+    user: User,
 ) -> Iterable[tuple[str, StrOrPromise, str | None, str]]:
     if component.is_repo_link:
         yield (
@@ -584,7 +611,7 @@ def component_alerts(
             "",
         )
 
-    if component.all_problem_alerts:
+    if filter_visible_alerts(component.all_problem_alerts, user):
         yield (
             "state/alert.svg",
             gettext("Fix this component to clear its diagnostics."),
@@ -606,8 +633,12 @@ def component_alerts(
 
 def project_alerts(
     project: Project,
+    user: User,
 ) -> Iterable[tuple[str, StrOrPromise, str | None, str]]:
-    if project.has_alerts:
+    has_alerts = project.__dict__.get("visible_has_alerts")
+    if has_alerts is None:
+        has_alerts = project.all_problem_alerts.filter_visible_conflicts(user).exists()
+    if has_alerts:
         yield (
             "state/alert.svg",
             gettext("Some of the components within this project have diagnostics."),
@@ -654,9 +685,9 @@ def get_alerts(
         yield ("state/shield.svg", gettext("Restricted component"), None, "")
 
     if component is not None:
-        yield from (component_alerts(component))
+        yield from (component_alerts(component, context["user"]))
     elif project is not None:
-        yield from (project_alerts(project))
+        yield from (project_alerts(project, context["user"]))
 
     if getattr(obj, "is_ghost", False):
         yield (
@@ -780,7 +811,11 @@ def can_dismiss_alert(alert: Alert, user: User) -> bool:
 
 
 @register.filter
-def format_commit_author(commit, *, viewer: User | AnonymousUser | None = None) -> str:
+def format_commit_author(
+    commit, resource: Model, *, viewer: User | AnonymousUser | None = None
+) -> str:
+    if not can_view_contributor(viewer, resource):
+        return commit["author_name"]
     users = User.objects.filter(
         social_auth__verifiedemail__email=commit["author_email"]
     )
@@ -1134,6 +1169,7 @@ def show_info(  # ruff: ignore[too-many-arguments]
     show_full_language: bool = True,
     top_users: QuerySet[Profile] | None = None,
     total_translations: int | None = None,
+    contributor_scope: ContributorScope | None = None,
 ):
     """
     Render project information table.
@@ -1141,11 +1177,35 @@ def show_info(  # ruff: ignore[too-many-arguments]
     This merely exists to be able to pass default values to {% include %}.
     """
     user = context["user"]
+    directory_access = can_browse_users(user)
+    if contributor_scope is None and not componentlist:
+        contributor_scope = translation or component or project or language or workspace
+        if project and language and not (translation or component):
+            contributor_scope = ProjectLanguage(project, language)
+    contributor_url = (
+        reverse("user_list")
+        if (show_global or componentlist) and directory_access
+        else None
+    )
+    scoped_top_users: list[RankedContributor] = []
+    if contributor_scope and can_view_contributor_ranking(user, contributor_scope):
+        contributor_url = reverse(
+            "contributor_list", kwargs={"path": contributor_scope.get_url_path()}
+        )
+        if (
+            isinstance(
+                contributor_scope,
+                (Project, ProjectLanguage, Language, Workspace, WorkspaceLanguage),
+            )
+            and ContributorCollection.is_ready()
+        ):
+            scoped_top_users = load_ranked_contributors(
+                contributor_ranking(user, contributor_scope, top_only=True)[:10]
+            )
     return {
         "user": user,
         "profile_viewer": user,
-        "can_browse_users": can_browse_users(user),
-        "can_search_scoped_users": can_search_scoped_users(user),
+        "can_browse_users": directory_access,
         "workspace": workspace,
         "project": project,
         "component": component,
@@ -1157,7 +1217,14 @@ def show_info(  # ruff: ignore[too-many-arguments]
         "show_source": show_source,
         "show_global": show_global,
         "show_full_language": show_full_language,
-        "top_users": top_users,
+        "top_users": scoped_top_users or top_users,
+        "contributor_url": contributor_url,
+        "top_contributor_url": contributor_url if scoped_top_users else None,
+        "can_view_top_users": bool(scoped_top_users)
+        or (
+            top_users is not None
+            and can_view_contributor(user, translation or component or project)
+        ),
         "total_translations": total_translations,
     }
 
@@ -1198,7 +1265,8 @@ def format_last_changes_content(
     search_url: str | None = None,
     offset: int | None = None,
     translate_url: str | None = None,
-):
+    full_content: bool = False,
+) -> dict[str, Any]:
     """
     Format last changes content for display.
 
@@ -1209,9 +1277,11 @@ def format_last_changes_content(
         get_change_history_context,
     )
 
-    if isinstance(user, str):  # e.g in email digest
+    if user is None or isinstance(user, str):  # e.g in email digest
         user = AnonymousUser()
 
+    last_changes = list(last_changes)
+    user = prepare_contributor_visibility(user, last_changes)
     processed_changes = []
     for change in last_changes:
         # Permissions
@@ -1232,18 +1302,24 @@ def format_last_changes_content(
                     "can_block_user": can_block_user,
                 },
                 "ip_address": change.get_ip_address() if user.is_superuser else None,
-                "origin": change.get_origin_display(),
-                "origin_description": change.get_origin_description(),
+                "origin": change.get_origin_display()
+                if can_view_contributor(user, change)
+                else None,
+                "origin_description": change.get_origin_description()
+                if can_view_contributor(user, change)
+                else None,
                 "history_data": get_change_history_context(
                     change,
                     include_private_details=bool(user.is_authenticated),
-                    viewer=None if in_email else user,
+                    viewer=user,
+                    list_preview=not full_content,
                 ),
             }
         )
     return {
         "changes_with_context": processed_changes,
-        "profile_viewer": None if in_email else user,
+        "profile_viewer": user,
+        "subscription_user": user if in_email else None,
         "in_email": in_email,
         "debug": debug,
         "query_params": QueryDict(search_url or ""),

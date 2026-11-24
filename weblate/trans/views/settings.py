@@ -22,6 +22,10 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView, View
 
+from weblate.accounts.utils import (
+    has_recent_sensitive_verification,
+    sensitive_verification_redirect,
+)
 from weblate.auth.utils import get_team_rename_warnings
 from weblate.trans.backups import (
     PROJECTBACKUP_PREFIX,
@@ -62,20 +66,28 @@ from weblate.trans.tasks import (
     create_project_backup,
     project_removal,
     remove_project_backup_download,
+    validate_category_removal,
+    validate_component_removal,
+    validate_project_removal,
 )
 from weblate.trans.util import redirect_param, render
+from weblate.trans.workspace_move import get_project_move_plan_error
 from weblate.utils import messages
 from weblate.utils.celery import get_task_metadata
+from weblate.utils.errors import log_handled_exception
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.messages import store_task_completion_message
 from weblate.utils.random import get_random_identifier
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import aparse_path, parse_path, show_form_errors
+from weblate.vcs.base import RepositoryTemplateError
 from weblate.workspaces.forms import WorkspaceSettingsForm
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from collections.abc import Generator
+
+    from django.http import HttpResponseRedirect
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
 
@@ -142,6 +154,10 @@ def change_project(request: AuthenticatedHttpRequest, obj):
     if request.method == "POST":
         settings_form = ProjectSettingsForm(request, request.POST, instance=obj)
         if settings_form.is_valid():
+            if {"access_control", "public_sharing", "enforced_2fa"} & set(
+                settings_form.changed_data
+            ) and not has_recent_sensitive_verification(request):
+                return sensitive_verification_redirect(request, request.path)
             settings_form.save()
             messages.success(request, gettext("Settings saved"))
             for warning in get_team_rename_warnings(obj.renamed_teams):
@@ -222,6 +238,13 @@ def change_component(request: AuthenticatedHttpRequest, obj):
     if request.method == "POST":
         with obj.locked_for_update() as locked_obj:
             form = ComponentSettingsForm(request, request.POST, instance=locked_obj)
+            # Check before validation: Component.clean() can switch the branch
+            # of the live checkout and commit pending changes.
+            if (
+                form.changes_sensitive_access()
+                and not has_recent_sensitive_verification(request)
+            ):
+                return sensitive_verification_redirect(request, request.path)
             if form.is_valid():
                 form.save()
                 messages.success(request, gettext("Settings saved"))
@@ -295,6 +318,32 @@ def remove(request: AuthenticatedHttpRequest, path):
         show_form_errors(request, form)
         return redirect_param(obj, "#organize")
 
+    try:
+        _validate_removal_scope(obj)
+    except ValidationError as error:
+        form.add_error(None, error)
+        show_form_errors(request, form)
+        return redirect_param(obj, "#organize")
+
+    try:
+        return _perform_removal(request, obj, form)
+    except RepositoryTemplateError as error:
+        log_handled_exception("Could not remove translation")
+        messages.error(request, error.get_message(gettext))
+        return redirect_param(obj, "#organize")
+
+
+@transaction.atomic
+def _perform_removal(
+    request: AuthenticatedHttpRequest,
+    obj: Translation
+    | Component
+    | Category
+    | Project
+    | ProjectLanguage
+    | CategoryLanguage,
+    form: BaseDeleteForm,
+) -> HttpResponseRedirect:
     parent: Component | Category | Project | str
     if isinstance(obj, Translation):
         parent = obj.component
@@ -306,7 +355,8 @@ def remove(request: AuthenticatedHttpRequest, path):
             obj.pk, request.user.pk, form.cleaned_data["delete_memory"]
         )
         messages.success(
-            request, gettext("The translation component was scheduled for removal.")
+            request,
+            gettext("The translation component was scheduled for removal."),
         )
     elif isinstance(obj, Category):
         parent = obj.category or obj.project
@@ -318,20 +368,48 @@ def remove(request: AuthenticatedHttpRequest, path):
         parent = reverse("home")
         project_removal.delay(obj.pk, request.user.pk)
         messages.success(request, gettext("The project was scheduled for removal."))
-    elif isinstance(obj, ProjectLanguage):
-        parent = obj.project
-        for translation in obj.action_translation_set.prefetch():
-            translation.remove(request.user)
+    elif isinstance(obj, (ProjectLanguage, CategoryLanguage)):
+        author = request.user.get_author_name()
+        # Database rollback cannot undo repository commits. Render every message
+        # before removing anything, then reuse the prepared messages.
+        removals = [
+            (
+                translation,
+                translation.get_commit_message(
+                    author, template=translation.component.effective_delete_message
+                ),
+            )
+            for translation in obj.action_translation_set.prefetch().order_by("pk")
+        ]
+        for translation, commit_message in removals:
+            translation.remove(request.user, commit_message=commit_message)
 
-        messages.success(request, gettext("A language in the project was removed."))
-    elif isinstance(obj, CategoryLanguage):
-        parent = obj.category
-        for translation in obj.action_translation_set.prefetch():
-            translation.remove(request.user)
-
-        messages.success(request, gettext("A language in the category was removed."))
+        if isinstance(obj, ProjectLanguage):
+            parent = obj.project
+            messages.success(request, gettext("A language in the project was removed."))
+        else:
+            parent = obj.category
+            messages.success(
+                request, gettext("A language in the category was removed.")
+            )
 
     return redirect(parent)
+
+
+def _validate_removal_scope(
+    obj: Component
+    | Category
+    | Project
+    | Translation
+    | ProjectLanguage
+    | CategoryLanguage,
+) -> None:
+    if isinstance(obj, Component):
+        validate_component_removal(obj.pk)
+    elif isinstance(obj, Category):
+        validate_category_removal(obj)
+    elif isinstance(obj, Project):
+        validate_project_removal(obj)
 
 
 @contextmanager
@@ -397,6 +475,10 @@ def perform_rename(
             locked_obj.refresh_from_db()
             return redirect_param(locked_obj, "#organize")
 
+        target = form.cleaned_data.get("project")
+        if target is not None and not request.user.has_perm("project.edit", target):
+            raise PermissionDenied
+
         # Invalidate old stats
         old_stats = list(locked_obj.stats.get_update_objects())
 
@@ -426,7 +508,7 @@ def rename(request: AuthenticatedHttpRequest, path):
 @login_required
 @require_POST
 @transaction.atomic
-def move(request: AuthenticatedHttpRequest, path):
+def move(request: AuthenticatedHttpRequest, path: list[str]) -> HttpResponseRedirect:
     obj = parse_path(request, path, (Project,))
     if not request.user.has_perm("project.edit", obj):
         raise PermissionDenied
@@ -460,11 +542,17 @@ def move(request: AuthenticatedHttpRequest, path):
         from weblate.billing.models import Billing
 
         try:
-            Billing.objects.lock_project_creation(
+            billing = Billing.objects.lock_project_creation(
                 workspace.pk, source_workspace_id=obj.workspace_id
             )
         except ValidationError as error:
             form.add_error("workspace", error)
+            show_form_errors(request, form)
+            return redirect_param(obj, "#organize")
+        if not request.user.is_superuser and (
+            plan_error := get_project_move_plan_error(obj, billing)
+        ):
+            form.add_error("workspace", plan_error)
             show_form_errors(request, form)
             return redirect_param(obj, "#organize")
 
@@ -502,6 +590,8 @@ def component_link_add(request: AuthenticatedHttpRequest, path):
     if form.is_valid():
         project = form.cleaned_data["project"]
         category = form.cleaned_data["category"]
+        if not request.user.has_perm("project.edit", project):
+            raise PermissionDenied
         _link, created = ComponentLink.objects.get_or_create(
             component=obj, project=project, defaults={"category": category}
         )

@@ -6,7 +6,9 @@
 
 from __future__ import annotations
 
-from weblate.checks.same import SameCheck
+from time import monotonic
+
+from weblate.checks.same import SameCheck, strip_domains, strip_emails
 from weblate.checks.tests.test_checks import CheckTestCase
 from weblate.trans.tests.factories import make_unit
 from weblate.trans.tests.test_views import ViewTestCase
@@ -15,6 +17,59 @@ from weblate.utils.state import STATE_TRANSLATED
 
 class SameCheckTest(CheckTestCase):
     check = SameCheck()
+
+    def test_long_address_candidates(self) -> None:
+        for source, expected in (("a" * 100_000, True), ("a." * 50_000, False)):
+            with self.subTest(source=source[:20]):
+                unit = make_unit(source=source, target=source)
+                self.assertEqual(
+                    self.check.check_target([source], [source], unit), expected
+                )
+
+    def test_strip_emails_long_candidates(self) -> None:
+        for source in ("a" * 100_000, "a." * 50_000):
+            with self.subTest(source=source[:20]):
+                started = monotonic()
+                result = strip_emails(source)
+                elapsed = monotonic() - started
+                self.assertEqual(result, source)
+                # Catch pathological matching while allowing for CI load.
+                self.assertLess(elapsed, 10)
+
+    def test_strip_domains_long_candidates(self) -> None:
+        for source in ("a" * 100_000, "a." * 50_000):
+            with self.subTest(source=source[:20]):
+                started = monotonic()
+                result = strip_domains(source)
+                elapsed = monotonic() - started
+                self.assertEqual(result, source)
+                # Catch pathological matching while allowing for CI load.
+                self.assertLess(elapsed, 10)
+
+    def test_strip_emails(self) -> None:
+        for text, expected in (
+            ("Write a@b.cc please", "Write  please"),
+            ("a@b.cc.d@e.ff", ""),
+            ("a@b.c", "a@b.c"),
+            ("İ@ſ.KK", ""),
+            ("abc@@example.com", "abc@@example.com"),
+        ):
+            with self.subTest(text=text):
+                self.assertEqual(strip_emails(text), expected)
+
+    def test_strip_domains(self) -> None:
+        for text, expected in (
+            ("See demo.weblate.org!", "See !"),
+            ("a." * 10, "a." * 10),
+            ("a." * 10 + "org", ""),
+            ("a.abcdefghi", "ghi"),
+            ("a." + "b" * 64 + ".com", ""),
+            ("-example.org", "-"),
+            ("a.--", ""),
+            ("İ.ſK", ""),
+        ):
+            with self.subTest(text=text):
+                self.assertEqual(strip_domains(text), expected)
 
     def setUp(self) -> None:
         super().setUp()

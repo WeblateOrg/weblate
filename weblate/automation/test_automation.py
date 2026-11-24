@@ -14,6 +14,7 @@ from threading import Barrier
 from typing import TYPE_CHECKING, Any, TypedDict, Unpack
 from unittest.mock import Mock, call, patch
 
+from crispy_forms.utils import render_crispy_form
 from django.core.exceptions import ValidationError
 from django.db.models import QuerySet
 from django.template.loader import render_to_string
@@ -49,9 +50,10 @@ from weblate.automation.operations import (
 from weblate.automation.runner import Runner, execution_context, run_automation
 from weblate.automation.schema import SCHEMA, TRIGGERS
 from weblate.automation.ui import (
+    ACTION_TITLES,
+    BRANCH_KIND,
     CONDITION_TITLES,
     NESTING_ACTIONS,
-    NESTING_CONDITIONS,
     TRIGGER_TITLES,
     action_nodes,
     schema_variants,
@@ -63,7 +65,7 @@ from weblate.machinery.openai import OpenAITranslation
 from weblate.trans.actions import ActionEvents, get_change_action_identifier
 from weblate.trans.automation import UnitSelection
 from weblate.trans.autotranslate import AutoTranslate, BatchAutoTranslate
-from weblate.trans.models import Change, Unit
+from weblate.trans.models import Change, Unit, WorkflowSetting
 from weblate.trans.templatetags.translations import format_last_changes_content
 from weblate.trans.tests.test_views import (
     ComponentTestCase,
@@ -86,6 +88,8 @@ from weblate.utils.state import (
 )
 
 if TYPE_CHECKING:
+    from lxml.html import HtmlElement
+
     from weblate.trans.models import Category, Component, Project
 
 
@@ -182,11 +186,14 @@ class DefinitionTest(SimpleTestCase):
         )
         self.assertEqual(
             {name for name, _ in schema_variants("actions", "action")},
-            set(OPERATIONS) | NESTING_ACTIONS,
+            set(OPERATIONS) | set(ACTION_TITLES),
         )
         with override("en"):
             for operation in OPERATIONS.values():
                 self.assertEqual(str(operation.verbose), operation.title)
+            for name, variant in schema_variants("actions", "action"):
+                if name in ACTION_TITLES:
+                    self.assertEqual(str(ACTION_TITLES[name]), variant["title"])
 
     def test_duplicate_operation_registration_is_rejected(self) -> None:
         class DuplicateOperation(AutomationOperation):
@@ -629,6 +636,99 @@ class DefinitionTest(SimpleTestCase):
 
 
 class AutomationTest(ReusableComponentTestCase):
+    def test_author_queries_survive_creator_permission_changes(self) -> None:
+        from weblate.auth.models import Permission, Role, User, get_anonymous  # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Comment, Project, Suggestion  # ruff: ignore[import-outside-top-level]
+
+        unit = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        author = User.objects.create_user(
+            "automation-contributor", "automation-contributor@example.org"
+        )
+        Change.objects.create(
+            unit=unit,
+            user=author,
+            author=author,
+            action=ActionEvents.CHANGE,
+            target="Contributor edit",
+        )
+        Comment.objects.create(unit=unit, user=author, comment="Target comment")
+        Comment.objects.create(
+            unit=unit.source_unit, user=author, comment="Source comment"
+        )
+        Suggestion.objects.create(unit=unit, user=author, target="Suggestion")
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        addons = []
+        for field in (
+            "changed_by",
+            "suggestion_author",
+            "comment_author",
+            "source_comment_author",
+        ):
+            query = f"id:{unit.pk} {field}:{author.username}"
+            workflow = WORKFLOW | {
+                "conditions": [{"condition": "matching_strings", "value": query}],
+                "actions": [
+                    {
+                        "action": "weblate.select",
+                        "id": "chosen",
+                        "settings": {"q": query},
+                    },
+                    {
+                        "action": "weblate.bulk_edit",
+                        "scope": "result:chosen",
+                        "settings": {"state": STATE_FUZZY},
+                    },
+                ],
+            }
+            addons.append(self.install(workflow))
+        permission = Permission.objects.get(codename="contribution.view_author")
+        for role in Role.objects.filter(permissions=permission):
+            role.permissions.remove(permission)
+        self.user.clear_permissions_cache()
+        self.assertFalse(
+            self.user.has_perm("contribution.view_author", unit.translation)
+        )
+        self.assertFalse(
+            get_anonymous().has_perm("contribution.view_author", unit.translation)
+        )
+        for deleted in (False, True):
+            if deleted:
+                self.user.delete()
+            for addon in addons:
+                with self.subTest(
+                    deleted=deleted,
+                    query=addon.instance.configuration["workflow"]["conditions"],
+                ):
+                    Unit.objects.filter(pk=unit.pk).update(state=STATE_TRANSLATED)
+                    workflow = addon.instance.configuration["workflow"]
+                    result = addon.preview(workflow, self.component.pk)
+                    self.assertEqual(
+                        result["context"]["results"]["chosen"]["selected"], 1
+                    )
+                    unit.refresh_from_db()
+                    self.assertEqual(unit.state, STATE_TRANSLATED)
+                    runner = Runner(
+                        validate_operations(deepcopy(workflow), self.component),
+                        execution_context(self.component, "manual"),
+                        self.component,
+                        addon.user,
+                    )
+                    self.assertEqual(
+                        runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace
+                    )
+                    self.assertEqual(runner.selections["chosen"].unit_ids, {unit.pk})
+                    unit.refresh_from_db()
+                    self.assertEqual(unit.state, STATE_FUZZY)
+                    self.assertEqual(
+                        unit.change_set.filter(action=ActionEvents.BULK_EDIT)
+                        .latest("pk")
+                        .user,
+                        addon.user,
+                    )
+
     @patch("weblate.automation.tasks.automation_run.delay_on_commit")
     def test_changes_identify_automation_and_execution(self, task: Mock) -> None:
         units = self.component.translation_set.get(language_code="cs").unit_set
@@ -1696,6 +1796,27 @@ class AutomationTest(ReusableComponentTestCase):
         activity.refresh_from_db()
         self.assertEqual(activity.status, AddonActivityLogStatus.SUCCESS)
 
+    def test_change_context_custom_source_language(self) -> None:
+        parent = self.component.translation_set.get(language_code="de").unit_set.get(
+            source="Hello, world!\n"
+        )
+        parent.translate(self.user, "Hallo, Welt!\n", STATE_TRANSLATED)
+        unit = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=unit.translation.language,
+            source_language=parent.translation.language,
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.translation_parent_id, parent.pk)
+        change = Change.objects.create(
+            unit=unit, action=ActionEvents.CHANGE, user=self.user
+        )
+        context = execution_context(self.component, "change", change)
+        self.assertEqual(context["unit"]["source"], "Hallo, Welt!\n")
+
     def test_change_context_and_recursion(self) -> None:
         addon = self.install(
             WORKFLOW
@@ -1974,6 +2095,15 @@ class AutomationTest(ReusableComponentTestCase):
         addon.instance.refresh_from_db()
         self.assertEqual(addon.instance.configuration["workflow"]["version"], 1)
 
+    @staticmethod
+    def editor_slots(tree: HtmlElement, kind: str) -> list[tuple[str, str]]:
+        """Slot keys and kinds declared by one node template, in order."""
+        template = tree.xpath(f"//template[@data-automation-node='{kind}']")[0]
+        return [
+            (slot.get("data-automation-slot"), slot.get("data-automation-slot-kind"))
+            for slot in template.xpath(".//*[@data-automation-slot]")
+        ]
+
     def test_editor_renders_a_template_for_every_node_kind(self) -> None:
         addon = self.install(WORKFLOW | {"actions": [BULK]})
         self.user.is_superuser = True
@@ -1994,9 +2124,30 @@ class AutomationTest(ReusableComponentTestCase):
             | {
                 f"condition:{name}"
                 for name, _ in schema_variants("conditions", "condition")
-                if name not in NESTING_CONDITIONS
             }
-            | {f"action:{name}" for name in OPERATIONS},
+            | {f"action:{name}" for name, _ in schema_variants("actions", "action")}
+            | {BRANCH_KIND},
+        )
+
+        self.assertEqual(
+            self.editor_slots(tree, "condition:and"), [("conditions", "condition")]
+        )
+        self.assertEqual(
+            self.editor_slots(tree, "action:sequence"), [("sequence", "action")]
+        )
+        self.assertEqual(
+            self.editor_slots(tree, "action:choose"),
+            [("choose", BRANCH_KIND), ("default", "action")],
+        )
+        self.assertEqual(
+            self.editor_slots(tree, BRANCH_KIND),
+            [("conditions", "condition"), ("sequence", "action")],
+        )
+        self.assertFalse(
+            tree.xpath(
+                "//template[@data-automation-node='action:choose']"
+                "//*[@data-automation-slot='choose']//*[@data-automation-picker]"
+            )
         )
 
         template = tree.xpath(
@@ -2020,6 +2171,18 @@ class AutomationTest(ReusableComponentTestCase):
         self.assertEqual(
             settings.xpath(".//*[@data-workflow-key='q']/@data-workflow-required"),
             ["1"],
+        )
+        self.assertEqual(
+            settings.xpath(
+                ".//*[@data-workflow-key='q']/@data-workflow-component-required"
+            ),
+            ["1"],
+        )
+        self.assertEqual(
+            settings.xpath(
+                ".//*[@data-workflow-key='state']/@data-workflow-component-required"
+            ),
+            [],
         )
 
     def test_editor_bulk_replacement_controls(self) -> None:
@@ -2055,6 +2218,69 @@ class AutomationTest(ReusableComponentTestCase):
         )
         self.assertFalse(template.xpath(".//*[@data-workflow-key='preview']"))
 
+    def test_editor_saves_a_nested_workflow_unchanged(self) -> None:
+        """What the editor serializes for a nested workflow is accepted as is."""
+        nested = {
+            "version": 1,
+            "triggers": [],
+            "conditions": [
+                {
+                    "condition": "and",
+                    "conditions": [
+                        {"condition": "language", "value": "cs"},
+                        {
+                            "condition": "not",
+                            "conditions": [
+                                {"condition": "unit_state", "value": STATE_TRANSLATED}
+                            ],
+                        },
+                    ],
+                }
+            ],
+            "actions": [
+                {
+                    "choose": [
+                        {
+                            "conditions": [{"condition": "language", "value": "cs"}],
+                            "sequence": [
+                                {
+                                    "action": "weblate.select",
+                                    "id": "picked",
+                                    "settings": {"q": "state:translated"},
+                                },
+                                {
+                                    "action": "weblate.select",
+                                    "scope": "result:picked",
+                                    "settings": {"q": ""},
+                                },
+                            ],
+                        }
+                    ],
+                    "default": [
+                        {
+                            "sequence": [
+                                {
+                                    "action": "weblate.select",
+                                    "settings": {"q": "state:needs-editing"},
+                                }
+                            ]
+                        }
+                    ],
+                }
+            ],
+        }
+        addon = self.install()
+        self.user.is_superuser = True
+        self.user.save()
+        self.client.force_login(self.user)
+        response = self.client.post(
+            addon.instance.get_absolute_url(),
+            {"workflow": json.dumps(nested)},
+        )
+        self.assertEqual(response.status_code, 302)
+        addon.instance.refresh_from_db()
+        self.assertEqual(addon.instance.configuration["workflow"], nested)
+
     def test_editor_settings_forms_cover_the_schema(self) -> None:
         for obj in (self.component, self.component.project, None):
             for operation in OPERATIONS.values():
@@ -2067,8 +2293,15 @@ class AutomationTest(ReusableComponentTestCase):
 
     def test_editor_action_nodes_annotate_every_setting(self) -> None:
         nodes = action_nodes(self.component)
-        self.assertEqual({node.name for node in nodes}, set(OPERATIONS))
+        self.assertEqual(
+            {node.name for node in nodes}, set(OPERATIONS) | NESTING_ACTIONS
+        )
         for node in nodes:
+            if node.name in NESTING_ACTIONS:
+                self.assertIsNone(node.form)
+                self.assertIsNone(node.chrome)
+                self.assertTrue(node.slots)
+                continue
             with self.subTest(action=node.name):
                 settings, chrome = node.form, node.chrome
                 if settings is None or chrome is None:
@@ -2084,6 +2317,28 @@ class AutomationTest(ReusableComponentTestCase):
                     in chrome.fields["scope"].widget.attrs,
                     "result" in OPERATIONS[node.name].supported_scopes,
                 )
+
+    def test_editor_bulk_edit_groups_flag_fields(self) -> None:
+        node = next(
+            node
+            for node in action_nodes(self.component)
+            if node.name == BulkEditOperation.name
+        )
+        if node.form is None:
+            self.fail("Bulk editing has no editor form")
+        rendered = render_crispy_form(node.form)
+        source = rendered.index("Source flags")
+        translation = rendered.index("Translation flags")
+        labels = rendered.index("<legend>Labels</legend>")
+        self.assertLess(source, rendered.index('name="add_flags"'))
+        self.assertLess(rendered.index('name="remove_flags"'), translation)
+        self.assertLess(translation, rendered.index('name="add_translation_flags"'))
+        self.assertLess(rendered.index('name="remove_translation_flags"'), labels)
+        self.assertLess(labels, rendered.index('name="add_labels"'))
+        self.assertIn(
+            'aria-describedby="id_automation_settings_weblate_bulk_edit_add_flags_scope"',
+            rendered,
+        )
 
     def test_editor_offers_every_automatic_translation_mode(self) -> None:
         # Workflows run as the add-on service identity, so the editor offers
@@ -2236,7 +2491,7 @@ class AIQualityAutomationTest(ComponentTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.service = OpenAITranslation.get_identifier()
-        MachineryInstallation.objects.create(
+        self.installation = MachineryInstallation.objects.create(
             project=self.project,
             engine=self.service,
             configuration={
@@ -2268,6 +2523,35 @@ class AIQualityAutomationTest(ComponentTestCase):
             "id": "quality",
             "settings": {"q": query} if query else {},
         }
+
+    def test_author_query_uses_administrative_scope(self) -> None:
+        from weblate.auth.models import Permission, Role  # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Project  # ruff: ignore[import-outside-top-level]
+
+        unit = self.units[0]
+        Change.objects.create(
+            unit=unit,
+            user=self.user,
+            author=self.user,
+            action=ActionEvents.CHANGE,
+            target="Evaluated edit",
+        )
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        permission = Permission.objects.get(codename="contribution.view_author")
+        for role in Role.objects.filter(permissions=permission):
+            role.permissions.remove(permission)
+        self.user.clear_permissions_cache()
+        settings = AIQualityOperation.normalize(
+            {"q": f"id:{unit.pk} changed_by:{self.user.username}"}, self.component
+        )
+        for execution_user in (None, self.user):
+            with patch(
+                "weblate.automation.operations.evaluate_component",
+                return_value={"evaluated": 0, "failed": 0, "skipped": 0},
+            ) as evaluate:
+                AIQualityOperation.execute(self.component, settings, execution_user)
+                self.assertEqual(list(evaluate.call_args.args[3]), [unit.pk])
 
     def test_omitted_service_uses_effective_evaluator(self) -> None:
         settings = AIQualityOperation.normalize({}, self.component)
@@ -2728,6 +3012,36 @@ class AIQualityAutomationTest(ComponentTestCase):
         unit.refresh_from_db()
         self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assertEqual(runner.context["results"], {})
+        self.assertEqual(runner.selections, {})
+        self.assertEqual(
+            runner.trace[-2]["error"],
+            "AI quality evaluation was incomplete because the service is on cooldown.",
+        )
+
+    def test_unavailable_evaluation_service(self) -> None:
+        workflow = validate_operations(
+            parse_workflow(WORKFLOW | {"actions": [self.quality_action()]}),
+            self.component,
+        )
+        self.installation.delete()
+        runner = Runner(
+            workflow,
+            execution_context(self.component, "manual"),
+            self.component,
+            self.user,
+        )
+        with (
+            patch.object(OpenAITranslation, "evaluate_batch") as evaluate,
+            self.assertLogs("weblate.errors", level="WARNING") as logs,
+        ):
+            self.assertEqual(runner.run(), AddonActivityLogStatus.ERROR)
+        evaluate.assert_not_called()
+        self.assertEqual(
+            runner.trace[-1]["error"],
+            "AI quality evaluation failed: Evaluation service unavailable.",
+        )
+        self.assertEqual(len(logs.output), 1)
+        self.assertIn("Evaluation service unavailable", logs.output[0])
 
     def test_failed_evaluation_stops_approval(self) -> None:
         unit = self.units[0]
@@ -2747,10 +3061,13 @@ class AIQualityAutomationTest(ComponentTestCase):
             ),
             self.component,
         )
-        with patch.object(
-            OpenAITranslation,
-            "evaluate_batch",
-            side_effect=MachineTranslationError("provider secret response"),
+        with (
+            patch.object(
+                OpenAITranslation,
+                "evaluate_batch",
+                side_effect=MachineTranslationError("provider secret response"),
+            ),
+            self.assertLogs("weblate.errors", level="WARNING") as logs,
         ):
             runner = Runner(
                 workflow,
@@ -2762,4 +3079,13 @@ class AIQualityAutomationTest(ComponentTestCase):
         unit.refresh_from_db()
         self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assertEqual(runner.trace[-1]["status"], "skipped")
+        self.assertEqual(runner.context["results"], {})
+        self.assertEqual(runner.selections, {})
+        self.assertEqual(
+            runner.trace[-2]["error"],
+            "AI quality evaluation failed: Evaluation service failed.",
+        )
+        self.assertEqual(len(logs.output), 1)
+        self.assertIn("Evaluation service failed", logs.output[0])
+        self.assertNotIn("provider secret response", logs.output[0])
         self.assertNotIn("provider secret response", json.dumps(runner.result()))

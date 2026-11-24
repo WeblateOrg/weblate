@@ -50,6 +50,9 @@ class FileFormatParams(TypedDict, total=False):
     yaml_line_wrap: int
     yaml_line_break: str
     xml_closing_tags: bool
+    xml_utf8_bom: Literal["preserve", "include", "omit"]
+    xml_encoding_case: Literal["default", "uppercase", "lowercase"]
+    xml_final_newline: Literal["default", "include", "omit"]
     flatxml_root_name: str
     flatxml_value_name: str
     flatxml_key_name: str
@@ -105,6 +108,9 @@ FileFormatParamKey = Literal[
     "md_frontmatter_translate_values",
     "md_no_placeholders",
     "xml_closing_tags",
+    "xml_utf8_bom",
+    "xml_encoding_case",
+    "xml_final_newline",
     "xml_whitespace_handling",
     "xliff_placeables",
 ]
@@ -526,13 +532,7 @@ class YAMLLineBreak(BaseYAMLFormatParam):
         cast("YAMLFile", store).dump_args["line_break"] = breaks[line_break]  # type: ignore[assignment]
 
 
-@register_file_format_param
-class XMLClosingTags(BaseFileFormatParam):
-    name = "xml_closing_tags"
-    label = gettext_lazy("Include closing tag for blank XML tags")
-    field_class = forms.BooleanField
-    default = False
-
+class BaseXMLFormatParam(BaseFileFormatParam):
     @classproperty
     def file_formats(self) -> Sequence[str]:
         # ruff: ignore[import-outside-top-level]
@@ -553,12 +553,85 @@ class XMLClosingTags(BaseFileFormatParam):
                     result.append(file_format)
         return result
 
+
+@register_file_format_param
+class XMLClosingTags(BaseXMLFormatParam):
+    name = "xml_closing_tags"
+    label = gettext_lazy("Include closing tag for blank XML tags")
+    field_class = forms.BooleanField
+    default = False
+
     def setup_store(
         self, store: TranslationStore, **file_format_params: Unpack[FileFormatParams]
     ) -> None:
         cast("LISAfile", store).XMLSelfClosingTags = not self.get_value(
             file_format_params
         )
+
+
+@register_file_format_param
+class XMLUTF8BOM(BaseXMLFormatParam):
+    name = "xml_utf8_bom"
+    label = gettext_lazy("UTF-8 byte order mark")
+    field_class = forms.ChoiceField
+    default = "preserve"
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
+        ("preserve", gettext_lazy("Preserve input")),
+        ("include", gettext_lazy("Always include")),
+        ("omit", gettext_lazy("Always omit")),
+    ]
+    help_text = gettext_lazy(
+        "Controls the UTF-8 byte order mark. Other encodings are unchanged. "
+        "New files without a template omit the mark when preserving input."
+    )
+
+    def setup_store(
+        self, store: TranslationStore, **file_format_params: Unpack[FileFormatParams]
+    ) -> None:
+        cast("LISAfile", store).XMLutf8BOM = {
+            "preserve": None,
+            "include": True,
+            "omit": False,
+        }[self.get_value(file_format_params)]
+
+
+@register_file_format_param
+class XMLEncodingCase(BaseXMLFormatParam):
+    name = "xml_encoding_case"
+    label = gettext_lazy("XML declaration encoding case")
+    field_class = forms.ChoiceField
+    default = "default"
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
+        ("default", gettext_lazy("Format default")),
+        ("uppercase", gettext_lazy("Uppercase")),
+        ("lowercase", gettext_lazy("Lowercase")),
+    ]
+    help_text = gettext_lazy(
+        'Controls encoding names in the XML declaration, for example "UTF-8" or "utf-8".'
+    )
+
+    def setup_store(
+        self, store: TranslationStore, **file_format_params: Unpack[FileFormatParams]
+    ) -> None:
+        value = self.get_value(file_format_params)
+        if value != "default":
+            cast("LISAfile", store).XMLuppercaseEncoding = value == "uppercase"
+
+
+@register_file_format_param
+class XMLFinalNewline(BaseXMLFormatParam):
+    name = "xml_final_newline"
+    label = gettext_lazy("XML final newline")
+    field_class = forms.ChoiceField
+    default = "default"
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
+        ("default", gettext_lazy("Format default")),
+        ("include", gettext_lazy("Always include")),
+        ("omit", gettext_lazy("Always omit")),
+    ]
+    help_text = gettext_lazy(
+        "Controls the newline at the end of the file, using the format's line endings."
+    )
 
 
 @register_file_format_param

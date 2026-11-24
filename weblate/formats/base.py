@@ -20,10 +20,17 @@ from pyparsing import ParseException
 from translate.misc.multistring import multistring
 from translate.storage.base import TranslationStore as TranslateToolkitStore
 from translate.storage.base import TranslationUnit as TranslateToolkitUnit
+from translate.storage.lisa import LISAfile
 from weblate_language_data.countries import DEFAULT_LANGS
 
 from weblate.checks.flags import Flags
+from weblate.formats.limits import (
+    check_translation_file_size,
+    check_translation_unit_count,
+)
 from weblate.trans.file_format_params import (
+    XMLUTF8BOM,
+    XMLEncodingCase,
     get_params_for_file_format,
 )
 from weblate.trans.util import get_string, join_plural, split_plural
@@ -231,6 +238,7 @@ class TranslationUnit[U: InnerUnit, F: "TranslationFormat"]:
             "explanation",
             "source_explanation",
             "previous_source",
+            "line_number",
         ):
             if attr in self.__dict__:
                 del self.__dict__[attr]
@@ -314,6 +322,11 @@ class TranslationUnit[U: InnerUnit, F: "TranslationFormat"]:
     def previous_source(self) -> str:
         """Return previous message source if there was any."""
         return ""
+
+    @cached_property
+    def line_number(self) -> int | None:
+        """Return line number from a ttkit unit."""
+        return None
 
     @classmethod
     def calculate_id_hash(cls, has_template: bool, source: str, context: str) -> int:
@@ -404,6 +417,9 @@ class TranslationUnit[U: InnerUnit, F: "TranslationFormat"]:
             raise MissingTemplateError
         self.mainunit = self._unit = copy(self.template)
         self._invalidate_target()
+        # The previous read cached None while this wrapper had no unit.
+        if "line_number" in self.__dict__:
+            del self.__dict__["line_number"]
 
     def untranslate(self, language) -> None:
         self.set_target("")
@@ -438,6 +454,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     supports_descriptions: bool = False
     supports_context: bool = False
     supports_location: bool = False
+    supports_line_number: bool = False
     supports_flags: bool = False
     supports_read_only: bool = False
     supports_remove_obsolete_units: bool = False
@@ -447,6 +464,8 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     strict_format_plurals: bool = False
     plural_preference: tuple[int, ...] | None = None
     needs_existing_units: ClassVar[bool] = False
+    # False when targets are reconstructed from the database rather than disk.
+    can_compare_stored_content: bool = True
     store: S
 
     @classmethod
@@ -509,6 +528,8 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
 
         # Load store
         self.file_format_params = file_format_params or {}
+        if self.simple_filename and not isinstance(storefile, TranslateToolkitStore):
+            check_translation_file_size(storefile)
         self.store = self.load(storefile, template_store)
 
         filename = getattr(storefile, "filename", storefile)
@@ -725,10 +746,12 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
 
     @cached_property
     def template_units(self) -> list[T]:
-        return [
+        result = [
             self.get_unit_class(self.file_format_params)(self, None, unit)
             for unit in self.all_store_units
         ]
+        check_translation_unit_count(sum(unit.has_content() for unit in result))
+        return result
 
     def _get_all_bilingual_units(self) -> list[T]:
         return [
@@ -760,7 +783,18 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
 
     @property
     def content_units(self) -> list[T]:
-        return [unit for unit in self.all_units if unit.has_content()]
+        if self.has_template:
+            # Template-driven views can omit extra entries in the parsed file.
+            count = 0
+            for unit in self.all_store_units:
+                if self.get_unit_class(self.file_format_params)(
+                    self, unit
+                ).has_content():
+                    count += 1
+                    check_translation_unit_count(count)
+        result = [unit for unit in self.all_units if unit.has_content()]
+        check_translation_unit_count(len(result))
+        return result
 
     @staticmethod
     def mimetype() -> str:
@@ -1110,6 +1144,8 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
         self,
         context: str,
         pending_contexts: Iterable[str] | None = None,
+        *,
+        unit: U | None = None,
     ) -> None:
         self.validate_context(context)
 
@@ -1142,6 +1178,8 @@ class BilingualUpdateMixin:
         repo_temp_dir: str | Path | None = None,
         **kwargs,
     ) -> None:
+        check_translation_file_size(filename)
+        check_translation_file_size(template)
         temp_dir = get_repo_temp_dir(filename, temp_dir=repo_temp_dir)
         with tempfile.NamedTemporaryFile(
             prefix=os.path.basename(filename), dir=temp_dir, delete=False
@@ -1176,6 +1214,7 @@ class BilingualUpdateMixin:
 
 
 class BaseExporter:
+    identity_safe = False
     content_type = "text/plain"
     extension = "txt"
     name = ""
@@ -1242,6 +1281,11 @@ class BaseExporter:
         return self.storage_class()
 
     def setup_storage(self, storage: TranslateToolkitStore) -> None:
+        # XML exporters can produce a different format from the component.
+        # Apply only the common XML serialization parameters to XML output.
+        if isinstance(storage, LISAfile):
+            for xml_param_class in (XMLUTF8BOM, XMLEncodingCase):
+                xml_param_class().setup_store(storage, **self.file_format_params)
         if self.translation is None or not self.file_format:
             return
 
@@ -1361,7 +1405,12 @@ class BaseExporter:
         # ruff: ignore[import-outside-top-level]
         from weblate.formats.ttkit import TTKitFormat
 
-        return TTKitFormat.serialize(self.storage)
+        return TTKitFormat.serialize(self.storage, self.file_format_params)
 
     def store_flags(self, output, flags) -> None:
         return
+
+
+def is_identity_safe_exporter(exporter: type[BaseExporter] | None) -> bool:
+    """Require each exporter to explicitly declare safe generated attribution."""
+    return exporter is not None and vars(exporter).get("identity_safe", False) is True

@@ -33,7 +33,13 @@ from django.utils.functional import cached_property
 from django.utils.html import format_html
 from django.utils.translation import gettext, gettext_lazy, ngettext
 
+from weblate.auth.bots import InternalBot
 from weblate.auth.models import User
+from weblate.billing.defines import (
+    LIBRE_CLEANUP_ALERTS,
+    LIBRE_PROBLEM_PERIOD,
+    LIBRE_WARNING_PERIOD,
+)
 from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.alerts.registry import get_alert_class
 from weblate.trans.models import (
@@ -44,6 +50,7 @@ from weblate.trans.models import (
     Translation,
 )
 from weblate.trans.removal import get_current_removal_batch
+from weblate.utils.change_origin import capture_change_origin, get_acting_user
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.stats import prefetch_stats
@@ -56,6 +63,7 @@ if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
     from weblate.vcs.base import CommitInfo
+    from weblate.workspaces.models import Workspace
 
 
 class LibreCheck:
@@ -287,11 +295,26 @@ class BillingQuerySet(models.QuerySet["Billing", "Billing"]):
             raise ValidationError(gettext("No valid billing found or limit exceeded."))
         return billing
 
+    def lock_component_creation(self, workspace_id: UUID) -> Billing | None:
+        """Check the current billing state while holding its row lock."""
+        billing = (
+            self.select_for_update(of=("self",))
+            .filter(workspace_id=workspace_id)
+            .first()
+        )
+        if billing is not None and not self.filter(pk=billing.pk).get_valid().exists():
+            raise ValidationError(gettext("No valid billing found or limit exceeded."))
+        return billing
+
     def active(self):
         return self.filter(state__in=Billing.ACTIVE_STATES)
 
 
 class Billing(models.Model):
+    class PaymentMode(models.TextChoices):
+        LOCAL = "local", "Local"
+        EXTERNAL = "external", "External"
+
     STATE_ACTIVE = 0
     STATE_TRIAL = 1
     STATE_TERMINATED = 3
@@ -344,6 +367,14 @@ class Billing(models.Model):
     paid = models.BooleanField(
         default=True, verbose_name=gettext_lazy("Paid"), editable=False
     )
+    # Internal integration settings, intentionally excluded from forms and REST APIs.
+    payment_mode = models.CharField(
+        max_length=8,
+        choices=PaymentMode.choices,
+        default=PaymentMode.LOCAL,
+        editable=False,
+    )
+    external_paid_until = models.DateTimeField(null=True, blank=True, editable=False)
     # Translators: Whether the package is inside actual (hard) limits
     in_limits = models.BooleanField(
         default=True, verbose_name=gettext_lazy("In limits"), editable=False
@@ -351,6 +382,9 @@ class Billing(models.Model):
     # Payment detailed information, used for integration
     # with payment processor
     payment = models.JSONField(editable=False, default=dict, encoder=DjangoJSONEncoder)
+    libre_request_pending = models.BooleanField(default=False, editable=False)
+    libre_cleanup_empty_since = models.DateTimeField(null=True, editable=False)
+    libre_cleanup_warned_at = models.DateTimeField(null=True, editable=False)
     inactive_recurring_notification = models.DateTimeField(
         blank=True,
         null=True,
@@ -443,6 +477,9 @@ class Billing(models.Model):
         context = transaction.atomic(using=using) if create_workspace else nullcontext()
 
         with context:
+            if not self.pk and self.payment_mode == self.PaymentMode.EXTERNAL:
+                self.paid = self.check_payment_status()
+
             if create_workspace:
                 self.ensure_workspace(using=using)
                 if update_fields is not None:
@@ -459,6 +496,11 @@ class Billing(models.Model):
                     ("state", "expiry", "removal", "paid", "in_limits")
                 )
 
+            if self.libre_request_pending and not self.is_libre_trial:
+                self.libre_request_pending = False
+                if update_fields is not None:
+                    update_fields = {*update_fields, "libre_request_pending"}
+
             super().save(
                 force_insert=force_insert,
                 force_update=force_update,
@@ -473,6 +515,61 @@ class Billing(models.Model):
 
     def get_absolute_url(self) -> str:
         return reverse("billing-detail", kwargs={"pk": self.pk})
+
+    @property
+    def libre_cleanup_alerts(self) -> tuple[str, ...]:
+        return LIBRE_CLEANUP_ALERTS if self.is_libre else ()
+
+    @cached_property
+    def libre_cleanup_target(self) -> Project | Workspace:
+        projects = list(self.ordered_projects[:2])
+        return projects[0] if len(projects) == 1 else self.workspace
+
+    @property
+    def libre_cleanup_trial_start(self) -> datetime | None:
+        if self.libre_cleanup_warned_at:
+            return self.libre_cleanup_warned_at + LIBRE_WARNING_PERIOD
+        return None
+
+    @property
+    def libre_cleanup_warning(self) -> BillingLog | None:
+        if self.libre_cleanup_warned_at is None:
+            return None
+        return self.billinglog_set.filter(
+            event=BillingEvent.LIBRE_CLEANUP_WARNING,
+            timestamp=self.libre_cleanup_warned_at,
+        ).first()
+
+    def libre_problem_alerts(self) -> QuerySet[Alert, Alert]:
+        return Alert.objects.using(self._state.db).filter(
+            component__project__workspace_id=self.workspace_id,
+            name__in=LIBRE_CLEANUP_ALERTS,
+        )
+
+    def cancel_libre_warning(self) -> None:
+        self.libre_cleanup_warned_at = None
+        self.save(update_fields=["libre_cleanup_warned_at"], skip_limits=True)
+        self.billinglog_set.create(
+            event=BillingEvent.LIBRE_CLEANUP_CANCELED,
+            user=InternalBot.ALERTS.get_user(),
+        )
+
+    def reset_libre_cleanup(self, *, user: User | None = None) -> None:
+        if (
+            self.libre_cleanup_warned_at is None
+            and self.libre_cleanup_empty_since is None
+        ):
+            return
+        if self.libre_cleanup_warned_at is not None:
+            self.billinglog_set.create(
+                event=BillingEvent.LIBRE_CLEANUP_CANCELED,
+                user=user or get_acting_user() or InternalBot.ALERTS.get_user(),
+            )
+        self.libre_cleanup_warned_at = self.libre_cleanup_empty_since = None
+        self.save(
+            update_fields=["libre_cleanup_warned_at", "libre_cleanup_empty_since"],
+            skip_limits=True,
+        )
 
     def validate_workspace(self) -> None:
         if not self.pk:
@@ -567,48 +664,58 @@ class Billing(models.Model):
         if self.pk is None:
             msg = gettext("Billing needs to be saved before assigning projects.")
             raise ValidationError(msg)
-        self.ensure_workspace()
-        if (
-            not allow_workspace_change
-            and project.workspace_id
-            and project.workspace_id != self.workspace_id
-        ):
-            msg = gettext("Project already belongs to another workspace.")
-            raise ValidationError(msg)
-        if project.pk is None:
-            msg = gettext("Project needs to be saved before assigning it to billing.")
-            raise ValidationError(msg)
-        self.validate_project_workspace_change(project)
-        previous_workspace_id = project.workspace_id
-        project_objects = Project.objects
         database = self._state.db
-        if database is not None:
-            project_objects = project_objects.db_manager(database)
-        if not project_objects.filter(pk=project.pk).update(workspace=self.workspace):
-            raise Project.DoesNotExist
-        # ruff: ignore[import-outside-top-level]
-        from weblate.utils.tasks import update_workspace_stats
+        with transaction.atomic(using=database):
+            self.ensure_workspace()
+            if (
+                not allow_workspace_change
+                and project.workspace_id
+                and project.workspace_id != self.workspace_id
+            ):
+                msg = gettext("Project already belongs to another workspace.")
+                raise ValidationError(msg)
+            if project.pk is None:
+                msg = gettext(
+                    "Project needs to be saved before assigning it to billing."
+                )
+                raise ValidationError(msg)
+            self.validate_project_workspace_change(project)
+            previous_workspace_id = project.workspace_id
+            project_objects = Project.objects.using(database)
+            if not project_objects.filter(pk=project.pk).update(
+                workspace=self.workspace
+            ):
+                raise Project.DoesNotExist
+            # ruff: ignore[import-outside-top-level]
+            from weblate.utils.tasks import update_workspace_stats
 
-        update_workspace_stats.delay_on_commit(
-            [
+            workspace_ids = [
                 str(workspace_id)
                 for workspace_id in (previous_workspace_id, self.workspace_id)
                 if workspace_id is not None
             ]
-        )
-        project.workspace = self.workspace
-        project.billing_original_workspace_id = self.workspace_id
-        self.update_workspace_name()
-        for key in ("billings", "paid", "is_trial", "is_libre_trial"):
-            project.__dict__.pop(key, None)
-        if previous_workspace_id and previous_workspace_id != self.workspace_id:
-            billing_objects = Billing.objects
-            if database is not None:
-                billing_objects = billing_objects.db_manager(database)
-            for billing in billing_objects.filter(workspace_id=previous_workspace_id):
-                billing.check_limits()
-        self.check_limits()
-        self.flush_cache()
+            transaction.on_commit(
+                capture_change_origin(
+                    partial(update_workspace_stats.delay, workspace_ids)
+                ),
+                using=database,
+            )
+            project.workspace = self.workspace
+            project.billing_original_workspace_id = self.workspace_id
+            self.update_workspace_name()
+            for key in ("billings", "paid", "is_trial", "is_libre_trial"):
+                project.__dict__.pop(key, None)
+            if previous_workspace_id and previous_workspace_id != self.workspace_id:
+                billing_objects = Billing.objects.using(database)
+                for billing in billing_objects.filter(
+                    workspace_id=previous_workspace_id
+                ):
+                    billing.check_limits()
+                    billing.reset_libre_cleanup()
+            self.check_limits()
+            if previous_workspace_id != self.workspace_id:
+                self.reset_libre_cleanup()
+            self.flush_cache()
 
     def get_projects_queryset(self) -> QuerySet[Project, Project]:
         if not self.workspace_id:
@@ -640,8 +747,12 @@ class Billing(models.Model):
         return self.state == Billing.STATE_TERMINATED
 
     @property
+    def is_libre(self) -> bool:
+        return settings.OFFER_HOSTING and self.plan.is_free
+
+    @property
     def is_libre_trial(self) -> bool:
-        return self.is_trial and self.plan.price == 0
+        return self.is_trial and self.is_libre
 
     @property
     def can_terminate(self) -> bool:
@@ -783,19 +894,36 @@ class Billing(models.Model):
         """
         Check current payment status.
 
-        Compared to paid attribute, this does not include grace period.
+        Include the grace period unless ``now`` is True.
         """
+        if (
+            self.plan.is_free and self.state == Billing.STATE_ACTIVE
+        ) or self.state == Billing.STATE_TRIAL:
+            return True
         end = timezone.now()
         if not now:
             end -= timedelta(days=settings.BILLING_GRACE_PERIOD)
-        return (
-            (self.plan.is_free and self.state == Billing.STATE_ACTIVE)
-            or self.invoice_set.filter(end__gte=end).exists()
-            or self.state == Billing.STATE_TRIAL
-        )
+        if self.payment_mode == self.PaymentMode.EXTERNAL:
+            return (
+                self.external_paid_until is not None and self.external_paid_until >= end
+            )
+        return self.invoice_set.filter(end__gte=end).exists()
 
-    @transaction.atomic
     def check_limits(self, save=True) -> bool:
+        with transaction.atomic(using=self._state.db):
+            return self._check_limits(save)
+
+    def _check_limits(self, save: bool) -> bool:
+        if save:
+            # Background checks may hold an instance loaded before an entitlement
+            # update. Lock and reload before calculating persisted status. Keep
+            # pending model changes when called by save() with save=False.
+            self.refresh_from_db(
+                using=self._state.db,
+                from_queryset=Billing.objects.select_related("plan").select_for_update(
+                    of=("self",)
+                ),
+            )
         self.flush_cache()
         in_limits = self.check_in_limits()
         paid = self.check_payment_status()
@@ -816,6 +944,15 @@ class Billing(models.Model):
             self.expiry = None
             modified = True
 
+        if (
+            self.payment_mode == self.PaymentMode.EXTERNAL
+            and self.state == self.STATE_ACTIVE
+            and paid
+            and self.removal is not None
+        ):
+            self.removal = None
+            modified = True
+
         if self.in_limits != in_limits or self.paid != paid:
             self.in_limits = in_limits
             self.paid = paid
@@ -823,8 +960,10 @@ class Billing(models.Model):
 
         if save:
             if modified:
-                Billing.objects.select_for_update().get(pk=self.pk)
-                self.save(skip_limits=True)
+                self.save(
+                    skip_limits=True,
+                    update_fields=["expiry", "removal", "paid", "in_limits"],
+                )
             self.update_alerts()
 
         return modified
@@ -835,7 +974,7 @@ class Billing(models.Model):
             batch.collect_billing_alert_update(self.pk)
             return
         if self.in_limits:
-            Alert.objects.filter(
+            Alert.objects.using(self._state.db).filter(
                 component__project__in=self.get_projects_queryset(), name="BillingLimit"
             ).delete()
         else:
@@ -968,6 +1107,7 @@ class Billing(models.Model):
             now = timezone.now()
         if (
             settings.BILLING_INACTIVE_RECURRING_DAYS <= 0
+            or self.payment_mode == self.PaymentMode.EXTERNAL
             or "recurring" not in self.payment
             or self.plan.yearly_price == 0
             or self.state != Billing.STATE_ACTIVE
@@ -1113,6 +1253,13 @@ class Billing(models.Model):
         with suppress(TypeError):
             message %= component_count
         yield LibreCheck(component_count > 0, message)
+        if not self.plan.change_access_control and any(
+            component.restricted for component in components
+        ):
+            yield LibreCheck(
+                False,
+                gettext("Restricted components are not allowed by this billing plan."),
+            )
         for component in components:
             license_name = component.get_license_display()
             license_error = None
@@ -1311,6 +1458,9 @@ class BillingEvent(models.IntegerChoices):
     PAYMENT_INITIATED = 19, "Payment initiated"
     PAYMENT_REJECTED = 20, "Payment rejected"
     MERGED = 21, "Billing merged"
+    LIBRE_CLEANUP_WARNING = 22, "Warned about Libre hosting removal"
+    LIBRE_CLEANUP_CANCELED = 23, "Canceled Libre hosting removal warning"
+    LIBRE_CLEANUP_TRIAL = 24, "Started trial after Libre hosting removal warning"
 
 
 class BillingLogQuerySet(models.QuerySet["BillingLog", "BillingLog"]):
@@ -1342,6 +1492,15 @@ class BillingLog(models.Model):
 
     def __str__(self) -> str:
         return f"{self.timestamp.isoformat()}: {self.billing}: {self.get_event_display()} {self.summary}"
+
+    @property
+    def libre_cleanup_reasons(self) -> list[StrOrPromise]:
+        return [
+            gettext_lazy("Workspace has no components.")
+            if reason == "no_components"
+            else get_alert_class(reason).verbose
+            for reason in self.details["reasons"]
+        ]
 
     def get_plan_detail_name(self, key: str) -> str:
         plan = self.details.get(key)
@@ -1427,6 +1586,7 @@ class BillingLog(models.Model):
 def record_project_billing_workspace(
     sender, instance: Project, using=None, update_fields=None, **kwargs
 ) -> None:
+    instance.billing_workspace_changed = False
     if update_fields is not None and not {"workspace", "workspace_id"} & set(
         update_fields
     ):
@@ -1447,6 +1607,7 @@ def record_project_billing_workspace(
             pk=instance.pk
         )
     workspace_id = instance.__dict__.get("workspace_id", previous_workspace_id)
+    instance.billing_workspace_changed = previous_workspace_id != workspace_id
     if previous_workspace_id == workspace_id:
         previous_workspace_id = None
     instance.billing_previous_workspace_id = previous_workspace_id
@@ -1470,6 +1631,64 @@ def get_project_billings(
     return objects.filter(workspace_id__in=workspace_ids)
 
 
+def refresh_libre_warning(billing_id: int, using: str) -> None:
+    with transaction.atomic(using=using):
+        billing = (
+            Billing.objects.using(using)
+            .select_for_update()
+            .filter(pk=billing_id, libre_cleanup_warned_at__isnull=False)
+            .first()
+        )
+        if billing is None or billing.libre_cleanup_warned_at is None:
+            return
+        cutoff = billing.libre_cleanup_warned_at - LIBRE_PROBLEM_PERIOD
+        if billing.libre_problem_alerts().filter(timestamp__lte=cutoff).exists():
+            return
+        if (
+            billing.libre_cleanup_empty_since is not None
+            and billing.libre_cleanup_empty_since <= cutoff
+            and not Component.objects.using(using)
+            .filter(project__workspace_id=billing.workspace_id)
+            .exists()
+        ):
+            return
+        billing.cancel_libre_warning()
+
+
+@dataclass(frozen=True)
+class LibreWarningRefresh:
+    billing_id: int
+    using: str
+
+    def __call__(self) -> None:
+        refresh_libre_warning(self.billing_id, self.using)
+
+
+def schedule_libre_warning_refresh(billings: QuerySet[Billing, Billing]) -> None:
+    warned = billings.filter(libre_cleanup_warned_at__isnull=False)
+    connection = transaction.get_connection(warned.db)
+    for billing_id in warned.values_list("pk", flat=True):
+        refresh = LibreWarningRefresh(billing_id, warned.db)
+        # One callback reads the final committed state, including later deletions.
+        if not any(callback == refresh for _, callback, _ in connection.run_on_commit):
+            transaction.on_commit(refresh, using=warned.db)
+
+
+@receiver(post_delete, sender=Alert)
+def refresh_deleted_alert_warning(
+    instance: Alert, origin, using: str, **kwargs
+) -> None:
+    # Component and project deletion already check the affected workspace.
+    if instance.name in LIBRE_CLEANUP_ALERTS and (
+        isinstance(origin, Alert) or getattr(origin, "model", None) is Alert
+    ):
+        schedule_libre_warning_refresh(
+            Billing.objects.using(using).filter(
+                workspace__projects__component__pk=instance.component_id
+            )
+        )
+
+
 @receiver(post_save, sender=Component)
 @receiver(post_save, sender=Project)
 @receiver(post_save, sender=Plan)
@@ -1481,8 +1700,20 @@ def update_project_bill(sender, instance, using=None, **kwargs) -> None:
         billings = get_project_billings(instance, using=using, include_previous=True)
     else:
         billings = instance.billing_set.all()
+        if instance.price:
+            billings.filter(libre_request_pending=True).update(
+                libre_request_pending=False
+            )
     for billing in billings:
         billing.check_limits()
+        if (
+            isinstance(instance, Project)
+            and (kwargs.get("created") or instance.billing_workspace_changed)
+        ) or (
+            isinstance(instance, Component)
+            and billing.libre_cleanup_empty_since is not None
+        ):
+            billing.reset_libre_cleanup()
         if (
             isinstance(instance, Project)
             and billing.workspace_id == instance.workspace_id
@@ -1510,8 +1741,11 @@ def record_project_bill(
 
     # Sync billing access upon project removal, otherwise users might not be able to
     # terminate billing for removed project
-    if isinstance(instance, Project):
-        users = User.objects.having_perm("project.edit", instance)
+    # Use the original sender: component and translation removal also resolve to
+    # their project above, but must not grant workspace ownership.
+    if sender is Project:
+        # Project tokens must never acquire workspace authority through deletion.
+        users = User.objects.having_perm("project.edit", instance).filter(is_bot=False)
         for billing in instance.billings:
             # Do the owners sync only for the last project
             if billing.get_projects_queryset().exclude(pk=instance.pk).exists():
@@ -1520,12 +1754,19 @@ def record_project_bill(
             owners_group = billing.workspace.get_owners_group()
             existing_owners = set(owners_group.user_set.values_list("id", flat=True))
             for user in users:
-                if user.id in existing_owners:
+                if user.id in existing_owners or not user.has_perm(
+                    "project.edit", instance
+                ):
                     continue
                 user.add_team(None, owners_group)
                 billing.billinglog_set.create(
                     event=BillingEvent.ADMIN_ADDED_PROJECT, summary=user.username
                 )
+
+    if sender in {Project, Component}:
+        schedule_libre_warning_refresh(
+            get_project_billings(instance, using=kwargs["using"])
+        )
 
     # Collect billings to update for delete_project_bill
     instance.billings_to_update = [billing.pk for billing in instance.billings]
@@ -1559,7 +1800,8 @@ def delete_project_bill(
 @receiver(post_save, sender=Invoice)
 @disable_for_loaddata
 def update_invoice_bill(sender, instance, **kwargs) -> None:
-    instance.billing.check_limits()
+    # The invoice can hold a cached billing from before a payment mode change.
+    Billing.objects.get(pk=instance.billing_id).check_limits()
 
 
 class WeblateConf(AppConf):

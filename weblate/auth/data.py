@@ -18,6 +18,8 @@ SELECTION_ALL_PROTECTED = 4
 
 PERMISSIONS = (
     # Translators: Permission name
+    ("contribution.view_author", gettext_noop("View contributor identities")),
+    # Translators: Permission name
     ("change.download", gettext_noop("Download changes")),
     # Translators: Permission name
     ("comment.add", gettext_noop("Post comment")),
@@ -128,6 +130,12 @@ PERMISSION_NAMES = {perm[0] for perm in PERMISSIONS}
 # Permissions which are not scoped per project
 GLOBAL_PERMISSIONS = (
     # Translators: Permission name
+    ("user.browse", gettext_noop("Browse users")),
+    # Translators: Permission name
+    ("user.search", gettext_noop("Search resource contributors")),
+    # Translators: Permission name
+    ("user.profile", gettext_noop("View user profiles")),
+    # Translators: Permission name
     ("management.use", gettext_noop("Use management interface")),
     # Translators: Permission name
     ("management.configure", gettext_noop("Manage site configuration")),
@@ -181,6 +189,7 @@ WORKSPACE_SCOPED_PERM_NAMES = filter_perms("workspace.") | {"reports.view"}
 
 # Translator permissions
 TRANSLATE_PERMS = {
+    "contribution.view_author",
     "comment.add",
     "suggestion.accept",
     "suggestion.add",
@@ -196,6 +205,11 @@ TRANSLATE_PERMS = {
 # Default set of roles
 ROLES = (
     (
+        pgettext_noop("Access-control role", "Discover users"),
+        {"user.browse", "user.search"},
+    ),
+    (pgettext_noop("Access-control role", "View user profiles"), {"user.profile"}),
+    (
         pgettext_noop("Access-control role", "Administration"),
         [x[0] for x in PERMISSIONS if not x[0].startswith("workspace.")],
     ),
@@ -203,10 +217,13 @@ ROLES = (
         pgettext_noop("Access-control role", "Edit source"),
         TRANSLATE_PERMS | {"unit.template", "source.edit"},
     ),
-    (pgettext_noop("Access-control role", "Add suggestion"), {"suggestion.add"}),
+    (
+        pgettext_noop("Access-control role", "Add suggestion"),
+        {"suggestion.add", "contribution.view_author"},
+    ),
     (
         pgettext_noop("Access-control role", "Access repository"),
-        {"translation.download", "vcs.access", "vcs.view"},
+        {"translation.download", "vcs.access", "vcs.view", "contribution.view_author"},
     ),
     (
         pgettext_noop("Access-control role", "Manage glossary"),
@@ -249,7 +266,8 @@ ROLES = (
     (pgettext_noop("Access-control role", "Translate"), TRANSLATE_PERMS),
     (
         pgettext_noop("Access-control role", "Manage languages"),
-        filter_perms("translation.", {"translation.auto"}),
+        filter_perms("translation.", {"translation.auto"})
+        | {"contribution.view_author"},
     ),
     (
         pgettext_noop("Access-control role", "Bulk editing"),
@@ -289,13 +307,13 @@ ROLES = (
 GROUPS = (
     (
         pgettext_noop("Access-control team name", "Guests"),
-        ("Add suggestion", "Access repository"),
+        ("Add suggestion", "Access repository", "View user profiles"),
         SELECTION_ALL_PUBLIC,
     ),
     (pgettext_noop("Access-control team name", "Viewers"), (), SELECTION_ALL_PROTECTED),
     (
         pgettext_noop("Access-control team name", "Users"),
-        ("Power user",),
+        ("Power user", "Discover users", "View user profiles"),
         SELECTION_ALL_PUBLIC,
     ),
     (

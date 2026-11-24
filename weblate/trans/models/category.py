@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, ClassVar, cast, overload
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.db import models, transaction
+from django.db import models, router, transaction
 from django.db.models import Q
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
@@ -37,6 +37,7 @@ from weblate.trans.mixins import (
     LockMixin,
     PathMixin,
 )
+from weblate.trans.models.audit import should_track_field
 from weblate.trans.validators import validate_check_flags, validate_enforced_checks
 from weblate.utils.change_origin import capture_change_origin, get_acting_user
 from weblate.utils.licenses import get_license_choices
@@ -49,7 +50,7 @@ from weblate.utils.stats import CategoryStats
 from weblate.utils.validators import validate_slug
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Collection, Iterable
 
     from weblate.auth.models import User
     from weblate.trans.models import Component
@@ -354,10 +355,20 @@ class Category(
 
     def save(self, *args, **kwargs) -> None:
         old = None
+        project_changed = False
         old_effective_check_flags = ""
         update_fields = kwargs.get("update_fields")
         if self.id:
             old = Category.objects.get(pk=self.id)
+            project_changed = old.project_id != self.project_id and should_track_field(
+                self, "project", update_fields
+            )
+            if project_changed:
+                from weblate.auth.models import validate_component_project_move  # ruff: ignore[import-outside-top-level]
+
+                validate_component_project_move(
+                    self.all_components.values_list("pk", flat=True)
+                )
             old_effective_check_flags = old.effective_check_flags.format()
             update_fields_set = None if update_fields is None else set(update_fields)
             for field in INHERITABLE_COMPONENT_SETTINGS:
@@ -369,12 +380,19 @@ class Category(
             if update_fields_set is not None:
                 kwargs["update_fields"] = update_fields_set
                 update_fields = update_fields_set
-            self.generate_changes(old)
             self.check_rename(old)
         else:
             self.validate_create_path()
         self.create_path()
-        super().save(*args, **kwargs)
+        using = kwargs.get("using") or router.db_for_write(type(self), instance=self)
+        with transaction.atomic(using=using):
+            super().save(*args, **kwargs)
+            if project_changed:
+                self.change_set.using(using).filter(component__isnull=True).exclude(
+                    project_id=self.project_id
+                ).update(project_id=self.project_id)
+            if old:
+                self.generate_changes(old, update_fields)
         if old:
             # Update linked repository references
             if (
@@ -385,7 +403,7 @@ class Category(
                 for component in self.all_components.exclude(component=None):
                     component.linked_children.update(repo=component.get_repo_link_url())
             # Move to a different project
-            if old.project != self.project:
+            if project_changed:
                 self.move_to_project(self.project)
             if old_effective_check_flags != self.effective_check_flags.format():
                 transaction.on_commit(
@@ -488,6 +506,12 @@ class Category(
 
         if self.id:
             old = Category.objects.get(pk=self.id)
+            if old.project_id != self.project_id:
+                from weblate.auth.models import validate_component_project_move  # ruff: ignore[import-outside-top-level]
+
+                validate_component_project_move(
+                    self.all_components.values_list("pk", flat=True)
+                )
             self.check_rename(old, validate=True)
 
     def validate_create_path(self) -> None:
@@ -676,7 +700,9 @@ class Category(
         """Return cached identifiers of components owned by this category tree."""
         return set(self.all_components.values_list("pk", flat=True))
 
-    def generate_changes(self, old) -> None:
+    def generate_changes(
+        self, old: Category, update_fields: Collection[str] | None = None
+    ) -> None:
         def getvalue(base, attribute):
             result = getattr(base, attribute)
             if result is None:
@@ -690,11 +716,13 @@ class Category(
             ("project", ActionEvents.MOVE_CATEGORY),
         )
         for attribute, action in tracked:
+            if not should_track_field(self, attribute, update_fields):
+                continue
             old_value = getvalue(old, attribute)
             current_value = getvalue(self, attribute)
 
             if old_value != current_value:
-                self.project.change_set.create(
+                self.change_set.create(
                     action=action,
                     old=old_value,
                     target=current_value,
@@ -704,19 +732,13 @@ class Category(
     @cached_property
     def source_language_ids(self) -> set[int]:
         # ruff: ignore[import-outside-top-level]
-        from weblate.trans.models.component import ComponentLink
+        from weblate.trans.models.component import Component
 
-        result = set(
-            self.all_components.values_list("source_language_id", flat=True).distinct()
+        return set(
+            Component.objects.filter(pk__in=self.get_component_ids_with_links())
+            .values_list("source_language_id", flat=True)
+            .distinct()
         )
-        result.update(
-            ComponentLink.objects.filter(
-                Q(category=self)
-                | Q(category__category=self)
-                | Q(category__category__category=self)
-            ).values_list("component__source_language_id", flat=True)
-        )
-        return result
 
     def get_widgets_url(self) -> str:
         """Return absolute URL for widgets."""

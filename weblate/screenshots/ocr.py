@@ -20,8 +20,8 @@ from django.utils import timezone
 from weblate.logger import LOGGER
 from weblate.utils.celery import store_task_metadata
 from weblate.utils.data import data_dir
-from weblate.utils.lock import WeblateLock
-from weblate.utils.requests import fetch_url
+from weblate.utils.lock import LockScope, WeblateLock
+from weblate.utils.requests import TESSERACT_RESPONSE_SIZE, fetch_url
 from weblate.utils.tracing import start_span
 
 if TYPE_CHECKING:
@@ -172,6 +172,7 @@ def download_tesseract_data(url: str, full_name: str) -> None:
                         url,
                         follow_redirects=True,
                         timeout=TESSERACT_DOWNLOAD_TIMEOUT,
+                        max_response_size=TESSERACT_RESPONSE_SIZE,
                     )
             except httpx2.HTTPError as error:
                 if (
@@ -204,37 +205,45 @@ def download_tesseract_data(url: str, full_name: str) -> None:
                 os.unlink(temporary_name)
 
 
+def prepare_tesseract_models(lang: str) -> None:
+    """
+    Populate the model cache for the requested language, English, and OSD.
+
+    The caller must have exclusive access to the cache.
+    """
+    tessdata = data_dir("cache", "tesseract")
+
+    os.makedirs(tessdata, exist_ok=True)
+
+    for code in (lang, "eng", "osd"):
+        filename = f"{code}.traineddata"
+        full_name = os.path.join(tessdata, filename)
+        if os.path.exists(full_name):
+            continue
+
+        url = TESSERACT_URL.format(filename)
+
+        LOGGER.debug("downloading tesseract data %s", url)
+
+        download_tesseract_data(url, full_name)
+
+
 def ensure_tesseract_language(lang: str) -> None:
     """
     Ensure that tesseract trained data is present for a language.
 
     It also always includes eng (English) and osd (Orientation and script detection).
     """
-    tessdata = data_dir("cache", "tesseract")
-
     # Operate with a lock held to avoid concurrent downloads
     with (
         WeblateLock(
-            scope="screenshots:tesseract:download",
+            scope=LockScope.SCREENSHOTS_TESSERACT_DOWNLOAD,
             key=0,
-            slug="screenshots:tesseract:download",
             timeout=600,
         ),
         start_span(op="ocr.models"),
     ):
-        os.makedirs(tessdata, exist_ok=True)
-
-        for code in (lang, "eng", "osd"):
-            filename = f"{code}.traineddata"
-            full_name = os.path.join(tessdata, filename)
-            if os.path.exists(full_name):
-                continue
-
-            url = TESSERACT_URL.format(filename)
-
-            LOGGER.debug("downloading tesseract data %s", url)
-
-            download_tesseract_data(url, full_name)
+        prepare_tesseract_models(lang)
 
 
 @contextmanager
@@ -271,8 +280,12 @@ def get_tesseract_language(language: Language) -> str:
 
 
 # Bump when changing recognition options, trained-data selection, or cache shape.
-OCR_ALGORITHM_VERSION = 1
+OCR_ALGORITHM_VERSION = 2
 OCR_QUEUE_TIMEOUT = 30 * 60
+OCR_LINE_LIMIT = 200
+OCR_WORD_LIMIT = 8000
+OCR_WORDS_PER_LINE_LIMIT = 40
+OCR_TEXT_LENGTH_LIMIT = 2048
 
 
 def get_ocr_signature(screenshot: Screenshot) -> dict[str, str | int]:
@@ -382,40 +395,50 @@ class OCRLine(OCRWord):
 
 def ocr_get_lines(
     api: PyTessBaseAPI, *, image: Image.Image, filename: str, resolution: int
-) -> list[OCRLine]:
+) -> tuple[list[OCRLine], bool]:
     """Recognize lines and their words without losing original image coordinates."""
     from tesserocr import RIL, iterate_level  # ruff: ignore[import-outside-top-level]
 
     lines: list[OCRLine] = []
+    truncated = False
     try:
         try:
             api.SetImage(image)
         except RuntimeError:
-            return lines
+            return lines, truncated
         api.SetSourceResolution(resolution)
         with start_span(op="ocr.recognize", name=filename):
             api.Recognize()
         iterator = api.GetIterator()
         if iterator is None:
-            return lines
-        for word in iterate_level(iterator, RIL.WORD):
-            try:
+            return lines, truncated
+        for word_number, word in enumerate(iterate_level(iterator, RIL.WORD)):
+            if word_number >= OCR_WORD_LIMIT:
+                truncated = True
+                break
+            try:  # ruff: ignore[too-many-statements-in-try-clause]
                 if not lines or word.IsAtBeginningOf(RIL.TEXTLINE):
+                    if len(lines) >= OCR_LINE_LIMIT:
+                        truncated = True
+                        break
                     lines.append(
                         {
-                            "text": word.GetUTF8Text(RIL.TEXTLINE),
+                            "text": word.GetUTF8Text(RIL.TEXTLINE)[
+                                :OCR_TEXT_LENGTH_LIMIT
+                            ],
                             "box": word.BoundingBox(RIL.TEXTLINE),
                             "words": [],
                         }
                     )
-                lines[-1]["words"].append(
-                    {
-                        "text": word.GetUTF8Text(RIL.WORD),
-                        "box": word.BoundingBox(RIL.WORD),
-                    }
-                )
+                if len(lines[-1]["words"]) < OCR_WORDS_PER_LINE_LIMIT:
+                    lines[-1]["words"].append(
+                        {
+                            "text": word.GetUTF8Text(RIL.WORD)[:OCR_TEXT_LENGTH_LIMIT],
+                            "box": word.BoundingBox(RIL.WORD),
+                        }
+                    )
             except RuntimeError:
                 continue
     finally:
         api.Clear()
-    return lines
+    return lines, truncated

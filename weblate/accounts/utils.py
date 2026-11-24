@@ -7,14 +7,18 @@ from __future__ import annotations
 import os
 import time
 from datetime import timedelta
+from functools import wraps
 from typing import TYPE_CHECKING, Final, Literal
 
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Q, Value
-from django.db.models.functions import Lower
+from django.db.models import Q
+from django.http import HttpResponseBase, HttpResponseRedirect
+from django.urls import reverse
 from django.utils import timezone
+from django.utils.http import urlencode
 from django.utils.translation import gettext
 from django_otp import DEVICE_ID_SESSION_KEY
 from django_otp.plugins.otp_static.models import StaticDevice
@@ -28,9 +32,12 @@ from weblate.accounts.models import AuditLog, VerifiedEmail
 from weblate.auth.models import User
 from weblate.memory.models import Memory, MemoryScope
 from weblate.trans.signals import user_pre_delete
+from weblate.utils.email import email_key, email_key_expression
 from weblate.utils.token import get_token
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from django.http import HttpRequest
     from django_otp.models import Device
 
@@ -43,6 +50,10 @@ SESSION_SECOND_FACTOR_HASH = "weblate:second_factor:auth_hash"
 SESSION_SECOND_FACTOR_TIMESTAMP = "weblate:second_factor:timestamp"
 SESSION_SECOND_FACTOR_SOCIAL = "weblate:second_factor:social"
 SESSION_SECOND_FACTOR_TOTP = "weblate:second_factor:totp_device"
+SESSION_FIRST_FACTOR_GRANT = "weblate:first_factor:grant"
+SESSION_FIRST_FACTOR_SSO = "weblate:first_factor:sso"
+SESSION_SENSITIVE_FACTOR_GRANT = "weblate:sensitive:factor_grant"
+SESSION_FIRST_WEBAUTHN_NAME = "weblate:first_factor:webauthn_name"
 SESSION_EXPIRY_SCOPE = "weblate:session_expiry_scope"
 SESSION_EXPIRY_AGE = "weblate:session_expiry_age"
 SESSION_EXPIRY_REFRESHED = "weblate:session_expiry_refreshed"
@@ -55,8 +66,195 @@ SESSION_EXPIRY_REFRESH_MAX_SECONDS = 86_400
 SESSION_EXPIRY_OIDC_SECONDS = 60
 
 SECOND_FACTOR_VERIFY_SECONDS = 600
+FIRST_FACTOR_VERIFY_SECONDS = 600
 TOTP_ENROLLMENT_SECONDS = 24 * 60 * 60
 SessionExpiryScope = Literal["oidc", "2fa", "login", "authenticated"]
+
+
+def has_recent_second_factor(
+    request: AuthenticatedHttpRequest, *, user: User | None = None
+) -> bool:
+    """Check whether a configured second factor was used recently in this session."""
+    user = user or request.user
+    if not user.is_authenticated or not user.profile.has_2fa:
+        return True
+    verification = request.session.get(SESSION_SECOND_FACTOR_TIMESTAMP)
+    if not isinstance(verification, dict) or verification.get("user") != user.pk:
+        return False
+    timestamp = verification.get("time")
+    return (
+        isinstance(timestamp, int)
+        and not isinstance(timestamp, bool)
+        and timestamp + SECOND_FACTOR_VERIFY_SECONDS >= int(time.time())
+    )
+
+
+def has_recent_sensitive_verification(request: AuthenticatedHttpRequest) -> bool:
+    """Require fresh proof of an existing credential for a sensitive action."""
+    user = request.user
+    if not user.is_authenticated:
+        return False
+    if user.profile.has_2fa:
+        return has_recent_second_factor(request)
+    grant = request.session.get(SESSION_SENSITIVE_FACTOR_GRANT)
+    if not isinstance(grant, dict):
+        return False
+    timestamp = grant.get("time")
+    return (
+        isinstance(timestamp, int)
+        and not isinstance(timestamp, bool)
+        and timestamp <= int(time.time())
+        and timestamp + FIRST_FACTOR_VERIFY_SECONDS >= int(time.time())
+        and grant.get("user") == user.pk
+        and grant.get("hash") == user.get_session_auth_hash()
+    )
+
+
+def grant_sensitive_verification(
+    request: AuthenticatedHttpRequest, *, user: User | None = None
+) -> None:
+    user = user or request.user
+    request.session[SESSION_SENSITIVE_FACTOR_GRANT] = {
+        "user": user.pk,
+        "hash": user.get_session_auth_hash(),
+        "time": int(time.time()),
+    }
+
+
+def valid_first_factor_sso_intent(
+    request: AuthenticatedHttpRequest, intent: object, provider: str
+) -> bool:
+    """Validate the session-bound intent before starting or completing SSO proof."""
+    if not request.user.is_authenticated or not isinstance(intent, dict):
+        return False
+    timestamp = intent.get("time")
+    association = intent.get("association")
+    now = int(time.time())
+    return (
+        isinstance(timestamp, int)
+        and not isinstance(timestamp, bool)
+        and timestamp <= now <= timestamp + FIRST_FACTOR_VERIFY_SECONDS
+        and intent.get("user") == request.user.pk
+        and intent.get("hash") == request.user.get_session_auth_hash()
+        and intent.get("provider") == provider
+        and intent.get("target") in {"totp", "webauthn", "sensitive"}
+        and isinstance(association, int)
+        and request.user.social_auth.filter(pk=association, provider=provider).exists()
+        and not request.user.profile.has_2fa
+    )
+
+
+def grant_first_factor(request: AuthenticatedHttpRequest) -> None:
+    """Authorize first enrollment in this session after primary authentication."""
+    user = request.user
+    request.session[SESSION_FIRST_FACTOR_GRANT] = {
+        "user": user.pk,
+        "hash": user.get_session_auth_hash(),
+        "time": int(time.time()),
+    }
+
+
+def clear_pending_first_factor(request: AuthenticatedHttpRequest) -> None:
+    """Discard enrollment secrets created before primary reauthentication."""
+    TOTPDevice.objects.filter(user=request.user, confirmed=False).delete()
+    request.session.pop(SESSION_SECOND_FACTOR_TOTP, None)
+    request.session.pop("otp_webauthn_register_state", None)
+    request.session.pop(SESSION_FIRST_WEBAUTHN_NAME, None)
+    request.session.pop(SESSION_SECOND_FACTOR_TIMESTAMP, None)
+
+
+def has_first_factor_grant(request: AuthenticatedHttpRequest) -> bool:
+    """Check the short-lived, account-bound first-enrollment authorization."""
+    grant = request.session.get(SESSION_FIRST_FACTOR_GRANT)
+    if not isinstance(grant, dict) or not request.user.is_authenticated:
+        return False
+    timestamp = grant.get("time")
+    return (
+        isinstance(timestamp, int)
+        and not isinstance(timestamp, bool)
+        and timestamp <= int(time.time())
+        and timestamp + FIRST_FACTOR_VERIFY_SECONDS >= int(time.time())
+        and grant.get("user") == request.user.pk
+        and grant.get("hash") == request.user.get_session_auth_hash()
+    )
+
+
+def second_factor_verification_redirect(
+    request: AuthenticatedHttpRequest, next_url: str
+) -> HttpResponseRedirect:
+    """Start a fresh second-factor challenge for the current user."""
+    messages.info(
+        request,
+        gettext(
+            "Please confirm your identity using a second factor before proceeding."
+        ),
+    )
+    user = request.user
+    set_second_factor_session(request, user, "weblate.accounts.auth.WeblateUserBackend")
+    login_url = reverse(
+        "2fa-login", kwargs={"backend": user.profile.get_second_factor_type()}
+    )
+    return HttpResponseRedirect(f"{login_url}?{urlencode({'next': next_url})}")
+
+
+def sensitive_verification_redirect(
+    request: AuthenticatedHttpRequest, next_url: str
+) -> HttpResponseRedirect:
+    if request.user.profile.has_2fa:
+        return second_factor_verification_redirect(request, next_url)
+    messages.info(request, gettext("Please confirm your identity before proceeding."))
+    return HttpResponseRedirect(
+        f"{reverse('first-factor-verify')}?{urlencode({'target': 'sensitive', 'next': next_url})}"
+    )
+
+
+def require_sensitive_verification(
+    view: Callable[..., HttpResponseBase],
+) -> Callable[..., HttpResponseBase]:
+    @wraps(view)
+    def wrapped(
+        request: AuthenticatedHttpRequest, *args: object, **kwargs: object
+    ) -> HttpResponseBase:
+        if not has_recent_sensitive_verification(request):
+            return sensitive_verification_redirect(request, request.path)
+        return view(request, *args, **kwargs)
+
+    return wrapped
+
+
+def require_project_sensitive_verification(
+    view: Callable[..., HttpResponseBase],
+) -> Callable[..., HttpResponseBase]:
+    """Return project access POST actions to a GET page after verification."""
+
+    @wraps(view)
+    def wrapped(
+        request: AuthenticatedHttpRequest, *args: object, **kwargs: object
+    ) -> HttpResponseBase:
+        if not has_recent_sensitive_verification(request):
+            project = kwargs["project"]
+            return sensitive_verification_redirect(
+                request, reverse("manage-access", kwargs={"project": project})
+            )
+        return view(request, *args, **kwargs)
+
+    return wrapped
+
+
+def require_recent_second_factor(
+    view: Callable[..., HttpResponseBase],
+) -> Callable[..., HttpResponseBase]:
+    """Require a fresh second factor before an authenticated account action."""
+
+    @wraps(view)
+    def wrapped(
+        request: AuthenticatedHttpRequest, *args: object, **kwargs: object
+    ) -> HttpResponseBase:
+        if not has_recent_second_factor(request):
+            return second_factor_verification_redirect(request, request.path)
+        return view(request, *args, **kwargs)
+
+    return wrapped
 
 
 def create_api_token(user: User) -> Token:
@@ -93,6 +291,13 @@ def remove_user(
         params["email"] = user.email
     AuditLog.objects.create(user, request, activity, **params)
 
+    # Preserve the original identity and actor in each scope's membership log.
+    # Acquire the audit locks before changing the account or its memberships.
+    for team in user.groups.select_related(
+        "defining_project", "defining_workspace"
+    ).order_by("defining_project_id", "pk"):
+        user.remove_team(request, team)
+
     # Remove any email validation codes
     invalidate_reset_codes(user)
 
@@ -115,8 +320,7 @@ def remove_user(
     # Remove all social auth associations
     user.social_auth.all().delete()
 
-    # Remove user from all groups
-    user.groups.clear()
+    # Remove any remaining administrator assignments without a membership.
     user.administered_group_set.clear()
 
     # Remove user translation memory
@@ -198,9 +402,11 @@ def invalidate_reset_codes(user=None, entries=None, emails=None) -> None:
     email_query = Q()
     for email in emails:
         if email:
-            email_query |= Q(normalized_email=Lower(Value(email)))
+            email_query |= Q(normalized_email=email_key(email))
     if email_query:
-        Code.objects.alias(normalized_email=Lower("email")).filter(email_query).delete()
+        Code.objects.alias(normalized_email=email_key_expression("email")).filter(
+            email_query
+        ).delete()
 
 
 def cycle_session_keys(request: AuthenticatedHttpRequest, user: User) -> None:

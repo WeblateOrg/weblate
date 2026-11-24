@@ -9,13 +9,14 @@
 # Automatic translation add-on <noreply-addon-autotranslate@weblate.org>, 2026.
 # GitHub webhook <noreply-webhook-github-integration@weblate.org>, 2026.
 # "Vaclovas Intas (Vac31.)" <Gateway_31@protonmail.com>, 2026.
+# "Vaclovas Intas (Vac31.)" <protogen@users.noreply.hosted.weblate.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-22 19:01-0500\n"
-"PO-Revision-Date: 2026-10-16 04:35+0000\n"
+"POT-Creation-Date: 2026-11-19 18:05-0600\n"
+"PO-Revision-Date: 2026-11-13 10:38+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
 "Language-Team: Lithuanian <https://hosted.weblate.org/projects/weblate/"
@@ -26,7 +27,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 0 : n%10>=2 && (n%100<10 || "
 "n%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3;\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.12.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -35,45 +36,35 @@ msgstr "Nėra"
 msgid "User avatar"
 msgstr "Naudotojo pseudoportretas"
 
-#, fuzzy
-#| msgid "Action"
 msgid "No notification"
-msgstr "Veiksmas"
+msgstr "Nėra pranešimo"
 
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Instant notification"
-msgstr "Pranešimai apie vertimus"
+msgstr "Momentinis pranešimas"
 
 msgid "Daily digest"
-msgstr ""
+msgstr "Dienos santrauka"
 
 msgid "Weekly digest"
-msgstr ""
+msgstr "Savaitės santrauka"
 
-#, fuzzy
-#| msgid "Monthly price"
 msgid "Monthly digest"
-msgstr "Kaina mėnesiui"
+msgstr "Mėnesinė santrauka"
 
 msgid "All"
-msgstr ""
+msgstr "Visi"
 
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Watched"
-msgstr "Stebimi projektai"
+msgstr "Stebimi"
 
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Administered"
-msgstr "Stebimi projektai"
+msgstr "Administruojami"
 
 msgid "Project"
 msgstr "Projektas"
 
 msgid "Component"
-msgstr ""
+msgstr "Komponentas"
 
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
@@ -82,8 +73,7 @@ msgstr ""
 "Šis el. pašto adresas jau naudojamas. Nurodykite kitą el. pašto adresą."
 
 msgid "This username is already taken. Please pick something else."
-msgstr ""
-"Toks vartotojo vardas jau yra naudojamas. Pasirinkite kitą vartotojo vardą."
+msgstr "Šis naudotojo vardas jau užimtas. Pasirinkite kitą."
 
 msgid "Full name"
 msgstr "Vardas ir pavardė"
@@ -92,29 +82,25 @@ msgid ""
 "Your full name may appear in version control commits, depending on the "
 "commit name setting below."
 msgstr ""
+"Jūsų pilnas vardas ir pavardė gali būti rodomi versijų valdymo "
+"įsipareigojimuose, priklausomai nuo žemiau įsipareigojimo pavadinimo "
+"nustatymo."
 
-#, fuzzy
-#| msgid "Username"
 msgid "User data file"
-msgstr "Naudotojo vardas"
+msgstr "Naudotojo duomenų failas"
 
-#, fuzzy
-#| msgid "Action"
 msgid "Import general notification settings"
-msgstr "Veiksmas"
+msgstr "Importuoti bendruosius pranešimų nustatymus"
 
 msgid "Import commit identity choices"
 msgstr ""
 
-#, fuzzy
-#| msgid "The entered token is not valid."
 msgid "The user data file is too large."
-msgstr "Įvestas žetonas netinkamas."
+msgstr "Naudotojo duomenų failas per didelis."
 
-#, fuzzy, python-format
-#| msgid "Translation status"
+#, python-format
 msgid "The uploaded file is not valid user data: %s"
-msgstr "Vertimų būsena"
+msgstr "Įkeltas failas nėra netinkamas naudotojo duomenys: %s."
 
 #, fuzzy
 #| msgid "Watched translations"
@@ -164,7 +150,7 @@ msgid "Translation"
 msgstr ""
 
 msgid "Dashboard"
-msgstr "Valdymo Skydelis"
+msgstr "Sąvadas"
 
 #, python-format
 msgid "Component list: %s"
@@ -178,15 +164,11 @@ msgid ""
 "below."
 msgstr ""
 
-#, fuzzy
-#| msgid "Personal info"
 msgid "Personal information"
 msgstr "Asmeninė informacija"
 
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Human verification"
-msgstr "Pranešimai apie vertimus"
+msgstr "Žmogaus patvirtinimas"
 
 #, python-format
 msgctxt ""
@@ -445,6 +427,16 @@ msgstr "Veiksmas"
 msgid "Saved search"
 msgstr "Ieškoti"
 
+msgid ""
+"A lookalike e-mail identity was removed, the password was disabled, and API "
+"tokens were revoked."
+msgstr ""
+
+msgid ""
+"Password disabled as reported leaked credential matched the password; API "
+"tokens revoked."
+msgstr ""
+
 #. Translators: Audit log entry
 msgid "Password changed."
 msgstr "Slaptažodis pakeistas."
@@ -616,7 +608,16 @@ msgstr "{username} įtraukė vartotoją į {team} komandą."
 msgid "User access to the {team} team was changed by {username}."
 msgstr "{username} įtraukė vartotoją į {team} komandą."
 
-#. Translators: Audit log entry
+#, fuzzy, python-brace-format
+#| msgid "User was added to the {team} team by {username}."
+msgid "Team administrator access to {team} was granted by {username}."
+msgstr "{username} įtraukė vartotoją į {team} komandą."
+
+#, fuzzy, python-brace-format
+#| msgid "User was added to the {team} team by {username}."
+msgid "Team administrator access to {team} was removed by {username}."
+msgstr "{username} įtraukė vartotoją į {team} komandą."
+
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr ""
@@ -683,6 +684,17 @@ msgstr "Pakviestas į „{project}“ vartotojo – {username}."
 msgid "Password configured."
 msgstr "Slaptažodis sukonfigūruotas."
 
+msgid ""
+"Reset your password to restore password access and review your account "
+"activity."
+msgstr ""
+
+msgid ""
+"Reset your password to restore password access. Choose a unique password and "
+"review your account activity. The report didn't disclose the source of the "
+"leak."
+msgstr ""
+
 msgid "To restore access to your account, please reset your password."
 msgstr ""
 
@@ -721,6 +733,45 @@ msgstr "Paskiausi pakeitimai"
 msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr "Paslauga"
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Site-wide"
+msgstr "Paskiausi pakeitimai"
+
+msgid "Workspace"
+msgstr ""
+
+#, fuzzy
+#| msgid "Backup repository"
+msgid "Team created"
+msgstr "Atsarginės kopijos saugykla"
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Team changed"
+msgstr "Paskiausi pakeitimai"
+
+#, fuzzy
+#| msgid "Profile"
+msgid "Team deleted"
+msgstr "Profilis"
+
+#, fuzzy
+#| msgid "Language name"
+msgid "Team member added"
+msgstr "Kalbos pavadinimas"
+
+#, fuzzy
+#| msgid "Language code"
+msgid "Team member removed"
+msgstr "Kalbos kodas"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "Team member access changed"
+msgstr "Licencija buvo pakeista"
 
 msgid "Account activity"
 msgstr "Paskyros aktyvumas"
@@ -1047,6 +1098,11 @@ msgid ""
 "This scope is too large to check. Choose a smaller category, a component, or "
 "a translation."
 msgstr ""
+
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Contributor"
+msgstr "Paremti Weblate"
 
 #, fuzzy
 #| msgid "Status of repositories"
@@ -1380,6 +1436,23 @@ msgstr ""
 
 #, python-brace-format
 msgid ""
+"Your e-mail no longer belongs to a verified account, it has been changed to "
+"{0}."
+msgstr ""
+
+msgid ""
+"Your account e-mail is no longer verified and has been removed. Add and "
+"verify an e-mail address to recover your password, then select it as your "
+"account e-mail in Account settings to receive notifications."
+msgstr ""
+
+msgid ""
+"Your e-mail address has been added. You can now select it as your account e-"
+"mail address in Account settings."
+msgstr ""
+
+#, python-brace-format
+msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
 "{0}."
 msgstr ""
@@ -1405,6 +1478,12 @@ msgstr ""
 
 msgctxt "Theme selection"
 msgid "Dark"
+msgstr ""
+
+msgid "Please confirm your identity using a second factor before proceeding."
+msgstr ""
+
+msgid "Please confirm your identity before proceeding."
 msgstr ""
 
 #, fuzzy, python-format
@@ -1532,17 +1611,17 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Register e-mail"
-msgid "Verify new e-mail address"
+msgid "Add and verify e-mail address"
 msgstr "El. pašto adreso užregistravimas"
-
-msgid "Please confirm your identity using a second factor before proceeding."
-msgstr ""
 
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr ""
 
 msgid "Change password"
 msgstr "Keisti slaptažodį"
+
+msgid "Set password"
+msgstr "Nustatyti slaptažodį"
 
 #, fuzzy
 #| msgid "Password reset"
@@ -1764,6 +1843,10 @@ msgid ""
 "components."
 msgstr ""
 
+#, python-format
+msgid "Error: %s"
+msgstr ""
+
 msgid "enabled"
 msgstr ""
 
@@ -1981,12 +2064,6 @@ msgid ""
 msgstr ""
 
 #, python-format
-msgid ""
-"Fedora Messaging publisher service was unavailable; the connection will be "
-"recreated on the next attempt: %(error)s"
-msgstr ""
-
-#, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
 msgstr ""
 
@@ -2003,7 +2080,7 @@ msgstr ""
 msgid "configured"
 msgstr "Dabartinis slaptažodis"
 
-msgid "Could not reset Fedora Messaging publisher service."
+msgid "The SSL certificates have to be provided for SSL connection."
 msgstr ""
 
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
@@ -2013,10 +2090,6 @@ msgid "Client SSL key must be an unencrypted PEM encoded private key."
 msgstr ""
 
 msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
-msgstr ""
-
-#, python-format
-msgid "Fedora Messaging broker URL is invalid: %(error)s"
 msgstr ""
 
 #, python-format
@@ -2062,7 +2135,7 @@ msgstr ""
 msgid "Bulk edit"
 msgstr "Vardas ir pavardė"
 
-msgid "Bulk edit flags, labels, or states of strings."
+msgid "Bulk edit text, flags, labels, or states of strings."
 msgstr ""
 
 #, fuzzy
@@ -2211,6 +2284,24 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "Component wide notifications"
+msgid "Comment extraction"
+msgstr "Pranešimai apie visus komponento įvykius"
+
+#, fuzzy
+#| msgid "Words"
+msgid "Keywords"
+msgstr "Žodžiai"
+
+msgid "Checks and ITS data"
+msgstr ""
+
+#, fuzzy
+#| msgid "Overview"
+msgid "Update behavior"
+msgstr "Apžvalga"
+
+#, fuzzy
 #| msgid "This field is required."
 msgid "This field is required."
 msgstr "Šis laukas yra privalomas."
@@ -2257,6 +2348,11 @@ msgid ""
 "relative to the repository root. If present next to the manifest, "
 "POTFILES.skip excludes listed files from extraction."
 msgstr ""
+
+#, fuzzy
+#| msgid "Profile"
+msgid "Input files"
+msgstr "Profilis"
 
 msgid "Invalid symbolic link in a repository."
 msgstr ""
@@ -2499,6 +2595,21 @@ msgstr ""
 msgid "I confirm the above matches look correct"
 msgstr ""
 
+#, fuzzy
+#| msgid "Full name"
+msgid "File matching"
+msgstr "Vardas ir pavardė"
+
+#, fuzzy
+#| msgid "Information"
+msgid "Component naming and file templates"
+msgstr "Informacija"
+
+#, fuzzy
+#| msgid "Component list"
+msgid "Component lifecycle"
+msgstr "Komponentų sąrašas"
+
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
 msgstr ""
@@ -2698,6 +2809,22 @@ msgstr ""
 msgid "Include read-only strings"
 msgstr "Veiksmas"
 
+#, fuzzy
+#| msgid "Your languages"
+msgid "Source and target"
+msgstr "Jūsų kalbos"
+
+msgid "Prepended text"
+msgstr ""
+
+msgid "Appended text"
+msgstr ""
+
+#, fuzzy
+#| msgid "Add new association"
+msgid "Text expansion"
+msgstr "Pridėti naują asociaciją"
+
 msgid "The source and target have to be different languages."
 msgstr ""
 
@@ -2772,10 +2899,20 @@ msgid ""
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
 
+#, fuzzy
+#| msgid "Glossary"
+msgid "Connection timeout"
+msgstr "Aiškinamasis žodynas"
+
+msgid "How many seconds to allow for connection and channel setup per attempt."
+msgstr ""
+
 msgid "Publish timeout"
 msgstr ""
 
-msgid "How many seconds to wait for the broker delivery acknowledgement."
+msgid ""
+"How many seconds to allow for sending and the broker delivery "
+"acknowledgement per attempt, after connection setup."
 msgstr ""
 
 msgid "Connection attempts"
@@ -2791,15 +2928,28 @@ msgid "How many seconds to wait between connection attempts."
 msgstr ""
 
 #, fuzzy
+#| msgid "Watched translations"
+msgid "Broker connection"
+msgstr "Stebimi vertimai"
+
+msgid "Timeouts and retries"
+msgstr ""
+
+msgid "TLS credentials"
+msgstr ""
+
+#, fuzzy
+#| msgid "Projects"
+msgid "Event selection"
+msgstr "Projektai"
+
+#, fuzzy
 #| msgid "Special characters"
 msgid "Topic prefix can contain only ASCII characters."
 msgstr "Specialialieji rašmenys"
 
 #, python-format
 msgid "Topic prefix must not exceed %(limit)d characters."
-msgstr ""
-
-msgid "The SSL certificates have to be provided for SSL connection."
 msgstr ""
 
 msgid "The SSL certificates are not used without a SSL connection."
@@ -3014,6 +3164,12 @@ msgstr "Vertimų būsena"
 msgid "This add-on is already installed on this component."
 msgstr "Vertimų būsena"
 
+#, fuzzy
+#| msgid "Translation status"
+msgid ""
+"Repository add-ons must be installed on the component owning the repository."
+msgstr "Vertimų būsena"
+
 msgid "This add-on cannot be triggered manually."
 msgstr ""
 
@@ -3061,11 +3217,9 @@ msgctxt "Add-on scope"
 msgid "Repository"
 msgstr "Paskiausi pakeitimai"
 
-#, fuzzy
-#| msgid "Components"
 msgctxt "Add-on scope"
 msgid "Component"
-msgstr "Komponentai"
+msgstr "Komponentas"
 
 #, fuzzy
 #| msgid "Watched projects"
@@ -3086,6 +3240,11 @@ msgstr "Projektas"
 msgctxt "Add-on scope"
 msgid "Site"
 msgstr ""
+
+#, fuzzy
+#| msgid "Component list"
+msgid "a component you cannot access"
+msgstr "Komponentų sąrašas"
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -3389,6 +3548,11 @@ msgstr ""
 msgid "Your suggestion already exists!"
 msgstr ""
 
+#, fuzzy
+#| msgid "Profile"
+msgid "Search query"
+msgstr "Profilis"
+
 msgid "Inherit enforced checks from the parent category, project or workspace."
 msgstr ""
 
@@ -3492,6 +3656,26 @@ msgstr "Vartotojas"
 msgid "Language"
 msgstr "Kalba"
 
+msgid ""
+"Contributor identities are exposed by View contributor identities, Download "
+"changes, Manage reports, and access-management permissions. Permissions from "
+"all assigned roles are additive."
+msgstr ""
+
+msgid "Built-in"
+msgstr ""
+
+#, fuzzy
+#| msgid "Custom"
+msgid "Customized"
+msgstr "Tinkintas"
+
+msgid "Reset built-in roles to defaults"
+msgstr ""
+
+msgid "Built-in role permissions reset."
+msgstr ""
+
 msgid "Personal info"
 msgstr "Asmeninė informacija"
 
@@ -3509,6 +3693,12 @@ msgstr ""
 
 msgid "This is not used when a component is selected."
 msgstr ""
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "Versions"
+msgid "View contributor identities"
+msgstr "Versijos"
 
 #. Translators: Permission name
 msgid "Download changes"
@@ -3788,6 +3978,25 @@ msgid "Manage workspace access"
 msgstr "Valdomi projektai"
 
 #. Translators: Permission name
+#, fuzzy
+#| msgctxt "Plural type"
+#| msgid "Arabic languages"
+msgid "Browse users"
+msgstr "Arabų kalbos"
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "Only chosen users can contribute."
+msgid "Search resource contributors"
+msgstr "Gali prisidėti tik pasirinkti vartotojai."
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "User profile"
+msgid "View user profiles"
+msgstr "Naudotojo/Vartotojo profilis"
+
+#. Translators: Permission name
 msgid "Use management interface"
 msgstr ""
 
@@ -3876,6 +4085,18 @@ msgstr "Kalbos, į kurias verčiate"
 #| msgid "Translated languages"
 msgid "Manage site-wide add-ons"
 msgstr "Kalbos, į kurias verčiate"
+
+#, fuzzy
+#| msgid "Discover Weblate"
+msgctxt "Access-control role"
+msgid "Discover users"
+msgstr "Atrasti „Weblate“"
+
+#, fuzzy
+#| msgid "User profile"
+msgctxt "Access-control role"
+msgid "View user profiles"
+msgstr "Naudotojo/Vartotojo profilis"
 
 msgctxt "Access-control role"
 msgid "Administration"
@@ -4129,6 +4350,20 @@ msgid "Name"
 msgstr "Vardas"
 
 msgid "Choose permissions granted to this role."
+msgstr ""
+
+msgid ""
+"Remove the component from project teams before moving it to another project."
+msgstr ""
+
+msgid ""
+"Remove the component from its teams before deleting it. Deleting the last "
+"assigned component would expand the team's access."
+msgstr ""
+
+msgid ""
+"Remove the component list from its teams before deleting it. Deleting the "
+"last assigned component list could expand a team's access."
 msgstr ""
 
 msgid "Roles"
@@ -4466,6 +4701,11 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "Watched translations"
+msgid "You need to log in to upload translations."
+msgstr "Stebimi vertimai"
+
+#, fuzzy
 #| msgid "Translation status"
 msgid "The file format does not support updating source strings."
 msgstr "Vertimų būsena"
@@ -4481,6 +4721,9 @@ msgstr ""
 msgid ""
 "You need explicit access to this component before enabling restricted "
 "access; otherwise, you would lock yourself out."
+msgstr ""
+
+msgid "Blocked users cannot be granted project administration rights."
 msgstr ""
 
 #, python-format
@@ -4500,6 +4743,16 @@ msgstr ""
 msgid "Project tokens can not be assigned to teams here."
 msgstr ""
 
+#, fuzzy
+#| msgid "View"
+msgid "Team audit log"
+msgstr "Rodyti"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Team audit entry"
+msgstr "Administravimas"
+
 msgid "Cannot remove built-in team!"
 msgstr ""
 
@@ -4507,6 +4760,14 @@ msgstr ""
 #| msgid "Register email"
 msgid "User invitation was removed."
 msgstr "El. pašto adreso užregistravimas"
+
+#, fuzzy
+#| msgid "Register email"
+msgid "This invitation was already accepted or removed."
+msgstr "El. pašto adreso užregistravimas"
+
+msgid "Remove the project block before accepting this invitation."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Administration"
@@ -4640,6 +4901,194 @@ msgid "Preview without changes"
 msgstr "Paskiausi pakeitimai"
 
 #, fuzzy
+#| msgid "Change word"
+msgid "Change events"
+msgstr "Keisti žodį"
+
+#, fuzzy
+#| msgid "Watched projects"
+msgid "The workflow runs for each of the selected events."
+msgstr "Stebimi projektai"
+
+msgid "CEL expression"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "The expression has to evaluate to a boolean."
+msgstr "Vertimų būsena"
+
+#, fuzzy
+#| msgid "Full name"
+msgid "Category path"
+msgstr "Vardas ir pavardė"
+
+msgid "Slash-separated category path inside the project."
+msgstr ""
+
+msgid "Language code"
+msgstr "Kalbos kodas"
+
+#, fuzzy
+#| msgid "Change word"
+msgid "Change event"
+msgstr "Keisti žodį"
+
+#, fuzzy
+#| msgid "Status"
+msgid "String state"
+msgstr "Būsena"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Action ID"
+msgstr "Veiksmas"
+
+msgid "Optional identifier so that later actions can use its results."
+msgstr ""
+
+#, fuzzy
+#| msgid "Project / Component"
+msgid "Whole component"
+msgstr "Projektas / komponentas"
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "String affected by the change"
+msgstr "Panaikinti šią paskyrą"
+
+#, fuzzy
+#| msgid "Status"
+msgid "String scope"
+msgstr "Būsena"
+
+#, fuzzy
+#| msgid "Default component list"
+msgid "Default (whole component)"
+msgstr "Numatytasis komponentų sąrašas"
+
+#, fuzzy
+#| msgid "Permissions"
+msgid "Select strings"
+msgstr "Leidimai"
+
+msgid "Use the effective AI quality add-on"
+msgstr ""
+
+#, fuzzy
+#| msgid "Full name"
+msgid "Bulk editing"
+msgstr "Vardas ir pavardė"
+
+#, fuzzy
+#| msgid "Component list"
+msgid "Component update"
+msgstr "Komponentų sąrašas"
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Repository update"
+msgstr "Paskiausi pakeitimai"
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Repository commit"
+msgstr "Paskiausi pakeitimai"
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Repository push"
+msgstr "Paskiausi pakeitimai"
+
+msgid "Manual run"
+msgstr ""
+
+#, fuzzy
+#| msgid "Permissions"
+msgid "Expression"
+msgstr "Leidimai"
+
+#, fuzzy
+#| msgid "Component list"
+msgid "Component category"
+msgstr "Komponentų sąrašas"
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Matching strings"
+msgstr "Kalbos, į kurias verčiate"
+
+msgid "All of"
+msgstr ""
+
+msgid "Any of"
+msgstr ""
+
+#, fuzzy
+#| msgid "Note"
+msgid "Not"
+msgstr "Pastaba"
+
+msgid "Sequence"
+msgstr ""
+
+msgid "Choose"
+msgstr ""
+
+#, fuzzy
+#| msgid "Plural form %d"
+msgid "Trigger"
+msgstr "%d daugiskaitos forma"
+
+#, fuzzy
+#| msgid "Add new association"
+msgid "Add trigger"
+msgstr "Pridėti naują asociaciją"
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Condition"
+msgstr "Dabartinis slaptažodis"
+
+#, fuzzy
+#| msgid "Add team"
+msgid "Add condition"
+msgstr "Įtraukti komandą"
+
+msgid "Action"
+msgstr "Veiksmas"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Add action"
+msgstr "Veiksmas"
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Conditions"
+msgstr "Dabartinis slaptažodis"
+
+msgid "Actions"
+msgstr ""
+
+msgid "Branches"
+msgstr ""
+
+#, fuzzy
+#| msgid "Action"
+msgid "Add branch"
+msgstr "Veiksmas"
+
+msgid "Otherwise"
+msgstr ""
+
+msgid "Add action to run otherwise"
+msgstr ""
+
+msgid "Branch"
+msgstr ""
+
+#, fuzzy
 #| msgid "Add new association"
 msgid "Additional message"
 msgstr "Pridėti naują asociaciją"
@@ -4661,9 +5110,6 @@ msgid ""
 msgstr ""
 
 msgid "No valid billing found or limit exceeded."
-msgstr ""
-
-msgid "Workspace"
 msgstr ""
 
 #, fuzzy
@@ -4784,6 +5230,9 @@ msgstr[1] "Projektas / komponentas"
 msgstr[2] "Projektas / komponentas"
 msgstr[3] "Projektas / komponentas"
 
+msgid "Restricted components are not allowed by this billing plan."
+msgstr ""
+
 #, fuzzy
 #| msgid "Change word"
 msgid "Missing license"
@@ -4799,6 +5248,11 @@ msgstr "Mokėjimas"
 #| msgid "Mailing list"
 msgid "Billing event"
 msgstr "Elektroninio pašto grupė"
+
+#, fuzzy
+#| msgid "Project / Component"
+msgid "Project has no components."
+msgstr "Projektas / komponentas"
 
 #, fuzzy
 #| msgid "Monthly"
@@ -4847,6 +5301,9 @@ msgid ""
 msgstr ""
 
 msgid "To terminate billing you have to remove all projects first."
+msgstr ""
+
+msgid "Externally managed billings cannot be merged."
 msgstr ""
 
 msgid "Cannot merge such a billing."
@@ -5141,8 +5598,8 @@ msgid "Inconsistent"
 msgstr ""
 
 msgid ""
-"This string has more than one translation in this project or is untranslated "
-"in some components."
+"This string has more than one translation in its propagation group or is "
+"untranslated in some components."
 msgstr ""
 
 #, fuzzy
@@ -5423,6 +5880,10 @@ msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr ""
 
 #, python-brace-format
+msgid "The HTML {tag} tag is nested too deeply."
+msgstr ""
+
+#, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
 "end with {semicolon}. If you do not want a character reference, use "
@@ -5623,6 +6084,15 @@ msgstr "Stebimi vertimai"
 #| msgid "Watched translations"
 msgid "Fluent syntax error in the translation."
 msgstr "Stebimi vertimai"
+
+msgid "The Fluent value could not be checked because it is too complex."
+msgstr ""
+
+msgid "the value is too complex or nested too deeply"
+msgstr ""
+
+msgid "Format matching exceeded its time limit."
+msgstr ""
 
 #, fuzzy
 #| msgid "Your account has been removed."
@@ -5970,6 +6440,9 @@ msgstr ""
 msgid "Markdown syntax does not match source."
 msgstr "Vertimų būsena"
 
+msgid "Markdown syntax matching exceeded its time limit."
+msgstr ""
+
 #, fuzzy
 #| msgid "Translation status"
 msgid "The translation does not contain a URL."
@@ -6182,6 +6655,11 @@ msgstr "Pakartotinai įveskite naują slaptažodį"
 msgid "Your translation is foo"
 msgstr "Jūsų vertimas buvo pakomentuotas"
 
+msgid ""
+"Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
+"px fonts, and 2,048 px preview dimensions."
+msgstr ""
+
 msgid "Font style"
 msgstr ""
 
@@ -6362,6 +6840,25 @@ msgstr "Būsena"
 msgid "Excel Open XML"
 msgstr "„Excel Open“ XML"
 
+#, fuzzy
+#| msgid "Status of repositories"
+msgid "Could not open the workbook archive."
+msgstr "Saugyklų būsena"
+
+#, python-format
+msgid ""
+"Workbook exceeds the maximum allowed count of %d worksheet rows after the "
+"header."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed size of %d bytes."
+msgstr ""
+
+#, python-format
+msgid "Translation file exceeds the maximum allowed count of %d strings."
+msgstr ""
+
 msgid "Multivalue CSV file"
 msgstr ""
 
@@ -6407,6 +6904,10 @@ msgid "Invalid id_hash metadata in CSV file: %s"
 msgstr "Vertimų būsena"
 
 msgid "Plural form metadata in CSV file requires id_hash."
+msgstr ""
+
+#, python-format
+msgid "CSV file exceeds the maximum allowed count of %d data rows."
 msgstr ""
 
 #. Translators: File format name
@@ -6684,6 +7185,13 @@ msgstr "Programų parduotuvės metaduomenų failai"
 msgid "File validation is required for directory-based formats."
 msgstr ""
 
+#, python-format
+msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgstr ""
+
+msgid "Converted workbook content exceeds the configured size limit."
+msgstr ""
+
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
@@ -6748,6 +7256,16 @@ msgid ""
 "either this limit or the maximum age is reached."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation status"
+msgid "Install Translation files CDN"
+msgstr "Vertimų būsena"
+
+msgid ""
+"Publishes original translation files publicly, including files from private "
+"components."
+msgstr ""
+
 msgid "Kotlin SDK CDN"
 msgstr ""
 
@@ -6755,6 +7273,11 @@ msgid ""
 "Publishes Android string and plural resources for registered Kotlin SDK "
 "builds."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation files CDN cannot be installed on this component."
+msgstr "Vertimų būsena"
 
 msgid "Weblate languages"
 msgstr "„Weblate“ kalbos"
@@ -6812,9 +7335,6 @@ msgstr "Kalbų limitas"
 #, fuzzy
 #| msgid "Language code"
 msgid "Enter a valid language code."
-msgstr "Kalbos kodas"
-
-msgid "Language code"
 msgstr "Kalbos kodas"
 
 msgid "Language name"
@@ -6989,9 +7509,6 @@ msgid "Plural formula"
 msgstr "%d daugiskaitos forma"
 
 msgid "Plural type"
-msgstr ""
-
-msgid "Example counts for this plural form."
 msgstr ""
 
 msgid "Singular"
@@ -7295,6 +7812,9 @@ msgstr ""
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
 msgstr "Jūsų kalbos"
+
+msgid "disabled"
+msgstr ""
 
 msgid ""
 "Project-level machine translation cannot use internal or non-public "
@@ -7920,6 +8440,21 @@ msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "Jūsų kalbos"
 
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Rate limit reset."
+msgstr "Paremti Weblate"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Too many translation requests."
+msgstr "Vertimų būsena"
+
+#, fuzzy
+#| msgid "Too many authentication attempts!"
+msgid "Too many concurrent translation requests for this service."
+msgstr "Pernelyg dažnai bandėte prisijungti!"
+
 msgid "File"
 msgstr "Failas"
 
@@ -8071,6 +8606,11 @@ msgid ""
 "and will be rebuilt in the background."
 msgstr "Vertimų būsena"
 
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Too many uploads, please try again later."
+msgstr "Stebimi vertimai"
+
 #, fuzzy, python-format
 #| msgid "Watched translations"
 msgid "Processed %(count)d active translation memory entry."
@@ -8156,6 +8696,11 @@ msgid "Read your e-mail address"
 msgstr "Naudoti paskyros el. pašto adresą"
 
 msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
+msgid ""
+"When the linked file changes, Weblate can replace the screenshot with the "
+"repository image. Repository access is required to change this path."
 msgstr ""
 
 msgid "Image is too big."
@@ -8287,9 +8832,22 @@ msgstr[3] "Leidimai"
 msgid "No new matching source strings found."
 msgstr "Nerasta naujų sutampančių šaltinio eilučių."
 
+msgid "Only some matching strings are shown. Search for more strings manually."
+msgstr ""
+
 #, fuzzy
 #| msgid "Watched translations"
-msgid "OCR data could not be downloaded. Please try again later."
+msgid "Too many image text searches. Please try again later."
+msgstr "Stebimi vertimai"
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Text recognition data could not be downloaded. Please try again later."
+msgstr "Stebimi vertimai"
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Could not find strings in the image. Please try again."
 msgstr "Stebimi vertimai"
 
 #, fuzzy
@@ -8543,9 +9101,20 @@ msgid "Your profile"
 msgstr "Jūsų profilis"
 
 #, fuzzy
+#| msgid "Enter a valid e-mail address."
+msgid "Confirm adding e-mail address"
+msgstr "Įveskite tinkamą el. pašto adresą."
+
+#, fuzzy
 #| msgid "Status of repositories"
 msgid "Confirm adding user identity"
 msgstr "Saugyklų būsena"
+
+#, python-format
+msgid ""
+"Confirm adding %(uid)s to your existing Weblate account by entering your "
+"current password."
+msgstr ""
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #, python-format
@@ -8553,6 +9122,11 @@ msgid ""
 "After confirming this, you will be able to authenticate to Weblate using "
 "%(backend_verbose)s (%(uid)s)."
 msgstr ""
+
+#, fuzzy
+#| msgid "Register e-mail"
+msgid "Add e-mail address"
+msgstr "El. pašto adreso užregistravimas"
 
 msgid "Confirm"
 msgstr ""
@@ -8661,6 +9235,11 @@ msgid "Registration"
 msgstr ""
 
 #, fuzzy
+#| msgid "Your e-mail"
+msgid "Check your e-mail"
+msgstr "Jūsų el. pašto adresas"
+
+#, fuzzy
 #| msgid "Password reset"
 msgid "Password reset almost complete"
 msgstr "Iš naujo nustatyti slaptažodį"
@@ -8669,11 +9248,6 @@ msgstr "Iš naujo nustatyti slaptažodį"
 #| msgid "Password reset"
 msgid "Account removal almost complete"
 msgstr "Iš naujo nustatyti slaptažodį"
-
-#, fuzzy
-#| msgid "Verification completed"
-msgid "E-mail verification almost complete"
-msgstr "Patvirtinimas atliktas"
 
 msgid "Registration almost complete"
 msgstr ""
@@ -8687,8 +9261,9 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Click the confirmation link sent to your e-mail inbox to verify the address "
-"for your account."
+"Check your e-mail for instructions. If this address is already associated "
+"with an account, you may receive account recovery guidance instead of a "
+"verification link."
 msgstr ""
 
 msgid ""
@@ -8698,6 +9273,16 @@ msgstr ""
 
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr ""
+
+#, python-format
+msgid ""
+"If you receive a verification link, it will expire after %(count)s hour."
+msgid_plural ""
+"If you receive a verification link, it will expire after %(count)s hours."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
@@ -8719,6 +9304,15 @@ msgid "Register again if the confirmation link expires."
 msgstr ""
 
 msgid ""
+"If you receive a verification link, open it while signed in to this account "
+"and follow the confirmation steps. You may be asked for your current "
+"password."
+msgstr ""
+
+msgid "Back to account settings"
+msgstr ""
+
+msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
@@ -8732,12 +9326,48 @@ msgstr ""
 msgid "Please fix errors in the form."
 msgstr ""
 
+msgid ""
+"Verification instructions will be sent to the new e-mail address. You do not "
+"need access to your old mailbox."
+msgstr ""
+
+msgid ""
+"Adding an address does not change your account e-mail address. After "
+"verification, you can select the new address in Account settings."
+msgstr ""
+
 #, fuzzy
 #| msgid "Register email"
 msgid "Send verification e-mail"
 msgstr "El. pašto adreso užregistravimas"
 
-msgid "Back to account settings"
+#, fuzzy
+#| msgid "Status of repositories"
+msgid "Confirm your identity"
+msgstr "Saugyklų būsena"
+
+msgid "Confirm your existing sign-in method before continuing."
+msgstr ""
+
+msgid ""
+"Confirm your existing sign-in method before registering your first second "
+"factor."
+msgstr ""
+
+msgid "Sign in again using a connected provider:"
+msgstr ""
+
+msgid ""
+"Your previous e-mail verification has expired. Reset your password to "
+"continue."
+msgstr ""
+
+msgid "Sign out and reset password by e-mail"
+msgstr ""
+
+msgid ""
+"No sign-in method is available to confirm your identity. Contact an "
+"administrator to recover access."
 msgstr ""
 
 #, fuzzy
@@ -8971,6 +9601,9 @@ msgstr ""
 msgid "Change my password"
 msgstr "Keisti slaptažodį"
 
+msgid "Set my password"
+msgstr "Nustatyti slaptažodį"
+
 #, fuzzy
 #| msgid "Projects"
 msgid "Back to security settings"
@@ -9020,11 +9653,6 @@ msgstr ""
 
 msgid "The e-mail address can be chosen from verified addresses only."
 msgstr ""
-
-#, fuzzy
-#| msgid "Register e-mail"
-msgid "Add and verify e-mail address"
-msgstr "El. pašto adreso užregistravimas"
 
 msgid "Save"
 msgstr "Išsaugoti"
@@ -9124,9 +9752,6 @@ msgstr "Dabartinis slaptažodis"
 #| msgid "Current password"
 msgid "Not configured"
 msgstr "Dabartinis slaptažodis"
-
-msgid "Set password"
-msgstr "Nustatyti slaptažodį"
 
 #, fuzzy
 #| msgid "Authentication"
@@ -9241,6 +9866,9 @@ msgid "Toggle API key visibility"
 msgstr "Keisti slaptažodį"
 
 msgid "API key copied to clipboard."
+msgstr ""
+
+msgid "Verify your identity to view your API key"
 msgstr ""
 
 msgid "API root URL:"
@@ -9429,9 +10057,6 @@ msgid ""
 msgstr ""
 "Pamiršote slaptažodį? Įveskite el. pašto adresą ir mes atsiųsime "
 "instrukcijas, kaip nustatyti naują slaptažodį."
-
-msgid "Set my password"
-msgstr "Nustatyti slaptažodį"
 
 msgid "Reset my password"
 msgstr "Iš naujo nustatyti slaptažodį"
@@ -9879,6 +10504,11 @@ msgid "No components found."
 msgstr "Komponentų sąrašas"
 
 #, fuzzy
+#| msgid "Translation notifications"
+msgid "Integration instructions"
+msgstr "Pranešimai apie vertimus"
+
+#, fuzzy
 #| msgid "Current password"
 msgid "Configure add-on"
 msgstr "Dabartinis slaptažodis"
@@ -9977,6 +10607,26 @@ msgstr "Vertimų būsena"
 msgid "Install"
 msgstr ""
 
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "Install on the component owning the repository."
+msgstr "Jūsų paskyra pašalinta."
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "The component owning this repository is not available to you."
+msgstr "Vertimų būsena"
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Open repository add-ons"
+msgstr "Paskiausi pakeitimai"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Unavailable"
+msgstr "Neprieinama/-s"
+
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -10016,10 +10666,51 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
+msgid "Workflow editing mode"
+msgstr ""
+
 #, fuzzy
-#| msgid "Translation notifications"
-msgid "Integration instructions"
-msgstr "Pranešimai apie vertimus"
+#| msgid "Edit"
+msgid "Editor"
+msgstr "Redaguoti"
+
+msgid "YAML"
+msgstr ""
+
+msgid ""
+"Both modes edit the same workflow, and switching between them keeps unsaved "
+"changes."
+msgstr ""
+
+#, fuzzy
+#| msgid "Plural form %d"
+msgid "Triggers"
+msgstr "%d daugiskaitos forma"
+
+msgid ""
+"Events starting the workflow. Without any trigger it can only be run "
+"manually."
+msgstr ""
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "All conditions have to pass before any action runs."
+msgstr "Stebimi vertimai"
+
+#, fuzzy
+#| msgid "Status of repositories"
+msgid "Operations performed in this order once the conditions pass."
+msgstr "Saugyklų būsena"
+
+#, fuzzy
+#| msgid "Watched projects"
+msgid "Move up"
+msgstr "Stebimi projektai"
+
+#, fuzzy
+#| msgid "Project / Component"
+msgid "Move down"
+msgstr "Projektas / komponentas"
 
 msgid "Published translation files are available from the CDN base URL:"
 msgstr ""
@@ -10101,6 +10792,24 @@ msgid "No matching components were found!"
 msgstr ""
 
 msgid ""
+"Configure the AMQP broker connection below, including any TLS certificates "
+"required by your broker, and select the events to publish."
+msgstr ""
+
+msgid "Configure your consumer to subscribe to Weblate message topics:"
+msgstr ""
+
+msgid ""
+"Topics include only the path segments available for the event. If you "
+"configure a topic prefix, it is prepended with a dot separator."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for topic examples, the message schema, and "
+"consumer configuration."
+msgstr ""
+
+msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
 msgstr ""
@@ -10152,6 +10861,17 @@ msgstr "Projektai"
 msgid ""
 "See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
 "library setup."
+msgstr ""
+
+msgid ""
+"Install Translation files CDN to let the SDK download original XML "
+"translation files. These files are published publicly, including files from "
+"private components."
+msgstr ""
+
+msgid ""
+"After installation, return to this page to copy the updated Gradle "
+"configuration."
 msgstr ""
 
 msgid "Configure the Kotlin SDK Gradle plugin with these values:"
@@ -10277,6 +10997,19 @@ msgstr ""
 msgid "Source string"
 msgstr ""
 
+#, python-format
+msgid ""
+"Create an <a href=\"%(url)s\">incoming webhook in Slack</a> for the channel "
+"that should receive notifications."
+msgstr ""
+
+msgid ""
+"Enter the webhook URL below and select the events to send to the channel."
+msgstr ""
+
+msgid "See the add-on documentation for more information."
+msgstr ""
+
 msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr ""
@@ -10285,6 +11018,22 @@ msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
 "author\" or \"Per author and language\" is selected, or the commit message "
 "is customized to include it."
+msgstr ""
+
+msgid ""
+"Configure your service to receive JSON POST requests, enter its URL below, "
+"and select the events to send."
+msgstr ""
+
+msgid ""
+"To verify request signatures, configure the same Standard Webhooks secret in "
+"Weblate and your receiver. Requests are signed only when a secret is "
+"configured."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for the message payload and signature "
+"verification."
 msgstr ""
 
 msgid "HTTP Response"
@@ -10306,6 +11055,47 @@ msgstr "Projektas / komponentas"
 msgid "Request payload"
 msgstr "Kalbos, į kurias verčiate"
 
+msgid ""
+"Reset these built-in roles to the current default permissions? This discards "
+"their customizations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Permissions"
+msgid "Reset permissions"
+msgstr "Leidimai"
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Actor"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete entry"
+msgid "Deleted user"
+msgstr "Ištrinti įrašą"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Administrative team changes"
+msgstr "Administravimas"
+
+#, fuzzy
+#| msgid "Changes"
+msgid "Change"
+msgstr "Pakeitimai"
+
+#, fuzzy
+#| msgid "View"
+msgid "View details"
+msgstr "Rodyti"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "No team audit entries found."
+msgstr "Pranešimai apie vertimus"
+
 msgid "Settings"
 msgstr ""
 
@@ -10316,6 +11106,11 @@ msgstr "Automatiniai pasiūlymai"
 
 msgid "Access control"
 msgstr "Prieigos valdymas"
+
+msgid ""
+"Automatically invite newly created users to this team based on their e-mail "
+"address. Users join only after accepting the invitation."
+msgstr ""
 
 msgid ""
 "Automatically add newly created users to this team based on their e-mail "
@@ -10371,6 +11166,11 @@ msgid "Add"
 msgstr "Pridėti"
 
 #, fuzzy
+#| msgid "Project / Component"
+msgid "Moved component"
+msgstr "Projektas / komponentas"
+
+#, fuzzy
 #| msgid "Component list"
 msgid "All components"
 msgstr "Komponentų sąrašas"
@@ -10401,6 +11201,9 @@ msgstr ""
 #| msgid "Manage roles"
 msgid "My workspaces"
 msgstr "Valdyti roles"
+
+msgid "Workspaces"
+msgstr ""
 
 #, fuzzy
 #| msgid "Translated languages"
@@ -10612,6 +11415,16 @@ msgid ""
 "above or purchase a subscription."
 msgstr ""
 
+#, python-format
+msgid ""
+"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+msgstr ""
+
+msgid ""
+"Weblate locks existing components for translation when it issues this "
+"warning. Project maintainers can unlock them."
+msgstr ""
+
 #, fuzzy
 #| msgid "Custom"
 msgid "Customer"
@@ -10635,9 +11448,6 @@ msgstr "Rodyti/Peržiūrėti"
 #| msgid "View"
 msgid "Event details"
 msgstr "Rodyti"
-
-msgid "Actions"
-msgstr ""
 
 msgid "Download"
 msgstr "Atsisiųsti"
@@ -10743,6 +11553,136 @@ msgstr ""
 msgid "Check your billing status"
 msgstr "Patikrinkite savo mokėjimo būseną"
 
+msgid "Checking your browser"
+msgstr ""
+
+msgid ""
+"Your browser will calculate a short proof of work to protect this site "
+"against automated scraping."
+msgstr ""
+
+#, fuzzy
+#| msgid "Verifying…"
+msgid "Working…"
+msgstr "Tvirtinama…"
+
+msgid ""
+"Verification failed. Enable JavaScript, workers, and cookies, then retry. "
+"You can also sign in."
+msgstr ""
+
+msgid "The challenge expired. Retry to start a new challenge."
+msgstr ""
+
+msgid "This challenge was already used. Retry to start a new challenge."
+msgstr ""
+
+msgid "Browser verification was unsuccessful. Please retry."
+msgstr ""
+
+msgid "Browser verification could not be confirmed. Enable cookies and retry."
+msgstr ""
+
+#, fuzzy
+#| msgid "Register email"
+msgid ""
+"The verification service is temporarily unavailable. Please retry later."
+msgstr "El. pašto adreso užregistravimas"
+
+msgid "Verification cookies could not be confirmed. Enable cookies and retry."
+msgstr ""
+
+msgid "JavaScript is required for anonymous access. You can sign in instead."
+msgstr ""
+
+msgid "Retry"
+msgstr ""
+
+msgid "Did you know?"
+msgstr ""
+
+msgid "Review and confirm the bulk edit changes."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Permissions"
+msgid "%(counter)s string would change."
+msgid_plural "%(counter)s strings would change."
+msgstr[0] "Leidimai"
+msgstr[1] "Leidimai"
+msgstr[2] "Leidimai"
+msgstr[3] "Leidimai"
+
+msgid ""
+"Showing the first 250 changes. Only selected displayed strings will be "
+"processed unless you choose to apply all matching strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Overview"
+msgid "Update preview"
+msgstr "Apžvalga"
+
+#, python-format
+msgid "Apply all matching strings (%(total)s)"
+msgstr ""
+
+msgid ""
+"Applies to all current matches, including those not displayed. The query and "
+"permissions are checked again when applying changes."
+msgstr ""
+
+msgid "Select"
+msgstr ""
+
+#, fuzzy
+#| msgid "Add new association"
+msgid "String"
+msgstr "Pridėti naują asociaciją"
+
+msgid "Changes"
+msgstr "Pakeitimai"
+
+#, fuzzy
+#| msgid "Status"
+msgid "State"
+msgstr "Būsena"
+
+msgid "Before"
+msgstr ""
+
+msgid "After"
+msgstr ""
+
+msgid "Empty"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Plural type"
+#| msgid "Arabic languages"
+msgid "Source flags (all languages)"
+msgstr "Arabų kalbos"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation flags"
+msgstr "Vertimų būsena"
+
+#, fuzzy
+#| msgctxt "Plural type"
+#| msgid "Arabic languages"
+msgid "Add label (all languages)"
+msgstr "Arabų kalbos"
+
+#, fuzzy
+#| msgctxt "Plural type"
+#| msgid "Arabic languages"
+msgid "Remove label (all languages)"
+msgstr "Arabų kalbos"
+
+msgid "Apply"
+msgstr ""
+
 msgid "Insights"
 msgstr ""
 
@@ -10765,9 +11705,6 @@ msgstr ""
 msgid "Operations"
 msgstr "Versijos"
 
-msgid "Search and replace"
-msgstr ""
-
 #, fuzzy
 #| msgid "Delete this account"
 msgid "Post announcement"
@@ -10783,14 +11720,6 @@ msgstr "Vertimų būsena"
 #| msgid "Arabic languages"
 msgid "Browse all changes for this language"
 msgstr "Arabų kalbos"
-
-#, fuzzy
-#| msgid "Recent changes"
-msgid "Review changes"
-msgstr "Paskiausi pakeitimai"
-
-msgid "Apply"
-msgstr ""
 
 #, fuzzy
 #| msgid "Watched projects"
@@ -11682,9 +12611,6 @@ msgstr "Elektroninio pašto grupė"
 msgid "Shortcut"
 msgstr ""
 
-msgid "Action"
-msgstr "Veiksmas"
-
 msgid "Open available keyboard shortcuts."
 msgstr ""
 
@@ -11841,6 +12767,11 @@ msgstr ""
 msgid "Mark as spam"
 msgstr ""
 
+#, fuzzy
+#| msgid "Not available"
+msgid "Service is no longer available"
+msgstr "Neprieinama"
+
 msgid "This service is installed site wide."
 msgstr ""
 
@@ -11860,28 +12791,20 @@ msgid "workspace"
 msgstr "Kalbos, į kurias verčiate"
 
 #, fuzzy
+#| msgid "Languages limit"
+msgid "Rate limited"
+msgstr "Kalbų limitas"
+
+#, fuzzy
 #| msgid "This field is required."
 msgid "This service is disabled."
 msgstr "Šis laukas yra privalomas."
-
-msgid "disabled"
-msgstr ""
-
-#, fuzzy
-#| msgid "Not available"
-msgid "Service is no longer available"
-msgstr "Neprieinama"
 
 msgid "ID"
 msgstr ""
 
 msgid "Slug"
 msgstr ""
-
-#, fuzzy
-#| msgid "Translation notifications"
-msgid "Installation slug (optional)"
-msgstr "Pranešimai apie vertimus"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -11890,37 +12813,154 @@ msgid ""
 msgstr ""
 
 #, fuzzy
-#| msgid "Watched translations"
-msgid "Configured translation services"
-msgstr "Stebimi vertimai"
+#| msgid "Hosted service"
+msgid "Inherited service"
+msgstr "Priglobta paslauga"
 
 #, fuzzy
-#| msgid "Information"
-msgid "Stop using this installation without removing its configuration."
-msgstr "Informacija"
+#| msgid "Translation status"
+msgid "This service is managed at its installation scope."
+msgstr "Vertimų būsena"
+
+#, fuzzy
+#| msgid "New password confirmation"
+msgid "Manage this installation"
+msgstr "Pakartotinai įveskite naują slaptažodį"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Installation slug (optional)"
+msgstr "Pranešimai apie vertimus"
+
+#, fuzzy
+#| msgid "This field is required."
+msgid "This service has no settings."
+msgstr "Šis laukas yra privalomas."
+
+#, fuzzy
+#| msgid "Permissions"
+msgid "Use in automations"
+msgstr "Leidimai"
+
+msgid ""
+"Select this installation in the engines setting of an automatic translation "
+"action using its numeric ID:"
+msgstr ""
+
+msgid "You can also select it using its slug:"
+msgstr ""
+
+msgid ""
+"The numeric ID always selects this installation. The slug selects the "
+"installation currently using that name in the project."
+msgstr ""
+
+msgid ""
+"Set an installation slug above to give this service a readable name in your "
+"automations."
+msgstr ""
+
+msgid "Rate limit"
+msgstr "Spartos riba"
+
+msgid ""
+"Requests to this service are temporarily paused after a provider error. "
+"Resetting the rate limit allows Weblate to try again; it does not reset the "
+"provider’s quota."
+msgstr ""
+
+#, fuzzy
+#| msgid "Status of repositories"
+msgid "Reset rate limit"
+msgstr "Saugyklų būsena"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "The rate limit can be reset at the service’s installation scope."
+msgstr "Vertimų būsena"
+
+#, fuzzy
+#| msgid "Versions"
+msgid "Service control"
+msgstr "Versijos"
+
+#, fuzzy
+#| msgid "Username"
+msgid "Disable installation"
+msgstr "Naudotojo vardas"
+
+msgid ""
+"Stop using this installation here and in scopes inheriting it. Its settings "
+"are kept so you can enable it again later."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this workspace and its projects. "
+"Other installations of this service remain available."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this project. Other installations "
+"of this service and its use in other projects are unaffected."
+msgstr ""
 
 msgid "Disable"
 msgstr ""
 
-msgid "Stop using this inherited installation here."
+#, fuzzy
+#| msgid "Add new association"
+msgid "Enable installation"
+msgstr "Pridėti naują asociaciją"
+
+msgid ""
+"Resume using this installation with its saved settings here and in scopes "
+"inheriting it. Existing exclusions still apply."
+msgstr ""
+
+msgid ""
+"Remove the local exclusion for this installation. It can provide suggestions "
+"here when it is enabled at its installation scope and is not excluded "
+"upstream. Other excluded installations remain excluded."
 msgstr ""
 
 msgid "Enable"
 msgstr ""
 
-#, fuzzy
-#| msgid "Action"
-msgid "Remove this installation and its configuration."
-msgstr "Veiksmas"
+msgid ""
+"This installation is disabled at its installation scope or excluded by an "
+"upstream scope."
+msgstr ""
 
-msgid "Exclude all inherited installations of this service"
+#, fuzzy
+#| msgid "Authentication"
+msgid "Exclude inherited service"
+msgstr "Prisijungimas"
+
+msgid ""
+"Stop using all site-wide installations of this service in this workspace and "
+"its projects, including installations added later. Installations configured "
+"directly in this workspace or its projects remain available."
+msgstr ""
+
+msgid ""
+"Stop using all inherited installations of this service in this project, "
+"including installations added later. Installations configured directly in "
+"this project and use in other projects are unaffected."
 msgstr ""
 
 msgid "Exclude"
 msgstr ""
 
-msgid "Configure"
+msgid ""
+"Removing this installation stops it from being used here and in scopes "
+"inheriting it, and deletes its saved settings. You will need to install and "
+"configure it again to use it later."
 msgstr ""
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Configured translation services"
+msgstr "Stebimi vertimai"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -11949,6 +12989,16 @@ msgstr "Stebimi vertimai"
 msgid ""
 "Some services will ask for additional configuration during installation."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation service errors"
+msgstr "Vertimų būsena"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "No translation service errors available."
+msgstr "Pranešimai apie vertimus"
 
 #, python-format
 msgid "The following activity has occurred on your account at %(site_title)s:"
@@ -12108,6 +13158,16 @@ msgid "Recurring payment will be disabled for inactive projects"
 msgstr ""
 
 #, fuzzy
+#| msgid "Status"
+msgid "Review Libre hosting conditions"
+msgstr "Būsena"
+
+#, fuzzy, python-format
+#| msgid "Component list"
+msgid "Libre hosting removal warning for %(project)s"
+msgstr "Komponentų sąrašas"
+
+#, fuzzy
 #| msgid "Translated languages"
 msgid "Translation change"
 msgstr "Kalbos, į kurias verčiate"
@@ -12174,6 +13234,37 @@ msgstr ""
 msgid "Digest: %(notification_name)s"
 msgstr ""
 
+#, python-format
+msgid ""
+"Somebody requested to add this e-mail address to another account at "
+"%(site_title)s. This address is already associated with an account and "
+"cannot be added to another."
+msgstr ""
+
+msgid ""
+"If you intended to access the existing account, sign out and use password "
+"recovery. The button below opens the password reset form; it does not reset "
+"your password."
+msgstr ""
+
+#, fuzzy
+#| msgid "Password reset"
+msgid "Open password recovery"
+msgstr "Iš naujo nustatyti slaptažodį"
+
+msgid "Contact support for help moving this address between accounts."
+msgstr ""
+
+msgid ""
+"If you did not request this, you can ignore this e-mail. Your account has "
+"not been changed."
+msgstr ""
+
+#. Translators: e-mail subject
+#, python-format
+msgid "E-mail address already associated with an account on %(site_title)s"
+msgstr ""
+
 #, fuzzy
 #| msgid "Administration"
 msgid "View invitation"
@@ -12186,6 +13277,10 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
+
+#, python-format
+msgid "Automatic team assignment: invitation to join %(team_name)s"
+msgstr ""
 
 #. Translators: e-mail subject
 #, python-format
@@ -12443,6 +13538,11 @@ msgstr "Paskyros panaikinimas"
 msgid "Confirm invitation"
 msgstr "Naudotojo registracija"
 
+#, fuzzy
+#| msgid "Register e-mail"
+msgid "Verify e-mail address"
+msgstr "El. pašto adreso užregistravimas"
+
 msgid ""
 "Note: This notification has been truncated as there were over 100 entries."
 msgstr ""
@@ -12516,6 +13616,18 @@ msgstr ""
 #| msgid "Translation memory"
 msgid "Translation activity summary"
 msgstr "Vertimo atmintis"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "The following activity has occurred on your account at %(site_title)s:"
+msgid "Verify this e-mail address for your account at %(site_title)s."
+msgstr "Toliau nurodyta veikla buvo vykdoma Jūsų paskyroje – „%(site_title)s“:"
+
+#. Translators: e-mail subject
+#, fuzzy, python-format
+#| msgid "Account removal"
+msgid "Verify your e-mail address on %(site_title)s"
+msgstr "Paskyros panaikinimas"
 
 #, fuzzy
 #| msgid "Component list"
@@ -12756,6 +13868,66 @@ msgstr "Komponentų atradimas"
 msgid "Performance report"
 msgstr ""
 
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Bot protection"
+msgstr "Stebimi vertimai"
+
+msgid ""
+"Issued challenges, requests requiring proof of work, and verification "
+"outcomes in hourly buckets. Counts are best-effort and can be lost during "
+"cache outages or eviction."
+msgstr ""
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Counters are unavailable."
+msgstr "Neprieinama/-s"
+
+msgid "Outcome"
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Current hour"
+msgstr "Dabartinis slaptažodis"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Previous 24 completed hours"
+msgstr "Vertimų būsena"
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Issued challenges"
+msgstr "Kalbos, į kurias verčiate"
+
+msgid "Requests requiring proof of work"
+msgstr ""
+
+msgid "Expired challenge"
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid integer list!"
+msgid "Invalid solution"
+msgstr "Negalimas sveikųjų skaičių sąrašas!"
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Replayed challenge"
+msgstr "Paskiausi pakeitimai"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "CSRF failure"
+msgstr "Vertimų būsena"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Service unavailable"
+msgstr "Neprieinama"
+
 msgid "Last occurrence"
 msgstr ""
 
@@ -12945,6 +14117,334 @@ msgstr "Jūsų paskyra pašalinta."
 msgid "This repository is linked to:"
 msgstr ""
 
+#, fuzzy
+#| msgid "User registration"
+msgid "Confirm security action"
+msgstr "Naudotojo registracija"
+
+#, python-format
+msgid "Selected %(count)s findings affecting %(accounts)s accounts."
+msgstr ""
+
+msgid ""
+"Disable the matching passwords, invalidate signed-in sessions, and revoke "
+"all API tokens. Users with an e-mail address will be notified. Single sign-"
+"on and two-factor settings are preserved. Accounts whose passwords have "
+"changed will be skipped."
+msgstr ""
+
+msgid ""
+"Remove the selected lookalike verified e-mail addresses and associated sign-"
+"in identities, disable account passwords, invalidate sessions, and revoke "
+"API tokens. Account owners will be notified at their primary e-mail address."
+msgstr ""
+
+msgid ""
+"Dismiss the selected findings without changing credentials or notifying "
+"users. A new report confirming the same exposure can reopen them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Reset my password"
+msgid "Reset passwords"
+msgstr "Iš naujo nustatyti slaptažodį"
+
+#, fuzzy
+#| msgid "Remove my account"
+msgid "Remove identities and reset accounts"
+msgstr "Pašalinti mano paskyrą"
+
+#, fuzzy
+#| msgid "Watched projects"
+msgid "Dismiss findings"
+msgstr "Stebimi projektai"
+
+#, python-format
+msgid "Security finding for %(username)s"
+msgstr ""
+
+msgid "CSV row"
+msgstr ""
+
+#, fuzzy
+#| msgid "Username"
+msgid "Identifier"
+msgstr "Naudotojo vardas"
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Matching method"
+msgstr "Kalbos, į kurias verčiate"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "No matching row details."
+msgstr "Neprieinama/-s"
+
+#, python-format
+msgid "Page %(number)s of %(total)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "Status of repositories"
+msgid "Detected in reports"
+msgstr "Saugyklų būsena"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Administrator"
+msgstr "Administravimas"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Deleted administrator"
+msgstr "Administravimas"
+
+msgid "No validation reports for this finding."
+msgstr ""
+
+#, python-format
+msgid "Reports page %(number)s of %(total)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Previous reports"
+msgstr "Vertimų būsena"
+
+#, fuzzy
+#| msgid "Download"
+msgid "Next reports"
+msgstr "Parsisiųsti"
+
+#, fuzzy
+#| msgid "Projects"
+msgid "Account security findings"
+msgstr "Projektai"
+
+#, fuzzy
+#| msgid "Translations"
+msgid "Validation reports"
+msgstr "Vertimai"
+
+#, fuzzy
+#| msgid "Full name"
+msgid "Filename"
+msgstr "Vardas ir pavardė"
+
+#, fuzzy
+#| msgid "Project name"
+msgid "Not recorded"
+msgstr "Projekto pavadinimas"
+
+msgid "Submitted by"
+msgstr ""
+
+msgid "Processing summary"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password reset"
+msgid "Password validation completed."
+msgstr "Iš naujo nustatyti slaptažodį"
+
+msgid "Legacy e-mail identity check completed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Authentication has been cancelled."
+msgid "Security action completed."
+msgstr "Prisijungimas atšauktas."
+
+#, fuzzy
+#| msgid "Add new association"
+msgid "Processing failed."
+msgstr "Pridėti naują asociaciją"
+
+msgid "Processing is not complete. Findings may still be added."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Plural type"
+#| msgid "Arabic languages"
+msgid "View progress"
+msgstr "Arabų kalbos"
+
+#, python-format
+msgid "Processed %(processed)s of %(total)s entries."
+msgstr ""
+
+#, fuzzy
+#| msgid "Profile"
+msgid "Finding type"
+msgstr "Profilis"
+
+#, fuzzy
+#| msgid "Status"
+msgid "Filter"
+msgstr "Būsena"
+
+#, fuzzy
+#| msgid "Add new association"
+msgid "Actions apply only to checked findings on this page."
+msgstr "Pridėti naują asociaciją"
+
+#, fuzzy
+#| msgid "Add new association"
+msgid "Select all on this page"
+msgstr "Pridėti naują asociaciją"
+
+#, fuzzy
+#| msgid "Projects"
+msgid "Clear selection"
+msgstr "Projektai"
+
+#, fuzzy
+#| msgid "Permissions"
+msgid "Finding"
+msgstr "Leidimai"
+
+#, python-format
+msgid "Select finding for %(username)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "Activate"
+msgid "Inactive"
+msgstr "Aktyvuoti"
+
+#, fuzzy
+#| msgid "Note"
+msgid "Bot"
+msgstr "Pastaba"
+
+msgid "No e-mail address: notification unavailable"
+msgstr ""
+
+#, fuzzy
+#| msgid "Date joined"
+msgid "Date joined:"
+msgstr "Prisijungimo data"
+
+#, fuzzy
+#| msgid "Status"
+msgid "Last sign-in:"
+msgstr "Būsena"
+
+#, python-format
+msgid "Row %(row)s: %(identifier)s (%(method)s)"
+msgstr ""
+
+#, python-format
+msgid "View details (%(count)s match)"
+msgid_plural "View details (%(count)s matches)"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#, fuzzy
+#| msgid "Profile"
+msgid "First detected:"
+msgstr "Profilis"
+
+#, fuzzy
+#| msgid "Activity in last 30 days"
+msgid "Last detected:"
+msgstr "Veikla per pastarąsias 30 dienų"
+
+msgid "No security findings match these filters."
+msgstr ""
+
+msgid "Remove lookalike e-mail identities and reset selected accounts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Remove my account"
+msgid "Reset passwords for selected accounts"
+msgstr "Pašalinti paskyrą"
+
+msgid "Dismiss selected findings"
+msgstr ""
+
+msgid ""
+"Dismissing findings marks them as reviewed without changing passwords or "
+"notifying users."
+msgstr ""
+
+#, fuzzy
+#| msgid "Projects"
+msgid "Account security operation"
+msgstr "Projektai"
+
+msgid "Processing progress"
+msgstr ""
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Refresh progress"
+msgstr "Paskiausi pakeitimai"
+
+msgid ""
+"Review previous credential validation reports, including reports with no "
+"matching passwords."
+msgstr ""
+
+#, fuzzy
+#| msgid "Download"
+msgid "Upload report"
+msgstr "Parsisiųsti"
+
+msgid "Processed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Matching rows"
+msgstr "Kalbos, į kurias verčiate"
+
+#, fuzzy
+#| msgid "Remove my account"
+msgid "Affected accounts"
+msgstr "Pašalinti paskyrą"
+
+#, python-format
+msgid "%(processed)s of %(total)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "Register email"
+msgid "No validation reports yet."
+msgstr "El. pašto adreso užregistravimas"
+
+msgid ""
+"Upload a CSV containing usernames or e-mail addresses and passwords. "
+"Passwords are checked in the background and never displayed in the report."
+msgstr ""
+
+msgid ""
+"Reports must use UTF-8 and contain at most 50,000 rows and 10 MiB. Leave the "
+"delimiter and column numbers blank for automatic detection."
+msgstr ""
+
+msgid ""
+"The uploaded file is available for one hour. Adjust the CSV settings below "
+"to try again."
+msgstr ""
+
+msgid "CSV format (detected automatically)"
+msgstr ""
+
+#, fuzzy
+#| msgid "New password"
+msgid "Validate passwords"
+msgstr "Naujas slaptažodis"
+
+#, fuzzy
+#| msgid "New password"
+msgid "Validate leaked passwords"
+msgstr "Naujas slaptažodis"
+
 msgid "Activate support package"
 msgstr ""
 
@@ -13098,7 +14598,18 @@ msgstr "Administravimas"
 msgid "Check user access"
 msgstr ""
 
-msgid "Workspaces"
+#, fuzzy
+#| msgid "Account activity"
+msgid "Account security"
+msgstr "Paskyros aktyvumas"
+
+#, python-format
+msgid "Security report (%(security_findings_open)s open findings)"
+msgstr ""
+
+msgid ""
+"Validate a CSV report of leaked credentials against current account "
+"passwords."
 msgstr ""
 
 msgid "Add workspace"
@@ -13134,9 +14645,6 @@ msgstr ""
 #| msgid "Translated languages"
 msgid "Displayed languages"
 msgstr "Kalbos, į kurias verčiate"
-
-msgid "Choose"
-msgstr ""
 
 #, fuzzy
 #| msgid "Translation status"
@@ -13235,6 +14743,9 @@ msgstr ""
 
 #. Translators: Shared translation memory is disabled
 msgid "off"
+msgstr ""
+
+msgid "Configure"
 msgstr ""
 
 #, fuzzy
@@ -13460,22 +14971,6 @@ msgstr "Stebimi vertimai"
 msgid "Donate to Weblate development"
 msgstr "Paremti „Weblate“"
 
-msgid "Please review and confirm the search and replace results."
-msgstr ""
-
-msgid ""
-"Showing and replacing only the first 250 matches. Perform the replacement "
-"again to replace more."
-msgstr ""
-
-#, fuzzy
-#| msgid "Overview"
-msgid "Update preview"
-msgstr "Apžvalga"
-
-msgid "Replace"
-msgstr ""
-
 #, fuzzy
 #| msgid "Generate"
 msgid "Generated by"
@@ -13519,6 +15014,25 @@ msgstr ""
 msgid "Assign source strings"
 msgstr ""
 
+#, fuzzy
+#| msgid "Add new association"
+msgid "Find source strings"
+msgstr "Pridėti naują asociaciją"
+
+#, fuzzy
+#| msgid "Image"
+msgid "Image text"
+msgstr "Paveikslas/Nuotrauka/Vaizdas"
+
+msgid "Suggests source strings by recognizing text in this screenshot."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Per-project access-control team name"
+#| msgid "Screenshots"
+msgid "Add selected"
+msgstr "Ekrano nuotraukos"
+
 msgid "Source string search"
 msgstr ""
 
@@ -13531,20 +15045,6 @@ msgstr ""
 #| msgid "Documentation"
 msgid "Search query syntax documentation"
 msgstr "Dokumentacija"
-
-msgid "Suggests source strings by recognizing text in this screenshot."
-msgstr ""
-
-#, fuzzy
-#| msgid "Permissions"
-msgid "Find strings in image"
-msgstr "Leidimai"
-
-#, fuzzy
-#| msgctxt "Per-project access-control team name"
-#| msgid "Screenshots"
-msgid "Add selected"
-msgstr "Ekrano nuotraukos"
 
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr ""
@@ -13758,7 +15258,7 @@ msgstr "Pridėti naują asociaciją"
 msgid "Select string for bulk edit"
 msgstr ""
 
-msgid "You can change the state of all strings matching given type at once."
+msgid "Choose which strings to edit and the changes to apply."
 msgstr ""
 
 msgid "The operation is applied to the strings selected in the list above."
@@ -13799,11 +15299,6 @@ msgstr "Jūsų kalbos"
 msgid "Configure translation quality filter"
 msgstr "Vertimų būsena"
 
-#, fuzzy
-#| msgid "View"
-msgid "View details"
-msgstr "Rodyti"
-
 msgid "View contributor license agreement"
 msgstr ""
 
@@ -13824,11 +15319,6 @@ msgstr[0] "Vertimas automatiškai buvo užrakintas, dėl šių pranešimų:"
 msgstr[1] "Vertimas automatiškai buvo užrakintas, dėl šių pranešimų:"
 msgstr[2] "Vertimas automatiškai buvo užrakintas, dėl šių pranešimų:"
 msgstr[3] "Vertimas automatiškai buvo užrakintas, dėl šių pranešimų:"
-
-#, fuzzy
-#| msgid "Status"
-msgid "Filter"
-msgstr "Būsena"
 
 #, fuzzy
 #| msgid "Profile"
@@ -13890,15 +15380,15 @@ msgid ""
 "maintenance of Weblate itself."
 msgstr ""
 
+msgid "Example counts for this plural form."
+msgstr ""
+
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
 
 msgid "Clone to translation"
 msgstr "Klonuoti į vertimą"
-
-msgid "Select"
-msgstr ""
 
 #, fuzzy
 #| msgid "Translated languages"
@@ -13924,14 +15414,15 @@ msgstr ""
 msgid "Source code repository"
 msgstr "Pradinio kodo saugykla"
 
-#, python-format
-msgid "This component is linked to the %(target)s repository."
-msgstr ""
-
 #, fuzzy
 #| msgid "Watched translations"
 msgid "Repository URL copied to clipboard."
 msgstr "Stebimi vertimai"
+
+#, fuzzy
+#| msgid "Project / Component"
+msgid "Linked component"
+msgstr "Projektas / komponentas"
 
 msgid "Repository branch"
 msgstr ""
@@ -13949,7 +15440,6 @@ msgstr "Stebimi vertimai"
 msgid "Last remote commit"
 msgstr ""
 
-#. Translators: For example: "nijel authored five days ago"
 #, python-format
 msgid "%(author)s authored %(date)s"
 msgstr ""
@@ -14246,6 +15736,19 @@ msgstr "Vertimai"
 
 #, python-format
 msgid ""
+"An automatic team assignment rule invited you to collaborate on "
+"%(project_name)s and join the %(team_name)s team. You will join only if you "
+"accept this invitation."
+msgstr ""
+
+#, python-format
+msgid ""
+"An automatic team assignment rule invited you to join the %(team_name)s team "
+"in %(workspace_name)s. You will join only if you accept this invitation."
+msgstr ""
+
+#, python-format
+msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
 "on %(project_name)s and join the %(team_name)s team."
 msgstr ""
@@ -14254,6 +15757,19 @@ msgstr ""
 msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to join the "
 "%(team_name)s team."
+msgstr ""
+
+msgid ""
+"Accepting this invitation will also make you a team administrator, allowing "
+"you to add or remove team members."
+msgstr ""
+
+msgid ""
+"A restored project backup attributes earlier contributions to your username. "
+"Accepting this invitation will claim that imported authorship, including "
+"history and changes propagated to other projects. Future commits of these "
+"contributions may use your configured commit name and e-mail address. "
+"Existing repository commits will remain unchanged."
 msgstr ""
 
 #, python-format
@@ -14291,6 +15807,11 @@ msgstr ""
 #| msgid "Action"
 msgid "View notification"
 msgstr "Veiksmas"
+
+#, fuzzy
+#| msgid "Download changes"
+msgid "View full change"
+msgstr "Parsisiųsti pakeitimus"
 
 msgid "No matching activity found."
 msgstr ""
@@ -14426,6 +15947,11 @@ msgstr ""
 msgid "Plurals"
 msgstr "Daugiskaita"
 
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "No integer examples found"
+msgstr "Pranešimai apie vertimus"
+
 msgid "First"
 msgstr ""
 
@@ -14489,11 +16015,6 @@ msgstr "Kalbos, į kurias verčiate"
 #| msgid "Action"
 msgid "Location strings"
 msgstr "Veiksmas"
-
-#, fuzzy
-#| msgid "Status"
-msgid "String state"
-msgstr "Būsena"
 
 #. Translators: String pending for flushing to VCS.
 #, fuzzy
@@ -14702,11 +16223,6 @@ msgstr "Jūsų vertimas buvo pakomentuotas"
 msgid "Saved search name"
 msgstr "Naudotojo vardas"
 
-#, fuzzy
-#| msgid "Profile"
-msgid "Search query"
-msgstr "Profilis"
-
 msgid "No saved searches yet."
 msgstr ""
 
@@ -14734,7 +16250,7 @@ msgid "Community"
 msgstr "Būsena"
 
 #, python-format
-msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
+msgid "Translate %(object)s using #Weblate at %(share_url)s!"
 msgstr ""
 
 #, fuzzy
@@ -14988,6 +16504,11 @@ msgstr ""
 msgid "You are about to continue removing your Weblate account."
 msgstr ""
 
+msgid ""
+"You are about to continue adding this e-mail address to your existing "
+"Weblate account."
+msgstr ""
+
 msgid "You are about to accept an invitation and create a Weblate account."
 msgstr ""
 
@@ -15006,6 +16527,11 @@ msgstr "Iš naujo nustatyti slaptažodį"
 #| msgid "Account removal"
 msgid "Continue account removal"
 msgstr "Paskyros panaikinimas"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Continue e-mail verification"
+msgstr "Pranešimai apie vertimus"
 
 #, fuzzy
 #| msgid "Administration"
@@ -15102,11 +16628,6 @@ msgstr "Saugyklų būsena"
 #| msgid "Watched translations"
 msgid "Weblate CDN add-on could not parse the HTML files."
 msgstr "Stebimi vertimai"
-
-#, fuzzy
-#| msgid "Full name"
-msgid "Filename"
-msgstr "Vardas ir pavardė"
 
 msgid ""
 "The local repository checkout or its Git directory is missing. Repeated "
@@ -15360,15 +16881,15 @@ msgstr ""
 msgid "Source"
 msgstr ""
 
-#, fuzzy, python-format
-#| msgid "Status of repositories"
-msgid "Remove duplicate strings from %(language)s (%(filename)s)"
-msgstr "Saugyklų būsena"
-
 #, fuzzy
 #| msgid "Status"
 msgid "Remove duplicate strings"
 msgstr "Būsena"
+
+#, fuzzy, python-format
+#| msgid "Status of repositories"
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Saugyklų būsena"
 
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
@@ -15505,6 +17026,16 @@ msgstr[3] ""
 msgid ""
 "Weblate could not parse the translation files while updating the "
 "translations."
+msgstr ""
+
+msgid ""
+"Weblate pushed the changes and created the pull request, but could not apply "
+"the configured labels or assignees."
+msgstr ""
+
+msgid ""
+"Check that the labels and assignees exist and that Weblate can write pull "
+"requests, or remove the customization from the version control parameters."
 msgstr ""
 
 #, fuzzy
@@ -15655,8 +17186,10 @@ msgstr ""
 msgid "Go"
 msgstr ""
 
-msgid "Changes"
-msgstr "Pakeitimai"
+#, fuzzy
+#| msgid "Change word"
+msgid "Change details"
+msgstr "Keisti žodį"
 
 msgid "Download latest changes as CSV"
 msgstr ""
@@ -15736,9 +17269,6 @@ msgid ""
 "translation component."
 msgstr ""
 
-msgid "Retry"
-msgstr ""
-
 msgid ""
 "The new component will be created for the selected branch with the exact "
 "same configuration as the existing one."
@@ -15774,9 +17304,6 @@ msgstr ""
 #| msgid "Project / Component"
 msgid "Add or configure account"
 msgstr "Projektas / komponentas"
-
-msgid "Branch"
-msgstr ""
 
 #, fuzzy
 #| msgid "Recent changes"
@@ -16073,6 +17600,15 @@ msgstr "%d daugiskaitos forma"
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr ""
 
+msgid "Public access on import"
+msgstr ""
+
+msgid ""
+"If the selected workspace's billing plan requires public content, the "
+"project and the following restricted components will be publicly accessible "
+"after import:"
+msgstr ""
+
 #, fuzzy
 #| msgid "Watched translations"
 msgid "Token copied to clipboard."
@@ -16099,9 +17635,6 @@ msgstr ""
 #| msgid "Remove my account"
 msgid "Edit source"
 msgstr "Pašalinti paskyrą"
-
-msgid "Cancel"
-msgstr ""
 
 msgid "Learn more about pushing changes from Weblate."
 msgstr ""
@@ -16397,11 +17930,6 @@ msgstr "Stebimi vertimai"
 msgid "Add term to glossary"
 msgstr "Aiškinamasis žodynas"
 
-#, fuzzy, python-format
-#| msgid "Glossary"
-msgid "Browse glossary %(name)s"
-msgstr "Aiškinamasis žodynas"
-
 #, fuzzy
 #| msgid "Glossary"
 msgid "Browse glossary"
@@ -16468,6 +17996,15 @@ msgstr ""
 
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 msgid "Source string age"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Component list"
+msgid "%(filename)s, line %(line)s"
+msgstr "Komponentų sąrašas"
+
+#, python-format
+msgid "line %(line)s"
 msgstr ""
 
 #, python-format
@@ -16561,6 +18098,11 @@ msgstr ""
 #| msgid "Download"
 msgid "Quick downloads"
 msgstr "Parsisiųsti"
+
+msgid ""
+"Original files can contain contributor identities and require additional "
+"permission. Use a generated export below for offline translation."
+msgstr ""
 
 msgid "File in original format as translated in the repository"
 msgstr ""
@@ -16845,11 +18387,6 @@ msgstr "Paskiausi pakeitimai"
 #| msgid "Recent changes"
 msgid "Available Repositories"
 msgstr "Paskiausi pakeitimai"
-
-#, fuzzy
-#| msgid "Not available"
-msgid "Unavailable"
-msgstr "Neprieinama/-s"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -17462,11 +18999,6 @@ msgstr "Informacija"
 #| msgid "Watched projects"
 msgid "A component was moved within a project."
 msgstr "Stebimi projektai"
-
-#, fuzzy
-#| msgid "Project / Component"
-msgid "Moved component"
-msgstr "Projektas / komponentas"
 
 #, fuzzy
 #| msgid "Watched translations"
@@ -18266,6 +19798,12 @@ msgstr "Saugyklų būsena"
 
 #. Translators: Name of an alert
 #, fuzzy
+#| msgid "Status of repositories"
+msgid "Could not customize the pull request."
+msgstr "Saugyklų būsena"
+
+#. Translators: Name of an alert
+#, fuzzy
 #| msgid "Recent changes"
 msgid "Repository outdated."
 msgstr "Paskiausi pakeitimai"
@@ -18296,6 +19834,21 @@ msgstr ""
 msgid "Trailing and leading whitespace"
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation status"
+msgid "Automatic translation completed with errors, no strings were updated."
+msgstr "Vertimų būsena"
+
+#, fuzzy, python-format
+#| msgid "Translation status"
+msgid "Automatic translation completed with errors, %d string was updated."
+msgid_plural ""
+"Automatic translation completed with errors, %d strings were updated."
+msgstr[0] "Vertimų būsena"
+msgstr[1] "Vertimų būsena"
+msgstr[2] "Vertimų būsena"
+msgstr[3] "Vertimų būsena"
+
 msgid "Automatic translation completed, no strings were updated."
 msgstr ""
 
@@ -18305,6 +19858,12 @@ msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid ""
+"Automatic translation skipped strings that exceed the text length limit."
+msgstr "Stebimi vertimai"
 
 #, python-format
 msgid ""
@@ -18317,6 +19876,17 @@ msgid ""
 "Plural forms in some source components do not match the target translation. "
 "Automatic translation skipped pluralized strings and processed only single-"
 "form strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid ""
+"Automatic translation lost its database connection. Please try again later."
+msgstr "Stebimi vertimai"
+
+msgid ""
+"Automatic translation is already running for this translation. Please try "
+"again later."
 msgstr ""
 
 #, fuzzy, python-format
@@ -18378,6 +19948,14 @@ msgstr "Stebimi vertimai"
 msgid "Screenshot image is missing."
 msgstr "Ekrano nuotraukos"
 
+msgid "Revision must be a complete hexadecimal object ID."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Status of repositories"
+msgid "Could not validate repository URL: %s"
+msgstr "Saugyklų būsena"
+
 #, fuzzy
 #| msgid "Watched translations"
 msgid "Duplicate check name."
@@ -18388,13 +19966,18 @@ msgstr "Stebimi vertimai"
 msgid "Referenced category does not exist."
 msgstr "{filename}{parameter} neegzistuoja."
 
-msgid "Component filename does not match its category and slug."
-msgstr ""
-
 #, fuzzy
 #| msgid "Project / Component"
 msgid "Duplicate component slug."
 msgstr "Projektas / komponentas"
+
+msgid "Component filename does not match its category and slug."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation revision has an invalid format."
+msgstr "Vertimų būsena"
 
 #, fuzzy
 #| msgid "Watched translations"
@@ -18471,16 +20054,102 @@ msgstr "Stebimi projektai"
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 
+#, fuzzy
+#| msgid "Important dates"
+msgid "Imported authors"
+msgstr "Svarbios datos"
+
 #, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
 msgstr ""
 
+#, python-format
+msgid ""
+"Restricted component %(component)s was restored as public because the target "
+"workspace's billing plan requires public content."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s was skipped because no eligible local account matches the "
+"backup."
+msgstr ""
+
+#, python-format
+msgid ""
+"User %(username)s is awaiting invitation acceptance; imported authorship "
+"remains anonymous until accepted."
+msgstr ""
+
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is unknown."
+msgstr ""
+
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is not applicable."
+msgstr ""
+
+#, fuzzy
+#| msgid "Versions"
+msgid "Version control parameters"
+msgstr "Versijos"
+
+#, fuzzy
+#| msgid "Plural form %d"
+msgid "File format parameters"
+msgstr "%d daugiskaitos forma"
+
 #, fuzzy
 #| msgid "Translation status"
 msgid "The project repository directory already exists."
 msgstr "Vertimų būsena"
+
+#, fuzzy
+#| msgid "Manage roles"
+msgid "Invalid search type."
+msgstr "Valdyti roles"
+
+msgid "Enter a search string to replace."
+msgstr ""
+
+#, python-format
+msgid ""
+"%d string will be left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings will be left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#, python-format
+msgid "%d string was left unchanged because the edited text would be too long."
+msgid_plural ""
+"%d strings were left unchanged because the edited text would be too long."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#, fuzzy
+#| msgid "Invalid integer list!"
+msgid "Invalid target state."
+msgstr "Negalimas sveikųjų skaičių sąrašas!"
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Choose either replacement or clearing translations."
+msgstr "Stebimi vertimai"
+
+#, python-format
+msgid "Bulk edits are limited to %(limit)d strings. Narrow the search query."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation status"
@@ -18549,6 +20218,9 @@ msgstr ""
 #| msgid "Personal info"
 msgid "New revision: {}"
 msgstr "Asmeninė informacija"
+
+msgid "Content is too long to show in the change list."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Add new association"
@@ -18624,6 +20296,14 @@ msgstr "Pateikti pasiūlymai"
 msgid "Needs review"
 msgstr "Apžvalga"
 
+#, fuzzy
+#| msgid "Translation status"
+msgid "The source and destination checkouts must be different."
+msgstr "Vertimų būsena"
+
+msgid "This component does not exist or you cannot access it."
+msgstr ""
+
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr ""
 
@@ -18639,11 +20319,6 @@ msgid "Version control"
 msgstr "Versijos"
 
 #, fuzzy
-#| msgid "Status"
-msgid "State"
-msgstr "Būsena"
-
-#, fuzzy
 #| msgid "Security"
 msgid "Severity"
 msgstr "Saugumas"
@@ -18655,6 +20330,11 @@ msgstr ""
 #| msgid "New password confirmation"
 msgid "Discovery configuration"
 msgstr "Pakartotinai įveskite naują slaptažodį"
+
+#, fuzzy, python-format
+#| msgid "Register email"
+msgid "Could not render %(setting)s template: %(error)s"
+msgstr "El. pašto adreso užregistravimas"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -18696,6 +20376,12 @@ msgstr "Vertimų būsena"
 #, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
 msgstr "{filename}{parameter} neegzistuoja."
+
+#. Translators: condensed rendering of a change action in history
+#, fuzzy, python-format
+#| msgid "Watched translations"
+msgid "%(action)s at %(time)s on %(translation)s"
+msgstr "Stebimi vertimai"
 
 #. Translators: %s is site title here
 #, fuzzy, python-format
@@ -18874,6 +20560,49 @@ msgid "MAC (\\r)"
 msgstr ""
 
 msgid "Include closing tag for blank XML tags"
+msgstr ""
+
+msgid "UTF-8 byte order mark"
+msgstr ""
+
+msgid "Preserve input"
+msgstr ""
+
+msgid "Always include"
+msgstr ""
+
+msgid "Always omit"
+msgstr ""
+
+msgid ""
+"Controls the UTF-8 byte order mark. Other encodings are unchanged. New files "
+"without a template omit the mark when preserving input."
+msgstr ""
+
+msgid "XML declaration encoding case"
+msgstr ""
+
+#, fuzzy
+#| msgid "Somali"
+msgid "Format default"
+msgstr "somaliečių"
+
+msgid "Uppercase"
+msgstr ""
+
+msgid "Lowercase"
+msgstr ""
+
+msgid ""
+"Controls encoding names in the XML declaration, for example \"UTF-8\" or "
+"\"utf-8\"."
+msgstr ""
+
+msgid "XML final newline"
+msgstr ""
+
+msgid ""
+"Controls the newline at the end of the file, using the format's line endings."
 msgstr ""
 
 msgid "Whitespace handling"
@@ -19442,6 +21171,11 @@ msgid "You do not have permission to edit these flags."
 msgstr "Stebimi vertimai"
 
 #, fuzzy
+#| msgid "Watched translations"
+msgid "You do not have permission to create terminology."
+msgstr "Stebimi vertimai"
+
+#, fuzzy
 #| msgid "Translation status"
 msgid ""
 "Revert the latest translation edits from this user in the current project."
@@ -19633,6 +21367,11 @@ msgstr "Stebimi vertimai"
 
 #, fuzzy
 #| msgid "Watched translations"
+msgid "You do not have permission to edit this project."
+msgstr "Stebimi vertimai"
+
+#, fuzzy
+#| msgid "Watched translations"
 msgid "ZIP file containing translations"
 msgstr "Stebimi vertimai"
 
@@ -19731,18 +21470,6 @@ msgstr "Pridėti naują asociaciją"
 msgid "Could not load project backup."
 msgstr "Pridėti naują asociaciją"
 
-msgid "Optional additional filter applied to the strings"
-msgstr ""
-
-msgid "Search string"
-msgstr ""
-
-msgid "Case-sensitive string to search for and replace."
-msgstr ""
-
-msgid "Replacement string"
-msgstr ""
-
 #, fuzzy
 #| msgid "Project / Component"
 msgid "Key or context"
@@ -19802,14 +21529,33 @@ msgid ""
 msgstr ""
 
 #, fuzzy
-#| msgid "Watched translations"
-msgid "You do not have permission to create terminology."
-msgstr "Stebimi vertimai"
-
-#, fuzzy
 #| msgid "Project / Component"
 msgid "Invalid string selection!"
 msgstr "Projektas / komponentas"
+
+#, fuzzy
+#| msgid "Profile"
+msgid "Search type"
+msgstr "Profilis"
+
+msgid "Text"
+msgstr ""
+
+msgid "Search string"
+msgstr ""
+
+msgid ""
+"Case-sensitive text or regular expression to replace in matching strings. "
+"Leave empty to disable replacement."
+msgstr ""
+
+msgid "Replacement string"
+msgstr ""
+
+msgid ""
+"Leave empty to remove matching text. In regular expression mode, use \\1 for "
+"the first captured group. Named group references are also supported."
+msgstr ""
 
 #, fuzzy
 #| msgid "Donate to Weblate"
@@ -19821,40 +21567,80 @@ msgstr "Paremti Weblate"
 msgid "Do not change"
 msgstr "Parsisiųsti"
 
-msgid "Source flags to add — all languages"
+#, fuzzy
+#| msgid "Edit"
+msgid "Add flags"
+msgstr "Redaguoti"
+
+#, fuzzy
+#| msgid "Remove"
+msgid "Remove flags"
+msgstr "Pašalinti"
+
+msgid ""
+"Only flags set directly on these translations are removed. Inherited flags "
+"remain in effect."
 msgstr ""
 
-msgid "Source flags to remove — all languages"
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Add labels"
+msgstr "Kalbos, į kurias verčiate"
+
+#, fuzzy
+#| msgid "Remove my account"
+msgid "Remove labels"
+msgstr "Pašalinti paskyrą"
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Preview changes"
+msgstr "Paskiausi pakeitimai"
+
+msgid "Choose flags to add…"
+msgstr ""
+
+#, fuzzy
+#| msgid "Information"
+msgid "Choose flags to remove…"
+msgstr "Informacija"
+
+#, fuzzy
+#| msgid "Add new association"
+msgid "Source flags"
+msgstr "Pridėti naują asociaciją"
+
+msgid ""
+"Flags are set on the source strings corresponding to your selection and "
+"apply to their translations in every language."
+msgstr ""
+
+msgid ""
+"Flags are set on the source strings corresponding to your filter results and "
+"apply to their translations in every language."
 msgstr ""
 
 #, fuzzy
 #| msgid "Translation status"
-msgid "Translation flags to add — matching translations"
+msgid ""
+"Flags apply only to translations in your selection. Source strings are "
+"excluded."
 msgstr "Vertimų būsena"
 
-#, fuzzy
-#| msgid "Translation status"
-msgid "Applies only to matching translations, excluding source strings."
-msgstr "Vertimų būsena"
-
-#, fuzzy
-#| msgid "Translation status"
-msgid "Translation flags to remove — matching translations"
-msgstr "Vertimų būsena"
-
-msgid "Removes locally set flags. Inherited flags remain in effect."
+msgid ""
+"Flags apply only to translations matching your filter. Source strings are "
+"excluded."
 msgstr ""
 
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Arabic languages"
-msgid "Labels to add — all languages"
-msgstr "Arabų kalbos"
+msgid ""
+"Labels apply to the source strings corresponding to your selection and are "
+"shared across all languages."
+msgstr ""
 
-#, fuzzy
-#| msgid "Language code"
-msgid "Labels to remove — all languages"
-msgstr "Kalbos kodas"
+msgid ""
+"Labels apply to the source strings corresponding to your filter results and "
+"are shared across all languages."
+msgstr ""
 
 msgid "Select strings to edit or enter a search query."
 msgstr ""
@@ -20136,11 +21922,6 @@ msgstr "Vardas ir pavardė"
 msgid "Display name"
 msgstr "Kalbos, į kurias verčiate"
 
-#, fuzzy
-#| msgid "Translation status"
-msgid "Translation flags"
-msgstr "Vertimų būsena"
-
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
 
@@ -20383,12 +22164,6 @@ msgstr "Komponentų sąrašas"
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
 
-#. Translators: condensed rendering of a change action in history
-#, fuzzy, python-format
-#| msgid "Watched translations"
-msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "Stebimi vertimai"
-
 msgctxt "Change origin badge"
 msgid "API"
 msgstr ""
@@ -20471,11 +22246,6 @@ msgid ""
 "translations. You can also choose additional integration with third party "
 "providers to submit pull/merge requests."
 msgstr ""
-
-#, fuzzy
-#| msgid "Versions"
-msgid "Version control parameters"
-msgstr "Versijos"
 
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
@@ -20576,11 +22346,6 @@ msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
 msgstr ""
-
-#, fuzzy
-#| msgid "Plural form %d"
-msgid "File format parameters"
-msgstr "%d daugiskaitos forma"
 
 msgid "Locked component will not get any translation updates."
 msgstr ""
@@ -20818,6 +22583,11 @@ msgstr ""
 #| msgid "Your languages"
 msgid "Use the secondary language configured in the category or project."
 msgstr "Jūsų kalbos"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "The linked repository path is ambiguous."
+msgstr "Vertimų būsena"
 
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
@@ -21102,6 +22872,16 @@ msgid ""
 "Pushing without a merge request needs write access to the repository. "
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Version control system cannot be changed to this backend."
+msgstr "Vertimų būsena"
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "The file mask is too complex and took too long to evaluate."
+msgstr "Stebimi vertimai"
 
 msgid ""
 "A component can not be restricted while its project uses shared translation "
@@ -21413,6 +23193,11 @@ msgstr "Aprašas"
 msgid "Could not accept suggestion!"
 msgstr "Nebuvo galima priimti pasiūlymo!"
 
+#, fuzzy, python-format
+#| msgid "Permissions"
+msgid "The suggestion could not be accepted automatically: %s"
+msgstr "Leidimai"
+
 #, fuzzy
 #| msgid "Add new association"
 msgid "Uploaded translation file is too big."
@@ -21480,6 +23265,20 @@ msgstr ""
 msgid "Plural form %d in the uploaded file is missing."
 msgstr ""
 
+#, fuzzy, python-format
+#| msgid "Watched translations"
+msgid "The uploaded file contains a string that is too long: %s"
+msgstr "Stebimi vertimai"
+
+#, fuzzy, python-format
+#| msgid "Permissions"
+msgid "%d string could not be propagated to all components."
+msgid_plural "%d strings could not be propagated to all components."
+msgstr[0] "Leidimai"
+msgstr[1] "Leidimai"
+msgstr[2] "Leidimai"
+msgstr[3] "Leidimai"
+
 #, fuzzy
 #| msgid "Watched translations"
 msgid "The uploaded file contains too many language declarations."
@@ -21506,6 +23305,10 @@ msgstr "Pridėti naują asociaciją"
 #| msgid "Could not parse {file}: {error}"
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "Nepavyko išanalizuoti {file}: {error}"
+
+#, python-format
+msgid "Suggestion uploads are limited to %d strings."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Watched translations"
@@ -21746,6 +23549,11 @@ msgstr ""
 msgid "User configured character: {}"
 msgstr ""
 
+#, fuzzy, python-format
+#| msgid "Status of repositories"
+msgid "Changes committed, but could not push the repository: %s"
+msgstr "Saugyklų būsena"
+
 #, fuzzy
 #| msgid "Watched translations"
 msgid "Repository operation could not be completed because it remained locked."
@@ -21792,6 +23600,33 @@ msgid ""
 msgid_plural ""
 "Accepted %(accepted)d of %(total)d suggestions from %(user)s. %(failed)d "
 "failed due to permissions or checks."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+msgid "Bulk edit parameters are no longer valid."
+msgstr ""
+
+#, python-format
+msgid "Bulk edit failed after processing %(count)d strings: %(error)s"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "The target or permissions changed."
+msgstr "Licencija buvo pakeista"
+
+#, python-format
+msgid ""
+"Bulk edit failed after processing %(count)d strings. Earlier batches may "
+"have been applied."
+msgstr ""
+
+#, python-format
+msgid "Bulk edit completed, %d string was updated."
+msgid_plural "Bulk edit completed, %d strings were updated."
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
@@ -21854,6 +23689,10 @@ msgstr ""
 #| msgid "Translation status"
 msgid "This language is used for source strings."
 msgstr "Vertimų būsena"
+
+#, python-format
+msgid "This component is linked to the %(target)s repository."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation status"
@@ -21984,6 +23823,33 @@ msgstr ""
 msgid "Updates source strings in bilingual translation file."
 msgstr "Stebimi vertimai"
 
+#, fuzzy
+#| msgid "Watched translations"
+msgid "A translation upload is already in progress."
+msgstr "Stebimi vertimai"
+
+msgid "The uploaded file has expired or was already processed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Language code"
+msgid "The uploaded file has expired."
+msgstr "Kalbos kodas"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "The upload target or permissions changed."
+msgstr "Licencija buvo pakeista"
+
+msgid "Plural forms in the uploaded file do not match current translation."
+msgstr ""
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "File upload has failed. Please try again later."
+msgstr "Stebimi vertimai"
+
 msgid "Very high"
 msgstr ""
 
@@ -22107,6 +23973,9 @@ msgstr "Jūs negalite pašalinti šio patys!"
 msgid "You can not block yourself on this project."
 msgstr "Stebimi projektai"
 
+msgid "Remove project administration rights before blocking this user."
+msgstr ""
+
 #, fuzzy
 #| msgid "Watched projects"
 msgid "User has been blocked on this project."
@@ -22171,6 +24040,11 @@ msgstr[0] "Jūsų kalbos"
 msgstr[1] "Jūsų kalbos"
 msgstr[2] "Jūsų kalbos"
 msgstr[3] "Jūsų kalbos"
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "You do not have permission to add this language."
+msgstr "Stebimi vertimai"
 
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
@@ -22416,8 +24290,10 @@ msgstr ""
 msgid "Access denied."
 msgstr ""
 
-msgid "Plural forms in the uploaded file do not match current translation."
-msgstr ""
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation upload in progress."
+msgstr "Vertimų būsena"
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -22473,12 +24349,22 @@ msgstr ""
 msgid "All components are now locked for translation updates!"
 msgstr ""
 
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Allowed components are now locked for translation updates!"
+msgstr "Stebimi vertimai"
+
 msgid "Component is now open for translation updates."
 msgstr ""
 
 #, fuzzy
 #| msgid "Watched translations"
 msgid "All components are now open for translation updates."
+msgstr "Stebimi vertimai"
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Allowed components are now open for translation updates."
 msgstr "Stebimi vertimai"
 
 msgid "Generating report…"
@@ -22549,19 +24435,6 @@ msgstr "Parsisiųsti"
 msgid "Excluded user days"
 msgstr "Naudotojo vardas"
 
-msgid "Could not process form!"
-msgstr "Nebuvo galima apdoroti formos!"
-
-msgid "Search and replace completed, no strings were updated."
-msgstr ""
-
-#, python-format
-msgid "Search and replace completed, %d string was updated."
-msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-
 #, python-format
 msgid "Search for %s"
 msgstr ""
@@ -22572,16 +24445,29 @@ msgstr ""
 msgid "Invalid search query!"
 msgstr ""
 
-msgid "Bulk edit completed, no strings were updated."
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Too many bulk edits, please try again later."
+msgstr "Stebimi vertimai"
+
+msgid "The preview has expired or is invalid. Preview the changes again."
 msgstr ""
 
-#, python-format
-msgid "Bulk edit completed, %d string was updated."
-msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgid "Could not process form!"
+msgstr "Nebuvo galima apdoroti formos!"
+
+#, fuzzy
+#| msgid "Full name"
+msgid "Bulk edit in progress."
+msgstr "Vardas ir pavardė"
+
+#, fuzzy, python-format
+#| msgid "Authentication"
+msgid "Bulk edit failed: %s"
+msgstr "Autentifikavimas"
+
+msgid "Bulk edit completed, no strings were updated."
+msgstr ""
 
 msgid "Settings saved"
 msgstr ""
@@ -22713,6 +24599,16 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr ""
 
+#, fuzzy
+#| msgid "Secondary languages"
+msgid "Sort languages by"
+msgstr "Antrinės kalbos"
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Translation percentage"
+msgstr "Kalbos, į kurias verčiate"
+
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr ""
@@ -22747,6 +24643,11 @@ msgstr[1] "Kalbos"
 msgstr[2] "Kalbos"
 msgstr[3] "Kalbos"
 
+msgid ""
+"The target workspace's billing plan only allows public projects without "
+"restricted components."
+msgstr ""
+
 #, fuzzy
 #| msgid "Translation status"
 msgid "The project is already assigned to this workspace."
@@ -22779,9 +24680,137 @@ msgid "Invalid host name given!"
 msgstr ""
 
 #, fuzzy
+#| msgid "XML tags in translation do not match source."
+msgid "Press ? in the translation editor to discover keyboard shortcuts."
+msgstr "XML žymės vertime nesutampa su šaltiniu."
+
+msgid ""
+"Add secondary languages in your preferences to see translations you already "
+"understand alongside the source."
+msgstr ""
+
+msgid ""
+"Customize your special characters in your profile to keep frequently used "
+"characters within reach."
+msgstr ""
+
+msgid ""
+"Use the visual keyboard above the translation field to insert special "
+"characters."
+msgstr ""
+
+msgid ""
+"Save searches you use often so you can return to them from the search "
+"filters."
+msgstr ""
+
+msgid ""
+"Combine search conditions with AND, OR, and NOT to find exactly the strings "
+"you need."
+msgstr ""
+
+msgid ""
+"Search with regular expressions when a simple word search is not enough."
+msgstr ""
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Use labels to organize strings and find related translation work."
+msgstr "Stebimi vertimai"
+
+msgid ""
+"Check a string’s screenshots to see where the text appears in the "
+"application."
+msgstr ""
+
+msgid ""
+"Link an existing screenshot to a string to give translators more context."
+msgstr ""
+
+msgid ""
+"Check nearby strings for context before translating a short or ambiguous "
+"message."
+msgstr ""
+
+msgid "Explore a string’s history to see how its translation has changed."
+msgstr ""
+
+msgid ""
+"Leave a comment on a source string to ask for context that can help every "
+"language."
+msgstr ""
+
+msgid ""
+"Suggest a translation when you want others to review your wording before it "
+"is accepted."
+msgstr ""
+
+#, fuzzy
+#| msgid "Permissions"
+msgid "You can edit a translation suggestion before accepting it."
+msgstr "Leidimai"
+
+msgid ""
+"Add terms to a project glossary to help translators use consistent wording."
+msgstr ""
+
+msgid ""
+"Glossaries can mark terms as forbidden to help translators avoid unwanted "
+"wording."
+msgstr ""
+
+msgid "Glossaries can mark names and other terms as untranslatable."
+msgstr ""
+
+msgid ""
+"Watch projects you care about and choose which translation events notify you."
+msgstr ""
+
+msgid ""
+"Choose notification digests to receive translation updates together instead "
+"of one email at a time."
+msgstr ""
+
+msgid "Regular expression processing failed or exceeded its resource limit."
+msgstr ""
+
+msgid "Cumulative regex time limit exceeded."
+msgstr ""
+
+msgid "Regex request exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Regular expression evaluation timed out."
+msgstr "Stebimi vertimai"
+
+msgid "Regex response exceeds its size limit."
+msgstr ""
+
+msgid "Regex output exceeds its size limit."
+msgstr ""
+
+msgid "Pattern and replacement must not exceed 4096 characters."
+msgstr ""
+
+msgid "Regex input exceeds 1 MiB per plural."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Watched translations"
+msgid "Invalid regular expression or replacement: %s"
+msgstr "Stebimi vertimai"
+
+#, fuzzy
 #| msgid "Watched translations"
 msgid "Automatic translation reported a warning."
 msgstr "Stebimi vertimai"
+
+#, fuzzy
+#| msgid "Add new association"
+msgid "Automatic translation is waiting for another operation to finish."
+msgstr "Pridėti naują asociaciją"
 
 #, fuzzy
 #| msgid "Watched translations"
@@ -22790,6 +24819,11 @@ msgstr "Stebimi vertimai"
 
 msgid "Task could not be completed. See the task log for details."
 msgstr ""
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Automatic translation reported an error."
+msgstr "Stebimi vertimai"
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -22965,11 +24999,10 @@ msgstr "Pridėti naują asociaciją"
 msgid "Could not resolve the URL domain."
 msgstr "Pridėti naują asociaciją"
 
-msgid "Parameters must be a dictionary of key-value pairs."
+msgid "Invalid stored parameter value."
 msgstr ""
 
-#, python-format
-msgid "Undefined variable: \"%s\""
+msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
 #, fuzzy
@@ -22982,10 +25015,365 @@ msgid ""
 "instead."
 msgstr ""
 
+msgid "Template context exceeds its size limit."
+msgstr ""
+
+msgid "Template context is nested too deeply."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported nonfinite template context value."
+msgstr "Nepalaikomas paveikslėlio tipas: %s"
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported template context key."
+msgstr "Nepalaikomas paveikslėlio tipas: %s"
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported template context value."
+msgstr "Nepalaikomas paveikslėlio tipas: %s"
+
+msgid "Template value exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Template text is not valid UTF-8."
+msgstr "Įvestas žetonas netinkamas."
+
+#, python-format
+msgid "Tag \"%(name)s\""
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid integer list!"
+msgid "Invalid template syntax."
+msgstr "Negalimas sveikųjų skaičių sąrašas!"
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Undefined template variable."
+msgstr "Nepalaikomas paveikslėlio tipas: %s"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Text is not valid UTF-8."
+msgstr "Vertimų būsena"
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Division by zero is not supported."
+msgstr "Pasirinktas rūšiavimas nepalaikomas."
+
+#, fuzzy
+#| msgctxt "Plural type"
+#| msgid "Arabic languages"
+msgid "Numeric value is too large for this operation."
+msgstr "Arabų kalbos"
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Numeric operation failed."
+msgstr "Stebimi vertimai"
+
+msgid "Value or argument has an unsupported type."
+msgstr ""
+
+msgid "Value or argument is incomplete or out of range."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Value or argument has an invalid format."
+msgstr "Vertimų būsena"
+
+#, fuzzy, python-format
+#| msgid "Watched translations"
+msgid "%(operation)s: %(message)s"
+msgstr "Stebimi vertimai"
+
+#, python-format
+msgid "Line %(line)d: %(message)s"
+msgstr ""
+
+msgid "Template rendering exceeded its time limit."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the operation limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Template value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template value must be a supported scalar."
+msgstr ""
+
+msgid "Integer exceeds the numeric limit of 4096 bits."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nonfinite numbers are not supported."
+msgstr "Pasirinktas rūšiavimas nepalaikomas."
+
+#, fuzzy, python-format
+#| msgid "Full name"
+msgid "Filter \"%(name)s\""
+msgstr "Vardas ir pavardė"
+
+#, python-format
+msgid "Template exceeds the filter application limit of %(limit)d."
+msgstr ""
+
+msgid "Template rendering exceeded its loop limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Attribute access and method calls are not supported."
+msgstr "Pasirinktas rūšiavimas nepalaikomas."
+
+msgid "Index exceeds the length limit of 128 characters."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Translated template literals are not supported."
+msgstr "Pasirinktas rūšiavimas nepalaikomas."
+
+#, fuzzy
+#| msgid "Invalid integer list!"
+msgid "Invalid filter."
+msgstr "Negalimas sveikųjų skaičių sąrašas!"
+
+msgid "Identity comparisons require None, True, or False."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This condition operator is not supported."
+msgstr "Pasirinktas rūšiavimas nepalaikomas."
+
+msgid "Template output exceeds its size limit."
+msgstr ""
+
+msgid "Loops require a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "Loop unpacking requires a list, tuple, string, or dictionary."
+msgstr ""
+
+msgid "Loop value cannot be unpacked into its variables."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This template tag is not supported."
+msgstr "Pasirinktas rūšiavimas nepalaikomas."
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "This template node is not supported."
+msgstr "Pasirinktas rūšiavimas nepalaikomas."
+
+msgid "Replacement requires string values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Undefined variable: \"%s\""
+msgstr ""
+
+msgid "This filter requires scalar values and arguments."
+msgstr ""
+
+#, python-format
+msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Numeric input exceeds the conversion limit of 1240 characters."
+msgstr ""
+
+msgid "Decimal exceeds the numeric conversion limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "This field is required."
+msgid "This filter requires strings."
+msgstr "Šis laukas yra privalomas."
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Choices must be a string."
+msgstr "Stebimi vertimai"
+
+msgid "Length requires a list, string, dictionary, or dictionary view."
+msgstr ""
+
+msgid "This filter requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slicing requires a list, tuple, or string."
+msgstr ""
+
+msgid "Slice argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid ""
+"Joining requires an iterable and a string separator with escaping disabled."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add new association"
+msgid "Joining requires string elements."
+msgstr "Pridėti naują asociaciją"
+
+#, python-format
+msgid "Joined value would exceed the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Sequence escaping requires a list, tuple, or string."
+msgstr ""
+
+msgid "Sequence escaping requires scalar elements."
+msgstr ""
+
+msgid "Date formatting requires a date, time, string, or None."
+msgstr ""
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Date format must be a string or None."
+msgstr "Stebimi vertimai"
+
+#, fuzzy
+#| msgctxt "Per-project access-control team name"
+#| msgid "Screenshots"
+msgid "Time comparison requires a date, time, string, or None."
+msgstr "Ekrano nuotraukos"
+
+msgid "Time comparison argument must be a date or None."
+msgstr ""
+
+msgid "Concatenation requires sequences of the same type."
+msgstr ""
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Plural suffixes must be a string."
+msgstr "Stebimi vertimai"
+
+msgid "Precision argument exceeds the length limit of 128 characters."
+msgstr ""
+
+msgid "Formatting precision exceeds the limit of 1000 places."
+msgstr ""
+
+msgid "Format must be a string of at most 128 characters."
+msgstr ""
+
+msgid ""
+"Format must contain one supported conversion without mapping keys or dynamic "
+"widths."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "Nested template delimiters are not supported."
+msgstr "Pasirinktas rūšiavimas nepalaikomas."
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unclosed template token."
+msgstr "Nepalaikomas paveikslėlio tipas: %s"
+
+#, python-format
+msgid "Template token exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
+msgid "Template tokens cannot span multiple lines."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d tokens."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing limit of %(limit)d filters."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the parsing work limit of %(limit)d units."
+msgstr ""
+
+#, python-format
+msgid "Unclosed template tag \"%(tag)s\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Template tag is empty."
+msgstr "Vertimų būsena"
+
+#, python-format
+msgid "Condition exceeds the parsing limit of %(limit)d terms."
+msgstr ""
+
+#, python-format
+msgid "Template exceeds the nesting limit of %(limit)d levels."
+msgstr ""
+
+#, python-format
+msgid "Unexpected closing tag \"%(tag)s\"."
+msgstr ""
+
+#, python-format
+msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported template tag \"%(tag)s\"."
+msgstr "Nepalaikomas paveikslėlio tipas: %s"
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported template tag."
+msgstr "Nepalaikomas paveikslėlio tipas: %s"
+
+#, python-format
+msgid "Serialized data exceeds the nesting limit of %(limit)d."
+msgstr ""
+
+#, python-format
+msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
+msgstr ""
+
+#, python-format
+msgid "Serialized value exceeds the size limit of %(limit)d bytes."
+msgstr ""
+
 #, python-format
 msgid ""
 "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Regular expression is too complex."
+msgstr "Stebimi vertimai"
 
 msgid "Search query is too complex."
 msgstr ""
@@ -23024,6 +25412,11 @@ msgid "Unsupported lookup for {field}: {value}"
 msgstr ""
 
 #, fuzzy
+#| msgid "Translation status"
+msgid "A concrete project or component is required."
+msgstr "Vertimų būsena"
+
+#, fuzzy
 #| msgid "Add new association"
 msgid "Could not parse IP address: {}"
 msgstr "Pridėti naują asociaciją"
@@ -23038,6 +25431,11 @@ msgstr ""
 
 msgid "Mixed operators!"
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Search query is too long."
+msgstr "Vertimų būsena"
 
 #, fuzzy
 #| msgid "Status of repositories"
@@ -23243,6 +25641,9 @@ msgstr ""
 msgid "URL domain is not allowed."
 msgstr ""
 
+msgid "AMQP broker URLs must not contain query strings or fragments."
+msgstr ""
+
 #, fuzzy
 #| msgid "Component list"
 msgid "Repository URL contains unsafe characters."
@@ -23439,6 +25840,33 @@ msgstr ""
 
 #, python-format
 msgid "Pull request listing failed: %(error)s Please retry later."
+msgstr ""
+
+#, python-format
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s"
+msgstr ""
+
+#, python-format
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s "
+"Please retry later."
+msgstr ""
+
+#, python-format
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s"
+msgstr ""
+
+#, python-format
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s Please retry later."
+msgstr ""
+
+#, python-format
+msgid "GitHub did not assign the requested users: %(assignees)s"
 msgstr ""
 
 #, fuzzy, python-format
@@ -23792,6 +26220,11 @@ msgid "This will push changes to the upstream Mercurial repository."
 msgstr "Saugyklų būsena"
 
 #, fuzzy
+#| msgid "Status of repositories"
+msgid "Could not remove nested repository metadata."
+msgstr "Saugyklų būsena"
+
+#, fuzzy
 #| msgid "Username"
 msgid "GitHub"
 msgstr "Naudotojo vardas"
@@ -23870,6 +26303,32 @@ msgid ""
 "Open a pull or merge request for the translation changes. When turned off, "
 "Weblate pushes to the translated branch directly, which requires write "
 "access to it."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid integer list!"
+msgid "Pull request assignee"
+msgstr "Negalimas sveikųjų skaičių sąrašas!"
+
+msgid "GitHub username to assign to pull requests created by Weblate."
+msgstr ""
+
+msgid "Assign pull requests to acting user"
+msgstr ""
+
+msgid ""
+"Also assign the GitHub account linked to the Weblate user who starts the "
+"push, when available."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid integer list!"
+msgid "Pull request labels"
+msgstr "Negalimas sveikųjų skaičių sąrašas!"
+
+msgid ""
+"Comma-separated names of labels to add to pull requests created by Weblate. "
+"Existing labels are kept."
 msgstr ""
 
 msgid "Merge pull requests automatically"
@@ -24214,6 +26673,70 @@ msgid ""
 "there is room for a full menu."
 msgstr ""
 
+#, fuzzy
+#| msgid "Download"
+msgid "CSV report"
+msgstr "Parsisiųsti"
+
+#, fuzzy
+#| msgid "Languages limit"
+msgid "Delimiter"
+msgstr "Kalbų limitas"
+
+msgid ""
+"Leave blank to detect automatically. Use a comma, semicolon, pipe, or \\t "
+"for a tab."
+msgstr ""
+
+msgid "First row contains column names"
+msgstr ""
+
+#, fuzzy
+#| msgid "Username or e-mail"
+msgid "Username or e-mail column"
+msgstr "Vartotojo vardas arba el. paštas"
+
+#, fuzzy
+#| msgid "Password"
+msgid "Password column"
+msgstr "Slaptažodis"
+
+msgid ""
+"Specify both column numbers, or leave both blank for automatic detection."
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Configuring"
+msgstr "Dabartinis slaptažodis"
+
+msgid "Running"
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project / Component"
+msgid "Resolved"
+msgstr "Projektas / komponentas"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Dismissed by administrator"
+msgstr "Administravimas"
+
+msgid "Lookalike e-mail identity removed"
+msgstr ""
+
+msgid "E-mail identity already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Password already changed"
+msgstr "Slaptažodis pakeistas."
+
 #. Translators: The Weblate server has no paid support by the Weblate team
 msgid "Community support"
 msgstr ""
@@ -24283,11 +26806,186 @@ msgstr ""
 msgid "Repository initialization"
 msgstr "Stebimi vertimai"
 
+#, fuzzy
+#| msgid "New password"
+msgid "Leaked password"
+msgstr "Naujas slaptažodis"
+
+#, fuzzy
+#| msgid "Register e-mail"
+msgid "Lookalike verified e-mail address"
+msgstr "El. pašto adreso užregistravimas"
+
+msgid "The uploaded report has expired. Upload it again."
+msgstr ""
+
+msgid ""
+"Could not detect the credential columns. Configure their column numbers."
+msgstr ""
+
+msgid "Choose different identifier and password columns."
+msgstr ""
+
+msgid "The report exceeds the 10 MiB limit."
+msgstr ""
+
+msgid "Upload a UTF-8 encoded CSV file."
+msgstr ""
+
+msgid ""
+"Could not detect the delimiter. Configure the CSV columns and delimiter."
+msgstr ""
+
+msgid "Choose a single delimiter character."
+msgstr ""
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "The file contains malformed CSV quoting."
+msgstr "Stebimi vertimai"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "The report is empty."
+msgstr "Vertimų būsena"
+
+msgid "The report exceeds the 50,000 row limit."
+msgstr ""
+
+msgid "The report contains no credential rows."
+msgstr ""
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid ""
+"The initiating administrator no longer has permission to perform this "
+"operation."
+msgstr "Stebimi vertimai"
+
+msgid ""
+"The security operation failed. Review any findings already recorded and "
+"start a new operation."
+msgstr ""
+
+#, fuzzy
+#| msgid "Security"
+msgid "Security report"
+msgstr "Saugumas"
+
+#, python-format
+msgid "Report from %(date)s"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Component list"
+msgid "%(filename)s — %(report)s"
+msgstr "Komponentų sąrašas"
+
+msgid ""
+"Your identity verification has expired. Confirm your identity, then select "
+"and upload the CSV report again."
+msgstr ""
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Could not store the encrypted upload. Try again."
+msgstr "Stebimi vertimai"
+
+msgid "Choose a CSV report of at most 10 MiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Could not read the uploaded report. Upload it again."
+msgstr "Stebimi vertimai"
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords checked"
+msgstr "Slaptažodis pakeistas."
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Duplicate rows"
+msgstr "Stebimi vertimai"
+
+#, fuzzy
+#| msgid "Remove my account"
+msgid "Unknown accounts"
+msgstr "Pašalinti paskyrą"
+
+#, fuzzy
+#| msgid "Remove my account"
+msgid "Ambiguous accounts"
+msgstr "Pašalinti paskyrą"
+
+msgid "Malformed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "New password"
+msgid "Unusable passwords"
+msgstr "Naujas slaptažodis"
+
+msgid "Passwords that did not match"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password reset"
+msgid "Passwords reset"
+msgstr "Iš naujo nustatyti slaptažodį"
+
+msgid "Lookalike e-mail identities removed"
+msgstr ""
+
+msgid "E-mail identities already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords already changed"
+msgstr "Slaptažodis pakeistas."
+
+#, fuzzy
+#| msgid "Watched projects"
+msgid "Dismissed findings"
+msgstr "Stebimi projektai"
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Skipped findings"
+msgstr "Paskiausi pakeitimai"
+
+#, fuzzy
+#| msgid "About Weblate"
+msgid "Unsupported actions"
+msgstr "Apie Weblate"
+
+#, fuzzy
+#| msgid "Register e-mail"
+msgid "Primary e-mail address"
+msgstr "El. pašto adreso užregistravimas"
+
+#, fuzzy
+#| msgid "Register e-mail"
+msgid "Verified e-mail address"
+msgstr "El. pašto adreso užregistravimas"
+
+#, fuzzy, python-format
+#| msgid "Manage roles"
+msgid "Finding for %(username)s"
+msgstr "Valdyti roles"
+
 msgid "Weblate administration"
 msgstr ""
 
 msgid "Object listing turned off"
 msgstr ""
+
+#, fuzzy
+#| msgid "Not available"
+msgid "The security operation expired. Start a new operation."
+msgstr "Neprieinama"
 
 #, fuzzy
 #| msgid "Donate to Weblate"
@@ -24454,6 +27152,21 @@ msgid "Workspace name"
 msgstr "Kalbos, į kurias verčiate"
 
 #, fuzzy
+#| msgid "Translation notifications"
+msgid "Translation propagation scope"
+msgstr "Pranešimai apie vertimus"
+
+#, fuzzy
+#| msgid "Could not change additional string info!"
+msgid "Matching component name within workspace"
+msgstr "Nebuvo galima pakeisti papildomos eilutės informacijos!"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Where translations of matching strings are propagated."
+msgstr "Vertimų būsena"
+
+#, fuzzy
 #| msgid "Language name"
 msgid "Managed name"
 msgstr "Kalbos pavadinimas"
@@ -24484,6 +27197,57 @@ msgstr ""
 #| msgid "Translation status"
 msgid "The workspace has been removed."
 msgstr "Vertimų būsena"
+
+#, fuzzy, python-format
+#~| msgid "Glossary"
+#~ msgid "Browse glossary %(name)s"
+#~ msgstr "Aiškinamasis žodynas"
+
+#, fuzzy
+#~| msgid "Translation status"
+#~ msgid "Invalid template rendering response."
+#~ msgstr "Vertimų būsena"
+
+#, fuzzy
+#~| msgid "Verification completed"
+#~ msgid "E-mail verification almost complete"
+#~ msgstr "Patvirtinimas atliktas"
+
+#, fuzzy
+#~| msgid "Information"
+#~ msgid "Stop using this installation without removing its configuration."
+#~ msgstr "Informacija"
+
+#, fuzzy
+#~| msgid "Action"
+#~ msgid "Remove this installation and its configuration."
+#~ msgstr "Veiksmas"
+
+#, fuzzy
+#~| msgid "Permissions"
+#~ msgid "Find strings in image"
+#~ msgstr "Leidimai"
+
+#, fuzzy
+#~| msgid "Translation status"
+#~ msgid "Translation flags to add — matching translations"
+#~ msgstr "Vertimų būsena"
+
+#, fuzzy
+#~| msgid "Translation status"
+#~ msgid "Translation flags to remove — matching translations"
+#~ msgstr "Vertimų būsena"
+
+#, fuzzy
+#~| msgctxt "Plural type"
+#~| msgid "Arabic languages"
+#~ msgid "Labels to add — all languages"
+#~ msgstr "Arabų kalbos"
+
+#, fuzzy
+#~| msgid "Language code"
+#~ msgid "Labels to remove — all languages"
+#~ msgstr "Kalbos kodas"
 
 #~ msgid "Register e-mail"
 #~ msgstr "El. pašto adreso užregistravimas"
@@ -24563,11 +27327,6 @@ msgstr "Vertimų būsena"
 #~ msgid "Could not authenticate: %s"
 #~ msgstr "El. pašto adreso užregistravimas"
 
-#, fuzzy, python-format
-#~| msgid "Authentication"
-#~ msgid "Authentication failed: %s"
-#~ msgstr "Autentifikavimas"
-
 #, fuzzy
 #~| msgid "Project / Component"
 #~ msgid "Project backup import completed with skipped components."
@@ -24604,16 +27363,6 @@ msgstr "Vertimų būsena"
 #~| msgid "Permission Denied"
 #~ msgid "Permission required on:"
 #~ msgstr "Neturite leidimo"
-
-#, fuzzy
-#~| msgid "Download"
-#~ msgid "Download reports"
-#~ msgstr "Parsisiųsti"
-
-#, fuzzy
-#~| msgid "Translated languages"
-#~ msgid "Suggested change"
-#~ msgstr "Kalbos, į kurias verčiate"
 
 #, fuzzy
 #~| msgid "Watched translations"
@@ -24658,11 +27407,6 @@ msgstr "Vertimų būsena"
 
 #, fuzzy
 #~| msgid "Watched translations"
-#~ msgid "Updates of translations are in progress."
-#~ msgstr "Stebimi vertimai"
-
-#, fuzzy
-#~| msgid "Watched translations"
 #~ msgid "Updates of translations in accessible repositories are in progress."
 #~ msgstr "Stebimi vertimai"
 
@@ -24676,11 +27420,6 @@ msgstr "Vertimų būsena"
 #~ msgid "Pending translations in accessible repositories were committed."
 #~ msgstr "Jūsų paskyra pašalinta."
 
-#, fuzzy
-#~| msgid "Authentication has been cancelled."
-#~ msgid "Activation completed."
-#~ msgstr "Prisijungimas atšauktas."
-
 #, fuzzy, python-format
 #~| msgid "Watched translations"
 #~ msgid "Could not activate your installation: %s"
@@ -24693,11 +27432,6 @@ msgstr "Vertimų būsena"
 #~| msgid "Source code repository"
 #~ msgid "Repository URL"
 #~ msgstr "Pradinio kodo saugykla"
-
-#, fuzzy
-#~| msgid "Recent changes"
-#~ msgid "Repository name"
-#~ msgstr "Paskiausi pakeitimai"
 
 #, fuzzy
 #~| msgid "Project / Component"
@@ -24718,11 +27452,6 @@ msgstr "Vertimų būsena"
 #~ msgstr "Iš naujo nustatyti slaptažodį"
 
 #, fuzzy
-#~| msgid "Recent changes"
-#~ msgid "repository wide"
-#~ msgstr "Paskiausi pakeitimai"
-
-#, fuzzy
 #~| msgid "Components"
 #~ msgid "component"
 #~ msgstr "Komponentai"
@@ -24736,11 +27465,6 @@ msgstr "Vertimų būsena"
 #~| msgid "Project website"
 #~ msgid "project-wide"
 #~ msgstr "Projekto svetainė"
-
-#, fuzzy
-#~| msgid "Recent changes"
-#~ msgid "site-wide"
-#~ msgstr "Paskiausi pakeitimai"
 
 #, fuzzy, python-format
 #~| msgid "Translation notifications"
@@ -24780,11 +27504,6 @@ msgstr "Vertimų būsena"
 #~| msgid "Versions"
 #~ msgid "VCS integrations"
 #~ msgstr "Versijos"
-
-#, fuzzy
-#~| msgid "New password confirmation"
-#~ msgid "Manage VCS integrations"
-#~ msgstr "Pakartotinai įveskite naują slaptažodį"
 
 #, fuzzy
 #~| msgid "Username"
@@ -24837,11 +27556,6 @@ msgstr "Vertimų būsena"
 #~ msgstr "„API“ prieiga"
 
 #, fuzzy
-#~| msgid "Add team"
-#~ msgid "Add admin"
-#~ msgstr "Įtraukti komandą"
-
-#, fuzzy
 #~| msgid "Project / Component"
 #~ msgid "Return to the component"
 #~ msgstr "Projektas / komponentas"
@@ -24862,9 +27576,6 @@ msgstr "Vertimų būsena"
 
 #~ msgid "I'm not a robot"
 #~ msgstr "Nesu robotas"
-
-#~ msgid "Verifying…"
-#~ msgstr "Tvirtinama…"
 
 #~ msgid "Verification is still in progress, please wait."
 #~ msgstr "Tvirtinimas dar nebaigtas, prašome palaukti."
@@ -25015,11 +27726,6 @@ msgstr "Vertimų būsena"
 #~ msgstr "Įveskite tinkamą el. pašto adresą."
 
 #, fuzzy
-#~| msgid "Translation status"
-#~ msgid "Translation reviews are not enabled."
-#~ msgstr "Vertimų būsena"
-
-#, fuzzy
 #~| msgid "Not available"
 #~ msgid "Reviews are not enabled."
 #~ msgstr "Neprieinama"
@@ -25068,11 +27774,6 @@ msgstr "Vertimų būsena"
 #~ msgstr "Projektas / komponentas"
 
 #, fuzzy
-#~| msgid "Project / Component"
-#~ msgid "Move component"
-#~ msgstr "Projektas / komponentas"
-
-#, fuzzy
 #~| msgid "Watched projects"
 #~ msgid "Rename project"
 #~ msgstr "Stebimi projektai"
@@ -25100,11 +27801,6 @@ msgstr "Vertimų būsena"
 #~| msgid "Watched projects"
 #~ msgid "Renamed project"
 #~ msgstr "Stebimi projektai"
-
-#, fuzzy
-#~| msgid "Project / Component"
-#~ msgid "Renamed component"
-#~ msgstr "Projektas / komponentas"
 
 #, fuzzy
 #~| msgid "Watched translations"
@@ -25241,11 +27937,6 @@ msgstr "Vertimų būsena"
 #~ msgstr "Pernelyg dažnai bandėte prisijungti!"
 
 #, fuzzy
-#~| msgid "Too many authentication attempts!"
-#~ msgid "Too many authentication attempts from this location."
-#~ msgstr "Pernelyg dažnai bandėte prisijungti!"
-
-#, fuzzy
 #~| msgid "Permissions"
 #~ msgid "Strings needing action without suggestions"
 #~ msgstr "Leidimai"
@@ -25269,11 +27960,6 @@ msgstr "Vertimų būsena"
 #~| msgid "Plural form %d"
 #~ msgid "Plural gettext formula"
 #~ msgstr "%d daugiskaitos forma"
-
-#, fuzzy
-#~| msgid "Permissions"
-#~ msgid "Permission"
-#~ msgstr "Leidimai"
 
 #, fuzzy
 #~| msgid "Remove my account"
@@ -25553,11 +28239,6 @@ msgstr "Vertimų būsena"
 
 #, fuzzy
 #~| msgid "Translation status"
-#~ msgid "Merge failure"
-#~ msgstr "Vertimų būsena"
-
-#, fuzzy
-#~| msgid "Translation status"
 #~ msgid "There is %(count)s string with suggestion in %(component)s."
 #~ msgid_plural ""
 #~ "There are %(count)s strings with suggestions in %(component)s."
@@ -25613,11 +28294,6 @@ msgstr "Vertimų būsena"
 #, fuzzy
 #~| msgid "Translation status"
 #~ msgid "Translation license OSI approved."
-#~ msgstr "Vertimų būsena"
-
-#, fuzzy
-#~| msgid "Translation status"
-#~ msgid "This translation component is currently being updated."
 #~ msgstr "Vertimų būsena"
 
 #, fuzzy

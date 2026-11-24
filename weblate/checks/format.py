@@ -16,6 +16,8 @@ from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import Highlight, SourceCheck, TargetCheck, merge_diagnostics
 from weblate.utils.html import format_html_join_comma, list_to_tuples
+from weblate.utils.java import iter_java_message_matches
+from weblate.utils.regex import builtin_regex_finditer
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
@@ -24,6 +26,7 @@ if TYPE_CHECKING:
 
     from weblate.checks.base import MissingExtraDict
     from weblate.trans.models import Unit
+    from weblate.utils.regex import RegexMatch
 
     from .models import Check
 
@@ -229,6 +232,8 @@ def _python_brace_end(string: str, start: int, next_closing: list[int]) -> int:
 
 def iter_python_brace_matches(string: str) -> Iterable[re.Match[str]]:
     """Find brace formats without retrying long index contents at every opener."""
+    if "{" not in string and "}" not in string:
+        return
     next_closing = [-1] * (len(string) + 1)
     closing = -1
     for position in range(len(string) - 1, -1, -1):
@@ -389,11 +394,11 @@ def format_not_position_based(string: str) -> bool:
     return False
 
 
-def extract_string_simple(match: re.Match) -> str:
+def extract_string_simple(match: RegexMatch) -> str:
     return match.group(1)
 
 
-def extract_string_python_brace(match: re.Match) -> str:
+def extract_string_python_brace(match: RegexMatch) -> str:
     # 1 and 2 are escaped braces and 3 is the actual match of format string
     return match.group(1) or match.group(2) or match.group(3)
 
@@ -403,7 +408,7 @@ FLAG_RULES: dict[
     tuple[
         re.Pattern,
         Callable[[str], bool],
-        Callable[[re.Match], str],
+        Callable[[RegexMatch], str],
     ],
 ] = {
     "python-format": (
@@ -494,7 +499,23 @@ class BaseFormatCheck(TargetCheck):
         """Check single unit, handling plurals."""
         return any(self.check_generator(sources, targets, unit))
 
+    @staticmethod
+    def timeout_result() -> MissingExtraDict:
+        return {
+            "missing": [],
+            "extra": [],
+            "errors": [gettext("Format matching exceeded its time limit.")],
+        }
+
     def check_generator(
+        self, sources: list[str], targets: list[str], unit: Unit
+    ) -> Iterable[Literal[False] | MissingExtraDict]:
+        try:
+            yield from self._check_generator(sources, targets, unit)
+        except TimeoutError:
+            yield self.timeout_result()
+
+    def _check_generator(
         self, sources: list[str], targets: list[str], unit: Unit
     ) -> Iterable[Literal[False] | MissingExtraDict]:
         if unit.has_multiple_values(sources, targets):
@@ -564,21 +585,35 @@ class BaseFormatCheck(TargetCheck):
             return matches
         return [m for m in matches if m not in self.normalize_remove]
 
-    def extract_string(self, match: re.Match) -> str:
+    def extract_string(self, match: RegexMatch) -> str:
         return extract_string_simple(match)
 
-    def iter_matches(self, string: str) -> Iterable[re.Match[str]]:
+    def iter_matches(self, string: str) -> Iterable[RegexMatch]:
         if self.regexp is None:
             return ()
-        return self.regexp.finditer(string)
+        return builtin_regex_finditer(self.regexp, string)
+
+    def may_have_matches(self, text: str) -> bool:
+        """Return False only when text cannot contain any format matches."""
+        return True
 
     def extract_matches(self, string: str) -> list[str]:
+        if not self.may_have_matches(string):
+            return []
         return [
             self.cleanup_string(self.extract_string(match))
             for match in self.iter_matches(string)
         ]
 
     def check_format(
+        self, source: str, target: str, ignore_missing: bool, unit: Unit
+    ) -> Literal[False] | MissingExtraDict:
+        try:
+            return self._check_format(source, target, ignore_missing, unit)
+        except TimeoutError:
+            return self.timeout_result()
+
+    def _check_format(
         self, source: str, target: str, ignore_missing: bool, unit: Unit
     ) -> Literal[False] | MissingExtraDict:
         """Check for format strings."""
@@ -626,9 +661,13 @@ class BaseFormatCheck(TargetCheck):
         return False
 
     def check_highlight(self, source: str, unit: Unit) -> Iterable[Highlight]:
-        if self.should_skip(unit):
+        if self.should_skip(unit) or not self.may_have_matches(source):
             return
-        for match in self.iter_matches(source):
+        try:
+            matches = list(self.iter_matches(source))
+        except TimeoutError:
+            return
+        for match in matches:
             yield Highlight(match.start(), match.end(), match.group(), kind="grammar")
 
     def format_result(self, result: MissingExtraDict) -> Iterable[StrOrPromise]:
@@ -702,6 +741,9 @@ class BasePrintfCheck(BaseFormatCheck):
 
     normalize_remove: ClassVar[set[str]] = {"%"}
 
+    def may_have_matches(self, text: str) -> bool:
+        return "%" in text
+
     def __init__(self) -> None:
         super().__init__()
         self.regexp, self._is_position_based, self._extract_string = FLAG_RULES[
@@ -711,7 +753,7 @@ class BasePrintfCheck(BaseFormatCheck):
     def is_position_based(self, string: str) -> bool:
         return self._is_position_based(string)
 
-    def extract_string(self, match: re.Match) -> str:
+    def extract_string(self, match: RegexMatch) -> str:
         return self._extract_string(match)
 
     def format_string(self, string: str) -> str:
@@ -770,6 +812,9 @@ class PerlBraceFormatCheck(BaseFormatCheck):
     regexp = PERL_BRACE_MATCH
     plural_parameter_regexp = re.compile(r"\{(?:count|number|num|n)\}")
 
+    def may_have_matches(self, text: str) -> bool:
+        return "{" in text
+
     def is_position_based(self, string: str) -> bool:
         return name_format_is_position_based(string)
 
@@ -815,6 +860,9 @@ class SchemeFormatCheck(BasePrintfCheck):
     description = gettext_lazy("Scheme format string does not match source.")
     normalize_remove: ClassVar[set[str]] = {"~"}
 
+    def may_have_matches(self, text: str) -> bool:
+        return "~" in text
+
     def format_string(self, string: str) -> str:
         return f"~{string}"
 
@@ -829,10 +877,13 @@ class PythonBraceFormatCheck(BaseFormatCheck):
     plural_parameter_regexp = re.compile(r"\{(?:count|number|num|n)\}")
     normalize_remove: ClassVar[set[str]] = {"{", "}"}
 
+    def may_have_matches(self, text: str) -> bool:
+        return "{" in text or "}" in text
+
     def iter_matches(self, string: str) -> Iterable[re.Match[str]]:
         return iter_python_brace_matches(string)
 
-    def extract_string(self, match: re.Match) -> str:
+    def extract_string(self, match: RegexMatch) -> str:
         return extract_string_python_brace(match)
 
     def is_position_based(self, string: str) -> bool:
@@ -885,6 +936,9 @@ class CSharpFormatCheck(BaseFormatCheck):
     regexp = C_SHARP_MATCH
     extra_enable_strings = ("csharp-format",)
 
+    def may_have_matches(self, text: str) -> bool:
+        return "{" in text
+
     def is_position_based(self, string: str) -> bool:
         return name_format_is_position_based(string)
 
@@ -898,6 +952,9 @@ class LaravelFormatCheck(BasePrintfCheck):
     check_id = "laravel_format"
     name = gettext_lazy("Laravel format")
     description = gettext_lazy("Laravel format string does not match source.")
+
+    def may_have_matches(self, text: str) -> bool:
+        return ":" in text
 
     def format_string(self, string: str) -> str:
         return string
@@ -920,11 +977,11 @@ class JavaMessageFormatCheck(BaseFormatCheck):
     regexp = JAVA_MESSAGE_MATCH
     extra_enable_strings = ("auto-java-messageformat",)
 
+    def may_have_matches(self, text: str) -> bool:
+        return "{" in text
+
     def iter_matches(self, string: str) -> Iterable[re.Match[str]]:
-        closing = string.rfind("}")
-        if closing == -1:
-            return ()
-        return JAVA_MESSAGE_MATCH.finditer(string, 0, closing + 1)
+        return iter_java_message_matches(string, JAVA_MESSAGE_MATCH)
 
     def format_string(self, string: str) -> str:
         return f"{{{string}}}"
@@ -972,7 +1029,12 @@ class I18NextInterpolationCheck(BaseFormatCheck):
     plural_parameter_regexp = re.compile(r"{{count}}")
     version_added = "4.0"
 
+    def may_have_matches(self, text: str) -> bool:
+        return "{{" in text or "$t(" in text
+
     def iter_matches(self, string: str) -> Iterable[re.Match[str]]:
+        if not self.may_have_matches(string):
+            return
         # Dot cannot cross a newline. Cache usable closers on each line so a
         # failed opener never scans the rest of the line again.
         next_paren = [-1] * (len(string) + 1)
@@ -1041,6 +1103,9 @@ class PercentPlaceholdersCheck(BaseFormatCheck):
     plural_parameter_regexp = re.compile(r"%(?:count|number|num|n)%")
     version_added = "4.0"
 
+    def may_have_matches(self, text: str) -> bool:
+        return "%" in text
+
 
 class VueFormattingCheck(BaseFormatCheck):
     check_id = "vue_format"
@@ -1049,6 +1114,9 @@ class VueFormattingCheck(BaseFormatCheck):
     regexp = VUE_MATCH
     # https://kazupon.github.io/vue-i18n/guide/pluralization.html
     plural_parameter_regexp = re.compile(r"%?\{(?:count|n)\}")
+
+    def may_have_matches(self, text: str) -> bool:
+        return "{" in text or "@" in text
 
     def iter_matches(self, string: str) -> Iterable[re.Match[str]]:
         closing = string.rfind("}")
@@ -1071,6 +1139,9 @@ class AutomatticComponentsCheck(BaseFormatCheck):
         "The Automattic components' placeholders do not match the source."
     )
 
+    def may_have_matches(self, text: str) -> bool:
+        return "{{" in text
+
     def __init__(self) -> None:
         super().__init__()
         self.regexp, self._is_position_based, self._extract_string = FLAG_RULES[
@@ -1080,7 +1151,7 @@ class AutomatticComponentsCheck(BaseFormatCheck):
     def is_position_based(self, string: str) -> bool:
         return self._is_position_based(string)
 
-    def extract_string(self, match: re.Match) -> str:
+    def extract_string(self, match: RegexMatch) -> str:
         return self._extract_string(match)
 
 
@@ -1093,19 +1164,34 @@ class MultipleUnnamedFormatsCheck(SourceCheck):
     )
     version_added = "4.1"
 
+    def get_description(self, check_obj: Check) -> StrOrPromise:
+        unit = check_obj.unit
+        try:
+            self._check_source_formats(unit.get_effective_source_plurals(), unit)
+        except TimeoutError:
+            return gettext("Format matching exceeded its time limit.")
+        return super().get_description(check_obj)
+
     def check_source_unit(self, sources: list[str], unit: Unit) -> bool:
+        try:
+            return self._check_source_formats(sources, unit)
+        except TimeoutError:
+            return True
+
+    def _check_source_formats(self, sources: list[str], unit: Unit) -> bool:
         """Check source string."""
         rules = [FLAG_RULES[flag] for flag in unit.all_flags if flag in FLAG_RULES]
         if not rules:
             return False
         found = set()
+        matches: Iterable[RegexMatch]
         for regexp, is_position_based, extract_string in rules:
             if regexp is PYTHON_BRACE_MATCH:
                 matches = iter_python_brace_matches(sources[0])
             elif regexp is PYTHON_PRINTF_MATCH:
                 matches = iter_python_printf_matches(sources[0])
             else:
-                matches = regexp.finditer(sources[0])
+                matches = builtin_regex_finditer(regexp, sources[0])
             for match in matches:
                 if is_position_based(extract_string(match)):
                     found.add((match.start(0), match.end(0)))

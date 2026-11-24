@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import re
+from inspect import getattr_static
 from types import SimpleNamespace
 from unittest.mock import ANY, patch
 from urllib.parse import urlsplit
@@ -15,6 +16,7 @@ from django.core.exceptions import ValidationError
 from django.db import connection
 from django.http import QueryDict
 from django.template import Context
+from django.template.loader import render_to_string
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils.html import escape
@@ -25,9 +27,11 @@ from weblate.auth.models import Group, Role, User
 from weblate.checks.models import Check
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
-from weblate.trans.bulk import bulk_perform
+from weblate.trans.bulk import BulkUnitEdit, bulk_perform
+from weblate.trans.defines import CATEGORY_DEPTH
 from weblate.trans.forms import AutoForm, BulkEditForm
 from weblate.trans.models import (
+    Category,
     Change,
     Comment,
     Component,
@@ -129,15 +133,15 @@ class SearchViewTest(ReusableViewTestCase):
         response = self.client.get(reverse("search"), {"q": "hello"})
         self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
         response = self.client.get(reverse("search"), {"q": 'source:r"^Hello"'})
-        self.assertContains(response, "Hello, world")
+        self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
         response = self.client.get(reverse("search"), {"q": 'source:r"^(Hello"'})
         self.assertContains(response, "Invalid regular expression")
         response = self.client.get(
             reverse("search"), {"q": "hello AND state:<translated"}
         )
-        self.assertContains(response, "Hello, world")
+        self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
         response = self.client.get(reverse("search"), {"q": "hello AND state:empty"})
-        self.assertContains(response, "Hello, world")
+        self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
         response = self.client.get(reverse("search"), {"q": "check:php_format"})
         self.assertContains(response, "No matching strings found.")
         response = self.client.get(
@@ -145,6 +149,21 @@ class SearchViewTest(ReusableViewTestCase):
         )
         self.assertContains(response, "No matching strings found.")
         self.do_search_url(reverse("search"))
+
+    @override_settings(RATELIMIT_SEARCH_ATTEMPTS=20000)
+    def test_search_highlight_terms(self) -> None:
+        url = reverse("search", kwargs={"path": self.translation.get_url_path()})
+        response = self.client.get(url, {"q": "world hello"})
+        self.assertContains(
+            response,
+            '<span class="hlmatch">Hello</span>, <span class="hlmatch">world</span>',
+        )
+        response = self.client.get(url, {"q": "source:world"})
+        self.assertContains(response, 'Hello, <span class="hlmatch">world</span>')
+        # Context is not searched by the source term
+        response = self.client.get(url, {"q": "key:hello OR source:world"})
+        self.assertContains(response, 'Hello, <span class="hlmatch">world</span>')
+        self.assertNotContains(response, '<span class="hlmatch">Hello</span>')
 
     @override_settings(RATELIMIT_SEARCH_ATTEMPTS=20000)
     def test_bulk_edit_selection_rendering(self) -> None:
@@ -415,6 +434,86 @@ class SearchViewTest(ReusableViewTestCase):
         """Searching in all projects."""
         response = self.client.get(reverse("search"), {"q": "hello", "lang": "cs"})
         self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
+
+    def test_search_category_paths(self) -> None:
+        categories = []
+        parent = None
+        for index in range(3):
+            parent = Category.objects.create(
+                name=f"Search category {index}",
+                slug=f"search-category-{index}",
+                project=self.project,
+                category=parent,
+            )
+            categories.append(parent)
+        Component.objects.filter(pk=self.component.pk).update(category=parent)
+        self.component.refresh_from_db()
+        other = self.create_po(
+            project=self.project, category=categories[0], name=self.component.name
+        )
+        self.update_fulltext_index()
+        for scope in (None, self.project.get_url_path()):
+            url = (
+                reverse("search", kwargs={"path": scope})
+                if scope
+                else reverse("search")
+            )
+            with self.subTest(scope=scope):
+                response = self.client.get(url, {"q": "hello", "lang": "cs"})
+                self.assertEqual(response.status_code, 200)
+                document = html.fromstring(response.content)
+                for component, ancestors in (
+                    (self.component, categories),
+                    (other, categories[:1]),
+                ):
+                    cells = document.xpath(
+                        '//td[contains(@class, "object-link")][a/@href=$url]',
+                        url=Component.objects.get(pk=component.pk).get_absolute_url(),
+                    )
+                    self.assertTrue(cells)
+                    for cell in cells:
+                        links = cell.xpath("./a")
+                        expected: list[Project | Category | Component] = [
+                            self.project,
+                            *ancestors,
+                            component,
+                        ]
+                        self.assertEqual(
+                            [link.text_content() for link in links[:-1]],
+                            [obj.name for obj in expected],
+                        )
+                        self.assertEqual(
+                            [link.get("href") for link in links[:-1]],
+                            [obj.get_absolute_url() for obj in expected],
+                        )
+
+    def test_search_prefetched_category_paths_do_not_query(self) -> None:
+        parent = None
+        for index in range(3):
+            parent = Category.objects.create(
+                name=f"Category {index}",
+                slug=f"category-{index}",
+                project=self.project,
+                category=parent,
+            )
+        Component.objects.filter(pk=self.component.pk).update(category=parent)
+        workspace = Workspace.objects.create(name="Path workspace")
+        Project.objects.filter(pk=self.project.pk).update(workspace=workspace)
+        units = list(
+            Unit.objects.filter(translation=self.translation).prefetch().prefetch_bulk()
+        )
+        with self.assertNumQueries(0):
+            content = render_to_string(
+                "snippets/embed-units.html",
+                {
+                    "units": units,
+                    "show_translation": True,
+                    "force_source": True,
+                    "search_query": "",
+                },
+            )
+        self.assertIn("Category 0", content)
+        self.assertIn("Category 2", content)
 
     def test_project_search(self) -> None:
         """Searching within project."""
@@ -858,6 +957,7 @@ class ReplaceTest(ReusableViewTestCase):
 
     def setUp(self) -> None:
         super().setUp()
+        reset_rate_limit("bulk_edit", user=self.user)
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.unit = self.get_unit()
         self.make_manager()
@@ -1174,14 +1274,226 @@ class ReplaceTest(ReusableViewTestCase):
         )
 
 
+class BulkGlossaryFlagsTest(ReusableViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.project.access_control = Project.ACCESS_PROTECTED
+        self.project.save(update_fields=["access_control"])
+        self.component.create_glossary()
+        self.glossary = Component.objects.get(project=self.project, is_glossary=True)
+        source = self.glossary.source_translation.add_unit(
+            None, "", source="bulk-glossary-term", author=self.user
+        )
+        assert source is not None
+        self.source = source
+        self.glossary.add_new_language(self.translation.language, None)
+        self.term = self.glossary.translation_set.get(
+            language=self.translation.language
+        ).unit_set.get(source_unit=source)
+        self.editor = User.objects.create_user(
+            "glossary-bulk", "glossary-bulk@example.com", "glossary-bulk"
+        )
+        self.group = Group.objects.create(
+            name="Glossary bulk sources", language_selection=SELECTION_ALL
+        )
+        self.group.projects.add(self.project)
+        self.group.roles.set(
+            Role.objects.filter(name__in=["Edit source", "Bulk editing"])
+        )
+        self.editor.groups.add(self.group)
+        self.editor.clear_permissions_cache()
+        self.assertTrue(self.editor.has_perm("source.edit", self.glossary))
+        self.assertTrue(self.editor.has_perm("unit.bulk_edit", self.glossary))
+        self.assertFalse(
+            self.editor.has_perm("meta:unit.flag", self.source.translation)
+        )
+        self.client.force_login(self.editor)
+        self.url = reverse("bulk-edit", kwargs={"path": self.project.get_url_path()})
+
+    def test_source_flags_require_glossary_permission(self) -> None:
+        role = Role.objects.get(name="Manage glossary")
+        for selected in (self.source, self.term):
+            for field, initial, expected in (
+                ("add_flags", "", "forbidden, read-only"),
+                ("remove_flags", "forbidden, read-only", ""),
+            ):
+                with self.subTest(selected=selected.pk, field=field):
+                    self.source.update_extra_flags(initial, self.user)
+                    data = {
+                        "q": f"id:{selected.pk}",
+                        "state": -1,
+                        field: "forbidden, read-only",
+                    }
+                    response = self.client.post(self.url, data, follow=True)
+                    self.assertContains(
+                        response, "Bulk edit completed, no strings were updated."
+                    )
+                    self.source.refresh_from_db()
+                    self.assertEqual(self.source.extra_flags, initial)
+
+                    self.group.roles.add(role)
+                    self.editor.clear_permissions_cache()
+                    response = self.client.post(self.url, data, follow=True)
+                    self.assertContains(
+                        response, "Bulk edit completed, 1 string was updated."
+                    )
+                    self.source.refresh_from_db()
+                    self.term.refresh_from_db()
+                    self.assertEqual(self.source.extra_flags, expected)
+                    self.assertEqual(self.term.readonly, bool(expected))
+                    self.group.roles.remove(role)
+                    self.editor.clear_permissions_cache()
+
+    def test_glossary_scope_requires_glossary_permission(self) -> None:
+        response = self.client.post(
+            reverse("bulk-edit", kwargs={"path": self.glossary.get_url_path()}),
+            {"q": f"id:{self.source.pk}", "state": -1, "add_flags": "forbidden"},
+        )
+        self.assertEqual(response.status_code, 403)
+        self.source.refresh_from_db()
+        self.assertEqual(self.source.extra_flags, "")
+
+    def test_mixed_preview_skips_glossary_flags(self) -> None:
+        unit = self.get_unit()
+        response = self.client.post(
+            self.url,
+            {
+                "q": f"id:{unit.pk},{self.term.pk}",
+                "state": -1,
+                "add_flags": "read-only",
+                "preview": "1",
+            },
+        )
+        self.assertEqual(response.context["total"], 1)
+        self.assertEqual(
+            [edit.unit.pk for edit in response.context["matching"]], [unit.pk]
+        )
+        unit.source_unit.refresh_from_db()
+        self.assertEqual(unit.source_unit.extra_flags, "")
+        response = self.client.post(
+            self.url,
+            {
+                "bulk_confirmation": response.context["confirmation"],
+                "apply_all": "1",
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+        unit.source_unit.refresh_from_db()
+        self.source.refresh_from_db()
+        self.assertEqual(unit.source_unit.extra_flags, "read-only")
+        self.assertEqual(self.source.extra_flags, "")
+
+    def test_confirmation_rechecks_glossary_permission(self) -> None:
+        role = Role.objects.get(name="Manage glossary")
+        self.group.roles.add(role)
+        self.editor.clear_permissions_cache()
+        response = self.client.post(
+            self.url,
+            {
+                "q": f"id:{self.source.pk}",
+                "state": -1,
+                "add_flags": "read-only",
+                "preview": "1",
+            },
+        )
+        self.assertEqual(response.context["total"], 1)
+        self.group.roles.remove(role)
+        self.editor.clear_permissions_cache()
+        response = self.client.post(
+            self.url,
+            {
+                "bulk_confirmation": response.context["confirmation"],
+                "preview_units": [self.source.pk],
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, no strings were updated.")
+        self.source.refresh_from_db()
+        self.assertEqual(self.source.extra_flags, "")
+
+    def test_labels_keep_source_permission(self) -> None:
+        label = self.project.label_set.create(name="Bulk glossary label", color="black")
+        for field, expected in (("add_labels", [label]), ("remove_labels", [])):
+            with self.subTest(field=field):
+                response = self.client.post(
+                    self.url,
+                    {
+                        "q": f"id:{self.term.pk}",
+                        "state": -1,
+                        "add_flags": "read-only",
+                        field: label.pk,
+                    },
+                    follow=True,
+                )
+                self.assertContains(
+                    response, "Bulk edit completed, 1 string was updated."
+                )
+                self.source.refresh_from_db()
+                self.assertEqual(self.source.extra_flags, "")
+                self.assertEqual(list(self.source.labels.all()), expected)
+
+    def test_trusted_bulk_edit_can_change_glossary_flags(self) -> None:
+        updated = bulk_perform(
+            self.editor,
+            Unit.objects.filter(pk=self.source.pk),
+            query="",
+            target_state=-1,
+            add_flags="read-only",
+            remove_flags="",
+            add_labels=self.project.label_set.none(),
+            remove_labels=self.project.label_set.none(),
+            project=self.project,
+            enforce_permissions=False,
+        )
+        self.assertEqual(updated, 1)
+        self.source.refresh_from_db()
+        self.assertEqual(self.source.extra_flags, "read-only")
+
+    def test_bulk_terminology_preserves_other_flag_changes(self) -> None:
+        self.group.roles.add(Role.objects.get(name="Power user"))
+        self.editor.clear_permissions_cache()
+        updated = bulk_perform(
+            self.editor,
+            Unit.objects.filter(pk=self.source.pk),
+            query="",
+            target_state=-1,
+            add_flags="terminology, max-length:20",
+            remove_flags="",
+            add_labels=self.project.label_set.none(),
+            remove_labels=self.project.label_set.none(),
+            project=self.project,
+        )
+        self.assertEqual(updated, 1)
+        self.source.refresh_from_db()
+        self.assertEqual(self.source.extra_flags, "max-length:20")
+
+
 class BulkEditTest(ReusableViewTestCase):
     """Test for build edit functionality."""
 
     def setUp(self) -> None:
         super().setUp()
+        reset_rate_limit("bulk_edit", user=self.user)
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n", fuzzy=True)
         self.unit = self.get_unit()
         self.make_manager()
+
+    def create_extra_bulk_unit(self) -> Unit:
+        return Unit.objects.bulk_create(
+            [
+                Unit(
+                    translation=self.translation,
+                    source="Another bulk string",
+                    target="Another target",
+                    id_hash=-99_000_000,
+                    source_unit=self.unit.source_unit,
+                    state=STATE_FUZZY,
+                    original_state=STATE_FUZZY,
+                    position=20_000,
+                )
+            ]
+        )[0]
 
     def test_preview_is_read_only_and_confirmation_applies(self) -> None:
         url = reverse("bulk-edit", kwargs=self.kw_translation)
@@ -1314,6 +1626,55 @@ class BulkEditTest(ReusableViewTestCase):
         self.unit.refresh_from_db()
         other_unit.refresh_from_db()
         self.assertEqual((self.unit.target, other_unit.target), ("aa\n", "b\n"))
+
+    def test_replacement_batches_propagated_check_refreshes(self) -> None:
+        peer = self.create_po(
+            project=self.project, slug="replace-peer", name="Replace peer"
+        )
+        peer_translation = peer.translation_set.get(language_code="cs")
+        sources = ("Hello, world!\n", "Try Weblate at <https://demo.weblate.org/>!\n")
+        units = [self.get_unit(source=source) for source in sources]
+        peers = [
+            self.get_unit(source=source, translation=peer_translation)
+            for source in sources
+        ]
+        for unit in units + peers:
+            unit.translate(self.user, "Before\n", STATE_TRANSLATED, propagate=False)
+
+        with (
+            patch("weblate.checks.tasks.refresh_propagated_checks.delay") as refresh,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            updated = bulk_perform(
+                self.user,
+                Unit.objects.filter(pk__in=[unit.pk for unit in units]),
+                query="",
+                target_state=-1,
+                add_flags="",
+                remove_flags="",
+                add_labels=self.project.label_set.none(),
+                remove_labels=self.project.label_set.none(),
+                project=self.project,
+                search="Before",
+                replacement="After",
+            )
+
+        self.assertEqual(updated, 2)
+        refresh.assert_called_once()
+        project_id, groups, unit_ids = refresh.call_args.args
+        self.assertEqual(project_id, self.project.pk)
+        self.assertCountEqual(unit_ids, [unit.pk for unit in peers])
+        self.assertCountEqual(
+            [
+                group["target"]
+                for group in groups
+                if group["component_id"] == peer.pk and group["check"] == "reused"
+            ],
+            ["Before\n", "After\n"],
+        )
+        for unit in units + peers:
+            unit.refresh_from_db()
+            self.assertEqual(unit.target, "After\n")
 
     @override_settings(AUTOFIX_LIST=[])
     def test_regex_replacement_with_state_and_flags(self) -> None:
@@ -1539,8 +1900,131 @@ class BulkEditTest(ReusableViewTestCase):
             Unit.objects.filter(pk__in=ids, state=STATE_TRANSLATED).count(), 251
         )
 
+    def test_bulk_edit_rejects_oversized_selection_before_writing(self) -> None:
+        source_id = self.unit.source_unit_id
+        before = self.unit.target
+        with (
+            patch("weblate.trans.bulk.BULK_EDIT_MAX_UNITS", 1),
+            self.assertRaisesMessage(ValidationError, "limited to 1 string"),
+        ):
+            bulk_perform(
+                self.user,
+                Unit.objects.filter(pk__in=[self.unit.pk, source_id]),
+                query="",
+                target_state=STATE_EMPTY,
+                add_flags="",
+                remove_flags="",
+                add_labels=self.project.label_set.none(),
+                remove_labels=self.project.label_set.none(),
+                project=self.project,
+                components=[self.component],
+            )
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.target, before)
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_bulk_edit_queues_apply_and_preserves_actor(self) -> None:
+        url = reverse("bulk-edit", kwargs=self.kw_translation)
+        with patch("weblate.trans.tasks.bulk_edit_task.delay") as delay:
+            delay.return_value.id = "bulk-edit-task"
+            response = self.client.post(
+                url,
+                {"q": f"id:{self.unit.pk}", "state": STATE_EMPTY},
+                follow=True,
+            )
+        self.assertContains(response, "Bulk edit in progress")
+        self.assertEqual(delay.call_args.kwargs["user_id"], self.user.pk)
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.target, "Nazdar svete!\n")
+
+    def test_bulk_edit_task_applies_with_initiating_actor(self) -> None:
+        from weblate.trans.tasks import bulk_edit_task  # ruff: ignore[import-outside-top-level]
+
+        result = bulk_edit_task(
+            user_id=self.user.pk,
+            path=self.kw_translation["path"],
+            data={
+                "q": [f"id:{self.unit.pk}"],
+                "state": [str(STATE_EMPTY)],
+            },
+        )
+        self.assertEqual(result["updated"], 1)
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.target, "")
+        self.assertEqual(self.unit.change_set.latest("pk").user, self.user)
+
+    @override_settings(RATELIMIT_BULK_EDIT_ATTEMPTS=1)
+    def test_bulk_edit_rate_limit_blocks_repeated_preview(self) -> None:
+        url = reverse("bulk-edit", kwargs=self.kw_translation)
+        reset_rate_limit("bulk_edit", user=self.user)
+        data = {"q": f"id:{self.unit.pk}", "state": STATE_EMPTY, "preview": "1"}
+        first = self.client.post(url, data)
+        self.assertEqual(first.status_code, 200)
+        second = self.client.post(url, data, follow=True)
+        self.assertContains(second, "Too many bulk edits")
+
+    def test_bulk_edit_reports_progress_after_each_batch(self) -> None:
+        extra = self.create_extra_bulk_unit()
+        progress = []
+        with patch("weblate.trans.bulk.BULK_EDIT_PREVIEW_LIMIT", 1):
+            updated = bulk_perform(
+                self.user,
+                Unit.objects.filter(pk__in=[self.unit.pk, extra.pk]),
+                query="",
+                target_state=STATE_TRANSLATED,
+                add_flags="",
+                remove_flags="",
+                add_labels=self.project.label_set.none(),
+                remove_labels=self.project.label_set.none(),
+                project=self.project,
+                components=[self.component],
+                progress=lambda done, total, changed: progress.append(
+                    (done, total, changed)
+                ),
+            )
+        self.assertEqual(updated, 2)
+        self.assertEqual(progress, [(0, 2, 0), (1, 2, 1), (2, 2, 2)])
+
+    def test_bulk_edit_keeps_completed_batch_on_later_failure(self) -> None:
+        extra = self.create_extra_bulk_unit()
+        updates = 0
+        original_bulk_update = Unit.objects.bulk_update
+
+        def fail_second(objs: list[Unit], fields: list[str], batch_size: int) -> int:
+            nonlocal updates
+            updates += 1
+            if updates == 2:
+                msg = "Second batch failed"
+                raise RuntimeError(msg)
+            return original_bulk_update(objs, fields, batch_size=batch_size)
+
+        with (
+            patch("weblate.trans.bulk.BULK_EDIT_PREVIEW_LIMIT", 1),
+            patch.object(Unit.objects, "bulk_update", side_effect=fail_second),
+            self.assertRaisesMessage(RuntimeError, "Second batch failed"),
+        ):
+            bulk_perform(
+                self.user,
+                Unit.objects.filter(pk__in=[self.unit.pk, extra.pk]),
+                query="",
+                target_state=STATE_TRANSLATED,
+                add_flags="",
+                remove_flags="",
+                add_labels=self.project.label_set.none(),
+                remove_labels=self.project.label_set.none(),
+                project=self.project,
+                components=[self.component],
+            )
+        self.unit.refresh_from_db()
+        extra.refresh_from_db()
+        self.assertEqual(self.unit.state, STATE_TRANSLATED)
+        self.assertEqual(extra.state, STATE_FUZZY)
+
     def test_regex_output_failure_does_not_write(self) -> None:
-        self.unit.translate(self.user, "a" * 8000, STATE_TRANSLATED)
+        # Stored directly as the editor limit does not apply to repository content
+        Unit.objects.filter(pk=self.unit.pk).update(
+            target="a" * 8000 + "\n", state=STATE_TRANSLATED
+        )
         before = (Change.objects.count(), PendingUnitChange.objects.count())
         url = reverse("bulk-edit", kwargs=self.kw_translation)
         for preview in ("1", ""):
@@ -2091,6 +2575,131 @@ class BulkEditTest(ReusableViewTestCase):
         unit = self.get_unit()
         self.assertEqual(unit.state, STATE_APPROVED)
         self.assertFalse(unit.automatically_translated)
+
+    def test_bulk_state_respects_inherited_enforced_checks(self) -> None:
+        self.project.enforced_checks = ["same"]
+        self.project.inherit_enforced_checks = False
+        self.project.save(update_fields=["enforced_checks", "inherit_enforced_checks"])
+        self.component.inherit_enforced_checks = True
+        self.component.save(update_fields=["inherit_enforced_checks"])
+
+        unit = self.unit
+        unit.translate(self.user, unit.source, STATE_NEEDS_CHECKING)
+        unit.refresh_from_db()
+        self.assertTrue(unit.has_check("same"))
+        unit.pending_changes.all().delete()
+
+        url = reverse("bulk-edit", kwargs=self.kw_translation)
+        data = {"q": f"id:{unit.pk}", "state": STATE_TRANSLATED}
+        response = self.client.post(url, {**data, "preview": "1"})
+        self.assertEqual(
+            [(edit.unit.pk, edit.state) for edit in response.context["matching"]],
+            [(unit.pk, STATE_NEEDS_REWRITING)],
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, STATE_NEEDS_CHECKING)
+        self.assertFalse(unit.pending_changes.exists())
+
+        response = self.client.post(
+            url,
+            {
+                "bulk_confirmation": response.context["confirmation"],
+                "preview_units": [unit.pk],
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, STATE_NEEDS_REWRITING)
+        self.assertEqual(unit.original_state, STATE_NEEDS_REWRITING)
+        self.assertEqual(unit.target, unit.source)
+        self.assertTrue(unit.has_check("same"))
+        change = unit.change_set.get(action=ActionEvents.ENFORCED_CHECK)
+        self.assertEqual(change.user, self.user)
+        self.assertEqual(change.details["state"], STATE_NEEDS_REWRITING)
+        pending = unit.pending_changes.get()
+        self.assertEqual(pending.state, STATE_NEEDS_REWRITING)
+        self.assertEqual(pending.get_actor(), self.user)
+
+        response = self.client.post(url, {**data, "preview": "1"})
+        self.assertEqual(response.context["total"], 0)
+        change_count = unit.change_set.count()
+        response = self.client.post(url, data, follow=True)
+        self.assertContains(response, "Bulk edit completed, no strings were updated.")
+        self.assertEqual(unit.change_set.count(), change_count)
+        self.assertEqual(unit.pending_changes.get(), pending)
+
+    def test_bulk_state_prefetches_enforced_check_inheritance(self) -> None:
+        workspace = Workspace.objects.create(
+            name="Bulk workspace", enforced_checks=["same"]
+        )
+        self.project.workspace = workspace
+        self.project.inherit_enforced_checks = True
+        self.project.save(update_fields=["workspace", "inherit_enforced_checks"])
+        category = None
+        for depth in range(CATEGORY_DEPTH):
+            category = Category.objects.create(
+                name=f"Category {depth}",
+                slug=f"category-{depth}",
+                project=self.project,
+                category=category,
+                inherit_enforced_checks=True,
+            )
+        self.component.category = category
+        self.component.inherit_enforced_checks = True
+        self.component.save(update_fields=["category", "inherit_enforced_checks"])
+        other = self.create_po(
+            project=self.project, name="Other", inherit_enforced_checks=True
+        )
+        other_unit = other.translation_set.get(language_code="cs").unit_set.get(
+            source=self.unit.source
+        )
+        for unit in (self.unit, other_unit):
+            unit.translate(
+                self.user, unit.source, STATE_NEEDS_CHECKING, propagate=False
+            )
+            self.assertTrue(unit.has_check("same"))
+
+        get_checks = getattr_static(Component, "effective_enforced_checks").fget
+
+        def check_resolution_queries(component: Component) -> list[str]:
+            with self.assertNumQueries(0):
+                return get_checks(component)
+
+        component_ids = [self.component.pk, other.pk]
+        unit_ids = [self.unit.pk, other_unit.pk]
+        for supply_components in (False, True):
+            with (
+                self.subTest(supply_components=supply_components),
+                patch.object(
+                    Component,
+                    "effective_enforced_checks",
+                    property(check_resolution_queries),
+                ),
+            ):
+                preview: list[BulkUnitEdit] = []
+                updated = bulk_perform(
+                    self.user,
+                    Unit.objects.filter(pk__in=unit_ids),
+                    query="",
+                    target_state=STATE_TRANSLATED,
+                    add_flags="",
+                    remove_flags="",
+                    add_labels=self.project.label_set.none(),
+                    remove_labels=self.project.label_set.none(),
+                    project=self.project,
+                    components=(
+                        list(Component.objects.filter(pk__in=component_ids))
+                        if supply_components
+                        else None
+                    ),
+                    preview=preview,
+                )
+                self.assertEqual(updated, len(unit_ids))
+                self.assertEqual(
+                    {edit.unit.pk: edit.state for edit in preview},
+                    dict.fromkeys(unit_ids, STATE_NEEDS_REWRITING),
+                )
 
     def test_bulk_edit_creates_change_and_pending_unit_change(self) -> None:
         """Bulk edit creates Change and PendingUnitChange records via bulk insert."""

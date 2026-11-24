@@ -9,7 +9,7 @@ from unittest.mock import patch
 
 from django.db import connection
 from django.db.models import Count, Exists, F, OuterRef, Q, Sum
-from django.test import TestCase
+from django.test import SimpleTestCase, TestCase
 from django.test.utils import CaptureQueriesContext
 from django.utils.timezone import get_current_timezone
 from pyparsing import ParserElement
@@ -29,14 +29,16 @@ from weblate.trans.models import (
 )
 from weblate.trans.models.variant import Variant
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.tests.utils import get_test_actor
+from weblate.trans.tests.utils import create_another_user, get_test_actor
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.search import (
     MAX_SEARCH_QUERY_LENGTH,
     MAX_SEARCH_QUERY_TERMS,
+    SearchHighlightField,
     SearchQueryError,
     UnitTermExpr,
     build_parser,
+    parse_highlight,
     parse_query,
     parse_string,
     parser_to_query,
@@ -63,7 +65,9 @@ class SearchTestCase(TestCase):
     parser: ClassVar[Literal["unit", "user", "superuser", "screenshot"]] = "unit"
 
     def assert_related_query(self, string: str, expected: Q) -> None:
-        filters, annotations = parse_query(string)
+        # These comparisons test parser structure; scoped authorization has its
+        # own behavioral tests in test_contributor_visibility.
+        filters, annotations = parse_query(string, user=User(is_superuser=True))
         self.assertEqual(annotations, {})
         expected_filter = Q(Exists(Unit.objects.filter(expected, pk=OuterRef("pk"))))
         self.assertEqual(
@@ -103,6 +107,7 @@ class SearchTestCase(TestCase):
         exists: bool = False,
         **context,
     ) -> tuple[str, tuple[object, ...]]:
+        context.setdefault("user", User(is_superuser=True))
         filters, annotations = parse_query(string, parser=self.parser, **context)
         self.assertEqual(annotations, {})
         query = self.object_class.objects.annotate(**annotations).filter(filters)
@@ -551,9 +556,9 @@ class UnitQueryParserTest(SearchTestCase):
                 self.assert_query(query, Q(translation__language_id__in=[]))
 
     def test_language_case_collisions(self) -> None:
-        # Fixture loading can leave the sequence behind the restored language IDs.
-        lower = Language.objects.get(code="cs")
-        upper = Language.objects.get(code="en")
+        # Cached language objects can outlive a fixture reload and its IDs.
+        lower = Language.objects.get(code="cs", skip_cache=True)
+        upper = Language.objects.get(code="en", skip_cache=True)
         Language.objects.filter(pk=lower.pk).update(code="qaa_search")
         Language.objects.filter(pk=upper.pk).update(code="QAA_SEARCH")
         self.assert_query_sql(
@@ -1054,47 +1059,50 @@ class UserQueryParserTest(SearchTestCase):
         )
 
     def test_translates(self) -> None:
-        self.assert_query(
+        user = User.objects.create(is_superuser=True)
+        self.assert_query_sql(
             "translates:cs",
-            Q(change__language__code__iexact="cs"),
+            sql_contains=("EXISTS", '"user_id" = ("weblate_auth_user"."id")'),
+            params_contains=("cs",),
+            user=user,
         )
-        self.assert_query(
+        sql, _params = self.assert_query_sql(
             "translates:cs change_time:>'90 days ago'",
-            Q(change__language__code__iexact="cs")
-            & Q(
-                change__timestamp__gte=datetime.now(tz=UTC).replace(
-                    hour=0, minute=0, second=0, microsecond=0
-                )
-                - timedelta(days=90)
-            ),
+            sql_contains=("EXISTS", '"timestamp" >='),
+            params_contains=("cs",),
+            user=user,
         )
+        self.assertEqual(sql.count("EXISTS"), 1)
 
     def test_contributes(self) -> None:
         user = User.objects.create(is_superuser=True)
-        self.assert_query(
+        self.assert_query_sql(
             "contributes:test",
-            Q(change__project__slug__iexact="test")
-            & Q(change__project__in=user.allowed_projects),
+            sql_contains=("EXISTS", '"user_id" = ("weblate_auth_user"."id")'),
+            params_contains=("test",),
             user=user,
         )
-        self.assert_query(
+        self.assert_query_sql(
             "contributes:test/test",
-            Q(change__component_id__in=[])
-            & Q(change__project__in=user.allowed_projects),
+            sql_contains=("EXISTS", '"component_id"'),
+            params_contains=("test",),
             user=user,
         )
-        self.assert_query(
+        sql, _params = self.assert_query_sql(
             "contributes:test change_time:>'90 days ago'",
-            Q(change__project__slug__iexact="test")
-            & Q(change__project__in=user.allowed_projects)
-            & Q(
-                change__timestamp__gte=datetime.now(tz=UTC).replace(
-                    hour=0, minute=0, second=0, microsecond=0
-                )
-                - timedelta(days=90)
-            ),
+            sql_contains=("EXISTS", '"timestamp" >='),
+            params_contains=("test",),
             user=user,
         )
+        self.assertEqual(sql.count("EXISTS"), 1)
+        sql, _params = self.assert_query_sql(
+            "NOT contributes:test",
+            sql_contains=("NOT (EXISTS",),
+            params_contains=("test",),
+            exists=True,
+            user=user,
+        )
+        self.assertEqual(sql.count("EXISTS"), 1)
 
 
 class SuperuserQueryParserTest(UserQueryParserTest):
@@ -1403,6 +1411,48 @@ class SearchTest(ViewTestCase, SearchTestCase):
         self.assertTrue(self.search_matches_unit(query, unit))
         self.assertTrue(self.search_matches_unit(grouped_query, unit))
 
+    def test_user_search_follows_change_visibility(self) -> None:
+        unit = self.get_unit()
+        contributor = self.anotheruser
+        outsider = create_another_user("-outsider")
+        Change.objects.create(user=contributor, unit=unit, action=ActionEvents.NEW)
+        queries = (
+            "translates:cs",
+            "change_action:translation-added",
+            "change_time:>'1 day ago'",
+            f"contributes:{self.project.slug}",
+            f"contributes:{self.component.full_slug}",
+        )
+
+        def matches(query: str, user: User) -> bool:
+            return (
+                User.objects.filter(pk=contributor.pk)
+                .search(query, parser="user", user=user)
+                .exists()
+            )
+
+        def assert_visibility(user: User, visible: bool) -> None:
+            user.clear_permissions_cache()
+            for query in queries:
+                with self.subTest(query=query, user=user.username, visible=visible):
+                    self.assertEqual(matches(query, user), visible)
+                    self.assertEqual(matches(f"NOT {query}", user), not visible)
+
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save()
+        self.project.add_user(contributor, "Administration")
+        assert_visibility(contributor, True)
+        assert_visibility(outsider, False)
+
+        self.project.access_control = Project.ACCESS_PUBLIC
+        self.project.save()
+        self.component.restricted = True
+        self.component.save()
+        contributor.is_superuser = True
+        contributor.save(update_fields=["is_superuser"])
+        assert_visibility(contributor, True)
+        assert_visibility(outsider, False)
+
     def test_glossary_empty(self) -> None:
         self.assert_query("has:glossary", Q(source__isnull=True), project=self.project)
 
@@ -1416,4 +1466,108 @@ class SearchTest(ViewTestCase, SearchTestCase):
             Q(source__iregex=expected),
             exists=True,
             project=self.project,
+        )
+
+
+class SearchHighlightTest(SimpleTestCase):
+    def assert_highlight(
+        self,
+        query: str,
+        value: str,
+        expected: list[str],
+        field: SearchHighlightField | None = None,
+    ) -> None:
+        highlight = parse_highlight(query)
+        self.assertIsNotNone(highlight)
+        assert highlight is not None
+        self.assertEqual(
+            [value[start:end] for start, end in highlight.finditer(value, field)],
+            expected,
+        )
+
+    def test_words(self) -> None:
+        self.assert_highlight(
+            "hello world", "Hello, world! Hello", ["Hello", "world", "Hello"]
+        )
+
+    def test_phrase(self) -> None:
+        self.assert_highlight('"hello world"', "Hello world, world", ["Hello world"])
+
+    def test_bare_terms_all_fields(self) -> None:
+        for field in ("source", "target", "context"):
+            with self.subTest(field=field):
+                self.assert_highlight("hello", "Hello", ["Hello"], field)
+
+    def test_field_specific(self) -> None:
+        self.assert_highlight("source:hello", "Hello", ["Hello"], "source")
+        self.assert_highlight("source:hello", "Hello", [], "target")
+        self.assert_highlight("target:hello", "Hello", ["Hello"], "target")
+        self.assert_highlight("key:hello", "hello", ["hello"], "context")
+        self.assert_highlight("key:hello", "hello", [], "source")
+
+    def test_unknown_field_uses_all(self) -> None:
+        self.assert_highlight(
+            "source:hello target:world", "Hello world", ["Hello", "world"]
+        )
+
+    def test_exact(self) -> None:
+        self.assert_highlight('source:="Hello"', "Hello", ["Hello"], "source")
+        self.assert_highlight('source:="Hello"', "Hello world", [], "source")
+        self.assert_highlight('source:="Hello"', "hello", [], "source")
+
+    def test_regex(self) -> None:
+        self.assert_highlight('source:r"^H.l+o"', "Hello hello", ["Hello"], "source")
+        self.assert_highlight('r"(?i)w.rld"', "World", ["World"])
+        self.assert_highlight('r"w.rld"', "World", [])
+
+    def test_regex_unsupported(self) -> None:
+        # Valid in PostgreSQL, not understood by Python
+        self.assertIsNone(parse_highlight(r'r"\yword\y"'))
+        # Word boundaries are supported by both
+        self.assert_highlight(r'r"\mword\M"', "words word", ["word"])
+
+    def test_overlapping(self) -> None:
+        self.assert_highlight("hello llo, 'o, w'", "Hello, world", ["Hello, w"])
+
+    def test_negated(self) -> None:
+        self.assertIsNone(parse_highlight("NOT hello"))
+        self.assert_highlight("hello AND NOT world", "Hello world", ["Hello"])
+        self.assert_highlight("NOT NOT hello", "Hello", ["Hello"])
+        self.assert_highlight("NOT (hello OR NOT world)", "Hello world", ["world"])
+
+    def test_or(self) -> None:
+        self.assert_highlight("hello OR world", "Hello world", ["Hello", "world"])
+
+    def test_non_text(self) -> None:
+        self.assertIsNone(parse_highlight("state:<translated"))
+        self.assertIsNone(parse_highlight("has:comment"))
+        self.assert_highlight(
+            "state:<translated hello", "Hello world", ["Hello"], "source"
+        )
+
+    def test_invalid(self) -> None:
+        self.assertIsNone(parse_highlight(""))
+        self.assertIsNone(parse_highlight("(hello"))
+
+    def test_repeated_terms_deduplicated(self) -> None:
+        highlight = parse_highlight("source:a source:a a")
+        assert highlight is not None
+        self.assertEqual(len(highlight.patterns["source"]), 1)
+        self.assertEqual(len(highlight.patterns["target"]), 1)
+        self.assertEqual(len(highlight.get_patterns("source")), 1)
+
+    def test_regex_dot_matches_newline(self) -> None:
+        self.assert_highlight('r"o.w"', "Hello\nworld", ["o\nw"])
+
+    def test_regex_timeout_disables_regexes(self) -> None:
+        highlight = parse_highlight('hello OR r"(a|aa)+$" OR r"b"')
+        assert highlight is not None
+        value = f"hello {'a' * 64}b"
+        with patch("weblate.utils.search.REGEX_TIMEOUT", 0.001):
+            spans = highlight.finditer(value)
+        # The regex after the timed out one is skipped within the same scan
+        self.assertEqual([value[start:end] for start, end in spans], ["hello"])
+        self.assertEqual(highlight.disabled, set(highlight.user_regexes))
+        self.assertEqual(
+            [value[start:end] for start, end in highlight.finditer(value)], ["hello"]
         )

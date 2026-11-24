@@ -31,6 +31,22 @@ operation. ``create_object()`` returns an unsaved object and no longer accepts
 ``acting_user``; scope the subsequent save instead. Hook execution uses the
 add-on bot, while installation and configuration retain the initiating actor.
 
+When calling ``weblate.utils.render.render_template()``, pass plain context
+values: strings, booleans, integers, finite floats, ``None``, dates, times,
+datetimes, decimals, UUIDs, and lists, tuples, or dictionaries containing these
+values. Dictionary keys must be strings. Only the exact supported types are
+accepted; lazy translations, safe-string markers, subclasses, and arbitrary
+objects are rejected, including in unused context values. Tuples are copied to
+lists and UUIDs become strings. The ``translation``, ``component``, and
+``project`` convenience arguments are expanded into plain data before this
+validation; a string ``component`` remains available for discovery templates.
+See :ref:`markup` for rendering limits.
+
+Resolve translated context values explicitly at the caller. Use
+``BaseAddon.english_name`` for an English add-on label in commit messages;
+``BaseAddon.commit_and_push()`` supplies it automatically. The template
+evaluators do not coerce lazy translations or arbitrary objects.
+
 Here is an example add-on:
 
 .. literalinclude:: ../../weblate/addons/example.py

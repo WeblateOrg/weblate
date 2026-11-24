@@ -512,6 +512,15 @@ Mercurial
 
 Mercurial is another VCS you can use directly in Weblate.
 
+Mercurial subrepositories are disabled for all repository operations. A revision
+which uses :file:`.hgsub` can fail to clone, update, or commit. Convert these
+repositories to avoid subrepositories, or manage their contents outside Weblate.
+
+When accessing an existing Mercurial checkout, Weblate removes nested
+:file:`.hg` and :file:`.git` metadata under the repository lock. It preserves the
+main :file:`.hg` directory and working files. Project backups omit nested VCS
+metadata as well.
+
 .. note::
 
     It should work with any Mercurial version, but there are sometimes

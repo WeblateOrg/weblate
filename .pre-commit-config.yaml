@@ -35,7 +35,7 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.17.2
+  rev: v0.17.6
   hooks:
   - id: ruff-check
     args:
@@ -48,7 +48,7 @@ repos:
   - id: doccmd
     args: [--language, python, --no-pad-file, --command, ruff format]
     additional_dependencies:
-    - ruff==0.17.2
+    - ruff==0.17.6
     language: python
 - repo: meta
   hooks:
@@ -60,7 +60,7 @@ repos:
   - id: pretty-format-yaml
     args: [--autofix, --indent, '2']
 - repo: https://github.com/pappasam/toml-sort
-  rev: v0.25.0
+  rev: v0.26.0
   hooks:
   - id: toml-sort-fix
 - repo: https://github.com/scop/pre-commit-shfmt
@@ -69,7 +69,7 @@ repos:
   - id: shfmt
     args: [--write]
 - repo: https://github.com/fsfe/reuse-tool
-  rev: v6.2.0
+  rev: v6.3.0
   hooks:
   - id: reuse
 - repo: https://github.com/shellcheck-py/shellcheck-py
@@ -78,19 +78,19 @@ repos:
   - id: shellcheck
     require_serial: true
 - repo: https://github.com/biomejs/pre-commit
-  rev: v2.6.3
+  rev: v2.6.8
   hooks:
   - id: biome-check
     args: [--error-on-warnings]
     additional_dependencies:
-    - '@biomejs/biome@2.6.3'
+    - '@biomejs/biome@2.6.8'
     language: node
 - repo: https://github.com/abravalheri/validate-pyproject
   rev: v0.27
   hooks:
   - id: validate-pyproject
 - repo: https://github.com/djlint/djLint
-  rev: v1.47.0
+  rev: v1.54.0
   hooks:
   - id: djlint-reformat-django
     types_or: [html, text]
@@ -112,6 +112,34 @@ repos:
     files: ^weblate/.*templates/.*\.html$
     entry: \bbtn-secondary\b
     language: pygrep
+  - id: html-attribute-translation
+    name: use force_escape for literal attribute translations
+    files: ^weblate/.*templates/.*\.html$
+    language: pygrep
+    args: [--multiline]
+    # Skip complete Django tokens so inner quotes do not end the attribute.
+    entry: >-
+      (?xs)
+      \s(?:title|placeholder|alt|value|data-[\w-]+|
+          aria-(?:braillelabel|brailleroledescription|description|label|placeholder|roledescription|valuetext))
+      \s*=\s*(?P<quote>["'])
+      (?:\{%(?:(?!%\}).)*%\}|\{\{(?:(?!\}\}).)*\}\}|
+         \{\#(?:(?!\#\}).)*\#\}|(?!(?P=quote)|\{[%{\#]|[<>]).)*?
+      \{%\s*translate\s+
+      (?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')
+      (?!\|force_escape(?=\s|%\}))
+  - id: html-attribute-blocktranslate
+    name: keep blocktranslate outside HTML attributes
+    files: ^weblate/.*templates/.*\.html$
+    language: pygrep
+    args: [--multiline]
+    # Skip complete Django tokens so inner quotes do not end the attribute.
+    entry: >-
+      (?xs)
+      \s[A-Za-z_:][\w:.-]*\s*=\s*(?P<quote>["'])
+      (?:\{%(?:(?!%\}).)*%\}|\{\{(?:(?!\}\}).)*\}\}|
+         \{\#(?:(?!\#\}).)*\#\}|(?!(?P=quote)|\{[%{\#]|[<>]).)*?
+      \{%\s*blocktranslate\b
   - id: rst-heading-length
     name: rst heading adornment matches title length
     entry: python scripts/check-rst-headings.py
@@ -194,14 +222,14 @@ repos:
     - tomli
     exclude: client/yarn.lock
 - repo: https://github.com/crate-ci/typos
-  rev: v1.51.1
+  rev: v1.52.2
   hooks:
   - id: typos
     args: []
     require_serial: true
     pass_filenames: false
 - repo: https://github.com/zizmorcore/zizmor-pre-commit
-  rev: v1.31.1
+  rev: v1.32.0
   hooks:
   - id: zizmor
 - repo: https://github.com/docker-compose-linter/pre-commit-dclint
@@ -210,19 +238,20 @@ repos:
   - id: dclint
     files: ^.*/(docker-)?compose(-.*)?\.ya?ml$
 - repo: https://github.com/mongodb/kingfisher
-  rev: v2.14.0
+  rev: v2.20.0
   hooks:
-  - id: kingfisher-auto
-    args: [--exclude, weblate/trans/tests/data/googlev3.json, --exclude, docs/]
+  - id: kingfisher-auto-files
+    # Documentation contains examples; dedicated credential fixtures cannot use inline ignores.
+    exclude: ^(?:docs/|weblate/trans/tests/data/(?:googlev3\.json|saml\.key)$)
     env:
-      KINGFISHER_VERSION: v2.14.0
+      KINGFISHER_VERSION: v2.20.0
 - repo: https://github.com/rvben/rumdl-pre-commit
-  rev: v0.3.0
+  rev: v0.3.5
   hooks:
   - id: rumdl
   - id: rumdl-fmt
 - repo: https://github.com/kjanat/actionlint
-  rev: v1.17.0
+  rev: v1.17.1
   hooks:
   - id: actionlint
 exclude: ^.*\.(csv|svg|wsdl(\.[^.]*)?)|weblate/trans/tests/data/memory-broken\.json|weblate/templates/browserconfig\.xml|weblate/templates/configuration/custom\.css|weblate/trans/tests/data/cs-CZ\.rc|weblate/static/vendor/.*|weblate/static/js/vendor/.*|weblate/static/styles/vendor/.*|docs/make\.bat|weblate/templates/addons/js/weblate\.js|uv\.lock|docs/specs/openapi.yaml$
@@ -230,4 +259,4 @@ ci:
   autoupdate_schedule: quarterly
   skip:
   - reuse
-  - kingfisher-auto
+  - kingfisher-auto-files
