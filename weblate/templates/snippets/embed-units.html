@@ -110,7 +110,7 @@
           <td class="unit-context-cell">
             {% if unit.context %}
               <a href="{{ unit.translation.get_translate_url }}{{ unit_query }}">
-                {% format_source_string unit.context unit wrap=True search_match=search_query %}
+                {% format_source_string unit.context unit wrap=True search_match=search_query search_field="context" %}
               </a>
             {% endif %}
           </td>
