@@ -950,6 +950,10 @@ class CSharpFormatCheck(BaseFormatCheck):
     def extract_string(self, match: RegexMatch) -> str:
         return extract_string_c_sharp(match)
 
+    def extract_matches(self, string: str) -> list[str]:
+        # Escapes are not arguments, including when selecting a plural source.
+        return self.normalize(super().extract_matches(string))
+
     def may_have_matches(self, text: str) -> bool:
         return "{" in text
 

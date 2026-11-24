@@ -1159,6 +1159,35 @@ class CSharpFormatCheckTest(CheckTestCase):
             )
         )
 
+    def test_plural_fallback_ignores_escaped_braces(self) -> None:
+        for argument in ("0", "count"):
+            with self.subTest(argument=argument):
+                sources = ["One {{apple}}", f"{{{argument}}} {{{{apples}}}}"]
+                targets = [
+                    f"{{{argument}}} {{{{pomme}}}}",
+                    f"{{{argument}}} {{{{pommes}}}}",
+                ]
+                unit = make_unit(source=sources, target=targets, code="fr")
+                self.assertFalse(self.check.check_target_unit(sources, targets, unit))
+
+    def test_plural_fallback_still_reports_extra_argument(self) -> None:
+        sources = ["One {{apple}}", "{0} {{apples}}"]
+        targets = ["{1} {{pomme}}", "{0} {{pommes}}"]
+        unit = make_unit(source=sources, target=targets, code="fr")
+        self.assertEqual(
+            next(iter(self.check.check_generator(sources, targets, unit))),
+            {"missing": ["0"], "extra": ["1"]},
+        )
+
+    def test_plural_fallback_preserves_real_singular_argument(self) -> None:
+        sources = ["{name} {{apple}}", "{0} {{apples}}"]
+        targets = ["{0} {{pomme}}", "{0} {{pommes}}"]
+        unit = make_unit(source=sources, target=targets, code="fr")
+        self.assertEqual(
+            next(iter(self.check.check_generator(sources, targets, unit))),
+            {"missing": ["name"], "extra": ["0"]},
+        )
+
     def test_named_format(self) -> None:
         self.assertFalse(
             self.check.check_format(
