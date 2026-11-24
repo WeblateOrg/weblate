@@ -22,6 +22,8 @@ from django.utils.functional import cached_property
 
 from weblate.accounts.data import NotificationFrequency, NotificationScope
 from weblate.addons.gettext import XgettextAddon
+from weblate.auth.data import SELECTION_ALL
+from weblate.auth.models import Group, Permission, Role
 from weblate.screenshots.models import Screenshot
 from weblate.screenshots.tasks import check_unused_screenshots
 from weblate.trans.alerts.base import AlertSeverity, BaseAlert
@@ -380,6 +382,50 @@ class ExtractorGuidanceAlertTest(ReusableViewTestCase):
 
         self.project.add_user(self.user, "Administration")
         self.assert_repository_error_notifications_alert(False)
+
+    def mute_repository_error_notifications(self, component: Component) -> None:
+        for notification in ("NewAlertNotificaton", "MergeFailureNotification"):
+            self.user.subscription_set.create(
+                notification=notification,
+                scope=NotificationScope.SCOPE_COMPONENT,
+                component=component,
+                frequency=NotificationFrequency.FREQ_NONE,
+            )
+
+    def test_repository_error_notifications_reach_linked_component(self) -> None:
+        self.make_manager()
+        self.mute_repository_error_notifications(self.component)
+        self.assert_repository_error_notifications_alert(True)
+
+        # Alerts are propagated to the linked component, which still notifies
+        linked = self.create_link_existing()
+        self.assert_repository_error_notifications_alert(False)
+
+        self.mute_repository_error_notifications(linked)
+        self.assert_repository_error_notifications_alert(True)
+
+    def test_repository_error_notifications_repository_maintainer(self) -> None:
+        self.assert_repository_error_notifications_alert(True)
+        group = Group.objects.create(
+            name="Repository maintainers", language_selection=SELECTION_ALL
+        )
+        group.components.add(self.component)
+        role = Role.objects.create(name="Repository maintainer")
+        role.permissions.add(Permission.objects.get(codename="vcs.update"))
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+
+        alert = self.component.alert_set.get(
+            name=MissingRepositoryErrorNotifications.__name__
+        )
+        context = alert.obj.get_context(self.user)
+        self.assertTrue(context["can_configure"])
+        self.assertEqual(
+            context["configure_url"],
+            MissingRepositoryErrorNotifications.get_url(self.component),
+        )
 
     def test_repository_error_notifications_ignored_for_linked_component(
         self,

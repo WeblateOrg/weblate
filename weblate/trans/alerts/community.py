@@ -26,6 +26,7 @@ from weblate.utils.docs import get_doc_url
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
+    from weblate.accounts.notifications import Notification
     from weblate.auth.models import User
     from weblate.trans.models.component import Component
 
@@ -216,6 +217,13 @@ class MissingRepositoryErrorNotifications(ChecklistAlert):
         return not component.is_repo_link
 
     @classmethod
+    def can_user_act_for(
+        cls, user: User, component: Component, details: dict[str, Any]
+    ) -> bool:
+        # Repository maintainers can fix this in their own notification settings
+        return MergeFailure.can_user_act_for(user, component, details)
+
+    @classmethod
     def is_passing(cls, component: Component) -> bool:
         # Notifications import models, which import the alert registry.
         from weblate.accounts.notifications import (  # ruff: ignore[import-outside-top-level]
@@ -223,11 +231,19 @@ class MissingRepositoryErrorNotifications(ChecklistAlert):
             NewAlertNotificaton,
         )
 
-        for handler_class in (NewAlertNotificaton, MergeFailureNotification):
-            handler = handler_class([])
+        # Repository failure alerts are also raised on linked components, and
+        # their subscribers are notified there when they miss the main one.
+        alert_targets = [component, *component.linked_children]
+        return cls.has_subscriber(
+            NewAlertNotificaton([]), alert_targets
+        ) or cls.has_subscriber(MergeFailureNotification([]), [component])
+
+    @staticmethod
+    def has_subscriber(handler: Notification, targets: list[Component]) -> bool:
+        for target in targets:
             last_user_id = None
             for subscription in handler.get_scope_subscriptions(
-                None, component.project, component, None, None
+                None, target.project, target, None, None
             ):
                 # Only the highest priority subscription of each user applies
                 if subscription.user_id == last_user_id:
@@ -236,9 +252,9 @@ class MissingRepositoryErrorNotifications(ChecklistAlert):
                 if (
                     subscription.frequency != NotificationFrequency.FREQ_NONE
                     and handler.can_access_target(
-                        subscription.user, component.project, component
+                        subscription.user, target.project, target
                     )
-                    and MergeFailure.can_user_act_for(subscription.user, component, {})
+                    and MergeFailure.can_user_act_for(subscription.user, target, {})
                 ):
                     return True
         return False
@@ -250,6 +266,14 @@ class MissingRepositoryErrorNotifications(ChecklistAlert):
     @classmethod
     def get_doc_url(cls, _component: Component, user: User | None = None) -> str:
         return get_doc_url("user/profile", "notifications", user=user)
+
+    def get_context(self, user: User) -> dict[str, Any]:
+        result = super().get_context(user)
+        component = self.instance.component
+        can_configure = self.can_user_act_for(user, component, {})
+        result["configure_url"] = self.get_url(component) if can_configure else ""
+        result["can_configure"] = can_configure
+        return result
 
 
 @register
