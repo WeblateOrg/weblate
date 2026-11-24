@@ -1234,12 +1234,17 @@ class CSharpFormatCheckTest(CheckTestCase):
         )
 
     def test_whitespace_around_alignment(self) -> None:
-        for placeholder in ("{0 }", "{0 :N0}", "{0 ,5}", "{count }", "{count , -5:D3}"):
-            with self.subTest(placeholder=placeholder):
-                self.assertTrue(
-                    self.check.check_format(
-                        placeholder, "plain text", False, make_unit()
-                    )
+        for source, target, missing, extra in (
+            ("{0 }", "{1 }", "0", "1"),
+            ("{0 :N0}", "{1 :N0}", "0", "1"),
+            ("{0 ,5}", "{1 ,5}", "0", "1"),
+            ("{count }", "{number }", "count", "number"),
+            ("{count , -5:D3}", "{number , -5:D3}", "count", "number"),
+        ):
+            with self.subTest(source=source):
+                self.assertEqual(
+                    self.check.check_format(source, target, False, make_unit()),
+                    {"missing": [missing], "extra": [extra]},
                 )
 
     def test_named_expression_out_of_scope(self) -> None:
