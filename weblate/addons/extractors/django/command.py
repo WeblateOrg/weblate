@@ -5,6 +5,8 @@
 from __future__ import annotations
 
 import os
+from glob import escape
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 from django.conf import settings
@@ -57,6 +59,7 @@ class Command(BaseCommand):
             required=True,
         )
         parser.add_argument("--source-prefix", default=".")
+        parser.add_argument("--exclude-directory", action="append", default=[])
         parser.add_argument("--no-wrap", action="store_true")
         parser.add_argument("--no-location", action="store_true")
 
@@ -66,6 +69,7 @@ class Command(BaseCommand):
         self.symlinks = False
         self.ignore_patterns = list(self.EXTRA_IGNORE_PATTERNS)
         self.source_prefix = os.path.normpath(options["source_prefix"])
+        self.excluded_directories = options["exclude_directory"]
 
         if options["no_wrap"]:
             self.msgmerge_options = [*self.msgmerge_options, "--no-wrap"]
@@ -110,4 +114,26 @@ class Command(BaseCommand):
     def find_files(self, root: str) -> list[TranslatableFile]:
         if root == "." and self.source_prefix not in {"", "."}:
             root = os.path.join(".", self.source_prefix)
-        return super().find_files(root)
+        if not self.excluded_directories:
+            return super().find_files(root)
+
+        source_root = Path(os.path.abspath(root))
+        exclusions = [
+            Path(os.path.abspath(directory)) for directory in self.excluded_directories
+        ]
+        if any(source_root.is_relative_to(directory) for directory in exclusions):
+            return []
+
+        # Absolute patterns match one repository path even when it has no slash.
+        # Restore relative paths before extraction so POT references stay portable.
+        repository = escape(os.getcwd())
+        self.ignore_patterns.extend(
+            os.path.join(repository, pattern)
+            for pattern in self.EXTRA_IGNORE_PATTERNS
+            if "/" in pattern
+        )
+        self.ignore_patterns.extend(escape(os.fspath(path)) for path in exclusions)
+        files = super().find_files(os.fspath(source_root))
+        for source in files:
+            source.dirpath = os.path.relpath(source.dirpath)
+        return files

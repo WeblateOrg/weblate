@@ -60,6 +60,7 @@ from weblate.addons.fedora_messaging import (
 )
 from weblate.addons.forms import (
     AutoAddonForm,
+    DjangoExtractPotForm,
     FedoraMessagingAddonForm,
     MesonExtractPotForm,
     SphinxExtractPotForm,
@@ -1119,6 +1120,38 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         NoOpAddon.create(category=parent, acting_user=self.user)
         self.component.drop_addons_cache()
         self.assertIn("weblate.base.test", self.component.addons_cache.names)
+
+
+class DjangoExtractPotFormTest(SimpleTestCase):
+    def test_excluded_source_directories(self) -> None:
+        addon = SimpleNamespace(
+            instance=SimpleNamespace(component=None, pk=None),
+            documentation_build=False,
+        )
+        form = DjangoExtractPotForm(
+            None,
+            addon,
+            data={
+                "interval": "weekly",
+                "excluded_source_directories": " crm \n\napps/billing\ncrm",
+            },
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(
+            form.cleaned_data["excluded_source_directories"], "crm\napps/billing"
+        )
+        for directory in ("/crm", "../crm", "apps/../crm", ".", "C:/crm"):
+            with self.subTest(directory=directory):
+                form = DjangoExtractPotForm(
+                    None,
+                    addon,
+                    data={
+                        "interval": "weekly",
+                        "excluded_source_directories": directory,
+                    },
+                )
+                self.assertFalse(form.is_valid())
+                self.assertIn("excluded_source_directories", form.errors)
 
 
 class XgettextExtractPotFormTest(SimpleTestCase):
@@ -4876,6 +4909,58 @@ msgstr ""
             'msgid "Module two template"',
             module_two_en_po.read_text(encoding="utf-8"),
         )
+
+    def test_django_excludes_exact_source_directory(self) -> None:
+        source_dir, *_ = self.prepare_django_extraction_fixture()
+        component_root = Path(self.component.full_path)
+        included = source_dir / "nested" / "module_one"
+        included.mkdir(parents=True)
+        (included / "views.py").write_text(
+            'gettext("Nested module with the same name")\n', encoding="utf-8"
+        )
+        addon = DjangoAddon.create(
+            acting_user=get_test_actor(self),
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "normalize_header": False,
+                "excluded_source_directories": "extract-app/module_one",
+            },
+        )
+
+        self.assertTrue(addon.execute_update(self.component, "", []))
+        content = (component_root / self.component.new_base).read_text(encoding="utf-8")
+        self.assertIn('msgid "Nested module with the same name"', content)
+        self.assertIn("extract-app/nested/module_one/views.py", content)
+        self.assertNotIn(str(component_root), content)
+        self.assertNotIn('msgid "Module one string"', content)
+        self.assertIn('msgid "Module two template"', content)
+
+        self.component.new_base = "extract-app/module_one/locale/django.pot"
+        addon.instance.configuration.pop("excluded_source_directories")
+        self.assertTrue(addon.execute_update(self.component, "", []))
+        content = (component_root / self.component.new_base).read_text(encoding="utf-8")
+        self.assertIn('msgid "Module one string"', content)
+        self.assertNotIn('msgid "Module two template"', content)
+
+    def test_django_excludes_source_root_and_its_descendants(self) -> None:
+        source_dir, *_ = self.prepare_django_extraction_fixture()
+        self.component.new_base = "extract-app/module_one/locale/django.pot"
+        template = source_dir / "module_one" / "locale" / "django.pot"
+        template.write_text("existing POT\n", encoding="utf-8")
+        addon = DjangoAddon.create(
+            acting_user=get_test_actor(self),
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        for exclusion in ("extract-app/module_one", "extract-app"):
+            with self.subTest(exclusion=exclusion):
+                addon.instance.configuration["excluded_source_directories"] = exclusion
+                self.assertFalse(addon.execute_update(self.component, "", []))
+                self.assertEqual(template.read_text(encoding="utf-8"), "existing POT\n")
 
     def test_django_ignores_repository_locale_dirs_during_extraction(self) -> None:
         (

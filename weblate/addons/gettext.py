@@ -939,8 +939,14 @@ class ExtractPotBaseAddon(UpdateBaseAddon, GettextBaseAddon):
         root: Path | None = None,
         *,
         ignore_patterns: tuple[str, ...] = (),
+        excluded_directories: frozenset[str] = frozenset(),
     ) -> bool:
-        pending = [root or Path(component.full_path)]
+        root = root or Path(component.full_path)
+        relative_root = Path(os.path.relpath(root, component.full_path))
+        if any(relative_root.is_relative_to(path) for path in excluded_directories):
+            return True
+
+        pending = [root]
         seen: set[str] = set()
 
         while pending:
@@ -961,11 +967,13 @@ class ExtractPotBaseAddon(UpdateBaseAddon, GettextBaseAddon):
                 continue
 
             for entry in current.iterdir():
-                if ignore_patterns:
+                if ignore_patterns or excluded_directories:
                     entry_path = os.path.relpath(entry, component.full_path).replace(
                         os.sep, "/"
                     )
-                    if is_ignored_path(entry_path, ignore_patterns):
+                    if entry_path in excluded_directories or is_ignored_path(
+                        entry_path, ignore_patterns
+                    ):
                         continue
                 try:
                     component.repository.resolve_symlinks(os.fspath(entry))
@@ -1810,6 +1818,10 @@ class DjangoAddon(ExtractPotBaseAddon):
             self.get_source_prefix(component, source_dir),
             *self.get_gettext_format_args(component),
         ]
+        command.extend(
+            f"--exclude-directory={directory}"
+            for directory in self.get_excluded_source_directories()
+        )
         with tempfile.TemporaryDirectory(prefix="weblate-django-") as tempdir:
             locale_dir = Path(tempdir) / "locale"
             env = {"WEBLATE_EXTRACT_LOCALE_PATH": os.fspath(locale_dir)}
@@ -1835,6 +1847,13 @@ class DjangoAddon(ExtractPotBaseAddon):
             self.write_repo_file(template, generated.read_bytes())
         return self.finalize_template(component, template)
 
+    def get_excluded_source_directories(self) -> tuple[str, ...]:
+        return tuple(
+            str(
+                self.instance.configuration.get("excluded_source_directories", "")
+            ).splitlines()
+        )
+
     def validate_django_repository_tree(
         self, component: Component, source_dir: Path
     ) -> bool:
@@ -1842,6 +1861,7 @@ class DjangoAddon(ExtractPotBaseAddon):
             component,
             source_dir,
             ignore_patterns=DJANGO_IGNORE_PATTERNS,
+            excluded_directories=frozenset(self.get_excluded_source_directories()),
         )
 
     @classmethod
