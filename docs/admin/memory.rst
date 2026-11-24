@@ -19,11 +19,13 @@ Content in the translation memory can be applied to strings in several ways:
 For installation tips, see :ref:`mt-weblate-translation-memory`, which is
 turned on by default.
 
-A translation memory entry whose source text matches the string exactly scores
-100%, whatever its context. If the entry also has the same context as the
+An active translation memory entry whose source text matches the string exactly
+scores 100%, whatever its context. If the entry also has the same context as the
 string, including both having none, it is preferred over other exact matches and
-shown as :guilabel:`100% · Context match`. Partial matches score lower when the
-entry has a context that differs from the string's.
+shown as :guilabel:`100% · Context match`. A context you cannot see, such as that
+of a shared entry from another project, does not count as a match. Pending
+entries keep their penalty (see :ref:`memory-status`), and partial matches score
+lower when the entry has a context that differs from the string's.
 
 
 .. _memory-scopes:

@@ -1933,6 +1933,55 @@ class MemoryModelTest(FixtureTestCase):
         self.assertEqual(suggestions[0]["context"], "")
         self.assertEqual(suggestions[0]["quality"], 100)
 
+    def test_machine_context_match_hidden_for_shared_scope(self) -> None:
+        """A context hidden from the user is not revealed as a context match."""
+        unit = self.get_unit()
+        unit.context = "internal.key"
+        unit.save()
+        source_project = Project.objects.create(
+            name="Shared context match source",
+            slug="shared-context-match-source",
+            contribute_shared_tm=True,
+        )
+        self.project.use_shared_tm = True
+        self.project.save(update_fields=["use_shared_tm"])
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source=unit.source,
+            target="Sdileny cil",
+            origin="shared-context-match-source/component",
+            context="internal.key",
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=source_project,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_SHARED,
+            source_project=source_project,
+        )
+
+        suggestions = list(WeblateMemory({}).search(unit, unit.source, None))
+
+        self.assertEqual(suggestions[0]["context"], "")
+        self.assertEqual(suggestions[0]["quality"], 100)
+
+        # The same entry in this project's own memory shows its context, so
+        # the match is not hidden either.
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+        suggestions = list(WeblateMemory({}).search(unit, unit.source, None))
+
+        self.assertEqual(suggestions[0]["context"], "internal.key")
+        self.assertEqual(suggestions[0]["quality"], CONTEXT_MATCH_QUALITY)
+
     def create_context_memory(
         self, target: str, context: str, status: int = Memory.STATUS_ACTIVE
     ) -> Memory:
