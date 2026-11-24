@@ -50,7 +50,7 @@ jobs:
       PYTHONUNBUFFERED: 1
     services:
       database:
-        image: postgres:18.7-alpine@sha256:ff64c9e3bdf8e2120107d3559de8db314e8305f7e38c5105903c6295876738ff
+        image: postgres:19.0-alpine@sha256:cac45fb483caee3668946088a1c0532db89d5285c28dbfeac889b4068296e06f
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: weblate
@@ -84,11 +84,11 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         allow-prereleases: true
-    - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+    - uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
       with:
         enable-cache: false
         cache-local-path: ${{ runner.temp }}/weblate-uv-cache
-        version: 0.13.8
+        version: 0.13.9
     - name: Install apt dependencies
       uses: $/.github/actions/apt-install
       with:

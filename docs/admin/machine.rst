@@ -42,6 +42,10 @@ The listing summarizes basic configuration such as the model, source-language
 selection, and region, together with the installation ID and slug. Credentials,
 API URLs, and free-form prompts are excluded from these summaries.
 
+Opening a service’s configuration or changing an installation or exclusion in a
+browser requires :ref:`recent credential verification <2fa>`. If verification
+expires while editing, confirm your identity, then submit the change again.
+
 A :guilabel:`Rate limited` badge indicates that Weblate has temporarily paused
 requests after a provider error. The default cooldown is 30 minutes, but its
 duration varies by service and provider-supplied retry delays; see

@@ -41,7 +41,7 @@ from django.db import (
 )
 from django.db.models import Q
 from django.db.models.fields.files import FieldFile
-from django.http import StreamingHttpResponse
+from django.http import QueryDict, StreamingHttpResponse
 from django.templatetags.static import static
 from django.test import SimpleTestCase, TransactionTestCase
 from django.test.client import BOUNDARY, MULTIPART_CONTENT, encode_multipart
@@ -49,6 +49,8 @@ from django.test.utils import CaptureQueriesContext, modify_settings, override_s
 from django.urls import Resolver404, resolve, reverse
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from drf_spectacular.validation import validate_schema
+from lxml.html import fromstring
+from rest_framework import serializers
 from rest_framework.request import Request
 from rest_framework.test import APIClient, APIRequestFactory, APITestCase
 from weblate_language_data.languages import LANGUAGES
@@ -67,6 +69,10 @@ from weblate.accounts.notifications import (
 )
 from weblate.accounts.tasks import cleanup_inaccessible_subscriptions
 from weblate.accounts.tests.visibility import VisibilityPermissions
+from weblate.accounts.utils import (
+    FIRST_FACTOR_VERIFY_SECONDS,
+    SESSION_SENSITIVE_FACTOR_GRANT,
+)
 from weblate.addons.autotranslate import AutoTranslateAddon
 from weblate.addons.base import build_addon_change_details
 from weblate.addons.cdn import CDNJSAddon
@@ -79,7 +85,7 @@ from weblate.api.docs import (
     document_all_static_vcs_choices,
 )
 from weblate.api.parsers import TranslationFileMultiPartParser
-from weblate.api.renderers import AutoCSVRenderer
+from weblate.api.renderers import AutoCSVRenderer, WeblateHTMLFormRenderer
 from weblate.api.serializers import (
     CategorySerializer,
     ChangeSerializer,
@@ -190,6 +196,7 @@ from weblate.utils.data import data_dir
 from weblate.utils.files import PathMatchBudget, remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.pii import mask_email
+from weblate.utils.ratelimit import RateLimitHttpRequest
 from weblate.utils.render import render_repository_template
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -230,6 +237,50 @@ TEST_DOC = get_test_file("cs.html")
 TEST_ZIP = get_test_file("translations.zip")
 TEST_BADPLURALS = get_test_file("cs-badplurals.po")
 TEST_SCREENSHOT = get_test_file("screenshot.png")
+
+
+class BrowsableAPIFormTest(SimpleTestCase):
+    def test_nested_relations_do_not_load_choices(self) -> None:
+        class RelationsSerializer(serializers.Serializer):
+            pk = serializers.PrimaryKeyRelatedField(queryset=Language.objects.all())
+            code = serializers.SlugRelatedField(
+                queryset=Language.objects.all(), slug_field="code"
+            )
+            url = serializers.HyperlinkedRelatedField(
+                queryset=Language.objects.all(), view_name="api:language-detail"
+            )
+
+        class FormSerializer(serializers.Serializer):
+            language = RelationsSerializer()
+
+        with patch.object(
+            serializers.RelatedField, "get_choices", side_effect=AssertionError
+        ):
+            form = fromstring(WeblateHTMLFormRenderer().render(FormSerializer().data))
+        self.assertEqual(
+            form.xpath('//input[@type="text"]/@name'),
+            ["language.pk", "language.code", "language.url"],
+        )
+
+    def test_choice_controls(self) -> None:
+        choices = [(str(i), f"Option {i}") for i in range(100)]
+        grouped_choices = [("Group", choices), ("Other", [("100", "Last option")])]
+
+        class FormSerializer(serializers.Serializer):
+            small = serializers.ChoiceField(choices=choices)
+            large = serializers.ChoiceField(choices=grouped_choices)
+            multiple = serializers.MultipleChoiceField(choices=grouped_choices)
+
+        data = QueryDict("small=99&large=100&multiple=1&multiple=2")
+        serializer = FormSerializer(data=data)
+        self.assertTrue(serializer.is_valid(), serializer.errors)
+        self.assertEqual(set(serializer.validated_data["multiple"]), {"1", "2"})
+        form = fromstring(WeblateHTMLFormRenderer().render(serializer.data))
+        self.assertEqual(
+            form.xpath('//select[@name="small"]/option[@selected]/@value'), ["99"]
+        )
+        self.assertEqual(form.xpath('//input[@name="large"]/@value'), ["100"])
+        self.assertTrue(form.xpath('//select[@name="multiple" and @multiple]'))
 
 
 class CSVRendererTest(SimpleTestCase):
@@ -355,6 +406,18 @@ class AuthenticationAPITest(APITestCase):
     def setUpTestData(cls) -> None:
         super().setUpTestData()
         cls.user = User.objects.create_user("apiauth", "apiauth@example.org", "x")
+
+    def test_api_root_lists_resource_urls(self) -> None:
+        response = self.client.get(reverse("api:api-root"))
+        self.assertEqual(response.status_code, 200)
+        for resource in ("projects", "components", "translations", "languages"):
+            with self.subTest(resource=resource):
+                self.assertEqual(
+                    response.data[resource],
+                    response.wsgi_request.build_absolute_uri(
+                        reverse(f"api:{resource.removesuffix('s')}-list")
+                    ),
+                )
 
     def test_unsupported_scheme(self) -> None:
         for signed_in in (False, True):
@@ -5281,6 +5344,113 @@ class ProjectCreationConcurrencyTest(TransactionTestCase):
                 Project.objects.filter(slug__startswith="race-project-").delete()
 
 
+class ProjectBrowsableAPIFormTest(APIBaseTest):
+    def test_workspace_and_language_inputs(self) -> None:
+        hidden = Workspace.objects.create(name="Unrelated workspace")
+        response = self.do_request("api:project-list", request={"format": "api"})
+        self.assertNotContains(response, hidden.name)
+        self.assertNotContains(response, str(hidden.pk))
+        form = fromstring(response.content)
+        for name in ("workspace", "secondary_language"):
+            self.assertTrue(
+                form.xpath('//input[@type="text" and @name=$name]', name=name)
+            )
+
+        current = Workspace.objects.create(name="Project workspace")
+        Project.objects.filter(pk=self.project.pk).update(workspace=current)
+        response = self.do_request(
+            "api:project-detail", self.project_kwargs, request={"format": "api"}
+        )
+        self.assertEqual(
+            fromstring(response.content).xpath('//input[@name="workspace"]/@value'),
+            [str(current.pk)],
+        )
+
+
+class MachinerySessionAPITest(APIBaseTest):
+    def test_machinery_session_verification(self) -> None:
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.client.force_login(self.user)
+        installation = MachineryInstallation.objects.create(
+            project=self.project,
+            engine="deepl",
+            configuration={"key": "saved-secret"},
+        )
+        inherited = MachineryInstallation.objects.create(engine="deepl")
+        exclusion = MachineryExclusion.objects.create(
+            project=self.project, installation=inherited
+        )
+        collection = reverse("api:machinery-installation-list")
+        detail = reverse("api:machinery-installation-detail", args=[installation.pk])
+        nested = reverse("api:project-machinery-settings", kwargs=self.project_kwargs)
+        exclusions = reverse("api:machinery-exclusion-list")
+        exclusion_detail = reverse(
+            "api:machinery-exclusion-detail", args=[exclusion.pk]
+        )
+        response = self.client.get(detail)
+        self.assertContains(
+            response, "Recent credential verification required.", status_code=403
+        )
+        verified = self.client.post(
+            reverse("first-factor-verify"),
+            {"password": "x", "target": "sensitive", "next": detail},
+        )
+        self.assertRedirects(verified, detail, fetch_redirect_response=False)
+        self.assertContains(self.client.get(detail), "saved-secret")
+        self.assertContains(self.client.get(collection), "saved-secret")
+        self.assertContains(self.client.get(nested), "saved-secret")
+        self.assertEqual(self.client.patch(detail, {"enabled": False}).status_code, 200)
+        self.assertEqual(
+            self.client.get(
+                reverse("api:machinery-installation-detail", args=[inherited.pk])
+            ).status_code,
+            404,
+        )
+
+        session = self.client.session
+        session[SESSION_SENSITIVE_FACTOR_GRANT]["time"] -= (
+            FIRST_FACTOR_VERIFY_SECONDS + 1
+        )
+        session.save()
+        with patch("weblate.machinery.api.validate_service_configuration") as validate:
+            for url, methods in (
+                (collection, ("get", "post")),
+                (detail, ("get", "put", "patch", "delete")),
+                (nested, ("get", "post")),
+                (exclusions, ("post",)),
+                (exclusion_detail, ("put", "patch", "delete")),
+            ):
+                for method in methods:
+                    with self.subTest(url=url, method=method):
+                        response = getattr(self.client, method)(url)
+                        self.assertContains(
+                            response,
+                            "Recent credential verification required.",
+                            status_code=403,
+                        )
+                        self.assertNotContains(
+                            response, "saved-secret", status_code=403
+                        )
+            response = self.client.post(
+                nested,
+                {"engine": "deepl", "configuration": {"key": "new-key"}},
+                format="json",
+            )
+            self.assertEqual(response.status_code, 403)
+            validate.assert_not_called()
+        self.assertEqual(
+            MachineryInstallation.objects.filter(
+                project=self.project, engine="deepl"
+            ).count(),
+            1,
+        )
+        installation.refresh_from_db()
+        self.assertFalse(installation.enabled)
+        self.assertEqual(installation.configuration, {"key": "saved-secret"})
+        self.assertEqual(self.client.get(exclusions).status_code, 200)
+        self.assertEqual(self.client.get(exclusion_detail).status_code, 200)
+
+
 class ProjectAPITest(APIBaseTest):
     def test_language_aliases_validate_destination(self) -> None:
         self.grant_perm_to_user("project.edit", project=self.project)
@@ -6022,8 +6192,14 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(request.data["count"], 2)
 
     def test_changes(self) -> None:
-        request = self.do_request("api:project-changes", self.project_kwargs)
-        self.assertEqual(request.data["count"], 35)
+        project = Project.objects.create(name="Other", slug="other")
+        change = project.change_set.create(
+            action=ActionEvents.CREATE_PROJECT, user=self.user
+        )
+
+        response = self.do_request("api:project-changes", {"slug": project.slug})
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["id"], change.pk)
 
     def test_changes_with_multi_alert(self) -> None:
         translation = self.component.translation_set.get(language__code="cs")
@@ -6909,6 +7085,7 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertFalse(component.manage_units)
         self.assertFalse(response.data["manage_units"])
+        self.assertEqual(response["Location"], response.data["url"])
         self.assertEqual(response.data["push"], "https://github.com/example/push.git")
         response = self.do_request(
             "api:project-components",
@@ -17497,19 +17674,40 @@ class TranslationAPITest(APIBaseTest):
         )
         self.assertEqual(response.status_code, 202)
 
-    def test_upload_rate_limit(self) -> None:
+    @override_settings(
+        API_RATELIMIT_USER="2/hour",
+        API_RATELIMIT_USER_OVERRIDES={},
+        API_RATELIMIT_IP_OVERRIDES={},
+        RATELIMIT_UPLOAD_ATTEMPTS=1,
+        CACHES={
+            "default": {
+                "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+                "LOCATION": "api-upload-rate-limit",
+            }
+        },
+    )
+    def test_upload_uses_general_api_rate_limit(self) -> None:
+        cache.clear()
         self.authenticate()
-        with (
-            patch("weblate.api.views.check_rate_limit", return_value=False),
-            patch("weblate.api.views.queue_translation_upload") as queue,
-            open(TEST_PO, "rb") as handle,
-        ):
-            response = self.client.post(
-                reverse("api:translation-file", kwargs=self.translation_kwargs),
-                {"file": handle, "background": True},
-            )
+        browser_limiter = RateLimitHttpRequest("upload", user=self.user)
+        self.assertFalse(browser_limiter.is_limit_exceeded()[0])
+        self.assertTrue(browser_limiter.is_limit_exceeded()[0])
+
+        url = reverse("api:translation-file", kwargs=self.translation_kwargs)
+        with open(TEST_PO, "rb") as handle:
+            response = self.client.post(url, {"file": handle})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["X-RateLimit-Remaining"], "1")
+
+        with open(TEST_PO, "rb") as handle:
+            response = self.client.put(url, {"file": handle, "background": True})
+        self.assertEqual(response.status_code, 202)
+        self.assertEqual(response["X-RateLimit-Remaining"], "0")
+
+        with open(TEST_PO, "rb") as handle:
+            response = self.client.post(url, {"file": handle})
         self.assertEqual(response.status_code, 429)
-        queue.assert_not_called()
+        self.assertGreater(int(response["Retry-After"]), 0)
 
     def test_upload_task_is_private(self) -> None:
         from weblate.utils.celery import store_task_metadata  # ruff: ignore[import-outside-top-level]
@@ -17650,12 +17848,13 @@ class TranslationAPITest(APIBaseTest):
             code=200,
         )
         self.assertContains(response, "Project-Id-Version: Weblate Hello World 2016")
-        self.do_request(
+        cached = self.do_request(
             "api:translation-file",
             kwargs=self.translation_kwargs,
             headers={"If-Modified-Since": response["Last-Modified"]},
             code=304,
         )
+        self.assertEqual(cached.content, b"")
 
     def test_download_args(self) -> None:
         response = self.do_request(
@@ -22162,6 +22361,39 @@ class ScreenshotAPITest(APIBaseTest):
 
 
 class ChangeAPITest(APIBaseTest):
+    def test_moved_component_history_follows_project(self) -> None:
+        destination = self.create_project(
+            name="Destination",
+            slug="destination",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        change = self.component.change_set.create(
+            action=ActionEvents.CHANGE, target="Earlier edit", user=self.user
+        )
+        global_url = reverse("api:change-list")
+        old_url = reverse("api:project-changes", kwargs=self.project_kwargs)
+        new_url = reverse("api:project-changes", kwargs={"slug": destination.slug})
+
+        def contains_change(url: str) -> bool:
+            response = self.client.get(url, {"component": self.component.pk})
+            self.assertEqual(response.status_code, 200, response.data)
+            return change.pk in {entry["id"] for entry in response.data["results"]}
+
+        self.assertTrue(contains_change(global_url))
+        with acting_user_context(self.user):
+            self.component.project = destination
+            self.component.save(update_fields=["project_id"])
+
+        for authenticated in (False, True):
+            if authenticated:
+                self.authenticate()
+            with self.subTest(authenticated=authenticated):
+                self.assertFalse(contains_change(global_url))
+                self.assertFalse(contains_change(old_url))
+        destination.add_user(self.user, "Administration")
+        self.assertTrue(contains_change(new_url))
+        self.assertTrue(contains_change(global_url))
+
     def test_invitation_email_masked_in_history(self) -> None:
         email = "victim.person@corp.example"
         change = self.project.change_set.create(
@@ -22595,18 +22827,27 @@ class ChangeAPITest(APIBaseTest):
                 )
 
     def test_list_changes(self) -> None:
-        response = self.client.get(reverse("api:change-list"))
-        self.assertEqual(response.data["count"], 35)
+        url = reverse("api:change-list")
+        initial_count = self.client.get(url).data["count"]
+        change = self.component.change_set.create(
+            action=ActionEvents.HOOK, user=self.user
+        )
+
+        response = self.client.get(url)
+        self.assertEqual(response.data["count"], initial_count + 1)
+        self.assertIn(change.pk, [entry["id"] for entry in response.data["results"]])
 
     def test_filter_changes_after(self) -> None:
         """Filter changes since timestamp."""
-        latest_change = Change.objects.order().last()
-        assert latest_change is not None
-        start = latest_change.timestamp
-        response = self.client.get(
-            reverse("api:change-list"), {"timestamp_after": start.isoformat()}
+        change = self.component.change_set.create(
+            action=ActionEvents.HOOK, user=self.user
         )
-        self.assertEqual(response.data["count"], 35)
+        response = self.client.get(
+            reverse("api:change-list"),
+            {"timestamp_after": change.timestamp.isoformat()},
+        )
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["id"], change.pk)
 
     def test_filter_changes_before(self) -> None:
         """Filter changes prior to timestamp."""

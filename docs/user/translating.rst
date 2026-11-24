@@ -503,6 +503,21 @@ This action requires the :guilabel:`Edit screenshot` permission. To upload a new
 image, use :guilabel:`Upload screenshot` instead. Use :guilabel:`Manage screenshots`
 for the full :ref:`screenshot management interface <screenshots>`.
 
+.. _contributor-rankings:
+
+Contributor rankings
+++++++++++++++++++++
+
+Open :guilabel:`Contributors` in the :guilabel:`Overview` tab to see who
+contributed within that scope. Project, language, and workspace information
+pages also show the ten highest-ranked translators. Both views include only
+activity for translations whose contributor identities you have permission to see.
+
+Weblate ranks people by the number of recorded translation events, including
+edits, approvals, uploads, and automatic changes. Suggestions and comments
+also qualify someone for the full list and do not increase their ranking.
+The rankings are refreshed daily and can take time to appear after an upgrade.
+
 .. _translation-history:
 
 Translation history

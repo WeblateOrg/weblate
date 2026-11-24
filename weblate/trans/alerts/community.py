@@ -149,8 +149,14 @@ class ChecklistAlert(BaseAlert):
         return result
 
 
+class RemoteRepositoryChecklistAlert(ChecklistAlert):
+    @classmethod
+    def is_relevant(cls, component: Component) -> bool:
+        return not component.is_repo_local and not component.is_repo_link
+
+
 @register
-class MissingRepositoryHook(ChecklistAlert):
+class MissingRepositoryHook(RemoteRepositoryChecklistAlert):
     verbose = gettext_lazy(
         "Repository updates are pulled manually. Configure repository hooks to "
         "automate pulling changes into Weblate."
@@ -167,10 +173,6 @@ class MissingRepositoryHook(ChecklistAlert):
         return component.change_set.filter(action=ActionEvents.HOOK).exists()
 
     @classmethod
-    def is_relevant(cls, component: Component) -> bool:
-        return not component.is_repo_link
-
-    @classmethod
     def get_url(cls, component: Component) -> str:
         return cls.get_doc_url(component)
 
@@ -180,7 +182,7 @@ class MissingRepositoryHook(ChecklistAlert):
 
 
 @register
-class MissingPushURL(ChecklistAlert):
+class MissingPushURL(RemoteRepositoryChecklistAlert):
     verbose = gettext_lazy(
         "Outbound translation delivery is manual. Configure a push URL or a "
         "pull or merge request integration to automate it."
@@ -258,6 +260,10 @@ class MissingScreenshots(ChecklistAlert):
             result["with_screenshots"] = with_screenshots
             result["without_screenshots"] = without_screenshots
         return result
+
+    @classmethod
+    def is_relevant(cls, component: Component) -> bool:
+        return not component.is_glossary
 
     @classmethod
     def get_coverage(cls, component: Component) -> tuple[int, int]:

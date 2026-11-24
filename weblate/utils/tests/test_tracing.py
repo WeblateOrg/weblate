@@ -96,7 +96,9 @@ class TracingTest(SimpleTestCase):
         ):
             pass
 
-        sentry_sdk.start_span.assert_called_once_with(op="test.op", name="Test span")
+        sentry_sdk.start_span.assert_called_once_with(
+            name="Test span", attributes={"sentry.op": "test.op"}
+        )
         tracer.start_as_current_span.assert_called_once_with("test.op")
         sentry_span.set_attribute.assert_any_call("weblate.operation", "test.op")
         sentry_span.set_attribute.assert_any_call("weblate.name", "Test span")

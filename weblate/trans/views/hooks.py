@@ -12,7 +12,7 @@ from urllib.parse import quote, urlparse
 from asgiref.sync import async_to_sync
 from django.conf import settings
 from django.db.models import Q
-from drf_spectacular.utils import OpenApiParameter, extend_schema
+from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
 from rest_framework import parsers, serializers
 from rest_framework.exceptions import (
     APIException,
@@ -1358,11 +1358,52 @@ class BaseHookView(APIView):
         )
 
 
+HOOK_FORM_REQUEST = {
+    "type": "object",
+    "properties": {
+        "payload": {
+            "type": "string",
+            "description": "The provider's payload as a JSON-encoded string.",
+        }
+    },
+    "required": ["payload"],
+}
+
+
 # ServiceHookView is defined after all @register_hook calls so the OpenAPI
 # service enum is derived automatically from HOOK_HANDLERS.
 @extend_schema(
-    responses=HookResponseSerializer,
-    request=HookRequestSerializer,
+    summary="Receive a repository webhook",
+    description=(
+        "Send the provider's native webhook payload. Weblate matches repository "
+        "URLs and branches against components with hooks enabled. Update events "
+        "include match counts to diagnose repository, branch, and hook settings. "
+        "Components managed by the authenticated GitHub App integration are "
+        "excluded from generic matching."
+    ),
+    responses={
+        200: OpenApiResponse(
+            HookResponseSerializer,
+            description="A repository update was scheduled for the listed components.",
+        ),
+        201: OpenApiResponse(
+            HookResponseSerializer,
+            description="A ping or an ignored event. Repository matching was skipped.",
+        ),
+        202: OpenApiResponse(
+            HookResponseSerializer,
+            description="Matching completed without an update. The response includes match counts.",
+        ),
+    },
+    request={
+        "application/json": {
+            "type": "object",
+            "additionalProperties": True,
+            "minProperties": 1,
+        },
+        "application/x-www-form-urlencoded": HOOK_FORM_REQUEST,
+        "multipart/form-data": HOOK_FORM_REQUEST,
+    },
     parameters=[
         OpenApiParameter(
             "service",

@@ -89,7 +89,7 @@ def get_spectacular_settings(
             "url": lazy(get_doc_url_wrapper, str)("contributing/license"),
         },
         "DESCRIPTION": """
-The API is accessible on the ``/api/`` URL and it is based on [Django REST framework](https://www.django-rest-framework.org/).
+The API is accessible at `/api/` and is based on [Django REST framework](https://www.django-rest-framework.org/).
 
 Read-only requests can be made without authentication unless the site requires login.
 Authenticate using a personal or project token in the `Authorization` header with
@@ -140,6 +140,7 @@ the `Token` or `Bearer` scheme. API requests are rate limited.
             "weblate.api.docs.simplify_license_schema",
             "weblate.api.docs.document_delete_bodies",
             "weblate.api.docs.simplify_media_types",
+            "weblate.api.docs.document_filemask_examples",
             "weblate.api.docs.document_response_descriptions",
         ],
         "EXTERNAL_DOCS": {
@@ -300,7 +301,7 @@ def get_drf_settings(*, require_login: bool) -> dict[str, Any]:
         ),
         "DEFAULT_RENDERER_CLASSES": [
             "rest_framework.renderers.JSONRenderer",
-            "rest_framework.renderers.BrowsableAPIRenderer",
+            "weblate.api.renderers.WeblateBrowsableAPIRenderer",
             "weblate.api.renderers.AutoCSVRenderer",
         ],
         "DEFAULT_PAGINATION_CLASS": "weblate.api.pagination.StandardPagination",

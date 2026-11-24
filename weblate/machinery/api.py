@@ -9,9 +9,11 @@ from typing import TYPE_CHECKING, Any
 
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db.models import Q
+from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import serializers, viewsets
 from rest_framework.exceptions import PermissionDenied
 
+from weblate.api.mixins import SensitiveSessionVerificationMixin
 from weblate.machinery.models import (
     MachineryExclusion,
     MachineryInstallation,
@@ -25,6 +27,12 @@ if TYPE_CHECKING:
     from django.db.models import QuerySet
 
     from weblate.auth.models import User
+
+
+SESSION_VERIFICATION_DESCRIPTION = (
+    "Browser sessions require recent credential verification. "
+    "An expired or missing verification returns HTTP 403."
+)
 
 
 def can_edit_scope(
@@ -178,7 +186,52 @@ class InstallationSerializer(serializers.ModelSerializer):
         return attrs
 
 
-class InstallationViewSet(viewsets.ModelViewSet):
+@extend_schema_view(
+    list=extend_schema(
+        summary="List translation service installations",
+        description=(
+            "Lists installations in scopes the caller can edit. Configuration may "
+            f"include credentials. {SESSION_VERIFICATION_DESCRIPTION}"
+        ),
+    ),
+    retrieve=extend_schema(
+        summary="Get a translation service installation",
+        description=(
+            "Requires permission to edit the installation scope. Configuration may "
+            f"include credentials. {SESSION_VERIFICATION_DESCRIPTION}"
+        ),
+    ),
+    create=extend_schema(
+        summary="Create a translation service installation",
+        description=(
+            "Requires permission to edit the requested project or workspace. "
+            "Instance-wide installation requires instance-wide translation service "
+            f"permission. {SESSION_VERIFICATION_DESCRIPTION}"
+        ),
+    ),
+    update=extend_schema(
+        summary="Replace a translation service installation's settings",
+        description=(
+            f"The service and scope are fixed after creation. {SESSION_VERIFICATION_DESCRIPTION}"
+        ),
+    ),
+    partial_update=extend_schema(
+        summary="Update a translation service installation's settings",
+        description=(
+            f"The service and scope are fixed after creation. {SESSION_VERIFICATION_DESCRIPTION}"
+        ),
+    ),
+    destroy=extend_schema(
+        summary="Delete a translation service installation",
+        description=SESSION_VERIFICATION_DESCRIPTION,
+    ),
+)
+class InstallationViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
+    """Manage translation service installations."""
+
+    sensitive_actions = frozenset(
+        {"list", "retrieve", "create", "update", "partial_update", "destroy"}
+    )
     serializer_class = InstallationSerializer
     queryset = MachineryInstallation.objects.all()
 
@@ -241,7 +294,41 @@ class ExclusionSerializer(serializers.ModelSerializer):
         return attrs
 
 
-class ExclusionViewSet(viewsets.ModelViewSet):
+@extend_schema_view(
+    list=extend_schema(
+        summary="List translation service exclusions",
+        description="Lists exclusions in scopes the caller can edit.",
+    ),
+    retrieve=extend_schema(summary="Get a translation service exclusion"),
+    create=extend_schema(
+        summary="Create a translation service exclusion",
+        description=(
+            "Exclude an inherited installation or an entire service from a "
+            "project or workspace. Requires permission to edit the scope. "
+            f"{SESSION_VERIFICATION_DESCRIPTION}"
+        ),
+    ),
+    update=extend_schema(
+        summary="Replace a translation service exclusion",
+        description=(
+            f"The scope and target are fixed after creation. {SESSION_VERIFICATION_DESCRIPTION}"
+        ),
+    ),
+    partial_update=extend_schema(
+        summary="Update a translation service exclusion",
+        description=(
+            f"The scope and target are fixed after creation. {SESSION_VERIFICATION_DESCRIPTION}"
+        ),
+    ),
+    destroy=extend_schema(
+        summary="Delete a translation service exclusion",
+        description=SESSION_VERIFICATION_DESCRIPTION,
+    ),
+)
+class ExclusionViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
+    """Manage translation service exclusions."""
+
+    sensitive_actions = frozenset({"create", "update", "partial_update", "destroy"})
     serializer_class = ExclusionSerializer
     queryset = MachineryExclusion.objects.all()
 

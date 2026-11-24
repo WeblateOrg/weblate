@@ -17,7 +17,7 @@ from django.contrib.messages import get_messages
 from django.core import mail
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
-from django.db import connection, models
+from django.db import connection, models, transaction
 from django.template.loader import render_to_string
 from django.test import RequestFactory
 from django.test.utils import CaptureQueriesContext, override_settings
@@ -39,6 +39,7 @@ from weblate.billing.models import (
     get_component_billing_alerts,
     get_payment_log_details,
     record_project_billing_workspace,
+    refresh_libre_warning,
 )
 from weblate.billing.tasks import (
     billing_check,
@@ -273,6 +274,49 @@ class BillingTest(BaseTestCase):
         )
 
     @override_settings(OFFER_HOSTING=True)
+    def test_libre_cleanup_diagnostics_order(self) -> None:
+        self.use_libre_plan()
+        project = self.add_project()
+        component = self.add_component(project, "revision")
+        component.add_alert("RepositoryChanges")
+        component.add_alert("MissingLicense")
+        component.add_alert("ParseError", occurrences=[])
+        component.add_alert("UnusedComponent")
+        self.client.force_login(self.user)
+
+        for obj in (project, self.billing.workspace):
+            url = reverse("js-diagnostics", kwargs={"path": obj.get_url_path()})
+            for hosting, expected in (
+                (
+                    True,
+                    [
+                        "MissingLicense",
+                        "RepositoryChanges",
+                        "ParseError",
+                        "UnusedComponent",
+                    ],
+                ),
+                (
+                    False,
+                    [
+                        "ParseError",
+                        "MissingLicense",
+                        "RepositoryChanges",
+                        "UnusedComponent",
+                    ],
+                ),
+            ):
+                with (
+                    self.subTest(obj=obj, hosting=hosting),
+                    self.settings(OFFER_HOSTING=hosting),
+                ):
+                    response = self.client.get(url)
+                    self.assertEqual(
+                        [group.name for group in response.context["diagnostics"]],
+                        expected,
+                    )
+
+    @override_settings(OFFER_HOSTING=True)
     def test_libre_warning_locks_current_components_once(self) -> None:
         self.use_libre_plan()
         project = self.add_project()
@@ -389,6 +433,154 @@ class BillingTest(BaseTestCase):
         self.assertIsNone(self.billing.libre_cleanup_warned_at)
         component.refresh_from_db()
         self.assertTrue(component.locked)
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_libre_warning_survives_dismissed_issue_in_other_project(self) -> None:
+        self.use_libre_plan()
+        first = self.add_component(self.add_project(), "first")
+        second = self.add_component(self.add_project(), "second")
+        old = timezone.now() - timedelta(days=91)
+        for component in (first, second):
+            self.set_alert_timestamp(component, "RepositoryChanges", old)
+        second.alert_set.filter(name="RepositoryChanges").update(dismissed_at=old)
+        libre_cleanup_check()
+        self.refresh_from_db()
+        warned_at = self.billing.libre_cleanup_warned_at
+        self.assertIsNotNone(warned_at)
+
+        with self.captureOnCommitCallbacks(execute=True):
+            first.delete_alert("RepositoryChanges")
+        self.refresh_from_db()
+        self.assertEqual(self.billing.libre_cleanup_warned_at, warned_at)
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_libre_warning_clears_after_alert_resolution(self) -> None:
+        self.use_libre_plan()
+        component = self.add_component(self.add_project(), "first")
+        self.set_alert_timestamp(
+            component, "RepositoryChanges", timezone.now() - timedelta(days=91)
+        )
+        self.set_alert_timestamp(component, "MissingLicense", timezone.now())
+        libre_cleanup_check()
+        self.refresh_from_db()
+        warned_at = self.billing.libre_cleanup_warned_at
+        self.assertIsNotNone(warned_at)
+        urls = (component.project.get_absolute_url(), self.billing.get_absolute_url())
+        self.client.force_login(self.user)
+        for url in urls:
+            self.assertContains(self.client.get(url), "Resolve the issues below")
+
+        with self.captureOnCommitCallbacks(execute=True), transaction.atomic():
+            component.delete_alert("RepositoryChanges")
+            transaction.set_rollback(True)
+        self.refresh_from_db()
+        self.assertEqual(self.billing.libre_cleanup_warned_at, warned_at)
+        component = Component.objects.get(pk=component.pk)
+        with self.captureOnCommitCallbacks(execute=True):
+            component.delete_alert("RepositoryChanges")
+            self.refresh_from_db()
+            self.assertEqual(self.billing.libre_cleanup_warned_at, warned_at)
+        self.refresh_from_db()
+        self.assertIsNone(self.billing.libre_cleanup_warned_at)
+        refresh_libre_warning(self.billing.pk, connection.alias)
+        self.assertEqual(
+            self.billing.billinglog_set.get(
+                event=BillingEvent.LIBRE_CLEANUP_CANCELED
+            ).user,
+            InternalBot.ALERTS.get_user(),
+        )
+        for url in urls:
+            self.assertNotContains(self.client.get(url), "Resolve the issues below")
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_libre_warning_refresh_only_for_affected_billings(self) -> None:
+        self.use_libre_plan()
+        component = self.add_component(self.add_project(), "first")
+        component.add_alert("MissingLicense")
+        with (
+            patch("weblate.billing.models.refresh_libre_warning") as refresh,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            component.delete_alert("MissingLicense")
+        refresh.assert_not_called()
+
+        old = timezone.now() - timedelta(days=91)
+        for name in ("MissingLicense", "RepositoryChanges"):
+            self.set_alert_timestamp(component, name, old)
+        libre_cleanup_check()
+        component.add_alert("MissingTranslationInstructions")
+        with (
+            patch("weblate.billing.models.refresh_libre_warning") as refresh,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            component.delete_alert("MissingTranslationInstructions")
+        refresh.assert_not_called()
+
+        with (
+            patch(
+                "weblate.billing.models.refresh_libre_warning",
+                wraps=refresh_libre_warning,
+            ) as refresh,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            component.alert_set.filter(
+                name__in=["MissingLicense", "RepositoryChanges"]
+            ).delete()
+        refresh.assert_called_once_with(self.billing.pk, connection.alias)
+        self.refresh_from_db()
+        self.assertIsNone(self.billing.libre_cleanup_warned_at)
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_libre_warning_refresh_on_project_removal(self) -> None:
+        self.use_libre_plan()
+        project = self.add_project()
+        for revision in ("first", "second"):
+            component = self.add_component(project, revision)
+            self.set_alert_timestamp(
+                component, "MissingLicense", timezone.now() - timedelta(days=91)
+            )
+        libre_cleanup_check()
+        with (
+            patch(
+                "weblate.billing.models.refresh_libre_warning",
+                wraps=refresh_libre_warning,
+            ) as refresh,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            project_removal.run(project.pk, self.user.pk, backup=False)
+        refresh.assert_called_once_with(self.billing.pk, connection.alias)
+        self.refresh_from_db()
+        self.assertIsNone(self.billing.libre_cleanup_warned_at)
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_libre_warning_refresh_on_component_move(self) -> None:
+        self.use_libre_plan()
+        project = self.add_project()
+        component = self.add_component(project, "first")
+        destination = Project.objects.create(name="Destination", slug="destination")
+        other = Billing.objects.create(plan=self.plan)
+        other.add_project(destination)
+        other.libre_cleanup_empty_since = timezone.now() - timedelta(days=91)
+        other.save(update_fields=["libre_cleanup_empty_since"], skip_limits=True)
+        self.set_alert_timestamp(
+            component, "MissingLicense", timezone.now() - timedelta(days=91)
+        )
+        libre_cleanup_check()
+        for billing in (self.billing, other):
+            billing.refresh_from_db()
+            self.assertIsNotNone(billing.libre_cleanup_warned_at)
+        component = Component.objects.get(pk=component.pk)
+        component.project = destination
+        with (
+            acting_user_context(self.user),
+            patch.object(Component, "after_save"),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            component.save(update_fields=["project"])
+        for billing in (self.billing, other):
+            billing.refresh_from_db()
+            self.assertIsNone(billing.libre_cleanup_warned_at)
+        self.assertIsNone(other.libre_cleanup_empty_since)
 
     @override_settings(OFFER_HOSTING=True)
     def test_libre_cleanup_billing_scope(self) -> None:

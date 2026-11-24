@@ -21,12 +21,14 @@ from django.http import (
 )
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
+from weblate.accounts.utils import require_sensitive_verification
 from weblate.machinery.admission import complete_provider_call, machinery_slot
 from weblate.machinery.base import (
     MachineTranslationError,
@@ -584,6 +586,7 @@ class EditMachineryView(MachineryDetailView, FormView):
             )
         return reverse("manage-machinery")
 
+    @method_decorator(require_sensitive_verification)
     def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         if "delete" in request.POST:
             success_url = (
@@ -641,6 +644,7 @@ class EditMachineryView(MachineryDetailView, FormView):
     def exclude_engine(self) -> None:
         raise PermissionDenied
 
+    @method_decorator(require_sensitive_verification)
     def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         if not self.machinery.is_available and not self.installation:
             msg = "Invalid service specified"

@@ -2,6 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from concurrent.futures import ThreadPoolExecutor
+from operator import is_
+from threading import Barrier
 from unittest.mock import patch
 
 from django.test import SimpleTestCase, TestCase
@@ -43,28 +46,10 @@ class MarkdownTestCase(SimpleTestCase):
             render_markdown('[link](<https://e.com/" onclick="alert(1)>)'),
         )
 
-    def test_js(self) -> None:
+    def test_raw_html_is_displayed_as_text(self) -> None:
         self.assertEqual(
-            "<p>link</p>\n", render_markdown('<a href="javascript:alert()">link</a>')
-        )
-        self.assertEqual(
-            "<p>link</p>\n",
-            render_markdown(
-                '<a href="javascript:alert()"><a href="javascript:alert()">link</a>'
-            ),
-        )
-        self.assertEqual(
-            "<p>link</p>\n",
-            render_markdown(
-                '<a href="javascript:alert()"><a href="javascript:alert()">link</a></a>'
-            ),
-        )
-        self.assertEqual(
-            "<p>link</p>\n",
-            render_markdown('<div><a href="javascript:alert()">link</a></div>'),
-        )
-        self.assertEqual(
-            "<p>before link after</p>\n",
+            "<p>&lt;div&gt;before &lt;a href=&quot;javascript:alert()&quot;&gt;"
+            "link&lt;/a&gt; after&lt;/div&gt;</p>\n",
             render_markdown(
                 '<div>before <a href="javascript:alert()">link</a> after</div>'
             ),
@@ -78,7 +63,7 @@ class MarkdownTestCase(SimpleTestCase):
     def test_parser_failure_fallback(self) -> None:
         with (
             patch(
-                "weblate.utils.markdown.mistletoe.Document",
+                "weblate.utils.markdown.MarkdownIt.render",
                 side_effect=IndexError("string index out of range"),
             ),
             patch("weblate.utils.markdown.report_error") as report_error,
@@ -102,7 +87,7 @@ class MarkdownTestCase(SimpleTestCase):
             "<p>&lt;invalid.link&gt;</p>\n", render_markdown("<invalid.link>")
         )
         self.assertEqual(
-            "<p>&lt;ftp://invalid.link&gt;</p>\n",
+            "<p>ftp://invalid.link</p>\n",
             render_markdown("<ftp://invalid.link>"),
         )
         self.assertEqual(
@@ -117,10 +102,10 @@ class MarkdownTestCase(SimpleTestCase):
             render_markdown("<mailto:valid@email.com>"),
         )
         self.assertEqual(
-            "<p>&lt;email@incomplete&gt;</p>\n", render_markdown("<email@incomplete>")
+            "<p>email@incomplete</p>\n", render_markdown("<email@incomplete>")
         )
         self.assertEqual(
-            "<p>&lt;mailto:email@incomplete&gt;</p>\n",
+            "<p>mailto:email@incomplete</p>\n",
             render_markdown("<mailto:email@incomplete>"),
         )
         self.assertHTMLEqual(
@@ -131,34 +116,27 @@ class MarkdownTestCase(SimpleTestCase):
         )
 
     def test_image(self) -> None:
+        self.assertEqual("<p>title</p>\n", render_markdown("![title](invalid.link)"))
         self.assertEqual(
-            "<p>![](invalid.link)</p>\n", render_markdown("![title](invalid.link)")
-        )
-        self.assertEqual(
-            '<p><img src="http://valid.link" alt="title" /></p>\n',
+            '<p><img src="http://valid.link" alt="title"></p>\n',
             render_markdown("![title](http://valid.link)"),
         )
         self.assertEqual(
-            '<p><img src="http://valid.link/empty-title" alt="" /></p>\n',
+            '<p><img src="http://valid.link/empty-title" alt=""></p>\n',
             render_markdown("![](http://valid.link/empty-title)"),
         )
         self.assertEqual(
-            '<p><img src="https://valid.link" alt="title" /></p>\n',
+            '<p><img src="https://valid.link" alt="title"></p>\n',
             render_markdown("![title](https://valid.link)"),
         )
         self.assertEqual(
-            '<p><img src="https://e.com/%22%20onerror=%22alert(1)" '
-            'alt="title" /></p>\n',
+            '<p><img src="https://e.com/%22%20onerror=%22alert(1)" alt="title"></p>\n',
             render_markdown('![title](<https://e.com/" onerror="alert(1)>)'),
         )
         self.assertEqual(
             '<p><img src="https://valid.link" alt="ti &quot;tle" '
-            'title="quot&quot;ed" /></p>\n',
+            'title="quot&quot;ed"></p>\n',
             render_markdown("![ti \"tle](https://valid.link 'quot\"ed')"),
-        )
-        self.assertEqual(
-            "<p>![](ftp://invalid.link)</p>\n",
-            render_markdown("![title](ftp://invalid.link)"),
         )
 
     def test_plain_link(self) -> None:
@@ -192,6 +170,88 @@ class MarkdownTestCase(SimpleTestCase):
             '<p>See <a rel="ugc" target="_blank" href="https://en.wikipedia.org/wiki/Celery_(software)">https://en.wikipedia.org/wiki/Celery_(software)</a>.</p>\n',
             render_markdown("See https://en.wikipedia.org/wiki/Celery_(software)."),
         )
+
+    def test_plain_link_inside_code_and_link_label(self) -> None:
+        self.assertHTMLEqual(
+            "<p><code>https://example.com/</code> "
+            '<a rel="ugc" target="_blank" href="https://weblate.org/">'
+            "https://example.com/</a></p>",
+            render_markdown(
+                "`https://example.com/` [https://example.com/](https://weblate.org/)"
+            ),
+        )
+
+    def test_plain_link_requires_http_scheme(self) -> None:
+        text = (
+            "example.com 192.0.2.1 user@example.com ftp://example.com/ "
+            "//example.com/ mailto:user@example.com"
+        )
+        self.assertEqual(f"<p>{text}</p>\n", render_markdown(text))
+
+    def test_raw_html_around_markdown_and_inside_code(self) -> None:
+        self.assertHTMLEqual(
+            "<p>&lt;span&gt;<strong>bold</strong>&lt;/span&gt; "
+            "<code>&lt;span&gt;</code></p>",
+            render_markdown("<span>**bold**</span> `<span>`"),
+        )
+
+    def test_rejected_destinations(self) -> None:
+        for text, label in (
+            ("[link](//example.com/)", "link"),
+            ("[link](/other/)", "link"),
+            ("[link](mailto:valid@example.com)", "link"),
+            ('[**Read** `<guide>`](ftp://example.com/ "Title")', "Read &lt;guide&gt;"),
+            ('![**Alt** `<text>`](ftp://example.com/ "Title")', "Alt &lt;text&gt;"),
+            ("![image](mailto:valid@example.com)", "image"),
+            ("![image](data:image/png;base64,AA==)", "image"),
+            ('![](ftp://example.com/ "Title")', ""),
+        ):
+            with self.subTest(text=text):
+                self.assertEqual(f"<p>{label}</p>\n", render_markdown(text))
+
+    def test_table_alignment(self) -> None:
+        self.assertHTMLEqual(
+            '<table><thead><tr><th align="left">A</th><th align="right">B</th>'
+            '</tr></thead><tbody><tr><td align="left"><s>C</s></td>'
+            '<td align="right">D</td></tr></tbody></table>',
+            render_markdown("| A | B |\n| --- | ---: |\n| ~~C~~ | D |"),
+        )
+
+    def test_concurrent_rendering(self) -> None:
+        mentioned = User(username="testuser", full_name='Full "Name"')
+        other_viewer = User(username="other")
+        workers = Barrier(4)
+
+        def render(index: int) -> str:
+            if index < workers.parties:
+                workers.wait(timeout=10)
+            return render_markdown(
+                f"@testuser مرحبا [site][ref]\n\n[ref]: https://example.com/{index}",
+                viewer=mentioned if index % 2 else other_viewer,
+            )
+
+        with (
+            patch("weblate.utils.markdown.get_mention_users", return_value=[mentioned]),
+            patch(
+                "weblate.utils.markdown.can_view_profile",
+                side_effect=is_,
+            ),
+            ThreadPoolExecutor(max_workers=workers.parties) as pool,
+        ):
+            results = list(pool.map(render, range(16)))
+
+        for index, rendered in enumerate(results):
+            self.assertIn(f'href="https://example.com/{index}"', rendered)
+            if index % 2:
+                self.assertIn(
+                    '<strong><bdi><a rel="ugc" target="_blank" '
+                    'href="/user/testuser/" title="Full &quot;Name&quot;">'
+                    "@testuser</a></bdi></strong>",
+                    rendered,
+                )
+            else:
+                self.assertIn("<bdi><strong>@testuser</strong></bdi>", rendered)
+                self.assertNotIn("/user/testuser/", rendered)
 
 
 class MarkdownMentionTestCase(TestCase):

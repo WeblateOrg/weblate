@@ -10,8 +10,10 @@ import os
 import pathlib
 import shutil
 from concurrent.futures import ThreadPoolExecutor
+from queue import Empty, Queue
 from tempfile import TemporaryDirectory
 from threading import Event
+from time import monotonic, sleep
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
 from unittest.mock import Mock, call, patch
@@ -21,7 +23,7 @@ from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
-from django.db import close_old_connections, connection
+from django.db import close_old_connections, connection, transaction
 from django.db.models import F
 from django.template import TemplateSyntaxError
 from django.test import SimpleTestCase, TransactionTestCase
@@ -1839,6 +1841,122 @@ class ComponentResetTransactionTest(RepoTestMixin, TransactionTestCase):
         self.assertNotIn("disk_state", unit.details)
 
 
+class ComponentHistoryMoveTest(RepoTestMixin, TransactionTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.clone_test_repos()
+        self.component = self.create_component()
+        self.destination = self.create_project(name="Destination", slug="destination")
+
+    def test_move_and_stale_history_writes(self) -> None:
+        actor = get_test_actor(self)
+        original = self.component.project
+        self.component.category = self.create_category(original)
+        with self.fixture_actor_context():
+            self.component.save(update_fields=["category"])
+        destination_category = self.create_category(self.destination)
+        stale = Component.objects.select_related("project", "category").get(
+            pk=self.component.pk
+        )
+        earlier = stale.change_set.create(action=ActionEvents.LOCK, user=actor)
+        writer_pid: Queue[int] = Queue()
+
+        def write_history() -> int:
+            try:
+                pending = Change(component=stale, action=ActionEvents.LOCK, user=actor)
+                with connection.cursor() as cursor:
+                    cursor.execute("SELECT pg_backend_pid()")
+                    writer_pid.put(cursor.fetchone()[0])
+                pending.save()
+                return pending.pk
+            finally:
+                connection.close()
+
+        with ThreadPoolExecutor(max_workers=1) as executor:
+            with transaction.atomic(), acting_user_context(actor):
+                self.component.project = self.destination
+                self.component.category = destination_category
+                self.component.save(update_fields=["project", "category"])
+                future = executor.submit(write_history)
+                try:
+                    pid = writer_pid.get(timeout=5)
+                except Empty:
+                    if future.done():
+                        future.result()
+                    self.fail("The history writer did not publish its backend PID")
+                deadline = monotonic() + 5
+                with connection.cursor() as cursor:
+                    while monotonic() < deadline:
+                        if future.done():
+                            future.result()
+                            self.fail(
+                                "The history writer finished before the move committed"
+                            )
+                        cursor.execute(
+                            "SELECT pg_backend_pid() = ANY(pg_blocking_pids(%s))", [pid]
+                        )
+                        if cursor.fetchone()[0]:
+                            break
+                        sleep(0.01)
+                    else:
+                        self.fail("The history writer did not wait for the move")
+            concurrent_id = future.result(timeout=10)
+        bulk = Change(component=stale, action=ActionEvents.LOCK, user=actor)
+        Change.objects.bulk_create([bulk])
+        original.delete()
+        self.assertCountEqual(
+            self.destination.change_set.filter(
+                pk__in=[earlier.pk, concurrent_id, bulk.pk],
+                category=destination_category,
+            ).values_list("pk", flat=True),
+            [earlier.pk, concurrent_id, bulk.pk],
+        )
+
+    def test_history_after_category_move_within_project(self) -> None:
+        actor = get_test_actor(self)
+        category = self.create_category(self.component.project)
+        for destination in (category, None):
+            with self.subTest(destination=destination), acting_user_context(actor):
+                stale = Component.objects.select_related("project", "category").get(
+                    pk=self.component.pk
+                )
+                self.component.category = destination
+                self.component.save(update_fields=["category"])
+                move = self.component.change_set.get(
+                    action=ActionEvents.MOVE_COMPONENT,
+                    old=stale.category.slug if stale.category else "",
+                    target=destination.slug if destination else "",
+                )
+                single = stale.change_set.create(action=ActionEvents.LOCK, user=actor)
+                bulk = Change(component=stale, action=ActionEvents.LOCK, user=actor)
+                Change.objects.bulk_create([bulk])
+                self.assertCountEqual(
+                    self.component.change_set.filter(
+                        pk__in=[move.pk, single.pk, bulk.pk], category=destination
+                    ).values_list("pk", flat=True),
+                    [move.pk, single.pk, bulk.pk],
+                )
+
+    def test_failed_move_rolls_back_history(self) -> None:
+        original_id = self.component.project_id
+        change = self.component.change_set.create(
+            action=ActionEvents.LOCK, user=get_test_actor(self)
+        )
+        self.component.project = self.destination
+        with (
+            self.fixture_actor_context(),
+            patch.object(
+                Component, "check_rename", side_effect=RuntimeError("rename failed")
+            ),
+            self.assertRaisesMessage(RuntimeError, "rename failed"),
+        ):
+            self.component.save(update_fields=["project"])
+        self.component.refresh_from_db()
+        change.refresh_from_db()
+        self.assertEqual(self.component.project_id, original_id)
+        self.assertEqual(change.project_id, original_id)
+
+
 class ComponentAlertConcurrencyTest(RepoTestMixin, TransactionTestCase):
     def setUp(self) -> None:
         self.clone_test_repos()
@@ -2283,7 +2401,9 @@ class ComponentValidationTest(RepoTestCase):
             path, branch=GitRepository.default_branch, local=True
         )
         with repository.lock:
-            repository.set_committer("Test", "test@example.net")
+            repository.config_update(
+                ("user", "name", "Test"), ("user", "email", "test@example.net")
+            )
             pathlib.Path(path, "README.md").write_text("Unrelated\n", encoding="utf-8")
             repository.commit(
                 "Initial commit",
@@ -2629,7 +2749,6 @@ class ComponentPushOnUpdateTest(RepoTestCase):
                     "Upstream\n", encoding="utf-8"
                 )
             with repository.lock:
-                repository.set_committer("Test", "test@example.com")
                 repository.commit(
                     "Upstream", "Test <test@example.com>", timezone.now(), [filename]
                 )

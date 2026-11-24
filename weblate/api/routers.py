@@ -2,10 +2,48 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from drf_spectacular.utils import OpenApiExample, extend_schema, extend_schema_view
 from rest_framework import routers
+
+from weblate.api.generators import WeblateAutoSchema
+
+
+@extend_schema_view(
+    get=extend_schema(
+        operation_id="api_root",
+        tags=["api"],
+        summary="Discover API resource URLs",
+        description=(
+            "Return a map of resource names to their list URLs. The keys depend "
+            "on which resources provide list endpoints."
+        ),
+        responses={
+            "200": {
+                "type": "object",
+                "additionalProperties": {"type": "string", "format": "uri"},
+            }
+        },
+        examples=[
+            OpenApiExample(
+                "Resource links",
+                value={
+                    "projects": "https://example.com/api/projects/",
+                    "components": "https://example.com/api/components/",
+                    "translations": "https://example.com/api/translations/",
+                    "languages": "https://example.com/api/languages/",
+                },
+                response_only=True,
+            )
+        ],
+    )
+)
+class WeblateAPIRootView(routers.APIRootView):
+    schema = WeblateAutoSchema()
 
 
 class WeblateRouter(routers.DefaultRouter):
+    APIRootView = WeblateAPIRootView
+
     def get_lookup_regex(self, viewset, lookup_prefix=""):
         """
         Get lookup regex for a viewset.

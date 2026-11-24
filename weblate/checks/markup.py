@@ -1169,9 +1169,12 @@ class RSTSyntaxCheck(PluralResultDescriptionMixin, RSTBaseCheck):
     def check_single(
         self, source: str, target: str, unit: Unit
     ) -> bool | MissingExtraDict:
-        _errors, source_roles = validate_rst_snippet(source)
+        source_errors, source_roles = validate_rst_snippet(source)
         rst_errors, _target_roles = validate_rst_snippet(target, source_roles)
-        errors = list(rst_errors)
+        # Errors already present in the source come from the surrounding
+        # document, for example a literal block marker whose block was not
+        # extracted together with the paragraph
+        errors = list((Counter(rst_errors) - Counter(source_errors)).elements())
 
         errors.extend(
             (

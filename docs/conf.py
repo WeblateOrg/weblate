@@ -334,6 +334,7 @@ nitpick_ignore = [
     ("py:class", "collections.abc.Iterator"),
     ("py:class", "collections.abc.Mapping"),
     ("py:class", "requests.models.Response"),
+    ("py:class", "requests.Response"),
     ("py:class", "wlc.base.LazyObject"),
 ]
 
@@ -426,6 +427,7 @@ autodoc_mock_imports = [
     "django_redis",
     "lxml",
     "translate",
+    "requests",
     "siphashc",
     "git",
     "PIL",

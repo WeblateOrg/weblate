@@ -22,9 +22,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-11-19 18:05-0600\n"
-"PO-Revision-Date: 2026-11-13 08:10+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github-"
-"integration@weblate.org>\n"
+"PO-Revision-Date: 2026-11-23 16:20+0000\n"
+"Last-Translator: Arif Budiman <arifpedia@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
 "Language: id\n"
@@ -615,15 +614,13 @@ msgstr "Pengguna ditambahkan ke {team} oleh {username}."
 msgid "User access to the {team} team was changed by {username}."
 msgstr "Akses pengguna ke tim {team} telah diubah oleh {username}."
 
-#, fuzzy, python-brace-format
-#| msgid "User access to the {team} team was changed by {username}."
+#, python-brace-format
 msgid "Team administrator access to {team} was granted by {username}."
-msgstr "Akses pengguna ke tim {team} telah diubah oleh {username}."
+msgstr "Akses administrator tim ke {team} diberikan oleh {username}."
 
-#, fuzzy, python-brace-format
-#| msgid "User access to the {team} team was changed by {username}."
+#, python-brace-format
 msgid "Team administrator access to {team} was removed by {username}."
-msgstr "Akses pengguna ke tim {team} telah diubah oleh {username}."
+msgstr "Akses administrator tim ke {team} dicabut oleh {username}."
 
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
@@ -741,43 +738,29 @@ msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr "Perangkat iOS"
 
-#, fuzzy
-#| msgid "site-wide"
 msgid "Site-wide"
-msgstr "seluruh situs"
+msgstr "Seluruh situs"
 
 msgid "Workspace"
 msgstr "Ruang kerja"
 
-#, fuzzy
-#| msgid "Backup created"
 msgid "Team created"
-msgstr "Cadangan dibuat"
+msgstr "Tim dibuat"
 
-#, fuzzy
-#| msgid "Last change"
 msgid "Team changed"
-msgstr "Perubahan terakhir"
+msgstr "Tim diubah"
 
-#, fuzzy
-#| msgid "Font deleted."
 msgid "Team deleted"
-msgstr "Huruf dihapus."
+msgstr "Tim dihapus"
 
-#, fuzzy
-#| msgid "Label added"
 msgid "Team member added"
-msgstr "Label ditambahkan"
+msgstr "Anggota tim ditambahkan"
 
-#, fuzzy
-#| msgid "Label removed"
 msgid "Team member removed"
-msgstr "Label dihapus"
+msgstr "Anggota tim dihapus"
 
-#, fuzzy
-#| msgid "User access changed"
 msgid "Team member access changed"
-msgstr "Akses pengguna diubah"
+msgstr "Akses anggota tim diubah"
 
 msgid "Account activity"
 msgstr "Aktivitas akun"
@@ -1371,22 +1354,22 @@ msgstr ""
 "Undangan ini hanya dapat diterima oleh alamat surel yang dipilih oleh pihak "
 "yang mengundang; undangan ini tidak dapat digunakan oleh akun Anda."
 
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Your e-mail no longer belongs to verified account, it has been changed to "
-#| "{0}."
+#, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to a verified account, it has been changed to "
 "{0}."
 msgstr ""
-"Surel Anda tidak lagi milik akun terverifikasi, akun Anda telah diubah "
-"menjadi {0}."
+"Surel Anda tidak lagi terkait dengan akun terverifikasi; surel tersebut "
+"telah diubah menjadi {0}."
 
 msgid ""
 "Your account e-mail is no longer verified and has been removed. Add and "
 "verify an e-mail address to recover your password, then select it as your "
 "account e-mail in Account settings to receive notifications."
 msgstr ""
+"Surel akun Anda tidak lagi terverifikasi dan telah dihapus. Tambahkan dan "
+"verifikasi alamat surel untuk memulihkan kata sandi Anda, lalu pilih sebagai "
+"surel akun Anda di Pengaturan akun untuk menerima pemberitahuan."
 
 msgid ""
 "Your e-mail address has been added. You can now select it as your account e-"
@@ -2752,25 +2735,23 @@ msgstr ""
 "Tempelkan hanya blok sertifikat PEM yang diawali dengan \"-----BEGIN "
 "CERTIFICATE-----\"; jangan tempelkan keluaran dari \"openssl x509 -text\"."
 
-#, fuzzy
-#| msgid "Connection attempts"
 msgid "Connection timeout"
-msgstr "Upaya koneksi"
+msgstr "Waktu tunggu koneksi habis"
 
-#, fuzzy
-#| msgid "How many seconds to wait between connection attempts."
 msgid "How many seconds to allow for connection and channel setup per attempt."
-msgstr "Jumlah detik untuk menunggu di antara percobaan koneksi."
+msgstr ""
+"Berapa detik waktu yang diberikan untuk koneksi dan penyiapan kanal pada "
+"setiap percobaan."
 
 msgid "Publish timeout"
 msgstr "Batas waktu publikasi"
 
-#, fuzzy
-#| msgid "How many seconds to wait for the broker delivery acknowledgement."
 msgid ""
 "How many seconds to allow for sending and the broker delivery "
 "acknowledgement per attempt, after connection setup."
-msgstr "Jumlah detik untuk menunggu pengakuan pengiriman dari broker."
+msgstr ""
+"Berapa detik waktu yang diberikan untuk pengiriman dan konfirmasi pengiriman "
+"broker pada setiap percobaan, setelah koneksi disiapkan."
 
 msgid "Connection attempts"
 msgstr "Upaya koneksi"
@@ -2990,15 +2971,11 @@ msgstr "Add-on API harus dipasang langsung pada sebuah komponen."
 msgid "This add-on is already installed on this component."
 msgstr "Add-on ini sudah dipasang pada komponen ini."
 
-#, fuzzy
-#| msgid ""
-#| "Repository operations require permission on the component that owns the "
-#| "shared repository."
 msgid ""
 "Repository add-ons must be installed on the component owning the repository."
 msgstr ""
-"Operasi repositori memerlukan izin pada komponen yang memiliki repositori "
-"bersama."
+"Add-on repositori harus dipasang pada komponen yang memiliki repositori "
+"tersebut."
 
 msgid "This add-on cannot be triggered manually."
 msgstr "Add-on ini tidak dapat dipicu secara manual."
@@ -3060,10 +3037,8 @@ msgctxt "Add-on scope"
 msgid "Site"
 msgstr "Situs"
 
-#, fuzzy
-#| msgid "This component does not exist or you cannot access it."
 msgid "a component you cannot access"
-msgstr "Komponen ini tidak ada atau Anda tidak dapat mengaksesnya."
+msgstr "komponen yang tidak dapat Anda akses"
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -3963,19 +3938,19 @@ msgid ""
 "Remove the component from project teams before moving it to another project."
 msgstr "Hapus komponen dari tim proyek sebelum memindahkannya ke proyek lain."
 
-#, fuzzy
-#| msgid ""
-#| "Remove the component from project teams before moving it to another "
-#| "project."
 msgid ""
 "Remove the component from its teams before deleting it. Deleting the last "
 "assigned component would expand the team's access."
-msgstr "Hapus komponen dari tim proyek sebelum memindahkannya ke proyek lain."
+msgstr ""
+"Hapus komponen dari tim-timnya sebelum menghapusnya. Menghapus komponen "
+"terakhir yang ditetapkan akan memperluas akses tim."
 
 msgid ""
 "Remove the component list from its teams before deleting it. Deleting the "
 "last assigned component list could expand a team's access."
 msgstr ""
+"Hapus daftar komponen dari tim-timnya sebelum menghapusnya. Menghapus daftar "
+"komponen terakhir yang ditetapkan dapat memperluas akses tim."
 
 msgid "Roles"
 msgstr "Peran"
@@ -4268,10 +4243,8 @@ msgstr ""
 "Saran dinonaktifkan untuk bahasa ini. Minta administrator proyek untuk "
 "mengaktifkannya."
 
-#, fuzzy
-#| msgid "You do not have permission to approve translations."
 msgid "You need to log in to upload translations."
-msgstr "Anda tidak memiliki izin untuk menyetujui terjemahan."
+msgstr "Anda perlu masuk untuk mengunggah terjemahan."
 
 msgid "The file format does not support updating source strings."
 msgstr "Format berkas tidak mendukung pembaruan string sumber."
@@ -4313,15 +4286,11 @@ msgstr "Pengguna tidak aktif tidak dapat ditetapkan ke tim."
 msgid "Project tokens can not be assigned to teams here."
 msgstr "Token proyek tidak dapat ditetapkan ke tim di sini."
 
-#, fuzzy
-#| msgid "View audit log"
 msgid "Team audit log"
-msgstr "Lihat catatan audit"
+msgstr "Log audit tim"
 
-#, fuzzy
-#| msgid "Team administrator"
 msgid "Team audit entry"
-msgstr "Administrator tim"
+msgstr "Entri audit tim"
 
 msgid "Cannot remove built-in team!"
 msgstr "Tidak dapat menghapus tim bawaan!"
@@ -4689,10 +4658,8 @@ msgid "Contains %d component"
 msgid_plural "Contains %d components"
 msgstr[0] "Berisi %d komponen"
 
-#, fuzzy
-#| msgid "Only suggestions are allowed in this translation!"
 msgid "Restricted components are not allowed by this billing plan."
-msgstr "Hanya yang disarankan yang diperbolehkan dalam penerjemahan ini!"
+msgstr "Komponen terbatas tidak diizinkan oleh paket penagihan ini."
 
 msgid "Missing license"
 msgstr "Lisensi hilang"
@@ -4706,10 +4673,8 @@ msgstr "Penagihan"
 msgid "Billing event"
 msgstr "Peristiwa tagihan"
 
-#, fuzzy
-#| msgid "Projects without components"
 msgid "Project has no components."
-msgstr "Proyek tanpa komponen"
+msgstr "Proyek tidak memiliki komponen."
 
 msgid "monthly"
 msgstr "bulanan"
@@ -4759,10 +4724,8 @@ msgid "To terminate billing you have to remove all projects first."
 msgstr ""
 "Untuk mengakhiri penagihan Anda harus menghapus semua proyek terlebih dahulu."
 
-#, fuzzy
-#| msgid "A workspace associated with billing cannot be removed."
 msgid "Externally managed billings cannot be merged."
-msgstr "Ruang kerja yang terkait dengan penagihan tidak dapat dihapus."
+msgstr "Penagihan yang dikelola secara eksternal tidak dapat digabungkan."
 
 msgid "Cannot merge such a billing."
 msgstr "Tidak dapat menggabungkan tagihan tersebut."
@@ -5471,10 +5434,8 @@ msgstr "Nilai Fluent tidak dapat diperiksa karena terlalu kompleks."
 msgid "the value is too complex or nested too deeply"
 msgstr "nilainya terlalu kompleks atau bersarang terlalu dalam"
 
-#, fuzzy
-#| msgid "Your billing plan has exceeded its limits."
 msgid "Format matching exceeded its time limit."
-msgstr "Paket langganan Anda telah melebihi batasnya."
+msgstr "Pencocokan format melebihi batas waktunya."
 
 msgid "The following format strings are in the wrong order:"
 msgstr "String format berikut dalam urutan yang salah:"
@@ -5729,7 +5690,7 @@ msgid "Markdown syntax does not match source."
 msgstr "Sintaks Markdown tidak cocok dengan sumber."
 
 msgid "Markdown syntax matching exceeded its time limit."
-msgstr ""
+msgstr "Pencocokan sintaks Markdown melebihi batas waktunya."
 
 msgid "The translation does not contain a URL."
 msgstr "Terjemahan tidak berisi URL."
@@ -5892,6 +5853,8 @@ msgid ""
 "Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
 "px fonts, and 2,048 px preview dimensions."
 msgstr ""
+"Batas rendering font terlampaui: gunakan paling banyak 16.000 karakter, 64 "
+"baris, font 256 piksel, dan dimensi pratinjau 2.048 piksel."
 
 msgid "Font style"
 msgstr "Gaya huruf"
@@ -6051,24 +6014,25 @@ msgstr "String iOS"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "Could not open the workbook archive."
-msgstr "Tidak dapat memperbarui repositori."
+msgstr "Tidak dapat membuka arsip buku kerja."
 
 #, python-format
 msgid ""
 "Workbook exceeds the maximum allowed count of %d worksheet rows after the "
 "header."
 msgstr ""
+"Buku kerja melebihi jumlah maksimum %d baris lembar kerja yang diizinkan "
+"setelah tajuk."
 
 #, python-format
 msgid "Translation file exceeds the maximum allowed size of %d bytes."
 msgstr ""
+"Berkas terjemahan melebihi ukuran maksimum yang diizinkan, yaitu %d byte."
 
 #, python-format
 msgid "Translation file exceeds the maximum allowed count of %d strings."
-msgstr ""
+msgstr "Berkas terjemahan melebihi jumlah maksimum %d string yang diizinkan."
 
 msgid "Multivalue CSV file"
 msgstr "Berkas CSV multinilai"
@@ -6112,7 +6076,7 @@ msgstr "Metadata bentuk jamak dalam berkas CSV memerlukan id_hash."
 
 #, python-format
 msgid "CSV file exceeds the maximum allowed count of %d data rows."
-msgstr ""
+msgstr "Berkas CSV melebihi jumlah maksimum %d baris data yang diizinkan."
 
 #. Translators: File format name
 msgid "gettext PO file"
@@ -6340,9 +6304,12 @@ msgstr "Validasi berkas diperlukan untuk format berbasis direktori."
 #, python-format
 msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
 msgstr ""
+"Arsip buku kerja melebihi ukuran maksimum yang diizinkan setelah "
+"diekstraksi, yaitu %d byte."
 
 msgid "Converted workbook content exceeds the configured size limit."
 msgstr ""
+"Konten buku kerja yang dikonversi melebihi batas ukuran yang dikonfigurasi."
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -7492,15 +7459,11 @@ msgstr "Bahasa kedua yang didefinisikan di proyek atau komponen"
 msgid "Rate limit reset."
 msgstr "Batas laju telah diatur ulang."
 
-#, fuzzy
-#| msgid "The translation request timed out"
 msgid "Too many translation requests."
-msgstr "Permintaan penerjemahan batas waktu habis"
+msgstr "Terlalu banyak permintaan terjemahan."
 
-#, fuzzy
-#| msgid "Too many authentication attempts from this location."
 msgid "Too many concurrent translation requests for this service."
-msgstr "Terlalu banyak usaha autentikasi dari lokasi ini."
+msgstr "Terlalu banyak permintaan terjemahan serentak untuk layanan ini."
 
 msgid "File"
 msgstr "Berkas"
@@ -7631,10 +7594,8 @@ msgstr ""
 "Entri memori terjemahan yang dibuat dari terjemahan saat ini telah dihapus "
 "dan akan dibangun ulang di latar belakang."
 
-#, fuzzy
-#| msgid "Too many bulk edits, please try again later."
 msgid "Too many uploads, please try again later."
-msgstr "Terlalu banyak pengeditan massal, silakan coba lagi nanti."
+msgstr "Terlalu banyak unggahan; silakan coba lagi nanti."
 
 #, python-format
 msgid "Processed %(count)d active translation memory entry."
@@ -7718,6 +7679,8 @@ msgid ""
 "When the linked file changes, Weblate can replace the screenshot with the "
 "repository image. Repository access is required to change this path."
 msgstr ""
+"Saat berkas tertaut berubah, Weblate dapat mengganti tangkapan layar dengan "
+"gambar dari repositori. Akses repositori diperlukan untuk mengubah jalur ini."
 
 msgid "Image is too big."
 msgstr "Gambar terlalu besar."
@@ -9434,28 +9397,14 @@ msgstr "Pengaya hanya dapat dipasang pada tingkat komponen."
 msgid "Install"
 msgstr "Pasang"
 
-#, fuzzy
-#| msgid "This add-on is used for all components sharing this repository."
 msgid "Install on the component owning the repository."
-msgstr ""
-"Pengaya ini digunakan untuk semua komponen yang berbagi repositori ini."
+msgstr "Pasang pada komponen yang memiliki repositori tersebut."
 
-#, fuzzy
-#| msgid ""
-#| "One component was not migrated because its repository is no longer "
-#| "available."
-#| msgid_plural ""
-#| "%(count)d components were not migrated because their repositories are no "
-#| "longer available."
 msgid "The component owning this repository is not available to you."
-msgstr ""
-"Sebanyak %(count)d komponen tidak dimigrasikan karena repositorinya tidak "
-"lagi tersedia."
+msgstr "Komponen yang memiliki repositori ini tidak tersedia bagi Anda."
 
-#, fuzzy
-#| msgid "Repository changes"
 msgid "Open repository add-ons"
-msgstr "Perubahan repositori"
+msgstr "Buka add-on repositori"
 
 msgid "Unavailable"
 msgstr "Tidak tersedia"
@@ -9891,17 +9840,13 @@ msgid "Cancel"
 msgstr "Batal"
 
 msgid "Actor"
-msgstr ""
+msgstr "Pelaku"
 
-#, fuzzy
-#| msgid "Delete entry"
 msgid "Deleted user"
-msgstr "Hapus entri"
+msgstr "Pengguna yang dihapus"
 
-#, fuzzy
-#| msgid "Administration"
 msgid "Administrative team changes"
-msgstr "Administrasi"
+msgstr "Perubahan tim administratif"
 
 msgid "Change"
 msgstr "Perubahan"
@@ -9909,10 +9854,8 @@ msgstr "Perubahan"
 msgid "View details"
 msgstr "Lihat rincian"
 
-#, fuzzy
-#| msgid "No audit log entries found."
 msgid "No team audit entries found."
-msgstr "Tidak ditemukan entri log audit."
+msgstr "Tidak ada entri audit tim yang ditemukan."
 
 msgid "Settings"
 msgstr "Pengaturan"
@@ -10176,11 +10119,15 @@ msgstr ""
 msgid ""
 "Resolve the issues below by %(date)s to keep Libre hosting for your project."
 msgstr ""
+"Selesaikan masalah di bawah ini sebelum %(date)s agar proyek Anda tetap "
+"mendapatkan hosting Libre."
 
 msgid ""
 "Weblate locks existing components for translation when it issues this "
 "warning. Project maintainers can unlock them."
 msgstr ""
+"Weblate mengunci komponen yang ada untuk terjemahan saat mengeluarkan "
+"peringatan ini. Pemelihara proyek dapat membukanya kembali."
 
 msgid "Customer"
 msgstr "Pelanggan"
@@ -11733,15 +11680,12 @@ msgstr ""
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr "Pembayaran berulang akan dinonaktifkan untuk proyek yang tidak aktif"
 
-#, fuzzy
-#| msgid "Does not meet Libre hosting conditions."
 msgid "Review Libre hosting conditions"
-msgstr "Tidak memenuhi ketentuan pengehosan Bebas."
+msgstr "Tinjau ketentuan hosting Libre"
 
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Libre hosting removal warning for %(project)s"
-msgstr "Jumlah entri untuk %(project)s"
+msgstr "Peringatan penghapusan hosting Libre untuk %(project)s"
 
 msgid "Translation change"
 msgstr "Perubahan terjemahan"
@@ -13673,10 +13617,8 @@ msgstr "Repositori kode sumber"
 msgid "Repository URL copied to clipboard."
 msgstr "URL repositori disalin ke papan klip."
 
-#, fuzzy
-#| msgid "Renamed component"
 msgid "Linked component"
-msgstr "Komponen yang diubah nama"
+msgstr "Komponen tertaut"
 
 msgid "Repository branch"
 msgstr "Cabang repositori"
@@ -13941,6 +13883,8 @@ msgid ""
 "Accepting this invitation will also make you a team administrator, allowing "
 "you to add or remove team members."
 msgstr ""
+"Menerima undangan ini juga akan menjadikan Anda administrator tim, sehingga "
+"Anda dapat menambahkan atau menghapus anggota tim."
 
 msgid ""
 "A restored project backup attributes earlier contributions to your username. "
@@ -13949,6 +13893,12 @@ msgid ""
 "contributions may use your configured commit name and e-mail address. "
 "Existing repository commits will remain unchanged."
 msgstr ""
+"Pemulihan cadangan proyek mengatribusikan kontribusi sebelumnya ke nama "
+"pengguna Anda. Menerima undangan ini akan mengklaim kepengarangan hasil "
+"impor tersebut, termasuk riwayat dan perubahan yang disebarkan ke proyek "
+"lain. Komit kontribusi ini di masa mendatang dapat menggunakan nama komit "
+"dan alamat surel yang Anda konfigurasikan. Komit repositori yang sudah ada "
+"akan tetap tidak berubah."
 
 #, python-format
 msgid ""
@@ -14109,10 +14059,8 @@ msgstr "Jamak: %(source_description)s"
 msgid "Plurals"
 msgstr "Jamak"
 
-#, fuzzy
-#| msgid "No strings found!"
 msgid "No integer examples found"
-msgstr "Tidak ada string yang ditemukan!"
+msgstr "Tidak ada contoh bilangan bulat yang ditemukan"
 
 msgid "First"
 msgstr "Awal"
@@ -15807,13 +15755,16 @@ msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr "Dibuat pada %(server)s (%(domain)s) oleh Weblate %(version)s"
 
 msgid "Public access on import"
-msgstr ""
+msgstr "Akses publik saat impor"
 
 msgid ""
 "If the selected workspace's billing plan requires public content, the "
 "project and the following restricted components will be publicly accessible "
 "after import:"
 msgstr ""
+"Jika paket penagihan ruang kerja yang dipilih mengharuskan konten bersifat "
+"publik, proyek dan komponen terbatas berikut akan dapat diakses publik "
+"setelah impor:"
 
 msgid "Token copied to clipboard."
 msgstr "Token disalin ke papan klip."
@@ -16105,14 +16056,13 @@ msgstr "Terakhir diperbarui"
 msgid "Source string age"
 msgstr "Usia string sumber"
 
-#, fuzzy, python-format
-#| msgid "%(filename)s, string %(position)s"
+#, python-format
 msgid "%(filename)s, line %(line)s"
-msgstr "%(filename)s, string %(position)s"
+msgstr "%(filename)s, baris %(line)s"
 
 #, python-format
 msgid "line %(line)s"
-msgstr ""
+msgstr "baris %(line)s"
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -17595,11 +17545,9 @@ msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "Terjemahan otomatis selesai, %d string telah diperbarui."
 
-#, fuzzy
-#| msgid "Automatic translation skipped because the target no longer exists."
 msgid ""
 "Automatic translation skipped strings that exceed the text length limit."
-msgstr "Terjemahan otomatis dilewati karena target tidak lagi ada."
+msgstr "Terjemahan otomatis melewati string yang melebihi batas panjang teks."
 
 #, python-format
 msgid ""
@@ -17681,10 +17629,9 @@ msgstr "Gambar tangkapan layar hilang."
 msgid "Revision must be a complete hexadecimal object ID."
 msgstr "Revisi harus berupa ID objek heksadesimal lengkap."
 
-#, fuzzy, python-format
-#| msgid "Could not validate push URL: %s"
+#, python-format
 msgid "Could not validate repository URL: %s"
-msgstr "Tidak dapat memvalidasi URL push: %s"
+msgstr "Tidak dapat memvalidasi URL repositori: %s"
 
 msgid "Duplicate check name."
 msgstr "Nama pemeriksaan duplikat."
@@ -17751,10 +17698,8 @@ msgid "Repository-linked components can not contain repository data."
 msgstr ""
 "Komponen yang terhubung ke repositori tidak dapat berisi data repositori."
 
-#, fuzzy
-#| msgid "Important dates"
 msgid "Imported authors"
-msgstr "Tanggal penting"
+msgstr "Penulis hasil impor"
 
 #, python-format
 msgid ""
@@ -17769,18 +17714,24 @@ msgid ""
 "Restricted component %(component)s was restored as public because the target "
 "workspace's billing plan requires public content."
 msgstr ""
+"Komponen terbatas %(component)s dipulihkan sebagai publik karena paket "
+"penagihan ruang kerja tujuan mengharuskan konten bersifat publik."
 
 #, python-format
 msgid ""
 "User %(username)s was skipped because no eligible local account matches the "
 "backup."
 msgstr ""
+"Pengguna %(username)s dilewati karena tidak ada akun lokal yang memenuhi "
+"syarat dan cocok dengan cadangan."
 
 #, python-format
 msgid ""
 "User %(username)s is awaiting invitation acceptance; imported authorship "
 "remains anonymous until accepted."
 msgstr ""
+"Pengguna %(username)s masih menunggu penerimaan undangan; kepengarangan "
+"hasil impor tetap anonim sampai diterima."
 
 #, python-format
 msgid ""
@@ -17819,12 +17770,15 @@ msgid ""
 msgid_plural ""
 "%d strings will be left unchanged because the edited text would be too long."
 msgstr[0] ""
+"%d string akan dibiarkan tidak berubah karena teks yang diedit terlalu "
+"panjang."
 
 #, python-format
 msgid "%d string was left unchanged because the edited text would be too long."
 msgid_plural ""
 "%d strings were left unchanged because the edited text would be too long."
 msgstr[0] ""
+"%d string dibiarkan tidak berubah karena teks yang diedit terlalu panjang."
 
 msgid "Invalid target state."
 msgstr "Status target tidak valid."
@@ -17944,10 +17898,8 @@ msgstr "Saran tertunda"
 msgid "Needs review"
 msgstr "Harus ditinjau"
 
-#, fuzzy
-#| msgid "The source and target have to be different languages."
 msgid "The source and destination checkouts must be different."
-msgstr "Sumber dan target harus bahasa yang berbeda."
+msgstr "Checkout sumber dan tujuan harus berbeda."
 
 msgid "This component does not exist or you cannot access it."
 msgstr "Komponen ini tidak ada atau Anda tidak dapat mengaksesnya."
@@ -17976,10 +17928,9 @@ msgstr "Dapat ditindaklanjuti oleh saya"
 msgid "Discovery configuration"
 msgstr "Konfigurasi penemuan"
 
-#, fuzzy, python-format
-#| msgid "Could not render template: {}"
+#, python-format
 msgid "Could not render %(setting)s template: %(error)s"
-msgstr "Tidak dapat merender templat: {}"
+msgstr "Tidak dapat merender templat %(setting)s: %(error)s"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -18886,10 +18837,8 @@ msgstr "Terlalu banyak permintaan cabang. Silakan coba lagi nanti."
 msgid "Could not load repository branches. Please try again."
 msgstr "Tidak dapat memuat cabang repositori. Silakan coba lagi."
 
-#, fuzzy
-#| msgid "You do not have permission to edit this glossary."
 msgid "You do not have permission to edit this project."
-msgstr "Anda tidak memiliki izin untuk mengedit glosarium ini."
+msgstr "Anda tidak memiliki izin untuk mengedit proyek ini."
 
 msgid "ZIP file containing translations"
 msgstr "Berkas ZIP berisi terjemahan"
@@ -20055,10 +20004,8 @@ msgstr "Pengaturan ini diwariskan dari proyek jika dibiarkan kosong."
 msgid "Use the secondary language configured in the category or project."
 msgstr "Gunakan bahasa sekunder yang dikonfigurasi di kategori atau proyek."
 
-#, fuzzy
-#| msgid "The local repository checkout is missing."
 msgid "The linked repository path is ambiguous."
-msgstr "Checkout repositori lokal hilang."
+msgstr "Jalur repositori yang ditautkan ambigu."
 
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
@@ -20362,10 +20309,8 @@ msgstr ""
 "repositori. Konfigurasi URL pendorongan dengan kredensial, atau gunakan URL "
 "repositori SSH."
 
-#, fuzzy
-#| msgid "This role cannot be assigned to this team."
 msgid "Version control system cannot be changed to this backend."
-msgstr "Peran ini tidak dapat ditetapkan ke tim ini."
+msgstr "Sistem kendali versi tidak dapat diubah ke backend ini."
 
 msgid "The file mask is too complex and took too long to evaluate."
 msgstr ""
@@ -20670,10 +20615,9 @@ msgstr "Deskripsi pencarian"
 msgid "Could not accept suggestion!"
 msgstr "Tidak dapat menerima saran!"
 
-#, fuzzy, python-format
-#| msgid "Some settings could not be imported: %s"
+#, python-format
 msgid "The suggestion could not be accepted automatically: %s"
-msgstr "Beberapa pengaturan tidak dapat diimpor: %s"
+msgstr "Saran tidak dapat diterima secara otomatis: %s"
 
 msgid "Uploaded translation file is too big."
 msgstr "Berkas terjemahan yang diunggah terlalu besar."
@@ -20730,17 +20674,14 @@ msgstr "Bentuk jamak %d dalam berkas yang diunggah berada di luar jangkauan."
 msgid "Plural form %d in the uploaded file is missing."
 msgstr "Bentuk jamak %d dalam berkas yang diunggah hilang."
 
-#, fuzzy, python-format
-#| msgid "The uploaded file contains too many settings."
+#, python-format
 msgid "The uploaded file contains a string that is too long: %s"
-msgstr "Berkas yang diunggah berisi terlalu banyak pengaturan."
+msgstr "Berkas yang diunggah memuat string yang terlalu panjang: %s"
 
-#, fuzzy, python-format
-#| msgid "String could not be propagated to %d component."
-#| msgid_plural "String could not be propagated to %d components."
+#, python-format
 msgid "%d string could not be propagated to all components."
 msgid_plural "%d strings could not be propagated to all components."
-msgstr[0] "String tidak dapat dipropagasikan ke %d komponen."
+msgstr[0] "%d string tidak dapat disebarkan ke semua komponen."
 
 msgid "The uploaded file contains too many language declarations."
 msgstr "Berkas yang diunggah berisi terlalu banyak deklarasi bahasa."
@@ -20769,7 +20710,7 @@ msgstr "Tidak dapat mengurai berkas sebagai {file_format}: {error}"
 
 #, python-format
 msgid "Suggestion uploads are limited to %d strings."
-msgstr ""
+msgstr "Unggahan saran dibatasi hingga %d string."
 
 #, python-format
 msgid "Could not parse translation file: %s"
@@ -20958,10 +20899,9 @@ msgstr "Pisah em"
 msgid "User configured character: {}"
 msgstr "Karakter dikonfigurasikan oleh pengguna: {}"
 
-#, fuzzy, python-format
-#| msgid "Could not push the repository."
+#, python-format
 msgid "Changes committed, but could not push the repository: %s"
-msgstr "Tidak dapat mendorong repositori."
+msgstr "Perubahan telah dikomit, tetapi repositori tidak dapat didorong: %s"
 
 msgid "Repository operation could not be completed because it remained locked."
 msgstr ""
@@ -21183,35 +21123,25 @@ msgstr ""
 msgid "Updates source strings in bilingual translation file."
 msgstr "Memperbarui string sumber dalam berkas terjemahan dwibahasa."
 
-#, fuzzy
-#| msgid "Updates of translations are in progress."
 msgid "A translation upload is already in progress."
-msgstr "Pembaruan terjemahan sedang diproses."
+msgstr "Unggahan terjemahan sudah sedang berlangsung."
 
-#, fuzzy
-#| msgid "The uploaded report has expired. Upload it again."
 msgid "The uploaded file has expired or was already processed."
-msgstr "Laporan yang diunggah telah kedaluwarsa. Unggah kembali."
+msgstr "Berkas yang diunggah telah kedaluwarsa atau sudah diproses."
 
-#, fuzzy
-#| msgid "The uploaded image was invalid."
 msgid "The uploaded file has expired."
-msgstr "Gambar yang diunggah tidak valid."
+msgstr "Berkas yang diunggah telah kedaluwarsa."
 
-#, fuzzy
-#| msgid "The target or permissions changed."
 msgid "The upload target or permissions changed."
-msgstr "Target atau izin telah berubah."
+msgstr "Target unggahan atau izin telah berubah."
 
 msgid "Plural forms in the uploaded file do not match current translation."
 msgstr ""
 "Bentuk jamak dalam berkas yang diunggah tidak sesuai dengan terjemahan saat "
 "ini."
 
-#, fuzzy
-#| msgid "Too many bulk edits, please try again later."
 msgid "File upload has failed. Please try again later."
-msgstr "Terlalu banyak pengeditan massal, silakan coba lagi nanti."
+msgstr "Unggahan berkas gagal. Silakan coba lagi nanti."
 
 msgid "Very high"
 msgstr "Sangat tinggi"
@@ -21589,10 +21519,8 @@ msgstr "Permintaan Buruk"
 msgid "Access denied."
 msgstr "Akses ditolak."
 
-#, fuzzy
-#| msgid "Translation uploaded"
 msgid "Translation upload in progress."
-msgstr "Terjemahan diunggah"
+msgstr "Unggahan terjemahan sedang berlangsung."
 
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
@@ -21826,15 +21754,11 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "Grafik batang bahasa vertikal"
 
-#, fuzzy
-#| msgid "Your languages"
 msgid "Sort languages by"
-msgstr "Bahasa Anda"
+msgstr "Urutkan bahasa berdasarkan"
 
-#, fuzzy
-#| msgid "Translation change"
 msgid "Translation percentage"
-msgstr "Perubahan terjemahan"
+msgstr "Persentase terjemahan"
 
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
@@ -21863,6 +21787,8 @@ msgid ""
 "The target workspace's billing plan only allows public projects without "
 "restricted components."
 msgstr ""
+"Paket penagihan ruang kerja tujuan hanya mengizinkan proyek publik tanpa "
+"komponen terbatas."
 
 msgid "The project is already assigned to this workspace."
 msgstr "Proyek sudah ditugaskan ke workspace ini."
@@ -22215,380 +22141,299 @@ msgstr ""
 "String format tidak lagi didukung, silakan gunakan bahasa templat sebagai "
 "gantinya."
 
-#, fuzzy
-#| msgid "Regex output exceeds its size limit."
 msgid "Template context exceeds its size limit."
-msgstr "Keluaran regex melampaui batas ukurannya."
+msgstr "Konteks templat melebihi batas ukurannya."
 
-#, fuzzy
-#| msgid "The HTML {tag} tag is nested too deeply."
 msgid "Template context is nested too deeply."
-msgstr "Tag HTML {tag} bersarang terlalu dalam."
+msgstr "Konteks templat bersarang terlalu dalam."
 
-#, fuzzy
-#| msgid "Unsupported ITS rule content."
 msgid "Unsupported nonfinite template context value."
-msgstr "Konten aturan ITS tidak didukung."
+msgstr "Nilai konteks templat non-finite tidak didukung."
 
-#, fuzzy
-#| msgid "Unsupported ITS rule content."
 msgid "Unsupported template context key."
-msgstr "Konten aturan ITS tidak didukung."
+msgstr "Kunci konteks templat tidak didukung."
 
-#, fuzzy
-#| msgid "Unsupported ITS rule content."
 msgid "Unsupported template context value."
-msgstr "Konten aturan ITS tidak didukung."
+msgstr "Nilai konteks templat tidak didukung."
 
-#, fuzzy
-#| msgid "Regex request exceeds its size limit."
 msgid "Template value exceeds its size limit."
-msgstr "Permintaan regex melampaui batas ukurannya."
+msgstr "Nilai templat melebihi batas ukurannya."
 
-#, fuzzy
-#| msgid "The entered token is not valid."
 msgid "Template text is not valid UTF-8."
-msgstr "Token yang dimasukkan tidak valid."
+msgstr "Teks templat bukan UTF-8 yang valid."
 
 #, python-format
 msgid "Tag \"%(name)s\""
-msgstr ""
+msgstr "Tag “%(name)s”"
 
-#, fuzzy
-#| msgid "Invalid target state."
 msgid "Invalid template syntax."
-msgstr "Status target tidak valid."
+msgstr "Sintaks templat tidak valid."
 
-#, fuzzy
-#| msgid "Undefined variable: \"%s\""
 msgid "Undefined template variable."
-msgstr "Variabel tidak didefinisikan: \"%s\""
+msgstr "Variabel templat tidak terdefinisi."
 
-#, fuzzy
-#| msgid "The translation is not valid XML."
 msgid "Text is not valid UTF-8."
-msgstr "Terjemahan bukan XML yang valid."
+msgstr "Teks bukan UTF-8 yang valid."
 
-#, fuzzy
-#| msgid "The chosen sorting is not supported."
 msgid "Division by zero is not supported."
-msgstr "Penyortiran yang dipilih tidak didukung."
+msgstr "Pembagian dengan nol tidak didukung."
 
-#, fuzzy
-#| msgid "Select a change for this automation."
 msgid "Numeric value is too large for this operation."
-msgstr "Pilih perubahan untuk otomatisasi ini."
+msgstr "Nilai numerik terlalu besar untuk operasi ini."
 
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Repository operation failed"
 msgid "Numeric operation failed."
-msgstr "Operasi repositori gagal"
+msgstr "Operasi numerik gagal."
 
 msgid "Value or argument has an unsupported type."
-msgstr ""
+msgstr "Nilai atau argumen memiliki tipe yang tidak didukung."
 
 msgid "Value or argument is incomplete or out of range."
-msgstr ""
+msgstr "Nilai atau argumen tidak lengkap atau di luar rentang."
 
-#, fuzzy
-#| msgid "Translation revision has an invalid format."
 msgid "Value or argument has an invalid format."
-msgstr "Format revisi terjemahan tidak valid."
+msgstr "Nilai atau argumen memiliki format tidak valid."
 
-#, fuzzy, python-format
-#| msgid "%(path)s: %(error)s"
+#, python-format
 msgid "%(operation)s: %(message)s"
-msgstr "%(path)s: %(error)s"
+msgstr "%(operation)s: %(message)s"
 
 #, python-format
 msgid "Line %(line)d: %(message)s"
-msgstr ""
+msgstr "Baris %(line)d: %(message)s"
 
-#, fuzzy
-#| msgid "Regex response exceeds its size limit."
 msgid "Template rendering exceeded its time limit."
-msgstr "Respons regex melampaui batas ukurannya."
+msgstr "Rendering templat melebihi batas waktunya."
 
-#, fuzzy, python-format
-#| msgid "Regex response exceeds its size limit."
+#, python-format
 msgid "Template exceeds the operation limit of %(limit)d."
-msgstr "Respons regex melampaui batas ukurannya."
+msgstr "Templat melebihi batas operasi sebanyak %(limit)d."
 
 #, python-format
 msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
-msgstr ""
+msgstr "Templat melebihi batas kerja kumulatif sebesar %(limit)d byte."
 
-#, fuzzy, python-format
-#| msgid "Regex request exceeds its size limit."
+#, python-format
 msgid "Template value exceeds the size limit of %(limit)d bytes."
-msgstr "Permintaan regex melampaui batas ukurannya."
+msgstr "Nilai templat melebihi batas ukuran sebesar %(limit)d byte."
 
 msgid "Template value must be a supported scalar."
-msgstr ""
+msgstr "Nilai templat harus berupa skalar yang didukung."
 
 msgid "Integer exceeds the numeric limit of 4096 bits."
-msgstr ""
+msgstr "Bilangan bulat melebihi batas numerik 4096 bit."
 
-#, fuzzy
-#| msgid "YAML aliases and tags are not supported."
 msgid "Nonfinite numbers are not supported."
-msgstr "Alias dan tag YAML tidak didukung."
+msgstr "Bilangan non-finite tidak didukung."
 
-#, fuzzy, python-format
-#| msgid "File names"
+#, python-format
 msgid "Filter \"%(name)s\""
-msgstr "Nama berkas"
+msgstr "Filter “%(name)s”"
 
 #, python-format
 msgid "Template exceeds the filter application limit of %(limit)d."
-msgstr ""
+msgstr "Templat melebihi batas penerapan filter sebanyak %(limit)d."
 
-#, fuzzy
-#| msgid "Regex response exceeds its size limit."
 msgid "Template rendering exceeded its loop limit."
-msgstr "Respons regex melampaui batas ukurannya."
+msgstr "Rendering templat melebihi batas perulangannya."
 
-#, fuzzy
-#| msgid "YAML aliases and tags are not supported."
 msgid "Attribute access and method calls are not supported."
-msgstr "Alias dan tag YAML tidak didukung."
+msgstr "Akses atribut dan pemanggilan metode tidak didukung."
 
-#, fuzzy
-#| msgid "Username needs to have at least five characters."
 msgid "Index exceeds the length limit of 128 characters."
-msgstr "Nama pengguna harus memiliki setidaknya lima karakter."
+msgstr "Indeks melebihi batas panjang 128 karakter."
 
-#, fuzzy
-#| msgid "YAML aliases and tags are not supported."
 msgid "Translated template literals are not supported."
-msgstr "Alias dan tag YAML tidak didukung."
+msgstr "Literal templat yang diterjemahkan tidak didukung."
 
-#, fuzzy
-#| msgid "Invalid unit."
 msgid "Invalid filter."
-msgstr "Unit tidak valid."
+msgstr "Filter tidak valid."
 
 msgid "Identity comparisons require None, True, or False."
-msgstr ""
+msgstr "Perbandingan identitas memerlukan None, True, atau False."
 
-#, fuzzy
-#| msgid "The chosen sorting is not supported."
 msgid "This condition operator is not supported."
-msgstr "Penyortiran yang dipilih tidak didukung."
+msgstr "Operator kondisi ini tidak didukung."
 
-#, fuzzy
-#| msgid "Regex output exceeds its size limit."
 msgid "Template output exceeds its size limit."
-msgstr "Keluaran regex melampaui batas ukurannya."
+msgstr "Keluaran templat melebihi batas ukurannya."
 
 msgid "Loops require a list, string, dictionary, or dictionary view."
-msgstr ""
+msgstr "Perulangan memerlukan daftar, string, kamus, atau tampilan kamus."
 
 msgid "Loop unpacking requires a list, tuple, string, or dictionary."
-msgstr ""
+msgstr "Pembongkaran perulangan memerlukan daftar, tuple, string, atau kamus."
 
 msgid "Loop value cannot be unpacked into its variables."
-msgstr ""
+msgstr "Nilai perulangan tidak dapat dibongkar ke variabel-variabelnya."
 
-#, fuzzy
-#| msgid "The chosen sorting is not supported."
 msgid "This template tag is not supported."
-msgstr "Penyortiran yang dipilih tidak didukung."
+msgstr "Tag templat ini tidak didukung."
 
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "This template node is not supported."
-msgstr "Format berkas yang terdeteksi tidak didukung."
+msgstr "Node templat ini tidak didukung."
 
 msgid "Replacement requires string values and arguments."
-msgstr ""
+msgstr "Penggantian memerlukan nilai dan argumen berupa string."
 
 #, python-format
 msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
-msgstr ""
+msgstr "Penggantian melebihi batas ukuran perantara sebesar %(limit)d byte."
 
 #, python-format
 msgid "Undefined variable: \"%s\""
 msgstr "Variabel tidak didefinisikan: \"%s\""
 
 msgid "This filter requires scalar values and arguments."
-msgstr ""
+msgstr "Filter ini memerlukan nilai dan argumen berupa skalar."
 
-#, fuzzy, python-format
-#| msgid "Regex request exceeds its size limit."
+#, python-format
 msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
-msgstr "Permintaan regex melampaui batas ukurannya."
+msgstr "Nilai perantara akan melebihi batas ukuran sebesar %(limit)d byte."
 
 msgid "Numeric input exceeds the conversion limit of 1240 characters."
-msgstr ""
+msgstr "Masukan numerik melebihi batas konversi 1240 karakter."
 
 msgid "Decimal exceeds the numeric conversion limit."
-msgstr ""
+msgstr "Desimal melebihi batas konversi numerik."
 
-#, fuzzy
-#| msgid "This field is required."
 msgid "This filter requires strings."
-msgstr "Kolom ini diperlukan."
+msgstr "Filter ini memerlukan string."
 
-#, fuzzy
-#| msgid "Automation keys must be strings."
 msgid "Choices must be a string."
-msgstr "Kunci otomasi harus berupa string."
+msgstr "Pilihan harus berupa string."
 
 msgid "Length requires a list, string, dictionary, or dictionary view."
-msgstr ""
+msgstr "Panjang memerlukan daftar, string, kamus, atau tampilan kamus."
 
 msgid "This filter requires a list, tuple, or string."
-msgstr ""
+msgstr "Filter ini memerlukan daftar, tuple, atau string."
 
 msgid "Slicing requires a list, tuple, or string."
-msgstr ""
+msgstr "Pemotongan memerlukan daftar, tuple, atau string."
 
-#, fuzzy
-#| msgid "Username needs to have at least five characters."
 msgid "Slice argument exceeds the length limit of 128 characters."
-msgstr "Nama pengguna harus memiliki setidaknya lima karakter."
+msgstr "Argumen potongan melebihi batas panjang 128 karakter."
 
 msgid ""
 "Joining requires an iterable and a string separator with escaping disabled."
 msgstr ""
+"Penggabungan memerlukan iterable dan pemisah string dengan escaping "
+"dinonaktifkan."
 
-#, fuzzy
-#| msgid "Source string length"
 msgid "Joining requires string elements."
-msgstr "Panjang string sumber"
+msgstr "Penggabungan memerlukan elemen berupa string."
 
 #, python-format
 msgid "Joined value would exceed the size limit of %(limit)d bytes."
 msgstr ""
+"Nilai yang digabungkan akan melebihi batas ukuran sebesar %(limit)d byte."
 
 msgid "Sequence escaping requires a list, tuple, or string."
-msgstr ""
+msgstr "Escaping urutan memerlukan daftar, tuple, atau string."
 
 msgid "Sequence escaping requires scalar elements."
-msgstr ""
+msgstr "Escaping urutan memerlukan elemen berupa skalar."
 
 msgid "Date formatting requires a date, time, string, or None."
-msgstr ""
+msgstr "Pemformatan tanggal memerlukan tanggal, waktu, string, atau None."
 
-#, fuzzy
-#| msgid "Automation keys must be strings."
 msgid "Date format must be a string or None."
-msgstr "Kunci otomasi harus berupa string."
+msgstr "Format tanggal harus berupa string atau None."
 
-#, fuzzy
-#| msgid "Trigger scope requires a change with a string."
 msgid "Time comparison requires a date, time, string, or None."
-msgstr "Cakupan pemicu memerlukan perubahan dengan string."
+msgstr "Perbandingan waktu memerlukan tanggal, waktu, string, atau None."
 
 msgid "Time comparison argument must be a date or None."
-msgstr ""
+msgstr "Argumen perbandingan waktu harus berupa tanggal atau None."
 
 msgid "Concatenation requires sequences of the same type."
-msgstr ""
+msgstr "Penggabungan memerlukan urutan dengan tipe yang sama."
 
-#, fuzzy
-#| msgid "Automation keys must be strings."
 msgid "Plural suffixes must be a string."
-msgstr "Kunci otomasi harus berupa string."
+msgstr "Akhiran jamak harus berupa string."
 
-#, fuzzy
-#| msgid "Username needs to have at least five characters."
 msgid "Precision argument exceeds the length limit of 128 characters."
-msgstr "Nama pengguna harus memiliki setidaknya lima karakter."
+msgstr "Argumen presisi melebihi batas panjang 128 karakter."
 
 msgid "Formatting precision exceeds the limit of 1000 places."
-msgstr ""
+msgstr "Presisi pemformatan melebihi batas 1000 tempat."
 
 msgid "Format must be a string of at most 128 characters."
-msgstr ""
+msgstr "Format harus berupa string dengan paling banyak 128 karakter."
 
 msgid ""
 "Format must contain one supported conversion without mapping keys or dynamic "
 "widths."
 msgstr ""
+"Format harus memuat satu konversi yang didukung tanpa kunci pemetaan atau "
+"lebar dinamis."
 
-#, fuzzy
-#| msgid "YAML aliases and tags are not supported."
 msgid "Nested template delimiters are not supported."
-msgstr "Alias dan tag YAML tidak didukung."
+msgstr "Pembatas templat bersarang tidak didukung."
 
-#, fuzzy
-#| msgid "Unsupported ITS rule content."
 msgid "Unclosed template token."
-msgstr "Konten aturan ITS tidak didukung."
+msgstr "Token templat tidak ditutup."
 
-#, fuzzy, python-format
-#| msgid "Regex response exceeds its size limit."
+#, python-format
 msgid "Template token exceeds the size limit of %(limit)d bytes."
-msgstr "Respons regex melampaui batas ukurannya."
+msgstr "Token templat melebihi batas ukuran sebesar %(limit)d byte."
 
 msgid "Template tokens cannot span multiple lines."
-msgstr ""
+msgstr "Token templat tidak dapat mencakup beberapa baris."
 
-#, fuzzy, python-format
-#| msgid "Regex response exceeds its size limit."
+#, python-format
 msgid "Template exceeds the parsing limit of %(limit)d tokens."
-msgstr "Respons regex melampaui batas ukurannya."
+msgstr "Templat melebihi batas penguraian sebanyak %(limit)d token."
 
-#, fuzzy, python-format
-#| msgid "Regex response exceeds its size limit."
+#, python-format
 msgid "Template exceeds the parsing limit of %(limit)d filters."
-msgstr "Respons regex melampaui batas ukurannya."
+msgstr "Templat melebihi batas penguraian sebanyak %(limit)d filter."
 
 #, python-format
 msgid "Template exceeds the parsing work limit of %(limit)d units."
-msgstr ""
+msgstr "Templat melebihi batas kerja penguraian sebesar %(limit)d unit."
 
 #, python-format
 msgid "Unclosed template tag \"%(tag)s\"."
-msgstr ""
+msgstr "Tag templat “%(tag)s” tidak ditutup."
 
-#, fuzzy
-#| msgid "The report is empty."
 msgid "Template tag is empty."
-msgstr "Laporan kosong."
+msgstr "Tag templat kosong."
 
 #, python-format
 msgid "Condition exceeds the parsing limit of %(limit)d terms."
-msgstr ""
+msgstr "Kondisi melebihi batas penguraian sebanyak %(limit)d suku."
 
-#, fuzzy, python-format
-#| msgid "Regex response exceeds its size limit."
+#, python-format
 msgid "Template exceeds the nesting limit of %(limit)d levels."
-msgstr "Respons regex melampaui batas ukurannya."
+msgstr "Templat melebihi batas bersarang sebanyak %(limit)d tingkat."
 
 #, python-format
 msgid "Unexpected closing tag \"%(tag)s\"."
-msgstr ""
+msgstr "Tag penutup “%(tag)s” tidak diharapkan."
 
 #, python-format
 msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
-msgstr ""
+msgstr "Tag “%(tag)s” memerlukan tag pembungkus “%(parent)s”."
 
-#, fuzzy, python-format
-#| msgid "Unsupported ITS rule content."
+#, python-format
 msgid "Unsupported template tag \"%(tag)s\"."
-msgstr "Konten aturan ITS tidak didukung."
+msgstr "Tag templat “%(tag)s” tidak didukung."
 
-#, fuzzy
-#| msgid "Unsupported ITS rule content."
 msgid "Unsupported template tag."
-msgstr "Konten aturan ITS tidak didukung."
+msgstr "Tag templat tidak didukung."
 
 #, python-format
 msgid "Serialized data exceeds the nesting limit of %(limit)d."
-msgstr ""
+msgstr "Data yang diserialisasi melebihi batas bersarang sebanyak %(limit)d."
 
 #, python-format
 msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
-msgstr ""
+msgstr "Serialisasi melebihi batas ukuran perantara sebesar %(limit)d byte."
 
-#, fuzzy, python-format
-#| msgid "Regex request exceeds its size limit."
+#, python-format
 msgid "Serialized value exceeds the size limit of %(limit)d bytes."
-msgstr "Permintaan regex melampaui batas ukurannya."
+msgstr "Nilai yang diserialisasi melebihi batas ukuran sebesar %(limit)d byte."
 
 #, python-format
 msgid ""
@@ -23382,10 +23227,8 @@ msgstr ""
 msgid "This will push changes to the upstream Mercurial repository."
 msgstr "Ini akan mendorong perubahan ke repositori hulu Mercurial."
 
-#, fuzzy
-#| msgid "Could not recover the repository."
 msgid "Could not remove nested repository metadata."
-msgstr "Tidak dapat memulihkan repositori."
+msgstr "Tidak dapat menghapus metadata repositori bersarang."
 
 msgid "GitHub"
 msgstr "GitHub"

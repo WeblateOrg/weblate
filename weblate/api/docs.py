@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from copy import deepcopy
 from typing import Any
 
 from django.utils.translation import gettext, gettext_noop
@@ -16,6 +17,7 @@ from drf_spectacular.settings import spectacular_settings
 from drf_spectacular.utils import OpenApiParameter
 
 from weblate.trans.actions import ActionEvents
+from weblate.trans.validators import SUGGESTION_REJECTION_REASON_LENGTH
 from weblate.utils.environment import get_env_bool
 
 from .middleware import (
@@ -43,6 +45,7 @@ HTTP_METHODS = {"delete", "get", "patch", "post", "put"}
 JSON_MEDIA_TYPE = "application/json"
 FORM_MEDIA_TYPE = "application/x-www-form-urlencoded"
 MULTIPART_MEDIA_TYPE = "multipart/form-data"
+BINARY_MEDIA_TYPE = "application/octet-stream"
 WILDCARD_MEDIA_TYPE = "*/*"
 CSV_MEDIA_TYPE = "text/csv"
 OPENMETRICS_MEDIA_TYPE = "application/openmetrics-text"
@@ -58,7 +61,14 @@ FILE_FORMAT_PATHS = {
 USER_GROUPS_PATH = "/api/users/{username}/groups/"
 COMPONENT_PATH = "/api/components/{project__slug}/{slug}/"
 CATEGORY_PATH = "/api/categories/{id}/"
+SUGGESTION_PATH = "/api/suggestions/{id}/"
 CHANGES_PATH = "/api/changes/"
+SCOPED_CHANGES_PATHS = (
+    "/api/projects/{slug}/changes/",
+    "/api/components/{project__slug}/{slug}/changes/",
+    "/api/translations/{component__project__slug}/{component__slug}/{language__code}/changes/",
+)
+SERVICE_HOOK_PATH = "/hooks/{service}/"
 UNSUPPORTED_MEDIA_TYPE_RESPONSE_CODE = "415"
 RESPONSE_DESCRIPTIONS = {
     "200": gettext_noop("Successful response."),
@@ -89,12 +99,38 @@ FILE_UPLOAD_REQUEST_MEDIA_TYPES = {
     (
         "post",
         "/api/translations/{component__project__slug}/{component__slug}/{language__code}/file/",
-    ): {MULTIPART_MEDIA_TYPE},
+    ): {MULTIPART_MEDIA_TYPE, BINARY_MEDIA_TYPE},
     (
         "put",
         "/api/translations/{component__project__slug}/{component__slug}/{language__code}/file/",
-    ): {MULTIPART_MEDIA_TYPE},
+    ): {MULTIPART_MEDIA_TYPE, BINARY_MEDIA_TYPE},
+    ("post", SERVICE_HOOK_PATH): {
+        JSON_MEDIA_TYPE,
+        FORM_MEDIA_TYPE,
+        MULTIPART_MEDIA_TYPE,
+    },
 }
+
+
+def document_filemask_examples(result, generator, request, public):
+    """Format file patterns as CommonMark code in the schema's descriptions."""
+    patterns = ("po/*.po", "locale/*/LC_MESSAGES/django.po", "docs/screenshots/*.png")
+    for name in (
+        "Component",
+        "ComponentCreateMultipartRequest",
+        "ComponentCreateRequest",
+        "PatchedComponent",
+        "ProjectComponent",
+    ):
+        fields = result.get("components", {}).get("schemas", {}).get(name, {})
+        for field_name in ("filemask", "screenshot_filemask"):
+            field = fields.get("properties", {}).get(field_name, {})
+            if description := field.get("description"):
+                description = description.replace("use * instead", "use `*` instead")
+                for pattern in patterns:
+                    description = description.replace(pattern, f"`{pattern}`")
+                field["description"] = description
+    return result
 
 
 def _license_string_schema() -> dict[str, object]:
@@ -239,18 +275,35 @@ def document_change_actions(result, generator, request, public):
         action_schema["enum"] = [event.value for event in ActionEvents]
         action_schema["description"] = _build_action_event_description()
 
-    operation = result.get("paths", {}).get(CHANGES_PATH, {}).get("get", {})
+    paths = result.get("paths", {})
+    operation = paths.get(CHANGES_PATH, {}).get("get", {})
+    descriptions = {
+        "action": gettext(
+            "Filter by change action. Repeat this parameter to filter by multiple "
+            "actions."
+        ),
+        "timestamp_after": gettext("List changes at or after this ISO 8601 timestamp."),
+        "timestamp_before": gettext(
+            "List changes at or before this ISO 8601 timestamp."
+        ),
+        "user": gettext("Filter by username."),
+    }
+    change_filters = []
     for parameter in operation.get("parameters", []):
-        if parameter.get("in") == "query" and parameter.get("name") == "action":
+        name = parameter.get("name")
+        if parameter.get("in") != "query" or name not in descriptions:
+            continue
+        if name == "action":
             parameter["schema"] = {
                 "type": "array",
                 "items": {"$ref": ACTION_ENUM_REF},
             }
-            parameter["description"] = gettext(
-                "Filter by change action. Repeat this parameter to filter by multiple "
-                "actions."
-            )
-            break
+        parameter["description"] = descriptions[name]
+        change_filters.append(parameter)
+
+    for path in SCOPED_CHANGES_PATHS:
+        if operation := paths.get(path, {}).get("get"):
+            operation.setdefault("parameters", []).extend(deepcopy(change_filters))
 
     return result
 
@@ -359,20 +412,47 @@ def document_delete_bodies(result, generator, request, public):
     # drf-spectacular does not emit request bodies for DELETE methods.
     schemas = result.setdefault("components", {}).setdefault("schemas", {})
     delete_bodies = (
-        (USER_GROUPS_PATH, "UserGroupDeleteRequest", "group_id", "integer", True),
-        (COMPONENT_PATH, "ComponentDeleteRequest", "delete_memory", "boolean", False),
-        (CATEGORY_PATH, "CategoryDeleteRequest", "delete_memory", "boolean", False),
+        (
+            USER_GROUPS_PATH,
+            "UserGroupDeleteRequest",
+            {"group_id": {"type": "integer"}},
+            ["group_id"],
+        ),
+        (
+            COMPONENT_PATH,
+            "ComponentDeleteRequest",
+            {"delete_memory": {"type": "boolean"}},
+            [],
+        ),
+        (
+            CATEGORY_PATH,
+            "CategoryDeleteRequest",
+            {"delete_memory": {"type": "boolean"}},
+            [],
+        ),
+        (
+            SUGGESTION_PATH,
+            "SuggestionDeleteRequest",
+            {
+                "rejection_reason": {
+                    "type": "string",
+                    "maxLength": SUGGESTION_REJECTION_REASON_LENGTH,
+                },
+                "is_spam": {"type": "boolean", "default": False},
+            },
+            [],
+        ),
     )
-    for path, schema_name, field_name, field_type, required in delete_bodies:
+    for path, schema_name, properties, required in delete_bodies:
         operation = result.get("paths", {}).get(path, {}).get("delete")
         if not isinstance(operation, dict):
             continue
         schema: dict[str, Any] = {
             "type": "object",
-            "properties": {field_name: {"type": field_type}},
+            "properties": properties,
         }
         if required:
-            schema["required"] = [field_name]
+            schema["required"] = required
         schemas[schema_name] = schema
         request_body: dict[str, Any] = {
             "content": {

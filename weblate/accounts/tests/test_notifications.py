@@ -383,6 +383,7 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
             )
             categories.append(parent)
         self.component.category = parent
+        self.component.save(update_fields=["category"])
         change = self.component.change_set.create(
             action=ActionEvents.MERGE,
             user=self.user,

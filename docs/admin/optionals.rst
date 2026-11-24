@@ -122,13 +122,15 @@ in the warning or its e-mail to see diagnostics, including dismissed ones. For
 subscriptions covering several projects, this link opens workspace diagnostics.
 In workspace and project diagnostics and on each component's alerts tab, the
 :guilabel:`May affect Libre hosting` badge identifies issues that can trigger
-a warning if they persist. Weblate locks all existing components in the
+a warning if they persist. Workspace and project diagnostics list these issues
+first. Weblate locks all existing components in the
 workspace for translation when it issues the warning. Maintainers can unlock
 them at any time, including after the warning clears or the trial starts.
 
 Fix the listed issues within 30 days to keep active Libre hosting. Moving the
-project to another billing resets the warning. If a listed issue persists, the
-subscription enters a 30-day Libre trial. Fix the Libre hosting checklist and
+project to another billing resets the warning. Once Weblate records the last
+qualifying issue as resolved, refresh the page to see the warning clear.
+If a listed issue persists, the subscription enters a 30-day Libre trial. Fix the Libre hosting checklist and
 request approval again from the billing page. An expired trial follows the usual removal grace period
 and backup process.
 

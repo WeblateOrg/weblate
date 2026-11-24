@@ -22,12 +22,11 @@ from weblate.accounts.notifications import (
 from weblate.accounts.tasks import queue_mails
 from weblate.auth.bots import InternalBot
 from weblate.billing.defines import (
-    LIBRE_CLEANUP_ALERTS,
     LIBRE_CLEANUP_TRIAL_PERIOD,
     LIBRE_PROBLEM_PERIOD,
 )
 from weblate.billing.models import Billing, BillingEvent
-from weblate.trans.models import Alert, Component, Project
+from weblate.trans.models import Component, Project
 from weblate.trans.tasks import create_project_backup, project_removal
 from weblate.utils.celery import app
 from weblate.utils.change_origin import acting_user_context
@@ -210,10 +209,7 @@ def check_libre_billing(bill: Billing, now: datetime) -> None:
     # even when a different plan allows several projects in its workspace.
     # The oldest surviving instance of each alert is enough to establish continuity.
     problems = dict(
-        Alert.objects.filter(
-            component__project__workspace_id=bill.workspace_id,
-            name__in=LIBRE_CLEANUP_ALERTS,
-        )
+        bill.libre_problem_alerts()
         .order_by()
         .values("name")
         .annotate(oldest=Min("timestamp"))
@@ -255,12 +251,7 @@ def check_libre_billing(bill: Billing, now: datetime) -> None:
                     user=InternalBot.ALERTS.get_user(),
                 )
             return
-        bill.libre_cleanup_warned_at = None
-        bill.save(update_fields=["libre_cleanup_warned_at"], skip_limits=True)
-        bill.billinglog_set.create(
-            event=BillingEvent.LIBRE_CLEANUP_CANCELED,
-            user=InternalBot.ALERTS.get_user(),
-        )
+        bill.cancel_libre_warning()
 
     reasons = sorted(
         name for name, start in problems.items() if start <= now - LIBRE_PROBLEM_PERIOD

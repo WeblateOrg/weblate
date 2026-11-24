@@ -33,6 +33,7 @@ from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils.translation import get_language
 from django.utils.translation import override as translation_override
+from django_otp.plugins.otp_totp.models import TOTPDevice
 from google.api_core import exceptions as google_api_exceptions
 from google.cloud.translate import (
     SupportedLanguages,
@@ -43,6 +44,7 @@ from google.cloud.translate_v3 import Glossary
 from google.oauth2 import service_account
 from google.rpc.error_details_pb2 import RetryInfo  # type: ignore[import-untyped]
 
+from weblate.accounts.utils import SESSION_SENSITIVE_FACTOR_GRANT
 from weblate.auth.models import Group, Role
 from weblate.checks import flags as check_flags
 from weblate.checks import models as check_models
@@ -11580,6 +11582,59 @@ class ViewsTest(FixtureTestCase):
                         reverse("js-memory", kwargs={"unit_id": unit_id}), data
                     )
                     self.assertEqual(response.status_code, 404)
+
+    def test_configuration_requires_recent_verification(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        workspace = Workspace.objects.create(name="Translation services")
+        session = self.client.session
+        del session[SESSION_SENSITIVE_FACTOR_GRANT]
+        session.save()
+        for scope, kwargs, list_view in (
+            ({}, {}, "manage-machinery"),
+            (
+                {"workspace": workspace},
+                {"workspace": workspace.pk},
+                "workspace-machinery",
+            ),
+            (
+                {"project": self.project},
+                {"project": self.project.slug},
+                "machinery-list",
+            ),
+        ):
+            with self.subTest(scope=scope):
+                installation = MachineryInstallation.objects.create(
+                    engine="deepl", configuration={"key": "saved-secret"}, **scope
+                )
+                overview = self.client.get(reverse(list_view, kwargs=kwargs))
+                self.assertContains(overview, "DeepL")
+                self.assertNotContains(overview, "saved-secret")
+                edit = reverse(
+                    "machinery-edit", kwargs={**kwargs, "machinery": installation.pk}
+                )
+                verify = reverse(
+                    "first-factor-verify", query={"target": "sensitive", "next": edit}
+                )
+                self.assertRedirects(
+                    self.client.get(edit), verify, fetch_redirect_response=False
+                )
+                self.assertRedirects(
+                    self.client.post(edit, {"pause": "1"}),
+                    verify,
+                    fetch_redirect_response=False,
+                )
+                installation.refresh_from_db()
+                self.assertTrue(installation.enabled)
+
+        TOTPDevice.objects.create(user=self.user, confirmed=True)
+        edit = reverse("machinery-edit", kwargs={"machinery": "deepl"})
+        response = self.client.get(edit)
+        self.assertRedirects(
+            response,
+            reverse("2fa-login", kwargs={"backend": "totp"}, query={"next": edit}),
+            fetch_redirect_response=False,
+        )
 
     def test_configure_global(self) -> None:
         service = self.ensure_dummy_mt()

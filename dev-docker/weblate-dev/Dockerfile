@@ -2,11 +2,11 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-FROM node:26.13.1-bookworm-slim@sha256:5df79989ed685e09f0a98019db4cebfb22fb9df1a53c0161664a011f7ff6b0f1 AS node
+FROM node:26.13.1-bookworm-slim@sha256:b822af76043e2656ffc172072036fe0968a3c09a692e4ad05eb9348ad5dbdf4c AS node
 # Yarn Classic matches client/yarn.lock; recent Node images omit Yarn.
 RUN npm install --global yarn@1.22.22
 
-FROM weblate/weblate:2026.11.2.0@sha256:559bb57e2cae8471386ac646cb852c615996d199d02a3f8894d004acb03a1b77 AS common
+FROM weblate/weblate:2026.11.2.1@sha256:5452e58bea51d8e8b77059b4b4e0af753a61c834354cc757fa395a96d29b7d5f AS common
 
 ##########
 # WARNING!
@@ -124,6 +124,7 @@ FROM common AS scanner
 USER root
 ENV DEBIAN_FRONTEND=noninteractive
 # The inherited PGDG source targets noble; use this image's Ubuntu packages.
+# Keep the PostgreSQL major version in sync with .oss-scanner/start-services.
 RUN rm -f /etc/apt/sources.list.d/pgdg.list \
     && printf '%s\n' 'Package: postgresql*' 'Pin: release o=Ubuntu' 'Pin-Priority: 1001' \
         > /etc/apt/preferences.d/oss-scanner-postgresql \

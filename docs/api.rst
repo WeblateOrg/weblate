@@ -348,7 +348,8 @@ API Entry Point
 
 .. http:get:: /api/
 
-    The API root entry point.
+    Returns a map of resource names to their list URLs. The keys depend on
+    which resources provide list endpoints.
 
     **Example request:**
 
@@ -356,21 +357,15 @@ API Entry Point
 
           GET /api/ HTTP/1.1
           Host: example.com
-          Accept: application/json, text/javascript
+          Accept: application/json
           Authorization: Token YOUR-TOKEN
 
     **Example response:**
 
     .. code-block:: http
 
-        HTTP/1.0 200 OK
-        Date: Fri, 25 Mar 2016 09:46:12 GMT
-        Server: WSGIServer/0.1 Python/2.7.11+
-        Vary: Accept, Accept-Language, Cookie
-        X-Frame-Options: SAMEORIGIN
+        HTTP/1.1 200 OK
         Content-Type: application/json
-        Content-Language: en
-        Allow: GET, HEAD, OPTIONS
 
         {
             "projects":"http://example.com/api/projects/",
@@ -615,7 +610,7 @@ Users
 
     :param username: User's username
     :type username: string
-    :>json array translations: link to translations; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/`
+    :>json array results: translations on this page; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/`
 
 .. http:get:: /api/users/(str:username)/notifications/
 
@@ -1034,7 +1029,7 @@ Languages
     :type language: string
     :>json string code: Language code
     :>json string direction: Text direction
-    :<json int population: Number of speakers
+    :>json int population: Number of speakers
     :>json object plural: Object of language plural information
     :>json array aliases: Array of aliases for language
 
@@ -1529,8 +1524,11 @@ Projects
     :form file docfile: Document to translate
     :form string from_component: Optional source component reference used to duplicate the new component. Accepts either a numeric component ID or a full Weblate component path. When provided, the new component inherits the source component configuration and translations into a new local repository. Repository fields such as ``repo``, ``vcs``, ``branch``, ``push``, and ``push_branch`` can not be combined with this option.
     :form boolean disable_autoshare: Disables automatic repository sharing via :ref:`internal-urls`.
-    :<json object: Component parameters, see :http:get:`/api/components/(string:project)/(string:component)/`
-    :>json object result: Created component object; see :http:get:`/api/components/(string:project)/(string:component)/`
+    :resheader Location: URL of the created component.
+    :statuscode 201: The response body is the created component object.
+
+    See :http:get:`/api/components/(string:project)/(string:component)/` for
+    component settings.
 
     JSON can not be used when uploading the files using the ``zipfile`` and
     ``docfile`` parameters. The data has to be uploaded as
@@ -1621,13 +1619,9 @@ Projects
 
     .. sourcecode:: http
 
-        HTTP/1.0 200 OK
-        Date: Tue, 12 Apr 2016 09:32:50 GMT
-        Server: WSGIServer/0.1 Python/2.7.11+
-        Vary: Accept, Accept-Language, Cookie
-        X-Frame-Options: SAMEORIGIN
+        HTTP/1.1 201 Created
+        Location: https://example.com/api/components/hello/weblate/
         Content-Type: application/json
-        Content-Language: en
         Allow: GET, POST, HEAD, OPTIONS
 
         {
@@ -1668,11 +1662,10 @@ Projects
 
 .. http:get:: /api/projects/(string:project)/languages/
 
-    Returns paginated statistics for all languages within a project.
+    Returns an array of statistics objects for all languages within a project.
 
     :param project: Project URL slug
     :type project: string
-    :>json array results: array of translation statistics objects
     :>json string language: language name
     :>json string code: language code
     :>json int total: total number of strings
@@ -1814,6 +1807,13 @@ Projects
     ``slug``, ``configuration``, ``enabled`` state, and scope fields. The
     configuration can contain credentials and is returned only to users who
     can edit the installation's scope.
+
+    Browser sessions require :ref:`recent credential verification <2fa>` to read
+    or change installations through either the project or site-wide API, and to
+    change exclusions. If a request returns HTTP 403 with
+    ``Recent credential verification required.``, open the translation service's
+    configuration in the same browser, confirm your identity, and retry the
+    request. API token clients continue to use their token.
 
     :param project: Project URL slug
     :type project: string
@@ -1979,7 +1979,8 @@ Projects
     :param project: Project URL slug
     :type project: string
     :>json string detail: Result message
-    :>json string url: URL to list backups
+    :>json string task_url: URL to check backup creation progress
+    :statuscode 202: Backup creation was scheduled.
 
 .. http:get:: /api/projects/(string:project)/backups/(string:backup)/
 
@@ -2583,7 +2584,7 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
-    :>json array projects: associated projects; see :http:get:`/api/projects/(string:project)/`
+    :>json array results: associated projects on this page; see :http:get:`/api/projects/(string:project)/`
 
 .. http:post:: /api/components/(string:project)/(string:component)/links/
 
@@ -2850,7 +2851,7 @@ Translations
     :<json array source: *Bilingual translations:* Source strings (use single string if not creating plural)
     :<json array target: *Bilingual translations:* Target strings (use single string if not creating plural)
     :<json int state: String state; see :http:get:`/api/units/(int:id)/`
-    :>json object unit: newly created unit; see :http:get:`/api/units/(int:id)/`
+    :statuscode 200: Returns the newly created unit in the format documented at :http:get:`/api/units/(int:id)/`.
 
     Creating a unit in the approved state requires permission to review strings.
 
@@ -2910,8 +2911,9 @@ Translations
         parameter differs and without such parameter you get translation file
         as stored in VCS.
 
-    :resheader Last-Modified: Timestamp of last change to this file.
-    :reqheader If-Modified-Since: Skips response if the file has not been modified since that time.
+    :resheader Last-Modified: Last modification time as an HTTP date.
+    :reqheader If-Modified-Since: Returns 304 if the translation is unchanged since this HTTP date.
+    :statuscode 304: The translation is unchanged. The response has no body.
 
     :query format: File format to use; if not specified no format conversion happens; see :ref:`download` for supported formats
     :query string q: Filter downloaded strings, see :ref:`search`, only applicable when conversion is in place (``format`` is specified).
@@ -2949,17 +2951,18 @@ Translations
     failure. File parsing and import errors are reported by the task.
     Results also include ``upload_warnings`` and a ``completion_message``.
 
-    The same behavior is available with ``PUT``. For a raw file body, supply
+    The same behavior is available with ``PUT``. For a raw file body, send
+    :mimetype:`application/octet-stream` and include a filename in
+    :http:header:`Content-Disposition`. Supply
     ``background=true`` as a query parameter. A multipart ``background`` field
     takes precedence over the query parameter.
 
     Switch clients to background processing before upgrading to 2027.1. That
     release will remove the ``background`` option and synchronous processing.
 
-    Suggestion uploads accept at most 20,000 content strings. Browser and API
-    uploads share :setting:`RATELIMIT_UPLOAD_ATTEMPTS`; exceeding it returns
-    ``429 Too Many Requests``. API uploads have no per-user outstanding-task
-    restriction. Existing byte and general string-count limits still apply.
+    Suggestion uploads accept at most 20,000 content strings. API uploads have
+    no per-user outstanding-task restriction. Existing byte and general
+    string-count limits still apply.
 
     **CURL example:**
 
@@ -3114,6 +3117,9 @@ Memory
 .. http:post:: /api/memory/lookup/
 
     Looks up translation memory matches for the provided source strings.
+    Returns an array in input order. Each entry contains the source string in
+    ``query`` and the best match in ``match``. If no match was found, ``match`` is
+    ``null``.
 
     :query source_language: Source language code
     :type source_language: string
@@ -3124,7 +3130,6 @@ Memory
     :query exact: Return exact matches only and skip fuzzy matching (optional)
     :type exact: boolean
     :<json array strings: List of source strings to look up
-    :>json array results: Ordered lookup results with the best match for each query or ``null`` when no match was found
 
 .. http:delete:: /api/memory/(int:memory_object_id)/
 
@@ -3740,8 +3745,8 @@ Add-ons
     contain an :file:`its/` subdirectory. See
     :ref:`addon-weblate.gettext.xgettext` for supported formats and validation.
 
-    :param string project_slug: Project slug
-    :param string component_slug: Component slug
+    :param string project: Project slug
+    :param string component: Component slug
     :<json string name: name of an add-on
     :<json object configuration: Optional add-on configuration
 
@@ -3874,7 +3879,6 @@ Component lists
 
     :param slug: Component list slug
     :type slug: string
-    :form string component_id: Component ID
     :>json array results: array of component objects; see :http:get:`/api/components/(string:project)/(string:component)/`
 
 .. http:post:: /api/component-lists/(str:slug)/components/
@@ -4181,7 +4185,8 @@ Categories
 
     :param id: Category ID
     :type id: int
-    :>json object configuration: Optional category configuration
+
+    See :http:get:`/api/categories/(int:id)/` for category attributes.
 
 .. http:put:: /api/categories/(int:id)/
 
@@ -4191,7 +4196,8 @@ Categories
 
     :param id: Category ID
     :type id: int
-    :>json object configuration: Optional category configuration
+
+    See :http:get:`/api/categories/(int:id)/` for category attributes.
 
 .. http:delete:: /api/categories/(int:id)/
 

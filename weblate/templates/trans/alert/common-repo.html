@@ -60,6 +60,12 @@
   </p>
 {% endif %}
 
+{% if analysis.azure_devops_ssh_key_expired %}
+  <p>
+    <a href="https://aka.ms/ado-ssh-public-key-expired">{% translate "Replace the expired SSH key in Azure DevOps" %}</a>
+  </p>
+{% endif %}
+
 {% if analysis.permission %}
   <p>
     {% translate "The upstream repository could not be accessed. Please check whether it is accessible to Weblate." %}

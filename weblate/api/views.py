@@ -41,6 +41,7 @@ from django_filters import rest_framework as filters
 from drf_spectacular.serializers import PolymorphicProxySerializerExtension
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
+    OpenApiExample,
     OpenApiParameter,
     OpenApiResponse,
     PolymorphicProxySerializer,
@@ -51,9 +52,8 @@ from drf_spectacular.utils import (
 from drf_standardized_errors.handler import ExceptionHandler
 from drf_standardized_errors.openapi_serializers import ErrorResponse403Serializer
 from rest_framework import parsers, serializers, viewsets
-from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import action
-from rest_framework.exceptions import APIException, Throttled, ValidationError
+from rest_framework.exceptions import APIException, ValidationError
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -64,6 +64,7 @@ from rest_framework.status import (
     HTTP_201_CREATED,
     HTTP_202_ACCEPTED,
     HTTP_204_NO_CONTENT,
+    HTTP_304_NOT_MODIFIED,
     HTTP_400_BAD_REQUEST,
     HTTP_403_FORBIDDEN,
     HTTP_409_CONFLICT,
@@ -87,6 +88,7 @@ from weblate.accounts.visibility import (
 )
 from weblate.addons.models import Addon
 from weblate.api.metrics import get_server_metrics_data, get_server_openmetrics_data
+from weblate.api.mixins import SensitiveSessionVerificationMixin
 from weblate.api.pagination import LargePagination
 from weblate.api.parsers import TranslationFileMultiPartParser
 from weblate.api.serializers import (
@@ -107,6 +109,8 @@ from weblate.api.serializers import (
     CategorySerializer,
     ChangeSerializer,
     CommentSerializer,
+    ComponentCreateMultipartRequestSerializer,
+    ComponentCreateRequestSerializer,
     ComponentLinkRequestSerializer,
     ComponentListSerializer,
     ComponentSerializer,
@@ -139,6 +143,7 @@ from weblate.api.serializers import (
     RoleSerializer,
     SavedSearchSerializer,
     ScopedReportCreateSerializer,
+    ScreenshotCreateRequestSerializer,
     ScreenshotCreateSerializer,
     ScreenshotFileSerializer,
     ScreenshotSerializer,
@@ -162,7 +167,6 @@ from weblate.api.serializers import (
     UserStatisticsSerializer,
     UserUpdateRequestSerializer,
     WorkflowSettingSerializer,
-    check_session_sensitive_verification,
     get_reverse_kwargs,
 )
 from weblate.api.tasks import (
@@ -262,7 +266,6 @@ from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.messages import store_task_completion_message
-from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.search import SearchQueryError, parse_query
 from weblate.utils.similarity import Comparer
 from weblate.utils.state import (
@@ -742,6 +745,19 @@ def binary_download_response_schema(description: str):
             "application/octet-stream",
         ): OpenApiResponse(response=OpenApiTypes.BINARY, description=description)
     }
+
+
+def association_request(name: str, field_name: str):
+    """Document an action that takes a single numeric resource ID."""
+    return inline_serializer(name, {field_name: serializers.IntegerField()})
+
+
+UNIT_SEARCH_PARAMETER = OpenApiParameter(
+    "q",
+    str,
+    OpenApiParameter.QUERY,
+    description="Weblate search query to filter the returned translation units.",
+)
 
 
 def get_request_user(request: Request) -> User:
@@ -1272,26 +1288,6 @@ def get_delete_memory_option(request: Request) -> bool:
     return body_value if body_value is not None else query_value or False
 
 
-class SensitiveSessionMutationMixin(APIView):
-    """Step up session authentication for credential and access mutations."""
-
-    sensitive_actions: frozenset[str] = frozenset()
-    action: str
-
-    def requires_sensitive_verification(self, request: Request) -> bool:
-        return self.action in self.sensitive_actions
-
-    def check_sensitive_verification(self, request: Request) -> None:
-        check_session_sensitive_verification(request)
-
-    def initial(self, request: Request, *args, **kwargs) -> None:
-        super().initial(request, *args, **kwargs)
-        if isinstance(
-            request.successful_authenticator, SessionAuthentication
-        ) and self.requires_sensitive_verification(request):
-            self.check_sensitive_verification(request)
-
-
 @extend_schema_view(
     list=extend_schema(
         description=(
@@ -1370,7 +1366,7 @@ class SensitiveSessionMutationMixin(APIView):
         description="Change the user parameters.",
     ),
 )
-class UserViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
+class UserViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
     """Users API."""
 
     request: AuthenticatedRequest  # type: ignore[assignment]
@@ -1588,8 +1584,12 @@ class UserViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
         request=USER_GROUP_REQUEST_SERIALIZER,
     )
     @extend_schema(
-        description="Remove a user from a group.",
+        description=(
+            "Remove a user from a group and return the updated user. A project "
+            "token must remain assigned to at least one team."
+        ),
         methods=["delete"],
+        responses={HTTP_200_OK: USER_RESPONSE_SERIALIZER},
     )
     @action(detail=True, methods=["post", "delete"])
     def groups(self, request: Request, **kwargs):
@@ -1641,11 +1641,16 @@ class UserViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
 
         return Response(serializer.data, status=HTTP_200_OK)
 
-    @extend_schema(description="List subscriptions of a user.", methods=["get"])
-    @extend_schema(description="Associate subscriptions with a user.", methods=["post"])
     @extend_schema(
-        request=NotificationSerializer,
+        description="List a user's accessible subscriptions.",
+        methods=["get"],
         responses=NotificationSerializer(many=True),
+    )
+    @extend_schema(
+        description="Create a subscription for a user.",
+        methods=["post"],
+        request=NotificationSerializer,
+        responses={HTTP_201_CREATED: NotificationSerializer},
     )
     @action(
         detail=True,
@@ -1679,7 +1684,9 @@ class UserViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
         methods=["put", "patch"],
     )
     @extend_schema(
-        description="Delete a subscription associated with a user.", methods=["delete"]
+        description="Delete a subscription associated with a user.",
+        methods=["delete"],
+        responses={HTTP_204_NO_CONTENT: None},
     )
     @extend_schema(
         parameters=[
@@ -1800,7 +1807,7 @@ class UserViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
     retrieve=extend_schema(description="Return information about a group."),
     partial_update=extend_schema(description="Change the group parameters."),
 )
-class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
+class GroupViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
     """Groups API."""
 
     request: AuthenticatedRequest  # type: ignore[assignment]
@@ -1900,7 +1907,11 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
         self.perm_check(request, self.get_object())
         return super().destroy(request, *args, **kwargs)
 
-    @extend_schema(description="Associate roles with a group.", methods=["post"])
+    @extend_schema(
+        summary="Assign a role to a team",
+        description="The caller must be able to edit the team, and the role must be assignable to that team.",
+        request=association_request("TeamRoleAssignment", "role_id"),
+    )
     @action(detail=True, methods=["post"])
     def roles(self, request: AuthenticatedRequest, **kwargs) -> Response:
         obj = self.get_object()
@@ -1950,7 +1961,13 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
             obj.roles.remove(role)
         return Response(status=HTTP_204_NO_CONTENT)
 
-    @extend_schema(description="Associate languages with a group.", methods=["post"])
+    @extend_schema(
+        summary="Assign a language to a team",
+        description="Requires permission to edit the team. Workspace teams cannot be assigned languages this way.",
+        request=inline_serializer(
+            "TeamLanguageAssignment", {"language_code": serializers.CharField()}
+        ),
+    )
     @action(
         detail=True,
         methods=["post"],
@@ -2016,7 +2033,11 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
             obj.languages.remove(language)
         return Response(status=HTTP_204_NO_CONTENT)
 
-    @extend_schema(description="Associate projects with a group.", methods=["post"])
+    @extend_schema(
+        summary="Assign a project to a team",
+        description="Requires permission to edit the team. Project and workspace teams cannot be assigned projects this way.",
+        request=association_request("TeamProjectAssignment", "project_id"),
+    )
     @action(
         detail=True,
         methods=["post"],
@@ -2072,7 +2093,9 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
         return Response(status=HTTP_204_NO_CONTENT)
 
     @extend_schema(
-        description="Associate componentlists with a group.", methods=["post"]
+        summary="Assign a component list to a team",
+        description="Requires permission to edit the team. Project and workspace teams cannot be assigned component lists this way.",
+        request=association_request("TeamComponentListAssignment", "component_list_id"),
     )
     @action(detail=True, methods=["post"])
     def componentlists(self, request: AuthenticatedRequest, **kwargs) -> Response:
@@ -2134,7 +2157,15 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
             obj.componentlists.remove(component_list)
         return Response(status=HTTP_204_NO_CONTENT)
 
-    @extend_schema(description="Associate components with a group.", methods=["post"])
+    @extend_schema(
+        summary="Assign a component to a team",
+        description=(
+            "Requires permission to edit the team. Project teams can only be "
+            "assigned components in their own project. Workspace teams cannot "
+            "be assigned components this way."
+        ),
+        request=association_request("TeamComponentAssignment", "component_id"),
+    )
     @action(
         detail=True,
         methods=["post"],
@@ -2200,7 +2231,14 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
             obj.components.remove(component)
         return Response(status=HTTP_204_NO_CONTENT)
 
-    @extend_schema(description="Make user a group admin.", methods=["post"])
+    @extend_schema(
+        summary="Grant team administrator access",
+        description="Requires permission to manage users on the team or to edit the team.",
+        request=association_request("TeamAdministratorAssignment", "user_id"),
+        responses=inline_serializer(
+            "TeamAdministratorGrant", {"detail": serializers.CharField()}
+        ),
+    )
     @action(detail=True, methods=["post"], url_path="admins")
     # pylint: disable-next=redefined-builtin
     def grant_admin(self, request: AuthenticatedRequest, id) -> Response:  # ruff: ignore[builtin-argument-shadowing]
@@ -2229,7 +2267,11 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
             {"detail": "Administration rights granted."}, status=HTTP_200_OK
         )
 
-    @extend_schema(description="Delete a user from group admins.", methods=["delete"])
+    @extend_schema(
+        description="Remove a team administrator and return the updated team.",
+        methods=["delete"],
+        responses={HTTP_200_OK: GroupSerializer},
+    )
     @action(detail=True, methods=["delete"], url_path="admins/(?P<user_pk>[0-9]+)")
     # pylint: disable-next=redefined-builtin
     def revoke_admin(self, request: AuthenticatedRequest, id, user_pk) -> Response:  # ruff: ignore[builtin-argument-shadowing]
@@ -2255,7 +2297,7 @@ class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
     retrieve=extend_schema(description="Return information about a role."),
     partial_update=extend_schema(description="Change the role parameters."),
 )
-class RoleViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
+class RoleViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
     """Roles API."""
 
     request: AuthenticatedRequest  # type: ignore[assignment]
@@ -2547,7 +2589,7 @@ class AnnouncementsMixin(APIViewSetMixin):
     ),
 )
 class ProjectViewSet(
-    SensitiveSessionMutationMixin,
+    SensitiveSessionVerificationMixin,
     WeblateViewSet,
     UpdateModelMixin,
     CreateModelMixin,
@@ -2717,8 +2759,49 @@ class ProjectViewSet(
         responses=ProjectComponentSerializer(many=True),
     )
     @extend_schema(
-        description="Create translation components in the given project.",
+        summary="Create a translation component",
+        description=(
+            "Requires permission to edit the project. The project comes from the URL. "
+            "For a component backed by an external repository, supply its repository "
+            "and file settings. Weblate automatically shares eligible repositories "
+            "within the project unless `disable_autoshare` is set.\n\n"
+            "Use multipart data with `zipfile` or `docfile` to initialize a local "
+            "repository. When using `from_component`, supply a component ID or "
+            "project/component path that you can edit. The new component inherits "
+            "its configuration and translations. Repository settings and file "
+            "uploads cannot be combined with `from_component`.\n\n"
+            "Follow the returned `task_url` if initialization continues in the background."
+        ),
         methods=["post"],
+        request={
+            "application/json": ComponentCreateRequestSerializer,
+            "multipart/form-data": ComponentCreateMultipartRequestSerializer,
+        },
+        responses={HTTP_201_CREATED: ComponentSerializer},
+        parameters=[
+            OpenApiParameter(
+                "Location",
+                OpenApiTypes.URI,
+                OpenApiParameter.HEADER,
+                response=[HTTP_201_CREATED],
+                description="URL of the created component.",
+            ),
+        ],
+        examples=[
+            OpenApiExample(
+                "Create a component from a repository",
+                request_only=True,
+                value={
+                    "name": "Application",
+                    "slug": "app",
+                    "vcs": "git",
+                    "repo": "https://example.com/translations.git",
+                    "branch": "main",
+                    "filemask": "locale/*.po",
+                    "file_format": "po",
+                },
+            ),
+        ],
     )
     @action(
         detail=True,
@@ -3009,7 +3092,15 @@ class ProjectViewSet(
 
         return Response(status=HTTP_204_NO_CONTENT)
 
-    @extend_schema(description="Create an add-on for this project.")
+    @extend_schema(
+        summary="Install an add-on on a project",
+        description=(
+            "Requires permission to edit the project. The project comes from the URL. "
+            "Configuration fields depend on the selected add-on."
+        ),
+        request=AddonSerializer,
+        responses={HTTP_201_CREATED: AddonSerializer},
+    )
     @action(detail=True, methods=["post"])
     def addons(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -3024,6 +3115,17 @@ class ProjectViewSet(
         serializer.save(project=obj)
         return Response(serializer.data, status=HTTP_201_CREATED)
 
+    @extend_schema(
+        summary="Create a project",
+        description=(
+            "Supply a workspace ID if creating the project in a specific workspace. "
+            "The caller must be allowed to add projects there. When the caller "
+            "lacks site-wide project creation permission, Weblate selects the only "
+            "eligible workspace automatically and requires an explicit choice "
+            "if more than one is eligible. Billing limits can restrict creation. "
+            "Omit `access_control` to use the configured default."
+        ),
+    )
     def create(self, request: Request, *args, **kwargs):
         """Create a new project."""
         user = get_request_user(request)
@@ -3280,13 +3382,21 @@ class ProjectViewSet(
     @extend_schema(
         methods=["get"],
         responses=InstallationSerializer(many=True),
-        description="List project translation service installations.",
+        description=(
+            "List project translation service installations.\n\n"
+            "Browser sessions require recent credential verification. "
+            "An expired or missing verification returns HTTP 403."
+        ),
     )
     @extend_schema(
         methods=["post"],
         request=InstallationSerializer,
         responses={HTTP_201_CREATED: InstallationSerializer},
-        description="Create a project translation service installation.",
+        description=(
+            "Create a project translation service installation.\n\n"
+            "Browser sessions require recent credential verification. "
+            "An expired or missing verification returns HTTP 403."
+        ),
     )
     @action(
         detail=True,
@@ -3303,6 +3413,7 @@ class ProjectViewSet(
                 request, "Can not retrieve/edit translation services configuration"
             )
 
+        self.check_sensitive_verification(request)
         if request.method == "POST":
             data = request.data.copy()
             data["project"] = project.pk
@@ -3327,7 +3438,7 @@ class ProjectViewSet(
         responses=ProjectLockSerializer,
     )
     @extend_schema(
-        description="Sets project lock status.",
+        description="Set the lock status for all components in the project. Requires project edit permission.",
         methods=["post"],
         responses=ProjectLockSerializer,
     )
@@ -3759,7 +3870,15 @@ class ComponentViewSet(
 
         return self.get_paginated_response(serializer.data)
 
-    @extend_schema(description="Create an add-on for this component.")
+    @extend_schema(
+        summary="Install an add-on on a component",
+        description=(
+            "Requires permission to edit the component. The component comes from the URL. "
+            "Configuration fields depend on the selected add-on."
+        ),
+        request=AddonSerializer,
+        responses={HTTP_201_CREATED: AddonSerializer},
+    )
     @action(detail=True, methods=["post"])
     def addons(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -4325,11 +4444,30 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
         description=(
             "Download translation file. Without format, return the file as stored "
             "in the repository. With format, convert the file and optionally "
-            "filter its strings using q."
+            "filter its strings using q. Requires download permission. Some "
+            "conversion formats also require access to contributor identities."
         ),
         methods=["get"],
-        responses=binary_download_response_schema("Translation file download."),
+        responses={
+            **binary_download_response_schema("Translation file download."),
+            HTTP_304_NOT_MODIFIED: OpenApiResponse(
+                description="The translation has not changed since the supplied date.",
+            ),
+        },
         parameters=[
+            OpenApiParameter(
+                "If-Modified-Since",
+                str,
+                OpenApiParameter.HEADER,
+                description="Return 304 when the translation is unchanged since this HTTP date.",
+            ),
+            OpenApiParameter(
+                "Last-Modified",
+                str,
+                OpenApiParameter.HEADER,
+                response=[HTTP_200_OK],
+                description="Last modification time as an HTTP date.",
+            ),
             OpenApiParameter(
                 "format",
                 str,
@@ -4351,9 +4489,31 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
         ],
     )
     @extend_schema(
-        description="Upload new file with translations.",
+        summary="Upload a translation file",
+        description=(
+            "Requires translation upload permission. For a raw file body, send "
+            "`Content-Disposition` with a filename. Use multipart data to pass "
+            "import settings alongside the file. The multipart `background` field "
+            "takes precedence over the query parameter.\n\n"
+            "A synchronous upload returns import counts. For a queued upload, "
+            "poll `task_url` and inspect its result for import counts or an error "
+            "description."
+        ),
         methods=["post", "put"],
+        request={
+            "multipart/form-data": UploadRequestSerializer,
+            "application/octet-stream": OpenApiTypes.BINARY,
+        },
         parameters=[
+            OpenApiParameter(
+                "Content-Disposition",
+                str,
+                OpenApiParameter.HEADER,
+                description=(
+                    "Required for a raw file body. Include the filename, for "
+                    "example `attachment; filename=messages.po`."
+                ),
+            ),
             OpenApiParameter(
                 "background",
                 bool,
@@ -4375,6 +4535,17 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
                 },
             ),
         },
+        examples=[
+            OpenApiExample(
+                "Queued translation upload",
+                value={
+                    "detail": "Translation upload has been queued.",
+                    "task_url": "https://example.com/api/tasks/2bda391b-0322-4557-8218-f5435f9dcc53/",
+                },
+                response_only=True,
+                status_codes=[HTTP_202_ACCEPTED],
+            ),
+        ],
     )
     @action(
         detail=True,
@@ -4401,9 +4572,6 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
                     else "Insufficient privileges for uploading."
                 ),
             )
-
-        if not check_rate_limit("upload", cast("AuthenticatedHttpRequest", request)):
-            raise Throttled(detail="Too many uploads, please try again later.")
 
         if not isinstance(request.data, Mapping):
             msg = "Expected form data."
@@ -4562,6 +4730,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
     @extend_schema(
         description="Return a list of translation units.",
         methods=["get"],
+        parameters=[UNIT_SEARCH_PARAMETER],
         responses=UnitSerializer(many=True),
     )
     @extend_schema(
@@ -4872,7 +5041,10 @@ def suggestion_vote_response(request: Request, suggestion_pk: int) -> Response:
 
 
 @extend_schema_view(
-    list=extend_schema(description="Return a list of translation units."),
+    list=extend_schema(
+        description="Return a list of translation units.",
+        parameters=[UNIT_SEARCH_PARAMETER],
+    ),
     retrieve=extend_schema(description="Return information about translation unit."),
     update=extend_schema(description="Perform full update on translation unit."),
     partial_update=extend_schema(
@@ -5211,9 +5383,14 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         return Response(status=HTTP_204_NO_CONTENT)
 
     @extend_schema(
-        description="Add a comment to the unit.",
+        summary="Add a comment to a translation unit",
+        description=(
+            "Requires permission to comment on the translation. Reporting a "
+            "source string also requires permission to comment on the source translation."
+        ),
         methods=["post"],
         request=CommentSerializer,
+        responses={HTTP_201_CREATED: CommentSerializer},
     )
     @extend_schema(
         description="Return a list of comments on the unit.",
@@ -5328,7 +5505,10 @@ class SuggestionViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         )
 
     @extend_schema(
-        description="Delete a suggestion.",
+        description=(
+            "Delete a suggestion. Requires permission to delete it. A rejection "
+            "reason and spam flag can be supplied in the request body."
+        ),
         methods=["delete"],
         request=SuggestionDeleteRequestSerializer,
         responses={204: None},
@@ -5456,10 +5636,14 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
     @extend_schema(
         description="Download the screenshot image.",
         methods=["get"],
-        responses=binary_download_response_schema("Screenshot image download."),
+        responses={
+            (HTTP_200_OK, "application/binary"): OpenApiResponse(
+                OpenApiTypes.BINARY, description="Screenshot image download."
+            )
+        },
     )
     @extend_schema(
-        description="Replace screenshot image.",
+        description="Replace the screenshot image using multipart data. Requires permission to edit the screenshot.",
         methods=["post", "put"],
         responses=BooleanResultSerializer,
     )
@@ -5506,7 +5690,10 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         return Response(data={"result": True})
 
     @extend_schema(
-        description="Associate source string with screenshot.", methods=["post"]
+        summary="Associate a source string with a screenshot",
+        description="Requires permission to edit the screenshot. The unit must belong to the screenshot's translation.",
+        request=association_request("ScreenshotUnitAssignment", "unit_id"),
+        responses=ScreenshotSerializer,
     )
     @action(detail=True, methods=["post"])
     @transaction.atomic
@@ -5553,6 +5740,15 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
             obj.remove_unit(unit, user=request.user)
         return Response(status=HTTP_204_NO_CONTENT)
 
+    @extend_schema(
+        summary="Upload a screenshot",
+        description=(
+            "Requires permission to add screenshots to the selected translation. "
+            "Setting a repository filename also requires repository access."
+        ),
+        request={"multipart/form-data": ScreenshotCreateRequestSerializer},
+        responses={HTTP_201_CREATED: ScreenshotCreateSerializer},
+    )
     def create(self, request: Request, *args, **kwargs):
         """Create a new screenshot."""
         user = cast("User", request.user)
@@ -5717,9 +5913,15 @@ class ComponentListViewSet(viewsets.ModelViewSet):
             raise ValidationError(error.messages) from error
 
     @extend_schema(
-        description="Associate component with a component list.", methods=["post"]
+        description="Associate an accessible component with a component list the caller can edit.",
+        methods=["post"],
+        request=association_request("ComponentListAssignment", "component_id"),
     )
-    @extend_schema(description="List components in a component list.", methods=["get"])
+    @extend_schema(
+        description="List accessible components in a component list.",
+        methods=["get"],
+        responses=ComponentSerializer(many=True),
+    )
     @action(detail=True, methods=["post", "get"])
     def components(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -6338,7 +6540,18 @@ class TasksViewSet(ViewSet):
         return task, component, metadata
 
     @extend_schema(
-        description="Return information about a task",
+        summary="Get a background task",
+        description=(
+            "Poll the task URL with the same credentials until `completed` is true, "
+            "then inspect the operation-specific `result`. Deletion can return null, "
+            "repository operations return an outcome flag, uploads return import "
+            "counts or an error, and automatic translation can report partial failures.\n\n"
+            "Task access requires visibility over its authorized scope. Log entries "
+            "are restricted to accessible components. Sensitive repository "
+            "diagnostics additionally require permission to view the upstream "
+            "repository location. Automatic translation warnings hide source "
+            "component details when the caller cannot access them."
+        ),
         methods=["get"],
         responses=TaskSerializer,
     )
@@ -6363,7 +6576,13 @@ class TasksViewSet(ViewSet):
         return Response(serializer.data)
 
     @extend_schema(
-        description="Cancel a running task.",
+        summary="Cancel a background task",
+        description=(
+            "Requires permission to edit each component associated with the task. "
+            "Inspect `cancellable` before requesting cancellation. Repository "
+            "operations cannot be cancelled because interruption could leave the "
+            "repository in an incomplete state."
+        ),
         methods=["delete"],
         responses={
             HTTP_204_NO_CONTENT: None,
@@ -6372,6 +6591,11 @@ class TasksViewSet(ViewSet):
                 description="The authenticated user does not have permission for this operation.",
             ),
             HTTP_409_CONFLICT: OpenApiResponse(
+                response={
+                    "type": "object",
+                    "properties": {"detail": {"type": "string"}},
+                    "required": ["detail"],
+                },
                 description="This task cannot be cancelled.",
             ),
         },

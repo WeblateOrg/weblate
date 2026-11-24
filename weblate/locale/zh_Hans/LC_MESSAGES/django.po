@@ -36,7 +36,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-11-19 18:05-0600\n"
-"PO-Revision-Date: 2026-11-15 03:51+0000\n"
+"PO-Revision-Date: 2026-11-20 22:06+0000\n"
 "Last-Translator: Hosted Weblate user 54392 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -1271,20 +1271,19 @@ msgid ""
 "inviter; it can't be used by your account."
 msgstr "此邀请只能由邀请者选择的电子邮件地址接受；您的账户无法使用它。"
 
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Your e-mail no longer belongs to verified account, it has been changed to "
-#| "{0}."
+#, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to a verified account, it has been changed to "
 "{0}."
-msgstr "您的电子邮件地址已不再关联已验证账户，已更改为 {0}。"
+msgstr "您的电子邮件地址不再属于已验证账户，已更改为 {0}。"
 
 msgid ""
 "Your account e-mail is no longer verified and has been removed. Add and "
 "verify an e-mail address to recover your password, then select it as your "
 "account e-mail in Account settings to receive notifications."
 msgstr ""
+"您的账户电子邮箱不再是已验证状态并已被删除。添加并验证一个电子邮件地址来恢复"
+"您的密码，然后在账户设置中将它选为您的账户电子邮箱来接收通知。"
 
 msgid ""
 "Your e-mail address has been added. You can now select it as your account e-"
@@ -3693,19 +3692,15 @@ msgid ""
 "Remove the component from project teams before moving it to another project."
 msgstr "在把部件移动到别的项目前将其从项目团队中删除。"
 
-#, fuzzy
-#| msgid ""
-#| "Remove the component from project teams before moving it to another "
-#| "project."
 msgid ""
 "Remove the component from its teams before deleting it. Deleting the last "
 "assigned component would expand the team's access."
-msgstr "在把部件移动到别的项目前将其从项目团队中删除。"
+msgstr "删除部件前从其团队中删除它。删除最后一个已分配的部件会扩展团队的权限。"
 
 msgid ""
 "Remove the component list from its teams before deleting it. Deleting the "
 "last assigned component list could expand a team's access."
-msgstr ""
+msgstr "删除部件列表前从其团队中删除它。删除最后分配的部件列表会扩展团队的权限。"
 
 msgid "Roles"
 msgstr "角色"
@@ -4391,10 +4386,8 @@ msgstr "账单"
 msgid "Billing event"
 msgstr "计费事件"
 
-#, fuzzy
-#| msgid "Projects without components"
 msgid "Project has no components."
-msgstr "没有部件的项目"
+msgstr "项目没有部件。"
 
 msgid "monthly"
 msgstr "每月"
@@ -7257,6 +7250,8 @@ msgid ""
 "When the linked file changes, Weblate can replace the screenshot with the "
 "repository image. Repository access is required to change this path."
 msgstr ""
+"当关联的文件更改时，Weblate 可以用仓库图像替换屏幕截图。需要仓库权限才能更改"
+"这个路径。"
 
 msgid "Image is too big."
 msgstr "图片太大。"
@@ -9502,12 +9497,12 @@ msgstr "该订阅不符合自由套餐的要求，请修复上述错误或购买
 #, python-format
 msgid ""
 "Resolve the issues below by %(date)s to keep Libre hosting for your project."
-msgstr ""
+msgstr "按 %(date)s 解决下面的问题来保留您项目的自由软件托管。"
 
 msgid ""
 "Weblate locks existing components for translation when it issues this "
 "warning. Project maintainers can unlock them."
-msgstr ""
+msgstr "Weblate 发布此警告时会锁定翻译的现有部件。项目维护者可以解锁它们。"
 
 msgid "Customer"
 msgstr "客户"
@@ -10949,15 +10944,12 @@ msgstr "项目仍然存在，但下次付款需要手动进行。"
 msgid "Recurring payment will be disabled for inactive projects"
 msgstr "将对不活跃项目禁用循环付款"
 
-#, fuzzy
-#| msgid "Does not meet Libre hosting conditions."
 msgid "Review Libre hosting conditions"
-msgstr "不满足自由软件项目托管条件。"
+msgstr "查看自由软件托管条件"
 
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Libre hosting removal warning for %(project)s"
-msgstr "%(project)s 的条目数量"
+msgstr "%(project)s 的自由软件托管删除警告"
 
 msgid "Translation change"
 msgstr "译文的变化"
@@ -12770,10 +12762,8 @@ msgstr "源代码仓库"
 msgid "Repository URL copied to clipboard."
 msgstr "仓库 URL 已复制到剪贴板。"
 
-#, fuzzy
-#| msgid "Renamed component"
 msgid "Linked component"
-msgstr "重命名了部件"
+msgstr "关联的部件"
 
 msgid "Repository branch"
 msgstr "仓库分支"
@@ -13193,10 +13183,8 @@ msgstr "复数形式：%(source_description)s"
 msgid "Plurals"
 msgstr "复数形式"
 
-#, fuzzy
-#| msgid "No strings found!"
 msgid "No integer examples found"
-msgstr "未找到字符串！"
+msgstr "未找到整数示例"
 
 msgid "First"
 msgstr "第一个"
@@ -14992,14 +14980,13 @@ msgstr "上次更新"
 msgid "Source string age"
 msgstr "源字符串添加时间"
 
-#, fuzzy, python-format
-#| msgid "%(filename)s, string %(position)s"
+#, python-format
 msgid "%(filename)s, line %(line)s"
-msgstr "%(filename)s，第 %(position)s 条字符串"
+msgstr "%(filename)s，第 %(line)s 行"
 
 #, python-format
 msgid "line %(line)s"
-msgstr ""
+msgstr "第 %(line)s 行"
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -16726,10 +16713,8 @@ msgstr "待接受的建议"
 msgid "Needs review"
 msgstr "需要复查"
 
-#, fuzzy
-#| msgid "The source and target have to be different languages."
 msgid "The source and destination checkouts must be different."
-msgstr "原文和目标必须是不同的语言。"
+msgstr "原文和目标 checkout 必须不同。"
 
 msgid "This component does not exist or you cannot access it."
 msgstr "这个部件不存在或你无法访问它。"
@@ -16755,10 +16740,9 @@ msgstr "我可以操作的项目"
 msgid "Discovery configuration"
 msgstr "发现配置"
 
-#, fuzzy, python-format
-#| msgid "Could not render template: {}"
+#, python-format
 msgid "Could not render %(setting)s template: %(error)s"
-msgstr "无法渲染模版：{}"
+msgstr "无法渲染 %(setting)s 模板：%(error)s"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -18632,10 +18616,8 @@ msgstr "如果留空，则此设置将从项目继承。"
 msgid "Use the secondary language configured in the category or project."
 msgstr "使用类别或项目中配置的第二语言。"
 
-#, fuzzy
-#| msgid "The local repository checkout is missing."
 msgid "The linked repository path is ambiguous."
-msgstr "本地仓库 checkout 缺失。"
+msgstr "关联的仓库路径不明确。"
 
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
@@ -18898,10 +18880,8 @@ msgstr ""
 "不用合并请求进行推送需要仓库的写入权限。配置含凭证的推送 URL，或使用 SSH 仓"
 "库 URL。"
 
-#, fuzzy
-#| msgid "This role cannot be assigned to this team."
 msgid "Version control system cannot be changed to this backend."
-msgstr "此角色无法被分配到该团队。"
+msgstr "无法将版本控制系统更改为这个后端。"
 
 msgid "The file mask is too complex and took too long to evaluate."
 msgstr "文件掩码太复杂，求值时间太长。"
@@ -19430,10 +19410,9 @@ msgstr "长破折号"
 msgid "User configured character: {}"
 msgstr "用户配置的字符：{}"
 
-#, fuzzy, python-format
-#| msgid "Could not push the repository."
+#, python-format
 msgid "Changes committed, but could not push the repository: %s"
-msgstr "无法推送仓库。"
+msgstr "已提交更改，但无法推送仓库：%s"
 
 msgid "Repository operation could not be completed because it remained locked."
 msgstr "无法完成仓库操作，因其仍为锁定状态。"
@@ -20234,15 +20213,11 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "垂直语言条形图"
 
-#, fuzzy
-#| msgid "Your languages"
 msgid "Sort languages by"
-msgstr "您的语言"
+msgstr "语言排序依据"
 
-#, fuzzy
-#| msgid "Translation change"
 msgid "Translation percentage"
-msgstr "译文的变化"
+msgstr "翻译比例"
 
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
@@ -20587,10 +20562,8 @@ msgstr "模板上下文超出了其大小限制。"
 msgid "Template context is nested too deeply."
 msgstr "模板上下文嵌套太深。"
 
-#, fuzzy
-#| msgid "Unsupported template context value."
 msgid "Unsupported nonfinite template context value."
-msgstr "不支持的模板上下文值。"
+msgstr "不支持的非限定性模板上下文值。"
 
 msgid "Unsupported template context key."
 msgstr "不支持的模板上下文键。"
@@ -20601,347 +20574,276 @@ msgstr "不支持的模板上下文值。"
 msgid "Template value exceeds its size limit."
 msgstr "模板值超过了其大小限制。"
 
-#, fuzzy
-#| msgid "The entered token is not valid."
 msgid "Template text is not valid UTF-8."
-msgstr "输入的令牌无效。"
+msgstr "模板文本不是有效的 UTF-8。"
 
 #, python-format
 msgid "Tag \"%(name)s\""
-msgstr ""
+msgstr "“%(name)s” 标签"
 
-#, fuzzy
-#| msgid "Invalid target state."
 msgid "Invalid template syntax."
-msgstr "无效的目标状态。"
+msgstr "无效的模板语法。"
 
-#, fuzzy
-#| msgid "Undefined variable: \"%s\""
 msgid "Undefined template variable."
-msgstr "未定义的变量：“%s”"
+msgstr "未定义的模板变量。"
 
-#, fuzzy
-#| msgid "The translation is not valid XML."
 msgid "Text is not valid UTF-8."
-msgstr "该译文不是有效的 XML。"
+msgstr "文本不是有效的 UTF-8。"
 
-#, fuzzy
-#| msgid "The chosen sorting is not supported."
 msgid "Division by zero is not supported."
-msgstr "不支持所选排序。"
+msgstr "不支持把0作为分母。"
 
-#, fuzzy
-#| msgid "Select a change for this automation."
 msgid "Numeric value is too large for this operation."
-msgstr "为这个自动化选择一个更改。"
+msgstr "这个操作的数字值太大。"
 
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Repository operation failed"
 msgid "Numeric operation failed."
-msgstr "仓库操作失败"
+msgstr "数字操作失败。"
 
 msgid "Value or argument has an unsupported type."
-msgstr ""
+msgstr "值或变量有一个不支持的类型。"
 
 msgid "Value or argument is incomplete or out of range."
-msgstr ""
+msgstr "值或变量不完整或超出范围。"
 
-#, fuzzy
-#| msgid "Translation revision has an invalid format."
 msgid "Value or argument has an invalid format."
-msgstr "翻译修改有一个无效的格式。"
+msgstr "值或变量有一个无效的格式。"
 
-#, fuzzy, python-format
-#| msgid "%(path)s: %(error)s"
+#, python-format
 msgid "%(operation)s: %(message)s"
-msgstr "%(path)s: %(error)s"
+msgstr "%(operation)s: %(message)s"
 
 #, python-format
 msgid "Line %(line)d: %(message)s"
-msgstr ""
+msgstr "第 %(line)d 行：%(message)s"
 
 msgid "Template rendering exceeded its time limit."
 msgstr "模板渲染超出了其时间限制。"
 
-#, fuzzy, python-format
-#| msgid "Template join exceeds its size limit."
+#, python-format
 msgid "Template exceeds the operation limit of %(limit)d."
-msgstr "模板连接超出了其大小限制。"
+msgstr "模板超出了 %(limit)d 个操作的限制。"
 
-#, fuzzy, python-format
-#| msgid "Translation file exceeds the maximum allowed size of %d bytes."
+#, python-format
 msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
-msgstr "翻译文件超出了允许的最大大小 %d 字节。"
+msgstr "翻译文件超出了累计的工作限制 %(limit)d 字节。"
 
-#, fuzzy, python-format
-#| msgid "Template value exceeds its size limit."
+#, python-format
 msgid "Template value exceeds the size limit of %(limit)d bytes."
-msgstr "模板值超过了其大小限制。"
+msgstr "模板值超过了大小限制 %(limit)d 字节。"
 
 msgid "Template value must be a supported scalar."
-msgstr ""
+msgstr "模板值必须是受支持的数量。"
 
 msgid "Integer exceeds the numeric limit of 4096 bits."
-msgstr ""
+msgstr "整数超出了 4096 比特的数字限制。"
 
-#, fuzzy
-#| msgid "YAML aliases and tags are not supported."
 msgid "Nonfinite numbers are not supported."
-msgstr "不支持 YAML 别称和标签。"
+msgstr "不支持非限定性数字。"
 
-#, fuzzy, python-format
-#| msgid "File names"
+#, python-format
 msgid "Filter \"%(name)s\""
-msgstr "文件名"
+msgstr "“%(name)s” 筛选器"
 
 #, python-format
 msgid "Template exceeds the filter application limit of %(limit)d."
-msgstr ""
+msgstr "模板超出了 %(limit)d 的筛选器应用限制。"
 
 msgid "Template rendering exceeded its loop limit."
 msgstr "模板渲染超出了其循环限制。"
 
-#, fuzzy
-#| msgid "YAML aliases and tags are not supported."
 msgid "Attribute access and method calls are not supported."
-msgstr "不支持 YAML 别称和标签。"
+msgstr "不支持属性访问和方法调用。"
 
-#, fuzzy
-#| msgid "Username needs to have at least five characters."
 msgid "Index exceeds the length limit of 128 characters."
-msgstr "用户名至少要 5 个字符。"
+msgstr "索引超出了 128 个字符的长度限制。"
 
-#, fuzzy
-#| msgid "YAML aliases and tags are not supported."
 msgid "Translated template literals are not supported."
-msgstr "不支持 YAML 别称和标签。"
+msgstr "不支持翻译好的模板字面量。"
 
-#, fuzzy
-#| msgid "Invalid unit."
 msgid "Invalid filter."
-msgstr "无效单元."
+msgstr "无效筛选器。"
 
 msgid "Identity comparisons require None, True, or False."
-msgstr ""
+msgstr "身份比较需要 None、True 或 False。"
 
-#, fuzzy
-#| msgid "The chosen sorting is not supported."
 msgid "This condition operator is not supported."
-msgstr "不支持所选排序。"
+msgstr "不支持这个条件操作符。"
 
 msgid "Template output exceeds its size limit."
 msgstr "模板输出超过了其大小限制。"
 
 msgid "Loops require a list, string, dictionary, or dictionary view."
-msgstr ""
+msgstr "循环需要列表、词典或词典视图。"
 
 msgid "Loop unpacking requires a list, tuple, string, or dictionary."
-msgstr ""
+msgstr "循环解包需要列表、元组、字符串或词典。"
 
 msgid "Loop value cannot be unpacked into its variables."
-msgstr ""
+msgstr "循环值无法被解包进其变量。"
 
-#, fuzzy
-#| msgid "The chosen sorting is not supported."
 msgid "This template tag is not supported."
-msgstr "不支持所选排序。"
+msgstr "不支持这个模板标签。"
 
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "This template node is not supported."
-msgstr "检测到的文件格式不支持。"
+msgstr "不支持这个模板节点。"
 
 msgid "Replacement requires string values and arguments."
-msgstr ""
+msgstr "替换需要字符串值和变量。"
 
-#, fuzzy, python-format
-#| msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+#, python-format
 msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
-msgstr "工作簿超出了最大的展开大小 %d 字节。"
+msgstr "替换超出了中间大小限制 %(limit)d 字节。"
 
 #, python-format
 msgid "Undefined variable: \"%s\""
 msgstr "未定义的变量：“%s”"
 
 msgid "This filter requires scalar values and arguments."
-msgstr ""
+msgstr "此筛选器要求数量值和变量。"
 
-#, fuzzy, python-format
-#| msgid "Template intermediate value exceeds its size limit."
+#, python-format
 msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
-msgstr "模板中间值超出了其大小限制。"
+msgstr "中间值会超出大小限制 %(limit)d 字节。"
 
 msgid "Numeric input exceeds the conversion limit of 1240 characters."
-msgstr ""
+msgstr "数字输入超出了 1240 个字符的转换限制。"
 
 msgid "Decimal exceeds the numeric conversion limit."
-msgstr ""
+msgstr "十进小数超出了数字转换限制。"
 
-#, fuzzy
-#| msgid "This field is required."
 msgid "This filter requires strings."
-msgstr "该字段必填。"
+msgstr "这个筛选器要求字符串。"
 
-#, fuzzy
-#| msgid "Automation keys must be strings."
 msgid "Choices must be a string."
-msgstr "自动键必须是字符串。"
+msgstr "选项必须是字符串。"
 
 msgid "Length requires a list, string, dictionary, or dictionary view."
-msgstr ""
+msgstr "长度需要列表、字符串、词典或词典视图。"
 
 msgid "This filter requires a list, tuple, or string."
-msgstr ""
+msgstr "此筛选器要求列表、元组或字符串。"
 
 msgid "Slicing requires a list, tuple, or string."
-msgstr ""
+msgstr "Slicing 要求列表、元组或字符串。"
 
-#, fuzzy
-#| msgid "Username needs to have at least five characters."
 msgid "Slice argument exceeds the length limit of 128 characters."
-msgstr "用户名至少要 5 个字符。"
+msgstr "Slice 变量超出了 128 个字符的长度限制。"
 
 msgid ""
 "Joining requires an iterable and a string separator with escaping disabled."
-msgstr ""
+msgstr "Joining 要求可迭代对象和禁用了转义的字符串分隔符。"
 
-#, fuzzy
-#| msgid "Source string length"
 msgid "Joining requires string elements."
-msgstr "源字符串长度"
+msgstr "Joining 需要字符串元素。"
 
 #, python-format
 msgid "Joined value would exceed the size limit of %(limit)d bytes."
-msgstr ""
+msgstr "合并值会超出 %(limit)d 个字节的大小限制。"
 
 msgid "Sequence escaping requires a list, tuple, or string."
-msgstr ""
+msgstr "序列转义要求列表、元组或字符串。"
 
 msgid "Sequence escaping requires scalar elements."
-msgstr ""
+msgstr "序列转义要求数字元素。"
 
 msgid "Date formatting requires a date, time, string, or None."
-msgstr ""
+msgstr "日期格式调整需要日期、时间、字符串或 None。"
 
-#, fuzzy
-#| msgid "Automation keys must be strings."
 msgid "Date format must be a string or None."
-msgstr "自动键必须是字符串。"
+msgstr "日期格式必须是字符串或 None。"
 
-#, fuzzy
-#| msgid "Trigger scope requires a change with a string."
 msgid "Time comparison requires a date, time, string, or None."
-msgstr "触发器作用域要求一条字符串的一个更改。"
+msgstr "时间比较需要日期、时间、字符串或 None。"
 
 msgid "Time comparison argument must be a date or None."
-msgstr ""
+msgstr "时间比较变量必须是日期或 None。"
 
 msgid "Concatenation requires sequences of the same type."
-msgstr ""
+msgstr "Concatenation 要求一连串相同类型的内容。"
 
-#, fuzzy
-#| msgid "Automation keys must be strings."
 msgid "Plural suffixes must be a string."
-msgstr "自动键必须是字符串。"
+msgstr "复数后缀必须是字符串。"
 
-#, fuzzy
-#| msgid "Username needs to have at least five characters."
 msgid "Precision argument exceeds the length limit of 128 characters."
-msgstr "用户名至少要 5 个字符。"
+msgstr "精度变量超出了 128 个字符的长度限制。"
 
 msgid "Formatting precision exceeds the limit of 1000 places."
-msgstr ""
+msgstr "格式精度超过了 1000 位的限制。"
 
 msgid "Format must be a string of at most 128 characters."
-msgstr ""
+msgstr "格式必须是最多 128 个字符的字符串。"
 
 msgid ""
 "Format must contain one supported conversion without mapping keys or dynamic "
 "widths."
-msgstr ""
+msgstr "格式必须包含一个没有映射键或动态宽度的支持的转换。"
 
-#, fuzzy
-#| msgid "YAML aliases and tags are not supported."
 msgid "Nested template delimiters are not supported."
-msgstr "不支持 YAML 别称和标签。"
+msgstr "不支持嵌套的模板定界符。"
 
-#, fuzzy
-#| msgid "Unsupported template context key."
 msgid "Unclosed template token."
-msgstr "不支持的模板上下文键。"
+msgstr "未解决的模板令牌。"
 
-#, fuzzy, python-format
-#| msgid "Template join exceeds its size limit."
+#, python-format
 msgid "Template token exceeds the size limit of %(limit)d bytes."
-msgstr "模板连接超出了其大小限制。"
+msgstr "模板令牌超出了 %(limit)d 个字节的大小限制。"
 
 msgid "Template tokens cannot span multiple lines."
-msgstr ""
+msgstr "模板标记不能跨越多行。"
 
-#, fuzzy, python-format
-#| msgid "Template join exceeds its size limit."
+#, python-format
 msgid "Template exceeds the parsing limit of %(limit)d tokens."
-msgstr "模板连接超出了其大小限制。"
+msgstr "模板超出了 %(limit)d 个令牌的解析限制。"
 
-#, fuzzy, python-format
-#| msgid "Template join exceeds its size limit."
+#, python-format
 msgid "Template exceeds the parsing limit of %(limit)d filters."
-msgstr "模板连接超出了其大小限制。"
+msgstr "模板超出了 %(limit)d 个筛选器的解析限制。"
 
 #, python-format
 msgid "Template exceeds the parsing work limit of %(limit)d units."
-msgstr ""
+msgstr "模板超出了 %(limit)d 个单元的解析工作限制。"
 
 #, python-format
 msgid "Unclosed template tag \"%(tag)s\"."
-msgstr ""
+msgstr "未关闭的模板标签 \"%(tag)s\"。"
 
-#, fuzzy
-#| msgid "The report is empty."
 msgid "Template tag is empty."
-msgstr "该报告是空的。"
+msgstr "模板标签为空。"
 
 #, python-format
 msgid "Condition exceeds the parsing limit of %(limit)d terms."
-msgstr ""
+msgstr "Condition 超出了 %(limit)d 个条款的解析限制。"
 
-#, fuzzy, python-format
-#| msgid "Template join exceeds its size limit."
+#, python-format
 msgid "Template exceeds the nesting limit of %(limit)d levels."
-msgstr "模板连接超出了其大小限制。"
+msgstr "模板超出了 %(limit)d 层的嵌套限制。"
 
 #, python-format
 msgid "Unexpected closing tag \"%(tag)s\"."
-msgstr ""
+msgstr "意外的结束标签 \"%(tag)s\"。"
 
 #, python-format
 msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
-msgstr ""
+msgstr "\"%(tag)s\" 标签需要前后闭合的 \"%(parent)s\" 标签。"
 
-#, fuzzy, python-format
-#| msgid "Unsupported template context value."
+#, python-format
 msgid "Unsupported template tag \"%(tag)s\"."
-msgstr "不支持的模板上下文值。"
+msgstr "不支持的模板标签 “%(tag)s”。"
 
-#, fuzzy
-#| msgid "Unsupported template context value."
 msgid "Unsupported template tag."
-msgstr "不支持的模板上下文值。"
+msgstr "不支持的模板标签。"
 
 #, python-format
 msgid "Serialized data exceeds the nesting limit of %(limit)d."
-msgstr ""
+msgstr "序列化数据超出了 %(limit)d 的嵌套限制。"
 
-#, fuzzy, python-format
-#| msgid "Translation file exceeds the maximum allowed size of %d bytes."
+#, python-format
 msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
-msgstr "翻译文件超出了允许的最大大小 %d 字节。"
+msgstr "序列化超出了 %(limit)d 个字节的中间大小限制。"
 
-#, fuzzy, python-format
-#| msgid "Template value exceeds its size limit."
+#, python-format
 msgid "Serialized value exceeds the size limit of %(limit)d bytes."
-msgstr "模板值超过了其大小限制。"
+msgstr "序列化的值超出了 %(limit)d 个字节的大小限制。"
 
 #, python-format
 msgid ""

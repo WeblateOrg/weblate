@@ -12,7 +12,13 @@ from typing import TYPE_CHECKING
 from django.core.cache import cache
 
 from weblate.lang.models import Language
-from weblate.metrics.aggregation import BATCH_SIZE, counters, history, language_pairs
+from weblate.metrics.aggregation import (
+    BATCH_SIZE,
+    counters,
+    history,
+    language_pairs,
+    translation_history,
+)
 from weblate.metrics.models import (
     BASIC_KEYS,
     SOURCE_KEYS,
@@ -72,7 +78,11 @@ def prepare_metric(
 
 
 def collect_batch(
-    manager: MetricManager, objects: Sequence[MetricObject], date: dt.date
+    manager: MetricManager,
+    objects: Sequence[MetricObject],
+    date: dt.date,
+    *,
+    refresh_contributors: bool = False,
 ) -> None:
     """Collect at most one batch of homogeneous objects, plus bounded language batches."""
     if not objects:
@@ -90,7 +100,10 @@ def collect_batch(
         Language: ("language", Metric.SCOPE_LANGUAGE),
     }[type(objects[0])]
     ids = [obj.pk for obj in objects]
-    changes = history(scope, ids, date, manager.db)
+    if refresh_contributors and scope == "translation":
+        changes = translation_history(ids, date, manager.db)
+    else:
+        changes = history(scope, ids, date, manager.db)
     counts = counters(scope, ids, manager.db)
     prefetch_stats(objects)
     accounting_keys = []

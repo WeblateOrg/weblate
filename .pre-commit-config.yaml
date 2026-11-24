@@ -35,7 +35,7 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.17.5
+  rev: v0.17.6
   hooks:
   - id: ruff-check
     args:
@@ -48,7 +48,7 @@ repos:
   - id: doccmd
     args: [--language, python, --no-pad-file, --command, ruff format]
     additional_dependencies:
-    - ruff==0.17.5
+    - ruff==0.17.6
     language: python
 - repo: meta
   hooks:
@@ -90,7 +90,7 @@ repos:
   hooks:
   - id: validate-pyproject
 - repo: https://github.com/djlint/djLint
-  rev: v1.50.1
+  rev: v1.54.0
   hooks:
   - id: djlint-reformat-django
     types_or: [html, text]
@@ -238,21 +238,15 @@ repos:
   - id: dclint
     files: ^.*/(docker-)?compose(-.*)?\.ya?ml$
 - repo: https://github.com/mongodb/kingfisher
-  rev: v2.18.1
+  rev: v2.20.0
   hooks:
-  - id: kingfisher-auto
-    args:
-    # Dedicated credential fixtures cannot contain inline ignore comments.
-    - --exclude
-    - weblate/trans/tests/data/googlev3.json
-    - --exclude
-    - weblate/trans/tests/data/saml.key
-    - --exclude
-    - docs/
+  - id: kingfisher-auto-files
+    # Documentation contains examples; dedicated credential fixtures cannot use inline ignores.
+    exclude: ^(?:docs/|weblate/trans/tests/data/(?:googlev3\.json|saml\.key)$)
     env:
-      KINGFISHER_VERSION: v2.18.1
+      KINGFISHER_VERSION: v2.20.0
 - repo: https://github.com/rvben/rumdl-pre-commit
-  rev: v0.3.4
+  rev: v0.3.5
   hooks:
   - id: rumdl
   - id: rumdl-fmt
@@ -265,4 +259,4 @@ ci:
   autoupdate_schedule: quarterly
   skip:
   - reuse
-  - kingfisher-auto
+  - kingfisher-auto-files

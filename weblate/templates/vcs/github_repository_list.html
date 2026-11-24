@@ -3,9 +3,13 @@
 {% load i18n %}
 
 {% block breadcrumbs %}
-  <li class="breadcrumb-item">
-    <a href="{% url 'create-component' %}">{% translate "Create component" %}</a>
-  </li>
+  {% if selected_workspace %}
+    {% include "vcs/workspace_breadcrumbs.html" with workspace=selected_workspace only %}
+  {% else %}
+    <li class="breadcrumb-item">
+      <a href="{% url 'create-component' %}">{% translate "Create component" %}</a>
+    </li>
+  {% endif %}
   <li class="breadcrumb-item">{% translate "From connected account" %}</li>
 {% endblock breadcrumbs %}
 

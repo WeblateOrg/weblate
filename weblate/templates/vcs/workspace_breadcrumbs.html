@@ -1,0 +1,12 @@
+{% load i18n %}
+
+<li class="breadcrumb-item">
+  <a href="{{ workspace.get_absolute_url }}">{{ workspace }}</a>
+</li>
+<li class="breadcrumb-item">
+  {% if current %}
+    {% translate "Code-hosting connections" %}
+  {% else %}
+    <a href="{% url 'account-vcs' %}?workspace={{ workspace.pk }}">{% translate "Code-hosting connections" %}</a>
+  {% endif %}
+</li>

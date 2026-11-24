@@ -235,7 +235,8 @@ def restore_dismissed(apps: StateApps, schema_editor: BaseDatabaseSchemaEditor) 
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("addons", "0014_addon_category"),
+        # Recommendation fingerprints include the site-wide cleanup add-ons.
+        ("addons", "0018_migrate_cleanup_settings"),
         ("screenshots", "0001_squashed_weblate_5"),
         ("trans", "0093_project_workspace_tm"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
