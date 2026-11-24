@@ -30,7 +30,6 @@ from django.contrib.messages.storage.base import BaseStorage
 from django.core.exceptions import (
     ImproperlyConfigured,
     ObjectDoesNotExist,
-    PermissionDenied,
     ValidationError,
 )
 from django.core.mail.message import EmailMessage
@@ -197,7 +196,7 @@ from weblate.accounts.visibility import (
     is_resource_bounded,
     profile_response,
 )
-from weblate.auth.decorators import check_management_access
+from weblate.auth.decorators import check_account_edit_access, check_management_access
 from weblate.auth.forms import UserEditForm
 from weblate.auth.models import Group, Invitation, User, get_anonymous
 from weblate.auth.utils import (
@@ -500,6 +499,8 @@ def get_notification_forms(request: AuthenticatedHttpRequest, *, bound: bool = T
 @login_required
 def user_profile(request: AuthenticatedHttpRequest):
     user = request.user
+    if request.method == "POST":
+        check_account_edit_access(user)
     profile = user.profile
     profile.fixup_profile(request)
 
@@ -639,6 +640,8 @@ def user_profile(request: AuthenticatedHttpRequest):
 @session_ratelimit_post("remove")
 @never_cache
 def user_remove(request: AuthenticatedHttpRequest):
+    if request.method == "POST":
+        check_account_edit_access(request.user)
     is_confirmation = "remove_confirm" in request.session
     if is_confirmation:
         if request.method == "POST":
@@ -1006,8 +1009,7 @@ class UserPage(UpdateView):
     def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         check_management_access(request, "user.edit")
         user = self.object = self.get_object()
-        if user.is_internal:
-            raise PermissionDenied(gettext("This user can not be edited."))
+        check_account_edit_access(request.user, user)
         if not has_recent_sensitive_verification(request):
             return sensitive_verification_redirect(request, request.path)
         if "add_group" in request.POST:
@@ -1140,7 +1142,7 @@ class UserPage(UpdateView):
         )
 
         context["page_profile"] = user.profile
-        context["can_edit_page_user"] = not user.is_internal
+        context["can_edit_page_user"] = not user.account_edit_blocked(request.user)
         # Last user activity
         context["last_changes"] = all_changes.recent()
         context["last_changes_url"] = urlencode({"user": user.username})
@@ -1611,9 +1613,10 @@ def verify_second_factor(request: AuthenticatedHttpRequest):
 @never_cache
 def password(request: AuthenticatedHttpRequest):
     """Password change / set form."""
+    user = request.user
+    check_account_edit_access(user)
     do_change = True
     change_form = None
-    user = request.user
     usable = user.has_usable_password()
     if not has_recent_sensitive_verification(request):
         return sensitive_verification_redirect(request, request.path)
@@ -1797,6 +1800,7 @@ def reset_password(request: AuthenticatedHttpRequest):
 @session_ratelimit_post("reset_api")
 def reset_api_key(request: AuthenticatedHttpRequest):
     """Reset user API key."""
+    check_account_edit_access(request.user)
     if not has_recent_sensitive_verification(request):
         return sensitive_verification_redirect(request, f"{reverse('profile')}#api")
     with transaction.atomic():
@@ -1820,6 +1824,7 @@ def userdata(request: AuthenticatedHttpRequest):
 @login_required
 @session_ratelimit_post("userdata")
 def import_userdata(request: AuthenticatedHttpRequest):
+    check_account_edit_access(request.user)
     form = UserDataImportForm(request.POST, request.FILES)
     if not form.is_valid():
         messages.error(
@@ -1850,7 +1855,8 @@ def import_userdata(request: AuthenticatedHttpRequest):
 @require_POST
 @login_required
 async def watch(request: AuthenticatedHttpRequest, path):
-    user = request.user
+    user = await request.auser()
+    check_account_edit_access(user)
     redirect_obj = obj = await aparse_path(request, path, (Component, Project))
     if isinstance(obj, Component):
         project = obj.project
@@ -1883,9 +1889,11 @@ async def watch(request: AuthenticatedHttpRequest, path):
 @require_POST
 @login_required
 async def unwatch(request: AuthenticatedHttpRequest, path):
+    user = await request.auser()
+    check_account_edit_access(user)
     obj = await aparse_path(request, path, (Project,))
-    await request.user.profile.watched.aremove(obj)
-    await request.user.subscription_set.filter(
+    await user.profile.watched.aremove(obj)
+    await user.subscription_set.filter(
         Q(project=obj) | Q(component__project=obj)
     ).adelete()
     return redirect_next(request.GET.get("next"), obj)
@@ -1922,17 +1930,19 @@ async def amute_real(user: User, **kwargs) -> None:
 @require_POST
 @login_required
 async def mute(request: AuthenticatedHttpRequest, path):
+    user = await request.auser()
+    check_account_edit_access(user)
     obj = await aparse_path(request, path, (Component, Project))
     if isinstance(obj, Component):
         await amute_real(
-            request.user,
+            user,
             scope=NotificationScope.SCOPE_COMPONENT,
             component=obj,
             project=None,
         )
         return redirect(f"{reverse('profile')}?notify_component={obj.pk}#notifications")
     await amute_real(
-        request.user, scope=NotificationScope.SCOPE_PROJECT, component=None, project=obj
+        user, scope=NotificationScope.SCOPE_PROJECT, component=None, project=obj
     )
     return redirect(f"{reverse('profile')}?notify_project={obj.pk}#notifications")
 

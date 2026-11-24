@@ -3327,17 +3327,13 @@ class BillingRemovalTest(RepoTestCase):
         )
         self.assertTrue(form.is_valid(), form.errors)
         bot = form.save(acting_user=self.admin)
+        # Cover tokens whose display name already matches a removed account.
+        bot.full_name = "Deleted User"
+        bot.save(update_fields=["full_name"])
         token = Token.objects.get(user=bot)
         headers = {"authorization": f"Token {token.key}"}
         original_username = bot.username
         self.client.logout()
-        response = self.client.patch(
-            reverse("api:user-detail", kwargs={"username": bot.username}),
-            {"full_name": "Deleted User"},
-            content_type="application/json",
-            headers=headers,
-        )
-        self.assertEqual(response.status_code, 200)
 
         with patch("weblate.api.views.project_removal.delay") as removal:
             removal.return_value.id = "token-project-removal"
