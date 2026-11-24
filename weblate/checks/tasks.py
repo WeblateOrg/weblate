@@ -206,27 +206,49 @@ class PendingCheckRefresh:
 @contextmanager
 def coalesce_propagated_check_refreshes() -> Generator[None]:
     """Merge refresh callbacks from successful savepoints in a bounded batch."""
-    with transaction.atomic():
-        connection = transaction.get_connection()
-        start = len(connection.run_on_commit)
-        # A failure leaves callback cleanup to the atomic block's rollback.
-        yield  # ruff: ignore[fallible-context-manager]
-        pending: dict[int, PendingCheckRefresh] = {}
-        keep = connection.run_on_commit[:start]
-        for entry in connection.run_on_commit[start:]:
-            callback = entry[1]
-            if not isinstance(callback, PendingCheckRefresh):
-                keep.append(entry)
-                continue
-            batch = pending.setdefault(
-                callback.project_id, PendingCheckRefresh(callback.project_id)
-            )
-            batch.unit_ids.update(callback.unit_ids)
-            for group in callback.groups:
-                batch.add_group(group)
-        connection.run_on_commit = keep
-        for batch in pending.values():
-            transaction.on_commit(batch)
+    with transaction.atomic(), coalesce_pending_propagated_check_refreshes():
+        yield
+
+
+PROPAGATED_CHECK_REFRESH_BATCH_SIZE = 100
+
+
+@contextmanager
+def coalesce_pending_propagated_check_refreshes() -> Generator[None]:
+    """Merge refresh callbacks without changing the caller's transaction boundary."""
+    connection = transaction.get_connection()
+    if not connection.in_atomic_block:
+        yield
+        return
+
+    start = len(connection.run_on_commit)
+    try:
+        yield
+    finally:
+        # An add-on can catch an error and commit earlier successful saves.
+        # Django has already discarded callbacks from failed inner savepoints.
+        if not connection.needs_rollback:
+            _merge_pending_propagated_check_refreshes(start)
+
+
+def _merge_pending_propagated_check_refreshes(start: int) -> None:
+    callbacks = transaction.get_connection().run_on_commit
+    pending: dict[int, PendingCheckRefresh] = {}
+    keep = []
+    for entry in callbacks[start:]:
+        callback = entry[1]
+        if not isinstance(callback, PendingCheckRefresh):
+            keep.append(entry)
+            continue
+        batch = pending.setdefault(
+            callback.project_id, PendingCheckRefresh(callback.project_id)
+        )
+        batch.unit_ids.update(callback.unit_ids)
+        for group in callback.groups:
+            batch.add_group(group)
+    callbacks[start:] = keep
+    for batch in pending.values():
+        transaction.on_commit(batch)
 
 
 def schedule_propagated_checks(

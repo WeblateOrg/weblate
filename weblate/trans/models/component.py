@@ -12,7 +12,7 @@ from contextlib import ExitStack, contextmanager, nullcontext, suppress
 from copy import deepcopy
 from dataclasses import dataclass
 from functools import partial
-from itertools import chain
+from itertools import batched, chain
 from typing import (
     TYPE_CHECKING,
     Any,
@@ -7741,6 +7741,11 @@ class Component(  # ruff: ignore[too-many-public-methods]
             return f"{gettext('Could not get repository status!')}\n\n{error}"
 
     def update_enforced_checks(self) -> None:
+        from weblate.checks.tasks import (  # ruff: ignore[import-outside-top-level]
+            PROPAGATED_CHECK_REFRESH_BATCH_SIZE,
+            coalesce_pending_propagated_check_refreshes,
+        )
+
         effective = self.get_effective_setting("enforced_checks")
         units = Unit.objects.filter(
             check__name__in=effective,
@@ -7748,14 +7753,17 @@ class Component(  # ruff: ignore[too-many-public-methods]
             state__in=(STATE_TRANSLATED, STATE_APPROVED),
         )
 
-        for unit in units.select_for_update():
-            unit.translate(
-                self.get_update_user(None),
-                unit.get_target_plurals(),
-                STATE_NEEDS_REWRITING,
-                change_action=ActionEvents.ENFORCED_CHECK,
-                propagate=False,
-            )
+        locked_units = units.select_for_update()
+        for batch in batched(locked_units, PROPAGATED_CHECK_REFRESH_BATCH_SIZE):
+            with coalesce_pending_propagated_check_refreshes():
+                for unit in batch:
+                    unit.translate(
+                        self.get_update_user(None),
+                        unit.get_target_plurals(),
+                        STATE_NEEDS_REWRITING,
+                        change_action=ActionEvents.ENFORCED_CHECK,
+                        propagate=False,
+                    )
 
     @cached_property
     def api_slug(self):

@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from itertools import batched
 from typing import TYPE_CHECKING, ClassVar, NotRequired, TypedDict, cast
 
 from django.db.models import F, Prefetch, Q
@@ -235,6 +236,11 @@ class LocaleGenerateAddonBase(BaseAddon):
         targets: dict[int, Unit] | None = None,
         too_long_unit_ids: set[int] | None = None,
     ) -> int:
+        from weblate.checks.tasks import (  # ruff: ignore[import-outside-top-level]
+            PROPAGATED_CHECK_REFRESH_BATCH_SIZE,
+            coalesce_pending_propagated_check_refreshes,
+        )
+
         updated = 0
         if sources is None:
             sources = self.fetch_strings(
@@ -242,42 +248,44 @@ class LocaleGenerateAddonBase(BaseAddon):
             )
         if targets is None:
             targets = self.fetch_strings(target_translation, query)
-        for source_id, unit in targets.items():
-            if source_id not in sources:
-                continue
-            source_strings = sources[source_id].get_target_plurals(
-                target_translation.plural.number
-            )
-            last_string = ""
-            for i, source_string in enumerate(source_strings):
-                if source_string:
-                    last_string = source_string
-                else:
-                    source_strings[i] = last_string
-            new_strings = []
-            for source in source_strings:
-                multi = int(var_multiplier * len(source))
-                new_strings.append(
-                    f"{prefix}{var_prefix * multi}{source}{var_suffix * multi}{suffix}"
-                )
-            target_strings = unit.get_target_plurals()
-            if new_strings != target_strings or unit.state < STATE_TRANSLATED:
-                try:
-                    unit.translate(
-                        self.user,
-                        new_strings,
-                        target_state,
-                        change_action=ActionEvents.AUTO,
-                        propagate=False,
-                        # Copied stored source text is not limited, as it comes
-                        # from the repository, only generated text is
-                        validate_length=new_strings != source_strings,
+        for batch in batched(targets.items(), PROPAGATED_CHECK_REFRESH_BATCH_SIZE):
+            with coalesce_pending_propagated_check_refreshes():
+                for source_id, unit in batch:
+                    if source_id not in sources:
+                        continue
+                    source_strings = sources[source_id].get_target_plurals(
+                        target_translation.plural.number
                     )
-                except TranslationTextTooLongError:
-                    if too_long_unit_ids is not None:
-                        too_long_unit_ids.add(unit.pk)
-                    continue
-                updated += 1
+                    last_string = ""
+                    for i, source_string in enumerate(source_strings):
+                        if source_string:
+                            last_string = source_string
+                        else:
+                            source_strings[i] = last_string
+                    new_strings = []
+                    for source in source_strings:
+                        multi = int(var_multiplier * len(source))
+                        new_strings.append(
+                            f"{prefix}{var_prefix * multi}{source}{var_suffix * multi}{suffix}"
+                        )
+                    target_strings = unit.get_target_plurals()
+                    if new_strings != target_strings or unit.state < STATE_TRANSLATED:
+                        try:
+                            unit.translate(
+                                self.user,
+                                new_strings,
+                                target_state,
+                                change_action=ActionEvents.AUTO,
+                                propagate=False,
+                                # Copied stored source text is not limited, as it comes
+                                # from the repository, only generated text is
+                                validate_length=new_strings != source_strings,
+                            )
+                        except TranslationTextTooLongError:
+                            if too_long_unit_ids is not None:
+                                too_long_unit_ids.add(unit.pk)
+                            continue
+                        updated += 1
         if updated > 0:
             target_translation.invalidate_cache()
         return updated

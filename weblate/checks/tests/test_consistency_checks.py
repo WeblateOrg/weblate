@@ -30,6 +30,7 @@ from weblate.checks.consistency import (
 from weblate.checks.models import CHECKS, Check
 from weblate.checks.tasks import (
     _get_propagated_check_units,
+    coalesce_pending_propagated_check_refreshes,
     coalesce_propagated_check_refreshes,
     refresh_propagated_checks,
     schedule_propagated_checks,
@@ -869,6 +870,46 @@ class ConsistencyCheckTest(ConsistencyUnitsMixin, ReusableComponentTestCase):
             [("inconsistent", ""), ("reused", "Shared"), ("reused", "Committed")],
         )
         self.assertEqual(unit_ids, [])
+
+    def test_pending_refreshes_survive_an_error_caught_by_the_caller(self) -> None:
+        first = self.add_unit(self.translation_1, "one", "One", "Shared")
+        second = self.add_unit(self.translation_1, "two", "Two", "Shared")
+        with (
+            patch("weblate.checks.tasks.refresh_propagated_checks.delay") as delay,
+            self.captureOnCommitCallbacks(execute=True),
+            transaction.atomic(),
+        ):
+            with (
+                self.assertRaisesMessage(ValueError, "failed edit"),
+                coalesce_pending_propagated_check_refreshes(),
+            ):
+                for unit in (first, second):
+                    with transaction.atomic():
+                        schedule_propagated_checks(unit, {"reused"}, refresh_unit=True)
+                with transaction.atomic():
+                    first.target = "Rolled back"
+                    schedule_propagated_checks(first, {"reused"})
+                    msg = "failed edit"
+                    raise ValueError(msg)
+            delay.assert_not_called()
+
+        delay.assert_called_once()
+        _, groups, unit_ids = delay.call_args.args
+        self.assertEqual([group["target"] for group in groups], ["Shared"])
+        self.assertCountEqual(unit_ids, [first.pk, second.pk])
+
+    def test_pending_refreshes_are_discarded_on_outer_rollback(self) -> None:
+        unit = self.add_unit(self.translation_1, "one", "One", "Shared")
+        with (
+            patch("weblate.checks.tasks.refresh_propagated_checks.delay") as delay,
+            self.captureOnCommitCallbacks(execute=True),
+            transaction.atomic(),
+        ):
+            with coalesce_pending_propagated_check_refreshes(), transaction.atomic():
+                schedule_propagated_checks(unit, {"reused"})
+            transaction.set_rollback(True)
+
+        delay.assert_not_called()
 
     def test_propagated_checks_use_latest_state(self) -> None:
         first = self.add_unit(self.translation_1, "one", "One", "Shared")
