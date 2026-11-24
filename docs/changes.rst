@@ -20,6 +20,7 @@ Weblate 2026.12
 .. rubric:: Improvements
 
 * Switched :ref:`comment Markdown rendering <user-comments>` to markdown-it-py. Raw HTML tags appear as text, and links and images with disallowed destinations show only their labels.
+* Reduced check contention and component settings update time with :ref:`workspace-propagation-scope`.
 
 * Include the authentication backend, failure stage, and available diagnostic details in server logs for failed sign-ins.
 * Reduced :ref:`Sentry trace sampling <sentry-integration>` for routine requests and statistics updates.
