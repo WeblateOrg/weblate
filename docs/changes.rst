@@ -93,6 +93,7 @@ Weblate 2026.12
 .. rubric:: Bug fixes
 
 * Removed the separate upload rate limit for :http:post:`REST translation uploads </api/translations/(string:project)/(string:component)/(string:language)/file/>`.
+* Accepted quality check aliases in :ref:`flag settings <custom-checks>` and made them searchable in the flag editor.
 * Limited repository automation :ref:`alerts <alerts>` to components that own a remote repository and skipped screenshot coverage guidance for glossaries.
 * Applied changes to :setting:`VCS_ALLOW_SCHEMES` and the :setting:`default Git committer <DEFAULT_COMMITER_NAME>` after restarting Weblate, including for existing repositories.
 * Applied :ref:`enforced checks <enforcing-checks>` when changing a string's state through :ref:`bulk editing <bulk-edit>`.
