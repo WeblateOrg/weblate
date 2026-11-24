@@ -2854,7 +2854,11 @@ Configure whether to monitor Celery Beat tasks with Sentry. Defaults to ``True``
 SENTRY_PROFILES_SAMPLE_RATE
 ---------------------------
 
-Configure sampling rate for performance monitoring. Set to 1 to profile all traced events (the default), 0 disables profiling.
+Configure Sentry's profiler session sampling rate. At ``1`` (the default),
+sampled traces start profiling. At ``0``, profiling is disabled. The profiler
+captures Python stacks across the process while sampled spans are active,
+so overlapping requests can share a profiler session. Fractional rates
+select profiler sessions when the SDK initializes.
 
 .. seealso::
 
@@ -2865,7 +2869,9 @@ Configure sampling rate for performance monitoring. Set to 1 to profile all trac
 SENTRY_SEND_PII
 ---------------
 
-Allow Sentry to collect certain personally identifiable information. Turned off by default.
+Allow Sentry to collect user information, incoming request bodies, and
+non-sensitive cookies. Turned off by default. Weblate filters known credentials
+in both modes.
 
 .. versionchanged:: 5.7
 
