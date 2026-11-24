@@ -1542,6 +1542,8 @@ class SearchHighlight:
         """Return sorted, non-overlapping spans matching any of the patterns."""
         spans: list[tuple[int, int]] = []
         for pattern in self.get_patterns(field):
+            if pattern in self.disabled:
+                continue
             try:
                 spans.extend(
                     match.span()
@@ -1625,7 +1627,10 @@ def parse_highlight(text: str) -> SearchHighlight | None:
     if not patterns:
         return None
     return SearchHighlight(
-        {field: tuple(field_patterns) for field, field_patterns in patterns.items()},
+        {
+            field: tuple(dict.fromkeys(field_patterns))
+            for field, field_patterns in patterns.items()
+        },
         frozenset(user_regexes),
     )
 

@@ -1549,6 +1549,13 @@ class SearchHighlightTest(SimpleTestCase):
         self.assertIsNone(parse_highlight(""))
         self.assertIsNone(parse_highlight("(hello"))
 
+    def test_repeated_terms_deduplicated(self) -> None:
+        highlight = parse_highlight("source:a source:a a")
+        assert highlight is not None
+        self.assertEqual(len(highlight.patterns["source"]), 1)
+        self.assertEqual(len(highlight.patterns["target"]), 1)
+        self.assertEqual(len(highlight.get_patterns("source")), 1)
+
     def test_regex_dot_matches_newline(self) -> None:
         self.assert_highlight('r"o.w"', "Hello\nworld", ["o\nw"])
 
@@ -1558,7 +1565,8 @@ class SearchHighlightTest(SimpleTestCase):
         value = f"hello {'a' * 64}b"
         with patch("weblate.utils.search.REGEX_TIMEOUT", 0.001):
             spans = highlight.finditer(value)
-        self.assertEqual([value[start:end] for start, end in spans], ["hello", "b"])
+        # The regex after the timed out one is skipped within the same scan
+        self.assertEqual([value[start:end] for start, end in spans], ["hello"])
         self.assertEqual(highlight.disabled, set(highlight.user_regexes))
         self.assertEqual(
             [value[start:end] for start, end in highlight.finditer(value)], ["hello"]
