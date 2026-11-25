@@ -3090,8 +3090,12 @@ class Unit(models.Model, LoggerMixin):
             checks = CHECKS.source
             target_checks = False
         elif self.readonly:
-            checks = {}
-            target_checks = False
+            checks = {
+                name: check
+                for name, check in CHECKS.target.items()
+                if not check.ignore_readonly
+            }
+            target_checks = True
         elif self.state:
             checks = CHECKS.target
             target_checks = True
