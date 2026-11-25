@@ -1046,7 +1046,12 @@ e-mails in case something goes wrong on the server, for example:
 
 .. code-block:: python
 
-    ADMINS = ("Your Name <your_email@example.com>",)
+    ADMINS = ('"Example.org Admin" <admin@example.org>',)
+
+Use a bare e-mail address or enclose the display name in double quotes, as in
+the example. Django's SMTP backend rejects unquoted display names containing
+periods. A single malformed address can prevent the error e-mail from reaching
+any administrator. Run :command:`weblate check --deploy` to check the configuration.
 
 .. seealso::
 

@@ -1593,15 +1593,36 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 self.drop_repository_cache()
                 old.component_set.update(repo=self.get_repo_link_url())
             if boundary_changed:
-                from weblate.trans.propagation import refresh_propagation_checks  # ruff: ignore[import-outside-top-level]
-
-                refresh_propagation_checks(
-                    {
-                        project_id
-                        for project_id in (self.project_id, old_source_project_id)
-                        if project_id is not None
-                    }
+                from weblate.trans.propagation import (  # ruff: ignore[import-outside-top-level]
+                    refresh_propagation_checks,
+                    schedule_propagation_rebuild,
                 )
+
+                propagation_only = (
+                    not restricted_changed
+                    and not project_changed
+                    and old.name == self.name
+                )
+                component_name = (
+                    self.name
+                    if propagation_only
+                    and Component.objects.values_list(
+                        "project__workspace__propagation_scope", flat=True
+                    ).get(pk=self.pk)
+                    == "component_name"
+                    else None
+                )
+                if propagation_only and self.allow_translation_propagation:
+                    schedule_propagation_rebuild(self.project, component_name)
+                else:
+                    refresh_propagation_checks(
+                        {
+                            project_id
+                            for project_id in (self.project_id, old_source_project_id)
+                            if project_id is not None
+                        },
+                        component_name=component_name,
+                    )
         if glossary_settings_changed or (create and self.is_glossary):
             transaction.on_commit(
                 capture_change_origin(

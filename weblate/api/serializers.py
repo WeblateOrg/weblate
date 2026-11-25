@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import logging
 import os
+from collections.abc import Mapping
 from contextlib import contextmanager
 from copy import copy, deepcopy
 from dataclasses import dataclass
@@ -1227,7 +1228,31 @@ class FullUserSerializer(ProfileUpdateMixin, serializers.ModelSerializer[User]):
         if request is None or not request.user.has_perm("user.edit"):
             for field_name in self.privileged_fields:
                 fields[field_name].read_only = True
+        if isinstance(self.instance, User):
+            for field_name in self.instance.protected_account_fields:
+                fields[field_name].read_only = True
         return fields
+
+    def to_internal_value(self, data):
+        if isinstance(self.instance, User) and isinstance(data, Mapping):
+            errors: dict[str, Any] = {}
+            for name in self.instance.protected_account_fields:
+                if name not in data:
+                    continue
+                value = data[name]
+                if name == "is_bot":
+                    try:
+                        value = self.fields[name].to_internal_value(value)
+                    except serializers.ValidationError as error:
+                        errors[name] = error.detail
+                        continue
+                if value != getattr(self.instance, name):
+                    errors[name] = (
+                        "This field cannot be changed on an API token account."
+                    )
+            if errors:
+                raise serializers.ValidationError(errors)
+        return super().to_internal_value(data)
 
     class Meta:
         model = User

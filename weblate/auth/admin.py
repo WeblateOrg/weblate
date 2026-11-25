@@ -12,6 +12,7 @@ from django.contrib.admin.helpers import ACTION_CHECKBOX_NAME
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.core.exceptions import PermissionDenied, ValidationError
+from django.db.models import Q
 from django.template.response import TemplateResponse
 from django.utils.translation import gettext, gettext_lazy
 
@@ -175,6 +176,8 @@ class WeblateUserChangeForm(UserChangeForm):
         cast(
             "UniqueUsernameField", self.fields["username"]
         ).valid = self.instance.username
+        for name in self.instance.protected_account_fields:
+            self.fields[name].disabled = True
 
 
 class WeblateUserCreationForm(UserCreationForm, UniqueEmailMixin):
@@ -267,30 +270,39 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
     filter_horizontal = ()
 
     def get_queryset(self, request):
-        return super().get_queryset(request).prefetch_related("groups")
+        queryset = super().get_queryset(request).prefetch_related("groups")
+        if request.user.is_bot:
+            queryset = queryset.annotate(is_own_bot=Q(pk=request.user.pk, is_bot=True))
+        return queryset
 
     def user_groups(self, obj):
         """Display comma separated list of user groups."""
         return ",".join(group.name for group in obj.groups.all())
 
     def action_checkbox(self, obj):
-        if obj.is_internal:
+        if obj.is_internal or getattr(obj, "is_own_bot", False):
             return ""
         return super().action_checkbox(obj)
 
+    def response_action(self, request, queryset, *args, **kwargs):
+        # Selecting all results also includes rows without checkboxes.
+        if request.user.is_bot:
+            queryset = queryset.exclude(pk=request.user.pk, is_bot=True)
+        return super().response_action(request, queryset, *args, **kwargs)
+
     def has_change_permission(self, request: HttpRequest, obj=None):
-        if obj and obj.is_internal:
+        if obj and obj.account_edit_blocked(request.user):
             return False
         return super().has_change_permission(request, obj)
 
     def has_delete_permission(self, request: HttpRequest, obj=None):
-        if obj and obj.is_internal:
+        if obj and obj.account_edit_blocked(request.user):
             return False
         return super().has_delete_permission(request, obj)
 
     def delete_model(self, request: HttpRequest, obj) -> None:
         """Given a model instance delete it from the database."""
-        if obj.is_internal:
+        if obj.account_edit_blocked(request.user):
             raise PermissionDenied
         if not is_authenticated_request(request):
             raise PermissionDenied
@@ -303,7 +315,7 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
 
     def save_model(self, request: HttpRequest, obj, form, change) -> None:
         form.team_membership_limits_before = membership_limits(obj)
-        if change and obj.is_internal:
+        if change and obj.account_edit_blocked(request.user):
             raise PermissionDenied
         if change:
             original = User.objects.get(pk=obj.pk)

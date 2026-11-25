@@ -1,6 +1,6 @@
-{% load i18n %}
+{% load i18n permissions %}
 
-<p>{% translate "Weblate could not merge upstream changes while updating the repository." %}</p>
+<p>{% translate "Weblate could not integrate upstream changes into its local repository." %}</p>
 
 {% if analysis.repository_url_failure or analysis.redirect or analysis.checkout_unavailable %}
   {% if not analysis.redirect %}<pre>{{ error }}</pre>{% endif %}
@@ -10,4 +10,12 @@
   <pre>{{ error }}</pre>
 
   {% include "trans/merge_instructions.html" %}
+
+  {% perm "meta:vcs.maintenance" component as can_open_repository_maintenance %}
+  {% if can_open_repository_maintenance %}
+    <p>
+      <a class="btn btn-primary"
+         href="{{ component.get_absolute_url }}#repository">{% translate "Repository maintenance" %}</a>
+    </p>
+  {% endif %}
 {% endif %}

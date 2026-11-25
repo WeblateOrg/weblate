@@ -9,11 +9,18 @@ from typing import TYPE_CHECKING
 
 from asgiref.sync import iscoroutinefunction, sync_to_async
 from django.core.exceptions import PermissionDenied
+from django.utils.translation import gettext
 
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-    from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.auth.models import AuthenticatedHttpRequest, User
+
+
+def check_account_edit_access(actor: User, target: User | None = None) -> None:
+    """Require an editable account for browser writes."""
+    if (target or actor).account_edit_blocked(actor):
+        raise PermissionDenied(gettext("This user can not be edited."))
 
 
 def check_management_access(

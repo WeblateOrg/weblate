@@ -6,8 +6,11 @@
 
 from __future__ import annotations
 
-from contextlib import ExitStack
+import os
+import time
+from contextlib import AbstractContextManager, ExitStack
 from typing import Never
+from unittest import skipUnless
 from unittest.mock import Mock, patch
 
 from django.contrib.messages import get_messages
@@ -28,6 +31,7 @@ from weblate.auth.models import (
 from weblate.lang.models import Language
 from weblate.trans.models import Component, PendingUnitChange, Project, Translation
 from weblate.trans.repository import (
+    REPOSITORY_OPERATION_RUNNING_TTL,
     QueuedRepositoryOperation,
     RepositoryOperationConflictError,
     acquire_repository_operation,
@@ -39,8 +43,10 @@ from weblate.trans.repository import (
     queue_repository_operation,
     refresh_repository_operation,
     release_repository_operation,
+    reserve_repository_operation,
     store_repository_operation_tracking,
 )
+from weblate.trans.tasks import perform_repository_operation
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_optional_path
 from weblate.utils.celery import (
@@ -759,6 +765,33 @@ class RepositoryPermissionScopeTest(ViewTestCase):
         self.assertNotContains(response, linked.full_slug)
 
 
+class ImmediateThread:
+    """Run the heartbeat synchronously when the thread is started."""
+
+    def __init__(self, *, target, **kwargs) -> None:
+        self.target = target
+
+    def start(self) -> None:
+        self.target()
+
+    def join(self, *, timeout) -> None:
+        return None
+
+
+class ImmediateEvent:
+    """Let the heartbeat run a given number of times without waiting."""
+
+    def __init__(self, beats: int = 1) -> None:
+        self.beats = beats
+
+    def wait(self, timeout) -> bool:
+        self.beats -= 1
+        return self.beats < 0
+
+    def set(self) -> None:
+        return None
+
+
 class RepositoryOperationQueueTest(ViewTestCase):
     @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
     def test_task_tracking_excludes_inaccessible_linked_components(self) -> None:
@@ -1104,9 +1137,11 @@ class RepositoryOperationQueueTest(ViewTestCase):
         third = self.create_po(project=self.project, name="Third")
         component_ids = [self.component.pk, second.pk, third.pk]
         keys = [get_repository_operation_key(pk) for pk in component_ids]
-        self.addCleanup(cache.delete_many, keys)
+        other_scope = get_repository_operation_scope_key("other-task")
+        self.addCleanup(cache.delete_many, [*keys, other_scope])
         reservation = {"operation": "pull", "task_id": "task-id"}
         cache.set(keys[0], reservation)
+        cache.set(other_scope, [second.pk])
         cache.set(keys[1], {"operation": "push", "task_id": "other-task"})
         cache.set(keys[2], reservation)
 
@@ -1138,27 +1173,6 @@ class RepositoryOperationQueueTest(ViewTestCase):
         )
 
     def test_reservation_heartbeat_refreshes_long_operations(self) -> None:
-        class ImmediateThread:
-            def __init__(self, *, target, **kwargs) -> None:
-                self.target = target
-
-            def start(self) -> None:
-                self.target()
-
-            def join(self, *, timeout) -> None:
-                return None
-
-        class ImmediateEvent:
-            def __init__(self) -> None:
-                self.wait_count = 0
-
-            def wait(self, timeout) -> bool:
-                self.wait_count += 1
-                return self.wait_count > 1
-
-            def set(self) -> None:
-                return None
-
         with (
             patch("weblate.trans.repository.Thread", ImmediateThread),
             patch("weblate.trans.repository.Event", ImmediateEvent),
@@ -1170,6 +1184,231 @@ class RepositoryOperationQueueTest(ViewTestCase):
             pass
 
         self.assertEqual(refresh.call_count, 2)
+
+    def test_reservation_heartbeat_survives_refresh_error(self) -> None:
+        with (
+            patch("weblate.trans.repository.Thread", ImmediateThread),
+            patch("weblate.trans.repository.Event", lambda: ImmediateEvent(beats=2)),
+            patch(
+                "weblate.trans.repository.refresh_repository_operation",
+                side_effect=[None, ConnectionError, None],
+            ) as refresh,
+            patch("weblate.trans.repository.report_error") as report_error,
+            keep_repository_operation_reservation([self.component.pk], "task-id"),
+        ):
+            pass
+
+        # The failed refresh is reported and the heartbeat keeps going
+        self.assertEqual(refresh.call_count, 3)
+        report_error.assert_called_once()
+
+    @staticmethod
+    def advance_cache_clock(seconds: int) -> AbstractContextManager[Mock]:
+        """Make the locmem cache see time as if it was later."""
+        clock = Mock(wraps=time)
+        clock.time.return_value = time.time() + seconds
+        return patch("django.core.cache.backends.locmem.time", clock)
+
+    def test_dead_worker_does_not_block_operations(self) -> None:
+        # Killed while the operation is running
+        self.assert_dead_worker_does_not_block(
+            "weblate.trans.tasks.execute_repository_operation"
+        )
+
+    def test_worker_killed_when_starting_does_not_block_operations(self) -> None:
+        # Killed after claiming the reservation, before the operation starts
+        self.assert_dead_worker_does_not_block(
+            "weblate.trans.tasks.store_repository_operation_tracking"
+        )
+
+    def assert_dead_worker_does_not_block(self, killed_in: str) -> None:
+        class WorkerKilledError(BaseException):
+            pass
+
+        with patch(
+            "weblate.trans.tasks.perform_repository_operation.apply_async"
+        ) as apply_async:
+            queued = queue_repository_operation(self.component, "reset", self.user)
+        self.addCleanup(delete_task_metadata, queued.task_id)
+        self.addCleanup(
+            cache.delete_many,
+            [
+                get_repository_operation_key(self.component.pk),
+                get_repository_operation_update_key(self.component.pk),
+            ],
+        )
+
+        # The worker is killed, so it neither releases the reservation nor
+        # keeps refreshing it.
+        with (
+            patch(killed_in, side_effect=WorkerKilledError),
+            patch("weblate.trans.tasks.release_repository_operation"),
+            self.assertRaises(WorkerKilledError),
+        ):
+            perform_repository_operation.apply(
+                kwargs=apply_async.call_args.kwargs["kwargs"], task_id=queued.task_id
+            )
+
+        with (
+            self.advance_cache_clock(REPOSITORY_OPERATION_RUNNING_TTL + 1),
+            patch("weblate.trans.tasks.perform_repository_operation.apply_async"),
+        ):
+            requeued = queue_repository_operation(self.component, "reset", self.user)
+        self.addCleanup(delete_task_metadata, requeued.task_id)
+        self.addCleanup(
+            release_repository_operation, [self.component.pk], requeued.task_id
+        )
+
+        self.assertFalse(requeued.reused)
+        self.assertNotEqual(requeued.task_id, queued.task_id)
+
+    def test_worker_killed_while_claiming_does_not_block_operations(self) -> None:
+        class WorkerKilledError(BaseException):
+            pass
+
+        second = self.create_po(project=self.project, name="Second")
+        component_ids = [self.component.pk, second.pk]
+        with patch(
+            "weblate.trans.tasks.perform_repository_operation.apply_async"
+        ) as apply_async:
+            queued = queue_repository_operation(self.project, "reset", self.user)
+        self.addCleanup(delete_task_metadata, queued.task_id)
+        self.addCleanup(
+            cache.delete_many,
+            [
+                key
+                for component_id in component_ids
+                for key in (
+                    get_repository_operation_key(component_id),
+                    get_repository_operation_update_key(component_id),
+                )
+            ],
+        )
+
+        # The worker is killed after claiming the first repository, before
+        # it gets to the second one.
+        touch = cache.touch
+        reservation_keys = {get_repository_operation_key(pk) for pk in component_ids}
+        claimed: list[str] = []
+
+        def claim(key: str, timeout: int) -> bool:
+            if key in reservation_keys:
+                if claimed:
+                    raise WorkerKilledError
+                claimed.append(key)
+            return touch(key, timeout)
+
+        with (
+            patch.object(cache, "touch", side_effect=claim),
+            self.assertRaises(WorkerKilledError),
+        ):
+            perform_repository_operation.apply(
+                kwargs=apply_async.call_args.kwargs["kwargs"], task_id=queued.task_id
+            )
+        self.assertEqual(claimed, [get_repository_operation_key(self.component.pk)])
+
+        with (
+            self.advance_cache_clock(REPOSITORY_OPERATION_RUNNING_TTL + 1),
+            patch("weblate.trans.tasks.perform_repository_operation.apply_async"),
+        ):
+            requeued = queue_repository_operation(self.project, "reset", self.user)
+        self.addCleanup(delete_task_metadata, requeued.task_id)
+        self.addCleanup(release_repository_operation, component_ids, requeued.task_id)
+
+        self.assertFalse(requeued.reused)
+        self.assertNotEqual(requeued.task_id, queued.task_id)
+
+    def test_stale_reservation_is_removed_by_one_caller(self) -> None:
+        key = get_repository_operation_key(self.component.pk)
+        claim_key = f"{key}-stale-dead-task"
+        self.addCleanup(cache.delete_many, [key, claim_key])
+        cache.set(key, {"operation": "reset", "task_id": "dead-task"})
+
+        # Another caller has claimed the cleanup of this stale reservation and
+        # may already have replaced it, so this one must not delete the key.
+        cache.set(claim_key, True)
+        with self.assertRaises(RepositoryOperationConflictError):
+            acquire_repository_operation([self.component.pk], "reset", "task-id")
+        self.assertEqual(cache.get(key), {"operation": "reset", "task_id": "dead-task"})
+
+        cache.delete(claim_key)
+        acquire_repository_operation([self.component.pk], "reset", "task-id")
+        self.addCleanup(release_repository_operation, [self.component.pk], "task-id")
+        self.assertEqual(cache.get(key), {"operation": "reset", "task_id": "task-id"})
+
+    def assert_stale_cleanup_keeps_replacement(self) -> None:
+        key = get_repository_operation_key(self.component.pk)
+        acquire_repository_operation([self.component.pk], "reset", "finished-task")
+
+        # The task finishes and another one reserves the component while a
+        # concurrent caller is still checking the original reservation.
+        get = cache.get
+        finished_scope_key = get_repository_operation_scope_key("finished-task")
+        raced: list[bool] = []
+
+        def racing_get(
+            name: str, default: object = None, version: int | None = None
+        ) -> object:
+            if name == finished_scope_key and not raced:
+                raced.append(True)
+                release_repository_operation([self.component.pk], "finished-task")
+                acquire_repository_operation(
+                    [self.component.pk], "reset", "replacement-task"
+                )
+            return get(name, default, version)
+
+        # The cache can be overridden for the test, so clean up right away.
+        try:
+            with (
+                patch.object(cache, "get", side_effect=racing_get),
+                self.assertRaises(RepositoryOperationConflictError) as error,
+            ):
+                acquire_repository_operation([self.component.pk], "reset", "task-id")
+
+            self.assertEqual(raced, [True])
+            self.assertEqual(error.exception.task_id, "replacement-task")
+            self.assertEqual(
+                cache.get(key), {"operation": "reset", "task_id": "replacement-task"}
+            )
+        finally:
+            cache.delete(f"{key}-stale-finished-task")
+            for task_id in ("finished-task", "replacement-task", "task-id"):
+                release_repository_operation([self.component.pk], task_id)
+
+    def test_stale_cleanup_keeps_replacement_reservation(self) -> None:
+        self.assert_stale_cleanup_keeps_replacement()
+
+    @skipUnless("CI_REDIS_HOST" in os.environ, "Redis is not configured")
+    def test_stale_cleanup_keeps_replacement_reservation_redis(self) -> None:
+        location = (
+            f"redis://{os.environ['CI_REDIS_HOST']}:"
+            f"{os.environ.get('CI_REDIS_PORT', '6379')}/1"
+        )
+        with override_settings(
+            CACHES={
+                "default": {
+                    "BACKEND": "django_redis.cache.RedisCache",
+                    "LOCATION": location,
+                }
+            }
+        ):
+            self.assert_stale_cleanup_keeps_replacement()
+
+    def test_dead_process_does_not_block_operations(self) -> None:
+        # The process holding the reservation is killed in the middle of the
+        # operation: the context is never exited and the heartbeat stops.
+        dead = ExitStack()
+        with patch("weblate.trans.repository.Thread"):
+            dead.enter_context(
+                reserve_repository_operation([self.component.pk], "reset")
+            )
+        self.addCleanup(cache.delete, get_repository_operation_key(self.component.pk))
+
+        with (
+            self.advance_cache_clock(REPOSITORY_OPERATION_RUNNING_TTL + 1),
+            reserve_repository_operation([self.component.pk], "reset"),
+        ):
+            pass
 
 
 class GitNoChangeComponentTest(GitNoChangeProjectTest):

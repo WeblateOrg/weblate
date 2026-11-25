@@ -3104,6 +3104,34 @@ class UnitTest(ModelTestCase):
         unit.flags = "no-wrap, ignore-same"
         self.assertEqual(unit.all_flags.items(), {"no-wrap", "ignore-same"})
 
+    def test_edit_mode(self) -> None:
+        unit_id = (
+            self.component.translation_set.get(language_code="cs")
+            .unit_set.get(source="Hello, world!\n")
+            .pk
+        )
+        for flags, expected in (
+            ("", "none"),
+            ("xml-text", "xml"),
+            ("icu-message-format", "icu-message-format"),
+            ("icu-message-format, xml-text", "icu-message-format"),
+            ("icu-message-format, icu-flags:-extra", "icu-message-format"),
+            ("icu-message-format, icu-flags:xml", "icu-message-format-xml"),
+            ("icu-message-format, icu-flags:strict-xml", "icu-message-format-xml"),
+            ("icu-message-format, icu-flags:-extra:xml", "icu-message-format-xml"),
+            (
+                'icu-message-format, icu-flags:xml, icu-tag-prefix:"x:"',
+                "icu-message-format-xml",
+            ),
+            # ICU flags alone do not enable ICU MessageFormat
+            ("icu-flags:xml", "none"),
+        ):
+            with self.subTest(flags=flags):
+                # New object to clear all_flags and edit_mode cache
+                unit = Unit.objects.get(pk=unit_id)
+                unit.flags = flags
+                self.assertEqual(unit.edit_mode, expected)
+
     def test_order_by_request(self) -> None:
         unit = Unit.objects.filter(translation__language_code="cs")[0]
         source = unit.source_unit

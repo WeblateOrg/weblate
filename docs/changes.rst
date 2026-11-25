@@ -20,9 +20,14 @@ Weblate 2026.12
 .. rubric:: Improvements
 
 * The :ref:`addon-weblate.gettext.msgmerge` add-on refreshes the ``Language-Team`` header using the current translation URL when the ``po_set_language_team`` :ref:`file_format_params` parameter is enabled.
+* Show supported features in the :ref:`translation service lists <machine-translation-setup>`.
+
 * Switched :ref:`comment Markdown rendering <user-comments>` to markdown-it-py. Raw HTML tags appear as text, and links and images with disallowed destinations show only their labels.
+* Reduced check contention and component settings update time with :ref:`workspace-propagation-scope`.
 
 * The :ref:`addon-weblate.gettext.django` add-on can exclude source directories when generating a POT file.
+* Improved :ref:`merge conflict guidance <merge>` in component diagnostics and documented pull request recovery.
+
 * Include the authentication backend, failure stage, and available diagnostic details in server logs for failed sign-ins.
 * Reduced :ref:`Sentry trace sampling <sentry-integration>` for routine requests and statistics updates.
 * Upgraded the :ref:`Sentry integration <sentry-integration>` to Python SDK 3 with streamed spans and trace-linked profiling.
@@ -30,9 +35,11 @@ Weblate 2026.12
 * Select components directly in the :ref:`GitHub App migration table <code-hosting-github-app-migrate>` and return to them after migration.
 * Restoring a :ref:`projectbackup` preserves automated translation authors and can inherit regional plural rules. Importers can skip duplicate target translations and their Weblate data while keeping the archived repository files.
 
+* The :ref:`C# format <check-c-sharp-format>` check now also recognizes named placeholders used by C# string interpolation, such as ``There are {count} apples``, including member access (``{user.Name}``) and alignment/format components, while treating doubled braces (``{{``/``}}``) as escapes.
 * Added a choice to :ref:`connect an existing GitHub App installation to another workspace <code-hosting-github-app-connect>`.
 * Allow five minutes to assign strings to newly uploaded :ref:`screenshots` before raising an unused screenshot alert.
 * Show the last translator and approver in the :ref:`translation editor <source-context>`.
+* Keep the original editor search when merging a translation from the :ref:`translation context <source-context>`.
 
 * Link to SSH key replacement instructions in :ref:`component diagnostics <alerts>` when Azure DevOps reports an expired key.
 * Show commit counts, occurrence totals, file-format evidence, and the last recorded translation change in the relevant :ref:`component diagnostics <alerts>`.
@@ -68,9 +75,11 @@ Weblate 2026.12
 * Highlighted individual search terms in the searched fields when :ref:`searching for strings <search-strings>`.
 * Show :ref:`linked components <internal-urls>` in repository details and label suggestion counts on wider screens in :ref:`zen-mode`.
 * Improved performance for long strings in the :ref:`translation editor <translating>` by grouping indentation markers and editing long translations as plain text.
+* Highlighted XML tags in the translation editor for :ref:`ICU MessageFormat <check-icu-message-format>` strings with XML support enabled.
 
 .. rubric:: Security fixes
 
+* Prevented bot accounts from editing themselves and protected the generated account identities of :ref:`project API tokens <project-api>`.
 * Required recent browser verification to view or change :ref:`translation service configurations <machine-translation-setup>` or change exclusions.
 * Removed internal filesystem paths and raw command output from gettext and script :ref:`add-on alerts <alerts>`.
 * Redacted remote source URLs from :ref:`JavaScript localization CDN <addon-weblate.cdn.cdnjs>` alerts and activity logs, including existing records.
@@ -94,6 +103,7 @@ Weblate 2026.12
 
 .. rubric:: Bug fixes
 
+* Report invalid SMTP recipient addresses in :setting:`ADMINS` during :ref:`deployment checks <production-admins>`.
 * Removed the separate upload rate limit for :http:post:`REST translation uploads </api/translations/(string:project)/(string:component)/(string:language)/file/>`.
 * Accepted quality check aliases in :ref:`flag settings <custom-checks>` and made them searchable in the flag editor.
 * Limited repository automation :ref:`alerts <alerts>` to components that own a remote repository and skipped screenshot coverage guidance for glossaries.
@@ -115,6 +125,7 @@ Weblate 2026.12
 * Marked strings listed as ``### Missing:`` placeholders in :ref:`XWiki formats <xwiki-formats>` as untranslated instead of reusing the source value from the comment.
 * Fixed the automatic color theme briefly rendering partially light on page load and not fully following system theme changes on open pages.
 * Stopped the :ref:`check-rst-syntax` check from reporting errors already present in the source string, such as a trailing ``::`` whose literal block is outside the extracted message.
+* Released :ref:`repository operation <repository-maintenance>` reservations within minutes when the worker running them is killed, instead of blocking further repository operations for hours.
 
 .. rubric:: Compatibility
 

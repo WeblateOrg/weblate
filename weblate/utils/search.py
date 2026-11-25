@@ -735,9 +735,15 @@ class UnitTermExpr(BaseTermExpr):
         return self.build_field_query("language", text)
 
     @staticmethod
-    def effective_source_query(canonical: Q, parent: Q, context: dict) -> Q:
+    def uses_custom_sources(context: dict) -> bool:
+        if "custom_sources" in context:
+            return context["custom_sources"]
         project = context.get("project")
-        if project is not None and not project.translation_parent_language_ids:
+        return project is None or bool(project.translation_parent_language_ids)
+
+    @staticmethod
+    def effective_source_query(canonical: Q, parent: Q, context: dict) -> Q:
+        if not UnitTermExpr.uses_custom_sources(context):
             return canonical
         return (
             Q(
@@ -769,8 +775,7 @@ class UnitTermExpr(BaseTermExpr):
         author: bool = False,
     ) -> Q:
         relations = ["source_unit"]
-        project = context.get("project")
-        if project is None or project.translation_parent_language_ids:
+        if self.uses_custom_sources(context):
             relations.append("translation_parent")
         result = Q()
         for relation in relations:
@@ -947,14 +952,28 @@ class UnitTermExpr(BaseTermExpr):
         return super().has_field(text, context)
 
     def glossary_query(self, context: dict) -> Q:
+        glossary_scope = context.get("glossary_scope")
+        if glossary_scope is not None:
+            from weblate.glossary.models import get_scoped_glossary_sources  # ruff: ignore[import-outside-top-level]
+
+            result = Q(pk__in=[])
+            for owner_id, terms in get_scoped_glossary_sources(glossary_scope).items():
+                result |= Q(
+                    translation__component__project_id=owner_id
+                ) & self.glossary_terms_query(terms, context)
+            return result
+
         project = context.get("project")
-        if not project:
+        if project is None:
             return Q(source__isnull=True)
         terms = set(
             chain.from_iterable(
                 glossary.glossary_sources for glossary in project.glossaries
             )
         )
+        return self.glossary_terms_query(terms, context)
+
+    def glossary_terms_query(self, terms: set[str], context: dict) -> Q:
         if not terms:
             return Q(source__isnull=True)
         template = r"[[:<:]]({})[[:>:]]"

@@ -1565,6 +1565,24 @@ class MergeFailureNotification(Notification):
     template_name = "repository_error"
     skip_when_notify: ClassVar[set[type[Notification]]] = {NewAlertNotificaton}
 
+    def get_context(
+        self,
+        change: Change | None = None,
+        subscription: Subscription | None = None,
+        extracontext: dict | None = None,
+        *,
+        changes: QuerySet[Change] | list[Change] | list[dict[str, Any]] | None = None,
+        summaries: list[dict[str, Any]] | None = None,
+    ) -> dict[str, Any]:
+        context = super().get_context(
+            change, subscription, extracontext, changes=changes, summaries=summaries
+        )
+        context["show_merge_instructions"] = change is not None and change.action in {
+            ActionEvents.FAILED_MERGE,
+            ActionEvents.FAILED_REBASE,
+        }
+        return context
+
     def _convert_change_skip(self, change: Change) -> Change:
         fake = copy(change)
         fake.action = ActionEvents.ALERT

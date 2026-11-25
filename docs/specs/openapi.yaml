@@ -33806,6 +33806,8 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     put:
       operationId: api_users_update
+      description: Bot accounts cannot edit themselves. The username, email, and is_bot
+        fields of generated API token accounts cannot be changed.
       summary: Change the user parameters.
       parameters:
       - in: path
@@ -33974,6 +33976,8 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     patch:
       operationId: api_users_partial_update
+      description: Bot accounts cannot edit themselves. The username, email, and is_bot
+        fields of generated API token accounts cannot be changed.
       summary: Change the user parameters.
       parameters:
       - in: path
@@ -34141,7 +34145,8 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     delete:
       operationId: api_users_destroy
-      summary: Delete all user information and mark the user inactive.
+      description: Bot accounts cannot delete themselves.
+      summary: Delete user information and mark the user inactive.
       parameters:
       - in: path
         name: username
@@ -34454,6 +34459,7 @@ paths:
   /api/users/{username}/groups/:
     post:
       operationId: api_users_groups_create
+      description: Bot accounts cannot change their own memberships.
       summary: Associate groups with a user.
       parameters:
       - in: path
@@ -34622,7 +34628,8 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     delete:
       operationId: api_users_groups_destroy
-      description: A project token must remain assigned to at least one team.
+      description: A project token must remain assigned to at least one team. Bot
+        accounts cannot change their own memberships.
       summary: Remove a user from a group and return the updated user.
       parameters:
       - in: path
@@ -34965,6 +34972,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_users_notifications_create
+      description: Bot accounts cannot change their own subscriptions.
       summary: Create a subscription for a user.
       parameters:
       - in: path
@@ -35281,6 +35289,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     put:
       operationId: api_users_notifications_update
+      description: Bot accounts cannot change their own subscriptions.
       summary: Edit a subscription associated with a user.
       parameters:
       - in: path
@@ -35454,6 +35463,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     patch:
       operationId: api_users_notifications_partial_update
+      description: Bot accounts cannot change their own subscriptions.
       summary: Edit a subscription associated with a user.
       parameters:
       - in: path
@@ -35626,6 +35636,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     delete:
       operationId: api_users_notifications_destroy
+      description: Bot accounts cannot change their own subscriptions.
       summary: Delete a subscription associated with a user.
       parameters:
       - in: path
