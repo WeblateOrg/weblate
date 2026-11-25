@@ -100,7 +100,7 @@ Weblate 2026.12
 * Restricted :ref:`webhook matching <hooks-target-matching>` to repository owners, preventing generic deliveries from triggering GitHub App updates through linked components.
 * Required repository access to set a path for a :ref:`repository-linked screenshot <screenshots>`.
 * Kept backend errors out of :ref:`task status results <api-tasks>` when cached task metadata is removed during a request.
-* Prevented workspace disclosure in the :ref:`browsable REST API <api>` by using text inputs for single related objects. Large single-choice fields also use text inputs.
+* Prevented disclosure of private user fields in :ref:`REST API <api>` forms and of inaccessible workspace UUIDs in project create and update requests.
 
 .. rubric:: Bug fixes
 
@@ -129,6 +129,8 @@ Weblate 2026.12
 * Released :ref:`repository operation <repository-maintenance>` reservations within minutes when the worker running them is killed, instead of blocking further repository operations for hours.
 
 .. rubric:: Compatibility
+
+* Removed the browsable :ref:`REST API <api>` renderer and its HTML forms. Browse the API documentation at ``/api/docs/``.
 
 * Restricted :ref:`configurable templates <markup>` to documented operations with parsing, allocation, and cumulative work limits.
 

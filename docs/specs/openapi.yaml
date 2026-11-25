@@ -33806,8 +33806,9 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     put:
       operationId: api_users_update
-      description: Bot accounts cannot edit themselves. The username, email, and is_bot
-        fields of generated API token accounts cannot be changed.
+      description: Update your account or, with user.edit permission, another account.
+        Bot accounts cannot edit themselves. The username, email, and is_bot fields
+        of generated API token accounts cannot be changed.
       summary: Change the user parameters.
       parameters:
       - in: path
@@ -33976,8 +33977,9 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     patch:
       operationId: api_users_partial_update
-      description: Bot accounts cannot edit themselves. The username, email, and is_bot
-        fields of generated API token accounts cannot be changed.
+      description: Update your account or, with user.edit permission, another account.
+        Bot accounts cannot edit themselves. The username, email, and is_bot fields
+        of generated API token accounts cannot be changed.
       summary: Change the user parameters.
       parameters:
       - in: path
