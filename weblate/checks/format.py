@@ -264,12 +264,16 @@ PERL_BRACE_MATCH = re.compile(r"({([a-zA-Z0-9_]+)})")
 
 C_SHARP_MATCH = re.compile(
     r"""
+        }(})|                           # escaped }
+        {({)|                           # escaped {
         {                               # initial {
-        (?P<arg>\d+)                    # variable order
+        (?P<arg>\d+                     # variable order
+            |[a-zA-Z_][a-zA-Z0-9_]*     # or interpolated identifier
+            (?:\.[a-zA-Z_][a-zA-Z0-9_]*)*  # with member access
+        )
+        \s*                             # optional space after argument
         (?P<width>
-            [-,?\s]+                    # flags
-            (?:\d+)?                    # width
-            (?:\.\d+)?                  # precision
+            ,\s*-?\d+\s*                # comma and signed alignment width
         )?
         (?P<format>
             :                           # ':' identifier
@@ -403,6 +407,11 @@ def extract_string_python_brace(match: RegexMatch) -> str:
     return match.group(1) or match.group(2) or match.group(3)
 
 
+def extract_string_c_sharp(match: RegexMatch) -> str:
+    # 1 and 2 are escaped braces, arg is the actual match of format string
+    return match.group(1) or match.group(2) or match.group("arg")
+
+
 FLAG_RULES: dict[
     str,
     tuple[
@@ -460,7 +469,7 @@ FLAG_RULES: dict[
     "c-sharp-format": (
         C_SHARP_MATCH,
         name_format_is_position_based,
-        extract_string_simple,
+        extract_string_c_sharp,
     ),
     "java-printf-format": (
         JAVA_MATCH,
@@ -935,6 +944,14 @@ class CSharpFormatCheck(BaseFormatCheck):
     description = gettext_lazy("C# format string does not match source.")
     regexp = C_SHARP_MATCH
     extra_enable_strings = ("csharp-format",)
+    normalize_remove: ClassVar[set[str]] = {"{", "}"}
+
+    def extract_string(self, match: RegexMatch) -> str:
+        return extract_string_c_sharp(match)
+
+    def extract_matches(self, string: str) -> list[str]:
+        # Escapes are not arguments, including when selecting a plural source.
+        return self.normalize(super().extract_matches(string))
 
     def may_have_matches(self, text: str) -> bool:
         return "{" in text
