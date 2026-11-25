@@ -2897,7 +2897,7 @@ onReady(() => {
   Prism.languages.none = {};
   const icuXml = Prism.util.clone(Prism.languages["icu-message-format"]);
   icuXml.tag = Prism.util.clone(Prism.languages.markup.tag);
-  icuXml.tag.pattern = /<\/?[a-z][^\s{}#'<>\/,]*\s*\/?>/i;
+  icuXml.tag.pattern = /<\/?[a-z][^\s{}#'<>/,]*\s*\/?>/i;
   icuXml.entity = Prism.util.clone(Prism.languages.markup.entity);
   icuXml.string.pattern = /'[{}:=,<](?:[^']|'')*'(?!')/;
   Prism.languages["icu-message-format-xml"] = icuXml;
