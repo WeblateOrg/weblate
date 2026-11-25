@@ -616,6 +616,9 @@ class Translation(
     def get_url_path(self) -> tuple[str, ...]:
         return (*self.component.get_url_path(), self.language.code)
 
+    def get_language_team_header(self) -> str:
+        return f"{self.language.name} <{get_site_url(self.get_absolute_url())}>"
+
     def get_widgets_url(self) -> str:
         """Return absolute URL for widgets."""
         return f"{self.component.project.get_widgets_url()}?lang={self.language.code}&component={self.component.pk}"
@@ -2087,9 +2090,7 @@ class Translation(
 
         # Optionally store language team with link to website
         if GettextSetLanguageTeamHeader.get_value(self.component.file_format_params):
-            headers["language_team"] = (
-                f"{self.language.name} <{get_site_url(self.get_absolute_url())}>"
-            )
+            headers["language_team"] = self.get_language_team_header()
         if GettextLastTranslator.get_value(self.component.file_format_params):
             headers["last_translator"] = author_name
 

@@ -107,6 +107,9 @@ Updating PO files from the POT file
 
 :ref:`addon-weblate.gettext.msgmerge` can be used to update PO files from the
 POT file, see :ref:`updating-target-files`.
+During the merge, the add-on refreshes the ``Language-Team`` header with
+the current translation URL when the ``po_set_language_team``
+:ref:`file_format_params` parameter is enabled.
 
 .. _mono_gettext:
 

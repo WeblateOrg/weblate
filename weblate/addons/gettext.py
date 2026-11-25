@@ -44,7 +44,10 @@ from weblate.addons.gettext_rules import (
 )
 from weblate.formats.base import UpdateError
 from weblate.formats.exporters import MoExporter
-from weblate.trans.file_format_params import GettextReportMsgidBugsTo
+from weblate.trans.file_format_params import (
+    GettextReportMsgidBugsTo,
+    GettextSetLanguageTeamHeader,
+)
 from weblate.utils.change_origin import get_acting_user
 from weblate.utils.commands import find_runtime_command, get_clean_env
 from weblate.utils.errors import report_error
@@ -462,7 +465,12 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         file_format_cls = cast("PoFormat", component.file_format_cls)
         args = file_format_cls.get_msgmerge_args(component)
         repo_temp_dir = component.repository.get_repo_temp_dir()
-        for translation in component.translation_set.iterator():
+        update_language_team = GettextSetLanguageTeamHeader.get_value(
+            component.file_format_params
+        )
+        for translation in component.translation_set.select_related(
+            "language"
+        ).iterator():
             filename = translation.get_filename()
             if (
                 (translation.is_source and not translation.is_template)
@@ -476,6 +484,11 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
                     template,
                     args=args,
                     file_format_params=component.file_format_params,
+                    language_team=(
+                        translation.get_language_team_header()
+                        if update_language_team
+                        else None
+                    ),
                     repo_temp_dir=repo_temp_dir,
                 )
             except UpdateError as error:

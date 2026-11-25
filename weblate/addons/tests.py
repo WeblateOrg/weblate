@@ -51,6 +51,7 @@ from django.utils.translation import get_language, override
 from django_celery_beat.models import IntervalSchedule, PeriodicTask, PeriodicTasks
 from rest_framework.test import APIClient
 from standardwebhooks.webhooks import Webhook, WebhookVerificationError
+from translate.storage.po import pofile
 from translation_finder import DiscoveryLimit, DiscoveryResult, DiscoveryResults
 from weblate_schemas import validate_schema
 
@@ -1811,6 +1812,38 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
 class GettextAddonTest(ReusableViewTestCase):
     def create_component(self):
         return self.create_po_new_base(new_lang="add")
+
+    def test_msgmerge_refreshes_language_team_header(self) -> None:
+        translation = self.get_translation()
+        path = translation.get_filename()
+        assert path is not None
+        filename = Path(path)
+        filename.chmod(0o755)
+        with filename.open("rb") as handle:
+            original = pofile(handle).parseheader()
+        language_team = f"Czech <{get_site_url(translation.get_absolute_url())}>"
+        self.assertNotEqual(original.get("Language-Team"), language_team)
+
+        addon = MsgmergeAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
+        for enabled in (False, True):
+            with self.subTest(enabled=enabled):
+                self.component.file_format_params["po_set_language_team"] = enabled
+                addon.update_translations(self.component, "", [])
+                with filename.open("rb") as handle:
+                    headers = pofile(handle).parseheader()
+                self.assertEqual(
+                    headers.get("Language-Team"),
+                    language_team if enabled else original.get("Language-Team"),
+                )
+                self.assertEqual(
+                    headers["Last-Translator"], original["Last-Translator"]
+                )
+                self.assertEqual(
+                    headers["PO-Revision-Date"], original["PO-Revision-Date"]
+                )
+                self.assertEqual(stat.S_IMODE(filename.stat().st_mode), 0o755)
 
     def test_alerts_include_addon_id(self) -> None:
         addon = MsgmergeAddon.create(
