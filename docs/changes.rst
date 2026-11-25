@@ -19,6 +19,8 @@ Weblate 2026.12
 
 .. rubric:: Improvements
 
+* Show supported features in the :ref:`translation service lists <machine-translation-setup>`.
+
 * Switched :ref:`comment Markdown rendering <user-comments>` to markdown-it-py. Raw HTML tags appear as text, and links and images with disallowed destinations show only their labels.
 * Reduced check contention and component settings update time with :ref:`workspace-propagation-scope`.
 

@@ -38,6 +38,10 @@ Select a service in the listing to open its details, settings, and controls.
 Installed services use their numeric installation ID in the detail-page URL.
 The detail page provides selectors to use in Automation workflows. Inherited
 services link to their owning scope when you have permission to manage them.
+The listing shows support for translation, AI quality evaluation, rephrasing,
+glossaries, and translation context. Some features depend on the service plan
+or language pair. For example, DeepL rephrasing requires DeepL Pro.
+
 The listing summarizes basic configuration such as the model, source-language
 selection, and region, together with the installation ID and slug. Credentials,
 API URLs, and free-form prompts are excluded from these summaries.

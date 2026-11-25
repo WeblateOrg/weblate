@@ -968,23 +968,24 @@ function initHighlight(root) {
 }
 
 onReady(() => {
-  /* Delegate history tooltips so asynchronously loaded badges also work. */
-  const historyBadgeSelector = '.history-author [data-bs-toggle="tooltip"]';
+  /* Delegate badge tooltips so asynchronously loaded badges also work. */
+  const badgeSelector =
+    '.history-author [data-bs-toggle="tooltip"], .machinery-feature-tooltip';
   new bootstrap.Tooltip(document.body, {
-    selector: historyBadgeSelector,
+    selector: badgeSelector,
     customClass: "history-tooltip",
     container: "body",
     trigger: "hover focus",
     delay: { show: 150, hide: 150 },
   });
 
-  const historyTooltip = (badge) =>
+  const badgeTooltip = (badge) =>
     document.getElementById(badge.getAttribute("aria-describedby"));
 
   // Keep explanations visible while the pointer is over the tooltip itself.
   document.addEventListener("hide.bs.tooltip", (event) => {
-    if (!event.target.matches(historyBadgeSelector)) return;
-    const tooltip = historyTooltip(event.target);
+    if (!event.target.matches(badgeSelector)) return;
+    const tooltip = badgeTooltip(event.target);
     if (tooltip?.matches(":hover") && !tooltip.dataset.dismissed) {
       event.preventDefault();
     }
@@ -993,7 +994,7 @@ onReady(() => {
     const tooltip = event.target.closest(".history-tooltip");
     if (!tooltip || tooltip.contains(event.relatedTarget)) return;
     const badge = document.querySelector(
-      `${historyBadgeSelector}[aria-describedby="${tooltip.id}"]`,
+      `:is(${badgeSelector})[aria-describedby="${tooltip.id}"]`,
     );
     if (badge && !badge.matches(":hover, :focus")) {
       bootstrap.Tooltip.getInstance(badge)?.hide();
@@ -1001,8 +1002,8 @@ onReady(() => {
   });
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Escape") return;
-    document.querySelectorAll(historyBadgeSelector).forEach((badge) => {
-      const tooltip = historyTooltip(badge);
+    document.querySelectorAll(badgeSelector).forEach((badge) => {
+      const tooltip = badgeTooltip(badge);
       if (tooltip) tooltip.dataset.dismissed = "true";
       bootstrap.Tooltip.getInstance(badge)?.hide();
     });
