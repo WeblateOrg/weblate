@@ -898,6 +898,10 @@ def get_message_kind(tags) -> str:
 def get_embed_unit_query(context: Context) -> QueryDict:
     """Select search filters or fallback sorting for embedded unit links."""
     if context.get("include_search") and (params := context.get("query_params")):
+        # Units open in their own translation, where include_shared does not apply.
+        if "include_shared" in params:
+            params = params.copy()
+            del params["include_shared"]
         return params
     params = QueryDict(mutable=True)
     if sort_query := context.get("sort_query"):

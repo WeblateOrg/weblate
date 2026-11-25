@@ -638,7 +638,15 @@ def parse_path_units(
     request: AuthenticatedHttpRequest,
     path: list[str] | tuple[str, ...],
     types: tuple[type[Model | BaseURLMixin] | None, ...],
+    *,
+    include_shared: bool = False,
 ):
+    """
+    Parse a path and return the object, its units and the template context.
+
+    With ``include_shared``, project and project language units also cover
+    components shared into the project, as their statistics do.
+    """
     obj = parse_path(request, path, types)
 
     access_units = Unit.objects.filter_access(request.user)
@@ -658,7 +666,14 @@ def parse_path_units(
         context["project"] = obj.project
         context["components"] = [obj]
     elif isinstance(obj, Project):
-        unit_set = access_units.filter(translation__component__project=obj).prefetch()
+        if include_shared:
+            unit_set = access_units.filter(
+                translation__component__in=obj.child_components
+            ).prefetch()
+        else:
+            unit_set = access_units.filter(
+                translation__component__project=obj
+            ).prefetch()
         context["project"] = obj
     elif isinstance(obj, WorkspaceLanguage):
         unit_set = access_units.filter(
@@ -673,10 +688,15 @@ def parse_path_units(
         ).prefetch()
         context["workspace"] = obj
     elif isinstance(obj, ProjectLanguage):
-        unit_set = access_units.filter(
-            translation__component__project=obj.project,
-            translation__language=obj.language,
-        ).prefetch()
+        language_units = access_units.filter(translation__language=obj.language)
+        if include_shared:
+            unit_set = language_units.filter(
+                translation__component__in=obj.project.child_components
+            ).prefetch()
+        else:
+            unit_set = language_units.filter(
+                translation__component__project=obj.project
+            ).prefetch()
         context["project"] = obj.project
         context["language"] = obj.language
     elif isinstance(obj, Category):

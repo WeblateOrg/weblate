@@ -27,7 +27,8 @@
           {% if user_can_add_unit %}
             <a id="string-add" class="btn btn-info" href="#">{{ object.component.get_add_label }}</a>
           {% endif %}
-          <a href="{{ browse_url }}" class="btn btn-info">{% translate "Browse" %}</a>
+          <a href="{{ browse_url }}{% if stats_include_shared %}?include_shared=1{% endif %}"
+             class="btn btn-info">{% translate "Browse" %}</a>
           <a href="{% get_translate_url object glossary_browse=False %}{% if object.stats.todo > 0 %}?q=state:&lt;translated{% endif %}"
              class="btn btn-primary">{% translate "Translate" %}</a>
         </div>
@@ -66,6 +67,7 @@
   </div>
   <ul class="card-body action-card-grid translation-checklist list-unstyled mb-0">
     {% for query, name, count, color, words, characters in object.list_translation_checks %}
+      {# Counts that include shared components link to the search, the only view covering them. #}
       {% with filter_query=query|urlencode %}
         <li class="card mb-0 overflow-hidden overflow-wrap">
           <span class="progress checklist-stripe" aria-hidden="true">
@@ -74,11 +76,13 @@
             {% endif %}
           </span>
           <h5 class="fs-6 fw-semibold">
-            <a class="stretched-link" href="{{ translate_url }}?q={{ filter_query }}">{{ name }}</a>
+            <a class="stretched-link"
+               href="{% if stats_include_shared %}{{ browse_url }}?include_shared=1&amp;q={{ filter_query }}{% else %}{{ translate_url }}?q={{ filter_query }}{% endif %}">{{ name }}</a>
           </h5>
           {% include "snippets/string-counts.html" with count=count words=words characters=characters only %}
           <div class="d-flex flex-wrap gap-3 mt-auto pt-2 fw-semibold">
-            <a class="z-2" href="{{ browse_url }}?q={{ filter_query }}">{% translate "Browse" %}</a>
+            <a class="z-2"
+               href="{{ browse_url }}?{% if stats_include_shared %}include_shared=1&amp;{% endif %}q={{ filter_query }}">{% translate "Browse" %}</a>
             <a class="z-2" href="{{ edit_url }}?q={{ filter_query }}">{% translate "Translate" %}</a>
             <a class="z-2" href="{{ zen_url }}?q={{ filter_query }}">{% translate "Zen" %}</a>
           </div>

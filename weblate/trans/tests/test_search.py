@@ -43,6 +43,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.templatetags.translations import get_translate_url
 from weblate.trans.tests.test_views import ReusableViewTestCase
+from weblate.trans.views.search import shared_units_use_custom_sources
 from weblate.utils.forms import SearchField
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import (
@@ -950,6 +951,266 @@ class SearchViewTest(ReusableViewTestCase):
         self.do_search(
             {"q": "screenshot:ScreenshotAlpha screenshot:ScreenshotBeta"}, None
         )
+
+
+class SharedComponentSearchTest(ReusableViewTestCase):
+    """Search over components shared into a project, opted in with include_shared."""
+
+    CREATE_GLOSSARIES = True
+
+    def setUp(self) -> None:
+        super().setUp()
+        reset_rate_limit("search", address="127.0.0.1")
+        reset_rate_limit("bulk_edit", user=self.user)
+        self.glossary = self.project.glossaries[0]
+        self.target = self.create_project(name="Shared target", slug="shared-target")
+        self.glossary.links.add(self.target)
+        source = self.glossary.source_translation
+        with self.captureOnCommitCallbacks(execute=True):
+            source.add_unit(
+                None,
+                "",
+                source="shared-read-only-term",
+                extra_flags="read-only",
+                author=self.user,
+            )
+            source.add_unit(None, "", source="shared-editable-term", author=self.user)
+        self.owner = self.glossary.translation_set.get(language__code="cs")
+        self.update_fulltext_index()
+        self.language_path = [self.target.slug, "-", "cs"]
+        self.search_url = reverse("search", kwargs={"path": self.language_path})
+
+    def get_statistics_links(
+        self, name: str, path: list[str] | None = None
+    ) -> dict[str, str]:
+        """Return the heading and action links of a Strings status entry."""
+        response = self.client.get(
+            reverse("show", kwargs={"path": path or self.language_path})
+        )
+        entries = html.fromstring(response.content).xpath(
+            '//ul[contains(@class, "translation-checklist")]/li'
+        )
+        entry = next(
+            entry for entry in entries if entry.xpath("string(.//h5)").strip() == name
+        )
+        links = {
+            link.text_content().strip(): link.get("href")
+            for link in entry.xpath(".//div//a")
+        }
+        links["heading"] = entry.xpath(".//h5/a/@href")[0]
+        return links
+
+    def get_statistics_link(self, name: str) -> str:
+        return self.get_statistics_links(name)["heading"]
+
+    def test_read_only_link_finds_shared_string(self) -> None:
+        url = self.get_statistics_link("Read-only strings")
+        self.assertEqual(url, f"{self.search_url}?include_shared=1&q=state%3Aread-only")
+
+        response = self.client.get(url)
+        self.assertContains(response, "shared-read-only-term")
+        self.assertNotContains(response, "shared-editable-term")
+        # Strings open in their own translation, without the search-only flag.
+        unit_links = [
+            href
+            for href in html.fromstring(response.content).xpath("//a/@href")
+            if href.startswith(self.owner.get_translate_url())
+        ]
+        self.assertTrue(unit_links)
+        self.assertFalse([href for href in unit_links if "include_shared" in href])
+
+        response = self.client.get(self.search_url, {"q": "state:read-only"})
+        self.assertNotContains(response, "shared-read-only-term")
+        self.assertContains(response, "No matching strings found.")
+
+    def test_statistics_actions_keep_their_own_scope(self) -> None:
+        links = self.get_statistics_links("Read-only strings")
+        query = "q=state%3Aread-only"
+        self.assertEqual(links["Browse"], f"{self.search_url}?include_shared=1&{query}")
+        # The editor and Zen ignore include_shared, so their links do not carry it.
+        for view in ("translate", "zen"):
+            with self.subTest(view=view):
+                url = reverse(view, kwargs={"path": self.language_path})
+                self.assertEqual(links[view.capitalize()], f"{url}?{query}")
+
+    def test_statistics_without_shared_components_open_the_editor(self) -> None:
+        path = [self.project.slug, "-", "cs"]
+        links = self.get_statistics_links("All strings", path)
+        translate_url = reverse("translate", kwargs={"path": path})
+        self.assertEqual(links["heading"], f"{translate_url}?q=")
+        self.assertNotIn("include_shared", links["Browse"])
+
+    def test_owning_project_workflows_are_read_in_one_query(self) -> None:
+        second_owner = self.create_project(name="Second owner", slug="second-owner")
+        shared = self.create_link_existing(project=second_owner)
+        shared.links.add(self.target)
+        # Cached on the project; the check below then costs a single query.
+        self.assertTrue(self.target.has_shared_components)
+
+        with self.assertNumQueries(1):
+            self.assertFalse(shared_units_use_custom_sources(self.target))
+
+        parent_language = (
+            shared.translation_set.exclude(language=self.owner.language)
+            .exclude(pk=shared.source_translation.pk)
+            .order_by("language__code")[0]
+            .language
+        )
+        with self.captureOnCommitCallbacks(execute=True):
+            WorkflowSetting.objects.create(
+                project=second_owner,
+                language=self.owner.language,
+                source_language=parent_language,
+            )
+        with self.assertNumQueries(1):
+            self.assertTrue(shared_units_use_custom_sources(self.target))
+
+    def test_project_search_opts_in_to_shared_components(self) -> None:
+        url = reverse("search", kwargs={"path": [self.target.slug]})
+
+        response = self.client.get(url, {"q": "", "include_shared": "1"})
+        self.assertContains(response, "shared-read-only-term")
+        response = self.client.get(url, {"q": ""})
+        self.assertNotContains(response, "shared-read-only-term")
+
+    def test_flag_kept_through_pagination_and_sorting(self) -> None:
+        with self.captureOnCommitCallbacks(execute=True):
+            for number in range(10):
+                # A context adds the sortable context column to the listing.
+                self.glossary.source_translation.add_unit(
+                    None,
+                    f"context-{number}",
+                    source=f"shared-extra-term-{number}",
+                    author=self.user,
+                )
+        params = {"q": "", "include_shared": "1", "sort_by": "source", "limit": "10"}
+
+        response = self.client.get(self.search_url, params)
+        self.assertEqual(response.context["total_strings"], 12)
+        tree = html.fromstring(response.content)
+        self.assertEqual(
+            tree.xpath(
+                '//form[@class="result-page-form"]//input[@name="include_shared"]/@value'
+            ),
+            ["1"],
+        )
+        page_links = tree.xpath('//ul[@class="pagination"]//a[@href!="#"]/@href')
+        sort_links = tree.xpath('//th[contains(@class, "sort-cell")]/a/@href')
+        self.assertTrue(page_links)
+        self.assertTrue(sort_links)
+        for href in [*page_links, *sort_links]:
+            with self.subTest(href=href):
+                self.assertIn("include_shared=1", href)
+
+        response = self.client.get(self.search_url, {**params, "page": "2"})
+        self.assertContains(response, "shared-read-only-term")
+
+    def test_shared_string_uses_owning_project_source_workflow(self) -> None:
+        # Only the owning project uses a custom source language.
+        parent_language = self.glossary.translation_set.exclude(
+            pk__in=[self.owner.pk, self.glossary.source_translation.pk]
+        ).order_by("language__code")[0]
+        with self.captureOnCommitCallbacks(execute=True):
+            WorkflowSetting.objects.create(
+                project=self.project,
+                language=self.owner.language,
+                source_language=parent_language.language,
+            )
+        self.assertFalse(self.target.translation_parent_language_ids)
+        parent = parent_language.unit_set.get(source="shared-editable-term")
+        parent.translate(self.user, "shared-z-parent-text", STATE_TRANSLATED)
+        Comment.objects.create(
+            unit=parent, comment="shared-parent-note", user=self.user
+        )
+        unit = self.owner.unit_set.get(source="shared-editable-term")
+        self.assertEqual(unit.translation_parent_id, parent.pk)
+
+        for q, expected in (
+            ("source:shared-z-parent-text", True),
+            ("source:shared-editable-term", False),
+            ("source_comment:shared-parent-note", True),
+        ):
+            with self.subTest(q=q):
+                response = self.client.get(
+                    self.search_url, {"q": q, "include_shared": "1"}
+                )
+                self.assertEqual(
+                    unit in response.context["page_obj"].object_list, expected
+                )
+
+        # The owning project already searches it by the parent text.
+        response = self.client.get(
+            reverse("search", kwargs={"path": [self.project.slug, "-", "cs"]}),
+            {"q": "source:shared-z-parent-text"},
+        )
+        self.assertIn(unit, response.context["page_obj"].object_list)
+
+        # The parent text sorts after the read-only term, the canonical source before it.
+        response = self.client.get(
+            self.search_url,
+            {"q": "", "include_shared": "1", "sort_by": "source"},
+        )
+        self.assertEqual(
+            [item.pk for item in response.context["page_obj"].object_list],
+            [self.owner.unit_set.get(source="shared-read-only-term").pk, unit.pk],
+        )
+
+    def test_page_actions_hidden_when_including_shared(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+
+        response = self.client.get(self.search_url, {"q": ""})
+        self.assertIn("translate_url", response.context)
+        self.assertIn("bulk_state_form", response.context)
+
+        response = self.client.get(self.search_url, {"q": "", "include_shared": "1"})
+        self.assertNotIn("translate_url", response.context)
+        self.assertNotIn("bulk_state_form", response.context)
+
+    def test_restricted_shared_string_stays_hidden(self) -> None:
+        self.glossary.restricted = True
+        self.glossary.save(update_fields=["restricted"])
+
+        response = self.client.get(self.search_url, {"q": "", "include_shared": "1"})
+        self.assertNotContains(response, "shared-read-only-term")
+        self.assertNotContains(response, "shared-editable-term")
+
+    def test_private_owner_shared_string_stays_hidden(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+
+        response = self.client.get(self.search_url, {"q": "", "include_shared": "1"})
+        self.assertNotContains(response, "shared-read-only-term")
+        self.assertNotContains(response, "shared-editable-term")
+
+    def test_editor_and_zen_ignore_flag(self) -> None:
+        for name in ("translate", "zen"):
+            with self.subTest(view=name):
+                response = self.client.get(
+                    reverse(name, kwargs={"path": self.language_path}),
+                    {"q": "state:read-only", "include_shared": "1"},
+                    follow=True,
+                )
+                self.assertEqual(response.status_code, 200)
+                self.assertNotContains(response, "shared-read-only-term")
+
+    def test_bulk_edit_ignores_flag(self) -> None:
+        # A superuser can edit both the owning and the target project.
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        unit = self.owner.unit_set.get(source="shared-editable-term")
+        unit.translate(self.user, "sdileny-termin", STATE_TRANSLATED)
+        self.assertTrue(self.user.has_perm("unit.edit", unit))
+
+        response = self.client.post(
+            f"{reverse('bulk-edit', kwargs={'path': self.language_path})}"
+            "?include_shared=1",
+            {"q": "NOT id:0", "state": STATE_FUZZY, "include_shared": "1"},
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, no strings were updated.")
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, STATE_TRANSLATED)
 
 
 class ReplaceTest(ReusableViewTestCase):

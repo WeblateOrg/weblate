@@ -392,6 +392,7 @@ def show_project_language(
             "project": project_object,
             "object": obj,
             "path_object": obj,
+            "stats_include_shared": project_object.has_shared_components,
             "last_changes": last_changes,
             "last_announcements": last_announcements,
             "translations": translations,
