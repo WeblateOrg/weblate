@@ -25,10 +25,12 @@ from django.core.checks import Error, Info, register
 from django.core.checks import Warning as DjangoWarning
 from django.core.exceptions import ImproperlyConfigured
 from django.core.mail import get_connection
+from django.core.mail.backends.smtp import EmailBackend as SMTPEmailBackend
 from django.db import DatabaseError, connections
 from django.db.models import CharField, TextField
 from django.db.models.functions import MD5, Lower
 from django.utils import timezone
+from django.utils.translation import gettext
 from packaging.version import Version
 
 from weblate.utils.html import format_html_join_comma, list_to_tuples
@@ -363,6 +365,27 @@ def check_settings(
                 Error,
             )
         )
+
+    if settings.EMAIL_BACKEND == "django.core.mail.backends.smtp.EmailBackend":
+        # Address validation does not require a connection or working TLS settings.
+        smtp_backend = SMTPEmailBackend(use_tls=False, use_ssl=False)
+        for index, admin in enumerate(settings.ADMINS, start=1):
+            # Django uses only the address from legacy (name, address) pairs.
+            admin_mail = admin[1] if isinstance(admin, tuple) else admin
+            try:
+                smtp_backend.prep_address(admin_mail)
+            except ValueError:
+                errors.append(
+                    weblate_check(
+                        "weblate.E011",
+                        gettext(
+                            "ADMINS entry %(index)d is not a valid SMTP recipient. "
+                            "Use a plain e-mail address or quote the display name."
+                        )
+                        % {"index": index},
+                        Error,
+                    )
+                )
 
     if settings.EMAIL_BACKEND != "django.core.mail.backends.dummy.EmailBackend":
         if settings.SERVER_EMAIL in DEFAULT_MAILS:
