@@ -102,6 +102,7 @@ from weblate.machinery.openai import AzureOpenAITranslation, OpenAITranslation
 from weblate.machinery.saptranslationhub import SAPTranslationHub
 from weblate.machinery.systran import SystranTranslation
 from weblate.machinery.tmserver import TMServerTranslation
+from weblate.machinery.views import DeprecatedMachinery, MachineryConfiguration
 from weblate.machinery.weblatetm import WeblateTranslation
 from weblate.machinery.yandex import YandexTranslation
 from weblate.machinery.yandexv2 import YandexV2Translation
@@ -12174,6 +12175,8 @@ class ViewsTest(FixtureTestCase):
                 "formality": "prefer_more",
                 "next_gen": True,
                 "context": "private-context",
+                "url": "https://api.deepl.com",
+                "key": "private-key:fx",
             },
         )
         for url in (
@@ -12197,6 +12200,12 @@ class ViewsTest(FixtureTestCase):
                     html=True,
                 )
                 self.assertContains(response, "summary-model")
+                self.assertContains(response, "Rephrasing (requires Pro)")
+                self.assertContains(response, 'title="Rephrasing requires DeepL Pro."')
+                self.assertContains(response, ">Rephrasing</span>")
+                self.assertContains(response, ">AI quality evaluation</span>")
+                self.assertContains(response, ">Glossary</span>")
+                self.assertContains(response, ">Translation context</span>")
                 self.assertContains(
                     response, "Secondary language defined in project or component"
                 )
@@ -12435,6 +12444,44 @@ class ViewsTest(FixtureTestCase):
             ).status_code,
             404,
         )
+
+
+class MachineryFeatureBadgeTest(SimpleTestCase):
+    def test_provider_capabilities(self) -> None:
+        self.assertEqual(
+            MachineryConfiguration(DummyTranslation, None).get_feature_badges(),
+            [("Translation", "")],
+        )
+        with patch.object(OpenAITranslation, "translation_support", False):
+            self.assertEqual(
+                MachineryConfiguration(OpenAITranslation, None).get_feature_badges(),
+                [
+                    ("AI quality evaluation", ""),
+                    ("Glossary", ""),
+                    ("Translation context", ""),
+                ],
+            )
+        self.assertEqual(
+            MachineryConfiguration(
+                DeprecatedMachinery("removed"), {}
+            ).get_feature_badges(),
+            [],
+        )
+
+    def test_deepl_rephrasing(self) -> None:
+        requires_pro = ("Rephrasing (requires Pro)", "Rephrasing requires DeepL Pro.")
+        for config, configured, expected in (
+            (None, False, ("Rephrasing", "")),
+            ({"url": "https://api.deepl.com", "key": "pro"}, True, ("Rephrasing", "")),
+            ({"url": "https://api.deepl.com", "key": "free:fx"}, True, requires_pro),
+            ({"url": "https://api-free.deepl.com", "key": "free"}, True, requires_pro),
+            ({}, True, None),
+        ):
+            with self.subTest(config=config):
+                service = MachineryConfiguration(
+                    DeepLTranslation, config, is_configured=configured, enabled=False
+                )
+                self.assertEqual(service.get_rephrasing_badge(), expected)
 
 
 class WeblateTranslationLookupTest(SimpleTestCase):
