@@ -2477,6 +2477,46 @@ class SeleniumTests(
                 self.assertEqual(token_texts(f"{nested} {tag}"), nested_tags)
                 self.assertEqual(token_texts(".token.entity"), entities)
 
+                if mode != "icu-message-format-xml":
+                    continue
+
+                for edited, arguments, edited_tags, quoted in (
+                    # Stray or unfinished tag should not hide ICU arguments
+                    (
+                        "if <{limit}: <b>bold</b>",
+                        ["limit"],
+                        ["<b>", "</b>"],
+                        [],
+                    ),
+                    (
+                        "<b {n, plural, one {<i>x</i>} other {y}}",
+                        ["n"],
+                        ["<i>", "</i>"],
+                        [],
+                    ),
+                    # Quoted tags are literal text
+                    ("Use '<b>' {a}", ["a"], [], ["'<b>'"]),
+                    ("'<b {x}>' {a}", ["a"], [], ["'<b {x}>'"]),
+                    (
+                        "{n, plural, one {'<b>' #} other {<b>#</b>}}",
+                        ["n"],
+                        ["<b>", "</b>"],
+                        ["'<b>'"],
+                    ),
+                ):
+                    with self.subTest(edited=edited):
+                        self.driver.execute_script(
+                            "arguments[0].value = arguments[1];"
+                            "arguments[0].dispatchEvent("
+                            "new Event('input', {bubbles: true}));",
+                            editor,
+                            edited,
+                        )
+                        self.assertEqual(overlay.get_property("textContent"), edited)
+                        self.assertEqual(token_texts(".token.argument-name"), arguments)
+                        self.assertEqual(token_texts(tag), edited_tags)
+                        self.assertEqual(token_texts(".token.string"), quoted)
+
     def test_translation_search_refresh(self) -> None:
         """Refresh and query Enter replace results; navigation preserves them."""
         fixture = RepoTestMixin()
