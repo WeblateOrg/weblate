@@ -394,6 +394,7 @@ linkcheck_ignore = [
     "https://mymemory.translated.net/",
     "https://docs.oasis-open.org/",
     "https://digital-strategy.ec.europa.eu/",
+    "https://wiki.apertium.org/",
     # Responds with HTTP 418 I'm a teapot
     "https://www.freedesktop.org/",
 ]
