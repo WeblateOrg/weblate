@@ -3039,10 +3039,14 @@ class ComponentCreateForm(
             "vcs_params": VCSParamsField,
         }
 
-    def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
+    def __init__(
+        self, request: AuthenticatedHttpRequest, *args, source_query=None, **kwargs
+    ) -> None:
         source_component = None
+        if source_query is None:
+            source_query = request.GET
         if (
-            source_component_text := request.GET.get("source_component")
+            source_component_text := source_query.get("source_component")
         ) and "file_format" in kwargs["initial"]:
             try:
                 source_component_id = int(source_component_text)

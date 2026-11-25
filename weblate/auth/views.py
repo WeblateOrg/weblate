@@ -16,10 +16,14 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import gettext
 from django.views.generic import DetailView, UpdateView
 
+from weblate.accounts.continuation import (
+    Submission,
+    sensitive_operation,
+    stage_sensitive_submission,
+)
 from weblate.accounts.models import TeamAuditLog
 from weblate.accounts.utils import (
     has_recent_sensitive_verification,
-    sensitive_verification_redirect,
 )
 from weblate.auth.audit import audit_team_changes
 from weblate.auth.decorators import check_management_access
@@ -134,7 +138,12 @@ class TeamUpdateView(UpdateView):
             kwargs["project"] = self.object.defining_project
         if self.object.defining_workspace:
             kwargs["workspace"] = self.object.defining_workspace
+        if self.submission is not None:
+            kwargs["data"] = self.submission.data
+            kwargs["files"] = self.submission.files
         return kwargs
+
+    submission: Submission | None = None
 
     def get_object(self, queryset=None):
         result = super().get_object(queryset=queryset)
@@ -198,8 +207,8 @@ class TeamUpdateView(UpdateView):
 
         return result
 
-    def handle_add_user(self, request: AuthenticatedHttpRequest):
-        form = UserAddTeamForm(request.POST, team=self.object)
+    def handle_add_user(self, request: AuthenticatedHttpRequest, data):
+        form = UserAddTeamForm(data, team=self.object)
         if form.is_valid():
             user = form.cleaned_data["user"]
             had_membership = user.team_memberships.filter(group=self.object).exists()
@@ -211,7 +220,7 @@ class TeamUpdateView(UpdateView):
             # The inline admin toggle links submit add_user=1 without the add-user
             # form fields, so they should not alter existing language limits.
             should_update_limit_languages = (
-                request.POST.get("add_user") != "1" or "limit_languages" in request.POST
+                data.get("add_user") != "1" or "limit_languages" in data
             )
             if should_update_limit_languages:
                 user.team_memberships.get(group=self.object).set_limit_languages(
@@ -223,15 +232,15 @@ class TeamUpdateView(UpdateView):
             show_form_errors(request, form)
         return HttpResponseRedirect(self.get_success_url())
 
-    def handle_remove_user(self, request: AuthenticatedHttpRequest):
-        form = UserManageForm(request.POST)
+    def handle_remove_user(self, request: AuthenticatedHttpRequest, data):
+        form = UserManageForm(data)
         if form.is_valid():
             form.cleaned_data["user"].remove_team(request, self.object)
         else:
             show_form_errors(request, form)
         return HttpResponseRedirect(self.get_success_url())
 
-    def handle_delete(self, request: AuthenticatedHttpRequest):
+    def handle_delete(self, request: AuthenticatedHttpRequest, data):
         if self.object.defining_project:
             fallback = f"{reverse('manage-access', kwargs={'project': self.object.defining_project.slug})}#teams"
         elif self.object.defining_workspace:
@@ -246,55 +255,56 @@ class TeamUpdateView(UpdateView):
             messages.error(request, gettext("Cannot remove built-in team!"))
         else:
             self.object.delete()
-        return redirect_next(request.POST.get("next"), fallback)
+        return redirect_next(data.get("next"), fallback)
 
     # pylint: disable=arguments-differ
-    @transaction.atomic
     def post(
         self, request: HttpRequest, *args: object, **kwargs: object
     ) -> HttpResponse:
         if not isinstance(request.user, User):
             raise PermissionDenied
-        self.object = self.get_object()
         authenticated_request = cast("AuthenticatedHttpRequest", request)
-        with audit_team_changes(self.object, request.user, request):
-            return self.handle_team_post(authenticated_request)
+        return self.submit(authenticated_request, Submission(request.POST, request.GET))
 
-    def handle_team_post(self, request: AuthenticatedHttpRequest) -> HttpResponse:
+    @transaction.atomic
+    def submit(self, request: AuthenticatedHttpRequest, submission: Submission):
+        self.object = self.get_object()
+        self.submission = submission
+        data = submission.data
         if (
             self.object.defining_project is None
             and self.object.defining_workspace is None
             and request.user.has_perm("group.edit")
         ):
             check_management_access(request, "group.edit")
-        if self.request.user.has_perm("meta:team.users", self.object):
-            if "add_user" in request.POST:
-                if not has_recent_sensitive_verification(request):
-                    return sensitive_verification_redirect(request, request.path)
-                return self.handle_add_user(request)
-            if "remove_user" in request.POST:
-                if not has_recent_sensitive_verification(request):
-                    return sensitive_verification_redirect(request, request.path)
-                return self.handle_remove_user(request)
-
-        form = self.get_form()
-        if form is None:
-            raise PermissionDenied
+        members = request.user.has_perm("meta:team.users", self.object)
+        form = None
+        if not (members and ("add_user" in data or "remove_user" in data)):
+            form = self.get_form()
+            if form is None:
+                raise PermissionDenied
         if not has_recent_sensitive_verification(request):
-            return sensitive_verification_redirect(request, request.path)
-
-        if "delete" in request.POST:
-            return self.handle_delete(request)
-
-        formset = self.auto_formset(instance=self.object, data=request.POST)
-        if form.is_valid() and formset.is_valid():
-            try:
-                with transaction.atomic():
-                    formset.save()
-                    return self.form_valid(form)
-            except ValidationError as error:
-                form.add_error(None, error)
-        return self.form_invalid(form, formset)
+            return stage_sensitive_submission(
+                request, "edit-team", request.path, team_id=self.object.pk
+            )
+        with audit_team_changes(self.object, request.user, request):
+            if members and "add_user" in data:
+                return self.handle_add_user(request, data)
+            if members and "remove_user" in data:
+                return self.handle_remove_user(request, data)
+            if form is None:
+                raise PermissionDenied
+            if "delete" in data:
+                return self.handle_delete(request, data)
+            formset = self.auto_formset(instance=self.object, data=data)
+            if form.is_valid() and formset.is_valid():
+                try:
+                    with transaction.atomic():
+                        formset.save()
+                        return self.form_valid(form)
+                except ValidationError as error:
+                    form.add_error(None, error)
+            return self.form_invalid(form, formset)
 
     # pylint: disable=arguments-differ
     def form_invalid(self, form, formset):
@@ -302,6 +312,15 @@ class TeamUpdateView(UpdateView):
         return self.render_to_response(
             self.get_context_data(form=form, auto_formset=formset)
         )
+
+
+@sensitive_operation("edit-team")
+def submit_team(
+    request: AuthenticatedHttpRequest, submission: Submission, team_id: int
+):
+    view = TeamUpdateView()
+    view.setup(request, pk=team_id)
+    return view.submit(request, submission)
 
 
 @method_decorator(login_not_required, name="dispatch")
@@ -360,8 +379,6 @@ class InvitationView(DetailView):
     ) -> HttpResponse:
         invitation = self.object
         user = request.user
-        if action == "remove" and not has_recent_sensitive_verification(request):
-            return sensitive_verification_redirect(request, request.path)
         project = invitation.group.defining_project
         workspace = invitation.group.defining_workspace
         # Permission check
@@ -374,6 +391,11 @@ class InvitationView(DetailView):
             allowed = True
         if not allowed:
             raise PermissionDenied
+
+        if action == "remove" and not has_recent_sensitive_verification(request):
+            return stage_sensitive_submission(
+                request, "remove-invitation", request.path, invitation_id=invitation.pk
+            )
 
         # Perform admin action
         if action == "resend":
@@ -432,6 +454,16 @@ class InvitationView(DetailView):
         if invitation.group.defining_workspace:
             return redirect(invitation.group.defining_workspace)
         return redirect("home")
+
+
+@sensitive_operation("remove-invitation")
+def submit_invitation_removal(
+    request: AuthenticatedHttpRequest, _submission: Submission, invitation_id: int
+):
+    view = InvitationView()
+    view.setup(request)
+    view.object = get_object_or_404(Invitation, pk=invitation_id)
+    return view.handle_admin_action(request, "remove")
 
 
 def accept_invitation(

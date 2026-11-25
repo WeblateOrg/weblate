@@ -14,7 +14,7 @@ from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.db import transaction
 from django.http import Http404, JsonResponse
-from django.shortcuts import aget_object_or_404, redirect
+from django.shortcuts import aget_object_or_404, get_object_or_404, redirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext
@@ -22,9 +22,13 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView, View
 
+from weblate.accounts.continuation import (
+    Submission,
+    sensitive_operation,
+    stage_sensitive_submission,
+)
 from weblate.accounts.utils import (
     has_recent_sensitive_verification,
-    sensitive_verification_redirect,
 )
 from weblate.auth.utils import get_team_rename_warnings
 from weblate.trans.backups import (
@@ -117,7 +121,9 @@ def change(request: AuthenticatedHttpRequest, path):
 
     if isinstance(obj, Component):
         try:
-            return change_component(request, obj)
+            return change_component(
+                request, obj, request.POST if request.method == "POST" else None
+            )
         except WeblateLockTimeoutError:
             if request.method != "POST":
                 raise
@@ -127,7 +133,9 @@ def change(request: AuthenticatedHttpRequest, path):
         return change_category(request, obj)
     if isinstance(obj, ProjectLanguage):
         return change_project_language(request, obj)
-    return change_project(request, obj)
+    return change_project(
+        request, obj, request.POST if request.method == "POST" else None
+    )
 
 
 def change_workspace(request: AuthenticatedHttpRequest, obj: Workspace):
@@ -150,14 +158,16 @@ def change_workspace(request: AuthenticatedHttpRequest, obj: Workspace):
     )
 
 
-def change_project(request: AuthenticatedHttpRequest, obj):
-    if request.method == "POST":
-        settings_form = ProjectSettingsForm(request, request.POST, instance=obj)
+def change_project(request: AuthenticatedHttpRequest, obj, data=None):
+    if data is not None:
+        settings_form = ProjectSettingsForm(request, data, instance=obj)
         if settings_form.is_valid():
             if {"access_control", "public_sharing", "enforced_2fa"} & set(
                 settings_form.changed_data
             ) and not has_recent_sensitive_verification(request):
-                return sensitive_verification_redirect(request, request.path)
+                return stage_sensitive_submission(
+                    request, "project-settings", request.path, object_id=obj.pk
+                )
             settings_form.save()
             messages.success(request, gettext("Settings saved"))
             for warning in get_team_rename_warnings(obj.renamed_teams):
@@ -231,20 +241,22 @@ def change_category(request: AuthenticatedHttpRequest, obj):
     )
 
 
-def change_component(request: AuthenticatedHttpRequest, obj):
+def change_component(request: AuthenticatedHttpRequest, obj, data=None):
     if not request.user.has_perm("component.edit", obj):
         raise Http404
 
-    if request.method == "POST":
+    if data is not None:
         with obj.locked_for_update() as locked_obj:
-            form = ComponentSettingsForm(request, request.POST, instance=locked_obj)
+            form = ComponentSettingsForm(request, data, instance=locked_obj)
             # Check before validation: Component.clean() can switch the branch
             # of the live checkout and commit pending changes.
             if (
                 form.changes_sensitive_access()
                 and not has_recent_sensitive_verification(request)
             ):
-                return sensitive_verification_redirect(request, request.path)
+                return stage_sensitive_submission(
+                    request, "component-settings", request.path, object_id=obj.pk
+                )
             if form.is_valid():
                 form.save()
                 messages.success(request, gettext("Settings saved"))
@@ -273,6 +285,28 @@ def change_component(request: AuthenticatedHttpRequest, obj):
         "component-settings.html",
         {"project": obj.project, "object": obj, "form": form},
     )
+
+
+@sensitive_operation("project-settings")
+def submit_project_settings(request, submission: Submission, object_id: int):
+    obj = get_object_or_404(Project, pk=object_id)
+    request.user.check_access(obj)
+    if not request.user.has_perm(obj.settings_permission, obj):
+        raise Http404
+    return change_project(request, obj, submission.data)
+
+
+@sensitive_operation("component-settings")
+def submit_component_settings(request, submission: Submission, object_id: int):
+    obj = get_object_or_404(Component.objects.select_related("project"), pk=object_id)
+    request.user.check_access_component(obj)
+    if not request.user.has_perm(obj.settings_permission, obj):
+        raise Http404
+    try:
+        return change_component(request, obj, submission.data)
+    except WeblateLockTimeoutError:
+        _show_repository_lock_timeout(request)
+        return redirect("settings", path=obj.get_url_path())
 
 
 @never_cache

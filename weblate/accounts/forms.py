@@ -181,12 +181,6 @@ class FullNameField(forms.CharField):
 
 
 class ProfileBaseForm(forms.ModelForm):
-    @classmethod
-    def from_request(cls, request: AuthenticatedHttpRequest):
-        if request.method == "POST":
-            return cls(request.POST, instance=request.user.profile)
-        return cls(instance=request.user.profile)
-
     def add_error(self, field, error) -> None:
         if field is None and hasattr(error, "error_dict"):
             # Skip errors from model clean method on unknown fields as
@@ -567,12 +561,6 @@ class UserForm(forms.ModelForm):
                 "email",
             )
         )
-
-    @classmethod
-    def from_request(cls, request: AuthenticatedHttpRequest):
-        if request.method == "POST":
-            return cls(request.POST, instance=request.user)
-        return cls(instance=request.user)
 
     def audit(self, request: AuthenticatedHttpRequest) -> None:
         orig = User.objects.get(pk=self.instance.pk)

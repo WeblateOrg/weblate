@@ -12,6 +12,7 @@ from datetime import timedelta
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
 from unittest import mock
+from urllib.parse import parse_qs, unquote_plus, urlparse
 
 from django.conf import settings
 from django.contrib.auth.backends import BaseBackend
@@ -32,6 +33,7 @@ from django_otp_webauthn.models import WebAuthnCredential
 from rest_framework.authtoken.models import Token
 from social_core.exceptions import AuthSessionError
 
+from weblate.accounts.continuation import SESSION_PENDING
 from weblate.accounts.models import AuditLog
 from weblate.accounts.pipeline import (
     second_factor,
@@ -267,14 +269,12 @@ class TwoFactorTestCase(FixtureTestCase):
                 self.assertEqual(response.status_code, 200)
                 self.assertNotIn(SESSION_SENSITIVE_FACTOR_GRANT, self.client.session)
 
-    def test_project_access_post_verification_returns_to_get_page(self) -> None:
+    def test_project_access_posts_require_verification(self) -> None:
         self.user.is_superuser = True
         self.user.save(update_fields=["is_superuser"])
-        destination = reverse("manage-access", kwargs={"project": self.project.slug})
         for name in (
             "set-groups",
             "add-user",
-            "block-user",
             "unblock-user",
             "revert-blocked-user-edits",
             "invite-user",
@@ -282,17 +282,211 @@ class TwoFactorTestCase(FixtureTestCase):
         ):
             with self.subTest(name=name):
                 response = self.client.post(
-                    reverse(name, kwargs={"project": self.project.slug}), {}
+                    reverse(name, kwargs={"project": self.project.slug})
                 )
-                self.assertEqual(response.status_code, 302)
-                self.assertIn("target=sensitive", response["Location"])
-                self.assertIn("next=%2Faccess%2F", response["Location"])
+                token = self.client.session[SESSION_PENDING]
+                next_url = reverse(
+                    "pending-sensitive-submission", kwargs={"token": token}
+                )
+                self.assertRedirects(
+                    response,
+                    reverse(
+                        "first-factor-verify",
+                        query={"target": "sensitive", "next": next_url},
+                    ),
+                    fetch_redirect_response=False,
+                )
+
+    def test_project_access_post_resumes_after_password_verification(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        kwargs = {"project": self.project.slug}
+        destination = reverse("manage-access", kwargs=kwargs)
+        response = self.client.post(
+            reverse("block-user", kwargs=kwargs),
+            {"user": self.anotheruser.username, "note": "A saved note"},
+        )
+        self.assertEqual(response.status_code, 302)
+        next_url = parse_qs(urlparse(response["Location"]).query)["next"][0]
+        self.assertNotIn("A saved note", unquote_plus(response["Location"]))
+        self.assertNotIn("A saved note", unquote_plus(next_url))
+        self.assertFalse(
+            self.anotheruser.userblock_set.filter(project=self.project).exists()
+        )
+
+        # Viewing or following the opaque fallback URL performs no operation.
+        self.assertEqual(self.client.get(next_url).status_code, 302)
+        self.assertFalse(
+            self.anotheruser.userblock_set.filter(project=self.project).exists()
+        )
+
+        proof = {"target": "sensitive", "next": next_url, "password": "testpassword"}
+        verify_url = reverse("first-factor-verify")
+        response = self.client.post(verify_url, {**proof, "password": "invalid"})
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(
+            self.anotheruser.userblock_set.filter(project=self.project).exists()
+        )
+
+        response = self.client.post(verify_url, proof)
+        self.assertRedirects(response, destination, fetch_redirect_response=False)
+        block = self.anotheruser.userblock_set.get(project=self.project)
+        self.assertEqual(block.note, "A saved note")
+        self.assertNotIn(SESSION_PENDING, self.client.session)
+
+        block.delete()
+        self.client.post(verify_url, proof)
+        self.assertFalse(
+            self.anotheruser.userblock_set.filter(project=self.project).exists()
+        )
+
+    def test_api_key_reset_resumes_after_totp(self) -> None:
+        device = self.create_totp_device()
+        self.user.profile.last_2fa = "totp"
+        self.user.profile.save(update_fields=["last_2fa"])
+        old_key = Token.objects.get(user=self.user).key
+        response = self.client.post(reverse("reset-api-key"))
+        self.assertEqual(Token.objects.get(user=self.user).key, old_key)
+        response = self.client.post(
+            response["Location"], {"otp_token": f"{totp(device.bin_key):06d}"}
+        )
+        self.assertRedirects(
+            response, f"{reverse('profile')}#api", fetch_redirect_response=False
+        )
+        self.assertNotEqual(Token.objects.get(user=self.user).key, old_key)
+
+    def test_api_key_reset_resumes_after_recovery_code(self) -> None:
+        self.create_totp_device()
+        device = StaticDevice.objects.create(user=self.user, name="Backup Code")
+        StaticToken.objects.create(device=device, token="recovery-code")
+        old_key = Token.objects.get(user=self.user).key
+        response = self.client.post(reverse("reset-api-key"))
+        next_url = parse_qs(urlparse(response["Location"]).query)["next"][0]
+        response = self.client.post(
+            reverse("2fa-login", kwargs={"backend": "recovery"}),
+            {"otp_token": "recovery-code", "next": next_url},
+        )
+        self.assertRedirects(
+            response, f"{reverse('profile')}#api", fetch_redirect_response=False
+        )
+        self.assertNotEqual(Token.objects.get(user=self.user).key, old_key)
+
+    def test_api_key_reset_resumes_after_webauthn(self) -> None:
+        device = WebAuthnCredential.objects.create(user=self.user, confirmed=True)
+        old_key = Token.objects.get(user=self.user).key
+        response = self.client.post(reverse("reset-api-key"))
+        query = urlparse(response["Location"]).query
+        complete_url = reverse("otp_webauthn:credential-authentication-complete")
+        with (
+            mock.patch(
+                "django_otp_webauthn.views.CompleteCredentialAuthenticationView.get_state",
+                return_value={},
+            ),
+            mock.patch.object(
+                WebAuthnHelper, "authenticate_complete", return_value=device
+            ),
+        ):
+            response = self.client.post(
+                f"{complete_url}?{query}", {}, content_type="application/json"
+            )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["redirect_url"], f"{reverse('profile')}#api")
+        self.assertNotEqual(Token.objects.get(user=self.user).key, old_key)
+
+    def test_api_key_reset_resumes_after_connected_provider(self) -> None:
+        association = self.user.social_auth.create(provider="github", uid="owner")
+        old_key = Token.objects.get(user=self.user).key
+        response = self.client.post(reverse("reset-api-key"))
+        next_url = parse_qs(urlparse(response["Location"]).query)["next"][0]
+        with (
+            mock.patch("weblate.accounts.views.get_auth_keys", return_value={"github"}),
+            mock.patch(
+                "weblate.accounts.views.social_auth",
+                return_value=HttpResponseRedirect("/provider/"),
+            ),
+        ):
+            response = self.client.post(
+                reverse("first-factor-verify"),
+                {
+                    "target": "sensitive",
+                    "next": next_url,
+                    "association": association.pk,
+                },
+            )
+        self.assertEqual(response["Location"], "/provider/")
+        self.assertEqual(Token.objects.get(user=self.user).key, old_key)
+
+        def complete_provider(
+            request: HttpRequest, backend: str
+        ) -> HttpResponseRedirect | None:
+            return verify_first_factor_sso(
+                SimpleNamespace(request=request),
+                SimpleNamespace(name=backend),
+                self.user,
+                association,
+            )
+
+        with mock.patch(
+            "weblate.accounts.views.complete", side_effect=complete_provider
+        ):
+            response = self.client.get(reverse("social:complete", args=("github",)))
+        self.assertRedirects(
+            response, f"{reverse('profile')}#api", fetch_redirect_response=False
+        )
+        self.assertNotEqual(Token.objects.get(user=self.user).key, old_key)
+
+    def test_pending_submission_does_not_cross_sessions(self) -> None:
+        old_key = Token.objects.get(user=self.user).key
+        response = self.client.post(reverse("reset-api-key"))
+        next_url = parse_qs(urlparse(response["Location"]).query)["next"][0]
+        other_client = Client()
+        other_client.force_login(self.user)
+        other_client.post(
+            reverse("first-factor-verify"),
+            {"target": "sensitive", "next": next_url, "password": "testpassword"},
+        )
+        self.assertEqual(Token.objects.get(user=self.user).key, old_key)
+        self.assertIn(SESSION_PENDING, self.client.session)
+
+    def test_pending_project_action_rechecks_permission(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        kwargs = {"project": self.project.slug}
+        response = self.client.post(
+            reverse("block-user", kwargs=kwargs), {"user": self.anotheruser.username}
+        )
+        next_url = parse_qs(urlparse(response["Location"]).query)["next"][0]
+        self.user.is_superuser = False
+        self.user.save(update_fields=["is_superuser"])
+
         response = self.client.post(
             reverse("first-factor-verify"),
-            {"target": "sensitive", "next": destination, "password": "testpassword"},
+            {"target": "sensitive", "next": next_url, "password": "testpassword"},
         )
-        self.assertRedirects(response, destination, fetch_redirect_response=False)
-        self.assertEqual(self.client.get(destination).status_code, 200)
+        self.assertRedirects(
+            response,
+            reverse("manage-access", kwargs=kwargs),
+            fetch_redirect_response=False,
+        )
+        self.assertFalse(
+            self.anotheruser.userblock_set.filter(project=self.project).exists()
+        )
+        self.assertNotIn(SESSION_PENDING, self.client.session)
+
+    def test_expired_pending_submission_does_not_run(self) -> None:
+        old_key = Token.objects.get(user=self.user).key
+        with mock.patch("weblate.accounts.continuation.PENDING_TTL", 0):
+            response = self.client.post(reverse("reset-api-key"))
+        next_url = parse_qs(urlparse(response["Location"]).query)["next"][0]
+        response = self.client.post(
+            reverse("first-factor-verify"),
+            {"target": "sensitive", "next": next_url, "password": "testpassword"},
+        )
+        self.assertRedirects(
+            response, reverse("profile"), fetch_redirect_response=False
+        )
+        self.assertEqual(Token.objects.get(user=self.user).key, old_key)
+        self.assertNotIn(SESSION_PENDING, self.client.session)
 
     def test_profile_tab_cannot_submit_account_fields_without_proof(self) -> None:
         original_name = self.user.full_name
