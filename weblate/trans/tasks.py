@@ -72,6 +72,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.removal import RemovalBatch, logged_removal, removal_batch_context
 from weblate.trans.repository import (
+    REPOSITORY_OPERATION_RUNNING_TTL,
     RepositoryOperation,
     RepositoryOperationConflictError,
     acquire_repository_operation,
@@ -405,7 +406,10 @@ def perform_repository_operation(
     reservation_acquired = False
     release_reservation = True
     try:
-        acquire_repository_operation(component_ids, operation, task_id)
+        # Shorten the queue TTL as soon as this worker claims the reservation
+        acquire_repository_operation(
+            component_ids, operation, task_id, ttl=REPOSITORY_OPERATION_RUNNING_TTL
+        )
         reservation_acquired = True
         store_repository_operation_tracking(
             task_id,
