@@ -20,9 +20,14 @@ Weblate 2026.12
 .. rubric:: Improvements
 
 * :ref:`translation-memory` entries matching the source text exactly score 100% regardless of their context; entries with the same context are preferred and shown as a context match.
+* Show supported features in the :ref:`translation service lists <machine-translation-setup>`.
+
 * Switched :ref:`comment Markdown rendering <user-comments>` to markdown-it-py. Raw HTML tags appear as text, and links and images with disallowed destinations show only their labels.
+* Reduced check contention and component settings update time with :ref:`workspace-propagation-scope`.
 
 * The :ref:`addon-weblate.gettext.django` add-on can exclude source directories when generating a POT file.
+* Improved :ref:`merge conflict guidance <merge>` in component diagnostics and documented pull request recovery.
+
 * Include the authentication backend, failure stage, and available diagnostic details in server logs for failed sign-ins.
 * Reduced :ref:`Sentry trace sampling <sentry-integration>` for routine requests and statistics updates.
 * Upgraded the :ref:`Sentry integration <sentry-integration>` to Python SDK 3 with streamed spans and trace-linked profiling.
@@ -30,9 +35,11 @@ Weblate 2026.12
 * Select components directly in the :ref:`GitHub App migration table <code-hosting-github-app-migrate>` and return to them after migration.
 * Restoring a :ref:`projectbackup` preserves automated translation authors and can inherit regional plural rules. Importers can skip duplicate target translations and their Weblate data while keeping the archived repository files.
 
+* The :ref:`C# format <check-c-sharp-format>` check now also recognizes named placeholders used by C# string interpolation, such as ``There are {count} apples``, including member access (``{user.Name}``) and alignment/format components, while treating doubled braces (``{{``/``}}``) as escapes.
 * Added a choice to :ref:`connect an existing GitHub App installation to another workspace <code-hosting-github-app-connect>`.
 * Allow five minutes to assign strings to newly uploaded :ref:`screenshots` before raising an unused screenshot alert.
 * Show the last translator and approver in the :ref:`translation editor <source-context>`.
+* Keep the original editor search when merging a translation from the :ref:`translation context <source-context>`.
 
 * Link to SSH key replacement instructions in :ref:`component diagnostics <alerts>` when Azure DevOps reports an expired key.
 * Show commit counts, occurrence totals, file-format evidence, and the last recorded translation change in the relevant :ref:`component diagnostics <alerts>`.

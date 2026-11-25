@@ -32,8 +32,11 @@ from weblate.accounts.utils import require_sensitive_verification
 from weblate.machinery.admission import complete_provider_call, machinery_slot
 from weblate.machinery.base import (
     MachineTranslationError,
+    RephraseMachineTranslationMixin,
     sanitize_machinery_error,
 )
+from weblate.machinery.deepl import DeepLTranslation
+from weblate.machinery.llm import BaseLLMTranslation
 from weblate.machinery.models import (
     MACHINERY,
     MachineryError,
@@ -223,6 +226,43 @@ class MachineryConfiguration:
 
     def reset_rate_limit(self) -> None:
         cache.delete_many(self.rate_limit_cache_keys)
+
+    def get_rephrasing_badge(self) -> tuple[str, str] | None:
+        if not issubclass(self.machinery, RephraseMachineTranslationMixin):
+            return None
+        if not self.is_configured:
+            return gettext("Rephrasing"), ""
+        if self.configuration is None:
+            return None
+        try:
+            enabled = self.machinery(self.configuration).is_rephrase_enabled()
+        except (AttributeError, KeyError, TypeError, ValueError):
+            # Older or incomplete settings may lack valid provider configuration.
+            return None
+        if enabled:
+            return gettext("Rephrasing"), ""
+        if issubclass(self.machinery, DeepLTranslation):
+            return (
+                gettext("Rephrasing (requires Pro)"),
+                gettext("Rephrasing requires DeepL Pro."),
+            )
+        return None
+
+    def get_feature_badges(self) -> list[tuple[str, str]]:
+        if not self.is_available:
+            return []
+        badges = []
+        if self.machinery.translation_support:
+            badges.append((gettext("Translation"), ""))
+        if issubclass(self.machinery, BaseLLMTranslation):
+            badges.append((gettext("AI quality evaluation"), ""))
+        if rephrasing := self.get_rephrasing_badge():
+            badges.append(rephrasing)
+        if self.machinery.glossary_support:
+            badges.append((gettext("Glossary"), ""))
+        if self.machinery.llm_context_support:
+            badges.append((gettext("Translation context"), ""))
+        return badges
 
     def get_settings_fields(self) -> list[tuple[StrOrPromise, StrOrPromise]]:
         if (

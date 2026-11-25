@@ -1159,6 +1159,163 @@ class CSharpFormatCheckTest(CheckTestCase):
             )
         )
 
+    def test_plural_fallback_ignores_escaped_braces(self) -> None:
+        for argument in ("0", "count"):
+            with self.subTest(argument=argument):
+                sources = ["One {{apple}}", f"{{{argument}}} {{{{apples}}}}"]
+                targets = [
+                    f"{{{argument}}} {{{{pomme}}}}",
+                    f"{{{argument}}} {{{{pommes}}}}",
+                ]
+                unit = make_unit(source=sources, target=targets, code="fr")
+                self.assertFalse(self.check.check_target_unit(sources, targets, unit))
+
+    def test_plural_fallback_still_reports_extra_argument(self) -> None:
+        sources = ["One {{apple}}", "{0} {{apples}}"]
+        targets = ["{1} {{pomme}}", "{0} {{pommes}}"]
+        unit = make_unit(source=sources, target=targets, code="fr")
+        self.assertEqual(
+            next(iter(self.check.check_generator(sources, targets, unit))),
+            {"missing": ["0"], "extra": ["1"]},
+        )
+
+    def test_plural_fallback_preserves_real_singular_argument(self) -> None:
+        sources = ["{name} {{apple}}", "{0} {{apples}}"]
+        targets = ["{0} {{pomme}}", "{0} {{pommes}}"]
+        unit = make_unit(source=sources, target=targets, code="fr")
+        self.assertEqual(
+            next(iter(self.check.check_generator(sources, targets, unit))),
+            {"missing": ["name"], "extra": ["0"]},
+        )
+
+    def test_named_format(self) -> None:
+        self.assertFalse(
+            self.check.check_format(
+                "There are {count} apples",
+                "There are {count} apples",
+                False,
+                make_unit(),
+            )
+        )
+
+    def test_named_format_mismatch(self) -> None:
+        self.assertEqual(
+            self.check.check_format(
+                "There are {count} apples",
+                "There are {pocet} apples",
+                False,
+                make_unit(),
+            ),
+            {"missing": ["count"], "extra": ["pocet"]},
+        )
+
+    def test_named_format_with_width_and_flag(self) -> None:
+        self.assertFalse(
+            self.check.check_format(
+                "There are {count,5:D3} apples",
+                "There are {count,5:D3} apples",
+                False,
+                make_unit(),
+            )
+        )
+
+    def test_named_format_missing(self) -> None:
+        self.assertTrue(
+            self.check.check_format(
+                "There are {count} apples", "There are apples", False, make_unit()
+            )
+        )
+
+    def test_named_format_member_access(self) -> None:
+        self.assertFalse(
+            self.check.check_format(
+                "{user.Name} logged in", "{user.Name} logged in", False, make_unit()
+            )
+        )
+
+    def test_whitespace_around_alignment(self) -> None:
+        for source, target, missing, extra in (
+            ("{0 }", "{1 }", "0", "1"),
+            ("{0 :N0}", "{1 :N0}", "0", "1"),
+            ("{0 ,5}", "{1 ,5}", "0", "1"),
+            ("{count }", "{number }", "count", "number"),
+            ("{count , -5:D3}", "{number , -5:D3}", "count", "number"),
+        ):
+            with self.subTest(source=source):
+                self.assertEqual(
+                    self.check.check_format(source, target, False, make_unit()),
+                    {"missing": [missing], "extra": [extra]},
+                )
+
+    def test_named_expression_out_of_scope(self) -> None:
+        for source, target in (
+            ("{count - 1}", "{number - 1}"),
+            ("{count ? 1:0}", "{number ? 1:0}"),
+            ("{count + 1}", "{number + 1}"),
+        ):
+            with self.subTest(source=source):
+                self.assertFalse(
+                    self.check.check_format(source, target, False, make_unit())
+                )
+
+    def test_named_negative_alignment(self) -> None:
+        self.assertEqual(
+            self.check.check_format(
+                "{count,-5:D3}", "{number,-5:D3}", False, make_unit()
+            ),
+            {"missing": ["count"], "extra": ["number"]},
+        )
+
+    def test_named_format_indexer_out_of_scope(self) -> None:
+        # Indexer/method-call interpolation is not matched: the check stays
+        # silent there rather than comparing a guessed placeholder.
+        self.assertFalse(
+            self.check.check_format(
+                "{items[0]} here", "different {items[1]} text", False, make_unit()
+            )
+        )
+
+    def test_named_format_escaped(self) -> None:
+        # Doubled braces are C# escapes for a literal brace, so {{count}}
+        # is not a placeholder and must not be compared.
+        self.assertFalse(
+            self.check.check_format(
+                "There are {{count}} apples",
+                "There are {{nombre}} apples",
+                False,
+                make_unit(),
+            )
+        )
+
+    def test_named_format_escaped_with_real_placeholder(self) -> None:
+        self.assertFalse(
+            self.check.check_format(
+                "{{count}} of {count} apples",
+                "{{count}} of {count} apples",
+                False,
+                make_unit(),
+            )
+        )
+        self.assertEqual(
+            self.check.check_format(
+                "{{count}} of {count} apples",
+                "{{count}} of {pocet} apples",
+                False,
+                make_unit(),
+            ),
+            {"missing": ["count"], "extra": ["pocet"]},
+        )
+
+    def test_positional_format_escaped(self) -> None:
+        self.assertFalse(
+            self.check.check_format(
+                "{{{0}}} total",
+                "{{{0}}} total",
+                False,
+                make_unit(),
+            )
+        )
+
 
 class JavaFormatCheckTest(CheckTestCase):
     check = JavaFormatCheck()

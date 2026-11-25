@@ -24,6 +24,22 @@
     <span class="badge badge-danger">{% translate "Service is no longer available" %}</span>
   {% endif %}
 </h4>
+{% with badges=service.get_feature_badges %}
+  {% if badges %}
+    <div class="d-flex flex-wrap gap-1 mb-1">
+      {% for label, description in badges %}
+        {% if description %}
+          <span class="badge text-muted machinery-feature-tooltip"
+                title="{{ description }}"
+                tabindex="0"
+                data-bs-toggle="tooltip">{{ label }}</span>
+        {% else %}
+          <span class="badge text-bg-secondary">{{ label }}</span>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
 {% if service.installation %}
   <div>
     <span class="format-item">{% translate "ID" %} <span>{{ service.installation.pk }}</span></span>

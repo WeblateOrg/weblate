@@ -364,12 +364,27 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
         # Check mail
         self.assertEqual(len(mail.outbox), 1)
 
+        self.assertIn(
+            "How to resolve merge conflicts", get_html_content(mail.outbox[0])
+        )
+
         # Add project owner
         self.component.project.add_user(self.anotheruser, "Administration")
         notify_changes([change.pk])
 
         # Check mail
         self.validate_notifications(2, "[Weblate] Repository failure in Test/Test")
+
+    def test_notify_push_failure_omits_merge_instructions(self) -> None:
+        self.create_with_callbacks(
+            self.component.change_set,
+            details={"error": "Failed push", "status": "Error"},
+            action=ActionEvents.FAILED_PUSH,
+        )
+        self.validate_notifications(1, "[Weblate] Repository failure in Test/Test")
+        content = get_html_content(mail.outbox[0])
+        self.assertIn("Failed push", content)
+        self.assertNotIn("How to resolve merge conflicts", content)
 
     def test_notification_category_navigation(self) -> None:
         parent = None

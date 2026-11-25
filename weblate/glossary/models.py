@@ -13,7 +13,7 @@ from typing import TYPE_CHECKING, cast
 
 import ahocorasick_rs
 from django.core.cache import cache
-from django.db.models import Prefetch, Q
+from django.db.models import F, Prefetch, Q
 
 from weblate.checks.flags import Flags
 from weblate.trans.models.unit import Unit
@@ -29,6 +29,7 @@ if TYPE_CHECKING:
 
     from weblate.lang.models import Language
     from weblate.trans.models import Project, Translation
+    from weblate.trans.models.unit import UnitQuerySet
     from weblate.utils.terminology import TermRecord
 
 SPLIT_RE = re.compile(r"[\s,.:!?]+")
@@ -81,6 +82,53 @@ def get_glossary_source_index(component):
 
 def get_glossary_sources(component):
     return list(component.glossary_source_index)
+
+
+def get_scoped_glossary_sources(unit_scope: UnitQuerySet) -> dict[int, set[str]]:
+    """Load source terms for the owners in an editor scope in bulk."""
+    from weblate.trans.models import (  # ruff: ignore[import-outside-top-level]
+        Component,
+        ComponentLink,
+        WorkflowSetting,
+    )
+
+    owner_ids = unit_scope.order_by().values("translation__component__project_id")
+    glossaries = Component.objects.filter(is_glossary=True, restricted=False)
+    own_glossaries = glossaries.filter(project_id__in=owner_ids).values_list(
+        "pk", "project_id"
+    )
+    shared_glossaries = ComponentLink.objects.filter(
+        project_id__in=owner_ids, component_id__in=glossaries.values("pk")
+    ).values_list("component_id", "project_id")
+
+    owners_by_glossary: dict[int, set[int]] = defaultdict(set)
+    for glossary_id, owner_id in chain(own_glossaries, shared_glossaries):
+        owners_by_glossary[glossary_id].add(owner_id)
+
+    units = Unit.objects.filter(translation__component_id__in=owners_by_glossary)
+    canonical_sources = units.filter(
+        translation__language_id=F("translation__component__source_language_id"),
+        state__gte=STATE_TRANSLATED,
+    ).values_list("translation__component_id", "source")
+    custom_source_projects = WorkflowSetting.objects.filter(
+        source_language__isnull=False
+    ).values("project_id")
+    effective_sources = (
+        units.filter(
+            translation__component__project_id__in=custom_source_projects,
+            translation_parent__isnull=False,
+        )
+        .exclude_blocked()
+        .with_effective_source()
+        .values_list("translation__component_id", "check_source")
+    )
+    terms: dict[int, set[str]] = defaultdict(set)
+    for glossary_id, source in chain(canonical_sources, effective_sources):
+        aliases = set(split_plural(source.lower()))
+        aliases.discard("")
+        for owner_id in owners_by_glossary[glossary_id]:
+            terms[owner_id].update(aliases)
+    return terms
 
 
 def clear_glossary_automaton_cache(project_id: int | None = None) -> None:
