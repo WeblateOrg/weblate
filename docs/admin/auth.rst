@@ -1290,6 +1290,8 @@ an administrator to recover access. Registering a new factor does not count as a
 recent second-factor verification for other sensitive actions, such as creating
 a project token; complete a separate second-factor challenge for those actions.
 
+.. _sensitive-action-verification:
+
 Viewing the personal API key and changing credentials, access permissions, or
 account status requires credential verification from the last 10 minutes in a
 browser session. This includes managing project members and tokens, teams,
@@ -1298,9 +1300,13 @@ Opening a :ref:`translation service installation <machine-translation-setup>`
 or changing its exclusions also requires recent verification.
 Weblate prompts for a second factor when one is configured. Otherwise, enter your current password,
 verify through a configured Django authentication backend, or sign in again through
-an already connected provider. Account deletion still
-requires confirmation through a link sent to your e-mail address. API token
-requests continue to use token authentication.
+an already connected provider. Weblate holds supported form submissions for
+up to ten minutes and completes them automatically after successful
+verification. This includes uploads on the leaked-password report page.
+Password-entry forms and other file uploads may require another submission.
+
+Account deletion still requires confirmation through a link sent to your
+e-mail address. API token requests continue to use token authentication.
 
 This can be enforced for users at the project (see :ref:`project-enforced_2fa`)
 or team level. In site-wide deployments, this can also be used to enforce

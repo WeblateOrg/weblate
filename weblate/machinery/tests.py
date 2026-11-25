@@ -11620,13 +11620,25 @@ class ViewsTest(FixtureTestCase):
                 self.assertRedirects(
                     self.client.get(edit), verify, fetch_redirect_response=False
                 )
-                self.assertRedirects(
-                    self.client.post(edit, {"pause": "1"}),
-                    verify,
-                    fetch_redirect_response=False,
+                response = self.client.post(edit, {"pause": "1"})
+                self.assertEqual(response.status_code, 302)
+                verification_url = response["Location"]
+                self.assertTrue(
+                    verification_url.startswith(reverse("first-factor-verify"))
                 )
                 installation.refresh_from_db()
                 self.assertTrue(installation.enabled)
+
+                response = self.client.post(
+                    verification_url,
+                    {"target": "sensitive", "password": "testpassword"},
+                )
+                self.assertRedirects(response, edit, fetch_redirect_response=False)
+                installation.refresh_from_db()
+                self.assertFalse(installation.enabled)
+                session = self.client.session
+                del session[SESSION_SENSITIVE_FACTOR_GRANT]
+                session.save()
 
         TOTPDevice.objects.create(user=self.user, confirmed=True)
         edit = reverse("machinery-edit", kwargs={"machinery": "deepl"})

@@ -251,6 +251,19 @@ class ComponentRestrictedVerificationTest(ReusableViewTestCase):
         )
         self.assert_restricted(False)
 
+    def test_component_settings_resume_after_verification(self) -> None:
+        response = self.client.get(self.settings_url)
+        data = get_form_data(response.context["form"].initial)
+        del data["restricted"]
+        response = self.client.post(self.settings_url, data)
+        self.assert_restricted(True)
+
+        response = self.client.post(
+            response["Location"], {"target": "sensitive", "password": "testpassword"}
+        )
+        self.assertRedirects(response, self.settings_url, fetch_redirect_response=False)
+        self.assert_restricted(False)
+
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_browser_repo_link_requires_verification(self) -> None:
         self.assert_browser_repo_link_requires_verification()
@@ -286,10 +299,15 @@ class ComponentRestrictedVerificationTest(ReusableViewTestCase):
         )
         self.assertFalse(self.project.component_set.filter(slug="copy").exists())
 
-        self.verify_credentials(url)
-        response = self.client.post(url, params)
-        self.assertEqual(response.status_code, 302)
-        self.assertTrue(self.project.component_set.filter(slug="copy").exists())
+        response = self.client.post(
+            response["Location"], {"target": "sensitive", "password": "testpassword"}
+        )
+        component = self.project.component_set.get(slug="copy")
+        self.assertRedirects(
+            response,
+            reverse("show_progress", kwargs={"path": component.get_url_path()}),
+            fetch_redirect_response=False,
+        )
 
     def get_admin_form(self, url: str) -> dict:
         self.user.is_superuser = True

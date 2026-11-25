@@ -40,6 +40,7 @@ class LockScope(IntegerChoices):
     SECURITY_CONFIRM = 15, "security-confirm"
     NOTIFY_RESERVATION = 16, "notify-reservation"
     CONTRIBUTOR_METRICS = 17, "contributor-metrics"
+    SENSITIVE_SUBMISSION = 18, "sensitive-submission"
 
 
 class LockInfo(Protocol):

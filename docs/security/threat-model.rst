@@ -838,12 +838,16 @@ Security properties Weblate provides
        Reading full translation service configurations and changing installations
        or exclusions also require recent verification for browser sessions.
        Accounts with 2FA use a second factor; other accounts confirm their password or an existing
-       sign-in provider. API tokens remain separate credentials. *(documented)* (source:
+       sign-in provider. Weblate can hold an authorized browser form submission
+       in encrypted server-side storage while verification is pending. The
+       verified session can consume the submission once, subject to current
+       permissions and validation. API tokens remain separate credentials. *(documented)* (source:
        :doc:`/admin/auth`, :setting:`ENABLE_HTTPS`)
      - Production HTTPS and secure-cookie settings are enabled.
      - Session fixation, credential bypass, cross-user session confusion, or a
        pending password sign-in remaining usable after a password change or
-       account lock.
+       account lock. A stored submission running in another session, after a
+       password change or account lock, or more than once.
      - Security-critical.
    * - User-supplied content rendered by Weblate is expected not to execute
        script in other users' browsers. *(maintainer)*

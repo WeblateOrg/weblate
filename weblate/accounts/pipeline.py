@@ -117,6 +117,7 @@ def verify_first_factor_sso(strategy, backend, user, social, **kwargs):
                 next_url, allowed_hosts={request.get_host()}
             )
         ):
+            request.sensitive_provider_proof = next_url
             return redirect(next_url)
         return redirect("profile")
     clear_pending_first_factor(request)
