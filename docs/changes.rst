@@ -19,6 +19,7 @@ Weblate 2026.12
 
 .. rubric:: Improvements
 
+* The :ref:`addon-weblate.gettext.msgmerge` add-on refreshes the ``Language-Team`` header using the current translation URL when the ``po_set_language_team`` :ref:`file_format_params` parameter is enabled.
 * Show supported features in the :ref:`translation service lists <machine-translation-setup>`.
 
 * Switched :ref:`comment Markdown rendering <user-comments>` to markdown-it-py. Raw HTML tags appear as text, and links and images with disallowed destinations show only their labels.
