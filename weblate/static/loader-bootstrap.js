@@ -2895,6 +2895,10 @@ onReady(() => {
 
   /* Textarea highlighting */
   Prism.languages.none = {};
+  const icuXml = Prism.util.clone(Prism.languages["icu-message-format"]);
+  icuXml.tag = Prism.util.clone(Prism.languages.markup.tag);
+  icuXml.entity = Prism.util.clone(Prism.languages.markup.entity);
+  Prism.languages["icu-message-format-xml"] = icuXml;
   initHighlight(document);
 
   document

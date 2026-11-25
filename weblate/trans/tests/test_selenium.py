@@ -2405,6 +2405,78 @@ class SeleniumTests(
         finally:
             self.driver.execute_cdp_cmd("Browser.resetPermissions", {})
 
+    def test_icu_xml_highlighting(self) -> None:
+        """XML tags in ICU strings are highlighted only with XML support enabled."""
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(name="ICU XML", slug="icu-xml")
+        component = fixture.create_po(project=project)
+        unit = component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        # Markup present in the source would be highlighted as placeables
+        source = "Cart {count, plural, one {# item} other {# items}}"
+        value = (
+            "<em>Cart</em> &amp; "
+            "{count, plural, one {<b>#</b> item} other {<b>#</b> items}}"
+        )
+        source_unit_id = unit.source_unit_id
+        assert source_unit_id is not None
+        units = Unit.objects.filter(pk__in=(unit.pk, source_unit_id))
+        units.update(source=source, target=source)
+        Unit.objects.filter(pk=unit.pk).update(target=value)
+        self.do_login(superuser=True)
+
+        for flags, mode, top_tags, nested_tags, entities in (
+            ("icu-message-format", "icu-message-format", [], [], []),
+            (
+                "icu-message-format, icu-flags:xml",
+                "icu-message-format-xml",
+                ["<em>", "</em>"],
+                ["<b>", "</b>", "<b>", "</b>"],
+                ["&amp;"],
+            ),
+        ):
+            with self.subTest(flags=flags):
+                units.update(extra_flags=flags)
+                with self.wait_for_page_load():
+                    self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
+
+                editor = self.driver.find_element(
+                    By.CSS_SELECTOR, ".translator .translation-editor"
+                )
+                overlay = self.driver.find_element(
+                    By.CSS_SELECTOR,
+                    ".translator .translation-item .highlighted-output",
+                )
+
+                def token_texts(
+                    selector: str, root: WebElement = overlay
+                ) -> list[str | None]:
+                    return [
+                        element.get_property("textContent")
+                        for element in root.find_elements(By.CSS_SELECTOR, selector)
+                    ]
+
+                self.assertEqual(editor.get_dom_attribute("data-mode"), mode)
+                self.assertEqual(editor.get_property("value"), value)
+                # The overlay has to contain the same text to stay aligned
+                self.assertEqual(overlay.get_property("textContent"), value)
+                # ICU syntax stays highlighted in both modes
+                self.assertEqual(token_texts(".token.argument-name"), ["count"])
+                self.assertEqual(
+                    token_texts(".token.selector > .token.keyword"), ["one", "other"]
+                )
+                # Tag tokens contain an inner tag token with the tag name
+                tag = ".token.tag:not(.token.tag .token.tag)"
+                nested = ".token.nested-message"
+                self.assertEqual(
+                    token_texts(f"{tag}:not({nested} .token)"),
+                    top_tags,
+                )
+                self.assertEqual(token_texts(f"{nested} {tag}"), nested_tags)
+                self.assertEqual(token_texts(".token.entity"), entities)
+
     def test_translation_search_refresh(self) -> None:
         """Refresh and query Enter replace results; navigation preserves them."""
         fixture = RepoTestMixin()

@@ -3564,6 +3564,9 @@ class Unit(models.Model, LoggerMixin):
         """Return syntax highlighting mode for Prismjs."""
         flags = self.all_flags
         if "icu-message-format" in flags:
+            icu_flags = flags.get_value_fallback("icu-flags", [])
+            if "xml" in icu_flags or "strict-xml" in icu_flags:
+                return "icu-message-format-xml"
             return "icu-message-format"
         if "rst-text" in flags:
             return "rest"

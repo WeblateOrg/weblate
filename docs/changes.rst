@@ -59,6 +59,7 @@ Weblate 2026.12
 * Listed :ref:`saved-searches` first in the search filters and truncated long saved queries.
 * Show :ref:`linked components <internal-urls>` in repository details and label suggestion counts on wider screens in :ref:`zen-mode`.
 * Improved performance for long strings in the :ref:`translation editor <translating>` by grouping indentation markers and editing long translations as plain text.
+* Highlighted XML tags in the translation editor for :ref:`ICU MessageFormat <check-icu-message-format>` strings with XML support enabled.
 
 .. rubric:: Security fixes
 
