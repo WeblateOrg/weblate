@@ -19,6 +19,7 @@ Weblate 2026.12
 
 .. rubric:: Improvements
 
+* :ref:`translation-memory` entries matching the source text exactly score 100% regardless of their context; entries with the same context are preferred and shown as a context match.
 * The :ref:`addon-weblate.gettext.msgmerge` add-on refreshes the ``Language-Team`` header using the current translation URL when the ``po_set_language_team`` :ref:`file_format_params` parameter is enabled.
 * Show supported features in the :ref:`translation service lists <machine-translation-setup>`.
 

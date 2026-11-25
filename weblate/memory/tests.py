@@ -32,7 +32,12 @@ from weblate.auth.models import Group, Permission, Role
 from weblate.formats.helpers import NamedBytesIO
 from weblate.lang.data import FORMULA_WITH_ZERO
 from weblate.lang.models import Language, Plural
-from weblate.memory.machine import WeblateMemory
+from weblate.memory.machine import (
+    CONTEXT_MATCH_QUALITY,
+    DIFFERENT_CONTEXT_PENALTY_FACTOR,
+    PENDING_MEMORY_PENALTY_FACTOR,
+    WeblateMemory,
+)
 from weblate.memory.models import (
     MEMORY_IMPORT_BATCH_SIZE,
     MEMORY_LOOKUP_LIMIT,
@@ -1417,7 +1422,7 @@ class MemoryModelTest(FixtureTestCase):
             machine_translation.search(unit, "Hello", None),
             [
                 {
-                    "quality": 100,
+                    "quality": CONTEXT_MATCH_QUALITY,
                     "service": "Weblate Translation Memory",
                     "context": "",
                     "origin": "File: test",
@@ -1436,7 +1441,7 @@ class MemoryModelTest(FixtureTestCase):
             machine_translation.search(unit, "Hello", self.user),
             [
                 {
-                    "quality": 100,
+                    "quality": CONTEXT_MATCH_QUALITY,
                     "service": "Weblate Translation Memory",
                     "context": "",
                     "origin": "File: test",
@@ -1559,7 +1564,9 @@ class MemoryModelTest(FixtureTestCase):
         machine_translation.batch_translate([unit])
         machinery = unit.machinery
         del machinery["origin"]
-        self.assertEqual(machinery, {"quality": [100], "translation": ["Ahoj"]})
+        self.assertEqual(
+            machinery, {"quality": [CONTEXT_MATCH_QUALITY], "translation": ["Ahoj"]}
+        )
 
     def test_machine_plurals(self) -> None:
         unit = self.get_unit("Orangutan has %d banana.\n")
@@ -1843,8 +1850,8 @@ class MemoryModelTest(FixtureTestCase):
         suggestion = self.search_suggestion(
             machine_translation, unit, "Hello, world!\n", origin="File"
         )
-        # quality of imported memory is not affected by penalty
-        self.assertEqual(suggestion["quality"], 100)
+        # Imported memory is not pending, so its context match is not penalized
+        self.assertEqual(suggestion["quality"], CONTEXT_MATCH_QUALITY)
 
         unit.context = "Different context"
         unit.save()
@@ -1852,10 +1859,10 @@ class MemoryModelTest(FixtureTestCase):
         suggestion = self.search_suggestion(
             machine_translation, unit, "Hello, world!\n", origin="File"
         )
-        self.assertEqual(suggestion["quality"], 95)
+        self.assertEqual(suggestion["quality"], 100)
 
     def test_machine_context(self) -> None:
-        """Memory context is exposed so that the penalty can be understood."""
+        """Memory context is exposed so that the score can be understood."""
         unit = self.get_unit()
         unit.context = "Unit Context"
         unit.save()
@@ -1876,17 +1883,17 @@ class MemoryModelTest(FixtureTestCase):
             machine_translation, unit, "Hello", origin="File"
         )
         self.assertEqual(suggestion["context"], "Unit Context")
-        self.assertEqual(suggestion["quality"], 100)
+        self.assertEqual(suggestion["quality"], CONTEXT_MATCH_QUALITY)
 
-        # A differing context is penalized and the context is still exposed,
-        # that is what explains the lowered score in the UI.
+        # A differing context is still an exact source match, and the context
+        # is still exposed, that is what tells the two apart in the UI.
         unit.context = "Different context"
         unit.save()
         suggestion = self.search_suggestion(
             machine_translation, unit, "Hello", origin="File"
         )
         self.assertEqual(suggestion["context"], "Unit Context")
-        self.assertEqual(suggestion["quality"], 95)
+        self.assertEqual(suggestion["quality"], 100)
 
     def test_machine_context_hidden_for_shared_scope(self) -> None:
         """Context of an entry from another project does not cross over."""
@@ -1924,7 +1931,170 @@ class MemoryModelTest(FixtureTestCase):
 
         self.assertEqual(suggestions[0]["origin"], f"Shared: {memory.origin}")
         self.assertEqual(suggestions[0]["context"], "")
-        self.assertEqual(suggestions[0]["quality"], 95)
+        self.assertEqual(suggestions[0]["quality"], 100)
+
+    def test_machine_context_match_hidden_for_shared_scope(self) -> None:
+        """A context hidden from the user is not revealed as a context match."""
+        unit = self.get_unit()
+        unit.context = "internal.key"
+        unit.save()
+        source_project = Project.objects.create(
+            name="Shared context match source",
+            slug="shared-context-match-source",
+            contribute_shared_tm=True,
+        )
+        self.project.use_shared_tm = True
+        self.project.save(update_fields=["use_shared_tm"])
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source=unit.source,
+            target="Sdileny cil",
+            origin="shared-context-match-source/component",
+            context="internal.key",
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=source_project,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_SHARED,
+            source_project=source_project,
+        )
+
+        suggestions = list(WeblateMemory({}).search(unit, unit.source, None))
+
+        self.assertEqual(suggestions[0]["context"], "")
+        self.assertEqual(suggestions[0]["quality"], 100)
+
+        # The same entry in this project's own memory shows its context, so
+        # the match is not hidden either.
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+        suggestions = list(WeblateMemory({}).search(unit, unit.source, None))
+
+        self.assertEqual(suggestions[0]["context"], "internal.key")
+        self.assertEqual(suggestions[0]["quality"], CONTEXT_MATCH_QUALITY)
+
+    def create_context_memory(
+        self, target: str, context: str, status: int = Memory.STATUS_ACTIVE
+    ) -> Memory:
+        return Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Hello",
+            target=target,
+            origin="test",
+            context=context,
+            legacy_from_file=True,
+            legacy_shared=False,
+            status=status,
+        )
+
+    def get_context_unit(self, context: str):
+        unit = self.get_unit()
+        unit.context = context
+        unit.save()
+        unit.source = "Hello"
+        return unit
+
+    def get_qualities(self, unit, text: str = "Hello") -> dict[str, int]:
+        return {
+            result["text"]: result["quality"]
+            for result in WeblateMemory({}).search(unit, text, None)
+        }
+
+    def test_machine_context_match_scores_above_source_match(self) -> None:
+        """An exact source match scores 100% whatever its context."""
+        unit = self.get_context_unit("Unit Context")
+        self.create_context_memory("Ahoj kontext", "Unit Context")
+        self.create_context_memory("Ahoj jinde", "Different context")
+        self.create_context_memory("Ahoj bez", "")
+
+        self.assertEqual(
+            self.get_qualities(unit),
+            {
+                "Ahoj kontext": CONTEXT_MATCH_QUALITY,
+                "Ahoj jinde": 100,
+                "Ahoj bez": 100,
+            },
+        )
+
+    def test_machine_context_match_without_context(self) -> None:
+        """A string without context matches entries without context."""
+        unit = self.get_context_unit("")
+        self.create_context_memory("Ahoj bez", "")
+        self.create_context_memory("Ahoj jinde", "Different context")
+
+        self.assertEqual(
+            self.get_qualities(unit),
+            {"Ahoj bez": CONTEXT_MATCH_QUALITY, "Ahoj jinde": 100},
+        )
+
+    def test_machine_context_pending(self) -> None:
+        """A pending entry keeps its penalties and is never raised above 100%."""
+        unit = self.get_context_unit("Unit Context")
+        self.create_context_memory(
+            "Ahoj kontext", "Unit Context", Memory.STATUS_PENDING
+        )
+        self.create_context_memory(
+            "Ahoj jinde", "Different context", Memory.STATUS_PENDING
+        )
+
+        pending = round(100 * PENDING_MEMORY_PENALTY_FACTOR)
+        self.assertEqual(
+            self.get_qualities(unit),
+            {
+                "Ahoj kontext": pending,
+                "Ahoj jinde": round(pending * DIFFERENT_CONTEXT_PENALTY_FACTOR),
+            },
+        )
+
+    def test_machine_context_fuzzy(self) -> None:
+        """A partial match with a different context is still ranked lower."""
+        unit = self.get_context_unit("Unit Context")
+        self.create_context_memory("Ahoj kontext", "Unit Context")
+        self.create_context_memory("Ahoj jinde", "Different context")
+
+        similarity = WeblateMemory({}).comparer.similarity("Hello!", "Hello")
+        self.assertLess(similarity, 100)
+        self.assertEqual(
+            self.get_qualities(unit, "Hello!"),
+            {
+                "Ahoj kontext": similarity,
+                "Ahoj jinde": round(similarity * DIFFERENT_CONTEXT_PENALTY_FACTOR),
+            },
+        )
+
+    def test_machine_batch_context_match(self) -> None:
+        """Automatic translation prefers the context match among exact ones."""
+        unit = self.get_context_unit("Unit Context")
+        # Equal scores keep the last result, so the context match is created
+        # between the others: only its score can make it win.
+        self.create_context_memory("Ahoj jinde", "Different context")
+        self.create_context_memory("Ahoj kontext", "Unit Context")
+        self.create_context_memory("Ahoj bez", "")
+
+        WeblateMemory({}).batch_translate([unit])
+
+        self.assertEqual(unit.machinery["translation"], ["Ahoj kontext"])
+        self.assertEqual(unit.machinery["quality"], [CONTEXT_MATCH_QUALITY])
+
+    def test_machine_batch_source_match(self) -> None:
+        """An exact source match in another context is a 100% match."""
+        unit = self.get_context_unit("Unit Context")
+        self.create_context_memory("Ahoj jinde", "Different context")
+
+        WeblateMemory({}).batch_translate([unit])
+
+        self.assertEqual(unit.machinery["translation"], ["Ahoj jinde"])
+        self.assertEqual(unit.machinery["quality"], [100])
 
     def test_import_map(self) -> None:
         call_command(
@@ -4143,7 +4313,7 @@ msgstr "Nazdar svete!\n"
             # quality is less than 100% because of penalty
             self.assertLess(suggestion["quality"], 100)
         else:
-            self.assertEqual(suggestion["quality"], 100)
+            self.assertEqual(suggestion["quality"], CONTEXT_MATCH_QUALITY)
 
         if translation_review:
             self.approve_translation(unit, "Hello")
@@ -4156,7 +4326,7 @@ msgstr "Nazdar svete!\n"
             suggestion = self.search_suggestion(
                 machine_translation, unit, "Hello, world!\n"
             )
-            self.assertEqual(suggestion["quality"], 100)
+            self.assertEqual(suggestion["quality"], CONTEXT_MATCH_QUALITY)
 
             # mark the translation as needing editing
             self.approve_translation(unit, "Hello", review="10")
@@ -4256,7 +4426,7 @@ msgstr "Nazdar svete!\n"
         suggestion = self.search_suggestion(
             machine_translation, unit, "Hello, world!\n", text="Hello 1"
         )
-        self.assertEqual(suggestion["quality"], 100)
+        self.assertEqual(suggestion["quality"], CONTEXT_MATCH_QUALITY)
 
         if not autoclean_active:
             # check that the other pending memory has not been deleted
@@ -4897,7 +5067,7 @@ class MemoryViewTest(FixtureTestCase):
         self.assertEqual(memory.status, Memory.STATUS_ACTIVE)
         results = WeblateMemory({}).search(unit, unit.source, self.user)
         result = next(result for result in results if result["text"] == target)
-        self.assertEqual(result["quality"], 100)
+        self.assertEqual(result["quality"], CONTEXT_MATCH_QUALITY)
 
     def test_status_counts(self) -> None:
         source_language = Language.objects.get(code="en")

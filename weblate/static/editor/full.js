@@ -1003,6 +1003,14 @@
       return document.createTextNode(String(el.origin));
     }
 
+    formatQuality(quality) {
+      /* Translation memory scores a source match whose context matches too above 100 */
+      if (quality > 100) {
+        return `100% · ${gettext("Context match")}`;
+      }
+      return `${quality}%`;
+    }
+
     renderOriginDetail(el) {
       const detail = document.createElement("div");
       detail.classList.add("machinery-origin-detail", "text-muted");
@@ -1016,7 +1024,7 @@
         detail.append(`${gettext("Slug")}: ${el.installation_slug}`);
       }
       if (el.show_quality) {
-        detail.append(` (${el.quality}%)`);
+        detail.append(` (${this.formatQuality(el.quality)})`);
       }
       return detail;
     }
@@ -1038,7 +1046,7 @@
       name.classList.add("machinery-service-name");
       name.textContent =
         scores.length > 0
-          ? `${serviceName} (${Math.max(...scores)}%)`
+          ? `${serviceName} (${this.formatQuality(Math.max(...scores))})`
           : serviceName;
       entry.append(name);
 
