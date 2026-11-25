@@ -301,7 +301,6 @@ def get_drf_settings(*, require_login: bool) -> dict[str, Any]:
         ),
         "DEFAULT_RENDERER_CLASSES": [
             "rest_framework.renderers.JSONRenderer",
-            "weblate.api.renderers.WeblateBrowsableAPIRenderer",
             "weblate.api.renderers.AutoCSVRenderer",
         ],
         "DEFAULT_PAGINATION_CLASS": "weblate.api.pagination.StandardPagination",
