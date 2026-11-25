@@ -518,9 +518,8 @@ Users
 
     Changes the user parameters.
 
-    Requires the global ``user.edit`` permission unless a user is updating
-    their own account or profile fields. See :ref:`access-control` for the user
-    management permission model.
+    The permission and field restrictions are the same as for
+    :http:patch:`/api/users/(str:username)/`.
 
     :param username: User's username
     :type username: string
@@ -537,9 +536,11 @@ Users
 
     Changes the user parameters.
 
-    Requires the global ``user.edit`` permission unless a user is updating
-    their own account or profile fields. See :ref:`access-control` for the user
-    management permission model.
+    Requires the global ``user.edit`` permission unless a human user is updating
+    their own account or profile fields. Bot accounts cannot edit themselves,
+    even with ``user.edit``. The ``username``, ``email``, and ``is_bot`` fields
+    of generated API token accounts are read-only. See :ref:`access-control`
+    for the user management permission model.
 
     :param username: User's username
     :type username: string
@@ -556,7 +557,8 @@ Users
 
     Deletes all user information and marks the user inactive.
 
-    Requires the global ``user.edit`` permission. See
+    Requires the global ``user.edit`` permission. Bot accounts cannot delete
+    themselves. See
     :ref:`access-control` for the user management permission model.
 
     :param username: User's username
@@ -565,6 +567,8 @@ Users
 .. http:post:: /api/users/(str:username)/groups/
 
     Associate groups with a user.
+
+    Bot accounts cannot change their own team memberships.
 
     Requires the global ``user.edit`` permission. See
     :ref:`access-control` for the user management permission model.
@@ -581,6 +585,8 @@ Users
     .. versionadded:: 4.13.1
 
     Remove user from a group.
+
+    Bot accounts cannot change their own team memberships.
 
     Requires the global ``user.edit`` permission. See
     :ref:`access-control` for the user management permission model.
@@ -624,6 +630,8 @@ Users
 .. http:post:: /api/users/(str:username)/notifications/
 
     Associate subscriptions with a user.
+
+    Bot accounts cannot create, edit, or delete their own subscriptions.
 
     :param username: User's username
     :type username: string
@@ -684,7 +692,7 @@ User profile
 
 The user API exposes profile preferences in a nested ``profile`` object. The
 object is returned on :http:get:`/api/users/(str:username)/` only for callers
-with the ``user.view`` or ``user.edit`` permission. Users without those
+with the ``user.view`` or ``user.edit`` permission. Human users without those
 permissions can still update their own profile through
 :http:patch:`/api/users/(str:username)/`; the response then includes the updated
 ``profile`` object.

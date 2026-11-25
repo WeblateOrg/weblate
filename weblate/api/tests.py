@@ -2679,6 +2679,104 @@ class UserAPITest(APIBaseTest):
         project_token.refresh_from_db()
         self.assertEqual(project_token.full_name, "Renamed Token")
 
+    def test_bot_cannot_edit_own_account(self) -> None:
+        bot = User.objects.create(
+            username="bot-api-client",
+            email="bot-api-client@bots.noreply.weblate.org",
+            full_name="API Client",
+            is_bot=True,
+        )
+        bot.groups.add(self.group)
+        subscription = bot.subscription_set.create(
+            notification="RepositoryNotification",
+            scope=NotificationScope.SCOPE_ALL,
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {bot.auth_token.key}")
+        user_kwargs = {"username": bot.username}
+        notifications = reverse("api:user-notifications", kwargs=user_kwargs)
+        detail = reverse("api:user-detail", kwargs=user_kwargs)
+        groups = reverse("api:user-groups", kwargs=user_kwargs)
+        subscription_url = reverse(
+            "api:user-notifications-details",
+            kwargs={**user_kwargs, "subscription_id": subscription.pk},
+        )
+        self.assertEqual(self.client.get(detail).status_code, 200)
+        self.assertEqual(self.client.get(subscription_url).status_code, 200)
+        account_data: dict[str, object] = {
+            "full_name": "Updated Client",
+            "profile": {"theme": "dark"},
+        }
+        requests: tuple[tuple[str, str, dict[str, object]], ...] = (
+            ("put", detail, account_data),
+            ("patch", detail, account_data),
+            ("delete", detail, {}),
+            ("post", groups, {"group_id": self.group.pk}),
+            ("delete", groups, {"group_id": self.group.pk}),
+            ("post", notifications, {"notification": subscription.notification}),
+            ("put", subscription_url, {"notification": subscription.notification}),
+            ("patch", subscription_url, {"frequency": NotificationFrequency.FREQ_NONE}),
+            ("delete", subscription_url, {}),
+        )
+        for is_superuser in (False, True):
+            bot.is_superuser = is_superuser
+            bot.save(update_fields=["is_superuser"])
+            for method, url, data in requests:
+                with self.subTest(is_superuser=is_superuser, method=method, url=url):
+                    response = getattr(self.client, method)(url, data, format="json")
+                    self.assertEqual(response.status_code, 403)
+
+        bot.refresh_from_db()
+        subscription.refresh_from_db()
+        self.assertEqual(bot.full_name, "API Client")
+        self.assertTrue(bot.is_active)
+        self.assertNotEqual(bot.profile.theme, "dark")
+        self.assertCountEqual(bot.groups.all(), [self.group])
+        self.assertCountEqual(bot.subscription_set.all(), [subscription])
+        self.assertEqual(subscription.frequency, NotificationFrequency.FREQ_INSTANT)
+
+    def test_generated_token_identity_is_read_only(self) -> None:
+        for username in ("bot-managed", "SITEBOT-managed"):
+            with self.subTest(username=username):
+                email = f"{username}@BOTS.NOREPLY.WEBLATE.ORG"
+                bot = User.objects.create(
+                    username=username, email=email, full_name="Managed Bot", is_bot=True
+                )
+                self.authenticate(superuser=True)
+                detail = reverse("api:user-detail", kwargs={"username": bot.username})
+                response = self.client.patch(
+                    detail,
+                    {
+                        "username": username.swapcase(),
+                        "email": email.lower(),
+                        "is_bot": False,
+                    },
+                    format="json",
+                )
+                self.assertEqual(response.status_code, 400)
+                self.assertEqual(
+                    {error["attr"] for error in response.data["errors"]},
+                    {"username", "email", "is_bot"},
+                )
+                response = self.client.put(
+                    detail,
+                    {
+                        "username": username,
+                        "email": email,
+                        "is_bot": True,
+                        "full_name": "Renamed Bot",
+                        "date_expires": "2999-01-01T00:00:00Z",
+                    },
+                    format="json",
+                )
+                self.assertEqual(response.status_code, 200, response.data)
+                bot.refresh_from_db()
+                self.assertEqual(bot.username, username)
+                self.assertEqual(bot.email, email)
+                self.assertTrue(bot.is_bot)
+                self.assertEqual(bot.full_name, "Renamed Bot")
+                self.assertEqual(bot.date_expires, datetime(2999, 1, 1, tzinfo=UTC))
+
     def test_patch_logs_superuser_grant(self) -> None:
         target = User.objects.create_user("target", "target@example.org", "x")
 

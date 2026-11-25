@@ -547,6 +547,43 @@ class SettingsCheckTestCase(SimpleTestCase):
         errors = list(check_settings(app_configs=None, databases=None))
         self.assertTrue(any(error.id == "weblate.E011" for error in errors))
 
+    @override_settings(
+        EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend",
+        ADMINS=["other@example.net", "Example.org Admin <admin@example.org>"],
+    )
+    def test_invalid_smtp_admin_display_name(self) -> None:
+        errors = [
+            error
+            for error in check_settings(app_configs=None, databases=None)
+            if error.id == "weblate.E011"
+        ]
+        self.assertEqual(len(errors), 1)
+        self.assertIn("ADMINS entry 2", errors[0].msg)
+
+    @override_settings(
+        EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend",
+        ADMINS=['"Example.org Admin" <admin@example.org>', "other@example.net"],
+    )
+    def test_valid_smtp_admin_addresses(self) -> None:
+        errors = list(check_settings(app_configs=None, databases=None))
+        self.assertFalse(any(error.id == "weblate.E011" for error in errors))
+
+    @override_settings(
+        EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend",
+        ADMINS=[("Example.org Admin", "admin@example.org")],
+    )
+    def test_valid_smtp_admin_tuple(self) -> None:
+        errors = list(check_settings(app_configs=None, databases=None))
+        self.assertFalse(any(error.id == "weblate.E011" for error in errors))
+
+    @override_settings(
+        EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend",
+        ADMINS=["Example.org Admin <admin@example.org>"],
+    )
+    def test_smtp_address_check_skips_other_backends(self) -> None:
+        errors = list(check_settings(app_configs=None, databases=None))
+        self.assertFalse(any(error.id == "weblate.E011" for error in errors))
+
 
 class ErrorCollectionCheckTestCase(SimpleTestCase):
     @override_settings(SENTRY_DSN=None, GOOGLE_CLOUD_ERROR_REPORTING=None)
