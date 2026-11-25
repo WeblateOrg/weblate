@@ -272,7 +272,7 @@ class MetricTestCase(FixtureComponentTestCase):
         ]
         language = self.translation.language
         other_language = self.component.source_language
-        other_component = self.create_po(name="Batch second")
+        other_component = self.create_po(name="Batch second", project=self.project)
         groups = (
             projects,
             categories,

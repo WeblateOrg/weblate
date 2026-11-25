@@ -3,6 +3,7 @@
 {% load i18n %}
 
 {% block breadcrumbs %}
+  {% include "vcs/workspace_breadcrumbs.html" with workspace=workspace only %}
   <li class="breadcrumb-item">{% translate "Connect GitHub account" %}</li>
 {% endblock breadcrumbs %}
 
@@ -13,14 +14,27 @@
     </div>
     <div class="card-body">
       <p>{% translate "Choose an existing installation to give this workspace access to its selected repositories." %}</p>
-      <ul>
-        {% for login, url in choices %}
-          <li>
-            <a href="{{ url }}">{{ login }}</a>
-          </li>
-        {% endfor %}
-      </ul>
-      <a href="{{ install_url }}" class="btn btn-primary">{% translate "Install on another GitHub account" %}</a>
+      <a href="{{ install_url }}" class="btn btn-primary mb-3">{% translate "Install on another GitHub account" %}</a>
+      {% if choices %}
+        {% if other_choices %}
+          <h5>{% translate "Accounts from workspaces you own" %}</h5>
+        {% endif %}
+        <ul>
+          {% for login, url in choices %}
+            <li><a href="{{ url }}">{{ login }}</a></li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      {% if other_choices %}
+        <details>
+          <summary>{% blocktranslate with count=other_choices|length %}Other accounts ({{ count }}){% endblocktranslate %}</summary>
+          <ul>
+            {% for login, url in other_choices %}
+              <li><a href="{{ url }}">{{ login }}</a></li>
+            {% endfor %}
+          </ul>
+        </details>
+      {% endif %}
     </div>
   </div>
 {% endblock content %}

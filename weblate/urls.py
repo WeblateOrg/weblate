@@ -29,6 +29,7 @@ import weblate.glossary.views
 import weblate.lang.views
 import weblate.machinery.views
 import weblate.memory.views
+import weblate.metrics.views
 import weblate.screenshots.views
 import weblate.trans.views.about
 import weblate.trans.views.acl
@@ -1200,6 +1201,11 @@ real_patterns = [
     path("stats/", weblate.trans.views.about.StatsView.as_view(), name="stats"),
     # User pages
     path("user/", weblate.accounts.views.UserList.as_view(), name="user_list"),
+    path(
+        "contributors/<object_path:path>/",
+        weblate.metrics.views.ContributorList.as_view(),
+        name="contributor_list",
+    ),
     path(
         "user/<name:user>/notifications/",
         weblate.accounts.views.UserNotifications.as_view(),

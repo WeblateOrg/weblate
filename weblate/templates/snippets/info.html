@@ -251,7 +251,6 @@
       </div>
     {% endif %}
     {% if top_users and can_view_top_users %}
-      {# Global stats #}
       <div class="card">
         <div class="card-header">
           <h4 class="card-title">{% translate "Most active translators" %}</h4>
@@ -279,12 +278,20 @@
           </tbody>
         </table>
         <div class="card-footer">
-          <span class="float-end"><strong>{{ total_translations|intcomma }}</strong></span>
-          {% if can_browse_users %}
+          {% if total_translations is not None %}
+            <span class="float-end"><strong>{{ total_translations|intcomma }}</strong></span>
+          {% endif %}
+          {% if top_contributor_url %}
+            <a href="{{ top_contributor_url }}" class="btn btn-primary">{% translate "Browse contributors" %}</a>
+          {% elif can_browse_users %}
             <a href="{% url "user_list" %}" class="btn btn-primary">{% translate "Browse all users" %}</a>
           {% endif %}
         </div>
       </div>
+    {% elif contributor_url and not metrics %}
+      <p>
+        <a href="{{ contributor_url }}" class="btn btn-primary">{% translate "Browse contributors" %}</a>
+      </p>
     {% endif %}
 
     <div class="card">
@@ -506,12 +513,12 @@
             </div>
             <div class="col-sm-3">
               <div class="metric">
-                {% if not workspace and can_search_scoped_users and project or not workspace and can_browse_users %}
-                  <a href="{% url "user_list" %}?q={% if language %}translates:{{ language.code|urlencode }}{% elif translation %}translates:{{ translation.language.code|urlencode }}{% endif %} {% if component %}contributes:{{ component.full_slug|urlencode }}{% elif project %}contributes:{{ project.slug|urlencode }}{% endif %}">
+                {% if contributor_url %}
+                  <a href="{{ contributor_url }}">
                 {% endif %}
                 <div class="metric-number">{{ metrics.contributors_total|number_format }}</div>
                 <div class="metric-text">{% translate "Contributors" %}</div>
-                {% if not workspace and can_search_scoped_users and project or not workspace and can_browse_users %}
+                {% if contributor_url %}
                   </a>
                 {% endif %}
               </div>

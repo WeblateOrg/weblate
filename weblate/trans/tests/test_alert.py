@@ -1321,6 +1321,35 @@ class AlertTest(ReusableViewTestCase):
 
                 alert.delete()
 
+    def test_azure_devops_expired_key_guidance(self) -> None:
+        remote_url = "https://example.com/private-guidance"
+        error = RepositoryError(
+            128,
+            "remote: Authentication failed: your SSH key has expired. To restore "
+            f"access, visit {remote_url} for guidance.\n"
+            "remote: Public key authentication failed.",
+        )
+        details = self.component.get_repository_alert_details(error)
+        self.assertIn({"code": "azure_devops_ssh_key_expired"}, details["diagnoses"])
+        self.assertIn("visit ... for guidance.", details["error"])
+        self.component.add_alert("PushFailure", **details)
+        self.component.add_alert("UpdateFailure", error=details["error"], diagnoses=[])
+        for name in ("PushFailure", "UpdateFailure"):
+            with self.subTest(name=name):
+                alert = self.component.alert_set.get(name=name)
+                rendered = alert.render(self.user)
+                self.assertIn(
+                    'href="https://aka.ms/ado-ssh-public-key-expired"', rendered
+                )
+                self.assertNotIn(remote_url, rendered)
+
+    def test_generic_public_key_failure_has_no_azure_guidance(self) -> None:
+        self.component.add_alert(
+            "UpdateFailure", error="remote: Public key authentication failed."
+        )
+        alert = self.component.alert_set.get(name="UpdateFailure")
+        self.assertNotIn("ado-ssh-public-key-expired", alert.render(self.user))
+
     def test_repository_failures_keep_operation_documentation(self) -> None:
         expected = {
             "MergeFailure": get_doc_url("faq", "merge", user=self.user),
@@ -2773,6 +2802,38 @@ class MonolingualAlertTest(ViewTestCase):
 
 
 class RepositoryAlertTemplateTest(SimpleTestCase):
+    def test_merge_guidance_links_to_maintenance_only_with_permission(self) -> None:
+        for export_url in ("", "https://example.com/git/test/linked/"):
+            component = SimpleNamespace(
+                get_export_url=export_url,
+                get_absolute_url=lambda: "/projects/test/linked/",
+            )
+            for allowed in (True, False):
+                with self.subTest(allowed=allowed, export_url=export_url):
+                    user = SimpleNamespace(
+                        has_perm=lambda permission, obj, allowed=allowed, component=component: (
+                            allowed
+                            and permission == "meta:vcs.maintenance"
+                            and obj is component
+                        ),
+                    )
+                    rendered = render_to_string(
+                        "trans/alert/mergefailure.html",
+                        {
+                            "component": component,
+                            "error": "CONFLICT",
+                            "user": user,
+                        },
+                    )
+                    self.assertEqual(
+                        "Merge the Weblate commits" in rendered, bool(export_url)
+                    )
+                    self.assertIn("How to resolve merge conflicts", rendered)
+                    self.assertIn("How to avoid merge conflicts", rendered)
+                    self.assertEqual(
+                        "/projects/test/linked/#repository" in rendered, allowed
+                    )
+
     def test_checkout_recovery_guidance_requires_git_backend(self) -> None:
         error = RepositoryInternalError(
             2,

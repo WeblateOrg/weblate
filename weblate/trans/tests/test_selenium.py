@@ -98,6 +98,7 @@ from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import (
     RepoTestMixin,
     TempDirMixin,
+    allow_git_file_transport,
     clear_users_cache,
     create_another_user,
     create_test_billing,
@@ -507,6 +508,7 @@ class SeleniumTests(
 
     def setUp(self) -> None:
         super().setUp()
+        self.enterContext(allow_git_file_transport())
         # TransactionTestCase replaces users between tests; cached prototypes
         # must refer to the current database before the live server handles requests.
         clear_users_cache()
@@ -1795,6 +1797,75 @@ class SeleniumTests(
             )
         )
         self.assertEqual(text_box.get_attribute("value"), "")
+
+    def test_flag_editor_check_alias(self) -> None:
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('languages')}")
+
+        self.driver.execute_script(
+            """
+            window.addTestFlagEditor = (id, value) => {
+              const input = document.createElement("input");
+              input.id = id;
+              input.className = "flag-editor";
+              input.dataset.flagChoicesUrl = arguments[0];
+              input.value = value;
+              document.body.appendChild(input);
+              window.initFlagEditor(input);
+            };
+            window.addTestFlagEditor("alias-flags", "");
+            """,
+            reverse("js-flag-choices"),
+        )
+        text_box = self.driver.find_element(By.ID, "alias-flags-ts-input")
+        hidden_input = self.driver.find_element(By.ID, "alias-flags")
+        WebDriverWait(self.driver, 10).until(
+            lambda driver: driver.execute_script(
+                """
+                const ts = document.querySelector(".flag-editor-select").tomselect;
+                return ts.options["c-sharp-format"]?.aliases?.includes("csharp-format");
+                """
+            )
+        )
+        self.assertTrue(
+            self.driver.execute_script(
+                """
+                const ts = document.querySelector(".flag-editor-select").tomselect;
+                ts.addOption({name: "example-format", aliases: ["example++-format"]});
+                return ts.search("example++-format").items.some(
+                  (item) => item.id === "example-format"
+                );
+                """
+            )
+        )
+
+        text_box.send_keys("csharp-format")
+        WebDriverWait(self.driver, 10).until(
+            element_to_be_clickable(
+                (
+                    By.CSS_SELECTOR,
+                    '.ts-dropdown [data-selectable][data-value="c-sharp-format"]',
+                )
+            )
+        ).click()
+        self.assertEqual(hidden_input.get_attribute("value"), "c-sharp-format")
+
+        text_box.send_keys("csharp-format,")
+        WebDriverWait(self.driver, 10).until(
+            lambda _driver: (
+                hidden_input.get_attribute("value") == "c-sharp-format, csharp-format"
+            )
+        )
+        self.driver.execute_script(
+            'window.addTestFlagEditor("saved-alias", arguments[0].value);', hidden_input
+        )
+        self.assertEqual(
+            self.driver.find_element(
+                By.CSS_SELECTOR,
+                '.ts-wrapper:has(#saved-alias-ts-input) .item[data-value="csharp-format"]',
+            ).get_attribute("data-value"),
+            "csharp-format",
+        )
 
     def test_flag_editor_quoted_comma(self) -> None:
         """Check that a comma inside a quoted value does not split the flag."""

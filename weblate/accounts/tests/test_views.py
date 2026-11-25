@@ -28,6 +28,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from jsonschema import validate
+from jwt.exceptions import InvalidAlgorithmError
 from rest_framework.authtoken.models import Token
 from social_core.exceptions import (
     AuthAssociationError,
@@ -75,6 +76,7 @@ from weblate.trans.tests.utils import (
 )
 from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
 from weblate.utils.docs import get_doc_url
+from weblate.utils.errors import ERROR_LOGGER
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.zammad import ZammadError
@@ -920,6 +922,48 @@ class ViewTest(RepoTestCase):
             reportable=True,
         )
 
+    def test_social_complete_logs_oidc_signature_error(self) -> None:
+        path = reverse("social:complete", args=("oidc",))
+        for cause in (None, InvalidAlgorithmError("private-jwt-error")):
+            with self.subTest(has_cause=cause is not None):
+                error = AuthResponseError(
+                    self.get_backend("oidc"),
+                    "private-provider-detail",
+                    code="invalid_signature",
+                    stage="token_validation",
+                )
+                error.__cause__ = cause
+                with (
+                    mock.patch("weblate.accounts.views.complete", side_effect=error),
+                    self.assertLogs(ERROR_LOGGER, level="WARNING") as logged,
+                ):
+                    response = self.client.get(
+                        path, {"code": "private-authorization-code"}, follow=True
+                    )
+
+                self.assertRedirects(response, reverse("login"))
+                self.assertContains(
+                    response,
+                    "Authentication could not be completed. Please contact the administrator.",
+                )
+                details = (
+                    f"backend=oidc, action=activation, path={path}, "
+                    "code=invalid_signature, source=provider_response, stage=token_validation"
+                )
+                if cause is not None:
+                    details += ", cause=InvalidAlgorithmError"
+                self.assertIn(
+                    f"Could not authenticate: AuthResponseError: {details}",
+                    [record.getMessage() for record in logged.records],
+                )
+                for private_value in (
+                    "private-jwt-error",
+                    "private-provider-detail",
+                    "private-authorization-code",
+                ):
+                    self.assertNotIn(private_value, "\n".join(logged.output))
+                    self.assertNotContains(response, private_value)
+
     def test_auth_token_error_guidance(self) -> None:
         for code, text in (
             (
@@ -1000,7 +1044,13 @@ class ViewTest(RepoTestCase):
                     [str(message) for message in get_messages(response.wsgi_request)],
                     [auth_token_error_message(error)],
                 )
-                report.assert_called_once_with("Could not authenticate")
+                report.assert_called_once_with(
+                    "Could not authenticate",
+                    extra_log=(
+                        "backend=github, action=activation, path=/accounts/complete/github/, "
+                        "code=nonce_mismatch, source=provider_response, stage=token_validation"
+                    ),
+                )
                 handled.assert_not_called()
                 self.assertEqual(self.client.session["token_error_test"], "preserved")
                 if authenticated:
@@ -1037,11 +1087,22 @@ class ViewTest(RepoTestCase):
         )
 
     def test_social_complete_reports_provider_http_error(self) -> None:
-        self.assert_social_complete_result(
-            AuthProviderError(self.get_backend(), status_code=401),
-            expected_text="Authentication could not be completed. Please contact the administrator.",
-            reportable=True,
+        error = AuthProviderError(
+            self.get_backend(), stage="token_exchange", status_code=401
         )
+        with (
+            mock.patch("weblate.accounts.views.complete", side_effect=error),
+            self.assertLogs(ERROR_LOGGER, level="WARNING") as logged,
+        ):
+            response = self.client.get(
+                reverse("social:complete", args=("github",)), follow=True
+            )
+        self.assertRedirects(response, reverse("login"))
+        self.assertContains(
+            response,
+            "Authentication could not be completed. Please contact the administrator.",
+        )
+        self.assertIn("stage=token_exchange, status_code=401", "\n".join(logged.output))
 
     def test_social_complete_reports_transient_provider_errors(self) -> None:
         for code in ("connection_failed", "timeout", "rate_limited", "unavailable"):
@@ -1175,6 +1236,28 @@ class ViewTest(RepoTestCase):
         self.assertNotEqual(updated_user.auth_token.key, old_token)
         self.assertFalse(Token.objects.filter(key=old_token).exists())
 
+    def test_bot_cannot_change_own_password(self) -> None:
+        bot = self.get_user()
+        original_password = bot.password
+        bot.is_bot = True
+        bot.save(update_fields=["is_bot"])
+        self.client.force_login(bot)
+        self.confirm_sensitive_password()
+
+        url = reverse("password")
+        self.assertEqual(self.client.get(url).status_code, 403)
+        response = self.client.post(
+            url,
+            {
+                "password": "testpassword",
+                "new_password1": "1pa$$word!",
+                "new_password2": "1pa$$word!",
+            },
+        )
+        self.assertEqual(response.status_code, 403)
+        bot.refresh_from_db()
+        self.assertEqual(bot.password, original_password)
+
     def test_password_keeps_api_key(self) -> None:
         user = self.get_user()
         old_token = user.auth_token.key
@@ -1222,6 +1305,16 @@ class ProfileTest(FixtureTestCase):
         return sum(
             1 for notification in NOTIFICATIONS if not notification.ignore_watched
         )
+
+    def test_bot_cannot_edit_own_profile(self) -> None:
+        bot = User.objects.create(username="bot-profile", full_name="Bot", is_bot=True)
+        self.client.force_login(bot)
+        response = self.client.post(
+            reverse("profile"), {"activetab": "#profile", "location": "New location"}
+        )
+        self.assertEqual(response.status_code, 403)
+        bot.profile.refresh_from_db()
+        self.assertEqual(bot.profile.location, "")
 
     def test_profile(self) -> None:
         # Get profile page

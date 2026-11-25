@@ -23,9 +23,9 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-11-19 18:05-0600\n"
-"PO-Revision-Date: 2026-11-16 18:05+0000\n"
-"Last-Translator: Pierfrancesco Passerini "
-"<passero@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2026-11-24 11:32+0000\n"
+"Last-Translator: Massimo Pissarello <mapi68@users.noreply.hosted.weblate.org>"
+"\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
 "Language: it\n"
@@ -61,15 +61,11 @@ msgstr "Riassunto mensile"
 msgid "All"
 msgstr "Tutto"
 
-#, fuzzy
-#| msgid "Watch"
 msgid "Watched"
-msgstr "Monitora"
+msgstr "Monitorati"
 
-#, fuzzy
-#| msgid "Administered projects"
 msgid "Administered"
-msgstr "Progetti amministrati"
+msgstr "Amministrati"
 
 msgid "Project"
 msgstr "Progetto"
@@ -2929,7 +2925,7 @@ msgstr "Il prefisso dell'argomento può contenere solo caratteri ASCII."
 
 #, python-format
 msgid "Topic prefix must not exceed %(limit)d characters."
-msgstr ""
+msgstr "Il prefisso dell'argomento non deve superare %(limit)d caratteri."
 
 msgid "The SSL certificates are not used without a SSL connection."
 msgstr "I certificati SSL non vengono usati senza una connessione SSL."
@@ -5144,16 +5140,13 @@ msgstr ""
 msgid "Non‑standard characters in Kabyle"
 msgstr "Caratteri non standard in cabilo"
 
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
-#| "instead of ε)."
+#, python-brace-format
 msgid ""
 "Use standardized Latin Kabyle characters (e.g. {latin_gamma} instead of "
 "Greek {greek_gamma}; {latin_epsilon} instead of {greek_epsilon})."
 msgstr ""
-"Usa caratteri latini cabilo standardizzati (ad esempio ɣ invece del greco γ; "
-"ɛ invece di ε)."
+"Usa i caratteri cabila latini standardizzati (ad esempio {latin_gamma} al "
+"posto del greco {greek_gamma}; {latin_epsilon} al posto di {greek_epsilon})."
 
 msgid "Trailing space"
 msgstr "Spazio finale"
@@ -6049,8 +6042,8 @@ msgstr "Caratteri attorno ai tag XML"
 msgid ""
 "Characters surrounding XML tags in translation do not align with source."
 msgstr ""
-"I caratteri che circondano i tag XML nella traduzione non sono allineati con "
-"la fonte."
+"I caratteri che racchiudono i tag XML nella traduzione non corrispondono al "
+"testo originale."
 
 msgid "Markdown references"
 msgstr "Riferimenti markdown"
@@ -6237,6 +6230,9 @@ msgid ""
 "Font rendering limits exceeded: use at most 16,000 characters, 64 lines, 256 "
 "px fonts, and 2,048 px preview dimensions."
 msgstr ""
+"Limiti di rendering dei caratteri superati: usare al massimo 16.000 "
+"caratteri, 64 righe, caratteri da 256 px e dimensioni di anteprima di 2.048 "
+"px."
 
 msgid "Font style"
 msgstr "Stile del font"
@@ -7698,6 +7694,10 @@ msgid ""
 "additional translation instructions. Each instruction can contain up to "
 "%(limit)d characters. For example: {\"de\": \"Use formal address.\"}"
 msgstr ""
+"Inserisci un oggetto JSON che mappa i codici della lingua di destinazione "
+"riconosciuti da Weblate alle istruzioni di traduzione aggiuntive. Ogni "
+"istruzione può contenere fino a %(limit)d caratteri. Ad esempio: {\"de\": "
+"\"Usa la forma di cortesia.\"}"
 
 msgid "Language-specific instructions must be a JSON object."
 msgstr ""
@@ -7715,6 +7715,8 @@ msgid ""
 "Language-specific instructions for \"%(language)s\" must be at most "
 "%(limit)d characters."
 msgstr ""
+"Le istruzioni specifiche per la lingua \"%(language)s\" devono essere al "
+"massimo %(limit)d caratteri."
 
 msgctxt "OpenAI model selection"
 msgid "Automatic selection"
@@ -9029,10 +9031,8 @@ msgstr "Profilo pubblico"
 msgid "Preferences"
 msgstr "Preferenze"
 
-#, fuzzy
-#| msgid "Search"
 msgid "Saved searches"
-msgstr "Cerca"
+msgstr "Ricerche salvate"
 
 msgid "Notifications"
 msgstr "Notifiche"
@@ -9112,6 +9112,7 @@ msgstr ""
 
 msgid "Your saved searches are offered in the search filters everywhere."
 msgstr ""
+"Le tue ricerche salvate vengono visualizzate ovunque nei filtri di ricerca."
 
 #, fuzzy
 #| msgid "Add a user"
@@ -10934,7 +10935,7 @@ msgid "Download for offline translation."
 msgstr "Scarica per la traduzione fuori linea."
 
 msgid "Download original translation files as ZIP file"
-msgstr "Scarica file di traduzione originali come ZIP"
+msgstr "Scarica il file di traduzione in formato ZIP"
 
 msgid "Upload translation"
 msgstr "Carica file di traduzione"
@@ -13231,10 +13232,8 @@ msgid ""
 "users. A new report confirming the same exposure can reopen them."
 msgstr ""
 
-#, fuzzy
-#| msgid "Reset my password"
 msgid "Reset passwords"
-msgstr "Reimposta la mia password"
+msgstr "Reimposta password"
 
 msgid "Remove identities and reset accounts"
 msgstr "Elimina le identità e reimposta gli account"
@@ -13445,10 +13444,8 @@ msgstr ""
 msgid "Remove lookalike e-mail identities and reset selected accounts"
 msgstr ""
 
-#, fuzzy
-#| msgid "Import from connected account"
 msgid "Reset passwords for selected accounts"
-msgstr "Importa dall'account collegato"
+msgstr "Reimposta password per gli account selezionati"
 
 msgid "Dismiss selected findings"
 msgstr ""
@@ -13457,6 +13454,8 @@ msgid ""
 "Dismissing findings marks them as reviewed without changing passwords or "
 "notifying users."
 msgstr ""
+"L'archiviazione dei risultati li contrassegna come esaminati senza "
+"modificare le password o notificare gli utenti."
 
 #, fuzzy
 #| msgid "Back to account settings"
@@ -13477,6 +13476,8 @@ msgid ""
 "Review previous credential validation reports, including reports with no "
 "matching passwords."
 msgstr ""
+"Esamina i precedenti report di convalida delle credenziali, inclusi quelli "
+"in cui non sono state trovate password corrispondenti."
 
 #, fuzzy
 #| msgid "Download reports"
@@ -13526,15 +13527,11 @@ msgstr ""
 msgid "CSV format (detected automatically)"
 msgstr ""
 
-#, fuzzy
-#| msgid "Disable password"
 msgid "Validate passwords"
-msgstr "Disabilita password"
+msgstr "Convalida password"
 
-#, fuzzy
-#| msgid "Disable password"
 msgid "Validate leaked passwords"
-msgstr "Disabilita password"
+msgstr "Convalida password trapelate"
 
 msgid "Activate support package"
 msgstr "Attiva il pacchetto di assistenza"
@@ -13692,6 +13689,8 @@ msgid ""
 "Validate a CSV report of leaked credentials against current account "
 "passwords."
 msgstr ""
+"Convalida un report in formato CSV delle credenziali trapelate "
+"confrontandolo con le password degli account correnti."
 
 msgid "Add workspace"
 msgstr ""
@@ -13957,6 +13956,8 @@ msgid ""
 "Saved searches of this project are offered in the search filters to "
 "everybody translating it."
 msgstr ""
+"Le ricerche salvate relative a questo progetto sono disponibili nei filtri "
+"di ricerca per tutti coloro che lo traducono."
 
 #, fuzzy, python-format
 #| msgid "Download translations as CSV in a ZIP file"
@@ -14033,7 +14034,7 @@ msgid "Download reStructuredText"
 msgstr "Scarica come reStructuredText"
 
 msgid "Saved searches are offered in the search filters."
-msgstr ""
+msgstr "Le ricerche salvate sono disponibili nei filtri di ricerca."
 
 #, fuzzy
 #| msgid "Search"
@@ -15157,7 +15158,7 @@ msgid "Saved search name"
 msgstr "Nome utente SAP"
 
 msgid "No saved searches yet."
-msgstr ""
+msgstr "Nessuna ricerca salvata al momento."
 
 #, fuzzy, python-format
 #| msgid ""
@@ -15401,7 +15402,7 @@ msgid "Could not find any such user."
 msgstr "Impossibile trovare alcun utente di questo tipo."
 
 msgid "Watching"
-msgstr "Monitorato"
+msgstr "Monitorando"
 
 #, python-format
 msgid "Unwatch project %(project)s"
@@ -16626,6 +16627,8 @@ msgid ""
 "Search results stay fixed while you translate. Refresh results to show "
 "strings matching the filters now."
 msgstr ""
+"I risultati della ricerca rimangono fissi durante la traduzione. Aggiorna i "
+"risultati per visualizzare le stringhe corrispondenti ai filtri."
 
 msgid "Permalink copied to clipboard."
 msgstr "Collegamento permanente copiato negli Appunti."
@@ -18507,6 +18510,7 @@ msgstr ""
 
 msgid "The checksum has to be exactly 16 hexadecimal characters."
 msgstr ""
+"Il checksum deve essere composto esattamente da 16 caratteri esadecimali."
 
 msgid "The checksum is invalid."
 msgstr "Il checksum non è valido."
@@ -19736,7 +19740,7 @@ msgid "Maximum changes per day"
 msgstr ""
 
 msgid "Maximum source words per day"
-msgstr ""
+msgstr "Numero massimo di parole sorgente al giorno"
 
 msgid "Inherit from workspace"
 msgstr "Eredita dallo spazio di lavoro"
@@ -22812,10 +22816,8 @@ msgstr ""
 msgid "Translated strings per day"
 msgstr "Stringhe tradotte"
 
-#, fuzzy
-#| msgid "Source words"
 msgid "Source words per day"
-msgstr "Parole sorgente"
+msgstr "Parole sorgente al giorno"
 
 msgid "Median"
 msgstr "Mediana"
@@ -23060,11 +23062,15 @@ msgid ""
 "Customize your special characters in your profile to keep frequently used "
 "characters within reach."
 msgstr ""
+"Personalizza i tuoi caratteri speciali nel tuo profilo per avere sempre a "
+"portata di mano quelli che usi più frequentemente."
 
 msgid ""
 "Use the visual keyboard above the translation field to insert special "
 "characters."
 msgstr ""
+"Usa la tastiera virtuale sopra il campo di traduzione per inserire caratteri "
+"speciali."
 
 msgid ""
 "Save searches you use often so you can return to them from the search "
@@ -23164,7 +23170,7 @@ msgid "Regex output exceeds its size limit."
 msgstr ""
 
 msgid "Pattern and replacement must not exceed 4096 characters."
-msgstr ""
+msgstr "Il modello e la sostituzione non devono superare i 4096 caratteri."
 
 msgid "Regex input exceeds 1 MiB per plural."
 msgstr ""
@@ -23513,7 +23519,7 @@ msgid "Attribute access and method calls are not supported."
 msgstr "L'ordinamento scelto non è supportato."
 
 msgid "Index exceeds the length limit of 128 characters."
-msgstr ""
+msgstr "L'indice supera il limite di lunghezza di 128 caratteri."
 
 #, fuzzy
 #| msgid "The chosen sorting is not supported."
@@ -23574,7 +23580,7 @@ msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
 msgstr ""
 
 msgid "Numeric input exceeds the conversion limit of 1240 characters."
-msgstr ""
+msgstr "L'input numerico supera il limite di conversione di 1240 caratteri."
 
 msgid "Decimal exceeds the numeric conversion limit."
 msgstr ""
@@ -23599,7 +23605,7 @@ msgid "Slicing requires a list, tuple, or string."
 msgstr ""
 
 msgid "Slice argument exceeds the length limit of 128 characters."
-msgstr ""
+msgstr "L'argomento slice supera il limite di lunghezza di 128 caratteri."
 
 msgid ""
 "Joining requires an iterable and a string separator with escaping disabled."
@@ -23646,12 +23652,13 @@ msgstr "Stringhe tradotte automaticamente"
 
 msgid "Precision argument exceeds the length limit of 128 characters."
 msgstr ""
+"L'argomento di precisione supera il limite di lunghezza di 128 caratteri."
 
 msgid "Formatting precision exceeds the limit of 1000 places."
 msgstr ""
 
 msgid "Format must be a string of at most 128 characters."
-msgstr ""
+msgstr "Il formato deve essere una stringa di massimo 128 caratteri."
 
 msgid ""
 "Format must contain one supported conversion without mapping keys or dynamic "
@@ -23990,10 +23997,8 @@ msgstr "Il dominio URL non è consentito."
 msgid "AMQP broker URLs must not contain query strings or fragments."
 msgstr ""
 
-#, fuzzy
-#| msgid "Name contains disallowed characters."
 msgid "Repository URL contains unsafe characters."
-msgstr "Il nome contiene caratteri non consentiti."
+msgstr "L'URL del repository contiene caratteri non sicuri."
 
 #, python-format
 msgid "Fetching VCS repository using %s is not allowed."
@@ -24395,6 +24400,9 @@ msgid ""
 "GitHub App names must be unique and at most %(limit)s characters. You will "
 "still be able to change the name on GitHub before confirming."
 msgstr ""
+"I nomi delle app su GitHub devono essere univoci e al massimo %(limit)s "
+"caratteri. Sarà comunque possibile modificare il nome su GitHub prima della "
+"conferma."
 
 msgid "Public (any GitHub account can install it)"
 msgstr ""
@@ -25199,10 +25207,8 @@ msgstr ""
 "Impossibile fare il fork del repository all'indirizzo %(hostname)s. Riprova "
 "più tardi."
 
-#, fuzzy
-#| msgid "Password changed."
 msgid "Passwords checked"
-msgstr "Password modificata."
+msgstr "Password verificate"
 
 #, fuzzy
 #| msgid "Duplicated translation."
@@ -25222,16 +25228,12 @@ msgstr "Rimuovi l'account"
 msgid "Malformed rows"
 msgstr ""
 
-#, fuzzy
-#| msgid "Disable password"
 msgid "Unusable passwords"
-msgstr "Disabilita password"
+msgstr "Password non utilizzabili"
 
 msgid "Passwords that did not match"
-msgstr ""
+msgstr "Password non corrispondenti"
 
-#, fuzzy
-#| msgid "Password reset"
 msgid "Passwords reset"
 msgstr "Reimpostazione password"
 
@@ -25241,10 +25243,8 @@ msgstr ""
 msgid "E-mail identities already changed"
 msgstr ""
 
-#, fuzzy
-#| msgid "Password changed."
 msgid "Passwords already changed"
-msgstr "Password modificata."
+msgstr "Password già cambiate"
 
 #, fuzzy
 #| msgid "Dismissed"

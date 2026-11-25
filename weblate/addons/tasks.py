@@ -32,6 +32,7 @@ from weblate.addons.models import (
     handle_daily_addon_event,
     handle_scoped_addon_event,
 )
+from weblate.addons.utils import is_remote_cdn_source
 from weblate.lang.models import Language
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Change, Component, Project
@@ -107,7 +108,7 @@ def read_component_file(component: Component, filename: str) -> str:
 
 
 def read_cdn_file(component: Component, filename: str) -> str:
-    if not filename.startswith(("http://", "https://")):
+    if not is_remote_cdn_source(filename):
         return read_component_file(component, filename)
 
     return fetch_restricted_asset_url(
@@ -125,17 +126,17 @@ def parse_cdn_html(addon: Addon, component: Component) -> list[dict[str, str]]:
     units: dict[str, str] = {}
     errors: list[dict[str, str]] = []
 
-    for filename in addon.configuration["files"].splitlines():
+    for line, filename in enumerate(addon.configuration["files"].splitlines(), start=1):
         filename = filename.strip()
+        remote = is_remote_cdn_source(filename)
+        source_label = f"Remote source (line {line})" if remote else filename
         try:
             content = read_cdn_file(component, filename)
         except (OSError, httpx2.HTTPError, ValidationError, ValueError) as error:
             errors.append(
                 {
-                    "addon": addon.name,
-                    "addon_id": str(addon.pk),
-                    "filename": filename,
-                    "error": str(error),
+                    "filename": source_label,
+                    "error": "Could not read remote source" if remote else str(error),
                 }
             )
             continue
@@ -153,10 +154,10 @@ def parse_cdn_html(addon: Addon, component: Component) -> list[dict[str, str]]:
                 or text in units
             ):
                 continue
-            units[text] = filename
+            units[text] = source_label
 
     # Actually create units
-    for text, filename in units.items():
+    for text, source_label in units.items():
         try:
             source_translation.add_unit(
                 request=None,
@@ -167,7 +168,9 @@ def parse_cdn_html(addon: Addon, component: Component) -> list[dict[str, str]]:
             )
         except TranslationTextTooLongError:
             # Alert occurrences are stored, so the message is not localized
-            errors.append({"filename": filename, "error": "Translation text too long"})
+            errors.append(
+                {"filename": source_label, "error": "Translation text too long"}
+            )
 
     if errors:
         for occurrence in errors:

@@ -20,13 +20,19 @@ from rest_framework.authtoken.models import Token
 
 from weblate.accounts.models import TeamAuditLog
 from weblate.accounts.utils import (
-    BOT_NOREPLY_EMAIL_SUFFIX,
     SESSION_SECOND_FACTOR_TIMESTAMP,
     SESSION_SENSITIVE_FACTOR_GRANT,
     get_site_api_tokens,
 )
 from weblate.auth.bots import InternalBot
-from weblate.auth.models import Group, Permission, Role, User, setup_project_groups
+from weblate.auth.models import (
+    BOT_NOREPLY_EMAIL_SUFFIX,
+    Group,
+    Permission,
+    Role,
+    User,
+    setup_project_groups,
+)
 from weblate.auth.tasks import disable_expired
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents

@@ -6,11 +6,17 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
+from django.db import transaction
 from django.db.models import Q
 
+from weblate.utils.change_origin import capture_change_origin
+
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from django.db.models import OuterRef
 
     from weblate.trans.models import Project
@@ -50,12 +56,80 @@ def propagation_uses_custom_sources(project: Project) -> bool:
     )
 
 
-def refresh_propagation_checks(project_ids: set[int]) -> None:
+def _propagation_rebuild_key(
+    project: Project, component_name: str | None
+) -> tuple[int | str, str | None]:
+    scope = get_propagation_scope(project)
+    boundary = project.pk if scope == "project" else str(project.workspace_id)
+    return boundary, component_name if scope == "component_name" else None
+
+
+@dataclass
+class PendingPropagationRebuild:
+    project_id: int
+    component_name: str | None
+    published: set[tuple[int | str, str | None]]
+
+    publish: Callable[[], None] = field(init=False, repr=False)
+
+    def __post_init__(self) -> None:
+        self.publish = capture_change_origin(self._publish)
+
+    def __call__(self) -> None:
+        self.publish()
+
+    def _publish(self) -> None:
+        from weblate.checks.models import CHECKS  # ruff: ignore[import-outside-top-level]
+        from weblate.checks.tasks import finalize_component_checks  # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Component, Project  # ruff: ignore[import-outside-top-level]
+
+        project = (
+            Project.objects.select_related("workspace")
+            .filter(pk=self.project_id)
+            .first()
+        )
+        if project is None:
+            return
+        key = _propagation_rebuild_key(project, self.component_name)
+        if key in self.published:
+            return
+        component = (
+            Component.objects.filter(
+                propagation_filter(project, "", self.component_name),
+                allow_translation_propagation=True,
+            )
+            .order_by("pk")
+            .first()
+        )
+        enabled = [name for name in ("inconsistent", "reused") if name in CHECKS]
+        if component is not None and enabled:
+            finalize_component_checks.delay(component.pk, [], enabled, batch_mode=True)
+            self.published.add(key)
+
+
+def schedule_propagation_rebuild(project: Project, component_name: str | None) -> None:
+    # Share only the set of successful publications. Savepoint rollback can
+    # discard any callback without losing work registered by another callback.
+    published = next(
+        (
+            callback.published
+            for _, callback, _ in transaction.get_connection().run_on_commit
+            if isinstance(callback, PendingPropagationRebuild)
+        ),
+        set(),
+    )
+    transaction.on_commit(
+        PendingPropagationRebuild(project.pk, component_name, published)
+    )
+
+
+def refresh_propagation_checks(
+    project_ids: set[int], *, component_name: str | None = None
+) -> None:
     """Remove inaccessible warnings now and rebuild affected groups after commit."""
     # ruff: ignore[import-outside-top-level]
     from weblate.checks.consistency import stale_project_check_units
     from weblate.checks.models import CHECKS, Check  # ruff: ignore[import-outside-top-level]
-    from weblate.checks.tasks import finalize_component_checks  # ruff: ignore[import-outside-top-level]
     from weblate.trans.models import Component, Project, Translation  # ruff: ignore[import-outside-top-level]
 
     workspaces = (
@@ -75,15 +149,24 @@ def refresh_propagation_checks(project_ids: set[int]) -> None:
             stale = Check.objects.filter(
                 name=name, unit__translation__component__project=project
             )
+            if component_name is not None:
+                stale = stale.filter(unit__translation__component__name=component_name)
             if name in enabled:
                 stale = stale.filter(
-                    unit_id__in=stale_project_check_units(project, name).values("pk")
+                    unit_id__in=stale_project_check_units(
+                        project, name, component_name=component_name
+                    ).values("pk")
                 )
             affected.update(stale.values_list("unit__translation_id", flat=True))
             stale.delete()
     for translation in Translation.objects.filter(pk__in=affected):
         translation.invalidate_cache()
     if not enabled:
+        return
+    if component_name is not None:
+        for project in projects:
+            if project.pk in project_ids:
+                schedule_propagation_rebuild(project, component_name)
         return
     scheduled = set()
     for component in (
@@ -94,16 +177,7 @@ def refresh_propagation_checks(project_ids: set[int]) -> None:
         .order_by("pk")
     ):
         project = component.project
-        key = (
-            (project.workspace_id, component.name)
-            if workspace_propagation(project)
-            and get_propagation_scope(project) == "component_name"
-            else (project.workspace_id, None)
-            if workspace_propagation(project)
-            else (project.pk, None)
-        )
+        key = _propagation_rebuild_key(project, component.name)
         if key not in scheduled:
             scheduled.add(key)
-            finalize_component_checks.delay_on_commit(
-                component.pk, [], enabled, batch_mode=True
-            )
+            schedule_propagation_rebuild(project, key[1])

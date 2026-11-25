@@ -1293,8 +1293,10 @@ a project token; complete a separate second-factor challenge for those actions.
 Viewing the personal API key and changing credentials, access permissions, or
 account status requires credential verification from the last 10 minutes in a
 browser session. This includes managing project members and tokens, teams,
-roles, user accounts, and project and component visibility. Weblate prompts for
-a second factor when one is configured. Otherwise, enter your current password,
+roles, user accounts, and project and component visibility.
+Opening a :ref:`translation service installation <machine-translation-setup>`
+or changing its exclusions also requires recent verification.
+Weblate prompts for a second factor when one is configured. Otherwise, enter your current password,
 verify through a configured Django authentication backend, or sign in again through
 an already connected provider. Account deletion still
 requires confirmation through a link sent to your e-mail address. API token

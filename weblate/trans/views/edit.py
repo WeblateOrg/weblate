@@ -6,6 +6,7 @@ from __future__ import annotations
 import contextlib
 import json
 import time
+from functools import cached_property
 from typing import TYPE_CHECKING, Any, NamedTuple, Protocol, TypedDict, cast
 
 from django.conf import settings
@@ -463,7 +464,7 @@ class SearchNavigation:
     def __init__(
         self,
         base: _SearchBase,
-        project: Project | None,
+        navigation_project: Project | None,
         unit_set: UnitQuerySet,
         request: AuthenticatedHttpRequest,
         *,
@@ -471,7 +472,7 @@ class SearchNavigation:
         use_cache: bool = True,
     ) -> None:
         self.base = base
-        self.project = project
+        self.navigation_project = navigation_project
         self.unit_set = unit_set
         self.request = request
         self.blank = blank
@@ -502,6 +503,13 @@ class SearchNavigation:
         self.offset = self.cleaned_data.get("offset", 1)
         self.session_key = self.get_session_key(base, self.search_url)
 
+    @cached_property
+    def custom_sources(self) -> bool:
+        """Use canonical source shortcuts only for a known single translation."""
+        return not isinstance(self.base, Translation) or bool(
+            self.base.component.project.translation_parent_language_ids
+        )
+
     @property
     def query_string(self) -> str:
         return self.cleaned_data.get("q", "")
@@ -526,8 +534,16 @@ class SearchNavigation:
     def get_ordered_units(self):
         """Perform the ordered search."""
         return self.unit_set.search(
-            self.query_string, project=self.project, user=self.request.user
-        ).order_by_request(self.cleaned_data, self.base)
+            self.query_string,
+            project=self.navigation_project,
+            glossary_scope=(
+                None if isinstance(self.base, Translation) else self.unit_set
+            ),
+            custom_sources=self.custom_sources,
+            user=self.request.user,
+        ).order_by_request(
+            self.cleaned_data, self.base, custom_sources=self.custom_sources
+        )
 
     def get_ordered_unit_ids(self) -> list[int]:
         """Perform the ordered search and return the full unit ID snapshot."""
@@ -599,7 +615,9 @@ class SearchNavigation:
         """Reuse a cached ID list when only ordering changed."""
         unit_ids = list(
             self.unit_set.filter(pk__in=source.unit_ids)
-            .order_by_request(self.cleaned_data, self.base)
+            .order_by_request(
+                self.cleaned_data, self.base, custom_sources=self.custom_sources
+            )
             .values_list("id", flat=True)
         )
         if not unit_ids:
@@ -1330,41 +1348,28 @@ def get_addterm_glossaries(addable_ids):
     )
 
 
-def prepare_glossary_terms(
-    units: list[Unit], project: Project | None, *, full: bool = False
-) -> None:
-    """Prepare glossary terms for units if glossary matching is useful."""
-    if project is None:
-        projects = {unit.translation.component.project_id for unit in units}
-        for project_id in projects:
-            project_units = [
-                unit
-                for unit in units
-                if unit.translation.component.project_id == project_id
-            ]
-            prepare_glossary_terms(
-                project_units, project_units[0].translation.component.project, full=full
-            )
-        return
-    if (
-        units
-        and project.glossaries
-        and any(not unit.translation.component.hide_glossary_matches for unit in units)
-    ):
-        fetch_glossary_terms(units, full=full)
-    else:
-        for unit in units:
-            unit.glossary_terms = []
+def prepare_glossary_terms(units: list[Unit], *, full: bool = False) -> None:
+    """Prepare glossary matches using each unit's owning project."""
+    units_by_project: dict[int, list[Unit]] = {}
+    for unit in units:
+        unit.glossary_terms = []
+        component = unit.translation.component
+        if not component.hide_glossary_matches:
+            units_by_project.setdefault(component.project_id, []).append(unit)
+
+    for project_units in units_by_project.values():
+        if project_units[0].translation.component.project.glossaries:
+            fetch_glossary_terms(project_units, full=full)
 
 
 def get_translate_unit(
     request: AuthenticatedHttpRequest,
     obj: _SearchBase,
-    project: Project | None,
+    navigation_project: Project | None,
     unit_set: UnitQuerySet,
 ) -> HttpResponse | TranslateUnitResult:
     """Resolve search results and current unit for the translate view."""
-    navigation = SearchNavigation(obj, project, unit_set, request)
+    navigation = SearchNavigation(obj, navigation_project, unit_set, request)
     if (
         request.method == "GET"
         and request.GET.get("refresh") == "1"
@@ -1515,18 +1520,16 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
         (Translation, ProjectLanguage, CategoryLanguage, WorkspaceLanguage),
     )
 
-    project = context.get("project")
     user = request.user
 
-    search_data = get_translate_unit(request, obj, project, unit_set)
+    search_data = get_translate_unit(request, obj, context.get("project"), unit_set)
     if isinstance(search_data, HttpResponse):
         return search_data
     search_result = search_data.search_result
     num_results = search_data.num_results
     offset = search_data.offset
     unit = search_data.unit
-    if project is None:
-        project = unit.translation.component.project
+    unit_project = unit.translation.component.project
 
     handle_component_shift_notice(request, unit_set, search_result, unit)
 
@@ -1593,7 +1596,7 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
             glossaries=get_addterm_glossaries(addable_glossary_ids),
             filter_permissions=False,
         )
-    prepare_glossary_terms([unit], project, full=True)
+    prepare_glossary_terms([unit], full=True)
     last_translator, last_approver = get_editor_contributors(unit, user)
 
     return render(
@@ -1611,7 +1614,8 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
             "next_unit_url": next_unit_url,
             "prev_unit_url": base_unit_url + str(offset - 1),
             "object": obj,
-            "project": project,
+            "project": context.get("project"),
+            "unit_project": unit_project,
             "component": obj.component if isinstance(obj, Translation) else None,
             "unit": unit,
             "last_translator": last_translator,
@@ -1656,7 +1660,7 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
             "display_checks": list(get_display_checks(unit)),
             "comments_to_check": unit.unresolved_comments,
             "machinery_services": json.dumps(
-                list(project.get_machinery_settings().keys())
+                list(unit_project.get_machinery_settings().keys())
             ),
             "new_unit_form": get_new_unit_form(
                 unit.translation, user, initial={"variant": unit.pk}
@@ -1878,11 +1882,16 @@ def resolve_comment(request: AuthenticatedHttpRequest, pk):
 
 
 def get_zen_unitdata(
-    obj, project, unit_set, request: AuthenticatedHttpRequest, *, include_count=False
+    obj,
+    navigation_project,
+    unit_set,
+    request: AuthenticatedHttpRequest,
+    *,
+    include_count=False,
 ):
     """Load unit data for zen mode."""
     # Search results
-    navigation = SearchNavigation(obj, project, unit_set, request)
+    navigation = SearchNavigation(obj, navigation_project, unit_set, request)
     if request.GET.get("refresh") == "1" and navigation.form_valid:
         return navigation.refresh_results(page_size=ZEN_PAGE_SIZE), None
     if (
@@ -1906,7 +1915,7 @@ def get_zen_unitdata(
         search_result["ids"]
     )
     fill_in_source_translation(units)
-    prepare_glossary_terms(units, project)
+    prepare_glossary_terms(units)
 
     form_actions: dict[int, str] = {}
     suggestion_urls: dict[int, dict[str, str]] = {}
@@ -1980,10 +1989,10 @@ def zen(request: AuthenticatedHttpRequest, path):
         path,
         (Translation, ProjectLanguage, CategoryLanguage, WorkspaceLanguage),
     )
-    project = context.get("project")
+    navigation_project = context.get("project")
 
     search_result, unitdata = get_zen_unitdata(
-        obj, project, unit_set, request, include_count=True
+        obj, navigation_project, unit_set, request, include_count=True
     )
 
     # Handle redirects
@@ -1991,8 +2000,9 @@ def zen(request: AuthenticatedHttpRequest, path):
         return search_result
 
     state_components = (
-        project.component_set.filter_access(request.user).prefetch()
-        if project is not None and isinstance(obj, (ProjectLanguage, CategoryLanguage))
+        navigation_project.component_set.filter_access(request.user).prefetch()
+        if navigation_project is not None
+        and isinstance(obj, (ProjectLanguage, CategoryLanguage))
         else ()
     )
 
@@ -2002,7 +2012,7 @@ def zen(request: AuthenticatedHttpRequest, path):
         {
             "object": obj,
             "path_object": obj,
-            "project": project,
+            "project": navigation_project,
             "component": obj.component if isinstance(obj, Translation) else None,
             "state_components": state_components,
             "unitdata": unitdata,
@@ -2027,9 +2037,11 @@ def load_zen(request: AuthenticatedHttpRequest, path):
         path,
         (Translation, ProjectLanguage, CategoryLanguage, WorkspaceLanguage),
     )
-    project = context.get("project")
+    navigation_project = context.get("project")
 
-    search_result, unitdata = get_zen_unitdata(obj, project, unit_set, request)
+    search_result, unitdata = get_zen_unitdata(
+        obj, navigation_project, unit_set, request
+    )
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):
@@ -2041,7 +2053,7 @@ def load_zen(request: AuthenticatedHttpRequest, path):
         {
             "object": obj,
             "path_object": obj,
-            "project": project,
+            "project": navigation_project,
             "component": obj.component if isinstance(obj, Translation) else None,
             "unitdata": unitdata,
             "search_query": search_result["query"],

@@ -6,13 +6,16 @@ from __future__ import annotations
 
 import threading
 import warnings
+from collections import defaultdict
 from dataclasses import dataclass
+from dataclasses import field as dataclass_field
 from datetime import datetime
 from functools import lru_cache
 from ipaddress import ip_address
 from itertools import chain
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, cast, overload
 
+import regex
 from dateutil.parser import ParserError
 from dateutil.parser import parse as dateutil_parse
 from django.core.exceptions import FieldDoesNotExist
@@ -42,6 +45,7 @@ from weblate.lang.models import Language
 from weblate.trans.models import Category, Component, Label, Project, Translation
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.db import RegexAnalysisLimitError, re_escape, validate_search_regex
+from weblate.utils.regex import REGEX_TIMEOUT
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_APPROVED,
@@ -731,9 +735,15 @@ class UnitTermExpr(BaseTermExpr):
         return self.build_field_query("language", text)
 
     @staticmethod
-    def effective_source_query(canonical: Q, parent: Q, context: dict) -> Q:
+    def uses_custom_sources(context: dict) -> bool:
+        if "custom_sources" in context:
+            return context["custom_sources"]
         project = context.get("project")
-        if project is not None and not project.translation_parent_language_ids:
+        return project is None or bool(project.translation_parent_language_ids)
+
+    @staticmethod
+    def effective_source_query(canonical: Q, parent: Q, context: dict) -> Q:
+        if not UnitTermExpr.uses_custom_sources(context):
             return canonical
         return (
             Q(
@@ -765,8 +775,7 @@ class UnitTermExpr(BaseTermExpr):
         author: bool = False,
     ) -> Q:
         relations = ["source_unit"]
-        project = context.get("project")
-        if project is None or project.translation_parent_language_ids:
+        if self.uses_custom_sources(context):
             relations.append("translation_parent")
         result = Q()
         for relation in relations:
@@ -943,14 +952,28 @@ class UnitTermExpr(BaseTermExpr):
         return super().has_field(text, context)
 
     def glossary_query(self, context: dict) -> Q:
+        glossary_scope = context.get("glossary_scope")
+        if glossary_scope is not None:
+            from weblate.glossary.models import get_scoped_glossary_sources  # ruff: ignore[import-outside-top-level]
+
+            result = Q(pk__in=[])
+            for owner_id, terms in get_scoped_glossary_sources(glossary_scope).items():
+                result |= Q(
+                    translation__component__project_id=owner_id
+                ) & self.glossary_terms_query(terms, context)
+            return result
+
         project = context.get("project")
-        if not project:
+        if project is None:
             return Q(source__isnull=True)
         terms = set(
             chain.from_iterable(
                 glossary.glossary_sources for glossary in project.glossaries
             )
         )
+        return self.glossary_terms_query(terms, context)
+
+    def glossary_terms_query(self, terms: set[str], context: dict) -> Q:
         if not terms:
             return Q(source__isnull=True)
         template = r"[[:<:]]({})[[:>:]]"
@@ -1496,6 +1519,139 @@ def parse_string(text: str, parser: SearchParser) -> ParseResults:
             elif isinstance(item, ParseResults):
                 remaining.append(item)
     return parsed
+
+
+type SearchHighlightField = Literal["source", "target", "context"]
+
+HIGHLIGHT_FIELDS: dict[str | None, tuple[SearchHighlightField, ...]] = {
+    None: ("source", "target", "context"),
+    "source": ("source",),
+    "target": ("target",),
+    "context": ("context",),
+    "key": ("context",),
+}
+
+
+@dataclass(frozen=True, slots=True)
+class SearchHighlight:
+    """Patterns to highlight, derived from the positive terms of a search query."""
+
+    patterns: dict[SearchHighlightField, tuple[regex.Pattern, ...]]
+    user_regexes: frozenset[regex.Pattern] = frozenset()
+    disabled: set[regex.Pattern] = dataclass_field(
+        default_factory=set, compare=False, repr=False
+    )
+
+    def get_patterns(
+        self, field: SearchHighlightField | None = None
+    ) -> tuple[regex.Pattern, ...]:
+        if field is not None:
+            patterns = self.patterns.get(field, ())
+        else:
+            patterns = tuple(dict.fromkeys(chain.from_iterable(self.patterns.values())))
+        if self.disabled:
+            return tuple(
+                pattern for pattern in patterns if pattern not in self.disabled
+            )
+        return patterns
+
+    def finditer(
+        self, value: str, field: SearchHighlightField | None = None
+    ) -> list[tuple[int, int]]:
+        """Return sorted, non-overlapping spans matching any of the patterns."""
+        spans: list[tuple[int, int]] = []
+        for pattern in self.get_patterns(field):
+            if pattern in self.disabled:
+                continue
+            try:
+                spans.extend(
+                    match.span()
+                    for match in pattern.finditer(value, timeout=REGEX_TIMEOUT)
+                    if match.end() > match.start()
+                )
+            except TimeoutError:
+                self.disabled.update(self.user_regexes)
+                self.disabled.add(pattern)
+                continue
+
+        merged: list[tuple[int, int]] = []
+        for start, end in sorted(spans):
+            if merged and start <= merged[-1][1]:
+                merged[-1] = (merged[-1][0], max(merged[-1][1], end))
+            else:
+                merged.append((start, end))
+        return merged
+
+
+def compile_highlight_pattern(term: BaseTermExpr) -> regex.Pattern | None:
+    """Convert a search term to a Python pattern following the database lookup."""
+    match = term.match
+    if isinstance(match, RegexExpr):
+        expr = match.expr
+        flags = regex.VERSION0 | regex.DOTALL
+        if expr.startswith("(?i)"):
+            expr = expr.removeprefix("(?i)")
+            flags |= regex.IGNORECASE
+        try:
+            return regex.compile(expr, flags)
+        except regex.error:
+            return None
+    if not isinstance(match, str) or not match:
+        return None
+    if term.operator == ":=":
+        return regex.compile(rf"\A{regex.escape(match)}\Z", regex.VERSION0)
+    if term.operator == ":":
+        return regex.compile(regex.escape(match), regex.VERSION0 | regex.IGNORECASE)
+    return None
+
+
+def collect_highlight_terms(
+    obj: ParseResults | BaseTermExpr,
+    patterns: dict[SearchHighlightField, list[regex.Pattern]],
+    user_regexes: set[regex.Pattern],
+    *,
+    negated: bool = False,
+) -> None:
+    if isinstance(obj, BaseTermExpr):
+        if negated or obj.field not in HIGHLIGHT_FIELDS:
+            return
+        pattern = compile_highlight_pattern(obj)
+        if pattern is not None:
+            if isinstance(obj.match, RegexExpr):
+                user_regexes.add(pattern)
+            for field in HIGHLIGHT_FIELDS[obj.field]:
+                patterns[field].append(pattern)
+        return
+
+    is_not = any(isinstance(item, str) and item.upper() == "NOT" for item in obj)
+    for item in obj:
+        if isinstance(item, (BaseTermExpr, ParseResults)):
+            collect_highlight_terms(
+                item, patterns, user_regexes, negated=negated ^ is_not
+            )
+
+
+@lru_cache(maxsize=128)
+def parse_highlight(text: str) -> SearchHighlight | None:
+    """Build highlighting patterns for a unit search query."""
+    if not text:
+        return None
+    try:
+        parsed = parse_string(text, "unit")
+    except SearchQueryError:
+        return None
+    patterns: dict[SearchHighlightField, list[regex.Pattern]] = defaultdict(list)
+    user_regexes: set[regex.Pattern] = set()
+    collect_highlight_terms(parsed, patterns, user_regexes)
+    if not patterns:
+        return None
+    return SearchHighlight(
+        {
+            field: tuple(dict.fromkeys(field_patterns))
+            for field, field_patterns in patterns.items()
+        },
+        frozenset(user_regexes),
+    )
 
 
 @lru_cache(maxsize=128)

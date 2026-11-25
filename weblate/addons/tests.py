@@ -60,12 +60,14 @@ from weblate.addons.fedora_messaging import (
 )
 from weblate.addons.forms import (
     AutoAddonForm,
+    DjangoExtractPotForm,
     FedoraMessagingAddonForm,
     MesonExtractPotForm,
     SphinxExtractPotForm,
     XgettextExtractPotForm,
 )
 from weblate.auth.models import Group, Permission, Role, User
+from weblate.formats.base import UpdateError
 from weblate.lang.models import Language
 from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
 from weblate.trans.component_copy import copy_component_addons
@@ -1120,6 +1122,38 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         self.assertIn("weblate.base.test", self.component.addons_cache.names)
 
 
+class DjangoExtractPotFormTest(SimpleTestCase):
+    def test_excluded_source_directories(self) -> None:
+        addon = SimpleNamespace(
+            instance=SimpleNamespace(component=None, pk=None),
+            documentation_build=False,
+        )
+        form = DjangoExtractPotForm(
+            None,
+            addon,
+            data={
+                "interval": "weekly",
+                "excluded_source_directories": " crm \n\napps/billing\ncrm",
+            },
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(
+            form.cleaned_data["excluded_source_directories"], "crm\napps/billing"
+        )
+        for directory in ("/crm", "../crm", "apps/../crm", ".", "C:/crm"):
+            with self.subTest(directory=directory):
+                form = DjangoExtractPotForm(
+                    None,
+                    addon,
+                    data={
+                        "interval": "weekly",
+                        "excluded_source_directories": directory,
+                    },
+                )
+                self.assertFalse(form.is_valid())
+                self.assertIn("excluded_source_directories", form.errors)
+
+
 class XgettextExtractPotFormTest(SimpleTestCase):
     def test_rejects_potfiles_symlink_outside_repository_before_stat(self) -> None:
         repository_dir = tempfile.mkdtemp()
@@ -1799,6 +1833,40 @@ class GettextAddonTest(ReusableViewTestCase):
         ][0]
         self.assertEqual(occurrence["addon"], addon.name)
         self.assertEqual(occurrence["addon_id"], str(addon.instance.pk))
+
+    def test_msgmerge_alert_uses_relative_template_path(self) -> None:
+        addon = MsgmergeAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
+        self.component.new_base = "po/missing.pot"
+        addon.update_translations(self.component, "", [])
+        occurrence = self.component.alert_set.get(name="MsgmergeAddonError").details[
+            "occurrences"
+        ][0]
+        self.assertEqual(occurrence["output"], "po/missing.pot")
+
+    def test_msgmerge_failure_omits_command_and_output(self) -> None:
+        addon = MsgmergeAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
+        with patch.object(
+            self.component.file_format_cls,
+            "update_bilingual",
+            side_effect=UpdateError(
+                "msgmerge /private/command-path", "/private/output-path"
+            ),
+        ):
+            addon.update_translations(self.component, "", [])
+        alert = self.component.alert_set.get(name="MsgmergeAddonError")
+        self.assertNotIn("/private/", str(alert.details))
+        change = Change.objects.get(alert=alert, action=ActionEvents.ALERT)
+        for url in (
+            self.component.get_absolute_url(),
+            reverse("api:change-detail", kwargs={"pk": change.pk}),
+        ):
+            response = self.client.get(url)
+            self.assertContains(response, "Could not update translation")
+            self.assertNotContains(response, "/private/")
 
     def test_gettext_mo(self) -> None:
         translation = self.get_translation()
@@ -4842,6 +4910,58 @@ msgstr ""
             module_two_en_po.read_text(encoding="utf-8"),
         )
 
+    def test_django_excludes_exact_source_directory(self) -> None:
+        source_dir, *_ = self.prepare_django_extraction_fixture()
+        component_root = Path(self.component.full_path)
+        included = source_dir / "nested" / "module_one"
+        included.mkdir(parents=True)
+        (included / "views.py").write_text(
+            'gettext("Nested module with the same name")\n', encoding="utf-8"
+        )
+        addon = DjangoAddon.create(
+            acting_user=get_test_actor(self),
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "normalize_header": False,
+                "excluded_source_directories": "extract-app/module_one",
+            },
+        )
+
+        self.assertTrue(addon.execute_update(self.component, "", []))
+        content = (component_root / self.component.new_base).read_text(encoding="utf-8")
+        self.assertIn('msgid "Nested module with the same name"', content)
+        self.assertIn("extract-app/nested/module_one/views.py", content)
+        self.assertNotIn(str(component_root), content)
+        self.assertNotIn('msgid "Module one string"', content)
+        self.assertIn('msgid "Module two template"', content)
+
+        self.component.new_base = "extract-app/module_one/locale/django.pot"
+        addon.instance.configuration.pop("excluded_source_directories")
+        self.assertTrue(addon.execute_update(self.component, "", []))
+        content = (component_root / self.component.new_base).read_text(encoding="utf-8")
+        self.assertIn('msgid "Module one string"', content)
+        self.assertNotIn('msgid "Module two template"', content)
+
+    def test_django_excludes_source_root_and_its_descendants(self) -> None:
+        source_dir, *_ = self.prepare_django_extraction_fixture()
+        self.component.new_base = "extract-app/module_one/locale/django.pot"
+        template = source_dir / "module_one" / "locale" / "django.pot"
+        template.write_text("existing POT\n", encoding="utf-8")
+        addon = DjangoAddon.create(
+            acting_user=get_test_actor(self),
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        for exclusion in ("extract-app/module_one", "extract-app"):
+            with self.subTest(exclusion=exclusion):
+                addon.instance.configuration["excluded_source_directories"] = exclusion
+                self.assertFalse(addon.execute_update(self.component, "", []))
+                self.assertEqual(template.read_text(encoding="utf-8"), "existing POT\n")
+
     def test_django_ignores_repository_locale_dirs_during_extraction(self) -> None:
         (
             _source_dir,
@@ -5721,11 +5841,17 @@ msgstr ""
         with patch(
             "weblate.addons.gettext.subprocess.check_output",
             side_effect=subprocess.TimeoutExpired(
-                ["xgettext"], timeout=addon.PROCESS_TIMEOUT
+                ["/private/bin/xgettext"],
+                timeout=addon.PROCESS_TIMEOUT,
+                output=b"/private/temp/input",
             ),
         ):
-            output = addon.run_process(self.component, ["xgettext"])
+            output = addon.run_process(
+                self.component, ["/private/bin/xgettext", "/private/temp/input"]
+            )
 
+        self.assertNotIn("/private", str(addon.alerts))
+        self.assertEqual(addon.alerts[0]["command"], "xgettext")
         self.assertIsNone(output)
         self.assertEqual(len(addon.alerts), 1)
         self.assertIn("timed out", addon.alerts[0]["error"].lower())
@@ -6104,6 +6230,71 @@ msgstr ""
                 for text in unit.get_target_plurals():
                     self.assertIn(text, sources)
         self.assertFalse(PendingUnitChange.objects.exists())
+
+    @patch("weblate.checks.tasks.PROPAGATED_CHECK_REFRESH_BATCH_SIZE", 2)
+    def test_prefill_batches_propagated_refreshes(self) -> None:
+        translation = self.get_translation()
+        units = [
+            self.get_unit(source=source, translation=translation)
+            for source in (
+                "Hello, world!\n",
+                "Try Weblate at <https://demo.weblate.org/>!\n",
+                "Thank you for using Weblate.",
+            )
+        ]
+        target_units = Unit.objects.filter(
+            translation__component=self.component
+        ).exclude(translation__language=self.component.source_language)
+        target_units.exclude(pk__in=[unit.pk for unit in units]).update(
+            state=STATE_NEEDS_REWRITING
+        )
+        target_units.filter(pk__in=[unit.pk for unit in units]).update(
+            state=STATE_EMPTY, target=""
+        )
+        addon = PrefillAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
+
+        with (
+            patch("weblate.checks.tasks.refresh_propagated_checks.delay") as delay,
+            patch.object(self.component, "commit_pending") as commit,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            handle_addon_event(
+                AddonEvent.EVENT_COMPONENT_UPDATE,
+                "component_update",
+                (self.component,),
+                component=self.component,
+                addon_queryset=[addon.instance],
+            )
+            delay.assert_not_called()
+
+        commit.assert_called_once_with("add-on", None)
+        self.assertEqual(delay.call_count, 2)
+        sources_by_batch = []
+        for call in delay.call_args_list:
+            project_id, groups, unit_ids = call.args
+            self.assertEqual(project_id, self.component.project_id)
+            self.assertEqual(unit_ids, [])
+            sources_by_batch.append(
+                [
+                    group["source"]
+                    for group in groups
+                    if group["check"] == "inconsistent"
+                ]
+            )
+        self.assertEqual(list(map(len, sources_by_batch)), [2, 1])
+        self.assertCountEqual(
+            [source for batch in sources_by_batch for source in batch],
+            [unit.source for unit in units],
+        )
+        for unit in units:
+            unit.refresh_from_db()
+            self.assertEqual(unit.target, unit.source)
+            self.assertEqual(unit.state, STATE_NEEDS_REWRITING)
+            self.assertEqual(
+                unit.change_set.get(action=ActionEvents.AUTO).user, addon.user
+            )
 
     def test_read_only(self) -> None:
         self.assertTrue(FillReadOnlyAddon.can_install(component=self.component))
@@ -8496,6 +8687,24 @@ class DiscoveryTest(ReusableViewTestCase):
 
 
 class ScriptsTest(TestAddonMixin, ComponentTestCase):
+    def test_failed_script_alert_omits_process_details(self) -> None:
+        addon = ExamplePreAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
+        with patch(
+            "weblate.addons.base.subprocess.check_output",
+            side_effect=subprocess.CalledProcessError(
+                7, ["/private/bin/script"], output="/private/data"
+            ),
+        ):
+            addon.pre_commit(self.get_translation(), "", True)
+        alert = self.component.alert_set.get(name="AddonScriptError")
+        self.assertEqual(
+            alert.details["occurrences"][0]["error"], "Command exited with status 7"
+        )
+        self.assertNotIn("/private", str(alert.details))
+        self.assertNotIn(self.component.full_path, str(alert.details))
+
     def test_example_pre(self) -> None:
         self.assertTrue(ExamplePreAddon.can_install(component=self.component))
         translation = self.get_translation()
@@ -11068,7 +11277,7 @@ class CDNJSAddonTest(ViewTestCase):
             component=self.component,
             data={
                 "threshold": 0,
-                "files": "https://private.example.com/messages.html",
+                "files": "HTTPS://private.example.com/messages.html",
                 "cookie_name": "django_languages",
                 "css_selector": ".l10n",
             },
@@ -11263,7 +11472,7 @@ class CDNJSAddonTest(ViewTestCase):
             component=self.component,
             configuration={
                 "threshold": 0,
-                "files": "https://cdn.example.com/messages.html",
+                "files": "HtTpS://cdn-user:cdn-password@example.com/cdn-path?token=cdn-token",
                 "cookie_name": "django_languages",
                 "css_selector": ".l10n",
             },
@@ -11272,16 +11481,34 @@ class CDNJSAddonTest(ViewTestCase):
 
         with patch(
             "weblate.addons.tasks.fetch_restricted_asset_url",
-            side_effect=httpx2.ConnectError("CDN unavailable"),
-        ):
+            side_effect=httpx2.ConnectError("cdn-exception"),
+        ) as fetch:
             errors = parse_cdn_html(addon.instance, self.component)
 
+        fetch.assert_called_once()
         self.assertEqual(len(errors), 1)
-        self.assertIn("CDN unavailable", errors[0]["error"])
+        self.assertEqual(errors[0]["error"], "Could not read remote source")
         alert = self.component.alert_set.get(name="CDNAddonError")
+        self.assertEqual(errors, alert.details["occurrences"])
         self.assertEqual(
             alert.details["occurrences"][0]["addon_id"], str(addon.instance.pk)
         )
+
+        change = Change.objects.get(alert=alert, action=ActionEvents.ALERT)
+        for url in (
+            self.component.get_absolute_url(),
+            reverse("api:change-detail", kwargs={"pk": change.pk}),
+        ):
+            response = self.client.get(url)
+            self.assertContains(response, "Remote source (line 1)")
+            for secret in (
+                "cdn-user",
+                "cdn-password",
+                "cdn-path",
+                "cdn-token",
+                "cdn-exception",
+            ):
+                self.assertNotContains(response, secret)
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
@@ -11290,7 +11517,7 @@ class CDNJSAddonTest(ViewTestCase):
             component=self.component,
             configuration={
                 "threshold": 0,
-                "files": "https://cdn.example.com/messages.html",
+                "files": "https://cdn-user:cdn-password@example.com/cdn-path?token=cdn-token",
                 "cookie_name": "django_languages",
                 "css_selector": ".l10n",
             },
@@ -11313,9 +11540,10 @@ class CDNJSAddonTest(ViewTestCase):
 
         self.assertEqual(
             [(error["filename"], error["error"]) for error in errors],
-            [("https://cdn.example.com/messages.html", "Translation text too long")],
+            [("Remote source (line 1)", "Translation text too long")],
         )
         alert = self.component.alert_set.get(name="CDNAddonError")
+        self.assertEqual(errors, alert.details["occurrences"])
         self.assertEqual(
             alert.details["occurrences"][0]["addon_id"], str(addon.instance.pk)
         )
@@ -11399,9 +11627,12 @@ class CDNJSAddonTest(ViewTestCase):
         alert = self.component.alert_set.get(name="CDNAddonError")
         self.assertIn("parent directory", alert.details["occurrences"][0]["error"])
 
+    @http_mock.activate
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(
-        LOCALIZE_CDN_URL="http://localhost/", ALLOWED_ASSET_DOMAINS=[".allowed.com"]
+        LOCALIZE_CDN_URL="http://localhost/",
+        ALLOWED_ASSET_DOMAINS=[".allowed.com"],
+        ASSET_RESTRICT_PRIVATE=False,
     )
     def test_extract_refuses_disallowed_remote_domain(self) -> None:
         self.make_manager()
@@ -11410,6 +11641,12 @@ class CDNJSAddonTest(ViewTestCase):
             Unit.objects.filter(translation__component=self.component).count(), 8
         )
 
+        http_mock.register(
+            "GET",
+            "https://blocked.example.com/messages.html",
+            status_code=200,
+            text="<html></html>",
+        )
         self.create_addon(
             component=self.component,
             configuration={
@@ -11424,7 +11661,10 @@ class CDNJSAddonTest(ViewTestCase):
             Unit.objects.filter(translation__component=self.component).count(), 8
         )
         alert = self.component.alert_set.get(name="CDNAddonError")
-        self.assertIn("domain is not allowed", alert.details["occurrences"][0]["error"])
+        self.assertEqual(
+            alert.details["occurrences"][0]["error"], "Could not read remote source"
+        )
+        self.assertEqual(len(http_mock.calls), 0)
 
     @http_mock.activate
     @tempdir_setting("LOCALIZE_CDN_PATH")
@@ -11472,7 +11712,9 @@ class CDNJSAddonTest(ViewTestCase):
             Unit.objects.filter(translation__component=self.component).count(), 8
         )
         alert = self.component.alert_set.get(name="CDNAddonError")
-        self.assertIn("domain is not allowed", alert.details["occurrences"][0]["error"])
+        self.assertEqual(
+            alert.details["occurrences"][0]["error"], "Could not read remote source"
+        )
         self.assertNotIn(
             "https://blocked.example.com/messages.html",
             [call.request.url for call in http_mock.calls],
@@ -11514,8 +11756,8 @@ class CDNJSAddonTest(ViewTestCase):
         self.assertGreaterEqual(mocked_getaddrinfo.call_count, 1)
         self.assertEqual(len(http_mock.calls), 0)
         alert = self.component.alert_set.get(name="CDNAddonError")
-        self.assertIn(
-            "internal or non-public address", alert.details["occurrences"][0]["error"]
+        self.assertEqual(
+            alert.details["occurrences"][0]["error"], "Could not read remote source"
         )
 
     @http_mock.activate
@@ -11567,8 +11809,8 @@ class CDNJSAddonTest(ViewTestCase):
         self.assertGreaterEqual(mocked_getaddrinfo.call_count, 2)
         self.assertGreaterEqual(mocked_get_peer.call_count, 1)
         alert = self.component.alert_set.get(name="CDNAddonError")
-        self.assertIn(
-            "internal or non-public address", alert.details["occurrences"][0]["error"]
+        self.assertEqual(
+            alert.details["occurrences"][0]["error"], "Could not read remote source"
         )
         self.assertNotIn(
             "https://private.example.com/messages.html",
@@ -12184,7 +12426,6 @@ class TargetChangeAddonTest(ComponentTestCase):
                 updated_json_content, encoding="utf-8"
             )
             with repo.lock:
-                repo.set_committer("Toast", "toast@example.net")
                 repo.commit(
                     "Simulate commit directly into remote repo",
                     "Toast <test@example.net>",

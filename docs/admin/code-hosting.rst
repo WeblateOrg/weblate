@@ -342,7 +342,8 @@ To reuse an installation from another workspace you manage, select
 :guilabel:`Connect GitHub account` for the destination workspace and choose the
 existing account. Authorize Weblate on GitHub to confirm that you administer
 the installation. Both workspaces can then use all repositories selected for
-that installation on GitHub.
+that installation on GitHub. Site-wide managers see accounts from workspaces
+they explicitly own first. Expand :guilabel:`Other accounts` to see the rest.
 
 If GitHub returns you to Weblate after updating an installation that is not yet
 connected, select the workspace and GitHub host, then choose :guilabel:`Authorize
@@ -378,11 +379,14 @@ the :guilabel:`Migrate to GitHub App` link from the diagnostic to review all
 eligible components in the workspace.
 
 Connect or update the GitHub account for the workspace, grant the App access
-to the listed repositories, and select the components to migrate. Weblate
+to the listed repositories, and select the :guilabel:`Ready` components in the
+migration table. Choose :guilabel:`Migrate selected components`. Weblate
 changes the selected components to the
 :guilabel:`GitHub (via Weblate GitHub app)` VCS backend, replaces their
 repository addresses with canonical HTTPS clone URLs, and removes separate
 push URLs because the App authenticates pushes to the source repository.
+Components using the App stay in the table. Follow a component link to return
+to its overview.
 
 .. _code-hosting-github-app-webhook:
 

@@ -156,7 +156,10 @@ def start_span(
     with ExitStack() as stack:
         if getattr(settings, "SENTRY_DSN", None):
             sentry_sdk = get_sentry_sdk()
-            stack.enter_context(sentry_sdk.start_span(op=op, name=name))
+            if sentry_sdk.get_current_span() is not None:
+                stack.enter_context(
+                    sentry_sdk.start_span(name=name or op, attributes={"sentry.op": op})
+                )
 
         tracer = get_opentelemetry_tracer()
         if tracer is not None:

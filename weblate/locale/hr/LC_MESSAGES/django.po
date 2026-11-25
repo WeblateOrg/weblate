@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-11-19 18:05-0600\n"
-"PO-Revision-Date: 2026-11-19 19:43+0000\n"
+"PO-Revision-Date: 2026-11-22 15:51+0000\n"
 "Last-Translator: Milo Ivir <milotype@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -205,7 +205,7 @@ msgid "New password confirmation"
 msgstr "Potvrda nove lozinke"
 
 msgid "Regenerate API key"
-msgstr "Ponovo izradi API ključ"
+msgstr "Ponovo generiraj API ključ"
 
 msgid ""
 "Leave enabled to revoke the current API key and generate a new one. This is "
@@ -438,7 +438,7 @@ msgstr "Lozinka promijenjena."
 #. Translators: Audit log entry
 #, python-brace-format
 msgid "Rate limit exceeded for {scope} at {path}."
-msgstr "Prekoračena je granica za {scope} na {path}."
+msgstr "Ograničenje kvote je prekoračeno za {scope} na {path}."
 
 #. Translators: Audit log entry
 #, python-brace-format
@@ -2707,75 +2707,71 @@ msgid ""
 msgstr ""
 
 msgid "Client private key (PEM)"
-msgstr ""
+msgstr "Privatni ključ klijenta (PEM)"
 
 msgid ""
 "Paste a single unencrypted PEM private key block. Encrypted private keys are "
 "not supported."
 msgstr ""
 
-#, fuzzy
-#| msgid "Client SSL certificates"
 msgid "Client certificate (PEM)"
-msgstr "SSL certifikati klijenta"
+msgstr "Certifikat klijenta (PEM)"
 
 msgid ""
 "Paste only the PEM certificate block starting with \"-----BEGIN "
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
+"Zalijepi samo blok PEM certifikata koji počinje s \"-----BEGIN "
+"CERTIFICATE-----\"; nemoj lijepiti rezultat od \"openssl x509 -text\"."
 
-#, fuzzy
-#| msgid "Creation timestamp"
 msgid "Connection timeout"
-msgstr "Vremenska oznaka stvaranja"
+msgstr "Istek vremena veze"
 
 msgid "How many seconds to allow for connection and channel setup per attempt."
 msgstr ""
+"Koliko sekundi dopustiti za povezivanje i postavljanje kanala po pokušaju, "
+"nakon uspostave veze."
 
 msgid "Publish timeout"
-msgstr ""
+msgstr "Istek vremena objave"
 
 msgid ""
 "How many seconds to allow for sending and the broker delivery "
 "acknowledgement per attempt, after connection setup."
 msgstr ""
+"Koliko sekundi dopustiti za slanje te za potvrdu isporuke od brokera po "
+"pokušaju, nakon uspostave veze."
 
 msgid "Connection attempts"
-msgstr ""
+msgstr "Broj pokušaja povezivanja"
 
 msgid "How many times to try connecting to the broker."
-msgstr ""
+msgstr "Broj pokušaja povezivanja s brokerom."
 
-#, fuzzy
-#| msgid "Repository details"
 msgid "Retry delay"
-msgstr "Detalji repozitorija"
+msgstr "Odgoda između ponovnih pokušaja"
 
 msgid "How many seconds to wait between connection attempts."
-msgstr ""
+msgstr "Koliko sekundi čekati između pokušaja povezivanja."
 
-#, fuzzy
-#| msgid "Code-hosting connections"
 msgid "Broker connection"
-msgstr "Veze za hosting koda"
+msgstr "Veza se brokerom"
 
 msgid "Timeouts and retries"
-msgstr ""
+msgstr "Isteci vremena i ponovni pokušaji"
 
 msgid "TLS credentials"
-msgstr ""
+msgstr "Podaci za prijavu za TLS"
 
-#, fuzzy
-#| msgid "Project selection"
 msgid "Event selection"
-msgstr "Odabir projekta"
+msgstr "Odabir događaja"
 
 msgid "Topic prefix can contain only ASCII characters."
 msgstr "Prefiks teme smije sadržavati samo ASCII znakove."
 
 #, python-format
 msgid "Topic prefix must not exceed %(limit)d characters."
-msgstr ""
+msgstr "Prefiks teme ne smije biti veći od %(limit)d znakova."
 
 msgid "The SSL certificates are not used without a SSL connection."
 msgstr "SSL certifikati se ne koriste bez SSL veze."
@@ -2787,39 +2783,37 @@ msgid "Generates a file containing detailed info about the translation status."
 msgstr "Izrađuje datoteku s detaljnim podacima o stanju prijevoda."
 
 msgid "Pseudolocale generation"
-msgstr "Izrada pseudolokalnog prijevoda"
+msgstr "Generiranje pseudolokalnog prijevoda"
 
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
-"Generira prijevod, automatski dodajući prefiks i sufiks izvornim izrazima."
+"Generira prijevod automatskim dodavanja prefiksa i sufiksa izvornim izrazima."
 
 msgid "Prefill translation with source"
-msgstr "Unaprijed ispuni prijevod s izvorom"
+msgstr "Unaprijed popuni prijevod s izvorom"
 
 msgid "Fills in translation strings with source string."
-msgstr "Ispunjava prevodilačke izraze s izvornim izrazom."
+msgstr "Popunjava prevodilačke izraze s izvornim izrazom."
 
 msgid "Fill read-only strings with source"
-msgstr "Ispuni izraze samo-za-čitanje s izvorom"
+msgstr "Popuni izraze samo-za-čitanje s izvorom"
 
 msgid "Fills in translation of read-only strings with source string."
-msgstr "Ispunjava prijevode izraza samo-za-čitanje s izvornim izrazom."
+msgstr "Popunjava prijevode izraza samo-za-čitanje s izvornim izrazom."
 
 msgid "Generate MO files"
-msgstr "Izradi MO datoteke"
+msgstr "Generiraj MO datoteke"
 
 msgid "Automatically generates a MO file for every changed PO file."
-msgstr "Automatski izrađuje MO datoteku za svaku promijenjenu PO datoteku."
+msgstr "Automatski generira MO datoteku za svaku promijenjenu PO datoteku."
 
 msgid "Update LINGUAS file"
 msgstr "Aktualiziraj LINGUAS datoteku"
 
-#, fuzzy
-#| msgid "Updates the LINGUAS file when a new translation is added."
 msgid "Updates the LINGUAS file when a translation is added or removed."
-msgstr "Aktualizira LINGUAS datoteku kad se doda novi prijevod."
+msgstr "Aktualizira LINGUAS datoteku kada se jedan projevod doda ili ukloni."
 
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
 msgstr "Aktualiziraj ALL_LINGUAS varijablu u „configure” datoteci"
@@ -2968,22 +2962,17 @@ msgstr "Združi Git izmjene"
 msgid "Squash Git commits prior to pushing changes."
 msgstr "Združi Git izmjene prije prijenosa promjena."
 
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "API add-ons must be installed directly on a component."
-msgstr "Dodatak se može instalirati samo na komponentu."
+msgstr "API dodaci se moraju instalirati izravno na komponenti."
 
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "This add-on is already installed on this component."
-msgstr "Dodatak se može instalirati samo na komponentu."
+msgstr "Ovaj je dodatak već instaliran na ovoj komponenti."
 
-#, fuzzy
-#| msgid "This add-on is used for all components sharing this repository."
 msgid ""
 "Repository add-ons must be installed on the component owning the repository."
 msgstr ""
-"Ovaj dodatak se koristi za sve komponente koje dijele ovaj repozitorij."
+"Dodaci repozitorija moraju biti instalirani na komponenti kojojrepozitorij "
+"pripada."
 
 msgid "This add-on cannot be triggered manually."
 msgstr "Ovaj se dodatak ne može ručno pokrenuti."
@@ -3033,11 +3022,9 @@ msgctxt "Add-on scope"
 msgid "Component"
 msgstr "Komponenta"
 
-#, fuzzy
-#| msgid "Move category"
 msgctxt "Add-on scope"
 msgid "Parent category"
-msgstr "Premjesti kategoriju"
+msgstr "Nadređena kategorija"
 
 msgctxt "Add-on scope"
 msgid "Category"
@@ -3129,7 +3116,7 @@ msgid "The request was invalid or could not be parsed."
 msgstr "Pružatelj usluge autentifikacije nije bio dostupan."
 
 msgid "Authentication credentials were missing or invalid."
-msgstr ""
+msgstr "Podaci za autentifikaciju su nedostajali ili nisu valjani."
 
 #, fuzzy
 #| msgid "You do not have permission to access this component."
@@ -3154,7 +3141,7 @@ msgid "The resource is locked."
 msgstr "Resurs je zaključan."
 
 msgid "The API request rate limit was exceeded."
-msgstr "Prekoračeno je ograničenje broja API zahtjeva."
+msgstr "Prekoračeno je ograničenje kvote API zahtjeva."
 
 msgid "An unexpected server error occurred."
 msgstr "Dogodila se neočekivana greška servera."
@@ -3170,7 +3157,7 @@ msgid "Remaining number of requests to perform"
 msgstr "Preostali broj izvršavanja zahtjeva"
 
 msgid "Number of seconds until the rate-limit window resets"
-msgstr "Broj sekundi do resetiranja prozora ograničenja broja zahtjeva"
+msgstr "Broj sekundi do resetiranja prozora ograničenja kvote zahtjeva"
 
 msgid "Invalid component path."
 msgstr "Neispravna staza komponente."
@@ -4598,23 +4585,17 @@ msgstr "Bilo koji od"
 msgid "Not"
 msgstr "Nije"
 
-#, fuzzy
-#| msgid "Frequency"
 msgid "Sequence"
-msgstr "Učestalost"
+msgstr "Slijed"
 
 msgid "Choose"
 msgstr "Odaberi"
 
-#, fuzzy
-#| msgid "Trigger backup"
 msgid "Trigger"
-msgstr "Pokreni izradu sigurnosne kopije"
+msgstr "Pokreni"
 
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "Add trigger"
-msgstr "Upozorenje aktivirano"
+msgstr "Dodaj pokretač"
 
 msgid "Condition"
 msgstr "Uvjet"
@@ -7689,10 +7670,8 @@ msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "U projektu ili komponenti definiran sekundarni jezik"
 
-#, fuzzy
-#| msgid "Update with rebase"
 msgid "Rate limit reset."
-msgstr "Aktualiziraj s premještanjem"
+msgstr "Ograničenje kvote je resetirano."
 
 msgid "Too many translation requests."
 msgstr "Previše zahtjeva za prijevod."
@@ -8264,7 +8243,7 @@ msgid "Second factor sign-in"
 msgstr "Drugi faktor prijave"
 
 msgid "Please complete your sign-in using second factor credential."
-msgstr "Završi prijavu pomoću drugog faktora za prijavu."
+msgstr "Završi prijavu pomoću drugog faktora tvojih podataka za prijavu."
 
 msgid "Other ways to verify your identity"
 msgstr "Drugi načini za potvrđivanje tvog identiteta"
@@ -8637,7 +8616,7 @@ msgid ""
 msgstr ""
 "Provjeri je li ispunjavaš uvjete za pretplatu za hipotetske događaje. Ovo ne "
 "šalje obavijesti. Vlastite radnje korisnika ne pokreću obavijesti; detalji "
-"događaja, sažetak sadržaja i ograničenja brzine isporuke također mogu "
+"događaja, sažetak sadržaja i ograničenja kvote isporuke također mogu "
 "utjecati na isporuku."
 
 msgid "Check notifications"
@@ -9548,10 +9527,8 @@ msgid ""
 "different browser."
 msgstr ""
 
-#, fuzzy
-#| msgid "Sign in using the security key"
 msgid "Sign in using a passkey or security key"
-msgstr "Prijavi se pomoću sigurnosnog ključa"
+msgstr "Prijavi se pomoću pristupnog ključa ili sigurnosnog ključa"
 
 msgid ""
 "Passkey or security key verification could not be completed. The request may "
@@ -9779,10 +9756,8 @@ msgid ""
 "changes."
 msgstr ""
 
-#, fuzzy
-#| msgid "Trigger backup"
 msgid "Triggers"
-msgstr "Pokreni izradu sigurnosne kopije"
+msgstr "Pokretači"
 
 msgid ""
 "Events starting the workflow. Without any trigger it can only be run "
@@ -11712,10 +11687,8 @@ msgstr "Ova je usluga instalirana u radnom prostoru."
 msgid "workspace"
 msgstr "radni prostor"
 
-#, fuzzy
-#| msgid "Languages limit"
 msgid "Rate limited"
-msgstr "Maks. broj jezika"
+msgstr "Ograničeno kvotom"
 
 msgid "This service is disabled."
 msgstr "Ova je usluga deaktivirana."
@@ -11774,7 +11747,7 @@ msgid ""
 msgstr ""
 
 msgid "Rate limit"
-msgstr "Ograničenje broja upita"
+msgstr "Ograničenje kvote"
 
 msgid ""
 "Requests to this service are temporarily paused after a provider error. "
@@ -11782,18 +11755,14 @@ msgid ""
 "provider’s quota."
 msgstr ""
 "Zahtjevi prema ovoj usluzi su privremeno obustavljeni zbog greške pružatelja "
-"usluge. Ponovno postavljanje ograničenja broja zahtjeva omogućuje Weblateu "
-"ponovo pokušati; ne resetira kvotu pružatelja usluge."
+"usluge. Resetiranje ograničenja kvote zahtjeva omogućuje Weblateu ponovo "
+"pokušati; ne resetira kvotu pružatelja usluge."
 
-#, fuzzy
-#| msgid "Push the repository"
 msgid "Reset rate limit"
-msgstr "Prenesi repozitorij"
+msgstr "Resetiraj ograničenje kvote"
 
-#, fuzzy
-#| msgid "This component is already shared in %s."
 msgid "The rate limit can be reset at the service’s installation scope."
-msgstr "Ova se komponenta već dijeli u %s."
+msgstr "Ograničenje kvote se može resetirati u opsegu instalacije usluge."
 
 #, fuzzy
 #| msgid "Version control"
@@ -12580,21 +12549,27 @@ msgstr ""
 "podatke za pristup."
 
 msgid "Cloud backups for self-hosted Weblate"
-msgstr ""
+msgstr "Sigurnosne kopije u oblaku za samostalni hosting Weblatea"
 
 msgid ""
 "Back up Weblate running in your own environment. No hosting or separate "
 "support subscription is required."
 msgstr ""
+"Spremaj sigurnosne kopije za Weblate koji pokrećeš u vlastitom okruženju. Za "
+"to nije potreban hosting kao ni zasebna pretplata za podršku."
 
 msgid ""
 "Purchase the backup service, enter its activation token below, then turn on "
 "the new backup configuration. Save the backup credentials in a secure place "
 "so you can restore your data."
 msgstr ""
+"Kupi uslugu za spremanje sigurnosnih kopija, unesi aktivacijski token u "
+"nastavku, a zatim uključi novu konfiguraciju sigurnosnog kopiranja. Za "
+"obnavljanje tvojih podataka, spremi podatke za pristup sigurnosnim kopijama "
+"na sigurno mjesto."
 
 msgid "Buy backup service"
-msgstr "Kupi uslugu za izradu sigurnosnih kopija"
+msgstr "Kupi uslugu za spremanje sigurnosnih kopija"
 
 msgid "Add custom backup storage"
 msgstr "Dodaj prilagođeno spremište sigurnosnih kopija"
@@ -14560,10 +14535,8 @@ msgstr "Množina: %(source_description)s"
 msgid "Plurals"
 msgstr "Množine"
 
-#, fuzzy
-#| msgid "No strings found!"
 msgid "No integer examples found"
-msgstr "Nema izraza!"
+msgstr "Nije pronađen nijedan primjer cijelih brojeva"
 
 msgid "First"
 msgstr "Prva"
@@ -15821,20 +15794,14 @@ msgstr[0] "Sigurnosne kopije se uklanjaju nakon %(keep_days)s dan."
 msgstr[1] "Sigurnosne kopije se uklanjaju nakon %(keep_days)s dana."
 msgstr[2] "Sigurnosne kopije se uklanjaju nakon %(keep_days)s dana."
 
-#, fuzzy
-#| msgid "Jump to"
 msgid "Jump to date"
-msgstr "Skoči na"
+msgstr "Skoči na datum"
 
-#, fuzzy
-#| msgid "Good"
 msgid "Go"
-msgstr "Dobro"
+msgstr "Kreni"
 
-#, fuzzy
-#| msgid "Check details"
 msgid "Change details"
-msgstr "Provjeri detalje"
+msgstr "Promijeni detalje"
 
 msgid "Download latest changes as CSV"
 msgstr "Preuzmi najnovije promjene kao CSV"
@@ -15843,22 +15810,19 @@ msgid "Follow using RSS"
 msgstr "Prati pomoću RSS-a"
 
 msgid "History navigation above results"
-msgstr ""
+msgstr "Navigacija za povijest iznad rezultata"
 
 msgid "History navigation below results"
-msgstr ""
+msgstr "Navigacija za povijest ispod rezultata"
 
 msgid "Latest"
-msgstr ""
+msgstr "Najnoviji"
 
-#, fuzzy
-#| msgctxt "Access-control team name"
-#| msgid "Viewers"
 msgid "Newer"
-msgstr "Gledatelji"
+msgstr "Noviji"
 
 msgid "Older"
-msgstr ""
+msgstr "Stariji"
 
 msgid "From version control"
 msgstr "Iz kontrole verzija"
@@ -15880,7 +15844,7 @@ msgid "Start from scratch"
 msgstr "Počni ispočetka"
 
 msgid "From GitHub"
-msgstr ""
+msgstr "Iz GitHuba"
 
 msgid "Create component"
 msgstr "Stvori komponentu"
@@ -22613,7 +22577,7 @@ msgid ""
 msgstr ""
 
 msgid "Explore a string’s history to see how its translation has changed."
-msgstr ""
+msgstr "Istraži povijest izraza i pogledaj kako se njegov prijevod mijenjao."
 
 msgid ""
 "Leave a comment on a source string to ask for context that can help every "

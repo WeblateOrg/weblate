@@ -1371,7 +1371,11 @@ class GlossaryTest(ReusableViewTestCase):
         component.manage_units = False
         for repo in ("https://example.com/glossary.git", "weblate://test/test"):
             with self.subTest(repo=repo):
+                component.vcs = "git"
                 component.repo = repo
+                component.linked_component = (
+                    self.component if component.is_repo_link else None
+                )
                 self.assertFalse(
                     GlossaryStringManagementDisabled.check_component(component)
                 )
@@ -1388,6 +1392,28 @@ class GlossaryTest(ReusableViewTestCase):
                 self.assertFalse(
                     GlossaryStringManagementDisabled.check_component(component)
                 )
+
+    def test_string_management_alert_linked_glossary(self) -> None:
+        for owner in (self.component, self.glossary_component):
+            with self.subTest(owner=owner.slug):
+                linked = self.create_link_existing(
+                    name=f"Terms {owner.slug}",
+                    slug=f"terms-{owner.slug}",
+                    repo=owner.get_repo_link_url(),
+                    is_glossary=True,
+                )
+                linked.manage_units = False
+                with acting_user_context(self.user):
+                    linked.save(update_fields=["manage_units"])
+                name = GlossaryStringManagementDisabled.__name__
+                update_alerts(linked, {name})
+                alerts = linked.alert_set.filter(name=name)
+                self.assertEqual(alerts.exists(), owner.is_repo_local)
+                if owner.is_repo_local:
+                    self.assertIn(
+                        "This glossary has no remote repository",
+                        alerts.get().obj.render(self.user),
+                    )
 
     def test_string_management_alert_inherited_flags(self) -> None:
         self.do_add_unit()
@@ -1407,6 +1433,7 @@ class GlossaryTest(ReusableViewTestCase):
                     values = {"check_flags": "terminology"}
                 model.update(**values)
                 current = type(component).objects.get(pk=component.pk)
+                current.vcs = "git"
                 current.repo = "https://example.com/glossary.git"
                 current.manage_units = False
                 self.assertTrue(
@@ -1432,6 +1459,7 @@ class GlossaryTest(ReusableViewTestCase):
         alert.refresh_from_db()
         self.assertTrue(alert.is_dismissed)
 
+        component.vcs = "git"
         component.repo = "https://example.com/glossary.git"
         update_alerts(component, {name})
         alert.refresh_from_db()
@@ -1440,6 +1468,7 @@ class GlossaryTest(ReusableViewTestCase):
         component.source_translation.unit_set.update(extra_flags="")
         update_alerts(component, {name})
         self.assertFalse(component.alert_set.filter(name=name).exists())
+        component.vcs = "local"
         component.repo = "local:"
         update_alerts(component, {name})
         alert = component.alert_set.get(name=name)
@@ -1472,6 +1501,7 @@ class GlossaryTest(ReusableViewTestCase):
             "#glossary-terminology",
             alert.obj.get_documentation_url(component, self.user),
         )
+        alert.component.vcs = "git"
         alert.component.repo = "https://example.com/glossary.git"
         self.assertIn(
             "This glossary contains terms marked as terminology",

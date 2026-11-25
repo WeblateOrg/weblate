@@ -12,7 +12,7 @@ from contextlib import ExitStack, contextmanager, nullcontext, suppress
 from copy import deepcopy
 from dataclasses import dataclass
 from functools import partial
-from itertools import chain
+from itertools import batched, chain
 from typing import (
     TYPE_CHECKING,
     Any,
@@ -1391,6 +1391,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         update_tm = False
         restricted_changed = False
         project_changed = False
+        location_changed = False
         glossary_settings_changed = False
         old_full_slug = None
         old_source_project_id = None
@@ -1462,8 +1463,12 @@ class Component(  # ruff: ignore[too-many-public-methods]
             restricted_changed = restricted_changed and (
                 update_fields is None or "restricted" in update_fields
             )
-            project_changed = old.project_id != self.project_id and (
-                update_fields is None or "project" in update_fields
+            project_changed = old.project_id != self.project_id and should_track_field(
+                self, "project", update_fields
+            )
+            location_changed = project_changed or (
+                old.category_id != self.category_id
+                and should_track_field(self, "category", update_fields)
             )
             glossary_settings_changed = (
                 glossary_settings_changed
@@ -1471,21 +1476,17 @@ class Component(  # ruff: ignore[too-many-public-methods]
             ) or (restricted_changed and (old.is_glossary or self.is_glossary))
 
             changed_variant = old.variant_regex != self.variant_regex
-            path_changed = any(
-                should_track_field(self, field, update_fields)
-                and getattr(old, attribute) != getattr(self, attribute)
-                for field, attribute in (
-                    ("slug", "slug"),
-                    ("project", "project_id"),
-                    ("category", "category_id"),
-                )
+            path_changed = location_changed or (
+                old.slug != self.slug
+                and should_track_field(self, "slug", update_fields)
             )
             if path_changed:
                 using = kwargs.get("using") or router.db_for_write(
                     type(self), instance=self
                 )
                 stack.enter_context(self._atomic_path_change(using, moved_paths))
-            self.generate_changes(old, update_fields=update_fields)
+            if not location_changed:
+                self.generate_changes(old, update_fields=update_fields)
             if changed_git and not path_changed:
                 self.drop_repository_cache()
 
@@ -1555,21 +1556,73 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     },
                     exclusive=True,
                 )
+            if location_changed:
+                # Serialize the move with history writers holding FOR KEY SHARE.
+                Component.objects.using(using).select_for_update().values_list(
+                    "pk", flat=True
+                ).get(pk=self.pk)
             super().save(*args, **kwargs)
+            if project_changed:
+                history = Change.objects.using(using).filter(component=self)
+                history.exclude(project_id=self.project_id).update(
+                    project_id=self.project_id
+                )
+                history.filter(category__isnull=False).exclude(
+                    category__project_id=self.project_id
+                ).update(category_id=self.category_id)
+            if location_changed:
+                self.generate_changes(old, update_fields=update_fields)
+            if (
+                project_changed
+                and old_workspace_id is not None
+                and old_workspace_id != self.project.workspace_id
+                and "weblate.billing" in settings.INSTALLED_APPS
+            ):
+                from weblate.billing.models import (  # ruff: ignore[import-outside-top-level]
+                    Billing,
+                    schedule_libre_warning_refresh,
+                )
+
+                schedule_libre_warning_refresh(
+                    Billing.objects.using(self._state.db).filter(
+                        workspace_id=old_workspace_id
+                    )
+                )
             if path_changed:
                 self.check_rename(old, moved_paths=moved_paths)
                 self.drop_repository_cache()
                 old.component_set.update(repo=self.get_repo_link_url())
             if boundary_changed:
-                from weblate.trans.propagation import refresh_propagation_checks  # ruff: ignore[import-outside-top-level]
-
-                refresh_propagation_checks(
-                    {
-                        project_id
-                        for project_id in (self.project_id, old_source_project_id)
-                        if project_id is not None
-                    }
+                from weblate.trans.propagation import (  # ruff: ignore[import-outside-top-level]
+                    refresh_propagation_checks,
+                    schedule_propagation_rebuild,
                 )
+
+                propagation_only = (
+                    not restricted_changed
+                    and not project_changed
+                    and old.name == self.name
+                )
+                component_name = (
+                    self.name
+                    if propagation_only
+                    and Component.objects.values_list(
+                        "project__workspace__propagation_scope", flat=True
+                    ).get(pk=self.pk)
+                    == "component_name"
+                    else None
+                )
+                if propagation_only and self.allow_translation_propagation:
+                    schedule_propagation_rebuild(self.project, component_name)
+                else:
+                    refresh_propagation_checks(
+                        {
+                            project_id
+                            for project_id in (self.project_id, old_source_project_id)
+                            if project_id is not None
+                        },
+                        component_name=component_name,
+                    )
         if glossary_settings_changed or (create and self.is_glossary):
             transaction.on_commit(
                 capture_change_origin(
@@ -3291,9 +3344,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
         with self.repository.lock:
             self.repository.configure_remote(
                 self.repo, self.push, self.branch, fast=not self.id
-            )
-            self.repository.set_committer(
-                settings.DEFAULT_COMMITER_NAME, settings.DEFAULT_COMMITER_EMAIL
             )
 
             if pull:
@@ -7712,6 +7762,11 @@ class Component(  # ruff: ignore[too-many-public-methods]
             return f"{gettext('Could not get repository status!')}\n\n{error}"
 
     def update_enforced_checks(self) -> None:
+        from weblate.checks.tasks import (  # ruff: ignore[import-outside-top-level]
+            PROPAGATED_CHECK_REFRESH_BATCH_SIZE,
+            coalesce_pending_propagated_check_refreshes,
+        )
+
         effective = self.get_effective_setting("enforced_checks")
         units = Unit.objects.filter(
             check__name__in=effective,
@@ -7719,14 +7774,17 @@ class Component(  # ruff: ignore[too-many-public-methods]
             state__in=(STATE_TRANSLATED, STATE_APPROVED),
         )
 
-        for unit in units.select_for_update():
-            unit.translate(
-                self.get_update_user(None),
-                unit.get_target_plurals(),
-                STATE_NEEDS_REWRITING,
-                change_action=ActionEvents.ENFORCED_CHECK,
-                propagate=False,
-            )
+        locked_units = units.select_for_update()
+        for batch in batched(locked_units, PROPAGATED_CHECK_REFRESH_BATCH_SIZE):
+            with coalesce_pending_propagated_check_refreshes():
+                for unit in batch:
+                    unit.translate(
+                        self.get_update_user(None),
+                        unit.get_target_plurals(),
+                        STATE_NEEDS_REWRITING,
+                        change_action=ActionEvents.ENFORCED_CHECK,
+                        propagate=False,
+                    )
 
     @cached_property
     def api_slug(self):

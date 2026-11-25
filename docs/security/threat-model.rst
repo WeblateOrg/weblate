@@ -264,9 +264,12 @@ repository state, background tasks, outbound requests, and rendered UI.
        Usernames in an ordinary user's backup are identity claims: other local
        accounts receive membership invitations and remain anonymous authors
        until informed acceptance. Superuser imports are trusted to map accounts
-       directly. Consent can update covered database authorship, including
-       history created before acceptance and changes propagated to other projects;
-       it does not rewrite actors, existing repository commits, or exported
+       directly. Any importer can attribute historical content to recognized
+       internal bots reconstructed from local definitions. This grants no team
+       access. The importer remains the restore actor. Consent can update covered
+       database authorship, including history created before acceptance and
+       changes propagated to other projects; it does not rewrite actors,
+       existing repository commits, or exported
        copies. *(maintainer)*
 
 Reachability preconditions:
@@ -641,7 +644,9 @@ Size and rate assumptions:
 * Translation uploads require an authenticated actor, regardless of permissions
   assigned to the Guests team, and retain byte and content-string limits in
   synchronous and background processing. Suggestion uploads have a tighter
-  string-count limit, and browser and API uploads share a per-user rate budget.
+  string-count limit. In the web interface, translation uploads and
+  translation-memory imports share a per-user upload budget. REST translation
+  uploads count toward :ref:`api-rate`.
   Background upload files are private temporary data shared between web and
   worker processes; workers recheck the initiating user's access before applying
   them.
@@ -858,6 +863,8 @@ Security properties Weblate provides
        token team membership, authentication credentials, access permissions,
        project and component visibility, account status, and bulk user-contribution
        cleanup require recent credential verification for browser sessions.
+       Reading full translation service configurations and changing installations
+       or exclusions also require recent verification for browser sessions.
        Accounts with 2FA use a second factor; other accounts confirm their password or an existing
        sign-in provider. API tokens remain separate credentials. *(documented)* (source:
        :doc:`/admin/auth`, :setting:`ENABLE_HTTPS`)
@@ -1187,9 +1194,10 @@ Known misuse patterns
   permits changing site-wide team scope and granting team members access to
   private projects the manager cannot access directly, while ``user.edit``
   permits changing team memberships and superuser status for editable accounts,
-  including the caller's own account. Delegate permissions through project or
-  workspace teams for limited scopes. *(documented)* (source:
-  :doc:`/admin/access`)
+  including the caller's own account for human users. Bot account mutations
+  through the user API require another authorized actor. Delegate permissions
+  through project or workspace teams for limited scopes. *(documented)* (source:
+  :doc:`/admin/access`, :ref:`api-users`)
 * Sending sensitive source strings or private customer content to machine
   translation providers without treating the provider as a data recipient. This
   is unsafe because Weblate must transmit content to the configured service, and

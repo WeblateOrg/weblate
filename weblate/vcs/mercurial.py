@@ -15,6 +15,7 @@ from pathlib import Path
 from shutil import which
 from typing import TYPE_CHECKING, ClassVar, cast
 
+from django.conf import settings
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.auth.utils import format_address
@@ -476,6 +477,9 @@ class HgRepository(Repository):
             updates.append(("paths", "default-push", push_url))
 
         self.set_config_values(*updates)
+        self.set_committer(
+            settings.DEFAULT_COMMITER_NAME, settings.DEFAULT_COMMITER_EMAIL
+        )
 
         self.branch = branch
 

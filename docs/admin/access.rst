@@ -307,9 +307,10 @@ Site-wide user management is controlled by the global ``user.edit``
 permission. Unlike project access management, this is a trusted administrative
 permission which allows editing user accounts across the whole instance. It
 includes adding or removing the managed account from any site-wide, workspace,
-or project team, and granting or revoking superuser status, even for the
-caller's own account. These actions do not require the :guilabel:`Manage teams`
-permission or separate authority over the affected team.
+or project team, and granting or revoking superuser status. Human callers can
+apply these changes to their own accounts. Bot accounts require a separate
+administrator to manage their accounts. These actions do not require the
+:guilabel:`Manage teams` permission or separate authority over the affected team.
 
 Treat ``user.edit`` as effectively equivalent to superuser access, not as a
 limited helpdesk permission. To delegate access management within a narrower
@@ -1015,7 +1016,7 @@ controls.
    containing them, including customized built-in roles, as trusted administrative
    access because some are effectively equivalent to superuser status. For example, ``group.edit``
    allows changing team scope to grant access to private projects, and
-   ``user.edit`` allows users to change their own team memberships and grant
+   ``user.edit`` allows human users to change their own team memberships and grant
    themselves superuser status. See :ref:`site-wide-team-management` and
    :ref:`site-wide user management <site-wide-user-management>` for details.
 

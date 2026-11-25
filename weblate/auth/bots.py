@@ -30,3 +30,24 @@ class InternalBot(Enum):
 
         scope, name, verbose = self.value
         return User.objects.get_or_create_bot(scope=scope, name=name, verbose=verbose)
+
+
+def internal_bot_names() -> dict[str, str]:
+    """Names whose inactive authorship account can be reconstructed locally."""
+    # ruff: ignore[import-outside-top-level]
+    from weblate.addons.models import ADDONS
+    from weblate.machinery.models import MACHINERY  # ruff: ignore[import-outside-top-level]
+
+    names = {
+        f"{scope}:{name}": verbose
+        for scope, name, verbose in (bot.value for bot in InternalBot)
+    }
+    names.update({f"mt:{name}": engine.name for name, engine in MACHINERY.items()})
+    names.update(
+        {
+            f"addon:{addon.user_name}": addon.user_verbose
+            for addon in ADDONS.values()
+            if addon.user_name and addon.user_verbose
+        }
+    )
+    return names

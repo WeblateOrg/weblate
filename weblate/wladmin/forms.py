@@ -15,8 +15,7 @@ from django.utils.translation import gettext, gettext_lazy
 
 from weblate.accounts.forms import BaseTokenCreateForm, EmailField, UserManageForm
 from weblate.accounts.models import AuditLog
-from weblate.accounts.utils import SITE_API_TOKEN_USERNAME_PREFIX
-from weblate.auth.models import Group, TeamMembership, User
+from weblate.auth.models import SITE_BOT_USERNAME_PREFIX, Group, TeamMembership, User
 from weblate.auth.utils import (
     prefetch_membership_limit_languages,
     validate_admin_team_assignment,
@@ -260,7 +259,7 @@ class SiteTokenCreateForm(BaseTokenCreateForm):
         self.helper.form_tag = False
 
     def get_bot_basename(self) -> str:
-        return f"{SITE_API_TOKEN_USERNAME_PREFIX}{slugify(self.instance.full_name)}"
+        return f"{SITE_BOT_USERNAME_PREFIX}{slugify(self.instance.full_name)}"
 
     def save(self, *args, acting_user: User | None = None, request=None, **kwargs):
         result = super().save(*args, **kwargs)

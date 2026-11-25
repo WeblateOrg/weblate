@@ -390,6 +390,27 @@ class FlagTest(SimpleTestCase):
         # Names are unique (no duplicates across categories)
         self.assertEqual(len(names), len(choices))
 
+    def test_check_flag_alias(self) -> None:
+        alias = "csharp-format"
+        flags = FlagsValidator(alias)
+        flags.validate()
+        self.assertEqual(flags.format(), alias)
+        FlagsValidator(f"discard:{alias}").validate()
+        self.assertFalse(Flags(alias, f"discard:{alias}"))
+
+        for invalid in (f"{alias}:1", "unknown-check-format"):
+            with self.subTest(invalid=invalid), self.assertRaises(ValidationError):
+                FlagsValidator(invalid).validate()
+
+        choices = {choice["name"]: choice for choice in get_flag_choices()}
+        self.assertNotIn(alias, choices)
+        self.assertIn(alias, choices["c-sharp-format"]["aliases"])
+        for auto_flag in ("auto-safe-html", "auto-java-messageformat"):
+            with self.subTest(auto_flag=auto_flag):
+                FlagsValidator(auto_flag).validate()
+                self.assertFalse(choices[auto_flag]["has_value"])
+                self.assertNotIn("aliases", choices[auto_flag])
+
     def test_get_flag_choices_per_language(self) -> None:
         with override("en"):
             en_choices = get_flag_choices()

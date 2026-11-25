@@ -69,6 +69,10 @@ from weblate.accounts.notifications import (
 )
 from weblate.accounts.tasks import cleanup_inaccessible_subscriptions
 from weblate.accounts.tests.visibility import VisibilityPermissions
+from weblate.accounts.utils import (
+    FIRST_FACTOR_VERIFY_SECONDS,
+    SESSION_SENSITIVE_FACTOR_GRANT,
+)
 from weblate.addons.autotranslate import AutoTranslateAddon
 from weblate.addons.base import build_addon_change_details
 from weblate.addons.cdn import CDNJSAddon
@@ -192,6 +196,7 @@ from weblate.utils.data import data_dir
 from weblate.utils.files import PathMatchBudget, remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.pii import mask_email
+from weblate.utils.ratelimit import RateLimitHttpRequest
 from weblate.utils.render import render_repository_template
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -401,6 +406,18 @@ class AuthenticationAPITest(APITestCase):
     def setUpTestData(cls) -> None:
         super().setUpTestData()
         cls.user = User.objects.create_user("apiauth", "apiauth@example.org", "x")
+
+    def test_api_root_lists_resource_urls(self) -> None:
+        response = self.client.get(reverse("api:api-root"))
+        self.assertEqual(response.status_code, 200)
+        for resource in ("projects", "components", "translations", "languages"):
+            with self.subTest(resource=resource):
+                self.assertEqual(
+                    response.data[resource],
+                    response.wsgi_request.build_absolute_uri(
+                        reverse(f"api:{resource.removesuffix('s')}-list")
+                    ),
+                )
 
     def test_unsupported_scheme(self) -> None:
         for signed_in in (False, True):
@@ -2661,6 +2678,104 @@ class UserAPITest(APIBaseTest):
         )
         project_token.refresh_from_db()
         self.assertEqual(project_token.full_name, "Renamed Token")
+
+    def test_bot_cannot_edit_own_account(self) -> None:
+        bot = User.objects.create(
+            username="bot-api-client",
+            email="bot-api-client@bots.noreply.weblate.org",
+            full_name="API Client",
+            is_bot=True,
+        )
+        bot.groups.add(self.group)
+        subscription = bot.subscription_set.create(
+            notification="RepositoryNotification",
+            scope=NotificationScope.SCOPE_ALL,
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {bot.auth_token.key}")
+        user_kwargs = {"username": bot.username}
+        notifications = reverse("api:user-notifications", kwargs=user_kwargs)
+        detail = reverse("api:user-detail", kwargs=user_kwargs)
+        groups = reverse("api:user-groups", kwargs=user_kwargs)
+        subscription_url = reverse(
+            "api:user-notifications-details",
+            kwargs={**user_kwargs, "subscription_id": subscription.pk},
+        )
+        self.assertEqual(self.client.get(detail).status_code, 200)
+        self.assertEqual(self.client.get(subscription_url).status_code, 200)
+        account_data: dict[str, object] = {
+            "full_name": "Updated Client",
+            "profile": {"theme": "dark"},
+        }
+        requests: tuple[tuple[str, str, dict[str, object]], ...] = (
+            ("put", detail, account_data),
+            ("patch", detail, account_data),
+            ("delete", detail, {}),
+            ("post", groups, {"group_id": self.group.pk}),
+            ("delete", groups, {"group_id": self.group.pk}),
+            ("post", notifications, {"notification": subscription.notification}),
+            ("put", subscription_url, {"notification": subscription.notification}),
+            ("patch", subscription_url, {"frequency": NotificationFrequency.FREQ_NONE}),
+            ("delete", subscription_url, {}),
+        )
+        for is_superuser in (False, True):
+            bot.is_superuser = is_superuser
+            bot.save(update_fields=["is_superuser"])
+            for method, url, data in requests:
+                with self.subTest(is_superuser=is_superuser, method=method, url=url):
+                    response = getattr(self.client, method)(url, data, format="json")
+                    self.assertEqual(response.status_code, 403)
+
+        bot.refresh_from_db()
+        subscription.refresh_from_db()
+        self.assertEqual(bot.full_name, "API Client")
+        self.assertTrue(bot.is_active)
+        self.assertNotEqual(bot.profile.theme, "dark")
+        self.assertCountEqual(bot.groups.all(), [self.group])
+        self.assertCountEqual(bot.subscription_set.all(), [subscription])
+        self.assertEqual(subscription.frequency, NotificationFrequency.FREQ_INSTANT)
+
+    def test_generated_token_identity_is_read_only(self) -> None:
+        for username in ("bot-managed", "SITEBOT-managed"):
+            with self.subTest(username=username):
+                email = f"{username}@BOTS.NOREPLY.WEBLATE.ORG"
+                bot = User.objects.create(
+                    username=username, email=email, full_name="Managed Bot", is_bot=True
+                )
+                self.authenticate(superuser=True)
+                detail = reverse("api:user-detail", kwargs={"username": bot.username})
+                response = self.client.patch(
+                    detail,
+                    {
+                        "username": username.swapcase(),
+                        "email": email.lower(),
+                        "is_bot": False,
+                    },
+                    format="json",
+                )
+                self.assertEqual(response.status_code, 400)
+                self.assertEqual(
+                    {error["attr"] for error in response.data["errors"]},
+                    {"username", "email", "is_bot"},
+                )
+                response = self.client.put(
+                    detail,
+                    {
+                        "username": username,
+                        "email": email,
+                        "is_bot": True,
+                        "full_name": "Renamed Bot",
+                        "date_expires": "2999-01-01T00:00:00Z",
+                    },
+                    format="json",
+                )
+                self.assertEqual(response.status_code, 200, response.data)
+                bot.refresh_from_db()
+                self.assertEqual(bot.username, username)
+                self.assertEqual(bot.email, email)
+                self.assertTrue(bot.is_bot)
+                self.assertEqual(bot.full_name, "Renamed Bot")
+                self.assertEqual(bot.date_expires, datetime(2999, 1, 1, tzinfo=UTC))
 
     def test_patch_logs_superuser_grant(self) -> None:
         target = User.objects.create_user("target", "target@example.org", "x")
@@ -5350,6 +5465,90 @@ class ProjectBrowsableAPIFormTest(APIBaseTest):
         )
 
 
+class MachinerySessionAPITest(APIBaseTest):
+    def test_machinery_session_verification(self) -> None:
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.client.force_login(self.user)
+        installation = MachineryInstallation.objects.create(
+            project=self.project,
+            engine="deepl",
+            configuration={"key": "saved-secret"},
+        )
+        inherited = MachineryInstallation.objects.create(engine="deepl")
+        exclusion = MachineryExclusion.objects.create(
+            project=self.project, installation=inherited
+        )
+        collection = reverse("api:machinery-installation-list")
+        detail = reverse("api:machinery-installation-detail", args=[installation.pk])
+        nested = reverse("api:project-machinery-settings", kwargs=self.project_kwargs)
+        exclusions = reverse("api:machinery-exclusion-list")
+        exclusion_detail = reverse(
+            "api:machinery-exclusion-detail", args=[exclusion.pk]
+        )
+        response = self.client.get(detail)
+        self.assertContains(
+            response, "Recent credential verification required.", status_code=403
+        )
+        verified = self.client.post(
+            reverse("first-factor-verify"),
+            {"password": "x", "target": "sensitive", "next": detail},
+        )
+        self.assertRedirects(verified, detail, fetch_redirect_response=False)
+        self.assertContains(self.client.get(detail), "saved-secret")
+        self.assertContains(self.client.get(collection), "saved-secret")
+        self.assertContains(self.client.get(nested), "saved-secret")
+        self.assertEqual(self.client.patch(detail, {"enabled": False}).status_code, 200)
+        self.assertEqual(
+            self.client.get(
+                reverse("api:machinery-installation-detail", args=[inherited.pk])
+            ).status_code,
+            404,
+        )
+
+        session = self.client.session
+        session[SESSION_SENSITIVE_FACTOR_GRANT]["time"] -= (
+            FIRST_FACTOR_VERIFY_SECONDS + 1
+        )
+        session.save()
+        with patch("weblate.machinery.api.validate_service_configuration") as validate:
+            for url, methods in (
+                (collection, ("get", "post")),
+                (detail, ("get", "put", "patch", "delete")),
+                (nested, ("get", "post")),
+                (exclusions, ("post",)),
+                (exclusion_detail, ("put", "patch", "delete")),
+            ):
+                for method in methods:
+                    with self.subTest(url=url, method=method):
+                        response = getattr(self.client, method)(url)
+                        self.assertContains(
+                            response,
+                            "Recent credential verification required.",
+                            status_code=403,
+                        )
+                        self.assertNotContains(
+                            response, "saved-secret", status_code=403
+                        )
+            response = self.client.post(
+                nested,
+                {"engine": "deepl", "configuration": {"key": "new-key"}},
+                format="json",
+            )
+            self.assertEqual(response.status_code, 403)
+            validate.assert_not_called()
+        self.assertEqual(
+            MachineryInstallation.objects.filter(
+                project=self.project, engine="deepl"
+            ).count(),
+            1,
+        )
+        installation.refresh_from_db()
+        self.assertFalse(installation.enabled)
+        self.assertEqual(installation.configuration, {"key": "saved-secret"})
+        self.assertEqual(self.client.get(exclusions).status_code, 200)
+        self.assertEqual(self.client.get(exclusion_detail).status_code, 200)
+
+
 class ProjectAPITest(APIBaseTest):
     def test_language_aliases_validate_destination(self) -> None:
         self.grant_perm_to_user("project.edit", project=self.project)
@@ -6091,8 +6290,14 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(request.data["count"], 2)
 
     def test_changes(self) -> None:
-        request = self.do_request("api:project-changes", self.project_kwargs)
-        self.assertEqual(request.data["count"], 35)
+        project = Project.objects.create(name="Other", slug="other")
+        change = project.change_set.create(
+            action=ActionEvents.CREATE_PROJECT, user=self.user
+        )
+
+        response = self.do_request("api:project-changes", {"slug": project.slug})
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["id"], change.pk)
 
     def test_changes_with_multi_alert(self) -> None:
         translation = self.component.translation_set.get(language__code="cs")
@@ -6978,6 +7183,7 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertFalse(component.manage_units)
         self.assertFalse(response.data["manage_units"])
+        self.assertEqual(response["Location"], response.data["url"])
         self.assertEqual(response.data["push"], "https://github.com/example/push.git")
         response = self.do_request(
             "api:project-components",
@@ -17566,19 +17772,40 @@ class TranslationAPITest(APIBaseTest):
         )
         self.assertEqual(response.status_code, 202)
 
-    def test_upload_rate_limit(self) -> None:
+    @override_settings(
+        API_RATELIMIT_USER="2/hour",
+        API_RATELIMIT_USER_OVERRIDES={},
+        API_RATELIMIT_IP_OVERRIDES={},
+        RATELIMIT_UPLOAD_ATTEMPTS=1,
+        CACHES={
+            "default": {
+                "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+                "LOCATION": "api-upload-rate-limit",
+            }
+        },
+    )
+    def test_upload_uses_general_api_rate_limit(self) -> None:
+        cache.clear()
         self.authenticate()
-        with (
-            patch("weblate.api.views.check_rate_limit", return_value=False),
-            patch("weblate.api.views.queue_translation_upload") as queue,
-            open(TEST_PO, "rb") as handle,
-        ):
-            response = self.client.post(
-                reverse("api:translation-file", kwargs=self.translation_kwargs),
-                {"file": handle, "background": True},
-            )
+        browser_limiter = RateLimitHttpRequest("upload", user=self.user)
+        self.assertFalse(browser_limiter.is_limit_exceeded()[0])
+        self.assertTrue(browser_limiter.is_limit_exceeded()[0])
+
+        url = reverse("api:translation-file", kwargs=self.translation_kwargs)
+        with open(TEST_PO, "rb") as handle:
+            response = self.client.post(url, {"file": handle})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["X-RateLimit-Remaining"], "1")
+
+        with open(TEST_PO, "rb") as handle:
+            response = self.client.put(url, {"file": handle, "background": True})
+        self.assertEqual(response.status_code, 202)
+        self.assertEqual(response["X-RateLimit-Remaining"], "0")
+
+        with open(TEST_PO, "rb") as handle:
+            response = self.client.post(url, {"file": handle})
         self.assertEqual(response.status_code, 429)
-        queue.assert_not_called()
+        self.assertGreater(int(response["Retry-After"]), 0)
 
     def test_upload_task_is_private(self) -> None:
         from weblate.utils.celery import store_task_metadata  # ruff: ignore[import-outside-top-level]
@@ -17719,12 +17946,13 @@ class TranslationAPITest(APIBaseTest):
             code=200,
         )
         self.assertContains(response, "Project-Id-Version: Weblate Hello World 2016")
-        self.do_request(
+        cached = self.do_request(
             "api:translation-file",
             kwargs=self.translation_kwargs,
             headers={"If-Modified-Since": response["Last-Modified"]},
             code=304,
         )
+        self.assertEqual(cached.content, b"")
 
     def test_download_args(self) -> None:
         response = self.do_request(
@@ -22231,6 +22459,39 @@ class ScreenshotAPITest(APIBaseTest):
 
 
 class ChangeAPITest(APIBaseTest):
+    def test_moved_component_history_follows_project(self) -> None:
+        destination = self.create_project(
+            name="Destination",
+            slug="destination",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        change = self.component.change_set.create(
+            action=ActionEvents.CHANGE, target="Earlier edit", user=self.user
+        )
+        global_url = reverse("api:change-list")
+        old_url = reverse("api:project-changes", kwargs=self.project_kwargs)
+        new_url = reverse("api:project-changes", kwargs={"slug": destination.slug})
+
+        def contains_change(url: str) -> bool:
+            response = self.client.get(url, {"component": self.component.pk})
+            self.assertEqual(response.status_code, 200, response.data)
+            return change.pk in {entry["id"] for entry in response.data["results"]}
+
+        self.assertTrue(contains_change(global_url))
+        with acting_user_context(self.user):
+            self.component.project = destination
+            self.component.save(update_fields=["project_id"])
+
+        for authenticated in (False, True):
+            if authenticated:
+                self.authenticate()
+            with self.subTest(authenticated=authenticated):
+                self.assertFalse(contains_change(global_url))
+                self.assertFalse(contains_change(old_url))
+        destination.add_user(self.user, "Administration")
+        self.assertTrue(contains_change(new_url))
+        self.assertTrue(contains_change(global_url))
+
     def test_invitation_email_masked_in_history(self) -> None:
         email = "victim.person@corp.example"
         change = self.project.change_set.create(
@@ -22664,18 +22925,27 @@ class ChangeAPITest(APIBaseTest):
                 )
 
     def test_list_changes(self) -> None:
-        response = self.client.get(reverse("api:change-list"))
-        self.assertEqual(response.data["count"], 35)
+        url = reverse("api:change-list")
+        initial_count = self.client.get(url).data["count"]
+        change = self.component.change_set.create(
+            action=ActionEvents.HOOK, user=self.user
+        )
+
+        response = self.client.get(url)
+        self.assertEqual(response.data["count"], initial_count + 1)
+        self.assertIn(change.pk, [entry["id"] for entry in response.data["results"]])
 
     def test_filter_changes_after(self) -> None:
         """Filter changes since timestamp."""
-        latest_change = Change.objects.order().last()
-        assert latest_change is not None
-        start = latest_change.timestamp
-        response = self.client.get(
-            reverse("api:change-list"), {"timestamp_after": start.isoformat()}
+        change = self.component.change_set.create(
+            action=ActionEvents.HOOK, user=self.user
         )
-        self.assertEqual(response.data["count"], 35)
+        response = self.client.get(
+            reverse("api:change-list"),
+            {"timestamp_after": change.timestamp.isoformat()},
+        )
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["id"], change.pk)
 
     def test_filter_changes_before(self) -> None:
         """Filter changes prior to timestamp."""

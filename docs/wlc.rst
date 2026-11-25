@@ -187,6 +187,12 @@ Weblate Client is a Python library and command-line utility to manage Weblate
 remotely using :ref:`api`. Invoke the command-line utility as
 :command:`wlc`; see :mod:`wlc` for the Python API.
 
+When Weblate queues a repository operation, translation upload, or component
+or translation deletion and returns a task URL, the command waits for the
+outcome. The default wait is 30 minutes. On expiry the command reports an
+error and exits with a nonzero status. Expiry and Ctrl+C leave the operation
+running on the server.
+
 Arguments
 ---------
 
@@ -262,6 +268,13 @@ Weblate instance to use. These must be entered before any command.
     Do not load any configuration files. Built-in defaults, environment
     variables, and command-line options still apply. This option,
     :option:`--config`, and :option:`--project-config` are mutually exclusive.
+
+.. option:: --task-timeout SECONDS
+
+    Override the active configuration's task wait for this invocation, for
+    example ``wlc --task-timeout 3600 pull myproject``. Use zero to wait
+    indefinitely. An HTTP poll already in progress, including its retries,
+    may finish after the deadline.
 
 .. option:: --config-section SECTION
 
@@ -570,6 +583,12 @@ customize this by :option:`--config-section`):
 
     Default object path for commands that accept one: a project, component,
     translation, or numeric unit ID.
+
+.. describe:: task_timeout
+
+    Maximum time to poll a queued task, in whole seconds. The default is
+    ``1800``. Set to ``0`` for unlimited waiting, or override it with
+    :option:`--task-timeout`. The HTTP ``timeout`` applies to each request.
 
 .. describe:: retries, timeout, allowed_methods, backoff_factor, status_forcelist
 

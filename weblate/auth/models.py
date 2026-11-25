@@ -80,7 +80,7 @@ from weblate.utils.validators import (
 from . import defaults as auth_defaults
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable, Mapping
+    from collections.abc import Awaitable, Callable, Iterable, Mapping
 
     from django_otp.models import Device
     from social_core.backends.base import BaseAuth
@@ -840,6 +840,10 @@ class TeamMembership(models.Model):
 
 
 bot_cache = ContextVar("bot_cache", default=dict)
+BOT_NOREPLY_EMAIL_SUFFIX = "@bots.noreply.weblate.org"
+PROJECT_BOT_USERNAME_PREFIX = "bot-"
+SITE_BOT_USERNAME_PREFIX = "sitebot-"
+
 validate_internal_bot_email = DjangoEmailValidator()
 
 
@@ -1355,23 +1359,28 @@ class User(AbstractBaseUser):
     def is_internal(self):
         return self.is_anonymous or (self.is_bot and ":" in self.username)
 
-    @cached_property
-    def is_site_api_token_bot(self) -> bool:
-        """Return whether this user is a site-wide API token bot."""
-        # ruff: ignore[import-outside-top-level]
-        from weblate.accounts.utils import (
-            BOT_NOREPLY_EMAIL_SUFFIX,
-            SITE_API_TOKEN_USERNAME_PREFIX,
+    def account_edit_blocked(self, actor: object) -> bool:
+        """Protect internal accounts and require another actor to edit a bot."""
+        return self.is_internal or (self.is_bot and self == actor)
+
+    def _has_generated_token_identity(self, username_prefix: str) -> bool:
+        return (
+            self.is_bot
+            and self.username.lower().startswith(username_prefix)
+            and (self.email or "").lower().endswith(BOT_NOREPLY_EMAIL_SUFFIX.lower())
         )
 
-        return bool(
-            self.is_bot
-            and self.username.casefold().startswith(
-                SITE_API_TOKEN_USERNAME_PREFIX.casefold()
-            )
-            and self.email
-            and self.email.casefold().endswith(BOT_NOREPLY_EMAIL_SUFFIX.casefold())
-        )
+    @property
+    def is_site_api_token_bot(self) -> bool:
+        return self._has_generated_token_identity(SITE_BOT_USERNAME_PREFIX)
+
+    @property
+    def protected_account_fields(self) -> tuple[str, ...]:
+        if self.is_site_api_token_bot or self._has_generated_token_identity(
+            PROJECT_BOT_USERNAME_PREFIX
+        ):
+            return ("username", "email", "is_bot")
+        return ()
 
     def is_verified(self) -> bool:
         # django_otp overrides this method in OTPMiddleware
@@ -2917,6 +2926,7 @@ class WeblateAuthConf(AppConf):
 class AuthenticatedHttpRequest(HttpRequest):
     user: User
     # Added by weblate.accounts.AuthenticationMiddleware
+    auser: Callable[[], Awaitable[User]]
     accepted_language: Language
 
     # type hint for social_auth

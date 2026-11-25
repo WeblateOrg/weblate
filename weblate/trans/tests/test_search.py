@@ -133,15 +133,15 @@ class SearchViewTest(ReusableViewTestCase):
         response = self.client.get(reverse("search"), {"q": "hello"})
         self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
         response = self.client.get(reverse("search"), {"q": 'source:r"^Hello"'})
-        self.assertContains(response, "Hello, world")
+        self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
         response = self.client.get(reverse("search"), {"q": 'source:r"^(Hello"'})
         self.assertContains(response, "Invalid regular expression")
         response = self.client.get(
             reverse("search"), {"q": "hello AND state:<translated"}
         )
-        self.assertContains(response, "Hello, world")
+        self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
         response = self.client.get(reverse("search"), {"q": "hello AND state:empty"})
-        self.assertContains(response, "Hello, world")
+        self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
         response = self.client.get(reverse("search"), {"q": "check:php_format"})
         self.assertContains(response, "No matching strings found.")
         response = self.client.get(
@@ -149,6 +149,21 @@ class SearchViewTest(ReusableViewTestCase):
         )
         self.assertContains(response, "No matching strings found.")
         self.do_search_url(reverse("search"))
+
+    @override_settings(RATELIMIT_SEARCH_ATTEMPTS=20000)
+    def test_search_highlight_terms(self) -> None:
+        url = reverse("search", kwargs={"path": self.translation.get_url_path()})
+        response = self.client.get(url, {"q": "world hello"})
+        self.assertContains(
+            response,
+            '<span class="hlmatch">Hello</span>, <span class="hlmatch">world</span>',
+        )
+        response = self.client.get(url, {"q": "source:world"})
+        self.assertContains(response, 'Hello, <span class="hlmatch">world</span>')
+        # Context is not searched by the source term
+        response = self.client.get(url, {"q": "key:hello OR source:world"})
+        self.assertContains(response, 'Hello, <span class="hlmatch">world</span>')
+        self.assertNotContains(response, '<span class="hlmatch">Hello</span>')
 
     @override_settings(RATELIMIT_SEARCH_ATTEMPTS=20000)
     def test_bulk_edit_selection_rendering(self) -> None:

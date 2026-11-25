@@ -1942,6 +1942,8 @@ To disable this behavior, remove ``mail_admins`` from the
 :setting:`django:LOGGING` in Weblate settings, or disable
 :envvar:`WEBLATE_ADMIN_NOTIFY_ERROR` in the Docker environment.
 
+.. _sentry-integration:
+
 Sentry
 ++++++
 
@@ -1952,15 +1954,39 @@ it, it's enough to set :setting:`SENTRY_DSN` in the :file:`settings.py`:
 
    SENTRY_DSN = "https://id@your.sentry.example.com/"
 
+Self-hosted Sentry requires version 26.4.2 or later to ingest streamed spans
+from the Python SDK.
+
 Sentry can be also used to monitor performance of Weblate by collecting traces
 and profiles for defined percentage of operations. This can be configured using
 :setting:`SENTRY_TRACES_SAMPLE_RATE` and :setting:`SENTRY_PROFILES_SAMPLE_RATE`.
 
-Weblate redacts known credential fields, authentication headers, and sensitive
-URL query parameters from error reports and transaction events, including
-exception messages, serialized HTTP buffers, and breadcrumbs.
+Weblate's default sampler uses one-tenth of :setting:`SENTRY_TRACES_SAMPLE_RATE`
+for widget images and their redirects, avatars, JavaScript localization
+catalogs, flags, and proof-of-work verification. It uses one-quarter of the
+rate for standalone translation statistics parent updates. Other operations
+use the configured rate, and distributed traces inherit the parent's sampling
+decision. Exception reporting uses its own sampling settings. An existing
+``traces_sampler`` in ``SENTRY_EXTRA_ARGS`` takes precedence over Weblate's
+default sampler.
+
+Weblate redacts known credential fields, authentication headers, sensitive URL
+query parameters, and tokens in invitation and callback URLs. Redaction covers
+error reports and streamed spans, including exception messages, serialized
+HTTP buffers, and breadcrumbs.
 This also applies when :setting:`SENTRY_SEND_PII` is enabled and
-after custom ``before_send`` or ``before_send_transaction`` callbacks run.
+after custom ``before_send`` or ``before_send_span`` callbacks run.
+
+When upgrading custom ``SENTRY_EXTRA_ARGS`` from Python SDK 2, replace
+``event_scrubber`` with ``data_collection`` or ``before_send``. Replace
+``before_send_transaction`` with ``before_send_span`` for span redaction,
+``ignore_spans`` to suppress matching spans, or ``traces_sampler`` to control
+which traces are collected. To configure a separate callback for Celery Beat
+check-ins, use ``before_send_check_in``.
+
+Explicit ``data_collection`` entries in ``SENTRY_EXTRA_ARGS`` override
+Weblate's collection defaults for those settings. Weblate applies its
+credential redaction after the SDK prepares the payload.
 
 Weblate shortens oversized exception chains before sending them to Sentry,
 preserving the original cause and final exception. The report records how many

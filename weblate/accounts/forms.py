@@ -55,7 +55,6 @@ from weblate.accounts.models import (
 )
 from weblate.accounts.notifications import NOTIFICATIONS
 from weblate.accounts.utils import (
-    BOT_NOREPLY_EMAIL_SUFFIX,
     adjust_session_expiry,
     bound_bot_basename,
     cycle_session_keys,
@@ -64,7 +63,7 @@ from weblate.accounts.utils import (
     invalidate_reset_codes,
     reset_api_token,
 )
-from weblate.auth.models import Group, User
+from weblate.auth.models import BOT_NOREPLY_EMAIL_SUFFIX, Group, User
 from weblate.lang.forms import LimitLanguagesField, get_language_code_choices
 from weblate.lang.models import Language
 from weblate.logger import LOGGER

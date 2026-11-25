@@ -29,7 +29,11 @@ from rest_framework.authtoken.models import Token
 from social_django.models import Code
 
 from weblate.accounts.models import AuditLog, VerifiedEmail
-from weblate.auth.models import User
+from weblate.auth.models import (
+    BOT_NOREPLY_EMAIL_SUFFIX,
+    SITE_BOT_USERNAME_PREFIX,
+    User,
+)
 from weblate.memory.models import Memory, MemoryScope
 from weblate.trans.defines import USERNAME_LENGTH
 from weblate.trans.signals import user_pre_delete
@@ -259,9 +263,6 @@ def require_recent_second_factor(
     return wrapped
 
 
-BOT_NOREPLY_EMAIL_SUFFIX = "@bots.noreply.weblate.org"
-# ruff: ignore[hardcoded-password-string]
-SITE_API_TOKEN_USERNAME_PREFIX = "sitebot-"
 BOT_USERNAME_COLLISION_SUFFIX_LENGTH = 5
 
 
@@ -301,7 +302,7 @@ def get_site_api_tokens() -> QuerySet[User]:
     """Return site-wide API token bots."""
     return User.objects.filter(
         is_bot=True,
-        username__startswith=SITE_API_TOKEN_USERNAME_PREFIX,
+        username__startswith=SITE_BOT_USERNAME_PREFIX,
         email__endswith=BOT_NOREPLY_EMAIL_SUFFIX,
     )
 

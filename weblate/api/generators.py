@@ -18,8 +18,8 @@ class WeblateSchemaGenerator(SchemaGenerator):
             # as django_otp_webauthn
             path.startswith(("/api/", "/hooks/"))
             and
-            # Exclude legacy URL for webhook
-            path != "/hooks/{service}"
+            # Exclude the legacy webhook URL and the API root's format alias.
+            path not in {"/hooks/{service}", "/api/{format}"}
         )
 
     def _get_paths_and_endpoints(self):

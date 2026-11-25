@@ -23,12 +23,18 @@ from weblate.accounts.avatar import get_user_display
 from weblate.accounts.models import DEFAULT_LISTING_COLUMNS, Profile
 from weblate.accounts.visibility import (
     can_browse_users,
-    can_search_scoped_users,
     can_view_contributor,
     prepare_contributor_visibility,
 )
 from weblate.auth.models import User
 from weblate.checks.models import CHECKS
+from weblate.lang.models import Language
+from weblate.metrics.contributors import (
+    can_view_contributor_ranking,
+    contributor_ranking,
+    load_ranked_contributors,
+)
+from weblate.metrics.models import ContributorCollection
 from weblate.trans.filter import FILTERS
 from weblate.trans.formatting import (
     format_language_string,
@@ -68,9 +74,11 @@ from weblate.utils.random import get_random_identifier
 from weblate.utils.stats import (
     BaseStats,
     ProjectLanguage,
+    WorkspaceLanguage,
 )
 from weblate.utils.templatetags.icons import icon
 from weblate.utils.views import SORT_CHOICES
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -83,7 +91,7 @@ if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
     from weblate.billing.models import LibreCheckAlert
-    from weblate.lang.models import Language
+    from weblate.metrics.contributors import ContributorScope, RankedContributor
     from weblate.metrics.wrapper import MetricsWrapper
     from weblate.trans.models import (
         Alert,
@@ -94,7 +102,6 @@ if TYPE_CHECKING:
         GhostCategoryLanguageStats,
         GhostProjectLanguageStats,
     )
-    from weblate.workspaces.models import Workspace
 
 register = template.Library()
 
@@ -1162,6 +1169,7 @@ def show_info(  # ruff: ignore[too-many-arguments]
     show_full_language: bool = True,
     top_users: QuerySet[Profile] | None = None,
     total_translations: int | None = None,
+    contributor_scope: ContributorScope | None = None,
 ):
     """
     Render project information table.
@@ -1169,11 +1177,35 @@ def show_info(  # ruff: ignore[too-many-arguments]
     This merely exists to be able to pass default values to {% include %}.
     """
     user = context["user"]
+    directory_access = can_browse_users(user)
+    if contributor_scope is None and not componentlist:
+        contributor_scope = translation or component or project or language or workspace
+        if project and language and not (translation or component):
+            contributor_scope = ProjectLanguage(project, language)
+    contributor_url = (
+        reverse("user_list")
+        if (show_global or componentlist) and directory_access
+        else None
+    )
+    scoped_top_users: list[RankedContributor] = []
+    if contributor_scope and can_view_contributor_ranking(user, contributor_scope):
+        contributor_url = reverse(
+            "contributor_list", kwargs={"path": contributor_scope.get_url_path()}
+        )
+        if (
+            isinstance(
+                contributor_scope,
+                (Project, ProjectLanguage, Language, Workspace, WorkspaceLanguage),
+            )
+            and ContributorCollection.is_ready()
+        ):
+            scoped_top_users = load_ranked_contributors(
+                contributor_ranking(user, contributor_scope, top_only=True)[:10]
+            )
     return {
         "user": user,
         "profile_viewer": user,
-        "can_browse_users": can_browse_users(user),
-        "can_search_scoped_users": can_search_scoped_users(user),
+        "can_browse_users": directory_access,
         "workspace": workspace,
         "project": project,
         "component": component,
@@ -1185,9 +1217,13 @@ def show_info(  # ruff: ignore[too-many-arguments]
         "show_source": show_source,
         "show_global": show_global,
         "show_full_language": show_full_language,
-        "top_users": top_users,
-        "can_view_top_users": can_view_contributor(
-            user, translation or component or project
+        "top_users": scoped_top_users or top_users,
+        "contributor_url": contributor_url,
+        "top_contributor_url": contributor_url if scoped_top_users else None,
+        "can_view_top_users": bool(scoped_top_users)
+        or (
+            top_users is not None
+            and can_view_contributor(user, translation or component or project)
         ),
         "total_translations": total_translations,
     }
