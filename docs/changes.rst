@@ -74,6 +74,7 @@ Weblate 2026.12
 * Highlighted individual search terms in the searched fields when :ref:`searching for strings <search-strings>`.
 * Show :ref:`linked components <internal-urls>` in repository details and label suggestion counts on wider screens in :ref:`zen-mode`.
 * Improved performance for long strings in the :ref:`translation editor <translating>` by grouping indentation markers and editing long translations as plain text.
+* Highlighted XML tags in the translation editor for :ref:`ICU MessageFormat <check-icu-message-format>` strings with XML support enabled.
 
 .. rubric:: Security fixes
 
