@@ -1366,9 +1366,11 @@ class User(AbstractBaseUser):
 
         return bool(
             self.is_bot
-            and self.username.startswith(SITE_API_TOKEN_USERNAME_PREFIX)
+            and self.username.casefold().startswith(
+                SITE_API_TOKEN_USERNAME_PREFIX.casefold()
+            )
             and self.email
-            and self.email.endswith(BOT_NOREPLY_EMAIL_SUFFIX)
+            and self.email.casefold().endswith(BOT_NOREPLY_EMAIL_SUFFIX.casefold())
         )
 
     def is_verified(self) -> bool:

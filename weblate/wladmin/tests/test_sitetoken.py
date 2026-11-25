@@ -20,8 +20,10 @@ from rest_framework.authtoken.models import Token
 
 from weblate.accounts.models import TeamAuditLog
 from weblate.accounts.utils import (
+    BOT_NOREPLY_EMAIL_SUFFIX,
     SESSION_SECOND_FACTOR_TIMESTAMP,
     SESSION_SENSITIVE_FACTOR_GRANT,
+    get_site_api_tokens,
 )
 from weblate.auth.bots import InternalBot
 from weblate.auth.models import Group, Permission, Role, User, setup_project_groups
@@ -752,6 +754,45 @@ class SiteWideTokenTest(FixtureTestCase):
         response = self.client.get(reverse("manage-api-tokens"))
         self.assertContains(response, site_user.full_name)
         self.assertNotContains(response, project_user.full_name)
+
+    def test_case_only_email_update_keeps_token_manageable(self) -> None:
+        token = self.create_token(teams=[self.monitoring_group])
+        token_user = self.get_token_user(token)
+        self.assertIsNotNone(token_user.email)
+        assert token_user.email is not None
+        local_part, _separator, _domain = token_user.email.partition("@")
+        cased_email = f"{local_part}{BOT_NOREPLY_EMAIL_SUFFIX.upper()}"
+
+        response = self.token_api_client().patch(
+            reverse("api:user-detail", kwargs={"username": token_user.username}),
+            {"email": cased_email},
+            content_type="application/json",
+            headers={"authorization": f"Token {token}"},
+        )
+        self.assertEqual(response.status_code, 200, response.content)
+
+        token_user = User.objects.get(pk=token_user.pk)
+        self.assertEqual(token_user.email, cased_email)
+        self.assertTrue(token_user.is_site_api_token_bot)
+        self.assertTrue(get_site_api_tokens().filter(pk=token_user.pk).exists())
+
+        response = self.client.post(
+            reverse("set-site-token-groups"),
+            {
+                "user": token_user.username,
+                "groups": [self.monitoring_group.pk, self.users_group.pk],
+            },
+            follow=True,
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "Could not find any such user.")
+        self.assertTrue(token_user.groups.filter(pk=self.users_group.pk).exists())
+
+        response = self.delete_token(token)
+        self.assertContains(response, "Site-wide API token has been removed.")
+        token_user.refresh_from_db()
+        self.assertFalse(token_user.is_active)
+        self.assertFalse(Token.objects.filter(key=token).exists())
 
     def test_revoke_token(self) -> None:
         token = self.create_token()
