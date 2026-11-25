@@ -382,6 +382,9 @@ def apply_site_token_groups(
     form: SiteTokenGroupForm,
 ) -> None:
     """Apply site-wide team membership changes from the edit dialog."""
+    # Serialize edits of the same token, so the membership snapshots below can
+    # not be stale. Lock the user before any membership or team rows.
+    user = User.objects.select_for_update().get(pk=user.pk)
     desired_groups = {group.id for group in form.cleaned_data["groups"]}
     site_groups = list(sitewide_teams_queryset())
     current_groups = set(

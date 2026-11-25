@@ -6,13 +6,17 @@ from __future__ import annotations
 
 import re
 import time
+from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
+from queue import Queue
+from threading import Event
 from typing import Any
 from unittest.mock import patch
 from urllib.parse import parse_qs, urlparse
 
+from django.db import close_old_connections, connection, transaction
 from django.db.models.query import QuerySet
-from django.test import override_settings
+from django.test import RequestFactory, TransactionTestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
 from django_otp.plugins.otp_totp.models import TOTPDevice
@@ -46,6 +50,7 @@ from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.wladmin.forms import (
     SiteTokenCreateForm,
     SiteTokenGroupForm,
+    apply_site_token_groups,
     sitewide_teams_queryset,
 )
 from weblate.workspaces.models import WORKSPACE_OWNERS_GROUP, Workspace
@@ -769,14 +774,17 @@ class SiteWideTokenTest(FixtureTestCase):
         local_part, _separator, _domain = token_user.email.partition("@")
         cased_email = f"{local_part}{BOT_NOREPLY_EMAIL_SUFFIX.upper()}"
 
+        # check bots can't edit themselves through the API
         response = self.token_api_client().patch(
             reverse("api:user-detail", kwargs={"username": token_user.username}),
             {"email": cased_email},
             content_type="application/json",
             headers={"authorization": f"Token {token}"},
         )
-        self.assertEqual(response.status_code, 200, response.content)
+        self.assertEqual(response.status_code, 403, response.content)
 
+        # Identity matching must still ignore case, as the database lookups do
+        User.objects.filter(pk=token_user.pk).update(email=cased_email)
         token_user = User.objects.get(pk=token_user.pk)
         self.assertEqual(token_user.email, cased_email)
         self.assertTrue(token_user.is_site_api_token_bot)
@@ -1152,3 +1160,77 @@ class SiteWideTokenTest(FixtureTestCase):
 
         self.assertTrue(token_user.groups.filter(pk=self.monitoring_group.pk).exists())
         self.assertFalse(detached_user.groups.exists())
+
+
+class SiteTokenConcurrencyTest(TransactionTestCase):
+    def test_concurrent_team_edits_serialize(self) -> None:
+        """Edits of one token wait for each other instead of using stale teams."""
+        actor = User.objects.create_user("site-token-admin", "admin@example.org")
+        first_team = Group.objects.create(name="Concurrent first")
+        second_team = Group.objects.create(name="Concurrent second")
+        token_user = User.objects.create(
+            username="sitebot-concurrent",
+            full_name="Concurrent token",
+            email=f"sitebot-concurrent{BOT_NOREPLY_EMAIL_SUFFIX}",
+            is_bot=True,
+        )
+        token_user.add_team(None, first_team, user=actor)
+        token_user.add_team(None, second_team, user=actor)
+
+        first_applied = Event()
+        release = Event()
+        second_pid: Queue[int] = Queue()
+
+        def edit_teams(team: Group, *, wait_for_first: bool) -> None:
+            close_old_connections()
+            try:
+                if wait_for_first:
+                    self.assertTrue(first_applied.wait(timeout=10))
+                    with connection.cursor() as cursor:
+                        cursor.execute("SELECT pg_backend_pid()")
+                        second_pid.put(cursor.fetchone()[0])
+                request = RequestFactory().post("/")
+                request.user = actor
+                form = SiteTokenGroupForm(
+                    {"user": token_user.username, "groups": [team.pk]}
+                )
+                self.assertTrue(form.is_valid(), form.errors)
+                with transaction.atomic(), acting_user_context(actor):
+                    apply_site_token_groups(request, form.cleaned_data["user"], form)
+                    if not wait_for_first:
+                        first_applied.set()
+                        self.assertTrue(release.wait(timeout=10))
+            finally:
+                connection.close()
+
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            futures = [
+                executor.submit(edit_teams, first_team, wait_for_first=False),
+                executor.submit(edit_teams, second_team, wait_for_first=True),
+            ]
+            try:
+                pid = second_pid.get(timeout=10)
+                deadline = time.monotonic() + 5
+                while time.monotonic() < deadline:
+                    with connection.cursor() as cursor:
+                        cursor.execute(
+                            "SELECT cardinality(pg_blocking_pids(%s)) > 0", [pid]
+                        )
+                        if cursor.fetchone()[0]:
+                            break
+                    time.sleep(0.01)
+                else:
+                    self.fail("The second edit did not wait for the first one")
+            finally:
+                release.set()
+            for future in futures:
+                future.result(timeout=10)
+
+        self.assertEqual(
+            list(
+                token_user.groups.filter(
+                    pk__in=[first_team.pk, second_team.pk]
+                ).values_list("pk", flat=True)
+            ),
+            [second_team.pk],
+        )
