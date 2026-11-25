@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 DEFAULT_CHECK_LIST: tuple[str, ...] = (
+    "weblate.checks.save.SaveFailedCheck",
     "weblate.checks.ai.AIAccuracyCheck",
     "weblate.checks.ai.AIFluencyCheck",
     "weblate.checks.ai.AITerminologyCheck",

@@ -21,6 +21,8 @@ Weblate 2026.12
 
 * :ref:`translation-memory` entries matching the source text exactly score 100% regardless of their context; entries with the same context are preferred and shown as a context match.
 * The :ref:`addon-weblate.gettext.msgmerge` add-on refreshes the ``Language-Team`` header using the current translation URL when the ``po_set_language_team`` :ref:`file_format_params` parameter is enabled.
+* Show per-string write errors as a persistent :ref:`quality check <check-save-failed>` and limit failed pending edits to one retry per week, with history recorded only on the first failure.
+
 * Show supported features in the :ref:`translation service lists <machine-translation-setup>`.
 * Resume supported browser form submissions after :ref:`verifying your identity <sensitive-action-verification>`.
 

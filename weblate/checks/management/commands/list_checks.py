@@ -37,6 +37,8 @@ def escape(text: StrOrPromise) -> str:
 
 def get_scope(check: BaseCheck) -> str | None:
     if check.glossary:
+        if check.source and check.target and not check.ignore_untranslated:
+            return "all strings"
         return "glossary strings"
     if check.source and check.target:
         if check.ignore_untranslated:

@@ -306,6 +306,8 @@
     Skip the :ref:`check-safe-mdx` quality check.
 ``ignore-same-plurals``
     Skip the :ref:`check-same-plurals` quality check.
+``ignore-save-failed``
+    Skip the :ref:`check-save-failed` quality check.
 ``ignore-begin-newline``
     Skip the :ref:`check-begin-newline` quality check.
 ``ignore-begin-space``
