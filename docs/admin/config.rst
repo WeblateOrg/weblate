@@ -252,6 +252,9 @@ This is currently applied in the following locations:
 * Password reset. Prevents new e-mails from being sent, avoiding spamming
   users with too many password-reset attempts.
 
+The sign-in limits apply per account, including when requests arrive
+concurrently or from different addresses.
+
 Defaults to 10.
 
 .. seealso::

@@ -83,6 +83,7 @@ Weblate 2026.12
 
 .. rubric:: Security fixes
 
+* Enforced :setting:`AUTH_LOCK_ATTEMPTS` for password and :ref:`two-factor <2fa>` sign-ins even when requests arrive concurrently.
 * Prevented bot accounts from editing themselves and protected the generated account identities of :ref:`project API tokens <project-api>`.
 * Required recent browser verification to view or change :ref:`translation service configurations <machine-translation-setup>` or change exclusions.
 * Removed internal filesystem paths and raw command output from gettext and script :ref:`add-on alerts <alerts>`.

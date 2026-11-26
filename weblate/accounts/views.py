@@ -3164,6 +3164,7 @@ class SecondFactorLockedError(OTPWebAuthnApiError):
 
 class SecondFactorMixin(View):
     request: AuthenticatedHttpRequest
+    locked_user: User | None = None
 
     def second_factor_completed(self, device: Device) -> User:
         # Store audit log entry about used device and update last used device type
@@ -3200,14 +3201,22 @@ class SecondFactorMixin(View):
         return True
 
     def get_user(self) -> User:
+        if self.locked_user is not None:
+            return self.locked_user
+        return self.get_pending_user()
+
+    def get_pending_user(self, *, for_update: bool = False) -> User:
         try:
             user_id, backend = self.request.session[SESSION_SECOND_FACTOR_USER]
             session_auth_hash = self.request.session[SESSION_SECOND_FACTOR_HASH]
         except (KeyError, TypeError, ValueError) as error:
             clear_second_factor_session(self.request)
             raise Http404 from error
+        users = User.objects.all()
+        if for_update:
+            users = users.select_for_update()
         try:
-            user = User.objects.get(pk=user_id)
+            user = users.get(pk=user_id)
         except (TypeError, ValueError, User.DoesNotExist) as error:
             clear_second_factor_session(self.request)
             raise Http404 from error
@@ -3233,6 +3242,7 @@ class SecondFactorLoginView(SecondFactorMixin, RedirectURLMixin, FormView):
         "recovery": OTPTokenForm,
     }
     request: AuthenticatedHttpRequest
+    continuation_url: str | None = None
 
     def get_backend(self) -> DeviceType:
         backend = self.kwargs["backend"]
@@ -3262,15 +3272,25 @@ class SecondFactorLoginView(SecondFactorMixin, RedirectURLMixin, FormView):
     @method_decorator(session_ratelimit_post("second_factor"))
     @method_decorator(login_not_required)
     def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
-        self.user = self.get_user()
+        if request.method != "POST":
+            self.user = self.get_user()
         return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
+        with transaction.atomic():
+            self.user = self.locked_user = self.get_pending_user(for_update=True)
+            response = super().post(request, *args, **kwargs)
+        if self.continuation_url is not None:
+            return HttpResponseRedirect(
+                complete_sensitive_submission(request, self.continuation_url)
+            )
+        return response
 
     def form_valid(self, form):
         next_url = self.get_success_url()
-        resume = matches_second_factor_continuation(self.request, next_url)
+        if matches_second_factor_continuation(self.request, next_url):
+            self.continuation_url = next_url
         self.second_factor_completed(form.user.otp_device)
-        if resume:
-            next_url = complete_sensitive_submission(self.request, next_url)
         return HttpResponseRedirect(next_url)
 
     def form_invalid(self, form):
@@ -3297,25 +3317,32 @@ class WeblateBeginCredentialAuthenticationView(
 class WeblateCompleteCredentialAuthenticationView(
     WebAuthnMixin, CompleteCredentialAuthenticationView
 ):
+    continuation: tuple[WebAuthnCredential, str] | None = None
+
     def complete_auth(self, device: WebAuthnCredential) -> User:
         next_url = self.get_success_url()
-        resume = matches_second_factor_continuation(self.request, next_url)
-        user = self.second_factor_completed(device)
-        if resume:
-            self.submission_destination = complete_sensitive_submission(
-                self.request, next_url
-            )
-        return user
-
-    def get_success_url(self):
-        return (
-            getattr(self, "submission_destination", None) or super().get_success_url()
-        )
+        if matches_second_factor_continuation(self.request, next_url):
+            self.continuation = device, next_url
+        return self.second_factor_completed(device)
 
     def post(self, *args, **kwargs):
+        result = self.verify_assertion(*args, **kwargs)
+        if isinstance(result, OTPWebAuthnApiError):
+            raise result
+        if self.continuation is not None:
+            device, next_url = self.continuation
+            data = self.get_success_data(device)
+            data["redirect_url"] = complete_sensitive_submission(self.request, next_url)
+            return JsonResponse(data)
+        return result
+
+    @transaction.atomic
+    def verify_assertion(self, *args, **kwargs):
+        self.locked_user = self.get_pending_user(for_update=True)
         try:
             return super().post(*args, **kwargs)
         except OTPWebAuthnApiError as error:
             if self.second_factor_failed():
-                raise SecondFactorLockedError from error
-            raise
+                return SecondFactorLockedError()
+            # The base view converts this error after the failure is committed.
+            return error

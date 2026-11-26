@@ -831,7 +831,10 @@ Security properties Weblate provides
        and proxy settings are correct. Pending second-factor sessions are bound
        to the current password authentication state, and repeated rejected
        second-factor submissions lock password sign-in according to
-       :setting:`AUTH_LOCK_ATTEMPTS`. Access to personal API tokens and
+       :setting:`AUTH_LOCK_ATTEMPTS`. Password and second-factor verification
+       for the same account is serialized so concurrent requests cannot
+       continue verifying against credentials or pending sessions invalidated
+       by the lockout. Access to personal API tokens and
        changes to authentication credentials, access permissions, project
        and component visibility, account status, and bulk user-contribution
        cleanup require recent credential verification for browser sessions.
