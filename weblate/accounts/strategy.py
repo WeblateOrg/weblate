@@ -41,6 +41,15 @@ class WeblateStrategy(DjangoStrategy):
         partial = super().partial_load(token)
         if partial is None:
             return partial
+        active_backend = getattr(self.request, "backend", None)
+        if (
+            partial.backend == "email"
+            and active_backend is not None
+            and active_backend.name != partial.backend
+        ):
+            # Social-auth checks the backend after loading the partial. Only an
+            # email callback has the transaction needed to lock its account.
+            return partial
         if partial.pipeline_type == "authentication" and partial.kwargs.get(
             "weblate_auth_pipeline"
         ) != list(self.get_pipeline(self.get_backend(partial.backend))):
