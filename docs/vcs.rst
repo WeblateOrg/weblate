@@ -516,9 +516,10 @@ Mercurial subrepositories are disabled for all repository operations. A revision
 which uses :file:`.hgsub` can fail to clone, update, or commit. Convert these
 repositories to avoid subrepositories, or manage their contents outside Weblate.
 
-When accessing an existing Mercurial checkout, Weblate removes nested
-:file:`.hg` and :file:`.git` metadata under the repository lock. It preserves the
-main :file:`.hg` directory and working files. Project backups omit nested VCS
+Weblate rejects checkouts that contain both :file:`.hg` and :file:`.git` at
+the root. In valid Mercurial checkouts, Weblate removes nested :file:`.hg` and
+:file:`.git` metadata under the repository lock and preserves the main
+:file:`.hg` directory and working files. Project backups omit nested VCS
 metadata as well.
 
 .. note::
