@@ -1139,7 +1139,7 @@ class SiteWideTokenTest(FixtureTestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_api_last_team(self) -> None:
+    def test_api_rejects_site_token_group_changes(self) -> None:
         token = self.create_token(teams=[self.monitoring_group])
         token_user = self.get_token_user(token)
         self.user.is_superuser = True
@@ -1150,9 +1150,24 @@ class SiteWideTokenTest(FixtureTestCase):
             {"group_id": self.monitoring_group.pk},
             content_type="application/json",
         )
-        self.assertEqual(response.status_code, 400)
-        self.assertIn("At least one team is required", response.content.decode())
+        self.assertContains(
+            response,
+            "Site-wide API tokens can only be changed from the management interface.",
+            status_code=403,
+        )
         self.assertTrue(token_user.groups.filter(pk=self.monitoring_group.pk).exists())
+
+        response = self.client.post(
+            reverse("api:user-groups", kwargs={"username": token_user.username}),
+            {"group_id": self.managers_group.pk},
+            content_type="application/json",
+        )
+        self.assertContains(
+            response,
+            "Site-wide API tokens can only be changed from the management interface.",
+            status_code=403,
+        )
+        self.assertFalse(token_user.groups.filter(pk=self.managers_group.pk).exists())
 
     def test_team_admin_cannot_remove_site_token(self) -> None:
         token = self.create_token(teams=[self.monitoring_group])

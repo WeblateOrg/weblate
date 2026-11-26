@@ -1594,7 +1594,11 @@ class UserViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
         )
 
     @extend_schema(
-        description="Associate groups with a user. Bot accounts cannot change their own memberships.",
+        description=(
+            "Associate groups with a user. Bot accounts cannot change their own "
+            "memberships. Site-wide API tokens are managed only in the management "
+            "interface."
+        ),
         methods=["post"],
         request=USER_GROUP_REQUEST_SERIALIZER,
     )
@@ -1602,7 +1606,8 @@ class UserViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
         description=(
             "Remove a user from a group and return the updated user. A project "
             "token must remain assigned to at least one team. Bot accounts "
-            "cannot change their own memberships."
+            "cannot change their own memberships. Site-wide API tokens are "
+            "managed only in the management interface."
         ),
         methods=["delete"],
         responses={HTTP_200_OK: USER_RESPONSE_SERIALIZER},
@@ -1611,6 +1616,14 @@ class UserViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
     def groups(self, request: Request, **kwargs):
         obj = self.get_object()
         self.perm_check(request, obj, write=True)
+        if obj.is_site_api_token_bot:
+            self.permission_denied(
+                request,
+                gettext(
+                    "Site-wide API tokens can only be changed from the "
+                    "management interface."
+                ),
+            )
 
         if not isinstance(request.data, Mapping):
             raise ValidationError(

@@ -35,6 +35,11 @@ SITE_TOKEN_USERS_TEAM_HELP = gettext_lazy(
     "The built-in Users team can act on public projects."
 )
 
+SITE_TOKEN_DATE_EXPIRES_HELP = gettext_lazy(
+    "The token is removed after the expiry, the same as deleting it from the "
+    "management interface."
+)
+
 
 class ActivateForm(forms.Form):
     secret = forms.CharField(
@@ -255,6 +260,7 @@ class SiteTokenCreateForm(BaseTokenCreateForm):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.fields["teams"].queryset = sitewide_teams_queryset()
+        self.fields["date_expires"].help_text = SITE_TOKEN_DATE_EXPIRES_HELP
         self.helper = FormHelper(self)
         self.helper.form_tag = False
 
