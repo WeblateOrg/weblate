@@ -146,7 +146,13 @@
       score: function (search) {
         const colon = search.indexOf(":");
         const base = colon === -1 ? search : search.slice(0, colon);
-        return this.getScoreFunction(base);
+        const score = this.getScoreFunction(base);
+        const query = base.trim().toLowerCase();
+        return (option) =>
+          query &&
+          option.aliases?.some((alias) => alias.toLowerCase().includes(query))
+            ? 1
+            : score(option);
       },
       optgroupField: "category",
       optgroupLabelField: "category",
@@ -431,6 +437,8 @@
       for (const choice of choices) {
         if (!ts.options[choice.name]) {
           ts.addOption(choice);
+        } else if (choice.aliases) {
+          ts.updateOption(choice.name, choice);
         }
       }
       ts.refreshOptions(false);

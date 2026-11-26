@@ -1236,6 +1236,28 @@ class ViewTest(RepoTestCase):
         self.assertNotEqual(updated_user.auth_token.key, old_token)
         self.assertFalse(Token.objects.filter(key=old_token).exists())
 
+    def test_bot_cannot_change_own_password(self) -> None:
+        bot = self.get_user()
+        original_password = bot.password
+        bot.is_bot = True
+        bot.save(update_fields=["is_bot"])
+        self.client.force_login(bot)
+        self.confirm_sensitive_password()
+
+        url = reverse("password")
+        self.assertEqual(self.client.get(url).status_code, 403)
+        response = self.client.post(
+            url,
+            {
+                "password": "testpassword",
+                "new_password1": "1pa$$word!",
+                "new_password2": "1pa$$word!",
+            },
+        )
+        self.assertEqual(response.status_code, 403)
+        bot.refresh_from_db()
+        self.assertEqual(bot.password, original_password)
+
     def test_password_keeps_api_key(self) -> None:
         user = self.get_user()
         old_token = user.auth_token.key
@@ -1283,6 +1305,16 @@ class ProfileTest(FixtureTestCase):
         return sum(
             1 for notification in NOTIFICATIONS if not notification.ignore_watched
         )
+
+    def test_bot_cannot_edit_own_profile(self) -> None:
+        bot = User.objects.create(username="bot-profile", full_name="Bot", is_bot=True)
+        self.client.force_login(bot)
+        response = self.client.post(
+            reverse("profile"), {"activetab": "#profile", "location": "New location"}
+        )
+        self.assertEqual(response.status_code, 403)
+        bot.profile.refresh_from_db()
+        self.assertEqual(bot.profile.location, "")
 
     def test_profile(self) -> None:
         # Get profile page

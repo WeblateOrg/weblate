@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import os
+import shutil
 import tempfile
 from copy import copy
 from pathlib import Path
@@ -1188,6 +1189,7 @@ class BilingualUpdateMixin:
             pass
         try:
             cls.do_bilingual_update(filename, temp.name, template, **kwargs)
+            shutil.copymode(filename, temp.name)
             os.replace(temp.name, filename)
         finally:
             if os.path.exists(temp.name):

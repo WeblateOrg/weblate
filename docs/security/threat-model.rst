@@ -838,12 +838,16 @@ Security properties Weblate provides
        Reading full translation service configurations and changing installations
        or exclusions also require recent verification for browser sessions.
        Accounts with 2FA use a second factor; other accounts confirm their password or an existing
-       sign-in provider. API tokens remain separate credentials. *(documented)* (source:
+       sign-in provider. Weblate can hold an authorized browser form submission
+       in encrypted server-side storage while verification is pending. The
+       verified session can consume the submission once, subject to current
+       permissions and validation. API tokens remain separate credentials. *(documented)* (source:
        :doc:`/admin/auth`, :setting:`ENABLE_HTTPS`)
      - Production HTTPS and secure-cookie settings are enabled.
      - Session fixation, credential bypass, cross-user session confusion, or a
        pending password sign-in remaining usable after a password change or
-       account lock.
+       account lock. A stored submission running in another session, after a
+       password change or account lock, or more than once.
      - Security-critical.
    * - User-supplied content rendered by Weblate is expected not to execute
        script in other users' browsers. *(maintainer)*
@@ -1166,9 +1170,10 @@ Known misuse patterns
   permits changing site-wide team scope and granting team members access to
   private projects the manager cannot access directly, while ``user.edit``
   permits changing team memberships and superuser status for editable accounts,
-  including the caller's own account. Delegate permissions through project or
-  workspace teams for limited scopes. *(documented)* (source:
-  :doc:`/admin/access`)
+  including the caller's own account for human users. Bot account mutations
+  through the user API require another authorized actor. Delegate permissions
+  through project or workspace teams for limited scopes. *(documented)* (source:
+  :doc:`/admin/access`, :ref:`api-users`)
 * Sending sensitive source strings or private customer content to machine
   translation providers without treating the provider as a data recipient. This
   is unsafe because Weblate must transmit content to the configured service, and

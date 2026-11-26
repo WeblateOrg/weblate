@@ -1504,33 +1504,35 @@ Update gettext template (Django)
 .. versionadded:: 5.17
 
 :Add-on ID: ``weblate.gettext.django``
-:Configuration: +----------------------+----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
-                | ``interval``         | Update frequency     | How often the add-on should update the POT file when the component is refreshed.                                                                        |
-                |                      |                      |                                                                                                                                                         |
-                |                      |                      | .. list-table:: Available choices:                                                                                                                      |
-                |                      |                      |    :width: 100%                                                                                                                                         |
-                |                      |                      |                                                                                                                                                         |
-                |                      |                      |    * - ``daily``                                                                                                                                        |
-                |                      |                      |      - Daily                                                                                                                                            |
-                |                      |                      |    * - ``weekly``                                                                                                                                       |
-                |                      |                      |      - Weekly                                                                                                                                           |
-                |                      |                      |    * - ``monthly``                                                                                                                                      |
-                |                      |                      |      - Monthly                                                                                                                                          |
-                +----------------------+----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
-                | ``normalize_header`` | Normalize POT header | Updates gettext headers and replaces placeholder POT comments.                                                                                          |
-                +----------------------+----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
-                | ``location_mode``    | Source locations     | Choose how extraction writes source locations to the POT file. Use this to keep locations in the template while omitting them from translated PO files. |
-                |                      |                      |                                                                                                                                                         |
-                |                      |                      | .. list-table:: Available choices:                                                                                                                      |
-                |                      |                      |    :width: 100%                                                                                                                                         |
-                |                      |                      |                                                                                                                                                         |
-                |                      |                      |    * - ``file``                                                                                                                                         |
-                |                      |                      |      - Use file format settings                                                                                                                         |
-                |                      |                      |    * - ``keep``                                                                                                                                         |
-                |                      |                      |      - Extract locations to the POT file                                                                                                                |
-                |                      |                      |    * - ``omit``                                                                                                                                         |
-                |                      |                      |      - Do not extract locations                                                                                                                         |
-                +----------------------+----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+:Configuration: +---------------------------------+-----------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``interval``                    | Update frequency            | How often the add-on should update the POT file when the component is refreshed.                                                                        |
+                |                                 |                             |                                                                                                                                                         |
+                |                                 |                             | .. list-table:: Available choices:                                                                                                                      |
+                |                                 |                             |    :width: 100%                                                                                                                                         |
+                |                                 |                             |                                                                                                                                                         |
+                |                                 |                             |    * - ``daily``                                                                                                                                        |
+                |                                 |                             |      - Daily                                                                                                                                            |
+                |                                 |                             |    * - ``weekly``                                                                                                                                       |
+                |                                 |                             |      - Weekly                                                                                                                                           |
+                |                                 |                             |    * - ``monthly``                                                                                                                                      |
+                |                                 |                             |      - Monthly                                                                                                                                          |
+                +---------------------------------+-----------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``normalize_header``            | Normalize POT header        | Updates gettext headers and replaces placeholder POT comments.                                                                                          |
+                +---------------------------------+-----------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``location_mode``               | Source locations            | Choose how extraction writes source locations to the POT file. Use this to keep locations in the template while omitting them from translated PO files. |
+                |                                 |                             |                                                                                                                                                         |
+                |                                 |                             | .. list-table:: Available choices:                                                                                                                      |
+                |                                 |                             |    :width: 100%                                                                                                                                         |
+                |                                 |                             |                                                                                                                                                         |
+                |                                 |                             |    * - ``file``                                                                                                                                         |
+                |                                 |                             |      - Use file format settings                                                                                                                         |
+                |                                 |                             |    * - ``keep``                                                                                                                                         |
+                |                                 |                             |      - Extract locations to the POT file                                                                                                                |
+                |                                 |                             |    * - ``omit``                                                                                                                                         |
+                |                                 |                             |      - Do not extract locations                                                                                                                         |
+                +---------------------------------+-----------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``excluded_source_directories`` | Excluded source directories | Repository-relative directories to skip during extraction, one per line.                                                                                |
+                +---------------------------------+-----------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 :Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-manual-trigger`, :ref:`addon-event-repository-post-update`
 
@@ -1552,6 +1554,11 @@ The template for new translations must use the ``django`` or ``djangojs``
 domain. Supported template names are :file:`django.pot`, :file:`djangojs.pot`,
 :file:`django.po`, and :file:`djangojs.po`. Weblate infers the source directory
 from the template path and skips repository locale directories while extracting.
+
+Use :guilabel:`Excluded source directories` to split translations across
+components. For example, exclude ``apps/crm`` from a component with the
+template :file:`locale/django.pot` and use :file:`apps/crm/locale/django.pot`
+as the template for a separate CRM component.
 
 .. AUTOGENERATED START: weblate.gettext.linguas
 .. This section is automatically generated by `./manage.py list_addons`. Do not edit manually.

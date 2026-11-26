@@ -75,7 +75,9 @@ INSTALLATION_CASES = {
         {**XGETTEXT_CONFIGURATION, "preset": "glib"}, fixture="meson"
     ),
     "weblate.gettext.django": InstallationCase(
-        EXTRACTION_CONFIGURATION, fixture="django"
+        {**EXTRACTION_CONFIGURATION, "excluded_source_directories": ""},
+        data=EXTRACTION_CONFIGURATION,
+        fixture="django",
     ),
     "weblate.gettext.sphinx": InstallationCase(
         {**EXTRACTION_CONFIGURATION, "filter_mode": "none"}, fixture="sphinx"

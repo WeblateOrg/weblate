@@ -686,15 +686,39 @@ class GitRepository(Repository):
         )
 
     def finalize_backup_restore(self) -> None:
-        """Rebuild the index excluded from restored backups."""
+        """Rebuild the index and restore filesystem metadata tracked by Git."""
+        root = Path(self.path)
+        environment = {
+            "GIT_DIR": str(root / ".git"),
+            "GIT_WORK_TREE": self.path,
+        }
         self.execute(
             ["read-tree", "--reset", "HEAD"],
             remote_op="none",
-            environment={
-                "GIT_DIR": str(Path(self.path) / ".git"),
-                "GIT_WORK_TREE": self.path,
-            },
+            environment=environment,
         )
+        entries = self.execute(
+            ["ls-files", "--stage", "-z"],
+            remote_op="none",
+            environment=environment,
+            raw=True,
+        )
+        for entry in entries.split(b"\0"):
+            metadata, _, filename = entry.partition(b"\t")
+            mode = metadata.split(b" ", 1)[0]
+            if mode not in {b"100755", b"160000"}:
+                continue
+            path = self.recovery_checkout_path(root, os.fsdecode(filename))
+            if mode == b"160000":
+                # Represent the gitlink without initializing the submodule.
+                with suppress(FileExistsError, NotADirectoryError):
+                    path.mkdir(parents=True, exist_ok=True)
+                continue
+            with suppress(FileNotFoundError, NotADirectoryError):
+                file_mode = path.lstat().st_mode
+                if stat.S_ISREG(file_mode):
+                    permissions = stat.S_IMODE(file_mode)
+                    path.chmod(permissions | ((permissions & 0o444) >> 2))
 
     @classmethod
     def create_blank_repository(cls, path: str) -> None:

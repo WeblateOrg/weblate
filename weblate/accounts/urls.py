@@ -8,6 +8,7 @@ from django.views.i18n import JavaScriptCatalog
 
 import weblate.accounts.views
 import weblate.auth.views
+from weblate.accounts.continuation import pending_submission_fallback
 from weblate.utils.urls import register_weblate_converters
 
 register_weblate_converters()
@@ -86,6 +87,11 @@ urlpatterns = [
         "auth/verify-second-factor/",
         weblate.accounts.views.verify_second_factor,
         name="verify-second-factor",
+    ),
+    path(
+        "auth/pending/<uuid:token>/",
+        pending_submission_fallback,
+        name="pending-sensitive-submission",
     ),
     path("reset-api-key/", weblate.accounts.views.reset_api_key, name="reset-api-key"),
     path("reset/", weblate.accounts.views.reset_password, name="password_reset"),

@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import logging
 import os
+from collections.abc import Mapping
 from contextlib import contextmanager
 from copy import copy, deepcopy
 from dataclasses import dataclass
@@ -17,7 +18,7 @@ from django import forms
 from django.conf import settings
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db import IntegrityError, models, transaction
-from django.db.models import Model, TextChoices
+from django.db.models import Model, Q, TextChoices
 from django.utils.translation import gettext_lazy
 from drf_spectacular.extensions import (
     OpenApiSerializerFieldExtension,
@@ -1227,7 +1228,31 @@ class FullUserSerializer(ProfileUpdateMixin, serializers.ModelSerializer[User]):
         if request is None or not request.user.has_perm("user.edit"):
             for field_name in self.privileged_fields:
                 fields[field_name].read_only = True
+        if isinstance(self.instance, User):
+            for field_name in self.instance.protected_account_fields:
+                fields[field_name].read_only = True
         return fields
+
+    def to_internal_value(self, data):
+        if isinstance(self.instance, User) and isinstance(data, Mapping):
+            errors: dict[str, Any] = {}
+            for name in self.instance.protected_account_fields:
+                if name not in data:
+                    continue
+                value = data[name]
+                if name == "is_bot":
+                    try:
+                        value = self.fields[name].to_internal_value(value)
+                    except serializers.ValidationError as error:
+                        errors[name] = error.detail
+                        continue
+                if value != getattr(self.instance, name):
+                    errors[name] = (
+                        "This field cannot be changed on an API token account."
+                    )
+            if errors:
+                raise serializers.ValidationError(errors)
+        return super().to_internal_value(data)
 
     class Meta:
         model = User
@@ -1807,9 +1832,37 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
             raise serializers.ValidationError(error.message_dict) from error
 
 
+class ProjectWorkspaceField(serializers.PrimaryKeyRelatedField):
+    def get_queryset(self):
+        request = self.context.get("request")
+        if request is None:
+            return Workspace.objects.none()
+        user = request.user
+        eligible = user.workspaces_with_perm("workspace.add_project")
+        project = self.parent.instance
+        if project is None:
+            return eligible
+        editable = user.workspaces_with_perm("workspace.edit")
+        return Workspace.objects.filter(
+            Q(pk=project.workspace_id) | (Q(pk__in=eligible) & Q(pk__in=editable))
+        )
+
+    def to_internal_value(self, data):
+        workspace_id = serializers.UUIDField().run_validation(data)
+        try:
+            return super().to_internal_value(workspace_id)
+        except serializers.ValidationError as error:
+            if error.get_codes() == ["does_not_exist"]:
+                msg = "Can not use this workspace"
+                raise PermissionDenied(msg) from None
+            raise
+
+
 class ProjectSerializer(serializers.ModelSerializer[Project]):
-    workspace = serializers.PrimaryKeyRelatedField(
-        queryset=Workspace.objects.all(), required=False, allow_null=True
+    workspace = ProjectWorkspaceField(
+        queryset=Workspace.objects.all(),
+        required=False,
+        allow_null=True,
     )
     effective_license = serializers.SerializerMethodField()
     effective_agreement = serializers.SerializerMethodField()

@@ -51,6 +51,7 @@ from django.utils.translation import get_language, override
 from django_celery_beat.models import IntervalSchedule, PeriodicTask, PeriodicTasks
 from rest_framework.test import APIClient
 from standardwebhooks.webhooks import Webhook, WebhookVerificationError
+from translate.storage.po import pofile
 from translation_finder import DiscoveryLimit, DiscoveryResult, DiscoveryResults
 from weblate_schemas import validate_schema
 
@@ -60,6 +61,7 @@ from weblate.addons.fedora_messaging import (
 )
 from weblate.addons.forms import (
     AutoAddonForm,
+    DjangoExtractPotForm,
     FedoraMessagingAddonForm,
     MesonExtractPotForm,
     SphinxExtractPotForm,
@@ -1121,6 +1123,38 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         self.assertIn("weblate.base.test", self.component.addons_cache.names)
 
 
+class DjangoExtractPotFormTest(SimpleTestCase):
+    def test_excluded_source_directories(self) -> None:
+        addon = SimpleNamespace(
+            instance=SimpleNamespace(component=None, pk=None),
+            documentation_build=False,
+        )
+        form = DjangoExtractPotForm(
+            None,
+            addon,
+            data={
+                "interval": "weekly",
+                "excluded_source_directories": " crm \n\napps/billing\ncrm",
+            },
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(
+            form.cleaned_data["excluded_source_directories"], "crm\napps/billing"
+        )
+        for directory in ("/crm", "../crm", "apps/../crm", ".", "C:/crm"):
+            with self.subTest(directory=directory):
+                form = DjangoExtractPotForm(
+                    None,
+                    addon,
+                    data={
+                        "interval": "weekly",
+                        "excluded_source_directories": directory,
+                    },
+                )
+                self.assertFalse(form.is_valid())
+                self.assertIn("excluded_source_directories", form.errors)
+
+
 class XgettextExtractPotFormTest(SimpleTestCase):
     def test_rejects_potfiles_symlink_outside_repository_before_stat(self) -> None:
         repository_dir = tempfile.mkdtemp()
@@ -1778,6 +1812,38 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
 class GettextAddonTest(ReusableViewTestCase):
     def create_component(self):
         return self.create_po_new_base(new_lang="add")
+
+    def test_msgmerge_refreshes_language_team_header(self) -> None:
+        translation = self.get_translation()
+        path = translation.get_filename()
+        assert path is not None
+        filename = Path(path)
+        filename.chmod(0o755)
+        with filename.open("rb") as handle:
+            original = pofile(handle).parseheader()
+        language_team = f"Czech <{get_site_url(translation.get_absolute_url())}>"
+        self.assertNotEqual(original.get("Language-Team"), language_team)
+
+        addon = MsgmergeAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
+        for enabled in (False, True):
+            with self.subTest(enabled=enabled):
+                self.component.file_format_params["po_set_language_team"] = enabled
+                addon.update_translations(self.component, "", [])
+                with filename.open("rb") as handle:
+                    headers = pofile(handle).parseheader()
+                self.assertEqual(
+                    headers.get("Language-Team"),
+                    language_team if enabled else original.get("Language-Team"),
+                )
+                self.assertEqual(
+                    headers["Last-Translator"], original["Last-Translator"]
+                )
+                self.assertEqual(
+                    headers["PO-Revision-Date"], original["PO-Revision-Date"]
+                )
+                self.assertEqual(stat.S_IMODE(filename.stat().st_mode), 0o755)
 
     def test_alerts_include_addon_id(self) -> None:
         addon = MsgmergeAddon.create(
@@ -4877,6 +4943,58 @@ msgstr ""
             module_two_en_po.read_text(encoding="utf-8"),
         )
 
+    def test_django_excludes_exact_source_directory(self) -> None:
+        source_dir, *_ = self.prepare_django_extraction_fixture()
+        component_root = Path(self.component.full_path)
+        included = source_dir / "nested" / "module_one"
+        included.mkdir(parents=True)
+        (included / "views.py").write_text(
+            'gettext("Nested module with the same name")\n', encoding="utf-8"
+        )
+        addon = DjangoAddon.create(
+            acting_user=get_test_actor(self),
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "normalize_header": False,
+                "excluded_source_directories": "extract-app/module_one",
+            },
+        )
+
+        self.assertTrue(addon.execute_update(self.component, "", []))
+        content = (component_root / self.component.new_base).read_text(encoding="utf-8")
+        self.assertIn('msgid "Nested module with the same name"', content)
+        self.assertIn("extract-app/nested/module_one/views.py", content)
+        self.assertNotIn(str(component_root), content)
+        self.assertNotIn('msgid "Module one string"', content)
+        self.assertIn('msgid "Module two template"', content)
+
+        self.component.new_base = "extract-app/module_one/locale/django.pot"
+        addon.instance.configuration.pop("excluded_source_directories")
+        self.assertTrue(addon.execute_update(self.component, "", []))
+        content = (component_root / self.component.new_base).read_text(encoding="utf-8")
+        self.assertIn('msgid "Module one string"', content)
+        self.assertNotIn('msgid "Module two template"', content)
+
+    def test_django_excludes_source_root_and_its_descendants(self) -> None:
+        source_dir, *_ = self.prepare_django_extraction_fixture()
+        self.component.new_base = "extract-app/module_one/locale/django.pot"
+        template = source_dir / "module_one" / "locale" / "django.pot"
+        template.write_text("existing POT\n", encoding="utf-8")
+        addon = DjangoAddon.create(
+            acting_user=get_test_actor(self),
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        for exclusion in ("extract-app/module_one", "extract-app"):
+            with self.subTest(exclusion=exclusion):
+                addon.instance.configuration["excluded_source_directories"] = exclusion
+                self.assertFalse(addon.execute_update(self.component, "", []))
+                self.assertEqual(template.read_text(encoding="utf-8"), "existing POT\n")
+
     def test_django_ignores_repository_locale_dirs_during_extraction(self) -> None:
         (
             _source_dir,
@@ -6145,6 +6263,71 @@ msgstr ""
                 for text in unit.get_target_plurals():
                     self.assertIn(text, sources)
         self.assertFalse(PendingUnitChange.objects.exists())
+
+    @patch("weblate.checks.tasks.PROPAGATED_CHECK_REFRESH_BATCH_SIZE", 2)
+    def test_prefill_batches_propagated_refreshes(self) -> None:
+        translation = self.get_translation()
+        units = [
+            self.get_unit(source=source, translation=translation)
+            for source in (
+                "Hello, world!\n",
+                "Try Weblate at <https://demo.weblate.org/>!\n",
+                "Thank you for using Weblate.",
+            )
+        ]
+        target_units = Unit.objects.filter(
+            translation__component=self.component
+        ).exclude(translation__language=self.component.source_language)
+        target_units.exclude(pk__in=[unit.pk for unit in units]).update(
+            state=STATE_NEEDS_REWRITING
+        )
+        target_units.filter(pk__in=[unit.pk for unit in units]).update(
+            state=STATE_EMPTY, target=""
+        )
+        addon = PrefillAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
+
+        with (
+            patch("weblate.checks.tasks.refresh_propagated_checks.delay") as delay,
+            patch.object(self.component, "commit_pending") as commit,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            handle_addon_event(
+                AddonEvent.EVENT_COMPONENT_UPDATE,
+                "component_update",
+                (self.component,),
+                component=self.component,
+                addon_queryset=[addon.instance],
+            )
+            delay.assert_not_called()
+
+        commit.assert_called_once_with("add-on", None)
+        self.assertEqual(delay.call_count, 2)
+        sources_by_batch = []
+        for call in delay.call_args_list:
+            project_id, groups, unit_ids = call.args
+            self.assertEqual(project_id, self.component.project_id)
+            self.assertEqual(unit_ids, [])
+            sources_by_batch.append(
+                [
+                    group["source"]
+                    for group in groups
+                    if group["check"] == "inconsistent"
+                ]
+            )
+        self.assertEqual(list(map(len, sources_by_batch)), [2, 1])
+        self.assertCountEqual(
+            [source for batch in sources_by_batch for source in batch],
+            [unit.source for unit in units],
+        )
+        for unit in units:
+            unit.refresh_from_db()
+            self.assertEqual(unit.target, unit.source)
+            self.assertEqual(unit.state, STATE_NEEDS_REWRITING)
+            self.assertEqual(
+                unit.change_set.get(action=ActionEvents.AUTO).user, addon.user
+            )
 
     def test_read_only(self) -> None:
         self.assertTrue(FillReadOnlyAddon.can_install(component=self.component))

@@ -43,7 +43,12 @@ from django.utils.translation import get_language, gettext, gettext_lazy
 from translation_finder import DiscoveryResult, discover
 
 from weblate.accounts.models import AuditLog
-from weblate.auth.models import Group, User
+from weblate.auth.models import (
+    BOT_NOREPLY_EMAIL_SUFFIX,
+    PROJECT_BOT_USERNAME_PREFIX,
+    Group,
+    User,
+)
 from weblate.auth.utils import (
     validate_admin_team_assignment,
     validate_team_assignable_user,
@@ -3043,10 +3048,14 @@ class ComponentCreateForm(
             "vcs_params": VCSParamsField,
         }
 
-    def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
+    def __init__(
+        self, request: AuthenticatedHttpRequest, *args, source_query=None, **kwargs
+    ) -> None:
         source_component = None
+        if source_query is None:
+            source_query = request.GET
         if (
-            source_component_text := request.GET.get("source_component")
+            source_component_text := source_query.get("source_component")
         ) and "file_format" in kwargs["initial"]:
             try:
                 source_component_id = int(source_component_text)
@@ -5291,13 +5300,16 @@ class ProjectTokenCreateForm(forms.ModelForm):
 
     def save(self, *args, acting_user: User | None = None, **kwargs):
         self.instance.is_bot = True
-        base_name = name = f"bot-{self.project.slug}-{slugify(self.instance.full_name)}"
+        base_name = name = (
+            f"{PROJECT_BOT_USERNAME_PREFIX}{self.project.slug}-"
+            f"{slugify(self.instance.full_name)}"
+        )
         while User.objects.filter(
-            Q(username=name) | Q(email=f"{name}@bots.noreply.weblate.org")
+            Q(username=name) | Q(email=f"{name}{BOT_NOREPLY_EMAIL_SUFFIX}")
         ).exists():
             name = f"{base_name}-{token_hex(2)}"
         self.instance.username = name
-        self.instance.email = f"{name}@bots.noreply.weblate.org"
+        self.instance.email = f"{name}{BOT_NOREPLY_EMAIL_SUFFIX}"
         result = super().save(*args, **kwargs)
         self.project.add_user(self.instance, "Administration", allow_bot=True)
         AuditLog.objects.create(

@@ -30,6 +30,7 @@ from weblate.checks.consistency import (
 from weblate.checks.models import CHECKS, Check
 from weblate.checks.tasks import (
     _get_propagated_check_units,
+    coalesce_pending_propagated_check_refreshes,
     coalesce_propagated_check_refreshes,
     refresh_propagated_checks,
     schedule_propagated_checks,
@@ -40,6 +41,10 @@ from weblate.trans.models import Component, Project, Translation, Unit, Workflow
 from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.models.source import previous_source_peers
+from weblate.trans.propagation import (
+    refresh_propagation_checks,
+    schedule_propagation_rebuild,
+)
 from weblate.trans.tests.factories import make_unit
 from weblate.trans.tests.test_views import (
     FixtureTestCase,
@@ -416,9 +421,10 @@ class ConsistencyCheckTest(ConsistencyUnitsMixin, ReusableComponentTestCase):
 
         self.other.restricted = True
         self.enterContext(acting_user_context(self.user))
-        with patch(
-            "weblate.checks.tasks.finalize_component_checks.delay_on_commit"
-        ) as schedule:
+        with (
+            patch("weblate.checks.tasks.finalize_component_checks.delay") as schedule,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             self.other.save(update_fields=["restricted"])
 
         self.assertFalse(
@@ -437,8 +443,7 @@ class ConsistencyCheckTest(ConsistencyUnitsMixin, ReusableComponentTestCase):
 
         self.component.restricted = True
         self.enterContext(acting_user_context(self.user))
-        with patch("weblate.checks.tasks.finalize_component_checks.delay_on_commit"):
-            self.component.save(update_fields=["restricted"])
+        self.component.save(update_fields=["restricted"])
 
         self.assertFalse(Check.objects.filter(pk=stale.pk).exists())
         self.assertFalse(ReusedCheck().check_target_unit([], [], visible))
@@ -454,8 +459,7 @@ class ConsistencyCheckTest(ConsistencyUnitsMixin, ReusableComponentTestCase):
 
         self.other.restricted = True
         self.enterContext(acting_user_context(self.user))
-        with patch("weblate.checks.tasks.finalize_component_checks.delay_on_commit"):
-            self.other.save(update_fields=["restricted"])
+        self.other.save(update_fields=["restricted"])
 
         dismissed.refresh_from_db()
         self.assertTrue(dismissed.dismissed)
@@ -465,9 +469,8 @@ class ConsistencyCheckTest(ConsistencyUnitsMixin, ReusableComponentTestCase):
         self.enterContext(acting_user_context(self.user))
         with (
             patch.dict(CHECKS.data, {"reused": CHECKS["reused"]}, clear=True),
-            patch(
-                "weblate.checks.tasks.finalize_component_checks.delay_on_commit"
-            ) as schedule,
+            patch("weblate.checks.tasks.finalize_component_checks.delay") as schedule,
+            self.captureOnCommitCallbacks(execute=True),
         ):
             self.other.save(update_fields=["restricted"])
         schedule.assert_called_once_with(
@@ -482,9 +485,8 @@ class ConsistencyCheckTest(ConsistencyUnitsMixin, ReusableComponentTestCase):
         self.enterContext(acting_user_context(self.user))
         with (
             patch.dict(CHECKS.data, {}, clear=True),
-            patch(
-                "weblate.checks.tasks.finalize_component_checks.delay_on_commit"
-            ) as schedule,
+            patch("weblate.checks.tasks.finalize_component_checks.delay") as schedule,
+            self.captureOnCommitCallbacks(execute=True),
         ):
             self.other.save(update_fields=["restricted"])
         schedule.assert_not_called()
@@ -500,9 +502,10 @@ class ConsistencyCheckTest(ConsistencyUnitsMixin, ReusableComponentTestCase):
         self.other.project = target_project
         self.other.restricted = True
         self.enterContext(acting_user_context(self.user))
-        with patch(
-            "weblate.checks.tasks.finalize_component_checks.delay_on_commit"
-        ) as schedule:
+        with (
+            patch("weblate.checks.tasks.finalize_component_checks.delay") as schedule,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             self.other.save(update_fields=["project", "restricted"])
 
         self.assertFalse(Check.objects.filter(pk=old_check.pk).exists())
@@ -520,8 +523,7 @@ class ConsistencyCheckTest(ConsistencyUnitsMixin, ReusableComponentTestCase):
 
         self.other.project = target_project
         self.enterContext(acting_user_context(self.user))
-        with patch("weblate.checks.tasks.finalize_component_checks.delay_on_commit"):
-            self.other.save(update_fields=["project"])
+        self.other.save(update_fields=["project"])
 
         self.assertFalse(Check.objects.filter(pk=stale.pk).exists())
 
@@ -539,7 +541,6 @@ class ConsistencyCheckTest(ConsistencyUnitsMixin, ReusableComponentTestCase):
         with (
             patch.object(ReusedCheck, "check_target_unit") as reused,
             patch.object(ConsistencyCheck, "check_target_unit") as inconsistent,
-            patch("weblate.checks.tasks.finalize_component_checks.delay_on_commit"),
         ):
             self.other.save(update_fields=["restricted"])
         reused.assert_not_called()
@@ -869,6 +870,46 @@ class ConsistencyCheckTest(ConsistencyUnitsMixin, ReusableComponentTestCase):
             [("inconsistent", ""), ("reused", "Shared"), ("reused", "Committed")],
         )
         self.assertEqual(unit_ids, [])
+
+    def test_pending_refreshes_survive_an_error_caught_by_the_caller(self) -> None:
+        first = self.add_unit(self.translation_1, "one", "One", "Shared")
+        second = self.add_unit(self.translation_1, "two", "Two", "Shared")
+        with (
+            patch("weblate.checks.tasks.refresh_propagated_checks.delay") as delay,
+            self.captureOnCommitCallbacks(execute=True),
+            transaction.atomic(),
+        ):
+            with (
+                self.assertRaisesMessage(ValueError, "failed edit"),
+                coalesce_pending_propagated_check_refreshes(),
+            ):
+                for unit in (first, second):
+                    with transaction.atomic():
+                        schedule_propagated_checks(unit, {"reused"}, refresh_unit=True)
+                with transaction.atomic():
+                    first.target = "Rolled back"
+                    schedule_propagated_checks(first, {"reused"})
+                    msg = "failed edit"
+                    raise ValueError(msg)
+            delay.assert_not_called()
+
+        delay.assert_called_once()
+        _, groups, unit_ids = delay.call_args.args
+        self.assertEqual([group["target"] for group in groups], ["Shared"])
+        self.assertCountEqual(unit_ids, [first.pk, second.pk])
+
+    def test_pending_refreshes_are_discarded_on_outer_rollback(self) -> None:
+        unit = self.add_unit(self.translation_1, "one", "One", "Shared")
+        with (
+            patch("weblate.checks.tasks.refresh_propagated_checks.delay") as delay,
+            self.captureOnCommitCallbacks(execute=True),
+            transaction.atomic(),
+        ):
+            with coalesce_pending_propagated_check_refreshes(), transaction.atomic():
+                schedule_propagated_checks(unit, {"reused"})
+            transaction.set_rollback(True)
+
+        delay.assert_not_called()
 
     def test_propagated_checks_use_latest_state(self) -> None:
         first = self.add_unit(self.translation_1, "one", "One", "Shared")
@@ -1605,9 +1646,72 @@ class WorkspacePropagationTest(ConsistencyUnitsMixin, ReusableComponentTestCase)
         )
         self.check_visibility(ConsistencyCheck(), first, second, True)
         self.other.name = "Different"
-        with patch("weblate.checks.tasks.finalize_component_checks.delay_on_commit"):
-            self.other.save(update_fields=["name"])
+        self.other.save(update_fields=["name"])
         self.check_visibility(ConsistencyCheck(), first, second, False)
+
+    def test_enabling_named_propagation_rebuilds_only_one_group(self) -> None:
+        self.set_scope("component_name")
+        components = [self.component, self.other]
+        Component.objects.filter(pk__in=[item.pk for item in components]).update(
+            allow_translation_propagation=False
+        )
+        with (
+            patch("weblate.checks.tasks.finalize_component_checks.delay") as schedule,
+            patch("weblate.trans.propagation.refresh_propagation_checks") as cleanup,
+            self.captureOnCommitCallbacks(execute=True),
+            transaction.atomic(),
+        ):
+            for component in components:
+                component.allow_translation_propagation = True
+                component.save(update_fields=["allow_translation_propagation"])
+        cleanup.assert_not_called()
+        schedule.assert_called_once_with(
+            min(component.pk for component in components),
+            [],
+            ["inconsistent", "reused"],
+            batch_mode=True,
+        )
+
+    def test_scoped_and_broad_refresh_share_rebuild(self) -> None:
+        self.set_scope("component_name")
+        with (
+            patch("weblate.checks.tasks.finalize_component_checks.delay") as schedule,
+            self.captureOnCommitCallbacks(execute=True),
+            transaction.atomic(),
+        ):
+            schedule_propagation_rebuild(self.other.project, self.other.name)
+            refresh_propagation_checks({self.other.project_id})
+            schedule.assert_not_called()
+        schedule.assert_called_once_with(
+            min(self.component.pk, self.other.pk),
+            [],
+            ["inconsistent", "reused"],
+            batch_mode=True,
+        )
+
+    def test_disabling_named_propagation_cleans_only_its_group(self) -> None:
+        self.set_scope("component_name")
+        first = self.add_unit(self.translation_1, "same", "Same", "First")
+        second = self.add_unit(
+            self.translation_2, "same", "Same", "Second", increment=False
+        )
+        for unit in (first, second):
+            Check.objects.get_or_create(unit=unit, name="inconsistent")
+        with (
+            patch("weblate.checks.tasks.finalize_component_checks.delay") as schedule,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            self.other.allow_translation_propagation = False
+            self.other.save(update_fields=["allow_translation_propagation"])
+            self.assertFalse(
+                Check.objects.filter(
+                    unit__in=[first, second], name="inconsistent"
+                ).exists()
+            )
+            schedule.assert_not_called()
+        schedule.assert_called_once_with(
+            self.component.pk, [], ["inconsistent", "reused"], batch_mode=True
+        )
 
     def test_scope_change_removes_warnings_without_changing_translations(self) -> None:
         self.set_scope("workspace")
@@ -1618,9 +1722,10 @@ class WorkspacePropagationTest(ConsistencyUnitsMixin, ReusableComponentTestCase)
         Check.objects.get_or_create(unit=first, name="inconsistent")
         Check.objects.get_or_create(unit=second, name="inconsistent")
         self.workspace.propagation_scope = "project"
-        with patch(
-            "weblate.checks.tasks.finalize_component_checks.delay_on_commit"
-        ) as schedule:
+        with (
+            patch("weblate.checks.tasks.finalize_component_checks.delay") as schedule,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             self.workspace.save(update_fields=["propagation_scope"])
         self.assertTrue(schedule.called)
         self.assertFalse(
@@ -1673,10 +1778,7 @@ class WorkspacePropagationTest(ConsistencyUnitsMixin, ReusableComponentTestCase)
                             "restricted": True,
                         }[boundary],
                     )
-                with patch(
-                    "weblate.checks.tasks.finalize_component_checks.delay_on_commit"
-                ):
-                    obj.save(update_fields=[boundary])
+                obj.save(update_fields=[boundary])
                 self.assertFalse(
                     Check.objects.filter(unit=first, name="reused").exists()
                 )
@@ -1684,6 +1786,33 @@ class WorkspacePropagationTest(ConsistencyUnitsMixin, ReusableComponentTestCase)
                     Check.objects.filter(unit=second, name="reused").exists(),
                     boundary == "restricted",
                 )
+
+    def test_named_refresh_batches_parent_stats_across_names(self) -> None:
+        self.set_scope("component_name")
+        other = self.create_link_existing(name="Different", slug="different")
+        units = [
+            self.add_unit(translation, "test", "Source", "Target").source_unit
+            for translation in (
+                self.translation_1,
+                other.translation_set.get(language__code="cs"),
+            )
+        ]
+        first, second = units
+        assert first is not None
+        assert second is not None
+        with (
+            patch.object(Unit, "run_checks"),
+            patch.object(Translation, "invalidate_cache") as invalidate,
+            patch.object(update_translation_stats, "delay_on_commit") as update_parents,
+        ):
+            refresh_propagated_checks(self.project.pk, [], [first.pk, second.pk])
+        self.assertEqual(invalidate.call_count, 2)
+        for call in invalidate.call_args_list:
+            self.assertEqual(call.kwargs, {"update_stats_parents": False})
+        update_parents.assert_called_once_with(
+            sorted([first.translation_id, second.translation_id]),
+            update_translations=False,
+        )
 
     def test_worker_uses_current_group_membership(self) -> None:
         self.set_scope("workspace")
@@ -1698,8 +1827,7 @@ class WorkspacePropagationTest(ConsistencyUnitsMixin, ReusableComponentTestCase)
         ):
             schedule_propagated_checks(first, {"inconsistent"})
         self.workspace.propagation_scope = "project"
-        with patch("weblate.checks.tasks.finalize_component_checks.delay_on_commit"):
-            self.workspace.save(update_fields=["propagation_scope"])
+        self.workspace.save(update_fields=["propagation_scope"])
         refresh_propagated_checks(*schedule.call_args.args)
         self.assertFalse(
             Check.objects.filter(unit__in=[first, second], name="inconsistent").exists()
@@ -1742,10 +1870,7 @@ class WorkspacePropagationTest(ConsistencyUnitsMixin, ReusableComponentTestCase)
                 self.assertTrue(groups)
                 self.assertTrue(all("source_rules" not in group for group in groups))
                 self.workspace.propagation_scope = "workspace"
-                with patch(
-                    "weblate.checks.tasks.finalize_component_checks.delay_on_commit"
-                ):
-                    self.workspace.save(update_fields=["propagation_scope"])
+                self.workspace.save(update_fields=["propagation_scope"])
                 check = (
                     ConsistencyCheck() if check_id == "inconsistent" else ReusedCheck()
                 )

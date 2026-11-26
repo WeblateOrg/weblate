@@ -206,27 +206,49 @@ class PendingCheckRefresh:
 @contextmanager
 def coalesce_propagated_check_refreshes() -> Generator[None]:
     """Merge refresh callbacks from successful savepoints in a bounded batch."""
-    with transaction.atomic():
-        connection = transaction.get_connection()
-        start = len(connection.run_on_commit)
-        # A failure leaves callback cleanup to the atomic block's rollback.
-        yield  # ruff: ignore[fallible-context-manager]
-        pending: dict[int, PendingCheckRefresh] = {}
-        keep = connection.run_on_commit[:start]
-        for entry in connection.run_on_commit[start:]:
-            callback = entry[1]
-            if not isinstance(callback, PendingCheckRefresh):
-                keep.append(entry)
-                continue
-            batch = pending.setdefault(
-                callback.project_id, PendingCheckRefresh(callback.project_id)
-            )
-            batch.unit_ids.update(callback.unit_ids)
-            for group in callback.groups:
-                batch.add_group(group)
-        connection.run_on_commit = keep
-        for batch in pending.values():
-            transaction.on_commit(batch)
+    with transaction.atomic(), coalesce_pending_propagated_check_refreshes():
+        yield
+
+
+PROPAGATED_CHECK_REFRESH_BATCH_SIZE = 100
+
+
+@contextmanager
+def coalesce_pending_propagated_check_refreshes() -> Generator[None]:
+    """Merge refresh callbacks without changing the caller's transaction boundary."""
+    connection = transaction.get_connection()
+    if not connection.in_atomic_block:
+        yield
+        return
+
+    start = len(connection.run_on_commit)
+    try:
+        yield
+    finally:
+        # An add-on can catch an error and commit earlier successful saves.
+        # Django has already discarded callbacks from failed inner savepoints.
+        if not connection.needs_rollback:
+            _merge_pending_propagated_check_refreshes(start)
+
+
+def _merge_pending_propagated_check_refreshes(start: int) -> None:
+    callbacks = transaction.get_connection().run_on_commit
+    pending: dict[int, PendingCheckRefresh] = {}
+    keep = []
+    for entry in callbacks[start:]:
+        callback = entry[1]
+        if not isinstance(callback, PendingCheckRefresh):
+            keep.append(entry)
+            continue
+        batch = pending.setdefault(
+            callback.project_id, PendingCheckRefresh(callback.project_id)
+        )
+        batch.unit_ids.update(callback.unit_ids)
+        for group in callback.groups:
+            batch.add_group(group)
+    callbacks[start:] = keep
+    for batch in pending.values():
+        transaction.on_commit(batch)
 
 
 def schedule_propagated_checks(
@@ -382,16 +404,58 @@ def refresh_propagated_checks(
         )
         if project is None:
             return
-        with check_boundary_lock(project):
-            translation_ids = _refresh_propagated_checks(project, groups, unit_ids)
-    if len(translation_ids) > 1:
+        named_scope = get_propagation_scope(project) == "component_name"
+        if named_scope:
+            translation_ids = _refresh_checks_by_component_name(
+                project, groups, unit_ids or []
+            )
+        else:
+            with check_boundary_lock(project):
+                translation_ids = _refresh_propagated_checks(project, groups, unit_ids)
+    if translation_ids and (named_scope or len(translation_ids) > 1):
         update_translation_stats.delay_on_commit(
             translation_ids, update_translations=False
         )
 
 
+def _refresh_checks_by_component_name(
+    project: Project, groups: list[PropagatedCheckGroup], unit_ids: list[int]
+) -> list[int]:
+    component_ids = {group["component_id"] for group in groups}
+    unit_components = dict(
+        Unit.objects.filter(
+            pk__in=unit_ids, translation__component__project=project
+        ).values_list("pk", "translation__component_id")
+    )
+    names = dict(
+        Component.objects.filter(
+            project=project, pk__in=component_ids.union(unit_components.values())
+        ).values_list("pk", "name")
+    )
+    batches: dict[str, tuple[list[PropagatedCheckGroup], list[int]]] = {}
+    for group in groups:
+        if (name := names.get(group["component_id"])) is not None:
+            batches.setdefault(name, ([], []))[0].append(group)
+    for unit_id, component_id in unit_components.items():
+        if (name := names.get(component_id)) is not None:
+            batches.setdefault(name, ([], []))[1].append(unit_id)
+    translation_ids: set[int] = set()
+    for name, (batch_groups, batch_units) in batches.items():
+        with check_boundary_lock(project, name):
+            translation_ids.update(
+                _refresh_propagated_checks(
+                    project, batch_groups, batch_units, update_stats_parents=False
+                )
+            )
+    return sorted(translation_ids)
+
+
 def _refresh_propagated_checks(
-    project: Project, groups: list[PropagatedCheckGroup], unit_ids: list[int] | None
+    project: Project,
+    groups: list[PropagatedCheckGroup],
+    unit_ids: list[int] | None,
+    *,
+    update_stats_parents: bool = True,
 ) -> list[int]:
     project_id = project.pk
     project.log_info("refreshing %d propagated check groups", len(groups))
@@ -455,7 +519,9 @@ def _refresh_propagated_checks(
     with transaction.atomic():
         for translation in translations.values():
             translation.require_full_stats_rebuild()
-            translation.invalidate_cache(update_stats_parents=len(translations) == 1)
+            translation.invalidate_cache(
+                update_stats_parents=update_stats_parents and len(translations) == 1
+            )
     return list(translations)
 
 
@@ -520,7 +586,7 @@ def finalize_component_checks(
         except Component.DoesNotExist:
             return
         boundary_lock = (
-            check_boundary_lock(component.project)
+            check_boundary_lock(component.project, component.name)
             if component.allow_translation_propagation
             and (unit_ids or any(CHECKS[name].batch_project_wide for name in checks))
             else nullcontext()

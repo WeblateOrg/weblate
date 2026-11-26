@@ -8,12 +8,15 @@ from types import SimpleNamespace
 
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.admin.helpers import ACTION_CHECKBOX_NAME
 from django.contrib.admin.sites import AdminSite
 from django.core.exceptions import PermissionDenied
 from django.test import RequestFactory, TestCase
+from django.urls import reverse
 
 from weblate.accounts.models import TeamAuditLog
 from weblate.auth.admin import WeblateGroupAdmin, WeblateUserAdmin
+from weblate.auth.forms import UserEditForm
 from weblate.auth.models import Group, TeamMembership, User
 from weblate.lang.models import Language
 from weblate.workspaces.models import Workspace
@@ -138,6 +141,71 @@ class WeblateUserAdminTest(TestCase):
         self.assertNotEqual(self.user_admin.action_checkbox(project_token), "")
         self.assertTrue(self.user_admin.has_change_permission(request, project_token))
         self.assertTrue(self.user_admin.has_delete_permission(request, project_token))
+
+    def test_bulk_user_actions_exclude_acting_bot(self) -> None:
+        self.actor.is_bot = True
+        self.actor.full_name = "Bulk test actor"
+        self.actor.save(update_fields=["is_bot", "full_name"])
+        self.target.full_name = "Bulk test target"
+        self.target.save(update_fields=["full_name"])
+        self.client.force_login(self.actor)
+        url = reverse("admin:weblate_auth_user_changelist", query={"q": "Bulk test"})
+        response = self.client.get(url)
+        self.assertContains(
+            response, self.user_admin.action_checkbox(self.target), html=True
+        )
+        self.assertNotContains(
+            response,
+            admin.ModelAdmin.action_checkbox(self.user_admin, self.actor),
+            html=True,
+        )
+
+        response = self.client.post(
+            url,
+            {
+                "action": "delete_selected",
+                "index": "0",
+                "select_across": "1",
+                ACTION_CHECKBOX_NAME: self.target.pk,
+            },
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(list(response.context["queryset"]), [self.target])
+
+    def test_generated_token_identity_fields_are_disabled(self) -> None:
+        bot = User.objects.create(
+            username="bot-managed",
+            full_name="Managed Bot",
+            email="bot-managed@bots.noreply.weblate.org",
+            is_bot=True,
+        )
+        request = self.factory.post("/")
+        request.user = self.actor
+        admin_form = self.user_admin.get_form(request, obj=bot)
+        for form_class in (admin_form, UserEditForm):
+            with self.subTest(form=form_class):
+                form = form_class(
+                    data={
+                        "username": "different-name",
+                        "email": "other@example.org",
+                        "is_active": True,
+                        "full_name": "Renamed Bot",
+                        "date_joined_0": bot.date_joined.date(),
+                        "date_joined_1": bot.date_joined.time(),
+                    },
+                    instance=bot,
+                )
+                self.assertTrue(form.fields["username"].disabled)
+                self.assertTrue(form.fields["email"].disabled)
+                if "is_bot" in form.fields:
+                    self.assertTrue(form.fields["is_bot"].disabled)
+                self.assertTrue(form.is_valid(), form.errors)
+                form.save()
+                bot.refresh_from_db()
+                self.assertEqual(bot.username, "bot-managed")
+                self.assertEqual(bot.email, "bot-managed@bots.noreply.weblate.org")
+                self.assertTrue(bot.is_bot)
+                self.assertEqual(bot.full_name, "Renamed Bot")
 
     def test_save_related_audits_security_changes(self) -> None:
         request = self.factory.post("/")

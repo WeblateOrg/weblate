@@ -14,22 +14,32 @@ from django.core.files.uploadhandler import MemoryFileUploadHandler, StopUpload
 from django.core.paginator import Paginator
 from django.db import transaction
 from django.db.models import Prefetch
-from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.formats import date_format
 from django.utils.translation import gettext
+from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters, sensitive_variables
 
+from weblate.accounts.continuation import (
+    Submission,
+    sensitive_operation,
+    stage_sensitive_submission,
+)
 from weblate.accounts.utils import (
     has_recent_sensitive_verification,
     sensitive_verification_redirect,
 )
-from weblate.auth.decorators import management_permission_required
+from weblate.auth.decorators import (
+    check_management_access,
+    management_permission_required,
+)
 from weblate.utils import messages
 from weblate.utils.lock import LockScope, WeblateLock
+from weblate.utils.views import show_form_errors
 from weblate.wladmin.forms import SecurityUploadForm
 from weblate.wladmin.models import SecurityFinding, SecurityFindingEvent, SecurityScan
 from weblate.wladmin.security import (
@@ -47,6 +57,7 @@ if TYPE_CHECKING:
     from typing import IO
 
     from django.db.models import QuerySet
+    from django.http import QueryDict
 
     from weblate.auth.models import AuthenticatedHttpRequest
 
@@ -137,46 +148,79 @@ def security_upload(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 
 @csrf_protect
+@never_cache
 @sensitive_post_parameters()
 @sensitive_variables()
 def protected_security_upload(request: AuthenticatedHttpRequest) -> HttpResponse:
+    submission = (
+        Submission(request.POST, request.GET, request.FILES)
+        if request.method == "POST"
+        else None
+    )
     if not has_recent_sensitive_verification(request):
-        if request.method == "POST":
-            messages.info(
-                request,
-                gettext(
-                    "Your identity verification has expired. Confirm your identity, "
-                    "then select and upload the CSV report again."
-                ),
+        if submission is not None and any(
+            isinstance(handler, SecurityUploadHandler)
+            and getattr(handler, "received", 0) > MAX_UPLOAD
+            for handler in request.upload_handlers
+        ):
+            messages.error(request, gettext("Choose a CSV report of at most 10 MiB."))
+            return sensitive_verification_redirect(request, request.get_full_path())
+        return stage_sensitive_submission(
+            request, "security-upload", request.get_full_path(), report_limit=MAX_UPLOAD
+        )
+    if submission is not None:
+        return submit_security_upload(request, submission)
+    scan_id = request.GET.get("scan")
+    scan = get_configuring_scan(request, scan_id) if scan_id else None
+    return render(
+        request,
+        "manage/security-upload.html",
+        upload_context(form=SecurityUploadForm(), scan=scan),
+    )
+
+
+def get_configuring_scan(
+    request: AuthenticatedHttpRequest, scan_id: str
+) -> SecurityScan:
+    return get_object_or_404(
+        SecurityScan, pk=parse_scan_id(scan_id), actor=request.user, state="configuring"
+    )
+
+
+@sensitive_operation("security-upload")
+@sensitive_variables()
+def resume_security_upload(
+    request: AuthenticatedHttpRequest, submission: Submission
+) -> HttpResponse:
+    return submit_security_upload(request, submission, resumed=True)
+
+
+@sensitive_variables()
+def submit_security_upload(
+    request: AuthenticatedHttpRequest, submission: Submission, *, resumed: bool = False
+) -> HttpResponse:
+    check_management_access(request, "user.edit")
+    scan_id = submission.data.get("scan")
+    scan = get_configuring_scan(request, scan_id) if scan_id else None
+    form = SecurityUploadForm(submission.data, submission.files)
+    form.full_clean()
+    if report := form.cleaned_data.get("report"):
+        uploaded_scan = SecurityScan.objects.create(
+            actor=request.user, state="configuring", filename=report.name
+        )
+        try:
+            store_input(uploaded_scan, report.read(MAX_UPLOAD + 1))
+        except Exception:
+            uploaded_scan.delete()
+            form.add_error(
+                None, gettext("Could not store the encrypted upload. Try again.")
             )
-        return sensitive_verification_redirect(request, request.get_full_path())
-    form = SecurityUploadForm(request.POST or None, request.FILES or None)
-    scan = None
-    if request.method == "POST" and form.is_valid():
-        if request.POST.get("scan"):
-            scan = get_object_or_404(
-                SecurityScan,
-                pk=parse_scan_id(request.POST["scan"]),
-                actor=request.user,
-                state="configuring",
-            )
-        if form.cleaned_data["report"]:
+        else:
             if scan:
                 cache.delete(input_key(scan.pk))
-            scan = SecurityScan.objects.create(
-                actor=request.user,
-                state="configuring",
-                filename=form.cleaned_data["report"].name,
-            )
-            try:
-                store_input(scan, form.cleaned_data["report"].read(MAX_UPLOAD + 1))
-            except Exception:
-                form.add_error(
-                    None, gettext("Could not store the encrypted upload. Try again.")
-                )
-                return render(
-                    request, "manage/security-upload.html", upload_context(form=form)
-                )
+            scan = uploaded_scan
+
+    if not form.errors:
         if scan is None:
             form.add_error("report", gettext("Choose a CSV report of at most 10 MiB."))
         else:
@@ -201,6 +245,10 @@ def protected_security_upload(request: AuthenticatedHttpRequest) -> HttpResponse
                 scan.save(update_fields=["total", "summary", "state"])
                 security_scan_task.delay(str(scan.pk))
                 return redirect("manage-security-progress", pk=scan.pk)
+    if resumed:
+        show_form_errors(request, form)
+        query = {"scan": str(scan.pk)} if scan is not None else None
+        return redirect(reverse("manage-security-upload", query=query))
     return render(
         request, "manage/security-upload.html", upload_context(form=form, scan=scan)
     )
@@ -276,7 +324,7 @@ def security_reports(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 
 def filtered_findings(
-    request: HttpRequest,
+    query: QueryDict,
 ) -> tuple[QuerySet[SecurityFinding], str, str, SecurityScan | None]:
     findings = (
         SecurityFinding.objects.select_related("user")
@@ -290,19 +338,19 @@ def filtered_findings(
         )
         .order_by("-last_seen", "pk")
     )
-    status = request.GET.get("status", "all" if request.GET.get("scan") else "open")
+    status = query.get("status", "all" if query.get("scan") else "open")
     if status in SecurityFinding.Status.values:
         findings = findings.filter(status=status)
     else:
         status = "all"
-    kind = request.GET.get("type", "")
+    kind = query.get("type", "")
     if kind:
         findings = findings.filter(finding_type=kind)
     scan = None
-    if request.GET.get("scan"):
+    if query.get("scan"):
         scan = get_object_or_404(
             SecurityScan.objects.select_related("actor"),
-            pk=parse_scan_id(request.GET["scan"]),
+            pk=parse_scan_id(str(query["scan"])),
             operation__in=("validate", "legacy-email-check"),
         )
         findings = findings.filter(events__scan=scan, events__action="detected")
@@ -312,58 +360,18 @@ def filtered_findings(
 @management_permission_required("user.edit")
 def security_findings(request: AuthenticatedHttpRequest) -> HttpResponse:
     if not has_recent_sensitive_verification(request):
-        return sensitive_verification_redirect(request, request.get_full_path())
-    findings, status, kind, scan = filtered_findings(request)
-    page = Paginator(findings, 50).get_page(request.GET.get("page"))
+        return stage_sensitive_submission(
+            request, "prepare-security-action", request.get_full_path()
+        )
     if request.method == "POST":
-        action = request.POST.get("action")
-        if action not in {"reset", "cleanup", "dismiss"}:
+        token = prepare_security_confirmation(
+            request, Submission(request.POST, request.GET)
+        )
+        if token is None:
             return HttpResponse(status=400)
-        selected = set(request.POST.getlist("selected"))
-        visible_ids = [finding.pk for finding in page if str(finding.pk) in selected]
-        chosen = findings.filter(status="open", pk__in=visible_ids)
-        if action == "reset":
-            chosen = chosen.filter(
-                finding_type__in=[
-                    key
-                    for key, handler in FINDING_HANDLERS.items()
-                    if handler.can_reset
-                ]
-            )
-        elif action == "cleanup":
-            chosen = chosen.filter(
-                finding_type__in=[
-                    key
-                    for key, handler in FINDING_HANDLERS.items()
-                    if handler.can_cleanup
-                ]
-            )
-        ids = list(chosen.values_list("pk", flat=True))
-        token = str(uuid4())
-        cache.set(
-            f"security-confirm:{token}",
-            {
-                "actor": request.user.pk,
-                "ids": ids,
-                "action": action,
-                "return_url": request.get_full_path(),
-                "scan": str(scan.pk) if scan else None,
-            },
-            600,
-        )
-        return render(
-            request,
-            "manage/security-confirm.html",
-            context(
-                section=gettext("Confirm security action"),
-                source_report=scan,
-                cancel_url=request.get_full_path(),
-                token=token,
-                action=action,
-                count=len(ids),
-                accounts=chosen.order_by().values("user_id").distinct().count(),
-            ),
-        )
+        return render_security_confirmation(request, token)
+    findings, status, kind, scan = filtered_findings(request.GET)
+    page = Paginator(findings, 50).get_page(request.GET.get("page"))
     has_open_findings = False
     has_reset_findings = False
     has_cleanup_findings = False
@@ -438,22 +446,116 @@ def security_findings(request: AuthenticatedHttpRequest) -> HttpResponse:
     )
 
 
+def prepare_security_confirmation(
+    request: AuthenticatedHttpRequest, submission: Submission
+) -> str | None:
+    check_management_access(request, "user.edit")
+    findings, _status, _kind, scan = filtered_findings(submission.query)
+    page = Paginator(findings, 50).get_page(submission.query.get("page"))
+    return_url = reverse("manage-security")
+    if submission.query:
+        return_url += f"?{submission.query.urlencode()}"
+    action = submission.data.get("action")
+    if action not in {"reset", "cleanup", "dismiss"}:
+        return None
+    selected = set(submission.data.getlist("selected"))
+    visible_ids = [finding.pk for finding in page if str(finding.pk) in selected]
+    chosen = findings.filter(status="open", pk__in=visible_ids)
+    if action == "reset":
+        chosen = chosen.filter(
+            finding_type__in=[
+                key for key, handler in FINDING_HANDLERS.items() if handler.can_reset
+            ]
+        )
+    elif action == "cleanup":
+        chosen = chosen.filter(
+            finding_type__in=[
+                key for key, handler in FINDING_HANDLERS.items() if handler.can_cleanup
+            ]
+        )
+    selected_findings = list(chosen.values_list("pk", "user_id"))
+    token = str(uuid4())
+    cache.set(
+        f"security-confirm:{token}",
+        {
+            "actor": request.user.pk,
+            "ids": [pk for pk, _user_id in selected_findings],
+            "action": action,
+            "return_url": return_url,
+            "scan": str(scan.pk) if scan else None,
+            "accounts": len({user_id for _pk, user_id in selected_findings}),
+        },
+        600,
+    )
+    return token
+
+
+@sensitive_operation("prepare-security-action")
+def resume_security_selection(
+    request: AuthenticatedHttpRequest, submission: Submission
+) -> HttpResponse:
+    token = prepare_security_confirmation(request, submission)
+    if token is None:
+        return HttpResponse(status=400)
+    return redirect(
+        f"{reverse('manage-security-confirm')}?{urlencode({'token': token})}"
+    )
+
+
+def render_security_confirmation(
+    request: AuthenticatedHttpRequest, token: str
+) -> HttpResponse:
+    snapshot = cache.get(f"security-confirm:{token}")
+    if snapshot is None or snapshot["actor"] != request.user.pk:
+        raise Http404
+    scan = (
+        get_object_or_404(SecurityScan, pk=snapshot["scan"])
+        if snapshot["scan"] is not None
+        else None
+    )
+    return render(
+        request,
+        "manage/security-confirm.html",
+        context(
+            section=gettext("Confirm security action"),
+            source_report=scan,
+            cancel_url=snapshot["return_url"],
+            token=token,
+            action=snapshot["action"],
+            count=len(snapshot["ids"]),
+            accounts=snapshot["accounts"],
+        ),
+    )
+
+
 @management_permission_required("user.edit")
 def security_confirm(request: AuthenticatedHttpRequest) -> HttpResponse:
+    if request.method == "GET" and "token" in request.GET:
+        if not has_recent_sensitive_verification(request):
+            return sensitive_verification_redirect(request, request.get_full_path())
+        token = str(parse_scan_id(request.GET["token"]))
+        response = render_security_confirmation(request, token)
+        response["Cache-Control"] = "private, no-store"
+        return response
     if request.method != "POST":
         return HttpResponse(status=405)
-    token = request.POST.get("token", "")
-    # Limit lock names to UUIDs, never arbitrary request data.
-    try:
-        token = str(UUID(token))
-    except ValueError:
-        raise Http404 from None
+    return submit_security_confirmation(request, Submission(request.POST, request.GET))
+
+
+@sensitive_operation("confirm-security-action")
+def submit_security_confirmation(
+    request: AuthenticatedHttpRequest, submission: Submission
+) -> HttpResponse:
+    check_management_access(request, "user.edit")
+    token = str(parse_scan_id(submission.data.get("token", "")))
     with WeblateLock(scope=LockScope.SECURITY_CONFIRM, key=token):
         snapshot = cache.get(f"security-confirm:{token}")
         if snapshot is None or snapshot["actor"] != request.user.pk:
             raise Http404
         if not has_recent_sensitive_verification(request):
-            return sensitive_verification_redirect(request, snapshot["return_url"])
+            return stage_sensitive_submission(
+                request, "confirm-security-action", snapshot["return_url"]
+            )
         with transaction.atomic():
             scan = SecurityScan.objects.create(
                 actor=request.user,

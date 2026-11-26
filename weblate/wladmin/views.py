@@ -31,14 +31,19 @@ from django.views.decorators.http import require_POST
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, FormMixin
 
+from weblate.accounts.continuation import (
+    Submission,
+    sensitive_operation,
+    stage_sensitive_submission,
+)
 from weblate.accounts.forms import AdminUserSearchForm, ContactForm
 from weblate.accounts.utils import (
     has_recent_sensitive_verification,
-    sensitive_verification_redirect,
 )
 from weblate.accounts.views import UserList, get_initial_contact
 from weblate.auth.audit import audit_team_changes
 from weblate.auth.decorators import (
+    check_management_access,
     management_access,
     management_permission_required,
 )
@@ -864,23 +869,29 @@ class AdminUserList(UserList):
         ):
             raise PermissionDenied
         if not has_recent_sensitive_verification(request):
-            return sensitive_verification_redirect(request, request.get_full_path())
+            return stage_sensitive_submission(
+                request, "invite-site-users", request.get_full_path()
+            )
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request: AuthenticatedHttpRequest, **kwargs) -> HttpResponse:
-        if "emails" in request.POST:
-            bulk_invite_form = self.get_bulk_invite_form(request.POST)
+        return self.submit(request, Submission(request.POST, request.GET))
+
+    def submit(self, request: AuthenticatedHttpRequest, submission: Submission):
+        check_management_access(request, "user.edit")
+        if "emails" in submission.data:
+            bulk_invite_form = self.get_bulk_invite_form(submission.data)
             if bulk_invite_form.is_valid():
                 bulk_invite_form.save(request)
                 return redirect("manage-users")
             show_form_errors(request, bulk_invite_form)
-        elif "email" in request.POST:
-            invite_form = self.get_invite_form(request.POST)
+        elif "email" in submission.data:
+            invite_form = self.get_invite_form(submission.data)
             if invite_form.is_valid():
                 invite_form.save(request)
                 return redirect("manage-users")
             show_form_errors(request, invite_form)
-        return super().get(request, **kwargs)
+        return super().get(request)
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         result = super().get_context_data(**kwargs)
@@ -1052,6 +1063,13 @@ def billing(request: AuthenticatedHttpRequest) -> HttpResponse:
     )
 
 
+@sensitive_operation("invite-site-users")
+def submit_site_invitations(request: AuthenticatedHttpRequest, submission: Submission):
+    view = AdminUserList()
+    view.setup(request)
+    return view.submit(request, submission)
+
+
 @method_decorator(management_access, name="dispatch")
 class TeamListView(FormMixin, ListView):
     request: AuthenticatedHttpRequest
@@ -1092,8 +1110,14 @@ class TeamListView(FormMixin, ListView):
 
     def post(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> HttpResponse:
         if not has_recent_sensitive_verification(request):
-            return sensitive_verification_redirect(request, request.path)
-        form = self.get_form()
+            return stage_sensitive_submission(request, "create-site-team", request.path)
+        return self.submit(Submission(request.POST, request.GET))
+
+    def submit(self, submission: Submission) -> HttpResponse:
+        check_management_access(self.request, "group.edit")
+        kwargs = self.get_form_kwargs()
+        kwargs.update(data=submission.data, files=submission.files)
+        form = self.get_form_class()(**kwargs)
         if form.is_valid():
             return self.form_valid(form)
         return self.form_invalid(form)
@@ -1102,6 +1126,13 @@ class TeamListView(FormMixin, ListView):
         with audit_team_changes(form.instance, self.request.user, self.request):
             form.save()
         return super().form_valid(form)
+
+
+@sensitive_operation("create-site-team")
+def submit_site_team(request: AuthenticatedHttpRequest, submission: Submission):
+    view = TeamListView()
+    view.setup(request)
+    return view.submit(submission)
 
 
 @method_decorator(management_access, name="dispatch")

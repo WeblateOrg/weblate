@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
+import json
 import os
 from contextlib import nullcontext, suppress
 from pathlib import Path
@@ -16,15 +17,20 @@ from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils.crypto import salted_hmac
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.http import urlencode
 from django.utils.translation import gettext
 from django.views.generic.edit import CreateView
 
+from weblate.accounts.continuation import (
+    Submission,
+    sensitive_operation,
+    stage_sensitive_submission,
+)
 from weblate.accounts.utils import (
     has_recent_sensitive_verification,
-    sensitive_verification_redirect,
 )
 from weblate.trans.backups import ProjectBackup
 from weblate.trans.component_creation import (
@@ -300,6 +306,7 @@ class CreateComponent(BaseCreateView):
     model = Component
     projects: ProjectQuerySet = Project.objects.none()
     stage = None
+    final_submission: Submission | None = None
     selected_project: int | None = None
     selected_category = None
     basic_fields = ("repo", "name", "slug", "vcs", "source_language")
@@ -348,7 +355,13 @@ class CreateComponent(BaseCreateView):
 
     def get_form_kwargs(self):
         result = super().get_form_kwargs()
-        if self.request.method != "POST":
+        if self.final_submission is not None:
+            result.update(
+                data=self.final_submission.data,
+                files=self.final_submission.files,
+                source_query=self.final_submission.query,
+            )
+        elif self.request.method != "POST":
             if self.initial:
                 # When going from other form (for example ZIP import)
                 result.pop("data", None)
@@ -407,8 +420,13 @@ class CreateComponent(BaseCreateView):
             if self.exposes_restricted_source(
                 form
             ) and not has_recent_sensitive_verification(self.request):
-                return sensitive_verification_redirect(
-                    self.request, self.request.get_full_path()
+                return stage_sensitive_submission(
+                    self.request,
+                    "create-component",
+                    self.request.get_full_path(),
+                    origin=self.origin,
+                    project_id=form.cleaned_data["project"].pk,
+                    wizard_state=component_wizard_state(self.request, self.request.GET),
                 )
             project = form.cleaned_data["project"]
             if (
@@ -485,7 +503,7 @@ class CreateComponent(BaseCreateView):
             if (
                 self.has_billing
                 and self.stage == "create"
-                and self.request.method == "POST"
+                and (self.final_submission is not None or self.request.method == "POST")
                 and self.selected_project is not None
                 and not self.request.user.is_superuser
             ):
@@ -576,38 +594,47 @@ class CreateComponent(BaseCreateView):
         return kwargs
 
     def fetch_params(self, request: AuthenticatedHttpRequest) -> None:
+        query = (
+            self.final_submission.query
+            if self.final_submission is not None
+            else request.GET
+        )
+        data = (
+            self.final_submission.data
+            if self.final_submission is not None
+            else request.POST
+        )
         try:
-            self.selected_project = int(
-                request.POST.get("project", request.GET.get("project", ""))
-            )
+            self.selected_project = int(data.get("project", query.get("project", "")))
         except ValueError:
             self.selected_project = None
         try:
             self.selected_category = int(
-                request.POST.get("category", request.GET.get("category", ""))
+                data.get("category", query.get("category", ""))
             )
         except ValueError:
             self.selected_category = None
         self.projects = get_creation_projects(request.user)
         self.initial = {}
         session_data = {}
-        if SESSION_CREATE_KEY in request.GET and SESSION_CREATE_KEY in request.session:
+        if SESSION_CREATE_KEY in query and SESSION_CREATE_KEY in request.session:
             session_data = request.session[SESSION_CREATE_KEY]
         self.integration_import_vcs = session_data.get(INTEGRATION_IMPORT_VCS_KEY, "")
         for field in self.initial_fields:
             if field in session_data:
                 self.initial[field] = session_data[field]
-            elif field in request.GET:
-                self.initial[field] = request.GET[field]
+            elif field in query:
+                self.initial[field] = query[field]
 
         try:
             self.duplicate_existing_component = int(
-                request.POST.get(
+                data.get(
                     "source_component",
-                    request.GET.get(
+                    query.get(
                         "source_component", session_data.get("source_component", "")
                     ),
                 )
+                or ""
             )
         except (ValueError, TypeError):
             self.duplicate_existing_component = None
@@ -721,6 +748,46 @@ class CreateFromDoc(CreateComponent):
 
         self.request.method = "GET"
         return self.get(self.request)
+
+
+def component_wizard_state(request: AuthenticatedHttpRequest, query) -> str:
+    if SESSION_CREATE_KEY not in query:
+        return ""
+    return salted_hmac(
+        "component-wizard-state",
+        json.dumps(request.session.get(SESSION_CREATE_KEY), sort_keys=True),
+    ).hexdigest()
+
+
+@sensitive_operation("create-component")
+def submit_component_creation(
+    request: AuthenticatedHttpRequest,
+    submission: Submission,
+    origin: str,
+    project_id: int,
+    wizard_state: str,
+) -> HttpResponse:
+    if (
+        "new_base" not in submission.data
+        or component_wizard_state(request, submission.query) != wizard_state
+    ):
+        raise PermissionDenied
+    view_class = {
+        "vcs": CreateComponent,
+        "zip": CreateFromZip,
+        "document": CreateFromDoc,
+    }[origin]
+    view = view_class()
+    view.setup(request)
+    view.stage = "create"
+    view.final_submission = submission
+    view.fetch_params(request)
+    if view.selected_project != project_id:
+        raise PermissionDenied
+    form = view.get_form()
+    if form.is_valid():
+        return view.form_valid(form)
+    return view.form_invalid(form)
 
 
 class CreateComponentSelection(CreateComponent):

@@ -12,8 +12,9 @@ The API is accessible on the ``/api/`` URL and it is based on
 You can use it directly or by :ref:`wlc`.
 See :doc:`devel/libraries` for official tools and community-maintained integrations.
 
-The API is also documented using OpenAPI 3.1 on the ``/api/schema/`` URL, you
-can browse at ``/api/docs/``.
+The OpenAPI 3.1 schema is available at ``/api/schema/``. Browse the endpoints
+and request fields at ``/api/docs/``. Data endpoints no longer provide HTML
+forms or support ``?format=api``.
 
 .. _api-generic:
 
@@ -36,9 +37,8 @@ for public endpoints or when you are signed in using a browser session.
     parameters here apply to all endpoints as well.
 
     :query format: Response format (overrides :http:header:`Accept`).
-                   Possible values depend on REST framework setup,
-                   by default ``json``, ``csv`` and ``api`` are supported. The
-                   latter provides a web browser interface for the API.
+                   The default formats are ``json`` and ``csv``. Individual
+                   endpoints may provide additional formats.
     :query page: Page number for endpoints that use numbered pages. See :ref:`api-pagination`.
     :query page_size: Return the given number of items per request.
                       The default is 50 and the maximum is 1000.
@@ -518,9 +518,8 @@ Users
 
     Changes the user parameters.
 
-    Requires the global ``user.edit`` permission unless a user is updating
-    their own account or profile fields. See :ref:`access-control` for the user
-    management permission model.
+    The permission and field restrictions are the same as for
+    :http:patch:`/api/users/(str:username)/`.
 
     :param username: User's username
     :type username: string
@@ -537,9 +536,11 @@ Users
 
     Changes the user parameters.
 
-    Requires the global ``user.edit`` permission unless a user is updating
-    their own account or profile fields. See :ref:`access-control` for the user
-    management permission model.
+    Requires the global ``user.edit`` permission unless a human user is updating
+    their own account or profile fields. Bot accounts cannot edit themselves,
+    even with ``user.edit``. The ``username``, ``email``, and ``is_bot`` fields
+    of generated API token accounts are read-only. See :ref:`access-control`
+    for the user management permission model.
 
     :param username: User's username
     :type username: string
@@ -556,7 +557,8 @@ Users
 
     Deletes all user information and marks the user inactive.
 
-    Requires the global ``user.edit`` permission. See
+    Requires the global ``user.edit`` permission. Bot accounts cannot delete
+    themselves. See
     :ref:`access-control` for the user management permission model.
 
     :param username: User's username
@@ -565,6 +567,8 @@ Users
 .. http:post:: /api/users/(str:username)/groups/
 
     Associate groups with a user.
+
+    Bot accounts cannot change their own team memberships.
 
     Requires the global ``user.edit`` permission. See
     :ref:`access-control` for the user management permission model.
@@ -581,6 +585,8 @@ Users
     .. versionadded:: 4.13.1
 
     Remove user from a group.
+
+    Bot accounts cannot change their own team memberships.
 
     Requires the global ``user.edit`` permission. See
     :ref:`access-control` for the user management permission model.
@@ -624,6 +630,8 @@ Users
 .. http:post:: /api/users/(str:username)/notifications/
 
     Associate subscriptions with a user.
+
+    Bot accounts cannot create, edit, or delete their own subscriptions.
 
     :param username: User's username
     :type username: string
@@ -684,7 +692,7 @@ User profile
 
 The user API exposes profile preferences in a nested ``profile`` object. The
 object is returned on :http:get:`/api/users/(str:username)/` only for callers
-with the ``user.view`` or ``user.edit`` permission. Users without those
+with the ``user.view`` or ``user.edit`` permission. Human users without those
 permissions can still update their own profile through
 :http:patch:`/api/users/(str:username)/`; the response then includes the updated
 ``profile`` object.
@@ -1133,7 +1141,8 @@ Projects
                        only eligible workspace. Creating a project without an
                        eligible workspace requires the site-wide
                        :guilabel:`Add new projects` permission. See
-                       :ref:`workspace-project-creation`.
+                       :ref:`workspace-project-creation`. A missing or inaccessible
+                       workspace UUID returns HTTP 403.
     :type workspace: string
     :param access_control: :ref:`project-access_control`
     :type access_control: integer
@@ -1298,7 +1307,8 @@ Projects
     :param autoclean_tm: :ref:`project-autoclean_tm`
     :type autoclean_tm: boolean
     :param workspace: Optional workspace UUID, or ``null`` to move the project
-                       out of a workspace
+                       out of a workspace. A missing or inaccessible
+                       destination workspace UUID returns HTTP 403.
     :type workspace: string
 
 .. http:put:: /api/projects/(string:project)/

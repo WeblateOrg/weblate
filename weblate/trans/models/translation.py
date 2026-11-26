@@ -41,7 +41,8 @@ from translate.storage.fluent import FluentContentError
 
 from weblate.auth.bots import InternalBot
 from weblate.checks.flags import Flags
-from weblate.checks.models import CHECKS
+from weblate.checks.models import CHECKS, Check
+from weblate.checks.save import save_failure_fingerprint
 from weblate.formats.auto import try_load
 from weblate.formats.base import (
     MAX_DECLARED_LANGUAGES,
@@ -615,6 +616,9 @@ class Translation(
 
     def get_url_path(self) -> tuple[str, ...]:
         return (*self.component.get_url_path(), self.language.code)
+
+    def get_language_team_header(self) -> str:
+        return f"{self.language.name} <{get_site_url(self.get_absolute_url())}>"
 
     def get_widgets_url(self) -> str:
         """Return absolute URL for widgets."""
@@ -1511,13 +1515,31 @@ class Translation(
                 if timestamp <= success_times[unit_id]:
                     pending_to_delete.append(pk)
                     if len(pending_to_delete) >= 1000:
+                        Translation.delete_pending_save_checks(pending_to_delete)
                         PendingUnitChange.objects.filter(
                             pk__in=pending_to_delete
                         ).delete()
                         pending_to_delete.clear()
 
         if pending_to_delete:
+            Translation.delete_pending_save_checks(pending_to_delete)
             PendingUnitChange.objects.filter(pk__in=pending_to_delete).delete()
+
+    @staticmethod
+    def delete_pending_save_checks(pending_ids: list[int]) -> None:
+        checks = Check.objects.filter(
+            name="save_failed", metadata__pending_change_id__in=pending_ids
+        )
+        unit_ids = list(checks.values_list("unit_id", flat=True))
+        if not unit_ids:
+            return
+        checks.delete()
+        for unit in Unit.objects.filter(pk__in=unit_ids).select_related(
+            "translation__component__project",
+            "source_unit__translation__component__project",
+        ):
+            unit.source_unit.run_checks()
+            unit.translation.invalidate_cache()
 
     @staticmethod
     def clear_committed_disk_states(units_to_clear_disk_state: set[int]) -> None:
@@ -1636,11 +1658,16 @@ class Translation(
         )
 
     @source_operation_method
-    def _mark_failed_unit(self, unit: Unit) -> None:
+    def _mark_failed_unit(self, unit: Unit) -> Unit:
         """Demote a failed save and block translations which depend on it."""
         from weblate.trans.models.source import propagate_parent_change  # ruff: ignore[import-outside-top-level]
 
-        current = Unit.objects.select_for_update().get(pk=unit.pk)
+        current = (
+            Unit.objects.select_related("source_unit")
+            .select_for_update()
+            .get(pk=unit.pk)
+        )
+        current.translation = self
         if current.translation_parent_blocked:
             unit.state = STATE_READONLY
             unit.original_state = STATE_FUZZY
@@ -1651,24 +1678,72 @@ class Translation(
             unit.state = STATE_FUZZY
             Unit.objects.filter(pk=unit.pk).update(state=STATE_FUZZY)
         propagate_parent_change(self, unit.pk)
+        return current
 
+    @transaction.atomic
     def _store_failed_unit_update(
-        self, unit: Unit, pending_change: PendingUnitChange, error: Exception
+        self,
+        unit: Unit,
+        pending_change: PendingUnitChange,
+        error: Exception,
+        *,
+        blocking: bool = False,
     ) -> None:
-        self._mark_failed_unit(unit)
-        unit.change_set.create(
-            action=ActionEvents.SAVE_FAILED,
-            user=pending_change.get_actor(),
-            author=pending_change.author,
-            target=self.component.get_parse_error_message(error),
-        )
+        current = self._mark_failed_unit(unit)
+        message = self.component.get_parse_error_message(error)
+        if pending_change.metadata.get("last_failed") is None:
+            actor = pending_change.get_actor()
+            # Legacy pending edits may predate actor tracking. Keep their
+            # diagnostic without inventing an initiating account.
+            if actor is not None:
+                unit.change_set.create(
+                    action=ActionEvents.SAVE_FAILED,
+                    user=actor,
+                    author=pending_change.author,
+                    target=message,
+                )
+
+        check_obj = CHECKS.get("save_failed")
+        identity = pending_change.metadata.get("identity")
+        if (
+            check_obj is not None
+            and not check_obj.should_skip(current)
+            and pending_change.target == current.target
+            and pending_change.explanation == current.explanation
+            and pending_change.source_unit_explanation
+            == current.source_unit.explanation
+            and pending_change.automatically_translated
+            == current.automatically_translated
+            and (
+                identity is None
+                or identity == {"source": current.source, "context": current.context}
+            )
+        ):
+            fingerprint = save_failure_fingerprint(current)
+            check, created = current.check_set.get_or_create(name="save_failed")
+            if created or check.metadata.get("fingerprint") != fingerprint:
+                check.dismissed = False
+            check.metadata = {
+                "error": message,
+                "pending_change_id": pending_change.pk,
+                "fingerprint": fingerprint,
+            }
+            check.save(update_fields=["metadata", "dismissed"])
+            current.clear_checks_cache()
+            current.invalidate_checks_cache()
+            unit.clear_checks_cache()
+            unit.invalidate_checks_cache()
+            current.source_unit.clear_checks_cache()
+            current.source_unit.invalidate_checks_cache()
+            current.source_unit.run_checks()
+            self.invalidate_cache()
 
         pending_change.metadata.update(
             {
                 "last_failed": timezone.now().isoformat(),
                 "failed_revision": self.revision,
                 "weblate_version": GIT_VERSION,
-                "blocking_unit": "identity" in pending_change.metadata,
+                "blocking_unit": blocking or "identity" in pending_change.metadata,
             }
         )
         pending_change.save()
@@ -1912,7 +1987,7 @@ class Translation(
         store._invalidate_units()  # ruff: ignore[private-member-access]
         return pounit
 
-    def update_units(  # ruff: ignore[complex-structure, too-many-statements]
+    def update_units(  # ruff: ignore[complex-structure]
         self,
         pending_changes: list[PendingUnitChange],
         store: TranslationFormat,
@@ -2006,22 +2081,14 @@ class Translation(
                         project=self.component.project,
                         skip_error_reporting=True,
                     )
-                    self._mark_failed_unit(unit)
-                    unit.change_set.create(
-                        action=ActionEvents.SAVE_FAILED,
-                        user=pending_change.get_actor(),
-                        author=pending_change.author,
-                        target="Could not find string in the translation file",
+                    self._store_failed_unit_update(
+                        unit,
+                        pending_change,
+                        UnitNotFoundError(
+                            "Could not find string in the translation file"
+                        ),
+                        blocking=True,
                     )
-                    pending_change.metadata.update(
-                        {
-                            "last_failed": timezone.now().isoformat(),
-                            "failed_revision": self.revision,
-                            "weblate_version": GIT_VERSION,
-                            "blocking_unit": True,
-                        }
-                    )
-                    pending_change.save()
                     changes_status[pending_change.pk] = False
                     continue
 
@@ -2087,9 +2154,7 @@ class Translation(
 
         # Optionally store language team with link to website
         if GettextSetLanguageTeamHeader.get_value(self.component.file_format_params):
-            headers["language_team"] = (
-                f"{self.language.name} <{get_site_url(self.get_absolute_url())}>"
-            )
+            headers["language_team"] = self.get_language_team_header()
         if GettextLastTranslator.get_value(self.component.file_format_params):
             headers["last_translator"] = author_name
 
@@ -2393,6 +2458,11 @@ class Translation(
 
         Needed for template based translations to add new strings.
         """
+        from weblate.checks.tasks import (  # ruff: ignore[import-outside-top-level]
+            PROPAGATED_CHECK_REFRESH_BATCH_SIZE,
+            coalesce_pending_propagated_check_refreshes,
+        )
+
         skipped = 0
         accepted = 0
         add_fuzzy = method == "fuzzy"
@@ -2422,53 +2492,56 @@ class Translation(
             self.unit_set.prefetch_all_checks().prefetch_source().select_for_update()
         )
 
-        for index, (set_fuzzy, unit2) in enumerate(store2.iterate_merge(fuzzy)):
-            if progress is not None and index % 100 == 0:
-                progress(index, total)
-            try:
-                unit = unit_set.get_unit(unit2)
-            except Unit.DoesNotExist:
-                self.log_upload_not_found(not_found_log, unit2)
-                continue
+        edits = enumerate(store2.iterate_merge(fuzzy))
+        for batch in batched(edits, PROPAGATED_CHECK_REFRESH_BATCH_SIZE):
+            with coalesce_pending_propagated_check_refreshes():
+                for index, (set_fuzzy, unit2) in batch:
+                    if progress is not None and index % 100 == 0:
+                        progress(index, total)
+                    try:
+                        unit = unit_set.get_unit(unit2)
+                    except Unit.DoesNotExist:
+                        self.log_upload_not_found(not_found_log, unit2)
+                        continue
 
-            state = STATE_TRANSLATED
-            if add_fuzzy or set_fuzzy:
-                state = STATE_FUZZY
-            elif add_approve:
-                state = STATE_APPROVED
+                    state = STATE_TRANSLATED
+                    if add_fuzzy or set_fuzzy:
+                        state = STATE_FUZZY
+                    elif add_approve:
+                        state = STATE_APPROVED
 
-            if (
-                (unit.translated and not conflicts)
-                or (unit.approved and conflicts != "replace-approved")
-                or unit.readonly
-                or (not request.user.has_perm("unit.edit", unit))
-                or (unit.target == unit2.target and unit.state == state)
-            ):
-                skipped += 1
-                continue
+                    if (
+                        (unit.translated and not conflicts)
+                        or (unit.approved and conflicts != "replace-approved")
+                        or unit.readonly
+                        or (not request.user.has_perm("unit.edit", unit))
+                        or (unit.target == unit2.target and unit.state == state)
+                    ):
+                        skipped += 1
+                        continue
 
-            accepted += 1
+                    accepted += 1
 
-            # Ensure deferred changes accumulate on this Translation instance
-            unit.translation = self
-            unit.is_batch_update = True
-            try:
-                unit.translate(
-                    request.user,
-                    split_plural(unit2.target),
-                    state,
-                    change_action=ActionEvents.UPLOAD,
-                    change_details={"explicit_approval": True}
-                    if state == STATE_APPROVED
-                    else None,
-                    propagate=propagate,
-                    author=author,
-                    request=request,
-                    select_for_update=False,
-                )
-            except TranslationTextTooLongError as error:
-                # The transaction in handle_upload discards already merged units.
-                raise self.get_upload_text_length_error(unit2) from error
+                    # Ensure deferred changes accumulate on this Translation instance
+                    unit.translation = self
+                    unit.is_batch_update = True
+                    try:
+                        unit.translate(
+                            request.user,
+                            split_plural(unit2.target),
+                            state,
+                            change_action=ActionEvents.UPLOAD,
+                            change_details={"explicit_approval": True}
+                            if state == STATE_APPROVED
+                            else None,
+                            propagate=propagate,
+                            author=author,
+                            request=request,
+                            select_for_update=False,
+                        )
+                    except TranslationTextTooLongError as error:
+                        # The transaction in handle_upload discards already merged units.
+                        raise self.get_upload_text_length_error(unit2) from error
 
         if accepted > 0:
             self.store_update_changes()

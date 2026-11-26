@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from contextlib import closing
 from functools import reduce
 from itertools import batched
 from typing import TYPE_CHECKING, ClassVar, Literal, NotRequired, TypedDict, cast
@@ -15,6 +16,8 @@ from django.db.models import (
     Case,
     Exists,
     F,
+    Max,
+    Min,
     OuterRef,
     Prefetch,
     Q,
@@ -314,12 +317,6 @@ def workspace_check_units(component: Component, check_id: str) -> UnitQuerySet:
             translation__component__allow_translation_propagation=True,
         )
         .with_effective_source()
-        .annotate(
-            has_peer=propagated_peer_condition(
-                component.project, check_id, custom_sources=True
-            )
-        )
-        .filter(has_peer=True)
     )
     fields: tuple[str, ...] = (
         "translation__plural_id",
@@ -339,11 +336,51 @@ def workspace_check_units(component: Component, check_id: str) -> UnitQuerySet:
         ).exclude(target="")
         fields += ("target",)
         limit = 20
-    groups = list(units.values(*fields).order_by(*fields).distinct()[:limit])
+    peers = units.alias(
+        has_peer=propagated_peer_condition(
+            component.project, check_id, custom_sources=True
+        )
+    ).filter(has_peer=True)
+    candidate_fields = fields
+    if check_id == "inconsistent":
+        candidate_fields += ("translation__language_id",)
+    comparison = "target" if check_id == "inconsistent" else "check_source"
+    candidates = (
+        units.order_by()
+        .values(*candidate_fields)
+        .alias(candidate_min=Min(comparison), candidate_max=Max(comparison))
+        .exclude(candidate_min=F("candidate_max"))
+    )
+    if check_id == "inconsistent":
+        candidates = candidates.alias(candidate_state=Max("state")).filter(
+            candidate_state__gte=STATE_TRANSLATED
+        )
+    candidates = candidates.order_by(*candidate_fields)
+    groups = []
+    with closing(candidates.iterator(chunk_size=100)) as rows:
+
+        def distinct_groups() -> Iterable[dict[str, object]]:
+            previous = None
+            for row in rows:
+                group = {field: row[field] for field in fields}
+                if group != previous:
+                    previous = group
+                    yield group
+
+        for page in batched(distinct_groups(), 100):
+            group_filter = reduce(lambda query, group: query | Q(**group), page, Q())
+            groups.extend(
+                peers.filter(group_filter)
+                .values(*fields)
+                .order_by(*fields)
+                .distinct()[: limit - len(groups)]
+            )
+            if len(groups) == limit:
+                break
     if not groups:
         return units.none()
     return (
-        units.filter(reduce(lambda query, group: query | Q(**group), groups, Q()))
+        peers.filter(reduce(lambda query, group: query | Q(**group), groups, Q()))
         .prefetch()
         .prefetch_bulk()
     )
@@ -372,7 +409,9 @@ def evaluate_workspace_checks(
         )
 
 
-def stale_project_check_units(project: Project, check_id: str) -> UnitQuerySet:
+def stale_project_check_units(
+    project: Project, check_id: str, *, component_name: str | None = None
+) -> UnitQuerySet:
     """Find stored-check units without a peer visible after a boundary change."""
     from weblate.trans.models import Unit  # ruff: ignore[import-outside-top-level]
 
@@ -380,6 +419,8 @@ def stale_project_check_units(project: Project, check_id: str) -> UnitQuerySet:
     units = Unit.objects.filter(
         translation__component__project=project
     ).with_effective_source(custom_sources=custom_sources, select=False)
+    if component_name is not None:
+        units = units.filter(translation__component__name=component_name)
     condition = propagated_peer_condition(
         project, check_id, custom_sources=custom_sources
     )

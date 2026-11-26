@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/javascript/"
 "\n"
 "POT-Creation-Date: 2026-11-19 18:10-0600\n"
-"PO-Revision-Date: 2026-11-24 16:00+0000\n"
+"PO-Revision-Date: 2026-11-25 14:29+0000\n"
 "Last-Translator: Ulrik <ulrik@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "javascript/da/>\n"
@@ -27,13 +27,13 @@ msgstr ""
 "X-Generator: Weblate 2026.12.dev0\n"
 
 msgid "Unsaved changes!"
-msgstr "Ikke-gemte ændringer!"
+msgstr "Ændringerne er ikke gemt!"
 
 msgid "Please select target plural by clicking."
-msgstr "Vælg venligst mål for flertal ved at klikke."
+msgstr "Klik på den flertalsform, du vil oversætte til."
 
 msgid "You have unsaved changes. Are you sure you want to skip?"
-msgstr "Du har ikke-gemte ændringer. Er du sikker på, at du vil springe over?"
+msgstr "Du har ændringer, som ikke er gemt. Vil du alligevel springe over?"
 
 #, javascript-format
 msgid "Cmd+%s"
@@ -44,10 +44,10 @@ msgid "Ctrl+%s"
 msgstr "Ctrl+%s"
 
 msgid "Translation memory entry removed."
-msgstr "Oversættelseshukommelsespost fjernet."
+msgstr "Posten blev fjernet fra oversættelseshukommelsen."
 
 msgid "The request for machine translation has failed:"
-msgstr "Forespørgsel om maskinoversættelse mislykkedes:"
+msgstr "Forespørgslen om maskinoversættelse mislykkedes:"
 
 #, javascript-format
 msgid "The request for machine translation using %s has failed:"
@@ -63,11 +63,11 @@ msgstr "Ctrl+M efterfulgt af %s"
 
 #, javascript-format
 msgid "Press Cmd+I then %s to dismiss this."
-msgstr "Tryk på Cmd+I efterfulgt af %s for at lukke den."
+msgstr "Tryk på Cmd+I og derefter på %s for at lukke beskeden."
 
 #, javascript-format
 msgid "Press Ctrl+I then %s to dismiss this."
-msgstr "Tryk på Ctrl+I efterfulgt af %s for at lukke den."
+msgstr "Tryk på Ctrl+I og derefter på %s for at lukke beskeden."
 
 msgid "Slug"
 msgstr "Kort URL-navn"
@@ -95,27 +95,26 @@ msgstr ""
 "resultaterne for at fortsætte."
 
 msgid "There are some unsaved changes, are you sure you want to leave?"
-msgstr "Der er ændringer som ikke er gemt. Er du sikker på, at du vil forlade?"
+msgstr "Du har ændringer, som ikke er gemt. Vil du alligevel forlade siden?"
 
 msgid "Save or discard your changes before accepting a suggestion."
-msgstr ""
+msgstr "Gem eller kassér dine ændringer, før du accepterer et forslag."
 
-#, fuzzy, javascript-format
-#| msgid "Accept suggestions"
+#, javascript-format
 msgid "%s suggestion"
 msgid_plural "%s suggestions"
-msgstr[0] "Acceptér forslag"
-msgstr[1] "Acceptér forslag"
+msgstr[0] "%s forslag"
+msgstr[1] "%s forslag"
 
 msgid ""
 "The translation was changed while you were editing it, your unsaved changes "
 "were kept."
 msgstr ""
+"Oversættelsen blev ændret, mens du redigerede den. Dine ugemte ændringer er "
+"bevaret."
 
-#, fuzzy
-#| msgid "Accept suggestions"
 msgid "Hide suggestions"
-msgstr "Acceptér forslag"
+msgstr "Skjul forslag"
 
 msgid "Show suggestions"
 msgstr "Vis forslag"
@@ -125,55 +124,61 @@ msgstr "%(processed)s af %(total)s poster behandlet."
 
 #, javascript-format
 msgid "Results of action %s"
-msgstr ""
+msgstr "Resultater af handlingen %s"
 
 msgid "Not takes exactly one condition."
-msgstr ""
+msgstr "»Ikke« kræver præcis én betingelse."
 
 msgid "Automations can nest eight levels deep."
-msgstr ""
+msgstr "En automatisering kan have op til otte indlejringsniveauer."
 
 msgid "Automations can hold one hundred nodes."
-msgstr ""
+msgstr "En automatisering kan indeholde op til 100 knudepunkter."
 
 msgid "This workflow is not valid YAML, so the editor cannot show it."
 msgstr ""
+"Arbejdsgangen er skrevet i ugyldig YAML og kan derfor ikke vises i editoren."
 
 msgid ""
 "This workflow has something the editor cannot show, such as an unknown "
 "action or a setting that is no longer available. Edit it as YAML."
 msgstr ""
+"Arbejdsgangen indeholder noget, som editoren ikke kan vise, f.eks. en ukendt "
+"handling eller en indstilling, der ikke længere findes. Rediger "
+"arbejdsgangen i YAML."
 
 #, javascript-format
 msgid "Added %s."
-msgstr ""
+msgstr "Tilføjede %s."
 
 #, javascript-format
 msgid "Removed %s."
-msgstr ""
+msgstr "Fjernede %s."
 
 #, javascript-format
 msgid "Moved %s."
-msgstr ""
+msgstr "Flyttede %s."
 
 msgid ""
 "An action running on the whole component needs a query. Enter one or pick "
 "another scope."
 msgstr ""
+"En handling, der gælder for hele komponenten, kræver en søgeforespørgsel. "
+"Indtast en forespørgsel, eller vælg et andet omfang."
 
 msgid "Security token missing. Please reload the page."
-msgstr "Sikkerhedstoken mangler. Genindlæs venligst siden."
+msgstr "Sikkerhedstokenet mangler. Genindlæs siden."
 
 #, javascript-format
 msgid "Loading suggestion count for %s"
-msgstr "Indlæser antal forslag for %s"
+msgstr "Henter antallet af forslag til %s"
 
 msgid "Bulk accept cancelled."
-msgstr "Massegodkendelse annulleret."
+msgstr "Samlet accept af forslag blev annulleret."
 
 #, javascript-format
 msgid "Scheduling bulk accept for %s"
-msgstr "Planlægning af massegodkendelse for %s"
+msgstr "Planlægger samlet accept af forslag til %s"
 
 msgid "Unknown error"
 msgstr "Ukendt fejl"
@@ -192,13 +197,15 @@ msgid ""
 "Accepting the suggestions takes longer than expected, reload the page to see "
 "the result."
 msgstr ""
+"Det tager længere tid end forventet at acceptere forslagene. Genindlæs siden "
+"for at se resultatet."
 
 #, javascript-format
 msgid "Server error (%s)"
 msgstr "Serverfejl (%s)"
 
 msgid "There are no pending suggestions from %(username)s in %(translation)s."
-msgstr "Der er ingen ventende forslag fra %(username)s i %(translation)s."
+msgstr "Der er ingen afventende forslag fra %(username)s i %(translation)s."
 
 msgid ""
 "This will accept %(count)s suggestion from %(username)s in %(translation)s."
@@ -230,8 +237,8 @@ msgstr "Ingen strenge valgt"
 #, javascript-format
 msgid "%s string selected"
 msgid_plural "%s strings selected"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s streng valgt"
+msgstr[1] "%s strenge valgt"
 
 msgctxt "Short name of day"
 msgid "Su"
@@ -316,10 +323,10 @@ msgid "Yesterday"
 msgstr "I går"
 
 msgid "Last 7 days"
-msgstr "Sidste 7 dage"
+msgstr "De seneste 7 dage"
 
 msgid "Last 30 days"
-msgstr "Sidste 30 dage"
+msgstr "De seneste 30 dage"
 
 msgid "This month"
 msgstr "Denne måned"
@@ -358,29 +365,29 @@ msgstr "Tilføj et flag…"
 msgid ""
 "No matching flag found for \"%s\"; press Enter to add it as a custom flag."
 msgstr ""
-"Der blev ikke fundet noget matchende flag for »%s«; tryk på Enter for at "
-"tilføje det som et brugerdefineret flag."
+"Ingen flag matcher »%s«. Tryk på Enter for at tilføje det som et "
+"brugerdefineret flag."
 
 msgid "Image Pasted!"
-msgstr "Billede Indsat!"
+msgstr "Billedet er indsat!"
 
 msgid "Press Ctrl+V or Command+V to paste an image."
 msgstr "Tryk på Ctrl+V eller Command+V for at indsætte et billede."
 
 msgid "No image found in clipboard"
-msgstr "Intet billede fundet i udklipsholder"
+msgstr "Der er intet billede i udklipsholderen"
 
 msgid "Loading screenshots…"
 msgstr "Indlæser skærmbilleder…"
 
 msgid "Could not load screenshots. Please try again."
-msgstr "Det var ikke muligt at indlæse skærmbillederne. Prøv venligst igen."
+msgstr "Kunne ikke indlæse skærmbillederne. Prøv igen."
 
 msgid "Adding screenshot…"
 msgstr "Tilføjer skærmbillede…"
 
 msgid "Could not add screenshot. Please try again."
-msgstr "Det var ikke muligt at tilføje et skærmbillede. Prøv venligst igen."
+msgstr "Kunne ikke tilføje skærmbilledet. Prøv igen."
 
 msgid ""
 "A pull or merge request will be created from a branch in the repository."
@@ -391,14 +398,14 @@ msgid ""
 "A push URL is set but no push branch is given. Set a push branch that "
 "differs from the translated branch."
 msgstr ""
-"Der er angivet en push-URL, men der er ikke angivet nogen push-gren. Angiv "
-"en push-gren, der adskiller sig fra den oversatte gren."
+"Der er angivet en push-URL. Angiv også en push-gren. Den skal være en anden "
+"end den gren, der oversættes."
 
 msgid ""
 "The push branch must differ from the translated branch when creating a pull "
 "or merge request."
 msgstr ""
-"Push-grenen skal være forskellig fra den oversatte gren, når der oprettes en "
+"Angiv en anden push-gren end den gren, der oversættes, når du opretter en "
 "pull- eller merge-anmodning."
 
 msgid "A pull or merge request will be created from a fork of the repository."
@@ -415,41 +422,35 @@ msgstr ""
 #, javascript-format
 msgid ""
 "Changes will be sent as a Gerrit review request targeting the “%s” branch."
-msgstr ""
-"Ændringerne vil blive sendt som en Gerrit-gennemgangsanmodning rettet mod "
-"grenen »%s«."
+msgstr "Ændringerne sendes til gennemgang i Gerrit med »%s« som målgren."
 
 msgid "Changes will be sent as a Gerrit review request."
-msgstr "Ændringerne vil blive sendt som en Gerrit-gennemgangsanmodning."
+msgstr "Ændringerne sendes til gennemgang i Gerrit."
 
 msgid ""
 "Changes will not be pushed automatically. You can still push them manually "
 "from the repository maintenance."
 msgstr ""
-"Ændringerne bliver ikke automatisk overført. Du kan stadig overføre dem "
-"manuelt fra vedligeholdelse af repositoriet."
+"Ændringerne pushes ikke automatisk. Du kan pushe dem manuelt under "
+"vedligeholdelse af repositoriet."
 
 #, javascript-format
 msgid ""
 "Changes will be pushed directly to the “%s” branch in the push repository."
-msgstr ""
-"Ændringerne vil blive sendt direkte til grenen »%s« i push-repositoriet."
+msgstr "Ændringerne pushes direkte til grenen »%s« i push-repositoriet."
 
 msgid ""
 "Changes will be pushed directly to the default branch of the push repository."
-msgstr ""
-"Ændringerne vil blive sendt direkte til standardgrenen i push-repositoriet."
+msgstr "Ændringerne pushes direkte til push-repositoriets standardgren."
 
 msgid "Text copied to clipboard."
-msgstr "Tekst kopieret til udklipsholder."
+msgstr "Teksten er kopieret til udklipsholderen."
 
 msgid "Error copying to clipboard."
-msgstr "Fejl ved kopiering til udklipsholder."
+msgstr "Kunne ikke kopiere til udklipsholderen."
 
-#, fuzzy
-#| msgid "No new matching source strings found."
 msgid "Could not remove the source string."
-msgstr "Ingen nye matchende kildestrenge fundet."
+msgstr "Kunne ikke fjerne kildestrengen."
 
 msgid "Some source strings could not be assigned."
 msgstr "Nogle kildestrenge kunne ikke tildeles."
@@ -458,81 +459,72 @@ msgid "Error loading search results!"
 msgstr "Fejl ved indlæsning af søgeresultater!"
 
 msgid "No new matching source strings found."
-msgstr "Ingen nye matchende kildestrenge fundet."
+msgstr "Ingen nye kildestrenge matcher søgningen."
 
 msgid "Sort this column"
-msgstr "Sortér denne kolonne"
+msgstr "Sortér efter denne kolonne"
 
 msgid "Error while loading page:"
 msgstr "Fejl under indlæsning af siden:"
 
-#, fuzzy
-#| msgid "Could not load screenshots. Please try again."
 msgid "Could not load text recognition progress. Please try again."
-msgstr "Det var ikke muligt at indlæse skærmbillederne. Prøv venligst igen."
+msgstr "Kunne ikke hente status for tekstgenkendelsen. Prøv igen."
 
-#, fuzzy
-#| msgid "Could not load screenshots. Please try again."
 msgid "Could not load strings from the image. Please try again."
-msgstr "Det var ikke muligt at indlæse skærmbillederne. Prøv venligst igen."
+msgstr "Kunne ikke hente strengene fra billedet. Prøv igen."
 
 msgid "Finding strings in image…"
-msgstr ""
+msgstr "Søger efter strenge i billedet…"
 
 msgid "Finding strings is taking longer than expected. Please try again later."
 msgstr ""
+"Det tager længere tid end forventet at finde strengene. Prøv igen senere."
 
 msgid "Please press Ctrl+C to copy."
-msgstr "Tryk venligst på Ctrl+C for at kopiere."
+msgstr "Tryk på Ctrl+C for at kopiere."
 
 msgid "Search…"
 msgstr "Søg…"
 
-#, fuzzy
-#| msgid "Could not load screenshots. Please try again."
 msgid "Could not load teams. Please try again."
-msgstr "Det var ikke muligt at indlæse skærmbillederne. Prøv venligst igen."
+msgstr "Kunne ikke indlæse teams. Prøv igen."
 
 msgid "Loading…"
 msgstr "Indlæser…"
 
-#, fuzzy
-#| msgid "No results found"
 msgid "No more results."
-msgstr "Ingen resultater fundet"
+msgstr "Ingen flere resultater."
 
 msgid "Error while loading form:"
 msgstr "Der opstod en fejl under indlæsning af formularen:"
 
 msgid "Select a component to load repository branches."
-msgstr ""
+msgstr "Vælg en komponent for at indlæse grenene i dens repositorium."
 
-#, fuzzy
-#| msgid "Loading screenshots…"
 msgid "Loading repository branches…"
-msgstr "Indlæser skærmbilleder…"
+msgstr "Indlæser repositoriets grene…"
 
 msgid "Repository branches loaded."
-msgstr ""
+msgstr "Repositoriets grene er indlæst."
 
 msgid "No additional repository branches are available."
-msgstr ""
+msgstr "Der er ingen yderligere grene i repositoriet."
 
 msgid "Could not load repository branches. Please try again."
 msgstr "Kunne ikke indlæse repositoriets grene. Prøv igen."
 
 msgid "Weblate is now scanning the repository, please be patient."
-msgstr "Weblate scanner nu lageret. Vent venligst."
+msgstr "Vent, mens Weblate gennemgår repositoriet."
 
 msgid "Nothing to preview."
 msgstr "Intet at forhåndsvise."
 
 msgid "Please sign in again."
-msgstr ""
+msgstr "Log ind igen."
 
 msgid ""
 "Notification settings removed, please do not forget to save the changes."
-msgstr "Notifikationsindstillinger fjernet - husk at gemme ændringerne."
+msgstr "Notifikationsindstillingerne er fjernet. Husk at gemme ændringerne."
 
 msgctxt "Alert to user when opening browser developer console"
 msgid "Stop!"
@@ -543,15 +535,15 @@ msgid ""
 "copy-paste something here, they are likely trying to compromise your Weblate "
 "account."
 msgstr ""
-"Dette er en browserfunktion beregnet til udviklere. Hvis nogen beder dig at "
-"indsætte noget her, forsøger de sandsynligvis at kompromittere din Weblate-"
-"konto."
+"Denne browserfunktion er beregnet til udviklere. Hvis nogen har bedt dig om "
+"at kopiere noget og indsætte det her, forsøger de sandsynligvis at få adgang "
+"til din Weblate-konto."
 
 msgid "See https://en.wikipedia.org/wiki/Self-XSS for more information."
 msgstr "Se flere oplysninger på https://en.wikipedia.org/wiki/Self-XSS."
 
 msgid "just now"
-msgstr "lige nu"
+msgstr "for et øjeblik siden"
 
 #, javascript-format
 msgid "%s second ago"
@@ -560,7 +552,7 @@ msgstr[0] "for %s sekund siden"
 msgstr[1] "for %s sekunder siden"
 
 msgid "a minute ago"
-msgstr "for 1 minut siden"
+msgstr "for et minut siden"
 
 #, javascript-format
 msgid "%s minute ago"

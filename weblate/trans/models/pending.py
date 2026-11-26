@@ -31,7 +31,6 @@ from weblate.utils.state import (
     STATE_APPROVED,
     StringState,
 )
-from weblate.utils.version import GIT_VERSION
 
 if TYPE_CHECKING:
     from collections.abc import Collection
@@ -101,7 +100,7 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
 
         # Apply retry eligibility filter WITHOUT expensive blocking unit check
         pending_changes = self._apply_retry_filter(
-            pending_changes, revision=None, blocking_unit_filter=False
+            pending_changes, blocking_unit_filter=False
         )
 
         # Apply simplified commit policy filter per project
@@ -155,7 +154,6 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
         return self._apply_filters(
             base_filter=component_filter,
             apply_filters=apply_filters,
-            revision=None,
             commit_policy=None if include_linked else component.project.commit_policy,
         )
 
@@ -166,7 +164,6 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
         return self._apply_filters(
             base_filter=Q(unit__translation=translation),
             apply_filters=apply_filters,
-            revision=translation.revision,
             commit_policy=translation.component.project.commit_policy,
             translation=translation,
         )
@@ -175,14 +172,13 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
         self,
         base_filter: Q,
         apply_filters: bool,
-        revision: str | None,
         commit_policy: int | None,
         translation: Translation | None = None,
     ) -> PendingChangeQuerySet:
         qs = self.filter(base_filter)
         if not apply_filters:
             return qs
-        qs = self._apply_retry_filter(qs, revision=revision, blocking_unit_filter=True)
+        qs = self._apply_retry_filter(qs, blocking_unit_filter=True)
         return self._apply_commit_policy_filter(
             qs, commit_policy, translation=translation
         )
@@ -190,62 +186,22 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
     def _apply_retry_filter(
         self,
         qs: PendingChangeQuerySet,
-        revision: str | None,
         blocking_unit_filter: bool,
     ) -> PendingChangeQuerySet:
-        """
-        Filter pending changes based on retry eligibility.
-
-        A change is eligible for retry if:
-        - It has never failed (metadata.last_failed is None), OR
-        - The repository revision has changed since the last failure, OR
-        - Weblate version has changed since the last failure, OR
-        - More than one week has passed since the last failure
-
-        Args:
-            qs: Base queryset to filter.
-            revision: Translation revision to compare against.
-            blocking_unit_filter: If True, apply blocking_unit logic.
-
-        """
+        """Allow at most one failed attempt per pending edit every seven days."""
         one_week_ago = timezone.now() - timedelta(days=7)
-
-        # Component-level queries require joining unit.translation for revision;
-        # translation-level queries use the provided revision directly
-        if revision is None:
-            revision_comparison = ~Q(failed_revision=F("translation_revision"))
-        else:
-            revision_comparison = ~Q(failed_revision=revision)
-
-        # filter changes that are new or eligible for retry
-        eligible_for_attempt_filter = (
-            Q(last_failed__isnull=True)
-            | revision_comparison
-            | ~Q(weblate_version=GIT_VERSION)
-            | Q(last_failed__lt=one_week_ago.isoformat())
+        annotated_qs = qs.annotate(
+            last_failed=KT("metadata__last_failed"),
+            eligible_for_attempt=Case(
+                When(
+                    Q(last_failed__isnull=True)
+                    | Q(last_failed__lte=one_week_ago.isoformat()),
+                    then=True,
+                ),
+                default=False,
+                output_field=BooleanField(),
+            ),
         )
-
-        eligible_for_attempt = Case(
-            When(eligible_for_attempt_filter, then=True),
-            default=False,
-            output_field=BooleanField(),
-        )
-
-        if revision is None:
-            annotated_qs = qs.annotate(
-                failed_revision=KT("metadata__failed_revision"),
-                weblate_version=KT("metadata__weblate_version"),
-                last_failed=KT("metadata__last_failed"),
-                translation_revision=F("unit__translation__revision"),
-                eligible_for_attempt=eligible_for_attempt,
-            )
-        else:
-            annotated_qs = qs.annotate(
-                failed_revision=KT("metadata__failed_revision"),
-                weblate_version=KT("metadata__weblate_version"),
-                last_failed=KT("metadata__last_failed"),
-                eligible_for_attempt=eligible_for_attempt,
-            )
 
         if not blocking_unit_filter:
             return cast(
@@ -372,15 +328,12 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
             base_filter = Q(unit__translation__component__project=obj)
             if component_ids is not None:
                 base_filter &= Q(unit__translation__component_id__in=component_ids)
-            revision = None
             commit_policy = obj.commit_policy
         elif isinstance(obj, Component):
             base_filter = Q(unit__translation__component=obj)
-            revision = None
             commit_policy = obj.project.commit_policy
         elif isinstance(obj, Translation):
             base_filter = Q(unit__translation=obj)
-            revision = obj.revision
             commit_policy = obj.component.project.commit_policy
         else:
             msg = f"Unsupported object type: {type(obj)}"
@@ -391,7 +344,7 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
         qs = self.filter(base_filter)
         counts["total"] = self._count_units_helper(qs)
 
-        qs = self._apply_retry_filter(qs, revision=revision, blocking_unit_filter=True)
+        qs = self._apply_retry_filter(qs, blocking_unit_filter=True)
         eligible_after_retry_filter = self._count_units_helper(qs)
         counts["errors_skipped"] = counts["total"] - eligible_after_retry_filter
 

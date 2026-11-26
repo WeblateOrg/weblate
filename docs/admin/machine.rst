@@ -38,6 +38,10 @@ Select a service in the listing to open its details, settings, and controls.
 Installed services use their numeric installation ID in the detail-page URL.
 The detail page provides selectors to use in Automation workflows. Inherited
 services link to their owning scope when you have permission to manage them.
+The listing shows support for translation, AI quality evaluation, rephrasing,
+glossaries, and translation context. Some features depend on the service plan
+or language pair. For example, DeepL rephrasing requires DeepL Pro.
+
 The listing summarizes basic configuration such as the model, source-language
 selection, and region, together with the installation ID and slug. Credentials,
 API URLs, and free-form prompts are excluded from these summaries.
@@ -105,7 +109,7 @@ selected for :ref:`auto-translation`.
 Priority of machine translation and translation memory services
 ---------------------------------------------------------------
 
-:ref:`mt-weblate-translation-memory` matches with 100% score take priority over machine translation services. If 100% match in translation memory is found, no machine translation is performed. If several 100% matches occur, the first one returned by the database is used.
+:ref:`mt-weblate-translation-memory` matches with 100% score take priority over machine translation services. If 100% match in translation memory is found, no machine translation is performed. If several 100% matches occur, a match with the same context as the string is preferred.
 
 Each machine translation service has a predefined maximum score it can produce. The use of installed translation services is ordered according to their maximum score. For each string with translation score lower than the service's maximum, the service is asked to produce a translation. Translations with a score exceeding the current one are accepted.
 

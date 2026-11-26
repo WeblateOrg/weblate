@@ -9,7 +9,7 @@ import re
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass
 from functools import lru_cache
-from typing import TYPE_CHECKING, Any, ClassVar
+from typing import TYPE_CHECKING, Any, ClassVar, NotRequired, TypedDict
 
 from django.core.exceptions import ValidationError
 from django.utils.translation import get_language, gettext, gettext_lazy
@@ -177,6 +177,42 @@ IGNORE_CHECK_FLAGS = {check.ignore_string for check in CHECKS.values()} | set(
 )
 
 FLAG_ALIASES = {"markdown-text": "md-text"}
+
+# Resolve search aliases only when both spellings enable the same checks.
+_PRIMARY_ENABLE_CHECKS: dict[str, set[str]] = {}
+_EXTRA_ENABLE_CHECKS: dict[str, set[str]] = {}
+_EXTRA_ENABLE_LABELS: dict[str, StrOrPromise] = {}
+for configured_check in CHECKS.values():
+    if configured_check.default_disabled:
+        _PRIMARY_ENABLE_CHECKS.setdefault(configured_check.enable_string, set()).add(
+            configured_check.check_id
+        )
+        for extra in configured_check.extra_enable_strings:
+            _EXTRA_ENABLE_CHECKS.setdefault(extra, set()).add(configured_check.check_id)
+            _EXTRA_ENABLE_LABELS.setdefault(extra, configured_check.name)
+
+_CHECK_FLAG_ALIASES: dict[str, list[str]] = {}
+_STANDALONE_EXTRA_FLAGS: set[str] = set()
+_PRIMARY_PLAIN_FLAGS = frozenset(PLAIN_FLAGS)
+for extra, check_ids in _EXTRA_ENABLE_CHECKS.items():
+    if (
+        extra in PLAIN_FLAGS
+        or extra in TYPED_FLAGS
+        or extra in IGNORE_CHECK_FLAGS
+        or extra in FLAG_ALIASES
+    ):
+        continue
+    primary_names = {CHECKS[check_id].enable_string for check_id in check_ids}
+    PLAIN_FLAGS[extra] = _EXTRA_ENABLE_LABELS[extra]
+    if len(primary_names) == 1:
+        primary = next(iter(primary_names))
+        if (
+            primary in _PRIMARY_PLAIN_FLAGS
+            and _PRIMARY_ENABLE_CHECKS[primary] == check_ids
+        ):
+            _CHECK_FLAG_ALIASES.setdefault(primary, []).append(extra)
+            continue
+    _STANDALONE_EXTRA_FLAGS.add(extra)
 
 
 def get_auto_flag_names(name: str) -> tuple[str, ...]:
@@ -523,13 +559,21 @@ def _category_for_check_flag(name: str, *, has_value: bool) -> StrOrPromise:
     return FLAG_CATEGORY_OTHER
 
 
+class FlagChoice(TypedDict):
+    name: str
+    label: str
+    category: str
+    has_value: bool
+    aliases: NotRequired[list[str]]
+
+
 def _flag_choice(
     name: str,
     label: StrOrPromise,
     *,
     category: StrOrPromise,
     has_value: bool,
-) -> dict[str, str | bool]:
+) -> FlagChoice:
     return {
         "name": name,
         "label": str(label),
@@ -541,9 +585,9 @@ def _flag_choice(
 @lru_cache(maxsize=16)
 def _get_flag_choices_for_language(
     language: str | None,
-) -> tuple[dict[str, str | bool], ...]:
+) -> tuple[FlagChoice, ...]:
     """Build the flag catalog with labels resolved in the current language."""
-    choices: list[dict[str, str | bool]] = []
+    choices: list[FlagChoice] = []
     seen: set[str] = set()
     enable_strings = {check.enable_string for check in CHECKS.values()}
 
@@ -553,14 +597,18 @@ def _get_flag_choices_for_language(
         if name in seen:
             return
         seen.add(name)
-        choices.append(
-            _flag_choice(name, label, category=category, has_value=has_value)
-        )
+        choice = _flag_choice(name, label, category=category, has_value=has_value)
+        if name in _CHECK_FLAG_ALIASES:
+            choice["aliases"] = sorted(_CHECK_FLAG_ALIASES[name])
+        choices.append(choice)
 
+    aliases = {alias for names in _CHECK_FLAG_ALIASES.values() for alias in names}
     for name, label in PLAIN_FLAGS.items():
+        if name in aliases:
+            continue
         if name in _FLAG_CATEGORIES:
             category: StrOrPromise = _FLAG_CATEGORIES[name]
-        elif name in enable_strings:
+        elif name in enable_strings or name in _STANDALONE_EXTRA_FLAGS:
             category = _category_for_check_flag(name, has_value=False)
         else:
             category = FLAG_CATEGORY_AUTO
@@ -583,7 +631,7 @@ def _get_flag_choices_for_language(
     return tuple(choices)
 
 
-def get_flag_choices() -> tuple[dict[str, str | bool], ...]:
+def get_flag_choices() -> tuple[FlagChoice, ...]:
     """
     Return catalog of all known flags for the UI flag editor.
 
@@ -595,6 +643,7 @@ def get_flag_choices() -> tuple[dict[str, str | bool], ...]:
     - ``name``: the actual flag identifier as used in the flag string
     - ``label``: human-readable description
     - ``category``: localized category for grouping in the UI
+    - ``aliases``: optional alternative spellings for autocomplete search
     - ``has_value``: ``True`` when the flag requires a colon-separated value
     """
     return _get_flag_choices_for_language(get_language())

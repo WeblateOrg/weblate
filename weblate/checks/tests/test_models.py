@@ -71,6 +71,33 @@ if TYPE_CHECKING:
 
 
 class CheckBoundaryLockTest(TransactionTestCase):
+    def test_named_locks_allow_other_names_while_serializing_peers(self) -> None:
+        workspace = Workspace(name="Shared", propagation_scope="component_name")
+        first = Project(pk=1, name="First", workspace=workspace)
+        second = Project(pk=2, name="Second", workspace=workspace)
+        other_acquired = Event()
+        attempting_same = Event()
+        same_acquired = Event()
+
+        def lock_peer() -> None:
+            try:
+                with check_boundary_lock(second, "Other"):
+                    other_acquired.set()
+                attempting_same.set()
+                with check_boundary_lock(second, "Shared"):
+                    same_acquired.set()
+            finally:
+                connection.close()
+
+        with ThreadPoolExecutor(max_workers=1) as pool:
+            with check_boundary_lock(first, "Shared"):
+                worker = pool.submit(lock_peer)
+                self.assertTrue(other_acquired.wait(10))
+                self.assertTrue(attempting_same.wait(10))
+                self.assertFalse(same_acquired.wait(0.1))
+            worker.result(timeout=10)
+        self.assertTrue(same_acquired.is_set())
+
     def test_transaction_writer_finishes_before_transition(self) -> None:
         entered = Event()
         release = Event()
@@ -1052,11 +1079,22 @@ class BatchCheckMixinTest(SimpleTestCase):
         component = WeblateLock(scope=LockScope.COMPONENT_CHECKS, key=project.pk)
         self.assertNotEqual(project.checks_lock.name, component.name)
 
+    def test_component_name_check_lock_identity(self) -> None:
+        workspace = Workspace(name="Shared", propagation_scope="component_name")
+        first = Project(pk=1, name="First", workspace=workspace)
+        second = Project(pk=2, name="Second", workspace=workspace)
+        lock = first.propagation_checks_lock("Shared")
+        self.assertEqual(lock.name, second.propagation_checks_lock("Shared").name)
+        self.assertNotEqual(lock.name, second.propagation_checks_lock("Other").name)
+
     def test_project_wide_batch_uses_project_lock(self) -> None:
         project_lock = MagicMock()
         component: Any = SimpleNamespace(
             allow_translation_propagation=True,
-            project=SimpleNamespace(propagation_checks_lock=project_lock),
+            name="Shared",
+            project=SimpleNamespace(
+                propagation_checks_lock=MagicMock(return_value=project_lock)
+            ),
         )
 
         with (

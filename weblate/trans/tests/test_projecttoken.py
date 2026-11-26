@@ -10,6 +10,7 @@ import time
 
 from django.urls import reverse
 from django.utils import timezone
+from django_otp.oath import totp
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from rest_framework.authtoken.models import Token
 
@@ -305,7 +306,7 @@ class ProjectTokenTest(FixtureTestCase):
             "member", "member@example.org", "testpassword"
         )
         self.project.add_user(member, "Translate")
-        TOTPDevice.objects.create(user=self.user, confirmed=True)
+        device = TOTPDevice.objects.create(user=self.user, confirmed=True)
         url = reverse("delete-user", kwargs=self.kw_project)
 
         response = self.client.post(url, {"user": member.username})
@@ -315,13 +316,10 @@ class ProjectTokenTest(FixtureTestCase):
         )
         self.assertTrue(member.groups.filter(defining_project=self.project).exists())
 
-        session = self.client.session
-        session[SESSION_SECOND_FACTOR_TIMESTAMP] = {
-            "user": self.user.pk,
-            "time": int(time.time()),
-        }
-        session.save()
-        self.client.post(url, {"user": member.username})
+        response = self.client.post(
+            response["Location"], {"otp_token": f"{totp(device.bin_key):06d}"}
+        )
+        self.assertRedirects(response, reverse("manage-access", kwargs=self.kw_project))
         self.assertFalse(member.groups.filter(defining_project=self.project).exists())
 
     def test_revoke_token_audit(self) -> None:
@@ -359,6 +357,15 @@ class ProjectTokenTest(FixtureTestCase):
         )
 
         self.assertContains(response, "Could not find any such user.")
+        self.assertEqual(
+            response.redirect_chain,
+            [
+                (
+                    reverse("manage-access", kwargs={"project": attacker_project.slug}),
+                    302,
+                )
+            ],
+        )
         self.assertTrue(Token.objects.filter(key=token_key).exists())
         token_user.refresh_from_db()
         self.assertEqual(token_user.username, username)

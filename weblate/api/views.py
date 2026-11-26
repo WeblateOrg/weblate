@@ -11,6 +11,7 @@ from collections.abc import Mapping
 from contextlib import nullcontext
 from typing import TYPE_CHECKING, TypedDict, cast
 from urllib.parse import unquote
+from uuid import UUID
 
 from celery.result import AsyncResult
 from django.conf import settings
@@ -532,6 +533,13 @@ USER_GROUP_REQUEST_SERIALIZER = inline_serializer(
     },
 )
 
+USER_UPDATE_DESCRIPTION = (
+    "Update your account or, with user.edit permission, another account. "
+    "Bot accounts cannot edit themselves. "
+    "The username, email, and is_bot fields of generated API token accounts "
+    "cannot be changed."
+)
+
 
 def parse_limit_language_codes(data: Mapping[str, object]) -> list[Language] | None:
     language_field_name = "limit_language_codes"
@@ -715,7 +723,7 @@ def get_view_description(view, html=False):
     """
     Given a view class, return a textual description to represent the view.
 
-    This name is used in the browsable API, and in OPTIONS responses. This function is
+    This description is used in OPTIONS responses. This function is
     the default for the `VIEW_DESCRIPTION_FUNCTION` setting.
     """
     description = view.__doc__ or ""
@@ -1357,13 +1365,20 @@ def get_delete_memory_option(request: Request) -> bool:
         responses=USER_RESPONSE_SERIALIZER,
     ),
     update=extend_schema(
+        summary="Change the user parameters.",
         request=UserUpdateRequestSerializer,
         responses=FullUserSerializer,
+        description=USER_UPDATE_DESCRIPTION,
     ),
     partial_update=extend_schema(
+        summary="Change the user parameters.",
         request=UserUpdateRequestSerializer,
         responses=FullUserSerializer,
-        description="Change the user parameters.",
+        description=USER_UPDATE_DESCRIPTION,
+    ),
+    destroy=extend_schema(
+        description="Delete user information and mark the user inactive. "
+        "Bot accounts cannot delete themselves.",
     ),
 )
 class UserViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
@@ -1399,7 +1414,9 @@ class UserViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
     def get_serializer_class(self):
         if getattr(self, "swagger_fake_view", False):
             return FullUserSerializer
-        if self.action in {"update", "partial_update"}:
+        if self.action in {"update", "partial_update"} or (
+            self.action == "metadata" and self.request.method == "PUT"
+        ):
             if self.request.user.has_perm("user.edit"):
                 return FullUserSerializer
             return SelfUserSerializer
@@ -1424,10 +1441,15 @@ class UserViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
             "profile__watched",
         ).select_related("profile__dashboard_component_list")
 
-    def get_object(self):
-        obj = super().get_object()
-        check_profile_access(self.request.user, obj)
-        return obj
+    def check_object_permissions(self, request: Request, obj: User) -> None:
+        check_profile_access(request.user, obj)
+        super().check_object_permissions(request, obj)
+        # Metadata temporarily changes the method while leaving the action alone.
+        if self.action in {"update", "partial_update", "destroy", "metadata"}:
+            if request.method in {"PUT", "PATCH"}:
+                self.perm_check(request, obj, allow_self=True, write=True)
+            elif request.method == "DELETE":
+                self.perm_check(request, obj, write=True)
 
     def finalize_response(self, request, response, *args, **kwargs):
         response = super().finalize_response(request, response, *args, **kwargs)
@@ -1537,20 +1559,14 @@ class UserViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
         obj: User | None = None,
         *,
         allow_self: bool = False,
-        protect_internal: bool = False,
+        write: bool = False,
     ) -> None:
-        if protect_internal and obj is not None and obj.is_internal:
+        if write and obj is not None and obj.account_edit_blocked(request.user):
             self.permission_denied(request, gettext("This user can not be edited."))
         if allow_self and obj is not None and obj == request.user:
             return
         if not request.user.has_perm("user.edit"):
             self.permission_denied(request, "Can not manage Users")
-
-    def update(self, request: Request, *args, **kwargs):
-        """Change the user parameters."""
-        instance = self.get_object()
-        self.perm_check(request, instance, allow_self=True, protect_internal=True)
-        return super().update(request, *args, **kwargs)
 
     def create(self, request: Request, *args, **kwargs):
         """Create a new user."""
@@ -1567,7 +1583,6 @@ class UserViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
     def destroy(self, request: Request, *args, **kwargs):
         """Delete all user information and mark the user inactive."""
         instance = self.get_object()
-        self.perm_check(request, instance, protect_internal=True)
         remove_user(instance, cast("AuthenticatedHttpRequest", request))
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -1579,14 +1594,15 @@ class UserViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
         )
 
     @extend_schema(
-        description="Associate groups with a user.",
+        description="Associate groups with a user. Bot accounts cannot change their own memberships.",
         methods=["post"],
         request=USER_GROUP_REQUEST_SERIALIZER,
     )
     @extend_schema(
         description=(
             "Remove a user from a group and return the updated user. A project "
-            "token must remain assigned to at least one team."
+            "token must remain assigned to at least one team. Bot accounts "
+            "cannot change their own memberships."
         ),
         methods=["delete"],
         responses={HTTP_200_OK: USER_RESPONSE_SERIALIZER},
@@ -1594,7 +1610,7 @@ class UserViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
     @action(detail=True, methods=["post", "delete"])
     def groups(self, request: Request, **kwargs):
         obj = self.get_object()
-        self.perm_check(request, obj, protect_internal=True)
+        self.perm_check(request, obj, write=True)
 
         if not isinstance(request.data, Mapping):
             raise ValidationError(
@@ -1647,7 +1663,7 @@ class UserViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
         responses=NotificationSerializer(many=True),
     )
     @extend_schema(
-        description="Create a subscription for a user.",
+        description="Create a subscription for a user. Bot accounts cannot change their own subscriptions.",
         methods=["post"],
         request=NotificationSerializer,
         responses={HTTP_201_CREATED: NotificationSerializer},
@@ -1660,7 +1676,7 @@ class UserViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
     def notifications(self, request: Request, username: str):
         obj = self.get_object()
         if request.method == "POST":
-            self.perm_check(request, obj, allow_self=True, protect_internal=True)
+            self.perm_check(request, obj, allow_self=True, write=True)
             with transaction.atomic():
                 serializer = NotificationSerializer(
                     data=request.data, context={"request": request}
@@ -1680,11 +1696,11 @@ class UserViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
         description="Get a subscription associated with a user.", methods=["get"]
     )
     @extend_schema(
-        description="Edit a subscription associated with a user.",
+        description="Edit a subscription associated with a user. Bot accounts cannot change their own subscriptions.",
         methods=["put", "patch"],
     )
     @extend_schema(
-        description="Delete a subscription associated with a user.",
+        description="Delete a subscription associated with a user. Bot accounts cannot change their own subscriptions.",
         methods=["delete"],
         responses={HTTP_204_NO_CONTENT: None},
     )
@@ -1710,7 +1726,7 @@ class UserViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
             request,
             obj,
             allow_self=True,
-            protect_internal=request.method in {"PUT", "PATCH", "DELETE"},
+            write=request.method in {"PUT", "PATCH", "DELETE"},
         )
 
         queryset = obj.subscription_set
@@ -3133,10 +3149,14 @@ class ProjectViewSet(
         data = request.data
         if workspace_id:
             try:
-                workspace = get_object_or_404(Workspace, pk=workspace_id)
-            except (DjangoValidationError, ValueError) as error:
-                raise ValidationError({"workspace": error.messages}) from error
-            if not user.has_perm("workspace.add_project", workspace):
+                workspace_id = UUID(str(workspace_id))
+            except ValueError as error:
+                raise ValidationError({"workspace": "Must be a valid UUID."}) from error
+            try:
+                workspace = user.workspaces_with_perm("workspace.add_project").get(
+                    pk=workspace_id
+                )
+            except Workspace.DoesNotExist:
                 self.permission_denied(request, "Can not create projects")
             if "weblate.billing" in settings.INSTALLED_APPS and hasattr(
                 workspace, "billing"
