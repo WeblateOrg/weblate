@@ -274,6 +274,7 @@ def get_github_repository_import_url(
     installation_id: int,
     project_id: str | int | None = None,
     category_id: str | int | None = None,
+    for_creation: bool = False,
 ) -> str:
     """Return the GitHub App repository import URL."""
     params = {}
@@ -282,7 +283,9 @@ def get_github_repository_import_url(
     if category_id:
         params["category"] = str(category_id)
     url = reverse(
-        "github-app-repository-import",
+        "github-app-creation-repository-import"
+        if for_creation
+        else "github-app-repository-import",
         kwargs={"pk": int(installation_id), "repo_full_name": repo["full_name"]},
     )
     if params:

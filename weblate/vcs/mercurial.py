@@ -19,7 +19,12 @@ from django.conf import settings
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.auth.utils import format_address
-from weblate.vcs.base import Repository, RepositoryError, RepositoryValidationError
+from weblate.vcs.base import (
+    Repository,
+    RepositoryError,
+    RepositoryInternalError,
+    RepositoryValidationError,
+)
 from weblate.vcs.ssh import SSH_WRAPPER
 
 if TYPE_CHECKING:
@@ -88,11 +93,30 @@ class HgRepository(Repository):
         """Check whether this is a valid repository."""
         return os.path.exists(os.path.join(self.path, ".hg", "requires"))
 
+    def validate_checkout(self) -> None:
+        """Reject ambiguous metadata before Mercurial can use it."""
+        try:
+            with os.scandir(self.path) as entries:
+                metadata = {
+                    entry.name.casefold()
+                    for entry in entries
+                    if entry.name.casefold() in {".git", ".hg"}
+                }
+        except (FileNotFoundError, NotADirectoryError):
+            return
+        if metadata == {".git", ".hg"}:
+            raise RepositoryInternalError(
+                0,
+                "repository_checkout_invalid",
+                diagnoses=[{"code": "checkout_invalid"}],
+            )
+
     def cleanup_nested_metadata(self) -> None:
         """Remove nested VCS metadata without following checkout symlinks."""
         if not self.lock.is_locked:
             msg = "Repository operation without lock held!"
             raise RuntimeError(msg)
+        self.validate_checkout()
         try:
             metadata = os.stat(os.path.join(self.path, ".hg"), follow_symlinks=False)
         except (FileNotFoundError, NotADirectoryError):
@@ -127,14 +151,13 @@ class HgRepository(Repository):
     exclusive_read_recovery = True
 
     def recover_lock_session(self) -> list[RepositoryRecoveryEvent]:
-        events = super().recover_lock_session()
         try:
             self.cleanup_nested_metadata()
         except OSError as error:
             raise RepositoryError(
                 1, gettext("Could not remove nested repository metadata.")
             ) from error
-        return events
+        return super().recover_lock_session()
 
     @classmethod
     def is_safe_backup_metadata_path(cls, parts: tuple[str, ...]) -> bool:
@@ -179,6 +202,7 @@ class HgRepository(Repository):
         if not self.lock.is_locked:
             msg = "Repository operation without lock held!"
             raise RuntimeError(msg)
+        self.validate_checkout()
         filename = os.path.join(self.path, ".hg", "hgrc")
         self.set_config_file(filename, *values)
 
@@ -458,6 +482,7 @@ class HgRepository(Repository):
         self, pull_url: str, push_url: str, branch: str, fast: bool = True
     ) -> None:
         """Configure remote repository."""
+        self.validate_checkout()
         old_pull = self.get_config("paths", "default")
         old_push = self.get_config("paths", "default-push")
 

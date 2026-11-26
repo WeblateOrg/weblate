@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item"><a href="{% url 'manage' %}">{% translate "Manage" %}</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'manage-github-accounts' %}">{% translate "Code-hosting connections" %}</a></li>
+  <li class="breadcrumb-item">{% translate "Migrate to GitHub App" %}</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  <h2>{% blocktranslate with host=config.hostname %}Migrate to GitHub App on {{ host }}{% endblocktranslate %}</h2>
+  <p>{% translate "Connect accounts and review components as a site administrator, or leave these steps to the project administrators. Connecting an account requires workspace management rights." %}</p>
+
+  <form method="get" class="mb-3">
+    <label for="migration-search" class="form-label">{% translate "Find projects and workspaces" %}</label>
+    <input id="migration-search"
+           name="q"
+           type="search"
+           value="{{ query }}"
+           class="form-control">
+    <button class="btn btn-outline-primary mt-2" type="submit">{% translate "Search" %}</button>
+  </form>
+
+  {% if destinations %}
+    <div class="alert alert-success" role="status">
+      <p>{% translate "Projects moved to these workspaces:" %}</p>
+      <ul>
+        {% for workspace, url in destinations %}
+          <li>
+            <a href="{% url 'workspace-integrations' workspace.pk %}">{{ workspace }}</a>
+            <a href="{{ url }}" class="btn btn-outline-primary btn-sm">{% translate "Connect GitHub account" %}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  <div class="card mb-3" id="workspace-less-projects">
+    <div class="card-header">
+      <h3 class="card-title h4">
+        {% translate "Projects without a workspace" %}
+        {% documentation_icon "admin/workspaces" "workspaces" %}
+      </h3>
+    </div>
+    <div class="card-body">
+      {% if not can_create %}
+        {% if billing_enabled %}
+          <p>{% translate "Workspace creation on this site is managed through billing." %}</p>
+        {% else %}
+          <p>{% translate "You do not have permission to create workspaces." %}</p>
+        {% endif %}
+      {% elif project_pagination.page or move_form.is_bound %}
+        <p>{% translate "Project administrators become owners of their own project's new workspace. If you choose a shared workspace, you can delegate ownership after creating it. Owners can manage all GitHub connections in their workspace." %}</p>
+        <form method="post">
+          {% csrf_token %}
+          {{ move_form.non_field_errors }}
+          <fieldset class="mb-3"
+                    {% if move_form.projects.errors %}aria-describedby="{{ move_form.projects.auto_id }}_error"{% endif %}>
+            <legend class="form-label">{{ move_form.projects.label }}</legend>
+            {{ move_form.projects.errors }}
+            {% for checkbox in move_form.projects %}
+              <div class="form-check">
+                {{ checkbox.tag }}
+                <label for="{{ checkbox.id_for_label }}" class="form-check-label">{{ checkbox.choice_label }}</label>
+              </div>
+            {% endfor %}
+          </fieldset>
+          {{ move_form.destination|as_crispy_field }}
+          {{ move_form.name|as_crispy_field }}
+          <button type="submit" class="btn btn-primary">{% translate "Move selected projects" %}</button>
+        </form>
+      {% else %}
+        <p>{% translate "No projects without a workspace match your search." %}</p>
+      {% endif %}
+      {% include "vcs/snippets/github_pagination.html" with pagination=project_pagination label=_("Projects without a workspace") %}
+    </div>
+  </div>
+
+  <div class="card mb-3" id="connect-workspaces">
+    <div class="card-header">
+      <h3 class="card-title h4">{% translate "Workspaces without a connection" %}</h3>
+    </div>
+    <div class="card-body">
+      {% if unconnected %}
+        <ul class="list-group list-group-flush mb-3">
+          {% for workspace, url in unconnected %}
+            <li class="list-group-item d-flex flex-wrap align-items-center justify-content-between gap-2">
+              <a href="{% url 'workspace-integrations' workspace.pk %}">{{ workspace }}</a>
+              <a href="{{ url }}" class="btn btn-outline-primary">{% translate "Connect GitHub account" %}</a>
+            </li>
+          {% endfor %}
+        </ul>
+        {% include "vcs/snippets/github_pagination.html" with pagination=unconnected_pagination label=_("Workspaces without a connection") %}
+      {% else %}
+        <p>{% translate "No unconnected workspaces match your search." %}</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="card mb-3" id="connected-workspaces">
+    <div class="card-header">
+      <h3 class="card-title h4">{% translate "Connected workspaces" %}</h3>
+    </div>
+    <div class="card-body">
+      {% if connected %}
+        <ul class="list-group list-group-flush mb-3">
+          {% for workspace, url in connected %}
+            <li class="list-group-item d-flex flex-wrap align-items-center justify-content-between gap-2">
+              <a href="{% url 'workspace-integrations' workspace.pk %}">{{ workspace }}</a>
+              <div class="d-flex flex-wrap gap-2">
+                {% url 'github-app-migration' workspace.pk as migration_url %}
+                <a href="{{ migration_url }}?host={{ config.hostname|urlencode }}"
+                   class="btn btn-outline-primary">{% translate "Review component migration" %}</a>
+                <a href="{{ url }}" class="btn btn-outline-secondary">{% translate "Connect another account" %}</a>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+        {% include "vcs/snippets/github_pagination.html" with pagination=connected_pagination label=_("Connected workspaces") %}
+      {% else %}
+        <p>{% translate "No connected workspaces match your search." %}</p>
+      {% endif %}
+      {% if has_connected_workspaces %}
+        <a href="{% url 'manage-github-bulk-migration' config.hostname %}"
+           class="btn btn-outline-primary">{% translate "Migrate all eligible components across workspaces" %}</a>
+      {% endif %}
+    </div>
+  </div>
+{% endblock content %}

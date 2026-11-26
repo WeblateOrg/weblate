@@ -7835,20 +7835,24 @@ class ProjectAPITest(APIBaseTest):
         )
 
     def test_create_component_no_match(self) -> None:
+        component = Component(project=self.project, slug="api-project")
+        path = Path(component.full_path)
+        request = {
+            "name": "API project",
+            "slug": component.slug,
+            "repo": self.format_test_repo_url(self.git_repo_path),
+            "filemask": "po/*.invalid-po",
+            "file_format": "po",
+            "new_lang": "none",
+        }
+        self.assertFalse(path.exists())
         response = self.do_request(
             "api:project-components",
             self.project_kwargs,
             method="post",
             code=400,
             superuser=True,
-            request={
-                "name": "API project",
-                "slug": "api-project",
-                "repo": self.format_test_repo_url(self.git_repo_path),
-                "filemask": "po/*.invalid-po",
-                "file_format": "po",
-                "new_lang": "none",
-            },
+            request=request,
         )
         self.assertEqual(Component.objects.count(), 2)
         self.maxDiff = None
@@ -7865,6 +7869,17 @@ class ProjectAPITest(APIBaseTest):
             },
             response.data,
         )
+
+        self.assertFalse(path.exists())
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request={**request, "filemask": "po/*.po", "disable_autoshare": True},
+        )
+        self.assertTrue((path / ".git").is_dir())
 
     def test_create_component_local(self) -> None:
         response = self.do_request(
@@ -9137,7 +9152,7 @@ class ProjectAPITest(APIBaseTest):
         serializer, component, path = self.prepare_uploaded_repository_cleanup(
             self.component.slug.upper()
         )
-        self.assertFalse(serializer.uploaded_repository_is_owned(component))
+        self.assertFalse(serializer.repository_path_is_owned(component))
         lock = component.repository.lock.lock_object
 
         def assert_locked(_component: Component) -> bool:
@@ -9146,7 +9161,7 @@ class ProjectAPITest(APIBaseTest):
 
         with patch.object(
             serializer,
-            "uploaded_repository_is_owned",
+            "repository_path_is_owned",
             side_effect=assert_locked,
         ):
             serializer.cleanup_uploaded_repository()
@@ -9160,7 +9175,7 @@ class ProjectAPITest(APIBaseTest):
         with (
             patch.object(
                 serializer,
-                "uploaded_repository_is_owned",
+                "repository_path_is_owned",
                 side_effect=DatabaseError("failed"),
             ),
             self.assertLogs("weblate.api", level="ERROR"),
@@ -10687,6 +10702,59 @@ class ProjectAPITest(APIBaseTest):
         if response.streaming:
             # consume stream to avoid unclosed file warnings
             b"".join(response.streaming_content)
+
+
+class ComponentCheckoutAPITest(APIBaseTest):
+    def test_failed_checkout_validation_preserves_new_category_path(self) -> None:
+        component = Component(project=self.project, slug="new-category")
+        path = Path(component.full_path)
+        self.assertFalse(path.exists())
+
+        with (
+            self.assertRaisesRegex(RuntimeError, "validation failed"),
+            ComponentSerializer().cleanup_remote_checkout_on_error(component),
+        ):
+            Category.objects.create(
+                project=self.project, name="New category", slug=component.slug
+            )
+            msg = "validation failed"
+            raise RuntimeError(msg)
+
+        self.assertTrue(path.is_dir())
+
+    def test_create_mercurial_component_rejects_existing_mixed_checkout(self) -> None:
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+        component = Component(project=self.project, slug="mixed-checkout")
+        path = Path(component.full_path)
+        (path / ".git").mkdir(parents=True)
+        (path / ".hg").mkdir()
+        (path / ".hg" / "requires").touch()
+
+        with patch("weblate.vcs.mercurial.HgRepository._popen") as popen:
+            response = self.do_request(
+                "api:project-components",
+                self.project_kwargs,
+                method="post",
+                code=400,
+                request={
+                    "name": "Mixed checkout",
+                    "slug": component.slug,
+                    "vcs": "mercurial",
+                    "repo": self.format_test_repo_url(self.git_repo_path),
+                    "filemask": "po/*.po",
+                    "file_format": "po",
+                    "new_lang": "none",
+                },
+            )
+        popen.assert_not_called()
+        self.assertEqual(response.data["errors"][0]["attr"], "repo")
+        self.assertIn("local repository checkout is invalid", str(response.data))
+        self.assertTrue((path / ".git").is_dir())
+        self.assertTrue((path / ".hg" / "requires").is_file())
+        self.assertFalse(
+            self.project.component_set.filter(slug=component.slug).exists()
+        )
 
 
 class ComponentAPITest(APIBaseTest):

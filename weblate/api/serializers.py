@@ -7,7 +7,7 @@ from __future__ import annotations
 import logging
 import os
 from collections.abc import Mapping
-from contextlib import contextmanager
+from contextlib import contextmanager, nullcontext
 from copy import copy, deepcopy
 from dataclasses import dataclass
 from decimal import Decimal
@@ -2594,8 +2594,8 @@ class ComponentSerializer(RemovableSerializer[Component]):
         self._uploaded_repository_component = None
 
     @staticmethod
-    def uploaded_repository_is_owned(component: Component) -> bool:
-        """Return whether a component or category owns the upload path."""
+    def repository_path_is_owned(component: Component) -> bool:
+        """Return whether a component or category owns the checkout path."""
         lookup = {
             "project": component.project,
             "category": component.category,
@@ -2613,7 +2613,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             return
         try:
             with component.repository.lock.lock_object:
-                if not self.uploaded_repository_is_owned(component):
+                if not self.repository_path_is_owned(component):
                     remove_tree(component.full_path)
         except FileNotFoundError:
             pass
@@ -2632,6 +2632,35 @@ class ComponentSerializer(RemovableSerializer[Component]):
         except BaseException:
             self.cleanup_uploaded_repository()
             raise
+
+    @contextmanager
+    def cleanup_remote_checkout_on_error(
+        self, component: Component
+    ) -> Generator[None, None, None]:
+        """Clean up a checkout created by failed remote repository validation."""
+        parent = component.category or component.project
+        path = os.path.join(parent.full_path, component.slug)
+        with component.repository.lock.hold_before_recovery():
+            existed = os.path.lexists(path) or self.repository_path_is_owned(component)
+            try:
+                yield
+            except BaseException:
+                if not existed:
+                    try:
+                        if (
+                            not os.path.islink(path)
+                            and os.path.isdir(path)
+                            and not self.repository_path_is_owned(component)
+                        ):
+                            remove_tree(path)
+                    except FileNotFoundError:
+                        pass
+                    except Exception:
+                        LOGGER.exception(
+                            "Could not remove checkout from failed component validation: %s",
+                            path,
+                        )
+                raise
 
     def create_uploaded_repository(
         self, attrs, instance: Component, docfile, zipfile
@@ -3134,8 +3163,21 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
         self.validate_linked_repository_setting_overrides(attrs, instance)
 
-        with self.cleanup_uploaded_repository_on_error():
-            if docfile is not None or zipfile is not None:
+        has_upload = docfile is not None or zipfile is not None
+        creates_remote_checkout = (
+            self.instance is None
+            and not has_upload
+            and bool(instance.repo)
+            and not instance.is_repo_link
+            and not instance.is_repo_local
+        )
+        with (
+            self.cleanup_uploaded_repository_on_error(),
+            self.cleanup_remote_checkout_on_error(instance)
+            if creates_remote_checkout
+            else nullcontext(),
+        ):
+            if has_upload:
                 self.create_uploaded_repository(attrs, instance, docfile, zipfile)
 
             # Call model validation here, DRF does not do that
