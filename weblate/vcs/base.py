@@ -191,6 +191,9 @@ type RepositoryErrorCode = Literal[
     "repository_fork_failed_with_error",
     "repository_fork_failed_with_error_retry",
     "repository_interrupted_operation",
+    "repository_branch_update_changed",
+    "repository_branch_update_dirty",
+    "repository_branch_update_backup_pending",
     "repository_recovery_failed",
     "repository_redirect",
     "repository_redirect_credentials",
@@ -344,6 +347,15 @@ REPOSITORY_ERROR_MESSAGES: dict[RepositoryErrorCode, str] = {
     ),
     "repository_interrupted_operation": gettext_noop(
         "Repository has an interrupted Git %(operation)s operation."
+    ),
+    "repository_branch_update_changed": gettext_noop(
+        "The Git checkout changed during the update. Check the active branch and retry."
+    ),
+    "repository_branch_update_dirty": gettext_noop(
+        "The Git checkout has tracked changes. Commit or restore these paths before updating: %(paths)s"
+    ),
+    "repository_branch_update_backup_pending": gettext_noop(
+        "Resolve the interrupted Git update before creating a project backup."
     ),
     "repository_recovery_failed": gettext_noop(
         "Could not recover interrupted Git %(operation)s operation."
@@ -717,6 +729,17 @@ class RepositoryCommandError(RepositoryError):
         return super().get_message(translator)
 
 
+class RepositoryWorktreeError(RepositoryCommandError):
+    """An update failed in a disposable worktree."""
+
+    def __init__(
+        self, error: RepositoryCommandError, status: str, status_error: str = ""
+    ) -> None:
+        super().__init__(error.retcode, error.args[0], diagnoses=error.diagnoses)
+        self.status = status
+        self.status_error = status_error
+
+
 class RepositoryValidationError(RepositoryInternalError):
     """Error raised when repository configuration violates runtime policy."""
 
@@ -849,6 +872,7 @@ class Repository:
     # source repository works without a separate push URL.
     provides_push_credentials: ClassVar[bool] = False
     supports_push: ClassVar[bool] = True
+    isolates_branch_updates: ClassVar[bool] = False
     pushes_to_different_location: ClassVar[bool] = False
     push_label: ClassVar[StrOrPromise] = gettext_lazy(
         "This will push changes to the upstream repository."
@@ -856,6 +880,7 @@ class Repository:
     ref_to_remote: ClassVar[str]
     ref_from_remote: ClassVar[str]
     metadata_dir_name: ClassVar[str | None] = None
+    _repo_temp_cleanup_excludes: ClassVar[frozenset[str]] = frozenset()
     supports_remote_compatibility_validation: ClassVar[bool] = False
     supports_scp_urls: ClassVar[bool] = False
     pinned_remote_schemes: ClassVar[frozenset[str]] = frozenset()
@@ -992,6 +1017,8 @@ class Repository:
         if temp_dir is None or not temp_dir.is_dir():
             return
         for item in temp_dir.iterdir():
+            if item.name in self._repo_temp_cleanup_excludes:
+                continue
             try:
                 if item.is_symlink() or not item.is_dir():
                     item.unlink(missing_ok=True)
