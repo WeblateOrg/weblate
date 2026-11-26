@@ -107,6 +107,7 @@ from weblate.vcs.params import (
     wants_pull_request_customization,
 )
 from weblate.vcs.ssh import SSH_WRAPPER, resolve_ssh_destination
+from weblate.vcs.worktree import BRANCH_UPDATE_DIR, GitUpdateWorktree
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator, Iterator
@@ -428,9 +429,13 @@ class GitAPIRequestError(RepositoryInternalError):
 
 
 class GitRepository(Repository):
+    isolates_branch_updates: ClassVar[bool] = True
     """Repository implementation for Git."""
 
     metadata_dir_name: ClassVar[str] = ".git"
+    _repo_temp_cleanup_excludes: ClassVar[frozenset[str]] = frozenset(
+        {BRANCH_UPDATE_DIR}
+    )
     supports_remote_compatibility_validation: ClassVar[bool] = True
     remote_compatibility_deepen: ClassVar[int] = 50
     pinned_remote_schemes: ClassVar[frozenset[str]] = frozenset({"https", "ssh"})
@@ -1186,7 +1191,13 @@ class GitRepository(Repository):
         )
 
     def recover_lock_session(self) -> list[RepositoryRecoveryEvent]:
-        recovery_events = super().recover_lock_session()
+        worktree = GitUpdateWorktree(self)
+        recovery_events = []
+        if worktree.directory.exists() or worktree.directory.is_symlink():
+            if event := worktree.recover_publication():
+                recovery_events.append(event)
+            worktree.remove()
+        recovery_events.extend(super().recover_lock_session())
         if not self.is_valid():
             return recovery_events
         current_branch = self.get_current_branch()
@@ -1466,6 +1477,10 @@ class GitRepository(Repository):
         )
         self.clear_interrupted_operation()
         self.clean_revision_cache()
+        worktree = GitUpdateWorktree(self)
+        if worktree.directory.exists() or worktree.directory.is_symlink():
+            worktree.complete_publication()
+            worktree.remove()
 
     def reset_to_revision(self, revision: str) -> None:
         """Reset working copy to a local revision."""
@@ -1528,13 +1543,18 @@ class GitRepository(Repository):
         if abort:
             if self.has_git_file("rebase-apply") or self.has_git_file("rebase-merge"):
                 self.execute_abort(["rebase", "--abort"])
-            if self.needs_commit():
-                self.execute(["reset", "--hard"], remote_op="none")
+                if self.needs_commit():
+                    self.execute(["reset", "--hard"], remote_op="none")
         else:
-            cmd = ["rebase"]
-            cmd.extend(self.get_gpg_sign_args())
-            cmd.append(self.get_remote_branch_name())
-            self.execute(cmd, remote_op="none", environment={"WEBLATE_MERGE_SKIP": "1"})
+            GitUpdateWorktree(self).run(
+                operation="rebase",
+                arguments=[
+                    "--no-update-refs",
+                    "--no-autostash",
+                    *self.get_gpg_sign_args(),
+                ],
+                upstream_first=False,
+            )
         self.clean_revision_cache()
 
     def has_git_file(self, name):
@@ -1558,43 +1578,29 @@ class GitRepository(Repository):
         current_branch = self.validate_branch_name(self.branch)
         tmp = "weblate-merge-tmp"
         if abort:
-            # Abort merge if there is one to abort
-            if self.has_rev("MERGE_HEAD"):
+            interrupted = self.has_rev("MERGE_HEAD")
+            if interrupted:
                 self.execute_abort(["merge", "--abort"])
-            if self.needs_commit():
-                self.execute(["reset", "--hard"], remote_op="none")
-            # Checkout original branch (we might be on tmp)
-            self.execute(["checkout", current_branch], remote_op="none")
-        else:
+            if interrupted or self.get_current_branch() == tmp:
+                if self.needs_commit():
+                    self.execute(["reset", "--hard"], remote_op="none")
+                self.execute(["checkout", current_branch], remote_op="none")
             self.delete_branch(tmp)
-            # We don't do simple git merge origin/branch as that leads
-            # to different merge order than expected and most GUI tools
-            # then show confusing diff (not changes done by Weblate, but
-            # changes merged into Weblate)
+        else:
             remote = self.get_remote_branch_name()
-            # Create local branch for upstream
-            self.execute(["branch", tmp, remote], remote_op="none")
-            # Checkout upstream branch
-            self.execute(["checkout", tmp], remote_op="none")
-            # Merge current Weblate changes, this can lead to conflict
-            cmd = [
-                "merge",
+            # Put upstream first so merge commits show Weblate's changes.
+            arguments = [
+                "--no-autostash",
                 "--message",
                 message or f"Merge branch {remote!r} into Weblate",
             ]
             if no_ff:
-                cmd.append("--no-ff")
-            cmd.extend(self.get_gpg_sign_args())
-            cmd.append(current_branch)
-            self.execute(cmd, remote_op="none")
-            # Checkout branch with Weblate changes
-            self.execute(["checkout", current_branch], remote_op="none")
-            # Merge temporary branch (this is fast forward so does not create
-            # merge commit)
-            self.execute(["merge", tmp], remote_op="none")
-
-        # Delete temporary branch
-        self.delete_branch(tmp)
+                arguments.append("--no-ff")
+            GitUpdateWorktree(self).run(
+                operation="merge",
+                arguments=[*arguments, *self.get_gpg_sign_args()],
+                upstream_first=True,
+            )
         self.clean_revision_cache()
 
     def delete_branch(self, name) -> None:
@@ -2125,6 +2131,7 @@ class GitWithGerritRepository(GitRepository):
 
 
 class SubversionRepository(GitRepository):
+    isolates_branch_updates: ClassVar[bool] = False
     name: ClassVar[StrOrPromise] = "Subversion"
     # The git-svn helper is installed in Git's exec path rather than PATH. Finding
     # it would require executing Git, while this check deliberately stays cheap.
@@ -2438,12 +2445,18 @@ class GitMergeRequestBase(GitRepository):
             # Needed for compatibility with original merge code
             self.execute(["checkout", current_branch], remote_op="none")
         else:
-            cmd = ["merge"]
+            remote = self.get_remote_branch_name()
+            default_message = (
+                f"Merge remote-tracking branch '{remote}' into {current_branch}"
+            )
+            arguments = ["--no-autostash", "--message", default_message]
             if no_ff:
-                cmd.append("--no-ff")
-            cmd.extend(self.get_gpg_sign_args())
-            cmd.append(self.get_remote_branch_name())
-            self.execute(cmd, remote_op="none")
+                arguments.append("--no-ff")
+            GitUpdateWorktree(self).run(
+                operation="merge",
+                arguments=[*arguments, *self.get_gpg_sign_args()],
+                upstream_first=False,
+            )
         self.clean_revision_cache()
 
     def parse_repo_url(
@@ -4250,6 +4263,7 @@ class GiteaRepository(GitMergeRequestBase):
 
 
 class LocalRepository(GitRepository):
+    isolates_branch_updates: ClassVar[bool] = False
     """Local filesystem driver with no upstream repo."""
 
     name = gettext_lazy("No remote repository")

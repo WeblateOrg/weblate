@@ -85,6 +85,7 @@ from weblate.vcs.git import (
 )
 from weblate.vcs.mercurial import HgRepository
 from weblate.vcs.ssh import SSH_WRAPPER, add_host_key
+from weblate.vcs.worktree import GitUpdateWorktree, Publication
 
 if TYPE_CHECKING:
     from contextlib import AbstractContextManager
@@ -1402,6 +1403,360 @@ class GitCrashRecoveryTest(TestCase, RepoTestMixin, TempDirMixin):
                     needs_lock=False,
                 ).strip()
             )
+
+    def prepare_worktree_update(self) -> tuple[str, str]:
+        with self.repo.lock:
+            original = self.repo.get_last_revision()
+            self.repo.execute(["checkout", "--detach"], remote_op="none")
+            Path(self.tempdir, "worktree-update.txt").write_text(
+                "Updated\n", encoding="utf-8"
+            )
+            Path(self.tempdir, "README.md").write_text(
+                "Upstream README\n", encoding="utf-8"
+            )
+            self.assertTrue(
+                self.repo.commit(
+                    "Upstream update", files=["worktree-update.txt", "README.md"]
+                )
+            )
+            result = self.repo.get_last_revision()
+            self.repo.execute(
+                ["update-ref", "refs/remotes/origin/main", result], remote_op="none"
+            )
+            self.repo.execute(["checkout", "main"], remote_op="none")
+        return original, result
+
+    def test_partial_publication_preserves_files_for_repair(self) -> None:
+        unrelated = Path(self.tempdir, "unrelated.txt")
+        unrelated.write_text("Committed\n", encoding="utf-8")
+        with self.repo.lock:
+            self.repo.commit("Track another file", files=[unrelated.name])
+        original, _ = self.prepare_worktree_update()
+        worktree = GitUpdateWorktree(self.repo)
+        root = Path(self.tempdir)
+        readme = root / "README.md"
+        execute = self.repo.execute
+
+        def interrupt_checkout(args, **kwargs):
+            if args[:2] == ["checkout", "--no-overwrite-ignore"]:
+                readme.write_text("Upstream README\n", encoding="utf-8")
+                (root / "worktree-update.txt").write_text("Updated\n", encoding="utf-8")
+                self.repo.get_git_file_path("index.lock").touch()
+                raise RepositoryCommandError(1, "Interrupted before replacing index")
+            return execute(args, **kwargs)
+
+        lockfile = self.repo.get_git_file_path("index.lock")
+        self.addCleanup(lockfile.unlink, missing_ok=True)
+        with self.repo.lock, patch.object(self.repo, "execute", interrupt_checkout):
+            with self.assertRaisesRegex(RepositoryCommandError, "Interrupted"):
+                self.repo.merge()
+            self.assertEqual(self.repo.get_last_revision(), original)
+            self.assertEqual(
+                self.repo.execute(
+                    ["diff", "--cached", "--name-only"], remote_op="none"
+                ),
+                "",
+            )
+        unrelated.write_text("Keep this file\n", encoding="utf-8")
+        with self.assertRaises(RepositoryInternalError), self.repo.lock.read():
+            self.fail("An interrupted checkout requires repair")
+        self.assertEqual(readme.read_text(encoding="utf-8"), "Upstream README\n")
+        self.assertEqual(unrelated.read_text(encoding="utf-8"), "Keep this file\n")
+        self.assertTrue((root / "worktree-update.txt").exists())
+        self.assertTrue(lockfile.exists())
+        self.assertTrue(worktree.marker.exists())
+
+    def test_branch_update_ref_lock_requires_explicit_repair(self) -> None:
+        original, result = self.prepare_worktree_update()
+        worktree = GitUpdateWorktree(self.repo)
+        with self.repo.lock:
+            lockfile = self.repo.get_git_file_path("refs/heads/main.lock")
+            lockfile.touch()
+            try:
+                with self.assertRaises(RepositoryCommandError):
+                    self.repo.merge()
+                self.assertTrue(worktree.marker.exists())
+                self.assertEqual(self.repo.get_last_revision(), original)
+                self.assertTrue(Path(self.tempdir, "worktree-update.txt").exists())
+                registrations = self.repo.execute(
+                    ["worktree", "list", "--porcelain"], remote_op="none"
+                )
+                self.assertIn(f"HEAD {result}\ndetached\n", registrations)
+            finally:
+                lockfile.unlink()
+
+        with self.assertRaises(RepositoryInternalError), self.repo.lock.read():
+            self.fail("An interrupted checkout requires repair")
+        self.assertTrue(worktree.marker.exists())
+        self.assertTrue(Path(self.tempdir, "worktree-update.txt").exists())
+        with self.repo.lock.without_recovery(), self.repo.lock:
+            self.repo.reset()
+        self.assertFalse(worktree.directory.exists())
+        self.assertFalse(self.repo.needs_commit())
+
+    def test_branch_update_interrupted_after_only_adding_a_file(self) -> None:
+        repo = self.repo
+        original, _ = self.prepare_worktree_update()
+        incoming = Path(self.tempdir, "worktree-update.txt")
+        execute = repo.execute
+
+        def interrupt_checkout(args, **kwargs):
+            if args[:2] == ["checkout", "--no-overwrite-ignore"]:
+                incoming.write_text("Updated\n", encoding="utf-8")
+                raise RepositoryCommandError(1, "Interrupted before replacing index")
+            return execute(args, **kwargs)
+
+        with repo.lock, patch.object(repo, "execute", interrupt_checkout):
+            with self.assertRaisesRegex(RepositoryCommandError, "Interrupted"):
+                repo.merge()
+            self.assertEqual(repo.get_last_revision(), original)
+        with self.assertRaises(RepositoryInternalError), repo.lock.read():
+            self.fail("An interrupted checkout requires repair")
+        self.assertTrue(GitUpdateWorktree(repo).marker.exists())
+        self.assertEqual(incoming.read_text(encoding="utf-8"), "Updated\n")
+
+    def test_partial_publication_preserves_file_directory_replacements(self) -> None:
+        root = Path(self.tempdir)
+        readme = root / "README.md"
+        original_dir = root / "original-dir"
+        original_file = original_dir / "child"
+        original_dir.mkdir()
+        original_file.write_text("Original child\n", encoding="utf-8")
+        repo = self.repo
+        worktree = GitUpdateWorktree(repo)
+        execute = repo.execute
+
+        def make_replacements():
+            readme.unlink()
+            readme.mkdir()
+            (readme / "child").write_text("Replacement child\n", encoding="utf-8")
+            original_file.unlink()
+            original_dir.rmdir()
+            original_dir.write_text("Replacement file\n", encoding="utf-8")
+
+        def interrupt_checkout(args, **kwargs):
+            if args[:2] == ["checkout", "--no-overwrite-ignore"]:
+                make_replacements()
+                raise RepositoryCommandError(1, "Interrupted before replacing index")
+            return execute(args, **kwargs)
+
+        with repo.lock:
+            repo.commit(
+                "Track a directory", files=[str(original_file.relative_to(root))]
+            )
+            repo.execute(["checkout", "--detach"], remote_op="none")
+            make_replacements()
+            repo.execute(
+                ["add", "-A", "--", readme.name, original_dir.name], remote_op="none"
+            )
+            repo.commit("Replace a file and a directory")
+            repo.execute(
+                ["update-ref", "refs/remotes/origin/main", "HEAD"], remote_op="none"
+            )
+            repo.execute(["checkout", "main"], remote_op="none")
+            with (
+                patch.object(repo, "execute", interrupt_checkout),
+                self.assertRaisesRegex(RepositoryCommandError, "Interrupted"),
+            ):
+                repo.merge()
+        unrelated = readme / "unrelated"
+        unrelated.write_text("Keep me\n", encoding="utf-8")
+        with self.assertRaises(RepositoryInternalError), repo.lock.read():
+            self.fail("An interrupted checkout requires repair")
+        self.assertEqual(unrelated.read_text(encoding="utf-8"), "Keep me\n")
+        self.assertTrue((readme / "child").exists())
+        self.assertEqual(original_dir.read_text(encoding="utf-8"), "Replacement file\n")
+        self.assertTrue(worktree.marker.exists())
+
+    def test_branch_update_preserves_merge_order_and_rebase_refs(self) -> None:
+        _, upstream = self.prepare_worktree_update()
+        repo = self.repo
+        with repo.lock:
+            Path(self.tempdir, "worktree-local.txt").write_text(
+                "Local change\n", encoding="utf-8"
+            )
+            repo.commit("Local change", files=["worktree-local.txt"])
+            original = repo.get_last_revision()
+            repo.execute(["branch", "other-local"], remote_op="none")
+            repo.config_update(("rebase", "updateRefs", True))
+        forge = GitMergeRequestBase(
+            repo.path, branch=repo.branch, component=repo.component
+        )
+
+        for backend, expected in (
+            (repo, [upstream, original]),
+            (forge, [original, upstream]),
+        ):
+            with self.subTest(backend=type(backend)), backend.lock:
+                backend.execute(["checkout", "-B", "main", original], remote_op="none")
+                backend.merge(no_ff=True)
+                parents = backend.execute(
+                    ["show", "-s", "--format=%P", "HEAD"], remote_op="none"
+                ).split()
+                self.assertEqual(parents, expected)
+                self.assertFalse(backend.needs_commit())
+
+        with repo.lock:
+            repo.execute(["checkout", "-B", "main", original], remote_op="none")
+            repo.rebase()
+            self.assertNotEqual(repo.get_last_revision(), original)
+            self.assertEqual(
+                repo.execute(
+                    ["rev-parse", "HEAD^", "other-local"], remote_op="none"
+                ).splitlines(),
+                [upstream, original],
+            )
+            self.assertEqual(
+                repo.execute(
+                    ["rev-parse", "--abbrev-ref", "main@{u}"],
+                    remote_op="none",
+                ).strip(),
+                "origin/main",
+            )
+            self.assertFalse(repo.needs_commit())
+
+    def test_branch_update_publish_preserves_local_file_collisions(self) -> None:
+        original, _ = self.prepare_worktree_update()
+        filename = "worktree-update.txt"
+        local = Path(self.tempdir, filename)
+        local.write_text("Keep this file\n", encoding="utf-8")
+        for ignored in (False, True):
+            with self.subTest(ignored=ignored):
+                if ignored:
+                    self.repo.get_git_file_path("info/exclude").write_text(
+                        f"/{filename}\n", encoding="utf-8"
+                    )
+                with self.repo.lock, self.assertRaises(RepositoryCommandError):
+                    self.repo.merge()
+                with self.repo.lock.read():
+                    self.assertEqual(self.repo.get_last_revision(), original)
+                    self.assertEqual(
+                        local.read_text(encoding="utf-8"), "Keep this file\n"
+                    )
+                    self.assertFalse(GitUpdateWorktree(self.repo).directory.exists())
+
+    def test_branch_update_rejects_tracked_edit(self) -> None:
+        original, _ = self.prepare_worktree_update()
+        readme = Path(self.tempdir, "README.md")
+        readme.write_text("Keep this tracked edit\n", encoding="utf-8")
+        with (
+            self.repo.lock,
+            self.assertRaisesRegex(RepositoryError, "README.md"),
+        ):
+            self.repo.rebase()
+        self.assertEqual(self.repo.get_last_revision(), original)
+        self.assertEqual(readme.read_text(encoding="utf-8"), "Keep this tracked edit\n")
+        self.assertFalse(GitUpdateWorktree(self.repo).directory.exists())
+
+    def test_branch_update_recovery_keeps_ambiguous_live_changes(self) -> None:
+        original, result = self.prepare_worktree_update()
+        worktree = GitUpdateWorktree(self.repo)
+        with self.repo.lock:
+            self.repo.merge()
+            worktree.directory.mkdir(parents=True)
+            worktree.record_publication(Publication("main", result))
+            readme = Path(self.tempdir, "README.md")
+            readme.write_text(
+                "Unrecognized change after publishing\n", encoding="utf-8"
+            )
+        with self.assertRaises(RepositoryError), self.repo.lock:
+            self.fail("Recovery must reject an ambiguous checkout")
+        self.assertEqual(self.repo.get_last_revision(), result)
+        self.assertEqual(
+            readme.read_text(encoding="utf-8"), "Unrecognized change after publishing\n"
+        )
+        self.assertTrue(worktree.marker.exists())
+        with self.repo.lock.without_recovery(), self.repo.lock:
+            self.repo.reset()
+        self.assertFalse(worktree.marker.exists())
+        self.assertNotEqual(original, self.repo.get_last_revision())
+
+    def test_branch_update_changes_parent_submodule_pointer(self) -> None:
+        repo = self.repo
+        module = Path(self.tempdir, "nested")
+        with repo.lock:
+            module.mkdir()
+
+            def nested(*args: str) -> str:
+                return repo.execute(
+                    ["-C", str(module), *args],
+                    remote_op="none",
+                    environment={
+                        "GIT_DIR": str(module / ".git"),
+                        "GIT_WORK_TREE": str(module),
+                    },
+                )
+
+            nested("init")
+            nested("commit", "--allow-empty", "-m", "Nested original")
+            old_module_head = nested("rev-parse", "HEAD").strip()
+            nested("commit", "--allow-empty", "-m", "Nested update")
+            new_module_head = nested("rev-parse", "HEAD").strip()
+            nested("checkout", "--detach", old_module_head)
+
+            def stage_pointer(revision: str) -> None:
+                repo.execute(
+                    [
+                        "update-index",
+                        "--add",
+                        "--cacheinfo",
+                        f"160000,{revision},nested",
+                    ],
+                    remote_op="none",
+                )
+
+            stage_pointer(old_module_head)
+            repo.execute(["commit", "-m", "Track nested repository"], remote_op="none")
+            original = repo.get_last_revision()
+            stage_pointer(new_module_head)
+            tree = repo.execute(["write-tree"], remote_op="none").strip()
+            upstream = repo.execute(
+                ["commit-tree", tree, "-p", original, "-m", "Update nested pointer"],
+                remote_op="none",
+            ).strip()
+            repo.execute(
+                ["update-ref", "refs/remotes/origin/main", upstream], remote_op="none"
+            )
+
+            with self.assertRaisesRegex(RepositoryInternalError, "nested"):
+                repo.merge()
+            stage_pointer(old_module_head)
+            self.assertEqual(
+                repo.execute(["rev-parse", "HEAD:nested"], remote_op="none").strip(),
+                old_module_head,
+            )
+            repo.merge()
+            self.assertEqual(
+                repo.execute(["rev-parse", ":nested"], remote_op="none").strip(),
+                new_module_head,
+            )
+            self.assertEqual(nested("rev-parse", "HEAD").strip(), old_module_head)
+            self.assertFalse(GitUpdateWorktree(repo).directory.exists())
+
+    def test_branch_update_recovers_only_its_abandoned_worktree(self) -> None:
+        worktree = GitUpdateWorktree(self.repo)
+        other = Path(self.tempdir, ".git", "other-worktree")
+        with self.repo.lock:
+            worktree.directory.mkdir(parents=True)
+            self.repo.execute(
+                ["worktree", "add", "--detach", str(worktree.checkout)],
+                remote_op="none",
+            )
+            self.repo.execute(
+                ["worktree", "add", "--detach", str(other)], remote_op="none"
+            )
+            for path in (worktree.checkout, other):
+                self.repo.execute(["worktree", "lock", str(path)], remote_op="none")
+        with self.repo.lock.read():
+            self.assertFalse(worktree.directory.exists())
+            self.assertTrue(other.is_dir())
+            registrations = self.repo.execute(
+                ["worktree", "list", "--porcelain"],
+                remote_op="none",
+                needs_lock=False,
+            )
+            self.assertNotIn(str(worktree.checkout), registrations)
+            self.assertIn(str(other), registrations)
 
 
 class GitBranchValidationTest(SimpleTestCase):
@@ -4369,6 +4724,18 @@ class VCSGitHubTest(VCSGitUpstreamTest):
     _vcs = "git"
     _sets_push = False
     _repo_override = "https://github.com/WeblateOrg/test.git"
+
+    def test_merge_commit_message_uses_real_refs(self) -> None:
+        self.test_merge_remote_no_ff()
+        with self.repo.lock:
+            message = self.repo.execute(
+                ["log", "-1", "--format=%s"], remote_op="none"
+            ).strip()
+        self.assertEqual(
+            message,
+            f"Merge remote-tracking branch '{self.repo.get_remote_branch_name()}'"
+            f" into {self.repo.get_local_branch_name()}",
+        )
 
     def mock_responses(
         self,

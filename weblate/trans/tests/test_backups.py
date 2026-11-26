@@ -116,9 +116,10 @@ from weblate.utils.data import data_path
 from weblate.utils.files import remove_tree
 from weblate.utils.hash import calculate_hash, hash_to_checksum
 from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
-from weblate.vcs.base import RepositoryCommandError
+from weblate.vcs.base import RepositoryCommandError, RepositoryInternalError
 from weblate.vcs.git import GitRepository, SubversionRepository
 from weblate.vcs.mercurial import HgRepository
+from weblate.vcs.worktree import GitUpdateWorktree, Publication
 from weblate.workspaces.models import WORKSPACE_PROJECT_CREATORS_GROUP, Workspace
 
 if TYPE_CHECKING:
@@ -5525,6 +5526,53 @@ class BackupsTest(ReusableViewTestCase):
             self.assertEqual(kwargs["user_id"], self.user.id)
             self.assertIsNone(kwargs["billing_id"])
             self.assertFalse(Project.objects.filter(slug="import-test").exists())
+
+
+class GitWorktreeBackupTest(ReusableViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        backup_path = data_path(PROJECTBACKUP_PREFIX) / str(self.project.pk)
+        remove_tree(backup_path, True)
+        self.addCleanup(remove_tree, backup_path, True)
+
+    def test_backup_omits_git_worktree_state(self) -> None:
+        repository = self.component.repository
+        worktree = GitUpdateWorktree(repository)
+        with repository.lock:
+            worktree.directory.mkdir(parents=True)
+            repository.execute(
+                ["worktree", "add", "--detach", str(worktree.checkout)],
+                remote_op="none",
+            )
+
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        prefix = f"vcs/{self.component.slug}/.git/"
+        with ZipFile(backup.filename) as archive:
+            names = archive.namelist()
+            self.assertIn(f"{prefix}HEAD", names)
+            self.assertFalse(
+                any(name.startswith(f"{prefix}worktrees/") for name in names)
+            )
+            self.assertFalse(
+                any(name.startswith(f"{prefix}weblate-tmp/") for name in names)
+            )
+
+    def test_backup_rejects_interrupted_git_publication(self) -> None:
+        repository = self.component.repository
+        worktree = GitUpdateWorktree(repository)
+        with repository.lock:
+            worktree.directory.mkdir(parents=True)
+            revision = repository.get_last_revision()
+            worktree.record_publication(
+                Publication(repository.get_current_branch(), revision)
+            )
+        backup = ProjectBackup()
+        with self.assertRaisesRegex(RepositoryInternalError, "interrupted Git update"):
+            backup.backup_project(self.project)
+        self.assertTrue(worktree.marker.exists())
+        self.assertFalse(Path(backup.filename).exists())
+        self.assertFalse(Path(f"{backup.filename}.part").exists())
 
 
 class BackupCompatibilityTest(ReusableViewTestCase):
