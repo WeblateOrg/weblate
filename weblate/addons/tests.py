@@ -112,8 +112,7 @@ from weblate.trans.validators import MAX_NEW_TEXT_LENGTH
 from weblate.utils.celery import handle_task_failure
 from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.forms import FormFieldGroup
-from weblate.utils.lock import LockScope, WeblateLock
-from weblate.utils.lock import WeblateLockTimeoutError
+from weblate.utils.lock import LockScope, WeblateLock, WeblateLockTimeoutError
 from weblate.utils.render import render_template
 from weblate.utils.rst import FullWidthRow
 from weblate.utils.site import get_site_url
