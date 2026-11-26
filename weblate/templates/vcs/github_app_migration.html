@@ -13,6 +13,7 @@
     <div class="card-header">
       <h4 class="card-title">
         {% blocktranslate with workspace_name=workspace.name %}Migrate {{ workspace_name }} to the Weblate GitHub App{% endblocktranslate %}
+        {% if host %}<small class="text-body-secondary">({{ host }})</small>{% endif %}
         {% if github_app_install_url %}
           <a href="{{ github_app_install_url }}"
              class="btn btn-primary btn-sm float-end">{% translate "Connect or update GitHub account" %}</a>

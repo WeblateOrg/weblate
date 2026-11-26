@@ -17,14 +17,17 @@ from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import connection
+from django.shortcuts import render
 from django.template import Context, Template
 from django.test import TestCase
-from django.test.utils import CaptureQueriesContext, override_settings
+from django.test.utils import CaptureQueriesContext, modify_settings, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
 from weblate.auth.models import Group, Permission, Role, User, UserBlock
-from weblate.trans.models import Category, Component, Project
+from weblate.checks.locks import lock_check_projects
+from weblate.trans.actions import ActionEvents
+from weblate.trans.models import Category, Change, Component, Project
 from weblate.trans.tests.test_views import ReusableViewTestCase, ViewTestCase
 from weblate.utils.change_origin import acting_user_context
 from weblate.utils.site import get_site_url
@@ -94,8 +97,32 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
         links = [link["href"] for link in document.select(".breadcrumb a")]
         expected = [self.workspace.get_absolute_url()]
         if not connections_page:
-            expected.append(f"{reverse('account-vcs')}?workspace={self.workspace.pk}")
+            expected.append(reverse("workspace-integrations", args=[self.workspace.pk]))
         self.assertEqual(links, expected)
+
+    def assert_integration_markup(self, response, headings: list[str]) -> None:
+        document = BeautifulSoup(response.content, "html.parser")
+        self.assertIsNotNone(document.select_one("h1"))
+        self.assertIsNotNone(document.select_one("ol.breadcrumb"))
+        self.assertEqual(
+            [
+                heading.name
+                for heading in document.select(".main-content :is(h2, h3, h4, h5)")
+            ],
+            headings,
+        )
+        for item in document.select(".breadcrumb-item"):
+            parent = item.parent
+            self.assertIn(parent.name if parent is not None else None, {"ol", "ul"})
+        for element in document.select(".breadcrumb, .main-content .card-body ul"):
+            for child in element.find_all(recursive=False):
+                self.assertIn(child.name, {"li", "script", "template", "style"})
+            self.assertFalse(
+                any(
+                    text.strip()
+                    for text in element.find_all(string=True, recursive=False)
+                )
+            )
 
     def _make_credentials(
         self, hostname: str = "github.com", **overrides
@@ -297,16 +324,23 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
         )
         self.assert_missing_workspace_message(response)
 
-    def test_management_overview_uses_single_workspace_for_install_link(self) -> None:
+    def test_management_overview_links_to_migration_and_connections(self) -> None:
         response = self.client.get(reverse("manage-github-accounts"))
+        migration = reverse("manage-github-migration", args=["github.com"])
 
-        params = urlencode(
-            {
-                "next": reverse("manage-github-accounts"),
-                "workspace": self.workspace.pk,
-            }
+        self.assertContains(response, migration)
+        self.assertContains(
+            response, reverse("manage-github-connections", query={"host": "github.com"})
         )
-        install_url = f"{reverse('github-app-install')}?{params}"
+        response = self.client.get(migration)
+        install_url = reverse(
+            "github-app-install",
+            query={
+                "next": migration,
+                "host": "github.com",
+                "workspace": self.workspace.pk,
+            },
+        )
         self.assertContains(response, install_url.replace("&", "&amp;"))
 
     def test_account_vcs_integrations_requires_login(self) -> None:
@@ -317,11 +351,68 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
         self.assertEqual(response.status_code, 302)
         self.assertIn(reverse("login"), response["Location"])
 
-    def test_profile_links_account_vcs_integrations(self) -> None:
+    def test_profile_omits_link_to_legacy_integrations(self) -> None:
         response = self.client.get(reverse("profile"))
+        self.assertNotContains(response, reverse("account-vcs"))
+        self.assertRedirects(
+            self.client.get(
+                reverse("account-vcs", query={"workspace": self.workspace.pk})
+            ),
+            reverse("workspace-integrations", args=[self.workspace.pk]),
+        )
 
-        self.assertContains(response, reverse("account-vcs"))
-        self.assertContains(response, "Manage code-hosting connections")
+    def test_legacy_integrations_redirects_to_workspaces_without_managed_workspaces(
+        self,
+    ) -> None:
+        self.client.force_login(self.anotheruser)
+        self.assertRedirects(
+            self.client.get(reverse("account-vcs")), reverse("workspaces")
+        )
+
+    def test_legacy_integrations_redirects_project_admin_to_workspace(self) -> None:
+        self.project.add_user(self.anotheruser, "Administration")
+        self.client.force_login(self.anotheruser)
+
+        self.assertRedirects(
+            self.client.get(reverse("account-vcs")),
+            reverse("workspace-integrations", args=[self.workspace.pk]),
+        )
+
+    def test_legacy_integrations_lists_only_managed_workspaces(self) -> None:
+        second = Workspace.objects.create(name="Second managed workspace")
+        other = Project.objects.create(
+            name="Second managed project", slug="second-managed", workspace=second
+        )
+        hidden = Workspace.objects.create(name="Hidden workspace")
+        for project in (self.project, other):
+            project.add_user(self.anotheruser, "Administration")
+        self.client.force_login(self.anotheruser)
+        url = reverse("account-vcs")
+
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(url)
+
+        self.assertContains(response, "Choose a workspace for code-hosting connections")
+        self.assert_integration_markup(response, ["h2"])
+        self.assertCountEqual(
+            list(response.context["workspace_page"]), [self.workspace, second]
+        )
+        self.assertContains(
+            response, reverse("workspace-integrations", args=[second.pk])
+        )
+        self.assertNotContains(
+            response, reverse("workspace-integrations", args=[hidden.pk])
+        )
+        self.assertFalse(
+            any(
+                '"vcs_installation"' in query["sql"]
+                for query in queries.captured_queries
+            )
+        )
+        self.assertEqual(
+            list(self.client.get(url, {"q": "Second"}).context["workspace_page"]),
+            [second],
+        )
 
     def test_account_vcs_integrations_uses_workspace_scope(self) -> None:
         user = self.anotheruser
@@ -349,14 +440,21 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
             workspace=hidden_workspace,
             repositories=[_repo_entry("hidden-org/repo2")],
         )
+        GitHubInstallation.objects.create(
+            installation_id="7890",
+            target_login="second-workspace-org",
+            workspace=other_workspace,
+        )
         self.client.login(username=user.username, password="testpassword")
 
-        response = self.client.get(reverse("account-vcs"))
+        response = self.client.get(
+            reverse("workspace-integrations", args=[self.workspace.pk])
+        )
 
         self.assertContains(response, "test-org")
         self.assertContains(response, self.workspace.name)
-        self.assertContains(response, other_workspace.name)
         self.assertNotContains(response, "hidden-org")
+        self.assertNotContains(response, "second-workspace-org")
         self.assertContains(
             response,
             reverse("manage-github-account-refresh", kwargs={"pk": installation.pk}),
@@ -366,12 +464,21 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
             reverse("manage-github-account-remove", kwargs={"pk": installation.pk}),
         )
         self.assert_installation_remove_modal(response, installation)
-        for workspace in (self.workspace, other_workspace):
-            install_url = (
-                f"{reverse('github-app-install')}?"
-                f"{urlencode({'next': reverse('account-vcs'), 'host': 'github.com', 'workspace': workspace.pk})}"
-            )
-            self.assertContains(response, install_url.replace("&", "&amp;"))
+        install_url = reverse(
+            "github-app-install",
+            query={
+                "next": reverse("workspace-integrations", args=[self.workspace.pk]),
+                "host": "github.com",
+                "workspace": self.workspace.pk,
+            },
+        )
+        self.assertContains(response, install_url.replace("&", "&amp;"))
+        self.assertEqual(
+            self.client.get(
+                reverse("account-vcs", query={"workspace": hidden_workspace.pk})
+            ).status_code,
+            403,
+        )
 
     def test_project_admin_cannot_manage_account_vcs_integrations(self) -> None:
         user = self.anotheruser
@@ -385,7 +492,9 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
         )
         self.client.login(username=user.username, password="testpassword")
 
-        response = self.client.get(reverse("account-vcs"))
+        response = self.client.get(
+            reverse("workspace-integrations", args=[self.workspace.pk])
+        )
 
         self.assertContains(response, "test-org")
         self.assertContains(response, self.workspace.name)
@@ -472,7 +581,7 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
         self.client.login(username=user.username, password="testpassword")
 
         response = self.client.get(
-            reverse("account-vcs"), {"workspace": str(self.workspace.pk)}
+            reverse("workspace-integrations", args=[self.workspace.pk])
         )
 
         self.assert_workspace_breadcrumbs(response, connections_page=True)
@@ -481,7 +590,7 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
         self.assertContains(response, self.workspace.name)
         self.assertNotContains(response, "other-org")
         self.assertNotContains(response, other_workspace.name)
-        next_url = f"{reverse('account-vcs')}?workspace={self.workspace.pk}"
+        next_url = reverse("workspace-integrations", args=[self.workspace.pk])
         install_url = (
             f"{reverse('github-app-install')}?"
             f"{urlencode({'next': next_url, 'host': 'github.com', 'workspace': self.workspace.pk})}"
@@ -498,7 +607,7 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
         self.client.login(username=owner.username, password="testpassword")
 
         response = self.client.get(
-            reverse("account-vcs"), {"workspace": str(self.workspace.pk)}
+            reverse("workspace-integrations", args=[self.workspace.pk])
         )
 
         self.assertEqual(response.status_code, 200)
@@ -515,7 +624,9 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
             repositories=[_repo_entry("stale-org/repo1")],
         )
 
-        response = self.client.get(reverse("account-vcs"))
+        response = self.client.get(
+            reverse("workspace-integrations", args=[self.workspace.pk])
+        )
 
         self.assertContains(response, "github.example.com")
         self.assertContains(response, "stale-org")
@@ -618,8 +729,18 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
 
         url = reverse("github-app-install")
         query = {"workspace": str(self.workspace.pk)}
-        response = self.client.get(url, query)
-        self.assertContains(response, "Other accounts (3)")
+        with patch("weblate.vcs.views.LIST_PAGE_SIZE", 2):
+            for page in (1, 2):
+                with self.subTest(page=page):
+                    response = self.client.get(url, {**query, "page": page})
+                    document = BeautifulSoup(response.content, "html.parser")
+                    self.assertEqual(
+                        [
+                            label.get_text(strip=True)
+                            for label in document.select("details summary")
+                        ],
+                        ["Other accounts"],
+                    )
         self.assertEqual(response.context["choices"], [])
 
         owned.add_owner(self.user)
@@ -657,14 +778,14 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
             target_type="User",
             target_login="other-owner",
         )
-        next_url = reverse("account-vcs")
+        next_url = reverse("workspace-integrations", args=[self.workspace.pk])
         response = self.client.get(
             reverse("github-app-install"),
             {"workspace": str(self.workspace.pk), "next": next_url},
         )
         self.assert_workspace_breadcrumbs(response)
         self.assertNotContains(response, "other-owner")
-        self.assertNotContains(response, "Other accounts (")
+        self.assertNotContains(response, "Other accounts")
         [(login, authorize_url)] = response.context["choices"]
         self.assertContains(response, login)
         self.assertEqual(login, "octocat")
@@ -1271,11 +1392,84 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
             repositories=[_repo_entry("other-org/repo2")],
         )
 
+        self.workspace.add_owner(self.user)
+        self.client.force_login(self.user)
         response = self.client.get(reverse("github-app-repositories"))
 
+        self.assertContains(response, "Find a workspace")
+        self.assertNotContains(response, "test-org/repo1")
+        self.assertNotContains(response, "other-org/repo2")
+        self.assertEqual(
+            list(response.context["workspace_page"]), [self.workspace, other_workspace]
+        )
+
+        self.client.force_login(user)
+        response = self.client.get(reverse("github-app-repositories"))
         self.assert_workspace_breadcrumbs(response)
         self.assertContains(response, "test-org/repo1")
         self.assertNotContains(response, "other-org/repo2")
+        self.assertEqual(
+            self.client.get(
+                reverse(
+                    "github-app-repositories", query={"workspace": other_workspace.pk}
+                )
+            ).status_code,
+            403,
+        )
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_creation_picker_uses_workspaces_with_eligible_projects(self) -> None:
+        other = Workspace.objects.create(name="Connection-only workspace")
+        self.project.add_user(self.anotheruser, "Administration")
+        other.add_owner(self.anotheruser)
+        repo = _repo_entry("test-org/eligible")
+        installation = GitHubInstallation.objects.create(
+            workspace=self.workspace,
+            installation_id="12345",
+            target_login="test-org",
+            repositories=[repo],
+        )
+        other_repo = _repo_entry("other-org/no-destination")
+        other_installation = GitHubInstallation.objects.create(
+            workspace=other,
+            installation_id="23456",
+            target_login="other-org",
+            repositories=[other_repo],
+        )
+        self.client.force_login(self.anotheruser)
+        picker_url = reverse("github-app-creation-repositories")
+        response = self.client.get(picker_url)
+        import_url = reverse(
+            "github-app-creation-repository-import",
+            args=[installation.pk, repo["full_name"]],
+        )
+
+        self.assertEqual(response.context["selected_workspace"], self.workspace)
+        self.assertContains(response, import_url)
+        self.assertNotContains(response, other_repo["full_name"])
+        self.assertRedirects(
+            self.client.get(import_url),
+            reverse("create-component-vcs", query={"session_component": 1}),
+            fetch_redirect_response=False,
+        )
+        self.assertEqual(
+            self.client.get(picker_url, {"workspace": str(other.pk)}).status_code, 403
+        )
+        self.assertEqual(
+            self.client.get(
+                reverse(
+                    "github-app-creation-repository-import",
+                    args=[other_installation.pk, other_repo["full_name"]],
+                )
+            ).status_code,
+            403,
+        )
+        self.assertContains(
+            self.client.get(
+                reverse("github-app-repositories"), {"workspace": str(other.pk)}
+            ),
+            other_repo["full_name"],
+        )
 
     def test_repository_list_for_project_without_workspace(self) -> None:
         user = self.anotheruser
@@ -1341,9 +1535,9 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
             workspace=self.workspace,
             repositories=[repo],
         )
-        self.component.vcs = "github-app"
-        self.component.repo = "https://github.com/test-org/repo1.git"
-        self.component.save(update_fields=["vcs", "repo"])
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="github-app", repo="https://github.com/test-org/repo1.git"
+        )
 
         response = self.client.get(
             reverse("manage-github-account-detail", kwargs={"pk": installation.pk})
@@ -1367,15 +1561,17 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
                 installation_id=f"5432{index}",
                 target_type="Organization",
                 target_login=f"other-org-{index}",
-                workspace=Workspace.objects.create(name=f"Workspace {index}"),
+                workspace=self.workspace,
                 repositories=[repo],
             )
-        self.component.vcs = "github-app"
-        self.component.repo = "https://github.com/test-org/repo1.git"
-        self.component.save(update_fields=["vcs", "repo"])
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="github-app", repo="https://github.com/test-org/repo1.git"
+        )
 
         with CaptureQueriesContext(connection) as queries:
-            response = self.client.get(reverse("account-vcs"))
+            response = self.client.get(
+                reverse("workspace-integrations", args=[self.workspace.pk])
+            )
 
         self.assertContains(response, "will lose access to its repository")
         self.assertContains(response, str(self.component))
@@ -1384,10 +1580,11 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
                 [
                     query
                     for query in queries.captured_queries
-                    if "trans_component" in query["sql"]
+                    if '"trans_component"."vcs" = ' in query["sql"]
+                    or '"trans_component"."vcs" IN ' in query["sql"]
                 ]
             ),
-            1,
+            2,
         )
 
     def test_installation_detail_hides_import_link_when_disabled(self) -> None:
@@ -1459,7 +1656,7 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
 
         self.assert_workspace_breadcrumbs(response)
         connections = self.client.get(
-            reverse("account-vcs"), {"workspace": str(self.workspace.pk)}
+            reverse("workspace-integrations", args=[self.workspace.pk])
         )
         self.assert_workspace_breadcrumbs(connections, connections_page=True)
         import_path = _import_url(installation, repo)
@@ -1642,7 +1839,7 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
 
         self.assertRedirects(
             response,
-            reverse("manage-github-accounts"),
+            reverse("manage-github-connections", query={"host": installation.hostname}),
             fetch_redirect_response=False,
         )
         self.assertFalse(GitHubInstallation.objects.filter(pk=installation.pk).exists())
@@ -1677,7 +1874,7 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
 
         self.assertRedirects(
             response,
-            reverse("manage-github-accounts"),
+            reverse("manage-github-connections", query={"host": installation.hostname}),
             fetch_redirect_response=False,
         )
         self.assertFalse(GitHubInstallation.objects.filter(pk=installation.pk).exists())
@@ -1704,7 +1901,7 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
 
         self.assertRedirects(
             response,
-            reverse("manage-github-accounts"),
+            reverse("manage-github-connections", query={"host": installation.hostname}),
             fetch_redirect_response=False,
         )
         self.assertTrue(GitHubInstallation.objects.filter(pk=installation.pk).exists())
@@ -1747,7 +1944,10 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
 
                 self.assertRedirects(
                     response,
-                    reverse("manage-github-accounts"),
+                    reverse(
+                        "manage-github-connections",
+                        query={"host": installation.hostname},
+                    ),
                     fetch_redirect_response=False,
                 )
                 self.assertFalse(
@@ -1779,7 +1979,7 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
 
         self.assertRedirects(
             response,
-            reverse("manage-github-accounts"),
+            reverse("manage-github-connections", query={"host": installation.hostname}),
             fetch_redirect_response=False,
         )
         self.assertFalse(GitHubInstallation.objects.filter(pk=installation.pk).exists())
@@ -1814,7 +2014,7 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
 
         self.assertRedirects(
             response,
-            reverse("manage-github-accounts"),
+            reverse("manage-github-connections", query={"host": installation.hostname}),
             fetch_redirect_response=False,
         )
         self.assertFalse(GitHubInstallation.objects.filter(pk=installation.pk).exists())
@@ -2073,7 +2273,547 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
         self.assertEqual(len(response.context["unavailable_entries"]), 1)
         self.assertContains(response, "Repository access needed")
 
-    def _migrate_with_concurrent_change(self, url, change):
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_site_migration_moves_projects_and_assigns_separate_owners(self) -> None:
+        self.project.add_user(self.anotheruser, "Administration")
+        Project.objects.filter(pk=self.project.pk).update(workspace=None)
+        url = reverse("manage-github-migration", args=["github.com"])
+        query = {
+            "q": self.project.name,
+            "projects_page": "1",
+            "unconnected_page": "2",
+            "connected_page": "3",
+        }
+        return_url = reverse(
+            "manage-github-migration", args=["github.com"], query=query
+        )
+
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.post(
+                f"{url}?{urlencode({**query, 'next': 'https://outside.example/'})}",
+                {"projects": [self.project.pk], "destination": "separate"},
+                follow=True,
+            )
+
+        project_locks = [
+            query["sql"]
+            for query in queries.captured_queries
+            if 'FROM "trans_project"' in query["sql"]
+            and (" FOR UPDATE" in query["sql"] or " FOR NO KEY UPDATE" in query["sql"])
+        ]
+        self.assertTrue(project_locks)
+        for sql in project_locks:
+            self.assertIn(" FOR NO KEY UPDATE", sql)
+        self.assertEqual(response.redirect_chain, [(return_url, 302)])
+        self.assert_integration_markup(response, ["h2", "h3", "h3", "h3"])
+
+        destination = Workspace.objects.get(projects=self.project)
+        self.assertEqual(destination.name, self.project.name)
+        self.assertContains(
+            response, reverse("workspace-integrations", args=[destination.pk])
+        )
+        owners = destination.get_owners_group()
+        self.assertTrue(owners.user_set.filter(pk=self.anotheruser.pk).exists())
+        self.assertTrue(owners.user_set.filter(pk=self.user.pk).exists())
+        self.assertTrue(
+            Change.objects.filter(
+                action=ActionEvents.MOVE_PROJECT,
+                project=self.project,
+                workspace=destination,
+                user=self.user,
+            ).exists()
+        )
+        self.assertTrue(
+            Change.objects.filter(
+                action=ActionEvents.CREATE_WORKSPACE,
+                workspace=destination,
+                user=self.user,
+            ).exists()
+        )
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_site_migration_shared_workspace_keeps_explicit_ownership(self) -> None:
+        self.project.add_user(self.anotheruser, "Administration")
+        Project.objects.filter(pk=self.project.pk).update(workspace=None)
+        other = Project.objects.create(
+            name="Second shared project", slug="second-shared"
+        )
+        data = {
+            "projects": [self.project.pk, other.pk],
+            "destination": "shared",
+            "name": "Shared workspace",
+        }
+        url = reverse("manage-github-migration", args=["github.com"])
+
+        response = self.client.get(url)
+        for project in (self.project, other):
+            self.assertContains(response, f"{project.name} ({project.slug})")
+        self.assertRedirects(self.client.post(url, data), url)
+        workspace = Workspace.objects.get(name="Shared workspace")
+        self.assertCountEqual(
+            workspace.projects.values_list("pk", flat=True), [self.project.pk, other.pk]
+        )
+        self.assertEqual(
+            list(workspace.get_owners_group().user_set.values_list("pk", flat=True)),
+            [self.user.pk],
+        )
+        self.assertContains(self.client.post(url, data), "Select a valid choice")
+        self.assertEqual(Workspace.objects.filter(name="Shared workspace").count(), 1)
+
+    def test_site_migration_disables_workspace_creation_with_billing(self) -> None:
+        url = reverse("manage-github-migration", args=["github.com"])
+        self.assertContains(
+            self.client.get(url),
+            "Workspace creation on this site is managed through billing.",
+        )
+        self.assertEqual(
+            self.client.post(
+                url, {"projects": [self.project.pk], "destination": "separate"}
+            ).status_code,
+            403,
+        )
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_workspace_bulk_migration_confirms_and_detects_replay(self) -> None:
+        connections = reverse("workspace-integrations", args=[self.workspace.pk])
+        url = reverse("workspace-github-bulk-migration", args=[self.workspace.pk])
+        self.assertNotContains(self.client.get(connections), url)
+        self._setup_migratable_component()
+        self.assertContains(self.client.get(connections), url)
+
+        self.project.add_user(self.anotheruser, "Administration")
+        self.client.force_login(self.anotheruser)
+        response = self.client.get(url)
+        self.assertEqual(
+            [item.pk for item in response.context["components"]], [self.component.pk]
+        )
+        preview = response.context["preview"]
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.vcs, "git")
+
+        self.client.force_login(self.user)
+        self.assertRedirects(self.client.post(url, {"preview": preview}), connections)
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.vcs, "git")
+
+        self.client.force_login(self.anotheruser)
+        self.assertRedirects(self.client.post(url, {"preview": preview}), connections)
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.vcs, "github-app")
+        self.assertContains(
+            self.client.post(url, {"preview": preview}, follow=True),
+            "no longer eligible",
+        )
+        self.assertNotContains(self.client.get(connections), url)
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_workspace_bulk_migration_skips_changed_repository(self) -> None:
+        self._setup_migratable_component()
+        url = reverse("workspace-github-bulk-migration", args=[self.workspace.pk])
+        preview = self.client.get(url).context["preview"]
+        GitHubInstallation.objects.filter(workspace=self.workspace).update(
+            repositories=[_repo_entry("test-org/repo1"), _repo_entry("test-org/repo2")]
+        )
+        Component.objects.filter(pk=self.component.pk).update(
+            repo="git@github.com:test-org/repo2.git"
+        )
+
+        self.assertContains(
+            self.client.post(url, {"preview": preview}, follow=True),
+            "no longer eligible",
+        )
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.vcs, "git")
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_workspace_bulk_migration_skips_component_moved_between_projects(
+        self,
+    ) -> None:
+        self._setup_migratable_component()
+        destination = Project.objects.create(
+            name="Another project", slug="another-project", workspace=self.workspace
+        )
+        url = reverse("workspace-github-bulk-migration", args=[self.workspace.pk])
+        preview = self.client.get(url).context["preview"]
+        Component.objects.filter(pk=self.component.pk).update(project=destination)
+
+        response = self.client.post(url, {"preview": preview}, follow=True)
+
+        self.assertContains(response, "no longer eligible")
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.project_id, destination.pk)
+        self.assertEqual(self.component.vcs, "git")
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_workspace_bulk_migration_preserves_new_repository_settings(self) -> None:
+        self._setup_migratable_component()
+        url = reverse("workspace-github-bulk-migration", args=[self.workspace.pk])
+
+        for field, value in (
+            ("push", "git@github.com:fork/repo1.git"),
+            ("push_branch", "translations"),
+            ("vcs_params", {"git_force_push": True}),
+        ):
+            with self.subTest(field=field):
+                preview = self.client.get(url).context["preview"]
+                Component.objects.filter(pk=self.component.pk).update(**{field: value})
+
+                self.assertContains(
+                    self.client.post(url, {"preview": preview}, follow=True),
+                    "no longer eligible",
+                )
+                self.component.refresh_from_db()
+                self.assertEqual(self.component.vcs, "git")
+                self.assertEqual(getattr(self.component, field), value)
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_site_bulk_migration_is_app_scoped_and_capped(self) -> None:
+        self._setup_migratable_component()
+        self._make_credentials(hostname="github.example.com", app_id="123")
+        url = reverse("manage-github-bulk-migration", args=["github.com"])
+        other_url = reverse("manage-github-bulk-migration", args=["github.example.com"])
+        preview = self.client.get(url).context["preview"]
+        self.assertTrue(preview)
+        self.assertContains(self.client.get(other_url), "No components are ready")
+        self.assertRedirects(
+            self.client.post(other_url, {"preview": preview}),
+            reverse("manage-github-migration", args=["github.example.com"]),
+        )
+        with patch("weblate.vcs.views.MIGRATION_BATCH_SIZE", 1):
+            second = self.create_po(
+                project=self.project, name="Second legacy component"
+            )
+            Component.objects.filter(pk=second.pk).update(
+                vcs="git", repo="https://git.example.org/team/github.com-mirror.git"
+            )
+            response = self.client.get(url)
+            self.assertContains(response, "Migrate these components")
+            self.assertEqual(
+                [component.pk for component in response.context["components"]],
+                [self.component.pk],
+            )
+            Component.objects.filter(pk=second.pk).update(
+                repo="https://api.github.com/test-org/repo1.git"
+            )
+            self.assertContains(
+                self.client.get(url), "More than 1 candidate components"
+            )
+            workspace = self.client.get(
+                reverse("workspace-github-bulk-migration", args=[self.workspace.pk])
+            )
+            self.assertTrue(workspace.context["has_more"])
+            self.assertEqual(len(workspace.context["components"]), 1)
+
+    def test_bulk_confirmation_avoids_lock_after_losing_edit_access(self) -> None:
+        self._setup_migratable_component()
+        self.workspace.add_owner(self.anotheruser)
+        self.project.add_user(self.anotheruser, "Administration")
+        destination = Project.objects.create(
+            name="Private destination",
+            slug="private-migration-destination",
+            workspace=self.workspace,
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        self.client.force_login(self.anotheruser)
+        url = reverse("workspace-github-bulk-migration", args=[self.workspace.pk])
+        preview = self.client.get(url).context["preview"]
+        self.assertTrue(preview)
+        Component.objects.filter(pk=self.component.pk).update(project=destination)
+
+        with patch.object(Component, "locked_for_update") as lock:
+            response = self.client.post(url, {"preview": preview}, follow=True)
+
+        lock.assert_not_called()
+        self.assertContains(response, "no longer eligible")
+        self.assertNotContains(response, destination.slug)
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.vcs, "git")
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_bulk_confirmation_rechecks_edit_access_after_lock(self) -> None:
+        self._setup_migratable_component()
+        self.workspace.add_owner(self.anotheruser)
+        self.project.add_user(self.anotheruser, "Administration")
+        self.client.force_login(self.anotheruser)
+        url = reverse("workspace-github-bulk-migration", args=[self.workspace.pk])
+        preview = self.client.get(url).context["preview"]
+        self.assertTrue(preview)
+
+        response = self._migrate_with_concurrent_change(
+            url,
+            lambda: self.project.remove_user(self.anotheruser),
+            data={"preview": preview},
+        )
+
+        self.assertRedirects(
+            response,
+            reverse("workspace-integrations", args=[self.workspace.pk]),
+            fetch_redirect_response=False,
+        )
+        self.assertEqual(
+            [str(message) for message in get_messages(response.wsgi_request)],
+            ["One component was no longer eligible for migration."],
+        )
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.vcs, "git")
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_bulk_confirmation_rechecks_workspace_after_lock(self) -> None:
+        self._setup_migratable_component()
+        Component.objects.filter(pk=self.component.pk).update(
+            push="git@github.com:fork/repo1.git", push_branch="translations"
+        )
+        url = reverse("workspace-github-bulk-migration", args=[self.workspace.pk])
+        preview = self.client.get(url).context["preview"]
+        destination = Workspace.objects.create(name="Workspace without a connection")
+
+        def move_before_lock(project_ids, *, exclusive):
+            Project.objects.filter(pk=self.project.pk).update(workspace=destination)
+            lock_check_projects(project_ids, exclusive=exclusive)
+
+        with patch(
+            "weblate.checks.locks.lock_check_projects", side_effect=move_before_lock
+        ) as boundary_lock:
+            response = self.client.post(url, {"preview": preview}, follow=True)
+
+        boundary_lock.assert_called_once_with({self.project.pk}, exclusive=False)
+        self.assertContains(response, "no longer eligible")
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.project.workspace_id, destination.pk)
+        self.assertEqual(self.component.vcs, "git")
+        self.assertEqual(self.component.push, "git@github.com:fork/repo1.git")
+        self.assertEqual(self.component.push_branch, "translations")
+
+    def test_bulk_previews_batch_inventories_and_breadcrumb_queries(self) -> None:
+        self._setup_migratable_component()
+        workspace = Workspace.objects.create(name="Second migration workspace")
+        project = Project.objects.create(
+            name="Second migration project",
+            slug="second-migration",
+            workspace=workspace,
+        )
+        second = self.create_po(project=project, name="Second migration component")
+        Component.objects.filter(pk=second.pk).update(
+            vcs="git", repo="git@github.com:other-org/repo2.git"
+        )
+        GitHubInstallation.objects.create(
+            workspace=workspace,
+            installation_id="23456",
+            target_login="other-org",
+            repositories=[_repo_entry("other-org/repo2")],
+        )
+        for component in (self.component, second):
+            root = Category.objects.create(
+                project=component.project, name="Root", slug="root"
+            )
+            parent = Category.objects.create(
+                project=component.project, category=root, name="Parent", slug="parent"
+            )
+            nested = Category.objects.create(
+                project=component.project, category=parent, name="Nested", slug="nested"
+            )
+            Component.objects.filter(pk=component.pk).update(category=nested)
+        url = reverse("manage-github-bulk-migration", args=["github.com"])
+
+        breadcrumbs = Template(
+            "{% load translations %}{% path_object_links component flags=False %}"
+        )
+
+        def render_preview(request, template_name, context):
+            # Check before the page template can populate the relation caches.
+            with self.assertNumQueries(0):
+                for component in context["components"]:
+                    links = breadcrumbs.render(Context({"component": component}))
+                    self.assertIn("/root/parent/nested/", links)
+                    self.assertIn(component.project.workspace.get_absolute_url(), links)
+            return render(request, template_name, context)
+
+        with patch("weblate.vcs.views.render", side_effect=render_preview):
+            with CaptureQueriesContext(connection) as queries:
+                response = self.client.get(url)
+            inventory_queries = [
+                query
+                for query in queries.captured_queries
+                if '"vcs_installation"."repositories"' in query["sql"]
+            ]
+            workspace_preview = self.client.get(
+                reverse("workspace-github-bulk-migration", args=[self.workspace.pk])
+            )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertCountEqual(
+            [component.pk for component in response.context["components"]],
+            [self.component.pk, second.pk],
+        )
+        self.assertEqual(len(inventory_queries), 1)
+        self.assertEqual(workspace_preview.status_code, 200)
+        self.assert_integration_markup(response, ["h2"])
+        self.assert_integration_markup(workspace_preview, ["h2"])
+        self.assertEqual(
+            [component.pk for component in workspace_preview.context["components"]],
+            [self.component.pk],
+        )
+
+    @http_mock.activate
+    def test_site_migration_install_returns_to_filtered_checklist(self) -> None:
+        search = "https://outside.example/?query=test"
+        self.workspace.name = f"Workspace {search}"
+        self.workspace.save(update_fields=["name"])
+        query = {"q": search, "unconnected_page": "1"}
+        checklist = reverse("manage-github-migration", args=["github.com"], query=query)
+        page = self.client.get(
+            reverse("manage-github-migration", args=["github.com"]),
+            {**query, "next": "https://outside.example/"},
+        )
+        self.assert_integration_markup(page, ["h2", "h3", "h3", "h3"])
+        [(workspace, start)] = page.context["unconnected"]
+        self.assertEqual(workspace.pk, self.workspace.pk)
+        self.assertEqual(parse_qs(urlparse(start).query)["next"], [checklist])
+        response = self.client.get(start)
+        [state] = parse_qs(urlparse(response["Location"]).query)["state"]
+        self._mock_oauth()
+        self._mock_setup_api()
+        response = self.client.get(
+            reverse("github-app-setup"),
+            {"installation_id": "12345", "state": state, "code": "oauth-code"},
+        )
+        self.assertRedirects(response, checklist)
+        self.assertTrue(
+            GitHubInstallation.objects.filter(
+                installation_id="12345", workspace=self.workspace
+            ).exists()
+        )
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_workspace_bulk_migration_continues_after_failed_component(self) -> None:
+        self._setup_migratable_component()
+        second = self.create_po(project=self.project, name="Second legacy component")
+        Component.objects.filter(pk=second.pk).update(
+            vcs="git", repo="git@github.com:test-org/repo1.git"
+        )
+        url = reverse("workspace-github-bulk-migration", args=[self.workspace.pk])
+        preview = self.client.get(url).context["preview"]
+        with patch.object(
+            GithubAppRepository,
+            "validate_component",
+            side_effect=[ValidationError("Test validation error."), None],
+        ):
+            response = self.client.post(url, {"preview": preview}, follow=True)
+        self.assertContains(response, "Test validation error.")
+        self.assertContains(response, "Migrated one component")
+        self.component.refresh_from_db()
+        second.refresh_from_db()
+        self.assertEqual(self.component.vcs, "git")
+        self.assertEqual(second.vcs, "github-app")
+
+    def test_connection_pagination_preserves_app_filter(self) -> None:
+        for index in range(3):
+            GitHubInstallation.objects.create(
+                workspace=self.workspace,
+                installation_id=str(index + 1),
+                target_login=f"org-{index}",
+            )
+        GitHubInstallation.objects.create(
+            workspace=self.workspace,
+            hostname="github.example.com",
+            installation_id="4",
+            target_login="stale-account",
+            enabled=False,
+        )
+        with patch("weblate.vcs.views.LIST_PAGE_SIZE", 2):
+            response = self.client.get(
+                reverse(
+                    "manage-github-connections", query={"host": "github.com", "page": 2}
+                )
+            )
+        self.assertContains(response, "org-0")
+        self.assertNotContains(response, "stale-account")
+        self.assert_integration_markup(response, ["h2"])
+        self.assertContains(
+            self.client.get(reverse("manage-github-connections")), "stale-account"
+        )
+
+    def test_repository_pagination_preserves_category_target(self) -> None:
+        category = Category.objects.create(
+            project=self.project, name="Category", slug="category"
+        )
+        first = _repo_entry("test-org/aaa")
+        second = _repo_entry("test-org/bbb")
+        installation = GitHubInstallation.objects.create(
+            workspace=self.workspace,
+            installation_id="12345",
+            target_login="test-org",
+            repositories=[
+                first,
+                _repo_entry("test-org/archived", archived=True),
+                second,
+                _repo_entry("test-org/ccc"),
+            ],
+        )
+        other_repo = _repo_entry("zzz-org/only-repo")
+        other_installation = GitHubInstallation.objects.create(
+            workspace=self.workspace,
+            installation_id="23456",
+            target_login="zzz-org",
+            repositories=[other_repo],
+        )
+        url = reverse("github-app-repositories")
+        query = {
+            "workspace": str(self.workspace.pk),
+            "project": str(self.project.pk),
+            "category": str(category.pk),
+        }
+        with patch("weblate.vcs.views.LIST_PAGE_SIZE", 1):
+            with CaptureQueriesContext(connection) as queries:
+                response = self.client.get(url, {**query, "page": "2"})
+            inventory_queries = [
+                row["sql"]
+                for row in queries.captured_queries
+                if '"vcs_installation"."repositories"' in row["sql"]
+            ]
+            self.assertEqual(len(inventory_queries), 1)
+            self.assertIn("LIMIT 1", inventory_queries[0])
+            document = BeautifulSoup(response.content, "html.parser")
+            [account_link] = document.select('nav[aria-label="Connected accounts"] a')
+            href = account_link["href"]
+            assert isinstance(href, str)
+            self.assertEqual(
+                parse_qs(urlparse(href).query),
+                {
+                    **{key: [value] for key, value in query.items()},
+                    "accounts_page": ["2"],
+                },
+            )
+            next_account = self.client.get(f"{url}{href}")
+        self.assertContains(
+            response,
+            _import_url(
+                installation, second, project=self.project.pk, category=category.pk
+            ).replace("&", "&amp;"),
+        )
+        self.assertNotContains(response, "test-org/aaa")
+        self.assertNotContains(response, other_repo["full_name"])
+        self.assertContains(response, f"category={category.pk}")
+        self.assertContains(
+            next_account,
+            _import_url(
+                other_installation,
+                other_repo,
+                project=self.project.pk,
+                category=category.pk,
+            ).replace("&", "&amp;"),
+        )
+        self.assertNotContains(next_account, second["full_name"])
+        self.assertEqual(next_account.context["page_obj"].number, 1)
+        self.assertCountEqual(
+            [
+                link["aria-label"]
+                for link in document.select(".pagination a[href][aria-label]")
+            ],
+            ["First page", "Previous page", "Next page", "Last page"],
+        )
+
+    def _migrate_with_concurrent_change(self, url, change, *, data=None):
         """POST the migration form, applying ``change`` just before each lock."""
         original_locked_for_update = Component.locked_for_update
 
@@ -2083,8 +2823,10 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
             with original_locked_for_update(component, **kwargs) as locked:
                 yield locked
 
+        if data is None:
+            data = {"components": [str(self.component.pk)]}
         with patch.object(Component, "locked_for_update", locked_for_update):
-            return self.client.post(url, {"components": [str(self.component.pk)]})
+            return self.client.post(url, data)
 
     def _setup_migratable_component(self):
         GitHubInstallation.objects.create(
@@ -2118,7 +2860,7 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
             str(message) for message in get_messages(response.wsgi_request)
         ]
         self.assertEqual(len(response_messages), 1)
-        self.assertIn("no longer available", response_messages[0])
+        self.assertIn("no longer eligible", response_messages[0])
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
     def test_migration_skips_component_pointed_elsewhere(self) -> None:
@@ -2138,7 +2880,7 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
             str(message) for message in get_messages(response.wsgi_request)
         ]
         self.assertEqual(len(response_messages), 1)
-        self.assertIn("no longer available", response_messages[0])
+        self.assertIn("no longer eligible", response_messages[0])
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
     def test_migration_reports_validation_error(self) -> None:

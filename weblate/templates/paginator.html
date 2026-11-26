@@ -5,6 +5,7 @@
   <ul class="pagination">
     <li class="page-item{% if page_obj.number == 1 %} disabled{% endif %}">
       <a href="{% querystring pagination_query.params page=1 limit=page_obj.paginator.per_page %}{% if anchor %}#{{ anchor }}{% endif %}"
+         aria-label="{% translate "First page"|force_escape %}"
          class="page-link green">
         {% if LANGUAGE_BIDI %}
           {% icon "page-last.svg" %}
@@ -17,6 +18,7 @@
       <a {% if page_obj.has_previous %}rel="prev" {# djlint:off #}
           href="{% querystring pagination_query.params page=page_obj.previous_page_number limit=page_obj.paginator.per_page %}{% if anchor %}#{{ anchor }}{% endif %}"
           {# djlint:on #}{% endif %}
+         aria-label="{% translate "Previous page"|force_escape %}"
          class="page-link green">
         {% if LANGUAGE_BIDI %}
           {% icon "page-next.svg" %}
@@ -76,6 +78,7 @@
       <a {% if page_obj.has_next %}rel="next" {# djlint:off #}
           href="{% querystring pagination_query.params page=page_obj.next_page_number limit=page_obj.paginator.per_page %}{% if anchor %}#{{ anchor }}{% endif %}"
           {# djlint:on #}{% endif %}
+         aria-label="{% translate "Next page"|force_escape %}"
          class="page-link green">
         {% if not LANGUAGE_BIDI %}
           {% icon "page-next.svg" %}
@@ -86,6 +89,7 @@
     </li>
     <li class="page-item{% if page_obj.paginator.num_pages == page_obj.number %} disabled{% endif %}">
       <a href="{% querystring pagination_query.params page=page_obj.paginator.num_pages limit=page_obj.paginator.per_page %}{% if anchor %}#{{ anchor }}{% endif %}"
+         aria-label="{% translate "Last page"|force_escape %}"
          class="page-link green">
         {% if not LANGUAGE_BIDI %}
           {% icon "page-last.svg" %}

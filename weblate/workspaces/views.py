@@ -34,6 +34,7 @@ from weblate.utils import messages
 from weblate.utils.stats import WorkspaceLanguage, prefetch_stats
 from weblate.utils.views import get_paginator, show_form_errors
 from weblate.vcs.github import GitHubInstallation, remove_github_installation
+from weblate.vcs.permissions import user_can_migrate_to_github_app
 from weblate.workspaces.forms import WorkspaceDeleteForm, WorkspaceSearchForm
 from weblate.workspaces.models import Workspace
 
@@ -293,6 +294,12 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
                 request.user, workspace=workspace
             ).recent(),
             "can_edit_workspace": can_edit_workspace,
+            "can_access_integrations": request.user.is_authenticated
+            and (
+                can_edit_workspace
+                or request.user.has_perm("management.use")
+                or user_can_migrate_to_github_app(request.user, workspace.pk)
+            ),
             "can_manage_access": can_manage_access,
             "can_download_workspace": can_download_workspace(request.user, workspace),
             "workspace_has_billing": billing is not None,

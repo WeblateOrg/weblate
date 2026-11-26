@@ -940,6 +940,8 @@ class ResolvedRepositoryURL:
     addresses: tuple[str, ...]
     requires_pinning: bool
     proxy_url: str | None
+    ssh_username: str | None = None
+    ssh_explicit_port: int | None = None
 
 
 def validate_repo_url_characters(url: str) -> None:
@@ -1120,6 +1122,8 @@ def resolve_repo_url(
         addresses=addresses,
         requires_pinning=not allow_private_targets,
         proxy_url=proxy_url,
+        ssh_username=parsed.username if parsed.scheme == "ssh" else None,
+        ssh_explicit_port=explicit_port if parsed.scheme == "ssh" else None,
     )
 
 

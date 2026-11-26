@@ -3366,15 +3366,6 @@ wheels = [
 ]
 
 [[package]]
-name = "mistletoe"
-version = "1.6.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/17/ea/ee6e364d62197e427f1d260500eac659a8855df207a77f74451658d749f3/mistletoe-1.6.0.tar.gz", hash = "sha256:92f066c4720a25fa24bf260e6413702bbff3a5b8a93af314cb6cd8589726a8e1", size = 113730, upload-time = "2026-07-11T14:14:18.593Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/e0/5c/3681c676d79726e3b8b72bc78e83ac472b0c96e3c99b28d72b9470f12170/mistletoe-1.6.0-py3-none-any.whl", hash = "sha256:53f9dfb859e9b2d309915d0f06c3876253d1e24d568d0b728a32679eb4f0a187", size = 55931, upload-time = "2026-07-11T14:14:17.056Z" },
-]
-
-[[package]]
 name = "more-itertools"
 version = "11.2.1"
 source = { registry = "https://pypi.org/simple" }
@@ -5662,15 +5653,15 @@ wheels = [
 
 [[package]]
 name = "translate-toolkit"
-version = "3.20.6"
+version = "3.21.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "lxml" },
     { name = "unicode-segmentation-rs" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e7/ec/c4572b49fdb9246f0610b6efcc6169d331f650dfdf2670e1a96c756c468c/translate_toolkit-3.20.6.tar.gz", hash = "sha256:232a2043c438a390fb911eb6b4124e01a983fa8f193e58c422e72cd34bac6a05", size = 655934, upload-time = "2026-11-10T12:49:51.617Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ee/4b/ef63ccdcd80657889b2402aca38e1be854e16c02e847faa0b6c7e9c5d2ef/translate_toolkit-3.21.0.tar.gz", hash = "sha256:55c3a87bc59260c2043e6c2e9f1a87a16bfe374a0d6ac7f8bdc6afa8d3d155ba", size = 676681, upload-time = "2026-11-26T15:05:38.865Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/5d/69/e3c2c729dc5513931e7ddda382d4b3a60d297e44427be0018e67772b0ba6/translate_toolkit-3.20.6-py3-none-any.whl", hash = "sha256:f67aa96dc90f274f4715bfe9f72610db7ee39469c5743105148ff7b545fa3f92", size = 880877, upload-time = "2026-11-10T12:49:49.75Z" },
+    { url = "https://files.pythonhosted.org/packages/bb/72/242e998c15206f09df9a57f5c3c430ebc0bd1d8e8022d098587dd67a4379/translate_toolkit-3.21.0-py3-none-any.whl", hash = "sha256:681302c17a5cf947cdb278616f8cf0def27b64e210e122951f30710d7444f8b3", size = 901662, upload-time = "2026-11-26T15:05:36.099Z" },
 ]
 
 [package.optional-dependencies]
@@ -5684,7 +5675,7 @@ ini = [
     { name = "iniparse" },
 ]
 markdown = [
-    { name = "mistletoe" },
+    { name = "markdown-it-py" },
 ]
 php = [
     { name = "phply" },
@@ -5699,6 +5690,7 @@ toml = [
     { name = "tomlkit" },
 ]
 yaml = [
+    { name = "babel" },
     { name = "ruamel-yaml" },
 ]
 
@@ -6607,7 +6599,7 @@ requires-dist = [
     { name = "sphinx", marker = "extra == 'sphinx'", specifier = "==8.2.3" },
     { name = "tesserocr", specifier = "==2.13.0" },
     { name = "tomlkit", specifier = "==0.15.3" },
-    { name = "translate-toolkit", extras = ["chardet", "fluent", "ini", "markdown", "toml", "php", "rc", "subtitles", "yaml"], specifier = "==3.20.6" },
+    { name = "translate-toolkit", extras = ["chardet", "fluent", "ini", "markdown", "toml", "php", "rc", "subtitles", "yaml"], specifier = "==3.21.0" },
     { name = "translation-finder", specifier = "==3.11.0" },
     { name = "turbohtml", specifier = "==1.16.5" },
     { name = "ua-parser", specifier = "==1.0.2" },
@@ -6698,7 +6690,7 @@ lint = [
 ]
 package-build = [
     { name = "setuptools", specifier = "==84.2.1" },
-    { name = "translate-toolkit", specifier = "==3.20.6" },
+    { name = "translate-toolkit", specifier = "==3.21.0" },
 ]
 package-lint = [
     { name = "check-manifest", specifier = "==0.51" },

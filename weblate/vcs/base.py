@@ -13,7 +13,7 @@ import os.path
 import re
 import signal
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
-from contextlib import ExitStack, contextmanager, suppress
+from contextlib import ExitStack, contextmanager, nullcontext, suppress
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
@@ -31,6 +31,7 @@ from typing import (
 from dateutil import parser
 from django.conf import settings
 from django.core.cache import cache
+from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy, gettext_noop
@@ -49,7 +50,7 @@ from weblate.utils.files import (
 )
 from weblate.utils.lock import LockScope, WeblateLock
 from weblate.utils.outbound import get_environment_proxy
-from weblate.vcs.ssh import SSH_WRAPPER
+from weblate.vcs.ssh import SSH_WRAPPER, add_host_key, resolve_ssh_connection
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator, Iterable, Iterator
@@ -191,6 +192,9 @@ type RepositoryErrorCode = Literal[
     "repository_fork_failed_with_error",
     "repository_fork_failed_with_error_retry",
     "repository_interrupted_operation",
+    "repository_branch_update_changed",
+    "repository_branch_update_dirty",
+    "repository_branch_update_backup_pending",
     "repository_recovery_failed",
     "repository_redirect",
     "repository_redirect_credentials",
@@ -344,6 +348,15 @@ REPOSITORY_ERROR_MESSAGES: dict[RepositoryErrorCode, str] = {
     ),
     "repository_interrupted_operation": gettext_noop(
         "Repository has an interrupted Git %(operation)s operation."
+    ),
+    "repository_branch_update_changed": gettext_noop(
+        "The Git checkout changed during the update. Check the active branch and retry."
+    ),
+    "repository_branch_update_dirty": gettext_noop(
+        "The Git checkout has tracked changes. Commit or restore these paths before updating: %(paths)s"
+    ),
+    "repository_branch_update_backup_pending": gettext_noop(
+        "Resolve the interrupted Git update before creating a project backup."
     ),
     "repository_recovery_failed": gettext_noop(
         "Could not recover interrupted Git %(operation)s operation."
@@ -575,6 +588,19 @@ class RepositoryLock:
             raise RuntimeError(msg)
         reader.enter_context(self._read_lock)
 
+    @contextmanager
+    def hold_before_recovery(self) -> Generator[None]:
+        """Hold the path while deferring recovery until repository access."""
+        outermost_enter = not self._lock.is_locked
+        with self._lock:
+            if outermost_enter and not self._skip_recovery.count:
+                self._recovery_pending = True
+            try:
+                yield
+            finally:
+                if outermost_enter:
+                    self._reset_recovery_state()
+
     @property
     def is_read_locked(self) -> bool:
         return self._lock.is_locked or self._read_lock.is_locked
@@ -717,6 +743,17 @@ class RepositoryCommandError(RepositoryError):
         return super().get_message(translator)
 
 
+class RepositoryWorktreeError(RepositoryCommandError):
+    """An update failed in a disposable worktree."""
+
+    def __init__(
+        self, error: RepositoryCommandError, status: str, status_error: str = ""
+    ) -> None:
+        super().__init__(error.retcode, error.args[0], diagnoses=error.diagnoses)
+        self.status = status
+        self.status_error = status_error
+
+
 class RepositoryValidationError(RepositoryInternalError):
     """Error raised when repository configuration violates runtime policy."""
 
@@ -824,6 +861,40 @@ def should_auto_add_ssh_host_key(errormessage: str) -> bool:
     ) and not is_ssh_host_key_mismatch_error(errormessage)
 
 
+def try_add_ssh_host_key(
+    target: ResolvedRepositoryURL | None, error: RepositoryError
+) -> bool:
+    """Scan the validated SSH destination after a first-use failure."""
+    if (
+        target is None
+        or target.scheme != "ssh"
+        or not should_auto_add_ssh_host_key(error.get_message())
+    ):
+        return False
+    if target.requires_pinning:
+        add_host_key(
+            None,
+            target.hostname,
+            target.port,
+            restrict_private=True,
+            validated_addresses=target.addresses,
+        )
+    else:
+        try:
+            connection = resolve_ssh_connection(
+                target.hostname, target.ssh_username, target.ssh_explicit_port
+            )
+        except ValidationError:
+            return False
+        add_host_key(
+            None,
+            connection.hostname,
+            connection.port,
+            host_key_alias=connection.host_key_alias,
+        )
+    return True
+
+
 class Repository:
     """Basic repository object."""
 
@@ -849,6 +920,7 @@ class Repository:
     # source repository works without a separate push URL.
     provides_push_credentials: ClassVar[bool] = False
     supports_push: ClassVar[bool] = True
+    isolates_branch_updates: ClassVar[bool] = False
     pushes_to_different_location: ClassVar[bool] = False
     push_label: ClassVar[StrOrPromise] = gettext_lazy(
         "This will push changes to the upstream repository."
@@ -856,6 +928,7 @@ class Repository:
     ref_to_remote: ClassVar[str]
     ref_from_remote: ClassVar[str]
     metadata_dir_name: ClassVar[str | None] = None
+    _repo_temp_cleanup_excludes: ClassVar[frozenset[str]] = frozenset()
     supports_remote_compatibility_validation: ClassVar[bool] = False
     supports_scp_urls: ClassVar[bool] = False
     pinned_remote_schemes: ClassVar[frozenset[str]] = frozenset()
@@ -992,6 +1065,8 @@ class Repository:
         if temp_dir is None or not temp_dir.is_dir():
             return
         for item in temp_dir.iterdir():
+            if item.name in self._repo_temp_cleanup_excludes:
+                continue
             try:
                 if item.is_symlink() or not item.is_dir():
                     item.unlink(missing_ok=True)
@@ -1203,6 +1278,9 @@ class Repository:
             raise
         self.lock.finish_recovery()
 
+    def validate_checkout(self) -> None:
+        """Validate local metadata before invoking the VCS client."""
+
     def execute(
         self,
         args: list[str],
@@ -1219,56 +1297,61 @@ class Repository:
         log_status: bool = True,
     ):
         """Execute command and caches its output."""
-        self.ensure_lock_session_recovered()
-        if needs_lock:
-            if not self.lock.is_locked:
+        with (
+            self.lock
+            if self.exclusive_read_recovery and not needs_lock
+            else nullcontext()
+        ):
+            self.ensure_lock_session_recovered()
+            if needs_lock and not self.lock.is_locked:
                 msg = "Repository operation without lock held!"
                 raise RuntimeError(msg)
-            if self.component:
+            self.validate_checkout()
+            if needs_lock and self.component:
                 self.ensure_config_updated()
-        remote_target = None
-        effective_remote_url = remote_url
-        if remote_url:
-            remote_target = self.validate_remote_url(remote_url)
-        elif remote_op == "pull":
-            remote_target = self.validate_pull_url()
-            if self.component is not None:
-                effective_remote_url = self.component.repo
-        elif remote_op == "push":
-            remote_target = self.validate_push_url()
-            if self.component is not None:
-                effective_remote_url = self.component.push or self.component.repo
-        args, environment = self.prepare_remote_command(
-            args, environment, remote_target
-        )
-        is_status = args[0] == self._cmd_status[0]
-        try:
-            self.last_output = self._popen(
-                args,
-                cwd=self.path,
-                fullcmd=fullcmd,
-                raw=raw,
-                local=self.local,
-                merge_err=merge_err,
-                stdin=stdin,
-                environment=environment,
-                timeout=timeout,
+            remote_target = None
+            effective_remote_url = remote_url
+            if remote_url:
+                remote_target = self.validate_remote_url(remote_url)
+            elif remote_op == "pull":
+                remote_target = self.validate_pull_url()
+                if self.component is not None:
+                    effective_remote_url = self.component.repo
+            elif remote_op == "push":
+                remote_target = self.validate_push_url()
+                if self.component is not None:
+                    effective_remote_url = self.component.push or self.component.repo
+            args, environment = self.prepare_remote_command(
+                args, environment, remote_target
             )
-        except RepositoryCommandError as error:
-            if not is_status and not self.local:
-                if log_status:
-                    self.log_status(error)
-                else:
-                    self.log(f"failure {error}")
-            if effective_remote_url and remote_target is not None:
-                self.handle_remote_command_error(
-                    error,
-                    effective_remote_url,
-                    remote_target,
-                    environment,
+            is_status = args[0] == self._cmd_status[0]
+            try:
+                self.last_output = self._popen(
+                    args,
+                    cwd=self.path,
+                    fullcmd=fullcmd,
+                    raw=raw,
+                    local=self.local,
+                    merge_err=merge_err,
+                    stdin=stdin,
+                    environment=environment,
+                    timeout=timeout,
                 )
-            raise
-        return self.last_output
+            except RepositoryCommandError as error:
+                if not is_status and not self.local:
+                    if log_status:
+                        self.log_status(error)
+                    else:
+                        self.log(f"failure {error}")
+                if effective_remote_url and remote_target is not None:
+                    self.handle_remote_command_error(
+                        error,
+                        effective_remote_url,
+                        remote_target,
+                        environment,
+                    )
+                raise
+            return self.last_output
 
     def log_status(self, error: str | RepositoryError) -> None:
         with suppress(RepositoryCommandError):
@@ -1321,8 +1404,6 @@ class Repository:
     @classmethod
     def validate_remote_url(cls, url: str) -> ResolvedRepositoryURL | None:
         """Revalidate a remote URL before using it."""
-        from django.core.exceptions import ValidationError  # ruff: ignore[import-outside-top-level]
-
         from weblate.utils.validators import resolve_repo_url  # ruff: ignore[import-outside-top-level]
 
         try:
@@ -1440,7 +1521,12 @@ class Repository:
     def clone_from(self, source: str) -> None:
         """Clone repository into current one."""
         target = self.validate_pull_url(source)
-        self._clone_resolved(source, self.path, self.branch, target)
+        try:
+            self._clone_resolved(source, self.path, self.branch, target)
+        except RepositoryCommandError as error:
+            if not try_add_ssh_host_key(target, error):
+                raise
+            self._clone_resolved(source, self.path, self.branch, target)
 
     @classmethod
     def clone(

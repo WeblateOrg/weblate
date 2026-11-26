@@ -1049,20 +1049,8 @@ class LoginForm(forms.Form):
                     )
                     % lockout_period
                 )
-            user = self.user_cache = cast(
-                "User | None",
-                authenticate(self.request, username=username, password=password),
-            )
+            user = self.user_cache = self.authenticate_account(username, password)
             if user is None:
-                for failed_user in try_get_user(username, True):
-                    audit = AuditLog.objects.create(
-                        failed_user,
-                        self.request,
-                        "failed-auth",
-                        method="password",
-                        name=username,
-                    )
-                    audit.check_rate_limit(self.request)
                 rotate_token(self.request)
                 raise forms.ValidationError(
                     self.error_messages["invalid_login"], code="invalid_login"
@@ -1071,13 +1059,35 @@ class LoginForm(forms.Form):
                 raise forms.ValidationError(
                     self.error_messages["inactive"], code="inactive"
                 )
-            AuditLog.objects.create(
-                user, self.request, "login", method="password", name=username
-            )
             adjust_session_expiry(request=self.request, user=user)
             # Keep failures from other accounts on this IP in the shared bucket.
             revert_rate_limit("login", self.request)
         return self.cleaned_data
+
+    @transaction.atomic
+    def authenticate_account(self, username: str, password: str) -> User | None:
+        # Lock before checking credentials so concurrent attempts see any
+        # password lockout committed by the preceding attempt.
+        accounts = list(try_get_user(username, True).select_for_update().order_by("pk"))
+        user = cast(
+            "User | None",
+            authenticate(self.request, username=username, password=password),
+        )
+        if user is None:
+            for account in accounts:
+                audit = AuditLog.objects.create(
+                    account,
+                    self.request,
+                    "failed-auth",
+                    method="password",
+                    name=username,
+                )
+                audit.check_rate_limit(self.request)
+        elif user.is_active and not user.is_bot:
+            AuditLog.objects.create(
+                user, self.request, "login", method="password", name=username
+            )
+        return user
 
     def get_user(self):
         return self.user_cache

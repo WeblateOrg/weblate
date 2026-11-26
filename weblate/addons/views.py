@@ -20,7 +20,11 @@ from weblate.addons.models import ADDONS, Addon
 from weblate.auth.decorators import check_management_access
 from weblate.trans.models import Category, Change, Component, Project
 from weblate.utils import messages
-from weblate.utils.views import PathViewMixin, get_paginator
+from weblate.utils.views import (
+    PathViewMixin,
+    get_paginator,
+    handle_repository_lock_timeout,
+)
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
@@ -328,6 +332,7 @@ class AddonList(PathViewMixin, ListView):
 
         return result
 
+    @handle_repository_lock_timeout
     def post(self, request: AuthenticatedHttpRequest, **kwargs):
         obj = self.path_object
         obj_component: Component | None = None

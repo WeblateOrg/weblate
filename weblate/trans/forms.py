@@ -2574,6 +2574,21 @@ class ProjectDocsMixin(FieldDocsMixin):
         return ("admin/projects", f"project-{field.name.replace('_', '-')}")
 
 
+class ModelFieldErrorsMixin(forms.Form):
+    """Surface model errors for settings outside the form."""
+
+    def add_error(self, field: str | None, error) -> None:
+        if not isinstance(error, ValidationError):
+            error = ValidationError(error)
+        if field is None and hasattr(error, "error_dict"):
+            mapped_errors: dict[str, list[ValidationError]] = defaultdict(list)
+            for name, field_errors in error.error_dict.items():
+                target = name if name in self.fields else NON_FIELD_ERRORS
+                mapped_errors[target].extend(field_errors)
+            error = ValidationError(mapped_errors)
+        super().add_error(field, error)
+
+
 class HiddenFieldErrorsMixin(forms.Form):
     """Surface validation errors attached to hidden fields."""
 
@@ -3427,7 +3442,9 @@ class ComponentDocCreateForm(ComponentProjectForm):
         super().__init__(*args, **kwargs)
 
 
-class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
+class ComponentInitCreateForm(
+    ModelFieldErrorsMixin, CleanRepoMixin, ComponentProjectForm
+):
     """Component creation form."""
 
     vcs = forms.ChoiceField(
@@ -3627,7 +3644,7 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
 
 
 class ComponentRenameForm(
-    ManagedProjectFormMixin, SettingsBaseForm, ComponentDocsMixin
+    ModelFieldErrorsMixin, ManagedProjectFormMixin, SettingsBaseForm, ComponentDocsMixin
 ):
     """Component rename form."""
 
@@ -3645,18 +3662,6 @@ class ComponentRenameForm(
         super().__init__(request, *args, **kwargs)
         self.fields["project"].queryset = request.user.accessible_managed_projects
         self.fields["category"].queryset = self.instance.project.category_set.all()
-
-    def add_error(self, field: str | None, error) -> None:
-        """Surface model errors for settings outside the rename form."""
-        if not isinstance(error, ValidationError):
-            error = ValidationError(error)
-        if field is None and hasattr(error, "error_dict"):
-            mapped_errors: dict[str, list[ValidationError]] = defaultdict(list)
-            for name, field_errors in error.error_dict.items():
-                target = name if name in self.fields else NON_FIELD_ERRORS
-                mapped_errors[target].extend(field_errors)
-            error = ValidationError(mapped_errors)
-        super().add_error(field, error)
 
 
 class ComponentLinkAddForm(ManagedProjectFormMixin, forms.Form):

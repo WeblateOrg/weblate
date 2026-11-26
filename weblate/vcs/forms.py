@@ -18,10 +18,12 @@ from weblate.vcs.github import (
     GITHUB_APP_NAME_MAX_LENGTH,
     normalize_github_app_hostname,
 )
+from weblate.workspaces.models import WORKSPACE_NAME_LENGTH
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
+    from weblate.trans.models import Project
     from weblate.workspaces.models import Workspace
 
 
@@ -97,6 +99,42 @@ class GitHubAppMigrationForm(forms.Form):
         super().__init__(*args, **kwargs)
         field = cast("forms.MultipleChoiceField", self.fields["components"])
         field.choices = component_choices
+
+
+class GitHubAppWorkspaceMoveForm(forms.Form):
+    projects = forms.MultipleChoiceField(
+        label=gettext_lazy("Projects to move"),
+        widget=forms.CheckboxSelectMultiple(attrs={"class": "form-check-input"}),
+    )
+    destination = forms.ChoiceField(
+        label=gettext_lazy("Create workspaces"),
+        choices=(
+            ("separate", gettext_lazy("One workspace per project")),
+            ("shared", gettext_lazy("One shared workspace")),
+        ),
+        initial="separate",
+        widget=forms.RadioSelect,
+    )
+    name = forms.CharField(
+        label=gettext_lazy("Shared workspace name"),
+        max_length=WORKSPACE_NAME_LENGTH,
+        required=False,
+        help_text=gettext_lazy("Required when creating a shared workspace."),
+    )
+
+    def __init__(self, *args, projects: Iterable[Project], **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        field = cast("forms.MultipleChoiceField", self.fields["projects"])
+        field.choices = [
+            (str(project.pk), f"{project.name} ({project.slug})")
+            for project in projects
+        ]
+
+    def clean(self) -> dict:
+        cleaned_data = super().clean() or {}
+        if cleaned_data.get("destination") == "shared" and not cleaned_data.get("name"):
+            self.add_error("name", gettext("Enter a name for the shared workspace."))
+        return cleaned_data
 
 
 class GitHubAppRegisterCallbackForm(forms.Form):
