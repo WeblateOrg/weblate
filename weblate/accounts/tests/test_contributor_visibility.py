@@ -1324,8 +1324,11 @@ class ContributorVisibilityTest(FixtureTestCase):
             permissions = get_auxiliary_download_permissions(
                 self.user, {self.component.pk: self.component, other.pk: other}
             )
-        self.assertTrue(any(permissions.values()))
-        self.assertTrue(any(not value for value in permissions.values()))
+        decisions = [
+            value for paths in permissions.values() for value in paths.values()
+        ]
+        self.assertIn(True, decisions)
+        self.assertIn(False, decisions)
         self.client.force_login(self.user)
         for url in (
             reverse("download", kwargs={"path": self.component.get_url_path()}),

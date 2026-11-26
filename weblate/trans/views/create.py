@@ -61,7 +61,11 @@ from weblate.utils import messages
 from weblate.utils.celery import store_task_metadata
 from weblate.utils.licenses import LICENSE_URLS, detect_license
 from weblate.utils.ratelimit import session_ratelimit_post
-from weblate.utils.views import create_component_from_doc, create_component_from_zip
+from weblate.utils.views import (
+    create_component_from_doc,
+    create_component_from_zip,
+    handle_repository_lock_timeout,
+)
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.github import github_app_is_configured
 from weblate.vcs.models import VCS_REGISTRY
@@ -674,6 +678,7 @@ class CreateComponent(BaseCreateView):
             for field in self.basic_fields
         )
 
+    @handle_repository_lock_timeout
     def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         if "new_base" in request.POST:
             self.stage = "create"
@@ -754,6 +759,7 @@ def component_wizard_state(request: AuthenticatedHttpRequest, query) -> str:
 
 
 @sensitive_operation("create-component")
+@handle_repository_lock_timeout
 def submit_component_creation(
     request: AuthenticatedHttpRequest,
     submission: Submission,

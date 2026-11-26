@@ -3908,13 +3908,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 if fullname is not None:
                     os.unlink(fullname)
 
-    def get_pending_translation_restore_lock(
-        self, *, reset_repository_on_failure: bool
-    ):
-        if reset_repository_on_failure:
-            return nullcontext()
-        return self.repository.lock
-
     def restore_pending_translation_files(
         self,
         *,
@@ -3938,91 +3931,93 @@ class Component(  # ruff: ignore[too-many-public-methods]
             .distinct()
         ).select_related("component", "language")
 
-        for translation in sorted(translations, key=lambda item: not item.is_source):
-            translation = self.reuse_component_for_translation(
-                translation, reuse_source=True
-            )
-            if not translation.filename:
-                continue
+        with self.repository.lock:
+            for translation in sorted(
+                translations, key=lambda item: not item.is_source
+            ):
+                translation = self.reuse_component_for_translation(
+                    translation, reuse_source=True
+                )
+                if not translation.filename:
+                    continue
 
-            try:
-                fullname = translation.get_filename()
-            except ValidationError as error:
-                failures.append((translation, "; ".join(error.messages)))
-                continue
-
-            if fullname is None or os.path.exists(fullname):
-                continue
-
-            component = translation.component
-            if component.pk not in checked_components:
-                component.drop_template_store_cache()
                 try:
-                    checked_components[component.pk] = (
-                        component.can_restore_missing_translation_file(),
-                        component.new_lang_error_message,
-                    )
+                    fullname = translation.get_filename()
                 except ValidationError as error:
-                    checked_components[component.pk] = (
-                        False,
-                        "; ".join(error.messages),
-                    )
+                    failures.append((translation, "; ".join(error.messages)))
+                    continue
 
-            can_restore, error_message = checked_components[component.pk]
-            if not can_restore:
-                failures.append((translation, cast("str", error_message)))
-                continue
+                if fullname is None or os.path.exists(fullname):
+                    continue
 
-            missing_translations.append(translation)
-
-        if failures:
-            operation_log = (
-                "reset/reapply" if reset_repository_on_failure else "file sync"
-            )
-            for translation, reason in failures:
-                translation.component.log_warning(
-                    "%s can not restore missing translation file %s: %s",
-                    operation_log,
-                    translation.filename,
-                    reason,
-                    sensitive=True,
-                    public_message=f"Could not restore translation file {translation.filename}.",
-                )
-
-            if request is not None:
-                filenames = ", ".join(
-                    sorted({translation.filename for translation, _reason in failures})
-                )
-                if reset_repository_on_failure:
-                    messages.error(
-                        request,
-                        ngettext(
-                            "Reset the repository, but could not reapply pending translations because %(files)s is missing. Pending changes were kept. To recover, add the file upstream and rescan, or configure the component so Weblate can create the translation file.",
-                            "Reset the repository, but could not reapply pending translations because these files are missing: %(files)s. Pending changes were kept. To recover, add the files upstream and rescan, or configure the component so Weblate can create the translation files.",
-                            len(failures),
+                component = translation.component
+                if component.pk not in checked_components:
+                    component.drop_template_store_cache()
+                    try:
+                        checked_components[component.pk] = (
+                            component.can_restore_missing_translation_file(),
+                            component.new_lang_error_message,
                         )
-                        % {"files": filenames},
-                    )
-                else:
-                    messages.error(
-                        request,
-                        ngettext(
-                            "File synchronization could not recreate %(files)s because it is missing. Pending changes were kept. To recover, add the file upstream and rescan, or configure the component so Weblate can create the translation file.",
-                            "File synchronization could not recreate these files because they are missing: %(files)s. Pending changes were kept. To recover, add the files upstream and rescan, or configure the component so Weblate can create the translation files.",
-                            len(failures),
+                    except ValidationError as error:
+                        checked_components[component.pk] = (
+                            False,
+                            "; ".join(error.messages),
                         )
-                        % {"files": filenames},
+
+                can_restore, error_message = checked_components[component.pk]
+                if not can_restore:
+                    failures.append((translation, cast("str", error_message)))
+                    continue
+
+                missing_translations.append(translation)
+
+            if failures:
+                operation_log = (
+                    "reset/reapply" if reset_repository_on_failure else "file sync"
+                )
+                for translation, reason in failures:
+                    translation.component.log_warning(
+                        "%s can not restore missing translation file %s: %s",
+                        operation_log,
+                        translation.filename,
+                        reason,
+                        sensitive=True,
+                        public_message=f"Could not restore translation file {translation.filename}.",
                     )
-            return False
 
-        if not missing_translations:
-            return True
+                if request is not None:
+                    filenames = ", ".join(
+                        sorted(
+                            {translation.filename for translation, _reason in failures}
+                        )
+                    )
+                    if reset_repository_on_failure:
+                        messages.error(
+                            request,
+                            ngettext(
+                                "Reset the repository, but could not reapply pending translations because %(files)s is missing. Pending changes were kept. To recover, add the file upstream and rescan, or configure the component so Weblate can create the translation file.",
+                                "Reset the repository, but could not reapply pending translations because these files are missing: %(files)s. Pending changes were kept. To recover, add the files upstream and rescan, or configure the component so Weblate can create the translation files.",
+                                len(failures),
+                            )
+                            % {"files": filenames},
+                        )
+                    else:
+                        messages.error(
+                            request,
+                            ngettext(
+                                "File synchronization could not recreate %(files)s because it is missing. Pending changes were kept. To recover, add the file upstream and rescan, or configure the component so Weblate can create the translation file.",
+                                "File synchronization could not recreate these files because they are missing: %(files)s. Pending changes were kept. To recover, add the files upstream and rescan, or configure the component so Weblate can create the translation files.",
+                                len(failures),
+                            )
+                            % {"files": filenames},
+                        )
+                return False
 
-        current_translation: Translation | None = None
-        restored_components: dict[int, Component] = {}
-        with self.get_pending_translation_restore_lock(
-            reset_repository_on_failure=reset_repository_on_failure
-        ):
+            if not missing_translations:
+                return True
+
+            current_translation: Translation | None = None
+            restored_components: dict[int, Component] = {}
             rollback_revision = self.get_pending_translation_restore_rollback_revision(
                 reset_repository_on_failure=reset_repository_on_failure
             )
@@ -5961,7 +5956,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         for match in matches:
             try:
                 store = self.file_format_cls(  # pylint: disable=too-many-function-args,unexpected-keyword-arg
-                    os.path.join(dir_path, match),
+                    self.check_file_is_valid(os.path.join(dir_path, match)),
                     self.template_store,
                     file_format_params=self.file_format_params,
                     file_validator=self.check_file_is_valid,
@@ -6108,8 +6103,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # Validate template loading
         if self.has_template():
             self.create_template_if_missing()
-            full_path = os.path.join(self.full_path, self.template)
-            if not os.path.exists(full_path):
+            full_path = self.get_template_filename()
+            if full_path is None or not os.path.exists(full_path):
                 raise ValidationError({"template": gettext("File does not exist.")})
 
             try:
@@ -6583,7 +6578,17 @@ class Component(  # ruff: ignore[too-many-public-methods]
         else:
             self.clean_branches()
 
-        # Template validation
+        # Template validation needs a writer only when it can create a file.
+        repository_lock = self.repository.lock
+        with (
+            repository_lock
+            if self.has_template() and self.intermediate
+            else repository_lock.read()
+        ):
+            self.drop_template_store_cache()
+            self._clean_checkout_files()
+
+    def _clean_checkout_files(self) -> None:
         self.clean_template()
 
         # New language options
@@ -6643,26 +6648,28 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     def create_template_if_missing(self) -> None:
         """Create blank template in case intermediate language is enabled."""
-        fullname = self.get_template_filename()
-        if (
-            not self.intermediate
-            or not self.is_valid_base_for_new()
-            or os.path.exists(fullname)
-            or not os.path.exists(self.get_intermediate_filename())
-        ):
-            return
-        self.file_format_cls.add_language(
-            fullname,
-            self.source_language,
-            self.get_new_base_filename(),
-            file_format_params=self.file_format_params,
-        )
-
-        # Skip commit in case Component is not yet saved (called during validation)
-        if not self.pk:
+        if not self.intermediate:
             return
 
         with self.repository.lock:
+            fullname = self.get_template_filename()
+            if (
+                not self.is_valid_base_for_new()
+                or os.path.exists(fullname)
+                or not os.path.exists(self.get_intermediate_filename())
+            ):
+                return
+            self.file_format_cls.add_language(
+                fullname,
+                self.source_language,
+                self.get_new_base_filename(),
+                file_format_params=self.file_format_params,
+            )
+
+            # Skip commit in case Component is not yet saved (called during validation)
+            if not self.pk:
+                return
+
             self.commit_files(
                 template=self.effective_add_message,
                 author="Weblate <noreply@weblate.org>",
@@ -7249,28 +7256,31 @@ class Component(  # ruff: ignore[too-many-public-methods]
             )
             return False
 
-        # Check if template can be parsed
-        if template_filename := self.get_template_filename():
-            if not os.path.exists(template_filename):
-                self.new_lang_error_message = gettext(
-                    "The monolingual base language file is invalid."
-                )
-                return False
-            if not fast:
-                try:
-                    self.template_store.check_valid()
-                except (FileParseError, ValueError):
+        # The fast check only inspects path metadata.
+        with nullcontext() if fast else self.repository.lock.read():
+            # Check if template can be parsed
+            if template_filename := self.get_template_filename():
+                if not os.path.exists(template_filename):
                     self.new_lang_error_message = gettext(
                         "The monolingual base language file is invalid."
                     )
                     return False
+                if not fast:
+                    try:
+                        self.drop_template_store_cache()
+                        self.template_store.check_valid()
+                    except (FileParseError, ValueError):
+                        self.new_lang_error_message = gettext(
+                            "The monolingual base language file is invalid."
+                        )
+                        return False
 
-        self.new_lang_error_message = gettext(
-            "The template for new translations is invalid."
-        )
-        if self.new_base and not os.path.exists(self.get_new_base_filename()):
-            return False
-        return self.is_valid_base_for_new(fast=fast)
+            self.new_lang_error_message = gettext(
+                "The template for new translations is invalid."
+            )
+            if self.new_base and not os.path.exists(self.get_new_base_filename()):
+                return False
+            return self.is_valid_base_for_new(fast=fast)
 
     def can_restore_missing_translation_file(self) -> bool:
         """Check whether reset/reapply can recreate a missing language file."""
@@ -7473,11 +7483,11 @@ class Component(  # ruff: ignore[too-many-public-methods]
         send_post_add_signal: bool = True,
     ) -> None:
         """Restore a missing translation file using the new-language template."""
-        fullname = translation.get_filename()
-        if fullname is None:
-            msg = "Attempt to restore translation without a filename."
-            raise ValueError(msg)
         with self.repository.lock:
+            fullname = translation.get_filename()
+            if fullname is None:
+                msg = "Attempt to restore translation without a filename."
+                raise ValueError(msg)
             self._restore_missing_translation_file(
                 translation=translation,
                 fullname=fullname,

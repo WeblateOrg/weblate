@@ -607,7 +607,7 @@ class CreateTest(ViewTestCase):
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
-    def test_create_linked_component_skips_repository_lock(self) -> None:
+    def test_create_linked_component_skips_repository_write_lock(self) -> None:
         self.user.is_superuser = True
         self.user.save()
 
@@ -616,7 +616,7 @@ class CreateTest(ViewTestCase):
             "__enter__",
             autospec=True,
             side_effect=AssertionError(
-                "Linked component creation should not lock the repository"
+                "Linked component creation should not take a repository write lock"
             ),
         ):
             self.client_create_component(True)
