@@ -3,14 +3,7 @@
 {% load i18n %}
 
 {% block breadcrumbs %}
-  {% if selected_workspace %}
-    {% include "vcs/workspace_breadcrumbs.html" with workspace=selected_workspace current=True only %}
-  {% else %}
-    <li class="breadcrumb-item">
-      <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>
-    </li>
-    <li class="breadcrumb-item">{% translate "Code-hosting connections" %}</li>
-  {% endif %}
+  {% include "vcs/workspace_breadcrumbs.html" with workspace=selected_workspace current=True only %}
 {% endblock breadcrumbs %}
 
 {% block content %}
@@ -20,25 +13,16 @@
       <h4 class="card-title">{% translate "Code-hosting connections" %}</h4>
     </div>
     <div class="card-body">
-      {% if not managed_workspaces %}
-        <p class="text-body-secondary">
-          {% translate "You do not manage any workspaces. VCS accounts can be connected only to workspaces you manage." %}
-        </p>
-      {% elif not apps %}
-        <p class="text-body-secondary">
-          {% translate "No code-hosting connections are available. A site administrator needs to register a code-hosting app first." %}
-        </p>
+      {% if not apps %}
+        <p>{% translate "A site administrator needs to register a code-hosting app first." %}</p>
       {% else %}
-        <p class="text-body-secondary">
-          {% if selected_workspace %}
-            {% blocktranslate trimmed with workspace=selected_workspace %}
-              Connect code-hosting accounts to {{ workspace }}. These accounts
-              can then be used when creating components from version control.
-            {% endblocktranslate %}
-          {% else %}
-            {% translate "Connect code-hosting accounts to workspaces you manage. These accounts can then be used when creating components from version control." %}
-          {% endif %}
-        </p>
+        <p>{% translate "Use connected accounts to import repositories and migrate existing components." %}</p>
+        <a class="btn btn-outline-primary"
+           href="{% url 'github-app-migration' selected_workspace.pk %}">{% translate "Review component migration" %}</a>
+        {% if has_ready_components %}
+          <a class="btn btn-primary"
+             href="{% url 'workspace-github-bulk-migration' selected_workspace.pk %}">{% translate "Migrate all eligible components" %}</a>
+        {% endif %}
       {% endif %}
     </div>
   </div>
@@ -47,21 +31,21 @@
     <div class="card mb-3">
       <div class="card-header">
         <h4 class="card-title">
-          {% if app.html_url %}
-            <a href="{{ app.html_url }}" rel="noopener" target="_blank">{{ app.app_slug }}</a>
-          {% elif app.app_slug %}
-            {{ app.app_slug }}
+          {% if app.config.html_url %}
+            <a href="{{ app.config.html_url }}" rel="noopener" target="_blank">{{ app.config.app_slug }}</a>
+          {% elif app.config.app_slug %}
+            {{ app.config.app_slug }}
           {% else %}
             {% translate "Code-hosting app" %}
           {% endif %}
           <small class="text-body-secondary">({{ app.hostname }})</small>
-          {% if not app.configured %}
+          {% if not app.config %}
             <span class="badge text-bg-warning">{% translate "Not registered" %}</span>
           {% endif %}
         </h4>
       </div>
       <div class="card-body">
-        {% if not app.configured %}
+        {% if not app.config %}
           <div class="alert alert-warning">
             {% blocktranslate trimmed with hostname=app.hostname %}
               Code-hosting app credentials are not registered for {{ hostname }}.
@@ -71,27 +55,8 @@
           </div>
         {% endif %}
 
-        {% if app.workspace_links %}
-          <h5>{% translate "Connect accounts" %}</h5>
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>{% translate "Workspace" %}</th>
-                <th>{% translate "Actions" %}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for item in app.workspace_links %}
-                <tr>
-                  <td>{{ item.workspace }}</td>
-                  <td>
-                    <a href="{{ item.install_url }}"
-                       class="btn btn-primary btn-sm">{% translate "Connect GitHub account" %}</a>
-                  </td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+        {% if app.install_url %}
+          <a href="{{ app.install_url }}" class="btn btn-primary mb-3">{% translate "Connect GitHub account" %}</a>
         {% endif %}
 
         <h5>{% translate "Connected accounts" %}</h5>
@@ -100,7 +65,6 @@
             <thead>
               <tr>
                 <th>{% translate "Account" %}</th>
-                <th>{% translate "Workspace" %}</th>
                 <th>{% translate "Provider ID" %}</th>
                 <th>{% translate "Repositories" %}</th>
                 <th>{% translate "Status" %}</th>
@@ -114,7 +78,6 @@
                     <strong>{{ installation.target_login }}</strong>
                     <small class="text-body-secondary">({{ installation.target_type }})</small>
                   </td>
-                  <td>{{ installation.workspace }}</td>
                   <td>{{ installation.installation_id }}</td>
                   <td>{{ installation.repositories|length }}</td>
                   <td>
@@ -127,7 +90,7 @@
                   <td>
                     <a href="{% url 'github-app-repositories' %}?workspace={{ installation.workspace_id }}"
                        class="btn btn-outline-primary btn-sm">{% translate "Repositories" %}</a>
-                    {% if installation.pk in app.manageable_installations %}
+                    {% if can_manage %}
                       <form method="post"
                             action="{% url 'manage-github-account-refresh' installation.pk %}"
                             class="d-inline">

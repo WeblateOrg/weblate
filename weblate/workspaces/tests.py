@@ -520,7 +520,7 @@ class WorkspaceViewTest(BaseTestCase):
         workspace = Workspace.objects.create(name="Settings workspace")
         workspace.add_owner(user)
         settings_url = reverse("settings", kwargs={"path": workspace.get_url_path()})
-        integrations_url = f"{reverse('account-vcs')}?workspace={workspace.pk}"
+        integrations_url = reverse("workspace-integrations", args=[workspace.pk])
 
         self.client.login(username=user.username, password="testpassword")
         response = self.client.get(workspace.get_absolute_url())

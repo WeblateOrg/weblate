@@ -1880,7 +1880,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     @contextmanager
     def locked_for_update(
-        self, *, queryset: ComponentQuerySet | None = None
+        self,
+        *,
+        queryset: ComponentQuerySet | None = None,
+        lock_project_boundary: bool = False,
     ) -> Generator[Component]:
         """
         Lock repository and database row in a consistent order for component writes.
@@ -1888,12 +1891,20 @@ class Component(  # ruff: ignore[too-many-public-methods]
         Some write paths validate or save through repository-backed operations,
         while background revision updates already lock in repository -> row order.
         Reuse the same ordering here to avoid deadlocks while still validating on a
-        freshly loaded component instance.
+        freshly loaded component instance. Operations scoped to the project's
+        workspace can lock that boundary before taking the row lock.
         """
         if queryset is None:
             queryset = Component.objects.all()
         repository = self.repository
         with repository.lock, transaction.atomic():
+            if lock_project_boundary:
+                from weblate.checks.locks import (  # ruff: ignore[import-outside-top-level]
+                    lock_check_projects,
+                )
+
+                lock_check_projects({self.project_id}, exclusive=False)
+                queryset = queryset.select_related("project__workspace")
             locked_component = queryset.get_for_update(pk=self.pk)
             locked_component.__dict__["repository"] = locked_component.build_repository(
                 lock_override=repository.lock

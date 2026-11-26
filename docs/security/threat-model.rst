@@ -572,7 +572,7 @@ Input assumptions
    * - GitHub App lifecycle
      - Registration and installation callbacks, GitHub OAuth code, signed
        Weblate state, installation ID, account metadata, component migration
-       selections, and connection-removal requests
+       selections, workspace creation and project moves, and connection-removal requests
      - Yes, from authenticated Weblate users and GitHub redirect query strings.
        *(documented)* (source: :ref:`code-hosting-github-app-register`,
        :ref:`code-hosting-github-app-migrate`)
@@ -581,7 +581,12 @@ Input assumptions
        installation requires management rights for its workspace, and Weblate
        verifies GitHub administration of an installation before connecting it.
        Component migration additionally requires edit permission for every
-       selected component. Removing the last workspace connection also attempts
+       selected component, including in confirmed bulk previews. The site
+       migration interface applies the existing workspace creation and project
+       move permissions. It can assign ownership of a new single-project
+       workspace to that project's explicitly assigned administrators with
+       project edit access. Shared workspace ownership is assigned explicitly
+       by the initiating owner. Removing the last workspace connection also attempts
        to uninstall the App from GitHub. *(documented)*
        (source: :ref:`code-hosting-github-app-register`,
        :ref:`code-hosting-github-app-migrate`)

@@ -1404,8 +1404,8 @@ class ProfileTest(FixtureTestCase):
         self.assertIn(reverse("webauthn-register"), security)
         self.assertNotIn('id="passkey-registration-placeholder"', security)
         self.assertIn("Add sign-in method", security)
-        self.assertIn("Code-hosting connections", developer)
-        self.assertNotIn("Code-hosting connections", security)
+        self.assertIn("API access", developer)
+        self.assertNotIn("Code-hosting connections", content)
 
     def test_profile_saves_only_submitted_tab(self) -> None:
         original_theme = self.user.profile.theme
