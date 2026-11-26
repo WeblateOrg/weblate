@@ -85,6 +85,7 @@ from weblate.trans.validators import get_translation_text_max_length
 from weblate.utils.files import remove_tree
 from weblate.utils.state import (
     STATE_APPROVED,
+    STATE_EMPTY,
     STATE_FUZZY,
     STATE_NEEDS_CHECKING,
     STATE_NEEDS_REWRITING,
@@ -2586,11 +2587,16 @@ class TranslationTest(RepoTestCase):
         # blocking failed change makes future changes to same unit ineligible for commit
         self.assertEqual(translation.count_pending_units, 0)
 
-        # add back missing unit and update revision to make changes eligible for commit
+        # Restoring the string does not bypass the failed edit cooldown.
         translation.store.new_unit(unit.context, unit.get_source_plurals())
         translation.store.save()
         translation.store_hash()
 
+        self.assertEqual(translation.count_pending_units, 0)
+        change.metadata["last_failed"] = (
+            timezone.now() - timedelta(days=7)
+        ).isoformat()
+        change.save()
         self.assertEqual(translation.count_pending_units, 1)
         component.commit_pending("test", None)
         self.assertEqual(PendingUnitChange.objects.count(), 0)
@@ -2723,7 +2729,7 @@ class TranslationTest(RepoTestCase):
         self.assertIsNone(failure.user_id)
         self.assertEqual(failure.author, author)
 
-    def test_failed_pending_write_reports_missing_actor(self) -> None:
+    def test_failed_pending_write_with_missing_actor_creates_only_check(self) -> None:
         user = create_test_user()
         component = self.create_ftl()
         translation = component.translation_set.get(language_code="cs")
@@ -2731,19 +2737,152 @@ class TranslationTest(RepoTestCase):
         unit.translate(user, "Pending ${ name }", STATE_TRANSLATED, propagate=False)
         pending = PendingUnitChange.objects.get(unit=unit)
         pending.metadata.pop("actor_id")
-        with (
-            patch("weblate.trans.models.change.report_message") as report,
-            self.assertWarnsRegex(
-                RuntimeWarning, "History entry created without a user"
-            ),
-        ):
+        with patch("weblate.trans.models.change.report_message") as report:
             translation._store_failed_unit_update(  # ruff: ignore[private-member-access]
                 unit, pending, ValueError("Cannot write")
             )
-        report.assert_called_once()
-        failure = unit.change_set.get(action=ActionEvents.SAVE_FAILED)
-        self.assertIsNone(failure.user_id)
-        self.assertEqual(failure.author, user)
+        report.assert_not_called()
+        self.assertFalse(
+            unit.change_set.filter(action=ActionEvents.SAVE_FAILED).exists()
+        )
+        self.assertTrue(unit.check_set.filter(name="save_failed").exists())
+
+    def test_save_failure_check_and_history_survive_retries(self) -> None:
+        user = create_test_user()
+        component = self.create_ftl()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, ${ name }!")
+        unit.translate(user, "Broken ${ name }", STATE_TRANSLATED, propagate=False)
+        pending = PendingUnitChange.objects.get(unit=unit)
+        for message in ("Cannot write <script>", "Still cannot write"):
+            translation._store_failed_unit_update(  # ruff: ignore[private-member-access]
+                unit, pending, ValueError(message)
+            )
+            unit.refresh_from_db()
+            unit.clear_checks_cache()
+            unit.run_checks()
+            check = unit.check_set.get(name="save_failed")
+            self.assertEqual(check.get_plain_description(), message)
+            self.assertNotIn("<script>", str(check.get_description()))
+            check.set_dismiss(user=user)
+        self.assertEqual(
+            unit.change_set.filter(action=ActionEvents.SAVE_FAILED).count(), 1
+        )
+        self.assertTrue(unit.check_set.get(name="save_failed").dismissed)
+        self.assertFalse(
+            PendingUnitChange.objects.for_translation(translation).exists()
+        )
+
+        # Repository and deployment changes cannot bypass the cooldown.
+        pending.metadata["failed_revision"] = "old-revision"
+        pending.metadata["weblate_version"] = "old-version"
+        pending.save()
+        self.assertFalse(
+            PendingUnitChange.objects.for_translation(translation).exists()
+        )
+        self.assertFalse(
+            PendingUnitChange.objects.for_component(
+                component, apply_filters=True
+            ).exists()
+        )
+        self.assertEqual(translation.count_pending_units, 0)
+        self.assertFalse(
+            PendingUnitChange.objects.find_committable_components(hours=0).exists()
+        )
+        failed_at = timezone.now()
+        pending.metadata["last_failed"] = failed_at.isoformat()
+        pending.save()
+        with patch(
+            "weblate.trans.models.pending.timezone.now",
+            return_value=failed_at + timedelta(days=7),
+        ):
+            self.assertTrue(
+                PendingUnitChange.objects.for_translation(translation).exists()
+            )
+            self.assertTrue(
+                PendingUnitChange.objects.for_component(
+                    component, apply_filters=True
+                ).exists()
+            )
+            self.assertTrue(
+                PendingUnitChange.objects.find_committable_components(hours=0).exists()
+            )
+
+    def test_save_failure_check_removed_on_edit_and_success(self) -> None:
+        user = create_test_user()
+        component = self.create_ftl()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, ${ name }!")
+        unit.translate(user, "Pending ${ name }", STATE_TRANSLATED, propagate=False)
+        pending = PendingUnitChange.objects.get(unit=unit)
+        translation._store_failed_unit_update(  # ruff: ignore[private-member-access]
+            unit, pending, ValueError("Cannot write")
+        )
+        self.assertTrue(unit.check_set.filter(name="save_failed").exists())
+        component.commit_pending("test", None)
+        self.assertTrue(unit.check_set.filter(name="save_failed").exists())
+
+        # A corrected edit can be committed immediately and supersedes the old failure.
+        unit.refresh_from_db()
+        unit.translate(user, "Corrected ${ name }", STATE_TRANSLATED, propagate=False)
+        self.assertFalse(unit.check_set.filter(name="save_failed").exists())
+        component.commit_pending("test", None)
+        self.assertFalse(PendingUnitChange.objects.filter(unit=unit).exists())
+
+        unit.translate(user, "Retry ${ name }", STATE_TRANSLATED, propagate=False)
+        pending = PendingUnitChange.objects.get(unit=unit)
+        translation._store_failed_unit_update(  # ruff: ignore[private-member-access]
+            unit, pending, ValueError("Cannot write")
+        )
+        pending.metadata["last_failed"] = (
+            timezone.now() - timedelta(days=8)
+        ).isoformat()
+        pending.save()
+        component.commit_pending("test", None)
+        self.assertFalse(unit.check_set.filter(name="save_failed").exists())
+        self.assertFalse(PendingUnitChange.objects.filter(unit=unit).exists())
+
+    def test_save_failure_check_rechecks_for_source_and_readonly_strings(self) -> None:
+        user = create_test_user()
+        component = self.create_ftl()
+        translation = component.translation_set.get(language_code="cs")
+        target = translation.unit_set.get(source="Hello, ${ name }!")
+        for unit in (target, target.source_unit):
+            with self.subTest(source=unit.is_source):
+                pending = PendingUnitChange.store_unit_change(
+                    unit=unit, author=user, user=user
+                )
+                unit.translation._store_failed_unit_update(  # ruff: ignore[private-member-access]
+                    unit, pending, ValueError("Cannot write")
+                )
+                for state in (STATE_EMPTY, STATE_FUZZY, STATE_READONLY):
+                    Unit.objects.filter(pk=unit.pk).update(state=state)
+                    unit.refresh_from_db()
+                    unit.clear_checks_cache()
+                    unit.invalidate_checks_cache()
+                    unit.run_checks()
+                    self.assertTrue(unit.check_set.filter(name="save_failed").exists())
+                unit.translation.component.is_glossary = True
+                unit.clear_checks_cache()
+                unit.invalidate_checks_cache()
+                unit.run_checks()
+                self.assertTrue(unit.check_set.filter(name="save_failed").exists())
+
+    def test_historical_save_failure_does_not_flag_new_content(self) -> None:
+        user = create_test_user()
+        component = self.create_ftl()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, ${ name }!")
+        unit.translate(user, "Old ${ name }", STATE_TRANSLATED, propagate=False)
+        pending = PendingUnitChange.objects.get(unit=unit)
+        unit.translate(user, "New ${ name }", STATE_TRANSLATED, propagate=False)
+        translation._store_failed_unit_update(  # ruff: ignore[private-member-access]
+            unit, pending, ValueError("Cannot write old edit")
+        )
+        self.assertFalse(unit.check_set.filter(name="save_failed").exists())
+        self.assertEqual(
+            unit.change_set.filter(action=ActionEvents.SAVE_FAILED).count(), 1
+        )
 
     def test_commit_retry_unit_fluent_content_error_uses_handled_logging(self) -> None:
         """Dedicated Fluent content errors should be logged locally, not reported."""
@@ -3103,6 +3242,34 @@ class UnitTest(ModelTestCase):
         unit = Unit.objects.filter(translation__language_code="cs")[0]
         unit.flags = "no-wrap, ignore-same"
         self.assertEqual(unit.all_flags.items(), {"no-wrap", "ignore-same"})
+
+    def test_edit_mode(self) -> None:
+        unit_id = (
+            self.component.translation_set.get(language_code="cs")
+            .unit_set.get(source="Hello, world!\n")
+            .pk
+        )
+        for flags, expected in (
+            ("", "none"),
+            ("xml-text", "xml"),
+            ("icu-message-format", "icu-message-format"),
+            ("icu-message-format, xml-text", "icu-message-format"),
+            ("icu-message-format, icu-flags:-extra", "icu-message-format"),
+            ("icu-message-format, icu-flags:xml", "icu-message-format-xml"),
+            ("icu-message-format, icu-flags:strict-xml", "icu-message-format-xml"),
+            ("icu-message-format, icu-flags:-extra:xml", "icu-message-format-xml"),
+            (
+                'icu-message-format, icu-flags:xml, icu-tag-prefix:"x:"',
+                "icu-message-format-xml",
+            ),
+            # ICU flags alone do not enable ICU MessageFormat
+            ("icu-flags:xml", "none"),
+        ):
+            with self.subTest(flags=flags):
+                # New object to clear all_flags and edit_mode cache
+                unit = Unit.objects.get(pk=unit_id)
+                unit.flags = flags
+                self.assertEqual(unit.edit_mode, expected)
 
     def test_order_by_request(self) -> None:
         unit = Unit.objects.filter(translation__language_code="cs")[0]

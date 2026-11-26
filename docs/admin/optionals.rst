@@ -187,11 +187,10 @@ possible when following conditions are met:
 * The user has :guilabel:`Add projects to workspace` permission for the
   workspace covered by the billing plan.
 
-Upon project creation user is able to choose which workspace should contain the
-project. Projects created in a workspace with billing count against the billing
-plan assigned to that workspace. Users with the :guilabel:`Edit workspace
-settings` permission can view and pay the billing plan; billing notification
-e-mails are sent to these users. See :ref:`workspace-billing` for details.
+When creating a project, users can choose which workspace should contain it.
+Projects created in a workspace with billing count against the billing plan
+assigned to that workspace. See :ref:`workspace-billing` for billing permissions
+and notifications.
 
 
 .. _legal:

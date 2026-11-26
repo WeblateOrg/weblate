@@ -35,6 +35,8 @@ also remove it from :guilabel:`Users` and any other teams granting ``user.profil
 Restricted profile URLs return HTTP 404. Contributor displays with permitted attribution retain names,
 but omit profile links and use generic avatars when profile access is denied.
 Email and feed displays follow the profile permissions available to guests.
+Markdown automatically links a mention only if the viewer can open the
+mentioned profile. Otherwise, the mention is rendered as ordinary text.
 
 To require scoped HTML directory searches, remove :guilabel:`Discover users` from
 :guilabel:`Users` and assign a custom role containing only ``user.search``.

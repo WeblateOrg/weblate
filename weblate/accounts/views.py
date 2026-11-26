@@ -64,6 +64,7 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
+from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_GET, require_POST
 from django.views.generic import (
     DetailView,
@@ -98,6 +99,15 @@ from social_django.views import complete, disconnect
 
 from weblate.accounts.auth import WeblateUserBackend
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
+from weblate.accounts.continuation import (
+    Submission,
+    complete_sensitive_submission,
+    matches_second_factor_continuation,
+    pending_destination,
+    sensitive_operation,
+    stage_sensitive_submission,
+    start_pending_verification,
+)
 from weblate.accounts.data import (
     NotificationFrequency,
     NotificationScope,
@@ -179,7 +189,6 @@ from weblate.accounts.utils import (
     invalidate_reset_codes,
     lock_user,
     remove_user,
-    require_recent_second_factor,
     require_sensitive_verification,
     reset_api_token,
     second_factor_verification_redirect,
@@ -404,7 +413,9 @@ def redirect_profile(page: str | None = None):
     return HttpResponseRedirect(url)
 
 
-def get_notification_forms(request: AuthenticatedHttpRequest, *, bound: bool = True):
+def get_notification_forms(request: AuthenticatedHttpRequest, *, data=None, query=None):
+    if query is None:
+        query = request.GET
     user = request.user
     subscriptions: dict[tuple[NotificationScope, int, int], dict[str, int]] = (
         defaultdict(dict)
@@ -424,9 +435,9 @@ def get_notification_forms(request: AuthenticatedHttpRequest, *, bound: bool = T
     active = (NotificationScope.SCOPE_WATCHED, -1, -1)
 
     # Include additional scopes from request
-    if "notify_project" in request.GET:
+    if "notify_project" in query:
         try:
-            project = user.allowed_projects.get(pk=request.GET["notify_project"])
+            project = user.allowed_projects.get(pk=query["notify_project"])
         except (ObjectDoesNotExist, ValueError):
             pass
         else:
@@ -437,10 +448,10 @@ def get_notification_forms(request: AuthenticatedHttpRequest, *, bound: bool = T
                 "project": project,
                 "component": None,
             }
-    if "notify_component" in request.GET:
+    if "notify_component" in query:
         try:
             component = Component.objects.filter_access(user).get(
-                pk=request.GET["notify_component"],
+                pk=query["notify_component"],
             )
         except (ObjectDoesNotExist, ValueError):
             pass
@@ -478,11 +489,11 @@ def get_notification_forms(request: AuthenticatedHttpRequest, *, bound: bool = T
             is_active=details[0] == active,
             initial=initials[details[0]],
             prefix=NOTIFICATION_PREFIX_TEMPLATE.format(i),
-            data=request.POST if request.method == "POST" and bound else None,
+            data=data,
         )
     for i in range(len(subscriptions), 200):
         prefix = NOTIFICATION_PREFIX_TEMPLATE.format(i)
-        if bound and f"{prefix}-scope" in request.POST:
+        if data is not None and f"{prefix}-scope" in data:
             yield NotificationForm(
                 user=user,
                 show_default=i > 1,
@@ -490,7 +501,7 @@ def get_notification_forms(request: AuthenticatedHttpRequest, *, bound: bool = T
                 subscriptions={},
                 is_active=i == 0,
                 prefix=prefix,
-                data=request.POST,
+                data=data,
                 initial=initials[active],
             )
 
@@ -498,6 +509,20 @@ def get_notification_forms(request: AuthenticatedHttpRequest, *, bound: bool = T
 @never_cache
 @login_required
 def user_profile(request: AuthenticatedHttpRequest):
+    if request.method == "POST":
+        return submit_profile(request, Submission(request.POST, request.GET))
+    return profile_settings(request)
+
+
+@sensitive_operation("account-profile")
+def submit_profile(request: AuthenticatedHttpRequest, submission: Submission):
+    return profile_settings(request, submission)
+
+
+def profile_settings(
+    request: AuthenticatedHttpRequest, submission: Submission | None = None
+):
+    data = submission.data if submission is not None else None
     user = request.user
     if request.method == "POST":
         check_account_edit_access(user)
@@ -522,21 +547,24 @@ def user_profile(request: AuthenticatedHttpRequest):
         "#account",
         "#account",
     )
-    active_tab = request.POST.get("activetab") if request.method == "POST" else None
+    active_tab = data.get("activetab") if data is not None else None
     if active_tab and active_tab not in form_tabs:
         return HttpResponseBadRequest("Unknown profile tab")
 
     forms = [
-        form.from_request(request)
-        if request.method == "POST" and (not active_tab or active_tab == tab)
-        else form(instance=user if form is UserForm else profile)
+        form(
+            data if not active_tab or active_tab == tab else None,
+            instance=user if form is UserForm else profile,
+        )
         for form, tab in zip(form_classes, form_tabs, strict=True)
     ]
-    bind_notifications = request.method == "POST" and active_tab in {
-        None,
-        "#notifications",
-    }
-    forms.extend(get_notification_forms(request, bound=bind_notifications))
+    forms.extend(
+        get_notification_forms(
+            request,
+            data=data if active_tab in {None, "#notifications"} else None,
+            query=submission.query if submission is not None else None,
+        )
+    )
     if active_tab:
         submitted_forms = [
             form
@@ -550,11 +578,13 @@ def user_profile(request: AuthenticatedHttpRequest):
     all_backends = get_auth_keys()
     form_errors = False
 
-    if request.method == "POST":
+    if data is not None:
         if any(
             isinstance(form, (UserForm, CommitForm)) for form in submitted_forms
         ) and not has_recent_sensitive_verification(request):
-            return sensitive_verification_redirect(request, request.path)
+            return stage_sensitive_submission(
+                request, "account-profile", f"{reverse('profile')}#account"
+            )
         validation_results = [form.is_valid() for form in submitted_forms]
         form_errors = not all(validation_results)
         if not form_errors:
@@ -984,9 +1014,9 @@ class UserPage(UpdateView):
     request: AuthenticatedHttpRequest
 
     def handle_add_group(
-        self, request: AuthenticatedHttpRequest, user: User
+        self, request: AuthenticatedHttpRequest, user: User, data
     ) -> HttpResponseRedirect | None:
-        self.group_form = GroupAddForm(request.POST)
+        self.group_form = GroupAddForm(data)
         if not self.group_form.is_valid():
             return None
         try:
@@ -1007,30 +1037,33 @@ class UserPage(UpdateView):
         return HttpResponseRedirect(f"{self.get_success_url()}#groups")
 
     def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
+        return self.submit(request, Submission(request.POST, request.GET))
+
+    def submit(self, request: AuthenticatedHttpRequest, submission: Submission):
         check_management_access(request, "user.edit")
         user = self.object = self.get_object()
+        data = submission.data
         check_account_edit_access(request.user, user)
         if not has_recent_sensitive_verification(request):
-            return sensitive_verification_redirect(request, request.path)
-        if "add_group" in request.POST:
-            response = self.handle_add_group(request, user)
+            return stage_sensitive_submission(
+                request, "edit-user", request.path, user_id=user.pk
+            )
+        if "add_group" in data:
+            response = self.handle_add_group(request, user, data)
             if response is not None:
                 return response
-        if "remove_group" in request.POST:
-            form = GroupRemoveForm(request.POST)
-            if form.is_valid():
-                user.remove_team(request, form.cleaned_data["remove_group"])
+        if "remove_group" in data:
+            remove_form = GroupRemoveForm(data)
+            if remove_form.is_valid():
+                user.remove_team(request, remove_form.cleaned_data["remove_group"])
                 return HttpResponseRedirect(f"{self.get_success_url()}#groups")
-        if (
-            "cleanup_user_contributions" in request.POST
-            or "revert_user_edits" in request.POST
-        ):
-            cleanup_form_submitted = "cleanup_user_contributions" in request.POST
-            revert_edits = "revert_edits" in request.POST or (
-                "revert_user_edits" in request.POST and not cleanup_form_submitted
+        if "cleanup_user_contributions" in data or "revert_user_edits" in data:
+            cleanup_form_submitted = "cleanup_user_contributions" in data
+            revert_edits = "revert_edits" in data or (
+                "revert_user_edits" in data and not cleanup_form_submitted
             )
-            reject_suggestions = "reject_suggestions" in request.POST
-            delete_comments = "delete_comments" in request.POST
+            reject_suggestions = "reject_suggestions" in data
+            delete_comments = "delete_comments" in data
             if revert_edits:
                 revert_user_edits_task.delay(
                     target_user_id=user.id,
@@ -1064,11 +1097,11 @@ class UserPage(UpdateView):
             if not revert_edits and not reject_suggestions and not delete_comments:
                 messages.error(request, gettext("No cleanup action was selected."))
             return HttpResponseRedirect(f"{self.get_success_url()}#edit")
-        if "remove_user" in request.POST:
+        if "remove_user" in data:
             remove_user(user, request, skip_notify=True)
             return HttpResponseRedirect(f"{self.get_success_url()}#groups")
 
-        if "remove_2fa" in request.POST:
+        if "remove_2fa" in data:
             for device in user.profile.second_factors:
                 key_name = get_key_name(device)
                 device.delete()
@@ -1077,17 +1110,19 @@ class UserPage(UpdateView):
                 )
             return HttpResponseRedirect(f"{self.get_success_url()}#edit")
 
-        if "disable_password" in request.POST:
+        if "disable_password" in data:
             lock_user(
                 user,
                 "admin-locked",
                 request,
-                regenerate_api_key="regenerate_api_key" in request.POST,
+                regenerate_api_key="regenerate_api_key" in data,
             )
             return HttpResponseRedirect(f"{self.get_success_url()}#edit")
 
         user.store_audit_state()
-        form = self.get_form()
+        kwargs = self.get_form_kwargs()
+        kwargs.update(data=data, files=submission.files)
+        form = self.get_form_class()(**kwargs)
         if form.is_valid():
             return self.form_valid(form)
         return self.form_invalid(form)
@@ -1802,7 +1837,24 @@ def reset_api_key(request: AuthenticatedHttpRequest):
     """Reset user API key."""
     check_account_edit_access(request.user)
     if not has_recent_sensitive_verification(request):
-        return sensitive_verification_redirect(request, f"{reverse('profile')}#api")
+        return stage_sensitive_submission(
+            request, "reset-api-key", f"{reverse('profile')}#api"
+        )
+    return submit_reset_api_key(request, Submission(request.POST, request.GET))
+
+
+@sensitive_operation("edit-user")
+def submit_user_edit(
+    request: AuthenticatedHttpRequest, submission: Submission, user_id: int
+):
+    user = get_object_or_404(User, pk=user_id)
+    view = UserPage()
+    view.setup(request, user=user.username)
+    return view.submit(request, submission)
+
+
+@sensitive_operation("reset-api-key")
+def submit_reset_api_key(request: AuthenticatedHttpRequest, _submission: Submission):
     with transaction.atomic():
         reset_api_token(request.user)
 
@@ -2436,6 +2488,10 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):
             strategy.clean_partial_pipeline(strategy.invalid_partial_token)
         return handle_auth_error(request, backend, error)
 
+    next_url = getattr(request, "sensitive_provider_proof", "")
+    if pending_destination(request, next_url):
+        return HttpResponseRedirect(complete_sensitive_submission(request, next_url))
+
     # Finish second factor authentication
     if persistent_id := request.session.pop(DEVICE_ID_SESSION_KEY, None):
         device = Device.from_persistent_id(persistent_id)
@@ -2604,30 +2660,19 @@ class UserList(ListView):
 
 
 @method_decorator(login_required, name="dispatch")
-@method_decorator(require_recent_second_factor, name="dispatch")
 class RecoveryCodesView(TemplateView):
     template_name = "accounts/recovery-codes.html"
 
     def post(self, request, *args, **kwargs):
-        user = request.user
-        # Delete all existing tokens
-        StaticToken.objects.filter(device__user=user).delete()
-
-        # Get device
-        device = StaticDevice.objects.filter(user=user).first()
-        if device is None:
-            device = StaticDevice.objects.create(user=user, name="Backup Code")
-
-        # Generate tokens
-        for _i in range(16):
-            token = StaticToken.random_token()
-            device.token_set.create(token=token)
-
-        AuditLog.objects.create(user, request, "recovery-generate")
-
-        return redirect("recovery-codes")
+        if not has_recent_second_factor(request):
+            return stage_sensitive_submission(
+                request, "generate-recovery-codes", request.path
+            )
+        return generate_recovery_codes(request, Submission(request.POST, request.GET))
 
     def get(self, request, *args, **kwargs):
+        if not has_recent_second_factor(request):
+            return second_factor_verification_redirect(request, request.path)
         user = request.user
         AuditLog.objects.create(user, request, "recovery-show")
         return super().get(request, *args, **kwargs)
@@ -2641,6 +2686,29 @@ class RecoveryCodesView(TemplateView):
         result["recovery_codes"] = recovery_codes
         result["recovery_codes_str"] = "\n".join(recovery_codes)
         return result
+
+
+@sensitive_operation("generate-recovery-codes")
+@transaction.atomic
+def generate_recovery_codes(request: AuthenticatedHttpRequest, _submission: Submission):
+    user = request.user
+    User.objects.select_for_update().get(pk=user.pk)
+    # Delete all existing tokens
+    StaticToken.objects.filter(device__user=user).delete()
+
+    # Get device
+    device = StaticDevice.objects.filter(user=user).first()
+    if device is None:
+        device = StaticDevice.objects.create(user=user, name="Backup Code")
+
+    # Generate tokens
+    for _i in range(16):
+        token = StaticToken.random_token()
+        device.token_set.create(token=token)
+
+    AuditLog.objects.create(user, request, "recovery-generate")
+
+    return redirect("recovery-codes")
 
 
 FIRST_FACTOR_TARGETS = {
@@ -2657,6 +2725,7 @@ def first_factor_redirect(request: AuthenticatedHttpRequest, target: str):
 @login_required
 @session_ratelimit_post("confirm", logout_user=False)
 @never_cache
+@sensitive_post_parameters()
 def first_factor_verify(request: AuthenticatedHttpRequest):
     """Verify an existing credential before binding the first authenticator."""
     target = request.POST.get("target", request.GET.get("target", "totp"))
@@ -2671,10 +2740,14 @@ def first_factor_verify(request: AuthenticatedHttpRequest):
     ):
         next_url = reverse("profile")
     if target == "sensitive" and request.user.profile.has_2fa:
-        return second_factor_verification_redirect(request, next_url)
+        return start_pending_verification(request, next_url)
     if target != "sensitive" and request.user.profile.has_2fa:
         return redirect(FIRST_FACTOR_TARGETS[target])
-    if target == "sensitive" and has_recent_sensitive_verification(request):
+    if (
+        target == "sensitive"
+        and has_recent_sensitive_verification(request)
+        and not pending_destination(request, next_url)
+    ):
         return HttpResponseRedirect(next_url)
     if target != "sensitive" and has_first_factor_grant(request):
         return redirect(FIRST_FACTOR_TARGETS[target])
@@ -2705,7 +2778,9 @@ def first_factor_verify(request: AuthenticatedHttpRequest):
                 rotate_token(request)
                 if target == "sensitive":
                     grant_sensitive_verification(request)
-                    return HttpResponseRedirect(next_url)
+                    return HttpResponseRedirect(
+                        complete_sensitive_submission(request, next_url)
+                    )
                 clear_pending_first_factor(request)
                 grant_first_factor(request)
                 return redirect(FIRST_FACTOR_TARGETS[target])
@@ -2848,10 +2923,18 @@ class WebAuthnCredentialView(DetailView):
         return redirect_profile("#security")
 
     def post(self, request, *args, **kwargs):
+        return self.submit(request, Submission(request.POST, request.GET))
+
+    @transaction.atomic
+    def submit(self, request: AuthenticatedHttpRequest, submission: Submission):
+        if self.model is TOTPDevice:
+            User.objects.select_for_update().get(pk=request.user.pk)
         obj = self.get_object()
+        data = submission.data
         naming = request.session.get(SESSION_FIRST_WEBAUTHN_NAME)
         first_name = (
-            isinstance(naming, dict)
+            isinstance(obj, WebAuthnCredential)
+            and isinstance(naming, dict)
             and isinstance(naming.get("time"), int)
             and not isinstance(naming.get("time"), bool)
             and naming["time"] <= int(time.time())
@@ -2859,20 +2942,26 @@ class WebAuthnCredentialView(DetailView):
             and naming.get("user") == request.user.pk
             and naming.get("hash") == request.user.get_session_auth_hash()
             and naming.get("credential") == obj.pk
-            and "name" in request.POST
-            and "delete" not in request.POST
+            and "name" in data
+            and "delete" not in data
         )
         if not has_recent_second_factor(request) and not first_name:
-            return second_factor_verification_redirect(request, request.path)
-        if "delete" in request.POST:
+            return stage_sensitive_submission(
+                request,
+                "edit-authenticator",
+                f"{reverse('profile')}#security",
+                device_id=obj.pk,
+                is_totp=self.model is TOTPDevice,
+            )
+        if "delete" in data:
             key_name = get_key_name(obj)
             obj.delete()
             AuditLog.objects.create(
                 request.user, request, "twofactor-remove", device=key_name
             )
             messages.success(request, self.message_remove)
-        elif "name" in request.POST:
-            obj.name = request.POST["name"]
+        elif "name" in data:
+            obj.name = data["name"]
             obj.save(update_fields=["name"])
             if first_name:
                 request.session.pop(SESSION_FIRST_WEBAUTHN_NAME, None)
@@ -2889,7 +2978,6 @@ class WebAuthnCredentialView(DetailView):
         return redirect_profile("#security")
 
 
-@method_decorator(require_recent_second_factor, name="dispatch")
 class TOTPDetailView(WebAuthnCredentialView):
     model = TOTPDevice
 
@@ -2899,10 +2987,17 @@ class TOTPDetailView(WebAuthnCredentialView):
     def get_queryset(self):
         return super().get_queryset().filter(confirmed=True)
 
-    def post(self, request, *args, **kwargs):
-        with transaction.atomic():
-            User.objects.select_for_update().get(pk=request.user.pk)
-            return super().post(request, *args, **kwargs)
+
+@sensitive_operation("edit-authenticator")
+def submit_authenticator(
+    request: AuthenticatedHttpRequest,
+    submission: Submission,
+    device_id: int,
+    is_totp: bool,
+):
+    view = TOTPDetailView() if is_totp else WebAuthnCredentialView()
+    view.setup(request, pk=device_id)
+    return view.submit(request, submission)
 
 
 @method_decorator(login_required, name="dispatch")
@@ -3171,9 +3266,12 @@ class SecondFactorLoginView(SecondFactorMixin, RedirectURLMixin, FormView):
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
+        next_url = self.get_success_url()
+        resume = matches_second_factor_continuation(self.request, next_url)
         self.second_factor_completed(form.user.otp_device)
-
-        return HttpResponseRedirect(self.get_success_url())
+        if resume:
+            next_url = complete_sensitive_submission(self.request, next_url)
+        return HttpResponseRedirect(next_url)
 
     def form_invalid(self, form):
         if self.second_factor_failed():
@@ -3200,7 +3298,19 @@ class WeblateCompleteCredentialAuthenticationView(
     WebAuthnMixin, CompleteCredentialAuthenticationView
 ):
     def complete_auth(self, device: WebAuthnCredential) -> User:
-        return self.second_factor_completed(device)
+        next_url = self.get_success_url()
+        resume = matches_second_factor_continuation(self.request, next_url)
+        user = self.second_factor_completed(device)
+        if resume:
+            self.submission_destination = complete_sensitive_submission(
+                self.request, next_url
+            )
+        return user
+
+    def get_success_url(self):
+        return (
+            getattr(self, "submission_destination", None) or super().get_success_url()
+        )
 
     def post(self, *args, **kwargs):
         try:

@@ -68,7 +68,7 @@ from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.dummy import DummyTranslation
 from weblate.machinery.models import MachineryExclusion, MachineryInstallation
 from weblate.machinery.weblatetm import WeblateTranslation
-from weblate.memory.machine import WeblateMemory
+from weblate.memory.machine import CONTEXT_MATCH_QUALITY, WeblateMemory
 from weblate.memory.models import Memory
 from weblate.metrics.models import Metric
 from weblate.metrics.wrapper import MetricsWrapper
@@ -334,6 +334,47 @@ class SeleniumOriginsTranslation(DummyTranslation):
             "source": text,
             "show_quality": True,
             "origin": "Component 2",
+        }
+
+
+class SeleniumContextMatchTranslation(DummyTranslation):
+    """Dummy machine translation scoring as the memory does for a context match."""
+
+    name = "Selenium Context Match"
+
+    def download_translations(
+        self,
+        source_language,
+        target_language,
+        text: str,
+        unit,
+        user,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> DownloadTranslations:
+        _ = (source_language, target_language, unit, user, threshold)
+        yield {
+            "text": "source match target",
+            "quality": 100,
+            "service": self.name,
+            "source": text,
+            "show_quality": True,
+            "origin": "Component source",
+        }
+        yield {
+            "text": "context match target",
+            "quality": CONTEXT_MATCH_QUALITY,
+            "service": self.name,
+            "source": text,
+            "show_quality": True,
+            "origin": "Component context",
+        }
+        # Without an origin, the score is shown with the service name
+        yield {
+            "text": "context match target",
+            "quality": CONTEXT_MATCH_QUALITY,
+            "service": self.name,
+            "source": text,
+            "show_quality": True,
         }
 
 
@@ -2474,6 +2515,118 @@ class SeleniumTests(
         finally:
             self.driver.execute_cdp_cmd("Browser.resetPermissions", {})
 
+    def test_icu_xml_highlighting(self) -> None:
+        """XML tags in ICU strings are highlighted only with XML support enabled."""
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(name="ICU XML", slug="icu-xml")
+        component = fixture.create_po(project=project)
+        unit = component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        # Markup present in the source would be highlighted as placeables
+        source = "Cart {count, plural, one {# item} other {# items}}"
+        value = (
+            "<em>Cart</em> &amp; "
+            "{count, plural, one {<b>#</b> item} other {<b>#</b> items}}"
+        )
+        source_unit_id = unit.source_unit_id
+        assert source_unit_id is not None
+        units = Unit.objects.filter(pk__in=(unit.pk, source_unit_id))
+        units.update(source=source, target=source)
+        Unit.objects.filter(pk=unit.pk).update(target=value)
+        self.do_login(superuser=True)
+
+        for flags, mode, top_tags, nested_tags, entities in (
+            ("icu-message-format", "icu-message-format", [], [], []),
+            (
+                "icu-message-format, icu-flags:xml",
+                "icu-message-format-xml",
+                ["<em>", "</em>"],
+                ["<b>", "</b>", "<b>", "</b>"],
+                ["&amp;"],
+            ),
+        ):
+            with self.subTest(flags=flags):
+                units.update(extra_flags=flags)
+                with self.wait_for_page_load():
+                    self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
+
+                editor = self.driver.find_element(
+                    By.CSS_SELECTOR, ".translator .translation-editor"
+                )
+                overlay = self.driver.find_element(
+                    By.CSS_SELECTOR,
+                    ".translator .translation-item .highlighted-output",
+                )
+
+                def token_texts(
+                    selector: str, root: WebElement = overlay
+                ) -> list[str | None]:
+                    return [
+                        element.get_property("textContent")
+                        for element in root.find_elements(By.CSS_SELECTOR, selector)
+                    ]
+
+                self.assertEqual(editor.get_dom_attribute("data-mode"), mode)
+                self.assertEqual(editor.get_property("value"), value)
+                # The overlay has to contain the same text to stay aligned
+                self.assertEqual(overlay.get_property("textContent"), value)
+                # ICU syntax stays highlighted in both modes
+                self.assertEqual(token_texts(".token.argument-name"), ["count"])
+                self.assertEqual(
+                    token_texts(".token.selector > .token.keyword"), ["one", "other"]
+                )
+                # Tag tokens contain an inner tag token with the tag name
+                tag = ".token.tag:not(.token.tag .token.tag)"
+                nested = ".token.nested-message"
+                self.assertEqual(
+                    token_texts(f"{tag}:not({nested} .token)"),
+                    top_tags,
+                )
+                self.assertEqual(token_texts(f"{nested} {tag}"), nested_tags)
+                self.assertEqual(token_texts(".token.entity"), entities)
+
+                if mode != "icu-message-format-xml":
+                    continue
+
+                for edited, arguments, edited_tags, quoted in (
+                    # Stray or unfinished tag should not hide ICU arguments
+                    (
+                        "if <{limit}: <b>bold</b>",
+                        ["limit"],
+                        ["<b>", "</b>"],
+                        [],
+                    ),
+                    (
+                        "<b {n, plural, one {<i>x</i>} other {y}}",
+                        ["n"],
+                        ["<i>", "</i>"],
+                        [],
+                    ),
+                    # Quoted tags are literal text
+                    ("Use '<b>' {a}", ["a"], [], ["'<b>'"]),
+                    ("'<b {x}>' {a}", ["a"], [], ["'<b {x}>'"]),
+                    (
+                        "{n, plural, one {'<b>' #} other {<b>#</b>}}",
+                        ["n"],
+                        ["<b>", "</b>"],
+                        ["'<b>'"],
+                    ),
+                ):
+                    with self.subTest(edited=edited):
+                        self.driver.execute_script(
+                            "arguments[0].value = arguments[1];"
+                            "arguments[0].dispatchEvent("
+                            "new Event('input', {bubbles: true}));",
+                            editor,
+                            edited,
+                        )
+                        self.assertEqual(overlay.get_property("textContent"), edited)
+                        self.assertEqual(token_texts(".token.argument-name"), arguments)
+                        self.assertEqual(token_texts(tag), edited_tags)
+                        self.assertEqual(token_texts(".token.string"), quoted)
+
     def test_translation_search_refresh(self) -> None:
         """Refresh and query Enter replace results; navigation preserves them."""
         fixture = RepoTestMixin()
@@ -4287,6 +4440,43 @@ class SeleniumTests(
             [
                 "Component 5 (75%)",
                 "Component 6 (70%)",
+            ],
+        )
+
+    @reuse_demo_fixture
+    @override_settings(
+        WEBLATE_MACHINERY=(
+            "weblate.trans.tests.test_selenium.SeleniumContextMatchTranslation",
+        )
+    )
+    def test_machinery_context_match(self) -> None:
+        """A context match is listed first and shown as 100%, not above it."""
+        self.open_machinery_unit(SeleniumContextMatchTranslation.get_identifier())
+        self.wait_for_machinery_rows(2)
+
+        rows = self.driver.find_elements(
+            By.CSS_SELECTOR, "#machinery-translations .machinery-row"
+        )
+        self.assertEqual(
+            [
+                [
+                    element.text
+                    for element in row.find_elements(
+                        By.CSS_SELECTOR,
+                        ".machinery-service-name, div.machinery-origin-detail",
+                    )
+                ]
+                for row in rows
+            ],
+            [
+                [
+                    f"{SeleniumContextMatchTranslation.name} (100% · Context match)",
+                    "Component context (100% · Context match)",
+                ],
+                [
+                    SeleniumContextMatchTranslation.name,
+                    "Component source (100%)",
+                ],
             ],
         )
 

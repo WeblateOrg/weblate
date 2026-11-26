@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 from datetime import timedelta
+from functools import wraps
 from itertools import chain
 from typing import TYPE_CHECKING
 
@@ -22,12 +23,15 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
 from weblate.accounts.forms import UserManageForm
+from weblate.accounts.continuation import (
+    Submission,
+    sensitive_operation,
+    stage_sensitive_submission,
+)
 from weblate.accounts.models import AuditLog, TeamAuditLog
 from weblate.accounts.utils import (
     has_recent_sensitive_verification,
     remove_user,
-    require_project_sensitive_verification,
-    sensitive_verification_redirect,
 )
 from weblate.auth.audit import audit_team_changes
 from weblate.auth.forms import (
@@ -64,34 +68,71 @@ from weblate.utils.views import get_paginator, parse_path, show_form_errors
 from weblate.vcs.ssh import get_all_key_data
 
 if TYPE_CHECKING:
-    from django.http import HttpResponse
+    from collections.abc import Callable
+
+    from django.http import HttpResponse, HttpResponseBase
 
     from weblate.auth.models import AuthenticatedHttpRequest
 
 
+type ProjectOperation = Callable[
+    [AuthenticatedHttpRequest, Submission, Project], HttpResponseBase
+]
+type ProjectPost = Callable[[AuthenticatedHttpRequest, str], HttpResponseBase]
+
+
+def project_sensitive_operation(
+    name: str,
+    *,
+    fragment: str = "",
+    invite: bool = False,
+    verify_in_handler: bool = False,
+) -> Callable[[ProjectOperation], ProjectPost]:
+    def decorate(handler: ProjectOperation) -> ProjectPost:
+        def check_access(request: AuthenticatedHttpRequest, project: Project) -> None:
+            if not request.user.has_perm("project.permissions", project) or (
+                invite and not can_invite_users(request)
+            ):
+                raise PermissionDenied
+
+        @sensitive_operation(name)
+        def resume(
+            request: AuthenticatedHttpRequest, submission: Submission, project_id: int
+        ) -> HttpResponseBase:
+            obj = get_object_or_404(Project, pk=project_id)
+            request.user.check_access(obj)
+            check_access(request, obj)
+            return handler(request, submission, obj)
+
+        @wraps(handler)
+        def post(request: AuthenticatedHttpRequest, project: str) -> HttpResponseBase:
+            obj = parse_path(request, [project], (Project,))
+            check_access(request, obj)
+            if not verify_in_handler and not has_recent_sensitive_verification(request):
+                fallback = reverse("manage-access", kwargs={"project": obj.slug})
+                return stage_sensitive_submission(
+                    request, name, fallback + fragment, project_id=obj.pk
+                )
+            return handler(request, Submission(request.POST, request.GET), obj)
+
+        return post
+
+    return decorate
+
+
 def check_user_form(
-    request, project, form_class=UserManageForm, pass_project: bool = False
+    request, obj, data, form_class=UserManageForm, pass_project: bool = False
 ):
-    """
-    Check project permission and UserManageForm.
-
-    This is simple helper to perform needed validation for all user management views.
-    """
-    obj = parse_path(request, [project], (Project,))
-
-    if not request.user.has_perm("project.permissions", obj):
-        raise PermissionDenied
-
     kwargs = {}
     if pass_project:
         kwargs["project"] = obj
 
-    form = form_class(data=request.POST, **kwargs)
+    form = form_class(data=data, **kwargs)
 
     if form.is_valid():
-        return obj, form
+        return form
     show_form_errors(request, form)
-    return obj, None
+    return None
 
 
 def lock_project_teams(project: Project) -> None:
@@ -150,12 +191,16 @@ def schedule_contribution_cleanup(
 
 @require_POST
 @login_required
-@require_project_sensitive_verification
+@project_sensitive_operation("set-groups")
 @transaction.atomic
-def set_groups(request: AuthenticatedHttpRequest, project):
+def set_groups(request: AuthenticatedHttpRequest, submission: Submission, obj: Project):
     """Change group assignment for a user."""
-    obj, form = check_user_form(
-        request, project, form_class=ProjectUserGroupForm, pass_project=True
+    form = check_user_form(
+        request,
+        obj,
+        submission.data,
+        form_class=ProjectUserGroupForm,
+        pass_project=True,
     )
 
     if form is None:
@@ -293,11 +338,11 @@ def project_user_groups(request: AuthenticatedHttpRequest, project, user_id: int
 
 @require_POST
 @login_required
-@require_project_sensitive_verification
-def add_user(request: AuthenticatedHttpRequest, project):
+@project_sensitive_operation("add-user")
+def add_user(request: AuthenticatedHttpRequest, submission: Submission, obj: Project):
     """Add user to a project."""
-    obj, form = check_user_form(
-        request, project, form_class=InviteUserForm, pass_project=True
+    form = check_user_form(
+        request, obj, submission.data, form_class=InviteUserForm, pass_project=True
     )
 
     if form is not None:
@@ -308,10 +353,10 @@ def add_user(request: AuthenticatedHttpRequest, project):
 
 @require_POST
 @login_required
-@require_project_sensitive_verification
-def block_user(request: AuthenticatedHttpRequest, project):
+@project_sensitive_operation("block-user")
+def block_user(request: AuthenticatedHttpRequest, submission: Submission, obj: Project):
     """Block user from a project."""
-    obj, form = check_user_form(request, project, form_class=UserBlockForm)
+    form = check_user_form(request, obj, submission.data, form_class=UserBlockForm)
 
     if form is not None and form.cleaned_data["user"].id == request.user.id:
         messages.error(request, gettext("You can not block yourself on this project."))
@@ -372,12 +417,15 @@ def block_user(request: AuthenticatedHttpRequest, project):
 
 @require_POST
 @login_required
-@require_project_sensitive_verification
-def unblock_user(request: AuthenticatedHttpRequest, project):
+@project_sensitive_operation("unblock-user")
+def unblock_user(
+    request: AuthenticatedHttpRequest, submission: Submission, obj: Project
+):
     """Unblock user from a project."""
-    obj, form = check_user_form(
+    form = check_user_form(
         request,
-        project,
+        obj,
+        submission.data,
     )
 
     if form is not None:
@@ -389,12 +437,15 @@ def unblock_user(request: AuthenticatedHttpRequest, project):
 
 @require_POST
 @login_required
-@require_project_sensitive_verification
-def revert_blocked_user_edits(request: AuthenticatedHttpRequest, project):
+@project_sensitive_operation("revert-blocked-user-edits")
+def revert_blocked_user_edits(
+    request: AuthenticatedHttpRequest, submission: Submission, obj: Project
+):
     """Revert edits for an already blocked user in a project."""
-    obj, form = check_user_form(
+    form = check_user_form(
         request,
-        project,
+        obj,
+        submission.data,
         form_class=UserContributionCleanupForm,
     )
 
@@ -403,7 +454,7 @@ def revert_blocked_user_edits(request: AuthenticatedHttpRequest, project):
         if not user.userblock_set.filter(project=obj).exists():
             messages.error(request, gettext("User is not blocked on this project."))
         else:
-            cleanup_form_submitted = "cleanup_user_contributions" in request.POST
+            cleanup_form_submitted = "cleanup_user_contributions" in submission.data
             revert_edits = (
                 form.cleaned_data["revert_edits"] or not cleanup_form_submitted
             )
@@ -439,14 +490,14 @@ def can_invite_users(request: AuthenticatedHttpRequest) -> bool:
 
 @require_POST
 @login_required
-@require_project_sensitive_verification
-def invite_user(request: AuthenticatedHttpRequest, project):
+@project_sensitive_operation("invite-user", invite=True)
+def invite_user(
+    request: AuthenticatedHttpRequest, submission: Submission, obj: Project
+):
     """Invite user to a project."""
-    if not can_invite_users(request):
-        raise PermissionDenied
-    form_class = BulkInviteForm if "emails" in request.POST else InviteEmailForm
-    obj, form = check_user_form(
-        request, project, form_class=form_class, pass_project=True
+    form_class = BulkInviteForm if "emails" in submission.data else InviteEmailForm
+    form = check_user_form(
+        request, obj, submission.data, form_class=form_class, pass_project=True
     )
 
     if form is not None:
@@ -457,22 +508,29 @@ def invite_user(request: AuthenticatedHttpRequest, project):
 
 @require_POST
 @login_required
+@project_sensitive_operation("delete-user", verify_in_handler=True)
 @transaction.atomic
-def delete_user(request: AuthenticatedHttpRequest, project):
+def delete_user(
+    request: AuthenticatedHttpRequest, submission: Submission, obj: Project
+):
     """Remove user from a project."""
-    obj, form = check_user_form(
+    form = check_user_form(
         request,
-        project,
+        obj,
+        submission.data,
         form_class=ProjectMemberManageForm,
         pass_project=True,
     )
-    if not has_recent_sensitive_verification(request):
-        return sensitive_verification_redirect(
-            request, reverse("manage-access", kwargs={"project": obj.slug})
-        )
     redirect_url = ""
 
     if form is not None:
+        if not has_recent_sensitive_verification(request):
+            return stage_sensitive_submission(
+                request,
+                "delete-user",
+                reverse("manage-access", kwargs={"project": obj.slug}),
+                project_id=obj.pk,
+            )
         user = lock_project_member(obj, form.cleaned_data["user"])
         if request.user == user:
             messages.error(request, gettext("You can not remove yourself!"))
@@ -622,18 +680,12 @@ def manage_access(request: AuthenticatedHttpRequest, project: str) -> HttpRespon
 
 @require_POST
 @login_required
-def create_token(request: AuthenticatedHttpRequest, project):
+@project_sensitive_operation("create-token", fragment="#api")
+def create_token(
+    request: AuthenticatedHttpRequest, submission: Submission, obj: Project
+):
     """Create project token."""
-    obj = parse_path(request, [project], (Project,))
-
-    if not request.user.has_perm("project.permissions", obj):
-        raise PermissionDenied
-    if not has_recent_sensitive_verification(request):
-        return sensitive_verification_redirect(
-            request, f"{reverse('manage-access', kwargs={'project': obj.slug})}#api"
-        )
-
-    form = ProjectTokenCreateForm(obj, request.POST)
+    form = ProjectTokenCreateForm(obj, submission.data)
 
     if form.is_valid():
         token = form.save(acting_user=request.user)
@@ -651,15 +703,12 @@ def create_token(request: AuthenticatedHttpRequest, project):
 
 @require_POST
 @login_required
-@require_project_sensitive_verification
-def create_group(request: AuthenticatedHttpRequest, project):
+@project_sensitive_operation("create-group")
+def create_group(
+    request: AuthenticatedHttpRequest, submission: Submission, obj: Project
+):
     """Create project group."""
-    obj = parse_path(request, [project], (Project,))
-
-    if not request.user.has_perm("project.permissions", obj):
-        raise PermissionDenied
-
-    form = ProjectTeamForm(obj, request.POST)
+    form = ProjectTeamForm(obj, submission.data)
 
     if form.is_valid():
         try:

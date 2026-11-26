@@ -52,6 +52,7 @@ if TYPE_CHECKING:
 
 SESSION_WEBAUTHN_AUDIT = "weblate:second_factor:webauthn_audit_log"
 SESSION_SECOND_FACTOR_USER = "weblate:second_factor:user"
+SESSION_SECOND_FACTOR_CONTINUATION = "weblate:second_factor:continuation"
 SESSION_SECOND_FACTOR_HASH = "weblate:second_factor:auth_hash"
 SESSION_SECOND_FACTOR_TIMESTAMP = "weblate:second_factor:timestamp"
 SESSION_SECOND_FACTOR_SOCIAL = "weblate:second_factor:social"
@@ -226,42 +227,6 @@ def require_sensitive_verification(
         return view(request, *args, **kwargs)
 
     return wrapped
-
-
-def require_project_sensitive_verification(
-    view: Callable[..., HttpResponseBase],
-) -> Callable[..., HttpResponseBase]:
-    """Return project access POST actions to a GET page after verification."""
-
-    @wraps(view)
-    def wrapped(
-        request: AuthenticatedHttpRequest, *args: object, **kwargs: object
-    ) -> HttpResponseBase:
-        if not has_recent_sensitive_verification(request):
-            project = kwargs["project"]
-            return sensitive_verification_redirect(
-                request, reverse("manage-access", kwargs={"project": project})
-            )
-        return view(request, *args, **kwargs)
-
-    return wrapped
-
-
-def require_recent_second_factor(
-    view: Callable[..., HttpResponseBase],
-) -> Callable[..., HttpResponseBase]:
-    """Require a fresh second factor before an authenticated account action."""
-
-    @wraps(view)
-    def wrapped(
-        request: AuthenticatedHttpRequest, *args: object, **kwargs: object
-    ) -> HttpResponseBase:
-        if not has_recent_second_factor(request):
-            return second_factor_verification_redirect(request, request.path)
-        return view(request, *args, **kwargs)
-
-    return wrapped
-
 
 BOT_USERNAME_COLLISION_SUFFIX_LENGTH = 5
 
@@ -575,6 +540,7 @@ def set_second_factor_session(
     *,
     social: bool = False,
 ) -> None:
+    request.session.pop(SESSION_SECOND_FACTOR_CONTINUATION, None)
     request.session[SESSION_SECOND_FACTOR_USER] = (user.id, backend)
     request.session[SESSION_SECOND_FACTOR_HASH] = user.get_session_auth_hash()
     if social:
@@ -586,6 +552,7 @@ def set_second_factor_session(
 def clear_second_factor_session(
     request: HttpRequest, *, preserve_social: bool = False
 ) -> None:
+    request.session.pop(SESSION_SECOND_FACTOR_CONTINUATION, None)
     request.session.pop(SESSION_SECOND_FACTOR_USER, None)
     request.session.pop(SESSION_SECOND_FACTOR_HASH, None)
     if not preserve_social:

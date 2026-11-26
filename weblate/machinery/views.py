@@ -28,7 +28,16 @@ from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
-from weblate.accounts.utils import require_sensitive_verification
+from weblate.accounts.continuation import (
+    Submission,
+    sensitive_operation,
+    stage_sensitive_submission,
+)
+from weblate.accounts.utils import (
+    has_recent_sensitive_verification,
+    require_sensitive_verification,
+)
+from weblate.auth.decorators import check_management_access
 from weblate.machinery.admission import complete_provider_call, machinery_slot
 from weblate.machinery.base import (
     MachineTranslationError,
@@ -521,7 +530,7 @@ class MachineryDetailView(MachineryMixin, TemplateView):
     def post_setup(self, request: AuthenticatedHttpRequest, kwargs) -> None:
         return
 
-    def dispatch(self, request: HttpRequest, *args, **kwargs):
+    def check_access(self, request: HttpRequest) -> None:
         if self.project is not None:
             permitted = request.user.has_perm("project.edit", self.project)
         elif self.workspace is not None:
@@ -530,6 +539,9 @@ class MachineryDetailView(MachineryMixin, TemplateView):
             permitted = request.user.has_perm("machinery.edit")
         if not permitted:
             raise PermissionDenied
+
+    def dispatch(self, request: HttpRequest, *args, **kwargs):
+        self.check_access(request)
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -561,6 +573,7 @@ class MachineryDetailView(MachineryMixin, TemplateView):
 class EditMachineryView(MachineryDetailView, FormView):
     template_name = "machinery/edit.html"
     machinery_page = "configuration"
+    submission: Submission | None = None
 
     def get_form(self, form_class=None):
         if not self.service.has_settings or not self.machinery.is_available:
@@ -572,6 +585,9 @@ class EditMachineryView(MachineryDetailView, FormView):
 
     def get_form_kwargs(self):
         result = super().get_form_kwargs()
+        if self.submission is not None:
+            result["data"] = self.submission.data
+            result["files"] = self.submission.files
         result["machinery"] = self.machinery
         result["allow_private_targets"] = self.allow_private_targets
         return result
@@ -626,9 +642,24 @@ class EditMachineryView(MachineryDetailView, FormView):
             )
         return reverse("manage-machinery")
 
-    @method_decorator(require_sensitive_verification)
     def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
-        if "delete" in request.POST:
+        if not has_recent_sensitive_verification(request):
+            return stage_sensitive_submission(
+                request,
+                "edit-machinery",
+                request.path,
+                machinery=self.kwargs["machinery"],
+                project_id=self.project.pk if self.project is not None else None,
+                workspace_id=self.workspace.pk if self.workspace is not None else None,
+            )
+        return self.submit(Submission(request.POST, request.GET, request.FILES))
+
+    def submit(self, submission: Submission):
+        self.check_access(self.request)
+        self.submission = submission
+        self.submitted_slug = submission.data.get("slug", "")
+        request = self.request
+        if "delete" in submission.data:
             success_url = (
                 self.get_success_url()
                 if self.service.can_delete
@@ -637,11 +668,11 @@ class EditMachineryView(MachineryDetailView, FormView):
             self.delete_service()
             return HttpResponseRedirect(success_url)
 
-        if "pause" in request.POST:
+        if "pause" in submission.data:
             self.pause_service()
             return HttpResponseRedirect(self.service.get_absolute_url())
 
-        if "exclude_engine" in request.POST:
+        if "exclude_engine" in submission.data:
             self.exclude_engine()
             return HttpResponseRedirect(self.service.get_absolute_url())
 
@@ -649,21 +680,21 @@ class EditMachineryView(MachineryDetailView, FormView):
             msg = "Invalid service specified"
             raise Http404(msg)
 
-        if "reset_rate_limit" in request.POST:
+        if "reset_rate_limit" in submission.data:
             if not self.service.can_delete:
                 raise PermissionDenied
             self.service.reset_rate_limit()
             messages.success(request, gettext("Rate limit reset."))
             return HttpResponseRedirect(self.service.get_absolute_url())
 
-        if "enable" in request.POST:
+        if "enable" in submission.data:
             try:
                 self.enable_service()
             except ValidationError as error:
                 messages.error(request, "; ".join(error.messages))
             return HttpResponseRedirect(self.service.get_absolute_url())
 
-        if "install" in request.POST:
+        if "install" in submission.data:
             if self.machinery.settings_form is not None:
                 return HttpResponseRedirect(self.service.get_absolute_url())
             try:
@@ -674,7 +705,10 @@ class EditMachineryView(MachineryDetailView, FormView):
             return HttpResponseRedirect(self.service.get_absolute_url())
         if not self.service.has_settings:
             raise PermissionDenied
-        return super().post(request, *args, **kwargs)
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        return self.form_invalid(form)
 
     def pause_service(self) -> None:
         if self.installation:
@@ -696,12 +730,12 @@ class EditMachineryGlobalView(MachineryGlobalMixin, EditMachineryView):
     def save_settings(self, data: SettingsDict) -> None:
         if self.installation:
             self.installation.configuration = data
-            self.installation.slug = self.request.POST.get("slug", "")
+            self.installation.slug = self.submitted_slug
             self.installation.save()
         else:
             self.installation = MachineryInstallation.objects.create(
                 engine=self.machinery_id,
-                slug=self.request.POST.get("slug", ""),
+                slug=self.submitted_slug,
                 configuration=data,
             )
 
@@ -754,13 +788,13 @@ class EditMachineryProjectView(MachineryProjectMixin, EditMachineryView):
             if self.installation.project_id != self.project.pk:
                 raise PermissionDenied
             self.installation.configuration = data
-            self.installation.slug = self.request.POST.get("slug", "")
+            self.installation.slug = self.submitted_slug
             self.installation.save()
         elif data is not None:
             self.installation = MachineryInstallation.objects.create(
                 project=self.project,
                 engine=self.machinery_id,
-                slug=self.request.POST.get("slug", ""),
+                slug=self.submitted_slug,
                 configuration=data,
             )
 
@@ -802,13 +836,13 @@ class EditMachineryWorkspaceView(MachineryWorkspaceMixin, EditMachineryView):
             if self.installation.workspace_id != self.workspace.pk:
                 raise PermissionDenied
             self.installation.configuration = data
-            self.installation.slug = self.request.POST.get("slug", "")
+            self.installation.slug = self.submitted_slug
             self.installation.save()
         else:
             self.installation = MachineryInstallation.objects.create(
                 workspace=self.workspace,
                 engine=self.machinery_id,
-                slug=self.request.POST.get("slug", ""),
+                slug=self.submitted_slug,
                 configuration=data,
             )
 
@@ -840,6 +874,29 @@ class EditMachineryWorkspaceView(MachineryWorkspaceMixin, EditMachineryView):
         MachineryExclusion.objects.get_or_create(
             workspace=self.workspace, engine=self.machinery_id
         )
+
+
+@sensitive_operation("edit-machinery")
+def submit_machinery(
+    request: AuthenticatedHttpRequest,
+    submission: Submission,
+    machinery: str,
+    project_id: int | None,
+    workspace_id: str | None,
+):
+    view: EditMachineryView
+    if project_id is not None:
+        project = get_object_or_404(Project, pk=project_id)
+        view = EditMachineryProjectView()
+        view.setup(request, project=project.slug, machinery=machinery)
+    elif workspace_id is not None:
+        view = EditMachineryWorkspaceView()
+        view.setup(request, workspace=workspace_id, machinery=machinery)
+    else:
+        check_management_access(request, "machinery.edit")
+        view = EditMachineryGlobalView()
+        view.setup(request, machinery=machinery)
+    return view.submit(submission)
 
 
 class MachineryLogsView(MachineryDetailView):

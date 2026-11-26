@@ -20,7 +20,12 @@ Weblate 2026.12
 
 .. rubric:: Improvements
 
+* :ref:`translation-memory` entries matching the source text exactly score 100% regardless of their context; entries with the same context are preferred and shown as a context match.
+* The :ref:`addon-weblate.gettext.msgmerge` add-on refreshes the ``Language-Team`` header using the current translation URL when the ``po_set_language_team`` :ref:`file_format_params` parameter is enabled.
+* Show per-string write errors as a persistent :ref:`quality check <check-save-failed>` and limit failed pending edits to one retry per week, with history recorded only on the first failure.
+
 * Show supported features in the :ref:`translation service lists <machine-translation-setup>`.
+* Resume supported browser form submissions after :ref:`verifying your identity <sensitive-action-verification>`.
 
 * Switched :ref:`comment Markdown rendering <user-comments>` to markdown-it-py. Raw HTML tags appear as text, and links and images with disallowed destinations show only their labels.
 * Reduced check contention and component settings update time with :ref:`workspace-propagation-scope`.
@@ -75,6 +80,7 @@ Weblate 2026.12
 * Highlighted individual search terms in the searched fields when :ref:`searching for strings <search-strings>`.
 * Show :ref:`linked components <internal-urls>` in repository details and label suggestion counts on wider screens in :ref:`zen-mode`.
 * Improved performance for long strings in the :ref:`translation editor <translating>` by grouping indentation markers and editing long translations as plain text.
+* Highlighted XML tags in the translation editor for :ref:`ICU MessageFormat <check-icu-message-format>` strings with XML support enabled.
 
 .. rubric:: Security fixes
 
@@ -98,10 +104,13 @@ Weblate 2026.12
 * Restricted :ref:`webhook matching <hooks-target-matching>` to repository owners, preventing generic deliveries from triggering GitHub App updates through linked components.
 * Required repository access to set a path for a :ref:`repository-linked screenshot <screenshots>`.
 * Kept backend errors out of :ref:`task status results <api-tasks>` when cached task metadata is removed during a request.
-* Prevented workspace disclosure in the :ref:`browsable REST API <api>` by using text inputs for single related objects. Large single-choice fields also use text inputs.
+* Prevented disclosure of private user fields in :ref:`REST API <api>` forms and of inaccessible workspace UUIDs in project create and update requests.
+* Restricted automatic Markdown mention formatting to profiles the viewer can access. See :ref:`privacy-configuration`.
 
 .. rubric:: Bug fixes
 
+* Restored Git-tracked executable bits and empty submodule directories when importing a :ref:`project backup <projectbackup>`.
+* Report invalid SMTP recipient addresses in :setting:`ADMINS` during :ref:`deployment checks <production-admins>`.
 * Removed the separate upload rate limit for :http:post:`REST translation uploads </api/translations/(string:project)/(string:component)/(string:language)/file/>`.
 * Accepted quality check aliases in :ref:`flag settings <custom-checks>` and made them searchable in the flag editor.
 * Limited repository automation :ref:`alerts <alerts>` to components that own a remote repository and skipped screenshot coverage guidance for glossaries.
@@ -126,6 +135,8 @@ Weblate 2026.12
 * Released :ref:`repository operation <repository-maintenance>` reservations within minutes when the worker running them is killed, instead of blocking further repository operations for hours.
 
 .. rubric:: Compatibility
+
+* Removed the browsable :ref:`REST API <api>` renderer and its HTML forms. Browse the API documentation at ``/api/docs/``.
 
 * Restricted :ref:`configurable templates <markup>` to documented operations with parsing, allocation, and cumulative work limits.
 

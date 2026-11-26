@@ -21,6 +21,7 @@ from django.test import SimpleTestCase
 from weblate.utils.requests import (
     RuntimeRedirectValidators,
     async_fetch_url,
+    async_fetch_validated_url,
     async_open_url,
     fetch_restricted_asset_url,
     fetch_url,
@@ -170,28 +171,55 @@ class HTTPDeadlineTest(SimpleTestCase):
 
     def test_address_fallback_shares_total_budget(self) -> None:
         addresses: list[str] = []
+        expected_addresses = ("93.184.216.34", "93.184.216.35")
 
-        async def connect(request: httpx2.Request) -> httpx2.Response:
-            addresses.append(request.url.host)
-            await asyncio.sleep(0.12)
-            msg = "Try another address"
-            raise httpx2.ConnectError(msg, request=request)
+        async def fetch() -> None:
+            loop = asyncio.get_running_loop()
+            now = 100.0
 
-        with (
-            patch(
-                "weblate.utils.requests._TEST_TRANSPORT.transport",
-                DeadlineTransport(connect),
-            ),
-            patch.object(
-                RuntimeRedirectValidators,
-                "validate_async_request_url",
-                return_value=("93.184.216.34", "93.184.216.35"),
-            ),
-            patch.dict("os.environ", {}, clear=True),
-            self.assertRaises(httpx2.TimeoutException),
-        ):
-            fetch_validated_url("GET", "https://example.com/", timeout=0.2)
-        self.assertEqual(addresses, ["93.184.216.34", "93.184.216.35"])
+            def clock() -> float:
+                return now
+
+            def advance_clock(seconds: float) -> None:
+                nonlocal now
+                now += seconds
+
+            async def connect(request: httpx2.Request) -> httpx2.Response:
+                addresses.append(request.url.host)
+                if len(addresses) == 1:
+                    advance_clock(0.125)
+                    msg = "Try another address"
+                    raise httpx2.ConnectError(msg, request=request)
+
+                # Register the mock's wake-up before advancing the clock past
+                # both timers. The original request deadline should fire first.
+                loop.call_soon(advance_clock, 0.1875)
+                await asyncio.sleep(0.1875)
+                self.fail("The original deadline should cancel the second attempt")
+
+            with (
+                patch.object(loop, "time", clock),
+                patch("weblate.utils.requests.monotonic", clock),
+                patch(
+                    "weblate.utils.requests._TEST_TRANSPORT.transport",
+                    DeadlineTransport(connect),
+                ),
+                patch.object(
+                    RuntimeRedirectValidators,
+                    "validate_async_request_url",
+                    return_value=expected_addresses,
+                ),
+                patch.dict("os.environ", {}, clear=True),
+                self.assertRaises(httpx2.TimeoutException),
+            ):
+                await async_fetch_validated_url(
+                    "GET",
+                    "https://example.com/",
+                    timeout=httpx2.Timeout(1.0, read=0.25),
+                )
+
+        asyncio.run(fetch())
+        self.assertEqual(tuple(addresses), expected_addresses)
 
     def test_external_cancellation_is_preserved(self) -> None:
         events: list[str] = []

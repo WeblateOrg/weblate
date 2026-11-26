@@ -16,7 +16,6 @@ from asgiref.sync import async_to_sync
 from django.apps import apps
 from django.conf import settings
 from django.contrib.auth.hashers import PBKDF2PasswordHasher, verify_password
-from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -37,6 +36,7 @@ from django_otp.plugins.otp_totp.models import TOTPDevice
 from lxml import html
 from social_django.models import UserSocialAuth
 
+from weblate.accounts.continuation import SESSION_PENDING
 from weblate.accounts.models import AuditLog, VerifiedEmail
 from weblate.accounts.password_validation import PastPasswordsValidator
 from weblate.accounts.tasks import notify_auditlog
@@ -54,6 +54,7 @@ from weblate.wladmin.security import (
     handle_finding,
     input_key,
     is_legacy_email_alias,
+    load_input,
     parse_report,
     record_detection,
     run_security_scan,
@@ -530,7 +531,7 @@ class AccountSecurityTest(TestCase):
             ]
         )
         with self.assertNumQueries(2):
-            findings, *_ = filtered_findings(RequestFactory().get("/"))
+            findings, *_ = filtered_findings(RequestFactory().get("/").GET)
             for finding in findings[:50]:
                 str(finding.user.username)
                 self.assertEqual(finding.user.date_joined, self.user.date_joined)
@@ -543,6 +544,10 @@ class AccountSecurityTest(TestCase):
         page = response.context["page"]
         self.assertEqual(len(page), 2)
         self.assertContains(response, 'name="selected"', count=2)
+        self.verification.stop()
+        session = self.client.session
+        session.pop(SESSION_SENSITIVE_FACTOR_GRANT, None)
+        session.save()
         response = self.client.post(
             reverse("manage-security") + "?page=2",
             {
@@ -550,7 +555,13 @@ class AccountSecurityTest(TestCase):
                 "selected": [str(finding.pk) for finding in page],
             },
         )
+        response = self.client.post(
+            response["Location"],
+            {"target": "sensitive", "password": "admin-pass"},
+            follow=True,
+        )
         self.assertEqual(response.context["count"], 2)
+        self.assertEqual(SecurityFinding.objects.filter(status="dismissed").count(), 0)
         with self.captureOnCommitCallbacks(execute=True):
             result = self.client.post(
                 reverse("manage-security-confirm"), {"token": response.context["token"]}
@@ -663,41 +674,107 @@ class AccountSecurityTest(TestCase):
         self.assertNotContains(response, "Reset passwords for selected accounts")
         self.assertNotContains(response, "Validate leaked passwords")
 
-    def test_expired_upload_requires_new_file_without_storage(self) -> None:
+    def test_expired_upload_resumes_from_encrypted_storage(self) -> None:
         self.verification.stop()
         session = self.client.session
-        session[SESSION_SENSITIVE_FACTOR_GRANT] = {
-            "user": self.admin.pk,
-            "hash": self.admin.get_session_auth_hash(),
-            "time": int(time.time()),
-        }
-        session.save()
-        self.assertContains(
-            self.client.get(reverse("manage-security-upload")), 'name="report"'
-        )
-        session = self.client.session
-        session[SESSION_SENSITIVE_FACTOR_GRANT]["time"] -= 601
+        session.pop(SESSION_SENSITIVE_FACTOR_GRANT, None)
         session.save()
         report = SimpleUploadedFile(
             "synthetic.csv", b"username,password\nsecurity-target,synthetic-secret\n"
         )
-        with patch("weblate.wladmin.security_views.store_input") as store:
-            response = self.client.post(
-                reverse("manage-security-upload"), {"report": report, "header": "on"}
-            )
+        response = self.client.post(
+            reverse("manage-security-upload"), {"report": report, "header": "on"}
+        )
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(
-            parse_qs(urlparse(response["Location"]).query)["next"],
-            [reverse("manage-security-upload")],
-        )
-        store.assert_not_called()
+        next_url = parse_qs(urlparse(response["Location"]).query)["next"][0]
+        self.assertNotIn("synthetic-secret", response["Location"])
+        self.assertNotIn("synthetic-secret", str(dict(self.client.session.items())))
+        token = self.client.session[SESSION_PENDING]
+        encrypted = cache.get(f"sensitive-submission:{token}")
+        self.assertIsInstance(encrypted, bytes)
+        self.assertNotIn(b"synthetic-secret", encrypted)
         self.assertFalse(SecurityScan.objects.exists())
-        self.assertTrue(
-            any(
-                "upload the CSV report again" in str(message)
-                for message in get_messages(response.wsgi_request)
-            )
+
+        proof = {"target": "sensitive", "next": next_url, "password": "admin-pass"}
+        with patch("weblate.wladmin.security_views.security_scan_task.delay") as task:
+            response = self.client.post(reverse("first-factor-verify"), proof)
+        scan = SecurityScan.objects.get(actor=self.admin, filename="synthetic.csv")
+        self.assertEqual(scan.total, 1)
+        task.assert_called_once_with(str(scan.pk))
+        self.assertNotIn("synthetic-secret", response["Location"])
+        self.assertRedirects(
+            response,
+            reverse("manage-security-progress", kwargs={"pk": scan.pk}),
+            fetch_redirect_response=False,
         )
+
+    def test_resumed_upload_can_retry_invalid_csv_settings(self) -> None:
+        self.verification.stop()
+        upload_url = reverse("manage-security-upload")
+        for name, options, error in (
+            (
+                "parser.csv",
+                {},
+                "Could not detect the credential columns.",
+            ),
+            (
+                "form.csv",
+                {"identifier_column": 2},
+                "Specify both column numbers, or leave both blank",
+            ),
+        ):
+            with self.subTest(name=name):
+                session = self.client.session
+                session.pop(SESSION_SENSITIVE_FACTOR_GRANT, None)
+                session.save()
+                data = b"synthetic-secret|security-target\n"
+                report = SimpleUploadedFile(name, data)
+                response = self.client.post(upload_url, {"report": report, **options})
+                with patch(
+                    "weblate.wladmin.security_views.security_scan_task.delay"
+                ) as task:
+                    response = self.client.post(
+                        response["Location"],
+                        {"target": "sensitive", "password": "admin-pass"},
+                        follow=True,
+                    )
+                    scan = SecurityScan.objects.get(actor=self.admin, filename=name)
+                    self.assertEqual(scan.state, "configuring")
+                    self.assertEqual(load_input(scan), data)
+                    self.assertContains(response, error)
+                    self.assertContains(response, f'name="scan" value="{scan.pk}"')
+                    self.assertNotContains(response, "synthetic-secret")
+                    task.assert_not_called()
+
+                    response = self.client.post(
+                        upload_url,
+                        {
+                            "scan": str(scan.pk),
+                            "delimiter": "|",
+                            "identifier_column": 2,
+                            "password_column": 1,
+                        },
+                    )
+                self.assertRedirects(
+                    response,
+                    reverse("manage-security-progress", kwargs={"pk": scan.pk}),
+                    fetch_redirect_response=False,
+                )
+                task.assert_called_once_with(str(scan.pk))
+
+    def test_oversized_pending_report_is_not_staged(self) -> None:
+        self.verification.stop()
+        session = self.client.session
+        session.pop(SESSION_SENSITIVE_FACTOR_GRANT, None)
+        session.save()
+        report = SimpleUploadedFile("oversized.csv", b"x" * (MAX_UPLOAD + 1))
+        url = reverse("manage-security-upload")
+
+        response = self.client.post(url, {"report": report, "header": "on"})
+
+        self.assertEqual(parse_qs(urlparse(response["Location"]).query)["next"], [url])
+        self.assertNotIn(SESSION_PENDING, self.client.session)
+        self.assertFalse(SecurityScan.objects.exists())
 
     def test_upload_page_verifies_before_showing_file_input(self) -> None:
         self.verification.stop()
@@ -847,10 +924,10 @@ class AccountSecurityTest(TestCase):
 
     def test_input_configuration_ownership_and_invalid_ids(self) -> None:
         scan = SecurityScan.objects.create(actor=self.user, state="configuring")
-        response = self.client.post(
-            reverse("manage-security-upload"), {"scan": str(scan.pk)}
-        )
-        self.assertEqual(response.status_code, 404)
+        url = reverse("manage-security-upload")
+        for request in (self.client.get, self.client.post):
+            with self.subTest(method=request.__name__):
+                self.assertEqual(request(url, {"scan": str(scan.pk)}).status_code, 404)
         response = self.client.get(reverse("manage-security"), {"scan": "invalid"})
         self.assertEqual(response.status_code, 404)
 
@@ -976,7 +1053,7 @@ class AccountSecurityTest(TestCase):
         self.assertEqual(response.context["source_report"].pk, first.pk)
         self.assertEqual(response.context["page"][0]["identifier"], self.user.username)
         with self.assertNumQueries(2):
-            findings, *_ = filtered_findings(RequestFactory().get("/"))
+            findings, *_ = filtered_findings(RequestFactory().get("/").GET)
             for item in findings[:50]:
                 for event in item.events.all():
                     event.scan.get_absolute_url()

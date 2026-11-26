@@ -522,6 +522,7 @@ class AtomicWriteTempDirTest(SimpleTestCase):
                     return_value=self.context_manager,
                 ) as named_temp,
                 patch("weblate.formats.base.os.replace"),
+                patch("weblate.formats.base.shutil.copymode"),
                 patch(
                     "weblate.formats.base.os.path.exists", side_effect=self.temp_exists
                 ),
@@ -1816,6 +1817,23 @@ class PoFormatTest(BaseFormatTest):
         with self.assertRaises(UpdateError):
             self.format_class.update_bilingual(test_file, TEST_POT_UNICODE)
         self.assertEqual(Path(test_file).stat().st_size, 340)
+
+    def test_msgmerge_updates_header_after_messages(self) -> None:
+        filename = Path(self.tempdir) / "test.po"
+        store = self.format_class(TEST_PO).store
+        last_translator = store.parseheader()["Last-Translator"]
+        header, message = store.units[:2]
+        store.units = [message, header]
+        filename.write_bytes(bytes(store))
+
+        language_team = "Czech <https://example.com/projects/test/new/cs/>"
+        self.format_class.update_bilingual(
+            str(filename), TEST_POT, language_team=language_team
+        )
+
+        headers = self.format_class(filename).store.parseheader()
+        self.assertEqual(headers["Language-Team"], language_team)
+        self.assertEqual(headers["Last-Translator"], last_translator)
 
     def test_obsolete(self) -> None:
         # Test adding unit matching obsolete one

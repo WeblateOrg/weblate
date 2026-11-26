@@ -11,6 +11,7 @@ from collections.abc import Mapping
 from contextlib import nullcontext
 from typing import TYPE_CHECKING, TypedDict, cast
 from urllib.parse import unquote
+from uuid import UUID
 
 from celery.result import AsyncResult
 from django.conf import settings
@@ -533,7 +534,8 @@ USER_GROUP_REQUEST_SERIALIZER = inline_serializer(
 )
 
 USER_UPDATE_DESCRIPTION = (
-    "Change the user parameters. Bot accounts cannot edit themselves. "
+    "Update your account or, with user.edit permission, another account. "
+    "Bot accounts cannot edit themselves. "
     "The username, email, and is_bot fields of generated API token accounts "
     "cannot be changed."
 )
@@ -721,7 +723,7 @@ def get_view_description(view, html=False):
     """
     Given a view class, return a textual description to represent the view.
 
-    This name is used in the browsable API, and in OPTIONS responses. This function is
+    This description is used in OPTIONS responses. This function is
     the default for the `VIEW_DESCRIPTION_FUNCTION` setting.
     """
     description = view.__doc__ or ""
@@ -1363,11 +1365,13 @@ def get_delete_memory_option(request: Request) -> bool:
         responses=USER_RESPONSE_SERIALIZER,
     ),
     update=extend_schema(
+        summary="Change the user parameters.",
         request=UserUpdateRequestSerializer,
         responses=FullUserSerializer,
         description=USER_UPDATE_DESCRIPTION,
     ),
     partial_update=extend_schema(
+        summary="Change the user parameters.",
         request=UserUpdateRequestSerializer,
         responses=FullUserSerializer,
         description=USER_UPDATE_DESCRIPTION,
@@ -1410,7 +1414,9 @@ class UserViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
     def get_serializer_class(self):
         if getattr(self, "swagger_fake_view", False):
             return FullUserSerializer
-        if self.action in {"update", "partial_update"}:
+        if self.action in {"update", "partial_update"} or (
+            self.action == "metadata" and self.request.method == "PUT"
+        ):
             if self.request.user.has_perm("user.edit"):
                 return FullUserSerializer
             return SelfUserSerializer
@@ -1435,10 +1441,15 @@ class UserViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
             "profile__watched",
         ).select_related("profile__dashboard_component_list")
 
-    def get_object(self):
-        obj = super().get_object()
-        check_profile_access(self.request.user, obj)
-        return obj
+    def check_object_permissions(self, request: Request, obj: User) -> None:
+        check_profile_access(request.user, obj)
+        super().check_object_permissions(request, obj)
+        # Metadata temporarily changes the method while leaving the action alone.
+        if self.action in {"update", "partial_update", "destroy", "metadata"}:
+            if request.method in {"PUT", "PATCH"}:
+                self.perm_check(request, obj, allow_self=True, write=True)
+            elif request.method == "DELETE":
+                self.perm_check(request, obj, write=True)
 
     def finalize_response(self, request, response, *args, **kwargs):
         response = super().finalize_response(request, response, *args, **kwargs)
@@ -1557,12 +1568,6 @@ class UserViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
         if not request.user.has_perm("user.edit"):
             self.permission_denied(request, "Can not manage Users")
 
-    def update(self, request: Request, *args, **kwargs):
-        """Change the user parameters."""
-        instance = self.get_object()
-        self.perm_check(request, instance, allow_self=True, write=True)
-        return super().update(request, *args, **kwargs)
-
     def create(self, request: Request, *args, **kwargs):
         """Create a new user."""
         self.perm_check(request)
@@ -1578,7 +1583,6 @@ class UserViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
     def destroy(self, request: Request, *args, **kwargs):
         """Delete all user information and mark the user inactive."""
         instance = self.get_object()
-        self.perm_check(request, instance, write=True)
         remove_user(instance, cast("AuthenticatedHttpRequest", request))
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -3145,10 +3149,14 @@ class ProjectViewSet(
         data = request.data
         if workspace_id:
             try:
-                workspace = get_object_or_404(Workspace, pk=workspace_id)
-            except (DjangoValidationError, ValueError) as error:
-                raise ValidationError({"workspace": error.messages}) from error
-            if not user.has_perm("workspace.add_project", workspace):
+                workspace_id = UUID(str(workspace_id))
+            except ValueError as error:
+                raise ValidationError({"workspace": "Must be a valid UUID."}) from error
+            try:
+                workspace = user.workspaces_with_perm("workspace.add_project").get(
+                    pk=workspace_id
+                )
+            except Workspace.DoesNotExist:
                 self.permission_denied(request, "Can not create projects")
             if "weblate.billing" in settings.INSTALLED_APPS and hasattr(
                 workspace, "billing"

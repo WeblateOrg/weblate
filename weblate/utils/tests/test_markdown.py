@@ -250,7 +250,7 @@ class MarkdownTestCase(SimpleTestCase):
                     rendered,
                 )
             else:
-                self.assertIn("<bdi><strong>@testuser</strong></bdi>", rendered)
+                self.assertIn("<p>@testuser مرحبا ", rendered)
                 self.assertNotIn("/user/testuser/", rendered)
 
 

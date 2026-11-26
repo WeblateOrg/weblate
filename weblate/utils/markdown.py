@@ -57,11 +57,10 @@ def _allowed_url(url: str) -> bool:
 
 
 def _prepare_inline_tokens(tokens: list[Token], state: StateCore) -> list[Token]:
-    unlinked_mentions: frozenset[str] = state.env["unlinked_mentions"]
     renderer = cast("RendererHTML", state.md.renderer)
     prepared: list[Token] = []
     links: list[tuple[Token, int]] = []
-    for index, token in enumerate(tokens):
+    for token in tokens:
         if token.type == "link_open":
             links.append((token, len(prepared)))
         elif token.type == "link_close":
@@ -89,19 +88,7 @@ def _prepare_inline_tokens(tokens: list[Token], state: StateCore) -> list[Token]
                     token.children, state.md.options, state.env
                 )
                 token = Token("text", "", 0, content=label)
-        elif token.type == "strong_open":
-            following = tokens[index + 1 : index + 3]
-            if (
-                len(following) == 2
-                and following[0].type == "text"
-                and following[0].content in unlinked_mentions
-                and following[1].type == "strong_close"
-            ):
-                prepared.append(Token("bdi_open", "bdi", 1))
-                following[1].meta["isolate_mention"] = True
         prepared.append(token)
-        if token.meta.get("isolate_mention"):
-            prepared.append(Token("bdi_close", "bdi", -1))
     return prepared
 
 
@@ -135,26 +122,18 @@ def render_markdown(text: str, *, viewer: User | AnonymousUser | None = None) ->
     """Render Markdown to HTML with viewer-specific user mentions."""
     original_text = text
     users = {u.username.lower(): u for u in get_mention_users(text)}
-    unlinked_mentions: set[str] = set()
     parts = MENTION_RE.split(text)
     for pos, part in enumerate(parts):
         if not part.startswith("@"):
             continue
-        username = part[1:].lower()
-        if username in users:
-            user = users[username]
-            if can_view_profile(viewer, user):
-                title = html.escape(user.get_visible_name().replace("\\", "\\\\"))
-                parts[pos] = f'**[{part}]({user.get_absolute_url()} "{title}")**'
-            else:
-                # Keep mentions isolated in RTL text even without a profile link.
-                unlinked_mentions.add(part)
-                parts[pos] = f"**{part}**"
+        user = users.get(part[1:].lower())
+        # Formatting would disclose the account even without a profile link.
+        if user is not None and can_view_profile(viewer, user):
+            title = html.escape(user.get_visible_name().replace("\\", "\\\\"))
+            parts[pos] = f'**[{part}]({user.get_absolute_url()} "{title}")**'
     text = "".join(parts)
     try:
-        rendered = _get_parser().render(
-            text, {"unlinked_mentions": frozenset(unlinked_mentions)}
-        )
+        rendered = _get_parser().render(text)
         # ruff: ignore[suspicious-mark-safe-usage]
         return mark_safe(rendered)
     except Exception:

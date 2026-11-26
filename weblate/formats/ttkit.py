@@ -14,6 +14,7 @@ import inspect
 import os
 import re
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
+import tempfile
 from codecs import BOM_UTF16_LE, BOM_UTF32_LE, lookup
 from copy import copy, deepcopy
 from io import BytesIO, StringIO
@@ -2163,18 +2164,39 @@ class PoFormat(BasePoFormat, BilingualUpdateMixin):
         Wrapper around msgmerge.
         """
         file_format_params = kwargs.pop("file_format_params", None)
-        cmd = [
-            "msgmerge",
-            *kwargs.pop("args", ["--previous"]),
-            "--output-file",
-            out_file,
-            in_file,
-            template,
-        ]
+        language_team = kwargs.pop("language_team", None)
+        args = kwargs.pop("args", ["--previous"])
         if kwargs:
             msg = f"Unsupported arguments: {kwargs!r}"
             raise ValueError(msg)
 
+        with contextlib.ExitStack() as stack:
+            if language_team is not None:
+                original = cls(in_file, file_format_params=file_format_params)
+                original._ensure_po_header_first()
+                store = original._po_header_store()
+                if store.parseheader().get("Language-Team") != language_team:
+                    original._ensure_po_header_first(
+                        store.updateheader(add=True, language_team=language_team)
+                    )
+                    directory = stack.enter_context(
+                        tempfile.TemporaryDirectory(dir=os.path.dirname(out_file))
+                    )
+                    in_file = os.path.join(directory, os.path.basename(in_file))
+                    # Let msgmerge apply its wrapping to the staged PO.
+                    original.save_atomic(
+                        in_file, original.store.serialize, repo_temp_dir=directory
+                    )
+            cls._run_msgmerge(in_file, out_file, template, args)
+
+        if GettextRemoveObsolete.get_value(file_format_params):
+            cls(out_file, file_format_params=file_format_params).save()
+
+    @staticmethod
+    def _run_msgmerge(
+        in_file: str, out_file: str, template: str, args: list[str]
+    ) -> None:
+        cmd = ["msgmerge", *args, "--output-file", out_file, in_file, template]
         try:
             result = subprocess.run(
                 cmd,
@@ -2208,11 +2230,6 @@ class PoFormat(BasePoFormat, BilingualUpdateMixin):
             errors.append(line)
         if errors:
             raise UpdateError(" ".join(cmd), "\n".join(errors))
-        if GettextRemoveObsolete.get_value(file_format_params):
-            cls(
-                out_file,
-                file_format_params=file_format_params,
-            ).save()
 
 
 class PoMonoFormat(BasePoFormat):

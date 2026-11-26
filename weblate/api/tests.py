@@ -41,7 +41,7 @@ from django.db import (
 )
 from django.db.models import Q
 from django.db.models.fields.files import FieldFile
-from django.http import QueryDict, StreamingHttpResponse
+from django.http import StreamingHttpResponse
 from django.templatetags.static import static
 from django.test import SimpleTestCase, TransactionTestCase
 from django.test.client import BOUNDARY, MULTIPART_CONTENT, encode_multipart
@@ -49,8 +49,6 @@ from django.test.utils import CaptureQueriesContext, modify_settings, override_s
 from django.urls import Resolver404, resolve, reverse
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from drf_spectacular.validation import validate_schema
-from lxml.html import fromstring
-from rest_framework import serializers
 from rest_framework.request import Request
 from rest_framework.test import APIClient, APIRequestFactory, APITestCase
 from weblate_language_data.languages import LANGUAGES
@@ -85,7 +83,7 @@ from weblate.api.docs import (
     document_all_static_vcs_choices,
 )
 from weblate.api.parsers import TranslationFileMultiPartParser
-from weblate.api.renderers import AutoCSVRenderer, WeblateHTMLFormRenderer
+from weblate.api.renderers import AutoCSVRenderer
 from weblate.api.serializers import (
     CategorySerializer,
     ChangeSerializer,
@@ -237,50 +235,6 @@ TEST_DOC = get_test_file("cs.html")
 TEST_ZIP = get_test_file("translations.zip")
 TEST_BADPLURALS = get_test_file("cs-badplurals.po")
 TEST_SCREENSHOT = get_test_file("screenshot.png")
-
-
-class BrowsableAPIFormTest(SimpleTestCase):
-    def test_nested_relations_do_not_load_choices(self) -> None:
-        class RelationsSerializer(serializers.Serializer):
-            pk = serializers.PrimaryKeyRelatedField(queryset=Language.objects.all())
-            code = serializers.SlugRelatedField(
-                queryset=Language.objects.all(), slug_field="code"
-            )
-            url = serializers.HyperlinkedRelatedField(
-                queryset=Language.objects.all(), view_name="api:language-detail"
-            )
-
-        class FormSerializer(serializers.Serializer):
-            language = RelationsSerializer()
-
-        with patch.object(
-            serializers.RelatedField, "get_choices", side_effect=AssertionError
-        ):
-            form = fromstring(WeblateHTMLFormRenderer().render(FormSerializer().data))
-        self.assertEqual(
-            form.xpath('//input[@type="text"]/@name'),
-            ["language.pk", "language.code", "language.url"],
-        )
-
-    def test_choice_controls(self) -> None:
-        choices = [(str(i), f"Option {i}") for i in range(100)]
-        grouped_choices = [("Group", choices), ("Other", [("100", "Last option")])]
-
-        class FormSerializer(serializers.Serializer):
-            small = serializers.ChoiceField(choices=choices)
-            large = serializers.ChoiceField(choices=grouped_choices)
-            multiple = serializers.MultipleChoiceField(choices=grouped_choices)
-
-        data = QueryDict("small=99&large=100&multiple=1&multiple=2")
-        serializer = FormSerializer(data=data)
-        self.assertTrue(serializer.is_valid(), serializer.errors)
-        self.assertEqual(set(serializer.validated_data["multiple"]), {"1", "2"})
-        form = fromstring(WeblateHTMLFormRenderer().render(serializer.data))
-        self.assertEqual(
-            form.xpath('//select[@name="small"]/option[@selected]/@value'), ["99"]
-        )
-        self.assertEqual(form.xpath('//input[@name="large"]/@value'), ["100"])
-        self.assertTrue(form.xpath('//select[@name="multiple" and @multiple]'))
 
 
 class CSVRendererTest(SimpleTestCase):
@@ -611,6 +565,75 @@ class APIBaseTest(APITestCase, ReusableComponentTestCase):
 
 
 class UserAPITest(APIBaseTest):
+    def test_user_detail_options_permissions(self) -> None:
+        target = User.objects.create_user("another-user", "another@example.org")
+        url = reverse("api:user-detail", kwargs={"username": target.username})
+        own_url = reverse("api:user-detail", kwargs={"username": self.user.username})
+        with VisibilityPermissions(directory="all", profile="authenticated"):
+            self.authenticate()
+            self.assertNotIn("email", self.client.get(url).data)
+            response = self.client.options(url)
+            self.assertEqual(response.status_code, 200)
+            self.assertIn("PUT", response["Allow"])
+            self.assertNotIn("PUT", response.data.get("actions", {}))
+            self.assertIn("email", self.client.options(own_url).data["actions"]["PUT"])
+            self.assertEqual(
+                self.client.patch(
+                    url, {"full_name": "Changed"}, format="json"
+                ).status_code,
+                403,
+            )
+            self.assertEqual(
+                self.client.patch(
+                    own_url, {"full_name": "Updated self"}, format="json"
+                ).status_code,
+                200,
+            )
+            self.authenticate(True)
+            self.assertIn("email", self.client.options(url).data["actions"]["PUT"])
+            self.assertEqual(
+                self.client.patch(
+                    url, {"full_name": "Updated by admin"}, format="json"
+                ).status_code,
+                200,
+            )
+
+    def test_user_detail_write_protects_hidden_and_internal_accounts(self) -> None:
+        target = User.objects.create_user("hidden-user", "hidden@example.org")
+        url = reverse("api:user-detail", kwargs={"username": target.username})
+        with VisibilityPermissions(directory="disabled", profile="admins"):
+            self.authenticate()
+            self.assertEqual(
+                self.client.patch(
+                    url, {"full_name": "Changed"}, format="json"
+                ).status_code,
+                404,
+            )
+
+        bot = User.objects.get_or_create_bot(
+            scope="test", name="internal", verbose="Internal test bot"
+        )
+        url = reverse("api:user-detail", kwargs={"username": bot.username})
+        self.authenticate(True)
+        self.assertEqual(
+            self.client.patch(url, {"full_name": "Changed"}, format="json").status_code,
+            403,
+        )
+        self.assertEqual(self.client.delete(url).status_code, 403)
+
+    def test_data_endpoint_renderers(self) -> None:
+        url = reverse("api:user-detail", kwargs={"username": self.user.username})
+        self.authenticate()
+        self.assertEqual(self.client.get(url, {"format": "api"}).status_code, 404)
+        self.assertEqual(
+            self.client.get(url, headers={"Accept": "text/html"}).status_code, 406
+        )
+        for media_type in ("application/json", "text/csv"):
+            with self.subTest(media_type=media_type):
+                response = self.client.get(url, headers={"Accept": media_type})
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response["Content-Type"].split(";")[0], media_type)
+
     def create_visibility_contributor(self):
         translation = self.component.translation_set.get(language__code="cs")
         unit = translation.unit_set.order_by("id")[0]
@@ -5442,29 +5465,6 @@ class ProjectCreationConcurrencyTest(TransactionTestCase):
                 Project.objects.filter(slug__startswith="race-project-").delete()
 
 
-class ProjectBrowsableAPIFormTest(APIBaseTest):
-    def test_workspace_and_language_inputs(self) -> None:
-        hidden = Workspace.objects.create(name="Unrelated workspace")
-        response = self.do_request("api:project-list", request={"format": "api"})
-        self.assertNotContains(response, hidden.name)
-        self.assertNotContains(response, str(hidden.pk))
-        form = fromstring(response.content)
-        for name in ("workspace", "secondary_language"):
-            self.assertTrue(
-                form.xpath('//input[@type="text" and @name=$name]', name=name)
-            )
-
-        current = Workspace.objects.create(name="Project workspace")
-        Project.objects.filter(pk=self.project.pk).update(workspace=current)
-        response = self.do_request(
-            "api:project-detail", self.project_kwargs, request={"format": "api"}
-        )
-        self.assertEqual(
-            fromstring(response.content).xpath('//input[@name="workspace"]/@value'),
-            [str(current.pk)],
-        )
-
-
 class MachinerySessionAPITest(APIBaseTest):
     def test_machinery_session_verification(self) -> None:
         self.grant_perm_to_user("project.edit", project=self.project)
@@ -6793,6 +6793,18 @@ class ProjectAPITest(APIBaseTest):
                 "workspace": str(workspace.pk),
             },
         )
+        missing = self.do_request(
+            "api:project-list",
+            method="post",
+            code=403,
+            request={
+                "name": "API project",
+                "slug": "api-project",
+                "web": "https://weblate.org/",
+                "workspace": str(uuid4()),
+            },
+        )
+        self.assertEqual(response.data, missing.data)
         self.assertEqual(
             {
                 "errors": [
@@ -8624,13 +8636,37 @@ class ProjectAPITest(APIBaseTest):
         Project.objects.filter(pk=self.project.pk).update(workspace=current_workspace)
         unauthorized_workspace = Workspace.objects.create(name="Unauthorized")
         self.user.clear_permissions_cache()
-        self.do_request(
+        denied = self.do_request(
             "api:project-detail",
             self.project_kwargs,
             method="patch",
             code=403,
             format="json",
             request={"workspace": str(unauthorized_workspace.pk)},
+        )
+        missing = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=403,
+            format="json",
+            request={"workspace": str(uuid4())},
+        )
+        self.assertEqual(denied.data, missing.data)
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=400,
+            format="json",
+            request={"workspace": "not-a-uuid"},
+        )
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            format="json",
+            request={"workspace": str(current_workspace.pk)},
         )
         self.project.refresh_from_db()
         self.assertEqual(self.project.workspace_id, current_workspace.pk)

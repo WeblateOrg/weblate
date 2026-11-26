@@ -18,7 +18,7 @@ from django import forms
 from django.conf import settings
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db import IntegrityError, models, transaction
-from django.db.models import Model, TextChoices
+from django.db.models import Model, Q, TextChoices
 from django.utils.translation import gettext_lazy
 from drf_spectacular.extensions import (
     OpenApiSerializerFieldExtension,
@@ -1832,9 +1832,37 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
             raise serializers.ValidationError(error.message_dict) from error
 
 
+class ProjectWorkspaceField(serializers.PrimaryKeyRelatedField):
+    def get_queryset(self):
+        request = self.context.get("request")
+        if request is None:
+            return Workspace.objects.none()
+        user = request.user
+        eligible = user.workspaces_with_perm("workspace.add_project")
+        project = self.parent.instance
+        if project is None:
+            return eligible
+        editable = user.workspaces_with_perm("workspace.edit")
+        return Workspace.objects.filter(
+            Q(pk=project.workspace_id) | (Q(pk__in=eligible) & Q(pk__in=editable))
+        )
+
+    def to_internal_value(self, data):
+        workspace_id = serializers.UUIDField().run_validation(data)
+        try:
+            return super().to_internal_value(workspace_id)
+        except serializers.ValidationError as error:
+            if error.get_codes() == ["does_not_exist"]:
+                msg = "Can not use this workspace"
+                raise PermissionDenied(msg) from None
+            raise
+
+
 class ProjectSerializer(serializers.ModelSerializer[Project]):
-    workspace = serializers.PrimaryKeyRelatedField(
-        queryset=Workspace.objects.all(), required=False, allow_null=True
+    workspace = ProjectWorkspaceField(
+        queryset=Workspace.objects.all(),
+        required=False,
+        allow_null=True,
     )
     effective_license = serializers.SerializerMethodField()
     effective_agreement = serializers.SerializerMethodField()
