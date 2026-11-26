@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item"><a href="{% url 'manage' %}">{% translate "Manage" %}</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'manage-github-accounts' %}">{% translate "Code-hosting connections" %}</a></li>
+  <li class="breadcrumb-item">{% translate "Connected accounts" %}</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title h4">
+        {% translate "Connected accounts" %}
+        {% if host %}<small class="text-body-secondary">({{ host }})</small>{% endif %}
+      </h2>
+    </div>
+    <div class="card-body">
+      {% if page_obj %}
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">{% translate "Account" %}</th>
+                <th scope="col">{% translate "GitHub host" %}</th>
+                <th scope="col">{% translate "Workspace" %}</th>
+                <th scope="col">{% translate "Provider ID" %}</th>
+                <th scope="col">{% translate "Repositories" %}</th>
+                <th scope="col">{% translate "Status" %}</th>
+                <th scope="col">{% translate "Actions" %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for installation in page_obj %}
+                <tr>
+                  <td>
+                    <strong>{{ installation.target_login }}</strong>
+                    <small class="text-body-secondary">({{ installation.target_type }})</small>
+                  </td>
+                  <td>{{ installation.hostname }}</td>
+                  <td><a href="{% url 'workspace-integrations' installation.workspace_id %}">{{ installation.workspace }}</a></td>
+                  <td>{{ installation.installation_id }}</td>
+                  <td>{{ installation.repositories|length }}</td>
+                  <td>
+                    {% if installation.enabled %}
+                      <span class="badge text-bg-success">{% translate "Active" %}</span>
+                    {% else %}
+                      <span class="badge text-bg-warning">{% translate "Disabled" %}</span>
+                    {% endif %}
+                  </td>
+                  <td><a href="{% url 'manage-github-account-detail' installation.pk %}"
+                         class="btn btn-outline-primary btn-sm">{% translate "Details" %}</a></td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% include "paginator.html" %}
+      {% else %}
+        <p>{% translate "No connected accounts yet." %}</p>
+        {% if not has_workspaces %}
+          <p>{% translate "Create a workspace before connecting a GitHub account." %}</p>
+          <a href="{% url 'manage-workspaces' %}"
+             class="btn btn-outline-primary">{% translate "Manage workspaces" %}</a>
+        {% elif not migration_urls %}
+          <p>{% translate "A site administrator needs to register a GitHub App for this host before an account can be connected." %}</p>
+        {% endif %}
+      {% endif %}
+      {% if has_workspaces %}
+        {% for hostname, url in migration_urls %}
+          <a href="{{ url }}" class="btn btn-outline-primary">
+            {% blocktranslate %}Choose a workspace to connect on {{ hostname }}{% endblocktranslate %}
+          </a>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+{% endblock content %}

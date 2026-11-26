@@ -7,6 +7,6 @@
   {% if current %}
     {% translate "Code-hosting connections" %}
   {% else %}
-    <a href="{% url 'account-vcs' %}?workspace={{ workspace.pk }}">{% translate "Code-hosting connections" %}</a>
+    <a href="{% url 'workspace-integrations' workspace.pk %}">{% translate "Code-hosting connections" %}</a>
   {% endif %}
 </li>

@@ -388,6 +388,28 @@ push URLs because the App authenticates pushes to the source repository.
 Components using the App stay in the table. Follow a component link to return
 to its overview.
 
+To review all ready components at once, open :guilabel:`Operations` ↓
+:guilabel:`Code-hosting connections` in the workspace and choose
+:guilabel:`Migrate all eligible components`. Review and confirm each batch.
+Use the component migration table to migrate individual components.
+
+Site administrators can open :guilabel:`Manage` ↓
+:guilabel:`Code-hosting connections` and choose :guilabel:`Migrate to GitHub App`
+for an app. Use this page to organize workspace-less projects, connect
+workspaces to GitHub, and review components. Project administrators can
+complete the remaining steps. Connecting a GitHub account requires workspace
+management rights.
+
+When creating one workspace per project, Weblate makes each project's active,
+explicitly assigned administrators with project edit permission owners of
+that workspace. For a shared workspace, the initiating site administrator
+assigns additional owners. Workspace owners can manage all GitHub connections
+in the workspace. See :ref:`workspaces`.
+
+For sites with up to 25 candidate components for the selected App, the site
+administrator can also confirm a migration across workspaces. For larger
+sets, use the workspace migration pages.
+
 .. _code-hosting-github-app-webhook:
 
 App webhook URL

@@ -7,7 +7,6 @@ from django.urls import path
 from weblate.vcs.views import (
     GitHubInstallationDetailView,
     GitHubInstallationListView,
-    UserVCSIntegrationListView,
     github_app_import_repository,
     github_app_install,
     github_app_migration,
@@ -16,21 +15,58 @@ from weblate.vcs.views import (
     github_app_register_submit,
     github_app_repository_list,
     github_app_setup,
+    github_connections,
+    github_site_bulk_migration,
+    github_site_migration,
+    github_workspace_bulk_migration,
+    legacy_account_integrations,
+    legacy_github_app_migration,
     refresh_repositories,
     remove_github_app,
     remove_installation,
+    workspace_integrations,
 )
 
 urlpatterns = [
     path(
         "accounts/integrations/",
-        UserVCSIntegrationListView.as_view(),
+        legacy_account_integrations,
         name="account-vcs",
     ),
     path(
         "manage/integrations/",
         GitHubInstallationListView.as_view(),
         name="manage-github-accounts",
+    ),
+    path(
+        "manage/integrations/connections/",
+        github_connections,
+        name="manage-github-connections",
+    ),
+    path(
+        "manage/integrations/apps/<str:host>/migrate/",
+        github_site_migration,
+        name="manage-github-migration",
+    ),
+    path(
+        "manage/integrations/apps/<str:host>/migrate/bulk/",
+        github_site_bulk_migration,
+        name="manage-github-bulk-migration",
+    ),
+    path(
+        "workspaces/<uuid:workspace_id>/integrations/",
+        workspace_integrations,
+        name="workspace-integrations",
+    ),
+    path(
+        "workspaces/<uuid:workspace_id>/integrations/migrate/",
+        github_app_migration,
+        name="github-app-migration",
+    ),
+    path(
+        "workspaces/<uuid:workspace_id>/integrations/migrate/bulk/",
+        github_workspace_bulk_migration,
+        name="workspace-github-bulk-migration",
     ),
     path(
         "manage/integrations/register/",
@@ -73,9 +109,21 @@ urlpatterns = [
         name="github-app-repositories",
     ),
     path(
+        "create/component/github-app/eligible/",
+        github_app_repository_list,
+        {"for_creation": True},
+        name="github-app-creation-repositories",
+    ),
+    path(
+        "create/component/github-app/eligible/<int:pk>/<path:repo_full_name>/",
+        github_app_import_repository,
+        {"for_creation": True},
+        name="github-app-creation-repository-import",
+    ),
+    path(
         "accounts/integrations/github-app/migrate/<uuid:workspace_id>/",
-        github_app_migration,
-        name="github-app-migration",
+        legacy_github_app_migration,
+        name="legacy-github-app-migration",
     ),
     path(
         "create/component/github-app/<int:pk>/<path:repo_full_name>/",

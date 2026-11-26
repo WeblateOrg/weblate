@@ -920,7 +920,7 @@ class CreateTest(ViewTestCase):
             reverse("create-component"), {"project": self.project.pk}
         )
 
-        self.assertEqual(response.context["github_app_repositories"], [])
+        self.assertNotIn("github_app_import_url", response.context)
         self.assertNotContains(response, "stale-org/repo1")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
@@ -943,9 +943,33 @@ class CreateTest(ViewTestCase):
         )
 
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(response.context["github_app_available"])
+        self.assertContains(
+            response,
+            reverse(
+                "github-app-creation-repositories", query={"project": self.project.pk}
+            ),
+        )
         self.assertNotIn("github_app_install_url", response.context)
         self.assertNotContains(response, "Add or configure account")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_component_github_app_guides_standalone_project_admin(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        Project.objects.filter(pk=self.project.pk).update(workspace=None)
+        GitHubAppCredentials.objects.create(
+            hostname="github.com",
+            app_id="99999",
+            app_slug="weblate-app",
+            private_key=generate_private_key(),
+            webhook_secret="secret",
+        )
+        picker_url = reverse("github-app-creation-repositories")
+        self.assertContains(self.client.get(reverse("create-component")), picker_url)
+
+        response = self.client.get(picker_url)
+
+        self.assertContains(response, "Select a project with a workspace")
+        self.assertNotContains(response, "Connect GitHub account")
 
     def test_create_component_locks_github_app_integration_fields(self) -> None:
         form = ComponentCreateForm(

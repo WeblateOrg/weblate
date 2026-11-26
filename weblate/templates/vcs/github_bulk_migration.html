@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% load i18n translations %}
+
+{% block breadcrumbs %}
+  {% if workspace %}
+    {% include "vcs/workspace_breadcrumbs.html" with workspace=workspace only %}
+  {% else %}
+    <li class="breadcrumb-item"><a href="{% url 'manage' %}">{% translate "Manage" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'manage-github-accounts' %}">{% translate "Code-hosting connections" %}</a></li>
+    <li class="breadcrumb-item"><a href="{{ return_url }}">{{ host }}</a></li>
+  {% endif %}
+  <li class="breadcrumb-item">{% translate "Migrate to GitHub App" %}</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title h4">{% translate "Migrate eligible components" %}</h2>
+    </div>
+    <div class="card-body">
+      {% if over_limit %}
+        <p>{% blocktranslate %}More than {{ batch_size }} candidate components were found. Review migration in each connected workspace.{% endblocktranslate %}</p>
+      {% elif preview %}
+        <p>{% translate "The components below will use the GitHub App. Their repository URLs will be replaced with canonical HTTPS URLs, and separate push URLs will be removed." %}</p>
+        <ul>
+          {% for component in components %}
+            <li>{% path_object_links component flags=False %}</li>
+          {% endfor %}
+        </ul>
+        {% if has_more %}
+          <p>{% blocktranslate %}This batch contains {{ batch_size }} components. Return here after migrating them to review the next batch.{% endblocktranslate %}</p>
+        {% endif %}
+        <form method="post" class="d-inline">
+          {% csrf_token %}
+          <input type="hidden" name="preview" value="{{ preview }}">
+          <button type="submit" class="btn btn-primary">{% translate "Migrate these components" %}</button>
+        </form>
+      {% else %}
+        <p>{% translate "No components are ready to migrate." %}</p>
+      {% endif %}
+      <a href="{{ return_url }}" class="btn btn-outline-secondary">{% translate "Back to connections" %}</a>
+    </div>
+  </div>
+{% endblock content %}

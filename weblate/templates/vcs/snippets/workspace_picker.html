@@ -1,0 +1,25 @@
+{% load i18n %}
+
+<form method="get" class="mb-3">
+  <label for="workspace-search" class="form-label">{% translate "Find a workspace" %}</label>
+  <input type="search"
+         id="workspace-search"
+         name="q"
+         value="{{ query }}"
+         class="form-control">
+  <button class="btn btn-outline-primary mt-2" type="submit">{% translate "Search" %}</button>
+</form>
+<ul>
+  {% for workspace in workspace_page %}
+    <li>
+      {% if for_integrations %}
+        <a href="{% url 'workspace-integrations' workspace.pk %}">{{ workspace.name }}</a>
+      {% else %}
+        <a href="{% querystring workspace=workspace.pk q=None page=None %}">{{ workspace.name }}</a>
+      {% endif %}
+    </li>
+  {% empty %}
+    <li>{% translate "No workspaces match your search." %}</li>
+  {% endfor %}
+</ul>
+{% include "paginator.html" with page_obj=workspace_page %}

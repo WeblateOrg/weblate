@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item"><a href="{% url 'workspaces' %}">{% translate "My workspaces" %}</a></li>
+  <li class="breadcrumb-item">{% translate "Code-hosting connections" %}</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title h4">{% translate "Choose a workspace for code-hosting connections" %}</h2>
+    </div>
+    <div class="card-body">{% include "vcs/snippets/workspace_picker.html" with for_integrations=True %}</div>
+  </div>
+{% endblock content %}

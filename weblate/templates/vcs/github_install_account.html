@@ -10,14 +10,14 @@
 {% block content %}
   <div class="card">
     <div class="card-header">
-      <h4 class="card-title">{% blocktranslate %}Connect a GitHub account to {{ workspace }}{% endblocktranslate %}</h4>
+      <h2 class="card-title h4">{% blocktranslate %}Connect a GitHub account to {{ workspace }}{% endblocktranslate %}</h2>
     </div>
     <div class="card-body">
       <p>{% translate "Choose an existing installation to give this workspace access to its selected repositories." %}</p>
       <a href="{{ install_url }}" class="btn btn-primary mb-3">{% translate "Install on another GitHub account" %}</a>
       {% if choices %}
         {% if other_choices %}
-          <h5>{% translate "Accounts from workspaces you own" %}</h5>
+          <h3 class="h5">{% translate "Accounts from workspaces you own" %}</h3>
         {% endif %}
         <ul>
           {% for login, url in choices %}
@@ -27,7 +27,7 @@
       {% endif %}
       {% if other_choices %}
         <details>
-          <summary>{% blocktranslate with count=other_choices|length %}Other accounts ({{ count }}){% endblocktranslate %}</summary>
+          <summary>{% translate "Other accounts" %}</summary>
           <ul>
             {% for login, url in other_choices %}
               <li><a href="{{ url }}">{{ login }}</a></li>
@@ -35,6 +35,7 @@
           </ul>
         </details>
       {% endif %}
+      {% include "paginator.html" %}
     </div>
   </div>
 {% endblock content %}
