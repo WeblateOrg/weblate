@@ -22,12 +22,12 @@ from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
-from weblate.accounts.forms import UserManageForm
 from weblate.accounts.continuation import (
     Submission,
     sensitive_operation,
     stage_sensitive_submission,
 )
+from weblate.accounts.forms import UserManageForm
 from weblate.accounts.models import AuditLog, TeamAuditLog
 from weblate.accounts.utils import (
     has_recent_sensitive_verification,

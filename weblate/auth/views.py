@@ -16,12 +16,12 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import gettext
 from django.views.generic import DetailView, UpdateView
 
-from weblate.accounts.forms import UserManageForm
 from weblate.accounts.continuation import (
     Submission,
     sensitive_operation,
     stage_sensitive_submission,
 )
+from weblate.accounts.forms import UserManageForm
 from weblate.accounts.models import TeamAuditLog
 from weblate.accounts.utils import (
     has_recent_sensitive_verification,

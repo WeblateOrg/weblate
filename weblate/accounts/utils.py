@@ -228,6 +228,7 @@ def require_sensitive_verification(
 
     return wrapped
 
+
 BOT_USERNAME_COLLISION_SUFFIX_LENGTH = 5
 
 
