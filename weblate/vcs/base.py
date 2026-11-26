@@ -13,7 +13,7 @@ import os.path
 import re
 import signal
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
-from contextlib import ExitStack, contextmanager, suppress
+from contextlib import ExitStack, contextmanager, nullcontext, suppress
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
@@ -574,6 +574,19 @@ class RepositoryLock:
             msg = "Downgrading a repository lock requires exclusive ownership"
             raise RuntimeError(msg)
         reader.enter_context(self._read_lock)
+
+    @contextmanager
+    def hold_before_recovery(self) -> Generator[None]:
+        """Hold the path while deferring recovery until repository access."""
+        outermost_enter = not self._lock.is_locked
+        with self._lock:
+            if outermost_enter and not self._skip_recovery.count:
+                self._recovery_pending = True
+            try:
+                yield
+            finally:
+                if outermost_enter:
+                    self._reset_recovery_state()
 
     @property
     def is_read_locked(self) -> bool:
@@ -1203,6 +1216,9 @@ class Repository:
             raise
         self.lock.finish_recovery()
 
+    def validate_checkout(self) -> None:
+        """Validate local metadata before invoking the VCS client."""
+
     def execute(
         self,
         args: list[str],
@@ -1219,56 +1235,61 @@ class Repository:
         log_status: bool = True,
     ):
         """Execute command and caches its output."""
-        self.ensure_lock_session_recovered()
-        if needs_lock:
-            if not self.lock.is_locked:
+        with (
+            self.lock
+            if self.exclusive_read_recovery and not needs_lock
+            else nullcontext()
+        ):
+            self.ensure_lock_session_recovered()
+            if needs_lock and not self.lock.is_locked:
                 msg = "Repository operation without lock held!"
                 raise RuntimeError(msg)
-            if self.component:
+            self.validate_checkout()
+            if needs_lock and self.component:
                 self.ensure_config_updated()
-        remote_target = None
-        effective_remote_url = remote_url
-        if remote_url:
-            remote_target = self.validate_remote_url(remote_url)
-        elif remote_op == "pull":
-            remote_target = self.validate_pull_url()
-            if self.component is not None:
-                effective_remote_url = self.component.repo
-        elif remote_op == "push":
-            remote_target = self.validate_push_url()
-            if self.component is not None:
-                effective_remote_url = self.component.push or self.component.repo
-        args, environment = self.prepare_remote_command(
-            args, environment, remote_target
-        )
-        is_status = args[0] == self._cmd_status[0]
-        try:
-            self.last_output = self._popen(
-                args,
-                cwd=self.path,
-                fullcmd=fullcmd,
-                raw=raw,
-                local=self.local,
-                merge_err=merge_err,
-                stdin=stdin,
-                environment=environment,
-                timeout=timeout,
+            remote_target = None
+            effective_remote_url = remote_url
+            if remote_url:
+                remote_target = self.validate_remote_url(remote_url)
+            elif remote_op == "pull":
+                remote_target = self.validate_pull_url()
+                if self.component is not None:
+                    effective_remote_url = self.component.repo
+            elif remote_op == "push":
+                remote_target = self.validate_push_url()
+                if self.component is not None:
+                    effective_remote_url = self.component.push or self.component.repo
+            args, environment = self.prepare_remote_command(
+                args, environment, remote_target
             )
-        except RepositoryCommandError as error:
-            if not is_status and not self.local:
-                if log_status:
-                    self.log_status(error)
-                else:
-                    self.log(f"failure {error}")
-            if effective_remote_url and remote_target is not None:
-                self.handle_remote_command_error(
-                    error,
-                    effective_remote_url,
-                    remote_target,
-                    environment,
+            is_status = args[0] == self._cmd_status[0]
+            try:
+                self.last_output = self._popen(
+                    args,
+                    cwd=self.path,
+                    fullcmd=fullcmd,
+                    raw=raw,
+                    local=self.local,
+                    merge_err=merge_err,
+                    stdin=stdin,
+                    environment=environment,
+                    timeout=timeout,
                 )
-            raise
-        return self.last_output
+            except RepositoryCommandError as error:
+                if not is_status and not self.local:
+                    if log_status:
+                        self.log_status(error)
+                    else:
+                        self.log(f"failure {error}")
+                if effective_remote_url and remote_target is not None:
+                    self.handle_remote_command_error(
+                        error,
+                        effective_remote_url,
+                        remote_target,
+                        environment,
+                    )
+                raise
+            return self.last_output
 
     def log_status(self, error: str | RepositoryError) -> None:
         with suppress(RepositoryCommandError):

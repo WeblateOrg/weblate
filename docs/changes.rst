@@ -83,6 +83,7 @@ Weblate 2026.12
 
 .. rubric:: Security fixes
 
+* Prevented :ref:`Mercurial <vcs-mercurial>` from using metadata in leftover Git checkouts and cleaned up remote checkouts created by failed API component validation.
 * Prevented bot accounts from editing themselves and protected the generated account identities of :ref:`project API tokens <project-api>`.
 * Required recent browser verification to view or change :ref:`translation service configurations <machine-translation-setup>` or change exclusions.
 * Removed internal filesystem paths and raw command output from gettext and script :ref:`add-on alerts <alerts>`.

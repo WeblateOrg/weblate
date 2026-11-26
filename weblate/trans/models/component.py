@@ -5804,6 +5804,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             if self.repository_class.component_requires_branch:
                 return
             self.branch = self.repository_class.get_remote_branch(self.repo)
+            self.drop_repository_cache()
 
     def clean_category(self) -> None:
         if self.category and self.category.project != self.project:
