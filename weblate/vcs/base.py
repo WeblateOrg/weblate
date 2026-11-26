@@ -31,6 +31,7 @@ from typing import (
 from dateutil import parser
 from django.conf import settings
 from django.core.cache import cache
+from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy, gettext_noop
@@ -49,7 +50,7 @@ from weblate.utils.files import (
 )
 from weblate.utils.lock import LockScope, WeblateLock
 from weblate.utils.outbound import get_environment_proxy
-from weblate.vcs.ssh import SSH_WRAPPER, add_host_key
+from weblate.vcs.ssh import SSH_WRAPPER, add_host_key, resolve_ssh_destination
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator, Iterable, Iterator
@@ -870,13 +871,22 @@ def try_add_ssh_host_key(
         or not should_auto_add_ssh_host_key(error.get_message())
     ):
         return False
-    add_host_key(
-        None,
-        target.hostname,
-        target.port,
-        restrict_private=target.requires_pinning,
-        validated_addresses=target.addresses if target.requires_pinning else None,
-    )
+    if target.requires_pinning:
+        add_host_key(
+            None,
+            target.hostname,
+            target.port,
+            restrict_private=True,
+            validated_addresses=target.addresses,
+        )
+    else:
+        try:
+            hostname, port = resolve_ssh_destination(
+                target.hostname, target.ssh_username, target.ssh_explicit_port
+            )
+        except ValidationError:
+            return False
+        add_host_key(None, hostname, port)
     return True
 
 
@@ -1389,8 +1399,6 @@ class Repository:
     @classmethod
     def validate_remote_url(cls, url: str) -> ResolvedRepositoryURL | None:
         """Revalidate a remote URL before using it."""
-        from django.core.exceptions import ValidationError  # ruff: ignore[import-outside-top-level]
-
         from weblate.utils.validators import resolve_repo_url  # ruff: ignore[import-outside-top-level]
 
         try:

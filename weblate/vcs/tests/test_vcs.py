@@ -2671,6 +2671,50 @@ class RepositoryRemotePinningTest(SimpleTestCase):
                         popen.assert_called_once()
                     getaddrinfo.assert_called_once()
 
+    @override_settings(VCS_ALLOW_HOSTS={"alias.example"}, VCS_ALLOW_SCHEMES={"ssh"})
+    def test_first_ssh_connection_scans_effective_allowlisted_destination(self) -> None:
+        error = RepositoryCommandError(
+            255,
+            "No ED25519 host key is known for [effective.example]:2222.\n"
+            "Host key verification failed.\n",
+        )
+        for url, explicit_port, effective_port in (
+            ("git@alias.example:repo.git", None, 2222),
+            ("ssh://git@alias.example:2022/repo.git", 2022, 2022),
+        ):
+            for clone in (True, False):
+                with (
+                    self.subTest(url=url, clone=clone),
+                    tempfile.TemporaryDirectory() as tempdir,
+                    patch.object(SSH_WRAPPER, "create"),
+                    patch(
+                        "weblate.vcs.base.resolve_ssh_destination",
+                        return_value=("effective.example", effective_port),
+                    ) as resolve_destination,
+                    patch.object(
+                        GitRepository, "validate_branch_name", return_value="main"
+                    ),
+                    patch.object(
+                        GitRepository,
+                        "_popen",
+                        side_effect=[error, "ref: refs/heads/main\tHEAD\n"],
+                    ) as popen,
+                    patch("weblate.vcs.base.add_host_key") as scan,
+                ):
+                    if clone:
+                        repository = GitRepository(tempdir, branch="main", local=True)
+                        repository.clone_from(url)
+                    else:
+                        self.assertEqual(GitRepository.get_remote_branch(url), "main")
+
+                    resolve_destination.assert_called_once_with(
+                        "alias.example", "git", explicit_port
+                    )
+                    scan.assert_called_once_with(
+                        None, "effective.example", effective_port
+                    )
+                    self.assertEqual(popen.call_args_list, [popen.call_args] * 2)
+
     @override_settings(
         VCS_ALLOW_HOSTS=set(),
         VCS_ALLOW_SCHEMES={"https", "ssh"},
