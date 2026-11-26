@@ -668,7 +668,9 @@ class ReviewStateTest(ReusableViewTestCase):
                 self.assertEqual(self.unit.target, "Nazdar svete!\n")
 
     def test_zen_state_conflict(self) -> None:
-        self.change_unit("Nazdar svete!\n", state=STATE_TRANSLATED, user=self.anotheruser)
+        self.change_unit(
+            "Nazdar svete!\n", state=STATE_TRANSLATED, user=self.anotheruser
+        )
         response = self.client.post(
             reverse("save_zen", kwargs=self.kw_translation), self.data
         )
