@@ -108,6 +108,7 @@ Weblate 2026.12
 
 .. rubric:: Bug fixes
 
+* Show template validation errors when :ref:`creating a component <adding-projects>`.
 * Restored Git-tracked executable bits and empty submodule directories when importing a :ref:`project backup <projectbackup>`.
 * Report invalid SMTP recipient addresses in :setting:`ADMINS` during :ref:`deployment checks <production-admins>`.
 * Removed the separate upload rate limit for :http:post:`REST translation uploads </api/translations/(string:project)/(string:component)/(string:language)/file/>`.

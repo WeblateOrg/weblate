@@ -11,7 +11,9 @@ from tempfile import TemporaryDirectory
 from typing import TYPE_CHECKING, cast
 from unittest.mock import patch
 
+from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.template import TemplateSyntaxError
 from django.test import Client
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
@@ -45,6 +47,7 @@ from weblate.trans.views.create import (
     CreateProject,
 )
 from weblate.utils.ratelimit import reset_rate_limit
+from weblate.utils.render_engine import render_bounded
 from weblate.utils.tests.network import mock_dns
 from weblate.utils.views import get_form_data
 from weblate.vcs.base import RepositoryError, RepositoryLock
@@ -58,6 +61,7 @@ if TYPE_CHECKING:
     from translation_finder.discovery.result import ResultDict
 
     from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.utils.render_context import TemplateContext
 
 TEST_ZIP = get_test_file("translations.zip")
 TEST_HTML = get_test_file("cs.html")
@@ -720,6 +724,65 @@ class CreateTest(ViewTestCase):
             response = self.client.post(reverse("create-component-vcs"), params)
         self.assertContains(response, self.component.get_repo_link_url())
         self.assertContains(response, "po/*.po")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_component_wizard_shows_message_template_error(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        pull_message = self.project.get_effective_setting("pull_message")
+        diagnostic = "Unable to render the pull request message."
+
+        def render_message(
+            template: str, context: TemplateContext, *, for_validation: bool = False
+        ) -> str:
+            if template == pull_message:
+                raise TemplateSyntaxError(diagnostic)
+            return render_bounded(template, context, for_validation=for_validation)
+
+        with (
+            patch("weblate.utils.render.render_bounded", side_effect=render_message),
+            patch.object(Component, "clean_repo") as clean_repo,
+        ):
+            response = self.client.post(
+                reverse("create-component-vcs"),
+                {
+                    "name": "Template error",
+                    "slug": "template-error",
+                    "project": self.project.pk,
+                    "source_language": get_default_lang(),
+                    "vcs": "git",
+                    "repo": self.component.repo,
+                },
+            )
+
+        message = f"Could not render template: {diagnostic}"
+        self.assertContains(response, message)
+        self.assertEqual(response.context["stage"], "init")
+        self.assertEqual(response.context["form"].non_field_errors(), [message])
+        clean_repo.assert_not_called()
+        self.assertFalse(
+            self.project.component_set.filter(slug="template-error").exists()
+        )
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_component_wizard_keeps_field_errors(self) -> None:
+        error = ValidationError(
+            {
+                "repo": "Invalid repository URL.",
+                "pull_message": "Invalid pull request message.",
+                NON_FIELD_ERRORS: "Invalid component settings.",
+            }
+        )
+        form = ComponentInitCreateForm(self.get_request(), data={})
+
+        with patch.object(Component, "clean_fields", side_effect=error):
+            self.assertFalse(form.is_valid())
+
+        self.assertIn("Invalid repository URL.", form.errors["repo"])
+        self.assertEqual(
+            form.non_field_errors(),
+            ["Invalid pull request message.", "Invalid component settings."],
+        )
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_component_does_not_offer_manual_github_app_vcs(self) -> None:
