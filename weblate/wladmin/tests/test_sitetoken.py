@@ -22,6 +22,7 @@ from django.utils import timezone
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from rest_framework.authtoken.models import Token
 
+from weblate.accounts.continuation import SESSION_PENDING
 from weblate.accounts.models import TeamAuditLog
 from weblate.accounts.utils import (
     SESSION_SECOND_FACTOR_TIMESTAMP,
@@ -123,6 +124,35 @@ class SiteWideTokenTest(FixtureTestCase):
 
     def get_token_user(self, token_key: str) -> User:
         return Token.objects.get(key=token_key).user
+
+    def expire_sensitive_verification(self) -> None:
+        session = self.client.session
+        session[SESSION_SENSITIVE_FACTOR_GRANT]["time"] -= 601
+        session.save()
+
+    def pending_submission_url(self, response) -> str:
+        self.assertEqual(response.status_code, 302)
+        location = urlparse(response["Location"])
+        self.assertEqual(location.path, reverse("first-factor-verify"))
+        query = parse_qs(location.query)
+        self.assertEqual(query["target"], ["sensitive"])
+        next_url = query["next"][0]
+        self.assertEqual(
+            urlparse(next_url).path,
+            reverse(
+                "pending-sensitive-submission",
+                kwargs={"token": self.client.session[SESSION_PENDING]},
+            ),
+        )
+        return next_url
+
+    def complete_pending_submission(self, response):
+        next_url = self.pending_submission_url(response)
+        return self.client.post(
+            reverse("first-factor-verify"),
+            {"target": "sensitive", "next": next_url, "password": "testpassword"},
+            follow=True,
+        )
 
     def delete_token(self, token_key: str):
         token_user = self.get_token_user(token_key)
@@ -235,11 +265,7 @@ class SiteWideTokenTest(FixtureTestCase):
         token_user = self.get_token_user(token)
         group_count = token_user.groups.count()
         token_count = Token.objects.count()
-        manage_url = reverse("manage-api-tokens")
-
-        session = self.client.session
-        session[SESSION_SENSITIVE_FACTOR_GRANT]["time"] -= 601
-        session.save()
+        self.expire_sensitive_verification()
 
         create_payload = {
             "full_name": "Expired verification",
@@ -248,20 +274,56 @@ class SiteWideTokenTest(FixtureTestCase):
         }
         url = reverse("create-site-token")
         response = self.client.post(url, create_payload)
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(
-            urlparse(response["Location"]).path,
-            reverse("first-factor-verify"),
-        )
-        self.assertEqual(
-            parse_qs(urlparse(response["Location"]).query)["next"],
-            [manage_url],
-        )
+        self.pending_submission_url(response)
 
         self.assertEqual(Token.objects.count(), token_count)
         token_user.refresh_from_db()
         self.assertEqual(token_user.groups.count(), group_count)
         self.assertTrue(Token.objects.filter(key=token).exists())
+
+    def test_expired_verification_resumes_site_token_changes(self) -> None:
+        token = self.create_token()
+        token_user = self.get_token_user(token)
+        token_count = Token.objects.count()
+
+        self.expire_sensitive_verification()
+        response = self.client.post(
+            reverse("create-site-token"),
+            {
+                "full_name": "Resumed Token",
+                "date_expires": "2999-12-31",
+                "teams": [self.monitoring_group.pk],
+            },
+        )
+        self.assertEqual(Token.objects.count(), token_count)
+        response = self.complete_pending_submission(response)
+        self.assertEqual(Token.objects.count(), token_count + 1)
+        self.assertContains(response, 'data-clipboard-message="Token copied')
+
+        self.expire_sensitive_verification()
+        response = self.client.post(
+            reverse("set-site-token-groups"),
+            {"user": token_user.username, "groups": [self.managers_group.pk]},
+        )
+        self.assertEqual(
+            set(token_user.groups.values_list("pk", flat=True)),
+            {self.monitoring_group.pk},
+        )
+        self.complete_pending_submission(response)
+        self.assertEqual(
+            set(token_user.groups.values_list("pk", flat=True)),
+            {self.managers_group.pk},
+        )
+
+        self.expire_sensitive_verification()
+        response = self.client.post(
+            reverse("delete-site-token"),
+            {"user": token_user.username},
+        )
+        self.assertTrue(Token.objects.filter(key=token).exists())
+        response = self.complete_pending_submission(response)
+        self.assertFalse(Token.objects.filter(key=token).exists())
+        self.assertContains(response, "Site-wide API token has been removed.")
 
     def test_create_site_token_requires_recent_second_factor(self) -> None:
         self.make_site_admin()

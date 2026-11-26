@@ -43,7 +43,6 @@ from weblate.accounts.utils import (
     get_site_api_tokens,
     has_recent_sensitive_verification,
     remove_user,
-    sensitive_verification_redirect,
 )
 from weblate.accounts.views import UserList, get_initial_contact
 from weblate.auth.audit import audit_team_changes
@@ -959,11 +958,11 @@ def check_site_token_view_access(request: AuthenticatedHttpRequest) -> None:
 
 
 def site_token_verification_redirect(
-    request: AuthenticatedHttpRequest,
+    request: AuthenticatedHttpRequest, operation: str
 ) -> HttpResponseRedirect | None:
     if has_recent_sensitive_verification(request):
         return None
-    return sensitive_verification_redirect(request, reverse("manage-api-tokens"))
+    return stage_sensitive_submission(request, operation, reverse("manage-api-tokens"))
 
 
 def get_site_token_memberships_prefetch(groups):
@@ -1034,13 +1033,22 @@ def api_tokens(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 @require_POST
 @management_permission_required("user.edit")
-@transaction.atomic
 def create_site_token(request: AuthenticatedHttpRequest) -> HttpResponse:
     """Create a site-wide API token."""
     check_site_token_view_access(request)
-    if redirect_ := site_token_verification_redirect(request):
+    if redirect_ := site_token_verification_redirect(request, "create-site-token"):
         return redirect_
-    form = SiteTokenCreateForm(request.POST)
+    return submit_site_token(request, Submission(request.POST, request.GET))
+
+
+@sensitive_operation("create-site-token")
+@transaction.atomic
+def submit_site_token(
+    request: AuthenticatedHttpRequest, submission: Submission
+) -> HttpResponse:
+    check_management_access(request, "user.edit")
+    check_site_token_view_access(request)
+    form = SiteTokenCreateForm(submission.data)
     if form.is_valid():
         token = form.save(acting_user=request.user, request=request)
         messages.info(
@@ -1059,9 +1067,18 @@ def create_site_token(request: AuthenticatedHttpRequest) -> HttpResponse:
 def delete_site_token(request: AuthenticatedHttpRequest) -> HttpResponse:
     """Revoke a site-wide API token by deleting its bot user."""
     check_site_token_view_access(request)
-    if redirect_ := site_token_verification_redirect(request):
+    if redirect_ := site_token_verification_redirect(request, "delete-site-token"):
         return redirect_
-    form = SiteTokenManageForm(request.POST)
+    return submit_site_token_removal(request, Submission(request.POST, request.GET))
+
+
+@sensitive_operation("delete-site-token")
+def submit_site_token_removal(
+    request: AuthenticatedHttpRequest, submission: Submission
+) -> HttpResponse:
+    check_management_access(request, "user.edit")
+    check_site_token_view_access(request)
+    form = SiteTokenManageForm(submission.data)
     if form.is_valid():
         user = form.cleaned_data["user"]
         # Revoke the key before remove_user commits pending edits. A commit or
@@ -1094,13 +1111,22 @@ def delete_site_token(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 @require_POST
 @management_permission_required("user.edit")
-@transaction.atomic
 def set_site_token_groups(request: AuthenticatedHttpRequest) -> HttpResponse:
     """Change team membership for a site-wide API token."""
     check_site_token_view_access(request)
-    if redirect_ := site_token_verification_redirect(request):
+    if redirect_ := site_token_verification_redirect(request, "set-site-token-groups"):
         return redirect_
-    form = SiteTokenGroupForm(request.POST)
+    return submit_site_token_groups(request, Submission(request.POST, request.GET))
+
+
+@sensitive_operation("set-site-token-groups")
+@transaction.atomic
+def submit_site_token_groups(
+    request: AuthenticatedHttpRequest, submission: Submission
+) -> HttpResponse:
+    check_management_access(request, "user.edit")
+    check_site_token_view_access(request)
+    form = SiteTokenGroupForm(submission.data)
     if form.is_valid():
         apply_site_token_groups(request, form.cleaned_data["user"], form)
     else:
