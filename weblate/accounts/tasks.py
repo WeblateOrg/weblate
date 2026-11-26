@@ -25,7 +25,7 @@ from django.utils.timezone import now
 from social_django.models import Association, Code, Partial
 
 from weblate.utils.celery import app
-from weblate.utils.email import email_key
+from weblate.utils.email import email_delivery_address, email_key
 from weblate.utils.errors import report_error
 from weblate.utils.html import html_to_mail_text
 from weblate.utils.icons import load_icon
@@ -553,14 +553,23 @@ def send_mails(mails: list[OutgoingEmail]) -> None:
             return
         connection = monkey_patch_smtp_logging(connection)
 
+    use_smtp = isinstance(connection, DjangoSMTPEmailBackend)
     with closing(connection):
         for mail in mails:
+            recipient = (
+                email_delivery_address(mail["address"]) if use_smtp else mail["address"]
+            )
+            if recipient is None:
+                LOGGER.warning(
+                    "Skipping notification with an invalid internationalized recipient address"
+                )
+                continue
             with start_span(op="email.text"):
                 text = html_to_mail_text(mail["body"])
             email = NotificationEmail(
                 settings.EMAIL_SUBJECT_PREFIX + mail["subject"],
                 text,
-                to=[mail["address"]],
+                to=[recipient],
                 headers=mail["headers"],
                 connection=connection,
             )

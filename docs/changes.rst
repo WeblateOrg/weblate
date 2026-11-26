@@ -103,6 +103,7 @@ Weblate 2026.12
 * Prevented component creation from writing translation templates outside its repository.
 * Applied :setting:`VCS_RESTRICT_PRIVATE` and trusted-host exemptions to :ref:`GitHub App manifest-code and OAuth exchanges <code-hosting-github-app-register>` and API requests, including redirects and pagination URLs.
 * Revoked stale OAuth e-mail recovery addresses and reconciled the :ref:`account e-mail <user-profile>` when its last verification is removed.
+* Preserved internationalized recipient domains when sending :ref:`account e-mails <user-profile>` and other notifications.
 * Filtered the site-wide changes listings and feeds by workspace visibility, so workspaces the viewer cannot access no longer appear there.
 * Restricted :ref:`webhook matching <hooks-target-matching>` to repository owners, preventing generic deliveries from triggering GitHub App updates through linked components.
 * Fixed a regular expression denial of service in :ref:`Azure Repos webhooks <code-hosting-azure-repos-notifications>`.
