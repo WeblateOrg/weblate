@@ -104,6 +104,7 @@ Weblate 2026.12
 * Required repository access to set a path for a :ref:`repository-linked screenshot <screenshots>`.
 * Kept backend errors out of :ref:`task status results <api-tasks>` when cached task metadata is removed during a request.
 * Prevented disclosure of private user fields in :ref:`REST API <api>` forms and of inaccessible workspace UUIDs in project create and update requests.
+* Restricted automatic Markdown mention formatting to profiles the viewer can access. See :ref:`privacy-configuration`.
 
 .. rubric:: Bug fixes
 

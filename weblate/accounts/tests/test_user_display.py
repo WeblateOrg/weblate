@@ -338,7 +338,7 @@ class UserDisplayTest(FixtureTestCase):
                 )
 
     @VisibilityPermissions(profile="admins")
-    def test_mentions_and_preview(self) -> None:
+    def test_mention_visibility(self) -> None:
         text = f"@{self.target.username} مرحبا"
         for viewer, accessible in (
             (self.target, True),
@@ -348,16 +348,11 @@ class UserDisplayTest(FixtureTestCase):
             with self.subTest(viewer=viewer):
                 rendered = render_markdown(text, viewer=viewer)
                 self.assertIn(f"@{self.target.username}", rendered)
-                self.assertIn("<bdi>", rendered)
+                self.assertEqual("<bdi>" in rendered, accessible)
                 self.assertEqual("href=" in rendered, accessible)
                 self.assertNotIn("<Target & Name>", rendered)
-        preview = render_to_string(
-            "js/markdown-preview.html",
-            {"text": text},
-            request=self.request_for(self.user),
-        )
-        self.assertIn(self.target.username, preview)
-        self.assertNotIn(self.target.get_absolute_url(), preview)
+                if not accessible:
+                    self.assertHTMLEqual(rendered, f"<p>{text}</p>")
         self.assertEqual(list(get_mention_users(text)), [self.target])
 
     def create_comment_change(self) -> Change:
@@ -392,7 +387,6 @@ class UserDisplayTest(FixtureTestCase):
                     ):
                         rendered = template.render(Context({"user": viewer, **scope}))
                         self.assertIn(f"@{self.target.username}", rendered)
-                        self.assertIn("<bdi>", rendered)
                         links = fromstring(rendered).xpath(".//@href")
                         accessible = (
                             policy == "public"
@@ -402,6 +396,7 @@ class UserDisplayTest(FixtureTestCase):
                         self.assertEqual(
                             self.target.get_absolute_url() in links, accessible
                         )
+                        self.assertEqual("<bdi>" in rendered, accessible)
             announcement.delete()
 
     @VisibilityPermissions(profile="admins")

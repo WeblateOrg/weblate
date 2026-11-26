@@ -7,6 +7,8 @@
 from django.test.utils import override_settings
 from django.urls import reverse
 
+from weblate.accounts.tests.visibility import VisibilityPermissions
+from weblate.auth.models import User
 from weblate.trans.models import Project
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.views.js import MARKDOWN_PREVIEW_MAX_LENGTH
@@ -30,6 +32,15 @@ class JSViewsTest(FixtureTestCase):
         self.assertContains(response, 'class="markdown"')
         self.assertContains(response, "<strong>bold</strong>")
         self.assertContains(response, 'href="/user/testuser/"')
+
+    @VisibilityPermissions(directory="disabled", profile="admins")
+    def test_markdown_preview_restricted_mentions(self) -> None:
+        target = User.objects.create_user("preview-target", "preview@example.org")
+        response = self.client.post(
+            reverse("js-markdown-preview"),
+            {"text": f"@{target.username} @unknown"},
+        )
+        self.assertContains(response, f"<p>@{target.username} @unknown</p>", html=True)
 
     def test_markdown_preview_empty(self) -> None:
         response = self.client.post(reverse("js-markdown-preview"), {"text": "  "})
