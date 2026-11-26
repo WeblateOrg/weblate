@@ -3337,6 +3337,65 @@ class BackupsTest(ReusableViewTestCase):
             ProjectBackup(temp_name).validate()
         self.assertIn("language_code", str(error.exception))
 
+    def test_restore_regional_plural(self) -> None:
+        plural = (
+            Plural.objects.filter(language__code="es", source=Plural.SOURCE_CLDR)
+            .values("source", "number", "formula", "type")
+            .get()
+        )
+        filename = self.write_tampered_component_backup(
+            translation_language_code="cs",
+            translation_updates={"language_code": "es_ES", "plural": plural},
+        )
+        with remove_file_after(filename), override_settings(SIMPLIFY_LANGUAGES=False):
+            backup = ProjectBackup(filename)
+            backup.validate()
+            self.assertFalse(Language.objects.filter(code="es_ES").exists())
+            restored = backup.restore("Regional Spanish", "regional-spanish", self.user)
+        translation = restored.component_set.get(
+            slug=self.component.slug
+        ).translation_set.get(language_code="es_ES")
+        self.assertEqual(translation.language.code, "es_ES")
+        self.assertEqual(translation.plural.language, translation.language)
+        for key, value in plural.items():
+            self.assertEqual(getattr(translation.plural, key), value)
+
+    def test_restore_incompatible_regional_plural(self) -> None:
+        filename = self.write_tampered_component_backup(
+            translation_language_code="cs",
+            translation_updates={
+                "language_code": "es_ES",
+                "plural": {
+                    "source": Plural.SOURCE_CLDR,
+                    "number": 2,
+                    "formula": "n != 1",
+                    "type": 1,
+                },
+            },
+        )
+        with (
+            remove_file_after(filename),
+            override_settings(SIMPLIFY_LANGUAGES=False),
+            self.assertRaisesRegex(
+                ValidationError, "No compatible plural rule for language es_ES"
+            ),
+        ):
+            ProjectBackup(filename).validate()
+
+    @override_settings(SIMPLIFY_LANGUAGES=True)
+    def test_restore_blocks_ambiguous_source_even_with_opt_in(self) -> None:
+        filename = self.write_tampered_component_backup(
+            translation_language_code="cs",
+            translation_updates={"language_code": self.component.source_language.code},
+        )
+        with (
+            remove_file_after(filename),
+            self.assertRaisesRegex(
+                ValidationError, "Multiple files resolve to the source language"
+            ),
+        ):
+            ProjectBackup(filename).validate(preview=True)
+
     def test_restore_rejects_language_alias_collision(self) -> None:
         temp_name = self.write_tampered_component_backup(
             translation_updates={"language_code": "b+de"},
@@ -3344,7 +3403,7 @@ class BackupsTest(ReusableViewTestCase):
         )
         with (
             remove_file_after(temp_name),
-            self.assertRaisesRegex(ValueError, "map to single language"),
+            self.assertRaisesRegex(ValidationError, "Cannot determine which file"),
         ):
             ProjectBackup(temp_name).validate()
 
@@ -4622,7 +4681,7 @@ class BackupsTest(ReusableViewTestCase):
     @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_restore_duplicate(self) -> None:
         restore = ProjectBackup(TEST_BACKUP_DUPLICATE)
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ValidationError):
             restore.validate()
 
     def test_restore_duplicate_files(self) -> None:
@@ -5432,3 +5491,268 @@ class BackupsTest(ReusableViewTestCase):
             self.assertEqual(kwargs["user_id"], self.user.id)
             self.assertIsNone(kwargs["billing_id"])
             self.assertFalse(Project.objects.filter(slug="import-test").exists())
+
+
+class BackupCompatibilityTest(ReusableViewTestCase):
+    def test_restore_internal_bot_authorship(self) -> None:
+        backup = ProjectBackup()
+        backup.restore_actor = self.user
+        backup.project = self.project
+        team = Group.objects.create(
+            name="Imported bot team", defining_project=self.project
+        )
+        names = ["mt:weblate", "mt:weblate-translation-memory", "addon:autotranslate"]
+        backup.restore_team_members(team, names, admins=names)
+        self.assertFalse(User.objects.filter(username__in=names).exists())
+        for name in names:
+            bot = backup.restore_user(name)
+            self.assertEqual(bot.username, name)
+            self.assertTrue(bot.is_bot)
+            self.assertFalse(bot.is_active)
+            self.assertFalse(bot.has_usable_password())
+            self.assertEqual(backup.restore_user(name), bot)
+        self.user.is_superuser = True
+        backup.restore_team_members(team, names, admins=names)
+        self.assertFalse(team.user_set.exists())
+        self.assertFalse(team.admins.exists())
+        self.assertEqual(
+            backup.restore_user("weblate:repository"), InternalBot.REPOSITORY.get_user()
+        )
+        self.assertEqual(backup.get_restore_warnings(), [])
+        self.assertEqual(backup.restore_user("mt:unknown"), get_anonymous())
+        self.assertFalse(User.objects.filter(username="mt:unknown").exists())
+
+    def test_restore_rolls_back_reconstructed_author(self) -> None:
+        backup = ProjectBackup()
+        backup.restore_actor = self.user
+        with transaction.atomic():
+            self.assertTrue(backup.restore_user("mt:weblate").is_bot)
+            transaction.set_rollback(True)
+        self.assertFalse(User.objects.filter(username="mt:weblate").exists())
+
+    def test_restore_internal_bot_conflict(self) -> None:
+        backup = ProjectBackup()
+        self.user.is_superuser = True
+        backup.restore_actor = self.user
+        User.objects.create_user("mt:weblate", "existing@example.org")
+        self.assertEqual(backup.restore_user("mt:weblate"), get_anonymous())
+        self.assertIn("conflicts", " ".join(backup.get_restore_warnings()))
+
+    def populated_duplicate_backup(
+        self, component: Component | None = None
+    ) -> ProjectBackup:
+        component = component or self.component
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        Comment.objects.create(unit=unit, user=self.user, comment="Omitted comment")
+        Suggestion.objects.create(
+            unit=unit, user=self.user, target="Omitted suggestion"
+        )
+        PendingUnitChange.objects.create(
+            unit=unit, author=self.user, target="Omitted edit", state=STATE_TRANSLATED
+        )
+        screenshot = Screenshot.objects.create(
+            name="Omitted screenshot", translation=translation, user=self.user
+        )
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            screenshot.image.save("duplicate.png", File(handle))
+        self.addCleanup(screenshot.image.delete, save=False)
+        source = ProjectBackup()
+        source.backup_project(self.project)
+        self.addCleanup(Path(source.filename).unlink, missing_ok=True)
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as output:
+            self.addCleanup(os.unlink, output.name)
+            with ZipFile(source.filename) as archive, ZipFile(output, "w") as target:
+                for entry in archive.infolist():
+                    content = archive.read(entry)
+                    if entry.filename == f"components/{component.slug}.json":
+                        data = json.loads(content)
+                        rows = data["translations"]
+                        original = next(
+                            row for row in rows if row["language_code"] == "cs"
+                        )
+                        duplicate = dict(
+                            original,
+                            id=max(row["id"] for row in rows) + 1,
+                            language_code="cs_CZ",
+                            filename=original["filename"].replace("cs.", "cs_CZ."),
+                        )
+                        rows.insert(0, duplicate)
+                        units = [
+                            dict(unit, translation_id=duplicate["id"])
+                            for unit in data["units"]
+                            if unit["translation_id"] == original["id"]
+                        ]
+                        for unit_data in data["units"]:
+                            if unit_data["translation_id"] == original["id"]:
+                                unit_data["comments"] = []
+                                unit_data["suggestions"] = []
+                        for key in ("pending_unit_changes", "screenshots"):
+                            for item in data[key]:
+                                if item["translation_id"] == original["id"]:
+                                    item["translation_id"] = duplicate["id"]
+                        data["units"].extend(units)
+                        prefix = f"vcs/{self.component.slug}/"
+                        target.writestr(
+                            prefix + duplicate["filename"],
+                            archive.read(prefix + original["filename"]),
+                        )
+                        content = json.dumps(data).encode()
+                    target.writestr(entry, content)
+        return ProjectBackup(output.name)
+
+    def test_restore_skips_confirmed_populated_target(self) -> None:
+        backup = self.populated_duplicate_backup()
+        with self.assertRaisesRegex(ValidationError, "SIMPLIFY_LANGUAGES"):
+            backup.validate()
+        backup.validate(preview=True)
+        (skipped,) = backup.skipped_translations
+        self.assertEqual((skipped["kept_code"], skipped["code"]), ("cs", "cs_CZ"))
+        self.assertGreater(skipped["units"], 0)
+        self.assertEqual(
+            (
+                skipped["pending"],
+                skipped["comments"],
+                skipped["suggestions"],
+                skipped["screenshots"],
+            ),
+            (1, 1, 1, 1),
+        )
+        with self.assertRaisesRegex(ValidationError, "Review the duplicate"):
+            backup.restore(
+                "Duplicate", "duplicate", self.user, duplicate_scope="outdated"
+            )
+        stderr = StringIO()
+        call_command(
+            "import_projectbackup",
+            "Duplicate",
+            "duplicate",
+            self.user.username,
+            backup.filename,
+            "--skip-duplicate-translations",
+            stderr=stderr,
+        )
+        self.assertIn(skipped["filename"], stderr.getvalue())
+        component = Component.objects.get(
+            project__slug="duplicate", slug=self.component.slug
+        )
+        self.assertFalse(
+            PendingUnitChange.objects.filter(
+                unit__translation__component=component
+            ).exists()
+        )
+        self.assertFalse(
+            Comment.objects.filter(
+                unit__translation__component=component, comment="Omitted comment"
+            ).exists()
+        )
+        self.assertFalse(
+            Suggestion.objects.filter(
+                unit__translation__component=component, target="Omitted suggestion"
+            ).exists()
+        )
+        self.assertFalse(
+            Screenshot.objects.filter(
+                translation__component=component, name="Omitted screenshot"
+            ).exists()
+        )
+        component.create_translations(force=True, user=self.user)
+        self.assertEqual(
+            component.translation_set.get(language__code="cs").filename,
+            skipped["kept_filename"],
+        )
+        self.assertTrue(component.alert_set.filter(name="DuplicateLanguage").exists())
+        self.assertTrue((Path(component.full_path) / skipped["filename"]).exists())
+
+    def verify_duplicate_checkout(self, *, linked: bool) -> None:
+        component = (
+            self.create_link_existing(filemask="po/*.po") if linked else self.component
+        )
+        backup = self.populated_duplicate_backup(component)
+        prefix = f"vcs/{self.component.slug}/"
+        original_units = set(
+            component.translation_set.get(language_code="cs").unit_set.values_list(
+                "id_hash", "target"
+            )
+        )
+        for checkout in ("absent", "metadata", "partial"):
+            with (
+                self.subTest(checkout=checkout),
+                tempfile.NamedTemporaryFile(suffix=".zip") as output,
+            ):
+                with (
+                    ZipFile(backup.filename) as archive,
+                    ZipFile(output, "w") as target,
+                ):
+                    for entry in archive.infolist():
+                        if entry.filename.startswith(prefix) and not (
+                            checkout == "metadata"
+                            and entry.filename.startswith(f"{prefix}.git/")
+                        ):
+                            continue
+                        target.writestr(entry, archive.read(entry))
+                    if checkout == "partial":
+                        target.writestr(f"{prefix}README", "No translation files")
+                restore = ProjectBackup(output.name)
+                with self.assertRaisesRegex(ValidationError, "SIMPLIFY_LANGUAGES"):
+                    restore.validate()
+                restore.validate(preview=True)
+                slug = f"duplicate-{checkout}"
+                if checkout == "partial":
+                    with self.assertRaisesRegex(
+                        ValidationError, "Repository scan order"
+                    ):
+                        restore.restore(
+                            slug,
+                            slug,
+                            self.user,
+                            duplicate_scope=restore.duplicate_scope,
+                        )
+                    self.assertFalse(Project.objects.filter(slug=slug).exists())
+                    self.assertFalse(Path(Project(slug=slug).full_path).exists())
+                    continue
+                project = restore.restore(
+                    slug, slug, self.user, duplicate_scope=restore.duplicate_scope
+                )
+                restored = project.component_set.get(slug=component.slug)
+                translation = restored.translation_set.get(language__code="cs")
+                self.assertEqual(
+                    translation.filename,
+                    restore.skipped_translations[0]["kept_filename"],
+                )
+                self.assertSetEqual(
+                    set(translation.unit_set.values_list("id_hash", "target")),
+                    original_units,
+                )
+                self.assertFalse(
+                    restored.translation_set.filter(language_code="cs_CZ").exists()
+                )
+
+    def test_restore_duplicate_without_checkout(self) -> None:
+        self.verify_duplicate_checkout(linked=False)
+
+    def test_restore_linked_duplicate_without_checkout(self) -> None:
+        # The importer needs access to the repository owner in every new project.
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.verify_duplicate_checkout(linked=True)
+
+    @patch("weblate.trans.views.create.import_project_backup.delay")
+    def test_web_import_confirms_duplicate_scope(self, delay: Mock) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        backup = self.populated_duplicate_backup()
+        url = reverse("create-project-import")
+        with open(backup.filename, "rb") as handle:
+            preview = self.client.post(url, {"zipfile": handle}, follow=True)
+        self.assertContains(preview, "Skip duplicate target translations")
+        scope = preview.context["form"].projectbackup.duplicate_scope
+        post = {"name": "Duplicate", "slug": "duplicate", "duplicate_scope": scope}
+        self.assertContains(self.client.post(url, post), "This field is required")
+        delay.assert_not_called()
+        post["skip_duplicates"] = "on"
+        delay.return_value.id = "01234567-89ab-cdef-0123-456789abcdef"
+        self.client.post(url, post)
+        delay.assert_called_once()
+        self.addCleanup(os.unlink, delay.call_args.kwargs["filename"])
+        self.assertEqual(delay.call_args.kwargs["duplicate_scope"], scope)

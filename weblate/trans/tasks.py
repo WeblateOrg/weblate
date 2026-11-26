@@ -72,6 +72,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.removal import RemovalBatch, logged_removal, removal_batch_context
 from weblate.trans.repository import (
+    REPOSITORY_OPERATION_RUNNING_TTL,
     RepositoryOperation,
     RepositoryOperationConflictError,
     acquire_repository_operation,
@@ -405,7 +406,10 @@ def perform_repository_operation(
     reservation_acquired = False
     release_reservation = True
     try:
-        acquire_repository_operation(component_ids, operation, task_id)
+        # Shorten the queue TTL as soon as this worker claims the reservation
+        acquire_repository_operation(
+            component_ids, operation, task_id, ttl=REPOSITORY_OPERATION_RUNNING_TTL
+        )
         reservation_acquired = True
         store_repository_operation_tracking(
             task_id,
@@ -2218,6 +2222,7 @@ def restore_project_backup(
     filename: str,
     billing_id: int | None,
     workspace_id: str | None = None,
+    duplicate_scope: str = "",
 ) -> tuple[Project, list[str]]:
     # ruff: ignore[import-outside-top-level]
     from weblate.trans.backups import ProjectBackup
@@ -2238,7 +2243,7 @@ def restore_project_backup(
         workspace = Workspace.objects.get(pk=workspace_id)
     restore = ProjectBackup(filename)
     report_task_progress(10)
-    restore.validate()
+    restore.validate(preview=bool(duplicate_scope))
     report_task_progress(30)
     project = restore.restore(
         project_name=project_name,
@@ -2247,6 +2252,7 @@ def restore_project_backup(
         billing=billing,
         workspace=workspace,
         progress_callback=report_restore_component_progress,
+        duplicate_scope=duplicate_scope,
     )
     report_task_progress(95)
     return project, restore.get_restore_warnings()
@@ -2260,6 +2266,7 @@ def import_project_backup(
     filename: str,
     billing_id: int | None = None,
     workspace_id: str | None = None,
+    duplicate_scope: str = "",
 ) -> dict[str, Any]:
     try:
         project, restore_warnings = restore_project_backup(
@@ -2269,6 +2276,7 @@ def import_project_backup(
             filename,
             billing_id,
             workspace_id,
+            duplicate_scope,
         )
     finally:
         with suppress(OSError):

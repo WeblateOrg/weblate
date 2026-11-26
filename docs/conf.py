@@ -334,6 +334,7 @@ nitpick_ignore = [
     ("py:class", "collections.abc.Iterator"),
     ("py:class", "collections.abc.Mapping"),
     ("py:class", "requests.models.Response"),
+    ("py:class", "requests.Response"),
     ("py:class", "wlc.base.LazyObject"),
 ]
 
@@ -393,6 +394,7 @@ linkcheck_ignore = [
     "https://mymemory.translated.net/",
     "https://docs.oasis-open.org/",
     "https://digital-strategy.ec.europa.eu/",
+    "https://wiki.apertium.org/",
     # Responds with HTTP 418 I'm a teapot
     "https://www.freedesktop.org/",
 ]
@@ -426,6 +428,7 @@ autodoc_mock_imports = [
     "django_redis",
     "lxml",
     "translate",
+    "requests",
     "siphashc",
     "git",
     "PIL",

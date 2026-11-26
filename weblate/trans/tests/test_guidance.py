@@ -26,6 +26,7 @@ from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, Permission, Role
 from weblate.screenshots.models import Screenshot
 from weblate.screenshots.tasks import check_unused_screenshots
+from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertSeverity, BaseAlert
 from weblate.trans.alerts.community import (
     AddonRecommendationAlert,
@@ -229,6 +230,46 @@ class ExtractorGuidanceAlertTest(ReusableViewTestCase):
         self.assertContains(response, "Repository updates are pulled manually.")
         self.assertContains(response, "Outbound translation delivery is manual.")
         self.assertContains(response, "pull or merge request integration")
+
+    def test_repository_guidance_remote_owner(self) -> None:
+        hook = MissingRepositoryHook.__name__
+        push = MissingPushURL.__name__
+        names = {hook, push}
+        alerts = self.component.alert_set.filter(name__in=names).values_list(
+            "name", flat=True
+        )
+        self.component.push = ""
+        update_alerts(self.component, names)
+        self.assertCountEqual(alerts, names)
+
+        self.component.push = self.component.repo
+        update_alerts(self.component, names)
+        self.assertCountEqual(alerts.all(), [hook])
+
+        self.component.push = ""
+        self.component.change_set.create(action=ActionEvents.HOOK, user=self.user)
+        update_alerts(self.component, names)
+        self.assertCountEqual(alerts.all(), [push])
+
+    def test_repository_guidance_clears_for_local_and_linked_components(self) -> None:
+        local = self.project.scratch_create_component(
+            "Local",
+            "local",
+            self.component.source_language,
+            "po",
+            acting_user=self.user,
+        )
+        remote_link = self.create_link_existing()
+        local_link = self.create_link_existing(
+            "Local link", "local-link", repo=local.get_repo_link_url()
+        )
+        names = {MissingRepositoryHook.__name__, MissingPushURL.__name__}
+        for component in (local, local_link, remote_link):
+            with self.subTest(component=component.slug):
+                for name in names:
+                    component.add_alert(name)
+                update_alerts(component, names)
+                self.assertFalse(component.alert_set.filter(name__in=names).exists())
 
     def test_unused_screenshot_does_not_make_component_problem(self) -> None:
         alert_name = UnusedScreenshot.__name__
@@ -545,6 +586,17 @@ class ExtractorGuidanceAlertTest(ReusableViewTestCase):
         update_alerts(self.component, {alert_name})
 
         self.assertFalse(self.component.alert_set.filter(name=alert_name).exists())
+
+    def test_screenshot_guidance_clears_for_glossary(self) -> None:
+        name = MissingScreenshots.__name__
+        update_alerts(self.component, {name})
+        self.assertTrue(self.component.alert_set.filter(name=name).exists())
+
+        self.component.is_glossary = True
+        with patch.object(MissingScreenshots, "get_coverage") as coverage:
+            update_alerts(self.component, {name})
+        coverage.assert_not_called()
+        self.assertFalse(self.component.alert_set.filter(name=name).exists())
 
     def test_screenshot_guidance_still_relevant_for_private_project(self) -> None:
         alert_name = MissingScreenshots.__name__

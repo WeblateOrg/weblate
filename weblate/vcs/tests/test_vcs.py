@@ -14,7 +14,6 @@ import shutil
 import subprocess
 import tempfile
 from concurrent.futures import ThreadPoolExecutor
-from configparser import RawConfigParser
 from contextlib import ExitStack, nullcontext
 from datetime import datetime
 from io import BytesIO
@@ -376,6 +375,13 @@ class RepositoryTest(TestCase):
         cases = (
             ("The requested URL returned error: 301", "repository_redirect"),
             ("fatal: terminal prompts disabled", "missing_credentials"),
+            (
+                (
+                    "remote: Authentication failed: your SSH key has expired. To restore "
+                    "access, visit https://aka.ms/ado-ssh-public-key-expired for guidance."
+                ),
+                "azure_devops_ssh_key_expired",
+            ),
             ("rejected: fetch first", "branch_behind"),
             ("Repository not found.", "repository_not_found"),
             ("push denied to user", "repository_permission"),
@@ -1358,7 +1364,6 @@ class GitCrashRecoveryTest(TestCase, RepoTestMixin, TempDirMixin):
         conflict_path = Path(self.tempdir) / "recovery-conflict.txt"
         with self.repo.lock:
             original_revision = self.repo.get_last_revision()
-            self.repo.set_committer("Weblate Test", "weblate@example.com")
             conflict_path.write_text("TRACKED\n", encoding="utf-8")
             self.assertTrue(
                 self.repo.commit("Add recovery conflict", files=[conflict_path.name])
@@ -1391,7 +1396,6 @@ class GitBranchValidationTest(SimpleTestCase):
     def test_remote_branch_lookup_timeout(self) -> None:
         repo = GitRepository(".", local=True)
         with (
-            patch.object(GitRepository, "get_auth_args", return_value=[]),
             patch.object(GitRepository, "get_auth_environment", return_value={}),
             patch.object(
                 GitRepository, "execute", return_value="abc\trefs/heads/feature\n"
@@ -1408,7 +1412,6 @@ class GitBranchValidationTest(SimpleTestCase):
         repo.local = False
         error = RepositoryCommandError(1, "Remote lookup failed")
         with (
-            patch.object(GitRepository, "get_auth_args", return_value=[]),
             patch.object(GitRepository, "get_auth_environment", return_value={}),
             patch.object(GitRepository, "validate_pull_url", return_value=None),
             patch.object(GitRepository, "_popen", side_effect=error) as popen,
@@ -1707,7 +1710,128 @@ class RepositoryHostKeyErrorTest(SimpleTestCase):
         )
 
 
+class GitRuntimeConfigTest(SimpleTestCase):
+    def test_global_setup_only_writes_installation_config(self) -> None:
+        execute = GitRepository._popen  # ruff: ignore[private-member-access]
+        with (
+            tempfile.TemporaryDirectory() as directory,
+            override_settings(DATA_DIR=directory),
+            patch.object(
+                GitRepository,
+                "get_merge_driver",
+                return_value="/bin/git-merge-gettext-po",
+            ),
+        ):
+            home = Path(directory, "home")
+            home.mkdir()
+            GitRepository.global_setup()
+
+            self.assertEqual(
+                execute(["config", "--global", "--name-only", "--list"]).splitlines(),
+                [
+                    "merge.weblate-merge-gettext-po.name",
+                    "merge.weblate-merge-gettext-po.driver",
+                ],
+            )
+            self.assertEqual(
+                (home / ".config" / "git" / "attributes").read_text(encoding="utf-8"),
+                "*.po merge=weblate-merge-gettext-po\n",
+            )
+
+    def test_runtime_policy_overrides_persisted_git_config(self) -> None:
+        execute = GitRepository._popen  # ruff: ignore[private-member-access]
+        with (
+            tempfile.TemporaryDirectory() as directory,
+            override_settings(
+                DATA_DIR=directory,
+                DEFAULT_COMMITER_NAME="Weblate Ž",
+                DEFAULT_COMMITER_EMAIL="weblate@example.org",
+            ),
+        ):
+            home = Path(directory, "home")
+            home.mkdir()
+            shared_config = home / ".gitconfig"
+            shared_config.write_text(
+                '[protocol "http"]\n    allow = never\n'
+                "[maintenance]\n    auto = true\n",
+                encoding="utf-8",
+            )
+            checkout = Path(directory, "repo")
+            GitRepository.create_blank_repository(str(checkout))
+            checkout_config = checkout / ".git" / "config"
+            with checkout_config.open("a", encoding="utf-8") as config:
+                config.write(
+                    "[user]\n    name = Stale\n    email = stale@example.org\n"
+                    "[committer]\n    name = Stale\n    email = stale@example.org\n"
+                    "[gc]\n    auto = 100\n"
+                    "[push]\n    default = nothing\n"
+                )
+
+            original_shared = shared_config.read_bytes()
+            checkout_defaults = checkout_config.read_text(encoding="utf-8")
+            for schemes, stale, expected in (
+                ({"http", "https", "ssh"}, "never", "always"),
+                ({"https", "ssh"}, "always", "never"),
+            ):
+                checkout_config.write_text(
+                    checkout_defaults + f'[protocol "http"]\n    allow = {stale}\n',
+                    encoding="utf-8",
+                )
+                original_checkout = checkout_config.read_bytes()
+                with (
+                    self.subTest(schemes=schemes),
+                    override_settings(VCS_ALLOW_SCHEMES=schemes),
+                ):
+                    for key, value in (
+                        ("protocol.http.allow", expected),
+                        ("maintenance.auto", "0"),
+                        ("gc.auto", "0"),
+                        ("push.default", "current"),
+                    ):
+                        self.assertEqual(
+                            execute(
+                                ["config", "--get", key], cwd=str(checkout)
+                            ).strip(),
+                            value,
+                        )
+                    self.assertEqual(checkout_config.read_bytes(), original_checkout)
+
+            original_checkout = checkout_config.read_bytes()
+            execute(
+                [
+                    "commit",
+                    "--allow-empty",
+                    "--author=Translator <translator@example.org>",
+                    "--message=Test identity",
+                ],
+                cwd=str(checkout),
+            )
+            self.assertEqual(
+                execute(
+                    ["log", "-1", "--format=%an <%ae>%n%cn <%ce>"],
+                    cwd=str(checkout),
+                ).splitlines(),
+                [
+                    "Translator <translator@example.org>",
+                    "Weblate Ž <weblate@example.org>",
+                ],
+            )
+            self.assertEqual(
+                (shared_config.read_bytes(), checkout_config.read_bytes()),
+                (original_shared, original_checkout),
+            )
+
+
 class RepositoryRemotePinningTest(SimpleTestCase):
+    @staticmethod
+    def get_command_config(environment: dict[str, str]) -> dict[str, str]:
+        return {
+            environment[f"GIT_CONFIG_KEY_{index}"]: environment[
+                f"GIT_CONFIG_VALUE_{index}"
+            ]
+            for index in range(int(environment["GIT_CONFIG_COUNT"]))
+        }
+
     def test_git_lfs_transfers_are_disabled(self) -> None:
         # ruff: ignore[private-member-access]
         environment = GitRepository._getenv(
@@ -1954,17 +2078,13 @@ class RepositoryRemotePinningTest(SimpleTestCase):
             branch = GitRepository.get_remote_branch("https://git.example/repo.git")
 
         self.assertEqual(branch, "main")
-        args = popen.call_args.args[0]
         self.assertEqual(
-            args[:6],
-            [
-                "-c",
-                "http.proxy=",
-                "-c",
-                "http.curloptResolve=git.example:443:93.184.216.34,[2001:4860:4860::8888]",
-                "-c",
-                "http.followRedirects=false",
-            ],
+            self.get_command_config(popen.call_args.kwargs["environment"]),
+            {
+                "http.proxy": "",
+                "http.curloptResolve": "git.example:443:93.184.216.34,[2001:4860:4860::8888]",
+                "http.followRedirects": "false",
+            },
         )
 
     @override_settings(
@@ -1993,27 +2113,12 @@ class RepositoryRemotePinningTest(SimpleTestCase):
 
         self.assertEqual(branch, "main")
         getaddrinfo.assert_not_called()
-        args = popen.call_args.args[0]
-        self.assertNotIn(
-            "http.curloptResolve=git.example:443:93.184.216.34",
-            args,
-        )
-        self.assertNotIn("http.proxy=", args)
-        self.assertIn("http.followRedirects=false", args)
-        environment = popen.call_args.kwargs["environment"]
         self.assertEqual(
-            environment,
+            self.get_command_config(popen.call_args.kwargs["environment"]),
             {
-                "GIT_CONFIG_COUNT": "1",
-                "GIT_CONFIG_KEY_0": "http.proxy",
-                "GIT_CONFIG_VALUE_0": "http://proxy.example:8080",
+                "http.proxy": "http://proxy.example:8080",
+                "http.followRedirects": "false",
             },
-        )
-        self.assertEqual(
-            GitRepository._getenv(environment)[  # ruff: ignore[private-member-access]
-                "GIT_CONFIG_VALUE_0"
-            ],
-            "http://proxy.example:8080",
         )
 
     def test_https_proxy_preserves_command_authentication(self) -> None:
@@ -2033,14 +2138,24 @@ class RepositoryRemotePinningTest(SimpleTestCase):
             target,  # type: ignore[arg-type]
         )
 
+        self.assertIsNotNone(environment)
+        runtime_environment = GitRepository._getenv(  # ruff: ignore[private-member-access]
+            environment
+        )
+        config = self.get_command_config(runtime_environment)
+        self.assertEqual(config["http.extraHeader"], "Authorization: Basic secret")
+        self.assertEqual(config["http.proxy"], "http://proxy.example:8080")
+        self.assertEqual(config["http.followRedirects"], "false")
+        self.assertEqual(config["protocol.https.allow"], "always")
+        self.assertEqual(authentication["GIT_CONFIG_COUNT"], "1")
+
+    def test_url_password_enables_proactive_authentication(self) -> None:
+        repository = GitRepository(".", local=True)
+        environment = repository._get_auth_environment(  # ruff: ignore[private-member-access]
+            "https://user:password@git.example/repo.git"
+        )
         self.assertEqual(
-            environment,
-            {
-                **authentication,
-                "GIT_CONFIG_COUNT": "2",
-                "GIT_CONFIG_KEY_1": "http.proxy",
-                "GIT_CONFIG_VALUE_1": "http://proxy.example:8080",
-            },
+            self.get_command_config(environment), {"http.proactiveAuth": "auto"}
         )
 
     @override_settings(
@@ -2063,9 +2178,11 @@ class RepositoryRemotePinningTest(SimpleTestCase):
         ):
             GitRepository.get_remote_branch("https://faß.example/repo.git")
 
-        self.assertIn(
-            "http.curloptResolve=xn--fa-hia.example:443:93.184.216.34",
-            popen.call_args.args[0],
+        self.assertEqual(
+            self.get_command_config(popen.call_args.kwargs["environment"])[
+                "http.curloptResolve"
+            ],
+            "xn--fa-hia.example:443:93.184.216.34",
         )
         self.assertEqual(getaddrinfo.call_args.args[0], "xn--fa-hia.example")
 
@@ -2090,12 +2207,10 @@ class RepositoryRemotePinningTest(SimpleTestCase):
             ):
                 GitRepository.get_remote_branch(url)
 
-            args = popen.call_args.args[0]
-            self.assertFalse(
-                any(arg.startswith("http.curloptResolve=") for arg in args)
+            self.assertEqual(
+                self.get_command_config(popen.call_args.kwargs["environment"]),
+                {"http.proxy": "", "http.followRedirects": "false"},
             )
-            self.assertIn("http.followRedirects=false", args)
-            self.assertIn("http.proxy=", args)
 
     @override_settings(
         VCS_ALLOW_HOSTS=set(),
@@ -2118,9 +2233,11 @@ class RepositoryRemotePinningTest(SimpleTestCase):
 
         args = popen.call_args.args[0]
         getaddrinfo.assert_called_once()
-        self.assertIn(
-            "http.curloptResolve=git.example:443:93.184.216.34",
-            args,
+        self.assertEqual(
+            self.get_command_config(popen.call_args.kwargs["environment"])[
+                "http.curloptResolve"
+            ],
+            "git.example:443:93.184.216.34",
         )
         self.assertIn("https://git.example/repo.git", args)
 
@@ -2541,7 +2658,9 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         GitRepository.create_blank_repository(path)
         unrelated = GitRepository(path, branch=GitRepository.default_branch, local=True)
         with unrelated.lock:
-            unrelated.set_committer("Test", "test@example.net")
+            unrelated.config_update(
+                ("user", "name", "Test"), ("user", "email", "test@example.net")
+            )
             Path(path, "README.md").write_text("Unrelated\n", encoding="utf-8")
             unrelated.commit(
                 "Initial commit",
@@ -2605,7 +2724,6 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             self.fixup_repo(repo)
 
             with repo.lock:
-                repo.set_committer("Second Bar", "second@example.net")
                 if rename:
                     shutil.move(
                         os.path.join(tempdir, "README.md"),
@@ -3066,7 +3184,9 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             )
             work = GitRepository(work_path, branch=branch, local=True)
             with work.lock:
-                work.set_committer("Test", "test@example.net")
+                work.config_update(
+                    ("user", "name", "Test"), ("user", "email", "test@example.net")
+                )
                 Path(work_path, "README.md").write_text("A\n", encoding="utf-8")
                 work.commit(
                     "A", "Test <test@example.net>", timezone.now(), ["README.md"]
@@ -3221,16 +3341,8 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     def test_get_version(self) -> None:
         self.assertNotEqual(self._class.get_version(), "")
 
-    def test_set_committer(self) -> None:
-        with self.repo.lock:
-            self.repo.set_committer("Foo Bar Žač", "foo@example.net")
-        self.assertEqual(self.repo.get_config("user.name"), "Foo Bar Žač")
-        self.assertEqual(self.repo.get_config("user.email"), "foo@example.net")
-
     def test_commit(self, committer="Foo Bar") -> None:
         committer_email = f"{committer} <foo@example.com>"
-        with self.repo.lock:
-            self.repo.set_committer(committer, "foo@example.net")
         # Create test file
         Path(os.path.join(self.tempdir, "testfile")).write_bytes(b"TEST FILE\n")
 
@@ -3286,8 +3398,6 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         self.test_commit("Zkouška Sirén")
 
     def test_remove(self) -> None:
-        with self.repo.lock:
-            self.repo.set_committer("Foo Bar", "foo@example.net")
         self.assertTrue(os.path.exists(os.path.join(self.tempdir, "po/cs.po")))
         with self.repo.lock:
             self.repo.remove(["po/cs.po"], "Remove Czech translation")
@@ -3338,16 +3448,6 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
 
                 with self.assertRaises(RepositoryError):
                     self.repo.get_config("remote.origin.pushURL")
-
-    def test_check_config_disables_git_auto_maintenance(self) -> None:
-        if not issubclass(self._class, GitRepository):
-            self.skipTest("Git specific configuration")
-
-        self.repo.check_config()
-
-        self.assertEqual(self.repo.get_config("push.default"), "current")
-        self.assertEqual(self.repo.get_config("maintenance.auto"), "0")
-        self.assertEqual(self.repo.get_config("gc.auto"), "0")
 
     def test_configure_branch(self) -> None:
         # Existing branch
@@ -6606,19 +6706,6 @@ class VCSLocalTest(VCSGitTest):
         super().setUpClass()
         # Global setup to configure git committer
         GitRepository.global_setup()
-
-    def test_global_setup_disables_git_auto_maintenance(self) -> None:
-        with tempfile.TemporaryDirectory() as data_dir:
-            home = Path(data_dir) / "home"
-            home.mkdir()
-
-            with override_settings(DATA_DIR=data_dir):
-                GitRepository.global_setup()
-
-            config = RawConfigParser()
-            config.read(home / ".gitconfig")
-            self.assertEqual(config.get("maintenance", "auto"), "0")
-            self.assertEqual(config.get("gc", "auto"), "0")
 
     def test_status(self) -> None:
         status = self.repo.status()

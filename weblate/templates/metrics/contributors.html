@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% load humanize i18n user_display %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{{ scope.get_absolute_url }}">{{ scope }}</a>
+  </li>
+  <li class="breadcrumb-item active" aria-current="page">{% translate "Contributors" %}</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  <h1>{% translate "Contributors" %}</h1>
+  {% if not rankings_ready %}
+    <p>{% translate "Contributor rankings are being prepared." %}</p>
+  {% elif contributors %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">{% translate "Contributor" %}</th>
+          <th scope="col" class="number" aria-sort="descending">{% translate "Translations made" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for contributor in contributors %}
+          <tr>
+            <th scope="row">{% user_display contributor.user %}</th>
+            <td class="number">{{ contributor.translated|intcomma }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% include "paginator.html" %}
+  {% else %}
+    <p>{% translate "No contributors found." %}</p>
+  {% endif %}
+{% endblock content %}

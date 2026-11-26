@@ -192,6 +192,11 @@ class CategoriesTest(ViewTestCase):
         destination.add_user(self.user, "Administration")
         parent = self.create_category(self.project)
         child = self.create_category(self.project, category=parent)
+        child.slug = "renamed-child"
+        with acting_user_context(self.user):
+            child.save(update_fields=["slug"])
+        rename = child.change_set.get(action=ActionEvents.RENAME_CATEGORY)
+        self.assertEqual(rename.project, self.project)
         self.component.category = child
         self.component.save(update_fields=["category"])
         previous_change = self.component.change_set.latest("pk").pk
@@ -210,10 +215,17 @@ class CategoriesTest(ViewTestCase):
         for obj in (parent, child, self.component):
             obj.refresh_from_db()
             self.assertEqual(obj.project, destination)
+        self.assertTrue(destination.change_set.filter(pk=previous_change).exists())
         category_changes = destination.change_set.filter(
             pk__gt=previous_change, action=ActionEvents.MOVE_CATEGORY
         )
-        self.assertEqual(category_changes.count(), 2)
+        rename.refresh_from_db()
+        self.assertEqual(rename.project, destination)
+        self.assertEqual(rename.category, child)
+        self.assertCountEqual(
+            category_changes.values_list("category_id", flat=True),
+            [parent.pk, child.pk],
+        )
         component_change = self.component.change_set.get(
             pk__gt=previous_change, action=ActionEvents.MOVE_COMPONENT
         )

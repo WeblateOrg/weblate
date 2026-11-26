@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import logging
 import os
+from collections.abc import Mapping
 from contextlib import contextmanager
 from copy import copy, deepcopy
 from dataclasses import dataclass
@@ -17,12 +18,13 @@ from django import forms
 from django.conf import settings
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db import IntegrityError, models, transaction
-from django.db.models import Model, TextChoices
+from django.db.models import Model, Q, TextChoices
 from django.utils.translation import gettext_lazy
 from drf_spectacular.extensions import (
     OpenApiSerializerFieldExtension,
 )
 from drf_spectacular.plumbing import build_basic_type
+from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
     extend_schema_field,
 )
@@ -1226,7 +1228,31 @@ class FullUserSerializer(ProfileUpdateMixin, serializers.ModelSerializer[User]):
         if request is None or not request.user.has_perm("user.edit"):
             for field_name in self.privileged_fields:
                 fields[field_name].read_only = True
+        if isinstance(self.instance, User):
+            for field_name in self.instance.protected_account_fields:
+                fields[field_name].read_only = True
         return fields
+
+    def to_internal_value(self, data):
+        if isinstance(self.instance, User) and isinstance(data, Mapping):
+            errors: dict[str, Any] = {}
+            for name in self.instance.protected_account_fields:
+                if name not in data:
+                    continue
+                value = data[name]
+                if name == "is_bot":
+                    try:
+                        value = self.fields[name].to_internal_value(value)
+                    except serializers.ValidationError as error:
+                        errors[name] = error.detail
+                        continue
+                if value != getattr(self.instance, name):
+                    errors[name] = (
+                        "This field cannot be changed on an API token account."
+                    )
+            if errors:
+                raise serializers.ValidationError(errors)
+        return super().to_internal_value(data)
 
     class Meta:
         model = User
@@ -1806,9 +1832,37 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
             raise serializers.ValidationError(error.message_dict) from error
 
 
+class ProjectWorkspaceField(serializers.PrimaryKeyRelatedField):
+    def get_queryset(self):
+        request = self.context.get("request")
+        if request is None:
+            return Workspace.objects.none()
+        user = request.user
+        eligible = user.workspaces_with_perm("workspace.add_project")
+        project = self.parent.instance
+        if project is None:
+            return eligible
+        editable = user.workspaces_with_perm("workspace.edit")
+        return Workspace.objects.filter(
+            Q(pk=project.workspace_id) | (Q(pk__in=eligible) & Q(pk__in=editable))
+        )
+
+    def to_internal_value(self, data):
+        workspace_id = serializers.UUIDField().run_validation(data)
+        try:
+            return super().to_internal_value(workspace_id)
+        except serializers.ValidationError as error:
+            if error.get_codes() == ["does_not_exist"]:
+                msg = "Can not use this workspace"
+                raise PermissionDenied(msg) from None
+            raise
+
+
 class ProjectSerializer(serializers.ModelSerializer[Project]):
-    workspace = serializers.PrimaryKeyRelatedField(
-        queryset=Workspace.objects.all(), required=False, allow_null=True
+    workspace = ProjectWorkspaceField(
+        queryset=Workspace.objects.all(),
+        required=False,
+        allow_null=True,
     )
     effective_license = serializers.SerializerMethodField()
     effective_agreement = serializers.SerializerMethodField()
@@ -3461,6 +3515,11 @@ class TranslationCreateSerializer(BackgroundRequestSerializer):
         return attrs
 
 
+@extend_schema_field(OpenApiTypes.BINARY)
+class BinaryUploadField(serializers.FileField):
+    """A file accepted as input rather than represented by a URL."""
+
+
 class UploadRequestSerializer(ReadOnlySerializer):
     background = serializers.BooleanField(
         required=False,
@@ -3470,10 +3529,24 @@ class UploadRequestSerializer(ReadOnlySerializer):
             "this field will be removed and only background processing will be supported."
         ),
     )
-    ignore_language = serializers.BooleanField(required=False, default=False)
-    file = serializers.FileField(validators=[validate_translation_upload_size])
-    author_email = serializers.EmailField(required=False)
-    author_name = serializers.CharField(max_length=200, required=False)
+    ignore_language = serializers.BooleanField(
+        required=False,
+        default=False,
+        help_text="Allow a mismatch between the file's language and the translation language.",
+    )
+    file = BinaryUploadField(
+        validators=[validate_translation_upload_size],
+        help_text="Translation file. A multipart part can also contain the file bytes without a filename.",
+    )
+    author_email = serializers.EmailField(
+        required=False,
+        help_text="Author email. Only used when the caller can specify upload authorship.",
+    )
+    author_name = serializers.CharField(
+        max_length=200,
+        required=False,
+        help_text="Author name. Only used when the caller can specify upload authorship.",
+    )
     method = serializers.ChoiceField(
         choices=(
             "translate",
@@ -3486,14 +3559,26 @@ class UploadRequestSerializer(ReadOnlySerializer):
         ),
         required=False,
         default="translate",
+        help_text=(
+            "How to import the file. The caller must have permission for the "
+            "selected method. Use `source` when the translation has no file yet."
+        ),
     )
     fuzzy = serializers.ChoiceField(
-        choices=("", "process", "approve"), required=False, default=""
+        choices=("", "process", "approve"),
+        required=False,
+        default="",
+        help_text="How to process strings marked for edit in the uploaded file.",
     )
     conflicts = serializers.ChoiceField(
         choices=("", "ignore", "replace-translated", "replace-approved"),
         required=False,
         default="",
+        help_text=(
+            "How to handle conflicts with existing translations. Replacement "
+            "requires overwrite permission. Replacing approved strings also "
+            "requires review permission."
+        ),
     )
 
     def validate_conflicts(self, value):
@@ -4668,8 +4753,13 @@ class ScreenshotCreateSerializer(ScreenshotSerializer):
         }
 
 
+@extend_schema_field(OpenApiTypes.BINARY)
+class ScreenshotImageUploadField(serializers.ImageField):
+    pass
+
+
 class ScreenshotFileSerializer(serializers.ModelSerializer[Screenshot]):
-    image = serializers.ImageField(validators=[Screenshot.validate_image_file])
+    image = ScreenshotImageUploadField(validators=[Screenshot.validate_image_file])
 
     class Meta:
         model = Screenshot
@@ -4677,6 +4767,24 @@ class ScreenshotFileSerializer(serializers.ModelSerializer[Screenshot]):
         extra_kwargs: ClassVar[dict[str, Any]] = {
             "url": {"view_name": "api:screenshot-file"}
         }
+
+
+class ScreenshotCreateRequestSerializer(ScreenshotCreateSerializer):
+    project_slug = serializers.CharField()
+    component_slug = serializers.CharField()
+    language_code = serializers.CharField()
+    image = ScreenshotImageUploadField()
+
+    class Meta(ScreenshotCreateSerializer.Meta):
+        fields = (
+            "project_slug",
+            "component_slug",
+            "language_code",
+            "name",
+            "repository_filename",
+            "units",
+            "image",
+        )
 
 
 def filter_alert_details(
@@ -5094,6 +5202,41 @@ class ProjectComponentSerializer(ComponentSerializer):
         fields = tuple(
             field for field in ComponentSerializer.Meta.fields if field != "project"
         )
+
+
+class ComponentCreateRequestSerializer(ProjectComponentSerializer):
+    """Document creation inputs using the component serializer's write fields."""
+
+    class Meta(ProjectComponentSerializer.Meta):
+        fields = tuple(
+            field
+            for field in ProjectComponentSerializer.Meta.fields
+            if field not in {"zipfile", "docfile"}
+        )
+
+    def get_fields(self) -> dict[str, serializers.Field]:
+        fields = {
+            name: field
+            for name, field in super().get_fields().items()
+            if not field.read_only
+        }
+        for name in ("repo", "filemask", "file_format"):
+            fields[name].required = False
+        return fields
+
+
+class ComponentCreateMultipartRequestSerializer(ComponentCreateRequestSerializer):
+    zipfile = BinaryUploadField(
+        required=False,
+        help_text="ZIP archive for initializing a local translation repository.",
+    )
+    docfile = BinaryUploadField(
+        required=False,
+        help_text="Document to translate in a local repository.",
+    )
+
+    class Meta(ProjectComponentSerializer.Meta):
+        pass
 
 
 class AutomationExecutionRequestSerializer(serializers.Serializer):

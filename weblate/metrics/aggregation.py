@@ -20,7 +20,8 @@ from uuid import UUID
 
 from django.db import connections
 
-from weblate.trans.models.change import dt_as_day_range
+from weblate.trans.actions import ActionEvents
+from weblate.trans.models.change import Change, dt_as_day_range
 
 if TYPE_CHECKING:
     from collections.abc import Iterator, Sequence
@@ -151,6 +152,75 @@ def history(
                 "contributors_total"
             ] = row[-1]
     return result
+
+
+def translation_history(
+    ids: Sequence[Identity], date: dt.date, using: str
+) -> dict[Identity, dict[str, int]]:
+    """Collect translation activity and refresh rankings in one history scan."""
+    edit_actions = sorted(Change.ACTIONS_CONTENT)
+    contribution_actions = [
+        *edit_actions,
+        ActionEvents.COMMENT,
+        ActionEvents.SUGGESTION,
+    ]
+    start, end = dt_as_day_range(date - dt.timedelta(days=1))
+    recent = dt_as_day_range(date - dt.timedelta(days=30))[0]
+    with connections[using].cursor() as cursor:
+        cursor.execute(
+            """
+            WITH grouped AS MATERIALIZED (
+                SELECT translation_id, user_id,
+                    COUNT(*) FILTER (WHERE action = ANY(%s)) AS contributions,
+                    COUNT(*) FILTER (WHERE action = ANY(%s)) AS edits,
+                    COUNT(*) FILTER (WHERE timestamp BETWEEN %s AND %s) AS daily_changes,
+                    MAX(timestamp) >= %s AS recent
+                FROM trans_change
+                WHERE translation_id = ANY(%s)
+                GROUP BY translation_id, user_id
+            ), stored AS (
+                INSERT INTO metrics_contributorcount
+                    (translation_id, user_id, contributions, edits)
+                SELECT translation_id, user_id, contributions, edits
+                FROM grouped
+                WHERE user_id IS NOT NULL AND contributions > 0
+                ON CONFLICT (translation_id, user_id) DO UPDATE
+                    SET contributions = EXCLUDED.contributions, edits = EXCLUDED.edits
+                    WHERE (metrics_contributorcount.contributions, metrics_contributorcount.edits)
+                        IS DISTINCT FROM (EXCLUDED.contributions, EXCLUDED.edits)
+            ), removed AS (
+                DELETE FROM metrics_contributorcount AS summary
+                WHERE summary.translation_id = ANY(%s)
+                    AND NOT EXISTS (
+                        SELECT FROM grouped
+                        WHERE grouped.translation_id = summary.translation_id
+                            AND grouped.user_id = summary.user_id AND contributions > 0
+                    )
+            )
+            SELECT g.translation_id, SUM(g.daily_changes)::bigint,
+                COUNT(*) FILTER (WHERE u.is_active AND NOT u.is_bot AND g.recent),
+                COUNT(*) FILTER (WHERE u.is_active AND NOT u.is_bot)
+            FROM grouped g LEFT JOIN weblate_auth_user u ON u.id = g.user_id
+            GROUP BY g.translation_id
+            """,
+            [
+                contribution_actions,
+                edit_actions,
+                start,
+                end,
+                recent,
+                list(ids),
+                list(ids),
+            ],
+        )
+        return {
+            translation_id: {
+                "changes": changes,
+                "contributors": contributors,
+                "contributors_total": total,
+            }
+            for translation_id, changes, contributors, total in cursor
+        }
 
 
 def language_pairs(

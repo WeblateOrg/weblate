@@ -1316,43 +1316,27 @@ class PluralQuerySet(models.QuerySet["Plural", "Plural"]):
     def get_by_preference(
         self, language: Language, plural_preference: tuple[int, ...]
     ) -> Plural | None:
-        # Fetch all matching plurals
-        plurals = self.filter(source__in=plural_preference)
+        plural = self.find_by_preference(language, plural_preference)
+        if plural is None:
+            return None
+        return plural.for_language(language)
 
-        base_language: Language | None = None
-        base_language_fetched = False
-
-        # Use first matching in the order of preference
+    def find_by_preference(
+        self, language: Language, plural_preference: tuple[int, ...]
+    ) -> Plural | None:
+        """Find a local or inherited definition without creating a plural."""
+        local_rules = self.filter(source__in=plural_preference)
+        inherited_rules = Plural.objects.filter(
+            language__code=language.base_code, source__in=plural_preference
+        )
         for source in plural_preference:
-            for plural in plurals:
+            for plural in local_rules:
                 if plural.source == source:
                     return plural
-
-            # Try getting plural from the base language
             if language.base_code != language.code:
-                if base_language is None:
-                    if base_language_fetched:
-                        # Avoid repeated fetching
-                        continue
-                    base_language_fetched = True
-
-                    try:
-                        base_language = Language.objects.get(code=language.base_code)
-                    except Language.DoesNotExist:
-                        continue
-
-                plural = base_language.plural_set.get_by_preference(
-                    base_language, (source,)
-                )
-                if plural is not None:
-                    # Create matching plural on requested language
-                    return language.plural_set.create(
-                        source=plural.source,
-                        number=plural.number,
-                        formula=plural.formula,
-                        type=plural.type,
-                    )
-
+                for inherited in inherited_rules:
+                    if inherited.source == source:
+                        return inherited
         return None
 
 
@@ -1585,6 +1569,22 @@ class Plural(models.Model):
 
     def get_absolute_url(self) -> str:
         return f"{reverse('show_language', kwargs={'lang': self.language.code})}#information"
+
+    def for_language(self, language: Language) -> Plural:
+        if self.language_id == language.pk:
+            return self
+        # Plural definitions other than zero-CLDR have no uniqueness constraint.
+        # Serialize inheritance when concurrent imports materialize the same rule.
+        with transaction.atomic():
+            Language.objects.select_for_update(no_key=True).only("pk").get(
+                pk=language.pk
+            )
+            return language.plural_set.get_or_create(
+                source=self.source,
+                number=self.number,
+                formula=self.formula,
+                type=self.type,
+            )[0]
 
     def clean(self) -> None:
         super().clean()

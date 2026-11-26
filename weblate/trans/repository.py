@@ -13,6 +13,7 @@ from celery import uuid
 from django.conf import settings
 from django.core.cache import cache
 
+from weblate.utils.cache import is_redis_cache
 from weblate.utils.celery import (
     TASK_METADATA_TTL,
     delete_task_metadata,
@@ -20,9 +21,12 @@ from weblate.utils.celery import (
     get_task_metadata_key,
     store_task_metadata,
 )
+from weblate.utils.errors import report_error
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator, Iterable
+
+    from django_redis.cache import RedisCache
 
     from weblate.auth.models import User
     from weblate.trans.models import Component, Project, Translation
@@ -64,8 +68,22 @@ class RepositoryOperationConflictError(Exception):
         self.task_id = task_id
 
 
+# Lifetime of a reservation while the task waits in the queue or for a retry.
 REPOSITORY_OPERATION_TTL = TASK_METADATA_TTL
-REPOSITORY_OPERATION_HEARTBEAT = REPOSITORY_OPERATION_TTL // 3
+# While an operation runs, its heartbeat keeps a short TTL, so the reservation
+# expires within minutes once the process is killed. Should the heartbeat stall,
+# the repository lock still serializes the actual repository access.
+REPOSITORY_OPERATION_RUNNING_TTL = 300
+REPOSITORY_OPERATION_HEARTBEAT = 60
+
+
+# Deletes the key only while it still holds the expected value.
+DELETE_IF_EQUAL_SCRIPT = """
+if redis.call("GET", KEYS[1]) == ARGV[1] then
+    return redis.call("DEL", KEYS[1])
+end
+return 0
+"""
 
 
 def get_repository_operation_key(component_id: int) -> str:
@@ -138,7 +156,41 @@ def _get_active_reservation(component_id: int) -> RepositoryOperationReservation
     if not isinstance(task_id, str) or not isinstance(operation, str):
         cache.delete(key)
         return None
+    if cache.get(get_repository_operation_scope_key(task_id)) is None:
+        # The task scope has the shortest TTL of the whole reservation, so
+        # once it expires the task is gone, even when it died before
+        # shortening the reservation of every repository.
+        _delete_stale_reservation(key, reservation)
+        return None
     return cast("RepositoryOperationReservation", reservation)
+
+
+def _delete_stale_reservation(key: str, reservation: dict) -> None:
+    """Delete a stale reservation unless another task has reserved the key."""
+    # The task could have finished meanwhile, and another one reserved the
+    # repository, so the key has to be compared with the stale reservation
+    # and deleted in one step.
+    if is_redis_cache():
+        client = cast("RedisCache", cache).client
+        client.get_client(write=True).eval(
+            DELETE_IF_EQUAL_SCRIPT,
+            1,
+            client.make_key(key),
+            client.encode(reservation),
+        )
+        return
+    # Other caches have no compare-and-delete. Only the caller winning the
+    # cleanup claim deletes the key, after checking it again, which leaves
+    # a short window to remove a newer reservation.
+    if (
+        cache.add(
+            f"{key}-stale-{reservation['task_id']}",
+            True,
+            REPOSITORY_OPERATION_RUNNING_TTL,
+        )
+        and cache.get(key) == reservation
+    ):
+        cache.delete(key)
 
 
 def get_repository_operation_scope(task_id: str) -> list[int] | None:
@@ -151,28 +203,31 @@ def get_repository_operation_scope(task_id: str) -> list[int] | None:
 
 
 def acquire_repository_operation(
-    component_ids: list[int], operation: RepositoryOperation, task_id: str
+    component_ids: list[int],
+    operation: RepositoryOperation,
+    task_id: str,
+    *,
+    ttl: int = REPOSITORY_OPERATION_TTL,
 ) -> None:
     """Acquire all repository reservations, rolling back partial acquisition."""
     reservation: RepositoryOperationReservation = {
         "operation": operation,
         "task_id": task_id,
     }
+    # Set the scope first: the reservations are only valid while it exists.
+    cache.set(get_repository_operation_scope_key(task_id), component_ids, ttl)
     for component_id in component_ids:
         active = _get_active_reservation(component_id)
         if active is None and cache.add(
             get_repository_operation_key(component_id),
             reservation,
-            REPOSITORY_OPERATION_TTL,
+            ttl,
         ):
             continue
         if active is None:
             active = _get_active_reservation(component_id)
         if active == reservation:
-            cache.touch(
-                get_repository_operation_key(component_id),
-                REPOSITORY_OPERATION_TTL,
-            )
+            cache.touch(get_repository_operation_key(component_id), ttl)
             continue
 
         # Retries can already own later reservations in the scope. Release
@@ -181,12 +236,6 @@ def acquire_repository_operation(
         raise RepositoryOperationConflictError(
             active["task_id"] if active is not None else None
         )
-
-    cache.set(
-        get_repository_operation_scope_key(task_id),
-        component_ids,
-        REPOSITORY_OPERATION_TTL,
-    )
 
 
 def release_repository_operation(component_ids: list[int], task_id: str) -> None:
@@ -203,16 +252,16 @@ def refresh_repository_operation(
     component_ids: list[int],
     task_id: str,
     tracking_component_ids: list[int] | None = None,
+    *,
+    ttl: int = REPOSITORY_OPERATION_TTL,
 ) -> None:
     for component_id in component_ids:
         key = get_repository_operation_key(component_id)
         reservation = cache.get(key)
         if isinstance(reservation, dict) and reservation.get("task_id") == task_id:
-            cache.touch(key, REPOSITORY_OPERATION_TTL)
-    cache.touch(get_repository_operation_scope_key(task_id), REPOSITORY_OPERATION_TTL)
-    cache.touch(
-        get_repository_operation_published_key(task_id), REPOSITORY_OPERATION_TTL
-    )
+            cache.touch(key, ttl)
+    cache.touch(get_repository_operation_scope_key(task_id), ttl)
+    cache.touch(get_repository_operation_published_key(task_id), ttl)
     cache.touch(get_task_metadata_key(task_id), TASK_METADATA_TTL)
     for component_id in tracking_component_ids or ():
         key = get_repository_operation_update_key(component_id)
@@ -263,14 +312,27 @@ def keep_repository_operation_reservation(
     task_id: str,
     tracking_component_ids: list[int] | None = None,
 ) -> Generator[None]:
-    """Refresh a reservation while a potentially long operation is running."""
+    """Keep a reservation alive only while this process works on it."""
     stopped = Event()
+
+    def refresh() -> None:
+        refresh_repository_operation(
+            component_ids,
+            task_id,
+            tracking_component_ids,
+            ttl=REPOSITORY_OPERATION_RUNNING_TTL,
+        )
 
     def heartbeat() -> None:
         while not stopped.wait(REPOSITORY_OPERATION_HEARTBEAT):
-            refresh_repository_operation(component_ids, task_id, tracking_component_ids)
+            try:
+                refresh()
+            except Exception:
+                # A missed refresh only shortens the reservation; stopping the
+                # heartbeat would let it expire while the operation runs.
+                report_error("Could not refresh repository operation reservation")
 
-    refresh_repository_operation(component_ids, task_id, tracking_component_ids)
+    refresh()
     thread = Thread(
         target=heartbeat,
         name=f"repository-operation-{task_id}",
@@ -290,7 +352,9 @@ def reserve_repository_operation(
 ) -> Generator[Callable[[], None]]:
     """Reserve repositories and yield an idempotent early-release callback."""
     task_id = uuid()
-    acquire_repository_operation(component_ids, operation, task_id)
+    acquire_repository_operation(
+        component_ids, operation, task_id, ttl=REPOSITORY_OPERATION_RUNNING_TTL
+    )
 
     def release() -> None:
         release_repository_operation(component_ids, task_id)

@@ -33,9 +33,11 @@ _component_read_locks: ContextVar[tuple[tuple[Component, bool], ...]] = ContextV
 
 
 @contextmanager
-def check_boundary_lock(project: Project) -> Generator[None, None, None]:
+def check_boundary_lock(
+    project: Project, component_name: str | None = None
+) -> Generator[None, None, None]:
     """Reuse boundary locks across model instances and eager task callbacks."""
-    lock = project.propagation_checks_lock
+    lock = project.propagation_checks_lock(component_name)
     active = _boundary_locks.get() or {}
     lock = active.get(lock.name, lock)
     with lock:

@@ -55,27 +55,10 @@ Please see :ref:`vcs-repos` for info on setting up SSH keys.
 How to fix merge conflicts in translations?
 -------------------------------------------
 
-Merge conflicts happen from time to time when the translation file is changed in
-both Weblate and the upstream repository concurrently. You can usually avoid this by merging
-Weblate translations prior to making changes in the translation files (e.g.
-before running msgmerge). Just tell Weblate to commit all pending
-translations (you can do it in :guilabel:`Repository maintenance` in the
-:guilabel:`Operations` menu) and merge the repository (if automatic push is not
-on).
-
-If you've already encountered a merge conflict, the easiest way to solve all
-conflicts locally on your machine, is to add Weblate as a remote
-repository, merge it into upstream and fix any conflicts. Once you push changes
-back, Weblate will be able to use the merged version without any other special
-actions.
-
-.. note::
-
-   If you resolve the conflict in a pull request, merge it with a regular merge
-   commit. Do not squash merge it. Squash merging creates a new commit instead
-   of preserving the Weblate commits, so Weblate might not recognize that its
-   local commits are already included upstream and might need a repository
-   reset to recover.
+When Weblate and upstream have conflicting changes, merge the Weblate
+commits into upstream and resolve the conflicting files in your Git checkout.
+This preserves changes from both repositories. See :ref:`avoid-merge-conflicts`
+for ways to prevent conflicts in future updates.
 
 .. note::
 
@@ -97,44 +80,47 @@ actions.
 
 .. include:: /snippets/git-export-lfs-note.rst
 
-The workflow usually looks like this when you start from an up-to-date checkout
-of the upstream repository:
+1. Open the affected component in Weblate and go to
+   :guilabel:`Operations` → :guilabel:`Repository maintenance`. Select
+   :guilabel:`Lock` and then :guilabel:`Commit` to pause edits and write
+   pending translations to the repository. The corresponding CLI commands
+   are ``wlc lock`` and ``wlc commit``.
 
-.. code-block:: sh
+2. From an up-to-date checkout of your upstream repository, create a repair
+   branch based on the upstream branch configured in Weblate. This example
+   uses ``main``. Add and fetch the Weblate repository export, then merge its
+   branch.
 
-    # Open an existing up-to-date checkout of the upstream repository or perform
-    # a fresh one:
-    git clone UPSTREAM_REPOSITORY_URL
-    cd REPO
-    # Commit all pending changes in Weblate, you can do this in the UI as well:
-    wlc commit
-    # Lock the translation in Weblate, again this can be done in the UI as well:
-    wlc lock
-    # Add Weblate as remote:
-    git remote add weblate https://hosted.weblate.org/git/project/component/
-    # You might need to include credentials in some cases:
-    git remote add weblate https://username:APIKEY@hosted.weblate.org/git/project/component/
+   .. code-block:: sh
 
-    # Update weblate remote:
-    git remote update weblate
+       git fetch origin
+       git switch -c fix-weblate-conflicts origin/main
+       git remote add weblate https://hosted.weblate.org/git/project/component/
+       git fetch weblate
+       git merge weblate/main
 
-    # Merge Weblate changes:
-    git merge weblate/main
+3. Resolve the conflicting files, stage them, and commit the merge. If you
+   can push directly, push the repair branch to the configured upstream
+   branch. Otherwise push the repair branch to a repository you can write to
+   and open a pull request against the configured upstream branch. Use a
+   regular merge commit to land the pull request and preserve the Weblate
+   commits. Squash and rebase merges can rewrite the commits Weblate needs
+   to recognize.
 
-    # Resolve conflicts:
-    edit …
-    git add …
-    …
-    git commit
+4. Once the merge has landed, select :guilabel:`Update` in Weblate and check
+   that it succeeds before selecting :guilabel:`Unlock`. The corresponding
+   CLI commands are ``wlc pull`` and ``wlc unlock``.
 
-    # Rebase changes (if Weblate is configured to do rebases)
-    git rebase origin/main
+If the Weblate repository export is unavailable or you lack the permissions
+needed to complete these steps, ask a maintainer who can access the Weblate
+commits and land the merge.
 
-    # Push changes to upstream repository, Weblate will fetch merge from there:
-    git push
-
-    # Open Weblate for translation:
-    wlc unlock
+If you cannot integrate the histories, consider a reset as a last resort.
+Both reset options replace Weblate's local Git history with upstream.
+:guilabel:`Reset and reapply translations` then writes Weblate's translations
+again. :guilabel:`Discard local changes` drops local commits and pending
+translation changes. Use it only when upstream has all the translations you
+want to keep. See :ref:`repository-maintenance` for details.
 
 If you're using multiple branches in Weblate, you can do the same to all of them:
 
@@ -153,7 +139,7 @@ If you're using multiple branches in Weblate, you can do the same to all of them
 
     # Merge main branch:
     git checkout main
-    git merge weblates-second/main
+    git merge weblate-second/main
     ... # Resolve conflicts
     git commit
 

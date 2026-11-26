@@ -19,6 +19,14 @@ Content in the translation memory can be applied to strings in several ways:
 For installation tips, see :ref:`mt-weblate-translation-memory`, which is
 turned on by default.
 
+An active translation memory entry whose source text matches the string exactly
+scores 100%, whatever its context. If the entry also has the same context as the
+string, including both having none, it is preferred over other exact matches and
+shown as :guilabel:`100% · Context match`. A context you cannot see, such as that
+of a shared entry from another project, does not count as a match. Pending
+entries keep their penalty (see :ref:`memory-status`), and partial matches score
+lower when the entry has a context that differs from the string's.
+
 
 .. _memory-scopes:
 
@@ -256,11 +264,12 @@ including repeated or empty entries and multiple target languages. Limit failure
 are rejected before any entries are written. Accepted imports write database
 changes in batches of 1,000 entries.
 
-Browser uploads must also satisfy :setting:`TRANSLATION_UPLOAD_MAX_SIZE` and
-share the per-user :setting:`RATELIMIT_UPLOAD_ATTEMPTS` budget with translation
-uploads. Superusers are exempt from rate limiting. The :wladmin:`import_memory`
-command enforces the same parsing and entry-count limits without HTTP rate
-limiting. Split larger memories into smaller files before importing them.
+Uploads through the web interface must also satisfy
+:setting:`TRANSLATION_UPLOAD_MAX_SIZE` and share the per-user
+:setting:`RATELIMIT_UPLOAD_ATTEMPTS` budget with translation uploads.
+Superusers are exempt from rate limiting. The :wladmin:`import_memory` command
+enforces the same parsing and entry-count limits without HTTP rate limiting.
+Split larger memories into smaller files before importing them.
 
 .. hint::
     Translation memories in various formats can be imported into Weblate. The TMX

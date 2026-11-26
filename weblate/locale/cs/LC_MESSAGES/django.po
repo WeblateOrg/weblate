@@ -23,9 +23,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-11-19 18:05-0600\n"
-"PO-Revision-Date: 2026-11-13 08:11+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github-"
-"integration@weblate.org>\n"
+"PO-Revision-Date: 2026-11-23 16:21+0000\n"
+"Last-Translator: Adam Havránek <helak@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
 "Language: cs\n"
@@ -605,15 +604,13 @@ msgstr "Uživatel byl přidán do týmu {team} uživatelem {username}."
 msgid "User access to the {team} team was changed by {username}."
 msgstr "Přístup uživatele k týmu {team} byl změněn uživatelem {username}."
 
-#, fuzzy, python-brace-format
-#| msgid "User access to the {team} team was changed by {username}."
+#, python-brace-format
 msgid "Team administrator access to {team} was granted by {username}."
-msgstr "Přístup uživatele k týmu {team} byl změněn uživatelem {username}."
+msgstr "Přístup správce týmu k {team} byl udělen uživatelem {username}."
 
-#, fuzzy, python-brace-format
-#| msgid "User access to the {team} team was changed by {username}."
+#, python-brace-format
 msgid "Team administrator access to {team} was removed by {username}."
-msgstr "Přístup uživatele k týmu {team} byl změněn uživatelem {username}."
+msgstr "Přístup správce týmu k {team} byl odebrán uživatelem {username}."
 
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
@@ -730,43 +727,29 @@ msgctxt "User agent device type"
 msgid "iOS-Device"
 msgstr "Zařízení s iOS"
 
-#, fuzzy
-#| msgid "site-wide"
 msgid "Site-wide"
-msgstr "v rámci celého webu"
+msgstr "V rámci celého webu"
 
 msgid "Workspace"
 msgstr "Pracovní prostor"
 
-#, fuzzy
-#| msgid "Backup created"
 msgid "Team created"
-msgstr "Záloha vytvořena"
+msgstr "Vytvořen tým"
 
-#, fuzzy
-#| msgid "Last change"
 msgid "Team changed"
-msgstr "Poslední změna"
+msgstr "Změna v týmu"
 
-#, fuzzy
-#| msgid "Font deleted."
 msgid "Team deleted"
-msgstr "Písmo bylo smazáno."
+msgstr "Tým byl smazán"
 
-#, fuzzy
-#| msgid "Label added"
 msgid "Team member added"
-msgstr "Štítek přidán"
+msgstr "Byl přidán člen týmu"
 
-#, fuzzy
-#| msgid "Label removed"
 msgid "Team member removed"
-msgstr "Štítek odstraněn"
+msgstr "Člen týmu byl odstraněn"
 
-#, fuzzy
-#| msgid "User access changed"
 msgid "Team member access changed"
-msgstr "Změna uživatelského přístupu"
+msgstr "Změna přístupových práv člena týmu"
 
 msgid "Account activity"
 msgstr "Aktivita na účtu"
@@ -1357,20 +1340,21 @@ msgstr ""
 "Tuto pozvánku lze přijmout pouze z e-mailové adresy vybrané tvůrcem "
 "pozvánky; nemůže být použita vaším účtem."
 
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Your e-mail no longer belongs to verified account, it has been changed to "
-#| "{0}."
+#, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to a verified account, it has been changed to "
 "{0}."
-msgstr "Váš e-mail už není ověřený, byl změněn na {0}."
+msgstr "Váš e-mail již nepatří k ověřenému účtu, byl změněn na {0}."
 
 msgid ""
 "Your account e-mail is no longer verified and has been removed. Add and "
 "verify an e-mail address to recover your password, then select it as your "
 "account e-mail in Account settings to receive notifications."
 msgstr ""
+"E-mailová adresa vašeho účtu již není ověřena a byla odstraněna. Přidejte a "
+"ověřte e-mailovou adresu, abyste si mohli obnovit heslo, a poté ji v "
+"nastavení účtu vyberte jako e-mailovou adresu účtu, abyste mohli dostávat "
+"oznámení."
 
 msgid ""
 "Your e-mail address has been added. You can now select it as your account e-"
@@ -2718,26 +2702,23 @@ msgstr ""
 "Vložte pouze blok certifikátu ve formátu PEM, který začíná „-----BEGIN "
 "CERTIFICATE-----“; nevkládejte výstup příkazu „openssl x509 -text“."
 
-#, fuzzy
-#| msgid "Connection attempts"
 msgid "Connection timeout"
-msgstr "Pokusy o připojení"
+msgstr "Časový limit připojení"
 
-#, fuzzy
-#| msgid "How many seconds to wait between connection attempts."
 msgid "How many seconds to allow for connection and channel setup per attempt."
-msgstr "Kolik sekund se má čekat mezi jednotlivými pokusy o připojení."
+msgstr ""
+"Kolik sekund je třeba vyčkat na navázání spojení a nastavení kanálu při "
+"každém pokusu."
 
 msgid "Publish timeout"
 msgstr "Časový limit pro zveřejnění"
 
-#, fuzzy
-#| msgid "How many seconds to wait for the broker delivery acknowledgement."
 msgid ""
 "How many seconds to allow for sending and the broker delivery "
 "acknowledgement per attempt, after connection setup."
 msgstr ""
-"Kolik sekund je třeba čekat na potvrzení doručení od zprostředkovatele."
+"Kolik sekund je třeba počkat na odeslání a potvrzení doručení ze strany "
+"zprostředkovatele při každém pokusu po navázání spojení."
 
 msgid "Connection attempts"
 msgstr "Pokusy o připojení"
@@ -2954,15 +2935,11 @@ msgstr "Doplňky API je nutné nainstalovat přímo do komponenty."
 msgid "This add-on is already installed on this component."
 msgstr "Tento doplněk je v této komponentě již nainstalován."
 
-#, fuzzy
-#| msgid ""
-#| "Repository operations require permission on the component that owns the "
-#| "shared repository."
 msgid ""
 "Repository add-ons must be installed on the component owning the repository."
 msgstr ""
-"Operace s úložištěm vyžadují oprávnění ke komponentě, která je vlastníkem "
-"sdíleného úložiště."
+"Doplňky repozitáře musí být nainstalovány na komponentě, která je vlastníkem "
+"daného repozitáře."
 
 msgid "This add-on cannot be triggered manually."
 msgstr "Tento doplněk nelze spustit ručně."
@@ -3024,10 +3001,8 @@ msgctxt "Add-on scope"
 msgid "Site"
 msgstr "Stránka"
 
-#, fuzzy
-#| msgid "The target does not exist or you cannot access it."
 msgid "a component you cannot access"
-msgstr "Cíl neexistuje nebo k němu nemáte přístup."
+msgstr "komponenta, ke které nemáte přístup"
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -3932,21 +3907,20 @@ msgstr ""
 "Před přesunutím komponenty do jiného projektu ji nejprve odeberte z "
 "projektových týmů."
 
-#, fuzzy
-#| msgid ""
-#| "Remove the component from project teams before moving it to another "
-#| "project."
 msgid ""
 "Remove the component from its teams before deleting it. Deleting the last "
 "assigned component would expand the team's access."
 msgstr ""
-"Před přesunutím komponenty do jiného projektu ji nejprve odeberte z "
-"projektových týmů."
+"Před smazáním komponenty ji odeberte z příslušných týmů. Smazání poslední "
+"přiřazené komponenty by vedlo k rozšíření přístupových oprávnění týmu."
 
 msgid ""
 "Remove the component list from its teams before deleting it. Deleting the "
 "last assigned component list could expand a team's access."
 msgstr ""
+"Před smazáním seznamu komponent jej odeberte z příslušných týmů. Smazání "
+"posledního přiřazeného seznamu komponent by mohlo rozšířit přístup daného "
+"týmu."
 
 msgid "Roles"
 msgstr "Role"
@@ -4234,10 +4208,8 @@ msgstr ""
 "Pro tento jazyk jsou návrhy vypnuté. Požádejte správce projektu, aby je "
 "zapnul."
 
-#, fuzzy
-#| msgid "You do not have permission to approve translations."
 msgid "You need to log in to upload translations."
-msgstr "Nemáte oprávnění schvalovat překlady."
+msgstr "Abyste mohli nahrávat překlady, musíte se přihlásit."
 
 msgid "The file format does not support updating source strings."
 msgstr "Formát souboru nepodporuje aktualizaci zdrojových řetězců."
@@ -4279,15 +4251,11 @@ msgstr "Neaktivní uživatelé nemohou být přiřazeni do týmů."
 msgid "Project tokens can not be assigned to teams here."
 msgstr "Projektové tokeny nelze zde přiřadit týmům."
 
-#, fuzzy
-#| msgid "View audit log"
 msgid "Team audit log"
-msgstr "Zobrazit protokol"
+msgstr "Protokol auditu týmu"
 
-#, fuzzy
-#| msgid "Team administrator"
 msgid "Team audit entry"
-msgstr "Správce týmu"
+msgstr "Záznam o auditu týmu"
 
 msgid "Cannot remove built-in team!"
 msgstr "Nelze odstranit vestavěný tým!"
@@ -4324,15 +4292,11 @@ msgstr "Vyberte změnu pro tuto automatizaci."
 msgid "The change does not belong to this component."
 msgstr "Tato změna se této komponenty netýká."
 
-#, fuzzy
-#| msgid "The change does not belong to this component."
 msgid "The change event does not match this automation's triggers."
-msgstr "Tato změna se této komponenty netýká."
+msgstr "Událost změny neodpovídá spouštěčům této automatizace."
 
-#, fuzzy
-#| msgid "%(path)s: trigger scope requires only change triggers."
 msgid "Trigger scope requires a change with a string."
-msgstr "%(path)s: rozsah spouštěče vyžaduje pouze spouštěče změn."
+msgstr "Spouštěcí rozsah vyžaduje změnu pomocí řetězce."
 
 msgid "Automation nesting is too deep."
 msgstr "Úroveň vnoření automatizace je příliš hluboká."
@@ -4343,6 +4307,7 @@ msgstr "Definice automatizace nesmí přesáhnout 64 KiB."
 #, python-format
 msgid "%(path)s: Unknown change event “%(event)s”. Valid events: %(choices)s"
 msgstr ""
+"%(path)s: Neznámá událost změny „%(event)s“. Platné události: %(choices)s"
 
 msgid "YAML aliases and tags are not supported."
 msgstr "Aliasy a značky YAML nejsou podporovány."
@@ -4391,23 +4356,17 @@ msgstr "Pracovní postup"
 msgid "Enter an automation definition as YAML or JSON."
 msgstr "Zadejte definici automatizace ve formátu YAML nebo JSON."
 
-#, fuzzy
-#| msgid "Component"
 msgid "Component ID"
-msgstr "Součást"
+msgstr "ID komponenty"
 
-#, fuzzy
-#| msgid "Required for inherited automations. Used only for preview."
 msgid "Required for inherited automations."
-msgstr "Nezbytné pro zděděné automatizace. Slouží pouze k náhledu."
+msgstr "Nezbytné pro zděděné automatizace."
 
-#, fuzzy
-#| msgid "Change"
 msgid "Change ID"
-msgstr "Změnit"
+msgstr "Změnit ID"
 
 msgid "Required for workflows using only change triggers."
-msgstr ""
+msgstr "Je to nutné pro pracovní postupy, které využívají pouze spouštěče změn."
 
 #, fuzzy
 #| msgid "Review changes"

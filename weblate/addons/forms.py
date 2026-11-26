@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 from typing import TYPE_CHECKING, Any, ClassVar, TypedDict, cast
 from urllib.parse import urlparse
 
@@ -31,6 +31,7 @@ from weblate.addons.defaults import (
     DEFAULT_FEDORA_MESSAGING_RETRY_DELAY,
 )
 from weblate.addons.gettext_rules import resolve_data_dirs, validate_data_dirs
+from weblate.addons.utils import is_remote_cdn_source
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.actions import ActionEvents
 from weblate.trans.discovery import (
@@ -609,6 +610,38 @@ class MesonExtractPotForm(BaseXgettextExtractPotForm):
 
 
 class DjangoExtractPotForm(BaseExtractPotForm):
+    public_configuration_fields = BaseExtractPotForm.public_configuration_fields | {
+        "excluded_source_directories"
+    }
+
+    excluded_source_directories = forms.CharField(
+        label=gettext_lazy("Excluded source directories"),
+        required=False,
+        widget=forms.Textarea(),
+        help_text=gettext_lazy(
+            "Repository-relative directories to skip during extraction, one per line."
+        ),
+    )
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.helper.layout.append(Field("excluded_source_directories"))
+
+    def clean_excluded_source_directories(self) -> str:
+        directories = [
+            line.strip()
+            for line in self.cleaned_data["excluded_source_directories"].splitlines()
+            if line.strip()
+        ]
+        for directory in directories:
+            windows_path = PureWindowsPath(directory)
+            if directory in {".", ".."} or windows_path.drive or "\\" in directory:
+                raise forms.ValidationError(
+                    gettext("Enter a repository-relative directory path.")
+                )
+            validate_filename(directory)
+        return "\n".join(dict.fromkeys(directories))
+
     def clean(self) -> dict[str, Any]:
         super().clean()
         cleaned_data = self.cleaned_data
@@ -1712,7 +1745,7 @@ class CDNJSForm(BaseAddonForm[dict[str, object], "CDNJSAddon"]):
             if not filename:
                 continue
             try:
-                if filename.startswith(("http://", "https://")):
+                if is_remote_cdn_source(filename):
                     validate_restricted_asset_url(filename)
                 else:
                     validate_filename(filename)

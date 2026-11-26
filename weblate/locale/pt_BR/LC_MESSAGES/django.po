@@ -38,7 +38,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-11-19 18:05-0600\n"
-"PO-Revision-Date: 2026-11-20 00:48+0000\n"
+"PO-Revision-Date: 2026-11-23 16:21+0000\n"
 "Last-Translator: Kaya Abe <kaya.abe@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
@@ -1372,10 +1372,7 @@ msgstr ""
 "Este convite só pode ser aceito pelo endereço de e-mail escolhido por quem o "
 "enviou; ele não pode ser usado pela sua conta."
 
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Your e-mail no longer belongs to verified account, it has been changed to "
-#| "{0}."
+#, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to a verified account, it has been changed to "
 "{0}."
@@ -1388,6 +1385,10 @@ msgid ""
 "verify an e-mail address to recover your password, then select it as your "
 "account e-mail in Account settings to receive notifications."
 msgstr ""
+"O e-mail da sua conta não está mais verificado e foi removido. Adicione e "
+"verifique um endereço de e-mail para recuperar sua senha e, em seguida, "
+"selecione-o como o e-mail da sua conta nas configurações da conta para "
+"receber notificações."
 
 msgid ""
 "Your e-mail address has been added. You can now select it as your account e-"
@@ -3992,21 +3993,19 @@ msgstr ""
 "Remover o componente das equipes de projeto antes de movê-lo para outro "
 "projeto."
 
-#, fuzzy
-#| msgid ""
-#| "Remove the component from project teams before moving it to another "
-#| "project."
 msgid ""
 "Remove the component from its teams before deleting it. Deleting the last "
 "assigned component would expand the team's access."
 msgstr ""
-"Remover o componente das equipes de projeto antes de movê-lo para outro "
-"projeto."
+"Remova o componente das suas equipes antes de excluí-lo. Excluir o último "
+"componente atribuído expandiria o acesso da equipe."
 
 msgid ""
 "Remove the component list from its teams before deleting it. Deleting the "
 "last assigned component list could expand a team's access."
 msgstr ""
+"Remova a lista de componentes das equipes antes de excluí-la. Excluir a "
+"última lista de componentes atribuída pode expandir o acesso de uma equipe."
 
 msgid "Roles"
 msgstr "Funções"
@@ -4744,10 +4743,8 @@ msgstr "Cobrança"
 msgid "Billing event"
 msgstr "Evento de cobrança"
 
-#, fuzzy
-#| msgid "Projects without components"
 msgid "Project has no components."
-msgstr "Projetos sem componentes"
+msgstr "O projeto não possui componentes."
 
 msgid "monthly"
 msgstr "mensal"
@@ -7785,6 +7782,9 @@ msgid ""
 "When the linked file changes, Weblate can replace the screenshot with the "
 "repository image. Repository access is required to change this path."
 msgstr ""
+"Quando o arquivo vinculado for alterado, o Weblate poderá substituir a "
+"captura de tela pela imagem do repositório. É necessário acesso ao "
+"repositório para alterar esse caminho."
 
 msgid "Image is too big."
 msgstr "Imagem é grande demais."
@@ -10290,11 +10290,15 @@ msgstr ""
 msgid ""
 "Resolve the issues below by %(date)s to keep Libre hosting for your project."
 msgstr ""
+"Resolva os problemas abaixo até %(date)s para manter a hospedagem Libre para "
+"o seu projeto."
 
 msgid ""
 "Weblate locks existing components for translation when it issues this "
 "warning. Project maintainers can unlock them."
 msgstr ""
+"O Weblate bloqueia os componentes existentes para tradução quando emite este "
+"aviso. Os responsáveis pela manutenção do projeto podem desbloqueá-los."
 
 msgid "Customer"
 msgstr "Cliente"
@@ -11261,41 +11265,29 @@ msgstr ""
 "faltando; metadados do Git danificados precisam ser reparados pelo "
 "administrador."
 
-#, fuzzy
-#| msgid "Translation files"
 msgid "Refresh translation files"
-msgstr "Arquivos de tradução"
+msgstr "Atualizar arquivos de tradução"
 
 msgid "Synchronize"
 msgstr "Sincronizar"
 
-#, fuzzy
-#| msgid ""
-#| "Use this when repository files became out of sync with Weblate for some "
-#| "reason."
 msgid "Repository files are out of sync with Weblate."
-msgstr ""
-"Use isso quando os arquivos do repositório ficarem fora de sincronia com o "
-"Weblate por algum motivo."
+msgstr "Os arquivos do repositório estão dessincronizados com o Weblate."
 
-#, fuzzy
-#| msgid "Weblate translations are locked"
 msgid "Write all Weblate translations to the files."
-msgstr "As traduções do Weblate estão bloqueadas"
+msgstr "Escreva todas as traduções do Weblate nos arquivos."
 
 msgid "Rescan"
 msgstr "Verificar novamente"
 
 msgid "Files contain strings Weblate has not loaded."
-msgstr ""
+msgstr "Os arquivos contêm texto que o Weblate não carregou."
 
-#, fuzzy
-#| msgid "Loads translations from the files into Weblate."
 msgid "Load translations from the files into Weblate."
-msgstr "Carrega traduções dos arquivos para o Weblate."
+msgstr "Carregar traduções dos arquivos para o Weblate."
 
 msgid "Edits blocked by the commit policy may be discarded."
-msgstr ""
+msgstr "Edições bloqueadas pela política de commits podem ser descartadas."
 
 msgid "Clean the local checkout"
 msgstr ""
@@ -11305,64 +11297,46 @@ msgstr "Limpeza"
 
 msgid "Untracked files or unused local branches need removal."
 msgstr ""
+"Arquivos não rastreados ou ramificações locais não utilizadas precisam ser "
+"removidos."
 
 msgid "Remove untracked files and other local Git branches."
 msgstr ""
 
 msgid "Unpushed commits on those branches are deleted."
-msgstr ""
+msgstr "Commits não enviados nesses ramos são excluídos."
 
-#, fuzzy
-#| msgid "File names"
 msgid "File management"
-msgstr "Nomes de arquivo"
+msgstr "Gerenciamento de arquivo"
 
-#, fuzzy
-#| msgid "Removed user"
 msgid "Remove duplicates"
-msgstr "Usuário removido"
+msgstr "Remover duplicados"
 
-#, fuzzy
-#| msgid "Translation replaced file by upload"
 msgid "A translation file has repeated strings absent from Weblate."
-msgstr "Arquivo de tradução substituído via upload"
-
-#, fuzzy
-#| msgid ""
-#| "Please fix this by removing duplicated strings with same identifier from "
-#| "the translation files."
-msgid "Remove repeated identifiers from the file."
 msgstr ""
-"Por favor, corrija isso removendo os textos duplicados com o mesmo "
-"identificador dos arquivos de tradução."
+"O arquivo de tradução contém textos repetidos que não estão presentes no "
+"Weblate."
 
-#, fuzzy
-#| msgid "Cleanup"
+msgid "Remove repeated identifiers from the file."
+msgstr "Remova os identificadores repetidos do arquivo."
+
 msgid "Cleanup unused"
-msgstr "Limpeza"
+msgstr "Limpar não utilizados"
 
-#, fuzzy
-#| msgid "No strings were imported from the uploaded file."
 msgid "Translations still contain strings removed from the base file."
-msgstr "Nenhum texto foi importado do arquivo enviado."
+msgstr "As traduções ainda contêm textos removidos do arquivo base."
 
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid "Remove those strings from the translation file."
-msgstr "Força a escrita de todos os textos nos arquivos de tradução."
+msgstr "Remova esses textos do arquivo de tradução."
 
-#, fuzzy
-#| msgid "Remove blank strings"
 msgid "Remove obsolete"
-msgstr "Remover textos vazios"
+msgstr "Remover itens obsoletos"
 
 msgid "Obsolete PO entries should be removed now."
-msgstr ""
+msgstr "As entradas de PO obsoletas devem ser removidas agora."
 
-#, fuzzy
-#| msgid "Remove blank strings"
 msgid "Remove obsolete strings from the PO file."
-msgstr "Remover textos vazios"
+msgstr "Remova os textos obsoletos do arquivo PO."
 
 #, python-format
 msgid "Repository for %(component)s"
@@ -11371,10 +11345,8 @@ msgstr "Repositório para %(component)s"
 msgid "Repository details"
 msgstr "Detalhes do repositório"
 
-#, fuzzy
-#| msgid "Discovery configuration"
 msgid "Edit repository configuration"
-msgstr "Configuração de descoberta"
+msgstr "Editar configuração do repositório"
 
 msgid "Repository changes"
 msgstr "Alterações do repositório"
@@ -11421,6 +11393,7 @@ msgstr ""
 msgid ""
 "Approve the translation and save and continue. Only available to reviewers."
 msgstr ""
+"Aprovar a tradução, salvar e continuar. Disponível apenas para revisores."
 
 msgid ""
 "Submit the string as a suggestion; this works the same as pressing Suggest "
@@ -11503,21 +11476,15 @@ msgstr "Alterar as regras de plurais pode não ter o efeito desejado."
 msgid "Please see a documentation for more info."
 msgstr "Consulte a documentação para obter mais informações."
 
-#, fuzzy
-#| msgid "Translation Info"
 msgid "Translation workflow"
-msgstr "Informações da tradução"
+msgstr "Fluxo de trabalho de tradução"
 
-#, fuzzy
-#| msgid ""
-#| "The message is shown for all translations within the project, until its "
-#| "given expiry, or permanently until it is deleted."
 msgid ""
 "The message is shown for all translations in this project language, until "
 "its given expiry, or permanently until it is deleted."
 msgstr ""
-"A mensagem é mostrada para todas as traduções dentro do projeto, até sua "
-"expiração ou permanentemente até ser excluída."
+"A mensagem é exibida para todas as traduções neste idioma do projeto, até o "
+"prazo de expiração definido ou permanentemente até ser excluída."
 
 msgid "Tools"
 msgstr "Ferramentas"
@@ -11546,10 +11513,8 @@ msgstr "Este serviço é instalado em todo o site."
 msgid "site wide"
 msgstr "todo o site"
 
-#, fuzzy
-#| msgid "This service is installed site wide."
 msgid "This service is installed in the workspace."
-msgstr "Este serviço é instalado em todo o site."
+msgstr "Este serviço está instalado no espaço de trabalho."
 
 msgid "workspace"
 msgstr "espaço de trabalho"
@@ -11559,13 +11524,11 @@ msgstr "espaço de trabalho"
 msgid "Rate limited"
 msgstr "Limite de idiomas"
 
-#, fuzzy
-#| msgid "This service is installed site wide."
 msgid "This service is disabled."
-msgstr "Este serviço é instalado em todo o site."
+msgstr "Este serviço está desativado."
 
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 msgid "Slug"
 msgstr "Slug"
@@ -11575,56 +11538,51 @@ msgid ""
 "third-party provider. Review the provider's terms and privacy policy before "
 "enabling it."
 msgstr ""
+"Este serviço pode enviar textos de origem, traduções e contexto relacionado "
+"para um provedor terceirizado. Leia os termos e a política de privacidade do "
+"provedor antes de habilitá-lo."
 
-#, fuzzy
-#| msgid "Hosted service"
 msgid "Inherited service"
-msgstr "Serviço de hospedagem"
+msgstr "Serviço herdado"
 
-#, fuzzy
-#| msgid "This service is installed site wide."
 msgid "This service is managed at its installation scope."
-msgstr "Este serviço é instalado em todo o site."
+msgstr "Este serviço é gerenciado no âmbito da sua instalação."
 
-#, fuzzy
-#| msgid "Use this translation"
 msgid "Manage this installation"
-msgstr "Usar esta tradução"
+msgstr "Gerenciar esta instalação"
 
-#, fuzzy
-#| msgid "Translation explanation"
 msgid "Installation slug (optional)"
-msgstr "Explicação da tradução"
+msgstr "Slug de instalação (opcional)"
 
-#, fuzzy
-#| msgid "This add-on has no settings."
 msgid "This service has no settings."
-msgstr "Esse complemento não tem configurações."
+msgstr "Este serviço não possui configurações."
 
-#, fuzzy
-#| msgid "Use automatic suggestions"
 msgid "Use in automations"
-msgstr "Usar sugestões automáticas"
+msgstr "Utilizar em automações"
 
 msgid ""
 "Select this installation in the engines setting of an automatic translation "
 "action using its numeric ID:"
 msgstr ""
+"Selecione esta instalação nas configurações de mecanismos de uma ação de "
+"tradução automática usando seu ID numérico:"
 
-#, fuzzy
-#| msgid "You can now log in using password."
 msgid "You can also select it using its slug:"
-msgstr "Você agora pode se autenticar usando senha."
+msgstr "Você também pode selecioná-lo usando seu slug:"
 
 msgid ""
 "The numeric ID always selects this installation. The slug selects the "
 "installation currently using that name in the project."
 msgstr ""
+"O ID numérico sempre seleciona esta instalação. O slug seleciona a "
+"instalação que está usando esse nome no projeto."
 
 msgid ""
 "Set an installation slug above to give this service a readable name in your "
 "automations."
 msgstr ""
+"Defina um slug de instalação acima para dar a este serviço um nome legível "
+"em suas automações."
 
 msgid "Rate limit"
 msgstr "Limite de taxa"
@@ -11634,6 +11592,9 @@ msgid ""
 "Resetting the rate limit allows Weblate to try again; it does not reset the "
 "provider’s quota."
 msgstr ""
+"As solicitações para este serviço são pausadas temporariamente após um erro "
+"do provedor. Redefinir o limite de taxa permite que o Weblate tente "
+"novamente; isso não redefine a cota do provedor."
 
 #, fuzzy
 #| msgid "Repositories limit"
@@ -11645,27 +11606,26 @@ msgstr "Limite do repositórios"
 msgid "The rate limit can be reset at the service’s installation scope."
 msgstr "Este componente já está compartilhado em %s."
 
-#, fuzzy
-#| msgid "Version control"
 msgid "Service control"
-msgstr "Controle de versão"
+msgstr "Controle de serviço"
 
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgid "Disable installation"
-msgstr "Estrela do GitHub"
+msgstr "Desabilitar instalação"
 
 msgid ""
 "Stop using this installation here and in scopes inheriting it. Its settings "
 "are kept so you can enable it again later."
 msgstr ""
+"Parar de usar esta instalação aqui e em todos os escopos que a herdarem. As "
+"configurações serão mantidas para que você possa habilitá-la novamente mais "
+"tarde."
 
 msgid ""
 "Stop using this inherited installation in this workspace and its projects. "
 "Other installations of this service remain available."
 msgstr ""
+"Parar de usar esta instalação herdada neste espaço de trabalho e seus "
+"projetos. Outras instalações deste serviço continuam disponíveis."
 
 msgid ""
 "Stop using this inherited installation in this project. Other installations "

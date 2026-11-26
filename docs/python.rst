@@ -76,8 +76,31 @@ integer HTTP status codes from ``400`` to ``599``. Invalid direct arguments
 raise :class:`WeblateException`; invalid configuration values raise
 :class:`~wlc.config.WLCConfigurationError`, before any HTTP request is sent.
 
+Repository operations, translation uploads and creation, and component and
+translation deletion wait for completion when Weblate returns a task URL with
+HTTP 202. High-level methods return the usual operation result. For a task
+submitted through a low-level request, pass its URL to
+:meth:`Weblate.wait_for_task` to get the completed task's raw result.
+The client waits up to 1,800 seconds (30 minutes) by default. Set
+``task_timeout`` in the active configuration section or override it when
+constructing the client, for example ``Weblate(config=config, task_timeout=3600)``.
+For a single wait, use ``client.wait_for_task(task_url, timeout=60)``.
+Each setting accepts whole seconds, with zero allowing an unlimited wait.
+
+These high-level methods submit their requests through :meth:`Weblate.invoke_request`
+so they can inspect the HTTP status. If your subclass intercepts repository
+operations, translation creation or uploads, or component or translation
+deletion through ``post()``, ``request()``, or ``raw_request()``, move that
+interception to ``invoke_request()`` and return a :class:`requests.Response`.
+
+When the deadline expires, :class:`WeblateTaskTimeoutError` exposes the task URL
+as ``task_url``, so you can resume waiting. A poll already in progress, including
+its HTTP retries, can finish after the deadline and return a completed result.
+The HTTP request timeout still applies to each request. Expiry and interruption
+leave the task running on the server.
+
 .. autoclass:: Weblate
-   :members: get, post, request, raw_request, invoke_request, get_object, get_project, get_component, get_translation, get_unit, get_activity, list_projects, list_components, list_changes, list_units, list_translations, list_languages, list_categories, add_source_string, create_project, create_component, create_language
+   :members: get, post, request, raw_request, invoke_request, wait_for_task, get_object, get_project, get_component, get_translation, get_unit, get_activity, list_projects, list_components, list_changes, list_units, list_translations, list_languages, list_categories, add_source_string, create_project, create_component, create_language
 
 
 Exceptions
@@ -88,6 +111,8 @@ Exceptions
 .. autoexception:: WeblatePermissionError
 
 .. autoexception:: WeblateDeniedError
+
+.. autoexception:: WeblateTaskTimeoutError
 
 .. autoexception:: WeblateThrottlingError
 

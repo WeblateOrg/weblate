@@ -11,12 +11,13 @@ from itertools import batched
 from typing import TYPE_CHECKING
 
 from celery.schedules import crontab
+from django.db import IntegrityError, OperationalError, transaction
 from django.utils import timezone
 
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.metrics.aggregation import BATCH_SIZE
-from weblate.metrics.models import Metric
+from weblate.metrics.models import ContributorCollection, Metric
 from weblate.trans.models import (
     Category,
     Component,
@@ -25,6 +26,7 @@ from weblate.trans.models import (
     Translation,
 )
 from weblate.utils.celery import app
+from weblate.utils.lock import AdvisoryLock, LockScope, WeblateLockTimeoutError
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -158,24 +160,58 @@ def collect_component_list_metrics(date_value: str) -> None:
     _log_finished("component list", collection_date, count, started)
 
 
-@app.task(trail=False)
+@app.task(
+    trail=False,
+    autoretry_for=(IntegrityError, OperationalError, WeblateLockTimeoutError),
+    max_retries=12,
+    retry_backoff=60,
+)
 def collect_translation_metrics(date_value: str) -> None:
     collection_date = _parse_date(date_value)
     started = time.monotonic()
-    LOGGER.info("Collecting translation metrics for %s", collection_date)
-    count = 0
-    for batch in batched(
-        Translation.objects.order_by("pk").iterator(chunk_size=BATCH_SIZE), BATCH_SIZE
-    ):
-        batch_started = time.monotonic()
-        Metric.objects.collect_batch(batch, collection_date)
-        count += len(batch)
-        LOGGER.debug(
-            "Collected %d translation metrics in %.2f seconds",
-            len(batch),
-            time.monotonic() - batch_started,
+    scope = LockScope.CONTRIBUTOR_METRICS
+    lock = AdvisoryLock((scope.value, 0), scope=scope.label, timeout=0)
+    with lock:
+        collection: ContributorCollection | None
+        collection, _created = ContributorCollection.objects.get_or_create(
+            pk=1, defaults={"collection_date": collection_date}
         )
-    _log_finished("translation", collection_date, count, started)
+        if collection.last_completed == collection_date:
+            return
+        if collection_date < collection.collection_date:
+            # Historical metrics can still be filled without changing the rankings.
+            collection = None
+        elif collection_date > collection.collection_date:
+            collection.collection_date = collection_date
+            collection.cursor = 0
+            collection.save(update_fields=["collection_date", "cursor"])
+
+        cursor = collection.cursor if collection else 0
+        LOGGER.info(
+            "Collecting translation metrics for %s after ID %d", collection_date, cursor
+        )
+        count = 0
+        translations = Translation.objects.filter(pk__gt=cursor).order_by("pk")
+        for batch in batched(translations.iterator(chunk_size=BATCH_SIZE), BATCH_SIZE):
+            batch_started = time.monotonic()
+            with transaction.atomic():
+                Metric.objects.collect_batch(
+                    batch, collection_date, refresh_contributors=collection is not None
+                )
+                if collection:
+                    collection.cursor = batch[-1].pk
+                    collection.save(update_fields=["cursor"])
+            count += len(batch)
+            LOGGER.debug(
+                "Collected %d translation metrics through ID %d in %.2f seconds",
+                len(batch),
+                batch[-1].pk,
+                time.monotonic() - batch_started,
+            )
+        if collection:
+            collection.last_completed = collection_date
+            collection.save(update_fields=["last_completed"])
+        _log_finished("translation", collection_date, count, started)
 
 
 @app.task(trail=False)

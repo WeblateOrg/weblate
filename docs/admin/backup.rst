@@ -64,6 +64,10 @@ the imported authorship. Unknown or ineligible usernames are skipped, and the
 import result lists usernames awaiting acceptance without disclosing e-mail
 addresses.
 
+Weblate reconstructs recognized internal authors, including registered automatic
+translation engines and add-ons, using the destination's bot account settings.
+These authors receive no team membership through the import.
+
 For ordinary importers, other users' restored team memberships and team
 administrator roles also require acceptance.
 Authors without a restored team receive an invitation to a team with no roles.
@@ -110,13 +114,23 @@ strings.
 
 Use the generated file to import project when :ref:`adding-projects` or in :wladmin:`import_projectbackup`.
 
-.. note::
+The preview lists files that resolve to the same language on the destination.
+To preserve each translation, check the destination language definitions and
+:setting:`SIMPLIFY_LANGUAGES`. To proceed with duplicate target languages,
+select :guilabel:`Skip duplicate target translations`. Weblate keeps the first
+file in component scan order and skips the other translations, including their
+units, comments, suggestions, votes, checks, pending edits, and screenshots.
+All archived repository files remain available, and a later scan can report
+a duplicate-language alert.
 
-   Restoring of the backup might fail if the restoring server has different set
-   of :ref:`languages` or different configuration of
-   :setting:`SIMPLIFY_LANGUAGES`. The restore will tell you which language
-   codes could not be processed and you can then add missing language
-   definitions manually.
+Import stops if multiple files resolve to the source language or Weblate cannot
+determine which target file the component will scan first. To resolve these
+conflicts, adjust the destination language definitions or correct the source
+component's file mask and create a fresh backup.
+
+For regional languages missing a CLDR, Android, or Qt plural rule, Weblate
+can inherit the base language's rule when it matches the backup. If no
+compatible rule is available, validation identifies the affected translation.
 
 .. _automated-backup:
 

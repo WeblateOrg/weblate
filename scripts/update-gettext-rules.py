@@ -19,7 +19,7 @@ POLKIT_VERSION = "128"
 # renovate-its: datasource=github-tags depName=ximion/appstream
 APPSTREAM_VERSION = "v1.2.3"
 # renovate-its: datasource=github-tags depName=GNOME/glib
-GLIB_VERSION = "2.90.1"
+GLIB_VERSION = "2.90.2"
 # renovate-its: datasource=github-tags depName=GNOME/gtk
 GTK_VERSION = "3.24.52"
 # renovate-its: datasource=gitlab-tags depName=xdg/shared-mime-info registryUrl=https://gitlab.freedesktop.org

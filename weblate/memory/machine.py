@@ -24,6 +24,10 @@ if TYPE_CHECKING:
 
 PENDING_MEMORY_PENALTY_FACTOR = 0.7
 DIFFERENT_CONTEXT_PENALTY_FACTOR = 0.95
+#: Score of an exact source match whose context matches too. 100% means the
+#: source text matches; this ranks a context match above it. The editor shows
+#: it as 100% with a context match note rather than as a score above 100%.
+CONTEXT_MATCH_QUALITY = 101
 
 
 class WeblateMemory(InternalMachineTranslation):
@@ -42,10 +46,22 @@ class WeblateMemory(InternalMachineTranslation):
         super().__init__(configuration)
         self.additional_component_access = additional_component_access
 
-    def get_quality(self, text: str, result: Memory, unit) -> int:
+    def get_quality(self, text: str, result: Memory, unit, project, user) -> int:
         quality = self.comparer.similarity(text, result.source)
         if result.status == Memory.STATUS_PENDING:
             quality = round(quality * PENDING_MEMORY_PENALTY_FACTOR)
+        elif quality == self.max_score:
+            # The source text matches, so the context only orders the match
+            # against other exact ones and never lowers it below 100%. A
+            # context hidden from the user is not given away by the score.
+            if result.context == unit.context and (
+                not result.context
+                or result.is_context_visible(
+                    result.get_scope_list(), project=project, user=user
+                )
+            ):
+                return CONTEXT_MATCH_QUALITY
+            return quality
         # Compare context when translation memory has one
         if result.context and unit.context != result.context:
             quality = round(quality * DIFFERENT_CONTEXT_PENALTY_FACTOR)
@@ -92,13 +108,13 @@ class WeblateMemory(InternalMachineTranslation):
         if threshold >= self.max_score:
             scored_results = []
             for result in queryset.filter(source=text)[:MEMORY_LOOKUP_LIMIT]:
-                quality = self.get_quality(text, result, unit)
+                quality = self.get_quality(text, result, unit, project, user)
                 if quality >= threshold:
                     scored_results.append((quality, result))
         else:
             scored_results = queryset.get_scored_fuzzy_candidates(
                 text,
-                lambda result: self.get_quality(text, result, unit),
+                lambda result: self.get_quality(text, result, unit, project, user),
                 threshold=threshold,
             )
 

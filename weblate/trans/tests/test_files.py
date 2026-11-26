@@ -335,6 +335,57 @@ class PlainXliffComponentRoundTripTest(PlainXliffRoundTripTest):
         return self.create_xliff(file_format_params={"xliff_placeables": "plain"})
 
 
+class MergePropagatedChecksTest(ImportBaseTest):
+    @patch("weblate.checks.tasks.PROPAGATED_CHECK_REFRESH_BATCH_SIZE", 2)
+    def test_merge_batches_propagated_refreshes(self) -> None:
+        peer = self.create_po(project=self.project, name="Upload-peer")
+        peer_translation = peer.translation_set.get(language_code="cs")
+        sources = (
+            "Hello, world!\n",
+            "Try Weblate at <https://demo.weblate.org/>!\n",
+            "Thank you for using Weblate.",
+        )
+        peers = [
+            self.get_unit(source=source, translation=peer_translation)
+            for source in sources
+        ]
+        content = "\n\n".join(
+            f'msgid {json.dumps(source)}\nmsgstr "Shared"' for source in sources
+        )
+        with (
+            patch("weblate.checks.tasks.refresh_propagated_checks.delay") as delay,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            result = self.get_translation().handle_upload(
+                self.get_request(),
+                NamedBytesIO("upload.po", content.encode()),
+                "replace-translated",
+                ignore_language=True,
+            )
+            delay.assert_not_called()
+
+        self.assertEqual(result[2], 3)
+        self.assertEqual(delay.call_count, 2)
+        batches = []
+        for call in delay.call_args_list:
+            project_id, groups, unit_ids = call.args
+            self.assertEqual(project_id, self.project.pk)
+            self.assertEqual(
+                len(groups), len({tuple(group.values()) for group in groups})
+            )
+            batches.append(unit_ids)
+        self.assertEqual(list(map(len, batches)), [2, 1])
+        self.assertCountEqual(
+            [unit_id for batch in batches for unit_id in batch],
+            [unit.pk for unit in peers],
+        )
+        for unit in peers:
+            unit.refresh_from_db()
+            self.assertEqual(
+                unit.target, "Shared\n" if unit.source.endswith("\n") else "Shared"
+            )
+
+
 class ImportTest(ImportBaseTest):
     """Testing of file imports."""
 
@@ -690,15 +741,28 @@ class UploadStringLengthTest(ImportBaseTest):
         # The trailing newline is added by an autofix from the source string
         self.assertEqual(unit.target, "B" * limit + "\n")
 
+    @patch("weblate.checks.tasks.PROPAGATED_CHECK_REFRESH_BATCH_SIZE", 1)
     def test_merge_rolls_back_earlier_units(self) -> None:
         first = self.get_unit(source="Hello, world!\n")
         second = self.get_unit(source="Try Weblate at https://demo.weblate.org/!\n")
-        limit = get_translation_text_max_length(second)
-        self.assert_rejected(
-            {first.context: "Valid", second.context: "B" * (limit + 1)}, "translate"
+        peer = self.create_json_mono(project=self.project, name="Upload-peer")
+        peer_unit = peer.translation_set.get(language_code="cs").unit_set.get(
+            context=first.context
         )
+        peer_target = peer_unit.target
+        limit = get_translation_text_max_length(second)
+        with (
+            patch("weblate.checks.tasks.refresh_propagated_checks.delay") as delay,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            self.assert_rejected(
+                {first.context: "Valid", second.context: "B" * (limit + 1)}, "translate"
+            )
+        delay.assert_not_called()
         first.refresh_from_db()
         self.assertEqual(first.target, "")
+        peer_unit.refresh_from_db()
+        self.assertEqual(peer_unit.target, peer_target)
 
     def test_merge_ignores_skipped_unit(self) -> None:
         """A string which would not be stored does not fail the upload."""
@@ -954,7 +1018,7 @@ class LanguageUploadValidationTest(ImportBaseTest):
         assert path is not None
         filename = Path(path)
         content = filename.read_bytes()
-        targets = list(translation.unit_set.values_list("target", flat=True))
+        targets = list(translation.unit_set.order_by("pk").values_list("pk", "target"))
         changes = translation.change_set.count()
         for method in ("translate", "approve", "fuzzy", "suggest", "add", "replace"):
             with (
@@ -975,7 +1039,8 @@ class LanguageUploadValidationTest(ImportBaseTest):
             component_commit.assert_not_called()
             self.assertEqual(filename.read_bytes(), content)
             self.assertEqual(
-                list(translation.unit_set.values_list("target", flat=True)), targets
+                list(translation.unit_set.order_by("pk").values_list("pk", "target")),
+                targets,
             )
             self.assertEqual(translation.change_set.count(), changes)
 

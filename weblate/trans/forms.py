@@ -43,7 +43,12 @@ from django.utils.translation import get_language, gettext, gettext_lazy
 from translation_finder import DiscoveryResult, discover
 
 from weblate.accounts.models import AuditLog
-from weblate.auth.models import Group, User
+from weblate.auth.models import (
+    BOT_NOREPLY_EMAIL_SUFFIX,
+    PROJECT_BOT_USERNAME_PREFIX,
+    Group,
+    User,
+)
 from weblate.auth.utils import (
     validate_admin_team_assignment,
     validate_team_assignable_user,
@@ -4292,6 +4297,15 @@ class ProjectCreateForm(
 
 
 class ProjectImportCreateForm(ProjectCreateForm):
+    skip_duplicates = forms.BooleanField(
+        label=gettext_lazy("Skip duplicate target translations"),
+        help_text=gettext_lazy(
+            "The repository files are preserved. Weblate data listed for the skipped translations will be omitted."
+        ),
+        required=True,
+    )
+    duplicate_scope = forms.CharField(widget=forms.HiddenInput)
+
     class Meta:
         model = Project
         fields = ("name", "slug", "workspace")
@@ -4309,6 +4323,14 @@ class ProjectImportCreateForm(ProjectCreateForm):
         }
         super().__init__(request, *args, **kwargs)
         self.projectbackup = projectbackup
+        collision_fields = []
+        if projectbackup.skipped_translations:
+            self.initial["duplicate_scope"] = projectbackup.duplicate_scope
+            collision_fields.extend(
+                [Field("skip_duplicates"), Field("duplicate_scope")]
+            )
+        else:
+            del self.fields["skip_duplicates"], self.fields["duplicate_scope"]
         self.helper.layout = Layout(
             ContextDiv(
                 template="trans/project_import_info.html",
@@ -4321,10 +4343,21 @@ class ProjectImportCreateForm(ProjectCreateForm):
                     ),
                 },
             ),
+            *collision_fields,
             Field("name"),
             Field("slug"),
             Field("workspace"),
         )
+
+    def clean_duplicate_scope(self) -> str:
+        scope = self.cleaned_data["duplicate_scope"]
+        if scope != self.projectbackup.duplicate_scope:
+            raise ValidationError(
+                gettext(
+                    "The conflicting translations changed. Reload this page to review the updated preview."
+                )
+            )
+        return scope
 
 
 class ProjectImportForm(WorkspaceMixin, forms.Form):
@@ -4356,7 +4389,7 @@ class ProjectImportForm(WorkspaceMixin, forms.Form):
         zipfile = self.cleaned_data["zipfile"]
         backup = ProjectBackup(fileio=zipfile)
         try:
-            backup.validate()
+            backup.validate(preview=True)
         except jsonschema.exceptions.ValidationError as error:
             version = backup.data.get("metadata", {}).get("version", "unknown")
             error_message = gettext(
@@ -5254,13 +5287,16 @@ class ProjectTokenCreateForm(forms.ModelForm):
 
     def save(self, *args, acting_user: User | None = None, **kwargs):
         self.instance.is_bot = True
-        base_name = name = f"bot-{self.project.slug}-{slugify(self.instance.full_name)}"
+        base_name = name = (
+            f"{PROJECT_BOT_USERNAME_PREFIX}{self.project.slug}-"
+            f"{slugify(self.instance.full_name)}"
+        )
         while User.objects.filter(
-            Q(username=name) | Q(email=f"{name}@bots.noreply.weblate.org")
+            Q(username=name) | Q(email=f"{name}{BOT_NOREPLY_EMAIL_SUFFIX}")
         ).exists():
             name = f"{base_name}-{token_hex(2)}"
         self.instance.username = name
-        self.instance.email = f"{name}@bots.noreply.weblate.org"
+        self.instance.email = f"{name}{BOT_NOREPLY_EMAIL_SUFFIX}"
         result = super().save(*args, **kwargs)
         self.project.add_user(self.instance, "Administration", allow_bot=True)
         AuditLog.objects.create(

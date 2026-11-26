@@ -16,6 +16,8 @@
 {{ details.status }}
 </pre>
 
-  {% include "trans/merge_instructions.html" %}
+  {% if show_merge_instructions %}
+    {% include "trans/merge_instructions.html" %}
+  {% endif %}
 
 {% endblock content %}

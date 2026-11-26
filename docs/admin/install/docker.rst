@@ -2669,6 +2669,8 @@ To enable support for Sentry, set following:
 .. envvar:: SENTRY_PROFILES_SAMPLE_RATE
 
    Configures :setting:`SENTRY_PROFILES_SAMPLE_RATE`.
+   The default ``1`` profiles sampled traces. Fractional values select
+   profiler sessions when the SDK initializes.
 
    **Example:**
 
@@ -3008,6 +3010,18 @@ Container settings
    .. seealso::
 
       :ref:`background-tasks-internals`
+
+.. envvar:: WEBLATE_RECOVER_GIT
+
+   .. versionadded:: 2026.12
+
+   Set to ``1`` to run :wladmin:`recovergit` for all components on every
+   container start, after the database migrations. This queues rebuilding the
+   repository checkouts missing from the data volume, which is useful when the
+   volume can be lost, see :ref:`kubernetes-recovery`. Defaults to ``0``.
+
+   Like the database migrations, it runs only in the container that applies
+   them, see :envvar:`WEBLATE_SERVICE`.
 
 .. envvar:: WEBLATE_ANUBIS_URL
 

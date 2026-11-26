@@ -11,6 +11,7 @@ from unittest.mock import MagicMock, patch
 
 from django.core.exceptions import ValidationError
 
+from weblate.checks.models import Check
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Category, Component, Project, Unit
 from weblate.trans.tasks import update_enforced_checks
@@ -50,6 +51,64 @@ class EnforcedChecksInheritanceTest(ComponentTestCase):
 
         change = unit.change_set.get(action=ActionEvents.ENFORCED_CHECK)
         self.assertEqual(change.user, self.user)
+
+    @patch("weblate.checks.tasks.PROPAGATED_CHECK_REFRESH_BATCH_SIZE", 2)
+    def test_enforcement_batches_propagated_refreshes(self) -> None:
+        translation = self.component.translation_set.get(language_code="cs")
+        units = list(
+            translation.unit_set.filter(
+                source__in=(
+                    "Hello, world!\n",
+                    "Try Weblate at <https://demo.weblate.org/>!\n",
+                    "Thank you for using Weblate.",
+                )
+            )
+        )
+        self.assertEqual(len(units), 3)
+        Check.objects.filter(
+            unit__translation__component=self.component, name="same"
+        ).delete()
+        for unit in units:
+            Unit.objects.filter(pk=unit.pk).update(
+                target=unit.source,
+                state=STATE_TRANSLATED,
+                original_state=STATE_TRANSLATED,
+            )
+            Check.objects.create(unit=unit, name="same")
+        Workspace.objects.filter(pk=self.workspace.pk).update(enforced_checks=["same"])
+
+        with (
+            patch("weblate.checks.tasks.refresh_propagated_checks.delay") as delay,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            update_enforced_checks(self.component.pk)
+            delay.assert_not_called()
+
+        self.assertEqual(delay.call_count, 2)
+        sources_by_batch = []
+        for call in delay.call_args_list:
+            project_id, groups, unit_ids = call.args
+            self.assertEqual(project_id, self.project.pk)
+            self.assertEqual(unit_ids, [])
+            sources_by_batch.append(
+                [
+                    group["source"]
+                    for group in groups
+                    if group["check"] == "inconsistent"
+                ]
+            )
+        self.assertEqual(list(map(len, sources_by_batch)), [2, 1])
+        self.assertCountEqual(
+            [source for batch in sources_by_batch for source in batch],
+            [unit.source for unit in units],
+        )
+        for unit in units:
+            unit.refresh_from_db()
+            self.assertEqual(unit.state, STATE_NEEDS_REWRITING)
+            self.assertEqual(unit.target, unit.source)
+            self.assertEqual(
+                unit.change_set.get(action=ActionEvents.ENFORCED_CHECK).user, self.user
+            )
 
     def test_repository_scan_enforcement_preserves_actor(self) -> None:
         Workspace.objects.filter(pk=self.workspace.pk).update(enforced_checks=["same"])

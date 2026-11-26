@@ -55,7 +55,6 @@ router.register("categories", CategoryViewSet)
 router.register("reports", ReportViewSet, "report")
 
 # Wire up our API using automatic URL routing.
-# Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     *api_patterns(),
     path("activity/", Activity.as_view(), name="activity"),

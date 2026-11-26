@@ -137,6 +137,7 @@ class BatchMachineTranslation(DocVersionsMixin):
     accounting_key = "external"
     force_uncleanup = False
     highlight_syntax = False
+    translation_support = True
     glossary_support = False
     llm_context_support = False
     sends_data_to_third_party = True

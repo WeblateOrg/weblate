@@ -16,7 +16,7 @@ from unittest.mock import patch
 from django.conf import settings
 from django.test.utils import override_settings
 
-from weblate.trans.tests.utils import RepoTestMixin
+from weblate.trans.tests.utils import RepoTestMixin, allow_git_file_transport
 from weblate.utils.data import data_dir
 from weblate.utils.validators import resolve_runtime_hostname
 from weblate.vcs.git import GitRepository
@@ -56,15 +56,10 @@ def github_fixture_repositories() -> Generator[dict[str, Path], None, None]:
             else:
                 execute([git_dir, "update-ref", "-d", DEMO_REF])
 
-        # Weblate rewrites ~/.gitconfig during global_setup(), so keep the
-        # transport-only rewrites in the test home's XDG configuration instead.
+        # Keep the fixture rewrites in the test home's XDG configuration.
         config = Path(data_dir("home"), ".config", "git", "config")
         config.parent.mkdir(parents=True, exist_ok=True)
         original = config.read_bytes() if config.exists() else None
-        user_config = Path(data_dir("home"), ".gitconfig")
-        original_user_config = (
-            user_config.read_bytes() if user_config.exists() else None
-        )
 
         def resolve_fixture_hostname(
             hostname: str, *, allow_private_targets: bool = True
@@ -84,10 +79,8 @@ def github_fixture_repositories() -> Generator[dict[str, Path], None, None]:
                     for url, repository in repositories.items()
                 ),
             )
-            GitRepository.git_config_update(
-                user_config, ('protocol "file"', "allow", "always")
-            )
             with (
+                allow_git_file_transport(),
                 override_settings(VCS_ALLOW_HOSTS={"github.com"}),
                 patch(
                     "weblate.utils.validators.resolve_runtime_hostname",
@@ -100,7 +93,3 @@ def github_fixture_repositories() -> Generator[dict[str, Path], None, None]:
                 config.unlink(missing_ok=True)
             else:
                 config.write_bytes(original)
-            if original_user_config is None:
-                user_config.unlink(missing_ok=True)
-            else:
-                user_config.write_bytes(original_user_config)

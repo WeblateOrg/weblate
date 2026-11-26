@@ -33,6 +33,7 @@ from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils.translation import get_language
 from django.utils.translation import override as translation_override
+from django_otp.plugins.otp_totp.models import TOTPDevice
 from google.api_core import exceptions as google_api_exceptions
 from google.cloud.translate import (
     SupportedLanguages,
@@ -43,6 +44,7 @@ from google.cloud.translate_v3 import Glossary
 from google.oauth2 import service_account
 from google.rpc.error_details_pb2 import RetryInfo  # type: ignore[import-untyped]
 
+from weblate.accounts.utils import SESSION_SENSITIVE_FACTOR_GRANT
 from weblate.auth.models import Group, Role
 from weblate.checks import flags as check_flags
 from weblate.checks import models as check_models
@@ -100,6 +102,7 @@ from weblate.machinery.openai import AzureOpenAITranslation, OpenAITranslation
 from weblate.machinery.saptranslationhub import SAPTranslationHub
 from weblate.machinery.systran import SystranTranslation
 from weblate.machinery.tmserver import TMServerTranslation
+from weblate.machinery.views import DeprecatedMachinery, MachineryConfiguration
 from weblate.machinery.weblatetm import WeblateTranslation
 from weblate.machinery.yandex import YandexTranslation
 from weblate.machinery.yandexv2 import YandexV2Translation
@@ -11581,6 +11584,59 @@ class ViewsTest(FixtureTestCase):
                     )
                     self.assertEqual(response.status_code, 404)
 
+    def test_configuration_requires_recent_verification(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        workspace = Workspace.objects.create(name="Translation services")
+        session = self.client.session
+        del session[SESSION_SENSITIVE_FACTOR_GRANT]
+        session.save()
+        for scope, kwargs, list_view in (
+            ({}, {}, "manage-machinery"),
+            (
+                {"workspace": workspace},
+                {"workspace": workspace.pk},
+                "workspace-machinery",
+            ),
+            (
+                {"project": self.project},
+                {"project": self.project.slug},
+                "machinery-list",
+            ),
+        ):
+            with self.subTest(scope=scope):
+                installation = MachineryInstallation.objects.create(
+                    engine="deepl", configuration={"key": "saved-secret"}, **scope
+                )
+                overview = self.client.get(reverse(list_view, kwargs=kwargs))
+                self.assertContains(overview, "DeepL")
+                self.assertNotContains(overview, "saved-secret")
+                edit = reverse(
+                    "machinery-edit", kwargs={**kwargs, "machinery": installation.pk}
+                )
+                verify = reverse(
+                    "first-factor-verify", query={"target": "sensitive", "next": edit}
+                )
+                self.assertRedirects(
+                    self.client.get(edit), verify, fetch_redirect_response=False
+                )
+                self.assertRedirects(
+                    self.client.post(edit, {"pause": "1"}),
+                    verify,
+                    fetch_redirect_response=False,
+                )
+                installation.refresh_from_db()
+                self.assertTrue(installation.enabled)
+
+        TOTPDevice.objects.create(user=self.user, confirmed=True)
+        edit = reverse("machinery-edit", kwargs={"machinery": "deepl"})
+        response = self.client.get(edit)
+        self.assertRedirects(
+            response,
+            reverse("2fa-login", kwargs={"backend": "totp"}, query={"next": edit}),
+            fetch_redirect_response=False,
+        )
+
     def test_configure_global(self) -> None:
         service = self.ensure_dummy_mt()
         list_url = reverse("manage-machinery")
@@ -12119,6 +12175,8 @@ class ViewsTest(FixtureTestCase):
                 "formality": "prefer_more",
                 "next_gen": True,
                 "context": "private-context",
+                "url": "https://api.deepl.com",
+                "key": "private-key:fx",
             },
         )
         for url in (
@@ -12142,6 +12200,12 @@ class ViewsTest(FixtureTestCase):
                     html=True,
                 )
                 self.assertContains(response, "summary-model")
+                self.assertContains(response, "Rephrasing (requires Pro)")
+                self.assertContains(response, 'title="Rephrasing requires DeepL Pro."')
+                self.assertContains(response, ">Rephrasing</span>")
+                self.assertContains(response, ">AI quality evaluation</span>")
+                self.assertContains(response, ">Glossary</span>")
+                self.assertContains(response, ">Translation context</span>")
                 self.assertContains(
                     response, "Secondary language defined in project or component"
                 )
@@ -12380,6 +12444,44 @@ class ViewsTest(FixtureTestCase):
             ).status_code,
             404,
         )
+
+
+class MachineryFeatureBadgeTest(SimpleTestCase):
+    def test_provider_capabilities(self) -> None:
+        self.assertEqual(
+            MachineryConfiguration(DummyTranslation, None).get_feature_badges(),
+            [("Translation", "")],
+        )
+        with patch.object(OpenAITranslation, "translation_support", False):
+            self.assertEqual(
+                MachineryConfiguration(OpenAITranslation, None).get_feature_badges(),
+                [
+                    ("AI quality evaluation", ""),
+                    ("Glossary", ""),
+                    ("Translation context", ""),
+                ],
+            )
+        self.assertEqual(
+            MachineryConfiguration(
+                DeprecatedMachinery("removed"), {}
+            ).get_feature_badges(),
+            [],
+        )
+
+    def test_deepl_rephrasing(self) -> None:
+        requires_pro = ("Rephrasing (requires Pro)", "Rephrasing requires DeepL Pro.")
+        for config, configured, expected in (
+            (None, False, ("Rephrasing", "")),
+            ({"url": "https://api.deepl.com", "key": "pro"}, True, ("Rephrasing", "")),
+            ({"url": "https://api.deepl.com", "key": "free:fx"}, True, requires_pro),
+            ({"url": "https://api-free.deepl.com", "key": "free"}, True, requires_pro),
+            ({}, True, None),
+        ):
+            with self.subTest(config=config):
+                service = MachineryConfiguration(
+                    DeepLTranslation, config, is_configured=configured, enabled=False
+                )
+                self.assertEqual(service.get_rephrasing_badge(), expected)
 
 
 class WeblateTranslationLookupTest(SimpleTestCase):

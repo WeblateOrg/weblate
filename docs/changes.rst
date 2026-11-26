@@ -5,11 +5,13 @@ Weblate 2026.12
 
 .. rubric:: New features
 
+* Added :ref:`ranked contributor lists <contributor-rankings>` for languages, workspaces, projects, categories, components, and translations.
 * Added a :ref:`plain-text XLIFF download <download>` for editing markup in external translation tools.
 * Added an option to sort languages by translation percentage in language bar chart widgets.
 * Added support for :ref:`storing screenshots in object storage <screenshot-storage>` such as Amazon S3 or Google Cloud Storage, configurable in Docker using :envvar:`WEBLATE_MEDIA_STORAGE_BACKEND`.
 * Added support for :ref:`storing fonts in object storage <font-storage>`, configurable in Docker using :envvar:`WEBLATE_FONTS_STORAGE_BACKEND`.
-* Added :wladmin:`recovergit` to rebuild missing repository checkouts.
+* Added :wladmin:`recovergit` to rebuild missing repository checkouts, which can run on Docker container startup using :envvar:`WEBLATE_RECOVER_GIT`.
+* Expanded the :doc:`Kubernetes installation guide </admin/install/kubernetes>`.
 * :ref:`format-line-number` in the translation file is now stored in the unit for supported formats; when available, the line number is used for repository links and :guilabel:`Nearby strings`.
 * Added staged :ref:`libre-hosting-cleanup` with advance notice and a 30-day trial.
 * Added :ref:`background task tracking <api-background-operations>` for creating translations and deleting translations, components, and categories through the API.
@@ -17,11 +19,31 @@ Weblate 2026.12
 
 .. rubric:: Improvements
 
+* :ref:`translation-memory` entries matching the source text exactly score 100% regardless of their context; entries with the same context are preferred and shown as a context match.
+* The :ref:`addon-weblate.gettext.msgmerge` add-on refreshes the ``Language-Team`` header using the current translation URL when the ``po_set_language_team`` :ref:`file_format_params` parameter is enabled.
+* Show supported features in the :ref:`translation service lists <machine-translation-setup>`.
+
+* Switched :ref:`comment Markdown rendering <user-comments>` to markdown-it-py. Raw HTML tags appear as text, and links and images with disallowed destinations show only their labels.
+* Reduced check contention and component settings update time with :ref:`workspace-propagation-scope`.
+
+* The :ref:`addon-weblate.gettext.django` add-on can exclude source directories when generating a POT file.
+* Improved :ref:`merge conflict guidance <merge>` in component diagnostics and documented pull request recovery.
+
+* Include the authentication backend, failure stage, and available diagnostic details in server logs for failed sign-ins.
+* Reduced :ref:`Sentry trace sampling <sentry-integration>` for routine requests and statistics updates.
+* Upgraded the :ref:`Sentry integration <sentry-integration>` to Python SDK 3 with streamed spans and trace-linked profiling.
+
+* Select components directly in the :ref:`GitHub App migration table <code-hosting-github-app-migrate>` and return to them after migration.
+* Restoring a :ref:`projectbackup` preserves automated translation authors and can inherit regional plural rules. Importers can skip duplicate target translations and their Weblate data while keeping the archived repository files.
+
+* The :ref:`C# format <check-c-sharp-format>` check now also recognizes named placeholders used by C# string interpolation, such as ``There are {count} apples``, including member access (``{user.Name}``) and alignment/format components, while treating doubled braces (``{{``/``}}``) as escapes.
 * Added a choice to :ref:`connect an existing GitHub App installation to another workspace <code-hosting-github-app-connect>`.
 * Allow five minutes to assign strings to newly uploaded :ref:`screenshots` before raising an unused screenshot alert.
 * Show the last translator and approver in the :ref:`translation editor <source-context>`.
 * :ref:`Component diagnostics <alerts>` now warn when nobody who can resolve repository errors receives :ref:`notifications` about them.
+* Keep the original editor search when merging a translation from the :ref:`translation context <source-context>`.
 
+* Link to SSH key replacement instructions in :ref:`component diagnostics <alerts>` when Azure DevOps reports an expired key.
 * Show commit counts, occurrence totals, file-format evidence, and the last recorded translation change in the relevant :ref:`component diagnostics <alerts>`.
 * Redesigned the :ref:`translation checklist <strings-to-check>` as responsive cards with prominent string counts and actions next to each filter.
 * Grouped :ref:`quick downloads <download>` into cards with format links and string, word, and character counts.
@@ -45,16 +67,25 @@ Weblate 2026.12
 * Batched shared :ref:`statistics <stats>` updates after refreshing propagated quality checks.
 * Batched :ref:`quality check <checks>` refreshes and :ref:`statistics <stats>` updates when reverting a user's edits.
 * Batched propagated :ref:`quality check <checks>` refreshes during :ref:`bulk search and replace <bulk-edit>`.
+* Batched propagated quality checks for :ref:`translation uploads <upload>`, :ref:`enforced check updates <enforcing-checks>`, and the :ref:`prefill <addon-weblate.generate.prefill>`, :ref:`fill read-only <addon-weblate.generate.fill_read_only>`, and :ref:`pseudolocale <addon-weblate.generate.pseudolocale>` add-ons.
 * Batched daily statistics collection to reduce database queries and bound memory use on large sites with cached statistics.
 * Added :envvar:`WEBLATE_SECRET_KEY` support to configure Docker's Django secret key directly or from a mounted secret file.
 * Reduced database loading when polling :ref:`background tasks <api-tasks>` spanning many components.
 * Outbound requests and Git repositories now honor ``no_proxy`` with the :ref:`HTTP proxy <http-proxy>`.
 * Sped up importing translation files by locking :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` once per file instead of once per string.
 * Listed :ref:`saved-searches` first in the search filters and truncated long saved queries.
+* Highlighted individual search terms in the searched fields when :ref:`searching for strings <search-strings>`.
 * Show :ref:`linked components <internal-urls>` in repository details and label suggestion counts on wider screens in :ref:`zen-mode`.
 * Improved performance for long strings in the :ref:`translation editor <translating>` by grouping indentation markers and editing long translations as plain text.
+* Highlighted XML tags in the translation editor for :ref:`ICU MessageFormat <check-icu-message-format>` strings with XML support enabled.
 
 .. rubric:: Security fixes
+
+* Prevented bot accounts from editing themselves and protected the generated account identities of :ref:`project API tokens <project-api>`.
+* Required recent browser verification to view or change :ref:`translation service configurations <machine-translation-setup>` or change exclusions.
+* Removed internal filesystem paths and raw command output from gettext and script :ref:`add-on alerts <alerts>`.
+* Redacted remote source URLs from :ref:`JavaScript localization CDN <addon-weblate.cdn.cdnjs>` alerts and activity logs, including existing records.
+* Applied the destination project’s :ref:`access controls <access-control>` to component history after a move, and linked new category rename and move events to their category.
 
 * Required project management permission to change a component URL through the API and prevented :ref:`case-insensitive slug conflicts <component-slug>` from blocking repository cleanup.
 * Required the site-wide ``language.add`` permission to :http:post:`create a language through the REST API </api/languages/>`.
@@ -70,10 +101,15 @@ Weblate 2026.12
 * Restricted :ref:`webhook matching <hooks-target-matching>` to repository owners, preventing generic deliveries from triggering GitHub App updates through linked components.
 * Required repository access to set a path for a :ref:`repository-linked screenshot <screenshots>`.
 * Kept backend errors out of :ref:`task status results <api-tasks>` when cached task metadata is removed during a request.
-* Prevented workspace disclosure in the :ref:`browsable REST API <api>` by using text inputs for single related objects. Large single-choice fields also use text inputs.
+* Prevented disclosure of private user fields in :ref:`REST API <api>` forms and of inaccessible workspace UUIDs in project create and update requests.
 
 .. rubric:: Bug fixes
 
+* Report invalid SMTP recipient addresses in :setting:`ADMINS` during :ref:`deployment checks <production-admins>`.
+* Removed the separate upload rate limit for :http:post:`REST translation uploads </api/translations/(string:project)/(string:component)/(string:language)/file/>`.
+* Accepted quality check aliases in :ref:`flag settings <custom-checks>` and made them searchable in the flag editor.
+* Limited repository automation :ref:`alerts <alerts>` to components that own a remote repository and skipped screenshot coverage guidance for glossaries.
+* Applied changes to :setting:`VCS_ALLOW_SCHEMES` and the :setting:`default Git committer <DEFAULT_COMMITER_NAME>` after restarting Weblate, including for existing repositories.
 * Applied :ref:`enforced checks <enforcing-checks>` when changing a string's state through :ref:`bulk editing <bulk-edit>`.
 * Preserved draft edits and explained how to save them when submitting a :ref:`suggestion <suggestions>` with changes to a glossary explanation.
 * Preserved the :ref:`category hierarchy <category>` on project and category language overviews.
@@ -90,8 +126,12 @@ Weblate 2026.12
 * Preserved punctuation and complete messages in :ref:`project sharing <project-public_sharing>` links.
 * Marked strings listed as ``### Missing:`` placeholders in :ref:`XWiki formats <xwiki-formats>` as untranslated instead of reusing the source value from the comment.
 * Fixed the automatic color theme briefly rendering partially light on page load and not fully following system theme changes on open pages.
+* Stopped the :ref:`check-rst-syntax` check from reporting errors already present in the source string, such as a trailing ``::`` whose literal block is outside the extracted message.
+* Released :ref:`repository operation <repository-maintenance>` reservations within minutes when the worker running them is killed, instead of blocking further repository operations for hours.
 
 .. rubric:: Compatibility
+
+* Removed the browsable :ref:`REST API <api>` renderer and its HTML forms. Browse the API documentation at ``/api/docs/``.
 
 * Restricted :ref:`configurable templates <markup>` to documented operations with parsing, allocation, and cumulative work limits.
 

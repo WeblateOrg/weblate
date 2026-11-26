@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-11-19 18:05-0600\n"
-"PO-Revision-Date: 2026-11-19 19:43+0000\n"
+"PO-Revision-Date: 2026-11-25 19:12+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin "
 "<aindriu80@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
@@ -24,8 +24,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :"
-"(n>6 && n<11) ? 3 : 4;\n"
+"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :(n>"
+"6 && n<11) ? 3 : 4;\n"
 "X-Generator: Weblate 2026.12.dev0\n"
 
 msgctxt "No known user"
@@ -1389,22 +1389,23 @@ msgstr ""
 "Ní féidir glacadh leis an gcuireadh seo ach leis an seoladh ríomhphoist a "
 "roghnaigh an cuireadhóir; ní féidir le do chuntas é a úsáid."
 
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Your e-mail no longer belongs to verified account, it has been changed to "
-#| "{0}."
+#, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to a verified account, it has been changed to "
 "{0}."
 msgstr ""
-"Ní bhaineann do r-phost le cuntas deimhnithe a thuilleadh; athraíodh go {0} "
-"é."
+"Ní bhaineann do ríomhphost le cuntas fíoraithe a thuilleadh; tá sé athraithe "
+"go {0}."
 
 msgid ""
 "Your account e-mail is no longer verified and has been removed. Add and "
 "verify an e-mail address to recover your password, then select it as your "
 "account e-mail in Account settings to receive notifications."
 msgstr ""
+"Níl ríomhphost do chuntais fíoraithe a thuilleadh agus tá sé bainte. Cuir "
+"seoladh ríomhphoist leis agus fíoraigh é chun do phasfhocal a fháil ar ais; "
+"ansin, roghnaigh é mar ríomhphost do chuntais i socruithe an chuntais chun "
+"fógraí a fháil."
 
 msgid ""
 "Your e-mail address has been added. You can now select it as your account e-"
@@ -4037,21 +4038,20 @@ msgstr ""
 "Bain an comhpháirt ó fhoirne tionscadail sula n-aistríonn tú chuig "
 "tionscadal eile í."
 
-#, fuzzy
-#| msgid ""
-#| "Remove the component from project teams before moving it to another "
-#| "project."
 msgid ""
 "Remove the component from its teams before deleting it. Deleting the last "
 "assigned component would expand the team's access."
 msgstr ""
-"Bain an comhpháirt ó fhoirne tionscadail sula n-aistríonn tú chuig "
-"tionscadal eile í."
+"Bain an comhpháirt dá fhoirne sula scriosann tú é. Dá scriosfaí an "
+"comhpháirt dheireanach a bhí sannta, mhéadódh sé sin rochtain na foirne."
 
 msgid ""
 "Remove the component list from its teams before deleting it. Deleting the "
 "last assigned component list could expand a team's access."
 msgstr ""
+"Bain an liosta comhpháirteanna dá fhoirne sula scriosann tú é. Má scriostar "
+"an liosta comhpháirteanna deireanach atá sannta, d’fhéadfadh sé go méadófaí "
+"an rochtain atá ag foireann."
 
 msgid "Roles"
 msgstr "Róil"
@@ -4803,10 +4803,8 @@ msgstr "Billeáil"
 msgid "Billing event"
 msgstr "Imeacht billeála"
 
-#, fuzzy
-#| msgid "Projects without components"
 msgid "Project has no components."
-msgstr "Tionscadail gan comhpháirteanna saor in aisce,"
+msgstr "Níl aon chomhpháirteanna ag an tionscadal."
 
 msgid "monthly"
 msgstr "míosúil"
@@ -7879,6 +7877,9 @@ msgid ""
 "When the linked file changes, Weblate can replace the screenshot with the "
 "repository image. Repository access is required to change this path."
 msgstr ""
+"Nuair a athraíonn an comhad nasctha, is féidir le Weblate an scáthghabháil a "
+"athsholáthar leis an íomhá ón stór. Tá rochtain ar an stór ag teastáil chun "
+"an cosán seo a athrú."
 
 msgid "Image is too big."
 msgstr "Tá an íomhá rómhór."
@@ -10542,11 +10543,16 @@ msgstr ""
 msgid ""
 "Resolve the issues below by %(date)s to keep Libre hosting for your project."
 msgstr ""
+"Réitigh na saincheisteanna thíos faoin %(date)s chun óstáil Libre a "
+"choinneáil chun do thionscadal."
 
 msgid ""
 "Weblate locks existing components for translation when it issues this "
 "warning. Project maintainers can unlock them."
 msgstr ""
+"Cuireann Weblate comhpháirteanna atá ann cheana faoi ghlas le haghaidh "
+"aistriúcháin nuair a eisíonn sé an rabhadh seo. Is féidir le cothaitheoirí "
+"tionscadail iad a dhíghlasáil."
 
 msgid "Customer"
 msgstr "Custaiméir"
@@ -12225,15 +12231,12 @@ msgid "Recurring payment will be disabled for inactive projects"
 msgstr ""
 "Beidh íocaíocht athfhillteach díchumasaithe do thionscadail neamhghníomhacha"
 
-#, fuzzy
-#| msgid "Does not meet Libre hosting conditions."
 msgid "Review Libre hosting conditions"
-msgstr "Ní chomhlíonann sé coinníollacha óstála Libre."
+msgstr "Athbhreithnigh coinníollacha óstála Libre"
 
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Libre hosting removal warning for %(project)s"
-msgstr "Líon iontrálacha %(project)s"
+msgstr "Rabhadh maidir le baint óstála Libre do %(project)s"
 
 msgid "Translation change"
 msgstr "Athrú aistriúcháin"
@@ -14291,10 +14294,8 @@ msgstr "Stór cód foinse"
 msgid "Repository URL copied to clipboard."
 msgstr "Cóipeáladh URL an taisc chuig an ngearrthaisce."
 
-#, fuzzy
-#| msgid "Moved component"
 msgid "Linked component"
-msgstr "Comhpháirt bhog"
+msgstr "Comhpháirt nasctha"
 
 msgid "Repository branch"
 msgstr "Brainse stór"
@@ -14750,10 +14751,8 @@ msgstr "Iolra: %(source_description)s"
 msgid "Plurals"
 msgstr "Iolra"
 
-#, fuzzy
-#| msgid "No strings found!"
 msgid "No integer examples found"
-msgstr "Níor aimsíodh aon teaghráin!"
+msgstr "Níor aimsíodh aon samplaí d'slánuimhreacha"
 
 msgid "First"
 msgstr "Ar dtús"
@@ -16870,14 +16869,13 @@ msgstr "Nuashonraithe is déanaí"
 msgid "Source string age"
 msgstr "Aois teaghrán foinse"
 
-#, fuzzy, python-format
-#| msgid "%(filename)s, string %(position)s"
+#, python-format
 msgid "%(filename)s, line %(line)s"
-msgstr "%(filename)s, teaghrán %(position)s"
+msgstr "%(filename)s, líne %(line)s"
 
 #, python-format
 msgid "line %(line)s"
-msgstr ""
+msgstr "líne %(line)s"
 
 #, python-format
 msgid "%(filename)s, string %(position)s"
@@ -18794,10 +18792,8 @@ msgstr "Moltaí ar feitheamh"
 msgid "Needs review"
 msgstr "Athbhreithniú ag teastáil"
 
-#, fuzzy
-#| msgid "The source and target have to be different languages."
 msgid "The source and destination checkouts must be different."
-msgstr "Caithfidh gur teangacha éagsúla an fhoinse agus an sprioc."
+msgstr "Caithfidh na seiceálacha foinse agus ceann scríbe a bheith éagsúil."
 
 msgid "This component does not exist or you cannot access it."
 msgstr "Níl an comhpháirt seo ann, nó ní féidir leat rochtain a fháil uirthi."
@@ -18824,10 +18820,9 @@ msgstr "Inghníomhaithe agamsa"
 msgid "Discovery configuration"
 msgstr "Cumraíocht fionnachtana"
 
-#, fuzzy, python-format
-#| msgid "Could not render template: {}"
+#, python-format
 msgid "Could not render %(setting)s template: %(error)s"
-msgstr "Níorbh fhéidir an teimpléad a sholáthar: {}"
+msgstr "Níorbh fhéidir teimpléad %(setting)s a rindreáil: %(error)s"
 
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
@@ -20982,10 +20977,8 @@ msgid "Use the secondary language configured in the category or project."
 msgstr ""
 "Úsáid an teanga thánaisteach atá cumraithe sa chatagóir nó sa tionscadal."
 
-#, fuzzy
-#| msgid "The local repository checkout is missing."
 msgid "The linked repository path is ambiguous."
-msgstr "Tá an seiceáil amach ón stór áitiúil ar iarraidh."
+msgstr "Tá cosán an stórais nasctha débhríoch."
 
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
@@ -21376,10 +21369,9 @@ msgstr ""
 "stórlann a bheith agat. Cumraigh URL brú le dintiúir, nó bain úsáid as URL "
 "stórlainne SSH."
 
-#, fuzzy
-#| msgid "This role cannot be assigned to this team."
 msgid "Version control system cannot be changed to this backend."
-msgstr "Ní féidir an ról seo a shannadh don fhoireann seo."
+msgstr ""
+"Ní féidir an córas rialaithe leaganacha a athrú go dtí an cúlchóras seo."
 
 msgid "The file mask is too complex and took too long to evaluate."
 msgstr "Tá an masc comhaid róchasta agus thóg sé an iomarca ama é a mheas."
@@ -21996,10 +21988,9 @@ msgstr "I Fleasc"
 msgid "User configured character: {}"
 msgstr "Carachtar cumraithe ag an úsáideoir: {}"
 
-#, fuzzy, python-format
-#| msgid "Could not push the repository."
+#, python-format
 msgid "Changes committed, but could not push the repository: %s"
-msgstr "Níorbh fhéidir an stór a bhrú."
+msgstr "Athruithe tiomanta, ach níorbh fhéidir an stór a bhrú: %s"
 
 msgid "Repository operation could not be completed because it remained locked."
 msgstr ""
@@ -22971,15 +22962,11 @@ msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "Barrachairt teanga ingearach"
 
-#, fuzzy
-#| msgid "Source language"
 msgid "Sort languages by"
-msgstr "Teanga foinse"
+msgstr "Sórtáil teangacha de réir"
 
-#, fuzzy
-#| msgid "Translation change"
 msgid "Translation percentage"
-msgstr "Athrú aistriúcháin"
+msgstr "Céatadán aistriúcháin"
 
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
@@ -23395,10 +23382,8 @@ msgstr "Sáraíonn comhthéacs na teimpléide a theorainn méide."
 msgid "Template context is nested too deeply."
 msgstr "Tá comhthéacs an teimpléid neadaithe ró-dhomhain."
 
-#, fuzzy
-#| msgid "Unsupported template context value."
 msgid "Unsupported nonfinite template context value."
-msgstr "Luach comhthéacs teimpléid nach dtacaítear leis."
+msgstr "Luach comhthéacs teimpléid neamhchríochta nach dtacaítear leis."
 
 msgid "Unsupported template context key."
 msgstr "Eochair chomhthéacs teimpléid nach dtacaítear léi."
@@ -23409,344 +23394,293 @@ msgstr "Luach comhthéacs teimpléid nach dtacaítear leis."
 msgid "Template value exceeds its size limit."
 msgstr "Sáraíonn luach na teimpléid a theorainn méide."
 
-#, fuzzy
-#| msgid "The entered token is not valid."
 msgid "Template text is not valid UTF-8."
-msgstr "Níl an comhartha iontrála bailí."
+msgstr "Níl téacs an teimpléid ina UTF-8 bailí."
 
 #, python-format
 msgid "Tag \"%(name)s\""
-msgstr ""
+msgstr "Clibeáil \"%(name)s\""
 
-#, fuzzy
-#| msgid "Invalid target state."
 msgid "Invalid template syntax."
-msgstr "Staid sprice neamhbhailí."
+msgstr "Comhréir theimpléid neamhbhailí."
 
-#, fuzzy
-#| msgid "Undefined variable: \"%s\""
 msgid "Undefined template variable."
-msgstr "Athróg neamhshainithe: \"%s\""
+msgstr "Athróg teimpléid gan sainmhíniú."
 
-#, fuzzy
-#| msgid "The translation is not valid XML."
 msgid "Text is not valid UTF-8."
-msgstr "Ní XML bailí an t-aistriúchán."
+msgstr "Ní téacs bailí UTF-8 é an téacs."
 
-#, fuzzy
-#| msgid "The chosen sorting is not supported."
 msgid "Division by zero is not supported."
-msgstr "Ní thacaítear leis an sórtáil roghnaithe."
+msgstr "Ní thacaítear le roinnt ar nialas."
 
-#, fuzzy
-#| msgid "Select a change for this automation."
 msgid "Numeric value is too large for this operation."
-msgstr "Roghnaigh athrú don uathoibriú seo."
+msgstr "Tá an luach uimhriúil ró-mhór don oibríocht seo."
 
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Repository operation failed"
 msgid "Numeric operation failed."
-msgstr "Theip ar oibríocht stórtha"
+msgstr "Theip ar oibríocht uimhriúil."
 
 msgid "Value or argument has an unsupported type."
-msgstr ""
+msgstr "Tá cineál ag luach nó ag argóint nach bhfuil tacaithe."
 
 msgid "Value or argument is incomplete or out of range."
-msgstr ""
+msgstr "Tá luach nó argóint neamhiomlán nó lasmuigh den raon."
 
-#, fuzzy
-#| msgid "Translation revision has an invalid format."
 msgid "Value or argument has an invalid format."
-msgstr "Tá formáid neamhbhailí ag an athbhreithniú aistriúcháin."
+msgstr "Tá formáid neamhbhailí ag an luach nó ag an argóint."
 
-#, fuzzy, python-format
-#| msgid "%(path)s: %(error)s"
+#, python-format
 msgid "%(operation)s: %(message)s"
-msgstr "%(path)s: %(error)s"
+msgstr "%(operation)s: %(message)s"
 
 #, python-format
 msgid "Line %(line)d: %(message)s"
-msgstr ""
+msgstr "Líne %(line)d: %(message)s"
 
 msgid "Template rendering exceeded its time limit."
 msgstr "Sháraigh rindreáil an teimpléid an teorainn ama."
 
-#, fuzzy, python-format
-#| msgid "Template join exceeds its size limit."
+#, python-format
 msgid "Template exceeds the operation limit of %(limit)d."
-msgstr "Sáraíonn an nascadh teimpléid a theorainn méide."
+msgstr "Sáraíonn an teimpléad an teorainn oibríochta de %(limit)d."
 
-#, fuzzy, python-format
-#| msgid "Translation file exceeds the maximum allowed size of %d bytes."
+#, python-format
 msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
-msgstr ""
-"Tá an comhad aistriúcháin níos mó ná an méid uasta ceadaithe de %d beart."
+msgstr "Sáraíonn an teimpléad an teorainn charnach oibre de %(limit)d beart."
 
-#, fuzzy, python-format
-#| msgid "Template value exceeds its size limit."
+#, python-format
 msgid "Template value exceeds the size limit of %(limit)d bytes."
-msgstr "Sáraíonn luach na teimpléid a theorainn méide."
+msgstr "Sáraíonn luach na teimpléide an teorainn méide de %(limit)d beart."
 
 msgid "Template value must be a supported scalar."
-msgstr ""
+msgstr "Caithfidh luach na teimpléid a bheith ina scálár tacaithe."
 
 msgid "Integer exceeds the numeric limit of 4096 bits."
-msgstr ""
+msgstr "Sáraíonn an t-slánuimhir an teorainn uimhriúil de 4096 giotán."
 
-#, fuzzy
-#| msgid "YAML aliases and tags are not supported."
 msgid "Nonfinite numbers are not supported."
-msgstr "Ní thacaítear le hailiáisí ná le clibeanna YAML."
+msgstr "Ní thacaítear le huimhreacha neamhchríochta."
 
-#, fuzzy, python-format
-#| msgid "File names"
+#, python-format
 msgid "Filter \"%(name)s\""
-msgstr "Ainmneacha comhaid"
+msgstr "Scagaire \"%(name)s\""
 
 #, python-format
 msgid "Template exceeds the filter application limit of %(limit)d."
 msgstr ""
+"Sáraíonn an teimpléad an teorainn maidir le cur i bhfeidhm scagairí, atá "
+"socraithe ag %(limit)d."
 
 msgid "Template rendering exceeded its loop limit."
 msgstr "Sháraigh rindreáil an teimpléid a theorainn lúibe."
 
-#, fuzzy
-#| msgid "YAML aliases and tags are not supported."
 msgid "Attribute access and method calls are not supported."
-msgstr "Ní thacaítear le hailiáisí ná le clibeanna YAML."
+msgstr "Ní thacaítear le rochtain ar thréithe ná le glaoch ar mhodhanna."
 
 msgid "Index exceeds the length limit of 128 characters."
-msgstr ""
+msgstr "Sáraíonn an t-innéacs an teorainn faid de 128 carachtar."
 
-#, fuzzy
-#| msgid "YAML aliases and tags are not supported."
 msgid "Translated template literals are not supported."
-msgstr "Ní thacaítear le hailiáisí ná le clibeanna YAML."
+msgstr "Ní thacaítear le litríligh theimpléid aistrithe."
 
-#, fuzzy
-#| msgid "Invalid unit."
 msgid "Invalid filter."
-msgstr "Aonad neamhbhailí."
+msgstr "Scagaire neamhbhailí."
 
 msgid "Identity comparisons require None, True, or False."
-msgstr ""
+msgstr "Éilíonn comparáidí céannachta None, True, nó False."
 
-#, fuzzy
-#| msgid "The chosen sorting is not supported."
 msgid "This condition operator is not supported."
-msgstr "Ní thacaítear leis an sórtáil roghnaithe."
+msgstr "Ní thacaítear leis an oibreoir coinníll seo."
 
 msgid "Template output exceeds its size limit."
 msgstr "Sáraíonn aschur an teimpléid an teorainn méide."
 
 msgid "Loops require a list, string, dictionary, or dictionary view."
-msgstr ""
+msgstr "Teastaíonn liosta, teaghrán, foclóir, nó amharc foclóra ó lúba."
 
 msgid "Loop unpacking requires a list, tuple, string, or dictionary."
 msgstr ""
+"Teastaíonn liosta, túpla, teaghrán, nó foclóir chun díphacáil lúibe a "
+"dhéanamh."
 
 msgid "Loop value cannot be unpacked into its variables."
-msgstr ""
+msgstr "Ní féidir luach an lúba a dhíphacáil ina chuid athróg."
 
-#, fuzzy
-#| msgid "The chosen sorting is not supported."
 msgid "This template tag is not supported."
-msgstr "Ní thacaítear leis an sórtáil roghnaithe."
+msgstr "Ní thacaítear leis an gclibe teimpléid seo."
 
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "This template node is not supported."
-msgstr "Ní thacaítear leis an bhformáid comhaid braite."
+msgstr "Ní thacaítear leis an nód teimpléid seo."
 
 msgid "Replacement requires string values and arguments."
-msgstr ""
+msgstr "Teastaíonn luachanna teaghráin agus argóintí le haghaidh athsholáthair."
 
-#, fuzzy, python-format
-#| msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+#, python-format
 msgid "Replacement exceeds the intermediate size limit of %(limit)d bytes."
 msgstr ""
-"Sáraíonn cartlann an leabhair oibre an méid uasta leathnaithe de %d beart."
+"Sáraíonn an t-athsholáthar an teorainn mhéide idirmheánach de %(limit)d "
+"beart."
 
 #, python-format
 msgid "Undefined variable: \"%s\""
 msgstr "Athróg neamhshainithe: \"%s\""
 
 msgid "This filter requires scalar values and arguments."
-msgstr ""
+msgstr "Teastaíonn luachanna scálacha agus argóintí ón scagaire seo."
 
-#, fuzzy, python-format
-#| msgid "Template intermediate value exceeds its size limit."
+#, python-format
 msgid "Intermediate value would exceed the size limit of %(limit)d bytes."
-msgstr "Sáraíonn luach idirmheánach an teimpléid a theorainn méide."
+msgstr "Sháródh luach idirmheánach an teorainn méide de %(limit)d beart."
 
 msgid "Numeric input exceeds the conversion limit of 1240 characters."
 msgstr ""
+"Sáraíonn an t-ionchur uimhriúil an teorainn tiontaithe de 1240 carachtar."
 
 msgid "Decimal exceeds the numeric conversion limit."
-msgstr ""
+msgstr "Sáraíonn an uimhir dheachúil an teorainn tiontaithe uimhriúil."
 
-#, fuzzy
-#| msgid "This field is required."
 msgid "This filter requires strings."
-msgstr "Tá an réimse seo riachtanach."
+msgstr "Teastaíonn teaghráin ón scagaire seo."
 
-#, fuzzy
-#| msgid "Automation keys must be strings."
 msgid "Choices must be a string."
-msgstr "Caithfidh eochracha uathoibrithe a bheith ina sreanga."
+msgstr "Caithfidh roghanna a bheith ina shreang."
 
 msgid "Length requires a list, string, dictionary, or dictionary view."
-msgstr ""
+msgstr "Éilíonn fad liosta, teaghrán, foclóir, nó amharc foclóra."
 
 msgid "This filter requires a list, tuple, or string."
-msgstr ""
+msgstr "Teastaíonn liosta, tiúpla, nó teaghrán ón scagaire seo."
 
 msgid "Slicing requires a list, tuple, or string."
-msgstr ""
+msgstr "Teastaíonn liosta, túpla, nó teaghrán le haghaidh slisnithe."
 
 msgid "Slice argument exceeds the length limit of 128 characters."
-msgstr ""
+msgstr "Sáraíonn an argóint slisne an teorainn faid de 128 carachtar."
 
 msgid ""
 "Joining requires an iterable and a string separator with escaping disabled."
 msgstr ""
+"Teastaíonn réad in-athráite agus teaghrán deighilteora chun eilimintí a "
+"nascadh, agus an fheidhm éalaithe díchumasaithe."
 
-#, fuzzy
-#| msgid "Source string length"
 msgid "Joining requires string elements."
-msgstr "Fad teaghrán foinse"
+msgstr "Teastaíonn eilimintí teaghráin chun nascadh a dhéanamh."
 
 #, python-format
 msgid "Joined value would exceed the size limit of %(limit)d bytes."
-msgstr ""
+msgstr "Sháródh an luach comhcheangailte an teorainn méide de %(limit)d beart."
 
 msgid "Sequence escaping requires a list, tuple, or string."
-msgstr ""
+msgstr "Teastaíonn liosta, túpla, nó teaghrán le haghaidh éalú seicheamh."
 
 msgid "Sequence escaping requires scalar elements."
-msgstr ""
+msgstr "Éilíonn éalú seicheamh eilimintí scálacha."
 
 msgid "Date formatting requires a date, time, string, or None."
-msgstr ""
+msgstr "Éilíonn formáidiú dátaí dáta, am, teaghrán, nó Dada."
 
-#, fuzzy
-#| msgid "Automation keys must be strings."
 msgid "Date format must be a string or None."
-msgstr "Caithfidh eochracha uathoibrithe a bheith ina sreanga."
+msgstr "Caithfidh formáid an dáta a bheith ina teaghrán nó Dada."
 
-#, fuzzy
-#| msgid "Trigger scope requires a change with a string."
 msgid "Time comparison requires a date, time, string, or None."
-msgstr "Éilíonn scóip an truiceair athrú a bhaineann le teaghrán."
+msgstr "Éilíonn comparáid ama dáta, am, teaghrán, nó Dada."
 
 msgid "Time comparison argument must be a date or None."
-msgstr ""
+msgstr "Caithfidh an argóint comparáide ama a bheith ina dáta nó Dada."
 
 msgid "Concatenation requires sequences of the same type."
-msgstr ""
+msgstr "Éilíonn nascadh seketainí den chineál céanna."
 
-#, fuzzy
-#| msgid "Automation keys must be strings."
 msgid "Plural suffixes must be a string."
-msgstr "Caithfidh eochracha uathoibrithe a bheith ina sreanga."
+msgstr "Caithfidh iarmhíreanna iolra a bheith ina sreang."
 
 msgid "Precision argument exceeds the length limit of 128 characters."
-msgstr ""
+msgstr "Sáraíonn an argóint bheachtais an teorainn faid de 128 carachtar."
 
 msgid "Formatting precision exceeds the limit of 1000 places."
-msgstr ""
+msgstr "Sáraíonn cruinneas na formáidithe an teorainn de 1000 ionad."
 
 msgid "Format must be a string of at most 128 characters."
 msgstr ""
+"Caithfidh an fhormáid a bheith ina teaghrán nach bhfuil níos mó ná 128 "
+"carachtar ann."
 
 msgid ""
 "Format must contain one supported conversion without mapping keys or dynamic "
 "widths."
 msgstr ""
+"Caithfidh formáid a bheith i gceist a chuimsíonn comhshó amháin a dtacaítear "
+"leis, gan eochracha mapála ná leithead dinimiciúil."
 
-#, fuzzy
-#| msgid "YAML aliases and tags are not supported."
 msgid "Nested template delimiters are not supported."
-msgstr "Ní thacaítear le hailiáisí ná le clibeanna YAML."
+msgstr "Ní thacaítear le teorantóirí teimpléid neadaithe."
 
-#, fuzzy
-#| msgid "Unsupported template context key."
 msgid "Unclosed template token."
-msgstr "Eochair chomhthéacs teimpléid nach dtacaítear léi."
+msgstr "Comhartha teimpléid gan dúnadh."
 
-#, fuzzy, python-format
-#| msgid "Template join exceeds its size limit."
+#, python-format
 msgid "Template token exceeds the size limit of %(limit)d bytes."
-msgstr "Sáraíonn an nascadh teimpléid a theorainn méide."
+msgstr "Sáraíonn an comhartha teimpléid an teorainn méide de %(limit)d beart."
 
 msgid "Template tokens cannot span multiple lines."
 msgstr ""
+"Ní féidir le comharthaí teimpléid a bheith scaipthe thar línte iolracha."
 
-#, fuzzy, python-format
-#| msgid "Template join exceeds its size limit."
+#, python-format
 msgid "Template exceeds the parsing limit of %(limit)d tokens."
-msgstr "Sáraíonn an nascadh teimpléid a theorainn méide."
+msgstr "Sáraíonn an teimpléad an teorainn parsála de %(limit)d comharthaí."
 
-#, fuzzy, python-format
-#| msgid "Template join exceeds its size limit."
+#, python-format
 msgid "Template exceeds the parsing limit of %(limit)d filters."
-msgstr "Sáraíonn an nascadh teimpléid a theorainn méide."
+msgstr "Sáraíonn an teimpléad teorainn an pharsála de %(limit)d scagaire."
 
 #, python-format
 msgid "Template exceeds the parsing work limit of %(limit)d units."
-msgstr ""
+msgstr "Sáraíonn an teimpléad an teorainn oibre parsála de %(limit)d aonad."
 
 #, python-format
 msgid "Unclosed template tag \"%(tag)s\"."
-msgstr ""
+msgstr "Clibe teimpléid \"%(tag)s\" gan dúnadh."
 
-#, fuzzy
-#| msgid "The report is empty."
 msgid "Template tag is empty."
-msgstr "Tá an tuairisc folamh."
+msgstr "Tá clibe an teimpléid folamh."
 
 #, python-format
 msgid "Condition exceeds the parsing limit of %(limit)d terms."
 msgstr ""
+"Sáraíonn an coinníoll teorainn an pharsála, atá socraithe ag %(limit)d "
+"téarma."
 
-#, fuzzy, python-format
-#| msgid "Template join exceeds its size limit."
+#, python-format
 msgid "Template exceeds the nesting limit of %(limit)d levels."
-msgstr "Sáraíonn an nascadh teimpléid a theorainn méide."
+msgstr "Sáraíonn an teimpléad an teorainn neadaithe de %(limit)d leibhéal."
 
 #, python-format
 msgid "Unexpected closing tag \"%(tag)s\"."
-msgstr ""
+msgstr "Clibe dúnadh gan choinne \"%(tag)s\"."
 
 #, python-format
 msgid "Tag \"%(tag)s\" requires an enclosing \"%(parent)s\" tag."
-msgstr ""
+msgstr "Teastaíonn clibe \"%(parent)s\" a chuimsíonn an chlib \"%(tag)s\"."
 
-#, fuzzy, python-format
-#| msgid "Unsupported template context value."
+#, python-format
 msgid "Unsupported template tag \"%(tag)s\"."
-msgstr "Luach comhthéacs teimpléid nach dtacaítear leis."
+msgstr "Clibeáil teimpléid neamhthacaithe \"%(tag)s\"."
 
-#, fuzzy
-#| msgid "Unsupported template context value."
 msgid "Unsupported template tag."
-msgstr "Luach comhthéacs teimpléid nach dtacaítear leis."
+msgstr "Clibeáil theimpléid nach dtacaítear léi."
 
 #, python-format
 msgid "Serialized data exceeds the nesting limit of %(limit)d."
-msgstr ""
+msgstr "Sáraíonn sonraí srathaithe an teorainn neadaithe de %(limit)d."
 
-#, fuzzy, python-format
-#| msgid "Translation file exceeds the maximum allowed size of %d bytes."
+#, python-format
 msgid "Serialization exceeds the intermediate size limit of %(limit)d bytes."
 msgstr ""
-"Tá an comhad aistriúcháin níos mó ná an méid uasta ceadaithe de %d beart."
+"Sáraíonn an tsraitheáil an teorainn mhéide idirmheánach de %(limit)d beart."
 
-#, fuzzy, python-format
-#| msgid "Template value exceeds its size limit."
+#, python-format
 msgid "Serialized value exceeds the size limit of %(limit)d bytes."
-msgstr "Sáraíonn luach na teimpléid a theorainn méide."
+msgstr "Sáraíonn an luach sraitheach teorainn méide de %(limit)d beart."
 
 #, python-format
 msgid ""

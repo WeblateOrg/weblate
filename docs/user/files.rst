@@ -101,15 +101,17 @@ You must be logged in to upload translations, even if upload permissions have
 been assigned to the Guests team.
 
 Uploads are processed in the background, with progress and results shown in the
-notification. You can have one browser upload queued or running at a time.
+notification. You can have one upload queued or running at a time through the
+web interface.
 Suggestion uploads are limited to 20,000 content strings present in the uploaded
 file, including strings which are skipped or do not match. Source-template
 strings absent from the upload do not count toward this limit. Split larger
 suggestion files before uploading.
 Other upload methods use the general :setting:`TRANSLATION_MAX_UNITS` limit.
 
-Browser and API uploads share the per-user :setting:`RATELIMIT_UPLOAD_ATTEMPTS`
-limit. The API supports multiple outstanding uploads; see :doc:`/api`.
+In the web interface, translation uploads and translation-memory imports share
+the per-user :setting:`RATELIMIT_UPLOAD_ATTEMPTS` budget. The API supports
+multiple outstanding uploads.
 
 .. image:: /screenshots/file-upload.webp
 

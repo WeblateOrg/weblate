@@ -35,7 +35,11 @@ from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.auth.bots import InternalBot
 from weblate.auth.models import User
-from weblate.billing.defines import LIBRE_CLEANUP_ALERTS, LIBRE_WARNING_PERIOD
+from weblate.billing.defines import (
+    LIBRE_CLEANUP_ALERTS,
+    LIBRE_PROBLEM_PERIOD,
+    LIBRE_WARNING_PERIOD,
+)
 from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.alerts.registry import get_alert_class
 from weblate.trans.models import (
@@ -535,6 +539,20 @@ class Billing(models.Model):
             event=BillingEvent.LIBRE_CLEANUP_WARNING,
             timestamp=self.libre_cleanup_warned_at,
         ).first()
+
+    def libre_problem_alerts(self) -> QuerySet[Alert, Alert]:
+        return Alert.objects.using(self._state.db).filter(
+            component__project__workspace_id=self.workspace_id,
+            name__in=LIBRE_CLEANUP_ALERTS,
+        )
+
+    def cancel_libre_warning(self) -> None:
+        self.libre_cleanup_warned_at = None
+        self.save(update_fields=["libre_cleanup_warned_at"], skip_limits=True)
+        self.billinglog_set.create(
+            event=BillingEvent.LIBRE_CLEANUP_CANCELED,
+            user=InternalBot.ALERTS.get_user(),
+        )
 
     def reset_libre_cleanup(self, *, user: User | None = None) -> None:
         if (
@@ -1613,6 +1631,64 @@ def get_project_billings(
     return objects.filter(workspace_id__in=workspace_ids)
 
 
+def refresh_libre_warning(billing_id: int, using: str) -> None:
+    with transaction.atomic(using=using):
+        billing = (
+            Billing.objects.using(using)
+            .select_for_update()
+            .filter(pk=billing_id, libre_cleanup_warned_at__isnull=False)
+            .first()
+        )
+        if billing is None or billing.libre_cleanup_warned_at is None:
+            return
+        cutoff = billing.libre_cleanup_warned_at - LIBRE_PROBLEM_PERIOD
+        if billing.libre_problem_alerts().filter(timestamp__lte=cutoff).exists():
+            return
+        if (
+            billing.libre_cleanup_empty_since is not None
+            and billing.libre_cleanup_empty_since <= cutoff
+            and not Component.objects.using(using)
+            .filter(project__workspace_id=billing.workspace_id)
+            .exists()
+        ):
+            return
+        billing.cancel_libre_warning()
+
+
+@dataclass(frozen=True)
+class LibreWarningRefresh:
+    billing_id: int
+    using: str
+
+    def __call__(self) -> None:
+        refresh_libre_warning(self.billing_id, self.using)
+
+
+def schedule_libre_warning_refresh(billings: QuerySet[Billing, Billing]) -> None:
+    warned = billings.filter(libre_cleanup_warned_at__isnull=False)
+    connection = transaction.get_connection(warned.db)
+    for billing_id in warned.values_list("pk", flat=True):
+        refresh = LibreWarningRefresh(billing_id, warned.db)
+        # One callback reads the final committed state, including later deletions.
+        if not any(callback == refresh for _, callback, _ in connection.run_on_commit):
+            transaction.on_commit(refresh, using=warned.db)
+
+
+@receiver(post_delete, sender=Alert)
+def refresh_deleted_alert_warning(
+    instance: Alert, origin, using: str, **kwargs
+) -> None:
+    # Component and project deletion already check the affected workspace.
+    if instance.name in LIBRE_CLEANUP_ALERTS and (
+        isinstance(origin, Alert) or getattr(origin, "model", None) is Alert
+    ):
+        schedule_libre_warning_refresh(
+            Billing.objects.using(using).filter(
+                workspace__projects__component__pk=instance.component_id
+            )
+        )
+
+
 @receiver(post_save, sender=Component)
 @receiver(post_save, sender=Project)
 @receiver(post_save, sender=Plan)
@@ -1686,6 +1762,11 @@ def record_project_bill(
                 billing.billinglog_set.create(
                     event=BillingEvent.ADMIN_ADDED_PROJECT, summary=user.username
                 )
+
+    if sender in {Project, Component}:
+        schedule_libre_warning_refresh(
+            get_project_billings(instance, using=kwargs["using"])
+        )
 
     # Collect billings to update for delete_project_bill
     instance.billings_to_update = [billing.pk for billing in instance.billings]

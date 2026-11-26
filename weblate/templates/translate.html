@@ -140,7 +140,7 @@
                   <!-- editing template -->
                   <div class="form-group">
                     <label>{{ unit.translation.component.context_label }}</label>
-                    {% format_source_string unit.context unit search_match=search_query wrap=True %}
+                    {% format_source_string unit.context unit search_match=search_query search_field="context" wrap=True %}
                   </div>
                 {% endif %}
                 {% if unit.translation.component.intermediate %}
@@ -184,7 +184,7 @@
                       {% if unit.context %}
                         <div class="float-end">
                           <label>{{ unit.translation.component.context_label }}</label>
-                          {% format_source_string unit.context unit simple=True wrap=True search_match=search_query whitespace=False %}
+                          {% format_source_string unit.context unit simple=True wrap=True search_match=search_query search_field="context" whitespace=False %}
                         </div>
                       {% endif %}
                       {% if unit.missing_source_snapshot %}
@@ -435,7 +435,7 @@
                 <p class="help-block">{% translate "Showing only subset of the strings as there were too many matches." %}</p>
               {% endif %}
               <form method="post"
-                    action="{{ unit.translation.get_translate_url }}{% querystring query_params offset=offset checksum=unit.checksum unit_id=unit.pk %}">
+                    action="{{ object.get_translate_url }}{% querystring query_params offset=offset checksum=unit.checksum unit_id=unit.pk %}">
                 {% csrf_token %}
                 <table class="table table-sm">
                   <thead>
@@ -505,7 +505,7 @@
                   {% endif %}
                 </table>
                 {% if user_can_translate and others.allow_merge %}
-                  {% if object.component.allow_translation_propagation %}
+                  {% if unit.translation.component.allow_translation_propagation %}
                     <input type="submit"
                            value="{% translate "Apply selected translation to all propagated strings"|force_escape %}"
                            class="btn btn-primary" />
@@ -972,7 +972,7 @@
             {% if unit.context %}
               <div class="list-group-item">
                 <h5>{{ unit.translation.component.context_label }}</h5>
-                {% format_source_string unit.context unit search_match=search_query simple=True wrap=True %}
+                {% format_source_string unit.context unit search_match=search_query search_field="context" simple=True wrap=True %}
               </div>
             {% endif %}
             {% if unit.note %}

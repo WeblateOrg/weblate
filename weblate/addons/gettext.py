@@ -21,7 +21,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy, override
 
-from weblate.addons.base import BaseAddon, UpdateBaseAddon
+from weblate.addons.base import BaseAddon, UpdateBaseAddon, process_failure_message
 from weblate.addons.events import (
     AddonActivityLogReason,
     AddonEvent,
@@ -44,11 +44,13 @@ from weblate.addons.gettext_rules import (
 )
 from weblate.formats.base import UpdateError
 from weblate.formats.exporters import MoExporter
-from weblate.trans.file_format_params import GettextReportMsgidBugsTo
+from weblate.trans.file_format_params import (
+    GettextReportMsgidBugsTo,
+    GettextSetLanguageTeamHeader,
+)
 from weblate.utils.change_origin import get_acting_user
 from weblate.utils.commands import find_runtime_command, get_clean_env
 from weblate.utils.errors import report_error
-from weblate.utils.files import cleanup_error_message
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 from weblate.vcs.base import RepositoryError
@@ -453,7 +455,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
                 {
                     "addon": self.name,
                     "command": "msgmerge",
-                    "output": template or "<missing>",
+                    "output": component.new_base or "<missing>",
                     "error": "Template for new translations not found",
                 }
             )
@@ -463,7 +465,12 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         file_format_cls = cast("PoFormat", component.file_format_cls)
         args = file_format_cls.get_msgmerge_args(component)
         repo_temp_dir = component.repository.get_repo_temp_dir()
-        for translation in component.translation_set.iterator():
+        update_language_team = GettextSetLanguageTeamHeader.get_value(
+            component.file_format_params
+        )
+        for translation in component.translation_set.select_related(
+            "language"
+        ).iterator():
             filename = translation.get_filename()
             if (
                 (translation.is_source and not translation.is_template)
@@ -477,15 +484,20 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
                     template,
                     args=args,
                     file_format_params=component.file_format_params,
+                    language_team=(
+                        translation.get_language_team_header()
+                        if update_language_team
+                        else None
+                    ),
                     repo_temp_dir=repo_temp_dir,
                 )
             except UpdateError as error:
                 self.alerts.append(
                     {
                         "addon": self.name,
-                        "command": error.cmd,
-                        "output": str(error.output),
-                        "error": str(error),
+                        "command": "msgmerge",
+                        "output": translation.filename,
+                        "error": "Could not update translation",
                     }
                 )
                 component.log_info("%s addon failed: %s", self.name, error)
@@ -810,8 +822,7 @@ class ExtractPotBaseAddon(UpdateBaseAddon, GettextBaseAddon):
             self.alerts.append(
                 {
                     "addon": self.name,
-                    "command": " ".join(cmd),
-                    "output": cleanup_error_message(output),
+                    "command": Path(cmd[0]).name,
                     "error": f"Command timed out after {self.PROCESS_TIMEOUT} seconds",
                 }
             )
@@ -825,9 +836,8 @@ class ExtractPotBaseAddon(UpdateBaseAddon, GettextBaseAddon):
             self.alerts.append(
                 {
                     "addon": self.name,
-                    "command": " ".join(cmd),
-                    "output": cleanup_error_message(output),
-                    "error": str(err),
+                    "command": Path(cmd[0]).name,
+                    "error": process_failure_message(err),
                 }
             )
             report_error("Add-on script error", project=component.project)
@@ -942,8 +952,14 @@ class ExtractPotBaseAddon(UpdateBaseAddon, GettextBaseAddon):
         root: Path | None = None,
         *,
         ignore_patterns: tuple[str, ...] = (),
+        excluded_directories: frozenset[str] = frozenset(),
     ) -> bool:
-        pending = [root or Path(component.full_path)]
+        root = root or Path(component.full_path)
+        relative_root = Path(os.path.relpath(root, component.full_path))
+        if any(relative_root.is_relative_to(path) for path in excluded_directories):
+            return True
+
+        pending = [root]
         seen: set[str] = set()
 
         while pending:
@@ -964,11 +980,13 @@ class ExtractPotBaseAddon(UpdateBaseAddon, GettextBaseAddon):
                 continue
 
             for entry in current.iterdir():
-                if ignore_patterns:
+                if ignore_patterns or excluded_directories:
                     entry_path = os.path.relpath(entry, component.full_path).replace(
                         os.sep, "/"
                     )
-                    if is_ignored_path(entry_path, ignore_patterns):
+                    if entry_path in excluded_directories or is_ignored_path(
+                        entry_path, ignore_patterns
+                    ):
                         continue
                 try:
                     component.repository.resolve_symlinks(os.fspath(entry))
@@ -1184,7 +1202,6 @@ class XgettextAddon(ExtractPotBaseAddon):
                     {
                         "addon": self.name,
                         "command": "xgettext",
-                        "output": line,
                         "error": "POTFILES entries must be relative paths",
                     }
                 )
@@ -1242,7 +1259,7 @@ class XgettextAddon(ExtractPotBaseAddon):
                 {
                     "addon": self.name,
                     "command": "xgettext",
-                    "output": os.fspath(manifest),
+                    "output": manifest.name,
                     "error": "POTFILES manifest points outside repository",
                 }
             )
@@ -1284,7 +1301,7 @@ class XgettextAddon(ExtractPotBaseAddon):
                 {
                     "addon": self.name,
                     "command": "xgettext",
-                    "output": os.fspath(skip_manifest),
+                    "output": skip_manifest.name,
                     "error": "POTFILES.skip manifest points outside repository",
                 }
             )
@@ -1465,7 +1482,9 @@ class XgettextAddon(ExtractPotBaseAddon):
                     "addon": self.name,
                     "command": "xgettext",
                     "output": "",
-                    "error": str(error),
+                    "error": str(error)
+                    if isinstance(error, ValidationError)
+                    else "Could not read ITS data directories",
                 }
             )
             return False
@@ -1812,6 +1831,10 @@ class DjangoAddon(ExtractPotBaseAddon):
             self.get_source_prefix(component, source_dir),
             *self.get_gettext_format_args(component),
         ]
+        command.extend(
+            f"--exclude-directory={directory}"
+            for directory in self.get_excluded_source_directories()
+        )
         with tempfile.TemporaryDirectory(prefix="weblate-django-") as tempdir:
             locale_dir = Path(tempdir) / "locale"
             env = {"WEBLATE_EXTRACT_LOCALE_PATH": os.fspath(locale_dir)}
@@ -1837,6 +1860,13 @@ class DjangoAddon(ExtractPotBaseAddon):
             self.write_repo_file(template, generated.read_bytes())
         return self.finalize_template(component, template)
 
+    def get_excluded_source_directories(self) -> tuple[str, ...]:
+        return tuple(
+            str(
+                self.instance.configuration.get("excluded_source_directories", "")
+            ).splitlines()
+        )
+
     def validate_django_repository_tree(
         self, component: Component, source_dir: Path
     ) -> bool:
@@ -1844,6 +1874,7 @@ class DjangoAddon(ExtractPotBaseAddon):
             component,
             source_dir,
             ignore_patterns=DJANGO_IGNORE_PATTERNS,
+            excluded_directories=frozenset(self.get_excluded_source_directories()),
         )
 
     @classmethod
