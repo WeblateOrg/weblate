@@ -9,6 +9,7 @@ from __future__ import annotations
 import errno
 import json
 import os
+import stat
 import tempfile
 import warnings
 from contextlib import contextmanager, suppress
@@ -2282,6 +2283,39 @@ class BackupsTest(ReusableViewTestCase):
             Path(directory, "empty").touch()
             backup.backup_dir(backupzip, directory, "vcs/test")
             self.assertEqual(backupzip.getinfo("vcs/test/empty").file_size, 0)
+
+    def test_restore_git_executable_and_submodule_placeholder(self) -> None:
+        repository = self.component.repository
+        root = Path(repository.path)
+        script = root / "publish script.sh"
+        script.write_text("#!/bin/sh\n")
+        script.chmod(0o755)
+        with repository.lock:
+            revision = repository.get_last_revision().strip()
+            repository.execute(["add", "--", script.name], remote_op="none")
+            repository.execute(
+                ["update-index", "--add", "--cacheinfo", f"160000,{revision},leaf"],
+                remote_op="none",
+            )
+            repository.execute(
+                ["commit", "-m", "Add script and submodule pointer"], remote_op="none"
+            )
+        (root / "leaf").mkdir(exist_ok=True)
+        script.write_text("#!/bin/sh\n# An uncommitted edit\n")
+
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored", project_slug="restored", user=self.user
+        )
+        checkout = Path(restored.component_set.get(slug=self.component.slug).full_path)
+        restored_script = checkout / script.name
+        self.assertTrue(restored_script.stat().st_mode & stat.S_IXUSR)
+        self.assertEqual(restored_script.read_text(), script.read_text())
+        self.assertTrue((checkout / "leaf").is_dir())
+        self.assertEqual(list((checkout / "leaf").iterdir()), [])
 
     def test_create_backup_invalid_git_head(self) -> None:
         head_path = Path(self.component.full_path) / ".git/HEAD"

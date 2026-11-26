@@ -1145,9 +1145,13 @@ class Repository:
             cwd=cwd,
         )
         if process.returncode:
-            errormessage: str = cls.sanitize_error_message(
-                process.stdout + (process.stderr or "")
-            )
+            stdout = process.stdout
+            stderr = process.stderr
+            if isinstance(stdout, bytes):
+                stdout = os.fsdecode(stdout)
+            if isinstance(stderr, bytes):
+                stderr = os.fsdecode(stderr)
+            errormessage = cls.sanitize_error_message(stdout + (stderr or ""))
             if retry and cls.should_retry_popen(errormessage, cwd=cwd):
                 return cls._popen(
                     args,
@@ -1206,6 +1210,7 @@ class Repository:
         remote_op: RemoteOperation,
         needs_lock: bool = True,
         fullcmd: bool = False,
+        raw: bool = False,
         merge_err: bool = True,
         stdin: str | None = None,
         environment: dict[str, str] | None = None,
@@ -1242,6 +1247,7 @@ class Repository:
                 args,
                 cwd=self.path,
                 fullcmd=fullcmd,
+                raw=raw,
                 local=self.local,
                 merge_err=merge_err,
                 stdin=stdin,
