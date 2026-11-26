@@ -171,6 +171,8 @@ them for further use.
 
 When Git connects without address pinning, the initial clone and default branch
 lookup use the effective SSH hostname and port to scan the host key.
+If the connection specifies ``HostKeyAlias``, Weblate stores the key under
+that alias.
 
 When :setting:`VCS_RESTRICT_PRIVATE` requires address pinning, Weblate resolves
 and validates the repository host before scanning its key and connects

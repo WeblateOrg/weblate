@@ -50,7 +50,7 @@ from weblate.utils.files import (
 )
 from weblate.utils.lock import LockScope, WeblateLock
 from weblate.utils.outbound import get_environment_proxy
-from weblate.vcs.ssh import SSH_WRAPPER, add_host_key, resolve_ssh_destination
+from weblate.vcs.ssh import SSH_WRAPPER, add_host_key, resolve_ssh_connection
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator, Iterable, Iterator
@@ -881,12 +881,17 @@ def try_add_ssh_host_key(
         )
     else:
         try:
-            hostname, port = resolve_ssh_destination(
+            connection = resolve_ssh_connection(
                 target.hostname, target.ssh_username, target.ssh_explicit_port
             )
         except ValidationError:
             return False
-        add_host_key(None, hostname, port)
+        add_host_key(
+            None,
+            connection.hostname,
+            connection.port,
+            host_key_alias=connection.host_key_alias,
+        )
     return True
 
 

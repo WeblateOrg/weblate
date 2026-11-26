@@ -2675,22 +2675,30 @@ class RepositoryRemotePinningTest(SimpleTestCase):
     def test_first_ssh_connection_scans_effective_allowlisted_destination(self) -> None:
         error = RepositoryCommandError(
             255,
-            "No ED25519 host key is known for [effective.example]:2222.\n"
             "Host key verification failed.\n",
         )
-        for url, explicit_port, effective_port in (
-            ("git@alias.example:repo.git", None, 2222),
-            ("ssh://git@alias.example:2022/repo.git", 2022, 2022),
+        for url, explicit_port, effective_port, host_key_alias in (
+            ("git@alias.example:repo.git", None, 2222, "repo-key"),
+            ("ssh://git@alias.example:2022/repo.git", 2022, 2022, None),
         ):
+            configuration = f"hostname effective.example\nport {effective_port}\n"
+            if host_key_alias:
+                configuration += f"hostkeyalias {host_key_alias}\n"
+            scanned_host = f"[effective.example]:{effective_port}"
+            key = "ssh-ed25519 AAAATEST"
             for clone in (True, False):
                 with (
                     self.subTest(url=url, clone=clone),
                     tempfile.TemporaryDirectory() as tempdir,
                     patch.object(SSH_WRAPPER, "create"),
+                    patch("weblate.vcs.ssh.data_path", return_value=Path(tempdir)),
                     patch(
-                        "weblate.vcs.base.resolve_ssh_destination",
-                        return_value=("effective.example", effective_port),
-                    ) as resolve_destination,
+                        "weblate.vcs.ssh.subprocess.run",
+                        side_effect=[
+                            SimpleNamespace(stdout=configuration),
+                            SimpleNamespace(stdout=f"{scanned_host} {key}\n"),
+                        ],
+                    ) as run,
                     patch.object(
                         GitRepository, "validate_branch_name", return_value="main"
                     ),
@@ -2699,7 +2707,6 @@ class RepositoryRemotePinningTest(SimpleTestCase):
                         "_popen",
                         side_effect=[error, "ref: refs/heads/main\tHEAD\n"],
                     ) as popen,
-                    patch("weblate.vcs.base.add_host_key") as scan,
                 ):
                     if clone:
                         repository = GitRepository(tempdir, branch="main", local=True)
@@ -2707,11 +2714,26 @@ class RepositoryRemotePinningTest(SimpleTestCase):
                     else:
                         self.assertEqual(GitRepository.get_remote_branch(url), "main")
 
-                    resolve_destination.assert_called_once_with(
-                        "alias.example", "git", explicit_port
+                    resolve_args = [SSH_WRAPPER.filename.as_posix(), "-G"]
+                    if explicit_port is not None:
+                        resolve_args.extend(("-p", str(explicit_port)))
+                    resolve_args.extend(("--", "git@alias.example"))
+                    self.assertEqual(
+                        [invocation.args[0] for invocation in run.call_args_list],
+                        [
+                            resolve_args,
+                            [
+                                "ssh-keyscan",
+                                "-p",
+                                str(effective_port),
+                                "--",
+                                "effective.example",
+                            ],
+                        ],
                     )
-                    scan.assert_called_once_with(
-                        None, "effective.example", effective_port
+                    self.assertEqual(
+                        (Path(tempdir) / "known_hosts").read_text(),
+                        f"{host_key_alias or scanned_host} {key}\n",
                     )
                     self.assertEqual(popen.call_args_list, [popen.call_args] * 2)
 
