@@ -41,6 +41,7 @@ class LockScope(IntegerChoices):
     NOTIFY_RESERVATION = 16, "notify-reservation"
     CONTRIBUTOR_METRICS = 17, "contributor-metrics"
     SENSITIVE_SUBMISSION = 18, "sensitive-submission"
+    CDN_FILES = 19, "cdn-files"
 
 
 class LockInfo(Protocol):

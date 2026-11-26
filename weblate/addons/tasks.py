@@ -46,7 +46,7 @@ from weblate.utils.requests import (
 from weblate.utils.validators import validate_filename
 
 if TYPE_CHECKING:
-    from celery import Celery
+    from celery import Celery, Task
 
     from weblate.addons.ai import AIEvaluationConfiguration
     from weblate.addons.consistency import LanguageConsistencyAddon
@@ -206,6 +206,54 @@ def cdn_parse_html(
                 if errors
                 else AddonActivityLogStatus.SUCCESS
             ),
+        )
+
+
+@app.task(
+    bind=True,
+    trail=False,
+    autoretry_for=(WeblateLockTimeoutError,),
+    retry_backoff=60,
+)
+def publish_cdn_files(
+    self: Task, addon_id: int, component_id: int, activity_log_id: int | None = None
+) -> None:
+    from weblate.addons.cdn import CDNFilesAddon  # ruff: ignore[import-outside-top-level]
+
+    addon = (
+        Addon.objects.select_related("component", "component__linked_component")
+        .filter(pk=addon_id, name=CDNFilesAddon.name, component_id=component_id)
+        .first()
+    )
+    if (
+        addon is None
+        or addon.component is None
+        or not addon.addon.can_process(component=addon.component)
+    ):
+        if activity_log_id is not None:
+            update_addon_activity_log(
+                activity_log_id,
+                status=AddonActivityLogStatus.SKIPPED,
+                reason=AddonActivityLogReason.INCOMPATIBLE_COMPONENT,
+            )
+        return
+
+    try:
+        CDNFilesAddon(addon).publish_files(addon.component)
+    except Exception as error:
+        will_retry = isinstance(error, WeblateLockTimeoutError) and (
+            self.max_retries is None or self.request.retries < self.max_retries
+        )
+        if activity_log_id is not None and not will_retry:
+            update_addon_activity_log(
+                activity_log_id,
+                "Could not publish translation files to the CDN.",
+                status=AddonActivityLogStatus.ERROR,
+            )
+        raise
+    if activity_log_id is not None:
+        update_addon_activity_log(
+            activity_log_id, status=AddonActivityLogStatus.SUCCESS
         )
 
 

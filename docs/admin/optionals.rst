@@ -402,6 +402,13 @@ configuration. Serve the CDN from a dedicated domain that is separate from
 Weblate and from the application consuming the translations. Do not share
 authentication cookies with the CDN domain.
 
+The Translation files CDN skips symbolic links in translation files and their
+parent directories. The next successful publication removes skipped files from
+the manifest and the CDN origin. For immediate cleanup after an upgrade, remove
+affected files from the origin and purge their URLs from the CDN cache. Removing
+origin files cannot revoke previously downloaded copies. Rotate any exposed
+credentials.
+
 Recommended server configuration:
 
 * Serve only the directory configured by :setting:`LOCALIZE_CDN_PATH`; do not
