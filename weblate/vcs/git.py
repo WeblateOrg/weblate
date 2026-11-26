@@ -92,7 +92,10 @@ from weblate.vcs.base import (
     RepositoryRedirectError,
     RepositoryValidationError,
     is_possible_checkout_error,
+    is_ssh_host_key_mismatch_error,
+    is_ssh_host_key_verification_error,
     is_valid_revision_hash,
+    try_add_ssh_host_key,
 )
 from weblate.vcs.gpg import get_gpg_sign_key
 from weblate.vcs.params import (
@@ -1010,19 +1013,31 @@ class GitRepository(Repository):
         if not repo:
             return super().get_remote_branch(repo)
         target = cls.validate_remote_url(repo)
+        is_ssh = target is not None and target.scheme == "ssh"
+        if is_ssh:
+            SSH_WRAPPER.create()
         args, environment = cls.prepare_remote_command(
             ["ls-remote", "--symref", "--", repo, "HEAD"], None, target
         )
-        try:
-            result = cls._popen(args, environment=environment)
-        except RepositoryCommandError as error:
-            if target is not None:
-                cls.handle_remote_command_error(error, repo, target, environment)
-            report_error("Listing remote branch")
-            return super().get_remote_branch(repo)
-        except RepositoryError:
-            report_error("Listing remote branch")
-            return super().get_remote_branch(repo)
+        for retry in (True, False):
+            try:
+                result = cls._popen(args, environment=environment)
+            except RepositoryError as error:
+                if isinstance(error, RepositoryCommandError):
+                    if retry and try_add_ssh_host_key(target, error):
+                        continue
+                    if is_ssh and (
+                        is_ssh_host_key_mismatch_error(error.get_message())
+                        or is_ssh_host_key_verification_error(error.get_message())
+                    ):
+                        raise
+                    if target is not None:
+                        cls.handle_remote_command_error(
+                            error, repo, target, environment
+                        )
+                report_error("Listing remote branch")
+                return super().get_remote_branch(repo)
+            break
         for line in result.splitlines():
             if not line.startswith("ref: "):
                 continue

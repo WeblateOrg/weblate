@@ -169,10 +169,15 @@ Verifying SSH host keys
 Weblate automatically stores the SSH host keys on first access and remembers
 them for further use.
 
-When :setting:`VCS_RESTRICT_PRIVATE` is enabled, Weblate resolves and validates
-the repository host before scanning its key and connects ``ssh-keyscan`` only
-to the approved addresses. The stored key remains associated with the original
-hostname.
+When Git connects without address pinning, the initial clone and default branch
+lookup use the effective SSH hostname and port to scan the host key.
+If the connection specifies ``HostKeyAlias``, Weblate stores the key under
+that alias.
+
+When :setting:`VCS_RESTRICT_PRIVATE` requires address pinning, Weblate resolves
+and validates the repository host before scanning its key and connects
+``ssh-keyscan`` only to the approved addresses. The stored key remains associated
+with the original hostname.
 
 For Git connections, Weblate also applies ``HostName`` and ``Port`` from
 :file:`DATA_DIR/ssh/config` before validating and pinning the effective

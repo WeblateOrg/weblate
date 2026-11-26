@@ -84,6 +84,8 @@ Weblate 2026.12
 
 .. rubric:: Security fixes
 
+* Enforced :setting:`AUTH_LOCK_ATTEMPTS` for password and :ref:`two-factor <2fa>` sign-ins even when requests arrive concurrently.
+* Protected translation file operations, :ref:`downloads <download>`, and :ref:`JavaScript localization CDN <addon-weblate.cdn.cdnjs>` extraction against races with concurrent repository updates.
 * Prevented :ref:`Mercurial <vcs-mercurial>` from using metadata in leftover Git checkouts and cleaned up remote checkouts created by failed API component validation.
 * Excluded symlinked files and directories from the :ref:`Translation files CDN <addon-weblate.cdn.files>`.
 * Prevented bot accounts from editing themselves and protected the generated account identities of :ref:`project API tokens <project-api>`.
@@ -115,6 +117,7 @@ Weblate 2026.12
 * Show template validation errors when :ref:`creating a component <adding-projects>`.
 * Restored Git-tracked executable bits and empty submodule directories when importing a :ref:`project backup <projectbackup>`.
 * Isolated Git merges and rebases in temporary worktrees so conflicts leave the live checkout available for :ref:`repository operations <repository-maintenance>`.
+* Retry initial repository clones and Git default branch detection after :ref:`adding a first-seen SSH host key <verify-ssh>`.
 * Report invalid SMTP recipient addresses in :setting:`ADMINS` during :ref:`deployment checks <production-admins>`.
 * Removed the separate upload rate limit for :http:post:`REST translation uploads </api/translations/(string:project)/(string:component)/(string:language)/file/>`.
 * Accepted quality check aliases in :ref:`flag settings <custom-checks>` and made them searchable in the flag editor.

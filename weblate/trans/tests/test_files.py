@@ -2646,6 +2646,16 @@ class DownloadMultiTest(ViewTestCase):
     def test_component_holds_repository_lock_while_archiving(self) -> None:
         translation = self.get_translation()
         repository = translation.component.repository
+        translation.component.new_base = translation.filename
+        translation_path = translation.get_filename()
+        realpath = os.path.realpath
+        permission_resolutions = []
+
+        def check_resolution(path: str, *args, **kwargs) -> str:
+            if path == translation_path:
+                self.assertTrue(repository.lock.is_read_locked)
+                permission_resolutions.append(path)
+            return realpath(path, *args, **kwargs)
 
         def check_lock(*args, **kwargs) -> None:
             self.assertTrue(repository.lock.is_read_locked)
@@ -2654,6 +2664,10 @@ class DownloadMultiTest(ViewTestCase):
         request = cast("AuthenticatedHttpRequest", RequestFactory().get("/download"))
         request.user = self.user
         with (
+            patch(
+                "weblate.trans.views.files.os.path.realpath",
+                side_effect=check_resolution,
+            ),
             patch("weblate.trans.views.files.write_zip_files", side_effect=check_lock),
         ):
             response = download_multi(
@@ -2662,6 +2676,7 @@ class DownloadMultiTest(ViewTestCase):
                 [translation.component],
             )
 
+        self.assertGreaterEqual(len(permission_resolutions), 2)
         assert response.file_to_stream is not None
         self.addCleanup(response.file_to_stream.close)
         self.assertTrue(response.streaming)

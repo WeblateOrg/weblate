@@ -3243,53 +3243,61 @@ class Translation(
 
         author = user.get_author_name()
         component = self.component
-        # Log
-        self.log_info(
-            "removing %s as %s",
-            self.filenames,
-            get_log_user_label(user),
-        )
-
-        # Build commit message before deleting (needs stats from DB)
-        if commit_message is None:
-            commit_message = self.get_commit_message(
-                author, template=self.component.effective_delete_message
+        with component.repository.lock:
+            self.drop_store_cache()
+            self.__dict__.pop("filenames", None)
+            filenames = self.filenames
+            # Log
+            self.log_info(
+                "removing %s as %s",
+                filenames,
+                get_log_user_label(user),
             )
 
-        # Delete the translation from the database before committing
-        # to ensure add-ons operate on the updated translation set
-        self.delete()
-        transaction.on_commit(capture_change_origin(self.stats.update_parents))
-        transaction.on_commit(capture_change_origin(component.schedule_update_checks))
-        if component.is_glossary:
+            # Build commit message before deleting (needs stats from DB)
+            if commit_message is None:
+                commit_message = self.get_commit_message(
+                    author, template=self.component.effective_delete_message
+                )
+
+            # Delete the translation from the database before committing
+            # to ensure add-ons operate on the updated translation set
+            self.delete()
+            transaction.on_commit(capture_change_origin(self.stats.update_parents))
             transaction.on_commit(
-                capture_change_origin(
-                    lambda: update_alerts(component, {"UnusedGlossaryLanguage"})
-                )
+                capture_change_origin(component.schedule_update_checks)
             )
-
-        # Remove file from VCS
-        if any(os.path.exists(name) for name in self.filenames):
-            with component.track_local_head_change():
-                # Notify add-ons (they may update LINGUAS, configure, etc.)
-                translation_post_remove.send(sender=self.__class__, translation=self)
-
-                # Remove files and commit together with add-on changes
-                component.repository.remove(
-                    self.filenames,
-                    commit_message,
-                    author,
-                    extra_commit_files=self.addon_commit_files or None,
+            if component.is_glossary:
+                transaction.on_commit(
+                    capture_change_origin(
+                        lambda: update_alerts(component, {"UnusedGlossaryLanguage"})
+                    )
                 )
-                component.push_if_needed()
 
-        # Remove blank directory if still present (appstore)
-        validated_filename = self.get_filename()
-        if validated_filename is not None:
-            filename = Path(validated_filename)
-            if filename.is_dir():
-                with suppress(OSError):
-                    filename.rmdir()
+            # Remove file from VCS
+            if any(os.path.exists(name) for name in filenames):
+                with component.track_local_head_change():
+                    # Notify add-ons (they may update LINGUAS, configure, etc.)
+                    translation_post_remove.send(
+                        sender=self.__class__, translation=self
+                    )
+
+                    # Remove files and commit together with add-on changes
+                    component.repository.remove(
+                        [component.check_file_is_valid(name) for name in filenames],
+                        commit_message,
+                        author,
+                        extra_commit_files=self.addon_commit_files or None,
+                    )
+                    component.push_if_needed()
+
+            # Remove blank directory if still present (appstore)
+            validated_filename = self.get_filename()
+            if validated_filename is not None:
+                filename = Path(validated_filename)
+                if filename.is_dir():
+                    with suppress(OSError):
+                        filename.rmdir()
 
         # Record change
         component.change_set.create(

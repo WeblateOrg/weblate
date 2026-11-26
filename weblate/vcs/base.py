@@ -31,6 +31,7 @@ from typing import (
 from dateutil import parser
 from django.conf import settings
 from django.core.cache import cache
+from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy, gettext_noop
@@ -49,7 +50,7 @@ from weblate.utils.files import (
 )
 from weblate.utils.lock import LockScope, WeblateLock
 from weblate.utils.outbound import get_environment_proxy
-from weblate.vcs.ssh import SSH_WRAPPER
+from weblate.vcs.ssh import SSH_WRAPPER, add_host_key, resolve_ssh_connection
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator, Iterable, Iterator
@@ -860,6 +861,40 @@ def should_auto_add_ssh_host_key(errormessage: str) -> bool:
     ) and not is_ssh_host_key_mismatch_error(errormessage)
 
 
+def try_add_ssh_host_key(
+    target: ResolvedRepositoryURL | None, error: RepositoryError
+) -> bool:
+    """Scan the validated SSH destination after a first-use failure."""
+    if (
+        target is None
+        or target.scheme != "ssh"
+        or not should_auto_add_ssh_host_key(error.get_message())
+    ):
+        return False
+    if target.requires_pinning:
+        add_host_key(
+            None,
+            target.hostname,
+            target.port,
+            restrict_private=True,
+            validated_addresses=target.addresses,
+        )
+    else:
+        try:
+            connection = resolve_ssh_connection(
+                target.hostname, target.ssh_username, target.ssh_explicit_port
+            )
+        except ValidationError:
+            return False
+        add_host_key(
+            None,
+            connection.hostname,
+            connection.port,
+            host_key_alias=connection.host_key_alias,
+        )
+    return True
+
+
 class Repository:
     """Basic repository object."""
 
@@ -1369,8 +1404,6 @@ class Repository:
     @classmethod
     def validate_remote_url(cls, url: str) -> ResolvedRepositoryURL | None:
         """Revalidate a remote URL before using it."""
-        from django.core.exceptions import ValidationError  # ruff: ignore[import-outside-top-level]
-
         from weblate.utils.validators import resolve_repo_url  # ruff: ignore[import-outside-top-level]
 
         try:
@@ -1488,7 +1521,12 @@ class Repository:
     def clone_from(self, source: str) -> None:
         """Clone repository into current one."""
         target = self.validate_pull_url(source)
-        self._clone_resolved(source, self.path, self.branch, target)
+        try:
+            self._clone_resolved(source, self.path, self.branch, target)
+        except RepositoryCommandError as error:
+            if not try_add_ssh_host_key(target, error):
+                raise
+            self._clone_resolved(source, self.path, self.branch, target)
 
     @classmethod
     def clone(

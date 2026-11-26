@@ -103,8 +103,10 @@ def evaluate_quality(
 
 def read_component_file(component: Component, filename: str) -> str:
     validate_filename(filename)
-    resolved = component.repository.resolve_symlinks(filename)
-    return Path(component.full_path, resolved).read_text(encoding="utf-8")
+    repository = component.repository
+    with repository.lock.read():
+        resolved = repository.resolve_symlinks(filename)
+        return Path(repository.path, resolved).read_text(encoding="utf-8")
 
 
 def read_cdn_file(component: Component, filename: str) -> str:

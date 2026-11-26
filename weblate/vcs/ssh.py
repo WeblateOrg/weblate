@@ -10,6 +10,7 @@ import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import tempfile
 from base64 import b64decode, b64encode
 from contextlib import suppress
+from dataclasses import dataclass
 from time import time
 from typing import TYPE_CHECKING, Any, Literal, NotRequired, TypedDict
 from urllib.parse import urlparse
@@ -65,6 +66,13 @@ class HostKeyEntry(TypedDict):
     key_type: str
     fingerprint: str
     id: str
+
+
+@dataclass(frozen=True, slots=True)
+class SSHConnection:
+    hostname: str
+    port: int
+    host_key_alias: str | None
 
 
 KEYS: dict[KeyType, KeyInfo] = {
@@ -368,6 +376,7 @@ def add_host_key(
     port: int | None = None,
     *,
     accept_fingerprint: str | None = None,
+    host_key_alias: str | None = None,
     restrict_private: bool = False,
     validated_addresses: tuple[str, ...] | None = None,
 ) -> None:
@@ -410,7 +419,9 @@ def add_host_key(
             add_host_key_error(request, str(exc))
             return
 
-        known_host = f"[{host}]:{port}" if port and port != 22 else host
+        known_host = host_key_alias or (
+            f"[{host}]:{port}" if port and port != 22 else host
+        )
         output_lines = []
         for line in result.stdout.splitlines():
             if line.startswith("#"):
@@ -589,6 +600,16 @@ def resolve_ssh_destination(
     explicit_port: int | None,
 ) -> tuple[str, int]:
     """Resolve the effective OpenSSH destination without connecting."""
+    connection = resolve_ssh_connection(hostname, username, explicit_port)
+    return connection.hostname, connection.port
+
+
+def resolve_ssh_connection(
+    hostname: str,
+    username: str | None,
+    explicit_port: int | None,
+) -> SSHConnection:
+    """Read the effective OpenSSH destination and host key alias."""
     destination = f"{username}@{hostname}" if username else hostname
     command = [SSH_WRAPPER.filename.as_posix(), "-G"]
     if explicit_port is not None:
@@ -650,7 +671,9 @@ def resolve_ssh_destination(
             gettext("Could not determine the effective SSH destination."),
             code="ssh_destination_unresolved",
         )
-    return effective_hostname, parsed_port
+    return SSHConnection(
+        effective_hostname, parsed_port, configuration.get("hostkeyalias")
+    )
 
 
 SSH_WRAPPER_TEMPLATE = r"""#!/bin/sh

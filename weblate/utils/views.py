@@ -10,6 +10,7 @@ import os
 import tempfile
 import time
 from contextlib import contextmanager, suppress
+from functools import wraps
 from pathlib import Path
 from shutil import copyfileobj
 
@@ -47,6 +48,7 @@ from weblate.utils.files import (
     is_path_within_resolved_directory,
     is_unsafe_path,
 )
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.stats import (
     CategoryLanguage,
     ProjectLanguage,
@@ -57,14 +59,13 @@ from weblate.vcs.git import LocalRepository
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from collections.abc import Generator, Mapping
+    from collections.abc import Callable, Generator, Mapping
 
     from django.db.models import Model
     from django.http import HttpRequest, HttpResponseBase, QueryDict
 
     from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.trans.mixins import BaseURLMixin
-    from weblate.utils.lock import WeblateLockTimeoutError
     from weblate.utils.stats import BaseStats
 
 
@@ -920,6 +921,21 @@ def write_zip_files(
             zipfile.write(filename, arcname=os.path.relpath(filename, root))
         except FileNotFoundError:
             continue
+
+
+def handle_repository_lock_timeout[**P](
+    view: Callable[P, HttpResponseBase],
+) -> Callable[P, HttpResponseBase]:
+    """Convert repository lock timeouts only at the browser view boundary."""
+
+    @wraps(view)
+    def wrapper(*args: P.args, **kwargs: P.kwargs) -> HttpResponseBase:
+        try:
+            return view(*args, **kwargs)
+        except WeblateLockTimeoutError as error:
+            return repository_lock_timeout_response(error)
+
+    return wrapper
 
 
 def repository_lock_timeout_response(error: WeblateLockTimeoutError) -> HttpResponse:

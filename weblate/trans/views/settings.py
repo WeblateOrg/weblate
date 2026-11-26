@@ -83,7 +83,12 @@ from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.messages import store_task_completion_message
 from weblate.utils.random import get_random_identifier
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
-from weblate.utils.views import aparse_path, parse_path, show_form_errors
+from weblate.utils.views import (
+    aparse_path,
+    handle_repository_lock_timeout,
+    parse_path,
+    show_form_errors,
+)
 from weblate.vcs.base import RepositoryTemplateError
 from weblate.workspaces.forms import WorkspaceSettingsForm
 from weblate.workspaces.models import Workspace
@@ -330,6 +335,7 @@ def dismiss_alert(request: AuthenticatedHttpRequest, path):
 
 @login_required
 @require_POST
+@handle_repository_lock_timeout
 @transaction.atomic
 def remove(request: AuthenticatedHttpRequest, path):
     obj = parse_path(

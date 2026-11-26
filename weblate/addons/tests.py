@@ -113,6 +113,7 @@ from weblate.utils.celery import handle_task_failure
 from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.forms import FormFieldGroup
 from weblate.utils.lock import LockScope, WeblateLock
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.render import render_template
 from weblate.utils.rst import FullWidthRow
 from weblate.utils.site import get_site_url
@@ -215,6 +216,7 @@ from .tasks import (
     language_consistency,
     parse_cdn_html,
     publish_cdn_files,
+    read_component_file,
     run_addon_manually,
     update_addon_activity_log,
 )
@@ -8786,6 +8788,24 @@ class LanguageConsistencyTest(ComponentTestCase):
         self.assertEqual(preview.action_count, 0)
         self.assertEqual(preview.failure_count, 0)
 
+    def test_consistency_installation_reports_busy_checkout(self) -> None:
+        self.make_manager()
+        self.client.force_login(self.user)
+        error = WeblateLockTimeoutError(
+            "repository locked", lock=self.component.repository.lock.lock_object
+        )
+        with patch.object(
+            LanguageConsistencyAddon, "get_installation_preview", side_effect=error
+        ):
+            response = self.client.post(
+                reverse("addons", kwargs={"path": self.project.get_url_path()}),
+                {"name": LanguageConsistencyAddon.name},
+            )
+
+        self.assertContains(
+            response, "Could not obtain the repository lock", status_code=423
+        )
+
     def test_consistency_preview_lists_actions(self) -> None:
         self.component.new_lang = "add"
         self.component.new_base = "po/hello.pot"
@@ -11473,6 +11493,32 @@ class CDNJSAddonTest(ViewTestCase):
             Unit.objects.filter(translation__component=self.component).count(), 14
         )
 
+    def test_extract_local_html_holds_checkout_lock(self) -> None:
+        repository = self.component.repository
+        resolve = repository.resolve_symlinks
+
+        def check_resolution(filename):
+            self.assertTrue(repository.lock.is_read_locked)
+            return resolve(filename)
+
+        def check_read(*args, **kwargs):
+            self.assertTrue(repository.lock.is_read_locked)
+            msg = "read failed"
+            raise OSError(msg)
+
+        with (
+            patch.object(
+                repository, "resolve_symlinks", side_effect=check_resolution
+            ) as check,
+            patch.object(Path, "read_text", side_effect=check_read) as read,
+            self.assertRaisesMessage(OSError, "read failed"),
+        ):
+            read_component_file(self.component, "html/en.html")
+
+        check.assert_called_once_with("html/en.html")
+        read.assert_called_once()
+        self.assertFalse(repository.lock.is_read_locked)
+
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
     def test_extract_reads_streamed_remote_html(self) -> None:
@@ -11492,9 +11538,13 @@ class CDNJSAddonTest(ViewTestCase):
             content=b"<html><body><div class='l10n'>Remote string</div></body></html>",
         )
 
+        def fetch_without_lock(*args, **kwargs):
+            self.assertFalse(self.component.repository.lock.is_read_locked)
+            return response
+
         with patch(
             "weblate.addons.tasks.fetch_restricted_asset_url",
-            return_value=response,
+            side_effect=fetch_without_lock,
         ):
             errors = parse_cdn_html(addon.instance, self.component)
 
