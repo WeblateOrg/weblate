@@ -16,6 +16,7 @@ from django.conf import settings
 from django.contrib.auth import SESSION_KEY
 from django.core import mail
 from django.db import IntegrityError, close_old_connections, connection, transaction
+from django.http import HttpResponseRedirect
 from django.test import RequestFactory, TestCase, TransactionTestCase, override_settings
 from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
@@ -23,6 +24,7 @@ from django_otp.oath import totp
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from social_core.backends.email import EmailAuth
 from social_core.exceptions import AuthSessionError
+from social_core.utils import PARTIAL_TOKEN_SESSION_NAME
 from social_django.models import Code, DjangoStorage, Partial
 
 from weblate.accounts.forms import UniqueEmailMixin
@@ -558,6 +560,55 @@ class AuthenticationPipelineSnapshotTest(TestCase):
         if loaded is None:
             self.fail("Disconnect partial was rejected")
         self.assertEqual(loaded.pipeline_type, "disconnect")
+
+
+@social_core_override_settings(AUTHENTICATION_BACKENDS=GH_BACKENDS)
+class OAuthEmailPartialMismatchTest(TransactionTestCase):
+    def setUp(self) -> None:
+        user = User.objects.create_user("pending-email", "old@example.org")
+        strategy = WeblateStrategy(DjangoStorage)
+        pipeline = list(strategy.get_pipeline(strategy.get_backend("email")))
+        self.partial = DjangoStorage.partial.prepare(
+            "email",
+            0,
+            {
+                "pipeline_type": "authentication",
+                "kwargs": {"user": user.pk, "weblate_auth_pipeline": pipeline},
+            },
+        )
+        DjangoStorage.partial.store(self.partial)
+        self.callback = reverse("social:complete", args=("github",))
+
+    def test_callback_discards_mismatched_session_partial(self) -> None:
+        session = self.client.session
+        session[PARTIAL_TOKEN_SESSION_NAME] = self.partial.token
+        session.save()
+        destination = reverse("home")
+
+        with patch(
+            "social_core.backends.github.GithubOAuth2.complete",
+            return_value=HttpResponseRedirect(destination),
+        ) as complete:
+            response = self.client.get(self.callback)
+
+        complete.assert_called_once()
+        self.assertRedirects(response, destination, fetch_redirect_response=False)
+        self.assertNotIn(PARTIAL_TOKEN_SESSION_NAME, self.client.session)
+        self.assertFalse(Partial.objects.filter(token=self.partial.token).exists())
+
+    def test_callback_preserves_mismatched_explicit_partial(self) -> None:
+        with patch("social_core.backends.github.GithubOAuth2.complete") as complete:
+            response = self.client.get(
+                self.callback, {"partial_token": self.partial.token}
+            )
+
+        complete.assert_not_called()
+        self.assertRedirects(
+            response,
+            settings.SOCIAL_AUTH_LOGIN_ERROR_URL,
+            fetch_redirect_response=False,
+        )
+        self.assertTrue(Partial.objects.filter(token=self.partial.token).exists())
 
 
 class OAuthEmailRefreshConcurrencyTest(TransactionTestCase):
