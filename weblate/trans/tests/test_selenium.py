@@ -2609,8 +2609,11 @@ class SeleniumTests(
             unit.refresh_from_db()
             self.assertEqual(unit.target, f"{target}\n")
 
-        # A state-only change in another tab must leave the draft unsaved.
-        unit.translate(user, unit.target, STATE_FUZZY, propagate=False)
+        # A state-only change by another user must leave the draft unsaved.
+        other_user = User.objects.create_user(
+            username="other-reviewer", email="other@example.org"
+        )
+        unit.translate(other_user, unit.target, STATE_FUZZY, propagate=False)
         edit("Unsaved draft")
         WebDriverWait(self.driver, 15).until(
             lambda driver: driver.execute_script(

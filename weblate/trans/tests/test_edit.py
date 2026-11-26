@@ -603,7 +603,9 @@ class ReviewStateTest(ReusableViewTestCase):
         self.assertEqual(self.unit.state, STATE_TRANSLATED)
 
     def test_conflict_with_still_available_choice(self) -> None:
-        self.change_unit("Nazdar svete!\n", state=STATE_NEEDS_CHECKING)
+        self.change_unit(
+            "Nazdar svete!\n", state=STATE_NEEDS_CHECKING, user=self.anotheruser
+        )
         response = self.client.post(self.url, {**self.data, "review": "20"})
         self.assertContains(response, "The review state of this string has changed")
         self.unit.refresh_from_db()
@@ -666,7 +668,7 @@ class ReviewStateTest(ReusableViewTestCase):
                 self.assertEqual(self.unit.target, "Nazdar svete!\n")
 
     def test_zen_state_conflict(self) -> None:
-        self.change_unit("Nazdar svete!\n", state=STATE_TRANSLATED)
+        self.change_unit("Nazdar svete!\n", state=STATE_TRANSLATED, user=self.anotheruser)
         response = self.client.post(
             reverse("save_zen", kwargs=self.kw_translation), self.data
         )
